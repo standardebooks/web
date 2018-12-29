@@ -1,0 +1,1751 @@
+@import url("reset.css");
+
+@font-face{
+	font-family: 'FontAwesome';
+	src: url('/fonts/font-awesome.woff2') format('woff2'), url('/fonts/font-awesome.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face{
+	font-family: 'League Spartan';
+	src: url('/fonts/league-spartan-bold.woff2') format('woff2'), url('/fonts/league-spartan-bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face{
+	font-family: "Crimson Text";
+	src: url('/fonts/crimson-text.woff2') format('woff2'), url('/fonts/crimson-text.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face{
+	font-family: "Crimson Text";
+	src: url('/fonts/crimson-text-bold.woff2') format('woff2'), url('/fonts/crimson-text-bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face{
+	font-family: "Crimson Text";
+	src: url('/fonts/crimson-text-italic.woff2') format('woff2'), url('/fonts/crimson-text-italic.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face{
+	font-family: "Crimson Text";
+	src: url('/fonts/crimson-text-bold-italic.woff2') format('woff2'), url('/fonts/crimson-text-bold-italic.woff') format('woff');
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face{
+	font-family: "Source Code Pro";
+	src: url('/fonts/source-code-pro.woff2') format('woff2'), url('/fonts/source-code-pro.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face{
+	font-family: "Source Code Pro";
+	src: url('/fonts/source-code-pro-bold.woff2') format('woff2'), url('/fonts/source-code-pro-bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face{
+	font-family: "Source Code Pro";
+	src: url('/fonts/source-code-pro-italic.woff2') format('woff2'), url('/fonts/source-code-pro-italic.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face{
+	font-family: "Source Code Pro";
+	src: url('/fonts/source-code-pro-bold-italic.woff2') format('woff2'), url('/fonts/source-code-pro-bold-italic.woff') format('woff');
+	font-weight: bold;
+	font-style: italic;
+}
+
+html{
+	color: #222;
+	font-family: "Crimson Text", Georgia, serif;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+	font-size: 20px;
+	line-height: 1.6;
+	background: url('/images/paper.png') #fcf5dd; /* #faf5e3; */
+}
+
+a,
+a:link,
+a:visited{
+	color: #222;
+}
+
+a:hover{
+	color: #1d6878;
+}
+
+a:focus{
+	outline: 1px dashed #1d6878;
+}
+
+main{
+	width: 100%;
+	max-width: 60rem;
+	box-sizing: border-box;
+	text-align: justify;
+	display: flex;
+	flex-direction: column;
+}
+
+main.front-page{
+	max-width: none;
+	align-items: center;
+}
+
+section{
+	display: flex;
+	flex-direction: column;
+}
+
+main.front-page h1 ~ section{
+	margin-left: auto;
+	margin-right: auto;
+	align-items: center;
+	width: 50rem; /* for ie11 */
+}
+
+main.front-page > p,
+main.front-page > img{
+	width: 40rem;
+	max-width: 100%; /* for responsive */
+}
+
+main > article{
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+main > article > *{
+	width: 100%;
+	max-width: 40rem;
+}
+
+main ol ol{
+	list-style-type: lower-latin;
+}
+
+main p, main ul, main ol, main li, main blockquote{
+	margin-top: 1rem;
+}
+
+main p:first-child, main ul:first-child, main ol:first-child, main ul li:first-child, main ol li:first-child, main blockquote:first-child, main code:first-child{
+	margin-top: 0;
+}
+
+ol > li > ul{
+	list-style: disc; /* dark discs when nested in ol */
+}
+
+ol ol, ol ul, ul ul, ul ol{
+	margin-left: 1.2rem;
+}
+
+h1,h2,h3,h4,h5,h6,code,.ebook h1 + p{
+	-webkit-hyphens: none;
+	hyphens: none;
+}
+
+body{
+	padding: 0 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+body > header{
+	background: url('/images/leather.png') #394451;
+	display: flex;
+	justify-content: space-around;
+	border-bottom: 1px solid #222;
+	padding: 2rem 0;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 1);
+	position: relative;
+	width: calc(100% + 2rem + 2rem);
+	z-index: 100; /* to step on the splash box shadow */
+}
+
+body > header > a{
+	background: url('/images/logo-white-full.svg');
+	-webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, .75));
+        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, .75));
+	height: 70px;
+	width: 300px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	font-size: 0;
+	transition: transform 200ms ease;
+}
+
+body > header > a:link,
+body > header > a:visited{
+	color: #fff; /* Contrast for accessibility */
+}
+
+body > header a:focus{
+	outline: 1px dashed #fff;
+}
+
+body > header > a:hover{
+	transform: scale(1.025) rotate(1deg);
+}
+
+header nav{
+	font-family: 'League Spartan';
+	text-transform: lowercase;
+	align-self: center;
+	text-align: right;
+	font-size: 0;
+}
+
+header nav li{
+	color: rgba(255, 255, 255, .75);
+	display: inline-block;
+
+}
+
+header nav li + li:before{
+	content: '•';
+	font-size: 16px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+header nav li a{
+	text-decoration: none;
+	font-size: 20px;
+	transition: border 200ms ease, color 200ms ease;
+}
+
+header nav li a:link,
+header nav li a:visited{
+	color: rgba(255, 255, 255, .75);
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .75);
+	border-bottom: 5px solid rgba(0,0,0,0); /* for the transition */
+}
+
+header nav li a:hover,
+header nav li a.highlighted:hover{
+	color: #fff;
+	border-bottom: 5px solid rgb(241, 168, 73);
+	transition: none;
+}
+
+header nav li a.highlighted{
+	color: #fff;
+	border-bottom: 2px solid rgb(241, 168, 73);
+}
+
+article > h1{
+	width: 100%;
+	max-width: 100%;
+}
+
+main.front-page h1{
+	text-align: center;
+	background:  url('/images/book.jpg');
+	background-size: cover;
+	background-position: center;
+	border-bottom: 1px solid #222;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .75);
+	width: calc(100% + 4rem);
+	margin: 0;
+	padding: 6rem;
+	box-sizing: border-box;
+	-webkit-hyphens: none;
+	hyphens: none;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	color: #fff;
+	font-size: 2.8rem;
+	font-family: 'League Spartan';
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, .75), 0 0 2px rgba(0, 0, 0, 1);
+}
+
+main.front-page > section > section{
+	max-width: 100%;
+}
+
+main.front-page > section > section > div{
+	display: flex;
+	margin-top: 2rem;
+	max-width: 100%;
+}
+
+main.front-page > section > section > div > div{
+	max-width: 100%;
+}
+
+main.front-page > section > section figure{
+	margin-top: 0;
+	margin-left: 2rem;
+	width: 400px;
+	max-width: 100%;
+	position: relative;
+	align-self: center;
+}
+
+main.front-page > section > section figure.stacked{
+	height: 229px;
+}
+
+main.front-page > section > section figure.stacked img.bottom,
+main.front-page > section > section figure.stacked img.top{
+	width: 316px;
+	position: absolute;
+}
+
+main.front-page > section > section figure.stacked img.bottom{
+	left: 0;
+}
+
+main.front-page > section > section figure.stacked img.top{
+	top: 72px;
+	left: 72px;
+}
+
+main.front-page > section > section figure.stacked img.arrow{
+	border: none;
+	box-shadow: none;
+	position: absolute;
+	right: 1rem;
+	top: 1rem;
+	width: 2.5rem;
+}
+
+main.front-page > section > section figure.oss{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+main.front-page > section > section figure.oss img{
+	border: none;
+	box-shadow: none;
+	width: 150px;
+	display: inline;
+	filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, .25));
+	margin: 1rem;
+}
+
+main.front-page > section > section figure img{
+	width: auto;
+	max-width: 100%;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid #222;
+	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
+}
+
+main.front-page > section > section p{
+	width: 475px;
+	max-width: 100%;
+	text-align: justify;
+}
+
+main.front-page > section > section:first-of-type{
+	margin-top: 4rem;
+}
+
+main.front-page > section > section + section{
+	margin-top: 8rem;
+}
+
+main.front-page > img{
+	width: 700px;
+	max-width: 100%;
+	margin: auto;
+	margin-top: 4rem;
+}
+
+main.front-page > img + p{
+	margin-top: 4rem;
+}
+
+main.front-page > section{
+	max-width: 100%;
+}
+
+main.front-page > section > h2{
+	font-family: "Crimson Text", Georgia, serif;
+	font-style: italic;
+	font-size: 2.2rem;
+	text-align: center;
+	text-transform: none;
+	font-weight: normal;
+	max-width: 100%;
+	padding: 4rem 0;
+	background: url('/images/divider.svg') top center no-repeat, url('/images/divider.svg') bottom center no-repeat;
+}
+
+main.front-page > section > section > h3{
+	text-align: center;
+	font-size: 2rem;
+	margin-top: 0;
+}
+
+main.center h1{
+	margin-top: 4rem;
+	border: none;
+	padding: 0;
+	margin-bottom: 0;
+	text-align: center;
+}
+
+h1 a{
+	text-decoration: none;
+}
+
+h1,h2,h3,h4,h5,h6{
+	text-align: left;
+}
+
+h1 + p{
+	margin-top: 2rem;
+}
+
+h1 + section > h2:first-child{
+	margin-top: 0rem;
+}
+
+a.button,
+a[rel~="previous"],
+a[rel~="next"]{
+	font-style: normal;
+	box-sizing: border-box;
+	background-color: #1d6878;
+	border-radius: 5px;
+	padding: 1rem 2rem;
+	color: #fff;
+	text-decoration: none;
+	font-family: 'League spartan', sans-serif;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+	box-shadow: 2px 2px 0 #194149;
+	position: relative;
+	text-transform: lowercase;
+}
+
+a.button:focus,
+.ebooks nav li.highlighted a:focus,
+nav a[rel]:focus{
+	outline: 1px dashed #fff;
+}
+
+a.button:active,
+a[rel~="previous"]:active,
+a[rel~="next"]:active{
+	top: 2px;
+	left: 2px;
+	box-shadow: none;
+}
+
+a.button.next::after,
+a[rel="next"]::after{
+	font-family: "FontAwesome";
+	content: "\f061";
+	transition: all 200ms ease;
+	position: relative;
+	left: 0;
+	margin-left: .5rem;
+}
+
+a[href].button.next:hover::after,
+a[rel="next"][href]::hover::after{
+	left: .25rem;
+	position: relative;
+	transition: all 200ms ease;
+}
+
+a[rel="previous"]:before{
+	font-family: "FontAwesome";
+	content: "\f060";
+	transition: all 200ms ease;
+	position: relative;
+	right: 0;
+	margin-right: .5rem;
+}
+
+a[rel="previous"][href]:hover::before{
+	right: .25rem;
+	position: relative;
+	transition: all 200ms ease;
+}
+
+aside.sort p{
+	width: 100%;
+	margin-bottom: 1rem;
+}
+
+aside.sort a.button.check:before{
+	font-family: "FontAwesome";
+	content: "\f00c";
+	position: relative;
+	right: 0;
+	margin-right: .5rem;
+}
+
+a.button:hover,
+a[rel~="previous"]:hover,
+a[rel~="next"]:hover{
+	background-color: #288da4;
+}
+
+a[rel~="previous"]:not([href]),
+a[rel~="next"]:not([href]){
+	color: #efefef;
+	text-shadow: none;
+	box-shadow: none;
+	background: #bbb url('/images/stripes-dark.svg');
+}
+
+main.front-page > a.button{
+	align-self: center;
+	margin-top: 4rem;
+}
+
+article.ebook ul,
+article.ebook ol{
+	list-style: none;
+	margin-left: 0;
+}
+
+article.ebook #history li{
+	display: table-row;
+}
+
+article.ebook #history li time,
+article.ebook #history li p{
+	display: table-cell;
+}
+
+article.ebook #history li + li > *{
+	padding-top: 1rem;
+}
+
+article.ebook #history li time{
+	padding-right: 1rem;
+}
+
+article.ebook section aside p::before{
+	content: '(';
+}
+article.ebook section aside p::after{
+	content: ')';
+}
+
+article.ebook section aside{
+	margin-top: 1rem;
+	color: #777;
+	text-align: right;
+	font-style: italic;
+	font-size: .9rem;
+}
+
+article.ebook > aside{
+	width: 100%;
+	max-width: 100%;
+}
+
+article.ebook > header{
+	width: 100%;
+	max-width: 100%;
+	margin: auto;
+	position: relative;
+	overflow: hidden;
+	min-height: 20rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #222;
+	border-top: none;
+	border-bottom-right-radius: .25rem;
+	border-bottom-left-radius: .25rem;
+	box-sizing: border-box;
+}
+
+article.ebook > header > div{
+	color: #fff;
+	position: relative;
+	z-index: 1;
+	max-width: 75%;
+	box-sizing: border-box;
+	background: rgba(0, 0, 0, .75);
+	padding: 2rem;
+	text-align: center;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	margin: 2rem; /* for responsive */
+}
+
+
+article.ebook > header > div > p{
+	font-size: 1.4rem;
+	font-family: 'League Spartan', sans-serif;
+	line-height: 1;
+	margin-top: 1rem;
+}
+
+article.ebook > header > img{
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+	z-index: 0;
+	height: 100%;
+	width: auto;
+}
+
+article.ebook section#details ul{
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 0;
+	margin-left: -2rem;
+}
+
+article.ebook section#details ul li{
+	width: calc(50% - 2rem);
+	margin-top: 1rem;
+	margin-left: 2rem;
+}
+
+article.ebook section#download ul{
+	margin-top: -1rem;
+}
+
+article.ebook section#download li{
+	display: table-row;
+}
+
+article.ebook section#download li span{
+	display: table-cell;
+	vertical-align: top;
+	padding-top: 2rem;
+}
+
+article.ebook section#download li span:first-child{
+	padding-top: 1.8rem;
+}
+
+article.ebook section#download li span:nth-child(2){
+	padding-right: .5rem;
+	padding-left: .5rem;
+}
+
+article.ebook section ul li a[class]{
+	display: flex;
+	text-align: left;
+	align-items: center;
+}
+
+article.ebook section#download li a[class]{
+	font-size: 1.2rem;
+}
+
+article.ebook section#download ul li a[class]::before,
+article.ebook section#details ul li a[class]::before{
+	display: inline-block;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center center;
+	content: '';
+	margin-right: .5rem;
+	height: 1.25rem;
+	width: 1.25rem;
+	transition: transform .2s ease;
+	margin-top: -3px; /* adjust for weird line-height of crimson text */
+}
+
+article.ebook section#download ul li a[class]:hover::before,
+article.ebook section#details ul li a[class]:hover::before{
+	transform: scale(1.1);
+}
+
+article.ebook #more-ebooks{
+	border-top: 3px double #777;
+	margin-top: 4rem;
+}
+
+
+article.ebook #more-ebooks h2{
+	text-align: center;
+	font-style: normal;
+	color: #222;
+	margin: 0;
+	margin-top: 2rem;
+}
+
+article.ebook #more-ebooks ul{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	margin-top: 2rem;
+	margin-left: -1rem;
+}
+
+article.ebook #more-ebooks ul li{
+	margin: 0;
+	font-size: 0;
+	margin-left: 1rem;
+}
+
+article.ebook #more-ebooks img{
+	height: 200px;
+	border-radius: .25rem;
+	border: 1px solid #222;
+	transition: all .2s ease;
+	box-sizing: border-box;
+}
+
+article.ebook #more-ebooks img:hover{
+	transform: scale(1.05);
+	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
+}
+
+article.ebook #more-ebooks a:active img{
+	transform: scale(1.025);
+	transition: none;
+	box-shadow: none;
+}
+
+article.ebook #more-ebooks li:nth-child(1) img,
+article.ebook #more-ebooks li:nth-child(5) img{
+	height: 160px;
+}
+
+article.ebook #more-ebooks li:nth-child(2) img,
+article.ebook #more-ebooks li:nth-child(4) img{
+	height: 180px;
+}
+
+article.ebook #more-ebooks li:nth-child(3) img{
+}
+
+time{
+	color: #777;
+	margin-right: 15px;
+	width: 6em;
+	display: inline-block;
+}
+
+.globe::before{
+	background-image: url('/images/globe.svg');
+}
+
+.project-gutenberg::before{
+	background-image: url('/images/project-gutenberg.svg');
+}
+
+.wikisource::before{
+	background-image: url('/images/wikisource.svg');
+}
+
+.hathitrust::before{
+	background-image: url('/images/hathitrust.svg');
+}
+
+.wikipedia::before{
+	background-image: url('/images/wikipedia.svg');
+}
+
+.internet-archive::before{
+	background-image: url('/images/internet-archive.svg');
+}
+
+.github::before{
+	background-image: url('/images/github.svg');
+}
+
+.epub::before{
+	background-image: url('/images/epub.svg');
+}
+
+.amazon::before{
+	background-image: url('/images/amazon.svg');
+}
+
+.kobo::before{
+	background-image: url('/images/kobo.svg');
+}
+
+.google::before{
+	background-image: url('/images/google.svg');
+}
+
+article.ebook h1{
+	border: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+aside#reading-ease,
+section#description{
+	margin-top: 2rem;
+}
+
+section#description h2{
+	display: none;
+}
+
+section#description p:first-of-type{
+	margin-top: 0;
+}
+
+article.ebook aside#reading-ease{
+	border-top: 3px double #777;
+	border-bottom: 3px double #777;
+	padding: 1rem 0;
+	font-style: italic;
+	text-align: center;
+}
+
+aside.sort{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	margin-top: 2rem;
+	font-style: italic;
+	text-align: center;
+}
+
+aside.sort a.button{
+	margin-left: 1rem;
+}
+
+form[action="/ebooks/"]{
+	margin: 0 1rem;
+}
+
+h2{
+	font-size: 1.2rem;
+	font-family: 'League Spartan', sans-serif;
+	margin-top: 4rem;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	margin-left: -1rem;
+}
+
+h3,
+h4,
+h5{
+	font-size: 1rem;
+	font-family: 'League Spartan', sans-serif;
+	margin-top: 3rem;
+	line-height: 1.2;
+}
+
+body > footer{
+	width: 100%;
+	max-width: 60rem;
+	border-top: 3px double #777;
+	margin-top: 4rem;
+	text-align: center;
+	padding: 2rem 0;
+}
+
+footer p:last-child a{
+	font-size: 0;
+	display: inline-block;
+	margin: auto;
+	margin-top: 2rem;
+}
+
+footer p:last-child a::before{
+	content: '';
+	background: url('/images/logo.svg');
+	background-size: contain;
+	background-repeat: no-repeat;
+	display: block;
+	height: 2.5rem;
+	width: calc(4rem - 1px);
+	margin: auto;
+}
+
+footer ul{
+	font-size: 0;
+	margin-bottom: 1rem;
+}
+
+footer ul li{
+	display: inline-block;
+	list-style: none;
+	font-size: .9rem;
+	text-transform: lowercase;
+}
+
+footer ul li + li:before{
+	content: '\2022';
+	margin: 0 10px;
+}
+
+footer p{
+	font-size: .6rem;
+}
+
+footer > a{
+	display: block;
+	margin-top: 2rem;
+	font-size: 0;
+}
+
+/* ebook list */
+h1{
+	font-size: 2rem;
+	font-family: 'League Spartan', sans-serif;
+	line-height: 1.2;
+	border-bottom: 3px double #777;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	padding-bottom: 1.5rem;
+}
+
+main.ebooks > aside.alert + ol{
+	margin-top: 2rem;
+}
+
+main.ebooks > ol{
+	display: flex;
+	flex-wrap: wrap;
+	max-width: none;
+	list-style: none;
+	margin-top: 0;
+}
+
+main.ebooks > ol > li{
+	width: calc(25% - 4rem);
+	margin: 2rem;
+}
+
+main.ebooks > ol img:hover{
+	transform: scale(1.05);
+	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
+}
+
+main.ebooks > ol > li a:active img{
+	transform: scale(1.025);
+	transition: none;
+	box-shadow: none;
+}
+
+main.ebooks > ol > li p{
+	margin: 0;
+	text-align: center;
+	-webkit-hyphens: none;
+	hyphens: none;
+}
+
+main.ebooks > ol > li img{
+	box-sizing: border-box;
+	width: 100%;
+	border: 1px solid #222;
+	border-radius: .25rem;
+	transition: all .2s ease;
+}
+
+main.ebooks > ol > li p:nth-of-type(1) a{
+	font-weight: bold;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	line-height: 1.2;
+	margin-bottom: .25rem;
+}
+
+main.ebooks > ol > li > a:first-child{
+	font-size: 0; /* for correct focus outline */
+}
+
+main.ebooks > ol > li p.author a{
+	font-style: italic;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	line-height: 1.2;
+}
+
+article nav ol,
+main.ebooks nav ol{
+	list-style: none;
+	display: flex;
+	margin: 0 .5rem;
+}
+
+aside.alert{
+	font-style: italic;
+	margin-top: 2rem;
+	background: url('/images/stripes.svg') #FFFF99;
+	border-radius: .25rem;
+	padding: 2rem;
+	border: 2px solid #FFCC00;
+	box-sizing: border-box;
+}
+
+nav + aside.alert{
+	margin-top: 2rem;
+}
+
+aside.alert + p{
+	margin-top: 2rem;
+}
+
+h1 + aside.alert{
+	margin-top: 0;
+}
+
+section#history ol > li:before{
+	display: none;
+}
+
+figure img{
+	width: 50%;
+}
+
+figure{
+	margin-top: 1rem;
+}
+
+code.tag,
+code.path,
+code.program,
+code.regex,
+code.html,
+code.ietf,
+code.css,
+code.marc{
+	border: 1px solid rgba(255,255,255,.25);
+	background: rgba(255,255,255,.25);
+	border-radius: .25rem;
+	white-space: pre-wrap;
+	padding: 0 .25rem;
+}
+
+figure code.html,
+figure code.css{
+	padding: 1rem;
+	background: #333;
+	border: none;
+	text-align: left;
+	color: #fff !important; /* in case code highlighting fails */
+}
+
+code.html.full,
+code.css.full{
+	border: none;
+	display: block;
+	padding: 1rem;
+	background: #333;
+	text-align: left;
+	color: #fff !important; /* in case code highlighting fails */
+}
+
+code.full{
+	margin-top: 1rem;
+	color: #fff !important; /* in case code highlighting fails */
+}
+
+code.full::before{
+	display: block;
+	border-bottom: 1px dashed #777;
+	padding-bottom: .5rem;
+	margin-bottom: .5rem;
+	font-weight: bold;
+	line-height: 1;
+}
+
+code.html.full::before{
+	content: 'HTML';
+}
+
+code.css.full::before{
+	content: 'CSS';
+}
+
+code{
+	font-family: 'Source Code Pro', monospace;
+	font-size: .9rem;
+}
+
+code.terminal{
+	color: #fff;
+	background-color: #444;
+	font-family: 'Source Code Pro', monospace;
+	text-align: left;
+	padding: 1rem 1rem 1rem 3rem;
+	border-radius: .25rem;
+	position: relative;
+	display: block;
+	margin-top: 1rem;
+	overflow: auto;
+}
+
+code.terminal::before{
+	content: url('/images/terminal.svg');
+	height: 1rem;
+	width: 1rem;
+	top: 1.15rem;
+	left: 1rem;
+	position: absolute;
+}
+
+code.raw{
+	white-space: pre;
+}
+
+code.terminal span{
+	display: block;
+}
+
+code.terminal span::before{
+	margin-right: .5rem;
+	color: #56DA55;
+	font-weight: bold;
+	display: inline;
+}
+
+code.terminal > span::before{
+	content:'user@localhost>';
+}
+
+blockquote,
+figure.text{
+	background: rgba(255,255,255,.25);
+	border: 1px solid rgba(255,255,255,.25);
+	padding: 1rem;
+	border-radius: .25rem;
+}
+
+blockquote{
+	font-style: italic;
+}
+
+blockquote mark.error{
+	background: #CF4647;
+	padding: .2rem;
+}
+
+table{
+	width: 100%;
+	text-align: left;
+	margin-top: 1rem;
+}
+
+table code.full{
+	display: block;
+	white-space: normal !important;
+}
+
+table code.full{
+	white-space: pre-wrap !important;
+}
+
+table td{
+	vertical-align: top;
+	padding: 1rem;
+}
+
+table td:first-child{
+	width: 25%;
+}
+
+table td + td{
+	padding-left: 10px;
+}
+
+table p{
+	margin: 0;
+}
+
+table thead{
+	border-bottom: 3px double #777;
+	font-weight: bold;
+}
+
+abbr{
+	white-space: nowrap;
+}
+
+abbr.acronym{
+	font-variant: all-small-caps;
+}
+
+abbr.temperature,
+abbr.era{
+	font-variant: all-small-caps;
+}
+
+h3 abbr.initialism{
+	font-variant: normal;
+}
+
+figure img{
+	border-radius: .25rem;
+	border: 1px solid #222;
+	display: block;
+	margin: auto;
+}
+
+figure p{
+	margin: 0;
+}
+
+figure p + p{
+	margin-top: 15px;
+}
+
+figure p.wrong{
+	text-decoration-line: underline;
+	text-decoration-style: wavy;
+	text-decoration-color: #CF4647;
+}
+
+figure p.wrong:before,
+figure.wrong:before{
+	font-family: "FontAwesome";
+	content: "\f00d";
+	font-size: 1.5rem;
+	width: 1.5rem;
+	line-height: 1;
+	margin-right: .5rem;
+	color: #CF4647;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
+	display: inline-block;
+}
+
+figure p.corrected:before,
+figure.corrected:before{
+	font-family: "FontAwesome";
+	content: "\f00c";
+	font-size: 1.5rem;
+	line-height: 1;
+	margin-right: .5rem;
+	width: 1.5rem;
+	color: #79BD9A;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
+	display: inline-block;
+}
+
+figure.wrong:before,
+figure.corrected:before{
+	display: flex;
+	margin-right: 0;
+	align-self: stretch;
+	align-items: center;
+	justify-content: center;
+	padding: 0 .5rem;
+	border-top-left-radius: .25rem;
+	border-bottom-left-radius: .25rem;
+}
+
+figure.wrong:before{
+	background: #762729;
+}
+
+figure.corrected:before{
+	background: #406451;
+}
+
+figure.wrong code{
+	background: #550000 url('/images/stripes-dark.svg');
+}
+
+figure.wrong,
+figure.corrected{
+	display: flex;
+	align-items: center;
+}
+
+figure.wrong code,
+figure.corrected code{
+	flex-grow: 1;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.warning{
+	font-size: 3rem;
+	font-weight: bold;
+	text-align: center;
+	font-style: normal;
+}
+
+.warning + p{
+	font-style: normal;
+	font-variant: small-caps;
+}
+
+
+main.ebooks nav{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: none;
+}
+
+article nav a[rel],
+main.ebooks nav a[rel]{
+	margin-bottom: 0;
+}
+
+article nav ol li,
+main.ebooks nav ol li{
+	margin: 0;
+	white-space: nowrap;
+}
+
+article nav ol li a,
+main.ebooks nav ol li a{
+	font-size: 1rem;
+	padding: 1rem;
+	margin: 0 .5rem;
+	border-radius: .25rem;
+}
+
+article nav ol li.highlighted a,
+main.ebooks nav ol li.highlighted a{
+	background: #1d6878;
+	padding: 1.25rem;
+}
+
+article nav ol li a:hover,
+main.ebooks nav ol li a:hover{
+	background: #288da4;
+}
+
+article nav ol li.highlighted a,
+main.ebooks nav ol li.highlighted a,
+article nav ol li a:hover,
+main.ebooks nav ol li a:hover{
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+}
+
+p.no-results{
+	margin-top: 4rem;
+	font-style: italic;
+	text-align: center;
+}
+
+.us-pd-warning{
+	font-style: italic;
+	margin-top: 1rem;
+}
+
+input[type="search"]{
+	font-size: 1rem;
+	width: 100%;
+	background: none;
+	border: none;
+	font-family: 'Crimson Text';
+	padding-top: 5px; /* needed b/c crimson text is poorly vertically aligned */
+}
+
+/* remove some styles from Chromium */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button{
+	-webkit-appearance: none;
+}
+
+input::placeholder{
+	font-style: italic;
+	color: rgba(0, 0, 0, .75);
+}
+
+main > article > form{
+	max-width: calc(100% - 2rem);
+}
+
+label.search{
+	box-sizing: border-box;
+	width: 100%;
+	background: rgba(0, 0, 0, .1);
+	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
+	border-radius: 5px;
+	border: 1px solid #777;
+	display: flex;
+	align-items: center;
+	padding: 1rem;
+	font-size: 0;
+}
+
+input[type="search"]{
+	font-size: 1rem;
+}
+
+input[type="search"]:focus{
+	outline: none;
+}
+
+label.search::before{
+	display: block;
+	content: '\f002';
+	font-family: 'FontAwesome';
+	font-size: 1rem;
+	margin-right: 1rem;
+	color: #222;
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
+}
+
+.utf{
+	border: 1px solid #222;
+	padding: .1rem;
+	line-height: 1;
+	margin: 0 .1rem;
+	font-size: .5rem;
+	display: inline-block;
+	font-family: monospace;
+	vertical-align: middle;
+	margin-top: -3px; /* to match poor crimson alignment */
+}
+
+figure code.html .utf,
+code.full .utf{
+	border-color: #fff;
+	margin-top: 0;
+}
+
+article nav ol li:not(:first-child):not(:last-child):not(.highlighted),
+main.ebooks nav ol li:not(:first-child):not(:last-child):not(.highlighted){
+	display: none;
+}
+
+article nav ol li.highlighted::before,
+main.ebooks nav ol li.highlighted::before{
+	content: '⋯';
+	padding-right: 1rem;
+}
+
+article nav ol li.highlighted::after,
+main.ebooks nav ol li.highlighted::after{
+	content: '⋯';
+	padding-left: 1rem;
+}
+
+article nav ol li.highlighted:first-child::before,
+article nav ol li.highlighted:last-child::after,
+main.ebooks nav ol li.highlighted:first-child::before,
+main.ebooks nav ol li.highlighted:last-child::after{
+	display: none;
+}
+
+#producing-an-ebook > ol {
+	counter-reset: item;
+	margin-left: 0;
+	padding-left: 0;
+	list-style: none;
+}
+
+#producing-an-ebook > ol > li::before {
+	float: left;
+	content: counter(item) ".";
+	counter-increment: item;
+	width: 4rem;
+	text-align: right;
+	margin-left: -5.5rem;
+
+	font-size: 1.2rem;
+	font-family: 'League Spartan', sans-serif;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.manual section,
+.manual ol{
+	counter-reset: item;
+}
+
+.manual section{
+	margin-top: 2rem;
+}
+
+.manual section section{
+	margin-left: 2rem;
+}
+
+.manual section ol{
+	margin-top: 1rem;
+	margin-left: 2rem;
+}
+
+.manual section + section,
+.manual ol + section{
+	counter-reset: none;
+}
+
+.manual ol li{
+	list-style: none;
+}
+
+.manual section::before,
+.manual ol li::before{
+	counter-increment: item;
+	content: counters(item, ".");
+	font-style: italic;
+	position: absolute;
+	margin-left: -3rem;
+}
+
+.manual section::before{
+	font-family: 'League Spartan', sans-serif;
+	line-height: 1.2;
+}
+
+.manual > section::before{
+	font-size: 1.2rem;
+}
+
+.manual h2,
+.manual h3,
+.manual h4{
+	margin-top: 0;
+}
+
+.manual figure p{
+	hyphens: none;
+}
+
+.manual table td:first-child{
+	width: auto;
+}
+
+.manual table td code.path{
+	white-space: nowrap;
+}
+
+@media(max-width: 1100px){
+	article.ebook header{
+		width: calc(100% + 4rem);
+		max-width: none;
+		margin-left: -2rem;
+		border-radius: 0;
+		border-left: none;
+		border-right: none;
+		border-radius: 0;
+	}
+
+	main.front-page > section > section > div{
+		flex-direction: column-reverse;
+		align-items: center;
+	}
+
+	main.front-page > section > section figure{
+		margin: 0;
+		text-align: center;
+	}
+
+	main.front-page > section > section > div > div,
+	main.front-page > section > section > div > p{
+		margin-top: 2rem;
+	}
+}
+
+@media(max-width: 860px){
+	article nav a[rel]{
+		font-size: 0;
+	}
+
+	article nav a[rel]::before,
+	article nav a[rel]::after{
+		font-size: 1rem;
+		margin: 0;
+	}
+}
+
+@media(max-width: 760px){
+	article.ebook #more-ebooks ul{
+		flex-wrap: wrap;
+	}
+
+	article.ebook #more-ebooks ul li{
+		width: calc(25% - 1rem);
+	}
+
+	article.ebook #more-ebooks li img{
+		width: 100%;
+		height: auto !important;
+	}
+
+	#more-ebooks ul li:last-child{
+		display: none;
+	}
+
+	main.ebooks > ol > li{
+		width: calc(33% - 4rem);
+	}
+
+	aside.sort{
+		flex-wrap: wrap;
+	}
+
+	aside.sort p{
+		width: 100%;
+		margin-bottom: 1rem;
+	}
+}
+
+@media(max-width: 680px){
+	body > header{
+		flex-direction: column;
+		align-items: center;
+	}
+
+	body > header li{
+		margin-top: 2rem;
+	}
+
+	main.ebooks > ol > li{
+		width: calc(50% - 4rem);
+	}
+
+	main.front-page h1{
+		padding: 3rem;
+		font-size: 2.4rem;
+	}
+
+	aside.sort{
+		flex-direction: column;
+	}
+
+	aside.sort a.button{
+		margin: .5rem;
+		width: 100%;
+	}
+
+	article.ebook section#details ul{
+		flex-direction: column;
+	}
+
+	article.ebook section#details ul li:first-child{
+		margin-top: 1rem;
+	}
+
+	article.ebook section#details ul li{
+		width: 100%;
+		margin-top: 2rem;
+	}
+
+	article nav ol li.highlighted::before,
+	article nav ol li.highlighted::after,
+	main.ebooks nav ol li.highlighted::before,
+	main.ebooks nav ol li.highlighted::after{
+		display: none;
+	}
+}
+
+@media(max-width: 500px){
+	main > article > form{
+		margin-bottom: .5rem;
+	}
+
+	main.ebooks nav{
+		margin-top: .5rem;
+	}
+
+	article.ebook #more-ebooks ul{
+		margin-top: 1rem;
+	}
+
+	article.ebook #more-ebooks ul li{
+		width: calc(50% - 1rem);
+		margin-top: 1rem;
+	}
+
+	article.ebook #history li time,
+	article.ebook #history li p{
+		display: block;
+	}
+
+	article.ebook #history li p{
+		margin: 0;
+		padding: 0;
+	}
+
+	main.ebooks > ol{
+		margin-top: 1rem;
+	}
+
+	main.ebooks > ol > li{
+		width: calc(50% - 2rem);
+		margin: 1rem;
+	}
+
+	article nav ol li:not(.highlighted),
+	main.ebooks nav ol li:not(.highlighted){
+		display: none;
+	}
+
+	main.front-page > section > section figure.stacked img.bottom,
+	main.front-page > section > section figure.stacked img.top{
+		width: 75%;
+	}
+
+	main.front-page > section > section figure.oss img{
+		max-width: calc(50% - 2rem);
+	}
+
+	code{
+		word-break: break-all;
+		word-wrap: break-word;
+	}
+}
+
+@media(max-width: 380px){
+	body > header{
+		padding: 1rem 0;
+	}
+
+	body > header > a{
+		width: calc(100% - 2rem);
+	}
+
+	body > header ul{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	body > header ul li{
+		margin-top: 1rem;
+	}
+
+	body > header ul li::before{
+		display: none;
+	}
+
+	main.front-page h1{
+		font-size: 2rem;
+	}
+
+	h1,h2,h3,h4,h5,h6,code,.ebook h1 + p{
+		hyphens: auto;
+	}
+}
+
+@supports not(hyphens: auto){
+	main,
+	main.front-page > section > section p{
+		text-align: left;
+	}
+}

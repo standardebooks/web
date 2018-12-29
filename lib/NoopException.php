@@ -1,0 +1,4 @@
+<?
+class NoopException extends \Exception{
+}
+?>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="120"
+   height="120"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48+devel r"
+   sodipodi:docname="draft-ribbon.svg">
+  <defs
+     id="defs4">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1537">
+      <rect
+         style="color:#000000;color-interpolation:sRGB;color-interpolation-filters:linearRGB;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;clip-rule:nonzero"
+         id="rect1539"
+         width="120"
+         height="120"
+         x="694.13245"
+         y="623.42175"
+         transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="56.986426"
+     inkscape:cy="49.249982"
+     inkscape:document-units="px"
+     inkscape:current-layer="g835"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="716"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-932.36218)">
+    <g
+       id="g1482">
+      <g
+         transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,-694.13244,328.94043)"
+         id="g835">
+        <g
+           id="g1499"
+           clip-path="url(#clipPath1537)"
+           transform="translate(14.142133,-14.14214)">
+          <rect
+             y="989.86218"
+             x="-100"
+             height="25"
+             width="300"
+             id="rect810"
+             style="color:#000000;color-interpolation:sRGB;color-interpolation-filters:linearRGB;fill:#f15549;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;clip-rule:nonzero" />
+          <g
+             id="text812"
+             style="font-size:18.18181801px;font-style:normal;font-weight:normal;line-height:100%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans">
+            <path
+               id="path1489"
+               style="font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:League Spartan;-inkscape-font-specification:League Spartan Bold"
+               d="M 20.146733,994.86218 20.146733,1009.8622 24.492188,1009.8622 C 28.619461,1009.8622 32.055824,1006.7349 32.055824,1002.3531 32.055824,997.98946 28.601279,994.86218 24.492188,994.86218 L 20.146733,994.86218 Z M 23.564915,1006.8076 23.564915,997.91673 24.092188,997.91673 C 26.637642,997.91673 28.364915,999.86218 28.364915,1002.3713 28.346733,1004.8804 26.619461,1006.8076 24.092188,1006.8076 L 23.564915,1006.8076 Z"
+               inkscape:connector-curvature="0" />
+            <path
+               id="path1491"
+               style="font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:League Spartan;-inkscape-font-specification:League Spartan Bold"
+               d="M 33.570028,994.86218 33.570028,1009.8622 36.98821,1009.8622 36.98821,1003.9349 41.570028,1009.8622 45.915483,1009.8622 40.751846,1003.6622 C 42.58821,1003.0804 43.824574,1001.5713 43.824574,999.31673 43.824574,996.37127 41.715483,994.86218 38.933665,994.86218 L 33.570028,994.86218 Z M 36.98821,1001.5167 36.98821,997.58946 37.38821,997.58946 C 38.679119,997.58946 40.224574,997.68036 40.224574,999.55309 40.224574,1001.4258 38.679119,1001.5167 37.38821,1001.5167 L 36.98821,1001.5167 Z"
+               inkscape:connector-curvature="0" />
+            <path
+               id="path1493"
+               style="font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:League Spartan;-inkscape-font-specification:League Spartan Bold"
+               d="M 54.22088,994.86218 51.057244,994.86218 45.002698,1009.8622 48.675426,1009.8622 49.784517,1006.8622 55.493607,1006.8622 56.602698,1009.8622 60.275426,1009.8622 54.22088,994.86218 Z M 54.329971,1003.8622 50.948153,1003.8622 52.62088,999.49855 52.657244,999.49855 54.329971,1003.8622 Z"
+               inkscape:connector-curvature="0" />
+            <path
+               id="path1495"
+               style="font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:League Spartan;-inkscape-font-specification:League Spartan Bold"
+               d="M 69.515483,994.86218 60.842755,994.86218 60.842755,1009.8622 64.260937,1009.8622 64.260937,1003.844 69.115483,1003.844 69.115483,1000.844 64.260937,1000.844 64.260937,997.86218 69.515483,997.86218 69.515483,994.86218 Z"
+               inkscape:connector-curvature="0" />
+            <path
+               id="path1497"
+               style="font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:League Spartan;-inkscape-font-specification:League Spartan Bold"
+               d="M 69.307812,997.86218 72.871448,997.86218 72.871448,1009.8622 76.28963,1009.8622 76.28963,997.86218 79.853266,997.86218 79.853266,994.86218 69.307812,994.86218 69.307812,997.86218 Z"
+               inkscape:connector-curvature="0" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

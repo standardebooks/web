@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   viewBox="0 0 30 30"
+   height="30"
+   width="30">
+  <g
+     transform="translate(0,-1022.3622)">
+    <path
+       d="m 0,1022.3622 30,30 -15,0 -15,-15 z m 30,0 -15,0 15,15 z"
+       style="opacity:0.05;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+</svg>

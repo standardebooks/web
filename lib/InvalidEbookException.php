@@ -1,0 +1,4 @@
+<?
+class InvalidEbookException extends \Exception{
+}
+?>
