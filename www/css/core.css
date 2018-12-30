@@ -821,7 +821,7 @@ article.ebook aside#reading-ease{
 aside.sort{
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
+	align-content: center;
 	justify-content: center;
 	margin-top: 2rem;
 	font-style: italic;
@@ -1302,11 +1302,6 @@ main.ebooks nav{
 	max-width: none;
 }
 
-article nav a[rel],
-main.ebooks nav a[rel]{
-	margin-bottom: 0;
-}
-
 article nav ol li,
 main.ebooks nav ol li{
 	margin: 0;
@@ -1601,6 +1596,7 @@ main.ebooks nav ol li.highlighted:last-child::after{
 
 	aside.sort p{
 		width: 100%;
+		margin: auto;
 		margin-bottom: 1rem;
 	}
 }
@@ -1708,6 +1704,20 @@ main.ebooks nav ol li.highlighted:last-child::after{
 	code{
 		word-break: break-all;
 		word-wrap: break-word;
+	}
+
+	article nav a[rel],
+	main.ebooks nav a[rel]{
+		margin-bottom: 0;
+		font-size: 0;
+	}
+
+	article nav a[rel]::before,
+	main.ebooks nav a[rel]::before,
+	article nav a[rel]::after,
+	main.ebooks nav a[rel]::after{
+		font-size: 1rem;
+		margin: 0;
 	}
 }
 
