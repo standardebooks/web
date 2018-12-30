@@ -1,16 +1,18 @@
 # Installation
 
-This repository only contains PHP source files, it doesn't contain configuration for running them on a web server.
+This repository only contains PHP source files, it doesn’t contain configuration for running them on a web server.
 
 PHP 7+ is required.
 
-If you'd like to set up a development environment on your local machine, then you'll have to configure your own local web server to serve PHP files.
+If you’d like to set up a development environment on your local machine, then you’ll have to configure your own local web server to serve PHP files.
 
-You'll also need to ensure the following:
+You’ll also need to ensure the following:
 
 - The path `/standardebooks.org/` exists and is the root of this project. (Configurable in `./lib/Constants.php`.)
 
-- Your PHP installation must be configured to have `/standardebooks.org//lib/` in its include path.
+- Your PHP installation must be configured to have `/standardebooks.org/lib/` in its include path.
+
+- PHP-APCu must be installed. On Ubuntu this can be done with `sudo apt install php-apcu`.
 
 - The URL `^/ebooks/([^\.]+?)/?$` must redirect to `/standardebooks.org/ebooks/ebook.php?url-path=$1`
 
@@ -43,13 +45,33 @@ You'll also need to ensure the following:
 
 # Contributing
 
-Before submitting design contributions, please discuss them with the Standard Ebooks lead. While we encourage discussion and contributions, we can't guarantee that unsoliticed design contributions will be accepted. You can open an issue to discuss potential design contributions with us before you begin.
+Before submitting design contributions, please discuss them with the Standard Ebooks lead. While we encourage discussion and contributions, we can’t guarantee that unsoliticed design contributions will be accepted. You can open an issue to discuss potential design contributions with us before you begin.
 
-## Code style
+## PHP code style
 
 - Indent with tabs.
 
-- Use single quotes (`'`) for strings, unless the string must contain a printable escape character (`"Foo\n"`).
+-   Use single quotes for strings, unless the string must contain a printable escape character.
+
+    ````php
+    $foo = 'baz';
+    $bar = "\tbaz\n";
+    ````
+
+-   When composing strings always use string concatenation. Don’t evaluate PHP variables inside strings.
+
+    Good:
+
+    ````php
+    $foo = 'bar' . $fizz . 'buzz';
+    ````
+
+    Bad:
+
+    ````php
+    $foo = "bar$fizzbuzz";
+    $foo = "bar{$fizz}buzz";
+    ````
 
 -   Variable names are in camelCase.
 
@@ -67,7 +89,7 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Check for `null` using `===` and `!==`.
 
-- Where possible, include type hints for functions.
+- Where possible, include type hints for functions. Due to PHP limitations this may not always be possible, for example in cases where `null` may be passed or returned.
 
 -   If using regex to parse HTML, use `|` as the regex delimiter instead of `/`.
 
