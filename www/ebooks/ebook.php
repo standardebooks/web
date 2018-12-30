@@ -95,7 +95,7 @@ catch(\Exception $ex){
 				<? } ?>
 
 				<? if($ebook->Azw3Url !== null){ ?>
-				<li><p><span><a href="<?= $ebook->Azw3Url ?>" class="amazon">azw3</a></span> <span>—</span> <span>Amazon Kindle devices and apps.<? if(!empty($metadata['kindleCoverFilename'])){ ?> Also download the <a href="<?= $wwwUrl ?>/dist/<?= $metadata['kindleCoverFilename'] ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
+				<li><p><span><a href="<?= $ebook->Azw3Url ?>" class="amazon">azw3</a></span> <span>—</span> <span>Amazon Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
 				</li>
 				<? } ?>
 
