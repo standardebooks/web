@@ -35,7 +35,6 @@ if(!isset($js)){
 	<meta content="#394451" name="theme-color">
 	<? if($js){ ?>
 	<link href="/js/highlight.js/styles/paraiso-dark.css" rel="stylesheet">
-	<script src="/js/jquery-3.3.1.min.js"></script>
 	<script src="/js/highlight.js/highlight.pack.js"></script>
 	<script src="/js/core.js"></script>
 	<? } ?>
