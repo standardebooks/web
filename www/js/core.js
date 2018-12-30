@@ -1,9 +1,10 @@
 'use strict';
 
-$(function(){
+document.addEventListener('DOMContentLoaded', function() {
 	if(hljs){
-		$('code.html.full, code.css.full, figure code.html').each(function(i, block) {
-			hljs.highlightBlock(block);
-		});
+		var blocks = document.querySelectorAll('code.html.full, code.css.full, figure code.html');
+		for (var i=0; i<blocks.length; i++) {
+			hljs.highlightBlock(blocks[i]);
+		};
 	}
 });
