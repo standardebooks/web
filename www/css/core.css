@@ -873,7 +873,7 @@ footer p:last-child a{
 
 footer p:last-child a::before{
 	content: '';
-	background: url('/images/logo.svg');
+	background: url('/images/logo-small.svg');
 	background-size: contain;
 	background-repeat: no-repeat;
 	display: block;

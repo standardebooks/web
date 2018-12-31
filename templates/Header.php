@@ -38,10 +38,10 @@ if(!isset($js)){
 	<script src="/js/highlight.js/highlight.pack.js"></script>
 	<script src="/js/core.js"></script>
 	<? } ?>
-	<meta content="Standard Ebooks" property="og:title">
-	<meta content="website" property="og:type">
-	<meta content="https://standardebooks.org" property="og:url">
-	<meta content="https://standardebooks.org/images/logo.png" property="og:image">
+	<meta content="<?= Formatter::ToPlainText($title) ?>" property="og:title">
+	<meta content="<?= $ogType ?? 'website' ?>" property="og:type">
+	<meta content="<?= SITE_URL . str_replace(SITE_URL, '', ($_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['SCRIPT_URI'] ?? '')) ?>" property="og:url">
+	<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.svg') ?>" property="og:image">
 	<meta content="summary_large_image" name="twitter:card">
 	<meta content="@standardebooks" name="twitter:site">
 	<meta content="@standardebooks" name="twitter:creator">

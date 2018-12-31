@@ -18,6 +18,7 @@ class Ebook{
 	public $HeroImage2xUrl;
 	public $CoverImageUrl;
 	public $CoverImage2xUrl;
+	public $DistCoverUrl;
 	public $Title;
 	public $FullTitle;
 	public $Description;
@@ -106,6 +107,11 @@ class Ebook{
 		}
 
 		$this->HasDownloads = $this->EpubUrl || $this->Epub3Url || $this->KepubUrl || $this->Azw3Url;
+
+		$tempPath = glob($this->WwwFilesystemPath . '/dist/cover.jpg');
+		if(sizeof($tempPath) > 0){
+			$this->DistCoverUrl = $this->Url . '/dist/' . basename($tempPath[0]);
+		}
 
 		// Fill in the short history of this repo.
 		$historyEntries = explode("\n", shell_exec('cd ' . escapeshellarg($this->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %s"'));
@@ -353,7 +359,7 @@ class Ebook{
 		$output->publisher = $organizationObject;
 
 		$output->name = $this->Title;
-		$output->image = SITE_URL . $this->Url . '/dist/cover.jpg';
+		$output->image = SITE_URL . $this->DistCoverUrl;
 		$output->thumbnailUrl = SITE_URL . $this->Url . '/dist/cover-thumbnail.jpg';
 		$output->url = SITE_URL . $this->Url;
 		$output->{'@id'} = SITE_URL . $this->Url;
