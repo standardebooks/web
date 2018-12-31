@@ -8,36 +8,41 @@
 }
 
 @font-face{
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: 'League Spartan';
-	src: local('League Spartan'), url('/fonts/league-spartan-bold.woff2') format('woff2'), url('/fonts/league-spartan-bold.woff') format('woff');
+	src: url('/fonts/league-spartan-bold.woff2') format('woff2'), url('/fonts/league-spartan-bold.woff') format('woff');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face{
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "Crimson Text";
-	src: local('Crimson Text'), url('/fonts/crimson-text.woff2') format('woff2'), url('/fonts/crimson-text.woff') format('woff');
+	src: url('/fonts/crimson-text.woff2') format('woff2'), url('/fonts/crimson-text.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face{
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "Crimson Text";
-	src: local('Crimson Text'), url('/fonts/crimson-text-bold.woff2') format('woff2'), url('/fonts/crimson-text-bold.woff') format('woff');
+	src: url('/fonts/crimson-text-bold.woff2') format('woff2'), url('/fonts/crimson-text-bold.woff') format('woff');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face{
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "Crimson Text";
-	src: local('Crimson Text'), url('/fonts/crimson-text-italic.woff2') format('woff2'), url('/fonts/crimson-text-italic.woff') format('woff');
+	src: url('/fonts/crimson-text-italic.woff2') format('woff2'), url('/fonts/crimson-text-italic.woff') format('woff');
 	font-weight: normal;
 	font-style: italic;
 }
 
 @font-face{
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "Crimson Text";
-	src: local('Crimson Text'), url('/fonts/crimson-text-bold-italic.woff2') format('woff2'), url('/fonts/crimson-text-bold-italic.woff') format('woff');
+	src: url('/fonts/crimson-text-bold-italic.woff2') format('woff2'), url('/fonts/crimson-text-bold-italic.woff') format('woff');
 	font-weight: bold;
 	font-style: italic;
 }
@@ -670,7 +675,6 @@ article.ebook section#details ul li a[class]::before{
 	height: 1.25rem;
 	width: 1.25rem;
 	transition: transform .2s ease;
-	margin-top: -3px; /* adjust for weird line-height of crimson text */
 }
 
 article.ebook section#download ul li a[class]:hover::before,
@@ -1353,7 +1357,6 @@ input[type="search"]{
 	background: none;
 	border: none;
 	font-family: 'Crimson Text';
-	padding-top: 5px; /* needed b/c crimson text is poorly vertically aligned */
 }
 
 /* remove some styles from Chromium */
@@ -1397,8 +1400,10 @@ label.search::before{
 	content: '\f002';
 	font-family: 'FontAwesome';
 	font-size: 1rem;
+	line-height: 1;
 	margin-right: 1rem;
 	color: #222;
+	margin-top: -3px; /* Adjust for crimson text line-height */
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
 }
 
