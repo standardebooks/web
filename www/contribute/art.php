@@ -109,10 +109,10 @@ require_once('Core.php');
 			<h3>Cover image artwork rules</h3>
 			<p>Once you’ve set up <code class="path">cover.svg</code>, it’s time to find a suitable fine art painting to use for the cover image.</p>
 			<p>The paintings we use are all in the U.S. public domain (PD). Your task is to locate a painting suitable for the kind of book you’re producing, and then demonstrate that the painting is indeed in the U.S. public domain.</p>
-			<p>U.S. copyright law is complicated. Because of this, <strong>we <em>require</em> that you provide a link to a page scan of a 1922-or-older book that reproduces the painting you selected.</strong> <em>This is a hard requirement</em> to demonstrate that the painting you selected is in fact in the U.S. public domain. Just because a painting is very old, or Wikipedia says it’s PD, or it’s PD in a country besides the U.S., doesn’t necessarily mean it actually <em>is</em> PD in the U.S.</p>
+			<p>U.S. copyright law is complicated. Because of this, <strong>we <em>require</em> that you provide a link to a page scan of a 1923-or-older book that reproduces the painting you selected.</strong> <em>This is a hard requirement</em> to demonstrate that the painting you selected is in fact in the U.S. public domain. Just because a painting is very old, or Wikipedia says it’s PD, or it’s PD in a country besides the U.S., doesn’t necessarily mean it actually <em>is</em> PD in the U.S.</p>
 			<p>The painting you select must be a fine-art oil painting. We require this to maintain a consistency in the overall style of all of our covers.</p>
-			<h3>Tips for location 1922-or-older reproductions of cover art</h3>
-			<p>To actually demonstrate that a painting is PD, you must locate a reproduction of that painting in a 1922-or-older book.</p>
+			<h3>Tips for location 1923-or-older reproductions of cover art</h3>
+			<p>To actually demonstrate that a painting is PD, you must locate a reproduction of that painting in a 1923-or-older book.</p>
 			<p>This can be quite difficult. Many people find this to be the most time-consuming part of the ebook production process.</p>
 			<p>Because of the difficulty, finding suitable cover at is <em>all about compromise</em>. You’re unlikely to find the perfect cover image. You’ll find a lot of paintings that would be great matches, but that you can’t find reproductions of and thus we can’t use. So, be ready to compromise.</p>
 			<h4>General tips</h4>
@@ -139,7 +139,7 @@ require_once('Core.php');
 			<h4>Gotchas</h4>
 			<ul>
 				<li>
-					<p>Sometimes the catalog record for a book has an incorrect publication year. Please verify the page scan of the copyright page to ensure the book is 1922 or older.</p>
+					<p>Sometimes the catalog record for a book has an incorrect publication year. Please verify the page scan of the copyright page to ensure the book is 1923 or older.</p>
 				</li>
 				<li>
 					<p>In older books it was common to have <em>etchings</em> of paintings. Etchings are not strict reproductions, and so we cannot count them when researching PD status.</p>
@@ -151,17 +151,17 @@ require_once('Core.php');
 			<h4>PD research step-by-step</h4>
 			<ol>
 				<li>
-					<p>Your first stop should be Google Books. Google Books allows you to filter results so that you only see 1922-or-older books. <a href="https://www.google.com/webhp?tbs=cdr:1,cd_min:,cd_max:1922&amp;tbm=bks">You can use this shortcut to search Google Books for 1922-or-older books.</a></p>
+					<p>Your first stop should be Google Books. Google Books allows you to filter results so that you only see 1923-or-older books. <a href="https://www.google.com/webhp?tbs=cdr:1,cd_min:,cd_max:1923&amp;tbm=bks">You can use this shortcut to search Google Books for 1923-or-older books.</a></p>
 					<p>Google Books is a convenient first stop because its thumbnail view is very fast, and it does a better job of highlighting search results than HathiTrust or Internet Archive.</p>
 				</li>
 				<li>
-					<p>If you can’t find anything on Google Books, next go to HathiTrust. HathiTrust’s thumbnail view is much slower, but it has a different catalog than Google Books does. <a href="https://babel.hathitrust.org/cgi/ls?a=srchls&amp;anyall1=all&amp;q1=&amp;field1=ocr&amp;op3=AND&amp;yop=before&amp;pdate_end=1922">You can use this shortcut to search HathiTrust for 1922-or-older books.</a></p>
+					<p>If you can’t find anything on Google Books, next go to HathiTrust. HathiTrust’s thumbnail view is much slower, but it has a different catalog than Google Books does. <a href="https://babel.hathitrust.org/cgi/ls?a=srchls&amp;anyall1=all&amp;q1=&amp;field1=ocr&amp;op3=AND&amp;yop=before&amp;pdate_end=1923">You can use this shortcut to search HathiTrust for 1923-or-older books.</a></p>
 				</li>
 				<li>
-					<p>Lastly, try the Internet Archive. IA has a similar catalog as Google Books, but you may still find something there. <a href="https://archive.org/search.php?query=+date%3A%5B1850-01-01+TO+1922-12-31%5D&amp;sin=TXT&amp;sort=-date">You can use this shortcut to search the Internet Archive for 1922-or-older books.</a></p>
+					<p>Lastly, try the Internet Archive. IA has a similar catalog as Google Books, but you may still find something there. <a href="https://archive.org/search.php?query=+date%3A%5B1850-01-01+TO+1923-12-31%5D&amp;sin=TXT&amp;sort=-date">You can use this shortcut to search the Internet Archive for 1923-or-older books.</a></p>
 				</li>
 				<li>
-					<p>Once you’ve found a reproduction of your artwork in a 1922-or-older book, you need to find a high-resolution color scan that we can use for the cover. Various museum sites can be good for this, along with <a href="https://commons.wikimedia.org">Wikimedia Commons</a>, <a href="https://www.google.com/culturalinstitute/project/art-project">Google Art Project</a>, and <a href="https://www.wikiart.org">Wikiart.org</a>.</p>
+					<p>Once you’ve found a reproduction of your artwork in a 1923-or-older book, you need to find a high-resolution color scan that we can use for the cover. Various museum sites can be good for this, along with <a href="https://commons.wikimedia.org">Wikimedia Commons</a>, <a href="https://www.google.com/culturalinstitute/project/art-project">Google Art Project</a>, and <a href="https://www.wikiart.org">Wikiart.org</a>.</p>
 				</li>
 			</ol>
 			<h4 id="pd-research-resources">PD research resources</h4>
@@ -397,23 +397,23 @@ require_once('Core.php');
 			<ul>
 				<li>
 					<p><b>I found a great painting, and Wikipedia says it’s public domain, but I can’t find a reproduction in a book. Can I use it?</b></p>
-					<p>No. You must find a reproduction of your selected painting in a book published in 1922 or earlier.</p>
+					<p>No. You must find a reproduction of your selected painting in a book published in 1923 or earlier.</p>
 				</li>
 				<li>
 					<p><b>I found a great painting, and it’s really old, and the author died a long time ago, but I can’t find a reproduction in a book. Can I use it?</b></p>
-					<p>No. You must find a reproduction of your selected painting in a book published in 1922 or earlier.</p>
+					<p>No. You must find a reproduction of your selected painting in a book published in 1923 or earlier.</p>
 				</li>
 				<li>
-					<p><b>I’ve found a reproduction in a book, but the book is from 1923. Is that OK?</b></p>
-					<p>No. You must find a reproduction of your selected painting in a book published in 1922 or earlier.</p>
+					<p><b>I’ve found a reproduction in a book, but the book was published in 1924. Is that OK?</b></p>
+					<p>No. You must find a reproduction of your selected painting in a book published in 1923 or earlier.</p>
 				</li>
 				<li>
 					<p><b>I’ve found scan on a museum site. Is that OK?</b></p>
-					<p>No. You must find a reproduction of your selected painting in a book published in 1922 or earlier.</p>
+					<p>No. You must find a reproduction of your selected painting in a book published in 1923 or earlier.</p>
 				</li>
 				<li>
 					<p><b>But...</b></p>
-					<p>No. You must find a reproduction of your selected painting in a book published in 1922 or earlier.</p>
+					<p>No. You must find a reproduction of your selected painting in a book published in 1923 or earlier.</p>
 				</li>
 			</ul>
 			<h4 id="museums">Museums with explicit CC0 collections</h4>
