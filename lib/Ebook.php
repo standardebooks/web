@@ -338,6 +338,10 @@ class Ebook{
 		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', @iconv('UTF-8', 'ASCII//TRANSLIT', $searchString)));
 		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', @iconv('UTF-8', 'ASCII//TRANSLIT', $query)));
 
+		if($query == ''){
+			return false;
+		}
+
 		if(mb_stripos($searchString, $query) !== false){
 			return true;
 		}
