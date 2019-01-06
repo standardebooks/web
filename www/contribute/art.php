@@ -433,11 +433,9 @@ require_once('Core.php');
 				</li>
 				<li>
 					<p><a href="https://art.thewalters.org/">The Walters Art Museum</a> (Public domain items are listed as "CC Creative Commons License" which links to a CC0 rights page)</p></li>
-				<li><p><a href="https://www.artic.edu/collection?q=test&is_public_domain=1">Art Institute of Chicago</a> (CC0 items say CC0 in the lower left of the painting in the art detail page)</p></li>
 				<li>
-					<p>
-
-
+					<p><a href="https://www.artic.edu/collection?q=test&is_public_domain=1">Art Institute of Chicago</a> (CC0 items say CC0 in the lower left of the painting in the art detail page)</p>
+				</li>
 			</ul>
 			<h2>Cover image step-by-step</h2>
 			<ol>
