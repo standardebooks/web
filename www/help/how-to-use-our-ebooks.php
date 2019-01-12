@@ -9,13 +9,13 @@ require_once('Core.php');
 			<p>We offer four different kinds of ebook file for you to download. Which one you pick depends on which ereading device and ereading software you’re using.</p>
 			<ul>
 				<li>
-					<p>For <b>most ereaders</b>, <em>except</em> Amazon Kindle and Kobo devices and software: download the <b>epub</b> file. This epub2-compatible file will work in all ereaders except Kindles. While this file will work on Kobo, it’ll look pretty bad; please download our special Kobo-compatible epub file for Kobo devices and software.</p>
+					<p><b>Amazon Kindle devices and software</b>: download the <b>azw3</b> file. You can optionally download the Kindle cover thumbnail if you’d like the ebook cover to appear in your library. (Thanks to a long-standing bug in the Kindle software, side-loaded ebooks don’t display cover images automatically. <a href="https://www.amazon.com/help/">Complain to Amazon.</a>)</p>
 				</li>
 				<li>
-					<p>For <b>Amazon Kindle ereading software or devices</b>: download the <b>azw3</b> file. You can optionally download the Kindle cover thumbnail if you’d like the ebook cover to appear in your library. (Thanks to a long-standing bug in the Kindle software, side-loaded ebooks don’t display cover images automatically. <a href="https://www.amazon.com/help/">Complain to Amazon.</a>)</p>
+					<p><b>Kobo devices and software</b>: download the <b>kepub</b> file. This file is specially prepared to present the best reading experience for Kobos.</p>
 				</li>
 				<li>
-					<p>For <b>Kobo ereading software or devices</b>: download the <b>kepub</b> file. This file is specially prepared to present the best reading experience for Kobos.</p>
+					<p><b>All other ereaders</b>: download the <b>epub</b> file. This epub2-compatible file will work in all ereaders except Kindles. While this file will also work on Kobo, it’ll look pretty bad; please download our special kepub file for Kobo devices and software.</p>
 				</li>
 				<li>
 					<p>For advanced ereaders like <a href="https://chrome.google.com/webstore/detail/readium/fepbnnnkkadjhjahcafoaglimekefifl">Readium</a>, and for readers who like bleeding-edge technology: download the <b>pure epub3</b> file. Pure epub3 isn’t compatible with most ereaders yet, so only download this file if you know what you’re doing.</p>
@@ -27,7 +27,7 @@ require_once('Core.php');
 			<p>Once you’ve downloaded the file most appropriate for your ereader, you’ll need to transfer that file to your device.</p>
 			<ul>
 				<li id="kindle">
-					<h3>Amazon Kindle eInk Devices (Paperwhite, Voyage, Oasis, etc. <em>except DX</em>)</h3>
+					<h3>Amazon Kindle eInk Devices (Paperwhite, Voyage, Oasis, etc. <em>except</em> DX)</h3>
 					<ol>
 						<li>
 							<p>Using a USB cable, connect your Kindle to the computer you downloaded the azw3 file to. Your Kindle will appear as a USB drive that you can browse.</p>
