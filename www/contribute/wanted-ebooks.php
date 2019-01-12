@@ -86,6 +86,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
 			</li>
+			<!--<li>
+				<p><a href="https://www.gutenberg.org/ebooks/4517">Ethan Frome</a> by Edith Wharton</p>
+			</li>-->
+			<!--<li>
+				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford: <a href="https://github.com/bburns/william-beckford_vathek">In progress by bburns</a></p>
+			</li>-->
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
@@ -182,6 +188,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/1265">Queen Victoria</a> by Lytton Strachey</p>
 			</li>
+			<!--<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing</p>
+			</li>-->
 			<li><p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p></li>
 			<li><p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by DH Lawrence</p></li>
 			<li><p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p></li>
@@ -302,33 +311,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p>Public domain entries in the <a href="https://en.m.wikipedia.org/wiki/Ballantine_Adult_Fantasy_series">Ballantine Adult Fantasy series</a> (Note that not all of these are in the U.S. public domain)</p>
-			</li>
-		</ul>
-		<h2>Ebooks currently being produced</h2>
-		<ul>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2377">The Son of the Wolf</a> by Jack London: <a href="https://github.com/ryanodor/jack-london_son-of-the-wolf">In progress by ryanodor</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/6753">Psmith in the City</a> by P. G. Wodehouse: <a href="https://github.com/scottcmoore/p-g-wodehouse_psmith-in-the-city">In progress by scottcmoore</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/73">The Red Badge of Courage</a> by Fritz Leiber: <a href="https://github.com/jgerace/stephen-crane_the-red-badge-of-courage">In progress by jgerace</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/search/?query=Baroness+Orczy">Scarlet Pimpernel</a> by Baroness Orczy: <a href="https://github.com/tuskpot/countess-orczy_the-scarlet-pimpernel">In progress by tuskpot</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing: <a href="https://github.com/ephaemeradev/george-gissing_new-grub-street">In progress by ephaemeradev</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/16921">Plague Ship</a> by Andre Norton: <a href="https://github.com/paflynn/andre-norton_plague-ship">In progress by paflynn</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4517">Ethan Frome</a> by Edith Wharton: <a href="https://github.com/csliced/efrome">In progress by csliced</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford: <a href="https://github.com/bburns/william-beckford_vathek">In progress by bburns</a></p>
 			</li>
 		</ul>
 	</article>
