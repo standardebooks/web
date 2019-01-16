@@ -46,7 +46,7 @@ require_once('Core.php');
 				<p>Non-English-language books. Translations to English are, of course, OK.</p>
 			</li>
 			<li>
-				<p>Translations into English which are severely abridged, Bowlderized, wildly archaic or near-unreadable to modern readers, or which scholars agree are poor translations.</p>
+				<p>Translations into English which are severely abridged, Bowdlerized, wildly archaic or near-unreadable to modern readers, or which scholars agree are poor translations.</p>
 			</li>
 		</ul>
 	</article>
