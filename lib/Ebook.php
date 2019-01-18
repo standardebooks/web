@@ -41,7 +41,7 @@ class Ebook{
 	public $TitleWithCreditsHtml = '';
 	public $Timestamp;
 
-	public function __construct($wwwFilesystemPath){
+	public function __construct(string $wwwFilesystemPath){
 		// First, construct a source repo path from our WWW filesystem path.
 		$this->RepoFilesystemPath = str_replace(SITE_ROOT . '/www/ebooks/', '', $wwwFilesystemPath);
 		$this->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $this->RepoFilesystemPath) . '.git';
@@ -65,14 +65,14 @@ class Ebook{
 		$this->WwwFilesystemPath = $wwwFilesystemPath;
 		$this->Url = str_replace(SITE_ROOT . '/www', '', $this->WwwFilesystemPath);
 
-		$rawMetadata = file_get_contents($wwwFilesystemPath . '/src/epub/content.opf');
+		$rawMetadata = file_get_contents($wwwFilesystemPath . '/src/epub/content.opf') ?: '';
 
 		// Get the SE identifier.
 		preg_match('|<dc:identifier[^>]*?>(.+?)</dc:identifier>|ius', $rawMetadata, $matches);
 		if(sizeof($matches) != 2){
 			throw new EbookParsingException('Invalid <dc:identifier> element.');
 		}
-		$this->Identifier = $matches[1];
+		$this->Identifier = (string)$matches[1];
 
 		$this->UrlSafeIdentifier = str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 
@@ -114,7 +114,7 @@ class Ebook{
 		}
 
 		// Fill in the short history of this repo.
-		$historyEntries = explode("\n", shell_exec('cd ' . escapeshellarg($this->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %s"'));
+		$historyEntries = explode("\n", shell_exec('cd ' . escapeshellarg($this->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %s"') ?? '');
 
 		foreach($historyEntries as $entry){
 			$array = explode(' ', $entry, 2);
@@ -133,7 +133,7 @@ class Ebook{
 		$this->HeroImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-hero@2x.jpg';
 
 		// Now do some heavy XML lifting!
-		$xml = new SimpleXmlElement(str_replace('xmlns=', 'ns=', $rawMetadata));
+		$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $rawMetadata));
 		$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 
 		$this->Title = $this->NullIfEmpty($xml->xpath('/package/metadata/dc:title'));
@@ -148,17 +148,17 @@ class Ebook{
 		$this->Timestamp = new \DateTime((string)$xml->xpath('/package/metadata/dc:date')[0]);
 
 		// Get SE tags
-		foreach($xml->xpath('/package/metadata/meta[@property="meta-auth"]') as $tag){
+		foreach($xml->xpath('/package/metadata/meta[@property="meta-auth"]') ?: [] as $tag){
 			$this->Tags[] = (string)$tag;
 		}
 
 		// Get LoC tags
-		foreach($xml->xpath('/package/metadata/dc:subject') as $tag){
+		foreach($xml->xpath('/package/metadata/dc:subject') ?: [] as $tag){
 			$this->LocTags[] = (string)$tag;
 		}
 
 		// Figure out authors and contributors.
-		foreach($xml->xpath('/package/metadata/dc:creator') as $author){
+		foreach($xml->xpath('/package/metadata/dc:creator') ?: [] as $author){
 			$id = $author->attributes()->id;
 			$this->Authors[] = new Contributor(	(string)$author,
 								(string)$xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]')[0],
@@ -173,9 +173,9 @@ class Ebook{
 
 		$this->AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1/', $this->Identifier);
 
-		foreach($xml->xpath('/package/metadata/dc:contributor') as $contributor){
+		foreach($xml->xpath('/package/metadata/dc:contributor') ?: [] as $contributor){
 			$id = $contributor->attributes()->id;
-			foreach($xml->xpath('/package/metadata/meta[@property="role"][@refines="#' . $id . '"]') as $role){
+			foreach($xml->xpath('/package/metadata/meta[@property="role"][@refines="#' . $id . '"]') ?: [] as $role){
 				$c = new Contributor(
 							(string)$contributor,
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]')),
@@ -266,7 +266,7 @@ class Ebook{
 		$this->WikipediaUrl = $this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][not(@refines)]'));
 
 		// Next the page scan source URLs.
-		foreach($xml->xpath('/package/metadata/dc:source') as $element){
+		foreach($xml->xpath('/package/metadata/dc:source') ?: [] as $element){
 			if(mb_stripos((string)$element, '//www.gutenberg.org/') !== false){
 				$this->SourceUrls[] = ['source' => SOURCE_PROJECT_GUTENBERG, 'url' => (string)$element];
 			}
@@ -335,8 +335,8 @@ class Ebook{
 		}
 
 		// Remove diacritics and non-alphanumeric characters
-		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', @iconv('UTF-8', 'ASCII//TRANSLIT', $searchString)));
-		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', @iconv('UTF-8', 'ASCII//TRANSLIT', $query)));
+		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', iconv('UTF-8', 'ASCII//TRANSLIT', $searchString) ?: '') ?? '');
+		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', iconv('UTF-8', 'ASCII//TRANSLIT', $query) ?: '') ?? '');
 
 		if($query == ''){
 			return false;
@@ -428,7 +428,7 @@ class Ebook{
 			}
 		}
 
-		return json_encode($output, JSON_PRETTY_PRINT);
+		return json_encode($output, JSON_PRETTY_PRINT) ?: '';
 	}
 
 	private function GenerateContributorJsonLd(Contributor $contributor): stdClass{
@@ -476,7 +476,11 @@ class Ebook{
 		return $string;
 	}
 
-	private function NullIfEmpty(array $elements){ // Can't use type hinting until PHP 7.1 which supports nullable return types
+	private function NullIfEmpty($elements): ?string{
+		if($elements === false){
+			return null;
+		}
+
 		// Helper function when getting values from SimpleXml.
 		// Checks if the result is set, and returns the value if so; if the value is the empty string, return null.
 		if(isset($elements[0])){

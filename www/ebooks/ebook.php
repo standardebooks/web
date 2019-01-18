@@ -153,7 +153,7 @@ catch(\Exception $ex){
 						<? if($source['source'] == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="internet-archive">Page scans at the Internet Archive</a><? } ?>
 						<? if($source['source'] == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="hathitrust">Page scans at HathiTrust</a><? } ?>
 						<? if($source['source'] == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="google">Page scans at Google Books</a><? } ?>
-						<? if($source['source'] == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', $source['url'])) ?></a><? } ?>
+						<? if($source['source'] == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', $source['url']) ?? '') ?></a><? } ?>
 					</p>
 				</li>
 				<? } ?>

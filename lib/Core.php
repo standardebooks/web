@@ -38,7 +38,7 @@ set_exception_handler(function($ex){
 	$errorString = "----------------------------------------\n";
 	$errorString .= trim(vds(array_intersect_key($_SERVER, array('REQUEST_URI' => '', 'QUERY_STRING' => '', 'REQUEST_METHOD' => '', 'REDIRECT_QUERY_STRING' => '', 'REDIRECT_URL' => '', 'SCRIPT_FILENAME' => '', 'REMOTE_ADDR' => '', 'HTTP_COOKIE' => '', 'HTTP_USER_AGENT' => '', 'SCRIPT_URI' => ''))));
 
-	if(isset($_POST) && sizeof($_POST) > 0){
+	if(sizeof($_POST) > 0){
 		$errorString .= "POST DATA:\n";
 		$errorString .= vds($_POST);
 	}

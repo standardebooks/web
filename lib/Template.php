@@ -19,7 +19,7 @@ class Template{
 
 		ob_start();
 		eval(' ?>' . $fileContents . '<? ');
-		$contents = ob_get_contents();
+		$contents = ob_get_contents() ?: '';
 		ob_end_clean();
 
 		return $contents;

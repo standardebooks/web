@@ -1,24 +1,24 @@
 <?
 require_once('Core.php');
 
-try{
-	// Get a semi-random ID to identify this request within the log.
-	$requestId = substr(sha1(time() . rand()), 0, 8);
+// Get a semi-random ID to identify this request within the log.
+$requestId = substr(sha1(time() . rand()), 0, 8);
 
+try{
 	Logger::WriteGithubWebhookLogEntry($requestId, 'Received GitHub webhook.');
 
 	if($_SERVER['REQUEST_METHOD'] != 'POST'){
 		throw new WebhookException('Expected HTTP POST.');
 	}
 
-	$post = file_get_contents('php://input');
+	$post = file_get_contents('php://input') ?: '';
 
 	// Validate the GitHub secret.
 	$splitHash = explode('=', $_SERVER['HTTP_X_HUB_SIGNATURE']);
 	$hashAlgorithm = $splitHash[0];
 	$hash = $splitHash[1];
 
-	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, preg_replace("/[\r\n]/ius", '', file_get_contents(GITHUB_SECRET_FILE_PATH))))){
+	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, preg_replace("/[\r\n]/ius", '', file_get_contents(GITHUB_SECRET_FILE_PATH) ?: '')))){
 		throw new WebhookException('Invalid GitHub webhook secret.', $post);
 	}
 
@@ -65,7 +65,7 @@ try{
 			// Check the local repo's last commit. If it matches this push, then don't do anything; we're already up to date.
 			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1; echo $?'));
 
-			if($lastCommitSha1 === null){
+			if($lastCommitSha1 == ''){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error getting last local commit. Output: ' . $lastCommitSha1);
 				throw new WebhookException('Couldn\'t process ebook.', $post);
 			}

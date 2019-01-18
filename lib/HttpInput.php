@@ -1,6 +1,6 @@
 <?
 class HttpInput{
-	public static function GetString(string $variable, bool $allowEmptyString = true, $default = null){ // Can't type hint return values because it might return null
+	public static function GetString(string $variable, bool $allowEmptyString = true, $default = null): ?string{
 		$var = self::GetHttpVar($variable, HTTP_VAR_STR, GET, $default);
 
 		if(!$allowEmptyString && $var === ''){
@@ -10,15 +10,15 @@ class HttpInput{
 		return $var;
 	}
 
-	public static function GetInt(string $variable, $default = null){ // Can't type hint return values because it might return null
+	public static function GetInt(string $variable, $default = null): ?int{
 		return self::GetHttpVar($variable, HTTP_VAR_INT, GET, $default);
 	}
 
-	public static function GetBool(string $variable, $default = null){ // Can't type hint return values because it might return null
+	public static function GetBool(string $variable, $default = null): ?bool{
 		return self::GetHttpVar($variable, HTTP_VAR_BOOL, GET, $default);
 	}
 
-	public static function GetDec(string $variable, $default = null){ // Can't type hint return values because it might return null
+	public static function GetDec(string $variable, $default = null): ?float{
 		return self::GetHttpVar($variable, HTTP_VAR_DEC, GET, $default);
 	}
 

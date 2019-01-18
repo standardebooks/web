@@ -1,3 +1,9 @@
+<?
+
+if(!isset($ebooks)){
+	$ebooks = [];
+}
+?>
 <ol>
 <? foreach($ebooks as $ebook){ ?>
 	<li>
