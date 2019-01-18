@@ -50,7 +50,7 @@ class Library{
 
 				if(!$success){
 					foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
-						$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename);
+						$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?: '';
 						$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath, $success);
 
 						if(!$success){
@@ -78,7 +78,7 @@ class Library{
 
 			foreach(explode("\n", trim(shell_exec('find ' . escapeshellarg($wwwFilesystemPath) . ' -name "content.opf"') ?? '')) as $filename){
 				try{
-					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename);
+					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?? '';
 					$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath, $success);
 
 					if(!$success){

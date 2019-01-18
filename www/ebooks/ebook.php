@@ -2,7 +2,7 @@
 require_once('Core.php');
 
 try{
-	$urlPath = trim(str_replace('.', '', HttpInput::GetString('url-path')), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
+	$urlPath = trim(str_replace('.', '', HttpInput::GetString('url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
 	$wwwFilesystemPath = SITE_ROOT . '/www/ebooks/' . $urlPath; // Path to the deployed WWW files for this ebook
 
 	if($urlPath == '' || mb_stripos($wwwFilesystemPath, SITE_ROOT . '/www/ebooks/') !== 0){
@@ -145,15 +145,15 @@ catch(\Exception $ex){
 					<p><a href="<?= Formatter::ToPlainText($ebook->WikipediaUrl) ?>" class="wikipedia">This book at Wikipedia</a></p>
 				</li>
 				<? } ?>
-				<? foreach($ebook->SourceUrls as $source){ ?>
+				<? foreach($ebook->Sources as $source){ ?>
 				<li>
 					<p>
-						<? if($source['source'] == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a><? } ?>
-						<? if($source['source'] == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="wikisource">Transcription at Wikisource</a><? } ?>
-						<? if($source['source'] == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="internet-archive">Page scans at the Internet Archive</a><? } ?>
-						<? if($source['source'] == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="hathitrust">Page scans at HathiTrust</a><? } ?>
-						<? if($source['source'] == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="google">Page scans at Google Books</a><? } ?>
-						<? if($source['source'] == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source['url']) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', $source['url']) ?? '') ?></a><? } ?>
+						<? if($source->Type == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a><? } ?>
+						<? if($source->Type == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="wikisource">Transcription at Wikisource</a><? } ?>
+						<? if($source->Type == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="internet-archive">Page scans at the Internet Archive</a><? } ?>
+						<? if($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a><? } ?>
+						<? if($source->Type == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="google">Page scans at Google Books</a><? } ?>
+						<? if($source->Type == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', $source->Url) ?? '') ?></a><? } ?>
 					</p>
 				</li>
 				<? } ?>
@@ -171,7 +171,7 @@ catch(\Exception $ex){
 			<h2>More free ebooks</h2>
 			<ul>
 				<? foreach($carousel as $carouselEbook){ ?>
-				<li><a href="<?= $carouselEbook->Url ?>"><img src="<?= $carouselEbook->CoverImage2xUrl ?>"<? if(false) { ?> srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x"<? } ?> alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText($carouselEbook->Title) ?>" title="<?= Formatter::ToPlainText($carouselEbook->Title) ?>" /></a></li>
+				<li><a href="<?= $carouselEbook->Url ?>"><img src="<?= $carouselEbook->CoverImage2xUrl ?>"<? /* srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x" */ ?> alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText($carouselEbook->Title) ?>" title="<?= Formatter::ToPlainText($carouselEbook->Title) ?>" /></a></li>
 				<? } ?>
 			</ul>
 		</aside>

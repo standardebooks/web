@@ -2,7 +2,7 @@
 require_once('Core.php');
 
 try{
-	$urlPath = trim(str_replace('.', '', HttpInput::GetString('url-path')), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
+	$urlPath = trim(str_replace('.', '', HttpInput::GetString('url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
 	$wwwFilesystemPath = SITE_ROOT . '/www/ebooks/' . $urlPath; // Path to the deployed WWW files for this ebook
 
 	if($urlPath == '' || mb_stripos($wwwFilesystemPath, SITE_ROOT . '/www/ebooks/') !== 0 || !is_dir($wwwFilesystemPath)){

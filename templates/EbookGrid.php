@@ -1,5 +1,4 @@
 <?
-
 if(!isset($ebooks)){
 	$ebooks = [];
 }

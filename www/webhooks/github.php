@@ -18,7 +18,7 @@ try{
 	$hashAlgorithm = $splitHash[0];
 	$hash = $splitHash[1];
 
-	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, preg_replace("/[\r\n]/ius", '', file_get_contents(GITHUB_SECRET_FILE_PATH) ?: '')))){
+	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, preg_replace("/[\r\n]/ius", '', file_get_contents(GITHUB_SECRET_FILE_PATH) ?: '') ?? ''))){
 		throw new WebhookException('Invalid GitHub webhook secret.', $post);
 	}
 
@@ -63,7 +63,7 @@ try{
 			Logger::WriteGithubWebhookLogEntry($requestId, 'Processing ebook "' . $repoName . '" located at "' . $dir . '".');
 
 			// Check the local repo's last commit. If it matches this push, then don't do anything; we're already up to date.
-			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1; echo $?'));
+			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1; echo $?') ?? '');
 
 			if($lastCommitSha1 == ''){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error getting last local commit. Output: ' . $lastCommitSha1);

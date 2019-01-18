@@ -30,7 +30,7 @@ class Ebook{
 	public $ReadingTime;
 	public $GitHubUrl;
 	public $WikipediaUrl;
-	public $SourceUrls = [];
+	public $Sources = [];
 	public $Authors = []; // Array of Contributors
 	public $AuthorsHtml;
 	public $AuthorsUrl; // This is a single URL even if there are multiple authors; for example, /ebooks/karl-marx_friedrich-engels/
@@ -47,7 +47,7 @@ class Ebook{
 		$this->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $this->RepoFilesystemPath) . '.git';
 
 		if(!is_dir($this->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment
-			$this->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $this->RepoFilesystemPath);
+			$this->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $this->RepoFilesystemPath) ?? '';
 		}
 
 		if(!is_dir($wwwFilesystemPath)){
@@ -159,7 +159,10 @@ class Ebook{
 
 		// Figure out authors and contributors.
 		foreach($xml->xpath('/package/metadata/dc:creator') ?: [] as $author){
-			$id = $author->attributes()->id;
+			$id = '';
+			if($author->attributes() !== null){
+				$id = $author->attributes()->id;
+			}
 			$this->Authors[] = new Contributor(	(string)$author,
 								(string)$xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]')[0],
 								$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]')),
@@ -174,7 +177,10 @@ class Ebook{
 		$this->AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1/', $this->Identifier);
 
 		foreach($xml->xpath('/package/metadata/dc:contributor') ?: [] as $contributor){
-			$id = $contributor->attributes()->id;
+			$id = '';
+			if($contributor->attributes() !== null){
+				$id = $contributor->attributes()->id;
+			}
 			foreach($xml->xpath('/package/metadata/meta[@property="role"][@refines="#' . $id . '"]') ?: [] as $role){
 				$c = new Contributor(
 							(string)$contributor,
@@ -267,23 +273,24 @@ class Ebook{
 
 		// Next the page scan source URLs.
 		foreach($xml->xpath('/package/metadata/dc:source') ?: [] as $element){
-			if(mb_stripos((string)$element, '//www.gutenberg.org/') !== false){
-				$this->SourceUrls[] = ['source' => SOURCE_PROJECT_GUTENBERG, 'url' => (string)$element];
+			$e = (string)$element;
+			if(mb_stripos($e, '//www.gutenberg.org/') !== false){
+				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG, $e);
 			}
-			elseif(mb_stripos((string)$element, '//archive.org/') !== false){
-				$this->SourceUrls[] = ['source' => SOURCE_INTERNET_ARCHIVE, 'url' => (string)$element];
+			elseif(mb_stripos($e, '//archive.org/') !== false){
+				$this->Sources[] = new EbookSource(SOURCE_INTERNET_ARCHIVE, $e);
 			}
-			elseif(mb_stripos((string)$element, 'hathitrust.org/') !== false){
-				$this->SourceUrls[] = ['source' => SOURCE_HATHI_TRUST, 'url' => (string)$element];
+			elseif(mb_stripos($e, 'hathitrust.org/') !== false){
+				$this->Sources[] = new EbookSource(SOURCE_HATHI_TRUST, $e);
 			}
-			elseif(mb_stripos((string)$element, 'wikisource.org/') !== false){
-				$this->SourceUrls[] = ['source' => SOURCE_WIKISOURCE, 'url' => (string)$element];
+			elseif(mb_stripos($e, 'wikisource.org/') !== false){
+				$this->Sources[] = new EbookSource(SOURCE_WIKISOURCE, $e);
 			}
-			elseif(mb_stripos((string)$element, 'books.google.com/') !== false){
-				$this->SourceUrls[] = ['source' => SOURCE_GOOGLE_BOOKS, 'url' => (string)$element];
+			elseif(mb_stripos($e, 'books.google.com/') !== false){
+				$this->Sources[] = new EbookSource(SOURCE_GOOGLE_BOOKS, $e);
 			}
 			else{
-				$otherUrls[] = [SOURCE_OTHER, (string)$element];
+				$this->Sources[] = new EbookSource(SOURCE_OTHER, $e);
 			}
 		}
 

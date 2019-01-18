@@ -5,6 +5,8 @@ try{
 	$page = HttpInput::GetInt('page') ?? 1;
 	$query = HttpInput::GetString('query', false);
 	$sort = HttpInput::GetString('sort', false) ?? SORT_NEWEST;
+	$pages = 0;
+	$totalEbooks = 0;
 
 	if($page <= 0){
 		$page = 1;
@@ -14,11 +16,7 @@ try{
 		$sort = SORT_NEWEST;
 	}
 
-	if($query !== null){
-		$ebooks = Library::Search($query);
-		$pageDescription = 'Search results';
-	}
-	else{
+	if($query === null){
 		$ebooks = Library::GetEbooks($sort);
 
 		$pages = ceil(sizeof($ebooks) / EBOOKS_PER_PAGE);
@@ -36,6 +34,10 @@ try{
 				$pageDescription .= 'alphabetically by author name.';
 				break;
 		}
+	}
+	else{
+		$ebooks = Library::Search($query);
+		$pageDescription = 'Search results';
 	}
 
 	$pageTitle = 'Browse Standard Ebooks';

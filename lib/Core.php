@@ -27,7 +27,7 @@ function vds($var){
 
 spl_autoload_register(function($class){
 	try{
-		include_once($class . '.php');
+		include($class . '.php');
 	}
 	catch(\Exception $ex){
 	}
