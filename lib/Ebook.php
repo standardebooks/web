@@ -148,7 +148,7 @@ class Ebook{
 		$this->Timestamp = new \DateTime((string)$xml->xpath('/package/metadata/dc:date')[0]);
 
 		// Get SE tags
-		foreach($xml->xpath('/package/metadata/meta[@property="meta-auth"]') ?: [] as $tag){
+		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
 			$this->Tags[] = (string)$tag;
 		}
 
@@ -335,6 +335,7 @@ class Ebook{
 		}
 
 		// Remove diacritics and non-alphanumeric characters
+		$searchString = str_replace(['‘,', '’'], '', $searchString);
 		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', iconv('UTF-8', 'ASCII//TRANSLIT', $searchString) ?: '') ?? '');
 		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', iconv('UTF-8', 'ASCII//TRANSLIT', $query) ?: '') ?? '');
 

@@ -1,14 +1,15 @@
 <?
 class Formatter{
 	public static function MakeUrlSafe(string $text): string{
+		// Remove apostrophes
+		// We have to do this first so iconv doesn't choke
+		$text = str_replace(['\'', '‘,', '’'], '', $text);
+
 		// Remove accent characters
 		$text = iconv('UTF-8', 'ASCII//TRANSLIT', $text) ?: '';
 
 		// Trim and convert to lowercase
 		$text = mb_strtolower(trim($text));
-
-		// Remove apostrophes
-		$text = preg_replace("/['’]/ius", '', $text) ?: '';
 
 		// Then convert any non-digit, non-letter character to a space
 		$text = preg_replace('/[^0-9a-zA-Z]/ius', ' ', $text) ?: '';
