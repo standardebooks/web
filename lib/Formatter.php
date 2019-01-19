@@ -1,12 +1,19 @@
 <?
 class Formatter{
-	public static function MakeUrlSafe(string $text): string{
-		// Remove apostrophes
-		// We have to do this first so iconv doesn't choke
-		$text = str_replace(['\'', '‘,', '’'], '', $text);
+	public static function RemoveDiacritics(string $text): string{
+		if(!isset($GLOBALS['transliterator'])){
+			$GLOBALS['transliterator'] = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
+		}
 
+		return $GLOBALS['transliterator']->transliterate($text);
+	}
+
+	public static function MakeUrlSafe(string $text): string{
 		// Remove accent characters
-		$text = iconv('UTF-8', 'ASCII//TRANSLIT', $text) ?: '';
+		$text = self::RemoveDiacritics($text);
+
+		// Remove apostrophes
+		$text = str_replace('\'', '', $text);
 
 		// Trim and convert to lowercase
 		$text = mb_strtolower(trim($text));

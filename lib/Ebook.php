@@ -342,9 +342,8 @@ class Ebook{
 		}
 
 		// Remove diacritics and non-alphanumeric characters
-		$searchString = str_replace(['‘,', '’'], '', $searchString);
-		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', iconv('UTF-8', 'ASCII//TRANSLIT', $searchString) ?: '') ?? '');
-		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', iconv('UTF-8', 'ASCII//TRANSLIT', $query) ?: '') ?? '');
+		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($searchString)) ?? '');
+		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)) ?? '');
 
 		if($query == ''){
 			return false;
