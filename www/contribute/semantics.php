@@ -287,7 +287,7 @@ font-weight: normal;
 			<p>Endnotes must be numbers that are sequential throughout the entire text.  Since many books just used “*” to denote a footnote, when converting to endnotes we have to assign those a number.</p>
 			<h3>Linking to endnotes</h3>
 			<p>In the body text, you refer to an endnote using this pattern:</p>
-			<code class="html full">&lt;p&gt;This is some text followed by a reference to an endnote.&lt;a href="../text/endnotes.xhtml#note-1" id="noteref-1" epub:type="noteref"&gt;1&lt;/a&gt;&lt;/p&gt;</code>
+			<code class="html full">&lt;p&gt;This is some text followed by a reference to an endnote.&lt;a href="endnotes.xhtml#note-1" id="noteref-1" epub:type="noteref"&gt;1&lt;/a&gt;&lt;/p&gt;</code>
 			<ul>
 			<li><p>The <code class="html">id</code> attribute is always “noteref-N” where N is the number of the endnote.</p></li>
 			<li><p>The <code class="html">epub:type</code> attribute is set to “noteref”.</p></li>
@@ -308,10 +308,10 @@ font-weight: normal;
 		&lt;ol&gt;
 			&lt;li id="note-1" epub:type="rearnote"&gt;
 				&lt;p&gt;The first endnote goes here.&lt;/p&gt;
-				&lt;p&gt;Here's another line for the first endnote. &lt;a href="../text/chapter-1.xhtml#noteref-1" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
+				&lt;p&gt;Here's another line for the first endnote. &lt;a href="chapter-1.xhtml#noteref-1" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
 			&lt;/li&gt;
 			&lt;li id="note-2" epub:type="rearnote"&gt;
-				&lt;p&gt;The second endnote goes here. &lt;a href="../text/chapter-1.xhtml#noteref-2" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
+				&lt;p&gt;The second endnote goes here. &lt;a href="chapter-1.xhtml#noteref-2" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
 			&lt;/li&gt;
 		&lt;/ol&gt;
 	&lt;/section&gt;
@@ -330,7 +330,7 @@ font-weight: normal;
 
 			<li><p>If an endnote contains a citation offset with a dash (for example, “&mdash;Ed.”), separate the citation from the text with a single space and enclose it in the <code class="html">&lt;cite&gt;</code> tag:</p>
 			<code class="html full">&lt;li id="note-1" epub:type="rearnote"&gt;
-&lt;p&gt;Here’s an endnote. &lt;cite&gt;&mdash;&lt;abbr class="eoc"&gt;Ed.&lt;/abbr&gt;&lt;/cite&gt; &lt;a href="../text/chapter-1.xhtml#note-1" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here’s an endnote. &lt;cite&gt;&mdash;&lt;abbr class="eoc"&gt;Ed.&lt;/abbr&gt;&lt;/cite&gt; &lt;a href="chapter-1.xhtml#note-1" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;</code>
 			</li>
 
@@ -744,7 +744,7 @@ font-style: italic;
 			&lt;h2 epub:type="title"&gt;List of Illustrations&lt;/h2&gt;
 			&lt;ol&gt;
 				&lt;li&gt;
-					&lt;a href="../text/preface.xhtml#the-edge-of-the-world"&gt;The Edge of the World&lt;/a&gt;
+					&lt;a href="preface.xhtml#the-edge-of-the-world"&gt;The Edge of the World&lt;/a&gt;
 				&lt;/li&gt;
 
 				&lt;!--snip all the way to the end--&gt;
