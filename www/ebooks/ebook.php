@@ -120,7 +120,7 @@ catch(\Exception $ex){
 			<ol>
 				<? foreach($ebook->GitCommits as $commit){ ?>
 				<li>
-					<time datetime="<?= $commit->Timestamp->format(DateTime::RFC3339) ?>"><?= $commit->Timestamp->format('Y-m-d') ?></time>
+					<time datetime="<?= $commit->Timestamp->format(DateTime::RFC3339) ?>"><?= $commit->Timestamp->format('M j, Y') ?></time>
 					<p><?= Formatter::ToPlainText($commit->Message) ?></p>
 				</li>
 				<? } ?>
