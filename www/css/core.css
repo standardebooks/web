@@ -180,7 +180,7 @@ body > header{
 	display: flex;
 	justify-content: space-around;
 	border-bottom: 1px solid #222;
-	padding: 2rem 0;
+	padding: 1.5rem 0;
 	box-shadow: 0 0 8px rgba(0, 0, 0, 1);
 	position: relative;
 	width: calc(100% + 2rem + 2rem);
@@ -370,7 +370,7 @@ main.front-page > section > section:first-of-type{
 }
 
 main.front-page > section > section + section{
-	margin-top: 8rem;
+	margin-top: 6rem;
 }
 
 main.front-page > img{
@@ -538,6 +538,7 @@ article.ebook #history li{
 article.ebook #history li time,
 article.ebook #history li p{
 	display: table-cell;
+	width: auto;
 }
 
 article.ebook #history li + li > *{
