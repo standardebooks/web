@@ -51,9 +51,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/20988">Islands of Space</a> by John W. Campbell Jr.</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/25438">The Airlords of Han</a> by Philip Francis Nowlan</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans</p>
 			</li>
 			<li>
