@@ -436,6 +436,9 @@ require_once('Core.php');
 				<li>
 					<p><a href="https://www.artic.edu/collection?q=test&is_public_domain=1">Art Institute of Chicago</a> (CC0 items say CC0 in the lower left of the painting in the art detail page)</p>
 				</li>
+				<li>
+					<p><a href="http://www.clevelandart.org/art/collection/search?only-open-access=1&filter-type=Painting">Cleveland Museum of Art</a> (CC0 items have the CC0 logo near the download button.)</p>
+				</li>
 			</ul>
 			<h2>Cover image step-by-step</h2>
 			<ol>
