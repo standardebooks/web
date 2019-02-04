@@ -62,24 +62,24 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42914">Gladiator</a> by Philip Wylie</p>
 			</li>
-			<li>
+		<!-- 	<li>
 				<p><a href="https://www.gutenberg.org/ebooks/5827">The Problems of Philosophy</a> by Bertrand Russell</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/25024">Night of the Long Knives</a> by Fritz Leiber</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/222">The Moon and Sixpence</a> by W. Somerset Maugham</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/479">Little Lord Fauntleroy</a> by Frances Hodgson Burnett</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="http://classics.mit.edu/Caesar/gallic.html">The Gallic Wars</a> by Julius Caesar</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
 			</li>
