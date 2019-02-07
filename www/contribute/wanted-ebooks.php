@@ -62,7 +62,7 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42914">Gladiator</a> by Philip Wylie</p>
 			</li>
-		<!-- 	<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/5827">The Problems of Philosophy</a> by Bertrand Russell</p>
 			</li> -->
 			<li>
@@ -80,15 +80,15 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="http://classics.mit.edu/Caesar/gallic.html">The Gallic Wars</a> by Julius Caesar</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
-			</li>
-			<!--<li>
+			</li> -->
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4517">Ethan Frome</a> by Edith Wharton</p>
-			</li>-->
-			<!--<li>
+			</li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford: <a href="https://github.com/bburns/william-beckford_vathek">In progress by bburns</a></p>
-			</li>-->
+			</li> -->
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
@@ -185,9 +185,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/1265">Queen Victoria</a> by Lytton Strachey</p>
 			</li>
-			<!--<li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing</p>
-			</li>-->
+			</li>
 			<li><p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p></li>
 			<li><p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by DH Lawrence</p></li>
 			<li><p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p></li>
