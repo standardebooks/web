@@ -726,7 +726,7 @@ font-style: italic;
 		<section id="loi">
 			<h2>List of Illustrations (the LoI)</h2>
 			<p>If an ebook has any illustrations that are major structural components of the work (even just one!), then we must include an <code class="path">loi.xhtml</code> file at the end of the ebook.  This file lists the illustrations in the ebook, along with a short caption or description.</p>
-			<p>An illustration is a major strucutral component if, for example: it is an illustration of events in the book, like a full-page drawing or end-of-chapter decoration; it is essential to the plot, like a diagram of a murder scene or a map; or it is a component of the text, like photographs in a documentary narrative.</p>
+			<p>An illustration is a major structural component if, for example: it is an illustration of events in the book, like a full-page drawing or end-of-chapter decoration; it is essential to the plot, like a diagram of a murder scene or a map; or it is a component of the text, like photographs in a documentary narrative.</p>
 			<p>Illustration that are <em>not</em> major structural components would be, for example: drawings used to represent a person's signature, like an X mark; inline drawings representing text in alien languages; drawings used as layout elements to illustrate diagrams.</p>
 			<p>If the image has a <code class="html">&lt;figcaption&gt;</code> element, then use that caption in the LoI.  If not, use the image’s <code class="html">alt</code> tag, which should be a short prose description of the image used by screen readers.</p>
 			<p>Links to the images should go directly to their IDs, not just the top of the containing file.</p>
