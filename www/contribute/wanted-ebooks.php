@@ -205,6 +205,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://archive.org/details/nunensign00erauuoft">The Nun Ensign</a> by Catalina de Erauso (transcription required)</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/23700">The Decameron</a> by Giovanni Boccaccio</p>
 			</li>
 			<li>
