@@ -5,17 +5,21 @@ require_once('Core.php');
 	<article id="producing-an-ebook">
 		<h1>Producing an Ebook, Step by Step</h1>
 		<aside class="alert">
-			<p>Our tools are GNU/Linux-based, and producing an ebook from scratch currently requires working knowledge of the epub file format and of Unix-like systems like Mac or Linux.</p>
+			<p>Our toolset is GNU/Linux-based, and producing an ebook from scratch currently requires working knowledge of the epub file format and of Unix-like systems like Mac or Linux.</p>
 			<p>Our toolset doesn’t yet work natively on Windows, but there are <a href="https://www.howtogeek.com/170870/5-ways-to-run-linux-software-on-windows/">many ways to run Linux from within Windows</a>.</p>
 			<p>If you don’t have this kind of technical expertise, you can still contribute! <a href="/contribute/">Check out our contributors page for details.</a></p>
 		</aside>
 		<p>This guide is meant to take you step-by-step through the creation of a complete Standard Ebook. While it might seem a little long, most of the text is a description of how to use various automated scripts. It can take just an hour or two for an experienced producer to produce a draft ebook for proofreading (depending on the complexity of the ebook, of course).</p>
 		<ol class="full">
 			<li>
-				<h2>Download and set up the Standard Ebooks production tools</h2>
-				<p>The Standard Ebooks project has a series of tools that will help you produce an ebook. You can <a href="https://github.com/standardebooks/tools">download them at Github</a>:</p><code class="terminal"><span>cd ~/</span> <span>git clone https://github.com/standardebooks/tools.git</span></code>
-				<p>Check the <code class="path">README.md</code> file for instructions on how to install the few dependencies the tools require.</p>
-				<p>We’ll assume you’ve installed the SE tools to <code class="path">~/tools/</code>.</p>
+				<h2>Download and set up the Standard Ebooks production toolset</h2>
+				<p>The Standard Ebooks project has a toolset that will help you produce an ebook. <a href="https://github.com/standardebooks/tools">Read how to install them here.</a></p>
+				<p>Make sure you take a moment to put the <code class="program">se</code> executable that’s installed with the toolset on your shell’s <code class="path">$PATH</code>. How to do that varies depending on what shell you’re using.</p>
+			</li>
+			<li>
+				<h2>Make sure the toolset is up-to-date</h2>
+				<p>The toolset changes frequently. If this isn’t your first ebook production, always make sure to update the toolset before you start a new ebook, so that you’re working with the latest version of the tools.</p>
+				<code class="terminal"><span>pip3 install --upgrade standardebooks</span></code>
 			</li>
 			<li>
 				<h2>Select an ebook to produce</h2>
@@ -62,17 +66,17 @@ require_once('Core.php');
 			<li>
 				<h2>Create a Standard Ebooks epub skeleton</h2>
 				<p>An epub file is just a bunch of files arranged in a particular folder structure, then all zipped up. That means editing an epub file is as easy as editing a bunch of text files within a certain folder structure, then creating a zip file out of that folder.</p>
-				<p>You can’t just arrange files willy-nilly, though—the epub standard expects certain files in certain places. So once you’ve picked a book to produce, create the basic epub skeleton in a working directory. The <code class="program">create-draft</code> tool will create a basic Standard Ebooks epub folder structure, initialize a <code class="program">git</code> repository within it, and prefill a few fields in <code class="path">content.opf</code> (the file that contains the ebook’s metadata).</p>
+				<p>You can’t just arrange files willy-nilly, though—the epub standard expects certain files in certain places. So once you’ve picked a book to produce, create the basic epub skeleton in a working directory. <code class="program">se create-draft</code> will create a basic Standard Ebooks epub folder structure, initialize a <code class="program">git</code> repository within it, and prefill a few fields in <code class="path">content.opf</code> (the file that contains the ebook’s metadata).</p>
 				<ol>
 					<li>
 						<h3>With the <code class="program">--gutenberg-ebook-url</code> option</h3>
-						<p>You can pass the <code class="program">create-draft</code> tool the URL for the Project Gutenberg ebook, and the tool will try to download the ebook into <code class="path">./src/epub/text/body.xhtml</code> and prefill a lot of metadata for you:</p><code class="terminal"><span>~/tools/create-draft --author="Robert Louis Stevenson" --title="The Strange Case of Dr. Jekyll and Mr. Hyde" --gutenberg-ebook-url="https://www.gutenberg.org/ebooks/43"</span> <span>cd robert-louis-stevenson_the-strange-case-of-dr-jekyll-and-mr-hyde/</span></code>
-						<p>Because Project Gutenberg ebooks are produced in different ways by different people, <code class="program">create-draft</code> has to make some guesses and it might guess wrong. Make sure to carefully review the data it prefills into <code class="path">./src/epub/text/body.xhtml</code>, <code class="path">./src/epub/text/colophon.xhtml</code>, and <code class="path">./src/epub/content.opf</code>.</p>
+						<p>You can pass <code class="program">se create-draft</code> the URL for the Project Gutenberg ebook, and it’ll try to download the ebook into <code class="path">./src/epub/text/body.xhtml</code> and prefill a lot of metadata for you:</p><code class="terminal"><span>se create-draft --author="Robert Louis Stevenson" --title="The Strange Case of Dr. Jekyll and Mr. Hyde" --gutenberg-ebook-url="https://www.gutenberg.org/ebooks/43"</span> <span>cd robert-louis-stevenson_the-strange-case-of-dr-jekyll-and-mr-hyde/</span></code>
+						<p>Because Project Gutenberg ebooks are produced in different ways by different people, <code class="program">se create-draft</code> has to make some guesses and it might guess wrong. Make sure to carefully review the data it prefills into <code class="path">./src/epub/text/body.xhtml</code>, <code class="path">./src/epub/text/colophon.xhtml</code>, and <code class="path">./src/epub/content.opf</code>.</p>
 						<p>In particular, make sure that the Project Gutenberg license is stripped from <code class="path">./src/epub/text/body.xhtml</code>, and that the original transcribers in <code class="path">./src/epub/text/colophon.xhtml</code> and <code class="path">./src/epub/content.opf</code> are presented correctly.</p>
 					</li>
 					<li>
 						<h3>Without the <code class="program">--gutenberg-ebook-url</code> option</h3>
-						<p>If you prefer to do things by hand, that’s an option too.</p><code class="terminal"><span>~/tools/create-draft --author="Robert Louis Stevenson" --title="The Strange Case of Dr. Jekyll and Mr. Hyde"</span> <span>cd robert-louis-stevenson_the-strange-case-of-dr-jekyll-and-mr-hyde/</span></code>
+						<p>If you prefer to do things by hand, that’s an option too.</p><code class="terminal"><span>se create-draft --author="Robert Louis Stevenson" --title="The Strange Case of Dr. Jekyll and Mr. Hyde"</span> <span>cd robert-louis-stevenson_the-strange-case-of-dr-jekyll-and-mr-hyde/</span></code>
 						<p>Now that we have the skeleton up, we’ll download Gutenberg’s HTML file for <i>Jekyll</i> directly into <code class="path">text/</code> folder and name it <code class="path">body.xhtml</code>.</p><code class="terminal"><span>wget -O src/epub/text/body.xhtml https://www.gutenberg.org/files/43/43-h/43-h.htm</span></code>
 						<p>Many Gutenberg books were produced before UTF-8 became a standard, so we may have to convert to UTF-8 before we start work. First, check the encoding of the file we just downloaded. (Mac OS users, try <code class="program">file -I</code>.)</p><code class="terminal"><span>file -bi src/epub/text/body.xhtml</span></code>
 						<p>The output is <code class="program">text/html; charset=iso-8859-1</code>. That’s the wrong encoding!</p>
@@ -97,7 +101,7 @@ require_once('Core.php');
 						<p>This edition of <i>Jekyll</i> includes a table of contents; remove that too. Standard Ebooks uses the <abbr class="initialism">ToC</abbr> generated by the ereader, and doesn’t include one in the readable text.</p>
 					</li>
 					<li>
-						<p>Remove any footer text and markup after the public domain text ends. This includes the Gutenberg license—but don’t worry, we’ll credit Gutenberg in the colophon and metadata later. If you used the <code class="program">--gutenberg-ebook-url</code> option with the <code class="program">create-draft</code> tool, then it may have already stripped the license for you, and included some Gutenberg metadata already.</p>
+						<p>Remove any footer text and markup after the public domain text ends. This includes the Gutenberg license—but don’t worry, we’ll credit Gutenberg in the colophon and metadata later. If you invoked <code class="program">se create-draft</code> with the <code class="program">--gutenberg-ebook-url</code> option, then it may have already stripped the license for you and included some Gutenberg metadata.</p>
 					</li>
 				</ul>
 				<p>Now our source file looks something like this:</p>
@@ -110,19 +114,19 @@ require_once('Core.php');
 				<h2>Split the source text at logical divisions</h2>
 				<p>The file we downloaded contains the entire work. <i>Jekyll</i> is a short work, but for longer work it quickly becomes impractical to have the entire text in one file. Not only is it a pain to edit, but ereaders often have trouble with extremely large files.</p>
 				<p>The next step is to split the file at logical places; that usually means at each chapter break. For works that are contain their chapters in larger “parts,” the part division should also be its own file. For example, see <i><a href="/ebooks/robert-louis-stevenson/treasure-island/milo-winter">Treasure Island</a></i>.</p>
-				<p>To split the work, we use the <code class="program">split-file</code> tool. <code class="program">split-file</code> takes a single file and breaks it in to a new file every time it encounters the markup <code class="html">&lt;!--se:split--&gt;</code>. The tool automatically includes basic header and footer markup in each split file.</p>
+				<p>To split the work, we use <code class="program">se split-file</code>. <code class="program">se split-file</code> takes a single file and breaks it in to a new file every time it encounters the markup <code class="html">&lt;!--se:split--&gt;</code>. <code class="program">se split-file</code> automatically includes basic header and footer markup in each split file.</p>
 				<p>Notice that in our source file, each chapter is marked with an <code class="html">h2</code> tag. We can use that to our advantage and save ourselves the trouble of adding the <code class="html">&lt;!--se:split--&gt;</code> markup by hand:</p><code class="terminal"><span>perl -pi -e "s/&lt;h2/&lt;\!--se:split--&gt;&lt;h2/g" src/epub/text/body.xhtml</span></code>
 				<p>(Note the slash before the ! for compatibility with some shells.)</p>
-				<p>Now that we’ve added our markers, we split the file. <code class="program">split-file</code> puts the results in our current directory and conveniently names them by chapter number.</p><code class="terminal"><span>~/tools/split-file src/epub/text/body.xhtml</span> <span>mv chapter* src/epub/text/</span></code>
+				<p>Now that we’ve added our markers, we split the file. <code class="program">se split-file</code> puts the results in our current directory and conveniently names them by chapter number.</p><code class="terminal"><span>se split-file src/epub/text/body.xhtml</span> <span>mv chapter* src/epub/text/</span></code>
 				<p>Once we’re happy that the source file has been split correctly, we can remove it.</p><code class="terminal"><span>rm src/epub/text/body.xhtml</span></code>
 			</li>
 			<li>
 				<h2>Clean up the source text</h2>
 				<p>If you open up any of the chapter files we now have in the <code class="path">src/epub/text/</code> folder, you’ll notice that the code isn’t very clean. Paragraphs are split over multiple lines, indentation is all wrong, and so on.</p>
 				<p>If you try opening a chapter in a web browser, you’ll also likely get an error if the chapter includes any HTML entities, like <code class="html">&amp;mdash;</code>. This is because Gutenberg uses plain HTML, which allows entities, but epub uses XHTML, which doesn’t.</p>
-				<p>We can fix all of this pretty quickly using the <code class="program">clean</code> tool. <code class="program">clean</code> accepts as its argument the root of a Standard Ebook directory, and with the <code class="program">--single-lines</code> option it’ll remove the hard line wrapping that Gutenberg is fond of. We’re already in the root, so we pass it <code class="path">.</code>.</p><code class="terminal"><span>~/tools/clean --single-lines .</span></code>
+				<p>We can fix all of this pretty quickly using <code class="program">se clean</code>. <code class="program">se clean</code> accepts as its argument the root of a Standard Ebook directory, and with the <code class="program">--single-lines</code> option it’ll remove the hard line wrapping that Gutenberg is fond of. We’re already in the root, so we pass it <code class="path">.</code>.</p><code class="terminal"><span>se clean --single-lines .</span></code>
 				<p>Things look much better now, but we’re not perfect yet. If you open a chapter you’ll notice that the <code class="html">&lt;p&gt;</code> and <code class="html">&lt;h2&gt;</code> tags have a space between the tag and the text. We can clean that up with a few <code class="program">perl</code> commands.</p><code class="terminal"><span>perl -pi -e "s/&lt;(p|h2)&gt;\s+/&lt;\1&gt;/g" src/epub/text/chapter*</span> <span>perl -pi -e "s/\s+&lt;\/(p|h2)&gt;/&lt;\/\1&gt;/g" src/epub/text/chapter*</span></code>
-				<p>Finally, we have to do a quick runthrough of each file by hand to cut out any lingering Gutenberg markup that doesn’t belong. In <i>Jekyll</i>, notice that each chapter ends with some extra empty <code class="html">div</code>s and <code class="html">p</code>s. These were used by the original transcriber to put spaces between the chapters, and they’re not necessary anymore, so remove them before continuing.</p>
+				<p>Finally, we have to do a quick runthrough of each file by hand to cut out any lingering Gutenberg markup that doesn’t belong. In <i>Jekyll</i>, notice that each chapter ends with some extra empty <code class="html">&lt;div&gt;</code>s and <code class="html">&lt;p&gt;</code>s. These were used by the original transcriber to put spaces between the chapters, and they’re not necessary anymore, so remove them before continuing.</p>
 				<p>Now our chapter 1 source looks like this:</p>
 				<code class="html full">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: http://standardebooks.org/vocab/1.0" xml:lang="en-US"&gt;
@@ -145,9 +149,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Typogrify the source text and perform the second commit</h2>
-				<p>Now that we have a clean starting point, we can start getting the <em>real</em> work done. The <code class="program">typogrify</code> tool can do a lot of the heavy lifting necessary to bring an ebook up to Standard Ebooks typography standards.</p>
-				<p>Like <code class="program">clean</code>, <code class="program">typogrify</code> accepts as its argument the root of a Standard Ebook directory.</p><code class="terminal"><span>~/tools/typogrify .</span></code>
-				<p>Among other things, <code class="program">typogrify</code> does the following:</p>
+				<p>Now that we have a clean starting point, we can start getting the <em>real</em> work done. <code class="program">se typogrify</code> can do a lot of the heavy lifting necessary to bring an ebook up to Standard Ebooks typography standards.</p>
+				<p>Like <code class="program">se clean</code>, <code class="program">se typogrify</code> accepts as its argument the root of a Standard Ebook directory.</p><code class="terminal"><span>se typogrify .</span></code>
+				<p>Among other things, <code class="program">se typogrify</code> does the following:</p>
 				<ul>
 					<li>
 						<p>Converts straight quotes to curly quotes;</p>
@@ -162,11 +166,11 @@ require_once('Core.php');
 						<p>Normalizes spacing in em-, en-, and double-em-dashes, as well as between nested quotation marks, and adds word joiners.</p>
 					</li>
 				</ul>
-				<p>You can run <code class="program">typogrify</code> as many times as you want on a source directory; it should always produce the same result, regardless of what state the source directory was in when you ran it.</p>
-				<p>While <code class="program">typogrify</code> does a lot of work for you, each ebook is totally different so there’s almost always more work to do that can only be done by hand. In <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The SE standard requires chapter titles to be in title case, and the <code class="program">titlecase</code> tool can do that for us.</p>
-				<p><code class="program">titlecase</code> accepts a string as its argument, and outputs the string in title case. Many text editors allow you to configure external macros—perfect for creating a keyboard shortcut to run <code class="program">titlecase</code> on selected text.</p>
+				<p>You can run <code class="program">se typogrify</code> as many times as you want on a source directory; it should always produce the same result, regardless of what state the source directory was in when you ran it.</p>
+				<p>While <code class="program">se typogrify</code> does a lot of work for you, each ebook is totally different so there’s almost always more work to do that can only be done by hand. In <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The SE standard requires chapter titles to be in title case, and <code class="program">se titlecase</code> can do that for us.</p>
+				<p><code class="program">se titlecase</code> accepts a string as its argument, and outputs the string in title case. Many text editors allow you to configure external macros—perfect for creating a keyboard shortcut to run <code class="program">se titlecase</code> on selected text.</p>
 				<h3>Typography checklist</h3>
-				<p>There are many things that <code class="program">typogrify</code> isn’t well suited to do automatically. Check <a href="/contribute/typography">our complete typography manual</a> to see exactly how to format the work. Below is a brief, but incomplete, list of common issues that arise in ebooks:</p>
+				<p>There are many things that <code class="program">se typogrify</code> isn’t well suited to do automatically. Check <a href="/contribute/typography">our complete typography manual</a> to see exactly how to format the work. Below is a brief, but incomplete, list of common issues that arise in ebooks:</p>
 				<ul>
 					<li>
 						<p><a href="/contribute/typography#coordinates">Typography rules for coordinates</a>. Use the prime and double prime glyphs for coordinates. These regexes helps match and replace coordinates: <code class="regex">|([0-9])+’|\1′|g</code>, <code class="regex">|([0-9])+”|\1″|g</code></p>
@@ -178,7 +182,7 @@ require_once('Core.php');
 						<p><a href="/contribute/typography#text-in-all-caps">Typography rules for text in all caps</a>. Text in all caps is almost never correct, and should either be converted to lowercase with the <code class="html">&lt;em&gt;</code> tag (for spoken emphasis), <code class="html">&lt;strong&gt;</code> (for extreme spoken emphasis), or <code class="html">&lt;b&gt;</code> (for unsemantic small caps, like in storefront signs). This case-sensitive regex helps find candidates: <code class="regex">(?&lt;!en-)[A-Z]{2,}(?!")</code></p>
 					</li>
 					<li>
-						<p>Sometimes <code class="program">typogrify</code> doesn’t close quotation marks near em-dashes correctly. Try to find such instances with this regex: <code class="regex">—[’”][^&lt;\s]</code></p>
+						<p>Sometimes <code class="program">se typogrify</code> doesn’t close quotation marks near em-dashes correctly. Try to find such instances with this regex: <code class="regex">—[’”][^&lt;\s]</code></p>
 					</li>
 					<li>
 						<p><a href="/contribute/typography#dashes">Two-em dashes should be used for elision</a>.</p>
@@ -188,25 +192,26 @@ require_once('Core.php');
 					</li>
 				</ul>
 				<h3>The second commit</h3>
-				<p>Once you’ve run <code class="program">typogrify</code> and you’ve searched the work for the common issues above, you can perform your second commit.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Typogrify"</span></code>
+				<p>Once you’ve run <code class="program">se typogrify</code> and you’ve searched the work for the common issues above, you can perform your second commit.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Typogrify"</span></code>
 			</li>
 			<li>
 				<h2>Convert footnotes to endnotes and add a list of illustrations</h2>
 				<p>Works often include footnotes, either added by an annotator or as part of the work itself. Since ebooks don’t have a concept of a “page,” there’s no place for footnotes to go. Instead, we convert footnotes to a single endnotes file, which will provide popup references in the final epub.</p>
 				<p>The endnotes file and the format for endnote links are <a href="/contribute/semantics#endnotes">standardized in the semantics manual</a>.</p>
+				<p>If you find that you accidentally mis-ordered an endnote, never fear! <code class="program">se reorder-endnotes</code> will allow you to quickly rearrange endnotes in your ebook.</p>
 				<p>If a work has illustrations besides the cover and title pages, we include a “list of illustrations” at the end of the book, after the endnotes but before the colophon. The <abbr class="initialism">LoI</abbr> file is also <a href="/contribute/semantics#loi">standardized in the semantics manual</a>.</p>
 				<p><i>Jekyll</i> doesn’t have any footnotes, endnotes, or illustrations, so we skip this step.</p>
 			</li>
 			<li>
 				<h2>Converting British quotation to American quotation</h2>
 				<p>If the work you’re producing uses <a href="http://www.thepunctuationguide.com/british-versus-american-style.html">British quotation style</a> (single quotes for dialog versus double quotes in American), we have to convert it to American style. We use American style in part because it’s easier to programmatically convert from American to British than it is to convert the other way around. <em>Skip this step if your work is already in American style.</em></p>
-				<p>Standard Ebooks has a tool called <code class="program">british2american</code> that helps with the conversion. Your work must already be typogrified (the previous step in this guide) for the script to work.</p><code class="terminal"><span>~/tools/british2american .</span></code>
-				<p>While <code class="program">british2american</code> tries its best, thanks to the quirkiness of English punctuation rules it’ll invariably mess some stuff up. Proofreading is required after running the conversion.</p>
+				<p><code class="program">se british2american</code> attempts to automate the conversion. Your work must already be typogrified (the previous step in this guide) for the script to work.</p><code class="terminal"><span>se british2american .</span></code>
+				<p>While <code class="program">se british2american</code> tries its best, thanks to the quirkiness of English punctuation rules it’ll invariably mess some stuff up. Proofreading is required after running the conversion.</p>
 				<p>After you’ve run the conversion, do another commit.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Convert from British-style quotation to American style"</span></code>
 			</li>
 			<li>
 				<h2>Add semantics</h2>
-				<p>Part of the Standard Ebooks project is adding meaningful semantics wherever possible in the text. The <code class="program">semanticate</code> tool does a little of that for us—for example, for some common abbreviations—but much of it has to be done by hand.</p>
+				<p>Part of the Standard Ebooks project is adding meaningful semantics wherever possible in the text. <code class="program">se semanticate</code> does a little of that for us—for example, for some common abbreviations—but much of it has to be done by hand.</p>
 				<p>Adding semantics means two things:</p>
 				<ol>
 					<li>
@@ -217,8 +222,8 @@ require_once('Core.php');
 						<p>Currently we use a mix of <a href="http://www.idpf.org/epub/vocab/structure/">epub3 structural semantics</a>, <a href="http://www.daisy.org/z3998/2012/vocab/structure/">z3998 structural semantics</a> for when the epub3 vocabulary isn’t enough, and our own <a href="/vocab/1.0">SE semantics</a> for when z3998 isn’t enough.</p>
 					</li>
 				</ol>
-				<p>Use the <code class="program">semanticate</code> tool to do some common cases for you:</p><code class="terminal"><span>~/tools/semanticate .</span></code>
-				<p><code class="program">semanticate</code> tries its best to correctly add semantics, but sometimes it’s wrong. For that reason you should review the changes it made before accepting them:</p><code class="terminal"><span>git difftool</span></code>
+				<p>Use <code class="program">se semanticate</code> to do some common cases for you:</p><code class="terminal"><span>se semanticate .</span></code>
+				<p><code class="program">se semanticate</code> tries its best to correctly add semantics, but sometimes it’s wrong. For that reason you should review the changes it made before accepting them:</p><code class="terminal"><span>git difftool</span></code>
 				<p>Beyond that, adding semantics is mostly a by-hand process. See our <a href="/contribute/semantics">semantics manual</a> for a detailed list of the kinds of semantics we expect in a Standard Ebook.</p>
 				<p>Here’s a short list of some of the more common semantic issues you’ll encounter:</p>
 				<ul>
@@ -229,7 +234,7 @@ require_once('Core.php');
 						<p><a href="/contribute/typography#chapters">Semantics rules for chapter titles</a>.</p>
 					</li>
 					<li>
-						<p><a href="/contribute/semantics#abbreviations">Semantics rules for abbreviations</a>. Abbreviations should always be wrapped in the <code class="html">abbr</code> tag and with the correct <code class="html">class</code> attribute.</p>
+						<p><a href="/contribute/semantics#abbreviations">Semantics rules for abbreviations</a>. Abbreviations should always be wrapped in the <code class="html">&lt;abbr&gt;</code> tag and with the correct <code class="html">class</code> attribute.</p>
 						<p>Specifically, see the <a href="/contribute/typography#initials">typography rules for initials</a>. Wrap people’s initials in <code class="html">&lt;abbr class="name"&gt;</code>. This regex helps match initials: <code class="regex">[A-Z]\.\s*([A-Z]\.\s*)+</code></p>
 					</li>
 					<li>
@@ -246,30 +251,30 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Modernize spelling and hyphenation</h2>
-				<p>Many older works use outdated spelling and hyphenation that would distract a modern reader. (For example, “to-night” instead of “tonight”). <code class="program">modernize-spelling</code> is a tool to automatically remove hyphens from words that used to be compounded, but aren’t anymore in modern English spelling.</p>
-				<p><em>Do</em> run this tool on prose. <em>Don’t</em> run this tool on poetry.</p><code class="terminal"><span>~/tools/modernize-spelling .</span></code>
+				<p>Many older works use outdated spelling and hyphenation that would distract a modern reader. (For example, “to-night” instead of “tonight”). <code class="program">se modernize-spelling</code> automatically removes hyphens from words that used to be compounded, but aren’t anymore in modern English spelling.</p>
+				<p><em>Do</em> run this tool on prose. <em>Don’t</em> run this tool on poetry.</p><code class="terminal"><span>se modernize-spelling .</span></code>
 				<p>After you run the tool, <em>you must check what the tool did to confirm that each removed hyphen is correct</em>. Sometimes the tool will remove a hyphen that needs to be included for clarity, or one that changes the meaning of the word, or it may result in a word that just doesn’t seem right. Re-introducing a hyphen is OK in these cases.</p>
-				<p>Here’s a real-world example of where <code class="program">modernize-spelling</code> made the wrong choice: In <i><a href="/ebooks/oscar-wilde/the-picture-of-dorian-gray">The Picture of Dorian Gray</a></i> chapter 11, Oscar Wilde writes:</p>
+				<p>Here’s a real-world example of where <code class="program">se modernize-spelling</code> made the wrong choice: In <i><a href="/ebooks/oscar-wilde/the-picture-of-dorian-gray">The Picture of Dorian Gray</a></i> chapter 11, Oscar Wilde writes:</p>
 				<blockquote>
 					<p>He possessed a gorgeous cope of crimson silk and gold-thread damask…</p>
 				</blockquote>
-				<p><code class="program">modernize-spelling</code> would replace the dash in <code class="html">gold-thread</code> so that it reads <code class="html">goldthread</code>. Well <code class="html">goldthread</code> is an actual word, which is why it’s in our dictionary, and why the script makes a replacement—but it’s the name of a type of flower, <em>not</em> a golden fabric thread! In this case, <code class="program">modernize-spelling</code> made an incorrect replacement, and we have to change it back.</p>
+				<p><code class="program">se modernize-spelling</code> would replace the dash in <code class="html">gold-thread</code> so that it reads <code class="html">goldthread</code>. Well <code class="html">goldthread</code> is an actual word, which is why it’s in our dictionary, and why the script makes a replacement—but it’s the name of a type of flower, <em>not</em> a golden fabric thread! In this case, <code class="program">se modernize-spelling</code> made an incorrect replacement, and we have to change it back.</p>
 				<p><code class="program">git</code> provides a handy way for us to visualize these differences:</p><code class="terminal"><span>git difftool</span></code>
 				<p>After you’ve reviewed the changes that the tool made, do another commit. This commit is important, because it gives purists an avenue to revert modernizing changes to the original text.</p>
-				<p>Note how we preface this commit with "[Editorial]". Any change you make to the source text that can be considered a modernization or editorial change should be prefaced like this, so that the <code class="program">git</code> history can be easily searched by people looking to revert changes.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "[Editorial] Modernize hyphenation and spelling"</span></code>
+				<p>Note how we preface this commit with “[Editorial]”. Any change you make to the source text that can be considered a modernization or editorial change should be prefaced like this, so that the <code class="program">git</code> history can be easily searched by people looking to revert changes.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "[Editorial] Modernize hyphenation and spelling"</span></code>
 			</li>
 			<li>
 				<h2>Modernize spacing in select words</h2>
 				<p>Over time, spelling of certain common two-word phrases has evolved into a single word. For example, “someone” used to be the two-word phrase “some one,” which would read awkwardly to modern readers. This is our chance to modernize such phrases.</p>
-				<p>Note that we use the <code class="program">interactive-sr</code> tool to perform an interactive search and replace, instead of doing a global, non-interactive search and replace. This is because some phrases caught by the regular expression should not be changed, depending on context. For example, "some one" in the following snippet from <a href="/ebooks/anton-chekhov/short-fiction/constance-garnett/">Anton Chekhov’s short fiction</a> <em>should not</em> be corrected:</p>
+				<p>Note that we use <code class="program">se interactive-sr</code> to perform an interactive search and replace, instead of doing a global, non-interactive search and replace. This is because some phrases caught by the regular expression should not be changed, depending on context. For example, "some one" in the following snippet from <a href="/ebooks/anton-chekhov/short-fiction/constance-garnett/">Anton Chekhov’s short fiction</a> <em>should not</em> be corrected:</p>
 				<blockquote>
 					<p>He wanted to think of some one part of nature as yet untouched...</p>
 				</blockquote>
-				<p>Use the following regular expression invocations to correct a certain set of such phrases:</p><code class="terminal"><span>~/tools/interactive-sr "/\v([Ss])ome one/\1omeone/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] some one -&gt; someone"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v(&lt;[Aa])ny one/\1nyone/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any one -&gt; anyone"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v([Ee])very one(\s+of)@\!/\1veryone/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] every one -&gt; everyone"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v([Ee])very thing/\1verything/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] every thing -&gt; everything"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v(&lt;[Aa])ny thing/\1nything/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any thing -&gt; anything"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v([Ff])or ever(&gt;)/\1orever\2/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] for ever -&gt; forever"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v(in\s+)@&lt;\!(&lt;[Aa])ny way/\1nyway/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any way -&gt; anyway"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v([Yy])our self/\1ourself/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] your self -&gt; yourself"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v([Mm])ean time/\1eantime/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] mean time -&gt; meantime"</span></code> <code class="terminal"><span>~/tools/interactive-sr "/\v([Aa])ny how/\1nyhow/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any how -&gt; anyhow"</span></code>
+				<p>Use the following regular expression invocations to correct a certain set of such phrases:</p><code class="terminal"><span>se interactive-sr "/\v([Ss])ome one/\1omeone/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] some one -&gt; someone"</span></code> <code class="terminal"><span>se interactive-sr "/\v(&lt;[Aa])ny one/\1nyone/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any one -&gt; anyone"</span></code> <code class="terminal"><span>se interactive-sr "/\v([Ee])very one(\s+of)@\!/\1veryone/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] every one -&gt; everyone"</span></code> <code class="terminal"><span>se interactive-sr "/\v([Ee])very thing/\1verything/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] every thing -&gt; everything"</span></code> <code class="terminal"><span>se interactive-sr "/\v(&lt;[Aa])ny thing/\1nything/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any thing -&gt; anything"</span></code> <code class="terminal"><span>se interactive-sr "/\v([Ff])or ever(&gt;)/\1orever\2/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] for ever -&gt; forever"</span></code> <code class="terminal"><span>se interactive-sr "/\v(in\s+)@&lt;\!(&lt;[Aa])ny way/\1nyway/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any way -&gt; anyway"</span></code> <code class="terminal"><span>se interactive-sr "/\v([Yy])our self/\1ourself/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] your self -&gt; yourself"</span></code> <code class="terminal"><span>se interactive-sr "/\v([Mm])ean time/\1eantime/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] mean time -&gt; meantime"</span></code> <code class="terminal"><span>se interactive-sr "/\v([Aa])ny how/\1nyhow/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any how -&gt; anyhow"</span></code>
 
-				<code class="terminal"><span>~/tools/interactive-sr "/\v([Aa])ny body/\1nybody/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any body -&gt; anybody"</span></code>
+				<code class="terminal"><span>se interactive-sr "/\v([Aa])ny body/\1nybody/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] any body -&gt; anybody"</span></code>
 
-				<code class="terminal"><span>~/tools/interactive-sr "/\v([Ee])very body/\1verybody/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] every body -&gt; everybody"</span></code>
+				<code class="terminal"><span>se interactive-sr "/\v([Ee])very body/\1verybody/" src/epub/text/*</span> <span>git add -A</span> <span>git commit -m "[Editorial] every body -&gt; everybody"</span></code>
 			</li>
 			<li>
 				<h2>Create the cover image</h2>
@@ -295,7 +300,7 @@ require_once('Core.php');
 						<p>You must provide proof of public domain status to the SE Editor-in-Chief in the form of a page scan of the painting from a 1923-or-older book, and the Editor-in-Chief must approve your selection before you can commit it to your repository.</p>
 					</li>
 					<li>
-						<p>The Standard Ebooks lead has the final say on the cover image you pick, and it may be rejected for, among other things, poor public domain status research, being too low resolution, or not fitting in with the “fine art” style.</p>
+						<p>The Standard Ebooks Editor-in-Chief has the final say on the cover image you pick, and it may be rejected for, among other things, poor public domain status research, being too low resolution, not fitting in with the “fine art” style, or being otherwise inappropriate for your ebook.</p>
 					</li>
 				</ul>
 				<p>What can we use for <i>Jekyll</i>? In 1885 Albert Edelfelt painted a <a href="https://en.wikipedia.org/wiki/File:Albert_Edelfelt_-_Louis_Pasteur_-_1885.jpg">portrait of Louis Pasteur</a> in a laboratory. A crop of the lab equipment would be a good way to represent Dr. Jekyll’s lab.</p>
@@ -309,16 +314,16 @@ require_once('Core.php');
 						<p><code class="path">cover.jpg</code> is the scaled cover image that <code class="path">cover.svg</code> links to. This file is exactly 1400 × 2100. For <i>Jekyll</i>, this is a crop of <code class="path">cover.source.jpg</code> that includes just the lab equipment, and resized up to our target resolution.</p>
 					</li>
 					<li>
-						<p><code class="path">cover.svg</code> is the completed cover image with the title and author. The <code class="program">build-images</code> tool will take <code class="path">cover.svg</code>, embed <code class="path">cover.jpg</code>, convert the text to paths, and place the result in <code class="path">./src/epub/images/</code> for inclusion in the final epub.</p>
+						<p><code class="path">cover.svg</code> is the completed cover image with the title and author. <code class="program">se build-images</code> will take <code class="path">cover.svg</code>, embed <code class="path">cover.jpg</code>, convert the text to paths, and place the result in <code class="path">./src/epub/images/</code> for inclusion in the final epub.</p>
 					</li>
 				</ul>
 			</li>
 			<li>
 				<h2>Create the titlepage image, build both the cover and titlepage, and commit</h2>
 				<p>Titlepage images for Standard Ebooks books are also standardized. See our the <a href="https://standardebooks.org/contribute/art">art manual</a> for details.</p>
-				<p>The <code class="program">create-draft</code> tool already created a completed titlepage for you. If the way it arranged the lines doesn’t look great, you can always edit the titlepage to make the arrangement of words on each line more aesthetically pleasing. Don’t use a vector editing program like Inkscape to edit it. Instead, open it up in your favorite text editor and type the values in directly.</p>
-				<p>The source images for both the cover and the titlepage are kept in <code class="path">./images/</code>. Since the source images refer to installed fonts, and since we can’t include those fonts in our final ebook without having to include a license, we have to convert that text to paths for final distribution. The <code class="program">build-images</code> tool does just that.</p><code class="terminal"><span>~/tools/build-images .</span></code>
-				<p>This tool takes both <code class="path">./images/cover.svg</code> and <code class="path">./images/titlepage.svg</code>, converts text to paths, and embeds the cover jpg. The output goes to <code class="path">./src/epub/images/</code>.</p>
+				<p><code class="program">se create-draft</code> already created a completed titlepage for you. If the way it arranged the lines doesn’t look great, you can always edit the titlepage to make the arrangement of words on each line more aesthetically pleasing. Don’t use a vector editing program like Inkscape to edit it. Instead, open it up in your favorite text editor and type the values in directly.</p>
+				<p>The source images for both the cover and the titlepage are kept in <code class="path">./images/</code>. Since the source images refer to installed fonts, and since we can’t include those fonts in our final ebook without having to include a license, we have to convert that text to paths for final distribution. <code class="program">se build-images</code> does just that.</p><code class="terminal"><span>se build-images .</span></code>
+				<p><code class="program">se build-images</code> takes both <code class="path">./images/cover.svg</code> and <code class="path">./images/titlepage.svg</code>, converts text to paths, and embeds the cover jpg. The output goes to <code class="path">./src/epub/images/</code>.</p>
 				<p>Once we built the images successfully, perform a commit.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Add cover and titlepage images"</span></code>
 			</li>
 			<li>
@@ -330,14 +335,15 @@ require_once('Core.php');
 				<h2>Complete content.opf</h2>
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text.</p>
 				<p>The <code class="path">content.opf</code> is standardized. Please <a href="/contribute/metadata">see our extensive Metadata Manual</a> for details on how to fill out <code class="path">content.opf</code>.</p>
-				<p>As you complete the metadata, you’ll have to order the spine and the manifest in this file. Fortunately, Standard Ebooks has a tool for that too: <code class="program">print-manifest-and-spine</code>. Run this on our source directory and, as you can guess, it’ll print out the <code class="html">&lt;manifest&gt;</code> and <code class="html">&lt;spine&gt;</code> tags for this work.</p><code class="terminal raw"><span>~/tools/print-manifest-and-spine .</span>&lt;manifest&gt; &lt;item href="css/core.css" id="core.css" media-type="text/css"/&gt; &lt;item href="css/local.css" id="local.css" media-type="text/css"/&gt; &lt;item href="images/cover.svg" id="cover.svg" media-type="image/svg+xml" properties="cover-image"/&gt; &lt;item href="images/logo.svg" id="logo.svg" media-type="image/svg+xml"/&gt; &lt;item href="images/titlepage.svg" id="titlepage.svg" media-type="image/svg+xml"/&gt; &lt;!--snip all the way to the end..--&gt; &lt;item href="text/colophon.xhtml" id="colophon.xhtml" media-type="application/xhtml+xml"/&gt; &lt;item href="text/titlepage.xhtml" id="titlepage.xhtml" media-type="application/xhtml+xml" properties="svg"/&gt; &lt;item href="text/unlicense.xhtml" id="unlicense.xhtml" media-type="application/xhtml+xml"/&gt; &lt;/manifest&gt; &lt;spine&gt; &lt;itemref idref="titlepage.xhtml"/&gt; &lt;!--snip all the way to the end..--&gt; &lt;itemref idref="colophon.xhtml"/&gt; &lt;itemref idref="unlicense.xhtml"/&gt; &lt;/spine&gt;</code>
+				<p>As you complete the metadata, you’ll have to order the spine and the manifest in this file. Fortunately, Standard Ebooks has a tool for that too: <code class="program">se print-manifest-and-spine</code>. Run this on our source directory and, as you can guess, it’ll print out the <code class="html">&lt;manifest&gt;</code> and <code class="html">&lt;spine&gt;</code> tags for this work.</p>
+				<code class="terminal raw"><span>se print-manifest-and-spine .</span>&lt;manifest&gt; &lt;item href="css/core.css" id="core.css" media-type="text/css"/&gt; &lt;item href="css/local.css" id="local.css" media-type="text/css"/&gt; &lt;item href="images/cover.svg" id="cover.svg" media-type="image/svg+xml" properties="cover-image"/&gt; &lt;item href="images/logo.svg" id="logo.svg" media-type="image/svg+xml"/&gt; &lt;item href="images/titlepage.svg" id="titlepage.svg" media-type="image/svg+xml"/&gt; &lt;!--snip all the way to the end..--&gt; &lt;item href="text/colophon.xhtml" id="colophon.xhtml" media-type="application/xhtml+xml"/&gt; &lt;item href="text/titlepage.xhtml" id="titlepage.xhtml" media-type="application/xhtml+xml" properties="svg"/&gt; &lt;item href="text/unlicense.xhtml" id="unlicense.xhtml" media-type="application/xhtml+xml"/&gt; &lt;/manifest&gt; &lt;spine&gt; &lt;itemref idref="titlepage.xhtml"/&gt; &lt;!--snip all the way to the end..--&gt; &lt;itemref idref="colophon.xhtml"/&gt; &lt;itemref idref="unlicense.xhtml"/&gt; &lt;/spine&gt;</code>
 				<p>The manifest is already in the correct order and doesn’t need to be edited. The spine, however, will have to be reordered to be in the correct reading order. Once we’ve done that, paste it in to <code class="path">content.opf</code> and commit.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Complete content.opf"</span></code>
 			</li>
 			<li>
 				<h2>Complete the colophon</h2>
-				<p>The <code class="program">create-draft</code> tool put a skeleton <code class="path">colophon.xhtml</code> file in the <code class="path">./src/epub/text/</code> folder. Now that we have the cover image and artist, we can fill out the various fields there. Make sure to credit the original transcribers of the text (generally we assume them to be whoever’s name is on the file we download from Gutenberg) and to include a link back to the Gutenberg text we used, along with a link to any scans we used (from archive.org or hathitrust.org, for example).</p>
+				<p><code class="program">se create-draft</code> put a skeleton <code class="path">colophon.xhtml</code> file in the <code class="path">./src/epub/text/</code> folder. Now that we have the cover image and artist, we can fill out the various fields there. Make sure to credit the original transcribers of the text (generally we assume them to be whoever’s name is on the file we download from Gutenberg) and to include a link back to the Gutenberg text we used, along with a link to any scans we used (from archive.org or hathitrust.org, for example).</p>
 				<p>You can also include your own name as the producer of this Standard Ebooks edition. Besides that, the colophon is standardized; don’t get too creative with it.</p>
-				<p>The release and updated dates should be the same for the first relase, and they should match the dates in <code class="path">content.opf</code>. For now, leave them unchanged, as the <code class="program">prepare-release</code> tool will automatically fill them in for you as we’ll describe later in this guide.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Complete the colophon"</span></code>
+				<p>The release and updated dates should be the same for the first release, and they should match the dates in <code class="path">content.opf</code>. For now, leave them unchanged, as <code class="program">se prepare-release</code will automatically fill them in for you as we’ll describe later in this guide.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Complete the colophon"</span></code>
 			</li>
 			<li>
 				<h2>Complete the imprint</h2>
@@ -346,15 +352,15 @@ require_once('Core.php');
 			<li>
 				<h2>Clean and lint before building</h2>
 				<p>Before you build the final ebook for you to proofread, it’s a good idea to check the ebook for some common problems you might run in to during production.</p>
-				<p>First, run <code class="program">clean</code> one more time to both clean up the source files, and to alert you if there are XHTML parsing errors. Even though we ran the <code class="program">clean</code> tool before, it’s likely that in the course of production the ebook got in to less-than-perfect markup formatting. Remember you can run <code class="program">clean</code> as many times as you want—it should always produce the same output.</p>
+				<p>First, run <code class="program">se clean</code> one more time to both clean up the source files, and to alert you if there are XHTML parsing errors. Even though we ran <code class="program">se clean</code> before, it’s likely that in the course of production the ebook got in to less-than-perfect markup formatting. Remember you can run <code class="program">se clean</code> as many times as you want—it should always produce the same output.</p>
 				<p>If you’re using a Mac, and thus the badly-behaved Finder program, you may find that it has carelessly polluted your work directory with useless <code class="path">.DS_Store</code> files. Before continuing, you should <a href="https://duckduckgo.com/?q=mac+alternative+file+manager">find a better file manager program</a>, then delete all of that litter with the following command:</p>
 				<code class="terminal"><span>find . -name ".DS_Store" -type f -delete</span></code>
-				<p>Next, run the <code class="program">lint</code> tool. If your ebook has any problems, you’ll see some output listing them. If everything’s OK, then <code class="program">lint</code> will complete silently.</p><code class="terminal"><span>~/tools/clean .</span> <span>~/tools/lint .</span></code>
+				<p>Next, run <code class="program">se lint</code>. If your ebook has any problems, you’ll see some output listing them. If everything’s OK, then <code class="program">se lint</code> will complete silently.</p><code class="terminal"><span>se clean .</span> <span>se lint .</span></code>
 			</li>
 			<li>
 				<h2>Build and proofread, proofread, proofread!</h2>
-				<p>At this point we’re just about ready to build our proofreading draft! The <code class="program">build</code> tool does this for us. We’ll run it with the <code class="program">--check</code> flag to make sure the epub we produced is valid, and with the <code class="program">--kindle</code> and <code class="program">--kobo</code> flag to build a file for Kindles and Kobos too. If you won’t be using a Kindle or Kobo, you can omit those flags.</p>
-				<code class="terminal"><span>~/tools/build --output-dir=$HOME/dist/ --kindle --kobo --check .</span></code>
+				<p>At this point we’re just about ready to build our proofreading draft! <code class="program">se build</code> does this for us. We’ll run it with the <code class="program">--check</code> flag to make sure the epub we produced is valid, and with the <code class="program">--kindle</code> and <code class="program">--kobo</code> flag to build a file for Kindles and Kobos too. If you won’t be using a Kindle or Kobo, you can omit those flags.</p>
+				<code class="terminal"><span>se build --output-dir=$HOME/dist/ --kindle --kobo --check .</span></code>
 				<p>If there are no errors, we’ll see five files in the brand-new <code class="path">~/dist/</code> folder in our home directory:</p>
 				<ul>
 					<li>
@@ -388,21 +394,21 @@ require_once('Core.php');
 			<li>
 				<h2>Initial publication</h2>
 				<p>Now that we’ve proofread the work and corrected any errors we’ve found, we’re ready to release the finished ebook!</p>
-				<p>It’s a good idea to run <code class="program">typogrify</code> and <code class="program">clean</code> one more time before releasing. Make sure to review the changes with <code class="program">git difftool</code> before accepting them—<code class="program">typogrify</code> is usually right, but not always!</p>
+				<p>It’s a good idea to run <code class="program">se typogrify</code> and <code class="program">se clean</code> one more time before releasing. Make sure to review the changes with <code class="program">git difftool</code> before accepting them—<code class="program">se typogrify</code> is usually right, but not always!</p>
 				<ul>
 					<li>
 						<p><b>If you’re submitting your ebook to Standard Ebooks for review:</b></p>
-						<p><em>Don’t run <code class="program">prepare-release</code> on an ebook you’re submitting for review!</em></p>
+						<p><em>Don’t run <code class="program">se prepare-release</code> on an ebook you’re submitting for review!</em></p>
 						<p>Contact the mailing list with a link to your GitHub repository to let them know you’re finished. A reviewer will review your production and work with you to fix any issues. They’ll then release the ebook for you.</p>
 					</li>
 					<li>
 						<p><b>If you’re producing this ebook for yourself, not for release at Standard Ebooks:</b></p>
-						<p>Complete the initial publication by adding a release date, modification date, and final word count to <code class="path">content.opf</code> and <code class="path">colophon.xhtml</code>. The <code class="program">prepare-release</code> tool does all of that for us.</p>
-						<code class="terminal"><span>~/tools/prepare-release .</span></code>
+						<p>Complete the initial publication by adding a release date, modification date, and final word count to <code class="path">content.opf</code> and <code class="path">colophon.xhtml</code>. <code class="program">se prepare-release</code> does all of that for us.</p>
+						<code class="terminal"><span>se prepare-release .</span></code>
 						<p>With that done, we commit again using a commit message of “Initial publication” to signify that we’re all done with production, and now expect only proofreading corrections to be committed. (This may not actually be the case in reality, but it’s still a nice milestone to have.)</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Initial publication"</span></code>
 					</li>
 				</ul>
-				<p>Finally, build everything again.</p><code class="terminal"><span>~/tools/build --output-dir=$HOME/dist/ --kindle --kobo --check .</span></code>
+				<p>Finally, build everything again.</p><code class="terminal"><span>se build --output-dir=$HOME/dist/ --kindle --kobo --check .</span></code>
 				<p>If the build completed successfully, congratulations! You’ve just finished producing a Standard Ebook!</p>
 			</li>
 		</ol>

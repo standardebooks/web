@@ -64,7 +64,7 @@ require_once('Core.php');
 					<p><em>Do not</em> use the Unicode Roman numeral glyphs, as they are deprecated; use regular letters.</p>
 				</li>
 				<li>
-					<p>Convert all-caps or small-caps titles to title case. Use the <code class="program">titlecase</code> script in the <a href="https://github.com/standardebooks/tools">Standard Ebooks toolset</a> for consisent titlecasing.</p>
+					<p>Convert all-caps or small-caps titles to title case. Use the <code class="program">se titlecase</code> script in the <a href="https://github.com/standardebooks/tools">Standard Ebooks toolset</a> for consistent titlecasing.</p>
 				</li>
 				<li>
 					<p>Remove trailing periods from chapter titles.</p>
