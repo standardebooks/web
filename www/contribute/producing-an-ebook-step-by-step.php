@@ -179,7 +179,7 @@ require_once('Core.php');
 						<p><a href="/contribute/typography#ampersands-in-names">Typography rules for ampersands in names</a>. This regex helps match candidates: <code class="regex">[a-zA-Z]\.?\s*&amp;\s*[a-zA-Z]</code></p>
 					</li>
 					<li>
-						<p><a href="/contribute/typography#text-in-all-caps">Typography rules for text in all caps</a>. Text in all caps is almost never correct, and should either be converted to lowercase with the <code class="html">&lt;em&gt;</code> tag (for spoken emphasis), <code class="html">&lt;strong&gt;</code> (for extreme spoken emphasis), or <code class="html">&lt;b&gt;</code> (for unsemantic small caps, like in storefront signs). This case-sensitive regex helps find candidates: <code class="regex">(?&lt;!en-)[A-Z]{2,}(?!")</code></p>
+						<p><a href="/contribute/typography#text-in-all-caps">Typography rules for text in all caps</a>. Text in all caps is almost never correct, and should either be converted to lowercase with the <code class="html">&lt;em&gt;</code> tag (for spoken emphasis), <code class="html">&lt;strong&gt;</code> (for extreme spoken emphasis), or <code class="html">&lt;b&gt;</code> (for unsemantic small caps, like in storefront signs). This case-sensitive regex helps find candidates: <code class="regex">(?&lt;!en-)(?&lt;!z3998:roman">)(?&lt;![A-Z])[A-Z]{2,}(?!")</code></p>
 					</li>
 					<li>
 						<p>Sometimes <code class="program">se typogrify</code> doesn’t close quotation marks near em-dashes correctly. Try to find such instances with this regex: <code class="regex">—[’”][^&lt;\s]</code></p>
