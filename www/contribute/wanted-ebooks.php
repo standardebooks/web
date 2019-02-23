@@ -188,19 +188,45 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing</p>
 			</li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by DH Lawrence</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/161">Sense and Sensibility</a> by Jane Austen</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/5231">The Way We Live Now</a> by Anthony Trollope</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/829">Gulliver’s Travels</a> by Jonathan Swift</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/370">Moll Flanders</a> by Daniel Defoe</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/9182">Villette</a> by Charlotte Brontë</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/153">Jude the Obscure</a> by Thomas Hardy</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/2946">Howards End</a> by EM Forster</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/1260">Jane Eyre</a> by Charlotte Brontë</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/1400">Great Expectations</a> by Charles Dickens</p></li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by DH Lawrence</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/161">Sense and Sensibility</a> by Jane Austen</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/5231">The Way We Live Now</a> by Anthony Trollope</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/829">Gulliver’s Travels</a> by Jonathan Swift</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/370">Moll Flanders</a> by Daniel Defoe</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/9182">Villette</a> by Charlotte Brontë</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/153">Jude the Obscure</a> by Thomas Hardy</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2946">Howards End</a> by EM Forster</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1260">Jane Eyre</a> by Charlotte Brontë</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1400">Great Expectations</a> by Charles Dickens</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -294,10 +320,21 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7416">The Thirteen</a> by Honoré de Balzac</p>
 			</li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/145">Middlemarch</a> by George Eliot</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/9296">Clarissa</a> by Samuel Richardson (<a href="https://github.com/drgrigg/samuel-richardson_clarissa-harlowe">partially completed</a>, available for finishing but will take a large amount of time)</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/4397">The Forsyte Saga</a> by John Galsworthy</p></li>
-			<li><p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot</p></li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/45502">How the Other Half Lives</a> by Jacob Riis</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/145">Middlemarch</a> by George Eliot</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/9296">Clarissa</a> by Samuel Richardson (<a href="https://github.com/drgrigg/samuel-richardson_clarissa-harlowe">partially completed</a>, available for finishing but will take a large amount of time)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/4397">The Forsyte Saga</a> by John Galsworthy</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot</p>
+			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
