@@ -86,9 +86,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4517">Ethan Frome</a> by Edith Wharton</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford: <a href="https://github.com/bburns/william-beckford_vathek">In progress by bburns</a></p>
-			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
