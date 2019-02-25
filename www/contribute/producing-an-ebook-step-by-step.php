@@ -390,6 +390,7 @@ require_once('Core.php');
 					</li>
 				</ul>
 				<p>If you end up using scans from one of these sources, you <em>must</em> mention it in the ebook’s colophon and as a <code class="html">&lt;dc:source&gt;</code> item in <code class="path">content.opf</code>.</p>
+				<p>If you’re using a transcription from Project Gutenberg as the base for this ebook, you may wish to report typos you’ve found to them, so that they can correct their copy. <a href="/contribute/report-errors-upstream">Instructions for how to do so are here.</a></p>
 			</li>
 			<li>
 				<h2>Initial publication</h2>
