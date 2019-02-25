@@ -26,6 +26,7 @@ require_once('Core.php');
 			</li>
 		</ol>
 		<p>Once you have these two items, <a href="https://groups.google.com/forum/#!forum/standardebooks">contact us via our mailing list</a> with that information and we’ll get right on it!</p>
+		<p>We often use transcripts from other projects as a base for Standard Ebooks. If you’d like, you can also report any transcription errors to those projects too (contributing upstream, in open source terminology). <a href="/contribute/report-errors-upstream">Our guide to reporting errors to Gutenberg and other sources.</a></p>
 	</article>
 </main>
 <?= Template::Footer() ?>
