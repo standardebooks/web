@@ -1,0 +1,35 @@
+{
+	"name": "nette/neon",
+	"description": "🍸 Nette NEON: encodes and decodes NEON file format.",
+	"keywords": ["nette", "neon", "import", "export", "yaml"],
+	"homepage": "http://ne-on.org",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "https://davidgrudl.com"
+		},
+		{
+			"name": "Nette Community",
+			"homepage": "https://nette.org/contributors"
+		}
+	],
+	"require": {
+		"php": ">=7.0",
+		"ext-iconv": "*",
+		"ext-json": "*"
+	},
+	"require-dev": {
+		"nette/tester": "^2.0",
+		"tracy/tracy": "^2.3"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	},
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias": {
+			"dev-master": "3.0-dev"
+		}
+	}
+}

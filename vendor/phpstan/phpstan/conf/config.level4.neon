@@ -1,0 +1,49 @@
+includes:
+	- config.level3.neon
+
+rules:
+	- PHPStan\Rules\Arrays\DeadForeachRule
+	- PHPStan\Rules\Comparison\BooleanAndConstantConditionRule
+	- PHPStan\Rules\Comparison\BooleanNotConstantConditionRule
+	- PHPStan\Rules\Comparison\BooleanOrConstantConditionRule
+	- PHPStan\Rules\Comparison\ElseIfConstantConditionRule
+	- PHPStan\Rules\Comparison\IfConstantConditionRule
+	- PHPStan\Rules\Comparison\TernaryOperatorConstantConditionRule
+	- PHPStan\Rules\Comparison\UnreachableIfBranchesRule
+	- PHPStan\Rules\Comparison\UnreachableTernaryElseBranchRule
+
+services:
+	-
+		class: PHPStan\Rules\Classes\ImpossibleInstanceOfRule
+		arguments:
+			checkAlwaysTrueInstanceof: %checkAlwaysTrueInstanceof%
+		tags:
+			- phpstan.rules.rule
+
+	-
+		class: PHPStan\Rules\Comparison\ImpossibleCheckTypeFunctionCallRule
+		arguments:
+			checkAlwaysTrueCheckTypeFunctionCall: %checkAlwaysTrueCheckTypeFunctionCall%
+		tags:
+			- phpstan.rules.rule
+
+	-
+		class: PHPStan\Rules\Comparison\ImpossibleCheckTypeMethodCallRule
+		arguments:
+			checkAlwaysTrueCheckTypeFunctionCall: %checkAlwaysTrueCheckTypeFunctionCall%
+		tags:
+			- phpstan.rules.rule
+
+	-
+		class: PHPStan\Rules\Comparison\ImpossibleCheckTypeStaticMethodCallRule
+		arguments:
+			checkAlwaysTrueCheckTypeFunctionCall: %checkAlwaysTrueCheckTypeFunctionCall%
+		tags:
+			- phpstan.rules.rule
+
+	-
+		class: PHPStan\Rules\Comparison\StrictComparisonOfDifferentTypesRule
+		arguments:
+			checkAlwaysTrueStrictComparison: %checkAlwaysTrueStrictComparison%
+		tags:
+			- phpstan.rules.rule

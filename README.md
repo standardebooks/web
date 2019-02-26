@@ -43,6 +43,18 @@ You’ll also need to ensure the following:
 
     The website pulls all ebook information from what is contained in `/standardebooks.org/www/ebooks/`. It does not inspect `/standardebooks.org/ebooks/`. Therefore it is possible for one or the other to hold different catalogs if they become out of sync.
 
+# Testing
+
+This repository includes [PHPStan](https://github.com/phpstan/phpstan) to statically analyze the codebase.
+
+To run PHPStan, execute:
+
+```shell
+$> <REPO-ROOT>/vendor/bin/phpstan analyse -c <REPO-ROOT>/config/phpstan/phpstan.neon
+```
+
+If run successfully, it should output `[OK] No errors`.
+
 # Contributing
 
 Before submitting design contributions, please discuss them with the Standard Ebooks lead. While we encourage discussion and contributions, we can’t guarantee that unsoliticed design contributions will be accepted. You can open an issue to discuss potential design contributions with us before you begin.

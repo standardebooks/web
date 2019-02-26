@@ -1,4 +1,6 @@
 <?
+// Auto-included by Composer in composer.json to satisfy PHPStan
+
 const EBOOKS_PER_PAGE = 12;
 const SORT_NEWEST = 'newest';
 const SORT_AUTHOR_ALPHA = 'author-alpha';
