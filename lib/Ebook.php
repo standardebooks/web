@@ -12,6 +12,7 @@ class Ebook{
 	public $GitCommits = [];
 	public $Tags = [];
 	public $LocTags = [];
+	public $Collections = [];
 	public $Identifier;
 	public $UrlSafeIdentifier;
 	public $HeroImageUrl;
@@ -149,7 +150,12 @@ class Ebook{
 
 		// Get SE tags
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
-			$this->Tags[] = (string)$tag;
+			$this->Tags[] = new Tag($tag);
+		}
+
+		// Get SE collections
+		foreach($xml->xpath('/package/metadata/meta[@property="se:collection"]') ?: [] as $collection){
+			$this->Collections[] = new Collection($collection);
 		}
 
 		// Get LoC tags
@@ -337,7 +343,7 @@ class Ebook{
 		}
 
 		foreach($this->Tags as $tag){
-			$searchString .= ' ' . $tag;
+			$searchString .= ' ' . $tag->Name;
 		}
 
 		foreach($this->LocTags as $tag){
@@ -501,6 +507,26 @@ class Ebook{
 		}
 
 		return null;
+	}
+
+	public function HasTag(string $tag): bool{
+		foreach($this->Tags as $t){
+			if(strtolower($t->Name) == strtolower($tag)){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public function IsInCollection(string $collection): bool{
+		foreach($this->Collections as $c){
+			if(strtolower($c->Name) == strtolower($collection)){
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 ?>

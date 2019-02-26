@@ -1035,6 +1035,40 @@ figure{
 	margin-top: 1rem;
 }
 
+ul.tags{
+	list-style: none;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+ul.tags li{
+	margin: 0;
+}
+
+ul.tags li a{
+	border: 1px solid #222;
+	border-radius: 5px;
+	padding: .25rem .5rem;
+	font-style: normal;
+	background: rgba(0, 0, 0, .1);
+	text-decoration: none;
+	display: block;
+	line-height: 1;
+	white-space: nowrap;
+	text-transform: lowercase;
+	box-shadow: 1px 1px 0px rgba(255, 255, 255, .5) inset;
+}
+
+ul.tags li a:hover{
+	color: #fff;
+	background: #288da4;
+}
+
+ul.tags li + li{
+	margin-left: .5rem;
+}
+
 code.tag,
 code.path,
 code.program,

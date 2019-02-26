@@ -71,6 +71,12 @@ catch(\Exception $ex){
 			<? if($ebook->ContributorsHtml !== null){ ?>
 			<p><?= $ebook->ContributorsHtml ?></p>
 			<? } ?>
+			<? if(sizeof($ebook->Collections) > 0){ ?>
+				<? foreach($ebook->Collections as $collection){ ?>
+				<p>Part of the <a href="<?= $collection->Url ?>"><?= Formatter::ToPlainText($collection->Name) ?> collection</a>.</p>
+				<? } ?>
+			<? } ?>
+			<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
 		</aside>
 
 		<section id="description">

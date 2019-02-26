@@ -4,6 +4,8 @@ require_once('Core.php');
 try{
 	$page = HttpInput::GetInt('page') ?? 1;
 	$query = HttpInput::GetString('query', false);
+	$tag = HttpInput::GetString('tag', false);
+	$collection = HttpInput::GetString('collection', false);
 	$sort = HttpInput::GetString('sort', false) ?? SORT_NEWEST;
 	$pages = 0;
 	$totalEbooks = 0;
@@ -16,7 +18,29 @@ try{
 		$sort = SORT_NEWEST;
 	}
 
-	if($query === null){
+	if($query !== null){
+		$ebooks = Library::Search($query);
+		$pageTitle = 'Search Standard Ebooks';
+		$pageDescription = 'Search results';
+		$pageHeader = 'Search Ebooks';
+	}
+	elseif($tag !== null){
+		$tag = strtolower(str_replace('-', ' ', $tag));
+		$ebooks = Library::GetEbooksByTag($tag);
+		$pageTitle = 'Browse ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
+		$pageDescription = 'A list of ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
+		$pageHeader = 'Ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
+	}
+	elseif($collection !== null){
+		$collection = strtolower(str_replace('-', ' ', $collection));
+		$ebooks = Library::GetEbooksByCollection($collection);
+		$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText(ucwords($collection)) . ' collection';
+		$pageDescription = 'A list of ebooks in the ' . Formatter::ToPlainText(ucwords($collection)) . ' collection';
+		$pageHeader = 'Ebooks in the ' . Formatter::ToPlainText(ucwords($collection)) . ' collection';
+	}
+	else{
+		$pageTitle = 'Browse Standard Ebooks';
+		$pageHeader = 'Browse Ebooks';
 		$ebooks = Library::GetEbooks($sort);
 
 		$pages = ceil(sizeof($ebooks) / EBOOKS_PER_PAGE);
@@ -35,15 +59,6 @@ try{
 				break;
 		}
 	}
-	else{
-		$ebooks = Library::Search($query);
-		$pageDescription = 'Search results';
-	}
-
-	$pageTitle = 'Browse Standard Ebooks';
-	if($query !== null){
-		$pageTitle = 'Search Standard Ebooks';
-	}
 }
 catch(\Exception $ex){
 	http_response_code(404);
@@ -52,7 +67,7 @@ catch(\Exception $ex){
 }
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
-		<h1><? if($query === null){ ?>Browse<? }else{ ?>Search<? } ?> Ebooks</h1>
+		<h1><?= $pageHeader ?></h1>
 		<?= Template::SearchForm(['query' => $query]) ?>
 		<? if(sizeof($ebooks) == 0){ ?>
 			<p class="no-results">No ebooks matched your search.  You can try different search terms, or <a href="/ebooks/">browse all of our ebooks</a>.</p>

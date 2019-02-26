@@ -100,6 +100,70 @@ class Library{
 		return $ebooks;
 	}
 
+	public static function GetEbooksByTag(string $tag): array{
+		// Do we have the tag's ebooks cached?
+		$ebooks = apcu_fetch('tag-' . $tag, $success);
+
+		if(!$success){
+			$ebooks = [];
+
+			foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
+				try{
+					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?? '';
+					$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath, $success);
+
+					if(!$success){
+						$ebook = new Ebook($ebookWwwFilesystemPath);
+						apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
+					}
+
+					if($ebook->HasTag($tag)){
+						$ebooks[] = $ebook;
+					}
+				}
+				catch(\Exception $ex){
+					// An error in a book isn't fatal; just carry on.
+				}
+			}
+
+			apcu_store('tag-' . $tag, $ebooks);
+		}
+
+		return $ebooks;
+	}
+
+	public static function GetEbooksByCollection(string $collection): array{
+		// Do we have the tag's ebooks cached?
+		$ebooks = apcu_fetch('collection-' . $collection, $success);
+
+		if(!$success){
+			$ebooks = [];
+
+			foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
+				try{
+					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?? '';
+					$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath, $success);
+
+					if(!$success){
+						$ebook = new Ebook($ebookWwwFilesystemPath);
+						apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
+					}
+
+					if($ebook->IsInCollection($collection)){
+						$ebooks[] = $ebook;
+					}
+				}
+				catch(\Exception $ex){
+					// An error in a book isn't fatal; just carry on.
+				}
+			}
+
+			apcu_store('collection-' . $collection, $ebooks);
+		}
+
+		return $ebooks;
+	}
+
 	public static function Search(string $query): array{
 		$ebooks = Library::GetEbooks();
 		$matches = [];
