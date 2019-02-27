@@ -124,6 +124,9 @@ require_once('Core.php');
 				<p><code class="tag">Comedy</code></p>
 			</li>
 			<li>
+				<p><code class="tag">Drama</code></p>
+			</li>
+			<li>
 				<p><code class="tag">Fantasy</code></p>
 			</li>
 			<li>
