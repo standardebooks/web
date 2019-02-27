@@ -227,6 +227,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1400">Great Expectations</a> by Charles Dickens</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
