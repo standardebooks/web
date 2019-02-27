@@ -40,6 +40,12 @@ try{
 	elseif($collection !== null){
 		$collection = strtolower(str_replace('-', ' ', Formatter::RemoveDiacritics($collection)));
 		$ebooks = Library::GetEbooksByCollection($collection);
+		// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
+		foreach($ebooks[0]->Collections as $c){
+			if($collection == strtolower(str_replace('-', ' ', Formatter::RemoveDiacritics($c->Name)))){
+				$collection = (string)$c->Name; // Explicit typecast to string to satisfy PHPStan
+			}
+		}
 		$collectionName = ucwords(preg_replace('/^The /ius', '', $collection) ?? '');
 		$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText($collectionName) . ' collection';
 		$pageDescription = 'A list of ebooks in the ' . Formatter::ToPlainText($collectionName) . ' collection';
