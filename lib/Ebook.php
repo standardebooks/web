@@ -521,7 +521,7 @@ class Ebook{
 
 	public function IsInCollection(string $collection): bool{
 		foreach($this->Collections as $c){
-			if(strtolower($c->Name) == strtolower($collection)){
+			if(strtolower(Formatter::RemoveDiacritics($c->Name)) == strtolower(Formatter::RemoveDiacritics($collection))){
 				return true;
 			}
 		}

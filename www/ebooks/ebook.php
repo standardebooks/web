@@ -72,9 +72,11 @@ catch(\Exception $ex){
 			<p><?= $ebook->ContributorsHtml ?></p>
 			<? } ?>
 			<? if(sizeof($ebook->Collections) > 0){ ?>
-				<? foreach($ebook->Collections as $collection){ ?>
-				<p>Part of the <a href="<?= $collection->Url ?>"><?= Formatter::ToPlainText($collection->Name) ?> collection</a>.</p>
-				<? } ?>
+				<p>Part of the
+					<? for($i = 0; $i < sizeof($ebook->Collections); $i++){ ?>
+					<a href="<?= $ebook->Collections[$i]->Url ?>"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$ebook->Collections[$i]->Name) ?? '') ?></a><? if(sizeof($ebook->Collections) > 2){ ?><? if($i == sizeof($ebook->Collections) - 2){ ?>, and <? }elseif($i != sizeof($ebook->Collections) - 1){ ?>, <? } ?><? }elseif($i == sizeof($ebook->Collections) - 2){ ?> and <? } ?>
+					<? } ?>
+				collection<? if(sizeof($ebook->Collections) > 1){ ?>s<? } ?></a>.</p>
 			<? } ?>
 			<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
 		</aside>

@@ -28,15 +28,22 @@ try{
 		$tag = strtolower(str_replace('-', ' ', $tag));
 		$ebooks = Library::GetEbooksByTag($tag);
 		$pageTitle = 'Browse ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
-		$pageDescription = 'A list of ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
+		$pageDescription = 'Page ' . $page . ' of ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
 		$pageHeader = 'Ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
+
+		$pages = ceil(sizeof($ebooks) / EBOOKS_PER_PAGE);
+
+		$totalEbooks = sizeof($ebooks);
+
+		$ebooks = array_slice($ebooks, ($page - 1) * EBOOKS_PER_PAGE, EBOOKS_PER_PAGE);
 	}
 	elseif($collection !== null){
-		$collection = strtolower(str_replace('-', ' ', $collection));
+		$collection = strtolower(str_replace('-', ' ', Formatter::RemoveDiacritics($collection)));
 		$ebooks = Library::GetEbooksByCollection($collection);
-		$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText(ucwords($collection)) . ' collection';
-		$pageDescription = 'A list of ebooks in the ' . Formatter::ToPlainText(ucwords($collection)) . ' collection';
-		$pageHeader = 'Ebooks in the ' . Formatter::ToPlainText(ucwords($collection)) . ' collection';
+		$collectionName = ucwords(preg_replace('/^The /ius', '', $collection) ?? '');
+		$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText($collectionName) . ' collection';
+		$pageDescription = 'A list of ebooks in the ' . Formatter::ToPlainText($collectionName) . ' collection';
+		$pageHeader = 'Ebooks in the ' . Formatter::ToPlainText($collectionName) . ' collection';
 	}
 	else{
 		$pageTitle = 'Browse Standard Ebooks';
@@ -74,7 +81,7 @@ catch(\Exception $ex){
 		<? }else{ ?>
 			<?= Template::EbookGrid(['ebooks' => $ebooks]) ?>
 		<? } ?>
-		<? if($query === null){ ?>
+		<? if($query === null && $tag === null && $collection === null){ ?>
 			<nav>
 				<a<? if($page > 1){ ?> href="/ebooks/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($page - 1 <= 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>"<? } ?> rel="previous">Back</a>
 				<ol>
@@ -84,6 +91,18 @@ catch(\Exception $ex){
 				</ol>
 				<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($sort != SORT_NEWEST){ ?>&amp;sort=<?= $sort ?><? } ?>"<? }else{ ?> class="disabled"<? } ?> rel="next">Next</a>
 			</nav>
+		<? }elseif($tag !== null){ ?>
+			<nav>
+				<a<? if($page > 1){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?>"<? } ?> rel="previous">Back</a>
+				<ol>
+				<? for($i = 1; $i < $pages + 1; $i++){ ?>
+					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?>"><?= $i ?></a></li>
+				<? } ?>
+				</ol>
+				<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/?page=<?= $page + 1 ?>"<? }else{ ?> class="disabled"<? } ?> rel="next">Next</a>
+			</nav>
+		<? } ?>
+		<? if($query === null && $tag === null && $collection === null){ ?>
 			<aside class="sort">
 				<p>Sort by</p>
 				<a class="button<? if($sort == SORT_NEWEST){ ?> check<? } ?>" href="/ebooks/">newest</a>
