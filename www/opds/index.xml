@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>https://standardebooks.org/opds/</id>
 	<link href="https://standardebooks.org/opds/" rel="self" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
