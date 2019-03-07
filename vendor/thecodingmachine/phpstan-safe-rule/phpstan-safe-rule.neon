@@ -1,0 +1,9 @@
+services:
+  -
+    class: TheCodingMachine\Safe\PHPStan\Rules\UseSafeFunctionsRule
+    tags:
+      - phpstan.rules.rule
+  -
+    class: TheCodingMachine\Safe\PHPStan\Type\Php\ReplaceSafeFunctionsDynamicReturnTypeExtension
+    tags:
+      - phpstan.broker.dynamicFunctionReturnTypeExtension

@@ -1,6 +1,11 @@
 <?
 require_once('Core.php');
 
+use function Safe\substr;
+use function Safe\file_get_contents;
+use function Safe\preg_replace;
+use function Safe\json_decode;
+
 // Get a semi-random ID to identify this request within the log.
 $requestId = substr(sha1(time() . rand()), 0, 8);
 

@@ -1,4 +1,8 @@
 <?
+use function Safe\apcu_fetch;
+use function Safe\preg_replace;
+use function Safe\usort;
+
 class Library{
 	public static function GetEbooks(string $sort = null): array{
 		$ebooks = [];
@@ -6,9 +10,10 @@ class Library{
 		switch($sort){
 			case SORT_AUTHOR_ALPHA:
 				// Get all ebooks, sorted by author alpha first.
-				$ebooks = apcu_fetch('ebooks-alpha', $success);
-
-				if(!$success){
+				try{
+					$ebooks = apcu_fetch('ebooks-alpha');
+				}
+				catch(Safe\Exceptions\ApcuException $ex){
 					$ebooks = Library::GetEbooks();
 
 					usort($ebooks, function($a, $b){
@@ -21,9 +26,10 @@ class Library{
 
 			case SORT_NEWEST:
 				// Get all ebooks, sorted by newest first.
-				$ebooks = apcu_fetch('ebooks-newest', $success);
-
-				if(!$success){
+				try{
+					$ebooks = apcu_fetch('ebooks-newest');
+				}
+				catch(Safe\Exceptions\ApcuException $ex){
 					$ebooks = Library::GetEbooks();
 
 					usort($ebooks, function($a, $b){
@@ -46,14 +52,16 @@ class Library{
 
 			default:
 				// Get all ebooks, unsorted.
-				$ebooks = apcu_fetch('ebooks', $success);
-
-				if(!$success){
+				try{
+					$ebooks = apcu_fetch('ebooks');
+				}
+				catch(Safe\Exceptions\ApcuException $ex){
 					foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
 						$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?: '';
-						$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath, $success);
-
-						if(!$success){
+						try{
+							$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath);
+						}
+						catch(Safe\Exceptions\ApcuException $ex){
 							$ebook = new Ebook($ebookWwwFilesystemPath);
 							apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
 						}
@@ -71,17 +79,19 @@ class Library{
 
 	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
 		// Do we have the author's ebooks cached?
-		$ebooks = apcu_fetch('author-' . $wwwFilesystemPath, $success);
-
-		if(!$success){
+		try{
+			$ebooks = apcu_fetch('author-' . $wwwFilesystemPath);
+		}
+		catch(Safe\Exceptions\ApcuException $ex){
 			$ebooks = [];
 
 			foreach(explode("\n", trim(shell_exec('find ' . escapeshellarg($wwwFilesystemPath) . ' -name "content.opf"') ?? '')) as $filename){
 				try{
 					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?? '';
-					$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath, $success);
-
-					if(!$success){
+					try{
+						$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath);
+					}
+					catch(Safe\Exceptions\ApcuException $ex){
 						$ebook = new Ebook($ebookWwwFilesystemPath);
 						apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
 					}
@@ -102,17 +112,19 @@ class Library{
 
 	public static function GetEbooksByTag(string $tag): array{
 		// Do we have the tag's ebooks cached?
-		$ebooks = apcu_fetch('tag-' . $tag, $success);
-
-		if(!$success){
+		try{
+			$ebooks = apcu_fetch('tag-' . $tag);
+		}
+		catch(Safe\Exceptions\ApcuException $ex){
 			$ebooks = [];
 
 			foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
 				try{
 					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?? '';
-					$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath, $success);
-
-					if(!$success){
+					try{
+						$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath);
+					}
+					catch(Safe\Exceptions\ApcuException $ex){
 						$ebook = new Ebook($ebookWwwFilesystemPath);
 						apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
 					}
@@ -134,17 +146,19 @@ class Library{
 
 	public static function GetEbooksByCollection(string $collection): array{
 		// Do we have the tag's ebooks cached?
-		$ebooks = apcu_fetch('collection-' . $collection, $success);
-
-		if(!$success){
+		try{
+			$ebooks = apcu_fetch('collection-' . $collection);
+		}
+		catch(Safe\Exceptions\ApcuException $ex){
 			$ebooks = [];
 
 			foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
 				try{
 					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?? '';
-					$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath, $success);
-
-					if(!$success){
+					try{
+						$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath);
+					}
+					catch(Safe\Exceptions\ApcuException $ex){
 						$ebook = new Ebook($ebookWwwFilesystemPath);
 						apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
 					}

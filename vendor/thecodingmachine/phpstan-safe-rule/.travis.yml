@@ -1,0 +1,32 @@
+language: php
+sudo: false
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+env:
+  global:
+  # We need to prefer source to get PHPStan test directory. Otherwise, it is removed from ZIP
+  - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-progress --optimize-autoloader --prefer-source"
+  - TASK_TESTS=1
+  - TASK_TESTS_COVERAGE=0
+  - TASK_CS=1
+  - TASK_SCA=0
+  matrix:
+  - COMPOSER_FLAGS="--prefer-lowest"
+  - COMPOSER_FLAGS=""
+cache:
+  directories:
+  - "$HOME/.composer/cache"
+before_install:
+- travis_retry composer global require $DEFAULT_COMPOSER_FLAGS hirak/prestissimo
+install:
+- travis_retry composer update $DEFAULT_COMPOSER_FLAGS $COMPOSER_FLAGS
+- composer info -D | sort
+- mkdir tmp
+script:
+- vendor/bin/phpunit --verbose;
+- composer phpstan
+- composer cs-check
+after_success:
+- vendor/bin/coveralls -v

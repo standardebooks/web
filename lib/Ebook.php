@@ -1,4 +1,11 @@
 <?
+use function Safe\preg_replace;
+use function Safe\file_get_contents;
+use function Safe\preg_match;
+use function Safe\glob;
+use function Safe\substr;
+use function Safe\json_encode;
+
 class Ebook{
 	public $WwwFilesystemPath;
 	public $RepoFilesystemPath;

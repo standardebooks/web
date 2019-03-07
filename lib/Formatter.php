@@ -1,4 +1,6 @@
 <?
+use function Safe\preg_replace;
+
 class Formatter{
 	public static function RemoveDiacritics(string $text): string{
 		if(!isset($GLOBALS['transliterator'])){

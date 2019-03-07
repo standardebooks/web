@@ -1,10 +1,14 @@
 <?
+// Composer auto-loads the lib/ directory in composer.json
+require __DIR__ . '/../vendor/autoload.php';
+
+use function Safe\mb_internal_encoding;
+use function Safe\mb_http_output;
+use function Safe\error_log;
+
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 date_default_timezone_set('UTC');
-
-// Composer auto-loads the lib/ directory in composer.json
-require __DIR__ . '/../vendor/autoload.php';
 
 // Custom error handler to output more details about the specific Apache request that caused an exception.
 set_exception_handler(function($ex){

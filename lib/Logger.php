@@ -1,10 +1,16 @@
 <?
+use function Safe\fopen;
+use function Safe\fwrite;
+use function Safe\fclose;
+use function Safe\error_log;
+
 class Logger{
 	public static function WriteGithubWebhookLogEntry(string $requestId, string $text){
-		$fp = fopen(GITHUB_WEBHOOK_LOG_FILE_PATH, 'a+');
-
-		if($fp === false){
-			self::WriteErrorLogEntry('Could not open log file: ' . GITHUB_WEBHOOK_LOG_FILE_PATH);
+		try{
+			$fp = fopen(GITHUB_WEBHOOK_LOG_FILE_PATH, 'a+');
+		}
+		catch(\Exception $ex){
+			self::WriteErrorLogEntry('Couldn\'t open log file: ' . GITHUB_WEBHOOK_LOG_FILE_PATH . '. Exception: ' . vds($ex));
 			return;
 		}
 

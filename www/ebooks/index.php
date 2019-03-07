@@ -1,6 +1,8 @@
 <?
 require_once('Core.php');
 
+use function Safe\preg_replace;
+
 try{
 	$page = HttpInput::GetInt('page') ?? 1;
 	$query = HttpInput::GetString('query', false);

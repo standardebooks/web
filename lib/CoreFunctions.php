@@ -2,6 +2,8 @@
 // Auto-included by Composer in composer.json
 // These functions are broken out of Core.php to satisfy PHPStan
 
+use function Safe\ob_end_clean;
+
 // Convenience alias of var_dump.
 function vd($var){
 	var_dump($var);

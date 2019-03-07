@@ -1,4 +1,7 @@
 <?
+use function Safe\file_get_contents;
+use function Safe\ob_end_clean;
+
 class Template{
 	protected static $Cache = [];
 

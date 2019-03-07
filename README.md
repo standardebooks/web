@@ -45,7 +45,7 @@ You’ll also need to ensure the following:
 
 # Testing
 
-This repository includes [PHPStan](https://github.com/phpstan/phpstan) to statically analyze the codebase.
+This repository includes [PHPStan](https://github.com/phpstan/phpstan) to statically analyze the codebase and [Safe PHP](https://github.com/thecodingmachine/safe) to replace old functions that don't throw exceptions.
 
 To run PHPStan, execute:
 

@@ -14,6 +14,7 @@ final class Versions
 {
     public const ROOT_PACKAGE_NAME = '__root__';
     public const VERSIONS          = array (
+  'thecodingmachine/safe' => 'v0.1.14@67b654c7effeda8db27c133e5f0cbb638e90d1e4',
   'composer/xdebug-handler' => '1.3.2@d17708133b6c276d6e42ef887a877866b909d892',
   'jean85/pretty-package-versions' => '1.2@75c7effcf3f77501d0e0caa75111aff4daa0dd48',
   'nette/bootstrap' => 'v2.4.6@268816e3f1bb7426c3a4ceec2bd38a036b532543',
@@ -32,7 +33,8 @@ final class Versions
   'symfony/contracts' => 'v1.0.2@1aa7ab2429c3d594dd70689604b5cf7421254cdf',
   'symfony/finder' => 'v4.2.3@ef71816cbb264988bb57fe6a73f610888b9aa70c',
   'symfony/polyfill-mbstring' => 'v1.10.0@c79c051f5b3a46be09205c73b80b346e4153e494',
-  '__root__' => 'dev-master@e198c4db65320cce173bdde14ef08da5beb5d6d8',
+  'thecodingmachine/phpstan-safe-rule' => 'v0.1.3@00f4845905feb5240ca62fb799e3c51ba85c9230',
+  '__root__' => 'dev-master@04a956886ab327ddbe5eec546b911b9e55a0e5ef',
 );
 
     private function __construct()

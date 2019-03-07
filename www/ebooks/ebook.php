@@ -1,6 +1,11 @@
 <?
 require_once('Core.php');
 
+use function Safe\preg_match;
+use function Safe\preg_replace;
+use function Safe\apcu_fetch;
+use function Safe\shuffle;
+
 try{
 	$urlPath = trim(str_replace('.', '', HttpInput::GetString('url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
 	$wwwFilesystemPath = SITE_ROOT . '/www/ebooks/' . $urlPath; // Path to the deployed WWW files for this ebook
@@ -27,9 +32,10 @@ try{
 	}
 
 	// Do we have the ebook cached?
-	$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath, $success);
-
-	if(!$success){
+	try{
+		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
+	}
+	catch(Safe\Exceptions\ApcuException $ex){
 		$ebook = new Ebook($wwwFilesystemPath);
 		apcu_store('ebook-' . $wwwFilesystemPath, $ebook);
 	}
