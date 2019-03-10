@@ -421,6 +421,59 @@ class FinderTest extends Iterator\RealIteratorTestCase
         ]), $finder->in(self::$tmpDir)->getIterator());
     }
 
+    public function testIgnoreVCSCanBeDisabledAfterFirstIteration()
+    {
+        $finder = $this->buildFinder();
+        $finder->in(self::$tmpDir);
+        $finder->ignoreDotFiles(false);
+
+        $this->assertIterator($this->toAbsolute([
+            'foo',
+            'foo/bar.tmp',
+            'qux',
+            'qux/baz_100_1.py',
+            'qux/baz_1_2.py',
+            'qux_0_1.php',
+            'qux_1000_1.php',
+            'qux_1002_0.php',
+            'qux_10_2.php',
+            'qux_12_0.php',
+            'qux_2_0.php',
+            'test.php',
+            'test.py',
+            'toto',
+            '.bar',
+            '.foo',
+            '.foo/.bar',
+            '.foo/bar',
+            'foo bar',
+        ]), $finder->getIterator());
+
+        $finder->ignoreVCS(false);
+        $this->assertIterator($this->toAbsolute(['.git',
+            'foo',
+            'foo/bar.tmp',
+            'qux',
+            'qux/baz_100_1.py',
+            'qux/baz_1_2.py',
+            'qux_0_1.php',
+            'qux_1000_1.php',
+            'qux_1002_0.php',
+            'qux_10_2.php',
+            'qux_12_0.php',
+            'qux_2_0.php',
+            'test.php',
+            'test.py',
+            'toto',
+            'toto/.git',
+            '.bar',
+            '.foo',
+            '.foo/.bar',
+            '.foo/bar',
+            'foo bar',
+        ]), $finder->getIterator());
+    }
+
     public function testIgnoreDotFiles()
     {
         $finder = $this->buildFinder();
@@ -494,6 +547,53 @@ class FinderTest extends Iterator\RealIteratorTestCase
             'qux_12_0.php',
             'qux_2_0.php',
         ]), $finder->in(self::$tmpDir)->getIterator());
+    }
+
+    public function testIgnoreDotFilesCanBeDisabledAfterFirstIteration()
+    {
+        $finder = $this->buildFinder();
+        $finder->in(self::$tmpDir);
+
+        $this->assertIterator($this->toAbsolute([
+            'foo',
+            'foo/bar.tmp',
+            'qux',
+            'qux/baz_100_1.py',
+            'qux/baz_1_2.py',
+            'qux_0_1.php',
+            'qux_1000_1.php',
+            'qux_1002_0.php',
+            'qux_10_2.php',
+            'qux_12_0.php',
+            'qux_2_0.php',
+            'test.php',
+            'test.py',
+            'toto',
+            'foo bar',
+        ]), $finder->getIterator());
+
+        $finder->ignoreDotFiles(false);
+        $this->assertIterator($this->toAbsolute([
+            'foo',
+            'foo/bar.tmp',
+            'qux',
+            'qux/baz_100_1.py',
+            'qux/baz_1_2.py',
+            'qux_0_1.php',
+            'qux_1000_1.php',
+            'qux_1002_0.php',
+            'qux_10_2.php',
+            'qux_12_0.php',
+            'qux_2_0.php',
+            'test.php',
+            'test.py',
+            'toto',
+            '.bar',
+            '.foo',
+            '.foo/.bar',
+            '.foo/bar',
+            'foo bar',
+        ]), $finder->getIterator());
     }
 
     public function testSortByName()

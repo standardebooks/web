@@ -28,10 +28,10 @@ class RobotLoader
 
 	const RETRY_LIMIT = 3;
 
-	/** @var array  comma separated wildcards */
+	/** @var array */
 	public $ignoreDirs = ['.*', '*.old', '*.bak', '*.tmp', 'temp'];
 
-	/** @var array  comma separated wildcards */
+	/** @var array */
 	public $acceptFiles = ['*.php'];
 
 	/** @var bool */
@@ -95,7 +95,7 @@ class RobotLoader
 				$missing = &$this->missing[$type];
 				$missing++;
 				if (!$this->refreshed && $missing <= self::RETRY_LIMIT) {
-					$this->refresh();
+					$this->refreshClasses();
 					$this->saveCache();
 				} elseif ($info) {
 					unset($this->classes[$type]);
@@ -171,7 +171,8 @@ class RobotLoader
 	 */
 	public function rebuild()
 	{
-		$this->refresh();
+		$this->classes = $this->missing = [];
+		$this->refreshClasses();
 		if ($this->tempDirectory) {
 			$this->saveCache();
 		}
@@ -179,12 +180,26 @@ class RobotLoader
 
 
 	/**
-	 * Refreshes class list.
+	 * Refreshes class list cache.
 	 * @return void
 	 */
-	private function refresh()
+	public function refresh()
 	{
-		$this->refreshed = true; // prevents calling refresh() or updateFile() in tryLoad()
+		$this->loadCache();
+		if (!$this->refreshed) {
+			$this->refreshClasses();
+			$this->saveCache();
+		}
+	}
+
+
+	/**
+	 * Refreshes $classes.
+	 * @return void
+	 */
+	private function refreshClasses()
+	{
+		$this->refreshed = true; // prevents calling refreshClasses() or updateFile() in tryLoad()
 		$files = [];
 		foreach ($this->classes as $class => $info) {
 			$files[$info['file']]['time'] = $info['time'];
@@ -193,7 +208,8 @@ class RobotLoader
 
 		$this->classes = [];
 		foreach ($this->scanPaths as $path) {
-			foreach (is_file($path) ? [new SplFileInfo($path)] : $this->createFileIterator($path) as $file) {
+			$iterator = is_file($path) ? [new SplFileInfo($path)] : $this->createFileIterator($path);
+			foreach ($iterator as $file) {
 				$file = $file->getPathname();
 				if (isset($files[$file]) && $files[$file]['time'] == filemtime($file)) {
 					$classes = $files[$file]['classes'];
@@ -234,7 +250,8 @@ class RobotLoader
 			}
 		}
 
-		$iterator = Nette\Utils\Finder::findFiles(is_array($this->acceptFiles) ? $this->acceptFiles : preg_split('#[,\s]+#', $this->acceptFiles))
+		$acceptFiles = is_array($this->acceptFiles) ? $this->acceptFiles : preg_split('#[,\s]+#', $this->acceptFiles);
+		$iterator = Nette\Utils\Finder::findFiles($acceptFiles)
 			->filter(function (SplFileInfo $file) use (&$disallow) {
 				return !isset($disallow[str_replace('\\', '/', $file->getRealPath())]);
 			})
@@ -419,9 +436,7 @@ class RobotLoader
 
 		list($this->classes, $this->missing) = @include $file; // @ file may not exist
 		if (!is_array($this->classes)) {
-			$this->classes = [];
-			$this->refresh();
-			$this->saveCache();
+			$this->rebuild();
 		}
 
 		flock($handle, LOCK_UN);
