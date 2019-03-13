@@ -91,6 +91,17 @@ try{
 			else{
 				Logger::WriteGithubWebhookLogEntry($requestId, 'git pull from GitHub complete.');
 			}
+
+			// Our local repo is now updated. Build the ebook!
+			exec('/standardebooks.org/scripts/deploy-ebook-to-www ' . escapeshellarg($dir), $output, $returnCode);
+			if($returnCode != 0){
+				Logger::WriteGithubWebhookLogEntry($requestId, 'Error deploying ebook to web. Output: ' . implode("\n", $output));
+				throw new WebhookException('Couldn\'t process ebook.', $post);
+			}
+			else{
+				Logger::WriteGithubWebhookLogEntry($requestId, 'Deploy to web complete.');
+			}
+
 			break;
 		default:
 			throw new WebhookException('Unrecognized GitHub webhook event.', $post);
