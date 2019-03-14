@@ -68,7 +68,7 @@ try{
 			Logger::WriteGithubWebhookLogEntry($requestId, 'Processing ebook "' . $repoName . '" located at "' . $dir . '".');
 
 			// Check the local repo's last commit. If it matches this push, then don't do anything; we're already up to date.
-			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1; echo $?') ?? '');
+			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1') ?? '');
 
 			if($lastCommitSha1 == ''){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error getting last local commit. Output: ' . $lastCommitSha1);
