@@ -1484,8 +1484,12 @@ main.ebooks nav ol li.highlighted::after{
 
 article nav ol li.highlighted:first-child::before,
 article nav ol li.highlighted:last-child::after,
+article nav ol li.highlighted:nth-child(2)::before,
+article nav ol li.highlighted:nth-last-child(2)::after,
 main.ebooks nav ol li.highlighted:first-child::before,
-main.ebooks nav ol li.highlighted:last-child::after{
+main.ebooks nav ol li.highlighted:last-child::after,
+main.ebooks nav ol li.highlighted:nth-child(2)::before,
+main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	display: none;
 }
 
