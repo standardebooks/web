@@ -344,6 +344,8 @@ require_once('Core.php');
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text.</p>
 				<p>The <code class="path">content.opf</code> is standardized. Please <a href="/contribute/metadata">see our extensive Metadata Manual</a> for details on how to fill out <code class="path">content.opf</code>.</p>
 				<p>As you complete the metadata, you’ll have to order the spine and the manifest in this file. Fortunately, Standard Ebooks has a tool for that too: <code class="program">se print-manifest-and-spine</code>. Run this on our source directory and, as you can guess, it’ll print out the <code class="html">&lt;manifest&gt;</code> and <code class="html">&lt;spine&gt;</code> tags for this work.</p>
+				<p>If you’re using a Mac, and thus the badly-behaved Finder program, you may find that it has carelessly polluted your work directory with useless <code class="path">.DS_Store</code> files. Before continuing, you should <a href="https://duckduckgo.com/?q=mac+alternative+file+manager">find a better file manager program</a>, then delete all of that litter with the following command. Otherwise, <code class="program">se print-manifest-and-spine</code> will include that litter in its output and your epub won’t be valid.</p>
+				<code class="terminal"><span>find . -name ".DS_Store" -type f -delete</span></code>
 				<p>Since this is the first time we’re editing <code class="path">content.opf</code>, we’re OK with replacing both the manifest and spine tags with a guess at the correct contents. We can do this using the <code class="program">--in-place</code> option. If we have to update the manifest or spine later, we can omit the option to print to standard output instead of altering <code class="path">content.opf</code> directly.</p>
 				<code class="terminal raw"><span>se print-manifest-and-spine --in-place .</span></code>
 				<p>The manifest is already in the correct order and doesn’t need to be edited. The spine, however, will have to be reordered to be in the correct reading order. Once you’ve done that, commit!</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Complete content.opf"</span></code>
@@ -362,9 +364,9 @@ require_once('Core.php');
 				<h2>Clean and lint before building</h2>
 				<p>Before you build the final ebook for you to proofread, it’s a good idea to check the ebook for some common problems you might run in to during production.</p>
 				<p>First, run <code class="program">se clean</code> one more time to both clean up the source files, and to alert you if there are XHTML parsing errors. Even though we ran <code class="program">se clean</code> before, it’s likely that in the course of production the ebook got in to less-than-perfect markup formatting. Remember you can run <code class="program">se clean</code> as many times as you want—it should always produce the same output.</p>
-				<p>If you’re using a Mac, and thus the badly-behaved Finder program, you may find that it has carelessly polluted your work directory with useless <code class="path">.DS_Store</code> files. Before continuing, you should <a href="https://duckduckgo.com/?q=mac+alternative+file+manager">find a better file manager program</a>, then delete all of that litter with the following command:</p>
-				<code class="terminal"><span>find . -name ".DS_Store" -type f -delete</span></code>
-				<p>Next, run <code class="program">se lint</code>. If your ebook has any problems, you’ll see some output listing them. If everything’s OK, then <code class="program">se lint</code> will complete silently.</p><code class="terminal"><span>se clean .</span> <span>se lint .</span></code>
+				<code class="terminal"><span>se clean .</span></code>
+				<p>Now, run <code class="program">se lint</code>. If your ebook has any problems, you’ll see some output listing them. If everything’s OK, then <code class="program">se lint</code> will complete silently.</p>
+				<code class="terminal"><span>se lint .</span></code>
 			</li>
 			<li>
 				<h2>Build and proofread, proofread, proofread!</h2>
