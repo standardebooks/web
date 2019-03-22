@@ -83,7 +83,7 @@ try{
 			}
 
 			// Now that we have the ebook filesystem path, pull the latest commit from GitHub.
-			exec('/standardebooks.org/scripts/pull-from-github ' . escapeshellarg($dir), $output, $returnCode);
+			exec('sudo -H -u se-vcs-bot /standardebooks.org/scripts/pull-from-github ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error pulling from GitHub. Output: ' . implode("\n", $output));
 				throw new WebhookException('Couldn\'t process ebook.', $post);
@@ -93,7 +93,7 @@ try{
 			}
 
 			// Our local repo is now updated. Build the ebook!
-			exec('/standardebooks.org/scripts/deploy-ebook-to-www ' . escapeshellarg($dir), $output, $returnCode);
+			exec('sudo -H -u se-vcs-bot /standardebooks.org/scripts/deploy-ebook-to-www ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error deploying ebook to web. Output: ' . implode("\n", $output));
 				throw new WebhookException('Couldn\'t process ebook.', $post);
