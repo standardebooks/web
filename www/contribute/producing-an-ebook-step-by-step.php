@@ -26,7 +26,7 @@ require_once('Core.php');
 				<p>The best place to look for public domain ebooks to produce is <a href="https://www.gutenberg.org">Project Gutenberg</a>. If downloading from Gutenberg, be careful of the following:</p>
 				<ul>
 					<li>
-						<p>There may be different versions of the same publication on Gutenberg, and <em>the best one might not be the one with the most downloads</em>. In particular, there could be a better translation that has fewer downloads because it was produced later, or there could be a version with better HTML markup. A great example of this phenomenon is the Gutenberg version of <i>20,000 Leagues Under the Seas</i>. The most-downloaded version is an <a href="https://www.gutenberg.org/ebooks/164" rel="nofollow">old translation widely criticized as being slapdash and inaccurate</a>. The less popular version is a <a href="https://www.gutenberg.org/ebooks/2488">fresh, modern translation dedicated to the public domain</a>.</p>
+						<p>There may be different versions of the same publication on Gutenberg, and <em>the best one might not be the one with the most downloads</em>. In particular, there could be a better translation that has fewer downloads because it was produced later, or there could be a version with better HTML markup. A great example of this phenomenon is the Gutenberg version of <i>20,000 Leagues Under the Seas</i>. The most-Vdownloaded version is an <a href="https://www.gutenberg.org/ebooks/164" rel="nofollow">old translation widely criticized as being slapdash and inaccurate</a>. The less popular version is a <a href="https://www.gutenberg.org/ebooks/2488">fresh, modern translation dedicated to the public domain</a>.</p>
 					</li>
 					<li>
 						<p>Gutenberg usually offers both an HTML version and an epub version of the same ebook. Note that <em>one is not always exactly the same as the other!</em> A casual reader might assume that the HTML version is generated from the epub version, or the other way around; but for some reason the HTML and epub versions often differ in important ways, with the HTML version typically using fewer useless CSS classes, and including <code class="html">&lt;em&gt;</code> tags that the epub version is often missing.</p>
@@ -335,11 +335,6 @@ require_once('Core.php');
 				<p>Once we built the images successfully, perform a commit.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Add cover and titlepage images"</span></code>
 			</li>
 			<li>
-				<h2>Complete the table of contents</h2>
-				<p>The table of contents is a structured document that should let the reader easily navigate the book. In a Standard Ebook, it’s stored outside of the readable text directory with the assumption that the reading system will parse it and display a navigable representation for the user.</p>
-				<p>For now, you can copy and paste a <abbr class="initialism">ToC</abbr> file from a different Standard Ebook to get an idea of what they should look like. Once you’re done, commit.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Add ToC"</span></code>
-			</li>
-			<li>
 				<h2>Complete content.opf</h2>
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text.</p>
 				<p>The <code class="path">content.opf</code> is standardized. Please <a href="/contribute/metadata">see our extensive Metadata Manual</a> for details on how to fill out <code class="path">content.opf</code>.</p>
@@ -349,6 +344,15 @@ require_once('Core.php');
 				<p>Since this is the first time we’re editing <code class="path">content.opf</code>, we’re OK with replacing both the manifest and spine tags with a guess at the correct contents. We can do this using the <code class="program">--in-place</code> option. If we have to update the manifest or spine later, we can omit the option to print to standard output instead of altering <code class="path">content.opf</code> directly.</p>
 				<code class="terminal raw"><span>se print-manifest-and-spine --in-place .</span></code>
 				<p>The manifest is already in the correct order and doesn’t need to be edited. The spine, however, will have to be reordered to be in the correct reading order. Once you’ve done that, commit!</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Complete content.opf"</span></code>
+			</li>
+			<li>
+				<h2>Complete the table of contents</h2>
+				<p>The table of contents is a structured document that should let the reader easily navigate the book. In a Standard Ebook, it’s stored outside of the readable text directory with the assumption that the reading system will parse it and display a navigable representation for the user.</p>
+				<p>Once you’ve completed the <code class="html">&lt;spine&gt;</code> element in <code class="path">content.opf</code>, you can use <code class="program">se print-toc</code> to generate a table of contents for this ebook. Since this is the first time we’re generating a ToC for this ebook, use the <code class="program">--in-place</code> flag to replace the template ToC file with the generated ToC.</p>
+				<code class="terminal raw"><span>se print-toc --in-place .</span></code>
+				<p>Review the generated ToC in <code class="path">./src/epub/toc.xhtml</code> to make sure <code class="program">se print-toc</code> did the right thing. You may have to make changes by hand for complex or unusual books.
+				<p>Once you’re done, commit:</p>
+				<code class="terminal"><span>git add -A</span> <span>git commit -m "Add ToC"</span></code>
 			</li>
 			<li>
 				<h2>Complete the colophon</h2>
