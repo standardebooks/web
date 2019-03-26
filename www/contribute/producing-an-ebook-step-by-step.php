@@ -350,7 +350,7 @@ require_once('Core.php');
 				<p>The table of contents is a structured document that should let the reader easily navigate the book. In a Standard Ebook, it’s stored outside of the readable text directory with the assumption that the reading system will parse it and display a navigable representation for the user.</p>
 				<p>Once you’ve completed the <code class="html">&lt;spine&gt;</code> element in <code class="path">content.opf</code>, you can use <code class="program">se print-toc</code> to generate a table of contents for this ebook. Since this is the first time we’re generating a ToC for this ebook, use the <code class="program">--in-place</code> flag to replace the template ToC file with the generated ToC.</p>
 				<code class="terminal raw"><span>se print-toc --in-place .</span></code>
-				<p>Review the generated ToC in <code class="path">./src/epub/toc.xhtml</code> to make sure <code class="program">se print-toc</code> did the right thing. You may have to make changes by hand for complex or unusual books.
+				<p>Review the generated ToC in <code class="path">./src/epub/toc.xhtml</code> to make sure <code class="program">se print-toc</code> did the right thing. <code class="program">se print-toc</code> is valuable tool to discover structural problems in your ebook. If an entry is arranged in a way you weren’t expecting, perhaps the problem isn’t with <code class="program">se print-toc</code>, but with your HTML code—be careful! You may have to make changes by hand for complex or unusual books.</p>
 				<p>Once you’re done, commit:</p>
 				<code class="terminal"><span>git add -A</span> <span>git commit -m "Add ToC"</span></code>
 			</li>
