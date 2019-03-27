@@ -361,7 +361,7 @@ white-space: nowrap;
 				<li>
 					<p>If the z3998 vocabulary doesn't have an appropriate keyword, next consult the <a href="/vocab/1.0">Standard Ebooks vocabulary</a>.</p>
 					<p>Keywords using this vocabulary are preceded by the <code class="html">se</code> namespace.</p>
-					<p>Unlike other vocabularies, the Standard Ebooks vocabulary is organized heirarchally. A complete vocabulary entry begins with the root vocabulary entry, with subsequent children separated by <code class="html">.</code>.</p>
+					<p>Unlike other vocabularies, the Standard Ebooks vocabulary is organized heirarchically. A complete vocabulary entry begins with the root vocabulary entry, with subsequent children separated by <code class="html">.</code>.</p>
 					<figure>
 						<code class="html">The &lt;i epub:type="se:name.vessel.ship"&gt;&lt;abbr class="initialism"&gt;HMS&lt;/abbr&gt; Bounty&lt;/i&gt;.</code>
 					</figure>
