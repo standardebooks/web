@@ -24,4 +24,3 @@ set_exception_handler(function($ex){
 
 	throw $ex; // Send the exception back to PHP for its usual logging routine.
 });
-?>

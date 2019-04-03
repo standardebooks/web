@@ -8,4 +8,3 @@ class Collection{
 		$this->Url = '/collections/' . strtolower(str_replace(' ', '-', Formatter::ToPlainText(Formatter::RemoveDiacritics($this->Name)))) . '/';
 	}
 }
-?>

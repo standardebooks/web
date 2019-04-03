@@ -1,4 +1,3 @@
 <?
 class InvalidEbookException extends \Exception{
 }
-?>

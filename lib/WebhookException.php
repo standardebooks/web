@@ -7,4 +7,3 @@ class WebhookException extends \Exception{
 		parent::__construct($message);
 	}
 }
-?>

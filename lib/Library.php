@@ -191,4 +191,3 @@ class Library{
 		return $matches;
 	}
 }
-?>

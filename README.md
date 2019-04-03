@@ -109,6 +109,8 @@ Before submitting design contributions, please discuss them with the Standard Eb
     preg_replace('|</foo>|ius', '</bar>', $text);
     ````
 
+-   Omit closing PHP tags in files that are pure PHP.
+
 -   Language constructs that can optionally have curly braces (like `if`) should always have curly braces.
 
     Good:

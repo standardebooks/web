@@ -1,4 +1,3 @@
 <?
 class EbookParsingException extends \Exception{
 }
-?>

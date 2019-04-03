@@ -536,4 +536,3 @@ class Ebook{
 		return false;
 	}
 }
-?>

@@ -36,4 +36,3 @@ class Formatter{
 		return htmlspecialchars(trim($text), ENT_QUOTES, 'UTF-8');
 	}
 }
-?>

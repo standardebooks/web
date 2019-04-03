@@ -8,4 +8,3 @@ class Tag{
 		$this->Url = '/tags/' . strtolower(str_replace(' ', '-', Formatter::ToPlainText($this->Name))) . '/';
 	}
 }
-?>

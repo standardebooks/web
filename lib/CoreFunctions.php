@@ -23,4 +23,3 @@ function vds($var){
 	ob_end_clean();
 	return $str;
 }
-?>

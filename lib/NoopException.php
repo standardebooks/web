@@ -1,4 +1,3 @@
 <?
 class NoopException extends \Exception{
 }
-?>

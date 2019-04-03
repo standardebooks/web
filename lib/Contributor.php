@@ -16,4 +16,3 @@ class Contributor{
 		$this->MarcRole = $marcRole;
 	}
 }
-?>

@@ -1,4 +1,3 @@
 <?
 class InvalidAuthorException extends \Exception{
 }
-?>

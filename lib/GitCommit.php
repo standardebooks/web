@@ -8,4 +8,3 @@ class GitCommit{
 		$this->Message = $message;
 	}
 }
-?>

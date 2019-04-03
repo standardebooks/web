@@ -79,4 +79,3 @@ class HttpInput{
 		return $default;
 	}
 }
-?>

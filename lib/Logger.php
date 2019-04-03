@@ -22,4 +22,3 @@ class Logger{
 		error_log($text);
 	}
 }
-?>
