@@ -146,9 +146,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/17617">David Harum</a> by Edward Noyes Westcott</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/21415">The Young Visiters</a> by Daisy Ashford (Note the purposefully uncorrected spelling and grammar are style choices.)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/William_McGonagall">Poetry of William McGonagall</a> (To be compiled in an omnibus)</p>
 			</li>
