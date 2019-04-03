@@ -12,6 +12,8 @@ You’ll also need to ensure the following:
 
 - Your PHP installation must be configured to have `/standardebooks.org/lib/` in its include path.
 
+- [PHP short open tags](https://www.php.net/manual/en/ini.core.php#ini.short-open-tag) must be enabled.
+
 - [PHP-APCu](http://php.net/manual/en/book.apcu.php) and [PHP-intl](http://php.net/manual/en/book.intl.php) must be installed. On Ubuntu this can be done with `sudo apt install php-apcu php-intl`.
 
 - The URL `^/ebooks/([^\.]+?)/?$` must redirect to `/standardebooks.org/ebooks/ebook.php?url-path=$1`
