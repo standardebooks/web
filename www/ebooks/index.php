@@ -118,9 +118,17 @@ catch(\Exception $ex){
 		<? } ?>
 		<? if($query === null && $tag === null && $collection === null){ ?>
 			<aside class="sort">
-				<p>Sort by</p>
-				<a class="button<? if($sort == SORT_NEWEST){ ?> check<? } ?>" href="/ebooks/">newest</a>
-				<a class="button<? if($sort == SORT_AUTHOR_ALPHA){ ?> check<? } ?>" href="/ebooks/?sort=<?= SORT_AUTHOR_ALPHA ?>">alpha by author</a>
+				<form action="" method="get">
+					<label>Sort by
+						<select>
+							<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected<? } ?>>newest</option>
+							<option value="<?= SORT_AUTHOR_ALPHA ?>"<? if($sort == SORT_AUTHOR_ALPHA){ ?> selected<? } ?>>author name</option>
+							<option value="<?= SORT_READING_EASE ?>"<? if($sort == SORT_READING_EASE){ ?> selected<? } ?>>reading ease</option>
+							<option value="<?= SORT_LENGTH ?>"<? if($sort == SORT_LENGTH){ ?> selected<? } ?>>length</option>
+						</select>
+					</label>
+					<button>Sort</button>
+				</form>
 			</aside>
 			<? if($page == 1){ ?>
 			<?= Template::ContributeAlert() ?>
