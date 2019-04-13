@@ -50,6 +50,56 @@ class Library{
 				}
 				break;
 
+			case SORT_READING_EASE:
+				// Get all ebooks, sorted by easiest first.
+				try{
+					$ebooks = apcu_fetch('ebooks-reading-ease');
+				}
+				catch(Safe\Exceptions\ApcuException $ex){
+					$ebooks = Library::GetEbooks();
+
+					usort($ebooks, function($a, $b){
+						if($a->ReadingEase < $b->ReadingEase){
+							return -1;
+						}
+						elseif($a->ReadingEase == $b->ReadingEase){
+							return 0;
+						}
+						else{
+							return 1;
+						}
+					});
+
+					$ebooks = array_reverse($ebooks);
+
+					apcu_store('ebooks-reading-ease', $ebooks);
+				}
+				break;
+
+			case SORT_LENGTH:
+				// Get all ebooks, sorted by fewest words first.
+				try{
+					$ebooks = apcu_fetch('ebooks-length');
+				}
+				catch(Safe\Exceptions\ApcuException $ex){
+					$ebooks = Library::GetEbooks();
+
+					usort($ebooks, function($a, $b){
+						if($a->WordCount < $b->WordCount){
+							return -1;
+						}
+						elseif($a->WordCount == $b->WordCount){
+							return 0;
+						}
+						else{
+							return 1;
+						}
+					});
+
+					apcu_store('ebooks-length', $ebooks);
+				}
+				break;
+
 			default:
 				// Get all ebooks, unsorted.
 				try{
