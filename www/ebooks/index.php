@@ -16,7 +16,7 @@ try{
 		$page = 1;
 	}
 
-	if($sort != SORT_AUTHOR_ALPHA && $sort != SORT_NEWEST){
+	if($sort != SORT_AUTHOR_ALPHA && $sort != SORT_NEWEST && $sort != SORT_READING_EASE && $sort != SORT_LENGTH){
 		$sort = SORT_NEWEST;
 	}
 
@@ -71,6 +71,12 @@ try{
 				break;
 			case SORT_AUTHOR_ALPHA:
 				$pageDescription .= 'alphabetically by author name.';
+				break;
+			case SORT_READING_EASE:
+				$pageDescription .= 'by easiest ebooks first.';
+				break;
+			case SORT_LENGTH:
+				$pageDescription .= 'by shortest ebooks first.';
 				break;
 		}
 	}

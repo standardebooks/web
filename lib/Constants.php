@@ -4,6 +4,8 @@
 const EBOOKS_PER_PAGE = 12;
 const SORT_NEWEST = 'newest';
 const SORT_AUTHOR_ALPHA = 'author-alpha';
+const SORT_READING_EASE = 'reading-ease';
+const SORT_LENGTH = 'length';
 
 const GET = 0;
 const POST = 1;
