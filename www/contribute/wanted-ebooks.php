@@ -42,9 +42,6 @@ require_once('Core.php');
 				<p><a href="https://en.wikisource.org/wiki/Brood_of_the_Witch_Queen">Brood of the Witch Queen</a> by Sax Rohmer</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20988">Islands of Space</a> by John W. Campbell Jr.</p>
 			</li>
 			<li>
@@ -86,9 +83,15 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/3776">The Valley of Fear</a> by Arthur Conan Doyle</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/search/?query=Baroness+Orczy">Scarlet Pimpernel novels</a> by Baroness Orczy</p>
 			</li>
