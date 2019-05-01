@@ -72,9 +72,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/479">Little Lord Fauntleroy</a> by Frances Hodgson Burnett</p>
 			</li>
 			<!-- <li>
-				<p><a href="http://classics.mit.edu/Caesar/gallic.html">The Gallic Wars</a> by Julius Caesar</p>
-			</li> -->
-			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
 			</li> -->
 			<li>
