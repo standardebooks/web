@@ -24,9 +24,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction and novels by Andre Norton</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/9807">Scarhaven Keep</a> by J. S. Fletcher</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/50561">The Dark Other</a> by Stanley G. Weinbaum</p>
 			</li>
 			<li>
