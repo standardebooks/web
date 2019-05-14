@@ -191,9 +191,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/161">Sense and Sensibility</a> by Jane Austen</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/5231">The Way We Live Now</a> by Anthony Trollope</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/829">Gulliver’s Travels</a> by Jonathan Swift</p>
 			</li>
