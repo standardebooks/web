@@ -610,6 +610,13 @@ article.ebook > header > div > p{
 	margin-top: 1rem;
 }
 
+article.ebook > header > div a,
+article.ebook > header > div a:link,
+article.ebook > header > div a:visited{
+	color: inherit;
+	text-decoration: none;
+}
+
 article.ebook > header > img{
 	width: 100%;
 	top: 0;
