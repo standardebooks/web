@@ -66,7 +66,7 @@ catch(\Exception $ex){
 			<div>
 				<h1><?= Formatter::ToPlainText($ebook->Title) ?></h1>
 				<? foreach($ebook->Authors as $author){ ?>
-				<p><?= Formatter::ToPlainText($author->Name) ?></p>
+				<p><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></p>
 				<? } ?>
 			</div>
 			<img src="<?= $ebook->HeroImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= $ebook->Title ?>." />
