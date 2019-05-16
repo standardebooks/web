@@ -303,15 +303,15 @@ font-weight: normal;
 	&lt;link href="../css/local.css" rel="stylesheet" type="text/css"/&gt;
 &lt;/head&gt;
 &lt;body epub:type="backmatter z3998:fiction"&gt;
-	&lt;section id="endnotes" epub:type="rearnotes"&gt;
+	&lt;section id="endnotes" epub:type="endnotes"&gt;
 		&lt;h2 epub:type="title"&gt;Endnotes&lt;/h2&gt;
 		&lt;ol&gt;
-			&lt;li id="note-1" epub:type="rearnote"&gt;
+			&lt;li id="note-1" epub:type="endnote"&gt;
 				&lt;p&gt;The first endnote goes here.&lt;/p&gt;
-				&lt;p&gt;Here's another line for the first endnote. &lt;a href="chapter-1.xhtml#noteref-1" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
+				&lt;p&gt;Here's another line for the first endnote. &lt;a href="chapter-1.xhtml#noteref-1" epub:type="backlink"&gt;↩&lt;/a&gt;&lt;/p&gt;
 			&lt;/li&gt;
-			&lt;li id="note-2" epub:type="rearnote"&gt;
-				&lt;p&gt;The second endnote goes here. &lt;a href="chapter-1.xhtml#noteref-2" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
+			&lt;li id="note-2" epub:type="endnote"&gt;
+				&lt;p&gt;The second endnote goes here. &lt;a href="chapter-1.xhtml#noteref-2" epub:type="backlink"&gt;↩&lt;/a&gt;&lt;/p&gt;
 			&lt;/li&gt;
 		&lt;/ol&gt;
 	&lt;/section&gt;
@@ -323,18 +323,18 @@ font-weight: normal;
 			<li><p>Each <code class="html">&lt;li&gt;</code> requires the following attributes:</p>
 			<ul>
 			<li><p><code class="html">id</code> is set to the string “note-” followed by the sequential endnote number, beginning with 1.</p></li>
-			<li><p><code class="html">epub:type</code> is set to “rearnote”.</p></li>
+			<li><p><code class="html">epub:type</code> is set to “endnote”.</p></li>
 
 			</ul>
 			<li><p>The <code class="html">href</code> attribute points to the direct anchor reference to the endnote.  </p></li>
 
 			<li><p>If an endnote contains a citation offset with a dash (for example, “&mdash;Ed.”), separate the citation from the text with a single space and enclose it in the <code class="html">&lt;cite&gt;</code> tag:</p>
-			<code class="html full">&lt;li id="note-1" epub:type="rearnote"&gt;
-&lt;p&gt;Here’s an endnote. &lt;cite&gt;&mdash;&lt;abbr class="eoc"&gt;Ed.&lt;/abbr&gt;&lt;/cite&gt; &lt;a href="chapter-1.xhtml#note-1" epub:type="se:referrer"&gt;↩&lt;/a&gt;&lt;/p&gt;
+			<code class="html full">&lt;li id="note-1" epub:type="endnote"&gt;
+&lt;p&gt;Here’s an endnote. &lt;cite&gt;&mdash;&lt;abbr class="eoc"&gt;Ed.&lt;/abbr&gt;&lt;/cite&gt; &lt;a href="chapter-1.xhtml#note-1" epub:type="backlink"&gt;↩&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;</code>
 			</li>
 
-			<li><p>The final <code class="html">&lt;p&gt;</code> element in an endnote contains a link back to the referring anchor.  Don’t just point it to the file, make sure it points to the exact link that we came from. For example, <code class="path">chapter-1.xhtml#note-1</code>, <em>not</em> <code class="path">chapter-1.xhtml</code>.  If the link is the last element in a longer <code class="html">&lt;p&gt;</code> tag, it must be preceded by one space character; if it is the only child of a <code class="html">&lt;p&gt;</code> tag (for example if the previous text was a <code class="html">&lt;blockquote&gt;</code>) then it can be on its own line.  It must have the <code class="html">epub:type</code> set to <code class="html">se:referrer</code>.  The text of the link is always the “↩” character.</p></li>
+			<li><p>The final <code class="html">&lt;p&gt;</code> element in an endnote contains a link back to the referring anchor.  Don’t just point it to the file, make sure it points to the exact link that we came from. For example, <code class="path">chapter-1.xhtml#note-1</code>, <em>not</em> <code class="path">chapter-1.xhtml</code>.  If the link is the last element in a longer <code class="html">&lt;p&gt;</code> tag, it must be preceded by one space character; if it is the only child of a <code class="html">&lt;p&gt;</code> tag (for example if the previous text was a <code class="html">&lt;blockquote&gt;</code>) then it can be on its own line.  It must have the <code class="html">epub:type</code> set to <code class="html">backlink</code>.  The text of the link is always the “↩” character.</p></li>
 			</ul>
 		</section>
 		<section id="thought-and-section-breaks">

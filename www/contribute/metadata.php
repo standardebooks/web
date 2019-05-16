@@ -97,11 +97,10 @@ require_once('Core.php');
 				<p>Arrange the <code class="html">&lt;dc:subject&gt;</code> elements sequentially in a block.</p>
 			</li>
 			<li>
-				<p>After the block of <code class="html">&lt;dc:subject&gt;</code> elements, include a block of <code class="html">&lt;meta property="meta-auth"&gt;</code> elements with values representing the URL at which you found the categorizations for each individual subject.</p>
-				<p>For example, if we found the Library of Congress categories for an ebook at the Project Gutenberg ebook’s “bibrec” tab, then you would use the URL of the Project Gutenberg ebook.</p>
+				<p>After the block of <code class="html">&lt;dc:subject&gt;</code> elements, include a block of <code class="html">&lt;meta property="authority"&gt;</code> and <code class="html">&lt;meta property="term"&gt;</code>  elements with values representing the source and particular ID of the subject. <code class="html">authority</code> is almost always <code class="html">LCSH</code> (Library of Congress Subject Heading).</p>
 			</li>
 			<li>
-				<p>The <code class="html">&lt;meta property="meta-auth"&gt;</code> element must refine each individual <code class="html">&lt;dc:subject&gt;</code> element, even if the URL is the same for all of them.</p>
+				<p>The <code class="html">&lt;meta property="authority"&gt;</code> element must refine each individual <code class="html">&lt;dc:subject&gt;</code> element.</p>
 			</li>
 		</ul>
 		<p>This example shows how to mark up the subjects for <i><a href="/ebooks/david-lindsay/a-voyage-to-arcturus">A Voyage to Arcturus</a></i>:</p><code class="html full">&lt;dc:subject id="subject-1"&gt;Science fiction&lt;/dc:subject&gt; &lt;dc:subject id="subject-2"&gt;Psychological fiction&lt;/dc:subject&gt; &lt;dc:subject id="subject-3"&gt;Quests (Expeditions) -- Fiction&lt;/dc:subject&gt; &lt;dc:subject id="subject-4"&gt;Life on other planets -- Fiction&lt;/dc:subject&gt; &lt;meta property="meta-auth" refines="#subject-1"&gt;https://www.gutenberg.org/ebooks/1329&lt;/meta&gt; &lt;meta property="meta-auth" refines="#subject-2"&gt;https://www.gutenberg.org/ebooks/1329&lt;/meta&gt; &lt;meta property="meta-auth" refines="#subject-3"&gt;https://www.gutenberg.org/ebooks/1329&lt;/meta&gt; &lt;meta property="meta-auth" refines="#subject-4"&gt;https://www.gutenberg.org/ebooks/1329&lt;/meta&gt;</code>
