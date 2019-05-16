@@ -16,9 +16,15 @@ You’ll also need to ensure the following:
 
 - [PHP-APCu](http://php.net/manual/en/book.apcu.php) and [PHP-intl](http://php.net/manual/en/book.intl.php) must be installed. On Ubuntu this can be done with `sudo apt install php-apcu php-intl`.
 
+- The URL `^/ebooks/([^\./]+?)/$` must redirect to `/standardebooks.org/ebooks/author.php?url-path=$1`
+
 - The URL `^/ebooks/([^\.]+?)/?$` must redirect to `/standardebooks.org/ebooks/ebook.php?url-path=$1`
 
-- The URL `^/ebooks/([^\./]+?)/$` must redirect to `/standardebooks.org/ebooks/author.php?url-path=$1`
+- The URL `^/tags/([^\./]+?)/?$` must redirect to `/standardebooks.org/ebooks/index.php?tag=$1`
+
+- The URL `/collections/([^\./]+?)/?$` must redirect to `/standardebooks.org/ebooks/index.php?collection=$1`
+
+- Extensionless PHP should be configured to work.
 
 # Filesystem layout
 
@@ -134,3 +140,44 @@ Before submitting design contributions, please discuss them with the Standard Eb
     else
         print('Bar!');
     ````
+
+# Vagrant
+
+You can also set up a development server running Ubuntu 18.04 with nginx and php-fpm by using the included Vagrantfile in the project root. To do so, first install Vagrant and VirtualBox.
+
+Both are available as packages in several major distributions, including Arch, Debian, Fedora, Gentoo, Ubuntu, and NixOS among others. Note that [the official docs advise against installing from distribution repositories](https://www.vagrantup.com/intro/getting-started/install.html) due to potentially old versions or incorrect dependencies.
+
+If you want to download the official binaries because Vagrant is not available in your distro's repository, because the version in the repository is too old or broken, or because you do not use Linux, you can download Vagrant [here](https://www.vagrantup.com/downloads.html)
+and VirtualBox from [here.](https://www.virtualbox.org/wiki/Downloads)
+
+After you have installed both, you can start and manage a VM running a server like this:
+
+- `vagrant box add ubuntu/bionic64` downloads an [official Ubuntu 18.04 image](https://app.vagrantup.com/ubuntu/boxes/bionic64) (also known as a box in Vagrant terminology) for use as a base image in Vagrant VMs. This box is stored in `$HOME/.vagrant.d/boxes`.
+
+- `vagrant run` will launch a VirtualBox VM running the server.
+
+  * On its first invocation, or when the VM has been deleted, `vagrant up` will create a new VirtualBox VM in your standard Virtualbox machine directory (usually `$HOME/VirtualBox VMs`) using the previously added box as a base and configure it using the `Vagrantfile` and `scripts/provision.sh`. This means that the first time doing `vagrant run` will take significantly longer than following invocations because those simply start up the already created VM associated with VirtualBox.
+
+  * Note that `vagrant run` will automatically download the box specified in the Vagrantfile (in this case `ubuntu/bionic64`), so you can skip `vagrant box add ubuntu/bionic64` if you want.
+
+- The project root is mounted in the VM as `/standardebooks.org/`, so any changes you make in the repository will be reflected in the webroot inside VM. However, you may have to restart the server for it to pick up the changes. You can restart the entire VM by doing `vagrant reload` or you can use `vagrant ssh -c "sudo systemctl restart php7.2-fpm; sudo systemctl restart nginx;"` to restart php-fpm and nginx.
+
+- You can run commands inside the VM with `vagrant ssh -c COMMAND` or launch an interactive SSH session with `vagrant ssh`.
+
+- When you are done, you can shut down the VM by doing `vagrant halt`. To start it again, do `vagrant run`.
+
+- To delete the project-local VirtualBox VM, run `vagrant destroy`. To get a fresh VM, for example, you can do `vagrant destroy` followed by `vagrant up`. Note that this does not delete any added boxes/base images added with `vagrant box add`.
+
+## Some further notes
+
+- The server runs on `127.0.0.1:8080` if you want to use a different port, change the `host: 8080` statement in the Vagrantfile to the desired port.
+
+- You can list all locally installed boxes by doing `vagrant box list`.
+
+- To completely delete a box, you can run `vagrant box remove ubuntu/bionic64`.
+
+- To update the box, run `vagrant box update --box ubuntu/bionic64`. Note that this will not change the project-local VM. You will have to create a new VM based on the updated box by doing a `vagrant destroy` followed by a `vagrant up`. To remove old unused versions of boxes, run `vagrant box prune`.
+
+- Check out scripts/provision.sh to see how the server is configured, the script is Vagrant-agnostic, so it should be helpful even if you don't want to use Vagrant.
+
+- For further information, check out the [official Vagrant guide.](https://www.vagrantup.com/intro/index.html)
