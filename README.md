@@ -14,7 +14,14 @@ You’ll also need to ensure the following:
 
 - [PHP short open tags](https://www.php.net/manual/en/ini.core.php#ini.short-open-tag) must be enabled.
 
-- [PHP-APCu](http://php.net/manual/en/book.apcu.php) and [PHP-intl](http://php.net/manual/en/book.intl.php) must be installed. On Ubuntu this can be done with `sudo apt install php-apcu php-intl`.
+- [PHP-APCu](http://php.net/manual/en/book.apcu.php), [PHP-intl](http://php.net/manual/en/book.intl.php), and [Composer](https://getcomposer.org/) must be installed. On Ubuntu this can be done with `sudo apt install php-apcu php-intl composer`.
+
+-   Once Composer is installed, next install the SE Composer dependencies:
+
+    ```bash
+    cd /standardebooks.org/
+    composer install
+    ```
 
 - The URL `^/ebooks/([^\./]+?)/$` must redirect to `/standardebooks.org/ebooks/author.php?url-path=$1`
 
@@ -24,7 +31,7 @@ You’ll also need to ensure the following:
 
 - The URL `/collections/([^\./]+?)/?$` must redirect to `/standardebooks.org/ebooks/index.php?collection=$1`
 
-- Extensionless PHP should be configured to work.
+- Your web server should be configured to serve PHP files without the `.php` file extension. (I.e., your web server *internally* redirects `/foo/bar` to `/foo/bar.php`, if `/foo/bar.php` exists.)
 
 # Filesystem layout
 
