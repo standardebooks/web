@@ -1,4 +1,7 @@
+ebooks/*
 www/ebooks/*
 www/images/covers/*
 www/opds/*.xml
 www/rss/*.xml
+vendor/
+composer.lock
