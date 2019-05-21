@@ -1,0 +1,166 @@
+#!/bin/bash
+
+usage(){
+	fmt <<EOF
+DESCRIPTION
+	Deploy a Standard Ebook source repository to the web.
+
+USAGE
+	deploy-ebook-to-www [-v,--verbose] DIRECTORY [DIRECTORY...]
+		DIRECTORY is a bare source repository.
+EOF
+	exit
+}
+die(){ printf "\033[0;7;31mError:\033[0m %s\n" "${1}" 1>&2; exit 1; }
+require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ ! -z "$2" ]; then suggestion=" $2"; fi; die "$1 is not installed.${suggestion}"; } }
+if [ $#  -eq 1 ]; then if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then usage; fi fi
+# End boilerplate
+
+# Check for dependencies
+require "convert" "Try: apt-get install imagemagick"
+require "rsvg-convert" "Try: apt-get install librsvg2-bin"
+
+verbose="false"
+
+if [ $#  -eq 0 ]; then
+	usage
+fi
+
+for var in "$@"
+do
+	if [ "${var}" = "-v" ] || [ "${var}" = "--verbose" ]; then
+		verbose="true"
+		break
+	fi
+done
+
+for dir in "$@"
+do
+	if [ "${dir}" = "" ] || [ "${dir}" = "-v" ] || [ "${dir}" = "--verbose" ]; then
+		continue
+	fi
+
+	repoDir=$(realpath "${dir%/}")
+	baseName=$(basename "${repoDir}")
+
+	if [ "${baseName}" = ".git" ]; then
+		continue
+	fi
+
+	if [ ! -d "${repoDir}" ]; then
+		die "Invalid repo root: ${repoDir}"
+	fi
+
+	cd "${repoDir}" || return
+
+	if [ "${verbose}" = "true" ]; then
+		printf "Entering %s\n" "${repoDir}"
+	fi
+
+	if git show HEAD:src/epub/content.opf | grep --quiet --extended-regexp "<dc:date>1900-01-01T00:00:00Z</dc:date>"; then
+		printf "Looks like a draft ebook, skipping\n"
+		continue
+	fi
+
+	webDir=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s/^url:https:\/\/standardebooks.org\/ebooks\/?//")
+
+	if [ "${webDir}" = "" ]; then
+		die "Empty webdir!"
+	fi
+
+	workDir=$(mktemp -d)
+	imgWorkDir=$(mktemp -d)
+	webDir="/standardebooks.org/www/ebooks/${webDir}"
+
+	if [ "${verbose}" = "true" ]; then
+		printf "Generating cover image for web ... "
+	fi
+
+	urlSafeIdentifier=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s|url:https://standardebooks.org/ebooks/||g" | sed --regexp-extended "s|/|_|g")
+
+	# Build the hero image for individual ebook pages
+	git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
+	cp "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
+	# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078
+	convert -resize "1078" -crop "1078x359+0+539" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
+	convert -resize "2156" -crop "2156x718+0+1078" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
+
+	# Build the cover image thumbnail
+	git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
+	git show HEAD:images/cover.svg > "${imgWorkDir}/${urlSafeIdentifier}.svg"
+	sed -i "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
+	cp "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}@2x.svg"
+
+	# Due to a bug in `convert` we have to use rsvg-convert to convert SVG to PNG, then work on the PNG with `convert`.
+	rsvg-convert --keep-aspect-ratio --format png --output "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
+	rsvg-convert --keep-aspect-ratio --format png --output "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}@2x.svg"
+
+	# Resize and compress the image (formula from Google Page Speed Insights)
+	convert -resize "196" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.jpg"
+	convert -resize "392" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
+
+	mv "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
+	mv "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
+
+	sudo chgrp --preserve-root --recursive se "${imgWorkDir}/${urlSafeIdentifier}"*
+	sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
+
+	if [ "${verbose}" = "true" ]; then
+		printf "Done.\n"
+		printf "Building ebook ... "
+	fi
+
+	git clone --quiet "${repoDir}" "${workDir}"
+
+	mkdir "${workDir}/dist"
+
+	# Build the ebook
+	if ! se build --output-dir="${workDir}/dist" --check --kindle --kobo --covers "${workDir}"; then
+		rm --preserve-root --recursive --force "${workDir}"
+		die "Error building ebook, stopping deployment."
+	fi
+
+	if [ "${verbose}" = "true" ]; then
+		printf "Done.\n"
+	fi
+
+	# Delete the contents of the old webdir
+	rm --preserve-root --recursive --force "${webDir}"
+
+	# Re-create the webdir
+	mkdir -p "${webDir}"
+
+	# Move contents of the work dir over
+	mv "${workDir}"/* "${webDir}/"
+
+	# Move the cover images over
+	mv "${imgWorkDir}/${urlSafeIdentifier}"*.jpg "/standardebooks.org/www/images/covers/"
+
+	# Delete the now-empty work dir (empty except for .git)
+	rm --preserve-root --recursive --force "${workDir}" "${imgWorkDir}"
+
+	sudo chgrp --preserve-root --recursive se "${webDir}"
+
+	sudo chmod --preserve-root --recursive g+ws "${webDir}"
+
+	if [ "${verbose}" = "true" ]; then
+		printf "Flushing PHP-FPM opcache and apcu cache ... "
+	fi
+
+	/standardebooks.org/scripts/reset-php-fpm-opcache standardebooks.org
+
+	if [ "${verbose}" = "true" ]; then
+		printf "Done.\n"
+	fi
+done
+
+# Build the OPDS catalog
+if [ "${verbose}" = "true" ]; then
+	printf "Rebuilding OPDS catalog ... "
+fi
+
+bash -c "php /standardebooks.org/scripts/generate-opds.php > /standardebooks.org/www/opds/all.xml; export XMLLINT_INDENT=\$(printf \"\\t\") && xmllint --c14n /standardebooks.org/www/opds/all.xml | (printf \"%s\\n\" \"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\" && cat) | xmllint --output /standardebooks.org/www/opds/all.xml --format -"
+
+if [ "${verbose}" = "true" ]; then
+	printf "Done.\n"
+fi

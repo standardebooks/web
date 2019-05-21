@@ -1,0 +1,30 @@
+#!/bin/bash
+
+usage(){
+	echo -n
+	fmt <<EOF
+DESCRIPTION
+	Flush the PHP-FPM opcache and the APCu user cache without reloading or resetting the PHP-FPM service.
+
+USAGE
+	reset-php-fpm-opcache POOL_NAME
+EOF
+	exit 1
+}
+
+if [ $# -eq 1 ]; then
+	if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+		usage
+	fi
+fi
+
+if [ $# -ne 1 ]; then
+	usage
+fi
+
+# If this script is run by a user without sudo powers, they can be given for this command by creating a file in sudoers.d with:
+# MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
+
+echo '<?php opcache_reset(); if(function_exists("apcu_clear_cache")){ apcu_clear_cache(); } ?>' > /tmp/php-fpm-opcache-reset.php
+sudo -u www-data env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/$1.sock" &> /dev/null
+rm /tmp/php-fpm-opcache-reset.php
