@@ -1,1 +1,4 @@
-.vagrant/
+www/ebooks/*
+www/images/covers/*
+www/opds/*.xml
+www/rss/*.xml
