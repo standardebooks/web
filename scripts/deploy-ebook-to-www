@@ -164,3 +164,14 @@ bash -c "php /standardebooks.org/scripts/generate-opds.php > /standardebooks.org
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
 fi
+
+# Build the new releases RSS feed
+if [ "${verbose}" = "true" ]; then
+	printf "Rebuilding new releases RSS feed ... "
+fi
+
+bash -c "php /standardebooks.org/scripts/generate-rss.php > /standardebooks.org/www/rss/new-releases.xml"
+
+if [ "${verbose}" = "true" ]; then
+	printf "Done.\n"
+fi
