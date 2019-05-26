@@ -62,9 +62,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/222">The Moon and Sixpence</a> by W. Somerset Maugham</p>
 			</li> -->
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/479">Little Lord Fauntleroy</a> by Frances Hodgson Burnett</p>
 			</li>
@@ -78,8 +78,11 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/3776">The Valley of Fear</a> by Arthur Conan Doyle</p>
+				<p><a href="https://www.gutenberg.org/ebooks/58585">The Prophet</a> by Kahlil Gibran</p>
 			</li>
+			<!-- <li>
+				<p><a href="http://www.gutenberg.org/ebooks/3776">The Valley of Fear</a> by Arthur Conan Doyle</p>
+			</li> -->
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
