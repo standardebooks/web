@@ -1,0 +1,122 @@
+#!/bin/bash
+set -e
+set -u
+set -o pipefail
+
+usage(){
+	fmt <<EOF
+DESCRIPTION
+	Syncs books from standardebooks.org GitHub org to specified folder.
+
+USAGE
+	${0##*/} [-h] [-v|-vv] [-u] DIRECTORY
+
+	-h displays this message
+	-v displays general progress updates
+	-vv displays progress updates and verbose git output
+
+	DIRECTORY should be where the repositories should go.
+
+EXAMPLE
+	${0##*/} /standardebooks.org/ebooks
+EOF
+	exit
+}
+
+# Terminate on CTRL-C
+trap ctrl_c INT
+ctrl_c() {
+	printf "** Trapped CTRL-C\n"
+	exit
+}
+
+verbosity=0
+update_only="false"
+while getopts ":hvu" option; do
+	case "${option}" in
+		h) usage ;;
+		v) verbosity=$((verbosity + 1)) ;;
+		u) update_only="true" ;;
+		?) usage ;;
+	esac
+done
+shift "$((OPTIND -1))"
+
+if [ -z "$*" ]; then
+	usage
+fi
+
+if ! [ -d "$*" ]; then
+	>&2 printf "%s does not exist.\n" "$*"
+	exit
+fi
+
+if ! cd "$*"; then
+	>&2 printf "Couldn't cd into %s.\n" "$*"
+	exit
+fi
+
+if [ "${verbosity}" -gt 0 ]; then
+	printf "** Updating local repositories. **\n"
+fi
+
+for item in ./*; do
+	[ -e "${item}" ] || break
+	if [ "${verbosity}" -gt 0 ]; then
+		printf "Updating %s\n" "${item}"
+	fi
+
+	if [ "${verbosity}" -gt 1 ]; then
+		git -C "${item}" fetch -v
+	else
+		git -C "${item}" fetch -q
+	fi
+done
+
+if [ "${update_only}" = "true" ]; then
+	exit
+fi
+
+if [ "${verbosity}" -gt 0 ]; then
+	printf "** Cloning remote repositories. **\n"
+	printf "Fetching repository urls"
+fi
+
+page=1
+urls=""
+pageurls="placeholder"
+while [ -n "${pageurls}" ]; do
+	pageurls=$(curl -s "https://api.github.com/orgs/standardebooks/repos?per_page=100&page=${page}" \
+		| awk 'BEGIN { FS="\""; RS="," }; { if ($2 == "clone_url") {print $4} }')
+	urls=$(printf "%s\n%s" "${urls}" "${pageurls}")
+	page=$((page + 1))
+
+	if [ "${verbosity}" -gt 0 ]; then
+		printf "."
+	fi
+done
+
+if [ "${verbosity}" -gt 0 ]; then
+	printf "\n"
+fi
+
+urls=$(printf "%s\n" "${urls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" | awk 'NF')
+
+printf "%s\n" "${urls}" | while IFS= read -r repourl; do
+	[ -n "${repourl}" ] || continue
+	[ -d "${repourl##*/}" ] && continue
+
+	if [ "${verbosity}" -gt 0 ]; then
+		printf "Cloning %s\n" "${repourl}"
+	fi
+
+	if [ "${verbosity}" -gt 1 ]; then
+		git clone -v --bare "${repourl}"
+	else
+		git clone -q --bare "${repourl}"
+	fi
+
+	if ! [ -d "${repourl##*/}" ]; then
+		>&2 printf "%s wasn't cloned." "${repourl}"
+	fi
+done
