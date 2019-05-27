@@ -51,6 +51,8 @@ You’ll also need to ensure the following:
 
     The website pulls all ebook information from what is contained in `/standardebooks.org/www/ebooks/`. It does not inspect `/standardebooks.org/ebooks/`. Therefore it is possible for one or the other to hold different catalogs if they become out of sync.
 
+    To automatically populate your server with ebooks from https://github.com/standardebooks/, you can use sync-ebooks and deploy-ebook-to-www in the [scripts](scripts) directory. If you don't want to clone all ebooks, don't use sync-ebooks, and instead clone the books you want into `/standardebooks.org/ebooks` with `git clone --bare`. To clone a list of books, you can use `while IFS= read -r line; do git clone --bare "${line}"; done < urllist.txt`
+
 # Testing
 
 This repository includes [PHPStan](https://github.com/phpstan/phpstan) to statically analyze the codebase and [Safe PHP](https://github.com/thecodingmachine/safe) to replace old functions that don't throw exceptions.
