@@ -5,3 +5,4 @@ www/opds/*.xml
 www/rss/*.xml
 vendor/
 composer.lock
+.vagrant/
