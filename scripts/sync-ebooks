@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -u
 set -o pipefail
 
 usage(){
@@ -9,11 +8,11 @@ DESCRIPTION
 	Syncs books from standardebooks.org GitHub org to specified folder.
 
 USAGE
-	${0##*/} [-h] [-v|-vv] [-u] DIRECTORY
+	${0##*/} [-v,-vv,--verbosity=INTEGER] [-u,--update-only] DIRECTORY
 
-	-h displays this message
-	-v displays general progress updates
-	-vv displays progress updates and verbose git output
+	With -v or --verbosity=1, display general progress updates.
+	With -vv or --verbosity=2, display general progress updates and verbose git output.
+	With --update-only, only sync existing repositories, do not download new repositories.
 
 	DIRECTORY should be where the repositories should go.
 
@@ -22,64 +21,84 @@ EXAMPLE
 EOF
 	exit
 }
+die(){ printf "\033[0;7;31mError:\033[0m %s\n" "${1}" 1>&2; exit 1; }
+if [ $#  -eq 1 ]; then if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then usage; fi fi
+# End boilerplate
 
 # Terminate on CTRL-C
 trap ctrl_c INT
 ctrl_c() {
-	printf "** Trapped CTRL-C\n"
 	exit
 }
 
-verbosity=0
-update_only="false"
-while getopts ":hvu" option; do
-	case "${option}" in
-		h) usage ;;
-		v) verbosity=$((verbosity + 1)) ;;
-		u) update_only="true" ;;
-		?) usage ;;
-	esac
-done
-shift "$((OPTIND -1))"
-
-if [ -z "$*" ]; then
+if [[ $# -lt 1 ]]; then
 	usage
 fi
 
-if ! [ -d "$*" ]; then
-	>&2 printf "%s does not exist.\n" "$*"
-	exit
+verbosity=0
+updateOnly="false"
+target=""
+
+for i in "$@"
+do
+	case $i in
+		-h|--help)
+			usage
+		;;
+		-v)
+			verbosity=1
+			shift
+		;;
+		-vv)
+			verbosity=2
+			shift
+		;;
+		--verbosity=*)
+			verbosity=${i//[-a-zA-Z0-9]*=/}
+			shift
+		;;
+		-u|--update-only)
+			updateOnly="true"
+			shift
+		;;
+		*)
+			target="${i}"
+			shift
+	esac
+done
+
+if ! [ -d "${target}" ]; then
+	die "${target} is not a directory."
 fi
 
-if ! cd "$*"; then
-	>&2 printf "Couldn't cd into %s.\n" "$*"
-	exit
+if ! cd "${target}"; then
+	die "Couldn’t cd into ${target}"
 fi
 
 if [ "${verbosity}" -gt 0 ]; then
-	printf "** Updating local repositories. **\n"
+	printf "Updating local repositories ... \n"
 fi
 
 for item in ./*; do
 	[ -e "${item}" ] || break
-	if [ "${verbosity}" -gt 0 ]; then
-		printf "Updating %s\n" "${item}"
-	fi
 
-	if [ "${verbosity}" -gt 1 ]; then
-		git -C "${item}" fetch -v
-	else
+	if [ "${verbosity}" -eq 1 ]; then
+		printf "Updating %s ... " "${item}"
 		git -C "${item}" fetch -q
+		printf "Done.\n"
+	elif [ "${verbosity}" -gt 1 ]; then
+		printf "Updating %s ... \n" "${item}"
+		git -C "${item}" fetch -v
 	fi
 done
 
-if [ "${update_only}" = "true" ]; then
+if [ "${updateOnly}" = "true" ]; then
 	exit
 fi
 
 if [ "${verbosity}" -gt 0 ]; then
-	printf "** Cloning remote repositories. **\n"
-	printf "Fetching repository urls"
+	printf "Cloning remote repositories ... \n"
+	printf "Fetching repository urls ..."
 fi
 
 page=1
@@ -97,7 +116,7 @@ while [ -n "${pageurls}" ]; do
 done
 
 if [ "${verbosity}" -gt 0 ]; then
-	printf "\n"
+	printf " Done.\n"
 fi
 
 urls=$(printf "%s\n" "${urls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" | awk 'NF')
@@ -106,17 +125,23 @@ printf "%s\n" "${urls}" | while IFS= read -r repourl; do
 	[ -n "${repourl}" ] || continue
 	[ -d "${repourl##*/}" ] && continue
 
-	if [ "${verbosity}" -gt 0 ]; then
-		printf "Cloning %s\n" "${repourl}"
-	fi
-
 	if [ "${verbosity}" -gt 1 ]; then
+		printf "Cloning %s ... \n" "${repourl}"
 		git clone -v --bare "${repourl}"
+		if ! [ -d "${repourl##*/}" ]; then
+			printf "Failed.\n"
+		fi
 	else
+		if [ "${verbosity}" -gt 0 ]; then
+			printf "Cloning %s ... " "${repourl}"
+		fi
 		git clone -q --bare "${repourl}"
-	fi
-
-	if ! [ -d "${repourl##*/}" ]; then
-		>&2 printf "%s wasn't cloned." "${repourl}"
+		if [ "${verbosity}" -gt 0 ]; then
+			if ! [ -d "${repourl##*/}" ]; then
+				printf "Failed.\n"
+			else
+				printf "Done.\n"
+			fi
+		fi
 	fi
 done
