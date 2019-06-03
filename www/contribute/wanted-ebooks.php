@@ -71,9 +71,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/4517">Ethan Frome</a> by Edith Wharton</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
