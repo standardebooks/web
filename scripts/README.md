@@ -1,6 +1,6 @@
 # sync-ebooks
 
-To use, call this script with the directory where your ebooks go as its last argument. For example `sync-ebooks /standardebooks.org/ebooks` or if you want to clone them into this repository `sync-ebooks ebooks`. If you want progress output, use -v, and if you want detailed git progress output use -vv.
+To use, call this script with the directory where your ebooks go as its last argument. For example `sync-ebooks /standardebooks.org/ebooks` or if you want to clone them into this repository `sync-ebooks ebooks`. If you want progress output, use -v, and if you want detailed git progress output use -vv. GitHub allows you to make 60 unauthenticated API requests per hour. If you use unauthenticated API requests for other things, this might not be enough, so to resolve that issue, you can create a new OAuth token at https://github.com/settings/tokens/new and pass it via the --token option. You don't need to give the token any permissions.
 
 # deploy-ebook-to-www
 

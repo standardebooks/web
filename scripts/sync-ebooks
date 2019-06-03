@@ -8,11 +8,12 @@ DESCRIPTION
 	Syncs books from standardebooks.org GitHub org to specified folder.
 
 USAGE
-	${0##*/} [-v,-vv,--verbosity=INTEGER] [-u,--update-only] DIRECTORY
+	${0##*/} [-v,-vv,--verbosity INTEGER] [-u,--update-only] [--token TOKEN] DIRECTORY
 
-	With -v or --verbosity=1, display general progress updates.
-	With -vv or --verbosity=2, display general progress updates and verbose git output.
+	With -v or --verbosity 1, display general progress updates.
+	With -vv or --verbosity 2, display general progress updates and verbose git output.
 	With --update-only, only sync existing repositories, do not download new repositories.
+	With --token TOKEN, specify a GitHub access token to use for request. Useful for when you hit the rate limit.
 
 	DIRECTORY should be where the repositories should go.
 
@@ -22,8 +23,10 @@ EOF
 	exit
 }
 die(){ printf "\033[0;7;31mError:\033[0m %s\n" "${1}" 1>&2; exit 1; }
-if [ $#  -eq 1 ]; then if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then usage; fi fi
+require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; then suggestion=" $2"; fi; die "$1 is not installed.${suggestion}"; } }
 # End boilerplate
+
+require "git" "Try: apt-get install git"
 
 # Terminate on CTRL-C
 trap ctrl_c INT
@@ -31,41 +34,51 @@ ctrl_c() {
 	exit
 }
 
-if [[ $# -lt 1 ]]; then
+if [[ $# -eq 0 ]]; then
 	usage
 fi
 
 verbosity=0
 updateOnly="false"
+githubToken=""
 target=""
 
-for i in "$@"
-do
-	case $i in
+while [ $# -gt 0 ]; do
+	case "$1" in
 		-h|--help)
-			usage
-		;;
+			usage ;;
 		-v)
 			verbosity=1
-			shift
-		;;
+			shift 1
+			;;
 		-vv)
 			verbosity=2
-			shift
-		;;
-		--verbosity=*)
-			verbosity=${i//[-a-zA-Z0-9]*=/}
-			shift
-		;;
-		-u|--update-only)
-			updateOnly="true"
-			shift
-		;;
+			shift 1
+			;;
+		--verbosity)
+			case "$2" in
+				''|*[!0-9]*) die "Verbosity is not an integer." ;;
+			esac
+			verbosity="$2"
+			shift 2
+			;;
+		--token)
+			case "$2" in
+				''|*[!0-9a-zA-Z]*) die "Token is empty or contains illegal characters." ;;
+			esac
+			githubToken="$2"
+			shift 2
+			;;
 		*)
-			target="${i}"
-			shift
+			break ;;
 	esac
 done
+
+if [ $# -ne 1 ] || [ -z "$1" ]; then
+	usage
+fi
+
+target="$1"
 
 if ! [ -d "${target}" ]; then
 	die "${target} is not a directory."
@@ -82,13 +95,18 @@ fi
 for item in ./*; do
 	[ -e "${item}" ] || break
 
-	if [ "${verbosity}" -eq 1 ]; then
+	if [ "${verbosity}" -gt 0 ]; then
 		printf "Updating %s ... " "${item}"
+	fi
+
+	if [ "${verbosity}" -lt 2 ]; then
 		git -C "${item}" fetch -q
-		printf "Done.\n"
-	elif [ "${verbosity}" -gt 1 ]; then
-		printf "Updating %s ... \n" "${item}"
+	else
 		git -C "${item}" fetch -v
+	fi
+
+	if [ "${verbosity}" -gt 0 ]; then
+		printf "Done.\n"
 	fi
 done
 
@@ -101,14 +119,32 @@ if [ "${verbosity}" -gt 0 ]; then
 	printf "Fetching repository urls ..."
 fi
 
-page=1
-urls=""
-pageurls="placeholder"
-while [ -n "${pageurls}" ]; do
-	pageurls=$(curl -s "https://api.github.com/orgs/standardebooks/repos?per_page=100&page=${page}" \
-		| awk 'BEGIN { FS="\""; RS="," }; { if ($2 == "clone_url") {print $4} }')
-	urls=$(printf "%s\n%s" "${urls}" "${pageurls}")
-	page=$((page + 1))
+url="https://api.github.com/orgs/standardebooks/repos?per_page=100"
+repoUrls=""
+
+while true; do
+	if [ -n "${githubToken}" ]; then
+		response=$(curl -H "Authorization: token ${githubToken}" -si "${url}") ||
+			die "Curl request failed."
+	else
+		response=$(curl -si "${url}") ||
+			die "Curl request failed."
+	fi
+
+	if printf "%s" "${response}" | grep -q "^X-RateLimit-Remaining: 0$"; then
+		limitReset=$(printf "%s" "${response}" | grep -oP "^X-RateLimit-Reset: \K[0-9]+$")
+		printf "You have reached your daily allowance for unauthenticated GitHub API requests.\n\
+			Either wait until %s or use an OAuth token.\n\
+			You can create a new token at https://github.com/settings/tokens/new and \
+			pass it to this script with the --token option.\n\
+			The token does not need any permissions.\n" "$(date -d @"${limitReset}")" 1>&2
+		exit
+	fi
+
+
+	currentRepoUrls=$(printf "%s" "${response}" | awk 'BEGIN { FS="\""; RS="," }; { if ($2 == "clone_url") {print $4} }')
+	repoUrls=$(printf "%s\n%s" "${repoUrls}" "${currentRepoUrls}")
+	url=$(printf "%s" "${response}" | grep -oP "<\Khttps://api.github.com/[^>]*(?=>; rel=\"next\",)") || break
 
 	if [ "${verbosity}" -gt 0 ]; then
 		printf "."
@@ -119,29 +155,25 @@ if [ "${verbosity}" -gt 0 ]; then
 	printf " Done.\n"
 fi
 
-urls=$(printf "%s\n" "${urls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" | awk 'NF')
+repoUrls=$(printf "%s" "${repoUrls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" | awk 'NF')
 
-printf "%s\n" "${urls}" | while IFS= read -r repourl; do
-	[ -n "${repourl}" ] || continue
-	[ -d "${repourl##*/}" ] && continue
+printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
+	[ -n "${repoUrl}" ] || continue
+	[ -d "${repoUrl##*/}" ] && continue
 
-	if [ "${verbosity}" -gt 1 ]; then
-		printf "Cloning %s ... \n" "${repourl}"
-		git clone -v --bare "${repourl}"
-		if ! [ -d "${repourl##*/}" ]; then
-			printf "Failed.\n"
-		fi
+	if [ "${verbosity}" -gt 0 ]; then
+		printf "Cloning %s ... \n" "${repoUrl}"
+	fi
+
+	if [ "${verbosity}" -lt 2 ]; then
+		git clone -q --bare "${repoUrl}"
 	else
-		if [ "${verbosity}" -gt 0 ]; then
-			printf "Cloning %s ... " "${repourl}"
-		fi
-		git clone -q --bare "${repourl}"
-		if [ "${verbosity}" -gt 0 ]; then
-			if ! [ -d "${repourl##*/}" ]; then
-				printf "Failed.\n"
-			else
-				printf "Done.\n"
-			fi
-		fi
+		git clone -v --bare "${repoUrl}"
+	fi
+
+	if ! [ -d "${repoUrl##*/}" ]; then
+		printf "Failed to clone %s.\n" "${repoUrl##*/}." 1>&2
+	elif [ "${verbosity}" -gt 0 ]; then
+		printf "Done.\n"
 	fi
 done
