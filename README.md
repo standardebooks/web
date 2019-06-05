@@ -179,6 +179,12 @@ After you have installed both, you can start and manage a VM running a server li
 
 ## Some further notes
 
+- The Vagrant script will install [se](https://github.com/standardebooks/tools) by default. If you don't want that (it pulls in quite a few dependencies), remove the `se-tools` argument in Vagrantfile.
+
+- `se`, if installed in the VM, and /standardebooks.org/scripts are in the VMs path. This means you can easily use them with `vagrant ssh -c` like this: `vagrant ssh -c "sync-ebooks -vv /standardebooks.org/ebooks; deploy-ebook-to-www -v --group www-data /standardebooks.org/ebooks/*"`, which would populate the test server with all available SE ebooks. 
+
+- It is safe to re-run the provision script if you did not change the nginx or php configuration files (change the files in the provision script and re-provision instead), so you can use `vagrant up --provision` or `vagrant reload --provision to update the VM, including se-tools and epubcheck, without having to delete it.
+
 - The server runs on `127.0.0.1:8080` if you want to use a different port, change the `host: 8080` statement in the Vagrantfile to the desired port.
 
 - You can list all locally installed boxes by doing `vagrant box list`.

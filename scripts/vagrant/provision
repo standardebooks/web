@@ -1,8 +1,52 @@
 #!/usr/bin/env bash
 
 apt-get update -y
-apt-get install -y nginx php-fpm php-apcu php-intl php-mbstring\
-	php-xml git
+apt-get install -y nginx php-fpm php-apcu php-intl php-mbstring php-xml php-zip composer\
+	zip unzip git
+
+if [ "$1" = "se-tools" ]
+then
+cat << "EOF" | su - vagrant -c /bin/bash
+#!/bin/bash
+set -e
+set -o pipefail
+
+# Install some pre-flight dependencies.
+sudo apt-get install -y python3-pip libxml2-utils librsvg2-bin libimage-exiftool-perl imagemagick jarwrapper default-jre inkscape calibre curl
+
+# Install required fonts.
+mkdir -p ~/.local/share/fonts/
+curl -s -o ~/.local/share/fonts/LeagueSpartan-Bold.otf "https://raw.githubusercontent.com/theleagueof/league-spartan/master/LeagueSpartan-Bold.otf"
+curl -s -o ~/.local/share/fonts/OFLGoudyStM.otf "https://raw.githubusercontent.com/theleagueof/sorts-mill-goudy/master/OFLGoudyStM.otf"
+curl -s -o ~/.local/share/fonts/OFLGoudyStM-Italic.otf "https://raw.githubusercontent.com/theleagueof/sorts-mill-goudy/master/OFLGoudyStM-Italic.otf"
+
+# Refresh the local font cache.
+sudo fc-cache -f
+
+rm -rf ~/.local/share/epubcheck
+
+epubcheck_download_url=$(curl https://api.github.com/repos/w3c/epubcheck/releases/latest \
+	| grep -E --only-matching "\"browser_download_url\":\s*\"(.*?)\"" \
+	| sed "s/\"browser_download_url\":\s*//g" | sed "s/\"//g")
+if [ ! -f ~/.epubcheck_version ] || ! grep -q "${epubcheck_download_url}" ~/.epubcheck_version; then
+	# Download and install the required version of epubcheck.
+	wget --quiet -O /tmp/epubcheck.zip "${epubcheck_download_url}"
+	unzip -o -d $HOME/.local/share/ /tmp/epubcheck.zip
+	mv -f $HOME/.local/share/epubcheck-* $HOME/.local/share/epubcheck
+	sudo chmod +x $HOME/.local/share/epubcheck/epubcheck.jar
+	sudo ln -fs $HOME/.local/share/epubcheck/epubcheck.jar /usr/local/bin/epubcheck
+	printf "%s" "${epubcheck_download_url}" > ~/.epubcheck_version
+fi
+
+# Install the toolset.
+pip3 install --upgrade standardebooks
+
+# Install tab completion.
+sudo ln -fs $HOME/.local/lib/python3.*/site-packages/se/completions/bash/se /usr/share/bash-completion/completions/se
+
+echo "se has been installed to '~/.local/bin'. It should be in your path."
+EOF
+fi
 
 cat << "EOF" > /etc/php/7.2/fpm/conf.d/99-standardebooks.ini
 include_path = .:/standardebooks.org/lib
@@ -13,13 +57,15 @@ extension = intl
 #display_startup_errors = On
 EOF
 
+sed -i "s/short_open_tag = Off/short_open_tag = On/g" /etc/php/7.2/cli/php.ini
+
 cat << "EOF" > /etc/nginx/sites-available/default
 server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
 	root /standardebooks.org/www;
-	index index.php index.html index.htm index.nginx-debian.html;
+	index index.php index.html index.htm index.xml index.nginx-debian.html;
 
 	server_name _;
 
@@ -46,6 +92,25 @@ server {
 	rewrite ^/collections/([^\./]+?)/?$ /ebooks/index.php?collection=$1;
 }
 EOF
+
+
+
+cat << "EOF" | su - vagrant -c /bin/bash
+#!/bin/bash
+set -e
+set -o pipefail
+
+if ! grep "^export PATH=$PATH:~/.local/bin$" ~/.bashrc; then
+        printf '\nexport PATH=$PATH:~/.local/bin' >> ~/.bashrc
+fi
+
+ln -fs /standardebooks.org/scripts/sync-ebooks ~/.local/bin/sync-ebooks
+ln -fs /standardebooks.org/scripts/deploy-ebook-to-www ~/.local/bin/deploy-ebook-to-www
+EOF
+
+chown -R www-data:www-data /var/www
+su - www-data -s /bin/sh -c "cd /standardebooks.org/; composer install"
+usermod -a -G www-data vagrant
 
 systemctl enable php7.2-fpm
 systemctl enable nginx
