@@ -23,6 +23,20 @@ require "git" "Try: apt-get install git"
 require "php" "Try: apt-get install php-cli"
 require "se" "Read: https://github.com/standardebooks/tools"
 
+scriptsDir="$(dirname "$(readlink -f "$0")")"
+
+if ! [ -x "${scriptsDir}"/reset-php-fpm-opcache ]; then
+	die "\"${scriptsDir}\"/reset-php-fpm-opcache is not an executable file."
+fi
+
+if ! [ -f "${scriptsDir}"/generate-opds.php ]; then
+	die "\"${scriptsDir}\"/generate-opds.php\" is not a file or could not be found."
+fi
+
+if ! [ -f "${scriptsDir}"/generate-rss.php ]; then
+	die "\"${scriptsDir}\"/generate-rss.php\" is not a file or could not be found."
+fi
+
 verbose="false"
 
 if [ $#  -eq 0 ]; then
@@ -157,7 +171,7 @@ do
 		printf "Flushing PHP-FPM opcache and apcu cache ... "
 	fi
 
-	/standardebooks.org/scripts/reset-php-fpm-opcache standardebooks.org
+	"${scriptsDir}"/reset-php-fpm-opcache standardebooks.org
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"
@@ -171,7 +185,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding OPDS catalog ... "
 fi
 
-bash -c "php /standardebooks.org/scripts/generate-opds.php > /standardebooks.org/www/opds/all.xml; export XMLLINT_INDENT=\$(printf \"\\t\") && xmllint --c14n /standardebooks.org/www/opds/all.xml | (printf \"%s\\n\" \"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\" && cat) | xmllint --output /standardebooks.org/www/opds/all.xml --format -"
+bash -c "php \"${scriptsDir}\"/generate-opds.php > /standardebooks.org/www/opds/all.xml; export XMLLINT_INDENT=\$(printf \"\\t\") && xmllint --c14n /standardebooks.org/www/opds/all.xml | (printf \"%s\\n\" \"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\" && cat) | xmllint --output /standardebooks.org/www/opds/all.xml --format -"
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
@@ -182,7 +196,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding new releases RSS feed ... "
 fi
 
-bash -c "php /standardebooks.org/scripts/generate-rss.php > /standardebooks.org/www/rss/new-releases.xml"
+bash -c "php \"${scriptsDir}\"/generate-rss.php > /standardebooks.org/www/rss/new-releases.xml"
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
