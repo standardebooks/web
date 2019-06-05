@@ -54,7 +54,10 @@ do
 		die "Invalid repo root: ${repoDir}"
 	fi
 
-	cd "${repoDir}" || return
+	if ! pushd "${repoDir}" > /dev/null; then
+		echo "Couldn't cd into ${repoDir}. Skipping."
+		continue
+	fi
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Entering %s\n" "${repoDir}"
@@ -155,6 +158,8 @@ do
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"
 	fi
+
+	popd > /dev/null || die "Couldn't pop directory."
 done
 
 # Build the OPDS catalog
