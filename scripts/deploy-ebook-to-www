@@ -19,6 +19,9 @@ if [ $#  -eq 1 ]; then if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then usage; fi
 # Check for dependencies
 require "convert" "Try: apt-get install imagemagick"
 require "rsvg-convert" "Try: apt-get install librsvg2-bin"
+require "git" "Try: apt-get install git"
+require "php" "Try: apt-get install php-cli"
+require "se" "Read: https://github.com/standardebooks/tools"
 
 verbose="false"
 
