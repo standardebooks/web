@@ -37,6 +37,8 @@ do
 	fi
 done
 
+mkdir -p /standardebooks.org/www/images/covers/
+
 for dir in "$@"
 do
 	if [ "${dir}" = "" ] || [ "${dir}" = "-v" ] || [ "${dir}" = "--verbose" ]; then
@@ -146,8 +148,10 @@ do
 	rm --preserve-root --recursive --force "${workDir}" "${imgWorkDir}"
 
 	sudo chgrp --preserve-root --recursive se "${webDir}"
-
 	sudo chmod --preserve-root --recursive g+ws "${webDir}"
+
+	sudo chgrp --preserve-root --recursive se "/standardebooks.org/www/images/covers/"
+	sudo chmod --preserve-root --recursive g+ws "/standardebooks.org/www/images/covers/"
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Flushing PHP-FPM opcache and apcu cache ... "
