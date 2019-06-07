@@ -1,6 +1,10 @@
 <?
+$longopts = array("webroot:");
+$options = getopt("", $longopts);
+$webRoot = $options["webroot"] ?? "/standardebooks.org";
+
 $rssLength = 30;
-$contentFiles = explode("\n", trim(shell_exec('find /standardebooks.org/www/ebooks/ -name "content.opf" | sort') ?? ''));
+$contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/www/ebooks/') . ' -name "content.opf" | sort') ?? ''));
 
 $sortedContentFiles = array();
 
