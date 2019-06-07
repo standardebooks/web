@@ -1,5 +1,9 @@
 <?
-$contentFiles = explode("\n", trim(shell_exec('find /standardebooks.org/www/ebooks/ -name "content.opf" | sort') ?? ''));
+$longopts = array("webroot:");
+$options = getopt("", $longopts);
+$webRoot = $options["webroot"] ?? "/standardebooks.org";
+
+$contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/www/ebooks/') . ' -name "content.opf" | sort') ?? ''));
 
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>

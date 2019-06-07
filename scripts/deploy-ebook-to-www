@@ -6,9 +6,10 @@ DESCRIPTION
 	Deploy a Standard Ebook source repository to the web.
 
 USAGE
-	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] DIRECTORY [DIRECTORY...]
+	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] DIRECTORY [DIRECTORY...]
 		DIRECTORY is a bare source repository.
 		GROUP is a groupname. Defaults to "se".
+		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org".
 EOF
 	exit
 }
@@ -18,6 +19,7 @@ require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; 
 
 verbose="false"
 group="se"
+webRoot="/standardebooks.org"
 
 if [ $#  -eq 0 ]; then
 	usage
@@ -36,12 +38,21 @@ while [ $# -gt 0 ]; do
 			group="$2"
 			shift 2
 			;;
+		--webroot)
+			[ -n "$2" ] || die "Web root can't be empty."
+			webRoot="$2"
+			shift 2
+			;;
 		*) break ;;
 	esac
 done
 
 if ! [ "$(getent group "${group}")" ]; then
 	die "Group ${group} does not exist. Either use --group or create the group."
+fi
+
+if ! [ -d "${webRoot}" ]; then
+	die "${webRoot} does not exist or is not a directory."
 fi
 
 # Check for dependencies
@@ -65,7 +76,7 @@ if ! [ -f "${scriptsDir}"/generate-rss.php ]; then
 	die "\"${scriptsDir}\"/generate-rss.php\" is not a file or could not be found."
 fi
 
-mkdir -p /standardebooks.org/www/images/covers/
+mkdir -p "${webRoot}"/www/images/covers/
 
 for dir in "$@"
 do
@@ -106,7 +117,7 @@ do
 
 	workDir=$(mktemp -d)
 	imgWorkDir=$(mktemp -d)
-	webDir="/standardebooks.org/www/ebooks/${webDir}"
+	webDir="${webRoot}/www/ebooks/${webDir}"
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Generating cover image for web ... "
@@ -170,7 +181,7 @@ do
 	mv "${workDir}"/* "${webDir}/"
 
 	# Move the cover images over
-	mv "${imgWorkDir}/${urlSafeIdentifier}"*.jpg "/standardebooks.org/www/images/covers/"
+	mv "${imgWorkDir}/${urlSafeIdentifier}"*.jpg "${webRoot}/www/images/covers/"
 
 	# Delete the now-empty work dir (empty except for .git)
 	rm --preserve-root --recursive --force "${workDir}" "${imgWorkDir}"
@@ -178,8 +189,8 @@ do
 	sudo chgrp --preserve-root --recursive "${group}" "${webDir}"
 	sudo chmod --preserve-root --recursive g+ws "${webDir}"
 
-	sudo chgrp --preserve-root --recursive "${group}" "/standardebooks.org/www/images/covers/"
-	sudo chmod --preserve-root --recursive g+ws "/standardebooks.org/www/images/covers/"
+	sudo chgrp --preserve-root --recursive "${group}" "${webRoot}/www/images/covers/"
+	sudo chmod --preserve-root --recursive g+ws "${webRoot}/www/images/covers/"
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Flushing PHP-FPM opcache and apcu cache ... "
@@ -199,7 +210,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding OPDS catalog ... "
 fi
 
-bash -c "php \"${scriptsDir}\"/generate-opds.php > /standardebooks.org/www/opds/all.xml; export XMLLINT_INDENT=\$(printf \"\\t\") && xmllint --c14n /standardebooks.org/www/opds/all.xml | (printf \"%s\\n\" \"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\" && cat) | xmllint --output /standardebooks.org/www/opds/all.xml --format -"
+bash -c "php \"${scriptsDir}\"/generate-opds.php --webroot \"${webRoot}\" > \"${webRoot}\"/www/opds/all.xml; export XMLLINT_INDENT=\$(printf \"\\t\") && xmllint --c14n \"${webRoot}\"/www/opds/all.xml | (printf \"%s\\n\" \"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\" && cat) | xmllint --output \"${webRoot}\"/www/opds/all.xml --format -"
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
@@ -210,7 +221,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding new releases RSS feed ... "
 fi
 
-bash -c "php \"${scriptsDir}\"/generate-rss.php > /standardebooks.org/www/rss/new-releases.xml"
+bash -c "php \"${scriptsDir}\"/generate-rss.php --webroot \"${webRoot}\" > \"${webRoot}\"/www/rss/new-releases.xml"
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
