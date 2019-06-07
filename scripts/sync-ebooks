@@ -24,6 +24,12 @@ EOF
 }
 die(){ printf "\033[0;7;31mError:\033[0m %s\n" "${1}" 1>&2; exit 1; }
 require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; then suggestion=" $2"; fi; die "$1 is not installed.${suggestion}"; } }
+
+check_arg() {
+	case "$2" in
+		''|$1) die "$3" ;;
+	esac
+}
 # End boilerplate
 
 require "git" "Try: apt-get install git"
@@ -56,16 +62,12 @@ while [ $# -gt 0 ]; do
 			shift 1
 			;;
 		--verbosity)
-			case "$2" in
-				''|*[!0-9]*) die "Verbosity is not an integer." ;;
-			esac
+			check_arg '*[!0-9]*' "$2" "Verbosity is not a positive integer."
 			verbosity="$2"
 			shift 2
 			;;
 		--token)
-			case "$2" in
-				''|*[!0-9a-zA-Z]*) die "Token is empty or contains illegal characters." ;;
-			esac
+			check_arg '*[!0-9a-zA-Z]*' "$2" "Token is empty or contains illegal characters."
 			githubToken="$2"
 			shift 2
 			;;
