@@ -1,23 +1,24 @@
 <?
-$longopts = array("webroot:");
+$longopts = array("webroot:", "weburl:");
 $options = getopt("", $longopts);
 $webRoot = $options["webroot"] ?? "/standardebooks.org";
+$webUrl = $options["weburl"] ?? "https://standardebooks.org";
 
 $contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/www/ebooks/') . ' -name "content.opf" | sort') ?? ''));
 
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/">
-	<id>https://standardebooks.org/opds/all</id>
-	<link href="https://standardebooks.org/opds/all" rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
-	<link href="https://standardebooks.org/opds/" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
+	<id><?= $webUrl ?>/opds/all</id>
+	<link href="<?= $webUrl ?>/opds/all" rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+	<link href="<?= $webUrl ?>/opds/" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
 	<title>All Standard Ebooks</title>
 	<subtitle>Free and liberated ebooks, carefully produced for the true book lover.</subtitle>
-	<icon>https://standardebooks.org/images/logo.png</icon>
+	<icon><?= $webUrl ?>/images/logo.png</icon>
 	<updated><?= gmdate('Y-m-d\TH:i:s\Z') ?></updated>
 	<author>
 		<name>Standard Ebooks</name>
-		<uri>https://standardebooks.org</uri>
+		<uri><?= $webUrl ?></uri>
 	</author>
 	<? foreach($contentFiles as $path){
 	if($path == '')
@@ -29,7 +30,8 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	$authors = array();
 	$temp = $xml->xpath('/package/metadata/dc:identifier') ?: [];
 	$url = preg_replace('/^url:/ius', '', (string)array_shift($temp)) ?? '';
-	$relativeUrl = preg_replace('/^https:\/\/standardebooks.org/ius', '', $url) ?? '';
+	$url = preg_replace('/^https:\/\/standardebooks.org/ius', $webUrl, $url) ?? '';
+	$relativeUrl = preg_replace('/^' . preg_quote($webUrl, '/') . '/ius', '', $url) ?? '';
 
 	$temp = $xml->xpath('/package/metadata/dc:title') ?: [];
 	$title = array_shift($temp);

@@ -1,7 +1,8 @@
 <?
-$longopts = array("webroot:");
+$longopts = array("webroot:", "weburl:");
 $options = getopt("", $longopts);
 $webRoot = $options["webroot"] ?? "/standardebooks.org";
+$webUrl = $options["weburl"] ?? "https://standardebooks.org";
 
 $rssLength = 30;
 $contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/www/ebooks/') . ' -name "content.opf" | sort') ?? ''));
@@ -30,24 +31,25 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
 		<title>Standard Ebooks - New Releases</title>
-		<link>https://standardebooks.org</link>
+		<link><?= $webUrl ?></link>
 		<description>A list of the <?= number_format($rssLength) ?> latest Standard Ebooks ebook releases, most-recently-released first.</description>
 		<language>en-US</language>
 		<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
 		<lastBuildDate><?= gmdate('D, d M Y H:i:s +0000') ?></lastBuildDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
-		<atom:link href="https://standardebooks.org/rss/new-releases" rel="self" type="application/rss+xml" />
+		<atom:link href="<?= $webUrl ?>/rss/new-releases" rel="self" type="application/rss+xml" />
 		<image>
-			<url>https://standardebooks.org/images/logo-rss.png</url>
+			<url><?= $webUrl ?>/images/logo-rss.png</url>
 			<title>Standard Ebooks - New Releases</title>
 			<description>The Standard Ebooks logo</description>
-			<link>https://standardebooks.org</link>
+			<link><?= $webUrl ?></link>
 			<height>144</height>
 			<width>144</width>
 		</image>
 		<? foreach($sortedContentFiles as $xml){
 			$temp = $xml->xpath('/package/metadata/dc:identifier') ?: [];
 			$url = preg_replace('/^url:/ius', '', (string)array_shift($temp) ?? '') ?? '';
+			$url = preg_replace('/^https:\/\/standardebooks.org/ius', $webUrl, $url) ?? '';
 
 			$temp = $xml->xpath('/package/metadata/dc:title') ?: [];
 			$title = array_shift($temp) ?? '';

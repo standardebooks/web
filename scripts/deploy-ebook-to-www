@@ -6,10 +6,11 @@ DESCRIPTION
 	Deploy a Standard Ebook source repository to the web.
 
 USAGE
-	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] DIRECTORY [DIRECTORY...]
+	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] DIRECTORY [DIRECTORY...]
 		DIRECTORY is a bare source repository.
 		GROUP is a groupname. Defaults to "se".
 		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org".
+		WEBURL is the URL the website is served on. Defaults to "https://standardebooks.org".
 EOF
 	exit
 }
@@ -20,6 +21,7 @@ require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; 
 verbose="false"
 group="se"
 webRoot="/standardebooks.org"
+webUrl="https://standardebooks.org"
 
 if [ $#  -eq 0 ]; then
 	usage
@@ -41,6 +43,11 @@ while [ $# -gt 0 ]; do
 		--webroot)
 			[ -n "$2" ] || die "Web root can't be empty."
 			webRoot="$2"
+			shift 2
+			;;
+		--weburl)
+			[ -n "$2" ] || die "Web URL can't be empty."
+			webUrl="$2"
 			shift 2
 			;;
 		*) break ;;
@@ -210,7 +217,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding OPDS catalog ... "
 fi
 
-bash -c "php \"${scriptsDir}\"/generate-opds.php --webroot \"${webRoot}\" > \"${webRoot}\"/www/opds/all.xml; export XMLLINT_INDENT=\$(printf \"\\t\") && xmllint --c14n \"${webRoot}\"/www/opds/all.xml | (printf \"%s\\n\" \"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\" && cat) | xmllint --output \"${webRoot}\"/www/opds/all.xml --format -"
+bash -c "php \"${scriptsDir}\"/generate-opds.php --webroot \"${webRoot}\" --weburl \"${webUrl}\" > \"${webRoot}\"/www/opds/all.xml; export XMLLINT_INDENT=\$(printf \"\\t\") && xmllint --c14n \"${webRoot}\"/www/opds/all.xml | (printf \"%s\\n\" \"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\" && cat) | xmllint --output \"${webRoot}\"/www/opds/all.xml --format -"
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
@@ -221,7 +228,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding new releases RSS feed ... "
 fi
 
-bash -c "php \"${scriptsDir}\"/generate-rss.php --webroot \"${webRoot}\" > \"${webRoot}\"/www/rss/new-releases.xml"
+bash -c "php \"${scriptsDir}\"/generate-rss.php --webroot \"${webRoot}\" --weburl \"${webUrl}\" > \"${webRoot}\"/www/rss/new-releases.xml"
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
