@@ -13,8 +13,25 @@ EOF
 }
 die(){ printf "\033[0;7;31mError:\033[0m %s\n" "${1}" 1>&2; exit 1; }
 require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; then suggestion=" $2"; fi; die "$1 is not installed.${suggestion}"; } }
-if [ $#  -eq 1 ]; then if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then usage; fi fi
 # End boilerplate
+
+verbose="false"
+
+if [ $#  -eq 0 ]; then
+	usage
+fi
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+		-h|--help)
+			usage ;;
+		-v|--verbose)
+			verbose="true"
+			shift 1
+			;;
+		*) break ;;
+	esac
+done
 
 # Check for dependencies
 require "convert" "Try: apt-get install imagemagick"
@@ -37,25 +54,11 @@ if ! [ -f "${scriptsDir}"/generate-rss.php ]; then
 	die "\"${scriptsDir}\"/generate-rss.php\" is not a file or could not be found."
 fi
 
-verbose="false"
-
-if [ $#  -eq 0 ]; then
-	usage
-fi
-
-for var in "$@"
-do
-	if [ "${var}" = "-v" ] || [ "${var}" = "--verbose" ]; then
-		verbose="true"
-		break
-	fi
-done
-
 mkdir -p /standardebooks.org/www/images/covers/
 
 for dir in "$@"
 do
-	if [ "${dir}" = "" ] || [ "${dir}" = "-v" ] || [ "${dir}" = "--verbose" ]; then
+	if [ "${dir}" = "" ]; then
 		continue
 	fi
 
