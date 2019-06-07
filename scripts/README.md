@@ -5,3 +5,5 @@ To use, call this script with the directory where your ebooks go as its last arg
 # deploy-ebook-to-www
 
 To use, call this script with the directories of the books you want to deploy as its arguments. For example, to deploy all ebooks after using sync-ebooks, run `deploy-ebook-to-www /standardebooks.org/ebooks/*`. To deploy only The Time Machine by H.G Wells, you would run `deploy-ebook-to-www /standardebooks.org/ebooks/h-g-wells_the-time-machine`. Note that deploy-ebook-to-www assumes that your webroot is in /standardebooks.org/. To output progress information, use -v or --verbose.
+
+The default group is se. to use a different one, specify it with the --group option. For instance, to use this script inside the included Vagrant VM, which uses the www-data group, use `deploy-ebook-to-www --group www-data /path/to/ebook`.
