@@ -420,7 +420,7 @@ require_once('Core.php');
 					<li>
 						<p>Place a hair space (U+200A) glyph before all ellipses that are not directly preceded by punctuation, or that are directly preceded by an em-dash or a two- or three-em-dash. Place a regular space after all ellipses that are not followed by punctuation. If the ellipses is followed by punctuation, place a hair space between the ellipses and punctuation, <em>unless</em> the punctuation is a quotation mark, in which case don’t put a space at all.</p>
 						<figure class="text">
-							<p class="corrected">“I’m so hungry<span class="utf">hairsp</span>&hellip; What were you saying about eating<span class="utf">hairsp</span>&hellip;<span class="utf">hairsp</span>?”</p>
+							<p class="corrected">“I’m so hungry<span class="utf">hairsp</span>&hellip; What were you saying about eating<span class="utf">hairsp</span>&hellip;?”</p>
 						</figure>
 					</li>
 				</ul>
