@@ -120,7 +120,7 @@ catch(\Exception $ex){
 			<aside class="sort">
 				<form action="" method="get">
 					<label>Sort by
-						<select>
+						<select name="sort">
 							<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected<? } ?>>newest</option>
 							<option value="<?= SORT_AUTHOR_ALPHA ?>"<? if($sort == SORT_AUTHOR_ALPHA){ ?> selected<? } ?>>author name</option>
 							<option value="<?= SORT_READING_EASE ?>"<? if($sort == SORT_READING_EASE){ ?> selected<? } ?>>reading ease</option>

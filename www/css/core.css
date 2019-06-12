@@ -432,10 +432,12 @@ h1 + section > h2:first-child{
 
 a.button,
 a[rel~="previous"],
-a[rel~="next"]{
+a[rel~="next"],
+aside.sort button{
 	font-style: normal;
 	box-sizing: border-box;
 	background-color: #1d6878;
+	border-width: 0;
 	border-radius: 5px;
 	padding: 1rem 2rem;
 	color: #fff;
@@ -445,6 +447,7 @@ a[rel~="next"]{
 	box-shadow: 2px 2px 0 #194149;
 	position: relative;
 	text-transform: lowercase;
+	cursor: pointer;
 }
 
 a.button:focus,
@@ -496,34 +499,23 @@ a[rel="previous"][href]:hover::before{
 
 aside.sort select{
 	margin-left: .5rem;
+	margin-bottom: .5rem;
+	padding: 1rem;
+	height: 3.7rem;
 	background-color: rgba(0, 0, 0, .1);
+	border: 1px solid #777;
 	border-radius: 5px;
-	padding: 4px;
 	color: #222;
-	font-family: 'League spartan', sans-serif;
+	font-size: 1rem;
 	text-transform: lowercase;
+	font-family: 'Crimson Pro', serif;
 	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
-	font-size: 18px;
 	cursor: pointer;
 }
 
 aside.sort button{
-	position: relative;
 	margin-left: .5rem;
-	font-style: normal;
-	box-sizing: border-box;
-	background-color: #1d6878;
-	border: 0;
-	border-radius: 5px;
-	padding: .25rem 1rem;
-	color: #fff;
-	text-decoration: none;
-	font-size: 18px;
-	font-family: 'League spartan', sans-serif;
-	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
-	box-shadow: 2px 2px 0 #194149;
-	text-transform: lowercase;
-	cursor: pointer;
+	font-size: 1rem;
 }
 
 a.button:hover,
@@ -1699,11 +1691,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 	aside.sort{
 		flex-direction: column;
-	}
-
-	aside.sort a.button{
-		margin: .5rem;
-		width: 100%;
 	}
 
 	article.ebook section#details ul{
