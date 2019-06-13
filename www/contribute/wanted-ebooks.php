@@ -31,10 +31,10 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25203">Short fiction and novels by Poul Anderson</a></p>
-			</li>
+			</li><!--
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1267">Kai Lung’s Golden Hours</a> by Ernest Bramah</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/Brood_of_the_Witch_Queen">Brood of the Witch Queen</a> by Sax Rohmer</p>
 			</li>
@@ -65,12 +65,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/479">Little Lord Fauntleroy</a> by Frances Hodgson Burnett</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
-			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/4517">Ethan Frome</a> by Edith Wharton</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
@@ -191,9 +188,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/161">Sense and Sensibility</a> by Jane Austen</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/5231">The Way We Live Now</a> by Anthony Trollope</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/829">Gulliver’s Travels</a> by Jonathan Swift</p>
 			</li>
