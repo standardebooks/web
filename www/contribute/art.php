@@ -408,7 +408,7 @@ require_once('Core.php');
 					<p>No. You must find a reproduction of your selected painting in a book published in 1923 or earlier.</p>
 				</li>
 				<li>
-					<p><b>I’ve found scan on a museum site. Is that OK?</b></p>
+					<p><b>I’ve found a scan on a museum site. Is that OK?</b></p>
 					<p>No. You must find a reproduction of your selected painting in a book published in 1923 or earlier.</p>
 				</li>
 				<li>
