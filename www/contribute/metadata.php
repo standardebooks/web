@@ -28,7 +28,7 @@ require_once('Core.php');
 				<p>If the work is translated, append a forward slash, then the URL-safe translator. If there is more than one translator, continue appending subsequent URL-safe translators, separated by an underscore. Do not alpha-sort translator names.</p>
 			</li>
 			<li>
-				<p>If the work is illustrated, append a foreward slash, then the URL-safe illustrator. If there is more than one illustrator, continue appending subsequent URL-safe illustrators, separated by an underscore. Do not alpha-sort illustrator names.</p>
+				<p>If the work is illustrated, append a forward slash, then the URL-safe illustrator. If there is more than one illustrator, continue appending subsequent URL-safe illustrators, separated by an underscore. Do not alpha-sort illustrator names.</p>
 			</li>
 			<li>
 				<p>Finally, <em>do not</em> append a trailing forward slash.</p>
