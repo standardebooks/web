@@ -90,6 +90,8 @@ server {
 	rewrite ^/ebooks/([^\.]+?)/?$ /ebooks/ebook.php?url-path=$1;
 	rewrite ^/tags/([^\./]+?)/?$ /ebooks/index.php?tag=$1;
 	rewrite ^/collections/([^\./]+?)/?$ /ebooks/index.php?collection=$1;
+	rewrite ^/images/covers/([^\./]+?)-[0-9a-f]+-cover([^\./]+).jpg$ /images/covers/$1-cover$2.jpg;
+	rewrite ^/images/covers/([^\./]+?)-[0-9a-f]+-hero([^\./]+).jpg$ /images/covers/$1-hero$2.jpg;
 }
 EOF
 
