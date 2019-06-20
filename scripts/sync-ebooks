@@ -163,6 +163,14 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 	[ -n "${repoUrl}" ] || continue
 	[ -d "${repoUrl##*/}" ] && continue
 
+	repoName="${repoUrl##*/}"
+	repoNameLength=$(printf "%s" "${repoName}" | wc -m)
+	if [ "${repoNameLength}" -ge 100 ]; then
+		if dirs=( "${repoName%%.git}"*/ ) && [[ -d ${dirs[0]} ]]; then
+			continue
+		fi
+	fi
+
 	if [ "${verbosity}" -gt 0 ]; then
 		printf "Cloning %s ... \n" "${repoUrl}"
 	fi
@@ -173,9 +181,22 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 		git clone -v --bare "${repoUrl}"
 	fi
 
-	if ! [ -d "${repoUrl##*/}" ]; then
-		printf "Failed to clone %s.\n" "${repoUrl##*/}." 1>&2
+	if ! [ -d "${repoName}" ]; then
+		printf "Failed to clone %s.\n" "${repoName}." 1>&2
 	elif [ "${verbosity}" -gt 0 ]; then
 		printf "Done.\n"
+	fi
+
+	properName="$(git -C "${repoName}" show HEAD:src/epub/content.opf |
+		grep -oE "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" |
+		sed -E "s/<[^>]+?>//g" |
+		sed -E "s|url:https://standardebooks.org/ebooks/||g" |
+		sed -E "s|/|_|g").git"
+
+	if [ "${repoUrl##*/}" != "${properName}" ]; then
+		if [ "${verbosity}" -gt 0 ]; then
+			printf "Moving %s to %s\n" "${repoName}" "${properName}"
+		fi
+		mv "${repoName}" "${properName}"
 	fi
 done
