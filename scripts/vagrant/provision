@@ -84,7 +84,7 @@ server {
 	}
 
 	location @extensionless-php {
-    		rewrite ^(.*)$ $1.php last;
+		rewrite ^(.*)$ $1.php last;
 	}
 
 	rewrite ^/ebooks/([^\./]+?)/$ /ebooks/author.php?url-path=$1;
@@ -93,6 +93,7 @@ server {
 	rewrite ^/collections/([^\./]+?)/?$ /ebooks/index.php?collection=$1;
 	rewrite ^/images/covers/([^\./]+?)-[0-9a-f]+-cover([^\./]+).jpg$ /images/covers/$1-cover$2.jpg;
 	rewrite ^/images/covers/([^\./]+?)-[0-9a-f]+-hero([^\./]+).jpg$ /images/covers/$1-hero$2.jpg;
+	rewrite ^/rss/new-releases/?$ /rss/new-releases.xml;
 }
 EOF
 
