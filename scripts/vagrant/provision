@@ -12,7 +12,8 @@ set -e
 set -o pipefail
 
 # Install some pre-flight dependencies.
-sudo apt-get install -y python3-pip libxml2-utils librsvg2-bin libimage-exiftool-perl imagemagick jarwrapper default-jre inkscape calibre curl
+sudo apt-get install -y python3-pip libxml2-utils librsvg2-bin libimage-exiftool-perl imagemagick jarwrapper default-jre inkscape calibre curl\
+	firefox
 
 # Install required fonts.
 mkdir -p ~/.local/share/fonts/
