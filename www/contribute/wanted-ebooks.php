@@ -31,10 +31,7 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25203">Short fiction and novels by Poul Anderson</a></p>
-			</li><!--
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1267">Kai Lung’s Golden Hours</a> by Ernest Bramah</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/Brood_of_the_Witch_Queen">Brood of the Witch Queen</a> by Sax Rohmer</p>
 			</li>
@@ -86,9 +83,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/search/?query=Baroness+Orczy">Scarlet Pimpernel novels</a> by Baroness Orczy</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8778">The Water of the Wondrous Isles</a> by William Morris</p>
 			</li>
