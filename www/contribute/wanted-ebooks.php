@@ -23,9 +23,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction and novels by Andre Norton</a></p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/50561">The Dark Other</a> by Stanley G. Weinbaum</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction and novels by Frederick Pohl</a></p>
 			</li>
@@ -50,9 +50,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42914">Gladiator</a> by Philip Wylie</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/5827">The Problems of Philosophy</a> by Bertrand Russell</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/25024">Night of the Long Knives</a> by Fritz Leiber</p>
 			</li>
