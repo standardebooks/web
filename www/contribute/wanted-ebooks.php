@@ -191,9 +191,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/370">Moll Flanders</a> by Daniel Defoe</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/9182">Villette</a> by Charlotte Brontë</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/153">Jude the Obscure</a> by Thomas Hardy</p>
 			</li>
