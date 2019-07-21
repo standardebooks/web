@@ -392,6 +392,10 @@ require_once('Core.php');
 				<li>
 					<p><a href="https://books.google.com/books?id=91FJAQAAMAAJ">Grützner</a></p>
 				</li>
+				<li>
+					<p><a href="https://catalog.hathitrust.org/Record/100598168">Ruska S kola mali r ska (Russian art)</a>
+					</p>
+				</li>
 			</ul>
 			<h4 id="faq">Cover art FAQs</h4>
 			<ul>
