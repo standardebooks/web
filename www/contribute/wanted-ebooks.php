@@ -65,6 +65,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/271">Black Beauty</a> by Anna Sewell</p>
+			</li>
 			<!-- <li>
 				<p><a href="http://www.gutenberg.org/ebooks/3776">The Valley of Fear</a> by Arthur Conan Doyle</p>
 			</li> -->
