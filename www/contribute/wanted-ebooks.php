@@ -32,9 +32,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25203">Short fiction and novels by Poul Anderson</a></p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://en.wikisource.org/wiki/Brood_of_the_Witch_Queen">Brood of the Witch Queen</a> by Sax Rohmer</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20988">Islands of Space</a> by John W. Campbell Jr.</p>
 			</li>
