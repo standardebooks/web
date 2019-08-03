@@ -10,7 +10,7 @@
 				<a href="/contribute/">Get Involved</a>
 			</li>
 			<li>
-				<a href="https://github.com/standardebooks">Github</a>
+				<a href="https://github.com/standardebooks">GitHub</a>
 			</li>
 			<li>
 				<a href="/opds/">OPDS</a>

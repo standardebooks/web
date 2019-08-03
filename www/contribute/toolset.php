@@ -4,7 +4,7 @@ require_once('Core.php');
 <main>
 	<article>
 		<h1>Toolset Guidelines</h1>
-		<p>You can <a href="https://github.com/standardebooks/tools">view our toolset on Github</a>.</p>
+		<p>You can <a href="https://github.com/standardebooks/tools">view our toolset on GitHub</a>.</p>
 		<p>Contributions should be in Python 3.</p>
 		<p>In general we follow a relaxed version of <a href="https://www.python.org/dev/peps/pep-0008/">PEP 8</a>. In particular, we use tabs instead of spaces, and there is no line length limit.</p>
 		<p>Always use the <code class="path">regex</code> module instead of the <code class="path">re</code> module.</p>
