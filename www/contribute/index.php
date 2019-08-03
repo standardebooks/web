@@ -7,7 +7,7 @@ require_once('Core.php');
 		<section id="intro">
 			<h2>Help create ebooks that are a pleasure to read</h2>
 			<p>Standard Ebooks is a volunteer driven project, and there’s room for people of all skill levels to contribute.</p>
-			<p>At the most basic level, anyone can <a href="https://groups.google.com/forum/#!forum/standardebooks">contribute feedback via our mailing list</a>. Day-to-day readers can <a href="/contribute/report-errors">tell us about errors they spot in our ebooks</a>. People with an eye for typography and a talent for editing can proofread whole ebooks. Technically inclined readers can produce ebooks themselves, or <a href="https://github.com/standardebooks">contribute via Github</a>.</p>
+			<p>At the most basic level, anyone can <a href="https://groups.google.com/forum/#!forum/standardebooks">contribute feedback via our mailing list</a>. Day-to-day readers can <a href="/contribute/report-errors">tell us about errors they spot in our ebooks</a>. People with an eye for typography and a talent for editing can proofread whole ebooks. Technically inclined readers can produce ebooks themselves, or <a href="https://github.com/standardebooks">contribute via GitHub</a>.</p>
 		</section>
 		<section id="everyone">
 			<h2>Everyone</h2>
@@ -73,10 +73,10 @@ require_once('Core.php');
 					<p><a href="/contribute/toolset">Guidelines for contributing to the Standard Ebooks toolset.</a></p>
 				</li>
 				<li>
-					<p><a href="https://github.com/standardebooks">All Standard Ebooks ebook source files on Github.</a></p>
+					<p><a href="https://github.com/standardebooks">All Standard Ebooks ebook source files on GitHub.</a></p>
 				</li>
 				<li>
-					<p><a href="https://github.com/standardebooks/tools">The Standard Ebooks toolset on Github.</a></p>
+					<p><a href="https://github.com/standardebooks/tools">The Standard Ebooks toolset on GitHub.</a></p>
 				</li>
 			</ul>
 		</section>
