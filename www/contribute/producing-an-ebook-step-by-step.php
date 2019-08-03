@@ -391,7 +391,7 @@ require_once('Core.php');
 						<p><code class="path">the-strange-case-of-dr-jekyll-and-mr-hyde.azw3</code> is the Kindle version of our ebook. You can copy this to a Kindle using a USB cable.</p>
 					</li>
 					<li>
-						<p><code class="path">thumbnail_xxxx_EBOK_portrait.jpg</code> is a thumbnail file you can copy to your Kindle to have the cover art appear in your reader. A bug in Amazon’s software prevents the Kindle from reading cover imags in side-loaded files; contact Amazon to complain.</p>
+						<p><code class="path">thumbnail_xxxx_EBOK_portrait.jpg</code> is a thumbnail file you can copy to your Kindle to have the cover art appear in your reader. A bug in Amazon’s software prevents the Kindle from reading cover images in side-loaded files; contact Amazon to complain.</p>
 					</li>
 				</ul>
 				<p>This is the step where you read the ebook and make adjustments to the text so that it conforms to our <a href="/contribute/typography">typography manual</a>.</p>
