@@ -128,8 +128,8 @@ require_once('Core.php');
 				<p>Things look much better now, but we’re not perfect yet. If you open a chapter you’ll notice that the <code class="html">&lt;p&gt;</code> and <code class="html">&lt;h2&gt;</code> tags have a space between the tag and the text. We can clean that up with a few <code class="program">perl</code> commands.</p><code class="terminal"><span>perl -pi -e "s/&lt;(p|h2)&gt;\s+/&lt;\1&gt;/g" src/epub/text/chapter*</span> <span>perl -pi -e "s/\s+&lt;\/(p|h2)&gt;/&lt;\/\1&gt;/g" src/epub/text/chapter*</span></code>
 				<p>Finally, we have to do a quick runthrough of each file by hand to cut out any lingering Gutenberg markup that doesn’t belong. In <i>Jekyll</i>, notice that each chapter ends with some extra empty <code class="html">&lt;div&gt;</code>s and <code class="html">&lt;p&gt;</code>s. These were used by the original transcriber to put spaces between the chapters, and they’re not necessary anymore, so remove them before continuing.</p>
 				<p>Now our chapter 1 source looks like this:</p>
-				<code class="html full">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: http://standardebooks.org/vocab/1.0" xml:lang="en-US"&gt;
+				<code class="html full">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-US"&gt;
 &lt;head&gt;
 	&lt;title&gt;Chapter 1&lt;/title&gt;
 	&lt;link href="../css/core.css" rel="stylesheet" type="text/css"/&gt;

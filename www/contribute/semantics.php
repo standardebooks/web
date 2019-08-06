@@ -243,8 +243,8 @@ require_once('Core.php');
 			<h2>Half title pages</h2>
 			<p>When a work contains frontmatter like an epigraph or introduction, a half title page is required before the body matter begins.</p>
 			<h3>Half title pages without subtitles</h3>
-			<code class="html full">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: http://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
+			<code class="html full">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
 &lt;head&gt;
 	&lt;title&gt;Half Title&lt;/title&gt;
 	&lt;link href="../css/core.css" rel="stylesheet" type="text/css"/&gt;
@@ -263,8 +263,8 @@ display: block;
 font-size: .75em;
 font-weight: normal;
 }</code>
-			<code class="html full">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: http://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
+			<code class="html full">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
 &lt;head&gt;
 	&lt;title&gt;Half Title&lt;/title&gt;
 	&lt;link href="../css/core.css" rel="stylesheet" type="text/css"/&gt;
@@ -295,8 +295,8 @@ font-weight: normal;
 			</ul>
 			<h3>The endnotes file</h3>
 			<p>The endnotes file is called <code class="path">endnotes.xhtml</code> and looks like this:</p>
-			<code class="html full">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: http://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
+			<code class="html full">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
 &lt;head&gt;
 	&lt;title&gt;Endnotes&lt;/title&gt;
 	&lt;link href="../css/core.css" rel="stylesheet" type="text/css"/&gt;
@@ -731,8 +731,8 @@ font-style: italic;
 			<p>If the image has a <code class="html">&lt;figcaption&gt;</code> element, then use that caption in the LoI.  If not, use the image’s <code class="html">alt</code> tag, which should be a short prose description of the image used by screen readers.</p>
 			<p>Links to the images should go directly to their IDs, not just the top of the containing file.</p>
 			<p>The code below is the template for a basic LoI skeleton.  Please copy and paste the entire thing as a starting point for your own LoI:</p>
-			<code class="html full">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: http://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
+			<code class="html full">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
 &lt;head&gt;
 	&lt;title&gt;List of Illustrations&lt;/title&gt;
 	&lt;link href="../css/core.css" rel="stylesheet" type="text/css"/&gt;

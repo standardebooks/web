@@ -573,8 +573,8 @@ white-space: nowrap;
 								<li>
 									<p>Half title pages without subtitles:</p>
 									<figure>
-										<code class="html full">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: http://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
+										<code class="html full">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
 &lt;head&gt;
 	&lt;title&gt;Half Title&lt;/title&gt;
 	&lt;link href="../css/core.css" rel="stylesheet" type="text/css"/&gt;
@@ -596,8 +596,8 @@ display: block;
 font-size: .75em;
 font-weight: normal;
 }</code>
-			<code class="html full">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: http://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
+			<code class="html full">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0" xml:lang="en-GB"&gt;
 &lt;head&gt;
 	&lt;title&gt;Half Title&lt;/title&gt;
 	&lt;link href="../css/core.css" rel="stylesheet" type="text/css"/&gt;
