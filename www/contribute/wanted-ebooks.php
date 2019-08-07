@@ -12,9 +12,6 @@ require_once('Core.php');
 		<p>First productions should be on the shorter side (around 40–60,000 words maximum) and without complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/783">Novels by P. G. Wodehouse</a></p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction and novels by H. Beam Piper</a></p>
 			</li>
 			<li>
@@ -67,6 +64,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/271">Black Beauty</a> by Anna Sewell</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/783">Prose novels by P. G. Wodehouse (But <em>not</em> short story compilations, including Jeeves; see Advanced Productions.)</a></p>
 			</li>
 			<!-- <li>
 				<p><a href="http://www.gutenberg.org/ebooks/3776">The Valley of Fear</a> by Arthur Conan Doyle</p>
@@ -319,6 +319,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short stories by P. G. Wodehouse (creful research is required to compile an omnibus.)</a></p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
