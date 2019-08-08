@@ -9,7 +9,7 @@ require_once('Core.php');
 			<p>We offer four different kinds of ebook file for you to download. Which one you pick depends on which ereading device and ereading software you’re using.</p>
 			<ul>
 				<li>
-					<p><b>Amazon Kindle devices and software</b>: download the <b>azw3</b> file. You can optionally download the Kindle cover thumbnail if you’d like the ebook cover to appear in your library. (Thanks to a long-standing bug in the Kindle software, side-loaded ebooks don’t display cover images automatically. <a href="https://www.amazon.com/help/">Complain to Amazon.</a>)</p>
+					<p><b>Amazon Kindle devices and software</b> (but not the Kindle application for iPad): download the <b>azw3</b> file. You can optionally download the Kindle cover thumbnail if you’d like the ebook cover to appear in your library. (Thanks to a long-standing bug in the Kindle software, side-loaded ebooks don’t display cover images automatically. <a href="https://www.amazon.com/help/">Complain to Amazon.</a>)</p>
 				</li>
 				<li>
 					<p><b>Kobo devices and software</b>: download the <b>kepub</b> file. This file is specially prepared to present the best reading experience for Kobos.</p>
