@@ -75,7 +75,7 @@ require_once('Core.php');
 							<p>Eject the Kobo from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
 						</li>
 					</ol>
-					<h4>If you’ve download a regular epub file</h4>
+					<h4>If you’ve downloaded a regular epub file</h4>
 					<p><em>These steps aren’t necessary if you’ve downloaded our special kepub file.</em></p>
 					<p>The best way to transfer our epubs to your Kobo device is to download the kepub file instead of the epub file. If you prefer our epub file, then your best bet is to use the <a href="https://calibre-ebook.com">Calibre ebook management program</a> with a special plugin. Calibre knows how to talk to your Kobo device to ensure our epubs look and function optimally.</p>
 					<ol>
