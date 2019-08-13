@@ -165,6 +165,7 @@ require_once('Core.php');
 				</li>
 			</ol>
 			<h4 id="pd-research-resources">PD research resources</h4>
+			<p>Evan Hall has begun compiling a spreadsheet of artwork for use in our ebooks. You can <a href="https://docs.google.com/spreadsheets/d/1BqmDx4EvkRxbJAijFBIZOkawyflGBMJzom-fVhLC5-0/edit#gid=557113123">view it here</a>.</p>
 			<p>You may find these resources helpful in your PD research:</p>
 			<ul>
 				<li>
