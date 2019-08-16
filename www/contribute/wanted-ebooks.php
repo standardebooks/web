@@ -212,6 +212,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/718">Tono-Bungay</a> by H. G. Wells</p>
 			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/5164">The Beetle</a> by Richard Marsh</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
