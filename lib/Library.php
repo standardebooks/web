@@ -112,8 +112,13 @@ class Library{
 							$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath);
 						}
 						catch(Safe\Exceptions\ApcuException $ex){
-							$ebook = new Ebook($ebookWwwFilesystemPath);
-							apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
+							try{
+								$ebook = new Ebook($ebookWwwFilesystemPath);
+								apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
+							}
+							catch(InvalidEbookException $ieEx){
+								// Do nothing if one specific ebook is causing problems
+							}
 						}
 
 						$ebooks[] = $ebook;
