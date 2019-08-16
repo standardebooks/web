@@ -331,7 +331,11 @@ class Ebook{
 		}
 
 		if($this->ContributorsHtml !== null){
-			$this->ContributorsHtml = ucfirst(rtrim(trim($this->ContributorsHtml), ';')) . '.';
+			$this->ContributorsHtml = ucfirst(rtrim(trim($this->ContributorsHtml), ';'));
+
+			if(substr(strip_tags($this->ContributorsHtml), -1) != '.'){
+				$this->ContributorsHtml .= '.';
+			}
 		}
 
 		$this->AuthorsHtml = $this->GenerateContributorList($this->Authors);
