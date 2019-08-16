@@ -341,7 +341,7 @@ class Ebook{
 		$this->AuthorsHtml = $this->GenerateContributorList($this->Authors);
 
 		// Now the complete title with credits.
-		$this->TitleWithCreditsHtml = Formatter::ToPlainText($this->Title) . ', by ' . $this->AuthorsHtml . $titleContributors;
+		$this->TitleWithCreditsHtml = Formatter::ToPlainText($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors);
 	}
 
 	public function Contains(string $query): bool{
