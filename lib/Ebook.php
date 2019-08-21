@@ -194,6 +194,7 @@ class Ebook{
 			if($contributor->attributes() !== null){
 				$id = $contributor->attributes()->id;
 			}
+
 			foreach($xml->xpath('/package/metadata/meta[@property="role"][@refines="#' . $id . '"]') ?: [] as $role){
 				$c = new Contributor(
 							(string)$contributor,
@@ -202,16 +203,20 @@ class Ebook{
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'))
 						);
 
-				if($role == 'trl'){
-					$this->Translators[] = $c;
-				}
+				// A display-sequence of 0 indicates that we don't want to process this contributor
+				$displaySequence = $this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="display-seq"][@refines="#' . $id . '"]'));
+				if($displaySequence !== '0'){
+					if($role == 'trl'){
+						$this->Translators[] = $c;
+					}
 
-				if($role == 'ill'){
-					$this->Illustrators[] = $c;
-				}
+					if($role == 'ill'){
+						$this->Illustrators[] = $c;
+					}
 
-				if($role == 'ctb'){
-					$this->Contributors[] = $c;
+					if($role == 'ctb'){
+						$this->Contributors[] = $c;
+					}
 				}
 			}
 		}
