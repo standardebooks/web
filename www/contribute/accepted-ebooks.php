@@ -31,6 +31,9 @@ require_once('Core.php');
 				<p>Ebooks which are not “notable” literature. While this one is a little subjective, we don’t want to become a dumping ground for any kind of transcription of any kind of public domain work. If, in our opinion, the author is extremely obscure, or the subject matter is of little interest to a general modern reader, we may decline it. For example, we would decline to host the <i><a href="https://www.gutenberg.org/ebooks/53371">Haslemere Museum Gazette</a></i>, or <i><a href="https://www.gutenberg.org/ebooks/53409">Ocean Gardens: The History of the Marine Aquarium</a></i>.</p>
 			</li>
 			<li>
+				<p>Books that are illustration-heavy, like picture or art books, or whose content greatly depends on the arrangement of illustrations or graphics.</p>
+			</li>
+			<li>
 				<p>Modern books that have been self-published and released to the public domain.</p>
 			</li>
 			<li>
