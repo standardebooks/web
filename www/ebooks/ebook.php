@@ -8,9 +8,9 @@ use function Safe\shuffle;
 
 try{
 	$urlPath = trim(str_replace('.', '', HttpInput::GetString('url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
-	$wwwFilesystemPath = SITE_ROOT . '/www/ebooks/' . $urlPath; // Path to the deployed WWW files for this ebook
+	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath; // Path to the deployed WWW files for this ebook
 
-	if($urlPath == '' || mb_stripos($wwwFilesystemPath, SITE_ROOT . '/www/ebooks/') !== 0){
+	if($urlPath == '' || mb_stripos($wwwFilesystemPath, EBOOKS_DIST_PATH) !== 0){
 		// Ensure the path exists and that the root is in our www directory
 		throw new InvalidEbookException();
 	}
@@ -46,7 +46,9 @@ try{
 	shuffle($ebooks);
 
 	for($i = 0; $i < 5; $i++){
-		$carousel[] = $ebooks[$i];
+		if(isset($ebooks[$i])){
+			$carousel[] = $ebooks[$i];
+		}
 	}
 }
 catch(SeeOtherEbookException $ex){

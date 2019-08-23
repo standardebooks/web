@@ -20,7 +20,7 @@ require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; 
 
 verbose="false"
 group="se"
-webRoot="/standardebooks.org"
+webRoot="/standardebooks.org/web"
 webUrl="https://standardebooks.org"
 
 if [ $#  -eq 0 ]; then

@@ -1,7 +1,7 @@
 <?
 $longopts = array("webroot:", "weburl:");
 $options = getopt("", $longopts);
-$webRoot = $options["webroot"] ?? "/standardebooks.org";
+$webRoot = $options["webroot"] ?? "/standardebooks.org/web";
 $webUrl = $options["weburl"] ?? "https://standardebooks.org";
 
 $rssLength = 30;

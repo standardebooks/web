@@ -65,7 +65,7 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
-	root /standardebooks.org/www;
+	root /standardebooks.org/web/www;
 	index index.php index.html index.htm index.xml index.nginx-debian.html;
 
 	server_name _;
@@ -109,7 +109,7 @@ if ! grep "^export PATH=$PATH:~/.local/bin$" ~/.bashrc; then
 fi
 
 ln -fs /standardebooks.org/scripts/sync-ebooks ~/.local/bin/sync-ebooks
-ln -fs /standardebooks.org/scripts/deploy-ebook-to-www ~/.local/bin/deploy-ebook-to-www
+ln -fs /standardebooks.org/web/scripts/deploy-ebook-to-www ~/.local/bin/deploy-ebook-to-www
 EOF
 
 chown -R www-data:www-data /var/www

@@ -1,0 +1,14 @@
+# This is the config file for PHPStan when run from the command line.
+
+includes:
+	- ../../vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
+
+parameters:
+	ignoreErrors:
+		# Ignore errors caused by Template static class reflection
+		- '#Call to an undefined static method Template::[a-zA-Z0-9\\_]+\(\)\.#'
+	level:
+		7
+	paths:
+		- %rootDir%/../../../lib
+		- %rootDir%/../../../www

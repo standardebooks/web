@@ -1,37 +1,52 @@
 # Installation
 
-This repository only contains PHP source files, it doesn’t contain configuration for running them on a web server.
-
 PHP 7+ is required.
 
-If you’d like to set up a development environment on your local machine, then you’ll have to configure your own local web server to serve PHP files.
+## Installing on Ubuntu 18.04 (Bionic)
 
-You’ll also need to ensure the following:
+```shell
+# Create the site root and clone this repo into it.
+sudo mkdir /standardebooks.org/
+cd /standardebooks.org/
+git clone https://github.com/standardebooks/web/
 
-- The path `/standardebooks.org/` exists and is the root of this project. (Configurable in `./lib/Constants.php`.)
+# Install dependencies using Composer.
+cd /standardebooks.org/web/
+composer install
 
-- Your PHP installation must be configured to have `/standardebooks.org/lib/` in its include path.
+# Add standardebooks.test to your hosts file.
+echo "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
 
-- [PHP short open tags](https://www.php.net/manual/en/ini.core.php#ini.short-open-tag) must be enabled.
+# Install Apache, PHP, PHP-FPM, and various other dependencies.
+sudo apt install -y composer php-gd php-xml php-apcu php-intl apache2 apache2-utils libfcgi0ldbl php-fpm php-cli php-mbstring
 
-- [PHP-APCu](http://php.net/manual/en/book.apcu.php), [PHP-intl](http://php.net/manual/en/book.intl.php), and [Composer](https://getcomposer.org/) must be installed. On Ubuntu this can be done with `sudo apt install php-apcu php-intl composer`.
+# Create a self-signed SSL certificate for use with the local web site installation.
+openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
 
--   Once Composer is installed, next install the SE Composer dependencies:
+# Link and enable the SE Apache configuration file.
+sudo ln -s /standardebooks.org/web/config/apache/standardebooks.test.conf /etc/apache2/sites-available/
+sudo a2ensite standardebooks.test
+sudo systemctl restart apache2.service
 
-    ```bash
-    cd /standardebooks.org/
-    composer install
-    ```
+# Link and enable the SE PHP-FPM pool.
+sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
+sudo systemctl restart "php*-fpm.service"
+```
 
-- The URL `^/ebooks/([^\./]+?)/$` must redirect to `/standardebooks.org/ebooks/author.php?url-path=$1`
+If everything went well you should now be able to open your web browser and visit `https://standardebooks.test/`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks/`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:
 
-- The URL `^/ebooks/([^\.]+?)/?$` must redirect to `/standardebooks.org/ebooks/ebook.php?url-path=$1`
+```shell
+# First, install the SE toolset, which will make the `se build` command-line executable available to the `deploy-ebook-to-www` script:
+# https://github.com/standardebooks/tools
 
-- The URL `^/tags/([^\./]+?)/?$` must redirect to `/standardebooks.org/ebooks/index.php?tag=$1`
+# Once the toolset is installed, clone a book and deploy it to your local SE site:
+mkdir /standardebooks.org/ebooks/
+cd /standardebooks.org/ebooks/
+git clone https://github.com/standardebooks/david-lindsay_a-voyage-to-arcturus
+/standardebooks.org/web/scripts/deploy-ebook-to-www david-lindsay_a-voyage-to-arcturus
+```
 
-- The URL `/collections/([^\./]+?)/?$` must redirect to `/standardebooks.org/ebooks/index.php?collection=$1`
-
-- Your web server should be configured to serve PHP files without the `.php` file extension. (I.e., your web server *internally* redirects `/foo/bar` to `/foo/bar.php`, if `/foo/bar.php` exists.)
+If everything went well, `https://standardebooks.test/ebooks/` will show the one ebook you deployed.
 
 # Filesystem layout
 
@@ -44,25 +59,25 @@ You’ll also need to ensure the following:
     /standardebooks.org/ebooks/omar-khayyam_the-rubaiyat-of-omar-khayyam_edward-fitzgerald_edmund-dulac.git/
     ````
 
--   `/standardebooks.org/www/ebooks/` contains a nested hierarchy of deployed ebook files, that are read by the website for display and download. For example, we might have:
+-   `/standardebooks.org/web/www/ebooks/` contains a nested hierarchy of deployed ebook files, that are read by the website for display and download. For example, we might have:
 
     ````
-    /standardebooks.org/www/ebooks/maurice-leblanc/
-    /standardebooks.org/www/ebooks/maurice-leblanc/the-hollow-needle/
-    /standardebooks.org/www/ebooks/maurice-leblanc/the-hollow-needle/alexander-teixeira-de-mattos/
-    /standardebooks.org/www/ebooks/maurice-leblanc/813/
-    /standardebooks.org/www/ebooks/maurice-leblanc/813/alexander-teixeira-de-mattos/
+    /standardebooks.org/web/www/ebooks/maurice-leblanc/
+    /standardebooks.org/web/www/ebooks/maurice-leblanc/the-hollow-needle/
+    /standardebooks.org/web/www/ebooks/maurice-leblanc/the-hollow-needle/alexander-teixeira-de-mattos/
+    /standardebooks.org/web/www/ebooks/maurice-leblanc/813/
+    /standardebooks.org/web/www/ebooks/maurice-leblanc/813/alexander-teixeira-de-mattos/
     ````
 
     These directories contain the full ebook source, as if it was pulled from Git. (But they are not actual Git repositories.) Additionally each one contains a `./dist/` folder containing built ebook files for distribution.
 
-    The website pulls all ebook information from what is contained in `/standardebooks.org/www/ebooks/`. It does not inspect `/standardebooks.org/ebooks/`. Therefore it is possible for one or the other to hold different catalogs if they become out of sync.
+    The website pulls all ebook information from what is contained in `/standardebooks.org/web/www/ebooks/`. It does not inspect `/standardebooks.org/ebooks/`. Therefore it is possible for one or the other to hold different catalogs if they become out of sync.
 
-    To automatically populate your server with ebooks from https://github.com/standardebooks/, you can use sync-ebooks and deploy-ebook-to-www in the [scripts](scripts) directory. If you don't want to clone all ebooks, don't use sync-ebooks, and instead clone the books you want into `/standardebooks.org/ebooks` with `git clone --bare`. To clone a list of books, you can use `while IFS= read -r line; do git clone --bare "${line}"; done < urllist.txt`
+    To automatically populate your server with ebooks from https://github.com/standardebooks/, you can use sync-ebooks and deploy-ebook-to-www in the [scripts](scripts) directory. If you don’t want to clone all ebooks, don’t use sync-ebooks, and instead clone the books you want into `/standardebooks.org/ebooks` with `git clone --bare`. To clone a list of books, you can use `while IFS= read -r line; do git clone --bare "${line}"; done < urllist.txt`
 
 # Testing
 
-This repository includes [PHPStan](https://github.com/phpstan/phpstan) to statically analyze the codebase and [Safe PHP](https://github.com/thecodingmachine/safe) to replace old functions that don't throw exceptions.
+This repository includes [PHPStan](https://github.com/phpstan/phpstan) to statically analyze the codebase and [Safe PHP](https://github.com/thecodingmachine/safe) to replace old functions that don’t throw exceptions.
 
 To run PHPStan, execute:
 
@@ -181,7 +196,7 @@ After you have installed both, you can start and manage a VM running a server li
 
 - The Vagrant script will install [se](https://github.com/standardebooks/tools) by default. If you don't want that (it pulls in quite a few dependencies), remove the `se-tools` argument in Vagrantfile.
 
-- `se`, if installed in the VM, and /standardebooks.org/scripts are in the VMs path. This means you can easily use them with `vagrant ssh -c` like this: `vagrant ssh -c "sync-ebooks -vv /standardebooks.org/ebooks; deploy-ebook-to-www -v --group www-data /standardebooks.org/ebooks/*"`, which would populate the test server with all available SE ebooks. 
+- `se`, if installed in the VM, and /standardebooks.org/scripts are in the VMs path. This means you can easily use them with `vagrant ssh -c` like this: `vagrant ssh -c "sync-ebooks -vv /standardebooks.org/ebooks; deploy-ebook-to-www -v --group www-data /standardebooks.org/ebooks/*"`, which would populate the test server with all available SE ebooks.
 
 - It is safe to re-run the provision script if you did not change the nginx or php configuration files (change the files in the provision script and re-provision instead), so you can use `vagrant up --provision` or `vagrant reload --provision to update the VM, including se-tools and epubcheck, without having to delete it.
 

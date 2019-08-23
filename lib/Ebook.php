@@ -51,7 +51,7 @@ class Ebook{
 
 	public function __construct(string $wwwFilesystemPath){
 		// First, construct a source repo path from our WWW filesystem path.
-		$this->RepoFilesystemPath = str_replace(SITE_ROOT . '/www/ebooks/', '', $wwwFilesystemPath);
+		$this->RepoFilesystemPath = str_replace(EBOOKS_DIST_PATH, '', $wwwFilesystemPath);
 		$this->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $this->RepoFilesystemPath) . '.git';
 
 		if(!is_dir($this->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment
@@ -71,7 +71,7 @@ class Ebook{
 		}
 
 		$this->WwwFilesystemPath = $wwwFilesystemPath;
-		$this->Url = str_replace(SITE_ROOT . '/www', '', $this->WwwFilesystemPath);
+		$this->Url = str_replace(SITE_ROOT . '/web/www', '', $this->WwwFilesystemPath);
 
 		$rawMetadata = file_get_contents($wwwFilesystemPath . '/src/epub/content.opf') ?: '';
 

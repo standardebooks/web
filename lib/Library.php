@@ -106,22 +106,27 @@ class Library{
 					$ebooks = apcu_fetch('ebooks');
 				}
 				catch(Safe\Exceptions\ApcuException $ex){
-					foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
-						$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?: '';
-						try{
-							$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath);
-						}
-						catch(Safe\Exceptions\ApcuException $ex){
+					foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"') ?? '')) as $filename){
+						if(trim($filename) != ''){
+							$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?: '';
+							$ebook = null;
 							try{
-								$ebook = new Ebook($ebookWwwFilesystemPath);
-								apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
+								$ebook = apcu_fetch('ebook-' . $ebookWwwFilesystemPath);
 							}
-							catch(InvalidEbookException $ieEx){
-								// Do nothing if one specific ebook is causing problems
+							catch(Safe\Exceptions\ApcuException $ex){
+								try{
+									$ebook = new Ebook($ebookWwwFilesystemPath);
+									apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
+								}
+								catch(InvalidEbookException $ieEx){
+									// Do nothing if one specific ebook is causing problems
+								}
+							}
+
+							if($ebook !== null){
+								$ebooks[] = $ebook;
 							}
 						}
-
-						$ebooks[] = $ebook;
 					}
 
 					apcu_store('ebooks', $ebooks);
@@ -173,7 +178,7 @@ class Library{
 		catch(Safe\Exceptions\ApcuException $ex){
 			$ebooks = [];
 
-			foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
+			foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"') ?? '')) as $filename){
 				try{
 					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?? '';
 					try{
@@ -207,7 +212,7 @@ class Library{
 		catch(Safe\Exceptions\ApcuException $ex){
 			$ebooks = [];
 
-			foreach(explode("\n", trim(shell_exec('find ' . SITE_ROOT . '/www/ebooks/ -name "content.opf"') ?? '')) as $filename){
+			foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"') ?? '')) as $filename){
 				try{
 					$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $filename) ?? '';
 					try{
