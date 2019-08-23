@@ -713,6 +713,7 @@ text-indent: 0;
 figcaption{
 font-size: .75em;
 font-style: italic;
+margin: 1em;
 }</code>
                                 <code class="html full">&lt;figure id="image-10"&gt;
 &lt;img alt="An apple and a pear inside a bowl, resting on a table." src="../images/image-10.jpg" epub:type="z3998:photograph"/&gt;
