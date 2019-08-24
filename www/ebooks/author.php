@@ -18,7 +18,7 @@ try{
 }
 catch(\Exception $ex){
 	http_response_code(404);
-	include(SITE_ROOT . '/www/404.php');
+	include(SITE_ROOT . '/web/www/404.php');
 	exit();
 }
 ?><?= Template::Header(['title' => 'Ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml), 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml)]) ?>
