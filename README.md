@@ -10,15 +10,15 @@ sudo mkdir /standardebooks.org/
 cd /standardebooks.org/
 git clone https://github.com/standardebooks/web/
 
+# Install Apache, PHP, PHP-FPM, and various other dependencies.
+sudo apt install -y composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl apache2 apache2-utils libfcgi0ldbl
+
 # Install dependencies using Composer.
 cd /standardebooks.org/web/
 composer install
 
 # Add standardebooks.test to your hosts file.
 echo "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
-
-# Install Apache, PHP, PHP-FPM, and various other dependencies.
-sudo apt install -y composer php-gd php-xml php-apcu php-intl apache2 apache2-utils libfcgi0ldbl php-fpm php-cli php-mbstring
 
 # Create a self-signed SSL certificate for use with the local web site installation.
 openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
@@ -42,7 +42,7 @@ If everything went well you should now be able to open your web browser and visi
 # Once the toolset is installed, clone a book and deploy it to your local SE site:
 mkdir /standardebooks.org/ebooks/
 cd /standardebooks.org/ebooks/
-git clone https://github.com/standardebooks/david-lindsay_a-voyage-to-arcturus
+git clone --bare https://github.com/standardebooks/david-lindsay_a-voyage-to-arcturus
 /standardebooks.org/web/scripts/deploy-ebook-to-www david-lindsay_a-voyage-to-arcturus
 ```
 
@@ -50,7 +50,7 @@ If everything went well, `https://standardebooks.test/ebooks/` will show the one
 
 # Filesystem layout
 
--   `/standardebooks.org/ebooks/` contains one directory per SE ebook, arranged in a flat hierarchy. These directories look like the URL-safe identifier for the ebook, end in `.git`, and are bare Git repos; they are the "source of truth" for SE ebooks.
+-   `/standardebooks.org/ebooks/` contains one directory per SE ebook, arranged in a flat hierarchy. These directories look like the URL-safe identifier for the ebook, end in `.git`, and are bare Git repos; they are the “source of truth” for SE ebooks.
 
     For example:
 
@@ -73,7 +73,7 @@ If everything went well, `https://standardebooks.test/ebooks/` will show the one
 
     The website pulls all ebook information from what is contained in `/standardebooks.org/web/www/ebooks/`. It does not inspect `/standardebooks.org/ebooks/`. Therefore it is possible for one or the other to hold different catalogs if they become out of sync.
 
-    To automatically populate your server with ebooks from https://github.com/standardebooks/, you can use sync-ebooks and deploy-ebook-to-www in the [scripts](scripts) directory. If you don’t want to clone all ebooks, don’t use sync-ebooks, and instead clone the books you want into `/standardebooks.org/ebooks` with `git clone --bare`. To clone a list of books, you can use `while IFS= read -r line; do git clone --bare "${line}"; done < urllist.txt`
+    To automatically populate your server with ebooks from https://github.com/standardebooks/, you can use `sync-ebooks` and `deploy-ebook-to-www` in the [scripts](scripts) directory. If you don’t want to clone all ebooks, don’t use `sync-ebooks`, and instead clone the books you want into `/standardebooks.org/ebooks` with `git clone --bare`. To clone a list of books, you can use `while IFS= read -r line; do git clone --bare "${line}"; done < urllist.txt`
 
 # Testing
 
@@ -171,7 +171,7 @@ You can also set up a development server running Ubuntu 18.04 with nginx and php
 
 Both are available as packages in several major distributions, including Arch, Debian, Fedora, Gentoo, Ubuntu, and NixOS among others. Note that [the official docs advise against installing from distribution repositories](https://www.vagrantup.com/intro/getting-started/install.html) due to potentially old versions or incorrect dependencies.
 
-If you want to download the official binaries because Vagrant is not available in your distro's repository, because the version in the repository is too old or broken, or because you do not use Linux, you can download Vagrant [here](https://www.vagrantup.com/downloads.html)
+If you want to download the official binaries because Vagrant is not available in your distro’s repository, because the version in the repository is too old or broken, or because you do not use Linux, you can download Vagrant [here](https://www.vagrantup.com/downloads.html)
 and VirtualBox from [here.](https://www.virtualbox.org/wiki/Downloads)
 
 After you have installed both, you can start and manage a VM running a server like this:
@@ -194,7 +194,7 @@ After you have installed both, you can start and manage a VM running a server li
 
 ## Some further notes
 
-- The Vagrant script will install [se](https://github.com/standardebooks/tools) by default. If you don't want that (it pulls in quite a few dependencies), remove the `se-tools` argument in Vagrantfile.
+- The Vagrant script will install [se](https://github.com/standardebooks/tools) by default. If you don’t want that (it pulls in quite a few dependencies), remove the `se-tools` argument in Vagrantfile.
 
 - `se`, if installed in the VM, and /standardebooks.org/scripts are in the VMs path. This means you can easily use them with `vagrant ssh -c` like this: `vagrant ssh -c "sync-ebooks -vv /standardebooks.org/ebooks; deploy-ebook-to-www -v --group www-data /standardebooks.org/ebooks/*"`, which would populate the test server with all available SE ebooks.
 
@@ -208,6 +208,6 @@ After you have installed both, you can start and manage a VM running a server li
 
 - To update the box, run `vagrant box update --box ubuntu/bionic64`. Note that this will not change the project-local VM. You will have to create a new VM based on the updated box by doing a `vagrant destroy` followed by a `vagrant up`. To remove old unused versions of boxes, run `vagrant box prune`.
 
-- Check out scripts/provision.sh to see how the server is configured, the script is Vagrant-agnostic, so it should be helpful even if you don't want to use Vagrant.
+- Check out scripts/provision.sh to see how the server is configured, the script is Vagrant-agnostic, so it should be helpful even if you don’t want to use Vagrant.
 
 - For further information, check out the [official Vagrant guide.](https://www.vagrantup.com/intro/index.html)
