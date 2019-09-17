@@ -19,7 +19,7 @@ require_once('Core.php');
 			<li>
 				<h2>Make sure the toolset is up-to-date</h2>
 				<p>The toolset changes frequently. If this isn’t your first ebook production, always make sure to update the toolset before you start a new ebook, so that you’re working with the latest version of the tools.</p>
-				<code class="terminal"><span>pip3 install --upgrade standardebooks</span></code>
+				<code class="terminal"><span>pipx upgrade standardebooks</span></code>
 			</li>
 			<li>
 				<h2>Select an ebook to produce</h2>
