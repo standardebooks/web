@@ -137,9 +137,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4057">Marius the Epicurean</a> by Walter Pater (<a href="https://www.gutenberg.org/ebooks/4058">Vol. 2</a>; both as a single production)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/165">McTeague</a> by Frank Norris</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/24353">Wired Love</a> by Ella Cheever Thayer</p>
 			</li>
