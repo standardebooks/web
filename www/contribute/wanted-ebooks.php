@@ -39,9 +39,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2376">Up From Slavery</a> by Booker T. Washington</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42914">Gladiator</a> by Philip Wylie</p>
 			</li>
 			<!-- <li>
@@ -65,9 +62,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/783">Prose novels by P. G. Wodehouse (But <em>not</em> short story compilations, including Jeeves; see Advanced Productions.)</a></p>
 			</li>
-			<!-- <li>
-				<p><a href="http://www.gutenberg.org/ebooks/3776">The Valley of Fear</a> by Arthur Conan Doyle</p>
-			</li> -->
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
