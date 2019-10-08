@@ -23,6 +23,9 @@ echo "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
 # Create a self-signed SSL certificate for use with the local web site installation.
 openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
 
+# Enable the necessary Apache modules.
+sudo a2enmod {headers, expires, ssl, rewrite, proxy}
+
 # Link and enable the SE Apache configuration file.
 sudo ln -s /standardebooks.org/web/config/apache/standardebooks.test.conf /etc/apache2/sites-available/
 sudo a2ensite standardebooks.test
@@ -178,7 +181,7 @@ After you have installed both, you can start and manage a VM running a server li
 
 - `vagrant box add ubuntu/bionic64` downloads an [official Ubuntu 18.04 image](https://app.vagrantup.com/ubuntu/boxes/bionic64) (also known as a box in Vagrant terminology) for use as a base image in Vagrant VMs. This box is stored in `$HOME/.vagrant.d/boxes`.
 
-- `vagrant run` will launch a VirtualBox VM running the server.
+- `vagrant run` will launch a VirtualBox VM running the server. (Note: newer versions of Vagrant, such as the one found on Arch, use `up` instead of `run`.)
 
   * On its first invocation, or when the VM has been deleted, `vagrant up` will create a new VirtualBox VM in your standard Virtualbox machine directory (usually `$HOME/VirtualBox VMs`) using the previously added box as a base and configure it using the `Vagrantfile` and `scripts/provision.sh`. This means that the first time doing `vagrant run` will take significantly longer than following invocations because those simply start up the already created VM associated with VirtualBox.
 
