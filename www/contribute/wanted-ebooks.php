@@ -173,9 +173,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/161">Sense and Sensibility</a> by Jane Austen</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/829">Gulliver’s Travels</a> by Jonathan Swift</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens</p>
 			</li>
