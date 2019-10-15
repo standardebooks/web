@@ -93,13 +93,14 @@
 }
 
 html{
+	color: #222; /* fallback for IE */
 	color: var(--body-text);
 	font-family: "Crimson Pro", Georgia, serif;
 	-webkit-hyphens: auto;
 	hyphens: auto;
 	font-size: 22px;
 	line-height: 1.5;
-	background: url('/images/paper.png') #fcf5dd; /* #faf5e3; */
+	background: url('/images/paper.png') #fcf5dd;
 }
 
 @media (prefers-color-scheme: dark){
@@ -471,6 +472,7 @@ a[rel~="next"],
 aside.sort button{
 	font-style: normal;
 	box-sizing: border-box;
+	background-color: #1d6878; /* fallback for IE */
 	background-color: var(--highlight);
 	border-width: 0;
 	border-radius: 5px;
@@ -1465,6 +1467,7 @@ main.ebooks nav ol li a{
 
 article nav ol li.highlighted a,
 main.ebooks nav ol li.highlighted a{
+	background-color: #1d6878; /* fallback for IE */
 	background: var(--highlight);
 	padding: 1.25rem;
 }
