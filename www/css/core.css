@@ -75,8 +75,25 @@
 	font-style: italic;
 }
 
+:root{
+	--light-body-text: #222;
+	--light-highlight: #1d6878;
+	--dark-body-text: #ccc;
+	--dark-highlight: #3da5bb;
+
+	--body-text: var(--light-body-text);
+	--highlight: var(--light-highlight);
+}
+
+@media (prefers-color-scheme: dark){
+	:root{
+		--body-text: var(--dark-body-text);
+		--highlight: var(--dark-highlight);
+	}
+}
+
 html{
-	color: #222;
+	color: var(--body-text);
 	font-family: "Crimson Pro", Georgia, serif;
 	-webkit-hyphens: auto;
 	hyphens: auto;
@@ -85,18 +102,24 @@ html{
 	background: url('/images/paper.png') #fcf5dd; /* #faf5e3; */
 }
 
+@media (prefers-color-scheme: dark){
+	html{
+		background: url('/images/leather.png') #394451;
+	}
+}
+
 a,
 a:link,
 a:visited{
-	color: #222;
+	color: inherit;
 }
 
 a:hover{
-	color: #1d6878;
+	color: var(--highlight);
 }
 
 a:focus{
-	outline: 1px dashed #1d6878;
+	outline: 1px dashed var(--highlight);
 }
 
 main{
@@ -179,12 +202,18 @@ body > header{
 	background: url('/images/leather.png') #394451;
 	display: flex;
 	justify-content: space-around;
-	border-bottom: 1px solid #222;
+	border-bottom: 1px solid var(--body-text);
 	padding: 1.5rem 0;
 	box-shadow: 0 0 8px rgba(0, 0, 0, 1);
 	position: relative;
 	width: calc(100% + 2rem + 2rem);
 	z-index: 100; /* to step on the splash box shadow */
+}
+
+@media (prefers-color-scheme: dark){
+	body > header{
+		border-bottom: transparent;
+	}
 }
 
 body > header > a{
@@ -268,7 +297,7 @@ main.front-page h1{
 	background:  url('/images/book.jpg');
 	background-size: cover;
 	background-position: center;
-	border-bottom: 1px solid #222;
+	border-bottom: 1px solid var(--body-text);
 	box-shadow: 0 0 10px rgba(0, 0, 0, .75);
 	width: calc(100% + 4rem);
 	margin: 0;
@@ -350,12 +379,18 @@ main.front-page > section > section figure.oss img{
 	margin: 1rem;
 }
 
+@media (prefers-color-scheme: dark){
+	main.front-page > section > section figure.oss img + img{
+		filter: invert();
+	}
+}
+
 main.front-page > section > section figure img{
 	width: auto;
 	max-width: 100%;
 	box-sizing: border-box;
 	border-radius: 5px;
-	border: 1px solid #222;
+	border: 1px solid var(--body-text);
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
 }
 
@@ -436,7 +471,7 @@ a[rel~="next"],
 aside.sort button{
 	font-style: normal;
 	box-sizing: border-box;
-	background-color: #1d6878;
+	background-color: var(--highlight);
 	border-width: 0;
 	border-radius: 5px;
 	padding: 1rem 2rem;
@@ -503,7 +538,7 @@ aside.sort select{
 	background-color: rgba(0, 0, 0, .1);
 	border: 1px solid #777;
 	border-radius: 5px;
-	color: #222;
+	color: var(--body-text);
 	font-size: 1rem;
 	text-transform: lowercase;
 	font-family: 'Crimson Pro', serif;
@@ -591,7 +626,7 @@ article.ebook > header{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid #222;
+	border: 1px solid var(--body-text);
 	border-top: none;
 	border-bottom-right-radius: .25rem;
 	border-bottom-left-radius: .25rem;
@@ -698,6 +733,13 @@ article.ebook section#details ul li a[class]::before{
 	transition: transform .2s ease;
 }
 
+@media (prefers-color-scheme: dark){
+	article.ebook section#download ul li a[class]::before,
+	article.ebook section#details ul li a[class]::before{
+		filter: invert();
+	}
+}
+
 article.ebook section#download ul li a[class]:hover::before,
 article.ebook section#details ul li a[class]:hover::before{
 	transform: scale(1.1);
@@ -712,7 +754,7 @@ article.ebook #more-ebooks{
 article.ebook #more-ebooks h2{
 	text-align: center;
 	font-style: normal;
-	color: #222;
+	color: var(--body-text);
 	margin: 0;
 	margin-top: 2rem;
 }
@@ -735,7 +777,7 @@ article.ebook #more-ebooks ul li{
 article.ebook #more-ebooks img{
 	height: 200px;
 	border-radius: .25rem;
-	border: 1px solid #222;
+	border: 1px solid var(--body-text);
 	transition: all .2s ease;
 	box-sizing: border-box;
 }
@@ -743,6 +785,12 @@ article.ebook #more-ebooks img{
 article.ebook #more-ebooks img:hover{
 	transform: scale(1.05);
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
+}
+
+@media (prefers-color-scheme: dark){
+	article.ebook #more-ebooks img:hover{
+		box-shadow: 3px 3px 1px rgba(255, 255, 255, .25);
+	}
 }
 
 article.ebook #more-ebooks a:active img{
@@ -911,6 +959,12 @@ footer p:last-child a::before{
 	margin: auto;
 }
 
+@media (prefers-color-scheme: dark){
+	footer p:last-child a::before{
+		filter: invert();
+	}
+}
+
 footer ul{
 	font-size: 0;
 	margin-bottom: 1rem;
@@ -971,6 +1025,12 @@ main.ebooks > ol img:hover{
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
 }
 
+@media (prefers-color-scheme: dark){
+	main.ebooks > ol img:hover{
+		box-shadow: 3px 3px 1px rgba(255, 255, 255, .25);
+	}
+}
+
 main.ebooks > ol > li a:active img{
 	transform: scale(1.025);
 	transition: none;
@@ -987,7 +1047,7 @@ main.ebooks > ol > li p{
 main.ebooks > ol > li img{
 	box-sizing: border-box;
 	width: 100%;
-	border: 1px solid #222;
+	border: 1px solid var(--body-text);
 	border-radius: .25rem;
 	transition: all .2s ease;
 }
@@ -1024,10 +1084,19 @@ aside.alert{
 	font-style: italic;
 	margin-top: 2rem;
 	background: url('/images/stripes.svg') #FFFF99;
+	color: var(--light-body-text);
 	border-radius: .25rem;
 	padding: 2rem;
 	border: 2px solid #FFCC00;
 	box-sizing: border-box;
+}
+
+aside.alert a:hover{
+	color: var(--light-highlight);
+}
+
+aside.alert a:focus{
+	outline: 1px dashed var(--light-highlight);
 }
 
 nav + aside.alert{
@@ -1066,7 +1135,7 @@ ul.tags li{
 }
 
 ul.tags li a{
-	border: 1px solid #222;
+	border: 1px solid var(--body-text);
 	border-radius: 5px;
 	padding: .25rem .5rem;
 	font-style: normal;
@@ -1263,7 +1332,7 @@ h3 abbr.initialism{
 
 figure img{
 	border-radius: .25rem;
-	border: 1px solid #222;
+	border: 1px solid var(--body-text);
 	display: block;
 	margin: auto;
 }
@@ -1381,7 +1450,7 @@ main.ebooks nav ol li a{
 
 article nav ol li.highlighted a,
 main.ebooks nav ol li.highlighted a{
-	background: #1d6878;
+	background: var(--highlight);
 	padding: 1.25rem;
 }
 
@@ -1416,6 +1485,7 @@ input[type="search"]{
 	background: none;
 	border: none;
 	font-family: 'Crimson Pro';
+	color: var(--body-text);
 }
 
 /* remove some styles from Chromium */
@@ -1427,6 +1497,12 @@ input[type="search"]::-webkit-search-cancel-button{
 input::placeholder{
 	font-style: italic;
 	color: rgba(0, 0, 0, .75);
+}
+
+@media (prefers-color-scheme: dark){
+	input::placeholder{
+		color: rgba(255, 255, 255, .75);
+	}
 }
 
 main > article > form{
@@ -1444,6 +1520,13 @@ label.search{
 	align-items: center;
 	padding: 1rem;
 	font-size: 0;
+	color: inherit;
+}
+
+@media (prefers-color-scheme: dark){
+	label.search{
+		box-shadow: 1px 1px 0 rgba(0, 0, 0, .5) inset;
+	}
 }
 
 input[type="search"]{
@@ -1461,13 +1544,13 @@ label.search::before{
 	font-size: 1rem;
 	line-height: 1;
 	margin-right: 1rem;
-	color: #222;
+	color: var(--body-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
 }
 
 .utf{
-	border: 1px solid #222;
+	border: 1px solid var(--body-text);
 	padding: .1rem;
 	line-height: 1;
 	margin: 0 .1rem;
