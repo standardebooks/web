@@ -432,8 +432,30 @@ main.front-page > section > h2{
 	text-transform: none;
 	font-weight: normal;
 	max-width: 100%;
-	padding: 4rem 0;
-	background: url('/images/divider.svg') top center no-repeat, url('/images/divider.svg') bottom center no-repeat;
+}
+
+main.front-page > section > h2::before,
+main.front-page > section > h2::after{
+	content: "";
+	display: block;
+	height: 1rem;
+	background: url('/images/divider.svg') center no-repeat;
+}
+
+@media (prefers-color-scheme: dark){
+	main.front-page > section > h2::before,
+	main.front-page > section > h2::after{
+		filter: invert();
+	}
+}
+
+main.front-page > section > h2::before{
+	margin-bottom: 3rem;
+}
+
+
+main.front-page > section > h2::after{
+	margin-top: 3rem;
 }
 
 main.front-page > section > section > h3{
