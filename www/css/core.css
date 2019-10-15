@@ -1192,6 +1192,15 @@ code.css.full{
 	color: #fff !important; /* in case code highlighting fails */
 }
 
+@media (prefers-color-scheme: dark){
+	figure code.html,
+	figure code.css,
+	code.html.full,
+	code.css.full{
+		background-color: var(--light-body-text);
+	}
+}
+
 code.full{
 	margin-top: 1rem;
 	color: #fff !important; /* in case code highlighting fails */
@@ -1230,6 +1239,12 @@ code.terminal{
 	display: block;
 	margin-top: 1rem;
 	overflow: auto;
+}
+
+@media (prefers-color-scheme: dark){
+	code.terminal{
+		background-color: var(--light-body-text);
+	}
 }
 
 code.terminal::before{
