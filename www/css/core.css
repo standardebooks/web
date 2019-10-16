@@ -1782,6 +1782,20 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		font-size: 1rem;
 		margin: 0;
 	}
+
+	article.ebook > header > div{
+		margin: 1rem;
+		padding: 1rem;
+		max-width: 85%;
+	}
+
+	article.ebook h1{
+		font-size: 1.5rem;
+	}
+
+	article.ebook > header > div > p{
+		font-size: 1.2rem;
+	}
 }
 
 @media(max-width: 380px){
