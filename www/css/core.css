@@ -559,6 +559,7 @@ article.ebook #history li + li > *{
 article.ebook #history li time{
 	padding-right: 1rem;
 	white-space: nowrap;
+	text-align: right;
 }
 
 article.ebook section aside p::before{
