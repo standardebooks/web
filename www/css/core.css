@@ -78,17 +78,25 @@
 :root{
 	--light-body-text: #222;
 	--light-highlight: #1d6878;
-	--dark-body-text: #ccc;
+	--light-border: #222;
+	--light-sub-text: #777;
+	--dark-body-text: #eee;
 	--dark-highlight: #3da5bb;
+	--dark-border: #000;
+	--dark-sub-text: #aaa;
 
 	--body-text: var(--light-body-text);
 	--highlight: var(--light-highlight);
+	--border: var(--light-border);
+	--sub-text: var(--light-sub-text);
 }
 
 @media (prefers-color-scheme: dark){
 	:root{
 		--body-text: var(--dark-body-text);
 		--highlight: var(--dark-highlight);
+		--border: var(--dark-border);
+		--sub-text: var(--dark-sub-text);
 	}
 }
 
@@ -105,7 +113,7 @@ html{
 
 @media (prefers-color-scheme: dark){
 	html{
-		background: url('/images/leather.png') #394451;
+		background: url('/images/paper.png') #293542;
 	}
 }
 
@@ -203,18 +211,12 @@ body > header{
 	background: url('/images/leather.png') #394451;
 	display: flex;
 	justify-content: space-around;
-	border-bottom: 1px solid var(--body-text);
+	border-bottom: 1px solid var(--border);
 	padding: 1.5rem 0;
 	box-shadow: 0 0 8px rgba(0, 0, 0, 1);
 	position: relative;
 	width: calc(100% + 2rem + 2rem);
 	z-index: 100; /* to step on the splash box shadow */
-}
-
-@media (prefers-color-scheme: dark){
-	body > header{
-		border-bottom: transparent;
-	}
 }
 
 body > header > a{
@@ -298,7 +300,7 @@ main.front-page h1{
 	background:  url('/images/book.jpg');
 	background-size: cover;
 	background-position: center;
-	border-bottom: 1px solid var(--body-text);
+	border-bottom: 1px solid var(--border);
 	box-shadow: 0 0 10px rgba(0, 0, 0, .75);
 	width: calc(100% + 4rem);
 	margin: 0;
@@ -391,8 +393,14 @@ main.front-page > section > section figure img{
 	max-width: 100%;
 	box-sizing: border-box;
 	border-radius: 5px;
-	border: 1px solid var(--body-text);
+	border: 1px solid var(--border);
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
+}
+
+@media (prefers-color-scheme: dark){
+	main.front-page > section > section figure img{
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+	}
 }
 
 main.front-page > section > section p{
@@ -630,7 +638,7 @@ article.ebook section aside p::after{
 
 article.ebook section aside{
 	margin-top: 1rem;
-	color: #777;
+	color: var(--sub-text);
 	text-align: right;
 	font-style: italic;
 	font-size: .9rem;
@@ -651,7 +659,7 @@ article.ebook > header{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid var(--body-text);
+	border: 1px solid var(--border);
 	border-top: none;
 	border-bottom-right-radius: .25rem;
 	border-bottom-left-radius: .25rem;
@@ -771,7 +779,7 @@ article.ebook section#details ul li a[class]:hover::before{
 }
 
 article.ebook #more-ebooks{
-	border-top: 3px double #777;
+	border-top: 3px double var(--sub-text);
 	margin-top: 4rem;
 }
 
@@ -802,7 +810,7 @@ article.ebook #more-ebooks ul li{
 article.ebook #more-ebooks img{
 	height: 200px;
 	border-radius: .25rem;
-	border: 1px solid var(--body-text);
+	border: 1px solid var(--border);
 	transition: all .2s ease;
 	box-sizing: border-box;
 }
@@ -814,7 +822,7 @@ article.ebook #more-ebooks img:hover{
 
 @media (prefers-color-scheme: dark){
 	article.ebook #more-ebooks img:hover{
-		box-shadow: 3px 3px 1px rgba(255, 255, 255, .25);
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
 	}
 }
 
@@ -838,7 +846,7 @@ article.ebook #more-ebooks li:nth-child(3) img{
 }
 
 time{
-	color: #777;
+	color: var(--sub-text);
 	margin-right: 15px;
 	width: 6em;
 	display: inline-block;
@@ -913,8 +921,8 @@ section#description p:first-of-type{
 }
 
 article.ebook aside#reading-ease{
-	border-top: 3px double #777;
-	border-bottom: 3px double #777;
+	border-top: 3px double var(--sub-text);
+	border-bottom: 3px double var(--sub-text);
 	padding: 1rem 0;
 	font-style: italic;
 	text-align: center;
@@ -960,8 +968,8 @@ h5{
 body > footer{
 	width: 100%;
 	max-width: 60rem;
-	border-top: 3px double #777;
-	margin-top: 4rem;
+	border-top: 3px double var(--sub-text);
+	margin-top: 2rem;
 	text-align: center;
 	padding: 2rem 0;
 }
@@ -1022,7 +1030,7 @@ h1{
 	font-size: 2rem;
 	font-family: 'League Spartan', sans-serif;
 	line-height: 1.2;
-	border-bottom: 3px double #777;
+	border-bottom: 3px double var(--sub-text);
 	margin-top: 2rem;
 	margin-bottom: 2rem;
 	padding-bottom: 1.5rem;
@@ -1052,7 +1060,7 @@ main.ebooks > ol img:hover{
 
 @media (prefers-color-scheme: dark){
 	main.ebooks > ol img:hover{
-		box-shadow: 3px 3px 1px rgba(255, 255, 255, .25);
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
 	}
 }
 
@@ -1072,7 +1080,7 @@ main.ebooks > ol > li p{
 main.ebooks > ol > li img{
 	box-sizing: border-box;
 	width: 100%;
-	border: 1px solid var(--body-text);
+	border: 1px solid var(--border);
 	border-radius: .25rem;
 	transition: all .2s ease;
 }
@@ -1216,15 +1224,6 @@ code.css.full{
 	color: #fff !important; /* in case code highlighting fails */
 }
 
-@media (prefers-color-scheme: dark){
-	figure code.html,
-	figure code.css,
-	code.html.full,
-	code.css.full{
-		background-color: var(--light-body-text);
-	}
-}
-
 code.full{
 	margin-top: 1rem;
 	color: #fff !important; /* in case code highlighting fails */
@@ -1232,7 +1231,7 @@ code.full{
 
 code.full::before{
 	display: block;
-	border-bottom: 1px dashed #777;
+	border-bottom: 1px dashed var(--sub-text);
 	padding-bottom: .5rem;
 	margin-bottom: .5rem;
 	font-weight: bold;
@@ -1307,6 +1306,14 @@ figure.text{
 	border-radius: .25rem;
 }
 
+
+@media (prefers-color-scheme: dark){
+	blockquote,
+	figure.text{
+		background: rgba(0,0,0,.25);
+	}
+}
+
 blockquote{
 	font-style: italic;
 }
@@ -1349,7 +1356,7 @@ table p{
 }
 
 table thead{
-	border-bottom: 3px double #777;
+	border-bottom: 3px double var(--sub-text);
 	font-weight: bold;
 }
 
@@ -1372,7 +1379,7 @@ h3 abbr.initialism{
 
 figure img{
 	border-radius: .25rem;
-	border: 1px solid var(--body-text);
+	border: 1px solid var(--border);
 	display: block;
 	margin: auto;
 }
@@ -1556,7 +1563,7 @@ label.search{
 	background: rgba(0, 0, 0, .1);
 	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
 	border-radius: 5px;
-	border: 1px solid #777;
+	border: 1px solid var(--sub-text);
 	display: flex;
 	align-items: center;
 	padding: 1rem;
@@ -1588,6 +1595,13 @@ label.search::before{
 	color: var(--body-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
+}
+
+
+@media (prefers-color-scheme: dark){
+	label.search::before{
+		text-shadow: 1px 1px 0 #000;
+	}
 }
 
 .utf{
