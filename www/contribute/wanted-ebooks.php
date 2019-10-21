@@ -315,6 +315,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot</p>
 			</li>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short stories by P. G. Wodehouse (Note that we already have all Jeeves stories. Careful research is required to compile an omnibus of the rest.)</a></p>
 			</li>
 		</ul>
