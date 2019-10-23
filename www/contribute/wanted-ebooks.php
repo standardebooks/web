@@ -237,7 +237,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/10827">Discourses on the First Decade of Titus Livius</a> by Niccolò Machiavelli</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1564">Boswell’s Life of Johnson</a> by James Boswell</p>
+				<p>The Life of Samuel Johnson by James Boswell (Note: <em>Not</em> the Gutenberg edition, which is abridged.)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10662">The Night Land</a> by William Hope Hodgson</p>
@@ -262,9 +262,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11639">Figures of Earth: A Comedy of Appearances</a> by James Branch Cabell</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2084">The Way of All Flesh</a> by Samuel Butler</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/5267">Sister Carrie</a> by Theodore Dreiser</p>
