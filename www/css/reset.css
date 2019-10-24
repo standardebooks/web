@@ -70,6 +70,10 @@ figure{
 	margin: 0;
 }
 
+button::-moz-focus-inner{
+	border: 0;
+}
+
 /* ie 11 compatibility */
 header{
 	display: block;

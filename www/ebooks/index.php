@@ -95,28 +95,28 @@ catch(\Exception $ex){
 		<? }else{ ?>
 			<?= Template::EbookGrid(['ebooks' => $ebooks]) ?>
 		<? } ?>
-		<? if($query === null && $tag === null && $collection === null){ ?>
+		<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
 			<nav>
-				<a<? if($page > 1){ ?> href="/ebooks/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($page - 1 <= 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>"<? } ?> rel="previous">Back</a>
+				<a<? if($page > 1){ ?> href="/ebooks/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($page - 1 <= 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
 				<? for($i = 1; $i < $pages + 1; $i++){ ?>
 					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($i - 1 < 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>"><?= $i ?></a></li>
 				<? } ?>
 				</ol>
-				<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($sort != SORT_NEWEST){ ?>&amp;sort=<?= $sort ?><? } ?>"<? }else{ ?> class="disabled"<? } ?> rel="next">Next</a>
+				<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($sort != SORT_NEWEST){ ?>&amp;sort=<?= $sort ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
-		<? }elseif($tag !== null){ ?>
+		<? }elseif(sizeof($ebooks) > 0 && $tag !== null){ ?>
 			<nav>
-				<a<? if($page > 1){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?>"<? } ?> rel="previous">Back</a>
+				<a<? if($page > 1){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
 				<? for($i = 1; $i < $pages + 1; $i++){ ?>
 					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?>"><?= $i ?></a></li>
 				<? } ?>
 				</ol>
-				<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/?page=<?= $page + 1 ?>"<? }else{ ?> class="disabled"<? } ?> rel="next">Next</a>
+				<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
-		<? if($query === null && $tag === null && $collection === null){ ?>
+		<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
 			<aside class="sort">
 				<form action="" method="get">
 					<label>Sort by

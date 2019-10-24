@@ -78,25 +78,79 @@
 :root{
 	--light-body-text: #222;
 	--light-highlight: #1d6878;
+	--light-button: #1d6878;
+	--light-button-highlight: #3da5bb;
 	--light-border: #222;
 	--light-sub-text: #777;
+	--light-body-bg: #fcf5dd;
 	--dark-body-text: #eee;
 	--dark-highlight: #3da5bb;
+	--dark-button: #118460;
+	--dark-button-highlight: #4ab089;
 	--dark-border: #000;
 	--dark-sub-text: #aaa;
+	--dark-body-bg: #293542;
 
 	--body-text: var(--light-body-text);
 	--highlight: var(--light-highlight);
+	--button: var(--light-button);
+	--button-highlight: var(--light-button-highlight);
 	--border: var(--light-border);
 	--sub-text: var(--light-sub-text);
+	--body-bg: var(--light-body-bg);
 }
 
 @media (prefers-color-scheme: dark){
 	:root{
 		--body-text: var(--dark-body-text);
 		--highlight: var(--dark-highlight);
+		--button: var(--dark-button);
+		--button-highlight: var(--dark-button-highlight);
 		--border: var(--dark-border);
 		--sub-text: var(--dark-sub-text);
+		--body-bg: var(--dark-body-bg);
+	}
+
+	main.front-page > section > section figure img{
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+	}
+
+	article.ebook section#download ul li a[class]::before,
+	article.ebook section#details ul li a[class]::before,
+	footer p:last-child a::before,
+	main.front-page > section > section figure.oss img + img,
+	main.front-page > section > h2::before,
+	main.front-page > section > h2::after{
+		filter: invert() grayscale(100%) brightness(120%); /* grayscale and brightness makes it hit about #eeeeee */
+	}
+
+	label.search{
+		box-shadow: 1px 1px 0 rgba(0, 0, 0, .5) inset;
+	}
+
+	input::placeholder{
+		color: rgba(255, 255, 255, .75);
+	}
+
+	blockquote,
+	figure.text{
+		background: rgba(0,0,0,.25);
+	}
+
+	code.terminal{
+		background-color: var(--light-body-text);
+	}
+
+	main.ebooks > ol img:hover{
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+	}
+
+	article.ebook #more-ebooks img:hover{
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+	}
+
+	label.search::before{
+		text-shadow: 1px 1px 0 #000;
 	}
 }
 
@@ -108,13 +162,9 @@ html{
 	hyphens: auto;
 	font-size: 22px;
 	line-height: 1.5;
+	/* fallback for ie */
 	background: url('/images/paper.png') #fcf5dd;
-}
-
-@media (prefers-color-scheme: dark){
-	html{
-		background: url('/images/paper.png') #293542;
-	}
+	background: url('/images/paper.png') var(--body-bg);
 }
 
 a,
@@ -124,11 +174,12 @@ a:visited{
 }
 
 a:hover{
-	color: var(--highlight);
+	color: var(--button-highlight);
 }
 
+label.search:focus-within,
 a:focus{
-	outline: 1px dashed var(--highlight);
+	outline: 1px dashed var(--button-highlight);
 }
 
 main{
@@ -382,12 +433,6 @@ main.front-page > section > section figure.oss img{
 	margin: 1rem;
 }
 
-@media (prefers-color-scheme: dark){
-	main.front-page > section > section figure.oss img + img{
-		filter: invert();
-	}
-}
-
 main.front-page > section > section figure img{
 	width: auto;
 	max-width: 100%;
@@ -395,12 +440,6 @@ main.front-page > section > section figure img{
 	border-radius: 5px;
 	border: 1px solid var(--border);
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
-}
-
-@media (prefers-color-scheme: dark){
-	main.front-page > section > section figure img{
-		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
-	}
 }
 
 main.front-page > section > section p{
@@ -450,13 +489,6 @@ main.front-page > section > h2::after{
 	background: url('/images/divider.svg') center no-repeat;
 }
 
-@media (prefers-color-scheme: dark){
-	main.front-page > section > h2::before,
-	main.front-page > section > h2::after{
-		filter: invert();
-	}
-}
-
 main.front-page > section > h2::before{
 	margin-bottom: 3rem;
 }
@@ -497,13 +529,12 @@ h1 + section > h2:first-child{
 }
 
 a.button,
-a[rel~="previous"],
-a[rel~="next"],
+.ebooks nav > a,
 aside.sort button{
 	font-style: normal;
 	box-sizing: border-box;
 	background-color: #1d6878; /* fallback for IE */
-	background-color: var(--highlight);
+	background-color: var(--button);
 	border-width: 0;
 	border-radius: 5px;
 	padding: 1rem 2rem;
@@ -519,13 +550,20 @@ aside.sort button{
 
 a.button:focus,
 .ebooks nav li.highlighted a:focus,
+button:focus,
+select:focus,
 nav a[rel]:focus{
 	outline: 1px dashed #fff;
 }
 
+select:-moz-focusring,
+select::-moz-focus-inner{
+	color: transparent !important;
+	text-shadow: 0 0 0 var(--body-text) !important;
+}
+
 a.button:active,
-a[rel~="previous"]:active,
-a[rel~="next"]:active,
+.ebooks nav > a[href]:active,
 aside.sort button:active{
 	top: 2px;
 	left: 2px;
@@ -533,7 +571,7 @@ aside.sort button:active{
 }
 
 a.button.next::after,
-a[rel="next"]::after{
+.ebooks nav > a:last-child::after{
 	font-family: "FontAwesome";
 	content: "\f061";
 	transition: all 200ms ease;
@@ -543,13 +581,13 @@ a[rel="next"]::after{
 }
 
 a[href].button.next:hover::after,
-a[rel="next"][href]::hover::after{
+.ebooks nav > a:last-child[href]::hover::after{
 	left: .25rem;
 	position: relative;
 	transition: all 200ms ease;
 }
 
-a[rel="previous"]:before{
+.ebooks nav > a:first-child:before{
 	font-family: "FontAwesome";
 	content: "\f060";
 	transition: all 200ms ease;
@@ -558,7 +596,7 @@ a[rel="previous"]:before{
 	margin-right: .5rem;
 }
 
-a[rel="previous"][href]:hover::before{
+.ebooks nav > a:first-child[href]:hover::before{
 	right: .25rem;
 	position: relative;
 	transition: all 200ms ease;
@@ -583,17 +621,21 @@ aside.sort button{
 	font-size: 1rem;
 }
 
+
+article nav ol li a:hover,
+main.ebooks nav ol li a:hover,
+main.ebooks nav ol li.highlighted a:hover,
 a.button:hover,
-a[rel~="previous"]:hover,
-a[rel~="next"]:hover,
+.ebooks nav > a:hover,
 aside.sort button:hover{
+	/* fallback for ie */
 	background-color: #288da4;
+	background-color: var(--button-highlight);
 }
 
-a[rel~="previous"]:not([href]),
-a[rel~="next"]:not([href]){
+.ebooks nav > a:not([href]){
+	cursor: default;
 	color: #efefef;
-	text-shadow: none;
 	box-shadow: none;
 	background: #bbb url('/images/stripes-dark.svg');
 }
@@ -766,13 +808,6 @@ article.ebook section#details ul li a[class]::before{
 	transition: transform .2s ease;
 }
 
-@media (prefers-color-scheme: dark){
-	article.ebook section#download ul li a[class]::before,
-	article.ebook section#details ul li a[class]::before{
-		filter: invert();
-	}
-}
-
 article.ebook section#download ul li a[class]:hover::before,
 article.ebook section#details ul li a[class]:hover::before{
 	transform: scale(1.1);
@@ -818,12 +853,6 @@ article.ebook #more-ebooks img{
 article.ebook #more-ebooks img:hover{
 	transform: scale(1.05);
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
-}
-
-@media (prefers-color-scheme: dark){
-	article.ebook #more-ebooks img:hover{
-		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
-	}
 }
 
 article.ebook #more-ebooks a:active img{
@@ -992,12 +1021,6 @@ footer p:last-child a::before{
 	margin: auto;
 }
 
-@media (prefers-color-scheme: dark){
-	footer p:last-child a::before{
-		filter: invert();
-	}
-}
-
 footer ul{
 	font-size: 0;
 	margin-bottom: 1rem;
@@ -1056,12 +1079,6 @@ main.ebooks > ol > li{
 main.ebooks > ol img:hover{
 	transform: scale(1.05);
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
-}
-
-@media (prefers-color-scheme: dark){
-	main.ebooks > ol img:hover{
-		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
-	}
 }
 
 main.ebooks > ol > li a:active img{
@@ -1183,7 +1200,9 @@ ul.tags li a{
 
 ul.tags li a:hover{
 	color: #fff;
+	/* fallback for ie */
 	background: #288da4;
+	background: var(--button-highlight);
 }
 
 ul.tags li + li{
@@ -1264,12 +1283,6 @@ code.terminal{
 	overflow: auto;
 }
 
-@media (prefers-color-scheme: dark){
-	code.terminal{
-		background-color: var(--light-body-text);
-	}
-}
-
 code.terminal::before{
 	content: url('/images/terminal.svg');
 	height: 1rem;
@@ -1304,14 +1317,6 @@ figure.text{
 	border: 1px solid rgba(255,255,255,.25);
 	padding: 1rem;
 	border-radius: .25rem;
-}
-
-
-@media (prefers-color-scheme: dark){
-	blockquote,
-	figure.text{
-		background: rgba(0,0,0,.25);
-	}
 }
 
 blockquote{
@@ -1498,13 +1503,8 @@ main.ebooks nav ol li a{
 article nav ol li.highlighted a,
 main.ebooks nav ol li.highlighted a{
 	background-color: #1d6878; /* fallback for IE */
-	background: var(--highlight);
+	background: var(--button);
 	padding: 1.25rem;
-}
-
-article nav ol li a:hover,
-main.ebooks nav ol li a:hover{
-	background: #288da4;
 }
 
 article nav ol li.highlighted a,
@@ -1518,6 +1518,7 @@ main.ebooks nav ol li a:hover{
 
 p.no-results{
 	margin-top: 4rem;
+	margin-bottom: 2rem;
 	font-style: italic;
 	text-align: center;
 }
@@ -1547,12 +1548,6 @@ input::placeholder{
 	color: rgba(0, 0, 0, .75);
 }
 
-@media (prefers-color-scheme: dark){
-	input::placeholder{
-		color: rgba(255, 255, 255, .75);
-	}
-}
-
 main > article > form{
 	max-width: calc(100% - 2rem);
 }
@@ -1571,16 +1566,6 @@ label.search{
 	color: inherit;
 }
 
-@media (prefers-color-scheme: dark){
-	label.search{
-		box-shadow: 1px 1px 0 rgba(0, 0, 0, .5) inset;
-	}
-}
-
-input[type="search"]{
-	font-size: 1rem;
-}
-
 input[type="search"]:focus{
 	outline: none;
 }
@@ -1595,13 +1580,6 @@ label.search::before{
 	color: var(--body-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
-}
-
-
-@media (prefers-color-scheme: dark){
-	label.search::before{
-		text-shadow: 1px 1px 0 #000;
-	}
 }
 
 .utf{
