@@ -285,9 +285,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/38427">The World as Will and Idea</a> by Arthur Schopenhauer (<a href="https://www.gutenberg.org/ebooks/40097">Vol. 2</a>, <a href="https://www.gutenberg.org/ebooks/40868">Vol. 3</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://penelope.uchicago.edu/Thayer/e/roman/texts/suetonius/12caesars/home.html">The Lives of the Caesears</a> by Suetonius (Note: the 1913 JC Rolfe translation, <em>not</em> the older translation available at PG!)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/815">Democracy in America</a> by Alexis de Tocqueville (<a href="https://www.gutenberg.org/ebooks/816">Volume 2</a>, together as a single ebook)</p>
 			</li>
 			<li>
