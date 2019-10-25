@@ -100,7 +100,7 @@
 	--body-bg: var(--light-body-bg);
 }
 
-@media (prefers-color-scheme: dark){
+@media(prefers-color-scheme: dark){
 	:root{
 		--body-text: var(--dark-body-text);
 		--highlight: var(--dark-highlight);
@@ -109,48 +109,6 @@
 		--border: var(--dark-border);
 		--sub-text: var(--dark-sub-text);
 		--body-bg: var(--dark-body-bg);
-	}
-
-	main.front-page > section > section figure img{
-		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
-	}
-
-	article.ebook section#download ul li a[class]::before,
-	article.ebook section#details ul li a[class]::before,
-	footer p:last-child a::before,
-	main.front-page > section > section figure.oss img + img,
-	main.front-page > section > h2::before,
-	main.front-page > section > h2::after{
-		filter: invert() grayscale(100%) brightness(120%); /* grayscale and brightness makes it hit about #eeeeee */
-	}
-
-	label.search{
-		box-shadow: 1px 1px 0 rgba(0, 0, 0, .5) inset;
-	}
-
-	input::placeholder{
-		color: rgba(255, 255, 255, .75);
-	}
-
-	blockquote,
-	figure.text{
-		background: rgba(0,0,0,.25);
-	}
-
-	code.terminal{
-		background-color: var(--light-body-text);
-	}
-
-	main.ebooks > ol img:hover{
-		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
-	}
-
-	article.ebook #more-ebooks img:hover{
-		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
-	}
-
-	label.search::before{
-		text-shadow: 1px 1px 0 #000;
 	}
 }
 
@@ -1950,5 +1908,49 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	main,
 	main.front-page > section > section p{
 		text-align: left;
+	}
+}
+
+@media(prefers-color-scheme: dark){
+	main.front-page > section > section figure img{
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+	}
+
+	article.ebook section#download ul li a[class]::before,
+	article.ebook section#details ul li a[class]::before,
+	footer p:last-child a::before,
+	main.front-page > section > section figure.oss img + img,
+	main.front-page > section > h2::before,
+	main.front-page > section > h2::after{
+		filter: invert() grayscale(100%) brightness(120%); /* grayscale and brightness makes it hit about #eeeeee */
+	}
+
+	label.search{
+		box-shadow: 1px 1px 0 rgba(0, 0, 0, .5) inset;
+	}
+
+	input::placeholder{
+		color: rgba(255, 255, 255, .75);
+	}
+
+	blockquote,
+	figure.text{
+		background: rgba(0,0,0,.25);
+	}
+
+	code.terminal{
+		background-color: var(--light-body-text);
+	}
+
+	main.ebooks > ol img:hover{
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+	}
+
+	article.ebook #more-ebooks img:hover{
+		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+	}
+
+	label.search::before{
+		text-shadow: 1px 1px 0 #000;
 	}
 }
