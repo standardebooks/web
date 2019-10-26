@@ -20,9 +20,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction and novels by Andre Norton</a></p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/50561">The Dark Other</a> by Stanley G. Weinbaum</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction and novels by Frederick Pohl</a></p>
 			</li>
