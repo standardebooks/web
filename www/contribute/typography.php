@@ -129,7 +129,7 @@ require_once('Core.php');
 							<p>Long musical compositions, like operas</p>
 						</li>
 						<li>
-							<p>Albums</p>
+							<p>Music albums</p>
 						</li>
 						<li>
 							<p>Films</p>
@@ -174,6 +174,9 @@ require_once('Core.php');
 						</li>
 						<li>
 							<p>Short stories</p>
+						</li>
+						<li>
+							<p>Novellas</p>
 						</li>
 						<li>
 							<p>Individual newspaper or journal articles</p>
