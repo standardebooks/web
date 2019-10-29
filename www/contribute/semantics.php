@@ -559,10 +559,78 @@ section[epub|type~="epigraph"] &gt; * + *{
 /* End full-page epigraphs */</code>
 
 		</section>
-		<section id="letters">
-			<h2>Letter semantic patterns</h2>
-			<p>Coming soon!</p>
-		</section>
+        <section id="letters">
+            <h2>Letters</h2>
+            <p>Letters require particular attention to styling and semantic tagging. While you are not required to exactly match the formatting of a letter in the source scans, you should make some attempt to create a version in visual sympathy with the source.</p>
+            <section id="id1">
+                <h3>General Outline</h3>
+                <ol>
+                    <li>A letter, or portion of a letter, should be put in a <code class="html">&lt;blockquote&gt;</code> element.</li>
+                    <li>The enclosing blockquote is given the semantic inflection of <code class="html">z3998:letter</code>, that is: <code class="html">&lt;blockquote epub:type="z3998:letter"&gt; ... &lt;/blockquote&gt;</code>.</li>
+                    <li>Parts of a letter prior to the body of the text, for example the address from where it is written and the date, should be enclosed in a <code class="html">&lt;header&gt;</code> element.</li>
+                    <li>The location and date of a letter are given the semantic inflection of <code class="html">se:letter.dateline</code>. The date can be tagged with a <code class="html">&lt;time&gt;</code> tag with a computer-readable date, for example: <code class="html">&lt;time datetime="1863-10-11"&gt;11th of October, 1863&lt;/time&gt;</code>.</li>
+                    <li>The salutation (for example, “Dear Sir", or “My dearest Jane") is given the semantic inflection of <code class="html">z3998:salutation</code>. If the salutation is on a separate line to the body of the letter and a header block already exists, place the salutation within the header.</li>
+                    <li>If the salutation is included within the first line of the letter (for example “My dear Mother, I was so happy to hear from you."), put the salutation inflection in a <code class="html">&lt;span&gt;</code> element, in this example: <code class="html">&lt;span epub:type="z3998:salutation"&gt;Dear Mother&lt;/span&gt;, I was so happy to hear from you.</code></li>
+                    <li>If the name of the recipient of the letter is set out other than within a saluation (for example a letter headed “To: John Smith Esquire"), the name should be given the semantic inflection of <code class="html">z3998:recipient</code>. Sometimes this may occur at the end of a letter, particularly for more formal communications, in which case it should be placed within a footer block (see below).</li>
+                    <li>The valediction and signature and any postscript should be contained in a <code class="html">&lt;footer&gt;</code> element.</li>
+                    <li>The valediction (for example, “Yours Truly" or “With best regards") is given the semantic inflection of <code class="html">z3998:valediction</code>.</li>
+                    <li>The sender’s name is given the semantic inflection of <code class="html">z3998:sender</code>. If the name appears to be a signature to the letter, it should be given a class of “signature". This will eventually be deprecated and is retained for legacy reasons.</li>
+                    <li>Any postscript should also be included within the footer, and given the semantic inflection of <code class="html">z3998:postscript</code>.</li>
+                    <li>If the letter is being read aloud by a character in a work of fiction, then each element and paragraph should begin with quotes, as is usual for the spoken word. If it is not being read aloud, then the quotes are not needed.</li>
+                </ol>
+            </section>
+            <section id="example-letter-1">
+                <h3>Example Letter 1:</h3>
+                <p>Here is a simple example, a child's letter drawn from <em>The Enchanted Castle</em> by E. Nesbit:</p>
+                <code class="html full">&lt;blockquote epub:type="z3998:letter"&gt;
+    &lt;p epub:type="z3998:salutation"&gt;Dearest Auntie,&lt;/p&gt;
+    &lt;p&gt;Please may we have some things for a picnic? Gerald will bring them. I would come myself, but I am a little tired. I think I have been growing rather fast.&lt;/p&gt;
+    &lt;footer&gt;
+        &lt;p epub:type="z3998:valediction"&gt;Your loving niece,&lt;/p&gt;
+        &lt;p class="signature" epub:type="z3998:sender"&gt;Mabel&lt;/p&gt;
+        &lt;p epub:type="z3998:postscript"&gt;P.S.⁠—Lots, please, because some of us are very hungry.&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/blockquote&gt;</code>
+                <p>And here is a slightly more complex example, loosely based on a letter from <em>Pride and Prejudice</em> by Jane Austen:</p>
+                <code class="html full">&lt;blockquote epub:type="z3998:letter"&gt;
+    &lt;header&gt;
+        &lt;p epub:type="se:letter.dateline"&gt;Gracechurch-street, &lt;time datetime="08-02"&gt;August 2&lt;/time&gt;.&lt;/p&gt;
+    &lt;/header&gt;
+    &lt;p&gt;&lt;span epub:type="z3998:salutation"&gt;My dear Brother&lt;/span&gt;, At last I am able to send you some tidings of my niece, and such as, upon the whole, I hope will give you satisfaction. Soon after you left me on Saturday, I was fortunate enough to find out in what part of London they were. The particulars, I reserve till we meet. It is enough to know they are discovered, I have seen them both⁠—&lt;/p&gt;
+    &lt;p&gt;I shall write again as soon as anything more is determined on.&lt;/p&gt;
+    &lt;footer"&gt;
+        &lt;p epub:type="z3998:valediction"&gt;Yours, etc.&lt;/p&gt;
+        &lt;p epub:type="z3998:sender"&gt;Edward Gardner&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/blockquote&gt;</code>
+                <h3>CSS for letters:</h3>
+               <code class="css full">[epub|type~="z3998:letter"] header{
+    text-align: right;
+}
+
+footer{
+    margin-top: 1em;
+    text-align: right;
+}
+
+[epub|type~="z3998:salutation"] + p,
+[epub|type~="z3998:letter"] header + p{
+    text-indent: 0;
+}
+
+[epub|type~="z3998:sender"],
+[epub|type~="z3998:recipient"],
+[epub|type~="z3998:salutation"]{
+    font-variant: small-caps;
+}
+
+[epub|type~="z3998:postscript"]{
+    margin-top: 1em;
+    text-indent: 0;
+    text-align: left;
+}</code>
+            </section>
+        </section>
 		<section id="poetry">
 			<h2>Poetry, verse, and song semantic patterns</h2>
 			<p>Unfortunately there’s no great way to semantically format poetry in <abbr class="initialism">HTML</abbr>.  We have to conscript unrelated elements for use in poetry.</p>
