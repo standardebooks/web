@@ -37,4 +37,4 @@ const GITHUB_SECRET_FILE_PATH =		SITE_ROOT . '/config/secrets/se-vcs-bot@github.
 const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log'; // Must be writable by `www-data` Unix user.
 
 // If we get GitHub push requests featuring these repos, silently ignore instead of returning an error.
-const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web', 'ludwig-wittgenstein_tractatus-logico-philosophicus_c-k-ogden']; // Ignore Tractatus due to a FF70+ bug that causes MathML rendering to hang during build.
+const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web'];
