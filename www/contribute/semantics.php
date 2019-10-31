@@ -600,7 +600,7 @@ section[epub|type~="epigraph"] &gt; * + *{
     &lt;p&gt;I shall write again as soon as anything more is determined on.&lt;/p&gt;
     &lt;footer"&gt;
         &lt;p epub:type="z3998:valediction"&gt;Yours, etc.&lt;/p&gt;
-        &lt;p epub:type="z3998:sender"&gt;Edward Gardner&lt;/p&gt;
+        &lt;p class="signature" epub:type="z3998:sender"&gt;Edward Gardner&lt;/p&gt;
     &lt;/footer&gt;
 &lt;/blockquote&gt;</code>
                 <h3>CSS for letters:</h3>
@@ -628,6 +628,10 @@ footer{
     margin-top: 1em;
     text-indent: 0;
     text-align: left;
+}
+
+.signature{
+    font-variant: small-caps;
 }</code>
             </section>
         </section>
