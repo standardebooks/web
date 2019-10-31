@@ -59,6 +59,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/783">Prose novels by P. G. Wodehouse (But <em>not</em> short story compilations, including Jeeves; see Advanced Productions.)</a></p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1872">The Red House Mystery</a> by A. A. Milne</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
