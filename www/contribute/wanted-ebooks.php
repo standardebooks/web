@@ -185,9 +185,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2946">Howards End</a> by EM Forster</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1260">Jane Eyre</a> by Charlotte Brontë</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1400">Great Expectations</a> by Charles Dickens</p>
 			</li>
