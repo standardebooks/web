@@ -197,6 +197,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/5164">The Beetle</a> by Richard Marsh</p>
 			</li>
+			<li>
+				<p>Works by <a href="https://en.wikipedia.org/wiki/John_Ruskin#Select_bibliography">John Ruskin</a></p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
