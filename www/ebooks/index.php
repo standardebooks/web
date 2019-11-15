@@ -88,51 +88,51 @@ catch(\Exception $ex){
 }
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
-		<h1><?= $pageHeader ?></h1>
-		<?= Template::SearchForm(['query' => $query]) ?>
-		<? if(sizeof($ebooks) == 0){ ?>
-			<p class="no-results">No ebooks matched your search.  You can try different search terms, or <a href="/ebooks/">browse all of our ebooks</a>.</p>
-		<? }else{ ?>
-			<?= Template::EbookGrid(['ebooks' => $ebooks]) ?>
-		<? } ?>
-		<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
-			<nav>
-				<a<? if($page > 1){ ?> href="/ebooks/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($page - 1 <= 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
-				<ol>
-				<? for($i = 1; $i < $pages + 1; $i++){ ?>
-					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($i - 1 < 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>"><?= $i ?></a></li>
-				<? } ?>
-				</ol>
-				<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($sort != SORT_NEWEST){ ?>&amp;sort=<?= $sort ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
-			</nav>
-		<? }elseif(sizeof($ebooks) > 0 && $tag !== null){ ?>
-			<nav>
-				<a<? if($page > 1){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
-				<ol>
-				<? for($i = 1; $i < $pages + 1; $i++){ ?>
-					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?>"><?= $i ?></a></li>
-				<? } ?>
-				</ol>
-				<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
-			</nav>
-		<? } ?>
-		<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
-			<aside class="sort">
-				<form action="" method="get">
-					<label>Sort by
-						<select name="sort">
-							<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected<? } ?>>newest</option>
-							<option value="<?= SORT_AUTHOR_ALPHA ?>"<? if($sort == SORT_AUTHOR_ALPHA){ ?> selected<? } ?>>author name</option>
-							<option value="<?= SORT_READING_EASE ?>"<? if($sort == SORT_READING_EASE){ ?> selected<? } ?>>reading ease</option>
-							<option value="<?= SORT_LENGTH ?>"<? if($sort == SORT_LENGTH){ ?> selected<? } ?>>length</option>
-						</select>
-					</label>
-					<button>Sort</button>
-				</form>
-			</aside>
-			<? if($page == 1){ ?>
-			<?= Template::ContributeAlert() ?>
+	<h1><?= $pageHeader ?></h1>
+	<?= Template::SearchForm(['query' => $query]) ?>
+	<? if(sizeof($ebooks) == 0){ ?>
+		<p class="no-results">No ebooks matched your search.  You can try different search terms, or <a href="/ebooks/">browse all of our ebooks</a>.</p>
+	<? }else{ ?>
+		<?= Template::EbookGrid(['ebooks' => $ebooks]) ?>
+	<? } ?>
+	<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
+		<nav>
+			<a<? if($page > 1){ ?> href="/ebooks/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($page - 1 <= 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+			<ol>
+			<? for($i = 1; $i < $pages + 1; $i++){ ?>
+				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($i - 1 < 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>"><?= $i ?></a></li>
 			<? } ?>
+			</ol>
+			<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($sort != SORT_NEWEST){ ?>&amp;sort=<?= $sort ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+		</nav>
+	<? }elseif(sizeof($ebooks) > 0 && $tag !== null){ ?>
+		<nav>
+			<a<? if($page > 1){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+			<ol>
+			<? for($i = 1; $i < $pages + 1; $i++){ ?>
+				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?>"><?= $i ?></a></li>
+			<? } ?>
+			</ol>
+			<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+		</nav>
+	<? } ?>
+	<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
+		<aside class="sort">
+			<form action="" method="get">
+				<label>Sort by
+					<select name="sort">
+						<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected<? } ?>>newest</option>
+						<option value="<?= SORT_AUTHOR_ALPHA ?>"<? if($sort == SORT_AUTHOR_ALPHA){ ?> selected<? } ?>>author name</option>
+						<option value="<?= SORT_READING_EASE ?>"<? if($sort == SORT_READING_EASE){ ?> selected<? } ?>>reading ease</option>
+						<option value="<?= SORT_LENGTH ?>"<? if($sort == SORT_LENGTH){ ?> selected<? } ?>>length</option>
+					</select>
+				</label>
+				<button>Sort</button>
+			</form>
+		</aside>
+		<? if($page == 1){ ?>
+		<?= Template::ContributeAlert() ?>
 		<? } ?>
+	<? } ?>
 </main>
 <?= Template::Footer() ?>
