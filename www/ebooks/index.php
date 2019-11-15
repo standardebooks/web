@@ -4,11 +4,11 @@ require_once('Core.php');
 use function Safe\preg_replace;
 
 try{
-	$page = HttpInput::GetInt('page') ?? 1;
+	$page = HttpInput::GetInt('page', 1);
 	$query = HttpInput::GetString('query', false);
 	$tag = HttpInput::GetString('tag', false);
 	$collection = HttpInput::GetString('collection', false);
-	$sort = HttpInput::GetString('sort', false) ?? SORT_NEWEST;
+	$sort = HttpInput::GetString('sort', false, SORT_NEWEST);
 	$pages = 0;
 	$totalEbooks = 0;
 
