@@ -44,9 +44,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/479">Little Lord Fauntleroy</a> by Frances Hodgson Burnett</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
 			</li>
@@ -182,9 +179,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2946">Howards End</a> by EM Forster</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/1260">Jane Eyre</a> by Charlotte Brontë</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1400">Great Expectations</a> by Charles Dickens</p>
 			</li>
@@ -203,6 +197,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				 <p><a href="https://www.gutenberg.org/ebooks/39585">The Journal of a Disappointed Man</a>, by W. N. P. Barbellion</p>
+			</li>
 			<li>
 				<p><a href="https://archive.org/details/nunensign00erauuoft">The Nun Ensign</a> by Catalina de Erauso (transcription required)</p>
 			</li>
