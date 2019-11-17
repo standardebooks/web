@@ -56,6 +56,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/783">Prose novels by P. G. Wodehouse (But <em>not</em> short story compilations, including Jeeves; see Advanced Productions.)</a></p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
