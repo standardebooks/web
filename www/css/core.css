@@ -1495,7 +1495,8 @@ input[type="search"]{
 	color: var(--body-text);
 }
 
-/* remove some styles from Chromium */
+/* remove some styles from Chromium / Webkit */
+input[type="search"],
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button{
 	-webkit-appearance: none;
