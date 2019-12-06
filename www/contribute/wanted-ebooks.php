@@ -59,6 +59,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/58820">Whose Body?</a> by Dorothy Sayers</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
