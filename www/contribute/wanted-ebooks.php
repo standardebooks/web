@@ -51,16 +51,10 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/271">Black Beauty</a> by Anna Sewell</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/783">Prose novels by P. G. Wodehouse (But <em>not</em> short story compilations, including Jeeves; see Advanced Productions.)</a></p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/58820">Whose Body?</a> by Dorothy Sayers</p>
 			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
@@ -134,9 +128,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/165">McTeague</a> by Frank Norris</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/24353">Wired Love</a> by Ella Cheever Thayer</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1280">Spoon River Anthology</a> by Edgar Lee Masters</p>
 			</li>
@@ -292,9 +286,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/45502">How the Other Half Lives</a> by Jacob Riis</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/145">Middlemarch</a> by George Eliot</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9296">Clarissa</a> by Samuel Richardson (<a href="https://github.com/drgrigg/samuel-richardson_clarissa-harlowe">partially completed</a>, available for finishing but will take a large amount of time)</p>
