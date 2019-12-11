@@ -128,9 +128,6 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/165">McTeague</a> by Frank Norris</p>
 			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/24353">Wired Love</a> by Ella Cheever Thayer</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1280">Spoon River Anthology</a> by Edgar Lee Masters</p>
 			</li>
