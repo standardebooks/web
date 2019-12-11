@@ -191,6 +191,9 @@ require_once('Core.php');
 			<li>
 				<p>Works by <a href="https://en.wikipedia.org/wiki/John_Ruskin#Select_bibliography">John Ruskin</a></p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a>, by Thomas Hardy</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
