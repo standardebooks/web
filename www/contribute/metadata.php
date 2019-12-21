@@ -200,7 +200,7 @@ require_once('Core.php');
 				<p>An easy way to escape your HTML is to compose your long description in regular HTML, then insert it into the <code class="html">&lt;meta property="se:long-description"&gt;</code> element surrounded by a <code class="html">&lt;![CDATA[ ... ]]&gt;</code> element. Once you’re done, run the <code class="path">clean</code> tool, which will remove the <code class="html">&lt;![CDATA[ ... ]]&gt;</code> element and escape the contained HTML for you.</p>
 			</li>
 			<li>
-				<p>Include the following element directly after the long description: <code class="html">&lt;meta property="meta-auth" refines="#long-description"&gt;https://standardebooks.org&lt;/meta&gt;</code></p>
+				<p>Include the following element directly after the long description: <code class="html">&lt;meta property="authority" refines="#long-description"&gt;https://standardebooks.org&lt;/meta&gt;</code></p>
 			</li>
 		</ul>
 		<h2>The <code class="html">&lt;dc:language&gt;</code> element</h2>
