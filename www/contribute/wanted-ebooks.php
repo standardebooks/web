@@ -24,9 +24,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction and novels by Frederick Pohl</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/25203">Short fiction and novels by Poul Anderson</a></p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20988">Islands of Space</a> by John W. Campbell Jr.</p>
 			</li>
 			<li>
