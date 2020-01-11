@@ -444,6 +444,9 @@ require_once('Core.php');
 				<li>
 					<p><a href="http://www.clevelandart.org/art/collection/search?only-open-access=1&filter-type=Painting">Cleveland Museum of Art</a> (CC0 items have the CC0 logo near the download button.)</p>
 				</li>
+				<li>
+					<p><a href="http://parismuseescollections.paris.fr/en/recherche/image-libre/true/avec-image/true/denominations/peinture-166168?mode=mosaique&solrsort=ds_created%20desc">Paris Musées</a> (CC0 items have the CC0 logo near the download button.)</p>
+				</li>
 			</ul>
 			<h2>Cover image step-by-step</h2>
 			<ol>
