@@ -57,6 +57,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/61221">A Passage to India</a> by E. M. Forster</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence</p>
 			</li>
 			<li>
@@ -284,9 +287,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9296">Clarissa</a> by Samuel Richardson (<a href="https://github.com/drgrigg/samuel-richardson_clarissa-harlowe">partially completed</a>, available for finishing but will take a large amount of time)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/4397">The Forsyte Saga</a> by John Galsworthy</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot</p>
 			</li>
