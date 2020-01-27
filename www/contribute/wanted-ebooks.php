@@ -57,6 +57,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/25344">The Scarlet Letter</a> by Nathaniel Hawthorne</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61221">A Passage to India</a> by E. M. Forster</p>
 			</li>
 			<li>
