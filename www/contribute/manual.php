@@ -640,7 +640,7 @@ font-weight: normal;
 			<ol>
 				<li>
 					<p><code class="html">&lt;h#&gt;</code> tags (i.e., <code class="html">&lt;h1&gt;</code>–<code class="html">&lt;h6&gt;</code>)  are used for headers of sections that are structural divisions of a document.</p>
-					<p><code class="html">&lt;h#&gt;</code> tags <em>are not</em> used for headers of components that are not in the table of contents. For example, they would not be used to mark up the the title of a short poem in a chapter, where the poem itself is not a structural component of the larger ebook.</p>
+					<p><code class="html">&lt;h#&gt;</code> tags <em>are not</em> used for headers of components that are not in the table of contents. For example, they would not be used to mark up the title of a short poem in a chapter, where the poem itself is not a structural component of the larger ebook.</p>
 				</li>
 				<li>
 					<p>A section containing an <code class="html">&lt;h#&gt;</code> appears in the table of contents.</p>
