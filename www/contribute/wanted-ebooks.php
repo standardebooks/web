@@ -24,9 +24,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction and novels by Frederick Pohl</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/20988">Islands of Space</a> by John W. Campbell Jr.</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans</p>
 			</li>
 			<li>
@@ -38,9 +35,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/25024">Night of the Long Knives</a> by Fritz Leiber</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
 			</li>
