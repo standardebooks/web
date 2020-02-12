@@ -12,6 +12,9 @@ require_once('Core.php');
 		<p>First productions should be on the shorter side (around 40–60,000 words maximum) and without complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/61262">Poirot Invesigates</a> by Agatha Christie</p></li>
+			</ul>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction and novels by H. Beam Piper</a></p>
 			</li>
 			<li>
@@ -38,9 +41,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
@@ -53,6 +56,8 @@ require_once('Core.php');
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/60315">My Disillusionment in Russia</a> by Emma Goldman (should be combined with <i>My Further Disillusionment in Russia</i>, the 2nd volume to the book)</p>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/25344">The Scarlet Letter</a> by Nathaniel Hawthorne</p>
 			</li>
@@ -194,6 +199,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/53489">The Life of Lazarillo de Tormes</a> by Anonymous</p>
+			</li>
 			<li>
 				 <p><a href="https://www.gutenberg.org/ebooks/39585">The Journal of a Disappointed Man</a>, by W. N. P. Barbellion</p>
 			</li>
