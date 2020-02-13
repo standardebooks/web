@@ -11,9 +11,9 @@ require_once('Core.php');
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (around 40–60,000 words maximum) and without complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/61262">Poirot Invesigates</a> by Agatha Christie</p></li>
-			</ul>
+			<!-- <li>
+				<p><a href="https://www.gutenberg.org/ebooks/61262">Poirot Investigates</a> by Agatha Christie</p>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction and novels by H. Beam Piper</a></p>
 			</li>
