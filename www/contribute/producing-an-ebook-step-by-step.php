@@ -208,6 +208,7 @@ require_once('Core.php');
 				<p><code class="program">se british2american</code> attempts to automate the conversion. Your work must already be typogrified (the previous step in this guide) for the script to work.</p><code class="terminal"><span>se british2american .</span></code>
 				<p>While <code class="program">se british2american</code> tries its best, thanks to the quirkiness of English punctuation rules it’ll invariably mess some stuff up. Proofreading is required after running the conversion.</p>
 				<p>After you’ve run the conversion, do another commit.</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Convert from British-style quotation to American style"</span></code>
+				<p>This regex is useful for spotting incorrectly converted quotes next to em dashes: <code class="regex">“[^”‘]+’⁠—(?=[^”]*?&lt;/p&gt;;)</code>
 			</li>
 			<li>
 				<h2>Add semantics</h2>
