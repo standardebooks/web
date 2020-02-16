@@ -9,7 +9,7 @@ require_once('Core.php');
 		</aside>
 		<h2>General principles</h2>
 		<p>Metadata in a Standard Ebooks epub is stored in the <code class="path">./src/epub/content.opf</code> file. The file contains some boilerplate that you won’t have to touch, and a lot of information that you <em>will</em> have to touch as you produce your ebook.</p>
-		<p>You should follow the general structure of the <code class="path">content.opf</code> file present in the tools <code class="path">./templates/</code> directory. Don't rearrange the order of anything in there and you should be fine.</p>
+		<p>You should follow the general structure of the <code class="path">content.opf</code> file created by <code class="program">se create-draft</code>. Don't rearrange the order of anything in there and you should be fine.</p>
 		<h2>The <code class="html">&lt;dc:identifier&gt;</code> element</h2>
 		<p>The <code class="html">&lt;dc:identifier&gt;</code> element contains the unique identifier for this ebook. That identifier is always the Standard Ebooks URL for that ebook, prefaced by <code class="html">url:</code>.</p>
 		<figure>
