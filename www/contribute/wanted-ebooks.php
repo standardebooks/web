@@ -203,7 +203,7 @@ require_once('Core.php');
 				<p>Works by <a href="https://en.wikipedia.org/wiki/John_Ruskin#Select_bibliography">John Ruskin</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a>, by Thomas Hardy</p>
+				<p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p>
 			</li>
 		</ul>
 		<h2>Advanced productions</h2>
@@ -212,7 +212,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/53489">The Life of Lazarillo de Tormes</a> by Anonymous</p>
 			</li>
 			<li>
-				 <p><a href="https://www.gutenberg.org/ebooks/39585">The Journal of a Disappointed Man</a>, by W. N. P. Barbellion</p>
+				 <p><a href="https://www.gutenberg.org/ebooks/39585">The Journal of a Disappointed Man</a> by W. N. P. Barbellion</p>
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/nunensign00erauuoft">The Nun Ensign</a> by Catalina de Erauso (transcription required)</p>
