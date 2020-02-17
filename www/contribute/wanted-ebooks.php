@@ -88,9 +88,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/132">The Art of War</a> by Sun Tzu</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="http://www.eldritchpress.org/ez/germinal.html">Germinal</a> by Émile Zola</p>
 			</li>
