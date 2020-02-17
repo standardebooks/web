@@ -56,6 +56,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61284">Bashan and I</a> by Thomas Mann</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/20707">The Black Star Passes</a> by John W. Campbell</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
