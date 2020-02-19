@@ -62,6 +62,18 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
 			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/2892">Irish Fairy Tales</a> by James Stephens</p>
+			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
+			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/24742">Mary, Mary</a> by James Stephens</p>
+			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/46558">The Demi-gods</a> by James Stephens</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
