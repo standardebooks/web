@@ -221,6 +221,8 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/9814">Poetry</a> by Mark Akenside (make sure this collection is a complete corpus of his works.)</p>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/53489">The Life of Lazarillo de Tormes</a> by Anonymous</p>
 			</li>
 			<li>
