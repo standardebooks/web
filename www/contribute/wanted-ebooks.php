@@ -48,7 +48,43 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/783">Prose novels by P. G. Wodehouse (But <em>not</em> short story compilations, including Jeeves; see Advanced Productions.)</a></p>
+				<p><a href="https://www.gutenberg.org/ebooks/60067">Leave it to Psmith</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2005">Piccadilly Jim</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2233">A Damsel in Distress</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/4075">The Intrusion of Jimmy</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6684">Uneasy Money</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6879">The Gold Bat</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6927">The White Feather</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6984">The Pothunters</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6877">The Head of Kay's</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6985">A Prefect's Uncle</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6880">The Coming of Bill</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
