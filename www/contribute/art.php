@@ -447,6 +447,9 @@ require_once('Core.php');
 				<li>
 					<p><a href="http://parismuseescollections.paris.fr/en/recherche/image-libre/true/avec-image/true/denominations/peinture-166168?mode=mosaique&solrsort=ds_created%20desc">Paris Musées</a> (CC0 items have the CC0 logo near the download button.)</p>
 				</li>
+				<li>
+					<p><a href="https://www.si.edu/search/collection-images?edan_q=&amp;edan_fq[0]=object_type%3A&quot;Paintings&quot;">The Smithsonian</a> (CC0 items say CC0 under the Usage header in the item details.)</p>
+				</li>
 			</ul>
 			<h2>Cover image step-by-step</h2>
 			<ol>
