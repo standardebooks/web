@@ -297,9 +297,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10662">The Night Land</a> by William Hope Hodgson</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/39270">Tristram Shandy</a> by Laurence Sterne</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7373">The Path to Rome</a> by Hilaire Belloc</p>
 			</li>
