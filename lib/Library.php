@@ -122,14 +122,16 @@ class Library{
 	}
 
 	public static function RebuildCache(): void{
-		// We create and check a lockfile because this can be a long-running command.
+		// We check a lockfile because this can be a long-running command.
 		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.
-		$lockfile = '/tmp/rebuild-library-cache-lock';
-		if(file_exists($lockfile)){
+		$lockVar = 'library-cache-rebuilding';
+		try{
+			$val = apcu_fetch($lockVar);
 			return;
 		}
-
-		touch($lockfile);
+		catch(Safe\Exceptions\ApcuException $ex){
+			apcu_store($lockVar, true);
+		}
 
 		$ebooks = [];
 		$collections = [];
@@ -177,11 +179,11 @@ class Library{
 			}
 		}
 
-		apcu_clear_cache();
-
+		apcu_delete('ebooks');
 		apcu_store('ebooks', $ebooks);
 
 		// Before we sort the list of ebooks and lose the array keys, store them by individual ebook
+		apcu_delete(new APCUIterator('/^ebook-/'));
 		foreach($ebooks as $ebookWwwFilesystemPath => $ebook){
 			apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
 		}
@@ -201,6 +203,7 @@ class Library{
 
 		$ebooks = array_reverse($ebooks);
 
+		apcu_delete('ebooks-newest');
 		apcu_store('ebooks-newest', $ebooks);
 
 		// Sort ebooks by title alpha, then save
@@ -208,6 +211,7 @@ class Library{
 			return strcmp(mb_strtolower($a->Authors[0]->SortName), mb_strtolower($b->Authors[0]->SortName));
 		});
 
+		apcu_delete('ebooks-alpha');
 		apcu_store('ebooks-alpha', $ebooks);
 
 		// Sort ebooks by reading ease, then save
@@ -225,6 +229,7 @@ class Library{
 
 		$ebooks = array_reverse($ebooks);
 
+		apcu_delete('ebooks-reading-ease');
 		apcu_store('ebooks-reading-ease', $ebooks);
 
 		// Sort ebooks by word count, then save
@@ -240,21 +245,25 @@ class Library{
 			}
 		});
 
+		apcu_delete('ebooks-length');
 		apcu_store('ebooks-length', $ebooks);
 
 		// Now store various collections
+		apcu_delete(new APCUIterator('/^collection-/'));
 		foreach($collections as $collection => $ebooks){
 			apcu_store('collection-' . $collection, $ebooks);
 		}
 
+		apcu_delete(new APCUIterator('/^tag-/'));
 		foreach($tags as $tag => $ebooks){
 			apcu_store('tag-' . $tag, $ebooks);
 		}
 
+		apcu_delete(new APCUIterator('/^author-/'));
 		foreach($authors as $author => $ebooks){
 			apcu_store('author-' . $author, $ebooks);
 		}
 
-		unlink($lockfile);
+		apcu_delete($lockVar);
 	}
 }
