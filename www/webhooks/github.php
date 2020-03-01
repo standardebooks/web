@@ -59,17 +59,17 @@ try{
 			}
 
 			// Get the filesystem path for the ebook ID.
-			$dir = REPOS_PATH . '/' . $repoName . '.git/';
+			$dir = REPOS_PATH . '/' . $repoName . '.git';
 
 			// Confirm we're looking at a Git repo in our filesystem
-			if(!file_exists($dir . 'HEAD')){
+			if(!file_exists($dir . '/HEAD')){
 				// We might be looking for a repo whose name is so long, it was truncated for GitHub. Try to check that here by simply globbing the rest.
 				$dirs = glob(REPOS_PATH . '/' . $repoName . '*');
 				if(sizeof($dirs) == 1){
-					$dir = rtrim($dirs[0], '/') . '/';
+					$dir = rtrim($dirs[0], '/');
 				}
 
-				if(!file_exists($dir . 'HEAD')){
+				if(!file_exists($dir . '/HEAD')){
 					throw new WebhookException('Couldn\'t find repo "' . $repoName . '" in filesystem at "' . $dir . '".', $post);
 				}
 			}
