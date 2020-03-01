@@ -6,6 +6,9 @@ use function Safe\unlink;
 use function Safe\usort;
 
 class Library{
+	/**
+	 * @return array<Ebook>
+	 */
 	public static function GetEbooks(string $sort = null): array{
 		$ebooks = [];
 
@@ -69,6 +72,9 @@ class Library{
 		return $ebooks;
 	}
 
+	/**
+	 * @return array<Ebook>
+	 */
 	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
 		// Do we have the author's ebooks cached?
 		$ebooks = [];
@@ -82,6 +88,9 @@ class Library{
 		return $ebooks;
 	}
 
+	/**
+	 * @return array<Ebook>
+	 */
 	public static function GetEbooksByTag(string $tag): array{
 		// Do we have the tag's ebooks cached?
 		$ebooks = [];
@@ -95,6 +104,9 @@ class Library{
 		return $ebooks;
 	}
 
+	/**
+	 * @return array<Ebook>
+	 */
 	public static function GetEbooksByCollection(string $collection): array{
 		// Do we have the tag's ebooks cached?
 		$ebooks = [];
@@ -108,6 +120,9 @@ class Library{
 		return $ebooks;
 	}
 
+	/**
+	 * @return array<Ebook>
+	 */
 	public static function Search(string $query): array{
 		$ebooks = Library::GetEbooks();
 		$matches = [];

@@ -5,7 +5,7 @@ use function Safe\fclose;
 use function Safe\error_log;
 
 class Logger{
-	public static function WriteGithubWebhookLogEntry(string $requestId, string $text){
+	public static function WriteGithubWebhookLogEntry(string $requestId, string $text): void{
 		try{
 			$fp = fopen(GITHUB_WEBHOOK_LOG_FILE_PATH, 'a+');
 		}
@@ -18,7 +18,7 @@ class Logger{
 		fclose($fp);
 	}
 
-	public static function WriteErrorLogEntry(string $text){
+	public static function WriteErrorLogEntry(string $text): void{
 		error_log($text);
 	}
 }

@@ -1,6 +1,6 @@
 <?
 class HttpInput{
-	public static function GetString(string $variable, bool $allowEmptyString = true, $default = null): ?string{
+	public static function GetString(string $variable, bool $allowEmptyString = true, string $default = null): ?string{
 		$var = self::GetHttpVar($variable, HTTP_VAR_STR, GET, $default);
 
 		if(!$allowEmptyString && $var === ''){
@@ -10,15 +10,15 @@ class HttpInput{
 		return $var;
 	}
 
-	public static function GetInt(string $variable, $default = null): ?int{
+	public static function GetInt(string $variable, int $default = null): ?int{
 		return self::GetHttpVar($variable, HTTP_VAR_INT, GET, $default);
 	}
 
-	public static function GetBool(string $variable, $default = null): ?bool{
+	public static function GetBool(string $variable, bool $default = null): ?bool{
 		return self::GetHttpVar($variable, HTTP_VAR_BOOL, GET, $default);
 	}
 
-	public static function GetDec(string $variable, $default = null): ?float{
+	public static function GetDec(string $variable, float $default = null): ?float{
 		return self::GetHttpVar($variable, HTTP_VAR_DEC, GET, $default);
 	}
 
@@ -43,7 +43,6 @@ class HttpInput{
 			switch($type){
 				case HTTP_VAR_STR:
 					return $var;
-					break;
 				case HTTP_VAR_INT:
 					// Can't use ctype_digit because we may want negative integers
 					if(is_numeric($var) && mb_strpos($var, '.') === false){
@@ -62,7 +61,6 @@ class HttpInput{
 					else{
 						return true;
 					}
-					break;
 				case HTTP_VAR_DEC:
 					if(is_numeric($var)){
 						try{

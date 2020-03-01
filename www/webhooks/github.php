@@ -41,7 +41,6 @@ try{
 			// Silence on success.
 			Logger::WriteGithubWebhookLogEntry($requestId, 'Event type: ping.');
 			throw new NoopException();
-			break;
 		case 'push':
 			Logger::WriteGithubWebhookLogEntry($requestId, 'Event type: push.');
 
@@ -114,7 +113,6 @@ try{
 			break;
 		default:
 			throw new WebhookException('Unrecognized GitHub webhook event.', $post);
-			break;
 	}
 
 	// "Success, no content"

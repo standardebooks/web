@@ -1,10 +1,11 @@
 <?
-use function Safe\preg_replace;
+use Safe\DateTime;
 use function Safe\file_get_contents;
-use function Safe\preg_match;
-use function Safe\glob;
-use function Safe\substr;
 use function Safe\json_encode;
+use function Safe\glob;
+use function Safe\preg_match;
+use function Safe\preg_replace;
+use function Safe\substr;
 
 class Ebook{
 	public $WwwFilesystemPath;
@@ -153,7 +154,10 @@ class Ebook{
 
 		$this->FullTitle = $this->NullIfEmpty($xml->xpath('/package/metadata/dc:title[@id="fulltitle"]'));
 
-		$this->Timestamp = new \DateTime((string)$xml->xpath('/package/metadata/dc:date')[0]);
+		$date = $xml->xpath('/package/metadata/dc:date');
+		if($date !== false && sizeof($date) > 0){
+			$this->Timestamp = new DateTime((string)$date[0]);
+		}
 
 		// Get SE tags
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
@@ -170,14 +174,22 @@ class Ebook{
 			$this->LocTags[] = (string)$tag;
 		}
 
-		// Figure out authors and contributors.
+		// Figure out authors and contributors
 		foreach($xml->xpath('/package/metadata/dc:creator') ?: [] as $author){
 			$id = '';
+
 			if($author->attributes() !== null){
 				$id = $author->attributes()->id;
 			}
+
+			$refines = null;
+			$refinesElement = $xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]');
+			if($refinesElement !== false && sizeof($refinesElement) > 0){
+				$refines = (string)$refinesElement[0];
+			}
+
 			$this->Authors[] = new Contributor(	(string)$author,
-								(string)$xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]')[0],
+								$refines,
 								$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]')),
 								$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'))
 							);
@@ -225,8 +237,20 @@ class Ebook{
 		$this->Description = $this->NullIfEmpty($xml->xpath('/package/metadata/dc:description'));
 		$this->Language = $this->NullIfEmpty($xml->xpath('/package/metadata/dc:language'));
 		$this->LongDescription = $this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:long-description"]'));
-		$this->WordCount = (int)$xml->xpath('/package/metadata/meta[@property="se:word-count"]')[0] ?? 0;
-		$this->ReadingEase = (float)$xml->xpath('/package/metadata/meta[@property="se:reading-ease.flesch"]')[0] ?? 0;
+
+		$wordCount = 0;
+		$wordCountElement = $xml->xpath('/package/metadata/meta[@property="se:word-count"]');
+		if($wordCountElement !== false && sizeof($wordCountElement) > 0){
+			$wordCount = (int)$wordCountElement[0];
+		}
+		$this->WordCount = $wordCount;
+
+		$readingEase = 0;
+		$readingEaseElement = $xml->xpath('/package/metadata/meta[@property="se:reading-ease.flesch"]');
+		if($readingEaseElement !== false && sizeof($readingEaseElement) > 0){
+			$readingEase = (float)$readingEaseElement[0];
+		}
+		$this->ReadingEase = $readingEase;
 
 		if($this->ReadingEase !== null){
 			if($this->ReadingEase >= 90){
@@ -479,9 +503,10 @@ class Ebook{
 		return $object;
 	}
 
+	/**
+	 * @param array<Contributor> $contributors
+	 */
 	private function GenerateContributorList(array $contributors): string{
-		// Inputs: An array of Contributor objects.
-
 		$string = '';
 		$i = 0;
 		foreach($contributors as $contributor){
