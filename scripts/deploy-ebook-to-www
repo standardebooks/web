@@ -178,6 +178,11 @@ do
 		printf "Done.\n"
 	fi
 
+	# Get the last commit date so that we can update the modified timestamp in
+	# deployed content.opf. generate-opds uses this timestamp in its output.
+	modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
+	sed --in-place --regexp-extended "s/<meta property=\"dcterms:modified\">.+?<\/meta>/<meta property=\"dcterms:modified\">${modifiedDate}<\/meta>/" "${workDir}/src/epub/content.opf"
+
 	# Delete the contents of the old webdir
 	rm --preserve-root --recursive --force "${webDir}"
 
