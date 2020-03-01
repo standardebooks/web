@@ -11,7 +11,7 @@ cd /standardebooks.org/
 git clone https://github.com/standardebooks/web/
 
 # Install Apache, PHP, PHP-FPM, and various other dependencies.
-sudo apt install -y composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl apache2 apache2-utils libfcgi0ldbl
+sudo apt install -y composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl apache2 apache2-utils libfcgi0ldbl task-spooler
 
 # Install dependencies using Composer.
 cd /standardebooks.org/web/
