@@ -200,10 +200,10 @@ do
 	sudo chmod --preserve-root --recursive g+ws "${webRoot}/www/images/covers/"
 
 	if [ "${verbose}" = "true" ]; then
-		printf "Flushing PHP-FPM opcache and apcu cache ... "
+		printf "Rebuilding web library cache ... "
 	fi
 
-	"${scriptsDir}"/reset-php-fpm-opcache standardebooks.org
+	"${scriptsDir}"/rebuild-library-cache
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"

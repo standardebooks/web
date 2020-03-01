@@ -1,0 +1,26 @@
+#!/bin/bash
+
+usage(){
+	echo -n
+	fmt <<EOF
+DESCRIPTION
+	Rebuild the library cache stored in APCu for the standardebooks.org FPM pool.
+
+USAGE
+	rebuild-library-cache
+EOF
+	exit 1
+}
+
+if [ $# -eq 1 ]; then
+	if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+		usage
+	fi
+fi
+
+# If this script is run by a user without sudo powers, they can be given for this command by creating a file in sudoers.d with:
+# MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/rebuild-library-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
+
+echo "<?php require_once('Core.php'); Library::RebuildCache(); ?>" > /tmp/rebuild-library-cache.php
+sudo -u www-data env SCRIPT_FILENAME=/tmp/rebuild-library-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/standardebooks.org.sock" &> /dev/null
+rm /tmp/rebuild-library-cache.php

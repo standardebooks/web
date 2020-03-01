@@ -37,7 +37,6 @@ try{
 	}
 	catch(Safe\Exceptions\ApcuException $ex){
 		$ebook = new Ebook($wwwFilesystemPath);
-		apcu_store('ebook-' . $wwwFilesystemPath, $ebook);
 	}
 
 	// Generate the bottom carousel.
