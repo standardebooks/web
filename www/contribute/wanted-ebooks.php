@@ -114,6 +114,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3177">Roughing It</a> by Mark Twain</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/60315">My Disillusionment in Russia</a> by Emma Goldman (should be combined with <i>My Further Disillusionment in Russia</i>, the 2nd volume to the book)</p>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/25344">The Scarlet Letter</a> by Nathaniel Hawthorne</p>
