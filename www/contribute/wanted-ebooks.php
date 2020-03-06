@@ -187,9 +187,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4057">Marius the Epicurean</a> by Walter Pater (<a href="https://www.gutenberg.org/ebooks/4058">Vol. 2</a>; both as a single production)</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/165">McTeague</a> by Frank Norris</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1280">Spoon River Anthology</a> by Edgar Lee Masters</p>
 			</li>
@@ -205,9 +205,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37892">The Recollections of Alexis de Tocqueville</a></p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/8486">Ghost Stories of an Antiquary</a> by M. R. James</p>
-			</li> -->
+			<li>
+				<p>Ghost Stories by M. R. James; an omnibus of his ghost short fiction including Ghost Stories of an Antiquary, More Ghost Stories, A Thin Ghost and Others, A Thin Ghost and Others, and <a href="https://en.wikipedia.org/wiki/M._R._James#First_magazine_publication_of_uncollected_tales">individual publications</a></p>
+			</li>
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/1265">Queen Victoria</a> by Lytton Strachey</p>
 			</li>
