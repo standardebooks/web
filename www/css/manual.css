@@ -1,0 +1,163 @@
+@import url("monokai.css");
+
+.manual > section[data-start-at='1']{
+	counter-reset: root 1;
+}
+
+.manual > section[data-start-at='2']{
+	counter-reset: root 2;
+}
+
+.manual > section[data-start-at='3']{
+	counter-reset: root 3;
+}
+
+.manual > section[data-start-at='4']{
+	counter-reset: root 4;
+}
+
+.manual > section[data-start-at='5']{
+	counter-reset: root 5;
+}
+
+.manual > section[data-start-at='6']{
+	counter-reset: root 6;
+}
+
+.manual > section[data-start-at='7']{
+	counter-reset: root 7;
+}
+
+.manual > section[data-start-at='8']{
+	counter-reset: root 8;
+}
+
+.manual > section[data-start-at='9']{
+	counter-reset: root 9;
+}
+
+.manual > section[data-start-at='10']{
+	counter-reset: root 10;
+}
+
+.manual > section[data-start-at='11']{
+	counter-reset: root 11;
+}
+
+.manual > section[data-start-at='12']{
+	counter-reset: root 12;
+}
+
+.manual > section[data-start-at='13']{
+	counter-reset: root 13;
+}
+
+.manual > section[data-start-at='14']{
+	counter-reset: root 14;
+}
+
+.manual > section[data-start-at='15']{
+	counter-reset: root 15;
+}
+
+.manual > section section,
+.manual ol{
+	counter-reset: item;
+}
+
+.manual section{
+	margin-top: 2rem;
+}
+
+.manual section section{
+	margin-left: 2rem;
+}
+
+.manual section ol{
+	margin-top: 1rem;
+	margin-left: 2rem;
+}
+
+.manual section + section,
+.manual ol + section{
+	counter-reset: none;
+}
+
+.manual section[data-start-at] ol > li{
+	list-style: none;
+}
+
+.manual > section[data-start-at]::before{
+	content: counters(root, '.');
+	position: absolute;
+	width: 10rem;
+	text-align: right;
+	margin-left: -11rem;
+	margin-top: 2rem;
+	font-size: 2rem;
+}
+
+.manual h1 + section > h2:first-child{
+	margin-top: 0;
+}
+
+.manual > section[data-start-at] section::before,
+.manual section[data-start-at] ol > li::before{
+	counter-increment: item;
+	content: counters(root, '.') '.' counters(item, ".");
+	position: absolute;
+	width: 10rem;
+	margin-left: -10.5rem;
+	text-align: right;
+	font-family: 'League Spartan', sans-serif;
+	font-weight: normal;
+}
+
+.manual .no-numbering::before{
+	content: none !important;
+	display: none !important;
+}
+
+.manual section[data-start-at] ol > li::before{
+	font-size: .75rem;
+	margin-top: .15rem;
+}
+
+.manual > section[data-start-at] > section::before{
+	font-style: normal;
+	margin-left: -11.5rem;
+}
+
+.manual section::before{
+	font-family: 'League Spartan', sans-serif;
+	line-height: 1.2;
+}
+
+.manual > section::before{
+	font-size: 1.2rem;
+}
+
+.manual h2,
+.manual h3,
+.manual h4,
+.manual h5,
+.manual h6{
+	margin-top: 0;
+}
+
+.manual figure p{
+	hyphens: none;
+}
+
+.manual table td:first-child{
+	width: auto;
+}
+
+.manual table td code.path{
+	white-space: nowrap;
+}
+
+.manual aside.tip{
+	font-style: italic;
+	margin: 1rem;
+}

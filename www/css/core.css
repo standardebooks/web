@@ -1609,69 +1609,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	text-transform: uppercase;
 }
 
-.manual section,
-.manual ol{
-	counter-reset: item;
-}
-
-.manual section{
-	margin-top: 2rem;
-}
-
-.manual section section{
-	margin-left: 2rem;
-}
-
-.manual section ol{
-	margin-top: 1rem;
-	margin-left: 2rem;
-}
-
-.manual section + section,
-.manual ol + section{
-	counter-reset: none;
-}
-
-.manual ol li{
-	list-style: none;
-}
-
-.manual section::before,
-.manual ol li::before{
-	counter-increment: item;
-	content: counters(item, ".");
-	font-style: italic;
-	position: absolute;
-	margin-left: -3rem;
-}
-
-.manual section::before{
-	font-family: 'League Spartan', sans-serif;
-	line-height: 1.2;
-}
-
-.manual > section::before{
-	font-size: 1.2rem;
-}
-
-.manual h2,
-.manual h3,
-.manual h4{
-	margin-top: 0;
-}
-
-.manual figure p{
-	hyphens: none;
-}
-
-.manual table td:first-child{
-	width: auto;
-}
-
-.manual table td code.path{
-	white-space: nowrap;
-}
-
 @media(max-width: 1100px){
 	article.ebook header{
 		width: calc(100% + 4rem);
