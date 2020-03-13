@@ -278,7 +278,7 @@ require_once('Core.php');
 				<code class="terminal"><span>se interactive-sr "/\v([Ee])very thing/\1verything/" src/epub/text/*</span> <span>git commit -am "[Editorial] every thing -&gt; everything"</span></code>
 				<code class="terminal"><span>se interactive-sr "/\v(&lt;[Aa])ny thing/\1nything/" src/epub/text/*</span> <span>git commit -am "[Editorial] any thing -&gt; anything"</span></code>
 				<code class="terminal"><span>se interactive-sr "/\v([Ff])or ever(&gt;)/\1orever\2/" src/epub/text/*</span> <span>git commit -am "[Editorial] for ever -&gt; forever"</span></code>
-				<code class="terminal"><span>se interactive-sr "/\v(in\s+)@&lt;\!(&lt;[Aa])ny way/\1nyway/" src/epub/text/*</span> <span>git commit -am "[Editorial] any way -&gt; anyway"</span></code>
+				<code class="terminal"><span>se interactive-sr "/\v(in\s+)@&lt;\!(&lt;[Aa])ny way/\2nyway/" src/epub/text/*</span> <span>git commit -am "[Editorial] any way -&gt; anyway"</span></code>
 				<code class="terminal"><span>se interactive-sr "/\v([Yy])our self/\1ourself/" src/epub/text/*</span> <span>git commit -am "[Editorial] your self -&gt; yourself"</span></code>
 				<code class="terminal"><span>se interactive-sr "/\v([Mm])ean time/\1eantime/" src/epub/text/*</span> <span>git commit -am "[Editorial] mean time -&gt; meantime"</span></code>
 				<code class="terminal"><span>se interactive-sr "/\v([Aa])ny how/\1nyhow/" src/epub/text/*</span> <span>git commit -am "[Editorial] any how -&gt; anyhow"</span></code>
