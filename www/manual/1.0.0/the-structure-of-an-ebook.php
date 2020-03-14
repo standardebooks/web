@@ -8,10 +8,10 @@ require_once('Core.php');
 		<h1>The Structure of an Ebook</h1>
 		<!-- An introduction is required for the data-start-at class to take effect. -->
 		<p>Books consist of three major partitions: Front Matter, Body Matter, and Back Matter.</p>
-		<p>These terms become important when building the Table of Contents (ToC). The Landmarks section of the ToC requires items to be labeled with the appropriate partition identifier. See <a href="/manual/1.0/table-of-contents-patterns.html">ToC Patterns</a> for more information about the ToC.</p>
+		<p>These terms become important when building the Table of Contents (ToC). The Landmarks section of the ToC requires items to be labeled with the appropriate partition identifier. See <a href="/manual/1.0.0/table-of-contents-patterns.html">ToC Patterns</a> for more information about the ToC.</p>
 		<section id="front-matter">
 			<h2>Front matter</h2>
-			<p>Front matter is material that appears before to the main content of the work. It includes such items as a dedication, an epigraph, an introduction, and so on.</p>
+			<p>Front matter is material that appears before the main content of the work. It includes such items as a dedication, an epigraph, an introduction, and so on.</p>
 			<section id="cover">
 				<h3>Cover</h3>
 				<p>The cover presents the outer appearance of the book, usually consisting of an image, the title of the book and the author’s name. For Standard Ebooks productions, the cover is an SVG image generated from template that combines the book title and author, and a background image. The <code class="path">se build-images</code> tool generates the cover image used for distribution.</p>
@@ -31,7 +31,7 @@ require_once('Core.php');
 			<section id="epigraph">
 				<h3>Epigraph</h3>
 				<p>A quotation or poem at the start of a book which may set the mood or inspire thoughts about the work to come.</p>
-				<p>If the epigraph is a poem or quotation from poetry, it must follow the standards for verse described in <a href="/manual/1.0/high-level-structural-patterns.html">High-Level Structural Patterns</a></p>
+				<p>If the epigraph is a poem or quotation from poetry, it must follow the standards for verse described in <a href="/manual/1.0.0/high-level-structural-patterns.html">High-Level Structural Patterns</a></p>
 			</section>
 			<section id="acknowledgements">
 				<h3>Acknowledgements</h3>
@@ -59,9 +59,9 @@ require_once('Core.php');
 			</section>
 			<section id="table-of-contents">
 				<h3>Table of Contents</h3>
-				<p>Also known as the ”ToC.” The Table of Contents lists the main headings in the book. In traditionally printed books, the table of contents is part of the front matter of the book.</p>
+				<p>Also known as the “ToC.” The Table of Contents lists the main headings in the book. In traditionally printed books, the table of contents is part of the front matter of the book.</p>
 				<ol type="1">
-					<li>In Standard Ebooks productions, the table of contents is ommitted from the ebook's spine and is instead presented to the reader via their ereader’s ToC feature.</li>
+					<li>In Standard Ebooks productions, the table of contents is omitted from the ebook’s spine and is instead presented to the reader via their ereader’s ToC feature.</li>
 				</ol>
 			</section>
 		</section>

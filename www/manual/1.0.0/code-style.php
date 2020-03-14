@@ -3,9 +3,10 @@ require_once('Core.php');
 ?><?= Template::Header(['title' => '1. XHTML, CSS, and SVG Code Style - The Standard Ebooks Manual', 'highlight' => 'contribute', 'manual' => true]) ?>
 	<main>
 		<article class="manual">
+
 	<section data-start-at="1" id="xhtml-css-and-svg-code-style">
 		<h1>XHTML, CSS, and SVG Code Style</h1>
-		<p>The <code class="bash">se clean</code> tool in the <a href="https://github.com/standardebooks/tools">Standard Ebooks toolset</a> formats XHTML code according to our style guidelines. The vast majority of the time its output is correct and no further modifications to code style are necessary.</p>
+		<p>The <code class="bash">se clean</code> tool in the <a href="https://github.com/standardebooks/tools">Standard Ebooks toolset</a> formats XHTML, CSS, and SVG code according to our style guidelines. The vast majority of the time its output is correct and no further modifications to code style are necessary.</p>
 		<section id="xhtml-formatting">
 			<h2>XHTML formatting</h2>
 			<ol type="1">
@@ -27,7 +28,7 @@ require_once('Core.php');
 			<section id="br-elements">
 				<h3><code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements</h3>
 				<ol type="1">
-					<li><code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements within <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content">phrasing content</a> are on the same line as the precediong phrasing content, and are followed by a newline.
+					<li><code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements within <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content">phrasing content</a> are on the same line as the preceding phrasing content, and are followed by a newline.
 						<figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Pray for the soul of the
 <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 Demoiselle Jeanne D’Ys.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
@@ -104,7 +105,7 @@ Demoiselle Jeanne D’Ys<span class="p">&lt;/</span><span class="nt">p</span><sp
 			<section id="selectors">
 				<h3>Selectors</h3>
 				<ol type="1">
-					<li>Selectors are each on their own line, directly followed by a comma or a brace with no whitespace inbetween.
+					<li>Selectors are each on their own line, directly followed by a comma or a brace with no whitespace in between.
 						<figure class="wrong"><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">era</span><span class="o">,</span> <span class="p">.</span><span class="nc">signature</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
@@ -173,7 +174,7 @@ Demoiselle Jeanne D’Ys<span class="p">&lt;/</span><span class="nt">p</span><sp
 		<section id="svg-formatting">
 			<h2>SVG Formatting</h2>
 			<ol type="1">
-				<li>SVG formatting follows the same directives as <a href="/manual/1.0/code-style#1.1">XHTML formatting</a>.</li>
+				<li>SVG formatting follows the same directives as <a href="/manual/1.0.0/code-style#1.1">XHTML formatting</a>.</li>
 			</ol>
 		</section>
 	</section>

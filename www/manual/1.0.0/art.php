@@ -34,7 +34,7 @@ require_once('Core.php');
 					</ol>
 				</li>
 				<li>The only attributes on the <code class="html"><span class="p">&lt;</span><span class="nt">svg</span><span class="p">&gt;</span></code> root element are: <code class="html">xmlns</code>, <code class="html">version</code>, and <code class="html">viewBox</code>.</li>
-				<li>The contents of the SVG’s <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element matches the <code class="html">alt</code> attribut of its <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element in the text.</li>
+				<li>The contents of the SVG’s <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element matches the <code class="html">alt</code> attribute of its <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element in the text.</li>
 				<li>Grouping with <code class="html"><span class="p">&lt;</span><span class="nt">g</span><span class="p">&gt;</span></code> is avoided, unless it makes semantic sense. Groups whose sole purpose is to apply transforms should have those transforms applied to the children, and the group removed.</li>
 				<li>The use of fill color is avoided unless strictly necessary. Not defining a fill color allows for night mode compatibility.</li>
 				<li>The <code class="html">transform</code> attribute is illegal; transforms are applied to their elements directly.</li>

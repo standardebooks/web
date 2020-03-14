@@ -1,37 +1,6 @@
-<!doctype html>
-<html lang="en-US">
-<head>
-	<meta charset="utf-8" />
-	<title>Style Manual | Standard Ebooks</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/core.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/manual.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/monokai.css" type="text/css" media="screen">
-	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-	<link rel="manifest" href="/manifest.json">
-	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#394451">
-	<meta name="theme-color" content="#394451">
-	<meta property="og:title" content="The Standard Ebooks Structure and Semantics Manual" />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://standardebooks.org" />
-	<meta property="og:image" content="https://standardebooks.org/images/logo.png" />
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="@standardebooks">
-	<meta name="twitter:creator" content="@standardebooks">
-</head>
-<body>
-	<header>
-		<a href="/">Standard Ebooks</a>
-		<nav>
-			<ul>
-				<li><a href="/ebooks/">Ebooks</a></li>
-				<li><a href="/about/">About</a></li>
-				<li><a href="/contribute/" class="highlighted">Get Involved</a></li>
-			</ul>
-		</nav>
-	</header>
+<?
+require_once('Core.php');
+?><?= Template::Header(['title' => '. Uncategorized art books - The Standard Ebooks Manual', 'highlight' => 'contribute', 'manual' => true]) ?>
 	<main>
 		<article class="manual">
 

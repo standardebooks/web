@@ -10,7 +10,7 @@ require_once('Core.php');
 			<h2>Section titles and ordinals</h2>
 			<ol type="1">
 				<li>Section ordinals in the body text are set in Roman numerals.</li>
-				<li>Section ordinals in a file's <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element are set in Arabic numerals.
+				<li>Section ordinals in a file’s <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element are set in Arabic numerals.
 					<figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Chapter VII<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span></code></figure>
 					<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Chapter 7<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span></code></figure>
 				</li>
@@ -39,8 +39,8 @@ require_once('Core.php');
 					<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Look at <span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>that<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>!” she shouted.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				</li>
 				<li>When an entire clause is italicized, trailing punctuation <em>is</em> italicized, <em>unless</em> that trailing punctuation is a comma at the end of dialog.
-					<p class="html">&lt;p&gt;“&lt;em&gt;Charge!&lt;/em&gt;” she shouted.&lt;/p&gt;</p>
-					<p class="html">&lt;p&gt;“&lt;em&gt;But I want to&lt;/em&gt;,” she said.&lt;/p&gt;</p>
+					<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>Charge!<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>” she shouted.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
+					<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>But I want to<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>,” she said.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				</li>
 				<li>Words written to be read as sounds are italicized with <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code>.
 					<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He could hear the dog barking: <span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span>Ruff, ruff, ruff!<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
@@ -72,7 +72,7 @@ require_once('Core.php');
 						<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The <span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">&quot;fr&quot;</span><span class="p">&gt;</span>corps de ballet<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span> was flung into consternation.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 					</li>
 					<li>Foreign words that are proper names, or are in proper names, are not italicized, unless the name itself would be italicized according to the rules for italicizing or quoting names and titles. Such words are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANGUAGE"</span><span class="p">&gt;</span></code> element, to assist screen readers with pronunciation.
-						<figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>She got off the metro at the <span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">&quot;fr&quot;</span><span class="p">&gt;</span>Place de Clichy<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span> stop, next to the <span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">&quot;fr&quot;</span><span class="p">&gt;</span>PLe Bon Petit Déjeuner restaurant<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
+						<figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>She got off the metro at the <span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">&quot;fr&quot;</span><span class="p">&gt;</span>Place de Clichy<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span> stop, next to the <span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">&quot;fr&quot;</span><span class="p">&gt;</span>Le Bon Petit Déjeuner restaurant<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 						<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">&quot;fr&quot;</span><span class="p">&gt;</span>Où est le métro?<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>” he asked, and she pointed to <span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">&quot;fr&quot;</span><span class="p">&gt;</span>Place de Clichy<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>, next to the <span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">&quot;fr&quot;</span><span class="p">&gt;</span>Le Bon Petit Déjeuner<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> restaurant.</code></figure>
 					</li>
 					<li>If certain foreign words are used so frequently in the text that italicizing them at each instance would be distracting to the reader, then only the first instance is italicized. Subsequent instances are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANGUAGE"</span><span class="p">&gt;</span></code> element.</li>
@@ -118,7 +118,7 @@ require_once('Core.php');
 						<ul>
 							<li>Periodicals like magazines, newspapers, and journals.</li>
 							<li>Publications like books, novels, plays, and pamphlets, <em>except</em> “holy texts,” like the Bible or books within the Bible.</li>
-							<li>Long poems and ballads, like the Iliad, that are book-length.</li>
+							<li>Long poems and ballads, like the <a href="/ebooks/homer/the-iliad/william-cullen-bryant">Iliad</a>, that are book-length.</li>
 							<li>Long musical compositions or audio, like operas, music albums, or radio shows.</li>
 							<li>Long visual art, like films or a TV show series.</li>
 							<li>Visual art, like paintings or sculptures.</li>
@@ -165,7 +165,7 @@ require_once('Core.php');
 					<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The sign read <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>Bob’s Restaurant<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 					<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Charge!<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>” he cried.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				</li>
-				<li>When something is addressed as an <cite>apostrophe &lt;https://www.merriam-webster.com/dictionary/apostrophe#dictionary-entry-2&gt;</cite>.., <code class="html">O</code> is capitalized.
+				<li>When something is addressed as an <a href="https://www.merriam-webster.com/dictionary/apostrophe#dictionary-entry-2">apostrophe</a>, <code class="html">O</code> is capitalized.
 					<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I carried the bodies into the sea, O walker in the sea!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				</li>
 				<li>Titlecasing follows the formula used in the <code class="bash">se build-images</code> tool.</li>
@@ -221,7 +221,7 @@ require_once('Core.php');
 				<li>Ampersands in names of things, like firms, are surrounded by no-break spaces.
 					<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The firm of Hawkins<span class="ws">nbsp</span><span class="ni">&amp;amp;</span><span class="ws">nbsp</span>Harker.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				</li>
-				<li>Some older works include spaces in common contrations; these spaces are removed.
+				<li>Some older works include spaces in common contractions; these spaces are removed.
 					<!-- See https://english.stackexchange.com/questions/217821/space-before-apostrophe -->
 					<figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Would n’t it be nice to go out? It ’s such a nice day.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 					<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Wouldn’t it be nice to go out? It’s such a nice day.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
@@ -245,7 +245,7 @@ require_once('Core.php');
 				<h3>Ellipses</h3>
 				<ol type="1">
 					<li>The ellipses glyph (<code class="utf">…</code> or u+2026) is used for ellipses, instead of consecutive or spaced periods.</li>
-					<li>When ellipses are used as suspension points (for example, to indicate dialog that pauses or trails off), the ellipses is not preceded by a comma.
+					<li>When ellipses are used as suspension points (for example, to indicate dialog that pauses or trails off), the ellipses are not preceded by a comma.
 						<p>Ellipses used to indicate missing words in a quotation require keeping surrounding punctuation, including commas, as that punctuation is in the original quotation.</p>
 					</li>
 					<li>A hair space (u+200A) glyph is located <em>before</em> all ellipses that are not directly preceded by punctuation, or that are directly preceded by an em-dash or a two- or three-em-dash.</li>
@@ -339,7 +339,7 @@ require_once('Core.php');
 						<figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I need 1/4 cup of sugar.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 						<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I need ¼ cup of sugar.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 					</li>
-					<li>If a fraction doesn't have a corresponding Unicode glyph, it is composed using the fraction slash Unicode glyph (<code class="utf">⁄</code> or u+2044) and superscript/subscript Unicode numbers. See <a href="https://en.wikipedia.org/wiki/Unicode_subscripts_and_superscripts">this Wikipedia entry for more details</a>.
+					<li>If a fraction doesn’t have a corresponding Unicode glyph, it is composed using the fraction slash Unicode glyph (<code class="utf">⁄</code> or u+2044) and superscript/subscript Unicode numbers. See <a href="https://en.wikipedia.org/wiki/Unicode_subscripts_and_superscripts">this Wikipedia entry for more details</a>.
 						<figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Roughly 6/10 of a mile.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 						<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Roughly ⁶⁄₁₀ of a mile.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 					</li>
@@ -367,7 +367,7 @@ require_once('Core.php');
 			<section id="math">
 				<h3>Math</h3>
 				<ol type="1">
-					<li>In works that are not math-oriented or that dont't have a significant amount of mathematical equations, equations are set using regular HTML and Unicode.
+					<li>In works that are not math-oriented or that dont’t have a significant amount of mathematical equations, equations are set using regular HTML and Unicode.
 						<ol type="1">
 							<li>Operators and operands in mathematical equations are separated by a space.
 								<figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>6−2+2=6<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
@@ -509,7 +509,7 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">m:math</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 							</li>
-							<li>If a MathML variable includes an overline, it is set by combining the variable's normal Unicode glyph and the Unicode overline glyph (<code class="utf">‾</code> or u+203E) in a <code class="html"><span class="p">&lt;</span><span class="nt">m:mover</span><span class="p">&gt;</span></code> element. However in the <code class="html">alttext</code> attribute, the Unicode overline combining mark (u+0305) is used to represent the overline in Unicode.
+							<li>If a MathML variable includes an overline, it is set by combining the variable’s normal Unicode glyph and the Unicode overline glyph (<code class="utf">‾</code> or u+203E) in a <code class="html"><span class="p">&lt;</span><span class="nt">m:mover</span><span class="p">&gt;</span></code> element. However in the <code class="html">alttext</code> attribute, the Unicode overline combining mark (u+0305) is used to represent the overline in Unicode.
 								<figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">m:math</span> <span class="na">alttext</span><span class="o">=</span><span class="s">&quot;x̅&quot;</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">m:mover</span><span class="p">&gt;</span>
@@ -527,13 +527,13 @@ require_once('Core.php');
 		<section id="latinisms">
 			<h2>Latinisms</h2>
 			<ul>
-				<li><a href="/manual/1.0/typography#8.11">See here for times</a>.</li>
+				<li><a href="/manual/1.0.0/typography#8.11">See here for times</a>.</li>
 			</ul>
 			<ol type="1">
 				<li>Latinisms (except sic) that can be found in a modern dictionary are not italicized. Examples include e.g., i.e., ad hoc, viz., ibid., etc.. The exception is sic, which is always italicized.</li>
 				<li>Whole passages of Latin language and Latinisms that aren’t found in a modern dictionary are italicized.</li>
 				<li>“&amp;c;” is not used, and is replaced with “etc.”</li>
-				<li>For “Ibid.,” <a href="/manual/1.0/high-level-structural-patterns#6.9">see Endnotes</a>.</li>
+				<li>For “Ibid.,” <a href="/manual/1.0.0/high-level-structural-patterns#6.9">see Endnotes</a>.</li>
 				<li>Latinisms that are abbreviations are set in lowercase with periods between words and no spaces between them, except BC, AD, BCE, and CE, which are set without periods, in small caps, and wrapped with <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"era"</span><span class="p">&gt;</span></code>:
 					<figure><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">era</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
@@ -545,9 +545,9 @@ require_once('Core.php');
 		<section id="initials-and-abbreviations">
 			<h2>Initials and abbreviations</h2>
 			<ul>
-				<li><a href="/manual/1.0/typography#8.13">See here for temperatures</a>.</li>
-				<li><a href="/manual/1.0/typography#8.11">See here for times</a>.</li>
-				<li><a href="/manual/1.0/typography#8.9">See here for Latinisms including BC and AD</a>.</li>
+				<li><a href="/manual/1.0.0/typography#8.13">See here for temperatures</a>.</li>
+				<li><a href="/manual/1.0.0/typography#8.11">See here for times</a>.</li>
+				<li><a href="/manual/1.0.0/typography#8.9">See here for Latinisms including BC and AD</a>.</li>
 			</ul>
 			<ol type="1">
 				<li>“OK” is set without periods or spaces. It is not an abbreviation.</li>
@@ -672,7 +672,7 @@ require_once('Core.php');
 		</section>
 		<section id="morse-code">
 			<h2>Morse Code</h2>
-			<p>Any Morse code that appears in a book will have to be changed to fit SE's format.</p>
+			<p>Any Morse code that appears in a book will have to be changed to fit Standard Ebooks’ format.</p>
 			<section id="american-morse-code">
 				<h3>American Morse Code</h3>
 				<ol type="1">

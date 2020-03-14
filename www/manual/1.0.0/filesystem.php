@@ -23,7 +23,7 @@ require_once('Core.php');
 						<li><code class="path">./src/images/titlepage.svg</code> is the editable titlepage file that is later compiled for distribution.</li>
 						<li><code class="path">./src/images/cover.svg</code> is the editable cover file that is later compiled for distribution.</li>
 						<li><code class="path">./src/images/cover.source.(jpg|png|bmp|tiff)</code> is the raw cover art file that may be cropped, resized, or otherwise edited to create <code class="path">./src/images/cover.jpg</code>.</li>
-						<li><code class="path">./src/images/cover.jpg</code> is the final edited cover art that will be compiled in to <code class="path">./src/epub/images/cover.svg</code> for distribution.</li>
+						<li><code class="path">./src/images/cover.jpg</code> is the final edited cover art that will be compiled into <code class="path">./src/epub/images/cover.svg</code> for distribution.</li>
 					</ol>
 				</li>
 				<li>Images compiled or derived from raw source images, that are then distributed with the ebook, are located in <code class="path">./src/epub/images/</code>.</li>
@@ -32,7 +32,7 @@ require_once('Core.php');
 				<li>The ONIX metadata file is located in <code class="path">./src/epub/onix.xml</code>. This file is identical for all ebooks.</li>
 				<li>The ONIX metadata file is located in <code class="path">./src/epub/onix.xml</code>. This file is identical for all ebooks.</li>
 				<li>The <code class="path">./src/META-INF/</code> and <code class="path">./src/mimetype</code> directory and files are epub structural files that are identical for all ebooks.</li>
-				<li>The <code class="path">./LICENSE.md</code> contains th ebook license and is identical for all ebooks.</li>
+				<li>The <code class="path">./LICENSE.md</code> contains the ebook license and is identical for all ebooks.</li>
 			</ol>
 		</section>
 		<section id="xhtml-file-naming-conventions">

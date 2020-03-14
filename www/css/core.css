@@ -945,7 +945,8 @@ h2{
 
 h3,
 h4,
-h5{
+h5,
+h6{
 	font-size: 1rem;
 	font-family: 'League Spartan', sans-serif;
 	margin-top: 3rem;
@@ -1088,6 +1089,7 @@ main.ebooks nav ol{
 	margin: 0 .5rem;
 }
 
+aside.warning,
 aside.alert{
 	font-style: italic;
 	margin-top: 2rem;
@@ -1099,10 +1101,17 @@ aside.alert{
 	box-sizing: border-box;
 }
 
+aside.warning{
+	font-style: normal;
+	hyphens: none;
+}
+
+aside.warning a:hover,
 aside.alert a:hover{
 	color: var(--light-highlight);
 }
 
+aside.warning a:focus
 aside.alert a:focus{
 	outline: 1px dashed var(--light-highlight);
 }
@@ -1170,13 +1179,14 @@ ul.tags li + li{
 code.tag,
 code.path,
 code.program,
+code.bash,
 code.regex,
 code.html,
 code.ietf,
 code.css,
 code.marc{
 	border: 1px solid rgba(255,255,255,.25);
-	background: rgba(255,255,255,.25);
+	background: #333;
 	border-radius: .25rem;
 	white-space: pre-wrap;
 	padding: 0 .25rem;
@@ -1425,17 +1435,11 @@ figure.corrected code{
 }
 
 .warning{
-	font-size: 3rem;
+	font-size: 2rem;
 	font-weight: bold;
 	text-align: center;
 	font-style: normal;
 }
-
-.warning + p{
-	font-style: normal;
-	font-variant: small-caps;
-}
-
 
 main.ebooks nav{
 	display: flex;

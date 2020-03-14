@@ -34,7 +34,7 @@ require_once('Core.php');
 					<li>Start with the URL-safe author of the work, as it appears on the titlepage. If there is more than one author, continue appending subsequent URL-safe authors, separated by an underscore. Do not alpha-sort the author name.</li>
 					<li>Append a forward slash, then the URL-safe title of the work. Do not alpha-sort the title.</li>
 					<li>If the work is translated, append a forward slash, then the URL-safe translator. If there is more than one translator, continue appending subsequent URL-safe translators, separated by an underscore. Do not alpha-sort translator names.</li>
-					<li>If the work is illustrated, append a foreward slash, then the URL-safe illustrator. If there is more than one illustrator, continue appending subsequent URL-safe illustrators, separated by an underscore. Do not alpha-sort illustrator names.</li>
+					<li>If the work is illustrated, append a forward slash, then the URL-safe illustrator. If there is more than one illustrator, continue appending subsequent URL-safe illustrators, separated by an underscore. Do not alpha-sort illustrator names.</li>
 					<li>Finally, <em>do not</em> append a trailing forward slash.</li>
 				</ul>
 			</section>
@@ -128,7 +128,7 @@ require_once('Core.php');
 			</section>
 			<section id="se-subjects">
 				<h3>SE subjects</h3>
-				<p>Along with the Library of Congress categories, we include a custom list of SE subjects in the ebook metadata. Unlike Library of Congress categories, SE subjects are purposefully broad. They’re more like the subject categories in a medium-sized bookstore, as opposed to the precise, detailed, heirarchal Library of Congress categories.</p>
+				<p>Along with the Library of Congress categories, we include a custom list of SE subjects in the ebook metadata. Unlike Library of Congress categories, SE subjects are purposefully broad. They’re more like the subject categories in a medium-sized bookstore, as opposed to the precise, detailed, hierarchical Library of Congress categories.</p>
 				<p>It’s the producer’s task to select appropriate SE subjects for the ebook. Usually just one or two of these categories will suffice.</p>
 				<section id="all-se-subjects">
 					<h4>All SE subjects</h4>
@@ -170,7 +170,7 @@ require_once('Core.php');
 				<h3>The short description</h3>
 				<p>The <code class="html"><span class="p">&lt;</span><span class="nt">dc:description</span><span class="p">&gt;</span></code> element contains a short, single-sentence summary of the ebook.</p>
 				<ol type="1">
-					<li>The description is a single complete sentence ending in a period, not a sentence fragment or restatment of the title.</li>
+					<li>The description is a single complete sentence ending in a period, not a sentence fragment or restatement of the title.</li>
 					<li>The description is typogrified, i.e. it contains Unicode curly quotes, em-dashes, and the like.</li>
 				</ol>
 			</section>
@@ -183,7 +183,7 @@ require_once('Core.php');
 					<li>The long description is in <em>escaped</em> HTML, with the HTML beginning on its own line after the <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"se:long-description"</span><span class="p">&gt;</span></code> element.
 						<aside class="tip">An easy way to escape HTML is to compose the long description in regular HTML, then insert it into the <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"se:long-description"</span><span class="p">&gt;</span></code> element surrounded by a <code class="html"><span class="cp">&lt;![CDATA[ ... ]]&gt;</span></code> element. Then, run the <code class="bash">se clean</code> tool, which will remove the <code class="html"><span class="cp">&lt;![CDATA[ ... ]]&gt;</span></code> element and escape the contained HTML.</aside>
 					</li>
-					<li>Long description HTML follows the <a href="/manual/1.0/code-style">code style conventions of this manual</a>.</li>
+					<li>Long description HTML follows the <a href="/manual/1.0.0/code-style">code style conventions of this manual</a>.</li>
 					<li>The long description element is directly followed by: <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"meta-auth"</span> <span class="na">refines</span><span class="o">=</span><span class="s">"#long-description"</span><span class="p">&gt;</span>https://standardebooks.org<span class="p">&lt;/</span><span class="nt">meta</span><span class="p">&gt;</span></code></li>
 				</ol>
 			</section>
@@ -228,7 +228,7 @@ require_once('Core.php');
 			<h2>General contributor rules</h2>
 			<p>The following apply to all contributors, including the author(s), translator(s), and illustrator(s).</p>
 			<ol type="1">
-				<li>If there is exactly one contributor in a set (for example, only one author, or only one translator) then the <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"display-seq"</span><span class="p">&gt;</span></code> element is ommitted for that contributor.</li>
+				<li>If there is exactly one contributor in a set (for example, only one author, or only one translator) then the <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"display-seq"</span><span class="p">&gt;</span></code> element is omitted for that contributor.</li>
 				<li>If there is more than one contributor in a set (for example, multiple authors, or translators) then the <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"display-seq"</span><span class="p">&gt;</span></code> element is specified for each contributor, with a value equal to their position in the SE identifier.</li>
 				<li>The epub standard specifies that in a set of contributors, if at least one has the <code class="html">display-seq</code> attribute, then other contributors in the set without the <code class="html">display-seq</code> attribute are ignored. For SE purposes, this also means they will be excluded from the SE identifier.</li>
 				<li>By SE convention, contributors with <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"display-seq"</span><span class="p">&gt;</span>0<span class="p">&lt;/</span><span class="nt">meta</span><span class="p">&gt;</span></code> are excluded from the SE identifier.</li>
@@ -266,7 +266,7 @@ require_once('Core.php');
 			<h2>The translator metadata block</h2>
 			<ol type="1">
 				<li>If the work is translated, the <code class="html"><span class="p">&lt;</span><span class="nt">dc:contributor</span> <span class="na">id</span><span class="o">=</span><span class="s">"translator"</span><span class="p">&gt;</span></code> metadata block follows the author metadata block.</li>
-				<li>If there is more than one translator, then the first translator's <code class="html">id</code> is <code class="html">translator-1</code>, the second <code class="html">translator-2</code>, and so on.</li>
+				<li>If there is more than one translator, then the first translator’s <code class="html">id</code> is <code class="html">translator-1</code>, the second <code class="html">translator-2</code>, and so on.</li>
 				<li>Each block is identical to the author metadata block, but with <code class="html"><span class="p">&lt;</span><span class="nt">dc:contributor</span> <span class="na">id</span><span class="o">=</span><span class="s">"translator"</span><span class="p">&gt;</span></code> instead of <code class="html"><span class="p">&lt;</span><span class="nt">dc:creator</span> <span class="na">id</span><span class="o">=</span><span class="s">"author"</span><span class="p">&gt;</span></code>.</li>
 				<li>The <a href="http://www.loc.gov/marc/relators/relacode.html">MARC relator tag</a> is <code class="html">trl</code>: <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"role"</span> <span class="na">refines</span><span class="o">=</span><span class="s">"#translator"</span> <span class="na">scheme</span><span class="o">=</span><span class="s">"marc:relators"</span><span class="p">&gt;</span>trl<span class="p">&lt;/</span><span class="nt">meta</span><span class="p">&gt;</span></code>.</li>
 				<li>Translators often annotate the work; if this is the case, the additional <a href="http://www.loc.gov/marc/relators/relacode.html">MARC relator tag</a> <code class="html">ann</code> is included in a separate <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"role"</span> <span class="na">refines</span><span class="o">=</span><span class="s">"#translator"</span> <span class="na">scheme</span><span class="o">=</span><span class="s">"marc:relators"</span><span class="p">&gt;</span></code> element.</li>
@@ -276,7 +276,7 @@ require_once('Core.php');
 			<h2>The illustrator metadata block</h2>
 			<ol type="1">
 				<li>If the work is illustrated by a person who is not the author, the illustrator metadata block follows.</li>
-				<li>If there is more than one illustrator, the first illustrator's <code class="html">id</code> is <code class="html">illustrator-1</code>, the second <code class="html">illustrator-2</code>, and so on.</li>
+				<li>If there is more than one illustrator, the first illustrator’s <code class="html">id</code> is <code class="html">illustrator-1</code>, the second <code class="html">illustrator-2</code>, and so on.</li>
 				<li>Each block is identical to the author metadata block, but with <code class="html"><span class="p">&lt;</span><span class="nt">dc:contributor</span> <span class="na">id</span><span class="o">=</span><span class="s">"illustrator"</span><span class="p">&gt;</span></code> instead of <code class="html"><span class="p">&lt;</span><span class="nt">dc:creator</span> <span class="na">id</span><span class="o">=</span><span class="s">"author"</span><span class="p">&gt;</span></code>.</li>
 				<li>The <a href="http://www.loc.gov/marc/relators/relacode.html">MARC relator tag</a> is <code class="html">ill</code>: <code class="html"><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">property</span><span class="o">=</span><span class="s">"role"</span> <span class="na">refines</span><span class="o">=</span><span class="s">"#illustrator"</span> <span class="na">scheme</span><span class="o">=</span><span class="s">"marc:relators"</span><span class="p">&gt;</span>ill<span class="p">&lt;/</span><span class="nt">meta</span><span class="p">&gt;</span></code>.</li>
 			</ol>

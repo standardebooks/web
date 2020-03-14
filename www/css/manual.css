@@ -161,3 +161,22 @@
 	font-style: italic;
 	margin: 1rem;
 }
+
+.ws{
+	border: 1px solid #222;
+	padding: .1rem;
+	line-height: 1;
+	margin: 0 .1rem;
+	font-size: .5rem;
+	display: inline-block;
+	font-family: monospace;
+	vertical-align: middle;
+	margin-top: -3px; /* to match poor crimson alignment */
+}
+
+figure code.html .ws,
+code.full .ws{
+	border-color: #fff;
+	margin-top: 0;
+}
+
