@@ -450,6 +450,9 @@ require_once('Core.php');
 				<li>
 					<p><a href="https://www.si.edu/search/collection-images?edan_q=&amp;edan_fq[0]=object_type%3A&quot;Paintings&quot;">The Smithsonian</a> (CC0 items say CC0 under the Usage header in the item details.)</p>
 				</li>
+				<li>
+					<p><a href="http://dams.birminghammuseums.org.uk/asset-bank/action/viewDefaultHome">Birmingham Museums</a> (CC0 items say CC0 in the Usage Rights section.)</p>
+				</li>
 			</ul>
 			<h2>Cover image step-by-step</h2>
 			<ol>
