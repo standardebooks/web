@@ -15,9 +15,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/files/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/61262">Poirot Investigates</a> by Agatha Christie</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction and novels by H. Beam Piper</a></p>
 			</li>
 			<li>
@@ -95,9 +92,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61284">Bashan and I</a> by Thomas Mann</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/20707">The Black Star Passes</a> by John W. Campbell</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
 			</li>
