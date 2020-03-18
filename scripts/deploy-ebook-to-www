@@ -142,6 +142,8 @@ do
 	# Build the cover image thumbnail
 	git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
 	git show HEAD:images/cover.svg > "${imgWorkDir}/${urlSafeIdentifier}.svg"
+	# The Ubuntu SVG renderer can't handle quotes around font names, so remove them before we process the cover.
+	sed -i "s/\"League Spartan\"/League Spartan/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
 	sed -i "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
 	cp "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}@2x.svg"
 
