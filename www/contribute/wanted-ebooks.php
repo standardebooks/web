@@ -133,9 +133,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/8778">The Water of the Wondrous Isles</a> by William Morris</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce</p>
 			</li>
