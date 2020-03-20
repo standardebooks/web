@@ -57,7 +57,7 @@ catch(SeeOtherEbookException $ex){
 }
 catch(\Exception $ex){
 	http_response_code(404);
-	include(SITE_ROOT . '/web/www/404.php');
+	include(WEB_ROOT . '/404.php');
 	exit();
 }
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml), 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'The Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'jsonld' => $ebook->GenerateJsonLd()]) ?>

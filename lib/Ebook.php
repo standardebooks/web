@@ -72,7 +72,7 @@ class Ebook{
 		}
 
 		$this->WwwFilesystemPath = $wwwFilesystemPath;
-		$this->Url = str_replace(SITE_ROOT . '/web/www', '', $this->WwwFilesystemPath);
+		$this->Url = str_replace(WEB_ROOT, '', $this->WwwFilesystemPath);
 
 		$rawMetadata = file_get_contents($wwwFilesystemPath . '/src/epub/content.opf') ?: '';
 

@@ -29,9 +29,11 @@ const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 // No trailing slash on any of the below constants.
 const SITE_URL =			'https://standardebooks.org';
 const SITE_ROOT =			'/standardebooks.org';
-const TEMPLATES_PATH =			SITE_ROOT . '/web/templates';
+const WEB_ROOT =			SITE_ROOT . '/web/www';
 const REPOS_PATH =			SITE_ROOT . '/ebooks';
-const EBOOKS_DIST_PATH =		SITE_ROOT . '/web/www/ebooks/';
+const TEMPLATES_PATH =			SITE_ROOT . '/web/templates';
+const MANUAL_PATH =			WEB_ROOT . '/manual';
+const EBOOKS_DIST_PATH =		WEB_ROOT . '/ebooks/';
 
 const GITHUB_SECRET_FILE_PATH =		SITE_ROOT . '/config/secrets/se-vcs-bot@github.com'; // Set in the GitHub organization global webhook settings.
 const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log'; // Must be writable by `www-data` Unix user.

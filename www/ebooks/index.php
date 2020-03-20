@@ -86,7 +86,7 @@ try{
 }
 catch(\Exception $ex){
 	http_response_code(404);
-	include(SITE_ROOT . '/web/www/404.php');
+	include(WEB_ROOT . '/404.php');
 	exit();
 }
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
