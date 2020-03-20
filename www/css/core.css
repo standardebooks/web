@@ -1190,6 +1190,7 @@ code.marc{
 	border-radius: .25rem;
 	white-space: pre-wrap;
 	padding: 0 .25rem;
+	color: #fff;
 }
 
 figure code.html,

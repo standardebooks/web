@@ -1,13 +1,12 @@
 <?
 require_once('Core.php');
-?><?= Template::Header(['title' => '. Uncategorized art books - The Standard Ebooks Manual', 'highlight' => 'contribute', 'manual' => true]) ?>
-	<main>
-		<article class="manual">
-
-	<section id="uncategorized-art-books">
+?><?= Template::Header(['title' => 'Uncategorized Art Resources', 'highlight' => 'contribute', 'description' => 'A list of US-PD art books for use when conducting cover art research.']) ?>
+<main>
+	<article id="a-basic-standard-ebooks-source-folder">
 		<h1>Uncategorized art books</h1>
-		<p>You may find these 1922-and-earlier art books useful as you conduct cover art research.</p>
+		<p>You may find these 1924-and-earlier art books useful as you conduct cover art research.</p>
 		<ul>
+			<li><a href="https://books.google.com/books?id=PBpAAAAAYAAJ">The History of Modern Painting</a></li>
 			<li><a href="https://books.google.com/books?id=Q3YoAAAAYAAJ">Art Studies for Schools: Or, Hints on the Use of Reproductions of High Art</a></li>
 			<li><a href="https://babel.hathitrust.org/cgi/pt?id=gri.ark:/13960/t7xm3q676;view=thumb;seq=13">Catalogue of the annual exhibition / The Pennsylvania 1912</a></li>
 			<li><a href="https://catalog.hathitrust.org/Record/009438195">Catalog Record: Art at the Royal Academy, London, 1897</a></li>
@@ -84,7 +83,6 @@ require_once('Core.php');
 			<li><a href="https://archive.org/stream/expositiongn1907expo">Exposition Generale des Beaux-Arts Bruxelles 1907</a></li>
 			<li><a href="https://books.google.com/books?id=91FJAQAAMAAJ">Grützner</a></li>
 		</ul>
-	</section>
-		</article>
-	</main>
+	</article>
+</main>
 <?= Template::Footer() ?>

@@ -1,68 +1,7 @@
 @import url("monokai.css");
 
-.manual > section[data-start-at='1']{
-	counter-reset: root 1;
-}
-
-.manual > section[data-start-at='2']{
-	counter-reset: root 2;
-}
-
-.manual > section[data-start-at='3']{
-	counter-reset: root 3;
-}
-
-.manual > section[data-start-at='4']{
-	counter-reset: root 4;
-}
-
-.manual > section[data-start-at='5']{
-	counter-reset: root 5;
-}
-
-.manual > section[data-start-at='6']{
-	counter-reset: root 6;
-}
-
-.manual > section[data-start-at='7']{
-	counter-reset: root 7;
-}
-
-.manual > section[data-start-at='8']{
-	counter-reset: root 8;
-}
-
-.manual > section[data-start-at='9']{
-	counter-reset: root 9;
-}
-
-.manual > section[data-start-at='10']{
-	counter-reset: root 10;
-}
-
-.manual > section[data-start-at='11']{
-	counter-reset: root 11;
-}
-
-.manual > section[data-start-at='12']{
-	counter-reset: root 12;
-}
-
-.manual > section[data-start-at='13']{
-	counter-reset: root 13;
-}
-
-.manual > section[data-start-at='14']{
-	counter-reset: root 14;
-}
-
-.manual > section[data-start-at='15']{
-	counter-reset: root 15;
-}
-
-.manual > section section,
-.manual ol{
-	counter-reset: item;
+.manual p{
+	text-align: left;
 }
 
 .manual section{
@@ -83,12 +22,11 @@
 	counter-reset: none;
 }
 
-.manual section[data-start-at] ol > li{
+.manual section[id] ol > li{
 	list-style: none;
 }
 
-.manual > section[data-start-at]::before{
-	content: counters(root, '.');
+.manual > article > section[id] > aside.number{
 	position: absolute;
 	width: 10rem;
 	text-align: right;
@@ -101,39 +39,33 @@
 	margin-top: 0;
 }
 
-.manual > section[data-start-at] section::before,
-.manual section[data-start-at] ol > li::before{
-	counter-increment: item;
-	content: counters(root, '.') '.' counters(item, ".");
+.manual section[id] > aside.number,
+.manual section[id] ol > li > aside.number{
 	position: absolute;
 	width: 10rem;
 	margin-left: -10.5rem;
 	text-align: right;
-	font-family: 'League Spartan', sans-serif;
+	font-family: "League Spartan", sans-serif;
 	font-weight: normal;
 }
 
-.manual .no-numbering::before{
-	content: none !important;
-	display: none !important;
+.manual section[id] ol > li > aside.number{
+	font-size: .75rem;
+	margin-top: .2rem;
 }
 
-.manual section[data-start-at] ol > li::before{
-	font-size: .75rem;
+.manual > article > section[id] > section > aside.number{
+	font-style: normal;
+	margin-left: -11.5rem;
 	margin-top: .15rem;
 }
 
-.manual > section[data-start-at] > section::before{
-	font-style: normal;
-	margin-left: -11.5rem;
-}
-
-.manual section::before{
-	font-family: 'League Spartan', sans-serif;
+.manual section > aside.number{
+	font-family: "League Spartan", sans-serif;
 	line-height: 1.2;
 }
 
-.manual > section::before{
+.manual > article > section > aside.number{
 	font-size: 1.2rem;
 }
 
@@ -159,7 +91,33 @@
 
 .manual aside.tip{
 	font-style: italic;
-	margin: 1rem;
+	margin: 1rem 0;
+	position: relative;
+	padding: 1rem;
+	padding-left: 2rem;
+	padding-top: 2rem;
+	background: rgba(0, 0, 0, .2);
+}
+
+.manual aside.tip::before{
+	font-family: "FontAwesome";
+	content: "\f0eb";
+	font-size: 1rem;
+	position: absolute;
+	font-style: normal;
+	left: .75rem;
+	top: .25rem;
+}
+
+.manual aside.tip::after{
+	content: "Tip";
+	font-family: "League Spartan";
+	text-transform: uppercase;
+	font-size: .75rem;
+	position: absolute;
+	font-style: normal;
+	left: 2rem;
+	top: .5rem;
 }
 
 .ws{
@@ -180,3 +138,90 @@ code.full .ws{
 	margin-top: 0;
 }
 
+main.manual h1{
+	margin-bottom: 2rem;
+}
+
+main.manual h1 + p{
+	margin-top: 0;
+}
+
+main.manual h2 code{
+	font-size: 1.25rem;
+	top: -.1rem;
+	position: relative;
+	text-transform: lowercase;
+}
+
+main.manual > nav{
+	position: absolute;
+	left: 0;
+	background: rgba(0, 0, 0, .15);
+	padding: 1rem;
+	border-bottom: 1px solid var(--border);
+	border-right: 1px solid var(--border);
+	max-width: 18%;
+}
+
+main.manual > nav ol,
+main.manual > nav li{
+	margin-top: .5rem;
+}
+
+main.manual > nav > p,
+main.manual > nav > ol > li > p > a{
+	font-family: "League Spartan";
+}
+
+main.manual > nav > ol > li > p > a{
+	font-size: .75rem;
+}
+
+main.manual > nav a{
+	text-decoration: none;
+}
+
+main.manual > nav ol{
+	list-style: none;
+}
+
+@media(max-width: 1700px){
+	main.manual > article{
+		margin-left: 10rem;
+	}
+}
+
+@media(max-width: 1350px){
+	main.manual > article{
+		margin-left: 0;
+	}
+
+	main.manual > nav{
+		position: relative;
+		max-width: none;
+		border: none;
+		background: none;
+		padding-left: 2rem;
+		padding-top: 2rem;
+		font-family: "League Spartan";
+	}
+
+	main.manual > nav ol{
+		display: none;
+	}
+
+	main.manual > article > section,
+	main.manual nav + h1{
+		margin-top: 0;
+	}
+
+	.manual > article > section[id] > aside.number{
+		margin-top: 0;
+	}
+}
+
+@media(max-width: 1000px){
+	main.manual > article{
+		margin-left: 2rem;
+	}
+}
