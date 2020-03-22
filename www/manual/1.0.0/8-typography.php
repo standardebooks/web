@@ -667,6 +667,9 @@ require_once('Core.php');
 <li id="8.14.1"><aside class="number">8.14.1</aside><p><code class="utf">×</code> (U+00d7) indicates an unstressed sylllable and <code class="utf">/</code> (U+002f) indicates a stressed syllable. They are separated from each other with no-break spaces (<span class="utf"> </span> or U+00A0).
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Several of his types, however, constantly occur; <span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>e.g.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> A and a variant (/ × | / ×) (/ × × | / ×); B and a variant (× / | × /) (× × / | × /); a variant of D (/ × | / × ×); E (/ × × | /). <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
+<li id="8.14.2"><aside class="number">8.14.2</aside><p>Lines of poetry listed on a single line (like in a quotation) are separated by a space, then a forward slash, then a space. Capitalization is preserved for each line.
+					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The famous lines “Wake! For the Sun, who scatter’d into flight / The Stars before him from the Field of Night” are from <span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:name.publication.book"</span><span class="p">&gt;</span>The Rubáiyát of Omar Khayyám<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
+</li>
 </ol>
 </section>
 <section id="8.15"><aside class="number">8.15</aside>

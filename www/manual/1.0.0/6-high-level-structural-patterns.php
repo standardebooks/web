@@ -275,7 +275,7 @@ require_once('Core.php');
 <h2>Poetry, verse, and songs</h2>
 <p>Unfortunately there’s no great way to semantically format poetry in HTML. As such, unrelated elements are conscripted for use in poetry.</p>
 <ol type="1">
-<li id="6.4.1"><aside class="number">6.4.1</aside><p>A stanza is represented by a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element.
+<li id="6.4.1"><aside class="number">6.4.1</aside><p>A stanza is represented by a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element styled with this CSS:
 					</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">p</span><span class="p">{</span>
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">left</span><span class="p">;</span>
 	<span class="k">text-indent</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
@@ -289,14 +289,14 @@ require_once('Core.php');
 	<span class="k">text-indent</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="6.4.2"><aside class="number">6.4.2</aside><p>Each stanza contains <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> elements, each one representing a line in the stanza.
+<li id="6.4.2"><aside class="number">6.4.2</aside><p>Each stanza contains <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> elements, each one representing a line in the stanza, styled with this CSS:
 					</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">p</span> <span class="o">&gt;</span> <span class="nt">span</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
 	<span class="k">text-indent</span><span class="p">:</span> <span class="mi">-1</span><span class="kt">em</span><span class="p">;</span>
 	<span class="k">padding-left</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="6.4.3"><aside class="number">6.4.3</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> line is followed by a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element, except for the last line in a stanza.
+<li id="6.4.3"><aside class="number">6.4.3</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> line is followed by a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element, except for the last line in a stanza, styled with this CSS:
 					</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">p</span> <span class="o">&gt;</span> <span class="nt">span</span> <span class="o">+</span> <span class="nt">br</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
@@ -321,7 +321,7 @@ require_once('Core.php');
 <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span></code></figure>
 </li>
 <li id="6.4.6"><aside class="number">6.4.6</aside><p>The parent element of poetry, verse, or song, has the semantic inflection of <code class="html">z3998:poem</code>, <code class="html">z3998:verse</code>, <code class="html">z3998:song</code>, or <code class="html">z3998:hymn</code>.</p></li>
-<li id="6.4.7"><aside class="number">6.4.7</aside><p>If a poem is quoted and has one or more lines removed, the removed lines are represented with a vertical ellipses (<code class="utf">⋮</code> or U+22EE) in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"elision"</span><span class="p">&gt;</span></code> element:
+<li id="6.4.7"><aside class="number">6.4.7</aside><p>If a poem is quoted and has one or more lines removed, the removed lines are represented with a vertical ellipses (<code class="utf">⋮</code> or U+22EE) in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"elision"</span><span class="p">&gt;</span></code> element styled with this CSS:
 					</p><figure><code class="css full"><span class="nt">span</span><span class="p">.</span><span class="nc">elision</span><span class="p">{</span>
 	<span class="k">margin</span><span class="p">:</span> <span class="mf">.5</span><span class="kt">em</span><span class="p">;</span>
 	<span class="k">margin-left</span><span class="p">:</span> <span class="mi">3</span><span class="kt">em</span><span class="p">;</span>
