@@ -339,11 +339,14 @@ require_once('Core.php');
 				<h2>Complete content.opf</h2>
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text.</p>
 				<p>The <code class="path">content.opf</code> is standardized. Please <a href="/contribute/metadata">see our extensive Metadata Manual</a> for details on how to fill out <code class="path">content.opf</code>.</p>
-				<p>As you complete the metadata, you’ll have to order the spine and the manifest in this file. Fortunately, Standard Ebooks has a tool for that too: <code class="program">se print-manifest-and-spine</code>. Run this on our source directory and, as you can guess, it’ll print out the <code class="html">&lt;manifest&gt;</code> and <code class="html">&lt;spine&gt;</code> tags for this work.</p>
-				<p>If you’re using a Mac, and thus the badly-behaved Finder program, you may find that it has carelessly polluted your work directory with useless <code class="path">.DS_Store</code> files. Before continuing, you should <a href="https://duckduckgo.com/?q=mac+alternative+file+manager">find a better file manager program</a>, then delete all of that litter with the following command. Otherwise, <code class="program">se print-manifest-and-spine</code> will include that litter in its output and your epub won’t be valid.</p>
+				<p>As you complete the metadata, you’ll have to order the spine and the manifest in this file. Fortunately, Standard Ebooks tools for that too: <code class="program">se print-manifest</code> and <code class="program">se print-spine</code>. Run these on our source directory and, as you can guess, they’ll print out the <code class="html">&lt;manifest&gt;</code> and <code class="html">&lt;spine&gt;</code> tags for this work.</p>
+				<p>If you’re using a Mac, and thus the badly-behaved Finder program, you may find that it has carelessly polluted your work directory with useless <code class="path">.DS_Store</code> files. Before continuing, you should <a href="https://duckduckgo.com/?q=mac+alternative+file+manager">find a better file manager program</a>, then delete all of that litter with the following command. Otherwise, <code class="program">se print-manifest</code> and <code class="program">se print-spine</code> will include that litter in its output and your epub won’t be valid.</p>
 				<code class="terminal"><span>find . -name ".DS_Store" -type f -delete</span></code>
 				<p>Since this is the first time we’re editing <code class="path">content.opf</code>, we’re OK with replacing both the manifest and spine tags with a guess at the correct contents. We can do this using the <code class="program">--in-place</code> option. If we have to update the manifest or spine later, we can omit the option to print to standard output instead of altering <code class="path">content.opf</code> directly.</p>
-				<code class="terminal raw"><span>se print-manifest-and-spine --in-place .</span></code>
+				<code class="terminal">
+					<span>se print-manifest --in-place .</span>
+					<span>se print-spine --in-place .</span>
+				</code>
 				<p>The manifest is already in the correct order and doesn’t need to be edited. The spine, however, will have to be reordered to be in the correct reading order. Once you’ve done that, commit!</p><code class="terminal"><span>git add -A</span> <span>git commit -m "Complete content.opf"</span></code>
 			</li>
 			<li>
