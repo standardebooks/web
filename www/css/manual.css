@@ -132,6 +132,10 @@
 	margin-top: -3px; /* to match poor crimson alignment */
 }
 
+code.bash > span{
+	color: var(--dark-button-highlight);
+}
+
 figure code.html .ws,
 code.full .ws{
 	border-color: #fff;
@@ -183,6 +187,12 @@ main.manual > nav a{
 
 main.manual > nav ol{
 	list-style: none;
+}
+
+figure code.html,
+figure code.css{
+	white-space: pre;
+	overflow-x: auto;
 }
 
 @media(max-width: 1700px){

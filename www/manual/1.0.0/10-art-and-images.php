@@ -1,13 +1,13 @@
 <?
 require_once('Core.php');
 ?><?= Template::Header(['title' => '10. Art and Images - The Standard Ebooks Manual', 'highlight' => 'contribute', 'manual' => true]) ?>
-	<main class="manual"><nav><p><a href="/manual/1.0.0">The Standard Ebooks Manual of Style</a></p><ol><li><p><a href="/manual/1.0.0/1-code-style">1. XHTML, CSS, and SVG Code Style</a></p><ol><li><p><a href="/manual/1.0.0/1-code-style#1.1">1.1 XHTML formatting</a></p></li><li><p><a href="/manual/1.0.0/1-code-style#1.2">1.2 CSS formatting</a></p></li><li><p><a href="/manual/1.0.0/1-code-style#1.3">1.3 SVG Formatting</a></p></li><li><p><a href="/manual/1.0.0/1-code-style#1.4">1.4 Commits and Commit Messages</a></p></li></ol></li><li><p><a href="/manual/1.0.0/2-filesystem">2. Filesystem Layout and File Naming Conventions</a></p><ol><li><p><a href="/manual/1.0.0/2-filesystem#2.1">2.1 File locations</a></p></li><li><p><a href="/manual/1.0.0/2-filesystem#2.2">2.2 XHTML file naming conventions</a></p></li><li><p><a href="/manual/1.0.0/2-filesystem#2.3">2.3 The se-lint-ignore.xml file</a></p></li></ol></li><li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook">3. The Structure of an Ebook</a></p><ol><li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook#3.1">3.1 Front matter</a></p></li><li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook#3.2">3.2 Body matter</a></p></li><li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook#3.3">3.3 Back matter</a></p></li></ol></li><li><p><a href="/manual/1.0.0/4-semantics">4. Semantics</a></p><ol><li><p><a href="/manual/1.0.0/4-semantics#4.1">4.1 Semantic Tags</a></p></li><li><p><a href="/manual/1.0.0/4-semantics#4.2">4.2 Semantic Inflection</a></p></li></ol></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns">5. General XHTML Patterns</a></p><ol><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.1">5.1 id attributes</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.2">5.2 class attributes</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.3">5.3 xml:lang attributes</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.4">5.4 The &lt;title&gt; element</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.5">5.5 Ordered/numbered and unordered lists</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.6">5.6 Tables</a></p></li></ol></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns">6. High Level Structural Patterns</a></p><ol><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.1">6.1 Sectioning</a></p></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.2">6.2 Headers</a></p></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.3">6.3 Epigraphs</a></p></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.4">6.4 Poetry, verse, and songs</a></p></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.5">6.5 Plays &amp; Drama</a></p></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.6">6.6 Letters</a></p></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.7">6.7 Images</a></p></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.8">6.8 List of Illustrations (the LoI)</a></p></li><li><p><a href="/manual/1.0.0/6-high-level-structural-patterns#6.9">6.9 Endnotes</a></p></li></ol></li><li><p><a href="/manual/1.0.0/7-table-of-contents-patterns">7. Table of Contents Patterns</a></p><ol><li><p><a href="/manual/1.0.0/7-table-of-contents-patterns#7.1">7.1 The ToC &lt;nav&gt; element</a></p></li><li><p><a href="/manual/1.0.0/7-table-of-contents-patterns#7.2">7.2 The landmarks &lt;nav&gt; element</a></p></li></ol></li><li><p><a href="/manual/1.0.0/8-typography">8. Typography</a></p><ol><li><p><a href="/manual/1.0.0/8-typography#8.1">8.1 Section titles and ordinals</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.2">8.2 Italics</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.3">8.3 Capitalization</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.4">8.4 Indentation</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.5">8.5 Chapter headers</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.6">8.6 Ligatures</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.7">8.7 Punctuation and spacing</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.8">8.8 Numbers, measurements, and math</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.9">8.9 Latinisms</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.10">8.10 Initials and abbreviations</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.11">8.11 Times</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.12">8.12 Chemicals and compounds</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.13">8.13 Temperatures</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.14">8.14 Scansion</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.15">8.15 Legal cases and terms</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.16">8.16 Morse Code</a></p></li></ol></li><li><p><a href="/manual/1.0.0/9-metadata">9. Metadata</a></p><ol><li><p><a href="/manual/1.0.0/9-metadata#9.1">9.1 General URL rules</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.2">9.2 The ebook identifier</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.3">9.3 Publication date and release identifiers</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.4">9.4 Book titles</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.5">9.5 Book subjects</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.6">9.6 Book descriptions</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.7">9.7 Book language</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.8">9.8 Book transcription and page scan sources</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.9">9.9 Additional book metadata</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.10">9.10 General contributor rules</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.11">9.11 The author metadata block</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.12">9.12 The translator metadata block</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.13">9.13 The illustrator metadata block</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.14">9.14 The cover artist metadata block</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.15">9.15 Metadata for additional contributors</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.16">9.16 Transcriber metadata</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.17">9.17 Producer metadata</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.18">9.18 The ebook manifest</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.19">9.19 The ebook spine</a></p></li></ol></li><li><p><a href="/manual/1.0.0/10-art-and-images">10. Art and Images</a></p><ol><li><p><a href="/manual/1.0.0/10-art-and-images#10.1">10.1 Complete list of files</a></p></li><li><p><a href="/manual/1.0.0/10-art-and-images#10.2">10.2 SVG patterns</a></p></li><li><p><a href="/manual/1.0.0/10-art-and-images#10.3">10.3 The cover image</a></p></li><li><p><a href="/manual/1.0.0/10-art-and-images#10.4">10.4 The titlepage image</a></p></li></ol></li></ol></nav>
+	<main class="manual"><nav><p><a href="/manual/1.0.0">The Standard Ebooks Manual of Style</a></p><ol><li><p><a href="/manual/1.0.0/1-code-style">1. XHTML, CSS, and SVG Code Style</a></p><ol><li><p><a href="/manual/1.0.0/1-code-style#1.1">1.1 XHTML formatting</a></p></li><li><p><a href="/manual/1.0.0/1-code-style#1.2">1.2 CSS formatting</a></p></li><li><p><a href="/manual/1.0.0/1-code-style#1.3">1.3 SVG Formatting</a></p></li><li><p><a href="/manual/1.0.0/1-code-style#1.4">1.4 Commits and Commit Messages</a></p></li></ol></li><li><p><a href="/manual/1.0.0/2-filesystem">2. Filesystem Layout and File Naming Conventions</a></p><ol><li><p><a href="/manual/1.0.0/2-filesystem#2.1">2.1 File locations</a></p></li><li><p><a href="/manual/1.0.0/2-filesystem#2.2">2.2 XHTML file naming conventions</a></p></li><li><p><a href="/manual/1.0.0/2-filesystem#2.3">2.3 The se-lint-ignore.xml file</a></p></li></ol></li><li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook">3. The Structure of an Ebook</a></p><ol><li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook#3.1">3.1 Front matter</a></p></li><li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook#3.2">3.2 Body matter</a></p></li><li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook#3.3">3.3 Back matter</a></p></li></ol></li><li><p><a href="/manual/1.0.0/4-semantics">4. Semantics</a></p><ol><li><p><a href="/manual/1.0.0/4-semantics#4.1">4.1 Semantic Tags</a></p></li><li><p><a href="/manual/1.0.0/4-semantics#4.2">4.2 Semantic Inflection</a></p></li></ol></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns">5. General XHTML Patterns</a></p><ol><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.1">5.1 id attributes</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.2">5.2 class attributes</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.3">5.3 xml:lang attributes</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.4">5.4 The &lt;title&gt; element</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.5">5.5 Ordered/numbered and unordered lists</a></p></li><li><p><a href="/manual/1.0.0/5-general-xhtml-patterns#5.6">5.6 Tables</a></p></li></ol></li><li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns">6. Standard Ebooks Section Patterns</a></p><ol><li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.1">6.1 The title string</a></p></li><li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.2">6.2 The table of contents</a></p></li><li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.3">6.3 The titlepage</a></p></li><li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.4">6.4 The imprint</a></p></li><li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.5">6.5 The half title page</a></p></li><li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.6">6.6 The colophon</a></p></li><li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.7">6.7 The Uncopyright</a></p></li></ol></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns">7. High Level Structural Patterns</a></p><ol><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.1">7.1 Sectioning</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.2">7.2 Headers</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.3">7.3 Dedications</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.4">7.4 Epigraphs</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.5">7.5 Poetry, verse, and songs</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.6">7.6 Plays and drama</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.7">7.7 Letters</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.8">7.8 Images</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.9">7.9 List of Illustrations (the LoI)</a></p></li><li><p><a href="/manual/1.0.0/7-high-level-structural-patterns#7.10">7.10 Endnotes</a></p></li></ol></li><li><p><a href="/manual/1.0.0/8-typography">8. Typography</a></p><ol><li><p><a href="/manual/1.0.0/8-typography#8.1">8.1 Section titles and ordinals</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.2">8.2 Italics</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.3">8.3 Capitalization</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.4">8.4 Indentation</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.5">8.5 Chapter headers</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.6">8.6 Ligatures</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.7">8.7 Punctuation and spacing</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.8">8.8 Numbers, measurements, and math</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.9">8.9 Latinisms</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.10">8.10 Initials and abbreviations</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.11">8.11 Times</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.12">8.12 Chemicals and compounds</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.13">8.13 Temperatures</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.14">8.14 Scansion</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.15">8.15 Legal cases and terms</a></p></li><li><p><a href="/manual/1.0.0/8-typography#8.16">8.16 Morse code</a></p></li></ol></li><li><p><a href="/manual/1.0.0/9-metadata">9. Metadata</a></p><ol><li><p><a href="/manual/1.0.0/9-metadata#9.1">9.1 General URL rules</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.2">9.2 The ebook identifier</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.3">9.3 Publication date and release identifiers</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.4">9.4 Book titles</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.5">9.5 Book subjects</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.6">9.6 Book descriptions</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.7">9.7 Book language</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.8">9.8 Book transcription and page scan sources</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.9">9.9 Additional book metadata</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.10">9.10 General contributor rules</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.11">9.11 The author metadata block</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.12">9.12 The translator metadata block</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.13">9.13 The illustrator metadata block</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.14">9.14 The cover artist metadata block</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.15">9.15 Metadata for additional contributors</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.16">9.16 Transcriber metadata</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.17">9.17 Producer metadata</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.18">9.18 The ebook manifest</a></p></li><li><p><a href="/manual/1.0.0/9-metadata#9.19">9.19 The ebook spine</a></p></li></ol></li><li><p><a href="/manual/1.0.0/10-art-and-images">10. Art and Images</a></p><ol><li><p><a href="/manual/1.0.0/10-art-and-images#10.1">10.1 Complete list of files</a></p></li><li><p><a href="/manual/1.0.0/10-art-and-images#10.2">10.2 SVG patterns</a></p></li><li><p><a href="/manual/1.0.0/10-art-and-images#10.3">10.3 The cover image</a></p></li><li><p><a href="/manual/1.0.0/10-art-and-images#10.4">10.4 The titlepage image</a></p></li></ol></li></ol></nav>
 		<article>
 
 <section id="10"><aside class="number">10</aside>
 <h1>Art and Images</h1>
-<p>When you create a new Standard Ebooks draft using the <code class="bash">se create-draft</code> tool, you’ll already have templates for the cover and titlepage images present in <code class="path">./images/</code>.</p>
-<p>Text in these SVG files is represented as text, not paths, so you can edit them using a text editor and not an SVG editor. Then, the <code class="bash">se build-images</code> tool converts these text-based source images into path-based compiled images, for distribution in the final epub file. We do this so to avoid having to distribute the font files along with the epub.</p>
+<p>When you create a new Standard Ebooks draft using the <code class="bash"><span>se</span> create-draft</code> tool, you’ll already have templates for the cover and titlepage images present in <code class="path">./images/</code>.</p>
+<p>Text in these SVG files is represented as text, not paths, so you can edit them using a text editor and not an SVG editor. Then, the <code class="bash"><span>se</span> build-images</code> tool converts these text-based source images into path-based compiled images, for distribution in the final epub file. We do this so to avoid having to distribute the font files along with the epub.</p>
 <p>To develop cover and titlepage images, you must have the free <a href="https://github.com/theleagueof/league-spartan">League Spartan</a> and <a href="https://github.com/theleagueof/sorts-mill-goudy">Sorts Mill Goudy</a> fonts installed on your system.</p>
 <section id="10.1"><aside class="number">10.1</aside>
 <h2>Complete list of files</h2>
@@ -17,11 +17,11 @@ require_once('Core.php');
 <li><p><code class="path">./images/cover.jpg</code>: A cropped part of the source image that will serve as the actual image file we use in the cover. Must be exactly 1400w × 2100h.</p></li>
 <li><p><code class="path">./images/cover.svg</code>: The SVG source file for the cover, with any text represented as actual, editable text. Must be exactly 1400w × 2100h pixels. Since the final cover image SVG has the text converted to paths, we keep this file around to make it easier to make changes to the cover in the future.</p></li>
 <li><p><code class="path">./src/epub/images/cover.svg</code>: The final SVG cover image. This image should be exactly like <code class="path">./images/cover.svg</code>, but with the text converted to paths.
-					</p><p>This image is generated by the <code class="bash">se build-images</code> tool.</p>
+					</p><p>This image is generated by the <code class="bash"><span>se</span> build-images</code> tool.</p>
 </li>
 <li><p><code class="path">./images/titlepage.svg</code>: The SVG source file for the titlepage, with any text represented as actual, editable text. Must be exactly 1400 pixels wide, but the height must exactly match the text height plus some padding (described below).</p></li>
 <li><p><code class="path">./src/epub/images/titlepage.svg</code>: The final SVG titlepage image, with text converted to paths just like the cover page.
-					</p><p>This image is generated by the <code class="bash">se build-images</code> tool.</p>
+					</p><p>This image is generated by the <code class="bash"><span>se</span> build-images</code> tool.</p>
 </li>
 </ul>
 </section>
@@ -46,49 +46,52 @@ require_once('Core.php');
 <p>The SE Editor-in-Chief must review and approve of the cover art you select before you can commit it to your repository.</p>
 <p><strong>Do not commit cover art without contacting the mailing list first!</strong></p>
 </aside>
-<p>The cover image is auto-generated by the <code class="bash">se create-draft</code> tool. The arrangement of the text is a suggestion, and may be changed by the producer in case a more visually-pleasing arrangment is desired.</p>
-<p>After completing <code class="path">./images/cover.svg</code>, use the <code class="bash">se build-images</code> tool to build the rasterized distribution SVG in <code class="path">./src/epub/images/cover.svg</code>.</p>
-<section id="10.3.1"><aside class="number">10.3.1</aside>
-<h3>Cover image layout</h3>
-<p><code class="bash">se create-draft</code> generates <code class="path">./images/cover.svg</code> for you with correct dimensions and layout. It’s rarely necessary to edit the cover.</p>
+<p>The cover image is auto-generated by the <code class="bash"><span>se</span> create-draft</code> tool. The arrangement of the text is a suggestion, and may be changed by the producer in case a more visually-pleasing arrangment is desired.</p>
+<p>After completing <code class="path">./images/cover.svg</code>, use the <code class="bash"><span>se</span> build-images</code> tool to build the rasterized distribution SVG in <code class="path">./src/epub/images/cover.svg</code>.</p>
 <ol type="1">
-<li id="10.3.1.1"><aside class="number">10.3.1.1</aside><p>Both the title and author are in League Spartan font with 5px letter spacing in ALL CAPS.</p></li>
-<li id="10.3.1.2"><aside class="number">10.3.1.2</aside><p>The left and right sides of the black title box have at least 40px padding. More padding is preferrable over cramming the title in.</p></li>
-<li id="10.3.1.3"><aside class="number">10.3.1.3</aside><p>Translators, illustrators, and other contributors besides the author do not appear on the cover.</p></li>
-<li id="10.3.1.4"><aside class="number">10.3.1.4</aside><p>The group of both the title and author lines is horizontally centered in the black title box.</p></li>
+<li id="10.3.1"><aside class="number">10.3.1</aside><p>The <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element has a value of <code class="html">The cover for the Standard Ebooks edition of</code> followed by the <a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.1">title string</a>.</p></li>
 </ol>
-<section id="10.3.1.5"><aside class="number">10.3.1.5</aside>
+<section id="10.3.2"><aside class="number">10.3.2</aside>
+<h3>Cover image layout</h3>
+<p><code class="bash"><span>se</span> create-draft</code> generates <code class="path">./images/cover.svg</code> for you with correct dimensions and layout. It’s rarely necessary to edit the cover.</p>
+<ol type="1">
+<li id="10.3.2.1"><aside class="number">10.3.2.1</aside><p>Both the title and author are in League Spartan font with 5px letter spacing in ALL CAPS.</p></li>
+<li id="10.3.2.2"><aside class="number">10.3.2.2</aside><p>The left and right sides of the black title box have at least 40px padding. More padding is preferrable over cramming the title in.</p></li>
+<li id="10.3.2.3"><aside class="number">10.3.2.3</aside><p>Translators, illustrators, and other contributors besides the author do not appear on the cover.</p></li>
+<li id="10.3.2.4"><aside class="number">10.3.2.4</aside><p>The group of both the title and author lines is horizontally centered in the black title box.</p></li>
+</ol>
+<section id="10.3.2.5"><aside class="number">10.3.2.5</aside>
 <h4>Title line dimensions</h4>
 <ol type="1">
-<li id="10.3.1.5.1"><aside class="number">10.3.1.5.1</aside><p>One-line titles: the line is 80px tall. Example: <i><a href="/ebooks/niccolo-machiavelli/the-prince/w-k-marriott">The Prince</a></i>, by Niccolò Machiavelli.</p></li>
-<li id="10.3.1.5.2"><aside class="number">10.3.1.5.2</aside><p>Two-line titles: each line is 80px tall, and the second title line is 20px below the first line. Example: <i><a href="/ebooks/fyodor-dostoevsky/crime-and-punishment/constance-garnett">Crime and Punishment</a></i>, by Fyodor Dostoevsky.</p></li>
-<li id="10.3.1.5.3"><aside class="number">10.3.1.5.3</aside><p>Two-line, very long titles: each line is 60px tall, and the second line is 20px below the first line. Example: <i><a href="/ebooks/selma-lagerlof/the-wonderful-adventures-of-nils/velma-swanston-howard">The Wonderful Adventures of Nils</a></i>, by Selma Lagerlöf.</p></li>
-<li id="10.3.1.5.4"><aside class="number">10.3.1.5.4</aside><p>Two-line, extremely long titles: each line is 50px tall, and the second line is 20px below the first line. Example: <i><a href="/ebooks/rudolph-erich-raspe/the-surprising-adventures-of-baron-munchausen">The Surprising Adventures of Baron Munchausen</a></i>, by Rudolph Erich Raspe.</p></li>
+<li id="10.3.2.5.1"><aside class="number">10.3.2.5.1</aside><p>One-line titles: the line is 80px tall. Example: <i><a href="/ebooks/niccolo-machiavelli/the-prince/w-k-marriott">The Prince</a></i>, by Niccolò Machiavelli.</p></li>
+<li id="10.3.2.5.2"><aside class="number">10.3.2.5.2</aside><p>Two-line titles: each line is 80px tall, and the second title line is 20px below the first line. Example: <i><a href="/ebooks/fyodor-dostoevsky/crime-and-punishment/constance-garnett">Crime and Punishment</a></i>, by Fyodor Dostoevsky.</p></li>
+<li id="10.3.2.5.3"><aside class="number">10.3.2.5.3</aside><p>Two-line, very long titles: each line is 60px tall, and the second line is 20px below the first line. Example: <i><a href="/ebooks/selma-lagerlof/the-wonderful-adventures-of-nils/velma-swanston-howard">The Wonderful Adventures of Nils</a></i>, by Selma Lagerlöf.</p></li>
+<li id="10.3.2.5.4"><aside class="number">10.3.2.5.4</aside><p>Two-line, extremely long titles: each line is 50px tall, and the second line is 20px below the first line. Example: <i><a href="/ebooks/rudolph-erich-raspe/the-surprising-adventures-of-baron-munchausen">The Surprising Adventures of Baron Munchausen</a></i>, by Rudolph Erich Raspe.</p></li>
 </ol>
 </section>
-<section id="10.3.1.6"><aside class="number">10.3.1.6</aside>
+<section id="10.3.2.6"><aside class="number">10.3.2.6</aside>
 <h4>Author line dimensions</h4>
 <ol type="1">
-<li id="10.3.1.6.1"><aside class="number">10.3.1.6.1</aside><p>The first author line begins 60px below the last title line.</p></li>
-<li id="10.3.1.6.2"><aside class="number">10.3.1.6.2</aside><p>One-line authors: the line is 40px tall.</p></li>
-<li id="10.3.1.6.3"><aside class="number">10.3.1.6.3</aside><p>Two-line authors: each line is 40px tall, and the second author line is 20px below the first line.</p></li>
+<li id="10.3.2.6.1"><aside class="number">10.3.2.6.1</aside><p>The first author line begins 60px below the last title line.</p></li>
+<li id="10.3.2.6.2"><aside class="number">10.3.2.6.2</aside><p>One-line authors: the line is 40px tall.</p></li>
+<li id="10.3.2.6.3"><aside class="number">10.3.2.6.3</aside><p>Two-line authors: each line is 40px tall, and the second author line is 20px below the first line.</p></li>
 </ol>
 </section>
 </section>
-<section id="10.3.2"><aside class="number">10.3.2</aside>
+<section id="10.3.3"><aside class="number">10.3.3</aside>
 <h3>Cover art</h3>
 <ol type="1">
-<li id="10.3.2.1"><aside class="number">10.3.2.1</aside><p><code class="path">./images/cover.svg</code> links to <code class="path">./images/cover.jpg</code> as the canvas background.</p></li>
-<li id="10.3.2.2"><aside class="number">10.3.2.2</aside><p><code class="path">./images/cover.jpg</code> is 1400w × 2100h in pixels, and is compressed as much as possible while maintaining an acceptable image quality. An acceptable level of image quality is more important than file size.</p></li>
-<li id="10.3.2.3"><aside class="number">10.3.2.3</aside><p>Because <code class="path">./images/cover.jpg</code> is an image with large dimensions, it must be sourced from a high-resolution scan. It may not always be possible to locate a high-resolution scan, so a smaller source image may be upscaled <em>a small amount</em> to meet the target dimensions.</p></li>
-<li id="10.3.2.4"><aside class="number">10.3.2.4</aside><p>Cover art is in the “fine art oil painting” style, and in full color. Art not in this style, like modern CG art or black-and-white scans, is not acceptable.</p></li>
-<li id="10.3.2.5"><aside class="number">10.3.2.5</aside><p><code class="path">./images/cover.source.svg</code> is the unmodified source image used to create <code class="path">./images/cover.jpg</code>. This image is kept in case changes to the source images are to be made in the future.</p></li>
+<li id="10.3.3.1"><aside class="number">10.3.3.1</aside><p><code class="path">./images/cover.svg</code> links to <code class="path">./images/cover.jpg</code> as the canvas background.</p></li>
+<li id="10.3.3.2"><aside class="number">10.3.3.2</aside><p><code class="path">./images/cover.jpg</code> is 1400w × 2100h in pixels, and is compressed as much as possible while maintaining an acceptable image quality. An acceptable level of image quality is more important than file size.</p></li>
+<li id="10.3.3.3"><aside class="number">10.3.3.3</aside><p>Because <code class="path">./images/cover.jpg</code> is an image with large dimensions, it must be sourced from a high-resolution scan. It may not always be possible to locate a high-resolution scan, so a smaller source image may be upscaled <em>a small amount</em> to meet the target dimensions.</p></li>
+<li id="10.3.3.4"><aside class="number">10.3.3.4</aside><p>Cover art is in the “fine art oil painting” style, and in full color. Art not in this style, like modern CG art or black-and-white scans, is not acceptable.</p></li>
+<li id="10.3.3.5"><aside class="number">10.3.3.5</aside><p><code class="path">./images/cover.source.svg</code> is the unmodified source image used to create <code class="path">./images/cover.jpg</code>. This image is kept in case changes to the source images are to be made in the future.</p></li>
 </ol>
-<section id="10.3.2.6"><aside class="number">10.3.2.6</aside>
+<section id="10.3.3.6"><aside class="number">10.3.3.6</aside>
 <h4>US-PD clearance</h4>
 <p>The paintings we use are all in the U.S. public domain (US-PD). Your task is to locate a painting suitable for the kind of book you’re producing, and then demonstrate that the painting is indeed in the U.S. public domain.</p>
 <p>U.S. copyright law is complicated. Because of this, <strong>we require that you provide a link to a page scan of a 1924-or-older book that reproduces the painting you selected.</strong> <em>This is a hard requirement</em> to demonstrate that the painting you selected is in fact in the U.S. public domain. Just because a painting is very old, or Wikipedia says it’s PD, or it’s PD in a country besides the U.S., doesn’t necessarily mean it actually <em>is</em> PD in the U.S.</p>
-<section id="10.3.2.6.1"><aside class="number">10.3.2.6.1</aside>
+<section id="10.3.3.6.1"><aside class="number">10.3.3.6.1</aside>
 <h5>Clearance procedure</h5>
 <p>To actually demonstrate that a painting is PD, you must locate a reproduction of that painting in a 1924-or-older book.</p>
 <p>This can be quite difficult. Many people find this to be the most time-consuming part of the ebook production process.</p>
@@ -105,7 +108,7 @@ require_once('Core.php');
 </li>
 <li><p>Once you locate a book with reproductions, open the book up in thumbnail view and quickly eyeball the pages to see if the artwork is reproduced there.</p></li>
 </ul>
-<section id="10.3.2.6.1.1"><aside class="number">10.3.2.6.1.1</aside>
+<section id="10.3.3.6.1.1"><aside class="number">10.3.3.6.1.1</aside>
 <h6>Gotchas</h6>
 <ul>
 <li><p>In older books it was common to have <em>etchings</em> of paintings. Etchings are not strict reproductions, and so we cannot count them for PD clearance.
@@ -116,7 +119,7 @@ require_once('Core.php');
 </ul>
 </section>
 </section>
-<section id="10.3.2.6.2"><aside class="number">10.3.2.6.2</aside>
+<section id="10.3.3.6.2"><aside class="number">10.3.3.6.2</aside>
 <h5>Resources for locating high resolution scans</h5>
 <ul>
 <li><p><a href="https://commons.wikimedia.org">Wikimedia Commons</a></p></li>
@@ -124,7 +127,7 @@ require_once('Core.php');
 <li><p><a href="https://www.wikiart.org">WikiArt</a></p></li>
 </ul>
 </section>
-<section id="10.3.2.6.3"><aside class="number">10.3.2.6.3</aside>
+<section id="10.3.3.6.3"><aside class="number">10.3.3.6.3</aside>
 <h5>Resources for locating print reproductions</h5>
 <ul>
 <li><p><a href="https://books.google.com">Google Books</a>
@@ -140,7 +143,7 @@ require_once('Core.php');
 <li><p>Our own <a href="/contribute/uncategorized-art-resources">list of uncategorized art books</a> may be helpful to browse through for inspiration and easy US-PD clearance.</p></li>
 </ul>
 </section>
-<section id="10.3.2.6.4"><aside class="number">10.3.2.6.4</aside>
+<section id="10.3.3.6.4"><aside class="number">10.3.3.6.4</aside>
 <h5>Museums with CC0 collections</h5>
 <p>Images that are explicitly marked as CC0 from these museums can be used without further research. Not all of their images are CC0; you must confirm the presence of a CC0 license on the specific image you want to use.</p>
 <ul>
@@ -157,7 +160,7 @@ require_once('Core.php');
 <li><p><a href="http://dams.birminghammuseums.org.uk/asset-bank/action/viewDefaultHome">Birmingham Museums</a> (CC0 items say CC0 under the Usage Rights section in the item details.)</p></li>
 </ul>
 </section>
-<section id="10.3.2.6.5"><aside class="number">10.3.2.6.5</aside>
+<section id="10.3.3.6.5"><aside class="number">10.3.3.6.5</aside>
 <h5>Clearance FAQ</h5>
 <ul>
 <li><p><strong>I found a great painting, and Wikipedia says it’s public domain, but I can’t find a reproduction in a book. Can I use it?</strong>
@@ -182,48 +185,51 @@ require_once('Core.php');
 </section>
 <section id="10.4"><aside class="number">10.4</aside>
 <h2>The titlepage image</h2>
-<p>The titlepage image is auto-generated by the <code class="bash">se create-draft</code> tool. The arrangement of the text is a suggestion, and may be changed by the producer in case a more visually-pleasing arrangment is desired.</p>
-<p>After completing <code class="path">./images/titlepage.svg</code>, use the <code class="bash">se build-images</code> tool to build the rasterized distribution SVG in <code class="path">./src/epub/images/titlepage.svg</code>.</p>
-<section id="10.4.1"><aside class="number">10.4.1</aside>
+<p>The titlepage image is auto-generated by the <code class="bash"><span>se</span> create-draft</code> tool. The arrangement of the text is a suggestion, and may be changed by the producer in case a more visually-pleasing arrangment is desired.</p>
+<p>After completing <code class="path">./images/titlepage.svg</code>, use the <code class="bash"><span>se</span> build-images</code> tool to build the rasterized distribution SVG in <code class="path">./src/epub/images/titlepage.svg</code>.</p>
+<ol type="1">
+<li id="10.4.1"><aside class="number">10.4.1</aside><p>The <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element has a value of <code class="html">The titlepage for the Standard Ebooks edition of</code> followed by the <a href="/manual/1.0.0/6-standard-ebooks-section-patterns#6.1">title string</a>.</p></li>
+</ol>
+<section id="10.4.2"><aside class="number">10.4.2</aside>
 <h3>Titlepage image layout</h3>
 <ol type="1">
-<li id="10.4.1.1"><aside class="number">10.4.1.1</aside><p>The title, author, other contributors are in League Spartan font with 5px letter spacing in ALL CAPS.</p></li>
-<li id="10.4.1.2"><aside class="number">10.4.1.2</aside><p>The titlepage does not include subtitles.
+<li id="10.4.2.1"><aside class="number">10.4.2.1</aside><p>The title, author, other contributors are in League Spartan font with 5px letter spacing in ALL CAPS.</p></li>
+<li id="10.4.2.2"><aside class="number">10.4.2.2</aside><p>The titlepage does not include subtitles.
 						</p><p>For example, the titlepage would contain <code class="html">THE MAN WHO WAS THURSDAY</code>, but not <code class="html">THE MAN WHO WAS THURSDAY: A NIGHTMARE</code>.</p>
 </li>
-<li id="10.4.1.3"><aside class="number">10.4.1.3</aside><p>Names of contributors besides the author are preceded by <code class="html">translated by</code> or <code class="html">illustrated by</code>. <code class="html">translated by</code> and <code class="html">illustrated by</code> are set in lowercase Sorts Mill Goudy Italic font.</p></li>
-<li id="10.4.1.4"><aside class="number">10.4.1.4</aside><p>Only the author, translator, and illustrator are on the titlepage. Other contributors like writers of introductions or annotators are not included.</p></li>
-<li id="10.4.1.5"><aside class="number">10.4.1.5</aside><p>The canvas has a padding area of 50px vertically and 100px horizontally in which text must not enter.</p></li>
-<li id="10.4.1.6"><aside class="number">10.4.1.6</aside><p>The viewbox width is exactly 1400px wide.</p></li>
-<li id="10.4.1.7"><aside class="number">10.4.1.7</aside><p>The viewbox height must <em>precisely fit the titlepage contents, plus 50px padding</em>.</p></li>
+<li id="10.4.2.3"><aside class="number">10.4.2.3</aside><p>Names of contributors besides the author are preceded by <code class="html">translated by</code> or <code class="html">illustrated by</code>. <code class="html">translated by</code> and <code class="html">illustrated by</code> are set in lowercase Sorts Mill Goudy Italic font.</p></li>
+<li id="10.4.2.4"><aside class="number">10.4.2.4</aside><p>Only the author, translator, and illustrator are on the titlepage. Other contributors like writers of introductions or annotators are not included.</p></li>
+<li id="10.4.2.5"><aside class="number">10.4.2.5</aside><p>The canvas has a padding area of 50px vertically and 100px horizontally in which text must not enter.</p></li>
+<li id="10.4.2.6"><aside class="number">10.4.2.6</aside><p>The viewbox width is exactly 1400px wide.</p></li>
+<li id="10.4.2.7"><aside class="number">10.4.2.7</aside><p>The viewbox height must <em>precisely fit the titlepage contents, plus 50px padding</em>.</p></li>
 </ol>
-<section id="10.4.1.8"><aside class="number">10.4.1.8</aside>
+<section id="10.4.2.8"><aside class="number">10.4.2.8</aside>
 <h4>Title line dimensions</h4>
 <ol type="1">
-<li id="10.4.1.8.1"><aside class="number">10.4.1.8.1</aside><p>Each title line is 80px tall.</p></li>
-<li id="10.4.1.8.2"><aside class="number">10.4.1.8.2</aside><p>The title is split into as many lines as necessary to fit.</p></li>
-<li id="10.4.1.8.3"><aside class="number">10.4.1.8.3</aside><p>Title lines are separated by a 20px margin between each line.</p></li>
+<li id="10.4.2.8.1"><aside class="number">10.4.2.8.1</aside><p>Each title line is 80px tall.</p></li>
+<li id="10.4.2.8.2"><aside class="number">10.4.2.8.2</aside><p>The title is split into as many lines as necessary to fit.</p></li>
+<li id="10.4.2.8.3"><aside class="number">10.4.2.8.3</aside><p>Title lines are separated by a 20px margin between each line.</p></li>
 </ol>
 </section>
-<section id="10.4.1.9"><aside class="number">10.4.1.9</aside>
+<section id="10.4.2.9"><aside class="number">10.4.2.9</aside>
 <h4>Author line dimensions</h4>
 <ol type="1">
-<li id="10.4.1.9.1"><aside class="number">10.4.1.9.1</aside><p>The first author line begins 100px below the last title line.</p></li>
-<li id="10.4.1.9.2"><aside class="number">10.4.1.9.2</aside><p>Each author line is 60px tall.</p></li>
-<li id="10.4.1.9.3"><aside class="number">10.4.1.9.3</aside><p>If an author line must be split, the next line begins 20px below the previous one.</p></li>
-<li id="10.4.1.9.4"><aside class="number">10.4.1.9.4</aside><p>For works with multiple authors, subsequent author lines begin 20px below the last author line.</p></li>
+<li id="10.4.2.9.1"><aside class="number">10.4.2.9.1</aside><p>The first author line begins 100px below the last title line.</p></li>
+<li id="10.4.2.9.2"><aside class="number">10.4.2.9.2</aside><p>Each author line is 60px tall.</p></li>
+<li id="10.4.2.9.3"><aside class="number">10.4.2.9.3</aside><p>If an author line must be split, the next line begins 20px below the previous one.</p></li>
+<li id="10.4.2.9.4"><aside class="number">10.4.2.9.4</aside><p>For works with multiple authors, subsequent author lines begin 20px below the last author line.</p></li>
 </ol>
 </section>
-<section id="10.4.1.10"><aside class="number">10.4.1.10</aside>
+<section id="10.4.2.10"><aside class="number">10.4.2.10</aside>
 <h4>Contributor lines dimensions</h4>
 <ol type="1">
-<li id="10.4.1.10.1"><aside class="number">10.4.1.10.1</aside><p>“Contributors” are a “contributor descriptor,” like <code class="html">translated by</code>, followed by the contributor name on a new line.</p></li>
-<li id="10.4.1.10.2"><aside class="number">10.4.1.10.2</aside><p>The first contributor descriptor line begins 150px below the last author line.</p></li>
-<li id="10.4.1.10.3"><aside class="number">10.4.1.10.3</aside><p>Contributor descriptor lines are 40px tall, all lowercase, in the Sorts Mill Goudy Italic font.</p></li>
-<li id="10.4.1.10.4"><aside class="number">10.4.1.10.4</aside><p>The contributor name begins 20px below the contributor descriptor line.</p></li>
-<li id="10.4.1.10.5"><aside class="number">10.4.1.10.5</aside><p>The contributor name is 40px tall, ALL CAPS, in the League Spartan font.</p></li>
-<li id="10.4.1.10.6"><aside class="number">10.4.1.10.6</aside><p>If there is more than one contributor of the same type (like multiple translators), they are listed on one line. If there are two, separate them with <code class="html">AND</code>. If there are more than two, separate them with commas, and <code class="html">AND</code> after the final comma. Example: <i><a href="/ebooks/hermann-hesse/siddhartha/gunther-olesch_anke-dreher_amy-coulter_stefan-langer_semyon-chaichenets">Siddhartha</a></i>, by Hermann Hesse.</p></li>
-<li id="10.4.1.10.7"><aside class="number">10.4.1.10.7</aside><p>If there is more than one contributor type (like both a translator and an illustrator), the next contributor descriptor begins 80px after the last contributor name.</p></li>
+<li id="10.4.2.10.1"><aside class="number">10.4.2.10.1</aside><p>“Contributors” are a “contributor descriptor,” like <code class="html">translated by</code>, followed by the contributor name on a new line.</p></li>
+<li id="10.4.2.10.2"><aside class="number">10.4.2.10.2</aside><p>The first contributor descriptor line begins 150px below the last author line.</p></li>
+<li id="10.4.2.10.3"><aside class="number">10.4.2.10.3</aside><p>Contributor descriptor lines are 40px tall, all lowercase, in the Sorts Mill Goudy Italic font.</p></li>
+<li id="10.4.2.10.4"><aside class="number">10.4.2.10.4</aside><p>The contributor name begins 20px below the contributor descriptor line.</p></li>
+<li id="10.4.2.10.5"><aside class="number">10.4.2.10.5</aside><p>The contributor name is 40px tall, ALL CAPS, in the League Spartan font.</p></li>
+<li id="10.4.2.10.6"><aside class="number">10.4.2.10.6</aside><p>If there is more than one contributor of the same type (like multiple translators), they are listed on one line. If there are two, separate them with <code class="html">AND</code>. If there are more than two, separate them with commas, and <code class="html">AND</code> after the final comma. Example: <i><a href="/ebooks/hermann-hesse/siddhartha/gunther-olesch_anke-dreher_amy-coulter_stefan-langer_semyon-chaichenets">Siddhartha</a></i>, by Hermann Hesse.</p></li>
+<li id="10.4.2.10.7"><aside class="number">10.4.2.10.7</aside><p>If there is more than one contributor type (like both a translator and an illustrator), the next contributor descriptor begins 80px after the last contributor name.</p></li>
 </ol>
 </section>
 </section>

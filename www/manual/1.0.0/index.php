@@ -10,6 +10,8 @@ require_once('Core.php');
 <p>If a rule is not covered in this manual, the directive is to follow the rules in the Chicago Manual of Style, 16th edition.</p>
 <p>These rules align closely with the style rules used in modern publishing. However, books from the turn of the 20th century and older may appear to follow a different set of rules. Producers are expected to adjust those older conventions to match this manual.</p>
 <p>Having said that, literature is a complex and multifaceted art, and in the process of converting older books some may call for a bending of a rule, or for an outright exception. Producers should not feel bound to slavishly follow these directives if a book seems to cry out for an exception. As Ralph Waldo Emerson once wrote, “a foolish consistency is the hobgoblin of little minds.” If unsure, producers are urged and welcomed to contact the <a href="https://groups.google.com/group/standardebooks/">Standard Ebooks Editor in Chief</a> for final-word guidance.</p>
+<p>Editor-in-chief: Alex Cabal</p>
+<p>Contributors (in alpha order): David Grigg, B. Timothy Keith, Vince Rice, Emma Sweeney, Robin Whittleton, Kenny Williams.</p>
 <section>
 <h2>Table of Contents</h2>
 <ol type="1">
@@ -18,8 +20,8 @@ require_once('Core.php');
 <li><p><a href="/manual/1.0.0/3-the-structure-of-an-ebook">The Structure of an Ebook</a></p></li>
 <li><p><a href="/manual/1.0.0/4-semantics">Semantics</a></p></li>
 <li><p><a href="/manual/1.0.0/5-general-xhtml-patterns">General XHTML Patterns</a></p></li>
-<li><p><a href="/manual/1.0.0/6-high-level-structural-patterns">High-Level Structural Patterns</a></p></li>
-<li><p><a href="/manual/1.0.0/7-table-of-contents-patterns">Table of Contents Patterns</a></p></li>
+<li><p><a href="/manual/1.0.0/6-standard-ebooks-section-patterns">Standard Ebooks Section Patterns</a></p></li>
+<li><p><a href="/manual/1.0.0/7-high-level-structural-patterns">High-Level Structural Patterns</a></p></li>
 <li><p><a href="/manual/1.0.0/8-typography">Typography</a></p></li>
 <li><p><a href="/manual/1.0.0/9-metadata">Metadata</a></p></li>
 <li><p><a href="/manual/1.0.0/10-art-and-images">Art and Images</a></p></li>
