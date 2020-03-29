@@ -1,5 +1,318 @@
 @import url("monokai.css");
 
+main code:first-child{
+	margin-top: 0;
+}
+
+code{
+	hyphens: none;
+}
+
+blockquote,
+figure.text{
+	background: rgba(255,255,255,.25);
+	border: 1px solid rgba(255,255,255,.25);
+	padding: 1rem;
+	border-radius: .25rem;
+}
+
+blockquote{
+	font-style: italic;
+}
+
+blockquote mark.error{
+	background: #CF4647;
+	padding: .2rem;
+}
+
+table{
+	width: 100%;
+	text-align: left;
+	margin-top: 1rem;
+}
+
+table code.full{
+	display: block;
+	white-space: normal !important;
+}
+
+table code.full{
+	white-space: pre-wrap !important;
+}
+
+table td{
+	vertical-align: top;
+	padding: 1rem;
+}
+
+table td:first-child{
+	width: 25%;
+}
+
+table td + td{
+	padding-left: 10px;
+}
+
+table p{
+	margin: 0;
+}
+
+table thead{
+	border-bottom: 3px double var(--sub-text);
+	font-weight: bold;
+}
+
+abbr{
+	white-space: nowrap;
+}
+
+abbr.acronym{
+	font-variant: all-small-caps;
+}
+
+abbr.temperature,
+abbr.era{
+	font-variant: all-small-caps;
+}
+
+h3 abbr.initialism{
+	font-variant: normal;
+}
+
+code.string,
+code.tag,
+code.path,
+code.program,
+code.bash,
+code.regex,
+code.html,
+code.xml,
+code.ietf,
+code.css,
+code.marc{
+	border: 1px solid rgba(255,255,255,.25);
+	background: #333;
+	border-radius: .25rem;
+	white-space: nowrap;
+	padding: 0 .25rem;
+	color: #fff;
+	margin: 0 .2rem;
+}
+
+figure code.xml,
+figure code.html,
+figure code.css{
+	padding: 1rem;
+	background: #333;
+	border: none;
+	text-align: left;
+	color: #fff !important; /* in case code highlighting fails */
+}
+
+code.xml.full,
+code.html.full,
+code.css.full{
+	border: none;
+	display: block;
+	padding: 1rem;
+	background: #333;
+	text-align: left;
+	color: #fff !important; /* in case code highlighting fails */
+}
+
+code.full{
+	margin-top: 1rem;
+	color: #fff !important; /* in case code highlighting fails */
+}
+
+code.full::before{
+	display: block;
+	border-bottom: 1px dashed var(--sub-text);
+	padding-bottom: .5rem;
+	margin-bottom: .5rem;
+	font-weight: bold;
+	line-height: 1;
+}
+
+code.xml.full::before{
+	content: 'XML';
+}
+
+code.html.full::before{
+	content: 'HTML';
+}
+
+code.css.full::before{
+	content: 'CSS';
+}
+
+code{
+	font-family: 'Source Code Pro', monospace;
+	font-size: .8rem;
+}
+
+code.terminal{
+	color: #fff;
+	background-color: #444;
+	font-family: 'Source Code Pro', monospace;
+	text-align: left;
+	padding: 1rem 1rem 1rem 3rem;
+	border-radius: .25rem;
+	position: relative;
+	display: block;
+	margin-top: 1rem;
+	overflow: auto;
+}
+
+code.terminal::before{
+	content: url('/images/terminal.svg');
+	height: 1rem;
+	width: 1rem;
+	top: 1.15rem;
+	left: 1rem;
+	position: absolute;
+}
+
+code.raw{
+	white-space: pre;
+}
+
+code.terminal span{
+	display: block;
+}
+
+code.terminal span::before{
+	margin-right: .5rem;
+	color: #56DA55;
+	font-weight: bold;
+	display: inline;
+}
+
+code.terminal > span::before{
+	content:'user@localhost>';
+}
+
+.utf{
+	border: 1px solid var(--body-text);
+	padding: .1rem;
+	line-height: 1;
+	margin: 0 .2rem;
+	display: inline-block;
+	font-family: monospace;
+	vertical-align: middle;
+	margin-top: -3px; /* to match poor crimson alignment */
+}
+
+figure code.html .utf,
+code.full .utf{
+	border-color: #fff;
+	margin-top: 0;
+}
+
+
+#producing-an-ebook > ol li::marker{
+	font-weight: bold;
+	font-family: 'League Spartan', sans-serif;
+}
+
+#producing-an-ebook > ol {
+	counter-reset: item;
+	margin-left: 0;
+	padding-left: 0;
+	list-style: none;
+}
+
+#producing-an-ebook > ol > li::before {
+	float: left;
+	content: counter(item) ".";
+	counter-increment: item;
+	width: 4rem;
+	text-align: right;
+	margin-left: -5.5rem;
+
+	font-size: 1.2rem;
+	font-family: 'League Spartan', sans-serif;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.warning{
+	font-size: 2rem;
+	font-weight: bold;
+	text-align: center;
+	font-style: normal;
+}
+
+figure p.wrong{
+	text-decoration-line: underline;
+	text-decoration-style: wavy;
+	text-decoration-color: #CF4647;
+}
+
+figure p.wrong:before,
+figure.wrong:before{
+	font-family: "FontAwesome";
+	content: "\f00d";
+	font-size: 1.5rem;
+	width: 1.5rem;
+	line-height: 1;
+	margin-right: .5rem;
+	color: #CF4647;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
+	display: inline-block;
+}
+
+figure p.corrected:before,
+figure.corrected:before{
+	font-family: "FontAwesome";
+	content: "\f00c";
+	font-size: 1.5rem;
+	line-height: 1;
+	margin-right: .5rem;
+	width: 1.5rem;
+	color: #79BD9A;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
+	display: inline-block;
+}
+
+figure.wrong:before,
+figure.corrected:before{
+	display: flex;
+	margin-right: 0;
+	align-self: stretch;
+	align-items: center;
+	justify-content: center;
+	padding: 0 .5rem;
+	border-top-left-radius: .25rem;
+	border-bottom-left-radius: .25rem;
+}
+
+figure.wrong:before{
+	background: #762729;
+}
+
+figure.corrected:before{
+	background: #406451;
+}
+
+figure.wrong code{
+	background: #550000 url('/images/stripes-dark.svg');
+}
+
+figure.wrong,
+figure.corrected{
+	display: flex;
+	align-items: center;
+}
+
+figure.wrong code,
+figure.corrected code{
+	flex-grow: 1;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
 .manual p{
 	text-align: left;
 }
@@ -132,8 +445,22 @@
 	margin-top: -3px; /* to match poor crimson alignment */
 }
 
-code.bash > span{
-	color: var(--dark-button-highlight);
+code.terminal b,
+code.bash b{
+	font-weight: normal;
+	color: #4a9906;
+}
+
+code.terminal i,
+code.bash i{
+	font-style: normal;
+	color: #c4a000;
+}
+
+code.terminal i.glob,
+code.bash i.glob{
+	font-style: normal;
+	color: #719ece;
 }
 
 figure code.html .ws,
@@ -189,6 +516,7 @@ main.manual > nav ol{
 	list-style: none;
 }
 
+figure code.xml,
 figure code.html,
 figure code.css{
 	white-space: pre;
@@ -221,7 +549,7 @@ figure code.css{
 	}
 
 	main.manual > article > section,
-	main.manual nav + h1{
+	main.manual nav + article h1{
 		margin-top: 0;
 	}
 
@@ -233,5 +561,16 @@ figure code.css{
 @media(max-width: 1000px){
 	main.manual > article{
 		margin-left: 2rem;
+	}
+}
+
+@media(prefers-color-scheme: dark){
+	blockquote,
+	figure.text{
+		background: rgba(0,0,0,.25);
+	}
+
+	code.terminal{
+		background-color: var(--light-body-text);
 	}
 }

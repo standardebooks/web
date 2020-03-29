@@ -14,7 +14,7 @@ require_once('Core.php');
 			<div>
 				<div>
 					<p>Other free ebooks don’t put much effort into professional-quality typography: they use "straight" quotes instead of “curly” quotes, they ignore details like em- and en-dashes, and they look more like early-90&rsquo;s web pages instead of actual books.</p>
-					<p>The Standard Ebooks project applies a rigorous and modern <a href="/contribute/typography">typography manual</a> when developing each and every ebook to ensure they meet a professional-grade and consistent typographical standard. Our ebooks look <em>good</em>.</p>
+					<p>The Standard Ebooks project applies a rigorous and modern <a href="/manual">style manual</a> when developing each and every ebook to ensure they meet a professional-grade and consistent typographical standard. Our ebooks look <em>good</em>.</p>
 				</div>
 				<figure class="stacked">
 					<img alt="An example of bad typography." class="bottom" src="/images/typography-bad.png"> <img alt="An example of Standard Ebooks typography." class="top" src="/images/typography-good.png"> <img alt="An arrow pointing from bad typography to good typography." class="arrow" src="/images/arrow-down.png">

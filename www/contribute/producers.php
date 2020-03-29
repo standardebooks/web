@@ -19,7 +19,7 @@ require_once('Core.php');
 				<p>Contact the <a href="https://groups.google.com/forum/#!forum/standardebooks">Standard Ebooks mailing list</a> to pitch the ebook you’ve selected, <em>before you begin production</em>.</p>
 			</li>
 			<li>
-				<p>Carefully review the entirety of the Standard Ebooks <a href="/contribute/typography">Typography Manual</a>, <a href="/contribute/semantics">Semantics Manual</a>, and <a href="/contribute/metadata">Metadata Manual</a>.</p>
+				<p>Carefully review the entirety of the <a href="/manual">Standard Ebooks Manual of Style</a>.</p>
 			<li>
 				<p>Once we’ve OK’d your selection and you’ve read the style manuals, you can get started! Follow the steps in our <a href="/contribute/producing-an-ebook-step-by-step">step-by-step guide to producing an ebook</a> to take your ebook from start to finish.</p>
 			</li>

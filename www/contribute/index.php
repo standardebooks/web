@@ -26,7 +26,7 @@ require_once('Core.php');
 			</ul>
 		</section>
 		<section id="editors-and-readers">
-			<h2>Editors and readers of existing ebooks</h2>
+			<h2>Readers of existing ebooks</h2>
 			<ul>
 				<li>
 					<p><a href="/contribute/report-errors">Report a typo, formatting error, or typography error in any Standard Ebook.</a></p>
@@ -35,7 +35,7 @@ require_once('Core.php');
 					<p><a href="/contribute/tips-for-editors-and-proofreaders">Tips for editors and proofreaders.</a></p>
 				</li>
 				<li>
-					<p><a href="/contribute/typography">The Standard Ebooks Typography Manual.</a></p>
+					<p><b><a href="/manual">The Standard Ebooks Manual of Style.</a></b></p>
 				</li>
 			</ul>
 		</section>
@@ -55,28 +55,16 @@ require_once('Core.php');
 					<p><a href="/contribute/producing-an-ebook-step-by-step">A technical step-by-step guide to producing a new ebook, from start to finish.</a></p>
 				</li>
 				<li>
-					<p><a href="/contribute/typography">The Standard Ebooks Typography Manual.</a></p>
-				</li>
-				<li>
-					<p><a href="/contribute/semantics">The Standard Ebooks XHTML Structure and Semantics Manual.</a></p>
-				</li>
-				<li>
-					<p><a href="/contribute/metadata">The Standard Ebooks Metadata Manual.</a></p>
-				</li>
-				<li>
-					<p><a href="/contribute/art">The Standard Ebooks Art Manual for cover art and titlepages.</a></p>
+					<p><b><a href="/manual">The Standard Ebooks Manual of Style.</a></b></p>
 				</li>
 				<li>
 					<p><a href="/contribute/a-basic-standard-ebooks-source-folder">Descriptions of the files in a fresh Standard Ebooks source folder.</a></p>
 				</li>
 				<li>
-					<p><a href="/contribute/toolset">Guidelines for contributing to the Standard Ebooks toolset.</a></p>
+					<p><a href="https://github.com/standardebooks/tools">The Standard Ebooks toolset on GitHub.</a></p>
 				</li>
 				<li>
 					<p><a href="https://github.com/standardebooks">All Standard Ebooks ebook source files on GitHub.</a></p>
-				</li>
-				<li>
-					<p><a href="https://github.com/standardebooks/tools">The Standard Ebooks toolset on GitHub.</a></p>
 				</li>
 			</ul>
 		</section>

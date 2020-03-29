@@ -16,10 +16,6 @@ if(!isset($manual)){
 	$manual = false;
 }
 
-if(!isset($js)){
-	$js = false;
-}
-
 ?><!doctype html>
 <html lang="en-US">
 <head>
@@ -40,11 +36,6 @@ if(!isset($js)){
 	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/rss/new-releases">
 	<link color="#394451" href="/safari-pinned-tab.svg" rel="mask-icon">
 	<meta content="#394451" name="theme-color">
-	<? if($js){ ?>
-	<link href="/js/highlight.js/styles/paraiso-dark.css" rel="stylesheet">
-	<script src="/js/highlight.js/highlight.pack.js"></script>
-	<script src="/js/core.js"></script>
-	<? } ?>
 	<meta content="<?= Formatter::ToPlainText($title) ?>" property="og:title">
 	<meta content="<?= $ogType ?? 'website' ?>" property="og:type">
 	<meta content="<?= SITE_URL . str_replace(SITE_URL, '', ($_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['SCRIPT_URI'] ?? '')) ?>" property="og:url">
