@@ -348,6 +348,11 @@ figure.corrected code{
 	font-size: 2rem;
 }
 
+.manual section[id] > aside.number a,
+.manual section[id] ol > li > aside.number a{
+	text-decoration: none;
+}
+
 .manual h1 + section > h2:first-child{
 	margin-top: 0;
 }

@@ -7,28 +7,28 @@ require_once('Core.php');
 <section id="1"><aside class="number">1</aside>
 <h1>XHTML, CSS, and SVG Code Style</h1>
 <p>The <code class="bash"><b>se</b> clean</code> tool in the <a href="https://github.com/standardebooks/tools">Standard Ebooks toolset</a> formats XHTML, CSS, and SVG code according to our style guidelines. The vast majority of the time its output is correct and no further modifications to code style are necessary.</p>
-<section id="1.1"><aside class="number">1.1</aside>
+<section id="1.1"><aside class="number"><a href="#1.1">1.1</a></aside>
 <h2>XHTML formatting</h2>
 <ol type="1">
-<li id="1.1.1"><aside class="number">1.1.1</aside><p>The first line of all XHTML files is:
+<li id="1.1.1"><aside class="number"><a href="#1.1.1">1.1.1</a></aside><p>The first line of all XHTML files is:
 					</p><figure><code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></code></figure>
 </li>
-<li id="1.1.2"><aside class="number">1.1.2</aside><p>The second line of all XHTML files is (replace <code class="html">xml:lang="en-US"</code> with the <a href="https://en.wikipedia.org/wiki/IETF_language_tag">appropriate language tag</a> for the file):
+<li id="1.1.2"><aside class="number"><a href="#1.1.2">1.1.2</a></aside><p>The second line of all XHTML files is (replace <code class="html">xml:lang="en-US"</code> with the <a href="https://en.wikipedia.org/wiki/IETF_language_tag">appropriate language tag</a> for the file):
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xmlns:epub</span><span class="o">=</span><span class="s">"http://www.idpf.org/2007/ops"</span> <span class="na">epub:prefix</span><span class="o">=</span><span class="s">"z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"en-US"</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="1.1.3"><aside class="number">1.1.3</aside><p>Tabs are used for indentation.</p></li>
-<li id="1.1.4"><aside class="number">1.1.4</aside><p>Tag names are lowercase.</p></li>
-<li id="1.1.5"><aside class="number">1.1.5</aside><p>Elements whose content is <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content">phrasing content</a> are on a single line, with no whitespace between the opening and closing tags and the content.
+<li id="1.1.3"><aside class="number"><a href="#1.1.3">1.1.3</a></aside><p>Tabs are used for indentation.</p></li>
+<li id="1.1.4"><aside class="number"><a href="#1.1.4">1.1.4</a></aside><p>Tag names are lowercase.</p></li>
+<li id="1.1.5"><aside class="number"><a href="#1.1.5">1.1.5</a></aside><p>Elements whose content is <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content">phrasing content</a> are on a single line, with no whitespace between the opening and closing tags and the content.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 	It was a dark and stormy night...
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>It was a dark and stormy night...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
-<section id="1.1.6"><aside class="number">1.1.6</aside>
+<section id="1.1.6"><aside class="number"><a href="#1.1.6">1.1.6</a></aside>
 <h3><code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements</h3>
 <ol type="1">
-<li id="1.1.6.1"><aside class="number">1.1.6.1</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements within <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content">phrasing content</a> are on the same line as the preceding phrasing content, and are followed by a newline.
+<li id="1.1.6.1"><aside class="number"><a href="#1.1.6.1">1.1.6.1</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements within <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content">phrasing content</a> are on the same line as the preceding phrasing content, and are followed by a newline.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Pray for the soul of the
 <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 Demoiselle Jeanne D’Ys.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
@@ -37,7 +37,7 @@ Demoiselle Jeanne D’Ys.<span class="p">&lt;/</span><span class="nt">p</span><s
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Pray for the soul of the<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 Demoiselle Jeanne D’Ys.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="1.1.6.2"><aside class="number">1.1.6.2</aside><p>The next indentation level after a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element is the same as the previous indentation level.
+<li id="1.1.6.2"><aside class="number"><a href="#1.1.6.2">1.1.6.2</a></aside><p>The next indentation level after a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element is the same as the previous indentation level.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Pray for the soul of the<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 	Demoiselle Jeanne D’Ys,<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 	who died<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
@@ -49,14 +49,14 @@ who died<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&g
 in her youth for love of<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 Philip, a Stranger.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="1.1.6.3"><aside class="number">1.1.6.3</aside><p>The closing tag of the phrasing content broken by a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element is on the same line as the last line of the phrasing content.
+<li id="1.1.6.3"><aside class="number"><a href="#1.1.6.3">1.1.6.3</a></aside><p>The closing tag of the phrasing content broken by a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element is on the same line as the last line of the phrasing content.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Pray for the soul of the<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 Demoiselle Jeanne D’Ys.
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Pray for the soul of the<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 Demoiselle Jeanne D’Ys.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="1.1.6.4"><aside class="number">1.1.6.4</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements have phrasing content both before and after; they don’t appear with phrasing content only before, or only after.
+<li id="1.1.6.4"><aside class="number"><a href="#1.1.6.4">1.1.6.4</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements have phrasing content both before and after; they don’t appear with phrasing content only before, or only after.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Pray for the soul of the<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 Demoiselle Jeanne D’Ys<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Pray for the soul of the<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
@@ -64,21 +64,21 @@ Demoiselle Jeanne D’Ys<span class="p">&lt;/</span><span class="nt">p</span><sp
 </li>
 </ol>
 </section>
-<section id="1.1.7"><aside class="number">1.1.7</aside>
+<section id="1.1.7"><aside class="number"><a href="#1.1.7">1.1.7</a></aside>
 <h3>Attributes</h3>
 <ol type="1">
-<li id="1.1.7.1"><aside class="number">1.1.7.1</aside><p>Attributes are in alphabetical order.</p></li>
-<li id="1.1.7.2"><aside class="number">1.1.7.2</aside><p>Attributes, their namespaces, and their values are lowercase, except for values which are IETF language tags. In IETF language tags, the language subtag is capitalized.
+<li id="1.1.7.1"><aside class="number"><a href="#1.1.7.1">1.1.7.1</a></aside><p>Attributes are in alphabetical order.</p></li>
+<li id="1.1.7.2"><aside class="number"><a href="#1.1.7.2">1.1.7.2</a></aside><p>Attributes, their namespaces, and their values are lowercase, except for values which are IETF language tags. In IETF language tags, the language subtag is capitalized.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">EPUB:TYPE</span><span class="o">=</span><span class="s">"CHAPTER"</span> <span class="na">XML:LANG</span><span class="o">=</span><span class="s">"EN-US"</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"chapter"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"en-US"</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="1.1.7.3"><aside class="number">1.1.7.3</aside><p>The string <code class="string">utf-8</code> is lowercase.</p></li>
+<li id="1.1.7.3"><aside class="number"><a href="#1.1.7.3">1.1.7.3</a></aside><p>The string <code class="string">utf-8</code> is lowercase.</p></li>
 </ol>
-<section id="1.1.7.4"><aside class="number">1.1.7.4</aside>
+<section id="1.1.7.4"><aside class="number"><a href="#1.1.7.4">1.1.7.4</a></aside>
 <h4>Classes</h4>
 <ol type="1">
-<li id="1.1.7.4.1"><aside class="number">1.1.7.4.1</aside><p>Classes are not used as one-time style hooks. There is almost always a clever selector that can be constructed instead of taking the shortcut of adding a class to an element.</p></li>
-<li id="1.1.7.4.2"><aside class="number">1.1.7.4.2</aside><p>Classes are named semantically, describing <em>what they are styling</em> instead of the <em>resulting visual style</em>.
+<li id="1.1.7.4.1"><aside class="number"><a href="#1.1.7.4.1">1.1.7.4.1</a></aside><p>Classes are not used as one-time style hooks. There is almost always a clever selector that can be constructed instead of taking the shortcut of adding a class to an element.</p></li>
+<li id="1.1.7.4.2"><aside class="number"><a href="#1.1.7.4.2">1.1.7.4.2</a></aside><p>Classes are named semantically, describing <em>what they are styling</em> instead of the <em>resulting visual style</em>.
 							</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>There was one great tomb more lordly than all the rest; huge it was, and nobly proportioned. On it was but one word<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">blockquote</span> <span class="na">class</span><span class="o">=</span><span class="s">"small-caps"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Dracula.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
@@ -92,20 +92,20 @@ Demoiselle Jeanne D’Ys<span class="p">&lt;/</span><span class="nt">p</span><sp
 </section>
 </section>
 </section>
-<section id="1.2"><aside class="number">1.2</aside>
+<section id="1.2"><aside class="number"><a href="#1.2">1.2</a></aside>
 <h2>CSS formatting</h2>
 <ol type="1">
-<li id="1.2.1"><aside class="number">1.2.1</aside><p>The first two lines of all CSS files are:
+<li id="1.2.1"><aside class="number"><a href="#1.2.1">1.2.1</a></aside><p>The first two lines of all CSS files are:
 					</p><figure><code class="css full"><span class="p">@</span><span class="k">charset</span> <span class="s2">"utf-8"</span><span class="p">;</span>
 <span class="p">@</span><span class="k">namespace</span> <span class="nt">epub</span> <span class="s2">"http://www.idpf.org/2007/ops"</span><span class="p">;</span></code></figure>
 </li>
-<li id="1.2.2"><aside class="number">1.2.2</aside><p>Tabs are used for indentation.</p></li>
-<li id="1.2.3"><aside class="number">1.2.3</aside><p>Selectors, properties, and values are lowercase.</p></li>
+<li id="1.2.2"><aside class="number"><a href="#1.2.2">1.2.2</a></aside><p>Tabs are used for indentation.</p></li>
+<li id="1.2.3"><aside class="number"><a href="#1.2.3">1.2.3</a></aside><p>Selectors, properties, and values are lowercase.</p></li>
 </ol>
-<section id="1.2.4"><aside class="number">1.2.4</aside>
+<section id="1.2.4"><aside class="number"><a href="#1.2.4">1.2.4</a></aside>
 <h3>Selectors</h3>
 <ol type="1">
-<li id="1.2.4.1"><aside class="number">1.2.4.1</aside><p>Selectors are each on their own line, directly followed by a comma or a brace with no whitespace in between.
+<li id="1.2.4.1"><aside class="number"><a href="#1.2.4.1">1.2.4.1</a></aside><p>Selectors are each on their own line, directly followed by a comma or a brace with no whitespace in between.
 						</p><figure class="wrong"><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">era</span><span class="o">,</span> <span class="p">.</span><span class="nc">signature</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
@@ -114,7 +114,7 @@ Demoiselle Jeanne D’Ys<span class="p">&lt;/</span><span class="nt">p</span><sp
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="1.2.4.2"><aside class="number">1.2.4.2</aside><p>Complete selectors are separated by exactly one blank line.
+<li id="1.2.4.2"><aside class="number"><a href="#1.2.4.2">1.2.4.2</a></aside><p>Complete selectors are separated by exactly one blank line.
 						</p><figure class="wrong"><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">era</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
 <span class="p">}</span>
@@ -133,22 +133,22 @@ Demoiselle Jeanne D’Ys<span class="p">&lt;/</span><span class="nt">p</span><sp
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="1.2.4.3"><aside class="number">1.2.4.3</aside><p>Closing braces are on their own line.</p></li>
+<li id="1.2.4.3"><aside class="number"><a href="#1.2.4.3">1.2.4.3</a></aside><p>Closing braces are on their own line.</p></li>
 </ol>
 </section>
-<section id="1.2.5"><aside class="number">1.2.5</aside>
+<section id="1.2.5"><aside class="number"><a href="#1.2.5">1.2.5</a></aside>
 <h3>Properties</h3>
 <ol type="1">
-<li id="1.2.5.1"><aside class="number">1.2.5.1</aside><p>Properties are each on their own line (even if the selector only has one property) and indented with a single tab.
+<li id="1.2.5.1"><aside class="number"><a href="#1.2.5.1">1.2.5.1</a></aside><p>Properties are each on their own line (even if the selector only has one property) and indented with a single tab.
 						</p><figure class="wrong"><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">era</span><span class="p">{</span> <span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span> <span class="p">}</span></code></figure>
 <figure class="corrected"><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">era</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="1.2.5.2"><aside class="number">1.2.5.2</aside><p><em>Where possible</em>, properties are in alphabetical order.
+<li id="1.2.5.2"><aside class="number"><a href="#1.2.5.2">1.2.5.2</a></aside><p><em>Where possible</em>, properties are in alphabetical order.
 						</p><p>This isn’t always possible if a property is attempting to override a previous property in the same selector, and in some other cases.</p>
 </li>
-<li id="1.2.5.3"><aside class="number">1.2.5.3</aside><p>Properties are directly followed by a colon, then a single space, then the property value.
+<li id="1.2.5.3"><aside class="number"><a href="#1.2.5.3">1.2.5.3</a></aside><p>Properties are directly followed by a colon, then a single space, then the property value.
 						</p><figure class="wrong"><code class="css full"><span class="nt">blockquote</span><span class="p">{</span>
 	<span class="k">margin-left</span><span class="p">:</span>	<span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
 	<span class="k">margin-right</span><span class="p">:</span>   <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
@@ -160,7 +160,7 @@ Demoiselle Jeanne D’Ys<span class="p">&lt;/</span><span class="nt">p</span><sp
 	<span class="k">border</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="1.2.5.4"><aside class="number">1.2.5.4</aside><p>Property values are directly followed by a semicolon, even if it’s the last value in a selector.
+<li id="1.2.5.4"><aside class="number"><a href="#1.2.5.4">1.2.5.4</a></aside><p>Property values are directly followed by a semicolon, even if it’s the last value in a selector.
 						</p><figure class="wrong"><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">era</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span>
 <span class="p">}</span></code></figure>
@@ -171,17 +171,17 @@ Demoiselle Jeanne D’Ys<span class="p">&lt;/</span><span class="nt">p</span><sp
 </ol>
 </section>
 </section>
-<section id="1.3"><aside class="number">1.3</aside>
+<section id="1.3"><aside class="number"><a href="#1.3">1.3</a></aside>
 <h2>SVG Formatting</h2>
 <ol type="1">
-<li id="1.3.1"><aside class="number">1.3.1</aside><p>SVG formatting follows the same directives as <a href="/manual/1.0.0/1-code-style#1.1">XHTML formatting</a>.</p></li>
+<li id="1.3.1"><aside class="number"><a href="#1.3.1">1.3.1</a></aside><p>SVG formatting follows the same directives as <a href="/manual/1.0.0/1-code-style#1.1">XHTML formatting</a>.</p></li>
 </ol>
 </section>
-<section id="1.4"><aside class="number">1.4</aside>
+<section id="1.4"><aside class="number"><a href="#1.4">1.4</a></aside>
 <h2>Commits and Commit Messages</h2>
 <ol type="1">
-<li id="1.4.1"><aside class="number">1.4.1</aside><p>Commits are broken into single units of work. A single unit of work may be, for example, "fixing typos across 10 files", or "adding cover art", or "working on metadata".</p></li>
-<li id="1.4.2"><aside class="number">1.4.2</aside><p>Commits that introduce material changes to the ebook text (for example modernizing spelling or fixing a probable printer’s typo; but not fixing a transcriber’s typo) are prefaced with the string <code class="string">[Editorial]</code>, followed by a space, then the commit message. This makes it easy to search the repo history for commits that make editorial changes to the work.</p></li>
+<li id="1.4.1"><aside class="number"><a href="#1.4.1">1.4.1</a></aside><p>Commits are broken into single units of work. A single unit of work may be, for example, "fixing typos across 10 files", or "adding cover art", or "working on metadata".</p></li>
+<li id="1.4.2"><aside class="number"><a href="#1.4.2">1.4.2</a></aside><p>Commits that introduce material changes to the ebook text (for example modernizing spelling or fixing a probable printer’s typo; but not fixing a transcriber’s typo) are prefaced with the string <code class="string">[Editorial]</code>, followed by a space, then the commit message. This makes it easy to search the repo history for commits that make editorial changes to the work.</p></li>
 </ol>
 </section>
 </section>

@@ -6,81 +6,81 @@ require_once('Core.php');
 
 <section id="8"><aside class="number">8</aside>
 <h1>Typography</h1>
-<section id="8.1"><aside class="number">8.1</aside>
+<section id="8.1"><aside class="number"><a href="#8.1">8.1</a></aside>
 <h2>Section titles and ordinals</h2>
 <ol type="1">
-<li id="8.1.1"><aside class="number">8.1.1</aside><p>Section ordinals in the body text are set in Roman numerals.</p></li>
-<li id="8.1.2"><aside class="number">8.1.2</aside><p>Section ordinals in a file’s <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element are set in Arabic numerals.
+<li id="8.1.1"><aside class="number"><a href="#8.1.1">8.1.1</a></aside><p>Section ordinals in the body text are set in Roman numerals.</p></li>
+<li id="8.1.2"><aside class="number"><a href="#8.1.2">8.1.2</a></aside><p>Section ordinals in a file’s <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element are set in Arabic numerals.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Chapter VII<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Chapter 7<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.1.3"><aside class="number">8.1.3</aside><p>Section titles are titlecased according to the output of <code class="bash"><b>se</b> titlecase</code>. Section titles are <em>not</em> all-caps or small-caps.</p></li>
-<li id="8.1.4"><aside class="number">8.1.4</aside><p>Section titles do not have trailing periods.</p></li>
-<li id="8.1.5"><aside class="number">8.1.5</aside><p>Chapter titles omit the word <code class="string">Chapter</code>, unless the word used is a stylistic choice for prose style purposes. Chapters with unique identifiers (i.e. not <code class="string">Chapter</code>, but something unique to the style of the book, like <code class="string">Book</code> or <code class="string">Stave</code>) <em>do</em> include that unique identifier in the title.
+<li id="8.1.3"><aside class="number"><a href="#8.1.3">8.1.3</a></aside><p>Section titles are titlecased according to the output of <code class="bash"><b>se</b> titlecase</code>. Section titles are <em>not</em> all-caps or small-caps.</p></li>
+<li id="8.1.4"><aside class="number"><a href="#8.1.4">8.1.4</a></aside><p>Section titles do not have trailing periods.</p></li>
+<li id="8.1.5"><aside class="number"><a href="#8.1.5">8.1.5</a></aside><p>Chapter titles omit the word <code class="string">Chapter</code>, unless the word used is a stylistic choice for prose style purposes. Chapters with unique identifiers (i.e. not <code class="string">Chapter</code>, but something unique to the style of the book, like <code class="string">Book</code> or <code class="string">Stave</code>) <em>do</em> include that unique identifier in the title.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Chapter <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>II<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title z3998:roman"</span><span class="p">&gt;</span>II<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Stave <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>III<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code></figure>
-<p>In special cases it may be desirable to retain <code class="string">Chapter</code> for clarity. For example, <a href="/ebooks/mary-shelley/frankenstein/">Frankenstein</a> has “Chapter” in titles to differentiate between the “Letter” sections.</p>
+<p>In special cases it may be desirable to retain <code class="string">Chapter</code> for clarity. For example, <i><a href="/ebooks/mary-shelley/frankenstein/">Frankenstein</a></i> has “Chapter” in titles to differentiate between the “Letter” sections.</p>
 </li>
 </ol>
 </section>
-<section id="8.2"><aside class="number">8.2</aside>
+<section id="8.2"><aside class="number"><a href="#8.2">8.2</a></aside>
 <h2>Italics</h2>
 <ol type="1">
-<li id="8.2.1"><aside class="number">8.2.1</aside><p>Using both italics <em>and</em> quotes (outside of the context of quoted dialog) is usually not necessary. Either one or the other is used, with rare exceptions.</p></li>
-<li id="8.2.2"><aside class="number">8.2.2</aside><p>Words and phrases that require emphasis are italicized with the <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> element.
+<li id="8.2.1"><aside class="number"><a href="#8.2.1">8.2.1</a></aside><p>Using both italics <em>and</em> quotes (outside of the context of quoted dialog) is usually not necessary. Either one or the other is used, with rare exceptions.</p></li>
+<li id="8.2.2"><aside class="number"><a href="#8.2.2">8.2.2</a></aside><p>Words and phrases that require emphasis are italicized with the <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Perhaps <span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>he<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span> was there,” Raoul said, at last.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.3"><aside class="number">8.2.3</aside><p>Strong emphasis, like shouting, may be set in small caps with the <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> element.
+<li id="8.2.3"><aside class="number"><a href="#8.2.3">8.2.3</a></aside><p>Strong emphasis, like shouting, may be set in small caps with the <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Can’t<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> I?” screamed the unhappy creature to himself.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.4"><aside class="number">8.2.4</aside><p>When a short phrase within a longer clause is italicized, trailing punctuation that may belong to the containing clause is not italicized.
+<li id="8.2.4"><aside class="number"><a href="#8.2.4">8.2.4</a></aside><p>When a short phrase within a longer clause is italicized, trailing punctuation that may belong to the containing clause is not italicized.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Look at <span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>that!<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>” she shouted.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Look at <span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>that<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>!” she shouted.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.5"><aside class="number">8.2.5</aside><p>When an entire clause is italicized, trailing punctuation <em>is</em> italicized, <em>unless</em> that trailing punctuation is a comma at the end of dialog.
+<li id="8.2.5"><aside class="number"><a href="#8.2.5">8.2.5</a></aside><p>When an entire clause is italicized, trailing punctuation <em>is</em> italicized, <em>unless</em> that trailing punctuation is a comma at the end of dialog.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>Charge!<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>” she shouted.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span>But I want to<span class="p">&lt;/</span><span class="nt">em</span><span class="p">&gt;</span>,” she said.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.6"><aside class="number">8.2.6</aside><p>Words written to be read as sounds are italicized with <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code>.
+<li id="8.2.6"><aside class="number"><a href="#8.2.6">8.2.6</a></aside><p>Words written to be read as sounds are italicized with <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code>.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He could hear the dog barking: <span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span>Ruff, ruff, ruff!<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
-<section id="8.2.7"><aside class="number">8.2.7</aside>
+<section id="8.2.7"><aside class="number"><a href="#8.2.7">8.2.7</a></aside>
 <h3>Italicizing individual letters</h3>
 <ol type="1">
-<li id="8.2.7.1"><aside class="number">8.2.7.1</aside><p>Individual letters that are read as referring to letters in the alphabet are italicized with the <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="8.2.7.1"><aside class="number"><a href="#8.2.7.1">8.2.7.1</a></aside><p>Individual letters that are read as referring to letters in the alphabet are italicized with the <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> element.</p></li>
 </ol>
 <blockquote>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He often rolled his <span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span>r<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>’s.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </blockquote>
 <ol type="1">
-<li id="8.2.7.2"><aside class="number">8.2.7.2</aside><p>Individual letters that are read as referring names or the shape of the letterform are <em>not</em> italicized.
+<li id="8.2.7.2"><aside class="number"><a href="#8.2.7.2">8.2.7.2</a></aside><p>Individual letters that are read as referring names or the shape of the letterform are <em>not</em> italicized.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>...due to the loss of what is known in New England as the “L”: that long deep roofed adjunct usually built at right angles to the main house...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>She was learning her A B Cs.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>His trident had the shape of an E.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.7.3"><aside class="number">8.2.7.3</aside><p>The ordinal <code class="string">nth</code> is set with an italicized <code class="string">n</code>, and without a hyphen.
+<li id="8.2.7.3"><aside class="number"><a href="#8.2.7.3">8.2.7.3</a></aside><p>The ordinal <code class="string">nth</code> is set with an italicized <code class="string">n</code>, and without a hyphen.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The <span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span>n<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>th degree.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.2.8"><aside class="number">8.2.8</aside>
+<section id="8.2.8"><aside class="number"><a href="#8.2.8">8.2.8</a></aside>
 <h3>Italicizing non-English words and phrases</h3>
 <ol type="1">
-<li id="8.2.8.1"><aside class="number">8.2.8.1</aside><p>Non-English words and phrases that are not in <a href="https://www.merriam-webster.com">Merriam-Webster</a> are italicized.
+<li id="8.2.8.1"><aside class="number"><a href="#8.2.8.1">8.2.8.1</a></aside><p>Non-English words and phrases that are not in <a href="https://www.merriam-webster.com">Merriam-Webster</a> are italicized.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The <span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"fr"</span><span class="p">&gt;</span>corps de ballet<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span> was flung into consternation.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.8.2"><aside class="number">8.2.8.2</aside><p>Non-English words that are proper names, or are in proper names, are not italicized, unless the name itself would be italicized according to the rules for italicizing or quoting names and titles. Such words are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANGUAGE"</span><span class="p">&gt;</span></code> element, to assist screen readers with pronunciation.
+<li id="8.2.8.2"><aside class="number"><a href="#8.2.8.2">8.2.8.2</a></aside><p>Non-English words that are proper names, or are in proper names, are not italicized, unless the name itself would be italicized according to the rules for italicizing or quoting names and titles. Such words are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANGUAGE"</span><span class="p">&gt;</span></code> element, to assist screen readers with pronunciation.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>She got off the metro at the <span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"fr"</span><span class="p">&gt;</span>Place de Clichy<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span> stop, next to the <span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"fr"</span><span class="p">&gt;</span>Le Bon Petit Déjeuner restaurant<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"fr"</span><span class="p">&gt;</span>Où est le métro?<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>” he asked, and she pointed to <span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"fr"</span><span class="p">&gt;</span>Place de Clichy<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>, next to the <span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"fr"</span><span class="p">&gt;</span>Le Bon Petit Déjeuner<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> restaurant.</code></figure>
 </li>
-<li id="8.2.8.3"><aside class="number">8.2.8.3</aside><p>If certain non-English words are used so frequently in the text that italicizing them at each instance would be distracting to the reader, then only the first instance is italicized. Subsequent instances are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANGUAGE"</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="8.2.8.4"><aside class="number">8.2.8.4</aside><p>Words and phrases that are originally non-English in origin, but that can now be found in <a href="https://www.merriam-webster.com">Merriam-Webster</a>, are not italicized.
+<li id="8.2.8.3"><aside class="number"><a href="#8.2.8.3">8.2.8.3</a></aside><p>If certain non-English words are used so frequently in the text that italicizing them at each instance would be distracting to the reader, then only the first instance is italicized. Subsequent instances are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANGUAGE"</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="8.2.8.4"><aside class="number"><a href="#8.2.8.4">8.2.8.4</a></aside><p>Words and phrases that are originally non-English in origin, but that can now be found in <a href="https://www.merriam-webster.com">Merriam-Webster</a>, are not italicized.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Sir Percy’s bon mot had gone the round of the brilliant reception-rooms.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.8.5"><aside class="number">8.2.8.5</aside><p>Inline-level italics are set using the <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> element with an <code class="html"><span class="na">xml:lang</span></code> attribute corresponding to the correct <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a>.</p></li>
-<li id="8.2.8.6"><aside class="number">8.2.8.6</aside><p>Block-level italics are set using an <code class="html"><span class="na">xml:lang</span></code> attribute on the closest encompassing block element, with the style of <code class="css"><span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span></code>.
+<li id="8.2.8.5"><aside class="number"><a href="#8.2.8.5">8.2.8.5</a></aside><p>Inline-level italics are set using the <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> element with an <code class="html"><span class="na">xml:lang</span></code> attribute corresponding to the correct <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a>.</p></li>
+<li id="8.2.8.6"><aside class="number"><a href="#8.2.8.6">8.2.8.6</a></aside><p>Block-level italics are set using an <code class="html"><span class="na">xml:lang</span></code> attribute on the closest encompassing block element, with the style of <code class="css"><span class="nt">font-style</span><span class="o">:</span> <span class="nt">italic</span></code>.
 						</p><p>In this example, note the additional namespace declaration, and that we target <em>descendants</em> of the <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element; otherwise, the entire <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element would receive italics!</p>
 <figure><code class="css full"><span class="p">@</span><span class="k">namespace</span> <span class="nt">xml</span> <span class="s2">"http://www.w3.org/XML/1998/namespace"</span><span class="p">;</span>
 
@@ -97,37 +97,37 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.8.7"><aside class="number">8.2.8.7</aside><p>Words that are in a non-English “alien” language (i.e. one that is made up, like in a science fiction or fantasy work) are italicized and given an IETF languate tag in a custom namespace. Custom namespaces begin consist of <code class="bash"><span class="s">x-TAG</span></code>, where <code class="bash"><span class="s">TAG</span></code> is a custom descriptor of 8 characters or less.</p></li>
+<li id="8.2.8.7"><aside class="number"><a href="#8.2.8.7">8.2.8.7</a></aside><p>Words that are in a non-English “alien” language (i.e. one that is made up, like in a science fiction or fantasy work) are italicized and given an IETF languate tag in a custom namespace. Custom namespaces begin consist of <code class="bash"><span class="s">x-TAG</span></code>, where <code class="bash"><span class="s">TAG</span></code> is a custom descriptor of 8 characters or less.</p></li>
 </ol>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"x-arcturan"</span><span class="p">&gt;</span>Dolm<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>,” said Haunte.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </section>
-<section id="8.2.9"><aside class="number">8.2.9</aside>
+<section id="8.2.9"><aside class="number"><a href="#8.2.9">8.2.9</a></aside>
 <h3>Italicizing or quoting newly-used English words</h3>
 <ol type="1">
-<li id="8.2.9.1"><aside class="number">8.2.9.1</aside><p>When introducing new terms, non-English or technical terms are italicized, but terms composed of common English are set in quotation marks.
+<li id="8.2.9.1"><aside class="number"><a href="#8.2.9.1">8.2.9.1</a></aside><p>When introducing new terms, non-English or technical terms are italicized, but terms composed of common English are set in quotation marks.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>English whalers have given this the name “ice blink.”<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The soil consisted of that igneous gravel called <span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span>tuff<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.9.2"><aside class="number">8.2.9.2</aside><p>English neologisms in works where a special vocabulary is a regular part of the narrative are not italicized. For example science fiction works may necessarily contain made-up English technology words, and those are not italicized.</p></li>
+<li id="8.2.9.2"><aside class="number"><a href="#8.2.9.2">8.2.9.2</a></aside><p>English neologisms in works where a special vocabulary is a regular part of the narrative are not italicized. For example science fiction works may necessarily contain made-up English technology words, and those are not italicized.</p></li>
 </ol>
 </section>
-<section id="8.2.10"><aside class="number">8.2.10</aside>
+<section id="8.2.10"><aside class="number"><a href="#8.2.10">8.2.10</a></aside>
 <h3>Italics in names and titles</h3>
 <ol type="1">
-<li id="8.2.10.1"><aside class="number">8.2.10.1</aside><p>Place names, like pubs, bars, or buildings, are not quoted.</p></li>
-<li id="8.2.10.2"><aside class="number">8.2.10.2</aside><p>The names of publications, music, and art that can stand alone are italicized; additionally, the names of transport vessels are italicized. These include, but are not limited to:
+<li id="8.2.10.1"><aside class="number"><a href="#8.2.10.1">8.2.10.1</a></aside><p>Place names, like pubs, bars, or buildings, are not quoted.</p></li>
+<li id="8.2.10.2"><aside class="number"><a href="#8.2.10.2">8.2.10.2</a></aside><p>The names of publications, music, and art that can stand alone are italicized; additionally, the names of transport vessels are italicized. These include, but are not limited to:
 						</p><ul>
 <li><p>Periodicals like magazines, newspapers, and journals.</p></li>
 <li><p>Publications like books, novels, plays, and pamphlets, <em>except</em> “holy texts,” like the Bible or books within the Bible.</p></li>
-<li><p>Long poems and ballads, like the <a href="/ebooks/homer/the-iliad/william-cullen-bryant">Iliad</a>, that are book-length.</p></li>
+<li><p>Long poems and ballads, like the <i><a href="/ebooks/homer/the-iliad/william-cullen-bryant">Iliad</a></i>, that are book-length.</p></li>
 <li><p>Long musical compositions or audio, like operas, music albums, or radio shows.</p></li>
 <li><p>Long visual art, like films or a TV show series.</p></li>
 <li><p>Visual art, like paintings or sculptures.</p></li>
 <li><p>Transport vessels, like ships.</p></li>
 </ul>
 </li>
-<li id="8.2.10.3"><aside class="number">8.2.10.3</aside><p>The names of short publications, music, or art, that cannot stand alone and are typically part of a larger collection or work, are quoted. These include, but are not limited to:
+<li id="8.2.10.3"><aside class="number"><a href="#8.2.10.3">8.2.10.3</a></aside><p>The names of short publications, music, or art, that cannot stand alone and are typically part of a larger collection or work, are quoted. These include, but are not limited to:
 						</p><ul>
 <li><p>Short musical compositions or audio, like pop songs, arias, or an episode in a radio series.</p></li>
 <li><p>Short prose like novellas, shot stories, or short (i.e. not epic) poems.</p></li>
@@ -143,49 +143,49 @@ require_once('Core.php');
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He read <span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:name.publication.book"</span><span class="p">&gt;</span>Candide<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span> while having a pint at the King’s Head.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </section>
 </section>
-<section id="8.2.11"><aside class="number">8.2.11</aside>
+<section id="8.2.11"><aside class="number"><a href="#8.2.11">8.2.11</a></aside>
 <h3>Taxonomy</h3>
 <ol type="1">
-<li id="8.2.11.1"><aside class="number">8.2.11.1</aside><p>Binomial names (generic, specific, and subspecific) are italicized with a <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> element having the <code class="bash"><span class="s">z3998:taxonomy</span></code> semantic inflection.
+<li id="8.2.11.1"><aside class="number"><a href="#8.2.11.1">8.2.11.1</a></aside><p>Binomial names (generic, specific, and subspecific) are italicized with a <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> element having the <code class="bash"><span class="s">z3998:taxonomy</span></code> semantic inflection.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>A bonobo monkey is <span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:taxonomy"</span><span class="p">&gt;</span>Pan paniscus<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.11.2"><aside class="number">8.2.11.2</aside><p>Family, order, class, phylum or division, and kingdom names are capitalized but not italicized.
+<li id="8.2.11.2"><aside class="number"><a href="#8.2.11.2">8.2.11.2</a></aside><p>Family, order, class, phylum or division, and kingdom names are capitalized but not italicized.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>A bonobo monkey is in the phylum Chordata, class Mammalia, order Primates.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.2.11.3"><aside class="number">8.2.11.3</aside><p>If a taxonomic name is the same as the common name, it is not italicized.</p></li>
-<li id="8.2.11.4"><aside class="number">8.2.11.4</aside><p>The second part of the binomial name follows the capitalization style of the source text. Modern usage requires lowercase, but older texts may set it in uppercase.</p></li>
+<li id="8.2.11.3"><aside class="number"><a href="#8.2.11.3">8.2.11.3</a></aside><p>If a taxonomic name is the same as the common name, it is not italicized.</p></li>
+<li id="8.2.11.4"><aside class="number"><a href="#8.2.11.4">8.2.11.4</a></aside><p>The second part of the binomial name follows the capitalization style of the source text. Modern usage requires lowercase, but older texts may set it in uppercase.</p></li>
 </ol>
 </section>
 </section>
-<section id="8.3"><aside class="number">8.3</aside>
+<section id="8.3"><aside class="number"><a href="#8.3">8.3</a></aside>
 <h2>Capitalization</h2>
 <ol type="1">
-<li id="8.3.1"><aside class="number">8.3.1</aside><p>In general, capitalization follows modern English style. Some very old works frequently capitalize nouns that today are no longer capitalized. These archaic capitalizations are removed, unless doing so would change the meaning of the work.</p></li>
-<li id="8.3.2"><aside class="number">8.3.2</aside><p>Titlecasing, or the capitalization of titles, follows the formula used in the <code class="bash"><b>se</b> titlecase</code> tool.</p></li>
-<li id="8.3.3"><aside class="number">8.3.3</aside><p>Text in all caps is almost never correct typography. Instead, such text is changed to the correct case and surround with a semantically-meaningful element like <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> (for emphasis), <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> (for strong emphasis, like shouting) or <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> (for unsemantic formatting required by the text). <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> and <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> are styled in small-caps by default in Standard Ebooks.
+<li id="8.3.1"><aside class="number"><a href="#8.3.1">8.3.1</a></aside><p>In general, capitalization follows modern English style. Some very old works frequently capitalize nouns that today are no longer capitalized. These archaic capitalizations are removed, unless doing so would change the meaning of the work.</p></li>
+<li id="8.3.2"><aside class="number"><a href="#8.3.2">8.3.2</a></aside><p>Titlecasing, or the capitalization of titles, follows the formula used in the <code class="bash"><b>se</b> titlecase</code> tool.</p></li>
+<li id="8.3.3"><aside class="number"><a href="#8.3.3">8.3.3</a></aside><p>Text in all caps is almost never correct typography. Instead, such text is changed to the correct case and surround with a semantically-meaningful element like <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> (for emphasis), <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> (for strong emphasis, like shouting) or <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> (for unsemantic formatting required by the text). <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> and <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> are styled in small-caps by default in Standard Ebooks.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The sign read BOB’S RESTAURANT.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“CHARGE!” he cried.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The sign read <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>Bob’s Restaurant<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Charge!<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span>” he cried.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.3.4"><aside class="number">8.3.4</aside><p>When something is addressed as an <a href="https://www.merriam-webster.com/dictionary/apostrophe#dictionary-entry-2">apostrophe</a>, <code class="string">O</code> is capitalized.
+<li id="8.3.4"><aside class="number"><a href="#8.3.4">8.3.4</a></aside><p>When something is addressed as an <a href="https://www.merriam-webster.com/dictionary/apostrophe#dictionary-entry-2">apostrophe</a>, <code class="string">O</code> is capitalized.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I carried the bodies into the sea, O walker in the sea!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.4"><aside class="number">8.4</aside>
+<section id="8.4"><aside class="number"><a href="#8.4">8.4</a></aside>
 <h2>Indentation</h2>
 <ol type="1">
-<li id="8.4.1"><aside class="number">8.4.1</aside><p>Paragraphs that directly follow another paragraph are indented by 1em.</p></li>
-<li id="8.4.2"><aside class="number">8.4.2</aside><p>The first line of body text in a section, or any text following a visible break in text flow (like a header, a scene break, a figure, a block quotation, etc.), is not indented.
+<li id="8.4.1"><aside class="number"><a href="#8.4.1">8.4.1</a></aside><p>Paragraphs that directly follow another paragraph are indented by 1em.</p></li>
+<li id="8.4.2"><aside class="number"><a href="#8.4.2">8.4.2</a></aside><p>The first line of body text in a section, or any text following a visible break in text flow (like a header, a scene break, a figure, a block quotation, etc.), is not indented.
 					</p><p>For example: in a block quotation, there is a margin before the quotation and after the quotation. Thus, the first line of the quotation is not indented, and the first line of body text after the block quotation is also not indented.</p>
 </li>
 </ol>
 </section>
-<section id="8.5"><aside class="number">8.5</aside>
+<section id="8.5"><aside class="number"><a href="#8.5">8.5</a></aside>
 <h2>Chapter headers</h2>
 <ol type="1">
-<li id="8.5.1"><aside class="number">8.5.1</aside><p>Epigraphs in chapters have the quote source set in small caps, without a leading em-dash and without a trailing period.
+<li id="8.5.1"><aside class="number"><a href="#8.5.1">8.5.1</a></aside><p>Epigraphs in chapters have the quote source set in small caps, without a leading em-dash and without a trailing period.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title z3998:roman"</span><span class="p">&gt;</span>II<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">blockquote</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"epigraph"</span><span class="p">&gt;</span>
@@ -206,7 +206,7 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="8.6"><aside class="number">8.6</aside>
+<section id="8.6"><aside class="number"><a href="#8.6">8.6</a></aside>
 <h2>Ligatures</h2>
 <p>Ligatures are two or more letters that are combined into a single letter, usually for stylistic purposes. In general they are not used, and are replaced with their respective characters.</p>
 <blockquote>
@@ -216,178 +216,178 @@ require_once('Core.php');
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Archaeology<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </blockquote>
 </section>
-<section id="8.7"><aside class="number">8.7</aside>
+<section id="8.7"><aside class="number"><a href="#8.7">8.7</a></aside>
 <h2>Punctuation and spacing</h2>
 <ol type="1">
-<li id="8.7.1"><aside class="number">8.7.1</aside><p>Sentences are single-spaced.</p></li>
-<li id="8.7.2"><aside class="number">8.7.2</aside><p>Periods and commas are placed within quotation marks; i.e. American-style punctuation is used, not logical (AKA “British” or “new”) style.
+<li id="8.7.1"><aside class="number"><a href="#8.7.1">8.7.1</a></aside><p>Sentences are single-spaced.</p></li>
+<li id="8.7.2"><aside class="number"><a href="#8.7.2">8.7.2</a></aside><p>Periods and commas are placed within quotation marks; i.e. American-style punctuation is used, not logical (AKA “British” or “new”) style.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Bosinney ventured: “It’s the first spring day”.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Bosinney ventured: “It’s the first spring day.”<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.3"><aside class="number">8.7.3</aside><p>Ampersands in names of things, like firms, are surrounded by no-break spaces (<span class="utf"> </span> or U+00A0).
+<li id="8.7.3"><aside class="number"><a href="#8.7.3">8.7.3</a></aside><p>Ampersands in names of things, like firms, are surrounded by no-break spaces (<span class="utf"> </span> or U+00A0).
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The firm of Hawkins<span class="ws">nbsp</span><span class="ni">&amp;amp;</span><span class="ws">nbsp</span>Harker.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.4"><aside class="number">8.7.4</aside><p>Some older works include spaces in common contractions; these spaces are removed.
+<li id="8.7.4"><aside class="number"><a href="#8.7.4">8.7.4</a></aside><p>Some older works include spaces in common contractions; these spaces are removed.
 					
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Would n’t it be nice to go out? It ’s such a nice day.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Wouldn’t it be nice to go out? It’s such a nice day.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
-<section id="8.7.5"><aside class="number">8.7.5</aside>
+<section id="8.7.5"><aside class="number"><a href="#8.7.5">8.7.5</a></aside>
 <h3>Quotation marks</h3>
 <ol type="1">
-<li id="8.7.5.1"><aside class="number">8.7.5.1</aside><p>“Curly” or typographer’s quotes, both single and double, are always used instead of straight quotes. This is known as “American-style” quotation, which is different from British-style quotation which is also commonly found in both older and modern books.
+<li id="8.7.5.1"><aside class="number"><a href="#8.7.5.1">8.7.5.1</a></aside><p>“Curly” or typographer’s quotes, both single and double, are always used instead of straight quotes. This is known as “American-style” quotation, which is different from British-style quotation which is also commonly found in both older and modern books.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Don’t do it!” she shouted.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.5.2"><aside class="number">8.7.5.2</aside><p>Quotation marks that are directly side-by-side are separated by a hair space (<span class="utf"> </span> or U+200A) character.
+<li id="8.7.5.2"><aside class="number"><a href="#8.7.5.2">8.7.5.2</a></aside><p>Quotation marks that are directly side-by-side are separated by a hair space (<span class="utf"> </span> or U+200A) character.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“<span class="ws">hairsp</span>‘Green?’ Is that what you said?” asked Dave.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.5.3"><aside class="number">8.7.5.3</aside><p>Words with missing letters represent the missing letters with a right single quotation mark (<code class="utf">’</code> or U+2019) character to indicate elision.
+<li id="8.7.5.3"><aside class="number"><a href="#8.7.5.3">8.7.5.3</a></aside><p>Words with missing letters represent the missing letters with a right single quotation mark (<code class="utf">’</code> or U+2019) character to indicate elision.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He had pork ’n’ beans for dinner<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.7.6"><aside class="number">8.7.6</aside>
+<section id="8.7.6"><aside class="number"><a href="#8.7.6">8.7.6</a></aside>
 <h3>Ellipses</h3>
 <ol type="1">
-<li id="8.7.6.1"><aside class="number">8.7.6.1</aside><p>The ellipses glyph (<code class="utf">…</code> or U+2026) is used for ellipses, instead of consecutive or spaced periods.</p></li>
-<li id="8.7.6.2"><aside class="number">8.7.6.2</aside><p>When ellipses are used as suspension points (for example, to indicate dialog that pauses or trails off), the ellipses are not preceded by a comma.
+<li id="8.7.6.1"><aside class="number"><a href="#8.7.6.1">8.7.6.1</a></aside><p>The ellipses glyph (<code class="utf">…</code> or U+2026) is used for ellipses, instead of consecutive or spaced periods.</p></li>
+<li id="8.7.6.2"><aside class="number"><a href="#8.7.6.2">8.7.6.2</a></aside><p>When ellipses are used as suspension points (for example, to indicate dialog that pauses or trails off), the ellipses are not preceded by a comma.
 						</p><p>Ellipses used to indicate missing words in a quotation require keeping surrounding punctuation, including commas, as that punctuation is in the original quotation.</p>
 </li>
-<li id="8.7.6.3"><aside class="number">8.7.6.3</aside><p>A hair space (<span class="utf"> </span> or U+200A) glyph is located <em>before</em> all ellipses that are not directly preceded by punctuation, or that are directly preceded by an em-dash or a two- or three-em-dash.</p></li>
-<li id="8.7.6.4"><aside class="number">8.7.6.4</aside><p>A regular space is located <em>after</em> all ellipses that are not followed by punctuation.</p></li>
-<li id="8.7.6.5"><aside class="number">8.7.6.5</aside><p>A hair space (<span class="utf"> </span> or U+200A) glyph is located between an ellipses and any punctuation that follows directly after the ellipses, <em>unless</em> that punctuation is a quotation mark, in which case there is no space at all between the ellipses and the quotation mark.
+<li id="8.7.6.3"><aside class="number"><a href="#8.7.6.3">8.7.6.3</a></aside><p>A hair space (<span class="utf"> </span> or U+200A) glyph is located <em>before</em> all ellipses that are not directly preceded by punctuation, or that are directly preceded by an em-dash or a two- or three-em-dash.</p></li>
+<li id="8.7.6.4"><aside class="number"><a href="#8.7.6.4">8.7.6.4</a></aside><p>A regular space is located <em>after</em> all ellipses that are not followed by punctuation.</p></li>
+<li id="8.7.6.5"><aside class="number"><a href="#8.7.6.5">8.7.6.5</a></aside><p>A hair space (<span class="utf"> </span> or U+200A) glyph is located between an ellipses and any punctuation that follows directly after the ellipses, <em>unless</em> that punctuation is a quotation mark, in which case there is no space at all between the ellipses and the quotation mark.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“I’m so hungry<span class="ws">hairsp</span>… What were you saying about eating<span class="ws">hairsp</span>…?”</code></figure>
 </li>
 </ol>
 </section>
-<section id="8.7.7"><aside class="number">8.7.7</aside>
+<section id="8.7.7"><aside class="number"><a href="#8.7.7">8.7.7</a></aside>
 <h3>Dashes</h3>
 <p>There are many kinds of dashes, and the run-of-the-mill hyphen is often not the correct dash to use. In particular, hyphens are not used for things like date ranges, phone numbers, or negative numbers.</p>
 <ol type="1">
-<li id="8.7.7.1"><aside class="number">8.7.7.1</aside><p>Dashes of all types do not have white space around them.</p></li>
-<li id="8.7.7.2"><aside class="number">8.7.7.2</aside><p>Figure dashes (<code class="utf">‒</code> or U+2012) are used to indicate a dash in numbers that aren’t a range, like phone numbers.
+<li id="8.7.7.1"><aside class="number"><a href="#8.7.7.1">8.7.7.1</a></aside><p>Dashes of all types do not have white space around them.</p></li>
+<li id="8.7.7.2"><aside class="number"><a href="#8.7.7.2">8.7.7.2</a></aside><p>Figure dashes (<code class="utf">‒</code> or U+2012) are used to indicate a dash in numbers that aren’t a range, like phone numbers.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>His number is 555‒1234.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.7.3"><aside class="number">8.7.7.3</aside><p>Hyphens (<code class="utf">-</code> or U+002D) are used to join words, including double-barrel names, or to separate syllables in a word.
+<li id="8.7.7.3"><aside class="number"><a href="#8.7.7.3">8.7.7.3</a></aside><p>Hyphens (<code class="utf">-</code> or U+002D) are used to join words, including double-barrel names, or to separate syllables in a word.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Pre- and post-natal.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The Smoot-Hawley act.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.7.4"><aside class="number">8.7.7.4</aside><p>Minus sign glyphs (<code class="utf">−</code> or U+2212) are used to indicate negative numbers, and are used in mathematical equations instead of hyphens to represent the “subtraction” operator.
+<li id="8.7.7.4"><aside class="number"><a href="#8.7.7.4">8.7.7.4</a></aside><p>Minus sign glyphs (<code class="utf">−</code> or U+2212) are used to indicate negative numbers, and are used in mathematical equations instead of hyphens to represent the “subtraction” operator.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>It was −5° out yesterday!<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>5 − 2 = 3<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.7.5"><aside class="number">8.7.7.5</aside><p>En-dashes (<code class="utf">–</code> or U+2013) are used to indicate a numerical or date range; to indicate a relationships where two concepts are connected by the word “to,” for example a distance between locations or a range between numbers; or to indicate a connection in location between two places.
+<li id="8.7.7.5"><aside class="number"><a href="#8.7.7.5">8.7.7.5</a></aside><p>En-dashes (<code class="utf">–</code> or U+2013) are used to indicate a numerical or date range; to indicate a relationships where two concepts are connected by the word “to,” for example a distance between locations or a range between numbers; or to indicate a connection in location between two places.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>We talked 2–3 days ago.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>We took the Berlin–Munich train yesterday.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I saw the torpedo-boat in the Ems⁠–⁠Jade Canal.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
-<section id="8.7.7.6"><aside class="number">8.7.7.6</aside>
+<section id="8.7.7.6"><aside class="number"><a href="#8.7.7.6">8.7.7.6</a></aside>
 <h4>Em-dashes</h4>
 <p>Em-dashes (<code class="utf">—</code> or U+2014) are typically used to offset parenthetical phrases.</p>
 <ol type="1">
-<li id="8.7.7.6.1"><aside class="number">8.7.7.6.1</aside><p>Em-dashes are preceded by the invisible word joiner glyph (U+2060).</p></li>
-<li id="8.7.7.6.2"><aside class="number">8.7.7.6.2</aside><p>Interruption in dialog is set by a single em-dash, not two em-dashes or a two-em-dash.
+<li id="8.7.7.6.1"><aside class="number"><a href="#8.7.7.6.1">8.7.7.6.1</a></aside><p>Em-dashes are preceded by the invisible word joiner glyph (U+2060).</p></li>
+<li id="8.7.7.6.2"><aside class="number"><a href="#8.7.7.6.2">8.7.7.6.2</a></aside><p>Interruption in dialog is set by a single em-dash, not two em-dashes or a two-em-dash.
 							</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“I wouldn’t go as far as that, not myself, but<span class="ws">wj</span>——”<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“I wouldn’t go as far as that, not myself, but<span class="ws">wj</span>—”<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.7.7.7"><aside class="number">8.7.7.7</aside>
+<section id="8.7.7.7"><aside class="number"><a href="#8.7.7.7">8.7.7.7</a></aside>
 <h4>Partially-obscured words</h4>
 <ol type="1">
-<li id="8.7.7.7.1"><aside class="number">8.7.7.7.1</aside><p>Em-dashes are used for partially-obscured years.
+<li id="8.7.7.7.1"><aside class="number"><a href="#8.7.7.7.1">8.7.7.7.1</a></aside><p>Em-dashes are used for partially-obscured years.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>It was the year 19<span class="ws">wj</span>— in the town of Metropolis.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.7.7.2"><aside class="number">8.7.7.7.2</aside><p>A regular hyphen is used in partially obscured years where only the last number is obscured.
+<li id="8.7.7.7.2"><aside class="number"><a href="#8.7.7.7.2">8.7.7.7.2</a></aside><p>A regular hyphen is used in partially obscured years where only the last number is obscured.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>It was the year 192- in the town of Metropolis.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.7.7.3"><aside class="number">8.7.7.7.3</aside><p>A two-em-dash (<code class="utf">⸺</code> or U+2E3A) preceded by a word joiner glyph (U+2060) is used in <em>partially</em> obscured word.
+<li id="8.7.7.7.3"><aside class="number"><a href="#8.7.7.7.3">8.7.7.7.3</a></aside><p>A two-em-dash (<code class="utf">⸺</code> or U+2E3A) preceded by a word joiner glyph (U+2060) is used in <em>partially</em> obscured word.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Sally J<span class="ws">wj</span>⸺ walked through town.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.7.7.7.4"><aside class="number">8.7.7.7.4</aside><p>A three-em-dash (<code class="utf">⸻</code> or U+2E3B) is used for <em>completely</em> obscured words.
+<li id="8.7.7.7.4"><aside class="number"><a href="#8.7.7.7.4">8.7.7.7.4</a></aside><p>A three-em-dash (<code class="utf">⸻</code> or U+2E3B) is used for <em>completely</em> obscured words.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>It was night in the town of ⸻.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
 </section>
 </section>
-<section id="8.8"><aside class="number">8.8</aside>
+<section id="8.8"><aside class="number"><a href="#8.8">8.8</a></aside>
 <h2>Numbers, measurements, and math</h2>
 <ol type="1">
-<li id="8.8.1"><aside class="number">8.8.1</aside><p>Coordinates are set with the prime (<code class="utf">′</code> or U+2032) or double prime (<code class="utf">″</code> or U+2033) glyphs, <em>not</em> single or double quotes.
+<li id="8.8.1"><aside class="number"><a href="#8.8.1">8.8.1</a></aside><p>Coordinates are set with the prime (<code class="utf">′</code> or U+2032) or double prime (<code class="utf">″</code> or U+2033) glyphs, <em>not</em> single or double quotes.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>Lat.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> 27° 0' <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass"</span><span class="p">&gt;</span>N.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span>, <span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>long.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> 20° 1' <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass eoc"</span><span class="p">&gt;</span>W.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>Lat.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> 27° 0’ <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass"</span><span class="p">&gt;</span>N.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span>, <span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>long.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> 20° 1’ <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass eoc"</span><span class="p">&gt;</span>W.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>Lat.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> 27° 0′ <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass"</span><span class="p">&gt;</span>N.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span>, <span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>long.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> 20° 1′ <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass eoc"</span><span class="p">&gt;</span>W.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.2"><aside class="number">8.8.2</aside><p>Ordinals for Arabic numbers are as follows: <code class="string">st</code>, <code class="string">nd</code>, <code class="string">rd</code>, <code class="string">th</code>.
+<li id="8.8.2"><aside class="number"><a href="#8.8.2">8.8.2</a></aside><p>Ordinals for Arabic numbers are as follows: <code class="string">st</code>, <code class="string">nd</code>, <code class="string">rd</code>, <code class="string">th</code>.
 					</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The 1st, 2d, 3d, 4th.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The 1st, 2nd, 3rd, 4th.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
-<section id="8.8.3"><aside class="number">8.8.3</aside>
+<section id="8.8.3"><aside class="number"><a href="#8.8.3">8.8.3</a></aside>
 <h3>Roman numerals</h3>
 <ol type="1">
-<li id="8.8.3.1"><aside class="number">8.8.3.1</aside><p>Roman numerals are not followed by trailing periods, except for grammatical reasons.</p></li>
-<li id="8.8.3.2"><aside class="number">8.8.3.2</aside><p>Roman numerals are set using ASCII, not the Unicode Roman numeral glyphs.</p></li>
-<li id="8.8.3.3"><aside class="number">8.8.3.3</aside><p>Roman numerals are not followed by ordinal indicators.
+<li id="8.8.3.1"><aside class="number"><a href="#8.8.3.1">8.8.3.1</a></aside><p>Roman numerals are not followed by trailing periods, except for grammatical reasons.</p></li>
+<li id="8.8.3.2"><aside class="number"><a href="#8.8.3.2">8.8.3.2</a></aside><p>Roman numerals are set using ASCII, not the Unicode Roman numeral glyphs.</p></li>
+<li id="8.8.3.3"><aside class="number"><a href="#8.8.3.3">8.8.3.3</a></aside><p>Roman numerals are not followed by ordinal indicators.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Henry the <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>VIII<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>th had six wives.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Henry the <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>VIII<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> had six wives.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.8.4"><aside class="number">8.8.4</aside>
+<section id="8.8.4"><aside class="number"><a href="#8.8.4">8.8.4</a></aside>
 <h3>Fractions</h3>
 <ol type="1">
-<li id="8.8.4.1"><aside class="number">8.8.4.1</aside><p>Fractions are set in their appropriate Unicode glyph, if a glyph available; for example, <code class="utf">½</code>, <code class="utf">¼</code>, <code class="utf">¾</code> and U+00BC–U+00BE and U+2150–U+2189.&lt;/p&gt;
+<li id="8.8.4.1"><aside class="number"><a href="#8.8.4.1">8.8.4.1</a></aside><p>Fractions are set in their appropriate Unicode glyph, if a glyph available; for example, <code class="utf">½</code>, <code class="utf">¼</code>, <code class="utf">¾</code> and U+00BC–U+00BE and U+2150–U+2189.&lt;/p&gt;
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I need 1/4 cup of sugar.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I need ¼ cup of sugar.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.4.2"><aside class="number">8.8.4.2</aside><p>If a fraction doesn’t have a corresponding Unicode glyph, it is composed using the fraction slash Unicode glyph (<code class="utf">⁄</code> or U+2044) and superscript/subscript Unicode numbers. See <a href="https://en.wikipedia.org/wiki/Unicode_subscripts_and_superscripts">this Wikipedia entry for more details</a>.
+<li id="8.8.4.2"><aside class="number"><a href="#8.8.4.2">8.8.4.2</a></aside><p>If a fraction doesn’t have a corresponding Unicode glyph, it is composed using the fraction slash Unicode glyph (<code class="utf">⁄</code> or U+2044) and superscript/subscript Unicode numbers. See <a href="https://en.wikipedia.org/wiki/Unicode_subscripts_and_superscripts">this Wikipedia entry for more details</a>.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Roughly 6/10 of a mile.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Roughly ⁶⁄₁₀ of a mile.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.8.5"><aside class="number">8.8.5</aside>
+<section id="8.8.5"><aside class="number"><a href="#8.8.5">8.8.5</a></aside>
 <h3>Measurements</h3>
 <ol type="1">
-<li id="8.8.5.1"><aside class="number">8.8.5.1</aside><p>Dimension measurements are set using the Unicode multiplication glyph (<code class="utf">×</code> or U+00D7), <em>not</em> the ASCII letter <code class="utf">x</code> or <code class="utf">X</code>.
+<li id="8.8.5.1"><aside class="number"><a href="#8.8.5.1">8.8.5.1</a></aside><p>Dimension measurements are set using the Unicode multiplication glyph (<code class="utf">×</code> or U+00D7), <em>not</em> the ASCII letter <code class="utf">x</code> or <code class="utf">X</code>.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The board was 4 x 3 x 7 feet.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The board was 4 × 3 × 7 feet.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.5.2"><aside class="number">8.8.5.2</aside><p>Feet and inches in shorthand are set using the prime (<code class="utf">′</code> or U+2032) or double prime (<code class="utf">″</code> or U+2033) glyphs (<em>not</em> single or double quotes), with a no-break space (<span class="utf"> </span> or U+00A0) separating consecutive feet and inch measurements.
+<li id="8.8.5.2"><aside class="number"><a href="#8.8.5.2">8.8.5.2</a></aside><p>Feet and inches in shorthand are set using the prime (<code class="utf">′</code> or U+2032) or double prime (<code class="utf">″</code> or U+2033) glyphs (<em>not</em> single or double quotes), with a no-break space (<span class="utf"> </span> or U+00A0) separating consecutive feet and inch measurements.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He was 6'<span class="ws">nbsp</span>1" in height.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He was 6’<span class="ws">nbsp</span>1” in height.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He was 6′<span class="ws">nbsp</span>1″ in height.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.5.3"><aside class="number">8.8.5.3</aside><p>When forming a compound of a number and unit of measurement in which the measurement is abbreviated, the number and unit of measurement are separated with a no-break space (<span class="utf"> </span> or U+00A0), <em>not</em> a dash.
+<li id="8.8.5.3"><aside class="number"><a href="#8.8.5.3">8.8.5.3</a></aside><p>When forming a compound of a number and unit of measurement in which the measurement is abbreviated, the number and unit of measurement are separated with a no-break space (<span class="utf"> </span> or U+00A0), <em>not</em> a dash.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>A 12-mm pistol.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>A 12<span class="ws">nbsp</span>mm pistol.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.8.6"><aside class="number">8.8.6</aside>
+<section id="8.8.6"><aside class="number"><a href="#8.8.6">8.8.6</a></aside>
 <h3>Math</h3>
 <ol type="1">
-<li id="8.8.6.1"><aside class="number">8.8.6.1</aside><p>In works that are not math-oriented or that dont’t have a significant amount of mathematical equations, equations are set using regular HTML and Unicode.
+<li id="8.8.6.1"><aside class="number"><a href="#8.8.6.1">8.8.6.1</a></aside><p>In works that are not math-oriented or that dont’t have a significant amount of mathematical equations, equations are set using regular HTML and Unicode.
 						</p><ol type="1">
-<li id="8.8.6.1.1"><aside class="number">8.8.6.1.1</aside><p>Operators and operands in mathematical equations are separated by a space.
+<li id="8.8.6.1.1"><aside class="number"><a href="#8.8.6.1.1">8.8.6.1.1</a></aside><p>Operators and operands in mathematical equations are separated by a space.
 								</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>6−2+2=6<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>6 − 2 + 2 = 6<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.6.1.2"><aside class="number">8.8.6.1.2</aside><p>Operators like subtraction (<code class="utf">−</code> or U+2212), multiplication (<code class="utf">×</code> or U+00D7), and equivalence (<code class="utf">≡</code> or U+2261) are set using their corresponding Unicode glyphs, <em>not</em> a hyphen or <code class="utf">x</code>. Almost all mathematical operators have a corresponding special Unicode glyph.
+<li id="8.8.6.1.2"><aside class="number"><a href="#8.8.6.1.2">8.8.6.1.2</a></aside><p>Operators like subtraction (<code class="utf">−</code> or U+2212), multiplication (<code class="utf">×</code> or U+00D7), and equivalence (<code class="utf">≡</code> or U+2261) are set using their corresponding Unicode glyphs, <em>not</em> a hyphen or <code class="utf">x</code>. Almost all mathematical operators have a corresponding special Unicode glyph.
 								</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>6 -  2 x 2 == 2<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>6 − 2 × 2 ≡ 2<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </li>
-<li id="8.8.6.2"><aside class="number">8.8.6.2</aside><p>In works that are math-oriented or that have a significant amount of math, <em>all</em> variables, equations, and other mathematical objects are set using MathML.
+<li id="8.8.6.2"><aside class="number"><a href="#8.8.6.2">8.8.6.2</a></aside><p>In works that are math-oriented or that have a significant amount of math, <em>all</em> variables, equations, and other mathematical objects are set using MathML.
 						</p><ol type="1">
-<li id="8.8.6.2.1"><aside class="number">8.8.6.2.1</aside><p>When MathML is used in a file, the <code class="bash"><span class="s">m</span></code> namespace is declared at the top of the file and used for all subsequent MathML code, as follows:
+<li id="8.8.6.2.1"><aside class="number"><a href="#8.8.6.2.1">8.8.6.2.1</a></aside><p>When MathML is used in a file, the <code class="bash"><span class="s">m</span></code> namespace is declared at the top of the file and used for all subsequent MathML code, as follows:
 								</p><figure><code class="html full">xmlns:m="http://www.w3.org/1998/Math/MathML"</code></figure>
 <p>This namespace is declared and used even if there is just a single MathML equation in a file.</p>
 <figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xmlns:epub</span><span class="o">=</span><span class="s">"http://www.idpf.org/2007/ops"</span> <span class="na">ub:prefix</span><span class="o">=</span><span class="s">"z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"en-GB"</span><span class="p">&gt;</span>
@@ -405,7 +405,7 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">m:math</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.6.2.2"><aside class="number">8.8.6.2.2</aside><p>When possible, Content MathML is used over Presentational MathML. (This may not always be possible depending on the complexity of the work.)
+<li id="8.8.6.2.2"><aside class="number"><a href="#8.8.6.2.2">8.8.6.2.2</a></aside><p>When possible, Content MathML is used over Presentational MathML. (This may not always be possible depending on the complexity of the work.)
 								</p><figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">m:math</span> <span class="na">alttext</span><span class="o">=</span><span class="s">"x + 1 = y"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">m:apply</span><span class="p">&gt;</span>
@@ -420,10 +420,10 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">m:math</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.6.2.3"><aside class="number">8.8.6.2.3</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">m:math</span><span class="p">&gt;</span></code> element has an <code class="html"><span class="na">alttext</span></code> attribute.
+<li id="8.8.6.2.3"><aside class="number"><a href="#8.8.6.2.3">8.8.6.2.3</a></aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">m:math</span><span class="p">&gt;</span></code> element has an <code class="html"><span class="na">alttext</span></code> attribute.
 								</p><ol type="1">
-<li id="8.8.6.2.3.1"><aside class="number">8.8.6.2.3.1</aside><p>The <code class="html"><span class="na">alttext</span></code> attribute describes the contents in the element in plain-text Unicode according to the rules in <a href="https://www.unicode.org/notes/tn28/UTN28-PlainTextMath.pdf">this specification</a>.</p></li>
-<li id="8.8.6.2.3.2"><aside class="number">8.8.6.2.3.2</aside><p>Operators in the <code class="html"><span class="na">alttext</span></code> attribute are surrounded by a single space.
+<li id="8.8.6.2.3.1"><aside class="number"><a href="#8.8.6.2.3.1">8.8.6.2.3.1</a></aside><p>The <code class="html"><span class="na">alttext</span></code> attribute describes the contents in the element in plain-text Unicode according to the rules in <a href="https://www.unicode.org/notes/tn28/UTN28-PlainTextMath.pdf">this specification</a>.</p></li>
+<li id="8.8.6.2.3.2"><aside class="number"><a href="#8.8.6.2.3.2">8.8.6.2.3.2</a></aside><p>Operators in the <code class="html"><span class="na">alttext</span></code> attribute are surrounded by a single space.
 										</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">m:math</span> <span class="na">alttext</span><span class="o">=</span><span class="s">"x+1=y"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">m:apply</span><span class="p">&gt;</span>
@@ -453,7 +453,7 @@ require_once('Core.php');
 </li>
 </ol>
 </li>
-<li id="8.8.6.2.4"><aside class="number">8.8.6.2.4</aside><p>When using Presentational MathML, <code class="html"><span class="p">&lt;</span><span class="nt">m:mrow</span><span class="p">&gt;</span></code> is used to group subexpressions, but only when necessary. Many elements in MathML, like <code class="html"><span class="p">&lt;</span><span class="nt">m:math</span><span class="p">&gt;</span></code> and <code class="html"><span class="p">&lt;</span><span class="nt">m:mtd</span><span class="p">&gt;</span></code>, <em>imply</em> <code class="html"><span class="p">&lt;</span><span class="nt">m:mrow</span><span class="p">&gt;</span></code>, and redundant elements are not desirable. See <a href="https://www.w3.org/Math/draft-spec/mathml.html#chapter3_presm.reqarg">this section of the MathML spec</a> for more details.
+<li id="8.8.6.2.4"><aside class="number"><a href="#8.8.6.2.4">8.8.6.2.4</a></aside><p>When using Presentational MathML, <code class="html"><span class="p">&lt;</span><span class="nt">m:mrow</span><span class="p">&gt;</span></code> is used to group subexpressions, but only when necessary. Many elements in MathML, like <code class="html"><span class="p">&lt;</span><span class="nt">m:math</span><span class="p">&gt;</span></code> and <code class="html"><span class="p">&lt;</span><span class="nt">m:mtd</span><span class="p">&gt;</span></code>, <em>imply</em> <code class="html"><span class="p">&lt;</span><span class="nt">m:mrow</span><span class="p">&gt;</span></code>, and redundant elements are not desirable. See <a href="https://www.w3.org/Math/draft-spec/mathml.html#chapter3_presm.reqarg">this section of the MathML spec</a> for more details.
 								</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">m:math</span> <span class="na">alttext</span><span class="o">=</span><span class="s">"x"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">m:mrow</span><span class="p">&gt;</span>
@@ -467,7 +467,7 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">m:math</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.6.2.5"><aside class="number">8.8.6.2.5</aside><p>If a Presentational MathML expression contains a function, the invisible Unicode function application glyph (U+2061) is used as an operator between the function name and its operand. This element looks exactly like the following, including the comment for readability: <code class="html"><span class="p">&lt;</span><span class="nt">m:mo</span><span class="p">&gt;</span>⁡<span class="c">&lt;!--hidden U+2061 function application--&gt;</span><span class="p">&lt;/</span><span class="nt">m:mo</span><span class="p">&gt;</span></code>. (Note that the preceding element contains an <em>invisible</em> Unicode character! It can be revealed with the <code class="bash"><b>se</b> unicode-names</code> tool.)
+<li id="8.8.6.2.5"><aside class="number"><a href="#8.8.6.2.5">8.8.6.2.5</a></aside><p>If a Presentational MathML expression contains a function, the invisible Unicode function application glyph (U+2061) is used as an operator between the function name and its operand. This element looks exactly like the following, including the comment for readability: <code class="html"><span class="p">&lt;</span><span class="nt">m:mo</span><span class="p">&gt;</span>⁡<span class="c">&lt;!--hidden U+2061 function application--&gt;</span><span class="p">&lt;/</span><span class="nt">m:mo</span><span class="p">&gt;</span></code>. (Note that the preceding element contains an <em>invisible</em> Unicode character! It can be revealed with the <code class="bash"><b>se</b> unicode-names</code> tool.)
 								</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">m:math</span> <span class="na">alttext</span><span class="o">=</span><span class="s">"f(x)"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">m:mi</span><span class="p">&gt;</span>f<span class="p">&lt;/</span><span class="nt">m:mi</span><span class="p">&gt;</span>
@@ -490,7 +490,7 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">m:math</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.6.2.6"><aside class="number">8.8.6.2.6</aside><p>Expressions grouped by parenthesis or brackets are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">m:row</span><span class="p">&gt;</span></code> element, and fence characters are set using the <code class="html"><span class="p">&lt;</span><span class="nt">m:mo</span> <span class="na">fence</span><span class="o">=</span><span class="s">"true"</span><span class="p">&gt;</span></code> element. Separators are set using the <code class="html"><span class="p">&lt;</span><span class="nt">m:mo</span> <span class="na">separator</span><span class="o">=</span><span class="s">"true"</span><span class="p">&gt;</span></code> element. <code class="html"><span class="p">&lt;</span><span class="nt">m:mfenced</span><span class="p">&gt;</span></code>, which used to imply both fences and separators, is deprecated in the MathML spec and thus is not used.
+<li id="8.8.6.2.6"><aside class="number"><a href="#8.8.6.2.6">8.8.6.2.6</a></aside><p>Expressions grouped by parenthesis or brackets are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">m:row</span><span class="p">&gt;</span></code> element, and fence characters are set using the <code class="html"><span class="p">&lt;</span><span class="nt">m:mo</span> <span class="na">fence</span><span class="o">=</span><span class="s">"true"</span><span class="p">&gt;</span></code> element. Separators are set using the <code class="html"><span class="p">&lt;</span><span class="nt">m:mo</span> <span class="na">separator</span><span class="o">=</span><span class="s">"true"</span><span class="p">&gt;</span></code> element. <code class="html"><span class="p">&lt;</span><span class="nt">m:mfenced</span><span class="p">&gt;</span></code>, which used to imply both fences and separators, is deprecated in the MathML spec and thus is not used.
 								</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">m:math</span> <span class="na">alttext</span><span class="o">=</span><span class="s">"f(x,y)"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">m:mi</span><span class="p">&gt;</span>f<span class="p">&lt;/</span><span class="nt">m:mi</span><span class="p">&gt;</span>
@@ -515,7 +515,7 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">m:math</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.8.6.2.7"><aside class="number">8.8.6.2.7</aside><p>If a MathML variable includes an overline, it is set by combining the variable’s normal Unicode glyph and the Unicode overline glyph (<code class="utf">‾</code> or U+203E) in a <code class="html"><span class="p">&lt;</span><span class="nt">m:mover</span><span class="p">&gt;</span></code> element. However in the <code class="html"><span class="na">alttext</span></code> attribute, the Unicode overline combining mark (U+0305) is used to represent the overline in Unicode.
+<li id="8.8.6.2.7"><aside class="number"><a href="#8.8.6.2.7">8.8.6.2.7</a></aside><p>If a MathML variable includes an overline, it is set by combining the variable’s normal Unicode glyph and the Unicode overline glyph (<code class="utf">‾</code> or U+203E) in a <code class="html"><span class="p">&lt;</span><span class="nt">m:mover</span><span class="p">&gt;</span></code> element. However in the <code class="html"><span class="na">alttext</span></code> attribute, the Unicode overline combining mark (U+0305) is used to represent the overline in Unicode.
 								</p><figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">m:math</span> <span class="na">alttext</span><span class="o">=</span><span class="s">"x̅"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">m:mover</span><span class="p">&gt;</span>
@@ -530,17 +530,17 @@ require_once('Core.php');
 </ol>
 </section>
 </section>
-<section id="8.9"><aside class="number">8.9</aside>
+<section id="8.9"><aside class="number"><a href="#8.9">8.9</a></aside>
 <h2>Latinisms</h2>
 <ul>
 <li><p><a href="/manual/1.0.0/8-typography#8.11">See here for times</a>.</p></li>
 </ul>
 <ol type="1">
-<li id="8.9.1"><aside class="number">8.9.1</aside><p>Latinisms (except <i>sic</i>) that can be found in a modern dictionary are not italicized. Examples include e.g., i.e., ad hoc, viz., ibid., etc.. The exception is <i>sic</i>, which is always italicized.</p></li>
-<li id="8.9.2"><aside class="number">8.9.2</aside><p>Whole passages of Latin language and Latinisms that aren’t found in a modern dictionary are italicized.</p></li>
-<li id="8.9.3"><aside class="number">8.9.3</aside><p>“&amp;c;” is not used, and is replaced with “etc.”</p></li>
-<li id="8.9.4"><aside class="number">8.9.4</aside><p>For “Ibid.,” <a href="/manual/1.0.0/7-high-level-structural-patterns#7.9">see Endnotes</a>.</p></li>
-<li id="8.9.5"><aside class="number">8.9.5</aside><p>Latinisms that are abbreviations are set in lowercase with periods between words and no spaces between them, except BC, AD, BCE, and CE, which are set without periods, in small caps, and wrapped with <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"era"</span><span class="p">&gt;</span></code>:
+<li id="8.9.1"><aside class="number"><a href="#8.9.1">8.9.1</a></aside><p>Latinisms (except <i>sic</i>) that can be found in a modern dictionary are not italicized. Examples include e.g., i.e., ad hoc, viz., ibid., etc.. The exception is <i>sic</i>, which is always italicized.</p></li>
+<li id="8.9.2"><aside class="number"><a href="#8.9.2">8.9.2</a></aside><p>Whole passages of Latin language and Latinisms that aren’t found in a modern dictionary are italicized.</p></li>
+<li id="8.9.3"><aside class="number"><a href="#8.9.3">8.9.3</a></aside><p>“&amp;c;” is not used, and is replaced with “etc.”</p></li>
+<li id="8.9.4"><aside class="number"><a href="#8.9.4">8.9.4</a></aside><p>For “Ibid.,” <a href="/manual/1.0.0/7-high-level-structural-patterns#7.9">see Endnotes</a>.</p></li>
+<li id="8.9.5"><aside class="number"><a href="#8.9.5">8.9.5</a></aside><p>Latinisms that are abbreviations are set in lowercase with periods between words and no spaces between them, except BC, AD, BCE, and CE, which are set without periods, in small caps, and wrapped with <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"era"</span><span class="p">&gt;</span></code>:
 					</p><figure><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">era</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
@@ -548,7 +548,7 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="8.10"><aside class="number">8.10</aside>
+<section id="8.10"><aside class="number"><a href="#8.10">8.10</a></aside>
 <h2>Initials and abbreviations</h2>
 <ul>
 <li><p><a href="/manual/1.0.0/8-typography#8.13">See here for temperatures</a>.</p></li>
@@ -556,102 +556,102 @@ require_once('Core.php');
 <li><p><a href="/manual/1.0.0/8-typography#8.9">See here for Latinisms including BC and AD</a>.</p></li>
 </ul>
 <ol type="1">
-<li id="8.10.1"><aside class="number">8.10.1</aside><p>“OK” is set without periods or spaces. It is not an abbreviation.</p></li>
-<li id="8.10.2"><aside class="number">8.10.2</aside><p>When an abbreviation contains a terminal period, its <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code> element has the additional <code class="bash"><span class="s">eoc</span></code> class (End of Clause) if the terminal period is also the last period in clause. Such sentences do not have two consecutive periods.
+<li id="8.10.1"><aside class="number"><a href="#8.10.1">8.10.1</a></aside><p>“OK” is set without periods or spaces. It is not an abbreviation.</p></li>
+<li id="8.10.2"><aside class="number"><a href="#8.10.2">8.10.2</a></aside><p>When an abbreviation contains a terminal period, its <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code> element has the additional <code class="bash"><span class="s">eoc</span></code> class (End of Clause) if the terminal period is also the last period in clause. Such sentences do not have two consecutive periods.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>She loved Italian food like pizza, pasta, <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"eoc"</span><span class="p">&gt;</span>etc.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He lists his name alphabetically as Johnson, <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"name eoc"</span><span class="p">&gt;</span>R. A.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>His favorite hobby was <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"acronym"</span><span class="p">&gt;</span>SCUBA<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.10.3"><aside class="number">8.10.3</aside><p>Initialisms, postal codes, and abbreviated US states are set in all caps, without periods or spaces.</p></li>
-<li id="8.10.4"><aside class="number">8.10.4</aside><p>Acronyms (terms made up of initials and pronounced as one word, like NASA, SCUBA, or NATO) are set in small caps, without periods, and are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"acronym"</span><span class="p">&gt;</span></code> element.
+<li id="8.10.3"><aside class="number"><a href="#8.10.3">8.10.3</a></aside><p>Initialisms, postal codes, and abbreviated US states are set in all caps, without periods or spaces.</p></li>
+<li id="8.10.4"><aside class="number"><a href="#8.10.4">8.10.4</a></aside><p>Acronyms (terms made up of initials and pronounced as one word, like NASA, SCUBA, or NATO) are set in small caps, without periods, and are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"acronym"</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">acronym</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He was hired by <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"acronym"</span><span class="p">&gt;</span>NASA<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> last week.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.10.5"><aside class="number">8.10.5</aside><p>Initialisms (terms made up of initials in which each initial is pronounced separately, like ABC, HTML, or CSS) are set with without periods and are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"initialism"</span><span class="p">&gt;</span></code> element.
+<li id="8.10.5"><aside class="number"><a href="#8.10.5">8.10.5</a></aside><p>Initialisms (terms made up of initials in which each initial is pronounced separately, like ABC, HTML, or CSS) are set with without periods and are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"initialism"</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He was hired by the <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"initialism"</span><span class="p">&gt;</span>FBI<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> last week.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.10.6"><aside class="number">8.10.6</aside><p>Initials of people’s names are each separated by periods and spaces. The group of initials is wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span></code> element.
+<li id="8.10.6"><aside class="number"><a href="#8.10.6">8.10.6</a></aside><p>Initials of people’s names are each separated by periods and spaces. The group of initials is wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span>H. P.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> Lovecraft described himself as an aged antiquarian.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.10.7"><aside class="number">8.10.7</aside><p>Academic degrees, except ones that include a lowercase letter (like PhD) are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"degree"</span><span class="p">&gt;</span></code> element. For example: BA, BD, BFA, BM, BS, DB, DD, DDS, DO, DVM, JD, LHD, LLB, LLD, LLM, MA, MBA, MD, MFA, MS, MSN.
+<li id="8.10.7"><aside class="number"><a href="#8.10.7">8.10.7</a></aside><p>Academic degrees, except ones that include a lowercase letter (like PhD) are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"degree"</span><span class="p">&gt;</span></code> element. For example: BA, BD, BFA, BM, BS, DB, DD, DDS, DO, DVM, JD, LHD, LLB, LLD, LLM, MA, MBA, MD, MFA, MS, MSN.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Judith Douglas, <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"degree"</span><span class="p">&gt;</span>DDS<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.10.8"><aside class="number">8.10.8</aside><p>Abbreviated state names, as well as postal codes, are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"postal"</span><span class="p">&gt;</span></code> element.
+<li id="8.10.8"><aside class="number"><a href="#8.10.8">8.10.8</a></aside><p>Abbreviated state names, as well as postal codes, are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"postal"</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Washington <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"postal"</span><span class="p">&gt;</span>DC<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.10.9"><aside class="number">8.10.9</aside><p>Abbreviations that are abbreviations of a single word, and that are not acronyms or initialisms (like Mr., Mrs., or lbs.) are set with <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code>.
+<li id="8.10.9"><aside class="number"><a href="#8.10.9">8.10.9</a></aside><p>Abbreviations that are abbreviations of a single word, and that are not acronyms or initialisms (like Mr., Mrs., or lbs.) are set with <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code>.
 					</p><ol type="1">
-<li id="8.10.9.1"><aside class="number">8.10.9.1</aside><p>Abbreviations ending in a lowercase letter are set without spaces between the letters, and are ended by a period.</p></li>
-<li id="8.10.9.2"><aside class="number">8.10.9.2</aside><p>Abbreviations without lowercase letters are set without spaces and without a trailing period.</p></li>
-<li id="8.10.9.3"><aside class="number">8.10.9.3</aside><p>Abbreviations that describes the next word, like Mr., Mrs., Mt., and St., are set with a no-break space (<span class="utf"> </span> or U+00A0) between the abbreviation and its target.
+<li id="8.10.9.1"><aside class="number"><a href="#8.10.9.1">8.10.9.1</a></aside><p>Abbreviations ending in a lowercase letter are set without spaces between the letters, and are ended by a period.</p></li>
+<li id="8.10.9.2"><aside class="number"><a href="#8.10.9.2">8.10.9.2</a></aside><p>Abbreviations without lowercase letters are set without spaces and without a trailing period.</p></li>
+<li id="8.10.9.3"><aside class="number"><a href="#8.10.9.3">8.10.9.3</a></aside><p>Abbreviations that describes the next word, like Mr., Mrs., Mt., and St., are set with a no-break space (<span class="utf"> </span> or U+00A0) between the abbreviation and its target.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He called on <span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>Mrs.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span><span class="ws">nbsp</span>Jones yesterday.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </li>
-<li id="8.10.10"><aside class="number">8.10.10</aside><p>Compass points are separated by periods and spaces. The group of points are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass"</span><span class="p">&gt;</span></code> element.
+<li id="8.10.10"><aside class="number"><a href="#8.10.10">8.10.10</a></aside><p>Compass points are separated by periods and spaces. The group of points are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass"</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He traveled <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass"</span><span class="p">&gt;</span>S.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span>, <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass"</span><span class="p">&gt;</span>N. W.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span>, then <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compass eoc"</span><span class="p">&gt;</span>E. S. E.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.11"><aside class="number">8.11</aside>
+<section id="8.11"><aside class="number"><a href="#8.11">8.11</a></aside>
 <h2>Times</h2>
 <ol type="1">
-<li id="8.11.1"><aside class="number">8.11.1</aside><p>Times in a.m. and p.m. format are set in lowercase, with periods, and without spaces.</p></li>
-<li id="8.11.2"><aside class="number">8.11.2</aside><p><code class="string">a.m.</code> and <code class="string">p.m.</code> are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time"</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="8.11.1"><aside class="number"><a href="#8.11.1">8.11.1</a></aside><p>Times in a.m. and p.m. format are set in lowercase, with periods, and without spaces.</p></li>
+<li id="8.11.2"><aside class="number"><a href="#8.11.2">8.11.2</a></aside><p><code class="string">a.m.</code> and <code class="string">p.m.</code> are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time"</span><span class="p">&gt;</span></code> element.</p></li>
 </ol>
-<section id="8.11.3"><aside class="number">8.11.3</aside>
+<section id="8.11.3"><aside class="number"><a href="#8.11.3">8.11.3</a></aside>
 <h3>Times as digits</h3>
 <ol type="1">
-<li id="8.11.3.1"><aside class="number">8.11.3.1</aside><p>Digits in times are separated by a colon, not a period or comma.</p></li>
-<li id="8.11.3.2"><aside class="number">8.11.3.2</aside><p>Times written in digits followed by <code class="string">a.m.</code> or <code class="string">p.m.</code> are set with a no-break space (<span class="utf"> </span> or U+00A0) between the digit and <code class="string">a.m.</code> or <code class="string">p.m.</code>.
+<li id="8.11.3.1"><aside class="number"><a href="#8.11.3.1">8.11.3.1</a></aside><p>Digits in times are separated by a colon, not a period or comma.</p></li>
+<li id="8.11.3.2"><aside class="number"><a href="#8.11.3.2">8.11.3.2</a></aside><p>Times written in digits followed by <code class="string">a.m.</code> or <code class="string">p.m.</code> are set with a no-break space (<span class="utf"> </span> or U+00A0) between the digit and <code class="string">a.m.</code> or <code class="string">p.m.</code>.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He called at 6:40<span class="ws">nbsp</span><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time eoc"</span><span class="p">&gt;</span>a.m.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.11.4"><aside class="number">8.11.4</aside>
+<section id="8.11.4"><aside class="number"><a href="#8.11.4">8.11.4</a></aside>
 <h3>Times as words</h3>
 <ol type="1">
-<li id="8.11.4.1"><aside class="number">8.11.4.1</aside><p>Words in a spelled-out time are separated by spaces, unless they appear before a noun, where they are separated by a hyphen.
+<li id="8.11.4.1"><aside class="number"><a href="#8.11.4.1">8.11.4.1</a></aside><p>Words in a spelled-out time are separated by spaces, unless they appear before a noun, where they are separated by a hyphen.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He arrived at five thirty.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>They took the twelve-thirty train.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.11.4.2"><aside class="number">8.11.4.2</aside><p>Times written in words followed by “a.m.” or “p.m.” are set with a regular space between the time and “a.m.” or “p.m.”.
+<li id="8.11.4.2"><aside class="number"><a href="#8.11.4.2">8.11.4.2</a></aside><p>Times written in words followed by “a.m.” or “p.m.” are set with a regular space between the time and “a.m.” or “p.m.”.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>She wasn’t up till seven <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time eoc"</span><span class="p">&gt;</span>a.m.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.11.4.3"><aside class="number">8.11.4.3</aside><p>Military times that are spelled out (for example, in dialog) are set with dashes. Leading zeros are spelled out as “oh”.
+<li id="8.11.4.3"><aside class="number"><a href="#8.11.4.3">8.11.4.3</a></aside><p>Military times that are spelled out (for example, in dialog) are set with dashes. Leading zeros are spelled out as “oh”.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He arrived at oh-nine-hundred.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
 </section>
-<section id="8.12"><aside class="number">8.12</aside>
+<section id="8.12"><aside class="number"><a href="#8.12">8.12</a></aside>
 <h2>Chemicals and compounds</h2>
 <ol type="1">
-<li id="8.12.1"><aside class="number">8.12.1</aside><p>Molecular compounds are set in Roman, without spaces, and wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compound"</span><span class="p">&gt;</span></code> element.
+<li id="8.12.1"><aside class="number"><a href="#8.12.1">8.12.1</a></aside><p>Molecular compounds are set in Roman, without spaces, and wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compound"</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He put extra <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compound"</span><span class="p">&gt;</span>NaCl<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> on his dinner.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.12.2"><aside class="number">8.12.2</aside><p>Elements in a molecular compound are capitalized according to their listing in the periodic table.</p></li>
-<li id="8.12.3"><aside class="number">8.12.3</aside><p>Amounts of an element in a molecular compound are set in subscript with a <code class="html"><span class="p">&lt;</span><span class="nt">sub</span><span class="p">&gt;</span></code> element.
+<li id="8.12.2"><aside class="number"><a href="#8.12.2">8.12.2</a></aside><p>Elements in a molecular compound are capitalized according to their listing in the periodic table.</p></li>
+<li id="8.12.3"><aside class="number"><a href="#8.12.3">8.12.3</a></aside><p>Amounts of an element in a molecular compound are set in subscript with a <code class="html"><span class="p">&lt;</span><span class="nt">sub</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>She drank eight glasses of <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"compound"</span><span class="p">&gt;</span>H<span class="p">&lt;</span><span class="nt">sub</span><span class="p">&gt;</span>2<span class="p">&lt;/</span><span class="nt">sub</span><span class="p">&gt;</span>O<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> a day.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.13"><aside class="number">8.13</aside>
+<section id="8.13"><aside class="number"><a href="#8.13">8.13</a></aside>
 <h2>Temperatures</h2>
 <ol type="1">
-<li id="8.13.1"><aside class="number">8.13.1</aside><p>The minus sign glyph (<code class="utf">−</code> or U+2212), not the hyphen glyph, is used to indicate negative numbers.</p></li>
-<li id="8.13.2"><aside class="number">8.13.2</aside><p>Either the degree glyph (<code class="utf">°</code> or U+00B0) or the word “degrees” is acceptable. Works that use both are normalize to use the dominant method.</p></li>
+<li id="8.13.1"><aside class="number"><a href="#8.13.1">8.13.1</a></aside><p>The minus sign glyph (<code class="utf">−</code> or U+2212), not the hyphen glyph, is used to indicate negative numbers.</p></li>
+<li id="8.13.2"><aside class="number"><a href="#8.13.2">8.13.2</a></aside><p>Either the degree glyph (<code class="utf">°</code> or U+00B0) or the word “degrees” is acceptable. Works that use both are normalize to use the dominant method.</p></li>
 </ol>
-<section id="8.13.3"><aside class="number">8.13.3</aside>
+<section id="8.13.3"><aside class="number"><a href="#8.13.3">8.13.3</a></aside>
 <h3>Abbreviated units of temperature</h3>
 <ol type="1">
-<li id="8.13.3.1"><aside class="number">8.13.3.1</aside><p>Units of temperature measurement, like Farenheit or Celcius, may be abbreviated to “F” or “C”.</p></li>
-<li id="8.13.3.2"><aside class="number">8.13.3.2</aside><p>Units of temperature measurement do not have trailing periods.</p></li>
-<li id="8.13.3.3"><aside class="number">8.13.3.3</aside><p>If an <em>abbreviated</em> unit of temperature measurement is preceded by a number, the unit of measurement is first preceded by a hair space (<span class="utf"> </span> or U+200A).</p></li>
-<li id="8.13.3.4"><aside class="number">8.13.3.4</aside><p>Abbreviated units of measurement are set in small caps.</p></li>
-<li id="8.13.3.5"><aside class="number">8.13.3.5</aside><p>Abbreviated units of measurement are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"temperature"</span><span class="p">&gt;</span></code> element.
+<li id="8.13.3.1"><aside class="number"><a href="#8.13.3.1">8.13.3.1</a></aside><p>Units of temperature measurement, like Farenheit or Celcius, may be abbreviated to “F” or “C”.</p></li>
+<li id="8.13.3.2"><aside class="number"><a href="#8.13.3.2">8.13.3.2</a></aside><p>Units of temperature measurement do not have trailing periods.</p></li>
+<li id="8.13.3.3"><aside class="number"><a href="#8.13.3.3">8.13.3.3</a></aside><p>If an <em>abbreviated</em> unit of temperature measurement is preceded by a number, the unit of measurement is first preceded by a hair space (<span class="utf"> </span> or U+200A).</p></li>
+<li id="8.13.3.4"><aside class="number"><a href="#8.13.3.4">8.13.3.4</a></aside><p>Abbreviated units of measurement are set in small caps.</p></li>
+<li id="8.13.3.5"><aside class="number"><a href="#8.13.3.5">8.13.3.5</a></aside><p>Abbreviated units of measurement are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"temperature"</span><span class="p">&gt;</span></code> element.
 						</p><figure><code class="css full"><span class="nt">abbr</span><span class="p">.</span><span class="nc">temperature</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">all-small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
@@ -660,40 +660,40 @@ require_once('Core.php');
 </ol>
 </section>
 </section>
-<section id="8.14"><aside class="number">8.14</aside>
+<section id="8.14"><aside class="number"><a href="#8.14">8.14</a></aside>
 <h2>Scansion</h2>
 <p>Scansion is the representation of the metrical stresses in lines of verse.</p>
 <ol type="1">
-<li id="8.14.1"><aside class="number">8.14.1</aside><p><code class="utf">×</code> (U+00d7) indicates an unstressed sylllable and <code class="utf">/</code> (U+002f) indicates a stressed syllable. They are separated from each other with no-break spaces (<span class="utf"> </span> or U+00A0).
+<li id="8.14.1"><aside class="number"><a href="#8.14.1">8.14.1</a></aside><p><code class="utf">×</code> (U+00d7) indicates an unstressed sylllable and <code class="utf">/</code> (U+002f) indicates a stressed syllable. They are separated from each other with no-break spaces (<span class="utf"> </span> or U+00A0).
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Several of his types, however, constantly occur; <span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>e.g.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> A and a variant (/ × | / ×) (/ × × | / ×); B and a variant (× / | × /) (× × / | × /); a variant of D (/ × | / × ×); E (/ × × | /). <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="8.14.2"><aside class="number">8.14.2</aside><p>Lines of poetry listed on a single line (like in a quotation) are separated by a space, then a forward slash, then a space. Capitalization is preserved for each line.
+<li id="8.14.2"><aside class="number"><a href="#8.14.2">8.14.2</a></aside><p>Lines of poetry listed on a single line (like in a quotation) are separated by a space, then a forward slash, then a space. Capitalization is preserved for each line.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The famous lines “Wake! For the Sun, who scatter’d into flight / The Stars before him from the Field of Night” are from <span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:name.publication.book"</span><span class="p">&gt;</span>The Rubáiyát of Omar Khayyám<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.15"><aside class="number">8.15</aside>
+<section id="8.15"><aside class="number"><a href="#8.15">8.15</a></aside>
 <h2>Legal cases and terms</h2>
 <ol type="1">
-<li id="8.15.1"><aside class="number">8.15.1</aside><p>Legal cases are set in italics.</p></li>
-<li id="8.15.2"><aside class="number">8.15.2</aside><p>Either “versus” or “v.” are acceptable in the name of a legal case; if using “v.”, a period follows the “v.”, and it is wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code> element.
+<li id="8.15.1"><aside class="number"><a href="#8.15.1">8.15.1</a></aside><p>Legal cases are set in italics.</p></li>
+<li id="8.15.2"><aside class="number"><a href="#8.15.2">8.15.2</a></aside><p>Either “versus” or “v.” are acceptable in the name of a legal case; if using “v.”, a period follows the “v.”, and it is wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He prosecuted <span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:name.legal-case"</span><span class="p">&gt;</span>Johnson <span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span>v.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;</span> Smith<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </section>
-<section id="8.16"><aside class="number">8.16</aside>
+<section id="8.16"><aside class="number"><a href="#8.16">8.16</a></aside>
 <h2>Morse code</h2>
 <p>Any Morse code that appears in a book is changed to fit Standard Ebooks’ format.</p>
-<section id="8.16.1"><aside class="number">8.16.1</aside>
+<section id="8.16.1"><aside class="number"><a href="#8.16.1">8.16.1</a></aside>
 <h3>American Morse Code</h3>
 <ol type="1">
-<li id="8.16.1.1"><aside class="number">8.16.1.1</aside><p>Middle dot glyphs (<code class="utf">·</code> or U+00B7) are used for the short mark or dot.</p></li>
-<li id="8.16.1.2"><aside class="number">8.16.1.2</aside><p>En dash (<code class="utf">–</code> or U+2013) are used for the longer mark or short dash.</p></li>
-<li id="8.16.1.3"><aside class="number">8.16.1.3</aside><p>Em dashes (<code class="utf">—</code> or U+2014) are used for the long dash (the letter L).</p></li>
-<li id="8.16.1.4"><aside class="number">8.16.1.4</aside><p>If two en dashes are placed next to each other, a hair space (<span class="utf"> </span> or U+200A) is placed between them to keep the glyphs from merging into a longer dash.</p></li>
-<li id="8.16.1.5"><aside class="number">8.16.1.5</aside><p>Only in American Morse Code, there are internal gaps used between glyphs in the letters C,O,R, or Z. No-break spaces (<span class="utf"> </span> or U+00A0) are used for these gaps.</p></li>
-<li id="8.16.1.6"><aside class="number">8.16.1.6</aside><p>En spaces (U+2002) are used between letters.</p></li>
-<li id="8.16.1.7"><aside class="number">8.16.1.7</aside><p>Em spaces (U+2003) are used between words.
+<li id="8.16.1.1"><aside class="number"><a href="#8.16.1.1">8.16.1.1</a></aside><p>Middle dot glyphs (<code class="utf">·</code> or U+00B7) are used for the short mark or dot.</p></li>
+<li id="8.16.1.2"><aside class="number"><a href="#8.16.1.2">8.16.1.2</a></aside><p>En dash (<code class="utf">–</code> or U+2013) are used for the longer mark or short dash.</p></li>
+<li id="8.16.1.3"><aside class="number"><a href="#8.16.1.3">8.16.1.3</a></aside><p>Em dashes (<code class="utf">—</code> or U+2014) are used for the long dash (the letter L).</p></li>
+<li id="8.16.1.4"><aside class="number"><a href="#8.16.1.4">8.16.1.4</a></aside><p>If two en dashes are placed next to each other, a hair space (<span class="utf"> </span> or U+200A) is placed between them to keep the glyphs from merging into a longer dash.</p></li>
+<li id="8.16.1.5"><aside class="number"><a href="#8.16.1.5">8.16.1.5</a></aside><p>Only in American Morse Code, there are internal gaps used between glyphs in the letters C,O,R, or Z. No-break spaces (<span class="utf"> </span> or U+00A0) are used for these gaps.</p></li>
+<li id="8.16.1.6"><aside class="number"><a href="#8.16.1.6">8.16.1.6</a></aside><p>En spaces (U+2002) are used between letters.</p></li>
+<li id="8.16.1.7"><aside class="number"><a href="#8.16.1.7">8.16.1.7</a></aside><p>Em spaces (U+2003) are used between words.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>--  .. ..   __  ..  - -  __  .   . ..  __  -..   .. .  .- -<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>My little old cat.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>– – ·· ·· — ·· – – — · · · — –·· ·· · ·– –<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>

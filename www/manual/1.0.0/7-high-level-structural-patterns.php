@@ -7,19 +7,19 @@ require_once('Core.php');
 <section id="7"><aside class="number">7</aside>
 <h1>High Level Structural Patterns</h1>
 <p>Section should contain high-level structural patterns for common formatting situations.</p>
-<section id="7.1"><aside class="number">7.1</aside>
+<section id="7.1"><aside class="number"><a href="#7.1">7.1</a></aside>
 <h2>Sectioning</h2>
 <ol type="1">
-<li id="7.1.1"><aside class="number">7.1.1</aside><p>Major structural divisions of a larger work, like parts, volumes, books, chapters, or subchapters, are contained in a <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="7.1.2"><aside class="number">7.1.2</aside><p>Individual items in a larger collection (like a poem in a poetry collection) are contained in a <code class="html"><span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="7.1.3"><aside class="number">7.1.3</aside><p>In <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">articles</span><span class="p">&gt;</span></code> elements that have titles, the first child element is an <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> element, or a <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element containing the section’s title.</p></li>
+<li id="7.1.1"><aside class="number"><a href="#7.1.1">7.1.1</a></aside><p>Major structural divisions of a larger work, like parts, volumes, books, chapters, or subchapters, are contained in a <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.1.2"><aside class="number"><a href="#7.1.2">7.1.2</a></aside><p>Individual items in a larger collection (like a poem in a poetry collection) are contained in a <code class="html"><span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.1.3"><aside class="number"><a href="#7.1.3">7.1.3</a></aside><p>In <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">articles</span><span class="p">&gt;</span></code> elements that have titles, the first child element is an <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> element, or a <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element containing the section’s title.</p></li>
 </ol>
-<section id="7.1.4"><aside class="number">7.1.4</aside>
+<section id="7.1.4"><aside class="number"><a href="#7.1.4">7.1.4</a></aside>
 <h3>Recomposability</h3>
 <p>“Recomposability” is the concept of generating a single structurally-correct HTML5 file out of an epub file. All Standard Ebooks are recomposable.</p>
 <ol type="1">
-<li id="7.1.4.1"><aside class="number">7.1.4.1</aside><p>XHTML files that contain <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">articles</span><span class="p">&gt;</span></code> elements that are semantic children of <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">articles</span><span class="p">&gt;</span></code> elements in other files, are wrapped in stubs of all parent <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">articles</span><span class="p">&gt;</span></code> elements, up to the root.</p></li>
-<li id="7.1.4.2"><aside class="number">7.1.4.2</aside><p>Each such included parent element has the identical <code class="html"><span class="na">id</span></code> and <code class="html"><span class="na">epub:type</span></code> attributes of its real counterpart.</p></li>
+<li id="7.1.4.1"><aside class="number"><a href="#7.1.4.1">7.1.4.1</a></aside><p>XHTML files that contain <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">articles</span><span class="p">&gt;</span></code> elements that are semantic children of <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">articles</span><span class="p">&gt;</span></code> elements in other files, are wrapped in stubs of all parent <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">articles</span><span class="p">&gt;</span></code> elements, up to the root.</p></li>
+<li id="7.1.4.2"><aside class="number"><a href="#7.1.4.2">7.1.4.2</a></aside><p>Each such included parent element has the identical <code class="html"><span class="na">id</span></code> and <code class="html"><span class="na">epub:type</span></code> attributes of its real counterpart.</p></li>
 </ol>
 <section id="examples">
 <h4>Examples</h4>
@@ -47,13 +47,13 @@ require_once('Core.php');
 </section>
 </section>
 </section>
-<section id="7.2"><aside class="number">7.2</aside>
+<section id="7.2"><aside class="number"><a href="#7.2">7.2</a></aside>
 <h2>Headers</h2>
 <ol type="1">
-<li id="7.2.1"><aside class="number">7.2.1</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> elements are used for headers of sections that are structural divisions of a document, i.e., divisions that appear in the table of contents. <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> elements <em>are not</em> used for headers of components that are not in the table of contents. For example, they are not used to mark up the title of a short poem in a chapter, where the poem itself is not a structural component of the larger ebook.</p></li>
-<li id="7.2.2"><aside class="number">7.2.2</aside><p>A section containing an <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> appears in the table of contents.</p></li>
-<li id="7.2.3"><aside class="number">7.2.3</aside><p>The book’s title is implicitly at the <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> level, even if <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> is not present in the ebook. An <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> element is only present if the ebook contains a half title page. Because of the implicit <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>, all other sections begin at <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code>.</p></li>
-<li id="7.2.4"><aside class="number">7.2.4</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> element uses the correct number for the section’s heading level in the overall book, <em>not</em> the section’s heading level in the individual file. For example, given an ebook with a file named <code class="path">part-2.xhtml</code> containing:
+<li id="7.2.1"><aside class="number"><a href="#7.2.1">7.2.1</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> elements are used for headers of sections that are structural divisions of a document, i.e., divisions that appear in the table of contents. <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> elements <em>are not</em> used for headers of components that are not in the table of contents. For example, they are not used to mark up the title of a short poem in a chapter, where the poem itself is not a structural component of the larger ebook.</p></li>
+<li id="7.2.2"><aside class="number"><a href="#7.2.2">7.2.2</a></aside><p>A section containing an <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> appears in the table of contents.</p></li>
+<li id="7.2.3"><aside class="number"><a href="#7.2.3">7.2.3</a></aside><p>The book’s title is implicitly at the <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> level, even if <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> is not present in the ebook. An <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> element is only present if the ebook contains a half title page. Because of the implicit <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>, all other sections begin at <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code>.</p></li>
+<li id="7.2.4"><aside class="number"><a href="#7.2.4">7.2.4</a></aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> element uses the correct number for the section’s heading level in the overall book, <em>not</em> the section’s heading level in the individual file. For example, given an ebook with a file named <code class="path">part-2.xhtml</code> containing:
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"part-2"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"part"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Part <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>II<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></code></figure>
@@ -71,18 +71,18 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.2.5"><aside class="number">7.2.5</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> element has a direct parent <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.2.5"><aside class="number"><a href="#7.2.5">7.2.5</a></aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code>–<code class="html"><span class="p">&lt;</span><span class="nt">h6</span><span class="p">&gt;</span></code> element has a direct parent <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> or <code class="html"><span class="p">&lt;</span><span class="nt">article</span><span class="p">&gt;</span></code> element.</p></li>
 </ol>
-<section id="7.2.6"><aside class="number">7.2.6</aside>
+<section id="7.2.6"><aside class="number"><a href="#7.2.6">7.2.6</a></aside>
 <h3>Header patterns</h3>
 <ol type="1">
-<li id="7.2.6.1"><aside class="number">7.2.6.1</aside><p>Sections without titles:
+<li id="7.2.6.1"><aside class="number"><a href="#7.2.6.1">7.2.6.1</a></aside><p>Sections without titles:
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title z3998:roman"</span><span class="p">&gt;</span>XI<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.2.6.2"><aside class="number">7.2.6.2</aside><p>Sections with titles but no ordinal (i.e. chapter) numbers:
+<li id="7.2.6.2"><aside class="number"><a href="#7.2.6.2">7.2.6.2</a></aside><p>Sections with titles but no ordinal (i.e. chapter) numbers:
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>A Daughter of Albion<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.2.6.3"><aside class="number">7.2.6.3</aside><p>Sections with titles and ordinal (i.e. chapter) numbers:
+<li id="7.2.6.3"><aside class="number"><a href="#7.2.6.3">7.2.6.3</a></aside><p>Sections with titles and ordinal (i.e. chapter) numbers:
 						</p><figure><code class="css full"><span class="nt">span</span><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"subtitle"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
 	<span class="k">font-weight</span><span class="p">:</span> <span class="kc">normal</span><span class="p">;</span>
@@ -92,7 +92,7 @@ require_once('Core.php');
 	<span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"subtitle"</span><span class="p">&gt;</span>Who Stole the Tarts?<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.2.6.4"><aside class="number">7.2.6.4</aside><p>Sections titles and subtitles but no ordinal (i.e. chapter) numbers:
+<li id="7.2.6.4"><aside class="number"><a href="#7.2.6.4">7.2.6.4</a></aside><p>Sections titles and subtitles but no ordinal (i.e. chapter) numbers:
 						</p><figure><code class="css full"><span class="nt">span</span><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"subtitle"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
 	<span class="k">font-weight</span><span class="p">:</span> <span class="kc">normal</span><span class="p">;</span>
@@ -102,7 +102,7 @@ require_once('Core.php');
 	<span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"subtitle"</span><span class="p">&gt;</span>(A Driver’s Story)<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.2.6.5"><aside class="number">7.2.6.5</aside><p>Sections that have a non-unique title, but that are required to be identifed in the ToC with a unique title (e.g., multiple poems identified as “Sonnet” in the body matter, which require their ToC entry to contain the poem’s first line to differentiate them):
+<li id="7.2.6.5"><aside class="number"><a href="#7.2.6.5">7.2.6.5</a></aside><p>Sections that have a non-unique title, but that are required to be identifed in the ToC with a unique title (e.g., multiple poems identified as “Sonnet” in the body matter, which require their ToC entry to contain the poem’s first line to differentiate them):
 						</p><figure><code class="css full"><span class="nt">span</span><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"subtitle"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
 	<span class="k">font-weight</span><span class="p">:</span> <span class="kc">normal</span><span class="p">;</span>
@@ -112,7 +112,7 @@ require_once('Core.php');
 	<span class="p">&lt;</span><span class="nt">span</span> <span class="na">hidden</span><span class="o">=</span><span class="s">"hidden"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"subtitle"</span><span class="p">&gt;</span>Happy Is England!<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.2.6.6"><aside class="number">7.2.6.6</aside><p>Sections that require titles, but that are not in the table of contents:
+<li id="7.2.6.6"><aside class="number"><a href="#7.2.6.6">7.2.6.6</a></aside><p>Sections that require titles, but that are not in the table of contents:
 						</p><figure><code class="css full"><span class="nt">header</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">small-caps</span><span class="p">;</span>
 	<span class="k">margin</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
@@ -122,10 +122,10 @@ require_once('Core.php');
 	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The Title of a Short Poem<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.2.6.7"><aside class="number">7.2.6.7</aside><p>Half title pages without subtitles:
+<li id="7.2.6.7"><aside class="number"><a href="#7.2.6.7">7.2.6.7</a></aside><p>Half title pages without subtitles:
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"fulltitle"</span><span class="p">&gt;</span>Eugene Onegin<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.2.6.8"><aside class="number">7.2.6.8</aside><p>Half title pages with subtitles:
+<li id="7.2.6.8"><aside class="number"><a href="#7.2.6.8">7.2.6.8</a></aside><p>Half title pages with subtitles:
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"fulltitle"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>His Last Bow<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"subtitle"</span><span class="p">&gt;</span>Some Reminiscences of Sherlock Holmes<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
@@ -133,12 +133,12 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="7.2.7"><aside class="number">7.2.7</aside>
+<section id="7.2.7"><aside class="number"><a href="#7.2.7">7.2.7</a></aside>
 <h3>Bridgeheads</h3>
 <p>Bridgeheads are sections in a chapter header that give an abstract or summary of the following chapter. They may be in prose or in a short list with clauses separated by em dashes.</p>
 <ol type="1">
-<li id="7.2.7.1"><aside class="number">7.2.7.1</aside><p>The last clause in a bridgehead ends in appropriate punctuation, like a period.</p></li>
-<li id="7.2.7.2"><aside class="number">7.2.7.2</aside><p>Bridgeheads have the following CSS and HTML structure:
+<li id="7.2.7.1"><aside class="number"><a href="#7.2.7.1">7.2.7.1</a></aside><p>The last clause in a bridgehead ends in appropriate punctuation, like a period.</p></li>
+<li id="7.2.7.2"><aside class="number"><a href="#7.2.7.2">7.2.7.2</a></aside><p>Bridgeheads have the following CSS and HTML structure:
 						</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"bridgehead"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">inline-block</span><span class="p">;</span>
 	<span class="k">font-style</span><span class="p">:</span> <span class="kc">italic</span><span class="p">;</span>
@@ -162,11 +162,11 @@ require_once('Core.php');
 </ol>
 </section>
 </section>
-<section id="7.3"><aside class="number">7.3</aside>
+<section id="7.3"><aside class="number"><a href="#7.3">7.3</a></aside>
 <h2>Dedications</h2>
 <ol type="1">
-<li id="7.3.1"><aside class="number">7.3.1</aside><p>Dedications are typically full-page, centered on the page for ereaders that support advanced CSS. For all other ereaders, the dedication is horizontally centered with a small margin above it.</p></li>
-<li id="7.3.2"><aside class="number">7.3.2</aside><p>All dedications include this base CSS:
+<li id="7.3.1"><aside class="number"><a href="#7.3.1">7.3.1</a></aside><p>Dedications are typically full-page, centered on the page for ereaders that support advanced CSS. For all other ereaders, the dedication is horizontally centered with a small margin above it.</p></li>
+<li id="7.3.2"><aside class="number"><a href="#7.3.2">7.3.2</a></aside><p>All dedications include this base CSS:
 					</p><figure><code class="css full"><span class="c">/* All dedications */</span>
 <span class="nt">section</span><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"dedication"</span><span class="o">]</span> <span class="o">&gt;</span> <span class="o">*</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">inline-block</span><span class="p">;</span>
@@ -192,13 +192,13 @@ require_once('Core.php');
 <span class="p">}</span>
 <span class="c">/* End all dedications */</span></code></figure>
 </li>
-<li id="7.3.3"><aside class="number">7.3.3</aside><p>Dedications are frequently styled uniquely by the authors. Therefore Standard Ebooks producers have freedom to style dedications to match page scans, for example by including small caps, different font sizes, alignments, etc.</p></li>
+<li id="7.3.3"><aside class="number"><a href="#7.3.3">7.3.3</a></aside><p>Dedications are frequently styled uniquely by the authors. Therefore Standard Ebooks producers have freedom to style dedications to match page scans, for example by including small caps, different font sizes, alignments, etc.</p></li>
 </ol>
 </section>
-<section id="7.4"><aside class="number">7.4</aside>
+<section id="7.4"><aside class="number"><a href="#7.4">7.4</a></aside>
 <h2>Epigraphs</h2>
 <ol type="1">
-<li id="7.4.1"><aside class="number">7.4.1</aside><p>All epigraphs include this CSS:
+<li id="7.4.1"><aside class="number"><a href="#7.4.1">7.4.1</a></aside><p>All epigraphs include this CSS:
 					</p><figure><code class="css full"><span class="c">/* All epigraphs */</span>
 <span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"epigraph"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">font-style</span><span class="p">:</span> <span class="kc">italic</span><span class="p">;</span>
@@ -222,10 +222,10 @@ require_once('Core.php');
 <span class="c">/* End all epigraphs */</span></code></figure>
 </li>
 </ol>
-<section id="7.4.2"><aside class="number">7.4.2</aside>
+<section id="7.4.2"><aside class="number"><a href="#7.4.2">7.4.2</a></aside>
 <h3>Epigraphs in section headers</h3>
 <ol type="1">
-<li id="7.4.2.1"><aside class="number">7.4.2.1</aside><p>Epigraphs in section headers have the quote source in a <code class="html"><span class="p">&lt;</span><span class="nt">cite</span><span class="p">&gt;</span></code> element set in small caps, without a leading em-dash and without a trailing period.
+<li id="7.4.2.1"><aside class="number"><a href="#7.4.2.1">7.4.2.1</a></aside><p>Epigraphs in section headers have the quote source in a <code class="html"><span class="p">&lt;</span><span class="nt">cite</span><span class="p">&gt;</span></code> element set in small caps, without a leading em-dash and without a trailing period.
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title z3998:roman"</span><span class="p">&gt;</span>II<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">blockquote</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"epigraph"</span><span class="p">&gt;</span>
@@ -244,7 +244,7 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.4.2.2"><aside class="number">7.4.2.2</aside><p>In addition to the <a href="/manual/1.0.0/7-high-level-structural-patterns#7.3.1">CSS used for all epigraphs</a>, this additional CSS is included for epigraphs in section headers:
+<li id="7.4.2.2"><aside class="number"><a href="#7.4.2.2">7.4.2.2</a></aside><p>In addition to the <a href="/manual/1.0.0/7-high-level-structural-patterns#7.3.1">CSS used for all epigraphs</a>, this additional CSS is included for epigraphs in section headers:
 						</p><figure><code class="css full"><span class="c">/* Epigraphs in section headers */</span>
 <span class="nt">section</span> <span class="o">&gt;</span> <span class="nt">header</span> <span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"epigraph"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">inline-block</span><span class="p">;</span>
@@ -266,12 +266,12 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="7.4.3"><aside class="number">7.4.3</aside>
+<section id="7.4.3"><aside class="number"><a href="#7.4.3">7.4.3</a></aside>
 <h3>Full-page epigraphs</h3>
 <ol type="1">
-<li id="7.4.3.1"><aside class="number">7.4.3.1</aside><p>In full-page epigraphs, the epigraph is centered on the page for ereaders that support advanced CSS. For all other ereaders, the epigraph is horizontally centered with a small margin above it.</p></li>
-<li id="7.4.3.2"><aside class="number">7.4.3.2</aside><p>Full-page epigraphs that contain multiple quotations are represented by multiple <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code> elements.</p></li>
-<li id="7.4.3.3"><aside class="number">7.4.3.3</aside><p>In addition to the <a href="/manual/1.0.0/7-high-level-structural-patterns#7.3.1">CSS used for all epigraphs</a>, this additional CSS is included for full-page epigraphs:
+<li id="7.4.3.1"><aside class="number"><a href="#7.4.3.1">7.4.3.1</a></aside><p>In full-page epigraphs, the epigraph is centered on the page for ereaders that support advanced CSS. For all other ereaders, the epigraph is horizontally centered with a small margin above it.</p></li>
+<li id="7.4.3.2"><aside class="number"><a href="#7.4.3.2">7.4.3.2</a></aside><p>Full-page epigraphs that contain multiple quotations are represented by multiple <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code> elements.</p></li>
+<li id="7.4.3.3"><aside class="number"><a href="#7.4.3.3">7.4.3.3</a></aside><p>In addition to the <a href="/manual/1.0.0/7-high-level-structural-patterns#7.3.1">CSS used for all epigraphs</a>, this additional CSS is included for full-page epigraphs:
 						</p><figure><code class="css full"><span class="c">/* Full-page epigraphs */</span>
 <span class="nt">section</span><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"epigraph"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>
@@ -306,7 +306,7 @@ require_once('Core.php');
 <span class="p">}</span>
 <span class="c">/* End full-page epigraphs */</span></code></figure>
 </li>
-<li id="7.4.3.4"><aside class="number">7.4.3.4</aside><p>Example HTML:
+<li id="7.4.3.4"><aside class="number"><a href="#7.4.3.4">7.4.3.4</a></aside><p>Example HTML:
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"frontmatter"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"epigraph"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"epigraph"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span>
@@ -323,11 +323,11 @@ require_once('Core.php');
 </ol>
 </section>
 </section>
-<section id="7.5"><aside class="number">7.5</aside>
+<section id="7.5"><aside class="number"><a href="#7.5">7.5</a></aside>
 <h2>Poetry, verse, and songs</h2>
 <p>Unfortunately there’s no great way to semantically format poetry in HTML. As such, unrelated elements are conscripted for use in poetry.</p>
 <ol type="1">
-<li id="7.5.1"><aside class="number">7.5.1</aside><p>A stanza is represented by a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element styled with this CSS:
+<li id="7.5.1"><aside class="number"><a href="#7.5.1">7.5.1</a></aside><p>A stanza is represented by a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element styled with this CSS:
 					</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">p</span><span class="p">{</span>
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">left</span><span class="p">;</span>
 	<span class="k">text-indent</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
@@ -341,19 +341,19 @@ require_once('Core.php');
 	<span class="k">text-indent</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="7.5.2"><aside class="number">7.5.2</aside><p>Each stanza contains <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> elements, each one representing a line in the stanza, styled with this CSS:
+<li id="7.5.2"><aside class="number"><a href="#7.5.2">7.5.2</a></aside><p>Each stanza contains <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> elements, each one representing a line in the stanza, styled with this CSS:
 					</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">p</span> <span class="o">&gt;</span> <span class="nt">span</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
 	<span class="k">text-indent</span><span class="p">:</span> <span class="mi">-1</span><span class="kt">em</span><span class="p">;</span>
 	<span class="k">padding-left</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="7.5.3"><aside class="number">7.5.3</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> line is followed by a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element, except for the last line in a stanza, styled with this CSS:
+<li id="7.5.3"><aside class="number"><a href="#7.5.3">7.5.3</a></aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> line is followed by a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element, except for the last line in a stanza, styled with this CSS:
 					</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">p</span> <span class="o">&gt;</span> <span class="nt">span</span> <span class="o">+</span> <span class="nt">br</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">none</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="7.5.4"><aside class="number">7.5.4</aside><p>Indented <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> lines have the <code class="bash"><span class="s">i1</span></code> class. <i>Do not</i> use <code class="ws">nbsp</code> for indentation. Indenting to different levels is done by incrementing the class to <code class="css"><span class="nt">i2</span></code>, <code class="css"><span class="nt">i3</span></code>, and so on, and including the appropriate CSS.
+<li id="7.5.4"><aside class="number"><a href="#7.5.4">7.5.4</a></aside><p>Indented <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> lines have the <code class="bash"><span class="s">i1</span></code> class. <i>Do not</i> use <code class="ws">nbsp</code> for indentation. Indenting to different levels is done by incrementing the class to <code class="css"><span class="nt">i2</span></code>, <code class="css"><span class="nt">i3</span></code>, and so on, and including the appropriate CSS.
 					</p><figure><code class="css full"><span class="nt">p</span> <span class="nt">span</span><span class="p">.</span><span class="nc">i1</span><span class="p">{</span>
 	<span class="k">text-indent</span><span class="p">:</span> <span class="mi">-1</span><span class="kt">em</span><span class="p">;</span>
 	<span class="k">padding-left</span><span class="p">:</span> <span class="mi">2</span><span class="kt">em</span><span class="p">;</span>
@@ -364,7 +364,7 @@ require_once('Core.php');
 	<span class="k">padding-left</span><span class="p">:</span> <span class="mi">3</span><span class="kt">em</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="7.5.5"><aside class="number">7.5.5</aside><p>Poems, songs, and verse that are shorter part of a longer work, like a novel, are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code> element.
+<li id="7.5.5"><aside class="number"><a href="#7.5.5">7.5.5</a></aside><p>Poems, songs, and verse that are shorter part of a longer work, like a novel, are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code> element.
 					</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">blockquote</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:poem"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">br</span><span class="p">&gt;</span>
@@ -372,8 +372,8 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.5.6"><aside class="number">7.5.6</aside><p>The parent element of poetry, verse, or song, has the semantic inflection of <code class="bash"><span class="s">z3998:poem</span></code>, <code class="bash"><span class="s">z3998:verse</span></code>, <code class="bash"><span class="s">z3998:song</span></code>, or <code class="bash"><span class="s">z3998:hymn</span></code>.</p></li>
-<li id="7.5.7"><aside class="number">7.5.7</aside><p>If a poem is quoted and has one or more lines removed, the removed lines are represented with a vertical ellipses (<code class="utf">⋮</code> or U+22EE) in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"elision"</span><span class="p">&gt;</span></code> element styled with this CSS:
+<li id="7.5.6"><aside class="number"><a href="#7.5.6">7.5.6</a></aside><p>The parent element of poetry, verse, or song, has the semantic inflection of <code class="bash"><span class="s">z3998:poem</span></code>, <code class="bash"><span class="s">z3998:verse</span></code>, <code class="bash"><span class="s">z3998:song</span></code>, or <code class="bash"><span class="s">z3998:hymn</span></code>.</p></li>
+<li id="7.5.7"><aside class="number"><a href="#7.5.7">7.5.7</a></aside><p>If a poem is quoted and has one or more lines removed, the removed lines are represented with a vertical ellipses (<code class="utf">⋮</code> or U+22EE) in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"elision"</span><span class="p">&gt;</span></code> element styled with this CSS:
 					</p><figure><code class="css full"><span class="nt">span</span><span class="p">.</span><span class="nc">elision</span><span class="p">{</span>
 	<span class="k">margin</span><span class="p">:</span> <span class="mf">.5</span><span class="kt">em</span><span class="p">;</span>
 	<span class="k">margin-left</span><span class="p">:</span> <span class="mi">3</span><span class="kt">em</span><span class="p">;</span>
@@ -457,12 +457,12 @@ require_once('Core.php');
 <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span></code></figure>
 </section>
 </section>
-<section id="7.6"><aside class="number">7.6</aside>
+<section id="7.6"><aside class="number"><a href="#7.6">7.6</a></aside>
 <h2>Plays and drama</h2>
 <ol type="1">
-<li id="7.6.1"><aside class="number">7.6.1</aside><p>Dialog in plays is structured using <code class="html"><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span></code> elements.</p></li>
-<li id="7.6.2"><aside class="number">7.6.2</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span></code> is either a block of dialog or a standalone stage direction.</p></li>
-<li id="7.6.3"><aside class="number">7.6.3</aside><p>Works that are plays or that contain sections of dramatic dialog have this core CSS:
+<li id="7.6.1"><aside class="number"><a href="#7.6.1">7.6.1</a></aside><p>Dialog in plays is structured using <code class="html"><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span></code> elements.</p></li>
+<li id="7.6.2"><aside class="number"><a href="#7.6.2">7.6.2</a></aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span></code> is either a block of dialog or a standalone stage direction.</p></li>
+<li id="7.6.3"><aside class="number"><a href="#7.6.3">7.6.3</a></aside><p>Works that are plays or that contain sections of dramatic dialog have this core CSS:
 					</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:drama"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">border-collapse</span><span class="p">:</span> <span class="kc">collapse</span><span class="p">;</span>
 <span class="p">}</span>
@@ -522,11 +522,11 @@ require_once('Core.php');
 <span class="p">}</span></code></figure>
 </li>
 </ol>
-<section id="7.6.4"><aside class="number">7.6.4</aside>
+<section id="7.6.4"><aside class="number"><a href="#7.6.4">7.6.4</a></aside>
 <h3>Dialog rows</h3>
 <ol type="1">
-<li id="7.6.4.1"><aside class="number">7.6.4.1</aside><p>The first child of a row of dialog is a <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element with the semantic inflection of <code class="bash"><span class="s">z3998:persona</span></code>.</p></li>
-<li id="7.6.4.2"><aside class="number">7.6.4.2</aside><p>The second child of a row of dialog is a <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element containing the actual dialog. Elements that contain only one line of dialog do not have a block-level child (like <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code>).
+<li id="7.6.4.1"><aside class="number"><a href="#7.6.4.1">7.6.4.1</a></aside><p>The first child of a row of dialog is a <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element with the semantic inflection of <code class="bash"><span class="s">z3998:persona</span></code>.</p></li>
+<li id="7.6.4.2"><aside class="number"><a href="#7.6.4.2">7.6.4.2</a></aside><p>The second child of a row of dialog is a <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element containing the actual dialog. Elements that contain only one line of dialog do not have a block-level child (like <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code>).
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span>Algernon<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Did you hear what I was playing, Lane?<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
@@ -536,7 +536,7 @@ require_once('Core.php');
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>I didn’t think it polite to listen, sir.<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.6.4.3"><aside class="number">7.6.4.3</aside><p>When several personas speak at once, or a group of personas ("The Actors") speaks at once, the containing <code class="html"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span></code> element has the <code class="bash"><span class="s">together</span></code> class, and the first <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> child has a <code class="html"><span class="na">rowspan</span></code> attribute corresponding to the number of lines spoken together.
+<li id="7.6.4.3"><aside class="number"><a href="#7.6.4.3">7.6.4.3</a></aside><p>When several personas speak at once, or a group of personas ("The Actors") speaks at once, the containing <code class="html"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span></code> element has the <code class="bash"><span class="s">together</span></code> class, and the first <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> child has a <code class="html"><span class="na">rowspan</span></code> attribute corresponding to the number of lines spoken together.
 						</p><figure><code class="css full"><span class="nt">tr</span><span class="p">.</span><span class="nc">together</span> <span class="nt">td</span><span class="p">{</span>
 	<span class="k">padding</span><span class="p">:</span> <span class="mi">0</span> <span class="mf">.5</span><span class="kt">em</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span>
 	<span class="k">vertical-align</span><span class="p">:</span> <span class="kc">middle</span><span class="p">;</span>
@@ -575,13 +575,13 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="7.6.5"><aside class="number">7.6.5</aside>
+<section id="7.6.5"><aside class="number"><a href="#7.6.5">7.6.5</a></aside>
 <h3>Stage direction rows</h3>
 <ol type="1">
-<li id="7.6.5.1"><aside class="number">7.6.5.1</aside><p>The first child of a row of stage direction is an empty <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="7.6.5.2"><aside class="number">7.6.5.2</aside><p>The second child of a row of dialog is a <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element containing the stage direction</p></li>
-<li id="7.6.5.3"><aside class="number">7.6.5.3</aside><p>Stage direction is wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="7.6.5.4"><aside class="number">7.6.5.4</aside><p>Personas mentioned in stage direction are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.6.5.1"><aside class="number"><a href="#7.6.5.1">7.6.5.1</a></aside><p>The first child of a row of stage direction is an empty <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.6.5.2"><aside class="number"><a href="#7.6.5.2">7.6.5.2</a></aside><p>The second child of a row of dialog is a <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element containing the stage direction</p></li>
+<li id="7.6.5.3"><aside class="number"><a href="#7.6.5.3">7.6.5.3</a></aside><p>Stage direction is wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.6.5.4"><aside class="number"><a href="#7.6.5.4">7.6.5.4</a></aside><p>Personas mentioned in stage direction are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span></code> element.</p></li>
 </ol>
 <section id="id2">
 <h4>Examples</h4>
@@ -593,12 +593,12 @@ require_once('Core.php');
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code></figure>
 </section>
 </section>
-<section id="7.6.6"><aside class="number">7.6.6</aside>
+<section id="7.6.6"><aside class="number"><a href="#7.6.6">7.6.6</a></aside>
 <h3>Works that are complete plays</h3>
 <ol type="1">
-<li id="7.6.6.1"><aside class="number">7.6.6.1</aside><p>The top-level element (usually <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code>) has the <code class="bash"><span class="s">z3998:drama</span></code> semantic inflection.</p></li>
-<li id="7.6.6.2"><aside class="number">7.6.6.2</aside><p>Acts are <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> elements containing at least one <code class="html"><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span></code> for dialog, and optionally containing an act title and other top-level stage direction.</p></li>
-<li id="7.6.6.3"><aside class="number">7.6.6.3</aside><p>Introductory or high-level stage direction is presented using <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements outside of the dialog table.
+<li id="7.6.6.1"><aside class="number"><a href="#7.6.6.1">7.6.6.1</a></aside><p>The top-level element (usually <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code>) has the <code class="bash"><span class="s">z3998:drama</span></code> semantic inflection.</p></li>
+<li id="7.6.6.2"><aside class="number"><a href="#7.6.6.2">7.6.6.2</a></aside><p>Acts are <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> elements containing at least one <code class="html"><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span></code> for dialog, and optionally containing an act title and other top-level stage direction.</p></li>
+<li id="7.6.6.3"><aside class="number"><a href="#7.6.6.3">7.6.6.3</a></aside><p>Introductory or high-level stage direction is presented using <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements outside of the dialog table.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"act-1"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"chapter z3998:scene"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Act <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>I<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
@@ -610,7 +610,7 @@ require_once('Core.php');
 	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.6.6.4"><aside class="number">7.6.6.4</aside><p>Dramatis personae are presented as a <code class="html"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span></code> element listing the characters.
+<li id="7.6.6.4"><aside class="number"><a href="#7.6.6.4">7.6.6.4</a></aside><p>Dramatis personae are presented as a <code class="html"><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span></code> element listing the characters.
 						</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:dramatis-personae"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>
 <span class="p">}</span>
@@ -641,42 +641,42 @@ require_once('Core.php');
 </ol>
 </section>
 </section>
-<section id="7.7"><aside class="number">7.7</aside>
+<section id="7.7"><aside class="number"><a href="#7.7">7.7</a></aside>
 <h2>Letters</h2>
 <p>Letters require particular attention to styling and semantic inflection. Letters may not exactly match the formatting in the source scans, but they are in visual sympathy with the source.</p>
 <ol type="1">
-<li id="7.7.1"><aside class="number">7.7.1</aside><p>Letters are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code> element with the appropriate semantic inflection, usually <code class="bash"><span class="s">z3998:letter</span></code>.</p></li>
+<li id="7.7.1"><aside class="number"><a href="#7.7.1">7.7.1</a></aside><p>Letters are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code> element with the appropriate semantic inflection, usually <code class="bash"><span class="s">z3998:letter</span></code>.</p></li>
 </ol>
-<section id="7.7.2"><aside class="number">7.7.2</aside>
+<section id="7.7.2"><aside class="number"><a href="#7.7.2">7.7.2</a></aside>
 <h3>Letter headers</h3>
 <ol type="1">
-<li id="7.7.2.1"><aside class="number">7.7.2.1</aside><p>Parts of a letter prior to the body of the letter, for example the location where it is written, the date, and the salutation, are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="7.7.2.2"><aside class="number">7.7.2.2</aside><p>If there is only a salutation and no other header content, the <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element is omitted.</p></li>
-<li id="7.7.2.3"><aside class="number">7.7.2.3</aside><p>The location and date of a letter have the semantic inflection of <code class="bash"><span class="s">se:letter.dateline</span></code>. Dates are in a <code class="html"><span class="p">&lt;</span><span class="nt">time</span><span class="p">&gt;</span></code> element with a computer-readable date.
+<li id="7.7.2.1"><aside class="number"><a href="#7.7.2.1">7.7.2.1</a></aside><p>Parts of a letter prior to the body of the letter, for example the location where it is written, the date, and the salutation, are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.7.2.2"><aside class="number"><a href="#7.7.2.2">7.7.2.2</a></aside><p>If there is only a salutation and no other header content, the <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element is omitted.</p></li>
+<li id="7.7.2.3"><aside class="number"><a href="#7.7.2.3">7.7.2.3</a></aside><p>The location and date of a letter have the semantic inflection of <code class="bash"><span class="s">se:letter.dateline</span></code>. Dates are in a <code class="html"><span class="p">&lt;</span><span class="nt">time</span><span class="p">&gt;</span></code> element with a computer-readable date.
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">p</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:letter.dateline"</span><span class="p">&gt;</span>Blarney Castle, <span class="p">&lt;</span><span class="nt">time</span> <span class="na">datetime</span><span class="o">=</span><span class="s">"1863-10-11"</span><span class="p">&gt;</span>11th of October, 1863<span class="p">&lt;/</span><span class="nt">time</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.7.2.4"><aside class="number">7.7.2.4</aside><p>The salutation (for example, “Dear Sir” or “My dearest Jane”) has the semantic inflection of <code class="bash"><span class="s">z3998:salutation</span></code>.</p></li>
-<li id="7.7.2.5"><aside class="number">7.7.2.5</aside><p>The first line of a letter after the salutation is not indented.</p></li>
-<li id="7.7.2.6"><aside class="number">7.7.2.6</aside><p>Salutations that are within the first line of the letter are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:salutation</span><span class="p">&gt;</span></code> element (or a <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:salutation</span><span class="p">&gt;</span></code> element if small-caps are desired).
+<li id="7.7.2.4"><aside class="number"><a href="#7.7.2.4">7.7.2.4</a></aside><p>The salutation (for example, “Dear Sir” or “My dearest Jane”) has the semantic inflection of <code class="bash"><span class="s">z3998:salutation</span></code>.</p></li>
+<li id="7.7.2.5"><aside class="number"><a href="#7.7.2.5">7.7.2.5</a></aside><p>The first line of a letter after the salutation is not indented.</p></li>
+<li id="7.7.2.6"><aside class="number"><a href="#7.7.2.6">7.7.2.6</a></aside><p>Salutations that are within the first line of the letter are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:salutation</span><span class="p">&gt;</span></code> element (or a <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:salutation</span><span class="p">&gt;</span></code> element if small-caps are desired).
 						</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:salutation"</span><span class="p">&gt;</span>Dear Mother<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>, I was so happy to hear from you.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.7.2.7"><aside class="number">7.7.2.7</aside><p>The name of the recipient of the letter, when set out other than within a saluation (for example a letter headed “To: John Smith Esquire”), is given the semantic inflection of <code class="bash"><span class="s">z3998:recipient</span></code>. Sometimes this may occur at the end of a letter, particularly for more formal communications, in which case it is placed within a <code class="html"><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.7.2.7"><aside class="number"><a href="#7.7.2.7">7.7.2.7</a></aside><p>The name of the recipient of the letter, when set out other than within a saluation (for example a letter headed “To: John Smith Esquire”), is given the semantic inflection of <code class="bash"><span class="s">z3998:recipient</span></code>. Sometimes this may occur at the end of a letter, particularly for more formal communications, in which case it is placed within a <code class="html"><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span></code> element.</p></li>
 </ol>
 </section>
-<section id="7.7.3"><aside class="number">7.7.3</aside>
+<section id="7.7.3"><aside class="number"><a href="#7.7.3">7.7.3</a></aside>
 <h3>Letter footers</h3>
 <ol type="1">
-<li id="7.7.3.1"><aside class="number">7.7.3.1</aside><p>Parts of a letter after the body of the letter, for example the signature or postscript, are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="7.7.3.2"><aside class="number">7.7.3.2</aside><p>The <code class="html"><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span></code> element has the following CSS:
+<li id="7.7.3.1"><aside class="number"><a href="#7.7.3.1">7.7.3.1</a></aside><p>Parts of a letter after the body of the letter, for example the signature or postscript, are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="7.7.3.2"><aside class="number"><a href="#7.7.3.2">7.7.3.2</a></aside><p>The <code class="html"><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span></code> element has the following CSS:
 						</p><figure><code class="css full"><span class="nt">footer</span><span class="p">{</span>
 	<span class="k">margin-top</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">right</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="7.7.3.3"><aside class="number">7.7.3.3</aside><p>The valediction (for example, “Yours Truly” or “With best regards”) has the semantic inflection of <code class="bash"><span class="s">z3998:valediction</span></code>.</p></li>
-<li id="7.7.3.4"><aside class="number">7.7.3.4</aside><p>The sender’s name has semantic inflection of <code class="bash"><span class="s">z3998:sender</span></code>. If the name appears to be a signature to the letter, it has the <code class="bash"><span class="s">signature</span></code> class and the corresponding <code class="css"><span class="p">.</span><span class="nc">signature</span></code> CSS.
+<li id="7.7.3.3"><aside class="number"><a href="#7.7.3.3">7.7.3.3</a></aside><p>The valediction (for example, “Yours Truly” or “With best regards”) has the semantic inflection of <code class="bash"><span class="s">z3998:valediction</span></code>.</p></li>
+<li id="7.7.3.4"><aside class="number"><a href="#7.7.3.4">7.7.3.4</a></aside><p>The sender’s name has semantic inflection of <code class="bash"><span class="s">z3998:sender</span></code>. If the name appears to be a signature to the letter, it has the <code class="bash"><span class="s">signature</span></code> class and the corresponding <code class="css"><span class="p">.</span><span class="nc">signature</span></code> CSS.
 						</p><figure><code class="css full"><span class="p">.</span><span class="nc">signature</span><span class="p">{</span>
 	<span class="k">font-variant</span><span class="p">:</span> <span class="kc">small-caps</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
@@ -687,7 +687,7 @@ require_once('Core.php');
 	<span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"z3998:sender"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"signature"</span><span class="p">&gt;</span>John Doe<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>, President<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="7.7.3.5"><aside class="number">7.7.3.5</aside><p>Postscripts have the semantic inflection of <code class="bash"><span class="s">z3998:postscript</span></code> and the following CSS:
+<li id="7.7.3.5"><aside class="number"><a href="#7.7.3.5">7.7.3.5</a></aside><p>Postscripts have the semantic inflection of <code class="bash"><span class="s">z3998:postscript</span></code> and the following CSS:
 						</p><figure><code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:postscript"</span><span class="o">]</span><span class="p">{</span>
 	<span class="k">margin-top</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">left</span><span class="p">;</span>
@@ -748,27 +748,27 @@ require_once('Core.php');
 <span class="p">&lt;/</span><span class="nt">blockquote</span><span class="p">&gt;</span></code></figure>
 </section>
 </section>
-<section id="7.8"><aside class="number">7.8</aside>
+<section id="7.8"><aside class="number"><a href="#7.8">7.8</a></aside>
 <h2>Images</h2>
 <ol type="1">
-<li id="7.8.1"><aside class="number">7.8.1</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> elements have an <code class="html"><span class="na">alt</span></code> attribute that uses prose to describe the image in detail; this is what screen reading software will read aloud.
+<li id="7.8.1"><aside class="number"><a href="#7.8.1">7.8.1</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> elements have an <code class="html"><span class="na">alt</span></code> attribute that uses prose to describe the image in detail; this is what screen reading software will read aloud.
 					</p><ol type="1">
-<li id="7.8.1.1"><aside class="number">7.8.1.1</aside><p>The <code class="html"><span class="na">alt</span></code> attribute describes the visual image itself in words, which is not the same as writing a caption or describing its place in the book.
+<li id="7.8.1.1"><aside class="number"><a href="#7.8.1.1">7.8.1.1</a></aside><p>The <code class="html"><span class="na">alt</span></code> attribute describes the visual image itself in words, which is not the same as writing a caption or describing its place in the book.
 							</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">alt</span><span class="o">=</span><span class="s">"The illustration for chapter 10"</span> <span class="na">src</span><span class="o">=</span><span class="s">"..."</span> <span class="p">/&gt;</span></code></figure>
 <figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">alt</span><span class="o">=</span><span class="s">"Pierre’s fruit-filled dinner"</span> <span class="na">src</span><span class="o">=</span><span class="s">"..."</span> <span class="p">/&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">alt</span><span class="o">=</span><span class="s">"An apple and a pear inside a bowl, resting on a table."</span> <span class="na">src</span><span class="o">=</span><span class="s">"..."</span> <span class="p">/&gt;</span></code></figure>
 </li>
-<li id="7.8.1.2"><aside class="number">7.8.1.2</aside><p>The <code class="html"><span class="na">alt</span></code> attribute is one or more complete sentences ended with periods or other appropriate punctuation. It is not composed of sentence fragments or complete sentences without ending punctuation.</p></li>
-<li id="7.8.1.3"><aside class="number">7.8.1.3</aside><p>The <code class="html"><span class="na">alt</span></code> attribute is not necessarily the same as text in the image’s sibling <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> element, if one is present.</p></li>
+<li id="7.8.1.2"><aside class="number"><a href="#7.8.1.2">7.8.1.2</a></aside><p>The <code class="html"><span class="na">alt</span></code> attribute is one or more complete sentences ended with periods or other appropriate punctuation. It is not composed of sentence fragments or complete sentences without ending punctuation.</p></li>
+<li id="7.8.1.3"><aside class="number"><a href="#7.8.1.3">7.8.1.3</a></aside><p>The <code class="html"><span class="na">alt</span></code> attribute is not necessarily the same as text in the image’s sibling <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> element, if one is present.</p></li>
 </ol>
 </li>
-<li id="7.8.2"><aside class="number">7.8.2</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> elements have semantic inflection denoting the type of image. Common values are <code class="bash"><span class="s">z3998:illustration</span></code> or <code class="bash"><span class="s">z3998:photograph</span></code>.</p></li>
-<li id="7.8.3"><aside class="number">7.8.3</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element whose image is black-on-white line art (i.e. exactly two colors, <strong>not</strong> grayscale!) are PNG files with a transparent background. They have the <code class="bash"><span class="s">se:image.color-depth.black-on-transparent</span></code> semantic inflection.</p></li>
-<li id="7.8.4"><aside class="number">7.8.4</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> elements that are meant to be aligned on the block level or displayed as full-page images are contained in a parent <code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> element, with an optional <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> sibling.
+<li id="7.8.2"><aside class="number"><a href="#7.8.2">7.8.2</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> elements have semantic inflection denoting the type of image. Common values are <code class="bash"><span class="s">z3998:illustration</span></code> or <code class="bash"><span class="s">z3998:photograph</span></code>.</p></li>
+<li id="7.8.3"><aside class="number"><a href="#7.8.3">7.8.3</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element whose image is black-on-white line art (i.e. exactly two colors, <strong>not</strong> grayscale!) are PNG files with a transparent background. They have the <code class="bash"><span class="s">se:image.color-depth.black-on-transparent</span></code> semantic inflection.</p></li>
+<li id="7.8.4"><aside class="number"><a href="#7.8.4">7.8.4</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> elements that are meant to be aligned on the block level or displayed as full-page images are contained in a parent <code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> element, with an optional <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> sibling.
 					</p><ol type="1">
-<li id="7.8.4.1"><aside class="number">7.8.4.1</aside><p>When contained in a <code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> element, the <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element does not have an <code class="html"><span class="na">id</span></code> attribute; instead the <code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> element has the <code class="html"><span class="na">id</span></code> attribute.</p></li>
-<li id="7.8.4.2"><aside class="number">7.8.4.2</aside><p>An optional <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> element containing a concise context-dependent caption may follow the <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element within a <code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> element. This caption depends on the surrounding context, and is not necessarily (or even ideally) identical to the <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element’s <code class="html"><span class="na">alt</span></code> attribute.</p></li>
-<li id="7.8.4.3"><aside class="number">7.8.4.3</aside><p>All figure elements, regardless of positioning, have this CSS:
+<li id="7.8.4.1"><aside class="number"><a href="#7.8.4.1">7.8.4.1</a></aside><p>When contained in a <code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> element, the <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element does not have an <code class="html"><span class="na">id</span></code> attribute; instead the <code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> element has the <code class="html"><span class="na">id</span></code> attribute.</p></li>
+<li id="7.8.4.2"><aside class="number"><a href="#7.8.4.2">7.8.4.2</a></aside><p>An optional <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> element containing a concise context-dependent caption may follow the <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element within a <code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> element. This caption depends on the surrounding context, and is not necessarily (or even ideally) identical to the <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element’s <code class="html"><span class="na">alt</span></code> attribute.</p></li>
+<li id="7.8.4.3"><aside class="number"><a href="#7.8.4.3">7.8.4.3</a></aside><p>All figure elements, regardless of positioning, have this CSS:
 							</p><figure><code class="css full"><span class="nt">figure</span> <span class="nt">img</span><span class="p">{</span>
 	<span class="k">display</span><span class="p">:</span> <span class="kc">block</span><span class="p">;</span>
 	<span class="k">margin</span><span class="p">:</span> <span class="kc">auto</span><span class="p">;</span>
@@ -785,7 +785,7 @@ require_once('Core.php');
 	<span class="k">margin</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="7.8.4.4"><aside class="number">7.8.4.4</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> elements that are meant to be displayed as full-page images have the <code class="bash"><span class="s">full-page</span></code> class and this additional CSS:
+<li id="7.8.4.4"><aside class="number"><a href="#7.8.4.4">7.8.4.4</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> elements that are meant to be displayed as full-page images have the <code class="bash"><span class="s">full-page</span></code> class and this additional CSS:
 							</p><figure><code class="css full"><span class="nt">figure</span><span class="p">.</span><span class="nc">full-page</span><span class="p">{</span>
 	<span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
 	<span class="k">max-height</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
@@ -795,7 +795,7 @@ require_once('Core.php');
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>
 <span class="p">}</span></code></figure>
 </li>
-<li id="7.8.4.5"><aside class="number">7.8.4.5</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> elements that meant to be aligned block-level with the text have this additional CSS:
+<li id="7.8.4.5"><aside class="number"><a href="#7.8.4.5">7.8.4.5</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">figure</span><span class="p">&gt;</span></code> elements that meant to be aligned block-level with the text have this additional CSS:
 							</p><figure><code class="css full"><span class="nt">figure</span><span class="p">{</span>
 	<span class="k">margin</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span> <span class="kc">auto</span><span class="p">;</span>
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>
@@ -851,21 +851,21 @@ require_once('Core.php');
 <figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He saw strange alien text that looked like this: <span class="p">&lt;</span><span class="nt">img</span> <span class="na">alt</span><span class="o">=</span><span class="s">"A line of alien heiroglyphs."</span> <span class="na">src</span><span class="o">=</span><span class="s">"../images/alien-text.svg"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:illustration se:color-depth.black-on-transparent"</span> <span class="p">/&gt;</span>. There was nothing else amongst the ruins.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </section>
 </section>
-<section id="7.9"><aside class="number">7.9</aside>
+<section id="7.9"><aside class="number"><a href="#7.9">7.9</a></aside>
 <h2>List of Illustrations (the LoI)</h2>
 <p>If an ebook has any illustrations that are <em>major structural components</em> of the work (even just one!), then the ebook includes an <code class="path">loi.xhtml</code> file at the end of the ebook. This file lists the illustrations in the ebook, along with a short caption or description.</p>
 <ol type="1">
-<li id="7.9.1"><aside class="number">7.9.1</aside><p>The LoI is an XHTML file located in <code class="path">./src/epub/text/loi.xhtml</code>.</p></li>
-<li id="7.9.2"><aside class="number">7.9.2</aside><p>The LoI file has the <code class="bash"><span class="s">backmatter</span></code> semantic inflection.</p></li>
-<li id="7.9.3"><aside class="number">7.9.3</aside><p>The LoI only contains links to images that are major structural components of the work.
+<li id="7.9.1"><aside class="number"><a href="#7.9.1">7.9.1</a></aside><p>The LoI is an XHTML file located in <code class="path">./src/epub/text/loi.xhtml</code>.</p></li>
+<li id="7.9.2"><aside class="number"><a href="#7.9.2">7.9.2</a></aside><p>The LoI file has the <code class="bash"><span class="s">backmatter</span></code> semantic inflection.</p></li>
+<li id="7.9.3"><aside class="number"><a href="#7.9.3">7.9.3</a></aside><p>The LoI only contains links to images that are major structural components of the work.
 					</p><ol type="1">
-<li id="7.9.3.1"><aside class="number">7.9.3.1</aside><p>An illustration is a major structural component if, for example: it is an illustration of events in the book, like a full-page drawing or end-of-chapter decoration; it is essential to the plot, like a diagram of a murder scene or a map; or it is a component of the text, like photographs in a documentary narrative.</p></li>
-<li id="7.9.3.2"><aside class="number">7.9.3.2</aside><p>An illustration is <em>not</em> a major structural components if, for example: it is a drawing used to represent a person’s signature, like an X mark; it is an inline drawing representing text in alien languages; it is a drawing used as a layout element to illustrate forms, tables, or diagrams.</p></li>
+<li id="7.9.3.1"><aside class="number"><a href="#7.9.3.1">7.9.3.1</a></aside><p>An illustration is a major structural component if, for example: it is an illustration of events in the book, like a full-page drawing or end-of-chapter decoration; it is essential to the plot, like a diagram of a murder scene or a map; or it is a component of the text, like photographs in a documentary narrative.</p></li>
+<li id="7.9.3.2"><aside class="number"><a href="#7.9.3.2">7.9.3.2</a></aside><p>An illustration is <em>not</em> a major structural components if, for example: it is a drawing used to represent a person’s signature, like an X mark; it is an inline drawing representing text in alien languages; it is a drawing used as a layout element to illustrate forms, tables, or diagrams.</p></li>
 </ol>
 </li>
-<li id="7.9.4"><aside class="number">7.9.4</aside><p>The LoI file contains a single <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"loi"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"loi"</span><span class="p">&gt;</span></code> element, which in turn contains an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>List of Illustrations<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code> element, followed by a <code class="html"><span class="p">&lt;</span><span class="nt">nav</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"loi"</span><span class="p">&gt;</span></code> element containing an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element, which in turn contains list items representing the images.</p></li>
-<li id="7.9.5"><aside class="number">7.9.5</aside><p>If an image listed in the LoI has a <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> element, then that caption is used in the anchor text for that LoI entry. If not, the image’s <code class="html"><span class="na">alt</span></code> attribute is used. If the <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> element is too long for a concise LoI entry, the <code class="html"><span class="na">alt</span></code> attribute is used instead.</p></li>
-<li id="7.9.6"><aside class="number">7.9.6</aside><p>Links to the images go directly to the image’s corresponding <code class="html"><span class="na">id</span></code> hashes, not just the top of the containing file.</p></li>
+<li id="7.9.4"><aside class="number"><a href="#7.9.4">7.9.4</a></aside><p>The LoI file contains a single <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"loi"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"loi"</span><span class="p">&gt;</span></code> element, which in turn contains an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>List of Illustrations<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code> element, followed by a <code class="html"><span class="p">&lt;</span><span class="nt">nav</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"loi"</span><span class="p">&gt;</span></code> element containing an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element, which in turn contains list items representing the images.</p></li>
+<li id="7.9.5"><aside class="number"><a href="#7.9.5">7.9.5</a></aside><p>If an image listed in the LoI has a <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> element, then that caption is used in the anchor text for that LoI entry. If not, the image’s <code class="html"><span class="na">alt</span></code> attribute is used. If the <code class="html"><span class="p">&lt;</span><span class="nt">figcaption</span><span class="p">&gt;</span></code> element is too long for a concise LoI entry, the <code class="html"><span class="na">alt</span></code> attribute is used instead.</p></li>
+<li id="7.9.6"><aside class="number"><a href="#7.9.6">7.9.6</a></aside><p>Links to the images go directly to the image’s corresponding <code class="html"><span class="na">id</span></code> hashes, not just the top of the containing file.</p></li>
 </ol>
 <section id="id5">
 <h3>Examples</h3>
@@ -892,49 +892,49 @@ require_once('Core.php');
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></code></figure>
 </section>
 </section>
-<section id="7.10"><aside class="number">7.10</aside>
+<section id="7.10"><aside class="number"><a href="#7.10">7.10</a></aside>
 <h2>Endnotes</h2>
 <ol type="1">
-<li id="7.10.1"><aside class="number">7.10.1</aside><p>Ebooks do not have footnotes, only endnotes. Footnotes are instead converted to endnotes.</p></li>
-<li id="7.10.2"><aside class="number">7.10.2</aside><p>“Ibid.” is a Latinism commonly used in endnotes to indicate that the source for a quotation or reference is the same as the last-mentioned source.
+<li id="7.10.1"><aside class="number"><a href="#7.10.1">7.10.1</a></aside><p>Ebooks do not have footnotes, only endnotes. Footnotes are instead converted to endnotes.</p></li>
+<li id="7.10.2"><aside class="number"><a href="#7.10.2">7.10.2</a></aside><p>“Ibid.” is a Latinism commonly used in endnotes to indicate that the source for a quotation or reference is the same as the last-mentioned source.
 					</p><p>When the last-mentioned source is in the previous endnote, Ibid. is replaced by the full reference; otherwise Ibid. is left as-is. Since ebooks use popup endnotes, “Ibid.” becomes meaningless without context.</p>
 </li>
 </ol>
-<section id="7.10.3"><aside class="number">7.10.3</aside>
+<section id="7.10.3"><aside class="number"><a href="#7.10.3">7.10.3</a></aside>
 <h3>Noterefs</h3>
 <p>The noteref is the superscripted number in the body text that links to the endnote at the end of the book.</p>
 <ol type="1">
-<li id="7.10.3.1"><aside class="number">7.10.3.1</aside><p>Endnotes are referenced in the text by an <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element with the semantic inflection <code class="bash"><span class="s">noteref</span></code>.
+<li id="7.10.3.1"><aside class="number"><a href="#7.10.3.1">7.10.3.1</a></aside><p>Endnotes are referenced in the text by an <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element with the semantic inflection <code class="bash"><span class="s">noteref</span></code>.
 						</p><ol type="1">
-<li id="7.10.3.1.1"><aside class="number">7.10.3.1.1</aside><p>Noterefs point directly to the corresponding endnote <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> element in the endnotes file.</p></li>
-<li id="7.10.3.1.2"><aside class="number">7.10.3.1.2</aside><p>Noterefs have an <code class="html"><span class="na">id</span></code> attribute like <code class="bash"><span class="s">noteref-n</span></code>, where <code class="bash"><span class="s">n</span></code> is identical to the endnote number.</p></li>
-<li id="7.10.3.1.3"><aside class="number">7.10.3.1.3</aside><p>The text of the noteref is the endnote number.</p></li>
+<li id="7.10.3.1.1"><aside class="number"><a href="#7.10.3.1.1">7.10.3.1.1</a></aside><p>Noterefs point directly to the corresponding endnote <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> element in the endnotes file.</p></li>
+<li id="7.10.3.1.2"><aside class="number"><a href="#7.10.3.1.2">7.10.3.1.2</a></aside><p>Noterefs have an <code class="html"><span class="na">id</span></code> attribute like <code class="bash"><span class="s">noteref-n</span></code>, where <code class="bash"><span class="s">n</span></code> is identical to the endnote number.</p></li>
+<li id="7.10.3.1.3"><aside class="number"><a href="#7.10.3.1.3">7.10.3.1.3</a></aside><p>The text of the noteref is the endnote number.</p></li>
 </ol>
 </li>
-<li id="7.10.3.2"><aside class="number">7.10.3.2</aside><p>If located at the end of a sentence, noterefs are placed after ending punctuation.</p></li>
-<li id="7.10.3.3"><aside class="number">7.10.3.3</aside><p>If the endnote references an entire sentence in quotation marks, or the last word in a sentence in quotation marks, then the noteref is placed outside the quotation marks.</p></li>
+<li id="7.10.3.2"><aside class="number"><a href="#7.10.3.2">7.10.3.2</a></aside><p>If located at the end of a sentence, noterefs are placed after ending punctuation.</p></li>
+<li id="7.10.3.3"><aside class="number"><a href="#7.10.3.3">7.10.3.3</a></aside><p>If the endnote references an entire sentence in quotation marks, or the last word in a sentence in quotation marks, then the noteref is placed outside the quotation marks.</p></li>
 </ol>
 </section>
-<section id="7.10.4"><aside class="number">7.10.4</aside>
+<section id="7.10.4"><aside class="number"><a href="#7.10.4">7.10.4</a></aside>
 <h3>The endnotes file</h3>
 <ol type="1">
-<li id="7.10.4.1"><aside class="number">7.10.4.1</aside><p>Endnotes are in an XHTML file located in <code class="path">./src/epub/text/endnotes.xhtml</code>.</p></li>
-<li id="7.10.4.2"><aside class="number">7.10.4.2</aside><p>The endnotes file has the <code class="bash"><span class="s">backmatter</span></code> semantic inflection.</p></li>
-<li id="7.10.4.3"><aside class="number">7.10.4.3</aside><p>The endnotes file contains a single <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"endnotes"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"endnotes"</span><span class="p">&gt;</span></code> element, which in turn contains an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Endnotes<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code> element, followed by an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element containing list items representing the endnotes.</p></li>
-<li id="7.10.4.4"><aside class="number">7.10.4.4</aside><p>Each endnote’s <code class="html"><span class="na">id</span></code> attribute is in sequential ascending order.</p></li>
+<li id="7.10.4.1"><aside class="number"><a href="#7.10.4.1">7.10.4.1</a></aside><p>Endnotes are in an XHTML file located in <code class="path">./src/epub/text/endnotes.xhtml</code>.</p></li>
+<li id="7.10.4.2"><aside class="number"><a href="#7.10.4.2">7.10.4.2</a></aside><p>The endnotes file has the <code class="bash"><span class="s">backmatter</span></code> semantic inflection.</p></li>
+<li id="7.10.4.3"><aside class="number"><a href="#7.10.4.3">7.10.4.3</a></aside><p>The endnotes file contains a single <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"endnotes"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"endnotes"</span><span class="p">&gt;</span></code> element, which in turn contains an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Endnotes<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code> element, followed by an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element containing list items representing the endnotes.</p></li>
+<li id="7.10.4.4"><aside class="number"><a href="#7.10.4.4">7.10.4.4</a></aside><p>Each endnote’s <code class="html"><span class="na">id</span></code> attribute is in sequential ascending order.</p></li>
 </ol>
 </section>
-<section id="7.10.5"><aside class="number">7.10.5</aside>
+<section id="7.10.5"><aside class="number"><a href="#7.10.5">7.10.5</a></aside>
 <h3>Individual endnotes</h3>
 <ol type="1">
-<li id="7.10.5.1"><aside class="number">7.10.5.1</aside><p>An endnote is an <code class="html"><span class="p">&lt;</span><span class="nt">li</span> <span class="na">id</span><span class="o">=</span><span class="s">"note-n"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"endnote"</span><span class="p">&gt;</span></code> element containing one or more block-level text elements and one backlink element.</p></li>
-<li id="7.10.5.2"><aside class="number">7.10.5.2</aside><p>Each endnote’s contains a backlink, which has the semantic inflection <code class="bash"><span class="s">backlink</span></code>, contains the text <code class="string">↩</code>, and has the <code class="html"><span class="na">href</span></code> attribute pointing to the corresponding noteref hash.
+<li id="7.10.5.1"><aside class="number"><a href="#7.10.5.1">7.10.5.1</a></aside><p>An endnote is an <code class="html"><span class="p">&lt;</span><span class="nt">li</span> <span class="na">id</span><span class="o">=</span><span class="s">"note-n"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"endnote"</span><span class="p">&gt;</span></code> element containing one or more block-level text elements and one backlink element.</p></li>
+<li id="7.10.5.2"><aside class="number"><a href="#7.10.5.2">7.10.5.2</a></aside><p>Each endnote’s contains a backlink, which has the semantic inflection <code class="bash"><span class="s">backlink</span></code>, contains the text <code class="string">↩</code>, and has the <code class="html"><span class="na">href</span></code> attribute pointing to the corresponding noteref hash.
 						</p><ol type="1">
-<li id="7.10.5.2.1"><aside class="number">7.10.5.2.1</aside><p>In endnotes where the last block-level element is a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element, the backlink goes at the end of the <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element, preceded by exactly one space.</p></li>
-<li id="7.10.5.2.2"><aside class="number">7.10.5.2.2</aside><p>In endnotes where the last block-level element is verse, quotation, or otherwise not plain prose text, the backlink goes in its own <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element following the last block-level element in the endnote.</p></li>
+<li id="7.10.5.2.1"><aside class="number"><a href="#7.10.5.2.1">7.10.5.2.1</a></aside><p>In endnotes where the last block-level element is a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element, the backlink goes at the end of the <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element, preceded by exactly one space.</p></li>
+<li id="7.10.5.2.2"><aside class="number"><a href="#7.10.5.2.2">7.10.5.2.2</a></aside><p>In endnotes where the last block-level element is verse, quotation, or otherwise not plain prose text, the backlink goes in its own <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element following the last block-level element in the endnote.</p></li>
 </ol>
 </li>
-<li id="7.10.5.3"><aside class="number">7.10.5.3</aside><p>Endnotes with ending citations have those citations are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">cite</span><span class="p">&gt;</span></code> element, including any em-dashes. A space follows the <code class="html"><span class="p">&lt;</span><span class="nt">cite</span><span class="p">&gt;</span></code> element, before the backlink.</p></li>
+<li id="7.10.5.3"><aside class="number"><a href="#7.10.5.3">7.10.5.3</a></aside><p>Endnotes with ending citations have those citations are wrapped in a <code class="html"><span class="p">&lt;</span><span class="nt">cite</span><span class="p">&gt;</span></code> element, including any em-dashes. A space follows the <code class="html"><span class="p">&lt;</span><span class="nt">cite</span><span class="p">&gt;</span></code> element, before the backlink.</p></li>
 </ol>
 </section>
 <section id="id6">

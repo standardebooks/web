@@ -10,38 +10,38 @@ require_once('Core.php');
 <figure>
 <img alt="A directory tree representing the structure of a bare Standard Ebook." src="/images/epub-draft-tree.png"/>
 </figure>
-<section id="2.1"><aside class="number">2.1</aside>
+<section id="2.1"><aside class="number"><a href="#2.1">2.1</a></aside>
 <h2>File locations</h2>
 <ol type="1">
-<li id="2.1.1"><aside class="number">2.1.1</aside><p>XHTML files containing the actual text of the ebook are located in <code class="path">./src/epub/text/</code>. All files in this directory end in <code class="path">.xhtml</code>.</p></li>
-<li id="2.1.2"><aside class="number">2.1.2</aside><p>CSS files used in the ebook are located in <code class="path">./src/epub/css/</code>. All files in this directory end in <code class="path">.css</code>. This directory contains only two CSS files:
+<li id="2.1.1"><aside class="number"><a href="#2.1.1">2.1.1</a></aside><p>XHTML files containing the actual text of the ebook are located in <code class="path">./src/epub/text/</code>. All files in this directory end in <code class="path">.xhtml</code>.</p></li>
+<li id="2.1.2"><aside class="number"><a href="#2.1.2">2.1.2</a></aside><p>CSS files used in the ebook are located in <code class="path">./src/epub/css/</code>. All files in this directory end in <code class="path">.css</code>. This directory contains only two CSS files:
 					</p><ol type="1">
-<li id="2.1.2.1"><aside class="number">2.1.2.1</aside><p><code class="path">./src/epub/css/core.css</code> is distributed with all ebooks and is not edited.</p></li>
-<li id="2.1.2.2"><aside class="number">2.1.2.2</aside><p><code class="path">./src/epub/css/local.css</code> is used for custom CSS local to the particular ebook.</p></li>
+<li id="2.1.2.1"><aside class="number"><a href="#2.1.2.1">2.1.2.1</a></aside><p><code class="path">./src/epub/css/core.css</code> is distributed with all ebooks and is not edited.</p></li>
+<li id="2.1.2.2"><aside class="number"><a href="#2.1.2.2">2.1.2.2</a></aside><p><code class="path">./src/epub/css/local.css</code> is used for custom CSS local to the particular ebook.</p></li>
 </ol>
 </li>
-<li id="2.1.3"><aside class="number">2.1.3</aside><p>Raw source images used in the ebook, but not distributed with the ebook, are located in <code class="path">./images/</code>. These images may be, for example, very high resolution that are later converted to lower resolution for distribution, or raw bitmaps that are later converted to SVG for distribution. Every ebook contains the following images in this directory:
+<li id="2.1.3"><aside class="number"><a href="#2.1.3">2.1.3</a></aside><p>Raw source images used in the ebook, but not distributed with the ebook, are located in <code class="path">./images/</code>. These images may be, for example, very high resolution that are later converted to lower resolution for distribution, or raw bitmaps that are later converted to SVG for distribution. Every ebook contains the following images in this directory:
 					</p><ol type="1">
-<li id="2.1.3.1"><aside class="number">2.1.3.1</aside><p><code class="path">./images/titlepage.svg</code> is the editable titlepage file that is later compiled for distribution.</p></li>
-<li id="2.1.3.2"><aside class="number">2.1.3.2</aside><p><code class="path">./images/cover.svg</code> is the editable cover file that is later compiled for distribution.</p></li>
-<li id="2.1.3.3"><aside class="number">2.1.3.3</aside><p><code class="path">./images/cover.source.(jpg|png|bmp|tif)</code> is the raw cover art file that may be cropped, resized, or otherwise edited to create <code class="path">./images/cover.jpg</code>.</p></li>
-<li id="2.1.3.4"><aside class="number">2.1.3.4</aside><p><code class="path">./images/cover.jpg</code> is the final edited cover art that will be compiled into <code class="path">./src/epub/images/cover.svg</code> for distribution.</p></li>
+<li id="2.1.3.1"><aside class="number"><a href="#2.1.3.1">2.1.3.1</a></aside><p><code class="path">./images/titlepage.svg</code> is the editable titlepage file that is later compiled for distribution.</p></li>
+<li id="2.1.3.2"><aside class="number"><a href="#2.1.3.2">2.1.3.2</a></aside><p><code class="path">./images/cover.svg</code> is the editable cover file that is later compiled for distribution.</p></li>
+<li id="2.1.3.3"><aside class="number"><a href="#2.1.3.3">2.1.3.3</a></aside><p><code class="path">./images/cover.source.(jpg|png|bmp|tif)</code> is the raw cover art file that may be cropped, resized, or otherwise edited to create <code class="path">./images/cover.jpg</code>.</p></li>
+<li id="2.1.3.4"><aside class="number"><a href="#2.1.3.4">2.1.3.4</a></aside><p><code class="path">./images/cover.jpg</code> is the final edited cover art that will be compiled into <code class="path">./src/epub/images/cover.svg</code> for distribution.</p></li>
 </ol>
 </li>
-<li id="2.1.4"><aside class="number">2.1.4</aside><p>Images compiled or derived from raw source images, that are then distributed with the ebook, are located in <code class="path">./src/epub/images/</code>.</p></li>
-<li id="2.1.5"><aside class="number">2.1.5</aside><p>The table of contents is located in <code class="path">./src/epub/toc.xhtml</code>.</p></li>
-<li id="2.1.6"><aside class="number">2.1.6</aside><p>The epub metadata file is located in <code class="path">./src/epub/content.opf</code>.</p></li>
-<li id="2.1.7"><aside class="number">2.1.7</aside><p>The ONIX metadata file is located in <code class="path">./src/epub/onix.xml</code>. This file is identical for all ebooks.</p></li>
-<li id="2.1.8"><aside class="number">2.1.8</aside><p>The ONIX metadata file is located in <code class="path">./src/epub/onix.xml</code>. This file is identical for all ebooks.</p></li>
-<li id="2.1.9"><aside class="number">2.1.9</aside><p>The <code class="path">./src/META-INF/</code> and <code class="path">./src/mimetype</code> directory and files are epub structural files that are identical for all ebooks.</p></li>
-<li id="2.1.10"><aside class="number">2.1.10</aside><p>The <code class="path">./LICENSE.md</code> contains the ebook license and is identical for all ebooks.</p></li>
+<li id="2.1.4"><aside class="number"><a href="#2.1.4">2.1.4</a></aside><p>Images compiled or derived from raw source images, that are then distributed with the ebook, are located in <code class="path">./src/epub/images/</code>.</p></li>
+<li id="2.1.5"><aside class="number"><a href="#2.1.5">2.1.5</a></aside><p>The table of contents is located in <code class="path">./src/epub/toc.xhtml</code>.</p></li>
+<li id="2.1.6"><aside class="number"><a href="#2.1.6">2.1.6</a></aside><p>The epub metadata file is located in <code class="path">./src/epub/content.opf</code>.</p></li>
+<li id="2.1.7"><aside class="number"><a href="#2.1.7">2.1.7</a></aside><p>The ONIX metadata file is located in <code class="path">./src/epub/onix.xml</code>. This file is identical for all ebooks.</p></li>
+<li id="2.1.8"><aside class="number"><a href="#2.1.8">2.1.8</a></aside><p>The ONIX metadata file is located in <code class="path">./src/epub/onix.xml</code>. This file is identical for all ebooks.</p></li>
+<li id="2.1.9"><aside class="number"><a href="#2.1.9">2.1.9</a></aside><p>The <code class="path">./src/META-INF/</code> and <code class="path">./src/mimetype</code> directory and files are epub structural files that are identical for all ebooks.</p></li>
+<li id="2.1.10"><aside class="number"><a href="#2.1.10">2.1.10</a></aside><p>The <code class="path">./LICENSE.md</code> contains the ebook license and is identical for all ebooks.</p></li>
 </ol>
 </section>
-<section id="2.2"><aside class="number">2.2</aside>
+<section id="2.2"><aside class="number"><a href="#2.2">2.2</a></aside>
 <h2>XHTML file naming conventions</h2>
 <ol type="1">
-<li id="2.2.1"><aside class="number">2.2.1</aside><p>Numbers in filenames don’t include leading <code class="path">0</code>s.</p></li>
-<li id="2.2.2"><aside class="number">2.2.2</aside><p>Files containing a short story, essay, or other short work in a larger collection, are named with the URL-safe title of the work, excluding any subtitles.
+<li id="2.2.1"><aside class="number"><a href="#2.2.1">2.2.1</a></aside><p>Numbers in filenames don’t include leading <code class="path">0</code>s.</p></li>
+<li id="2.2.2"><aside class="number"><a href="#2.2.2">2.2.2</a></aside><p>Files containing a short story, essay, or other short work in a larger collection, are named with the URL-safe title of the work, excluding any subtitles.
 					</p><table>
 <thead>
 <tr>
@@ -61,7 +61,7 @@ require_once('Core.php');
 </tbody>
 </table>
 </li>
-<li id="2.2.3"><aside class="number">2.2.3</aside><p>Works that are divided into larger parts (sometimes called “parts,” “books,” “volumes,” “sections,” etc.) have their part divisions contained in individual files named after the type of part, followed by a number starting at <code class="path">1</code>.
+<li id="2.2.3"><aside class="number"><a href="#2.2.3">2.2.3</a></aside><p>Works that are divided into larger parts (sometimes called “parts,” “books,” “volumes,” “sections,” etc.) have their part divisions contained in individual files named after the type of part, followed by a number starting at <code class="path">1</code>.
 					<div class="text corrected">
 <p><code class="path">book-1.xhtml</code></p>
 <p><code class="path">book-2.xhtml</code></p>
@@ -69,9 +69,9 @@ require_once('Core.php');
 <p><code class="path">part-2.xhtml</code></p>
 </div>
 </p></li>
-<li id="2.2.4"><aside class="number">2.2.4</aside><p>Works that are composed of chapters, short stories, essays, or other short- to medium-length sections have each of those sections in an individual file.
+<li id="2.2.4"><aside class="number"><a href="#2.2.4">2.2.4</a></aside><p>Works that are composed of chapters, short stories, essays, or other short- to medium-length sections have each of those sections in an individual file.
 					</p><ol type="1">
-<li id="2.2.4.1"><aside class="number">2.2.4.1</aside><p>Chapters <em>not</em> contained in separate volumes are named <code class="path">chapter-N.xhtml</code>, where <code class="path">N</code> is the chapter number starting at <code class="path">1</code>.
+<li id="2.2.4.1"><aside class="number"><a href="#2.2.4.1">2.2.4.1</a></aside><p>Chapters <em>not</em> contained in separate volumes are named <code class="path">chapter-N.xhtml</code>, where <code class="path">N</code> is the chapter number starting at <code class="path">1</code>.
 							</p><table>
 <thead>
 <tr>
@@ -91,7 +91,7 @@ require_once('Core.php');
 </tbody>
 </table>
 </li>
-<li id="2.2.4.2"><aside class="number">2.2.4.2</aside><p>Chapters contained in separate volumes, where the chapter number re-starts at 1 in each volume, are named <code class="path">chapter-X-N.xhtml</code>, where <code class="path">X</code> is the part number starting at <code class="path">1</code>, and <code class="path">N</code> is the chapter number <em>within the part</em>, starting at <code class="path">1</code>.
+<li id="2.2.4.2"><aside class="number"><a href="#2.2.4.2">2.2.4.2</a></aside><p>Chapters contained in separate volumes, where the chapter number re-starts at 1 in each volume, are named <code class="path">chapter-X-N.xhtml</code>, where <code class="path">X</code> is the part number starting at <code class="path">1</code>, and <code class="path">N</code> is the chapter number <em>within the part</em>, starting at <code class="path">1</code>.
 							</p><table>
 <thead>
 <tr>
@@ -131,7 +131,7 @@ require_once('Core.php');
 </tbody>
 </table>
 </li>
-<li id="2.2.4.3"><aside class="number">2.2.4.3</aside><p>Chapters contained in separate volumes, where the chapter number does not re-start at 1 in each volume, are named <code class="path">chapter-N.xhtml</code>, where <code class="path">N</code> is the chapter number, starting at <code class="path">1</code>.
+<li id="2.2.4.3"><aside class="number"><a href="#2.2.4.3">2.2.4.3</a></aside><p>Chapters contained in separate volumes, where the chapter number does not re-start at 1 in each volume, are named <code class="path">chapter-N.xhtml</code>, where <code class="path">N</code> is the chapter number, starting at <code class="path">1</code>.
 							</p><table>
 <thead>
 <tr>
@@ -171,7 +171,7 @@ require_once('Core.php');
 </tbody>
 </table>
 </li>
-<li id="2.2.4.4"><aside class="number">2.2.4.4</aside><p>Works that are composed of extremely short sections, like a volume of short poems, are in a single file containing all of those short sections. The filename is the URL-safe name of the work.
+<li id="2.2.4.4"><aside class="number"><a href="#2.2.4.4">2.2.4.4</a></aside><p>Works that are composed of extremely short sections, like a volume of short poems, are in a single file containing all of those short sections. The filename is the URL-safe name of the work.
 							</p><table>
 <thead>
 <tr>
@@ -187,7 +187,7 @@ require_once('Core.php');
 </tbody>
 </table>
 </li>
-<li id="2.2.4.5"><aside class="number">2.2.4.5</aside><p>Frontmatter and backmatter sections have filenames that are named after the type of section, regardless of what the actual title of the section is.
+<li id="2.2.4.5"><aside class="number"><a href="#2.2.4.5">2.2.4.5</a></aside><p>Frontmatter and backmatter sections have filenames that are named after the type of section, regardless of what the actual title of the section is.
 							</p><table>
 <thead>
 <tr>
@@ -203,7 +203,7 @@ require_once('Core.php');
 </tbody>
 </table>
 </li>
-<li id="2.2.4.6"><aside class="number">2.2.4.6</aside><p>If a work contains more than one section of the same type (for example multiple prefaces), the filename is followed by <code class="path">-N</code>, where <code class="path">N</code> is a number representing the order of the section, starting at <code class="path">1</code>.
+<li id="2.2.4.6"><aside class="number"><a href="#2.2.4.6">2.2.4.6</a></aside><p>If a work contains more than one section of the same type (for example multiple prefaces), the filename is followed by <code class="path">-N</code>, where <code class="path">N</code> is a number representing the order of the section, starting at <code class="path">1</code>.
 							</p><table>
 <thead>
 <tr>
@@ -227,32 +227,32 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="2.3"><aside class="number">2.3</aside>
+<section id="2.3"><aside class="number"><a href="#2.3">2.3</a></aside>
 <h2>The <code class="path">se-lint-ignore.xml</code> file</h2>
 <p>The <code class="bash"><b>se</b> lint</code> tool makes best guesses to alert the user to potential issues in an ebook production, and it may sometimes guess wrong. An <code class="path">se-lint-ignore.xml</code> file can be placed in the ebook root to make <code class="bash"><b>se</b> lint</code> ignore specific error numbers in an ebook.</p>
 <ol type="1">
-<li id="2.3.1"><aside class="number">2.3.1</aside><p><code class="bash">se-lint-ignore.xml</code> is optional. If it exists, it is in the ebook root.</p></li>
-<li id="2.3.2"><aside class="number">2.3.2</aside><p>An empty <code class="bash">se-lint-ignore.xml</code> file looks like this:
+<li id="2.3.1"><aside class="number"><a href="#2.3.1">2.3.1</a></aside><p><code class="bash">se-lint-ignore.xml</code> is optional. If it exists, it is in the ebook root.</p></li>
+<li id="2.3.2"><aside class="number"><a href="#2.3.2">2.3.2</a></aside><p>An empty <code class="bash">se-lint-ignore.xml</code> file looks like this:
 					</p><figure><code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 <span class="p">&lt;</span><span class="nt">se-lint-ignore</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">se-lint-ignore</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="2.3.3"><aside class="number">2.3.3</aside><p>The <code class="html"><span class="p">&lt;</span><span class="nt">se-lint-ignore</span><span class="p">&gt;</span></code> root element contains one or more <code class="html"><span class="p">&lt;</span><span class="nt">file</span><span class="p">&gt;</span></code> elements.
+<li id="2.3.3"><aside class="number"><a href="#2.3.3">2.3.3</a></aside><p>The <code class="html"><span class="p">&lt;</span><span class="nt">se-lint-ignore</span><span class="p">&gt;</span></code> root element contains one or more <code class="html"><span class="p">&lt;</span><span class="nt">file</span><span class="p">&gt;</span></code> elements.
 					</p><ol type="1">
-<li id="2.3.3.1"><aside class="number">2.3.3.1</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">file</span><span class="p">&gt;</span></code> elements have a <code class="html"><span class="na">path</span></code> attribute containing a filename to match in <code class="path">./src/epub/text/</code>.
+<li id="2.3.3.1"><aside class="number"><a href="#2.3.3.1">2.3.3.1</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">file</span><span class="p">&gt;</span></code> elements have a <code class="html"><span class="na">path</span></code> attribute containing a filename to match in <code class="path">./src/epub/text/</code>.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">file</span> <span class="na">path</span><span class="o">=</span><span class="s">"chapter-3-1-11.xhtml"</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">file</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="2.3.3.2"><aside class="number">2.3.3.2</aside><p><code class="html"><span class="na">path</span></code> attributes accept shell-style globbing to match files.
+<li id="2.3.3.2"><aside class="number"><a href="#2.3.3.2">2.3.3.2</a></aside><p><code class="html"><span class="na">path</span></code> attributes accept shell-style globbing to match files.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">file</span> <span class="na">path</span><span class="o">=</span><span class="s">"chapter-*.xhtml"</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">file</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="2.3.3.3"><aside class="number">2.3.3.3</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">file</span><span class="p">&gt;</span></code> element contains one or more <code class="html"><span class="p">&lt;</span><span class="nt">ignore</span><span class="p">&gt;</span></code> elements. Each <code class="html"><span class="p">&lt;</span><span class="nt">ignore</span><span class="p">&gt;</span></code> element contains one <code class="html"><span class="p">&lt;</span><span class="nt">code</span><span class="p">&gt;</span></code> element and one <code class="html"><span class="p">&lt;</span><span class="nt">reason</span><span class="p">&gt;</span></code> element.
+<li id="2.3.3.3"><aside class="number"><a href="#2.3.3.3">2.3.3.3</a></aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">file</span><span class="p">&gt;</span></code> element contains one or more <code class="html"><span class="p">&lt;</span><span class="nt">ignore</span><span class="p">&gt;</span></code> elements. Each <code class="html"><span class="p">&lt;</span><span class="nt">ignore</span><span class="p">&gt;</span></code> element contains one <code class="html"><span class="p">&lt;</span><span class="nt">code</span><span class="p">&gt;</span></code> element and one <code class="html"><span class="p">&lt;</span><span class="nt">reason</span><span class="p">&gt;</span></code> element.
 							</p><ol type="1">
-<li id="2.3.3.3.1"><aside class="number">2.3.3.3.1</aside><p>The value of <code class="html"><span class="p">&lt;</span><span class="nt">code</span><span class="p">&gt;</span></code> is the error/warning code provided by <code class="bash"><b>se</b> lint</code>. This code will be ignored for its parent file(s) when <code class="bash"><b>se</b> lint</code> is next run.</p></li>
-<li id="2.3.3.3.2"><aside class="number">2.3.3.3.2</aside><p>The value of <code class="html"><span class="p">&lt;</span><span class="nt">reason</span><span class="p">&gt;</span></code> is a prose explanation about why the code was ignored. This is to aid future producers or reviewers in understanding the reasoning behind why a code was ignored.
+<li id="2.3.3.3.1"><aside class="number"><a href="#2.3.3.3.1">2.3.3.3.1</a></aside><p>The value of <code class="html"><span class="p">&lt;</span><span class="nt">code</span><span class="p">&gt;</span></code> is the error/warning code provided by <code class="bash"><b>se</b> lint</code>. This code will be ignored for its parent file(s) when <code class="bash"><b>se</b> lint</code> is next run.</p></li>
+<li id="2.3.3.3.2"><aside class="number"><a href="#2.3.3.3.2">2.3.3.3.2</a></aside><p>The value of <code class="html"><span class="p">&lt;</span><span class="nt">reason</span><span class="p">&gt;</span></code> is a prose explanation about why the code was ignored. This is to aid future producers or reviewers in understanding the reasoning behind why a code was ignored.
 									</p><ol type="1">
-<li id="2.3.3.3.2.1"><aside class="number">2.3.3.3.2.1</aside><p><code class="html"><span class="p">&lt;</span><span class="nt">reason</span><span class="p">&gt;</span></code> is required to have a non-whitespace value.</p></li>
+<li id="2.3.3.3.2.1"><aside class="number"><a href="#2.3.3.3.2.1">2.3.3.3.2.1</a></aside><p><code class="html"><span class="p">&lt;</span><span class="nt">reason</span><span class="p">&gt;</span></code> is required to have a non-whitespace value.</p></li>
 </ol>
 </li>
 </ol>
@@ -262,7 +262,7 @@ require_once('Core.php');
 </ol>
 <section id="example">
 <h3>Example</h3>
-<p>The following is an example of a complete <code class="path">se-lint-ignore.xml</code> file from <a href="/ebooks/ludwig-wittgenstein/tractatus-logico-philosophicus/c-k-ogden">Tractatus Logico-Philosophicus</a>.</p>
+<p>The following is an example of a complete <code class="path">se-lint-ignore.xml</code> file from <i><a href="/ebooks/ludwig-wittgenstein/tractatus-logico-philosophicus/c-k-ogden">Tractatus Logico-Philosophicus</a></i>.</p>
 <figure><code class="xml full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 <span class="nt">&lt;se-lint-ignore&gt;</span>
 	<span class="nt">&lt;file</span> <span class="na">path=</span><span class="s">"introduction.xhtml"</span><span class="nt">&gt;</span>

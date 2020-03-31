@@ -7,11 +7,11 @@ require_once('Core.php');
 <section id="6"><aside class="number">6</aside>
 <h1>Standard Ebooks Section Patterns</h1>
 <p>All Standard Ebooks set of sections that are included in each ebook, and which are usually generated from template files. These sections include sections like the titlepage, imprint, and Uncopyright.</p>
-<section id="6.1"><aside class="number">6.1</aside>
+<section id="6.1"><aside class="number"><a href="#6.1">6.1</a></aside>
 <h2>The title string</h2>
 <p>The title string is a sentence listing the title of the ebook, its author, and any other contributors. It is used in various Standard Ebooks template files.</p>
 <ol type="1">
-<li id="6.1.1"><aside class="number">6.1.1</aside><p>The title string is formed with the following algorithm.
+<li id="6.1.1"><aside class="number"><a href="#6.1.1">6.1.1</a></aside><p>The title string is formed with the following algorithm.
 					</p><ul>
 <li><p>Start with an empty string.</p></li>
 <li><p>Append the title of the work, without any subtitles.</p></li>
@@ -20,45 +20,45 @@ require_once('Core.php');
 <li><p>If there is an illustrator, append <code class="string">. Illustrated by</code>, then the illustrator name. Multiple illustrators are handled in the same manner as mutliple authors.</p></li>
 </ul>
 </li>
-<li id="6.1.2"><aside class="number">6.1.2</aside><p>While the title string may contain periods, it never ends in a period.</p></li>
+<li id="6.1.2"><aside class="number"><a href="#6.1.2">6.1.2</a></aside><p>While the title string may contain periods, it never ends in a period.</p></li>
 </ol>
 </section>
-<section id="6.2"><aside class="number">6.2</aside>
+<section id="6.2"><aside class="number"><a href="#6.2">6.2</a></aside>
 <h2>The table of contents</h2>
 <p>The table of contents (the ToC) is not viewable as a page in the ebook’s reading order. Instead, the reader’s ereading system displays the ToC as part of its reading interface.</p>
 <p>These rules outline how to structure the ToC. Typically, the <code class="bash"><b>se</b> print-toc</code> tool constructs the ToC according to these rules, without further changes being necessary.</p>
-<section id="6.2.1"><aside class="number">6.2.1</aside>
+<section id="6.2.1"><aside class="number"><a href="#6.2.1">6.2.1</a></aside>
 <h3>The <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element</h3>
 <ol type="1">
-<li id="6.2.1.1"><aside class="number">6.2.1.1</aside><p>The first child of the ToC’s <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element is a <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element with the semantic inflection <code class="bash"><span class="s">toc</span></code>.</p></li>
-<li id="6.2.1.2"><aside class="number">6.2.1.2</aside><p>The first child of the <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element is a <code class="html"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Table of Contents<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="6.2.1.3"><aside class="number">6.2.1.3</aside><p>The second child of the <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element is an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element representing the items in the Table of Contents.</p></li>
+<li id="6.2.1.1"><aside class="number"><a href="#6.2.1.1">6.2.1.1</a></aside><p>The first child of the ToC’s <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element is a <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element with the semantic inflection <code class="bash"><span class="s">toc</span></code>.</p></li>
+<li id="6.2.1.2"><aside class="number"><a href="#6.2.1.2">6.2.1.2</a></aside><p>The first child of the <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element is a <code class="html"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Table of Contents<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="6.2.1.3"><aside class="number"><a href="#6.2.1.3">6.2.1.3</a></aside><p>The second child of the <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element is an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element representing the items in the Table of Contents.</p></li>
 </ol>
-<section id="6.2.1.4"><aside class="number">6.2.1.4</aside>
+<section id="6.2.1.4"><aside class="number"><a href="#6.2.1.4">6.2.1.4</a></aside>
 <h4>The top-level <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element</h4>
 <p>The <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element’s top-level <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element contains a list of items in the Table of Contents.</p>
 <ol type="1">
-<li id="6.2.1.4.1"><aside class="number">6.2.1.4.1</aside><p>The first child is a link to the titlepage.
+<li id="6.2.1.4.1"><aside class="number"><a href="#6.2.1.4.1">6.2.1.4.1</a></aside><p>The first child is a link to the titlepage.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/titlepage.xhtml"</span><span class="p">&gt;</span>Titlepage<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.4.2"><aside class="number">6.2.1.4.2</aside><p>The second child is a link to the imprint.
+<li id="6.2.1.4.2"><aside class="number"><a href="#6.2.1.4.2">6.2.1.4.2</a></aside><p>The second child is a link to the imprint.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/imprint.xhtml"</span><span class="p">&gt;</span>Imprint<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.4.3"><aside class="number">6.2.1.4.3</aside><p>The second-to-last child is a link to the colophon.
+<li id="6.2.1.4.3"><aside class="number"><a href="#6.2.1.4.3">6.2.1.4.3</a></aside><p>The second-to-last child is a link to the colophon.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/colophon.xhtml"</span><span class="p">&gt;</span>Colophon<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.4.4"><aside class="number">6.2.1.4.4</aside><p>The second-to-last child is a link to the Uncopyright.
+<li id="6.2.1.4.4"><aside class="number"><a href="#6.2.1.4.4">6.2.1.4.4</a></aside><p>The second-to-last child is a link to the Uncopyright.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/uncopyright.xhtml"</span><span class="p">&gt;</span>Uncopyright<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.4.5"><aside class="number">6.2.1.4.5</aside><p>In books with half title pages, the half title page is listed in the ToC and the next sibling is an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element containing the book’s contents.
+<li id="6.2.1.4.5"><aside class="number"><a href="#6.2.1.4.5">6.2.1.4.5</a></aside><p>In books with half title pages, the half title page is listed in the ToC and the next sibling is an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element containing the book’s contents.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/halftitle.xhtml"</span><span class="p">&gt;</span>The Moon Pool<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
@@ -71,11 +71,11 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="6.2.1.5"><aside class="number">6.2.1.5</aside>
+<section id="6.2.1.5"><aside class="number"><a href="#6.2.1.5">6.2.1.5</a></aside>
 <h4><code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> descendents</h4>
 <ol type="1">
-<li id="6.2.1.5.1"><aside class="number">6.2.1.5.1</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> contains an <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element pointing to a file or hash, and optionally also contains an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element representing a nested series of ToC items.</p></li>
-<li id="6.2.1.5.2"><aside class="number">6.2.1.5.2</aside><p>If an <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> element contains a nested <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element, that <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code>’s first child is an <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element that points to the beginning of that section.
+<li id="6.2.1.5.1"><aside class="number"><a href="#6.2.1.5.1">6.2.1.5.1</a></aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> contains an <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element pointing to a file or hash, and optionally also contains an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element representing a nested series of ToC items.</p></li>
+<li id="6.2.1.5.2"><aside class="number"><a href="#6.2.1.5.2">6.2.1.5.2</a></aside><p>If an <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> element contains a nested <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element, that <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code>’s first child is an <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element that points to the beginning of that section.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/halftitle.xhtml"</span><span class="p">&gt;</span>Sybil<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
@@ -86,7 +86,7 @@ require_once('Core.php');
 					<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/chapter-1-1.xhtml"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>I<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 				<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.5.3"><aside class="number">6.2.1.5.3</aside><p>Roman numerals in the ToC have the semantic inflection of <code class="bash"><span class="s">z3998:roman</span></code>. A <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> element is included if the entire contents of the <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element are not a Roman numeral.
+<li id="6.2.1.5.3"><aside class="number"><a href="#6.2.1.5.3">6.2.1.5.3</a></aside><p>Roman numerals in the ToC have the semantic inflection of <code class="bash"><span class="s">z3998:roman</span></code>. A <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> element is included if the entire contents of the <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element are not a Roman numeral.
 							</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/chapter-1.xhtml"</span><span class="p">&gt;</span>I<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></code></figure>
@@ -105,32 +105,32 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="6.2.1.6"><aside class="number">6.2.1.6</aside>
+<section id="6.2.1.6"><aside class="number"><a href="#6.2.1.6">6.2.1.6</a></aside>
 <h4><code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> descendents</h4>
 <ol type="1">
-<li id="6.2.1.6.1"><aside class="number">6.2.1.6.1</aside><p>Chapters without titles are represented by their Roman ordinal, without the word <code class="string">Chapter</code>.
+<li id="6.2.1.6.1"><aside class="number"><a href="#6.2.1.6.1">6.2.1.6.1</a></aside><p>Chapters without titles are represented by their Roman ordinal, without the word <code class="string">Chapter</code>.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title z3998:roman"</span><span class="p">&gt;</span>XI<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.6.2"><aside class="number">6.2.1.6.2</aside><p>Chapters with titles are represented by their Roman ordinal, followed by a colon and a space, followed by the chapter title.
+<li id="6.2.1.6.2"><aside class="number"><a href="#6.2.1.6.2">6.2.1.6.2</a></aside><p>Chapters with titles are represented by their Roman ordinal, followed by a colon and a space, followed by the chapter title.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/chapter-3.xhtml"</span><span class="p">&gt;&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>III<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>: The Moon Rock<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.6.3"><aside class="number">6.2.1.6.3</aside><p>Chapters with unique identifiers (i.e. not <code class="string">Chapter</code>, but something unique to the style of the book, like <code class="string">Book</code> or <code class="string">Stave</code>), include that unique identifier in the <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element.
+<li id="6.2.1.6.3"><aside class="number"><a href="#6.2.1.6.3">6.2.1.6.3</a></aside><p>Chapters with unique identifiers (i.e. not <code class="string">Chapter</code>, but something unique to the style of the book, like <code class="string">Book</code> or <code class="string">Stave</code>), include that unique identifier in the <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/chapter-1.xhtml"</span><span class="p">&gt;</span>Stave <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>I<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>: Marley’s Ghost<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.6.4"><aside class="number">6.2.1.6.4</aside><p>High-level sections (like parts or divisions) without titles are represented by their identifier (like <code class="string">Book</code> or <code class="string">Part</code>), followed by their Roman ordinal.
+<li id="6.2.1.6.4"><aside class="number"><a href="#6.2.1.6.4">6.2.1.6.4</a></aside><p>High-level sections (like parts or divisions) without titles are represented by their identifier (like <code class="string">Book</code> or <code class="string">Part</code>), followed by their Roman ordinal.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/book-1.xhtml"</span><span class="p">&gt;</span>Book <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>I<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.6.5"><aside class="number">6.2.1.6.5</aside><p>High-level sections (like parts or divisions) with titles include the title.
+<li id="6.2.1.6.5"><aside class="number"><a href="#6.2.1.6.5">6.2.1.6.5</a></aside><p>High-level sections (like parts or divisions) with titles include the title.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/book-10.xhtml"</span><span class="p">&gt;</span>Book <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>X<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>: The Boys<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.6.6"><aside class="number">6.2.1.6.6</aside><p>Sections that are not chapters do not include their subtitles in the ToC.
+<li id="6.2.1.6.6"><aside class="number"><a href="#6.2.1.6.6">6.2.1.6.6</a></aside><p>Sections that are not chapters do not include their subtitles in the ToC.
 							</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/epilogue.xhtml"</span><span class="p">&gt;</span>Epilogue: A Morning Call<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/epilogue.xhtml"</span><span class="p">&gt;</span>Epilogue<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.6.7"><aside class="number">6.2.1.6.7</aside><p>High-level sections (like parts or divisions) with titles include the title.
+<li id="6.2.1.6.7"><aside class="number"><a href="#6.2.1.6.7">6.2.1.6.7</a></aside><p>High-level sections (like parts or divisions) with titles include the title.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/book-10.xhtml"</span><span class="p">&gt;</span>Book <span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:roman"</span><span class="p">&gt;</span>X<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>: The Boys<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.1.6.8"><aside class="number">6.2.1.6.8</aside><p>Entries for half title pages do not include the subtitle.
+<li id="6.2.1.6.8"><aside class="number"><a href="#6.2.1.6.8">6.2.1.6.8</a></aside><p>Entries for half title pages do not include the subtitle.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/halftitle.xhtml"</span><span class="p">&gt;</span>His Last Bow<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span>
@@ -141,23 +141,23 @@ require_once('Core.php');
 </ol>
 </section>
 </section>
-<section id="6.2.2"><aside class="number">6.2.2</aside>
+<section id="6.2.2"><aside class="number"><a href="#6.2.2">6.2.2</a></aside>
 <h3>The landmarks <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element</h3>
 <p>After the first <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element, there is a second <code class="html"><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span></code> element with the semantic inflection of <code class="bash"><span class="s">landmarks</span></code>.</p>
 <ol type="1">
-<li id="6.2.2.1"><aside class="number">6.2.2.1</aside><p>The first child is an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Landmarks<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="6.2.2.2"><aside class="number">6.2.2.2</aside><p>The second child is an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element listing the major structural divisions of the book.</p></li>
+<li id="6.2.2.1"><aside class="number"><a href="#6.2.2.1">6.2.2.1</a></aside><p>The first child is an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Landmarks<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="6.2.2.2"><aside class="number"><a href="#6.2.2.2">6.2.2.2</a></aside><p>The second child is an <code class="html"><span class="p">&lt;</span><span class="nt">ol</span><span class="p">&gt;</span></code> element listing the major structural divisions of the book.</p></li>
 </ol>
-<section id="6.2.2.3"><aside class="number">6.2.2.3</aside>
+<section id="6.2.2.3"><aside class="number"><a href="#6.2.2.3">6.2.2.3</a></aside>
 <h4><code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> descendents</h4>
 <p>Each <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> element contains a link to one of the major structural divisions of the book. In general, a structural division is any section of the book that is not part of the body text, plus one element representing the beginning of the body text.</p>
 <ol type="1">
-<li id="6.2.2.3.1"><aside class="number">6.2.2.3.1</aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> element has the computed semantic inflection of top-level <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element in the file. The computed semantic inflection includes inherited semantic inflection from the <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element.
+<li id="6.2.2.3.1"><aside class="number"><a href="#6.2.2.3.1">6.2.2.3.1</a></aside><p>Each <code class="html"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></code> element has the computed semantic inflection of top-level <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element in the file. The computed semantic inflection includes inherited semantic inflection from the <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/preface.xhtml"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"frontmatter preface"</span><span class="p">&gt;</span>Preface<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.2.2.3.2"><aside class="number">6.2.2.3.2</aside><p>The body text, as a single unit regardless of internal divisions, is represented by a link to the first file of the body text. In a prose novel, this is usually Chapter 1 or Part 1. In a collection this is usually the first item, like the first short story in a short story collection. The text is the title of the work as represented in the metadata <code class="html"><span class="p">&lt;</span><span class="nt">dc:title</span><span class="p">&gt;</span></code> element.
+<li id="6.2.2.3.2"><aside class="number"><a href="#6.2.2.3.2">6.2.2.3.2</a></aside><p>The body text, as a single unit regardless of internal divisions, is represented by a link to the first file of the body text. In a prose novel, this is usually Chapter 1 or Part 1. In a collection this is usually the first item, like the first short story in a short story collection. The text is the title of the work as represented in the metadata <code class="html"><span class="p">&lt;</span><span class="nt">dc:title</span><span class="p">&gt;</span></code> element.
 							</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"text/book-1.xhtml"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction"</span><span class="p">&gt;</span>Sybil<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></code></figure>
@@ -172,14 +172,14 @@ require_once('Core.php');
 </section>
 </section>
 </section>
-<section id="6.3"><aside class="number">6.3</aside>
+<section id="6.3"><aside class="number"><a href="#6.3">6.3</a></aside>
 <h2>The titlepage</h2>
 <ol type="1">
-<li id="6.3.1"><aside class="number">6.3.1</aside><p>The Standard Ebooks titlepage is the first item in the ebook’s content flow. Standard Ebooks do not have a separate cover page file within the content flow.</p></li>
-<li id="6.3.2"><aside class="number">6.3.2</aside><p>The title page has a <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element with the value <code class="string">Titlepage</code>.</p></li>
-<li id="6.3.3"><aside class="number">6.3.3</aside><p>The titlepage contains one <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"titlepage"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"titlepage"</span><span class="p">&gt;</span></code> element which in turn contains one <code class="html"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">"../images/titlepage.svg"</span><span class="p">&gt;</span></code> element.</p></li>
-<li id="6.3.4"><aside class="number">6.3.4</aside><p>The <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element has its <code class="html"><span class="na">alt</span></code> attribute set to <code class="string">The titlepage for the Standard Ebooks edition of TITLE_STRING</code>, where <code class="string">TITLE_STRING</code> is the <a href="/manual/1.0.0/6-standard-ebooks-sectoin-patterns#6.1">Standard Ebooks title string</a> for the ebook.</p></li>
-<li id="6.3.5"><aside class="number">6.3.5</aside><p>A complete titlepage looks like the following template:
+<li id="6.3.1"><aside class="number"><a href="#6.3.1">6.3.1</a></aside><p>The Standard Ebooks titlepage is the first item in the ebook’s content flow. Standard Ebooks do not have a separate cover page file within the content flow.</p></li>
+<li id="6.3.2"><aside class="number"><a href="#6.3.2">6.3.2</a></aside><p>The title page has a <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element with the value <code class="string">Titlepage</code>.</p></li>
+<li id="6.3.3"><aside class="number"><a href="#6.3.3">6.3.3</a></aside><p>The titlepage contains one <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"titlepage"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"titlepage"</span><span class="p">&gt;</span></code> element which in turn contains one <code class="html"><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">"../images/titlepage.svg"</span><span class="p">&gt;</span></code> element.</p></li>
+<li id="6.3.4"><aside class="number"><a href="#6.3.4">6.3.4</a></aside><p>The <code class="html"><span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span></code> element has its <code class="html"><span class="na">alt</span></code> attribute set to <code class="string">The titlepage for the Standard Ebooks edition of TITLE_STRING</code>, where <code class="string">TITLE_STRING</code> is the <a href="/manual/1.0.0/6-standard-ebooks-sectoin-patterns#6.1">Standard Ebooks title string</a> for the ebook.</p></li>
+<li id="6.3.5"><aside class="number"><a href="#6.3.5">6.3.5</a></aside><p>A complete titlepage looks like the following template:
 					</p><figure><code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xmlns:epub</span><span class="o">=</span><span class="s">"http://www.idpf.org/2007/ops"</span> <span class="na">epub:prefix</span><span class="o">=</span><span class="s">"z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"en-US"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -196,22 +196,22 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="6.4"><aside class="number">6.4</aside>
+<section id="6.4"><aside class="number"><a href="#6.4">6.4</a></aside>
 <h2>The imprint</h2>
 <ol type="1">
-<li id="6.4.1"><aside class="number">6.4.1</aside><p>The Standard Ebooks imprint is the second item in the ebook’s content flow.</p></li>
-<li id="6.4.2"><aside class="number">6.4.2</aside><p>The imprint has a <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element with the value <code class="string">Imprint</code>.</p></li>
-<li id="6.4.3"><aside class="number">6.4.3</aside><p>The imprint contains one <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"imprint"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"imprint"</span><span class="p">&gt;</span></code> element, which in turn contains one <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element with the Standard Ebooks logo, followed by a series of <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements containing the imprint’s content.</p></li>
-<li id="6.4.4"><aside class="number">6.4.4</aside><p>The second <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element contains links to the online transcription that the ebook is based off of, followed by a link to the online page scans used to proof against.
+<li id="6.4.1"><aside class="number"><a href="#6.4.1">6.4.1</a></aside><p>The Standard Ebooks imprint is the second item in the ebook’s content flow.</p></li>
+<li id="6.4.2"><aside class="number"><a href="#6.4.2">6.4.2</a></aside><p>The imprint has a <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element with the value <code class="string">Imprint</code>.</p></li>
+<li id="6.4.3"><aside class="number"><a href="#6.4.3">6.4.3</a></aside><p>The imprint contains one <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"imprint"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"imprint"</span><span class="p">&gt;</span></code> element, which in turn contains one <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element with the Standard Ebooks logo, followed by a series of <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements containing the imprint’s content.</p></li>
+<li id="6.4.4"><aside class="number"><a href="#6.4.4">6.4.4</a></aside><p>The second <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element contains links to the online transcription that the ebook is based off of, followed by a link to the online page scans used to proof against.
 					</p><ol type="1">
-<li id="6.4.4.1"><aside class="number">6.4.4.1</aside><p>While the template lists Project Gutenberg and the Internet Archive as the default sources for transcriptions and scans, these may be adjusted to the specific sources used for a particular ebook.</p></li>
-<li id="6.4.4.2"><aside class="number">6.4.4.2</aside><p>When a source is preceded by “the”, “the” is outside of the link to the source.
+<li id="6.4.4.1"><aside class="number"><a href="#6.4.4.1">6.4.4.1</a></aside><p>While the template lists Project Gutenberg and the Internet Archive as the default sources for transcriptions and scans, these may be adjusted to the specific sources used for a particular ebook.</p></li>
+<li id="6.4.4.2"><aside class="number"><a href="#6.4.4.2">6.4.4.2</a></aside><p>When a source is preceded by “the”, “the” is outside of the link to the source.
 							</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>This particular ebook is based on digital scans available at <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"IA_URL"</span><span class="p">&gt;</span>the Internet Archive<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>This particular ebook is based on digital scans available at the <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"IA_URL"</span><span class="p">&gt;</span>Internet Archive<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
 </li>
-<li id="6.4.5"><aside class="number">6.4.5</aside><p>A complete imprint looks like the following template:
+<li id="6.4.5"><aside class="number"><a href="#6.4.5">6.4.5</a></aside><p>A complete imprint looks like the following template:
 					</p><figure><code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xmlns:epub</span><span class="o">=</span><span class="s">"http://www.idpf.org/2007/ops"</span> <span class="na">epub:prefix</span><span class="o">=</span><span class="s">"z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"en-US"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -235,15 +235,15 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="6.5"><aside class="number">6.5</aside>
+<section id="6.5"><aside class="number"><a href="#6.5">6.5</a></aside>
 <h2>The half title page</h2>
 <ol type="1">
-<li id="6.5.1"><aside class="number">6.5.1</aside><p>A half title page is included when there is front matter of any type in an ebook besides the titlepage and imprint.</p></li>
-<li id="6.5.2"><aside class="number">6.5.2</aside><p>The half title page located after the last item of front matter, before the body matter.</p></li>
-<li id="6.5.3"><aside class="number">6.5.3</aside><p>The half title page has a <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element with the value <code class="string">Half Title</code>.</p></li>
-<li id="6.5.4"><aside class="number">6.5.4</aside><p>The half title page contains one <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"halftitlepage"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"halftitlepage"</span><span class="p">&gt;</span></code> element, which in turn contains one <code class="html"><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"fulltitle"</span><span class="p">&gt;</span></code> element containing the full title of the ebook, including subtitles. The half title page is the only place where an <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> element may appear in a Standard Ebook.</p></li>
-<li id="6.5.5"><aside class="number">6.5.5</aside><p>Formatting for the <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> element follows patterns in <a href="/manual/1.0.0/7-high-level-structural-patterns#7.2.6.6">7.2.6.6</a> and <a href="/manual/1.0.0/7-high-level-structural-patterns#7.2.6.7">7.2.6.7</a>.</p></li>
-<li id="6.5.6"><aside class="number">6.5.6</aside><p>A complete half title page looks like the following template:
+<li id="6.5.1"><aside class="number"><a href="#6.5.1">6.5.1</a></aside><p>A half title page is included when there is front matter of any type in an ebook besides the titlepage and imprint.</p></li>
+<li id="6.5.2"><aside class="number"><a href="#6.5.2">6.5.2</a></aside><p>The half title page located after the last item of front matter, before the body matter.</p></li>
+<li id="6.5.3"><aside class="number"><a href="#6.5.3">6.5.3</a></aside><p>The half title page has a <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element with the value <code class="string">Half Title</code>.</p></li>
+<li id="6.5.4"><aside class="number"><a href="#6.5.4">6.5.4</a></aside><p>The half title page contains one <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"halftitlepage"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"halftitlepage"</span><span class="p">&gt;</span></code> element, which in turn contains one <code class="html"><span class="p">&lt;</span><span class="nt">h1</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"fulltitle"</span><span class="p">&gt;</span></code> element containing the full title of the ebook, including subtitles. The half title page is the only place where an <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> element may appear in a Standard Ebook.</p></li>
+<li id="6.5.5"><aside class="number"><a href="#6.5.5">6.5.5</a></aside><p>Formatting for the <code class="html"><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span></code> element follows patterns in <a href="/manual/1.0.0/7-high-level-structural-patterns#7.2.6.6">7.2.6.6</a> and <a href="/manual/1.0.0/7-high-level-structural-patterns#7.2.6.7">7.2.6.7</a>.</p></li>
+<li id="6.5.6"><aside class="number"><a href="#6.5.6">6.5.6</a></aside><p>A complete half title page looks like the following template:
 					</p><figure><code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xmlns:epub</span><span class="o">=</span><span class="s">"http://www.idpf.org/2007/ops"</span> <span class="na">epub:prefix</span><span class="o">=</span><span class="s">"z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"en-GB"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
@@ -263,41 +263,41 @@ require_once('Core.php');
 </li>
 </ol>
 </section>
-<section id="6.6"><aside class="number">6.6</aside>
+<section id="6.6"><aside class="number"><a href="#6.6">6.6</a></aside>
 <h2>The colophon</h2>
 <ol type="1">
-<li id="6.6.1"><aside class="number">6.6.1</aside><p>The colophon is the second-to-last item in the ebook’s content flow.</p></li>
-<li id="6.6.2"><aside class="number">6.6.2</aside><p>The colophon has a <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element with the value <code class="string">Colophon</code>.</p></li>
-<li id="6.6.3"><aside class="number">6.6.3</aside><p>The half title page contains one <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"colophon"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"colophon"</span><span class="p">&gt;</span></code> element, which in turn contains one <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element with the Standard Ebooks logo, followed by a series of <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements containing the colophon’s content.</p></li>
+<li id="6.6.1"><aside class="number"><a href="#6.6.1">6.6.1</a></aside><p>The colophon is the second-to-last item in the ebook’s content flow.</p></li>
+<li id="6.6.2"><aside class="number"><a href="#6.6.2">6.6.2</a></aside><p>The colophon has a <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element with the value <code class="string">Colophon</code>.</p></li>
+<li id="6.6.3"><aside class="number"><a href="#6.6.3">6.6.3</a></aside><p>The half title page contains one <code class="html"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"colophon"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"colophon"</span><span class="p">&gt;</span></code> element, which in turn contains one <code class="html"><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span></code> element with the Standard Ebooks logo, followed by a series of <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements containing the colophon’s content.</p></li>
 </ol>
-<section id="6.6.4"><aside class="number">6.6.4</aside>
+<section id="6.6.4"><aside class="number"><a href="#6.6.4">6.6.4</a></aside>
 <h3>Names</h3>
 <ol type="1">
-<li id="6.6.4.1"><aside class="number">6.6.4.1</aside><p>Within <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements, proper names except for the book title and cover art title are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element pointing to the name’s Wikipedia page, or to a link representing the name, like a personal homepage.</p></li>
-<li id="6.6.4.2"><aside class="number">6.6.4.2</aside><p>If a name does not have a Wikipedia entry, the name is wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span></code>.</p></li>
-<li id="6.6.4.3"><aside class="number">6.6.4.3</aside><p>Two names are separated by <code class="string">and</code>. Three or more names are separated by commas, with the final name separated by <code class="string">, and</code>. (I.e., with an Oxford comma.)
+<li id="6.6.4.1"><aside class="number"><a href="#6.6.4.1">6.6.4.1</a></aside><p>Within <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements, proper names except for the book title and cover art title are wrapped in an <code class="html"><span class="p">&lt;</span><span class="nt">a</span><span class="p">&gt;</span></code> element pointing to the name’s Wikipedia page, or to a link representing the name, like a personal homepage.</p></li>
+<li id="6.6.4.2"><aside class="number"><a href="#6.6.4.2">6.6.4.2</a></aside><p>If a name does not have a Wikipedia entry, the name is wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span></code>.</p></li>
+<li id="6.6.4.3"><aside class="number"><a href="#6.6.4.3">6.6.4.3</a></aside><p>Two names are separated by <code class="string">and</code>. Three or more names are separated by commas, with the final name separated by <code class="string">, and</code>. (I.e., with an Oxford comma.)
 						</p><figure class="wrong"><code class="html full"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span>Fritz Ohrenschall<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>, <span class="p">&lt;</span><span class="nt">b</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span>Sania Ali Mirza<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span> and <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://www.pgdp.net"</span><span class="p">&gt;</span>The Online Distributed Proofreading Team<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 <figure class="corrected"><code class="html full"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span>Fritz Ohrenschall<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>, <span class="p">&lt;</span><span class="nt">b</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span>Sania Ali Mirza<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span>, and <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://www.pgdp.net"</span><span class="p">&gt;</span>The Online Distributed Proofreading Team<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.6.4.4"><aside class="number">6.6.4.4</aside><p>Any anonymous contributor is listed as <code class="string">An Anonymous Volunteer</code>.</p></li>
+<li id="6.6.4.4"><aside class="number"><a href="#6.6.4.4">6.6.4.4</a></aside><p>Any anonymous contributor is listed as <code class="string">An Anonymous Volunteer</code>.</p></li>
 </ol>
 </section>
-<section id="6.6.5"><aside class="number">6.6.5</aside>
+<section id="6.6.5"><aside class="number"><a href="#6.6.5">6.6.5</a></aside>
 <h3>Subsections</h3>
 <ol type="1">
-<li id="6.6.5.1"><aside class="number">6.6.5.1</aside><p>Subsections are represented by a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element.
+<li id="6.6.5.1"><aside class="number"><a href="#6.6.5.1">6.6.5.1</a></aside><p>Subsections are represented by a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element.
 						</p><ol type="1">
-<li id="6.6.5.1.1"><aside class="number">6.6.5.1.1</aside><p>Within each <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element, a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element is placed before and after any proper name block. A proper name block may contain more than one name in a direct series (like a list of transcribers).
+<li id="6.6.5.1.1"><aside class="number"><a href="#6.6.5.1.1">6.6.5.1.1</a></aside><p>Within each <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element, a <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> element is placed before and after any proper name block. A proper name block may contain more than one name in a direct series (like a list of transcribers).
 								</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:name.publication.book"</span><span class="p">&gt;</span>The Moon Pool<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 was published in 1919 by<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://en.wikipedia.org/wiki/Abraham_Merritt"</span><span class="p">&gt;</span>Abraham Merritt<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.6.5.1.2"><aside class="number">6.6.5.1.2</aside><p>The first <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block names the book, its publication year, and its author.
+<li id="6.6.5.1.2"><aside class="number"><a href="#6.6.5.1.2">6.6.5.1.2</a></aside><p>The first <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block names the book, its publication year, and its author.
 								</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:name.publication.book"</span><span class="p">&gt;</span>The Moon Pool<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 was published in 1919 by<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://en.wikipedia.org/wiki/Abraham_Merritt"</span><span class="p">&gt;</span>Abraham Merritt<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 <ol type="1">
-<li id="6.6.5.1.2.1"><aside class="number">6.6.5.1.2.1</aside><p>If the book has a translator, a translator block follows the author name in the same <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element. The translator block follows this formula: <code class="string">It was translated from LANGUAGE in YEAR by &lt;a href="TRANSLATOR_WIKI_URL"&gt;TRANSLATOR&lt;/a&gt;.</code>.
+<li id="6.6.5.1.2.1"><aside class="number"><a href="#6.6.5.1.2.1">6.6.5.1.2.1</a></aside><p>If the book has a translator, a translator block follows the author name in the same <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element. The translator block follows this formula: <code class="string">It was translated from LANGUAGE in YEAR by &lt;a href="TRANSLATOR_WIKI_URL"&gt;TRANSLATOR&lt;/a&gt;.</code>.
 										</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:name.publication.book"</span><span class="p">&gt;</span>Eugene Onegin<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 was published in 1837 by<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://en.wikipedia.org/wiki/Alexander_Pushkin"</span><span class="p">&gt;</span>Alexander Pushkin<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
@@ -306,7 +306,7 @@ It was translated from Russian in 1881 by<span class="p">&lt;</span><span class=
 </li>
 </ol>
 </li>
-<li id="6.6.5.1.3"><aside class="number">6.6.5.1.3</aside><p>The second <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block names the Standard Ebooks producer, the original transcribers, and the page scan sources.
+<li id="6.6.5.1.3"><aside class="number"><a href="#6.6.5.1.3">6.6.5.1.3</a></aside><p>The second <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block names the Standard Ebooks producer, the original transcribers, and the page scan sources.
 								</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>This ebook was produced for the<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://standardebooks.org"</span><span class="p">&gt;</span>Standard Ebooks project<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 by<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
@@ -318,7 +318,7 @@ for<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</s
 and on digital scans available at the<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://archive.org/details/worksofdumas24dumaiala"</span><span class="p">&gt;</span>Internet Archive<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.6.5.1.4"><aside class="number">6.6.5.1.4</aside><p>The third <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block names the cover art, cover artist, and the typefaces used on the cover and title pages.
+<li id="6.6.5.1.4"><aside class="number"><a href="#6.6.5.1.4">6.6.5.1.4</a></aside><p>The third <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block names the cover art, cover artist, and the typefaces used on the cover and title pages.
 								</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The cover page is adapted from<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"se:name.visual-art.painting"</span><span class="p">&gt;</span>Floral Still Life<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>,<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 a painting completed in 1639 by<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
@@ -328,13 +328,13 @@ The cover and title pages feature the<span class="p">&lt;</span><span class="nt"
 typefaces created in 2014 and 2009 by<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://www.theleagueofmoveabletype.com"</span><span class="p">&gt;</span>The League of Moveable Type<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.6.5.1.5"><aside class="number">6.6.5.1.5</aside><p>The fourth <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block lists the original release date of the ebook and its Standard Ebooks page URL.
+<li id="6.6.5.1.5"><aside class="number"><a href="#6.6.5.1.5">6.6.5.1.5</a></aside><p>The fourth <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block lists the original release date of the ebook and its Standard Ebooks page URL.
 								</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The first edition of this ebook was released on<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span>May 11, 2018, 2:13 <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time eoc"</span><span class="p">&gt;</span>a.m.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">b</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 You can check for updates to this ebook, view its revision history, or download it for different ereading systems at<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://standardebooks.org/ebooks/alexandre-dumas/the-black-tulip/p-f-collier-and-son"</span><span class="p">&gt;</span>standardebooks.org/ebooks/alexandre-dumas/the-black-tulip/p-f-collier-and-son<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
-<li id="6.6.5.1.6"><aside class="number">6.6.5.1.6</aside><p>The fifth <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block is a short formula inviting volunteers.
+<li id="6.6.5.1.6"><aside class="number"><a href="#6.6.5.1.6">6.6.5.1.6</a></aside><p>The fifth <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> block is a short formula inviting volunteers.
 								</p><figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The volunteer-driven Standard Ebooks project relies on readers like you to submit typos, corrections, and other improvements. Anyone can contribute at <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://standardebooks.org"</span><span class="p">&gt;</span>standardebooks.org<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 </li>
 </ol>
@@ -389,12 +389,12 @@ You can check for updates to this ebook, view its revision history, or download 
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></code></figure>
 </section>
 </section>
-<section id="6.7"><aside class="number">6.7</aside>
+<section id="6.7"><aside class="number"><a href="#6.7">6.7</a></aside>
 <h2>The Uncopyright</h2>
 <p>Where traditionally published ebooks may contain a copyright page at the front of the ebook, Standard Ebooks contain an Uncopyright page at the end of the ebook.</p>
 <ol type="1">
-<li id="6.7.1"><aside class="number">6.7.1</aside><p>The Uncopyright page is the last item in the ebook’s content flow.</p></li>
-<li id="6.7.2"><aside class="number">6.7.2</aside><p>The Uncopyright page follows the template created by <code class="bash"><b>se</b> create-draft</code> exactly.</p></li>
+<li id="6.7.1"><aside class="number"><a href="#6.7.1">6.7.1</a></aside><p>The Uncopyright page is the last item in the ebook’s content flow.</p></li>
+<li id="6.7.2"><aside class="number"><a href="#6.7.2">6.7.2</a></aside><p>The Uncopyright page follows the template created by <code class="bash"><b>se</b> create-draft</code> exactly.</p></li>
 </ol>
 </section>
 </section>
