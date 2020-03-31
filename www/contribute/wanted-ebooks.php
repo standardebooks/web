@@ -38,9 +38,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/25024">Night of the Long Knives</a> by Fritz Leiber</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
-			</li> -->
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
 			</li> -->
@@ -133,9 +133,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/search/?query=Baroness+Orczy">Scarlet Pimpernel novels</a> by Baroness Orczy</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce</p>
 			</li>
