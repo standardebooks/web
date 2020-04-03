@@ -95,9 +95,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/20707">The Black Star Passes</a> by John W. Campbell</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/2892">Irish Fairy Tales</a> by James Stephens</p>
 			</li>
