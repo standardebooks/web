@@ -117,6 +117,12 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/7838">Fifty-One Tales</a> by Lord Dunsany (Note: The British and American editions each have a story the other excludes; should we include both plus an editor’s note?</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2885">The House of the Wolflings</a> by William Morris</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3177">Roughing It</a> by Mark Twain</p>
 			</li>
 			<li>
@@ -292,11 +298,11 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/10827">Discourses on the First Decade of Titus Livius</a> by Niccolò Machiavelli</p>
 			</li>
 			<li>
-				<p>The Life of Samuel Johnson by James Boswell (Note: <em>Not</em> the Gutenberg edition, which is abridged.)</p>
+				<p>The Life of Samuel Johnson by James Boswell (Note: <em>Not</em> the Project Gutenberg edition, which is abridged.)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/10662">The Night Land</a> by William Hope Hodgson</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7373">The Path to Rome</a> by Hilaire Belloc</p>
 			</li>
@@ -366,6 +372,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Newcastle_Forgotten_Fantasy_Library">Public domain entries in the Newcastle Forgotten Fantasy Library</a></p>
+			</li>
 			<li>
 				<p><a href="https://www.theguardian.com/books/2003/oct/12/features.fiction">Public domain entries in the Guardian’s top 100 novels of all time list</a></p>
 			</li>
