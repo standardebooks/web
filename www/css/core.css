@@ -1522,6 +1522,10 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	article.ebook > header > div > p{
 		font-size: 1.2rem;
 	}
+
+	article.ebook #history li time{
+		text-align: left;
+	}
 }
 
 @media(max-width: 380px){
