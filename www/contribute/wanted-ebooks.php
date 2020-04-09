@@ -259,6 +259,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p>
 			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/9105">Maxims</a> by François duc de La Rochefoucauld</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
