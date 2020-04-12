@@ -27,6 +27,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction and novels by Frederick Pohl</a></p>
 			</li>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/61168">The Man in the Brown Suit</a>, by Agatha Christie (Note: we already have cover art selected)</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans</p>
 			</li>
 			<li>
@@ -303,15 +306,12 @@ require_once('Core.php');
 			<li>
 				<p>The Life of Samuel Johnson by James Boswell (Note: <em>Not</em> the Project Gutenberg edition, which is abridged.)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/10662">The Night Land</a> by William Hope Hodgson</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7373">The Path to Rome</a> by Hilaire Belloc</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="http://docsouth.unc.edu/southlit/cabell/cabell.html">The Cream of the Jest</a> by James Branch Cabell</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10343">Essays of Elia</a> by Charles Lamb</p>
 			</li>
