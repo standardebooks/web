@@ -232,9 +232,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by DH Lawrence</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens</p>
 			</li>
@@ -258,9 +258,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p>Works by <a href="https://en.wikipedia.org/wiki/John_Ruskin#Select_bibliography">John Ruskin</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p>
 			</li>
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/9105">Maxims</a> by François duc de La Rochefoucauld</p>
@@ -309,9 +306,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7373">The Path to Rome</a> by Hilaire Belloc</p>
 			</li>
-			<!-- <li>
-				<p><a href="http://docsouth.unc.edu/southlit/cabell/cabell.html">The Cream of the Jest</a> by James Branch Cabell</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10343">Essays of Elia</a> by Charles Lamb</p>
 			</li>
