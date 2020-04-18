@@ -197,9 +197,9 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			<li>
 				<h2>Convert footnotes to endnotes and add a list of illustrations</h2>
 				<p>Works often include footnotes, either added by an annotator or as part of the work itself. Since ebooks don’t have a concept of a “page,” there’s no place for footnotes to go. Instead, we convert footnotes to a single endnotes file, which will provide popup references in the final epub.</p>
-				<p>The endnotes file and the format for endnote links are <a href="/1.0.0/7-high-level-structural-patterns#7.10">standardized in the semantics manual</a>.</p>
+				<p>The endnotes file and the format for endnote links are <a href="/manual/latest/7-high-level-structural-patterns#7.10">standardized in the semantics manual</a>.</p>
 				<p>If you find that you accidentally mis-ordered an endnote, never fear! <code class="bash"><b>se</b> reorder-endnotes</code> will allow you to quickly rearrange endnotes in your ebook.</p>
-				<p>If a work has illustrations besides the cover and title pages, we include a “list of illustrations” at the end of the book, after the endnotes but before the colophon. The <abbr class="initialism">LoI</abbr> file is also <a href="/manual/1.0.0/7-high-level-structural-patterns#7.9">standardized in the semantics manual</a>.</p>
+				<p>If a work has illustrations besides the cover and title pages, we include a “list of illustrations” at the end of the book, after the endnotes but before the colophon. The <abbr class="initialism">LoI</abbr> file is also <a href="/manual/latest/7-high-level-structural-patterns#7.9">standardized in the semantics manual</a>.</p>
 				<p><i>Jekyll</i> doesn’t have any footnotes, endnotes, or illustrations, so we skip this step.</p>
 			</li>
 			<li>
@@ -229,7 +229,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Here’s a short list of some of the more common semantic issues you’ll encounter:</p>
 				<ul>
 					<li>
-						<p>Semantics for italics: <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> should be used for when a passage is emphasized, as in when dialog is shouted or whispered. <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> is used for all other italics, <a href="/manual/1.0.0/4-semantics#4.2">with the appropriate semantic inflection</a>. Older transcriptions usually use just <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> for both, so you must change them manually if necessary.</p>
+						<p>Semantics for italics: <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> should be used for when a passage is emphasized, as in when dialog is shouted or whispered. <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> is used for all other italics, <a href="/manual/latest/4-semantics#4.2">with the appropriate semantic inflection</a>. Older transcriptions usually use just <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> for both, so you must change them manually if necessary.</p>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.1">Semantics rules for chapter titles</a>.</p>
@@ -245,7 +245,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Words or phrases in foreign languages should always be marked up with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang<span class="o">=</span><span class="s">"TAG"</span><span class="p">&gt;</span></code>, where TAG is an <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a>. <a href="https://r12a.github.io/app-subtags/">This app can help you look them up</a>. If the text uses fictional or unspecific languages, use the “x-” prefix and make up a subtag yourself.</p>
 					</li>
 					<li>
-						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> tag to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/1.0.0/7-high-level-structural-patterns#7.5">See the Poetry section of the SEMOS</a> for templates on how to semantically format poetry, verse, and song.</p>
+						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> tag to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the SEMOS</a> for templates on how to semantically format poetry, verse, and song.</p>
 					</li>
 				</ul>
 				<p>After you’ve added semantics according to the <a href="/manual">Standard Ebooks Manual of Style</a>, do another commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Semanticate"</i></span></code>
@@ -302,7 +302,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					<p>If you commit non-public-domain cover art, you’ll have to rebase your repository to remove the art from its history. This is complicated, dangerous, and annoying, and you’ll be tempted to give up.</p>
 					<p><a href="https://groups.google.com/forum/#!forum/standardebooks">Contact us first</a> with page scans verifying your cover art’s public domain status before you commit your cover art!</p>
 				</aside>
-				<p>Cover images for Standard Ebooks books have a standardized layout. The bulk of the work you’ll be doing is locating a suitable public domain painting to use. See the <a href="/1.0.0/10-art-and-images">Art and Images section of the Standard Ebooks Manual of Style</a> for details on assembling a cover image.</p>
+				<p>Cover images for Standard Ebooks books have a standardized layout. The bulk of the work you’ll be doing is locating a suitable public domain painting to use. See the <a href="/manual/latest/10-art-and-images">Art and Images section of the Standard Ebooks Manual of Style</a> for details on assembling a cover image.</p>
 				<p>As you search for an image, keep the following in mind:</p>
 				<ul>
 					<li>
@@ -338,7 +338,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			</li>
 			<li>
 				<h2>Create the titlepage image, build both the cover and titlepage, and commit</h2>
-				<p>Titlepage images for Standard Ebooks books are also standardized. See our the <a href="/1.0.0/10-art-and-images">Art and Images section of the Standard Ebooks Manual of Style</a> for details.</p>
+				<p>Titlepage images for Standard Ebooks books are also standardized. See our the <a href="/manual/latest/10-art-and-images">Art and Images section of the Standard Ebooks Manual of Style</a> for details.</p>
 				<p><code class="bash"><b>se</b> create-draft</code> already created a completed titlepage for you. If the way it arranged the lines doesn’t look great, you can always edit the titlepage to make the arrangement of words on each line more aesthetically pleasing. Don’t use a vector editing program like Inkscape to edit it. Instead, open it up in your favorite text editor and type the values in directly.</p>
 				<p>The source images for both the cover and the titlepage are kept in <code class="path">./images/</code>. Since the source images refer to installed fonts, and since we can’t include those fonts in our final ebook without having to include a license, we have to convert that text to paths for final distribution. <code class="bash"><b>se</b> build-images</code> does just that.</p><code class="terminal"><span><b>se</b> build-images <u>.</u></span></code>
 				<p><code class="bash"><b>se</b> build-images</code> takes both <code class="path">./images/cover.svg</code> and <code class="path">./images/titlepage.svg</code>, converts text to paths, and embeds the cover jpg. The output goes to <code class="path">./src/epub/images/</code>.</p>
@@ -347,7 +347,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			<li>
 				<h2>Complete content.opf</h2>
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text.</p>
-				<p>The <code class="path">content.opf</code> is standardized. See the <a href="/1.0.0/9-metadata">Metadata section of the Standard Ebooks Manual of Style</a> for details on how to fill out <code class="path">content.opf</code>.</p>
+				<p>The <code class="path">content.opf</code> is standardized. See the <a href="/manual/latest/9-metadata">Metadata section of the Standard Ebooks Manual of Style</a> for details on how to fill out <code class="path">content.opf</code>.</p>
 				<p>As you complete the metadata, you’ll have to order the spine and the manifest in this file. Fortunately, Standard Ebooks tools for that too: <code class="bash"><b>se</b> print-manifest</code> and <code class="bash"><b>se</b> print-spine</code>. Run these on our source directory and, as you can guess, they’ll print out the <code class="html"><span class="p">&lt;</span><span class="nt">manifest</span><span class="p">&gt;</span></code> and <code class="html"><span class="p">&lt;</span><span class="nt">spine</span><span class="p">&gt;</span></code> elements for this work.</p>
 				<p>If you’re using a Mac, and thus the badly-behaved Finder program, you may find that it has carelessly polluted your work directory with useless <code class="path">.DS_Store</code> files. Before continuing, you should <a href="https://duckduckgo.com/?q=mac+alternative+file+manager">find a better file manager program</a>, then delete all of that litter with the following command. Otherwise, <code class="bash"><b>se</b> print-manifest</code> and <code class="bash"><b>se</b> print-spine</code> will include that litter in its output and your epub won’t be valid.</p>
 				<code class="terminal"><span><b>find</b> <u>.</u> -name <i>".DS_Store"</i> -type f -delete</span></code>
