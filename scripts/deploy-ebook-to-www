@@ -67,7 +67,7 @@ require "convert" "Try: apt-get install imagemagick"
 require "rsvg-convert" "Try: apt-get install librsvg2-bin"
 require "git" "Try: apt-get install git"
 require "php" "Try: apt-get install php-cli"
-require "se" "Read: https://github.com/standardebooks/tools"
+require "se" "Read: https://standardebooks.org/tools"
 
 scriptsDir="$(dirname "$(readlink -f "$0")")"
 

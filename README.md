@@ -40,7 +40,7 @@ If everything went well you should now be able to open your web browser and visi
 
 ```shell
 # First, install the SE toolset, which will make the `se build` command-line executable available to the `deploy-ebook-to-www` script:
-# https://github.com/standardebooks/tools
+# https://standardebooks.org/tools
 
 # Once the toolset is installed, clone a book and deploy it to your local SE site:
 mkdir /standardebooks.org/ebooks/
@@ -199,7 +199,7 @@ After you have installed both, you can start and manage a VM running a server li
 
 ## Some further notes
 
-- The Vagrant script will install [se](https://github.com/standardebooks/tools) by default. If you don’t want that (it pulls in quite a few dependencies), remove the `se-tools` argument in Vagrantfile.
+- The Vagrant script will install [se](https://standardebooks.org/tools) by default. If you don’t want that (it pulls in quite a few dependencies), remove the `se-tools` argument in Vagrantfile.
 
 - `se`, if installed in the VM, and /standardebooks.org/scripts are in the VMs path. This means you can easily use them with `vagrant ssh -c` like this: `vagrant ssh -c "sync-ebooks -vv /standardebooks.org/ebooks; deploy-ebook-to-www -v --group www-data /standardebooks.org/ebooks/*"`, which would populate the test server with all available SE ebooks.
 

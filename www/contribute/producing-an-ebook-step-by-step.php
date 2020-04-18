@@ -11,7 +11,7 @@ require_once('Core.php');
 		<ol class="full">
 			<li>
 				<h2>Set up the Standard Ebooks toolset and make sure it’s up-to-date</h2>
-				<p>The Standard Ebooks project has a toolset that will help you produce an ebook. The toolset installs the <code class="bash"><b>se</b></code> command, which has various subcommands related to creating Standard Ebooks. You can <a href="https://github.com/standardebooks/tools">read the complete installation instructions</a>, or if you already have <a href="https://pipxproject.github.io/pipx/installation/"><code class="bash"><b>pipx</b></code> installed</a>, run:</p>
+				<p>The Standard Ebooks project has a toolset that will help you produce an ebook. The toolset installs the <code class="bash"><b>se</b></code> command, which has various subcommands related to creating Standard Ebooks. You can <a href="https://standardebooks.org/tools">read the complete installation instructions</a>, or if you already have <a href="https://pipxproject.github.io/pipx/installation/"><code class="bash"><b>pipx</b></code> installed</a>, run:</p>
 				<code class="terminal"><span><b>pipx</b> install standardebooks</span></code>
 				<p>The toolset changes frequently, so if you’ve installed the toolset in the past, make sure to update the toolset before you start a new ebook:</p>
 				<code class="terminal"><span><b>pipx</b> upgrade standardebooks</span></code>
