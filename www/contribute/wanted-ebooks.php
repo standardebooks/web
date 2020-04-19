@@ -262,6 +262,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/9105">Maxims</a> by François duc de La Rochefoucauld</p>
 			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Walter_de_la_Mare#Works">Works and poetry by Walter de la Mare</a></p>
+			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Edward_Thomas_(poet)#Selected_works">Poetry by Edward Thomas</a></p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
