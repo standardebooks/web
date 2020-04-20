@@ -250,8 +250,8 @@ figure p.wrong{
 	text-decoration-color: #CF4647;
 }
 
-figure p.wrong:before,
-figure.wrong:before{
+figure p.wrong::before,
+figure.wrong::before{
 	font-family: "FontAwesome";
 	content: "\f00d";
 	font-size: 1.5rem;
@@ -261,10 +261,11 @@ figure.wrong:before{
 	color: #CF4647;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
 	display: inline-block;
+	flex-shrink: 0;
 }
 
-figure p.corrected:before,
-figure.corrected:before{
+figure p.corrected::before,
+figure.corrected::before{
 	font-family: "FontAwesome";
 	content: "\f00c";
 	font-size: 1.5rem;
@@ -274,10 +275,11 @@ figure.corrected:before{
 	color: #79BD9A;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
 	display: inline-block;
+	flex-shrink: 0;
 }
 
-figure.wrong:before,
-figure.corrected:before{
+figure.wrong::before,
+figure.corrected::before{
 	display: flex;
 	margin-right: 0;
 	align-self: stretch;
@@ -288,11 +290,11 @@ figure.corrected:before{
 	border-bottom-left-radius: .25rem;
 }
 
-figure.wrong:before{
+figure.wrong::before{
 	background: #762729;
 }
 
-figure.corrected:before{
+figure.corrected::before{
 	background: #406451;
 }
 
