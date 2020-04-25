@@ -44,15 +44,15 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/541">The Age of Innocence</a> by Edith Wharton</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/60067">Leave it to Psmith</a> by P. G. Wodehouse</p>
 			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/5670">Jacob’s Room</a> by Virginia Woolf</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
@@ -102,23 +102,39 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
 			</li> -->
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/2892">Irish Fairy Tales</a> by James Stephens</p>
+				<p><a href="https://www.gutenberg.org/ebooks/2892">Irish Fairy Tales</a> by James Stephens</p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/24742">Mary, Mary</a> by James Stephens</p>
+				<p><a href="https://www.gutenberg.org/ebooks/24742">Mary, Mary</a> by James Stephens</p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/46558">The Demi-gods</a> by James Stephens</p>
+				<p><a href="https://www.gutenberg.org/ebooks/46558">The Demi-gods</a> by James Stephens</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37332">A Little Princess</a> by Francis Hodgson Burnett</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/46409">Heidi</a> by Johanna Spyri</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/35517">The Three Imposters</a> by Arthur Machen</p>
+			</li>
+
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/35617">The Terror</a> by Arthur Machen, to be added to the existing Short Fiction omnibus.</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/files/1245/1245-h/1245-h.htm">Night and Day</a> by Virginia Woolf</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7838">Fifty-One Tales</a> by Lord Dunsany (Note: The British and American editions each have a story the other excludes; should we include both plus an editor’s note?</p>
 			</li>
@@ -133,9 +149,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/25344">The Scarlet Letter</a> by Nathaniel Hawthorne</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/61221">A Passage to India</a> by E. M. Forster</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence</p>
 			</li>
@@ -221,7 +234,7 @@ require_once('Core.php');
 				<p>Ghost Stories by M. R. James; an omnibus of his ghost short fiction including Ghost Stories of an Antiquary, More Ghost Stories, A Thin Ghost and Others, A Thin Ghost and Others, and <a href="https://en.wikipedia.org/wiki/M._R._James#First_magazine_publication_of_uncollected_tales">individual publications</a></p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/1265">Queen Victoria</a> by Lytton Strachey</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1265">Queen Victoria</a> by Lytton Strachey</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing</p>
@@ -247,20 +260,20 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/153">Jude the Obscure</a> by Thomas Hardy</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2946">Howards End</a> by EM Forster</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/5164">The Beetle</a> by Richard Marsh</p>
+				<p><a href="https://www.gutenberg.org/ebooks/5164">The Beetle</a> by Richard Marsh</p>
 			</li>
 			<li>
 				<p>Works by <a href="https://en.wikipedia.org/wiki/John_Ruskin#Select_bibliography">John Ruskin</a></p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/9105">Maxims</a> by François duc de La Rochefoucauld</p>
+				<p><a href="https://www.gutenberg.org/ebooks/9105">Maxims</a> by François duc de La Rochefoucauld</p>
 			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Walter_de_la_Mare#Works">Works and poetry by Walter de la Mare</a></p>
@@ -268,9 +281,21 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Edward_Thomas_(poet)#Selected_works">Poetry by Edward Thomas</a></p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/126">Novels by W. S. Maugham</a></p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/53020">The Poems of Giacomo Leopardi</a></p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/52356">Essays and Dialogues</a> by Giacomo Leopardi</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/28701">Short stories by W. W. Jacobs</a> (We already have Lady of the Barge; do we need an omnibus?)</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9814">Poetry</a> by Mark Akenside (make sure this collection is a complete corpus of his works.)</p>
 			<li>
@@ -371,6 +396,18 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/25717">The History of the Decline and Fall of the Roman Empire</a> by Edward Gibbon</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2981">The Memoirs of Casanova</a></p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2981">Fors Clavigera</a> by John Ruskin (<a href="https://www.gutenberg.org/ebooks/61591">vol. 2</a>, <a href="https://www.gutenberg.org/ebooks/61634">vol. 3</a>; but there are 8 volumes?)</p>
+			</li>
+			<li>
+				<p><a href="https://archive.org/details/completeworksofs02johnuoft/page/n17/mode/2up">Poetry</a> by St. John of the Cross (Transcription required.)</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
