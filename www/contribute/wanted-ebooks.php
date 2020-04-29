@@ -146,8 +146,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/60315">My Disillusionment in Russia</a> by Emma Goldman (should be combined with <i>My Further Disillusionment in Russia</i>, the 2nd volume to the book)</p>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/25344">The Scarlet Letter</a> by Nathaniel Hawthorne</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence</p>
