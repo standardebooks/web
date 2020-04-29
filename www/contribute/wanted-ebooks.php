@@ -290,6 +290,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/52356">Essays and Dialogues</a> by Giacomo Leopardi</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2194">Mauprat</a> by George Sand</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
