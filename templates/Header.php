@@ -55,13 +55,13 @@ if(!isset($manual)){
 		<nav>
 			<ul>
 				<li>
-					<a<? if($highlight == 'ebooks'){ ?> class="highlighted"<? } ?> href="/ebooks/">Ebooks</a>
+					<a<? if($highlight == 'ebooks'){ ?> class="highlighted"<? } ?> href="/ebooks">Ebooks</a>
 				</li>
 				<li>
-					<a<? if($highlight == 'about'){ ?> class="highlighted"<? } ?> href="/about/">About</a>
+					<a<? if($highlight == 'about'){ ?> class="highlighted"<? } ?> href="/about">About</a>
 				</li>
 				<li>
-					<a<? if($highlight == 'contribute'){ ?> class="highlighted"<? } ?> href="/contribute/">Get Involved</a>
+					<a<? if($highlight == 'contribute'){ ?> class="highlighted"<? } ?> href="/contribute">Get Involved</a>
 				</li>
 			</ul>
 		</nav>

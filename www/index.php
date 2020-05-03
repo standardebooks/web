@@ -6,7 +6,7 @@ require_once('Core.php');
 	<img alt="Ereaders with a Standard Ebook open." src="/images/devices.png">
 	<p>Standard Ebooks is a volunteer driven, not-for-profit project that produces new editions of public domain ebooks that are lovingly formatted, open source, and free.</p>
 	<p>Ebook projects like <a href="https://www.gutenberg.org">Project Gutenberg</a> transcribe ebooks and make them available for the widest number of reading devices. Standard Ebooks takes ebooks from sources like Project Gutenberg, formats and typesets them using a carefully designed and professional-grade style manual, fully proofreads and corrects them, and then builds them to create a new edition that takes advantage of state-of-the-art ereader and browser technology.</p>
-	<p>Standard Ebooks aren’t just a beautiful addition to your digital library—they’re a high quality standard to build your own ebooks on.</p><a class="button next" href="/ebooks/">Browse our library of free ebooks</a>
+	<p>Standard Ebooks aren’t just a beautiful addition to your digital library—they’re a high quality standard to build your own ebooks on.</p><a class="button next" href="/ebooks">Browse our library of free ebooks</a>
 	<section>
 		<h2>What makes Standard Ebooks different?</h2>
 		<section>

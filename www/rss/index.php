@@ -14,7 +14,7 @@ require_once('Core.php');
 		<p>You may also be interested in our OPDS feed, which is designed for use with ebook libraries like Calibre:</p>
 		<ul>
 			<li>
-				<p><a href="/opds/">The Standard Ebooks OPDS feed</a></p>
+				<p><a href="/opds">The Standard Ebooks OPDS feed</a></p>
 			</li>
 		</ul>
 	</article>

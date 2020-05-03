@@ -1,19 +1,19 @@
 	<footer>
 		<ul>
 			<li>
-				<a href="/ebooks/">Ebooks</a>
+				<a href="/ebooks">Ebooks</a>
 			</li>
 			<li>
-				<a href="/about/">About</a>
+				<a href="/about">About</a>
 			</li>
 			<li>
-				<a href="/contribute/">Get Involved</a>
+				<a href="/contribute">Get Involved</a>
 			</li>
 			<li>
 				<a href="https://github.com/standardebooks">GitHub</a>
 			</li>
 			<li>
-				<a href="/opds/">OPDS</a>
+				<a href="/opds">OPDS</a>
 			</li>
 			<li>
 					<a href="/rss/new-releases">New Releases RSS Feed</a>

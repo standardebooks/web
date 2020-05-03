@@ -94,7 +94,7 @@ catch(\Exception $ex){
 	<h1><?= $pageHeader ?></h1>
 	<?= Template::SearchForm(['query' => $query]) ?>
 	<? if(sizeof($ebooks) == 0){ ?>
-		<p class="no-results">No ebooks matched your search.  You can try different search terms, or <a href="/ebooks/">browse all of our ebooks</a>.</p>
+		<p class="no-results">No ebooks matched your search.  You can try different search terms, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
 		<?= Template::EbookGrid(['ebooks' => $ebooks]) ?>
 	<? } ?>

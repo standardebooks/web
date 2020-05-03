@@ -25,8 +25,8 @@ try{
 		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($wwwFilesystemPath)) as $file){
 			// This iterator will do a deep scan on the directory. When we hit another directory, the filename will be "." and the path will contain the directory path.
 			// We want to find where the "src" directory is, and the directory directly below that will be the final web URL we're looking for.
-			if($file->getFilename() == '.' && preg_match('/\/src$/ius', $file->getPath())){
-				throw new SeeOtherEbookException(preg_replace(['|' . SITE_ROOT . '/www|ius', '|/src$|ius'], '', $file->getPath()));
+			if($file->getFilename() == '.' && preg_match('|/src$|ius', $file->getPath())){
+				throw new SeeOtherEbookException(preg_replace(['|' . SITE_ROOT . '/web/www|ius', '|/src$|ius'], '', $file->getPath()));
 			}
 		}
 	}
@@ -180,7 +180,7 @@ catch(\Exception $ex){
 			<h2>Improve this ebook</h2>
 			<p>Anyone can contribute to make a Standard Ebook better for everyone!</p>
 			<p>To report typos, typography errors, or other corrections, see <a href="/contribute/report-errors">how to report errors</a>.</p>
-			<? if($ebook->GitHubUrl !== null){ ?><p>If you’re comfortable with technology and want to contribute directly, check out <a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>">this ebook’s GitHub repository</a> and our <a href="/contribute/">contributors section</a>.</p><? } ?>
+			<? if($ebook->GitHubUrl !== null){ ?><p>If you’re comfortable with technology and want to contribute directly, check out <a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>">this ebook’s GitHub repository</a> and our <a href="/contribute">contributors section</a>.</p><? } ?>
 		</section>
 
 		<aside id="more-ebooks">

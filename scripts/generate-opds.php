@@ -11,7 +11,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/">
 	<id><?= $webUrl ?>/opds/all</id>
 	<link href="<?= $webUrl ?>/opds/all" rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
-	<link href="<?= $webUrl ?>/opds/" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
+	<link href="<?= $webUrl ?>/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
 	<title>All Standard Ebooks</title>
 	<subtitle>Free and liberated ebooks, carefully produced for the true book lover.</subtitle>
 	<icon><?= $webUrl ?>/images/logo.png</icon>

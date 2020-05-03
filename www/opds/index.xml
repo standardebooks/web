@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<id>https://standardebooks.org/opds/</id>
-	<link href="https://standardebooks.org/opds/" rel="self" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
-	<link href="https://standardebooks.org/opds/" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
+	<id>https://standardebooks.org/opds</id>
+	<link href="https://standardebooks.org/opds" rel="self" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
+	<link href="https://standardebooks.org/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
 	<title>Standard Ebooks</title>
 	<subtitle>Free and liberated ebooks, carefully produced for the true book lover.</subtitle>
 	<updated>2015-05-22T04:02:12Z</updated>

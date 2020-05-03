@@ -157,7 +157,7 @@ require_once('Core.php');
 				</li>
 				<li id="other">
 					<h3>Other Devices</h3>
-					<p>We need help collecting instructions for transferring files to other devices. If you have a non-Kindle device, <a href="/contribute/">get in touch and help write these instructions</a>!</p>
+					<p>We need help collecting instructions for transferring files to other devices. If you have a non-Kindle device, <a href="/contribute">get in touch and help write these instructions</a>!</p>
 				</li>
 			</ul>
 		</section>
