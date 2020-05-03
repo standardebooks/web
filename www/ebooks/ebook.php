@@ -26,7 +26,7 @@ try{
 			// This iterator will do a deep scan on the directory. When we hit another directory, the filename will be "." and the path will contain the directory path.
 			// We want to find where the "src" directory is, and the directory directly below that will be the final web URL we're looking for.
 			if($file->getFilename() == '.' && preg_match('|/src$|ius', $file->getPath())){
-				throw new SeeOtherEbookException(preg_replace(['|' . SITE_ROOT . '/web/www|ius', '|/src$|ius'], '', $file->getPath()));
+				throw new SeeOtherEbookException(preg_replace(['|' . WEB_ROOT . '|ius', '|/src$|ius'], '', $file->getPath()));
 			}
 		}
 	}
