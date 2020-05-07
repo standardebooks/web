@@ -125,10 +125,27 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35517">The Three Imposters</a> by Arthur Machen</p>
 			</li>
-
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/72">Thuvia, Maid of Mars</a> by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1153">The Chessmen of Mars</a> by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/78">Tarzan of the Apes</a> by Edgar Rice Burroughs</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3155">She</a> by H. Rider Haggard</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/711">Allan Quatermain</a> by H. Rider Haggard</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2769">Cleopatra</a> by H. Rider Haggard</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35617">The Terror</a> by Arthur Machen, to be added to the existing Short Fiction omnibus.</p>
 			</li>
@@ -313,9 +330,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3600">The Complete Essays of Michel de Montaigne</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/131">The Pilgrim’s Progress</a> by John Bunyan (this will be a complex production, please contact us first for help.)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3361">The Complete Letters to his Son</a> by Philip Dormer Stanhope</p>
