@@ -252,7 +252,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			<li>
 				<h2>Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</h2>
 				<p>After you’ve added semantics and correctly marked up <a href="/manual/latest/7-high-level-structural-patterns#7.2">section headers</a>, it’s time to update the <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements in each chapter to match <a href="/manual/latest/5-general-xhtml-patterns#5.4">their expected values</a>.</p>
-				<p>The <code class="bash"><b>se</b> print-title</code> tool takes a well-marked-up section header from a file, and prints the expected value for the <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element to the terminal. It also has the <code class="bash">--in-place</code> optoin, which will allow us to update all the chapters at once:</p>
+				<p>The <code class="bash"><b>se</b> print-title</code> tool takes a well-marked-up section header from a file, and prints the expected value for the <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element to the terminal. It also has the <code class="bash">--in-place</code> option, which will allow us to update all the chapters at once:</p>
 				<code class="terminal"><span><b>se</b> print-title --in-place src/epub/text/<i class="glob">*</i></span></code>
 				<p>Once you’ve verified the titles look good, commit:</p>
 				<code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add titles"</i></span></code>
