@@ -101,7 +101,6 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<? } ?>
 		<link href="<?= $relativeUrl ?>/dist/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
 		<link href="<?= $relativeUrl ?>/dist/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
-		<link href="<?= $relativeUrl ?>/src/epub/images/cover.svg" rel="http://opds-spec.org/image" type="image/svg+xml"/>
 		<link href="<?= $relativeUrl ?>/dist/<?= $epubFilename ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" title="Recommended compatible epub"/>
 		<link href="<?= $relativeUrl ?>/dist/<?= $epubFilename ?>3" rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" title="epub"/>
 		<link href="<?= $relativeUrl ?>/dist/<?= preg_replace('/\.epub$/ius', '.kepub.epub', $epubFilename) ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/kepub+zip" title="Kobo Kepub epub"/>
