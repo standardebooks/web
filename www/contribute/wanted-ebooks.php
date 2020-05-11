@@ -131,9 +131,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1153">The Chessmen of Mars</a> by Edgar Rice Burroughs</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/78">Tarzan of the Apes</a> by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
