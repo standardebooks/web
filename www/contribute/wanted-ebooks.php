@@ -424,6 +424,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://archive.org/details/completeworksofs02johnuoft/page/n17/mode/2up">Poetry</a> by St. John of the Cross (Transcription required.)</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/2843">Poetry</a> by John Clare (Careful research required to deduplicate this large corpus.)</p>
+			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
