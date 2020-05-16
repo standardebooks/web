@@ -165,7 +165,7 @@ class Ebook{
 		}
 
 		// Get SE collections
-		foreach($xml->xpath('/package/metadata/meta[@property="se:collection"]') ?: [] as $collection){
+		foreach($xml->xpath('/package/metadata/meta[@property="belongs-to-collection"]') ?: [] as $collection){
 			$this->Collections[] = new Collection($collection);
 		}
 
