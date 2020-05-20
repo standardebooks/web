@@ -82,7 +82,7 @@
 	--light-button-highlight: #3da5bb;
 	--light-border: #222;
 	--light-sub-text: #777;
-	--light-body-bg: #fcf5dd;
+	--light-body-bg: #e9e7e0;
 	--dark-body-text: #eee;
 	--dark-highlight: #3da5bb;
 	--dark-button: #118460;
@@ -121,8 +121,8 @@ html{
 	font-size: 22px;
 	line-height: 1.5;
 	/* fallback for ie */
-	background: url('/images/paper.png') #fcf5dd;
-	background: url('/images/paper.png') var(--body-bg);
+	background: #e9e7e0;
+	background: var(--body-bg);
 }
 
 a,
@@ -217,7 +217,7 @@ body{
 }
 
 body > header{
-	background: url('/images/leather.png') #394451;
+	background: #394451;
 	display: flex;
 	justify-content: space-around;
 	border-bottom: 1px solid var(--border);
@@ -437,14 +437,9 @@ main.front-page > section > h2{
 	text-transform: none;
 	font-weight: normal;
 	max-width: 100%;
-}
-
-main.front-page > section > h2::before,
-main.front-page > section > h2::after{
-	content: "";
-	display: block;
-	height: 1rem;
-	background: url('/images/divider.svg') center no-repeat;
+	border-top: 3px double var(--sub-text);
+	border-bottom: 3px double var(--sub-text);
+	padding: 2rem 4rem;
 }
 
 main.front-page > section > h2::before{
