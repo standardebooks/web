@@ -134,9 +134,29 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/78">Tarzan of the Apes</a> by Edgar Rice Burroughs</p>
 			</li> -->
+			<li>
+				<p><a href="http://gutenberg.net.au/ebooks03/0301231h.html">The Three Hostages</a> by John Buchan</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/24">O Pioneers!</a> by Willa Cather</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/589">Catronia</a> by Robert Louis Stevenson</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/372">Prince Otto</a> by Robert Louis Stevenson</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/32954">The Black Arrow</a> by Robert Louis Stevenson</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/864">The Master of Ballantrae</a> by Robert Louis Stevenson</p>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/44">The Song of the Lark</a> by Willa Cather</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3155">She</a> by H. Rider Haggard</p>
 			</li>

@@ -119,7 +119,7 @@ html{
 	-webkit-hyphens: auto;
 	hyphens: auto;
 	font-size: 22px;
-	line-height: 1.5;
+	line-height: 1.3;
 	/* fallback for ie */
 	background: #e9e7e0;
 	background: var(--body-bg);
@@ -987,9 +987,14 @@ footer ul li{
 	text-transform: lowercase;
 }
 
-footer ul li + li:before{
+footer ul li::after{
 	content: '\2022';
 	margin: 0 10px;
+}
+
+footer ul li:last-child::after{
+	content: '';
+	display: none;
 }
 
 footer p{
@@ -1233,6 +1238,7 @@ p.no-results{
 .us-pd-warning{
 	font-style: italic;
 	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
 
 input[type="search"]{
@@ -1388,6 +1394,16 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		margin: auto;
 		margin-bottom: 1rem;
 	}
+
+	footer ul li{
+		display: inline;
+	}
+
+	footer ul li:nth-child(3)::after{
+		content: "\A"; /* This is a line break */
+		white-space: pre;
+		margin: 0;
+	}
 }
 
 @media(max-width: 680px){
@@ -1521,6 +1537,12 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	article.ebook #history li time{
 		text-align: left;
 	}
+
+	footer ul li:nth-child(5)::after{
+		content: "\A"; /* This is a line break */
+		white-space: pre;
+		margin: 0;
+	}
 }
 
 @media(max-width: 380px){
@@ -1552,6 +1574,19 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 	h1,h2,h3,h4,h5,h6,code,.ebook h1 + p{
 		hyphens: auto;
+	}
+
+	body > footer{
+		padding-top: 0;
+	}
+
+	footer ul li{
+		display: block;
+		margin: 1rem 0;
+	}
+
+	footer ul li::after{
+		display: none;
 	}
 }
 
