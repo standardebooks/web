@@ -166,7 +166,11 @@ class Ebook{
 
 		// Get SE collections
 		foreach($xml->xpath('/package/metadata/meta[@property="belongs-to-collection"]') ?: [] as $collection){
-			$this->Collections[] = new Collection($collection);
+			$c = new Collection($collection);
+			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $collection->attributes()->id . '"][@property="group-position"]') ?: [] as $s){
+				$c->SequenceNumber = (int)$s;
+			}
+			$this->Collections[] = $c;
 		}
 
 		// Get LoC tags

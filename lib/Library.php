@@ -168,7 +168,12 @@ class Library{
 						$collections[$lcCollection] = [];
 					}
 
-					$collections[$lcCollection][] = $ebook;
+					if($collection->SequenceNumber !== null){
+						$collections[$lcCollection][$collection->SequenceNumber] = $ebook;
+					}
+					else{
+						$collections[$lcCollection][] = $ebook;
+					}
 				}
 
 				// Create the tags cache
@@ -266,7 +271,9 @@ class Library{
 		// Now store various collections
 		apcu_delete(new APCUIterator('/^collection-/'));
 		foreach($collections as $collection => $ebooks){
-			apcu_store('collection-' . $collection, $ebooks);
+			// Sort the array by key, then reindex to 0 with array_values
+			ksort($ebooks);
+			apcu_store('collection-' . $collection, array_values($ebooks));
 		}
 
 		apcu_delete(new APCUIterator('/^tag-/'));
