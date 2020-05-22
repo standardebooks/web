@@ -170,6 +170,9 @@ class Ebook{
 			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $collection->attributes()->id . '"][@property="group-position"]') ?: [] as $s){
 				$c->SequenceNumber = (int)$s;
 			}
+			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $collection->attributes()->id . '"][@property="collection-type"]') ?: [] as $s){
+				$c->Type = (string)$s;
+			}
 			$this->Collections[] = $c;
 		}
 
