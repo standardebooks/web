@@ -147,6 +147,7 @@ main{
 	text-align: justify;
 	display: flex;
 	flex-direction: column;
+	font-variant-numeric: oldstyle-nums;
 }
 
 main.front-page{
