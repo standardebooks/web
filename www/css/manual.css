@@ -209,26 +209,35 @@ code.full .utf{
 	margin-top: 0;
 }
 
+.step-by-step-guide ol li h2{
+	margin-top: 4rem;
+	margin-left: 0;
+}
 
-#producing-an-ebook > ol li::marker{
+.step-by-step-guide ol li h3{
+	margin-top: 3rem;
+}
+
+.step-by-step-guide > ol li::marker{
 	font-weight: bold;
 	font-family: 'League Spartan', sans-serif;
 }
 
-#producing-an-ebook > ol {
+.step-by-step-guide > ol {
 	counter-reset: item;
 	margin-left: 0;
 	padding-left: 0;
+	margin-top: 0;
 	list-style: none;
 }
 
-#producing-an-ebook > ol > li::before {
+.step-by-step-guide > ol > li::before {
 	float: left;
 	content: counter(item) ".";
 	counter-increment: item;
 	width: 4rem;
 	text-align: right;
-	margin-left: -5.5rem;
+	margin-left: -4.5rem;
 
 	font-size: 1.2rem;
 	font-family: 'League Spartan', sans-serif;
@@ -237,11 +246,11 @@ code.full .utf{
 	text-transform: uppercase;
 }
 
-.warning{
+.alert p.warning{
 	font-size: 2rem;
 	font-weight: bold;
-	text-align: center;
 	font-style: normal;
+	text-align: center;
 }
 
 figure p.wrong{

@@ -2,13 +2,13 @@
 require_once('Core.php');
 ?><?= Template::Header(['title' => 'Producing an Ebook, Step by Step', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A detailed step-by-step description of the complete process of producing an ebook for the Standard Ebooks project, start to finish.']) ?>
 <main class="manual">
-	<article id="producing-an-ebook">
+	<article class="step-by-step-guide">
 		<h1>Producing an Ebook, Step by Step</h1>
 		<p>This guide is meant to take you step-by-step through the creation of a complete Standard Ebook. While it might seem a little long, most of the text is a description of how to use various automated scripts. It can take just an hour or two for an experienced producer to produce a draft ebook for proofreading (depending on the complexity of the ebook, of course).</p>
 		<p>Our toolset is GNU/Linux-based, and producing an ebook from scratch currently requires working knowledge of the epub file format and of Unix-like systems like Mac or Linux.</p>
 		<p>Our toolset doesn’t yet work natively on Windows, but there are <a href="https://www.howtogeek.com/170870/5-ways-to-run-linux-software-on-windows/">many ways to run Linux from within Windows</a>.</p>
 		<p>If you don’t have this kind of technical expertise, you can still contribute! <a href="/contribute">Check out our contributors page for details.</a></p>
-		<ol class="full">
+		<ol>
 			<li>
 				<h2>Set up the Standard Ebooks toolset and make sure it’s up-to-date</h2>
 				<p>The Standard Ebooks project has a toolset that will help you produce an ebook. The toolset installs the <code class="bash"><b>se</b></code> command, which has various subcommands related to creating Standard Ebooks. You can <a href="/tools">read the complete installation instructions</a>, or if you already have <a href="https://pipxproject.github.io/pipx/installation/"><code class="bash"><b>pipx</b></code> installed</a>, run:</p>
