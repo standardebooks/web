@@ -119,7 +119,7 @@ html{
 	-webkit-hyphens: auto;
 	hyphens: auto;
 	font-size: 22px;
-	line-height: 1.3;
+	line-height: 1.4;
 	/* fallback for ie */
 	background: #e9e7e0;
 	background: var(--body-bg);
