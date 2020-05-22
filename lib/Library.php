@@ -163,16 +163,16 @@ class Library{
 
 				// Create the collections cache
 				foreach($ebook->Collections as $collection){
-					$lcCollection = strtolower(Formatter::RemoveDiacritics($collection->Name));
-					if(!array_key_exists($lcCollection, $collections)){
-						$collections[$lcCollection] = [];
+					$urlSafeCollection = Formatter::MakeUrlSafe($collection->Name);
+					if(!array_key_exists($urlSafeCollection, $collections)){
+						$collections[$urlSafeCollection] = [];
 					}
 
 					if($collection->SequenceNumber !== null){
-						$collections[$lcCollection][$collection->SequenceNumber] = $ebook;
+						$collections[$urlSafeCollection][$collection->SequenceNumber] = $ebook;
 					}
 					else{
-						$collections[$lcCollection][] = $ebook;
+						$collections[$urlSafeCollection][] = $ebook;
 					}
 				}
 

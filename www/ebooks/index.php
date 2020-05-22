@@ -40,21 +40,26 @@ try{
 		$ebooks = array_slice($ebooks, ($page - 1) * EBOOKS_PER_PAGE, EBOOKS_PER_PAGE);
 	}
 	elseif($collection !== null){
-		$collection = strtolower(str_replace('-', ' ', Formatter::RemoveDiacritics($collection)));
 		$ebooks = Library::GetEbooksByCollection($collection);
-
+		$collectionObject = null;
+		// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
 		if(sizeof($ebooks) > 0){
-			// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
 			foreach($ebooks[0]->Collections as $c){
-				if($collection == strtolower(str_replace('-', ' ', Formatter::RemoveDiacritics($c->Name)))){
-					$collection = (string)$c->Name; // Explicit typecast to string to satisfy PHPStan
+				if($collection == Formatter::MakeUrlSafe($c->Name)){
+					$collectionObject = $c;
 				}
 			}
 		}
-		$collectionName = ucwords(preg_replace('/^The /ius', '', $collection) ?? '');
-		$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText($collectionName) . ' collection';
-		$pageDescription = 'A list of ebooks in the ' . Formatter::ToPlainText($collectionName) . ' collection';
-		$pageHeader = 'Ebooks in the ' . Formatter::ToPlainText($collectionName) . ' collection';
+		if($collectionObject !== null){
+			$collectionName = preg_replace('/^The /ius', '', $collectionObject->Name) ?? '';
+			$collectionType = $collectionObject->Type ?? 'collection';
+			$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
+			$pageDescription = 'A list of ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
+			$pageHeader = 'Ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
+		}
+		else{
+			throw new InvalidCollectionException();
+		}
 	}
 	else{
 		$pageTitle = 'Browse Standard Ebooks';

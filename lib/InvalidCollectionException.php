@@ -1,0 +1,3 @@
+<?
+class InvalidCollectionException extends \Exception{
+}
