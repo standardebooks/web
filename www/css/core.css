@@ -1210,6 +1210,7 @@ main.ebooks nav ol li a{
 	padding: 1rem;
 	margin: 0 .5rem;
 	border-radius: .25rem;
+	font-variant-numeric: normal;
 }
 
 article nav ol li.highlighted a,
