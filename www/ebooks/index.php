@@ -53,7 +53,16 @@ try{
 		if($collectionObject !== null){
 			$collectionName = preg_replace('/^The /ius', '', $collectionObject->Name) ?? '';
 			$collectionType = $collectionObject->Type ?? 'collection';
-			$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
+
+			# This is a kind of .endswith() test
+			if(substr_compare(mb_strtolower($collectionObject->Name), mb_strtolower($collectionObject->Type), -strlen(mb_strtolower($collectionObject->Type))) !== 0){
+				$collectionType = ' ' . $collectionType;
+			}
+			else{
+				$collectionType = '';
+			}
+
+			$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText($collectionName) . $collectionType;
 			$pageDescription = 'A list of ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
 			$pageHeader = 'Ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
 		}
