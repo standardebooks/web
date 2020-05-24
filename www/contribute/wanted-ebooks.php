@@ -280,9 +280,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by DH Lawrence</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/143">The Mayor of Casterbridge</a> by Thomas Hardy</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens</p>
 			</li>
@@ -300,9 +297,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/5164">The Beetle</a> by Richard Marsh</p>
 			</li>
 			<li>
 				<p>Works by <a href="https://en.wikipedia.org/wiki/John_Ruskin#Select_bibliography">John Ruskin</a></p>
