@@ -983,12 +983,17 @@ footer ul{
 footer ul li{
 	display: inline-block;
 	list-style: none;
-	font-size: .9rem;
 	text-transform: lowercase;
+	font-size: 0;
+}
+
+footer ul li a,
+footer ul li::after{
+	font-size: .9rem;
 }
 
 footer ul li::after{
-	content: '\2022';
+	content: '\b7';
 	margin: 0 10px;
 }
 
