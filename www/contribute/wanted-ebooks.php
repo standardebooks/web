@@ -140,6 +140,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/24">O Pioneers!</a> by Willa Cather</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/47">Anne of Avonlea</a> by L. M. Montgomery</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/51">Anne of the Island</a> by L. M. Montgomery</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
