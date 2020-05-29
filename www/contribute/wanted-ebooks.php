@@ -146,6 +146,15 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/51">Anne of the Island</a> by L. M. Montgomery</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/10041">The Rivet in Grandfather's Neck</a> by James Branch Cabell</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/9663">Domnei</a> by James Branch Cabell</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/9488">The Line of Love</a> by James Branch Cabell</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
@@ -334,6 +343,15 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2194">Mauprat</a> by George Sand</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/11639">Figures of Earth: A Comedy of Appearances</a> by James Branch Cabell</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/11752">Chivalry</a> by James Branch Cabell (Note: the 1921 version)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/9608">The Cords of Vanity</a> by James Branch Cabell</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -386,9 +404,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3090">Short Stories by Guy de Maupassant</a> (To be compiled in an omnibus “Short Fiction”)</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/11639">Figures of Earth: A Comedy of Appearances</a> by James Branch Cabell</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/5267">Sister Carrie</a> by Theodore Dreiser</p>
