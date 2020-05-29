@@ -30,6 +30,7 @@ class Ebook{
 	public $DistCoverUrl;
 	public $Title;
 	public $FullTitle;
+	public $AlternateTitle;
 	public $Description;
 	public $LongDescription;
 	public $Language;
@@ -153,6 +154,8 @@ class Ebook{
 		$this->Title = str_replace('\'', '’', $this->Title);
 
 		$this->FullTitle = $this->NullIfEmpty($xml->xpath('/package/metadata/dc:title[@id="fulltitle"]'));
+
+		$this->AlternateTitle = $this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:alternate-title"]'));
 
 		$date = $xml->xpath('/package/metadata/dc:date');
 		if($date !== false && sizeof($date) > 0){
@@ -381,9 +384,11 @@ class Ebook{
 	}
 
 	public function Contains(string $query): bool{
-		// When searching an ebook, we search the title, author(s), SE tags, and LoC tags.
+		// When searching an ebook, we search the title, alternate title, author(s), SE tags, and LoC tags.
 
 		$searchString = $this->FullTitle ?? $this->Title;
+
+		$searchString .= ' ' . $this->AlternateTitle;
 
 		foreach($this->Authors as $author){
 			$searchString .= ' ' . $author->Name;
