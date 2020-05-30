@@ -6,6 +6,7 @@ main code:first-child{
 
 code{
 	hyphens: none;
+	font-variant-numeric: normal;
 }
 
 blockquote,
