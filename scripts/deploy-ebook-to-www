@@ -140,6 +140,9 @@ do
 	convert -resize "2156" -crop "2156x718+0+1078" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
 
 	# Build the cover image thumbnail
+	# We use JPG instead of SVG for several reasons:
+	# 1. A JPG is roughly 1/2 the file size of the same SVG, because the SVG must contain the JPG in base64 encoding
+	# 2. The "scale up" effect on mouse hover is blurry when used on SVGs.
 	git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
 	git show HEAD:images/cover.svg > "${imgWorkDir}/${urlSafeIdentifier}.svg"
 	# The Ubuntu SVG renderer can't handle quotes around font names, so remove them before we process the cover.

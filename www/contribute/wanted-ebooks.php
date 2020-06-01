@@ -56,9 +56,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2005">Piccadilly Jim</a> by P. G. Wodehouse</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2233">A Damsel in Distress</a> by P. G. Wodehouse</p>
 			</li>
@@ -149,9 +149,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/123">At the Earth's Core</a> (Pellucidar 1) by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/605">Pellucidar</a> (Pellucidar 2) by Edgar Rice Burroughs</p>
 			</li>
