@@ -137,9 +137,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://gutenberg.net.au/ebooks03/0301231h.html">The Three Hostages</a> by John Buchan</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/24">O Pioneers!</a> by Willa Cather</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/47">Anne of Avonlea</a> by L. M. Montgomery</p>
 			</li>
