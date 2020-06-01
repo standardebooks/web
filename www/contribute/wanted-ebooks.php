@@ -131,9 +131,54 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1153">The Chessmen of Mars</a> by Edgar Rice Burroughs</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/149">Beyond Thirty aka. The Lost Continent</a> (Beyond 1) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/551">The Land That Time Forgot</a> (Caspak 1) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/552">The People That Time Forgot</a> (Caspak 2) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/553">Out of Time's Abyss</a> (Caspak 3) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/123">At the Earth's Core</a> (Pellucidar 1) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/605">Pellucidar</a> (Pellucidar 2) by Edgar Rice Burroughs</p>
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/78">Tarzan of the Apes</a> by Edgar Rice Burroughs</p>
 			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/81">The Return of Tarzan</a> (Tarzan 2) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/85">The Beasts of Tarzan</a> (Tarzan 3) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/92">Tarzan and the Jewels of Opar</a> (Tarzan 5) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/106">Jungle Tales of Tarzan</a> (Tarzan 6) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/58874">Tarzan and the Golden Lion</a> (Tarzan 9) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/61837">Tarzan and the Ant Men</a> (Tarzan 10) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/369">The Outlaw of Torn</a>  by Edgar Rice Burroughs</p>
+			</li>
 			<li>
 				<p><a href="http://gutenberg.net.au/ebooks03/0301231h.html">The Three Hostages</a> by John Buchan</p>
 			</li>
@@ -155,9 +200,54 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9488">The Line of Love</a> by James Branch Cabell</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/13527">Ticket No. "9672" (The Lottery Ticket)</a> <i>Un Billet de loterie</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/10547">Topsy Turvy (The Purchase of the North Pole)</a> <i>Sans dessus dessous</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3808">Robur the Conqueror</a> <i>Robur-le-Conquérant</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3809">Master of the World</a> <i>Maître du monde</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1355">The Child of the Cavern</a> <i>Les Indes noires</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1652">The Survivors of the Chancellor</a> <i>Le Chancellor</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/11556">Facing the Flag</a> <i>Face au drapeau</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3748">Journey to the Center of the Earth</a> <i>Voyage au centre de la Terre</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/10339">An Antarctic Mystery</a> <i>Le Sphinx des glaces</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3526">Five Weeks in a Balloon</a> <i>Cinq Semaines en ballon</i> by Jules Verne</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/90">The Son of Tarzan</a> (Tarzan 4) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1401">Tarzan the Untamed</a> (Tarzan 7) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2020">Tarzan the Terrible</a> (Tarzan 8) by Edgar Rice Burroughs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/331">The Mucker</a> (Mucker 1) by Edgar Rice Burroughs</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister's Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
 			</li>
@@ -352,6 +442,27 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9608">The Cords of Vanity</a> by James Branch Cabell</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1842">Michael Strogoff</a> <i>Michel Strogoff</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/9150">Dick Sand, A Captain at Fifteen</a> <i>Un Capitaine de quinze ans</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/12901">Moon-Voyage (Parts 1 and 2)</a> <i>De la Terre à la Lune</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/8991">The Fur Country: Seventy Degrees North Latitude</a> <i>Le Pays des fourrures</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/29413">The Adventures of Captain Hatteras</a> <i>Voyages et aventures du capitaine Hatteras</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/46597">In Search of the Castaways</a> <i>Les Enfants du capitaine Grant</i> by Jules Verne</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -448,7 +559,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short stories by P. G. Wodehouse (Note that we already have all Jeeves stories. Careful research is required to compile an omnibus of the rest.)</a></p>
+				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short stories by P. G. Wodehouse (Note that we already have all Jeeves and School stories. Careful research is required to compile an omnibus of the rest.)</a></p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
