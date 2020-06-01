@@ -4,8 +4,11 @@ $options = getopt("", $longopts);
 $webRoot = $options["webroot"] ?? "/standardebooks.org/web";
 $webUrl = $options["weburl"] ?? "https://standardebooks.org";
 
+$updatedTimestamp = gmdate('Y-m-d\TH:i:s\Z');
+
 $contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/www/ebooks/') . ' -name "content.opf" | sort') ?? ''));
 
+ob_start();
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/">
@@ -15,7 +18,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<title>All Standard Ebooks</title>
 	<subtitle>Free and liberated ebooks, carefully produced for the true book lover.</subtitle>
 	<icon><?= $webUrl ?>/images/logo.png</icon>
-	<updated><?= gmdate('Y-m-d\TH:i:s\Z') ?></updated>
+	<updated><?= $updatedTimestamp ?></updated>
 	<author>
 		<name>Standard Ebooks</name>
 		<uri><?= $webUrl ?></uri>
@@ -108,3 +111,38 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	</entry>
 	<? } ?>
 </feed>
+<?
+
+// Print the "all feed" to file
+$feed = ob_get_contents();
+ob_end_clean();
+
+file_put_contents('/tmp/all.xml', $feed);
+exec('se clean /tmp/all.xml');
+
+// If the feed has changed compared to the version currently on disk, copy our new version over
+// and update the updated timestamp in the master opds index.
+try{
+	if(filesize($webRoot . '/www/opds/all.xml') !== filesize('/tmp/all.xml')){
+		$oldFeed = file_get_contents($webRoot . '/www/opds/all.xml');
+		$newFeed = file_get_contents('/tmp/all.xml');
+		if($oldFeed != $newFeed){
+			file_put_contents($webRoot . '/www/opds/all.xml', $newFeed);
+
+			// Update the index feed with the last updated timestamp
+			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($webRoot . '/www/opds/index.xml')));
+			$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
+			$xml->registerXPathNamespace('schema', 'http://schema.org/');
+
+			$allUpdated = $xml->xpath('/feed/entry[id="https://standardebooks.org/opds/all"]/updated')[0];
+			$allUpdated[0] = $updatedTimestamp;
+			file_put_contents($webRoot . '/www/opds/index.xml', str_replace(" ns=", " xmlns=", $xml->asXml()));
+			exec('se clean ' . escapeshellarg($webRoot) . '/www/opds/index.xml');
+		}
+	}
+}
+catch(Exception $ex){
+	rename('/tmp/all.xml', $webRoot . '/www/opds/all.xml');
+}
+
+?>

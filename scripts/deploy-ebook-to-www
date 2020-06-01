@@ -227,7 +227,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding OPDS catalog ... "
 fi
 
-bash -c "php \"${scriptsDir}\"/generate-opds.php --webroot \"${webRoot}\" --weburl \"${webUrl}\" > \"${webRoot}\"/www/opds/all.xml; export XMLLINT_INDENT=\$(printf \"\\t\") && xmllint --c14n \"${webRoot}\"/www/opds/all.xml | (printf \"%s\\n\" \"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\" && cat) | xmllint --output \"${webRoot}\"/www/opds/all.xml --format -"
+bash -c "php \"${scriptsDir}\"/generate-opds.php --webroot \"${webRoot}\" --weburl \"${webUrl}\" > \"${webRoot}\"/www/opds/all.xml"
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"

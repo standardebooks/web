@@ -14,7 +14,7 @@
 	<entry>
 		<title>All Standard Ebooks</title>
 		<link href="/opds/all" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
-		<updated>2015-05-22T04:02:12Z</updated>
+		<updated>2020-06-01T03:17:56Z</updated>
 		<id>https://standardebooks.org/opds/all</id>
 		<content type="text">A list of all Standard Ebooks.</content>
 	</entry>
