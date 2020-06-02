@@ -117,15 +117,17 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 $feed = ob_get_contents();
 ob_end_clean();
 
-file_put_contents('/tmp/all.xml', $feed);
-exec('se clean /tmp/all.xml');
+$tempFilename = tempnam('/tmp/', 'se-opds-');
+
+file_put_contents($tempFilename, $feed);
+exec('se clean ' . escapeshellarg($tempFilename));
 
 // If the feed has changed compared to the version currently on disk, copy our new version over
 // and update the updated timestamp in the master opds index.
 try{
-	if(filesize($webRoot . '/www/opds/all.xml') !== filesize('/tmp/all.xml')){
+	if(filesize($webRoot . '/www/opds/all.xml') !== filesize($tempFilename)){
 		$oldFeed = file_get_contents($webRoot . '/www/opds/all.xml');
-		$newFeed = file_get_contents('/tmp/all.xml');
+		$newFeed = file_get_contents($tempFilename);
 		if($oldFeed != $newFeed){
 			file_put_contents($webRoot . '/www/opds/all.xml', $newFeed);
 
@@ -142,7 +144,9 @@ try{
 	}
 }
 catch(Exception $ex){
-	rename('/tmp/all.xml', $webRoot . '/www/opds/all.xml');
+	rename($tempFilename, $webRoot . '/www/opds/all.xml');
 }
+
+unlink($tempFilename);
 
 ?>
