@@ -7,28 +7,50 @@ $webUrl = $options["weburl"] ?? "https://standardebooks.org";
 $updatedTimestamp = gmdate('Y-m-d\TH:i:s\Z');
 
 $contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/www/ebooks/') . ' -name "content.opf" | sort') ?? ''));
+$sortedContentFiles = [];
+
+foreach($contentFiles as $path){
+	if($path == '')
+		continue;
+
+	$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($path) ?: ''));
+	$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
+
+	$updated = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
+
+	if($updated !== false && sizeof($updated) > 0){
+		$sortedContentFiles[(string)$updated[0]] = $xml;
+	}
+}
+
+krsort($sortedContentFiles);
 
 ob_start();
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+
+/* Notes:
+
+- *All* OPDS feeds must contain a rel="crawlable" link pointing to the /opds/all feed
+
+- The <fh:complete/> element is required to note this as a "Complete Acquisition Feeds"; see https://specs.opds.io/opds-1.2#25-complete-acquisition-feeds
+
+*/
 ?>
-<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/">
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:fh="http://purl.org/syndication/history/1.0">
 	<id><?= $webUrl ?>/opds/all</id>
 	<link href="<?= $webUrl ?>/opds/all" rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
 	<link href="<?= $webUrl ?>/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
+	<link href="<?= $webUrl ?>/opds/all" rel="crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
 	<title>All Standard Ebooks</title>
 	<subtitle>Free and liberated ebooks, carefully produced for the true book lover.</subtitle>
 	<icon><?= $webUrl ?>/images/logo.png</icon>
 	<updated><?= $updatedTimestamp ?></updated>
+	<fh:complete/>
 	<author>
 		<name>Standard Ebooks</name>
 		<uri><?= $webUrl ?></uri>
 	</author>
-	<? foreach($contentFiles as $path){
-	if($path == '')
-		continue;
-
-	$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents("$path") ?: ''));
-	$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
+	<? foreach($sortedContentFiles as $xml){
 
 	$authors = array();
 	$temp = $xml->xpath('/package/metadata/dc:identifier') ?: [];
@@ -90,6 +112,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		</author>
 		<? } ?>
 		<published><?= $published ?></published>
+		<dc:issued><?= $published ?></dc:issued>
 		<updated><?= $modified ?></updated>
 		<dc:language><?= $language ?></dc:language>
 		<dc:publisher>Standard Ebooks</dc:publisher>
