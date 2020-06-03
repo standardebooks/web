@@ -124,11 +124,11 @@ class Ebook{
 		}
 
 		// Fill in the short history of this repo.
-		$historyEntries = explode("\n", shell_exec('cd ' . escapeshellarg($this->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %s"') ?? '');
+		$historyEntries = explode("\n", shell_exec('cd ' . escapeshellarg($this->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"') ?? '');
 
 		foreach($historyEntries as $entry){
-			$array = explode(' ', $entry, 2);
-			$this->GitCommits[] = new GitCommit($array[0], $array[1]);
+			$array = explode(' ', $entry, 3);
+			$this->GitCommits[] = new GitCommit($array[0], $array[1], $array[2]);
 		}
 
 		// Get cover image URLs.

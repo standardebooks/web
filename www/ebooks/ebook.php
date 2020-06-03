@@ -136,7 +136,7 @@ catch(\Exception $ex){
 				<? foreach($ebook->GitCommits as $commit){ ?>
 				<li>
 					<time datetime="<?= $commit->Timestamp->format(DateTime::RFC3339) ?>"><?= $commit->Timestamp->format('M j, Y') ?></time>
-					<p><?= Formatter::ToPlainText($commit->Message) ?></p>
+					<p><a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>/commit/<?= Formatter::ToPlainText($commit->Hash) ?>"><?= Formatter::ToPlainText($commit->Message) ?></a></p>
 				</li>
 				<? } ?>
 			</ol>
