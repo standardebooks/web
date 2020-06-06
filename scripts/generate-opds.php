@@ -17,9 +17,10 @@ foreach($contentFiles as $path){
 	$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 
 	$updated = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
+	$identifier = $xml->xpath('/package/metadata/dc:identifier') ?: [];
 
-	if($updated !== false && sizeof($updated) > 0){
-		$sortedContentFiles[(string)$updated[0]] = $xml;
+	if(sizeof($identifier) > 0 && sizeof($updated) > 0){
+		$sortedContentFiles[(string)$updated[0] . ' ' . $identifier[0]] = $xml;
 	}
 }
 
@@ -54,8 +55,9 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 
 	$authors = array();
 	$temp = $xml->xpath('/package/metadata/dc:identifier') ?: [];
-	$url = preg_replace('/^url:/ius', '', (string)array_shift($temp)) ?? '';
-	$url = preg_replace('/^https:\/\/standardebooks.org/ius', $webUrl, $url) ?? '';
+	$identifier = (string)array_shift($temp);
+	$url = preg_replace('/^url:/ius', '', $identifier) ?? '';
+	$url = preg_replace('/^https:\/\/standardebooks\.org/ius', $webUrl, $url) ?? '';
 	$relativeUrl = preg_replace('/^' . preg_quote($webUrl, '/') . '/ius', '', $url) ?? '';
 
 	$temp = $xml->xpath('/package/metadata/dc:title') ?: [];
@@ -84,9 +86,9 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 
 	$filesystemPath = preg_replace('/\/src\/epub\/content.opf$/ius', '', $path) ?? '';
 	$temp = glob($filesystemPath . '/dist/*.epub');
-	$epubFilename = preg_replace('/(\|\.epub)/ius', '', preg_replace('/.+\//ius', '', array_shift($temp) ?? '') ?? '') ?? '';
-	$temp = glob($filesystemPath . '/dist/*.azw3');
-	$kindleFilename = preg_replace('/.+\//ius', '', array_shift($temp) ?? '') ?? '';
+	$filename = preg_replace('/^url:https:\/\/standardebooks\.org\/ebooks\//ius', '', $identifier);
+	$epubFilename = str_replace('/', '_', $filename) . '.epub';
+	$kindleFilename = str_replace('/', '_', $filename) . '.azw3';
 
 	?>
 	<entry>
