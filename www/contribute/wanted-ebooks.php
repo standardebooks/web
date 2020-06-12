@@ -324,9 +324,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1156">Babbitt</a> by Sinclair Lewis</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1164">The Iron Heel</a> by Jack London</p>
 			</li>
