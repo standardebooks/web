@@ -465,12 +465,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/408">The Souls of Black Folk</a> by W. E. B. Du Bois</p>
 			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/60093">Cane</a> by Jean Toomer</p>
-			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/60093">Cane</a> by Jean Toomer</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/28701">Short stories by W. W. Jacobs</a> (We already have Lady of the Barge; do we need an omnibus?)</p>
 			</li>
