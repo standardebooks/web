@@ -29,11 +29,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61168">The Man in the Brown Suit</a>, by Agatha Christie (Note: we already have cover art selected)</p>
 			</li>
-			<!--
-			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard</p>
 			</li>
@@ -151,9 +146,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/123">At the Earth's Core</a> (Pellucidar 1) by Edgar Rice Burroughs</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/605">Pellucidar</a> (Pellucidar 2) by Edgar Rice Burroughs</p>
 			</li>
@@ -235,6 +227,11 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3526">Five Weeks in a Balloon</a> <i>Cinq Semaines en ballon</i> by Jules Verne</p>
 			</li>
+			<!--
+			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans</p>
+			</li> -->
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
