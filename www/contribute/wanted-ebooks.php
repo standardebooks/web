@@ -462,6 +462,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46597">In Search of the Castaways</a> <i>Les Enfants du capitaine Grant</i> by Jules Verne</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/408">The Souls of Black Folk</a> by W. E. B. Du Bois</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/60093">Cane</a> by Jean Toomer</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
