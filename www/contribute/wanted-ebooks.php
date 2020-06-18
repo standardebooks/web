@@ -400,9 +400,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/153">Jude the Obscure</a> by Thomas Hardy</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2946">Howards End</a> by EM Forster</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
 			</li>
 			<li>
@@ -580,6 +577,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/2843">Poetry</a> by John Clare (Careful research required to deduplicate this large corpus.)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/17460">Lorna Doone</a> by R. D. Blackmoore</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
