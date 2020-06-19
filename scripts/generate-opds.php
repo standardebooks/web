@@ -42,6 +42,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<link href="<?= $webUrl ?>/opds/all" rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
 	<link href="<?= $webUrl ?>/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
 	<link href="<?= $webUrl ?>/opds/all" rel="crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+	<link href="<?= $webUrl ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />
 	<title>All Standard Ebooks</title>
 	<subtitle>Free and liberated ebooks, carefully produced for the true book lover.</subtitle>
 	<icon><?= $webUrl ?>/images/logo.png</icon>

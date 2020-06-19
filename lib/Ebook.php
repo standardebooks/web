@@ -50,6 +50,7 @@ class Ebook{
 	public $ContributorsHtml;
 	public $TitleWithCreditsHtml = '';
 	public $Timestamp;
+	public $ModifiedTimestamp;
 
 	public function __construct(string $wwwFilesystemPath){
 		// First, construct a source repo path from our WWW filesystem path.
@@ -162,6 +163,11 @@ class Ebook{
 			$this->Timestamp = new DateTime((string)$date[0]);
 		}
 
+		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]');
+		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
+			$this->ModifiedTimestamp = new DateTime((string)$modifiedDate[0]);
+		}
+
 		// Get SE tags
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
 			$this->Tags[] = new Tag($tag);
@@ -222,7 +228,8 @@ class Ebook{
 							(string)$contributor,
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]')),
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]')),
-							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'))
+							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]')),
+							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'))
 						);
 
 				// A display-sequence of 0 indicates that we don't want to process this contributor
