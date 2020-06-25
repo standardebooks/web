@@ -227,7 +227,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding OPDS catalog ... "
 fi
 
-bash -c "php \"${scriptsDir}\"/generate-opds.php --webroot \"${webRoot}\" --weburl \"${webUrl}\" > \"${webRoot}\"/www/opds/all.xml"
+bash -c "php \"${scriptsDir}\"/generate-opds.php --webroot \"${webRoot}\" --weburl \"${webUrl}\""
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
