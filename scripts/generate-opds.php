@@ -1,4 +1,6 @@
 <?
+require_once('/standardebooks.org/web/lib/Core.php');
+
 use function Safe\krsort;
 use function Safe\getopt;
 use function Safe\preg_replace;
@@ -7,8 +9,6 @@ $longopts = array("webroot:", "weburl:");
 $options = getopt("", $longopts);
 $webRoot = $options["webroot"] ?? "/standardebooks.org/web";
 $webUrl = $options["weburl"] ?? "https://standardebooks.org";
-
-require_once($webRoot . '/lib/Core.php');
 
 $contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/www/ebooks/') . ' -name "content.opf" | sort') ?? ''));
 $allEbooks = [];
