@@ -1,4 +1,5 @@
 <?
+use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\rename;
 use function Safe\tempnam;
@@ -34,9 +35,9 @@ class OpdsFeed{
 		$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 		$xml->registerXPathNamespace('schema', 'http://schema.org/');
 
-		$feedEntry = $xml->xpath('/feed/entry[id="' . $this->Id . '"]/updated')[0];
+		$feedEntry = ($xml->xpath('/feed/entry[id="' . $this->Id . '"]/updated') ?? [])[0];
 		$feedEntry[0] = $updatedTimestamp;
-		file_put_contents(WEB_ROOT . '/opds/index.xml', str_replace(" ns=", " xmlns=", $xml->asXml()));
+		file_put_contents(WEB_ROOT . '/opds/index.xml', str_replace(" ns=", " xmlns=", $xml->asXml() ?? ''));
 		exec('se clean ' . WEB_ROOT . '/opds/index.xml');
 	}
 }

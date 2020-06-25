@@ -1,5 +1,8 @@
 <?
 require_once('Core.php');
+use function Safe\glob;
+use function Safe\preg_replace;
+use function Safe\sort;
 
 // Redirect to the latest version of the manual
 

@@ -10,8 +10,12 @@ parameters:
 
 		# Ignore errors caused by no type hints on class properties, as that's not available till PHP 7.4
 		- '#Property .+? has no typehint specified.#'
+
+		# Ignore errors caused by missing phpdoc strings for arrays
+		- '#Method .+? has parameter .+? with no value type specified in iterable type array.#'
 	level:
 		7
 	paths:
 		- %rootDir%/../../../lib
 		- %rootDir%/../../../www
+		- %rootDir%/../../../scripts

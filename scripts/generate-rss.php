@@ -1,4 +1,10 @@
 <?
+use function Safe\file_get_contents;
+use function Safe\getopt;
+use function Safe\krsort;
+use function Safe\preg_replace;
+use function Safe\strtotime;
+
 $longopts = array("webroot:", "weburl:");
 $options = getopt("", $longopts);
 $webRoot = $options["webroot"] ?? "/standardebooks.org/web";

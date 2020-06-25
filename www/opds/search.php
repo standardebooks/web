@@ -1,7 +1,9 @@
 <?
 require_once('Core.php');
+use Safe\DateTime;
 
 $now = new DateTime('now', new DateTimeZone('UTC'));
+$ebooks = [];
 
 try{
 	$query = HttpInput::GetString('query', false);
