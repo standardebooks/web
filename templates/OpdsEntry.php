@@ -9,8 +9,8 @@
 			<? if($author->NacoafUrl !== null){ ?><schema:sameAs><?= $author->NacoafUrl ?></schema:sameAs><? } ?>
 		</author>
 	<? } ?>
-	<published><?= $ebook->Timestamp->format('Y-m-d\TH:i:s\Z') ?></published>
 	<dc:issued><?= $ebook->Timestamp->format('Y-m-d\TH:i:s\Z') ?></dc:issued>
+	<updated><?= $ebook->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z') ?></updated>
 	<dc:language><?= $ebook->Language ?></dc:language>
 	<dc:publisher>Standard Ebooks</dc:publisher>
 	<? foreach($ebook->Sources as $source){ ?>
