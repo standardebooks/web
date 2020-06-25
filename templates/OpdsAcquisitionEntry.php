@@ -1,26 +1,26 @@
 <entry>
 	<id><?= SITE_URL . $ebook->Url ?></id>
-	<title><?= $ebook->Title ?></title>
+	<title><?= htmlspecialchars($ebook->Title, ENT_QUOTES|ENT_XML1, 'utf-8') ?></title>
 	<? foreach($ebook->Authors as $author){ ?>
 		<author>
-			<name><?= $author->Name ?></name>
-			<? if($author->WikipediaUrl !== null){ ?><uri><?= $author->WikipediaUrl ?></uri><? } ?>
-			<? if($author->FullName !== null){ ?><schema:alternateName><?= $author->FullName ?></schema:alternateName><? } ?>
-			<? if($author->NacoafUrl !== null){ ?><schema:sameAs><?= $author->NacoafUrl ?></schema:sameAs><? } ?>
+			<name><?= htmlspecialchars($author->Name, ENT_QUOTES|ENT_XML1, 'utf-8') ?></name>
+			<? if($author->WikipediaUrl !== null){ ?><uri><?= htmlspecialchars($author->WikipediaUrl, ENT_QUOTES|ENT_XML1, 'utf-8') ?></uri><? } ?>
+			<? if($author->FullName !== null){ ?><schema:alternateName><?= htmlspecialchars($author->FullName, ENT_QUOTES|ENT_XML1, 'utf-8') ?></schema:alternateName><? } ?>
+			<? if($author->NacoafUrl !== null){ ?><schema:sameAs><?= htmlspecialchars($author->NacoafUrl, ENT_QUOTES|ENT_XML1, 'utf-8') ?></schema:sameAs><? } ?>
 		</author>
 	<? } ?>
 	<dc:issued><?= $ebook->Timestamp->format('Y-m-d\TH:i:s\Z') ?></dc:issued>
 	<updated><?= $ebook->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z') ?></updated>
-	<dc:language><?= $ebook->Language ?></dc:language>
+	<dc:language><?= htmlspecialchars($ebook->Language, ENT_QUOTES|ENT_XML1, 'utf-8') ?></dc:language>
 	<dc:publisher>Standard Ebooks</dc:publisher>
 	<? foreach($ebook->Sources as $source){ ?>
-	<dc:source><?= $source->Url ?></dc:source>
+	<dc:source><?= htmlspecialchars($source->Url, ENT_QUOTES|ENT_XML1, 'utf-8') ?></dc:source>
 	<? } ?>
 	<rights>Public domain in the United States; original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication</rights>
-	<summary type="text"><?= htmlspecialchars($ebook->Description, ENT_QUOTES, 'UTF-8') ?></summary>
+	<summary type="text"><?= htmlspecialchars($ebook->Description, ENT_QUOTES|ENT_XML1, 'utf-8') ?></summary>
 	<content type="text/html"><?= $ebook->LongDescription ?></content>
 	<? foreach($ebook->LocTags as $subject){ ?>
-	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= htmlspecialchars($subject, ENT_QUOTES, 'UTF-8') ?>"/>
+	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= htmlspecialchars($subject, ENT_QUOTES|ENT_XML1, 'utf-8') ?>"/>
 	<? } ?>
 	<link href="<?= $ebook->Url ?>/dist/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
 	<link href="<?= $ebook->Url ?>/dist/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>

@@ -2,6 +2,7 @@ ebooks/*
 www/ebooks/*
 www/images/covers/*
 www/opds/*.xml
+www/opds/subjects
 www/rss/*.xml
 vendor/
 composer.lock
