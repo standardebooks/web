@@ -227,7 +227,10 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding OPDS catalog ... "
 fi
 
-bash -c "php \"${scriptsDir}\"/generate-opds.php --webroot \"${webRoot}\" --weburl \"${webUrl}\""
+php "${scriptsDir}/generate-opds.php" --webroot "${webRoot}" --weburl "${webUrl}"
+
+sudo chown se:committers /standardebooks.org/web/www/opds/*.xml
+sudo chmod 664 /standardebooks.org/web/www/opds/*.xml
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"

@@ -20,17 +20,23 @@ class OpdsFeed{
 	}
 
 	private function Sha1Entries(string $xmlString): string{
-		$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $xmlString));
-		$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
-		$xml->registerXPathNamespace('schema', 'http://schema.org/');
-		$entries = $xml->xpath('/feed/entry') ?? [];
+		try{
+			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $xmlString));
+			$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
+			$xml->registerXPathNamespace('schema', 'http://schema.org/');
+			$entries = $xml->xpath('/feed/entry') ?? [];
 
-		$output = '';
-		foreach($entries as $entry){
-			$output .= $entry->asXml();
+			$output = '';
+			foreach($entries as $entry){
+				$output .= $entry->asXml();
+			}
+
+			return sha1(preg_replace('/\s/ius', '', $output));
 		}
-
-		return sha1(preg_replace('/\s/ius', '', $output));
+		catch(Exception $ex){
+			// Invalid XML
+			return '';
+		}
 	}
 
 	public function Save(string $filename): void{
