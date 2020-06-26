@@ -1,6 +1,7 @@
 <?
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
+use function Safe\preg_replace;
 use function Safe\rename;
 use function Safe\tempnam;
 
@@ -22,14 +23,24 @@ class OpdsFeed{
 			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $xmlString));
 			$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 			$xml->registerXPathNamespace('schema', 'http://schema.org/');
-			$entries = $xml->xpath('/feed/entry') ?? [];
+			$entries = $xml->xpath('/feed/entry');
+
+			if($entries === false){
+				$entries = [];
+			}
 
 			$output = '';
 			foreach($entries as $entry){
 				// Remove any <updated> elements, we don't want to compare against those.
 				// This makes it easier to for example generate a new subjects index,
 				// while updating it at the same time.
-				foreach($xml->xpath('/feed/entry/updated') as $element){
+				$elements = $xml->xpath('/feed/entry/updated');
+
+				if($elements === false){
+					$elements = [];
+				}
+
+				foreach($elements as $element){
 					unset($element[0]);
 				}
 
@@ -58,9 +69,21 @@ class OpdsFeed{
 			}
 			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($parentFilepath)));
 
-			$feedEntry = ($xml->xpath('/feed/entry[id="' . $this->Id . '"]/updated') ?? [])[0];
-			$feedEntry[0] = $updatedTimestamp;
-			file_put_contents($parentFilepath, str_replace(" ns=", " xmlns=", $xml->asXml() ?? ''));
+			$feedEntries = $xml->xpath('/feed/entry[id="' . $this->Id . '"]/updated');
+			if($feedEntries === false){
+				$feedEntries = [];
+			}
+
+			if(sizeof($feedEntries) > 0){
+				$feedEntries[0][0] = $updatedTimestamp;
+			}
+
+			$xmlString = $xml->asXml();
+			if($xmlString === false){
+				$xmlString = '';
+			}
+
+			file_put_contents($parentFilepath, str_replace(" ns=", " xmlns=", $xmlString));
 
 			rename($tempFilename, $path);
 		}

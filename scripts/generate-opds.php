@@ -4,6 +4,7 @@ require_once('/standardebooks.org/web/lib/Core.php');
 use function Safe\krsort;
 use function Safe\getopt;
 use function Safe\preg_replace;
+use function Safe\sort;
 
 $longopts = array("webroot:", "weburl:");
 $options = getopt("", $longopts);
@@ -51,8 +52,8 @@ $subjectsFeed->Save(WEB_ROOT . '/opds/subjects/index.xml');
 // Now generate each individual subject feed
 foreach($ebooksBySubject as $subject => $ebooks){
 	krsort($ebooks);
-	$subjectFeed = new OpdsAcquisitionFeed('/opds/subjects/' . Formatter::MakeUrlSafe($subject), $subject, '/opds/subjects', $ebooks);
-	$subjectFeed->Save(WEB_ROOT . '/opds/subjects/' . Formatter::MakeUrlSafe($subject) . '.xml');
+	$subjectFeed = new OpdsAcquisitionFeed('/opds/subjects/' . Formatter::MakeUrlSafe((string)$subject), (string)$subject, '/opds/subjects', $ebooks);
+	$subjectFeed->Save(WEB_ROOT . '/opds/subjects/' . Formatter::MakeUrlSafe((string)$subject) . '.xml');
 }
 
 // Create the 'all' feed

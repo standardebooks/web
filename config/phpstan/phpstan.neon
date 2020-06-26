@@ -13,6 +13,12 @@ parameters:
 
 		# Ignore errors caused by missing phpdoc strings for arrays
 		- '#Method .+? has parameter .+? with no value type specified in iterable type array.#'
+
+		# Ignore errors caused by type hints that should be union types. Union types are not yet supported in PHP.
+		- '#Function vd(s|d)?\(\) has parameter \$var with no typehint specified.#'
+		- '#Method Ebook::NullIfEmpty\(\) has parameter \$elements with no typehint specified.#'
+		- '#Method HttpInput::GetHttpVar\(\) has no return typehint specified.#'
+		- '#Method HttpInput::GetHttpVar\(\) has parameter \$default with no typehint specified.#'
 	level:
 		7
 	paths:
