@@ -236,6 +236,18 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/29452">The Wings of the Dove</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/432">The Ambassadors</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/543">Main Street</a> by Sinclair Lewis (Part of the Modern Library’s 100 best novels)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/5658">Lord Jim</a> by Joseph Conrad (Part of the Modern Library’s 100 best novels)</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/90">The Son of Tarzan</a> (Tarzan 4) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
@@ -295,7 +307,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/60315">My Disillusionment in Russia</a> by Emma Goldman (should be combined with <i>My Further Disillusionment in Russia</i>, the 2nd volume to the book)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence</p>
+				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/search/?query=Baroness+Orczy">Scarlet Pimpernel novels</a> by Baroness Orczy</p>
@@ -324,9 +336,6 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1156">Babbitt</a> by Sinclair Lewis</p>
 			</li> -->
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1164">The Iron Heel</a> by Jack London</p>
-			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/498">Books by Edward Lear</a></p>
 			</li>
@@ -388,7 +397,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by DH Lawrence</p>
+				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by D.H. Lawrence (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens</p>
@@ -516,7 +525,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/3090">Short Stories by Guy de Maupassant</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/5267">Sister Carrie</a> by Theodore Dreiser</p>
+				<p><a href="https://www.gutenberg.org/ebooks/5267">Sister Carrie</a> by Theodore Dreiser (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6798">Aesthetical Essays</a> by Friedrich Schiller</p>
@@ -580,6 +589,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/17460">Lorna Doone</a> by R. D. Blackmoore</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
