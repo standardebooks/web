@@ -148,14 +148,13 @@ code.css.full::before{
 }
 
 code{
-	font-family: 'Source Code Pro', monospace;
+	font-family: 'Fira Mono', monospace;
 	font-size: .8rem;
 }
 
 code.terminal{
 	color: #fff;
 	background-color: #444;
-	font-family: 'Source Code Pro', monospace;
 	text-align: left;
 	padding: 1rem 1rem 1rem 3rem;
 	border-radius: .25rem;
