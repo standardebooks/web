@@ -43,8 +43,14 @@ foreach($contentFiles as $path){
 sort($subjects);
 $subjectNavigationEntries = [];
 foreach($subjects as $subject){
-	// We leave the updated timestamp blank, as it will be filled in when we generate the individaul feeds
-	$subjectNavigationEntries[] = new OpdsNavigationEntry('/opds/subjects/' . Formatter::MakeUrlSafe($subject), 'subsection', 'navigation', null, $subject, 'Browse Standard Ebooks tagged with “' . strtolower($subject) . ',” most-recently-released first.');
+	$summary = number_format(sizeof($ebooksBySubject[$subject])) . ' Standard Ebook';
+	if(sizeof($ebooksBySubject[$subject]) != 1){
+		$summary .= 's';
+	}
+	$summary .= ' tagged with “' . strtolower($subject) . ',” most-recently-released first.';
+
+	// We leave the updated timestamp blank, as it will be filled in when we generate the individual feeds
+	$subjectNavigationEntries[] = new OpdsNavigationEntry('/opds/subjects/' . Formatter::MakeUrlSafe($subject), 'subsection', 'navigation', null, $subject, $summary);
 }
 $subjectsFeed = new OpdsNavigationFeed('/opds/subjects', 'Standard Ebooks by Subject', '/opds', $subjectNavigationEntries);
 $subjectsFeed->Save(WEB_ROOT . '/opds/subjects/index.xml');

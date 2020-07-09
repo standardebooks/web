@@ -24,6 +24,7 @@
 	<? } ?>
 	<link href="<?= $ebook->Url ?>/dist/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
 	<link href="<?= $ebook->Url ?>/dist/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="<?= $ebook->Url ?>" rel="related" type="text/html" title="This ebook’s page at Standard Ebooks"/>
 	<link href="<?= $ebook->EpubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" title="Recommended compatible epub"/>
 	<link href="<?= $ebook->Epub3Url ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" title="epub"/>
 	<link href="<?= $ebook->KepubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/kepub+zip" title="Kobo Kepub epub"/>
