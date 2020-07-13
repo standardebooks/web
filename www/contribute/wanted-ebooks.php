@@ -242,9 +242,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/432">The Ambassadors</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/543">Main Street</a> by Sinclair Lewis (Part of the Modern Library’s 100 best novels)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/5658">Lord Jim</a> by Joseph Conrad (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
