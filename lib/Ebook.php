@@ -345,7 +345,7 @@ class Ebook{
 			elseif(mb_stripos($e, 'wikisource.org/') !== false){
 				$this->Sources[] = new EbookSource(SOURCE_WIKISOURCE, $e);
 			}
-			elseif(mb_stripos($e, 'books.google.com/') !== false){
+			elseif(mb_stripos($e, 'books.google.com/') !== false || mb_stripos($e, 'google.com/books/') !== false){
 				$this->Sources[] = new EbookSource(SOURCE_GOOGLE_BOOKS, $e);
 			}
 			elseif(mb_stripos($e, 'www.pgdp.org/ols/') !== false){
