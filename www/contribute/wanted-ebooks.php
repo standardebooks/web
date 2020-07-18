@@ -27,6 +27,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction and novels by Frederik Pohl</a></p>
 			</li>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/152">Short fiction and novels by Saki (H. H. Munro)</a></p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61168">The Man in the Brown Suit</a>, by Agatha Christie (Note: we already have cover art selected)</p>
 			</li>
 			<li>
