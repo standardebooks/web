@@ -580,6 +580,18 @@ aside.sort button:hover{
 	background: #bbb url('/images/stripes-dark.svg');
 }
 
+code{
+	font-family: "Fira Mono", monospace;
+	font-size: .8rem;
+	border: 1px solid rgba(255,255,255,.25);
+	background: #333;
+	border-radius: .25rem;
+	white-space: nowrap;
+	padding: 0 .25rem;
+	color: #fff;
+	margin: 0 .2rem;
+}
+
 main.front-page > a.button{
 	align-self: center;
 	margin-top: 4rem;
