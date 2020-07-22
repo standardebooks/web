@@ -38,7 +38,8 @@ require_once('Core.php');
 						<li>
 							<p>If you downloaded the Kindle cover thumbnail, now navigate to your Kindle’s <code class="path">system</code> folder.</p>
 							<p><i><strong>If you don’t see a <code class="path">system</code> folder when your Kindle is plugged in</strong>, you may have to tell your computer to show hidden system files. For instructions on how to do that, <a href="http://windows.microsoft.com/en-us/windows/show-hidden-files">see here for Windows</a> or <a href="https://www.lifewire.com/display-hidden-files-in-os-x-153332">see here for Mac</a>.</i></p>
-							<p>Once you’re in the <code class="path">system</code> folder, find the <code class="path">thumbnails</code> folder and drag and drop the thumbnail into there. <em>Make sure to copy the thumbnail <strong>after</strong> copying the azw3 ebook file.</em> Due to a bug in the Kindle software, your Kindle will use a default cover for your ebook if you don’t copy the thumbnail file over. <a href="https://www.amazon.com/help/">Complain to Amazon.</a></p>
+							<p>Once you’re in the <code class="path">system</code> folder, find the <code class="path">thumbnails</code> folder and drag and drop the thumbnail into there.</p>
+							<p><em>Make sure to copy the thumbnail <strong>after</strong> copying the azw3 ebook file.</em> Due to a bug in the Kindle software, your Kindle will use a default cover for your ebook if you don’t copy the thumbnail file over. <a href="https://www.amazon.com/help/">Complain to Amazon.</a></p>
 						</li>
 						<li>
 							<p>Eject the Kindle from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
@@ -69,7 +70,7 @@ require_once('Core.php');
 							<p>Using a USB cable, connect your Kobo to the computer you downloaded the kepub file to. Your Kobo will appear as a USB drive that you can browse using your computer’s file manager.</p>
 						</li>
 						<li>
-							<p>Navigate to the Kobo drive and drag and drop the kepub file in. <em>Don’t change the filename of the ebook!</em> Kobo requires that the filename end in “.kepub.epub”.</p>
+							<p>Navigate to the Kobo drive and drag and drop the kepub file in. <em>Don’t change the filename of the ebook!</em> Kobo requires that the filename end in <code class="path">.kepub.epub</code>.</p>
 						</li>
 						<li>
 							<p>Eject the Kobo from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
