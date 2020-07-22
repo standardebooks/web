@@ -172,7 +172,9 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>There are many things that <code class="bash"><b>se</b> typogrify</code> isn’t well suited to do automatically. Check <a href="/manual/latest/8-typography">our complete typography manual</a> to see exactly how to format the work. Below is a brief, but incomplete, list of common issues that arise in ebooks:</p>
 				<ul>
 					<li>
-						<p><a href="/manual/latest/8-typography#8.8.1">Typography rules for coordinates</a>. Use the prime and double prime glyphs for coordinates. These regexes helps match and replace coordinates: <code class="regex">|([0-9])+’|\1′|g</code>, <code class="regex">|([0-9])+”|\1″|g</code></p>
+						<p><a href="/manual/latest/8-typography#8.8.1">Typography rules for coordinates</a>. Use the prime and double prime glyphs for coordinates. These regexes helps match and replace coordinates:</p>
+						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|([0-9])+’|\1′|g"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|([0-9])+”|\1″|g"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.7.3">Typography rules for ampersands in names</a>. This regex helps match candidates: <code class="regex">[a-zA-Z]\.?\s*&amp;\s*[a-zA-Z]</code></p>
@@ -229,6 +231,11 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<ul>
 					<li>
 						<p>Semantics for italics: <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> should be used for when a passage is emphasized, as in when dialog is shouted or whispered. <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> is used for all other italics, <a href="/manual/latest/4-semantics#4.2">with the appropriate semantic inflection</a>. Older transcriptions usually use just <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> for both, so you must change them manually if necessary.</p>
+						<p>Sometimes, transcriptions from Project Gutenberg may use ALL CAPS instead of italics. To replace these, you can use <code class="bash"><b>sed</b></code>:</p>
+						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|[A-Z’]{2,}|&lt;em&gt;\L&&lt;/em&gt;|g"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<p>This will unfortunately replace language tags like <code>en-US</code>, so fix those up with this:</p>
+						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|en-&lt;em&gt;([a-z]+)&lt;/em&gt;|en-\U\1|g"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<p>These replacments don’t take Title Caps into account, so use <code class="bash"><b>git</b> diff</code> to review the changes and fix errors before committing.</p>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.1">Semantics rules for chapter titles</a>.</p>
@@ -279,6 +286,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<blockquote>
 					<p>He wanted to think of some one part of nature as yet untouched...</p>
 				</blockquote>
+				<p>When running <code class="bash"><b>se</b> interactive-sr</code>, press <code>y</code> to accept a replacement and <code>n</code> to reject a replacement.</p>
 				<p>Use the following regular expression invocations to correct a certain set of such phrases:</p>
 				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ss])ome one/\1omeone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] some one -&gt; someone"</i></span></code>
 				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v(&lt;[Aa])ny one/\1nyone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any one -&gt; anyone"</i></span></code>
