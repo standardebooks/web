@@ -406,9 +406,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/370">Moll Flanders</a> by Daniel Defoe</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/153">Jude the Obscure</a> by Thomas Hardy</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
 			</li>
 			<li>
