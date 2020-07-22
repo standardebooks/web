@@ -236,9 +236,6 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1098">The Turmoil</a> by Booth Tarkington (#1 in the Growth Trilogy)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/29452">The Wings of the Dove</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
