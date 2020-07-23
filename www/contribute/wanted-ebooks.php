@@ -27,9 +27,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction and novels by Frederik Pohl</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/61168">The Man in the Brown Suit</a>, by Agatha Christie (Note: we already have cover art selected)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard</p>
 			</li>
 			<li>
