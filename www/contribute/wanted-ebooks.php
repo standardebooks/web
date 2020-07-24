@@ -224,6 +224,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3526">Five Weeks in a Balloon</a> <i>Cinq Semaines en ballon</i> by Jules Verne</p>
 			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
+			</li>
 			<!--
 			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
 			<li>
@@ -458,6 +461,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/408">The Souls of Black Folk</a> by W. E. B. Du Bois</p>
+			</li>
+			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/13782">Lady Rose’s Daughter</a> by Mary Augusta Ward</p>
 			</li>
 		</ul>
 		<h2>Advanced productions</h2>
