@@ -293,9 +293,7 @@ article > h1{
 
 main.front-page h1{
 	text-align: center;
-	background:  url('/images/book.jpg');
-	background-size: cover;
-	background-position: center;
+	background: #29292b url('/images/book.jpg') center / cover;
 	border-bottom: 1px solid var(--border);
 	box-shadow: 0 0 10px rgba(0, 0, 0, .75);
 	width: calc(100% + 4rem);
