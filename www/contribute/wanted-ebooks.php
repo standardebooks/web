@@ -65,9 +65,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/2005">Piccadilly Jim</a> by P. G. Wodehouse</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2233">A Damsel in Distress</a> by P. G. Wodehouse</p>
 			</li>
@@ -107,9 +104,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/20707">The Black Star Passes</a> by John W. Campbell</p>
 			</li> -->
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
-			</li> -->
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2892">Irish Fairy Tales</a> by James Stephens</p>
 			</li> -->
@@ -161,9 +158,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/605">Pellucidar</a> (Pellucidar 2) by Edgar Rice Burroughs</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/78">Tarzan of the Apes</a> by Edgar Rice Burroughs</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/81">The Return of Tarzan</a> (Tarzan 2) by Edgar Rice Burroughs</p>
 			</li>
