@@ -15,16 +15,31 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/files/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li> -->
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction and novels by H. Beam Piper</a></p>
+				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/25421">Short fiction and novels by Fritz Leiber</a></p>
+				<p><a href="https://www.gutenberg.org/ebooks/19478">Four-Day Planet</a> by H. Beam Piper</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction and novels by Andre Norton</a></p>
+				<p><a href="https://www.gutenberg.org/ebooks/17866">Murder in the Gunroom</a> by H. Beam Piper</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction and novels by Frederik Pohl</a></p>
+				<p><a href="https://www.gutenberg.org/ebooks/20788">Storm Over Warlock</a> by Andre Norton</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/25550">The Defiant Angels</a> by Andre Norton</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/19651">Key out of Time</a> by Andre Norton</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/18817">Ralestone Luck</a> by Andre Norton</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/52228">Search the Sky</a> by Frederik Pohl and C.M. Kornbluth</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/51804">Plague of Pythons</a> by Frederik Pohl</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard</p>
@@ -236,6 +251,18 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
+			</li>
+			<!-- <li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/25421">Short fiction by Fritz Leiber</a></p>
+			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction by Frederik Pohl</a></p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/29452">The Wings of the Dove</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
@@ -273,6 +300,7 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/864">The Master of Ballantrae</a> by Robert Louis Stevenson</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/44">The Song of the Lark</a> by Willa Cather</p>
 			</li>
