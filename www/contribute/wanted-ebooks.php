@@ -228,9 +228,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3748">Journey to the Center of the Earth</a> <i>Voyage au centre de la Terre</i> by Jules Verne</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10339">An Antarctic Mystery</a> <i>Le Sphinx des glaces</i> by Jules Verne</p>
 			</li>
 			<li>
@@ -238,6 +235,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/61077">The King of Elfland's Daughter</a> by Lord Dunsany</p>
 			</li>
 			<!--
 			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
