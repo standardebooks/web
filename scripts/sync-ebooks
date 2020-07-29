@@ -167,7 +167,7 @@ if [ "${verbosity}" -gt 0 ]; then
 	printf " Done.\n"
 fi
 
-repoUrls=$(printf "%s" "${repoUrls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" | awk 'NF')
+repoUrls=$(printf "%s" "${repoUrls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" -e "/sublime-text-se-plugin.git\$" | awk 'NF')
 
 printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 	# make sure it's not an empty string
