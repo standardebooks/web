@@ -490,6 +490,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/13782">Lady Rose’s Daughter</a> by Mary Augusta Ward</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/152">Short fiction and short novels of Saki (H. H. Munro)</a>. Some research may be required to determine whether to produce an omnibus Short Fiction or how to divide up his stories.</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
