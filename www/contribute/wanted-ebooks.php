@@ -11,9 +11,9 @@ require_once('Core.php');
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (around 60–90,000 words maximum) and without complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
-<!-- 			<li>
+			<li>
 				<p><a href="https://www.gutenberg.org/files/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
@@ -265,9 +265,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/432">The Ambassadors</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/5658">Lord Jim</a> by Joseph Conrad (Part of the Modern Library’s 100 best novels)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/90">The Son of Tarzan</a> (Tarzan 4) by Edgar Rice Burroughs</p>
 			</li>
