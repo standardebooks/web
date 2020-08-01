@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 set -e
 set -o pipefail
 
@@ -13,33 +13,51 @@ USAGE
 	With -v or --verbosity 1, display general progress updates.
 	With -vv or --verbosity 2, display general progress updates and verbose git output.
 	With --update-only, only sync existing repositories, do not download new repositories.
-	With -b or --bare, clone a bare repository (for a server) instead of a working directory
+	With -b or --bare, clone bare repositories (for a server) instead of working directories.
 	With --token TOKEN, specify a GitHub access token to use for request. Useful for when you hit the rate limit.
 
 	DIRECTORY should be where the repositories should go.
+
+	NOTE: This script requires GNU versions of grep and sed. If you are on a Mac, you will need to
+	install GNU versions (via Homebrew, MacPorts, etc.) and make sure they are first in your path,
+	or modify the script to use the GNU versions if they're named differently.
 
 EXAMPLE
 	${0##*/} /standardebooks.org/ebooks
 EOF
 	exit
 }
-die(){ printf "\033[0;7;31mError:\033[0m %s\n" "${1}" 1>&2; exit 1; }
-require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; then suggestion=" $2"; fi; die "$1 is not installed.${suggestion}"; } }
+
+# functions used by the script
+die(){
+	printf "\033[0;7;31mError:\033[0m %s\n" "${1}" 1>&2;
+	exit 1;
+}
+
+require(){
+	command -v "$1" > /dev/null 2>&1 || {
+		suggestion="";
+		if [ -n "$2" ]; then
+			suggestion=" $2";
+		fi
+		die "$1 is required but not installed.${suggestion}";
+	}
+}
 
 check_arg() {
 	case "$2" in
 		''|$1) die "$3" ;;
 	esac
 }
-# End boilerplate
-
-require "git" "Try: apt-get install git"
+# end functions
 
 # Terminate on CTRL-C
 trap ctrl_c INT
 ctrl_c() {
 	exit
 }
+
+require "git"
 
 if [[ $# -eq 0 ]]; then
 	usage
@@ -51,6 +69,7 @@ githubToken=""
 target=""
 bare=""
 
+# process each of the parameters one at a time, shifting each time to get the next one
 while [ $# -gt 0 ]; do
 	case "$1" in
 		-h|--help)
@@ -100,6 +119,7 @@ if ! cd "${target}"; then
 	die "Couldn’t cd into ${target}"
 fi
 
+# update any existing repositories
 if [ "${verbosity}" -gt 0 ]; then
 	printf "Updating local repositories ... \n"
 fi
@@ -111,6 +131,7 @@ for item in ./*; do
 		printf "Updating %s ... " "${item}"
 	fi
 
+	# this works whether the repository is bare or a working directory
 	if [ "${verbosity}" -lt 2 ]; then
 		git -C "${item}" fetch -q
 	else
@@ -126,15 +147,18 @@ if [ "${updateOnly}" = "true" ]; then
 	exit
 fi
 
+# clone the remaining repositories
 if [ "${verbosity}" -gt 0 ]; then
 	printf "Cloning remote repositories ... \n"
 	printf "Fetching repository urls ..."
 fi
 
+# get all of the repository names from the GitHub API, one "page" at a time
 url="https://api.github.com/orgs/standardebooks/repos?per_page=100"
 repoUrls=""
 
 while true; do
+	# get a "page" worth of repository URL's
 	if [ -n "${githubToken}" ]; then
 		response=$(curl -H "Authorization: token ${githubToken}" -si "${url}") ||
 			die "Curl request failed."
@@ -153,9 +177,11 @@ while true; do
 		exit
 	fi
 
-
+	# parse the response to get the current page's URL's
 	currentRepoUrls=$(printf "%s" "${response}" | awk 'BEGIN { FS="\""; RS="," }; { if ($2 == "clone_url") {print $4} }')
+	# add them to the full list in repoUrls
 	repoUrls=$(printf "%s\n%s" "${repoUrls}" "${currentRepoUrls}")
+	# set the variable to get the next "page"
 	url=$(printf "%s" "${response}" | grep -oP "<\Khttps://api.github.com/[^>]*(?=>; rel=\"next\",)") || break
 
 	if [ "${verbosity}" -gt 0 ]; then
@@ -167,8 +193,10 @@ if [ "${verbosity}" -gt 0 ]; then
 	printf " Done.\n"
 fi
 
+# skip the non-ebook repositories by removing their names from the list
 repoUrls=$(printf "%s" "${repoUrls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" -e "/sublime-text-se-plugin.git\$" | awk 'NF')
 
+# process the list, reading one repository at a time
 printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 	# make sure it's not an empty string
 	[ -n "${repoUrl}" ] || continue
@@ -182,6 +210,7 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 	# if the repo already exists, skip it (handled in the update above)
 	[ -d "${repoName}" ] && continue
 
+	# it's not clear what this is doing, or more specifically why it's doing it
 	repoNameLength=$(printf "%s" "${repoName}" | wc -m)
 	if [ "${repoNameLength}" -ge 100 ]; then
 		if dirs=( "${repoName}"*/ ) && [[ -d ${dirs[0]} ]]; then
@@ -193,18 +222,24 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 		printf "Cloning %s ... \n" "${repoUrl}"
 	fi
 
+	# clone the repository, creating either a bare or working directory based on the option
 	if [ "${verbosity}" -lt 2 ]; then
 		git clone -q ${bare} "${repoUrl}"
 	else
 		git clone -v ${bare} "${repoUrl}"
 	fi
 
+	# if a directory with the repository name doesn't exist, the clone did not complete successfully
 	if ! [ -d "${repoName}" ]; then
 		printf "Failed to clone %s.\n" "${repoName}." 1>&2
 	elif [ "${verbosity}" -gt 0 ]; then
 		printf "Done.\n"
 	fi
 
+	# if the repository doesn't have a metadata file, skip to the next repository
+	metadata=$(git -C "${repoName}" show HEAD:src/epub/content.opf > /dev/null 2>&1) || continue
+
+	# get the last segment of the dc:identifier from the metadata
 	properName="$(git -C "${repoName}" show HEAD:src/epub/content.opf |
 		grep -oE "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" |
 		sed -E "s/<[^>]+?>//g" |
@@ -214,6 +249,8 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 		properName="${properName%.git}"
 	fi
 
+	# if for some reason the repository name isn't the same as the identifier (they are identical
+	# 99% of the time), rename the directory to be the identifier name; not sure why this is done, either
 	if [ "${repoName}" != "${properName}" ]; then
 		if [ "${verbosity}" -gt 0 ]; then
 			printf "Moving %s to %s\n" "${repoName}" "${properName}"
