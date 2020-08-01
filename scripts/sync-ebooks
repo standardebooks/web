@@ -124,7 +124,7 @@ if [ "${verbosity}" -gt 0 ]; then
 	printf "Updating local repositories ... \n"
 fi
 
-for item in ./*; do
+for item in ./*/; do
 	[ -e "${item}" ] || break
 
 	if [ "${verbosity}" -gt 0 ]; then
