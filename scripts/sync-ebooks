@@ -131,6 +131,9 @@ for item in ./*/; do
 		printf "Updating %s ... " "${item}"
 	fi
 
+    # if it's not a repository directory, skip it
+    git -C "${item}" rev-parse > /dev/null 2>&1 || continue
+
 	# this works whether the repository is bare or a working directory
 	if [ "${verbosity}" -lt 2 ]; then
 		git -C "${item}" fetch -q
