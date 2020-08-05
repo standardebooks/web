@@ -497,6 +497,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p>Short fiction by Jack London, to be compiled in a “Short Fiction” omnibus. We already have three short story compilations that must be rolled in to this one. <a href="https://docs.google.com/spreadsheets/d/1yXZvlZVekVY3EpearMW8QIrbBEJlm8RbEXAuZP5rTG4/edit?usp=sharing">See this bibliography spreadsheet.</a></p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/60093">Cane</a> by Jean Toomer</p>
 			</li>
 			<li>
