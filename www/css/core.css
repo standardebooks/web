@@ -687,8 +687,7 @@ article.ebook > header > div a:visited{
 	text-decoration: none;
 }
 
-article.ebook > header > img{
-	width: 100%;
+article.ebook > header img{
 	top: 0;
 	left: 0;
 	position: absolute;

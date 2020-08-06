@@ -69,6 +69,8 @@ require "git" "Try: apt-get install git"
 require "php" "Try: apt-get install php-cli"
 require "se" "Read: https://standardebooks.org/tools"
 
+# go-avif is compiled from https://github.com/Kagami/go-avif/
+
 scriptsDir="$(dirname "$(readlink -f "$0")")"
 
 if ! [ -x "${scriptsDir}"/reset-php-fpm-opcache ]; then
@@ -136,8 +138,11 @@ do
 	git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
 	cp "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
 	# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078
-	convert -resize "1078" -crop "1078x359+0+539" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
-	convert -resize "2156" -crop "2156x718+0+1078" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
+	convert -resize "1078" -crop "1078x359+0+539" -sampling-factor 4:2:0 -strip -quality 100 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
+	convert -resize "2156" -crop "2156x718+0+1078" -sampling-factor 4:2:0 -strip -quality 100 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
+
+	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif" --best
+	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif" --best
 
 	# Build the cover image thumbnail
 	# We use JPG instead of SVG for several reasons:
@@ -158,8 +163,14 @@ do
 	convert -resize "196" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.jpg"
 	convert -resize "392" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
 
+	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}.avif" --best
+	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}@2x.avif" --best
+
 	mv "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
 	mv "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
+
+	mv "${imgWorkDir}/${urlSafeIdentifier}@2x.avif" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
+	mv "${imgWorkDir}/${urlSafeIdentifier}.avif" "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
 
 	sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}/${urlSafeIdentifier}"*
 	sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
@@ -198,7 +209,7 @@ do
 	mv "${workDir}"/* "${webDir}/"
 
 	# Move the cover images over
-	mv "${imgWorkDir}/${urlSafeIdentifier}"*.jpg "${webRoot}/www/images/covers/"
+	mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/www/images/covers/"
 
 	# Delete the now-empty work dir (empty except for .git)
 	rm --preserve-root --recursive --force "${workDir}" "${imgWorkDir}"

@@ -44,10 +44,18 @@ try{
 	$ebooks = Library::GetEbooks();
 	shuffle($ebooks);
 
-	for($i = 0; $i < 5; $i++){
-		if(isset($ebooks[$i])){
+	$targetCarouselSize = 5;
+	if(sizeof($ebooks) < $targetCarouselSize){
+		$targetCarouselSize = sizeof($ebooks);
+	}
+
+	$i = 0;
+	while(sizeof($carousel) < $targetCarouselSize){
+		if(isset($ebooks[$i]) && $ebooks[$i]->Url !== $ebook->Url){
 			$carousel[] = $ebooks[$i];
 		}
+
+		$i++;
 	}
 }
 catch(SeeOtherEbookException $ex){
@@ -70,7 +78,11 @@ catch(\Exception $ex){
 				<p><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></p>
 				<? } ?>
 			</div>
-			<img src="<?= $ebook->HeroImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= $ebook->Title ?>." />
+			<picture>
+				<source srcset="<?= $ebook->HeroImage2xAvifUrl ?> 2x, <?= $ebook->HeroImageAvifUrl ?> 1x" type="image/avif">
+				<source srcset="<?= $ebook->HeroImage2xUrl ?> 2x, <?= $ebook->HeroImageUrl ?> 1x" type="image/jpg">
+				<img src="<?= $ebook->HeroImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText(strip_tags($ebook->TitleWithCreditsHtml)) ?>">
+			</picture>
 		</header>
 
 		<aside id="reading-ease">
@@ -187,7 +199,15 @@ catch(\Exception $ex){
 			<h2>More free ebooks</h2>
 			<ul>
 				<? foreach($carousel as $carouselEbook){ ?>
-				<li><a href="<?= $carouselEbook->Url ?>"><img src="<?= $carouselEbook->CoverImage2xUrl ?>"<? /* srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x" */ ?> alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText($carouselEbook->Title) ?>" title="<?= Formatter::ToPlainText($carouselEbook->Title) ?>" /></a></li>
+				<li>
+					<a href="<?= $carouselEbook->Url ?>">
+						<picture>
+							<source srcset="<?= $carouselEbook->CoverImage2xAvifUrl ?> 2x, <?= $carouselEbook->CoverImageAvifUrl ?> 1x" type="image/avif">
+							<source srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x" type="image/jpg">
+							<img src="<?= $carouselEbook->HeroImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText(strip_tags($carouselEbook->TitleWithCreditsHtml)) ?>">
+						</picture>
+					</a>
+				</li>
 				<? } ?>
 			</ul>
 		</aside>

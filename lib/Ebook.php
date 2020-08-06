@@ -24,9 +24,13 @@ class Ebook{
 	public $Identifier;
 	public $UrlSafeIdentifier;
 	public $HeroImageUrl;
+	public $HeroImageAvifUrl;
 	public $HeroImage2xUrl;
+	public $HeroImage2xAvifUrl;
 	public $CoverImageUrl;
+	public $CoverImageAvifUrl;
 	public $CoverImage2xUrl;
+	public $CoverImage2xAvifUrl;
 	public $DistCoverUrl;
 	public $Title;
 	public $FullTitle;
@@ -139,9 +143,13 @@ class Ebook{
 		}
 		$hash = substr(sha1($this->GitCommits[0]->Timestamp->format('U') . ' ' . $this->GitCommits[0]->Message), 0, 8);
 		$this->CoverImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-cover.jpg';
+		$this->CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-cover.avif';
 		$this->CoverImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-cover@2x.jpg';
+		$this->CoverImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-cover@2x.avif';
 		$this->HeroImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-hero.jpg';
+		$this->HeroImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-hero.avif';
 		$this->HeroImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-hero@2x.jpg';
+		$this->HeroImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-hero@2x.avif';
 
 		// Now do some heavy XML lifting!
 		$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $rawMetadata));
