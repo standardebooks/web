@@ -51,9 +51,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/25024">Night of the Long Knives</a> by Fritz Leiber</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
 			<!-- <li>
@@ -247,6 +244,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<!-- <li>
+				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
 			</li>
