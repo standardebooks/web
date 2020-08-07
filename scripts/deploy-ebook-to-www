@@ -138,8 +138,8 @@ do
 	git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
 	cp "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
 	# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078
-	convert -resize "1078" -crop "1078x359+0+539" -sampling-factor 4:2:0 -strip -quality 100 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
-	convert -resize "2156" -crop "2156x718+0+1078" -sampling-factor 4:2:0 -strip -quality 100 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
+	convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
+	convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
 
 	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif" --best
 	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif" --best
@@ -160,9 +160,10 @@ do
 	rsvg-convert --keep-aspect-ratio --format png --output "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}@2x.svg"
 
 	# Resize and compress the image (formula from Google Page Speed Insights)
-	convert -resize "196" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.jpg"
-	convert -resize "392" -sampling-factor 4:2:0 -strip -quality 75 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
+	convert -resize "242" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.jpg"
+	convert -resize "484" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
 
+	# go-avif is extremely slow and should be replaced with something faster ASAP
 	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}.avif" --best
 	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}@2x.avif" --best
 
