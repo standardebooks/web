@@ -72,12 +72,12 @@ catch(\Exception $ex){
 <main>
 	<article class="ebook">
 		<header>
-			<div>
+			<hgroup>
 				<h1><?= Formatter::ToPlainText($ebook->Title) ?></h1>
 				<? foreach($ebook->Authors as $author){ ?>
-				<p><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></p>
+				<h2><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></h2>
 				<? } ?>
-			</div>
+			</hgroup>
 			<picture>
 				<? if($ebook->HeroImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->HeroImage2xAvifUrl ?> 2x, <?= $ebook->HeroImageAvifUrl ?> 1x" type="image/avif"><? } ?>
 				<source srcset="<?= $ebook->HeroImage2xUrl ?> 2x, <?= $ebook->HeroImageUrl ?> 1x" type="image/jpg">
