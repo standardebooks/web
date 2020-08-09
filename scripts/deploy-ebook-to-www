@@ -6,11 +6,13 @@ DESCRIPTION
 	Deploy a Standard Ebook source repository to the web.
 
 USAGE
-	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] DIRECTORY [DIRECTORY...]
+	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] DIRECTORY [DIRECTORY...]
 		DIRECTORY is a bare source repository.
 		GROUP is a groupname. Defaults to "se".
 		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org".
 		WEBURL is the URL the website is served on. Defaults to "https://standardebooks.org".
+
+		With --no-images, do not create cover thumbnails or hero images for the web.
 EOF
 	exit
 }
@@ -19,6 +21,7 @@ require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; 
 # End boilerplate
 
 verbose="false"
+images="true"
 group="se"
 webRoot="/standardebooks.org/web"
 webUrl="https://standardebooks.org"
@@ -36,19 +39,23 @@ while [ $# -gt 0 ]; do
 			shift 1
 			;;
 		-g|--group)
-			[ -n "$2" ] || die "Group cannot be empty."
+			[ -n "$2" ] || die "Group can’t be empty."
 			group="$2"
 			shift 2
 			;;
 		--webroot)
-			[ -n "$2" ] || die "Web root can't be empty."
+			[ -n "$2" ] || die "Web root can’t be empty."
 			webRoot="$2"
 			shift 2
 			;;
 		--weburl)
-			[ -n "$2" ] || die "Web URL can't be empty."
+			[ -n "$2" ] || die "Web URL can’t be empty."
 			webUrl="$2"
 			shift 2
+			;;
+		--no-images)
+			images="false"
+			shift 1
 			;;
 		*) break ;;
 	esac
@@ -64,7 +71,6 @@ fi
 
 # Check for dependencies
 require "convert" "Try: apt-get install imagemagick"
-require "rsvg-convert" "Try: apt-get install librsvg2-bin"
 require "git" "Try: apt-get install git"
 require "php" "Try: apt-get install php-cli"
 require "se" "Read: https://standardebooks.org/tools"
@@ -128,56 +134,56 @@ do
 	imgWorkDir=$(mktemp -d)
 	webDir="${webRoot}/www/ebooks/${webDir}"
 
-	if [ "${verbose}" = "true" ]; then
-		printf "Generating cover image for web ... "
+	if [ "${images}" = "true" ]; then
+		if [ "${verbose}" = "true" ]; then
+			printf "Generating cover image for web ... "
+		fi
+
+		urlSafeIdentifier=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s|url:https://standardebooks.org/ebooks/||g" | sed --regexp-extended "s|/|_|g")
+
+		git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
+		git show HEAD:images/cover.svg > "${imgWorkDir}/${urlSafeIdentifier}.svg"
+
+		# We have to cd into the work dir, otherwise convert won't pick up the relative path of the jpg background in cover.svg
+		pushd "${imgWorkDir}" > /dev/null || exit
+
+		# Build the hero image for individual ebook pages
+		# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078
+		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
+		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
+
+		"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif" --best
+		"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif" --best
+
+		# Build the cover image thumbnail
+		# We use JPG instead of SVG for several reasons:
+		# 1. A JPG is roughly 1/2 the file size of the same SVG, because the SVG must contain the JPG in base64 encoding
+		# 2. The "scale up" effect on mouse hover is blurry when used on SVGs.
+
+		sed -i "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
+
+		# Resize and compress the image (formula from Google Page Speed Insights)
+		convert -resize "242" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
+		convert -resize "484" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
+
+		# go-avif is extremely slow and should be replaced with something faster ASAP
+		"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover.avif" --best
+		"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif" --best
+
+		sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}/${urlSafeIdentifier}"*
+		sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
+
+		# Remove unused images so we can copy the rest over with a glob
+		rm "${imgWorkDir}/${urlSafeIdentifier}".{jpg,svg}
+
+		if [ "${verbose}" = "true" ]; then
+			printf "Done.\n"
+		fi
+
+		popd > /dev/null || die "Couldn't pop directory."
 	fi
 
-	urlSafeIdentifier=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s|url:https://standardebooks.org/ebooks/||g" | sed --regexp-extended "s|/|_|g")
-
-	# Build the hero image for individual ebook pages
-	git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
-	cp "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
-	# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078
-	convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
-	convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
-
-	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif" --best
-	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif" --best
-
-	# Build the cover image thumbnail
-	# We use JPG instead of SVG for several reasons:
-	# 1. A JPG is roughly 1/2 the file size of the same SVG, because the SVG must contain the JPG in base64 encoding
-	# 2. The "scale up" effect on mouse hover is blurry when used on SVGs.
-	git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
-	git show HEAD:images/cover.svg > "${imgWorkDir}/${urlSafeIdentifier}.svg"
-	# The Ubuntu SVG renderer can't handle quotes around font names, so remove them before we process the cover.
-	sed -i "s/\"League Spartan\"/League Spartan/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
-	sed -i "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
-	cp "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}@2x.svg"
-
-	# Due to a bug in `convert` we have to use rsvg-convert to convert SVG to PNG, then work on the PNG with `convert`.
-	rsvg-convert --keep-aspect-ratio --format png --output "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
-	rsvg-convert --keep-aspect-ratio --format png --output "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}@2x.svg"
-
-	# Resize and compress the image (formula from Google Page Speed Insights)
-	convert -resize "242" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.jpg"
-	convert -resize "484" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg"
-
-	# go-avif is extremely slow and should be replaced with something faster ASAP
-	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}.avif" --best
-	"${scriptsDir}"/go-avif -e "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}@2x.avif" --best
-
-	mv "${imgWorkDir}/${urlSafeIdentifier}@2x.jpg" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
-	mv "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
-
-	mv "${imgWorkDir}/${urlSafeIdentifier}@2x.avif" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
-	mv "${imgWorkDir}/${urlSafeIdentifier}.avif" "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
-
-	sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}/${urlSafeIdentifier}"*
-	sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
-
 	if [ "${verbose}" = "true" ]; then
-		printf "Done.\n"
 		printf "Building ebook ... "
 	fi
 
@@ -209,8 +215,10 @@ do
 	# Move contents of the work dir over
 	mv "${workDir}"/* "${webDir}/"
 
-	# Move the cover images over
-	mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/www/images/covers/"
+	if [ "${images}" = "true" ]; then
+		# Move the cover images over
+		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/www/images/covers/"
+	fi
 
 	# Delete the now-empty work dir (empty except for .git)
 	rm --preserve-root --recursive --force "${workDir}" "${imgWorkDir}"
@@ -244,6 +252,8 @@ php "${scriptsDir}/generate-opds.php" --webroot "${webRoot}" --weburl "${webUrl}
 sudo chown --recursive se:committers /standardebooks.org/web/www/opds/*
 sudo chmod --recursive 664 /standardebooks.org/web/www/opds/*.xml
 sudo chmod --recursive 664 /standardebooks.org/web/www/opds/*/*.xml
+sudo chown --recursive se:committers /standardebooks.org/web/www/rss/*
+sudo chmod --recursive 664 /standardebooks.org/web/www/rss/*.xml
 sudo chmod 775 /standardebooks.org/web/www/opds/subjects
 
 if [ "${verbose}" = "true" ]; then
