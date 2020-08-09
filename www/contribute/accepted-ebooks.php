@@ -10,7 +10,7 @@ require_once('Core.php');
 				<p>Most long fiction, including plays.</p>
 			</li>
 			<li>
-				<p>Most short fiction, when presented in individual collections or omnibus forms.</p>
+				<p>Most short fiction, when presented in individual collections or omnibus forms. We consider short fiction to be works less than 40,000 words in length, which typically includes novellas.</p>
 			</li>
 			<li>
 				<p>Most philosophy and other “timeless” non-fiction.</p>
