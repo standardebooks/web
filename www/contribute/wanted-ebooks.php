@@ -48,9 +48,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/42914">Gladiator</a> by Philip Wylie</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/25024">Night of the Long Knives</a> by Fritz Leiber</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
 			<!-- <li>
@@ -250,9 +247,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/25421">Short fiction by Fritz Leiber</a></p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
