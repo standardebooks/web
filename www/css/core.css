@@ -695,6 +695,8 @@ article.ebook > header img{
 	z-index: 0;
 	height: 100%;
 	width: auto;
+	object-fit: cover;
+	max-width: 100%;
 }
 
 article.ebook section#details ul{
@@ -882,6 +884,10 @@ article.ebook h1{
 	border: none;
 	margin: 0;
 	padding: 0;
+	text-align: center;
+}
+
+article.ebook h2{
 	text-align: center;
 }
 
