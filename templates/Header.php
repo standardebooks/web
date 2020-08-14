@@ -16,6 +16,8 @@ if(!isset($manual)){
 	$manual = false;
 }
 
+# We hash with crc32 because it's faster than md5 and "good enough" for this simple cache-busting use case
+
 ?><!doctype html>
 <html lang="en-US">
 <head>
@@ -23,9 +25,9 @@ if(!isset($manual)){
 	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
 	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"><? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport">
-	<link href="/css/core.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="/css/core.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/core.css')) ?>" media="screen" rel="stylesheet" type="text/css">
 	<? if($manual){ ?>
-	<link href="/css/manual.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="/css/manual.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/manual.css')) ?>" media="screen" rel="stylesheet" type="text/css">
 	<? } ?>
 	<link href="/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120">
 	<link href="/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152">
