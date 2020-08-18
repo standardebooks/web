@@ -487,6 +487,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/152">Short fiction and short novels of Saki (H. H. Munro)</a>. Some research may be required to determine whether to produce an omnibus Short Fiction or how to divide up his stories.</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2667">The Vicar of Wakefield</a> by Oliver Goldsmith</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -509,9 +512,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/nunensign00erauuoft">The Nun Ensign</a> by Catalina de Erauso (transcription required)</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/23700">The Decameron</a> by Giovanni Boccaccio</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3600">The Complete Essays of Michel de Montaigne</a></p>
