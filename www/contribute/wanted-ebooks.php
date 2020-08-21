@@ -296,9 +296,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/44">The Song of the Lark</a> by Willa Cather</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3155">She</a> by H. Rider Haggard</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/711">Allan Quatermain</a> by H. Rider Haggard</p>
 			</li>
 			<li>
