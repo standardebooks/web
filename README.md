@@ -2,7 +2,7 @@
 
 PHP 7+ is required.
 
-## Installing on Ubuntu 18.04 (Bionic)
+## Installing on Ubuntu 20.04 (Focal)
 
 ```shell
 # Create the site root and clone this repo into it.
@@ -95,6 +95,12 @@ If run successfully, it should output `[OK] No errors`.
 # Contributing
 
 Before submitting design contributions, please discuss them with the Standard Ebooks lead. While we encourage discussion and contributions, we can’t guarantee that unsoliticed design contributions will be accepted. You can open an issue to discuss potential design contributions with us before you begin.
+
+## Help wanted
+
+- Creating a search bar for the SE Manual of Style.
+
+- Adding a browse-by-genre option and more sorting/filtering options for the ebook grid.
 
 ## PHP code style
 
