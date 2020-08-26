@@ -91,11 +91,10 @@ catch(\Exception $ex){
 			<p><?= $ebook->ContributorsHtml ?></p>
 			<? } ?>
 			<? if(sizeof($ebook->Collections) > 0){ ?>
-				<p><? if(sizeof($ebook->Collections) == 1 && $ebook->Collections[0]->SequenceNumber !== null){ ?>№ <?= number_format($ebook->Collections[0]->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?>
-					<? for($i = 0; $i < sizeof($ebook->Collections); $i++){ ?>
-					<a href="<?= $ebook->Collections[$i]->Url ?>"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$ebook->Collections[$i]->Name) ?? '') ?></a><? if(sizeof($ebook->Collections) > 2){ ?><? if($i == sizeof($ebook->Collections) - 2){ ?>, and <? }elseif($i != sizeof($ebook->Collections) - 1){ ?>, <? } ?><? }elseif($i == sizeof($ebook->Collections) - 2){ ?> and <? } ?>
-					<? } ?>
-				<? if(sizeof($ebook->Collections) == 1 && $ebook->Collections[0]->Type !== null){ ?><? if(substr_compare(mb_strtolower($ebook->Collections[0]->Name), mb_strtolower($ebook->Collections[0]->Type), -strlen(mb_strtolower($ebook->Collections[0]->Type))) !== 0){ ?><?= $ebook->Collections[0]->Type ?><? } ?><? }else{ ?>collection<? if(sizeof($ebook->Collections) > 1){ ?>s<? } ?><? } ?>.</p>
+				<? foreach($ebook->Collections as $collection){ ?>
+					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$collection->Name) ?? '') ?></a>
+					<? if(sizeof($ebook->Collections) == 1 && $collection->Type !== null){ ?><? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type), -strlen(mb_strtolower($collection->Type))) !== 0){ ?><?= $collection->Type ?><? } ?><? }else{ ?>collection<? } ?></p>
+				<? } ?>
 			<? } ?>
 			<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
 		</aside>
