@@ -245,6 +245,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
 			</li> -->
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/615">Orlando Furioso</a> by Lodovico Ariosto</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
 			</li>
 			<li>
