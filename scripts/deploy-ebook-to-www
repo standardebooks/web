@@ -6,11 +6,15 @@ DESCRIPTION
 	Deploy a Standard Ebook source repository to the web.
 
 USAGE
-	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] DIRECTORY [DIRECTORY...]
+	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] [--no-epubcheck] [-l,--last-push-hash HASH] DIRECTORY [DIRECTORY...]
 		DIRECTORY is a bare source repository.
 		GROUP is a groupname. Defaults to "se".
 		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org".
 		WEBURL is the URL the website is served on. Defaults to "https://standardebooks.org".
+
+		With --no-epubcheck, run 'build' instead of 'build --check'.
+
+		With --last-push-hash, check the repo head against HASH to see if the cover image or ebook source changed, which will determine if cover thumbnails get re-generated or the ebook gets re-built.
 
 		With --no-images, do not create cover thumbnails or hero images for the web.
 EOF
@@ -22,9 +26,12 @@ require(){ command -v "$1" > /dev/null 2>&1 || { suggestion=""; if [ -n "$2" ]; 
 
 verbose="false"
 images="true"
+build="true"
 group="se"
 webRoot="/standardebooks.org/web"
 webUrl="https://standardebooks.org"
+lastPushHash=""
+epubcheck="true"
 
 if [ $#  -eq 0 ]; then
 	usage
@@ -53,8 +60,17 @@ while [ $# -gt 0 ]; do
 			webUrl="$2"
 			shift 2
 			;;
+		-l|--last-push-hash)
+			[ -n "$2" ] || die "Last commit hash can’t be empty."
+			lastPushHash="$2"
+			shift 2
+			;;
 		--no-images)
 			images="false"
+			shift 1
+			;;
+		--no-epubcheck)
+			epubcheck="false"
 			shift 1
 			;;
 		*) break ;;
@@ -124,6 +140,25 @@ do
 		continue
 	fi
 
+	if [ "${lastPushHash}" != "" ]; then
+		# We were passed the hash of the last push before this one.
+		# Check to see if the cover image changed, to decide if we want to rebuild the cover image thumbnail/hero
+		diff=$(git diff "${lastPushHash}" HEAD)
+
+		if [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
+			images="true"
+		else
+			images="false"
+		fi
+
+		# Check to see if the actual ebook changed, to decide if we want to build
+		if [[ "${diff}" =~ diff\ --git\ a/src/ ]]; then
+			build="true"
+		else
+			build="false"
+		fi
+	fi
+
 	webDir=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s/^url:https:\/\/standardebooks.org\/ebooks\/?//")
 
 	if [ "${webDir}" = "" ]; then
@@ -183,37 +218,46 @@ do
 		popd > /dev/null || die "Couldn't pop directory."
 	fi
 
-	if [ "${verbose}" = "true" ]; then
-		printf "Building ebook ... "
+	if [ "${build}" = "true" ]; then
+		if [ "${verbose}" = "true" ]; then
+			printf "Building ebook ... "
+		fi
+
+		git clone --quiet "${repoDir}" "${workDir}"
+
+		mkdir "${workDir}/dist"
+
+		# Build the ebook
+		if [ "${epubcheck}" = "true" ]; then
+			if ! se build --output-dir="${workDir}/dist" --check --kindle --kobo --covers "${workDir}"; then
+				rm --preserve-root --recursive --force "${workDir}"
+				die "Error building ebook, stopping deployment."
+			fi
+		else
+			if ! se build --output-dir="${workDir}/dist" --kindle --kobo --covers "${workDir}"; then
+				rm --preserve-root --recursive --force "${workDir}"
+				die "Error building ebook, stopping deployment."
+			fi
+		fi
+
+		if [ "${verbose}" = "true" ]; then
+			printf "Done.\n"
+		fi
+
+		# Get the last commit date so that we can update the modified timestamp in
+		# deployed content.opf. generate-opds uses this timestamp in its output.
+		modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
+		sed --in-place --regexp-extended "s/<meta property=\"dcterms:modified\">.+?<\/meta>/<meta property=\"dcterms:modified\">${modifiedDate}<\/meta>/" "${workDir}/src/epub/content.opf"
+
+		# Delete the contents of the old webdir
+		rm --preserve-root --recursive --force "${webDir}"
+
+		# Re-create the webdir
+		mkdir -p "${webDir}"
+
+		# Move contents of the work dir over
+		mv "${workDir}"/* "${webDir}/"
 	fi
-
-	git clone --quiet "${repoDir}" "${workDir}"
-
-	mkdir "${workDir}/dist"
-
-	# Build the ebook
-	if ! se build --output-dir="${workDir}/dist" --check --kindle --kobo --covers "${workDir}"; then
-		rm --preserve-root --recursive --force "${workDir}"
-		die "Error building ebook, stopping deployment."
-	fi
-
-	if [ "${verbose}" = "true" ]; then
-		printf "Done.\n"
-	fi
-
-	# Get the last commit date so that we can update the modified timestamp in
-	# deployed content.opf. generate-opds uses this timestamp in its output.
-	modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
-	sed --in-place --regexp-extended "s/<meta property=\"dcterms:modified\">.+?<\/meta>/<meta property=\"dcterms:modified\">${modifiedDate}<\/meta>/" "${workDir}/src/epub/content.opf"
-
-	# Delete the contents of the old webdir
-	rm --preserve-root --recursive --force "${webDir}"
-
-	# Re-create the webdir
-	mkdir -p "${webDir}"
-
-	# Move contents of the work dir over
-	mv "${workDir}"/* "${webDir}/"
 
 	if [ "${images}" = "true" ]; then
 		# Move the cover images over

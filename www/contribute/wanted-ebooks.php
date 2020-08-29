@@ -245,94 +245,97 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
 			</li> -->
 			<li>
-				<p><a href="http://shakespeare.mit.edu/tempest/full.html">The Tempest by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/tempest/full.html">The Tempest</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/two_gentlemen/full.html">The Two Gentlemen of Verona by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/two_gentlemen/full.html">The Two Gentlemen of Verona</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/measure/full.html">Measure for Measure by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/measure/full.html">Measure for Measure</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/lll/full.html">Love’s Labour’s Lost by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/lll/full.html">Love’s Labour’s Lost</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/merchant/full.html">The Merchant of Venice by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/merchant/full.html">The Merchant of Venice</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/asyoulikeit/full.html">As You Like It by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/asyoulikeit/full.html">As You Like It</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/taming_shrew/full.html">The Taming of the Shrew by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/taming_shrew/full.html">The Taming of the Shrew</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/allswell/full.html">All’s Well That Ends Well by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/allswell/full.html">All’s Well That Ends Well</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/twelfth_night/full.html">Twelfth Night by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/twelfth_night/full.html">Twelfth Night</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/john/full.html">King John by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/john/full.html">King John</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/richardii/full.html">Richard II by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/richardii/full.html">Richard II</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/1henryiv/full.html">Henry IV, Part 1 by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/1henryiv/full.html">Henry IV, Part 1</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/2henryiv/full.html">Henry IV, Part 2 by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/2henryiv/full.html">Henry IV, Part 2</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/1henryvi/full.html">Henry VI, Part 1 by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/1henryvi/full.html">Henry VI, Part 1</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/2henryvi/full.html">Henry VI, Part 2 by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/2henryvi/full.html">Henry VI, Part 2</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/3henryvi/full.html">Henry VI, Part 3 by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/3henryvi/full.html">Henry VI, Part 3</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/richardiii/full.html">Richard III by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/richardiii/full.html">Richard III</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/henryviii/full.html">Henry VIII by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/henryviii/full.html">Henry VIII</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/troilus_cressida/full.html">Troilus and Cressida by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/troilus_cressida/full.html">Troilus and Cressida</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/coriolanus/full.html">Coriolanus by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/coriolanus/full.html">Coriolanus</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/titus/full.html">Titus Andronicus by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/titus/full.html">Titus Andronicus</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/timon/full.html">Timon of Athens by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/timon/full.html">Timon of Athens</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/julius_caesar/full.html">Julius Caesar by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/julius_caesar/full.html">Julius Caesar</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/macbeth/full.html">Macbeth by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/macbeth/full.html">Macbeth</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/hamlet/full.html">Hamlet by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/hamlet/full.html">Hamlet</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/lear/full.html">King Lear by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/lear/full.html">King Lear</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/othello/full.html">Othello by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/othello/full.html">Othello</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/cleopatra/full.html">Antony and Cleopatra by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/cleopatra/full.html">Antony and Cleopatra</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/cymbeline/full.html">Cymbeline by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/cymbeline/full.html">Cymbeline</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/pericles/full.html">Pericles by William Shakespeare</a> (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+				<p><a href="http://shakespeare.mit.edu/pericles/full.html">Pericles</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+      </li>
+      <li>
+				<p><a href="https://www.gutenberg.org/ebooks/615">Orlando Furioso</a> by Lodovico Ariosto</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
