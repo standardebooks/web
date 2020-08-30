@@ -407,9 +407,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/2885">The House of the Wolflings</a> by William Morris</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3177">Roughing It</a> by Mark Twain</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/60315">My Disillusionment in Russia</a> by Emma Goldman (should be combined with <i>My Further Disillusionment in Russia</i>, the 2nd volume to the book)</p>
 			</li>
 			<li>
@@ -492,9 +489,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p>Ghost Stories by M. R. James; an omnibus of his ghost short fiction including Ghost Stories of an Antiquary, More Ghost Stories, A Thin Ghost and Others, A Thin Ghost and Others, and <a href="https://en.wikipedia.org/wiki/M._R._James#First_magazine_publication_of_uncollected_tales">individual publications</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1265">Queen Victoria</a> by Lytton Strachey</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing</p>
