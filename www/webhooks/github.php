@@ -7,8 +7,13 @@ use function Safe\preg_replace;
 use function Safe\json_decode;
 use function Safe\glob;
 
+// This script makes various calls to external scripts using exec() (and when called via Apache, as the www-data user).
+// These scripts are allowed using the /etc/sudoers.d/www-data file. Only the specific scripts
+// in that file may be executed by this script.
+
 // Get a semi-random ID to identify this request within the log.
 $requestId = substr(sha1(time() . rand()), 0, 8);
+$lastPushHashFlag = '';
 
 try{
 	Logger::WriteGithubWebhookLogEntry($requestId, 'Received GitHub webhook.');
@@ -73,7 +78,7 @@ try{
 				}
 			}
 
-			Logger::WriteGithubWebhookLogEntry($requestId, 'Processing ebook "' . $repoName . '" located at "' . $dir . '".');
+			Logger::WriteGithubWebhookLogEntry($requestId, 'Processing ebook `' . $repoName . '` located at `' . $dir . '`.');
 
 			// Check the local repo's last commit. If it matches this push, then don't do anything; we're already up to date.
 			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1') ?? '');
@@ -90,18 +95,30 @@ try{
 				}
 			}
 
+			// Get the current HEAD hash and save for later
+			$output = [];
+			exec('sudo --set-home --user se-vcs-bot git -C ' . escapeshellarg($dir) . ' rev-parse HEAD', $output, $returnCode);
+			if($returnCode != 0){
+				Logger::WriteGithubWebhookLogEntry($requestId, 'Couldn\'t get last commit of local repo. Output: ' . implode("\n", $output));
+			}
+			else{
+				$lastPushHashFlag = ' --last-push-hash ' . escapeshellarg($output[0]);
+			}
+
 			// Now that we have the ebook filesystem path, pull the latest commit from GitHub.
+			$output = [];
 			exec('sudo --set-home --user se-vcs-bot /standardebooks.org/scripts/pull-from-github ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error pulling from GitHub. Output: ' . implode("\n", $output));
 				throw new WebhookException('Couldn\'t process ebook.', $post);
 			}
 			else{
-				Logger::WriteGithubWebhookLogEntry($requestId, 'git pull from GitHub complete.');
+				Logger::WriteGithubWebhookLogEntry($requestId, '`git pull` from GitHub complete.');
 			}
 
 			// Our local repo is now updated. Build the ebook!
-			exec('sudo --set-home --user se-vcs-bot tsp -n /standardebooks.org/web/scripts/deploy-ebook-to-www ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
+			$output = [];
+			exec('sudo --set-home --user se-vcs-bot tsp /standardebooks.org/web/scripts/deploy-ebook-to-www' . $lastPushHashFlag . ' ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error queueing ebook for deployment to web. Output: ' . implode("\n", $output));
 				throw new WebhookException('Couldn\'t process ebook.', $post);
