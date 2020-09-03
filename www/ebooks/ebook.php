@@ -93,7 +93,7 @@ catch(\Exception $ex){
 			<? if(sizeof($ebook->Collections) > 0){ ?>
 				<? foreach($ebook->Collections as $collection){ ?>
 					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$collection->Name) ?? '') ?></a>
-					<? if(sizeof($ebook->Collections) == 1 && $collection->Type !== null){ ?><? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type), -strlen(mb_strtolower($collection->Type))) !== 0){ ?><?= $collection->Type ?><? } ?><? }else{ ?>collection<? } ?></p>
+					<? if(sizeof($ebook->Collections) == 1 && $collection->Type !== null){ ?><? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type), -strlen(mb_strtolower($collection->Type))) !== 0){ ?><?= $collection->Type ?><? } ?><? }else{ ?>collection<? } ?>.</p>
 				<? } ?>
 			<? } ?>
 			<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
