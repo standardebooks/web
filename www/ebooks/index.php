@@ -135,7 +135,7 @@ catch(\Exception $ex){
 	<? } ?>
 	<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
 		<aside class="sort">
-			<form action="" method="get">
+			<form action="/ebooks" method="get">
 				<label>Sort by
 					<select name="sort">
 						<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected<? } ?>>newest</option>

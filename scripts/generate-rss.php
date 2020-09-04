@@ -45,7 +45,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
 		<lastBuildDate><?= gmdate('D, d M Y H:i:s +0000') ?></lastBuildDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
-		<atom:link href="<?= $webUrl ?>/rss/new-releases" rel="self" type="application/rss+xml" />
+		<atom:link href="<?= $webUrl ?>/rss/new-releases" rel="self" type="application/rss+xml"/>
 		<image>
 			<url><?= $webUrl ?>/images/logo-rss.png</url>
 			<title>Standard Ebooks - New Releases</title>

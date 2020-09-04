@@ -13,16 +13,16 @@ require_once('Core.php');
 			<p>Lots of different errors can occur during the long and complex process of digitizing a print book, but here are some of the more common ones:</p>
 			<ul>
 				<li><h3>Mis-curled quotation marks</h3>
-					<p>Here we see two frequent errors: a mis-curled double quotation mark following the em-dash, and a mis-curled single quotation mark before the &ldquo;n&rdquo;:</p>
+					<p>Here we see two frequent errors: a mis-curled double quotation mark following the em-dash, and a mis-curled single quotation mark before the “n”:</p>
 					<figure class="text">
-						<p class="wrong">I was putting on some Bach when he interrupted with&mdash;&rdquo;Put on some rock ‘n’ roll!&rdquo;</p>
-						<p class="corrected">I was putting on some Bach when he interrupted with&mdash;&ldquo;Put on some rock ’n’ roll!&rdquo;</p>
+						<p class="wrong">I was putting on some Bach when he interrupted with—”Put on some rock ‘n’ roll!”</p>
+						<p class="corrected">I was putting on some Bach when he interrupted with—“Put on some rock ’n’ roll!”</p>
 					</figure>
 				</li>
 				<li><h3>Incorrect or archaic use of quotation marks</h3>
 					<p>Older texts frequently use quotation marks for names of books and periodicals, or for the names of pubs, inns, and other places.  Our <a href="/manual/latest/8-typography">typography manual</a> requires that certain standalone media be in italics instead, and that place names <em>not</em> be set in quotes.</p>
 					<figure class="text">
-						<p class="wrong">He read &ldquo;Candide&rdquo; while having a pint at the &ldquo;King’s Head.&rdquo;</p>
+						<p class="wrong">He read “Candide” while having a pint at the “King’s Head.”</p>
 						<p class="corrected">He read <i>Candide</i> while having a pint at the King’s Head.</p>
 					</figure>
 				</li>
@@ -44,13 +44,13 @@ require_once('Core.php');
 				</li>
 				<li>
 					<h3>Using &amp;c. instead of etc.</h3>
-					<p>&ldquo;etc.&rdquo; is an abbreviation of the Latin <i>et cetera</i>; In Latin, <i>et</i> means &ldquo;and&rdquo;, so older texts often abbreviated <i>et cetera</i> as &ldquo;&amp;c.&rdquo;</p>
+					<p>“etc.” is an abbreviation of the Latin <i>et cetera</i>; In Latin, <i>et</i> means “and”, so older texts often abbreviated <i>et cetera</i> as “&amp;c.”</p>
 					<p>Our <a href="/manual/latest/8-typography">typography manual</a> requires a change from &amp;c. to etc., so make sure to mark these corrections.</p>
 				</li>
 				<li>
-					<h3>Use of &ldquo;ibid.&rdquo; in footnotes or endnotes</h3>
-					<p>In work with footnotes or endnotes, &ldquo;ibid.&rdquo; means that the source for this note is the same as the previous note on the page.</p>
-					<p>Since Standard Ebooks consolidate all footnotes and endnotes into popup footnotes, ibid. becomes meaningless&mdash;there’s no concept of a &ldquo;page&rdquo; anymore.  If you encounter ibid., replace it with the complete reference from the previous note so readers using popup footnotes won’t get confused.</p>
+					<h3>Use of “ibid.” in footnotes or endnotes</h3>
+					<p>In work with footnotes or endnotes, “ibid.” means that the source for this note is the same as the previous note on the page.</p>
+					<p>Since Standard Ebooks consolidate all footnotes and endnotes into popup footnotes, ibid. becomes meaningless—there’s no concept of a “page” anymore.  If you encounter ibid., replace it with the complete reference from the previous note so readers using popup footnotes won’t get confused.</p>
 				</li>
 				<li>
 					<h3>Text in all caps</h3>

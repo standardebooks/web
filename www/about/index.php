@@ -43,7 +43,7 @@ require_once('Core.php');
 					<p><b>Typography:</b> Details like <a href="https://practicaltypography.com/straight-and-curly-quotes.html">curly quotes</a>, <a href="https://practicaltypography.com/ellipses.html">ellipses</a>, <a href="https://practicaltypography.com/hyphens-and-dashes.html">en-, em-, and double-em-dashes</a>, <a href="https://practicaltypography.com/first-line-indents.html">indentation</a>, <a href="https://practicaltypography.com/hyphenation.html">hyphenation</a>, and more make for the smooth reading experience you’d expect from a printed book.</p>
 				</li>
 				<li>
-					<p><b>Ebook best practices:</b> Tables of contents and chapter breaks your ereader can understand, detailed and consistent metadata, popup footnotes, and more. Minimal markup and styling that lets your ereader’s personality shine&mdash;but consistency, so all of our ebooks look familiar.</p>
+					<p><b>Ebook best practices:</b> Tables of contents and chapter breaks your ereader can understand, detailed and consistent metadata, popup footnotes, and more. Minimal markup and styling that lets your ereader’s personality shine—but consistency, so all of our ebooks look familiar.</p>
 				</li>
 				<li>
 					<p><b>Programming best practices:</b> The stuff you can’t see, but that makes for a professional product: semantic markup, minimal and elegant code, smooth build processes, and source control.</p>

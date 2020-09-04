@@ -14,7 +14,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<link href="<?= $url ?>" rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
 	<link href="/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
 	<link href="/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
-	<link href="/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />
+	<link href="/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml"/>
 	<? if($parentUrl !== null){ ?><link href="<?= $parentUrl ?>" rel="up" type="application/atom+xml;profile=opds-catalog;kind=navigation"/><? } ?>
 	<title><?= htmlspecialchars($title, ENT_QUOTES|ENT_XML1, 'utf-8') ?></title>
 	<subtitle>Free and liberated ebooks, carefully produced for the true book lover.</subtitle>

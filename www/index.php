@@ -3,7 +3,7 @@ require_once('Core.php');
 ?><?= Template::Header(['description' => 'Free and liberated ebooks, carefully produced for the true book lover. Download free ebooks with professional-quality formatting and typography, in formats compatible with your ereader.']) ?>
 <main class="front-page">
 	<h1>Free and liberated ebooks,<br>carefully produced for the true book lover.</h1>
-	<img alt="Ereaders with a Standard Ebook open." src="/images/devices.png">
+	<img alt="Ereaders with a Standard Ebook open." src="/images/devices.png"/>
 	<p>Standard Ebooks is a volunteer driven, not-for-profit project that produces new editions of public domain ebooks that are lovingly formatted, open source, and free.</p>
 	<p>Ebook projects like <a href="https://www.gutenberg.org">Project Gutenberg</a> transcribe ebooks and make them available for the widest number of reading devices. Standard Ebooks takes ebooks from sources like Project Gutenberg, formats and typesets them using a carefully designed and professional-grade style manual, fully proofreads and corrects them, and then builds them to create a new edition that takes advantage of state-of-the-art ereader and browser technology.</p>
 	<p>Standard Ebooks aren’t just a beautiful addition to your digital library—they’re a high quality standard to build your own ebooks on.</p><a class="button next" href="/ebooks">Browse our library of free ebooks</a>
@@ -13,11 +13,13 @@ require_once('Core.php');
 			<h3>Modern &amp; consistent typography</h3>
 			<div>
 				<div>
-					<p>Other free ebooks don’t put much effort into professional-quality typography: they use "straight" quotes instead of “curly” quotes, they ignore details like em- and en-dashes, and they look more like early-90&rsquo;s web pages instead of actual books.</p>
+					<p>Other free ebooks don’t put much effort into professional-quality typography: they use "straight" quotes instead of “curly” quotes, they ignore details like em- and en-dashes, and they look more like early-90’s web pages instead of actual books.</p>
 					<p>The Standard Ebooks project applies a rigorous and modern <a href="/manual">style manual</a> when developing each and every ebook to ensure they meet a professional-grade and consistent typographical standard. Our ebooks look <em>good</em>.</p>
 				</div>
 				<figure class="stacked">
-					<img alt="An example of bad typography." class="bottom" src="/images/typography-bad.png"> <img alt="An example of Standard Ebooks typography." class="top" src="/images/typography-good.png"> <img alt="An arrow pointing from bad typography to good typography." class="arrow" src="/images/arrow-down.png">
+					<img alt="An example of bad typography." class="bottom" src="/images/typography-bad.png"/>
+					<img alt="An example of Standard Ebooks typography." class="top" src="/images/typography-good.png"/>
+					<img alt="An arrow pointing from bad typography to good typography." class="arrow" src="/images/arrow-down.png"/>
 				</figure>
 			</div>
 		</section>
@@ -29,7 +31,7 @@ require_once('Core.php');
 					<p>At Standard Ebooks, we do a careful and complete readthrough of each ebook before releasing it, checking it against a scan of the original pages to fix as many typos as possible. Even if we <em>do</em> miss something, our ebooks are stored in the hugely popular Git source control system, allowing anyone to easily submit a correction.</p>
 				</div>
 				<figure>
-					<img alt="A text with proofreader's marks." src="/images/proofreading.svg">
+					<img alt="A text with proofreader's marks." src="/images/proofreading.svg"/>
 				</figure>
 			</div>
 		</section>
@@ -38,7 +40,7 @@ require_once('Core.php');
 			<div>
 				<p>Our ebooks include complete, well-researched, and consistent metadata, including original, detailed book blurbs and links to encyclopedia sources. Perfect for machine processing or for extra-curious, technically-minded readers.</p>
 				<figure>
-					<img alt="An application dialog displaying ebook metadata." class="top" src="/images/metadata.png">
+					<img alt="An application dialog displaying ebook metadata." class="top" src="/images/metadata.png"/>
 				</figure>
 			</div>
 		</section>
@@ -61,10 +63,11 @@ require_once('Core.php');
 							<p>Ereader-compatible tables of contents,</p>
 						</li>
 					</ul>
-					<p>and more. One of our goals is to ensure our ebooks stay up-to-date with the best reading experience technology can provide. Just because it&rsquo;s a classic doesn&rsquo;t mean it has to use old technology.</p>
+					<p>and more. One of our goals is to ensure our ebooks stay up-to-date with the best reading experience technology can provide. Just because it’s a classic doesn’t mean it has to use old technology.</p>
 				</div>
 				<figure class="stacked">
-					<img alt="A screenshot of a popup endnote." class="bottom" src="/images/endnote.png"> <img alt="A screenshot of an ebook's table of contents." class="top" src="/images/toc.png">
+					<img alt="A screenshot of a popup endnote." class="bottom" src="/images/endnote.png"/>
+					<img alt="A screenshot of an ebook's table of contents." class="top" src="/images/toc.png"/>
 				</figure>
 			</div>
 		</section>
@@ -76,7 +79,7 @@ require_once('Core.php');
 					<p>Standard Ebooks draws from a vast collection of public domain fine art to create attractive, unique, appropriate, and consistent covers for each of our ebooks.</p>
 				</div>
 				<figure>
-					<img alt="An ebookshelf featuring Standard Ebooks covers." src="/images/covers.png">
+					<img alt="An ebookshelf featuring Standard Ebooks covers." src="/images/covers.png"/>
 				</figure>
 			</div>
 		</section>
@@ -88,7 +91,7 @@ require_once('Core.php');
 					<p>Each ebook is also enhanced with careful standards-based semantic markup that opens the gateway for exciting new kinds of machine processing.</p>
 				</div>
 				<figure>
-					<img alt="A screenshot of the source code of a Standard Ebook file." src="/images/code.png">
+					<img alt="A screenshot of the source code of a Standard Ebook file." src="/images/code.png"/>
 				</figure>
 			</div>
 		</section>
@@ -100,7 +103,9 @@ require_once('Core.php');
 					<p>And while all of the ebooks we feature and the cover art we draw from are <em>already</em> believed to be in the public domain in the US, Standard Ebooks releases all of the work we put in to each ebook into the public domain too. That makes each and every one of our ebook files not just free, but <a href="https://en.wikipedia.org/wiki/Gratis_versus_libre">libre</a> too—because the world deserves more unrestricted culture.</p>
 				</div>
 				<figure class="oss">
-					<img alt="The Git SCM logo." src="/images/git.svg"> <img alt="The no-copyright symbol." src="/images/no-copyright.svg"> <img alt="The anti-DRM symbol." src="/images/no-drm.svg">
+					<img alt="The Git SCM logo." src="/images/git.svg"/>
+					<img alt="The no-copyright symbol." src="/images/no-copyright.svg"/>
+					<img alt="The anti-DRM symbol." src="/images/no-drm.svg"/>
 				</figure>
 			</div>
 		</section>
