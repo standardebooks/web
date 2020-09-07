@@ -93,17 +93,8 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/61284">Bashan and I</a> by Thomas Mann</p>
-			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/20707">The Black Star Passes</a> by John W. Campbell</p>
-			</li> -->
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/2892">Irish Fairy Tales</a> by James Stephens</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
 			</li>
