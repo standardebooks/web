@@ -330,7 +330,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</ul>
 				<p>What can we use for <i>Jekyll</i>? In 1885 Albert Edelfelt painted a <a href="https://en.wikipedia.org/wiki/File:Albert_Edelfelt_-_Louis_Pasteur_-_1885.jpg">portrait of Louis Pasteur</a> in a laboratory. A crop of the lab equipment would be a good way to represent Dr. Jekyll’s lab.</p>
 				<p>The cover file itself, <code class="path">cover.svg</code>, is easy to edit. It automatically links to <code class="path">cover.jpg</code>. All you have to do is open <code class="path">cover.svg</code> with a text editor and edit the title and author. Make sure you have the League Spartan font installed on your system!</p>
-				<p>After we’re done with the cover, we’ll have three files in <code class="path">./images/</code>:</p>
+				<p>After we’re done with the cover, we’ll have four files in <code class="path">./images/</code>:</p>
 				<ul>
 					<li>
 						<p><code class="path">cover.source.jpg</code> is the raw image file we used for the cover. We keep it in case we want to make adjustments later. For <i>Jekyll</i>, this would be the raw Pasteur portrait downloaded from Wikipedia.</p>
@@ -340,6 +340,9 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p><code class="path">cover.svg</code> is the completed cover image with the title and author. <code class="bash"><b>se</b> build-images</code> will take <code class="path">cover.svg</code>, embed <code class="path">cover.jpg</code>, convert the text to paths, and place the result in <code class="path">./src/epub/images/</code> for inclusion in the final epub.</p>
+					</li>
+					<li>
+						<p><code class="path">titlepage.svg</code> is the completed titlepage image that <code class="bash"><b>se</b> create-draft</code> created for you.</p>
 					</li>
 				</ul>
 			</li>
