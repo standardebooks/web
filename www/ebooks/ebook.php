@@ -116,7 +116,7 @@ catch(\Exception $ex){
 			</div>
 			<ul>
 				<? if($ebook->EpubUrl !== null){ ?>
-				<li><p><span><a href="<?= $ebook->EpubUrl ?>" class="epub">epub</a> </span><span>—</span> <span>All devices and apps except Amazon Kindle and Kobo.</span></p>
+				<li><p><span><a href="<?= $ebook->EpubUrl ?>" class="epub">Compatible epub</a> </span><span>—</span> <span>All devices and apps except Amazon Kindle and Kobo.</span></p>
 				</li>
 				<? } ?>
 
@@ -130,8 +130,8 @@ catch(\Exception $ex){
 				</li>
 				<? } ?>
 
-				<? if($ebook->Epub3Url !== null){ ?>
-				<li><p><span><a href="<?= $ebook->Epub3Url ?>" class="epub">epub3</a></span> <span>—</span> <span>Advanced format not yet fully compatible with most ereaders.</span></p>
+				<? if($ebook->AdvancedEpubUrl !== null){ ?>
+				<li><p><span><a href="<?= $ebook->AdvancedEpubUrl ?>" class="epub">Advanced epub</a></span> <span>—</span> <span>An advanced format not yet fully compatible with most ereaders.</span></p>
 				</li>
 				<? } ?>
 			</ul>

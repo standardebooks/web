@@ -18,7 +18,7 @@ require_once('Core.php');
 					<p><b>All other ereaders</b>: download the <b>epub</b> file. This epub2-compatible file will work in all ereaders except Kindles. While this file will also work on Kobo, it’ll look pretty bad; please download our special kepub file for Kobo devices and software.</p>
 				</li>
 				<li>
-					<p>For advanced ereaders like <a href="https://chrome.google.com/webstore/detail/readium/fepbnnnkkadjhjahcafoaglimekefifl">Readium</a>, and for readers who like bleeding-edge technology: download the <b>pure epub3</b> file. Pure epub3 isn’t compatible with most ereaders yet, so only download this file if you know what you’re doing.</p>
+					<p>For advanced ereaders like <a href="https://chrome.google.com/webstore/detail/readium/fepbnnnkkadjhjahcafoaglimekefifl">Readium</a>, and for readers who like bleeding-edge technology: download the <b>advanced epub</b> file. The advanced epub file isn’t compatible with most ereaders yet, so only download this file if you know what you’re doing.</p>
 				</li>
 			</ul>
 		</section>

@@ -402,10 +402,10 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>If there are no errors, we’ll see five files in the brand-new <code class="path">~/dist/</code> folder in our home directory:</p>
 				<ul>
 					<li>
-						<p><code class="path">the-strange-case-of-dr-jekyll-and-mr-hyde.epub3</code> is a pure epub3 file—basically just a zipped up version of our source. Unfortunately most ebook readers don’t fully support all of epub3’s capabilities yet, so we’re more interested in…</p>
+						<p><code class="path">the-strange-case-of-dr-jekyll-and-mr-hyde_advanced.epub</code> is the zipped up version of our source. Unfortunately most ebook readers don’t fully support all of epub3’s capabilities yet, or the advanced CSS selectors and XHTML structure we use, so we’re more interested in…</p>
 					</li>
 					<li>
-						<p><code class="path">the-strange-case-of-dr-jekyll-and-mr-hyde.epub</code>, the epub2 version of our ebook. If you don’t have a Kindle, this is the file you’ll be using to proofread.</p>
+						<p><code class="path">the-strange-case-of-dr-jekyll-and-mr-hyde.epub</code>, the compatible epub version of our ebook. This file is the raw source, plus various compatiblity fixes applied during our build process. If you don’t have a Kindle, this is the file you’ll be using to proofread.</p>
 					</li>
 					<li>
 						<p><code class="path">the-strange-case-of-dr-jekyll-and-mr-hyde.kepub.epub</code> is the Kobo version of our ebook. You can copy this to a Kobo using a USB cable.</p>

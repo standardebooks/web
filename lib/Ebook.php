@@ -13,7 +13,7 @@ class Ebook{
 	public $Url;
 	public $KindleCoverUrl;
 	public $EpubUrl;
-	public $Epub3Url;
+	public $AdvancedEpubUrl;
 	public $KepubUrl;
 	public $Azw3Url;
 	public $HasDownloads;
@@ -97,16 +97,16 @@ class Ebook{
 			$this->KindleCoverUrl = $this->Url . '/dist/' . basename($tempPath[0]);
 		}
 
-		// Generate the epub URL.
+		// Generate the compatible epub URL.
 		$tempPath = glob($this->WwwFilesystemPath . '/dist/*.epub');
 		if(sizeof($tempPath) > 0){
 			$this->EpubUrl = $this->Url . '/dist/' . basename($tempPath[0]);
 		}
 
-		// Generate the epub3 URL
-		$tempPath = glob($this->WwwFilesystemPath . '/dist/*.epub3');
+		// Generate the epub URL
+		$tempPath = glob($this->WwwFilesystemPath . '/dist/*_advanced.epub');
 		if(sizeof($tempPath) > 0){
-			$this->Epub3Url = $this->Url . '/dist/' . basename($tempPath[0]);
+			$this->AdvancedEpubUrl = $this->Url . '/dist/' . basename($tempPath[0]);
 		}
 
 		// Generate the Kepub URL
@@ -121,7 +121,7 @@ class Ebook{
 			$this->Azw3Url = $this->Url . '/dist/' . basename($tempPath[0]);
 		}
 
-		$this->HasDownloads = $this->EpubUrl || $this->Epub3Url || $this->KepubUrl || $this->Azw3Url;
+		$this->HasDownloads = $this->EpubUrl || $this->AdvancedEpubUrl || $this->KepubUrl || $this->Azw3Url;
 
 		$tempPath = glob($this->WwwFilesystemPath . '/dist/cover.jpg');
 		if(sizeof($tempPath) > 0){
@@ -489,11 +489,11 @@ class Ebook{
 			$output->encoding[] = $encodingObject;
 		}
 
-		if($this->Epub3Url){
+		if($this->AdvancedEpubUrl){
 			$encodingObject = new stdClass();
 			$encodingObject->{'@type'} = 'MediaObject';
-			$encodingObject->encodingFormat = 'epub3';
-			$encodingObject->contentUrl = SITE_URL . $this->Epub3Url;
+			$encodingObject->encodingFormat = 'epub';
+			$encodingObject->contentUrl = SITE_URL . $this->AdvancedEpubUrl;
 			$output->encoding[] = $encodingObject;
 		}
 
