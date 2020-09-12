@@ -728,6 +728,7 @@ article.ebook section#download li span{
 
 article.ebook section#download li span:first-child{
 	padding-top: 1.8rem;
+	white-space: nowrap;
 }
 
 article.ebook section#download li span:nth-child(2){
@@ -1359,19 +1360,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	}
 }
 
-@media(max-width: 860px){
-	article nav a[rel]{
-		font-size: 0;
-	}
-
-	article nav a[rel]::before,
-	article nav a[rel]::after{
-		font-size: 1rem;
-		margin: 0;
-	}
-}
-
-@media(max-width: 760px){
+@media(max-width: 1000px){
 	article.ebook #more-ebooks ul{
 		flex-wrap: wrap;
 	}
@@ -1412,7 +1401,30 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		white-space: pre;
 		margin: 0;
 	}
+
+	article.ebook section#download li span:nth-child(2){
+		display: none;
+	}
+
+	article.ebook section#download li span:nth-child(3){
+		display: block;
+		margin-left: 1.75rem;
+		padding-top: 0;
+	}
 }
+
+@media(max-width: 860px){
+	article nav a[rel]{
+		font-size: 0;
+	}
+
+	article nav a[rel]::before,
+	article nav a[rel]::after{
+		font-size: 1rem;
+		margin: 0;
+	}
+}
+
 
 @media(max-width: 680px){
 	body > header{
