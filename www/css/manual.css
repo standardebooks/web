@@ -1,5 +1,46 @@
 @import url("monokai.css");
 
+@font-face{
+	font-family: "Fira Sans";
+	src: local("Fira Sans"), url("/fonts/fira-sans.woff2") format("woff2"), url("/fonts/fira-sans.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face{
+	font-family: "Fira Sans";
+	src: local("Fira Sans"), url("/fonts/fira-sans-bold.woff2") format("woff2"), url("/fonts/fira-sans-bold.woff") format("woff");
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face{
+	font-family: "Fira Sans";
+	src: local("Fira Sans"), url("/fonts/fira-sans-italic.woff2") format("woff2"), url("/fonts/fira-sans-italic.woff") format("woff");
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face{
+	font-family: "Fira Sans";
+	src: local("Fira Sans"), url("/fonts/fira-sans-bold-italic.woff2") format("woff2"), url("/fonts/fira-sans-bold-italic.woff") format("woff");
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face{
+	font-family: "Fira Sans";
+	src: local("Fira Sans"), url("/fonts/fira-sans-bold.woff2") format("woff2"), url("/fonts/fira-sans-bold.woff") format("woff");
+	font-weight: bold;
+	font-style: normal;
+}
+
+main.manual{
+	font-family: "Fira Sans", sans-serif;
+	font-size: .8rem;
+	font-variant-numeric: initial;
+}
+
 main code:first-child{
 	margin-top: 0;
 }
@@ -136,19 +177,19 @@ code.full::before{
 }
 
 code.xml.full::before{
-	content: 'XML';
+	content: "XML";
 }
 
 code.html.full::before{
-	content: 'HTML';
+	content: "HTML";
 }
 
 code.css.full::before{
-	content: 'CSS';
+	content: "CSS";
 }
 
 code{
-	font-family: 'Fira Mono', monospace;
+	font-family: "Fira Mono", monospace;
 	font-size: .8rem;
 }
 
@@ -165,7 +206,7 @@ code.terminal{
 }
 
 code.terminal::before{
-	content: url('/images/terminal.svg');
+	content: url("/images/terminal.svg");
 	height: 1rem;
 	width: 1rem;
 	top: 1.15rem;
@@ -189,7 +230,7 @@ code.terminal span::before{
 }
 
 code.terminal > span::before{
-	content:'user@localhost>';
+	content:"user@localhost>";
 }
 
 .utf{
@@ -220,7 +261,7 @@ code.full .utf{
 
 .step-by-step-guide > ol li::marker{
 	font-weight: bold;
-	font-family: 'League Spartan', sans-serif;
+	font-family: "League Spartan", sans-serif;
 }
 
 .step-by-step-guide > ol {
@@ -240,7 +281,7 @@ code.full .utf{
 	margin-left: -4.5rem;
 
 	font-size: 1.2rem;
-	font-family: 'League Spartan', sans-serif;
+	font-family: "League Spartan", sans-serif;
 	line-height: 1.2;
 	letter-spacing: 1px;
 	text-transform: uppercase;
@@ -308,7 +349,7 @@ figure.corrected::before{
 }
 
 figure.wrong code{
-	background: #550000 url('/images/stripes-dark.svg');
+	background: #550000 url("/images/stripes-dark.svg");
 }
 
 figure.wrong,
@@ -332,13 +373,63 @@ figure.corrected code{
 	margin-top: 2rem;
 }
 
-.manual section section{
+.manual ol ol{
+	margin-left: 0;
+}
+
+.manual figure code{
+	margin: 0;
+}
+
+.manual h2,
+.manual h3,
+.manual h4,
+.manual h5,
+.manual h6{
+	margin-left: 0;
+}
+
+.manual > article > section > section[id] > section > ol > li aside.number,
+.manual > article > section > section[id] > section > aside.number{
+	margin-left: -12.5rem
+}
+
+.manual > article > section > section[id] > section > section > ol > li aside.number,
+.manual > article > section > section[id] > section > section > aside.number{
+	margin-left: -14.5rem
+}
+
+.manual > article > section > section[id] > ol ol > li aside.number::after,
+.manual > article > section > section[id] section > ol > li aside.number::after,
+.manual > article > section > section[id] section > aside.number::after{
+	content: " ";
+	width: 2rem;
+	border-bottom: 1px dashed rgba(255, 255, 255, .5);
+	display: block;
+	margin-left: 10.25rem;
+	margin-top: -.5rem;
+}
+
+.manual > article > section > section[id] > section > ol ol > li aside.number::after,
+.manual > article > section > section[id] > section > section > ol > li aside.number::after,
+.manual > article > section > section[id] > section > section > aside.number::after{
+	width: 4rem;
+}
+
+.manual > article > section > section[id] section > ol > li aside.number,
+.manual > article > section > section[id] section > aside.number{
+	margin-left: -12.5rem
+}
+
+.manual ol ol ul,
+.manual ol ol p,
+.manual ol ol figure,
+.manual > article > section > section  section{
 	margin-left: 2rem;
 }
 
-.manual section ol{
-	margin-top: 1rem;
-	margin-left: 2rem;
+.manual ul > li > p{
+	margin-left: 0;
 }
 
 .manual section + section,
@@ -357,6 +448,10 @@ figure.corrected code{
 	margin-left: -11rem;
 	margin-top: 2rem;
 	font-size: 2rem;
+}
+
+.manual section[id] > aside{
+	font-size: 1rem;
 }
 
 .manual section[id] > aside.number a,
@@ -380,12 +475,10 @@ figure.corrected code{
 
 .manual section[id] ol > li > aside.number{
 	font-size: .75rem;
-	margin-top: .2rem;
 }
 
 .manual > article > section[id] > section > aside.number{
 	font-style: normal;
-	margin-left: -11.5rem;
 	margin-top: .15rem;
 }
 

@@ -1,62 +1,62 @@
 @import url("reset.css");
 
 @font-face{
-	font-family: 'FontAwesome';
-	src: local('FontAwesome'), url('/fonts/font-awesome.woff2') format('woff2'), url('/fonts/font-awesome.woff') format('woff');
+	font-family: "FontAwesome";
+	src: local("FontAwesome"), url("/fonts/font-awesome.woff2") format("woff2"), url("/fonts/font-awesome.woff") format("woff");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
-	font-family: 'League Spartan';
-	src: url('/fonts/league-spartan-bold.woff2') format('woff2'), url('/fonts/league-spartan-bold.woff') format('woff');
+	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
+	font-family: "League Spartan";
+	src: url("/fonts/league-spartan-bold.woff2") format("woff2"), url("/fonts/league-spartan-bold.woff") format("woff");
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
+	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "Crimson Pro";
-	src: url('/fonts/crimson-pro.woff2') format('woff2'), url('/fonts/crimson-pro.woff') format('woff');
+	src: url("/fonts/crimson-pro.woff2") format("woff2"), url("/fonts/crimson-pro.woff") format("woff");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
+	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "Crimson Pro";
-	src: url('/fonts/crimson-pro-bold.woff2') format('woff2'), url('/fonts/crimson-pro-bold.woff') format('woff');
+	src: url("/fonts/crimson-pro-bold.woff2") format("woff2"), url("/fonts/crimson-pro-bold.woff") format("woff");
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
+	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "Crimson Pro";
-	src: url('/fonts/crimson-pro-italic.woff2') format('woff2'), url('/fonts/crimson-pro-italic.woff') format('woff');
+	src: url("/fonts/crimson-pro-italic.woff2") format("woff2"), url("/fonts/crimson-pro-italic.woff") format("woff");
 	font-weight: normal;
 	font-style: italic;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
+	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "Crimson Pro";
-	src: url('/fonts/crimson-pro-bold-italic.woff2') format('woff2'), url('/fonts/crimson-pro-bold-italic.woff') format('woff');
+	src: url("/fonts/crimson-pro-bold-italic.woff2") format("woff2"), url("/fonts/crimson-pro-bold-italic.woff") format("woff");
 	font-weight: bold;
 	font-style: italic;
 }
 
 @font-face{
 	font-family: "Fira Mono";
-	src: local('Fira Mono'), url('/fonts/firamono-regular.woff2') format('woff2'), url('/fonts/firamono-regular.woff') format('woff');
+	src: local("Fira Mono"), url("/fonts/fira-mono-regular.woff2") format("woff2"), url("/fonts/fira-mono-regular.woff") format("woff");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face{
 	font-family: "Fira Mono";
-	src: local('Fira Mono'), url('/fonts/firamono-bold.woff2') format('woff2'), url('/fonts/firamono-bold.woff') format('woff');
+	src: local("Fira Mono"), url("/fonts/fira-mono-bold.woff2") format("woff2"), url("/fonts/fira-mono-bold.woff") format("woff");
 	font-weight: bold;
 	font-style: normal;
 }
@@ -216,7 +216,7 @@ body > header{
 }
 
 body > header > a{
-	background: url('/images/logo-white-full.svg');
+	background: url("/images/logo-white-full.svg");
 	-webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, .75));
         filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, .75));
 	height: 70px;
@@ -241,7 +241,7 @@ body > header > a:hover{
 }
 
 header nav{
-	font-family: 'League Spartan';
+	font-family: "League Spartan";
 	text-transform: lowercase;
 	align-self: center;
 	text-align: right;
@@ -255,7 +255,7 @@ header nav li{
 }
 
 header nav li + li:before{
-	content: '•';
+	content: "•";
 	font-size: 16px;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -293,7 +293,7 @@ article > h1{
 
 main.front-page h1{
 	text-align: center;
-	background: #29292b url('/images/book.jpg') center / cover;
+	background: #29292b url("/images/book.jpg") center / cover;
 	border-bottom: 1px solid var(--border);
 	box-shadow: 0 0 10px rgba(0, 0, 0, .75);
 	width: calc(100% + 4rem);
@@ -306,7 +306,7 @@ main.front-page h1{
 	letter-spacing: 1px;
 	color: #fff;
 	font-size: 2.8rem;
-	font-family: 'League Spartan';
+	font-family: "League Spartan";
 	text-shadow: 2px 2px 0 rgba(0, 0, 0, .75), 0 0 2px rgba(0, 0, 0, 1);
 }
 
@@ -478,7 +478,7 @@ aside.sort button{
 	padding: 1rem 2rem;
 	color: #fff;
 	text-decoration: none;
-	font-family: 'League spartan', sans-serif;
+	font-family: "League spartan", sans-serif;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 	box-shadow: 2px 2px 0 #194149;
 	position: relative;
@@ -549,7 +549,7 @@ aside.sort select{
 	color: var(--body-text);
 	font-size: 1rem;
 	text-transform: lowercase;
-	font-family: 'Crimson Pro', serif;
+	font-family: "Crimson Pro", serif;
 	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
 	cursor: pointer;
 }
@@ -575,7 +575,7 @@ aside.sort button:hover{
 	cursor: default;
 	color: #efefef;
 	box-shadow: none;
-	background: #bbb url('/images/stripes-dark.svg');
+	background: #bbb url("/images/stripes-dark.svg");
 }
 
 code{
@@ -622,10 +622,10 @@ article.ebook #history li time{
 }
 
 article.ebook section aside p::before{
-	content: '(';
+	content: "(";
 }
 article.ebook section aside p::after{
-	content: ')';
+	content: ")";
 }
 
 article.ebook section aside{
@@ -675,7 +675,7 @@ article.ebook > header > hgroup{
 
 article.ebook > header > hgroup > h2{
 	font-size: 1.4rem;
-	font-family: 'League Spartan', sans-serif;
+	font-family: "League Spartan", sans-serif;
 	line-height: 1;
 	margin-top: 1rem;
 	margin-left: 0;
@@ -752,7 +752,7 @@ article.ebook section#details ul li a[class]::before{
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center center;
-	content: '';
+	content: "";
 	margin-right: .5rem;
 	height: 1.25rem;
 	width: 1.25rem;
@@ -834,51 +834,51 @@ time{
 }
 
 .globe::before{
-	background-image: url('/images/globe.svg');
+	background-image: url("/images/globe.svg");
 }
 
 .project-gutenberg::before{
-	background-image: url('/images/project-gutenberg.svg');
+	background-image: url("/images/project-gutenberg.svg");
 }
 
 .wikisource::before{
-	background-image: url('/images/wikisource.svg');
+	background-image: url("/images/wikisource.svg");
 }
 
 .hathitrust::before{
-	background-image: url('/images/hathitrust.svg');
+	background-image: url("/images/hathitrust.svg");
 }
 
 .wikipedia::before{
-	background-image: url('/images/wikipedia.svg');
+	background-image: url("/images/wikipedia.svg");
 }
 
 .internet-archive::before{
-	background-image: url('/images/internet-archive.svg');
+	background-image: url("/images/internet-archive.svg");
 }
 
 .github::before{
-	background-image: url('/images/github.svg');
+	background-image: url("/images/github.svg");
 }
 
 .epub::before{
-	background-image: url('/images/epub.svg');
+	background-image: url("/images/epub.svg");
 }
 
 .amazon::before{
-	background-image: url('/images/amazon.svg');
+	background-image: url("/images/amazon.svg");
 }
 
 .kobo::before{
-	background-image: url('/images/kobo.svg');
+	background-image: url("/images/kobo.svg");
 }
 
 .google::before{
-	background-image: url('/images/google.svg');
+	background-image: url("/images/google.svg");
 }
 
 .distributed-proofreaders::before{
-	background-image: url('/images/distributed-proofreaders.svg');
+	background-image: url("/images/distributed-proofreaders.svg");
 }
 
 article.ebook h1{
@@ -933,7 +933,7 @@ form[action="/ebooks"]{
 
 h2{
 	font-size: 1.2rem;
-	font-family: 'League Spartan', sans-serif;
+	font-family: "League Spartan", sans-serif;
 	margin-top: 4rem;
 	line-height: 1.2;
 	letter-spacing: 1px;
@@ -946,7 +946,7 @@ h4,
 h5,
 h6{
 	font-size: 1rem;
-	font-family: 'League Spartan', sans-serif;
+	font-family: "League Spartan", sans-serif;
 	margin-top: 3rem;
 	line-height: 1.2;
 }
@@ -968,8 +968,8 @@ footer p:last-child a{
 }
 
 footer p:last-child a::before{
-	content: '';
-	background: url('/images/logo-small.svg');
+	content: "";
+	background: url("/images/logo-small.svg");
 	background-size: contain;
 	background-repeat: no-repeat;
 	display: block;
@@ -996,12 +996,12 @@ footer ul li::after{
 }
 
 footer ul li::after{
-	content: '\b7';
+	content: "\b7";
 	margin: 0 10px;
 }
 
 footer ul li:last-child::after{
-	content: '';
+	content: "";
 	display: none;
 }
 
@@ -1018,7 +1018,7 @@ footer > a{
 /* ebook list */
 h1{
 	font-size: 2rem;
-	font-family: 'League Spartan', sans-serif;
+	font-family: "League Spartan", sans-serif;
 	line-height: 1.2;
 	border-bottom: 3px double var(--sub-text);
 	margin-top: 2rem;
@@ -1101,7 +1101,7 @@ aside.warning,
 aside.alert{
 	font-style: italic;
 	margin-top: 2rem;
-	background: url('/images/stripes.svg') #FFFF99;
+	background: url("/images/stripes.svg") #FFFF99;
 	color: var(--light-body-text);
 	border-radius: .25rem;
 	padding: 2rem;
@@ -1255,7 +1255,7 @@ input[type="search"]{
 	width: 100%;
 	background: none;
 	border: none;
-	font-family: 'Crimson Pro';
+	font-family: "Crimson Pro";
 	color: var(--body-text);
 }
 
@@ -1295,8 +1295,8 @@ input[type="search"]:focus{
 
 label.search::before{
 	display: block;
-	content: '\f002';
-	font-family: 'FontAwesome';
+	content: "\f002";
+	font-family: "FontAwesome";
 	font-size: 1rem;
 	line-height: 1;
 	margin-right: 1rem;
@@ -1312,13 +1312,13 @@ main.ebooks nav ol li:not(:first-child):not(:last-child):not(.highlighted){
 
 article nav ol li.highlighted::before,
 main.ebooks nav ol li.highlighted::before{
-	content: '⋯';
+	content: "⋯";
 	padding-right: 1rem;
 }
 
 article nav ol li.highlighted::after,
 main.ebooks nav ol li.highlighted::after{
-	content: '⋯';
+	content: "⋯";
 	padding-left: 1rem;
 }
 
