@@ -2,7 +2,7 @@
 
 @font-face{
 	font-family: "FontAwesome";
-	src: local("FontAwesome"), url("/fonts/font-awesome.woff2") format("woff2"), url("/fonts/font-awesome.woff") format("woff");
+	src: local("FontAwesome");
 	font-weight: normal;
 	font-style: normal;
 }
@@ -10,7 +10,7 @@
 @font-face{
 	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "League Spartan";
-	src: url("/fonts/league-spartan-bold.woff2") format("woff2"), url("/fonts/league-spartan-bold.woff") format("woff");
+	src: url("/fonts/league-spartan-bold.woff2") format("woff2");
 	font-weight: bold;
 	font-style: normal;
 }
@@ -18,7 +18,7 @@
 @font-face{
 	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "Crimson Pro";
-	src: url("/fonts/crimson-pro.woff2") format("woff2"), url("/fonts/crimson-pro.woff") format("woff");
+	src: url("/fonts/crimson-pro.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
 }
@@ -26,7 +26,7 @@
 @font-face{
 	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "Crimson Pro";
-	src: url("/fonts/crimson-pro-bold.woff2") format("woff2"), url("/fonts/crimson-pro-bold.woff") format("woff");
+	src: url("/fonts/crimson-pro-bold.woff2") format("woff2");
 	font-weight: bold;
 	font-style: normal;
 }
@@ -34,7 +34,7 @@
 @font-face{
 	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "Crimson Pro";
-	src: url("/fonts/crimson-pro-italic.woff2") format("woff2"), url("/fonts/crimson-pro-italic.woff") format("woff");
+	src: url("/fonts/crimson-pro-italic.woff2") format("woff2");
 	font-weight: normal;
 	font-style: italic;
 }
@@ -42,21 +42,21 @@
 @font-face{
 	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
 	font-family: "Crimson Pro";
-	src: url("/fonts/crimson-pro-bold-italic.woff2") format("woff2"), url("/fonts/crimson-pro-bold-italic.woff") format("woff");
+	src: url("/fonts/crimson-pro-bold-italic.woff2") format("woff2");
 	font-weight: bold;
 	font-style: italic;
 }
 
 @font-face{
 	font-family: "Fira Mono";
-	src: local("Fira Mono"), url("/fonts/fira-mono-regular.woff2") format("woff2"), url("/fonts/fira-mono-regular.woff") format("woff");
+	src: local("Fira Mono");
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face{
 	font-family: "Fira Mono";
-	src: local("Fira Mono"), url("/fonts/fira-mono-bold.woff2") format("woff2"), url("/fonts/fira-mono-bold.woff") format("woff");
+	src: local("Fira Mono");
 	font-weight: bold;
 	font-style: normal;
 }
