@@ -404,7 +404,7 @@ figure.corrected code{
 .manual > article > section > section[id] section > aside.number::after{
 	content: " ";
 	width: 2rem;
-	border-bottom: 1px dashed;
+	border-bottom: 2px dotted;
 	border-color: rgba(0, 0, 0, .5);
 	display: block;
 	margin-left: 10.25rem;
