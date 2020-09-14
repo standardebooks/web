@@ -408,7 +408,7 @@ figure.corrected code{
 	border-color: rgba(0, 0, 0, .5);
 	display: block;
 	margin-left: 10.25rem;
-	margin-top: -.5rem;
+	margin-top: -.55rem;
 }
 
 .manual > article > section > section[id] > section > ol ol > li aside.number::after,
