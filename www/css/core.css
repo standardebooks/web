@@ -2,7 +2,7 @@
 
 @font-face{
 	font-family: "FontAwesome";
-	src: local("FontAwesome");
+	src: local("FontAwesome"), url("/fonts/font-awesome.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
 }
