@@ -179,10 +179,10 @@ figure.full::after{
 	line-height: 1;
 	color: rgba(255, 255, 255, 0.25);
 	position: absolute;
-	top: 1rem;
-	right: 1rem;
+	top: .5rem;
+	right: .5rem;
 	font-family: "Fira Mono", monospace;
-	font-size: .7rem;
+	font-size: .5rem;
 	z-index: 100;
 }
 
@@ -200,7 +200,6 @@ figure.css.full::after{
 
 code{
 	font-family: "Fira Mono", monospace;
-	font-size: .7rem;
 }
 
 code.terminal{
@@ -677,6 +676,33 @@ figure code.css{
 
 	.manual > article > section[id] > aside.number{
 		margin-top: 0;
+	}
+}
+
+@media(max-width: 1100px){
+	.manual ol ol ul, .manual ol ol p, .manual ol ol figure,
+	.manual > article > section > section section{
+		margin-left: 0;
+	}
+
+	.manual > article > section > section[id] > section > ol > li aside.number,
+	.manual > article > section > section[id] > section > aside.number{
+		margin-left: -10.5rem;
+	}
+
+	.manual > article > section > section[id] > section > section > ol > li aside.number,
+	.manual > article > section > section[id] > section > section > aside.number{
+		margin-left: 0;
+	}
+
+	.manual > article > section > section[id] > ol ol > li aside.number::after,
+	.manual > article > section > section[id] section > ol > li aside.number::after,
+	.manual > article > section > section[id] section > aside.number::after{
+		display: none;
+	}
+
+	.manual > article > section > section{
+		padding-left: 2rem;
 	}
 }
 
