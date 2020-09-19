@@ -121,6 +121,7 @@ h3 abbr.initialism{
 	font-variant: normal;
 }
 
+code.ws,
 code.string,
 code.tag,
 code.path,
@@ -554,16 +555,14 @@ figure.corrected code{
 	top: .5rem;
 }
 
-.ws{
+span.ws{
 	border: 1px solid #222;
 	padding: .1rem;
 	line-height: 1;
 	margin: 0 .1rem;
 	font-size: .5rem;
 	display: inline-block;
-	font-family: monospace;
 	vertical-align: middle;
-	margin-top: -3px; /* to match poor crimson alignment */
 }
 
 code.terminal b,
