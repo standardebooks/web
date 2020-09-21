@@ -7,7 +7,7 @@ require_once('Core.php');
 		<section>
 			<p>All Standard Ebooks source folders have the same basic structure. It looks a little like this:</p>
 			<figure>
-				<img alt="A tree view of a new Standard Ebooks draft folder" src="/images/epub-draft-tree.png">
+				<img alt="A tree view of a new Standard Ebooks draft folder" src="/images/epub-draft-tree.png"/>
 			</figure>
 			<ul>
 				<li>

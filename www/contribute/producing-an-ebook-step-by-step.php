@@ -85,7 +85,7 @@ require_once('Core.php');
 				<h2>Do a rough cleanup of the source text and perform the first commit</h2>
 				<p>If you inspect the folder we just created, you’ll see it looks something like this:</p>
 				<figure>
-					<img alt="A tree view of a new Standard Ebooks draft folder" src="/images/epub-draft-tree.png">
+					<img alt="A tree view of a new Standard Ebooks draft folder" src="/images/epub-draft-tree.png"/>
 				</figure>
 				<p>You can <a href="/contribute/a-basic-standard-ebooks-source-folder">learn more about what the files in a basic Standard Ebooks source folder are all about</a> before you continue.</p>
 				<p>Now that we’ve got the source text, we have to do some very broad cleanup before we perform our first commit:</p>
@@ -209,7 +209,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p><code class="bash"><b>se</b> british2american</code> attempts to automate the conversion. Your work must already be typogrified (the previous step in this guide) for the script to work.</p><code class="terminal"><span><b>se</b> british2american <u>.</u></span></code>
 				<p>While <code class="bash"><b>se</b> british2american</code> tries its best, thanks to the quirkiness of English punctuation rules it’ll invariably mess some stuff up. Proofreading is required after running the conversion.</p>
 				<p>After you’ve run the conversion, do another commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Convert from British-style quotation to American style"</i></span></code>
-				<p>This regex is useful for spotting incorrectly converted quotes next to em dashes: <code class="regex">“[^”‘]+’⁠—(?=[^”]*?&lt;/p&gt;;)</code>
+				<p>This regex is useful for spotting incorrectly converted quotes next to em dashes: <code class="regex">“[^”‘]+’⁠—(?=[^”]*?&lt;/p&gt;;)</code></p>
 			</li>
 			<li>
 				<h2>Add semantics</h2>
@@ -232,7 +232,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					<li>
 						<p>Semantics for italics: <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> should be used for when a passage is emphasized, as in when dialog is shouted or whispered. <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> is used for all other italics, <a href="/manual/latest/4-semantics#4.2">with the appropriate semantic inflection</a>. Older transcriptions usually use just <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> for both, so you must change them manually if necessary.</p>
 						<p>Sometimes, transcriptions from Project Gutenberg may use ALL CAPS instead of italics. To replace these, you can use <code class="bash"><b>sed</b></code>:</p>
-						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|[A-Z’]{2,}|&lt;em&gt;\L&&lt;/em&gt;|g"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|[A-Z’]{2,}|&lt;em&gt;\L\1&lt;/em&gt;|g"</i> src/epub/text/<i class="glob">*</i></span></code>
 						<p>This will unfortunately replace language tags like <code>en-US</code>, so fix those up with this:</p>
 						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|en-&lt;em&gt;([a-z]+)&lt;/em&gt;|en-\U\1|g"</i> src/epub/text/<i class="glob">*</i></span></code>
 						<p>These replacments don’t take Title Caps into account, so use <code class="bash"><b>git</b> diff</code> to review the changes and fix errors before committing.</p>
@@ -242,13 +242,13 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.10">Semantics rules for abbreviations</a>. Abbreviations should always be wrapped in the <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code> tag and with the correct <code class="html"><span class="na">class</span></code> attribute.</p>
-						<p>Specifically, see the <a href="/manual/latest/8-typography#8.10.6">typography rules for initials</a>. Wrap people’s initials in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class<span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span></code>. This regex helps match initials: <code class="regex">[A-Z]\.\s*([A-Z]\.\s*)+</code></p>
+						<p>Specifically, see the <a href="/manual/latest/8-typography#8.10.6">typography rules for initials</a>. Wrap people’s initials in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span></code>. This regex helps match initials: <code class="regex">[A-Z]\.\s*([A-Z]\.\s*)+</code></p>
 					</li>
 					<li>
-						<p><a href="/manual/latest/8-typography#8.11">Typography rules for times</a>. Wrap a.m. and p.m. in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class<span class="o">=</span><span class="s">"time"</span><span class="p">&gt;</span></code> and add a no-break space between digits and a.m. or p.m.</p>
+						<p><a href="/manual/latest/8-typography#8.11">Typography rules for times</a>. Wrap a.m. and p.m. in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time"</span><span class="p">&gt;</span></code> and add a no-break space between digits and a.m. or p.m.</p>
 					</li>
 					<li>
-						<p>Words or phrases in foreign languages should always be marked up with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang<span class="o">=</span><span class="s">"TAG"</span><span class="p">&gt;</span></code>, where TAG is an <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a>. <a href="https://r12a.github.io/app-subtags/">This app can help you look them up</a>. If the text uses fictional or unspecific languages, use the “x-” prefix and make up a subtag yourself.</p>
+						<p>Words or phrases in foreign languages should always be marked up with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"TAG"</span><span class="p">&gt;</span></code>, where TAG is an <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a>. <a href="https://r12a.github.io/app-subtags/">This app can help you look them up</a>. If the text uses fictional or unspecific languages, use the “x-” prefix and make up a subtag yourself.</p>
 					</li>
 					<li>
 						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> tag to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the SEMOS</a> for templates on how to semantically format poetry, verse, and song.</p>
@@ -263,7 +263,6 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<code class="terminal"><span><b>se</b> print-title --in-place src/epub/text/<i class="glob">*</i></span></code>
 				<p>Once you’ve verified the titles look good, commit:</p>
 				<code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add titles"</i></span></code>
-			</li>
 			</li>
 			<li>
 				<h2>Modernize spelling and hyphenation</h2>

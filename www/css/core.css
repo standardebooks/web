@@ -183,6 +183,14 @@ main p:first-child, main ul:first-child, main ol:first-child, main ul li:first-c
 	margin-top: 0;
 }
 
+blockquote{
+	margin: 1rem;
+	background: rgba(0, 0, 0, .25);
+	padding: 1rem;
+	border-radius: .25rem;
+	border: 1px solid rgba(255,255,255,.25);
+}
+
 ol > li > ul{
 	list-style: disc; /* dark discs when nested in ol */
 }

@@ -18,12 +18,15 @@ if(!isset($manual)){
 
 # We hash with crc32 because it's faster than md5 and "good enough" for this simple cache-busting use case
 
-?><!doctype html>
-<html lang="en-US">
+header('content-type: application/xhtml+xml');
+print('<?xml version="1.0" encoding="utf-8"?>');
+print("\n");
+?><!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head>
 	<meta charset="utf-8"/>
 	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
-	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"><? } ?>
+	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"/><? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
 	<link href="/css/core.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/core.css')) ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? if($manual){ ?>

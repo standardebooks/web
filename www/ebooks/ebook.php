@@ -201,9 +201,9 @@ catch(\Exception $ex){
 				<li>
 					<a href="<?= $carouselEbook->Url ?>">
 						<picture>
-							<? if($carouselEbook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $carouselEbook->CoverImage2xAvifUrl ?> 2x, <?= $carouselEbook->CoverImageAvifUrl ?> 1x" type="image/avif"><? } ?>
-							<source srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x" type="image/jpg">
-							<img src="<?= $carouselEbook->HeroImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText(strip_tags($carouselEbook->TitleWithCreditsHtml)) ?>">
+							<? if($carouselEbook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $carouselEbook->CoverImage2xAvifUrl ?> 2x, <?= $carouselEbook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
+							<source srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x" type="image/jpg"/>
+							<img src="<?= $carouselEbook->HeroImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText(strip_tags($carouselEbook->TitleWithCreditsHtml)) ?>"/>
 						</picture>
 					</a>
 				</li>

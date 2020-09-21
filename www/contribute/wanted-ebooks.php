@@ -50,9 +50,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/60067">Leave it to Psmith</a> by P. G. Wodehouse</p>
-			</li> -->
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/5670">Jacob’s Room</a> by Virginia Woolf</p>
 			</li> -->
@@ -582,6 +582,7 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9814">Poetry</a> by Mark Akenside (make sure this collection is a complete corpus of his works.)</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/53489">The Life of Lazarillo de Tormes</a> by Anonymous</p>
 			</li>

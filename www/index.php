@@ -2,7 +2,7 @@
 require_once('Core.php');
 ?><?= Template::Header(['description' => 'Free and liberated ebooks, carefully produced for the true book lover. Download free ebooks with professional-quality formatting and typography, in formats compatible with your ereader.']) ?>
 <main class="front-page">
-	<h1>Free and liberated ebooks,<br>carefully produced for the true book lover.</h1>
+	<h1>Free and liberated ebooks,<br/>carefully produced for the true book lover.</h1>
 	<img alt="Ereaders with a Standard Ebook open." src="/images/devices.png"/>
 	<p>Standard Ebooks is a volunteer driven, not-for-profit project that produces new editions of public domain ebooks that are lovingly formatted, open source, and free.</p>
 	<p>Ebook projects like <a href="https://www.gutenberg.org">Project Gutenberg</a> transcribe ebooks and make them available for the widest number of reading devices. Standard Ebooks takes ebooks from sources like Project Gutenberg, formats and typesets them using a carefully designed and professional-grade style manual, fully proofreads and corrects them, and then builds them to create a new edition that takes advantage of state-of-the-art ereader and browser technology.</p>

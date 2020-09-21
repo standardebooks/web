@@ -20,6 +20,7 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p>Carefully review the entirety of the <a href="/manual">Standard Ebooks Manual of Style</a>.</p>
+			</li>
 			<li>
 				<p>Once we’ve OK’d your selection and you’ve read the style manuals, you can get started! Follow the steps in our <a href="/contribute/producing-an-ebook-step-by-step">step-by-step guide to producing an ebook</a> to take your ebook from start to finish.</p>
 			</li>

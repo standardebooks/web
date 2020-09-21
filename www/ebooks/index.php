@@ -138,10 +138,10 @@ catch(\Exception $ex){
 			<form action="/ebooks" method="get">
 				<label>Sort by
 					<select name="sort">
-						<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected<? } ?>>newest</option>
-						<option value="<?= SORT_AUTHOR_ALPHA ?>"<? if($sort == SORT_AUTHOR_ALPHA){ ?> selected<? } ?>>author name</option>
-						<option value="<?= SORT_READING_EASE ?>"<? if($sort == SORT_READING_EASE){ ?> selected<? } ?>>reading ease</option>
-						<option value="<?= SORT_LENGTH ?>"<? if($sort == SORT_LENGTH){ ?> selected<? } ?>>length</option>
+						<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected="selected"<? } ?>>newest</option>
+						<option value="<?= SORT_AUTHOR_ALPHA ?>"<? if($sort == SORT_AUTHOR_ALPHA){ ?> selected="selected"<? } ?>>author name</option>
+						<option value="<?= SORT_READING_EASE ?>"<? if($sort == SORT_READING_EASE){ ?> selected="selected"<? } ?>>reading ease</option>
+						<option value="<?= SORT_LENGTH ?>"<? if($sort == SORT_LENGTH){ ?> selected="selected"<? } ?>>length</option>
 					</select>
 				</label>
 				<button>Sort</button>
