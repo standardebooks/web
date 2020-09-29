@@ -68,7 +68,7 @@ catch(\Exception $ex){
 	include(WEB_ROOT . '/404.php');
 	exit();
 }
-?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml), 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'The Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'jsonld' => $ebook->GenerateJsonLd()]) ?>
+?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml), 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'The Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'jsonld' => htmlentities($ebook->GenerateJsonLd(), ENT_NOQUOTES)]) ?>
 <main>
 	<article class="ebook">
 		<header>
