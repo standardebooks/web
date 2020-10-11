@@ -691,7 +691,7 @@ figure code.css{
 
 	.manual > article > section > section[id] > section > section > ol > li aside.number,
 	.manual > article > section > section[id] > section > section > aside.number{
-		margin-left: 0;
+		margin-left: -10.5rem;
 	}
 
 	.manual > article > section > section[id] > ol ol > li aside.number::after,
