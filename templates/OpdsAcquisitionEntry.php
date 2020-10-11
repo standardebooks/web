@@ -22,8 +22,8 @@
 	<? foreach($ebook->LocTags as $subject){ ?>
 	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= htmlspecialchars($subject, ENT_QUOTES|ENT_XML1, 'utf-8') ?>"/>
 	<? } ?>
-	<link href="<?= $ebook->Url ?>/dist/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
-	<link href="<?= $ebook->Url ?>/dist/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="<?= $ebook->Url ?>/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
+	<link href="<?= $ebook->Url ?>/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
 	<link href="<?= $ebook->Url ?>" rel="related" type="text/html" title="This ebook’s page at Standard Ebooks"/>
 	<link href="<?= $ebook->EpubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" title="Recommended compatible epub"/>
 	<link href="<?= $ebook->AdvancedEpubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" title="epub"/>

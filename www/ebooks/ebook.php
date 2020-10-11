@@ -46,7 +46,7 @@ try{
 
 	$targetCarouselSize = 5;
 	if(sizeof($ebooks) < $targetCarouselSize){
-		$targetCarouselSize = sizeof($ebooks);
+		$targetCarouselSize = sizeof($ebooks) - 1;
 	}
 
 	$i = 0;
@@ -110,10 +110,11 @@ catch(\Exception $ex){
 
 		<? if($ebook->HasDownloads){ ?>
 		<section id="download">
-			<h2>Free download</h2>
+			<h2>Read free</h2>
 			<div class="us-pd-warning">
 				<p>This ebook is only thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that the contents of this ebook are free of copyright restrictions in the country you’re located in before downloading or using this ebook.</p>
 			</div>
+			<h3>Download for ereaders</h3>
 			<ul>
 				<? if($ebook->EpubUrl !== null){ ?>
 				<li><p><span><a href="<?= $ebook->EpubUrl ?>" class="epub">Compatible epub</a> </span><span>—</span> <span>All devices and apps except Amazon Kindle and Kobo.</span></p>
@@ -138,6 +139,13 @@ catch(\Exception $ex){
 			<aside>
 				<p>Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file to download</a> and <a href="/help/how-to-use-our-ebooks#transferring-to-your-ereader">how to transfer them to your ereader</a>.</p>
 			</aside>
+			<h3>Read online</h3>
+			<ul>
+				<li><p><span><a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a></span></p></li>
+				<? if($ebook->TextSinglePageUrl !== null){ ?>
+				<li><p><span><a href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a></span></p></li>
+				<? } ?>
+			</ul>
 		</section>
 		<? } ?>
 
@@ -194,6 +202,7 @@ catch(\Exception $ex){
 			<? if($ebook->GitHubUrl !== null){ ?><p>If you’re comfortable with technology and want to contribute directly, check out <a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>">this ebook’s GitHub repository</a> and our <a href="/contribute">contributors section</a>.</p><? } ?>
 		</section>
 
+		<? if(sizeof($carousel) > 0){ ?>
 		<aside id="more-ebooks">
 			<h2>More free ebooks</h2>
 			<ul>
@@ -210,6 +219,7 @@ catch(\Exception $ex){
 				<? } ?>
 			</ul>
 		</aside>
+		<? } ?>
 	</article>
 </main>
 <?= Template::Footer() ?>

@@ -1,0 +1,42 @@
+@namespace epub "http://www.idpf.org/2007/ops";
+
+body{
+	padding: 0 3em;
+	margin: 3em auto;
+	max-width: 60ch;
+}
+
+section + section,
+section + article,
+article + section,
+article + article{
+	margin-top: 6em;
+}
+
+nav[epub|type~="toc"] ol{
+	list-style: none;
+}
+
+@media(prefers-color-scheme: dark){
+	body{
+		background: #222222;
+		color: #ffffff;
+	}
+
+	/* These three link colors provide WCAG AAA compliance at 16px */
+	a:link{
+		color: #6bb9f0;
+	}
+
+	a:active{
+		color: #e6cc22;
+	}
+
+	a:visited{
+		color: #dda0dd;
+	}
+
+	img[epub|type~="se:color-depth.black-on-transparent"]{
+		filter: invert(1);
+	}
+}

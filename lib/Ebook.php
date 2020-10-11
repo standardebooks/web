@@ -55,6 +55,8 @@ class Ebook{
 	public $TitleWithCreditsHtml = '';
 	public $Timestamp;
 	public $ModifiedTimestamp;
+	public $TextUrl;
+	public $TextSinglePageUrl;
 
 	public function __construct(string $wwwFilesystemPath){
 		// First, construct a source repo path from our WWW filesystem path.
@@ -91,41 +93,48 @@ class Ebook{
 
 		$this->UrlSafeIdentifier = str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 
-		// Generate the Kindle cover URL.
-		$tempPath = glob($this->WwwFilesystemPath . '/dist/*_EBOK_portrait.jpg');
+		$this->TextUrl = $this->Url . '/text';
+
+		$tempPath = glob($this->WwwFilesystemPath . '/src/epub/text/single-page.xhtml');
 		if(sizeof($tempPath) > 0){
-			$this->KindleCoverUrl = $this->Url . '/dist/' . basename($tempPath[0]);
+			$this->TextSinglePageUrl = $this->Url . '/text/single-page';
+		}
+
+		// Generate the Kindle cover URL.
+		$tempPath = glob($this->WwwFilesystemPath . '/downloads/*_EBOK_portrait.jpg');
+		if(sizeof($tempPath) > 0){
+			$this->KindleCoverUrl = $this->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Generate the compatible epub URL.
-		$tempPath = glob($this->WwwFilesystemPath . '/dist/*.epub');
+		$tempPath = glob($this->WwwFilesystemPath . '/downloads/*.epub');
 		if(sizeof($tempPath) > 0){
-			$this->EpubUrl = $this->Url . '/dist/' . basename($tempPath[0]);
+			$this->EpubUrl = $this->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Generate the epub URL
-		$tempPath = glob($this->WwwFilesystemPath . '/dist/*_advanced.epub');
+		$tempPath = glob($this->WwwFilesystemPath . '/downloads/*_advanced.epub');
 		if(sizeof($tempPath) > 0){
-			$this->AdvancedEpubUrl = $this->Url . '/dist/' . basename($tempPath[0]);
+			$this->AdvancedEpubUrl = $this->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Generate the Kepub URL
-		$tempPath = glob($this->WwwFilesystemPath . '/dist/*.kepub.epub');
+		$tempPath = glob($this->WwwFilesystemPath . '/downloads/*.kepub.epub');
 		if(sizeof($tempPath) > 0){
-			$this->KepubUrl = $this->Url . '/dist/' . basename($tempPath[0]);
+			$this->KepubUrl = $this->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Generate the azw3 URL.
-		$tempPath = glob($this->WwwFilesystemPath . '/dist/*.azw3');
+		$tempPath = glob($this->WwwFilesystemPath . '/downloads/*.azw3');
 		if(sizeof($tempPath) > 0){
-			$this->Azw3Url = $this->Url . '/dist/' . basename($tempPath[0]);
+			$this->Azw3Url = $this->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		$this->HasDownloads = $this->EpubUrl || $this->AdvancedEpubUrl || $this->KepubUrl || $this->Azw3Url;
 
-		$tempPath = glob($this->WwwFilesystemPath . '/dist/cover.jpg');
+		$tempPath = glob($this->WwwFilesystemPath . '/downloads/cover.jpg');
 		if(sizeof($tempPath) > 0){
-			$this->DistCoverUrl = $this->Url . '/dist/' . basename($tempPath[0]);
+			$this->DistCoverUrl = $this->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Fill in the short history of this repo.
@@ -455,7 +464,7 @@ class Ebook{
 
 		$output->name = $this->Title;
 		$output->image = SITE_URL . $this->DistCoverUrl;
-		$output->thumbnailUrl = SITE_URL . $this->Url . '/dist/cover-thumbnail.jpg';
+		$output->thumbnailUrl = SITE_URL . $this->Url . '/downloads/cover-thumbnail.jpg';
 		$output->url = SITE_URL . $this->Url;
 		$output->{'@id'} = SITE_URL . $this->Url;
 		$output->description = $this->Description;

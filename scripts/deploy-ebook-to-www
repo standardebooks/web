@@ -225,16 +225,16 @@ do
 
 		git clone --quiet "${repoDir}" "${workDir}"
 
-		mkdir "${workDir}/dist"
+		mkdir -p "${workDir}/downloads"
 
 		# Build the ebook
 		if [ "${epubcheck}" = "true" ]; then
-			if ! se build --output-dir="${workDir}/dist" --check --kindle --kobo --covers "${workDir}"; then
+			if ! se build --output-dir="${workDir}"/downloads/ --check --kindle --kobo --covers "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
 				die "Error building ebook, stopping deployment."
 			fi
 		else
-			if ! se build --output-dir="${workDir}/dist" --kindle --kobo --covers "${workDir}"; then
+			if ! se build --output-dir="${workDir}"/downloads/ --kindle --kobo --covers "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
 				die "Error building ebook, stopping deployment."
 			fi
@@ -254,6 +254,35 @@ do
 
 		# Re-create the webdir
 		mkdir -p "${webDir}"
+
+		# Recompose the epub into a single file, but put it outside of the epub src for now so we don't stomp on it with the following sections.
+		# We do this first because the tweaks below shouldn't apply to the single-page file
+		cp "${webRoot}/www/css/web.css" "${workDir}"/src/epub/css/
+		se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml "${workDir}"
+		rm "${workDir}"/src/epub/css/web.css
+
+		# Make some compatibilty adjustments for the individual XHTML files
+
+		# Remove instances of the .xhtml filename extension in the source text
+		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place 's/\.xhtml//g'
+
+		# Add our web stylesheet to XHTML files
+		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended 's|</title>|</title>\n\t\t<link href="/css/web.css" media="screen" rel="stylesheet" type="text/css"/>|'
+
+		# Remove -epub-* CSS properties from CSS files as they're invalid in a web context
+		sed --in-place --regexp-extended "s|\s*\-epub\-[^;]+?;||g" "${workDir}"/src/epub/css/*.css
+
+		# Add lang attributes
+		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended 's/xml:lang="([^"]+?)"/xml:lang="\1" lang="\1"/g'
+
+		# Add the work title to <title> tags in the source text
+		workTitle=$(grep --only-matching --extended-regexp "<dc:title id=\"title\">(.+?)</dc:title>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/<[^>]+?>//g")
+		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g"
+
+		# Done adding compatibility!
+
+		# Move the single-page file back into the /src/epub/text/ folder
+		mv "${workDir}"/single-page.xhtml "${workDir}"/src/epub/text/single-page.xhtml
 
 		# Move contents of the work dir over
 		mv "${workDir}"/* "${webDir}/"

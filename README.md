@@ -72,7 +72,7 @@ If everything went well, `https://standardebooks.test/ebooks/` will show the one
     /standardebooks.org/web/www/ebooks/maurice-leblanc/813/alexander-teixeira-de-mattos/
     ````
 
-    These directories contain the full ebook source, as if it was pulled from Git. (But they are not actual Git repositories.) Additionally each one contains a `./dist/` folder containing built ebook files for distribution.
+    These directories contain the full ebook source, as if it was pulled from Git. (But they are not actual Git repositories.) Additionally each one contains a `./downloads/` folder containing built ebook files for distribution.
 
     The website pulls all ebook information from what is contained in `/standardebooks.org/web/www/ebooks/`. It does not inspect `/standardebooks.org/ebooks/`. Therefore it is possible for one or the other to hold different catalogs if they become out of sync.
 

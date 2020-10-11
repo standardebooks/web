@@ -889,6 +889,14 @@ time{
 	background-image: url("/images/distributed-proofreaders.svg");
 }
 
+.list::before{
+	background-image: url("/images/list.svg");
+}
+
+.page::before{
+	background-image: url("/images/page.svg");
+}
+
 article.ebook h1{
 	border: none;
 	margin: 0;

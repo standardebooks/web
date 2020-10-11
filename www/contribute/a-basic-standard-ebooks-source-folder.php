@@ -11,9 +11,6 @@ require_once('Core.php');
 			</figure>
 			<ul>
 				<li>
-					<p><code class="path">dist/</code> is where our <code class="program">build</code> script will put the finished ebook files. Right now it’s empty.</p>
-				</li>
-				<li>
 					<p><code class="path">images/</code> contains the raw image files used in an ebook. For ebooks without illustrations, you’ll have the following three files:</p>
 					<ul>
 						<li>
