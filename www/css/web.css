@@ -1,9 +1,11 @@
 @namespace epub "http://www.idpf.org/2007/ops";
 
 body{
+	font-family: Georgia, serif;
+	font-size: 18px;
 	padding: 0 3em;
 	margin: 3em auto;
-	max-width: 60ch;
+	max-width: 55ch;
 }
 
 section + section,
@@ -15,6 +17,16 @@ article + article{
 
 nav[epub|type~="toc"] ol{
 	list-style: none;
+}
+
+@media(max-width: 65ch){
+	body{
+		padding: 0 1em;
+	}
+
+	section[epub|type~="imprint"] p{
+		width: 100%;
+	}
 }
 
 @media(prefers-color-scheme: dark){
