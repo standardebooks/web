@@ -6,17 +6,30 @@ DESCRIPTION
 	Deploy a Standard Ebook source repository to the web.
 
 USAGE
-	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] [--no-epubcheck] [-l,--last-push-hash HASH] DIRECTORY [DIRECTORY...]
+	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] [--no-build] [--no-epubcheck] [--no-recompose] [-l,--last-push-hash HASH] DIRECTORY [DIRECTORY...]
 		DIRECTORY is a bare source repository.
 		GROUP is a groupname. Defaults to "se".
 		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org".
 		WEBURL is the URL the website is served on. Defaults to "https://standardebooks.org".
 
-		With --no-epubcheck, run 'build' instead of 'build --check'.
+		The deploy process does three things:
+
+		1. Build distributable ebook files using 'se build'.
+
+		2. Build single-page and toc-based web-readable versions using 'se recompose-epub'.
+
+		3. Generate various images and thumbnails for web use.
+
+		With --no-images, do not create cover thumbnails or hero images for the web.
+
+		With --no-build, do not run 'se build' or 'se recompose' to create distributable ebook files or web-readable versions.
+
+		With --no-epubcheck, run 'se build' instead of 'se build --check'.
+
+		With --no-recompose, do not run 'se recompose-epub' to generate single-page output.
 
 		With --last-push-hash, check the repo head against HASH to see if the cover image or ebook source changed, which will determine if cover thumbnails get re-generated or the ebook gets re-built.
 
-		With --no-images, do not create cover thumbnails or hero images for the web.
 EOF
 	exit
 }
@@ -32,6 +45,7 @@ webRoot="/standardebooks.org/web"
 webUrl="https://standardebooks.org"
 lastPushHash=""
 epubcheck="true"
+recompose="true"
 
 if [ $#  -eq 0 ]; then
 	usage
@@ -71,6 +85,14 @@ while [ $# -gt 0 ]; do
 			;;
 		--no-epubcheck)
 			epubcheck="false"
+			shift 1
+			;;
+		--no-recompose)
+			recompose="false"
+			shift 1
+			;;
+		--no-build)
+			build="false"
 			shift 1
 			;;
 		*) break ;;
@@ -145,17 +167,21 @@ do
 		# Check to see if the cover image changed, to decide if we want to rebuild the cover image thumbnail/hero
 		diff=$(git diff "${lastPushHash}" HEAD)
 
-		if [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
-			images="true"
-		else
-			images="false"
+		if [ "${images}" = "true" ]; then
+			if [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
+				images="true"
+			else
+				images="false"
+			fi
 		fi
 
-		# Check to see if the actual ebook changed, to decide if we want to build
-		if [[ "${diff}" =~ diff\ --git\ a/src/ ]]; then
-			build="true"
-		else
-			build="false"
+		if [ "${build}" = "true" ]; then
+			# Check to see if the actual ebook changed, to decide if we want to build
+			if [[ "${diff}" =~ diff\ --git\ a/src/ ]]; then
+				build="true"
+			else
+				build="false"
+			fi
 		fi
 	fi
 
@@ -249,17 +275,11 @@ do
 		modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
 		sed --in-place --regexp-extended "s/<meta property=\"dcterms:modified\">.+?<\/meta>/<meta property=\"dcterms:modified\">${modifiedDate}<\/meta>/" "${workDir}/src/epub/content.opf"
 
-		# Delete the contents of the old webdir
-		rm --preserve-root --recursive --force "${webDir}"
-
-		# Re-create the webdir
-		mkdir -p "${webDir}"
-
-		# Recompose the epub into a single file, but put it outside of the epub src for now so we don't stomp on it with the following sections.
-		# We do this first because the tweaks below shouldn't apply to the single-page file
-		cp "${webRoot}/www/css/web.css" "${workDir}"/src/epub/css/
-		se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml "${workDir}"
-		rm "${workDir}"/src/epub/css/web.css
+		if [ "${recompose}" = "true" ]; then
+			# Recompose the epub into a single file, but put it outside of the epub src for now so we don't stomp on it with the following sections.
+			# We do this first because the tweaks below shouldn't apply to the single-page file
+			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/www/css/web.css" "${workDir}"
+		fi
 
 		# Make some compatibilty adjustments for the individual XHTML files
 
@@ -281,8 +301,16 @@ do
 
 		# Done adding compatibility!
 
-		# Move the single-page file back into the /src/epub/text/ folder
-		mv "${workDir}"/single-page.xhtml "${workDir}"/src/epub/text/single-page.xhtml
+		if [ "${recompose}" = "true" ]; then
+			# Move the single-page file back into the /src/epub/text/ folder
+			mv "${workDir}"/single-page.xhtml "${workDir}"/src/epub/text/single-page.xhtml
+		fi
+
+		# Delete the contents of the old webdir
+		rm --preserve-root --recursive --force "${webDir}"
+
+		# Re-create the webdir
+		mkdir -p "${webDir}"
 
 		# Move contents of the work dir over
 		mv "${workDir}"/* "${webDir}/"
