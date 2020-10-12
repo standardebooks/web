@@ -409,9 +409,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/132">The Art of War</a> by Sun Tzu</p>
-			</li> -->
 			<li>
 				<p><a href="http://www.eldritchpress.org/ez/germinal.html">Germinal</a> by Émile Zola</p>
 			</li>
@@ -463,9 +460,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1280">Spoon River Anthology</a> by Edgar Lee Masters</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/2853">Quo Vadis: A Narrative of the Time of Nero</a> by Henryk Sienkiewicz</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/601">The Monk: A Romance</a> by M. G. Lewis (Note this appears to be the 2nd edition, we don’t want the 4th edition)</p>
 			</li>
@@ -628,9 +622,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6798">Aesthetical Essays</a> by Friedrich Schiller</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://en.wikipedia.org/wiki/Analects">The Analects</a> by Confucius</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/621">The Varieties of Religious Experience</a> by William James</p>
 			</li>
