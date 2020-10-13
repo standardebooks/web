@@ -22,20 +22,27 @@ foreach($contentFiles as $path){
 	if($path == '')
 		continue;
 
-	$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path) ?? '';
-	$ebook = new Ebook($ebookWwwFilesystemPath);
+	try{
+		$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path) ?? '';
 
-	$allEbooks[$ebook->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
-	$newestEbooks[$ebook->Timestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
+		$ebook = new Ebook($ebookWwwFilesystemPath);
 
-	foreach($ebook->Tags as $tag){
-		// Add the book's subjects to the main subjects list
-		if(!in_array($tag->Name, $subjects)){
-			$subjects[] = $tag->Name;
+		$allEbooks[$ebook->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
+		$newestEbooks[$ebook->Timestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
+
+		foreach($ebook->Tags as $tag){
+			// Add the book's subjects to the main subjects list
+			if(!in_array($tag->Name, $subjects)){
+				$subjects[] = $tag->Name;
+			}
+
+			// Sort this ebook by subject
+			$ebooksBySubject[$tag->Name][$ebook->Timestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
 		}
-
-		// Sort this ebook by subject
-		$ebooksBySubject[$tag->Name][$ebook->Timestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
+	}
+	catch(\Exception $ex){
+		print('Failed to generate OPDS entry for `' . $ebookWwwFilesystemPath . '`. Exception: ' . $ex->getMessage());
+		continue;
 	}
 }
 
