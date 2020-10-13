@@ -109,46 +109,48 @@ catch(\Exception $ex){
 		</section>
 
 		<? if($ebook->HasDownloads){ ?>
-		<section id="download">
+		<section id="read-free">
 			<h2>Read free</h2>
-			<div class="us-pd-warning">
-				<p>This ebook is only thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that the contents of this ebook are free of copyright restrictions in the country you’re located in before downloading or using this ebook.</p>
-			</div>
-			<h3>Download for ereaders</h3>
-			<ul>
-				<? if($ebook->EpubUrl !== null){ ?>
-				<li><p><span><a href="<?= $ebook->EpubUrl ?>" class="epub">Compatible epub</a> </span><span>—</span> <span>All devices and apps except Amazon Kindle and Kobo.</span></p>
-				</li>
-				<? } ?>
+			<p class="us-pd-warning">This ebook is only thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that the contents of this ebook are free of copyright restrictions in the country you’re located in before downloading or using this ebook.</p>
+			<section id="download">
+				<h3>Download for ereaders</h3>
+				<ul>
+					<? if($ebook->EpubUrl !== null){ ?>
+					<li><p><span><a href="<?= $ebook->EpubUrl ?>" class="epub">Compatible epub</a> </span><span>—</span> <span>All devices and apps except Amazon Kindle and Kobo.</span></p>
+					</li>
+					<? } ?>
 
-				<? if($ebook->Azw3Url !== null){ ?>
-				<li><p><span><a href="<?= $ebook->Azw3Url ?>" class="amazon">azw3</a></span> <span>—</span> <span>Amazon Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
-				</li>
-				<? } ?>
+					<? if($ebook->Azw3Url !== null){ ?>
+					<li><p><span><a href="<?= $ebook->Azw3Url ?>" class="amazon">azw3</a></span> <span>—</span> <span>Amazon Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
+					</li>
+					<? } ?>
 
-				<? if($ebook->KepubUrl !== null){ ?>
-				<li><p><span><a href="<?= $ebook->KepubUrl ?>" class="kobo">kepub</a> </span><span>—</span> <span>Kobo devices and apps.</span></p>
-				</li>
-				<? } ?>
+					<? if($ebook->KepubUrl !== null){ ?>
+					<li><p><span><a href="<?= $ebook->KepubUrl ?>" class="kobo">kepub</a> </span><span>—</span> <span>Kobo devices and apps.</span></p>
+					</li>
+					<? } ?>
 
-				<? if($ebook->AdvancedEpubUrl !== null){ ?>
-				<li><p><span><a href="<?= $ebook->AdvancedEpubUrl ?>" class="epub">Advanced epub</a></span> <span>—</span> <span>An advanced format not yet fully compatible with most ereaders.</span></p>
-				</li>
-				<? } ?>
-			</ul>
-			<aside>
-				<p>Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file to download</a> and <a href="/help/how-to-use-our-ebooks#transferring-to-your-ereader">how to transfer them to your ereader</a>.</p>
-			</aside>
+					<? if($ebook->AdvancedEpubUrl !== null){ ?>
+					<li><p><span><a href="<?= $ebook->AdvancedEpubUrl ?>" class="epub">Advanced epub</a></span> <span>—</span> <span>An advanced format not yet fully compatible with most ereaders.</span></p>
+					</li>
+					<? } ?>
+				</ul>
+				<aside>
+					<p>Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file to download</a> and <a href="/help/how-to-use-our-ebooks#transferring-to-your-ereader">how to transfer them to your ereader</a>.</p>
+				</aside>
+			</section>
 			<? if($ebook->TextUrl !== null || $ebook->TextSinglePageUrl !== null){ ?>
-			<h3>Read online</h3>
-			<ul>
-				<? if($ebook->TextUrl !== null){ ?>
-				<li><p><span><a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a></span></p></li>
-				<? } ?>
-				<? if($ebook->TextSinglePageUrl !== null){ ?>
-				<li><p><span><a href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a></span></p></li>
-				<? } ?>
-			</ul>
+			<section id="read-online">
+				<h3>Read online</h3>
+				<ul>
+					<? if($ebook->TextUrl !== null){ ?>
+					<li><p><a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a></p></li>
+					<? } ?>
+					<? if($ebook->TextSinglePageUrl !== null){ ?>
+					<li><p><a href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a></p></li>
+					<? } ?>
+				</ul>
+			</section>
 			<? } ?>
 		</section>
 		<? } ?>

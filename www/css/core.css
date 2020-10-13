@@ -750,10 +750,12 @@ article.ebook section ul li a[class]{
 	align-items: center;
 }
 
+article.ebook section#read-online a,
 article.ebook section#download li a[class]{
 	font-size: 1.2rem;
 }
 
+article.ebook section#read-online a::before,
 article.ebook section#download ul li a[class]::before,
 article.ebook section#details ul li a[class]::before{
 	display: inline-block;
@@ -768,6 +770,7 @@ article.ebook section#details ul li a[class]::before{
 	transition: transform .2s ease;
 }
 
+article.ebook section#read-online a:hover::before,
 article.ebook section#download ul li a[class]:hover::before,
 article.ebook section#details ul li a[class]:hover::before{
 	transform: scale(1.1);
@@ -1263,7 +1266,6 @@ p.no-results{
 .us-pd-warning{
 	font-style: italic;
 	margin-top: 1rem;
-	margin-bottom: 1rem;
 }
 
 input[type="search"]{
@@ -1638,6 +1640,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
 	}
 
+	article.ebook section#read-online a::before,
 	article.ebook section#download ul li a[class]::before,
 	article.ebook section#details ul li a[class]::before,
 	footer p:last-child a::before,
