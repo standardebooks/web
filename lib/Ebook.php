@@ -75,14 +75,14 @@ class Ebook{
 			throw new InvalidEbookException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
 		}
 
-		if(!is_file($wwwFilesystemPath . '/src/epub/content.opf')){
-			throw new InvalidEbookException('Invalid content.opf file: ' . $wwwFilesystemPath . '/src/epub/content.opf');
+		if(!is_file($wwwFilesystemPath . '/content.opf')){
+			throw new InvalidEbookException('Invalid content.opf file: ' . $wwwFilesystemPath . '/content.opf');
 		}
 
 		$this->WwwFilesystemPath = $wwwFilesystemPath;
 		$this->Url = str_replace(WEB_ROOT, '', $this->WwwFilesystemPath);
 
-		$rawMetadata = file_get_contents($wwwFilesystemPath . '/src/epub/content.opf') ?: '';
+		$rawMetadata = file_get_contents($wwwFilesystemPath . '/content.opf') ?: '';
 
 		// Get the SE identifier.
 		preg_match('|<dc:identifier[^>]*?>(.+?)</dc:identifier>|ius', $rawMetadata, $matches);
@@ -95,7 +95,7 @@ class Ebook{
 
 		$this->TextUrl = $this->Url . '/text';
 
-		$tempPath = glob($this->WwwFilesystemPath . '/src/epub/text/single-page.xhtml');
+		$tempPath = glob($this->WwwFilesystemPath . '/text/single-page.xhtml');
 		if(sizeof($tempPath) > 0){
 			$this->TextSinglePageUrl = $this->Url . '/text/single-page';
 		}

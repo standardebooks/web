@@ -306,6 +306,9 @@ do
 			mv "${workDir}"/single-page.xhtml "${workDir}"/src/epub/text/single-page.xhtml
 		fi
 
+		# Add viewport meta elements to all output
+		find "${workDir}" \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place "s|</title>|</title>\n\t\t<meta content=\"width=device-width, initial-scale=1\" name=\"viewport\"/>|"
+
 		# Delete the contents of the old webdir
 		rm --preserve-root --recursive --force "${webDir}"
 
@@ -313,7 +316,9 @@ do
 		mkdir -p "${webDir}"
 
 		# Move contents of the work dir over
-		mv "${workDir}"/* "${webDir}/"
+		mv "${workDir}"/downloads "${webDir}/"
+		rm "${workDir}/src/epub/onix.xml"
+		mv "${workDir}"/src/epub/* "${webDir}/"
 	fi
 
 	if [ "${images}" = "true" ]; then

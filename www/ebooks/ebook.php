@@ -139,13 +139,17 @@ catch(\Exception $ex){
 			<aside>
 				<p>Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file to download</a> and <a href="/help/how-to-use-our-ebooks#transferring-to-your-ereader">how to transfer them to your ereader</a>.</p>
 			</aside>
+			<? if($ebook->TextUrl !== null || $ebook->TextSinglePageUrl !== null){ ?>
 			<h3>Read online</h3>
 			<ul>
+				<? if($ebook->TextUrl !== null){ ?>
 				<li><p><span><a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a></span></p></li>
+				<? } ?>
 				<? if($ebook->TextSinglePageUrl !== null){ ?>
 				<li><p><span><a href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a></span></p></li>
 				<? } ?>
 			</ul>
+			<? } ?>
 		</section>
 		<? } ?>
 

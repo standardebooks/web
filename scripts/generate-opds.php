@@ -22,7 +22,7 @@ foreach($contentFiles as $path){
 	if($path == '')
 		continue;
 
-	$ebookWwwFilesystemPath = preg_replace('|/src/.+|ius', '', $path) ?? '';
+	$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path) ?? '';
 	$ebook = new Ebook($ebookWwwFilesystemPath);
 
 	$allEbooks[$ebook->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
