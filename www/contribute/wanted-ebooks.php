@@ -335,9 +335,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction by Frederik Pohl</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/29452">The Wings of the Dove</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/432">The Ambassadors</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<!-- <li>
@@ -553,9 +550,15 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2667">The Vicar of Wakefield</a> by Oliver Goldsmith</p>
 			</li>
+			<li>
+				<p><a href="http://gutenberg.org/ebooks/14328">The Consolation of Philosophy</a> by Boethius</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. (We want the unabridged edition; is this it?)</p>
+			</li>
 			<li>
 				<p>The Betrothed by Alessandro Manzoni. There is a 1924 translation that must be considered, and will require transcription.</p>
 			</li>
