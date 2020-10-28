@@ -5,15 +5,11 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg4"
    viewBox="0 0 10 10"
-   height="10"
-   width="10"
    version="1.1"
-   id="svg2"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="kobo.svg">
+   height="10"
+   width="10">
   <metadata
      id="metadata10">
     <rdf:RDF>
@@ -28,29 +24,8 @@
   </metadata>
   <defs
      id="defs8" />
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="3200"
-     inkscape:window-height="1679"
-     id="namedview6"
-     showgrid="false"
-     inkscape:zoom="23.6"
-     inkscape:cx="-8.4322034"
-     inkscape:cy="5"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
   <path
-     inkscape:connector-curvature="0"
-     d="m 2.0004487,0 1.6086107,0 0,5.739052 2.231711,-2.6379422 1.927199,0 L 5.2170304,6.086428 7.9995534,10 l -1.927839,0 -2.434187,-3.478553 -0.02847,0 0,3.478553 -1.6086107,0 z"
-     id="path9"
+     id="path2"
+     d="M 1.875 0 C 0.84 0 0 0.84 0 1.875 L 0 8.125 C 0 9.16 0.84 10 1.875 10 L 8.125 10 C 9.16 10 10 9.16 10 8.125 L 10 1.875 C 10 0.84 9.16 0 8.125 0 L 1.875 0 z M 3.2011719 2 L 4.1660156 2 L 4.1660156 5.4433594 L 5.5039062 3.8613281 L 6.6601562 3.8613281 L 5.1308594 5.6523438 L 6.7988281 8 L 5.6425781 8 L 4.1816406 5.9121094 L 4.1660156 5.9121094 L 4.1660156 8 L 3.2011719 8 L 3.2011719 2 z "
      style="fill:#222222;fill-opacity:1" />
 </svg>

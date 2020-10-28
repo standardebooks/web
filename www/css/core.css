@@ -721,7 +721,7 @@ article.ebook section#details ul li{
 }
 
 article.ebook section#download ul{
-	margin-top: -1rem;
+	margin-top: 0;
 }
 
 article.ebook section#download li{
@@ -735,7 +735,6 @@ article.ebook section#download li span{
 }
 
 article.ebook section#download li span:first-child{
-	padding-top: 1.8rem;
 	white-space: nowrap;
 }
 
@@ -745,28 +744,23 @@ article.ebook section#download li span:nth-child(2){
 }
 
 article.ebook section ul li a[class]{
-	display: flex;
+	display: inline-flex;
 	text-align: left;
 	align-items: center;
-}
-
-article.ebook section#read-online a,
-article.ebook section#download li a[class]{
-	font-size: 1.2rem;
 }
 
 article.ebook section#read-online a::before,
 article.ebook section#download ul li a[class]::before,
 article.ebook section#details ul li a[class]::before{
 	display: inline-block;
-	background-size: contain;
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
 	content: "";
 	margin-right: .5rem;
-	height: 1.25rem;
-	width: 1.25rem;
-	min-width: 1.25rem;
+	height: 1.5rem;
+	width: 1.5rem;
+	min-width: 1.5rem;
 	transition: transform .2s ease;
 }
 
