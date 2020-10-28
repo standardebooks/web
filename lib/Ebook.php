@@ -358,8 +358,14 @@ class Ebook{
 		// Next the page scan source URLs.
 		foreach($xml->xpath('/package/metadata/dc:source') ?: [] as $element){
 			$e = (string)$element;
-			if(mb_stripos($e, '//www.gutenberg.org/') !== false){
+			if(mb_stripos($e, '//www.gutenberg.org') !== false){
 				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG, $e);
+			}
+			elseif(mb_stripos($e, '//gutenberg.net.au') !== false){
+				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG_AUSTRALIA, $e);
+			}
+			elseif(mb_stripos($e, '//gutenberg.ca') !== false){
+				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG_CANADA, $e);
 			}
 			elseif(mb_stripos($e, '//archive.org/') !== false){
 				$this->Sources[] = new EbookSource(SOURCE_INTERNET_ARCHIVE, $e);

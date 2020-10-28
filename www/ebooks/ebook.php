@@ -116,12 +116,12 @@ catch(\Exception $ex){
 				<h3>Download for ereaders</h3>
 				<ul>
 					<? if($ebook->EpubUrl !== null){ ?>
-					<li><p><span><a href="<?= $ebook->EpubUrl ?>" class="epub">Compatible epub</a> </span><span>—</span> <span>All devices and apps except Amazon Kindle and Kobo.</span></p>
+					<li><p><span><a href="<?= $ebook->EpubUrl ?>" class="epub">Compatible epub</a> </span><span>—</span> <span>All devices and apps except Kindles and Kobos.</span></p>
 					</li>
 					<? } ?>
 
 					<? if($ebook->Azw3Url !== null){ ?>
-					<li><p><span><a href="<?= $ebook->Azw3Url ?>" class="amazon">azw3</a></span> <span>—</span> <span>Amazon Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
+					<li><p><span><a href="<?= $ebook->Azw3Url ?>" class="amazon">azw3</a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
 					</li>
 					<? } ?>
 
@@ -189,6 +189,8 @@ catch(\Exception $ex){
 				<li>
 					<p>
 						<? if($source->Type == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a><? } ?>
+						<? if($source->Type == SOURCE_PROJECT_GUTENBERG_AUSTRALIA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a><? } ?>
+						<? if($source->Type == SOURCE_PROJECT_GUTENBERG_CANADA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a><? } ?>
 						<? if($source->Type == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="wikisource">Transcription at Wikisource</a><? } ?>
 						<? if($source->Type == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="internet-archive">Page scans at the Internet Archive</a><? } ?>
 						<? if($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a><? } ?>
