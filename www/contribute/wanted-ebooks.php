@@ -557,6 +557,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://books.google.com/books?id=OKREAAAAYAAJ">Cyrano de Bergerac</a>, by Edmond Rostand, translated by Brian Hooker. This is a 1923 publication, transcription is required.</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. (We want the unabridged edition; is this it?)</p>
 			</li>
 			<li>
