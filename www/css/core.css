@@ -549,7 +549,7 @@ a[href].button.next:hover::after,
 }
 
 aside.sort select{
-	margin-left: .5rem;
+	margin-left: 1rem;
 	padding: 1rem;
 	background-color: rgba(0, 0, 0, .1);
 	border: 1px solid #777;
@@ -563,7 +563,7 @@ aside.sort select{
 }
 
 aside.sort button{
-	margin-left: .5rem;
+	margin-left: 1rem;
 	font-size: 1rem;
 }
 
@@ -926,7 +926,7 @@ article.ebook aside#reading-ease{
 	text-align: center;
 }
 
-aside.sort{
+aside.sort form{
 	display: flex;
 	flex-wrap: wrap;
 	align-content: center;
@@ -934,6 +934,12 @@ aside.sort{
 	margin-top: 2rem;
 	font-style: italic;
 	text-align: center;
+}
+
+
+aside.sort form label{
+	display: flex;
+	align-items: center;
 }
 
 aside.sort a.button{
@@ -1457,8 +1463,13 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		font-size: 2.4rem;
 	}
 
-	aside.sort{
+	aside.sort form{
 		flex-direction: column;
+	}
+
+	aside.sort form button{
+		margin-left: 0;
+		margin-top: 1rem;
 	}
 
 	article.ebook section#details ul{
@@ -1539,9 +1550,15 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	}
 
 	article nav a[rel],
-	main.ebooks nav a[rel]{
+	main.ebooks nav > a{
 		margin-bottom: 0;
 		font-size: 0;
+	}
+
+	main.ebooks nav > a::before,
+	main.ebooks nav > a::after {
+		font-size: 1rem;
+		margin: 0 !important;
 	}
 
 	article nav a[rel]::before,
