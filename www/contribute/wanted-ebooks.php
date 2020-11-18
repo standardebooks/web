@@ -30,7 +30,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/25550">The Defiant Angels</a> by Andre Norton</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/19651">Key out of Time</a> by Andre Norton</p>
+				<p><a href="https://www.gutenberg.org/ebooks/19651">Key Out of Time</a> by Andre Norton</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/18817">Ralestone Luck</a> by Andre Norton</p>
@@ -53,9 +53,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/60067">Leave it to Psmith</a> by P. G. Wodehouse</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/5670">Jacob’s Room</a> by Virginia Woolf</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
@@ -221,9 +221,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/61077">The King of Elfland's Daughter</a> by Lord Dunsany</p>
-			</li>
+			</li> -->
 			<!--
 			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
 			<li>
@@ -594,9 +594,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="http://www.exclassics.com/gilblas/gbintro.htm">Gil Blas</a> by Alain-Rene LeSage</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/6593">Tom Jones</a> by Henry Fielding</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10827">Discourses on the First Decade of Titus Livius</a> by Niccolò Machiavelli</p>
