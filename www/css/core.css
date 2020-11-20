@@ -956,7 +956,6 @@ h2{
 	line-height: 1.2;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	margin-left: -1rem;
 }
 
 h3,
@@ -1425,7 +1424,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 	article.ebook section#download li span:nth-child(3){
 		display: block;
-		margin-left: 1.75rem;
+		margin-left: 2rem;
 		padding-top: 0;
 	}
 }
