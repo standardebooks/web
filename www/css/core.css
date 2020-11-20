@@ -152,7 +152,7 @@ main.front-page h1 ~ section{
 }
 
 main.front-page > p,
-main.front-page > img{
+main.front-page > picture img{
 	width: 40rem;
 	max-width: 100%; /* for responsive */
 }
