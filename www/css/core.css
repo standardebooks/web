@@ -1,5 +1,3 @@
-@import url("reset.css");
-
 @font-face{
 	font-family: "FontAwesome";
 	src: local("FontAwesome"), url("/fonts/font-awesome.woff2") format("woff2");

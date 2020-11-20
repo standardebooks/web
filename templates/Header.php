@@ -28,6 +28,7 @@ print("\n");
 	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
 	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"/><? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
+	<link href="/css/reset.css" media="screen" rel="stylesheet" type="text/css"/>
 	<link href="/css/core.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/core.css')) ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? if($manual){ ?>
 	<link href="/css/manual.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/manual.css')) ?>" media="screen" rel="stylesheet" type="text/css"/>
