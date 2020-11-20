@@ -3,7 +3,10 @@ require_once('Core.php');
 ?><?= Template::Header(['description' => 'Free and liberated ebooks, carefully produced for the true book lover. Download free ebooks with professional-quality formatting and typography, in formats compatible with your ereader.']) ?>
 <main class="front-page">
 	<h1>Free and liberated ebooks,<br/>carefully produced for the true book lover.</h1>
-	<img alt="Ereaders with a Standard Ebook open." src="/images/devices.png"/>
+	<picture>
+		<source srcset="/images/devices@2x.png 2x, /images/devices.png 1x" type="image/png"/>
+		<img src="/images/devices@2x.png" alt="Ereaders with a Standard Ebook open."/>
+	</picture>
 	<p>Standard Ebooks is a volunteer driven, not-for-profit project that produces new editions of public domain ebooks that are lovingly formatted, open source, and free.</p>
 	<p>Ebook projects like <a href="https://www.gutenberg.org">Project Gutenberg</a> transcribe ebooks and make them available for the widest number of reading devices. Standard Ebooks takes ebooks from sources like Project Gutenberg, formats and typesets them using a carefully designed and professional-grade style manual, fully proofreads and corrects them, and then builds them to create a new edition that takes advantage of state-of-the-art ereader and browser technology.</p>
 	<p>Standard Ebooks aren’t just a beautiful addition to your digital library—they’re a high quality standard to build your own ebooks on.</p><a class="button next" href="/ebooks">Browse our library of free ebooks</a>
@@ -17,8 +20,14 @@ require_once('Core.php');
 					<p>The Standard Ebooks project applies a rigorous and modern <a href="/manual">style manual</a> when developing each and every ebook to ensure they meet a professional-grade and consistent typographical standard. Our ebooks look <em>good</em>.</p>
 				</div>
 				<figure class="stacked">
-					<img alt="An example of bad typography." class="bottom" src="/images/typography-bad.png"/>
-					<img alt="An example of Standard Ebooks typography." class="top" src="/images/typography-good.png"/>
+					<picture>
+						<source srcset="/images/typography-bad@2x.png 2x, /images/typography-bad.png 1x" type="image/png"/>
+						<img src="/images/typography-bad@2x.png" class="bottom" alt="An example of bad typography."/>
+					</picture>
+					<picture>
+						<source srcset="/images/typography-good@2x.png 2x, /images/typography-good.png 1x" type="image/png"/>
+						<img src="/images/typography-good@2x.png" class="top" alt="An example of Standard Ebooks typography."/>
+					</picture>
 					<img alt="An arrow pointing from bad typography to good typography." class="arrow" src="/images/arrow-down.png"/>
 				</figure>
 			</div>
@@ -31,7 +40,10 @@ require_once('Core.php');
 					<p>At Standard Ebooks, we do a careful and complete readthrough of each ebook before releasing it, checking it against a scan of the original pages to fix as many typos as possible. Even if we <em>do</em> miss something, our ebooks are stored in the hugely popular Git source control system, allowing anyone to easily submit a correction.</p>
 				</div>
 				<figure>
-					<img alt="A text with proofreader's marks." src="/images/proofreading.svg"/>
+					<picture>
+						<source srcset="/images/proofreading@2x.png 2x, /images/proofreading.png 1x" type="image/png"/>
+						<img src="/images/proofreading@2x.png" alt="A text with proofreader's marks."/>
+					</picture>
 				</figure>
 			</div>
 		</section>
@@ -40,7 +52,10 @@ require_once('Core.php');
 			<div>
 				<p>Our ebooks include complete, well-researched, and consistent metadata, including original, detailed book blurbs and links to encyclopedia sources. Perfect for machine processing or for extra-curious, technically-minded readers.</p>
 				<figure>
-					<img alt="An application dialog displaying ebook metadata." class="top" src="/images/metadata.png"/>
+					<picture>
+						<source srcset="/images/metadata@2x.png 2x, /images/metadata.png 1x" type="image/png"/>
+						<img src="/images/metadata@2x.png" alt="An ebookshelf featuring Standard Ebooks covers."/>
+					</picture>
 				</figure>
 			</div>
 		</section>
@@ -66,8 +81,14 @@ require_once('Core.php');
 					<p>and more. One of our goals is to ensure our ebooks stay up-to-date with the best reading experience technology can provide. Just because it’s a classic doesn’t mean it has to use old technology.</p>
 				</div>
 				<figure class="stacked">
-					<img alt="A screenshot of a popup endnote." class="bottom" src="/images/endnote.png"/>
-					<img alt="A screenshot of an ebook's table of contents." class="top" src="/images/toc.png"/>
+					<picture>
+						<source srcset="/images/endnote@2x.png 2x, /images/endnote.png 1x" type="image/png"/>
+						<img src="/images/endnote@2x.png" class="bottom" alt="A screenshot of a popup endnote."/>
+					</picture>
+					<picture>
+						<source srcset="/images/toc@2x.png 2x, /images/toc.png 1x" type="image/png"/>
+						<img src="/images/toc@2x.png" class="top" alt="A screenshot of an ebook's table of contents."/>
+					</picture>
 				</figure>
 			</div>
 		</section>
@@ -79,7 +100,11 @@ require_once('Core.php');
 					<p>Standard Ebooks draws from a vast collection of public domain fine art to create attractive, unique, appropriate, and consistent covers for each of our ebooks.</p>
 				</div>
 				<figure>
-					<img alt="An ebookshelf featuring Standard Ebooks covers." src="/images/covers.png"/>
+					<picture>
+						<source srcset="/images/covers@2x.avif 2x, /images/covers.avif 1x" type="image/avif"/>
+						<source srcset="/images/covers@2x.jpg 2x, /images/covers.jpg 1x" type="image/jpg"/>
+						<img src="/images/covers@2x.jpg" alt="An ebookshelf featuring Standard Ebooks covers."/>
+					</picture>
 				</figure>
 			</div>
 		</section>
@@ -91,7 +116,10 @@ require_once('Core.php');
 					<p>Each ebook is also enhanced with careful standards-based semantic markup that opens the gateway for exciting new kinds of machine processing.</p>
 				</div>
 				<figure>
-					<img alt="A screenshot of the source code of a Standard Ebook file." src="/images/code.png"/>
+					<picture>
+						<source srcset="/images/code@2x.png 2x, /images/code.png 1x" type="image/png"/>
+						<img src="/images/code@2x.png" alt="An ebookshelf featuring Standard Ebooks covers."/>
+					</picture>
 				</figure>
 			</div>
 		</section>

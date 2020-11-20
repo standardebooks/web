@@ -302,6 +302,7 @@ article > h1{
 main.front-page h1{
 	text-align: center;
 	background: #29292b url("/images/book.jpg") center / cover;
+	background-image: image-set("/images/book.avif" type("image/avif"), "/images/book.jpg" type("image/jpeg"));
 	border-bottom: 1px solid var(--border);
 	box-shadow: 0 0 10px rgba(0, 0, 0, .75);
 	width: calc(100% + 4rem);
