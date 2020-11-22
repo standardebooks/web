@@ -560,7 +560,7 @@ require_once('Core.php');
 				<p><a href="https://books.google.com/books?id=OKREAAAAYAAJ">Cyrano de Bergerac</a>, by Edmond Rostand, translated by Brian Hooker. This is a 1923 publication, transcription is required.</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. (We want the unabridged edition; is this it?)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. George Birkbeck Hill's unabridged edition was published in six volumes, all of which are on PG - the link leads to the first volume.</p>
 			</li>
 			<li>
 				<p>The Betrothed by Alessandro Manzoni. There is a 1924 translation that must be considered, and will require transcription.</p>
@@ -600,9 +600,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10827">Discourses on the First Decade of Titus Livius</a> by Niccolò Machiavelli</p>
-			</li>
-			<li>
-				<p>The Life of Samuel Johnson by James Boswell (Note: <em>Not</em> the Project Gutenberg edition, which is abridged.)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7373">The Path to Rome</a> by Hilaire Belloc</p>
