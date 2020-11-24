@@ -643,6 +643,10 @@ figure code.css{
 	overflow-x: auto;
 }
 
+main.manual aside.alert p{
+	text-align: center;
+}
+
 @media(max-width: 1700px){
 	main.manual > article{
 		margin-left: 10rem;

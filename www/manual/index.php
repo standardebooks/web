@@ -6,10 +6,7 @@ use function Safe\sort;
 
 // Redirect to the latest version of the manual
 
-$dirs = glob(MANUAL_PATH . '/*', GLOB_ONLYDIR);
-sort($dirs);
-
-$currentManual = str_replace(WEB_ROOT, '', $dirs[sizeof($dirs) - 1]);
+$currentManual = Manual::GetLatestVersion();
 
 $url = HttpInput::GetString('url', true, '');
 $url = preg_replace('|^/|ius', '', $url);
@@ -21,4 +18,4 @@ if($url != ''){
 }
 
 http_response_code(302);
-header('Location: ' . $currentManual . $url);
+header('Location: /manual/' . $currentManual . $url);
