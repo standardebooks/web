@@ -267,15 +267,20 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			<li>
 				<h2>Modernize spelling and hyphenation</h2>
 				<p>Many older works use outdated spelling and hyphenation that would distract a modern reader. (For example, “to-night” instead of “tonight”). <code class="bash"><b>se</b> modernize-spelling</code> automatically removes hyphens from words that used to be compounded, but aren’t anymore in modern English spelling.</p>
-				<p><em>Do</em> run this tool on prose. <em>Don’t</em> run this tool on poetry.</p><code class="terminal"><span><b>se</b> modernize-spelling <u>.</u></span></code>
+				<p><em>Do</em> run this tool on prose. <em>Don’t</em> run this tool on poetry.</p>
+				<code class="terminal"><span><b>se</b> modernize-spelling <u>.</u></span></code>
 				<p>After you run the tool, <em>you must check what the tool did to confirm that each removed hyphen is correct</em>. Sometimes the tool will remove a hyphen that needs to be included for clarity, or one that changes the meaning of the word, or it may result in a word that just doesn’t seem right. Re-introducing a hyphen is OK in these cases.</p>
 				<p>Here’s a real-world example of where <code class="bash"><b>se</b> modernize-spelling</code> made the wrong choice: In <i><a href="/ebooks/oscar-wilde/the-picture-of-dorian-gray">The Picture of Dorian Gray</a></i> chapter 11, Oscar Wilde writes:</p>
 				<blockquote>
 					<p>He possessed a gorgeous cope of crimson silk and gold-thread damask…</p>
 				</blockquote>
 				<p><code class="bash"><b>se</b> modernize-spelling</code> would replace the dash in <code class="html">gold-thread</code> so that it reads <code class="html">goldthread</code>. Well <code class="html">goldthread</code> is an actual word, which is why it’s in our dictionary, and why the script makes a replacement—but it’s the name of a type of flower, <em>not</em> a golden fabric thread! In this case, <code class="bash"><b>se</b> modernize-spelling</code> made an incorrect replacement, and we have to change it back.</p>
-				<p><code class="bash"><b>git</b></code> provides a handy way for us to visualize these differences:</p><code class="terminal"><span><b>git</b> difftool</span></code>
-				<p>After you’ve reviewed the changes that the tool made, do another commit. This commit is important, because it gives purists an avenue to revert modernizing changes to the original text.</p>
+				<p><code class="bash"><b>git</b></code> usually compares changes line-by-line, but since lines an ebook can be very long, a line-level comparison can make spotting small changes difficult. Intead of just doing <code class="bash"><b>git</b> diff</code>, try the following command to highlight changes at the character level:</p>
+				<code class="terminal"><span><b>git</b> diff -U0 --word-diff-regex=.</span></code>
+				<p>You can also enable color in your <code class="bash"><b>git</b></code> output to make the output of that command more readable, and even assign it to a shortcut in your <code class="bash"><b>git</b></code> configuration.</p>
+				<p>Alternatively, you can use an external diff GUI to review changes:</p>
+				<code class="terminal"><span><b>git</b> difftool</span></code>
+				<p>After you’ve reviewed the changes that the tool made, create an “[Editorial]” commit. This commit is important, because it gives purists an avenue to revert modernizing changes to the original text.</p>
 				<p>Note how we preface this commit with “[Editorial]”. Any change you make to the source text that can be considered a modernization or editorial change should be prefaced like this, so that the <code class="bash"><b>git</b></code> history can be easily searched by people looking to revert changes.</p><code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Modernize hyphenation and spelling"</i></span></code>
 			</li>
 			<li>
