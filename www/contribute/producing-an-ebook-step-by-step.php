@@ -292,18 +292,177 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</blockquote>
 				<p>When running <code class="bash"><b>se</b> interactive-sr</code>, press <code>y</code> to accept a replacement and <code>n</code> to reject a replacement.</p>
 				<p>Use the following regular expression invocations to correct a certain set of such phrases:</p>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ss])ome one/\1omeone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] some one -&gt; someone"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v(&lt;[Aa])ny one/\1nyone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any one -&gt; anyone"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ee])very one(\s+of)@\!/\1veryone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] every one -&gt; everyone"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ee])very thing/\1verything/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] every thing -&gt; everything"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v(&lt;[Aa])ny thing/\1nything/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any thing -&gt; anything"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ff])or ever(&gt;)/\1orever\2/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] for ever -&gt; forever"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v(in\s+)@&lt;\!(&lt;[Aa])ny way(\s+(of|to))@\!/\2nyway/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any way -&gt; anyway"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Yy])our self/\1ourself/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] your self -&gt; yourself"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Mm])ean time/\1eantime/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] mean time -&gt; meantime"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Aa])ny how/\1nyhow/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any how -&gt; anyhow"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Aa])ny body/\1nybody/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any body -&gt; anybody"</i></span></code>
-				<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ee])very body/\1verybody/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] every body -&gt; everybody"</i></span></code>
+
+				<ul class="changes">
+					<li>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p>She asked some one on the street. ➔</p>
+										<p>She asked someone on the street.</p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p>But every clever crime is founded ultimately on some one quite simple fact⁠. ➔</p>
+										<p><span class="wrong">But every clever crime is founded ultimately on someone quite simple fact⁠.</span></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ss])ome one/\1omeone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] some one -&gt; someone"</i></span></code>
+					</li>
+					<li>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p>“Any one else on this floor?” he asked. ➔</p>
+										<p>“Anyone else on this floor?” he asked.</p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p>It is not easy to restore lost property to any one of them. ➔</p>
+										<p><span class="wrong">It is not easy to restore lost property to anyone of them.</span></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v(&lt;[Aa])ny one/\1nyone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any one -&gt; anyone"</i></span></code>
+					</li>
+					<li>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p>He was furious⁠—furious with himself, furious with every one. ➔</p>
+										<p>He was furious⁠—furious with himself, furious with everyone.</p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p>I’m sure we missed ten for every one we saw. ➔</p>
+										<p><span class="wrong">I’m sure we missed ten for everyone we saw.</span></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ee]ach and )@*&lt;\!([Ee])very one(\s+of)@\!/\1veryone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] every one -&gt; everyone"</i></span></code>
+					</li>
+					<li>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p>Equip a ship with every thing apt for naval battle. ➔</p>
+										<p>Equip a ship with everything apt for naval battle.</p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p>For there was no one more clever than he to do a hand’s turn at any and every thing. ➔</p>
+										<p><span class="wrong">For there was no one more clever than he to do a hand’s turn at any and everything.</span></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ee])very thing/\1verything/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] every thing -&gt; everything"</i></span></code>
+					</li>
+					<li>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p>At present every thing seems tending toward the relaxation of ties. ➔</p>
+										<p>At present everything seems tending toward the relaxation of ties.</p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p>Any man or any thing who faces me during these games, dies. ➔</p>
+										<p><span class="wrong">Any man or anything who faces me during these games, dies.</span></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v(&lt;[Aa])ny thing/\1nything/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any thing -&gt; anything"</i></span></code>
+					</li>
+					<li>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p>No; perhaps you will love her for ever. ➔</p>
+										<p>No; perhaps you will love her forever.</p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p>I have been struggling on for ever so long without doing anything. ➔</p>
+										<p><span class="wrong">I have been struggling on forever so long without doing anything.</span></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ff])or ever(&gt;)/\1orever\2/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] for ever -&gt; forever"</i></span></code>
+					</li>
+					<li>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p>Not all, of course, but any way it is much better than the life here. ➔</p>
+										<p>Not all, of course, but anyway it is much better than the life here.</p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p>And I’m not at fault in any way, and there’s no need for me to suffer. ➔</p>
+										<p><span class="wrong">And I’m not at fault in anyway, and there’s no need for me to suffer.</span></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v(in\s+)@&lt;\!(&lt;[Aa])ny way(\s+(of|to))@\!/\2nyway/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] any way -&gt; anyway"</i></span></code>
+					</li>
+					<li>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p>And in the mean time, he’ll also keep on being a laughing stock? ➔</p>
+										<p>And in the meantime, he’ll also keep on being a laughing stock?</p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p>You’ve had an awful mean time, Ethan Frome. ➔</p>
+										<p><span class="wrong">You’ve had an awful meantime, Ethan Frome.</span></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Mm])ean time/\1eantime/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] mean time -&gt; meantime"</i></span></code>
+					</li>
+				</ul>
 			</li>
 			<li>
 				<h2>Create the cover image</h2>

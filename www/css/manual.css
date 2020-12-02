@@ -589,6 +589,33 @@ code.full .ws{
 	margin-top: 0;
 }
 
+main.manual ul.changes table{
+	margin-top: 0;
+}
+
+main.manual ul.changes td{
+	padding: 0;
+}
+
+main.manual ul.changes tr + tr td{
+	padding-top: 1rem;
+}
+
+main.manual ul.changes td:first-child{
+	text-align: right;
+	font-weight: bold;
+	padding-right: 1rem;
+	white-space: nowrap;
+}
+
+main.manual ul.changes span.wrong{
+	text-decoration: wavy underline red;
+}
+
+main.manual ul.changes{
+	hyphens: none;
+}
+
 main.manual h1{
 	margin-bottom: 2rem;
 }
