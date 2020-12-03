@@ -77,9 +77,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6877">The Head of Kay's</a> by P. G. Wodehouse</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/6985">A Prefect's Uncle</a> by P. G. Wodehouse</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6880">The Coming of Bill</a> by P. G. Wodehouse</p>
 			</li>
@@ -221,6 +221,15 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/61077">The King of Elfland's Daughter</a> by Lord Dunsany</p>
 			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/30188">The Fifth Queen</a> by Ford Madox Ford (Book 1 in the Fifth Queen Trilogy)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/26698">Privy Seal</a> by Ford Madox Ford (Book 2 in the Fifth Queen Trilogy)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/27432">The Fifth Queen Crowned</a> by Ford Madox Ford (Book 3 in the Fifth Queen Trilogy)</p>
+			</li>
 			<!--
 			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
 			<li>
