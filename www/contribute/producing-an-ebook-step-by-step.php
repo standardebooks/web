@@ -384,8 +384,8 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 								<tr>
 									<td>Correct change:</td>
 									<td>
-										<p>At present every thing seems tending toward the relaxation of ties. ➔</p>
-										<p>At present everything seems tending toward the relaxation of ties.</p>
+										<p>If you have any thing to say to us say it quickly. ➔</p>
+										<p>If you have anything to say to us say it quickly.</p>
 									</td>
 								</tr>
 								<tr>
