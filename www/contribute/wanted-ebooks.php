@@ -556,6 +556,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://gutenberg.org/ebooks/14328">The Consolation of Philosophy</a> by Boethius</p>
 			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/List_of_works_by_Andrew_Marvell">Poems by Andrew Marvell</a> to be compiled into an omnibus.</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
