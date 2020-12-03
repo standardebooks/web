@@ -75,7 +75,9 @@ catch(\Exception $ex){
 			<hgroup>
 				<h1><?= Formatter::ToPlainText($ebook->Title) ?></h1>
 				<? foreach($ebook->Authors as $author){ ?>
-				<h2><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></h2>
+					<? if($author->Name != 'Anonymous'){ ?>
+					<h2><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></h2>
+					<? } ?>
 				<? } ?>
 			</hgroup>
 			<picture>

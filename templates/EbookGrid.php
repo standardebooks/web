@@ -15,7 +15,9 @@ if(!isset($ebooks)){
 		</a>
 		<p><a href="<?= $ebook->Url ?>"><?= Formatter::ToPlainText($ebook->Title) ?></a></p>
 		<? foreach($ebook->Authors as $author){ ?>
-		<p class="author"><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></p>
+			<? if($author->Name != 'Anonymous'){ ?>
+				<p class="author"><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></p>
+			<? } ?>
 		<? } ?>
 	</li>
 <? } ?>
