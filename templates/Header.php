@@ -42,7 +42,7 @@ print("\n");
 	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/rss/new-releases"/>
 	<link color="#394451" href="/safari-pinned-tab.svg" rel="mask-icon"/>
 	<meta content="#394451" name="theme-color"/>
-	<meta content="<?= Formatter::ToPlainText($title) ?>" property="og:title"/>
+	<meta content="<? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
 	<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>
 	<meta content="<?= SITE_URL . str_replace(SITE_URL, '', ($_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['SCRIPT_URI'] ?? '')) ?>" property="og:url"/>
 	<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.svg') ?>" property="og:image"/>
