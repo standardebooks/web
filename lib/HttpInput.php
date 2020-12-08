@@ -26,6 +26,9 @@ class HttpInput{
 		return self::GetHttpVar($variable, HTTP_VAR_DEC, GET, $default);
 	}
 
+	/**
+	 * @return array<string>
+	 */
 	public static function GetArray(string $variable, array $default = null): ?array{
 		return self::GetHttpVar($variable, HTTP_VAR_ARRAY, GET, $default);
 	}

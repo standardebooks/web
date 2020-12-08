@@ -1,6 +1,7 @@
 <?
 use function Safe\apcu_fetch;
 use function Safe\ksort;
+use function Safe\natsort;
 use function Safe\preg_replace;
 use function Safe\touch;
 use function Safe\unlink;
@@ -10,7 +11,7 @@ class Library{
 	/**
 	 * @return array<Ebook>
 	 */
-	public static function FilterEbooks($query = null, $tags = [], $sort = null){
+	public static function FilterEbooks(string $query = null, array $tags = [], string $sort = null){
 		$ebooks = Library::GetEbooks();
 		$matches = $ebooks;
 
@@ -164,6 +165,10 @@ class Library{
 		return $ebooks;
 	}
 
+
+	/**
+	 * @return array<Tag>
+	 */
 	public static function GetTags(): array{
 		return apcu_fetch('tags');
 	}

@@ -9,7 +9,7 @@ try{
 	$query = HttpInput::GetString('query', false);
 	$tags = HttpInput::GetArray('tags', []);
 	$collection = HttpInput::GetString('collection', false);
-	$view = Httpinput::GetString('view', false);
+	$view = HttpInput::GetString('view', false);
 	$sort = HttpInput::GetString('sort', false);
 	$pages = 0;
 	$totalEbooks = 0;
@@ -117,7 +117,7 @@ try{
 		}
 
 		if($perPage !== EBOOKS_PER_PAGE){
-			$queryString .= '&amp;per-page=' . urlencode($perPage);
+			$queryString .= '&amp;per-page=' . urlencode((string)$perPage);
 		}
 	}
 

@@ -22,6 +22,8 @@ foreach($contentFiles as $path){
 	if($path == '')
 		continue;
 
+	$ebookWwwFilesystemPath = '';
+
 	try{
 		$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path) ?? '';
 
