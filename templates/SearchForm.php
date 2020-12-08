@@ -7,7 +7,7 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 			<option value="all">All</option>
 		<? foreach(Library::GetTags() as $tag){
 			$lcTag = mb_strtolower($tag); ?>
-			<option value="<?= $lcTag ?>"<? if(!$allSelected && in_array($lcTag, $tags)){ ?> selected="selected"<? } ?>><?= $tag ?></option>
+			<option value="<?= Formatter::ToPlainText($lcTag) ?>"<? if(!$allSelected && in_array($lcTag, $tags)){ ?> selected="selected"<? } ?>><?= Formatter::ToPlainText($tag) ?></option>
 		<? } ?>
 		</select>
 	</label>

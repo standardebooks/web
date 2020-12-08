@@ -57,6 +57,7 @@ class Ebook{
 	public $ModifiedTimestamp;
 	public $TextUrl;
 	public $TextSinglePageUrl;
+	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'shorts' or 'poetry' tag, null otherwise
 
 	public function __construct(string $wwwFilesystemPath){
 		// First, construct a source repo path from our WWW filesystem path.
@@ -194,8 +195,23 @@ class Ebook{
 		}
 
 		// Get SE tags
+		$includeToc = false;
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
 			$this->Tags[] = new Tag($tag);
+
+			if($tag == 'Shorts' || $tag == 'Poetry'){
+				$includeToc = true;
+			}
+		}
+
+		// Fill the ToC if necessary
+		if($includeToc){
+			$this->TocEntries = [];
+			$tocDom = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($wwwFilesystemPath . '/toc.xhtml') ?: ''));
+			$tocDom->registerXPathNamespace('epub', 'http://www.idpf.org/2007/ops');
+			foreach($tocDom->xpath('/html/body//nav[@epub:type="toc"]//a[not(contains(@epub:type, "z3998:roman")) and not(text() = "Titlepage" or text() = "Imprint" or text() = "Colophon" or text() = "Endnotes" or text() = "Uncopyright") and not(contains(@href, "halftitle"))]') as $item){
+				$this->TocEntries[] = (string)$item;
+			}
 		}
 
 		// Get SE collections
@@ -423,6 +439,7 @@ class Ebook{
 
 	public function Contains(string $query): bool{
 		// When searching an ebook, we search the title, alternate title, author(s), SE tags, series data, and LoC tags.
+		// Also, if the ebook is shorts or poetry, search the ToC as well.
 
 		$searchString = $this->FullTitle ?? $this->Title;
 
@@ -442,6 +459,12 @@ class Ebook{
 
 		foreach($this->LocTags as $tag){
 			$searchString .= ' ' . $tag;
+		}
+
+		if($this->TocEntries !== null){
+			foreach($this->TocEntries as $item){
+				$searchString .= ' ' . $item;
+			}
 		}
 
 		// Remove diacritics and non-alphanumeric characters
