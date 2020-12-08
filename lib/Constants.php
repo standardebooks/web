@@ -15,6 +15,10 @@ const HTTP_VAR_INT = 0;
 const HTTP_VAR_STR = 1;
 const HTTP_VAR_BOOL = 2;
 const HTTP_VAR_DEC = 3;
+const HTTP_VAR_ARRAY = 4;
+
+const VIEW_GRID = 'grid';
+const VIEW_LIST = 'list';
 
 const SOURCE_PROJECT_GUTENBERG = 0;
 const SOURCE_HATHI_TRUST = 1;

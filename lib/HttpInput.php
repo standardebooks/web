@@ -3,6 +3,10 @@ class HttpInput{
 	public static function GetString(string $variable, bool $allowEmptyString = true, string $default = null): ?string{
 		$var = self::GetHttpVar($variable, HTTP_VAR_STR, GET, $default);
 
+		if(is_array($var)){
+			return $default;
+		}
+
 		if(!$allowEmptyString && $var === ''){
 			return null;
 		}
@@ -22,6 +26,10 @@ class HttpInput{
 		return self::GetHttpVar($variable, HTTP_VAR_DEC, GET, $default);
 	}
 
+	public static function GetArray(string $variable, array $default = null): ?array{
+		return self::GetHttpVar($variable, HTTP_VAR_ARRAY, GET, $default);
+	}
+
 	private static function GetHttpVar(string $variable, int $type, int $set, $default){
 		$vars = array();
 
@@ -38,7 +46,12 @@ class HttpInput{
 		}
 
 		if(isset($vars[$variable])){
-			$var = trim($vars[$variable]);
+			if(is_array($vars[$variable])){
+				return $vars[$variable];
+			}
+			else{
+				$var = trim($vars[$variable]);
+			}
 
 			switch($type){
 				case HTTP_VAR_STR:

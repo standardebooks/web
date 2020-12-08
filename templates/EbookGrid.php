@@ -3,10 +3,10 @@ if(!isset($ebooks)){
 	$ebooks = [];
 }
 ?>
-<ol>
+<ol<? if($view == VIEW_LIST){ ?> class="list"<? } ?>>
 <? foreach($ebooks as $ebook){ ?>
 	<li>
-		<a href="<?= $ebook->Url ?>">
+		<a href="<?= $ebook->Url ?>" tabindex="-1">
 			<picture>
 				<? if($ebook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 				<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
@@ -15,9 +15,16 @@ if(!isset($ebooks)){
 		</a>
 		<p><a href="<?= $ebook->Url ?>"><?= Formatter::ToPlainText($ebook->Title) ?></a></p>
 		<? foreach($ebook->Authors as $author){ ?>
-			<? if($author->Name != 'Anonymous'){ ?>
-				<p class="author"><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></p>
-			<? } ?>
+			<p class="author"><? if($author->Name != 'Anonymous'){ ?><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a><? } ?></p>
+		<? } ?>
+		<? if($view == VIEW_LIST){ ?>
+			<div class="details">
+				<? if($ebook->ContributorsHtml !== null){ ?>
+				<p><?= rtrim($ebook->ContributorsHtml, '.') ?></p>
+				<? } ?>
+				<p><?= number_format($ebook->WordCount) ?> words • <?= $ebook->ReadingEase ?> reading ease</p>
+				<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
+			</div>
 		<? } ?>
 	</li>
 <? } ?>

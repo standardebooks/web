@@ -24,8 +24,7 @@ catch(\Exception $ex){
 ?><?= Template::Header(['title' => 'Ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml), 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml)]) ?>
 <main class="ebooks">
 	<h1>Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
-	<?= Template::SearchForm() ?>
-	<?= Template::EbookGrid(['ebooks' => $ebooks]) ?>
+	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => VIEW_GRID]) ?>
 	<?= Template::ContributeAlert() ?>
 </main>
 <?= Template::Footer() ?>

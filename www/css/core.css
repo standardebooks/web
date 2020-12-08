@@ -6,7 +6,7 @@
 }
 
 @font-face{
-	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "League Spartan";
 	src: url("/fonts/league-spartan-bold.woff2") format("woff2");
 	font-weight: bold;
@@ -14,7 +14,7 @@
 }
 
 @font-face{
-	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "Crimson Pro";
 	src: url("/fonts/crimson-pro.woff2") format("woff2");
 	font-weight: normal;
@@ -22,7 +22,7 @@
 }
 
 @font-face{
-	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "Crimson Pro";
 	src: url("/fonts/crimson-pro-bold.woff2") format("woff2");
 	font-weight: bold;
@@ -30,7 +30,7 @@
 }
 
 @font-face{
-	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "Crimson Pro";
 	src: url("/fonts/crimson-pro-italic.woff2") format("woff2");
 	font-weight: normal;
@@ -38,7 +38,7 @@
 }
 
 @font-face{
-	/* Note: Don"t use local() as a source, because our version fixes the font"s strange default line-height */
+	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
 	font-family: "Crimson Pro";
 	src: url("/fonts/crimson-pro-bold-italic.woff2") format("woff2");
 	font-weight: bold;
@@ -67,6 +67,9 @@
 	--light-border: #222;
 	--light-sub-text: #777;
 	--light-body-bg: #e9e7e0;
+	--light-input-hover: #000;
+	--light-input-border: #777;
+	--light-input-outline: #000;
 	--dark-body-text: #fff;
 	--dark-highlight: #3da5bb;
 	--dark-button: #118460;
@@ -74,6 +77,9 @@
 	--dark-border: #000;
 	--dark-sub-text: #aaa;
 	--dark-body-bg: #293542;
+	--dark-input-border: #aaa;
+	--dark-input-hover: #118460;
+	--dark-input-outline: #fff;
 
 	--body-text: var(--light-body-text);
 	--highlight: var(--light-highlight);
@@ -82,6 +88,9 @@
 	--border: var(--light-border);
 	--sub-text: var(--light-sub-text);
 	--body-bg: var(--light-body-bg);
+	--input-hover: var(--light-input-hover);
+	--input-border: var(--light-input-border);
+	--input-outline: var(--light-input-outline);
 }
 
 @media(prefers-color-scheme: dark){
@@ -93,6 +102,9 @@
 		--border: var(--dark-border);
 		--sub-text: var(--dark-sub-text);
 		--body-bg: var(--dark-body-bg);
+		--input-hover: var(--dark-input-hover);
+		--input-border: var(--dark-input-border);
+		--input-outline: var(--dark-input-outline);
 	}
 }
 
@@ -119,9 +131,8 @@ a:hover{
 	color: var(--button-highlight);
 }
 
-label.search:focus-within,
 a:focus{
-	outline: 1px dashed var(--button-highlight);
+	outline: 1px dashed var(--input-outline);
 }
 
 main{
@@ -222,9 +233,9 @@ body > header{
 }
 
 body > header > a{
-	background: url("/images/logo-white-full.svg");
+	background: url("/images/logo-full.svg");
 	-webkit-filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, .75));
-        filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, .75));
+	filter: invert(100%) drop-shadow(1px 1px 0 rgba(0, 0, 0, .75));
 	height: 70px;
 	width: 300px;
 	background-size: contain;
@@ -239,7 +250,7 @@ body > header > a:visited{
 }
 
 body > header a:focus{
-	outline: 1px dashed #fff;
+	outline: 1px dashed var(--input-outline);
 }
 
 body > header > a:hover{
@@ -475,7 +486,7 @@ h1 + section > h2:first-child{
 
 a.button,
 .ebooks nav > a,
-aside.sort button{
+form button{
 	font-style: normal;
 	box-sizing: border-box;
 	background-color: #1d6878; /* fallback for IE */
@@ -491,14 +502,17 @@ aside.sort button{
 	position: relative;
 	text-transform: lowercase;
 	cursor: pointer;
+	white-space: nowrap;
+	font-size: 1rem;
 }
 
-a.button:focus,
 .ebooks nav li.highlighted a:focus,
-button:focus,
+a.button:focus,
+input[type="search"]:focus,
 select:focus,
+button:focus,
 nav a[rel]:focus{
-	outline: 1px dashed #fff;
+	outline: 1px dashed var(--input-outline);
 }
 
 select:-moz-focusring,
@@ -509,7 +523,7 @@ select::-moz-focus-inner{
 
 a.button:active,
 .ebooks nav > a[href]:active,
-aside.sort button:active{
+form button:active{
 	top: 2px;
 	left: 2px;
 	box-shadow: none;
@@ -547,32 +561,19 @@ a[href].button.next:hover::after,
 	transition: all 200ms ease;
 }
 
-aside.sort select{
-	margin-left: 1rem;
-	padding: 1rem;
-	background-color: rgba(0, 0, 0, .1);
-	border: 1px solid #777;
-	border-radius: 5px;
-	color: var(--body-text);
-	font-size: 1rem;
-	text-transform: lowercase;
-	font-family: "Crimson Pro", serif;
-	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
-	cursor: pointer;
+a.button.next:hover::after,
+.ebooks nav > a:last-child[href]:hover::after{
+	left: .25rem;
+	position: relative;
+	transition: all 200ms ease;
 }
-
-aside.sort button{
-	margin-left: 1rem;
-	font-size: 1rem;
-}
-
 
 article nav ol li a:hover,
 main.ebooks nav ol li a:hover,
 main.ebooks nav ol li.highlighted a:hover,
 a.button:hover,
 .ebooks nav > a:hover,
-aside.sort button:hover{
+form button:hover{
 	/* fallback for ie */
 	background-color: #288da4;
 	background-color: var(--button-highlight);
@@ -925,30 +926,6 @@ article.ebook aside#reading-ease{
 	text-align: center;
 }
 
-aside.sort form{
-	display: flex;
-	flex-wrap: wrap;
-	align-content: center;
-	justify-content: center;
-	margin-top: 2rem;
-	font-style: italic;
-	text-align: center;
-}
-
-
-aside.sort form label{
-	display: flex;
-	align-items: center;
-}
-
-aside.sort a.button{
-	margin-left: 1rem;
-}
-
-form[action="/ebooks"]{
-	margin: 0 1rem;
-}
-
 h2{
 	font-size: 1.2rem;
 	font-family: "League Spartan", sans-serif;
@@ -1048,16 +1025,50 @@ main.ebooks > aside.alert + ol{
 }
 
 main.ebooks > ol{
-	display: flex;
-	flex-wrap: wrap;
-	max-width: none;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 4rem;
+	margin: 0;
+	margin-bottom: 4rem;
 	list-style: none;
-	margin-top: 0;
+}
+
+main.ebooks > ol.list{
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin: auto;
+	margin-bottom: 4rem;
 }
 
 main.ebooks > ol > li{
-	width: calc(25% - 4rem);
-	margin: 2rem;
+	margin: 0;
+	text-align: center;
+}
+
+main.ebooks > ol.list > li{
+	display: grid;
+	grid-template-columns: 6rem 1fr;
+	grid-column-gap: 1rem;
+	grid-template-rows: auto auto 1fr;
+}
+
+main.ebooks > ol.list > li + li {
+	margin-top: 2rem;
+}
+
+main.ebooks > ol.list > li > a{
+	grid-row: 1 / span 3;
+}
+
+main.ebooks > ol.list ul.tags{
+	display: flex;
+	justify-content: flex-start;
+	margin-left: 0;
+}
+
+main.ebooks > ol.list > li p{
+	text-align: left;
 }
 
 main.ebooks > ol img:hover{
@@ -1080,19 +1091,22 @@ main.ebooks > ol > li p{
 
 main.ebooks > ol > li img{
 	box-sizing: border-box;
-	width: 100%;
+	max-width: 100%;
 	border: 1px solid var(--border);
 	border-radius: .25rem;
 	transition: all .2s ease;
 }
 
-main.ebooks > ol > li p:nth-of-type(1) a{
+main.ebooks > ol > li > p:nth-of-type(1) > a{
 	font-weight: bold;
 	text-decoration: none;
 	display: flex;
 	justify-content: center;
-	line-height: 1.2;
-	margin-bottom: .25rem;
+}
+
+main.ebooks > ol.list > li p.author a,
+main.ebooks > ol.list > li > p:nth-of-type(1) > a{
+	display: inline;
 }
 
 main.ebooks > ol > li > a:first-child{
@@ -1104,7 +1118,6 @@ main.ebooks > ol > li p.author a{
 	text-decoration: none;
 	display: flex;
 	justify-content: center;
-	line-height: 1.2;
 }
 
 article nav ol,
@@ -1176,6 +1189,10 @@ ul.tags li{
 	margin: 0;
 }
 
+ul.tags li + li{
+	margin-left: .5rem;
+}
+
 ul.tags li a{
 	border: 1px solid var(--body-text);
 	border-radius: 5px;
@@ -1195,10 +1212,6 @@ ul.tags li a:hover{
 	/* fallback for ie */
 	background: #288da4;
 	background: var(--button-highlight);
-}
-
-ul.tags li + li{
-	margin-left: .5rem;
 }
 
 figure img{
@@ -1266,15 +1279,6 @@ p.no-results{
 	margin-top: 1rem;
 }
 
-input[type="search"]{
-	font-size: 1rem;
-	width: 100%;
-	background: none;
-	border: none;
-	font-family: "Crimson Pro";
-	color: var(--body-text);
-}
-
 /* remove some styles from Chromium / Webkit */
 input[type="search"],
 input[type="search"]::-webkit-search-decoration,
@@ -1287,30 +1291,80 @@ input::placeholder{
 	color: rgba(0, 0, 0, .75);
 }
 
-main > article > form{
-	max-width: calc(100% - 2rem);
+select{
+	-webkit-appearance: none;
+	appearance: none;
+	font-size: 1rem;
+	font-family: "FontAwesome", "Crimson Pro";
+	color: var(--body-text);
+	background: rgba(0, 0, 0, .1);
+	border-radius: 5px;
+	border: 1px solid var(--input-border);
+	padding: 1rem;
+	padding-right: 2rem;
+	line-height: 1.4rem;
+	display: block;
 }
 
-label.search{
+input[type="search"]{
 	box-sizing: border-box;
 	width: 100%;
 	background: rgba(0, 0, 0, .1);
-	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
 	border-radius: 5px;
-	border: 1px solid var(--sub-text);
+	border: 1px solid var(--input-border);
 	display: flex;
 	align-items: center;
 	padding: 1rem;
-	font-size: 0;
+	padding-left: 2.5rem;
 	color: inherit;
+	font-size: 1rem;
+	font-family: "Crimson Pro";
+	color: var(--body-text);
+	line-height: 1.4;
 }
 
-input[type="search"]:focus{
-	outline: none;
+select,
+input[type="search"]{
+	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
+}
+
+label.select > span{
+	display: block;
+}
+
+label.select > span + span{
+	display: inline-block;
+}
+
+label.select > span + span::after{
+	display: block;
+	position: absolute;
+	top: calc((2rem + 1.4rem + 2px) / 2 - 6px);
+	right: calc(1rem - 12px / 2);
+	content: "\f107";
+	font-family: "FontAwesome";
+	font-size: 1rem;
+	line-height: 1;
+	color: var(--sub-text);
+	margin-top: -3px; /* Adjust for Crimson Pro line-height */
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+}
+
+label.select:hover > span + span::after{
+	color: var(--input-outline);
+}
+
+label.select > span + span,
+label.search{
+	position: relative;
+	max-width: 100%;
 }
 
 label.search::before{
 	display: block;
+	position: absolute;
+	top: calc(2rem + 4px + .7rem);
+	left: 1rem;
 	content: "\f002";
 	font-family: "FontAwesome";
 	font-size: 1rem;
@@ -1319,6 +1373,95 @@ label.search::before{
 	color: var(--body-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
+	width: 1rem;
+}
+
+nav li.highlighted a,
+nav a[rel],
+a.button,
+button,
+input[type="search"],
+select{
+	transition: border-color .5s, background-color .5s;
+}
+
+a.button:hover,
+nav li.highlighted a:hover,
+nav a[rel]:hover,
+button:hover{
+	transition: none;
+}
+
+input[type="search"]:focus,
+input[type="search"]:hover,
+select:focus,
+select:hover{
+	border-color: var(--input-outline);
+	background: rgba(0, 0, 0, .15);
+	transition: none;
+}
+
+select[multiple] option:last-child{
+	margin-bottom: 1rem; /* needed for firefox */
+}
+
+form[action="/ebooks"] label{
+	max-width: 100%;
+}
+
+form[action="/ebooks"] select[multiple] option[value="all"]{
+	border-bottom: 1px dashed var(--sub-text);
+}
+
+form[action="/ebooks"]{
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: 25% auto auto auto 1fr;
+	margin: 0 1rem;
+	margin-bottom: 4rem;
+	max-width: calc(100% - 2rem);
+}
+
+form[action="/ebooks"] label.tags{
+	grid-column: 1;
+	grid-row: 1 / span 2;
+	white-space: nowrap;
+}
+
+form[action="/ebooks"] label.tags span{
+	font-style: italic;
+	opacity: .5;
+}
+
+form[action="/ebooks"] label.tags select{
+	width: 100%;
+	height: calc(100% - 1.4rem);
+}
+
+form[action="/ebooks"] label.search{
+	grid-column: 2 / span 4;
+}
+
+form[action="/ebooks"] label.sort{
+	grid-column: 2;
+}
+
+form[action="/ebooks"] label.sort select{
+	max-width: 100%;
+}
+
+form[action="/ebooks"] label.view{
+	grid-column: 3;
+}
+
+form[action="/ebooks"] label.per-page{
+	grid-column: 4;
+}
+
+form[action="/ebooks"] button{
+	height: calc(1.4rem + 2rem + 2px);
+	justify-self: end;
+	margin-top: 1.4rem;
 }
 
 article nav ol li:not(:first-child):not(:last-child):not(.highlighted),
@@ -1349,6 +1492,86 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	display: none;
 }
 
+@media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
+	/* For iPad, unset the height so it matches the other elements */
+	select[multiple]{
+		height: calc(1rem + 1.4rem + 1rem + 2px) !important;
+	}
+
+	label.tags > span,
+	select[multiple] option[value="all"]{
+		/* Hide the "all" button, because touchscreen devices
+		have clearer ways to deselect options */
+		display: none;
+	}
+
+	form[action="/ebooks"]{
+		grid-template-columns: auto auto auto 1fr;
+	}
+
+	form[action="/ebooks"] label.tags{
+		grid-row: 1;
+	}
+
+
+	form[action="/ebooks"] label.search{
+		grid-column: 2 / span 3;
+	}
+
+	form[action="/ebooks"] label.sort{
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] label.view{
+		grid-column: 2;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] label.per-page{
+		grid-column: 3;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] button{
+		grid-column: 4;
+		grid-row: 2;
+	}
+}
+
+@media(max-width: 1300px){
+	form[action="/ebooks"]{
+		/* We create 5 columns so that the last one can be 1fr wide, pushing
+		the rest into their smallest necessary size */
+		grid-template-columns: 13rem auto auto 1fr;
+	}
+
+	form[action="/ebooks"] label.tags{
+		grid-row: 1 / span 3;
+	}
+
+	form[action="/ebooks"] label.search{
+		grid-column: 2 / span 3;
+	}
+
+	form[action="/ebooks"] label.view{
+		grid-row: 2;
+		grid-column: 3;
+	}
+
+	form[action="/ebooks"] label.per-page{
+		grid-row: 3;
+		grid-column: 2;
+	}
+
+	form[action="/ebooks"] button{
+		grid-row: 3;
+		grid-column: 3 / span 2;
+		margin-top: 0;
+		align-self: end;
+	}
+}
+
 @media(max-width: 1100px){
 	article.ebook header{
 		width: calc(100% + 4rem);
@@ -1376,6 +1599,40 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	}
 }
 
+@media (hover: none) and (pointer: coarse) and (max-width: 1100px){ /* target ipads and smartphones without a mouse */
+	form[action="/ebooks"]{
+		grid-template-columns: auto auto auto 1fr;
+	}
+
+	form[action="/ebooks"] label.tags{
+		grid-row: 1;
+	}
+
+	form[action="/ebooks"] label.search{
+		grid-column: 2 / span 3;
+	}
+
+	form[action="/ebooks"] label.sort{
+		grid-column: 1;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] label.view{
+		grid-column: 2;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] label.per-page{
+		grid-column: 3;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] button{
+		grid-column: 4;
+		grid-row: 2;
+	}
+}
+
 @media(max-width: 1000px){
 	article.ebook #more-ebooks ul{
 		flex-wrap: wrap;
@@ -1392,20 +1649,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 	#more-ebooks ul li:last-child{
 		display: none;
-	}
-
-	main.ebooks > ol > li{
-		width: calc(33% - 4rem);
-	}
-
-	aside.sort{
-		flex-wrap: wrap;
-	}
-
-	aside.sort p{
-		width: 100%;
-		margin: auto;
-		margin-bottom: 1rem;
 	}
 
 	footer ul li{
@@ -1427,6 +1670,46 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		margin-left: 2rem;
 		padding-top: 0;
 	}
+
+	form[action="/ebooks"]{
+		grid-template-columns: auto 1fr;
+	}
+
+	form[action="/ebooks"] label.tags{
+		grid-row: 1;
+		grid-column: 1 / span 2;
+	}
+
+	form[action="/ebooks"] label.tags select{
+		height: calc((1rem + 1.4rem + 1rem + 2px) * 2); /* Size equal to two regular select boxes */
+	}
+
+	form[action="/ebooks"] label.search{
+		grid-row: 2;
+		grid-column: 1 / span 2;
+	}
+
+	form[action="/ebooks"] label.sort{
+		grid-row: 3;
+		grid-column: 1;
+	}
+
+	form[action="/ebooks"] label.view{
+		grid-row: 3;
+		grid-column: 2;
+	}
+
+	form[action="/ebooks"] button,
+	form[action="/ebooks"] label.per-page{
+		grid-row: 4;
+		grid-column: 1 / span 2;
+	}
+}
+
+@media(max-width: 900px){
+	main.ebooks > ol{
+		grid-template-columns: repeat(3, 1fr);
+	}
 }
 
 @media(max-width: 860px){
@@ -1441,6 +1724,83 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	}
 }
 
+@media (hover: none) and (pointer: coarse) and (max-width: 768px){ /* target ipads and smartphones without a mouse */
+	form[action="/ebooks"]{
+		grid-template-columns: auto auto 1fr;
+	}
+
+	form[action="/ebooks"] label.search{
+		grid-column: 2 / span 2;
+		grid-row: 1;
+	}
+
+	form[action="/ebooks"] label.tags{
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	form[action="/ebooks"] label.sort{
+		grid-column: 1 / span 2;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] label.view{
+		grid-column: 3;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] label.per-page{
+		grid-column: 1;
+		grid-row: 3;
+	}
+
+	form[action="/ebooks"] button{
+		grid-row: 3;
+		grid-column: 2 / span 2;
+	}
+}
+
+@media(max-width: 700px){
+	main.ebooks > ol{
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (hover: none) and (pointer: coarse) and (max-width: 700px){ /* target ipads and smartphones without a mouse */
+	form[action="/ebooks"]{
+		grid-template-columns: auto 1fr;
+	}
+
+	form[action="/ebooks"] label.search{
+		grid-column: 1 / span 2;
+		grid-row: 1;
+	}
+
+	form[action="/ebooks"] label.tags{
+		grid-column: 1 / span 2;
+		grid-row: 2;
+	}
+
+	form[action="/ebooks"] label.sort{
+		grid-column: 1 / span 2;
+		grid-row: 3;
+	}
+
+	form[action="/ebooks"] label.view{
+		grid-column: 1;
+		grid-row: 4;
+	}
+
+	form[action="/ebooks"] label.per-page{
+		grid-column: 2;
+		grid-row: 4;
+	}
+
+	form[action="/ebooks"] button{
+		grid-row: 5;
+		grid-column: 1 / span 2;
+	}
+}
 
 @media(max-width: 680px){
 	body > header{
@@ -1452,22 +1812,9 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		margin-top: 2rem;
 	}
 
-	main.ebooks > ol > li{
-		width: calc(50% - 4rem);
-	}
-
 	main.front-page h1{
 		padding: 3rem;
 		font-size: 2.4rem;
-	}
-
-	aside.sort form{
-		flex-direction: column;
-	}
-
-	aside.sort form button{
-		margin-left: 0;
-		margin-top: 1rem;
 	}
 
 	article.ebook section#details ul{
@@ -1488,6 +1835,25 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	main.ebooks nav ol li.highlighted::before,
 	main.ebooks nav ol li.highlighted::after{
 		display: none;
+	}
+
+	form[action="/ebooks"] label.sort{
+		grid-column: 1 / span 2;
+	}
+
+	form[action="/ebooks"] label.view{
+		grid-row: 4;
+		grid-column: 1;
+	}
+
+	form[action="/ebooks"] label.per-page{
+		grid-row: 4;
+		grid-column: 2;
+	}
+
+	form[action="/ebooks"] button{
+		grid-row: 5;
+		grid-column: 1 / span 2;
 	}
 }
 
@@ -1517,15 +1883,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	article.ebook #history li p{
 		margin: 0;
 		padding: 0;
-	}
-
-	main.ebooks > ol{
-		margin-top: 1rem;
-	}
-
-	main.ebooks > ol > li{
-		width: calc(50% - 2rem);
-		margin: 1rem;
 	}
 
 	article nav ol li:not(.highlighted),
@@ -1592,6 +1949,22 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	}
 }
 
+@media(max-width: 470px){
+	main.ebooks > ol{
+		grid-gap: 2rem;
+	}
+}
+
+@media(max-width: 400px){
+	form[action="/ebooks"] button{
+		grid-row: 5;
+	}
+
+	form[action="/ebooks"] label.tags span{
+		display: none;
+	}
+}
+
 @media(max-width: 380px){
 	body > header{
 		padding: 1rem 0;
@@ -1635,6 +2008,31 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	footer ul li::after{
 		display: none;
 	}
+
+	main.ebooks > ol{
+		grid-template-columns: 1fr;
+	}
+
+	form[action="/ebooks"]{
+		grid-template-columns: 100%;
+	}
+
+	form[action="/ebooks"] label.search,
+	form[action="/ebooks"] label.tags,
+	form[action="/ebooks"] label.sort,
+	form[action="/ebooks"] label.view,
+	form[action="/ebooks"] label.per-page,
+	form[action="/ebooks"] button{
+		grid-column: 1;
+	}
+
+	form[action="/ebooks"] label.per-page{
+		grid-row: 5;
+	}
+
+	form[action="/ebooks"] button{
+		grid-row: 6;
+	}
 }
 
 @supports not(hyphens: auto){
@@ -1649,6 +2047,13 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
 	}
 
+	body > header > a:focus{
+		/* Since we use invert() to change the color of the SE logo,
+		we must specify the light outline (which is dark)
+		so that it inverts to white */
+		outline: 1px dashed var(--light-input-outline);
+	}
+
 	article.ebook section#read-online a::before,
 	article.ebook section#download ul li a[class]::before,
 	article.ebook section#details ul li a[class]::before,
@@ -1656,10 +2061,12 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	main.front-page > section > section figure.oss img + img,
 	main.front-page > section > h2::before,
 	main.front-page > section > h2::after{
-		filter: invert() grayscale(100%) brightness(120%); /* grayscale and brightness makes it hit about #eeeeee */
+		/* brightness(0) ensures the images are stark white when inverted, since the originals are usually not #000 */
+		filter: brightness(0) invert() grayscale(100%) brightness(120%); /* grayscale and brightness makes it hit about #eeeeee */
 	}
 
-	label.search{
+	select,
+	input[type="search"]{
 		box-shadow: 1px 1px 0 rgba(0, 0, 0, .5) inset;
 	}
 

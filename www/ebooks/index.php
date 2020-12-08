@@ -5,10 +5,12 @@ use function Safe\preg_replace;
 
 try{
 	$page = HttpInput::GetInt('page', 1);
+	$perPage = HttpInput::GetInt('per-page', EBOOKS_PER_PAGE);
 	$query = HttpInput::GetString('query', false);
-	$tag = HttpInput::GetString('tag', false);
+	$tags = HttpInput::GetArray('tags', []);
 	$collection = HttpInput::GetString('collection', false);
-	$sort = HttpInput::GetString('sort', false, SORT_NEWEST);
+	$view = Httpinput::GetString('view', false);
+	$sort = HttpInput::GetString('sort', false);
 	$pages = 0;
 	$totalEbooks = 0;
 
@@ -16,30 +18,38 @@ try{
 		$page = 1;
 	}
 
-	if($sort != SORT_AUTHOR_ALPHA && $sort != SORT_NEWEST && $sort != SORT_READING_EASE && $sort != SORT_LENGTH){
-		$sort = SORT_NEWEST;
+	if($perPage != EBOOKS_PER_PAGE && $perPage != 24 && $perPage != 48){
+		$perPage = EBOOKS_PER_PAGE;
 	}
 
-	if($query !== null){
-		$ebooks = Library::Search($query);
-		$pageTitle = 'Search Standard Ebooks';
-		$pageDescription = 'Search results';
-		$pageHeader = 'Search Ebooks';
+	// If we're passed string values that are the same as the defaults,
+	// set them to null so that we can have cleaner query strings in the navigation footer
+	if($view !== null){
+		$view = mb_strtolower($view);
 	}
-	elseif($tag !== null){
-		$tag = strtolower(str_replace('-', ' ', $tag));
-		$ebooks = Library::GetEbooksByTag($tag);
-		$pageTitle = 'Browse ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
-		$pageDescription = 'Page ' . $page . ' of ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
-		$pageHeader = 'Ebooks tagged “' . Formatter::ToPlainText($tag) . '”';
 
-		$pages = ceil(sizeof($ebooks) / EBOOKS_PER_PAGE);
-
-		$totalEbooks = sizeof($ebooks);
-
-		$ebooks = array_slice($ebooks, ($page - 1) * EBOOKS_PER_PAGE, EBOOKS_PER_PAGE);
+	if($sort !== null){
+		$sort = mb_strtolower($sort);
 	}
-	elseif($collection !== null){
+
+	if($view === 'grid'){
+		$view = null;
+	}
+
+	if($sort === 'newest'){
+		$sort = null;
+	}
+
+	if($query === ''){
+		$query = null;
+	}
+
+	if(sizeof($tags) == 1 && mb_strtolower($tags[0]) == 'all'){
+		$tags = [];
+	}
+
+	// Are we looking at a collection?
+	if($collection !== null){
 		$ebooks = Library::GetEbooksByCollection($collection);
 		$collectionObject = null;
 		// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
@@ -71,32 +81,47 @@ try{
 		}
 	}
 	else{
+		$ebooks = Library::FilterEbooks($query, $tags, $sort);
 		$pageTitle = 'Browse Standard Ebooks';
 		$pageHeader = 'Browse Ebooks';
-		$ebooks = Library::GetEbooks($sort);
+	}
 
-		$pages = ceil(sizeof($ebooks) / EBOOKS_PER_PAGE);
+	$pages = ceil(sizeof($ebooks) / $perPage);
 
-		$totalEbooks = sizeof($ebooks);
+	$totalEbooks = sizeof($ebooks);
 
-		$ebooks = array_slice($ebooks, ($page - 1) * EBOOKS_PER_PAGE, EBOOKS_PER_PAGE);
+	$ebooks = array_slice($ebooks, ($page - 1) * $perPage, $perPage);
 
-		$pageDescription = 'Page ' . $page . ' of the Standard Ebooks ebook library, sorted ';
-		switch($sort){
-			case SORT_NEWEST:
-				$pageDescription .= 'by newest ebooks first.';
-				break;
-			case SORT_AUTHOR_ALPHA:
-				$pageDescription .= 'alphabetically by author name.';
-				break;
-			case SORT_READING_EASE:
-				$pageDescription .= 'by easiest ebooks first.';
-				break;
-			case SORT_LENGTH:
-				$pageDescription .= 'by shortest ebooks first.';
-				break;
+	if($page > 1){
+		$pageTitle .= ', page ' . $page;
+	}
+	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks ebook library';
+
+	$queryString = '';
+
+	if($collection === null){
+		if($query != ''){
+			$queryString .= '&amp;query=' . urlencode($query);
+		}
+
+		foreach($tags as $tag){
+			$queryString .= '&amp;tags[]=' . urlencode($tag);
+		}
+
+		if($view !== null){
+			$queryString .= '&amp;view=' . urlencode($view);
+		}
+
+		if($sort !== null){
+			$queryString .= '&amp;sort=' . urlencode($sort);
+		}
+
+		if($perPage !== EBOOKS_PER_PAGE){
+			$queryString .= '&amp;per-page=' . urlencode($perPage);
 		}
 	}
+
+	$queryString = preg_replace('/^&amp;/ius', '', $queryString);
 }
 catch(\Exception $ex){
 	http_response_code(404);
@@ -106,50 +131,27 @@ catch(\Exception $ex){
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
 	<h1><?= $pageHeader ?></h1>
-	<?= Template::SearchForm(['query' => $query]) ?>
+	<? if($collection === null){ ?>
+	<?= Template::SearchForm(['query' => $query, 'tags' => $tags, 'sort' => $sort, 'view' => $view, 'perPage' => $perPage]) ?>
+	<? } ?>
 	<? if(sizeof($ebooks) == 0){ ?>
-		<p class="no-results">No ebooks matched your search.  You can try different search terms, or <a href="/ebooks">browse all of our ebooks</a>.</p>
+		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
-		<?= Template::EbookGrid(['ebooks' => $ebooks]) ?>
+		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => $view]) ?>
 	<? } ?>
-	<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
+	<? if(sizeof($ebooks) > 0){ ?>
 		<nav>
-			<a<? if($page > 1){ ?> href="/ebooks/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($page - 1 <= 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+			<a<? if($page > 1){ ?> href="/ebooks/?page=<?= $page - 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
 			<? for($i = 1; $i < $pages + 1; $i++){ ?>
-				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?><? if($sort != SORT_NEWEST){ ?><? if($i - 1 < 1){ ?>?<? }else{ ?>&amp;<? } ?>sort=<?= $sort ?><? } ?>"><?= $i ?></a></li>
+				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks/?page=<?= $i ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>"><?= $i ?></a></li>
 			<? } ?>
 			</ol>
-			<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($sort != SORT_NEWEST){ ?>&amp;sort=<?= $sort ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
-		</nav>
-	<? }elseif(sizeof($ebooks) > 0 && $tag !== null){ ?>
-		<nav>
-			<a<? if($page > 1){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($page - 1 > 1){ ?>?page=<?= $page - 1 ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
-			<ol>
-			<? for($i = 1; $i < $pages + 1; $i++){ ?>
-				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/<? if($i - 1 >= 1){ ?>?page=<?= $i ?><? } ?>"><?= $i ?></a></li>
-			<? } ?>
-			</ol>
-			<a<? if($page < ceil($totalEbooks / EBOOKS_PER_PAGE)){ ?> href="/tags/<?= Formatter::ToPlainText(str_replace(' ', '-', $tag)) ?>/?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 		</nav>
 	<? } ?>
-	<? if(sizeof($ebooks) > 0 && $query === null && $tag === null && $collection === null){ ?>
-		<aside class="sort">
-			<form action="/ebooks" method="get">
-				<label>Sort by
-					<select name="sort">
-						<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected="selected"<? } ?>>newest</option>
-						<option value="<?= SORT_AUTHOR_ALPHA ?>"<? if($sort == SORT_AUTHOR_ALPHA){ ?> selected="selected"<? } ?>>author name</option>
-						<option value="<?= SORT_READING_EASE ?>"<? if($sort == SORT_READING_EASE){ ?> selected="selected"<? } ?>>reading ease</option>
-						<option value="<?= SORT_LENGTH ?>"<? if($sort == SORT_LENGTH){ ?> selected="selected"<? } ?>>length</option>
-					</select>
-				</label>
-				<button>Sort</button>
-			</form>
-		</aside>
-		<? if($page == 1){ ?>
+	<? if(sizeof($ebooks) > 0 && $query === null && sizeof($tags) == 0 && $collection === null && $page == 1){ ?>
 		<?= Template::ContributeAlert() ?>
-		<? } ?>
 	<? } ?>
 </main>
 <?= Template::Footer() ?>

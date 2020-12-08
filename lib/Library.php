@@ -10,64 +10,107 @@ class Library{
 	/**
 	 * @return array<Ebook>
 	 */
-	public static function GetEbooks(string $sort = null): array{
-		$ebooks = [];
+	public static function FilterEbooks($query = null, $tags = [], $sort = null){
+		$ebooks = Library::GetEbooks();
+		$matches = $ebooks;
+
+		if($sort === null){
+			$sort = SORT_NEWEST;
+		}
+
+		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
+			$matches = [];
+			foreach($tags as $tag){
+				foreach($ebooks as $ebook){
+					if($ebook->HasTag($tag)){
+						$matches[$ebook->Identifier] = $ebook;
+					}
+				}
+			}
+		}
+
+		if($query !== null){
+			$filteredMatches = [];
+
+			foreach($matches as $ebook){
+				if($ebook->Contains($query)){
+					$filteredMatches[$ebook->Identifier] = $ebook;
+				}
+			}
+
+			$matches = $filteredMatches;
+		}
 
 		switch($sort){
 			case SORT_AUTHOR_ALPHA:
-				// Get all ebooks, sorted by author alpha first.
-				try{
-					$ebooks = apcu_fetch('ebooks-alpha');
-				}
-				catch(Safe\Exceptions\ApcuException $ex){
-					Library::RebuildCache();
-					$ebooks = apcu_fetch('ebooks-alpha');
-				}
+				usort($matches, function($a, $b){
+					return strcmp(mb_strtolower($a->Authors[0]->SortName), mb_strtolower($b->Authors[0]->SortName));
+				});
 				break;
 
 			case SORT_NEWEST:
-				// Get all ebooks, sorted by release date first.
-				try{
-					$ebooks = apcu_fetch('ebooks-newest');
-				}
-				catch(Safe\Exceptions\ApcuException $ex){
-					Library::RebuildCache();
-					$ebooks = apcu_fetch('ebooks-newest');
-				}
+				usort($matches, function($a, $b){
+					if($a->Timestamp < $b->Timestamp){
+						return -1;
+					}
+					elseif($a->Timestamp == $b->Timestamp){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
+
+				$matches = array_reverse($matches);
 				break;
 
 			case SORT_READING_EASE:
-				// Get all ebooks, sorted by easiest first.
-				try{
-					$ebooks = apcu_fetch('ebooks-reading-ease');
-				}
-				catch(Safe\Exceptions\ApcuException $ex){
-					Library::RebuildCache();
-					$ebooks = apcu_fetch('ebooks-reading-ease');
-				}
+				usort($matches, function($a, $b){
+					if($a->ReadingEase < $b->ReadingEase){
+						return -1;
+					}
+					elseif($a->ReadingEase == $b->ReadingEase){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
+
+				$matches = array_reverse($matches);
 				break;
 
 			case SORT_LENGTH:
-				// Get all ebooks, sorted by fewest words first.
-				try{
-					$ebooks = apcu_fetch('ebooks-length');
-				}
-				catch(Safe\Exceptions\ApcuException $ex){
-					Library::RebuildCache();
-					$ebooks = apcu_fetch('ebooks-length');
-				}
+				usort($matches, function($a, $b){
+					if($a->WordCount < $b->WordCount){
+						return -1;
+					}
+					elseif($a->WordCount == $b->WordCount){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
 				break;
+		}
 
-			default:
-				// Get all ebooks, unsorted.
-				try{
-					$ebooks = apcu_fetch('ebooks');
-				}
-				catch(Safe\Exceptions\ApcuException $ex){
-					Library::RebuildCache();
-					$ebooks = apcu_fetch('ebooks');
-				}
-				break;
+		return $matches;
+	}
+
+	/**
+	 * @return array<Ebook>
+	 */
+	public static function GetEbooks(): array{
+		$ebooks = [];
+
+		// Get all ebooks, unsorted.
+		try{
+			$ebooks = apcu_fetch('ebooks');
+		}
+		catch(Safe\Exceptions\ApcuException $ex){
+			Library::RebuildCache();
+			$ebooks = apcu_fetch('ebooks');
 		}
 
 		return $ebooks;
@@ -121,6 +164,10 @@ class Library{
 		return $ebooks;
 	}
 
+	public static function GetTags(): array{
+		return apcu_fetch('tags');
+	}
+
 	/**
 	 * @return array<Ebook>
 	 */
@@ -153,6 +200,7 @@ class Library{
 		$collections = [];
 		$tags = [];
 		$authors = [];
+		$tagsByName = [];
 
 		foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"') ?? '')) as $filename){
 			try{
@@ -179,6 +227,7 @@ class Library{
 
 				// Create the tags cache
 				foreach($ebook->Tags as $tag){
+					$tagsByName[] = $tag->Name;
 					$lcTag = strtolower($tag->Name);
 					if(!array_key_exists($lcTag, $tags)){
 						$tags[$lcTag] = [];
@@ -209,66 +258,6 @@ class Library{
 			apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
 		}
 
-		// Sort ebooks by release date, then save
-		usort($ebooks, function($a, $b){
-			if($a->Timestamp < $b->Timestamp){
-				return -1;
-			}
-			elseif($a->Timestamp == $b->Timestamp){
-				return 0;
-			}
-			else{
-				return 1;
-			}
-		});
-
-		$ebooks = array_reverse($ebooks);
-
-		apcu_delete('ebooks-newest');
-		apcu_store('ebooks-newest', $ebooks);
-
-		// Sort ebooks by title alpha, then save
-		usort($ebooks, function($a, $b){
-			return strcmp(mb_strtolower($a->Authors[0]->SortName), mb_strtolower($b->Authors[0]->SortName));
-		});
-
-		apcu_delete('ebooks-alpha');
-		apcu_store('ebooks-alpha', $ebooks);
-
-		// Sort ebooks by reading ease, then save
-		usort($ebooks, function($a, $b){
-			if($a->ReadingEase < $b->ReadingEase){
-				return -1;
-			}
-			elseif($a->ReadingEase == $b->ReadingEase){
-				return 0;
-			}
-			else{
-				return 1;
-			}
-		});
-
-		$ebooks = array_reverse($ebooks);
-
-		apcu_delete('ebooks-reading-ease');
-		apcu_store('ebooks-reading-ease', $ebooks);
-
-		// Sort ebooks by word count, then save
-		usort($ebooks, function($a, $b){
-			if($a->WordCount < $b->WordCount){
-				return -1;
-			}
-			elseif($a->WordCount == $b->WordCount){
-				return 0;
-			}
-			else{
-				return 1;
-			}
-		});
-
-		apcu_delete('ebooks-length');
-		apcu_store('ebooks-length', $ebooks);
-
 		// Now store various collections
 		apcu_delete(new APCUIterator('/^collection-/'));
 		foreach($collections as $collection => $ebooks){
@@ -281,6 +270,11 @@ class Library{
 		foreach($tags as $tag => $ebooks){
 			apcu_store('tag-' . $tag, $ebooks);
 		}
+
+		apcu_delete('tags');
+		$tagsByName = array_unique($tagsByName, SORT_STRING);
+		natsort($tagsByName);
+		apcu_store('tags', $tagsByName);
 
 		apcu_delete(new APCUIterator('/^author-/'));
 		foreach($authors as $author => $ebooks){
