@@ -58,7 +58,7 @@ require_once('Core.php');
 					<p><b><a href="/manual">The Standard Ebooks Manual of Style.</a></b></p>
 				</li>
 				<li>
-					<p><a href="/how-tos">How-to guides for various more complex ebook production tasks.</a></p>
+					<p><a href="/contribute/how-tos">How-to guides for various more complex ebook production tasks.</a></p>
 				</li>
 				<li>
 					<p><a href="/contribute/a-basic-standard-ebooks-source-folder">Descriptions of the files in a fresh Standard Ebooks source folder.</a></p>
