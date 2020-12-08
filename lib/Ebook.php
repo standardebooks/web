@@ -422,11 +422,15 @@ class Ebook{
 	}
 
 	public function Contains(string $query): bool{
-		// When searching an ebook, we search the title, alternate title, author(s), SE tags, and LoC tags.
+		// When searching an ebook, we search the title, alternate title, author(s), SE tags, series data, and LoC tags.
 
 		$searchString = $this->FullTitle ?? $this->Title;
 
 		$searchString .= ' ' . $this->AlternateTitle;
+
+		foreach($this->Collections as $collection){
+			$searchString .= ' ' . $collection->Name;
+		}
 
 		foreach($this->Authors as $author){
 			$searchString .= ' ' . $author->Name;
