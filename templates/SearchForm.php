@@ -2,8 +2,8 @@
 $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 ?>
 <form action="/ebooks" method="get">
-	<label class="tags">Subjects <span>(select many with <? if(strpos($_SERVER['HTTP_USER_AGENT'], 'Mac') === false){ ?>ctrl<? }else{ ?>⌘<? } ?>)</span>
-		<select multiple="multiple" name="tags[]">
+	<label class="tags">Subjects
+		<select multiple="multiple" name="tags[]" size="1">
 			<option value="all">All</option>
 		<? foreach(Library::GetTags() as $tag){
 			$lcTag = mb_strtolower($tag); ?>

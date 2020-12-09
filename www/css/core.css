@@ -1417,7 +1417,7 @@ form[action="/ebooks"] select[multiple] option[value="all"]{
 form[action="/ebooks"]{
 	display: grid;
 	grid-gap: 1rem;
-	grid-template-columns: 25% auto auto auto 1fr;
+	grid-template-columns: 10rem auto auto auto 1fr;
 	margin: 0 1rem;
 	margin-bottom: 4rem;
 	max-width: calc(100% - 2rem);
@@ -1427,11 +1427,6 @@ form[action="/ebooks"] label.tags{
 	grid-column: 1;
 	grid-row: 1 / span 2;
 	white-space: nowrap;
-}
-
-form[action="/ebooks"] label.tags span{
-	font-style: italic;
-	opacity: .5;
 }
 
 form[action="/ebooks"] label.tags select{
@@ -1499,7 +1494,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		height: calc(1rem + 1.4rem + 1rem + 2px) !important;
 	}
 
-	label.tags > span,
 	select[multiple] option[value="all"]{
 		/* Hide the "all" button, because touchscreen devices
 		have clearer ways to deselect options */
@@ -1514,7 +1508,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		grid-row: 1;
 	}
 
-
 	form[action="/ebooks"] label.search{
 		grid-column: 2 / span 3;
 	}
@@ -1540,97 +1533,43 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	}
 }
 
-@media(max-width: 1300px){
-	form[action="/ebooks"]{
-		/* We create 5 columns so that the last one can be 1fr wide, pushing
-		the rest into their smallest necessary size */
-		grid-template-columns: 13rem auto auto 1fr;
-	}
-
-	form[action="/ebooks"] label.tags{
-		grid-row: 1 / span 3;
-	}
-
-	form[action="/ebooks"] label.search{
-		grid-column: 2 / span 3;
-	}
-
-	form[action="/ebooks"] label.view{
-		grid-row: 2;
-		grid-column: 3;
-	}
-
-	form[action="/ebooks"] label.per-page{
-		grid-row: 3;
-		grid-column: 2;
-	}
-
-	form[action="/ebooks"] button{
-		grid-row: 3;
-		grid-column: 3 / span 2;
-		margin-top: 0;
-		align-self: end;
-	}
-}
-
 @media(max-width: 1100px){
-	article.ebook header{
-		width: calc(100% + 4rem);
-		max-width: none;
-		margin-left: -2rem;
-		border-radius: 0;
-		border-left: none;
-		border-right: none;
-		border-radius: 0;
-	}
-
-	main.front-page > section > section > div{
-		flex-direction: column-reverse;
-		align-items: center;
-	}
-
-	main.front-page > section > section figure{
-		margin: 0;
-		text-align: center;
-	}
-
-	main.front-page > section > section > div > div,
-	main.front-page > section > section > div > p{
-		margin-top: 2rem;
-	}
-}
-
-@media (hover: none) and (pointer: coarse) and (max-width: 1100px){ /* target ipads and smartphones without a mouse */
 	form[action="/ebooks"]{
 		grid-template-columns: auto auto auto 1fr;
 	}
 
 	form[action="/ebooks"] label.tags{
 		grid-row: 1;
+		grid-column: 1;
+	}
+
+	form[action="/ebooks"] label.tags select{
+		height: calc(1rem + 1.4rem + 1rem + 2px); /* Size equal to a select boxes */
 	}
 
 	form[action="/ebooks"] label.search{
+		grid-row: 1;
 		grid-column: 2 / span 3;
 	}
 
 	form[action="/ebooks"] label.sort{
-		grid-column: 1;
 		grid-row: 2;
+		grid-column: 1;
 	}
 
 	form[action="/ebooks"] label.view{
-		grid-column: 2;
 		grid-row: 2;
+		grid-column: 2;
 	}
 
 	form[action="/ebooks"] label.per-page{
-		grid-column: 3;
 		grid-row: 2;
+		grid-column: 3;
 	}
 
 	form[action="/ebooks"] button{
-		grid-column: 4;
 		grid-row: 2;
+		grid-column: 4;
 	}
 }
 
@@ -1671,45 +1610,18 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		margin-left: 2rem;
 		padding-top: 0;
 	}
-
-	form[action="/ebooks"]{
-		grid-template-columns: auto 1fr;
-	}
-
-	form[action="/ebooks"] label.tags{
-		grid-row: 1;
-		grid-column: 1 / span 2;
-	}
-
-	form[action="/ebooks"] label.tags select{
-		height: calc((1rem + 1.4rem + 1rem + 2px) * 2); /* Size equal to two regular select boxes */
-	}
-
-	form[action="/ebooks"] label.search{
-		grid-row: 2;
-		grid-column: 1 / span 2;
-	}
-
-	form[action="/ebooks"] label.sort{
-		grid-row: 3;
-		grid-column: 1;
-	}
-
-	form[action="/ebooks"] label.view{
-		grid-row: 3;
-		grid-column: 2;
-	}
-
-	form[action="/ebooks"] button,
-	form[action="/ebooks"] label.per-page{
-		grid-row: 4;
-		grid-column: 1 / span 2;
-	}
 }
 
 @media(max-width: 900px){
 	main.ebooks > ol{
 		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media(max-width: 870px){
+	form[action="/ebooks"] button{
+		grid-row: 3;
+		grid-column: 1 / span 4;
 	}
 }
 
@@ -1725,81 +1637,45 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	}
 }
 
-@media (hover: none) and (pointer: coarse) and (max-width: 768px){ /* target ipads and smartphones without a mouse */
+@media(max-width: 730px){
 	form[action="/ebooks"]{
-		grid-template-columns: auto auto 1fr;
-	}
-
-	form[action="/ebooks"] label.search{
-		grid-column: 2 / span 2;
-		grid-row: 1;
+		grid-template-columns: auto auto 1fr 1fr;
 	}
 
 	form[action="/ebooks"] label.tags{
-		grid-column: 1;
 		grid-row: 1;
+		grid-column: 1 / span 2;
+	}
+
+	form[action="/ebooks"] label.search{
+		grid-row: 1;
+		grid-column: 3 / span 2;
 	}
 
 	form[action="/ebooks"] label.sort{
-		grid-column: 1 / span 2;
 		grid-row: 2;
+		grid-column: 1 / span 3;
 	}
 
 	form[action="/ebooks"] label.view{
-		grid-column: 3;
-		grid-row: 2;
+		grid-row: 3;
+		grid-column: 1;
 	}
 
 	form[action="/ebooks"] label.per-page{
-		grid-column: 1;
 		grid-row: 3;
+		grid-column: 2;
 	}
 
 	form[action="/ebooks"] button{
 		grid-row: 3;
-		grid-column: 2 / span 2;
+		grid-column: 4;
 	}
 }
 
 @media(max-width: 700px){
 	main.ebooks > ol{
 		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-@media (hover: none) and (pointer: coarse) and (max-width: 700px){ /* target ipads and smartphones without a mouse */
-	form[action="/ebooks"]{
-		grid-template-columns: auto 1fr;
-	}
-
-	form[action="/ebooks"] label.search{
-		grid-column: 1 / span 2;
-		grid-row: 1;
-	}
-
-	form[action="/ebooks"] label.tags{
-		grid-column: 1 / span 2;
-		grid-row: 2;
-	}
-
-	form[action="/ebooks"] label.sort{
-		grid-column: 1 / span 2;
-		grid-row: 3;
-	}
-
-	form[action="/ebooks"] label.view{
-		grid-column: 1;
-		grid-row: 4;
-	}
-
-	form[action="/ebooks"] label.per-page{
-		grid-column: 2;
-		grid-row: 4;
-	}
-
-	form[action="/ebooks"] button{
-		grid-row: 5;
-		grid-column: 1 / span 2;
 	}
 }
 
@@ -1837,9 +1713,26 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	main.ebooks nav ol li.highlighted::after{
 		display: none;
 	}
+}
+
+@media(max-width: 550px){
+	form[action="/ebooks"]{
+		grid-template-columns: auto auto 1fr;
+	}
+
+	form[action="/ebooks"] label.tags{
+		grid-row: 1;
+		grid-column: 1 / span 3;
+	}
+
+	form[action="/ebooks"] label.search{
+		grid-row: 2;
+		grid-column: 1 / span 3;
+	}
 
 	form[action="/ebooks"] label.sort{
-		grid-column: 1 / span 2;
+		grid-row: 3;
+		grid-column: 1 / span 3;
 	}
 
 	form[action="/ebooks"] label.view{
@@ -1854,7 +1747,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 	form[action="/ebooks"] button{
 		grid-row: 5;
-		grid-column: 1 / span 2;
+		grid-column: 1 / span 3;
 	}
 }
 
@@ -1953,16 +1846,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 @media(max-width: 470px){
 	main.ebooks > ol{
 		grid-gap: 2rem;
-	}
-}
-
-@media(max-width: 400px){
-	form[action="/ebooks"] button{
-		grid-row: 5;
-	}
-
-	form[action="/ebooks"] label.tags span{
-		display: none;
 	}
 }
 
