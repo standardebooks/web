@@ -121,7 +121,7 @@ try{
 		}
 	}
 
-	$queryString = Formatter::ToPlainText(preg_replace('/^&amp;/ius', '', $queryString));
+	$queryString = preg_replace('/^&amp;/ius', '', $queryString);
 }
 catch(\Exception $ex){
 	http_response_code(404);
