@@ -165,14 +165,18 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Normalizes spacing in em-, en-, and double-em-dashes, as well as between nested quotation marks, and adds word joiners.</p>
 					</li>
 				</ul>
-				<p>You can run <code class="bash"><b>se</b> typogrify</code> as many times as you want on a source directory; it should always produce the same result, regardless of what state the source directory was in when you ran it.</p>
 				<p>While <code class="bash"><b>se</b> typogrify</code> does a lot of work for you, each ebook is totally different so there’s almost always more work to do that can only be done by hand. In <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The SE standard requires chapter titles to be in title case, and <code class="bash"><b>se</b> titlecase</code> can do that for us.</p>
 				<p><code class="bash"><b>se</b> titlecase</code> accepts a string as its argument, and outputs the string in title case. Many text editors allow you to configure external macros—perfect for creating a keyboard shortcut to run <code class="bash"><b>se</b> titlecase</code> on selected text.</p>
 				<h3>Typography checklist</h3>
 				<p>There are many things that <code class="bash"><b>se</b> typogrify</code> isn’t well suited to do automatically. Check <a href="/manual/latest/8-typography">our complete typography manual</a> to see exactly how to format the work. Below is a brief, but incomplete, list of common issues that arise in ebooks:</p>
 				<ul>
 					<li>
-						<p><a href="/manual/latest/8-typography#8.8.1">Typography rules for coordinates</a>. Use the prime and double prime glyphs for coordinates. These regexes helps match and replace coordinates:</p>
+						<p><a href="/manual/latest/8-typography#8.7.5.3">Elision</a>. <code class="html">′</code> (i.e., <code class="html">&amp;rsquo;</code>) is used for elided letters in a word. <code class="bash"><b>se</b> typogrify</code> often gets this wrong, and you need to review your ebook by hand to ensure it didn't insert <code class="html">‘</code> (<code class="html">&amp;lsquo;</code>) instead.</p>
+						<p>Use this regex to examine potential candidates for correction:</p>
+						<code class="regex">\s‘[a-z]</code>
+					</li>
+					<li>
+						<p><a href="/manual/latest/8-typography#8.8.1">Coordinates</a>. Use the prime and double prime glyphs for coordinates. These regexes helps match and replace coordinates:</p>
 						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|([0-9])+’|\1′|g"</i> src/epub/text/<i class="glob">*</i></span></code>
 						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|([0-9])+”|\1″|g"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
@@ -180,7 +184,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p><a href="/manual/latest/8-typography#8.7.3">Typography rules for ampersands in names</a>. This regex helps match candidates: <code class="regex">[a-zA-Z]\.?\s*&amp;\s*[a-zA-Z]</code></p>
 					</li>
 					<li>
-						<p><a href="/manual/latest/8-typography#8.3.3">Typography rules for text in all caps</a>. Text in all caps is almost never correct, and should either be converted to lowercase with the <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> tag (for spoken emphasis), <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> (for extreme spoken emphasis), or <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> (for unsemantic small caps, like in storefront signs). This case-sensitive regex helps find candidates: <code class="regex">(?<span class="p">&lt;</span>!en-)(?<span class="p">&lt;</span>!z3998:roman">)(?<span class="p">&lt;</span>![A-Z])[A-Z]{2,}(?!")</code></p>
+						<p><a href="/manual/latest/8-typography#8.3.3">Text in all caps</a>. Text in all caps is almost never correct, and should either be converted to lowercase with the <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> tag (for spoken emphasis), <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> (for extreme spoken emphasis), or <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> (for unsemantic small caps, like in storefront signs). This case-sensitive regex helps find candidates: <code class="regex">(?<span class="p">&lt;</span>!en-)(?<span class="p">&lt;</span>!z3998:roman">)(?<span class="p">&lt;</span>![A-Z])[A-Z]{2,}(?!")</code></p>
 					</li>
 					<li>
 						<p>Sometimes <code class="bash"><b>se</b> typogrify</code> doesn’t close quotation marks near em-dashes correctly. Try to find such instances with this regex: <code class="regex">—[’”][^<span class="p">&lt;</span>\s]</code></p>
