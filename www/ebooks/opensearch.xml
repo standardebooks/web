@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+	<ShortName>Standard Ebooks</ShortName>
+	<Description>Search the Standard Ebooks catalog.</Description>
+	<Developer>Standard Ebooks</Developer>
+	<Language>en-US</Language>
+	<SyndicationRight>open</SyndicationRight>
+	<OutputEncoding>UTF-8</OutputEncoding>
+	<InputEncoding>UTF-8</InputEncoding>
+	<Url type="text/html" template="https://standardebooks.org/ebooks?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
+	<Url type="application/atom+xml;profile=opds-catalog;kind=acquisition" template="https://standardebooks.org/opds/all?query={searchTerms}"/>
+	<Query role="example" searchTerms="fiction" startPage="1" count="12"/>
+</OpenSearchDescription>
