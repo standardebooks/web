@@ -557,6 +557,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://en.m.wikipedia.org/wiki/Odes_(Horace)">The Odes</a> of Horace</p>
+			</li>
+			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Trumbull_Stickney">Poems by Trumbull Stickney</a> (transcription required).</p>
 			</li>
 			<li>
