@@ -122,15 +122,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/149">Beyond Thirty aka. The Lost Continent</a> (Beyond 1) by Edgar Rice Burroughs</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/551">The Land That Time Forgot</a> (Caspak 1) by Edgar Rice Burroughs</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/552">The People That Time Forgot</a> (Caspak 2) by Edgar Rice Burroughs</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/553">Out of Time's Abyss</a> (Caspak 3) by Edgar Rice Burroughs</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs</p>
 			</li>
