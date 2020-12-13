@@ -84,13 +84,11 @@ try{
 		$ebooks = Library::FilterEbooks($query, $tags, $sort);
 		$pageTitle = 'Browse Standard Ebooks';
 		$pageHeader = 'Browse Ebooks';
+		$pages = ceil(sizeof($ebooks) / $perPage);
+		$totalEbooks = sizeof($ebooks);
+		$ebooks = array_slice($ebooks, ($page - 1) * $perPage, $perPage);
 	}
 
-	$pages = ceil(sizeof($ebooks) / $perPage);
-
-	$totalEbooks = sizeof($ebooks);
-
-	$ebooks = array_slice($ebooks, ($page - 1) * $perPage, $perPage);
 
 	if($page > 1){
 		$pageTitle .= ', page ' . $page;
@@ -139,7 +137,7 @@ catch(\Exception $ex){
 	<? }else{ ?>
 		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => $view]) ?>
 	<? } ?>
-	<? if(sizeof($ebooks) > 0){ ?>
+	<? if(sizeof($ebooks) > 0 && $collection === null){ ?>
 		<nav>
 			<a<? if($page > 1){ ?> href="/ebooks/?page=<?= $page - 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
