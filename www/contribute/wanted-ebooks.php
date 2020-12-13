@@ -377,7 +377,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/files/1245/1245-h/1245-h.htm">Night and Day</a> by Virginia Woolf</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/7838">Fifty-One Tales</a> by Lord Dunsany (Note: The British and American editions each have a story the other excludes; should we include both plus an editor’s note?</p>
+				<p><a href="https://www.gutenberg.org/ebooks/7838">Fifty-One Tales</a> by Lord Dunsany (Note: The British and American editions each have a story the other excludes; should we include both plus an editor’s note?)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2885">The House of the Wolflings</a> by William Morris</p>
@@ -442,9 +442,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4057">Marius the Epicurean</a> by Walter Pater (<a href="https://www.gutenberg.org/ebooks/4058">Vol. 2</a>; both as a single production)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/165">McTeague</a> by Frank Norris</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1280">Spoon River Anthology</a> by Edgar Lee Masters</p>
 			</li>
@@ -566,7 +566,7 @@ require_once('Core.php');
 				<p><a href="https://books.google.com/books?id=OKREAAAAYAAJ">Cyrano de Bergerac</a>, by Edmond Rostand, translated by Brian Hooker. This is a 1923 publication, transcription is required.</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. George Birkbeck Hill's unabridged edition was published in six volumes, all of which are on PG - the link leads to the first volume.</p>
+				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. George Birkbeck Hill's unabridged edition was published in six volumes, all of which are on PG; the link leads to the first volume.</p>
 			</li>
 			<li>
 				<p>The Betrothed by Alessandro Manzoni. There is a 1924 translation that must be considered, and will require transcription.</p>
