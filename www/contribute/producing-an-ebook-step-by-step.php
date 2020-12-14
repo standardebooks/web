@@ -171,7 +171,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>There are many things that <code class="bash"><b>se</b> typogrify</code> isn’t well suited to do automatically. Check <a href="/manual/latest/8-typography">our complete typography manual</a> to see exactly how to format the work. Below is a brief, but incomplete, list of common issues that arise in ebooks:</p>
 				<ul>
 					<li>
-						<p><a href="/manual/latest/8-typography#8.7.5.3">Elision</a>. <code class="html">′</code> (i.e., <code class="html">&amp;rsquo;</code>) is used for elided letters in a word. <code class="bash"><b>se</b> typogrify</code> often gets this wrong, and you need to review your ebook by hand to ensure it didn't insert <code class="html">‘</code> (<code class="html">&amp;lsquo;</code>) instead.</p>
+						<p><a href="/manual/latest/8-typography#8.7.5.3">Elision</a>. <code class="html">’</code> (i.e., <code class="html">&amp;rsquo;</code>) is used for elided letters in a word. <code class="bash"><b>se</b> typogrify</code> often gets this wrong, and you need to review your ebook by hand to ensure it didn't insert <code class="html">‘</code> (<code class="html">&amp;lsquo;</code>) instead.</p>
 						<p>Use this regex to examine potential candidates for correction:</p>
 						<code class="regex">\s‘[a-z]</code>
 					</li>
