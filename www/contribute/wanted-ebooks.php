@@ -688,6 +688,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
 			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Romance_of_the_Three_Kingdoms">Romance of the Three Kingdoms</a> by Luo Guanzhong, translated by Charles Henry Brewitt-Taylor. This is a 1925 publication, transcription is required.</p>
+			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
