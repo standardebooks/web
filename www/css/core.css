@@ -110,15 +110,12 @@
 }
 
 html{
-	color: #222; /* fallback for IE */
 	color: var(--body-text);
 	font-family: "Crimson Pro", Georgia, serif;
 	-webkit-hyphens: auto;
 	hyphens: auto;
 	font-size: 22px;
 	line-height: 1.4;
-	/* fallback for ie */
-	background: #e9e7e0;
 	background: var(--body-bg);
 }
 
@@ -277,6 +274,8 @@ header nav li + li:before{
 	font-size: 16px;
 	margin-left: 10px;
 	margin-right: 10px;
+	position: relative;
+	top: -1px;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .75);
 }
 
@@ -504,10 +503,10 @@ h1 + section > h2:first-child{
 a.button,
 .ebooks nav > a,
 form button{
+	border: 1px solid rgba(0, 0, 0, .5);
 	font-style: normal;
 	box-sizing: border-box;
 	background-color: var(--button);
-	border-width: 0;
 	border-radius: 5px;
 	padding: 1rem 2rem;
 	color: #fff;
@@ -520,6 +519,7 @@ form button{
 	cursor: pointer;
 	white-space: nowrap;
 	font-size: 1rem;
+	height: calc(1.4rem + 2rem + 2px);
 }
 
 .ebooks nav li.highlighted a:focus,
@@ -590,8 +590,6 @@ main.ebooks nav ol li.highlighted a:hover,
 a.button:hover,
 .ebooks nav > a:hover,
 form button:hover{
-	/* fallback for ie */
-	background-color: #288da4;
 	background-color: var(--button-highlight);
 }
 
@@ -1241,8 +1239,6 @@ ul.tags li a{
 
 ul.tags li a:hover{
 	color: #fff;
-	/* fallback for ie */
-	background: #288da4;
 	background: var(--button-highlight);
 }
 
@@ -1281,13 +1277,15 @@ main.ebooks nav ol li a{
 	margin: 0 .5rem;
 	border-radius: .25rem;
 	font-variant-numeric: normal;
+	height: calc(1.4rem + 2rem + 2px);
+	display: inline-block;
+	box-sizing: border-box;
 }
 
 article nav ol li.highlighted a,
 main.ebooks nav ol li.highlighted a{
-	background-color: #1d6878; /* fallback for IE */
 	background: var(--button);
-	padding: 1.25rem;
+	border: 1px solid rgba(0, 0, 0, .5);
 }
 
 article nav ol li.highlighted a,
@@ -1486,7 +1484,6 @@ form[action="/ebooks"] label.per-page{
 }
 
 form[action="/ebooks"] button{
-	height: calc(1.4rem + 2rem + 2px);
 	justify-self: end;
 	margin-top: 1.4rem;
 }
