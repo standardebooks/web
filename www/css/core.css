@@ -277,6 +277,7 @@ header nav li + li:before{
 	font-size: 16px;
 	margin-left: 10px;
 	margin-right: 10px;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .75);
 }
 
 header nav li a{
