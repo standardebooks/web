@@ -268,7 +268,7 @@ header nav{
 }
 
 header nav li{
-	color: rgba(255, 255, 255, .75);
+	color: #fff;
 	display: inline-block;
 }
 
@@ -291,7 +291,6 @@ header nav li a{
 
 header nav li a:link,
 header nav li a:visited{
-	color: rgba(255, 255, 255, .75);
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .75);
 	border-bottom: 5px solid rgba(0,0,0,0); /* for the transition */
 }
