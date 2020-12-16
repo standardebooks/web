@@ -695,6 +695,7 @@ article.ebook > header > hgroup{
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	margin: 2rem; /* for responsive */
+	border-radius: .25rem;
 }
 
 article.ebook > header > hgroup > h2{
