@@ -60,23 +60,24 @@
 }
 
 :root{
+	--light-body-bg: #e9e7e0;
 	--light-body-text: #222;
 	--light-highlight: #1d6878;
-	--light-button: #1d6878;
-	--light-button-highlight: #3da5bb;
+	--light-button: #4f9d85;
+	--light-button-highlight: #62bfa3;
 	--light-border: #222;
 	--light-sub-text: #777;
-	--light-body-bg: #e9e7e0;
 	--light-input-hover: #000;
 	--light-input-border: #777;
 	--light-input-outline: #000;
+
+	--dark-body-bg: #2c3035;
 	--dark-body-text: #fff;
 	--dark-highlight: #3da5bb;
-	--dark-button: #118460;
-	--dark-button-highlight: #4ab089;
+	--dark-button: #4f9d85;
+	--dark-button-highlight: #62bfa3;
 	--dark-border: #000;
 	--dark-sub-text: #aaa;
-	--dark-body-bg: #293542;
 	--dark-input-border: #aaa;
 	--dark-input-hover: #118460;
 	--dark-input-outline: #fff;
@@ -260,7 +261,7 @@ body > header > a:hover{
 
 header nav{
 	font-family: "League Spartan";
-	text-transform: lowercase;
+	text-transform: uppercase;
 	align-self: center;
 	text-align: right;
 	font-size: 0;
@@ -269,7 +270,6 @@ header nav{
 header nav li{
 	color: rgba(255, 255, 255, .75);
 	display: inline-block;
-
 }
 
 header nav li + li:before{
@@ -284,6 +284,9 @@ header nav li a{
 	text-decoration: none;
 	font-size: 20px;
 	transition: border 200ms ease, color 200ms ease;
+	letter-spacing: 1px;
+	position: relative;
+	display: inline-block;
 }
 
 header nav li a:link,
@@ -296,13 +299,26 @@ header nav li a:visited{
 header nav li a:hover,
 header nav li a.highlighted:hover{
 	color: #fff;
-	border-bottom: 5px solid rgb(241, 168, 73);
+	border-bottom: 5px solid var(--button);
 	transition: none;
 }
 
 header nav li a.highlighted{
 	color: #fff;
-	border-bottom: 2px solid rgb(241, 168, 73);
+	border-bottom: 2px solid var(--button);
+}
+
+header nav li a.highlighted::after{
+	position: absolute;
+	content: "";
+	width: 0px;
+	height: 0px;
+	border-top: 10px solid var(--button);
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+	border-left: 10px solid transparent;
+	bottom: -20px;
+	right: calc(50% - 10px);
 }
 
 article > h1{
@@ -491,7 +507,6 @@ a.button,
 form button{
 	font-style: normal;
 	box-sizing: border-box;
-	background-color: #1d6878; /* fallback for IE */
 	background-color: var(--button);
 	border-width: 0;
 	border-radius: 5px;
@@ -500,7 +515,7 @@ form button{
 	text-decoration: none;
 	font-family: "League spartan", sans-serif;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
-	box-shadow: 2px 2px 0 #194149;
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, .5);
 	position: relative;
 	text-transform: lowercase;
 	cursor: pointer;
