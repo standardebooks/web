@@ -495,7 +495,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 h1 + p{
-	margin-top: 2rem;
+	margin-top: 0;
 }
 
 h1 + section > h2:first-child{
@@ -950,6 +950,21 @@ h2{
 	line-height: 1.2;
 	letter-spacing: 1px;
 	text-transform: uppercase;
+}
+
+.donate-row{
+	display: grid;
+	margin: 2rem;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 1rem;
+	justify-items: center;
+}
+
+.donate-row + p{
+	border-top: 1px dashed var(--sub-text);
+	margin-top: 0;
+	padding-top: 1rem;
+	font-style: italic;
 }
 
 h3,
@@ -1961,7 +1976,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	main.front-page > section > section figure.oss img + img,
 	main.front-page > section > h2::before,
 	main.front-page > section > h2::after{
-		filter: invert() grayscale(100%) brightness(120%); /* grayscale and brightness makes it hit about #eeeeee */
+		filter: invert() grayscale(100%) brightness(120%) drop-shadow(3px 3px 1px rgba(0, 0, 0, .25)); /* grayscale and brightness makes it hit about #eeeeee */
 	}
 
 	select,
