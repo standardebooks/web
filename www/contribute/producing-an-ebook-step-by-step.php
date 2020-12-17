@@ -288,6 +288,22 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Note how we preface this commit with “[Editorial]”. Any change you make to the source text that can be considered a modernization or editorial change should be prefaced like this, so that the <code class="bash"><b>git</b></code> history can be easily searched by people looking to revert changes.</p><code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Modernize hyphenation and spelling"</i></span></code>
 			</li>
 			<li>
+				<h2>Check for consistent diacritics</h2>
+				<p>Sometimes during transcription or even printing, instances of some words might have diacritics while others don’t. For example, a word in one chapter might be spelled <code class="html">châlet</code>, but in the next chapter it might be spelled <code class="html">chalet</code>.</p>
+				<p><code class="bash"><b>se</b> find-mismatched-diacritics</code> lists these instances for you to review. Spelling should be normalized across the work so that all instances of the same word are spelled in the same way. Keep the following in mind as you review these instances:</p>
+				<ul>
+					<li>
+						<p>In modern English spelling, many diacritics are removed (like <code class="html">chalet</code>). If in doubt, ask the SE Editor-in-Chief.</p>
+					</li>
+					<li>
+						<p>Even though diacritics might be removed in English spelling, they may be preserved in non-English text, or in proper names.</p>
+						<blockquote>
+							<p>He visited the hotel called the Châlet du Nord.</p>
+						</blockquote>
+					</li>
+				</ul>
+			</li>
+			<li>
 				<h2>Modernize spacing in select words</h2>
 				<p>Over time, spelling of certain common two-word phrases has evolved into a single word. For example, “someone” used to be the two-word phrase “some one,” which would read awkwardly to modern readers. This is our chance to modernize such phrases.</p>
 				<p>Note that we use <code class="bash"><b>se</b> interactive-sr</code> to perform an interactive search and replace, instead of doing a global, non-interactive search and replace. This is because some phrases caught by the regular expression should not be changed, depending on context. For example, "some one" in the following snippet from <a href="/ebooks/anton-chekhov/short-fiction/constance-garnett/">Anton Chekhov’s short fiction</a> <em>should not</em> be corrected:</p>
