@@ -1,4 +1,9 @@
 <?
+
+if($view == ''){
+	$view = VIEW_GRID;
+}
+
 if(!isset($ebooks)){
 	$ebooks = [];
 }
@@ -14,13 +19,21 @@ if(!isset($ebooks)){
 			</picture>
 		</a>
 		<p><a href="<?= $ebook->Url ?>"><?= Formatter::ToPlainText($ebook->Title) ?></a></p>
+		<? if($view == VIEW_GRID){  ?>
 		<? foreach($ebook->Authors as $author){ ?>
 			<p class="author"><? if($author->Name != 'Anonymous'){ ?><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a><? } ?></p>
 		<? } ?>
-		<? if($view == VIEW_LIST){ ?>
+		<? }else{ ?>
+			<div>
+			<? foreach($ebook->Authors as $author){ ?>
+				<p class="author"><? if($author->Name != 'Anonymous'){ ?><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a><? } ?></p>
+			<? } ?>
+			</div>
 			<div class="details">
 				<? if($ebook->ContributorsHtml !== null){ ?>
-				<p><?= rtrim($ebook->ContributorsHtml, '.') ?></p>
+				<div>
+					<p><?= rtrim($ebook->ContributorsHtml, '.') ?></p>
+				</div>
 				<? } ?>
 				<p><?= number_format($ebook->WordCount) ?> words • <?= $ebook->ReadingEase ?> reading ease</p>
 				<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
