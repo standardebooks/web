@@ -4,6 +4,7 @@ require_once('Core.php');
 <main>
 	<article>
 		<h1>Ebooks We Do and Don’t Accept</h1>
+		<p>Standard Ebooks only works on books that have entered the U.S. public domain due to copyright expiration.</p>
 		<h2>Types of ebooks we do accept</h2>
 		<ul>
 			<li>
@@ -31,7 +32,7 @@ require_once('Core.php');
 				<p>Books that are illustration-heavy, like picture or art books, or whose content greatly depends on the arrangement of illustrations or graphics.</p>
 			</li>
 			<li>
-				<p>Modern books that have been self-published and released to the public domain.</p>
+				<p>Modern books that have released to the public domain, including self-published books.</p>
 			</li>
 			<li>
 				<p>Major religious texts from modern world religions, like the Bible or the Koran, will not be accepted. Texts <em>about</em> religion will usually be accepted. Texts from historical religious movements that were culturally influential but are now defunct, or are otherwise not significant in modern times, <em>might</em> be accepted; ask first.</p>
