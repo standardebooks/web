@@ -1069,6 +1069,8 @@ main.ebooks > ol.list{
 	gap: 0;
 	margin: auto;
 	margin-bottom: 4rem;
+	width: 100%;
+	max-width: 30rem;
 }
 
 main.ebooks > ol > li{
