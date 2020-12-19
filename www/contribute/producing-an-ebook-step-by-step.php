@@ -47,12 +47,12 @@ require_once('Core.php');
 						<p><a href="https://books.google.com">Google Books</a></p>
 					</li>
 				</ul>
-				<p>Each of those sources allows you to filter results by publication date, so make sure you select 1924 and earlier to ensure they’re in the US public domain.</p>
+				<p>Each of those sources allows you to filter results by publication date, so make sure you select <?= PD_YEAR ?> and earlier to ensure they’re in the U.S. public domain.</p>
 				<p>If you can’t find scans of your book at the above sources, and you’re using a Project Gutenberg transcription as source material, there’s a good chance that PGDP (the sister project of Project Gutenberg that does the actual transcriptions) <a href="https://www.pgdp.org/ols/">has a copy of the scans they used accessible in their archives</a>. You should only use the PGDP archives as a last resort; because their scans are not searchable, verifying typos becomes extremely time-consuming.</p>
 				<p>Please keep the following important notes in mind when searching for page scans:</p>
 				<ul>
 					<li>
-						<p>Make sure the scans you find are <em>published in 1924 or earlier.</em> You <em>must verify the copyright page in the page scans</em> before proceeding.</p>
+						<p>Make sure the scans you find are <em>published in <?= PD_YEAR ?> or earlier.</em> You <em>must verify the copyright page in the page scans</em> before proceeding.</p>
 					</li>
 					<li>
 						<p>Often you’ll find different editions, published at different times by different publishers, for the same book. It’s worth the effort to quickly browse through each different one to get an idea of the kinds of changes the different publishers introduced. Maybe one edition is better than another!</p>
@@ -505,7 +505,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>The image you pick should be a “fine art” oil painting so that all Standard Ebooks have a consistent cover style. This is actually easier than you think, because it turns out most public domain artwork is from the era of fine art.</p>
 					</li>
 					<li>
-						<p>You must provide proof of public domain status to the SE Editor-in-Chief in the form of a page scan of the painting from a 1924-or-older book, and the Editor-in-Chief must approve your selection before you can commit it to your repository.</p>
+						<p>You must provide proof of public domain status to the SE Editor-in-Chief in the form of a page scan of the painting from a <?= PD_YEAR ?>-or-older book, and the Editor-in-Chief must approve your selection before you can commit it to your repository.</p>
 					</li>
 					<li>
 						<p>The Standard Ebooks Editor-in-Chief has the final say on the cover image you pick, and it may be rejected for, among other things, poor public domain status research, being too low resolution, not fitting in with the “fine art” style, or being otherwise inappropriate for your ebook.</p>

@@ -32,6 +32,8 @@ const SOURCE_PROJECT_GUTENBERG_AUSTRALIA = 8;
 
 const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
+define('PD_YEAR', intval(gmdate('Y')) - 96);
+
 // No trailing slash on any of the below constants.
 const SITE_URL =			'https://standardebooks.org';
 const SITE_ROOT =			'/standardebooks.org';

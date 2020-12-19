@@ -4,7 +4,7 @@ require_once('Core.php');
 <main>
 	<article>
 		<h1>Ebooks We Do and Don’t Accept</h1>
-		<p>Standard Ebooks only works on books that have entered the U.S. public domain due to copyright expiration.</p>
+		<p>Standard Ebooks only works on books that have entered the U.S. public domain due to copyright expiration. Generally this means a book must have been published in <?= PD_YEAR ?> or earlier, though there are exceptions for works from later periods that did not follow copyright formalities. For full details, see <a href="https://www.gutenberg.org/help/copyright.html">Project Gutenberg’s Copyright How-To</a>.</p>
 		<h2>Types of ebooks we do accept</h2>
 		<ul>
 			<li>
