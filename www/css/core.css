@@ -172,8 +172,12 @@ main.front-page > picture img{
 	max-width: 100%; /* for responsive */
 }
 
-main > article{
+main.front-page > picture img{
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+}
 
+main > article{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -468,6 +472,7 @@ main.front-page > section > h2{
 	border-top: 3px double var(--sub-text);
 	border-bottom: 3px double var(--sub-text);
 	padding: 2rem 4rem;
+	hyphens: none;
 }
 
 main.front-page > section > h2::before{
@@ -483,6 +488,7 @@ main.front-page > section > section > h3{
 	text-align: center;
 	font-size: 2rem;
 	margin-top: 0;
+	hyphens: none;
 }
 
 main.center h1{
@@ -625,6 +631,9 @@ code{
 main.front-page > a.button{
 	align-self: center;
 	margin-top: 4rem;
+	white-space: normal;
+	height: auto;
+	text-align: center;
 }
 
 article.ebook ul,
@@ -1821,6 +1830,29 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 }
 
 @media(max-width: 1000px){
+	main.front-page h1{
+		padding: 2rem;
+	}
+
+	main.front-page > section > section > div{
+		flex-direction: column;
+	}
+
+	main.front-page > section > section > div figure{
+		order: 1;
+		margin: 0;
+		margin-bottom: 2rem;
+	}
+
+	main.front-page > section > section > div div{
+		order: 2;
+		width: 100%;
+	}
+
+	main.front-page > section > section p{
+		width: 100%;
+	}
+
 	article.ebook #more-ebooks ul{
 		flex-wrap: wrap;
 	}
@@ -1896,6 +1928,10 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	.donate table td p{
 		text-align: center;
 	}
+
+	.donate table.multi tr td + td{
+		padding-top: 1rem;
+	}
 }
 
 @media(max-width: 870px){
@@ -1961,7 +1997,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 @media(max-width: 680px){
 	main.front-page h1{
-		padding: 3rem;
 		font-size: 2.4rem;
 	}
 

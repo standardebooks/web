@@ -50,7 +50,9 @@ require_once('Core.php');
 		<section>
 			<h3>Rich &amp; detailed metadata</h3>
 			<div>
-				<p>Our ebooks include complete, well-researched, and consistent metadata, including original, detailed book blurbs and links to encyclopedia sources. Perfect for machine processing or for extra-curious, technically-minded readers.</p>
+				<div>
+					<p>Our ebooks include complete, well-researched, and consistent metadata, including original, detailed book blurbs and links to encyclopedia sources. Perfect for machine processing or for extra-curious, technically-minded readers.</p>
+				</div>
 				<figure>
 					<picture>
 						<source srcset="/images/metadata@2x.png 2x, /images/metadata.png 1x" type="image/png"/>
