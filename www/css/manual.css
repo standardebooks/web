@@ -35,6 +35,15 @@
 	font-style: normal;
 }
 
+.manual h1,
+.manual h2,
+.manual h3,
+.manual h4,
+.manual h5,
+.manual h6{
+	text-align: left;
+}
+
 main.manual{
 	font-family: "Fira Sans", sans-serif;
 	font-size: .8rem;

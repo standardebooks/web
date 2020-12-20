@@ -128,7 +128,7 @@ require_once('Core.php');
 			<div>
 				<div>
 					<p>We use the popular Git source control system to track each and every change made to our ebooks. Anyone can easily see a history of changes, or contribute their own changes with the click of a mouse.</p>
-					<p>And while all of the ebooks we feature and the cover art we draw from are <em>already</em> believed to be in the public domain in the US, Standard Ebooks releases all of the work we put in to each ebook into the public domain too. That makes each and every one of our ebook files not just free, but <a href="https://en.wikipedia.org/wiki/Gratis_versus_libre">libre</a> too—because the world deserves more unrestricted culture.</p>
+					<p>And while all of the ebooks we feature and the cover art we draw from are <em>already</em> believed to be in the public domain in the U.S., Standard Ebooks releases all of the work we put in to each ebook into the public domain too. That makes each and every one of our ebook files not just free, but <a href="https://en.wikipedia.org/wiki/Gratis_versus_libre">libre</a> too—because the world deserves more unrestricted culture.</p>
 				</div>
 				<figure class="oss">
 					<img alt="The Git SCM logo." src="/images/git.svg"/>

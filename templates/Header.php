@@ -69,6 +69,9 @@ print("\n");
 				<li>
 					<a<? if($highlight == 'contribute'){ ?> class="highlighted"<? } ?> href="/contribute">Get Involved</a>
 				</li>
+				<li>
+					<a<? if($highlight == 'donate'){ ?> class="highlighted"<? } ?> href="/donate">Donate</a>
+				</li>
 			</ul>
 		</nav>
 	</header>

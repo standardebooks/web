@@ -20,13 +20,13 @@ require_once('Core.php');
 		<h2>Types of ebooks we don’t accept</h2>
 		<ul>
 			<li>
-				<p>Ebooks that are not clearly in the U.S. public domain. If it’s not on <a href="https://www.gutenberg.org">Gutenberg</a>, we’ll probably decline it.</p>
+				<p>Ebooks that are not clearly in the U.S. public domain. If it’s not hosted on <a href="https://www.gutenberg.org">Projected Gutenberg</a>, we’ll probably decline it.</p>
 			</li>
 			<li>
 				<p>Individual short works that could instead be collected in a larger omnibus, like individual pamphlets, essays, or short stories. For example, we wouldn’t accept individual ebook productions of Jonathan Swift’s “<a href="https://www.gutenberg.org/ebooks/1080">A Modest Proposal</a>” or Philip K. Dick’s “<a href="https://www.gutenberg.org/ebooks/32522">Mr. Spaceship</a>.” However we <em>do</em> want <em>complete compilations</em> of those kinds of short works, for example our <a href="/ebooks/philip-k-dick/short-fiction">ebook of all of Philip K. Dick’s public domain short stories</a>.</p>
 			</li>
 			<li>
-				<p>Non-fiction that is “dated” or not relevant to a modern reader. This includes obscure histories that are not otherwise notable and have been superseded by modern research; old-timey cookbooks, books of medicine, and textbooks; biographies of long-forgotten people that are not notable; non-fiction periodicals, magazines, or journals; legal documents, including codes of law and constitutions; and so on. Note that “notable” means we may make exceptions, for example for <i>The History of the Decline and Fall of the Roman Empire</i> or <i>The Gallic Wars</i> or <i>The Life of Samuel Johnson</i>.</p>
+				<p>Non-fiction that is “dated” or not relevant to a modern reader. This includes obscure histories that are not otherwise notable and have been superseded by modern research; old-timey cookbooks, books of medicine, and textbooks; biographies of long-forgotten people that are not notable; non-fiction periodicals, magazines, or journals; legal documents, including codes of law and constitutions; and so on. Note that “notable” means we may make exceptions, for example for <i>The History of the Decline and Fall of the Roman Empire</i> or <i><a href="/ebooks/julius-caesar/commentaries-on-the-gallic-war/w-a-mcdevitte_w-s-bohn">The Gallic Wars</a></i> or <i>The Life of Samuel Johnson</i>.</p>
 			</li>
 			<li>
 				<p>Books that are illustration-heavy, like picture or art books, or whose content greatly depends on the arrangement of illustrations or graphics.</p>
