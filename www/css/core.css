@@ -1641,12 +1641,11 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 .masthead ol li img.contact{
 	border: none;
 	border-radius: 0;
-	height: auto;
 	width: auto;
 	margin-top: .5rem;
 	margin-right: 0;
 	display: block;
-	max-height: 1rem;
+	height: auto;
 }
 
 .masthead ol.editors img{

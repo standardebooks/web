@@ -63,8 +63,15 @@ require_once('Core.php');
 						</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" alt=""/>
-						<p><a href="https://www.brokenandsaved.com">Vince Rice</a></p>
+						<picture>
+							<source srcset="/images/masthead/vince-rice@2x.avif 2x, /images/masthead/vince-rice.avif 1x" type="image/avif"/>
+							<source srcset="/images/masthead/vince-rice@2x.jpg 2x, /images/masthead/vince-rice.jpg 1x" type="image/jpg"/>
+							<img src="/images/masthead/vince-rice.png" alt="A portrait of Vince Rice."/>
+						</picture>
+						<p>
+							<a href="https://www.brokenandsaved.com">Vince Rice</a>
+							<img src="/images/masthead/vince-rice-contact.svg" alt="Contact information for Vince Rice." class="contact"/>
+						</p>
 					</li>
 					<li>
 						<img src="/images/masthead/portrait.svg" alt=""/>
