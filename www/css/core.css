@@ -1698,7 +1698,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 .donate table td:first-child{
 	padding-left: 0;
-	vertical-align: top;
+	vertical-align: middle;
 }
 
 .donate table p{
@@ -1914,6 +1914,10 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 	.donate table td{
 		display: block;
+	}
+
+	.donate table td:first-child{
+		vertical-align: top;
 	}
 
 	.donate table td + td{

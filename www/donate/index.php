@@ -13,8 +13,8 @@ require_once('Core.php');
 			<img src="/images/the-quiet-hour@2x.jpg" alt="An oil painting of a women reading a book by a writing desk at twilight."/>
 		</picture>
 		<section id="donate">
-			<p>The contributors to the Standard Ebooks project work hard to create beautifully-formatted ebooks that are free of cost and free of copyright restrictions. It takes several highly-skilled specialists working together for weeks and even months to ensure that an ebook meets our exacting aesthetic and technical standards, before it’s offered to readers for free.</p>
-			<p>The cost of producing even the most basic ebook is estimated to start at hundreds of dollars; and that doesn’t include infrastructure costs like <a href="/tools">toolset development</a>, editing our <a href="/manual">Manual of Style</a>, project management, hosting, or bandwidth. <em>This means your financial contribution is critically important for us to continue bringing beautifully-presented literature to readers in the digital age.</em></p>
+			<p>We work hard to create beautifully-formatted ebooks that are free of cost and free of copyright restrictions. It takes a team of highly-skilled specialists working together for weeks and even months to ensure that an ebook meets our exacting aesthetic and technical standards, before it’s offered to readers for free.</p>
+			<p>The cost of producing even the most basic ebook is estimated to start at several hundred dollars; and that doesn’t include infrastructure costs like developing and maintaining our <a href="/tools">free and open source ebook production toolset</a>, editing our <a href="/manual">free Manual of Style</a>, project management, hosting, or bandwidth. <em>This means your financial contribution is critically important for us to continue bringing beautifully-presented literature to readers in the digital age.</em></p>
 			<p><a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a 501(c)(3) public charity, is our fiscal sponsor. Your donation will be processed through their website, and their name will appear on your financial statements and receipts. Donations are tax-deductible to the extent permitted by law.</p>
 			<p class="button-row">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a one-time donation</a>
@@ -74,10 +74,10 @@ require_once('Core.php');
 					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">OCR</a> output.</p>
 				</li>
 				<li>
-					<p>Your selection’s word count will be calculated from the source transcription using the <a href="/tools">SE toolset</a>, and includes front and back matter like forewords and endnotes. <a href="/about#masthead">Contact the Editor-in-Chief</a> before donating so that we can calculate your selection’s word count for you; a word processor can give you an estimate, but we must make the final determination. Note that the final ebook’s word count will differ from the count used to determine the donation amount.</p>
+					<p>Your selection’s word count will be calculated from the source transcription using the <a href="/tools">SE toolset</a>, and includes front and back matter like forewords and endnotes. <a href="/about#masthead">Contact the Editor-in-Chief</a> before donating so that we can calculate your selection’s word count for you; a word processor can give you an estimate, but we must make the final determination. Note that the final ebook’s word count will differ.</p>
 				</li>
 				<li>
-					<p>Standard Ebooks is the sole decisionmaker regarding all aspects of ebook production. Trust us to create an artifact of beauty.</p>
+					<p>Standard Ebooks is the sole decisionmaker regarding all aspects of ebook editing and production. Trust us to create an artifact of beauty.</p>
 				</li>
 			</ul>
 			<table>

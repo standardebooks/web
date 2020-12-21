@@ -4,7 +4,7 @@ require_once('Core.php');
 <main>
 	<article>
 		<h1>About Standard Ebooks</h1>
-		<p>The Standard Ebooks project is a volunteer driven, not-for-profit effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the public domain, and Standard Ebook dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain. All the ebooks we produce are distributed free of cost and free of U.S. copyright restrictions.</p>
+		<p>The Standard Ebooks project is a volunteer driven, not-for-profit effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the public domain, and Standard Ebooks dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain. All the ebooks we produce are distributed free of cost and free of U.S. copyright restrictions.</p>
 		<section id="more-information">
 			<h2>More information</h2>
 			<ul>
@@ -75,7 +75,10 @@ require_once('Core.php');
 					</li>
 					<li>
 						<img src="/images/masthead/portrait.svg" alt=""/>
-						<p><a href="https://www.linkedin.com/in/emma-sweeney-554927190/">Emma Sweeney</a></p>
+						<p>
+							<a href="https://www.linkedin.com/in/emma-sweeney-554927190/">Emma Sweeney</a>
+							<img src="/images/masthead/emma-sweeney-contact.svg" alt="Contact information for Emma Sweeney." class="contact"/>
+						</p>
 					</li>
 					<li>
 						<picture>
