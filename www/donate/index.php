@@ -88,7 +88,7 @@ require_once('Core.php');
 							<p>(Like <i><a href="/ebooks/e-m-forster/a-room-with-a-view">A Room With a View</a></i> by <a href="/ebooks/e-m-forster">E. M. Forster</a>)</p>
 						</td>
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a $700 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/donations/new?intent=e415f035-7c5a-4cca-a7e1-66ad0e9c2573" class="button">Make a $700 donation</a>
 						</td>
 					</tr>
 					<tr>
@@ -98,7 +98,7 @@ require_once('Core.php');
 						</td>
 
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a $850 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/donations/new?intent=66aa0255-00a5-4141-a246-7ca543fa4c2e" class="button">Make a $850 donation</a>
 						</td>
 					</tr>
 					<tr>
@@ -108,7 +108,7 @@ require_once('Core.php');
 						</td>
 
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a $1,000 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/donations/new?intent=f8095506-5a6b-487a-8664-1a4ab4b3db3f" class="button">Make a $1,000 donation</a>
 						</td>
 					</tr>
 					<tr>
@@ -118,17 +118,17 @@ require_once('Core.php');
 						</td>
 
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a $1,150 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/donations/new?intent=8b38ef13-3b1f-4d45-8d2a-6390090145c4" class="button">Make a $1,150 donation</a>
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<p>Your choice of ebook of 250,000–300,000 words</p>
-							<p>(Like <i>Ulysses</i> by James Joyce)</p>
+							<p>(Like <i>Ulysses</i> by <a href="https://standardebooks.org/ebooks/james-joyce">James Joyce</a>)</p>
 						</td>
 
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a $1,300 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/donations/new?intent=cd3274bd-0d78-47c2-ba0c-09605adac58b" class="button">Make a $1,300 donation</a>
 						</td>
 					</tr>
 				</tbody>
