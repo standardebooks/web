@@ -553,6 +553,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9830">The Beautiful and the Damned</a> by F. Scott Fitzgerald</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/6737">Noli Me Tángere</a> by José Rizal, translated by Charles Derbyshire</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/10676">El filibusterismo</a> by José Rizal, translated by Charles Derbyshire</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
