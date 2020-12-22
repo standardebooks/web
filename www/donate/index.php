@@ -18,48 +18,16 @@ require_once('Core.php');
 			<p><a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a 501(c)(3) public charity, is our fiscal sponsor. Your donation will be processed through their website, and their name will appear on your financial statements and receipts. Donations are tax-deductible to the extent permitted by law.</p>
 			<p class="button-row">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a one-time donation</a>
-				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Make a recurring donation</a>
+				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Make a monthly donation</a>
 			</p>
 		</section>
 		<section id="monthly">
-			<h2>Join our supporter circles</h2>
-			<table class="multi">
-				<tbody>
-					<tr>
-						<td>
-							<p>Join the Letters Circle</p>
-							<p>Your name will be listed as a Letters Circle donor on our <a href="/about#masthead">masthead</a> for one year with a one-time donation, or for the duration of your monthly donation.</p>
-						</td>
-						<td>
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Start a $5/month donation</a>
-							— or —
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a $50 donation</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>Join the Friends Circle</p>
-							<p>Your name and a small photograph will be listed as a Friends Circle donor on our <a href="/about#masthead">masthead</a> for one year with a one-time donation, or for the duration of your monthly donation.</p>
-						</td>
-						<td>
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Start a $10/month donation</a>
-							— or —
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a $100 donation</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>Join the Patrons Circle</p>
-							<p>Your name and a medium photograph will be listed as a Patrons Circle donor on our <a href="/about#masthead">masthead</a> for one year with a one-time donation, or for the duration of your monthly donation.</p>
-						</td>
-						<td>
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Start a $15/month donation</a>
-							— or —
-							<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a $150 donation</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<h2>Join the Patrons Circle</h2>
+			<p>Start a monthly donation of $10/month or more, and your name and photo will be listed as a Patrons Circle donor on our <a href="/about#masthead">masthead</a> for the duration of your gift.</p>
+			<p>Your monthly donation is crucial to ensuring we can continue producing high-quality editions of literature for the digital age. We can’t do it without your support!</p>
+			<p class="button-row center">
+				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>
+			</p>
 		</section>
 		<section id="sponsor-an-ebook">
 			<h2>Sponsor an ebook of your choice</h2>

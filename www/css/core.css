@@ -1579,6 +1579,10 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	justify-items: center;
 }
 
+.button-row.center{
+	grid-template-columns: 1fr;
+}
+
 .masthead h2 + section > h3{
 	margin-top: 0;
 }
@@ -1710,37 +1714,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	display: block;
 	height: auto;
 	text-align: center;
-}
-
-.donate table.multi tr + tr td{
-	padding-top: 3rem;
-}
-
-.donate table.multi td p{
-	text-align: justify;
-}
-
-.donate table.multi td p:first-child{
-	text-align: center;
-	font-size: 1.5rem;
-	font-style: italic;
-	border-bottom: 3px double var(--sub-text);
-	padding-bottom: .5rem;
-	line-height: 1;
-	margin-bottom: .5rem;
-}
-
-.donate table.multi td + td{
-	font-style: italic;
-	text-align: center;
-}
-
-.donate table.multi td + td a:first-of-type{
-	margin-bottom: .5rem;
-}
-
-.donate table.multi td + td a:last-of-type{
-	margin-top: .5rem;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
@@ -1930,10 +1903,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 	.donate table td p{
 		text-align: center;
-	}
-
-	.donate table.multi tr td + td{
-		padding-top: 1rem;
 	}
 }
 

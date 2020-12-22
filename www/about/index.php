@@ -96,7 +96,7 @@ require_once('Core.php');
 			<section id="patrons-circle">
 				<hgroup>
 					<h3>Patrons Circle</h3>
-					<h4>Donors contributing $15/month or $150. <a href="/donate">Join the Patrons Circle today.</a></h4>
+					<h4>Donors contributing $10/month or more. <a href="/donate">Join the Patrons Circle today.</a></h4>
 				</hgroup>
 				<ol class="donors big">
 					<? if(false){ ?>
@@ -110,40 +110,6 @@ require_once('Core.php');
 					</li>
 					<li>
 						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
-						<p>Anonymous × 2</p>
-					</li>
-					<? } ?>
-				</ol>
-			</section>
-			<section id="friends-circle">
-				<hgroup>
-					<h3>Friends Circle</h3>
-					<h4>Donors contributing $10/month or $100. <a href="/donate">Join the Friends Circle today.</a></h4>
-				</hgroup>
-				<ol class="donors small">
-					<? if(false){ ?>
-					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
-						<p>Firstname Lastname</p>
-					</li>
-					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
-						<p>Anonymous × 2</p>
-					</li>
-					<? } ?>
-				</ol>
-			</section>
-			<section id="letters-circle">
-				<hgroup>
-					<h3>Letters Circle</h3>
-					<h4>Donors contributing $5/month or $50. <a href="/donate">Join the Letters Circle today.</a></h4>
-				</hgroup>
-				<ol class="donors no-images">
-					<? if(false){ ?>
-					<li>
-						<p>Firstname Lastname</p>
-					</li>
-					<li>
 						<p>Anonymous × 2</p>
 					</li>
 					<? } ?>
