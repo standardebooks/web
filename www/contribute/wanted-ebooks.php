@@ -212,9 +212,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/61077">The King of Elfland's Daughter</a> by Lord Dunsany</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/30188">The Fifth Queen</a> by Ford Madox Ford (Book 1 in the Fifth Queen Trilogy)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/26698">Privy Seal</a> by Ford Madox Ford (Book 2 in the Fifth Queen Trilogy)</p>
 			</li>
