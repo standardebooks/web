@@ -172,8 +172,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<ul>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.7.5.3">Elision</a>. <code class="html">’</code> (i.e., <code class="html">&amp;rsquo;</code>) is used for elided letters in a word. <code class="bash"><b>se</b> typogrify</code> often gets this wrong, and you need to review your ebook by hand to ensure it didn't insert <code class="html">‘</code> (<code class="html">&amp;lsquo;</code>) instead.</p>
-						<p>Use this regex to examine potential candidates for correction:</p>
-						<code class="regex">\s‘[a-z]</code>
+						<p>Use this regex to examine potential candidates for correction: <code class="regex">\s‘[a-z]</code></p>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.8.1">Coordinates</a>. Use the prime and double prime glyphs for coordinates. These regexes helps match and replace coordinates:</p>
