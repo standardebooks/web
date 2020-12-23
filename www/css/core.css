@@ -1,6 +1,6 @@
 @font-face{
-	font-family: "FontAwesome";
-	src: local("FontAwesome"), url("/fonts/font-awesome.woff2") format("woff2");
+	font-family: "ForkAwesome";
+	src: url("/fonts/fork-awesome-subset.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
 }
@@ -563,7 +563,7 @@ form button:active{
 
 a.button.next::after,
 .ebooks nav > a:last-child::after{
-	font-family: "FontAwesome";
+	font-family: "ForkAwesome";
 	content: "\f061";
 	transition: all 200ms ease;
 	position: relative;
@@ -579,7 +579,7 @@ a[href].button.next:hover::after,
 }
 
 .ebooks nav > a:first-child:before{
-	font-family: "FontAwesome";
+	font-family: "ForkAwesome";
 	content: "\f060";
 	transition: all 200ms ease;
 	position: relative;
@@ -1336,7 +1336,7 @@ select{
 	-webkit-appearance: none;
 	appearance: none;
 	font-size: 1rem;
-	font-family: "FontAwesome", "Crimson Pro";
+	font-family: "ForkAwesome", "Crimson Pro";
 	color: var(--body-text);
 	background: rgba(0, 0, 0, .1);
 	border-radius: 5px;
@@ -1383,16 +1383,20 @@ label.select > span + span::after{
 	top: calc((2rem + 1.4rem + 2px) / 2 - 6px);
 	right: calc(1rem - 12px / 2);
 	content: "\f107";
-	font-family: "FontAwesome";
+	font-family: "ForkAwesome";
 	font-size: 1rem;
 	line-height: 1;
 	color: var(--sub-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
-	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
+	transition: color .5s;
 }
 
+label.search:focus-within::before,
+label.search:hover::before,
 label.select:hover > span + span::after{
 	color: var(--input-outline);
+	transition: none;
 }
 
 label.select > span + span,
@@ -1404,17 +1408,19 @@ label.search{
 label.search::before{
 	display: block;
 	position: absolute;
-	top: calc(2rem + 4px + .7rem);
+	top: calc(2rem + 2px + .7rem);
 	left: 1rem;
 	content: "\f002";
-	font-family: "FontAwesome";
+	font-family: "ForkAwesome";
 	font-size: 1rem;
 	line-height: 1;
 	margin-right: 1rem;
-	color: var(--body-text);
+	color: var(--sub-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
 	width: 1rem;
+	transition: color .5s;
+	cursor: text;
 }
 
 nav li.highlighted a,
@@ -2295,6 +2301,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 		box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
 	}
 
+	label.select > span + span::after,
 	label.search::before{
 		text-shadow: 1px 1px 0 #000;
 	}
