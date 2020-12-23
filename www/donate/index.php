@@ -33,16 +33,16 @@ require_once('Core.php');
 			<h2>Sponsor an ebook of your choice</h2>
 			<p>Is there a book you want to see made into a beautiful digital edition? You can give the gift of literature to readers everywhere by sponsoring an addition to the Standard Ebooks catalog.</p>
 			<p>Donate at one of the levels below and a book you select will be carefully hand-produced into an ebook edition that meets our high standard of quality, before becoming a permanent addition to our online catalog for the world to read, share, and reuse free of cost or U.S. copyright restrictions. Your name will appear in the ebook’s colophon and metadata, sealing your legacy as a sponsor of the literate arts.</p>
-			<p><em>Before you make your donation</em>, <a href="/about#masthead">contact the SE Editor-in-Chief</a> to confirm that your ebook selection will be accepted at your chosen donation level. These are the general rules:</p>
+			<p><em>Before you make your donation</em>, <a href="/about#masthead">contact the S.E. Editor-in-Chief</a> to confirm that your ebook selection will be accepted at your chosen donation level. These are the general rules:</p>
 			<ul>
 				<li>
-					<p>Your selection must meet our <a href="/contribute/accepted-ebooks">collections policy</a>. The SE Editor-in-Chief reserves the right to modify or reject a selection for any reason.</p>
+					<p>Your selection must meet our <a href="/contribute/accepted-ebooks">collections policy</a>. The S.E. Editor-in-Chief reserves the right to modify or reject a selection for any reason.</p>
 				</li>
 				<li>
-					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">OCR</a> output.</p>
+					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">O.C.R</a> output.</p>
 				</li>
 				<li>
-					<p>Your selection’s word count will be calculated from the source transcription using the <a href="/tools">SE toolset</a>, and includes front and back matter like forewords and endnotes. <a href="/about#masthead">Contact the SE Editor-in-Chief</a> before donating so that we can calculate your selection’s word count for you; a word processor can give you an estimate, but we must make the final determination. Note that the final ebook’s word count will differ.</p>
+					<p>Your selection’s word count will be calculated from the source transcription using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes. <a href="/about#masthead">Contact the S.E. Editor-in-Chief</a> before donating so that we can calculate your selection’s word count for you; a word processor can give you an estimate, but we must make the final determination. Note that the final ebook’s word count will differ.</p>
 				</li>
 				<li>
 					<p>Standard Ebooks is the sole decisionmaker regarding all aspects of ebook editing and production. Trust us to create an artifact of beauty.</p>

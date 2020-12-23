@@ -165,7 +165,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Normalizes spacing in em-, en-, and double-em-dashes, as well as between nested quotation marks, and adds word joiners.</p>
 					</li>
 				</ul>
-				<p>While <code class="bash"><b>se</b> typogrify</code> does a lot of work for you, each ebook is totally different so there’s almost always more work to do that can only be done by hand. In <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The SE standard requires chapter titles to be in title case, and <code class="bash"><b>se</b> titlecase</code> can do that for us.</p>
+				<p>While <code class="bash"><b>se</b> typogrify</code> does a lot of work for you, each ebook is totally different so there’s almost always more work to do that can only be done by hand. In <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The S.E. standard requires chapter titles to be in title case, and <code class="bash"><b>se</b> titlecase</code> can do that for us.</p>
 				<p><code class="bash"><b>se</b> titlecase</code> accepts a string as its argument, and outputs the string in title case. Many text editors allow you to configure external macros—perfect for creating a keyboard shortcut to run <code class="bash"><b>se</b> titlecase</code> on selected text.</p>
 				<h3>Typography checklist</h3>
 				<p>There are many things that <code class="bash"><b>se</b> typogrify</code> isn’t well suited to do automatically. Check <a href="/manual/latest/8-typography">our complete typography manual</a> to see exactly how to format the work. Below is a brief, but incomplete, list of common issues that arise in ebooks:</p>
@@ -225,7 +225,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p>Using the <a href="http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-semantic-inflection">epub3 semantic inflection language</a> to add deeper meaning to tags.</p>
-						<p>Currently we use a mix of <a href="http://www.idpf.org/epub/vocab/structure/">epub3 structural semantics</a>, <a href="http://www.daisy.org/z3998/2012/vocab/structure/">z3998 structural semantics</a> for when the epub3 vocabulary isn’t enough, and our own <a href="/vocab/1.0">SE semantics</a> for when z3998 isn’t enough.</p>
+						<p>Currently we use a mix of <a href="http://www.idpf.org/epub/vocab/structure/">epub3 structural semantics</a>, <a href="http://www.daisy.org/z3998/2012/vocab/structure/">z3998 structural semantics</a> for when the epub3 vocabulary isn’t enough, and our own <a href="/vocab/1.0">S.E. semantics</a> for when z3998 isn’t enough.</p>
 					</li>
 				</ol>
 				<p>Use <code class="bash"><b>se</b> semanticate</code> to do some common cases for you:</p><code class="terminal"><span><b>se</b> semanticate <u>.</u></span></code>
@@ -255,7 +255,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Words or phrases in foreign languages should always be marked up with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"TAG"</span><span class="p">&gt;</span></code>, where TAG is an <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a>. <a href="https://r12a.github.io/app-subtags/">This app can help you look them up</a>. If the text uses fictional or unspecific languages, use the “x-” prefix and make up a subtag yourself.</p>
 					</li>
 					<li>
-						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> tag to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the SEMOS</a> for templates on how to semantically format poetry, verse, and song.</p>
+						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> tag to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the <abbr class="acronym">SEMOS</abbr></a> for templates on how to semantically format poetry, verse, and song.</p>
 					</li>
 				</ul>
 				<p>After you’ve added semantics according to the <a href="/manual">Standard Ebooks Manual of Style</a>, do another commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Semanticate"</i></span></code>
@@ -293,7 +293,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p><code class="bash"><b>se</b> find-mismatched-diacritics</code> lists these instances for you to review. Spelling should be normalized across the work so that all instances of the same word are spelled in the same way. Keep the following in mind as you review these instances:</p>
 				<ul>
 					<li>
-						<p>In modern English spelling, many diacritics are removed (like <code class="html">chalet</code>). If in doubt, ask the SE Editor-in-Chief.</p>
+						<p>In modern English spelling, many diacritics are removed (like <code class="html">chalet</code>). If in doubt, ask the S.E. Editor-in-Chief.</p>
 					</li>
 					<li>
 						<p>Even though diacritics might be removed in English spelling, they may be preserved in non-English text, or in proper names.</p>
@@ -488,7 +488,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<h2>Create the cover image</h2>
 				<aside class="alert">
 					<p class="warning">!!! STOP !!!</p>
-					<p><strong>Do not commit cover art to your repository’s history until you have <a href="https://groups.google.com/forum/#!forum/standardebooks">cleared your selection with the SE Editor-in-Chief.</a></strong></p>
+					<p><strong>Do not commit cover art to your repository’s history until you have <a href="https://groups.google.com/forum/#!forum/standardebooks">cleared your selection with the S.E. Editor-in-Chief.</a></strong></p>
 					<p>If you commit non-public-domain cover art, you’ll have to rebase your repository to remove the art from its history. This is complicated, dangerous, and annoying, and you’ll be tempted to give up.</p>
 					<p><a href="https://groups.google.com/forum/#!forum/standardebooks">Contact us first</a> with page scans verifying your cover art’s public domain status before you commit your cover art!</p>
 				</aside>
@@ -505,7 +505,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>The image you pick should be a “fine art” oil painting so that all Standard Ebooks have a consistent cover style. This is actually easier than you think, because it turns out most public domain artwork is from the era of fine art.</p>
 					</li>
 					<li>
-						<p>You must provide proof of public domain status to the SE Editor-in-Chief in the form of a page scan of the painting from a <?= PD_YEAR ?>-or-older book, and the Editor-in-Chief must approve your selection before you can commit it to your repository.</p>
+						<p>You must provide proof of public domain status to the S.E. Editor-in-Chief in the form of a page scan of the painting from a <?= PD_YEAR ?>-or-older book, and the Editor-in-Chief must approve your selection before you can commit it to your repository.</p>
 					</li>
 					<li>
 						<p>The Standard Ebooks Editor-in-Chief has the final say on the cover image you pick, and it may be rejected for, among other things, poor public domain status research, being too low resolution, not fitting in with the “fine art” style, or being otherwise inappropriate for your ebook.</p>

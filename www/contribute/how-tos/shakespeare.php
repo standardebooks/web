@@ -11,11 +11,11 @@ require_once('Core.php');
 				<ol>
 					<li>
 						<h3>Transcriptions</h3>
-						<p>SE’s productions of William Shakespeare’s plays are based on <a href="http://shakespeare.mit.edu/index.html">Massachusetts Institute of Technology’s transcriptions produced by Jeremy Hylton</a>.</p>
+						<p>S.E.’s productions of William Shakespeare’s plays are based on <a href="http://shakespeare.mit.edu/index.html">Massachusetts Institute of Technology’s transcriptions produced by Jeremy Hylton</a>.</p>
 					</li>
 					<li>
 						<h3>Page Scans</h3>
-						<p>When it comes to Shakespeare’s plays, there are infinite page scans available, but each edition can differ in stage directions, stage direction formatting, punctuation, spelling, personas, and even dialogue. For SE’s productions, <a href="https://catalog.hathitrust.org/Record/004135080"><i>William George Clark and William Aldis Wright’s 1887 Victoria Edition</i></a> is used as the gold standard.</p>
+						<p>When it comes to Shakespeare’s plays, there are infinite page scans available, but each edition can differ in stage directions, stage direction formatting, punctuation, spelling, personas, and even dialogue. For S.E.’s productions, <a href="https://catalog.hathitrust.org/Record/004135080"><i>William George Clark and William Aldis Wright’s 1887 Victoria Edition</i></a> is used as the gold standard.</p>
 					</li>
 				</ol>
 			</li>

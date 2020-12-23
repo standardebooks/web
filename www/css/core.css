@@ -1772,6 +1772,10 @@ article.ebook section aside.donation p::after{
 	display: none;
 }
 
+.acroynm{
+	font-variant: all-small-caps;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
