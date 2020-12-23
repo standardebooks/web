@@ -1726,7 +1726,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 aside.donation,
 article.ebook section aside.donation{
 	position: relative;
-	border: 1px solid var(--body-text);
+	border: 1px dashed var(--body-text);
 	color: var(--body-text);
 	text-align: center;
 	padding: 2rem;
@@ -1736,7 +1736,6 @@ article.ebook section aside.donation{
 	margin-bottom: 2rem;
 	background-color: rgba(255, 255, 255, .5);
 	font-style: italic;
-	font-size: 1.2rem;
 }
 
 aside.donation::before{
@@ -1750,7 +1749,7 @@ aside.donation::before{
 	clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
 	transform: rotate(90deg);
 	border-radius: 0 0 0 .25rem;
-	background: rgba(0, 0, 0, .5);
+	background: rgba(0, 0, 0, .4);
 }
 
 aside.donation::after{
