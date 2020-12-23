@@ -110,6 +110,9 @@ catch(\Exception $ex){
 
 		<section id="description">
 			<h2>Description</h2>
+			<? if(DONATION_ALERT_ON){ ?>
+			<?= Template::DonationAlert() ?>
+			<? } ?>
 			<? if($ebook->LongDescription === null){ ?>
 				<p><i>There’s no description for this ebook yet.</i></p>
 			<? }else{ ?>

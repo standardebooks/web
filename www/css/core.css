@@ -1722,6 +1722,55 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	text-align: center;
 }
 
+aside.donation,
+article.ebook section aside.donation{
+	position: relative;
+	border: 1px solid var(--body-text);
+	color: var(--body-text);
+	text-align: center;
+	padding: 2rem;
+	font-size: 1rem;
+	margin-top: 0;
+	border-radius: .25rem;
+	margin-bottom: 2rem;
+	background-color: rgba(255, 255, 255, .5);
+	font-style: italic;
+	font-size: 1.2rem;
+}
+
+aside.donation::before{
+	content: "";
+	display: block;
+	position: absolute;
+	height: calc(1rem + 2px);
+	width: calc(1rem + 2px);
+	top: 0;
+	left: 0;
+	clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+	transform: rotate(90deg);
+	border-radius: 0 0 0 .25rem;
+	background: rgba(0, 0, 0, .5);
+}
+
+aside.donation::after{
+	content: "";
+	display: block;
+	position: absolute;
+	height: 1rem;
+	width: 1rem;
+	top: 0;
+	left: 0;
+	clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+	transform: rotate(90deg);
+	border-radius: 0 0 0 .25rem;
+	background: #dda82a;
+}
+
+article.ebook section aside.donation p::before,
+article.ebook section aside.donation p::after{
+	display: none;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
@@ -1996,6 +2045,11 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	main.ebooks nav ol li.highlighted::before,
 	main.ebooks nav ol li.highlighted::after{
 		display: none;
+	}
+
+	aside.donation,
+	article.ebook section aside.donation{
+		text-align: justify;
 	}
 }
 
@@ -2282,6 +2336,16 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 	.masthead img[src*="portrait.svg"]{
 		border-color: var(--border-light);
+	}
+
+	aside.donation,
+	article.ebook section aside.donation{
+		background: rgba(0, 0, 0, .25);
+	}
+
+	aside.donation,
+	article.ebook section aside.donation{
+		box-shadow: none;
 	}
 
 	select,
