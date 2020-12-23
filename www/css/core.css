@@ -263,7 +263,7 @@ body > header > a:visited{
 }
 
 body > header a:focus{
-	outline: 1px dashed var(--input-outline);
+	outline: 1px dashed #fff;
 }
 
 body > header > a:hover{
