@@ -18,7 +18,7 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<span>Sort</span>
 		<span>
 			<select name="sort">
-				<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected="selected"<? } ?>>Release date (new &#x2192; old)</option>
+				<option value="<?= SORT_NEWEST ?>"<? if($sort == SORT_NEWEST){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
 				<option value="<?= SORT_AUTHOR_ALPHA ?>"<? if($sort == SORT_AUTHOR_ALPHA){ ?> selected="selected"<? } ?>>Author name  (a &#x2192; z)</option>
 				<option value="<?= SORT_READING_EASE ?>"<? if($sort == SORT_READING_EASE){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
 				<option value="<?= SORT_LENGTH ?>"<? if($sort == SORT_LENGTH){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
