@@ -473,6 +473,7 @@ main.front-page > section > h2{
 	border-bottom: 3px double var(--sub-text);
 	padding: 2rem 4rem;
 	hyphens: none;
+	letter-spacing: 0;
 }
 
 main.front-page > section > h2::before{
