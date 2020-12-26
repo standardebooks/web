@@ -239,16 +239,19 @@ class Ebook{
 				$id = $author->attributes()->id;
 			}
 
-			$refines = null;
-			$refinesElement = $xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]');
-			if($refinesElement !== false && sizeof($refinesElement) > 0){
-				$refines = (string)$refinesElement[0];
+			$fileAs = null;
+			$fileAsElement = $xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]');
+			if($fileAsElement !== false && sizeof($fileAsElement) > 0){
+				$fileAs = (string)$fileAsElement[0];
 			}
 
-			$this->Authors[] = new Contributor(	(string)$author,
-								$refines,
+			$this->Authors[] = new Contributor(
+								(string)$author,
+								$fileAs,
 								$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]')),
-								$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'))
+								$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]')),
+								'aut',
+								$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'))
 							);
 		}
 
@@ -256,7 +259,7 @@ class Ebook{
 			throw new EbookParsingException('Invalid <dc:creator> element.');
 		}
 
-		$this->AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1/', $this->Identifier);
+		$this->AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
 
 		foreach($xml->xpath('/package/metadata/dc:contributor') ?: [] as $contributor){
 			$id = '';
@@ -270,6 +273,7 @@ class Ebook{
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]')),
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]')),
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]')),
+							$role,
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'))
 						);
 
@@ -437,6 +441,16 @@ class Ebook{
 		$this->TitleWithCreditsHtml = Formatter::ToPlainText($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors);
 	}
 
+	public function GetCollectionPosition(Collection $collection): ?int{
+		foreach($this->Collections as $c){
+			if($c->Name == $collection->Name){
+				return $c->SequenceNumber;
+			}
+		}
+
+		return null;
+	}
+
 	public function Contains(string $query): bool{
 		// When searching an ebook, we search the title, alternate title, author(s), SE tags, series data, and LoC tags.
 		// Also, if the ebook is shorts or poetry, search the ToC as well.
@@ -587,11 +601,34 @@ class Ebook{
 		$string = '';
 		$i = 0;
 		foreach($contributors as $contributor){
+
+			$role = 'schema:contributor';
+			switch($contributor->MarcRole){
+				case 'trl':
+					$role = 'schema:translator';
+					break;
+				case 'ill':
+					$role = 'schema:illustrator';
+					break;
+			}
+
 			if($contributor->WikipediaUrl){
-				$string .= '<a href="' . Formatter::ToPlainText($contributor->WikipediaUrl) .'">' . Formatter::ToPlainText($contributor->Name) . '</a>';
+				$string .= '<a property="' . $role . '" typeof="schema:Person" href="' . Formatter::ToPlainText($contributor->WikipediaUrl) .'"><span property="schema:name">' . Formatter::ToPlainText($contributor->Name) . '</span>';
+
+				if($contributor->NacoafUrl){
+					$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>';
+				}
+
+				$string .= '</a>';
 			}
 			else{
-				$string .=  Formatter::ToPlainText($contributor->Name);
+				$string .= '<span property="' . $role . '" typeof="schema:Person"><span property="schema:name">' . Formatter::ToPlainText($contributor->Name) . '</span>';
+
+				if($contributor->NacoafUrl){
+					$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>';
+				}
+
+				$string .= '</span>';
 			}
 
 			if($i == sizeof($contributors) - 2 && sizeof($contributors) > 2){

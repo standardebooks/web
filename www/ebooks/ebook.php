@@ -68,22 +68,45 @@ catch(\Exception $ex){
 	include(WEB_ROOT . '/404.php');
 	exit();
 }
-?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml), 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'The Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'jsonld' => htmlentities($ebook->GenerateJsonLd(), ENT_NOQUOTES)]) ?>
+?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml), 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'The Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>
 <main>
-	<article class="ebook">
+	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
+		<meta property="schema:bookFormat" content="EBook"/>
+		<meta property="schema:image" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->DistCoverUrl) ?>"/>
+		<meta property="schema:thumnailUrl" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
+		<meta property="schema:description" content="<?= Formatter::ToPlainText($ebook->Description) ?>"/>
+		<meta property="schema:url" content="<?= SITE_URL . Formatter::ToPlainText($ebook->Url) ?>"/>
+		<meta property="schema:license" content="https://creativecommons.org/publicdomain/zero/1.0/"/>
+		<meta property="schema:inLanguage" content="<?= Formatter::ToPlainText($ebook->Language) ?>"/>
+		<? if($ebook->WikipediaUrl){ ?>
+		<meta property="schema:sameAs" content="<?= Formatter::ToPlainText($ebook->WikipediaUrl) ?>"/>
+		<? } ?>
+		<div property="schema:publisher" typeof="schema:Organization">
+			<meta property="schema:name" content="Standard Ebooks"/>
+			<meta property="schema:logo" content="https://standardebooks.org/images/logo-full.svg"/>
+			<meta property="schema:url" content="https://standardebooks.org"/>
+		</div>
 		<header>
 			<hgroup>
-				<h1><?= Formatter::ToPlainText($ebook->Title) ?></h1>
+				<h1 property="schema:name"><?= Formatter::ToPlainText($ebook->Title) ?></h1>
 				<? foreach($ebook->Authors as $author){ ?>
+					<? /* We include the `resource` attr here because we can have multiple authors, and in that case their href URLs will link to their combined corpus.
+						For example, William Wordsworth & Samuel Coleridge will both link to /ebooks/william-wordsworth_samuel-taylor-coleridge
+						But, each author is an individual, so we have to differentiate them in RDFa with `resource` */ ?>
 					<? if($author->Name != 'Anonymous'){ ?>
-					<h2><a href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>"><?= Formatter::ToPlainText($author->Name) ?></a></h2>
+					<h2><a property="schema:author" typeof="schema:Person" href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>" resource="<?= '/ebooks/' . $author->UrlName ?>">
+						<span property="schema:name"><?= Formatter::ToPlainText($author->Name) ?></span>
+						<meta property="schema:url" content="<?= SITE_URL . Formatter::ToPlainText($ebook->AuthorsUrl) ?>"/>
+						<? if($author->NacoafUrl){ ?><meta property="schema:sameAs" content="<?= Formatter::ToPlainText($author->NacoafUrl) ?>"/><? } ?>
+						</a>
+					</h2>
 					<? } ?>
 				<? } ?>
 			</hgroup>
 			<picture>
 				<? if($ebook->HeroImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->HeroImage2xAvifUrl ?> 2x, <?= $ebook->HeroImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 				<source srcset="<?= $ebook->HeroImage2xUrl ?> 2x, <?= $ebook->HeroImageUrl ?> 1x" type="image/jpg"/>
-				<img src="<?= $ebook->HeroImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText(strip_tags($ebook->TitleWithCreditsHtml)) ?>"/>
+				<img src="<?= $ebook->HeroImage2xUrl ?>" role="presentation" alt=""/>
 			</picture>
 		</header>
 
@@ -94,7 +117,7 @@ catch(\Exception $ex){
 			<? } ?>
 			<? if(sizeof($ebook->Collections) > 0){ ?>
 				<? foreach($ebook->Collections as $collection){ ?>
-					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$collection->Name) ?? '') ?></a>
+					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$collection->Name) ?? '') ?></a>
 					<? if($collection->Type !== null){ ?>
 						<? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type), -strlen(mb_strtolower($collection->Type))) !== 0){ ?>
 							<?= $collection->Type ?>.
@@ -128,22 +151,38 @@ catch(\Exception $ex){
 				<h3>Download for ereaders</h3>
 				<ul>
 					<? if($ebook->EpubUrl !== null){ ?>
-					<li><p><span><a href="<?= $ebook->EpubUrl ?>" class="epub">Compatible epub</a> </span><span>—</span> <span>All devices and apps except Kindles and Kobos.</span></p>
+					<li property="schema:encoding" typeof="schema:MediaObject"><p>
+						<span><a property="schema:contentUrl" href="<?= $ebook->EpubUrl ?>" class="epub">
+						Compatible epub
+						<meta property="schema:encodingFormat" content="application/epub+zip"/>
+						</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span></p>
 					</li>
 					<? } ?>
 
 					<? if($ebook->Azw3Url !== null){ ?>
-					<li><p><span><a href="<?= $ebook->Azw3Url ?>" class="amazon">azw3</a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
+					<li property="schema:encoding" typeof="schema:MediaObject"><p>
+						<span><a property="schema:contentUrl" href="<?= $ebook->Azw3Url ?>" class="amazon">
+						azw3
+						<meta property="schema:encodingFormat" content="application/x-mobipocket-ebook"/>
+						</a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
 					</li>
 					<? } ?>
 
 					<? if($ebook->KepubUrl !== null){ ?>
-					<li><p><span><a href="<?= $ebook->KepubUrl ?>" class="kobo">kepub</a> </span><span>—</span> <span>Kobo devices and apps.</span></p>
+					<li property="schema:encoding" typeof="schema:MediaObject"><p>
+						<span><a property="schema:contentUrl" href="<?= $ebook->KepubUrl ?>" class="kobo">
+						kepub
+						<meta property="schema:encodingFormat" content="application/kepub+zip"/>
+						</a></span> <span>—</span> <span>Kobo devices and apps.</span></p>
 					</li>
 					<? } ?>
 
 					<? if($ebook->AdvancedEpubUrl !== null){ ?>
-					<li><p><span><a href="<?= $ebook->AdvancedEpubUrl ?>" class="epub">Advanced epub</a></span> <span>—</span> <span>An advanced format not yet fully compatible with most ereaders.</span></p>
+					<li property="schema:encoding" typeof="schema:MediaObject"><p>
+						<span><a property="schema:contentUrl" href="<?= $ebook->AdvancedEpubUrl ?>" class="epub">
+						Advanced epub
+						<meta property="schema:encodingFormat" content="application/epub+zip"/>
+						</a></span> <span>—</span> <span>An advanced format not yet fully compatible with most ereaders.</span></p>
 					</li>
 					<? } ?>
 				</ul>
@@ -159,7 +198,12 @@ catch(\Exception $ex){
 					<li><p><a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a></p></li>
 					<? } ?>
 					<? if($ebook->TextSinglePageUrl !== null){ ?>
-					<li><p><a href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a></p></li>
+					<li property="schema:encoding" typeof="schema:mediaObject"><p>
+						<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">
+						Read on one page
+						<meta property="schema:encodingFormat" content="application/xhtml+xml"/>
+						</a>
+					</p></li>
 					<? } ?>
 				</ul>
 			</section>

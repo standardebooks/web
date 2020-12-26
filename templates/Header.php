@@ -23,7 +23,7 @@ print('<?xml version="1.0" encoding="utf-8"?>');
 print("\n");
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
-<head>
+<head prefix="twitter: https://twitter.com schema: https://schema.org"><? /* the og RDFa prefix is part of the RDFa spec */ ?>
 	<meta charset="utf-8"/>
 	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
 	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"/><? } ?>
@@ -49,11 +49,6 @@ print("\n");
 	<meta content="summary_large_image" name="twitter:card"/>
 	<meta content="@standardebooks" name="twitter:site"/>
 	<meta content="@standardebooks" name="twitter:creator"/>
-	<? if(isset($jsonld)){ ?>
-	<script type="application/ld+json">
-		<?= $jsonld ?>
-	</script>
-	<? } ?>
 </head>
 <body>
 	<header>

@@ -13,6 +13,7 @@ try{
 	$sort = HttpInput::GetString('sort', false);
 	$pages = 0;
 	$totalEbooks = 0;
+	$collectionObject = null;
 
 	if($page <= 0){
 		$page = 1;
@@ -51,7 +52,7 @@ try{
 	// Are we looking at a collection?
 	if($collection !== null){
 		$ebooks = Library::GetEbooksByCollection($collection);
-		$collectionObject = null;
+
 		// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
 		if(sizeof($ebooks) > 0){
 			foreach($ebooks[0]->Collections as $c){
@@ -138,7 +139,7 @@ catch(\Exception $ex){
 	<? if(sizeof($ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
-		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => $view]) ?>
+		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => $view, 'collection' => $collectionObject]) ?>
 	<? } ?>
 	<? if(sizeof($ebooks) > 0 && $collection === null){ ?>
 		<nav>

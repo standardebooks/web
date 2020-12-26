@@ -1,5 +1,7 @@
 <?
 // Auto-included by Composer in composer.json to satisfy PHPStan
+use function Safe\define;
+use function Safe\strtotime;
 
 const EBOOKS_PER_PAGE = 12;
 const SORT_NEWEST = 'newest';
@@ -36,7 +38,7 @@ define('PD_YEAR', intval(gmdate('Y')) - 96);
 
 const DONATION_ALERT_ALWAYS_ON = false;
 const DONATION_ALERT_ON_DURING_HOLIDAYS = true;
-define('DONATION_ALERT_ON', DONATION_ALERT_ALWAYS_ON | (DONATION_ALERT_ON_DURING_HOLIDAYS && (strtotime('December 1, ' . gmdate('Y')) < time() && time() < strtotime('January 7, ' . (intval(gmdate('Y') + 1))))));
+define('DONATION_ALERT_ON', DONATION_ALERT_ALWAYS_ON | (DONATION_ALERT_ON_DURING_HOLIDAYS && (strtotime('December 1, ' . gmdate('Y')) < time() && time() < strtotime('January 7, ' . (intval(gmdate('Y')) + 1)))));
 // No trailing slash on any of the below constants.
 const SITE_URL =			'https://standardebooks.org';
 const SITE_ROOT =			'/standardebooks.org';
