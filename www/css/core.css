@@ -2124,6 +2124,10 @@ article.ebook section aside.donation p::after{
 	body > header ul li:nth-child(odd)::before{
 		display: none;
 	}
+
+	body > header ul li:nth-child(2) ~ li{
+		margin-top: .5rem;
+	}
 }
 
 @media(max-width: 500px){
@@ -2290,6 +2294,8 @@ article.ebook section aside.donation p::after{
 		display: none;
 	}
 
+
+	body > header ul li:nth-child(2) ~ li,
 	body > header ul li + li{
 		margin-top: 1rem;
 	}
