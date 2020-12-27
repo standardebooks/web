@@ -99,18 +99,18 @@ require_once('Core.php');
 					<h4>Donors contributing $10/month or more. <a href="/donate">Join the Patrons Circle today.</a></h4>
 				</hgroup>
 				<ol class="donors big">
+					<li>
+						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
+						<p>Anonymous × 1</p>
+					</li>
 					<? if(false){ ?>
 					<li>
 						<picture>
-							<source srcset="/images/masthead/alex-cabal@2x.avif 2x, /images/masthead/alex-cabal.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/alex-cabal@2x.jpg 2x, /images/masthead/alex-cabal.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/alex-cabal.png" alt="A portrait of Alex Cabal."/>
+							<source srcset="/images/masthead/firstname-lastname@2x.avif 2x, /images/masthead/firstname-lastname.avif 1x" type="image/avif"/>
+							<source srcset="/images/masthead/firstname-lastname@2x.jpg 2x, /images/masthead/firstname-lastname.jpg 1x" type="image/jpg"/>
+							<img src="/images/masthead/firstname-lastname.png" alt="A portrait of Firstname Lastname."/>
 						</picture>
 						<p>Firstname Lastname</p>
-					</li>
-					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
-						<p>Anonymous × 2</p>
 					</li>
 					<? } ?>
 				</ol>
