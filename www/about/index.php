@@ -94,10 +94,8 @@ require_once('Core.php');
 				</ol>
 			</section>
 			<section id="patrons-circle">
-				<hgroup>
-					<h3>Patrons Circle</h3>
-					<h4>Donors contributing $10/month or more. <a href="/donate">Join the Patrons Circle today.</a></h4>
-				</hgroup>
+				<h3>Patrons Circle</h3>
+				<p><a href="/donate">Join the Patrons Circle</a> and support the beauty of literature in the digital age.</p>
 				<ol class="donors big">
 					<li>
 						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
