@@ -5,20 +5,20 @@ require_once('Core.php');
 	<article>
 		<h1>How to Use Our Ebooks</h1>
 		<section id="which-file-to-download">
-			<h2>Which File Do I Download?</h2>
+			<h2>Which File Should I Download?</h2>
 			<p>We offer four different kinds of ebook file for you to download. Which one you pick depends on which ereading device and ereading software you’re using.</p>
 			<ul>
 				<li>
-					<p><b>Amazon Kindle devices and software</b> (but not the Kindle application for iPad): download the <b>azw3</b> file. You can optionally download the Kindle cover thumbnail if you’d like the ebook cover to appear in your library. (Thanks to a long-standing bug in the Kindle software, side-loaded ebooks don’t display cover images automatically. <a href="https://www.amazon.com/help/">Complain to Amazon.</a>)</p>
+					<p><b>Amazon Kindle devices and software</b> (but not the Kindle application for iOS): download the <b>azw3</b> file. You can optionally download the Kindle cover thumbnail if you’d like the ebook cover to appear in your library. (Thanks to a long-standing bug in the Kindle software, side-loaded ebooks don’t display cover images automatically. <a href="https://www.amazon.com/help/">Complain to Amazon.</a>)</p>
 				</li>
 				<li>
-					<p><b>Kobo devices and software</b>: download the <b>kepub</b> file. This file is specially prepared to present the best reading experience for Kobos.</p>
+					<p><b>Kobo devices and software</b>: download the <b>kepub</b> file. This file is specially prepared for the best reading experience on Kobos.</p>
 				</li>
 				<li>
-					<p><b>All other ereaders</b>: download the <b>epub</b> file. This epub2-compatible file will work in all ereaders except Kindles. While this file will also work on Kobo, it’ll look pretty bad; please download our special kepub file for Kobo devices and software.</p>
+					<p><b>Other ereaders</b>: download the <b>epub</b> file. This compatible file has been prepared to work in all ereaders, with the exception of Kindles and extremely old ereader devices. <abbr>N.b.</abbr>: while this file will also work on Kobo devices and software, it will lack some functionality and look worse than the kepub file there.</p>
 				</li>
 				<li>
-					<p>For advanced ereaders like <a href="https://chrome.google.com/webstore/detail/readium/fepbnnnkkadjhjahcafoaglimekefifl">Readium</a>, and for readers who like bleeding-edge technology: download the <b>advanced epub</b> file. The advanced epub file isn’t compatible with most ereaders yet, so only download this file if you know what you’re doing.</p>
+					<p>For advanced ereaders like <a href="https://readium.org/about/applications.html/">Readium</a>, you can download the <b>advanced epub</b> file. The advanced epub file uses the latest technology that isn’t yet supported by most ereaders, so only download this file if you know what you’re doing.</p>
 				</li>
 			</ul>
 		</section>
