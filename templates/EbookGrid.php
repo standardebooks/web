@@ -4,6 +4,10 @@ if($view == ''){
 	$view = VIEW_GRID;
 }
 
+if(!isset($collection)){
+	$collection = null;
+}
+
 if(!isset($ebooks)){
 	$ebooks = [];
 }
