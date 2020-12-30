@@ -74,7 +74,11 @@ require_once('Core.php');
 						</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" alt=""/>
+						<picture>
+							<source srcset="/images/masthead/emma-sweeney@2x.avif 2x, /images/masthead/emma-sweeney.avif 1x" type="image/avif"/>
+							<source srcset="/images/masthead/emma-sweeney@2x.jpg 2x, /images/masthead/emma-sweeney.jpg 1x" type="image/jpg"/>
+							<img src="/images/masthead/emma-sweeney.png" alt="A portrait of Emma Sweeney."/>
+						</picture>
 						<p>
 							<a href="https://www.linkedin.com/in/emma-sweeney-554927190/">Emma Sweeney</a>
 							<img src="/images/masthead/emma-sweeney-contact.svg" alt="Contact information for Emma Sweeney." class="contact"/>
