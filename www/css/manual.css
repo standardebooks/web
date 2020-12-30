@@ -321,7 +321,7 @@ figure p.wrong{
 
 figure p.wrong::before,
 figure.wrong::before{
-	font-family: "FontAwesome";
+	font-family: "ForkAwesome";
 	content: "\f00d";
 	font-size: 1.5rem;
 	width: 1.5rem;
@@ -335,7 +335,7 @@ figure.wrong::before{
 
 figure p.corrected::before,
 figure.corrected::before{
-	font-family: "FontAwesome";
+	font-family: "ForkAwesome";
 	content: "\f00c";
 	font-size: 1.5rem;
 	line-height: 1;
@@ -544,7 +544,7 @@ figure.corrected code{
 }
 
 .manual aside.tip::before{
-	font-family: "FontAwesome";
+	font-family: "ForkAwesome";
 	content: "\f0eb";
 	font-size: 1rem;
 	position: absolute;
