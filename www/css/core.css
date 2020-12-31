@@ -1113,12 +1113,39 @@ main.ebooks > ol.list > li p{
 	text-align: left;
 }
 
-main.ebooks > ol img:hover{
+main.ebooks > ol a[tabindex]{
+	display: inline-block;
+	transition: all .2s ease;
+	position: relative;
+	font-size: 0;
+}
+
+main.ebooks > ol a[tabindex][data-ordinal]::before{
+	display: block;
+	content: "№ "attr(data-ordinal);
+	position: absolute;
+	background: rgba(0, 0, 0, .75);
+	padding: .5rem;
+	border-radius: .25rem;
+	line-height: 1;
+	font-variant-numeric: normal;
+	left: calc(.25rem + 3px); /* align with title box in picture */
+	top: calc(.25rem + 3px);
+	font-size: .75rem;
+	font-weight: bold;
+	font-family: "League Spartan", sans-serif;
+}
+
+main.ebooks > ol a[tabindex]:hover{
 	transform: scale(1.05);
+	color: unset;
+}
+
+main.ebooks > ol a[tabindex]:hover img{
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
 }
 
-main.ebooks > ol > li a:active img{
+main.ebooks > ol > li a[tabindex]:active{
 	transform: scale(1.025);
 	transition: none;
 	box-shadow: none;
@@ -1136,7 +1163,6 @@ main.ebooks > ol > li img{
 	max-width: 100%;
 	border: 1px solid var(--border);
 	border-radius: .25rem;
-	transition: all .2s ease;
 }
 
 main.ebooks > ol > li > p:nth-of-type(1) > a{

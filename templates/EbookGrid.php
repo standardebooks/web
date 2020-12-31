@@ -21,7 +21,7 @@ if(!isset($ebooks)){
 		<? if($collection !== null){ ?>
 			<meta property="schema:position" content="<?= $ebook->GetCollectionPosition($collection) ?>"/>
 		<? } ?>
-		<a href="<?= $ebook->Url ?>" tabindex="-1" property="schema:url">
+		<a href="<?= $ebook->Url ?>" tabindex="-1" property="schema:url"<? if($collection !== null){ ?> data-ordinal="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?>>
 			<picture>
 				<? if($ebook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 				<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
