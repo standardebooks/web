@@ -155,7 +155,7 @@ catch(\Exception $ex){
 						<span><a property="schema:contentUrl" href="<?= $ebook->EpubUrl ?>" class="epub">
 						Compatible epub
 						<meta property="schema:encodingFormat" content="application/epub+zip"/>
-						</a></span> <span>—</span> <span>All compatible devices and apps, except Kindles and Kobos.</span></p>
+						</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span></p>
 					</li>
 					<? } ?>
 
