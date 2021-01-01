@@ -374,7 +374,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 								</tr>
 							</tbody>
 						</table>
-						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ee]ach and )@&lt;\!([Ee])very one(\s+of)@\!/\1veryone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] every one -&gt; everyone"</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([Ee]ach and )@&lt;\!([Ee])very one(\s+of)@\!/\2veryone/"</i> src/epub/text/<i class="glob">*</i></span> <span><b>git</b> commit -am <i>"[Editorial] every one -&gt; everyone"</i></span></code>
 					</li>
 					<li>
 						<table>
