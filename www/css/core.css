@@ -1134,7 +1134,7 @@ main.ebooks > ol a[tabindex][data-ordinal]::before{
 	font-size: .75rem;
 	font-weight: bold;
 	font-family: "League Spartan", sans-serif;
-	color: white;
+	color: var(--dark-body-text);
 }
 
 main.ebooks > ol a[tabindex]:hover{
