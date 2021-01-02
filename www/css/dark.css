@@ -1,0 +1,79 @@
+:root{
+	--body-text: var(--dark-body-text);
+	--header: var(--dark-header);
+	--button: var(--dark-button);
+	--button-highlight: var(--dark-button-highlight);
+	--border: var(--dark-border);
+	--sub-text: var(--dark-sub-text);
+	--body-bg: var(--dark-body-bg);
+	--input-hover: var(--dark-input-hover);
+	--input-border: var(--dark-input-border);
+	--input-outline: var(--dark-input-outline);
+	--link-highlight: var(--button-highlight); /* lighter looks better in dark mode */
+}
+
+main.front-page > section > section figure img{
+	box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+}
+
+body > header > a:focus{
+	/* Since we use invert() to change the color of the SE logo,
+	we must specify the light outline (which is dark)
+	so that it inverts to white */
+	outline: 1px dashed var(--light-input-outline);
+}
+
+article.ebook section#read-online a::before,
+article.ebook section#download ul li a[class]::before,
+article.ebook section#details ul li a[class]::before,
+footer p:last-child a::before,
+main.front-page > section > section figure.oss img + img,
+main.front-page > section > h2::before,
+main.front-page > section > h2::after{
+	filter: invert() grayscale(100%) brightness(120%) drop-shadow(3px 3px 1px rgba(0, 0, 0, .25)); /* grayscale and brightness makes it hit about #eeeeee */
+}
+
+.masthead img[src*="portrait.svg"],
+.masthead img.contact{
+	filter: invert();
+}
+
+.masthead img[src*="portrait.svg"]{
+	border-color: var(--border-light);
+}
+
+aside.donation,
+article.ebook section aside.donation{
+	background: rgba(0, 0, 0, .25);
+}
+
+aside.donation,
+article.ebook section aside.donation{
+	box-shadow: none;
+}
+
+select,
+input[type="search"]{
+	box-shadow: 1px 1px 0 rgba(0, 0, 0, .5) inset;
+}
+
+input::placeholder{
+	color: rgba(255, 255, 255, .75);
+}
+
+main.ebooks > ol img:hover{
+	box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+}
+
+article.ebook #more-ebooks img:hover{
+	box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
+}
+
+label.select > span + span::after,
+label.search::before{
+	text-shadow: 1px 1px 0 #000;
+}
+
+h1,h2,h3,h4,h5,h6{
+	text-shadow: 2px 2px 0 rgba(0, 0, 0, .75);
+}

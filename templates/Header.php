@@ -16,6 +16,8 @@ if(!isset($manual)){
 	$manual = false;
 }
 
+$colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
+
 # We hash with crc32 because it's faster than md5 and "good enough" for this simple cache-busting use case
 
 header('content-type: application/xhtml+xml');
@@ -28,8 +30,10 @@ print("\n");
 	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
 	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"/><? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
-	<link href="/css/reset.css" media="screen" rel="stylesheet" type="text/css"/>
 	<link href="/css/core.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/core.css')) ?>" media="screen" rel="stylesheet" type="text/css"/>
+	<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
+	<link href="/css/dark.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/dark.css')) ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
+	<? } ?>
 	<? if($manual){ ?>
 	<link href="/css/manual.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/manual.css')) ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? } ?>
