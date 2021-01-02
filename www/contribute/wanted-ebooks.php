@@ -373,9 +373,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35617">The Terror</a> by Arthur Machen, to be added to the existing Short Fiction omnibus.</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/files/1245/1245-h/1245-h.htm">Night and Day</a> by Virginia Woolf</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7838">Fifty-One Tales</a> by Lord Dunsany (Note: The British and American editions each have a story the other excludes; should we include both plus an editor’s note?)</p>
 			</li>
