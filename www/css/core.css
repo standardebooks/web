@@ -2068,6 +2068,7 @@ article.ebook section aside.donation p::after{
 	form[action="/ebooks"] button{
 		grid-row: 3;
 		grid-column: 1 / span 4;
+		margin-top: 0;
 	}
 }
 
@@ -2116,6 +2117,7 @@ article.ebook section aside.donation p::after{
 	form[action="/ebooks"] button{
 		grid-row: 3;
 		grid-column: 4;
+		margin-top: 1.4rem;
 	}
 }
 
@@ -2207,6 +2209,7 @@ article.ebook section aside.donation p::after{
 	form[action="/ebooks"] button{
 		grid-row: 5;
 		grid-column: 1 / span 3;
+		margin-top: 0;
 	}
 
 	body > header{
