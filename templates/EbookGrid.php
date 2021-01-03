@@ -17,11 +17,11 @@ if(!isset($ebooks)){
 	<meta property="schema:name" content="<?= Formatter::ToPlainText($collection->Name) ?>"/>
 <? } ?>
 <? foreach($ebooks as $ebook){ ?>
-	<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart" value="<?= $ebook->GetCollectionPosition($collection) ?>"<? }else{ ?> about="<?= $ebook->Url ?>"<? } ?>>
-		<? if($collection !== null){ ?>
+	<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart"<? if($ebook->GetCollectionPosition($collection) !== null){ ?> value="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?><? }else{ ?> about="<?= $ebook->Url ?>"<? } ?>>
+		<? if($collection !== null && $ebook->GetCollectionPosition($collection) !== null){ ?>
 			<meta property="schema:position" content="<?= $ebook->GetCollectionPosition($collection) ?>"/>
 		<? } ?>
-		<a href="<?= $ebook->Url ?>" tabindex="-1" property="schema:url"<? if($collection !== null){ ?> data-ordinal="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?>>
+		<a href="<?= $ebook->Url ?>" tabindex="-1" property="schema:url"<? if($collection !== null && $ebook->GetCollectionPosition($collection) !== null){ ?> data-ordinal="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?>>
 			<picture>
 				<? if($ebook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 				<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
