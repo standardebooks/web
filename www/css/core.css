@@ -814,16 +814,13 @@ article.ebook > header img{
 }
 
 article.ebook section#details ul{
-	display: flex;
-	flex-wrap: wrap;
-	margin-top: 0;
-	margin-left: -2rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 1rem;
 }
 
 article.ebook section#details ul li{
-	width: calc(50% - 2rem);
-	margin-top: 1rem;
-	margin-left: 2rem;
+	margin: 0;
 }
 
 article.ebook section#download ul{
@@ -840,6 +837,10 @@ article.ebook section#download li span{
 	padding-top: 2rem;
 }
 
+article.ebook section#download li:first-child span{
+	padding-top: 1rem;
+}
+
 article.ebook section#download li span:first-child{
 	white-space: nowrap;
 }
@@ -853,6 +854,11 @@ article.ebook section ul li a[class]{
 	display: inline-flex;
 	text-align: left;
 	align-items: center;
+}
+
+article.ebook section#details ul li a[class]{
+	display: inline-flex;
+	align-items: flex-start;
 }
 
 article.ebook section#read-online a::before,
@@ -2152,16 +2158,7 @@ article.ebook section aside.donation p::after{
 	}
 
 	article.ebook section#details ul{
-		flex-direction: column;
-	}
-
-	article.ebook section#details ul li:first-child{
-		margin-top: 1rem;
-	}
-
-	article.ebook section#details ul li{
-		width: 100%;
-		margin-top: 2rem;
+		grid-template-columns: 1fr;
 	}
 
 	article nav ol li.highlighted::before,
