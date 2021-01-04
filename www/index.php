@@ -42,7 +42,7 @@ require_once('Core.php');
 				<figure>
 					<picture>
 						<source srcset="/images/proofreading@2x.png 2x, /images/proofreading.png 1x" type="image/png"/>
-						<img src="/images/proofreading@2x.png" alt="A text with proofreader's marks."/>
+						<img src="/images/proofreading@2x.png" alt="A text with proofreader’s marks."/>
 					</picture>
 				</figure>
 			</div>
@@ -56,7 +56,7 @@ require_once('Core.php');
 				<figure>
 					<picture>
 						<source srcset="/images/metadata@2x.png 2x, /images/metadata.png 1x" type="image/png"/>
-						<img src="/images/metadata@2x.png" alt="An ebookshelf featuring Standard Ebooks covers."/>
+						<img src="/images/metadata@2x.png" alt="Ebook metadata displayed in an ereader program."/>
 					</picture>
 				</figure>
 			</div>
@@ -89,7 +89,7 @@ require_once('Core.php');
 					</picture>
 					<picture>
 						<source srcset="/images/toc@2x.png 2x, /images/toc.png 1x" type="image/png"/>
-						<img src="/images/toc@2x.png" class="top" alt="A screenshot of an ebook's table of contents."/>
+						<img src="/images/toc@2x.png" class="top" alt="A screenshot of an ebook’s table of contents."/>
 					</picture>
 				</figure>
 			</div>
@@ -120,7 +120,7 @@ require_once('Core.php');
 				<figure>
 					<picture>
 						<source srcset="/images/code@2x.png 2x, /images/code.png 1x" type="image/png"/>
-						<img src="/images/code@2x.png" alt="An ebookshelf featuring Standard Ebooks covers."/>
+						<img src="/images/code@2x.png" alt="The source code for an ebook."/>
 					</picture>
 				</figure>
 			</div>
