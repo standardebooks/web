@@ -103,7 +103,7 @@ require_once('Core.php');
 				<ol class="donors big">
 					<li>
 						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
-						<p>Anonymous × 2</p>
+						<p>Anonymous × 3</p>
 					</li>
 					<? if(false){ ?>
 					<li>
