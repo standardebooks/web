@@ -307,9 +307,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://shakespeare.mit.edu/hamlet/full.html">Hamlet</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="http://shakespeare.mit.edu/othello/full.html">Othello</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="http://shakespeare.mit.edu/cleopatra/full.html">Antony and Cleopatra</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
