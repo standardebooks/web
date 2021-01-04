@@ -676,14 +676,11 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/25717">The History of the Decline and Fall of the Roman Empire</a> by Edward Gibbon</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2981">The Memoirs of Casanova</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2981">Fors Clavigera</a> by John Ruskin (<a href="https://www.gutenberg.org/ebooks/61591">vol. 2</a>, <a href="https://www.gutenberg.org/ebooks/61634">vol. 3</a>; but there are 8 volumes?)</p>
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/completeworksofs02johnuoft/page/n17/mode/2up">Poetry</a> by St. John of the Cross (Transcription required.)</p>
