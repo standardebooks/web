@@ -222,12 +222,19 @@ class Library{
 						$collections[$urlSafeCollection] = [];
 					}
 
+					// Some items may have the same position in a collection,
+					// like _Some Do Not..._ and _No More Parades_ are both #57 in the Modern Library's 100 best novels.
+					// To accomodate that, we create an anonymous object that holds the sequence number as a separate value,
+					// then later we sort by that instead of by array index.
+					$sortItem = new stdClass();
+					$sortItem->Ebook = $ebook;
 					if($collection->SequenceNumber !== null){
-						$collections[$urlSafeCollection][$collection->SequenceNumber] = $ebook;
+						$sortItem->Ordinal = $collection->SequenceNumber;
 					}
 					else{
-						$collections[$urlSafeCollection][] = $ebook;
+						$sortItem->Ordinal = 1;
 					}
+					$collections[$urlSafeCollection][] = $sortItem;
 				}
 
 				// Create the tags cache
@@ -265,10 +272,22 @@ class Library{
 
 		// Now store various collections
 		apcu_delete(new APCUIterator('/^collection-/'));
-		foreach($collections as $collection => $ebooks){
-			// Sort the array by key, then reindex to 0 with array_values
-			ksort($ebooks);
-			apcu_store('collection-' . $collection, array_values($ebooks));
+		foreach($collections as $collection => $sortItems){
+			// Sort the array by the ebook's ordinal in the collection. We use this custom sort function
+			// because an ebook may share the same place in a collection with another ebook; see above.
+			usort($sortItems, function($a, $b) {
+				if ($a->Ordinal == $b->Ordinal) {
+				        return 0;
+				    }
+				    return ($a->Ordinal < $b->Ordinal) ? -1 : 1;
+			});
+
+			// Now pull the actual ebooks out of the anonymous objects we just sorted
+			$ebooks = [];
+			foreach($sortItems as $sortItem){
+				$ebooks[] = $sortItem->Ebook;
+			}
+			apcu_store('collection-' . $collection, $ebooks);
 		}
 
 		apcu_delete(new APCUIterator('/^tag-/'));
