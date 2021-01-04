@@ -230,8 +230,11 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce</p>
+				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
 			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/416">Winesburg, Ohio</a> by Sherwood Anderson (Part of the Modern Library’s 100 best novels)</p>
+			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/two_gentlemen/full.html">The Two Gentlemen of Verona</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
@@ -559,6 +562,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="http://gutenberg.net.au/ebooks02/0200421h.html">An American Tragedy</a> by Theodore Dreiser (Part of the Modern Library’s 100 best novels)</p>
+			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/Odes_(Horace)">The Odes</a> of Horace</p>
 			</li>
