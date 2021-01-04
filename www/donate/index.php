@@ -5,7 +5,7 @@ require_once('Core.php');
 	<article class="donate">
 		<hgroup>
 			<h1>Donate to Standard Ebooks</h1>
-			<h2>and help bring the beauty of literature to the digital world</h2>
+			<h2>and help bring the beauty of literature to the digital age</h2>
 		</hgroup>
 		<picture>
 			<source srcset="/images/the-quiet-hour@2x.avif 2x, /images/the-quiet-hour.avif 1x" type="image/avif"/>
