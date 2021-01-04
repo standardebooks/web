@@ -252,6 +252,7 @@ catch(\Exception $ex){
 						<? if($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a><? } ?>
 						<? if($source->Type == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="google">Page scans at Google Books</a><? } ?>
 						<? if($source->Type == SOURCE_DP_OLS){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="distributed-proofreaders">Page scans at Distributed Proofreaders Open Library System</a><? } ?>
+						<? if($source->Type == SOURCE_FADED_PAGE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Transcription at Faded Page</a><? } ?>
 						<? if($source->Type == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', (string)$source->Url) ?? '') /* force type to (string) to satisfy PHPStan */ ?></a><? } ?>
 					</p>
 				</li>
