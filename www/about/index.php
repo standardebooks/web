@@ -100,10 +100,18 @@ require_once('Core.php');
 			<section id="patrons-circle">
 				<h3>Patrons Circle</h3>
 				<p><a href="/donate">Join the Patrons Circle</a> and support the beauty of literature in the digital age.</p>
-				<ol class="donors big">
+				<ol class="donors medium">
 					<li>
 						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
-						<p>Anonymous × 3</p>
+						<p>Michael Barrineau</p>
+					</li>
+					<li>
+						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
+						<p>Mark Cohen</p>
+					</li>
+					<li>
+						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
+						<p>Anonymous × 1</p>
 					</li>
 					<? if(false){ ?>
 					<li>
