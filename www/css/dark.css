@@ -53,8 +53,11 @@ article.ebook section aside.donation{
 }
 
 select,
+input[type="text"],
+input[type="email"],
 input[type="search"]{
 	box-shadow: 1px 1px 0 rgba(0, 0, 0, .5) inset;
+	background: rgba(0, 0, 0, .1);
 }
 
 input::placeholder{
