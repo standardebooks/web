@@ -272,9 +272,6 @@ require_once('Core.php');
 				<p><a href="http://shakespeare.mit.edu/2henryiv/full.html">Henry IV, Part 2</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/1henryvi/full.html">Henry VI, Part 1</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/2henryvi/full.html">Henry VI, Part 2</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
@@ -693,6 +690,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
+			</li>
+			<li>
+				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&detail_level=3">PGDP transcription is in progress</a>.</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
