@@ -607,9 +607,17 @@ form button{
 	margin-left: 1rem;
 }
 
+input[type="radio"]:focus,
+input[type="checkbox"]:focus{
+	outline: none;
+}
+
 .ebooks nav li.highlighted a:focus,
 a.button:focus,
+input[type="email"]:focus,
+input[type="text"]:focus,
 input[type="search"]:focus,
+label.checkbox:focus-within,
 select:focus,
 button:focus,
 nav a[rel]:focus{
@@ -1129,6 +1137,18 @@ footer > a{
 	font-size: 0;
 }
 
+footer > p{
+	display: inlie-flex;
+	align-items: center;
+}
+footer > p:first-child::before{
+	font-family: "ForkAwesome";
+	content: "\f0e0";
+	display: inline;
+	margin-right: .25rem;
+	font-size: .75rem;
+}
+
 /* ebook list */
 h1,
 .masthead h2{
@@ -1468,7 +1488,7 @@ input[type="search"]{
 	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
 }
 
-label[class] input{
+label[class]:not(.text) input{
 	padding-left: 2.5rem;
 }
 
@@ -1514,17 +1534,18 @@ label.select:hover > span + span::after{
 }
 
 label.select > span + span,
+label.email,
 label.search{
 	position: relative;
 	max-width: 100%;
 }
 
+label.email::before,
 label.search::before{
 	display: block;
 	position: absolute;
 	top: calc(2rem + 2px + .7rem);
 	left: 1rem;
-	content: "\f002";
 	font-family: "ForkAwesome";
 	font-size: 1rem;
 	line-height: 1;
@@ -1535,6 +1556,14 @@ label.search::before{
 	width: 1rem;
 	transition: color .5s;
 	cursor: text;
+}
+
+label.search::before{
+	content: "\f002";
+}
+
+label.email::before{
+	content: "\f0e0";
 }
 
 nav li.highlighted a,
@@ -1662,7 +1691,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	display: none;
 }
 
-.donate hgroup{
+.has-hero hgroup{
 	padding: 2rem;
 	padding-bottom: 1.75rem;
 	display: flex;
@@ -1671,32 +1700,45 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	max-width: none;
 }
 
-.donate picture{
+.has-hero picture{
 	max-width: none;
 	text-align: center;
 	margin-bottom: 2rem;
 }
 
-.donate img{
+.has-hero picture + p{
+	margin-top: 0;
+}
+
+.has-hero img{
 	border: 1px solid var(--border);
 	border-radius: .25rem;
 	max-width: 100%;
 }
 
-.donate hgroup h1,
-.donate hgroup h2{
+.has-hero hgroup h1,
+.has-hero > h1,
+.has-hero hgroup h2,
+.has-hero > h2{
 	border: none;
 	padding: 0;
 	margin: 0;
 }
 
-.donate hgroup h1{
+.has-hero hgroup h1,
+.has-hero > h1{
 	margin-bottom: 1rem;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 }
 
-.donate hgroup h2{
+.has-hero > h1{
+	padding: 2rem;
+	margin: 0;
+}
+
+.has-hero hgroup h2,
+.has-hero > h2{
 	font-family: "Crimson Pro", serif;
 	font-style: italic;
 	font-weight: normal;
@@ -1904,6 +1946,58 @@ article.ebook section aside.donation p::after{
 	font-variant: all-small-caps;
 }
 
+.anti-spam{
+	position: absolute;
+	left: -5000px;
+}
+
+form[action*="list-manage.com"]{
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: 1fr 1fr;
+	margin-top: 1rem;
+	margin-bottom: 0;
+}
+
+form[action*="list-manage.com"] label.email{
+	grid-column: 1 / span 2;
+}
+
+form[action*="list-manage.com"] ul{
+	list-style: none;
+}
+
+form[action*="list-manage.com"] button{
+	grid-column: 2;
+	justify-self: end;
+	margin-left: 0;
+}
+
+form[action*="list-manage.com"] fieldset{
+	margin-top: 1rem;
+}
+
+fieldset{
+	padding: 0;
+	border: none;
+}
+
+fieldset p{
+	border-bottom: 1px dashed var(--input-border);
+}
+
+label.checkbox{
+	display: inline-flex;
+	align-items: flex-start;
+	text-align: left;
+	line-height: 1;
+}
+
+label.checkbox input{
+	margin-right: .25rem;
+}
+
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
@@ -1990,6 +2084,15 @@ article.ebook section aside.donation p::after{
 }
 
 @media(max-width: 1000px){
+	body > header{
+		flex-direction: column;
+		align-items: center;
+	}
+
+	body > header li{
+		margin-top: 2rem;
+	}
+
 	main.front-page h1{
 		padding: 2rem;
 	}
@@ -2054,15 +2157,6 @@ article.ebook section aside.donation p::after{
 @media(max-width: 900px){
 	main.ebooks > ol{
 		grid-template-columns: repeat(3, 1fr);
-	}
-
-	body > header{
-		flex-direction: column;
-		align-items: center;
-	}
-
-	body > header li{
-		margin-top: 2rem;
 	}
 
 	.button-row{
@@ -2195,6 +2289,43 @@ article.ebook section aside.donation p::after{
 	article.ebook section aside.donation{
 		text-align: justify;
 	}
+
+	body > header{
+		padding: 1rem 0;
+	}
+
+	body > header > a{
+		max-width: calc(100% - 2rem);
+	}
+
+	body > header ul{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin: 1rem;
+		margin-bottom: 0;
+	}
+
+	body > header ul li:nth-child(3){
+		display: contents;
+	}
+
+	body > header ul li:nth-child(3)::after{
+		content: "";
+		width: 100%;
+	}
+
+	body > header ul li{
+		margin: 0;
+	}
+
+	body > header ul li:nth-child(4)::before{
+		display: none;
+	}
+
+	body > header ul li:nth-child(3) ~ li{
+		margin-top: .5rem;
+	}
 }
 
 @media(max-width: 550px){
@@ -2233,41 +2364,9 @@ article.ebook section aside.donation p::after{
 		margin-top: 0;
 	}
 
-	body > header{
-		padding: 1rem 0;
-	}
-
-	body > header > a{
-		max-width: calc(100% - 2rem);
-	}
-
-	body > header ul{
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		margin: 1rem;
-		margin-bottom: 0;
-	}
-
-	body > header ul li:nth-child(2){
-		display: contents;
-	}
-
-	body > header ul li:nth-child(2)::after{
-		content: "";
-		width: 100%;
-	}
-
-	body > header ul li{
-		margin: 0;
-	}
-
-	body > header ul li:nth-child(odd)::before{
-		display: none;
-	}
-
-	body > header ul li:nth-child(2) ~ li{
-		margin-top: .5rem;
+	form[action*="list-manage.com"] label.text,
+	form[action*="list-manage.com"] fieldset{
+		grid-column: 1 / span 2;
 	}
 }
 
@@ -2432,16 +2531,16 @@ article.ebook section aside.donation p::after{
 		grid-row: 6;
 	}
 
-	body > header ul li:nth-child(2n)::after{
-		display: none;
-	}
-
 	body > header ul{
 		flex-direction: column;
 	}
 
 	body > header ul li::before{
 		display: none;
+	}
+
+	body > header ul li:nth-child(3){
+		display: block;
 	}
 
 	body > header ul li:nth-child(2) ~ li,

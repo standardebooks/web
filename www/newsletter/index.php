@@ -1,43 +1,57 @@
 <?
 require_once('Core.php');
-?><?= Template::Header(['title' => 'About Standard Ebooks', 'highlight' => 'about', 'description' => 'The Standard Ebooks project is a volunteer driven, not-for-profit effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the public domain, and Standard Ebook dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain.']) ?>
+?><?= Template::Header(['title' => 'Subscribe to the Standard Ebooks newsletter', 'highlight' => 'newsletter', 'description' => 'Subscribe to the Standard Ebooks newsletter to receive occasional updates about the project.']) ?>
 <main>
-	<h1>Subscribe to the Newsletter</h1>
-
-	<form action="https://standardebooks.us7.list-manage.com/subscribe/post?u=da307dcb73c74f6a3d597f056&amp;id=f8832654aa" method="post">
-
-			<label class="search">Email
-				<input type="email" name="EMAIL" value="" required="required" />
+	<article class="has-hero">
+		<hgroup>
+			<h1>Subscribe to the Newsletter</h1>
+			<h2>to receive missives from the forefront of digital literature</h2>
+		</hgroup>
+		<picture>
+			<source srcset="/images/the-newsletter@2x.avif 2x, /images/the-newsletter.avif 1x" type="image/avif"/>
+			<source srcset="/images/the-newsletter@2x.jpg 2x, /images/the-newsletter.jpg 1x" type="image/jpg"/>
+			<img src="/images/the-newsletter@2x.jpg" alt="An old man in Renaissance-era costume reading a sheet of paper."/>
+		</picture>
+		<p>Subscribe to receive news, updates, and more from Standard Ebooks. Your information will never be shared, and you can unsubscribe at any time.</p>
+		<form action="https://standardebooks.us7.list-manage.com/subscribe/post?u=da307dcb73c74f6a3d597f056&amp;id=f8832654aa" method="post">
+			<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+			<div class="anti-spam" aria-hidden="true"><input type="text" name="b_da307dcb73c74f6a3d597f056_f8832654aa" tabindex="-1" value=""/></div>
+			<label class="email">Email
+				<input type="email" name="EMAIL" value="" required="required"/>
 			</label>
-
-
-	    <div id="mc_embed_signup_scroll">
-
-	<div class="mc-field-group">
-		<label for="mce-FNAME">First Name </label>
-		<input type="text" value="" name="FNAME" class="" id="mce-FNAME"/>
-	</div>
-	<div class="mc-field-group">
-		<label for="mce-LNAME">Last Name </label>
-		<input type="text" value="" name="LNAME" class="" id="mce-LNAME"/>
-	</div>
-	<div class="mc-field-group input-group">
-	    <strong>What kind of email would you like to receive? </strong>
-	    <ul><li><input type="checkbox" value="1" name="group[78748][1]" id="mce-group[78748]-78748-0"/><label for="mce-group[78748]-78748-0">The occasional Standard Ebooks newsletter</label></li>
-	<li><input type="checkbox" value="2" name="group[78748][2]" id="mce-group[78748]-78748-1"/><label for="mce-group[78748]-78748-1">A monthly summary of new releases</label></li>
-	</ul>
-	</div>
-	<div class="mc-field-group input-group">
-	    <strong>Email Format </strong>
-	    <ul><li><input type="radio" value="html" name="EMAILTYPE" id="mce-EMAILTYPE-0" /><label for="mce-EMAILTYPE-0">html</label></li>
-	<li><input type="radio" value="text" name="EMAILTYPE" id="mce-EMAILTYPE-1"/><label for="mce-EMAILTYPE-1">text</label></li>
-	</ul>
-	</div>
-		   <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-	    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_da307dcb73c74f6a3d597f056_f8832654aa" tabindex="-1" value="" /></div>
-	    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button" /></div>
-	    </div>
-
-	</form>
+			<label class="text">First name
+				<input type="text" name="FNAME" value=""/>
+			</label>
+			<label class="text">Last name
+				<input type="text" name="LNAME" value=""/>
+			</label>
+			<fieldset>
+				<p>What kind of email would you like to receive?</p>
+				<ul>
+					<li>
+						<label class="checkbox"><input type="checkbox" value="1" name="group[78748][1]" checked="checked"/>The occasional Standard Ebooks newsletter</label>
+					</li>
+					<li>
+						<label class="checkbox"><input type="checkbox" value="2" name="group[78748][2]"/>A monthly summary of new ebook releases</label>
+					</li>
+				</ul>
+			</fieldset>
+			<fieldset>
+				<p>What email format do you prefer?</p>
+				<ul>
+					<li>
+						<label class="checkbox"><input type="radio" value="html" name="EMAILTYPE" checked="checked"/>I don’t know</label>
+					</li>
+					<li>
+						<label class="checkbox"><input type="radio" value="html" name="EMAILTYPE"/>HTML</label>
+					</li>
+					<li>
+						<label class="checkbox"><input type="radio" value="text" name="EMAILTYPE"/>Plain text</label>
+					</li>
+				</ul>
+			</fieldset>
+			<button>Subscribe</button>
+		</form>
+	</article>
 </main>
 <?= Template::Footer() ?>

@@ -2,7 +2,7 @@
 require_once('Core.php');
 ?><?= Template::Header(['title' => 'Donate', 'highlight' => 'donate', 'description' => 'Donate to the Standard Ebooks project.']) ?>
 <main>
-	<article class="donate">
+	<article class="donate has-hero">
 		<hgroup>
 			<h1>Donate to Standard Ebooks</h1>
 			<h2>and help bring the beauty of literature to the digital age</h2>

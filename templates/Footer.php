@@ -1,5 +1,5 @@
 	<footer>
-		<p><a href="http://eepurl.com/hnc1Gn">Subscribe to our free newsletter</a></p>
+		<p><a href="/newsletter">Subscribe to our free newsletter</a></p>
 		<ul>
 			<li>
 				<a href="/ebooks">Ebooks</a>

@@ -66,6 +66,9 @@ print("\n");
 					<a<? if($highlight == 'about'){ ?> class="highlighted"<? } ?> href="/about">About</a>
 				</li>
 				<li>
+					<a<? if($highlight == 'newsletter'){ ?> class="highlighted"<? } ?> href="/newsletter">Newsletter</a>
+				</li>
+				<li>
 					<a<? if($highlight == 'contribute'){ ?> class="highlighted"<? } ?> href="/contribute">Get Involved</a>
 				</li>
 				<li>
