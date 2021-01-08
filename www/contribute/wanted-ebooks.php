@@ -692,7 +692,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
-				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&detail_level=3">PGDP transcription is in progress</a>.</p>
+				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>.</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
