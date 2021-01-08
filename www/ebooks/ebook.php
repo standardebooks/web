@@ -68,7 +68,7 @@ catch(\Exception $ex){
 	include(WEB_ROOT . '/404.php');
 	exit();
 }
-?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml), 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'The Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>
+?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>
 <main>
 	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
 		<meta property="schema:bookFormat" content="EBook"/>

@@ -73,9 +73,9 @@ try{
 				$collectionType = '';
 			}
 
-			$pageTitle = 'Browse ebooks in the ' . Formatter::ToPlainText($collectionName) . $collectionType;
-			$pageDescription = 'A list of ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
-			$pageHeader = 'Ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
+			$pageTitle = 'Browse free ebooks in the ' . Formatter::ToPlainText($collectionName) . $collectionType;
+			$pageDescription = 'A list of free ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
+			$pageHeader = 'Free ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
 		}
 		else{
 			throw new InvalidCollectionException();
@@ -94,7 +94,7 @@ try{
 	if($page > 1){
 		$pageTitle .= ', page ' . $page;
 	}
-	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks ebook library';
+	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks free ebook library';
 
 	$queryString = '';
 
