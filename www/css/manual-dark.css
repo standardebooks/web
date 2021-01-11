@@ -1,0 +1,17 @@
+@media(prefers-color-scheme: dark){
+	blockquote,
+	figure.text{
+		background: rgba(0,0,0,.25);
+	}
+
+	code.terminal{
+		background-color: var(--light-body-text);
+	}
+
+
+	.manual > article > section > section[id] > ol ol > li aside.number::after,
+	.manual > article > section > section[id] section > ol > li aside.number::after,
+	.manual > article > section > section[id] section > aside.number::after{
+		border-color: rgba(255, 255, 255, .5);
+	}
+}

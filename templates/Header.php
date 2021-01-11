@@ -36,6 +36,9 @@ print("\n");
 	<? } ?>
 	<? if($manual){ ?>
 	<link href="/css/manual.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/manual.css')) ?>" media="screen" rel="stylesheet" type="text/css"/>
+	<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
+	<link href="/css/manual-dark.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/manual-dark.css')) ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
+	<? } ?>
 	<? } ?>
 	<link href="/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
 	<link href="/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"/>

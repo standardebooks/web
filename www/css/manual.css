@@ -420,6 +420,14 @@ figure.corrected code{
 	margin-left: -14.5rem
 }
 
+.manual > article > section > section[id] > section > section > section > aside.number{
+	margin-left: -16.5rem
+}
+
+.manual > article > section > section[id] > section > section > section > section > aside.number{
+	margin-left: -18.5rem
+}
+
 .manual > article > section > section[id] > ol ol > li aside.number::after,
 .manual > article > section > section[id] section > ol > li aside.number::after,
 .manual > article > section > section[id] section > aside.number::after{
@@ -436,6 +444,14 @@ figure.corrected code{
 .manual > article > section > section[id] > section > section > ol > li aside.number::after,
 .manual > article > section > section[id] > section > section > aside.number::after{
 	width: 4rem;
+}
+
+.manual > article > section > section[id] > section > section > section > aside.number::after{
+	width: 6rem;
+}
+
+.manual > article > section > section[id] > section > section > section > section >  aside.number::after{
+	width: 8rem;
 }
 
 .manual > article > section > section[id] section > ol > li aside.number,
@@ -748,23 +764,5 @@ main.manual aside.alert p{
 @media(max-width: 1000px){
 	main.manual > article{
 		margin-left: 2rem;
-	}
-}
-
-@media(prefers-color-scheme: dark){
-	blockquote,
-	figure.text{
-		background: rgba(0,0,0,.25);
-	}
-
-	code.terminal{
-		background-color: var(--light-body-text);
-	}
-
-
-	.manual > article > section > section[id] > ol ol > li aside.number::after,
-	.manual > article > section > section[id] section > ol > li aside.number::after,
-	.manual > article > section > section[id] section > aside.number::after{
-		border-color: rgba(255, 255, 255, .5);
 	}
 }
