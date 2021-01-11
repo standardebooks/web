@@ -5,7 +5,7 @@ require_once('Core.php');
 	<article class="has-hero">
 		<hgroup>
 			<h1>Subscribe to the Newsletter</h1>
-			<h2>to receive missives from the forefront of digital literature</h2>
+			<h2>to receive missives from the vanguard of digital literature</h2>
 		</hgroup>
 		<picture>
 			<source srcset="/images/the-newsletter@2x.avif 2x, /images/the-newsletter.avif 1x" type="image/avif"/>
