@@ -8,11 +8,23 @@ body{
 	max-width: 55ch;
 }
 
+body > nav,
+body > section,
+body > article{
+	min-height: 100vh;
+}
+
+body > section[epub|type~="titlepage"],
+body > section[epub|type~="halftitlepage"]{
+	min-height: auto;
+}
+
 section + section,
 section + article,
 article + section,
 article + article{
-	margin-top: 6em;
+	box-sizing: border-box;
+	padding-top: 6em;
 }
 
 nav[epub|type~="toc"] ol{
