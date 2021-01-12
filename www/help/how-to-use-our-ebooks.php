@@ -15,7 +15,7 @@ require_once('Core.php');
 					<p><b>Kobo devices and software</b>: download the <b>kepub</b> file. This file is specially prepared for the best reading experience on Kobos.</p>
 				</li>
 				<li>
-					<p><b>Other ereaders</b>: download the <b>epub</b> file. This compatible file has been prepared to work in all ereaders, with the exception of Kindles and extremely old ereader devices. <abbr>N.b.</abbr>: while this file will also work on Kobo devices and software, it will lack some functionality and look worse than the kepub file there.</p>
+					<p><b>Other ereaders</b>: download the <b>compatible epub</b> file. This compatible file has been prepared to work in all ereaders, with the exception of Kindles and extremely old ereader devices. Note that while this file will also work on Kobo devices and software, it will lack some functionality and look worse than our specially-prepared kepub file.</p>
 				</li>
 				<li>
 					<p>For advanced ereaders like <a href="https://readium.org/about/applications.html/">Readium</a>, you can download the <b>advanced epub</b> file. The advanced epub file uses the latest technology that isn’t yet supported by most ereaders, so only download this file if you know what you’re doing.</p>
@@ -25,9 +25,11 @@ require_once('Core.php');
 		<section id="transferring-to-your-ereader">
 			<h2>Transferring Ebooks to Your Ereader</h2>
 			<p>Once you’ve downloaded the file most appropriate for your ereader, you’ll need to transfer that file to your device.</p>
+			<p>Kindle users should also see our <a href="#kindle-faq">Kindle FAQ</a> at the bottom of this page.</p>
 			<ul>
 				<li id="kindle">
 					<h3>Amazon Kindle eInk Devices (Paperwhite, Voyage, Oasis, etc. <em>except</em> DX)</h3>
+					<p><b>Important:</b> You can’t use “Send to Kindle” to transfer our azw3 file. <a href="#kindle-faq">This is a bug in Amazon’s software.</a> You <em>must</em> transfer our azw3 ebooks to Kindles with a USB cable.</p>
 					<ol>
 						<li>
 							<p>Using a USB cable, connect your Kindle to the computer you downloaded the azw3 file to. Your Kindle will appear as a USB drive that you can browse.</p>
@@ -48,7 +50,7 @@ require_once('Core.php');
 				</li>
 				<li id="kindle-dx">
 					<h3>Kindle DX Devices</h3>
-					<p>Kindle DX devices don’t support Amazon’s latest azw3 format. Instead, download the epub file and use Calibre to convert to mobi and transfer to your device.</p>
+					<p>Kindle DX devices don’t support Amazon’s own azw3 format. Instead, download the compatible epub file and use <a href="https://calibre-ebook.com">Calibre</a> to convert to mobi and transfer to your device.</p>
 				</li>
 				<li id="kindle-fire">
 					<h3>Amazon Kindle Fire Devices</h3>
@@ -64,7 +66,7 @@ require_once('Core.php');
 				<li id="kobo">
 					<h3>Kobo eInk Devices</h3>
 					<h4>If you’ve download a kepub file</h4>
-					<p><strong><em>Don’t use Calibre to transfer the .kepub.epub file!</em></strong></p>
+					<p><strong>Important:</strong> <em>Don’t use Calibre to transfer the kepub file!</em> Calibre will apply its own conversion <em>on top of</em> our own conversion, making for strange results.</p>
 					<ol>
 						<li>
 							<p>Using a USB cable, connect your Kobo to the computer you downloaded the kepub file to. Your Kobo will appear as a USB drive that you can browse using your computer’s file manager.</p>
@@ -113,7 +115,7 @@ require_once('Core.php');
 							<p>Highlight the ebook in your library and click the “Send to device” button on the toolbar.</p>
 						</li>
 						<li>
-							<p>Eject your Kobo and you’re ready to read!</p>
+							<p>Eject the Kindle from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
 						</li>
 					</ol>
 				</li>
@@ -159,6 +161,33 @@ require_once('Core.php');
 				<li id="other">
 					<h3>Other Devices</h3>
 					<p>We need help collecting instructions for transferring files to other devices. If you have a non-Kindle device, <a href="/contribute">get in touch and help write these instructions</a>!</p>
+				</li>
+			</ul>
+		</section>
+		<section id="kindle-faq">
+			<h2>Kindle FAQ</h2>
+			<ul>
+				<li>
+					<p><b>How do I transfer ebooks to my Kindle?</b></p>
+					<p>Scroll up to see!</p>
+				</li>
+				<li>
+					<p><b>Why don’t you provide mobi files <em>instead of</em> azw3 files?</b></p>
+					<p>Mobi ebooks are an older ebook file format, and they don’t support many basic features you’d expect from a beautiful ebook, like hyphenation. Since the file format is so old—dating back to 2007—its support for the latest ebook technology is poor, making it much harder for us to produce well-formatted ebooks in that file format.</p>
+					<p>There’s a newer version of the mobi ebook file format that <em>can</em> contain advanced formatting. But, if you use Kindle’s “Send to Kindle” feature, it silently removes that advanced formatting, turning the file you sent into an older mobi version that looks really bad. When that happens, <em>we</em> get the blame for a bad ebook, even though it was Kindle’s fault for quietly butchering our carefully produced file.</p>
+					<p>In 2011 Amazon released a new ebook format, azw3, that they created, and that is only compatible with Kindle devices. This format allows for fairly good formatting, including hyphenation and kerning, so we chose to use that format to bring you the best reading experience possible.</p>
+				</li>
+				<li>
+					<p><b>Why don’t you provide mobi files <em>in addition to</em> azw3 files?</b></p>
+					<p>Standard Ebooks is a small, volunteer-led project, and we don’t have the time or resources to support a second proprietary file type just because Amazon can’t get its act together. We have time for one or the other, and azw3 is the technically superior format that provides the better reading experience.</p>
+				</li>
+				<li>
+					<p><b>Why can’t I use “Send to Kindle” to send an azw3 file to my Kindle?</b></p>
+					<p>We don’t know! You’d think that Amazon would allow you to send the very file format it invented to its own devices. But Amazon hasn’t made it possible to send azw3 files via “Send to Kindle,” even though they surely could. You should <a href="https://www.amazon.com/help/">complain to Amazon</a>, or vote with your wallet and buy a better ereader.</p>
+				</li>
+				<li>
+					<p><b>I just can’t deal with azw3 files, I need a mobi file!</b></p>
+					<p>You can use the excellent <a href="https://calibre-ebook.com">Calibre ebook management software</a> to convert from azw3 to mobi. But note that when you do that, all bets are off as to how your ebook is going to look. Calibre usually does a good job, but don’t blame us if your ebook doesn’t look great after an automatic file format conversion.</p>
 				</li>
 			</ul>
 		</section>

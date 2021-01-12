@@ -164,7 +164,7 @@ catch(\Exception $ex){
 						<span><a property="schema:contentUrl" href="<?= $ebook->Azw3Url ?>" class="amazon">
 						azw3
 						<meta property="schema:encodingFormat" content="application/x-mobipocket-ebook"/>
-						</a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library.<? } ?></span></p>
+						</a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. You may be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span></p>
 					</li>
 					<? } ?>
 
