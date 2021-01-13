@@ -130,8 +130,8 @@ catch(\Exception $ex){
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
 	<h1><?= $pageHeader ?></h1>
-	<? if(DONATION_ALERT_ON){ ?>
-	<?= Template::DonationAlert() ?>
+	<? if(DONATION_HOLIDAY_ALERT_ON){ ?>
+	<?= Template::DonationAlert(['holidays' => true]) ?>
 	<? } ?>
 	<? if($collection === null){ ?>
 	<?= Template::SearchForm(['query' => $query, 'tags' => $tags, 'sort' => $sort, 'view' => $view, 'perPage' => $perPage]) ?>

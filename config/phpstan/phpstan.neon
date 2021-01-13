@@ -26,6 +26,5 @@ parameters:
 		- %rootDir%/../../../www
 		- %rootDir%/../../../scripts
 	dynamicConstantNames:
+		- DONATION_HOLIDAY_ALERT_ON
 		- DONATION_ALERT_ON
-		- DONATION_ALERT_ALWAYS_ON
-		- DONATION_ALERT_ON_DURING_HOLIDAYS

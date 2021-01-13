@@ -36,9 +36,10 @@ const SOURCE_FADED_PAGE = 9;
 const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
 define('PD_YEAR', intval(gmdate('Y')) - 96);
-const DONATION_ALERT_ALWAYS_ON = false;
-const DONATION_ALERT_ON_DURING_HOLIDAYS = true;
-define('DONATION_ALERT_ON', DONATION_ALERT_ALWAYS_ON | (DONATION_ALERT_ON_DURING_HOLIDAYS && (time() > strtotime('December 1, ' . gmdate('Y'))  || time() < strtotime('January 7, ' . gmdate('Y')))));
+
+define('DONATION_HOLIDAY_ALERT_ON', time() > strtotime('December 1, ' . gmdate('Y'))  || time() < strtotime('January 7, ' . gmdate('Y')));
+define('DONATION_ALERT_ON', rand(1, 4) == 2);
+
 // No trailing slash on any of the below constants.
 const SITE_URL =			'https://standardebooks.org';
 const SITE_ROOT =			'/standardebooks.org';

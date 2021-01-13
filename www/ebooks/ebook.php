@@ -133,7 +133,9 @@ catch(\Exception $ex){
 
 		<section id="description">
 			<h2>Description</h2>
-			<? if(DONATION_ALERT_ON){ ?>
+			<? if(DONATION_HOLIDAY_ALERT_ON){ ?>
+			<?= Template::DonationAlert(['holidays' => true]) ?>
+			<? }elseif(DONATION_ALERT_ON){ ?>
 			<?= Template::DonationAlert() ?>
 			<? } ?>
 			<? if($ebook->LongDescription === null){ ?>
