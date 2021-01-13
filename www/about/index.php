@@ -106,6 +106,14 @@ require_once('Core.php');
 						<p>Michael Barrineau</p>
 					</li>
 					<li>
+						<picture>
+							<source srcset="/images/masthead/matthew-chan@2x.avif 2x, /images/masthead/matthew-chan.avif 1x" type="image/avif"/>
+							<source srcset="/images/masthead/matthew-chan@2x.jpg 2x, /images/masthead/matthew-chan.jpg 1x" type="image/jpg"/>
+							<img src="/images/masthead/matthew-chan.png" alt="A portrait of Matthew Chan."/>
+						</picture>
+						<p>Matthew Chan</p>
+					</li>
+					<li>
 						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Mark Cohen</p>
 					</li>
