@@ -54,6 +54,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/60067">Leave it to Psmith</a> by P. G. Wodehouse</p>
 			</li>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2607">Psmith, Journalist</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
 			<li>
@@ -229,9 +232,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/416">Winesburg, Ohio</a> by Sherwood Anderson (Part of the Modern Library’s 100 best novels)</p>
 			</li>
@@ -409,9 +412,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1156">Babbitt</a> by Sinclair Lewis</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/498">Books by Edward Lear</a></p>
 			</li>
