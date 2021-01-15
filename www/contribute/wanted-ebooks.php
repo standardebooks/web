@@ -551,9 +551,6 @@ require_once('Core.php');
 				<p><a href="https://en.wikipedia.org/wiki/List_of_works_by_Andrew_Marvell">Poems by Andrew Marvell</a> to be compiled into an omnibus.</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/9830">The Beautiful and the Damned</a> by F. Scott Fitzgerald</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6737">Noli Me Tángere</a> by José Rizal, translated by Charles Derbyshire</p>
 			</li>
 			<li>
