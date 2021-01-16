@@ -404,9 +404,6 @@ require_once('Core.php');
 				<p><a href="http://www.eldritchpress.org/ez/germinal.html">Germinal</a> by Émile Zola</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/1370">Short stories by Algernon Blackwood</a> (To be compiled in an omnibus “Short Fiction”)</p>
-			</li>
-			<li>
 				<p><a href="http://hilobrow.com/2013/03/11/theodore-savage-1/">Theodore Savage</a> by Cicely Hamilton</p>
 			</li>
 			<li>
@@ -559,6 +556,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/1370">Short stories by Algernon Blackwood</a> (To be compiled in an omnibus “Short Fiction”)</p>
+			</li>
 			<li>
 				<p><a href="http://gutenberg.net.au/ebooks02/0200421h.html">An American Tragedy</a> by Theodore Dreiser (Part of the Modern Library’s 100 best novels)</p>
 			</li>
