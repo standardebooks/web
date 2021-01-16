@@ -2243,6 +2243,11 @@ label.checkbox input{
 		grid-column: 4;
 		margin-top: 1.4rem;
 	}
+
+	article nav ol li:not(.highlighted),
+	main.ebooks nav ol li:not(.highlighted){
+		display: none;
+	}
 }
 
 @media(max-width: 700px){
@@ -2398,11 +2403,6 @@ label.checkbox input{
 		padding: 0;
 	}
 
-	article nav ol li:not(.highlighted),
-	main.ebooks nav ol li:not(.highlighted){
-		display: none;
-	}
-
 	main.front-page > section > section figure.stacked img.bottom,
 	main.front-page > section > section figure.stacked img.top{
 		width: 75%;
@@ -2553,6 +2553,11 @@ label.checkbox input{
 		height: 1rem;
 		text-align: center;
 		display: block;
+	}
+
+	article nav a[rel],
+	main.ebooks nav > a{
+		padding: 1rem;
 	}
 }
 
