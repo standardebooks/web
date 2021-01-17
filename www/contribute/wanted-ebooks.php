@@ -15,6 +15,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/files/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3294">The Sea-Hawk</a> by Rafael Sabatini</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
 			<li>
@@ -226,6 +229,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/470">Heretics</a> by G. K. Chesterton</p>
+			</li>
+			<li>
+				<p><a href="https://www.fadedpage.com/showbook.php?pid=20140450">Bellarion the Fortunate</a> by Rafael Sabatini</p>
 			</li>
 			<!--
 			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
