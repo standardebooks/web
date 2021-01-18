@@ -15,6 +15,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/files/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1999">Crome Yellow</a> by Aldous Huxley (Note: transcription has lost italics)</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3294">The Sea-Hawk</a> by Rafael Sabatini</p>
 			</li>
 			<li>
@@ -241,6 +244,12 @@ require_once('Core.php');
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="http://gutenberg.org/ebooks/6627">Barriers Burned Away</a> by Edward Payson Roe</p>
+			</li>
+			<li>
+				<p><a href="https://www.fadedpage.com/showbook.php?pid=20160510">Those Barren Leaves</a> by Aldous Huxley</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
 			</li>
