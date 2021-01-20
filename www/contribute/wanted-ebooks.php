@@ -523,9 +523,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9608">The Cords of Vanity</a> by James Branch Cabell</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1842">Michael Strogoff</a> <i>Michel Strogoff</i> by Jules Verne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9150">Dick Sand, A Captain at Fifteen</a> <i>Un Capitaine de quinze ans</i> by Jules Verne</p>
 			</li>
@@ -707,7 +707,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
-				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>.</p>
+				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>.)</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
