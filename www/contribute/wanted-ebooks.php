@@ -59,9 +59,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/60067">Leave it to Psmith</a> by P. G. Wodehouse</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2607">Psmith, Journalist</a> by P. G. Wodehouse</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
@@ -121,9 +121,6 @@ require_once('Core.php');
 			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/35517">The Three Imposters</a> by Arthur Machen</p>
-			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/72">Thuvia, Maid of Mars</a> by Edgar Rice Burroughs</p>
 			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1153">The Chessmen of Mars</a> by Edgar Rice Burroughs</p>
