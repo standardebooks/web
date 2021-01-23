@@ -11,6 +11,15 @@ require_once('Core.php');
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/14396">His Family</a> by Ernest Poole (Pulitzer winner #1)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/59845">The Able McLaughlins</a> by Margaret Wilson (Pulitzer winner #6)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/61686">So Big</a> by Edna Ferber (Pulitzer winner #7) (Transcription is missing italics)</p>
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li> -->
@@ -238,6 +247,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2369">One of Ours</a> by Willa Cather (Pulitzer winner #5) (Transcription is missing scene breaks and italics)</p>
+			</li>
 			<li>
 				<p><a href="http://gutenberg.org/ebooks/6627">Barriers Burned Away</a> by Edward Payson Roe</p>
 			</li>
