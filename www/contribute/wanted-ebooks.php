@@ -90,10 +90,10 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/6984">The Pothunters</a> by P. G. Wodehouse</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/6877">The Head of Kay's</a> by P. G. Wodehouse</p>
+				<p><a href="https://www.gutenberg.org/ebooks/6877">The Head of Kay’s</a> by P. G. Wodehouse</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/6985">A Prefect's Uncle</a> by P. G. Wodehouse</p>
+				<p><a href="https://www.gutenberg.org/ebooks/6985">A Prefect’s Uncle</a> by P. G. Wodehouse</p>
 			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6880">The Coming of Bill</a> by P. G. Wodehouse</p>
@@ -180,7 +180,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/51">Anne of the Island</a> by L. M. Montgomery</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/10041">The Rivet in Grandfather's Neck</a> by James Branch Cabell</p>
+				<p><a href="https://www.gutenberg.org/ebooks/10041">The Rivet in Grandfather’s Neck</a> by James Branch Cabell</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9663">Domnei</a> by James Branch Cabell</p>
@@ -189,7 +189,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/9488">The Line of Love</a> by James Branch Cabell</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/13527">Ticket No. "9672" (The Lottery Ticket)</a> <i>Un Billet de loterie</i> by Jules Verne</p>
+				<p><a href="https://www.gutenberg.org/ebooks/13527">Ticket No. 9672 (The Lottery Ticket)</a> <i>Un Billet de loterie</i> by Jules Verne</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10547">Topsy Turvy (The Purchase of the North Pole)</a> <i>Sans dessus dessous</i> by Jules Verne</p>
@@ -222,7 +222,7 @@ require_once('Core.php');
 				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/61077">The King of Elfland's Daughter</a> by Lord Dunsany</p>
+				<p><a href="https://www.gutenberg.org/ebooks/61077">The King of Elfland’s Daughter</a> by Lord Dunsany</p>
 			</li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/30188">The Fifth Queen</a> by Ford Madox Ford (Book 1 in the Fifth Queen Trilogy)</p>
@@ -374,7 +374,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/331">The Mucker</a> (Mucker 1) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister's Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister’s Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/589">Catronia</a> by Robert Louis Stevenson</p>
@@ -593,7 +593,7 @@ require_once('Core.php');
 				<p><a href="https://books.google.com/books?id=OKREAAAAYAAJ">Cyrano de Bergerac</a>, by Edmond Rostand, translated by Brian Hooker. This is a 1923 publication, transcription is required.</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. George Birkbeck Hill's unabridged edition was published in six volumes, all of which are on PG; the link leads to the first volume.</p>
+				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. George Birkbeck Hill’s unabridged edition was published in six volumes, all of which are on PG; the link leads to the first volume.</p>
 			</li>
 			<li>
 				<p>The Betrothed by Alessandro Manzoni. There is a 1924 translation that must be considered, and will require transcription.</p>
