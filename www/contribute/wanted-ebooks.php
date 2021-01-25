@@ -248,6 +248,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="http://www.gutenberg.org/ebooks/10984">Growth of the Soil</a> by Knut Hamsun</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2369">One of Ours</a> by Willa Cather (Pulitzer winner #5) (Transcription is missing scene breaks and italics)</p>
 			</li>
 			<li>
@@ -565,6 +568,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://archive.org/details/thepeasants-autumn/page/n5/mode/2up">The Peasants</a> by Władysław Reymont (transcription required; see <a href="https://archive.org/details/thepeasants-winter">Winter</a>, <a href="https://archive.org/details/thepeasants-summer">Summer</a>, <a href="https://archive.org/details/thepeasants-spring">Spring</a>).</p>
+			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/allswell/full.html">All’s Well That Ends Well</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
