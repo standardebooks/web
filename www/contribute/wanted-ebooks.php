@@ -281,12 +281,6 @@ require_once('Core.php');
 				<p><a href="http://shakespeare.mit.edu/taming_shrew/full.html">The Taming of the Shrew</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/allswell/full.html">All’s Well That Ends Well</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/twelfth_night/full.html">Twelfth Night</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/john/full.html">King John</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
@@ -328,12 +322,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://shakespeare.mit.edu/macbeth/full.html">Macbeth</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/hamlet/full.html">Hamlet</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<!-- <li>
-				<p><a href="http://shakespeare.mit.edu/othello/full.html">Othello</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li> -->
 			<li>
 				<p><a href="http://shakespeare.mit.edu/cleopatra/full.html">Antony and Cleopatra</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
@@ -577,6 +565,15 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="http://shakespeare.mit.edu/allswell/full.html">All’s Well That Ends Well</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+			</li>
+			<li>
+				<p><a href="http://shakespeare.mit.edu/twelfth_night/full.html">Twelfth Night</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+			</li>
+			<li>
+				<p><a href="http://shakespeare.mit.edu/hamlet/full.html">Hamlet</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/1370">Short stories by Algernon Blackwood</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
