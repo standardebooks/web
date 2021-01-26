@@ -168,7 +168,8 @@ do
 		diff=$(git diff "${lastPushHash}" HEAD)
 
 		if [ "${images}" = "true" ]; then
-			if [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
+			# Always build images if they don't exist, or if they've changed
+			if [[ ! -f "${webRoot}/www/images/covers/${urlSafeIdentifier}.jpg" ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
 				images="true"
 			else
 				images="false"
@@ -177,7 +178,8 @@ do
 
 		if [ "${build}" = "true" ]; then
 			# Check to see if the actual ebook changed, to decide if we want to build
-			if [[ "${diff}" =~ diff\ --git\ a/src/ ]]; then
+			# Always build if it doesn't exist
+			if [[ ! -f "${webDir}/downloads/*.epub" ]] || [[ "${diff}" =~ diff\ --git\ a/src/ ]]; then
 				build="true"
 			else
 				build="false"
