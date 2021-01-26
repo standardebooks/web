@@ -1597,6 +1597,20 @@ select:hover{
 	transition: none;
 }
 
+input[type="text"]:user-invalid,
+input[type="email"]:user-invalid,
+input[type="search"]:user-invalid{
+	border-color: #ff0000;
+	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
+}
+
+input[type="text"]:-moz-ui-invalid,
+input[type="email"]:-moz-ui-invalid,
+input[type="search"]:-moz-ui-invalid{
+	border-color: #ff0000;
+	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
+}
+
 select[multiple] option:last-child{
 	margin-bottom: 1rem; /* needed for firefox */
 }
