@@ -18,7 +18,7 @@ cd /standardebooks.org/web/
 composer install
 
 # Add standardebooks.test to your hosts file.
-echo "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
+echo "127.0.0.1\standardebooks.test" | sudo tee -a /etc/hosts
 
 # Create a self-signed SSL certificate for use with the local web site installation.
 openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
