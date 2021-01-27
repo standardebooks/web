@@ -50,6 +50,10 @@ main.manual{
 	font-variant-numeric: initial;
 }
 
+main.manual.outdated{
+	background: url('/images/outdated.svg');
+}
+
 main code:first-child{
 	margin-top: 0;
 }

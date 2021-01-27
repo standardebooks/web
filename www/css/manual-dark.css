@@ -1,4 +1,8 @@
 @media(prefers-color-scheme: dark){
+	main.manual.outdated{
+		background: url('/images/outdated-dark.svg');
+	}
+
 	blockquote,
 	figure.text{
 		background: rgba(0,0,0,.25);
@@ -7,7 +11,6 @@
 	code.terminal{
 		background-color: var(--light-body-text);
 	}
-
 
 	.manual > article > section > section[id] > ol ol > li aside.number::after,
 	.manual > article > section > section[id] section > ol > li aside.number::after,
