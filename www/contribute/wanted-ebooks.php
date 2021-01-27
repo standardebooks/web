@@ -373,9 +373,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/864">The Master of Ballantrae</a> by Robert Louis Stevenson</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/44">The Song of the Lark</a> by Willa Cather</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/711">Allan Quatermain</a> by H. Rider Haggard</p>
 			</li>
@@ -451,9 +451,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1280">Spoon River Anthology</a> by Edgar Lee Masters</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/601">The Monk: A Romance</a> by M. G. Lewis (Note this appears to be the 2nd edition, we don’t want the 4th edition)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/51783">The Blazing World</a> by Margaret Cavendish (need significant work lowercasing gratuitous old-timey capitalization)</p>
 			</li>
