@@ -257,9 +257,6 @@ require_once('Core.php');
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20160510">Those Barren Leaves</a> by Aldous Huxley</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4217">A Portrait of the Artist as a Young Man</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/416">Winesburg, Ohio</a> by Sherwood Anderson (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
