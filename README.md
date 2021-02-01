@@ -58,6 +58,22 @@ git clone --bare https://github.com/standardebooks/david-lindsay_a-voyage-to-arc
 
 If everything went well, `https://standardebooks.test/ebooks/` will show the one ebook you deployed.
 
+## Installation using Docker
+
+We provide a Dockerfile for testing code changes. You can build an image with:
+
+```shell
+docker build . -t standardebooks
+```
+
+Then run the built image with:
+
+```shell
+docker run -dp 443:443 standardebooks:latest
+```
+
+The site will now be available at `https://localhost/`, although as it’s a self-signed certificate you’ll need to accept whatever browser security warnings come up.
+
 # Filesystem layout
 
 -   `/standardebooks.org/ebooks/` contains one directory per SE ebook, arranged in a flat hierarchy. These directories look like the URL-safe identifier for the ebook, end in `.git`, and are bare Git repos; they are the “source of truth” for SE ebooks.
