@@ -23,9 +23,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1999">Crome Yellow</a> by Aldous Huxley (Note: transcription has lost italics)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3294">The Sea-Hawk</a> by Rafael Sabatini</p>
 			</li>
@@ -119,9 +119,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46409">Heidi</a> by Johanna Spyri</p>
 			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
-			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/35517">The Three Imposters</a> by Arthur Machen</p>
 			</li> -->
@@ -140,9 +137,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/605">Pellucidar</a> (Pellucidar 2) by Edgar Rice Burroughs</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/78">Tarzan of the Apes</a> by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/81">The Return of Tarzan</a> (Tarzan 2) by Edgar Rice Burroughs</p>
 			</li>
@@ -245,6 +242,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
+			</li>
+			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/10984">Growth of the Soil</a> by Knut Hamsun</p>
 			</li>
 			<li>
@@ -288,12 +288,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/2henryiv/full.html">Henry IV, Part 2</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/2henryvi/full.html">Henry VI, Part 2</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/3henryvi/full.html">Henry VI, Part 3</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/richardiii/full.html">Richard III</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
