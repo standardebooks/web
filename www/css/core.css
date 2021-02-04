@@ -1989,6 +1989,7 @@ form[action*="list-manage.com"] button{
 
 form[action*="list-manage.com"] fieldset{
 	margin-top: 1rem;
+	grid-column: 1 / span 2;
 }
 
 fieldset{

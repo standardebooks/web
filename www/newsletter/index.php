@@ -32,21 +32,7 @@ require_once('Core.php');
 						<label class="checkbox"><input type="checkbox" value="1" name="group[78748][1]" checked="checked"/>The occasional Standard Ebooks newsletter</label>
 					</li>
 					<li>
-						<label class="checkbox"><input type="checkbox" value="2" name="group[78748][2]"/>A monthly summary of new ebook releases</label>
-					</li>
-				</ul>
-			</fieldset>
-			<fieldset>
-				<p>What email format do you prefer?</p>
-				<ul>
-					<li>
-						<label class="checkbox"><input type="radio" value="html" name="EMAILTYPE" checked="checked"/>I don’t know</label>
-					</li>
-					<li>
-						<label class="checkbox"><input type="radio" value="html" name="EMAILTYPE"/>HTML</label>
-					</li>
-					<li>
-						<label class="checkbox"><input type="radio" value="text" name="EMAILTYPE"/>Plain text</label>
+						<label class="checkbox"><input type="checkbox" value="2" name="group[78748][2]" checked="checked"/>A monthly summary of new ebook releases</label>
 					</li>
 				</ul>
 			</fieldset>
