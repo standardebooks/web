@@ -242,6 +242,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p>Gentlement Prefer Blondes by Anita Loos, transcript in progress <a href="https://www.pgdp.net/c/project.php?id=projectID5ff6baf1b5b4b">at PGDP</a>. Once the transcript is available, this may be suitable for a beginner.  (Part of the Guardian 2015 collection.)
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
 			</li>
 			<li>
@@ -392,7 +395,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/60315">My Disillusionment in Russia</a> by Emma Goldman (should be combined with <i>My Further Disillusionment in Russia</i>, the 2nd volume to the book)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence (Part of the Modern Library’s 100 best novels)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/28948">The Rainbow</a> by D. H. Lawrence (Part of the Modern Library and Guardian 2015 100 best novels collections)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
@@ -410,7 +413,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1156">Babbitt</a> by Sinclair Lewis</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1156">Babbitt</a> by Sinclair Lewis (part of the Guardian 2015 collection)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/498">Books by Edward Lear</a></p>
@@ -458,7 +461,7 @@ require_once('Core.php');
 				<p>Ghost Stories by M. R. James; an omnibus of his ghost short fiction including Ghost Stories of an Antiquary, More Ghost Stories, A Thin Ghost and Others, A Thin Ghost and Others, and <a href="https://en.wikipedia.org/wiki/M._R._James#First_magazine_publication_of_uncollected_tales">individual publications</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing (part of the Guardian 2015 collection)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p>
@@ -638,7 +641,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/3090">Short Stories by Guy de Maupassant</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/5267">Sister Carrie</a> by Theodore Dreiser (Part of the Modern Library’s 100 best novels)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/5267">Sister Carrie</a> by Theodore Dreiser (Part of the Modern Library and Guardian 2015 100 best novels collections)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6798">Aesthetical Essays</a> by Friedrich Schiller</p>
@@ -701,10 +704,10 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/17460">Lorna Doone</a> by R. D. Blackmoore</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library’s 100 best novels)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library and Guardian 2015 100 best novels collections)</p>
 			</li>
 			<li>
-				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>.)</p>
+				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>. Part of the Guardian 2015 collection.)</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
