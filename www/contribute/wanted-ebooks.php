@@ -560,6 +560,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://en.wikipedia.org/wiki/The_Federalist_Papers">The Federalist Papers</a></p>
+			</li>
+			<li>
 				<p><a href="https://archive.org/details/thepeasants-autumn/page/n5/mode/2up">The Peasants</a> by Władysław Reymont (transcription required; see <a href="https://archive.org/details/thepeasants-winter">Winter</a>, <a href="https://archive.org/details/thepeasants-summer">Summer</a>, <a href="https://archive.org/details/thepeasants-spring">Spring</a>).</p>
 			</li>
 			<li>
