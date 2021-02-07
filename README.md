@@ -5,26 +5,28 @@ PHP 7+ is required.
 ## Installing on Ubuntu 20.04 (Focal)
 
 ```shell
-# Create the site root and clone this repo into it.
+# Install Apache, PHP, PHP-FPM, and various other dependencies.
+sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl apache2 apache2-utils libfcgi0ldbl task-spooler
+
+# Create the site root and logs root and clone this repo into it.
 sudo mkdir /standardebooks.org/
+sudo chown $(whoami): /standardebooks.org
+sudo mkdir /var/log/local/
 cd /standardebooks.org/
 git clone https://github.com/standardebooks/web/
-
-# Install Apache, PHP, PHP-FPM, and various other dependencies.
-sudo apt install -y composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl apache2 apache2-utils libfcgi0ldbl task-spooler
 
 # Install dependencies using Composer.
 cd /standardebooks.org/web/
 composer install
 
 # Add standardebooks.test to your hosts file.
-echo "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
+echo -e "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
 
 # Create a self-signed SSL certificate for use with the local web site installation.
 openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
 
 # Enable the necessary Apache modules.
-sudo a2enmod {headers, expires, ssl, rewrite, proxy}
+sudo a2enmod headers expires ssl rewrite proxy proxy_fcgi
 
 # Link and enable the SE Apache configuration file.
 sudo ln -s /standardebooks.org/web/config/apache/standardebooks.test.conf /etc/apache2/sites-available/
@@ -32,8 +34,13 @@ sudo a2ensite standardebooks.test
 sudo systemctl restart apache2.service
 
 # Link and enable the SE PHP-FPM pool.
+sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.org.ini /etc/php/*/cli/conf.d/
+sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.org.ini /etc/php/*/fpm/conf.d/
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
 sudo systemctl restart "php*-fpm.service"
+
+# Download the OPDS index template
+wget -O /standardebooks.org/web/www/opds/index.xml https://standardebooks.org/opds
 ```
 
 If everything went well you should now be able to open your web browser and visit `https://standardebooks.test/`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks/`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:

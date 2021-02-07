@@ -58,7 +58,7 @@ class OpdsFeed{
 	protected function SaveIfChanged(string $path, string $feed, string $updatedTimestamp): void{
 		$tempFilename = tempnam('/tmp/', 'se-opds-');
 		file_put_contents($tempFilename, $feed);
-		exec('se clean ' . escapeshellarg($tempFilename));
+		exec('se clean ' . escapeshellarg($tempFilename) . ' 2>&1', $output); // Capture the result in case there's an error, otherwise it prints to stdout
 
 		// Did we actually update the feed? If so, write to file and update the index
 		if(!is_file($path) || ($this->Sha1Entries($feed) != $this->Sha1Entries(file_get_contents($path)))){
