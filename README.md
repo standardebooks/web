@@ -74,6 +74,14 @@ docker run -dp 443:443 -v "$(pwd):/standardebooks.org/web" standardebooks:latest
 
 The site will now be available at `https://localhost/`, although as it’s a self-signed certificate you’ll need to accept whatever browser security warnings come up.
 
+If you make a change to the PHP and want to see that reflected in the site, then you’ll need to restart PHP. Connect to your container and run:
+
+```shell
+service php7.4-fpm restart
+```
+
+Changes to CSS do not require any service restart.
+
 # Filesystem layout
 
 -   `/standardebooks.org/ebooks/` contains one directory per SE ebook, arranged in a flat hierarchy. These directories look like the URL-safe identifier for the ebook, end in `.git`, and are bare Git repos; they are the “source of truth” for SE ebooks.
