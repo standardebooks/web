@@ -6,11 +6,9 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir /standardebooks.org
 RUN mkdir /standardebooks.org/web
+RUN mkdir /standardebooks.org/web/config
+RUN mkdir /standardebooks.org/web/config/ssl
 RUN mkdir /var/log/local
-COPY . /standardebooks.org/web
-
-WORKDIR /standardebooks.org/web
-RUN composer install
 
 RUN openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
 

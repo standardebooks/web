@@ -1,5 +1,8 @@
 #!/bin/sh
 
+cd /standardebooks.org/web
+composer install
+
 ln -s /standardebooks.org/web/config/apache/standardebooks.test.conf /etc/apache2/sites-available/
 ln -s /standardebooks.org/web/config/php/fpm/standardebooks.org.ini /etc/php/*/cli/conf.d/
 ln -s /standardebooks.org/web/config/php/fpm/standardebooks.org.ini /etc/php/*/fpm/conf.d/
