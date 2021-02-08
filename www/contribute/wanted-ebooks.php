@@ -419,7 +419,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/498">Books by Edward Lear</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg</p>
+				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (part of the BBC 2015 collection)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/2683">Short fiction by Vernon Lee</a> (To be compiled in an omnibus “Short Fiction”)</p>
@@ -461,19 +461,19 @@ require_once('Core.php');
 				<p>Ghost Stories by M. R. James; an omnibus of his ghost short fiction including Ghost Stories of an Antiquary, More Ghost Stories, A Thin Ghost and Others, A Thin Ghost and Others, and <a href="https://en.wikipedia.org/wiki/M._R._James#First_magazine_publication_of_uncollected_tales">individual publications</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing (part of the Guardian 2015 collection)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing (part of the Guardian 2015 and BBC 2015 collections)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by D.H. Lawrence (Part of the Modern Library’s 100 best novels)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by D.H. Lawrence (part of the Modern Library and BBC 2015 collections)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens</p>
+				<p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens (part of the BBC 2015 collection)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/370">Moll Flanders</a> by Daniel Defoe</p>
+				<p><a href="https://www.gutenberg.org/ebooks/370">Moll Flanders</a> by Daniel Defoe (part of the BBC 2015 collection)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
@@ -680,7 +680,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/9296">Clarissa</a> by Samuel Richardson (<a href="https://github.com/drgrigg/samuel-richardson_clarissa-harlowe">partially completed</a>, available for finishing but will take a large amount of time)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot</p>
+				<p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot (part of the BBC 2015 collection)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
