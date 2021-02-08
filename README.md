@@ -69,7 +69,7 @@ docker build . -t standardebooks
 Then run the built image with:
 
 ```shell
-docker run -dp 443:443 standardebooks:latest
+docker run -dp 443:443 -v "$(pwd):/standardebooks.org/web" standardebooks:latest
 ```
 
 The site will now be available at `https://localhost/`, although as it’s a self-signed certificate you’ll need to accept whatever browser security warnings come up.
