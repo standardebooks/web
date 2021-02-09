@@ -11,5 +11,8 @@ RUN openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebo
 
 RUN a2enmod headers expires ssl rewrite proxy proxy_fcgi
 
+# Disable opcaching for dynamic PHP reloading
+RUN echo "opcache.enable=0\n" >> /etc/php/7.4/fpm/php.ini
+
 EXPOSE 443
 ENTRYPOINT ["/standardebooks.org/web/scripts/docker/start-server.sh"]
