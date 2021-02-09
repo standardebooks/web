@@ -10,4 +10,6 @@ ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*
 a2ensite standardebooks.test
 /etc/init.d/apache2 start
 service php7.4-fpm restart
-tail -f /var/log/apache2/error.log
+
+# Keep the server available by holding open the container
+tail -f /dev/null
