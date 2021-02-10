@@ -63,7 +63,7 @@ If everything went well, `https://standardebooks.test/ebooks/` will show the one
 We provide a Dockerfile for testing code changes. You can build an image with:
 
 ```shell
-docker build . -t standardebooks
+docker build . -t standardebooks -f vms/docker/Dockerfile
 ```
 
 Then run the built image with:
