@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ ! -f /standardebooks.org/web/config/ssl/standardebooks.test.crt ]; then
+	openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
+fi
+
 cd /standardebooks.org/web
 composer install
 
