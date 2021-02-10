@@ -15,4 +15,4 @@ RUN a2enmod headers expires ssl rewrite proxy proxy_fcgi
 RUN echo "opcache.enable=0\n" >> /etc/php/7.4/fpm/php.ini
 
 EXPOSE 443
-ENTRYPOINT ["/standardebooks.org/web/scripts/docker/start-server.sh"]
+ENTRYPOINT ["/standardebooks.org/web/vms/docker/start-server.sh"]
