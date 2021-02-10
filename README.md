@@ -107,8 +107,6 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Creating a search bar for the SE Manual of Style.
 
-- Adding a browse-by-genre option and more sorting/filtering options for the ebook grid.
-
 ## PHP code style
 
 - Indent with tabs.
