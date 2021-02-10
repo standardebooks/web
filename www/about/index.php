@@ -106,6 +106,10 @@ require_once('Core.php');
 						<p>Michael Barrineau</p>
 					</li>
 					<li>
+						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
+						<p>Derrick Burns</p>
+					</li>
+					<li>
 						<picture>
 							<source srcset="/images/masthead/matthew-chan@2x.avif 2x, /images/masthead/matthew-chan.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/matthew-chan@2x.jpg 2x, /images/masthead/matthew-chan.jpg 1x" type="image/jpg"/>
