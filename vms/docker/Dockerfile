@@ -10,7 +10,7 @@ RUN mkdir /var/log/local
 RUN a2enmod headers expires ssl rewrite proxy proxy_fcgi
 
 # Disable opcaching for dynamic PHP reloading
-RUN echo "opcache.enable=0\n" >> /etc/php/7.4/fpm/php.ini
+RUN echo "opcache.enable=0" >> /etc/php/7.4/fpm/php.ini
 
 EXPOSE 443
 ENTRYPOINT ["/standardebooks.org/web/vms/docker/start-server.sh"]
