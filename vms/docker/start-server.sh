@@ -12,7 +12,7 @@ ln -s /standardebooks.org/web/config/php/fpm/standardebooks.org.ini /etc/php/*/c
 ln -s /standardebooks.org/web/config/php/fpm/standardebooks.org.ini /etc/php/*/fpm/conf.d/
 ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
 a2ensite standardebooks.test
-/etc/init.d/apache2 start
+service apache2 start
 service php7.4-fpm restart
 
 # Keep the server available by holding open the container
