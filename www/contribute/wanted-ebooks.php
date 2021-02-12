@@ -242,6 +242,24 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/901">The Jew of Malta</a> by Christopher Marlowe (#12 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/39858">Trilby</a> by George du Maurier (#15 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/700">The Old Curiosity Shop</a> by Charles Dickens (#28 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/45512">Dangerous Liaisons</a> by Pierre Choderlos de Laclos (#29 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Ward Radcliffe (#32 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (#38 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+			</li>
+			<li>
 				<p>Gentlement Prefer Blondes by Anita Loos, transcript in progress <a href="https://www.pgdp.net/c/project.php?id=projectID5ff6baf1b5b4b">at PGDP</a>. Once the transcript is available, this may be suitable for a beginner.  (Part of the Guardian 2015 collection.)</p>
 			</li>
 			<li>
@@ -559,6 +577,12 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p>The Revenger's Tragedy, by Thomas Middleton. No Gutenberg edition, but <a href="https://en.wikisource.org/wiki/The_Revenger%27s_Tragedy">Wikisource</a> and <a href="https://catalog.hathitrust.org/Record/100643770">1875 edition scans</a> available. Note that these are mistakenly attributed to Cyril Tourneur, rather than Thomas Middleton. (#10 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+			</li>
+			<li>
+				<p>The Trickster of Seville and the Stone Guest, by Tirso de Molina. English translations in PD are difficult to find; scans of a <a href="https://catalog.hathitrust.org/Record/003925216">1923 translation</a> are available. (#24 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/The_Federalist_Papers">The Federalist Papers</a></p>
 			</li>
