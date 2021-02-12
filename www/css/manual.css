@@ -493,7 +493,7 @@ figure.corrected code{
 }
 
 .manual section[id] > aside{
-	font-size: 1rem;
+	font-size: .8rem;
 }
 
 .manual section[id] > aside.number a,
