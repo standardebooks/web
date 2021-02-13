@@ -637,7 +637,8 @@ main.manual ul.changes td:first-child{
 	white-space: nowrap;
 }
 
-main.manual ul.changes span.wrong{
+main.manual ul.changes span.wrong,
+main.manual code.wrong{
 	text-decoration: wavy underline red;
 }
 
