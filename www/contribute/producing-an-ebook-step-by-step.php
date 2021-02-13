@@ -189,7 +189,27 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p><a href="/manual/latest/8-typography#8.7.7">Two-em dashes should be used for elision</a>.</p>
 					</li>
 					<li>
-						<p>Commas and periods should generally be inside quotation marks, not outside. This regex helps find them: <code class="regex">[’”][,.]</code></p>
+						<p>Commas and periods should generally be inside quotation marks, not outside. This command helps find and replace them:</p>
+						<code class="terminal"><span><b>se</b> interactive-sr "/\v([’”])([,.])/\2\1/" src/epub/text/*</span></code>
+						<p>When using this command, be careful to distinguish between the use of <code class="html">’</code> as a quotation mark and its use in elision or as part of a plural possessive (i.e. <code class="html">s’</code>).</p>
+						<table>
+							<tbody>
+								<tr>
+									<td><b>Correct change:</b></td>
+									<td>
+										<p><code class="html">“Let’s have a game of ‘noses’, lads!”</code> ➔</p>
+										<p><code class="html">“Let’s have a game of ‘noses,’ lads!”</code></p>
+									</td>
+								</tr>
+								<tr>
+									<td><b>Incorrect change:</b></td>
+									<td>
+										<p><code class="html">This wood now is not mine, but the peasants’.</code> ➔</p>
+										<p><code class="html wrong">This wood now is not mine, but the peasants.’</code></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</li>
 				</ul>
 				<h3>The second commit</h3>
