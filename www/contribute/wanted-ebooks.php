@@ -224,11 +224,11 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/27432">The Fifth Queen Crowned</a> by Ford Madox Ford (Book 3 in the Fifth Queen Trilogy)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/470">Heretics</a> by G. K. Chesterton</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20140450">Bellarion the Fortunate</a> by Rafael Sabatini</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/17854">The Sport of the Gods</a> by Paul Laurence Dunbar</p>
 			</li>
 			<!--
 			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
