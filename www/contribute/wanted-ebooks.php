@@ -701,7 +701,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short story collections by P. G. Wodehouse</a> (Note that we already have all Jeeves, School and Ukridge Stories completed. A spreadsheet is available list the rest.)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short story collections by P. G. Wodehouse</a> (Note that we already have all Jeeves, School and Ukridge Stories completed. A spreadsheet is available that lists the rest.)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
