@@ -96,6 +96,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
 			</li>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3756">The Indiscretions of Archie</a> by P. G. Wodehouse</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
 			</li>
 			<li>
@@ -572,7 +575,7 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
-				<p>The Revenger's Tragedy, by Thomas Middleton. No Gutenberg edition, but <a href="https://en.wikisource.org/wiki/The_Revenger%27s_Tragedy">Wikisource</a> and <a href="https://catalog.hathitrust.org/Record/100643770">1875 edition scans</a> available. Note that these are mistakenly attributed to Cyril Tourneur, rather than Thomas Middleton. (#10 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/55625">The Revenger's Tragedy</a>, by Thomas Middleton. Mistakenly attributed to Cyril Tourneur. (#10 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
 				<p>The Trickster of Seville and the Stone Guest, by Tirso de Molina. English translations in PD are difficult to find; scans of a <a href="https://catalog.hathitrust.org/Record/003925216">1923 translation</a> are available. (#24 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
@@ -588,9 +591,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/twelfth_night/full.html">Twelfth Night</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/hamlet/full.html">Hamlet</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/1370">Short stories by Algernon Blackwood</a> (To be compiled in an omnibus “Short Fiction”)</p>
@@ -695,16 +695,13 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/45502">How the Other Half Lives</a> by Jacob Riis</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/9296">Clarissa</a> by Samuel Richardson (<a href="https://github.com/drgrigg/samuel-richardson_clarissa-harlowe">partially completed</a>, available for finishing but will take a large amount of time)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot (part of the BBC 2015 collection)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short stories by P. G. Wodehouse (Note that we already have all Jeeves and School stories. Careful research is required to compile an omnibus of the rest.)</a></p>
+				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short story collections by P. G. Wodehouse</a> (Note that we already have all Jeeves, School and Ukridge Stories completed. A spreadsheet is available list the rest.)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
