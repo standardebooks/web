@@ -473,9 +473,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/37892">The Recollections of Alexis de Tocqueville</a></p>
 			</li>
 			<li>
-				<p>Ghost Stories by M. R. James; an omnibus of his ghost short fiction including Ghost Stories of an Antiquary, More Ghost Stories, A Thin Ghost and Others, A Thin Ghost and Others, and <a href="https://en.wikipedia.org/wiki/M._R._James#First_magazine_publication_of_uncollected_tales">individual publications</a></p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing (part of the Guardian 2015 and BBC 2015 collections)</p>
 			</li>
 			<li>
