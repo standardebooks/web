@@ -162,6 +162,8 @@ do
 		continue
 	fi
 
+	urlSafeIdentifier=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s|url:https://standardebooks.org/ebooks/||g" | sed --regexp-extended "s|/|_|g")
+
 	if [ "${lastPushHash}" != "" ]; then
 		# We were passed the hash of the last push before this one.
 		# Check to see if the cover image changed, to decide if we want to rebuild the cover image thumbnail/hero
@@ -169,7 +171,7 @@ do
 
 		if [ "${images}" = "true" ]; then
 			# Always build images if they don't exist, or if they've changed
-			if [[ ! -f "${webRoot}/www/images/covers/${urlSafeIdentifier}.jpg" ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
+			if [[ ! -f "${webRoot}/www/images/covers/${urlSafeIdentifier}-cover.jpg" ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
 				images="true"
 			else
 				images="false"
@@ -201,8 +203,6 @@ do
 		if [ "${verbose}" = "true" ]; then
 			printf "Generating cover image for web ... "
 		fi
-
-		urlSafeIdentifier=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s|url:https://standardebooks.org/ebooks/||g" | sed --regexp-extended "s|/|_|g")
 
 		git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
 		git show HEAD:images/cover.svg > "${imgWorkDir}/${urlSafeIdentifier}.svg"
