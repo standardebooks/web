@@ -613,9 +613,9 @@ require_once('Core.php');
 			<li>
 				<p>Short fiction by Jack London, to be compiled in a “Short Fiction” omnibus. We already have three short story compilations that must be rolled in to this one. <a href="https://docs.google.com/spreadsheets/d/1yXZvlZVekVY3EpearMW8QIrbBEJlm8RbEXAuZP5rTG4/edit?usp=sharing">See this bibliography spreadsheet.</a></p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/60093">Cane</a> by Jean Toomer</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/28701">Short stories by W. W. Jacobs</a> (We already have Lady of the Barge; do we need an omnibus?)</p>
 			</li>
