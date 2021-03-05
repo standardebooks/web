@@ -233,6 +233,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/17854">The Sport of the Gods</a> by Paul Laurence Dunbar</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/833">The Theory of the Leisure Class</a> by Thorstein Veblen</p>
+			</li>
 			<!--
 			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
 			<li>
