@@ -129,9 +129,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/149">Beyond Thirty aka. The Lost Continent</a> (Beyond 1) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
@@ -568,6 +565,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10676">El filibusterismo</a> by José Rizal, translated by Charles Derbyshire</p>
 			</li>
+			<!--
+			The 1926 edition is longer and has different chapter titles than the earlier edition that is on PG.
+			Wait till 2022 to begin.
+			 <li>
+				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs (Note: the 1926 edition is expanded, but requires transcription)</p>
+			</li> -->
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
