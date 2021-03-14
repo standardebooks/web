@@ -357,12 +357,12 @@ fi
 
 php "${scriptsDir}/generate-opds.php" --webroot "${webRoot}" --weburl "${webUrl}"
 
-sudo chown --recursive se:committers /standardebooks.org/web/www/opds/*
-sudo chmod --recursive 664 /standardebooks.org/web/www/opds/*.xml
-sudo chmod --recursive 664 /standardebooks.org/web/www/opds/*/*.xml
-sudo chown --recursive se:committers /standardebooks.org/web/www/rss/*
-sudo chmod --recursive 664 /standardebooks.org/web/www/rss/*.xml
-sudo chmod 775 /standardebooks.org/web/www/opds/subjects
+sudo chown --recursive se:committers "${webRoot}/www/opds/"*
+sudo chmod --recursive 664 "${webRoot}/www/opds/"*.xml
+sudo chmod --recursive 664 "${webRoot}/www/opds/"*/*.xml
+sudo chown --recursive se:committers "${webRoot}/www/rss/"*
+sudo chmod --recursive 664 "${webRoot}/www/rss/"*.xml
+sudo chmod 775 "${webRoot}/www/opds/subjects"
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"

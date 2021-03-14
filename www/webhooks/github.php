@@ -49,8 +49,7 @@ try{
 		case 'push':
 			Logger::WriteGithubWebhookLogEntry($requestId, 'Event type: push.');
 
-			// Get the ebook ID. Our repo names are simply the Gutenberg ebook ID number.
-			// PHP doesn't throw exceptions on invalid array indexes, so check that first.
+			// Get the ebook ID. PHP doesn't throw exceptions on invalid array indexes, so check that first.
 			if(!array_key_exists('repository', $data) || !array_key_exists('name', $data['repository'])){
 				throw new WebhookException('Couldn\'t understand HTTP POST data.', $post);
 			}
@@ -62,7 +61,7 @@ try{
 				throw new NoopException();
 			}
 
-			// Get the filesystem path for the ebook ID.
+			// Get the filesystem path for the ebook.
 			$dir = REPOS_PATH . '/' . $repoName . '.git';
 
 			// Confirm we're looking at a Git repo in our filesystem
@@ -107,7 +106,7 @@ try{
 
 			// Now that we have the ebook filesystem path, pull the latest commit from GitHub.
 			$output = [];
-			exec('sudo --set-home --user se-vcs-bot /standardebooks.org/scripts/pull-from-github ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
+			exec('sudo --set-home --user se-vcs-bot ' . SITE_ROOT . '/scripts/pull-from-github ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error pulling from GitHub. Output: ' . implode("\n", $output));
 				throw new WebhookException('Couldn\'t process ebook.', $post);
@@ -118,7 +117,7 @@ try{
 
 			// Our local repo is now updated. Build the ebook!
 			$output = [];
-			exec('sudo --set-home --user se-vcs-bot tsp /standardebooks.org/web/scripts/deploy-ebook-to-www' . $lastPushHashFlag . ' ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
+			exec('sudo --set-home --user se-vcs-bot tsp ' . SITE_ROOT . '/web/scripts/deploy-ebook-to-www' . $lastPushHashFlag . ' ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
 				Logger::WriteGithubWebhookLogEntry($requestId, 'Error queueing ebook for deployment to web. Output: ' . implode("\n", $output));
 				throw new WebhookException('Couldn\'t process ebook.', $post);
