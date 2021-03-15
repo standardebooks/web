@@ -39,7 +39,7 @@ require_once('Core.php');
 					<p>Your selection must meet our <a href="/contribute/accepted-ebooks">collections policy</a>. The S.E. Editor-in-Chief reserves the right to modify or reject a selection for any reason.</p>
 				</li>
 				<li>
-					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">O.C.R</a> output.</p>
+					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">O.C.R.</a> output.</p>
 				</li>
 				<li>
 					<p>Your selection’s word count will be calculated from the source transcription using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes. <a href="/about#masthead">Contact the S.E. Editor-in-Chief</a> before donating so that we can calculate your selection’s word count for you; a word processor can give you an estimate, but we must make the final determination. Note that the final ebook’s word count will differ.</p>
