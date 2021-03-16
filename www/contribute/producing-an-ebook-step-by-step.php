@@ -255,7 +255,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|[A-Z’]{2,}|&lt;em&gt;\L\1&lt;/em&gt;|g"</i> src/epub/text/<i class="glob">*</i></span></code>
 						<p>This will unfortunately replace language tags like <code>en-US</code>, so fix those up with this:</p>
 						<code class="terminal"><span><b>sed</b> --regexp-extended --in-place <i>"s|en-&lt;em&gt;([a-z]+)&lt;/em&gt;|en-\U\1|g"</i> src/epub/text/<i class="glob">*</i></span></code>
-						<p>These replacments don’t take Title Caps into account, so use <code class="bash"><b>git</b> diff</code> to review the changes and fix errors before committing.</p>
+						<p>These replacements don’t take Title Caps into account, so use <code class="bash"><b>git</b> diff</code> to review the changes and fix errors before committing.</p>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.1">Semantics rules for chapter titles</a>.</p>
