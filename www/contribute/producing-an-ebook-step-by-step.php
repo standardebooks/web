@@ -190,7 +190,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p>Commas and periods should generally be inside quotation marks, not outside. This command helps find and replace them:</p>
-						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([’”])([,.])/\2\1/"</i> src/epub/text/*</span></code>
+						<code class="terminal"><span><b>se</b> interactive-sr <i>"/\v([’”])([,.])/\2\1/"</i> src/epub/text/<i class="glob">*</i></span></code>
 						<p>When using this command, be careful to distinguish between the use of <code class="html">’</code> as a quotation mark and its use in elision or as part of a plural possessive (i.e. <code class="html">s’</code>).</p>
 						<table>
 							<tbody>
@@ -228,7 +228,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>If the work you’re producing uses <a href="http://www.thepunctuationguide.com/british-versus-american-style.html">British quotation style</a> (single quotes for dialog versus double quotes in American), we have to convert it to American style. We use American style in part because it’s easier to programmatically convert from American to British than it is to convert the other way around. <em>Skip this step if your work is already in American style.</em></p>
 				<p><code class="bash"><b>se</b> british2american</code> attempts to automate the conversion. Your work must already be typogrified (the previous step in this guide) for the script to work.</p><code class="terminal"><span><b>se</b> british2american <u>.</u></span></code>
 				<p>While <code class="bash"><b>se</b> british2american</code> tries its best, thanks to the quirkiness of English punctuation rules it’ll invariably mess some stuff up. Proofreading is required after running the conversion.</p>
-				<p>After you’ve run the conversion, do another commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Convert from British-style quotation to American style"</i></span></code>
+				<p>After you’ve run the conversion, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Convert from British-style quotation to American style"</i></span></code>
 				<p>This regex is useful for spotting incorrectly converted quotes next to em dashes: <code class="regex">“[^”‘]+’⁠—(?=[^”]*?&lt;/p&gt;;)</code></p>
 			</li>
 			<li>
@@ -274,7 +274,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> tag to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the <abbr class="acronym">SEMOS</abbr></a> for templates on how to semantically format poetry, verse, and song.</p>
 					</li>
 				</ul>
-				<p>After you’ve added semantics according to the <a href="/manual">Standard Ebooks Manual of Style</a>, do another commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Semanticate"</i></span></code>
+				<p>After you’ve added semantics according to the <a href="/manual">Standard Ebooks Manual of Style</a>, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Semanticate"</i></span></code>
 			</li>
 			<li>
 				<h2>Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</h2>
@@ -282,7 +282,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>The <code class="bash"><b>se</b> print-title</code> tool takes a well-marked-up section header from a file, and prints the expected value for the <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element to the terminal. It also has the <code class="bash">--in-place</code> option, which will allow us to update all the chapters at once:</p>
 				<code class="terminal"><span><b>se</b> print-title --in-place src/epub/text/<i class="glob">*</i></span></code>
 				<p>Once you’ve verified the titles look good, commit:</p>
-				<code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add titles"</i></span></code>
+				<code class="terminal"><span><b>git</b> commit -am <i>"Add titles"</i></span></code>
 			</li>
 			<li>
 				<h2>Modernize spelling and hyphenation</h2>
@@ -565,7 +565,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					<span><b>se</b> print-manifest --in-place <u>.</u></span>
 					<span><b>se</b> print-spine --in-place <u>.</u></span>
 				</code>
-				<p>The manifest is already in the correct order and doesn’t need to be edited. The spine, however, will have to be reordered to be in the correct reading order. Once you’ve done that, commit!</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Complete content.opf"</i></span></code>
+				<p>The manifest is already in the correct order and doesn’t need to be edited. The spine, however, will have to be reordered to be in the correct reading order. Once you’ve done that, commit!</p><code class="terminal"><span><b>git</b> commit -am <i>"Complete content.opf"</i></span></code>
 			</li>
 			<li>
 				<h2>Complete the table of contents</h2>
@@ -574,13 +574,13 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<code class="terminal raw"><span><b>se</b> print-toc --in-place <u>.</u></span></code>
 				<p>Review the generated ToC in <code class="path">./src/epub/toc.xhtml</code> to make sure <code class="bash"><b>se</b> print-toc</code> did the right thing. <code class="bash"><b>se</b> print-toc</code> is valuable tool to discover structural problems in your ebook. If an entry is arranged in a way you weren’t expecting, perhaps the problem isn’t with <code class="bash"><b>se</b> print-toc</code>, but with your HTML code—be careful! You may have to make changes by hand for complex or unusual books.</p>
 				<p>Once you’re done, commit:</p>
-				<code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add ToC"</i></span></code>
+				<code class="terminal"><span><b>git</b> commit -am <i>"Add ToC"</i></span></code>
 			</li>
 			<li>
 				<h2>Complete the colophon</h2>
 				<p><code class="bash"><b>se</b> create-draft</code> put a skeleton <code class="path">colophon.xhtml</code> file in the <code class="path">./src/epub/text/</code> folder. Now that we have the cover image and artist, we can fill out the various fields there. Make sure to credit the original transcribers of the text (generally we assume them to be whoever’s name is on the file we download from Gutenberg) and to include a link back to the Gutenberg text we used, along with a link to any scans we used (from archive.org or hathitrust.org, for example).</p>
 				<p>You can also include your own name as the producer of this Standard Ebooks edition. Besides that, the colophon is standardized; don’t get too creative with it.</p>
-				<p>The release and updated dates should be the same for the first release, and they should match the dates in <code class="path">content.opf</code>. For now, leave them unchanged, as <code class="bash"><b>se</b> prepare-release</code> will automatically fill them in for you as we’ll describe later in this guide.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Complete the colophon"</i></span></code>
+				<p>The release and updated dates should be the same for the first release, and they should match the dates in <code class="path">content.opf</code>. For now, leave them unchanged, as <code class="bash"><b>se</b> prepare-release</code> will automatically fill them in for you as we’ll describe later in this guide.</p><code class="terminal"><span><b>git</b> commit -am <i>"Complete the colophon"</i></span></code>
 			</li>
 			<li>
 				<h2>Complete the imprint</h2>
