@@ -241,6 +241,18 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans</p>
 			</li> -->
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/13000">The Rough Riders</a> by Theodore Roosevelt</p>
+			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/3337">Hunting the Grisly and Other Sketches</a> by Theodore Roosevelt</p>
+			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/61935">Outdoor Pastimes of an American Hunter</a> by Theodore Roosevelt</p>
+			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/34135">A Book-Lover’s Holidays in the Open</a> by Theodore Roosevelt</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
@@ -574,6 +586,12 @@ require_once('Core.php');
 			 <li>
 				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs (Note: the 1926 edition is expanded, but requires transcription)</p>
 			</li> -->
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/3335">Theodore Roosevelt: An Autobiography</a> by Theodore Roosevelt</p>
+			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/11746">Through the Brazilian Wilderness</a> by Theodore Roosevelt (Transcription is missing italics and accents)</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -729,6 +747,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>. Part of the Guardian 2015 collection.)</p>
+			</li>
+			<li>
+				<p>The Winning of the West (<a href="https://gutenberg.org/ebooks/11941">Volume 1</a>, <a href="https://gutenberg.org/ebooks/11942">Volume 2</a>, <a href="https://gutenberg.org/ebooks/11943">Volume 3</a>, <a href="https://gutenberg.org/ebooks/11944">Volume 4</a>) by Theodore Roosevelt</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
