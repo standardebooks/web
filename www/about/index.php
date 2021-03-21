@@ -127,6 +127,10 @@ require_once('Core.php');
 					</li>
 					<li>
 						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
+						<p>John Jarvis</p>
+					</li>
+					<li>
+						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Eric Lim</p>
 					</li>
 					<li>
