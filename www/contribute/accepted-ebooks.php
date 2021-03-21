@@ -20,7 +20,7 @@ require_once('Core.php');
 		<h2>Types of ebooks we don’t accept</h2>
 		<ul>
 			<li>
-				<p>Ebooks that are not clearly in the U.S. public domain. If it’s not hosted on <a href="https://www.gutenberg.org">Projected Gutenberg</a>, we’ll probably decline it.</p>
+				<p>Ebooks that are not clearly in the U.S. public domain. If it’s not hosted on <a href="https://www.gutenberg.org">Project Gutenberg</a>, we’ll probably decline it.</p>
 			</li>
 			<li>
 				<p>Individual short works that could instead be collected in a larger omnibus, like individual pamphlets, essays, or short stories. For example, we wouldn’t accept individual ebook productions of Jonathan Swift’s “<a href="https://www.gutenberg.org/ebooks/1080">A Modest Proposal</a>” or Philip K. Dick’s “<a href="https://www.gutenberg.org/ebooks/32522">Mr. Spaceship</a>.” However we <em>do</em> want <em>complete compilations</em> of those kinds of short works, for example our <a href="/ebooks/philip-k-dick/short-fiction">ebook of all of Philip K. Dick’s public domain short stories</a>.</p>
