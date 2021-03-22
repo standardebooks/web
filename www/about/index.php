@@ -28,7 +28,7 @@ require_once('Core.php');
 						<picture>
 							<source srcset="/images/masthead/alex-cabal@2x.avif 2x, /images/masthead/alex-cabal.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/alex-cabal@2x.jpg 2x, /images/masthead/alex-cabal.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/alex-cabal.png" alt="A portrait of Alex Cabal."/>
+							<img src="/images/masthead/alex-cabal.jpg" alt="A portrait of Alex Cabal."/>
 						</picture>
 						<p>
 							<a href="https://alexcabal.com">Alex Cabal</a>
@@ -44,7 +44,7 @@ require_once('Core.php');
 						<picture>
 							<source srcset="/images/masthead/david-grigg@2x.avif 2x, /images/masthead/david-grigg.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/david-grigg@2x.jpg 2x, /images/masthead/david-grigg.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/david-grigg.png" alt="A portrait of Robin Whittleton."/>
+							<img src="/images/masthead/david-grigg.jpg" alt="A portrait of Robin Whittleton."/>
 						</picture>
 						<p>
 							<a href="https://rightword.com.au/david.php">David Grigg</a>
@@ -55,7 +55,7 @@ require_once('Core.php');
 						<picture>
 							<source srcset="/images/masthead/b-timothy-keith@2x.avif 2x, /images/masthead/b-timothy-keith.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/b-timothy-keith@2x.jpg 2x, /images/masthead/b-timothy-keith.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/b-timothy-keith.png" alt="A portrait of Robin Whittleton."/>
+							<img src="/images/masthead/b-timothy-keith.jpg" alt="A portrait of Robin Whittleton."/>
 						</picture>
 						<p>
 							<a href="https://astart.ca">B. Timothy Keith</a>
@@ -66,7 +66,7 @@ require_once('Core.php');
 						<picture>
 							<source srcset="/images/masthead/vince-rice@2x.avif 2x, /images/masthead/vince-rice.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/vince-rice@2x.jpg 2x, /images/masthead/vince-rice.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/vince-rice.png" alt="A portrait of Vince Rice."/>
+							<img src="/images/masthead/vince-rice.jpg" alt="A portrait of Vince Rice."/>
 						</picture>
 						<p>
 							<a href="https://www.brokenandsaved.com">Vince Rice</a>
@@ -77,7 +77,7 @@ require_once('Core.php');
 						<picture>
 							<source srcset="/images/masthead/emma-sweeney@2x.avif 2x, /images/masthead/emma-sweeney.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/emma-sweeney@2x.jpg 2x, /images/masthead/emma-sweeney.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/emma-sweeney.png" alt="A portrait of Emma Sweeney."/>
+							<img src="/images/masthead/emma-sweeney.jpg" alt="A portrait of Emma Sweeney."/>
 						</picture>
 						<p>
 							<a href="https://www.linkedin.com/in/emma-sweeney-554927190/">Emma Sweeney</a>
@@ -88,7 +88,7 @@ require_once('Core.php');
 						<picture>
 							<source srcset="/images/masthead/robin-whittleton@2x.avif 2x, /images/masthead/robin-whittleton.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/robin-whittleton@2x.jpg 2x, /images/masthead/robin-whittleton.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/robin-whittleton.png" alt="A portrait of Robin Whittleton."/>
+							<img src="/images/masthead/robin-whittleton.jpg" alt="A portrait of Robin Whittleton."/>
 						</picture>
 						<p>
 							<a href="https://www.robinwhittleton.com/">Robin Whittleton</a>
@@ -113,7 +113,7 @@ require_once('Core.php');
 						<picture>
 							<source srcset="/images/masthead/matthew-chan@2x.avif 2x, /images/masthead/matthew-chan.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/matthew-chan@2x.jpg 2x, /images/masthead/matthew-chan.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/matthew-chan.png" alt="A portrait of Matthew Chan."/>
+							<img src="/images/masthead/matthew-chan.jpg" alt="A portrait of Matthew Chan."/>
 						</picture>
 						<p>Matthew Chan</p>
 					</li>
@@ -126,7 +126,11 @@ require_once('Core.php');
 						<p>Carey Handfield</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
+						<picture>
+							<source srcset="/images/masthead/john-jarvis@2x.avif 2x, /images/masthead/john-jarvis.avif 1x" type="image/avif"/>
+							<source srcset="/images/masthead/john-jarvis@2x.jpg 2x, /images/masthead/john-jarvis.jpg 1x" type="image/jpg"/>
+							<img src="/images/masthead/john-jarvis.jpg" alt="A portrait of John Jarvis."/>
+						</picture>
 						<p>John Jarvis</p>
 					</li>
 					<li>
@@ -142,7 +146,7 @@ require_once('Core.php');
 						<picture>
 							<source srcset="/images/masthead/firstname-lastname@2x.avif 2x, /images/masthead/firstname-lastname.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/firstname-lastname@2x.jpg 2x, /images/masthead/firstname-lastname.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/firstname-lastname.png" alt="A portrait of Firstname Lastname."/>
+							<img src="/images/masthead/firstname-lastname.jpg" alt="A portrait of Firstname Lastname."/>
 						</picture>
 						<p>Firstname Lastname</p>
 					</li>
