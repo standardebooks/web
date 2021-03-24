@@ -267,7 +267,7 @@ class Ebook{
 				$id = $contributor->attributes()->id;
 			}
 
-			foreach($xml->xpath('/package/metadata/meta[@property="role"][@refines="#' . $id . '"]') ?: [] as $role){
+			foreach($xml->xpath('/package/metadata/meta[ (@property="role" or @property="se:role") and @refines="#' . $id . '"]') ?: [] as $role){
 				$c = new Contributor(
 							(string)$contributor,
 							$this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]')),
