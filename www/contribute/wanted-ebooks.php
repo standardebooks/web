@@ -59,9 +59,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/42914">Gladiator</a> by Philip Wylie</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
 			</li>
@@ -121,9 +118,6 @@ require_once('Core.php');
 			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/35517">The Three Imposters</a> by Arthur Machen</p>
-			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/1153">The Chessmen of Mars</a> by Edgar Rice Burroughs</p>
 			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/149">Beyond Thirty aka. The Lost Continent</a> (Beyond 1) by Edgar Rice Burroughs</p>
