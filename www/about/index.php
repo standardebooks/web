@@ -126,6 +126,10 @@ require_once('Core.php');
 						<p>Carey Handfield</p>
 					</li>
 					<li>
+						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
+						<p>Wilhelm Fitzpatrick</p>
+					</li>
+					<li>
 						<picture>
 							<source srcset="/images/masthead/john-jarvis@2x.avif 2x, /images/masthead/john-jarvis.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/john-jarvis@2x.jpg 2x, /images/masthead/john-jarvis.jpg 1x" type="image/jpg"/>
