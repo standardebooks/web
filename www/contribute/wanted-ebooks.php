@@ -83,9 +83,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6877">The Head of Kay’s</a> by P. G. Wodehouse</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6985">A Prefect’s Uncle</a> by P. G. Wodehouse</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6880">The Coming of Bill</a> by P. G. Wodehouse</p>
 			</li>
@@ -155,9 +155,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://gutenberg.net.au/ebooks03/0301231h.html">The Three Hostages</a> by John Buchan</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/24">O Pioneers!</a> by Willa Cather</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/47">Anne of Avonlea</a> by L. M. Montgomery</p>
 			</li>
