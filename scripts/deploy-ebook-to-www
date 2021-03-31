@@ -281,6 +281,9 @@ do
 			# Recompose the epub into a single file, but put it outside of the epub src for now so we don't stomp on it with the following sections.
 			# We do this first because the tweaks below shouldn't apply to the single-page file
 			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/www/css/web.css" "${workDir}"
+
+			# Adjust sponsored links in the colophon
+			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.xhtml
 		fi
 
 		# Make some compatibilty adjustments for the individual XHTML files
@@ -300,6 +303,9 @@ do
 		# Add the work title to <title> tags in the source text
 		workTitle=$(grep --only-matching --extended-regexp "<dc:title id=\"title\">(.+?)</dc:title>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/<[^>]+?>//g")
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g"
+
+		# Adjust sponsored links in the colophon
+		sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/src/epub/text/colophon.xhtml
 
 		# Done adding compatibility!
 
