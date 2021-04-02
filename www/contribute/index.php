@@ -6,7 +6,7 @@ require_once('Core.php');
 		<h1>Get Involved</h1>
 		<section id="intro">
 			<h2>Help create ebooks that are a pleasure to read</h2>
-			<p>Standard Ebooks is a volunteer driven project, and there’s room for people of all skill levels to contribute.</p>
+			<p>Standard Ebooks is a volunteer-driven project, and there’s room for people of all skill levels to contribute.</p>
 			<p>At the most basic level, anyone can <a href="https://groups.google.com/g/standardebooks">contribute feedback via our mailing list</a>. Day-to-day readers can <a href="/contribute/report-errors">tell us about errors they spot in our ebooks</a>. People with an eye for typography and a talent for editing can proofread whole ebooks. Technically inclined readers can produce ebooks themselves, or <a href="https://github.com/standardebooks">contribute via GitHub</a>. You can also <a href="/donate">make a financial contribution</a> to help fund continued ebook development.</p>
 		</section>
 		<section id="everyone">
