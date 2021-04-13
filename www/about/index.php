@@ -143,7 +143,7 @@ require_once('Core.php');
 					</li>
 					<li>
 						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
-						<p>Anonymous × 2</p>
+						<p>Anonymous × 3</p>
 					</li>
 					<? if(false){ ?>
 					<li>
