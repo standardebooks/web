@@ -24,7 +24,8 @@ section + article,
 article + section,
 article + article{
 	box-sizing: border-box;
-	padding-top: 6em;
+	margin-top: 12em !important;
+	padding: 0;
 }
 
 nav[epub|type~="toc"] ol{
@@ -62,5 +63,12 @@ nav[epub|type~="toc"] ol{
 
 	img[epub|type~="se:color-depth.black-on-transparent"]{
 		filter: invert(1);
+	}
+}
+
+@media(pointer: coarse) or (pointer: none){
+	nav[epub|type~="toc"] ol li{
+		margin-top: 2em;
+		margin-bottom: 2em;
 	}
 }
