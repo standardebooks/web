@@ -149,7 +149,8 @@ code.marc{
 	border: 1px solid var(--border);
 	background: #333;
 	border-radius: .25rem;
-	white-space: nowrap;
+	white-space: normal;
+	word-break: break-all;
 	padding: 0 .25rem;
 	color: #fff;
 	margin: 0 .2rem;
@@ -549,10 +550,6 @@ figure.corrected code{
 	width: auto;
 }
 
-.manual table td code.path{
-	white-space: nowrap;
-}
-
 .manual aside.tip{
 	font-style: italic;
 	margin: 1rem 0;
@@ -769,5 +766,16 @@ main.manual aside.alert p{
 @media(max-width: 1000px){
 	main.manual > article{
 		margin-left: 2rem;
+	}
+}
+
+@media(max-width: 500px){
+	.manual h1,
+	.manual h2,
+	.manual h3,
+	.manual h4,
+	.manual h5,
+	.manual h6{
+		word-break: break-all;
 	}
 }
