@@ -11,38 +11,43 @@
 	src: url("/fonts/league-spartan-bold.woff2") format("woff2");
 	font-weight: bold;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
+	/* Note: Don't use local() as a source, because our version matches Georgia's x-height */
 	font-family: "Crimson Pro";
 	src: url("/fonts/crimson-pro.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
+	/* Note: Don't use local() as a source, because our version matches Georgia's x-height */
 	font-family: "Crimson Pro";
 	src: url("/fonts/crimson-pro-bold.woff2") format("woff2");
 	font-weight: bold;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
+	/* Note: Don't use local() as a source, because our version matches Georgia's x-height */
 	font-family: "Crimson Pro";
 	src: url("/fonts/crimson-pro-italic.woff2") format("woff2");
 	font-weight: normal;
 	font-style: italic;
+	font-display: swap;
 }
 
 @font-face{
-	/* Note: Don't use local() as a source, because our version fixes the font's strange default line-height */
+	/* Note: Don't use local() as a source, because our version matches Georgia's x-height */
 	font-family: "Crimson Pro";
 	src: url("/fonts/crimson-pro-bold-italic.woff2") format("woff2");
 	font-weight: bold;
 	font-style: italic;
+	font-display: swap;
 }
 
 @font-face{
@@ -50,6 +55,7 @@
 	src: local("Fira Mono"), url("/fonts/fira-mono.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face{
@@ -57,6 +63,7 @@
 	src: local("Fira Mono"), url("/fonts/fira-mono-bold.woff2") format("woff2");
 	font-weight: bold;
 	font-style: normal;
+	font-display: swap;
 }
 
 :root{
@@ -293,6 +300,14 @@ body{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+
+	/* When the site was first designed, we used the official build of Crimson Pro.
+	The font is much smaller than Georgia so we had to make the default body text larger to compensate.
+	But this causes a big page layout change once the font is loaded. So later we altered the font to have the same
+	x-height of Georgia, but we can't change the root element rem size because the rest of the site would be affected.
+	So instead we change the font size here, which doesn't change the root rem size. */
+	font-size: .88rem;
+	line-height: 1.6;
 }
 
 body > header{
@@ -600,6 +615,7 @@ form button{
 	font-size: 1rem;
 	height: calc(1.4rem + 2rem + 2px);
 	hyphens: none;
+	line-height: 1.2;
 }
 
 form button{
@@ -1414,6 +1430,7 @@ main.ebooks nav ol li{
 article nav ol li a,
 main.ebooks nav ol li a{
 	font-size: 1rem;
+	line-height: 1.4;
 	padding: 1rem;
 	margin: 0 .5rem;
 	border-radius: .25rem;
@@ -1481,7 +1498,7 @@ input[type="search"]{
 	align-items: center;
 	padding: 1rem;
 	color: inherit;
-	font-size: 1rem;
+	font-size: .88rem;
 	font-family: "Crimson Pro";
 	color: var(--body-text);
 	line-height: 1.4;
@@ -1514,7 +1531,7 @@ label.select > span + span{
 label.select > span + span::after{
 	display: block;
 	position: absolute;
-	top: calc((2rem + 1.4rem + 2px) / 2 - 6px);
+	top: calc((2rem + 1.4rem + 2px) / 2 - 10px);
 	right: calc(1rem - 12px / 2);
 	content: "\f107";
 	font-family: "ForkAwesome";
@@ -1544,7 +1561,7 @@ label.email::before,
 label.search::before{
 	display: block;
 	position: absolute;
-	top: calc(2rem + 2px + .7rem);
+	top: calc(2rem + .7rem);
 	left: 1rem;
 	font-family: "ForkAwesome";
 	font-size: 1rem;
@@ -1870,7 +1887,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 .masthead hgroup * + *{
 	font-family: "Crimson Text", serif;
-	font-size: 1rem;
+	font-size: .88rem;
 	margin-top: 1rem;
 	font-style: italic;
 	font-weight: normal;
@@ -1914,7 +1931,7 @@ article.ebook section aside.donation{
 	color: var(--body-text);
 	text-align: center;
 	padding: 2rem;
-	font-size: 1rem;
+	font-size: .88rem;
 	margin-top: 0;
 	border-radius: .25rem;
 	margin-bottom: 2rem;
@@ -2003,7 +2020,7 @@ fieldset p{
 
 label.checkbox{
 	display: inline-flex;
-	align-items: flex-start;
+	align-items: center;
 	text-align: left;
 	line-height: 1;
 }
