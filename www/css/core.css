@@ -649,7 +649,7 @@ a.button.next::after,
 }
 
 a[href].button.next:hover::after,
-.ebooks nav > a:last-child[href]::hover::after{
+.ebooks nav > a:last-child[href]:hover::after{
 	left: .25rem;
 	position: relative;
 	transition: all 200ms ease;
@@ -2580,5 +2580,55 @@ label.checkbox input{
 	main,
 	main.front-page > section > section p{
 		text-align: left;
+	}
+}
+
+@media(prefers-reduced-motion: reduce){
+	body > header > a,
+	header nav li a,
+	header nav li a:hover,
+	header nav li a.highlighted:hover,
+	a.button.next::after,
+	.ebooks nav > a:last-child::after,
+	a[href].button.next:hover::after,
+	.ebooks nav > a:last-child[href]:hover::after,
+	.ebooks nav > a:first-child:before,
+	.ebooks nav > a:first-child[href]:hover::before,
+	a.button.next:hover::after,
+	.ebooks nav > a:last-child[href]:hover::after,
+	article.ebook section#read-online a::before,
+	article.ebook section#download ul li a[class]::before,
+	article.ebook section#details ul li a[class]::before,
+	article.ebook #more-ebooks img,
+	article.ebook #more-ebooks a:active img,
+	main.ebooks > ol a[tabindex],
+	main.ebooks > ol > li a[tabindex]:active,
+	label.select > span + span::after,
+	label.search:focus-within::before,
+	label.search:hover::before,
+	label.select:hover > span + span::after,
+	label.email::before,
+	label.search::before,
+	nav li.highlighted a,
+	nav a[rel],
+	a.button,
+	button,
+	input[type="text"],
+	input[type="email"],
+	input[type="search"],
+	select,
+	a.button:hover,
+	nav li.highlighted a:hover,
+	nav a[rel]:hover,
+	button:hover,
+	input[type="text"]:focus,
+	input[type="text"]:hover,
+	input[type="email"]:focus,
+	input[type="email"]:hover,
+	input[type="search"]:focus,
+	input[type="search"]:hover,
+	select:focus,
+	select:hover{
+		transition: none;
 	}
 }
