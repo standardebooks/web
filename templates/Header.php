@@ -18,8 +18,6 @@ if(!isset($manual)){
 
 $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 
-# We hash with crc32 because it's faster than md5 and "good enough" for this simple cache-busting use case
-
 header('content-type: application/xhtml+xml');
 print('<?xml version="1.0" encoding="utf-8"?>');
 print("\n");
@@ -35,14 +33,14 @@ print("\n");
 	<link rel="preload" as="font" href="/fonts/crimson-pro-bold.woff2" type="font/woff2"/>
 	<link rel="preload" as="font" href="/fonts/crimson-pro-italic.woff2" type="font/woff2"/>
 	<link rel="preload" as="font" href="/fonts/crimson-pro-bold-italic.woff2" type="font/woff2"/>
-	<link href="/css/core.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/core.css')) ?>" media="screen" rel="stylesheet" type="text/css"/>
+	<link href="/css/core.css?version=<?= filemtime(WEB_ROOT . '/css/core.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
-	<link href="/css/dark.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/dark.css')) ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
+	<link href="/css/dark.css?version=<?= filemtime(WEB_ROOT . '/css/dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
 	<? } ?>
 	<? if($manual){ ?>
-	<link href="/css/manual.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/manual.css')) ?>" media="screen" rel="stylesheet" type="text/css"/>
+	<link href="/css/manual.css?version=<?= filemtime(WEB_ROOT . '/css/manual.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
-	<link href="/css/manual-dark.css?version=<?= crc32(file_get_contents(WEB_ROOT . '/css/manual-dark.css')) ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
+	<link href="/css/manual-dark.css?version=<?= filemtime(WEB_ROOT . '/css/manual-dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
 	<? } ?>
 	<? } ?>
 	<link href="/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
