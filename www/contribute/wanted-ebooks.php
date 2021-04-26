@@ -201,9 +201,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/10339">An Antarctic Mystery</a> <i>Le Sphinx des glaces</i> by Jules Verne</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3526">Five Weeks in a Balloon</a> <i>Cinq Semaines en ballon</i> by Jules Verne</p>
-			</li>
-			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
 			</li>
 			<!-- <li>
