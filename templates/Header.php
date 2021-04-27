@@ -50,7 +50,6 @@ print("\n");
 	<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 	<link href="/manifest.json" rel="manifest"/>
 	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/rss/new-releases"/>
-	<link color="#394451" href="/safari-pinned-tab.svg" rel="mask-icon"/>
 	<meta content="#394451" name="theme-color"/>
 	<meta content="<? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
 	<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>
