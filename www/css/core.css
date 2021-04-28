@@ -1370,14 +1370,15 @@ ul.tags{
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
+	margin-top: .5rem;
 }
 
 ul.tags li{
-	margin: 0;
+	margin: .5rem;
 }
 
-ul.tags li + li{
-	margin-left: .5rem;
+ul.tags li:first-child{
+	margin: .5rem;
 }
 
 ul.tags li a{
