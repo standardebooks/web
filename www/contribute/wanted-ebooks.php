@@ -23,9 +23,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/1999">Crome Yellow</a> by Aldous Huxley (Note: transcription has lost italics)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3294">The Sea-Hawk</a> by Rafael Sabatini</p>
 			</li>
@@ -364,9 +361,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/432">The Ambassadors</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/5658">Lord Jim</a> by Joseph Conrad (Part of the Modern Library’s 100 best novels)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/90">The Son of Tarzan</a> (Tarzan 4) by Edgar Rice Burroughs</p>
 			</li>
@@ -631,9 +625,6 @@ require_once('Core.php');
 			<li>
 				<p>Short fiction by Jack London, to be compiled in a “Short Fiction” omnibus. We already have three short story compilations that must be rolled in to this one. <a href="https://docs.google.com/spreadsheets/d/1yXZvlZVekVY3EpearMW8QIrbBEJlm8RbEXAuZP5rTG4/edit?usp=sharing">See this bibliography spreadsheet.</a></p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/60093">Cane</a> by Jean Toomer</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/28701">Short stories by W. W. Jacobs</a> (We already have Lady of the Barge; do we need an omnibus?)</p>
 			</li>
