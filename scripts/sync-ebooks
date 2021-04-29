@@ -197,7 +197,7 @@ if [ "${verbosity}" -gt 0 ]; then
 fi
 
 # skip the non-ebook repositories by removing their names from the list
-repoUrls=$(printf "%s" "${repoUrls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" -e "/sublime-text-se-plugin.git\$" | awk 'NF')
+repoUrls=$(printf "%s" "${repoUrls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" -e "/standard-blackletter.git\$" -e "/sublime-text-se-plugin.git\$" | awk 'NF')
 
 # process the list, reading one repository at a time
 printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
