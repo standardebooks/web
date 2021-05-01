@@ -65,7 +65,7 @@ require_once('Core.php');
 				</li>
 				<li id="kobo">
 					<h3>Kobo eInk Devices</h3>
-					<h4>If you’ve download a kepub file</h4>
+					<h4>If you’ve downloaded a kepub file</h4>
 					<p><strong>Important:</strong> <em>Don’t use Calibre to transfer the kepub file!</em> Calibre will apply its own conversion <em>on top of</em> our own conversion, making for strange results.</p>
 					<ol>
 						<li>
