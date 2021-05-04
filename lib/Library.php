@@ -271,9 +271,6 @@ class Library{
 		}
 
 		// Now store various collections
-		apcu_delete('collections');
-		apcu_store('collections', $collections);
-
 		apcu_delete(new APCUIterator('/^collection-/'));
 		foreach($collections as $collection => $sortItems){
 			// Sort the array by the ebook's ordinal in the collection. We use this custom sort function
