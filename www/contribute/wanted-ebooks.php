@@ -734,7 +734,7 @@ require_once('Core.php');
 				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>. Part of the Guardian 2015 collection.)</p>
 			</li>
 			<li>
-				<p>The Winning of the West (<a href="https://gutenberg.org/ebooks/11941">Volume 1</a>, <a href="https://gutenberg.org/ebooks/11942">Volume 2</a>, <a href="https://gutenberg.org/ebooks/11943">Volume 3</a>, <a href="https://gutenberg.org/ebooks/11944">Volume 4</a>) by Theodore Roosevelt</p>
+				<p><a href="https://gutenberg.org/ebooks/45847">The Autobiography of Thomas Jefferson</a>, by Thomas Jefferson</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
