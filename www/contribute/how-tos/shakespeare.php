@@ -26,7 +26,7 @@ require_once('Core.php');
 						<p>The MIT transcriptions do not include the dramatis personaes and must be restored.</p>
 					</li>
 					<li>
-						<p>Follow <a href="https://standardebooks.org/manual/1.1.1/7-high-level-structural-patterns#7.6.6.4">section 7.6.6.4 in the manual</a> for basic file structure. Adjust letter case of personas to follow sentence case. Remove periods.</p>
+						<p>Follow <a href="https://standardebooks.org/manual/1.5.0/7-high-level-structural-patterns#7.6.6.4">section 7.6.6.4 in the manual</a> for basic file structure. Adjust letter case of personas to follow sentence case. Remove periods.</p>
 					</li>
 					<li>
 						<p>The scene description is placed in a <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> element. Note that the description is followed by a period.</p>
@@ -51,7 +51,7 @@ require_once('Core.php');
 						<h3>Structure</h3>
 						<ul>
 							<li>
-								<p>Prologues follow a verse structure. See <a href="https://standardebooks.org/manual/1.1.1/7-high-level-structural-patterns#7.5">section 7.5 in the manual</a>. Hint: the first letter of a verse line is capitalized.</p>
+								<p>Prologues follow a verse structure. See <a href="https://standardebooks.org/manual/1.5.0/7-high-level-structural-patterns#7.5">section 7.5 in the manual</a>. Hint: the first letter of a verse line is capitalized.</p>
 							</li>
 						</ul>
 					</li>
@@ -78,7 +78,7 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Acts and Scenes</h2>
-				<p>Overall file structuring and styling can be found in <a href="https://standardebooks.org/manual/1.1.1/7-high-level-structural-patterns#7.6.6">section 7.6.6 in the manual</a>.</p>
+				<p>Overall file structuring and styling can be found in <a href="https://standardebooks.org/manual/1.5.0/7-high-level-structural-patterns#7.6.6">section 7.6.6 in the manual</a>.</p>
 				<ol>
 					<li>
 						<h3>Scene Descriptions</h3>
@@ -109,7 +109,7 @@ require_once('Core.php');
 										<p>This is referring to the stage directions that are shown appear on a separate line and centered in the page scans. The names of main characters are capitalized.</p>
 									</li>
 									<li>
-										<p>See <a href="https://standardebooks.org/manual/1.1.1/7-high-level-structural-patterns#7.6.5">section 7.6.5 in the manual</a> for stage direction and persona semantics and styling.</p>
+										<p>See <a href="https://standardebooks.org/manual/1.5.0/7-high-level-structural-patterns#7.6.5">section 7.6.5 in the manual</a> for stage direction and persona semantics and styling.</p>
 									</li>
 									<li>
 										<p>You don’t have to center these directions.</p>
@@ -170,7 +170,7 @@ require_once('Core.php');
 								<p>Whether it is in iambic pentameter or not, if the dialogue <em>is not</em> broken into rows we treat it as “prose.”</p>
 							</li>
 							<li>
-								<p>If the dialogue <em>is</em> broken into rows beginning with a capital letter we treat it as “verse.” See <a href="https://standardebooks.org/manual/1.1.1/7-high-level-structural-patterns#7.5">section 7.5 in the manual</a>.</p>
+								<p>If the dialogue <em>is</em> broken into rows beginning with a capital letter we treat it as “verse.” See <a href="https://standardebooks.org/manual/1.5.0/7-high-level-structural-patterns#7.5">section 7.5 in the manual</a>.</p>
 							</li>
 							<li>
 								<p>Be careful. Because the plays are shoved into two columns in the page scans, a verse line will spill over onto another line. This second line is indented. We don’t want this separation. Make sure the verse line is together.</p>
@@ -235,7 +235,7 @@ require_once('Core.php');
 						<h3>Structure</h3>
 						<ul>
 							<li>
-								<p>Epilogues follow a verse structure. See <a href="https://standardebooks.org/manual/1.1.1/7-high-level-structural-patterns#7.5">section 7.5 in the manual</a>.</p>
+								<p>Epilogues follow a verse structure. See <a href="https://standardebooks.org/manual/1.5.0/7-high-level-structural-patterns#7.5">section 7.5 in the manual</a>.</p>
 							</li>
 						</ul>
 					</li>
