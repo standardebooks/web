@@ -194,9 +194,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/10339">An Antarctic Mystery</a> <i>Le Sphinx des glaces</i> by Jules Verne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
 			</li>
