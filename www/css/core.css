@@ -1895,7 +1895,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	font-weight: normal;
 }
 
-.donate section aside{
+.donate aside{
 	border-top: 1px dashed var(--sub-text);
 	margin-top: 1rem;
 	padding-top: 1rem;

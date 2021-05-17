@@ -101,10 +101,15 @@ require_once('Core.php');
 					</tr>
 				</tbody>
 			</table>
-			<aside>
-				<p>Standard Ebooks is a sponsored project of <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a non-profit arts service organization. Contributions for the charitable purposes of Standard Ebooks must be made payable to “Fractured Atlas” only and are tax-deductible to the extent permitted by law.</p>
-			</aside>
 		</section>
+		<section id="corporate-sponsors">
+			<h2>Corporate sponsorships</h2>
+			<p>Sponsorships at the corporate level are a great way to show your organization’s commitment to the support of the literate arts. Corporate sponsors have their logo and a link <a href="/about">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
+			<p>To inquire about options, contact the <a href="/about#editor-in-chief">Standard Ebooks Editor-in-Chief</a>.</p>
+		</section>
+		<aside>
+			<p>Standard Ebooks is a sponsored project of <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a non-profit arts service organization. Contributions for the charitable purposes of Standard Ebooks must be made payable to “Fractured Atlas” only and are tax-deductible to the extent permitted by law.</p>
+		</aside>
 	</article>
 </main>
 <?= Template::Footer() ?>
