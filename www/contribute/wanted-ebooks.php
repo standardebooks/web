@@ -5,7 +5,7 @@ require_once('Core.php');
 	<article>
 		<h1>Wanted Ebooks</h1>
 		<p>If you’re interested in producing an ebook for Standard Ebooks, why not work on one of these books?</p>
-		<p>If something in this list interests you, please <a href="https://groups.google.com/forum/#!forum/standardebooks">contact us at our mailing list</a> for help before you start work.</p>
+		<p>If something in this list interests you, please <a href="https://groups.google.com/g/standardebooks">contact us at our mailing list</a> for help before you start work.</p>
 		<p>If you want to suggest a different book to produce, please carefully review <a href="/contribute/accepted-ebooks">the kinds of work we do and don’t accept</a>.</p>
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>

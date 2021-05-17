@@ -13,7 +13,7 @@ require_once('Core.php');
 			<h2>Everyone</h2>
 			<ul>
 				<li>
-					<p><a href="https://groups.google.com/forum/#!forum/standardebooks">Join the Standard Ebooks mailing list.</a></p>
+					<p><a href="https://groups.google.com/g/standardebooks">Join the Standard Ebooks mailing list.</a></p>
 					<p>The mailing list is the best way to contact the Standard Ebooks project about any question, suggestion, concern, or contribution you might have. We’re just an email away!</p>
 				</li>
 				<li>
@@ -21,7 +21,7 @@ require_once('Core.php');
 				</li>
 				<li>
 					<p>Help us catalog fine art paintings from scans of old art books. We have links to complete book scans that you can browse, and we need your help to catalog the art in each book for use as cover art in future ebooks.</p>
-					<p>No technical experience is necessary. <a href="https://groups.google.com/forum/#!forum/standardebooks">Contact the mailing list if you want to help.</a></p>
+					<p>No technical experience is necessary. <a href="https://groups.google.com/g/standardebooks">Contact the mailing list if you want to help.</a></p>
 				</li>
 			</ul>
 		</section>

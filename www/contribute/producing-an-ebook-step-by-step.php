@@ -504,9 +504,9 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<h2>Create the cover image</h2>
 				<aside class="alert">
 					<p class="warning">!!! STOP !!!</p>
-					<p><strong>Do not commit cover art to your repository’s history until you have <a href="https://groups.google.com/forum/#!forum/standardebooks">cleared your selection with the S.E. Editor-in-Chief.</a></strong></p>
+					<p><strong>Do not commit cover art to your repository’s history until you have <a href="https://groups.google.com/g/standardebooks">cleared your selection with the S.E. Editor-in-Chief.</a></strong></p>
 					<p>If you commit non-public-domain cover art, you’ll have to rebase your repository to remove the art from its history. This is complicated, dangerous, and annoying, and you’ll be tempted to give up.</p>
-					<p><a href="https://groups.google.com/forum/#!forum/standardebooks">Contact us first</a> with page scans verifying your cover art’s public domain status before you commit your cover art!</p>
+					<p><a href="https://groups.google.com/g/standardebooks">Contact us first</a> with page scans verifying your cover art’s public domain status before you commit your cover art!</p>
 				</aside>
 				<p>Cover images for Standard Ebooks books have a standardized layout. The bulk of the work you’ll be doing is locating a suitable public domain painting to use. See the <a href="/manual/latest/10-art-and-images">Art and Images section of the Standard Ebooks Manual of Style</a> for details on assembling a cover image.</p>
 				<p>As you search for an image, keep the following in mind:</p>
