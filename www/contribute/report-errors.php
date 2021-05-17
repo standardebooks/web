@@ -4,7 +4,7 @@ require_once('Core.php');
 <main>
 	<article>
 		<h1>Report Errors</h1>
-		<p>You can report any kind of error in a Standard Ebook to the Standard Ebooks project and we’ll do our best to get it corrected as soon as we can.</p>
+		<p>You can report any kind of error in a Standard Ebook to us and we’ll do our best to get it corrected as soon as we can.</p>
 		<p>If you’re a software developer or you’re comfortable with technology, you can fix the error yourself at the ebook’s <a href="https://www.github.com/standardebooks/">GitHub repository</a>, and submit a pull request.</p>
 		<p>If you’d rather not do that, then you can report an error directly to us and we’ll take care of it. To report an error, you’ll need:</p>
 		<ol>

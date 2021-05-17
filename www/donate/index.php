@@ -1,6 +1,6 @@
 <?
 require_once('Core.php');
-?><?= Template::Header(['title' => 'Donate', 'highlight' => 'donate', 'description' => 'Donate to the Standard Ebooks project.']) ?>
+?><?= Template::Header(['title' => 'Donate', 'highlight' => 'donate', 'description' => 'Donate to Standard Ebooks.']) ?>
 <main>
 	<article class="donate has-hero">
 		<hgroup>

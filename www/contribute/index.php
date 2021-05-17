@@ -14,7 +14,7 @@ require_once('Core.php');
 			<ul>
 				<li>
 					<p><a href="https://groups.google.com/g/standardebooks">Join the Standard Ebooks mailing list.</a></p>
-					<p>The mailing list is the best way to contact the Standard Ebooks project about any question, suggestion, concern, or contribution you might have. We’re just an email away!</p>
+					<p>The mailing list is the best way to contact Standard Ebooks about any question, suggestion, concern, or contribution you might have. We’re just an email away!</p>
 				</li>
 				<li>
 					<p><a href="/contribute/report-errors">Report a typo, formatting error, or typography error in any Standard Ebook.</a></p>

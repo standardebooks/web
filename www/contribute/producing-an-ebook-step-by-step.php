@@ -1,6 +1,6 @@
 <?
 require_once('Core.php');
-?><?= Template::Header(['title' => 'Producing an Ebook, Step by Step', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A detailed step-by-step description of the complete process of producing an ebook for the Standard Ebooks project, start to finish.']) ?>
+?><?= Template::Header(['title' => 'Producing an Ebook, Step by Step', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A detailed step-by-step description of the complete process of producing an ebook for Standard Ebooks, start to finish.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>Producing an Ebook, Step by Step</h1>
@@ -11,7 +11,7 @@ require_once('Core.php');
 		<ol>
 			<li>
 				<h2>Set up the Standard Ebooks toolset and make sure it’s up-to-date</h2>
-				<p>The Standard Ebooks project has a toolset that will help you produce an ebook. The toolset installs the <code class="bash"><b>se</b></code> command, which has various subcommands related to creating Standard Ebooks. You can <a href="/tools">read the complete installation instructions</a>, or if you already have <a href="https://pipxproject.github.io/pipx/installation/"><code class="bash"><b>pipx</b></code> installed</a>, run:</p>
+				<p>Standard Ebooks has a toolset that will help you produce an ebook. The toolset installs the <code class="bash"><b>se</b></code> command, which has various subcommands related to creating Standard Ebooks. You can <a href="/tools">read the complete installation instructions</a>, or if you already have <a href="https://pipxproject.github.io/pipx/installation/"><code class="bash"><b>pipx</b></code> installed</a>, run:</p>
 				<code class="terminal"><span><b>pipx</b> install standardebooks</span></code>
 				<p>The toolset changes frequently, so if you’ve installed the toolset in the past, make sure to update the toolset before you start a new ebook:</p>
 				<code class="terminal"><span><b>pipx</b> upgrade standardebooks</span></code>
@@ -233,7 +233,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			</li>
 			<li>
 				<h2>Add semantics</h2>
-				<p>Part of the Standard Ebooks project is adding meaningful semantics wherever possible in the text. <code class="bash"><b>se</b> semanticate</code> does a little of that for us—for example, for some common abbreviations—but much of it has to be done by hand.</p>
+				<p>Part of producing a book for Standard Ebooks is adding meaningful semantics wherever possible in the text. <code class="bash"><b>se</b> semanticate</code> does a little of that for us—for example, for some common abbreviations—but much of it has to be done by hand.</p>
 				<p>Adding semantics means two things:</p>
 				<ol>
 					<li>
