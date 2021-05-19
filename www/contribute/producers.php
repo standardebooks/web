@@ -8,7 +8,7 @@ require_once('Core.php');
 		<p>Here’s what the process of getting an ebook on Standard Ebooks looks like.</p>
 		<ol>
 			<li>
-				<p>Review the <a href="/contribute/accepted-ebooks">kinds of ebooks we do and don’t accept</a>.</p>
+				<p>Review the <a href="/contribute/collections-policy">kinds of ebooks we do and don’t accept</a>.</p>
 			</li>
 			<li>
 				<p>Find a good first production in our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, or if there’s nothing there that interests you, find a straightforward prose work of no longer than about 40–60,000 words, without much complex formatting like poetry, letters, tables, diagrams, or illustrations.</p>

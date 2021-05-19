@@ -43,7 +43,7 @@ require_once('Core.php');
 			<h2>Technical contributors and producers of new ebooks</h2>
 			<ul>
 				<li>
-					<p><a href="/contribute/accepted-ebooks">Ebooks we do and don’t accept.</a></p>
+					<p><a href="/contribute/collections-policy">Our collections policy, or, ebooks we do and don’t accept.</a></p>
 				</li>
 				<li>
 					<p><a href="/contribute/wanted-ebooks">Our Wanted Ebooks list, including suggestions for first-time productions.</a></p>
