@@ -54,12 +54,24 @@ require_once('Core.php');
 				</li>
 				<li id="kindle-fire">
 					<h3>Amazon Kindle Fire Devices</h3>
+					<h4>Method 1 - Direct Download</h4>
+					<p>This method will not add the book to your Kindle library so it will not remember your reading position.</p>
 					<ol>
 						<li>
 							<p>Use your device’s web browser to download the azw3 file you want to read.</p>
 						</li>
 						<li>
 							<p>Tap the 3 dots in the upper-right hand corner, select Downloads, and the book you downloaded.</p>
+						</li>
+					</ol>
+					<h4>Method 2 - Download to a Computer</h4>
+					<p>This method will add the book to your Kindle library.</p>
+					<ol>
+						<li>
+							<p>Using a USB cable, connect your Kindle to the computer you downloaded the azw3 file to. Your Kindle will appear as a USB drive that you can browse.</p>
+						</li>
+						<li>
+							<p>Navigate to the <code class="path">Books</code> folder on your Kindle, then drag and drop the azw3 file into the <code class="path">Books</code> folder.</p>
 						</li>
 					</ol>
 				</li>
