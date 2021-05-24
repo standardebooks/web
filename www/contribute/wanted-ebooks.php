@@ -281,9 +281,6 @@ require_once('Core.php');
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20160510">Those Barren Leaves</a> by Aldous Huxley</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/416">Winesburg, Ohio</a> by Sherwood Anderson (Part of the Modern Library’s 100 best novels)</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/two_gentlemen/full.html">The Two Gentlemen of Verona</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
@@ -414,9 +411,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce</p>
-			</li>
-			<li>
-				<p><a href="http://www.eldritchpress.org/ez/germinal.html">Germinal</a> by Émile Zola</p>
 			</li>
 			<li>
 				<p><a href="http://hilobrow.com/2013/03/11/theodore-savage-1/">Theodore Savage</a> by Cicely Hamilton</p>
