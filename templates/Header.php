@@ -28,11 +28,11 @@ print("\n");
 	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
 	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"/><? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
-	<link rel="preload" as="font" href="/fonts/league-spartan-bold.woff2" type="font/woff2"/>
-	<link rel="preload" as="font" href="/fonts/crimson-pro.woff2" type="font/woff2"/>
-	<link rel="preload" as="font" href="/fonts/crimson-pro-bold.woff2" type="font/woff2"/>
-	<link rel="preload" as="font" href="/fonts/crimson-pro-italic.woff2" type="font/woff2"/>
-	<link rel="preload" as="font" href="/fonts/crimson-pro-bold-italic.woff2" type="font/woff2"/>
+	<link rel="preload" as="font" href="/fonts/league-spartan-bold.woff2" type="font/woff2" crossorigin="crossorigin"/> <? /* fonts require the crossorigin attribute */ ?>
+	<link rel="preload" as="font" href="/fonts/crimson-pro.woff2" type="font/woff2" crossorigin="crossorigin"/>
+	<link rel="preload" as="font" href="/fonts/crimson-pro-bold.woff2" type="font/woff2" crossorigin="crossorigin"/>
+	<link rel="preload" as="font" href="/fonts/crimson-pro-italic.woff2" type="font/woff2" crossorigin="crossorigin"/>
+	<link rel="preload" as="font" href="/fonts/crimson-pro-bold-italic.woff2" type="font/woff2" crossorigin="crossorigin"/>
 	<link href="/css/core.css?version=<?= filemtime(WEB_ROOT . '/css/core.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
 	<link href="/css/dark.css?version=<?= filemtime(WEB_ROOT . '/css/dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
