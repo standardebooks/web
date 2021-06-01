@@ -216,9 +216,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/17854">The Sport of the Gods</a> by Paul Laurence Dunbar</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/833">The Theory of the Leisure Class</a> by Thorstein Veblen</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/48511">Vikram and the Vampire</a> by Sir Richard Francis Burton</p>
 			</li>
 			<!--
