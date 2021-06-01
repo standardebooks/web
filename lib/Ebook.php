@@ -293,6 +293,17 @@ class Ebook{
 					}
 				}
 			}
+
+			// If we added an illustrator who is also the translator, remove the illustrator credit so the name doesn't appear twice
+			foreach($this->Illustrators as $key => $illustrator){
+				foreach($this->Translators as $translator){
+					if($translator->Name == $c->Name){
+						unset($this->Illustrators[$key]);
+						break;
+					}
+				}
+			}
+
 		}
 
 		// Some basic data.
