@@ -3,11 +3,11 @@ require_once('Core.php');
 ?><?= Template::Header(['title' => 'Collections Policy', 'highlight' => 'contribute', 'description' => 'Standard Ebooks only accepts certain kinds of ebooks for production and hosting. This is the full list.']) ?>
 <main>
 	<article>
-		<h1>Collections Policy</h1>
-		<p>
-			<i>Or, ebooks we do and don’t accept.</i>
-		</p>
-		<p>Standard Ebooks only works on books that have entered the U.S. public domain due to copyright expiration. Generally this means a book must have been published in <?= PD_YEAR ?> or earlier, though there are exceptions for works from later periods that didn’t follow copyright formalities. For full details, see <a href="https://www.gutenberg.org/help/copyright.html">Project Gutenberg’s Copyright How-To</a>.</p>
+		<hgroup>
+			<h1>Collections Policy</h1>
+			<h2 class="miniheader">Or, ebooks we do and don’t accept.</h2>
+		</hgroup>
+		<p>Standard Ebooks only works on books that have entered the U.S. public domain due to copyright expiration. Generally this means a book must have been published in <?= PD_YEAR ?> or earlier, though there are exceptions for works from later periods that didn’t follow copyright formalities. For more information on determining the copyright status of a work in the U.S., see <a href="https://www.gutenberg.org/help/copyright.html">Project Gutenberg’s Copyright How-To</a>.</p>
 		<h2>Types of ebooks we do accept</h2>
 		<ul>
 			<li>
