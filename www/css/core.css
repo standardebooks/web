@@ -620,7 +620,7 @@ form button{
 	padding: 1rem 2rem;
 	color: #fff;
 	text-decoration: none;
-	font-family: "League spartan", sans-serif;
+	font-family: "League Spartan", Arial, sans-serif;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 	box-shadow: 2px 2px 0 rgba(0, 0, 0, .5), 1px 1px 0px rgba(255,255,255, .5) inset;
 	position: relative;
@@ -815,7 +815,6 @@ article.ebook > header > hgroup{
 	background: rgba(0, 0, 0, .75);
 	padding: 2rem;
 	text-align: center;
-	letter-spacing: 1px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	margin: 2rem; /* for responsive */
@@ -828,7 +827,7 @@ article.ebook > header > hgroup > *{
 
 article.ebook > header > hgroup > h2{
 	font-size: 1.4rem;
-	font-family: "League Spartan", sans-serif;
+	font-family: "League Spartan", Arial, sans-serif;
 	line-height: 1;
 	margin-top: 1rem;
 	margin-left: 0;
@@ -1079,7 +1078,7 @@ article.ebook aside#reading-ease{
 h2,
 .masthead h3{
 	font-size: 1.2rem;
-	font-family: "League Spartan", sans-serif;
+	font-family: "League Spartan", Arial, sans-serif;
 	margin-top: 4rem;
 	line-height: 1.2;
 	letter-spacing: 1px;
@@ -1091,7 +1090,7 @@ h4,
 h5,
 h6{
 	font-size: 1rem;
-	font-family: "League Spartan", sans-serif;
+	font-family: "League Spartan", Arial, sans-serif;
 	margin-top: 3rem;
 	line-height: 1.2;
 }
@@ -1184,7 +1183,7 @@ footer > p:first-child::before{
 h1,
 .masthead h2{
 	font-size: 2rem;
-	font-family: "League Spartan", sans-serif;
+	font-family: "League Spartan", Arial, sans-serif;
 	line-height: 1.2;
 	border-bottom: 3px double var(--sub-text);
 	margin-top: 2rem;
@@ -1266,7 +1265,7 @@ main.ebooks > ol a[tabindex][data-ordinal]::before{
 	top: calc(.25rem + 3px);
 	font-size: .75rem;
 	font-weight: bold;
-	font-family: "League Spartan", sans-serif;
+	font-family: "League Spartan", Arial, sans-serif;
 	color: var(--dark-body-text);
 }
 
