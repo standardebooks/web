@@ -2044,6 +2044,14 @@ label.checkbox input{
 	margin-right: .25rem;
 }
 
+article.step-by-step-guide ol ol{
+	margin-left: 1.2rem;
+	list-style: decimal;
+}
+
+.step-by-step-guide ol ol li p{
+	margin-left: 0;
+}
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */

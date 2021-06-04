@@ -257,16 +257,20 @@ do
 
 		# Build the ebook
 		if [ "${epubcheck}" = "true" ]; then
-			if ! se build --output-dir="${workDir}"/downloads/ --check --kindle --kobo --covers "${workDir}"; then
+			if ! se build --output-dir="${workDir}"/downloads/ --check --kindle --kobo "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
 				die "Error building ebook, stopping deployment."
 			fi
 		else
-			if ! se build --output-dir="${workDir}"/downloads/ --kindle --kobo --covers "${workDir}"; then
+			if ! se build --output-dir="${workDir}"/downloads/ --kindle --kobo "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
 				die "Error building ebook, stopping deployment."
 			fi
 		fi
+
+		# Build distributable covers
+		convert -resize "1400" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover.jpg"
+		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover-thumbnail.jpg"
 
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"
@@ -278,12 +282,20 @@ do
 		sed --in-place --regexp-extended "s/<meta property=\"dcterms:modified\">.+?<\/meta>/<meta property=\"dcterms:modified\">${modifiedDate}<\/meta>/" "${workDir}/src/epub/content.opf"
 
 		if [ "${recompose}" = "true" ]; then
+			if [ "${verbose}" = "true" ]; then
+				printf "Recomposing ebook ... "
+			fi
+
 			# Recompose the epub into a single file, but put it outside of the epub src for now so we don't stomp on it with the following sections.
 			# We do this first because the tweaks below shouldn't apply to the single-page file
 			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/www/css/web.css" "${workDir}"
 
 			# Adjust sponsored links in the colophon
-			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.xhtml
+			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.
+
+			if [ "${verbose}" = "true" ]; then
+				printf "Done.\n"
+			fi
 		fi
 
 		# Make some compatibilty adjustments for the individual XHTML files
