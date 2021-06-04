@@ -2053,6 +2053,15 @@ article.step-by-step-guide ol ol{
 	margin-left: 0;
 }
 
+.goodreads ol li{
+	list-style: none;
+	margin-top: 4rem;
+}
+
+.goodreads figure img{
+	width: 100%;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
