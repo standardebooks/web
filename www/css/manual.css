@@ -722,6 +722,10 @@ main.manual aside.alert p{
 	main.manual nav + article h1{
 		margin-top: 0;
 	}
+
+	.manual > article > section[id] > aside.number{
+		margin-top: 0;
+	}
 }
 
 @media(max-width: 1100px){
