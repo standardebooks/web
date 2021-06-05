@@ -11,6 +11,9 @@ require_once('Core.php');
 		<li>
 			<p><a href="/contribute/how-tos/goodreads">How to add a Standard Ebooks ebook to Goodreads</a></p>
 		</li>
+		<li>
+			<p><a href="/contribute/how-tos/illustrations-music">How to create figures for music scores</a></p>
+		</li>
 	</ul>
 </article>
 </main>
