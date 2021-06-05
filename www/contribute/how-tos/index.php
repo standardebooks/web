@@ -10,6 +10,9 @@ require_once('Core.php');
 		<li>
 			<p><a href="/contribute/how-tos/shakespeare">How to Produce a Shakespeare Play</a></p>
 		</li>
+		<li>
+			<p><a href="/contribute/how-tos/illustrations-music">How to create figures for music scores</a></p>
+		</li>
 	</ul>
 </article>
 </main>
