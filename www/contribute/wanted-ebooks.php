@@ -238,9 +238,6 @@ require_once('Core.php');
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/9663">Domnei</a> by James Branch Cabell</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/901">The Jew of Malta</a> by Christopher Marlowe (#12 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
