@@ -2053,12 +2053,7 @@ article.step-by-step-guide ol ol{
 	margin-left: 0;
 }
 
-.goodreads ol li{
-	list-style: none;
-	margin-top: 4rem;
-}
-
-.goodreads figure img{
+.full-width img{
 	width: 100%;
 }
 
