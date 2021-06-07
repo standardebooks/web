@@ -9,7 +9,7 @@ require_once('Core.php');
 			<li>
 				<h2>Finding sources</h2>
 				<p>In <a href="https://www.gutenberg.org/files/3328/3328-h/3328-h.htm">the original Project Gutenberg transcription</a>, the music is simply referenced as (a staff of music is supplied here). You therefore have to go find the relevant music in the scans of <a href="https://archive.org/details/manandsupermana06shawgoog/page/n132/mode/1up">the source</a>.</p>
-				<figure>
+				<figure class="full-width">
 					<img src="images/music-notation-1-scan.png" alt="The music notation as it appears in page scans"/>
 				</figure>
 				<p>This image is not clear enough that it is possible to simply follow the illustration tracing procedure, and even if it were could, the goal is not to duplicate the source as exactly as possible but instead to produce a clean, modern, legible version of it.</p>
@@ -18,7 +18,7 @@ require_once('Core.php');
 				<h2>Recreating with a scorewriter</h2>
 				<p>A number of modern scorewriters exist, including <a href="https://en.wikipedia.org/wiki/Comparison_of_scorewriters">several free options</a>. While any of these that can output MusicXML and SVG files can be made to work, <a href="https://musescore.org/">MuseScore</a>, a powerful, open source option, is the SE default. Tutorials for its use are available <a href="https://musescore.org/en/tutorials">directly from MuseScore</a>.</p>
 				<p>The score should be recreated as closely as possible while still being readable, but at this stage it does not need to be perfect as it can be further edited by an SVG editor. At this point, the priority is for it to be human-readable, not for the scorewriter to produce the best possible playback.</p>
-				<figure>
+				<figure class="full-width">
 					<img src="images/music-notation-2-MuseScore.png" alt="The music notatation after initial recreation with MuseScore."/>
 				</figure>
 				<p>MuseScore cannot fully replicate the original, so final changes will be made in a vector editing program. Once you are ready to progress to the next step, export the music into two formats: MusicXML and SVG.</p>
@@ -33,7 +33,7 @@ require_once('Core.php');
 			<li>
 				<h2>Edit in a vector graphics editor</h2>
 				<p>There are <a href="https://en.wikipedia.org/wiki/Comparison_of_vector_graphics_editors">a number of vector graphics editors</a> available and you are free to use whichever you are most familiar with to make visual changes to the score. Regardless of what you use to make visual edits, <a href="https://inkscape.org/">Inkscape</a> and specific plugins available for it are recommended to clean up the SVG code.</p>
-				<figure>
+				<figure class="full-width">
 					<img src="images/music-notation-3-SVG.png" alt="The music notation after it has been modified with a vector graphics editor."/>
 				</figure>
 				<p>At this stage, final visual changes are made. The final rests and bars at the end are cropped out, clef lines behind the instrument text have been removed, and elements have been slightly rearranged to reduce the amount of space the key and time signatures take up. The SVG is made black against a transparent background, and cropped so there is no blank space around the edges of the illustration.</p>
@@ -69,14 +69,14 @@ require_once('Core.php');
 				<p>The header of the SVG should include minimal basic information, and a title. In the case of named pieces of music, the title will be that name. In all other cases, it should be the short description that will be used as alt text in the final book.</p>
 				<figure class="wrong html full">
 					<code class="html full">
-<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?</span><span class="p">&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;</span>
 <span class="dt">&lt;!DOCTYPE </span>svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; &quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;<span class="dt"></span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">svg</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;100%&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;100%&quot;</span> <span class="na">viewBox</span><span class="o">=</span><span class="s">&quot;0 0 2100 320&quot;</span> <span class="na">version</span><span class="o">=</span><span class="s">&quot;1.1&quot;</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="na">xmlns:xlink</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/1999/xlink&quot;</span> <span class="na">xml:space</span><span class="o">=</span><span class="s">&quot;preserve&quot;</span> <span class="na">xmlns:serif</span><span class="o">=</span><span class="s">&quot;http://www.serif.com/&quot;</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:bevel;&quot;</span><span class="p">&gt;</span>
 					</code>
 				</figure>
 				<figure class="corrected html full">
 					<code class="html full">
-<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?</span><span class="p">&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
 <span class="p">&lt;</span><span class="nt">svg</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="na">version</span><span class="o">=</span><span class="s">&quot;1.2&quot;</span> <span class="na">viewBox</span><span class="o">=</span><span class="s">&quot;0 0 2100 320&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>8 bars of musical notation for two violins, a viola, and a cello.<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
 					</code>
