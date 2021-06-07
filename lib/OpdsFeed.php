@@ -4,6 +4,7 @@ use function Safe\file_put_contents;
 use function Safe\preg_replace;
 use function Safe\rename;
 use function Safe\tempnam;
+use function Safe\unlink;
 
 class OpdsFeed{
 	public $Id;
@@ -86,6 +87,9 @@ class OpdsFeed{
 			file_put_contents($parentFilepath, str_replace(" ns=", " xmlns=", $xmlString));
 
 			rename($tempFilename, $path);
+		}
+		else{
+			unlink($tempFilename);
 		}
 	}
 }

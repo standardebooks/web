@@ -49,8 +49,13 @@ class HttpInput{
 		}
 
 		if(isset($vars[$variable])){
-			if(is_array($vars[$variable])){
+			if($type == HTTP_VAR_ARRAY && is_array($vars[$variable])){
+				// We asked for an array, and we got one
 				return $vars[$variable];
+			}
+			elseif($type !== HTTP_VAR_ARRAY && is_array($vars[$variable])){
+				// We asked for not an array, but we got an array
+				return $default;
 			}
 			else{
 				$var = trim($vars[$variable]);

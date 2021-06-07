@@ -1,6 +1,6 @@
 <?
 require_once('Core.php');
-?><?= Template::Header(['title' => 'Our goals', 'highlight' => 'about', 'description' => 'The goals of the Standard Ebooks project.']) ?>
+?><?= Template::Header(['title' => 'Our goals', 'highlight' => 'about', 'description' => 'The goals of Standard Ebooks.']) ?>
 <main>
 	<article>
 		<h1>Our Goals</h1>

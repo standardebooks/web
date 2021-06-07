@@ -106,7 +106,7 @@ catch(\Exception $ex){
 			<picture>
 				<? if($ebook->HeroImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->HeroImage2xAvifUrl ?> 2x, <?= $ebook->HeroImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 				<source srcset="<?= $ebook->HeroImage2xUrl ?> 2x, <?= $ebook->HeroImageUrl ?> 1x" type="image/jpg"/>
-				<img src="<?= $ebook->HeroImage2xUrl ?>" role="presentation" alt=""/>
+				<img src="<?= $ebook->HeroImage2xUrl ?>" role="presentation" alt="" height="439" width="1318" />
 			</picture>
 		</header>
 
@@ -280,7 +280,7 @@ catch(\Exception $ex){
 						<picture>
 							<? if($carouselEbook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $carouselEbook->CoverImage2xAvifUrl ?> 2x, <?= $carouselEbook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 							<source srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x" type="image/jpg"/>
-							<img src="<?= $carouselEbook->HeroImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText(strip_tags($carouselEbook->TitleWithCreditsHtml)) ?>"/>
+							<img src="<?= $carouselEbook->CoverImageUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText(strip_tags($carouselEbook->TitleWithCreditsHtml)) ?>" height="200" width="134"/>
 						</picture>
 					</a>
 				</li>

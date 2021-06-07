@@ -251,7 +251,7 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Content.opf</h2>
-				<p>Because their are countless editions of Shakespeare’s plays our productions note the Victoria Edition at the end of our long descriptions. Add “This Standard Ebooks production is based on William George Clark and William Aldis Wright’s 1887 Victoria edition, which is taken from the Globe edition.”</p>
+				<p>Because there are countless editions of Shakespeare’s plays our productions note the Victoria Edition at the end of our long descriptions. Add “This Standard Ebooks production is based on William George Clark and William Aldis Wright’s 1887 Victoria edition, which is taken from the Globe edition.”</p>
 			</li>
 		</ol>
 	</article>

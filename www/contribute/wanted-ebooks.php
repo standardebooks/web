@@ -5,8 +5,8 @@ require_once('Core.php');
 	<article>
 		<h1>Wanted Ebooks</h1>
 		<p>If you’re interested in producing an ebook for Standard Ebooks, why not work on one of these books?</p>
-		<p>If something in this list interests you, please <a href="https://groups.google.com/forum/#!forum/standardebooks">contact us at our mailing list</a> for help before you start work.</p>
-		<p>If you want to suggest a different book to produce, please carefully review <a href="/contribute/accepted-ebooks">the kinds of work we do and don’t accept</a>.</p>
+		<p>If something in this list interests you, please <a href="https://groups.google.com/g/standardebooks">contact us at our mailing list</a> for help before you start work.</p>
+		<p>If you want to suggest a different book to produce, please carefully review <a href="/contribute/collections-policy">the kinds of work we do and don’t accept</a>.</p>
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
@@ -23,9 +23,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3294">The Sea-Hawk</a> by Rafael Sabatini</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
@@ -165,9 +165,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/10041">The Rivet in Grandfather’s Neck</a> by James Branch Cabell</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/9663">Domnei</a> by James Branch Cabell</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9488">The Line of Love</a> by James Branch Cabell</p>
 			</li>
 			<li>
@@ -194,9 +191,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/10339">An Antarctic Mystery</a> <i>Le Sphinx des glaces</i> by Jules Verne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
 			</li>
@@ -217,9 +214,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/17854">The Sport of the Gods</a> by Paul Laurence Dunbar</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/833">The Theory of the Leisure Class</a> by Thorstein Veblen</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/48511">Vikram and the Vampire</a> by Sir Richard Francis Burton</p>
@@ -279,9 +273,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20160510">Those Barren Leaves</a> by Aldous Huxley</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/416">Winesburg, Ohio</a> by Sherwood Anderson (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/two_gentlemen/full.html">The Two Gentlemen of Verona</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
@@ -414,9 +405,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce</p>
-			</li>
-			<li>
-				<p><a href="http://www.eldritchpress.org/ez/germinal.html">Germinal</a> by Émile Zola</p>
 			</li>
 			<li>
 				<p><a href="http://hilobrow.com/2013/03/11/theodore-savage-1/">Theodore Savage</a> by Cicely Hamilton</p>
@@ -734,7 +722,7 @@ require_once('Core.php');
 				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>. Part of the Guardian 2015 collection.)</p>
 			</li>
 			<li>
-				<p>The Winning of the West (<a href="https://gutenberg.org/ebooks/11941">Volume 1</a>, <a href="https://gutenberg.org/ebooks/11942">Volume 2</a>, <a href="https://gutenberg.org/ebooks/11943">Volume 3</a>, <a href="https://gutenberg.org/ebooks/11944">Volume 4</a>) by Theodore Roosevelt</p>
+				<p><a href="https://gutenberg.org/ebooks/45847">The Autobiography of Thomas Jefferson</a>, by Thomas Jefferson</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>

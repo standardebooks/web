@@ -13,15 +13,15 @@ require_once('Core.php');
 			<h2>Everyone</h2>
 			<ul>
 				<li>
-					<p><a href="https://groups.google.com/forum/#!forum/standardebooks">Join the Standard Ebooks mailing list.</a></p>
-					<p>The mailing list is the best way to contact the Standard Ebooks project about any question, suggestion, concern, or contribution you might have. We’re just an email away!</p>
+					<p><a href="https://groups.google.com/g/standardebooks">Join the Standard Ebooks mailing list.</a></p>
+					<p>The mailing list is the best way to contact Standard Ebooks about any question, suggestion, concern, or contribution you might have. We’re just an email away!</p>
 				</li>
 				<li>
 					<p><a href="/contribute/report-errors">Report a typo, formatting error, or typography error in any Standard Ebook.</a></p>
 				</li>
 				<li>
 					<p>Help us catalog fine art paintings from scans of old art books. We have links to complete book scans that you can browse, and we need your help to catalog the art in each book for use as cover art in future ebooks.</p>
-					<p>No technical experience is necessary. <a href="https://groups.google.com/forum/#!forum/standardebooks">Contact the mailing list if you want to help.</a></p>
+					<p>No technical experience is necessary. <a href="https://groups.google.com/g/standardebooks">Contact the mailing list if you want to help.</a></p>
 				</li>
 			</ul>
 		</section>
@@ -43,7 +43,7 @@ require_once('Core.php');
 			<h2>Technical contributors and producers of new ebooks</h2>
 			<ul>
 				<li>
-					<p><a href="/contribute/accepted-ebooks">Ebooks we do and don’t accept.</a></p>
+					<p><a href="/contribute/collections-policy">Our collections policy, or, ebooks we do and don’t accept.</a></p>
 				</li>
 				<li>
 					<p><a href="/contribute/wanted-ebooks">Our Wanted Ebooks list, including suggestions for first-time productions.</a></p>

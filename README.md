@@ -101,7 +101,7 @@ The site will now be available at `https://localhost/`, although as it’s a sel
 
     To automatically populate your server with ebooks from https://github.com/standardebooks/, you can use `sync-ebooks` and `deploy-ebook-to-www` in the [scripts](scripts) directory. If you don’t want to clone all ebooks, don’t use `sync-ebooks`, and instead clone the books you want into `/standardebooks.org/ebooks` with `git clone --bare`. To clone a list of books, you can use `while IFS= read -r line; do git clone --bare "${line}"; done < urllist.txt`
 
--   `/standardebooks.org/web/www/manual/` contains the *compiled* [Standard Ebooks Manual of Style](https://github.com/standardebooks/manual). Because it is compiled from other sources, the distributable PHP files are not included in this repo. To include the manual, clone the SEMOS repo and follow the instructions in its readme to compile it into `/standardebooks.org/web/www/manual/x.y.z/`.
+-   `/standardebooks.org/web/www/manual/` contains the *compiled* [Standard Ebooks Manual of Style](https://github.com/standardebooks/manual). Because it is compiled from other sources, the distributable PHP files are not included in this repo. To include the manual, clone the SEMoS repo and follow the instructions in its readme to compile it into `/standardebooks.org/web/www/manual/x.y.z/`.
 
 # Testing
 

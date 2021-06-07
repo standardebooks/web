@@ -16,23 +16,16 @@
 
 @font-face{
 	font-family: "Fira Sans";
-	src: local("Fira Sans");
+	src: local("Fira Sans"), url("/fonts/fira-sans-italic.woff2") format("woff2");
 	font-weight: normal;
 	font-style: italic;
 }
 
 @font-face{
 	font-family: "Fira Sans";
-	src: local("Fira Sans");
+	src: local("Fira Sans"), url("/fonts/fira-sans-bold-italic.woff2") format("woff2");
 	font-weight: bold;
 	font-style: italic;
-}
-
-@font-face{
-	font-family: "Fira Sans";
-	src: local("Fira Sans");
-	font-weight: bold;
-	font-style: normal;
 }
 
 .manual h1,
@@ -219,9 +212,9 @@ code{
 
 code.terminal{
 	color: #fff;
-	background-color: #444;
+	background-color: #333;
 	text-align: left;
-	padding: 1rem 1rem 1rem 3rem;
+	padding: 1rem 1rem 1rem 2.5rem;
 	border-radius: .25rem;
 	position: relative;
 	display: block;
@@ -230,7 +223,9 @@ code.terminal{
 }
 
 code.terminal::before{
-	content: url("/images/terminal.svg");
+	content: "";
+	background: url("/images/terminal.svg");
+	background-size: cover;
 	height: 1rem;
 	width: 1rem;
 	top: 1.15rem;
@@ -251,10 +246,6 @@ code.terminal span::before{
 	color: #56DA55;
 	font-weight: bold;
 	display: inline;
-}
-
-code.terminal > span::before{
-	content:"user@localhost>";
 }
 
 .utf{
@@ -581,6 +572,10 @@ figure.corrected code{
 	top: .5rem;
 }
 
+.manual aside.tip code{
+	font-style: normal;
+}
+
 span.ws{
 	border: 1px solid #222;
 	padding: .1rem;
@@ -609,13 +604,10 @@ code.bash i.glob{
 	color: #719ece;
 }
 
+code.html .ws,
 figure code.html .ws,
 code.full .ws{
 	border-color: #fff;
-	margin-top: 0;
-}
-
-main.manual ul.changes table{
 	margin-top: 0;
 }
 

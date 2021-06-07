@@ -23,16 +23,15 @@ print('<?xml version="1.0" encoding="utf-8"?>');
 print("\n");
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
-<head prefix="twitter: https://twitter.com schema: https://schema.org"><? /* the og RDFa prefix is part of the RDFa spec */ ?>
+<head prefix="twitter: https://twitter.com schema: https://schema.org"><? /* The `og` RDFa prefix is part of the RDFa spec */ ?>
 	<meta charset="utf-8"/>
 	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
 	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"/><? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
-	<link rel="preload" as="font" href="/fonts/league-spartan-bold.woff2" type="font/woff2"/>
-	<link rel="preload" as="font" href="/fonts/crimson-pro.woff2" type="font/woff2"/>
-	<link rel="preload" as="font" href="/fonts/crimson-pro-bold.woff2" type="font/woff2"/>
-	<link rel="preload" as="font" href="/fonts/crimson-pro-italic.woff2" type="font/woff2"/>
-	<link rel="preload" as="font" href="/fonts/crimson-pro-bold-italic.woff2" type="font/woff2"/>
+	<link rel="preload" as="font" href="/fonts/crimson-pro.woff2" type="font/woff2" crossorigin="crossorigin"/> <? /* Fonts require the crossorigin attribute */ ?>
+	<link rel="preload" as="font" href="/fonts/league-spartan-bold.woff2" type="font/woff2" crossorigin="crossorigin"/>
+	<link rel="preload" as="font" href="/fonts/fork-awesome-subset.woff2" type="font/woff2" crossorigin="crossorigin"/>
+	<link rel="preload" as="font" href="/fonts/crimson-pro-italic.woff2" type="font/woff2" crossorigin="crossorigin"/> <? /* Don't preload bold/bold-italic as those are used far less frequently */ ?>
 	<link href="/css/core.css?version=<?= filemtime(WEB_ROOT . '/css/core.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
 	<link href="/css/dark.css?version=<?= filemtime(WEB_ROOT . '/css/dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>

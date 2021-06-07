@@ -1,6 +1,6 @@
 <?
 require_once('Core.php');
-?><?= Template::Header(['title' => 'Donate', 'highlight' => 'donate', 'description' => 'Donate to the Standard Ebooks project.']) ?>
+?><?= Template::Header(['title' => 'Donate', 'highlight' => 'donate', 'description' => 'Donate to Standard Ebooks.']) ?>
 <main>
 	<article class="donate has-hero">
 		<hgroup>
@@ -36,7 +36,7 @@ require_once('Core.php');
 			<p><em>Before you make your donation</em>, <a href="/about#masthead">contact the S.E. Editor-in-Chief</a> to confirm that your ebook selection will be accepted at your chosen donation level. These are the general rules:</p>
 			<ul>
 				<li>
-					<p>Your selection must meet our <a href="/contribute/accepted-ebooks">collections policy</a>. The S.E. Editor-in-Chief reserves the right to modify or reject a selection for any reason.</p>
+					<p>Your selection must meet our <a href="/contribute/collections-policy">collections policy</a>. The S.E. Editor-in-Chief reserves the right to modify or reject a selection for any reason.</p>
 				</li>
 				<li>
 					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">O.C.R.</a> output.</p>
@@ -101,10 +101,15 @@ require_once('Core.php');
 					</tr>
 				</tbody>
 			</table>
-			<aside>
-				<p>Standard Ebooks is a sponsored project of <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a non-profit arts service organization. Contributions for the charitable purposes of Standard Ebooks must be made payable to “Fractured Atlas” only and are tax-deductible to the extent permitted by law.</p>
-			</aside>
 		</section>
+		<section id="corporate-sponsors">
+			<h2>Corporate sponsorships</h2>
+			<p>Sponsorships at the corporate level are a great way to show your organization’s commitment to the support of the literate arts. Corporate sponsors have their logo and a link <a href="/about">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
+			<p>To inquire about options, contact the <a href="/about#editor-in-chief">Standard Ebooks Editor-in-Chief</a>.</p>
+		</section>
+		<aside>
+			<p>Standard Ebooks is a sponsored project of <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a non-profit arts service organization. Contributions for the charitable purposes of Standard Ebooks must be made payable to “Fractured Atlas” only and are tax-deductible to the extent permitted by law.</p>
+		</aside>
 	</article>
 </main>
 <?= Template::Footer() ?>

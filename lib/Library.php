@@ -1,10 +1,7 @@
 <?
 use function Safe\apcu_fetch;
-use function Safe\ksort;
 use function Safe\natsort;
 use function Safe\preg_replace;
-use function Safe\touch;
-use function Safe\unlink;
 use function Safe\usort;
 
 class Library{
