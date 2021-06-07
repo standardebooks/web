@@ -106,7 +106,7 @@ catch(\Exception $ex){
 			<picture>
 				<? if($ebook->HeroImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->HeroImage2xAvifUrl ?> 2x, <?= $ebook->HeroImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 				<source srcset="<?= $ebook->HeroImage2xUrl ?> 2x, <?= $ebook->HeroImageUrl ?> 1x" type="image/jpg"/>
-				<img src="<?= $ebook->HeroImage2xUrl ?>" role="presentation" alt=""/>
+				<img src="<?= $ebook->HeroImage2xUrl ?>" role="presentation" alt="" height="439" width="1318" />
 			</picture>
 		</header>
 

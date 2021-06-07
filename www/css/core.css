@@ -1295,6 +1295,7 @@ main.ebooks > ol > li p{
 main.ebooks > ol > li img{
 	box-sizing: border-box;
 	max-width: 100%;
+	height: auto;
 	border: 1px solid var(--border);
 	border-radius: .25rem;
 }
