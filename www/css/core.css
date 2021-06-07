@@ -953,8 +953,9 @@ article.ebook #more-ebooks img{
 	height: 200px;
 	border-radius: .25rem;
 	border: 1px solid var(--border);
-	transition: all .2s ease;
+	transition: transform .2s ease;
 	box-sizing: border-box;
+	width: auto;
 }
 
 article.ebook #more-ebooks img:hover{
