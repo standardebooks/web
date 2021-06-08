@@ -48,7 +48,7 @@ require_once('Core.php');
 					</li>
 				</ul>
 				<p>Each of those sources allows you to filter results by publication date, so make sure you select <?= PD_YEAR ?> and earlier to ensure they’re in the U.S. public domain.</p>
-				<p>If you can’t find scans of your book at the above sources, and you’re using a Project Gutenberg transcription as source material, there’s a good chance that PGDP (the sister project of Project Gutenberg that does the actual transcriptions) <a href="https://www.pgdp.org/ols/">has a copy of the scans they used accessible in their archives</a>. You should only use the PGDP archives as a last resort; because their scans are not searchable, verifying typos becomes extremely time-consuming.</p>
+				<p>If you can’t find scans of your book at the above sources, and you’re using a Project Gutenberg transcription as source material, there’s a good chance that <a href="https://pgpd.net">PGDP</a> (the sister project of Project Gutenberg that does the actual transcriptions) <a href="https://www.pgdp.org/ols/">has a copy of the scans they used accessible in their archives</a>. You should only use the PGDP archives as a last resort; because their scans are not searchable, verifying typos becomes extremely time-consuming.</p>
 				<p>Please keep the following important notes in mind when searching for page scans:</p>
 				<ul>
 					<li>
@@ -115,8 +115,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>The file we downloaded contains the entire work. <i>Jekyll</i> is a short work, but for longer work it quickly becomes impractical to have the entire text in one file. Not only is it a pain to edit, but ereaders often have trouble with extremely large files.</p>
 				<p>The next step is to split the file at logical places; that usually means at each chapter break. For works that contain their chapters in larger “parts,” the part division should also be its own file. For example, see <i><a href="/ebooks/robert-louis-stevenson/treasure-island">Treasure Island</a></i>.</p>
 				<p>To split the work, we use <code class="bash"><b>se</b> split-file</code>. <code class="bash"><b>se</b> split-file</code> takes a single file and breaks it in to a new file every time it encounters the markup <code class="html"><span class="c">&lt;!--se:split--&gt;</span></code>. <code class="bash"><b>se</b> split-file</code> automatically includes basic header and footer markup in each split file.</p>
-				<p>Notice that in our source file, each chapter is marked with an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code> element. We can use that to our advantage and save ourselves the trouble of adding the <code class="html"><span class="c">&lt;!--se:split--&gt;</span></code> markup by hand:</p><code class="terminal"><span><b>sed</b> --in-place <i>"s|&lt;h2|&lt;\!--se:split--&gt;&lt;h2|g"</i> <u>src/epub/text/body.xhtml</u></span></code>
-				<p>(Note the slash before the <code class="bash">!</code> for compatibility with some shells.)</p>
+				<p>Notice that in our source file, each chapter is marked with an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code> element. We can use that to our advantage and save ourselves the trouble of adding the <code class="html"><span class="c">&lt;!--se:split--&gt;</span></code> markup by hand:</p><code class="terminal"><span><b>sed</b> --in-place <i>"s|&lt;h2|&lt;!--se:split--&gt;&lt;h2|g"</i> <u>src/epub/text/body.xhtml</u></span></code>
 				<p>Now that we’ve added our markers, we split the file. <code class="bash"><b>se</b> split-file</code> puts the results in our current directory and conveniently names them by chapter number.</p><code class="terminal"><span><b>se</b> split-file <u>src/epub/text/body.xhtml</u></span> <span><b>mv</b> chapter<i class="glob">*</i> <u>src/epub/text/</u></span></code>
 				<p>Once we’re happy that the source file has been split correctly, we can remove it.</p><code class="terminal"><span><b>rm</b> <u>src/epub/text/body.xhtml</u></span></code>
 			</li>
@@ -278,7 +277,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p><a href="/manual/latest/8-typography#8.11">Typography rules for times</a>. Wrap a.m. and p.m. in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time"</span><span class="p">&gt;</span></code> and add a no-break space between digits and a.m. or p.m.</p>
 					</li>
 					<li>
-						<p>Words or phrases in foreign languages should always be marked up with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"TAG"</span><span class="p">&gt;</span></code>, where TAG is an <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a>. <a href="https://r12a.github.io/app-subtags/">This app can help you look them up</a>. If the text uses fictional or unspecific languages, use the <code class="html">x-</code> prefix and make up a subtag yourself.</p>
+						<p>Words or phrases in foreign languages should always be marked up with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"TAG"</span><span class="p">&gt;</span></code>, where TAG is an <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a>. <a href="https://r12a.github.io/app-subtags/">This website can help you look them up</a>. If the text uses fictional or unspecific languages, use the <code class="html">x-</code> prefix and make up a subtag yourself.</p>
 					</li>
 					<li>
 						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> element to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the <abbr class="acronym">SEMoS</abbr></a> for templates on how to semantically format poetry, verse, and song.</p>
@@ -292,7 +291,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p><em>Do</em> run this tool on prose. <em>Don’t</em> run this tool on poetry.</p>
 				<code class="terminal"><span><b>se</b> modernize-spelling <u>.</u></span></code>
 				<p>After you run the tool, <em>you must check what the tool did to confirm that each removed hyphen is correct</em>. Sometimes the tool will remove a hyphen that needs to be included for clarity, or one that changes the meaning of the word, or it may result in a word that just doesn’t seem right. Re-introducing a hyphen is OK in these cases.</p>
-				<p>Here’s a real-world example of where <code class="bash"><b>se</b> modernize-spelling</code> made the wrong choice: In <i><a href="/ebooks/oscar-wilde/the-picture-of-dorian-gray">The Picture of Dorian Gray</a></i> chapter 11, Oscar Wilde writes:</p>
+				<p>Here’s a real-world example of where <code class="bash"><b>se</b> modernize-spelling</code> made the wrong choice: In <i><a href="/ebooks/oscar-wilde/the-picture-of-dorian-gray">The Picture of Dorian Gray</a></i> <a href="/ebooks/oscar-wilde/the-picture-of-dorian-gray/text/chapter-11">chapter 11</a>, Oscar Wilde writes:</p>
 				<blockquote>
 					<p>He possessed a gorgeous cope of crimson silk and gold-thread damask…</p>
 				</blockquote>
@@ -300,7 +299,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<aside class="tip">
 					<p><code class="bash"><b>git</b></code> usually compares changes line-by-line, but since lines in an ebook can be very long, a line-level comparison can make spotting small changes difficult. Intead of just doing <code class="bash"><b>git</b> diff</code>, try the following command to highlight changes at the character level:</p>
 					<code class="terminal"><span><b>git</b> diff -U0 --word-diff-regex=.</span></code>
-					<p>You can also enable color in your <code class="bash"><b>git</b></code> output to make the output of that command more readable, and even assign it to a shortcut in your <code class="bash"><b>git</b></code> configuration.</p>
+					<p>You can also <a href="https://stackoverflow.com/questions/10998792/how-to-color-the-git-console">enable color in your <code class="bash"><b>git</b></code> output</a> to make the output of that command more readable, and even assign it to a shortcut in your <code class="bash"><b>git</b></code> configuration.</p>
 					<p>Alternatively, you can use an external diff GUI to review changes:</p>
 					<code class="terminal"><span><b>git</b> difftool</span></code>
 				</aside>
