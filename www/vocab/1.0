@@ -1,7 +1,10 @@
 se
 	collection
+	compass
+	compound
 	diary
 		dateline
+	era
 	image
 		color-depth
 			black-on-transparent
@@ -51,6 +54,7 @@ se
 		flesch
 	short-story
 	sic
+	temperature
 	transform
 	url
 		authority

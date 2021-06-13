@@ -271,7 +271,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					<li>
 						<p><a href="/manual/latest/8-typography#8.10">Semantics rules for abbreviations</a>. Abbreviations should always be wrapped in the <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code> element and with the correct <code class="html"><span class="na">class</span></code> attribute.</p>
 						<p>Specifically, see the <a href="/manual/latest/8-typography#8.10.6">typography rules for initials</a>. Wrap people’s initials in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span></code>. This command helps wrap initials:</p>
-						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;!&lt;abbr[^&lt;]*?&gt;)([A-Z]\.(\s?[A-Z]\.)*)(?!&lt;/abbr&gt;|”)'</i> <i>'&lt;abbr class="name"&gt;\1&lt;/abbr&gt;'</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;!&lt;abbr[^&lt;]*?&gt;)([A-Z]\.(\s?[A-Z]\.)*)(?!&lt;/abbr&gt;|”)'</i> <i>'&lt;abbr epub:type="z3998:given-name"&gt;\1&lt;/abbr&gt;'</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.11">Typography rules for times</a>. Wrap a.m. and p.m. in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time"</span><span class="p">&gt;</span></code> and add a no-break space between digits and a.m. or p.m.</p>
@@ -509,6 +509,10 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</ul>
 			</li>
 			<li>
+				<h2>Check for consistent dashes</h2>
+				<p>Similar to <code class="bash"><b>se</b> find-mismatched-diacritics</code>, <code class="bash"><b>se</b> find-mismatched-dashes</code> lists instances where a compound word is spelled both with and without a dash. Dashes in words should be normalized to one or the other style.</p>
+			</li>
+			<li>
 				<h2>Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</h2>
 				<p>After you’ve added semantics and correctly marked up <a href="/manual/latest/7-high-level-structural-patterns#7.2">section headers</a>, it’s time to update the <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements in each chapter to match <a href="/manual/latest/5-general-xhtml-and-css-patterns#5.4">their expected values</a>.</p>
 				<p>The <code class="bash"><b>se</b> build-title</code> tool takes a well-marked-up section header from a file, and updates the file’s <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element to match:</p>
@@ -651,8 +655,8 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>It’s a good idea to run <code class="bash"><b>se</b> typogrify</code> and <code class="bash"><b>se</b> clean</code> one more time before running these final checks. Make sure to review the changes with <code class="bash"><b>git</b> difftool</code> before accepting them—<code class="bash"><b>se</b> typogrify</code> is usually right, but not always!</p>
 				<p>Now that our ebook is complete, let’s verify that there are no errors at the <abbr>S.E.</abbr> style level:</p>
 				<code class="terminal"><span><b>se</b> lint <u>.</u></span></code>
-				<p>Once <code class="bash"><b>se</b> lint</code> completes without errors, we’re ready to confirm that there are no errors at the epub level. We do this by invoking <code class="bash"><b>se</b> build</code> with the <code class="bash">--check</code> flag, which will run <code class="bash"><b>epubcheck</b></code> to verify that our final epub has no errors:</p>
-				<code class="terminal"><span><b>se</b> build --check --output-dir=${TMPDIR:-/tmp} <u>.</u></span></code>
+				<p>Once <code class="bash"><b>se</b> lint</code> completes without errors, we’re ready to confirm that there are no errors at the epub level. We do this by invoking <code class="bash"><b>se</b> build</code> with the <code class="bash">--check-only</code> flag, which will run <code class="bash"><b>epubcheck</b></code> to verify that our final epub has no errors, but won’t output an ebook files, since we don’t need them right now.</p>
+				<code class="terminal"><span><b>se</b> build --check-only <u>.</u></span></code>
 				<p>Once that completes without errors, we’re ready to move on to the final step!</p>
 			</li>
 			<li>
