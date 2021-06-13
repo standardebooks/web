@@ -115,7 +115,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>The file we downloaded contains the entire work. <i>Jekyll</i> is a short work, but for longer work it quickly becomes impractical to have the entire text in one file. Not only is it a pain to edit, but ereaders often have trouble with extremely large files.</p>
 				<p>The next step is to split the file at logical places; that usually means at each chapter break. For works that contain their chapters in larger “parts,” the part division should also be its own file. For example, see <i><a href="/ebooks/robert-louis-stevenson/treasure-island">Treasure Island</a></i>.</p>
 				<p>To split the work, we use <code class="bash"><b>se</b> split-file</code>. <code class="bash"><b>se</b> split-file</code> takes a single file and breaks it in to a new file every time it encounters the markup <code class="html"><span class="c">&lt;!--se:split--&gt;</span></code>. <code class="bash"><b>se</b> split-file</code> automatically includes basic header and footer markup in each split file.</p>
-				<p>Notice that in our source file, each chapter is marked with an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code> element. We can use that to our advantage and save ourselves the trouble of adding the <code class="html"><span class="c">&lt;!--se:split--&gt;</span></code> markup by hand:</p><code class="terminal"><span><b>sed</b> --in-place <i>"s|&lt;h2|&lt;!--se:split--&gt;&lt;h2|g"</i> <u>src/epub/text/body.xhtml</u></span></code>
+				<p>Notice that in our source file, each chapter is marked with an <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code> element. We can use that to our advantage and save ourselves the trouble of adding the <code class="html"><span class="c">&lt;!--se:split--&gt;</span></code> markup by hand:</p><code class="terminal"><span><b>sed</b> --in-place <!--Single quote to prevent ! from becoming history expansion--><i>'s|&lt;h2|&lt;!--se:split--&gt;&lt;h2|g'</i> <u>src/epub/text/body.xhtml</u></span></code>
 				<p>Now that we’ve added our markers, we split the file. <code class="bash"><b>se</b> split-file</code> puts the results in our current directory and conveniently names them by chapter number.</p><code class="terminal"><span><b>se</b> split-file <u>src/epub/text/body.xhtml</u></span> <span><b>mv</b> chapter<i class="glob">*</i> <u>src/epub/text/</u></span></code>
 				<p>Once we’re happy that the source file has been split correctly, we can remove it.</p><code class="terminal"><span><b>rm</b> <u>src/epub/text/body.xhtml</u></span></code>
 			</li>
@@ -271,7 +271,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					<li>
 						<p><a href="/manual/latest/8-typography#8.10">Semantics rules for abbreviations</a>. Abbreviations should always be wrapped in the <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code> element and with the correct <code class="html"><span class="na">class</span></code> attribute.</p>
 						<p>Specifically, see the <a href="/manual/latest/8-typography#8.10.6">typography rules for initials</a>. Wrap people’s initials in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"name"</span><span class="p">&gt;</span></code>. This command helps wrap initials:</p>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"(?&lt;\!&lt;abbr[^&lt;]*?&gt;)([A-Z]\.(\s?[A-Z]\.)*)(?\!&lt;/abbr&gt;|”)"</i> <i>"&lt;abbr class=\"name\"&gt;\1&lt;/abbr&gt;"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;!&lt;abbr[^&lt;]*?&gt;)([A-Z]\.(\s?[A-Z]\.)*)(?!&lt;/abbr&gt;|”)'</i> <i>'&lt;abbr class="name"&gt;\1&lt;/abbr&gt;'</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.11">Typography rules for times</a>. Wrap a.m. and p.m. in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"time"</span><span class="p">&gt;</span></code> and add a no-break space between digits and a.m. or p.m.</p>
@@ -375,7 +375,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 								</tr>
 							</tbody>
 						</table>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>'(?&lt;![Ee]ach and )([Ee])very one(?!\s+of)' "\1veryone"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;![Ee]ach and )([Ee])very one(?!\s+of)' "\1veryone"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
 						<h3>every thing ➔ everything</h3>
@@ -463,7 +463,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 								</tr>
 							</tbody>
 						</table>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>'(?&lt;!in\s+)\b([Aa])ny way(?!\s+(?:of|to))' "\1nyway"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;!in\s+)\b([Aa])ny way(?!\s+(?:of|to))' "\1nyway"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
 						<h3>mean time ➔ meantime</h3>
