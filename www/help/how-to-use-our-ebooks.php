@@ -18,7 +18,7 @@ require_once('Core.php');
 					<p><b>Other ereaders</b>: download the <b>compatible epub</b> file. This compatible file has been prepared to work in all ereaders, with the exception of Kindles and extremely old ereader devices. Note that while this file will also work on Kobo devices and software, it will lack some functionality and look worse than our specially-prepared kepub file.</p>
 				</li>
 				<li>
-					<p>For advanced ereaders like <a href="https://readium.org/about/applications.html/">Readium</a>, you can download the <b>advanced epub</b> file. The advanced epub file uses the latest technology that isn’t yet supported by most ereaders, so only download this file if you know what you’re doing.</p>
+					<p>The <b>advanced epub</b> files are not yet suitable for general use. They use the latest technology that isn’t yet supported by most ereaders, so they’re best used as benchmarks for developers working on ereading systems, or for advanced ereaders like ones based on the <a href="https://readium.org/awesome-readium/">Readium toolkit</a>, instead of for the general reading public.</p>
 				</li>
 			</ul>
 		</section>
