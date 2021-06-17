@@ -869,7 +869,7 @@ article.ebook section#download li{
 	display: table-row;
 }
 
-article.ebook section#download li span{
+article.ebook section#download li p > span{
 	display: table-cell;
 	vertical-align: top;
 	padding-top: 2rem;

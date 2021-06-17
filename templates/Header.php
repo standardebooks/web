@@ -23,7 +23,7 @@ print('<?xml version="1.0" encoding="utf-8"?>');
 print("\n");
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
-<head prefix="twitter: https://twitter.com schema: https://schema.org"><? /* The `og` RDFa prefix is part of the RDFa spec */ ?>
+<head prefix="twitter: https://twitter.com/ schema: http://schema.org/"><? /* The `og` RDFa prefix is part of the RDFa spec */ ?>
 	<meta charset="utf-8"/>
 	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
 	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"/><? } ?>

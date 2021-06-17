@@ -1,6 +1,8 @@
 <?
 require_once('Core.php');
 
+// See https://developers.google.com/search/docs/data-types/book for RDFa metadata details
+
 use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\apcu_fetch;
@@ -71,21 +73,11 @@ catch(\Exception $ex){
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>
 <main>
 	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
-		<meta property="schema:bookFormat" content="EBook"/>
-		<meta property="schema:image" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->DistCoverUrl) ?>"/>
-		<meta property="schema:thumbnailUrl" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
 		<meta property="schema:description" content="<?= Formatter::ToPlainText($ebook->Description) ?>"/>
 		<meta property="schema:url" content="<?= SITE_URL . Formatter::ToPlainText($ebook->Url) ?>"/>
-		<meta property="schema:license" content="https://creativecommons.org/publicdomain/zero/1.0/"/>
-		<meta property="schema:inLanguage" content="<?= Formatter::ToPlainText($ebook->Language) ?>"/>
 		<? if($ebook->WikipediaUrl){ ?>
 		<meta property="schema:sameAs" content="<?= Formatter::ToPlainText($ebook->WikipediaUrl) ?>"/>
 		<? } ?>
-		<div property="schema:publisher" typeof="schema:Organization">
-			<meta property="schema:name" content="Standard Ebooks"/>
-			<meta property="schema:logo" content="https://standardebooks.org/images/logo-full.svg"/>
-			<meta property="schema:url" content="https://standardebooks.org"/>
-		</div>
 		<header>
 			<hgroup>
 				<h1 property="schema:name"><?= Formatter::ToPlainText($ebook->Title) ?></h1>
@@ -146,45 +138,75 @@ catch(\Exception $ex){
 		</section>
 
 		<? if($ebook->HasDownloads){ ?>
-		<section id="read-free">
+		<section id="read-free" property="schema:workExample" typeof="schema:Book">
+			<meta property="schema:bookFormat" content="http://schema.org/EBook"/>
+			<meta property="schema:url" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url) ?>"/>
+			<meta property="schema:identifier" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url) ?>"/>
+			<meta property="schema:license" content="https://creativecommons.org/publicdomain/zero/1.0/"/>
+			<div property="schema:publisher" typeof="schema:Organization">
+				<meta property="schema:name" content="Standard Ebooks"/>
+				<meta property="schema:logo" content="https://standardebooks.org/images/logo-full.svg"/>
+				<meta property="schema:url" content="https://standardebooks.org"/>
+			</div>
+			<meta property="schema:image" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->DistCoverUrl) ?>"/>
+			<meta property="schema:thumbnailUrl" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
+			<meta property="schema:inLanguage" content="<?= Formatter::ToPlainText($ebook->Language) ?>"/>
+			<meta property="schema:datePublished" content="<?= Formatter::ToPlainText($ebook->Timestamp->format('Y-m-d')) ?>"/>
+			<meta property="schema:dateModified" content="<?= Formatter::ToPlainText($ebook->ModifiedTimestamp->format('Y-m-d')) ?>"/>
+			<div property="schema:potentialAction" typeof="http://schema.org/ReadAction">
+				<meta property="schema:actionStatus" content="http://schema.org/PotentialActionStatus"/>
+				<div property="schema:target" typeof="schema:EntryPoint">
+					<meta property="schema:urlTemplate" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url) ?>"/>
+					<meta property="schema:actionPlatform" content="http://schema.org/DesktopWebPlatform"/>
+					<meta property="schema:actionPlatform" content="http://schema.org/AndroidPlatform"/>
+					<meta property="schema:actionPlatform" content="http://schema.org/IOSPlatform"/>
+				</div>
+				<div property="schema:expectsAcceptanceOf" typeof="schema:Offer">
+					<meta property="schema:category" content="nologinrequired"/>
+					<div property="schema:eligibleRegion" typeof="schema:Country">
+						<meta property="schema:name" content="US"/>
+					</div>
+				</div>
+			</div>
 			<h2>Read free</h2>
 			<p class="us-pd-warning">This ebook is only thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that the contents of this ebook are free of copyright restrictions in the country you’re located in before downloading or using this ebook.</p>
 			<section id="download">
 				<h3>Download for ereaders</h3>
 				<ul>
 					<? if($ebook->EpubUrl !== null){ ?>
-					<li property="schema:encoding" typeof="schema:MediaObject"><p>
-						<span><a property="schema:contentUrl" href="<?= $ebook->EpubUrl ?>" class="epub">
-						Compatible epub
+					<li property="schema:encoding" typeof="schema:MediaObject">
+						<meta property="schema:description" content="epub"/>
 						<meta property="schema:encodingFormat" content="application/epub+zip"/>
-						</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span></p>
+						<p>
+							<span><a property="schema:contentUrl" href="<?= $ebook->EpubUrl ?>" class="epub">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span>
+						</p>
 					</li>
 					<? } ?>
 
 					<? if($ebook->Azw3Url !== null){ ?>
-					<li property="schema:encoding" typeof="schema:MediaObject"><p>
-						<span><a property="schema:contentUrl" href="<?= $ebook->Azw3Url ?>" class="amazon">
-						azw3
+					<li property="schema:encoding" typeof="schema:MediaObject">
 						<meta property="schema:encodingFormat" content="application/x-mobipocket-ebook"/>
-						</a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. You may be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span></p>
+						<p>
+							<span><a property="schema:contentUrl" href="<?= $ebook->Azw3Url ?>" class="amazon"><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. You may be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
+						</p>
 					</li>
 					<? } ?>
 
 					<? if($ebook->KepubUrl !== null){ ?>
-					<li property="schema:encoding" typeof="schema:MediaObject"><p>
-						<span><a property="schema:contentUrl" href="<?= $ebook->KepubUrl ?>" class="kobo">
-						kepub
-						<meta property="schema:encodingFormat" content="application/kepub+zip"/>
-						</a></span> <span>—</span> <span>Kobo devices and apps.</span></p>
+					<li property="schema:encoding" typeof="schema:MediaObject">
+							<meta property="schema:encodingFormat" content="application/kepub+zip"/>
+						<p>
+							<span><a property="schema:contentUrl" href="<?= $ebook->KepubUrl ?>" class="kobo"><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps.</span>
+						</p>
 					</li>
 					<? } ?>
 
 					<? if($ebook->AdvancedEpubUrl !== null){ ?>
-					<li property="schema:encoding" typeof="schema:MediaObject"><p>
-						<span><a property="schema:contentUrl" href="<?= $ebook->AdvancedEpubUrl ?>" class="epub">
-						Advanced epub
+					<li property="schema:encoding" typeof="schema:MediaObject">
 						<meta property="schema:encodingFormat" content="application/epub+zip"/>
-						</a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span></p>
+						<p>
+							<span><a property="schema:contentUrl" href="<?= $ebook->AdvancedEpubUrl ?>" class="epub"><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
+						</p>
 					</li>
 					<? } ?>
 				</ul>
@@ -197,15 +219,20 @@ catch(\Exception $ex){
 				<h3>Read online</h3>
 				<ul>
 					<? if($ebook->TextUrl !== null){ ?>
-					<li><p><a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a></p></li>
+					<li>
+						<p>
+							<a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a>
+						</p>
+					</li>
 					<? } ?>
 					<? if($ebook->TextSinglePageUrl !== null){ ?>
-					<li property="schema:encoding" typeof="schema:mediaObject"><p>
-						<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">
-						Read on one page
+					<li property="schema:encoding" typeof="schema:mediaObject">
+						<meta property="schema:description" content="XHTML"/>
 						<meta property="schema:encodingFormat" content="application/xhtml+xml"/>
-						</a>
-					</p></li>
+						<p>
+							<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a>
+						</p>
+					</li>
 					<? } ?>
 				</ul>
 			</section>
