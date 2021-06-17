@@ -265,9 +265,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/10984">Growth of the Soil</a> by Knut Hamsun</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2369">One of Ours</a> by Willa Cather (Pulitzer winner #5) (Transcription is missing scene breaks and italics)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="http://gutenberg.org/ebooks/6627">Barriers Burned Away</a> by Edward Payson Roe</p>
 			</li>
