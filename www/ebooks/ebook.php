@@ -73,7 +73,7 @@ catch(\Exception $ex){
 	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
 		<meta property="schema:bookFormat" content="EBook"/>
 		<meta property="schema:image" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->DistCoverUrl) ?>"/>
-		<meta property="schema:thumnailUrl" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
+		<meta property="schema:thumbnailUrl" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
 		<meta property="schema:description" content="<?= Formatter::ToPlainText($ebook->Description) ?>"/>
 		<meta property="schema:url" content="<?= SITE_URL . Formatter::ToPlainText($ebook->Url) ?>"/>
 		<meta property="schema:license" content="https://creativecommons.org/publicdomain/zero/1.0/"/>
