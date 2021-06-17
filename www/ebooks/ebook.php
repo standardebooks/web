@@ -90,6 +90,7 @@ catch(\Exception $ex){
 						<span property="schema:name"><?= Formatter::ToPlainText($author->Name) ?></span>
 						<meta property="schema:url" content="<?= SITE_URL . Formatter::ToPlainText($ebook->AuthorsUrl) ?>"/>
 						<? if($author->NacoafUrl){ ?><meta property="schema:sameAs" content="<?= Formatter::ToPlainText($author->NacoafUrl) ?>"/><? } ?>
+						<? if($author->WikipediaUrl){ ?><meta property="schema:sameAs" content="<?= Formatter::ToPlainText($author->WikipediaUrl) ?>"/><? } ?>
 						</a>
 					</h2>
 					<? } ?>
@@ -138,10 +139,9 @@ catch(\Exception $ex){
 		</section>
 
 		<? if($ebook->HasDownloads){ ?>
-		<section id="read-free" property="schema:workExample" typeof="schema:Book">
+		<section id="read-free" property="schema:workExample" typeof="schema:Book" resource="<?= Formatter::ToPlainText($ebook->Url) ?>/downloads">
 			<meta property="schema:bookFormat" content="http://schema.org/EBook"/>
 			<meta property="schema:url" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url) ?>"/>
-			<meta property="schema:identifier" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url) ?>"/>
 			<meta property="schema:license" content="https://creativecommons.org/publicdomain/zero/1.0/"/>
 			<div property="schema:publisher" typeof="schema:Organization">
 				<meta property="schema:name" content="Standard Ebooks"/>
@@ -168,6 +168,7 @@ catch(\Exception $ex){
 					</div>
 				</div>
 			</div>
+			<?= $ebook->GenerateContributorsRdfa() ?>
 			<h2>Read free</h2>
 			<p class="us-pd-warning">This ebook is only thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that the contents of this ebook are free of copyright restrictions in the country you’re located in before downloading or using this ebook.</p>
 			<section id="download">

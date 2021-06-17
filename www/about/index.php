@@ -150,7 +150,7 @@ require_once('Core.php');
 						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Anonymous × 3</p>
 					</li>
-					<? if(false){ ?>
+					<? /*
 					<li>
 						<picture>
 							<source srcset="/images/masthead/firstname-lastname@2x.avif 2x, /images/masthead/firstname-lastname.avif 1x" type="image/avif"/>
@@ -159,7 +159,7 @@ require_once('Core.php');
 						</picture>
 						<p>Firstname Lastname</p>
 					</li>
-					<? } ?>
+					*/ ?>
 				</ol>
 			</section>
 		</section>

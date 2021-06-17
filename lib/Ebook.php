@@ -297,7 +297,7 @@ class Ebook{
 			// If we added an illustrator who is also the translator, remove the illustrator credit so the name doesn't appear twice
 			foreach($this->Illustrators as $key => $illustrator){
 				foreach($this->Translators as $translator){
-					if($translator->Name == $c->Name){
+					if($translator->Name == $illustrator->Name){
 						unset($this->Illustrators[$key]);
 						break;
 					}
@@ -427,18 +427,18 @@ class Ebook{
 		// Put together the full contributor string.
 		$titleContributors = '';
 		if(sizeof($this->Contributors) > 0){
-			$titleContributors .= '. With ' . $this->GenerateContributorList($this->Contributors);
-			$this->ContributorsHtml .= ' with ' . $this->GenerateContributorList($this->Contributors) . ';';
+			$titleContributors .= '. With ' . $this->GenerateContributorList($this->Contributors, false);
+			$this->ContributorsHtml .= ' with ' . $this->GenerateContributorList($this->Contributors, false) . ';';
 		}
 
 		if(sizeof($this->Translators) > 0){
-			$titleContributors .= '. Translated by ' . $this->GenerateContributorList($this->Translators);
-			$this->ContributorsHtml .= ' translated by ' . $this->GenerateContributorList($this->Translators) . ';';
+			$titleContributors .= '. Translated by ' . $this->GenerateContributorList($this->Translators, false);
+			$this->ContributorsHtml .= ' translated by ' . $this->GenerateContributorList($this->Translators, false) . ';';
 		}
 
 		if(sizeof($this->Illustrators) > 0){
-			$titleContributors .= '. Illustrated by ' . $this->GenerateContributorList($this->Illustrators);
-			$this->ContributorsHtml .= ' illustrated by ' . $this->GenerateContributorList($this->Illustrators) . ';';
+			$titleContributors .= '. Illustrated by ' . $this->GenerateContributorList($this->Illustrators, false);
+			$this->ContributorsHtml .= ' illustrated by ' . $this->GenerateContributorList($this->Illustrators, false) . ';';
 		}
 
 		if($this->ContributorsHtml !== null){
@@ -449,7 +449,7 @@ class Ebook{
 			}
 		}
 
-		$this->AuthorsHtml = $this->GenerateContributorList($this->Authors);
+		$this->AuthorsHtml = $this->GenerateContributorList($this->Authors, true);
 
 		// Now the complete title with credits.
 		$this->TitleWithCreditsHtml = Formatter::ToPlainText($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors);
@@ -610,12 +610,13 @@ class Ebook{
 
 	/**
 	 * @param array<Contributor> $contributors
+	 * @param bool $includeRdfa
 	 */
-	private function GenerateContributorList(array $contributors): string{
+	private function GenerateContributorList(array $contributors, bool $includeRdfa): string{
 		$string = '';
 		$i = 0;
-		foreach($contributors as $contributor){
 
+		foreach($contributors as $contributor){
 			$role = 'schema:contributor';
 			switch($contributor->MarcRole){
 				case 'trl':
@@ -627,22 +628,32 @@ class Ebook{
 			}
 
 			if($contributor->WikipediaUrl){
-				$string .= '<a property="' . $role . '" typeof="schema:Person" href="' . Formatter::ToPlainText($contributor->WikipediaUrl) .'"><span property="schema:name">' . Formatter::ToPlainText($contributor->Name) . '</span>';
+				if($includeRdfa){
+					$string .= '<a property="' . $role . '" typeof="schema:Person" href="' . Formatter::ToPlainText($contributor->WikipediaUrl) .'"><span property="schema:name">' . Formatter::ToPlainText($contributor->Name) . '</span>';
 
-				if($contributor->NacoafUrl){
-					$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>';
+					if($contributor->NacoafUrl){
+						$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>';
+					}
+				}
+				else{
+					$string .= '<a href="' . Formatter::ToPlainText($contributor->WikipediaUrl) .'">' . Formatter::ToPlainText($contributor->Name);
 				}
 
 				$string .= '</a>';
 			}
 			else{
-				$string .= '<span property="' . $role . '" typeof="schema:Person"><span property="schema:name">' . Formatter::ToPlainText($contributor->Name) . '</span>';
+				if($includeRdfa){
+					$string .= '<span property="' . $role . '" typeof="schema:Person"><span property="schema:name">' . Formatter::ToPlainText($contributor->Name) . '</span>';
 
-				if($contributor->NacoafUrl){
-					$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>';
+					if($contributor->NacoafUrl){
+						$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>';
+					}
+
+					$string .= '</span>';
 				}
-
-				$string .= '</span>';
+				else{
+					$string .= Formatter::ToPlainText($contributor->Name);
+				}
 			}
 
 			if($i == sizeof($contributors) - 2 && sizeof($contributors) > 2){
@@ -654,6 +665,46 @@ class Ebook{
 			elseif($i != sizeof($contributors) - 1){
 				$string .= ', ';
 			}
+
+			$i++;
+		}
+
+		return $string;
+	}
+
+	public function GenerateContributorsRdfa(): string{
+		$string = '';
+		$i = 0;
+
+		foreach($this->Translators as $contributor){
+			$role = 'schema:contributor';
+			switch($contributor->MarcRole){
+				case 'trl':
+					$role = 'schema:translator';
+					break;
+				case 'ill':
+					$role = 'schema:illustrator';
+					break;
+			}
+
+			if($contributor->WikipediaUrl){
+				$string .= '<div property="' . $role . '" typeof="schema:Person" resource="/contributors/' . Formatter::MakeUrlSafe($contributor->Name) .'">' . "\n";
+			}
+			else{
+				$string .= '<div property="' . $role . '" typeof="schema:Person">' . "\n";
+			}
+
+			$string .= '<meta property="schema:name" content="' . Formatter::ToPlainText($contributor->Name) . '"/>' . "\n";
+
+			if($contributor->WikipediaUrl){
+				$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->WikipediaUrl) . '"/>' . "\n";
+			}
+
+			if($contributor->NacoafUrl){
+				$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>' . "\n";
+			}
+
+			$string .= '</div>';
 
 			$i++;
 		}
