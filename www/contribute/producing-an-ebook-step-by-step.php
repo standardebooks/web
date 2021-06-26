@@ -192,7 +192,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Use this regex to find incorrectly closed quotation marks near em-dashes: <code class="regex">—[’”][^<span class="p">&lt;</span>\s]</code></p>
 					</li>
 					<li>
-						<p><a href="/manual/latest/8-typography#8.7.7">Two-em dashes should be used for elision</a>.</p>
+						<p><a href="/manual/latest/8-typography#8.7.7">Two-em dashes should be used for partially-obscured words</a>.</p>
 					</li>
 					<li>
 						<p>Commas and periods should generally be inside quotation marks, not outside. Use this command to find and replace them:</p>
