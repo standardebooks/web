@@ -1836,8 +1836,8 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	grid-template-columns: repeat(auto-fill, minmax(10rem, max-content));
 }
 
-.masthead ol.donors.no-images{
-	grid-template-columns: repeat(auto-fill, minmax(8rem, max-content));
+.masthead ol.donors li:last-child{
+	font-variant-numeric: normal;
 }
 
 .masthead ol li{

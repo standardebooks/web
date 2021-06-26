@@ -254,7 +254,7 @@ code.terminal span::before{
 	line-height: 1;
 	margin: 0 .2rem;
 	display: inline-block;
-	font-family: monospace;
+	font-family: "Fira Mono", monospace;
 	vertical-align: middle;
 	margin-top: -3px; /* to match poor crimson alignment */
 }
