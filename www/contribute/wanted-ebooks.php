@@ -167,12 +167,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9488">The Line of Love</a> by James Branch Cabell</p>
 			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/13527">Ticket No. 9672 (The Lottery Ticket)</a> <i>Un Billet de loterie</i> by Jules Verne</p>
-			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/10547">Topsy Turvy (The Purchase of the North Pole)</a> <i>Sans dessus dessous</i> by Jules Verne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3808">Robur the Conqueror</a> <i>Robur-le-Conquérant</i> by Jules Verne</p>
 			</li>
@@ -322,9 +319,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://shakespeare.mit.edu/pericles/full.html">Pericles</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
       			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/615">Orlando Furioso</a> by Lodovico Ariosto</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
 			</li>
