@@ -23,9 +23,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3294">The Sea-Hawk</a> by Rafael Sabatini</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
@@ -262,9 +262,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/10984">Growth of the Soil</a> by Knut Hamsun</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/2369">One of Ours</a> by Willa Cather (Pulitzer winner #5) (Transcription is missing scene breaks and italics)</p>
-			</li> -->
 			<li>
 				<p><a href="http://gutenberg.org/ebooks/6627">Barriers Burned Away</a> by Edward Payson Roe</p>
 			</li>
@@ -511,9 +508,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46597">In Search of the Castaways</a> <i>Les Enfants du capitaine Grant</i> by Jules Verne</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/408">The Souls of Black Folk</a> by W. E. B. Du Bois</p>
-			</li> -->
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/13782">Lady Rose’s Daughter</a> by Mary Augusta Ward</p>
 			</li>
