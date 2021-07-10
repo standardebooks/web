@@ -30,9 +30,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/19478">Four-Day Planet</a> by H. Beam Piper</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/17866">Murder in the Gunroom</a> by H. Beam Piper</p>
 			</li>
 			<li>
@@ -554,9 +551,6 @@ require_once('Core.php');
 				<p>The Trickster of Seville and the Stone Guest, by Tirso de Molina. English translations in PD are difficult to find; scans of a <a href="https://catalog.hathitrust.org/Record/003925216">1923 translation</a> are available. (#24 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/The_Federalist_Papers">The Federalist Papers</a></p>
-			</li>
-			<li>
 				<p><a href="https://archive.org/details/thepeasants-autumn/page/n5/mode/2up">The Peasants</a> by Władysław Reymont (transcription required; see <a href="https://archive.org/details/thepeasants-winter">Winter</a>, <a href="https://archive.org/details/thepeasants-summer">Summer</a>, <a href="https://archive.org/details/thepeasants-spring">Spring</a>).</p>
 			</li>
 			<li>
@@ -564,9 +558,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/1370">Short stories by Algernon Blackwood</a> (To be compiled in an omnibus “Short Fiction”)</p>
-			</li>
-			<li>
-				<p><a href="http://gutenberg.net.au/ebooks02/0200421h.html">An American Tragedy</a> by Theodore Dreiser (Part of the Modern Library’s 100 best novels)</p>
 			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/Odes_(Horace)">The Odes</a> of Horace</p>
