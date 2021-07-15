@@ -98,72 +98,54 @@ require_once('Core.php');
 					</li>
 				</ol>
 			</section>
+			<section id="corporate-sponsors">
+				<h3>Corporate Sponsors</h3>
+				<ol class="donors corporate">
+					<li>
+						<a href="https://www.scribophile.com">
+							<img src="/images/masthead/sponsors/scribophile.svg" alt="The logo for Scribophile" />
+						</a>
+						<p><a href="https://www.scribophile.com">Scribophile</a></p>
+					</li>
+				</ol>
+			</section>
 			<section id="patrons-circle">
 				<h3>Patrons Circle</h3>
 				<p><a href="/donate">Join the Patrons Circle</a> and support the beauty of literature in the digital age.</p>
-				<ol class="donors medium">
+				<ol class="donors patrons">
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Michael Barrineau</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Derrick Burns</p>
 					</li>
 					<li>
-						<picture>
-							<source srcset="/images/masthead/matthew-chan@2x.avif 2x, /images/masthead/matthew-chan.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/matthew-chan@2x.jpg 2x, /images/masthead/matthew-chan.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/matthew-chan.jpg" alt="A portrait of Matthew Chan."/>
-						</picture>
 						<p>Matthew Chan</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Mark Cohen</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Carey Handfield</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Curtis Hendzell</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Wilhelm Fitzpatrick</p>
 					</li>
 					<li>
-						<picture>
-							<source srcset="/images/masthead/john-jarvis@2x.avif 2x, /images/masthead/john-jarvis.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/john-jarvis@2x.jpg 2x, /images/masthead/john-jarvis.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/john-jarvis.jpg" alt="A portrait of John Jarvis."/>
-						</picture>
 						<p>John Jarvis</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Eric Lim</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Brandon Sowers</p>
 					</li>
 					<li>
-						<img src="/images/masthead/portrait.svg" role="presentation" alt=""/>
 						<p>Anonymous × 3</p>
 					</li>
-					<? /*
-					<li>
-						<picture>
-							<source srcset="/images/masthead/firstname-lastname@2x.avif 2x, /images/masthead/firstname-lastname.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/firstname-lastname@2x.jpg 2x, /images/masthead/firstname-lastname.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/firstname-lastname.jpg" alt="A portrait of Firstname Lastname."/>
-						</picture>
-						<p>Firstname Lastname</p>
-					</li>
-					*/ ?>
 				</ol>
 			</section>
 		</section>

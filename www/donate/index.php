@@ -23,7 +23,7 @@ require_once('Core.php');
 		</section>
 		<section id="monthly">
 			<h2>Join the Patrons Circle</h2>
-			<p>Start a monthly donation of $10/month or more, and your name and photo will be listed as a Patrons Circle donor on our <a href="/about#masthead">masthead</a> for the duration of your gift.</p>
+			<p>Start a monthly donation of $10/month or more, and your name will be listed as a Patrons Circle donor on our <a href="/about#masthead">masthead</a> for the duration of your gift.</p>
 			<p>Your monthly donation is crucial to ensuring we can continue producing high-quality editions of literature for the digital age. We can’t do it without your support!</p>
 			<p class="button-row center">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>

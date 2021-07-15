@@ -1821,7 +1821,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	list-style: none;
 	display: grid;
 	grid-gap: 1rem;
-	align-items: center;
 }
 
 .masthead ol.editors{
@@ -1836,8 +1835,22 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	grid-template-columns: repeat(auto-fill, minmax(10rem, max-content));
 }
 
-.masthead ol.donors li:last-child{
+.masthead ol.donors.patrons{
+	font-style: italic;
+}
+
+.masthead ol.donors.patrons li:last-child{
 	font-variant-numeric: normal;
+}
+
+.masthead ol.corporate img{
+	max-height: 100px;
+	max-width: 100%;
+}
+
+.masthead ol.donors.corporate,
+.masthead ol.donors.corporate p{
+	text-align: center;
 }
 
 .masthead ol li{
@@ -1845,12 +1858,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 }
 
 .masthead ol.editors li{
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-}
-
-.masthead ol.donors li{
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
@@ -1880,21 +1887,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 .masthead ol.editors img{
 	height: 102px;
 	width: 102px;
-}
-
-.masthead ol.donors img{
-	height: 52px;
-	width: 52px;
-	margin-right: .5rem;
-}
-
-.masthead ol.donors.big img{
-	height: 77px;
-	width: 77px;
-}
-
-.masthead ol.donors.small img[src*="portrait.svg"]{
-	padding: .25rem;
 }
 
 .masthead ol li p{
