@@ -56,7 +56,7 @@ require_once('Core.php');
 							<p>(Like <i><a href="/ebooks/e-m-forster/a-room-with-a-view">A Room With a View</a></i> by <a href="/ebooks/e-m-forster">E. M. Forster</a>)</p>
 						</td>
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=29633ccd-b4f4-48ca-8011-47d566ecb598" class="button">Make a $700 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=29633ccd-b4f4-48ca-8011-47d566ecb598" class="button">Make a $800 donation</a>
 						</td>
 					</tr>
 					<tr>
@@ -66,7 +66,7 @@ require_once('Core.php');
 						</td>
 
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=e63be135-b649-448e-8407-408e06be7ca0" class="button">Make a $850 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=e63be135-b649-448e-8407-408e06be7ca0" class="button">Make a $950 donation</a>
 						</td>
 					</tr>
 					<tr>
@@ -76,7 +76,7 @@ require_once('Core.php');
 						</td>
 
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=f804efd1-e123-45b9-b05b-e71eef4cb08e" class="button">Make a $1,000 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=f804efd1-e123-45b9-b05b-e71eef4cb08e" class="button">Make a $1,100 donation</a>
 						</td>
 					</tr>
 					<tr>
@@ -86,7 +86,7 @@ require_once('Core.php');
 						</td>
 
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=9815f35e-3240-4ca6-87d2-e9393a98e584" class="button">Make a $1,150 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=9815f35e-3240-4ca6-87d2-e9393a98e584" class="button">Make a $1,250 donation</a>
 						</td>
 					</tr>
 					<tr>
@@ -96,7 +96,7 @@ require_once('Core.php');
 						</td>
 
 						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=866aa46b-b80f-4066-a4a3-309aab5867b4" class="button">Make a $1,300 donation</a>
+							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=866aa46b-b80f-4066-a4a3-309aab5867b4" class="button">Make a $1,400 donation</a>
 						</td>
 					</tr>
 				</tbody>
