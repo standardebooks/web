@@ -281,15 +281,6 @@ require_once('Core.php');
 				<p><a href="http://shakespeare.mit.edu/taming_shrew/full.html">The Taming of the Shrew</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/1henryiv/full.html">Henry IV, Part 1</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/2henryiv/full.html">Henry IV, Part 2</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/richardiii/full.html">Richard III</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/henryviii/full.html">Henry VIII</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
