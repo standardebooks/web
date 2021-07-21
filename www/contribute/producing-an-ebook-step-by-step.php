@@ -487,6 +487,28 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						</table>
 						<code class="terminal"><span><b>se</b> interactive-replace <i>"([Mm])ean time" "\1eantime"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
+					<li>
+						<h3>every thing ➔ everything</h3>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p><code class="html">It is curious the unearthly glamour which moonlight seems to throw over every thing.</code> ➔</p>
+										<p><code class="html">It is curious the unearthly glamour which moonlight seems to throw over everything.</code></p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p><code class="html">And every thing and every entity approaching New York Spaceport was combed, literally by the cubic millimeter.</code> ➔</p>
+										<p><code class="html"><span class="wrong">And everything and every entity approaching New York Spaceport was combed, literally by the cubic millimeter.</span></code></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-replace <i>"\b([Ee])very thing\b" "\1verything"</i> src/epub/text/<i class="glob">*</i></span></code>
+					</li>
 				</ul>
 				<p>After you’ve reviewed the changes, create an <code class="html">[Editorial]</code> commit. This commit is important, because it gives purists an avenue to revert modernizing changes to the original text.</p>
 				<p>Note how we preface this commit with <code class="html">[Editorial]</code>. Any change you make to the source text that can be considered a modernization or editorial change should be prefaced like this, so that the <code class="bash"><b>git</b></code> history can be easily searched by people looking to revert changes.</p>
