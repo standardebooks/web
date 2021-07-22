@@ -57,6 +57,16 @@ require_once('Core.php');
 				<code class="terminal"><b>se</b> xpath "//p//text()[re:test(., '[A-Z]{2,}') and not(contains(., 'OK') or contains(., 'SOS')) and not(parent::abbr or parent::var or parent::a or parent::*[contains(@epub:type, 'z3998:roman')])]" src/epub/text/*.xhtml</code>
 				<p>If any such instances is found, check with the <a href="/manual/latest/single-page#8.3">Manual</a> for the correct capitalization style in all cases.</p>
 			</li>
+			<li>
+				<h2>Step 11</h2>
+				<p>Most of the time punctuation such as periods and commas should be included within quotations, except for some rare occasions. See the relevant section of the <a href="/manual/latest/single-page#8.7.2">Manual</a> for reference. Use the following command to see if any of these needs to be noted for change:</p>
+				<code class="terminal"><b>se</b> interactive-replace "’([\.\,])" "\1’" .</code>
+			</li>
+			<li>
+				<h2>Step 12</h2>
+				<p>Era abbreviations do not have punctuation in them, unlike other common abbreviations (see <a href="/manual/latest/single-page#8.9.5">Manual</a>). Use the following command to check each of such cases:</p>
+				<code class="terminal">se interactive-replace "(&lt;abbr epub:type=\"se:era[^\"]*?\"&gt;)(BC|AD)&lt;/abbr&gt;\." "\1\2&lt;/abbr&gt;" .</code>
+			</li>
 		</ol>
 	</article>
 </main>
