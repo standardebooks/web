@@ -45,6 +45,18 @@ require_once('Core.php');
 				<code class="terminal"><b>grep</b> --recursive --line-number "[a-z]–[a-z]" .</code>
 				<p>Note that the dash in between the two square bracket is an <em>en dash</em> (U+2013), and not a hyphen. Check the <a href="/manual/latest/single-page#8.7.7">Manual</a> for the correct type of dashes to use in different cases. Alternatively, use your text editor's regular expression search to find potential incorrect usage instead of <code class="bash"><b>grep</b></code>.</p>
 			</li>
+			<li>
+				<h2>Step 9</h2>
+				<p>Run the following command to example possible miscurled sing-quote marks:</p>
+				<code class="terminal"><b>se</b> interactive-replace "(\s)‘([a-z])" "\1’\2"</code>
+				<p>Note the use of <code>‘</code> (left single-quotation mark, U+2018) and <code>’</code> (right single-quotation mark, U+2019) in the command above, and not <code>'</code> or <code>`</code>. Using <code>interactive-replace</code> is the safest here as there are many potential false positive cases here that should not be change. Refer the the relevant section of the <a href="/manual/latest/single-page#8.7.5">Manual</a>.</p>
+			</li>
+			<li>
+				<h2>Step 10</h2>
+				<p>As noted in the <a href="/manual/latest/single-page#8.3.3">Manual</a> text in call caps is rarely correct. Use the following command to check for instance of all caps:</p>
+				<code class="terminal"><b>se</b> xpath "//p//text()[re:test(., '[A-Z]{2,}') and not(contains(., 'OK') or contains(., 'SOS')) and not(parent::abbr or parent::var or parent::a or parent::*[contains(@epub:type, 'z3998:roman')])]" src/epub/text/*.xhtml</code>
+				<p>If any such instances is found, check with the <a href="/manual/latest/single-page#8.3">Manual</a> for the correct capitalization style in all cases.</p>
+			</li>
 		</ol>
 	</article>
 </main>
