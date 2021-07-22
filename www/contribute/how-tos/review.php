@@ -4,11 +4,11 @@ require_once('Core.php');
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>How to review a production before it is published</h1>
-		<p>After an ebook production is completed, it must go through rounds of review before it is published to ensure appropriate the appropriate production quality is assured. Reviewers are assigned by the <a href="/about#editor-in-chief">editor-in-chief</a>, and may be a member of the <a href="/about#editors">editorial staff</a>, or an experienced Standard Ebooks producer. Below is a helpful step-by-step checklist for reviewers of ebook productions. The checklist is by no means exhaustive, but serves as a good starting point of the proofreading process. Reviewers to keep in mind the standards enumerated in the <a href="/manual">Manual of Style</a>, and note any discrepancies not listed below.</p>
+		<p>After an ebook production is completed, it must go through rounds of review before it is published to ensure the appropriate production quality is assured. Reviewers are assigned by the <a href="/about#editor-in-chief">editor-in-chief</a>, and may be a member of the <a href="/about#editors">editorial staff</a>, or an experienced Standard Ebooks producer. Below is a helpful step-by-step checklist for reviewers of ebook productions. The checklist is by no means exhaustive, but serves as a good starting point for the proofreading process. Reviewers should keep in mind the standards enumerated in the <a href="/manual">Manual of Style</a>, and note any discrepancies not listed below.</p>
 		<ol>
 			<li>
 				<h2>Step 1</h2>
-				<p>Before any review step, ensure the most recent version of the SE toolset is installed. Run <code class="bash"><b>se</b> typogrify .</code> at the root of the project directory. The <code>typogrify</code> command is almost always correct, but sometimes not all changes it makes should be accepted. To go over the changes <code>typogrify</code> may have made, run the following <code><b>git</b></code> command to also highlight changes made to invisible or hard to differentiate Unicode characters:</p>
+				<p>Before any review steps, ensure the most recent version of the SE toolset is installed. Run <code class="bash"><b>se</b> typogrify .</code> at the root of the project directory. The <code>typogrify</code> command is almost always correct, but sometimes not all changes it makes should be accepted. To go over the changes <code>typogrify</code> may have made, run the following <code class="bash"><b>git</b></code> command to also highlight changes made to invisible or hard to differentiate Unicode characters:</p>
 				<code class="terminal"><b>git</b> diff -U0 --word-diff-regex=.</code>
 			</li>
 			<li>
@@ -17,15 +17,15 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Step 3</h2>
-				<p>Run <code class="bash"><b>se</b> semanticate .</code> at the root of the project directory. Unlike <code>typogrify</code> or <code>modernize-spelling</code>, <code>semanticate</code> is more prone to error or false positives. Judicious use of the <code class="bash"><b>git</b> diff</code> command listed in Step 1 would be needed to prevent any unwanted changes.</p>
+				<p>Run <code class="bash"><b>se</b> semanticate .</code> at the root of the project directory. Unlike <code>typogrify</code> or <code>modernize-spelling</code>, <code>semanticate</code> is more prone to error or false positives. Judicious use of the <code class="bash"><b>git</b> diff</code> command listed in Step 1 would be needed to prevent and revert any unwanted changes.</p>
 			</li>
 			<li>
 				<h2>Step 4</h2>
-				<p>Run <code class="bash"><b>se</b> clean .</code> at the root of the project directory. Ideally the producer of the ebook would have ran this multiple times during their production process. However, since changes may have been made since then by the reviewer and stylistic deviations may be been inadvertently introduced, this will clean those potential errors up. After each step so far, it is recommended to use the <code class="bash"><b>git</b> diff</code> commanded listed in Step 1 to review all changes.</p>
+				<p>Run <code class="bash"><b>se</b> clean .</code> at the root of the project directory. Ideally the producer of the ebook would have ran this multiple times during their production process. However, since changes may have been made since then by the producer and stylistic deviations may be been inadvertently introduced, this will clean those potential errors up. After each step so far, it is recommended to use the <code class="bash"><b>git</b> diff</code> commanded listed in Step 1 to review and record all changes that are needed.</p>
 			</li>
 			<li>
 				<h2>Step 5</h2>
-				<p>Run both <code class="bash"><b>se</b> find-mismatched-dashes .</code> and <code class="bash"><b>se</b> find-mismatched-diacritics .</code> at the root of the project directory. Either of these tools will make actual changes to the project, but will list words that have inconsistent application of dashes/diacritics. Check with the language authority listed in the <a href="/manual/latest/single-page#8.2.9">Manual</a> to decide on the recommendations.</p>
+				<p>Run both <code class="bash"><b>se</b> find-mismatched-dashes .</code> and <code class="bash"><b>se</b> find-mismatched-diacritics .</code> at the root of the project directory. Neither of these tools will make actual changes to the project, but they will list words that have inconsistent application of dashes/diacritics. Check with the language authority listed in the <a href="/manual/latest/single-page#8.2.9">Manual</a> to decide on what recommendations should be made.</p>
 			</li>
 			<li>
 				<h2>Step 6</h2>
@@ -47,9 +47,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Step 9</h2>
-				<p>Run the following command to example possible miscurled sing-quote marks:</p>
+				<p>Run the following command to examine possible miscurled sing-quote marks:</p>
 				<code class="terminal"><b>se</b> interactive-replace "(\s)‘([a-z])" "\1’\2"</code>
-				<p>Note the use of <code>‘</code> (left single-quotation mark, U+2018) and <code>’</code> (right single-quotation mark, U+2019) in the command above, and not <code>'</code> or <code>`</code>. Using <code>interactive-replace</code> is the safest here as there are many potential false positive cases here that should not be change. Refer the the relevant section of the <a href="/manual/latest/single-page#8.7.5">Manual</a>.</p>
+				<p>Note the use of <code>‘</code> (left single-quotation mark, U+2018) and <code>’</code> (right single-quotation mark, U+2019) in the command above, and not <code>'</code> or <code>`</code>. Using <code>interactive-replace</code> is the safest as there are many potential false positive cases here that should not be change. Refer the the relevant section of the <a href="/manual/latest/single-page#8.7.5">Manual</a>.</p>
 			</li>
 			<li>
 				<h2>Step 10</h2>
@@ -59,12 +59,12 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Step 11</h2>
-				<p>Most of the time punctuation such as periods and commas should be included within quotations, except for some rare occasions. See the relevant section of the <a href="/manual/latest/single-page#8.7.2">Manual</a> for reference. Use the following command to see if any of these needs to be noted for change:</p>
+				<p>Most of the time punctuation such as periods and commas should be placed within quotations, except for some rare occasions. See the relevant section of the <a href="/manual/latest/single-page#8.7.2">Manual</a> for reference. Use the following command to examine if any of these needs to be noted for change:</p>
 				<code class="terminal"><b>se</b> interactive-replace "’([\.\,])" "\1’" .</code>
 			</li>
 			<li>
 				<h2>Step 12</h2>
-				<p>Era abbreviations do not have punctuation in them, unlike other common abbreviations (see <a href="/manual/latest/single-page#8.9.5">Manual</a>). Use the following command to check each of such cases:</p>
+				<p>Era abbreviations do not have punctuation in them unlike other common abbreviations (see <a href="/manual/latest/single-page#8.9.5">Manual</a>). Use the following command to check each of such cases:</p>
 				<code class="terminal">se interactive-replace "(&lt;abbr epub:type=\"se:era[^\"]*?\"&gt;)(BC|AD)&lt;/abbr&gt;\." "\1\2&lt;/abbr&gt;" .</code>
 			</li>
 			<li>
@@ -76,7 +76,7 @@ require_once('Core.php');
 				<h2>Step 14</h2>
 				<p>Do a final look through of each <code>.xhtml</code> file for spelling, styling, and formatting discrepancies. Possible things to look out for:</p>
 				<ul>
-					<li>Check that the correct semantics for elements are used. (<abbr>e.g.</abbr> correct usage of <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code>, no usage of <code class="html"><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span></code> is used, <abbr>etc.</abbr></li>
+					<li>Check that the correct semantics for elements are used. (<abbr>e.g.</abbr> correct usage of <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code>, no <code class="html"><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span></code> blocks are used, <abbr>etc.</abbr></li>
 					<li>
 						If the book is in "parts,", "books," or "volumes":
 						<ul>
@@ -126,7 +126,7 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Step 20</h2>
-				<p>Log all review notes and recommendations on the production's Gitub repository issue tracker, and inform the producer and the rest of the editorial team the review has been completed, with a short summary of the results of the review and changes that may be needed before publishing.</p>
+				<p>Log all review notes and recommendations on the production's GitHub repository issue tracker, and inform the producer and the rest of the editorial team the review has been completed, with a short summary of the results of the review and changes that may be needed before publishing.</p>
 			</li>
 		</ol>
 	</article>
