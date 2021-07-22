@@ -103,6 +103,31 @@ require_once('Core.php');
 					<li>Are abbreviated names wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:given-name"</span><span class="p">&gt;</span></code>?</li>
 				</ul>
 			</li>
+			<li>
+				<h2>Step 17</h2>
+				<p>Review all meta data including those in <code>content.opf</code>. See <a href="/manual/latest/single-page#9">this</a> section of the Manual for reference. Possible things to look out for:</p>
+				<ul>
+					<li>Is author, translator(s), cover artist, <abbr>etc.</abbr> in the correct order and in expected style?</li>
+					<li>Check all links, such as author/work Wikipedia links, are correct by opening them in a browser.</li>
+					<li>If the book has a subtitle, check that it is represented as expected. See <a href="/manual/latest/single-page#9.4.2">here</a> for reference.</li>
+					<li>Confirm that the long description of the book in the metadata was not copy and pasted from Wikipedia or other third-party sources.</li>
+					<li>Check that the short description of the book is valid (<abbr>i.e.</abbr> a single complete sentence.)</li>
+				</ul>
+			</li>
+			<li>
+				<h2>Step 18</h2>
+				<p>Run the following command at the root of the project directory to ensure the epub builds:</p>
+				<code class="terminal"><b>se</b> build --check-only .</code>
+				<p>Note all errors if they are produced by the command.</p>
+			</li>
+			<li>
+				<h2>Step 19</h2>
+				<p>Run a final <code class="bash"><b>se</b> lint .</code> check, and ensure it is silent. If any warnings and errors are produced, they must be noted and addressed.</p>
+			</li>
+			<li>
+				<h2>Step 20</h2>
+				<p>Log all review notes and recommendations on the production's Gitub repository issue tracker, and inform the producer and the rest of the editorial team the review has been completed, with a short summary of the results of the review and changes that may be needed before publishing.</p>
+			</li>
 		</ol>
 	</article>
 </main>
