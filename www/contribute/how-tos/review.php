@@ -15,6 +15,14 @@ require_once('Core.php');
 				<h2>Step 2</h2>
 				<p>Run <code class="bash"><b>se</b> modernize-spelling .</code> at the root of the project directory. Note that this tool may not catch all archaic words. Prudent use of text editor spellcheckers can help picking up some of these. When in doubt, refer to the appropriate authority of spelling as noted in the <a href="/manual/latest/single-page#8.2.9">Manual</a>. Many words that are hyphenated in the past (<abbr>e.g.</abbr> <em>to-morrow</em>) are in modern times concatenated. <em>However</em>, these hyphens should all be retained in poetry . That said, obvious sound-alike spelling modernization should be made and accepted.</p>
 			</li>
+			<li>
+				<h2>Step 3</h2>
+				<p>Run <code class="bash"><b>se</b> semanticate .</code> at the root of the project directory. Unlike <code>typogrify</code> or <code>modernize-spelling</code>, <code>semanticate</code> is more prone to error or false positives. Judicious use of the <code><b>git</b> diff</code> command listed in Step 1 would be needed to prevent any unwanted changes.</p>
+			</li>
+			<li>
+				<h2>Step 4</h2>
+				<p>Run <code class="bash"><b>se</b> clean .</code> at the root of the project directory. Ideally the producer of the ebook would have ran this multiple times during their production process. However, since changes may have been made since then by the reviewer and stylistic deviations may be been inadvertently introduced, this will clean those potential errors up. After each step so far, it is recommended to use the <code><b>git</b> diff</code> commanded listed in Step 1 to review all changes.</p>
+			</li>
 		</ol>
 	</article>
 </main>
