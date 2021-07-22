@@ -86,6 +86,23 @@ require_once('Core.php');
 					</li>
 				</ul>
 			</li>
+			<li>
+				<h2>Step 15</h2>
+				<p>Review the <code>local.css</code> file. Possible things to look out for:</p>
+				<ul>
+					<li>Any styles that have no effect? (<abbr>e.g.</abbr>, Setting <code class="css"><span class="nt">text-indent</span><span class="o">:</span> <span class="mi">0</span><span class="p">;</span></code> on an element which already inherits that property from <code>core.css</code>)</li>
+					<li>Any unusual classes that can be converted to more clever selectors instead?</li>
+					<li>Any selectors that should use a different pattern according to previous standards? (<abbr>e.g.</abbr>, setting small caps by targeting a valediction, instead of targeting <code class="html"><span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:signature"</span></code></li>
+				</ul>
+			</li>
+			<li>
+				<h2>Step 16</h2>
+				<p>Review the colophon. Possible things to look out for:</p>
+				<ul>
+					<li>Are names without links wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:personal-name"</span><span class="p">&gt;</span></code>?</li>
+					<li>Are abbreviated names wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:given-name"</span><span class="p">&gt;</span></code>?</li>
+				</ul>
+			</li>
 		</ol>
 	</article>
 </main>
