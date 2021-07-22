@@ -31,6 +31,20 @@ require_once('Core.php');
 				<h2>Step 6</h2>
 				<p>Run <code class="bash"><b>se</b> build-title .</code>, <code class="bash"><b>se</b> build-toc .</code> and <code class="bash"><b>se</b> build-images .</code> at the root of the project directory. No changes should be made by these tools if the producer correctly generated the title page, table of content, and image files. Any discrepancies can be highlighted and investigated via the <code class="bash"><b>git</b> diff</code> listed in Step 1.</p>
 			</li>
+			<li>
+				<h2>Step 7</h2>
+				<p>Use the following <code class="bash"><b>git</b></code> command to highlight all editorial commits:</p>
+				<code class="terminal"><b>git</b> log --pretty="format:%h: %s" --grep="\[Editorial\]"</code>
+				<p>Once identified, these commits can be reviewed via:</p>
+				<code class="terminal"><b>git</b> diff "$COMMIT~" "$COMMIT";</code>
+				<p>Alternatively, a graphical <code class="bash"><b>git</b></code> client can be used instead.</p>
+			</li>
+			<li>
+				<h2>Step 8</h2>
+				<p>Run the following command to check for incorrect en dash use:</p>
+				<code class="terminal"><b>grep</b> --recursive --line-number "[a-z]–[a-z]" .</code>
+				<p>Note that the dash in between the two square bracket is an <em>en dash</em> (U+2013), and not a hyphen. Check the <a href="/manual/latest/single-page#8.7.7">Manual</a> for the correct type of dashes to use in different cases. Alternatively, use your text editor's regular expression search to find potential incorrect usage instead of <code class="bash"><b>grep</b></code>.</p>
+			</li>
 		</ol>
 	</article>
 </main>
