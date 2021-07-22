@@ -67,6 +67,25 @@ require_once('Core.php');
 				<p>Era abbreviations do not have punctuation in them, unlike other common abbreviations (see <a href="/manual/latest/single-page#8.9.5">Manual</a>). Use the following command to check each of such cases:</p>
 				<code class="terminal">se interactive-replace "(&lt;abbr epub:type=\"se:era[^\"]*?\"&gt;)(BC|AD)&lt;/abbr&gt;\." "\1\2&lt;/abbr&gt;" .</code>
 			</li>
+			<li>
+				<h2>Step 13</h2>
+				<p>The tags <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span><span class="p">&lt;</span>/<span class="nt">i</span><span class="p">&gt;</span></code> and <code><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span><span class="p">&lt;</span>/<span class="nt">em</span><span class="p">&gt;</span></code> are not to be used interchangeably (see relevant section of the Manual <a href="/manual/latest/single-page#4.1.2">here</a> and <a href="/manual/latest/single-page#8.2">here</a>). Use the following command to check their usage in the production (alternatively, use the regular expression search function in a text editor):</p>
+				<code class="terminal"><b>grep</b> --recursive --line-number "&lt;i\|&lt;em" src/epub/text/*.xhtml</code>
+			</li>
+			<li>
+				<h2>Step 14</h2>
+				<p>Do a final look through of each <code>.xhtml</code> file for spelling, styling, and formatting discrepancies. Possible things to look out for:</p>
+				<ul>
+					<li>Check that the correct semantics for elements are used. (<abbr>e.g.</abbr> correct usage of <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code>, no usage of <code class="html"><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span></code> is used, <abbr>etc.</abbr></li>
+					<li>
+						If the book is in "parts,", "books," or "volumes":
+						<ul>
+							<li>Do the chapters have the right filenames? (See <a href="/manual/latest/single-page#2.2">Manual</a>)</li>
+							<li>Does each chapter file include the wrapping <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element for its corresponding part, for recomposition? (See <a href="/manual/latest/single-page#4.1.1.1">Manual</a>)</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
 		</ol>
 	</article>
 </main>
