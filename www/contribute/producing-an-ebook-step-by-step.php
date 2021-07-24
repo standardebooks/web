@@ -319,7 +319,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 									<td>Correct change:</td>
 									<td>
 										<p><code class="html">She asked some one on the street.</code> ➔</p>
-										<p><code class="html"><span class="wrong">She asked someone on the street.</span></code></p>
+										<p><code class="html">She asked someone on the street.</code></p>
 									</td>
 								</tr>
 								<tr>
