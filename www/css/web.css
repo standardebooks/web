@@ -4,8 +4,40 @@ body{
 	font-family: Georgia, serif;
 	font-size: 18px;
 	padding: 0 3em;
-	margin: 3em auto;
+	margin: 6em auto 3em;
 	max-width: 55ch;
+}
+
+body > header{
+	position: absolute;
+  left: 0;
+	right: 0;
+	top: 0;
+	background: #fff;
+	border-bottom: 1px solid #999;
+	box-shadow: 0 0 3px #ccc;
+}
+
+@media(max-width: 96ch){
+	body > header{
+		position: fixed;
+	}
+}
+
+body > header ul{
+	display: flex;
+	justify-content: space-between;
+	list-style: none;
+	margin: 0;
+	padding: 0.5em 1em;
+}
+
+body > header li:first-child > a{
+	display: block;
+	width: 90px;
+	height: 21px;
+	background: no-repeat center/100% url(/images/logo-full.svg);
+	text-indent: -999em;
 }
 
 body > nav,
@@ -43,7 +75,8 @@ nav[epub|type~="toc"] ol{
 }
 
 @media(prefers-color-scheme: dark){
-	body{
+	body,
+	body > header{
 		background: #222222;
 		color: #ffffff;
 	}
@@ -61,6 +94,7 @@ nav[epub|type~="toc"] ol{
 		color: #dda0dd;
 	}
 
+	body > header li:first-child > a,
 	img[epub|type~="se:image.color-depth.black-on-transparent"]{
 		filter: invert(1);
 	}
