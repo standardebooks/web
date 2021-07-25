@@ -291,7 +291,7 @@ do
 			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/www/css/web.css" "${workDir}"
 
 			# Adjust sponsored links in the colophon
-			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.
+			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.xhtml
 
 			if [ "${verbose}" = "true" ]; then
 				printf "Done.\n"
