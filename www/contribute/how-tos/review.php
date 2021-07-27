@@ -49,7 +49,14 @@ require_once('Core.php');
 				<h2>Review miscurled quotes</h2>
 				<p>Run the following command to examine possible miscurled sing-quote marks:</p>
 				<code class="terminal"><b>se</b> interactive-replace <i>"(\s)‘([a-z])"</i> <i>"\1’\2"</i> <u>.</u></code>
-				<p>Note the use of <code>‘</code> (left single-quotation mark, U+2018) and <code>’</code> (right single-quotation mark, U+2019) in the command above, and not <code>'</code> or <code>`</code>. Using <code class="bash"><b>se</b> interactive-replace</code> is the safest as there are many potential false positive cases here that should not be change. Refer the the relevant section of the <a href="/manual/latest/single-page#8.7.5">Manual</a>.</p>
+				<p>Note the use of <code>‘</code> (left single-quotation mark, U+2018) and <code>’</code> (right single-quotation mark, U+2019) in the command above, and not <code>'</code> or <code>`</code>. Using <code class="bash"><b>se</b> interactive-replace</code> is the safest as there are many potential false positive cases here that should not be change. Refer the the relevant section of the <a href="/manual/latest/single-page#8.7.5">Manual</a>. Note that sometimes this type of mistakes might be committed by <code class="bash"><b>se</b> typogrify</code>. For example:</p>
+				<figure class="wrong html full">
+					<code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He had pork ‘n’ beans for dinner<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
+				</figure>
+				<figure class="corrected html full">
+					<code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He had pork ’n’ beans for dinner<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
+				</figure>
+				<p>Note the right single-quotation mark is applied twice under this situation. More cases like this is in the section of the Manual linked above.</p>
 			</li>
 			<li>
 				<h2>Review capitalization</h2>
