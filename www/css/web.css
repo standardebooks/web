@@ -61,7 +61,7 @@ nav[epub|type~="toc"] ol{
 		color: #dda0dd;
 	}
 
-	img[epub|type~="se:color-depth.black-on-transparent"]{
+	img[epub|type~="se:image.color-depth.black-on-transparent"]{
 		filter: invert(1);
 	}
 }
