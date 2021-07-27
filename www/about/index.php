@@ -126,6 +126,9 @@ require_once('Core.php');
 						<p>Mark Cohen</p>
 					</li>
 					<li>
+						<p>Maxwell Collins-Shenfield</p>
+					</li>
+					<li>
 						<p>Carey Handfield</p>
 					</li>
 					<li>
