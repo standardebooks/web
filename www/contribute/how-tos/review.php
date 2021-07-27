@@ -83,12 +83,18 @@ require_once('Core.php');
 				<h2>Review XHTML file structure</h2>
 				<p>Do a final look through of each XHTML file for spelling, styling, and formatting discrepancies. Possible things to look out for:</p>
 				<ul>
-					<li>Check that the correct semantics for elements are used. (<abbr>e.g.</abbr> correct usage of <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code>, no <code class="html"><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span></code> blocks are used, <abbr>etc.</abbr></li>
 					<li>
-						If the book is in "parts,", "books," or "volumes":
+						<p>Check that the correct semantics for elements are used. (<abbr>e.g.</abbr> correct usage of <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code>, no <code class="html"><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span></code> blocks are used, <abbr>etc.</abbr></p>
+					</li>
+					<li>
+						<p>If the book is in "parts,", "books," or "volumes":</p>
 						<ul>
-							<li>Do the chapters have the right filenames? (See <a href="/manual/latest/single-page#2.2">Manual</a>)</li>
-							<li>Does each chapter file include the wrapping <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element for its corresponding part, for recomposition? (See <a href="/manual/latest/single-page#4.1.1.1">Manual</a>)</li>
+							<li>
+								<p>Do the chapters have the right filenames? (See <a href="/manual/latest/single-page#2.2">Manual</a>)</p>
+							</li>
+							<li>
+								<p>Does each chapter file include the wrapping <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element for its corresponding part, for recomposition? (See <a href="/manual/latest/single-page#4.1.1.1">Manual</a>)</p>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -97,28 +103,48 @@ require_once('Core.php');
 				<h2>Review local CSS</h2>
 				<p>Review the <code>local.css</code> file. Possible things to look out for:</p>
 				<ul>
-					<li>Any styles that have no effect? (<abbr>e.g.</abbr>, Setting <code class="css"><span class="k">text-indent</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span></code> on an element which already inherits that property from <code>core.css</code>)</li>
-					<li>Any unusual classes that can be converted to more clever selectors instead?</li>
-					<li>Any selectors that should use a different pattern according to previous standards? (<abbr>e.g.</abbr>, setting small caps by targeting a valediction, instead of targeting <code class="html"><span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:signature"</span></code></li>
+					<li>
+						<p>Any styles that have no effect? (<abbr>e.g.</abbr>, Setting <code class="css"><span class="k">text-indent</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span></code> on an element which already inherits that property from <code>core.css</code>)</p>
+					</li>
+					<li>
+						<p>Any unusual classes that can be converted to more clever selectors instead?</p>
+					</li>
+					<li>
+						<p>Any selectors that should use a different pattern according to previous standards? (<abbr>e.g.</abbr>, setting small caps by targeting a valediction, instead of targeting <code class="html"><span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:signature"</span></code></p>
+					</li>
 				</ul>
 			</li>
 			<li>
 				<h2>Review colophon</h2>
 				<p>Review the colophon. Possible things to look out for:</p>
 				<ul>
-					<li>Are names without links wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:personal-name"</span><span class="p">&gt;</span></code>?</li>
-					<li>Are abbreviated names wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:given-name"</span><span class="p">&gt;</span></code>?</li>
+					<li>
+						<p>Are names without links wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:personal-name"</span><span class="p">&gt;</span></code>?</p>
+					</li>
+					<li>
+						<p>Are abbreviated names wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:given-name"</span><span class="p">&gt;</span></code>?</p>
+					</li>
 				</ul>
 			</li>
 			<li>
 				<h2>Review meta data</h2>
 				<p>Review all meta data including those in <code>content.opf</code>. See <a href="/manual/latest/single-page#9">this</a> section of the Manual for reference. Possible things to look out for:</p>
 				<ul>
-					<li>Is author, translator(s), cover artist, <abbr>etc.</abbr> in the correct order and in expected style?</li>
-					<li>Check all links, such as author/work Wikipedia links, are correct by opening them in a browser.</li>
-					<li>If the book has a subtitle, check that it is represented as expected. See <a href="/manual/latest/single-page#9.4.2">here</a> for reference.</li>
-					<li>Confirm that the long description of the book in the metadata was not copy and pasted from Wikipedia or other third-party sources.</li>
-					<li>Check that the short description of the book is valid (<abbr>i.e.</abbr> a single complete sentence.)</li>
+					<li>
+						<p>Is author, translator(s), cover artist, <abbr>etc.</abbr> in the correct order and in expected style?</p>
+					</li>
+					<li>
+						<p>Check all links, such as author/work Wikipedia links, are correct by opening them in a browser.</p>
+					</li>
+					<li>
+						<p>If the book has a subtitle, check that it is represented as expected. See <a href="/manual/latest/single-page#9.4.2">here</a> for reference.</p>
+					</li>
+					<li>
+						<p>Confirm that the long description of the book in the metadata was not copy and pasted from Wikipedia or other third-party sources.</p>
+					</li>
+					<li>
+						<p>Check that the short description of the book is valid (<abbr>i.e.</abbr> a single complete sentence.)</p>
+					</li>
 				</ul>
 			</li>
 			<li>
