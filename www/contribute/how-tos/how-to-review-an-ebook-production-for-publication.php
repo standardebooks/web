@@ -1,9 +1,9 @@
 <?
 require_once('Core.php');
-?><?= Template::Header(['title' => 'How to review a production before it is published', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to proofread and review an ebook production before it is published.']) ?>
+?><?= Template::Header(['title' => 'How to Review an Ebook Production for Publication', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to proofread and review an ebook production for publication.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
-		<h1>How to review a production before it is published</h1>
+		<h1>How to Review an Ebook Production for Publication</h1>
 		<p>After an ebook production is completed, it must go through rounds of review before it is published to ensure the appropriate production quality is assured. Reviewers are assigned by the <a href="/about#editor-in-chief">editor-in-chief</a>, and may be a member of the <a href="/about#editors">editorial staff</a>, or an experienced Standard Ebooks producer. Below is a helpful step-by-step checklist for reviewers of ebook productions. The checklist is by no means exhaustive, but serves as a good starting point for the proofreading process. Reviewers should keep in mind the standards enumerated in the <a href="/manual">Manual of Style</a>, and note any discrepancies not listed below. Before any review steps, ensure the most recent version of the SE toolset is installed.</p>
 		<ol>
 			<li>
@@ -127,8 +127,8 @@ require_once('Core.php');
 				</ul>
 			</li>
 			<li>
-				<h2>Review meta data</h2>
-				<p>Review all meta data including those in <code>content.opf</code>. See <a href="/manual/latest/single-page#9">this</a> section of the Manual for reference. Possible things to look out for:</p>
+				<h2>Review metadata</h2>
+				<p>Review all metadata including those in <code>content.opf</code>. See <a href="/manual/latest/single-page#9">this</a> section of the Manual for reference. Possible things to look out for:</p>
 				<ul>
 					<li>
 						<p>Is author, translator(s), cover artist, <abbr>etc.</abbr> in the correct order and in expected style?</p>
@@ -148,14 +148,14 @@ require_once('Core.php');
 				</ul>
 			</li>
 			<li>
+				<h2>Lint</h2>
+				<p>Run a final <code class="bash"><b>se</b> lint <u>.</u></code> check, and ensure it is silent. If any warnings and errors are produced, they must be noted and addressed.</p>
+			</li>
+			<li>
 				<h2>Test epub build</h2>
 				<p>Run the following command at the root of the project directory to ensure the epub builds:</p>
 				<code class="terminal"><b>se</b> build --check-only <u>.</u></code>
 				<p>Note all errors if they are produced by the command.</p>
-			</li>
-			<li>
-				<h2>Lint</h2>
-				<p>Run a final <code class="bash"><b>se</b> lint <u>.</u></code> check, and ensure it is silent. If any warnings and errors are produced, they must be noted and addressed.</p>
 			</li>
 			<li>
 				<h2>Submit review comments</h2>

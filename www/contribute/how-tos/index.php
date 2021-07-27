@@ -6,16 +6,16 @@ require_once('Core.php');
 	<h1>How-to Guides</h1>
 	<ul>
 		<li>
-			<p><a href="/contribute/how-tos/shakespeare">How to produce a Shakespeare play</a></p>
+			<p><a href="/contribute/how-tos/how-to-produce-a-shakespeare-play">How to produce a Shakespeare play</a></p>
 		</li>
 		<li>
-			<p><a href="/contribute/how-tos/goodreads">How to add a Standard Ebooks ebook to Goodreads</a></p>
+			<p><a href="/contribute/how-tos/how-to-add-a-standard-ebooks-ebook-to-goodreads">How to add a Standard Ebooks ebook to Goodreads</a></p>
 		</li>
 		<li>
-			<p><a href="/contribute/how-tos/illustrations-music">How to create figures for music scores</a></p>
+			<p><a href="/contribute/how-tos/how-to-create-figures-for-music-scores">How to create figures for music scores</a></p>
 		</li>
 		<li>
-			<p><a href="/contribute/how-tos/review">How to review a production before it is published</a></p>
+			<p><a href="/contribute/how-tos/how-to-review-an-ebook-production-for-publication">How to review an ebook production for publication</a></p>
 		</li>
 	</ul>
 </article>
