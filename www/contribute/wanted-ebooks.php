@@ -150,9 +150,6 @@ require_once('Core.php');
 				<p><a href="http://gutenberg.net.au/ebooks03/0301231h.html">The Three Hostages</a> by John Buchan</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/24">O Pioneers!</a> by Willa Cather</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/47">Anne of Avonlea</a> by L. M. Montgomery</p>
 			</li>
 			<li>
@@ -185,9 +182,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/10339">An Antarctic Mystery</a> <i>Le Sphinx des glaces</i> by Jules Verne</p>
-			</li> -->
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
 			</li>
@@ -532,6 +526,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
 			</li>
+			<li>
+				<p><a href="https://en.m.wikisource.org/wiki/A_Daughter_of_the_Samurai">A Daughter of the Samurai</a> by Etsu Inagaki Sugimoto</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -631,9 +628,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/38427">The World as Will and Idea</a> by Arthur Schopenhauer (<a href="https://www.gutenberg.org/ebooks/40097">Vol. 2</a>, <a href="https://www.gutenberg.org/ebooks/40868">Vol. 3</a>)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/815">Democracy in America</a> by Alexis de Tocqueville (<a href="https://www.gutenberg.org/ebooks/816">Volume 2</a>, together as a single ebook)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/The_Complete_Angler,_5th_edition">The Complete Angler</a> by Izaak Walton (Note: the Wikisource transcription will be easier to work with than the PG transcription.)</p>
 			</li>
