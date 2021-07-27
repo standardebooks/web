@@ -161,9 +161,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9488">The Line of Love</a> by James Branch Cabell</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/10547">Topsy Turvy (The Purchase of the North Pole)</a> <i>Sans dessus dessous</i> by Jules Verne</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3808">Robur the Conqueror</a> <i>Robur-le-Conquérant</i> by Jules Verne</p>
 			</li>
