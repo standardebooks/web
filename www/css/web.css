@@ -20,11 +20,19 @@ body > header{
 
 body > header ul{
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
 	list-style: none;
 	margin: 0;
 	padding: 0.5em 1em;
+}
+
+body > header li{
+	margin-left: 1.5em;
+}
+
+body > header li:first-child{
+	margin-left: 0;
+	margin-right: auto;
 }
 
 body > header li:first-child > a{
