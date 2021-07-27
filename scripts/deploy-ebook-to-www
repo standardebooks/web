@@ -320,7 +320,8 @@ do
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g"
 
 		# Add the nav to each page
-		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended 's/<body(.*?)>/<body\1><header><nav><ul><li><a href="\/">Standard Ebooks<\/a><\/li><li><a href="\.">Table of contents<\/a><\/li><\/ul><\/nav><\/header>/'
+		bookUrl=$(grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">.+?</dc:identifier>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/.*?url:(.*?)<.*/\1/g")
+		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s%<body(.*?)>%<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}/text\">Table of contents</a></li></ul></nav></header>%"
 
 		# Adjust sponsored links in the colophon
 		sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/src/epub/text/colophon.xhtml
