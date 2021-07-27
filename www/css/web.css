@@ -10,7 +10,7 @@ body{
 
 body > header{
 	position: absolute;
-  left: 0;
+	left: 0;
 	right: 0;
 	top: 0;
 	background: #fff;
@@ -41,17 +41,11 @@ body > header li:first-child > a{
 	height: 42px;
 	background: no-repeat center/100% url(/images/logo-full.svg);
 	font-size: 0;
+	transition: transform 200ms ease;
 }
 
-@media(max-width: 96ch){
-	body > header{
-		position: fixed;
-	}
-
-	body > header li:first-child > a{
-		width: 90px;
-		height: 21px;
-	}
+body > header li:first-child > a:hover{
+	transform: scale(1.025) rotate(1deg);
 }
 
 body > nav,
@@ -76,6 +70,17 @@ article + article{
 
 nav[epub|type~="toc"] ol{
 	list-style: none;
+}
+
+@media(max-width: 96ch){
+	body > header{
+		position: fixed;
+	}
+
+	body > header li:first-child > a{
+		width: 90px;
+		height: 21px;
+	}
 }
 
 @media(max-width: 65ch){

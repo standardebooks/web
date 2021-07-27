@@ -276,6 +276,9 @@ do
 			printf "Done.\n"
 		fi
 
+		# Get the book URL
+		bookUrl=$(grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">.+?</dc:identifier>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/.*?url:https:\/\/standardebooks.org(.*?)<.*/\1/g")
+
 		# Get the last commit date so that we can update the modified timestamp in
 		# deployed content.opf. generate-opds uses this timestamp in its output.
 		modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
@@ -291,7 +294,7 @@ do
 			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/www/css/web.css" "${workDir}"
 
 			# Add a navbar with a link back to the homepage
-			sed --in-place --regexp-extended 's/<body(.*?)>/<body\1><header><nav><ul><li><a href="\/">Standard Ebooks<\/a><\/li><\/ul><\/nav><\/header>/' "${workDir}"/single-page.xhtml
+			sed --in-place --regexp-extended "s|<body(.*?)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li></ul></nav></header>|" "${workDir}"/single-page.xhtml
 
 			# Adjust sponsored links in the colophon
 			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.xhtml
@@ -320,7 +323,6 @@ do
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g"
 
 		# Add the nav to each page
-		bookUrl=$(grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">.+?</dc:identifier>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/.*?url:(.*?)<.*/\1/g")
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s%<body(.*?)>%<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li><li><a href=\"${bookUrl}/text\">Table of contents</a></li></ul></nav></header>%"
 
 		# Adjust sponsored links in the colophon
