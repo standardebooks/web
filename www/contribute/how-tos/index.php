@@ -14,6 +14,9 @@ require_once('Core.php');
 		<li>
 			<p><a href="/contribute/how-tos/illustrations-music">How to create figures for music scores</a></p>
 		</li>
+		<li>
+			<p><a href="/contribute/how-tos/review">How to review a production before it is published</a></p>
+		</li>
 	</ul>
 </article>
 </main>
