@@ -16,6 +16,7 @@ body > header{
 	background: #fff;
 	border-bottom: 1px solid #999;
 	box-shadow: 0 0 3px #ccc;
+	z-index: 1000; /* Required so that SVGs don't scroll over the header */
 }
 
 body > header ul{
