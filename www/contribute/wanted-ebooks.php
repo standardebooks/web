@@ -122,9 +122,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/605">Pellucidar</a> (Pellucidar 2) by Edgar Rice Burroughs</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/78">Tarzan of the Apes</a> by Edgar Rice Burroughs</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/81">The Return of Tarzan</a> (Tarzan 2) by Edgar Rice Burroughs</p>
 			</li>
@@ -185,9 +185,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/61077">The King of Elfland’s Daughter</a> by Lord Dunsany</p>
 			</li> -->
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/30188">The Fifth Queen</a> by Ford Madox Ford (Book 1 in the Fifth Queen Trilogy)</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/26698">Privy Seal</a> by Ford Madox Ford (Book 2 in the Fifth Queen Trilogy)</p>
 			</li>
@@ -672,6 +672,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/45847">The Autobiography of Thomas Jefferson</a>, by Thomas Jefferson</p>
+			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/1200">Gargantua and Pantagruel</a> by François Rabelais (Confirm this is the Ozell 1737 revision. Should we prefer the Wallis 1897 revision?)</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
