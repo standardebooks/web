@@ -86,9 +86,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3756">The Indiscretions of Archie</a> by P. G. Wodehouse</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
 			</li>
