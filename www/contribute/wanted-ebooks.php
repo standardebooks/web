@@ -224,9 +224,6 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/901">The Jew of Malta</a> by Christopher Marlowe (#12 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/39858">Trilby</a> by George du Maurier (#15 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
@@ -414,9 +411,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37892">The Recollections of Alexis de Tocqueville</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1709">New Grub Street</a> by George Gissing (part of the Guardian 2015 and BBC 2015 collections)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p>
