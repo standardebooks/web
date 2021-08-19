@@ -16,7 +16,7 @@ require_once('Core.php');
 				<p>Run <code class="bash"><b>se</b> modernize-spelling <u>.</u></code> at the root of the project directory. Note that this tool may not catch all archaic words. Prudent use of text editor spellcheckers can help picking up some of these. When in doubt, refer to the appropriate authority of spelling as noted in the <a href="/manual/latest/single-page#8.2.9">Manual</a>. Many words that are hyphenated in the past (<abbr>e.g.</abbr> <em>to-morrow</em>) are in modern times concatenated. <em>However</em>, these hyphens should all be retained in poetry . That said, obvious sound-alike spelling modernization should be made and accepted.</p>
 			</li>
 			<li>
-				<h2>Semanitcate</h2>
+				<h2>Semanticate</h2>
 				<p>Run <code class="bash"><b>se</b> semanticate <u>.</u></code> at the root of the project directory. Unlike <code class="bash"><b>se</b> typogrify</code> or <code class="bash"><b>se</b> modernize-spelling</code>, <code class="bash"><b>se</b> semanticate</code> is more prone to error or false positives. Judicious use of the <code class="bash"><b>git</b> diff</code> command listed in Step 1 would be needed to prevent and revert any unwanted changes.</p>
 			</li>
 			<li>
