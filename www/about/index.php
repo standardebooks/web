@@ -144,9 +144,6 @@ require_once('Core.php');
 						<p>John Jarvis</p>
 					</li>
 					<li>
-						<p>Eric Lim</p>
-					</li>
-					<li>
 						<p>Brandon Sowers</p>
 					</li>
 					<li>
