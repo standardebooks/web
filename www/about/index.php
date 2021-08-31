@@ -114,9 +114,6 @@ require_once('Core.php');
 				<p><a href="/donate">Join the Patrons Circle</a> and support the beauty of literature in the digital age.</p>
 				<ol class="donors patrons">
 					<li>
-						<p>Michael Barrineau</p>
-					</li>
-					<li>
 						<p>Derrick Burns</p>
 					</li>
 					<li>
