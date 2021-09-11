@@ -224,6 +224,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/224">A Pair of Blue Eyes</a> by Thomas Hardy</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/39858">Trilby</a> by George du Maurier (#15 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
@@ -469,9 +472,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/12901">Moon-Voyage (Parts 1 and 2)</a> <i>De la Terre à la Lune</i> by Jules Verne</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8991">The Fur Country: Seventy Degrees North Latitude</a> <i>Le Pays des fourrures</i> by Jules Verne</p>
 			</li>
