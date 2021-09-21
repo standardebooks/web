@@ -220,6 +220,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/34135">A Book-Lover’s Holidays in the Open</a> by Theodore Roosevelt</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/121">Northanger Abbey</a> by Jane Austen</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
@@ -406,9 +409,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1280">Spoon River Anthology</a> by Edgar Lee Masters</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/601">The Monk: A Romance</a> by M. G. Lewis (Note this appears to be the 2nd edition, we don’t want the 4th edition)</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/51783">The Blazing World</a> by Margaret Cavendish (need significant work lowercasing gratuitous old-timey capitalization)</p>
 			</li>
@@ -598,9 +601,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3090">Short Stories by Guy de Maupassant</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/5267">Sister Carrie</a> by Theodore Dreiser (Part of the Modern Library and Guardian 2015 100 best novels collections)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6798">Aesthetical Essays</a> by Friedrich Schiller</p>
 			</li>
