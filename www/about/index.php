@@ -132,13 +132,16 @@ require_once('Core.php');
 						<p>Maxwell Collins-Shenfield</p>
 					</li>
 					<li>
+						<p>Alec Feather</p>
+					</li>
+					<li>
+						<p>Wilhelm Fitzpatrick</p>
+					</li>
+					<li>
 						<p>Carey Handfield</p>
 					</li>
 					<li>
 						<p>Curtis Hendzell</p>
-					</li>
-					<li>
-						<p>Wilhelm Fitzpatrick</p>
 					</li>
 					<li>
 						<p>John Jarvis</p>
