@@ -48,7 +48,6 @@ require_once('Core.php');
 					</li>
 				</ul>
 				<p>Each of those sources allows you to filter results by publication date, so make sure you select <?= PD_YEAR ?> and earlier to ensure they’re in the U.S. public domain.</p>
-				<p>If you can’t find scans of your book at the above sources, and you’re using a Project Gutenberg transcription as source material, there’s a good chance that <a href="https://pgpd.net">PGDP</a> (the sister project of Project Gutenberg that does the actual transcriptions) <a href="https://www.pgdp.org/ols/">has a copy of the scans they used accessible in their archives</a>. You should only use the PGDP archives as a last resort; because their scans are not searchable, verifying typos becomes extremely time-consuming.</p>
 				<p>Please keep the following important notes in mind when searching for page scans:</p>
 				<ul>
 					<li>
