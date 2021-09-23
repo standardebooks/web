@@ -410,9 +410,6 @@ class Ebook{
 			elseif(mb_stripos($e, 'books.google.com/') !== false || mb_stripos($e, 'google.com/books/') !== false){
 				$this->Sources[] = new EbookSource(SOURCE_GOOGLE_BOOKS, $e);
 			}
-			elseif(mb_stripos($e, 'www.pgdp.org/ols/') !== false){
-				$this->Sources[] = new EbookSource(SOURCE_DP_OLS, $e);
-			}
 			elseif(mb_stripos($e, 'www.fadedpage.com') !== false){
 				$this->Sources[] = new EbookSource(SOURCE_FADED_PAGE, $e);
 			}
