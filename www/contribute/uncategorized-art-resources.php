@@ -40,11 +40,11 @@ require_once('Core.php');
 			<li><a href="https://archive.org/stream/studiointernatio54lond#page/8/mode/thumb">Studio international</a></li>
 			<li><a href="https://books.google.com/books?id=q7GUsAXiiA4C">The Magazine of Art</a></li>
 			<li><a href="https://books.google.com/books?id=sdJAAAAAYAAJ">Cubists and Post-impressionism - Arthur Jerome Eddy</a></li>
-			<li><a href="https://catalog.hathitrust.org/Record/100344340">Catalog Record: L&amp;#39;art flamand</a></li>
-			<li><a href="https://catalog.hathitrust.org/Record/100445834">Catalog Record: L&amp;#39;école belge de peinture, 1830-1905</a></li>
+			<li><a href="https://catalog.hathitrust.org/Record/100344340">Catalog Record: L'art flamand</a></li>
+			<li><a href="https://catalog.hathitrust.org/Record/100445834">Catalog Record: L'école belge de peinture, 1830-1905</a></li>
 			<li><a href="https://catalog.hathitrust.org/Record/100578657">Catalog Record: Fernand Khnopff</a></li>
 			<li><a href="https://catalog.hathitrust.org/Record/000640739">Catalog Record: Gazette des beaux-arts (FULL SERIES)</a></li>
-			<li><a href="https://archive.org/stream/catalogueofficiel00expo#page/40/mode/thumb">Catalogue officiel illustré de l&amp;#39;Exposition cen...</a></li>
+			<li><a href="https://archive.org/stream/catalogueofficiel00expo#page/40/mode/thumb">Catalogue officiel illustré de l'Exposition cen...</a></li>
 			<li><a href="https://babel.hathitrust.org/cgi/pt?id=njp.32101067654994;view=1up;seq=6">Offizieller Katalog der Internationalen Kunst-Ausstellung (1899).</a></li>
 			<li><a href="https://babel.hathitrust.org/cgi/pt?id=wu.89057259921;view=1up;seq=23">British painting, by Irene Maguinness.</a></li>
 			<li><a href="https://books.google.com/books?id=Jl9OAQAAMAAJ">Illustrated Catalogue: Paintings in the Metropolitan Museum of Art, New York - George Henry Story</a></li>
@@ -57,16 +57,16 @@ require_once('Core.php');
 			<li><a href="https://books.google.com/books?id=mEpGAQAAIAAJ">Meissonier, his life and his art - Jean Louis Ernest Meissonier, Octave Gréard</a></li>
 			<li><a href="https://babel.hathitrust.org/cgi/pt?id=gri.ark:/13960/t4fn6k42j;view=thumb;seq=41">Catalogue of the annual exhibition / The Pennsylvania 1905.</a></li>
 			<li><a href="https://books.google.com/books?id=xCtAAAAAYAAJ">Zur Geschichte der Düsseldorfer Kunst insbesondere im xix. Jahrhundert - Friedrich Schaarschmidt</a></li>
-			<li><a href="https://books.google.com/books?id=v7hHAQAAIAAJ">Bryan&amp;#39;s dictionary of painters and engravers - Michael Bryan, George Charles Williamson</a></li>
-			<li><a href="https://archive.org/details/memorialexhibiti00eaki">Memorial exhibition of the works of the late Thomas Eakins, beginning December 23, 1917 and continuing through January 13, 1918 : Eakins, Thomas, 1844-1916</a></li>
+			<li><a href="https://books.google.com/books?id=v7hHAQAAIAAJ">Bryan's dictionary of painters and engravers - Michael Bryan, George Charles Williamson</a></li>
+			<li><a href="https://archive.org/details/memorialexhibiti00eaki">Memorial exhibition of the works of the late Thomas Eakins, beginning December 23, 1917 and continuing through January 13, 1918: Eakins, Thomas, 1844-1916</a></li>
 			<li><a href="https://books.google.com/books?id=CSFbAAAAYAAJ">Kunst und Künstler: Illustrierte Monatsschrift für bildende Kunst und - Karl Scheffler</a></li>
 			<li><a href="https://catalog.hathitrust.org/Record/000415396">Catalog Record: Gauguin et le groupe de Pont-Aven. Documents...</a></li>
-			<li><a href="https://catalog.hathitrust.org/Record/000062223">Catalog Record: Salon of the &amp;amp;quot;Nationale</a></li>
+			<li><a href="https://catalog.hathitrust.org/Record/000062223">Catalog Record: Salon of the Nationale</a></li>
 			<li><a href="https://books.google.com/books?id=JAcrAAAAYAAJ">Academy Notes</a></li>
 			<li><a href="https://books.google.com/books?id=etcwAQAAMAAJ">Great Painters of the XLX Century and Their Paintings - Léonce Bénédite</a></li>
 			<li><a href="https://catalog.hathitrust.org/Record/005722615">Catalog Record: Catalogue of paintings and drawings</a></li>
 			<li><a href="https://books.google.com/books?id=nH9HAQAAMAAJ">The International Studio</a></li>
-			<li><a href="https://books.google.com/books?id=B6saAAAAYAAJ&amp;">Exhibition: Oil Paintings by Contemporary American Artists</a></li>
+			<li><a href="https://books.google.com/books?id=B6saAAAAYAAJ">Exhibition: Oil Paintings by Contemporary American Artists</a></li>
 			<li><a href="https://books.google.com/books?id=oYdLAQAAMAAJ">Catalogue of the Annual Exhibition of the Pennsylvania Academy of the</a></li>
 			<li><a href="https://catalog.hathitrust.org/Record/000523379">Catalog Record: Studio international</a></li>
 			<li><a href="https://books.google.com/books?id=xCtAAAAAYAAJ">Zur Geschichte der Düsseldorfer Kunst insbesondere im xix. Jahrhundert</a></li>
