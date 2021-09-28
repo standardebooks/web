@@ -82,6 +82,7 @@ require_once('Core.php');
 			<li><a href="https://babel.hathitrust.org/cgi/pt?id=umn.31951001591477w;view=thumb">Belgian Art in Exile</a></li>
 			<li><a href="https://archive.org/stream/expositiongn1907expo">Exposition Generale des Beaux-Arts Bruxelles 1907</a></li>
 			<li><a href="https://books.google.com/books?id=91FJAQAAMAAJ">Grützner</a></li>
+			<li><a href="https://babel.hathitrust.org/cgi/pt?id=mdp.39015014058963">Junge Kunst Wassily Kandinsky (Good for geometric/cubist art)</a></li>
 		</ul>
 	</article>
 </main>
