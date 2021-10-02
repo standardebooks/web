@@ -223,6 +223,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/121">Northanger Abbey</a> by Jane Austen</p>
 			</li>
+			<li>
+				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
