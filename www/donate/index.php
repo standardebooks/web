@@ -18,15 +18,40 @@ require_once('Core.php');
 			<p><a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a 501(c)(3) public charity, is our fiscal sponsor. Your donation will be processed through their website, and their name will appear on your financial statements and receipts. Donations are tax-deductible to the extent permitted by law.</p>
 			<p class="button-row">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a one-time donation</a>
-				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Make a monthly donation</a>
+				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Start a monthly donation</a>
 			</p>
 		</section>
-		<section id="monthly">
-			<h2>Join the Patrons Circle</h2>
-			<p>Start a monthly donation of $10/month or more, and your name will be listed as a Patrons Circle donor on our <a href="/about#masthead">masthead</a> for the duration of your gift.</p>
-			<p>Your monthly donation is crucial to ensuring we can continue producing high-quality editions of literature for the digital age. We can’t do it without your support!</p>
+		<section id="friends">
+			<h2>Become a Friend of Standard Ebooks</h2>
+			<p>Start a monthly donation of $10/month to become a Friend of Standard Ebooks.</p>
+			<ul>
+			<li>
+				<p>Friends of Standard Ebooks have their name listed on our <a href="/about#masthead">masthead</a> for the duration of their gift.</p>
+			</li>
+			<li>
+				<p>Once per quarter, Friends of Standard Ebooks may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a>.)</p>
+			</li>
+		</ul>
 			<p class="button-row center">
-				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>
+				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month</a>
+			</p>
+		</section>
+		<section id="patrons-circle">
+			<h2>Join the Patrons Circle</h2>
+			<p>Start a monthly donation of $20/month or more to become a member of the Patrons Circle. <strong>For less than the cost of a meal at a nice restaurant, Patrons Circle members have a direct voice in shaping the future of the Standard Ebooks catalog.</strong></p>
+			<ul>
+				<li>
+					<p>Patrons Circle members have their name listed on our <a href="/about#masthead">masthead</a> for the duration of their gift.</p>
+				</li>
+				<li>
+					<p>Once per quarter, Patrons Circle members may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a>.)</p>
+				</li>
+				<li>
+					<p><strong>Once per month, members of the Patrons Circle vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production.</strong> The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
+				</li>
+			</ul>
+			<p class="button-row center">
+				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $20/month or more</a>
 			</p>
 		</section>
 		<section id="sponsor-an-ebook">
@@ -36,7 +61,7 @@ require_once('Core.php');
 			<p><em>Before you make your donation</em>, <a href="/about#masthead">contact the S.E. Editor-in-Chief</a> to confirm that your ebook selection will be accepted at your chosen donation level. These are the general rules:</p>
 			<ul>
 				<li>
-					<p>Your selection must meet our <a href="/contribute/collections-policy">collections policy</a>. The S.E. Editor-in-Chief reserves the right to modify or reject a selection for any reason.</p>
+					<p>Your selection must conform to our <a href="/contribute/collections-policy">collections policy</a>. The S.E. Editor-in-Chief reserves the right to modify or reject a selection for any reason.</p>
 				</li>
 				<li>
 					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">O.C.R.</a> output.</p>
@@ -104,8 +129,16 @@ require_once('Core.php');
 		</section>
 		<section id="corporate-sponsors">
 			<h2>Corporate sponsorships</h2>
-			<p>Sponsorships at the corporate level are a great way to show your organization’s commitment to the support of the literate arts. Corporate sponsors have their logo and a link <a href="/about">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
-			<p>To inquire about options, contact the <a href="/about#editor-in-chief">Standard Ebooks Editor-in-Chief</a>.</p>
+			<p>Sponsorships at the corporate level are a great way to show your organization’s commitment to the support of the literate arts.</p>
+			<ul>
+				<li>
+					<p>Your organization’s logo and a link will be <a href="/about">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
+				</li>
+				<li>
+					<p>Get a customized <abbr class="acronym">MARC</abbr> feed of our ebook catalog for use in your business for the duration of your sponsorship.</p>
+				</li>
+			</ul>
+			<p>To inquire about sponsorship options, contact the <a href="/about#editor-in-chief">Standard Ebooks Editor-in-Chief</a>.</p>
 		</section>
 		<aside>
 			<p>Standard Ebooks is a sponsored project of <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a non-profit arts service organization. Contributions for the charitable purposes of Standard Ebooks must be made payable to “Fractured Atlas” only and are tax-deductible to the extent permitted by law.</p>

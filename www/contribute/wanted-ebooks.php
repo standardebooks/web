@@ -7,6 +7,9 @@ require_once('Core.php');
 		<p>If you’re interested in producing an ebook for Standard Ebooks, why not work on one of these books?</p>
 		<p>If something in this list interests you, please <a href="https://groups.google.com/g/standardebooks">contact us at our mailing list</a> for help before you start work.</p>
 		<p>If you want to suggest a different book to produce, please carefully review <a href="/contribute/collections-policy">the kinds of work we do and don’t accept</a>.</p>
+		<h2>Add a book to this list</h2>
+		<p><a href="/donate#friends">Friends of Standard Ebooks</a> and <a href="/donate#patrons-circle">Patrons Circle members</a> may submit ebooks for inclusion on this list.</p>
+		<p>Each month, Patrons Circle members vote on a selection from this list to pick one ebook for immediate production. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> to have a voice in the future of the Standard Ebooks catalog.</p>
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
@@ -167,9 +170,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3809">Master of the World</a> <i>Maître du monde</i> by Jules Verne</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/1355">The Child of the Cavern</a> <i>Les Indes noires</i> by Jules Verne</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1652">The Survivors of the Chancellor</a> <i>Le Chancellor</i> by Jules Verne</p>
 			</li>
@@ -182,9 +182,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/171">Charlotte Temple</a> by Susanna Rowson</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/61077">The King of Elfland’s Daughter</a> by Lord Dunsany</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/30188">The Fifth Queen</a> by Ford Madox Ford (Book 1 in the Fifth Queen Trilogy)</p>
 			</li>
