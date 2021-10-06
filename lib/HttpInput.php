@@ -34,7 +34,7 @@ class HttpInput{
 	}
 
 	private static function GetHttpVar(string $variable, int $type, int $set, $default){
-		$vars = array();
+		$vars = [];
 
 		switch($set){
 			case GET:

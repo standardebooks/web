@@ -7,7 +7,7 @@ use function Safe\krsort;
 use function Safe\preg_replace;
 use function Safe\strtotime;
 
-$longopts = array("webroot:", "weburl:");
+$longopts = ["webroot:", "weburl:"];
 $options = getopt("", $longopts);
 $webRoot = $options["webroot"] ?? "/standardebooks.org/web";
 $webUrl = $options["weburl"] ?? "https://standardebooks.org";
