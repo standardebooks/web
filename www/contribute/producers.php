@@ -11,7 +11,7 @@ require_once('Core.php');
 				<p>Review the <a href="/contribute/collections-policy">kinds of ebooks we do and don’t accept</a>.</p>
 			</li>
 			<li>
-				<p>Find a good first production in our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, or if there’s nothing there that interests you, find a straightforward prose work of no longer than about 40–60,000 words, without much complex formatting like poetry, letters, tables, diagrams, or illustrations.</p>
+				<p>Find a good first production in our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, or if there’s nothing there that interests you, find a straightforward prose work of no longer than about 100,000 words, without much complex formatting like poetry, letters, tables, diagrams, or illustrations.</p>
 				<p>We ask this of first producers because our production process is complex and detail-oriented. Producers who start on longer work often abandon the attempt, and even if they succeed, first productions are very error-prone; long works thus become a burden on the reviewer.</p>
 				<p>After your first production is complete, you can move on to working on longer or more complex works.</p>
 			</li>

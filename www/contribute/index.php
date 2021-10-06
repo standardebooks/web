@@ -26,7 +26,7 @@ require_once('Core.php');
 			</ul>
 		</section>
 		<section id="editors-and-readers">
-			<h2>Readers of existing ebooks</h2>
+			<h2>For readers</h2>
 			<ul>
 				<li>
 					<p><a href="/contribute/report-errors">Report a typo, formatting error, or typography error in any Standard Ebook.</a></p>
@@ -40,19 +40,19 @@ require_once('Core.php');
 			</ul>
 		</section>
 		<section id="technical-contributors">
-			<h2>Technical contributors and producers of new ebooks</h2>
+			<h2>For people wanting to produce a new ebook, and other technical contributors</h2>
 			<ul>
-				<li>
-					<p><a href="/contribute/collections-policy">Our collections policy, or, ebooks we do and don’t accept.</a></p>
-				</li>
-				<li>
-					<p><a href="/contribute/wanted-ebooks">Our Wanted Ebooks list, including suggestions for first-time productions.</a></p>
-				</li>
 				<li>
 					<p><a href="/contribute/producers">The process of producing an ebook for Standard Ebooks.</a></p>
 				</li>
 				<li>
-					<p><a href="/contribute/producing-an-ebook-step-by-step">A technical step-by-step guide to producing a new ebook, from start to finish.</a></p>
+					<p><a href="/contribute/collections-policy">Our collections policy</a>, or, ebooks we do and don’t accept.</p>
+				</li>
+				<li>
+					<p><a href="/contribute/wanted-ebooks">Our Wanted Ebooks list</a>, including suggestions for first-time productions.</p>
+				</li>
+				<li>
+					<p><a href="/contribute/producing-an-ebook-step-by-step">A technical step-by-step guide to producing a new ebook from start to finish.</a></p>
 				</li>
 				<li>
 					<p><b><a href="/manual">The Standard Ebooks Manual of Style.</a></b></p>
