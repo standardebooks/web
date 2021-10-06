@@ -597,7 +597,7 @@ h1 + section > h2:first-child{
 
 .miniheader{
 	text-align: center;
-	font-size: 1rem;
+	font-size: 1.2rem;
 	font-family: "Crimson Pro", Georgia, serif;
 	font-style: italic;
 	font-weight: normal;
@@ -2049,6 +2049,10 @@ article.step-by-step-guide ol ol{
 
 .full-width img{
 	width: 100%;
+}
+
+abbr.acronym{
+	font-variant: all-small-caps;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */

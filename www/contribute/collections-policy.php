@@ -8,16 +8,17 @@ require_once('Core.php');
 			<h2 class="miniheader">Or, ebooks we do and don’t accept.</h2>
 		</hgroup>
 		<p>Standard Ebooks only works on books that have entered the U.S. public domain due to copyright expiration. Generally this means a book must have been published in <?= PD_YEAR ?> or earlier, though there are exceptions for works from later periods that didn’t follow copyright formalities. For more information on determining the copyright status of a work in the U.S., see <a href="https://www.gutenberg.org/help/copyright.html">Project Gutenberg’s Copyright How-To</a>.</p>
+		<p>Note that a book that is in the U.S. public domain may not be in the public domain of other countries, and vice versa.</p>
 		<h2>Types of ebooks we do accept</h2>
 		<ul>
 			<li>
 				<p>Most long fiction, including plays.</p>
 			</li>
 			<li>
-				<p>Most short fiction and poetry, when presented in collections or omnibuses. We consider short fiction to be works less than 40,000 words in length, which typically includes novellas.</p>
+				<p>Most short fiction and poetry, when presented in collections or omnibuses. We consider short fiction to be works less than 40,000 words in length, a length that typically includes novellas. Some independent short works may be produced individually on a case-by-case basis.</p>
 			</li>
 			<li>
-				<p>Some “timeless” non-fiction, including philosophy and notable autobiography.</p>
+				<p>Some “timeless” non-fiction, including philosophy, travelogue, classics from antiquity, and notable autobiography.</p>
 			</li>
 		</ul>
 		<h2>Types of ebooks we don’t accept</h2>
@@ -65,13 +66,13 @@ require_once('Core.php');
 				<p>“The complete works”-type ebooks, in which an author who wrote in various styles (like poetry, short stories, and novels) has their entire corpus compiled into one ebook. However we <em>are</em> interested in complete collections of <em>single types of writing</em>. For example, Anton Chekhov wrote many plays, short stories, novels, and novellas. We <em>wouldn’t</em> accept “The Complete Works of Anton Chekhov,” but we <em>would</em> accept <i><a href="/ebooks/anton-chekhov/short-fiction/constance-garnett">Anton Chekhov’s Complete Short Fiction</a></i>, or individual novels or plays he wrote.</p>
 			</li>
 			<li>
-				<p>Ebooks in translation for which we already have a translation. We aim to host one “best” version of books; for example, we already have a modern translation of <i><a href="/ebooks/jules-verne/twenty-thousand-leagues-under-the-seas/f-p-walter">Twenty Thousand Leagues Under the Seas</a></i>, so we won’t be accepting a different translation.</p>
+				<p>Ebooks in translation for which we already have a translation. We aim to host one “best” version of books; for example, we already have a translation of <i><a href="/ebooks/dante-alighieri/the-divine-comedy/henry-wadsworth-longfellow">The Divine Comedy</a></i>, so we won’t be accepting a different translation.</p>
 			</li>
 			<li>
 				<p>Non-English-language books. Translations to English are, of course, OK.</p>
 			</li>
 			<li>
-				<p>Translations into English which are severely abridged, Bowdlerized, wildly archaic or near-unreadable to modern readers, or which scholars agree are poor translations.</p>
+				<p>Translations into English which are severely abridged, Bowdlerized, wildly archaic or near-unreadable to modern readers, or which scholars agree are poor translations. For example, the only public domain translations of <i>Twenty Thousand Leagues Under the Seas</i> are ones widely considered to be slapdash, thus we will not accept them.</p>
 			</li>
 		</ul>
 	</article>
