@@ -29,7 +29,7 @@ require_once('Core.php');
 				<p>Friends of Standard Ebooks have their name listed on our <a href="/about#masthead">masthead</a> for the duration of their gift.</p>
 			</li>
 			<li>
-				<p>Once per quarter, Friends of Standard Ebooks may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a>.)</p>
+				<p>Once per quarter, Friends of Standard Ebooks may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and may be subject to approval.)</p>
 			</li>
 		</ul>
 			<p class="button-row center">
@@ -44,7 +44,7 @@ require_once('Core.php');
 					<p>Patrons Circle members have their name listed on our <a href="/about#masthead">masthead</a> for the duration of their gift.</p>
 				</li>
 				<li>
-					<p>Once per quarter, Patrons Circle members may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a>.)</p>
+					<p>Once per quarter, Patrons Circle members may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and may be subject to approval.)</p>
 				</li>
 				<li>
 					<p><strong>Once per month, members of the Patrons Circle vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production.</strong> The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
@@ -135,7 +135,7 @@ require_once('Core.php');
 					<p>Your organization’s logo and a link will be <a href="/about">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
 				</li>
 				<li>
-					<p>Get a customized <abbr class="acronym">MARC</abbr> feed of our ebook catalog for use in your business for the duration of your sponsorship.</p>
+					<p>Get customized <abbr class="acronym">ONIX</abbr>, OPDS, or RSS feeds of our ebook catalog for use by your organization for the duration of your sponsorship.</p>
 				</li>
 			</ul>
 			<p>To inquire about sponsorship options, contact the <a href="/about#editor-in-chief">Standard Ebooks Editor-in-Chief</a>.</p>
