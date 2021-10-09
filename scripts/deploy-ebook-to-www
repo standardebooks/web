@@ -400,7 +400,12 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding new releases RSS feed ... "
 fi
 
-bash -c "php \"${scriptsDir}\"/generate-rss.php --webroot \"${webRoot}\" --weburl \"${webUrl}\" > \"${webRoot}\"/www/rss/new-releases.xml"
+output=$(php "${scriptsDir}/generate-rss.php" --webroot "${webRoot}" --weburl "${webUrl}")
+
+# Check the return code; if the script failed (for example invalid XML in content.opf), don't overwrite the existing feed with a blank file
+if [ $? = 0 ]; then
+	echo "${output}" > "${webRoot}/www/rss/new-releases.xml"
+fi
 
 if [ "${verbose}" = "true" ]; then
 	printf "Done.\n"
