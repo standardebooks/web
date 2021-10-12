@@ -35,7 +35,7 @@ require_once('Core.php');
 			<li>
 				<h2>Locate page scans of your book online</h2>
 				<p>As you produce your book, you’ll want to check your work against the actual page scans. Often the scans contain formatting that is missing from the source transcription. For example, older transcriptions sometimes throw away italics entirely, and you’d never know unless you looked at the page scans. So finding page scans is essential.</p>
-				<p>Below are some good sources for page scans:</p>
+				<p>Below are the three big resources for page scans. You should prefer them in this order:</p>
 				<ul>
 					<li>
 						<p><a href="https://archive.org">The Internet Archive</a></p>
@@ -47,6 +47,7 @@ require_once('Core.php');
 						<p><a href="https://books.google.com">Google Books</a></p>
 					</li>
 				</ul>
+				<p>Internet Archive has the widest amount of scans, with the most permissive viewing and lending policy. Hathi Trust has many of the same scans as Google Books, but with a more permissive viewing policy. Google Books restricts readers based on IP address and does a poor job of implementing per-country copyright law, so people outside of the U.S. may not be able to access scans of books that are in the public domain of their country.</p>
 				<p>Each of those sources allows you to filter results by publication date, so make sure you select <?= PD_YEAR ?> and earlier to ensure they’re in the U.S. public domain.</p>
 				<p>Please keep the following important notes in mind when searching for page scans:</p>
 				<ul>
