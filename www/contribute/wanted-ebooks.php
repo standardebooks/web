@@ -223,6 +223,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/7132">The Purple Land</a> by W. H. Huson</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
