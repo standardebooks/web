@@ -157,7 +157,7 @@ require_once('Core.php');
 			<section id="friends">
 				<h3>Friends of Standard Ebooks</h3>
 				<p><a href="/donate#friends">Become a Friend of Standard Ebooks</a> and support the beauty of literature in the digital age.</p>
-				<ol>
+				<ol class="donors patrons">
 					<li>
 						<p>Patrick Weyer</p>
 					</li>
