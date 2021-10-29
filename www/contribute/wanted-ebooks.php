@@ -254,9 +254,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
 			</li>
 			<li>
-				<p><a href="http://www.gutenberg.org/ebooks/10984">Growth of the Soil</a> by Knut Hamsun</p>
-			</li>
-			<li>
 				<p><a href="http://gutenberg.org/ebooks/6627">Barriers Burned Away</a> by Edward Payson Roe</p>
 			</li>
 			<li>
