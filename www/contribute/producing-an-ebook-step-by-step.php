@@ -222,6 +222,10 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Once you’ve run <code class="bash"><b>se</b> typogrify</code> and you’ve searched the work for the common issues above, you can perform your second commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Typogrify"</i></span></code>
 			</li>
 			<li>
+				<h2>Check for transcription errors</h2>
+				<p>Transcriptions often have errors, because the O.C.R. software might confuse letters for other, more unusual characters, or because the ebook’s character set got mangled somewhere along the way from the source to your repository. You’ll find most transcription errors when you proofread the text, but right now you use the <code class="bash"><b>se</b> find-unusual-characters</code> tool to see a list of any unusual characters in the transcription. If the tool outputs any, check the source to make sure those characters aren’t errors.</p>
+			</li>
+			<li>
 				<h2>Convert footnotes to endnotes and add a list of illustrations</h2>
 				<p>Works often include footnotes, either added by an annotator or as part of the work itself. Since ebooks don’t have a concept of a “page,” there’s no place for footnotes to go. Instead, we convert footnotes to a single endnotes file, which will provide popup references in the final epub.</p>
 				<p>The endnotes file and the format for endnote links are <a href="/manual/latest/7-high-level-structural-patterns#7.10">standardized in the <abbr class="acronym">SEMoS</abbr></a>.</p>
