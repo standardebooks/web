@@ -15,9 +15,6 @@ require_once('Core.php');
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/14396">His Family</a> by Ernest Poole (Pulitzer winner #1)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/59845">The Able McLaughlins</a> by Margaret Wilson (Pulitzer winner #6)</p>
 			</li>
 			<li>
@@ -310,9 +307,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction by Frederik Pohl</a></p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/432">The Ambassadors</a> by Henry James (<a href="https://www.gutenberg.org/ebooks/30059">vol. 2</a>) (Part of the Modern Library’s 100 best novels)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/90">The Son of Tarzan</a> (Tarzan 4) by Edgar Rice Burroughs</p>
 			</li>
