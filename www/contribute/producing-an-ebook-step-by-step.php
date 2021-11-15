@@ -382,28 +382,6 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;![Ee]ach and )([Ee])very one(?!\s+of)' "\1veryone"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
-						<h3>every thing ➔ everything</h3>
-						<table>
-							<tbody>
-								<tr>
-									<td>Correct change:</td>
-									<td>
-										<p><code class="html">Equip a ship with every thing apt for naval battle.</code> ➔</p>
-										<p><code class="html">Equip a ship with everything apt for naval battle.</code></p>
-									</td>
-								</tr>
-								<tr>
-									<td>Incorrect change:</td>
-									<td>
-										<p><code class="html">For there was no one more clever than he to do a hand’s turn at any and every thing.</code> ➔</p>
-										<p><code class="html"><span class="wrong">For there was no one more clever than he to do a hand’s turn at any and everything.</span></code></p>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"([Ee])very thing" "\1verything"</i> src/epub/text/<i class="glob">*</i></span></code>
-					</li>
-					<li>
 						<h3>any thing ➔ anything</h3>
 						<table>
 							<tbody>
@@ -498,20 +476,20 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 								<tr>
 									<td>Correct change:</td>
 									<td>
-										<p><code class="html">It is curious the unearthly glamour which moonlight seems to throw over every thing.</code> ➔</p>
-										<p><code class="html">It is curious the unearthly glamour which moonlight seems to throw over everything.</code></p>
+										<p><code class="html">Equip a ship with every thing apt for naval battle.</code> ➔</p>
+										<p><code class="html">Equip a ship with everything apt for naval battle.</code></p>
 									</td>
 								</tr>
 								<tr>
 									<td>Incorrect change:</td>
 									<td>
-										<p><code class="html">And every thing and every entity approaching New York Spaceport was combed, literally by the cubic millimeter.</code> ➔</p>
-										<p><code class="html"><span class="wrong">And everything and every entity approaching New York Spaceport was combed, literally by the cubic millimeter.</span></code></p>
+										<p><code class="html">For there was no one more clever than he to do a hand’s turn at any and every thing.</code> ➔</p>
+										<p><code class="html"><span class="wrong">For there was no one more clever than he to do a hand’s turn at any and everything.</span></code></p>
 									</td>
 								</tr>
 							</tbody>
 						</table>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"\b([Ee])very thing\b" "\1verything"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <i>"([Ee])very thing" "\1verything"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 				</ul>
 				<p>After you’ve reviewed the changes, create an <code class="html">[Editorial]</code> commit. This commit is important, because it gives purists an avenue to revert modernizing changes to the original text.</p>
