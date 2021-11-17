@@ -14,9 +14,9 @@ require_once('Core.php');
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/59845">The Able McLaughlins</a> by Margaret Wilson (Pulitzer winner #6)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61686">So Big</a> by Edna Ferber (Pulitzer winner #7) (Transcription is missing italics)</p>
 			</li>
