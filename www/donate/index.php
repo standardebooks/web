@@ -21,24 +21,9 @@ require_once('Core.php');
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Start a monthly donation</a>
 			</p>
 		</section>
-		<section id="friends">
-			<h2>Become a Friend of Standard Ebooks</h2>
-			<p>Start a monthly donation of $10/month to become a Friend of Standard Ebooks.</p>
-			<ul>
-			<li>
-				<p>Friends of Standard Ebooks have their name listed on our <a href="/about#masthead">masthead</a> for the duration of their gift.</p>
-			</li>
-			<li>
-				<p>Once per quarter, Friends of Standard Ebooks may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and may be subject to approval.)</p>
-			</li>
-		</ul>
-			<p class="button-row center">
-				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month</a>
-			</p>
-		</section>
 		<section id="patrons-circle">
 			<h2>Join the Patrons Circle</h2>
-			<p>Start a monthly donation of $20/month or more to become a member of the Patrons Circle. <strong>For less than the cost of a meal at a nice restaurant, Patrons Circle members have a direct voice in shaping the future of the Standard Ebooks catalog.</strong></p>
+			<p>Start a monthly donation of $10/month or more to become a member of the Patrons Circle. <strong>For less than the cost of a meal out, Patrons Circle members have a direct voice in shaping the future of the Standard Ebooks catalog.</strong></p>
 			<ul>
 				<li>
 					<p>Patrons Circle members have their name listed on our <a href="/about#masthead">masthead</a> for the duration of their gift.</p>
@@ -51,7 +36,7 @@ require_once('Core.php');
 				</li>
 			</ul>
 			<p class="button-row center">
-				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $20/month or more</a>
+				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>
 			</p>
 		</section>
 		<section id="sponsor-an-ebook">

@@ -111,7 +111,7 @@ require_once('Core.php');
 			</section>
 			<section id="patrons-circle">
 				<h3>Patrons Circle</h3>
-				<p><a href="/donate#patrons-circle">Join the Patrons Circle</a> to have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
+				<p><a href="/donate#patrons-circle">Join the Patrons Circle</a> to support free literature and to have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 				<ol class="donors patrons">
 					<li>
 						<p>Michael Barrineau</p>
@@ -150,16 +150,10 @@ require_once('Core.php');
 						<p>Brandon Sowers</p>
 					</li>
 					<li>
-						<p>Anonymous × 3</p>
-					</li>
-				</ol>
-			</section>
-			<section id="friends">
-				<h3>Friends of Standard Ebooks</h3>
-				<p><a href="/donate#friends">Become a Friend of Standard Ebooks</a> and support the beauty of literature in the digital age.</p>
-				<ol class="donors patrons">
-					<li>
 						<p>Patrick Weyer</p>
+					</li>
+					<li>
+						<p>Anonymous × 3</p>
 					</li>
 				</ol>
 			</section>

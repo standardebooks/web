@@ -8,7 +8,7 @@ require_once('Core.php');
 		<p>If something in this list interests you, please <a href="https://groups.google.com/g/standardebooks">contact us at our mailing list</a> for help before you start work.</p>
 		<p>If you want to suggest a different book to produce, please carefully review <a href="/contribute/collections-policy">the kinds of work we do and don’t accept</a>.</p>
 		<h2>Add a book to this list</h2>
-		<p><a href="/donate#friends">Friends of Standard Ebooks</a> and <a href="/donate#patrons-circle">Patrons Circle members</a> may submit ebooks for inclusion on this list.</p>
+		<p><a href="/donate#patrons-circle">Patrons Circle members</a> may submit ebooks for inclusion on this list.</p>
 		<p>Each month, Patrons Circle members vote on a selection from this list to pick one ebook for immediate production. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> to have a voice in the future of the Standard Ebooks catalog.</p>
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
