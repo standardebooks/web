@@ -245,7 +245,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (#38 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
-				<p>Gentlement Prefer Blondes by Anita Loos, transcript in progress <a href="https://www.pgdp.net/c/project.php?id=projectID5ff6baf1b5b4b">at PGDP</a>. Once the transcript is available, this may be suitable for a beginner.  (Part of the Guardian 2015 collection.)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/66829">Gentlemen Prefer Blondes</a> by Anita Loos (Part of the Guardian 2015 collection.)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
