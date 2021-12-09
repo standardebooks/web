@@ -3,6 +3,13 @@
 use function Safe\define;
 use function Safe\strtotime;
 
+const SITE_STATUS_LIVE = 		'live';
+const SITE_STATUS_DEV =			'dev';
+define('SITE_STATUS', getenv('SITE_STATUS') ?: SITE_STATUS_DEV); // Set in the PHP FPM pool configuration. Have to use define() and not const so we can use a function.
+
+const DATABASE_DEFAULT_DATABASE = 	'se';
+const DATABASE_DEFAULT_HOST = 		'localhost';
+
 const EBOOKS_PER_PAGE = 12;
 const SORT_NEWEST = 'newest';
 const SORT_AUTHOR_ALPHA = 'author-alpha';

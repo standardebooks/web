@@ -1,4 +1,5 @@
 <?
+
 class Collection{
 	public $Name;
 	public $Url;

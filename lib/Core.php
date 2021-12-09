@@ -24,3 +24,5 @@ set_exception_handler(function(Throwable $ex): void{
 
 	throw $ex; // Send the exception back to PHP for its usual logging routine.
 });
+
+$GLOBALS['DbConnection'] = new DbConnection(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
