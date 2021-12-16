@@ -86,15 +86,15 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3756">The Indiscretions of Archie</a> by P. G. Wodehouse</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/24742">Mary, Mary</a> by James Stephens</p>
 			</li>
