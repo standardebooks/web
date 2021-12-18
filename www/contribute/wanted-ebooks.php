@@ -251,9 +251,6 @@ require_once('Core.php');
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20160510">Those Barren Leaves</a> by Aldous Huxley</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/two_gentlemen/full.html">The Two Gentlemen of Verona</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/measure/full.html">Measure for Measure</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
@@ -264,9 +261,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/taming_shrew/full.html">The Taming of the Shrew</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/henryviii/full.html">Henry VIII</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/troilus_cressida/full.html">Troilus and Cressida</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
