@@ -221,6 +221,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://gutenberg.org/ebooks/445">The Crowd</a> by Gustave Le Bon</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/224">A Pair of Blue Eyes</a> by Thomas Hardy</p>
 			</li>
 			<li>
@@ -598,9 +601,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/38427">The World as Will and Idea</a> by Arthur Schopenhauer (<a href="https://www.gutenberg.org/ebooks/40097">Vol. 2</a>, <a href="https://www.gutenberg.org/ebooks/40868">Vol. 3</a>)</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/815">Democracy in America</a> by Alexis de Tocqueville (<a href="https://www.gutenberg.org/ebooks/816">Volume 2</a>, together as a single ebook)</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/The_Complete_Angler,_5th_edition">The Complete Angler</a> by Izaak Walton (Note: the Wikisource transcription will be easier to work with than the PG transcription.)</p>
 			</li>
