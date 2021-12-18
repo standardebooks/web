@@ -295,7 +295,7 @@ catch(\Exception $ex){
 			<p>Anyone can contribute to make a Standard Ebook better for everyone!</p>
 			<p>To report typos, typography errors, or other corrections, see <a href="/contribute/report-errors">how to report errors</a>.</p>
 			<? if($ebook->GitHubUrl !== null){ ?><p>If you’re comfortable with technology and want to contribute directly, check out <a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>">this ebook’s GitHub repository</a> and our <a href="/contribute">contributors section</a>.</p><? } ?>
-			<p>You can also <a href="/donate">donate to the Standard Ebooks project</a> to help fund continuing improvement of this and other ebooks.</p>
+			<p>You can also <a href="/donate">donate to Standard Ebooks</a> to help fund continuing improvement of this and other ebooks.</p>
 		</section>
 
 		<? if(sizeof($carousel) > 0){ ?>
