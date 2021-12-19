@@ -135,6 +135,9 @@ require_once('Core.php');
 						<p>Alec Feather</p>
 					</li>
 					<li>
+						<p>Mac Foster</p>
+					</li>
+					<li>
 						<p>Wilhelm Fitzpatrick</p>
 					</li>
 					<li>
