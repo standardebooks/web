@@ -150,6 +150,9 @@ require_once('Core.php');
 						<p>John Jarvis</p>
 					</li>
 					<li>
+						<p>Patrick Greeley Mahoney</p>
+					</li>
+					<li>
 						<p>Andrew Roach</p>
 					</li>
 					<li>
