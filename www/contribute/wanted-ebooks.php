@@ -119,9 +119,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/605">Pellucidar</a> (Pellucidar 2) by Edgar Rice Burroughs</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/78">Tarzan of the Apes</a> by Edgar Rice Burroughs</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/85">The Beasts of Tarzan</a> (Tarzan 3) by Edgar Rice Burroughs</p>
 			</li>
