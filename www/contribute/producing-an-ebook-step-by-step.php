@@ -148,7 +148,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			<li>
 				<h2>Typogrify the source text and perform the second commit</h2>
 				<p>Now that we have a clean starting point, we can start getting the <em>real</em> work done. <code class="bash"><b>se</b> typogrify</code> can do a lot of the heavy lifting necessary to bring an ebook up to Standard Ebooks typography standards.</p>
-				<p>Like <code class="bash"><b>se</b> clean</code>, <code class="bash"><b>se</b> typogrify</code> accepts as its argument the root of a Standard Ebook directory.</p><code class="terminal"><span><b>se</b> typogrify .</span></code>
+				<p>Like <code class="bash"><b>se</b> clean</code>, <code class="bash"><b>se</b> typogrify</code> accepts as its argument the root of a Standard Ebook directory.</p><code class="terminal"><span><b>se</b> typogrify <u>.</u></span></code>
 				<p>Among other things, <code class="bash"><b>se</b> typogrify</code> does the following:</p>
 				<ul>
 					<li>
@@ -223,7 +223,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			</li>
 			<li>
 				<h2>Check for transcription errors</h2>
-				<p>Transcriptions often have errors, because the O.C.R. software might confuse letters for other, more unusual characters, or because the ebook’s character set got mangled somewhere along the way from the source to your repository. You’ll find most transcription errors when you proofread the text, but right now you use the <code class="bash"><b>se</b> find-unusual-characters</code> tool to see a list of any unusual characters in the transcription. If the tool outputs any, check the source to make sure those characters aren’t errors.</p>
+				<p>Transcriptions often have errors, because the O.C.R. software might confuse letters for other, more unusual characters, or because the ebook’s character set got mangled somewhere along the way from the source to your repository. You’ll find most transcription errors when you proofread the text, but right now you use the <code class="bash"><b>se</b> find-unusual-characters</code> tool to see a list of any unusual characters in the transcription. If the tool outputs any, check the source to make sure those characters aren’t errors.</p><code class="terminal"><span><b>se</b> find-unusual-characters <u>.</u></span></code>
 			</li>
 			<li>
 				<h2>Convert footnotes to endnotes and add a list of illustrations</h2>
@@ -467,10 +467,12 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						</blockquote>
 					</li>
 				</ul>
+				<code class="terminal"><span><b>se</b> find-mismatched-diacritics <u>.</u></span></code>
 			</li>
 			<li>
 				<h2>Check for consistent dashes</h2>
 				<p>Similar to <code class="bash"><b>se</b> find-mismatched-diacritics</code>, <code class="bash"><b>se</b> find-mismatched-dashes</code> lists instances where a compound word is spelled both with and without a dash. Dashes in words should be normalized to one or the other style.</p>
+				<code class="terminal"><span><b>se</b> find-mismatched-dashes <u>.</u></span></code>
 			</li>
 			<li>
 				<h2>Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</h2>
