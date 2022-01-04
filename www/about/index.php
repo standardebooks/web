@@ -147,6 +147,9 @@ require_once('Core.php');
 						<p>Curtis Hendzell</p>
 					</li>
 					<li>
+						<p>David Howell</p>
+					</li>
+					<li>
 						<p>John Jarvis</p>
 					</li>
 					<li>
