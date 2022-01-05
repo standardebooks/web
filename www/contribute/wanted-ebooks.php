@@ -17,9 +17,6 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/59845">The Able McLaughlins</a> by Margaret Wilson (Pulitzer winner #6)</p>
 			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/61686">So Big</a> by Edna Ferber (Pulitzer winner #7) (Transcription is missing italics)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
@@ -275,9 +272,6 @@ require_once('Core.php');
 				<p><a href="http://shakespeare.mit.edu/timon/full.html">Timon of Athens</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/cleopatra/full.html">Antony and Cleopatra</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/cymbeline/full.html">Cymbeline</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
@@ -487,12 +481,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10676">El filibusterismo</a> by José Rizal, translated by Charles Derbyshire</p>
 			</li>
-			<!--
-			The 1926 edition is longer and has different chapter titles than the earlier edition that is on PG.
-			Wait till 2022 to begin.
-			 <li>
-				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs (Note: the 1926 edition is expanded, but requires transcription)</p>
-			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs (Note: We want the 1926 edition which is expanded, but requires transcription)</p>
+			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/3335">Theodore Roosevelt: An Autobiography</a> by Theodore Roosevelt</p>
 			</li>
