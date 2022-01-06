@@ -32,7 +32,7 @@ require_once('Core.php');
 					<p>Once per quarter, Patrons Circle members may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and may be subject to approval.)</p>
 				</li>
 				<li>
-					<p><strong>Once per month, members of the Patrons Circle vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production.</strong> The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
+					<p><strong>Periodically, members of the Patrons Circle vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production.</strong> The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
 				</li>
 			</ul>
 			<p class="button-row center">

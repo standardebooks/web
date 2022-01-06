@@ -9,7 +9,7 @@ require_once('Core.php');
 		<p>If you want to suggest a different book to produce, please carefully review <a href="/contribute/collections-policy">the kinds of work we do and don’t accept</a>.</p>
 		<h2>Add a book to this list</h2>
 		<p><a href="/donate#patrons-circle">Patrons Circle members</a> may submit ebooks for inclusion on this list.</p>
-		<p>Each month, Patrons Circle members vote on a selection from this list to pick one ebook for immediate production. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> to have a voice in the future of the Standard Ebooks catalog.</p>
+		<p>Patrons Circle members periodically vote on a selection from this list to pick one ebook for immediate production. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> to have a voice in the future of the Standard Ebooks catalog.</p>
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
@@ -332,9 +332,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/2885">The House of the Wolflings</a> by William Morris</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/60315">My Disillusionment in Russia</a> by Emma Goldman (should be combined with <i>My Further Disillusionment in Russia</i>, the 2nd volume to the book)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
 			</li>
 			<li>
@@ -500,7 +497,7 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/55625">The Revenger's Tragedy</a>, by Thomas Middleton. Mistakenly attributed to Cyril Tourneur. (#10 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/55625">The Revenger’s Tragedy</a>, by Thomas Middleton. Mistakenly attributed to Cyril Tourneur. (#10 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
 				<p>The Trickster of Seville and the Stone Guest, by Tirso de Molina. English translations in PD are difficult to find; scans of a <a href="https://catalog.hathitrust.org/Record/003925216">1923 translation</a> are available. (#24 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
