@@ -493,6 +493,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://en.m.wikisource.org/wiki/A_Daughter_of_the_Samurai">A Daughter of the Samurai</a> by Etsu Inagaki Sugimoto</p>
 			</li>
+			<li>
+				<p><a href="https://en.m.wikisource.org/wiki/A_Daughter_of_the_Samurai">A Daughter of the Samurai</a> by Etsu Inagaki Sugimoto</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/67090">The Worm Ouroboros</a> by E. R. Eddison</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
