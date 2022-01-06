@@ -4,6 +4,7 @@ require_once('Core.php');
 <main class="front-page">
 	<h1>Free and liberated ebooks,<br/> carefully produced for the true book lover.</h1>
 	<picture>
+		<source srcset="/images/devices@2x.avif 2x, /images/devices.avif 1x" type="image/avif"/>
 		<source srcset="/images/devices@2x.png 2x, /images/devices.png 1x" type="image/png"/>
 		<img src="/images/devices@2x.png" alt="Ereaders with a Standard Ebook open."/>
 	</picture>
