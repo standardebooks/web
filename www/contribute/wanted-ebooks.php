@@ -81,14 +81,11 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/3756">The Indiscretions of Archie</a> by P. G. Wodehouse</p>
-			</li> -->
-			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/20869">The Skylark of Space</a> by Edward E. Smith</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
-			</li>
+			</li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
 			</li> -->
@@ -101,12 +98,12 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/37332">A Little Princess</a> by Francis Hodgson Burnett</p>
 			</li> -->
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46409">Heidi</a> by Johanna Spyri</p>
-			</li> -->
-			<!-- <li>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35517">The Three Imposters</a> by Arthur Machen</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/149">Beyond Thirty aka. The Lost Continent</a> (Beyond 1) by Edgar Rice Burroughs</p>
 			</li>
@@ -185,11 +182,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/48511">Vikram and the Vampire</a> by Sir Richard Francis Burton</p>
 			</li>
-			<!--
-			Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans</p>
-			</li> -->
+				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans (Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm)</p>
+			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/13000">The Rough Riders</a> by Theodore Roosevelt</p>
 			</li>
