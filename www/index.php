@@ -4,8 +4,8 @@ require_once('Core.php');
 <main class="front-page">
 	<h1>Free and liberated ebooks,<br/> carefully produced for the true book lover.</h1>
 	<picture>
-		<source srcset="/images/devices@2x.avif 2x, /images/devices.avif 1x" type="image/avif"/>
-		<source srcset="/images/devices@2x.png 2x, /images/devices.png 1x" type="image/png"/>
+		<source srcset="/images/devices-1341w.avif 1341w, /images/devices-670w.avif 670w" type="image/avif"/>
+		<source srcset="/images/devices-1341w.png 1341w, /images/devices-670w.png 670w" type="image/png"/>
 		<img src="/images/devices@2x.png" alt="Ereaders with a Standard Ebook open."/>
 	</picture>
 	<p>Standard Ebooks is a volunteer-driven project that produces new editions of public domain ebooks that are lovingly formatted, open source, free of copyright restrictions, and free of cost.</p>
