@@ -168,7 +168,7 @@ require_once('Core.php');
 						<p>Patrick Weyer</p>
 					</li>
 					<li>
-						<p>Anonymous × 3</p>
+						<p>Anonymous × 4</p>
 					</li>
 				</ol>
 			</section>
