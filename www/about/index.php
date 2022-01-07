@@ -153,6 +153,9 @@ require_once('Core.php');
 						<p>John Jarvis</p>
 					</li>
 					<li>
+						<p>Jared Joslin</p>
+					</li>
+					<li>
 						<p>Patrick Greeley Mahoney</p>
 					</li>
 					<li>
@@ -165,7 +168,7 @@ require_once('Core.php');
 						<p>Patrick Weyer</p>
 					</li>
 					<li>
-						<p>Anonymous × 4</p>
+						<p>Anonymous × 3</p>
 					</li>
 				</ol>
 			</section>
