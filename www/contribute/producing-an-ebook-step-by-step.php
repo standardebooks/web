@@ -453,9 +453,9 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 				</ul>
 				<p>After you’ve reviewed the changes, create an <code class="html">[Editorial]</code> commit. This type of commit is important, because it gives purists an avenue to reverse these changes back to the original text.</p>
-				<aside class="alert">
+				<aside class="tip">
 					<p>Editorial changes are those where we make an editorial decision to alter the original text, for example modernizing spelling or fixing a probable printer’s typo.</p>
-					<p>Fixing a transcriber’s typo or changing the case of letters and words <strong>are not</strong> editorial changes.</p>
+					<p>Fixing a transcriber’s typo—i.e. where the transcriber made a mistake when converting the page scans to digital text—<strong>is not</strong> an editorial change.</p>
 				</aside>
 				<code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Modernize hyphenation and spelling"</i></span></code>
 			</li>
