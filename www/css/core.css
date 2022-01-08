@@ -1239,7 +1239,13 @@ main.ebooks > ol.list > li > a{
 main.ebooks > ol.list ul.tags{
 	display: flex;
 	justify-content: flex-start;
-	margin-left: 0;
+	margin-left: -.25rem;
+	margin-top: .25rem;
+}
+
+main.ebooks > ol.list ul.tags li{
+	margin-left: .25rem;
+	margin-top: .25rem;
 }
 
 main.ebooks > ol.list > li p{
@@ -2615,6 +2621,15 @@ abbr.acronym{
 	article nav a[rel],
 	main.ebooks nav > a{
 		padding: 1rem;
+	}
+
+	main.ebooks > ol.list > li{
+		grid-template-columns: 1fr;
+	}
+
+	main.ebooks > ol.list > li img{
+		max-width: 50%;
+		margin-bottom: 1rem;
 	}
 }
 
