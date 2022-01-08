@@ -110,7 +110,9 @@ require_once('Core.php');
 proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll to an end. <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 
 				<p>Now that we’ve removed all the cruft from the top and bottom of the file, we’re ready for our first commit.</p>
-				<p>Please use the following commit message for consistency with the rest of our ebooks:</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Initial commit"</i></span></code>
+				<p>Each commit has an accompanying message describing the changes we are making. Please use the commit messages as they are written here in this guide as the editors rely on these messages when they review the work.</p>
+                <p>Also, try to make one commit per type of change, for example: “fixing typos in chapters 1-18” or “worked on letter formatting.”</p>
+				<p>For this first commit:</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Initial commit"</i></span></code>
 			</li>
 			<li>
 				<h2>Split the source text at logical divisions</h2>
@@ -450,8 +452,11 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<code class="terminal"><span><b>se</b> interactive-replace <i>"([Mm])ean time" "\1eantime"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 				</ul>
-				<p>After you’ve reviewed the changes, create an <code class="html">[Editorial]</code> commit. This commit is important, because it gives purists an avenue to revert modernizing changes to the original text.</p>
-				<p>Note how we preface this commit with <code class="html">[Editorial]</code>. Any change you make to the source text that can be considered a modernization or editorial change should be prefaced like this, so that the <code class="bash"><b>git</b></code> history can be easily searched by people looking to revert changes.</p>
+				<p>After you’ve reviewed the changes, create an <code class="html">[Editorial]</code> commit. This type of commit is important, because it gives purists an avenue to reverse these changes back to the original text.</p>
+				<aside class="alert">
+					<p>Editorial changes are those where we make an editorial decision to alter the original text, for example modernizing spelling or fixing a probable printer’s typo.</p>
+					<p>Fixing a transcriber’s typo or changing the case of letters and words <strong>are not</strong> editorial changes.</p>
+				</aside>
 				<code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Modernize hyphenation and spelling"</i></span></code>
 			</li>
 			<li>
