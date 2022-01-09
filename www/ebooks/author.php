@@ -16,7 +16,7 @@ try{
 		throw new InvalidAuthorException();
 	}
 }
-catch(\Exception $ex){
+catch(InvalidAuthorException $ex){
 	http_response_code(404);
 	include(WEB_ROOT . '/404.php');
 	exit();

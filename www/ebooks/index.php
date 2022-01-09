@@ -127,7 +127,7 @@ try{
 
 	$queryString = preg_replace('/^&amp;/ius', '', $queryString);
 }
-catch(\Exception $ex){
+catch(InvalidCollectionException $ex){
 	http_response_code(404);
 	include(WEB_ROOT . '/404.php');
 	exit();

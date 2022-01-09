@@ -65,7 +65,7 @@ catch(SeeOtherEbookException $ex){
 	header('Location: ' . $ex->Url);
 	exit();
 }
-catch(\Exception $ex){
+catch(InvalidEbookException $ex){
 	http_response_code(404);
 	include(WEB_ROOT . '/404.php');
 	exit();
