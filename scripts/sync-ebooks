@@ -92,7 +92,7 @@ while [ $# -gt 0 ]; do
 			shift 2
 			;;
 		--token)
-			check_arg '*[!0-9a-zA-Z]*' "$2" "Token is empty or contains illegal characters."
+			check_arg '*[!0-9a-zA-Z_]*' "$2" "Token is empty or contains illegal characters."
 			githubToken="$2"
 			shift 2
 			;;
