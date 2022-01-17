@@ -27,7 +27,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/20788">Storm Over Warlock</a> by Andre Norton</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/25550">The Defiant Angels</a> by Andre Norton</p>
+				<p><a href="https://www.gutenberg.org/ebooks/25550">The Defiant Agents</a> by Andre Norton</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19651">Key Out of Time</a> by Andre Norton</p>
