@@ -108,7 +108,21 @@ class Library{
 		}
 		catch(Safe\Exceptions\ApcuException $ex){
 			Library::RebuildCache();
-			$ebooks = apcu_fetch('ebooks');
+			try{
+				$ebooks = apcu_fetch('ebooks');
+			}
+			catch(Safe\Exceptions\ApcuException $ex){
+				// We can get here if the cache is currently rebuilding from a different process.
+				// Nothing we can do but wait, so wait 20 seconds before retrying
+				sleep(20);
+
+				try{
+					$ebooks = apcu_fetch('ebooks');
+				}
+				catch(Safe\Exceptions\ApcuException $ex){
+					// Cache STILL rebuilding... give up silently for now
+				}
+			}
 		}
 
 		return $ebooks;
