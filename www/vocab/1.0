@@ -9,6 +9,8 @@ se
 		color-depth
 			black-on-transparent
 			default-on-transparent
+		style
+			realistic
 	letter
 		dateline
 	long-description
