@@ -451,6 +451,28 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						</table>
 						<code class="terminal"><span><b>se</b> interactive-replace <i>"([Mm])ean time" "\1eantime"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
+					<li>
+						<h3>with out ➔ without</h3>
+						<table>
+							<tbody>
+								<tr>
+									<td>Correct change:</td>
+									<td>
+										<p><code class="html">Send with out delay warrant of arrest to Bombay.</code> ➔</p>
+										<p><code class="html">Send without delay warrant of arrest to Bombay.</code></p>
+									</td>
+								</tr>
+								<tr>
+									<td>Incorrect change:</td>
+									<td>
+										<p><code class="html">“Who on earth are you talking with out there?” called the querulous voice.</code> ➔</p>
+										<p><code class="html"><span class="wrong">“Who on earth are you talking without there?” called the querulous voice.</span></code></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<code class="terminal"><span><b>se</b> interactive-replace <i>"\b([Ww])ith out\b([^-])" "\1ithout\2"</i> src/epub/text/<i class="glob">*</i></span></code>
+					</li>
 				</ul>
 				<p>After you’ve reviewed the changes, create an <code class="html">[Editorial]</code> commit. This type of commit is important, because it gives purists an avenue to reverse these changes back to the original text.</p>
 				<aside class="tip">
