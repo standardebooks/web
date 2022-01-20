@@ -60,6 +60,8 @@ body > section[epub|type~="halftitlepage"]{
 	min-height: auto;
 }
 
+nav + section,
+section + nav,
 section + section,
 section + article,
 article + section,
