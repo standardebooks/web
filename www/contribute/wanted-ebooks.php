@@ -78,9 +78,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/20154">Invaders from the Infinite</a> by John W. Campbell</p>
-			</li> -->
-			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
 			</li> -->
 			<li>
@@ -227,9 +224,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (#38 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/66829">Gentlemen Prefer Blondes</a> by Anita Loos (Part of the Guardian 2015 collection.)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
 			</li>
@@ -491,6 +485,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/44608">The Baburnama</a> by Ẓahīr-ud-Dīn Muhammad Bābur</p>
+			</li>
 			<li>
 				<p>The Perennial Bachelor, by Anne Parrish. (Harper Novel Prize winner 1925; transcription required)</p>
 			</li>
