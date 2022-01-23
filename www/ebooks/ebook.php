@@ -99,9 +99,10 @@ catch(InvalidEbookException $ex){
 			<picture>
 				<? if($ebook->HeroImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->HeroImage2xAvifUrl ?> 2x, <?= $ebook->HeroImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 				<source srcset="<?= $ebook->HeroImage2xUrl ?> 2x, <?= $ebook->HeroImageUrl ?> 1x" type="image/jpg"/>
-				<img src="<?= $ebook->HeroImage2xUrl ?>" role="presentation" alt="" height="439" width="1318" />
+				<img src="<?= $ebook->HeroImage2xUrl ?>" alt="" height="439" width="1318" />
 			</picture>
 		</header>
+
 
 		<aside id="reading-ease">
 			<p><?= number_format($ebook->WordCount) ?> words (<?= $ebook->ReadingTime ?>) with a reading ease of <?= $ebook->ReadingEase ?> (<?= $ebook->ReadingEaseDescription ?>)</p>
@@ -171,74 +172,87 @@ catch(InvalidEbookException $ex){
 			<?= $ebook->GenerateContributorsRdfa() ?>
 			<h2>Read free</h2>
 			<p class="us-pd-warning">This ebook is only thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that the contents of this ebook are free of copyright restrictions in the country you’re located in before downloading or using this ebook.</p>
-			<section id="download">
-				<h3>Download for ereaders</h3>
-				<ul>
-					<? /* Leave the @download attribute empty to have the browser use the target filename in the save-as dialog */ ?>
-					<? if($ebook->EpubUrl !== null){ ?>
-					<li property="schema:encoding" typeof="schema:MediaObject">
-						<meta property="schema:description" content="epub"/>
-						<meta property="schema:encodingFormat" content="application/epub+zip"/>
-						<p>
-							<span><a property="schema:contentUrl" href="<?= $ebook->EpubUrl ?>" class="epub" download="">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span>
-						</p>
-					</li>
-					<? } ?>
 
-					<? if($ebook->Azw3Url !== null){ ?>
-					<li property="schema:encoding" typeof="schema:MediaObject">
-						<meta property="schema:encodingFormat" content="application/x-mobipocket-ebook"/>
-						<p>
-							<span><a property="schema:contentUrl" href="<?= $ebook->Azw3Url ?>" class="amazon" download=""><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. You may be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
-						</p>
-					</li>
-					<? } ?>
+			<div class="downloads-container">
+				<figure class="<? if($ebook->WordCount < 100000){ ?>small<? }elseif($ebook->WordCount >= 100000 && $ebook->WordCount < 200000){ ?>medium<? }elseif($ebook->WordCount >= 200000 && $ebook->WordCount <= 300000){ ?>large<? }elseif($ebook->WordCount >= 300000 && $ebook->WordCount < 400000){ ?>xlarge<? }elseif($ebook->WordCount >= 400000){ ?>xxlarge<? } ?>">
+					<picture>
+						<source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/>
+						<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
+						<img src="<?= $ebook->CoverImageUrl ?>" alt="" height="363" width="242"/>
+					</picture>
+					<div class="spine" />
+				</figure>
+				<div>
+					<section id="download">
+						<h3>Download for ereaders</h3>
+						<ul>
+							<? /* Leave the @download attribute empty to have the browser use the target filename in the save-as dialog */ ?>
+							<? if($ebook->EpubUrl !== null){ ?>
+							<li property="schema:encoding" typeof="schema:MediaObject">
+								<meta property="schema:description" content="epub"/>
+								<meta property="schema:encodingFormat" content="application/epub+zip"/>
+								<p>
+									<span><a property="schema:contentUrl" href="<?= $ebook->EpubUrl ?>" class="epub" download="">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span>
+								</p>
+							</li>
+							<? } ?>
 
-					<? if($ebook->KepubUrl !== null){ ?>
-					<li property="schema:encoding" typeof="schema:MediaObject">
-						<meta property="schema:encodingFormat" content="application/kepub+zip"/>
-						<p>
-							<span><a property="schema:contentUrl" href="<?= $ebook->KepubUrl ?>" class="kobo" download=""><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps.</span>
-						</p>
-					</li>
-					<? } ?>
+							<? if($ebook->Azw3Url !== null){ ?>
+							<li property="schema:encoding" typeof="schema:MediaObject">
+								<meta property="schema:encodingFormat" content="application/x-mobipocket-ebook"/>
+								<p>
+									<span><a property="schema:contentUrl" href="<?= $ebook->Azw3Url ?>" class="amazon" download=""><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. You may be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
+								</p>
+							</li>
+							<? } ?>
 
-					<? if($ebook->AdvancedEpubUrl !== null){ ?>
-					<li property="schema:encoding" typeof="schema:MediaObject">
-						<meta property="schema:encodingFormat" content="application/epub+zip"/>
-						<p>
-							<span><a property="schema:contentUrl" href="<?= $ebook->AdvancedEpubUrl ?>" class="epub" download=""><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
-						</p>
-					</li>
+							<? if($ebook->KepubUrl !== null){ ?>
+							<li property="schema:encoding" typeof="schema:MediaObject">
+								<meta property="schema:encodingFormat" content="application/kepub+zip"/>
+								<p>
+									<span><a property="schema:contentUrl" href="<?= $ebook->KepubUrl ?>" class="kobo" download=""><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps.</span>
+								</p>
+							</li>
+							<? } ?>
+
+							<? if($ebook->AdvancedEpubUrl !== null){ ?>
+							<li property="schema:encoding" typeof="schema:MediaObject">
+								<meta property="schema:encodingFormat" content="application/epub+zip"/>
+								<p>
+									<span><a property="schema:contentUrl" href="<?= $ebook->AdvancedEpubUrl ?>" class="epub" download=""><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
+								</p>
+							</li>
+							<? } ?>
+						</ul>
+						<aside>
+							<p>Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file to download</a> and <a href="/help/how-to-use-our-ebooks#transferring-to-your-ereader">how to transfer them to your ereader</a>.</p>
+						</aside>
+					</section>
+					<? if($ebook->TextUrl !== null || $ebook->TextSinglePageUrl !== null){ ?>
+					<section id="read-online">
+						<h3>Read online</h3>
+						<ul>
+							<? if($ebook->TextUrl !== null){ ?>
+							<li>
+								<p>
+									<a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a>
+								</p>
+							</li>
+							<? } ?>
+							<? if($ebook->TextSinglePageUrl !== null){ ?>
+							<li property="schema:encoding" typeof="schema:mediaObject">
+								<meta property="schema:description" content="XHTML"/>
+								<meta property="schema:encodingFormat" content="application/xhtml+xml"/>
+								<p>
+									<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a>
+								</p>
+							</li>
+							<? } ?>
+						</ul>
+					</section>
 					<? } ?>
-				</ul>
-				<aside>
-					<p>Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file to download</a> and <a href="/help/how-to-use-our-ebooks#transferring-to-your-ereader">how to transfer them to your ereader</a>.</p>
-				</aside>
-			</section>
-			<? if($ebook->TextUrl !== null || $ebook->TextSinglePageUrl !== null){ ?>
-			<section id="read-online">
-				<h3>Read online</h3>
-				<ul>
-					<? if($ebook->TextUrl !== null){ ?>
-					<li>
-						<p>
-							<a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a>
-						</p>
-					</li>
-					<? } ?>
-					<? if($ebook->TextSinglePageUrl !== null){ ?>
-					<li property="schema:encoding" typeof="schema:mediaObject">
-						<meta property="schema:description" content="XHTML"/>
-						<meta property="schema:encodingFormat" content="application/xhtml+xml"/>
-						<p>
-							<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a>
-						</p>
-					</li>
-					<? } ?>
-				</ul>
-			</section>
-			<? } ?>
+				</div>
+			</div>
 		</section>
 		<? } ?>
 

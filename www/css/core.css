@@ -2061,6 +2061,141 @@ abbr.acronym{
 	font-variant: all-small-caps;
 }
 
+.downloads-container{
+	display: flex;
+}
+
+.downloads-container figure + div{
+	padding-left: 1rem;
+}
+
+.ebook figure.small{
+	--size: 1rem;
+}
+
+.ebook figure,
+.ebook figure.medium{
+	--size: 1.5rem;
+}
+
+.ebook figure.large{
+	--size: 2rem;
+	margin-top: 2rem;
+}
+
+.ebook figure.xlarge{
+	--size: 2.5rem;
+	margin-top: 2rem;
+}
+
+.ebook figure.xxlarge{
+	--size: 3rem;
+	margin-top: 2rem;
+}
+
+.ebook figure{
+	transform: skewY(-10deg) scale(.75);
+	font-size: 0;
+	width: 242px;
+	box-sizing: border-box;
+	margin-left: -2rem;
+	align-self: flex-start;
+}
+
+.ebook figure img{ /* cover */
+	/* override previous cascade */
+	width: auto;
+	border-radius: 0 3px 3px 0;
+	border: 2px solid #222;
+	border-left: none;
+	transition: transform .5s, filter .5s;
+}
+
+.ebook figure .spine{ /* spine */
+	content: '';
+	position: absolute;
+	width: var(--size);
+	height: 100%;
+	top: 0;
+	left: calc(-1 * var(--size));
+	background: #222;
+	transform-origin: right;
+	transform: skewY(45deg);
+	z-index: -1;
+	transition: transform .5s;
+}
+
+.ebook figure .spine::before{ /* spine logo */
+	content: '';
+	filter: invert(100%);
+	background: no-repeat center/calc(var(--size) - .5rem) var(--size) url('/images/logo-small.svg');
+	top: calc(50% - (2rem / 2));
+	position: absolute;
+	height: calc(var(--size) + .5rem);
+	width: var(--size);
+}
+
+.ebook figure .spine::after{ /* pages */
+	content: '';
+	position: absolute;
+	width: var(--size);
+	height: 235px;
+	background: url('/images/pages-texture.svg') #efefef;
+	background-size: .5rem; /* needed to prevent visual glitch in FF */
+	top: -234px;
+	left: 0;
+	transform-origin: bottom;
+	transform: skewX(-45deg);
+	border-left: 1px solid #222;
+	transition: none; /* prevent animation on load */
+}
+
+.ebook figure::after{ /* back board */
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #222;
+	top: 0;
+	left: calc(-1 * var(--size));
+	transform: translateY(calc(-1 * var(--size)));
+	z-index: -2;
+	border-top-right-radius: 3px;
+	transition: transform .5s;
+}
+
+.ebook figure::before{ /* shadow */
+	content: '';
+	background: rgba(0, 0, 0, .5);
+	position: absolute;
+	top: calc(353px - var(--size));
+	left: calc(-1 * var(--size));
+	height: calc(1.25rem + var(--size));
+	width: calc(100% + var(--size) + .25rem);
+	transform: skewX(45deg);
+	filter: blur(10px);
+	z-index: -1;
+	border-radius: 2rem;
+	transition: transform .5s;
+}
+
+.ebook .downloads-container:hover figure img{
+	filter: brightness(1.15);
+	transform: translateY(-.5rem);
+}
+
+.ebook .downloads-container:hover figure::after{
+	transform: translateY(calc(-1 * (var(--size) + .5rem)));
+}
+
+.ebook .downloads-container:hover figure .spine{
+	transform: skewY(45deg) translateY(-.5rem);
+}
+
+.ebook .downloads-container:hover figure::before{
+	transform: skewX(45deg) scale(1.05);
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
@@ -2214,6 +2349,21 @@ abbr.acronym{
 		display: block;
 		margin-left: 2rem;
 		padding-top: 0;
+	}
+
+	.ebook figure{
+		transform: skewY(-10deg) scale(.5);
+		margin-top: -1rem;
+	}
+
+	.ebook figure.large,
+	.ebook figure.xlarge,
+	.ebook figure.xxlarge{
+		margin-top: 0;
+	}
+
+	.downloads-container figure + div{
+		padding-left: 0;
 	}
 }
 
@@ -2393,6 +2543,12 @@ abbr.acronym{
 
 	body > header ul li:nth-child(3) ~ li{
 		margin-top: .5rem;
+	}
+}
+
+@media(max-width: 580px){
+	.ebook figure{
+		display: none;
 	}
 }
 
@@ -2685,7 +2841,27 @@ abbr.acronym{
 	input[type="search"]:focus,
 	input[type="search"]:hover,
 	select:focus,
-	select:hover{
+	select:hover,
+	.ebook figure::before,
+	.ebook figure::after,
+	.ebook figure img,
+	.ebook figure .spine{
 		transition: none;
+	}
+
+	.ebook .downloads-container:hover figure img{
+		transform: none;
+	}
+
+	.ebook .downloads-container:hover figure::after{
+		transform: translateY(-1.5rem);
+	}
+
+	.ebook .downloads-container:hover figure .spine{
+		transform: skewY(45deg);
+	}
+
+	.ebook .downloads-container:hover figure::before{
+		transform: skewX(45deg);
 	}
 }
