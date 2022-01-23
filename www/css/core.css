@@ -51,22 +51,6 @@
 	font-display: swap;
 }
 
-@font-face{
-	font-family: "Fira Mono";
-	src: local("Fira Mono"), url("/fonts/fira-mono.woff2") format("woff2");
-	font-weight: normal;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face{
-	font-family: "Fira Mono";
-	src: local("Fira Mono"), url("/fonts/fira-mono-bold.woff2") format("woff2");
-	font-weight: bold;
-	font-style: normal;
-	font-display: swap;
-}
-
 :root{
 	--light-body-bg: #e9e7e0;
 	--light-body-text: #222;
@@ -722,18 +706,6 @@ form button:hover{
 	color: #efefef;
 	box-shadow: none;
 	background: #bbb url("/images/stripes-dark.svg");
-}
-
-code{
-	font-family: "Fira Mono", monospace;
-	font-size: .8rem;
-	border: 1px solid rgba(255,255,255,.25);
-	background: #333;
-	border-radius: .25rem;
-	white-space: nowrap;
-	padding: 0 .25rem;
-	color: #fff;
-	margin: 0 .2rem;
 }
 
 main.front-page > a.button{

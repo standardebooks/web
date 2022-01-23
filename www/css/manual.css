@@ -28,6 +28,22 @@
 	font-style: italic;
 }
 
+@font-face{
+	font-family: "Fira Mono";
+	src: local("Fira Mono"), url("/fonts/fira-mono.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face{
+	font-family: "Fira Mono";
+	src: local("Fira Mono"), url("/fonts/fira-mono-bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
 .manual h1,
 .manual h2,
 .manual h3,
@@ -54,6 +70,16 @@ main code:first-child{
 code{
 	hyphens: none;
 	font-variant-numeric: normal;
+	font-family: "Fira Mono", monospace;
+	font-size: .8rem;
+	border: 1px solid rgba(255,255,255,.25);
+	background: #333;
+	border-radius: .25rem;
+	white-space: nowrap;
+	padding: 0 .25rem;
+	color: #fff;
+	margin: 0 .2rem;
+	font-style: normal; /* override italics in parent */
 }
 
 blockquote,
