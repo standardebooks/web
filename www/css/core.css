@@ -2105,52 +2105,47 @@ abbr.acronym{
 .ebook figure img{ /* cover */
 	/* override previous cascade */
 	width: auto;
-	border-radius: 0 3px 3px 0;
+	border-radius: 0 5px 5px 0;
 	border: 2px solid #222;
 	border-left: none;
 	transition: transform .5s, filter .5s;
 }
 
-.ebook figure .spine{ /* spine */
+.ebook figure::after{ /* spine */
 	content: '';
 	position: absolute;
-	width: var(--size);
+	width: calc(var(--size) + 2px);
 	height: 100%;
-	top: 0;
 	left: calc(-1 * var(--size));
-	background: #222;
+	background: no-repeat center/calc(var(--size) - .5rem) url('/images/logo-small.svg') #ddd; /* inverts to #222 */
+	background-size: calc(var(--size) - .5rem) var(--size);
+	filter: invert(1);
 	transform-origin: right;
 	transform: skewY(45deg);
 	z-index: -1;
 	transition: transform .5s;
+	top: 2px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
-.ebook figure .spine::before{ /* spine logo */
-	content: '';
-	filter: invert(100%);
-	background: no-repeat center/calc(var(--size) - .5rem) var(--size) url('/images/logo-small.svg');
-	top: calc(50% - (2rem / 2));
-	position: absolute;
-	height: calc(var(--size) + .5rem);
-	width: var(--size);
-}
-
-.ebook figure .spine::after{ /* pages */
+.ebook figure picture::before{ /* pages */
 	content: '';
 	position: absolute;
 	width: var(--size);
 	height: 235px;
-	background: url('/images/pages-texture.svg') #efefef;
+	background: url('/images/pages-texture.svg') #fff; /* inverts to #222 */
 	background-size: .5rem; /* needed to prevent visual glitch in FF */
-	top: -234px;
-	left: 0;
+	top: calc(-1 * (234px + (var(--size) / 2)));
+	left: calc(-1 * var(--size));
+	transform: rotate(90deg) skewy(-45deg);
 	transform-origin: bottom;
-	transform: skewX(-45deg);
 	border-left: 1px solid #222;
-	transition: none; /* prevent animation on load */
+	transition: transform .5s;
+	z-index: -1;
 }
 
-.ebook figure::after{ /* back board */
+.ebook figure picture::after{ /* back board */
 	content: '';
 	position: absolute;
 	width: 100%;
@@ -2160,7 +2155,7 @@ abbr.acronym{
 	left: calc(-1 * var(--size));
 	transform: translateY(calc(-1 * var(--size)));
 	z-index: -2;
-	border-top-right-radius: 3px;
+	border-top-right-radius: 5px;
 	transition: transform .5s;
 }
 
@@ -2179,20 +2174,24 @@ abbr.acronym{
 	transition: transform .5s;
 }
 
-.ebook .downloads-container:hover figure img{
+.ebook .downloads-container:hover figure img{ /* cover */
 	filter: brightness(1.15);
 	transform: translateY(-.5rem);
 }
 
-.ebook .downloads-container:hover figure::after{
+.ebook .downloads-container:hover figure picture::after{ /* back board */
 	transform: translateY(calc(-1 * (var(--size) + .5rem)));
 }
 
-.ebook .downloads-container:hover figure .spine{
+.ebook .downloads-container:hover picture::before{ /* pages */
+	transform: rotate(90deg) skewy(-45deg) translateX(-.5rem) translateY(-.5rem);
+}
+
+.ebook .downloads-container:hover figure::after{ /* spine */
 	transform: skewY(45deg) translateY(-.5rem);
 }
 
-.ebook .downloads-container:hover figure::before{
+.ebook .downloads-container:hover figure::before{ /* shadow */
 	transform: skewX(45deg) scale(1.05);
 }
 

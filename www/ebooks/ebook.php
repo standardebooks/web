@@ -180,7 +180,6 @@ catch(InvalidEbookException $ex){
 						<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
 						<img src="<?= $ebook->CoverImageUrl ?>" alt="" height="363" width="242"/>
 					</picture>
-					<div class="spine" />
 				</figure>
 				<div>
 					<section id="download">
