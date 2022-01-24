@@ -17,4 +17,12 @@
 	.manual > article > section > section[id] section > aside.number::after{
 		border-color: rgba(255, 255, 255, .5);
 	}
+
+	main.manual *:target{
+		color: var(--light-body-text);
+	}
+
+	main.manual *:target aside.number{
+		color: var(--dark-body-text);
+	}
 }

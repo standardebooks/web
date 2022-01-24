@@ -719,6 +719,10 @@ main.manual aside.alert p{
 	text-align: center;
 }
 
+main.manual *:target{
+	background: #FFFF99;
+}
+
 @media(max-width: 1700px){
 	main.manual > article{
 		margin-left: 10rem;
