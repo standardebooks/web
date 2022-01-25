@@ -74,9 +74,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6880">The Coming of Bill</a> by P. G. Wodehouse</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
-			</li>
+			</li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
 			</li> -->
