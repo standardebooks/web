@@ -632,6 +632,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/1200">Gargantua and Pantagruel</a> by François Rabelais (Confirm this is the Ozell 1737 revision. Should we prefer the Wallis 1897 revision?)</p>
 			</li>
+			<li>
+				<p>Poetry by Robert Burns, probably in an omnibus</p>
+			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
