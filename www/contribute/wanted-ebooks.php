@@ -128,9 +128,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/47">Anne of Avonlea</a> by L. M. Montgomery</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/51">Anne of the Island</a> by L. M. Montgomery</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10041">The Rivet in Grandfather’s Neck</a> by James Branch Cabell</p>
 			</li>
