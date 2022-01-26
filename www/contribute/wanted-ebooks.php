@@ -204,6 +204,9 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/133">The Damnation of Theron Ware</a> Harold Frederic</p>
 			</li>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/159">The Island of Dr. Moreau</a> by H. G. Wells</p>
+			</li>
+			<li>
 				<p><a href="https://gutenberg.org/ebooks/445">The Crowd</a> by Gustave Le Bon</p>
 			</li>
 			<li>
