@@ -2089,9 +2089,8 @@ abbr.acronym{
 	width: calc(var(--size) + 2px);
 	height: 100%;
 	left: calc(-1 * var(--size));
-	background: no-repeat center/calc(var(--size) - .5rem) url('/images/logo-small.svg') #ddd; /* inverts to #222 */
+	background: no-repeat center/calc(var(--size) - .5rem) url('/images/logo-spine.svg') #222;
 	background-size: calc(var(--size) - .5rem) var(--size);
-	filter: invert(1);
 	transform-origin: right;
 	transform: skewY(45deg);
 	z-index: -1;
@@ -2106,7 +2105,7 @@ abbr.acronym{
 	position: absolute;
 	width: var(--size);
 	height: 235px;
-	background: url('/images/pages-texture.svg') #fff; /* inverts to #222 */
+	background: url('/images/pages-texture.svg') #fff;
 	background-size: .5rem; /* needed to prevent visual glitch in FF */
 	top: calc(-1 * (234px + (var(--size) / 2)));
 	left: calc(-1 * var(--size));
