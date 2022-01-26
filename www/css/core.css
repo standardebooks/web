@@ -2089,8 +2089,8 @@ abbr.acronym{
 	width: calc(var(--size) + 2px);
 	height: 100%;
 	left: calc(-1 * var(--size));
-	background: no-repeat center/calc(var(--size) - .5rem) url('/images/logo-spine.svg') #222;
-	background-size: calc(var(--size) - .5rem) var(--size);
+	background: no-repeat center center url('/images/logo-spine.svg') #222;
+	background-size: calc(var(--size) - .5rem) calc(var(--size) - .5rem);
 	transform-origin: right;
 	transform: skewY(45deg);
 	z-index: -1;
