@@ -63,9 +63,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/6927">The White Feather</a> by P. G. Wodehouse</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/6984">The Pothunters</a> by P. G. Wodehouse</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6877">The Head of Kay’s</a> by P. G. Wodehouse</p>
 			</li>
 			<li>
@@ -102,9 +99,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/605">Pellucidar</a> (Pellucidar 2) by Edgar Rice Burroughs</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/85">The Beasts of Tarzan</a> (Tarzan 3) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
@@ -120,7 +114,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/61837">Tarzan and the Ant Men</a> (Tarzan 10) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/369">The Outlaw of Torn</a>  by Edgar Rice Burroughs</p>
+				<p><a href="https://www.gutenberg.org/ebooks/369">The Outlaw of Torn</a> by Edgar Rice Burroughs</p>
 			</li>
 			<li>
 				<p><a href="http://gutenberg.net.au/ebooks03/0301231h.html">The Three Hostages</a> by John Buchan</p>
@@ -204,9 +198,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/133">The Damnation of Theron Ware</a> Harold Frederic</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/159">The Island of Dr. Moreau</a> by H. G. Wells</p>
-			</li>
-			<li>
 				<p><a href="https://gutenberg.org/ebooks/445">The Crowd</a> by Gustave Le Bon</p>
 			</li>
 			<li>
@@ -217,9 +208,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/700">The Old Curiosity Shop</a> by Charles Dickens (#28 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/45512">Dangerous Liaisons</a> by Pierre Choderlos de Laclos (#29 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Ward Radcliffe (#32 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
@@ -244,9 +232,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/merchant/full.html">The Merchant of Venice</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/taming_shrew/full.html">The Taming of the Shrew</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/troilus_cressida/full.html">Troilus and Cressida</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
@@ -478,9 +463,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
-			</li>
-			<li>
-				<p><a href="https://en.m.wikisource.org/wiki/A_Daughter_of_the_Samurai">A Daughter of the Samurai</a> by Etsu Inagaki Sugimoto</p>
 			</li>
 			<li>
 				<p><a href="https://en.m.wikisource.org/wiki/A_Daughter_of_the_Samurai">A Daughter of the Samurai</a> by Etsu Inagaki Sugimoto</p>
