@@ -627,6 +627,12 @@ require_once('Core.php');
 		<h2>Uncategorized lists</h2>
 		<ul>
 			<li>
+				<p><a href="https://en.wikipedia.org/wiki/James_Tait_Black_Memorial_Prize">Entries in the James Tait Black Memorial Prize list</a></p>
+			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Hawthornden_Prize">Entries in the Hawthornden Prize list</a></p>
+			</li>
+			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Newcastle_Forgotten_Fantasy_Library">Public domain entries in the Newcastle Forgotten Fantasy Library</a></p>
 			</li>
 			<li>
