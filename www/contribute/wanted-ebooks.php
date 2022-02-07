@@ -51,9 +51,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard</p>
 			</li> -->
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
 			<!-- <li>
@@ -200,6 +197,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/133">The Damnation of Theron Ware</a> Harold Frederic</p>
 			</li>
