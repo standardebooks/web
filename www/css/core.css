@@ -2077,6 +2077,7 @@ abbr.acronym{
 .ebook figure img{ /* cover */
 	/* override previous cascade */
 	width: auto;
+	background: #222;
 	border-radius: 0 5px 5px 0;
 	border: 2px solid #222;
 	border-left: none;
@@ -2107,7 +2108,7 @@ abbr.acronym{
 	height: 235px;
 	background: url('/images/pages-texture.svg') #fff;
 	background-size: .5rem; /* needed to prevent visual glitch in FF */
-	top: calc(-1 * (234px + (var(--size) / 2)));
+	top: calc(-1 * (234px + (var(--size) / 2)) + 5px);
 	left: calc(-1 * var(--size));
 	transform: rotate(90deg) skewy(-45deg);
 	transform-origin: bottom;
