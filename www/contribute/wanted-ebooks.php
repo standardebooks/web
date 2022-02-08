@@ -236,9 +236,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://shakespeare.mit.edu/lll/full.html">Love’s Labour’s Lost</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="http://shakespeare.mit.edu/merchant/full.html">The Merchant of Venice</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="http://shakespeare.mit.edu/troilus_cressida/full.html">Troilus and Cressida</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
