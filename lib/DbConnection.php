@@ -67,9 +67,12 @@ class DbConnection{
 	// Inputs:	string 	$sql 		= the SQL query to execute
 	//		array 	$params 	= an array of parameters to bind to the SQL statement
 	// Returns:	a resource record or null on error
-	public function Query(string $sql, array $params = []){
+	/**
+	* @return Array<mixed>
+	*/
+	public function Query(string $sql, array $params = []): array{
 		if(!$this->IsConnected){
-			return;
+			return [];
 		}
 
 		$this->QueryCount++;
@@ -112,7 +115,7 @@ class DbConnection{
 		$done = false;
 		while(!$done){
 			try{
-				$result = $this->ExecuteQuery($handle, $preparedSql, $params);
+				$result = $this->ExecuteQuery($handle);
 				$done = true;
 			}
 			catch(\PDOException $ex){
@@ -148,7 +151,10 @@ class DbConnection{
 		return $result;
 	}
 
-	private function ExecuteQuery($handle, string $preparedSql, array $params){
+	/**
+	* @return Array<mixed>
+	*/
+	private function ExecuteQuery(PDOStatement $handle): array{
 		$handle->execute();
 
 		$result = [];
@@ -171,7 +177,7 @@ class DbConnection{
 	}
 
 	// Gets the last AUTO-INCREMENT id
-	public function GetLastInsertedId(){
+	public function GetLastInsertedId(): ?int{
 		$id = $this->_link->lastInsertId();
 
 		if($id == 0){

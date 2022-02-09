@@ -1,11 +1,18 @@
 <?
 
 class Db{
-	public static function GetLastInsertedId(){
+	public static function GetLastInsertedId(): int{
 		return $GLOBALS['DbConnection']->GetLastInsertedId();
 	}
 
-	public static function Query(string $query, $args = []){
+	/**
+	* @return Array<mixed>
+	*/
+	public static function Query(string $query, array $args = []): array{
+		if(!isset($GLOBALS['DbConnection'])){
+			$GLOBALS['DbConnection'] = new DbConnection(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
+		}
+
 		if(!is_array($args)){
 			$args = [$args];
 		}

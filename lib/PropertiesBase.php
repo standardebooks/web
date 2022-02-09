@@ -2,6 +2,10 @@
 use function Safe\substr;
 
 abstract class PropertiesBase extends OrmBase{
+	/**
+	* @param mixed $var
+	* @return mixed
+	*/
 	public function __get($var){
 		$function = 'Get' . $var;
 
@@ -22,7 +26,11 @@ abstract class PropertiesBase extends OrmBase{
 		}
 	}
 
-	public function __set($var, $val){
+	/**
+	* @param mixed $val
+	* @return mixed
+	*/
+	public function __set(string $var, $val){
 		$function = 'Set' . $var;
 		if(method_exists($this, $function)){
 			$this->$function($val);
