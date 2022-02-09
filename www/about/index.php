@@ -103,9 +103,9 @@ require_once('Core.php');
 				<ol class="donors corporate">
 					<li>
 						<a href="https://www.scribophile.com">
-							<img src="/images/masthead/sponsors/scribophile.svg" alt="The logo for Scribophile" />
+							<img src="/images/masthead/sponsors/scribophile.svg" alt="" />
+							<p>Scribophile</p>
 						</a>
-						<p><a href="https://www.scribophile.com">Scribophile</a></p>
 					</li>
 				</ol>
 			</section>

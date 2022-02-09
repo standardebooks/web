@@ -1824,9 +1824,19 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 .masthead ol.corporate img{
 	max-height: 100px;
 	max-width: 100%;
+	margin-right: 0;
+	box-sizing: content-box;
 }
 
-.masthead ol.donors.corporate,
+.masthead ol.donors.corporate{
+	display: flex;
+	justify-content: center;
+}
+
+.masthead ol.donors.corporate li + li{
+	margin-left: 2rem;
+}
+
 .masthead ol.donors.corporate p{
 	text-align: center;
 }
