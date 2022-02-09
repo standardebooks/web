@@ -1,4 +1,5 @@
 <?
+use function Safe\substr;
 
 abstract class PropertiesBase extends OrmBase{
 	public function __get($var){

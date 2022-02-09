@@ -1,4 +1,5 @@
 <?
+use Safe\DateTime;
 use function Safe\substr;
 
 abstract class OrmBase{
