@@ -1828,6 +1828,14 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	box-sizing: content-box;
 }
 
+.masthead ol.corporate a:focus{
+	outline: none;
+}
+
+.masthead ol.corporate a:focus p{
+	outline: 1px dashed var(--input-outline);
+}
+
 .masthead ol.donors.corporate{
 	display: flex;
 	justify-content: center;
