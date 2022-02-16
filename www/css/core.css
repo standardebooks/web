@@ -592,7 +592,6 @@ h1 + section > h2:first-child{
 
 }
 
-
 a.button,
 .ebooks nav > a,
 form button{
@@ -612,7 +611,6 @@ form button{
 	cursor: pointer;
 	white-space: nowrap;
 	font-size: 1rem;
-	height: calc(1.4rem + 2rem + 2px);
 	hyphens: none;
 	line-height: 1.2;
 }
@@ -1036,7 +1034,7 @@ section#description h2{
 	display: none;
 }
 
-section#description p:first-of-type{
+section#description > p:first-of-type{
 	margin-top: 0;
 }
 
@@ -1809,12 +1807,15 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	line-height: 1;
 }
 
-.masthead ol.donors{
-	grid-template-columns: repeat(auto-fill, minmax(10rem, max-content));
-}
-
 .masthead ol.donors.patrons{
 	font-style: italic;
+	display: block;
+	columns: 3;
+	margin-left: -.25rem;
+}
+
+.masthead ol.donors.patrons li{
+	padding: .25rem;
 }
 
 .masthead ol.donors.patrons li:last-child{
@@ -1943,6 +1944,7 @@ article.ebook section aside.donation{
 	background-color: rgba(255, 255, 255, .5);
 	font-style: italic;
 	hyphens: none;
+	box-sizing: border-box;
 }
 
 aside.donation::before{
@@ -1953,6 +1955,7 @@ aside.donation::before{
 	width: calc(1rem + 2px);
 	top: 0;
 	left: 0;
+	-webkit-clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
 	clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
 	transform: rotate(90deg);
 	border-radius: 0 0 0 .25rem;
@@ -1967,6 +1970,7 @@ aside.donation::after{
 	width: 1rem;
 	top: 0;
 	left: 0;
+	-webkit-clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
 	clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
 	transform: rotate(90deg);
 	border-radius: 0 0 0 .25rem;
@@ -2049,6 +2053,184 @@ article.step-by-step-guide ol ol{
 
 abbr.acronym{
 	font-variant: all-small-caps;
+}
+
+aside header{
+	font-family: "League Spartan", Arial, sans-serif;
+	font-style: normal;
+	text-transform: uppercase;
+	margin-bottom: 2rem;
+	font-size: 1.5rem;
+}
+
+.progress{
+	position: relative;
+	font-size: 0;
+}
+
+.progress > div{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.donation a.button{
+	display: inline-block;
+	white-space: normal;
+	text-align: center;
+}
+
+.donation > p{
+	font-style: normal;
+}
+
+.progress + p{
+	margin-top: 2rem;
+	hyphens: auto;
+}
+
+.progress p{
+	font-size: 1rem;
+	font-family: "League Spartan", Arial, sans-serif;
+	left: 0;
+	background: rgba(0, 0, 0, .1);
+	font-style: normal;
+	border-radius: .25rem;
+	padding: .25rem .5rem;
+	color: #fff;
+	display: block;
+	align-self: center;
+	justify-self: center;
+	justify-content: center;
+	text-shadow: 1px 1px 0px rgba(0, 0, 0, .5);
+	border: 1px solid var(--border);
+	margin-top: 0;
+}
+
+.progress p.start{
+	margin-right: auto;
+	margin-left: 1rem;
+	border: none;
+	background: transparent;
+	padding: 0;
+	font-size: .75rem;
+}
+
+.progress p.target{
+	margin-left: auto;
+	margin-right: 1rem;
+	border: none;
+	background: transparent;
+	padding: 0;
+	font-size: .75rem;
+}
+
+.progress > div{
+	/* Animate the div instead of the bar itself, because animating the bar triggers an
+	FF bug that causes infinite requsts to stripes.svg */
+	background: url('/images/stripes.svg') transparent;
+	background-position: 0 0;
+	animation: progress 2s linear infinite;
+	z-index: 3;
+}
+
+progress{
+	-webkit-appearance: none;
+	appearance: none;
+	height: 3rem;
+	border: 1px solid var(--input-border);
+	border-radius: .25rem;
+	width: 100%;
+	background: var(--body-bg);
+	overflow: hidden;
+}
+
+progress::-webkit-progress-bar{
+	background: var(--body-bg);
+}
+
+progress::-webkit-progress-value{
+	background: var(--button);
+	box-shadow: 1px 0 1px rgba(0, 0, 0, .25);
+}
+
+progress::-moz-progress-bar{
+	background: var(--button);
+	box-shadow: 1px 0 1px rgba(0, 0, 0, .25);
+}
+
+p.stretch-base{
+	position: absolute;
+	border: none;
+	background: none;
+	padding: 0;
+	left: 70.5%;
+	font-size: .75rem;
+}
+
+progress.stretch{
+	--starting-pos: 71.5%;
+	position: absolute;
+	left: var(--starting-pos);
+	top: 0;
+	width: calc(100% - var(--starting-pos) + 1px);
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	overflow: auto; /* enable drop shadow glow */
+	border-left: none;
+}
+
+progress.stretch::-webkit-progress-value{
+	background: #f2d745;
+	box-shadow: none;
+	filter: drop-shadow(0 0 10px #f2d745);
+	border-right: 1px solid #E9C91F;
+	border-left: 5px solid #E9C91F;
+}
+
+progress.stretch::-moz-progress-bar{
+	background: #f2d745;
+	box-shadow: none;
+	filter: drop-shadow(0 0 10px #f2d745);
+	border-right: 1px solid #E9C91F;
+	border-left: 5px solid #E9C91F;
+}
+
+aside button.close{
+	font-size: 0;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	background: url('/images/close.svg') transparent;
+	background-size: cover;
+	height: 1rem;
+	width: 1rem;
+	opacity: .75;
+}
+
+aside button.close:hover{
+	opacity: 1;
+}
+
+aside button.close:active{
+	left: auto;
+	top: calc(1rem + 1px);
+	right: calc(1rem - 1px);
+}
+
+@keyframes progress{
+	0%{
+		background-position: -60px 0px;
+	}
+
+	100%{
+		background-position: 0 0;
+	}
 }
 
 .downloads-container{
@@ -2497,6 +2679,12 @@ abbr.acronym{
 		text-align: justify;
 	}
 
+	aside.donation p:last-child,
+	article.ebook section aside.donation p:last-child,
+	aside.donation header p{
+		text-align: center;
+	}
+
 	body > header{
 		padding: 1rem 0;
 	}
@@ -2581,6 +2769,10 @@ abbr.acronym{
 	form[action*="list-manage.com"] fieldset{
 		grid-column: 1 / span 2;
 	}
+
+	.masthead ol.donors.patrons{
+		columns: 2;
+	}
 }
 
 @media(max-width: 500px){
@@ -2663,13 +2855,13 @@ abbr.acronym{
 		text-align: left;
 	}
 
-	form[action="/settings"] button{
+	form[action="/settings"] button:not(.close){
 		display: block;
 		margin-top: 1rem;
 		margin-left: 0;
 	}
 
-	form[action="/settings"] button,
+	form[action="/settings"] button:not(.close),
 	form[action="/settings"] span,
 	form[action="/settings"] select{
 		width: 100%;
@@ -2702,6 +2894,17 @@ abbr.acronym{
 
 	footer ul li::after{
 		display: none;
+	}
+
+	.progress p.start,
+	.progress p.target,
+	.progress p.stretch-base{
+		display: none;
+	}
+
+	.progress p{
+		border: none;
+		background: transparent;
 	}
 }
 
@@ -2775,6 +2978,10 @@ abbr.acronym{
 	main.ebooks > ol.list > li img{
 		max-width: 50%;
 		margin-bottom: 1rem;
+	}
+
+	.masthead ol.donors.patrons{
+		columns: 1;
 	}
 }
 

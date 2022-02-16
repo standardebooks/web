@@ -8,9 +8,7 @@
 
 */
 
-if(!isset($isCrawlable)){
-	$isCrawlable = false;
-}
+$isCrawlable = $isCrawlable ?? false;
 
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>

@@ -1,21 +1,9 @@
 <?
 
-if(!isset($title)){
-	$title = '';
-}
-
-if(!isset($highlight)){
-	$highlight = '';
-}
-
-if(!isset($description)){
-	$description = '';
-}
-
-if(!isset($manual)){
-	$manual = false;
-}
-
+$title = $title ?? '';
+$highlight = $highlight ?? '';
+$description = $description ?? '';
+$manual = $manual ?? false;
 $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 
 header('content-type: application/xhtml+xml');

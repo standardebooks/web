@@ -1,7 +1,7 @@
 <?
 class HttpInput{
-	public static function GetString(string $variable, bool $allowEmptyString = true, string $default = null): ?string{
-		$var = self::GetHttpVar($variable, HTTP_VAR_STR, GET, $default);
+	public static function Str(int $type, string $variable, bool $allowEmptyString = true, string $default = null): ?string{
+		$var = self::GetHttpVar($variable, HTTP_VAR_STR, $type, $default);
 
 		if(is_array($var)){
 			return $default;
@@ -14,16 +14,16 @@ class HttpInput{
 		return $var;
 	}
 
-	public static function GetInt(string $variable, int $default = null): ?int{
-		return self::GetHttpVar($variable, HTTP_VAR_INT, GET, $default);
+	public static function Int(int $type, string $variable, int $default = null): ?int{
+		return self::GetHttpVar($variable, HTTP_VAR_INT, $type, $default);
 	}
 
-	public static function GetBool(string $variable, bool $default = null): ?bool{
-		return self::GetHttpVar($variable, HTTP_VAR_BOOL, GET, $default);
+	public static function Bool(int $type, string $variable, bool $default = null): ?bool{
+		return self::GetHttpVar($variable, HTTP_VAR_BOOL, $type, $default);
 	}
 
-	public static function GetDec(string $variable, float $default = null): ?float{
-		return self::GetHttpVar($variable, HTTP_VAR_DEC, GET, $default);
+	public static function Dec(int $type, string $variable, float $default = null): ?float{
+		return self::GetHttpVar($variable, HTTP_VAR_DEC, $type, $default);
 	}
 
 	/**

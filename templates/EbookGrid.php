@@ -4,13 +4,9 @@ if($view == ''){
 	$view = VIEW_GRID;
 }
 
-if(!isset($collection)){
-	$collection = null;
-}
+$collection = $collection ?? null;
 
-if(!isset($ebooks)){
-	$ebooks = [];
-}
+$ebooks = $ebooks ?? [];
 ?>
 <ol<? if($view == VIEW_LIST){ ?> class="list"<? } ?><? if($collection !== null){ ?> typeof="schema:BookSeries" about="<?= $collection->Url ?>"<? } ?>>
 <? if($collection !== null){ ?>

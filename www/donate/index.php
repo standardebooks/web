@@ -7,6 +7,9 @@ require_once('Core.php');
 			<h1>Donate to Standard Ebooks</h1>
 			<h2>and help bring the beauty of literature to the digital age</h2>
 		</hgroup>
+		<? if(DONATION_DRIVE_ON){ ?>
+		<?= Template::DonationProgress(['autoHide' => false]) ?>
+		<? } ?>
 		<picture>
 			<source srcset="/images/the-quiet-hour@2x.avif 2x, /images/the-quiet-hour.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-quiet-hour@2x.jpg 2x, /images/the-quiet-hour.jpg 1x" type="image/jpg"/>
@@ -23,27 +26,29 @@ require_once('Core.php');
 		</section>
 		<section id="patrons-circle">
 			<h2>Join the Patrons Circle</h2>
-			<p>Start a monthly donation of $10/month or more to become a member of the Patrons Circle. <strong>For less than the cost of a meal out, Patrons Circle members have a direct voice in shaping the future of the Standard Ebooks catalog.</strong></p>
+			<p>Members of the Patrons Circle are steadfast supporters of free, unrestricted, and beautifully presented digital literature. Besides helping support the creation of gorgeous ebooks for everyone to enjoy, they also have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
+			<p><i>Join the Patrons Circle with a donation of $10/month or more, or join for one year with a one-time donation of $100 or more.</i></p>
 			<ul>
 				<li>
-					<p>Patrons Circle members have their name listed on our <a href="/about#masthead">masthead</a> for the duration of their gift.</p>
+					<p>Patrons Circle members have their name <a href="/about#patrons-circle">listed on our masthead</a> for the duration of their gift.</p>
 				</li>
 				<li>
-					<p>Once per quarter, Patrons Circle members may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and may be subject to approval.)</p>
+					<p>Once per quarter, Patrons Circle members may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and are subject to approval.)</p>
 				</li>
 				<li>
 					<p><strong>Periodically, members of the Patrons Circle vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production.</strong> The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
 				</li>
 			</ul>
-			<p class="button-row center">
+			<p class="button-row">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>
+				<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=cd005756-7327-463d-bd53-a08acc5eaa4a" class="button">Donate $100 or more</a>
 			</p>
 		</section>
 		<section id="sponsor-an-ebook">
 			<h2>Sponsor an ebook of your choice</h2>
 			<p>Is there a book you want to see made into a beautiful digital edition? You can give the gift of literature to readers everywhere by sponsoring an addition to the Standard Ebooks catalog.</p>
 			<p>Donate at one of the levels below and a book you select will be carefully hand-produced into an ebook edition that meets our high standard of quality, before becoming a permanent addition to our online catalog for the world to read, share, and reuse free of cost or U.S. copyright restrictions. Your name will appear in the ebook’s colophon and metadata, sealing your legacy as a sponsor of the literate arts.</p>
-			<p><em>Before you make your donation</em>, <a href="/about#masthead">contact the S.E. Editor-in-Chief</a> to confirm that your ebook selection will be accepted at your chosen donation level. These are the general rules:</p>
+			<p><em>Before you make your donation</em>, <a href="/about#editor-in-chief">contact the S.E. Editor-in-Chief</a> to confirm that your ebook selection will be accepted at your chosen donation level. These are the general rules:</p>
 			<ul>
 				<li>
 					<p>Your selection must conform to our <a href="/contribute/collections-policy">collections policy</a>. The S.E. Editor-in-Chief reserves the right to modify or reject a selection for any reason.</p>
@@ -52,7 +57,7 @@ require_once('Core.php');
 					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">O.C.R.</a> output.</p>
 				</li>
 				<li>
-					<p>Your selection’s word count will be calculated from the source transcription using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes. <a href="/about#masthead">Contact the S.E. Editor-in-Chief</a> before donating so that we can calculate your selection’s word count for you; a word processor can give you an estimate, but we must make the final determination. Note that the final ebook’s word count will differ.</p>
+					<p>Your selection’s word count will be calculated from the source transcription using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes. <a href="/about#editor-in-chief">Contact the S.E. Editor-in-Chief</a> before donating so that we can calculate your selection’s word count for you; a word processor can give you an estimate, but we must make the final determination. Note that the final ebook’s word count will differ.</p>
 				</li>
 				<li>
 					<p>Standard Ebooks is the sole decisionmaker regarding all aspects of ebook editing and production. Trust us to create an artifact of beauty.</p>
@@ -117,7 +122,7 @@ require_once('Core.php');
 			<p>Sponsorships at the corporate level are a great way to show your organization’s commitment to the support of the literate arts.</p>
 			<ul>
 				<li>
-					<p>Your organization’s logo and a link will be <a href="/about">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
+					<p>Your organization’s logo and a link will be <a href="/about#corporate-sponsors">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
 				</li>
 				<li>
 					<p>Get customized <abbr class="acronym">ONIX</abbr>, OPDS, or RSS feeds of our ebook catalog for use by your organization for the duration of your sponsorship.</p>

@@ -4,13 +4,13 @@ require_once('Core.php');
 use function Safe\preg_replace;
 
 try{
-	$page = HttpInput::GetInt('page', 1);
-	$perPage = HttpInput::GetInt('per-page', EBOOKS_PER_PAGE);
-	$query = HttpInput::GetString('query', false);
+	$page = HttpInput::Int(GET, 'page', 1);
+	$perPage = HttpInput::Int(GET, 'per-page', EBOOKS_PER_PAGE);
+	$query = HttpInput::Str(GET, 'query', false);
 	$tags = HttpInput::GetArray('tags', []);
-	$collection = HttpInput::GetString('collection', false);
-	$view = HttpInput::GetString('view', false);
-	$sort = HttpInput::GetString('sort', false);
+	$collection = HttpInput::Str(GET, 'collection', false);
+	$view = HttpInput::Str(GET, 'view', false);
+	$sort = HttpInput::Str(GET, 'sort', false);
 	$pages = 0;
 	$totalEbooks = 0;
 	$collectionObject = null;
@@ -135,8 +135,10 @@ catch(InvalidCollectionException $ex){
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
 	<h1><?= $pageHeader ?></h1>
-	<? if(DONATION_HOLIDAY_ALERT_ON){ ?>
-	<?= Template::DonationAlert(['holidays' => true]) ?>
+	<? if(DONATION_DRIVE_ON){ ?>
+	<?= Template::DonationProgress() ?>
+	<? }elseif(DONATION_HOLIDAY_ALERT_ON){ ?>
+	<?= Template::DonationAlert() ?>
 	<? } ?>
 	<? if($collection === null){ ?>
 	<?= Template::SearchForm(['query' => $query, 'tags' => $tags, 'sort' => $sort, 'view' => $view, 'perPage' => $perPage]) ?>

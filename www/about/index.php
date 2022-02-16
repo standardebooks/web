@@ -4,6 +4,9 @@ require_once('Core.php');
 <main>
 	<article>
 		<h1>About Standard Ebooks</h1>
+		<? if(DONATION_DRIVE_ON){ ?>
+		<?= Template::DonationProgress() ?>
+		<? } ?>
 		<p>Standard Ebooks is a volunteer-driven effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the U.S. public domain, and Standard Ebooks dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain. All the ebooks we produce are distributed free of cost and free of U.S. copyright restrictions.</p>
 		<p>Standard Ebooks is organized as a “<a href="https://en.wikipedia.org/wiki/Low-profit_limited_liability_company">low-profit L.L.C.</a>,” or “L<sup>3</sup>C,” a kind of legal entity that blends the charitable focus of a traditional not-for-profit with the ease of organization and maintenance of a regular L.L.C. Our only source of income is <a href="/donate">donations from readers like you</a>.</p>
 		<section id="more-information">
@@ -101,6 +104,14 @@ require_once('Core.php');
 			<section id="corporate-sponsors">
 				<h3>Corporate Sponsors</h3>
 				<ol class="donors corporate">
+					<? if(false){ ?>
+					<li>
+						<a href="https://www.threadablebooks.com">
+							<img src="/images/masthead/sponsors/threadable.svg" alt="" />
+							<p>Threadable</p>
+						</a>
+					</li>
+					<? } ?>
 					<li>
 						<a href="https://www.scribophile.com">
 							<img src="/images/masthead/sponsors/scribophile.svg" alt="" />
@@ -111,10 +122,25 @@ require_once('Core.php');
 			</section>
 			<section id="patrons-circle">
 				<h3>Patrons Circle</h3>
-				<p><a href="/donate#patrons-circle">Join the Patrons Circle</a> to support free literature and to have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
+				<p><a href="/donate#patrons-circle">Join the Patrons Circle</a> to support beautiful, free, and unrestricted digital literature, and to have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 				<ol class="donors patrons">
 					<li>
+						<p>Jon Allen</p>
+					</li>
+					<li>
+						<p>David Ballenger</p>
+					</li>
+					<li>
 						<p>Michael Barrineau</p>
+					</li>
+					<li>
+						<p>Leland Blanton</p>
+					</li>
+					<li>
+						<p>Keith Bradner</p>
+					</li>
+					<li>
+						<p>Chris Brooks</p>
 					</li>
 					<li>
 						<p>Derrick Burns</p>
@@ -132,6 +158,21 @@ require_once('Core.php');
 						<p>Maxwell Collins-Shenfield</p>
 					</li>
 					<li>
+						<p>Liza Daly</p>
+					</li>
+					<li>
+						<p>In memory of Georgia Dawson</p>
+					</li>
+					<li>
+						<p>Mahdi Dibaiee</p>
+					</li>
+					<li>
+						<p>Jeffrey Dlouhy</p>
+					</li>
+					<li>
+						<p>Christian Eager</p>
+					</li>
+					<li>
 						<p>Alec Feather</p>
 					</li>
 					<li>
@@ -141,10 +182,19 @@ require_once('Core.php');
 						<p>Mac Foster</p>
 					</li>
 					<li>
+						<p>Michael Ham</p>
+					</li>
+					<li>
 						<p>Carey Handfield</p>
 					</li>
 					<li>
+						<p>Richard Healey</p>
+					</li>
+					<li>
 						<p>Curtis Hendzell</p>
+					</li>
+					<li>
+						<p>Stephen Heywood</p>
 					</li>
 					<li>
 						<p>David Howell</p>
@@ -156,19 +206,61 @@ require_once('Core.php');
 						<p>Jared Joslin</p>
 					</li>
 					<li>
+						<p>Leonard Kirke</p>
+					</li>
+					<li>
+						<p>Eric Korhonen</p>
+					</li>
+					<li>
+						<p>Brendan LeFebvre</p>
+					</li>
+					<li>
+						<p>Monica &amp; Matthew Levine</p>
+					</li>
+					<li>
+						<p>Lance Linimon</p>
+					</li>
+					<li>
+						<p>James Luke</p>
+					</li>
+					<li>
 						<p>Patrick Greeley Mahoney</p>
+					</li>
+					<li>
+						<p>Judith Moore</p>
+					</li>
+					<li>
+						<p>Ozan Ocal</p>
 					</li>
 					<li>
 						<p>Andrew Roach</p>
 					</li>
 					<li>
+						<p>Rollin Salsbery</p>
+					</li>
+					<li>
 						<p>Brandon Sowers</p>
+					</li>
+					<li>
+						<p>Mark Swenson</p>
+					</li>
+					<li>
+						<p>Joshua Tompkins</p>
+					</li>
+					<li>
+						<p>Ted van der Togt</p>
+					</li>
+					<li>
+						<p>Nathan West</p>
+					</li>
+					<li>
+						<p>Blake Westerdahl</p>
 					</li>
 					<li>
 						<p>Patrick Weyer</p>
 					</li>
 					<li>
-						<p>Anonymous × 5</p>
+						<p>Anonymous × 19</p>
 					</li>
 				</ol>
 			</section>

@@ -28,3 +28,4 @@ parameters:
 	dynamicConstantNames:
 		- DONATION_HOLIDAY_ALERT_ON
 		- DONATION_ALERT_ON
+		- DONATION_DRIVE_ON

@@ -6,7 +6,7 @@ $now = new DateTime('now', new DateTimeZone('UTC'));
 $ebooks = [];
 
 try{
-	$query = HttpInput::GetString('query', false);
+	$query = HttpInput::Str(GET, 'query', false);
 
 	if($query !== null){
 		$ebooks = Library::Search($query);
