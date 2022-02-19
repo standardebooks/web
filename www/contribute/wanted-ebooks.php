@@ -15,6 +15,9 @@ require_once('Core.php');
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
+				<p><a href="https://en.wikisource.org/wiki/Doctor_Syn">Doctor Syn</a> by Russell Thorndyke</p>
+			</li>
+			<li>
 				<p><a href="https://gutenberg.org/ebooks/2081">The Blithedale Romance</a> by Nathaniel Hawthorne</p>
 			</li>
 			<li>
