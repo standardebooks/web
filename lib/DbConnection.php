@@ -1,4 +1,5 @@
 <?
+use Safe\DateTime;
 use function Safe\preg_match;
 
 class DbConnection{
@@ -70,7 +71,7 @@ class DbConnection{
 	/**
 	* @return Array<mixed>
 	*/
-	public function Query(string $sql, array $params = []): array{
+	public function Query(string $sql, array $params = [], string $class = 'stdClass'): array{
 		if(!$this->IsConnected){
 			return [];
 		}
@@ -115,7 +116,7 @@ class DbConnection{
 		$done = false;
 		while(!$done){
 			try{
-				$result = $this->ExecuteQuery($handle);
+				$result = $this->ExecuteQuery($handle, $class);
 				$done = true;
 			}
 			catch(\PDOException $ex){
@@ -154,14 +155,71 @@ class DbConnection{
 	/**
 	* @return Array<mixed>
 	*/
-	private function ExecuteQuery(PDOStatement $handle): array{
+	private function ExecuteQuery(PDOStatement $handle, string $class = 'stdClass'): array{
 		$handle->execute();
 
 		$result = [];
 		do{
 			try{
-				if($handle->columnCount() > 0){
-					$result[] = $handle->fetchAll(\PDO::FETCH_OBJ);
+				$columnCount = $handle->columnCount();
+				if($columnCount > 0){
+
+					$metadata = [];
+
+					for($i = 0; $i < $columnCount; $i++){
+						$metadata[$i] = $handle->getColumnMeta($i);
+						if(preg_match('/^(Is|Has|Can)[A-Z]/u', $metadata[$i]['name']) === 1){
+							// MySQL doesn't have a native boolean type, so fake it here if the column
+							// name starts with Is, Has, or Can and is followed by an uppercase letter
+							$metadata[$i]['native_type'] = 'BOOL';
+						}
+					}
+
+					$rows = $handle->fetchAll(\PDO::FETCH_NUM);
+
+					if(!is_array($rows)){
+						continue;
+					}
+
+					foreach($rows as $row){
+						$object = new $class();
+
+						for($i = 0; $i < $handle->columnCount(); $i++){
+							if($row[$i] === null){
+								$object->{$metadata[$i]['name']} = null;
+							}
+							else{
+								switch($metadata[$i]['native_type']){
+									case 'DATETIME':
+										$object->{$metadata[$i]['name']} = new DateTime($row[$i], new DateTimeZone('UTC'));
+										break;
+
+									case 'LONG':
+									case 'TINY':
+									case 'SHORT':
+									case 'INT24':
+									case 'LONGLONG':
+										$object->{$metadata[$i]['name']} = intval($row[$i]);
+										break;
+
+									case 'FLOAT':
+									case 'DOUBLE':
+										$object->{$metadata[$i]['name']} = floatval($row[$i]);
+										break;
+
+									case 'BOOL':
+										$object->{$metadata[$i]['name']} = $row[$i] == 1 ? true : false;
+										break;
+
+									default:
+										$object->{$metadata[$i]['name']} = $row[$i];
+										break;
+								}
+							}
+						}
+
+						$result[] = $object;
+					}
 				}
 			}
 			catch(\PDOException $ex){
@@ -176,7 +234,7 @@ class DbConnection{
 		return $result;
 	}
 
-	// Gets the last AUTO-INCREMENT id
+	// Gets the last auto-increment id
 	public function GetLastInsertedId(): ?int{
 		$id = $this->_link->lastInsertId();
 

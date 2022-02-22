@@ -8,7 +8,7 @@ class Db{
 	/**
 	* @return Array<mixed>
 	*/
-	public static function Query(string $query, array $args = []): array{
+	public static function Query(string $query, array $args = [], string $class = 'stdClass'): array{
 		if(!isset($GLOBALS['DbConnection'])){
 			$GLOBALS['DbConnection'] = new DbConnection(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
 		}
@@ -17,6 +17,6 @@ class Db{
 			$args = [$args];
 		}
 
-		return $GLOBALS['DbConnection']->Query($query, $args);
+		return $GLOBALS['DbConnection']->Query($query, $args, $class);
 	}
 }
