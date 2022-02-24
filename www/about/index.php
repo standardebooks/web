@@ -180,6 +180,9 @@ require_once('Core.php');
 						<p>Mac Foster</p>
 					</li>
 					<li>
+						<p>Joshua Go</p>
+					</li>
+					<li>
 						<p>Michael Ham</p>
 					</li>
 					<li>
