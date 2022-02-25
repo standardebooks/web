@@ -15,6 +15,9 @@ require_once('Core.php');
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
+				<p><a href="https://gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
+			</li>
+			<li>
 				<p><a href="https://en.wikisource.org/wiki/Doctor_Syn">Doctor Syn</a> by Russell Thorndyke</p>
 			</li>
 			<li>
@@ -479,9 +482,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://en.m.wikisource.org/wiki/A_Daughter_of_the_Samurai">A Daughter of the Samurai</a> by Etsu Inagaki Sugimoto</p>
-			</li>
+			</li> -->
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
