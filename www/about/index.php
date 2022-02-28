@@ -141,6 +141,9 @@ require_once('Core.php');
 						<p>Chris Brooks</p>
 					</li>
 					<li>
+						<p>Benjamin Bunnell</p>
+					</li>
+					<li>
 						<p>Derrick Burns</p>
 					</li>
 					<li>
@@ -261,7 +264,7 @@ require_once('Core.php');
 						<p>Patrick Weyer</p>
 					</li>
 					<li>
-						<p>Anonymous × 19</p>
+						<p>Anonymous × 20</p>
 					</li>
 				</ol>
 			</section>
