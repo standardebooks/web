@@ -1621,10 +1621,6 @@ input[type="search"]:-moz-ui-invalid{
 	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
 }
 
-select[multiple] option:last-child{
-	margin-bottom: 1rem; /* needed for firefox */
-}
-
 select[multiple] option:checked{
 	/* We have to use this method to set the bg color because browsers override background-color with !important */
 	background-image: linear-gradient(0deg, var(--button) 0%,  var(--button) 100%);
