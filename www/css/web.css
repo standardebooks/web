@@ -1,27 +1,28 @@
 @namespace epub "http://www.idpf.org/2007/ops";
 
 body{
-	font-family: Georgia, serif;
+	font-family: georgia, serif;
 	font-size: 18px;
-	padding: 0 3em;
-	margin: 8em auto 3em;
+	margin: 8rem auto 3rem;
 	max-width: 55ch;
+	min-height: calc(100vh - 8rem - 3rem); /* Size of header - body margin */
+	padding: 0 3rem;
 }
 
 body > header{
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
 	background: #fff;
 	border-bottom: 1px solid #999;
 	box-shadow: 0 0 3px #ccc;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
 	z-index: 1000; /* Required so that SVGs don't scroll over the header */
 }
 
 body > header ul{
-	display: flex;
 	align-items: center;
+	display: flex;
 	list-style: none;
 	margin: 0;
 	padding: 0.5em 1em;
@@ -37,22 +38,16 @@ body > header li:first-child{
 }
 
 body > header li:first-child > a{
+	background: no-repeat center / 100% url("/images/logo-full.svg");
 	display: block;
-	width: 180px;
-	height: 42px;
-	background: no-repeat center/100% url(/images/logo-full.svg);
 	font-size: 0;
+	height: 42px;
 	transition: transform 200ms ease;
+	width: 180px;
 }
 
 body > header li:first-child > a:hover{
 	transform: scale(1.025) rotate(1deg);
-}
-
-body > nav,
-body > section,
-body > article{
-	min-height: 100vh;
 }
 
 body > section[epub|type~="titlepage"],
@@ -81,14 +76,14 @@ nav[epub|type~="toc"] ol{
 	}
 
 	body > header li:first-child > a{
-		width: 90px;
 		height: 21px;
+		width: 90px;
 	}
 }
 
 @media(max-width: 65ch){
 	body{
-		padding: 0 1em;
+		padding: 0 2rem;
 	}
 
 	section[epub|type~="imprint"] p{
@@ -124,7 +119,7 @@ nav[epub|type~="toc"] ol{
 
 @media(pointer: coarse) or (pointer: none){
 	nav[epub|type~="toc"] ol li{
-		margin-top: 2em;
 		margin-bottom: 2em;
+		margin-top: 2em;
 	}
 }
