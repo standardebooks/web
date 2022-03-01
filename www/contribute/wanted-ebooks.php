@@ -336,9 +336,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1156">Babbitt</a> by Sinclair Lewis (part of the Guardian 2015 collection)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/498">Books by Edward Lear</a></p>
 			</li>
 			<li>
