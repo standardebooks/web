@@ -107,9 +107,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/85">The Beasts of Tarzan</a> (Tarzan 3) by Edgar Rice Burroughs</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/92">Tarzan and the Jewels of Opar</a> (Tarzan 5) by Edgar Rice Burroughs</p>
 			</li>
@@ -149,9 +146,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1652">The Survivors of the Chancellor</a> <i>Le Chancellor</i> by Jules Verne</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/11556">Facing the Flag</a> <i>Face au drapeau</i> by Jules Verne</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
 			</li>
@@ -240,17 +234,11 @@ require_once('Core.php');
 				<p><a href="http://gutenberg.org/ebooks/6627">Barriers Burned Away</a> by Edward Payson Roe</p>
 			</li>
 			<li>
-				<p><a href="https://www.fadedpage.com/showbook.php?pid=20160510">Those Barren Leaves</a> by Aldous Huxley</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/measure/full.html">Measure for Measure</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/lll/full.html">Love’s Labour’s Lost</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
-			<!-- <li>
-				<p><a href="http://shakespeare.mit.edu/merchant/full.html">The Merchant of Venice</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li> -->
 			<li>
 				<p><a href="http://shakespeare.mit.edu/troilus_cressida/full.html">Troilus and Cressida</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
