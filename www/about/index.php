@@ -43,6 +43,7 @@ require_once('Core.php');
 			</section>
 			<section id="editors">
 				<h3>Editors</h3>
+				<p><i>“Editor” is the honorary title bestowed on volunteers who, in their history of contributing to Standard Ebooks, have demonstrated exceptional capability in producing ebooks, as well as in managing and reviewing ebooks produced by other volunteers. They continue to volunteer as first-line consultants for new ebook projects.</i></p>
 				<ol class="editors">
 					<li>
 						<picture>
