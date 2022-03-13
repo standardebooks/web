@@ -176,13 +176,20 @@ require_once('Core.php');
 				</li>
 			</ul>
 		</section>
+		<section id="kobo-faq">
+			<h2>Kobo FAQ</h2>
+			<ul>
+				<li>
+					<p><b>Why do you offer a separate kepub file, when Kobos can open S.E.’s compatible epub files?</b></p>
+					<p>It’s true that Kobos can open and read regular epub files like the compatible epubs we offer for download. But doing so triggers Kobo’s bad ebook renderer, which based on A.D.E. Your ebooks are going to look bad because the renderer Kobo selects for plain epubs is bad.</p>
+					<p>When Kobo opens kepub files—which are still epub files, but specially prepared with extra Kobo-specific markup—Kobo uses their advanced Webkit-based renderer to render the ebook. This renderer is very good, and has support for a lot of advanced ebook rendering features that our specially-prepared kepub files take advantage of. Your ebooks will look very good when you use the kepub files instead of the compatible epub files.</p>
+					<p>We very much wish that Kobo would allow plain epubs to be presented to readers using their good renderer, and not A.D.E. You can <a href="https://help.kobo.com/hc/en-us/requests/new">contact Kobo</a> to let them know you’d like that, too.</p>
+				</li>
+			</ul>
+		</section>
 		<section id="kindle-faq">
 			<h2>Kindle FAQ</h2>
 			<ul>
-				<li>
-					<p><b>How do I transfer ebooks to my Kindle?</b></p>
-					<p>Scroll up to see!</p>
-				</li>
 				<li>
 					<p><b>Why don’t you provide mobi files <em>instead of</em> azw3 files?</b></p>
 					<p>Mobi ebooks are an older ebook file format, and they don’t support many basic features you’d expect from a beautiful ebook, like hyphenation. Since the file format is so old—dating back to 2007—its support for the latest ebook technology is poor, making it much harder for us to produce well-formatted ebooks in that file format.</p>

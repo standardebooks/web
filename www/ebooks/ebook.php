@@ -209,7 +209,7 @@ catch(InvalidEbookException $ex){
 							<li property="schema:encoding" typeof="schema:MediaObject">
 								<meta property="schema:encodingFormat" content="application/kepub+zip"/>
 								<p>
-									<span><a property="schema:contentUrl" href="<?= $ebook->KepubUrl ?>" class="kobo" download=""><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps.</span>
+									<span><a property="schema:contentUrl" href="<?= $ebook->KepubUrl ?>" class="kobo" download=""><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps. You may also be interested in our <a href="/help/how-to-use-our-ebooks#kobo-faq">Kobo FAQ</a>.</span>
 								</p>
 							</li>
 							<? } ?>
