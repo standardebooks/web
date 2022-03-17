@@ -16,7 +16,7 @@ require_once('Core.php');
 			<img src="/images/the-quiet-hour@2x.jpg" alt="An oil painting of a women reading a book by a writing desk at twilight."/>
 		</picture>
 		<section id="donate">
-			<p>We work hard to create beautifully-formatted ebooks that are free of cost and free of copyright restrictions. It takes a team of highly-skilled specialists working together for weeks and even months to ensure that an ebook meets our exacting aesthetic and technical standards, before it’s offered to readers for free.</p>
+			<p>We work hard to create beautifully-formatted ebooks that are free of cost and free of U.S. copyright restrictions. It takes a team of highly-skilled specialists working together for weeks and even months to ensure that an ebook meets our exacting aesthetic and technical standards, before it’s offered to readers for free.</p>
 			<p>The cost of producing even the most basic ebook is estimated to approach almost a thousand dollars; and that doesn’t include infrastructure costs like developing and maintaining our <a href="/tools">free and open source ebook production toolset</a>, editing our <a href="/manual">free Manual of Style</a>, project management, hosting, or bandwidth. <em>This means your financial contribution is critically important for us to continue bringing beautifully-presented literature to readers in the digital age.</em></p>
 			<p><a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a 501(c)(3) public charity, is our fiscal sponsor. Your donation will be processed through their website, and their name will appear on your financial statements and receipts. Donations are tax-deductible to the extent permitted by law.</p>
 			<p class="button-row">
@@ -26,7 +26,7 @@ require_once('Core.php');
 		</section>
 		<section id="patrons-circle">
 			<h2>Join the Patrons Circle</h2>
-			<p>Members of the Patrons Circle are steadfast supporters of free, unrestricted, and beautifully presented digital literature. Besides helping support the creation of gorgeous ebooks for everyone to enjoy, they also have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
+			<p>Members of the Patrons Circle are steadfast supporters of free, unrestricted, and beautifully presented digital literature. Besides helping support the creation of free, gorgeous ebooks, they also have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 			<p><i>Join the Patrons Circle with a donation of $10/month or more, or join for one year with a one-time donation of $100 or more.</i></p>
 			<ul>
 				<li>
