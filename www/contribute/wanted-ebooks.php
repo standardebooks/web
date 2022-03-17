@@ -62,9 +62,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/2233">A Damsel in Distress</a> by P. G. Wodehouse</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4075">The Intrusion of Jimmy</a> by P. G. Wodehouse</p>
 			</li>
@@ -260,9 +257,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://shakespeare.mit.edu/pericles/full.html">Pericles</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
       			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/615">Orlando Furioso</a> by Lodovico Ariosto</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
 			</li>
