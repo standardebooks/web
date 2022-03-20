@@ -464,9 +464,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://en.m.wikisource.org/wiki/A_Daughter_of_the_Samurai">A Daughter of the Samurai</a> by Etsu Inagaki Sugimoto</p>
-			</li> -->
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
