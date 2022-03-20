@@ -69,15 +69,15 @@ class Ebook{
 		}
 
 		if(!is_dir($wwwFilesystemPath)){
-			throw new InvalidEbookException('Invalid www filesystem path: ' . $wwwFilesystemPath);
+			throw new Exceptions\InvalidEbookException('Invalid www filesystem path: ' . $wwwFilesystemPath);
 		}
 
 		if(!is_dir($this->RepoFilesystemPath)){
-			throw new InvalidEbookException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
+			throw new Exceptions\InvalidEbookException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
 		}
 
 		if(!is_file($wwwFilesystemPath . '/content.opf')){
-			throw new InvalidEbookException('Invalid content.opf file: ' . $wwwFilesystemPath . '/content.opf');
+			throw new Exceptions\InvalidEbookException('Invalid content.opf file: ' . $wwwFilesystemPath . '/content.opf');
 		}
 
 		$this->WwwFilesystemPath = $wwwFilesystemPath;
@@ -88,7 +88,7 @@ class Ebook{
 		// Get the SE identifier.
 		preg_match('|<dc:identifier[^>]*?>(.+?)</dc:identifier>|ius', $rawMetadata, $matches);
 		if(sizeof($matches) != 2){
-			throw new EbookParsingException('Invalid <dc:identifier> element.');
+			throw new Exceptions\EbookParsingException('Invalid <dc:identifier> element.');
 		}
 		$this->Identifier = (string)$matches[1];
 
@@ -175,7 +175,7 @@ class Ebook{
 
 		$this->Title = $this->NullIfEmpty($xml->xpath('/package/metadata/dc:title'));
 		if($this->Title === null){
-			throw new EbookParsingException('Invalid <dc:title> element.');
+			throw new Exceptions\EbookParsingException('Invalid <dc:title> element.');
 		}
 
 		$this->Title = str_replace('\'', '’', $this->Title);
@@ -256,7 +256,7 @@ class Ebook{
 		}
 
 		if(sizeof($this->Authors) == 0){
-			throw new EbookParsingException('Invalid <dc:creator> element.');
+			throw new Exceptions\EbookParsingException('Invalid <dc:creator> element.');
 		}
 
 		$this->AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);

@@ -1,3 +1,0 @@
-<?
-class InvalidEbookException extends \Exception{
-}

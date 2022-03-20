@@ -1,3 +1,0 @@
-<?
-class InvalidAuthorException extends \Exception{
-}

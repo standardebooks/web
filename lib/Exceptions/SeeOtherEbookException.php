@@ -1,5 +1,7 @@
 <?
-class SeeOtherEbookException extends \Exception{
+namespace Exceptions;
+
+class SeeOtherEbookException extends SeException{
 	public $Url;
 
 	public function __construct(string $url = ''){

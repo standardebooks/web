@@ -10,7 +10,10 @@ class DbConnection{
 	public function __construct(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string$password = '', bool $forceUtf8 = true, bool $require = true){
 		if($user === null){
 			// Get the user running the script for local socket login
-			$user = posix_getpwuid(posix_geteuid())['name'];
+			$user = posix_getpwuid(posix_geteuid());
+			if($user){
+				$user = $user['name'];
+			}
 		}
 
 		$connectionString = 'mysql:';
@@ -125,9 +128,9 @@ class DbConnection{
 
 					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up.   Start at .5 seconds
 				}
-				elseif(stripos($ex->getMessage(), '1064 offset out of bounds') !== false){
-					$done = true;
-					// We reach here if Sphinx tries to get a record past its page limit. Just silently do nothing.
+				elseif($ex->getCode() == '23000'){
+					// Duplicate key, bubble this up without logging it so the business logic can handle it
+					throw($ex);
 				}
 				else{
 					$done = true;
@@ -139,14 +142,10 @@ class DbConnection{
 						Logger::WriteErrorLogEntry($ex->getMessage());
 						Logger::WriteErrorLogEntry($preparedSql);
 						Logger::WriteErrorLogEntry(vds($params));
+						throw($ex);
 					}
 				}
 			}
-		}
-
-		// If only one rowset is returned, change the result object
-		if(sizeof($result) == 1){
-			$result = $result[0];
 		}
 
 		return $result;
@@ -168,7 +167,7 @@ class DbConnection{
 
 					for($i = 0; $i < $columnCount; $i++){
 						$metadata[$i] = $handle->getColumnMeta($i);
-						if(preg_match('/^(Is|Has|Can)[A-Z]/u', $metadata[$i]['name']) === 1){
+						if($metadata[$i] && preg_match('/^(Is|Has|Can)[A-Z]/u', $metadata[$i]['name']) === 1){
 							// MySQL doesn't have a native boolean type, so fake it here if the column
 							// name starts with Is, Has, or Can and is followed by an uppercase letter
 							$metadata[$i]['native_type'] = 'BOOL';

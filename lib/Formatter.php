@@ -32,7 +32,7 @@ class Formatter{
 		return $text;
 	}
 
-	public static function ToPlainText(string $text): string{
+	public static function ToPlainText(?string $text): string{
 		return htmlspecialchars(trim($text), ENT_QUOTES, 'UTF-8');
 	}
 }

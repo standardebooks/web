@@ -83,7 +83,7 @@ try{
 			$pageHeader = 'Free ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
 		}
 		else{
-			throw new InvalidCollectionException();
+			throw new Exceptions\InvalidCollectionException();
 		}
 	}
 	else{
@@ -127,7 +127,7 @@ try{
 
 	$queryString = preg_replace('/^&amp;/ius', '', $queryString);
 }
-catch(InvalidCollectionException $ex){
+catch(Exceptions\InvalidCollectionException $ex){
 	http_response_code(404);
 	include(WEB_ROOT . '/404.php');
 	exit();

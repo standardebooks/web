@@ -1,3 +1,0 @@
-<?
-class EbookParsingException extends \Exception{
-}

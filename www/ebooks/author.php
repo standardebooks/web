@@ -7,16 +7,16 @@ try{
 
 	if($urlPath == '' || mb_stripos($wwwFilesystemPath, EBOOKS_DIST_PATH) !== 0 || !is_dir($wwwFilesystemPath)){
 		// Ensure the path exists and that the root is in our www directory
-		throw new InvalidAuthorException();
+		throw new Exceptions\InvalidAuthorException();
 	}
 
 	$ebooks = Library::GetEbooksByAuthor($wwwFilesystemPath);
 
 	if(sizeof($ebooks) == 0){
-		throw new InvalidAuthorException();
+		throw new Exceptions\InvalidAuthorException();
 	}
 }
-catch(InvalidAuthorException $ex){
+catch(Exceptions\InvalidAuthorException $ex){
 	http_response_code(404);
 	include(WEB_ROOT . '/404.php');
 	exit();

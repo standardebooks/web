@@ -1,6 +1,6 @@
 <?
 class HttpInput{
-	public static function Str(int $type, string $variable, bool $allowEmptyString = true, string $default = null): ?string{
+	public static function Str(string $type, string $variable, bool $allowEmptyString = true, string $default = null): ?string{
 		$var = self::GetHttpVar($variable, HTTP_VAR_STR, $type, $default);
 
 		if(is_array($var)){
@@ -14,15 +14,15 @@ class HttpInput{
 		return $var;
 	}
 
-	public static function Int(int $type, string $variable, int $default = null): ?int{
+	public static function Int(string $type, string $variable, int $default = null): ?int{
 		return self::GetHttpVar($variable, HTTP_VAR_INT, $type, $default);
 	}
 
-	public static function Bool(int $type, string $variable, bool $default = null): ?bool{
+	public static function Bool(string $type, string $variable, bool $default = null): ?bool{
 		return self::GetHttpVar($variable, HTTP_VAR_BOOL, $type, $default);
 	}
 
-	public static function Dec(int $type, string $variable, float $default = null): ?float{
+	public static function Dec(string $type, string $variable, float $default = null): ?float{
 		return self::GetHttpVar($variable, HTTP_VAR_DEC, $type, $default);
 	}
 
@@ -33,7 +33,7 @@ class HttpInput{
 		return self::GetHttpVar($variable, HTTP_VAR_ARRAY, GET, $default);
 	}
 
-	private static function GetHttpVar(string $variable, int $type, int $set, $default){
+	private static function GetHttpVar(string $variable, int $type, string $set, $default){
 		$vars = [];
 
 		switch($set){

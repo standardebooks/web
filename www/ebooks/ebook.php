@@ -14,7 +14,7 @@ try{
 
 	if($urlPath == '' || mb_stripos($wwwFilesystemPath, EBOOKS_DIST_PATH) !== 0){
 		// Ensure the path exists and that the root is in our www directory
-		throw new InvalidEbookException();
+		throw new Exceptions\InvalidEbookException();
 	}
 
 	// Were we passed the author and a work but not the translator?
@@ -28,7 +28,7 @@ try{
 			// This iterator will do a deep scan on the directory. When we hit another directory, the filename will be "." and the path will contain the directory path.
 			// We want to find where the "src" directory is, and the directory directly below that will be the final web URL we're looking for.
 			if($file->getFilename() == '.' && preg_match('|/src$|ius', $file->getPath())){
-				throw new SeeOtherEbookException(preg_replace(['|' . WEB_ROOT . '|ius', '|/src$|ius'], '', $file->getPath()));
+				throw new Exceptions\SeeOtherEbookException(preg_replace(['|' . WEB_ROOT . '|ius', '|/src$|ius'], '', $file->getPath()));
 			}
 		}
 	}
@@ -60,12 +60,12 @@ try{
 		$i++;
 	}
 }
-catch(SeeOtherEbookException $ex){
+catch(Exceptions\SeeOtherEbookException $ex){
 	http_response_code(301);
 	header('Location: ' . $ex->Url);
 	exit();
 }
-catch(InvalidEbookException $ex){
+catch(Exceptions\InvalidEbookException $ex){
 	http_response_code(404);
 	include(WEB_ROOT . '/404.php');
 	exit();

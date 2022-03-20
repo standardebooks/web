@@ -8,6 +8,9 @@
 		"files": ["lib/Constants.php", "lib/CoreFunctions.php"]
 	},
 	"require": {
-		"thecodingmachine/safe": "^1.0.0"
+		"thecodingmachine/safe": "^1.0.0",
+		"phpmailer/phpmailer": "6.6.0",
+		"ramsey/uuid": "4.2.3",
+		"gregwar/captcha": "1.1.9"
 	}
 }

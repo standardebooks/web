@@ -3,6 +3,7 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\file_get_contents;
 use function Safe\getopt;
+use function Safe\gmdate;
 use function Safe\krsort;
 use function Safe\preg_replace;
 use function Safe\strtotime;

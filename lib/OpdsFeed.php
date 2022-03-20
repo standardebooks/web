@@ -26,7 +26,7 @@ class OpdsFeed{
 			$xml->registerXPathNamespace('schema', 'http://schema.org/');
 			$entries = $xml->xpath('/feed/entry');
 
-			if($entries === false){
+			if(!$entries){
 				$entries = [];
 			}
 
@@ -37,7 +37,7 @@ class OpdsFeed{
 				// while updating it at the same time.
 				$elements = $xml->xpath('/feed/entry/updated');
 
-				if($elements === false){
+				if(!$elements){
 					$elements = [];
 				}
 
@@ -71,7 +71,7 @@ class OpdsFeed{
 			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($parentFilepath)));
 
 			$feedEntries = $xml->xpath('/feed/entry[id="' . $this->Id . '"]/updated');
-			if($feedEntries === false){
+			if(!$feedEntries){
 				$feedEntries = [];
 			}
 
