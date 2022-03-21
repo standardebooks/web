@@ -484,6 +484,7 @@ main.front-page > section > section figure.oss img{
 	display: inline;
 	filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, .25));
 	margin: 1rem;
+	width: auto;
 }
 
 main.front-page > section > section figure img{
