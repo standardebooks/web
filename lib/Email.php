@@ -2,6 +2,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+define('EMAIL_SMTP_USERNAME', trim(file_get_contents(POSTMARK_SECRET_FILE_PATH)) ?: '');
+const EMAIL_SMTP_PASSWORD = EMAIL_SMTP_USERNAME;
+
 class Email{
 	public $To = '';
 	public $From = '';

@@ -37,9 +37,11 @@ const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
 
 const NO_REPLY_EMAIL_ADDRESS = 'admin@standardebooks.org';
+// We don't define the email username/password in this file to
+// 1) avoid a filesystem read when email isn't being used, and
+// 2) allow scripts run by users not in the www-data group to succeed, otherwise they will not be able to open secret files on startup and crash
+const POSTMARK_SECRET_FILE_PATH = SITE_ROOT . '/config/secrets/postmarkapp.com';
 const EMAIL_SMTP_HOST = 'smtp-broadcasts.postmarkapp.com';
-define('EMAIL_SMTP_USERNAME', trim(file_get_contents(SITE_ROOT . '/config/secrets/postmarkapp.com')) ?: '');
-const EMAIL_SMTP_PASSWORD = EMAIL_SMTP_USERNAME;
 const EMAIL_POSTMARK_STREAM_BROADCAST = 'the-standard-ebooks-newsletter';
 
 const REST = 0;
