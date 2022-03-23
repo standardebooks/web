@@ -1,7 +1,6 @@
 <?
 // Auto-included by Composer in composer.json to satisfy PHPStan
 use function Safe\define;
-use function Safe\file_get_contents;
 use function Safe\gmdate;
 use function Safe\strtotime;
 

@@ -101,64 +101,22 @@ class Library{
 	 * @return array<Ebook>
 	 */
 	public static function GetEbooks(): array{
-		$ebooks = [];
-
 		// Get all ebooks, unsorted.
-		try{
-			$ebooks = apcu_fetch('ebooks');
-		}
-		catch(Safe\Exceptions\ApcuException $ex){
-			Library::RebuildCache();
-			try{
-				$ebooks = apcu_fetch('ebooks');
-			}
-			catch(Safe\Exceptions\ApcuException $ex){
-				// We can get here if the cache is currently rebuilding from a different process.
-				// Nothing we can do but wait, so wait 20 seconds before retrying
-				sleep(20);
-
-				try{
-					$ebooks = apcu_fetch('ebooks');
-				}
-				catch(Safe\Exceptions\ApcuException $ex){
-					// Cache STILL rebuilding... give up silently for now
-				}
-			}
-		}
-
-		return $ebooks;
+		return self::GetFromApcu('ebooks');
 	}
 
 	/**
 	 * @return array<Ebook>
 	 */
 	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
-		// Do we have the author's ebooks cached?
-		$ebooks = [];
-
-		try{
-			$ebooks = apcu_fetch('author-' . $wwwFilesystemPath);
-		}
-		catch(Safe\Exceptions\ApcuException $ex){
-		}
-
-		return $ebooks;
+		return self::GetFromApcu('author-' . $wwwFilesystemPath);
 	}
 
 	/**
 	 * @return array<Ebook>
 	 */
 	public static function GetEbooksByTag(string $tag): array{
-		// Do we have the tag's ebooks cached?
-		$ebooks = [];
-
-		try{
-			$ebooks = apcu_fetch('tag-' . $tag);
-		}
-		catch(Safe\Exceptions\ApcuException $ex){
-		}
-
-		return $ebooks;
+		return self::GetFromApcu('tag-' . $tag);
 	}
 
 	/**
@@ -166,23 +124,45 @@ class Library{
 	 */
 	public static function GetEbooksByCollection(string $collection): array{
 		// Do we have the tag's ebooks cached?
-		$ebooks = [];
-
-		try{
-			$ebooks = apcu_fetch('collection-' . $collection);
-		}
-		catch(Safe\Exceptions\ApcuException $ex){
-		}
-
-		return $ebooks;
+		return self::GetFromApcu('collection-' . $collection);
 	}
-
 
 	/**
 	 * @return array<Tag>
 	 */
 	public static function GetTags(): array{
-		return apcu_fetch('tags');
+		return self::GetFromApcu('tags');
+	}
+
+	/**
+	 * @return array<mixed>
+	 */
+	private static function GetFromApcu(string $variable): array{
+		$results = [];
+
+		try{
+			$results = apcu_fetch($variable);
+		}
+		catch(Safe\Exceptions\ApcuException $ex){
+			Library::RebuildCache();
+			try{
+				$results = apcu_fetch($variable);
+			}
+			catch(Safe\Exceptions\ApcuException $ex){
+				// We can get here if the cache is currently rebuilding from a different process.
+				// Nothing we can do but wait, so wait 20 seconds before retrying
+				sleep(20);
+
+				try{
+					$results = apcu_fetch($variable);
+				}
+				catch(Safe\Exceptions\ApcuException $ex){
+					// Cache STILL rebuilding... give up silently for now
+				}
+			}
+		}
+
+		return $results;
 	}
 
 	/**

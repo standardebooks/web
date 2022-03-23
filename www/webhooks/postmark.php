@@ -12,6 +12,8 @@ use function Safe\substr;
 $requestId = substr(sha1(time() . rand()), 0, 8);
 
 try{
+	$smtpUsername = trim(file_get_contents(POSTMARK_SECRET_FILE_PATH)) ?: '';
+
 	Logger::WritePostmarkWebhookLogEntry($requestId, 'Received Postmark webhook.');
 
 	if($_SERVER['REQUEST_METHOD'] != 'POST'){
@@ -50,7 +52,7 @@ try{
 		$handle = curl_init();
 		curl_setopt($handle, CURLOPT_URL, 'https://api.postmarkapp.com/message-streams/' . $post->MessageStream . '/suppressions/delete');
 		curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Accept: application/json', 'X-Postmark-Server-Token: ' . EMAIL_SMTP_USERNAME]);
+		curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Accept: application/json', 'X-Postmark-Server-Token: ' . $smtpUsername]);
 		curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($handle, CURLOPT_POSTFIELDS, '{"Suppressions": [{"EmailAddress": "' . $email . '"}]}');
 		curl_exec($handle);

@@ -2,8 +2,10 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+use function Safe\define;
+use function Safe\file_get_contents;
+
 define('EMAIL_SMTP_USERNAME', trim(file_get_contents(POSTMARK_SECRET_FILE_PATH)) ?: '');
-const EMAIL_SMTP_PASSWORD = EMAIL_SMTP_USERNAME;
 
 class Email{
 	public $To = '';
@@ -54,7 +56,7 @@ class Email{
 			$phpMailer->Port = 587;
 			$phpMailer->Host = EMAIL_SMTP_HOST;
 			$phpMailer->Username = EMAIL_SMTP_USERNAME;
-			$phpMailer->Password = EMAIL_SMTP_PASSWORD;
+			$phpMailer->Password = EMAIL_SMTP_USERNAME;
 
 			if($this->PostmarkStream !== null){
 				$phpMailer->addCustomHeader('X-PM-Message-Stream', $this->PostmarkStream);
