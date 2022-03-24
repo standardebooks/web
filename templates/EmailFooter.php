@@ -4,7 +4,7 @@
 		</p>
 		<p>
 			<a href="https://standardebooks.org">
-				<img src="https://standardebooks.org/images/logo-small.png" alt="The Standard Ebooks logo"/>
+				<img src="https://standardebooks.org/images/logo-small.png" alt="The Standard Ebooks logo."/>
 			</a>
 		</p>
 	</div>

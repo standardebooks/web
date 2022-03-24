@@ -33,14 +33,8 @@ if($exception){
 			<label class="automation-test"><? /* Test for spam bots filling out all fields */ ?>
 				<input type="text" name="automationtest" value="" maxlength="80" />
 			</label>
-			<label class="email">Email
+			<label class="email">Your email address
 				<input type="email" name="email" value="<?= Formatter::ToPlainText($subscriber->Email) ?>" maxlength="80" required="required" />
-			</label>
-			<label class="text">First name
-				<input type="text" name="firstname" autocomplete="given-name" maxlength="80" value="<?= Formatter::ToPlainText($subscriber->FirstName) ?>" />
-			</label>
-			<label class="text">Last name
-				<input type="text" name="lastname" autocomplete="family-name" maxlength="80" value="<?= Formatter::ToPlainText($subscriber->LastName) ?>" />
 			</label>
 			<label class="captcha">
 				Type the letters in the image
