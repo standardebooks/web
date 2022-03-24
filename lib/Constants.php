@@ -6,7 +6,8 @@ use function Safe\strtotime;
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
-define('SITE_STATUS', getenv('SITE_STATUS') ?: SITE_STATUS_DEV); // Set in the PHP FPM pool configuration. Have to use define() and not const so we can use a function.
+
+define('SITE_STATUS', get_cfg_var('site_status') ?: SITE_STATUS_DEV); // Set in the PHP INI configuration for both CLI and FPM. Have to use define() and not const so we can use a function.
 
 // No trailing slash on any of the below constants.
 if(SITE_STATUS == SITE_STATUS_LIVE){
