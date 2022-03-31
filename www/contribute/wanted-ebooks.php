@@ -26,9 +26,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/2081">The Blithedale Romance</a> by Nathaniel Hawthorne</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/767">Agnes Grey</a> by Anne Brontë</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
@@ -254,9 +254,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="http://shakespeare.mit.edu/cymbeline/full.html">Cymbeline</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/pericles/full.html">Pericles</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-      			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
 			</li>
