@@ -465,6 +465,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://archive.org/details/occasionalpoems00cust/page/28/mode/1up">Poetry</a> by Harry Cust (transcription required)</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/44608">The Baburnama</a> by Ẓahīr-ud-Dīn Muhammad Bābur</p>
 			</li>
 			<li>
