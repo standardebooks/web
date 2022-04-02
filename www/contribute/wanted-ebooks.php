@@ -21,9 +21,6 @@ require_once('Core.php');
 				<p><a href="https://gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
 			</li>
 			<li>
-				<p><a href="https://en.wikisource.org/wiki/Doctor_Syn">Doctor Syn</a> by Russell Thorndyke</p>
-			</li>
-			<li>
 				<p><a href="https://gutenberg.org/ebooks/2081">The Blithedale Romance</a> by Nathaniel Hawthorne</p>
 			</li>
 			<!-- <li>
