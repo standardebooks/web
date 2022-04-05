@@ -15,6 +15,9 @@ require_once('Core.php');
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
+				<p><a href="https://gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
+			</li>
+			<li>
 				<p><a href="https://gutenberg.org/ebooks/19614">The Dark Forest</a> by Hugh Walpole (<i><a href="/ebooks/hugh-walpole/the-secret-city">The Secret City</a></i> is the sequel to this)</p>
 			</li>
 			<li>
@@ -165,9 +168,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/17854">The Sport of the Gods</a> by Paul Laurence Dunbar</p>
 			</li> -->
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/48511">Vikram and the Vampire</a> by Sir Richard Francis Burton</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans (Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm)</p>
 			</li>
 			<li>
@@ -194,6 +194,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/48511">Vikram and the Vampire</a> by Sir Richard Francis Burton</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/67369">Hadrian the Seventh</a> by F. R. Rolfe</p>
 			</li>
