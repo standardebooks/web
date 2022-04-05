@@ -800,4 +800,17 @@ main.manual *:target{
 	.manual h6{
 		word-break: break-all;
 	}
+
+	.manual .step-by-step-guide h1,
+	.manual .step-by-step-guide h2,
+	.manual .step-by-step-guide h3,
+	.manual .step-by-step-guide h4,
+	.manual .step-by-step-guide h5,
+	.manual .step-by-step-guide h6{
+		word-break: normal;
+	}
+
+	main.manual > article{
+		margin-left: 1rem;
+	}
 }
