@@ -80,9 +80,6 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
 			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/1605">The Crock of Gold</a> by James Stephens</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/24742">Mary, Mary</a> by James Stephens</p>
 			</li>
@@ -422,9 +419,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/29413">The Adventures of Captain Hatteras</a> <i>Voyages et aventures du capitaine Hatteras</i> by Jules Verne</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/46597">In Search of the Castaways</a> <i>Les Enfants du capitaine Grant</i> by Jules Verne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/13782">Lady Rose’s Daughter</a> by Mary Augusta Ward</p>
 			</li>
@@ -457,6 +454,9 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/64037">The Life of Jesus Critically Examined</a> by David Strauss</p>
 			</li>
 		</ul>
 		<h2>Advanced productions</h2>
