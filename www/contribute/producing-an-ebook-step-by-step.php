@@ -386,28 +386,6 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;![Ee]ach and )([Ee])very one(?!\s+of)' "\1veryone"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
-						<h3>for ever ➔ forever</h3>
-						<table>
-							<tbody>
-								<tr>
-									<td>Correct change:</td>
-									<td>
-										<p><code class="html">No; perhaps you will love her for ever.</code> ➔</p>
-										<p><code class="html">No; perhaps you will love her forever.</code></p>
-									</td>
-								</tr>
-								<tr>
-									<td>Incorrect change:</td>
-									<td>
-										<p><code class="html">I have been struggling on for ever so long without doing anything.</code> ➔</p>
-										<p><code class="html"><span class="wrong">I have been struggling on forever so long without doing anything.</span></code></p>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"([Ff])or ever\b" "\1orever"</i> src/epub/text/<i class="glob">*</i></span></code>
-					</li>
-					<li>
 						<h3>any way ➔ anyway</h3>
 						<table>
 							<tbody>
@@ -428,28 +406,6 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 							</tbody>
 						</table>
 						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;!in\s+)\b([Aa])ny way(?!\s+(?:of|to))' "\1nyway"</i> src/epub/text/<i class="glob">*</i></span></code>
-					</li>
-					<li>
-						<h3>mean time ➔ meantime</h3>
-						<table>
-							<tbody>
-								<tr>
-									<td>Correct change:</td>
-									<td>
-										<p><code class="html">And in the mean time, he’ll also keep on being a laughing stock?</code> ➔</p>
-										<p><code class="html">And in the meantime, he’ll also keep on being a laughing stock?</code></p>
-									</td>
-								</tr>
-								<tr>
-									<td>Incorrect change:</td>
-									<td>
-										<p><code class="html">You’ve had an awful mean time, Ethan Frome.</code> ➔</p>
-										<p><code class="html"><span class="wrong">You’ve had an awful meantime, Ethan Frome.</span></code></p>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"([Mm])ean time" "\1eantime"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
 						<h3>with out ➔ without</h3>
