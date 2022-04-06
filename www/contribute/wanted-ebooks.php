@@ -614,6 +614,9 @@ require_once('Core.php');
 			<li>
 				<p>Poetry by Robert Burns, probably in an omnibus</p>
 			</li>
+			<li>
+				<p>Poetry by <a href="https://en.wikisource.org/wiki/Author:Edwin_Arlington_Robinson">E. A. Robinson</a></p>
+			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
