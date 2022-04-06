@@ -18,9 +18,6 @@ require_once('Core.php');
 				<p><a href="https://gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/19614">The Dark Forest</a> by Hugh Walpole (<i><a href="/ebooks/hugh-walpole/the-secret-city">The Secret City</a></i> is the sequel to this)</p>
-			</li>
-			<li>
 				<p><a href="https://gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
 			</li>
 			<li>
