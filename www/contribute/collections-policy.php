@@ -18,7 +18,7 @@ require_once('Core.php');
 				<p>Most short fiction and poetry, when presented in collections or omnibuses. We consider short fiction to be works less than 40,000 words in length, a length that typically includes novellas. Some independent short works may be produced individually on a case-by-case basis.</p>
 			</li>
 			<li>
-				<p>Some “timeless” non-fiction, including philosophy, travelogue, classics from antiquity, and notable autobiography.</p>
+				<p>Some “timeless” non-fiction, including philosophy, travelogue, classics from antiquity, and notable autobiography. In general, this means books about <em>ideas and experiences</em>, not <em>facts</em>.</p>
 			</li>
 		</ul>
 		<h2>Types of ebooks we don’t accept</h2>
@@ -51,10 +51,10 @@ require_once('Core.php');
 						<p>Legal documents, including codes of law and constitutions.</p>
 					</li>
 				</ul>
-				<p>Note that we may occasionally make exceptions, for example for <i>The History of the Decline and Fall of the Roman Empire</i> or <i><a href="/ebooks/julius-caesar/commentaries-on-the-gallic-war/w-a-mcdevitte_w-s-bohn">Commentaries on the Gallic War</a></i> or <i>The Life of Samuel Johnson</i>.</p>
+				<p>In general, this means books about <em>facts</em> and not <em>ideas</em>. Note that we may occasionally make exceptions, for example for <i>The History of the Decline and Fall of the Roman Empire</i> or <i><a href="/ebooks/julius-caesar/commentaries-on-the-gallic-war/w-a-mcdevitte_w-s-bohn">Commentaries on the Gallic War</a></i> or <i>The Life of Samuel Johnson</i>.</p>
 			</li>
 			<li>
-				<p>Books that are illustration-heavy, like picture or art books, or whose content greatly depends on the arrangement of illustrations or graphics.</p>
+				<p>Books that are illustration-heavy, like picture or art books, or whose content greatly depends on the arrangement of illustrations or graphics. For example, we would not produce anything by <a href="https://en.wikipedia.org/wiki/William_Blake">William Blake</a>.</p>
 			</li>
 			<li>
 				<p>Modern books that have released to the public domain, including self-published books.</p>
