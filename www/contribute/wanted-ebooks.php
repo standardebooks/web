@@ -101,9 +101,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/92">Tarzan and the Jewels of Opar</a> (Tarzan 5) by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/106">Jungle Tales of Tarzan</a> (Tarzan 6) by Edgar Rice Burroughs</p>
 			</li>
