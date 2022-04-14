@@ -16,7 +16,7 @@
 	<? foreach($ebook->Sources as $source){ ?>
 	<dc:source><?= htmlspecialchars($source->Url, ENT_QUOTES|ENT_XML1, 'utf-8') ?></dc:source>
 	<? } ?>
-	<rights>Public domain in the United States; original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication</rights>
+	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
 	<summary type="text"><?= htmlspecialchars($ebook->Description, ENT_QUOTES|ENT_XML1, 'utf-8') ?></summary>
 	<content type="text/html"><?= $ebook->LongDescription ?></content>
 	<? foreach($ebook->LocTags as $subject){ ?>
