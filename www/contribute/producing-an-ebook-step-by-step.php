@@ -339,7 +339,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 								</tr>
 							</tbody>
 						</table>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"([Ss])ome one" "\1omeone"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <i>"\b([Ss])ome one" "\1omeone"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
 						<h3>any one ➔ anyone</h3>
