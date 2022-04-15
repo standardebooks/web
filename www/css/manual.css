@@ -719,8 +719,17 @@ main.manual aside.alert p{
 	text-align: center;
 }
 
+@keyframes highlight {
+	0%{
+		background: #FFFF99;
+	}
+	100%{
+		background: none;
+	}
+}
+
 main.manual *:target{
-	background: #FFFF99;
+	animation: highlight 5s;
 }
 
 @media(max-width: 1700px){
