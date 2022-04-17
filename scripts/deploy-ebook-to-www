@@ -226,7 +226,7 @@ do
 		sed -i "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
 
 		# Resize and compress the image (formula from Google Page Speed Insights)
-		convert -resize "242" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
+		convert -resize "242" -sampling-factor 4:2:0 -strip -quality 85 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
 		convert -resize "484" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
 
 		# go-avif is extremely slow and should be replaced with something faster ASAP
