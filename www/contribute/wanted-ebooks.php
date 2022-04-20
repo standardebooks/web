@@ -459,6 +459,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://catalog.hathitrust.org/Record/100864353">Saïd the Fisherman</a> by Marmaduke Pickthall (transcription required)</p>
+			</li>
+			<li>
 				<p><a href="https://archive.org/details/occasionalpoems00cust/page/28/mode/1up">Poetry</a> by Harry Cust (transcription required)</p>
 			</li>
 			<li>
