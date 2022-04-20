@@ -530,9 +530,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10827">Discourses on the First Decade of Titus Livius</a> by Niccolò Machiavelli</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/7373">The Path to Rome</a> by Hilaire Belloc</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10343">Essays of Elia</a> by Charles Lamb</p>
 			</li>
