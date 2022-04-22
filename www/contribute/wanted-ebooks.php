@@ -426,9 +426,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/152">Short fiction and short novels of Saki (H. H. Munro)</a>. Some research may be required to determine whether to produce an omnibus Short Fiction or how to divide up his stories.</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2667">The Vicar of Wakefield</a> by Oliver Goldsmith</p>
-			</li>
-			<li>
 				<p><a href="http://gutenberg.org/ebooks/14328">The Consolation of Philosophy</a> by Boethius</p>
 			</li>
 			<li>
