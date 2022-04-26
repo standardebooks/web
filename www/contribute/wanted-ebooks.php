@@ -165,9 +165,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans (Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm)</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/13000">The Rough Riders</a> by Theodore Roosevelt</p>
-			</li>
-			<li>
 				<p><a href="https://gutenberg.org/ebooks/3337">Hunting the Grisly and Other Sketches</a> by Theodore Roosevelt</p>
 			</li>
 			<li>
@@ -401,9 +398,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9608">The Cords of Vanity</a> by James Branch Cabell</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1842">Michael Strogoff</a> <i>Michel Strogoff</i> by Jules Verne</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9150">Dick Sand, A Captain at Fifteen</a> <i>Un Capitaine de quinze ans</i> by Jules Verne</p>
 			</li>
