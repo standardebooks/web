@@ -41,7 +41,7 @@ print("\n");
 	<meta content="<? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
 	<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>
 	<meta content="<?= SITE_URL . str_replace(SITE_URL, '', ($_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['SCRIPT_URI'] ?? '')) ?>" property="og:url"/>
-	<meta content="<?= SITE_URL . ($coverUrl ?? '/images/devices@2x.png') ?>" property="og:image"/>
+	<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.png') ?>" property="og:image"/>
 	<meta content="summary_large_image" name="twitter:card"/>
 	<meta content="@standardebooks" name="twitter:site"/>
 	<meta content="@standardebooks" name="twitter:creator"/>
