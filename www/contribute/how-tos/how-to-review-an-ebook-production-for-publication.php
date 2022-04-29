@@ -77,7 +77,7 @@ require_once('Core.php');
 			<li>
 				<h2>Review italics and emphasis elements</h2>
 				<p>The elements <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span><span class="p">&lt;</span>/<span class="nt">i</span><span class="p">&gt;</span></code> and <code><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span><span class="p">&lt;</span>/<span class="nt">em</span><span class="p">&gt;</span></code> are not to be used interchangeably (see relevant section of the Manual <a href="/manual/latest/single-page#4.1.2">here</a> and <a href="/manual/latest/single-page#8.2">here</a>). Use the following command to check their usage in the production (alternatively, use the regular expression search function in a text editor):</p>
-				<code class="terminal"><b>grep</b> --recursive --line-number <i>"&lt;i\|&lt;em"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
+				<code class="terminal"><b>grep</b> --recursive --line-number --color=always <i>"&lt;i\|&lt;em"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u> | <b>less</b> -R</code>
 			</li>
 			<li>
 				<h2>Review XHTML file structure</h2>
