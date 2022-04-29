@@ -4,7 +4,7 @@ require_once('Core.php');
 <main>
 	<article id="a-basic-standard-ebooks-source-folder">
 		<h1>Uncategorized art books</h1>
-		<p>You may find these <?= PD_YEAR ?>-and-earlier art books useful as you conduct cover art research.</p>
+		<p>You may find these art books published before January 1, <?= PD_YEAR + 1 ?> useful as you conduct cover art research.</p>
 		<ul>
 			<li><a href="https://books.google.com/books?id=PBpAAAAAYAAJ">The History of Modern Painting</a></li>
 			<li><a href="https://books.google.com/books?id=Q3YoAAAAYAAJ">Art Studies for Schools: Or, Hints on the Use of Reproductions of High Art</a></li>
