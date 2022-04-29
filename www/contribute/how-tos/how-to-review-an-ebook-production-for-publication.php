@@ -47,7 +47,7 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Review miscurled quotes</h2>
-				<p>Run the following command to examine possible miscurled sing-quote marks:</p>
+				<p>Run the following command to examine possible miscurled single quotes:</p>
 				<code class="terminal"><b>se</b> interactive-replace <i>"(\s)‘([a-z])"</i> <i>"\1’\2"</i> <u>.</u></code>
 				<p>Note the use of <code>‘</code> (left single-quotation mark, U+2018) and <code>’</code> (right single-quotation mark, U+2019) in the command above, and not <code>'</code> or <code>`</code>. Using <code class="bash"><b>se</b> interactive-replace</code> is the safest as there are many potential false positive cases here that should not be change. Refer the the relevant section of the <a href="/manual/latest/single-page#8.7.5">Manual</a>. Note that sometimes this type of mistakes might be committed by <code class="bash"><b>se</b> typogrify</code>. For example:</p>
 				<figure class="wrong html full">
@@ -58,6 +58,20 @@ require_once('Core.php');
 				</figure>
 				<p>Note the right single-quotation mark is applied twice under this situation. More cases like this is in the section of the Manual linked above.</p>
 			</li>
+			<li>
+				<h2>Check for punctuation outside quotation marks</h2>
+				<p>Run the following command to examine punctuation that might have to be moved inside quotation marks:</p>
+				<code class="terminal"><b>se</b> interactive-replace <i>"’([\.\,])"</i> <i>"\1’"</i> <u>.</u></code>
+				<p>In general, periods and commas always go inside qoutation marks, both single and double. For example:</p>
+				<figure class="wrong html full">
+					<code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He pronounced it “pleasure”, and as he said it he licked his lips.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
+				</figure>
+				<figure class="corrected html full">
+					<code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He pronounced it “pleasure,” and as he said it he licked his lips.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
+				</figure>
+				<p>Note the right single-quotation mark is applied twice under this situation. More cases like this is in the section of the Manual linked above.</p>
+			</li>
+
 			<li>
 				<h2>Review capitalization</h2>
 				<p>As noted in the <a href="/manual/latest/single-page#8.3.3">Manual</a> text in call caps is rarely correct. Use the following command to check for instance of all caps:</p>
@@ -76,8 +90,10 @@ require_once('Core.php');
 			</li>
 			<li>
 				<h2>Review italics and emphasis elements</h2>
-				<p>The elements <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span><span class="p">&lt;</span>/<span class="nt">i</span><span class="p">&gt;</span></code> and <code><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span><span class="p">&lt;</span>/<span class="nt">em</span><span class="p">&gt;</span></code> are not to be used interchangeably (see relevant section of the Manual <a href="/manual/latest/single-page#4.1.2">here</a> and <a href="/manual/latest/single-page#8.2">here</a>). Use the following command to check their usage in the production (alternatively, use the regular expression search function in a text editor):</p>
-				<code class="terminal"><b>grep</b> --recursive --line-number <i>"&lt;i\|&lt;em"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
+				<p>The <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> and <code><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> elements are not to be used interchangeably (see relevant section of the Manual <a href="/manual/latest/single-page#4.1.2">here</a> and <a href="/manual/latest/single-page#8.2">here</a>). Use the following command to check their usage in the production (alternatively, use the regular expression search function in a text editor):</p>
+				<code class="terminal"><b>grep</b> --recursive --line-number <i>"&lt;i|&lt;em"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
+				<p>Are there any <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> elements that lack semantics?</p>
+				<code class="terminal"><b>grep</b> --recursive --line-number <i>"&lt;i&gt;"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
 			</li>
 			<li>
 				<h2>Review XHTML file structure</h2>
@@ -87,7 +103,7 @@ require_once('Core.php');
 						<p>Check that the correct semantics for elements are used. (<abbr>e.g.</abbr> correct usage of <code class="html"><span class="p">&lt;</span><span class="nt">blockquote</span><span class="p">&gt;</span></code>, no <code class="html"><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span></code> blocks are used, <abbr>etc.</abbr></p>
 					</li>
 					<li>
-						<p>If the book is in "parts,", "books," or "volumes":</p>
+						<p>If the book is in ”parts,” “books,” or “volumes”:</p>
 						<ul>
 							<li>
 								<p>Do the chapters have the right filenames? (See <a href="/manual/latest/single-page#2.2">Manual</a>)</p>
@@ -134,7 +150,7 @@ require_once('Core.php');
 						<p>Is author, translator(s), cover artist, <abbr>etc.</abbr> in the correct order and in expected style?</p>
 					</li>
 					<li>
-						<p>Check all links, such as author/work Wikipedia links, are correct by opening them in a browser.</p>
+						<p>Check all links, such as author/work Wikipedia links, are correct by <em>opening them in a browser</em>. Sometimes <code class="bash"><b>se</b> create-draft</code> guesses the wrong Wikipedia link for a book or person with the same name as another book or person.</p>
 					</li>
 					<li>
 						<p>If the book has a subtitle, check that it is represented as expected. See <a href="/manual/latest/single-page#9.4.2">here</a> for reference.</p>
