@@ -116,7 +116,12 @@ class Library{
 	 * @return array<Ebook>
 	 */
 	public static function GetEbooksByTag(string $tag): array{
-		return self::GetFromApcu('tag-' . $tag);
+		try{
+			return apcu_fetch('tag-' . $tag) ?? [];
+		}
+		catch(Safe\Exceptions\ApcuException $ex){
+			return [];
+		}
 	}
 
 	/**

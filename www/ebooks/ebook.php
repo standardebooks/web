@@ -42,8 +42,17 @@ try{
 	}
 
 	// Generate the bottom carousel.
+	// Pick a random tag from this ebook, and get ebooks in the same tag
 	$carousel = [];
-	$ebooks = Library::GetEbooks();
+	$ebooks = [];
+	if(sizeof($ebook->Tags) > 0){
+		$carouselTag = $ebook->Tags[rand(0, sizeof($ebook->Tags) - 1)];
+		$ebooks = Library::GetEbooksByTag(strtolower($carouselTag->Name));
+	}
+	else{
+		$ebooks = Library::GetEbooks();
+	}
+
 	shuffle($ebooks);
 
 	$targetCarouselSize = 5;
@@ -51,13 +60,15 @@ try{
 		$targetCarouselSize = sizeof($ebooks) - 1;
 	}
 
-	$i = 0;
-	while(sizeof($carousel) < $targetCarouselSize){
-		if(isset($ebooks[$i]) && $ebooks[$i]->Url !== $ebook->Url){
-			$carousel[] = $ebooks[$i];
-		}
+	if($targetCarouselSize > 0){
+		$i = 0;
+		while(sizeof($carousel) < $targetCarouselSize){
+			if(isset($ebooks[$i]) && $ebooks[$i]->Url !== $ebook->Url){
+				$carousel[] = $ebooks[$i];
+			}
 
-		$i++;
+			$i++;
+		}
 	}
 }
 catch(Exceptions\SeeOtherEbookException $ex){
@@ -313,7 +324,7 @@ catch(Exceptions\InvalidEbookException $ex){
 
 		<? if(sizeof($carousel) > 0){ ?>
 		<aside id="more-ebooks">
-			<h2>More free ebooks</h2>
+			<h2>More free <?= strtolower($carouselTag->Name) ?> ebooks</h2>
 			<ul>
 				<? foreach($carousel as $carouselEbook){ ?>
 				<li>
