@@ -51,6 +51,14 @@
 	font-display: swap;
 }
 
+@font-face{
+	font-family: "Bebas Neue";
+	src: url("/fonts/bebas-neue-subset.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
 :root{
 	--light-body-bg: #e9e7e0;
 	--light-body-text: #222;
@@ -2112,6 +2120,63 @@ aside header{
 	font-style: normal;
 }
 
+.donation.counter > p:not(.donate-button){
+	text-align: justify;
+	max-width: 80ch;
+	margin: 1rem auto;
+	hyphens: auto;
+}
+
+.flipboard{
+	font-style: normal;
+	font-size: 2rem;
+	margin: 2rem auto;
+	line-height: 1;
+	font-family: "League Spartan";
+	text-transform: uppercase;
+}
+
+.flipboard span{
+	background: #222;
+	border: 1px solid #222;
+	box-shadow: 1px 1px 0px rgba(255,255,255,.5) inset;
+	border-radius: 5px;
+	color: #fff;
+	padding: .25rem 1rem 0 1rem;
+	line-height: 1;
+	position: relative;
+	text-shadow: 2px 2px 0px #000;
+	width: 1em;
+	padding: .5em .25em;
+	display: inline-block;
+}
+
+.flipboard span + span{
+	margin-left: .1em;
+}
+
+.flipboard span::before{
+	position: absolute;
+	content: "";
+	top: calc(50% - 5px);
+	left: 0;
+	height: 10px;
+	width: calc(100% - 4px);
+	border-left: 2px solid #aaa;
+	border-right: 2px solid #aaa;
+}
+
+.flipboard span::after{
+	position: absolute;
+	content: "";
+	top: 50%;
+	left: 0;
+	height: 50%;
+	background: linear-gradient(180deg, rgb(255, 255, 255, .3) 0%, rgba(0,0,0,0) 75%);
+	width: 100%;
+	border-top: 1px solid #000;
+}
+
 .progress + p{
 	margin-top: 2rem;
 	hyphens: auto;
@@ -2225,18 +2290,23 @@ progress.stretch::-moz-progress-bar{
 }
 
 aside button.close{
+	display: block;
 	font-size: 0;
 	border: none;
 	box-shadow: none;
 	padding: 0;
 	position: absolute;
-	top: 1rem;
-	right: 1rem;
+	top: 0;
+	right: 0;
 	background: url('/images/close.svg') transparent;
-	background-size: cover;
-	height: 1rem;
-	width: 1rem;
+	background-size: 1rem 1rem;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 3rem;
+	width: 3rem;
+	padding: 1rem;
 	opacity: .75;
+	margin: 0;
 }
 
 aside button.close:hover{
@@ -2245,8 +2315,8 @@ aside button.close:hover{
 
 aside button.close:active{
 	left: auto;
-	top: calc(1rem + 1px);
-	right: calc(1rem - 1px);
+	top: 1px;
+	right: -1px;
 }
 
 @keyframes progress{
@@ -2705,6 +2775,14 @@ aside button.close:active{
 		text-align: justify;
 	}
 
+	aside.donation .flipboard{
+		text-align: center;
+	}
+
+	aside.donation .flipboard span{
+		margin-bottom: 1rem;
+	}
+
 	aside.donation p:last-child,
 	article.ebook section aside.donation p:last-child,
 	aside.donation header p{
@@ -2898,6 +2976,10 @@ aside button.close:active{
 @media(max-width: 470px){
 	main.ebooks > ol{
 		grid-gap: 2rem;
+	}
+
+	aside.donation .flipboard{
+		font-size: 1rem;
 	}
 }
 

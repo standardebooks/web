@@ -84,3 +84,8 @@ h1,h2,h3,h4,h5,h6{
 aside button.close{
 	filter: invert(1);
 }
+
+aside.donation .flipboard span{
+	border-color: rgba(255,255,255,.5);
+	box-shadow: none;
+}

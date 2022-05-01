@@ -1,11 +1,12 @@
 <?
 
 // Hide the alert if the user has closed it
-if($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false){
+if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false)){
 	return;
 }
 
 $autoHide = $autoHide ?? true;
+$showDonateButton = $showDonateButton ?? true;
 $current = 0;
 $target = 50;
 $stretchCurrent = 0;
@@ -57,5 +58,5 @@ if($stretchTarget > 0 && $current >= $target){
 	<p>We want to make Standard Ebooks a sustainable project that can support the huge amount of work it takes to maintain and operate. Welcoming <?= number_format($target) ?> new Patrons Circle members by <?= $deadline ?> will help put us on the stable financial footing we need to continue producing beautiful ebooks as we enter the new year.</p>
 	<p>Will you help us reach that goal, and support free and unrestricted digital literature?</p>
 	<? } ?>
-	<p><a class="button" href="/donate#patrons-circle">Join the patrons circle</a></p>
+	<? if($showDonateButton){ ?><p class="donate-button"><a class="button" href="/donate#patrons-circle">Join the patrons circle</a></p><? } ?>
 </aside>

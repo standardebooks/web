@@ -4,9 +4,8 @@ require_once('Core.php');
 <main>
 	<article>
 		<h1>Get Involved</h1>
-		<? if(DONATION_DRIVE_ON){ ?>
+		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
-		<? } ?>
 		<section id="intro">
 			<h2>Help create ebooks that are a pleasure to read</h2>
 			<p>Standard Ebooks is a volunteer-driven project, and there’s room for people of all skill levels to contribute.</p>

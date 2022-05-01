@@ -4,9 +4,8 @@ require_once('Core.php');
 <main>
 	<article>
 		<h1>About Standard Ebooks</h1>
-		<? if(DONATION_DRIVE_ON){ ?>
+		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
-		<? } ?>
 		<p>Standard Ebooks is a volunteer-driven effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the U.S. public domain, and Standard Ebooks dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain. All the ebooks we produce are distributed free of cost and free of U.S. copyright restrictions.</p>
 		<p>Standard Ebooks is organized as a “<a href="https://en.wikipedia.org/wiki/Low-profit_limited_liability_company">low-profit L.L.C.</a>,” or “L<sup>3</sup>C,” a kind of legal entity that blends the charitable focus of a traditional not-for-profit with the ease of organization and maintenance of a regular L.L.C. Our only source of income is <a href="/donate">donations from readers like you</a>.</p>
 		<section id="more-information">

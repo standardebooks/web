@@ -138,9 +138,9 @@ catch(Exceptions\InvalidEbookException $ex){
 
 		<section id="description">
 			<h2>Description</h2>
-			<? if(DONATION_DRIVE_ON){ ?>
+			<?= Template::DonationCounter() ?>
 			<?= Template::DonationProgress() ?>
-			<? }elseif(DONATION_ALERT_ON){ ?>
+			<? if(!DONATION_DRIVE_ON && !DONATION_DRIVE_COUNTER_ON && DONATION_ALERT_ON){ ?>
 			<?= Template::DonationAlert() ?>
 			<? } ?>
 			<? if($ebook->LongDescription === null){ ?>

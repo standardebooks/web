@@ -135,9 +135,9 @@ catch(Exceptions\InvalidCollectionException $ex){
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
 	<h1><?= $pageHeader ?></h1>
-	<? if(DONATION_DRIVE_ON){ ?>
+	<?= Template::DonationCounter() ?>
 	<?= Template::DonationProgress() ?>
-	<? }elseif(DONATION_HOLIDAY_ALERT_ON){ ?>
+	<? if(!DONATION_DRIVE_ON && !DONATION_DRIVE_COUNTER_ON && DONATION_HOLIDAY_ALERT_ON){ ?>
 	<?= Template::DonationAlert() ?>
 	<? } ?>
 	<? if($collection === null){ ?>

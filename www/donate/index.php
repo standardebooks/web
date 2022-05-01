@@ -7,9 +7,8 @@ require_once('Core.php');
 			<h1>Donate to Standard Ebooks</h1>
 			<h2>and help bring the beauty of literature to the digital age</h2>
 		</hgroup>
-		<? if(DONATION_DRIVE_ON){ ?>
-		<?= Template::DonationProgress(['autoHide' => false]) ?>
-		<? } ?>
+		<?= Template::DonationCounter(['autoHide' => false, 'showDonateButton' => false]) ?>
+		<?= Template::DonationProgress(['autoHide' => false, 'showDonateButton' => false]) ?>
 		<picture>
 			<source srcset="/images/the-quiet-hour@2x.avif 2x, /images/the-quiet-hour.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-quiet-hour@2x.jpg 2x, /images/the-quiet-hour.jpg 1x" type="image/jpg"/>
