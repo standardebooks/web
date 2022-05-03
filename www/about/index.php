@@ -129,9 +129,6 @@ require_once('Core.php');
 						<p>David Ballenger</p>
 					</li>
 					<li>
-						<p>Michael Barrineau</p>
-					</li>
-					<li>
 						<p>Leland Blanton</p>
 					</li>
 					<li>
@@ -204,12 +201,6 @@ require_once('Core.php');
 						<p>Curtis Hendzell</p>
 					</li>
 					<li>
-						<p>Stephen Heywood</p>
-					</li>
-					<li>
-						<p>David Howell</p>
-					</li>
-					<li>
 						<p>John Jarvis</p>
 					</li>
 					<li>
@@ -253,6 +244,9 @@ require_once('Core.php');
 					</li>
 					<li>
 						<p>Mark Swenson</p>
+					</li>
+					<li>
+						<p>Edward Throckmorton</p>
 					</li>
 					<li>
 						<p>Joshua Tompkins</p>
