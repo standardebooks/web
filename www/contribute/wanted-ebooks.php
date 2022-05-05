@@ -255,9 +255,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction by Frederik Pohl</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/90">The Son of Tarzan</a> (Tarzan 4) by Edgar Rice Burroughs</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1401">Tarzan the Untamed</a> (Tarzan 7) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
