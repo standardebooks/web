@@ -234,16 +234,25 @@ require_once('Core.php');
 						<p>Judith Moore</p>
 					</li>
 					<li>
+						<p>Sandeep Movva</p>
+					</li>
+					<li>
 						<p>Ozan Ocal</p>
 					</li>
 					<li>
 						<p>Andrew Roach</p>
 					</li>
 					<li>
+						<p>David Romani</p>
+					</li>
+					<li>
 						<p>Rollin Salsbery</p>
 					</li>
 					<li>
 						<p>Brandon Sowers</p>
+					</li>
+					<li>
+						<p>Aaron &amp; Kaci Sudbrink</p>
 					</li>
 					<li>
 						<p>Mark Swenson</p>
@@ -270,7 +279,10 @@ require_once('Core.php');
 						<p>Patrick Weyer</p>
 					</li>
 					<li>
-						<p>Anonymous × 24</p>
+						<p>Jasper Bernard Weyers</p>
+					</li>
+					<li>
+						<p>Anonymous × 27</p>
 					</li>
 				</ol>
 			</section>
