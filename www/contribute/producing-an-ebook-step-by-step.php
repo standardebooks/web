@@ -541,7 +541,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>There are some things that you don’t have to worry much about when proofreading:</p>
 				<ul>
 					<li><p><b>Spelling errors.</b> Actual spelling errors are very rare. If a word appears to be misspelled, it’s worth it to check the page scans, but such cases are often done on purpose by the author, or using a older spelling, or are spelled differently in en-US vs. en-GB.</p></li>
-					<li><p><b>Changing from en-GB to en-US or vice versa.</b> Spelling differences between the continents were not yet settled then, so it's common for books to be set in a blend of spellings. We don’t convert from one style to the other, or try to ensure perfect consistency between styles.</p></li>
+					<li><p><b>Changing from en-GB to en-US or vice versa.</b> Spelling differences between the continents were not yet settled then, so it's common for books to be set in a blend of spellings. We don’t convert from one style to the other, or try to ensure perfect consistency between styles. This includes en-GB differences like using “an” in front of a word starting in “h,” like “an hundred.”</p></li>
 					<li><p><b>Keeping a 100% faithful representation of a print page layout.</b> Sometimes books have complicated page layouts in print. But ebooks are not the same as print books, with the most important distinction being that there is no “page” to align items to. So, we’re not so concerned with maintaining a pixel-perfect reproduction of print layouts; rather, we wish to <em>adapt</em> print layouts as best we can to the ebook medium.</p></li>
 				</ul>
 				<aside class="tip">
