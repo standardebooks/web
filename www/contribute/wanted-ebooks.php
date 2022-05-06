@@ -182,6 +182,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7132">The Purple Land</a> by W. H. Huson</p>
 			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/The_Chink_in_the_Armour">The Chink in the Armour</a> by Marie Belloc Lowndes.</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
