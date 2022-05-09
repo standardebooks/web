@@ -60,7 +60,7 @@ main.manual{
 }
 
 main.manual.outdated{
-	background: url('/images/outdated.svg');
+	background: url("/images/outdated.svg");
 }
 
 main code:first-child{
@@ -335,6 +335,20 @@ code.full .utf{
 	text-align: center;
 }
 
+.alert p.warning::before,
+.alert p.warning::after{
+	content: "\f071";
+	font-family: "Fork Awesome";
+}
+
+.alert p.warning::before{
+	margin-right: 1rem;
+}
+
+.alert p.warning::after{
+	margin-left: 1rem;
+}
+
 figure p.wrong{
 	text-decoration-line: underline;
 	text-decoration-style: wavy;
@@ -343,7 +357,7 @@ figure p.wrong{
 
 figure p.wrong::before,
 figure.wrong::before{
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	content: "\f00d";
 	font-size: 1.5rem;
 	width: 1.5rem;
@@ -357,7 +371,7 @@ figure.wrong::before{
 
 figure p.corrected::before,
 figure.corrected::before{
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	content: "\f00c";
 	font-size: 1.5rem;
 	line-height: 1;
@@ -578,7 +592,7 @@ figure.corrected code{
 }
 
 .manual aside.tip::before{
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	content: "\f0eb";
 	font-size: 1rem;
 	position: absolute;

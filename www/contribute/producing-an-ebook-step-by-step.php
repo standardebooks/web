@@ -551,7 +551,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			<li>
 				<h2>Create the cover image</h2>
 				<aside class="alert">
-					<p class="warning">!!! STOP !!!</p>
+					<p class="warning">STOP</p>
 					<p><strong>Do not commit cover art to your repository’s history until you have <a href="https://groups.google.com/g/standardebooks">cleared your selection with the S.E. Editor-in-Chief.</a></strong></p>
 					<p>If you commit non-public-domain cover art, you’ll have to rebase your repository to remove the art from its history. This is complicated, dangerous, and annoying, and you’ll be tempted to give up.</p>
 					<p><a href="https://groups.google.com/g/standardebooks">Contact us first</a> with page scans verifying your cover art’s public domain status before you commit your cover art!</p>
@@ -600,7 +600,10 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<h2>Complete content.opf</h2>
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text. We already completed the manifest and spine in an earlier step.</p>
 				<p><code class="path">content.opf</code> is standardized. See the <a href="/manual/latest/9-metadata">Metadata section of the <abbr class="acronym">SEMoS</abbr></a> for details on how to fill it out.</p>
-				<p>The last details to fill out here will be the short and long descriptions, verifying any Wikipedia links that <code class="bash"><b>se</b> create-draft</code> automatically found, adding cover artist metadata, filling out any missing author or contributor metadata, and adding your own metadata as the ebook producer. If you wrote the long description in unescaped HTML, run <code class="bash"><b>se</b> clean</code> to convert the long description to escaped HTML.</p>
+				<p>The last details to fill out here will be the short and long descriptions, verifying any Wikipedia links that <code class="bash"><b>se</b> create-draft</code> automatically found, adding cover artist metadata, filling out any missing author or contributor metadata, and adding your own metadata as the ebook producer.</p>
+				<aside class="tip">
+					<p>The long description must be <em>escaped</em> HTML, which can be difficult to write by hand. It’s much easier to write the long description in regular HTML, and then run <code class="bash"><b>se</b> clean</code>, which will escape the long description for you.</p>
+				</aside>
 				<p>Once you’re done, commit:</p>
 				<code class="terminal"><span><b>git</b> commit -am <i>"Complete content.opf"</i></span></code>
 			</li>

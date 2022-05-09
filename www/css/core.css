@@ -1,5 +1,5 @@
 @font-face{
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	src: url("/fonts/fork-awesome-subset.woff2") format("woff2");
 	font-weight: normal;
 	font-style: normal;
@@ -48,14 +48,6 @@
 	src: url("/fonts/crimson-pro-bold-italic.woff2") format("woff2");
 	font-weight: bold;
 	font-style: italic;
-	font-display: swap;
-}
-
-@font-face{
-	font-family: "Bebas Neue";
-	src: url("/fonts/bebas-neue-subset.woff2") format("woff2");
-	font-weight: normal;
-	font-style: normal;
 	font-display: swap;
 }
 
@@ -675,7 +667,7 @@ form button:active{
 
 a.button.next::after,
 .ebooks nav > a:last-child::after{
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	content: "\f061";
 	transition: all 200ms ease;
 	position: relative;
@@ -691,7 +683,7 @@ a[href].button.next:hover::after,
 }
 
 .ebooks nav > a:first-child:before{
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	content: "\f060";
 	transition: all 200ms ease;
 	position: relative;
@@ -1165,7 +1157,7 @@ footer > p{
 	align-items: center;
 }
 footer > p:first-child::before{
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	content: "\f0e0";
 	display: inline;
 	margin-right: .25rem;
@@ -1530,7 +1522,7 @@ label.search input{
 }
 
 select{
-	font-family: "ForkAwesome", "Crimson Pro";
+	font-family: "Fork Awesome", "Crimson Pro";
 	padding-left: 1rem;
 	padding-right: 2rem;
 	display: block;
@@ -1554,7 +1546,7 @@ label.select > span + span::after{
 	top: calc((2rem + 1.4rem + 2px) / 2 - 10px);
 	right: calc(1rem - 12px / 2);
 	content: "\f107";
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	font-size: 1rem;
 	line-height: 1;
 	color: var(--sub-text);
@@ -1583,7 +1575,7 @@ label.search::before{
 	position: absolute;
 	top: calc(2rem + .7rem);
 	left: 1rem;
-	font-family: "ForkAwesome";
+	font-family: "Fork Awesome";
 	font-size: 1rem;
 	line-height: 1;
 	margin-right: 1rem;
@@ -2221,7 +2213,7 @@ aside header{
 .progress > div{
 	/* Animate the div instead of the bar itself, because animating the bar triggers an
 	FF bug that causes infinite requsts to stripes.svg */
-	background: url('/images/stripes.svg') transparent;
+	background: url("/images/stripes.svg") transparent;
 	background-position: 0 0;
 	animation: progress 2s linear infinite;
 	z-index: 3;
@@ -2298,7 +2290,7 @@ aside button.close{
 	position: absolute;
 	top: 0;
 	right: 0;
-	background: url('/images/close.svg') transparent;
+	background: url("/images/close.svg") transparent;
 	background-size: 1rem 1rem;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -2381,12 +2373,12 @@ aside button.close:active{
 }
 
 .ebook figure::after{ /* spine */
-	content: '';
+	content: "";
 	position: absolute;
 	width: calc(var(--size) + 2px);
 	height: 100%;
 	left: calc(-1 * var(--size));
-	background: no-repeat center center url('/images/logo-spine.svg') #222;
+	background: no-repeat center center url("/images/logo-spine.svg") #222;
 	background-size: calc(var(--size) - .5rem) calc(var(--size) - .5rem);
 	transform-origin: right;
 	transform: skewY(45deg);
@@ -2398,11 +2390,11 @@ aside button.close:active{
 }
 
 .ebook figure picture::before{ /* pages */
-	content: '';
+	content: "";
 	position: absolute;
 	width: var(--size);
 	height: 235px;
-	background: url('/images/pages-texture.svg') #fff;
+	background: url("/images/pages-texture.svg") #fff;
 	background-size: .5rem; /* needed to prevent visual glitch in FF */
 	top: calc(-1 * (234px + (var(--size) / 2)) + 5px);
 	left: calc(-1 * var(--size));
@@ -2414,7 +2406,7 @@ aside button.close:active{
 }
 
 .ebook figure picture::after{ /* back board */
-	content: '';
+	content: "";
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -2428,7 +2420,7 @@ aside button.close:active{
 }
 
 .ebook figure::before{ /* shadow */
-	content: '';
+	content: "";
 	background: rgba(0, 0, 0, .5);
 	position: absolute;
 	top: calc(353px - var(--size));
