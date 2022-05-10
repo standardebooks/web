@@ -48,11 +48,11 @@ require_once('Core.php');
 					</li>
 				</ul>
 				<p>Internet Archive has the widest amount of scans, with the most permissive viewing and lending policy. Hathi Trust has many of the same scans as Google Books, but with a more permissive viewing policy. Google Books restricts readers based on IP address and does a poor job of implementing per-country copyright law, so people outside of the U.S. may not be able to access scans of books that are in the public domain of their country.</p>
-				<p>Each of those sources allows you to filter results by publication date, so make sure you select a maximum publication date of December 31, <?= PD_YEAR ?> (in other words, everything published before January 1, <?= PD_YEAR + 1 ?>) to ensure they’re in the U.S. public domain.</p>
+				<p>Each of those sources allows you to filter results by publication date, so make sure you select a maximum publication date of December 31, <?= PD_YEAR ?> (in other words, everything published before <?= PD_STRING ?>) to ensure they’re in the U.S. public domain.</p>
 				<p>Please keep the following important notes in mind when searching for page scans:</p>
 				<ul>
 					<li>
-						<p>Make sure the scans you find are <em>published before January 1, <?= PD_YEAR + 1 ?>.</em> You <em>must verify the copyright page in the page scans</em> before proceeding.</p>
+						<p>Make sure the scans you find are <em>published before <?= PD_STRING ?>.</em> You <em>must verify the copyright page in the page scans</em> before proceeding.</p>
 					</li>
 					<li>
 						<p>Often you’ll find different editions, published at different times by different publishers, for the same book. It’s worth the effort to quickly browse through each different one to get an idea of the kinds of changes the different publishers introduced. Maybe one edition is better than another!</p>
@@ -570,7 +570,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>The image you pick should be a “fine art” oil painting so that all Standard Ebooks have a consistent cover style. This is actually easier than you think, because it turns out most public domain artwork is from the era of fine art.</p>
 					</li>
 					<li>
-						<p>You must provide proof of public domain status to the S.E. Editor-in-Chief in the form of a page scan of the painting from a book published before January 1, <?= PD_YEAR + 1 ?>, and the Editor-in-Chief must approve your selection before you can commit it to your repository.</p>
+						<p>You must provide proof of public domain status to the S.E. Editor-in-Chief in the form of a page scan of the painting from a book published before <?= PD_STRING ?>, and the Editor-in-Chief must approve your selection before you can commit it to your repository.</p>
 					</li>
 					<li>
 						<p>The Standard Ebooks Editor-in-Chief has the final say on the cover image you pick, and it may be rejected for, among other things, poor public domain status research, being too low resolution, not fitting in with the “fine art” style, or being otherwise inappropriate for your ebook.</p>

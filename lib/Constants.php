@@ -73,6 +73,7 @@ const SOURCE_FADED_PAGE = 9;
 const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
 define('PD_YEAR', intval(gmdate('Y')) - 96);
+define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
 define('DONATION_HOLIDAY_ALERT_ON', time() > strtotime('November 15, ' . gmdate('Y'))  || time() < strtotime('January 7, ' . gmdate('Y')));
 define('DONATION_ALERT_ON', DONATION_HOLIDAY_ALERT_ON || rand(1, 4) == 2);
