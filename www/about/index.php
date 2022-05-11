@@ -129,6 +129,9 @@ require_once('Core.php');
 						<p>David Ballenger</p>
 					</li>
 					<li>
+						<p>Michael Barrineau</p>
+					</li>
+					<li>
 						<p>Leland Blanton</p>
 					</li>
 					<li>
