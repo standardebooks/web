@@ -278,7 +278,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.10">Semantics rules for abbreviations</a>. Abbreviations should always be wrapped in the <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span><span class="p">&gt;</span></code> element and with the correct <code class="html"><span class="na">epub:type</span></code> attribute.</p>
-						<p>Specifically, see the <a href="/manual/latest/8-typography#8.10.6">typography rules for initials</a>. Wrap people’s initials in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:given-name"</span><span class="p">&gt;</span></code>. This command helps wrap initials:</p>
+						<p>Specifically, see the <a href="/manual/latest/8-typography#8.10.4">typography rules for initials</a>. Wrap people’s initials in <code class="html"><span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:given-name"</span><span class="p">&gt;</span></code>. This command helps wrap initials:</p>
 						<code class="terminal"><span><b>se</b> interactive-replace <!--Single quote to prevent ! from becoming history expansion--><i>'(?&lt;!&lt;abbr[^&lt;]*?&gt;)([A-Z]\.(\s?[A-Z]\.)*)(?!&lt;/abbr&gt;|”)'</i> <i>'&lt;abbr epub:type="z3998:given-name"&gt;\1&lt;/abbr&gt;'</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
