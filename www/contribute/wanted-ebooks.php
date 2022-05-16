@@ -174,9 +174,6 @@ require_once('Core.php');
 				<p><a href="https://gutenberg.org/ebooks/34135">A Book-Lover’s Holidays in the Open</a> by Theodore Roosevelt</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/121">Northanger Abbey</a> by Jane Austen</p>
-			</li>
-			<li>
 				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne</p>
 			</li>
 			<li>
@@ -185,9 +182,15 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/The_Chink_in_the_Armour">The Chink in the Armour</a> by Marie Belloc Lowndes.</p>
 			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Radcliffe</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/48511">Vikram and the Vampire</a> by Sir Richard Francis Burton</p>
 			</li>
