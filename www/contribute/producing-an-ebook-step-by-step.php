@@ -200,7 +200,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p>Commas and periods should generally be inside quotation marks, not outside. Use this command to find and replace them:</p>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"([’”])([,.])" "\2\1"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <i>"([’”])([,.?!])" "\2\1"</i> src/epub/text/<i class="glob">*</i></span></code>
 						<p>When using this command, be careful to distinguish between the use of <code class="html">’</code> as a quotation mark and its use in elision or as part of a plural possessive (i.e. <code class="html">s’</code>).</p>
 						<table>
 							<tbody>
