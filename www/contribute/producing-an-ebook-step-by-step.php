@@ -433,7 +433,12 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>After you’ve reviewed the changes, create an <code class="html">[Editorial]</code> commit. This type of commit is important, because it gives purists an avenue to reverse these changes back to the original text.</p>
 				<aside class="tip">
 					<p>Editorial changes are those where we make an editorial decision to alter the original text, for example modernizing spelling or fixing a probable printer’s typo.</p>
-					<p>Fixing a transcriber’s typo—i.e. where the transcriber made a mistake when converting the page scans to digital text—<strong>is not</strong> an editorial change.</p>
+					<p>Fixing a transcriber’s typo—i.e. where the transcriber made a mistake when converting the page scans to digital text—is <strong>not</strong> an editorial change.</p>
+				</aside>
+				<aside class="tip">
+					<p><code class="html">[Editorial]</code> commits are an important part of the ebook’s history. They make it easier for reviewers to confirm your work, and they make it easy for readers to see how we may have changed the text.</p>
+					<p>You <strong>must</strong> use commits prefaced with <code class="html">[Editorial]</code> when you’re making editorial changes to the text. These commits may <strong>only</strong> contain editorial changes and <strong>no other work on the ebook</strong>.</p>
+					<p>Commits are easy and free. Don’t worry about making many small commits, if it means that editorial commits are clean and isolated. If you commingle editorial changes with other changes, we’ll have to ask you to rebase your repository to tease them out. This is very difficult—so please make sure to keep editorial commits separate!</p>
 				</aside>
 				<code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Modernize hyphenation and spelling"</i></span></code>
 			</li>
@@ -541,7 +546,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>There are some things that you don’t have to worry much about when proofreading:</p>
 				<ul>
 					<li><p><b>Spelling errors.</b> Actual spelling errors are very rare. If a word appears to be misspelled, it’s worth it to check the page scans, but such cases are often done on purpose by the author, or using a older spelling, or are spelled differently in en-US vs. en-GB.</p></li>
-					<li><p><b>Changing from en-GB to en-US or vice versa.</b> Spelling differences between the continents were not yet settled then, so it's common for books to be set in a blend of spellings. We don’t convert from one style to the other, or try to ensure perfect consistency between styles. This includes en-GB differences like using “an” in front of a word starting in “h,” like “an hundred.”</p></li>
+					<li><p><b>Changing from en-GB to en-US or vice versa.</b> Spelling differences between the continents were not yet settled then, so it’s common for books to be set in a blend of spellings. We don’t convert from one style to the other, or try to ensure perfect consistency between styles. This includes en-GB differences like using “an” in front of a word starting in “h,” like “an hundred.”</p></li>
 					<li><p><b>Keeping a 100% faithful representation of a print page layout.</b> Sometimes books have complicated page layouts in print. But ebooks are not the same as print books, with the most important distinction being that there is no “page” to align items to. So, we’re not so concerned with maintaining a pixel-perfect reproduction of print layouts; rather, we wish to <em>adapt</em> print layouts as best we can to the ebook medium.</p></li>
 				</ul>
 				<aside class="tip">
