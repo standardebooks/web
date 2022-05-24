@@ -456,6 +456,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/10031">Edgar Allan Poe’s poetry corpus</a></p>
+			</li>
+			<li>
 				<p><a href="https://catalog.hathitrust.org/Record/100864353">Saïd the Fisherman</a> by Marmaduke Pickthall (transcription required)</p>
 			</li>
 			<li>
