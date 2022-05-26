@@ -29,9 +29,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “The Pearson Publishing Co.”)</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3294">The Sea-Hawk</a> by Rafael Sabatini</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
@@ -86,9 +86,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46558">The Demi-gods</a> by James Stephens</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37332">A Little Princess</a> by Francis Hodgson Burnett</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46409">Heidi</a> by Johanna Spyri</p>
 			</li>
@@ -455,6 +455,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p>Epictetus’s “Enchiridion” and fragments as a Short Works compilation, in Elizabeth Carter’s translation, to supersede our <a href="/ebooks/epictetus/short-works/george-long">current edition</a> of his short works in George Long’s inferior translation. May require transcription.</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10031">Edgar Allan Poe’s poetry corpus</a></p>
 			</li>
