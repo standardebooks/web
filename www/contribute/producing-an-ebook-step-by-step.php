@@ -111,7 +111,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 
 				<p>Now that we’ve removed all the cruft from the top and bottom of the file, we’re ready for our first commit.</p>
 				<p>Each commit has an accompanying message describing the changes we are making. Please use the commit messages as they are written here in this guide as the editors rely on these messages when they review the work.</p>
-                <p>Also, try to make one commit per type of change, for example: “fixing typos in chapters 1-18” or “worked on letter formatting.”</p>
+				<p>Also, try to make one commit per type of change, for example: “fixing typos in chapters 1-18” or “worked on letter formatting.”</p>
 				<p>For this first commit:</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Initial commit"</i></span></code>
 			</li>
 			<li>
@@ -124,7 +124,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Once we’re happy that the source file has been split correctly, we can remove it.</p><code class="terminal"><span><b>rm</b> <u>src/epub/text/body.xhtml</u></span></code>
 			</li>
 			<li>
-				<h2>Clean up the source text</h2>
+				<h2>Clean up the source text and perform the second commit</h2>
 				<p>If you open up any of the chapter files we now have in the <code class="path">src/epub/text/</code> folder, you’ll notice that the code isn’t very clean. Paragraphs are split over multiple lines, indentation is all wrong, and so on.</p>
 				<p>If you try opening a chapter in a web browser, you’ll also likely get an error if the chapter includes any HTML entities, like <code class="html">&amp;mdash;</code>. This is because Gutenberg uses plain HTML, which allows entities, but epub uses XHTML, which doesn’t.</p>
 				<p>We can fix all of this pretty quickly using <code class="bash"><b>se</b> clean</code>. <code class="bash"><b>se</b> clean</code> accepts as its argument the root of a Standard Ebook directory. We’re already in the root, so we pass it <code class="path">.</code>.</p><code class="terminal"><span><b>se</b> clean <u>.</u></span></code>
@@ -148,9 +148,10 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></code></figure>
 				<p>If you look carefully, you’ll notice that the <code class="html"><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span></code> element has the <code class="html"><span class="na">xml:lang</span><span class="o">=</span><span class="s">"en-US"</span></code> attribute, even though our source text uses British spelling! We have to change the <code class="html"><span class="na">xml:lang</span></code> attribute for the source files to match the actual language, which in this case is en-GB. Let’s do that now:</p><code class="terminal"><span><b>perl</b> -pi -e <i>"s|en-US|en-GB|g"</i> src/epub/text/chapter<i class="glob">*</i></span></code>
 				<p>Note that we <em>don’t</em> change the language for the metadata or front/back matter files, like <code class="path">content.opf</code>, <code class="path">titlepage.xhtml</code>, or <code class="path">colophon.xhtml</code>. Those must always be in American spelling, so they’ll always have the en-US language tag.</p>
+				<p>Once the file split and cleanup is complete, you can perform your second commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Split files and clean"</i></span></code>
 			</li>
 			<li>
-				<h2>Typogrify the source text and perform the second commit</h2>
+				<h2>Typogrify the source text and perform the corresponding commit(s)</h2>
 				<p>Now that we have a clean starting point, we can start getting the <em>real</em> work done. <code class="bash"><b>se</b> typogrify</code> can do a lot of the heavy lifting necessary to bring an ebook up to Standard Ebooks typography standards.</p>
 				<p>Like <code class="bash"><b>se</b> clean</code>, <code class="bash"><b>se</b> typogrify</code> accepts as its argument the root of a Standard Ebook directory.</p><code class="terminal"><span><b>se</b> typogrify <u>.</u></span></code>
 				<p>Among other things, <code class="bash"><b>se</b> typogrify</code> does the following:</p>
@@ -168,7 +169,8 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Normalizes spacing in em-, en-, and double-em-dashes, as well as between nested quotation marks, and adds word joiners.</p>
 					</li>
 				</ul>
-				<p>While <code class="bash"><b>se</b> typogrify</code> does a lot of work for you, each ebook is totally different so there’s almost always more work to do that can only be done by hand. In <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The S.E. standard requires chapter titles to be in title case, and <code class="bash"><b>se</b> titlecase</code> can do that for us. <code class="bash"><b>se</b> titlecase</code> accepts a string as its argument, and outputs the string in title case.</p>
+				<p>While <code class="bash"><b>se</b> typogrify</code> does a lot of work for you, each ebook is totally different so there’s almost always more work to do that can only be done by hand. However, you will do a third commit first, to put the automated changes in a separate commit from any manual changes.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Typogrify"</i></span></code>
+				<p>As an example of manual changes that might be needed, in <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The S.E. standard requires chapter titles to be in title case, and <code class="bash"><b>se</b> titlecase</code> can do that for us. <code class="bash"><b>se</b> titlecase</code> accepts a string as its argument, and outputs the string in title case.</p>
 				<aside class="tip">
 					<p>Many text editors allow you to configure external macros—perfect for creating a keyboard shortcut to run <code class="bash"><b>se</b> titlecase</code> on selected text.</p>
 				</aside>
@@ -222,20 +224,27 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						</table>
 					</li>
 				</ul>
-				<h3>The second commit</h3>
-				<p>Once you’ve run <code class="bash"><b>se</b> typogrify</code> and you’ve searched the work for the common issues above, you can perform your second commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Typogrify"</i></span></code>
+				<h3>The fourth commit</h3>
+				<p>Once you’ve searched the work for the common issues above, if any manual changes were necessary, you should perform the fourth commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Manual typography changes"</i></span></code>
 			</li>
 			<li>
 				<h2>Check for transcription errors</h2>
 				<p>Transcriptions often have errors, because the O.C.R. software might confuse letters for other, more unusual characters, or because the ebook’s character set got mangled somewhere along the way from the source to your repository. You’ll find most transcription errors when you proofread the text, but right now you use the <code class="bash"><b>se</b> find-unusual-characters</code> tool to see a list of any unusual characters in the transcription. If the tool outputs any, check the source to make sure those characters aren’t errors.</p><code class="terminal"><span><b>se</b> find-unusual-characters <u>.</u></span></code>
+				<p>If any errors had to be corrected, a commit is needed as well.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Correct transcription errors"</i></span></code>
 			</li>
 			<li>
-				<h2>Convert footnotes to endnotes and add a list of illustrations</h2>
+				<h2>Convert footnotes to endnotes</h2>
 				<p>Works often include footnotes, either added by an annotator or as part of the work itself. Since ebooks don’t have a concept of a “page,” there’s no place for footnotes to go. Instead, we convert footnotes to a single endnotes file, which will provide popup references in the final epub.</p>
 				<p>The endnotes file and the format for endnote links are <a href="/manual/latest/7-high-level-structural-patterns#7.10">standardized in the <abbr class="acronym">SEMoS</abbr></a>.</p>
 				<p>If you find that you accidentally mis-ordered an endnote, never fear! <code class="bash"><b>se</b> shift-endnotes</code> will allow you to quickly rearrange endnotes in your ebook.</p>
+				<p>If any footnotes were present and moved to endnotes, do another commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Move footnotes to endnotes"</i></span></code>
+				<p><i>Jekyll</i> doesn’t have any footnotes or endnotes, so we skip this step.</p>
+			</li>
+			<li>
+				<h2>Add a list of illustrations</h2>
 				<p>If a work has illustrations besides the cover and title pages, we include a “list of illustrations” at the end of the book, after the endnotes but before the colophon. The <abbr class="initialism">LoI</abbr> file <a href="/manual/latest/7-high-level-structural-patterns#7.9">is also standardized</a>.</p>
-				<p><i>Jekyll</i> doesn’t have any footnotes, endnotes, or illustrations, so we skip this step.</p>
+				<p>If an LOI is created, do a corresponding commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add LOI"</i></span></code>
+				<p><i>Jekyll</i> doesn’t have any illustrations, so we skip this step.</p>
 			</li>
 			<li>
 				<h2>Converting British quotation to American quotation</h2>
@@ -262,6 +271,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</ol>
 				<p>Use <code class="bash"><b>se</b> semanticate</code> to do some common cases for you:</p><code class="terminal"><span><b>se</b> semanticate <u>.</u></span></code>
 				<p><code class="bash"><b>se</b> semanticate</code> tries its best to correctly add semantics, but sometimes it’s wrong. For that reason you should review the changes it made before accepting them:</p><code class="terminal"><span><b>git</b> difftool</span></code>
+				<p>As we did with <code class="bash">typogrify</code>, we want the automated portion of adding semantics to be in its own commit. After running <code class="bash">semanticate</code>, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Semanticate"</i></span></code>
 				<p>Beyond that, adding semantics is mostly a by-hand process. See the <a href="/manual"><abbr class="acronym">SEMoS</abbr></a> for a detailed list of the kinds of semantics we expect in a Standard Ebook.</p>
 				<p>Here’s a short list of some of the more common semantic issues you’ll encounter:</p>
 				<ul>
@@ -291,7 +301,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> element to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the <abbr class="acronym">SEMoS</abbr></a> for templates on how to semantically format poetry, verse, and song.</p>
 					</li>
 				</ul>
-				<p>After you’ve added semantics according to the <a href="/manual"><abbr class="acronym">SEMoS</abbr></a>, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Semanticate"</i></span></code>
+				<p>After you’ve added semantics according to the <a href="/manual"><abbr class="acronym">SEMoS</abbr></a>, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Manually add additional semantics"</i></span></code>
 			</li>
 			<li>
 				<h2>Modernize spelling and hyphenation</h2>
@@ -458,11 +468,13 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 				</ul>
 				<code class="terminal"><span><b>se</b> find-mismatched-diacritics <u>.</u></span></code>
+				<p>If any changes had to be made, a corresponding editorial commit should be done as well.</p><code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Correct mismatched diacritics"</i></span></code>
 			</li>
 			<li>
 				<h2>Check for consistent dashes</h2>
 				<p>Similar to <code class="bash"><b>se</b> find-mismatched-diacritics</code>, <code class="bash"><b>se</b> find-mismatched-dashes</code> lists instances where a compound word is spelled both with and without a dash. Dashes in words should be normalized to one or the other style.</p>
 				<code class="terminal"><span><b>se</b> find-mismatched-dashes <u>.</u></span></code>
+				<p>If corrections were made, another commit is needed.</p><code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Correct mismatched dashes"</i></span></code>
 			</li>
 			<li>
 				<h2>Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</h2>
