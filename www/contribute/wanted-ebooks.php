@@ -36,9 +36,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/20788">Storm Over Warlock</a> by Andre Norton</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/25550">The Defiant Agents</a> by Andre Norton</p>
 			</li>
 			<li>
