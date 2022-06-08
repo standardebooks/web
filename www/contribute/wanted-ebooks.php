@@ -186,6 +186,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://en.wikisource.org/wiki/The_Pilgrim_Kamanita">The Pilgrim Kamanita</a> by Karl Gjellerup</p>
+			</li>
+			<li>
 				<p><a href="https://gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Radcliffe</p>
 			</li>
 			<!-- <li>
