@@ -191,9 +191,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Radcliffe</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/48511">Vikram and the Vampire</a> by Sir Richard Francis Burton</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/67369">Hadrian the Seventh</a> by F. R. Rolfe</p>
 			</li>
