@@ -237,13 +237,7 @@ require_once('Core.php');
 				<p><a href="http://shakespeare.mit.edu/troilus_cressida/full.html">Troilus and Cressida</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/coriolanus/full.html">Coriolanus</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/titus/full.html">Titus Andronicus</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/timon/full.html">Timon of Athens</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
 				<p><a href="http://shakespeare.mit.edu/cymbeline/full.html">Cymbeline</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
@@ -478,9 +472,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/thepeasants-autumn/page/n5/mode/2up">The Peasants</a> by Władysław Reymont (transcription required; see <a href="https://archive.org/details/thepeasants-winter">Winter</a>, <a href="https://archive.org/details/thepeasants-summer">Summer</a>, <a href="https://archive.org/details/thepeasants-spring">Spring</a>).</p>
-			</li>
-			<li>
-				<p><a href="http://shakespeare.mit.edu/allswell/full.html">All’s Well That Ends Well</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/1370">Short stories by Algernon Blackwood</a> (To be compiled in an omnibus “Short Fiction”)</p>
