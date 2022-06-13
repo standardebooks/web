@@ -437,9 +437,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/11746">Through the Brazilian Wilderness</a> by Theodore Roosevelt (Transcription is missing italics and accents)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/64037">The Life of Jesus Critically Examined</a> by David Strauss</p>
 			</li>
