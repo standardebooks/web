@@ -8,6 +8,16 @@ require_once('Core.php');
 		<p>Our toolset is GNU/Linux-based, and producing an ebook from scratch currently requires working knowledge of the epub file format and of Unix-like systems like Mac or Linux.</p>
 		<p>Our toolset doesn’t yet work natively on Windows, but there are <a href="https://www.howtogeek.com/170870/5-ways-to-run-linux-software-on-windows/">many ways to run Linux from within Windows</a>, including <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">one that is directly supported by Microsoft themselves</a>.</p>
 		<p>If you don’t have this kind of technical expertise, you can still contribute! <a href="/contribute">Check out our contributors page for details,</a> or check out <a href="https://b-t-k.github.io/">Standard Ebooks Hints and Tricks</a>, a beginner’s guide by one of our editors.</p>
+		<aside class="alert">
+			<p class="warning">Before you begin</p>
+			<p>We use Git to store the production and editorial history of all of our ebooks.</p>
+			<p>Maintaining a clean and orderly Git history is very important to the final ebook. You should commit early and often.</p>
+			<p>A single commit should only contain a single logical unit of work, like <code class="html">Typogrified text</code> or <code class="html">Fixed transcription typos</code>. Don’t cram a lot of different changes into a single commit because you forgot to commit early and often.</p>
+			<p>In particular, commits that contain editorial changes to the source text, like spelling changes, must have their commit message prefaced with <code class="html">[Editorial]</code> and must not contain any non-editorial changes.</p>
+			<p><strong>Do not mix editorial and non-editorial changes in a single commit.</strong> Commits are easy and free—it’s perfectly acceptable to have many very small commits, as long as each one is a single logical unit of work and doesn’t mix editorial and non-editorial changes.</p>
+			<p>If you commingle editorial changes with other changes in your commits, we’ll be forced to ask you to rebase your repository to tease them out. This is very difficult and you’ll get frustrated—so please make sure to keep editorial commits separate!</p>
+			<p>If your working directory contains a mix of changes and you only want to commit some of them, <code class="bash"><b>git</b> add --patch</code> is a <a href="http://git-scm.com/docs/git-add#Documentation/git-add.txt--p">useful way to only commit parts of a file</a>.</p>
+		</aside>
 		<ol>
 			<li>
 				<h2>Set up the Standard Ebooks toolset and make sure it’s up-to-date</h2>
