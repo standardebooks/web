@@ -41,6 +41,32 @@ try{
 		$ebook = new Ebook($wwwFilesystemPath);
 	}
 
+	// Divide our sources into transcriptions and scans
+	$transcriptionSources = [];
+	$scanSources = [];
+	$otherSources = [];
+	foreach($ebook->Sources as $source){
+		switch($source->Type){
+			case SOURCE_PROJECT_GUTENBERG:
+			case SOURCE_PROJECT_GUTENBERG_AUSTRALIA:
+			case SOURCE_PROJECT_GUTENBERG_CANADA:
+			case SOURCE_WIKISOURCE:
+			case SOURCE_FADED_PAGE:
+				$transcriptionSources[] = $source;
+				break;
+
+			case SOURCE_INTERNET_ARCHIVE:
+			case SOURCE_HATHI_TRUST:
+			case SOURCE_GOOGLE_BOOKS:
+				$scanSources[] = $source;
+				break;
+
+			case SOURCE_OTHER:
+				$otherSources[] = $source;
+				break;
+		}
+	}
+
 	// Generate the bottom carousel.
 	// Pick a random tag from this ebook, and get ebooks in the same tag
 	$carousel = [];
@@ -284,6 +310,7 @@ catch(Exceptions\InvalidEbookException $ex){
 			<? } ?>
 		</section>
 
+		<? if($ebook->GitHubUrl !== null && $ebook->WikipediaUrl !== null){ ?>
 		<section id="details">
 			<h2>More details</h2>
 			<ul>
@@ -297,25 +324,65 @@ catch(Exceptions\InvalidEbookException $ex){
 					<p><a href="<?= Formatter::ToPlainText($ebook->WikipediaUrl) ?>" class="wikipedia">This book at Wikipedia</a></p>
 				</li>
 				<? } ?>
-				<? foreach($ebook->Sources as $source){ ?>
-				<li>
-					<p>
-						<? if($source->Type == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a><? } ?>
-						<? if($source->Type == SOURCE_PROJECT_GUTENBERG_AUSTRALIA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a><? } ?>
-						<? if($source->Type == SOURCE_PROJECT_GUTENBERG_CANADA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a><? } ?>
-						<? if($source->Type == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="wikisource">Transcription at Wikisource</a><? } ?>
-						<? if($source->Type == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="internet-archive">Page scans at the Internet Archive</a><? } ?>
-						<? if($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a><? } ?>
-						<? if($source->Type == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="google">Page scans at Google Books</a><? } ?>
-						<? if($source->Type == SOURCE_FADED_PAGE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Transcription at Faded Page</a><? } ?>
-						<? if($source->Type == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', (string)$source->Url) ?? '') /* force type to (string) to satisfy PHPStan */ ?></a><? } ?>
-					</p>
-				</li>
-				<? } ?>
 			</ul>
 		</section>
+		<? } ?>
 
-		<section id="improve">
+		<? if(sizeof($transcriptionSources) > 0 || sizeof($scanSources) > 0 || sizeof($otherSources) > 0){ ?>
+		<section id="sources">
+			<h2>Sources</h2>
+			<? if(sizeof($transcriptionSources) > 0){ ?>
+			<section id="transcriptions">
+				<h3>Transcriptions</h3>
+				<ul>
+					<? foreach($transcriptionSources as $source){ ?>
+					<li>
+						<p>
+							<? if($source->Type == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a><? } ?>
+							<? if($source->Type == SOURCE_PROJECT_GUTENBERG_AUSTRALIA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a><? } ?>
+							<? if($source->Type == SOURCE_PROJECT_GUTENBERG_CANADA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a><? } ?>
+							<? if($source->Type == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="wikisource">Transcription at Wikisource</a><? } ?>
+						</p>
+					</li>
+					<? } ?>
+				</ul>
+			</section>
+			<? } ?>
+			<? if(sizeof($scanSources) > 0){ ?>
+			<section id="page-scans">
+				<h3>Page scans</h3>
+				<ul>
+					<? foreach($scanSources as $source){ ?>
+					<li>
+						<p>
+							<? if($source->Type == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="internet-archive">Page scans at the Internet Archive</a><? } ?>
+							<? if($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a><? } ?>
+							<? if($source->Type == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="google">Page scans at Google Books</a><? } ?>
+							<? if($source->Type == SOURCE_FADED_PAGE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Transcription at Faded Page</a><? } ?>
+						</p>
+					</li>
+					<? } ?>
+				</ul>
+			</section>
+			<? } ?>
+			<? if(sizeof($otherSources) > 0){ ?>
+			<section id="other-sources">
+				<h3>Other sources</h3>
+				<ul>
+					<? foreach($otherSources as $source){ ?>
+					<li>
+						<p>
+							<? if($source->Type == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', (string)$source->Url) ?? '') /* force type to (string) to satisfy PHPStan */ ?></a><? } ?>
+						</p>
+					</li>
+					<? } ?>
+				</ul>
+			</section>
+			<? } ?>
+		</section>
+		<? } ?>
+
+		<section id="improve-this-ebook">
 			<h2>Improve this ebook</h2>
 			<p>Anyone can contribute to make a Standard Ebook better for everyone!</p>
 			<p>To report typos, typography errors, or other corrections, see <a href="/contribute/report-errors">how to report errors</a>.</p>

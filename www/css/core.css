@@ -835,13 +835,15 @@ article.ebook > header img{
 	max-width: 100%;
 }
 
-article.ebook section#details ul{
+article.ebook section#details ul,
+article.ebook section#sources ul{
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 1rem;
 }
 
-article.ebook section#details ul li{
+article.ebook section#details ul li,
+article.ebook section#sources ul li{
 	margin: 0;
 }
 
@@ -878,14 +880,16 @@ article.ebook section ul li a[class]{
 	align-items: center;
 }
 
-article.ebook section#details ul li a[class]{
+article.ebook section#details ul li a[class],
+article.ebook section#sources ul li a[class]{
 	display: inline-flex;
 	align-items: flex-start;
 }
 
 article.ebook section#read-online a::before,
 article.ebook section#download ul li a[class]::before,
-article.ebook section#details ul li a[class]::before{
+article.ebook section#details ul li a[class]::before,
+article.ebook section#sources ul li a[class]::before{
 	display: inline-block;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -900,7 +904,8 @@ article.ebook section#details ul li a[class]::before{
 
 article.ebook section#read-online a:hover::before,
 article.ebook section#download ul li a[class]:hover::before,
-article.ebook section#details ul li a[class]:hover::before{
+article.ebook section#details ul li a[class]:hover::before,
+article.ebook section#sources ul li a[class]:hover::before{
 	transform: scale(1.1);
 }
 
@@ -1997,6 +2002,10 @@ article.ebook section aside.donation p::after{
 	display: none;
 }
 
+article.ebook h2 + section > h3:first-of-type{
+	margin-top: 1rem;
+}
+
 .acroynm{
 	font-variant: all-small-caps;
 }
@@ -2751,7 +2760,8 @@ aside button.close:active{
 		font-size: 2.4rem;
 	}
 
-	article.ebook section#details ul{
+	article.ebook section#details ul,
+	article.ebook section#sources ul{
 		grid-template-columns: 1fr;
 	}
 
@@ -3109,6 +3119,7 @@ aside button.close:active{
 	article.ebook section#read-online a::before,
 	article.ebook section#download ul li a[class]::before,
 	article.ebook section#details ul li a[class]::before,
+	article.ebook section#sources ul li a[class]::before,
 	article.ebook #more-ebooks img,
 	article.ebook #more-ebooks a:active img,
 	main.ebooks > ol a[tabindex],
