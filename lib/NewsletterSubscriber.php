@@ -31,9 +31,12 @@ class NewsletterSubscriber extends PropertiesBase{
 			Db::Query('insert into NewsletterSubscribers (Email, Uuid, FirstName, LastName, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Timestamp) values (?, ?, ?, ?, ?, ?, ?, utc_timestamp());', [$this->Email, $this->Uuid, $this->FirstName, $this->LastName, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary]);
 		}
 		catch(PDOException $ex){
-			if($ex->getCode() == '23000'){
+			if($ex->errorInfo[1] == 1062){
 				// Duplicate unique key; email already in use
 				throw new Exceptions\NewsletterSubscriberExistsException();
+			}
+			else{
+				throw $ex;
 			}
 		}
 
