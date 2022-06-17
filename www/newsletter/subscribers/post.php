@@ -33,8 +33,8 @@ try{
 	$subscriber->FirstName = HttpInput::Str(POST, 'firstname', false);
 	$subscriber->LastName = HttpInput::Str(POST, 'lastname', false);
 	$subscriber->Email = HttpInput::Str(POST, 'email', false);
-	$subscriber->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'newsletter');
-	$subscriber->IsSubscribedToSummary = HttpInput::Bool(POST, 'monthlysummary');
+	$subscriber->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'newsletter', false);
+	$subscriber->IsSubscribedToSummary = HttpInput::Bool(POST, 'monthlysummary', false);
 
 	$captcha = $_SESSION['captcha'] ?? null;
 
