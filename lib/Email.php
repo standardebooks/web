@@ -63,10 +63,10 @@ class Email{
 			}
 
 			if(SITE_STATUS == SITE_STATUS_DEV){
-				Logger::WriteErrorLogEntry('Sending mail to ' . $this->To . ' from ' . $this->From);
-				Logger::WriteErrorLogEntry('Subject: ' . $this->Subject);
-				Logger::WriteErrorLogEntry($this->Body);
-				Logger::WriteErrorLogEntry($this->TextBody);
+				Log::WriteErrorLogEntry('Sending mail to ' . $this->To . ' from ' . $this->From);
+				Log::WriteErrorLogEntry('Subject: ' . $this->Subject);
+				Log::WriteErrorLogEntry($this->Body);
+				Log::WriteErrorLogEntry($this->TextBody);
 			}
 			else{
 				$phpMailer->Send();
@@ -74,7 +74,7 @@ class Email{
 		}
 		catch(Exception $ex){
 			if(SITE_STATUS != SITE_STATUS_DEV){
-				Logger::WriteErrorLogEntry('Failed sending email to ' . $this->To . ' Exception: ' . $ex->errorMessage() . "\n" . '  Subject: ' . $this->Subject . "\nBody:\n" . $this->Body);
+				Log::WriteErrorLogEntry('Failed sending email to ' . $this->To . ' Exception: ' . $ex->errorMessage() . "\n" . '  Subject: ' . $this->Subject . "\nBody:\n" . $this->Body);
 			}
 
 			return false;

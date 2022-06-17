@@ -8,13 +8,12 @@ use function Safe\file_get_contents;
 use function Safe\json_decode;
 use function Safe\substr;
 
-// Get a semi-random ID to identify this request within the log.
-$requestId = substr(sha1(time() . rand()), 0, 8);
+$log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
 
 try{
 	$smtpUsername = trim(file_get_contents(POSTMARK_SECRET_FILE_PATH)) ?: '';
 
-	Logger::WritePostmarkWebhookLogEntry($requestId, 'Received Postmark webhook.');
+	$log->Write('Received Postmark webhook.');
 
 	if($_SERVER['REQUEST_METHOD'] != 'POST'){
 		throw new Exceptions\WebhookException('Expected HTTP POST.');
@@ -35,13 +34,13 @@ try{
 
 	if($post->RecordType == 'SpamComplaint'){
 		// Received when a user marks an email as spam
-		Logger::WritePostmarkWebhookLogEntry($requestId, 'Event type: spam complaint.');
+		$log->Write('Event type: spam complaint.');
 
 		Db::Query('delete from NewsletterSubscribers where Email = ?', [$post->Email]);
 	}
 	elseif($post->RecordType == 'SubscriptionChange' && $post->SuppressSending){
 		// Received when a user clicks Postmark's "Unsubscribe" link in a newsletter email
-		Logger::WritePostmarkWebhookLogEntry($requestId, 'Event type: unsubscribe.');
+		$log->Write('Event type: unsubscribe.');
 
 		$email = $post->Recipient;
 
@@ -59,27 +58,27 @@ try{
 		curl_close($handle);
 	}
 	elseif($post->RecordType == 'SubscriptionChange' && $post->SuppressionReason === null){
-		Logger::WritePostmarkWebhookLogEntry($requestId, 'Event type: suppression deletion.');
+		$log->Write('Event type: suppression deletion.');
 	}
 	else{
-		Logger::WritePostmarkWebhookLogEntry($requestId, 'Unrecognized event: ' . $post->RecordType);
+		$log->Write('Unrecognized event: ' . $post->RecordType);
 	}
 
-	Logger::WritePostmarkWebhookLogEntry($requestId, 'Event processed.');
+	$log->Write('Event processed.');
 
 	// "Success, no content"
 	http_response_code(204);
 }
 catch(Exceptions\InvalidCredentialsException $ex){
 	// "Forbidden"
-	Logger::WritePostmarkWebhookLogEntry($requestId, 'Invalid key: ' . ($_SERVER['HTTP_X_SE_KEY'] ?? ''));
+	$log->Write('Invalid key: ' . ($_SERVER['HTTP_X_SE_KEY'] ?? ''));
 	http_response_code(403);
 }
 catch(Exceptions\WebhookException $ex){
 	// Uh oh, something went wrong!
 	// Log detailed error and debugging information locally.
-	Logger::WritePostmarkWebhookLogEntry($requestId, 'Webhook failed! Error: ' . $ex->getMessage());
-	Logger::WritePostmarkWebhookLogEntry($requestId, 'Webhook POST data: ' . $ex->PostData);
+	$log->Write('Webhook failed! Error: ' . $ex->getMessage());
+	$log->Write('Webhook POST data: ' . $ex->PostData);
 
 	// Print less details to the client.
 	print($ex->getMessage());

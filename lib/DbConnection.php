@@ -58,7 +58,7 @@ class DbConnection{
 				var_dump($ex);
 			}
 			else{
-				Logger::WriteErrorLogEntry('Error connecting to ' . $connectionString . '. Exception: ' . vds($ex));
+				Log::WriteErrorLogEntry('Error connecting to ' . $connectionString . '. Exception: ' . vds($ex));
 			}
 
 			if($require){
@@ -139,9 +139,9 @@ class DbConnection{
 						throw($ex);
 					}
 					else{
-						Logger::WriteErrorLogEntry($ex->getMessage());
-						Logger::WriteErrorLogEntry($preparedSql);
-						Logger::WriteErrorLogEntry(vds($params));
+						Log::WriteErrorLogEntry($ex->getMessage());
+						Log::WriteErrorLogEntry($preparedSql);
+						Log::WriteErrorLogEntry(vds($params));
 						throw($ex);
 					}
 				}

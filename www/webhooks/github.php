@@ -11,12 +11,11 @@ use function Safe\glob;
 // These scripts are allowed using the /etc/sudoers.d/www-data file. Only the specific scripts
 // in that file may be executed by this script.
 
-// Get a semi-random ID to identify this request within the log.
-$requestId = substr(sha1(time() . rand()), 0, 8);
+$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
 $lastPushHashFlag = '';
 
 try{
-	Logger::WriteGithubWebhookLogEntry($requestId, 'Received GitHub webhook.');
+	$log->Write('Received GitHub webhook.');
 
 	if($_SERVER['REQUEST_METHOD'] != 'POST'){
 		throw new Exceptions\WebhookException('Expected HTTP POST.');
@@ -44,10 +43,10 @@ try{
 	switch($_SERVER['HTTP_X_GITHUB_EVENT']){
 		case 'ping':
 			// Silence on success.
-			Logger::WriteGithubWebhookLogEntry($requestId, 'Event type: ping.');
+			$log->Write('Event type: ping.');
 			throw new Exceptions\NoopException();
 		case 'push':
-			Logger::WriteGithubWebhookLogEntry($requestId, 'Event type: push.');
+			$log->Write('Event type: push.');
 
 			// Get the ebook ID. PHP doesn't throw exceptions on invalid array indexes, so check that first.
 			if(!array_key_exists('repository', $data) || !array_key_exists('name', $data['repository'])){
@@ -57,7 +56,7 @@ try{
 			$repoName = trim($data['repository']['name'], '/');
 
 			if(in_array($repoName, GITHUB_IGNORED_REPOS)){
-				Logger::WriteGithubWebhookLogEntry($requestId, 'Repo is in ignore list, no action taken.');
+				$log->Write('Repo is in ignore list, no action taken.');
 				throw new Exceptions\NoopException();
 			}
 
@@ -77,19 +76,19 @@ try{
 				}
 			}
 
-			Logger::WriteGithubWebhookLogEntry($requestId, 'Processing ebook `' . $repoName . '` located at `' . $dir . '`.');
+			$log->Write('Processing ebook `' . $repoName . '` located at `' . $dir . '`.');
 
 			// Check the local repo's last commit. If it matches this push, then don't do anything; we're already up to date.
 			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1') ?? '');
 
 			if($lastCommitSha1 == ''){
-				Logger::WriteGithubWebhookLogEntry($requestId, 'Error getting last local commit. Output: ' . $lastCommitSha1);
+				$log->Write('Error getting last local commit. Output: ' . $lastCommitSha1);
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
 			}
 			else{
 				if($data['after'] == $lastCommitSha1){
 					// This commit is already in our local repo, so silent success
-					Logger::WriteGithubWebhookLogEntry($requestId, 'Local repo already in sync, no action taken.');
+					$log->Write('Local repo already in sync, no action taken.');
 					throw new Exceptions\NoopException();
 				}
 			}
@@ -98,7 +97,7 @@ try{
 			$output = [];
 			exec('sudo --set-home --user se-vcs-bot git -C ' . escapeshellarg($dir) . ' rev-parse HEAD', $output, $returnCode);
 			if($returnCode != 0){
-				Logger::WriteGithubWebhookLogEntry($requestId, 'Couldn\'t get last commit of local repo. Output: ' . implode("\n", $output));
+				$log->Write('Couldn\'t get last commit of local repo. Output: ' . implode("\n", $output));
 			}
 			else{
 				$lastPushHashFlag = ' --last-push-hash ' . escapeshellarg($output[0]);
@@ -108,22 +107,22 @@ try{
 			$output = [];
 			exec('sudo --set-home --user se-vcs-bot ' . SITE_ROOT . '/scripts/pull-from-github ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
-				Logger::WriteGithubWebhookLogEntry($requestId, 'Error pulling from GitHub. Output: ' . implode("\n", $output));
+				$log->Write('Error pulling from GitHub. Output: ' . implode("\n", $output));
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
 			}
 			else{
-				Logger::WriteGithubWebhookLogEntry($requestId, '`git pull` from GitHub complete.');
+				$log->Write('`git pull` from GitHub complete.');
 			}
 
 			// Our local repo is now updated. Build the ebook!
 			$output = [];
 			exec('sudo --set-home --user se-vcs-bot tsp ' . SITE_ROOT . '/web/scripts/deploy-ebook-to-www' . $lastPushHashFlag . ' ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
-				Logger::WriteGithubWebhookLogEntry($requestId, 'Error queueing ebook for deployment to web. Output: ' . implode("\n", $output));
+				$log->Write('Error queueing ebook for deployment to web. Output: ' . implode("\n", $output));
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
 			}
 			else{
-				Logger::WriteGithubWebhookLogEntry($requestId, 'Queue for deployment to web complete.');
+				$log->Write('Queue for deployment to web complete.');
 			}
 
 			break;
@@ -141,8 +140,8 @@ catch(Exceptions\InvalidCredentialsException $ex){
 catch(Exceptions\WebhookException $ex){
 	// Uh oh, something went wrong!
 	// Log detailed error and debugging information locally.
-	Logger::WriteGithubWebhookLogEntry($requestId, 'Webhook failed! Error: ' . $ex->getMessage());
-	Logger::WriteGithubWebhookLogEntry($requestId, 'Webhook POST data: ' . $ex->PostData);
+	$log->Write('Webhook failed! Error: ' . $ex->getMessage());
+	$log->Write('Webhook POST data: ' . $ex->PostData);
 
 	// Print less details to the client.
 	print($ex->getMessage());
