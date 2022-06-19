@@ -2,8 +2,16 @@
 
 Thank you for subscribing to the Standard Ebooks newsletter!
 
-Please use the link below to confirm your newsletter subscription. You won’t receive our newsletters until you confirm your subscription.
+You subscribed to:
+
+<? if($IsSubscribedToNewsletter){ ?>- The occasional Standard Ebooks newsletter
+<? } ?>
+<? if($isSubscribedToSummary){ ?>- A monthly summary of new ebook releases
+<? } ?>
+Please use the link below to confirm your subscription—you won’t receive email from us until you do.
 
 <<?= $subscriber->Url ?>/confirm>
 
-If you didn’t subscribe to our newsletter, or you’re not sure why you received this email, you can safely delete it and you won’t receive any more email from us.
+If you didn’t subscribe, or you’re not sure why you received this email, you can safely delete it and you won’t receive any more email from us.
+
+<?= Template::EmailFooterText() ?>

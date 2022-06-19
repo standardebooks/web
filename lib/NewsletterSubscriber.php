@@ -47,8 +47,8 @@ class NewsletterSubscriber extends PropertiesBase{
 		$em->PostmarkStream = EMAIL_POSTMARK_STREAM_BROADCAST;
 		$em->To = $this->Email;
 		$em->Subject = 'Action required: confirm your newsletter subscription';
-		$em->Body = Template::EmailNewsletterConfirmation(['subscriber' => $this]);
-		$em->TextBody = Template::EmailNewsletterConfirmationText(['subscriber' => $this]);
+		$em->Body = Template::EmailNewsletterConfirmation(['subscriber' => $this, 'isSubscribedToSummary' => $this->IsSubscribedToSummary, 'isSubscribedToNewsletter' => $this->IsSubscribedToNewsletter]);
+		$em->TextBody = Template::EmailNewsletterConfirmationText(['subscriber' => $this, 'isSubscribedToSummary' => $this->IsSubscribedToSummary, 'isSubscribedToNewsletter' => $this->IsSubscribedToNewsletter]);
 		$em->Send();
 	}
 

@@ -10,40 +10,45 @@ $preheader = $preheader ?? null;
 	<style type="text/css">
 		@font-face{
 			font-family: "League Spartan";
-			src: url("https://standardebooks.org/fonts/league-spartan-bold.woff2") format("woff2");
-			font-weight: bold;
 			font-style: normal;
+			font-weight: bold;
+			src: url("https://standardebooks.org/fonts/league-spartan-bold.woff2") format("woff2");
 		}
 
 		body{
+			text-align: center;
+		}
+
+		div.body{
+			text-align: left;
+			background-color: #E9E7E0;
 			border-radius: 1em;
 			font-family: "Georgia", serif;
-			hyphens: auto;
 			font-size: 18px;
+			hyphens: auto;
 			line-height: 1.4;
-			-webkit-font-smoothing: antialiased;
-			-webkit-text-size-adjust: none;
 			color: #222222;
 			margin: auto;
-			max-width: 50em;
+			max-width: 80ch;
 			padding: 2em;
-			background-color: #E9E7E0;
+			-webkit-font-smoothing: antialiased;
+			-webkit-text-size-adjust: none;
 		}
 
 		<? if($preheader){ ?>
 		.preheader{
-			display:none !important;
-			visibility: hidden;
-			mso-hide: all;
-			font-size: 1px;
+			display: none !important;
 			color: #ffffff;
-			line-height: 1px;
+			font-size: 1px;
 			height: 0;
-			width: 0;
+			line-height: 1px;
+			mso-hide: all;
 			opacity: 0;
 			overflow: hidden;
 			position: absolute;
 			top: -9999px;
+			visibility: hidden;
+			width: 0;
 		}
 		<? } ?>
 
@@ -69,15 +74,15 @@ $preheader = $preheader ?? null;
 		h1{
 			border-bottom: 3px double #222;
 			font-size: 2em;
-			padding-bottom: 1em;
+			line-height: 1.3;
+			padding-bottom: .75em;
 			text-transform: uppercase;
-			line-height: 1;
 		}
 
 		h2{
 			font-size: 1.5em;
-			text-decoration: underline double;
 			margin-top: 2em;
+			text-decoration: underline double;
 		}
 
 		a,
@@ -91,15 +96,24 @@ $preheader = $preheader ?? null;
 			color: #4f9d85;
 		}
 
+		address{
+			font-size: .75em;
+			text-transform: none;
+		}
+
+		address p{
+			margin: 0;
+		}
+
 		.intro{
 			text-align: center;
 		}
 
 		.footer{
-			text-align: center;
-			border-top: 3px double #222;
-			padding-top: 1em;
+			border-top: 1px solid #ccc;
 			margin-top: 2em;
+			padding-top: 1em;
+			text-align: center;
 			text-transform: lowercase;
 		}
 
@@ -114,25 +128,23 @@ $preheader = $preheader ?? null;
 		}
 
 		a.button{
-			display: inline-block;
-			border: 1px solid rgba(0, 0, 0, .5);
-			font-style: normal;
-			box-sizing: border-box;
 			background-color: #4f9d85;
+			border: 1px solid rgba(0, 0, 0, .5);
 			border-radius: 5px;
-			padding: 1em 2em;
-			color: #fff;
-			text-decoration: none;
-			font-family: "League Spartan", sans-serif;
-			font-weight: bold;
-			text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 			box-shadow: 2px 2px 0 rgba(0, 0, 0, .5), 1px 1px 0px rgba(255,255,255, .5) inset;
-			position: relative;
-			text-transform: lowercase;
+			box-sizing: border-box;
+			color: #fff;
 			cursor: pointer;
-			min-height: calc(1.4em + 2em + 2px);
+			display: inline-block;
+			font-family: "League Spartan", sans-serif;
+			font-style: normal;
+			font-weight: bold;
 			hyphens: none;
+			min-height: calc(1.4em + 2em + 2px);
+			padding: 1em 2em;
 			text-decoration: none;
+			text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+			text-transform: lowercase;
 		}
 
 		a.button:hover{
@@ -140,9 +152,11 @@ $preheader = $preheader ?? null;
 		}
 
 		.button-row{
+			margin: 2em auto;
 			text-align: center;
 		}
 	</style>
 </head>
 <body>
+	<div class="body">
 	<? if($preheader){ ?><p class="preheader"><?= Formatter::ToPlainText($preheader) ?><? for($i = 0; $i < 150 - strlen($preheader); $i++){ ?>&zwnj;&nbsp;<? } ?></p><? } ?>
