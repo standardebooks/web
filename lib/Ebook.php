@@ -728,7 +728,7 @@ class Ebook{
 
 	public function HasTag(string $tag): bool{
 		foreach($this->Tags as $t){
-			if(strtolower($t->Name) == strtolower($tag)){
+			if(strtolower($t->UrlName) == strtolower($tag)){
 				return true;
 			}
 		}

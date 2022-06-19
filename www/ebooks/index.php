@@ -49,11 +49,6 @@ try{
 		$tags = [];
 	}
 
-	// Replace dashes passed in from URLs like /tags/science-fiction
-	foreach($tags as $key => $tag){
-		$tags[$key] = str_replace('-', ' ', $tag);
-	}
-
 	// Are we looking at a collection?
 	if($collection !== null){
 		$ebooks = Library::GetEbooksByCollection($collection);

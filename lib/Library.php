@@ -200,7 +200,7 @@ class Library{
 
 		$ebooks = [];
 		$collections = [];
-		$tags = [];
+		$ebooksByTag = [];
 		$authors = [];
 		$tagsByName = [];
 
@@ -236,13 +236,12 @@ class Library{
 
 				// Create the tags cache
 				foreach($ebook->Tags as $tag){
-					$tagsByName[] = $tag->Name;
-					$lcTag = strtolower($tag->Name);
-					if(!array_key_exists($lcTag, $tags)){
-						$tags[$lcTag] = [];
+					$tagsByName[$tag->UrlName] = $tag;
+					if(!array_key_exists($tag->UrlName, $ebooksByTag)){
+						$ebooksByTag[$tag->UrlName] = [];
 					}
 
-					$tags[$lcTag][] = $ebook;
+					$ebooksByTag[$tag->UrlName][] = $ebook;
 				}
 
 				// Create the authors cache
@@ -288,13 +287,12 @@ class Library{
 		}
 
 		apcu_delete(new APCUIterator('/^tag-/'));
-		foreach($tags as $tag => $ebooks){
-			apcu_store('tag-' . $tag, $ebooks);
+		foreach($ebooksByTag as $tagName => $ebooks){
+			apcu_store('tag-' . $tagName, $ebooks);
 		}
 
+		ksort($tagsByName);
 		apcu_delete('tags');
-		$tagsByName = array_unique($tagsByName, SORT_STRING);
-		natsort($tagsByName);
 		apcu_store('tags', $tagsByName);
 
 		apcu_delete(new APCUIterator('/^author-/'));
