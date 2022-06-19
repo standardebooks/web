@@ -6,6 +6,9 @@ require_once('Core.php');
 	<h1>How-to Guides</h1>
 	<ul>
 		<li>
+			<p><a href="/contribute/how-tos/common-issues-when-working-on-public-domain-ebooks">Common issues when working on public domain ebooks</a></p>
+		</li>
+		<li>
 			<p><a href="/contribute/how-tos/how-to-produce-a-shakespeare-play">How to produce a Shakespeare play</a></p>
 		</li>
 		<li>
