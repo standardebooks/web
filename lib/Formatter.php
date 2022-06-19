@@ -15,7 +15,7 @@ class Formatter{
 		$text = self::RemoveDiacritics($text);
 
 		// Remove apostrophes
-		$text = str_replace('\'', '', $text);
+		$text = preg_replace('/[\'’]/u', '', $text);
 
 		// Trim and convert to lowercase
 		$text = mb_strtolower(trim($text));
