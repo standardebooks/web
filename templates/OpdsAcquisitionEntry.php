@@ -4,8 +4,9 @@
 	<? foreach($ebook->Authors as $author){ ?>
 		<author>
 			<name><?= htmlspecialchars($author->Name, ENT_QUOTES|ENT_XML1, 'utf-8') ?></name>
-			<? if($author->WikipediaUrl !== null){ ?><uri><?= htmlspecialchars($author->WikipediaUrl, ENT_QUOTES|ENT_XML1, 'utf-8') ?></uri><? } ?>
+			<uri><?= SITE_URL . htmlspecialchars($ebook->AuthorsUrl, ENT_QUOTES|ENT_XML1, 'utf-8') ?></uri>
 			<? if($author->FullName !== null){ ?><schema:alternateName><?= htmlspecialchars($author->FullName, ENT_QUOTES|ENT_XML1, 'utf-8') ?></schema:alternateName><? } ?>
+			<? if($author->WikipediaUrl !== null){ ?><schema:sameAs><?= htmlspecialchars($author->WikipediaUrl, ENT_QUOTES|ENT_XML1, 'utf-8') ?></schema:sameAs><? } ?>
 			<? if($author->NacoafUrl !== null){ ?><schema:sameAs><?= htmlspecialchars($author->NacoafUrl, ENT_QUOTES|ENT_XML1, 'utf-8') ?></schema:sameAs><? } ?>
 		</author>
 	<? } ?>

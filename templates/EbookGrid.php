@@ -8,7 +8,7 @@ $collection = $collection ?? null;
 
 $ebooks = $ebooks ?? [];
 ?>
-<ol<? if($view == VIEW_LIST){ ?> class="list"<? } ?><? if($collection !== null){ ?> typeof="schema:BookSeries" about="<?= $collection->Url ?>"<? } ?>>
+<ol class="ebooks-list<? if($view == VIEW_LIST){ ?>  list<? }else{ ?> grid<? } ?>"<? if($collection !== null){ ?> typeof="schema:BookSeries" about="<?= $collection->Url ?>"<? } ?>>
 <? if($collection !== null){ ?>
 	<meta property="schema:name" content="<?= Formatter::ToPlainText($collection->Name) ?>"/>
 <? } ?>

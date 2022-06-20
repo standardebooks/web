@@ -86,6 +86,10 @@ class OpdsFeed{
 
 			file_put_contents($parentFilepath, str_replace(" ns=", " xmlns=", $xmlString));
 
+			// If we include this stylsheet declaration in the OPDS template, `se clean` will remove it and also
+			// add a bunch of empty namespaces in the output. So, add it programatically here instead.
+			file_put_contents($tempFilename, str_replace("?>", "?>\n<?xml-stylesheet href=\"/opds/style\" type=\"text/xsl\"?>", file_get_contents($tempFilename)));
+
 			rename($tempFilename, $path);
 		}
 		else{

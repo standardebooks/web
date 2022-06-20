@@ -19,7 +19,7 @@ require_once('Core.php');
 			<ul class="feed">
 				<li>
 					<p><a href="/rss/new-releases">New releases</a> (RSS 2.0)</p>
-					<p><?= SITE_URL ?>/rss/new-releases</p>
+					<p class="url"><?= SITE_URL ?>/rss/new-releases</p>
 					<p>A list of the thirty latest Standard Ebooks ebook releases, most-recently-released first.</p>
 				</li>
 			</ul>
@@ -29,9 +29,8 @@ require_once('Core.php');
 			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a> are designed for use with ereading systems like <a href="http://koreader.rocks/">KOreader</a> or <a href="https://calibre-ebook.com">Calibre</a>, or with ereaders like <a href="https://johnfactotum.github.io/foliate/">Foliate</a>. They allow you to search, browse, and download from our catalog, directly in your ereader.</p>
 			<ul class="feed">
 				<li>
-					<p><a href="/opds">The Standard Ebooks OPDS feed</a> (OPDS 1.1)</p>
-					<p><?= SITE_URL ?>/opds</p>
-					<p>The main OPDS feed to use with ereading systems that support OPDS.</p>
+					<p><a href="/opds">The Standard Ebooks OPDS feed</a> (OPDS 1.2)</p>
+					<p class="url"><?= SITE_URL ?>/opds</p>
 				</li>
 			</ul>
 			<section>
