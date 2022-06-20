@@ -65,6 +65,13 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 							</p>
 						</xsl:for-each>
 					</div>
+					<ul class="tags">
+						<xsl:for-each select="atom:category[@scheme='https://standardebooks.org/vocab/subjects']">
+						<li>
+							<p><xsl:value-of select="@term"/></p>
+						</li>
+						</xsl:for-each>
+					</ul>
 					<div class="details">
 						<p>
 							<xsl:value-of select="atom:summary"/>

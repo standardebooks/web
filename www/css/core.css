@@ -1241,7 +1241,7 @@ ol.ebooks-list.list > li .thumbnail-container{
 }
 
 .opds ol.ebooks-list.list > li .thumbnail-container{
-	grid-row: 1 / span 5;
+	grid-row: 1 / span 6;
 }
 
 ol.ebooks-list.list ul.tags{
@@ -1407,6 +1407,7 @@ ul.tags{
 	margin-top: 1rem;
 }
 
+.opds ul.tags,
 .rss ul.tags{
 	justify-content: flex-start;
 	margin: .5rem auto;
@@ -1417,6 +1418,7 @@ ul.tags li{
 }
 
 ul.tags li a,
+.opds ul.tags li p,
 .rss ul.tags li p{
 	border: 1px solid var(--body-text);
 	border-radius: 5px;

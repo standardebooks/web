@@ -23,6 +23,9 @@
 	<? foreach($ebook->LocTags as $subject){ ?>
 	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= htmlspecialchars($subject, ENT_QUOTES|ENT_XML1, 'utf-8') ?>"/>
 	<? } ?>
+	<? foreach($ebook->Tags as $subject){ ?>
+	<category scheme="https://standardebooks.org/vocab/subjects" term="<?= htmlspecialchars($subject->Name, ENT_QUOTES|ENT_XML1, 'utf-8') ?>"/>
+	<? } ?>
 	<link href="<?= $ebook->Url ?>/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
 	<link href="<?= $ebook->Url ?>/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
 	<link href="<?= $ebook->Url ?>" rel="related" title="This ebook’s page at Standard Ebooks" type="text/html"/>
