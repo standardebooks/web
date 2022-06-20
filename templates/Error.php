@@ -16,7 +16,7 @@ else{
 <ul class="error">
 	<? foreach($exceptions as $ex){ ?>
 	<li>
-		<p><? $message = $ex->getMessage(); if($message == ''){ $message = 'An error occurred.'; } ?><?= Formatter::ToPlainText($message) ?></p>
+		<p><? $message = $ex->getMessage(); if($message == ''){ $message = 'An error occurred.'; } ?><?= str_replace('CAPTCHA', '<abbr class="acronym">CAPTCHA</abbr>', Formatter::ToPlainText($message)) ?></p>
 	</li>
 	<? } ?>
 </ul>

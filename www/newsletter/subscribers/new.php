@@ -37,7 +37,7 @@ if($exception){
 				<input type="email" name="email" value="<?= Formatter::ToPlainText($subscriber->Email) ?>" maxlength="80" required="required" />
 			</label>
 			<label class="captcha">
-				Type the letters in the image
+				Type the letters in the <abbr class="acronym">CAPTCHA</abbr> image
 				<div>
 					<input type="text" name="captcha" required="required" />
 					<img src="/images/captcha" alt="A visual CAPTCHA." height="<?= CAPTCHA_IMAGE_HEIGHT ?>" width="<?= CAPTCHA_IMAGE_WIDTH ?>" />
