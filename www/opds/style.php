@@ -33,16 +33,18 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 			<ol class="ebooks-list list">
 				<xsl:for-each select="/atom:feed/atom:entry[./atom:link[@rel='http://opds-spec.org/acquisition/open-access']]">
 				<li>
-					<a tabindex="-1">
-						<xsl:attribute name="href">
-							<xsl:value-of select="atom:link[@rel='related']/@href"/>
-						</xsl:attribute>
-						<img alt="The cover for the Standard Ebooks edition of Winnie-the-Pooh, by A. A. Milne" width="224" height="335">
-						<xsl:attribute name="src">
-							<xsl:value-of select="atom:link[@rel='http://opds-spec.org/image/thumbnail']/@href"/>
-						</xsl:attribute>
-						</img>
-					</a>
+					<div class="thumbnail-container">
+						<a tabindex="-1">
+							<xsl:attribute name="href">
+								<xsl:value-of select="atom:link[@rel='related']/@href"/>
+							</xsl:attribute>
+							<img alt="The cover for the Standard Ebooks edition of Winnie-the-Pooh, by A. A. Milne" width="224" height="335">
+							<xsl:attribute name="src">
+								<xsl:value-of select="atom:link[@rel='http://opds-spec.org/image/thumbnail']/@href"/>
+							</xsl:attribute>
+							</img>
+						</a>
+					</div>
 					<p>
 						<a>
 							<xsl:attribute name="href">
@@ -68,7 +70,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 							<xsl:value-of select="atom:summary"/>
 						</p>
 					</div>
-					<p class="download">Download</p>
+					<p class="download">Read</p>
 					<ul>
 						<xsl:for-each select="atom:link[@rel='http://opds-spec.org/acquisition/open-access']">
 							<li>

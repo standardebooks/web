@@ -1236,11 +1236,11 @@ ol.ebooks-list.list > li + li {
 	margin-top: 2rem;
 }
 
-ol.ebooks-list.list > li > a{
+ol.ebooks-list.list > li .thumbnail-container{
 	grid-row: 1 / span 3;
 }
 
-.opds ol.ebooks-list.list > li > a{
+.opds ol.ebooks-list.list > li .thumbnail-container{
 	grid-row: 1 / span 5;
 }
 
@@ -1326,7 +1326,7 @@ ol.ebooks-list.list > li > p:nth-of-type(1) > a{
 	display: inline;
 }
 
-ol.ebooks-list > li > a:first-child{
+ol.ebooks-list > li .thumbnail-container > a:first-child{
 	font-size: 0; /* for correct focus outline */
 }
 
@@ -1403,20 +1403,17 @@ ul.tags{
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
-	margin-top: .5rem;
+	gap: 1rem;
+	margin-top: 1rem;
 }
 
 .rss ul.tags{
 	justify-content: flex-start;
-	margin: 0;
+	margin: .5rem auto;
 }
 
 ul.tags li{
-	margin: .5rem;
-}
-
-ul.tags li:first-child{
-	margin: .5rem;
+	margin: 0;
 }
 
 ul.tags li a,
