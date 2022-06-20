@@ -20,10 +20,7 @@
 				<a href="https://github.com/standardebooks">GitHub</a>
 			</li>
 			<li>
-				<a href="/opds">OPDS</a>
-			</li>
-			<li>
-				<a href="/rss">RSS</a>
+				<a href="/feeds">Ebook Feeds</a>
 			</li>
 		</ul>
 		<p>Content produced by or for Standard Ebooks L<sup>3</sup>C is dedicated to the <a href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> via the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal Public Domain Dedication</a>.</p>

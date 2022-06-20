@@ -2475,6 +2475,14 @@ aside button.close:active{
 	transform: skewX(45deg) scale(1.05);
 }
 
+ul.feed p{
+	margin: 0;
+}
+
+ul.feed p:last-child{
+	font-style: italic;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
