@@ -5,11 +5,15 @@ $highlight = $highlight ?? '';
 $description = $description ?? '';
 $manual = $manual ?? false;
 $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
+$xmlDeclaration = $xmlDeclaration ?? true;
 
-header('content-type: application/xhtml+xml');
-print('<?xml version="1.0" encoding="utf-8"?>');
-print("\n");
-?><!DOCTYPE html>
+if($xmlDeclaration){
+	header('content-type: application/xhtml+xml');
+	print('<?xml version="1.0" encoding="utf-8"?>');
+	print("\n");
+	print("<!DOCTYPE html>\n");
+}
+?>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head prefix="twitter: https://twitter.com/ schema: http://schema.org/"><? /* The `og` RDFa prefix is part of the RDFa spec */ ?>
 	<meta charset="utf-8"/>

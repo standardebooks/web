@@ -35,7 +35,7 @@ krsort($sortedContentFiles);
 
 $sortedContentFiles = array_slice($sortedContentFiles, 0, $rssLength);
 
-print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"/rss/style\" type=\"application/xslt+xml\"?>\n");
 ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>
