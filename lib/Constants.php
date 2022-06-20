@@ -37,6 +37,8 @@ const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
 
 const NO_REPLY_EMAIL_ADDRESS = 'admin@standardebooks.org';
+const ADMIN_EMAIL_ADDRESS = 'admin@standardebooks.org';
+const EDITOR_IN_CHIEF_EMAIL_ADDRESS = 'alex@standardebooks.org';
 // We don't define the email username/password in this file to
 // 1) avoid a filesystem read when email isn't being used, and
 // 2) allow scripts run by users not in the www-data group to succeed, otherwise they will not be able to open secret files on startup and crash
@@ -72,6 +74,10 @@ const SOURCE_FADED_PAGE = 9;
 
 const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
+const PAYMENT_CHANNEL_FA = 0;
+
+const FA_FEE_PERCENT = 0.87;
+
 define('PD_YEAR', intval(gmdate('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
@@ -85,3 +91,10 @@ const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log'; // Mu
 const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web']; // If we get GitHub push requests featuring these repos, silently ignore instead of returning an error.
 
 const POSTMARK_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-postmark.log'; // Must be writable by `www-data` Unix user.
+
+const ZOHO_SECRET_FILE_PATH =		SITE_ROOT . '/config/secrets/webhooks@zoho.com'; // Set in the GitHub organization global webhook settings.
+const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log'; // Must be writable by `www-data` Unix user.
+
+const FA_SECRET_FILE_PATH =		SITE_ROOT . '/config/secrets/fracturedatlas.org';
+const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writable by `www-data` Unix user.
+

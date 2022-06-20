@@ -206,7 +206,7 @@ class Library{
 
 		foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"') ?? '')) as $filename){
 			try{
-				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $filename) ?? '';
+				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $filename);
 
 				$ebook = new Ebook($ebookWwwFilesystemPath);
 

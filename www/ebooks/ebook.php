@@ -149,7 +149,7 @@ catch(Exceptions\InvalidEbookException $ex){
 			<? } ?>
 			<? if(sizeof($ebook->Collections) > 0){ ?>
 				<? foreach($ebook->Collections as $collection){ ?>
-					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$collection->Name) ?? '') ?></a>
+					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
 					<? if($collection->Type !== null){ ?>
 						<? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type), -strlen(mb_strtolower($collection->Type))) !== 0){ ?>
 							<?= $collection->Type ?>.
@@ -372,7 +372,7 @@ catch(Exceptions\InvalidEbookException $ex){
 					<? foreach($otherSources as $source){ ?>
 					<li>
 						<p>
-							<? if($source->Type == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', (string)$source->Url) ?? '') /* force type to (string) to satisfy PHPStan */ ?></a><? } ?>
+							<? if($source->Type == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', (string)$source->Url)) /* force type to (string) to satisfy PHPStan */ ?></a><? } ?>
 						</p>
 					</li>
 					<? } ?>

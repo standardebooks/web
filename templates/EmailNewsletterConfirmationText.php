@@ -4,7 +4,7 @@ Thank you for subscribing to the Standard Ebooks newsletter!
 
 You subscribed to:
 
-<? if($IsSubscribedToNewsletter){ ?>- The occasional Standard Ebooks newsletter
+<? if($isSubscribedToNewsletter){ ?>- The occasional Standard Ebooks newsletter
 <? } ?>
 <? if($isSubscribedToSummary){ ?>- A monthly summary of new ebook releases
 <? } ?>

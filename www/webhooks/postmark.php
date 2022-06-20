@@ -11,7 +11,7 @@ use function Safe\substr;
 $log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
 
 try{
-	$smtpUsername = trim(file_get_contents(POSTMARK_SECRET_FILE_PATH)) ?: '';
+	$smtpUsername = trim(file_get_contents(POSTMARK_SECRET_FILE_PATH));
 
 	$log->Write('Received Postmark webhook.');
 
@@ -19,14 +19,14 @@ try{
 		throw new Exceptions\WebhookException('Expected HTTP POST.');
 	}
 
-	$apiKey = trim(file_get_contents(SITE_ROOT . '/config/secrets/webhooks@postmarkapp.com')) ?: '';
+	$apiKey = trim(file_get_contents(SITE_ROOT . '/config/secrets/webhooks@postmarkapp.com'));
 
 	// Ensure this webhook actually came from Postmark
 	if($apiKey != ($_SERVER['HTTP_X_SE_KEY'] ?? '')){
 		throw new Exceptions\InvalidCredentialsException();
 	}
 
-	$post = json_decode(file_get_contents('php://input') ?: '');
+	$post = json_decode(file_get_contents('php://input'));
 
 	if(!$post || !property_exists($post, 'RecordType')){
 		throw new Exceptions\WebhookException('Couldn\'t understand HTTP request.', $post);

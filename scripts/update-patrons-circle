@@ -1,0 +1,24 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+// Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members
+// who aren't in that list.
+// We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
+
+Db::Query('
+	update Patrons
+	set DeactivatedTimestamp = utc_timestamp()
+	where UserId not in
+	(
+		select distinct UserId from Payments where
+		UserId is not null
+		and
+		(
+			(IsRecurring = 1 and Amount >= 10 and Timestamp > utc_timestamp() - interval 45 day)
+			or
+			(IsRecurring = 0 and Amount >= 100 and  Timestamp > utc_timestamp() - interval 1 year)
+		)
+	)
+');
+?>

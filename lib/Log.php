@@ -4,6 +4,7 @@ use function Safe\fwrite;
 use function Safe\fclose;
 use function Safe\error_log;
 use function Safe\gmdate;
+use function Safe\substr;
 
 class Log{
 	private $RequestId = null;

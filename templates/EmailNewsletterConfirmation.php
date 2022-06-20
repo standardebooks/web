@@ -3,7 +3,7 @@
 <p>Thank you for subscribing to the Standard Ebooks newsletter!</p>
 <p>You subscribed to:</p>
 <ul>
-	<? if($IsSubscribedToNewsletter){ ?><li><p>The occasional Standard Ebooks newsletter</p></li><? } ?>
+	<? if($isSubscribedToNewsletter){ ?><li><p>The occasional Standard Ebooks newsletter</p></li><? } ?>
 	<? if($isSubscribedToSummary){ ?><li><p>A monthly summary of new ebook releases</p></li><? } ?>
 </ul>
 <p>Please use the button below to confirm your subscription—you won’t receive email from us until you do.</p>

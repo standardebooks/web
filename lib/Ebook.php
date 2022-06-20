@@ -65,7 +65,7 @@ class Ebook{
 		$this->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $this->RepoFilesystemPath) . '.git';
 
 		if(!is_dir($this->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment
-			$this->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $this->RepoFilesystemPath) ?? '';
+			$this->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $this->RepoFilesystemPath);
 		}
 
 		if(!is_dir($wwwFilesystemPath)){
@@ -83,7 +83,7 @@ class Ebook{
 		$this->WwwFilesystemPath = $wwwFilesystemPath;
 		$this->Url = str_replace(WEB_ROOT, '', $this->WwwFilesystemPath);
 
-		$rawMetadata = file_get_contents($wwwFilesystemPath . '/content.opf') ?: '';
+		$rawMetadata = file_get_contents($wwwFilesystemPath . '/content.opf');
 
 		// Get the SE identifier.
 		preg_match('|<dc:identifier[^>]*?>(.+?)</dc:identifier>|ius', $rawMetadata, $matches);
@@ -207,7 +207,7 @@ class Ebook{
 		// Fill the ToC if necessary
 		if($includeToc){
 			$this->TocEntries = [];
-			$tocDom = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($wwwFilesystemPath . '/toc.xhtml') ?: ''));
+			$tocDom = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($wwwFilesystemPath . '/toc.xhtml')));
 			$tocDom->registerXPathNamespace('epub', 'http://www.idpf.org/2007/ops');
 			foreach($tocDom->xpath('/html/body//nav[@epub:type="toc"]//a[not(contains(@epub:type, "z3998:roman")) and not(text() = "Titlepage" or text() = "Imprint" or text() = "Colophon" or text() = "Endnotes" or text() = "Uncopyright") and not(contains(@href, "halftitle"))]') ?: [] as $item){
 				$this->TocEntries[] = (string)$item;
@@ -493,8 +493,8 @@ class Ebook{
 		}
 
 		// Remove diacritics and non-alphanumeric characters
-		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($searchString)) ?? '');
-		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)) ?? '');
+		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($searchString)));
+		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
 
 		if($query == ''){
 			return false;
@@ -586,7 +586,7 @@ class Ebook{
 			}
 		}
 
-		return json_encode($output, JSON_PRETTY_PRINT) ?: '';
+		return json_encode($output, JSON_PRETTY_PRINT);
 	}
 
 	private function GenerateContributorJsonLd(Contributor $contributor): stdClass{

@@ -121,12 +121,12 @@ if ! [ -x "${scriptsDir}"/reset-php-fpm-opcache ]; then
 	die "\"${scriptsDir}\"/reset-php-fpm-opcache is not an executable file."
 fi
 
-if ! [ -f "${scriptsDir}"/generate-opds.php ]; then
-	die "\"${scriptsDir}\"/generate-opds.php\" is not a file or could not be found."
+if ! [ -f "${scriptsDir}"/generate-opds ]; then
+	die "\"${scriptsDir}\"/generate-opds\" is not a file or could not be found."
 fi
 
-if ! [ -f "${scriptsDir}"/generate-rss.php ]; then
-	die "\"${scriptsDir}\"/generate-rss.php\" is not a file or could not be found."
+if ! [ -f "${scriptsDir}"/generate-rss ]; then
+	die "\"${scriptsDir}\"/generate-rss\" is not a file or could not be found."
 fi
 
 mkdir -p "${webRoot}"/www/images/covers/
@@ -382,7 +382,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding OPDS catalog ... "
 fi
 
-php "${scriptsDir}/generate-opds.php" --webroot "${webRoot}" --weburl "${webUrl}"
+"${scriptsDir}/generate-opds" --webroot "${webRoot}" --weburl "${webUrl}"
 
 sudo chown --recursive se:committers "${webRoot}/www/opds/"*
 sudo chmod --recursive 664 "${webRoot}/www/opds/"*.xml
@@ -400,7 +400,7 @@ if [ "${verbose}" = "true" ]; then
 	printf "Rebuilding new releases RSS feed ... "
 fi
 
-output=$(php "${scriptsDir}/generate-rss.php" --webroot "${webRoot}" --weburl "${webUrl}")
+output=$("${scriptsDir}/generate-rss" --webroot "${webRoot}" --weburl "${webUrl}")
 
 # Check the return code; if the script failed (for example invalid XML in content.opf), don't overwrite the existing feed with a blank file
 if [ $? = 0 ]; then

@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
@@ -58,14 +59,14 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"/rss/
 		</image>
 		<? foreach($sortedContentFiles as $xml){
 			$temp = $xml->xpath('/package/metadata/dc:identifier') ?: [];
-			$url = preg_replace('/^url:/ius', '', (string)array_shift($temp) ?? '') ?? '';
-			$url = preg_replace('/^https:\/\/standardebooks.org/ius', $webUrl, $url) ?? '';
+			$url = preg_replace('/^url:/ius', '', (string)array_shift($temp));
+			$url = preg_replace('/^https:\/\/standardebooks.org/ius', $webUrl, $url);
 
 			$temp = $xml->xpath('/package/metadata/dc:title') ?: [];
 			$title = array_shift($temp) ?? '';
 
 			$temp = $xml->xpath('/package/metadata/dc:creator') ?: [];
-			$title .= ', by ' . array_shift($temp) ?? '';
+			$title .= ', by ' . (array_shift($temp) ?? '');
 
 			$temp = $xml->xpath('/package/metadata/dc:description') ?: [];
 			$description = array_shift($temp) ?? '';

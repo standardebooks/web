@@ -24,27 +24,14 @@ class OpdsFeed{
 			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $xmlString));
 			$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 			$xml->registerXPathNamespace('schema', 'http://schema.org/');
-			$entries = $xml->xpath('/feed/entry');
 
-			if(!$entries){
-				$entries = [];
+			// Remove any <updated> elements, we don't want to compare against those.
+			foreach($xml->xpath('//updated') ?: [] as $element){
+				unset($element[0]);
 			}
 
 			$output = '';
-			foreach($entries as $entry){
-				// Remove any <updated> elements, we don't want to compare against those.
-				// This makes it easier to for example generate a new subjects index,
-				// while updating it at the same time.
-				$elements = $xml->xpath('/feed/entry/updated');
-
-				if(!$elements){
-					$elements = [];
-				}
-
-				foreach($elements as $element){
-					unset($element[0]);
-				}
-
+			foreach($xml->xpath('/feed/entry') ?: [] as $entry){
 				$output .= $entry->asXml();
 			}
 
@@ -60,6 +47,7 @@ class OpdsFeed{
 		$tempFilename = tempnam('/tmp/', 'se-opds-');
 		file_put_contents($tempFilename, $feed);
 		exec('se clean ' . escapeshellarg($tempFilename) . ' 2>&1', $output); // Capture the result in case there's an error, otherwise it prints to stdout
+		$feed = file_get_contents($tempFilename);
 
 		// Did we actually update the feed? If so, write to file and update the index
 		if(!is_file($path) || ($this->Sha1Entries($feed) != $this->Sha1Entries(file_get_contents($path)))){
@@ -70,13 +58,13 @@ class OpdsFeed{
 			}
 			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($parentFilepath)));
 
-			$feedEntries = $xml->xpath('/feed/entry[id="' . $this->Id . '"]/updated');
+			$feedEntries = $xml->xpath('/feed/entry[id="' . $this->Id . '"]');
 			if(!$feedEntries){
 				$feedEntries = [];
 			}
 
 			if(sizeof($feedEntries) > 0){
-				$feedEntries[0][0] = $updatedTimestamp;
+				$feedEntries[0]->{'updated'} = $updatedTimestamp;
 			}
 
 			$xmlString = $xml->asXml();

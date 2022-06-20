@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 

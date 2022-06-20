@@ -729,10 +729,6 @@ figure code.css{
 	overflow-x: auto;
 }
 
-main.manual aside.alert p{
-	text-align: center;
-}
-
 @keyframes highlight {
 	0%{
 		background: #FFFF99;

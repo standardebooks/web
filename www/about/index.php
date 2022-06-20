@@ -1,5 +1,46 @@
 <?
 require_once('Core.php');
+
+$patronsCircle = [];
+$anonymousPatronCount = 0;
+
+// Get the Patrons Circle and try to sort by last name ascending
+// See <https://mariadb.com/kb/en/pcre/#unicode-character-properties> for Unicode character properties
+
+$patronsCircle = Db::Query('select if(p.AlternateName is not null, p.AlternateName, u.Name) as SortedName
+				from Patrons p inner join Users u
+				on p.UserId = u.UserId
+				where
+				p.IsAnonymous = false
+				and p.DeactivatedTimestamp is null
+				order by regexp_substr(SortedName, "[\\\p{Lu}][\\\p{L}\-]+$") asc;
+			');
+
+$anonymousPatronCount = Db::Query('select sum(cnt) as AnonymousPatronCount
+					from
+					(
+						(
+							select count(*) cnt from Payments
+							where
+							UserId is null
+							and
+							(
+								(Amount >= 100 and Timestamp >= utc_timestamp() - interval 1 year)
+								or
+								(Amount >= 10 and IsRecurring = true and Timestamp >= utc_timestamp() - interval 30 day)
+							)
+						)
+						union all
+						(
+							select count(*) as cnt from Patrons
+							where
+							IsAnonymous = true
+							and
+							DeactivatedTimestamp is null
+						)
+					) x
+				')[0]->AnonymousPatronCount;
+
 ?><?= Template::Header(['title' => 'About Standard Ebooks', 'highlight' => 'about', 'description' => 'Standard Ebooks is a volunteer-driven effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the public domain, and Standard Ebook dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain.']) ?>
 <main>
 	<article>
@@ -122,171 +163,16 @@ require_once('Core.php');
 				<h3>Patrons Circle</h3>
 				<p><a href="/donate#patrons-circle">Join the Patrons Circle</a> to support beautiful, free, and unrestricted digital literature, and to have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 				<ol class="donors patrons">
-					<li>
-						<p>Jon Allen</p>
-					</li>
-					<li>
-						<p>David Ballenger</p>
-					</li>
-					<li>
-						<p>Michael Barrineau</p>
-					</li>
-					<li>
-						<p>Leland Blanton</p>
-					</li>
-					<li>
-						<p>Keith Bradner</p>
-					</li>
-					<li>
-						<p>Chris Brooks</p>
-					</li>
-					<li>
-						<p>Benjamin Bunnell</p>
-					</li>
-					<li>
-						<p>Derrick Burns</p>
-					</li>
-					<li>
-						<p>Robert Carreon</p>
-					</li>
-					<li>
-						<p>Matthew Chan</p>
-					</li>
-					<li>
-						<p>Andrew Clunis</p>
-					</li>
-					<li>
-						<p>Mark Cohen</p>
-					</li>
-					<li>
-						<p>Maxwell Collins-Shenfield</p>
-					</li>
-					<li>
-						<p>Liza Daly</p>
-					</li>
-					<li>
-						<p>In memory of Georgia Dawson</p>
-					</li>
-					<li>
-						<p>Mahdi Dibaiee</p>
-					</li>
-					<li>
-						<p>Jeffrey Dlouhy</p>
-					</li>
-					<li>
-						<p>Christian Eager</p>
-					</li>
-					<li>
-						<p>Alec Feather</p>
-					</li>
-					<li>
-						<p>Wilhelm Fitzpatrick</p>
-					</li>
-					<li>
-						<p>Mac Foster</p>
-					</li>
-					<li>
-						<p>Joshua Go</p>
-					</li>
-					<li>
-						<p>Joe Gracyk</p>
-					</li>
-					<li>
-						<p>Michael Ham</p>
-					</li>
-					<li>
-						<p>Carey Handfield</p>
-					</li>
-					<li>
-						<p>Richard Healey</p>
-					</li>
-					<li>
-						<p>Curtis Hendzell</p>
-					</li>
-					<li>
-						<p>John Jarvis</p>
-					</li>
-					<li>
-						<p>Jared Joslin</p>
-					</li>
-					<li>
-						<p>Leonard Kirke</p>
-					</li>
-					<li>
-						<p>Eric Korhonen</p>
-					</li>
-					<li>
-						<p>Brendan LeFebvre</p>
-					</li>
-					<li>
-						<p>Monica &amp; Matthew Levine</p>
-					</li>
-					<li>
-						<p>Lance Linimon</p>
-					</li>
-					<li>
-						<p>James Luke</p>
-					</li>
-					<li>
-						<p>Patrick Greeley Mahoney</p>
-					</li>
-					<li>
-						<p>Jeff McFadden</p>
-					</li>
-					<li>
-						<p>Judith Moore</p>
-					</li>
-					<li>
-						<p>Sandeep Movva</p>
-					</li>
-					<li>
-						<p>Ozan Ocal</p>
-					</li>
-					<li>
-						<p>Andrew Roach</p>
-					</li>
-					<li>
-						<p>David Romani</p>
-					</li>
-					<li>
-						<p>Rollin Salsbery</p>
-					</li>
-					<li>
-						<p>Brandon Sowers</p>
-					</li>
-					<li>
-						<p>Aaron &amp; Kaci Sudbrink</p>
-					</li>
-					<li>
-						<p>Mark Swenson</p>
-					</li>
-					<li>
-						<p>Edward Throckmorton</p>
-					</li>
-					<li>
-						<p>Joshua Tompkins</p>
-					</li>
-					<li>
-						<p>Ted van der Togt</p>
-					</li>
-					<li>
-						<p>Robyn Weimer</p>
-					</li>
-					<li>
-						<p>Nathan West</p>
-					</li>
-					<li>
-						<p>Blake Westerdahl</p>
-					</li>
-					<li>
-						<p>Patrick Weyer</p>
-					</li>
-					<li>
-						<p>Jasper Bernard Weyers</p>
-					</li>
-					<li>
-						<p>Anonymous × 27</p>
-					</li>
+					<? foreach($patronsCircle as $patron){ ?>
+						<li>
+							<p><?= Formatter::ToPlainText(str_ireplace(' and ', ' & ', $patron->SortedName)) ?></p>
+						</li>
+					<? } ?>
+					<? if($anonymousPatronCount > 0){ ?>
+						<li>
+							<p>Anonymous × <?= number_format($anonymousPatronCount) ?></p>
+						</li>
+					<? } ?>
 				</ol>
 			</section>
 		</section>

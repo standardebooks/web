@@ -92,7 +92,7 @@ class DbConnection{
 		foreach($params as $parameter){
 			$name++;
 
-			if(is_a($parameter, 'DateTime')){
+			if(is_a($parameter, 'DateTime') || is_a($parameter, 'DateTimeImmutable')){
 				$parameter = $parameter->format('Y-m-d H:i:s');
 			}
 

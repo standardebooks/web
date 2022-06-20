@@ -21,14 +21,14 @@ try{
 		throw new Exceptions\WebhookException('Expected HTTP POST.');
 	}
 
-	$post = file_get_contents('php://input') ?: '';
+	$post = file_get_contents('php://input');
 
 	// Validate the GitHub secret.
 	$splitHash = explode('=', $_SERVER['HTTP_X_HUB_SIGNATURE']);
 	$hashAlgorithm = $splitHash[0];
 	$hash = $splitHash[1];
 
-	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, preg_replace("/[\r\n]/ius", '', file_get_contents(GITHUB_SECRET_FILE_PATH) ?: '') ?? ''))){
+	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, preg_replace("/[\r\n]/ius", '', file_get_contents(GITHUB_SECRET_FILE_PATH))))){
 		throw new Exceptions\InvalidCredentialsException();
 	}
 

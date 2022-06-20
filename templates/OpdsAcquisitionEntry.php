@@ -25,10 +25,10 @@
 	<? } ?>
 	<link href="<?= $ebook->Url ?>/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
 	<link href="<?= $ebook->Url ?>/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
-	<link href="<?= $ebook->Url ?>" rel="related" type="text/html" title="This ebook’s page at Standard Ebooks"/>
-	<link href="<?= $ebook->EpubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" title="Recommended compatible epub"/>
-	<link href="<?= $ebook->AdvancedEpubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" title="Advanced epub"/>
-	<link href="<?= $ebook->KepubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/kepub+zip" title="Kobo Kepub epub"/>
-	<link href="<?= $ebook->Azw3Url ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/x-mobipocket-ebook" title="Amazon Kindle azw3"/>
-	<link href="<?= $ebook->TextSinglePageUrl ?>" rel="http://opds-spec.org/acquisition/open-access" type="application/xhtml+xml" title="XHTML"/>
+	<link href="<?= $ebook->Url ?>" rel="related" title="This ebook’s page at Standard Ebooks" type="text/html"/>
+	<link href="<?= $ebook->EpubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" />
+	<link href="<?= $ebook->AdvancedEpubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" />
+	<link href="<?= $ebook->KepubUrl ?>" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" />
+	<link href="<?= $ebook->Azw3Url ?>" rel="http://opds-spec.org/acquisition/open-access" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+	<link href="<?= $ebook->TextSinglePageUrl ?>" rel="http://opds-spec.org/acquisition/open-access" title="XHTML" type="application/xhtml+xml" />
 </entry>

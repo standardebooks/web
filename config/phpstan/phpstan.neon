@@ -9,16 +9,16 @@ parameters:
 		- '#Call to an undefined static method Template::[a-zA-Z0-9\\_]+\(\)\.#'
 
 		# Ignore errors caused by no type hints on class properties, as that's not available till PHP 7.4
-		- '#Property .+? has no typehint specified.#'
+		- '#Property .+? has no type specified.#'
 
 		# Ignore errors caused by missing phpdoc strings for arrays
 		- '#Method .+? has parameter .+? with no value type specified in iterable type array.#'
 
 		# Ignore errors caused by type hints that should be union types. Union types are not yet supported in PHP.
-		- '#Function vd(s|d)?\(\) has parameter \$var with no typehint specified.#'
-		- '#Method Ebook::NullIfEmpty\(\) has parameter \$elements with no typehint specified.#'
-		- '#Method HttpInput::GetHttpVar\(\) has no return typehint specified.#'
-		- '#Method HttpInput::GetHttpVar\(\) has parameter \$default with no typehint specified.#'
+		- '#Function vd(s|d)?\(\) has parameter \$var with no type specified.#'
+		- '#Method Ebook::NullIfEmpty\(\) has parameter \$elements with no type specified.#'
+		- '#Method HttpInput::GetHttpVar\(\) has no return type specified.#'
+		- '#Method HttpInput::GetHttpVar\(\) has parameter \$default with no type specified.#'
 	level:
 		7
 	paths:
@@ -26,6 +26,8 @@ parameters:
 		- %rootDir%/../../../www
 		- %rootDir%/../../../scripts
 	dynamicConstantNames:
+		- SITE_STATUS
 		- DONATION_HOLIDAY_ALERT_ON
 		- DONATION_ALERT_ON
 		- DONATION_DRIVE_ON
+		- DONATION_DRIVE_COUNTER_ON

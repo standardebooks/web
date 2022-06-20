@@ -62,7 +62,7 @@ try{
 			}
 		}
 		if($collectionObject !== null){
-			$collectionName = preg_replace('/^The /ius', '', $collectionObject->Name) ?? '';
+			$collectionName = preg_replace('/^The /ius', '', $collectionObject->Name);
 			$collectionType = $collectionObject->Type ?? 'collection';
 
 			# This is a kind of .endswith() test

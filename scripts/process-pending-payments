@@ -1,0 +1,236 @@
+#!/usr/bin/php
+<?
+// Note: This script must be run as a user with a $HOME directory,
+// otherwise Firefox won't be able to start with a profile.
+
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverExpectedCondition;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Firefox\FirefoxDriver;
+use Facebook\WebDriver\Firefox\FirefoxOptions;
+
+use Safe\DateTime;
+use function Safe\file_get_contents;
+use function Safe\preg_match;
+use function Safe\preg_replace;
+use function Safe\putenv;
+use function Safe\set_time_limit;
+
+require_once('/standardebooks.org/web/lib/Core.php');
+
+// Disable script timeout because Selenium is very slow
+set_time_limit(0);
+
+// Initialize the Selenium driver
+putenv('WEBDRIVER_FIREFOX_DRIVER=' . SITE_ROOT . '/config/selenium/geckodriver-0.31.0');
+
+$firefoxOptions = new FirefoxOptions();
+$firefoxOptions->addArguments(['-headless']); // WARNING: Only one dash!
+
+$capabilities = DesiredCapabilities::firefox();
+$capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
+
+$driver = null;
+$log = new Log(DONATIONS_LOG_FILE_PATH);
+$lastMonth = (new DateTime())->sub(new DateInterval('P45D')); // 45 days, a 15 day grace period before Patrons Circle members are dropped off
+$lastYear = (new DateTime())->sub(new DateInterval('P1Y'));
+$faCredentials = explode("\n", trim(file_get_contents(FA_SECRET_FILE_PATH)));
+
+// Test donations
+// fa000cbf-af6f-4c14-8919-da6cf81a27ea  Regular donation, patrons, public, recurring
+// a010dcaf-d2ab-49da-878c-cb447b12152e  Regular donation, non-patrons, private, one time
+// 5a544447-708d-43da-a7b8-7bd8d9804652  AOGF donation, patrons, public, one time
+// e097c777-e2d8-4b21-b99c-e83da8696af8  AOGF donation, non-patrons, anonymous, one time
+// 946554ca-ffc0-4259-bcc6-be6c844fbbdc  Regular donation, patrons, private, recurring
+// 416608c6-cbf5-4153-8956-cb9051bb849e  Regular donation, patrons, public, one time, in memory of
+
+$pendingPayments = Db::Query('start transaction;
+				select * from PendingPayments where ProcessedOn is null;
+				update PendingPayments set ProcessedOn = utc_timestamp() where ProcessedOn is null;
+				commit;');
+
+// $pendingPayments = [];
+// $csv = array_map( 'str_getcsv', file( '/home/alex/donations.csv')  );
+// foreach($csv as $row){
+// 	$obj = new stdClass();
+// 	$obj->TransactionId = $row[0];
+// 	$obj->ChannelId = PAYMENT_CHANNEL_FA;
+// 	$pendingPayments[] = $obj;
+// }
+
+if(sizeof($pendingPayments) == 0){
+	// Don't start the very slow Selenium driver if we have nothing to process
+	exit();
+}
+
+try{
+	$driver = FirefoxDriver::start($capabilities);
+
+	foreach($pendingPayments as $pendingPayment){
+		if($pendingPayment->ChannelId == PAYMENT_CHANNEL_FA){
+			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
+			$driver->get('https://fundraising.fracturedatlas.org/admin/donations?query=' . $pendingPayment->TransactionId);
+
+			// Check if we need to log in to FA.
+			// Wait until the <body> element is visible, then check the current URL
+			$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('/html/body')));
+			if(stripos($driver->getCurrentUrl(), 'auth0.com')){
+				$log->Write('Logging in to Fractured Atlas ...');
+
+				// We were redirected to the login page, so try to log in
+				$emailField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="email"]')));
+				$passwordField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="password"]')));
+				$submitButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[@type="submit"]')));
+
+				// Fill out and submit the form
+				$emailField->sendKeys($faCredentials[0]);
+				$passwordField->sendKeys($faCredentials[1]);
+				$submitButton->click();
+			}
+
+			// Wait until the page finishes loading.
+			// We have to expand the row before we can select its contents, so click the 'expand' button once it's visible
+			try{
+				$toggleButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
+			}
+			catch(Exception $ex){
+				$log->Write('Error: Couldn\'t find donation.');
+				continue;
+			}
+			$toggleButton->click();
+
+			// Our target row is now visible, extract the data!
+
+			// In the FA donations table, there is a header row, and an expandable details row. The header row tells us if the donation is recurring,
+			// and the details row has the rest of the information
+			$detailsRow = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//tr[starts-with(@id, "expanded") and contains(@id, "' . $pendingPayment->TransactionId . '")]')));
+
+			$headerRow = $driver->findElement(WebDriverBy::xpath('//tr[not(starts-with(@id, "expanded")) and contains(@id, "' . $pendingPayment->TransactionId . '")]'));
+
+			$payment = new Payment();
+			$payment->User = new User();
+			$payment->ChannelId = $pendingPayment->ChannelId;
+			try{
+				// If the donation is via a foundation (like American Online Giving Foundation) then there will be a 'soft credit' <th> element.
+				if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){
+					// We're a foundation donation
+					$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
+					$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
+				}
+				else{
+					// We're a regular donation
+					$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Name"]]'))->getText());
+					$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Email"]]'))->getText());
+				}
+
+				// We can get here via an AOGF donation that is anonymous
+				if($payment->User->Email == 'Not provided' || $payment->User->Email == ''){
+					$payment->User = null;
+				}
+			}
+			catch(Exception $ex){
+				// Anonymous donations don't have these elements present and will throw an exception
+				$payment->User = null;
+			}
+
+			$payment->Timestamp = DateTime::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Created On"]]'))->getText()));
+			$payment->TransactionId = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "ID"]]'))->getText());
+			$payment->IsRecurring = sizeof($headerRow->findElements(WebDriverBy::xpath('//td[contains(., "Recurring")]'))) > 0;
+			$payment->Amount = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Total Amount"]]'))->getText())));
+			$payment->Fee = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Fee"]]'))->getText())));
+
+			// We might also get a case where the donation is on behalf of a company match, but there's not really a way to distinguish that. Do a rough check.
+			// See donation #00b60a22-eafa-44cb-9850-54bef9763e8d
+			if($payment->User !== null && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name)){
+				$payment->User = null;
+			}
+
+			// All set - create the payment
+			try{
+				$payment->Create();
+			}
+			catch(Exceptions\PaymentExistsException $ex){
+				// Payment already exists, just continue
+				$log->Write('Donation already in database.');
+				continue;
+			}
+
+			// If this payment isn't anonymous, does it put us in the Patrons Circle?
+			if($payment->User !== null){
+				if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Timestamp >= $lastMonth) || ($payment->Amount >= 100 && $payment->Timestamp >= $lastYear)){
+					// This payment is eligible for the Patrons Circle.
+					// Are we already a patron?
+					$patron = Patron::Get($payment->UserId);
+
+					if($patron === null){
+						// Not a patron yet, add them to the Patrons Circle
+						$patron = new Patron();
+						$patron->UserId = $payment->UserId;
+						$patron->User = $payment->User;
+					}
+
+					if($patron->Timestamp === null || $patron->DeactivatedTimestamp !== null){
+						// If we're a new patron, or an old patron that was deactivated,
+						// re-enable them as a patron in the system
+						$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
+						$patron->IsSubscribedToEmail = $patron->User !== null && $patron->User->Email !== null;
+
+						try{
+							$patron->AlternateName = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution Text"]]'))->getText());
+						}
+						catch(Exception $ex){
+						}
+
+						if($patron->Timestamp === null){
+							$log->Write('Adding donor as patron ...');
+							$patron->Create();
+						}
+						elseif($patron->DeactivatedTimestamp !== null){
+							$log->Write('Reactivating donor as patron ...');
+							$patron->Reactivate();
+						}
+					}
+				}
+				else{
+					// Not a patron; send a thank you email anyway, but only if this is a non-recurring donation,
+					// or if it's their very first recurring donation
+					$previousPaymentCount = (Db::Query('select count(*) as PreviousPaymentCount from Payments where UserId = ? and IsRecurring = true', [$payment->UserId]))[0]->PreviousPaymentCount;
+
+					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1
+					if(!$payment->IsRecurring || $previousPaymentCount == 1){
+						$log->Write('Sending thank you email to non-patron donor.');
+						$em = new Email();
+						$em->To = $payment->User->Email;
+						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+						$em->Subject = 'Thank you for supporting Standard Ebooks!';
+						$em->Body = Template::EmailDonationThankYou();
+						$em->TextBody = Template::EmailDonationThankText();
+						//$em->Send();
+					}
+				}
+			}
+
+			Db::Query('delete from PendingPayments where TransactionId = ?;', [$pendingPayment->TransactionId]);
+
+			$log->Write('Donation processed.');
+		}
+	}
+}
+catch(Exception $ex){
+	$exceptionString = vds($ex);
+	$log->Write('Error: Uncaught exception: ' . $exceptionString);
+
+	$em = new Email();
+	$em->To = ADMIN_EMAIL_ADDRESS;
+	$em->From = NO_REPLY_EMAIL_ADDRESS;
+	$em->Subject = 'Donation processing failed';
+	$em->Body = Template::EmailDonationProcessingFailed(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
+	$em->TextBody = Template::EmailDonationProcessingFailedText(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
+	$em->Send();
+
+	throw $ex;
+}
+finally{
+	$driver->quit();
+}
+?>

@@ -21,10 +21,10 @@ class Formatter{
 		$text = mb_strtolower(trim($text));
 
 		// Then convert any non-digit, non-letter character to a space
-		$text = preg_replace('/[^0-9a-zA-Z]/ius', ' ', $text) ?: '';
+		$text = preg_replace('/[^0-9a-zA-Z]/ius', ' ', $text);
 
 		// Then convert any instance of one or more space to dash
-		$text = preg_replace('/\s+/ius', '-', $text) ?: '';
+		$text = preg_replace('/\s+/ius', '-', $text);
 
 		// Finally, trim dashes
 		$text = trim($text, '-');

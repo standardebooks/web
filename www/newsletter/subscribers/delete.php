@@ -38,4 +38,3 @@ catch(Exceptions\InvalidNewsletterSubscriberException $ex){
 	</article>
 </main>
 <?= Template::Footer() ?>
-
