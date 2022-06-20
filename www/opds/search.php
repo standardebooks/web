@@ -17,7 +17,6 @@ catch(\Exception $ex){
 	include(WEB_ROOT . '/404.php');
 	exit();
 }
-header('Content-type: text/xml');
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">

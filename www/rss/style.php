@@ -1,10 +1,12 @@
 <?
 require_once('Core.php');
-header('content-type: application/xslt+xml');
+
+// `text/xsl` is the only mime type recognized by Chrome for XSL stylesheets
+header('Content-Type: text/xsl');
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 ?>
-<xsl:stylesheet version="3.1" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:atom="http://www.w3.org/2005/Atom">
-	<xsl:output method="html" html-version="5.0" encoding="utf-8" indent="true"/>
+<xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:atom="http://www.w3.org/2005/Atom">
+	<xsl:output method="html" html-version="5.0" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/> <? /* doctype-system outputs the HTML5 doctype */ ?>
 	<xsl:template match="/">
 	<?= Template::Header(['xmlDeclaration' => false]) ?>
 	<main>
