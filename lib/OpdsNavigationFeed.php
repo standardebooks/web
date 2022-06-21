@@ -1,23 +1,46 @@
 <?
+use Safe\DateTime;
+
 use function Safe\file_get_contents;
-use function Safe\file_put_contents;
-use function Safe\gmdate;
-use function Safe\rename;
-use function Safe\tempnam;
 
 class OpdsNavigationFeed extends OpdsFeed{
-	public $Entries = [];
+	public function __construct(string $url, string $title, string $path, array $entries, ?OpdsNavigationFeed $parent){
+		parent::__construct($url, $title, $path, $entries, $parent);
 
-	public function __construct(string $url, string $title, ?string $parentUrl, array $entries){
-		parent::__construct($url, $title, $parentUrl);
 		$this->Entries = $entries;
+
+		// If the file already exists, try to fill in the existing updated timestamps from the file.
+		// That way, if the file has changed, we only update the changed entry,
+		// and not every single entry. This is only relevant to navigation feeds,
+		// because their *entries* along with their root updated timestamp change if their entries have an update.
+		// For acquisition feeds, only the root updated timestamp changes, so this is not a concern.
+		if(file_exists($this->Path)){
+			try{
+				$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($this->Path)));
+				foreach($xml->xpath('//entry') ?: [] as $existingEntry){
+					foreach($this->Entries as $entry){
+						if($entry->Id == $existingEntry->id){
+							$entry->Updated = new DateTime($existingEntry->updated);
+						}
+					}
+				}
+			}
+			catch(Exception $ex){
+				// XML parsing failure
+			}
+		}
 	}
 
-	public function Save(string $path): void{
-		$updatedTimestamp = gmdate('Y-m-d\TH:i:s\Z');
+	protected function GetXmlString(): string{
+		if($this->XmlString === null){
+			$this->XmlString = $this->CleanXmlString(Template::OpdsNavigationFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updatedTimestamp' => $this->Updated, 'entries' => $this->Entries]));
+		}
 
-		$feed = Template::OpdsNavigationFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->ParentUrl, 'updatedTimestamp' => $updatedTimestamp, 'entries' => $this->Entries]);
+		return $this->XmlString;
+	}
 
-		$this->SaveIfChanged($path, $feed, $updatedTimestamp);
+	public function Save(): void{
+		$this->Updated = new DateTime();
+		$this->SaveIfChanged();
 	}
 }

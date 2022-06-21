@@ -15,7 +15,7 @@ require_once('Core.php');
 		<p>We offers several feeds that you can use to get notified about new ebooks, or to browse and download from our catalog directly in your ereader.</p>
 		<section id="rss-feeds">
 			<h2>RSS feeds</h2>
-			<p>Currently there’s only one RSS feed available.</p>
+			<p>RSS feeds can be read by one of the many <a href="https://en.wikipedia.org/wiki/Comparison_of_feed_aggregators">RSS clients</a> available for download, like <a href="https://www.thunderbird.net/en-US/">Thunderbird</a>.</p>
 			<ul class="feed">
 				<li>
 					<p><a href="/rss/new-releases">New releases</a> (RSS 2.0)</p>
@@ -26,7 +26,7 @@ require_once('Core.php');
 		</section>
 		<section id="opds-feeds">
 			<h2>OPDS feeds</h2>
-			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a> are designed for use with ereading systems like <a href="http://koreader.rocks/">KOreader</a> or <a href="https://calibre-ebook.com">Calibre</a>, or with ereaders like <a href="https://johnfactotum.github.io/foliate/">Foliate</a>. They allow you to search, browse, and download from our catalog, directly in your ereader.</p>
+			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a> are designed for use with ereading systems like <a href="http://koreader.rocks/">KOreader</a> or <a href="https://calibre-ebook.com">Calibre</a>, or with ereaders like <a href="https://johnfactotum.github.io/foliate/">Foliate</a>. They allow you to search, browse, and download from our catalog, directly in your ereader. They’re also perfect for organizations who wish to download and process our catalog efficiently.</p>
 			<ul class="feed">
 				<li>
 					<p><a href="/opds">The Standard Ebooks OPDS feed</a> (OPDS 1.2)</p>

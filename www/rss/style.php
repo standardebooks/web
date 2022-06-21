@@ -32,6 +32,23 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 				<p>
 					<xsl:value-of select="description"/>
 				</p>
+				<xsl:if test="enclosure">
+					<p class="download">Read</p>
+					<ul>
+						<xsl:for-each select="enclosure">
+						<li>
+							<p>
+								<a>
+									<xsl:attribute name="href">
+										<xsl:value-of select="@url"/>
+									</xsl:attribute>
+									Download compatible epub
+								</a>
+							</p>
+						</li>
+						</xsl:for-each>
+					</ul>
+				</xsl:if>
 			</li>
 			</xsl:for-each>
 		</ol>

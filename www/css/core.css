@@ -1190,12 +1190,14 @@ main.ebooks > aside.alert + ol{
 	margin-top: 4rem;
 }
 
+.rss .download,
 .opds .download{
 	font-weight: bold;
 	margin-top: 1rem;
 }
 
-
+.rss .download + ul,
+.rss .download + ul li,
 .opds .download + ul,
 .opds .download + ul > li{
 	margin-top: 0;

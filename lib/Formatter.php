@@ -35,4 +35,8 @@ class Formatter{
 	public static function ToPlainText(?string $text): string{
 		return htmlspecialchars(trim($text), ENT_QUOTES, 'UTF-8');
 	}
+
+	public static function ToPlainXmlText(?string $text): string{
+		return htmlspecialchars(trim($text), ENT_QUOTES|ENT_XML1, 'UTF-8');
+	}
 }

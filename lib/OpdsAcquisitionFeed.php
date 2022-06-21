@@ -1,25 +1,24 @@
 <?
-use function Safe\file_get_contents;
-use function Safe\file_put_contents;
-use function Safe\gmdate;
-use function Safe\rename;
-use function Safe\tempnam;
+use Safe\DateTime;
 
 class OpdsAcquisitionFeed extends OpdsFeed{
-	public $Ebooks = [];
 	public $IsCrawlable;
 
-	public function __construct(string $url, string $title, ?string $parentUrl, array $ebooks, bool $isCrawlable = false){
-		parent::__construct($url, $title, $parentUrl);
-		$this->Ebooks = $ebooks;
+	public function __construct(string $url, string $title, string $path, array $entries, ?OpdsNavigationFeed $parent, bool $isCrawlable = false){
+		parent::__construct($url, $title, $path, $entries, $parent);
 		$this->IsCrawlable = $isCrawlable;
 	}
 
-	public function Save(string $path): void{
-		$updatedTimestamp = gmdate('Y-m-d\TH:i:s\Z');
+	protected function GetXmlString(): string{
+		if($this->XmlString === null){
+			$this->XmlString = $this->CleanXmlString(Template::OpdsAcquisitionFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updatedTimestamp' => $this->Updated, 'isCrawlable' => $this->IsCrawlable, 'entries' => $this->Entries]));
+		}
 
-		$feed = Template::OpdsAcquisitionFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->ParentUrl, 'updatedTimestamp' => $updatedTimestamp, 'isCrawlable' => $this->IsCrawlable, 'entries' => $this->Ebooks]);
+		return $this->XmlString;
+	}
 
-		$this->SaveIfChanged($path, $feed, $updatedTimestamp);
+	public function Save(): void{
+		$this->Updated = new DateTime();
+		$this->SaveIfChanged();
 	}
 }
