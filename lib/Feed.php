@@ -12,7 +12,7 @@ class Feed{
 	public $Stylesheet = null;
 	protected $XmlString = null;
 
-	public function __construct(string $url, string $title, string $path, array $entries){
+	public function __construct(string $title, string $url, string $path, array $entries){
 		$this->Url = $url;
 		$this->Title = $title;
 		$this->Path = $path;
@@ -38,7 +38,16 @@ class Feed{
 		return '';
 	}
 
-	function Save(): void{
+	public function SaveIfChanged(): void{
+		// Did we actually update the feed? If so, write to file and update the index
+		if($this->HasChanged($this->Path)){
+			// Files don't match, save the file
+			$this->Updated = new DateTime();
+			$this->Save();
+		}
+	}
+
+	public function Save(): void{
 		$feed = $this->GetXmlString();
 
 		file_put_contents($this->Path, $feed);

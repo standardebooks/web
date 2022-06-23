@@ -4,6 +4,7 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\krsort;
 use function Safe\getopt;
+use function Safe\mkdir;
 use function Safe\preg_replace;
 use function Safe\sort;
 
@@ -18,6 +19,18 @@ $newestEbooks = [];
 $subjects = [];
 $ebooksBySubject = [];
 $ebooksPerNewestEbooksFeed = 30;
+
+if(!is_dir(WEB_ROOT . '/opds/subjects')){
+	mkdir(WEB_ROOT . '/opds/subjects');
+}
+
+if(!is_dir(WEB_ROOT . '/rss/subjects')){
+	mkdir(WEB_ROOT . '/rss/subjects');
+}
+
+if(!is_dir(WEB_ROOT . '/atom/subjects')){
+	mkdir(WEB_ROOT . '/atom/subjects');
+}
 
 // Iterate over all ebooks to build the various feeds
 foreach($contentFiles as $path){
@@ -50,73 +63,97 @@ foreach($contentFiles as $path){
 	}
 }
 
+krsort($newestEbooks);
+$newestEbooks = array_slice($newestEbooks, 0, $ebooksPerNewestEbooksFeed);
+
 $now = new DateTime();
 
 // Create OPDS feeds
 $opdsRootEntries = [
 	new OpdsNavigationEntry(
-		'/opds/new-releases',
-		'http://opds-spec.org/sort/new',
-		'acquisition',
-		$now,
 		'Newest ' . number_format($ebooksPerNewestEbooksFeed) . ' Standard Ebooks',
-		'A list of the ' . number_format($ebooksPerNewestEbooksFeed) . ' newest Standard Ebooks, most-recently-released first.'),
-	new OpdsNavigationEntry(
-		'/opds/subjects',
-		'subsection',
-		'navigation',
+		'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.',
+		'/opds/new-releases',
 		$now,
+		'http://opds-spec.org/sort/new',
+		'acquisition'
+		),
+	new OpdsNavigationEntry(
 		'Standard Ebooks by Subject',
-		'Browse Standard Ebooks by subject.'),
-	new OpdsNavigationEntry(
-		'/opds/all',
-		'http://opds-spec.org/crawlable',
-		'acquisition',
+		'Browse Standard Ebooks by subject.',
+		'/opds/subjects',
 		$now,
+		'subsection',
+		'navigation'),
+	new OpdsNavigationEntry(
 		'All Standard Ebooks',
-		'A list of all Standard Ebooks, most-recently-updated first. This is a Complete Acquisition Feed as defined in OPDS 1.2 §2.5.')
+		'All Standard Ebooks, most-recently-updated first. This is a Complete Acquisition Feed as defined in OPDS 1.2 §2.5.',
+		'/opds/all',
+		$now,
+		'http://opds-spec.org/crawlable',
+		'acquisition')
 ];
 
-$opdsRoot = new OpdsNavigationFeed('/opds', 'Standard Ebooks', WEB_ROOT . '/opds/index.xml', $opdsRootEntries, null);
-$opdsRoot->Save();
+$opdsRoot = new OpdsNavigationFeed('Standard Ebooks', 'The navigation root for the Standard Ebooks OPDS feed.', '/opds', WEB_ROOT . '/opds/index.xml', $opdsRootEntries, null);
+$opdsRoot->SaveIfChanged();
 
 // Create the subjects navigation document
 sort($subjects);
 $subjectNavigationEntries = [];
 foreach($subjects as $subject){
-	$summary = number_format(sizeof($ebooksBySubject[$subject])) . ' Standard Ebook';
-	if(sizeof($ebooksBySubject[$subject]) != 1){
-		$summary .= 's';
-	}
-	$summary .= ' tagged with “' . strtolower($subject) . ',” most-recently-released first.';
-
-	// We leave the updated timestamp blank, as it will be filled in when we generate the individual feeds
-	$subjectNavigationEntries[] = new OpdsNavigationEntry('/opds/subjects/' . Formatter::MakeUrlSafe($subject), 'subsection', 'navigation', $now, $subject, $summary);
+	$subjectNavigationEntries[] = new OpdsNavigationEntry($subject, 'Standard Ebooks tagged with “' . strtolower($subject) . ',” most-recently-released first.', '/opds/subjects/' . Formatter::MakeUrlSafe($subject), $now, 'subsection', 'navigation');
 }
-$subjectsFeed = new OpdsNavigationFeed('/opds/subjects', 'Standard Ebooks by Subject', WEB_ROOT . '/opds/subjects/index.xml', $subjectNavigationEntries, $opdsRoot);
-$subjectsFeed->Save();
+$subjectsFeed = new OpdsNavigationFeed('Standard Ebooks by Subject', 'Browse Standard Ebooks by subject.', '/opds/subjects', WEB_ROOT . '/opds/subjects/index.xml', $subjectNavigationEntries, $opdsRoot);
+$subjectsFeed->Subtitle = 'Browse Standard Ebooks by subject.';
+$subjectsFeed->SaveIfChanged();
 
 // Now generate each individual subject feed
-foreach($ebooksBySubject as $subject => $ebooks){
-	krsort($ebooks);
-	$subjectFeed = new OpdsAcquisitionFeed('/opds/subjects/' . Formatter::MakeUrlSafe((string)$subject), (string)$subject, WEB_ROOT . '/opds/subjects/' . Formatter::MakeUrlSafe((string)$subject) . '.xml', $ebooks, $subjectsFeed);
-	$subjectFeed->Save();
+foreach($subjectNavigationEntries as $subjectNavigationEntry){
+	krsort($ebooksBySubject[$subjectNavigationEntry->Title]);
+	$subjectFeed = new OpdsAcquisitionFeed($subjectNavigationEntry->Title . ' Ebooks', $subjectNavigationEntry->Description, '/opds/subjects/' . Formatter::MakeUrlSafe($subjectNavigationEntry->Title), WEB_ROOT . '/opds/subjects/' . Formatter::MakeUrlSafe($subjectNavigationEntry->Title) . '.xml', $ebooksBySubject[$subjectNavigationEntry->Title], $subjectsFeed);
+	$subjectFeed->SaveIfChanged();
 }
 
 // Create the 'all' feed
 krsort($allEbooks);
-$allFeed = new OpdsAcquisitionFeed('/opds/all', 'All Standard Ebooks', WEB_ROOT . '/opds/all.xml', $allEbooks, $opdsRoot, true);
-$allFeed->Save();
+$allFeed = new OpdsAcquisitionFeed('All Standard Ebooks', 'All Standard Ebooks, most-recently-updated first. This is a Complete Acquisition Feed as defined in OPDS 1.2 §2.5.', '/opds/all', WEB_ROOT . '/opds/all.xml', $allEbooks, $opdsRoot, true);
+$allFeed->SaveIfChanged();
 
 // Create the 'newest' feed
-krsort($newestEbooks);
-$newestEbooks = array_slice($newestEbooks, 0, $ebooksPerNewestEbooksFeed);
-$newestFeed = new OpdsAcquisitionFeed('/opds/new-releases', 'Newest ' . number_format($ebooksPerNewestEbooksFeed) . ' Standard Ebooks', WEB_ROOT . '/opds/new-releases.xml', $newestEbooks, $opdsRoot);
-$newestFeed->Save();
+$newestFeed = new OpdsAcquisitionFeed('Newest ' . number_format($ebooksPerNewestEbooksFeed) . ' Standard Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/opds/new-releases', WEB_ROOT . '/opds/new-releases.xml', $newestEbooks, $opdsRoot);
+$newestFeed->SaveIfChanged();
 
 // Now create RSS feeds
 
 // Create the 'newest' feed
-$newestFeed = new RssFeed('/rss/new-releases', 'Newest ' . number_format($ebooksPerNewestEbooksFeed) . ' Standard Ebooks', WEB_ROOT . '/rss/new-releases.xml', 'A list of the ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks ebook releases, most-recently-released first.', $newestEbooks);
-$newestFeed->Save();
+$newestRssFeed = new RssFeed('Standard Ebooks - Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/rss/new-releases', WEB_ROOT . '/rss/new-releases.xml', $newestEbooks);
+$newestRssFeed->SaveIfChanged();
+
+// Create the 'all' feed
+$allRssFeed = new RssFeed('Standard Ebooks - All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/rss/all',  WEB_ROOT . '/rss/all.xml', $allEbooks);
+$allRssFeed->SaveIfChanged();
+
+// Generate each individual subject feed
+foreach($ebooksBySubject as $subject => $ebooks){
+	krsort($ebooks);
+	$subjectRssFeed = new RssFeed('Standard Ebooks - ' . (string)$subject . ' Ebooks', 'Standard Ebooks tagged with “' . strtolower($subject) . ',” most-recently-released first.', '/rss/subjects/' . Formatter::MakeUrlSafe((string)$subject),  WEB_ROOT . '/rss/subjects/' . Formatter::MakeUrlSafe((string)$subject) . '.xml', $ebooks);
+	$subjectRssFeed->SaveIfChanged();
+}
+
+// Now create the Atom feeds
+// Create the 'newest' feed
+$newestAtomFeed = new AtomFeed('Standard Ebooks - Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/atom/new-releases', WEB_ROOT . '/atom/new-releases.xml', $newestEbooks);
+$newestAtomFeed->SaveIfChanged();
+
+// Create the 'all' feed
+$allAtomFeed = new AtomFeed('Standard Ebooks - All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/atom/all',  WEB_ROOT . '/atom/all.xml', $allEbooks);
+$allAtomFeed->SaveIfChanged();
+
+// Generate each individual subject feed
+foreach($ebooksBySubject as $subject => $ebooks){
+	krsort($ebooks);
+	$subjectAtomFeed = new AtomFeed('Standard Ebooks - ' . (string)$subject . ' Ebooks', 'Standard Ebooks tagged with “' . strtolower($subject) . ',” most-recently-released first.', '/atom/subjects/' . Formatter::MakeUrlSafe((string)$subject),  WEB_ROOT . '/atom/subjects/' . Formatter::MakeUrlSafe((string)$subject) . '.xml', $ebooks);
+	$subjectAtomFeed->SaveIfChanged();
+}
+
 ?>

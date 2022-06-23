@@ -390,12 +390,9 @@ if [ "${feeds}" = "true" ]; then
 
 	"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
 
-	sudo chown --recursive se:committers "${webRoot}/www/opds/"*
-	sudo chmod --recursive 664 "${webRoot}/www/opds/"*.xml
-	sudo chmod --recursive 664 "${webRoot}/www/opds/"*/*.xml
-	sudo chown --recursive se:committers "${webRoot}/www/rss/"*
-	sudo chmod --recursive 664 "${webRoot}/www/rss/"*.xml
-	sudo chmod 775 "${webRoot}/www/opds/subjects"
+	sudo chown --recursive se:committers "${webRoot}"/www/{atom,rss,opds}/{*.xml,subjects}
+	sudo chmod --recursive 664 "${webRoot}"/www/{atom,rss,opds}/{*.xml,subjects/*.xml}
+	sudo chmod 775 "${webRoot}"/www/{atom,rss,opds}/subjects
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"

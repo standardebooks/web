@@ -4,10 +4,8 @@ use Safe\DateTime;
 use function Safe\file_get_contents;
 
 class OpdsNavigationFeed extends OpdsFeed{
-	public function __construct(string $url, string $title, string $path, array $entries, ?OpdsNavigationFeed $parent){
-		parent::__construct($url, $title, $path, $entries, $parent);
-
-		$this->Entries = $entries;
+	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent){
+		parent::__construct($title, $subtitle, $url, $path, $entries, $parent);
 
 		// If the file already exists, try to fill in the existing updated timestamps from the file.
 		// That way, if the file has changed, we only update the changed entry,
@@ -33,14 +31,9 @@ class OpdsNavigationFeed extends OpdsFeed{
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
-			$this->XmlString = $this->CleanXmlString(Template::OpdsNavigationFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updatedTimestamp' => $this->Updated, 'entries' => $this->Entries]));
+			$this->XmlString = $this->CleanXmlString(Template::OpdsNavigationFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updatedTimestamp' => $this->Updated, 'subtitle' => $this->Subtitle, 'entries' => $this->Entries]));
 		}
 
 		return $this->XmlString;
-	}
-
-	public function Save(): void{
-		$this->Updated = new DateTime();
-		$this->SaveIfChanged();
 	}
 }

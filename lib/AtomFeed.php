@@ -8,39 +8,19 @@ use function Safe\unlink;
 
 class AtomFeed extends Feed{
 	public $Id;
+	public $Updated = null;
+	public $Subtitle = null;
 
-	public function __construct(string $url, string $title, string $path, array $entries){
-		parent::__construct($url, $title, $path, $entries);
-		$this->Id = 'https://standardebooks.org' . $url;
-	}
-
-	private function Sha1Entries(string $xmlString): string{
-		try{
-			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $xmlString));
-			$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
-			$xml->registerXPathNamespace('schema', 'http://schema.org/');
-
-			// Remove any <updated> elements, we don't want to compare against those.
-			foreach($xml->xpath('/feed/updated') ?: [] as $element){
-				unset($element[0]);
-			}
-
-			$output = '';
-			foreach($xml->xpath('/feed/entry') ?: [] as $entry){
-				$output .= $entry->asXml();
-			}
-
-			return sha1(preg_replace('/\s/ius', '', $output));
-		}
-		catch(Exception $ex){
-			// Invalid XML
-			return '';
-		}
+	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries){
+		parent::__construct($title, $url, $path, $entries);
+		$this->Subtitle = $subtitle;
+		$this->Id = $url;
+		$this->Stylesheet = '/atom/style';
 	}
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
-			$feed = Template::AtomFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'entries' => $this->Entries]);
+			$feed = Template::AtomFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'subtitle' => $this->Subtitle, 'updatedTimestamp' => $this->Updated, 'entries' => $this->Entries]);
 
 			$this->XmlString = $this->CleanXmlString($feed);
 		}
@@ -49,6 +29,44 @@ class AtomFeed extends Feed{
 	}
 
 	protected function HasChanged(string $path): bool{
-		return !is_file($path) || ($this->Sha1Entries($this->GetXmlString()) != $this->Sha1Entries(file_get_contents($path)));
+		if(!is_file($path)){
+			return true;
+		}
+
+		$currentEntries = [];
+		foreach($this->Entries as $entry){
+			$obj = new StdClass();
+			if(is_a($entry, 'Ebook')){
+				$obj->Updated = $entry->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z');
+				$obj->Id = SITE_URL . $entry->Url;
+			}
+			else{
+				$obj->Updated = $entry->Updated !== null ? $entry->Updated->format('Y-m-d\TH:i:s\Z') : '';
+				$obj->Id = $entry->Id;
+			}
+			$currentEntries[] = $obj;
+		}
+
+		$oldEntries = [];
+		try{
+			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($path)));
+
+			foreach($xml->xpath('/feed/entry') ?: [] as $entry){
+				$obj = new StdClass();
+				$obj->Updated = $entry->updated;
+				$obj->Id = $entry->id;
+				$oldEntries[] = $obj;
+			}
+		}
+		catch(Exception $ex){
+			// Invalid XML
+			return true;
+		}
+
+		return $currentEntries != $oldEntries;
+	}
+
+	public function Save(): void{
+		parent::Save();
 	}
 }

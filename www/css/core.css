@@ -1190,14 +1190,11 @@ main.ebooks > aside.alert + ol{
 	margin-top: 4rem;
 }
 
-.rss .download,
 .opds .download{
 	font-weight: bold;
 	margin-top: 1rem;
 }
 
-.rss .download + ul,
-.rss .download + ul li,
 .opds .download + ul,
 .opds .download + ul > li{
 	margin-top: 0;
@@ -1240,6 +1237,10 @@ ol.ebooks-list.list > li + li {
 
 ol.ebooks-list.list > li .thumbnail-container{
 	grid-row: 1 / span 3;
+}
+
+ol.ebooks-list.list.rss > li .thumbnail-container{
+	grid-row: 1 / span 5;
 }
 
 .opds ol.ebooks-list.list > li .thumbnail-container{
@@ -1409,8 +1410,7 @@ ul.tags{
 	margin-top: 1rem;
 }
 
-.opds ul.tags,
-.rss ul.tags{
+.opds ul.tags{
 	justify-content: flex-start;
 	margin: .5rem auto;
 }
@@ -1420,8 +1420,7 @@ ul.tags li{
 }
 
 ul.tags li a,
-.opds ul.tags li p,
-.rss ul.tags li p{
+.opds ul.tags li p{
 	border: 1px solid var(--body-text);
 	border-radius: 5px;
 	padding: .25rem .5rem;
@@ -2500,10 +2499,6 @@ ul.feed p{
 .url{
 	font-family: "Fira Mono", monospace;
 	font-size: .8rem;
-}
-
-.rss > li p:last-child{
-	margin-top: 0;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */

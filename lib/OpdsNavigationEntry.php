@@ -8,8 +8,8 @@ class OpdsNavigationEntry{
 	public $Description;
 	public $Title;
 
-	public function __construct(string $url, string $rel, string $type, ?DateTime $updated, string $title, string $description){
-		$this->Id = 'https://standardebooks.org' . $url;
+	public function __construct(string $title, string $description, string $url, ?DateTime $updated, string $rel, string $type){
+		$this->Id = SITE_URL . $url;
 		$this->Url = $url;
 		$this->Rel = $rel;
 		$this->Type = $type;

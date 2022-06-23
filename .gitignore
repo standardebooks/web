@@ -2,7 +2,11 @@ ebooks/*
 www/ebooks/*
 www/images/covers/*
 www/opds/*.xml
+www/opds/subjects/*.xml
 www/rss/*.xml
+www/rss/subjects/*.xml
+www/atom/*.xml
+www/atom/subjects/*.xml
 vendor/
 composer.lock
 .vagrant/

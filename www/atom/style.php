@@ -10,16 +10,15 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 	<xsl:template match="/">
 	<?= Template::Header(['xmlDeclaration' => false]) ?>
 	<main class="opds">
-		<h1><xsl:value-of select="substring-after(/rss/channel/title, 'Standard Ebooks - ')"/></h1>
-		<p><xsl:value-of select="/rss/channel/description"/></p>
-		<p>This page is an RSS 2.0 feed. The URL in your browser’s address bar (<a class="url"><xsl:attribute name="href"><xsl:value-of select="/rss/channel/atom:link/@href"/></xsl:attribute><xsl:value-of select="/rss/channel/atom:link/@href"/></a>) can be used in any RSS reader.</p>
-		<ol class="ebooks-list list rss">
-			<xsl:for-each select="/rss/channel/item">
+		<h1><xsl:value-of select="substring-after(/atom:feed/atom:title, 'Standard Ebooks - ')"/></h1>
+		<p>This page is an Atom 1.0 feed. The URL in your browser’s address bar (<a class="url"><xsl:attribute name="href"><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></xsl:attribute><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></a>) can be used in any Atom client.</p>
+		<ol class="ebooks-list list">
+			<xsl:for-each select="/atom:feed/atom:entry">
 			<li>
 				<div class="thumbnail-container">
 					<a tabindex="-1">
 						<xsl:attribute name="href">
-							<xsl:value-of select="link"/>
+							<xsl:value-of select="atom:link[@rel='related']/@href"/>
 						</xsl:attribute>
 						<img alt="" width="224" height="335">
 						<xsl:attribute name="src">
@@ -31,40 +30,50 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 				<p>
 					<a>
 						<xsl:attribute name="href">
-							<xsl:value-of select="link"/>
+							<xsl:value-of select="atom:link[@rel='related']/@href"/>
 						</xsl:attribute>
-						<xsl:value-of select="title"/>
+						<xsl:value-of select="atom:title"/>
 					</a>
 				</p>
+				<div>
+					<xsl:for-each select="atom:author">
+						<p class="author">
+							<a>
+								<xsl:attribute name="href">
+									<xsl:value-of select="atom:uri"/>
+								</xsl:attribute>
+								<xsl:value-of select="atom:name"/>
+							</a>
+						</p>
+					</xsl:for-each>
+				</div>
 				<ul class="tags">
-					<xsl:for-each select="category">
+					<xsl:for-each select="atom:category[@scheme='https://standardebooks.org/vocab/subjects']">
 					<li>
-						<p><xsl:value-of select="."/></p>
+						<p><xsl:value-of select="@term"/></p>
 					</li>
 					</xsl:for-each>
 				</ul>
 				<div class="details">
 					<p>
-						<xsl:value-of select="description"/>
+						<xsl:value-of select="atom:summary"/>
 					</p>
 				</div>
-				<xsl:if test="enclosure">
-					<p class="download">Read</p>
-					<ul>
-						<xsl:for-each select="enclosure">
+				<p class="download">Read</p>
+				<ul>
+					<xsl:for-each select="atom:link[@rel='enclosure']">
 						<li>
 							<p>
 								<a>
 									<xsl:attribute name="href">
-										<xsl:value-of select="@url"/>
+										<xsl:value-of select="@href"/>
 									</xsl:attribute>
-									Download compatible epub
+									<xsl:value-of select="@title"/>
 								</a>
 							</p>
 						</li>
-						</xsl:for-each>
-					</ul>
-				</xsl:if>
+					</xsl:for-each>
+				</ul>
 			</li>
 			</xsl:for-each>
 		</ol>

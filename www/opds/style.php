@@ -11,7 +11,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 	<?= Template::Header(['xmlDeclaration' => false]) ?>
 	<main class="opds">
 		<h1><xsl:value-of select="/atom:feed/atom:title"/></h1>
-		<p>This page is an OPDS feed. The URL in your browser’s address bar (<a class="url"><xsl:attribute name="href"><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></xsl:attribute><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></a>) can be used in any OPDS client.</p>
+		<p>This page is an OPDS 1.2 feed. The URL in your browser’s address bar (<a class="url"><xsl:attribute name="href"><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></xsl:attribute><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></a>) can be used in any OPDS client.</p>
 		<xsl:if test="/atom:feed/atom:entry[./atom:link[starts-with(@type, 'application/atom+xml;profile=opds-catalog;kind=')]]">
 			<ol class="rss">
 				<xsl:for-each select="/atom:feed/atom:entry[./atom:link[starts-with(@type, 'application/atom+xml;profile=opds-catalog;kind=')]]">
@@ -38,7 +38,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 							<xsl:attribute name="href">
 								<xsl:value-of select="atom:link[@rel='related']/@href"/>
 							</xsl:attribute>
-							<img alt="The cover for the Standard Ebooks edition of Winnie-the-Pooh, by A. A. Milne" width="224" height="335">
+							<img alt="" width="224" height="335">
 							<xsl:attribute name="src">
 								<xsl:value-of select="atom:link[@rel='http://opds-spec.org/image/thumbnail']/@href"/>
 							</xsl:attribute>
