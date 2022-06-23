@@ -204,8 +204,8 @@ try{
 						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 						$em->Subject = 'Thank you for supporting Standard Ebooks!';
 						$em->Body = Template::EmailDonationThankYou();
-						$em->TextBody = Template::EmailDonationThankText();
-						//$em->Send();
+						$em->TextBody = Template::EmailDonationThankYouText();
+						$em->Send();
 					}
 				}
 			}
