@@ -25,7 +25,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		</image>
 		<? foreach($entries as $entry){ ?>
 		<item>
-			<title><?= Formatter::ToPlainXmlText($entry->Title) ?></title>
+			<title><?= Formatter::ToPlainXmlText($entry->Title) ?>, by <?= Formatter::ToPlainXmlText(strip_tags($entry->AuthorsHtml)) ?></title>
 			<link><?= SITE_URL . Formatter::ToPlainXmlText($entry->Url) ?></link>
 			<description><?= Formatter::ToPlainXmlText($entry->Description) ?></description>
 			<pubDate><?= $entry->Timestamp->format('r') ?></pubDate>
