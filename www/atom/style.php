@@ -18,7 +18,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 				<div class="thumbnail-container">
 					<a tabindex="-1">
 						<xsl:attribute name="href">
-							<xsl:value-of select="atom:link[@rel='related']/@href"/>
+							<xsl:value-of select="atom:link[@rel='alternate']/@href"/>
 						</xsl:attribute>
 						<img alt="" width="224" height="335">
 						<xsl:attribute name="src">
@@ -30,7 +30,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 				<p>
 					<a>
 						<xsl:attribute name="href">
-							<xsl:value-of select="atom:link[@rel='related']/@href"/>
+							<xsl:value-of select="atom:link[@rel='alternate']/@href"/>
 						</xsl:attribute>
 						<xsl:value-of select="atom:title"/>
 					</a>

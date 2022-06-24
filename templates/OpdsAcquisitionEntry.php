@@ -27,7 +27,7 @@
 	<? } ?>
 	<link href="<?= SITE_URL . $entry->Url ?>/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
 	<link href="<?= SITE_URL . $entry->Url ?>/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
-	<link href="<?= SITE_URL . $entry->Url ?>" rel="related" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
+	<link href="<?= SITE_URL . $entry->Url ?>" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
 	<? if(file_exists(WEB_ROOT . $entry->EpubUrl)){ ?><link href="<?= SITE_URL . $entry->EpubUrl ?>" length="<?= filesize(WEB_ROOT . $entry->EpubUrl) ?>" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" /><? } ?>
 	<? if(file_exists(WEB_ROOT . $entry->AdvancedEpubUrl)){ ?><link href="<?= SITE_URL . $entry->AdvancedEpubUrl ?>" length="<?= filesize(WEB_ROOT . $entry->AdvancedEpubUrl) ?>" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" /><? } ?>
 	<? if(file_exists(WEB_ROOT . $entry->KepubUrl)){ ?><link href="<?= SITE_URL . $entry->KepubUrl ?>" length="<?= filesize(WEB_ROOT . $entry->KepubUrl) ?>" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" /><? } ?>
