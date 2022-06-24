@@ -84,7 +84,7 @@ $now = new DateTime();
 // Create OPDS feeds
 $opdsRootEntries = [
 	new OpdsNavigationEntry(
-		'Newest ' . number_format($ebooksPerNewestEbooksFeed) . ' Standard Ebooks',
+		'Newest Standard Ebooks',
 		'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.',
 		'/feeds/opds/new-releases',
 		$now,
@@ -133,7 +133,7 @@ $allFeed = new OpdsAcquisitionFeed('All Standard Ebooks', 'All Standard Ebooks, 
 SaveFeed($allFeed, $force, $now);
 
 // Create the 'newest' feed
-$newestFeed = new OpdsAcquisitionFeed('Newest ' . number_format($ebooksPerNewestEbooksFeed) . ' Standard Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/opds/new-releases', WEB_ROOT . '/feeds/opds/new-releases.xml', $newestEbooks, $opdsRoot);
+$newestFeed = new OpdsAcquisitionFeed('Newest Standard Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/opds/new-releases', WEB_ROOT . '/feeds/opds/new-releases.xml', $newestEbooks, $opdsRoot);
 SaveFeed($newestFeed, $force, $now);
 
 // Now create RSS feeds

@@ -15,6 +15,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<lastBuildDate><?= $updatedTimestamp ?></lastBuildDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
 		<atom:link href="<?= SITE_URL . Formatter::ToPlainXmlText($url) ?>" rel="self" type="application/rss+xml"/>
+		<atom:link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />
 		<image>
 			<url><?= SITE_URL ?>/images/logo-rss.png</url>
 			<title><?= Formatter::ToPlainXmlText($title) ?></title> <? /* must be identical to channel title */ ?>
@@ -24,20 +25,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 			<width>144</width>
 		</image>
 		<? foreach($entries as $entry){ ?>
-		<item>
-			<title><?= Formatter::ToPlainXmlText($entry->Title) ?>, by <?= Formatter::ToPlainXmlText(strip_tags($entry->AuthorsHtml)) ?></title>
-			<link><?= SITE_URL . Formatter::ToPlainXmlText($entry->Url) ?></link>
-			<description><?= Formatter::ToPlainXmlText($entry->Description) ?></description>
-			<pubDate><?= $entry->Timestamp->format('r') ?></pubDate>
-			<guid><?= Formatter::ToPlainXmlText(preg_replace('/^url:/ius', '', $entry->Identifier)) ?></guid>
-			<? foreach($entry->Tags as $tag){ ?>
-			<category domain="https://standardebooks.org/vocab/subjects"><?= Formatter::ToPlainXmlText($tag->Name) ?></category>
-			<? } ?>
-			<media:thumbnail url="<?= SITE_URL . $entry->Url ?>/downloads/cover-thumbnail.jpg" height="525" width="350"/>
-			<? if($entry->EpubUrl !== null){ ?>
-			<enclosure url="<?= SITE_URL . Formatter::ToPlainXmlText($entry->EpubUrl)  ?>" length="<?= filesize(WEB_ROOT . $entry->EpubUrl) ?>" type="application/epub+zip" />  <? /* Only one <enclosure> is allowed */ ?>
-			<? } ?>
-		</item>
+			<?= Template::RssEntry(['entry' => $entry]) ?>
 		<? } ?>
 	</channel>
 </rss>

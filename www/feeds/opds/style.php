@@ -10,7 +10,15 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 	<xsl:template match="/">
 	<?= Template::Header(['xmlDeclaration' => false]) ?>
 	<main class="opds">
-		<h1><xsl:value-of select="/atom:feed/atom:title"/></h1>
+		<xsl:choose>
+			<xsl:when test="contains(/atom:feed/atom:title, 'Standard Ebooks - ')">
+				<h1><xsl:value-of select="substring-after(/atom:feed/atom:title, 'Standard Ebooks - ')"/></h1>
+			</xsl:when>
+			<xsl:otherwise>
+				<h1><xsl:value-of select="/atom:feed/atom:title"/></h1>
+			</xsl:otherwise>
+		</xsl:choose>
+		<p><xsl:value-of select="/atom:feed/atom:subtitle"/></p>
 		<p>This page is an OPDS 1.2 feed. The URL in your browser’s address bar (<a class="url"><xsl:attribute name="href"><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></xsl:attribute><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></a>) can be used in any OPDS client.</p>
 		<xsl:if test="/atom:feed/atom:entry[./atom:link[starts-with(@type, 'application/atom+xml;profile=opds-catalog;kind=')]]">
 			<ol class="rss">

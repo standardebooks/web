@@ -10,7 +10,14 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 	<xsl:template match="/">
 	<?= Template::Header(['xmlDeclaration' => false]) ?>
 	<main class="opds">
-		<h1><xsl:value-of select="substring-after(/rss/channel/title, 'Standard Ebooks - ')"/></h1>
+		<xsl:choose>
+			<xsl:when test="contains(/rss/channel/title, 'Standard Ebooks - ')">
+				<h1><xsl:value-of select="substring-after(/rss/channel/title, 'Standard Ebooks - ')"/></h1>
+			</xsl:when>
+			<xsl:otherwise>
+				<h1><xsl:value-of select="/rss/channel/title"/></h1>
+			</xsl:otherwise>
+		</xsl:choose>
 		<p><xsl:value-of select="/rss/channel/description"/></p>
 		<p>This page is an RSS 2.0 feed. The URL in your browser’s address bar (<a class="url"><xsl:attribute name="href"><xsl:value-of select="/rss/channel/atom:link/@href"/></xsl:attribute><xsl:value-of select="/rss/channel/atom:link/@href"/></a>) can be used in any RSS reader.</p>
 		<ol class="ebooks-list list rss">
