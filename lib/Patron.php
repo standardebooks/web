@@ -51,7 +51,7 @@ class Patron extends PropertiesBase{
 			$em->Subject = 'Thank you for supporting Standard Ebooks!';
 			$em->Body = Template::EmailPatronsCircleWelcome(['isAnonymous' => $this->IsAnonymous]);
 			$em->TextBody = Template::EmailPatronsCircleWelcomeText(['isAnonymous' => $this->IsAnonymous]);
-			//$em->Send();
+			$em->Send();
 		}
 	}
 }
