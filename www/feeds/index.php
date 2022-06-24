@@ -18,8 +18,8 @@ require_once('Core.php');
 			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a> are designed for use with ereading systems like <a href="http://koreader.rocks/">KOreader</a> or <a href="https://calibre-ebook.com">Calibre</a>, or with ereaders like <a href="https://johnfactotum.github.io/foliate/">Foliate</a>. They allow you to search, browse, and download from our catalog, directly in your ereader. They’re also perfect for organizations who wish to download and process our catalog efficiently.</p>
 			<ul class="feed">
 				<li>
-					<p><a href="/opds">The Standard Ebooks OPDS feed</a></p>
-					<p class="url"><?= SITE_URL ?>/opds</p>
+					<p><a href="/feeds/opds">The Standard Ebooks OPDS feed</a></p>
+					<p class="url"><?= SITE_URL ?>/feeds/opds</p>
 				</li>
 			</ul>
 			<section>
@@ -40,13 +40,13 @@ require_once('Core.php');
 			<p>Note that some RSS readers may show these feeds ordered by when an ebook was last updated, even though the feeds are ordered by when an ebook was first released. You should be able to change the sort order in your RSS reader.</p>
 			<ul class="feed">
 				<li>
-					<p><a href="/atom/new-releases">New releases</a></p>
-					<p class="url"><?= SITE_URL ?>/atom/new-releases</p>
+					<p><a href="/feeds/atom/new-releases">New releases</a></p>
+					<p class="url"><?= SITE_URL ?>/feeds/atom/new-releases</p>
 					<p>The thirty latest Standard Ebooks, most-recently-released first.</p>
 				</li>
 				<li>
-					<p><a href="/atom/all">All ebooks</a></p>
-					<p class="url"><?= SITE_URL ?>/atom/all</p>
+					<p><a href="/feeds/atom/all">All ebooks</a></p>
+					<p class="url"><?= SITE_URL ?>/feeds/atom/all</p>
 					<p>All Standard Ebooks, most-recently-released first.</p>
 				</li>
 			</ul>
@@ -55,9 +55,8 @@ require_once('Core.php');
 				<ul class="feed">
 					<? foreach(SE_SUBJECTS as $subject){ ?>
 					<li>
-						<p><a href="/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
-						<p><a href="/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"></a></p>
-						<p class="url"><?= SITE_URL ?>/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
+						<p><a href="/feeds/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
+						<p class="url"><?= SITE_URL ?>/feeds/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
 					</li>
 					<? } ?>
 				</ul>
@@ -68,13 +67,13 @@ require_once('Core.php');
 			<p>RSS feeds are an alternative to Atom feeds. They contain less information than Atom feeds, but might be better supported by some RSS readers.</p>
 			<ul class="feed">
 				<li>
-					<p><a href="/rss/new-releases">New releases</a></p>
-					<p class="url"><?= SITE_URL ?>/rss/new-releases</p>
+					<p><a href="/feeds/rss/new-releases">New releases</a></p>
+					<p class="url"><?= SITE_URL ?>/feeds/rss/new-releases</p>
 					<p>The thirty latest Standard Ebooks, most-recently-released first.</p>
 				</li>
 				<li>
-					<p><a href="/rss/all">All ebooks</a></p>
-					<p class="url"><?= SITE_URL ?>/rss/all</p>
+					<p><a href="/feeds/rss/all">All ebooks</a></p>
+					<p class="url"><?= SITE_URL ?>/feeds/rss/all</p>
 					<p>All Standard Ebooks, most-recently-released first.</p>
 				</li>
 			</ul>
@@ -83,9 +82,8 @@ require_once('Core.php');
 				<ul class="feed">
 					<? foreach(SE_SUBJECTS as $subject){ ?>
 					<li>
-						<p><a href="/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
-						<p><a href="/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"></a></p>
-						<p class="url"><?= SITE_URL ?>/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
+						<p><a href="/feeds/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
+						<p class="url"><?= SITE_URL ?>/feeds/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
 					</li>
 					<? } ?>
 				</ul>

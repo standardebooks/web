@@ -15,7 +15,7 @@ class AtomFeed extends Feed{
 		parent::__construct($title, $url, $path, $entries);
 		$this->Subtitle = $subtitle;
 		$this->Id = $url;
-		$this->Stylesheet = '/atom/style';
+		$this->Stylesheet = '/feeds/atom/style';
 	}
 
 	protected function GetXmlString(): string{

@@ -2,7 +2,7 @@
 require_once('Core.php');
 
 // `text/xsl` is the only mime type recognized by Chrome for XSL stylesheets
-header('Content-Type: text/xsl');
+header('Content-Type: text/xsl; charset=utf-8');
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 ?>
 <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">

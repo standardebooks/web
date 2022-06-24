@@ -5,7 +5,7 @@ class RssFeed extends Feed{
 	public function __construct(string $title, string $description, string $url, string $path, array $entries){
 		parent::__construct($title, $url, $path, $entries);
 		$this->Description = $description;
-		$this->Stylesheet = '/rss/style';
+		$this->Stylesheet = '/feeds/rss/style';
 	}
 
 	protected function GetXmlString(): string{

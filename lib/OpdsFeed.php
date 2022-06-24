@@ -7,7 +7,7 @@ class OpdsFeed extends AtomFeed{
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent){
 		parent::__construct($title, $subtitle, $url, $path, $entries);
 		$this->Parent = $parent;
-		$this->Stylesheet = '/opds/style';
+		$this->Stylesheet = '/feeds/opds/style';
 	}
 
 	protected function SaveUpdatedTimestamp(string $entryId, DateTime $updatedTimestamp): void{

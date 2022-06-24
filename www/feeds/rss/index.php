@@ -8,13 +8,13 @@ require_once('Core.php');
 		<p>RSS feeds are an alternative to Atom feeds. They contain less information than Atom feeds, but might be better supported by some RSS readers.</p>
 		<ul class="feed">
 			<li>
-				<p><a href="/rss/new-releases">New releases</a></p>
-				<p class="url"><?= SITE_URL ?>/rss/new-releases</p>
+				<p><a href="/feeds/rss/new-releases">New releases</a></p>
+				<p class="url"><?= SITE_URL ?>/feeds/rss/new-releases</p>
 				<p>The thirty latest Standard Ebooks, most-recently-released first.</p>
 			</li>
 			<li>
-				<p><a href="/rss/all">All ebooks</a></p>
-				<p class="url"><?= SITE_URL ?>/rss/all</p>
+				<p><a href="/feeds/rss/all">All ebooks</a></p>
+				<p class="url"><?= SITE_URL ?>/feeds/rss/all</p>
 				<p>All Standard Ebooks, most-recently-released first.</p>
 			</li>
 		</ul>
@@ -23,9 +23,8 @@ require_once('Core.php');
 			<ul class="feed">
 				<? foreach(SE_SUBJECTS as $subject){ ?>
 				<li>
-					<p><a href="/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
-					<p><a href="/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"></a></p>
-					<p class="url"><?= SITE_URL ?>/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
+					<p><a href="/feeds/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
+					<p class="url"><?= SITE_URL ?>/feeds/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
 				</li>
 				<? } ?>
 			</ul>

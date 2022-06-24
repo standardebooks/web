@@ -9,13 +9,13 @@ require_once('Core.php');
 		<p>Note that some RSS readers may show these feeds ordered by when an ebook was last updated, even though the feeds are ordered by when an ebook was first released. You should be able to change the sort order in your RSS reader.</p>
 		<ul class="feed">
 			<li>
-				<p><a href="/atom/new-releases">New releases</a></p>
-				<p class="url"><?= SITE_URL ?>/atom/new-releases</p>
+				<p><a href="/feeds/atom/new-releases">New releases</a></p>
+				<p class="url"><?= SITE_URL ?>/feeds/atom/new-releases</p>
 				<p>The thirty latest Standard Ebooks, most-recently-released first.</p>
 			</li>
 			<li>
-				<p><a href="/atom/all">All ebooks</a></p>
-				<p class="url"><?= SITE_URL ?>/atom/all</p>
+				<p><a href="/feeds/atom/all">All ebooks</a></p>
+				<p class="url"><?= SITE_URL ?>/feeds/atom/all</p>
 				<p>All Standard Ebooks, most-recently-released first.</p>
 			</li>
 		</ul>
@@ -24,9 +24,8 @@ require_once('Core.php');
 			<ul class="feed">
 				<? foreach(SE_SUBJECTS as $subject){ ?>
 				<li>
-					<p><a href="/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
-					<p><a href="/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"></a></p>
-					<p class="url"><?= SITE_URL ?>/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
+					<p><a href="/feeds/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
+					<p class="url"><?= SITE_URL ?>/feeds/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
 				</li>
 				<? } ?>
 			</ul>

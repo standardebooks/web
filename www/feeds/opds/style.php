@@ -2,7 +2,7 @@
 require_once('Core.php');
 
 // `text/xsl` is the only mime type recognized by Chrome for XSL stylesheets
-header('Content-Type: text/xsl');
+header('Content-Type: text/xsl; charset=utf-8');
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 ?>
 <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -36,7 +36,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 					<div class="thumbnail-container">
 						<a tabindex="-1">
 							<xsl:attribute name="href">
-								<xsl:value-of select="atom:link[@rel='related']/@href"/>
+								<xsl:value-of select="atom:link[@rel='alternate']/@href"/>
 							</xsl:attribute>
 							<img alt="" width="224" height="335">
 							<xsl:attribute name="src">
@@ -48,7 +48,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 					<p>
 						<a>
 							<xsl:attribute name="href">
-								<xsl:value-of select="atom:link[@rel='related']/@href"/>
+								<xsl:value-of select="atom:link[@rel='alternate']/@href"/>
 							</xsl:attribute>
 							<xsl:value-of select="atom:title"/>
 						</a>

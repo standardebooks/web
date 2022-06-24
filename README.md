@@ -38,9 +38,6 @@ sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/p
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/fpm/conf.d/
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
 sudo systemctl restart "php*-fpm.service"
-
-# Download the OPDS index template
-wget -O /standardebooks.org/web/www/opds/index.xml https://standardebooks.org/opds
 ```
 
 If everything went well you should now be able to open your web browser and visit `https://standardebooks.test/`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks/`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:
