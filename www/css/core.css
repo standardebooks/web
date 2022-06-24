@@ -2499,6 +2499,8 @@ ul.feed p{
 .url{
 	font-family: "Fira Mono", monospace;
 	font-size: .8rem;
+	hyphens: none;
+	word-break: break-word;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
