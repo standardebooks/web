@@ -26,6 +26,7 @@ class Feed{
 		$output = file_get_contents($tempFilename);
 		unlink($tempFilename);
 
+		// At the moment, `se clean` strips stylesheet declarations. Restore them here.
 		if($this->Stylesheet !== null){
 			$output = str_replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . $this->Stylesheet . "\" type=\"text/xsl\"?>", $output);
 		}
