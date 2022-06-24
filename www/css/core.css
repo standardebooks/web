@@ -1800,7 +1800,6 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 .has-hero hgroup h1,
 .has-hero > h1{
 	margin-bottom: 1rem;
-	text-transform: uppercase;
 	letter-spacing: 1px;
 }
 
@@ -1814,7 +1813,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	font-family: "Crimson Pro", serif;
 	font-style: italic;
 	font-weight: normal;
-	font-size: 2rem;
+	font-size: 1.75rem;
 	text-align: center;
 	text-transform: none;
 	letter-spacing: 0;
