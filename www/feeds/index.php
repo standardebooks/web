@@ -8,9 +8,7 @@ require_once('Core.php');
 // It also displays the feed in a browser so we can style it with XSLT.
 // This is the same for Atom/OPDS (whose de jure mime type is `application/atom+xml`).
 
-$subjects = ["Adventure", "Autobiography", "Biography", "Children’s", "Comedy", "Drama", "Fantasy", "Fiction", "Horror", "Memoir", "Mystery", "Nonfiction", "Philosophy", "Poetry", "Satire", "Science Fiction", "Shorts", "Spirituality", "Tragedy", "Travel"];
-
-?><?= Template::Header(['description' => 'A list of available feeds of Standard Ebooks ebooks.']) ?>
+?><?= Template::Header(['title' => 'Ebook Feeds', 'description' => 'A list of available feeds of Standard Ebooks ebooks.']) ?>
 <main>
 	<article>
 		<h1>Ebook Feeds</h1>
@@ -55,7 +53,7 @@ $subjects = ["Adventure", "Autobiography", "Biography", "Children’s", "Comedy"
 			<section id="atom-ebooks-by-subject">
 				<h3>Ebooks by subject</h3>
 				<ul class="feed">
-					<? foreach($subjects as $subject){ ?>
+					<? foreach(SE_SUBJECTS as $subject){ ?>
 					<li>
 						<p><a href="/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
 						<p><a href="/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"></a></p>
@@ -83,7 +81,7 @@ $subjects = ["Adventure", "Autobiography", "Biography", "Children’s", "Comedy"
 			<section id="rss-ebooks-by-subject">
 				<h3>Ebooks by subject</h3>
 				<ul class="feed">
-					<? foreach($subjects as $subject){ ?>
+					<? foreach(SE_SUBJECTS as $subject){ ?>
 					<li>
 						<p><a href="/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
 						<p><a href="/rss/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"></a></p>

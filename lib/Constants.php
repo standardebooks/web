@@ -78,6 +78,8 @@ const PAYMENT_CHANNEL_FA = 0;
 
 const FA_FEE_PERCENT = 0.87;
 
+const SE_SUBJECTS = ['Adventure', 'Autobiography', 'Biography', 'Children’s', 'Comedy', 'Drama', 'Fantasy', 'Fiction', 'Horror', 'Memoir', 'Mystery', 'Nonfiction', 'Philosophy', 'Poetry', 'Satire', 'Science Fiction', 'Shorts', 'Spirituality', 'Tragedy', 'Travel'];
+
 define('PD_YEAR', intval(gmdate('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
