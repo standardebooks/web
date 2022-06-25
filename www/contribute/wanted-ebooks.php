@@ -71,9 +71,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6880">The Coming of Bill</a> by P. G. Wodehouse</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/24742">Mary, Mary</a> by James Stephens</p>
 			</li>
@@ -538,9 +538,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/53430">Principia Ethica</a> by George Edward Moore</p>
-			</li>
-			<li>
-				<p><a href="http://www.sacred-texts.com/cla/plato/">Plato’s Dialogues</a></p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/38427">The World as Will and Idea</a> by Arthur Schopenhauer (<a href="https://www.gutenberg.org/ebooks/40097">Vol. 2</a>, <a href="https://www.gutenberg.org/ebooks/40868">Vol. 3</a>)</p>
