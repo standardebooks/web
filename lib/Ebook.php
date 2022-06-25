@@ -57,7 +57,7 @@ class Ebook{
 	public $ModifiedTimestamp;
 	public $TextUrl;
 	public $TextSinglePageUrl;
-	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'shorts' or 'poetry' tag, null otherwise
+	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 
 	public function __construct(string $wwwFilesystemPath){
 		// First, construct a source repo path from our WWW filesystem path.
@@ -198,11 +198,9 @@ class Ebook{
 		$includeToc = false;
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
 			$this->Tags[] = new Tag($tag);
-
-			if($tag == 'Shorts' || $tag == 'Poetry'){
-				$includeToc = true;
-			}
 		}
+
+		$includeToc = sizeof($xml->xpath('/package/metadata/meta[@property="se:is-a-collection"]') ?: []) > 0;
 
 		// Fill the ToC if necessary
 		if($includeToc){
