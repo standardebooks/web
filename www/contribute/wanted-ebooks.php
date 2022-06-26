@@ -189,7 +189,7 @@ require_once('Core.php');
 				<p><a href="https://gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Radcliffe</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/67369">Hadrian the Seventh</a> by F. R. Rolfe</p>
+				<p><a href="https://www.gutenberg.org/ebooks/67369">Hadrian the Seventh</a> by Frederick Rolfe (Part of the Guardian 2015 collection.)</p>
 			</li>
 			<li>
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
@@ -295,9 +295,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/498">Books by Edward Lear</a></p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (part of the BBC 2015 collection)</p>
@@ -583,9 +580,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library and Guardian 2015 100 best novels collections)</p>
-			</li>
-			<li>
-				<p>Hadrian the Seventh by Frederick Rolfe (No PG edition yet but <a href="https://www.pgdp.net/c/project.php?id=projectID5d6cced48cdf7&amp;detail_level=3">PGDP transcription is in progress</a>. Part of the Guardian 2015 collection.)</p>
 			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/45847">The Autobiography of Thomas Jefferson</a>, by Thomas Jefferson</p>
