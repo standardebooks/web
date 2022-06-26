@@ -299,9 +299,8 @@ body > header{
 	background: #394451;
 	display: flex;
 	justify-content: space-around;
-	border-bottom: 1px solid var(--border);
+	border-bottom: 5px solid rgba(0, 0, 0 , .25);
 	padding: 1.5rem 0;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 1);
 	position: relative;
 	width: calc(100% + 2rem + 2rem);
 	z-index: 100; /* to step on the splash box shadow */
