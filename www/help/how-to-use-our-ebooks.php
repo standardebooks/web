@@ -29,7 +29,8 @@ require_once('Core.php');
 			<ul>
 				<li id="kindle">
 					<h3>Amazon Kindle eInk Devices (Paperwhite, Voyage, Oasis, etc. <em>except</em> DX)</h3>
-					<p><b>Important:</b> You can’t use “Send to Kindle” to transfer our azw3 file. <a href="#kindle-faq">This is a bug in Amazon’s software.</a> You <em>must</em> transfer our azw3 ebooks to Kindles with a USB cable.</p>
+					<h4>Method 1 - Download to a Computer</h4>
+					<p><b>Important:</b> You can’t use “Send to Kindle” to transfer our azw3 file. <a href="#kindle-faq">This is a bug in Amazon’s software</p>
 					<ol>
 						<li>
 							<p>Using a USB cable, connect your Kindle to the computer you downloaded the azw3 file to. Your Kindle will appear as a USB drive that you can browse.</p>
@@ -45,6 +46,26 @@ require_once('Core.php');
 						</li>
 						<li>
 							<p>Eject the Kindle from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
+						</li>
+					</ol>
+					<h4>Method 2 - Direct Download</h4>
+					<p>This method will not add the eBook to your Kindle library. Your Kindle will remember your reading position however.</p>
+					<p>This method can not add the thumbnail to your Kindle library. See method 1 if you require the thumbnail.</p>
+					<ol>
+						<li>
+							<p>From your Kindle's home screen, tap the 3 dots in the upper-right hand corner.</p>
+						</li>
+						<li>
+							<p>Select "Web Browser".</p>
+						</li>
+						<li>
+							<p>Navigate to Standard Ebooks. You can bookmark this page for conveniance.</p>
+						</li>
+						<li>
+							<p>Choose a book, and swipe down to the downloads section. Choose the <em>azw3</em> file.</p>
+						</li>
+						<li>
+							<p>In the download box that pops up, tap <em>OK</em>.</p>
 						</li>
 					</ol>
 				</li>
