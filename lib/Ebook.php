@@ -195,7 +195,6 @@ class Ebook{
 		}
 
 		// Get SE tags
-		$includeToc = false;
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
 			$this->Tags[] = new Tag($tag);
 		}
