@@ -1066,7 +1066,7 @@ article.ebook aside#reading-ease{
 
 h2,
 .masthead h3{
-	font-size: 1.2rem;
+	font-size: 1.4rem;
 	font-family: "League Spartan", Arial, sans-serif;
 	margin-top: 4rem;
 	line-height: 1.2;
@@ -1074,7 +1074,13 @@ h2,
 	text-transform: uppercase;
 }
 
-h3,
+h3{
+	font-size: 1.2rem;
+	font-family: "League Spartan", Arial, sans-serif;
+	margin-top: 3rem;
+	line-height: 1.2;
+}
+
 h4,
 h5,
 h6{

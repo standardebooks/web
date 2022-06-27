@@ -29,9 +29,12 @@ require_once('Core.php');
 			<ul>
 				<li id="kindle">
 					<h3>Amazon Kindle eInk Devices (Paperwhite, Voyage, Oasis, etc. <em>except</em> DX)</h3>
-					<h4>Method 1 - Download to a Computer</h4>
-					<p><b>Important:</b> You can’t use “Send to Kindle” to transfer our azw3 file. <a href="#kindle-faq">This is a bug in Amazon’s software</p>
+					<p><b>Important:</b> You can’t use “Send to Kindle” to transfer our azw3 file to your Kindle. <a href="#kindle-faq">This is a bug in Amazon’s software.</a></p>
+					<h4 id="kindle-method-1">Method 1 - Using a USB Cable</h4>
 					<ol>
+						<li>
+							<p>Select an ebook from Standard Ebooks and download its azw3 file to a computer.</p>
+						</li>
 						<li>
 							<p>Using a USB cable, connect your Kindle to the computer you downloaded the azw3 file to. Your Kindle will appear as a USB drive that you can browse.</p>
 						</li>
@@ -48,24 +51,24 @@ require_once('Core.php');
 							<p>Eject the Kindle from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
 						</li>
 					</ol>
-					<h4>Method 2 - Direct Download</h4>
-					<p>This method will not add the eBook to your Kindle library. Your Kindle will remember your reading position however.</p>
-					<p>This method can not add the thumbnail to your Kindle library. See method 1 if you require the thumbnail.</p>
+					<h4 id="kindle-method-2">Method 2 - Download Directly to Kindle</h4>
+					<p>This method won’t add the ebook to your Kindle library, but your Kindle will remember your reading position.</p>
+					<p>This method also won’t add include a cover imgae. If you want a cover image, use <a href="#kindle-method-1">method 1</a>.</p>
 					<ol>
 						<li>
-							<p>From your Kindle's home screen, tap the 3 dots in the upper-right hand corner.</p>
+							<p>From your Kindle’s home screen, tap the 3 dots in the upper-right corner.</p>
 						</li>
 						<li>
-							<p>Select "Web Browser".</p>
+							<p>Select “Web Browser.”</p>
 						</li>
 						<li>
-							<p>Navigate to Standard Ebooks. You can bookmark this page for conveniance.</p>
+							<p>Navigate to the Standard Ebooks website.</p>
 						</li>
 						<li>
-							<p>Choose a book, and swipe down to the downloads section. Choose the <em>azw3</em> file.</p>
+							<p>Choose an ebook, and swipe down to the downloads section for that ebook. Choose the azw3 file.</p>
 						</li>
 						<li>
-							<p>In the download box that pops up, tap <em>OK</em>.</p>
+							<p>In the download box that pops up, tap “OK.”</p>
 						</li>
 					</ol>
 				</li>
