@@ -5,15 +5,17 @@ if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false)
 	return;
 }
 
+$startDate = new DateTime('2022-07-01');
+$endDate = new DateTime('2022-07-31');
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
-$current = 0;
-$target = 50;
+$current = (Db::Query('select count(*) as PatronCount from Patrons where Timestamp >= ?', [$startDate]))[0]->PatronCount;
+$target = 70;
 $stretchCurrent = 0;
 $stretchTarget = 20;
 $totalCurrent = $current;
 $totalTarget = $target;
-$deadline = 'Feb. 15';
+$deadline = $endDate->format('M. j');
 
 $stretchOn = false;
 if($stretchTarget > 0 && $current >= $target){
@@ -52,10 +54,10 @@ if($stretchTarget > 0 && $current >= $target){
 		<? if($stretchOn){ ?><progress class="stretch" max="<?= $stretchTarget ?>" value="<?= $stretchCurrent ?>"></progress><? } ?>
 	</div>
 	<? if($stretchOn){ ?>
-	<p>When we started this drive, we set a goal of <?= number_format($target) ?> Patrons Circle members by Feb. 15. Thanks to the incredible generosity of literature lovers from all walks of life, we hit that goal in just over a week!</p>
+	<p>When we started this drive, we set a goal of <?= number_format($target) ?> Patrons Circle members by <?= $deadline ?>. Thanks to the incredible generosity of literature lovers from all walks of life, we hit that goal in just over a week!</p>
 	<p>Since there are still weeks left in our drive, we thought we’d challenge our readers to help us reach our stretch goal of 70 patrons, so that we can start the year off on a rock-solid financial footing. Will you help us with a donation, and support free and unrestricted digital literature?</p>
 	<? }else{ ?>
-	<p>We want to make Standard Ebooks a sustainable project that can support the huge amount of work it takes to maintain and operate. Welcoming <?= number_format($target) ?> new Patrons Circle members by <?= $deadline ?> will help put us on the stable financial footing we need to continue producing beautiful ebooks as we enter the new year.</p>
+	<p>We want to make Standard Ebooks a sustainable project that can support the huge amount of work it takes to maintain and operate. Welcoming <?= number_format($target) ?> new Patrons Circle members by <?= $deadline ?> will help keep us on the stable financial footing we need to continue producing beautiful ebooks.</p>
 	<p>Will you help us reach that goal, and support free and unrestricted digital literature?</p>
 	<? } ?>
 	<? if($showDonateButton){ ?><p class="donate-button"><a class="button" href="/donate#patrons-circle">Join the patrons circle</a></p><? } ?>

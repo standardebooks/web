@@ -2256,7 +2256,7 @@ aside header{
 	FF bug that causes infinite requsts to stripes.svg */
 	background: url("/images/stripes.svg") transparent;
 	background-position: 0 0;
-	animation: progress 2s linear infinite;
+	animation: progress 4s linear infinite;
 	z-index: 3;
 }
 
