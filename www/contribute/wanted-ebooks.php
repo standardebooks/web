@@ -600,6 +600,9 @@ require_once('Core.php');
 				<p><a href="https://en.wikipedia.org/wiki/James_Tait_Black_Memorial_Prize">Entries in the James Tait Black Memorial Prize list</a></p>
 			</li>
 			<li>
+				<p><a href="https://en.m.wikipedia.org/wiki/Prix_Goncourt">English translations from the Prix Goncourt list</a></p>
+			</li>
+			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Hawthornden_Prize">Entries in the Hawthornden Prize list</a></p>
 			</li>
 			<li>
