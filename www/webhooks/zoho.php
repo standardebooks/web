@@ -6,6 +6,10 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\json_decode;
 
+// This webhook receives POSTs when email from a Fractured Atlas donation is received
+// at the SE Zoho email account. This script processes the email, and inserts the donation ID
+// into the database for later processing by ~se/web/scripts/process-pending-payments
+
 $log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
 
 try{
@@ -39,6 +43,7 @@ try{
 				$payment = new Payment();
 				$payment->ChannelId = PAYMENT_CHANNEL_FA;
 				$payment->TransactionId = $transactionId;
+				$payment->Timestamp = new DateTime();
 				$payment->IsRecurring = stripos($data->subject, 'recurring') !== false;
 				preg_match('/Amount: \$([\d\.]+)/u', $data->html, $matches);
 				if(sizeof($matches) == 2){
