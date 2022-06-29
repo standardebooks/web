@@ -9,7 +9,7 @@ $startDate = new DateTime('2022-07-01');
 $endDate = new DateTime('2022-07-31');
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
-$current = (Db::Query('SELECT count(*) as PatronCount from Patrons where Created >= ?', [$startDate]))[0]->PatronCount;
+$current = Db::QueryInt('SELECT count(*) from Patrons where Created >= ?', [$startDate]);
 $target = 70;
 $stretchCurrent = 0;
 $stretchTarget = 20;

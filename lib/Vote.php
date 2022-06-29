@@ -49,10 +49,10 @@ class Vote extends PropertiesBase{
 			}
 			else{
 				// Do we already have a vote for this poll, from this user?
-				if( (Db::Query('
-					SELECT count(*) as VoteCount from Votes v inner join
+				if(Db::QueryInt('
+					SELECT count(*) from Votes v inner join
 					(select PollItemId from PollItems pi inner join Polls p on pi.PollId = p.PollId) x
-					on v.PollItemId = x.PollItemId where v.UserId = ?', [$this->UserId]))[0]->VoteCount > 0){
+					on v.PollItemId = x.PollItemId where v.UserId = ?', [$this->UserId]) > 0){
 					$error->Add(new Exceptions\VoteExistsException());
 				}
 			}

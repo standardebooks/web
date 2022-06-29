@@ -9,7 +9,7 @@ class PollItem extends PropertiesBase{
 
 	protected function GetVoteCount(): int{
 		if($this->VoteCount === null){
-			$this->VoteCount = (Db::Query('select count(*) as VoteCount from Votes v inner join PollItems pi on v.PollItemId = pi.PollItemId where pi.PollItemId = ?', [$this->PollItemId]))[0]->VoteCount;
+			$this->VoteCount = Db::QueryInt('select count(*) from Votes v inner join PollItems pi on v.PollItemId = pi.PollItemId where pi.PollItemId = ?', [$this->PollItemId]);
 		}
 
 		return $this->VoteCount;

@@ -68,6 +68,11 @@ try{
 
 	foreach($pendingPayments as $pendingPayment){
 		if($pendingPayment->ChannelId == PAYMENT_CHANNEL_FA){
+			if(Db::QueryInt('SELECT count(*) from Payments where TransactionId = ? limit 1', [$pendingPayment->TransactionId]) > 0){
+				$log->Write('Donation already exists in database.');
+				continue;
+			}
+
 			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 			$driver->get('https://fundraising.fracturedatlas.org/admin/donations?query=' . $pendingPayment->TransactionId);
 
@@ -160,21 +165,14 @@ try{
 				if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Created >= $lastMonth) || ($payment->Amount >= 100 && $payment->Created >= $lastYear)){
 					// This payment is eligible for the Patrons Circle.
 					// Are we already a patron?
-					try{
-						$patron = Patron::Get($payment->UserId);
-					}
-					catch(Exceptions\InvalidPatronException $ex){
+					if(!Db::QueryInt('SELECT count(*) from Patrons where UserId = ? and Ended is not null', [$payment->UserId])){
 						// Not a patron yet, add them to the Patrons Circle
+
 						$patron = new Patron();
 						$patron->UserId = $payment->UserId;
 						$patron->User = $payment->User;
-					}
-
-					if($patron->Created === null || $patron->Ended !== null){
-						// If we're a new patron, or an old patron that was deactivated,
-						// re-enable them as a patron in the system
 						$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
-						$patron->IsSubscribedToEmail = $patron->User !== null && $patron->User->Email !== null;
+						$patron->IsSubscribedToEmails = $patron->User !== null && $patron->User->Email !== null;
 
 						try{
 							$patron->AlternateName = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution Text"]]'))->getText());
@@ -182,20 +180,14 @@ try{
 						catch(Exception $ex){
 						}
 
-						if($patron->Created === null){
-							$log->Write('Adding donor as patron ...');
-							$patron->Create();
-						}
-						elseif($patron->Ended !== null){
-							$log->Write('Reactivating donor as patron ...');
-							$patron->Reactivate();
-						}
+						$log->Write('Adding donor as patron ...');
+						$patron->Create();
 					}
 				}
 				else{
-					// Not a patron; send a thank you email anyway, but only if this is a non-recurring donation,
+					// Not eligible to be a patron; send a thank you email anyway, but only if this is a non-recurring donation,
 					// or if it's their very first recurring donation
-					$previousPaymentCount = (Db::Query('SELECT count(*) as PreviousPaymentCount from Payments where UserId = ? and IsRecurring = true', [$payment->UserId]))[0]->PreviousPaymentCount;
+					$previousPaymentCount = Db::QueryInt('SELECT count(*) from Payments where UserId = ? and IsRecurring = true', [$payment->UserId]);
 
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1
 					if(!$payment->IsRecurring || $previousPaymentCount == 1){

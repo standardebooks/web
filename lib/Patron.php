@@ -6,7 +6,7 @@ class Patron extends PropertiesBase{
 	public $UserId = null;
 	public $IsAnonymous;
 	public $AlternateName;
-	public $IsSubscribedToEmail;
+	public $IsSubscribedToEmails;
 	public $Created = null;
 	public $Ended = null;
 
@@ -30,35 +30,26 @@ class Patron extends PropertiesBase{
 		return $result[0];
 	}
 
-	public function Create(bool $sendEmail = true): void{
+	public function Create(): void{
 		$this->Created = new DateTime();
+		Db::Query('INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails) values(?, ?, ?, ?, ?);', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails]);
 
-		Db::Query('INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmail) values(?, ?, ?, ?, ?);', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmail]);
+		// If this is a patron for the first time, send the first-time patron email.
+		// Otherwise, send the returning patron email.
+		$isReturning = Db::QueryInt('SELECT count(*) from Patrons where UserId = ?', [$this->UserId]) > 1;
 
-		if($sendEmail){
-			$this->SendWelcomeEmail();
-		}
+		$this->SendWelcomeEmail($isReturning);
 	}
 
-	public function Reactivate(bool $sendEmail = true): void{
-		Db::Query('UPDATE Patrons set Created = utc_timestamp(), Ended = null, IsAnonymous = ?, IsSubscribedToEmail = ?, AlternateName = ? where UserId = ?;', [$this->IsAnonymous, $this->IsSubscribedToEmail, $this->AlternateName, $this->UserId]);
-		$this->Created = new DateTime();
-		$this->Ended = null;
-
-		if($sendEmail){
-			$this->SendWelcomeEmail();
-		}
-	}
-
-	private function SendWelcomeEmail(): void{
+	private function SendWelcomeEmail(bool $isReturning): void{
 		$this->__get('User');
 		if($this->User !== null){
 			$em = new Email();
 			$em->To = $this->User->Email;
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->Subject = 'Thank you for supporting Standard Ebooks!';
-			$em->Body = Template::EmailPatronsCircleWelcome(['isAnonymous' => $this->IsAnonymous]);
-			$em->TextBody = Template::EmailPatronsCircleWelcomeText(['isAnonymous' => $this->IsAnonymous]);
+			$em->Body = Template::EmailPatronsCircleWelcome(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
+			$em->TextBody = Template::EmailPatronsCircleWelcomeText(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
 			$em->Send();
 		}
 	}

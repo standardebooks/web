@@ -16,7 +16,7 @@ $patronsCircle = Db::Query('SELECT if(p.AlternateName is not null, p.AlternateNa
 				order by regexp_substr(SortedName, "[\\\p{Lu}][\\\p{L}\-]+$") asc;
 			');
 
-$anonymousPatronCount = Db::Query('SELECT sum(cnt) as AnonymousPatronCount
+$anonymousPatronCount = Db::QueryInt('SELECT sum(cnt)
 					from
 					(
 						(
@@ -39,7 +39,7 @@ $anonymousPatronCount = Db::Query('SELECT sum(cnt) as AnonymousPatronCount
 							Ended is null
 						)
 					) x
-				')[0]->AnonymousPatronCount;
+				');
 
 ?><?= Template::Header(['title' => 'About Standard Ebooks', 'highlight' => 'about', 'description' => 'Standard Ebooks is a volunteer-driven effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the public domain, and Standard Ebook dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain.']) ?>
 <main>
