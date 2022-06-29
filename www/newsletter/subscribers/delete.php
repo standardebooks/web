@@ -3,11 +3,11 @@ require_once('Core.php');
 
 use function Safe\preg_match;
 
-$requestType = preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT']) ? WEB : REST;
+$requestType = HttpInput::RequestType();
 
 try{
 	// We may use GET if we're called from an unsubscribe link in an email
-	if(!in_array($_SERVER['REQUEST_METHOD'], ['DELETE', 'GET'])){
+	if(!in_array(HttpInput::RequestMethod(), [HTTP_DELETE, HTTP_GET])){
 		throw new Exceptions\InvalidRequestException();
 	}
 

@@ -1836,6 +1836,16 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 	grid-template-columns: 1fr;
 }
 
+.button-row.narrow{
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.button-row:last-child{
+	margin-bottom: 0;
+}
+
 .masthead h2 + section > h3{
 	margin-top: 0;
 }
@@ -2047,14 +2057,16 @@ article.ebook h2 + section > h3:first-of-type{
 	left: -5000px;
 }
 
+form[action*="/polls/"],
 form[action="/newsletter/subscribers"]{
 	display: grid;
-	grid-gap: 1rem;
+	grid-gap: 2rem;
 	grid-template-columns: 1fr 1fr;
 	margin-top: 1rem;
 	margin-bottom: 0;
 }
 
+form[action*="/polls/"] label.email,
 form[action="/newsletter/subscribers"] label.email,
 form[action="/newsletter/subscribers"] label.captcha{
 	grid-column: 1 / span 2;
@@ -2070,18 +2082,19 @@ form[action="/newsletter/subscribers"] label.captcha div input{
 	align-self: center;
 }
 
-form[action="/newsletter/subscribers"] ul{
+form fieldset ul{
 	list-style: none;
 }
 
+form[action*="/polls/"] button,
 form[action="/newsletter/subscribers"] button{
 	grid-column: 2;
 	justify-self: end;
 	margin-left: 0;
 }
 
+form[action*="/polls/"] fieldset,
 form[action="/newsletter/subscribers"] fieldset{
-	margin-top: 1rem;
 	grid-column: 1 / span 2;
 }
 
@@ -2096,13 +2109,23 @@ fieldset p{
 
 label.checkbox{
 	display: inline-flex;
-	align-items: center;
+	align-items: flex-start;
 	text-align: left;
 	line-height: 1;
+	cursor: pointer;
 }
 
 label.checkbox input{
 	margin-right: .25rem;
+}
+
+label.checkbox span{
+	display: block;
+}
+
+label.checkbox span > span{
+	line-height: 1.6;
+	margin-top: .25rem;
 }
 
 article.step-by-step-guide ol ol{
@@ -2130,17 +2153,10 @@ aside header{
 	font-size: 1.5rem;
 }
 
+.meter,
 .progress{
 	position: relative;
 	font-size: 0;
-}
-
-.progress > div{
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
 }
 
 .donation a.button{
@@ -2215,6 +2231,7 @@ aside header{
 	hyphens: auto;
 }
 
+.meter p,
 .progress p{
 	font-size: 1rem;
 	font-family: "League Spartan", Arial, sans-serif;
@@ -2251,7 +2268,14 @@ aside header{
 	font-size: .75rem;
 }
 
+.meter > div,
 .progress > div{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+
 	/* Animate the div instead of the bar itself, because animating the bar triggers an
 	FF bug that causes infinite requsts to stripes.svg */
 	background: url("/images/stripes.svg") transparent;
@@ -2260,6 +2284,7 @@ aside header{
 	z-index: 3;
 }
 
+meter,
 progress{
 	-webkit-appearance: none;
 	appearance: none;
@@ -2280,6 +2305,7 @@ progress::-webkit-progress-value{
 	box-shadow: 1px 0 1px rgba(0, 0, 0, .25);
 }
 
+meter::-moz-meter-bar,
 progress::-moz-progress-bar{
 	background: var(--button);
 	box-shadow: 1px 0 1px rgba(0, 0, 0, .25);
@@ -2505,6 +2531,33 @@ ul.feed p{
 	font-size: .8rem;
 	hyphens: none;
 	word-break: break-word;
+}
+
+.center-notice{
+	text-align: center;
+	font-style: italic;
+}
+
+.votes{
+	margin-top: 2rem;
+}
+
+.votes td:first-child{
+	font-weight: bold;
+}
+
+.votes td{
+	width: 50%;
+	padding: 1rem;
+	text-align: left;
+}
+
+.votes tr:first-child td{
+	padding-top: 0;
+}
+
+.votes tr:last-child td{
+	padding-bottom: 0;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
@@ -3015,6 +3068,17 @@ ul.feed p{
 	form[action="/settings"] span,
 	form[action="/settings"] select{
 		width: 100%;
+	}
+
+	.votes tr,
+	.votes tr td{
+		display: block;
+		width: 100%;
+		padding: 0;
+	}
+
+	.votes tr + tr{
+		margin-top: 2rem;
 	}
 }
 

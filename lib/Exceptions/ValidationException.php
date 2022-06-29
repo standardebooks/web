@@ -8,6 +8,12 @@ class ValidationException extends SeException{
 	public $HasExceptions = false;
 	public $IsFatal = false;
 
+	public function __construct(?\Exception $exception = null){
+		if($exception !== null){
+			$this->Add($exception);
+		}
+	}
+
 	public function __toString(): string{
 		$output = '';
 		foreach($this->Exceptions as $exception){

@@ -1,6 +1,7 @@
 <?
 require_once('Core.php');
 
+use Safe\DateTime;
 use function Safe\file_get_contents;
 use function Safe\preg_match;
 use function Safe\preg_replace;
@@ -15,7 +16,7 @@ $log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
 try{
 	$log->Write('Received Zoho webhook.');
 
-	if($_SERVER['REQUEST_METHOD'] != 'POST'){
+	if(HttpInput::RequestMethod() != HTTP_POST){
 		throw new Exceptions\WebhookException('Expected HTTP POST.');
 	}
 
@@ -53,7 +54,7 @@ try{
 				$payment->Create();
 			}
 			else{
-				Db::Query('insert into PendingPayments (Timestamp, ChannelId, TransactionId) values (utc_timestamp(), ?, ?);', [PAYMENT_CHANNEL_FA, $transactionId]);
+				Db::Query('INSERT into PendingPayments (Timestamp, ChannelId, TransactionId) values (utc_timestamp(), ?, ?);', [PAYMENT_CHANNEL_FA, $transactionId]);
 			}
 
 			$log->Write('Donation ID: ' . $transactionId);

@@ -7,7 +7,7 @@ $anonymousPatronCount = 0;
 // Get the Patrons Circle and try to sort by last name ascending
 // See <https://mariadb.com/kb/en/pcre/#unicode-character-properties> for Unicode character properties
 
-$patronsCircle = Db::Query('select if(p.AlternateName is not null, p.AlternateName, u.Name) as SortedName
+$patronsCircle = Db::Query('SELECT if(p.AlternateName is not null, p.AlternateName, u.Name) as SortedName
 				from Patrons p inner join Users u
 				on p.UserId = u.UserId
 				where
@@ -16,7 +16,7 @@ $patronsCircle = Db::Query('select if(p.AlternateName is not null, p.AlternateNa
 				order by regexp_substr(SortedName, "[\\\p{Lu}][\\\p{L}\-]+$") asc;
 			');
 
-$anonymousPatronCount = Db::Query('select sum(cnt) as AnonymousPatronCount
+$anonymousPatronCount = Db::Query('SELECT sum(cnt) as AnonymousPatronCount
 					from
 					(
 						(

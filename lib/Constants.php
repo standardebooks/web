@@ -59,6 +59,13 @@ const HTTP_VAR_BOOL = 2;
 const HTTP_VAR_DEC = 3;
 const HTTP_VAR_ARRAY = 4;
 
+const HTTP_GET = 0;
+const HTTP_POST = 1;
+const HTTP_PATCH = 2;
+const HTTP_PUT = 3;
+const HTTP_DELETE = 4;
+const HTTP_HEAD = 5;
+
 const VIEW_GRID = 'grid';
 const VIEW_LIST = 'list';
 

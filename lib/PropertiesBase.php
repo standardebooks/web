@@ -1,7 +1,7 @@
 <?
 use function Safe\substr;
 
-abstract class PropertiesBase extends OrmBase{
+abstract class PropertiesBase{
 	/**
 	* @param mixed $var
 	* @return mixed
@@ -11,6 +11,15 @@ abstract class PropertiesBase extends OrmBase{
 
 		if(method_exists($this, $function)){
 			return $this->$function();
+		}
+		elseif(property_exists($this, $var . 'Id') && method_exists($var, 'Get')){
+			// If our object has an VarId attribute, and the Var class also has a ::Get method,
+			// call it and return the result
+			if($this->$var === null && $this->{$var . 'Id'} !== null){
+				$this->$var = $var::Get($this->{$var . 'Id'});
+			}
+
+			return $this->$var;
 		}
 		elseif(substr($var, 0, 7) == 'Display'){
 			// If we're asked for a DisplayXXX property and the getter doesn't exist, format as escaped HTML.

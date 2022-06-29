@@ -1,5 +1,30 @@
 <?
+use function Safe\preg_match;
+
 class HttpInput{
+	public static function RequestMethod(): int{
+		$method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+
+		switch($method){
+			case 'POST':
+				return HTTP_POST;
+			case 'PUT':
+				return HTTP_PUT;
+			case 'DELETE':
+				return HTTP_DELETE;
+			case 'PATCH':
+				return HTTP_PATCH;
+			case 'HEAD':
+				return HTTP_HEAD;
+		}
+
+		return HTTP_GET;
+	}
+
+	public static function RequestType(): int{
+		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT']) ? WEB : REST;
+	}
+
 	public static function Str(string $type, string $variable, bool $allowEmptyString = true, string $default = null): ?string{
 		$var = self::GetHttpVar($variable, HTTP_VAR_STR, $type, $default);
 

@@ -1,4 +1,5 @@
 <?
+use Safe\DateTime;
 use Ramsey\Uuid\Uuid;
 
 class NewsletterSubscriber extends PropertiesBase{
@@ -26,9 +27,10 @@ class NewsletterSubscriber extends PropertiesBase{
 
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
+		$this->Timestamp = new DateTime();
 
 		try{
-			Db::Query('insert into NewsletterSubscribers (Email, Uuid, FirstName, LastName, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Timestamp) values (?, ?, ?, ?, ?, ?, ?, utc_timestamp());', [$this->Email, $this->Uuid, $this->FirstName, $this->LastName, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary]);
+			Db::Query('INSERT into NewsletterSubscribers (Email, Uuid, FirstName, LastName, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Timestamp) values (?, ?, ?, ?, ?, ?, ?, ?);', [$this->Email, $this->Uuid, $this->FirstName, $this->LastName, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Timestamp]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){
@@ -53,11 +55,11 @@ class NewsletterSubscriber extends PropertiesBase{
 	}
 
 	public function Confirm(): void{
-		Db::Query('update NewsletterSubscribers set IsConfirmed = true where NewsletterSubscriberId = ?;', [$this->NewsletterSubscriberId]);
+		Db::Query('UPDATE NewsletterSubscribers set IsConfirmed = true where NewsletterSubscriberId = ?;', [$this->NewsletterSubscriberId]);
 	}
 
 	public function Delete(): void{
-		Db::Query('delete from NewsletterSubscribers where  NewsletterSubscriberId = ?;', [$this->NewsletterSubscriberId]);
+		Db::Query('DELETE from NewsletterSubscribers where  NewsletterSubscriberId = ?;', [$this->NewsletterSubscriberId]);
 	}
 
 	public function Validate(): void{
@@ -77,11 +79,7 @@ class NewsletterSubscriber extends PropertiesBase{
 	}
 
 	public static function Get(string $uuid): NewsletterSubscriber{
-		if($uuid == ''){
-			throw new Exceptions\InvalidNewsletterSubscriberException();
-		}
-
-		$subscribers = Db::Query('select * from NewsletterSubscribers where Uuid = ?;', [$uuid], 'NewsletterSubscriber');
+		$subscribers = Db::Query('SELECT * from NewsletterSubscribers where Uuid = ?;', [$uuid], 'NewsletterSubscriber');
 
 		if(sizeof($subscribers) == 0){
 			throw new Exceptions\InvalidNewsletterSubscriberException();

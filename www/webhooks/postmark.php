@@ -15,7 +15,7 @@ try{
 
 	$log->Write('Received Postmark webhook.');
 
-	if($_SERVER['REQUEST_METHOD'] != 'POST'){
+	if(HttpInput::RequestMethod() != HTTP_POST){
 		throw new Exceptions\WebhookException('Expected HTTP POST.');
 	}
 
@@ -36,7 +36,7 @@ try{
 		// Received when a user marks an email as spam
 		$log->Write('Event type: spam complaint.');
 
-		Db::Query('delete from NewsletterSubscribers where Email = ?', [$post->Email]);
+		Db::Query('DELETE from NewsletterSubscribers where Email = ?', [$post->Email]);
 	}
 	elseif($post->RecordType == 'SubscriptionChange' && $post->SuppressSending){
 		// Received when a user clicks Postmark's "Unsubscribe" link in a newsletter email
@@ -45,7 +45,7 @@ try{
 		$email = $post->Recipient;
 
 		// Remove the email from our newsletter list
-		Db::Query('delete from NewsletterSubscribers where Email = ?', [$email]);
+		Db::Query('DELETE from NewsletterSubscribers where Email = ?', [$email]);
 
 		// Remove the suppression from Postmark, since we deleted it from our own list we will never email them again anyway
 		$handle = curl_init();

@@ -17,7 +17,7 @@ $lastPushHashFlag = '';
 try{
 	$log->Write('Received GitHub webhook.');
 
-	if($_SERVER['REQUEST_METHOD'] != 'POST'){
+	if(HttpInput::RequestMethod() != HTTP_POST){
 		throw new Exceptions\WebhookException('Expected HTTP POST.');
 	}
 

@@ -160,9 +160,10 @@ try{
 				if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Timestamp >= $lastMonth) || ($payment->Amount >= 100 && $payment->Timestamp >= $lastYear)){
 					// This payment is eligible for the Patrons Circle.
 					// Are we already a patron?
-					$patron = Patron::Get($payment->UserId);
-
-					if($patron === null){
+					try{
+						$patron = Patron::Get($payment->UserId);
+					}
+					catch(Exceptions\InvalidPatronException $ex){
 						// Not a patron yet, add them to the Patrons Circle
 						$patron = new Patron();
 						$patron->UserId = $payment->UserId;
@@ -194,7 +195,7 @@ try{
 				else{
 					// Not a patron; send a thank you email anyway, but only if this is a non-recurring donation,
 					// or if it's their very first recurring donation
-					$previousPaymentCount = (Db::Query('select count(*) as PreviousPaymentCount from Payments where UserId = ? and IsRecurring = true', [$payment->UserId]))[0]->PreviousPaymentCount;
+					$previousPaymentCount = (Db::Query('SELECT count(*) as PreviousPaymentCount from Payments where UserId = ? and IsRecurring = true', [$payment->UserId]))[0]->PreviousPaymentCount;
 
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1
 					if(!$payment->IsRecurring || $previousPaymentCount == 1){
@@ -210,7 +211,7 @@ try{
 				}
 			}
 
-			Db::Query('delete from PendingPayments where TransactionId = ?;', [$pendingPayment->TransactionId]);
+			Db::Query('DELETE from PendingPayments where TransactionId = ?;', [$pendingPayment->TransactionId]);
 
 			$log->Write('Donation processed.');
 		}

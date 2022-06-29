@@ -1,4 +1,9 @@
 <?
+use Safe\DateTime;
+use function Safe\file_get_contents;
+use function Safe\filesize;
+use function Safe\preg_replace;
+
 class RssFeed extends Feed{
 	public $Description;
 

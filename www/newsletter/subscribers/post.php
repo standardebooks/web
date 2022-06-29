@@ -4,14 +4,14 @@ require_once('Core.php');
 use function Safe\preg_match;
 use function Safe\session_unset;
 
-if($_SERVER['REQUEST_METHOD'] != 'POST'){
+if(HttpInput::RequestMethod() != HTTP_POST){
 	http_response_code(405);
 	exit();
 }
 
 session_start();
 
-$requestType = preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT']) ? WEB : REST;
+$requestType = HttpInput::RequestType();
 
 $subscriber = new NewsletterSubscriber();
 
@@ -39,11 +39,7 @@ try{
 	$captcha = $_SESSION['captcha'] ?? null;
 
 	if($captcha === null || mb_strtolower($captcha) !== mb_strtolower(HttpInput::Str(POST, 'captcha', false))){
-		$error = new Exceptions\ValidationException();
-
-		$error->Add(new Exceptions\InvalidCaptchaException());
-
-		throw $error;
+		throw new Exceptions\ValidationException(new Exceptions\InvalidCaptchaException());
 	}
 
 	$subscriber->Create();

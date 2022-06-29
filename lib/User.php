@@ -1,5 +1,6 @@
 <?
 use Ramsey\Uuid\Uuid;
+use Safe\DateTime;
 
 class User extends PropertiesBase{
 	public $UserId;
@@ -14,10 +15,24 @@ class User extends PropertiesBase{
 	public $Timestamp;
 	public $Uuid;
 
-	public static function Get(int $userId): ?User{
-		$result = Db::Query('select * from Users where UserId = ?', [$userId], 'User');
+	public static function Get(?int $userId): User{
+		$result = Db::Query('SELECT * from Users where UserId = ?', [$userId], 'User');
 
-		return $result[0] ?? null;
+		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidUserException();
+		}
+
+		return $result[0];
+	}
+
+	public static function GetByEmail(?string $email): User{
+		$result = Db::Query('SELECT * from Users where Email = ?', [$email], 'User');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidUserException();
+		}
+
+		return $result[0];
 	}
 
 	protected function GetName(): string{
@@ -31,9 +46,10 @@ class User extends PropertiesBase{
 	public function Create(): void{
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
+		$this->Timestamp = new DateTime();
 
 		try{
-			Db::Query('insert into Users (Email, Name, Uuid, Timestamp) values (?, ?, ?, utc_timestamp());', [$this->Email, $this->Name, $this->Uuid]);
+			Db::Query('INSERT into Users (Email, Name, Uuid, Timestamp) values (?, ?, ?, ?);', [$this->Email, $this->Name, $this->Uuid, $this->Timestamp]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){

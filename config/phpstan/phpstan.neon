@@ -19,6 +19,12 @@ parameters:
 		- '#Method Ebook::NullIfEmpty\(\) has parameter \$elements with no type specified.#'
 		- '#Method HttpInput::GetHttpVar\(\) has no return type specified.#'
 		- '#Method HttpInput::GetHttpVar\(\) has parameter \$default with no type specified.#'
+
+		# Ignore errors caused by access to our PropertiesBase pattern
+		- '#Access to protected property .+#'
+
+		# Ignore symbols that PHPStan can't find
+		- '#Constant EMAIL_SMTP_USERNAME not found.#'
 	level:
 		7
 	paths:

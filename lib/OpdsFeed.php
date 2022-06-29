@@ -1,4 +1,5 @@
 <?
+use Safe\DateTime;
 use function Safe\file_put_contents;
 
 class OpdsFeed extends AtomFeed{
