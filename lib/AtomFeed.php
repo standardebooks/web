@@ -1,4 +1,5 @@
 <?
+use Safe\DateTime;
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\preg_replace;
@@ -26,6 +27,15 @@ class AtomFeed extends Feed{
 		}
 
 		return $this->XmlString;
+	}
+
+	public function SaveIfChanged(): void{
+		// Did we actually update the feed? If so, write to file and update the index
+		if($this->HasChanged($this->Path)){
+			// Files don't match, save the file
+			$this->Updated = new DateTime();
+			$this->Save();
+		}
 	}
 
 	protected function HasChanged(string $path): bool{

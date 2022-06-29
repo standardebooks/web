@@ -23,6 +23,14 @@ class RssFeed extends Feed{
 		return $this->XmlString;
 	}
 
+	public function SaveIfChanged(): void{
+		// Did we actually update the feed? If so, write to file and update the index
+		if($this->HasChanged($this->Path)){
+			// Files don't match, save the file
+			$this->Save();
+		}
+	}
+
 	protected function HasChanged(string $path): bool{
 		// RSS doesn't have information about when an item was updated,
 		// only when it was first published. So, we approximate on whether the feed

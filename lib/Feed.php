@@ -40,15 +40,6 @@ class Feed{
 		return '';
 	}
 
-	public function SaveIfChanged(): void{
-		// Did we actually update the feed? If so, write to file and update the index
-		if($this->HasChanged($this->Path)){
-			// Files don't match, save the file
-			$this->Updated = new DateTime();
-			$this->Save();
-		}
-	}
-
 	public function Save(): void{
 		$feed = $this->GetXmlString();
 
