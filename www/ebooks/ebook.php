@@ -191,7 +191,7 @@ catch(Exceptions\InvalidEbookException $ex){
 			<meta property="schema:thumbnailUrl" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
 			<meta property="schema:inLanguage" content="<?= Formatter::ToPlainText($ebook->Language) ?>"/>
 			<meta property="schema:datePublished" content="<?= Formatter::ToPlainText($ebook->Created->format('Y-m-d')) ?>"/>
-			<meta property="schema:dateModified" content="<?= Formatter::ToPlainText($ebook->Modified->format('Y-m-d')) ?>"/>
+			<meta property="schema:dateModified" content="<?= Formatter::ToPlainText($ebook->Updated->format('Y-m-d')) ?>"/>
 			<div property="schema:potentialAction" typeof="http://schema.org/ReadAction">
 				<meta property="schema:actionStatus" content="http://schema.org/PotentialActionStatus"/>
 				<div property="schema:target" typeof="schema:EntryPoint">

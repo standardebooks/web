@@ -8,7 +8,7 @@
 		</author>
 	<? } ?>
 	<published><?= $entry->Created->format('Y-m-d\TH:i:s\Z') ?></published>
-	<updated><?= $entry->Modified->format('Y-m-d\TH:i:s\Z') ?></updated>
+	<updated><?= $entry->Updated->format('Y-m-d\TH:i:s\Z') ?></updated>
 	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
 	<summary type="text"><?= Formatter::ToPlainXmlText($entry->Description) ?></summary>
 	<content type="html"><?= Formatter::ToPlainXmlText($entry->LongDescription) ?></content>

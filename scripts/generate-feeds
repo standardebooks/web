@@ -57,7 +57,7 @@ foreach($contentFiles as $path){
 
 		$ebook = new Ebook($ebookWwwFilesystemPath);
 
-		$allEbooks[$ebook->Modified->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
+		$allEbooks[$ebook->Updated->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
 		$newestEbooks[$ebook->Created->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
 
 		foreach($ebook->Tags as $tag){

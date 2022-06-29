@@ -54,7 +54,7 @@ class Ebook{
 	public $ContributorsHtml;
 	public $TitleWithCreditsHtml = '';
 	public $Created;
-	public $Modified;
+	public $Updated;
 	public $TextUrl;
 	public $TextSinglePageUrl;
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
@@ -191,7 +191,7 @@ class Ebook{
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]');
 		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
-			$this->Modified = new DateTime((string)$modifiedDate[0]);
+			$this->Updated = new DateTime((string)$modifiedDate[0]);
 		}
 
 		// Get SE tags
