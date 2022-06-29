@@ -11,24 +11,24 @@ class OpdsFeed extends AtomFeed{
 		$this->Stylesheet = '/feeds/opds/style';
 	}
 
-	protected function SaveUpdatedTimestamp(string $entryId, DateTime $updatedTimestamp): void{
+	protected function SaveUpdated(string $entryId, DateTime $updated): void{
 		// Only save the updated timestamp for the given entry ID in this file
 		foreach($this->Entries as $entry){
 			if(is_a($entry, 'OpdsNavigationEntry')){
 				if($entry->Id == SITE_URL . $entryId){
-					$entry->Updated = $updatedTimestamp;
+					$entry->Updated = $updated;
 				}
 			}
 		}
 
-		$this->Updated = $updatedTimestamp;
+		$this->Updated = $updated;
 
 		$this->XmlString = null;
 		file_put_contents($this->Path, $this->GetXmlString());
 
 		// Do we have any parents of our own to update?
 		if($this->Parent !== null){
-			$this->Parent->SaveUpdatedTimestamp($this->Id, $updatedTimestamp);
+			$this->Parent->SaveUpdated($this->Id, $updated);
 		}
 	}
 
@@ -40,7 +40,7 @@ class OpdsFeed extends AtomFeed{
 			$this->Updated = new DateTime();
 
 			if($this->Parent !== null){
-				$this->Parent->SaveUpdatedTimestamp($this->Id, $this->Updated);
+				$this->Parent->SaveUpdated($this->Id, $this->Updated);
 			}
 
 			// Save our own file

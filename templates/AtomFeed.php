@@ -12,7 +12,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<title><?= Formatter::ToPlainXmlText($title) ?></title>
 	<? if($subtitle !== null){ ?><subtitle><?= Formatter::ToPlainXmlText($subtitle) ?></subtitle><? } ?>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>
-	<updated><?= $updatedTimestamp->format('Y-m-d\TH:i:s\Z') ?></updated>
+	<updated><?= $updated->format('Y-m-d\TH:i:s\Z') ?></updated>
 	<author>
 		<name>Standard Ebooks</name>
 		<uri><?= SITE_URL ?></uri>

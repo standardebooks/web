@@ -8,16 +8,16 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 Db::Query('
 	update Patrons
-	set DeactivatedTimestamp = utc_timestamp()
+	set Ended = utc_timestamp()
 	where UserId not in
 	(
 		select distinct UserId from Payments where
 		UserId is not null
 		and
 		(
-			(IsRecurring = 1 and Amount >= 10 and Timestamp > utc_timestamp() - interval 45 day)
+			(IsRecurring = 1 and Amount >= 10 and Created > utc_timestamp() - interval 45 day)
 			or
-			(IsRecurring = 0 and Amount >= 100 and  Timestamp > utc_timestamp() - interval 1 year)
+			(IsRecurring = 0 and Amount >= 100 and Created > utc_timestamp() - interval 1 year)
 		)
 	)
 ');

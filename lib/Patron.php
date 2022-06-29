@@ -7,8 +7,8 @@ class Patron extends PropertiesBase{
 	public $IsAnonymous;
 	public $AlternateName;
 	public $IsSubscribedToEmail;
-	public $Timestamp = null;
-	public $DeactivatedTimestamp = null;
+	public $Created = null;
+	public $Ended = null;
 
 	public static function Get(?int $userId): Patron{
 		$result = Db::Query('SELECT * from Patrons where UserId = ?', [$userId], 'Patron');
@@ -31,9 +31,9 @@ class Patron extends PropertiesBase{
 	}
 
 	public function Create(bool $sendEmail = true): void{
-		$this->Timestamp = new DateTime();
+		$this->Created = new DateTime();
 
-		Db::Query('INSERT into Patrons (Timestamp, UserId, IsAnonymous, AlternateName, IsSubscribedToEmail) values(?, ?, ?, ?, ?);', [$this->Timestamp, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmail]);
+		Db::Query('INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmail) values(?, ?, ?, ?, ?);', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmail]);
 
 		if($sendEmail){
 			$this->SendWelcomeEmail();
@@ -41,9 +41,9 @@ class Patron extends PropertiesBase{
 	}
 
 	public function Reactivate(bool $sendEmail = true): void{
-		Db::Query('UPDATE Patrons set Timestamp = utc_timestamp(), DeactivatedTimestamp = null, IsAnonymous = ?, IsSubscribedToEmail = ?, AlternateName = ? where UserId = ?;', [$this->IsAnonymous, $this->IsSubscribedToEmail, $this->AlternateName, $this->UserId]);
-		$this->Timestamp = new DateTime();
-		$this->DeactivatedTimestamp = null;
+		Db::Query('UPDATE Patrons set Created = utc_timestamp(), Ended = null, IsAnonymous = ?, IsSubscribedToEmail = ?, AlternateName = ? where UserId = ?;', [$this->IsAnonymous, $this->IsSubscribedToEmail, $this->AlternateName, $this->UserId]);
+		$this->Created = new DateTime();
+		$this->Ended = null;
 
 		if($sendEmail){
 			$this->SendWelcomeEmail();

@@ -190,8 +190,8 @@ catch(Exceptions\InvalidEbookException $ex){
 			<meta property="schema:image" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->DistCoverUrl) ?>"/>
 			<meta property="schema:thumbnailUrl" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
 			<meta property="schema:inLanguage" content="<?= Formatter::ToPlainText($ebook->Language) ?>"/>
-			<meta property="schema:datePublished" content="<?= Formatter::ToPlainText($ebook->Timestamp->format('Y-m-d')) ?>"/>
-			<meta property="schema:dateModified" content="<?= Formatter::ToPlainText($ebook->ModifiedTimestamp->format('Y-m-d')) ?>"/>
+			<meta property="schema:datePublished" content="<?= Formatter::ToPlainText($ebook->Created->format('Y-m-d')) ?>"/>
+			<meta property="schema:dateModified" content="<?= Formatter::ToPlainText($ebook->Modified->format('Y-m-d')) ?>"/>
 			<div property="schema:potentialAction" typeof="http://schema.org/ReadAction">
 				<meta property="schema:actionStatus" content="http://schema.org/PotentialActionStatus"/>
 				<div property="schema:target" typeof="schema:EntryPoint">
@@ -298,7 +298,7 @@ catch(Exceptions\InvalidEbookException $ex){
 			<ol>
 				<? foreach($ebook->GitCommits as $commit){ ?>
 				<li>
-					<time datetime="<?= $commit->Timestamp->format(DateTime::RFC3339) ?>"><?= $commit->Timestamp->format('M j, Y') ?></time>
+					<time datetime="<?= $commit->Created->format(DateTime::RFC3339) ?>"><?= $commit->Created->format('M j, Y') ?></time>
 					<p><a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>/commit/<?= Formatter::ToPlainText($commit->Hash) ?>"><?= Formatter::ToPlainText($commit->Message) ?></a></p>
 				</li>
 				<? } ?>

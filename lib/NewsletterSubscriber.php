@@ -11,7 +11,7 @@ class NewsletterSubscriber extends PropertiesBase{
 	public $IsConfirmed = false;
 	public $IsSubscribedToSummary = true;
 	public $IsSubscribedToNewsletter = true;
-	public $Timestamp;
+	public $Created;
 	protected $Url = null;
 
 	protected function GetUrl(): string{
@@ -27,10 +27,10 @@ class NewsletterSubscriber extends PropertiesBase{
 
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
-		$this->Timestamp = new DateTime();
+		$this->Created = new DateTime();
 
 		try{
-			Db::Query('INSERT into NewsletterSubscribers (Email, Uuid, FirstName, LastName, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Timestamp) values (?, ?, ?, ?, ?, ?, ?, ?);', [$this->Email, $this->Uuid, $this->FirstName, $this->LastName, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Timestamp]);
+			Db::Query('INSERT into NewsletterSubscribers (Email, Uuid, FirstName, LastName, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Created) values (?, ?, ?, ?, ?, ?, ?, ?);', [$this->Email, $this->Uuid, $this->FirstName, $this->LastName, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Created]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){

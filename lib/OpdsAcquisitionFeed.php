@@ -11,7 +11,7 @@ class OpdsAcquisitionFeed extends OpdsFeed{
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
-			$this->XmlString = $this->CleanXmlString(Template::OpdsAcquisitionFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updatedTimestamp' => $this->Updated, 'isCrawlable' => $this->IsCrawlable, 'subtitle' => $this->Subtitle, 'entries' => $this->Entries]));
+			$this->XmlString = $this->CleanXmlString(Template::OpdsAcquisitionFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updated' => $this->Updated, 'isCrawlable' => $this->IsCrawlable, 'subtitle' => $this->Subtitle, 'entries' => $this->Entries]));
 		}
 
 		return $this->XmlString;

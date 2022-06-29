@@ -50,10 +50,10 @@ class Library{
 
 			case SORT_NEWEST:
 				usort($matches, function($a, $b){
-					if($a->Timestamp < $b->Timestamp){
+					if($a->Created < $b->Created){
 						return -1;
 					}
-					elseif($a->Timestamp == $b->Timestamp){
+					elseif($a->Created == $b->Created){
 						return 0;
 					}
 					else{

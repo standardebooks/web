@@ -21,7 +21,7 @@ class AtomFeed extends Feed{
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
-			$feed = Template::AtomFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'subtitle' => $this->Subtitle, 'updatedTimestamp' => $this->Updated, 'entries' => $this->Entries]);
+			$feed = Template::AtomFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'subtitle' => $this->Subtitle, 'updated' => $this->Updated, 'entries' => $this->Entries]);
 
 			$this->XmlString = $this->CleanXmlString($feed);
 		}
@@ -47,7 +47,7 @@ class AtomFeed extends Feed{
 		foreach($this->Entries as $entry){
 			$obj = new StdClass();
 			if(is_a($entry, 'Ebook')){
-				$obj->Updated = $entry->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z');
+				$obj->Updated = $entry->Modified->format('Y-m-d\TH:i:s\Z');
 				$obj->Id = SITE_URL . $entry->Url;
 			}
 			else{

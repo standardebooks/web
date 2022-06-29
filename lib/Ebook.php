@@ -53,8 +53,8 @@ class Ebook{
 	public $Contributors = []; // Array of Contributors
 	public $ContributorsHtml;
 	public $TitleWithCreditsHtml = '';
-	public $Timestamp;
-	public $ModifiedTimestamp;
+	public $Created;
+	public $Modified;
 	public $TextUrl;
 	public $TextSinglePageUrl;
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
@@ -151,7 +151,7 @@ class Ebook{
 		if(stripos($this->RepoFilesystemPath, '.git') === false){
 			$gitFolderPath = $gitFolderPath . '/.git';
 		}
-		$hash = substr(sha1($this->GitCommits[0]->Timestamp->format('U') . ' ' . $this->GitCommits[0]->Message), 0, 8);
+		$hash = substr(sha1($this->GitCommits[0]->Created->format('U') . ' ' . $this->GitCommits[0]->Message), 0, 8);
 		$this->CoverImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-cover.jpg';
 		if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.avif')){
 			$this->CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $hash . '-cover.avif';
@@ -186,12 +186,12 @@ class Ebook{
 
 		$date = $xml->xpath('/package/metadata/dc:date');
 		if($date !== false && sizeof($date) > 0){
-			$this->Timestamp = new DateTime((string)$date[0]);
+			$this->Created = new DateTime((string)$date[0]);
 		}
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]');
 		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
-			$this->ModifiedTimestamp = new DateTime((string)$modifiedDate[0]);
+			$this->Modified = new DateTime((string)$modifiedDate[0]);
 		}
 
 		// Get SE tags

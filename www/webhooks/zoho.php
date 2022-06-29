@@ -44,7 +44,7 @@ try{
 				$payment = new Payment();
 				$payment->ChannelId = PAYMENT_CHANNEL_FA;
 				$payment->TransactionId = $transactionId;
-				$payment->Timestamp = new DateTime();
+				$payment->Created = new DateTime();
 				$payment->IsRecurring = stripos($data->subject, 'recurring') !== false;
 				preg_match('/Amount: \$([\d\.]+)/u', $data->html, $matches);
 				if(sizeof($matches) == 2){
@@ -54,7 +54,7 @@ try{
 				$payment->Create();
 			}
 			else{
-				Db::Query('INSERT into PendingPayments (Timestamp, ChannelId, TransactionId) values (utc_timestamp(), ?, ?);', [PAYMENT_CHANNEL_FA, $transactionId]);
+				Db::Query('INSERT into PendingPayments (Created, ChannelId, TransactionId) values (utc_timestamp(), ?, ?);', [PAYMENT_CHANNEL_FA, $transactionId]);
 			}
 
 			$log->Write('Donation ID: ' . $transactionId);

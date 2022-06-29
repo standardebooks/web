@@ -12,7 +12,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<description><?= Formatter::ToPlainXmlText($description) ?></description>
 		<language>en-US</language>
 		<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
-		<lastBuildDate><?= $updatedTimestamp ?></lastBuildDate>
+		<lastBuildDate><?= $updated ?></lastBuildDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
 		<atom:link href="<?= SITE_URL . Formatter::ToPlainXmlText($url) ?>" rel="self" type="application/rss+xml"/>
 		<atom:link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />

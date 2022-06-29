@@ -57,8 +57,8 @@ foreach($contentFiles as $path){
 
 		$ebook = new Ebook($ebookWwwFilesystemPath);
 
-		$allEbooks[$ebook->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
-		$newestEbooks[$ebook->Timestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
+		$allEbooks[$ebook->Modified->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
+		$newestEbooks[$ebook->Created->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
 
 		foreach($ebook->Tags as $tag){
 			// Add the book's subjects to the main subjects list
@@ -67,7 +67,7 @@ foreach($contentFiles as $path){
 			}
 
 			// Sort this ebook by subject
-			$ebooksBySubject[$tag->Name][$ebook->Timestamp->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
+			$ebooksBySubject[$tag->Name][$ebook->Created->format('Y-m-d\TH:i:s\Z') . ' ' . $ebook->Identifier] = $ebook;
 		}
 	}
 	catch(\Exception $ex){

@@ -12,7 +12,7 @@ $patronsCircle = Db::Query('SELECT if(p.AlternateName is not null, p.AlternateNa
 				on p.UserId = u.UserId
 				where
 				p.IsAnonymous = false
-				and p.DeactivatedTimestamp is null
+				and p.Ended is null
 				order by regexp_substr(SortedName, "[\\\p{Lu}][\\\p{L}\-]+$") asc;
 			');
 
@@ -25,9 +25,9 @@ $anonymousPatronCount = Db::Query('SELECT sum(cnt) as AnonymousPatronCount
 							UserId is null
 							and
 							(
-								(Amount >= 100 and Timestamp >= utc_timestamp() - interval 1 year)
+								(Amount >= 100 and Created >= utc_timestamp() - interval 1 year)
 								or
-								(Amount >= 10 and IsRecurring = true and Timestamp >= utc_timestamp() - interval 30 day)
+								(Amount >= 10 and IsRecurring = true and Created >= utc_timestamp() - interval 30 day)
 							)
 						)
 						union all
@@ -36,7 +36,7 @@ $anonymousPatronCount = Db::Query('SELECT sum(cnt) as AnonymousPatronCount
 							where
 							IsAnonymous = true
 							and
-							DeactivatedTimestamp is null
+							Ended is null
 						)
 					) x
 				')[0]->AnonymousPatronCount;

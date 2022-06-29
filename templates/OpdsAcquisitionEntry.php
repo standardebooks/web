@@ -11,9 +11,9 @@
 			<? if($author->NacoafUrl !== null){ ?><schema:sameAs><?= Formatter::ToPlainXmlText($author->NacoafUrl) ?></schema:sameAs><? } ?>
 		</author>
 	<? } ?>
-	<published><?= $entry->Timestamp->format('Y-m-d\TH:i:s\Z') ?></published>
-	<dc:issued><?= $entry->Timestamp->format('Y-m-d\TH:i:s\Z') ?></dc:issued>
-	<updated><?= $entry->ModifiedTimestamp->format('Y-m-d\TH:i:s\Z') ?></updated>
+	<published><?= $entry->Created->format('Y-m-d\TH:i:s\Z') ?></published>
+	<dc:issued><?= $entry->Created->format('Y-m-d\TH:i:s\Z') ?></dc:issued>
+	<updated><?= $entry->Modified->format('Y-m-d\TH:i:s\Z') ?></updated>
 	<dc:language><?= Formatter::ToPlainXmlText($entry->Language) ?></dc:language>
 	<dc:publisher>Standard Ebooks</dc:publisher>
 	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>

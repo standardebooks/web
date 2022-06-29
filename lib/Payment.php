@@ -4,7 +4,7 @@ class Payment extends PropertiesBase{
 	public $PaymentId;
 	protected $User = null;
 	public $UserId = null;
-	public $Timestamp;
+	public $Created;
 	public $ChannelId;
 	public $TransactionId;
 	public $Amount;
@@ -33,7 +33,7 @@ class Payment extends PropertiesBase{
 		}
 
 		try{
-			Db::Query('INSERT into Payments (UserId, Timestamp, ChannelId, TransactionId, Amount, Fee, IsRecurring) values(?, ?, ?, ?, ?, ?, ?);', [$this->UserId, $this->Timestamp, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring]);
+			Db::Query('INSERT into Payments (UserId, Created, ChannelId, TransactionId, Amount, Fee, IsRecurring) values(?, ?, ?, ?, ?, ?, ?);', [$this->UserId, $this->Created, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){

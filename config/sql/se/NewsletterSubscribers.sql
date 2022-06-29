@@ -7,7 +7,7 @@ CREATE TABLE `NewsletterSubscribers` (
   `IsConfirmed` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `IsSubscribedToNewsletter` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `IsSubscribedToSummary` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `Timestamp` datetime NOT NULL,
+  `Created` datetime NOT NULL,
   PRIMARY KEY (`NewsletterSubscriberId`),
   UNIQUE KEY `Uuid_UNIQUE` (`Uuid`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)

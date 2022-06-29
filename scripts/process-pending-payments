@@ -133,7 +133,7 @@ try{
 				$payment->User = null;
 			}
 
-			$payment->Timestamp = DateTime::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Created On"]]'))->getText()));
+			$payment->Created = DateTime::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Created On"]]'))->getText()));
 			$payment->TransactionId = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "ID"]]'))->getText());
 			$payment->IsRecurring = sizeof($headerRow->findElements(WebDriverBy::xpath('//td[contains(., "Recurring")]'))) > 0;
 			$payment->Amount = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Total Amount"]]'))->getText())));
@@ -157,7 +157,7 @@ try{
 
 			// If this payment isn't anonymous, does it put us in the Patrons Circle?
 			if($payment->User !== null){
-				if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Timestamp >= $lastMonth) || ($payment->Amount >= 100 && $payment->Timestamp >= $lastYear)){
+				if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Created >= $lastMonth) || ($payment->Amount >= 100 && $payment->Created >= $lastYear)){
 					// This payment is eligible for the Patrons Circle.
 					// Are we already a patron?
 					try{
@@ -170,7 +170,7 @@ try{
 						$patron->User = $payment->User;
 					}
 
-					if($patron->Timestamp === null || $patron->DeactivatedTimestamp !== null){
+					if($patron->Created === null || $patron->Ended !== null){
 						// If we're a new patron, or an old patron that was deactivated,
 						// re-enable them as a patron in the system
 						$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
@@ -182,11 +182,11 @@ try{
 						catch(Exception $ex){
 						}
 
-						if($patron->Timestamp === null){
+						if($patron->Created === null){
 							$log->Write('Adding donor as patron ...');
 							$patron->Create();
 						}
-						elseif($patron->DeactivatedTimestamp !== null){
+						elseif($patron->Ended !== null){
 							$log->Write('Reactivating donor as patron ...');
 							$patron->Reactivate();
 						}

@@ -12,7 +12,7 @@ class User extends PropertiesBase{
 	protected $DisplayName = null;
 	public $Email;
 	protected $DisplayEmail;
-	public $Timestamp;
+	public $Created;
 	public $Uuid;
 
 	public static function Get(?int $userId): User{
@@ -46,10 +46,10 @@ class User extends PropertiesBase{
 	public function Create(): void{
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
-		$this->Timestamp = new DateTime();
+		$this->Created = new DateTime();
 
 		try{
-			Db::Query('INSERT into Users (Email, Name, Uuid, Timestamp) values (?, ?, ?, ?);', [$this->Email, $this->Name, $this->Uuid, $this->Timestamp]);
+			Db::Query('INSERT into Users (Email, Name, Uuid, Created) values (?, ?, ?, ?);', [$this->Email, $this->Name, $this->Uuid, $this->Created]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){

@@ -2,7 +2,7 @@
 	<title><?= Formatter::ToPlainXmlText($entry->Title) ?>, by <?= Formatter::ToPlainXmlText(strip_tags($entry->AuthorsHtml)) ?></title>
 	<link><?= SITE_URL . Formatter::ToPlainXmlText($entry->Url) ?></link>
 	<description><?= Formatter::ToPlainXmlText($entry->Description) ?></description>
-	<pubDate><?= $entry->Timestamp->format('r') ?></pubDate>
+	<pubDate><?= $entry->Created->format('r') ?></pubDate>
 	<guid><?= Formatter::ToPlainXmlText(preg_replace('/^url:/ius', '', $entry->Identifier)) ?></guid>
 	<? foreach($entry->Tags as $tag){ ?>
 	<category domain="https://standardebooks.org/vocab/subjects"><?= Formatter::ToPlainXmlText($tag->Name) ?></category>
