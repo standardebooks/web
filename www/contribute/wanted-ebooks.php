@@ -174,7 +174,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/7132">The Purple Land</a> by W. H. Huson</p>
 			</li>
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/The_Chink_in_the_Armour">The Chink in the Armour</a> by Marie Belloc Lowndes.</p>
+				<p><a href="https://en.wikipedia.org/wiki/The_Chink_in_the_Armour">The Chink in the Armour</a> by Marie Belloc Lowndes</p>
 			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
@@ -276,7 +276,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/2769">Cleopatra</a> by H. Rider Haggard</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/35617">The Terror</a> by Arthur Machen, to be added to the existing Short Fiction omnibus.</p>
+				<p><a href="https://www.gutenberg.org/ebooks/35617">The Terror</a> by Arthur Machen, to be added to the existing Short Fiction omnibus</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7838">Fifty-One Tales</a> by Lord Dunsany (Note: The British and American editions each have a story the other excludes; should we include both plus an editor’s note?)</p>
@@ -405,13 +405,13 @@ require_once('Core.php');
 				<p><a href="http://www.gutenberg.org/ebooks/13782">Lady Rose’s Daughter</a> by Mary Augusta Ward</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/152">Short fiction and short novels of Saki (H. H. Munro)</a>. Some research may be required to determine whether to produce an omnibus Short Fiction or how to divide up his stories.</p>
+				<p><a href="https://www.gutenberg.org/ebooks/author/152">Short fiction and short novels of Saki (H. H. Munro)</a>; some research may be required to determine whether to produce an omnibus Short Fiction or how to divide up his stories</p>
 			</li>
 			<li>
 				<p><a href="http://gutenberg.org/ebooks/14328">The Consolation of Philosophy</a> by Boethius</p>
 			</li>
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/List_of_works_by_Andrew_Marvell">Poems by Andrew Marvell</a> to be compiled into an omnibus.</p>
+				<p><a href="https://en.wikipedia.org/wiki/List_of_works_by_Andrew_Marvell">Poems by Andrew Marvell</a> to be compiled into an omnibus</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6737">Noli Me Tángere</a> by José Rizal, translated by Charles Derbyshire</p>
@@ -438,7 +438,10 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
-				<p>Epictetus’s “Enchiridion” and fragments as a Short Works compilation, in Elizabeth Carter’s translation, to supersede our <a href="/ebooks/epictetus/short-works/george-long">current edition</a> of his short works in George Long’s inferior translation. May require transcription.</p>
+				<p><a href="https://www.gutenberg.org/ebooks/32474">The Memoirs of the Conquistadors</a> by Bernal Díaz del Castillo (<a href="https://www.gutenberg.org/ebooks/32475">Volume 2</a>)</p>
+			</li>
+			<li>
+				<p>Epictetus’s “Enchiridion” and fragments as a Short Works compilation, in Elizabeth Carter’s translation, to supersede our <a href="/ebooks/epictetus/short-works/george-long">current edition</a> of his short works in George Long’s inferior translation; may require transcription</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10031">Edgar Allan Poe’s poetry corpus</a></p>
@@ -462,7 +465,7 @@ require_once('Core.php');
 				<p>The Trickster of Seville and the Stone Guest, by Tirso de Molina. English translations in PD are difficult to find; scans of a <a href="https://catalog.hathitrust.org/Record/003925216">1923 translation</a> are available. (#24 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
-				<p><a href="https://archive.org/details/thepeasants-autumn/page/n5/mode/2up">The Peasants</a> by Władysław Reymont (transcription required; see <a href="https://archive.org/details/thepeasants-winter">Winter</a>, <a href="https://archive.org/details/thepeasants-summer">Summer</a>, <a href="https://archive.org/details/thepeasants-spring">Spring</a>).</p>
+				<p><a href="https://archive.org/details/thepeasants-autumn/page/n5/mode/2up">The Peasants</a> by Władysław Reymont (transcription required; see <a href="https://archive.org/details/thepeasants-winter">Winter</a>, <a href="https://archive.org/details/thepeasants-summer">Summer</a>, <a href="https://archive.org/details/thepeasants-spring">Spring</a>)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/1370">Short stories by Algernon Blackwood</a> (To be compiled in an omnibus “Short Fiction”)</p>
@@ -471,16 +474,16 @@ require_once('Core.php');
 				<p><a href="https://en.m.wikipedia.org/wiki/Odes_(Horace)">The Odes</a> of Horace</p>
 			</li>
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Trumbull_Stickney">Poems by Trumbull Stickney</a> (transcription required).</p>
+				<p><a href="https://en.wikipedia.org/wiki/Trumbull_Stickney">Poems by Trumbull Stickney</a> (transcription required)</p>
 			</li>
 			<li>
-				<p><a href="https://books.google.com/books?id=OKREAAAAYAAJ">Cyrano de Bergerac</a>, by Edmond Rostand, translated by Brian Hooker. This is a 1923 publication, transcription is required.</p>
+				<p><a href="https://books.google.com/books?id=OKREAAAAYAAJ">Cyrano de Bergerac</a>, by Edmond Rostand, translated by Brian Hooker. This is a 1923 publication, transcription is required</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. George Birkbeck Hill’s unabridged edition was published in six volumes, all of which are on PG; the link leads to the first volume.</p>
+				<p><a href="https://www.gutenberg.org/ebooks/8918">The Life of Johnson</a> by James Boswell. George Birkbeck Hill’s unabridged edition was published in six volumes, all of which are on PG; the link leads to the first volume</p>
 			</li>
 			<li>
-				<p>The Betrothed by Alessandro Manzoni. There is a 1924 translation that must be considered, and will require transcription.</p>
+				<p>The Betrothed by Alessandro Manzoni; there is a 1924 translation that must be considered, and will require transcription</p>
 			</li>
 			<li>
 				<p>Short fiction by Jack London, to be compiled in a “Short Fiction” omnibus. We already have three short story compilations that must be rolled in to this one. <a href="https://docs.google.com/spreadsheets/d/1yXZvlZVekVY3EpearMW8QIrbBEJlm8RbEXAuZP5rTG4/edit?usp=sharing">See this bibliography spreadsheet.</a></p>
