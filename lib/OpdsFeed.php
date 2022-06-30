@@ -5,11 +5,24 @@ use function Safe\file_put_contents;
 class OpdsFeed extends AtomFeed{
 	public $Parent = null; // OpdsNavigationFeed class
 
+	/**
+	 * @param string $title
+	 * @param string $subtitle
+	 * @param string $url
+	 * @param string $path
+	 * @param array<Ebook> $entries
+	 * @param OpdsNavigationFeed $parent
+	 */
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent){
 		parent::__construct($title, $subtitle, $url, $path, $entries);
 		$this->Parent = $parent;
 		$this->Stylesheet = '/feeds/opds/style';
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	protected function SaveUpdated(string $entryId, DateTime $updated): void{
 		// Only save the updated timestamp for the given entry ID in this file

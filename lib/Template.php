@@ -2,6 +2,10 @@
 use function Safe\ob_end_clean;
 
 class Template{
+	/**
+	* @param string $templateName
+	* @param array<mixed> $arguments
+	*/
 	protected static function Get(string $templateName, array $arguments = []): string{
 		// Expand the passed variables to make them available to the included template.
 		// We use these funny names so that we can use 'name' and 'value' as template variables if we want to.
@@ -17,6 +21,10 @@ class Template{
 		return $contents;
 	}
 
+	/**
+	* @param string $function
+	* @param array<mixed> $arguments
+	*/
 	public static function __callStatic(string $function, array $arguments): string{
 		if(isset($arguments[0])){
 			return self::Get($function, $arguments[0]);

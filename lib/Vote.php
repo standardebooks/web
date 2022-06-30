@@ -1,22 +1,37 @@
 <?
 use Safe\DateTime;
 
+/**
+ * @property User $User
+ * @property PollItem $PollItem
+ * @property string $Url
+ */
 class Vote extends PropertiesBase{
 	public $VoteId;
 	public $UserId;
-	protected $User = null;
+	protected $_User = null;
 	public $Created;
 	public $PollItemId;
-	protected $PollItem = null;
-	protected $Url = null;
+	protected $_PollItem = null;
+	protected $_Url = null;
+
+
+	// *******
+	// GETTERS
+	// *******
 
 	protected function GetUrl(): string{
-		if($this->Url === null){
-			$this->Url = '/patrons-circle/polls/' . $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
+		if($this->_Url === null){
+			$this->_Url = '/patrons-circle/polls/' . $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
 		}
 
-		return $this->Url;
+		return $this->_Url;
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	protected function Validate(): void{
 		$error = new Exceptions\ValidationException();
@@ -29,7 +44,6 @@ class Vote extends PropertiesBase{
 			$error->Add(new Exceptions\PollItemRequiredException());
 		}
 		else{
-			$this->__get('PollItem');
 			if($this->PollItem === null){
 				$error->Add(new Exceptions\InvalidPollException());
 			}
@@ -43,7 +57,6 @@ class Vote extends PropertiesBase{
 			// Basic sanity checks done, now check if we've already voted
 			// in this poll
 
-			$this->__get('User');
 			if($this->User === null){
 				$error->Add(new Exceptions\InvalidPatronException());
 			}

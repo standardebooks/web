@@ -1,19 +1,34 @@
 <?
+
+/**
+ * @property int $VoteCount
+ * @property Poll $Poll
+ */
 class PollItem extends PropertiesBase{
 	public $PollItemId;
 	public $PollId;
 	public $Name;
 	public $Description;
-	protected $VoteCount = null;
-	protected $Poll = null;
+	protected $_VoteCount = null;
+	protected $_Poll = null;
+
+
+	// *******
+	// GETTERS
+	// *******
 
 	protected function GetVoteCount(): int{
-		if($this->VoteCount === null){
-			$this->VoteCount = Db::QueryInt('select count(*) from Votes v inner join PollItems pi on v.PollItemId = pi.PollItemId where pi.PollItemId = ?', [$this->PollItemId]);
+		if($this->_VoteCount === null){
+			$this->_VoteCount = Db::QueryInt('select count(*) from Votes v inner join PollItems pi on v.PollItemId = pi.PollItemId where pi.PollItemId = ?', [$this->PollItemId]);
 		}
 
-		return $this->VoteCount;
+		return $this->_VoteCount;
 	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	public static function Get(?int $pollItemId): PollItem{
 		$result = Db::Query('SELECT * from PollItems where PollItemId = ?', [$pollItemId], 'PollItem');

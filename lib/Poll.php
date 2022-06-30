@@ -2,6 +2,12 @@
 use Safe\DateTime;
 use function Safe\usort;
 
+/**
+ * @property string $Url
+ * @property array<PollItem> $PollItems
+ * @property array<PollItem> $PollItemsByWinner
+ * @property int $VoteCount
+ */
 class Poll extends PropertiesBase{
 	public $PollId;
 	public $Name;
@@ -10,52 +16,61 @@ class Poll extends PropertiesBase{
 	public $Created;
 	public $Start;
 	public $End;
-	protected $Url = null;
-	protected $PollItems = null;
-	protected $PollItemsByWinner = null;
-	protected $VoteCount = null;
+	protected $_Url = null;
+	protected $_PollItems = null;
+	protected $_PollItemsByWinner = null;
+	protected $_VoteCount = null;
+
+
+	// *******
+	// GETTERS
+	// *******
 
 	protected function GetUrl(): string{
-		if($this->Url === null){
-			$this->Url = '/patrons-circle/polls/' . $this->UrlName;
+		if($this->_Url === null){
+			$this->_Url = '/patrons-circle/polls/' . $this->UrlName;
 		}
 
-		return $this->Url;
+		return $this->_Url;
 	}
 
 	protected function GetVoteCount(): int{
-		if($this->VoteCount === null){
-			$this->VoteCount = Db::QueryInt('select count(*) from Votes v inner join PollItems pi on v.PollItemId = pi.PollItemId where pi.PollId = ?', [$this->PollId]);
+		if($this->_VoteCount === null){
+			$this->_VoteCount = Db::QueryInt('select count(*) from Votes v inner join PollItems pi on v.PollItemId = pi.PollItemId where pi.PollId = ?', [$this->PollId]);
 		}
 
-		return $this->VoteCount;
+		return $this->_VoteCount;
 	}
 
 	/**
 	 * @return array<PollItem>
 	 */
 	protected function GetPollItems(): array{
-		if($this->PollItems === null){
-			$this->PollItems = Db::Query('SELECT * from PollItems where PollId = ? order by SortOrder asc', [$this->PollId], 'PollItem');
+		if($this->_PollItems === null){
+			$this->_PollItems = Db::Query('SELECT * from PollItems where PollId = ? order by SortOrder asc', [$this->PollId], 'PollItem');
 		}
 
-		return $this->PollItems;
+		return $this->_PollItems;
 	}
 
 	/**
 	 * @return array<PollItem>
 	 */
 	protected function GetPollItemsByWinner(): array{
-		if($this->PollItemsByWinner === null){
-			$this->__get('PollItems');
-			$this->PollItemsByWinner = $this->PollItems;
-			usort($this->PollItemsByWinner, function(PollItem $a, PollItem $b){ return $a->VoteCount <=> $b->VoteCount; });
+		if($this->_PollItemsByWinner === null){
+			$this->_PollItemsByWinner = $this->PollItems;
+			usort($this->_PollItemsByWinner, function(PollItem $a, PollItem $b){ return $a->VoteCount <=> $b->VoteCount; });
 
-			$this->PollItemsByWinner = array_reverse($this->PollItemsByWinner);
+			$this->_PollItemsByWinner = array_reverse($this->_PollItemsByWinner);
 		}
 
-		return $this->PollItemsByWinner;
+		return $this->_PollItemsByWinner;
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	public function IsActive(): bool{
 		$now = new DateTime();
@@ -65,6 +80,11 @@ class Poll extends PropertiesBase{
 
 		return true;
 	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	public static function Get(?int $pollId): Poll{
 		$result = Db::Query('SELECT * from Polls where PollId = ?', [$pollId], 'Poll');

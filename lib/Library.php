@@ -8,8 +8,11 @@ use function Safe\usort;
 
 class Library{
 	/**
-	 * @return array<Ebook>
-	 */
+	* @param string $query
+	* @param array<string> $tags
+	* @param string $sort
+	* @return array<Ebook>
+	*/
 	public static function FilterEbooks(string $query = null, array $tags = [], string $sort = null){
 		$ebooks = Library::GetEbooks();
 		$matches = $ebooks;

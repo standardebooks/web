@@ -36,9 +36,9 @@ try{
 	$subscriber->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'newsletter', false);
 	$subscriber->IsSubscribedToSummary = HttpInput::Bool(POST, 'monthlysummary', false);
 
-	$captcha = $_SESSION['captcha'] ?? null;
+	$captcha = $_SESSION['captcha'] ?? '';
 
-	if($captcha === null || mb_strtolower($captcha) !== mb_strtolower(HttpInput::Str(POST, 'captcha', false))){
+	if($captcha === '' || mb_strtolower($captcha) !== mb_strtolower(HttpInput::Str(POST, 'captcha', false) ?? '')){
 		throw new Exceptions\ValidationException(new Exceptions\InvalidCaptchaException());
 	}
 

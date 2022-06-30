@@ -184,12 +184,12 @@ class Ebook{
 
 		$this->AlternateTitle = $this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:alternate-title"]'));
 
-		$date = $xml->xpath('/package/metadata/dc:date');
+		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if($date !== false && sizeof($date) > 0){
 			$this->Created = new DateTime((string)$date[0]);
 		}
 
-		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]');
+		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
 		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
 			$this->Updated = new DateTime((string)$modifiedDate[0]);
 		}
@@ -214,10 +214,12 @@ class Ebook{
 		// Get SE collections
 		foreach($xml->xpath('/package/metadata/meta[@property="belongs-to-collection"]') ?: [] as $collection){
 			$c = new Collection($collection);
-			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $collection->attributes()->id . '"][@property="group-position"]') ?: [] as $s){
+			$id = $collection->attributes()->id ?? '';
+
+			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="group-position"]') ?: [] as $s){
 				$c->SequenceNumber = (int)$s;
 			}
-			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $collection->attributes()->id . '"][@property="collection-type"]') ?: [] as $s){
+			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="collection-type"]') ?: [] as $s){
 				$c->Type = (string)$s;
 			}
 			$this->Collections[] = $c;
@@ -237,7 +239,7 @@ class Ebook{
 			}
 
 			$fileAs = null;
-			$fileAsElement = $xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]');
+			$fileAsElement = $xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]') ?: [];
 			if($fileAsElement !== false && sizeof($fileAsElement) > 0){
 				$fileAs = (string)$fileAsElement[0];
 			}
@@ -448,6 +450,11 @@ class Ebook{
 		// Now the complete title with credits.
 		$this->TitleWithCreditsHtml = Formatter::ToPlainText($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors);
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	public function GetCollectionPosition(Collection $collection): ?int{
 		foreach($this->Collections as $c){

@@ -4,10 +4,10 @@ require_once('Core.php');
 use function Safe\preg_replace;
 
 try{
-	$page = HttpInput::Int(GET, 'page', 1);
-	$perPage = HttpInput::Int(GET, 'per-page', EBOOKS_PER_PAGE);
-	$query = HttpInput::Str(GET, 'query', false);
-	$tags = HttpInput::GetArray('tags', []);
+	$page = HttpInput::Int(GET, 'page') ?? 1;
+	$perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
+	$query = HttpInput::Str(GET, 'query', false) ?? '';
+	$tags = HttpInput::GetArray('tags') ?? [];
 	$collection = HttpInput::Str(GET, 'collection', false);
 	$view = HttpInput::Str(GET, 'view', false);
 	$sort = HttpInput::Str(GET, 'sort', false);
@@ -39,10 +39,6 @@ try{
 
 	if($sort === 'newest'){
 		$sort = null;
-	}
-
-	if($query === ''){
-		$query = null;
 	}
 
 	if(sizeof($tags) == 1 && mb_strtolower($tags[0]) == 'all'){
@@ -82,7 +78,7 @@ try{
 		}
 	}
 	else{
-		$ebooks = Library::FilterEbooks($query, $tags, $sort);
+		$ebooks = Library::FilterEbooks($query != '' ? $query : null, $tags, $sort);
 		$pageTitle = 'Browse Standard Ebooks';
 		$pageHeader = 'Browse Ebooks';
 		$pages = ceil(sizeof($ebooks) / $perPage);
@@ -154,7 +150,7 @@ catch(Exceptions\InvalidCollectionException $ex){
 			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 		</nav>
 	<? } ?>
-	<? if(sizeof($ebooks) > 0 && $query === null && sizeof($tags) == 0 && $collection === null && $page == 1){ ?>
+	<? if(sizeof($ebooks) > 0 && $query == '' && sizeof($tags) == 0 && $collection === null && $page == 1){ ?>
 		<?= Template::ContributeAlert() ?>
 	<? } ?>
 </main>

@@ -1,14 +1,50 @@
 <?
 use Safe\DateTime;
 
+/**
+ * @property User $User
+ */
 class Patron extends PropertiesBase{
-	protected $User = null;
 	public $UserId = null;
+	protected $User = null;
 	public $IsAnonymous;
 	public $AlternateName;
 	public $IsSubscribedToEmails;
 	public $Created = null;
 	public $Ended = null;
+
+
+	// *******
+	// METHODS
+	// *******
+
+	public function Create(): void{
+		$this->Created = new DateTime();
+		Db::Query('INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails) values(?, ?, ?, ?, ?);', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails]);
+
+		// If this is a patron for the first time, send the first-time patron email.
+		// Otherwise, send the returning patron email.
+		$isReturning = Db::QueryInt('SELECT count(*) from Patrons where UserId = ?', [$this->UserId]) > 1;
+
+		$this->SendWelcomeEmail($isReturning);
+	}
+
+	private function SendWelcomeEmail(bool $isReturning): void{
+		if($this->User !== null){
+			$em = new Email();
+			$em->To = $this->User->Email;
+			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+			$em->Subject = 'Thank you for supporting Standard Ebooks!';
+			$em->Body = Template::EmailPatronsCircleWelcome(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
+			$em->TextBody = Template::EmailPatronsCircleWelcomeText(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
+			$em->Send();
+		}
+	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	public static function Get(?int $userId): Patron{
 		$result = Db::Query('SELECT * from Patrons where UserId = ?', [$userId], 'Patron');
@@ -28,29 +64,5 @@ class Patron extends PropertiesBase{
 		}
 
 		return $result[0];
-	}
-
-	public function Create(): void{
-		$this->Created = new DateTime();
-		Db::Query('INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails) values(?, ?, ?, ?, ?);', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails]);
-
-		// If this is a patron for the first time, send the first-time patron email.
-		// Otherwise, send the returning patron email.
-		$isReturning = Db::QueryInt('SELECT count(*) from Patrons where UserId = ?', [$this->UserId]) > 1;
-
-		$this->SendWelcomeEmail($isReturning);
-	}
-
-	private function SendWelcomeEmail(bool $isReturning): void{
-		$this->__get('User');
-		if($this->User !== null){
-			$em = new Email();
-			$em->To = $this->User->Email;
-			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
-			$em->Subject = 'Thank you for supporting Standard Ebooks!';
-			$em->Body = Template::EmailPatronsCircleWelcome(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
-			$em->TextBody = Template::EmailPatronsCircleWelcomeText(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
-			$em->Send();
-		}
 	}
 }

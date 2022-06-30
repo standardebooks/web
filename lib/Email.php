@@ -18,6 +18,19 @@ class Email{
 	public $Attachments = array();
 	public $PostmarkStream = null;
 
+	public function __construct(bool $isNoReplyEmail = false){
+		if($isNoReplyEmail){
+			$this->From = NO_REPLY_EMAIL_ADDRESS;
+			$this->FromName = 'Standard Ebooks';
+			$this->ReplyTo = NO_REPLY_EMAIL_ADDRESS;
+		}
+	}
+
+
+	// *******
+	// METHODS
+	// *******
+
 	public function Send(): bool{
 		if($this->ReplyTo == ''){
 			$this->ReplyTo = $this->From;
@@ -81,13 +94,5 @@ class Email{
 		}
 
 		return true;
-	}
-
-	public function __construct(bool $isNoReplyEmail = false){
-		if($isNoReplyEmail){
-			$this->From = NO_REPLY_EMAIL_ADDRESS;
-			$this->FromName = 'Standard Ebooks';
-			$this->ReplyTo = NO_REPLY_EMAIL_ADDRESS;
-		}
 	}
 }

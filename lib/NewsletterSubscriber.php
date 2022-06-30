@@ -2,6 +2,9 @@
 use Safe\DateTime;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * @property string $Url
+ */
 class NewsletterSubscriber extends PropertiesBase{
 	public $NewsletterSubscriberId;
 	public $Uuid;
@@ -14,6 +17,10 @@ class NewsletterSubscriber extends PropertiesBase{
 	public $Created;
 	protected $Url = null;
 
+	// *******
+	// GETTERS
+	// *******
+
 	protected function GetUrl(): string{
 		if($this->Url === null){
 			$this->Url = SITE_URL . '/newsletter/subscribers/' . $this->Uuid;
@@ -21,6 +28,11 @@ class NewsletterSubscriber extends PropertiesBase{
 
 		return $this->Url;
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	public function Create(): void{
 		$this->Validate();
@@ -77,6 +89,11 @@ class NewsletterSubscriber extends PropertiesBase{
 			throw $error;
 		}
 	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	public static function Get(string $uuid): NewsletterSubscriber{
 		$subscribers = Db::Query('SELECT * from NewsletterSubscribers where Uuid = ?;', [$uuid], 'NewsletterSubscriber');

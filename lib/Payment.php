@@ -1,15 +1,23 @@
 <?
 
+/**
+ * @property User $User
+ */
 class Payment extends PropertiesBase{
 	public $PaymentId;
-	protected $User = null;
 	public $UserId = null;
+	protected $_User = null;
 	public $Created;
 	public $ChannelId;
 	public $TransactionId;
 	public $Amount;
 	public $Fee;
 	public $IsRecurring;
+
+
+	// *******
+	// METHODS
+	// *******
 
 	public function Create(): void{
 		if($this->UserId === null){

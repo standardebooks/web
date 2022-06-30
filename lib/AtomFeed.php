@@ -12,12 +12,24 @@ class AtomFeed extends Feed{
 	public $Updated = null;
 	public $Subtitle = null;
 
+	/**
+	 * @param string $title
+	 * @param string $subtitle
+	 * @param string $url
+	 * @param string $path
+	 * @param array<Ebook> $entries
+	 */
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries){
 		parent::__construct($title, $url, $path, $entries);
 		$this->Subtitle = $subtitle;
 		$this->Id = $url;
 		$this->Stylesheet = '/feeds/atom/style';
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){

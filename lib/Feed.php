@@ -13,12 +13,23 @@ class Feed{
 	public $Stylesheet = null;
 	protected $XmlString = null;
 
+	/**
+	 * @param string $title
+	 * @param string $url
+	 * @param string $path
+	 * @param array<Ebook> $entries
+	 */
 	public function __construct(string $title, string $url, string $path, array $entries){
 		$this->Url = $url;
 		$this->Title = $title;
 		$this->Path = $path;
 		$this->Entries = $entries;
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	protected function CleanXmlString(string $xmlString): string{
 		$tempFilename = tempnam('/tmp/', 'se-');

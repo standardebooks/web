@@ -8,27 +8,24 @@ abstract class PropertiesBase{
 	*/
 	public function __get($var){
 		$function = 'Get' . $var;
+		$privateVar = '_' . $var;
 
 		if(method_exists($this, $function)){
 			return $this->$function();
 		}
-		elseif(property_exists($this, $var . 'Id') && method_exists($var, 'Get')){
-			// If our object has an VarId attribute, and the Var class also has a ::Get method,
-			// call it and return the result
-			if($this->$var === null && $this->{$var . 'Id'} !== null){
-				$this->$var = $var::Get($this->{$var . 'Id'});
+		elseif(property_exists($this, $var . 'Id') && property_exists($this, $privateVar) && method_exists($var, 'Get')){
+			// If we're asking for a private `_Var` property,
+			// and we have a public `VarId` property,
+			// and the `Var` class also has a `Var::Get` method,
+			// call that method and return the result.
+			if($this->$privateVar === null && $this->{$var . 'Id'} !== null){
+				$this->$privateVar = $var::Get($this->{$var . 'Id'});
 			}
 
-			return $this->$var;
+			return $this->$privateVar;
 		}
-		elseif(substr($var, 0, 7) == 'Display'){
-			// If we're asked for a DisplayXXX property and the getter doesn't exist, format as escaped HTML.
-			if($this->$var === null){
-				$target = substr($var, 7, strlen($var));
-				$this->$var = Formatter::ToPlainText($this->$target);
-			}
-
-			return $this->$var;
+		elseif(property_exists($this, $privateVar)){
+			return $this->{$privateVar};
 		}
 		else{
 			return $this->$var;
@@ -41,8 +38,13 @@ abstract class PropertiesBase{
 	*/
 	public function __set(string $var, $val){
 		$function = 'Set' . $var;
+		$privateVar = '_' . $var;
+
 		if(method_exists($this, $function)){
 			$this->$function($val);
+		}
+		elseif(property_exists($this, $privateVar)){
+			$this->$privateVar = $val;
 		}
 		else{
 			$this->$var = $val;

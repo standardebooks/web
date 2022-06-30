@@ -5,35 +5,16 @@ use Safe\DateTime;
 class User extends PropertiesBase{
 	public $UserId;
 	public $FirstName;
-	protected $DisplayFirstName = null;
 	public $LastName;
-	protected $DisplayLastName = null;
 	protected $Name = null;
-	protected $DisplayName = null;
 	public $Email;
-	protected $DisplayEmail;
 	public $Created;
 	public $Uuid;
 
-	public static function Get(?int $userId): User{
-		$result = Db::Query('SELECT * from Users where UserId = ?', [$userId], 'User');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidUserException();
-		}
-
-		return $result[0];
-	}
-
-	public static function GetByEmail(?string $email): User{
-		$result = Db::Query('SELECT * from Users where Email = ?', [$email], 'User');
-
-		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidUserException();
-		}
-
-		return $result[0];
-	}
+	// *******
+	// GETTERS
+	// *******
 
 	protected function GetName(): string{
 		if($this->Name === null){
@@ -42,6 +23,11 @@ class User extends PropertiesBase{
 
 		return $this->Name;
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	public function Create(): void{
 		$uuid = Uuid::uuid4();
@@ -62,5 +48,30 @@ class User extends PropertiesBase{
 		}
 
 		$this->UserId = Db::GetLastInsertedId();
+	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	public static function Get(?int $userId): User{
+		$result = Db::Query('SELECT * from Users where UserId = ?', [$userId], 'User');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidUserException();
+		}
+
+		return $result[0];
+	}
+
+	public static function GetByEmail(?string $email): User{
+		$result = Db::Query('SELECT * from Users where Email = ?', [$email], 'User');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidUserException();
+		}
+
+		return $result[0];
 	}
 }

@@ -16,6 +16,11 @@ class Log{
 		$this->LogFilePath = $logFilePath;
 	}
 
+
+	// *******
+	// METHODS
+	// *******
+
 	public function Write(string $text): void{
 		if($this->LogFilePath === null){
 			self::WriteErrorLogEntry($text);

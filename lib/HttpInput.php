@@ -52,8 +52,10 @@ class HttpInput{
 	}
 
 	/**
-	 * @return array<string>
-	 */
+	* @param string $variable
+	* @param array<mixed> $default
+	* @return array<string>
+	*/
 	public static function GetArray(string $variable, array $default = null): ?array{
 		return self::GetHttpVar($variable, HTTP_VAR_ARRAY, GET, $default);
 	}

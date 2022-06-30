@@ -4,6 +4,14 @@ use Safe\DateTime;
 use function Safe\file_get_contents;
 
 class OpdsNavigationFeed extends OpdsFeed{
+	/**
+	 * @param string $title
+	 * @param string $subtitle
+	 * @param string $url
+	 * @param string $path
+	 * @param array<Ebook> $entries
+	 * @param OpdsNavigationFeed $parent
+	 */
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent){
 		parent::__construct($title, $subtitle, $url, $path, $entries, $parent);
 
@@ -28,6 +36,11 @@ class OpdsNavigationFeed extends OpdsFeed{
 			}
 		}
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){

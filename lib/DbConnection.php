@@ -72,6 +72,9 @@ class DbConnection{
 	//		array 	$params 	= an array of parameters to bind to the SQL statement
 	// Returns:	a resource record or null on error
 	/**
+	* @param string $sql
+	* @param array<mixed> $params
+	* @param string $class
 	* @return Array<mixed>
 	*/
 	public function Query(string $sql, array $params = [], string $class = 'stdClass'): array{

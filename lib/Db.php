@@ -6,6 +6,9 @@ class Db{
 	}
 
 	/**
+	* @param string $query
+	* @param array<mixed> $args
+	* @param string $class
 	* @return Array<mixed>
 	*/
 	public static function Query(string $query, array $args = [], string $class = 'stdClass'): array{
@@ -20,6 +23,10 @@ class Db{
 		return $GLOBALS['DbConnection']->Query($query, $args, $class);
 	}
 
+	/**
+	* @param string $query
+	* @param array<mixed> $args
+	*/
 	public static function QueryInt(string $query, array $args = []): int{
 		// Useful for queries that return a single integer as a result, like count(*) or sum(*).
 

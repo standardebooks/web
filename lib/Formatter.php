@@ -33,10 +33,10 @@ class Formatter{
 	}
 
 	public static function ToPlainText(?string $text): string{
-		return htmlspecialchars(trim($text), ENT_QUOTES, 'utf-8');
+		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES, 'utf-8');
 	}
 
 	public static function ToPlainXmlText(?string $text): string{
-		return htmlspecialchars(trim($text), ENT_QUOTES|ENT_XML1, 'utf-8');
+		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES|ENT_XML1, 'utf-8');
 	}
 }

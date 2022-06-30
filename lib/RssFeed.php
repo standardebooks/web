@@ -7,11 +7,23 @@ use function Safe\preg_replace;
 class RssFeed extends Feed{
 	public $Description;
 
+	/**
+	 * @param string $title
+	 * @param string $description
+	 * @param string $url
+	 * @param string $path
+	 * @param array<Ebook> $entries
+	 */
 	public function __construct(string $title, string $description, string $url, string $path, array $entries){
 		parent::__construct($title, $url, $path, $entries);
 		$this->Description = $description;
 		$this->Stylesheet = '/feeds/rss/style';
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
