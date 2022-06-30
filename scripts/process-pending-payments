@@ -165,7 +165,7 @@ try{
 				if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Created >= $lastMonth) || ($payment->Amount >= 100 && $payment->Created >= $lastYear)){
 					// This payment is eligible for the Patrons Circle.
 					// Are we already a patron?
-					if(!Db::QueryInt('SELECT count(*) from Patrons where UserId = ? and Ended is not null', [$payment->UserId])){
+					if(!Db::QueryInt('SELECT count(*) from Patrons where UserId = ? and Ended is null', [$payment->UserId])){
 						// Not a patron yet, add them to the Patrons Circle
 
 						$patron = new Patron();
