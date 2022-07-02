@@ -1,5 +1,6 @@
 <?
 $preheader = $preheader ?? null;
+$letterhead = $letterhead ?? false;
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +23,7 @@ $preheader = $preheader ?? null;
 		div.body{
 			text-align: left;
 			background-color: #E9E7E0;
+			border: 1px solid #AAA8A3;
 			border-radius: 1em;
 			font-family: "Georgia", serif;
 			font-size: 18px;
@@ -29,11 +31,21 @@ $preheader = $preheader ?? null;
 			line-height: 1.4;
 			color: #222222;
 			margin: auto;
-			max-width: 80ch;
+			max-width: 60ch;
 			padding: 2em;
 			-webkit-font-smoothing: antialiased;
 			-webkit-text-size-adjust: none;
 		}
+
+		<? if($letterhead){ ?>
+		div.body.letterhead{
+			background-image: url("https://standardebooks.org/images/logo-email.png");
+			background-position: top 2em right 2em;
+			background-repeat: no-repeat;
+			background-size: 210px 49px;
+			padding-top: 5em;
+		}
+		<? } ?>
 
 		<? if($preheader){ ?>
 		.preheader{
@@ -75,6 +87,7 @@ $preheader = $preheader ?? null;
 			border-bottom: 3px double #222;
 			font-size: 2em;
 			line-height: 1.3;
+			margin-top: .25em;
 			padding-bottom: .75em;
 			text-transform: uppercase;
 		}
@@ -112,14 +125,28 @@ $preheader = $preheader ?? null;
 		.footer{
 			border-top: 1px solid #ccc;
 			margin-top: 2em;
-			padding-top: 1em;
+			padding-top: 2em;
 			text-align: center;
 			text-transform: lowercase;
 		}
 
+		.footer p{
+			margin: 0;
+		}
+
 		.footer img{
 			margin-top: 1em;
-			max-width: 110px;
+			max-width: 55px;
+		}
+
+		footer{
+			margin-right: 4em;
+			margin-top: 2em;
+			text-align: right;
+		}
+
+		footer p{
+			margin: 0;
 		}
 
 		a.button:link,
@@ -155,8 +182,12 @@ $preheader = $preheader ?? null;
 			margin: 2em auto;
 			text-align: center;
 		}
+
+		.letterhead{
+			text-align: right;
+		}
 	</style>
 </head>
 <body>
-	<div class="body">
+	<div class="body<? if($letterhead){ ?> letterhead<? } ?>">
 	<? if($preheader){ ?><p class="preheader"><?= Formatter::ToPlainText($preheader) ?><? for($i = 0; $i < 150 - strlen($preheader); $i++){ ?>&zwnj;&nbsp;<? } ?></p><? } ?>

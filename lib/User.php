@@ -4,25 +4,10 @@ use Safe\DateTime;
 
 class User extends PropertiesBase{
 	public $UserId;
-	public $FirstName;
-	public $LastName;
-	protected $Name = null;
+	public $Name;
 	public $Email;
 	public $Created;
 	public $Uuid;
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetName(): string{
-		if($this->Name === null){
-			$this->Name = $this->FirstName . ' ' . $this->LastName;
-		}
-
-		return $this->Name;
-	}
 
 
 	// *******

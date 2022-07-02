@@ -38,8 +38,9 @@ const CAPTCHA_IMAGE_WIDTH = 230;
 const NO_REPLY_EMAIL_ADDRESS = 'admin@standardebooks.org';
 const ADMIN_EMAIL_ADDRESS = 'admin@standardebooks.org';
 const EDITOR_IN_CHIEF_EMAIL_ADDRESS = 'alex@standardebooks.org';
+const EDITOR_IN_CHIEF_NAME = 'Alex Cabal';
 define('EMAIL_SMTP_USERNAME', get_cfg_var('se.secrets.postmark.username'));
-const EMAIL_SMTP_HOST = 'smtp-broadcasts.postmarkapp.com';
+const EMAIL_SMTP_HOST = 'smtp.postmarkapp.com';
 const EMAIL_POSTMARK_STREAM_BROADCAST = 'the-standard-ebooks-newsletter';
 
 const REST = 0;

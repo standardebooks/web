@@ -1,9 +1,9 @@
 	<div class="footer">
 		<p>
-			<a href="https://standardebooks.org/donate">Donate</a> &bull; <a href="https://standardebooks.org/contribute">Get involved</a> &bull; <a href="https://standardebooks.org/feeds">Ebook feeds</a>
+			<a href="<?= SITE_URL ?>/donate">Donate</a> &bull; <a href="<?= SITE_URL ?>/contribute">Get involved</a> &bull; <a href="<?= SITE_URL ?>/feeds">Ebook feeds</a>
 		</p>
 		<p>
-			<a href="https://standardebooks.org">
+			<a href="<?= SITE_URL ?>">
 				<img src="https://standardebooks.org/images/logo-small.png" alt="The Standard Ebooks logo."/>
 			</a>
 		</p>

@@ -7,6 +7,7 @@ use function Safe\file_get_contents;
 
 class Email{
 	public $To = '';
+	public $ToName = '';
 	public $From = '';
 	public $FromName = '';
 	public $ReplyTo = '';
@@ -43,7 +44,7 @@ class Email{
 		try{
 			$phpMailer->SetFrom($this->From, $this->FromName);
 			$phpMailer->AddReplyTo($this->ReplyTo);
-			$phpMailer->AddAddress($this->To);
+			$phpMailer->AddAddress($this->To, $this->ToName);
 			$phpMailer->Subject = $this->Subject;
 			$phpMailer->CharSet = 'UTF-8';
 			if($this->TextBody !== null && $this->TextBody != ''){

@@ -195,7 +195,9 @@ try{
 						$log->Write('Sending thank you email to non-patron donor.');
 						$em = new Email();
 						$em->To = $payment->User->Email;
+						$em->ToName = $payment->User->Name;
 						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+						$em->FromName = EDITOR_IN_CHIEF_NAME;
 						$em->Subject = 'Thank you for supporting Standard Ebooks!';
 						$em->Body = Template::EmailDonationThankYou();
 						$em->TextBody = Template::EmailDonationThankYouText();
@@ -214,9 +216,7 @@ catch(Exception $ex){
 	$exceptionString = vds($ex);
 	$log->Write('Error: Uncaught exception: ' . $exceptionString);
 
-	$em = new Email();
-	$em->To = ADMIN_EMAIL_ADDRESS;
-	$em->From = NO_REPLY_EMAIL_ADDRESS;
+	$em = new Email(true);
 	$em->Subject = 'Donation processing failed';
 	$em->Body = Template::EmailDonationProcessingFailed(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
 	$em->TextBody = Template::EmailDonationProcessingFailedText(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);

@@ -33,7 +33,9 @@ class Patron extends PropertiesBase{
 		if($this->User !== null){
 			$em = new Email();
 			$em->To = $this->User->Email;
+			$em->ToName = $this->User->Name;
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->Subject = 'Thank you for supporting Standard Ebooks!';
 			$em->Body = Template::EmailPatronsCircleWelcome(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
 			$em->TextBody = Template::EmailPatronsCircleWelcomeText(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
