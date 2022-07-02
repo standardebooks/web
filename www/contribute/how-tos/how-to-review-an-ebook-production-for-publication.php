@@ -79,11 +79,6 @@ require_once('Core.php');
 				<p>If any such instances is found, check with the <a href="/manual/latest/single-page#8.3">Manual</a> for the correct capitalization style in all cases.</p>
 			</li>
 			<li>
-				<h2>Review punctuation in quotes</h2>
-				<p>Most of the time punctuation such as periods and commas should be placed within quotations, except for some rare occasions. See the relevant section of the <a href="/manual/latest/single-page#8.7.2">Manual</a> for reference. Use the following command to examine if any of these needs to be noted for change:</p>
-				<code class="terminal"><b>se</b> interactive-replace <i>"’([\.\,])"</i> <i>"\1’"</i> <u>.</u></code>
-			</li>
-			<li>
 				<h2>Review era abbreviation elements</h2>
 				<p>Era abbreviations do not have punctuation in them unlike other common abbreviations (see <a href="/manual/latest/single-page#8.9.5">Manual</a>). Use the following command to check each of such cases:</p>
 				<code class="terminal"><b>se</b> interactive-replace <i>"(&lt;abbr epub:type=\"se:era[^\"]*?\"&gt;)(BC|AD)&lt;/abbr&gt;\."</i> <i>"\1\2&lt;/abbr&gt;"</i> <u>.</u></code>
