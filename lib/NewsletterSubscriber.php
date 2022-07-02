@@ -15,18 +15,18 @@ class NewsletterSubscriber extends PropertiesBase{
 	public $IsSubscribedToSummary = true;
 	public $IsSubscribedToNewsletter = true;
 	public $Created;
-	protected $Url = null;
+	protected $_Url = null;
 
 	// *******
 	// GETTERS
 	// *******
 
 	protected function GetUrl(): string{
-		if($this->Url === null){
-			$this->Url = SITE_URL . '/newsletter/subscribers/' . $this->Uuid;
+		if($this->_Url === null){
+			$this->_Url = SITE_URL . '/newsletter/subscribers/' . $this->Uuid;
 		}
 
-		return $this->Url;
+		return $this->_Url;
 	}
 
 

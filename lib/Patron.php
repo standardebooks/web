@@ -6,7 +6,7 @@ use Safe\DateTime;
  */
 class Patron extends PropertiesBase{
 	public $UserId = null;
-	protected $User = null;
+	protected $_User = null;
 	public $IsAnonymous;
 	public $AlternateName;
 	public $IsSubscribedToEmails;
