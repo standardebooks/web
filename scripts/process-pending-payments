@@ -34,7 +34,8 @@ $driver = null;
 $log = new Log(DONATIONS_LOG_FILE_PATH);
 $lastMonth = (new DateTime())->sub(new DateInterval('P45D')); // 45 days, a 15 day grace period before Patrons Circle members are dropped off
 $lastYear = (new DateTime())->sub(new DateInterval('P1Y'));
-$faCredentials = explode("\n", trim(file_get_contents(FA_SECRET_FILE_PATH)));
+$faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
+$faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
 
 // Test donations
 // fa000cbf-af6f-4c14-8919-da6cf81a27ea  Regular donation, patrons, public, recurring
@@ -88,8 +89,8 @@ try{
 				$submitButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[@type="submit"]')));
 
 				// Fill out and submit the form
-				$emailField->sendKeys($faCredentials[0]);
-				$passwordField->sendKeys($faCredentials[1]);
+				$emailField->sendKeys($faUsername);
+				$passwordField->sendKeys($faPassword);
 				$submitButton->click();
 			}
 

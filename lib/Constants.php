@@ -7,7 +7,7 @@ use function Safe\strtotime;
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
 
-define('SITE_STATUS', get_cfg_var('site_status') ?: SITE_STATUS_DEV); // Set in the PHP INI configuration for both CLI and FPM. Have to use define() and not const so we can use a function.
+define('SITE_STATUS', get_cfg_var('se.site_status') ?: SITE_STATUS_DEV); // Set in the PHP INI configuration for both CLI and FPM. Have to use define() and not const so we can use a function.
 
 // No trailing slash on any of the below constants.
 if(SITE_STATUS == SITE_STATUS_LIVE){
@@ -35,14 +35,10 @@ const SORT_LENGTH = 'length';
 
 const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
-
 const NO_REPLY_EMAIL_ADDRESS = 'admin@standardebooks.org';
 const ADMIN_EMAIL_ADDRESS = 'admin@standardebooks.org';
 const EDITOR_IN_CHIEF_EMAIL_ADDRESS = 'alex@standardebooks.org';
-// We don't define the email username/password in this file to
-// 1) avoid a filesystem read when email isn't being used, and
-// 2) allow scripts run by users not in the www-data group to succeed, otherwise they will not be able to open secret files on startup and crash
-const POSTMARK_SECRET_FILE_PATH = SITE_ROOT . '/config/secrets/postmarkapp.com';
+define('EMAIL_SMTP_USERNAME', get_cfg_var('se.secrets.postmark.username'));
 const EMAIL_SMTP_HOST = 'smtp-broadcasts.postmarkapp.com';
 const EMAIL_POSTMARK_STREAM_BROADCAST = 'the-standard-ebooks-newsletter';
 
@@ -87,6 +83,13 @@ const FA_FEE_PERCENT = 0.87;
 
 const SE_SUBJECTS = ['Adventure', 'Autobiography', 'Biography', 'Children’s', 'Comedy', 'Drama', 'Fantasy', 'Fiction', 'Horror', 'Memoir', 'Mystery', 'Nonfiction', 'Philosophy', 'Poetry', 'Satire', 'Science Fiction', 'Shorts', 'Spirituality', 'Tragedy', 'Travel'];
 
+const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web']; // If we get GitHub push requests featuring these repos, silently ignore instead of returning an error.
+
+const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log'; // Must be writable by `www-data` Unix user.
+const POSTMARK_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-postmark.log'; // Must be writable by `www-data` Unix user.
+const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log'; // Must be writable by `www-data` Unix user.
+const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writable by `www-data` Unix user.
+
 define('PD_YEAR', intval(gmdate('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
@@ -94,16 +97,4 @@ define('DONATION_HOLIDAY_ALERT_ON', time() > strtotime('November 15, ' . gmdate(
 define('DONATION_ALERT_ON', DONATION_HOLIDAY_ALERT_ON || rand(1, 4) == 2);
 define('DONATION_DRIVE_ON', false);
 define('DONATION_DRIVE_COUNTER_ON', false);
-
-const GITHUB_SECRET_FILE_PATH =		SITE_ROOT . '/config/secrets/se-vcs-bot@github.com'; // Set in the GitHub organization global webhook settings.
-const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log'; // Must be writable by `www-data` Unix user.
-const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web']; // If we get GitHub push requests featuring these repos, silently ignore instead of returning an error.
-
-const POSTMARK_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-postmark.log'; // Must be writable by `www-data` Unix user.
-
-const ZOHO_SECRET_FILE_PATH =		SITE_ROOT . '/config/secrets/webhooks@zoho.com'; // Set in the GitHub organization global webhook settings.
-const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log'; // Must be writable by `www-data` Unix user.
-
-const FA_SECRET_FILE_PATH =		SITE_ROOT . '/config/secrets/fracturedatlas.org';
-const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writable by `www-data` Unix user.
 

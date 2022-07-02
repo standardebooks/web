@@ -5,8 +5,6 @@ use PHPMailer\PHPMailer\Exception;
 use function Safe\define;
 use function Safe\file_get_contents;
 
-define('EMAIL_SMTP_USERNAME', trim(file_get_contents(POSTMARK_SECRET_FILE_PATH)));
-
 class Email{
 	public $To = '';
 	public $From = '';

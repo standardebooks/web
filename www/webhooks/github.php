@@ -28,7 +28,7 @@ try{
 	$hashAlgorithm = $splitHash[0];
 	$hash = $splitHash[1];
 
-	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, preg_replace("/[\r\n]/ius", '', file_get_contents(GITHUB_SECRET_FILE_PATH))))){
+	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, get_cfg_var('se.secrets.github.se_vcs_bot.secret')))){
 		throw new Exceptions\InvalidCredentialsException();
 	}
 

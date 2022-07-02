@@ -13,3 +13,4 @@ composer.lock
 *.log
 www/manual/*
 !www/manual/index.php
+config/php/fpm/standardebooks.org-secrets.ini
