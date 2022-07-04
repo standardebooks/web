@@ -87,6 +87,10 @@ class Poll extends PropertiesBase{
 	// ***********
 
 	public static function Get(?int $pollId): Poll{
+		if($pollId === null){
+			throw new Exceptions\InvalidPollException();
+		}
+
 		$result = Db::Query('SELECT * from Polls where PollId = ?', [$pollId], 'Poll');
 
 		if(sizeof($result) == 0){
@@ -97,6 +101,10 @@ class Poll extends PropertiesBase{
 	}
 
 	public static function GetByUrlName(?string $urlName): Poll{
+		if($urlName === null){
+			throw new Exceptions\InvalidPollException();
+		}
+
 		$result = Db::Query('SELECT * from Polls where UrlName = ?', [$urlName], 'Poll');
 
 		if(sizeof($result) == 0){

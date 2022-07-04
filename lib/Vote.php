@@ -100,10 +100,9 @@ class Vote extends PropertiesBase{
 		$this->VoteId = Db::GetLastInsertedId();
 	}
 
-	public static function Get(?string $pollUrlName, ?int $userId): ?Vote{
+	public static function Get(?string $pollUrlName, ?int $userId): Vote{
 		if($pollUrlName === null || $userId === null){
-			vdd('nn');
-			return null;
+			throw new Exceptions\InvalidVoteException();
 		}
 
 		$result = Db::Query('SELECT v.* from Votes v inner join

@@ -51,6 +51,10 @@ class User extends PropertiesBase{
 	}
 
 	public static function GetByEmail(?string $email): User{
+		if($email === null){
+			throw new Exceptions\InvalidUserException();
+		}
+
 		$result = Db::Query('SELECT * from Users where Email = ?', [$email], 'User');
 
 		if(sizeof($result) == 0){

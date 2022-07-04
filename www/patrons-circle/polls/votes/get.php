@@ -1,6 +1,8 @@
 <?
 require_once('Core.php');
 
+use function Safe\session_unset;
+
 session_start();
 
 $vote = new Vote();
