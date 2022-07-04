@@ -8,6 +8,13 @@ use function Safe\preg_replace;
 use function Safe\apcu_fetch;
 use function Safe\shuffle;
 
+$ebook = new Ebook();
+$transcriptionSources = [];
+$scanSources = [];
+$otherSources = [];
+$carousel = [];
+$carouselTag = null;
+
 try{
 	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path', true) ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
 	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath; // Path to the deployed WWW files for this ebook
@@ -42,9 +49,6 @@ try{
 	}
 
 	// Divide our sources into transcriptions and scans
-	$transcriptionSources = [];
-	$scanSources = [];
-	$otherSources = [];
 	foreach($ebook->Sources as $source){
 		switch($source->Type){
 			case SOURCE_PROJECT_GUTENBERG:
@@ -69,9 +73,7 @@ try{
 
 	// Generate the bottom carousel.
 	// Pick a random tag from this ebook, and get ebooks in the same tag
-	$carousel = [];
 	$ebooks = [];
-	$carouselTag = null;
 	if(sizeof($ebook->Tags) > 0){
 		$carouselTag = $ebook->Tags[rand(0, sizeof($ebook->Tags) - 1)];
 		$ebooks = Library::GetEbooksByTag(strtolower($carouselTag->Name));
@@ -104,9 +106,7 @@ catch(Exceptions\SeeOtherEbookException $ex){
 	exit();
 }
 catch(Exceptions\InvalidEbookException $ex){
-	http_response_code(404);
-	include(WEB_ROOT . '/404.php');
-	exit();
+	Template::Emit404();
 }
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>
 <main>

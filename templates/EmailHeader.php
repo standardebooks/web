@@ -79,6 +79,7 @@ $letterhead = $letterhead ?? false;
 		h2{
 			font-family: "League Spartan", "Helvetica", "Arial", sans-serif;
 			font-weight: bold;
+			hyphens: none;
 			margin: 1em auto;
 			text-align: center;
 		}
@@ -110,7 +111,6 @@ $letterhead = $letterhead ?? false;
 		}
 
 		address{
-			font-size: .75em;
 			text-transform: none;
 		}
 
@@ -124,6 +124,7 @@ $letterhead = $letterhead ?? false;
 
 		.footer{
 			border-top: 1px solid #ccc;
+			font-size: .75em;
 			margin-top: 2em;
 			padding-top: 2em;
 			text-align: center;
@@ -135,7 +136,7 @@ $letterhead = $letterhead ?? false;
 		}
 
 		.footer img{
-			margin-top: 1em;
+			margin-top: 2em;
 			max-width: 55px;
 		}
 

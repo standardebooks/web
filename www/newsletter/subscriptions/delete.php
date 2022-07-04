@@ -11,8 +11,8 @@ try{
 		throw new Exceptions\InvalidRequestException();
 	}
 
-	$subscriber = NewsletterSubscriber::Get(HttpInput::Str(GET, 'uuid') ?? '');
-	$subscriber->Delete();
+	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid') ?? '');
+	$subscription->Delete();
 
 	if($requestType == REST){
 		exit();
@@ -22,12 +22,14 @@ catch(Exceptions\InvalidRequestException $ex){
 	http_response_code(405);
 	exit();
 }
-catch(Exceptions\InvalidNewsletterSubscriberException $ex){
-	http_response_code(404);
+catch(Exceptions\InvalidNewsletterSubscriptionException $ex){
 	if($requestType == WEB){
-		include(WEB_ROOT . '/404.php');
+		Template::Emit404();
 	}
-	exit();
+	else{
+		http_response_code(404);
+		exit();
+	}
 }
 
 ?><?= Template::Header(['title' => 'You’ve unsubscribed from the Standard Ebooks newsletter', 'highlight' => 'newsletter', 'description' => 'You’ve unsubscribed from the Standard Ebooks newsletter.']) ?>

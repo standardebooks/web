@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class NewsletterSubscriberExistsException extends SeException{
+class NewsletterSubscriptionExistsException extends SeException{
 	protected $message = 'You’re already subscribed to the newsletter.';
 }

@@ -8,9 +8,10 @@ You subscribed to:
 <? } ?>
 <? if($isSubscribedToSummary){ ?>- A monthly summary of new ebook releases
 <? } ?>
+
 Please use the link below to confirm your subscription—you won’t receive email from us until you do.
 
-<<?= $subscriber->Url ?>/confirm>
+<<?= SITE_URL . $subscription->Url ?>/confirm>
 
 If you didn’t subscribe, or you’re not sure why you received this email, you can safely delete it and you won’t receive any more email from us.
 

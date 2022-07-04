@@ -625,17 +625,29 @@ input[type="checkbox"]:focus{
 	outline: none;
 }
 
-ul.error{
-	border: 2px solid #c33b3b;
+.message{
+	border: 2px solid rgba(0, 0, 0, .25);
 	border-radius: .25rem;
-	background: #e14646;
 	padding: 1rem;
 	color: #fff;
 	text-shadow: 1px 1px 0px rgba(0, 0, 0, .75);
 }
 
-ul.error li:only-child{
+.message.error{
+	background: #c45d5d;
+}
+
+.message.success{
+	background: #5dc47c;
+}
+
+ul.message.error li{
+	margin-left: 1rem;
+}
+
+ul.message.error li:only-child{
 	list-style: none;
+	margin-left: 0;
 }
 
 .ebooks nav li.highlighted a:focus,
@@ -2058,7 +2070,7 @@ article.ebook h2 + section > h3:first-of-type{
 }
 
 form[action*="/polls/"],
-form[action="/newsletter/subscribers"]{
+form[action="/newsletter/subscriptions"]{
 	display: grid;
 	grid-gap: 2rem;
 	grid-template-columns: 1fr 1fr;
@@ -2067,18 +2079,18 @@ form[action="/newsletter/subscribers"]{
 }
 
 form[action*="/polls/"] label.email,
-form[action="/newsletter/subscribers"] label.email,
-form[action="/newsletter/subscribers"] label.captcha{
+form[action="/newsletter/subscriptions"] label.email,
+form[action="/newsletter/subscriptions"] label.captcha{
 	grid-column: 1 / span 2;
 }
 
-form[action="/newsletter/subscribers"] label.captcha div{
+form[action="/newsletter/subscriptions"] label.captcha div{
 	display: grid;
 	grid-gap: 1rem;
 	grid-template-columns: 1fr 1fr;
 }
 
-form[action="/newsletter/subscribers"] label.captcha div input{
+form[action="/newsletter/subscriptions"] label.captcha div input{
 	align-self: center;
 }
 
@@ -2087,14 +2099,14 @@ form fieldset ul{
 }
 
 form[action*="/polls/"] button,
-form[action="/newsletter/subscribers"] button{
+form[action="/newsletter/subscriptions"] button{
 	grid-column: 2;
 	justify-self: end;
 	margin-left: 0;
 }
 
 form[action*="/polls/"] fieldset,
-form[action="/newsletter/subscribers"] fieldset{
+form[action="/newsletter/subscriptions"] fieldset{
 	grid-column: 1 / span 2;
 }
 
@@ -2967,9 +2979,9 @@ ul.feed p{
 		margin-top: 0;
 	}
 
-	form[action="/newsletter/subscribers"] label.text,
-	form[action="/newsletter/subscribers"] label.captcha,
-	form[action="/newsletter/subscribers"] fieldset{
+	form[action="/newsletter/subscriptions"] label.text,
+	form[action="/newsletter/subscriptions"] label.captcha,
+	form[action="/newsletter/subscriptions"] fieldset{
 		grid-column: 1 / span 2;
 	}
 

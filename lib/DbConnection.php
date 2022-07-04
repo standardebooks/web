@@ -6,6 +6,7 @@ class DbConnection{
 	private $_link = null;
 	public $IsConnected = false;
 	public $QueryCount = 0;
+	public $LastQueryAffectedRowCount = 0;
 
 	public function __construct(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string$password = '', bool $forceUtf8 = true, bool $require = true){
 		if($user === null){
@@ -159,6 +160,8 @@ class DbConnection{
 	*/
 	private function ExecuteQuery(PDOStatement $handle, string $class = 'stdClass'): array{
 		$handle->execute();
+
+		$this->LastQueryAffectedRowCount = $handle->rowCount();
 
 		$result = [];
 		do{

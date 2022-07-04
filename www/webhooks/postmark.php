@@ -36,7 +36,7 @@ try{
 		// Received when a user marks an email as spam
 		$log->Write('Event type: spam complaint.');
 
-		Db::Query('DELETE from NewsletterSubscribers where Email = ?', [$post->Email]);
+		Db::Query('DELETE ns.* from NewsletterSubscriptions ns inner join Users u on ns.UserId = u.UserId where u.Email = ?', [$post->Email]);
 	}
 	elseif($post->RecordType == 'SubscriptionChange' && $post->SuppressSending){
 		// Received when a user clicks Postmark's "Unsubscribe" link in a newsletter email
@@ -45,7 +45,7 @@ try{
 		$email = $post->Recipient;
 
 		// Remove the email from our newsletter list
-		Db::Query('DELETE from NewsletterSubscribers where Email = ?', [$email]);
+		Db::Query('DELETE ns.* from NewsletterSubscriptions ns inner join Users u on ns.UserId = u.UserId where u.Email = ?', [$email]);
 
 		// Remove the suppression from Postmark, since we deleted it from our own list we will never email them again anyway
 		$handle = curl_init();

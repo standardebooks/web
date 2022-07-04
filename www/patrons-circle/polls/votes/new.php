@@ -8,15 +8,13 @@ session_start();
 $vote = $_SESSION['vote'] ?? new Vote();
 $exception = $_SESSION['exception'] ?? null;
 
-$poll = null;
+$poll = new Poll();
 
 try{
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
 }
 catch(Exceptions\SeException $ex){
-	http_response_code(404);
-	include(WEB_ROOT . '/404.php');
-	exit();
+	Template::Emit404();
 }
 
 if($exception){

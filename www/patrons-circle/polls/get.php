@@ -3,15 +3,13 @@ require_once('Core.php');
 
 use Safe\DateTime;
 
-$poll = null;
+$poll = new Poll();
 
 try{
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
 }
 catch(Exceptions\SeException $ex){
-	http_response_code(404);
-	include(WEB_ROOT . '/404.php');
-	exit();
+	Template::Emit404();
 }
 
 ?><?= Template::Header(['title' => $poll->Name, 'highlight' => '', 'description' => $poll->Description]) ?>

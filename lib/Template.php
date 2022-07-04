@@ -33,4 +33,10 @@ class Template{
 			return self::Get($function, $arguments);
 		}
 	}
+
+	public static function Emit404(): void{
+		http_response_code(404);
+		include(WEB_ROOT . '/404.php');
+		exit();
+	}
 }

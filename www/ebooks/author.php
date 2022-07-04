@@ -1,6 +1,8 @@
 <?
 require_once('Core.php');
 
+$ebooks = [];
+
 try{
 	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path', true) ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
 	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath; // Path to the deployed WWW files for this ebook
@@ -17,9 +19,7 @@ try{
 	}
 }
 catch(Exceptions\InvalidAuthorException $ex){
-	http_response_code(404);
-	include(WEB_ROOT . '/404.php');
-	exit();
+	Template::Emit404();
 }
 ?><?= Template::Header(['title' => 'Ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml), 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml)]) ?>
 <main class="ebooks">

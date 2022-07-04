@@ -59,7 +59,11 @@ class Ebook{
 	public $TextSinglePageUrl;
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 
-	public function __construct(string $wwwFilesystemPath){
+	public function __construct(?string $wwwFilesystemPath = null){
+		if($wwwFilesystemPath === null){
+			return;
+		}
+
 		// First, construct a source repo path from our WWW filesystem path.
 		$this->RepoFilesystemPath = str_replace(EBOOKS_DIST_PATH, '', $wwwFilesystemPath);
 		$this->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $this->RepoFilesystemPath) . '.git';

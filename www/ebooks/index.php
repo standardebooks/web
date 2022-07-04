@@ -14,6 +14,10 @@ try{
 	$pages = 0;
 	$totalEbooks = 0;
 	$collectionObject = null;
+	$pageDescription = '';
+	$pageTitle = '';
+	$pageHeader = '';
+	$queryString = '';
 
 	if($page <= 0){
 		$page = 1;
@@ -90,9 +94,8 @@ try{
 	if($page > 1){
 		$pageTitle .= ', page ' . $page;
 	}
-	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks free ebook library';
 
-	$queryString = '';
+	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks free ebook library';
 
 	if($collection === null){
 		if($query != ''){
@@ -119,9 +122,7 @@ try{
 	$queryString = preg_replace('/^&amp;/ius', '', $queryString);
 }
 catch(Exceptions\InvalidCollectionException $ex){
-	http_response_code(404);
-	include(WEB_ROOT . '/404.php');
-	exit();
+	Template::Emit404();
 }
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">

@@ -5,6 +5,10 @@ class Db{
 		return $GLOBALS['DbConnection']->GetLastInsertedId();
 	}
 
+	public static function GetAffectedRowCount(): int{
+		return $GLOBALS['DbConnection']->LastQueryAffectedRowCount;
+	}
+
 	/**
 	* @param string $query
 	* @param array<mixed> $args
