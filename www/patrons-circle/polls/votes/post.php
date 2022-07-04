@@ -25,8 +25,9 @@ try{
 	session_unset();
 
 	if($requestType == WEB){
+		$_SESSION['vote-created'] = $vote->VoteId;
 		http_response_code(303);
-		header('Location: ' . $vote->PollItem->Poll->Url . '/votes/success');
+		header('Location: ' . $vote->Url);
 	}
 	else{
 		// Access via REST api; 201 CREATED with location

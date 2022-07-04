@@ -22,7 +22,7 @@ class Vote extends PropertiesBase{
 
 	protected function GetUrl(): string{
 		if($this->_Url === null){
-			$this->_Url = '/patrons-circle/polls/' . $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
+			$this->_Url = $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
 		}
 
 		return $this->_Url;
@@ -96,5 +96,25 @@ class Vote extends PropertiesBase{
 		$this->Validate();
 		$this->Created = new DateTime();
 		Db::Query('INSERT into Votes (UserId, PollItemId, Created) values (?, ?, ?)', [$this->UserId, $this->PollItemId, $this->Created]);
+
+		$this->VoteId = Db::GetLastInsertedId();
+	}
+
+	public static function Get(?string $pollUrlName, ?int $userId): ?Vote{
+		if($pollUrlName === null || $userId === null){
+			vdd('nn');
+			return null;
+		}
+
+		$result = Db::Query('SELECT v.* from Votes v inner join
+					(select pi.PollItemId from PollItems pi inner join Polls p on pi.PollId = p.PollID
+						where p.UrlName = ?
+					) x on v.PollItemId = x.PollItemId where v.UserId = ?', [$pollUrlName, $userId], 'Vote');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidVoteException();
+		}
+
+		return $result[0];
 	}
 }

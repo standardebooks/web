@@ -24,7 +24,7 @@ if($exception){
 
 ?><?= Template::Header(['title' => $poll->Name . ' - Vote Now', 'highlight' => '', 'description' => 'Vote in the ' . $poll->Name . ' poll']) ?>
 <main>
-	<article>
+	<section>
 		<h1>Vote in the <?= Formatter::ToPlainText($poll->Name) ?> Poll</h1>
 		<?= Template::Error(['exception' => $exception]) ?>
 		<form method="post" action="<?= Formatter::ToPlainText($poll->Url) ?>/votes">
@@ -51,6 +51,6 @@ if($exception){
 			</fieldset>
 			<button>Vote</button>
 		</form>
-	</article>
+	</section>
 </main>
 <?= Template::Footer() ?>

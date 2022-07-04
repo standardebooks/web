@@ -12,7 +12,7 @@ catch(Exceptions\SeException $ex){
 
 ?><?= Template::Header(['title' => 'Results for the ' . $poll->Name . ' poll', 'highlight' => '', 'description' => 'The voting results for the ' . $poll->Name . ' poll.']) ?>
 <main>
-	<article>
+	<section>
 		<h1>Results for the <?= Formatter::ToPlainText($poll->Name) ?> Poll</h1>
 		<p class="center-notice">Total votes: <?= number_format($poll->VoteCount) ?></p>
 		<? if($poll->IsActive()){ ?>
@@ -39,6 +39,6 @@ catch(Exceptions\SeException $ex){
 		<? } ?>
 			</tbody>
 		</table>
-	</article>
+	</section>
 </main>
 <?= Template::Footer() ?>

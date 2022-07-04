@@ -14,7 +14,7 @@ catch(Exceptions\SeException $ex){
 
 ?><?= Template::Header(['title' => $poll->Name, 'highlight' => '', 'description' => $poll->Description]) ?>
 <main>
-	<article>
+	<section>
 		<h1><?= Formatter::ToPlainText($poll->Name) ?></h1>
 		<p><?= $poll->Description ?></p>
 		<? if($poll->IsActive()){ ?>
@@ -33,6 +33,6 @@ catch(Exceptions\SeException $ex){
 			<p class="button-row narrow"><a href="<?= $poll->Url ?>/votes" class="button">View results</a></p>
 			<? } ?>
 		<? } ?>
-	</article>
+	</section>
 </main>
 <?= Template::Footer() ?>
