@@ -25,15 +25,18 @@ class Payment extends PropertiesBase{
 
 			// If the User object isn't null, then check if we already have this user in our system
 			if($this->User !== null && $this->User->Email !== null){
-				$result = Db::Query('SELECT * from Users where Email = ?', [$this->User->Email], 'User');
+				try{
+					$user = User::GetByEmail($this->User->Email);
 
-				if(sizeof($result) == 0){
+					// User exists, use their data
+					$this->User = $user;
+
+					// Update their name in case we have their email (but not name) recorded from a newsletter subscription
+					Db::Query('UPDATE Users set Name = ? where UserId = ?', [$this->User->Name, $this->User->UserId]);
+				}
+				catch(Exceptions\InvalidUserException $ex){
 					// User doesn't exist, create it now
 					$this->User->Create();
-				}
-				else{
-					// User exists, use their data
-					$this->User = $result[0];
 				}
 
 				$this->UserId = $this->User->UserId;

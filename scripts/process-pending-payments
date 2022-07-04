@@ -50,15 +50,6 @@ $pendingPayments = Db::Query('start transaction;
 				update PendingPayments set ProcessedOn = utc_timestamp() where ProcessedOn is null;
 				commit;');
 
-// $pendingPayments = [];
-// $csv = array_map( 'str_getcsv', file( '/home/alex/donations.csv')  );
-// foreach($csv as $row){
-// 	$obj = new stdClass();
-// 	$obj->TransactionId = $row[0];
-// 	$obj->ChannelId = PAYMENT_CHANNEL_FA;
-// 	$pendingPayments[] = $obj;
-// }
-
 if(sizeof($pendingPayments) == 0){
 	// Don't start the very slow Selenium driver if we have nothing to process
 	exit();
