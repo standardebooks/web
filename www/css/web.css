@@ -1,7 +1,7 @@
 @namespace epub "http://www.idpf.org/2007/ops";
 
 body{
-	font-family: georgia, serif;
+	font-family: "Georgia", serif;
 	font-size: 18px;
 	margin: 8rem auto 3rem;
 	max-width: 55ch;
@@ -10,6 +10,7 @@ body{
 }
 
 body > header{
+	all: unset; /* Remove any properties set by selectors in the ebook itself */
 	background: #fff;
 	border-bottom: 1px solid #999;
 	box-shadow: 0 0 3px #ccc;
