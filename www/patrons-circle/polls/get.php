@@ -14,7 +14,7 @@ catch(Exceptions\SeException $ex){
 
 ?><?= Template::Header(['title' => $poll->Name, 'highlight' => '', 'description' => $poll->Description]) ?>
 <main>
-	<section>
+	<section class="narrow">
 		<h1><?= Formatter::ToPlainText($poll->Name) ?></h1>
 		<p><?= $poll->Description ?></p>
 		<? if($poll->IsActive()){ ?>

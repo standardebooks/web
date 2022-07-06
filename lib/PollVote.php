@@ -6,8 +6,7 @@ use Safe\DateTime;
  * @property PollItem $PollItem
  * @property string $Url
  */
-class Vote extends PropertiesBase{
-	public $VoteId;
+class PollVote extends PropertiesBase{
 	public $UserId;
 	protected $_User = null;
 	public $Created;
@@ -63,10 +62,10 @@ class Vote extends PropertiesBase{
 			else{
 				// Do we already have a vote for this poll, from this user?
 				if(Db::QueryInt('
-					SELECT count(*) from Votes v inner join
-					(select PollItemId from PollItems pi inner join Polls p on pi.PollId = p.PollId) x
-					on v.PollItemId = x.PollItemId where v.UserId = ?', [$this->UserId]) > 0){
-					$error->Add(new Exceptions\VoteExistsException());
+					SELECT count(*) from PollVotes pv inner join
+					(select PollItemId from PollItems pi inner join Polls p using (PollId)) x
+					using (PollItemId) where pv.UserId = ?', [$this->UserId]) > 0){
+					$error->Add(new Exceptions\PollVoteExistsException());
 				}
 			}
 		}
@@ -95,23 +94,21 @@ class Vote extends PropertiesBase{
 
 		$this->Validate();
 		$this->Created = new DateTime();
-		Db::Query('INSERT into Votes (UserId, PollItemId, Created) values (?, ?, ?)', [$this->UserId, $this->PollItemId, $this->Created]);
-
-		$this->VoteId = Db::GetLastInsertedId();
+		Db::Query('INSERT into PollVotes (UserId, PollItemId, Created) values (?, ?, ?)', [$this->UserId, $this->PollItemId, $this->Created]);
 	}
 
-	public static function Get(?string $pollUrlName, ?int $userId): Vote{
+	public static function Get(?string $pollUrlName, ?int $userId): PollVote{
 		if($pollUrlName === null || $userId === null){
-			throw new Exceptions\InvalidVoteException();
+			throw new Exceptions\InvalidPollVoteException();
 		}
 
-		$result = Db::Query('SELECT v.* from Votes v inner join
-					(select pi.PollItemId from PollItems pi inner join Polls p on pi.PollId = p.PollID
+		$result = Db::Query('SELECT pv.* from PollVotes pv inner join
+					(select pi.PollItemId from PollItems pi inner join Polls p using (PollId)
 						where p.UrlName = ?
-					) x on v.PollItemId = x.PollItemId where v.UserId = ?', [$pollUrlName, $userId], 'Vote');
+					) x using (PollItemId) where pv.UserId = ?', [$pollUrlName, $userId], 'PollVote');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidVoteException();
+			throw new Exceptions\InvalidPollVoteException();
 		}
 
 		return $result[0];

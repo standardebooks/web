@@ -13,7 +13,7 @@ session_start();
 
 $requestType = HttpInput::RequestType();
 
-$vote = new Vote();
+$vote = new PollVote();
 
 try{
 	$error = new Exceptions\ValidationException();
@@ -25,7 +25,7 @@ try{
 	session_unset();
 
 	if($requestType == WEB){
-		$_SESSION['vote-created'] = $vote->VoteId;
+		$_SESSION['vote-created'] = $vote->UserId;
 		http_response_code(303);
 		header('Location: ' . $vote->Url);
 	}

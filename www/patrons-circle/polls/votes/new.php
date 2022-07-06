@@ -5,7 +5,7 @@ use function Safe\session_unset;
 
 session_start();
 
-$vote = $_SESSION['vote'] ?? new Vote();
+$vote = $_SESSION['vote'] ?? new PollVote();
 $exception = $_SESSION['exception'] ?? null;
 
 $poll = new Poll();
@@ -24,7 +24,7 @@ if($exception){
 
 ?><?= Template::Header(['title' => $poll->Name . ' - Vote Now', 'highlight' => '', 'description' => 'Vote in the ' . $poll->Name . ' poll']) ?>
 <main>
-	<section>
+	<section class="narrow">
 		<h1>Vote in the <?= Formatter::ToPlainText($poll->Name) ?> Poll</h1>
 		<?= Template::Error(['exception' => $exception]) ?>
 		<form method="post" action="<?= Formatter::ToPlainText($poll->Url) ?>/votes">

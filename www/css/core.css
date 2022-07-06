@@ -238,6 +238,16 @@ main > article{
 	align-items: center;
 }
 
+main > section.narrow > *{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+main > section.narrow > h1{
+	max-width: none;
+}
+
+main > section.narrow > *,
 main > article > *{
 	width: 100%;
 	max-width: 40rem;
@@ -623,6 +633,10 @@ form button{
 input[type="radio"]:focus,
 input[type="checkbox"]:focus{
 	outline: none;
+}
+
+h1 + .message{
+	margin-top: 0;
 }
 
 .message{
