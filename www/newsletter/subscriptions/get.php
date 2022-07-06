@@ -45,7 +45,7 @@ catch(Exceptions\SeException $ex){
 
 ?><?= Template::Header(['title' => 'Your subscription to the Standard Ebooks newsletter', 'highlight' => 'newsletter', 'description' => 'Your subscription to the Standard Ebooks newsletter.']) ?>
 <main>
-	<section>
+	<section class="narrow">
 		<? if($subscription->IsConfirmed){ ?>
 		<h1>Your Standard Ebooks Newsletter Subscription</h1>
 		<? if($updated){ ?>

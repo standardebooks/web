@@ -15,7 +15,7 @@ if($exception){
 
 ?><?= Template::Header(['title' => 'Subscribe to the Standard Ebooks newsletter', 'highlight' => 'newsletter', 'description' => 'Subscribe to the Standard Ebooks newsletter to receive occasional updates about the project.']) ?>
 <main>
-	<article class="has-hero">
+	<section class="narrow has-hero">
 		<hgroup>
 			<h1>Subscribe to the Newsletter</h1>
 			<h2>to receive missives from the vanguard of digital literature</h2>
@@ -56,6 +56,6 @@ if($exception){
 			</fieldset>
 			<button>Subscribe</button>
 		</form>
-	</article>
+	</section>
 </main>
 <?= Template::Footer() ?>

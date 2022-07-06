@@ -243,7 +243,9 @@ main > section.narrow > *{
 	margin-right: auto;
 }
 
-main > section.narrow > h1{
+main > section.narrow > h1,
+main > section.narrow > hgroup,
+main > section.narrow.has-hero > picture{
 	max-width: none;
 }
 
@@ -1795,8 +1797,7 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 }
 
 .has-hero hgroup{
-	padding: 2rem;
-	padding-bottom: 1.75rem;
+	padding: 2rem 0 1.75rem 0;
 	display: flex;
 	align-items: center;
 	flex-direction: column;

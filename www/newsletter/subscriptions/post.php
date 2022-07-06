@@ -23,12 +23,12 @@ if(HttpInput::Str(POST, 'automationtest', false)){
 		$subscription->User = new User();
 		$subscription->User->Uuid = $uuid->toString();
 		$_SESSION['subscription-created'] = 0; // 0 means 'bot'
-		header('Location: ' . $subscription->Url);
+		header('Location: /newsletter/subscriptions/success');
 	}
 	else{
 		// Access via REST api; 201 CREATED with location
 		http_response_code(201);
-		header('Location: ' . $subscription->Url);
+		header('Location: /newsletter/subscriptions/success');
 	}
 
 	exit();
@@ -66,12 +66,12 @@ try{
 	if($requestType == WEB){
 		http_response_code(303);
 		$_SESSION['subscription-created'] = $subscription->UserId;
-		header('Location: ' . $subscription->Url);
+		header('Location: /newsletter/subscriptions/success');
 	}
 	else{
 		// Access via REST api; 201 CREATED with location
 		http_response_code(201);
-		header('Location: ' . $subscription->Url);
+		header('Location: /newsletter/subscriptions/success');
 	}
 }
 catch(Exceptions\NewsletterSubscriptionExistsException $ex){
@@ -83,14 +83,18 @@ catch(Exceptions\NewsletterSubscriptionExistsException $ex){
 		$subscription->IsConfirmed = $existingSubscription->IsConfirmed;
 		$subscription->Save();
 
-		// Don't re-send the email after all, to prevent spam
-		// if(!$subscription->IsConfirmed){
-		// 	$subscription->SendConfirmationEmail();
-		// }
-
 		http_response_code(303);
-		$_SESSION['subscription-updated'] = $subscription->UserId;
-		header('Location: ' . $subscription->Url);
+
+		if(!$subscription->IsConfirmed){
+			// Don't re-send the email after all, to prevent spam
+			// $subscription->SendConfirmationEmail();
+
+			header('Location: /newsletter/subscriptions/success');
+		}
+		else{
+			$_SESSION['subscription-updated'] = $subscription->UserId;
+			header('Location: ' . $subscription->Url);
+		}
 	}
 	else{
 		// Access via REST api; 409 CONFLICT
