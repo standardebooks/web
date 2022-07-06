@@ -24,6 +24,7 @@ body > header > a:focus{
 }
 
 article.ebook section#read-online a::before,
+article.ebook section#sources ul li a[class]::before,
 article.ebook section#download ul li a[class]::before,
 article.ebook section#details ul li a[class]::before,
 footer p:last-child a::before,
