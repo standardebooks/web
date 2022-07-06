@@ -11,16 +11,18 @@ mb_http_output('UTF-8');
 date_default_timezone_set('UTC');
 
 // Custom error handler to output more details about the specific Apache request that caused an exception.
-set_exception_handler(function(Throwable $ex): void{
-	$errorString = "----------------------------------------\n";
-	$errorString .= trim(vds(array_intersect_key($_SERVER, ['REQUEST_URI' => '', 'QUERY_STRING' => '', 'REQUEST_METHOD' => '', 'REDIRECT_QUERY_STRING' => '', 'REDIRECT_URL' => '', 'SCRIPT_FILENAME' => '', 'REMOTE_ADDR' => '', 'HTTP_COOKIE' => '', 'HTTP_USER_AGENT' => '', 'SCRIPT_URI' => ''])));
+if(SITE_STATUS == SITE_STATUS_LIVE){
+	set_exception_handler(function(Throwable $ex): void{
+		$errorString = "----------------------------------------\n";
+		$errorString .= trim(vds(array_intersect_key($_SERVER, ['REQUEST_URI' => '', 'QUERY_STRING' => '', 'REQUEST_METHOD' => '', 'REDIRECT_QUERY_STRING' => '', 'REDIRECT_URL' => '', 'SCRIPT_FILENAME' => '', 'REMOTE_ADDR' => '', 'HTTP_COOKIE' => '', 'HTTP_USER_AGENT' => '', 'SCRIPT_URI' => ''])));
 
-	if(sizeof($_POST) > 0){
-		$errorString .= "POST DATA:\n";
-		$errorString .= vds($_POST);
-	}
+		if(sizeof($_POST) > 0){
+			$errorString .= "POST DATA:\n";
+			$errorString .= vds($_POST);
+		}
 
-	error_log($errorString);
+		error_log($errorString);
 
-	throw $ex; // Send the exception back to PHP for its usual logging routine.
-});
+		throw $ex; // Send the exception back to PHP for its usual logging routine.
+	});
+}

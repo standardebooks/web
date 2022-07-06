@@ -139,7 +139,6 @@ class DbConnection{
 				else{
 					$done = true;
 					if(SITE_STATUS == SITE_STATUS_DEV){
-						print($sql);
 						throw($ex);
 					}
 					else{
