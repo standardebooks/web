@@ -9,7 +9,7 @@ $anonymousPatronCount = 0;
 
 $patronsCircle = Db::Query('SELECT if(p.AlternateName is not null, p.AlternateName, u.Name) as SortedName
 				from Patrons p inner join Users u
-				on p.UserId = u.UserId
+				using(UserId)
 				where
 				p.IsAnonymous = false
 				and p.Ended is null

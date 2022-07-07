@@ -59,7 +59,7 @@ class Patron extends PropertiesBase{
 	}
 
 	public static function GetByEmail(?string $email): Patron{
-		$result = Db::Query('SELECT p.* from Patrons p inner join Users u on p.UserId = u.UserId where u.Email = ?', [$email], 'Patron');
+		$result = Db::Query('SELECT p.* from Patrons p inner join Users u using(UserId) where u.Email = ?', [$email], 'Patron');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidPatronException();

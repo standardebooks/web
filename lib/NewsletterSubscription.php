@@ -112,7 +112,7 @@ class NewsletterSubscription extends PropertiesBase{
 	// ***********
 
 	public static function Get(string $uuid): NewsletterSubscription{
-		$result = Db::Query('SELECT ns.* from NewsletterSubscriptions ns inner join Users u on ns.UserId = u.UserId where u.Uuid = ?', [$uuid], 'NewsletterSubscription');
+		$result = Db::Query('SELECT ns.* from NewsletterSubscriptions ns inner join Users u using(UserId) where u.Uuid = ?', [$uuid], 'NewsletterSubscription');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidNewsletterSubscriptionException();
