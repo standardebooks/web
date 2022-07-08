@@ -657,6 +657,10 @@ h1 + .message{
 	background: #5dc47c;
 }
 
+.message *:focus{
+	outline: 1px dashed #fff;
+}
+
 ul.message.error li{
 	margin-left: 1rem;
 }
@@ -1528,6 +1532,10 @@ main.ebooks nav ol li a:hover{
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 }
 
+.message a:hover{
+	color: #fff;
+}
+
 p.no-results{
 	margin-top: 4rem;
 	margin-bottom: 2rem;
@@ -1574,7 +1582,6 @@ input[type="search"]{
 	display: flex;
 	align-items: center;
 	padding: 1rem;
-	color: inherit;
 	font-size: .88rem;
 	font-family: "Crimson Pro";
 	color: var(--body-text);
@@ -2084,12 +2091,16 @@ article.ebook h2 + section > h3:first-of-type{
 	left: -5000px;
 }
 
+.message + form,
+p + form{
+	margin-top: 1rem;
+}
+
 form[action*="/polls/"],
 form[action="/newsletter/subscriptions"]{
 	display: grid;
 	grid-gap: 2rem;
 	grid-template-columns: 1fr 1fr;
-	margin-top: 1rem;
 	margin-bottom: 0;
 }
 
