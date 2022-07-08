@@ -107,7 +107,7 @@ $opdsRootEntries = [
 		'acquisition')
 ];
 
-$opdsRoot = new OpdsNavigationFeed('Standard Ebooks', 'The navigation root for the Standard Ebooks OPDS feed.', '/feeds/opds', WEB_ROOT . '/feeds/opds/index.xml', $opdsRootEntries, null);
+$opdsRoot = new OpdsNavigationFeed('Standard Ebooks', 'The Standard Ebooks catalog.', '/feeds/opds', WEB_ROOT . '/feeds/opds/index.xml', $opdsRootEntries, null);
 SaveFeed($opdsRoot, $force, $now);
 
 // Create the subjects navigation document

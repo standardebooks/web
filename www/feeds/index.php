@@ -10,28 +10,30 @@ require_once('Core.php');
 
 ?><?= Template::Header(['title' => 'Ebook Feeds', 'description' => 'A list of available feeds of Standard Ebooks ebooks.']) ?>
 <main>
-	<article>
+	<section class="narrow">
 		<h1>Ebook Feeds</h1>
-		<p>We offers several feeds that you can use to get notified about new ebooks, or to browse and download from our catalog directly in your ereader.</p>
+		<p>We offer several ebook feeds that you can use in your ereading app to browse, search, and download from our catalog. You can also add our feeds to your RSS client to get notified of new ebooks as they’re released.</p>
+		<?= Template::FeedHowTo() ?>
 		<section id="opds-feeds">
 			<h2>OPDS 1.2 feeds</h2>
-			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a> are designed for use with ereading systems like <a href="http://koreader.rocks/">KOreader</a> or <a href="https://calibre-ebook.com">Calibre</a>, or with ereaders like <a href="https://johnfactotum.github.io/foliate/">Foliate</a>. They allow you to search, browse, and download from our catalog, directly in your ereader. They’re also perfect for organizations who wish to download and process our catalog efficiently.</p>
+			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a> are designed for use with ereading apps on your phone or tablet, or with ereading systems like <a href="http://koreader.rocks/">KOreader</a>. Add our OPDS feed to your ereading app to search, browse, and download from our entire catalog, directly in your ereader.</p>
+			<p>They’re also perfect for scripting, or for libraries or other organizations who wish to download and process our catalog of ebooks.</p>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/opds">The Standard Ebooks OPDS feed</a></p>
 					<p class="url"><?= SITE_URL ?>/feeds/opds</p>
 				</li>
 			</ul>
-			<section>
-			<h3>OPDS how-tos and resources</h3>
-			<ul>
-				<li>
-					<p><a href="https://github.com/koreader/koreader/wiki/OPDS-support">Using OPDS with KOreader</a></p>
-				</li>
-				<li>
-					<p><a href="https://github.com/steinarb/opds-reader">OPDS Reader</a>, a plugin that adds OPDS support to Calibre</p>
-				</li>
-			</ul>
+			<section id="opds-how-tos-and-resources">
+				<h3>OPDS how-tos and resources</h3>
+				<ul>
+					<li>
+						<p><a href="https://github.com/koreader/koreader/wiki/OPDS-support">Using OPDS with KOreader</a></p>
+					</li>
+					<li>
+						<p><a href="https://github.com/steinarb/opds-reader">OPDS Reader</a>, a plugin that adds OPDS support to Calibre</p>
+					</li>
+				</ul>
 			</section>
 		</section>
 		<section id="atom-feeds">
@@ -40,9 +42,9 @@ require_once('Core.php');
 			<p>Note that some RSS readers may show these feeds ordered by when an ebook was last updated, even though the feeds are ordered by when an ebook was first released. You should be able to change the sort order in your RSS reader.</p>
 			<ul class="feed">
 				<li>
-					<p><a href="/feeds/atom/new-releases">New releases</a></p>
+					<p><a href="/feeds/atom/new-releases">New releases</a> (Public)</p>
 					<p class="url"><?= SITE_URL ?>/feeds/atom/new-releases</p>
-					<p>The thirty latest Standard Ebooks, most-recently-released first.</p>
+					<p>The fifteen latest Standard Ebooks, most-recently-released first.</p>
 				</li>
 				<li>
 					<p><a href="/feeds/atom/all">All ebooks</a></p>
@@ -67,9 +69,9 @@ require_once('Core.php');
 			<p>RSS feeds are an alternative to Atom feeds. They contain less information than Atom feeds, but might be better supported by some RSS readers.</p>
 			<ul class="feed">
 				<li>
-					<p><a href="/feeds/rss/new-releases">New releases</a></p>
+					<p><a href="/feeds/rss/new-releases">New releases</a> (Public)</p>
 					<p class="url"><?= SITE_URL ?>/feeds/rss/new-releases</p>
-					<p>The thirty latest Standard Ebooks, most-recently-released first.</p>
+					<p>The fifteen latest Standard Ebooks, most-recently-released first.</p>
 				</li>
 				<li>
 					<p><a href="/feeds/rss/all">All ebooks</a></p>
@@ -89,6 +91,6 @@ require_once('Core.php');
 				</ul>
 			</section>
 		</section>
-	</article>
+	</section>
 </main>
 <?= Template::Footer() ?>

@@ -13,18 +13,17 @@ try{
 }
 catch(\Exception $ex){
 	http_response_code(500);
-	include(WEB_ROOT . '/404.php');
 	exit();
 }
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"/feeds/opds/style\" type=\"text/xsl\"?>\n");
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
 	<id><?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?></id>
-	<link href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>" rel="self" type="application/atom+xml;profile=opds-catalog"/>
+	<link href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>" rel="self" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
 	<link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>" rel="alternate" type="text/html"/>
-	<link href="<?= SITE_URL ?>/feeds/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
-	<link href="<?= SITE_URL ?>/feeds/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
-	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml"/>
+	<link href="<?= SITE_URL ?>/feeds/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
+	<link href="<?= SITE_URL ?>/feeds/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition; charset=utf-8"/>
+	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml; charset=utf-8"/>
 	<title>Search Results</title>
 	<subtitle>Results for “<?= Formatter::ToPlainXmlText($query) ?>”.</subtitle>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>

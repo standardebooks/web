@@ -6,7 +6,7 @@ PHP 7+ is required.
 
 ```shell
 # Install Apache, PHP, PHP-FPM, and various other dependencies.
-sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server
+sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server libaprutil1-dbd-mysql
 
 # Create the site root and logs root and clone this repo into it.
 sudo mkdir /standardebooks.org/
@@ -26,7 +26,7 @@ echo -e "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
 openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
 
 # Enable the necessary Apache modules.
-sudo a2enmod headers expires ssl rewrite proxy proxy_fcgi
+sudo a2enmod headers expires ssl rewrite proxy proxy_fcgi authn_dbd
 
 # Link and enable the SE Apache configuration file.
 sudo ln -s /standardebooks.org/web/config/apache/standardebooks.test.conf /etc/apache2/sites-available/

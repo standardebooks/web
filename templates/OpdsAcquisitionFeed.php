@@ -18,11 +18,11 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/"<? if($isCrawlable){ ?> xmlns:fh="http://purl.org/syndication/history/1.0"<? } ?>>
 	<id><?= SITE_URL . Formatter::ToPlainXmlText($id) ?></id>
-	<link href="<?= SITE_URL . Formatter::ToPlainXmlText($url) ?>" rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
-	<link href="<?= SITE_URL ?>/feeds/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
-	<link href="<?= SITE_URL ?><?= Formatter::ToPlainXmlText($parentUrl) ?>" rel="up" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
-	<link href="<?= SITE_URL ?>/feeds/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
-	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml"/>
+	<link href="<?= SITE_URL . Formatter::ToPlainXmlText($url) ?>" rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition; charset=utf-8"/>
+	<link href="<?= SITE_URL ?>/feeds/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
+	<link href="<?= SITE_URL ?><?= Formatter::ToPlainXmlText($parentUrl) ?>" rel="up" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
+	<link href="<?= SITE_URL ?>/feeds/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition; charset=utf-8"/>
+	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml; charset=utf-8"/>
 	<title><?= Formatter::ToPlainXmlText($title) ?></title>
 	<? if($subtitle !== null){ ?><subtitle><?= Formatter::ToPlainXmlText($subtitle) ?></subtitle><? } ?>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>

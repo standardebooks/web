@@ -27,15 +27,30 @@ require_once('Core.php');
 			<h2>Join the Patrons Circle</h2>
 			<p>Members of the Patrons Circle are steadfast supporters of free, unrestricted, and beautifully presented digital literature. Besides helping support the creation of free, gorgeous ebooks, they also have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 			<p><i>Join the Patrons Circle with a donation of $10/month or more, or join for one year with a one-time donation of $100 or more.</i></p>
+			<p>During your time as a member of the Patrons Circle, you get:</p>
 			<ul>
 				<li>
-					<p>Patrons Circle members have their name <a href="/about#patrons-circle">listed on our masthead</a> for the duration of their gift.</p>
+					<p>Your name <a href="/about#patrons-circle">listed on our masthead</a>.</p>
 				</li>
 				<li>
-					<p>Once per quarter, Patrons Circle members may submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and are subject to approval.)</p>
+					<p>Access to our various <a href="/feeds">ebook feeds</a>:</p>
+					<ul>
+						<li>
+							<p>Browse and download from the entire Standard Ebooks catalog directly in your ereading app using our <a href="/feeds/opds">OPDS feed</a>.</p>
+						</li>
+						<li>
+							<p>Get notified of new ebooks in your news client with our <a href="/feeds/atom">Atom</a> or <a href="/feeds/rss">RSS</a> feeds.</p>
+						</li>
+						<li>
+							<p>Parse and process the feeds to use our ebooks in your personal software projects. (Organizations, see <a href="#corporate-sponsors">corporate sponsorship</a> instead.)</p>
+						</li>
+					</ul>
 				</li>
 				<li>
-					<p><strong>Periodically, members of the Patrons Circle vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production.</strong> The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
+					<p>The ability to submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, once per quarter. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and are subject to approval.)</p>
+				</li>
+				<li>
+					<p><strong>The right to periodically vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production.</strong> The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
 				</li>
 			</ul>
 			<p class="button-row">
@@ -118,13 +133,13 @@ require_once('Core.php');
 		</section>
 		<section id="corporate-sponsors">
 			<h2>Corporate sponsorships</h2>
-			<p>Sponsorships at the corporate level are a great way to show your organization’s commitment to the support of the literate arts.</p>
+			<p>Sponsorships at the corporate level are a great way to show your organization’s commitment to supporting the literate arts.</p>
 			<ul>
 				<li>
 					<p>Your organization’s logo and a link will be <a href="/about#corporate-sponsors">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
 				</li>
 				<li>
-					<p>Get customized <abbr class="acronym">ONIX</abbr>, OPDS, or RSS feeds of our ebook catalog for use by your organization for the duration of your sponsorship.</p>
+					<p>Get access to our OPDS, Atom, and RSS <a href="/feeds">ebook feeds</a> for use by your organization for the duration of your sponsorship. We can also produce different kinds of feeds to meet your needs, like <abbr class="acronym">ONIX</abbr> feeds.</p>
 				</li>
 			</ul>
 			<p>To inquire about sponsorship options, contact the <a href="/about#editor-in-chief">Standard Ebooks Editor-in-Chief</a>.</p>

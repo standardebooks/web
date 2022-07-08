@@ -5,6 +5,6 @@ CREATE TABLE `Patrons` (
   `IsSubscribedToEmails` tinyint(1) NOT NULL DEFAULT 1,
   `Created` datetime NOT NULL,
   `Ended` datetime DEFAULT NULL,
-  PRIMARY KEY (`UserId`),
-  KEY `index2` (`IsAnonymous`,`Ended`)
+  KEY `index2` (`IsAnonymous`,`Ended`),
+  KEY `index1` (`UserId`,`Ended`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

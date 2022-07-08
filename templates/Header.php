@@ -8,7 +8,7 @@ $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 $xmlDeclaration = $xmlDeclaration ?? true;
 
 if($xmlDeclaration){
-	header('content-type: application/xhtml+xml');
+	header('content-type: application/xhtml+xml; charset=utf-8');
 	print('<?xml version="1.0" encoding="utf-8"?>');
 	print("\n");
 	print("<!DOCTYPE html>\n");
