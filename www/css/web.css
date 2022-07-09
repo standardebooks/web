@@ -71,17 +71,6 @@ nav[epub|type~="toc"] ol{
 	list-style: none;
 }
 
-@media(max-width: 96ch){
-	body > header{
-		position: fixed;
-	}
-
-	body > header li:first-child > a{
-		height: 21px;
-		width: 90px;
-	}
-}
-
 @media(max-width: 65ch){
 	body{
 		padding: 0 2rem;
@@ -118,7 +107,18 @@ nav[epub|type~="toc"] ol{
 	}
 }
 
-@media(pointer: coarse) or (pointer: none){
+/* As of July 2022 Chrome on Android doesn't yet understand `or (pointer: none)`
+and will just drop this entire query together if it's included. */
+@media(pointer: coarse){
+	body > header{
+		position: fixed;
+	}
+
+	body > header li:first-child > a{
+		height: 21px;
+		width: 90px;
+	}
+
 	nav[epub|type~="toc"] ol li{
 		margin-bottom: 2em;
 		margin-top: 2em;
