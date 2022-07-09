@@ -9,7 +9,7 @@ USAGE
 	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] [--no-build] [--no-epubcheck] [--no-recompose] [--no-feeds] [-l,--last-push-hash HASH] DIRECTORY [DIRECTORY...]
 		DIRECTORY is a bare source repository.
 		GROUP is a groupname. Defaults to "se".
-		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org".
+		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org/web/www".
 		WEBURL is the URL the website is served on. Defaults to "https://standardebooks.org".
 
 		The deploy process does four things:
@@ -45,7 +45,7 @@ verbose="false"
 images="true"
 build="true"
 group="se"
-webRoot="/standardebooks.org/web"
+webRoot="/standardebooks.org/web/www"
 webUrl="https://standardebooks.org"
 lastPushHash=""
 epubcheck="true"
@@ -134,7 +134,7 @@ if ! [ -f "${scriptsDir}"/generate-feeds ]; then
 	die "\"${scriptsDir}\"/generate-feeds\" is not a file or could not be found."
 fi
 
-mkdir -p "${webRoot}"/www/images/covers/
+mkdir -p "${webRoot}"/images/covers/
 
 for dir in "$@"
 do
@@ -176,7 +176,7 @@ do
 
 		if [ "${images}" = "true" ]; then
 			# Always build images if they don't exist, or if they've changed
-			if [[ ! -f "${webRoot}/www/images/covers/${urlSafeIdentifier}-cover.jpg" ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
+			if [[ ! -f "${webRoot}/images/covers/${urlSafeIdentifier}-cover.jpg" ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
 				images="true"
 			else
 				images="false"
@@ -202,7 +202,7 @@ do
 
 	workDir=$(mktemp -d)
 	imgWorkDir=$(mktemp -d)
-	webDir="${webRoot}/www/ebooks/${webDir}"
+	webDir="${webRoot}/ebooks/${webDir}"
 
 	if [ "${images}" = "true" ]; then
 		if [ "${verbose}" = "true" ]; then
@@ -296,7 +296,7 @@ do
 
 			# Recompose the epub into a single file, but put it outside of the epub src for now so we don't stomp on it with the following sections.
 			# We do this first because the tweaks below shouldn't apply to the single-page file
-			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/www/css/web.css" "${workDir}"
+			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/css/web.css" "${workDir}"
 
 			# Add a navbar with a link back to the homepage
 			sed --in-place --regexp-extended "s|<body(.*?)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li></ul></nav></header>|" "${workDir}"/single-page.xhtml
@@ -357,7 +357,7 @@ do
 
 	if [ "${images}" = "true" ]; then
 		# Move the cover images over
-		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/www/images/covers/"
+		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
 	fi
 
 	# Delete the now-empty work dir (empty except for .git)
@@ -366,8 +366,8 @@ do
 	sudo chgrp --preserve-root --recursive "${group}" "${webDir}"
 	sudo chmod --preserve-root --recursive g+ws "${webDir}"
 
-	sudo chgrp --preserve-root --recursive "${group}" "${webRoot}/www/images/covers/"
-	sudo chmod --preserve-root --recursive g+ws "${webRoot}/www/images/covers/"
+	sudo chgrp --preserve-root --recursive "${group}" "${webRoot}/images/covers/"
+	sudo chmod --preserve-root --recursive g+ws "${webRoot}/images/covers/"
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Rebuilding web library cache ... "
@@ -390,9 +390,9 @@ if [ "${feeds}" = "true" ]; then
 
 	"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
 
-	sudo chown --recursive se:committers "${webRoot}"/www/{atom,rss,opds}/{*.xml,subjects}
-	sudo chmod --recursive 664 "${webRoot}"/www/{atom,rss,opds}/{*.xml,subjects/*.xml}
-	sudo chmod 775 "${webRoot}"/www/{atom,rss,opds}/subjects
+	sudo chown --recursive se:committers "${webRoot}"/{atom,rss,opds}/{*.xml,subjects}
+	sudo chmod --recursive 664 "${webRoot}"/{atom,rss,opds}/{*.xml,subjects/*.xml}
+	sudo chmod 775 "${webRoot}"/{atom,rss,opds}/subjects
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"

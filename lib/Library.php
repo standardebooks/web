@@ -190,6 +190,32 @@ class Library{
 		return $matches;
 	}
 
+	/**
+	 * @return array<Ebook>
+	 */
+	public static function GetEbooksFromFilesystem(?string $webRoot = WEB_ROOT): array{
+		$ebooks = [];
+		$contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/ebooks/') . ' -name "content.opf" | sort') ?? ''));
+
+		foreach($contentFiles as $path){
+			if($path == '')
+				continue;
+
+			$ebookWwwFilesystemPath = '';
+
+			try{
+				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path);
+
+				$ebooks[] = new Ebook($ebookWwwFilesystemPath);
+			}
+			catch(\Exception $ex){
+				// An error in a book isn't fatal; just carry on.
+			}
+		}
+
+		return $ebooks;
+	}
+
 	public static function RebuildCache(): void{
 		// We check a lockfile because this can be a long-running command.
 		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.
