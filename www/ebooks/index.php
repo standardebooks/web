@@ -151,6 +151,7 @@ catch(Exceptions\InvalidCollectionException $ex){
 			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 		</nav>
 	<? } ?>
+	<p class="feeds-alert">We also have <a href="/patrons-circle/downloads">bulk ebook downloads</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
 	<? if(sizeof($ebooks) > 0 && $query == '' && sizeof($tags) == 0 && $collection === null && $page == 1){ ?>
 		<?= Template::ContributeAlert() ?>
 	<? } ?>

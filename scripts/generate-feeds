@@ -29,7 +29,7 @@ $allEbooks = [];
 $newestEbooks = [];
 $subjects = [];
 $ebooksBySubject = [];
-$ebooksPerNewestEbooksFeed = 30;
+$ebooksPerNewestEbooksFeed = 15;
 
 if(!is_dir($webRoot . '/feeds/opds/subjects')){
 	mkdir($webRoot . '/feeds/opds/subjects');

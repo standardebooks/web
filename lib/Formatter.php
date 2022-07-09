@@ -51,16 +51,16 @@ class Formatter{
 			$output = number_format(round($bytes / 1048576, 1), 1) . 'M';
 		}
 		elseif($bytes >= 1024){
-			$output = number_format($bytes / 1024, 2) . 'KB';
+			$output = number_format($bytes / 1024, 0) . 'KB';
 		}
 		elseif($bytes > 1){
-			$output = $bytes . ' bytes';
+			$output = $bytes . 'b';
 		}
 		elseif($bytes == 1){
-			$output = $bytes . ' byte';
+			$output = $bytes . 'b';
 		}
 		else{
-			$output = '0 bytes';
+			$output = '0b';
 		}
 
 		return $output;

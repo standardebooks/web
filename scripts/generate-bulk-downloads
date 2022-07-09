@@ -1,0 +1,146 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+use function Safe\mkdir;
+
+$longopts = ['webroot:'];
+$options = getopt('', $longopts);
+$webRoot = $options['webroot'] ?? WEB_ROOT;
+
+$ebooksByMonth = [];
+$lastUpdatedTimestampsByMonth = [];
+$subjects = [];
+$ebooksBySubject = [];
+$lastUpdatedTimestampsBySubject = [];
+
+function CreateZip(string $filePath, array $ebooks, string $type, string $webRoot, ?string $subject = null, ?string $month = null): void{
+	$tempFilename = tempnam(sys_get_temp_dir(), "se-ebooks");
+
+	$zip = new ZipArchive();
+
+	if($zip->open($tempFilename, ZipArchive::CREATE) !== true){
+		print('Can\'t open file: ' . $tempFilename . "\n");
+	}
+
+	foreach($ebooks as $ebook){
+		if($type == 'epub' && $ebook->EpubUrl !== null){
+			$ebookFilePath = $webRoot . '/' . $ebook->EpubUrl;
+			$zip->addFile($ebookFilePath, basename($ebookFilePath));
+		}
+
+		if($type == 'azw3' && $ebook->Azw3Url !== null){
+			$ebookFilePath = $webRoot . '/' . $ebook->Azw3Url;
+			$zip->addFile($ebookFilePath, basename($ebookFilePath));
+		}
+
+		if($type == 'kepub' && $ebook->KepubUrl !== null){
+			$ebookFilePath = $webRoot . '/' . $ebook->KepubUrl;
+			$zip->addFile($ebookFilePath, basename($ebookFilePath));
+		}
+
+		if($type == 'epub-advanced' && $ebook->AdvancedEpubUrl !== null){
+			$ebookFilePath = $webRoot . '/' . $ebook->AdvancedEpubUrl;
+			$zip->addFile($ebookFilePath, basename($ebookFilePath));
+		}
+
+		if($type == 'xhtml' && $ebook->TextSinglePageUrl !== null){
+			$ebookFilePath = $webRoot . '/' . $ebook->TextSinglePageUrl . '.xhtml';
+
+			// Strip the navigation header that was added as part of the deploy process
+			$xhtml = file_get_contents($ebookFilePath);
+			$xhtml = preg_replace('|<body><header><nav>.+?</nav></header>|ius', '<body>', $xhtml);
+
+			$zip->addFromString(str_replace('single-page', $ebook->UrlSafeIdentifier, basename($ebookFilePath)), $xhtml);
+		}
+	}
+
+	$zip->close();
+
+	$dir = dirname($filePath);
+	if(!is_dir($dir)){
+		mkdir($dir, 0775, true);
+	}
+
+	rename($tempFilename, $filePath);
+
+	// Set a filesystem attribute for the number of ebooks in the file. This will be used
+	// to display that number on the downloads page.
+	exec('attr -q -s se-ebook-count -V ' . escapeshellarg(sizeof($ebooks)) . ' ' . escapeshellarg($filePath));
+
+	exec('attr -q -s se-ebook-type -V ' . escapeshellarg($type) . ' ' . escapeshellarg($filePath));
+
+	// If we're passed a subject, add it as a file attribute too
+	if($subject !== null){
+		exec('attr -q -s se-subject -V ' . escapeshellarg($subject) . ' ' . escapeshellarg($filePath));
+	}
+
+	if($month !== null){
+		exec('attr -q -s se-month -V ' . escapeshellarg($month) . ' ' . escapeshellarg($filePath));
+	}
+}
+
+// Iterate over all ebooks and arrange them by publication month
+foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
+	$timestamp = $ebook->Created->format('Y-m');
+	$updatedTimestamp = $ebook->Updated->getTimestamp();
+
+	if(!isset($ebooksByMonth[$timestamp])){
+		$ebooksByMonth[$timestamp] = [];
+		$lastUpdatedTimestampsByMonth[$timestamp] = $updatedTimestamp;
+	}
+
+	// Add to the 'ebooks by month' list
+	$ebooksByMonth[$timestamp][] = $ebook;
+
+	if($updatedTimestamp > $lastUpdatedTimestampsByMonth[$timestamp]){
+		$lastUpdatedTimestampsByMonth[$timestamp] = $updatedTimestamp;
+	}
+
+	// Add to the 'books by subject' list
+	foreach($ebook->Tags as $tag){
+		// Add the book's subjects to the main subjects list
+		if(!in_array($tag->Name, $subjects)){
+			$subjects[] = $tag->Name;
+			$lastUpdatedTimestampsBySubject[$tag->Name] = $updatedTimestamp;
+		}
+
+		// Sort this ebook by subject
+		$ebooksBySubject[$tag->Name][] = $ebook;
+
+		if($updatedTimestamp > $lastUpdatedTimestampsBySubject[$tag->Name]){
+			$lastUpdatedTimestampsBySubject[$tag->Name] = $updatedTimestamp;
+		}
+	}
+}
+
+$types = ['epub', 'epub-advanced', 'azw3', 'kepub', 'xhtml'];
+
+foreach($ebooksByMonth as $month => $ebooks){
+	foreach($types as $type){
+		$filename = 'se-ebooks-' . $month . '-' . $type . '.zip';
+		$filePath = $webRoot . '/patrons-circle/downloads/months/' . $month . '/' . $filename;
+
+		// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
+		if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestampsByMonth[$month]){
+			print('Creating ' . $filePath . "\n");
+
+			CreateZip($filePath, $ebooks, $type, $webRoot, null, $month);
+		}
+	}
+}
+
+foreach($ebooksBySubject as $subject => $ebooks){
+	foreach($types as $type){
+		$urlSafeSubject = Formatter::MakeUrlSafe($subject);
+		$filename = 'se-ebooks-' . $urlSafeSubject . '-' . $type . '.zip';
+		$filePath = $webRoot . '/patrons-circle/downloads/subjects/' . $urlSafeSubject . '/'. $filename;
+
+		// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
+		if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestampsBySubject[$subject]){
+			print('Creating ' . $filePath . "\n");
+
+			CreateZip($filePath, $ebooks, $type, $webRoot, $subject, null);
+		}
+	}
+}

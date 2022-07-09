@@ -14,7 +14,7 @@ require_once('Core.php');
 		<?= Template::FeedHowTo() ?>
 		<section id="opds-feeds">
 			<h2>OPDS 1.2 feeds</h2>
-			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a>, or “catalogs,” can be added to ereading apps on phones and tablets, or to ereading systems like <a href="http://koreader.rocks/">KOreader</a>. Add our OPDS feed to your ereading app to search, browse, and download from our entire catalog, directly in your ereader.</p>
+			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a>, or “catalogs,” can be added to ereading apps on phones and tablets to search, browse, and download from our entire catalog, directly in your ereader. Most modern ereading apps support OPDS catalogs.</p>
 			<p>They’re also perfect for scripting, or for libraries or other organizations who wish to download and process our catalog of ebooks.</p>
 			<ul class="feed">
 				<li>

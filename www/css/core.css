@@ -675,66 +675,76 @@ ul.message.error li:only-child{
 	margin-left: 0;
 }
 
-.bulk-downloads > p{
+.bulk-downloads > p,
+.bulk-downloads > section > h2{
 	width: 100%;
 	max-width: 40rem;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-ul.download-list thead{
+.download-list{
+	margin: auto;
+}
+
+.download-list .mid-header{
 	font-style: italic;
 }
 
-ul.download-list table thead td{
-	padding-top: 0;
-	padding-bottom: 0;
+.download-list thead tr.mid-header:first-child > *{
+	padding-top: 1rem;
 }
 
-ul.download-list table td{
-	padding: .25rem;
+.download-list .mid-header th:last-child{
+	text-align: left;
 }
 
-ul.download-list table td + td{
-	text-align: right;
+.download-list td,
+.download-list th{
+	padding: .25rem .5rem;
+	hyphens: none;
 	white-space: nowrap;
 }
 
-ul.download-list tbody tr:not(:last-child) td{
-	border-bottom: 1px dashed var(--table-border);
+.download-list th{
+	font-weight: normal;
+	text-align: right;
 }
 
-ul.download-list tbody td + td{
+.download-list .number{
+	text-align: right;
+}
+
+.download-list td.download{
+	padding-right: 0;
+	color: var(--body-text);
+}
+
+.download-list td.download + td{
+	padding-left: .25rem;
+	font-size: .75em;
 	color: var(--sub-text);
 }
 
-main > section.narrow > ul.download-list{
-	width: auto;
-	max-width: none;
+.download-list tbody .row-header{
+	font-weight: bold;
 }
 
-ul.download-list{
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	gap: 4rem;
-	list-style: none;
-	margin-top: 4rem;
+.download-list tbody tr td,
+.download-list tbody tr th{
+	border-top: 1px dashed var(--table-border);
 }
 
-ul.download-list > li{
-	margin: 0;
+.download-list tbody tr.year-header > *,
+.download-list tbody tr.year-header + tr > *,
+.download-list tbody tr.mid-header tr > *,
+.download-list tbody tr.mid-header + tr td,
+.download-list tbody tr.mid-header + tr th{
+	border: none;
 }
 
-ul.download-list ul{
-	list-style: none;
-	margin: 0;
-}
-
-ul.download-list > li li:first-of-type{
-	margin-top: 1rem;
-}
-
-ul.download-list p.header{
+.download-list .year-header th{
+	padding-top: 4rem;
 	font-size: 1.4rem;
 	font-family: "League Spartan", Arial, sans-serif;
 	margin-top: 4rem;
@@ -742,8 +752,6 @@ ul.download-list p.header{
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	color: var(--header);
-	margin-top: 0;
-	margin-bottom: 1rem;
 	text-align: center;
 }
 
@@ -2507,6 +2515,14 @@ aside button.close:active{
 	right: -1px;
 }
 
+.feeds-alert{
+	border-top: 1px dashed var(--sub-text);
+	padding-top: 2rem;
+	font-style: italic;
+	text-align: center;
+	margin-top: 2rem;
+}
+
 @keyframes progress{
 	0%{
 		background-position: -60px 0px;
@@ -2735,8 +2751,10 @@ ul.feed p{
 }
 
 @media(max-width: 1200px){
-	ul.download-list{
-		grid-template-columns: 1fr 1fr;
+	.download-list{
+		overflow-x: scroll;
+		display: block; /* needed to make overflow work */
+		width: 100%;
 	}
 }
 
@@ -2917,10 +2935,6 @@ ul.feed p{
 	article nav a[rel]::after{
 		font-size: 1rem;
 		margin: 0;
-	}
-
-	ul.download-list{
-		grid-template-columns: 1fr;
 	}
 }
 
