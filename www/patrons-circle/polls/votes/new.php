@@ -5,7 +5,16 @@ use function Safe\session_unset;
 
 session_start();
 
-$vote = $_SESSION['vote'] ?? new PollVote();
+$vote = new PollVote();
+
+if(isset($_SESSION['vote'])){
+	$vote = $_SESSION['vote'];
+}
+else{
+	$vote->User = new User();
+	$vote->User->Email = $_SERVER['PHP_AUTH_USER'] ?? null;
+}
+
 $exception = $_SESSION['exception'] ?? null;
 
 $poll = new Poll();
@@ -29,24 +38,24 @@ if($exception){
 		<?= Template::Error(['exception' => $exception]) ?>
 		<form method="post" action="<?= Formatter::ToPlainText($poll->Url) ?>/votes">
 			<label class="email">Your email address
-				<input type="email" name="email" value="<? if($vote->User !== null){ ?><?= Formatter::ToPlainText($vote->User->Email) ?><? } ?>" maxlength="80" required="required" />
+				<input type="email" name="email" value="<? if($vote->User !== null){ ?><?= Formatter::ToPlainText($vote->User->Email) ?><? } ?>" maxlength="80" required="required" readonly="readonly" />
 			</label>
 			<fieldset>
 				<p>Select one of these options</p>
 				<ul>
-			<? foreach($poll->PollItems as $pollItem){ ?>
-				<li>
-					<label class="checkbox">
-						<input type="radio" value="<?= $pollItem->PollItemId ?>" name="pollitemid" required="required"<? if($vote->PollItemId == $pollItem->PollItemId){ ?> checked="checked"<? } ?>/>
-						<span>
-							<b><?= Formatter::ToPlainText($pollItem->Name) ?></b>
-						<? if($pollItem->Description !== null){ ?>
-							<span><?= Formatter::ToPlainText($pollItem->Description) ?></span>
-						<? } ?>
-						</span>
-					</label>
-				</li>
-			<? } ?>
+				<? foreach($poll->PollItems as $pollItem){ ?>
+					<li>
+						<label class="checkbox">
+							<input type="radio" value="<?= $pollItem->PollItemId ?>" name="pollitemid" required="required"<? if($vote->PollItemId == $pollItem->PollItemId){ ?> checked="checked"<? } ?>/>
+							<span>
+								<b><?= Formatter::ToPlainText($pollItem->Name) ?></b>
+							<? if($pollItem->Description !== null){ ?>
+								<span><?= Formatter::ToPlainText($pollItem->Description) ?></span>
+							<? } ?>
+							</span>
+						</label>
+					</li>
+				<? } ?>
 				</ul>
 			</fieldset>
 			<button>Vote</button>
