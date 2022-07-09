@@ -39,4 +39,30 @@ class Formatter{
 	public static function ToPlainXmlText(?string $text): string{
 		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES|ENT_XML1, 'utf-8');
 	}
+
+	public static function ToFileSize(?int $bytes): string{
+		// See https://stackoverflow.com/a/5501447
+		$output = '';
+
+		if($bytes >= 1073741824){
+			$output = number_format(round($bytes / 1073741824, 1), 1) . 'G';
+		}
+		elseif($bytes >= 1048576){
+			$output = number_format(round($bytes / 1048576, 1), 1) . 'M';
+		}
+		elseif($bytes >= 1024){
+			$output = number_format($bytes / 1024, 2) . 'KB';
+		}
+		elseif($bytes > 1){
+			$output = $bytes . ' bytes';
+		}
+		elseif($bytes == 1){
+			$output = $bytes . ' byte';
+		}
+		else{
+			$output = '0 bytes';
+		}
+
+		return $output;
+	}
 }

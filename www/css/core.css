@@ -679,8 +679,32 @@ ul.message.error li:only-child{
 	margin-right: auto;
 }
 
-ul.download-list i{
+ul.download-list thead{
+	font-style: italic;
+}
+
+ul.download-list table thead td{
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+ul.download-list table td{
+	padding: .25rem;
+}
+
+ul.download-list table td + td{
+	text-align: right;
+	white-space: nowrap;
+
+}
+
+ul.download-list tbody td + td{
 	color: var(--sub-text);
+}
+
+main > section.narrow > ul.download-list{
+	width: auto;
+	max-width: none;
 }
 
 ul.download-list{
@@ -689,8 +713,6 @@ ul.download-list{
 	gap: 4rem;
 	list-style: none;
 	margin-top: 4rem;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 ul.download-list > li{
@@ -706,8 +728,17 @@ ul.download-list > li li:first-of-type{
 	margin-top: 1rem;
 }
 
-.bulk-downloads h2{
+ul.download-list p.header{
+	font-size: 1.4rem;
+	font-family: "League Spartan", Arial, sans-serif;
+	margin-top: 4rem;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	color: var(--header);
 	margin-top: 0;
+	margin-bottom: 1rem;
+	text-align: center;
 }
 
 .ebooks nav li.highlighted a:focus,

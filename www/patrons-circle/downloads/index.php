@@ -18,7 +18,13 @@ foreach($files as $file){
 	$updated = new DateTime('@' . filemtime($file));
 	$obj->Month = $date->format('F');
 	$obj->Url = '/patrons-circle/downloads/' . basename($file);
+	$obj->Size = Formatter::ToFileSize(filesize($file));
 	$obj->Updated = $updated->format('M i');
+	// The count of ebooks in each file is stored as a filesystem attribute
+	$obj->Count = exec('attr -g ebook-count ' . escapeshellarg($file)) ?: null;
+	if($obj->Count !== null){
+		$obj->Count = intval($obj->Count);
+	}
 
 	if($updated->format('Y') != gmdate('Y')){
 		$obj->Updated = $obj->Updated . $updated->format(', Y');
@@ -33,10 +39,10 @@ foreach($files as $file){
 	$years[$year][] = $obj;
 }
 
-?><?= Template::Header(['title' => 'Bulk Ebook Download', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
+?><?= Template::Header(['title' => 'Bulk Ebook Downloads', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
 <main>
 	<section class="narrow bulk-downloads has-hero">
-		<h1>Bulk Ebook Download</h1>
+		<h1>Bulk Ebook Downloads</h1>
 		<picture>
 			<source srcset="/images/the-shop-of-the-bookdealer@2x.avif 2x, /images/the-shop-of-the-bookdealer.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-shop-of-the-bookdealer@2x.jpg 2x, /images/the-shop-of-the-bookdealer.jpg 1x" type="image/jpg"/>
@@ -55,14 +61,25 @@ foreach($files as $file){
 		<ul class="download-list">
 		<? foreach($years as $year => $items){ ?>
 		<li>
-			<section>
-				<h2><?= Formatter::ToPlainText($year) ?></h2>
-				<ul>
+			<p class="header"><?= Formatter::ToPlainText($year) ?></p>
+			<table>
+				<thead>
+					<td></td>
+					<td>Ebooks</td>
+					<td>Size</td>
+					<td>Updated</td>
+				</thead>
+				<tbody>
 					<? foreach($items as $item){ ?>
-					<li><p><a download="" href="<?= Formatter::ToPlainText($item->Url) ?>"><?= Formatter::ToPlainText($item->Month) ?></a> <i>(Updated <?= Formatter::ToPlainText($obj->Updated) ?>)</i></p></li>
+					<tr>
+						<td><a download="" href="<?= Formatter::ToPlainText($item->Url) ?>"><?= Formatter::ToPlainText($item->Month) ?></a></td>
+						<td><?= Formatter::ToPlainText(number_format($item->Count)) ?></td>
+						<td><?= Formatter::ToPlainText($item->Size) ?></td>
+						<td><?= Formatter::ToPlainText($obj->Updated) ?></td>
+					</tr>
 					<? } ?>
-				</ul>
-			</section>
+				</tbody>
+			</table>
 		</li>
 		<? } ?>
 		</ul>

@@ -93,5 +93,9 @@ foreach($ebooksByMonth as $month => $ebooks){
 		$zip->close();
 
 		rename($tempFilename, $filePath);
+
+		// Set a filesystem attribute for the number of ebooks in the file. This will be used
+		// to display that number on the downloads page.
+		exec('attr -q -s ebook-count -V ' . escapeshellarg(sizeof($ebooks)) . ' ' . escapeshellarg($filePath));
 	}
 }
