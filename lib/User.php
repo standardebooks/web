@@ -2,12 +2,32 @@
 use Ramsey\Uuid\Uuid;
 use Safe\DateTime;
 
+/**
+ * @property Array<Payment> $Payments
+ */
 class User extends PropertiesBase{
 	public $UserId;
 	public $Name;
 	public $Email;
 	public $Created;
 	public $Uuid;
+	protected $_Payments = null;
+
+
+	// *******
+	// GETTERS
+	// *******
+
+	/**
+	* @return array<Payment>
+	*/
+	protected function GetPayments(): array{
+		if($this->_Payments === null){
+			$this->_Payments = Db::Query('select * from Payments where UserId = ? order by Created desc', [$this->UserId], 'Payment');
+		}
+
+		return $this->_Payments;
+	}
 
 
 	// *******

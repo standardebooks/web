@@ -163,6 +163,7 @@ try{
 						$patron = new Patron();
 						$patron->UserId = $payment->UserId;
 						$patron->User = $payment->User;
+						$patron->User->Payments = [$payment];
 						$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
 						$patron->IsSubscribedToEmails = $patron->User !== null && $patron->User->Email !== null;
 
