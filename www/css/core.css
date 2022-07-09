@@ -59,6 +59,7 @@
 	--light-button-highlight: #62bfa3;
 	--light-border: #222;
 	--light-sub-text: #777;
+	--light-table-border: #bbb;
 	--light-input-hover: #000;
 	--light-input-border: #777;
 	--light-input-outline: #000;
@@ -80,6 +81,7 @@
 	--button-highlight: var(--light-button-highlight);
 	--border: var(--light-border);
 	--sub-text: var(--light-sub-text);
+	--table-border: var(--light-table-border);
 	--body-bg: var(--light-body-bg);
 	--input-hover: var(--light-input-hover);
 	--input-border: var(--light-input-border);
@@ -649,6 +651,7 @@ h1 + .message{
 	padding: 1rem;
 	color: #fff;
 	text-shadow: 1px 1px 0px rgba(0, 0, 0, .75);
+	box-sizing: border-box;
 }
 
 .message.error{
@@ -695,7 +698,10 @@ ul.download-list table td{
 ul.download-list table td + td{
 	text-align: right;
 	white-space: nowrap;
+}
 
+ul.download-list tbody tr:not(:last-child) td{
+	border-bottom: 1px dashed var(--table-border);
 }
 
 ul.download-list tbody td + td{
@@ -1236,16 +1242,12 @@ footer ul li{
 footer ul li a,
 footer ul li::after{
 	font-size: .9rem;
+	white-space: nowrap;
 }
 
-footer ul li::after{
+footer ul li:not(:last-child)::after{
 	content: "\b7";
 	margin: 0 10px;
-}
-
-footer ul li:last-child::after{
-	content: "";
-	display: none;
 }
 
 footer > p:first-child{
@@ -2732,6 +2734,12 @@ ul.feed p{
 	}
 }
 
+@media(max-width: 1200px){
+	ul.download-list{
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
 @media(max-width: 1100px){
 	form[action="/ebooks"]{
 		grid-template-columns: auto auto auto 1fr;
@@ -2910,11 +2918,9 @@ ul.feed p{
 		font-size: 1rem;
 		margin: 0;
 	}
-}
 
-@media(max-width: 800px){
-	.bulk-downloads > ul{
-		grid-template-columns: 1fr 1fr;
+	ul.download-list{
+		grid-template-columns: 1fr;
 	}
 }
 
@@ -2965,7 +2971,8 @@ ul.feed p{
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
-	footer ul li:nth-child(2)::after{
+	footer ul li:nth-child(2)::after,
+	footer ul li:nth-child(5)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
@@ -2975,12 +2982,6 @@ ul.feed p{
 		content: "\b7";
 		white-space: normal;
 		margin: 0 10px;
-	}
-
-	footer ul li:nth-child(5)::after{
-		content: "\A"; /* This is a line break */
-		white-space: pre;
-		margin: 0;
 	}
 }
 
@@ -3214,8 +3215,20 @@ ul.feed p{
 		margin-top: 2rem;
 	}
 
-	.bulk-downloads > ul{
-		grid-template-columns: 1fr;
+	footer ul li:nth-child(2)::after,
+	footer ul li:nth-child(4)::after,
+	footer ul li:nth-child(6)::after{
+		content: "\A"; /* This is a line break */
+		white-space: pre;
+		margin: 0;
+	}
+
+	footer ul li:nth-child(1)::after,
+	footer ul li:nth-child(3)::after,
+	footer ul li:nth-child(5)::after{
+		content: "\b7";
+		white-space: normal;
+		margin: 0 10px;
 	}
 }
 
@@ -3240,15 +3253,6 @@ ul.feed p{
 
 	body > footer > p:first-child{
 		line-height: 1.4;
-	}
-
-	footer ul li{
-		display: block;
-		margin: 1rem 0;
-	}
-
-	footer ul li::after{
-		display: none;
 	}
 
 	.progress p.start,
@@ -3337,6 +3341,12 @@ ul.feed p{
 
 	.masthead ol.donors.patrons{
 		columns: 1;
+	}
+
+	footer ul li:nth-child(7)::after{
+		content: "\A"; /* This is a line break */
+		white-space: pre;
+		margin: 0;
 	}
 }
 
