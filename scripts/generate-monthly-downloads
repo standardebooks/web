@@ -1,0 +1,97 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+$longopts = ['webroot:', 'weburl:'];
+$options = getopt('', $longopts);
+$webRoot = $options['webroot'] ?? '/standardebooks.org/web';
+$webUrl = $options['weburl'] ?? 'https://standardebooks.org';
+
+$contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/www/ebooks/') . ' -name "content.opf" | sort') ?? ''));
+$ebooksByMonth = [];
+$lastUpdatedTimestamps = [];
+
+if(!is_dir(WEB_ROOT . '/patrons-circle/downloads')){
+	mkdir(WEB_ROOT . '/patrons-circle/downloads');
+}
+
+// Iterate over all ebooks and arrange them by publication month
+foreach($contentFiles as $path){
+	if($path == '')
+		continue;
+
+	$ebookWwwFilesystemPath = '';
+
+	try{
+		$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path);
+
+		$ebook = new Ebook($ebookWwwFilesystemPath);
+
+		$timestamp = $ebook->Created->format('Y-m');
+		$updatedTimestamp = $ebook->Updated->getTimestamp();
+
+		if(!isset($ebooksByMonth[$timestamp])){
+			$ebooksByMonth[$timestamp] = [];
+			$lastUpdatedTimestamps[$timestamp] = $updatedTimestamp;
+		}
+
+		$ebooksByMonth[$timestamp][] = $ebook;
+		if($updatedTimestamp > $lastUpdatedTimestamps[$timestamp]){
+			$lastUpdatedTimestamps[$timestamp] = $updatedTimestamp;
+		}
+	}
+	catch(\Exception $ex){
+		print('Failed to generate download for `' . $ebookWwwFilesystemPath . '`. Exception: ' . $ex->getMessage());
+		continue;
+	}
+}
+
+foreach($ebooksByMonth as $month => $ebooks){
+	$filename = 'se-ebooks-' . $month . '.zip';
+	$filePath = $webRoot . '/www/patrons-circle/downloads/' . $filename;
+
+	// If the file doesn't exist, or if the content.opf last updated time is newer than the file creation time
+	if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestamps[$month]){
+		print('Creating ' . $filePath . "\n");
+
+		$tempFilename = tempnam(sys_get_temp_dir(), "se-ebooks");
+
+		$zip = new ZipArchive();
+
+		if($zip->open($tempFilename, ZipArchive::CREATE) !== true){
+			print('Can\'t open file: ' . $tempFilename . "\n");
+			continue;
+		}
+
+		foreach($ebooks as $ebook){
+			if($ebook->EpubUrl !== null){
+				$ebookFilePath = $webRoot . '/www' . $ebook->EpubUrl;
+				$zip->addFile($ebookFilePath, $ebook->UrlSafeIdentifier . '/' . basename($ebookFilePath));
+			}
+
+			if($ebook->Azw3Url !== null){
+				$ebookFilePath = $webRoot . '/www' . $ebook->Azw3Url;
+				$zip->addFile($ebookFilePath, $ebook->UrlSafeIdentifier . '/' . basename($ebookFilePath));
+			}
+
+			if($ebook->KepubUrl !== null){
+				$ebookFilePath = $webRoot . '/www' . $ebook->KepubUrl;
+				$zip->addFile($ebookFilePath, $ebook->UrlSafeIdentifier . '/' . basename($ebookFilePath));
+			}
+
+			if($ebook->AdvancedEpubUrl !== null){
+				$ebookFilePath = $webRoot . '/www' . $ebook->AdvancedEpubUrl;
+				$zip->addFile($ebookFilePath, $ebook->UrlSafeIdentifier . '/' . basename($ebookFilePath));
+			}
+
+			if($ebook->TextSinglePageUrl !== null){
+				$ebookFilePath = $webRoot . '/www' . $ebook->TextSinglePageUrl . '.xhtml';
+				$zip->addFile($ebookFilePath, $ebook->UrlSafeIdentifier . '/' . str_replace('single-page', $ebook->UrlSafeIdentifier, basename($ebookFilePath)));
+			}
+		}
+
+		$zip->close();
+
+		rename($tempFilename, $filePath);
+	}
+}

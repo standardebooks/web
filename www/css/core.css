@@ -246,6 +246,7 @@ main > section.narrow > *{
 main > section.narrow > h1,
 main > section.narrow > hgroup,
 main > section.narrow.has-hero > picture{
+	box-sizing: border-box;
 	max-width: none;
 }
 
@@ -671,10 +672,49 @@ ul.message.error li:only-child{
 	margin-left: 0;
 }
 
+.bulk-downloads > p{
+	width: 100%;
+	max-width: 40rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bulk-downloads i{
+	color: var(--sub-text);
+}
+
+.bulk-downloads > ul{
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 4rem;
+	list-style: none;
+	margin-top: 4rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.bulk-downloads > ul > li{
+	margin: 0;
+}
+
+.bulk-downloads ul ul{
+	list-style: none;
+	margin: 0;
+}
+
+.bulk-downloads > ul > li li:first-of-type{
+	margin-top: 1rem;
+}
+
+.bulk-downloads h2{
+	margin-top: 0;
+}
+
 .ebooks nav li.highlighted a:focus,
 a.button:focus,
 input[type="email"]:focus,
 input[type="text"]:focus,
+input[type="month"]:focus,
 input[type="search"]:focus,
 label.checkbox:focus-within,
 select:focus,
@@ -1199,6 +1239,11 @@ footer > p{
 	display: inlie-flex;
 	align-items: center;
 }
+
+footer > p:first-child{
+	font-size: .9rem;
+}
+
 footer > p:first-child::before{
 	font-family: "Fork Awesome";
 	content: "\f0e0";
@@ -1571,6 +1616,7 @@ label.search{
 
 select,
 input[type="text"],
+input[type="month"],
 input[type="email"],
 input[type="search"]{
 	-webkit-appearance: none;
@@ -1674,6 +1720,7 @@ nav a[rel],
 a.button,
 button,
 input[type="text"],
+input[type="month"],
 input[type="email"],
 input[type="search"],
 select{
@@ -1689,6 +1736,8 @@ button:hover{
 
 input[type="text"]:focus,
 input[type="text"]:hover,
+input[type="month"]:focus,
+input[type="month"]:hover,
 input[type="email"]:focus,
 input[type="email"]:hover,
 input[type="search"]:focus,
@@ -1701,6 +1750,7 @@ select:hover{
 }
 
 input[type="text"]:user-invalid,
+input[type="month"]:user-invalid,
 input[type="email"]:user-invalid,
 input[type="search"]:user-invalid{
 	border-color: #ff0000;
@@ -1708,6 +1758,7 @@ input[type="search"]:user-invalid{
 }
 
 input[type="text"]:-moz-ui-invalid,
+input[type="month"]:-moz-ui-invalid,
 input[type="email"]:-moz-ui-invalid,
 input[type="search"]:-moz-ui-invalid{
 	border-color: #ff0000;
@@ -2824,6 +2875,12 @@ ul.feed p{
 	}
 }
 
+@media(max-width: 800px){
+	.bulk-downloads > ul{
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
 @media(max-width: 730px){
 	form[action="/ebooks"]{
 		grid-template-columns: auto auto 1fr 1fr;
@@ -3119,6 +3176,10 @@ ul.feed p{
 	.votes tr + tr{
 		margin-top: 2rem;
 	}
+
+	.bulk-downloads > ul{
+		grid-template-columns: 1fr;
+	}
 }
 
 @media(max-width: 470px){
@@ -3281,6 +3342,7 @@ ul.feed p{
 	a.button,
 	button,
 	input[type="text"],
+	input[type="month"],
 	input[type="email"],
 	input[type="search"],
 	select,
@@ -3290,6 +3352,8 @@ ul.feed p{
 	button:hover,
 	input[type="text"]:focus,
 	input[type="text"]:hover,
+	input[type="month"]:focus,
+	input[type="month"]:hover,
 	input[type="email"]:focus,
 	input[type="email"]:hover,
 	input[type="search"]:focus,
