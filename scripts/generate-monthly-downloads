@@ -11,10 +11,6 @@ $contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot 
 $ebooksByMonth = [];
 $lastUpdatedTimestamps = [];
 
-if(!is_dir(WEB_ROOT . '/patrons-circle/downloads')){
-	mkdir(WEB_ROOT . '/patrons-circle/downloads');
-}
-
 // Iterate over all ebooks and arrange them by publication month
 foreach($contentFiles as $path){
 	if($path == '')
@@ -50,7 +46,7 @@ foreach($ebooksByMonth as $month => $ebooks){
 	$filename = 'se-ebooks-' . $month . '.zip';
 	$filePath = $webRoot . '/www/patrons-circle/downloads/' . $filename;
 
-	// If the file doesn't exist, or if the content.opf last updated time is newer than the file creation time
+	// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
 	if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestamps[$month]){
 		print('Creating ' . $filePath . "\n");
 

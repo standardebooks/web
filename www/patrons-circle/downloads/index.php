@@ -1,9 +1,18 @@
 <?
 require_once('Core.php');
 
+use Safe\DateTime;
+use function Safe\filemtime;
+use function Safe\filesize;
+use function Safe\glob;
+use function Safe\gmdate;
+use function Safe\rsort;
+
 $ex = null;
 
 if(isset($_SERVER['PHP_AUTH_USER'])){
+	// We get here if the user entered an invalid HTTP Basic Auth username,
+	// and this page was served as the 401 page.
 	$ex = new Exceptions\InvalidPatronException();
 }
 
@@ -61,7 +70,7 @@ foreach($files as $file){
 		<ul class="download-list">
 		<? foreach($years as $year => $items){ ?>
 		<li>
-			<p class="header"><?= Formatter::ToPlainText($year) ?></p>
+			<p class="header"><?= Formatter::ToPlainText((string)$year) ?></p>
 			<table>
 				<thead>
 					<td></td>
@@ -75,7 +84,7 @@ foreach($files as $file){
 						<td><a download="" href="<?= Formatter::ToPlainText($item->Url) ?>"><?= Formatter::ToPlainText($item->Month) ?></a></td>
 						<td><?= Formatter::ToPlainText(number_format($item->Count)) ?></td>
 						<td><?= Formatter::ToPlainText($item->Size) ?></td>
-						<td><?= Formatter::ToPlainText($obj->Updated) ?></td>
+						<td><?= Formatter::ToPlainText($item->Updated) ?></td>
 					</tr>
 					<? } ?>
 				</tbody>
