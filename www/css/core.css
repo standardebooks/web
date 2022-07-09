@@ -679,11 +679,11 @@ ul.message.error li:only-child{
 	margin-right: auto;
 }
 
-.bulk-downloads i{
+ul.download-list i{
 	color: var(--sub-text);
 }
 
-.bulk-downloads > ul{
+ul.download-list{
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	gap: 4rem;
@@ -693,16 +693,16 @@ ul.message.error li:only-child{
 	margin-right: auto;
 }
 
-.bulk-downloads > ul > li{
+ul.download-list > li{
 	margin: 0;
 }
 
-.bulk-downloads ul ul{
+ul.download-list ul{
 	list-style: none;
 	margin: 0;
 }
 
-.bulk-downloads > ul > li li:first-of-type{
+ul.download-list > li li:first-of-type{
 	margin-top: 1rem;
 }
 
@@ -1871,6 +1871,12 @@ main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
 
 .has-hero picture + p{
 	margin-top: 0;
+}
+
+h1 + ul.message,
+.has-hero picture + ul.message{
+	margin-top: 0;
+	margin-bottom: 1rem;
 }
 
 .has-hero img{

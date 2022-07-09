@@ -1,6 +1,6 @@
 <section id="accessing-the-feeds">
 	<h2>Accessing the feeds</h2>
-	<p>Our New Releases feeds are accessible by the public. Access to our other, more detailed feeds is available to our supporters in the <a href="/donate#patrons-circle">Patrons Circle</a>.</p>
+	<p>Our New Releases feeds are accessible by the public. Access to our other, more detailed feeds is available to our supporters in the <a href="/donate#patrons-circle">Patrons Circle</a> and <a href="/donate#corporate-sponsors">corporate sponsors</a>.</p>
 	<section id="individuals">
 		<h3>Individuals</h3>
 		<ul>
