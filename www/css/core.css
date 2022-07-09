@@ -495,12 +495,12 @@ main.front-page > section > section figure.oss img{
 	display: inline;
 	filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, .25));
 	margin: 1rem;
-	width: auto;
 }
 
 main.front-page > section > section figure img{
 	width: auto;
 	max-width: 100%;
+	height: auto;
 	box-sizing: border-box;
 	border-radius: 5px;
 	border: 1px solid var(--border);
