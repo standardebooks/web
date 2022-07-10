@@ -355,6 +355,7 @@ header nav{
 header nav li{
 	color: #fff;
 	display: inline-block;
+	padding-top: 5px; /* Match the bottom border of the child element so that the navbar is vertically centered */
 }
 
 header nav li + li:before{
