@@ -16,3 +16,4 @@ www/manual/*
 config/php/fpm/standardebooks.org-secrets.ini
 www/bulk-downloads/months
 www/bulk-downloads/subjects
+www/bulk-downloads/collections

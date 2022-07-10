@@ -338,10 +338,14 @@ catch(Exceptions\InvalidEbookException $ex){
 					<? foreach($transcriptionSources as $source){ ?>
 					<li>
 						<p>
-							<? if($source->Type == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a><? } ?>
-							<? if($source->Type == SOURCE_PROJECT_GUTENBERG_AUSTRALIA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a><? } ?>
-							<? if($source->Type == SOURCE_PROJECT_GUTENBERG_CANADA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a><? } ?>
-							<? if($source->Type == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="wikisource">Transcription at Wikisource</a><? } ?>
+							<? if($source->Type == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a>
+							<? }elseif($source->Type == SOURCE_PROJECT_GUTENBERG_AUSTRALIA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a>
+							<? }elseif($source->Type == SOURCE_PROJECT_GUTENBERG_CANADA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a>
+							<? }elseif($source->Type == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="wikisource">Transcription at Wikisource</a>
+							<? }elseif($source->Type == SOURCE_FADED_PAGE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Transcription at Faded Page</a>
+							<? }else{?>
+								<a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Transcription</a>
+							<? } ?>
 						</p>
 					</li>
 					<? } ?>
@@ -355,10 +359,10 @@ catch(Exceptions\InvalidEbookException $ex){
 					<? foreach($scanSources as $source){ ?>
 					<li>
 						<p>
-							<? if($source->Type == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="internet-archive">Page scans at the Internet Archive</a><? } ?>
-							<? if($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a><? } ?>
-							<? if($source->Type == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="google">Page scans at Google Books</a><? } ?>
-							<? if($source->Type == SOURCE_FADED_PAGE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Transcription at Faded Page</a><? } ?>
+							<? if($source->Type == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="internet-archive">Page scans at the Internet Archive</a>
+							<? }elseif($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a>
+							<? }elseif($source->Type == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="google">Page scans at Google Books</a>
+							<? }else{ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Page scans</a><? } ?>
 						</p>
 					</li>
 					<? } ?>

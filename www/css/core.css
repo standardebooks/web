@@ -63,6 +63,7 @@
 	--light-input-hover: #000;
 	--light-input-border: #777;
 	--light-input-outline: #000;
+	--light-table-row-hover: #dddbd5;
 
 	--dark-body-bg: #2c3035;
 	--dark-body-text: #fff;
@@ -74,6 +75,7 @@
 	--dark-input-border: #aaa;
 	--dark-input-hover: #118460;
 	--dark-input-outline: #fff;
+	--dark-table-row-hover: #373b3f;
 
 	--body-text: var(--light-body-text);
 	--header: var(--light-header);
@@ -87,6 +89,7 @@
 	--input-border: var(--light-input-border);
 	--input-outline: var(--light-input-outline);
 	--link-highlight: var(--button);
+	--table-row-hover: var(--light-table-row-hover);
 }
 
 /* Start CSS reset */
@@ -676,11 +679,15 @@ ul.message.error li:only-child{
 }
 
 .bulk-downloads > p,
-.bulk-downloads > section > h2{
+.bulk-downloads h2{
 	width: 100%;
 	max-width: 40rem;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.bulk-downloads h2{
+	text-align: center;
 }
 
 .download-list{
@@ -692,9 +699,11 @@ ul.message.error li:only-child{
 }
 
 .download-list thead tr.mid-header:first-child > *{
-	padding-top: 1rem;
+	padding-top: 2rem;
 }
 
+.download-list th.row-header,
+.download-list .mid-header th:first-child,
 .download-list .mid-header th:last-child{
 	text-align: left;
 }
@@ -728,6 +737,7 @@ ul.message.error li:only-child{
 
 .download-list tbody .row-header{
 	font-weight: bold;
+	white-space: normal;
 }
 
 .download-list tbody tr td,
@@ -735,6 +745,7 @@ ul.message.error li:only-child{
 	border-top: 1px dashed var(--table-border);
 }
 
+.download-list tbody tr:first-child > *,
 .download-list tbody tr.year-header > *,
 .download-list tbody tr.year-header + tr > *,
 .download-list tbody tr.mid-header tr > *,
@@ -743,11 +754,22 @@ ul.message.error li:only-child{
 	border: none;
 }
 
+.download-list tbody tr:not([class]):hover > *{
+	background: var(--table-row-hover);
+}
+
+.download-list tbody tr:only-child:not([class]):hover > *{
+	background: unset; /* Don't highlight on hover if there's only one row */
+}
+
+h2 + .download-list tr.year-header:first-child th{
+	padding-top: 2rem;
+}
+
 .download-list .year-header th{
 	padding-top: 4rem;
 	font-size: 1.4rem;
 	font-family: "League Spartan", Arial, sans-serif;
-	margin-top: 4rem;
 	line-height: 1.2;
 	letter-spacing: 1px;
 	text-transform: uppercase;
@@ -2276,6 +2298,12 @@ article.step-by-step-guide ol ol{
 
 .full-width img{
 	width: 100%;
+}
+
+.download-collection{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 2rem;
 }
 
 abbr.acronym{

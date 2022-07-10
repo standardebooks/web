@@ -83,4 +83,21 @@ class User extends PropertiesBase{
 
 		return $result[0];
 	}
+
+	// Get a user if by either email or uuid, ONLY IF they're either a patron or have a valid API key.
+	public static function GetByPatronIdentifier(?string $identifier): User{
+		if($identifier === null){
+			throw new Exceptions\InvalidUserException();
+		}
+
+		$result = Db::Query('SELECT u.* from Patrons p inner join Users u using (UserId) where p.Ended is null and (u.Email = ? or u.Uuid = ?)
+			union
+			select u.* from ApiKeys fu inner join Users u using (UserId) where fu.Ended is null and (u.Email = ? or u.Uuid = ?)', [$identifier, $identifier, $identifier, $identifier], 'User');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidUserException();
+		}
+
+		return $result[0];
+	}
 }

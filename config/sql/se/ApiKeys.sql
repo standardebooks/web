@@ -1,4 +1,4 @@
-CREATE TABLE `FeedUsers` (
+CREATE TABLE `ApiKeys` (
   `UserId` int(10) unsigned NOT NULL,
   `Created` datetime NOT NULL,
   `Ended` datetime DEFAULT NULL,

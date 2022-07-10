@@ -54,13 +54,13 @@ class Formatter{
 			$output = number_format($bytes / 1024, 0) . 'KB';
 		}
 		elseif($bytes > 1){
-			$output = $bytes . 'b';
+			$output = $bytes . 'B';
 		}
 		elseif($bytes == 1){
-			$output = $bytes . 'b';
+			$output = $bytes . 'B';
 		}
 		else{
-			$output = '0b';
+			$output = '0B';
 		}
 
 		return $output;

@@ -10,6 +10,7 @@
 	--input-border: var(--dark-input-border);
 	--input-outline: var(--dark-input-outline);
 	--link-highlight: var(--button-highlight); /* lighter looks better in dark mode */
+	--table-row-hover: var(--dark-table-row-hover);
 }
 
 main.front-page > section > section figure img{
