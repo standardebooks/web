@@ -21,6 +21,7 @@ catch(Exceptions\SeException $ex){
 			<? if($poll->End !== null){ ?>
 				<p class="center-notice">This poll closes on <?= $poll->End->format('F j, Y g:i A') ?>.</p>
 			<? } ?>
+		<p><i>If you’re a Patrons Circle member, when prompted enter your email address and leave the password field blank to vote.</i></p>
 		<p class="button-row narrow">
 			<a href="<?= $poll->Url ?>/votes/new" class="button">Vote now</a>
 			<a href="<?= $poll->Url ?>/votes" class="button">View results</a>

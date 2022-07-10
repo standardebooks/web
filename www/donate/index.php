@@ -47,7 +47,7 @@ require_once('Core.php');
 					</ul>
 				</li>
 				<li>
-					<p>Access to <a href="/patrons-circle/downloads">bulk ebook downloads</a> to easily download entire months’ worth of ebooks at once.</p>
+					<p>Access to <a href="/bulk-downloads">bulk ebook downloads</a> to easily download entire months’ worth of ebooks at once.</p>
 				</li>
 				<li>
 					<p>The ability to submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, once per quarter. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and are subject to approval.)</p>
@@ -146,7 +146,7 @@ require_once('Core.php');
 					<p>Get access to our OPDS, Atom, and RSS <a href="/feeds">ebook feeds</a> for use by your organization for the duration of your sponsorship. We can also produce different kinds of feeds to meet your needs, like <abbr class="acronym">ONIX</abbr> feeds.</p>
 				</li>
 				<li>
-					<p>Get access to <a href="/patrons-circle/downloads">bulk ebook downloads</a> to easily download large categories of ebooks, all at once.</p>
+					<p>Get access to <a href="/bulk-downloads">bulk ebook downloads</a> to easily download large categories of ebooks, all at once.</p>
 				</li>
 			</ul>
 			<p>To inquire about sponsorship options, contact the <a href="/about#editor-in-chief">Standard Ebooks Editor-in-Chief</a>.</p>

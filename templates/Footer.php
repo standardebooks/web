@@ -20,7 +20,7 @@
 				<a href="https://github.com/standardebooks">GitHub</a>
 			</li>
 			<li>
-				<a href="/patrons-circle/downloads">Bulk downloads</a>
+				<a href="/bulk-downloads">Bulk downloads</a>
 			</li>
 			<li>
 				<a href="/feeds">Ebook Feeds</a>

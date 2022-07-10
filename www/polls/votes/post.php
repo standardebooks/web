@@ -43,7 +43,7 @@ catch(Exceptions\SeException $ex){
 
 		// Access via form; 303 redirect to the form, which will emit a 400 BAD REQUEST
 		http_response_code(303);
-		header('Location: /patrons-circle/polls/' . HttpInput::Str(GET, 'pollurlname', false) . '/votes/new');
+		header('Location: /polls/' . HttpInput::Str(GET, 'pollurlname', false) . '/votes/new');
 	}
 	else{
 		// Access via REST api; 400 BAD REQUEST

@@ -28,7 +28,7 @@ class Poll extends PropertiesBase{
 
 	protected function GetUrl(): string{
 		if($this->_Url === null){
-			$this->_Url = '/patrons-circle/polls/' . $this->UrlName;
+			$this->_Url = '/polls/' . $this->UrlName;
 		}
 
 		return $this->_Url;

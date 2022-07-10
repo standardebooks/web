@@ -29,7 +29,7 @@ try{
 catch(Safe\Exceptions\ApcuException $ex){
 	// Nothing in the cache, generate the files
 
-	$files = glob(WEB_ROOT . '/patrons-circle/downloads/months/*/*.zip');
+	$files = glob(WEB_ROOT . '/bulk-downloads/months/*/*.zip');
 	rsort($files);
 
 	foreach($files as $file){
@@ -49,7 +49,7 @@ catch(Safe\Exceptions\ApcuException $ex){
 		}
 
 		$obj->Month = $date->format('Y-m');
-		$obj->Url = '/patrons-circle/downloads/months/' . $obj->Month . '/' . basename($file);
+		$obj->Url = '/bulk-downloads/months/' . $obj->Month . '/' . basename($file);
 		$obj->Size = Formatter::ToFileSize(filesize($file));
 
 		// The count of ebooks in each file is stored as a filesystem attribute
@@ -98,12 +98,12 @@ try{
 }
 catch(Safe\Exceptions\ApcuException $ex){
 	// Nothing in the cache, generate the files
-	$files = glob(WEB_ROOT . '/patrons-circle/downloads/subjects/*/*.zip');
+	$files = glob(WEB_ROOT . '/bulk-downloads/subjects/*/*.zip');
 	sort($files);
 
 	foreach($files as $file){
 		$obj = new stdClass();
-		$obj->Url = '/patrons-circle/downloads/' . basename($file);
+		$obj->Url = '/bulk-downloads/' . basename($file);
 		$obj->Size = Formatter::ToFileSize(filesize($file));
 		$obj->Updated = new DateTime('@' . filemtime($file));
 
@@ -160,7 +160,7 @@ catch(Safe\Exceptions\ApcuException $ex){
 		<? } ?>
 		<p><a href="/about#patrons-circle">Patrons circle members</a> can download zip files containing all of the ebooks that were released in a given month of Standard Ebooks history. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature.</p>
 		<p>These zip files contain each ebook in every format we offer, and are updated once daily with the latest versions of each ebook.</p>
-		<p>If you’re a Patrons Circle member, when prompted enter your email address and leave the password blank to download these files.</p>
+		<p>If you’re a Patrons Circle member, when prompted enter your email address and leave the password field blank to download these files.</p>
 
 		<section id="downloads-by-subject">
 			<h2>Downloads by subject</h2>

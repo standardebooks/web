@@ -119,7 +119,7 @@ $types = ['epub', 'epub-advanced', 'azw3', 'kepub', 'xhtml'];
 foreach($ebooksByMonth as $month => $ebooks){
 	foreach($types as $type){
 		$filename = 'se-ebooks-' . $month . '-' . $type . '.zip';
-		$filePath = $webRoot . '/patrons-circle/downloads/months/' . $month . '/' . $filename;
+		$filePath = $webRoot . '/bulk-downloads/months/' . $month . '/' . $filename;
 
 		// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
 		if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestampsByMonth[$month]){
@@ -134,7 +134,7 @@ foreach($ebooksBySubject as $subject => $ebooks){
 	foreach($types as $type){
 		$urlSafeSubject = Formatter::MakeUrlSafe($subject);
 		$filename = 'se-ebooks-' . $urlSafeSubject . '-' . $type . '.zip';
-		$filePath = $webRoot . '/patrons-circle/downloads/subjects/' . $urlSafeSubject . '/'. $filename;
+		$filePath = $webRoot . '/bulk-downloads/subjects/' . $urlSafeSubject . '/'. $filename;
 
 		// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
 		if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestampsBySubject[$subject]){

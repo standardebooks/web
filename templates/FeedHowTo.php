@@ -7,7 +7,7 @@
 			<li><p>Join the <a href="/donate#patrons-circle">Patrons Circle</a> by making a donation to get access to all of our ebook feeds for the duration of your gift.</p></li>
 			<li><p><a href="/contribute">Produce an ebook</a> for Standard Ebooks to get lifetime access to our ebook feeds. If you’ve already done that, <a href="/about#editor-in-chief">contact us</a> to enable your access.</p></li>
 		</ul>
-		<p>To access a feed, when prompted enter the email address you used to make your donation or on the S.E. mailing list, and leave the password field blank.</p>
+		<p>To access a feed, when prompted enter your email address and leave the password field blank.</p>
 	</section>
 	<section id="organizations-and-projects">
 		<h3>Organizations and projects</h3>
