@@ -26,3 +26,5 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 		throw $ex; // Send the exception back to PHP for its usual logging routine.
 	});
 }
+
+$GLOBALS['User'] = Session::GetLoggedInUser();

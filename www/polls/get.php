@@ -4,9 +4,21 @@ require_once('Core.php');
 use Safe\DateTime;
 
 $poll = new Poll();
+$canVote = true; // Allow non-logged-in users to see the 'vote' button
 
 try{
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
+
+	if(isset($GLOBALS['User'])){
+		$canVote = false; // User is logged in, hide the vote button unless they haven't voted yet
+		try{
+			PollVote::Get($poll->UrlName, $GLOBALS['User']->UserId);
+		}
+		catch(Exceptions\SeException $ex){
+			// User has already voted
+			$canVote = true;
+		}
+	}
 }
 catch(Exceptions\SeException $ex){
 	Template::Emit404();
@@ -21,9 +33,13 @@ catch(Exceptions\SeException $ex){
 			<? if($poll->End !== null){ ?>
 				<p class="center-notice">This poll closes on <?= $poll->End->format('F j, Y g:i A') ?>.</p>
 			<? } ?>
-		<p><i>If you’re a Patrons Circle member, when prompted enter your email address and leave the password field blank to vote.</i></p>
+			<? if(!$canVote){ ?>
+				<p class="center-notice">You’ve already voted in this poll.</p>
+			<? } ?>
 		<p class="button-row narrow">
+			<? if($canVote){ ?>
 			<a href="<?= $poll->Url ?>/votes/new" class="button">Vote now</a>
+			<? } ?>
 			<a href="<?= $poll->Url ?>/votes" class="button">View results</a>
 		</p>
 		<? }else{ ?>

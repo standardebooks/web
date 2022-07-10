@@ -73,6 +73,9 @@ class HttpInput{
 			case COOKIE:
 				$vars = $_COOKIE;
 				break;
+			case SESSION:
+				$vars = $_SESSION;
+				break;
 		}
 
 		if(isset($vars[$variable])){

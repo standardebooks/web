@@ -5,41 +5,60 @@ use function Safe\session_unset;
 
 session_start();
 
+$poll = new Poll();
 $vote = new PollVote();
-
-if(isset($_SESSION['vote'])){
-	$vote = $_SESSION['vote'];
-}
-else{
-	$vote->User = new User();
-	$vote->User->Email = $_SERVER['PHP_AUTH_USER'] ?? null;
-}
-
 $exception = $_SESSION['exception'] ?? null;
 
-$poll = new Poll();
-
 try{
+	if($GLOBALS['User'] === null){
+		throw new Exceptions\LoginRequiredException();
+	}
+
+	if(isset($_SESSION['vote'])){
+		$vote = $_SESSION['vote'];
+	}
+	else{
+		$vote->User = $GLOBALS['User'];
+	}
+
+
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
+
+	try{
+		$vote = PollVote::Get($poll->UrlName, $GLOBALS['User']->UserId);
+		throw new Exceptions\PollVoteExistsException($vote);
+	}
+	catch(Exceptions\InvalidPollVoteException $ex){
+		// User hasn't voted yet, do nothing
+	}
+
+	if($exception){
+		http_response_code(400);
+		session_unset();
+	}
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\LoginRequiredException $ex){
+	Template::RedirectToLogin();
+}
+catch(Exceptions\InvalidPollException $ex){
 	Template::Emit404();
 }
+catch(Exceptions\PollVoteExistsException $ex){
+	$redirect = $poll->Url;
+	if($ex->Vote !== null){
+		$redirect = $ex->Vote->Url;
+	}
 
-if($exception){
-	http_response_code(400);
-	session_unset();
+	header('Location: ' . $redirect);
+	exit();
 }
-
 ?><?= Template::Header(['title' => $poll->Name . ' - Vote Now', 'highlight' => '', 'description' => 'Vote in the ' . $poll->Name . ' poll']) ?>
 <main>
 	<section class="narrow">
 		<h1>Vote in the <?= Formatter::ToPlainText($poll->Name) ?> Poll</h1>
 		<?= Template::Error(['exception' => $exception]) ?>
 		<form method="post" action="<?= Formatter::ToPlainText($poll->Url) ?>/votes">
-			<label class="email">Your email address
-				<input type="email" name="email" value="<? if($vote->User !== null){ ?><?= Formatter::ToPlainText($vote->User->Email) ?><? } ?>" maxlength="80" required="required" readonly="readonly" />
-			</label>
+			<input type="hidden" name="email" value="<? if($vote->User !== null){ ?><?= Formatter::ToPlainText($vote->User->Email) ?><? } ?>" maxlength="80" required="required" />
 			<fieldset>
 				<p>Select one of these options</p>
 				<ul>

@@ -47,6 +47,7 @@ if(sizeof($expiredPatrons) > 0){
 
 	foreach($expiredPatrons as $patron){
 		Db::Query('update Patrons set Ended = ? where UserId = ?', [$now, $patron->UserId]);
+		Db::Query('update Benefits set CanAccessFeeds = false, CanVote = false, CanBulkDownload = false where UserId = ?', [$patron->UserId]);
 
 		// Email the patron to notify them their term has ended
 		// Is the patron a recurring subscriber?

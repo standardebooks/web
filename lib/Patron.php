@@ -22,6 +22,9 @@ class Patron extends PropertiesBase{
 		$this->Created = new DateTime();
 		Db::Query('INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails) values(?, ?, ?, ?, ?);', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails]);
 
+
+		Db::Query('INSERT into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload) values (?, true, true, true) on duplicate key update CanVote = true, CanAccessFeeds = true, CanBulkDownload = true', [$this->UserId]);
+
 		// If this is a patron for the first time, send the first-time patron email.
 		// Otherwise, send the returning patron email.
 		$isReturning = Db::QueryInt('SELECT count(*) from Patrons where UserId = ?', [$this->UserId]) > 1;

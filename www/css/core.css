@@ -1891,6 +1891,20 @@ form[action="/ebooks"] button{
 	margin-top: 1.4rem;
 }
 
+form.single-row{
+	display: flex;
+	flex-direction: column;
+}
+
+form.single-row label{
+	width: 100%;
+}
+
+form.single-row button{
+	align-self: flex-end;
+	margin-top: 1rem;
+}
+
 article nav ol li:not(:first-child):not(:last-child):not(.highlighted),
 main.ebooks nav ol li:not(:first-child):not(:last-child):not(.highlighted){
 	display: none;

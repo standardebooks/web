@@ -35,8 +35,8 @@ class PollVote extends PropertiesBase{
 	protected function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
-		if($this->UserId === null){
-			$error->Add(new Exceptions\InvalidPatronException());
+		if($this->UserId === null || $this->User === null){
+			$error->Add(new Exceptions\InvalidUserException());
 		}
 
 		if($this->PollItemId === null){
@@ -56,17 +56,17 @@ class PollVote extends PropertiesBase{
 			// Basic sanity checks done, now check if we've already voted
 			// in this poll
 
-			if($this->User === null){
-				$error->Add(new Exceptions\InvalidPatronException());
+			// Do we already have a vote for this poll, from this user?
+			try{
+				$vote = PollVote::Get($this->PollItem->Poll->UrlName, $this->UserId);
+				$error->Add(new Exceptions\PollVoteExistsException($vote));
 			}
-			else{
-				// Do we already have a vote for this poll, from this user?
-				if(Db::QueryInt('
-					SELECT count(*) from PollVotes pv inner join
-					(select PollItemId from PollItems pi inner join Polls p using (PollId)) x
-					using (PollItemId) where pv.UserId = ?', [$this->UserId]) > 0){
-					$error->Add(new Exceptions\PollVoteExistsException());
-				}
+			catch(Exceptions\InvalidPollVoteException $ex){
+				// User hasn't voted yet, carry on
+			}
+
+			if(!$this->User->Benefits->CanVote){
+				$error->Add(new Exceptions\InvalidPatronException());
 			}
 		}
 
@@ -78,11 +78,10 @@ class PollVote extends PropertiesBase{
 	public function Create(?string $email = null): void{
 		if($email !== null){
 			try{
-				$patron = Patron::GetByEmail($email);
-				$this->UserId = $patron->UserId;
-				$this->User = $patron->User;
+				$this->User = User::GetByEmail($email);
+				$this->UserId = $this->User->UserId;
 			}
-			catch(Exceptions\InvalidPatronException $ex){
+			catch(Exceptions\InvalidUserException $ex){
 				// Can't validate patron email - do nothing for now,
 				// this will be caught later when we validate the vote during creation.
 				// Save the email in the User object in case we want it later,

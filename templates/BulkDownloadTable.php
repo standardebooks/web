@@ -15,7 +15,7 @@
 			<td class="number"><?= Formatter::ToPlainText($collection->UpdatedString) ?></td>
 
 			<? foreach($collection->ZipFiles as $item){ ?>
-				<td class="download"><a href="<?= $item->Url ?>" download=""><?= $item->Type ?></a></td>
+				<td class="download"><a href="<?= $item->Url ?>"><?= $item->Type ?></a></td>
 				<td>(<?= Formatter::ToPlainText($item->Size) ?>)</td>
 			<? } ?>
 		</tr>

@@ -4,6 +4,7 @@ use Safe\DateTime;
 
 /**
  * @property Array<Payment> $Payments
+ * @property Benefits $Benefits
  */
 class User extends PropertiesBase{
 	public $UserId;
@@ -11,7 +12,9 @@ class User extends PropertiesBase{
 	public $Email;
 	public $Created;
 	public $Uuid;
+	protected $_IsRegistered = null;
 	protected $_Payments = null;
+	protected $_Benefits = null;
 
 
 	// *******
@@ -27,6 +30,33 @@ class User extends PropertiesBase{
 		}
 
 		return $this->_Payments;
+	}
+
+	protected function GetBenefits(): Benefits{
+		if($this->_Benefits === null){
+			$result = Db::Query('select * from Benefits where UserId = ?', [$this->UserId], 'Benefits');
+
+			if(sizeof($result) == 0){
+				$this->_Benefits = new Benefits();
+				$this->_IsRegistered = false;
+			}
+			else{
+				$this->_Benefits = $result[0];
+				$this->_IsRegistered = true;
+			}
+		}
+
+		return $this->_Benefits;
+	}
+
+	protected function GetIsRegistered(): bool{
+		if($this->_IsRegistered === null){
+			// A user is "registered" if they have a benefits entry in the table.
+			// This function will fill it out for us.
+			$this->GetBenefits();
+		}
+
+		return $this->_IsRegistered;
 	}
 
 
@@ -84,15 +114,14 @@ class User extends PropertiesBase{
 		return $result[0];
 	}
 
-	// Get a user if by either email or uuid, ONLY IF they're either a patron or have a valid API key.
-	public static function GetByPatronIdentifier(?string $identifier): User{
-		if($identifier === null){
+	public static function GetIfRegistered(?string $email): User{
+		// We consider a user "registered" if they have a row in the Benefits table.
+		// Emails without that row may only be signed up for the newsletter and thus are not "registered" users
+		if($email === null){
 			throw new Exceptions\InvalidUserException();
 		}
 
-		$result = Db::Query('SELECT u.* from Patrons p inner join Users u using (UserId) where p.Ended is null and (u.Email = ? or u.Uuid = ?)
-			union
-			select u.* from ApiKeys fu inner join Users u using (UserId) where fu.Ended is null and (u.Email = ? or u.Uuid = ?)', [$identifier, $identifier, $identifier, $identifier], 'User');
+		$result = Db::Query('SELECT u.* from Users u inner join Benefits using (UserId) where u.Email = ?', [$email], 'User');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidUserException();

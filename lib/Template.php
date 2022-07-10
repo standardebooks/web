@@ -39,4 +39,19 @@ class Template{
 		include(WEB_ROOT . '/404.php');
 		exit();
 	}
+
+	public static function RedirectToLogin(bool $redirectToDestination = true, string $destinationUrl = null): void{
+		if($redirectToDestination){
+			if($destinationUrl === null){
+				$destinationUrl = $_SERVER['SCRIPT_URL'];
+			}
+
+			header('Location: /sessions/new?redirect=' . urlencode($destinationUrl));
+		}
+		else{
+			header('Location: /sessions/new');
+		}
+
+		exit();
+	}
 }

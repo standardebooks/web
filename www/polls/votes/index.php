@@ -24,19 +24,20 @@ catch(Exceptions\SeException $ex){
 		<? } ?>
 		<table class="votes">
 			<tbody>
-		<? foreach($poll->PollItemsByWinner as $pollItem){ ?>
-			<tr>
-				<td><?= Formatter::ToPlainText($pollItem->Name) ?></td>
-				<td>
-					<div class="meter">
-						<div aria-hidden="true">
-							<p><?= number_format($pollItem->VoteCount) ?></p>
+			<? foreach($poll->PollItemsByWinner as $pollItem){ ?>
+				<tr>
+					<td><?= Formatter::ToPlainText($pollItem->Name) ?></td>
+					<td>
+						<div class="meter">
+							<div aria-hidden="true">
+								<p><?= number_format($pollItem->VoteCount) ?></p>
+							</div>
+							<? /* @max must be at least 1, otherwise 0/0 will appear as 100% */ ?>
+							<meter min="0" max="<?= $poll->VoteCount ?: 1 ?>" value="<?= $pollItem->VoteCount ?>"></meter>
 						</div>
-						<meter min="0" max="<?= $poll->VoteCount ?>" value="<?= $pollItem->VoteCount ?>"></meter>
-					</div>
-				</td>
-			</tr>
-		<? } ?>
+					</td>
+				</tr>
+			<? } ?>
 			</tbody>
 		</table>
 	</section>

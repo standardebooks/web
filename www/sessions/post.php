@@ -13,35 +13,39 @@ session_start();
 
 $requestType = HttpInput::RequestType();
 
-$vote = new PollVote();
+$session = new Session();
+$email = HttpInput::Str(POST, 'email', false);
+$redirect = HttpInput::Str(POST, 'redirect', false);
 
 try{
-	$vote->PollItemId = HttpInput::Int(POST, 'pollitemid');
+	if($redirect === null){
+		$redirect = '/';
+	}
 
-	$vote->Create(HttpInput::Str(POST, 'email', false));
+	$session->Create($email);
 
-	session_unset();
+	setcookie('sessionid', $session->SessionId, time() + 60 * 60 * 24 * 14 * 1, '/', SITE_DOMAIN, true, false); // Expires in two weeks
 
 	if($requestType == WEB){
-		$_SESSION['vote-created'] = $vote->UserId;
 		http_response_code(303);
-		header('Location: ' . $vote->Url);
+		header('Location: ' . $redirect);
 	}
 	else{
 		// Access via REST api; 201 CREATED with location
 		http_response_code(201);
-		header('Location: ' . $vote->Url);
+		header('Location: ' . $session->Url);
 	}
 }
 catch(Exceptions\SeException $ex){
-	// Validation failed
+	// Login failed
 	if($requestType == WEB){
-		$_SESSION['vote'] = $vote;
+		$_SESSION['email'] = $email;
+		$_SESSION['redirect'] = $redirect;
 		$_SESSION['exception'] = $ex;
 
 		// Access via form; 303 redirect to the form, which will emit a 400 BAD REQUEST
 		http_response_code(303);
-		header('Location: /polls/' . HttpInput::Str(GET, 'pollurlname', false) . '/votes/new');
+		header('Location: /sessions/new');
 	}
 	else{
 		// Access via REST api; 400 BAD REQUEST

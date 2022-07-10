@@ -7,12 +7,11 @@ $collection = null;
 $collectionUrlName = HttpInput::Str(GET, 'collection', false);
 $collection = null;
 $authorUrlName = HttpInput::Str(GET, 'author', false);
-$exception = null;
-$user = null;
+$canDownload = false;
 
 try{
-	if(isset($_SERVER['PHP_AUTH_USER'])){
-		$user = User::GetByPatronIdentifier($_SERVER['PHP_AUTH_USER']);
+	if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){
+		$canDownload = true;
 	}
 
 	if($collectionUrlName !== null){
@@ -66,7 +65,7 @@ try{
 catch(Exceptions\InvalidUserException $ex){
 	$exception = new Exceptions\InvalidPatronException();
 }
-catch(Exceptions\InvalidCollectionException $ex){
+catch(Exceptions\InvalidAuthorException $ex){
 	Template::Emit404();
 }
 catch(Exceptions\InvalidCollectionException $ex){
@@ -77,13 +76,11 @@ catch(Exceptions\InvalidCollectionException $ex){
 <main>
 	<section class="bulk-downloads">
 		<h1>Download the <?= $collection->Label ?> Collection</h1>
-		<?= Template::Error(['exception' => $exception]) ?>
-		<? if($user === null){ ?>
-			<p><a href="/about#patrons-circle">Patrons circle members</a> can download zip files containing all of the ebooks in a collection. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature.</p>
-			<p>If you’re a Patrons Circle member, when prompted enter your email address and leave the password field blank to download this collection.</p>
-		<? }else{ ?>
+		<? if($canDownload){ ?>
 			<p>Select the ebook format in which you’d like to download this collection.</p>
 			<p>You can also read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which ebook format to download</a>.</p>
+		<? }else{ ?>
+			<p><a href="/about#patrons-circle">Patrons circle members</a> can download zip files containing all of the ebooks in a collection. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature.</p>
 		<? } ?>
 		<?= Template::BulkDownloadTable(['label' => 'Collection', 'collections' => [$collection]]); ?>
 	</section>

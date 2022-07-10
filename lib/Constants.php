@@ -11,12 +11,13 @@ define('SITE_STATUS', get_cfg_var('se.site_status') ?: SITE_STATUS_DEV); // Set 
 
 // No trailing slash on any of the below constants.
 if(SITE_STATUS == SITE_STATUS_LIVE){
-	define('SITE_URL', 'https://standardebooks.org');
+	define('SITE_DOMAIN', 'standardebooks.org');
 }
 else{
-	define('SITE_URL', 'https://standardebooks.test');
+	define('SITE_DOMAIN', 'standardebooks.test');
 }
 
+const SITE_URL =			'https://' . SITE_DOMAIN;
 const SITE_ROOT =			'/standardebooks.org';
 const WEB_ROOT =			SITE_ROOT . '/web/www';
 const REPOS_PATH =			SITE_ROOT . '/ebooks';
@@ -49,6 +50,7 @@ const WEB = 1;
 const GET = 'GET';
 const POST = 'POST';
 const COOKIE = 'COOKIE';
+const SESSION = 'SESSION';
 
 const HTTP_VAR_INT = 0;
 const HTTP_VAR_STR = 1;

@@ -40,7 +40,7 @@ try{
 	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'issubscribedtonewsletter', false);
 	$subscription->IsSubscribedToSummary = HttpInput::Bool(POST, 'issubscribedtosummary', false);
 
-	$captcha = $_SESSION['captcha'] ?? '';
+	$captcha = HttpInput::Str(SESSION, 'captcha', false) ?? '';
 
 	$exception = new Exceptions\ValidationException();
 
