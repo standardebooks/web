@@ -3,14 +3,6 @@ require_once('Core.php');
 
 use Safe\DateTime;
 use function Safe\apcu_fetch;
-use function Safe\filemtime;
-use function Safe\filesize;
-use function Safe\glob;
-use function Safe\gmdate;
-use function Safe\preg_match;
-use function Safe\sort;
-use function Safe\rsort;
-use function Safe\usort;
 
 $forbiddenException = null;
 
@@ -20,126 +12,17 @@ if(isset($_SERVER['PHP_AUTH_USER'])){
 	$forbiddenException = new Exceptions\InvalidPatronException();
 }
 
-// Process ebooks by year
 $years = [];
+$subjects = [];
 
 try{
 	$years = apcu_fetch('bulk-downloads-years');
-}
-catch(Safe\Exceptions\ApcuException $ex){
-	// Nothing in the cache, generate the files
-
-	$files = glob(WEB_ROOT . '/bulk-downloads/months/*/*.zip');
-	rsort($files);
-
-	foreach($files as $file){
-		$obj = new stdClass();
-		$obj->Updated = new DateTime('@' . filemtime($file));
-		$date = new DateTime();
-
-		preg_match('/se-ebooks-(\d+-\d+)/ius', basename($file), $matches);
-		if(sizeof($matches) == 2){
-			$date = new DateTime($matches[1] . '-01');
-		}
-
-		// The type of zip is stored as a filesystem attribute
-		$obj->Type = exec('attr -g se-ebook-type ' . escapeshellarg($file));
-		if($obj->Type == 'epub-advanced'){
-			$obj->Type = 'epub (advanced)';
-		}
-
-		$obj->Month = $date->format('Y-m');
-		$obj->Url = '/bulk-downloads/months/' . $obj->Month . '/' . basename($file);
-		$obj->Size = Formatter::ToFileSize(filesize($file));
-
-		// The count of ebooks in each file is stored as a filesystem attribute
-		$obj->Count = exec('attr -g se-ebook-count ' . escapeshellarg($file)) ?: null;
-		if($obj->Count !== null){
-			$obj->Count = intval($obj->Count);
-		}
-
-		$obj->UpdatedString = $obj->Updated->format('M j');
-		if($obj->Updated->format('Y') != gmdate('Y')){
-			$obj->UpdatedString = $obj->Updated->format('M j, Y');
-		}
-
-		$year = $date->format('Y');
-		$month = $date->format('F');
-
-		if(!isset($years[$year])){
-			$years[$year] = [];
-		}
-
-		if(!isset($years[$year][$month])){
-			$years[$year][$month] = [];
-		}
-
-		$years[$year][$month][] = $obj;
-	}
-
-	// Sort the downloads by filename extension
-	foreach($years as $year => $months){
-		foreach($months as $month => $items){
-			usort($items, function($a, $b){ return $a->Type <=> $b->Type; });
-
-			// We have to reassign it because the foreach created a clone of the array
-			$years[$year][$month] = $items;
-		}
-	}
-
-	apcu_store('bulk-downloads-years', $years, 43200); // 12 hours
-}
-
-
-$subjects = [];
-// Process ebooks by subject
-try{
 	$subjects = apcu_fetch('bulk-downloads-subjects');
 }
 catch(Safe\Exceptions\ApcuException $ex){
-	// Nothing in the cache, generate the files
-	$files = glob(WEB_ROOT . '/bulk-downloads/subjects/*/*.zip');
-	sort($files);
-
-	foreach($files as $file){
-		$obj = new stdClass();
-		$obj->Url = '/bulk-downloads/' . basename($file);
-		$obj->Size = Formatter::ToFileSize(filesize($file));
-		$obj->Updated = new DateTime('@' . filemtime($file));
-
-		// The count of ebooks in each file is stored as a filesystem attribute
-		$obj->Count = exec('attr -g se-ebook-count ' . escapeshellarg($file)) ?: null;
-		if($obj->Count !== null){
-			$obj->Count = intval($obj->Count);
-		}
-
-		// The subject of the batch is stored as a filesystem attribute
-		$obj->Subject = exec('attr -g se-subject ' . escapeshellarg($file)) ?: null;
-		if($obj->Subject === null){
-			$obj->Subject = str_replace('se-ebooks-', '', basename($file, '.zip'));
-		}
-
-		// The type of zip is stored as a filesystem attribute
-		$obj->Type = exec('attr -g se-ebook-type ' . escapeshellarg($file));
-		if($obj->Type == 'epub-advanced'){
-			$obj->Type = 'epub (advanced)';
-		}
-
-		$obj->UpdatedString = $obj->Updated->format('M j');
-		if($obj->Updated->format('Y') != gmdate('Y')){
-			$obj->UpdatedString = $obj->Updated->format('M j, Y');
-		}
-
-		if(!isset($subjects[$obj->Subject])){
-			$subjects[$obj->Subject] = [];
-		}
-
-		$subjects[$obj->Subject][] = $obj;
-	}
-
-	// Subjects downloads are already correctly sorted
-
-	apcu_store('bulk-downloads-subjects', $subjects, 43200); // 12 hours
+	$result = Library::RebuildBulkDownloadsCache();
+	$years = $result['years'];
+	$subjects = $result['subjectss'];
 }
 
 ?><?= Template::Header(['title' => 'Bulk Ebook Downloads', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
