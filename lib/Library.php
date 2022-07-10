@@ -225,7 +225,7 @@ class Library{
 		return $ebooks;
 	}
 
-	private static function FillBulkDownloadObject(string $dir, string $downloadType): stdClass{
+	private static function FillBulkDownloadObject(string $dir, string $downloadType, string $urlRoot): stdClass{
 		$obj = new stdClass();
 
 		// The count of ebooks in each file is stored as a filesystem attribute
@@ -243,7 +243,12 @@ class Library{
 			$obj->Label = basename($dir);
 		}
 
-		$obj->UrlLabel = Formatter::MakeUrlSafe($obj->Label);
+		$obj->UrlLabel = exec('attr -g se-url-label ' . escapeshellarg($dir)) ?: null;
+		if($obj->UrlLabel === null){
+			$obj->UrlLabel = Formatter::MakeUrlSafe($obj->Label);
+		}
+
+		$obj->Url = $urlRoot . '/' . $obj->UrlLabel;
 
 		$obj->LabelSort = exec('attr -g se-label-sort ' . escapeshellarg($dir)) ?: null;
 		if($obj->LabelSort === null){
@@ -329,7 +334,7 @@ class Library{
 		rsort($dirs);
 
 		foreach($dirs as $dir){
-			$obj = self::FillBulkDownloadObject($dir, 'months');
+			$obj = self::FillBulkDownloadObject($dir, 'months', '/months');
 
 			$date = new DateTime($obj->Label . '-01');
 			$year = $date->format('Y');
@@ -346,7 +351,7 @@ class Library{
 
 		// Generate bulk downloads by subject
 		foreach(glob(WEB_ROOT . '/bulk-downloads/subjects/*/', GLOB_NOSORT) as $dir){
-			$subjects[] = self::FillBulkDownloadObject($dir, 'subjects');
+			$subjects[] = self::FillBulkDownloadObject($dir, 'subjects', '/subjects');
 		}
 		usort($subjects, function($a, $b){ return $a->LabelSort <=> $b->LabelSort; });
 
@@ -354,7 +359,7 @@ class Library{
 
 		// Generate bulk downloads by collection
 		foreach(glob(WEB_ROOT . '/bulk-downloads/collections/*/', GLOB_NOSORT) as $dir){
-			$collections[] = self::FillBulkDownloadObject($dir, 'collections');
+			$collections[] = self::FillBulkDownloadObject($dir, 'collections', '/collections');
 		}
 		usort($collections, function($a, $b){ return $a->LabelSort <=> $b->LabelSort; });
 
@@ -362,7 +367,7 @@ class Library{
 
 		// Generate bulk downloads by authors
 		foreach(glob(WEB_ROOT . '/bulk-downloads/authors/*/', GLOB_NOSORT) as $dir){
-			$authors[] = self::FillBulkDownloadObject($dir, 'authors');
+			$authors[] = self::FillBulkDownloadObject($dir, 'authors', '/ebooks');
 		}
 		usort($authors, function($a, $b){ return $a->LabelSort <=> $b->LabelSort; });
 

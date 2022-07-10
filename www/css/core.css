@@ -2301,10 +2301,17 @@ article.step-by-step-guide ol ol{
 	width: 100%;
 }
 
+h1.is-collection{
+	margin-bottom: 1rem;
+}
+
 .download-collection{
 	display: flex;
 	justify-content: center;
-	margin-bottom: 2rem;
+	margin-bottom: 4rem;
+	border-bottom: 1px dashed var(--sub-text);
+	padding-bottom: 1rem;
+	font-style: italic;
 }
 
 abbr.acronym{
@@ -3359,6 +3366,7 @@ ul.feed p{
 	body > header ul li:nth-child(2) ~ li,
 	body > header ul li + li{
 		margin-top: 1rem;
+		padding-top: 0;
 	}
 
 	body > header ul li,

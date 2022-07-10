@@ -10,7 +10,7 @@
 	<tbody>
 		<? foreach($collections as $collection){ ?>
 		<tr>
-			<td class="row-header"><a href="/collections/<?= Formatter::MakeUrlSafe($collection->Label) ?>"><?= Formatter::ToPlainText($collection->Label) ?></a></td>
+			<td class="row-header"><a href="<?= $collection->Url ?>"><?= Formatter::ToPlainText($collection->Label) ?></a></td>
 			<td class="number"><?= Formatter::ToPlainText(number_format($collection->EbookCount)) ?></td>
 			<td class="number"><?= Formatter::ToPlainText($collection->UpdatedString) ?></td>
 

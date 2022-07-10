@@ -7,6 +7,6 @@ class Tag{
 	public function __construct(string $name){
 		$this->Name = $name;
 		$this->UrlName = Formatter::MakeUrlSafe($this->Name);
-		$this->Url = '/tags/' . $this->UrlName;
+		$this->Url = '/subjects/' . $this->UrlName;
 	}
 }

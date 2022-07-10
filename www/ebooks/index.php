@@ -65,17 +65,9 @@ try{
 			$collectionName = preg_replace('/^The /ius', '', $collectionObject->Name);
 			$collectionType = $collectionObject->Type ?? 'collection';
 
-			# This is a kind of .endswith() test
-			if(substr_compare(mb_strtolower($collectionObject->Name), mb_strtolower($collectionObject->Type), -strlen(mb_strtolower($collectionObject->Type))) !== 0){
-				$collectionType = ' ' . $collectionType;
-			}
-			else{
-				$collectionType = '';
-			}
-
-			$pageTitle = 'Browse free ebooks in the ' . Formatter::ToPlainText($collectionName) . $collectionType;
+			$pageTitle = 'Browse free ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
 			$pageDescription = 'A list of free ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
-			$pageHeader = 'Free ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
+			$pageHeader = 'Free Ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . ucfirst($collectionType);
 		}
 		else{
 			throw new Exceptions\InvalidCollectionException();
@@ -126,7 +118,7 @@ catch(Exceptions\InvalidCollectionException $ex){
 }
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
-	<h1><?= $pageHeader ?></h1>
+	<h1<? if($collection !== null && sizeof($ebooks) > 1){ ?> class="is-collection"<? } ?>><?= $pageHeader ?></h1>
 	<?= Template::DonationCounter() ?>
 	<?= Template::DonationProgress() ?>
 	<? if(!DONATION_DRIVE_ON && !DONATION_DRIVE_COUNTER_ON && DONATION_HOLIDAY_ALERT_ON){ ?>
@@ -136,7 +128,7 @@ catch(Exceptions\InvalidCollectionException $ex){
 	<?= Template::SearchForm(['query' => $query, 'tags' => $tags, 'sort' => $sort, 'view' => $view, 'perPage' => $perPage]) ?>
 	<? } ?>
 	<? if($collection !== null && sizeof($ebooks) > 1){ ?>
-		<p class="download-collection"><a class="button" href="/collections/<?= Formatter::ToPlainText($collection) ?>/download">Download entire collection</a></p>
+		<p class="download-collection"><a href="/collections/<?= Formatter::ToPlainText($collection) ?>/downloads">Download all ebooks in this collection</a></p>
 	<? } ?>
 	<? if(sizeof($ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>

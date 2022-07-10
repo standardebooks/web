@@ -13,6 +13,25 @@ $groups = ['collections', 'subjects', 'authors', 'months'];
 $ebooksByGroup = [];
 $updatedByGroup = [];
 
+function rrmdir($src){
+	// See https://www.php.net/manual/en/function.rmdir.php#117354
+	$dir = opendir($src);
+	while(false !== ($file = readdir($dir))) {
+		if (($file != '.') && ($file != '..')){
+			$full = $src . '/' . $file;
+			if(is_dir($full)){
+				rrmdir($full);
+			}
+			else{
+				unlink($full);
+			}
+		}
+	}
+
+	closedir($dir);
+	rmdir($src);
+}
+
 function CreateZip(string $filePath, array $ebooks, string $type, string $webRoot): void{
 	$tempFilename = tempnam(sys_get_temp_dir(), "se-ebooks");
 
@@ -71,6 +90,7 @@ foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 		$obj = new stdClass();
 		$obj->Label = $timestamp;
 		$obj->LabelSort = $timestamp;
+		$obj->UrlLabel = Formatter::MakeUrlSafe($obj->Label);
 		$obj->Updated = $updatedTimestamp;
 		$obj->Ebooks = [$ebook];
 
@@ -89,6 +109,7 @@ foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 			$obj = new stdClass();
 			$obj->Label = $tag->Name;
 			$obj->LabelSort = $tag->Name;
+			$obj->UrlLabel = Formatter::MakeUrlSafe($obj->Label);
 			$obj->Updated = $updatedTimestamp;
 			$obj->Ebooks = [$ebook];
 
@@ -108,6 +129,7 @@ foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 			$obj = new stdClass();
 			$obj->Label = $collection->Name;
 			$obj->LabelSort = $collection->GetSortedName();
+			$obj->UrlLabel = Formatter::MakeUrlSafe($obj->Label);
 			$obj->Updated = $updatedTimestamp;
 			$obj->Ebooks = [$ebook];
 
@@ -122,29 +144,46 @@ foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 	}
 
 	// Add to the 'books by author' list
-	foreach($ebook->Authors as $author){
-		if(!isset($ebooksByGroup['authors'][$author->Name])){
-			$obj = new stdClass();
-			$obj->Label = $author->Name;
-			$obj->LabelSort = $author->SortName;
-			$obj->Updated = $updatedTimestamp;
-			$obj->Ebooks = [$ebook];
+	// We have to index by UrlName for cases like `Samuel Butler` whose UrlName is `samuel-butler-1612-1680`.
+	$authorsUrl = preg_replace('|^/ebooks/|', '', $ebook->AuthorsUrl);
+	if(!isset($ebooksByGroup['authors'][$authorsUrl])){
+		$obj = new stdClass();
+		$obj->Label = strip_tags($ebook->AuthorsHtml);
+		$obj->LabelSort = $ebook->Authors[0]->SortName;
+		$obj->UrlLabel = $authorsUrl;
+		$obj->Updated = $updatedTimestamp;
+		$obj->Ebooks = [$ebook];
 
-			$ebooksByGroup['authors'][$author->Name] = $obj;
-		}
-		else{
-			$ebooksByGroup['authors'][$author->Name]->Ebooks[] = $ebook;
-			if($updatedTimestamp > $ebooksByGroup['authors'][$author->Name]->Updated){
-				$ebooksByGroup['authors'][$author->Name]->Updated = $updatedTimestamp;
-			}
+		$ebooksByGroup['authors'][$authorsUrl] = $obj;
+	}
+	else{
+		$ebooksByGroup['authors'][$authorsUrl]->Ebooks[] = $ebook;
+		if($updatedTimestamp > $ebooksByGroup['authors'][$authorsUrl]->Updated){
+			$ebooksByGroup['authors'][$authorsUrl]->Updated = $updatedTimestamp;
 		}
 	}
 }
 
 foreach($groups as $group){
+	// First delete any orphan directories that we don't expect to be here, for example a collection that was later renamed
+	foreach(glob($webRoot . '/bulk-downloads/' . $group . '/*/') as $dir){
+		$expected = false;
+		foreach($ebooksByGroup[$group] as $collection){
+			if($collection->UrlLabel == basename($dir)){
+				$expected = true;
+				break;
+			}
+		}
+
+		if(!$expected){
+			print('Removing ' . $dir . "\n");
+			rrmdir($dir);
+		}
+	}
+
+	// Now create the zip files!
 	foreach($ebooksByGroup[$group] as $collection){
-		$urlSafeCollection = Formatter::MakeUrlSafe($collection->Label);
-		$parentDir = $webRoot . '/bulk-downloads/' . $group . '/' . $urlSafeCollection;
+		$parentDir = $webRoot . '/bulk-downloads/' . $group . '/' . $collection->UrlLabel;
 
 		if(!is_dir($parentDir)){
 			mkdir($parentDir, 0775, true);
@@ -154,8 +193,11 @@ foreach($groups as $group){
 		exec('attr -q -s se-label -V ' . escapeshellarg($collection->Label) . ' ' . escapeshellarg($parentDir));
 		exec('attr -q -s se-label-sort -V ' . escapeshellarg($collection->LabelSort) . ' ' . escapeshellarg($parentDir));
 
+		// We also need to save the URL label for author edge cases like `Samuel Butler` -> `samuel-butler-1612-1680` or `Karl Marx and Freidrich Engels` -> `karl-marx_friedrich-engels`
+		exec('attr -q -s se-url-label -V ' . escapeshellarg($collection->UrlLabel) . ' ' . escapeshellarg($parentDir));
+
 		foreach($types as $type){
-			$filePath =  $parentDir . '/se-ebooks-' . $urlSafeCollection . '-' . $type . '.zip';
+			$filePath =  $parentDir . '/se-ebooks-' . $collection->UrlLabel . '-' . $type . '.zip';
 
 			// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
 			if(!file_exists($filePath) || filemtime($filePath) < $collection->Updated){
