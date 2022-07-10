@@ -22,7 +22,7 @@ try{
 catch(Safe\Exceptions\ApcuException $ex){
 	$result = Library::RebuildBulkDownloadsCache();
 	$years = $result['years'];
-	$subjects = $result['subjectss'];
+	$subjects = $result['subjects'];
 }
 
 ?><?= Template::Header(['title' => 'Bulk Ebook Downloads', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>

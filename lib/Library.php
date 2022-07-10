@@ -263,6 +263,7 @@ class Library{
 			}
 
 			$obj->UpdatedString = $obj->Updated->format('M j');
+			$obj->UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $obj->UpdatedString);
 			if($obj->Updated->format('Y') != gmdate('Y')){
 				$obj->UpdatedString = $obj->Updated->format('M j, Y');
 			}
@@ -322,6 +323,7 @@ class Library{
 			}
 
 			$obj->UpdatedString = $obj->Updated->format('M j');
+			$obj->UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $obj->UpdatedString);
 			if($obj->Updated->format('Y') != gmdate('Y')){
 				$obj->UpdatedString = $obj->Updated->format('M j, Y');
 			}
