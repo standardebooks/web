@@ -8,15 +8,12 @@ $longopts = ['webroot:'];
 $options = getopt('', $longopts);
 $webRoot = $options['webroot'] ?? WEB_ROOT;
 
-$ebooksByMonth = [];
-$lastUpdatedTimestampsByMonth = [];
-$subjects = [];
-$collections = [];
-$ebooksBySubject = [];
-$lastUpdatedTimestampsBySubject = [];
-$lastUpdatedTimestampsByCollection = [];
+$types = ['epub', 'epub-advanced', 'azw3', 'kepub', 'xhtml'];
+$groups = ['collections', 'subjects', 'authors', 'months'];
+$ebooksByGroup = [];
+$updatedByGroup = [];
 
-function CreateZip(string $filePath, array $ebooks, string $type, string $webRoot, string $label): void{
+function CreateZip(string $filePath, array $ebooks, string $type, string $webRoot): void{
 	$tempFilename = tempnam(sys_get_temp_dir(), "se-ebooks");
 
 	$zip = new ZipArchive();
@@ -59,20 +56,9 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 
 	$zip->close();
 
-	$dir = dirname($filePath);
-	if(!is_dir($dir)){
-		mkdir($dir, 0775, true);
-	}
-
 	rename($tempFilename, $filePath);
 
-	// Set a filesystem attribute for the number of ebooks in the file. This will be used
-	// to display that number on the downloads page.
-	exec('attr -q -s se-ebook-count -V ' . escapeshellarg(sizeof($ebooks)) . ' ' . escapeshellarg($filePath));
-
 	exec('attr -q -s se-ebook-type -V ' . escapeshellarg($type) . ' ' . escapeshellarg($filePath));
-
-	exec('attr -q -s se-label -V ' . escapeshellarg($label) . ' ' . escapeshellarg($filePath));
 }
 
 // Iterate over all ebooks and arrange them by publication month
@@ -80,93 +66,103 @@ foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 	$timestamp = $ebook->Created->format('Y-m');
 	$updatedTimestamp = $ebook->Updated->getTimestamp();
 
-	if(!isset($ebooksByMonth[$timestamp])){
-		$ebooksByMonth[$timestamp] = [];
-		$lastUpdatedTimestampsByMonth[$timestamp] = $updatedTimestamp;
-	}
-
 	// Add to the 'ebooks by month' list
-	$ebooksByMonth[$timestamp][] = $ebook;
+	if(!isset($ebooksByGroup['months'][$timestamp])){
+		$obj = new stdClass();
+		$obj->Label = $timestamp;
+		$obj->LabelSort = $timestamp;
+		$obj->Updated = $updatedTimestamp;
+		$obj->Ebooks = [$ebook];
 
-	if($updatedTimestamp > $lastUpdatedTimestampsByMonth[$timestamp]){
-		$lastUpdatedTimestampsByMonth[$timestamp] = $updatedTimestamp;
+		$ebooksByGroup['months'][$timestamp] = $obj;
+	}
+	else{
+		$ebooksByGroup['months'][$timestamp]->Ebooks[] = $ebook;
+		if($updatedTimestamp > $ebooksByGroup['months'][$timestamp]->Updated){
+			$ebooksByGroup['months'][$timestamp]->Updated = $updatedTimestamp;
+		}
 	}
 
 	// Add to the 'books by subject' list
 	foreach($ebook->Tags as $tag){
-		// Add the book's subjects to the main subjects list
-		if(!in_array($tag->Name, $subjects)){
-			$subjects[] = $tag->Name;
-			$lastUpdatedTimestampsBySubject[$tag->Name] = $updatedTimestamp;
+		if(!isset($ebooksByGroup['subjects'][$tag->Name])){
+			$obj = new stdClass();
+			$obj->Label = $tag->Name;
+			$obj->LabelSort = $tag->Name;
+			$obj->Updated = $updatedTimestamp;
+			$obj->Ebooks = [$ebook];
+
+			$ebooksByGroup['subjects'][$tag->Name] = $obj;
 		}
-
-		// Sort this ebook by subject
-		$ebooksBySubject[$tag->Name][] = $ebook;
-
-		if($updatedTimestamp > $lastUpdatedTimestampsBySubject[$tag->Name]){
-			$lastUpdatedTimestampsBySubject[$tag->Name] = $updatedTimestamp;
+		else{
+			$ebooksByGroup['subjects'][$tag->Name]->Ebooks[] = $ebook;
+			if($updatedTimestamp > $ebooksByGroup['subjects'][$tag->Name]->Updated){
+				$ebooksByGroup['subjects'][$tag->Name]->Updated = $updatedTimestamp;
+			}
 		}
 	}
 
 	// Add to the 'books by collection' list
 	foreach($ebook->Collections as $collection){
-		// Add the book's subjects to the main subjects list
-		if(!in_array($collection->Name, $collections)){
-			$collections[] = $collection->Name;
-			$lastUpdatedTimestampsByCollection[$collection->Name] = $updatedTimestamp;
+		if(!isset($ebooksByGroup['collections'][$collection->Name])){
+			$obj = new stdClass();
+			$obj->Label = $collection->Name;
+			$obj->LabelSort = $collection->GetSortedName();
+			$obj->Updated = $updatedTimestamp;
+			$obj->Ebooks = [$ebook];
+
+			$ebooksByGroup['collections'][$collection->Name] = $obj;
 		}
+		else{
+			$ebooksByGroup['collections'][$collection->Name]->Ebooks[] = $ebook;
+			if($updatedTimestamp > $ebooksByGroup['collections'][$collection->Name]->Updated){
+				$ebooksByGroup['collections'][$collection->Name]->Updated = $updatedTimestamp;
+			}
+		}
+	}
 
-		// Sort this ebook by subject
-		$ebooksByCollection[$collection->Name][] = $ebook;
+	// Add to the 'books by author' list
+	foreach($ebook->Authors as $author){
+		if(!isset($ebooksByGroup['authors'][$author->Name])){
+			$obj = new stdClass();
+			$obj->Label = $author->Name;
+			$obj->LabelSort = $author->SortName;
+			$obj->Updated = $updatedTimestamp;
+			$obj->Ebooks = [$ebook];
 
-		if($updatedTimestamp > $lastUpdatedTimestampsByCollection[$collection->Name]){
-			$lastUpdatedTimestampsByCollection[$collection->Name] = $updatedTimestamp;
+			$ebooksByGroup['authors'][$author->Name] = $obj;
+		}
+		else{
+			$ebooksByGroup['authors'][$author->Name]->Ebooks[] = $ebook;
+			if($updatedTimestamp > $ebooksByGroup['authors'][$author->Name]->Updated){
+				$ebooksByGroup['authors'][$author->Name]->Updated = $updatedTimestamp;
+			}
 		}
 	}
 }
 
-$types = ['epub', 'epub-advanced', 'azw3', 'kepub', 'xhtml'];
+foreach($groups as $group){
+	foreach($ebooksByGroup[$group] as $collection){
+		$urlSafeCollection = Formatter::MakeUrlSafe($collection->Label);
+		$parentDir = $webRoot . '/bulk-downloads/' . $group . '/' . $urlSafeCollection;
 
-foreach($ebooksByMonth as $month => $ebooks){
-	foreach($types as $type){
-		$filename = 'se-ebooks-' . $month . '-' . $type . '.zip';
-		$filePath = $webRoot . '/bulk-downloads/months/' . $month . '/' . $filename;
-
-		// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
-		if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestampsByMonth[$month]){
-			print('Creating ' . $filePath . "\n");
-
-			CreateZip($filePath, $ebooks, $type, $webRoot, $month);
+		if(!is_dir($parentDir)){
+			mkdir($parentDir, 0775, true);
 		}
-	}
-}
 
-foreach($ebooksBySubject as $subject => $ebooks){
-	foreach($types as $type){
-		$urlSafeSubject = Formatter::MakeUrlSafe($subject);
-		$filename = 'se-ebooks-' . $urlSafeSubject . '-' . $type . '.zip';
-		$filePath = $webRoot . '/bulk-downloads/subjects/' . $urlSafeSubject . '/'. $filename;
+		exec('attr -q -s se-ebook-count -V ' . escapeshellarg(sizeof($collection->Ebooks)) . ' ' . escapeshellarg($parentDir));
+		exec('attr -q -s se-label -V ' . escapeshellarg($collection->Label) . ' ' . escapeshellarg($parentDir));
+		exec('attr -q -s se-label-sort -V ' . escapeshellarg($collection->LabelSort) . ' ' . escapeshellarg($parentDir));
 
-		// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
-		if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestampsBySubject[$subject]){
-			print('Creating ' . $filePath . "\n");
+		foreach($types as $type){
+			$filePath =  $parentDir . '/se-ebooks-' . $urlSafeCollection . '-' . $type . '.zip';
 
-			CreateZip($filePath, $ebooks, $type, $webRoot, $subject);
-		}
-	}
-}
+			// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
+			if(!file_exists($filePath) || filemtime($filePath) < $collection->Updated){
+				print('Creating ' . $filePath . "\n");
 
-foreach($ebooksByCollection as $collection => $ebooks){
-	foreach($types as $type){
-		$urlSafeCollection = Formatter::MakeUrlSafe($collection);
-		$filename = 'se-ebooks-' . $urlSafeCollection . '-' . $type . '.zip';
-		$filePath = $webRoot . '/bulk-downloads/collections/' . $urlSafeCollection . '/'. $filename;
-
-		// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
-		if(!file_exists($filePath) || filemtime($filePath) < $lastUpdatedTimestampsByCollection[$collection]){
-			print('Creating ' . $filePath . "\n");
-
-			CreateZip($filePath, $ebooks, $type, $webRoot, $collection);
+				CreateZip($filePath, $collection->Ebooks, $type, $webRoot);
+			}
 		}
 	}
 }

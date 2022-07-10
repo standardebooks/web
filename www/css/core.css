@@ -737,6 +737,7 @@ ul.message.error li:only-child{
 
 .download-list tbody .row-header{
 	font-weight: bold;
+	text-align: left;
 	white-space: normal;
 }
 

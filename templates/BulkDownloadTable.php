@@ -8,13 +8,13 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($collections as $collection => $items){ ?>
+		<? foreach($collections as $collection){ ?>
 		<tr>
-			<td class="row-header"><a href="/collections/<?= Formatter::MakeUrlSafe($items[0]->Label) ?>"><?= Formatter::ToPlainText($items[0]->Label) ?></a></td>
-			<td class="number"><?= Formatter::ToPlainText(number_format($items[0]->Count)) ?></td>
-			<td class="number"><?= Formatter::ToPlainText($items[0]->UpdatedString) ?></td>
+			<td class="row-header"><a href="/collections/<?= Formatter::MakeUrlSafe($collection->Label) ?>"><?= Formatter::ToPlainText($collection->Label) ?></a></td>
+			<td class="number"><?= Formatter::ToPlainText(number_format($collection->EbookCount)) ?></td>
+			<td class="number"><?= Formatter::ToPlainText($collection->UpdatedString) ?></td>
 
-			<? foreach($items as $item){ ?>
+			<? foreach($collection->ZipFiles as $item){ ?>
 				<td class="download"><a href="<?= $item->Url ?>" download=""><?= $item->Type ?></a></td>
 				<td>(<?= Formatter::ToPlainText($item->Size) ?>)</td>
 			<? } ?>
