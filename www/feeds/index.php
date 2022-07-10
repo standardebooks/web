@@ -15,7 +15,7 @@ require_once('Core.php');
 		<section id="opds-feeds">
 			<h2>OPDS 1.2 feeds</h2>
 			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a>, or “catalogs,” can be added to ereading apps on phones and tablets to search, browse, and download from our entire catalog, directly in your ereader. Most modern ereading apps support OPDS catalogs.</p>
-			<p>They’re also perfect for scripting, or for libraries or other organizations who wish to download and process our catalog of ebooks.</p>
+			<p>They’re also perfect for scripting, or for libraries or other organizations who wish to download, process, and keep up to date with our catalog of ebooks.</p>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/opds">The Standard Ebooks OPDS feed</a></p>

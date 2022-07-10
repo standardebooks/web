@@ -6,8 +6,8 @@ require_once('Core.php');
 	<article>
 		<h1>Atom 1.0 Ebook Feeds by Subject</h1>
 		<?= Template::FeedHowTo() ?>
-		<section id="atom-feeds">
-			<h2>Atom Feeds</h2>
+		<section id="ebooks-by-subject">
+			<h2>Ebooks by subject</h2>
 			<ul class="feed">
 				<? foreach(SE_SUBJECTS as $subject){ ?>
 				<li>
