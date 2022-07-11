@@ -35,10 +35,10 @@ if($type == 'atom'){
 		<? }else{ ?>
 			<h1>Standard Ebooks Ebook Feeds</h1>
 		<? } ?>
-		<picture>
-			<source srcset="/images/new-york-daily-news@2x.avif 2x, /images/new-york-daily-news.avif 1x" type="image/avif"/>
-			<source srcset="/images/new-york-daily-news@2x.jpg 2x, /images/new-york-daily-news.jpg 1x" type="image/jpg"/>
-			<img src="/images/new-york-daily-news@2x.jpg" alt="A mug next to a pipe and a newspaper."/>
+		<picture data-caption="Rack Pictures for Dr. Nones. William A. Mitchell, 1879">
+			<source srcset="/images/rack-picture-for-dr-nones@2x.avif 2x, /images/rack-picture-for-dr-nones.avif 1x" type="image/avif"/>
+			<source srcset="/images/rack-picture-for-dr-nones@2x.jpg 2x, /images/rack-picture-for-dr-nones.jpg 1x" type="image/jpg"/>
+			<img src="/images/rack-picture-for-dr-nones@2x.jpg" alt="Postal mail attached to a billboard."/>
 		</picture>
 		<ul class="message error">
 			<li>

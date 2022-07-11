@@ -5,10 +5,10 @@ require_once('Core.php');
 <main>
 	<section class="narrow has-hero">
 		<h1>Ebook Feeds</h1>
-		<picture data-caption="New York Daily News. William Michael Harnett, 1888">
-			<source srcset="/images/new-york-daily-news@2x.avif 2x, /images/new-york-daily-news.avif 1x" type="image/avif"/>
-			<source srcset="/images/new-york-daily-news@2x.jpg 2x, /images/new-york-daily-news.jpg 1x" type="image/jpg"/>
-			<img src="/images/new-york-daily-news@2x.jpg" alt="A mug next to a pipe and a newspaper."/>
+		<picture data-caption="Rack Pictures for Dr. Nones. William A. Mitchell, 1879">
+			<source srcset="/images/rack-picture-for-dr-nones@2x.avif 2x, /images/rack-picture-for-dr-nones.avif 1x" type="image/avif"/>
+			<source srcset="/images/rack-picture-for-dr-nones@2x.jpg 2x, /images/rack-picture-for-dr-nones.jpg 1x" type="image/jpg"/>
+			<img src="/images/rack-picture-for-dr-nones@2x.jpg" alt="Postal mail attached to a billboard."/>
 		</picture>
 		<p>We offer several ebook feeds that you can use in your ereading app to browse, search, and download from our catalog. You can also add our feeds to your RSS client to get notified of new ebooks as they’re released, or to browse our catalog from your news reader.</p>
 		<?= Template::FeedHowTo() ?>
