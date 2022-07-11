@@ -3,12 +3,6 @@ require_once('Core.php');
 
 use function Safe\preg_match;
 
-$ex = null;
-
-if(isset($_SERVER['PHP_AUTH_USER'])){
-	$ex = new Exceptions\InvalidPatronException();
-}
-
 $type = '';
 preg_match('/^\/feeds\/(opds|rss|atom)/ius', $_SERVER['REQUEST_URI'], $matches);
 
@@ -46,13 +40,11 @@ if($type == 'atom'){
 			<source srcset="/images/new-york-daily-news@2x.jpg 2x, /images/new-york-daily-news.jpg 1x" type="image/jpg"/>
 			<img src="/images/new-york-daily-news@2x.jpg" alt="A mug next to a pipe and a newspaper."/>
 		</picture>
-		<? if($ex !== null){ ?>
 		<ul class="message error">
 			<li>
-				<p><?= Formatter::ToPlainText($ex->getMessage()) ?></p>
+				<p>You must be a member of the <a href="/donate#patrons-circle">Patrons Circle</a> to access the ebook feeds.</p>
 			</li>
 		</ul>
-		<? } ?>
 		<? if($type == 'opds'){ ?>
 			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a>, or “catalogs,” can be added to ereading apps on phones and tablets to search, browse, and download from our entire catalog, directly in your ereader. Most modern ereading apps support OPDS catalogs.</p>
 			<p>They’re also perfect for scripting, or for libraries or other organizations who wish to download and process our catalog of ebooks.</p>
