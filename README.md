@@ -26,7 +26,7 @@ echo -e "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
 openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test.key -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test.crt
 
 # Enable the necessary Apache modules.
-sudo a2enmod headers expires ssl rewrite proxy proxy_fcgi authn_dbd xsendfile
+sudo a2enmod headers expires ssl rewrite proxy proxy_fcgi authn_dbd authn_socache xsendfile
 
 # Link and enable the SE Apache configuration file.
 sudo ln -s /standardebooks.org/web/config/apache/standardebooks.test.conf /etc/apache2/sites-available/

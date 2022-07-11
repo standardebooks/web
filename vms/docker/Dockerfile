@@ -14,7 +14,7 @@ RUN sudo usermod -g committers se
 RUN mkdir -p /standardebooks.org/web
 RUN mkdir /var/log/local
 
-RUN a2enmod headers expires ssl rewrite proxy proxy_fcgi authn_dbd
+RUN a2enmod headers expires ssl rewrite proxy proxy_fcgi authn_dbd authn_socache
 
 # Disable opcaching for dynamic PHP reloading
 RUN echo "opcache.enable=0" >> /etc/php/7.4/fpm/php.ini
