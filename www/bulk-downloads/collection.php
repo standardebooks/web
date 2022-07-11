@@ -37,6 +37,7 @@ $title = preg_replace('/s$/', '', ucfirst($name));
 		<p>These zip files contain each ebook in every format we offer, and are updated once daily with the latest versions of each ebook. Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file format to download</a>.</p>
 		<? if($name == 'months'){ ?>
 			<table class="download-list">
+				<caption aria-hidden="hidden">Scroll right →</caption>
 				<tbody>
 			<? foreach($collection as $year => $months){
 				$yearHeader = Formatter::ToPlainText($year);

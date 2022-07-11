@@ -1,4 +1,5 @@
 <table class="download-list">
+	<caption aria-hidden="hidden">Scroll right →</caption>
 	<thead>
 		<tr class="mid-header">
 			<th scope="col"><?= $label ?></th>

@@ -721,6 +721,12 @@ ul.message.error li:only-child{
 	margin: auto;
 }
 
+.download-list caption{
+	font-style: italic;
+	text-align: right;
+	display: none;
+}
+
 .download-list .mid-header{
 	font-style: italic;
 }
@@ -2837,6 +2843,19 @@ ul.feed p{
 	.download-list .year-header th{
 		text-align: left;
 	}
+
+
+	.download-list thead tr.mid-header:first-child th,
+	.download-list tr.year-header:first-child th{
+		padding-top: 0;
+	}
+
+	.download-list caption{
+		display: block;
+		padding-top: 2rem;
+	}
+
+
 }
 
 @media(max-width: 1100px){
