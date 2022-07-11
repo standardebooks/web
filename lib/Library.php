@@ -322,7 +322,10 @@ class Library{
 	 * @return array<string, array<int|string, array<int|string, mixed>>>
 	 */
 	public static function RebuildBulkDownloadsCache(): array{
-		$collator = collator_create( 'en_US' ); // Used for sorting letters with diacritics like in author names
+		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
+		if($collator === null){
+			throw new Exceptions\SeException('Couldn\'t create collator object when rebuilding bulk download cache.');
+		}
 		$months = [];
 		$subjects = [];
 		$collections = [];

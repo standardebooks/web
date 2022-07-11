@@ -15,7 +15,7 @@ catch(\Exception $ex){
 	http_response_code(500);
 	exit();
 }
-print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"/feeds/opds/style\" type=\"text/xsl\"?>\n");
+print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"". SITE_URL . "/feeds/opds/style\" type=\"text/xsl\"?>\n");
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
 	<id><?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?></id>

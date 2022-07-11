@@ -18,8 +18,8 @@ require_once('Core.php');
 			<p>They’re also perfect for scripting, or for libraries or other organizations who wish to download, process, and keep up to date with our catalog of ebooks.</p>
 			<ul class="feed">
 				<li>
-					<p><a href="/feeds/opds">The Standard Ebooks OPDS feed</a></p>
-					<p class="url"><?= SITE_URL ?>/feeds/opds</p>
+					<p><a href="<? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? } ?>/feeds/opds">The Standard Ebooks OPDS feed</a></p>
+					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/opds</p>
 				</li>
 			</ul>
 		</section>

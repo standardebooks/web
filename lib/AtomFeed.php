@@ -23,7 +23,7 @@ class AtomFeed extends Feed{
 		parent::__construct($title, $url, $path, $entries);
 		$this->Subtitle = $subtitle;
 		$this->Id = $url;
-		$this->Stylesheet = '/feeds/atom/style';
+		$this->Stylesheet = SITE_URL . '/feeds/atom/style';
 	}
 
 
@@ -41,13 +41,16 @@ class AtomFeed extends Feed{
 		return $this->XmlString;
 	}
 
-	public function SaveIfChanged(): void{
+	public function SaveIfChanged(): bool{
 		// Did we actually update the feed? If so, write to file and update the index
 		if($this->HasChanged($this->Path)){
 			// Files don't match, save the file
 			$this->Updated = new DateTime();
 			$this->Save();
+			return true;
 		}
+
+		return false;
 	}
 
 	protected function HasChanged(string $path): bool{

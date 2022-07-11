@@ -16,7 +16,7 @@ class OpdsFeed extends AtomFeed{
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent){
 		parent::__construct($title, $subtitle, $url, $path, $entries);
 		$this->Parent = $parent;
-		$this->Stylesheet = '/feeds/opds/style';
+		$this->Stylesheet = SITE_URL . '/feeds/opds/style';
 	}
 
 
@@ -45,7 +45,7 @@ class OpdsFeed extends AtomFeed{
 		}
 	}
 
-	public function SaveIfChanged(): void{
+	public function SaveIfChanged(): bool{
 		// Did we actually update the feed? If so, write to file and update the index
 		if($this->HasChanged($this->Path)){
 			// Files don't match, save the file and update the parent navigation feed with the last updated timestamp
@@ -58,6 +58,9 @@ class OpdsFeed extends AtomFeed{
 
 			// Save our own file
 			$this->Save();
+			return true;
 		}
+
+		return false;
 	}
 }

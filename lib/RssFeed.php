@@ -17,7 +17,7 @@ class RssFeed extends Feed{
 	public function __construct(string $title, string $description, string $url, string $path, array $entries){
 		parent::__construct($title, $url, $path, $entries);
 		$this->Description = $description;
-		$this->Stylesheet = '/feeds/rss/style';
+		$this->Stylesheet = SITE_URL . '/feeds/rss/style';
 	}
 
 
@@ -35,12 +35,15 @@ class RssFeed extends Feed{
 		return $this->XmlString;
 	}
 
-	public function SaveIfChanged(): void{
+	public function SaveIfChanged(): bool{
 		// Did we actually update the feed? If so, write to file and update the index
 		if($this->HasChanged($this->Path)){
 			// Files don't match, save the file
 			$this->Save();
+			return true;
 		}
+
+		return false;
 	}
 
 	protected function HasChanged(string $path): bool{

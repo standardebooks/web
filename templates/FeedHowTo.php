@@ -2,6 +2,7 @@
 	<h2>Accessing the feeds</h2>
 	<p>Our New Releases feeds are accessible by the public. Access to our other, more detailed feeds is available to our <a href="/about#patrons-circle">Patrons Circle supporters</a> and our <a href="/about#corporate-sponsors">corporate sponsors</a>.</p>
 	<p><i>If you’re a Patrons Circle member, when prompted enter your email address and leave the password field blank to access a feed.</i></p>
+	<? if($GLOBALS['User'] === null){ ?>
 	<section id="individuals">
 		<h3>Access for individuals</h3>
 		<ul>
@@ -16,4 +17,5 @@
 			<li><p>Software projects that are open-source and not-for-profit may be granted free access to our feeds. <a href="/about#editor-in-chief">Contact us</a> to inquire.</p></li>
 		</ul>
 	</section>
+	<? } ?>
 </section>

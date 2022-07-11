@@ -8,7 +8,7 @@ $canDownload = false;
 $name = HttpInput::Str(GET, 'name', false) ?? '';
 
 if($name != 'authors' && $name != 'collections' && $name != 'subjects' && $name != 'months'){
-	$name = 'subjects';
+	Template::Emit404();
 }
 
 if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){

@@ -16,7 +16,7 @@ catch(\Exception $ex){
 	include(WEB_ROOT . '/404.php');
 	exit();
 }
-print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"/feeds/rss/style\" type=\"text/xsl\"?>\n");
+print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . SITE_URL . "/feeds/rss/style\" type=\"text/xsl\"?>\n");
 ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
 	<channel>

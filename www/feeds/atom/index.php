@@ -17,21 +17,24 @@ require_once('Core.php');
 					<p>The fifteen latest Standard Ebooks, most-recently-released first.</p>
 				</li>
 				<li>
-					<p><a href="/feeds/atom/all">All ebooks</a></p>
-					<p class="url"><?= SITE_URL ?>/feeds/atom/all</p>
+					<p><a href="<? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? } ?>/feeds/atom/all">All ebooks</a></p>
+					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/atom/all</p>
 					<p>All Standard Ebooks, most-recently-released first.</p>
 				</li>
 			</ul>
 		</section>
-		<section id="ebooks-by-subject">
-			<h2>Ebooks by subject</h2>
+		<section id="feeds-by-topic">
+			<h2>Feeds by topic</h2>
 			<ul class="feed">
-				<? foreach(SE_SUBJECTS as $subject){ ?>
 				<li>
-					<p><a href="/feeds/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?>"><?= Formatter::ToPlainText($subject) ?></a></p>
-					<p class="url"><?= SITE_URL ?>/feeds/atom/subjects/<?= Formatter::MakeUrlSafe($subject) ?></p>
+					<p><a href="/feeds/atom/authors">Feeds by author</a></p>
 				</li>
-				<? } ?>
+				<li>
+					<p><a href="/feeds/atom/collections">Feeds by collection</a></p>
+				</li>
+				<li>
+					<p><a href="/feeds/atom/subjects">Feeds by subject</a></p>
+				</li>
 			</ul>
 		</section>
 	</section>
