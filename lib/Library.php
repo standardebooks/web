@@ -362,7 +362,7 @@ class Library{
 		foreach(glob(WEB_ROOT . '/bulk-downloads/collections/*/', GLOB_NOSORT) as $dir){
 			$collections[] = self::FillBulkDownloadObject($dir, 'collections', '/collections');
 		}
-		usort($authors, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
+		usort($collections, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
 
 		apcu_store('bulk-downloads-collections', $collections, 43200); // 12 hours
 

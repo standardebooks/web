@@ -14,6 +14,6 @@ class Collection{
 	}
 
 	public function GetSortedName(): string{
-		return preg_replace('/^(the|and|a|)\b/ius', '', $this->Name);
+		return preg_replace('/^(the|and|a|)\s/ius', '', $this->Name);
 	}
 }
