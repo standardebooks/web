@@ -14,4 +14,4 @@ composer.lock
 www/manual/*
 !www/manual/index.php
 config/php/fpm/standardebooks.org-secrets.ini
-www/bulk-downloads/**/*.zip
+www/bulk-downloads/*/

@@ -322,7 +322,8 @@ class Library{
 	 * @return array<string, array<int|string, array<int|string, mixed>>>
 	 */
 	public static function RebuildBulkDownloadsCache(): array{
-		$years = [];
+		$collator = collator_create( 'en_US' ); // Used for sorting letters with diacritics like in author names
+		$months = [];
 		$subjects = [];
 		$collections = [];
 		$authors = [];
@@ -340,14 +341,14 @@ class Library{
 			$year = $date->format('Y');
 			$month = $date->format('F');
 
-			if(!isset($years[$year])){
-				$years[$year] = [];
+			if(!isset($months[$year])){
+				$months[$year] = [];
 			}
 
-			$years[$year][$month] = $obj;
+			$months[$year][$month] = $obj;
 		}
 
-		apcu_store('bulk-downloads-years', $years, 43200); // 12 hours
+		apcu_store('bulk-downloads-months', $months, 43200); // 12 hours
 
 		// Generate bulk downloads by subject
 		foreach(glob(WEB_ROOT . '/bulk-downloads/subjects/*/', GLOB_NOSORT) as $dir){
@@ -361,7 +362,7 @@ class Library{
 		foreach(glob(WEB_ROOT . '/bulk-downloads/collections/*/', GLOB_NOSORT) as $dir){
 			$collections[] = self::FillBulkDownloadObject($dir, 'collections', '/collections');
 		}
-		usort($collections, function($a, $b){ return $a->LabelSort <=> $b->LabelSort; });
+		usort($authors, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
 
 		apcu_store('bulk-downloads-collections', $collections, 43200); // 12 hours
 
@@ -369,11 +370,11 @@ class Library{
 		foreach(glob(WEB_ROOT . '/bulk-downloads/authors/*/', GLOB_NOSORT) as $dir){
 			$authors[] = self::FillBulkDownloadObject($dir, 'authors', '/ebooks');
 		}
-		usort($authors, function($a, $b){ return $a->LabelSort <=> $b->LabelSort; });
+		usort($authors, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
 
 		apcu_store('bulk-downloads-authors', $authors, 43200); // 12 hours
 
-		return ['years' => $years, 'subjects' => $subjects, 'collections' => $collections, 'authors' => $authors];
+		return ['months' => $months, 'subjects' => $subjects, 'collections' => $collections, 'authors' => $authors];
 	}
 
 	public static function RebuildCache(): void{

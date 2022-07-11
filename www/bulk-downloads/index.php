@@ -1,30 +1,9 @@
 <?
 require_once('Core.php');
 
-use function Safe\apcu_fetch;
-
 $canDownload = false;
 if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){
 	$canDownload = true;
-}
-
-$years = [];
-$subjects = [];
-$collections = [];
-$authors = [];
-
-try{
-	$years = apcu_fetch('bulk-downloads-years');
-	$subjects = apcu_fetch('bulk-downloads-subjects');
-	$collections = apcu_fetch('bulk-downloads-collections');
-	$authors = apcu_fetch('bulk-downloads-authors');
-}
-catch(Safe\Exceptions\ApcuException $ex){
-	$result = Library::RebuildBulkDownloadsCache();
-	$years = $result['years'];
-	$subjects = $result['subjects'];
-	$collections = $result['collections'];
-	$authors = $result['authors'];
 }
 
 ?><?= Template::Header(['title' => 'Bulk Ebook Downloads', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
