@@ -2833,6 +2833,10 @@ ul.feed p{
 		display: block; /* needed to make overflow work */
 		width: 100%;
 	}
+
+	.download-list .year-header th{
+		text-align: left;
+	}
 }
 
 @media(max-width: 1100px){
@@ -2879,10 +2883,12 @@ ul.feed p{
 	body > header{
 		flex-direction: column;
 		align-items: center;
+		padding-bottom: .5rem;
 	}
 
-	body > header li{
-		margin-top: 2rem;
+	header nav li{
+		margin-top: 1rem;
+		padding-top: 0;
 	}
 
 	main.front-page h1{
@@ -3113,7 +3119,7 @@ ul.feed p{
 	}
 
 	body > header{
-		padding: 1rem 0;
+		padding-top: 1rem;
 	}
 
 	body > header > a{
