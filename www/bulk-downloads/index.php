@@ -10,7 +10,7 @@ if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){
 <main>
 	<section class="narrow has-hero">
 		<h1>Bulk Ebook Downloads</h1>
-		<picture>
+		<picture data-caption="The Shop of the Bookdealer Pieter Meijer Warnars. Johannes Jelgerhuis, 1820">
 			<source srcset="/images/the-shop-of-the-bookdealer@2x.avif 2x, /images/the-shop-of-the-bookdealer.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-shop-of-the-bookdealer@2x.jpg 2x, /images/the-shop-of-the-bookdealer.jpg 1x" type="image/jpg"/>
 			<img src="/images/the-shop-of-the-bookdealer@2x.jpg" alt="A gentleman in regency-era dress buys books from a bookseller."/>

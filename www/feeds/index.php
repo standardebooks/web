@@ -5,7 +5,7 @@ require_once('Core.php');
 <main>
 	<section class="narrow has-hero">
 		<h1>Ebook Feeds</h1>
-		<picture>
+		<picture data-caption="New York Daily News. William Michael Harnett, 1888">
 			<source srcset="/images/new-york-daily-news@2x.avif 2x, /images/new-york-daily-news.avif 1x" type="image/avif"/>
 			<source srcset="/images/new-york-daily-news@2x.jpg 2x, /images/new-york-daily-news.jpg 1x" type="image/jpg"/>
 			<img src="/images/new-york-daily-news@2x.jpg" alt="A mug next to a pipe and a newspaper."/>

@@ -12,7 +12,7 @@ $openPolls = Db::Query('select * from Polls where (End is null or utc_timestamp(
 			<h1>Vote in Our Polls</h1>
 			<h2>and decide the direction of the Standard Ebooks catalog</h2>
 		</hgroup>
-		<picture>
+		<picture data-caption="County Election. John Sartain after George Caleb Bingham, 1854">
 			<source srcset="/images/county-election@2x.avif 2x, /images/county-election.avif 1x" type="image/avif"/>
 			<source srcset="/images/county-election@2x.jpg 2x, /images/county-election.jpg 1x" type="image/jpg"/>
 			<img src="/images/county-election@2x.jpg" alt="Voters step up to cast votes in a county poll."/>

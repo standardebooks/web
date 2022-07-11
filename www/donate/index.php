@@ -2,14 +2,14 @@
 require_once('Core.php');
 ?><?= Template::Header(['title' => 'Donate', 'highlight' => 'donate', 'description' => 'Donate to Standard Ebooks.']) ?>
 <main>
-	<article class="donate has-hero">
+	<section class="donate narrow has-hero">
 		<hgroup>
 			<h1>Donate to Standard Ebooks</h1>
 			<h2>and help bring the beauty of literature to the digital age</h2>
 		</hgroup>
 		<?= Template::DonationCounter(['autoHide' => false, 'showDonateButton' => false]) ?>
 		<?= Template::DonationProgress(['autoHide' => false, 'showDonateButton' => false]) ?>
-		<picture>
+		<picture data-caption="The Quiet Hour. Albert Chevallier Tayler, 1925">
 			<source srcset="/images/the-quiet-hour@2x.avif 2x, /images/the-quiet-hour.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-quiet-hour@2x.jpg 2x, /images/the-quiet-hour.jpg 1x" type="image/jpg"/>
 			<img src="/images/the-quiet-hour@2x.jpg" alt="An oil painting of a women reading a book by a writing desk at twilight."/>
@@ -154,6 +154,6 @@ require_once('Core.php');
 		<aside>
 			<p>Standard Ebooks is a sponsored project of <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a non-profit arts service organization. Contributions for the charitable purposes of Standard Ebooks must be made payable to “Fractured Atlas” only and are tax-deductible to the extent permitted by law.</p>
 		</aside>
-	</article>
+	</section>
 </main>
 <?= Template::Footer() ?>
