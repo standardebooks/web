@@ -30,7 +30,7 @@ $title = preg_replace('/s$/', '', ucfirst($name));
 ?><?= Template::Header(['title' => 'Downloads by ' . $title, 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks in a given collection.']) ?>
 <main>
 	<section class="bulk-downloads">
-		<h1>Downloads by <?= $title ?></h1>
+		<h1>Down­loads by <?= $title ?></h1>
 		<? if(!$canDownload){ ?>
 			<p><a href="/about#patrons-circle">Patrons circle members</a> get convenient access to zip files containing collections of different categories of ebooks. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature, and download these collections files too.</p>
 		<? } ?>
