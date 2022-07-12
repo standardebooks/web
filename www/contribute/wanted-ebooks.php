@@ -612,6 +612,9 @@ require_once('Core.php');
 				<p><a href="https://www.theguardian.com/books/2003/oct/12/features.fiction">Public domain entries in the Guardian’s top 100 novels of all time list</a></p>
 			</li>
 			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Le_Monde's_100_Books_of_the_Century">Public domain entries in Le Mondes’s 100 Books of the Century</a></p>
+			</li>
+			<li>
 				<p>Public domain entries in the <a href="https://en.m.wikipedia.org/wiki/Ballantine_Adult_Fantasy_series">Ballantine Adult Fantasy series</a> (Note that not all of these are in the U.S. public domain)</p>
 			</li>
 		</ul>
