@@ -30,7 +30,6 @@ catch(Exceptions\SeException $ex){
 		<? }else{ ?>
 			<p class="center-notice">Your vote in the <a href="<?= $vote->PollItem->Poll->Url ?>"><?= Formatter::ToPlainText($vote->PollItem->Poll->Name) ?> poll</a> was submitted on <?= $vote->Created->format('F j, Y g:i A') ?>.</p>
 		<? } ?>
-
 		<p class="button-row narrow"><a class="button" href="<?= $vote->PollItem->Poll->Url ?>/votes"> view results</a></p>
 	</section>
 </main>

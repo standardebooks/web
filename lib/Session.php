@@ -48,22 +48,27 @@ class Session extends PropertiesBase{
 			$this->Created = new DateTime();
 			Db::Query('INSERT into Sessions (UserId, SessionId, Created) values (?, ?, ?)', [$this->UserId, $this->SessionId, $this->Created]);
 		}
+
+		$this->SetSessionCookie($this->SessionId);
 	}
 
 	public static function GetLoggedInUser(): ?User{
 		$sessionId = HttpInput::Str(COOKIE, 'sessionid');
 
 		if($sessionId !== null){
-			$result = Db::Query('select u.* from Users u inner join Sessions s using (UserId) where s.SessionId = ?', [$sessionId], 'User');
+			$result = Db::Query('SELECT u.* from Users u inner join Sessions s using (UserId) where s.SessionId = ?', [$sessionId], 'User');
 
 			if(sizeof($result) > 0){
-				// Refresh the login cookie for another 2 weeks
-				setcookie('sessionid', $sessionId, time() + 60 * 60 * 24 * 14 * 1, '/', SITE_DOMAIN, true, false); // Expires in two weeks
+				self::SetSessionCookie($sessionId);
 				return $result[0];
 			}
 		}
 
 		return null;
+	}
+
+	public static function SetSessionCookie($sessionId): void{
+		setcookie('sessionid', $sessionId, time() + 60 * 60 * 24 * 14 * 1, '/', SITE_DOMAIN, true, false); // Expires in two weeks
 	}
 
 	public static function Get(?string $sessionId): Session{

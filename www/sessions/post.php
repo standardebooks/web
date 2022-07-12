@@ -24,8 +24,6 @@ try{
 
 	$session->Create($email);
 
-	setcookie('sessionid', $session->SessionId, time() + 60 * 60 * 24 * 14 * 1, '/', SITE_DOMAIN, true, false); // Expires in two weeks
-
 	if($requestType == WEB){
 		http_response_code(303);
 		header('Location: ' . $redirect);

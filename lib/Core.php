@@ -28,3 +28,15 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 }
 
 $GLOBALS['User'] = Session::GetLoggedInUser();
+
+if($GLOBALS['User'] === null){
+	$httpBasicAuthLogin = $_SERVER['PHP_AUTH_USER'] ?? null;
+
+	if($httpBasicAuthLogin !== null){
+		// If there's no logged in user, but a username was sent via HTTP basic auth,
+		// log them in while we're here.
+
+		$session = new Session();
+		$session->Create($httpBasicAuthLogin);
+	}
+}
