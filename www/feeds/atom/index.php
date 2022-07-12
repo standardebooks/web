@@ -9,7 +9,7 @@ require_once('Core.php');
 		<p>Note that some RSS readers may show these feeds ordered by when an ebook was last updated, even though the feeds are ordered by when an ebook was first released. You should be able to change the sort order in your RSS reader.</p>
 		<?= Template::FeedHowTo() ?>
 		<section id="general-feeds">
-			<h2>General feeds</h2>
+			<h2>General Atom feeds</h2>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/atom/new-releases">New releases</a> (Public)</p>
@@ -24,7 +24,7 @@ require_once('Core.php');
 			</ul>
 		</section>
 		<section id="feeds-by-topic">
-			<h2>Feeds by topic</h2>
+			<h2>Atom feeds by topic</h2>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/atom/authors">Feeds by author</a></p>

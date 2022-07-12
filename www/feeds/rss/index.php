@@ -8,7 +8,7 @@ require_once('Core.php');
 		<p>RSS feeds are the predecessors of <a href="/feeds/atom">Atom feeds</a>. They contain less information than Atom feeds, but might be better supported by some news readers.</p>
 		<?= Template::FeedHowTo() ?>
 		<section id="general-feeds">
-			<h2>General feeds</h2>
+			<h2>General RSS feeds</h2>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/rss/new-releases">New releases</a> (Public)</p>
@@ -23,7 +23,7 @@ require_once('Core.php');
 			</ul>
 		</section>
 		<section id="ebooks-by-collection">
-			<h2>Feeds by topic</h2>
+			<h2>RSS feeds by topic</h2>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/rss/authors">Feeds by author</a></p>

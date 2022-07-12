@@ -7,6 +7,7 @@ class OpdsNavigationEntry{
 	public $Updated;
 	public $Description;
 	public $Title;
+	public $SortTitle;
 
 	public function __construct(string $title, string $description, string $url, ?DateTime $updated, string $rel, string $type){
 		$this->Id = SITE_URL . $url;

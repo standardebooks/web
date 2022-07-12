@@ -118,7 +118,7 @@ catch(Exceptions\InvalidCollectionException $ex){
 }
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
-	<h1<? if($collection !== null && sizeof($ebooks) > 1){ ?> class="is-collection"<? } ?>><?= $pageHeader ?></h1>
+	<h1<? if($collection !== null){ ?> class="is-collection"<? } ?>><?= $pageHeader ?></h1>
 	<?= Template::DonationCounter() ?>
 	<?= Template::DonationProgress() ?>
 	<? if(!DONATION_DRIVE_ON && !DONATION_DRIVE_COUNTER_ON && DONATION_HOLIDAY_ALERT_ON){ ?>
@@ -127,8 +127,11 @@ catch(Exceptions\InvalidCollectionException $ex){
 	<? if($collection === null){ ?>
 	<?= Template::SearchForm(['query' => $query, 'tags' => $tags, 'sort' => $sort, 'view' => $view, 'perPage' => $perPage]) ?>
 	<? } ?>
-	<? if($collection !== null && sizeof($ebooks) > 1){ ?>
-		<p class="download-collection"><a href="/collections/<?= Formatter::ToPlainText($collection) ?>/downloads">Download all ebooks in this collection</a></p>
+	<? if($collection !== null){ ?>
+		<p class="ebooks-toolbar">
+			<a class="button" href="/collections/<?= Formatter::ToPlainText($collection) ?>/downloads">Download collection</a>
+			<a class="button" href="/collections/<?= Formatter::ToPlainText($collection) ?>/feeds">Collection feeds</a>
+		</p>
 	<? } ?>
 	<? if(sizeof($ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>

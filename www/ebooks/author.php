@@ -23,10 +23,11 @@ catch(Exceptions\InvalidAuthorException $ex){
 }
 ?><?= Template::Header(['title' => 'Ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml), 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml)]) ?>
 <main class="ebooks">
-	<h1<? if(sizeof($ebooks) > 1){ ?> class="is-collection"<? } ?>>Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
-	<? if(sizeof($ebooks) > 1){ ?>
-		<p class="download-collection"><a  href="<?= Formatter::ToPlainText($ebooks[0]->AuthorsUrl) ?>/downloads">Download all ebooks in this collection</a></p>
-	<? } ?>
+	<h1 class="is-collection">Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
+	<p class="ebooks-toolbar">
+		<a class="button" href="<?= Formatter::ToPlainText($ebooks[0]->AuthorsUrl) ?>/downloads">Download collection</a>
+		<a class="button" href="<?= Formatter::ToPlainText($ebooks[0]->AuthorsUrl) ?>/feeds">Author feeds</a>
+	</p>
 	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => VIEW_GRID]) ?>
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
 	<?= Template::ContributeAlert() ?>

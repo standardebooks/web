@@ -38,10 +38,12 @@ function CreateOpdsCollectionFeed(string $name, string $url, string $description
 	// Create the collections navigation document
 	$collectionNavigationEntries = [];
 	foreach($collections as $collection){
-		$collectionNavigationEntries[] = new OpdsNavigationEntry($collection['name'], str_replace('%s', $collection['name'], $description), $url . '/' . $collection['id'], $now, 'subsection', 'navigation');
+		$entry = new OpdsNavigationEntry($collection['name'], str_replace('%s', $collection['name'], $description), $url . '/' . $collection['id'], $now, 'subsection', 'navigation');
+		$entry->SortTitle = $collection['sortedname'];
+		$collectionNavigationEntries[] = $entry;
 	}
 	$collectionsFeed = new OpdsNavigationFeed('Standard Ebooks by ' . ucfirst($name), 'Browse Standard Ebooks by ' . $name . '.', $url, $webRoot . $url . '/index.xml', $collectionNavigationEntries, $opdsRoot);
-	$collectionsFeed->Subtitle = 'Browse Standard Ebooks by collection.';
+	$collectionsFeed->Subtitle = 'Browse Standard Ebooks by ' . $name . '.';
 	SaveFeed($collectionsFeed, $force, null, null, $now);
 
 	// Now generate each individual collection feed
@@ -49,7 +51,7 @@ function CreateOpdsCollectionFeed(string $name, string $url, string $description
 		$id = basename($collectionNavigationEntry->Id);
 		usort($ebooks[$id], 'SortByUpdatedDesc');
 		$collectionFeed = new OpdsAcquisitionFeed($collectionNavigationEntry->Title . ' Ebooks', $collectionNavigationEntry->Description, $url . '/' . $id, $webRoot . $url . '/' . $id . '.xml', $ebooks[$id], $collectionsFeed);
-		SaveFeed($collectionFeed, $force, null, null, $now);
+		SaveFeed($collectionFeed, $force, $collectionNavigationEntry->Title, $collectionNavigationEntry->SortTitle, $now);
 	}
 }
 

@@ -2352,13 +2352,43 @@ h1.is-collection{
 	margin-bottom: 1rem;
 }
 
-.download-collection{
+.ebooks-toolbar{
 	display: flex;
-	justify-content: center;
+	justify-content: flex-end;
 	margin-bottom: 4rem;
 	border-bottom: 1px dashed var(--sub-text);
 	padding-bottom: 1rem;
 	font-style: italic;
+	gap: 1rem;
+}
+
+.ebooks-toolbar a{
+	padding: .5rem 1rem;
+	padding-left: .75rem;
+	text-decoration: none;
+}
+
+.ebooks-toolbar a.button{
+	/*font-family: "Crimson Pro", Georgia, serif;*/
+	font-size: .75rem;
+	display: inline-flex;
+	gap: .75rem;
+	align-items: center;
+	font-weight: bold;
+}
+
+.ebooks-toolbar a.button::before{
+	font-family: "Fork Awesome";
+	display: inline-block;
+	font-size: 1rem;
+}
+
+.ebooks-toolbar a.button[href*="/downloads"]::before{
+	content: "\f019";
+}
+
+.ebooks-toolbar a.button[href*="/feeds"]::before{
+	content: "\f143";
 }
 
 abbr.acronym{
@@ -3098,6 +3128,15 @@ ul.feed p{
 		content: "\b7";
 		white-space: normal;
 		margin: 0 10px;
+	}
+
+
+	.ebooks-toolbar{
+	}
+	.ebooks-toolbar a.button{
+		font-size: 0;
+		gap: 0;
+		padding: .5rem .75rem;
 	}
 }
 
