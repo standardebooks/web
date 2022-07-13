@@ -20,7 +20,9 @@ USAGE
 
 		3. Generate various images and thumbnails for web use.
 
-		4. Generates RSS/Atom/OPDS feeds.
+		4. Generates RSS/Atom/OPDS feeds, but only if no other tasks are queued behind this one.
+
+		5. Generate bulk download files, but only if no other tasks are queued behind this one.
 
 		With --no-images, do not create cover thumbnails or hero images for the web.
 
@@ -33,6 +35,8 @@ USAGE
 		With --last-push-hash, check the repo head against HASH to see if the cover image or ebook source changed, which will determine if cover thumbnails get re-generated or the ebook gets re-built.
 
 		With --no-feeds, don't generate RSS/Atom/OPDS feeds.
+
+		With --no-bulk-downloads, don't generate bulk download files.
 
 EOF
 	exit
@@ -51,6 +55,7 @@ lastPushHash=""
 epubcheck="true"
 recompose="true"
 feeds="true"
+bulkDownloads="true"
 
 if [ $#  -eq 0 ]; then
 	usage
@@ -102,6 +107,10 @@ while [ $# -gt 0 ]; do
 			;;
 		--no-feeds)
 			feeds="false"
+			shift 1
+			;;
+		--no-bulk-downloads)
+			bulkDownloads="false"
 			shift 1
 			;;
 		*) break ;;
@@ -369,6 +378,15 @@ do
 	sudo chgrp --preserve-root --recursive "${group}" "${webRoot}/images/covers/"
 	sudo chmod --preserve-root --recursive g+ws "${webRoot}/images/covers/"
 
+	popd > /dev/null || die "Couldn't pop directory."
+done
+
+queuedTasks="false"
+if tsp | grep --quiet --extended-regexp "^[0-9]+\s+queued"; then
+	queuedTasks="true"
+fi
+
+if [ "${queuedTasks}" = "false" ]; then
 	if [ "${verbose}" = "true" ]; then
 		printf "Rebuilding web library cache ... "
 	fi
@@ -378,23 +396,52 @@ do
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"
 	fi
-
-	popd > /dev/null || die "Couldn't pop directory."
-done
+else
+	if [ "${verbose}" = "true" ]; then
+		printf "Tasks queued after this one, not rebuilding web library cache.\n"
+	fi
+fi
 
 if [ "${feeds}" = "true" ]; then
-	# Build the various feeds catalog
-	if [ "${verbose}" = "true" ]; then
-		printf "Building feeds ... "
+	# Build the various feeds catalog, but only if we don't have more items in the tsp build queue.
+	if [ "${queuedTasks}" = "false" ]; then
+		if [ "${verbose}" = "true" ]; then
+			printf "Building feeds ... "
+		fi
+
+		"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
+
+		sudo chown --recursive se:committers "${webRoot}"/feeds/*/{*.xml,*/*.xml}
+		sudo chmod --recursive a+r,ug+w,a+X "${webRoot}"/feeds/*/
+
+		if [ "${verbose}" = "true" ]; then
+			printf "Done.\n"
+		fi
+	else
+		if [ "${verbose}" = "true" ]; then
+			printf "Tasks queued after this one, not building feeds.\n"
+		fi
 	fi
+fi
 
-	"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
+if [ "${bulkDownloads}" = "true" ]; then
+	# Build the various feeds catalog, but only if we don't have more items in the tsp build queue.
+	if [ "${queuedTasks}" = "false" ]; then
+		if [ "${verbose}" = "true" ]; then
+			printf "Building bulk downloads ... "
+		fi
 
-	sudo chown --recursive se:committers "${webRoot}"/{atom,rss,opds}/{*.xml,subjects}
-	sudo chmod --recursive 664 "${webRoot}"/{atom,rss,opds}/{*.xml,subjects/*.xml}
-	sudo chmod 775 "${webRoot}"/{atom,rss,opds}/subjects
+		"${scriptsDir}/generate-bulk-downloads" --webroot "${webRoot}"
 
-	if [ "${verbose}" = "true" ]; then
-		printf "Done.\n"
+		sudo chown --recursive se:committers "${webRoot}"/bulk-downloads/*/
+		sudo chmod --recursive a+r,ug+w,a+X "${webRoot}"/bulk-downloads/*/
+
+		if [ "${verbose}" = "true" ]; then
+			printf "Done.\n"
+		fi
+	else
+		if [ "${verbose}" = "true" ]; then
+			printf "Tasks queued after this one, not building bulk downloads.\n"
+		fi
 	fi
 fi
