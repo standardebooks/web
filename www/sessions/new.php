@@ -18,7 +18,7 @@ $exception = $_SESSION['exception'] ?? null;
 http_response_code(401);
 
 if($exception){
-	http_response_code(400);
+	http_response_code(422);
 	session_unset();
 }
 ?><?= Template::Header(['title' => 'Log In', 'highlight' => '', 'description' => 'Log in to your Standard Ebooks Patrons Circle account.']) ?>

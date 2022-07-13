@@ -107,12 +107,12 @@ catch(Exceptions\SeException $ex){
 		$_SESSION['subscription'] = $subscription;
 		$_SESSION['exception'] = $ex;
 
-		// Access via form; 303 redirect to the form, which will emit a 400 BAD REQUEST
+		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity
 		http_response_code(303);
 		header('Location: /newsletter/subscriptions/new');
 	}
 	else{
-		// Access via REST api; 400 BAD REQUEST
-		http_response_code(400);
+		// Access via REST api; 422 Unprocessable Entity
+		http_response_code(422);
 	}
 }

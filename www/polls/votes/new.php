@@ -21,19 +21,20 @@ try{
 		$vote->User = $GLOBALS['User'];
 	}
 
-
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
 
 	try{
 		$vote = PollVote::Get($poll->UrlName, $GLOBALS['User']->UserId);
+
+		// Vote was found, don't allow another vote
 		throw new Exceptions\PollVoteExistsException($vote);
 	}
 	catch(Exceptions\InvalidPollVoteException $ex){
-		// User hasn't voted yet, do nothing
+		// Vote was not found, user is OK to vote
 	}
 
 	if($exception){
-		http_response_code(400);
+		http_response_code(422);
 		session_unset();
 	}
 }
