@@ -75,7 +75,10 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 
 	$zip->close();
 
-	rename($tempFilename, $filePath);
+	// We have to do a copy, then unlink because rename() can't rename across file systems.
+	// If the bulk downloads are symlinked to a storage volume, the rename() won't work.
+	copy($tempFilename, $filePath);
+	unlink($tempFilename);
 
 	exec('attr -q -s se-ebook-type -V ' . escapeshellarg($type) . ' ' . escapeshellarg($filePath));
 }
