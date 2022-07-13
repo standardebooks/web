@@ -411,9 +411,6 @@ if [ "${feeds}" = "true" ]; then
 
 		"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
 
-		sudo chown --recursive se:committers "${webRoot}"/feeds/*/{*.xml,*/*.xml}
-		sudo chmod --recursive a+r,ug+w,a+X "${webRoot}"/feeds/*/
-
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"
 		fi
@@ -433,9 +430,6 @@ if [ "${bulkDownloads}" = "true" ]; then
 
 		"${scriptsDir}/generate-bulk-downloads" --webroot "${webRoot}"
 
-		sudo chown --recursive se:committers "${webRoot}"/bulk-downloads/*/
-		sudo chmod --recursive a+r,ug+w,a+X "${webRoot}"/bulk-downloads/*/
-
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"
 		fi
@@ -444,4 +438,8 @@ if [ "${bulkDownloads}" = "true" ]; then
 			printf "Tasks queued after this one, not building bulk downloads.\n"
 		fi
 	fi
+fi
+
+if [ "${verbose}" = "true" ]; then
+	printf "Finished processing ebook.\n"
 fi

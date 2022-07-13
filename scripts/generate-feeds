@@ -233,3 +233,10 @@ foreach($ebooksByAuthor as $collection => $ebooks){
 	$collectionAtomFeed = new AtomFeed($title, $subtitle, '/feeds/atom/authors/' . $authors[$collection]['id'],  $webRoot . '/feeds/atom/authors/' . $authors[$collection]['id'] . '.xml', $ebooks);
 	SaveFeed($collectionAtomFeed, $force, $authors[$collection]['name'], $authors[$collection]['sortedname'], $now);
 }
+
+// Set ownership and permissions
+// We don't use PHP's built in chown/chmod chmod can't accept strings
+// The `chmod +X` command, with a capital X, makes only matched directories executable.
+exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/feeds/*/*.xml');
+exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/feeds/*/*/*.xml');
+exec('sudo chmod --preserve-root --recursive a+r,ug+w,a+X ' . escapeshellarg($webRoot) . '/feeds/*/');
