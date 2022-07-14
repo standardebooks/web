@@ -19,7 +19,7 @@ require_once('Core.php');
 			<p>To connect your ereading app to our catalog, enter the URL below when prompted by your app:</p>
 			<ul class="feed">
 				<li>
-					<p><a href="<? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? } ?>/feeds/opds">The Standard Ebooks OPDS feed</a></p>
+					<p><a href="/feeds/opds">The Standard Ebooks OPDS feed</a></p>
 					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/opds</p>
 				</li>
 			</ul>

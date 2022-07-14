@@ -17,7 +17,7 @@ require_once('Core.php');
 					<p>The fifteen latest Standard Ebooks, most-recently-released first.</p>
 				</li>
 				<li>
-					<p><a href="<? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? } ?>/feeds/atom/all">All ebooks</a></p>
+					<p><a href="/feeds/atom/all">All ebooks</a></p>
 					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/atom/all</p>
 					<p>All Standard Ebooks, most-recently-released first.</p>
 				</li>

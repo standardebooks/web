@@ -26,7 +26,7 @@ try{
 
 	// Everything OK, serve the file using Apache.
 	// The xsendfile Apache module tells Apache to serve the file, including not-modified or etag headers.
-	// Much more efficien than reading it in PHP and outputting it that way.
+	// Much more efficient than reading it in PHP and outputting it that way.
 	header('X-Sendfile: ' . WEB_ROOT . $path);
 	header('Content-Type: application/zip');
 	header('Content-Disposition: attachment; filename="' . basename($path) . '"');

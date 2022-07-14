@@ -64,7 +64,7 @@ catch(Exceptions\InvalidCollectionException $ex){
 			<? } ?>
 			<ul class="feed">
 				<li>
-					<p><a href="<? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? } ?>/feeds/<?= $type ?>/<?= $name ?>/<?= $target?>"><?= Formatter::ToPlainText($label) ?></a></p>
+					<p><a href="/feeds/<?= $type ?>/<?= $name ?>/<?= $target?>"><?= Formatter::ToPlainText($label) ?></a></p>
 					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/<?= $type ?>/<?= $name ?>/<?= $target?></p>
 				</li>
 			</ul>

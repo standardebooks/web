@@ -37,6 +37,12 @@ if($GLOBALS['User'] === null){
 		// log them in while we're here.
 
 		$session = new Session();
-		$session->Create($httpBasicAuthLogin);
+		try{
+			$session->Create($httpBasicAuthLogin);
+			$GLOBALS['User'] = $session->User;
+		}
+		catch(Exception $ex){
+			// Do nothing
+		}
 	}
 }
