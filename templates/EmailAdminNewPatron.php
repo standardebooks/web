@@ -2,6 +2,15 @@
 <html>
 <head>
 	<title>New Patrons Circle member</title>
+	<style>
+		table td{
+			padding: .5em;
+		}
+
+		table td:first-child{
+			text-align: right;
+		}
+	</style>
 </head>
 <body>
 	<table>
@@ -24,7 +33,7 @@
 			</tr>
 			<tr>
 				<td>Transaction ID:</td>
-				<td><?= Formatter::ToPlainText($payment->TransactionId) ?></td>
+				<td><a href="https://fundraising.fracturedatlas.org/admin/donations?query=<?= urlencode($payment->TransactionId) ?>"><?= Formatter::ToPlainText($payment->TransactionId) ?></a></td>
 			</tr>
 		</tbody>
 	</table>
