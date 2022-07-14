@@ -247,6 +247,9 @@ class Ebook{
 			if($fileAsElement !== false && sizeof($fileAsElement) > 0){
 				$fileAs = (string)$fileAsElement[0];
 			}
+			else{
+				$fileAs = (string)$author;
+			}
 
 			$this->Authors[] = new Contributor(
 								(string)$author,
