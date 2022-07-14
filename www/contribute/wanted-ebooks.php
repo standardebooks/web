@@ -65,9 +65,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6877">The Head of Kay’s</a> by P. G. Wodehouse</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/6985">A Prefect’s Uncle</a> by P. G. Wodehouse</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6880">The Coming of Bill</a> by P. G. Wodehouse</p>
 			</li>
