@@ -5,9 +5,9 @@ use function Safe\apcu_fetch;
 use function Safe\preg_replace;
 
 $canDownload = false;
-$name = HttpInput::Str(GET, 'name', false) ?? '';
+$class = HttpInput::Str(GET, 'class', false) ?? '';
 
-if($name != 'authors' && $name != 'collections' && $name != 'subjects' && $name != 'months'){
+if($class != 'authors' && $class != 'collections' && $class != 'subjects' && $class != 'months'){
 	Template::Emit404();
 }
 
@@ -18,14 +18,14 @@ if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){
 $collection = [];
 
 try{
-	$collection = apcu_fetch('bulk-downloads-' . $name);
+	$collection = apcu_fetch('bulk-downloads-' . $class);
 }
 catch(Safe\Exceptions\ApcuException $ex){
 	$result = Library::RebuildBulkDownloadsCache();
-	$collection = $result[$name];
+	$collection = $result[$class];
 }
 
-$title = preg_replace('/s$/', '', ucfirst($name));
+$title = preg_replace('/s$/', '', ucfirst($class));
 
 ?><?= Template::Header(['title' => 'Downloads by ' . $title, 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks in a given collection.']) ?>
 <main>
@@ -34,8 +34,8 @@ $title = preg_replace('/s$/', '', ucfirst($name));
 		<? if(!$canDownload){ ?>
 			<p><a href="/about#patrons-circle">Patrons circle members</a> get convenient access to zip files containing collections of different categories of ebooks. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature, and download these collections files too.</p>
 		<? } ?>
-		<p>These zip files contain each ebook in every format we offer, and are updated once daily with the latest versions of each ebook. Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file format to download</a>.</p>
-		<? if($name == 'months'){ ?>
+		<p>These zip files contain each ebook in every format we offer, and are kept updated with the latest versions of each ebook. Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file format to download</a>.</p>
+		<? if($class == 'months'){ ?>
 			<table class="download-list">
 				<caption aria-hidden="hidden">Scroll right →</caption>
 				<tbody>

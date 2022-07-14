@@ -380,6 +380,54 @@ class Library{
 		return ['months' => $months, 'subjects' => $subjects, 'collections' => $collections, 'authors' => $authors];
 	}
 
+	/**
+	 * @return array<string, array<int|string, array<int|string, mixed>>>
+	 */
+	public static function RebuildFeedsCache(?string $returnType = null, ?string $returnClass = null): ?array{
+		$feedTypes = ['opds', 'atom', 'rss'];
+		$feedClasses = ['authors', 'collections', 'subjects'];
+		$retval = null;
+		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
+		if($collator === null){
+			throw new Exceptions\SeException('Couldn\'t create collator object when rebuilding feeds cache.');
+		}
+
+		foreach($feedTypes as $type){
+			foreach($feedClasses as $class){
+				$files = glob(WEB_ROOT . '/feeds/' . $type . '/' . $class . '/*.xml');
+
+				$feeds = [];
+
+				foreach($files as $file){
+					$obj = new stdClass();
+					$obj->Url = '/feeds/' . $type . '/' . $class . '/' . basename($file, '.xml');
+
+					$obj->Label  = exec('attr -g se-label ' . escapeshellarg($file)) ?: null;
+					if($obj->Label == null){
+						$obj->Label = basename($file, '.xml');
+					}
+
+					$obj->LabelSort  = exec('attr -g se-label-sort ' . escapeshellarg($file)) ?: null;
+					if($obj->LabelSort == null){
+						$obj->LabelSort = basename($file, '.xml');
+					}
+
+					$feeds[] = $obj;
+				}
+
+				usort($feeds, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
+
+				if($type == $returnType && $class == $returnClass){
+					$retval = $feeds;
+				}
+
+				apcu_store('feeds-index-' . $type . '-' . $class, $feeds);
+			}
+		}
+
+		return $retval;
+	}
+
 	public static function RebuildCache(): void{
 		// We check a lockfile because this can be a long-running command.
 		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.

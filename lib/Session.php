@@ -67,7 +67,7 @@ class Session extends PropertiesBase{
 		return null;
 	}
 
-	public static function SetSessionCookie($sessionId): void{
+	public static function SetSessionCookie(string $sessionId): void{
 		setcookie('sessionid', $sessionId, time() + 60 * 60 * 24 * 14 * 1, '/', SITE_DOMAIN, true, false); // Expires in two weeks
 	}
 

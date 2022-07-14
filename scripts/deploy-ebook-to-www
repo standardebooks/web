@@ -143,6 +143,10 @@ if ! [ -f "${scriptsDir}"/generate-feeds ]; then
 	die "\"${scriptsDir}\"/generate-feeds\" is not a file or could not be found."
 fi
 
+if ! [ -f "${scriptsDir}"/generate-bulk-downloads ]; then
+	die "\"${scriptsDir}\"/generate-bulk-downloads\" is not a file or could not be found."
+fi
+
 mkdir -p "${webRoot}"/images/covers/
 
 for dir in "$@"
@@ -391,7 +395,7 @@ if [ "${queuedTasks}" = "false" ]; then
 		printf "Rebuilding web library cache ... "
 	fi
 
-	"${scriptsDir}"/rebuild-library-cache
+	"${scriptsDir}"/rebuild-cache library
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"
@@ -410,6 +414,7 @@ if [ "${feeds}" = "true" ]; then
 		fi
 
 		"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
+		"${scriptsDir}"/rebuild-cache feeds
 
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"
@@ -429,6 +434,7 @@ if [ "${bulkDownloads}" = "true" ]; then
 		fi
 
 		"${scriptsDir}/generate-bulk-downloads" --webroot "${webRoot}"
+		"${scriptsDir}"/rebuild-cache bulk-downloads
 
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+usage(){
+	echo -n
+	fmt <<EOF
+DESCRIPTION
+	Rebuild one of three caches stored in APCu for the standardebooks.org FPM pool.
+
+USAGE
+	rebuild-cache {library,bulk-downloads,feeds}
+EOF
+	exit 1
+}
+
+if [ $# -eq 1 ]; then
+	if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+		usage
+	fi
+fi
+
+if [ $# -ne 1 ]; then
+	usage
+fi
+
+# If this script is run by a user without sudo powers, they can be given permission to run this command by creating a file in sudoers.d with:
+# MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/rebuild-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
+
+type="$1"
+
+if [ "${type}" = "library" ]; then
+	echo "<?php require_once('Core.php'); Library::RebuildCache(); ?>" > /tmp/rebuild-cache.php
+fi
+
+if [ "${type}" = "bulk-downloads" ]; then
+	echo "<?php require_once('Core.php'); Library::RebuildBulkDownloadsCache(); ?>" > /tmp/rebuild-cache.php
+fi
+
+if [ "${type}" = "feeds" ]; then
+	echo "<?php require_once('Core.php'); Library::RebuildFeedsCache(); ?>" > /tmp/rebuild-cache.php
+fi
+
+sudo -u www-data env SCRIPT_FILENAME=/tmp/rebuild-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/standardebooks.org.sock" &> /dev/null
+rm /tmp/rebuild-cache.php
