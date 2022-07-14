@@ -1,5 +1,8 @@
 <?
 require_once('Core.php');
+
+$newsletterSubscriberCount = floor(Db::QueryInt('SELECT count(*) from NewsletterSubscriptions') / 100) * 100;
+
 ?><?= Template::Header(['title' => 'Donate', 'highlight' => 'donate', 'description' => 'Donate to Standard Ebooks.']) ?>
 <main>
 	<section class="donate narrow has-hero">
@@ -141,6 +144,9 @@ require_once('Core.php');
 			<ul>
 				<li>
 					<p>Your organization’s logo and a link will be <a href="/about#corporate-sponsors">listed on our masthead</a>, which is prominently linked to on the Standard Ebooks website’s header and footer.</p>
+				</li>
+				<li>
+					<p>Mentions in each of our once-monthly new releases newsletters, as well as in our occasional general newsletter.<? if($newsletterSubscriberCount > 100){ ?> These newsletters reach over <?= number_format($newsletterSubscriberCount) ?> subscribers who are devoted lovers of literature.<? } ?></p>
 				</li>
 				<li>
 					<p>Get access to our OPDS, Atom, and RSS <a href="/feeds">ebook feeds</a> for use by your organization for the duration of your sponsorship. We can also produce different kinds of feeds to meet your needs, like <abbr class="acronym">ONIX</abbr> feeds.</p>
