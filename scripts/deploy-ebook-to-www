@@ -433,7 +433,10 @@ if [ "${bulkDownloads}" = "true" ]; then
 			printf "Building bulk downloads ... "
 		fi
 
-		"${scriptsDir}/generate-bulk-downloads" --webroot "${webRoot}"
+		output=$("${scriptsDir}/generate-bulk-downloads" --webroot "${webRoot}")
+		if [ "${verbose}" = "true" ]; then
+			echo "${output}"
+		fi
 		"${scriptsDir}"/rebuild-cache bulk-downloads
 
 		if [ "${verbose}" = "true" ]; then
