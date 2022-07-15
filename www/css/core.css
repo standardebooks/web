@@ -1208,12 +1208,14 @@ time{
 }
 
 article.ebook h1{
+	overflow-wrap: anywhere;
 	border: none;
 	margin: 0;
 	padding: 0;
 }
 
 article.ebook hgroup h2{
+	overflow-wrap: anywhere;
 	text-align: center;
 }
 
