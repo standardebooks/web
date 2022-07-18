@@ -37,25 +37,7 @@ try{
 		if(sizeof($matches) == 2){
 			$transactionId = $matches[1];
 
-			// FA has a bug where some anonymous donations can't be found in their search form,
-			// so we aren't able to get them programatically later. Therefore, store anonymous donations right now
-			// instead of queueing them for later retrieval.
-			if(preg_match('/Donor: Anonymous/u', $data->html) === 1){
-				$payment = new Payment();
-				$payment->ChannelId = PAYMENT_CHANNEL_FA;
-				$payment->TransactionId = $transactionId;
-				$payment->Created = new DateTime();
-				$payment->IsRecurring = stripos($data->subject, 'recurring') !== false;
-				preg_match('/Amount: \$([\d\.]+)/u', $data->html, $matches);
-				if(sizeof($matches) == 2){
-					$payment->Amount = $matches[1];
-					$payment->Fee = $payment->Amount - ($payment->Amount / 1.087);
-				}
-				$payment->Create();
-			}
-			else{
-				Db::Query('INSERT into PendingPayments (Created, ChannelId, TransactionId) values (utc_timestamp(), ?, ?);', [PAYMENT_CHANNEL_FA, $transactionId]);
-			}
+			Db::Query('INSERT into PendingPayments (Created, ChannelId, TransactionId) values (utc_timestamp(), ?, ?);', [PAYMENT_CHANNEL_FA, $transactionId]);
 
 			$log->Write('Donation ID: ' . $transactionId);
 		}
