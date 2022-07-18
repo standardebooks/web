@@ -141,7 +141,7 @@ try{
 			if($payment->User !== null && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name)){
 				$payment->User = null;
 			}
-
+			$log->Write(vds($payment));
 			// All set - create the payment
 			try{
 				$payment->Create();

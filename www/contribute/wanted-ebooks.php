@@ -285,9 +285,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce</p>
-			</li>
-			<li>
 				<p><a href="http://hilobrow.com/2013/03/11/theodore-savage-1/">Theodore Savage</a> by Cicely Hamilton</p>
 			</li>
 			<li>
@@ -434,6 +431,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce. (Multiple versions exist, research must be done to ensure a complete collection without duplicates across other Bierce collections.)</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/32474">The Memoirs of the Conquistadors</a> by Bernal Díaz del Castillo (<a href="https://www.gutenberg.org/ebooks/32475">Volume 2</a>)</p>
 			</li>
