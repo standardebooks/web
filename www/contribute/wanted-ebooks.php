@@ -113,9 +113,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/47">Anne of Avonlea</a> by L. M. Montgomery</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/51">Anne of the Island</a> by L. M. Montgomery</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10041">The Rivet in Grandfather’s Neck</a> by James Branch Cabell</p>
 			</li>
@@ -320,9 +320,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3261">News from Nowhere</a> by William Morris (Carefully note <a href="https://groups.google.com/g/standardebooks/c/7SdRd0oR5fQ/m/Tg0MeL0FAQAJ">previous discussion on this ebook</a> as editions differ.)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1280">Spoon River Anthology</a> by Edgar Lee Masters</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/601">The Monk: A Romance</a> by M. G. Lewis (Note this appears to be the 2nd edition, we don’t want the 4th edition)</p>
 			</li>
@@ -560,9 +560,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/25717">The History of the Decline and Fall of the Roman Empire</a> by Edward Gibbon</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2981">The Memoirs of Casanova</a></p>
 			</li>
