@@ -2,6 +2,7 @@
 require_once('Core.php');
 
 $ebooks = [];
+$author = '';
 
 try{
 	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path', true) ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
@@ -17,16 +18,19 @@ try{
 	if(sizeof($ebooks) == 0){
 		throw new Exceptions\InvalidAuthorException();
 	}
+
+	$author =  strip_tags($ebooks[0]->AuthorsHtml);
+	$authorUrl = Formatter::ToPlainText($ebooks[0]->AuthorsUrl);
 }
 catch(Exceptions\InvalidAuthorException $ex){
 	Template::Emit404();
 }
-?><?= Template::Header(['title' => 'Ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml), 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . strip_tags($ebooks[0]->AuthorsHtml)]) ?>
+?><?= Template::Header(['title' => 'Ebooks by ' . $author, 'feedUrl' => str_replace('/ebooks/', '/authors/', $authorUrl), 'feedTitle' => 'Standard Ebooks - Ebooks by ' . $author, 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . $author]) ?>
 <main class="ebooks">
 	<h1 class="is-collection">Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
 	<p class="ebooks-toolbar">
-		<a class="button" href="<?= Formatter::ToPlainText($ebooks[0]->AuthorsUrl) ?>/downloads">Download collection</a>
-		<a class="button" href="<?= Formatter::ToPlainText($ebooks[0]->AuthorsUrl) ?>/feeds">Author feeds</a>
+		<a class="button" href="<?= $authorUrl ?>/downloads">Download collection</a>
+		<a class="button" href="<?= $authorUrl ?>/feeds">Author feeds</a>
 	</p>
 	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => VIEW_GRID]) ?>
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>

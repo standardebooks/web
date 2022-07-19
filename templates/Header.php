@@ -6,6 +6,8 @@ $description = $description ?? '';
 $manual = $manual ?? false;
 $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 $xmlDeclaration = $xmlDeclaration ?? true;
+$feedUrl = $feedUrl ?? null;
+$feedTitle = $feedTitle ?? '';
 
 if($xmlDeclaration){
 	header('content-type: application/xhtml+xml; charset=utf-8');
@@ -40,9 +42,17 @@ if($xmlDeclaration){
 	<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 	<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 	<link href="/manifest.json" rel="manifest"/>
+	<? if($feedUrl === null){ ?>
 	<link rel="alternate" type="application/atom+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/atom/new-releases"/>
 	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/opds/new-releases"/>
 	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/rss/new-releases"/>
+	<? }else{ ?>
+	<link rel="alternate" type="application/atom+xml" title="<?= Formatter::ToPlainText($feedTitle) ?>" href="/feeds/atom<?= $feedUrl ?>"/>
+	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::ToPlainText($feedTitle) ?>" href="/feeds/opds<?= $feedUrl ?>"/>
+	<link rel="alternate" type="application/rss+xml" title="<?= Formatter::ToPlainText($feedTitle) ?>" href="/feeds/rss<?= $feedUrl ?>"/>
+	<? } ?>
+	<link rel="search" href="/ebooks" type="application/xhtml+xml; charset=utf-8"/>
+	<link rel="search" href="/ebooks/opensearch" type="application/opensearchdescription+xml; charset=utf-8"/>
 	<meta content="#394451" name="theme-color"/>
 	<meta content="<? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
 	<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>

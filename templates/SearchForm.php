@@ -1,7 +1,7 @@
 <?
 $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 ?>
-<form action="/ebooks" method="get">
+<form action="/ebooks" method="get" rel="search">
 	<label class="tags">Subjects
 		<select multiple="multiple" name="tags[]" size="1">
 			<option value="all">All</option>

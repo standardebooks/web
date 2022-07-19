@@ -35,17 +35,21 @@ try{
 	if($name == 'authors'){
 		$title = 'Ebook feeds for ' . $label;
 		$description = 'A list of available ebook feeds for ebooks by ' . $label . '.';
+		$feedTitle = 'Standard Ebooks - Ebooks by ' . $label;
 	}
 
 	if($name == 'collections'){
 		$title = 'Ebook feeds for the ' . $label . ' collection';
 		$description = 'A list of available ebook feeds for ebooks in the ' . $label . ' collection.';
+		$feedTitle = 'Standard Ebooks - Ebooks in the ' . $label . ' collection';
 	}
+
+	$feedUrl = '/' . $name . '/' . $target;
 }
 catch(Exceptions\InvalidCollectionException $ex){
 	Template::Emit404();
 }
-?><?= Template::Header(['title' => $title, 'description' => $description]) ?>
+?><?= Template::Header(['title' => $title, 'feedTitle' => $feedTitle, 'feedUrl' => $feedUrl, 'description' => $description]) ?>
 <main>
 	<article>
 		<h1>Ebook Feeds for <?= Formatter::ToPlainText($label) ?></h1>

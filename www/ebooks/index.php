@@ -18,6 +18,8 @@ try{
 	$pageTitle = '';
 	$pageHeader = '';
 	$queryString = '';
+	$feedUrl = null;
+	$feedTitle  = '';
 
 	if($page <= 0){
 		$page = 1;
@@ -112,11 +114,16 @@ try{
 	}
 
 	$queryString = preg_replace('/^&amp;/ius', '', $queryString);
+
+	if($collection !== null){
+		$feedUrl = '/collections/' . Formatter::ToPlainText($collection);
+		$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
+	}
 }
 catch(Exceptions\InvalidCollectionException $ex){
 	Template::Emit404();
 }
-?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
+?><?= Template::Header(['title' => $pageTitle, 'feedUrl' => $feedUrl, 'feedTitle' => $feedTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">
 	<h1<? if($collection !== null){ ?> class="is-collection"<? } ?>><?= $pageHeader ?></h1>
 	<?= Template::DonationCounter() ?>
@@ -140,7 +147,7 @@ catch(Exceptions\InvalidCollectionException $ex){
 	<? } ?>
 	<? if(sizeof($ebooks) > 0 && $collection === null){ ?>
 		<nav>
-			<a<? if($page > 1){ ?> href="/ebooks/?page=<?= $page - 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="previous"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+			<a<? if($page > 1){ ?> href="/ebooks/?page=<?= $page - 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
 			<? for($i = 1; $i < $pages + 1; $i++){ ?>
 				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks/?page=<?= $i ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>"><?= $i ?></a></li>
