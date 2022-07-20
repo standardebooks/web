@@ -192,9 +192,6 @@ require_once('Core.php');
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/42401">Vathek</a> by William Beckford</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/133">The Damnation of Theron Ware</a> Harold Frederic</p>
 			</li>
 			<li>
@@ -274,9 +271,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35617">The Terror</a> by Arthur Machen, to be added to the existing Short Fiction omnibus</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/7838">Fifty-One Tales</a> by Lord Dunsany (Note: The British and American editions each have a story the other excludes; should we include both plus an editor’s note?)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2885">The House of the Wolflings</a> by William Morris</p>
