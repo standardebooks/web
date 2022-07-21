@@ -27,6 +27,7 @@ if($exception){
 		<h1>Log in to the Patrons Circle</h1>
 		<p>Enter your email address to log in to your Patrons Circle account. Once you’re logged in, you’ll be able to <a href="/polls">vote in our occasional polls</a>, access our <a href="/bulk-downloads">bulk ebook downloads</a>, and access our <a href="/feeds">ebook feeds</a>.</p>
 		<p>Anyone can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature.</p>
+		<p><strong>Important:</strong> Your Patrons Circle donation <em>must not</em> be set to “remain anonymous publicly and to project.” If it is, then Fractured Atlas doesn’t share your email address with us, and therefore we can’t include you in our login system.</p>
 		<?= Template::Error(['exception' => $exception]) ?>
 		<form method="post" action="/sessions" class="single-row">
 			<input type="hidden" name="redirect" value="<?= Formatter::ToPlainText($redirect) ?>" />
