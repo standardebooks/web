@@ -29,6 +29,7 @@ class Payment extends PropertiesBase{
 					$user = User::GetByEmail($this->User->Email);
 
 					// User exists, use their data
+					$user->Name = $this->User->Name;
 					$this->User = $user;
 
 					// Update their name in case we have their email (but not name) recorded from a newsletter subscription
