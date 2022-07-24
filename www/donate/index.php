@@ -33,7 +33,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('SELECT count(*) from Newsletter
 			<p>During your time as a member of the Patrons Circle, you get:</p>
 			<ul>
 				<li>
-					<p>Your name <a href="/about#patrons-circle">listed on our masthead</a>.</p>
+					<p>Your name <a href="/about#patrons-circle">listed on our masthead</a>. (You can also remain anonymous if you prefer.)</p>
 				</li>
 				<li>
 					<p>Access to our various <a href="/feeds">ebook feeds</a>:</p>
@@ -59,7 +59,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('SELECT count(*) from Newsletter
 					<p>The right to periodically vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production. The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
 				</li>
 			</ul>
-			<p><em>Membership in the Patrons Circle is limited to individuals only. Organizations, see <a href="#corporate-sponsors">corporate sponsorship</a> instead.</em></p>
+			<p><em>Membership in the Patrons Circle is limited to individuals only. Organizations, please see <a href="#corporate-sponsors">corporate sponsorship</a> instead.</em></p>
 			<p class="button-row">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>
 				<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=cd005756-7327-463d-bd53-a08acc5eaa4a" class="button">Donate $100 or more</a>
