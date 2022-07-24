@@ -6,7 +6,7 @@ if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false)
 }
 
 $startDate = new DateTime('2022-07-01');
-$endDate = new DateTime('2022-07-31');
+$endDate = new DateTime('2022-08-07');
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
 $current = Db::QueryInt('SELECT count(*) from Patrons where Created >= ?', [$startDate]);
@@ -15,7 +15,7 @@ $stretchCurrent = 0;
 $stretchTarget = 20;
 $totalCurrent = $current;
 $totalTarget = $target;
-$deadline = $endDate->format('M. j');
+$deadline = $endDate->format('F j');
 
 $stretchOn = false;
 if($stretchTarget > 0 && $current >= $target){
@@ -34,16 +34,16 @@ if($stretchTarget > 0 && $current >= $target){
 	<? } ?>
 	<? if(!$stretchOn){ ?>
 	<header>
-		<p>Help us reach <?= number_format($target) ?> patrons by <?= $deadline ?></p>
+		<p>Help us reach <?= number_format($target) ?> new patrons by <?= $deadline ?></p>
 	</header>
 	<? }else{ ?>
 	<header>
-		<p>Help us meet our stretch goal of <?= number_format($totalTarget) ?> patrons by <?= $deadline ?></p>
+		<p>Help us meet our stretch goal of <?= number_format($totalTarget) ?> new patrons by <?= $deadline ?></p>
 	</header>
 	<? } ?>
 	<div class="progress">
 		<div aria-hidden="true">
-			<p class="start">0</p>
+			<p class="start"></p>
 			<p><?= number_format($totalCurrent) ?>/<?= number_format($totalTarget) ?></p>
 			<? if($stretchOn){ ?>
 				<p class="stretch-base"><?= number_format($target) ?></p>
