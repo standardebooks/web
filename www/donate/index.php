@@ -56,7 +56,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('SELECT count(*) from Newsletter
 					<p>The ability to submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, once per quarter. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and are subject to approval.)</p>
 				</li>
 				<li>
-					<p><strong>The right to periodically vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production.</strong> The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
+					<p>The right to periodically vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production. The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
 				</li>
 			</ul>
 			<p><em>Membership in the Patrons Circle is limited to individuals only. Organizations, see <a href="#corporate-sponsors">corporate sponsorship</a> instead.</em></p>
