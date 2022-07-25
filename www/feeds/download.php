@@ -8,7 +8,6 @@ use function Safe\preg_match;
 // a valid user has a session.
 
 $path = HttpInput::Str(GET, 'path', false) ?? '';
-$isUserAgentAllowed = false;
 
 try{
 	$path = '/feeds/' . $path;
@@ -17,24 +16,33 @@ try{
 		throw new Exceptions\InvalidFileException();
 	}
 
-	// Certain user agents may bypass login entirely
-	// if(isset($_SERVER['HTTP_USER_AGENT'])){
-	// 	$isUserAgentAllowed = (bool)Db::QueryInt('select count(*) from FeedUserAgents where instr(?, UserAgent) limit 1', [$_SERVER['HTTP_USER_AGENT']]);
-	// }
+	// Access to the Atom/RSS new releases feed is open to the public
+	$isNewReleasesFeed = false;
+	if(preg_match('/^\/feeds\/(rss|atom)\/new-releases\.xml$/ius', $path)){
+		$isNewReleasesFeed = true;
+	}
 
-	// if(!$isUserAgentAllowed){
-	// 	if($GLOBALS['User'] === null){
-	// 		throw new Exceptions\LoginRequiredException();
-	// 	}
+	if(!$isNewReleasesFeed){
+		// Certain user agents may bypass login entirely
+		$isUserAgentAllowed = false;
+		if(isset($_SERVER['HTTP_USER_AGENT'])){
+			$isUserAgentAllowed = Db::QueryInt('select count(*) from FeedUserAgents where instr(?, UserAgent) limit 1', [$_SERVER['HTTP_USER_AGENT']]);
+		}
 
-	// 	if(!preg_match('/\.xml$/ius', $path)){
-	// 		throw new Exceptions\InvalidPermissionsException();
-	// 	}
+		if(!$isUserAgentAllowed){
+			if($GLOBALS['User'] === null){
+				throw new Exceptions\LoginRequiredException();
+			}
 
-	// 	if(!$GLOBALS['User']->Benefits->CanAccessFeeds){
-	// 		throw new Exceptions\InvalidPermissionsException();
-	// 	}
-	// }
+			if(!preg_match('/\.xml$/ius', $path)){
+				throw new Exceptions\InvalidPermissionsException();
+			}
+
+			if(!$GLOBALS['User']->Benefits->CanAccessFeeds){
+				throw new Exceptions\InvalidPermissionsException();
+			}
+		}
+	}
 
 	// Everything OK, serve the file using Apache.
 	// The xsendfile Apache module tells Apache to serve the file, including not-modified or etag headers.

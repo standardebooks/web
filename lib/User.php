@@ -114,14 +114,15 @@ class User extends PropertiesBase{
 		return $result[0];
 	}
 
-	public static function GetIfRegistered(?string $email): User{
+	public static function GetIfRegistered(?string $identifier): User{
 		// We consider a user "registered" if they have a row in the Benefits table.
 		// Emails without that row may only be signed up for the newsletter and thus are not "registered" users
-		if($email === null){
+		// The identifier is either an email or a UUID (api key)
+		if($identifier === null){
 			throw new Exceptions\InvalidUserException();
 		}
 
-		$result = Db::Query('SELECT u.* from Users u inner join Benefits using (UserId) where u.Email = ?', [$email], 'User');
+		$result = Db::Query('SELECT u.* from Users u inner join Benefits using (UserId) where u.Email = ? or u.Uuid = ?', [$identifier, $identifier], 'User');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidUserException();
