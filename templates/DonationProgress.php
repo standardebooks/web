@@ -1,7 +1,7 @@
 <?
 
 // Hide the alert if the user has closed it
-if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false)){
+if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || $GLOBALS['User'] !== null){
 	return;
 }
 
