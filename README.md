@@ -114,7 +114,7 @@ If run successfully, it should output `[OK] No errors`.
 
 # Contributing
 
-Before submitting design contributions, please discuss them with the Standard Ebooks lead. While we encourage discussion and contributions, we can’t guarantee that unsoliticed design contributions will be accepted. You can open an issue to discuss potential design contributions with us before you begin.
+Before submitting design contributions, please discuss them with the Standard Ebooks lead. While we encourage discussion and contributions, we can’t guarantee that unsolicited design contributions will be accepted. You can open an issue to discuss potential design contributions with us before you begin.
 
 ## Help wanted
 
