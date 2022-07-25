@@ -3,6 +3,7 @@ require_once('Core.php');
 
 $ebooks = [];
 $author = '';
+$authorUrl = '';
 
 try{
 	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path', true) ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/

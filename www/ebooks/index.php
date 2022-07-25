@@ -20,6 +20,8 @@ try{
 	$queryString = '';
 	$feedUrl = null;
 	$feedTitle  = '';
+	$collectionName = '';
+	$collectionType = '';
 
 	if($page <= 0){
 		$page = 1;
