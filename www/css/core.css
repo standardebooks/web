@@ -2244,6 +2244,11 @@ aside.donation::after{
 	background: #dda82a;
 }
 
+aside.donation.closable::before,
+aside.donation.closable::after{
+	display: none;
+}
+
 article.ebook section aside.donation p::before,
 article.ebook section aside.donation p::after{
 	display: none;

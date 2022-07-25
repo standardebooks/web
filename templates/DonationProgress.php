@@ -25,7 +25,7 @@ if($stretchTarget > 0 && $current >= $target){
 }
 
 ?>
-<aside class="donation">
+<aside class="donation closable">
 	<? if($autoHide){ ?>
 	<form action="/settings" method="post">
 		<input type="hidden" name="hide-donation-alert" value="1" />
@@ -43,7 +43,7 @@ if($stretchTarget > 0 && $current >= $target){
 	<? } ?>
 	<div class="progress">
 		<div aria-hidden="true">
-			<p class="start"></p>
+			<p class="start">0</p>
 			<p><?= number_format($totalCurrent) ?>/<?= number_format($totalTarget) ?></p>
 			<? if($stretchOn){ ?>
 				<p class="stretch-base"><?= number_format($target) ?></p>

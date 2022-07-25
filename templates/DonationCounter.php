@@ -44,7 +44,7 @@ else{
 $digits = str_split(str_pad($current, 3, "0", STR_PAD_LEFT))
 
 ?>
-<aside class="donation counter">
+<aside class="donation counter closable">
 	<? if($autoHide){ ?>
 	<form action="/settings" method="post">
 		<input type="hidden" name="hide-donation-alert" value="1" />
