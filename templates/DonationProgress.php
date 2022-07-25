@@ -29,7 +29,7 @@ if($stretchTarget > 0 && $current >= $target){
 	<? if($autoHide){ ?>
 	<form action="/settings" method="post">
 		<input type="hidden" name="hide-donation-alert" value="1" />
-		<button class="close">Close this alert</button>
+		<button class="close" title="Close this box">Close this box</button>
 	</form>
 	<? } ?>
 	<? if(!$stretchOn){ ?>

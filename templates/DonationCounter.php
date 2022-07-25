@@ -48,7 +48,7 @@ $digits = str_split(str_pad($current, 3, "0", STR_PAD_LEFT))
 	<? if($autoHide){ ?>
 	<form action="/settings" method="post">
 		<input type="hidden" name="hide-donation-alert" value="1" />
-		<button class="close">Close this alert</button>
+		<button class="close" title="Close this box">Close this box</button>
 	</form>
 	<? } ?>
 	<header>
