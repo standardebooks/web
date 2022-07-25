@@ -13,7 +13,7 @@ $patronsCircle = Db::Query('SELECT if(p.AlternateName is not null, p.AlternateNa
 				where
 				p.IsAnonymous = false
 				and p.Ended is null
-				order by regexp_substr(SortedName, "[\\\p{Lu}][\\\p{L}\-]+$") asc;
+				order by regexp_substr(SortedName, "[\\\p{Lu}][\\\p{L}\-]*$") asc;
 			');
 
 $anonymousPatronCount = Db::QueryInt('SELECT sum(cnt)
