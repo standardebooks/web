@@ -17,9 +17,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/2081">The Blithedale Romance</a> by Nathaniel Hawthorne</p>
 			</li>
