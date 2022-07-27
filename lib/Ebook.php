@@ -405,6 +405,7 @@ class Ebook{
 				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG_CANADA, $e);
 			}
 			elseif(mb_stripos($e, 'archive.org/details') !== false){
+				// `/details` excludes Wayback Machine URLs which may sometimes occur, for example in Lyrical Ballads
 				$this->Sources[] = new EbookSource(SOURCE_INTERNET_ARCHIVE, $e);
 			}
 			elseif(mb_stripos($e, 'hathitrust.org/') !== false){
