@@ -404,7 +404,7 @@ class Ebook{
 			elseif(mb_stripos($e, 'gutenberg.ca/') !== false){
 				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG_CANADA, $e);
 			}
-			elseif(mb_stripos($e, 'archive.org/') !== false){
+			elseif(mb_stripos($e, 'archive.org/details') !== false){
 				$this->Sources[] = new EbookSource(SOURCE_INTERNET_ARCHIVE, $e);
 			}
 			elseif(mb_stripos($e, 'hathitrust.org/') !== false){
