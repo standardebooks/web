@@ -23,7 +23,6 @@ try{
 		// Ensure the path exists and that the root is in our www directory
 		throw new Exceptions\InvalidEbookException();
 	}
-
 	// Were we passed the author and a work but not the translator?
 	// For example:
 	// https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam
@@ -85,7 +84,9 @@ try{
 	shuffle($ebooks);
 
 	$targetCarouselSize = 5;
-	if(sizeof($ebooks) < $targetCarouselSize){
+	// Use <= here because we want to exclude the ebook we're looking at from the carousel.
+	// One of the matching ebooks will always be the current ebook.
+	if(sizeof($ebooks) <= $targetCarouselSize){
 		$targetCarouselSize = sizeof($ebooks) - 1;
 	}
 
