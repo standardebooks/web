@@ -384,9 +384,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/29413">The Adventures of Captain Hatteras</a> <i>Voyages et aventures du capitaine Hatteras</i> by Jules Verne</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/46597">In Search of the Castaways</a> <i>Les Enfants du capitaine Grant</i> by Jules Verne</p>
-			</li>
-			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/13782">Lady Rose’s Daughter</a> by Mary Augusta Ward</p>
 			</li>
 			<li>
