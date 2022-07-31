@@ -80,9 +80,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37332">A Little Princess</a> by Francis Hodgson Burnett</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/46409">Heidi</a> by Johanna Spyri</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35517">The Three Imposters</a> by Arthur Machen</p>
 			</li>
@@ -260,9 +260,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/864">The Master of Ballantrae</a> by Robert Louis Stevenson</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/711">Allan Quatermain</a> by H. Rider Haggard</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2769">Cleopatra</a> by H. Rider Haggard</p>
 			</li>
@@ -419,6 +416,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://en.m.wikipedia.org/wiki/You_Can't_Win_(book)">You Can’t Win</a> by Jack Black (transcription required)</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce. (Multiple versions exist, research must be done to ensure a complete collection without duplicates across other Bierce collections.)</p>
 			</li>
