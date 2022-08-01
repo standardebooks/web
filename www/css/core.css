@@ -2141,6 +2141,7 @@ h1 + ul.message,
 .masthead ol li p{
 	margin-top: 0;
 	text-align: left;
+	display: inline-block; /* Prevent a p from breaking across column division */
 }
 
 .masthead hgroup * + *{
