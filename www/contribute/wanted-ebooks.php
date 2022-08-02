@@ -176,6 +176,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
 			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/8939">With Edged Tools</a> by Henry Seton Merriman</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
