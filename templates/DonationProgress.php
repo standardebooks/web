@@ -5,17 +5,41 @@ if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false)
 	return;
 }
 
-$startDate = new DateTime('2022-07-01');
-$endDate = new DateTime('2022-08-07');
+$start = new DateTime('July 1, 2022 00:00:00 America/New_York');
+$end = new DateTime('August 7, 2022 23:59:00 America/New_York');
+$now = new DateTime();
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
-$current = Db::QueryInt('SELECT count(*) from Patrons where Created >= ?', [$startDate]);
+$current = Db::QueryInt('SELECT count(*) from Patrons where Created >= ?', [$start]);
 $target = 70;
 $stretchCurrent = 0;
 $stretchTarget = 20;
 $totalCurrent = $current;
 $totalTarget = $target;
-$deadline = $endDate->format('F j');
+$deadline = $end->format('F j');
+$timeLeft = $now->diff($end);
+$timeString = '';
+if($timeLeft->d < 1 && $timeLeft->h < 20){
+	$timeString = 'Just hours';
+}
+elseif($timeLeft->d >=  1 && $timeLeft->h <= 12){
+	$timeString = $timeLeft->d . ' day';
+	if($timeLeft->d > 1){
+		$timeString .= 's';
+	}
+	else{
+		$timeString = 'Only ' . $timeString;
+	}
+}
+else{
+	$timeString = ($timeLeft->d + 1) . ' day';
+	if($timeLeft->d + 1 > 1){
+		$timeString .= 's';
+	}
+	else{
+		$timeString = 'Only ' . $timeString;
+	}
+}
 
 $stretchOn = false;
 if($stretchTarget > 0 && $current >= $target){
@@ -34,7 +58,11 @@ if($stretchTarget > 0 && $current >= $target){
 	<? } ?>
 	<? if(!$stretchOn){ ?>
 	<header>
+		<? if($timeLeft->d > 5){ ?>
 		<p>Help us reach <?= number_format($target) ?> new patrons by <?= $deadline ?></p>
+		<? }else{ ?>
+		<p><?= $timeString ?> left to help us reach <?= number_format($target) ?> new patrons!</p>
+		<? } ?>
 	</header>
 	<? }else{ ?>
 	<header>
