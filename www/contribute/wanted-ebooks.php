@@ -419,6 +419,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/64037">The Life of Jesus Critically Examined</a> by David Strauss</p>
 			</li>
+			<li>
+				<p>Epictetus’s “Enchiridion” and fragments as a Short Works compilation, in <a href="http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0237%3Atext%3Denc">Thomas Wentworth Higginson’s translation</a>, to supersede our <a href="/ebooks/epictetus/short-works/george-long">current edition</a> of his short works in George Long’s inferior translation</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -430,9 +433,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/32474">The Memoirs of the Conquistadors</a> by Bernal Díaz del Castillo (<a href="https://www.gutenberg.org/ebooks/32475">Volume 2</a>)</p>
-			</li>
-			<li>
-				<p>Epictetus’s “Enchiridion” and fragments as a Short Works compilation, in Elizabeth Carter’s translation, to supersede our <a href="/ebooks/epictetus/short-works/george-long">current edition</a> of his short works in George Long’s inferior translation; may require transcription</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10031">Edgar Allan Poe’s poetry corpus</a></p>
