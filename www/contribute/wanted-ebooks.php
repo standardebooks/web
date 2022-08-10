@@ -15,13 +15,16 @@ require_once('Core.php');
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
 			</li> -->
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/2081">The Blithedale Romance</a> by Nathaniel Hawthorne</p>
+				<p><a href="https://www.gutenberg.org/ebooks/2081">The Blithedale Romance</a> by Nathaniel Hawthorne</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/792">Wieland</a> by Charles Brockden Brown</p>
 			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/767">Agnes Grey</a> by Anne Brontë</p>
@@ -156,13 +159,13 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans (Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm)</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/3337">Hunting the Grisly and Other Sketches</a> by Theodore Roosevelt</p>
+				<p><a href="https://www.gutenberg.org/ebooks/3337">Hunting the Grisly and Other Sketches</a> by Theodore Roosevelt</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/61935">Outdoor Pastimes of an American Hunter</a> by Theodore Roosevelt</p>
+				<p><a href="https://www.gutenberg.org/ebooks/61935">Outdoor Pastimes of an American Hunter</a> by Theodore Roosevelt</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/34135">A Book-Lover’s Holidays in the Open</a> by Theodore Roosevelt</p>
+				<p><a href="https://www.gutenberg.org/ebooks/34135">A Book-Lover’s Holidays in the Open</a> by Theodore Roosevelt</p>
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne</p>
@@ -174,10 +177,10 @@ require_once('Core.php');
 				<p><a href="https://en.wikipedia.org/wiki/The_Chink_in_the_Armour">The Chink in the Armour</a> by Marie Belloc Lowndes</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/8939">With Edged Tools</a> by Henry Seton Merriman</p>
+				<p><a href="https://www.gutenberg.org/ebooks/8939">With Edged Tools</a> by Henry Seton Merriman</p>
 			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
@@ -186,7 +189,7 @@ require_once('Core.php');
 				<p><a href="https://en.wikisource.org/wiki/The_Pilgrim_Kamanita">The Pilgrim Kamanita</a> by Karl Gjellerup</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Radcliffe</p>
+				<p><a href="https://www.gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Radcliffe</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/67369">Hadrian the Seventh</a> by Frederick Rolfe (Part of the Guardian 2015 collection.)</p>
@@ -195,7 +198,7 @@ require_once('Core.php');
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/445">The Crowd</a> by Gustave Le Bon</p>
+				<p><a href="https://www.gutenberg.org/ebooks/445">The Crowd</a> by Gustave Le Bon</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/224">A Pair of Blue Eyes</a> by Thomas Hardy</p>
@@ -405,10 +408,10 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs (Note: We want the 1926 edition which is expanded, but requires transcription)</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/3335">Theodore Roosevelt: An Autobiography</a> by Theodore Roosevelt</p>
+				<p><a href="https://www.gutenberg.org/ebooks/3335">Theodore Roosevelt: An Autobiography</a> by Theodore Roosevelt</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/11746">Through the Brazilian Wilderness</a> by Theodore Roosevelt (Transcription is missing italics and accents)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/11746">Through the Brazilian Wilderness</a> by Theodore Roosevelt (Transcription is missing italics and accents)</p>
 			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
@@ -567,10 +570,10 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library and Guardian 2015 100 best novels collections)</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/45847">The Autobiography of Thomas Jefferson</a>, by Thomas Jefferson</p>
+				<p><a href="https://www.gutenberg.org/ebooks/45847">The Autobiography of Thomas Jefferson</a>, by Thomas Jefferson</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/1200">Gargantua and Pantagruel</a> by François Rabelais (Confirm this is the Ozell 1737 revision. Should we prefer the Wallis 1897 revision?)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/1200">Gargantua and Pantagruel</a> by François Rabelais (Confirm this is the Ozell 1737 revision. Should we prefer the Wallis 1897 revision?)</p>
 			</li>
 			<li>
 				<p>Poetry by Robert Burns, probably in an omnibus</p>
