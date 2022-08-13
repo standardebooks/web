@@ -31,7 +31,7 @@ catch(Exceptions\SeException $ex){
 		<p><?= $poll->Description ?></p>
 		<? if($poll->IsActive()){ ?>
 			<? if($poll->End !== null){ ?>
-				<p class="center-notice">This poll closes on <?= $poll->End->format('F j, Y g:i A') ?>.</p>
+				<p class="center-notice">This poll closes on <?= $poll->End->format('F j, Y g:i a') ?>.</p>
 			<? } ?>
 			<? if(!$canVote){ ?>
 				<p class="center-notice">You’ve already voted in this poll.</p>
@@ -44,9 +44,9 @@ catch(Exceptions\SeException $ex){
 		</p>
 		<? }else{ ?>
 			<? if($poll->Start !== null && $poll->Start > new DateTime()){ ?>
-				<p class="center-notice">This poll opens on <?= $poll->Start->format('F j, Y g:i A') ?>.</p>
+				<p class="center-notice">This poll opens on <?= $poll->Start->format('F j, Y g:i a') ?>.</p>
 			<? }else{ ?>
-			<p class="center-notice">This poll closed on <?= $poll->End->format('F j, Y g:i A') ?>.</p>
+			<p class="center-notice">This poll closed on <?= $poll->End->format('F j, Y g:i a') ?>.</p>
 			<p class="button-row narrow"><a href="<?= $poll->Url ?>/votes" class="button">View results</a></p>
 			<? } ?>
 		<? } ?>
