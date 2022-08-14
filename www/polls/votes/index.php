@@ -10,7 +10,7 @@ catch(Exceptions\SeException $ex){
 	Template::Emit404();
 }
 
-?><?= Template::Header(['title' => 'Results for the ' . $poll->Name . ' poll', 'highlight' => '', 'description' => 'The voting results for the ' . $poll->Name . ' poll.']) ?>
+?><?= Template::Header(['title' => 'Results for the ' . $poll->Name . ' Poll', 'highlight' => '', 'description' => 'The voting results for the ' . $poll->Name . ' poll.']) ?>
 <main>
 	<section class="narrow">
 		<h1>Results for the <?= Formatter::ToPlainText($poll->Name) ?> Poll</h1>
