@@ -15,7 +15,7 @@ require_once('Core.php');
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/41981">The Jewels of Aptor</a> by Samuel R. Delaney</p>
+				<p><a href="https://www.gutenberg.org/ebooks/41981">The Jewels of Aptor</a> by Samuel R. Delaney</p><!--patron-->
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
@@ -428,6 +428,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Langston_Hughes#Bibliography">Poetry</a> by Langston Hughes. Research is required to see if we need an omnibus.</p><!--patron-->
+			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/You_Can't_Win_(book)">You Can’t Win</a> by Jack Black (transcription required)</p>
 			</li>
