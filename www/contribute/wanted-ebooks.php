@@ -330,9 +330,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/37892">The Recollections of Alexis de Tocqueville</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/5247">The Old Wives’ Tale</a> by Arnold Bennett</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by D.H. Lawrence (part of the Modern Library and BBC 2015 collections)</p>
 			</li>
 			<li>
