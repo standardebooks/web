@@ -9,6 +9,12 @@ $canVote = true; // Allow non-logged-in users to see the 'vote' button
 try{
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
 
+	if(!$poll->IsActive() && $poll->End !== null && $poll->End < new DateTime()){
+		// If the poll ended, redirect to the results
+		header('Location: ' . $poll->Url . '/votes');
+		exit();
+	}
+
 	if(isset($GLOBALS['User'])){
 		$canVote = false; // User is logged in, hide the vote button unless they haven't voted yet
 		try{
