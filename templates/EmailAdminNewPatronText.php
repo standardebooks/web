@@ -1,4 +1,4 @@
-Name: <? if($patron->User->Name === null){ ?>Anonymous <? }else{ ?><?= Formatter::ToPlainText($patron->User->Name) ?><? } ?>
+Name: <? if($patron->User->Name === null){ ?>Anonymous <? }else{ ?><?= Formatter::ToPlainText($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?>
 
 Donation type: <? if($payment->IsRecurring){ ?>Recurring<? }else{ ?>One-time<? } ?>
 

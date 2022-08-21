@@ -17,7 +17,7 @@
 		<tbody>
 			<tr>
 				<td>Name:</td>
-				<td><? if($patron->User->Name === null){ ?>Anonymous <? }else{ ?><?= Formatter::ToPlainText($patron->User->Name) ?><? } ?></td>
+				<td><? if($patron->User->Name === null){ ?>Anonymous <? }else{ ?><?= Formatter::ToPlainText($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?></td>
 			</tr>
 			<tr>
 				<td>Donation type:</td>
