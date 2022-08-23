@@ -30,7 +30,7 @@ require_once('Core.php');
 				<li id="kindle">
 					<h3>Amazon Kindle eInk Devices (Paperwhite, Voyage, Oasis, etc. <em>except</em> DX)</h3>
 					<p><b>Important:</b> You can’t use “Send to Kindle” to transfer our azw3 file to your Kindle. <a href="#kindle-faq">This is a bug in Amazon’s software.</a></p>
-					<h4 id="kindle-method-1">Method 1 - Using a USB Cable</h4>
+					<h4 id="kindle-method-1">Method 1—Using a USB Cable</h4>
 					<ol>
 						<li>
 							<p>Select an ebook from Standard Ebooks and download its azw3 file to a computer.</p>
@@ -51,7 +51,7 @@ require_once('Core.php');
 							<p>Eject the Kindle from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
 						</li>
 					</ol>
-					<h4 id="kindle-method-2">Method 2 - Download Directly to Kindle</h4>
+					<h4 id="kindle-method-2">Method 2—Download Directly to Kindle</h4>
 					<p>This method won’t add the ebook to your Kindle library, but your Kindle will remember your reading position.</p>
 					<p>This method also won’t add include a cover image. If you want a cover image, use <a href="#kindle-method-1">method 1</a>.</p>
 					<ol>
@@ -78,7 +78,7 @@ require_once('Core.php');
 				</li>
 				<li id="kindle-fire">
 					<h3>Amazon Kindle Fire Devices</h3>
-					<h4>Method 1 - Direct Download</h4>
+					<h4>Method 1—Direct Download</h4>
 					<p>This method will not add the book to your Kindle library so it will not remember your reading position.</p>
 					<ol>
 						<li>
@@ -88,7 +88,7 @@ require_once('Core.php');
 							<p>Tap the 3 dots in the upper-right hand corner, select Downloads, and the book you downloaded.</p>
 						</li>
 					</ol>
-					<h4>Method 2 - Download to a Computer</h4>
+					<h4>Method 2—Download to a Computer</h4>
 					<p>This method will add the book to your Kindle library.</p>
 					<ol>
 						<li>
