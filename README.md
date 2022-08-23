@@ -40,7 +40,7 @@ sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/
 sudo systemctl restart "php*-fpm.service"
 ```
 
-If everything went well you should now be able to open your web browser and visit `https://standardebooks.test/`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks/`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:
+If everything went well you should now be able to open your web browser and visit `https://standardebooks.test`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:
 
 ```shell
 # First, install the SE toolset, which will make the `se build` command-line executable available to the `deploy-ebook-to-www` script:
@@ -53,7 +53,7 @@ git clone --bare https://github.com/standardebooks/david-lindsay_a-voyage-to-arc
 /standardebooks.org/web/scripts/deploy-ebook-to-www david-lindsay_a-voyage-to-arcturus
 ```
 
-If everything went well, `https://standardebooks.test/ebooks/` will show the one ebook you deployed.
+If everything went well, `https://standardebooks.test/ebooks` will show the one ebook you deployed.
 
 ## Installation using Docker
 
