@@ -5,6 +5,9 @@
 				<a href="/ebooks">Ebooks</a>
 			</li>
 			<li>
+				<a href="/authors">Authors</a>
+			</li>
+			<li>
 				<a href="/about">About</a>
 			</li>
 			<li>
