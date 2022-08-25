@@ -487,12 +487,15 @@ class Library{
 				}
 
 				// Create the authors cache
-				$authorPath = EBOOKS_DIST_PATH . rtrim(preg_replace('|^/ebooks/|ius', '', $ebook->AuthorsUrl), '/');
-				if(!array_key_exists($authorPath, $authors)){
-					$authors[$authorPath] = [];
+				$authorPaths = [ EBOOKS_DIST_PATH . rtrim(preg_replace('|^/ebooks/|ius', '', $ebook->AuthorsUrl), '/') ];
+				foreach($ebook->Authors as $ebookAuthor) {
+					$authorPaths[] = EBOOKS_DIST_PATH . rtrim(preg_replace('|^/ebooks/|ius', '', $ebookAuthor->UrlName), '/');
 				}
 
-				$authors[$authorPath][] = $ebook;
+				$authorPaths = array_unique($authorPaths);
+				foreach($authorPaths as $authorPath) {
+					$authors[$authorPath][] = $ebook;
+				}
 			}
 			catch(\Exception $ex){
 				// An error in a book isn't fatal; just carry on.

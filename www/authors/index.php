@@ -7,22 +7,21 @@ foreach($ebooks as $ebook) {
 	$ebookAuthors = $ebook->Authors;
 
 	foreach($ebookAuthors as $ebookAuthor) {
-		if(!isset($authorRecords[$ebook->AuthorsUrl])) {
-			$authorRecords[$ebook->AuthorsUrl] = [
+		$authorUrl = '/ebooks/' . $ebookAuthor->UrlName;
+		if(!isset($authorRecords[$authorUrl])) {
+			$authorRecords[$authorUrl] = [
 				'author'     => $ebookAuthor,
-				'url'        => $ebook->AuthorsUrl,
+				'url'        => $authorUrl,
 				'ebookCount' => 1,
 			];
 		}
 		else {
-			$authorRecords[$ebook->AuthorsUrl]['ebookCount']++;
+			$authorRecords[$authorUrl]['ebookCount']++;
 		}
 	}
 }
 
-usort($authorRecords, function($a, $b) {
-	return $a['author']->Name <=> $b['author']->Name;
-});
+usort($collections, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
 
 ?><?= Template::Header([ 'title' => 'Ebook Authors', 'description' => 'All of the Standard Ebook Authors' ]) ?>
 <main>
@@ -30,11 +29,12 @@ usort($authorRecords, function($a, $b) {
 	<ul class="authors">
 	<? foreach( $authorRecords as $authorRecord ) {
 	$author     = $authorRecord['author'];
+	$url        = $authorRecord['url'];
 	$ebookCount = $authorRecord['ebookCount'];
 	?>
 	<li>
 		<p class="author" typeof="schema:Person" property="schema:author" resource="<?= $author->AuthorsUrl ?>">
-			<a href="<?= Formatter::ToPlainText(SITE_URL . $ebook->AuthorsUrl) ?>" property="schema:url">
+			<a href="<?= Formatter::ToPlainText(SITE_URL . $url) ?>" property="schema:url">
 				<span property="schema:name"><?= Formatter::ToPlainText($author->Name) ?></span></a> - <?= $ebookCount ?> <?= $ebookCount > 1 ? "Ebooks" : "Ebook" ?>
 		</p>
 	</li>
