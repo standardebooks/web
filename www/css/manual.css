@@ -725,8 +725,7 @@ main.manual > nav ol{
 figure code.xml,
 figure code.html,
 figure code.css{
-	white-space: pre;
-	overflow-x: auto;
+	white-space: pre-wrap;
 }
 
 @keyframes highlight {
