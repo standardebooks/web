@@ -327,9 +327,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
 			</li>
 			<li>
-				<p>Works by <a href="https://en.wikipedia.org/wiki/John_Ruskin#Select_bibliography">John Ruskin</a></p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9105">Maxims</a> by François duc de La Rochefoucauld</p>
 			</li>
 			<li>
@@ -409,6 +406,21 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/2055">Two Years Before the Mast</a> by Richard Henry Dana, <abbr>Jr.</abbr></p><!--patron-->
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/36541">A Joy Forever (a.k.a. The Political Economy of Art)</a> by John Ruskin</p>
+			</li>	
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/26716">The Crown of Wild Olive</a> by John Ruskin</p>
+			</li>	
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/26716">Munera Pulveris</a> by John Ruskin</p>
+			</li>	
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1293">Sesame and Lilies</a> by John Ruskin</p>
+			</li>	
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/31196">Time and Tide</a> by John Ruskin</p>
 			</li>
 		</ul>
 		<h2>Advanced productions</h2>
@@ -575,6 +587,9 @@ require_once('Core.php');
 			<li>
 				<p>Poetry by <a href="https://en.wikisource.org/wiki/Author:Edwin_Arlington_Robinson">E. A. Robinson</a></p>
 			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Fors_Clavigera">Fors Clavigera</a> by John Ruskin (some transcription may be required: as of September 2022, 5 out of 8 volumes are available on PG)</p>
+			</li>	
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
