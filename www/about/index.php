@@ -25,7 +25,7 @@ $anonymousPatronCount = Db::QueryInt('SELECT sum(cnt)
 							UserId is null
 							and
 							(
-								(Amount >= 100 and Created >= utc_timestamp() - interval 1 year)
+								(Amount >= 100 and IsRecurring = false and Created >= utc_timestamp() - interval 1 year)
 								or
 								(Amount >= 10 and IsRecurring = true and Created >= utc_timestamp() - interval 30 day)
 							)
