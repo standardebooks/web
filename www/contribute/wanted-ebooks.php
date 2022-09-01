@@ -261,9 +261,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/2769">Cleopatra</a> by H. Rider Haggard</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/35617">The Terror</a> by Arthur Machen, to be added to the existing Short Fiction omnibus</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2885">The House of the Wolflings</a> by William Morris</p>
 			</li>
 			<li>
