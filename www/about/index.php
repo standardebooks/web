@@ -146,12 +146,6 @@ $anonymousPatronCount = Db::QueryInt('SELECT sum(cnt)
 				<h3>Corporate Sponsors</h3>
 				<ol class="donors corporate">
 					<li>
-						<a href="https://www.threadablebooks.com">
-							<img src="/images/masthead/sponsors/threadable.svg" alt="" />
-							<p>Threadable</p>
-						</a>
-					</li>
-					<li>
 						<a href="https://www.scribophile.com">
 							<img src="/images/masthead/sponsors/scribophile.svg" alt="" />
 							<p>Scribophile</p>

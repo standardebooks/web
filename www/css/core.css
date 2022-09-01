@@ -2102,6 +2102,11 @@ h1 + ul.message,
 	text-align: center;
 }
 
+.masthead ol.donors.corporate a{
+	display: flex;
+	flex-direction: column;
+}
+
 .masthead ol li{
 	margin: 0;
 }
