@@ -149,9 +149,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/17854">The Sport of the Gods</a> by Paul Laurence Dunbar</p>
 			</li> -->
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans (Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3337">Hunting the Grisly and Other Sketches</a> by Theodore Roosevelt</p>
 			</li>
@@ -428,9 +428,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Langston_Hughes#Bibliography">Poetry</a> by Langston Hughes. Research is required to see if we need an omnibus.</p><!--patron-->
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://en.m.wikipedia.org/wiki/You_Can't_Win_(book)">You Can’t Win</a> by Jack Black (transcription required)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce. (Multiple versions exist, research must be done to ensure a complete collection without duplicates across other Bierce collections.)</p>
 			</li>
