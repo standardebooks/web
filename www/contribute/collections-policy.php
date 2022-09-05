@@ -52,7 +52,7 @@ require_once('Core.php');
 						<p>Legal documents, including codes of law and constitutions.</p>
 					</li>
 				</ul>
-				<p>In general, this means books about <em>facts</em> and not <em>ideas</em>. Note that we may occasionally make exceptions, for example for <i>The History of the Decline and Fall of the Roman Empire</i> or <i><a href="/ebooks/julius-caesar/commentaries-on-the-gallic-war/w-a-mcdevitte_w-s-bohn">Commentaries on the Gallic War</a></i> or <i>The Life of Samuel Johnson</i>.</p>
+				<p>In general, this means books about <em>facts</em> and not <em>ideas</em>. Note that we may occasionally make exceptions, for example for <i><a href="/ebooks/edward-gibbon/the-history-of-the-decline-and-fall-of-the-roman-empire">The History of the Decline and Fall of the Roman Empire</a></i> or <i><a href="/ebooks/julius-caesar/commentaries-on-the-gallic-war/w-a-mcdevitte_w-s-bohn">Commentaries on the Gallic War</a></i> or <i>The Life of Samuel Johnson</i>.</p>
 			</li>
 			<li>
 				<p>Books that are illustration-heavy, like picture or art books, or whose content greatly depends on the arrangement of illustrations or graphics.</p>
