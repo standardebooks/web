@@ -95,9 +95,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/92">Tarzan and the Jewels of Opar</a> (Tarzan 5) by Edgar Rice Burroughs</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/106">Jungle Tales of Tarzan</a> (Tarzan 6) by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/58874">Tarzan and the Golden Lion</a> (Tarzan 9) by Edgar Rice Burroughs</p>
 			</li>
@@ -159,9 +159,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/34135">A Book-Lover’s Holidays in the Open</a> by Theodore Roosevelt</p>
 			</li>
 			<li>
-				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7132">The Purple Land</a> by W. H. Huson</p>
 			</li>
 			<li>
@@ -178,9 +175,6 @@ require_once('Core.php');
 		<ul>
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/The_Pilgrim_Kamanita">The Pilgrim Kamanita</a> by Karl Gjellerup</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Radcliffe</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/67369">Hadrian the Seventh</a> by Frederick Rolfe (Part of the Guardian 2015 collection.)</p>
@@ -419,6 +413,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne (transcription required; research needed to see if we need a poetry omnibus)</p>
+			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/Pastors_and_Masters">Pastors and Masters</a> by Ivy Compton-Burnett (transcription required)</p>
 			</li>
