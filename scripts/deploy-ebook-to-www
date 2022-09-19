@@ -233,8 +233,8 @@ do
 		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
 		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
 
-		"${scriptsDir}"/cavif --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif"
-		"${scriptsDir}"/cavif --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif"
 
 		# Build the cover image thumbnail
 		# We use JPG instead of SVG for several reasons:
@@ -247,8 +247,8 @@ do
 		convert -resize "242" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
 		convert -resize "484" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
 
-		"${scriptsDir}"/cavif --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
-		"${scriptsDir}"/cavif --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
 
 		sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}/${urlSafeIdentifier}"*
 		sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
