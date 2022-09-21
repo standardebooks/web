@@ -405,6 +405,12 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/15000">The Life of Reason</a> by George Santayana</p>
+			</li>
+			<li>
+				<p><a href="https://archive.org/details/scepticismandani00santuoft/page/n5">Skepticism and Animal Faith</a> by George Santayana. (transcription required)</p>
+			</li>
+			<li>
 				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne (transcription required; research needed to see if we need a poetry omnibus)</p>
 			</li>
 			<li>
