@@ -8,6 +8,7 @@ $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 $xmlDeclaration = $xmlDeclaration ?? true;
 $feedUrl = $feedUrl ?? null;
 $feedTitle = $feedTitle ?? '';
+$is404 = $is404 ?? false;
 
 if($xmlDeclaration){
 	header('content-type: application/xhtml+xml; charset=utf-8');
@@ -53,6 +54,7 @@ if($xmlDeclaration){
 	<? } ?>
 	<link rel="search" href="/ebooks" type="application/xhtml+xml; charset=utf-8"/>
 	<link rel="search" href="/ebooks/opensearch" type="application/opensearchdescription+xml; charset=utf-8"/>
+	<? if(!$is404){ ?>
 	<meta content="#394451" name="theme-color"/>
 	<meta content="<? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
 	<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>
@@ -61,6 +63,7 @@ if($xmlDeclaration){
 	<meta content="summary_large_image" name="twitter:card"/>
 	<meta content="@standardebooks" name="twitter:site"/>
 	<meta content="@standardebooks" name="twitter:creator"/>
+	<? } ?>
 </head>
 <body>
 	<header>
