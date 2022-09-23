@@ -201,9 +201,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
 			</li>
 			<li>
-				<p><a href="http://shakespeare.mit.edu/measure/full.html">Measure for Measure</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
-			</li>
-			<li>
 				<p><a href="http://shakespeare.mit.edu/lll/full.html">Love’s Labour’s Lost</a> by William Shakespeare (<a href="https://catalog.hathitrust.org/Record/004135080">1887 Victoria Edition</a>)</p>
 			</li>
 			<li>
@@ -404,6 +401,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://archive.org/details/f00estuspoembailrich/page/520/mode/2up">Festus</a> by Philip James Bailey (transcription required; editions vary wildly, research required to select the best edition)</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/15000">The Life of Reason</a> by George Santayana</p>
 			</li>
