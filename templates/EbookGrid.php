@@ -5,7 +5,6 @@ if($view == ''){
 }
 
 $collection = $collection ?? null;
-
 $ebooks = $ebooks ?? [];
 ?>
 <ol class="ebooks-list<? if($view == VIEW_LIST){ ?>  list<? }else{ ?> grid<? } ?>"<? if($collection !== null){ ?> typeof="schema:BookSeries" about="<?= $collection->Url ?>"<? } ?>>

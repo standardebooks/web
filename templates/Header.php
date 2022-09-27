@@ -5,15 +5,23 @@ $highlight = $highlight ?? '';
 $description = $description ?? '';
 $manual = $manual ?? false;
 $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
-$xmlDeclaration = $xmlDeclaration ?? true;
+$isXslt = $isXslt ?? false;
 $feedUrl = $feedUrl ?? null;
 $feedTitle = $feedTitle ?? '';
 $is404 = $is404 ?? false;
 
-if($xmlDeclaration){
-	header('content-type: application/xhtml+xml; charset=utf-8');
-	print('<?xml version="1.0" encoding="utf-8"?>');
-	print("\n");
+// As of Sep 2022, all versions of Safari have a bug where if the page is served as XHTML,
+// then <picture> elements download all <source>s instead of the first supported match.
+// So, we try to detect Safari here, and don't use multiple <source> if we find Safari.
+// See https://bugs.webkit.org/show_bug.cgi?id=245411
+$isSafari = stripos($_SERVER['HTTP_USER_AGENT'] ?? '', 'safari') !== false;
+
+if(!$isXslt){
+	if(!$isSafari){
+		header('content-type: application/xhtml+xml; charset=utf-8');
+		print('<?xml version="1.0" encoding="utf-8"?>');
+		print("\n");
+	}
 	print("<!DOCTYPE html>\n");
 }
 ?>

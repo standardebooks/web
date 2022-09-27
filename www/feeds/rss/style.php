@@ -8,7 +8,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 <xsl:stylesheet version="3.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
 	<xsl:output method="html" html-version="5.0" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/> <? /* doctype-system outputs the HTML5 doctype */ ?>
 	<xsl:template match="/">
-	<?= Template::Header(['xmlDeclaration' => false]) ?>
+	<?= Template::Header(['isXslt' => true]) ?>
 	<main class="opds">
 		<xsl:choose>
 			<xsl:when test="contains(/rss/channel/title, 'Standard Ebooks - ')">
