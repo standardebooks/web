@@ -123,4 +123,8 @@ and will just drop this entire query together if it's included. */
 		margin-bottom: 2em;
 		margin-top: 2em;
 	}
+
+	[id]{
+		scroll-margin-top: 3em;
+	}
 }
