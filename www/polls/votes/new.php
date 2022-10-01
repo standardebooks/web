@@ -68,7 +68,7 @@ catch(Exceptions\PollVoteExistsException $ex){
 						<label class="checkbox">
 							<input type="radio" value="<?= $pollItem->PollItemId ?>" name="pollitemid" required="required"<? if($vote->PollItemId == $pollItem->PollItemId){ ?> checked="checked"<? } ?>/>
 							<span>
-								<b><?= Formatter::ToPlainText($pollItem->Name) ?></b>
+								<b><?= $pollItem->Name ?></b>
 							<? if($pollItem->Description !== null){ ?>
 								<span><?= Formatter::ToPlainText($pollItem->Description) ?></span>
 							<? } ?>

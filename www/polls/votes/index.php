@@ -26,7 +26,7 @@ catch(Exceptions\SeException $ex){
 			<tbody>
 			<? foreach($poll->PollItemsByWinner as $pollItem){ ?>
 				<tr>
-					<td><?= Formatter::ToPlainText($pollItem->Name) ?></td>
+					<td><?= $pollItem->Name ?></td>
 					<td>
 						<div class="meter">
 							<div aria-hidden="true">
