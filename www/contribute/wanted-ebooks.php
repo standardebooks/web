@@ -180,9 +180,6 @@ require_once('Core.php');
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/445">The Crowd</a> by Gustave Le Bon</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/224">A Pair of Blue Eyes</a> by Thomas Hardy</p>
 			</li>
 			<li>
