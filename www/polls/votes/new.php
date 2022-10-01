@@ -61,7 +61,7 @@ catch(Exceptions\PollVoteExistsException $ex){
 		<form method="post" action="<?= Formatter::ToPlainText($poll->Url) ?>/votes">
 			<input type="hidden" name="email" value="<? if($vote->User !== null){ ?><?= Formatter::ToPlainText($vote->User->Email) ?><? } ?>" maxlength="80" required="required" />
 			<fieldset>
-				<p>Select one of these options</p>
+				<p>Select one of these options.</p>
 				<ul>
 				<? foreach($poll->PollItems as $pollItem){ ?>
 					<li>
