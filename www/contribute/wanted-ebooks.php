@@ -143,9 +143,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20140450">Bellarion the Fortunate</a> by Rafael Sabatini</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/12341">Against the Grain</a> by J.-K. Huysmans (Note: This is an abridged translation. There is a 1926 complete translation; see http://www.huysmans.org/en/biblioge/bibliog2e.htm and http://www.huysmans.org/against/agnotice.htm)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3337">Hunting the Grisly and Other Sketches</a> by Theodore Roosevelt</p>
 			</li>
@@ -191,9 +188,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Ward Radcliffe (#32 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (#38 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
-			</li>
+			<!-- <li>
+				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (#38 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>, part of the BBC 2015 collection)</p>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
 			</li>
@@ -249,9 +246,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (part of the BBC 2015 collection)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/2683">Short fiction by Vernon Lee</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
 			<li>
@@ -259,9 +253,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/53685">Melmoth the Wanderer</a> by Charles Maturin</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2044">The Education of Henry Adams</a> by Henry Adams</p>
 			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Sheridan_Le_Fanu">Short stories and novellas by Sheridan Le Fanu</a> (To be compiled in an omnibus “Short Fiction”)</p>
@@ -595,6 +586,12 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Le_Monde's_100_Books_of_the_Century">Public domain entries in Le Mondes’s 100 Books of the Century</a></p>
+			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Pulitzer_Prize_for_Drama">Public domain entries in Pulitzer Prize for Drama</a></p>
+			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Pulitzer_Prize_for_Fiction">Public domain entries in Pulitzer Prize for Fiction</a></p>
 			</li>
 			<li>
 				<p>Public domain entries in the <a href="https://en.m.wikipedia.org/wiki/Ballantine_Adult_Fantasy_series">Ballantine Adult Fantasy series</a> (Note that not all of these are in the U.S. public domain)</p>
