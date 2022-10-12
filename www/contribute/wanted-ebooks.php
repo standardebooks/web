@@ -168,6 +168,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
+			</li>
+			<li>
 				<p><a href="https://en.wikisource.org/wiki/The_Pilgrim_Kamanita">The Pilgrim Kamanita</a> by Karl Gjellerup</p>
 			</li>
 			<li>
@@ -383,6 +386,12 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2383">The Canterbury Tales</a> by Geoffrey Chaucer, edited by David Laing Purves</p>
+			</li>
+			<li>
+				<p><a href="https://catalog.hathitrust.org/Record/100493538">Metamorphoses</a> by Ovid, translated by Dryden, Pope, Congreve, Addison, and others (transcription required)</p>
+			</li>
 			<li>
 				<p><a href="https://archive.org/details/f00estuspoembailrich/page/520/mode/2up">Festus</a> by Philip James Bailey (transcription required; editions vary wildly, research required to select the best edition)</p>
 			</li>
