@@ -31,7 +31,7 @@ catch(Exceptions\InvalidAuthorException $ex){
 	<h1 class="is-collection">Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
 	<p class="ebooks-toolbar">
 		<a class="button" href="<?= $authorUrl ?>/downloads">Download collection</a>
-		<a class="button" href="<?= $authorUrl ?>/feeds">Author feeds</a>
+		<a class="button" href="<?= $authorUrl ?>/feeds">Feeds for this author</a>
 	</p>
 	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => VIEW_GRID]) ?>
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
