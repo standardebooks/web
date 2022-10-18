@@ -380,9 +380,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/31196">Time and Tide</a> by John Ruskin</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://gutenberg.org/ebooks/54682">Zuñi Folk Tales</a> by Frank Hamilton Cushing</p>
-			</li>
+			</li> -->
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
