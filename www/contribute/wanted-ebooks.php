@@ -38,9 +38,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/25550">The Defiant Agents</a> by Andre Norton</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19651">Key Out of Time</a> by Andre Norton</p>
 			</li>
