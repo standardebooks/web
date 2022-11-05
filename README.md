@@ -50,7 +50,7 @@ If everything went well you should now be able to open your web browser and visi
 mkdir /standardebooks.org/ebooks/
 cd /standardebooks.org/ebooks/
 git clone --bare https://github.com/standardebooks/david-lindsay_a-voyage-to-arcturus
-/standardebooks.org/web/scripts/deploy-ebook-to-www david-lindsay_a-voyage-to-arcturus
+/standardebooks.org/web/scripts/deploy-ebook-to-www david-lindsay_a-voyage-to-arcturus.git
 ```
 
 If everything went well, `https://standardebooks.test/ebooks` will show the one ebook you deployed.
