@@ -1,5 +1,9 @@
 @namespace epub "http://www.idpf.org/2007/ops";
 
+html{
+	position: relative;
+}
+
 body{
 	font-family: "Georgia", serif;
 	font-size: 18px;
@@ -49,6 +53,28 @@ body > header li:first-child > a{
 
 body > header li:first-child > a:hover{
 	transform: scale(1.025) rotate(1deg);
+}
+
+body > footer{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+body > footer ul{
+	display: flex;
+	justify-content: space-between;
+	margin: 0;
+	padding: 0.5em 1em;
+	list-style: none;
+}
+
+body > footer li{
+	max-width: 40%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 body > section[epub|type~="titlepage"],

@@ -1,0 +1,43 @@
+#!/usr/bin/php
+<?
+if(count($argv) < 3){
+	print 'Expected usage: inject-chapter-navigation-footer <epubDirectory> <bookUrl>';
+	exit(1);
+}
+$epubDirectory = $argv[1];
+$bookUrl = $argv[2];
+
+// Parse the order of chapters from the table of contents.
+$doc = new DOMDocument();
+libxml_use_internal_errors(true); // Suppress warnings from output.
+$doc->loadHTMLFile($epubDirectory . '/toc.xhtml');
+libxml_clear_errors();
+$toc = $doc->getElementById('toc');
+if($toc){
+	$chapterLinks = array();
+	foreach($toc->getElementsByTagName('a') as $link){
+		$obj = new stdClass();
+		$obj->Path = $link->getAttribute('href');
+		$obj->Name = $link->textContent;
+
+		// Only include links pointing to actual files (e.g. skip href="text/chapter-7#panawes-story").
+		if(file_exists($epubDirectory . '/' . $obj->Path . '.xhtml')){
+			$chapterLinks[] = $obj;
+		}
+	}
+
+	for($i = 0; $i < count($chapterLinks); $i++){
+		$previousObj = $i > 0 ? $chapterLinks[$i - 1] : null;
+		$nextObj = $i < count($chapterLinks) - 1 ? $chapterLinks[$i + 1] : null;
+
+		$fileName = $epubDirectory . '/' . $chapterLinks[$i]->Path . '.xhtml';
+		$chapter = file_get_contents($fileName);
+		// Inject the navigation footer.
+		$previousLink = $previousObj ? sprintf('<a href="%s"><em>Previous:</em> %s</a>', $bookUrl . '/' . $previousObj->Path, htmlspecialchars($previousObj->Name)) : '';
+		$nextLink = $nextObj ? sprintf('<a href="%s"><em>Next:</em> %s</a>', $bookUrl . '/' . $nextObj->Path, htmlspecialchars($nextObj->Name)) : '';
+		$footer = sprintf('<footer><ul><li>%s</li><li>%s</li></ul></footer>', $previousLink, $nextLink);
+		$chapter = str_replace('</body>', $footer . '</body>', $chapter);
+		file_put_contents($fileName, $chapter);
+	}
+}
+?>
