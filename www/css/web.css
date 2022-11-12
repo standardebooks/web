@@ -10,10 +10,13 @@ body{
 }
 
 main{
+	flex-grow: 1;
+}
+
+main > div{
 	margin: 8rem auto 3rem;
 	max-width: 55ch;
 	padding: 0 3rem;
-	flex-grow: 1;
 }
 
 body > header{
@@ -70,8 +73,8 @@ body > footer li{
 	max-width: 40%;
 }
 
-body > main > section[epub|type~="titlepage"],
-body > main > section[epub|type~="halftitlepage"]{
+body > main > div > section[epub|type~="titlepage"],
+body > main > div > section[epub|type~="halftitlepage"]{
 	min-height: auto;
 }
 
@@ -91,7 +94,7 @@ nav[epub|type~="toc"] ol{
 }
 
 @media(max-width: 65ch){
-	main{
+	main > div{
 		padding: 0 2rem;
 	}
 
