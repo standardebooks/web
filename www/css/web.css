@@ -1,16 +1,19 @@
 @namespace epub "http://www.idpf.org/2007/ops";
 
-html{
-	position: relative;
-}
-
 body{
 	font-family: "Georgia", serif;
 	font-size: 18px;
+	margin: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+main{
 	margin: 8rem auto 3rem;
 	max-width: 55ch;
-	min-height: calc(100vh - 8rem - 3rem); /* Size of header - body margin */
 	padding: 0 3rem;
+	flex-grow: 1;
 }
 
 body > header{
@@ -55,13 +58,6 @@ body > header li:first-child > a:hover{
 	transform: scale(1.025) rotate(1deg);
 }
 
-body > footer{
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-}
-
 body > footer ul{
 	display: flex;
 	justify-content: space-between;
@@ -72,13 +68,10 @@ body > footer ul{
 
 body > footer li{
 	max-width: 40%;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
-body > section[epub|type~="titlepage"],
-body > section[epub|type~="halftitlepage"]{
+body > main > section[epub|type~="titlepage"],
+body > main > section[epub|type~="halftitlepage"]{
 	min-height: auto;
 }
 
@@ -98,7 +91,7 @@ nav[epub|type~="toc"] ol{
 }
 
 @media(max-width: 65ch){
-	body{
+	main{
 		padding: 0 2rem;
 	}
 
