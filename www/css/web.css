@@ -10,13 +10,11 @@ body{
 }
 
 main{
-	flex-grow: 1;
-}
-
-main > div{
-	margin: 8rem auto 3rem;
+	margin: 5rem auto 3rem;
 	max-width: 55ch;
 	padding: 0 3rem;
+	width: calc(100% - 2 * 3rem); /* calc instead of box-sizing: border-box which would make max-width count padding */
+	flex-grow: 1;
 }
 
 body > header{
@@ -73,8 +71,8 @@ body > footer li{
 	max-width: 40%;
 }
 
-body > main > div > section[epub|type~="titlepage"],
-body > main > div > section[epub|type~="halftitlepage"]{
+body > main > section[epub|type~="titlepage"],
+body > main > section[epub|type~="halftitlepage"]{
 	min-height: auto;
 }
 
@@ -94,8 +92,9 @@ nav[epub|type~="toc"] ol{
 }
 
 @media(max-width: 65ch){
-	main > div{
+	main{
 		padding: 0 2rem;
+		width: calc(100% - 2 * 2rem);
 	}
 
 	section[epub|type~="imprint"] p{
