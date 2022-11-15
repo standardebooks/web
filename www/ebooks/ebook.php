@@ -311,7 +311,7 @@ catch(Exceptions\InvalidEbookException $ex){
 			<? } ?>
 		</section>
 
-		<? if($ebook->GitHubUrl !== null && $ebook->WikipediaUrl !== null){ ?>
+		<? if($ebook->GitHubUrl !== null || $ebook->WikipediaUrl !== null){ ?>
 		<section id="details">
 			<h2>More details</h2>
 			<ul>
