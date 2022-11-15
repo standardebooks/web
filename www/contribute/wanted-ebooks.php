@@ -167,9 +167,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://en.wikisource.org/wiki/The_Pilgrim_Kamanita">The Pilgrim Kamanita</a> by Karl Gjellerup</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/67369">Hadrian the Seventh</a> by Frederick Rolfe (Part of the Guardian 2015 collection.)</p>
 			</li>
