@@ -492,9 +492,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/26163">Creative Evolution</a> by Henri Bergson</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3090">Short Stories by Guy de Maupassant</a> (To be compiled in an omnibus “Short Fiction”)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6798">Aesthetical Essays</a> by Friedrich Schiller</p>
 			</li>
 			<!-- <li>
