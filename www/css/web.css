@@ -1,20 +1,20 @@
 @namespace epub "http://www.idpf.org/2007/ops";
 
 body{
+	display: flex;
+	flex-direction: column;
 	font-family: "Georgia", serif;
 	font-size: 18px;
 	margin: 0;
 	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
 }
 
 main{
+	flex-grow: 1;
 	margin: 5rem auto 3rem;
 	max-width: 55ch;
 	padding: 0 3rem;
 	width: calc(100% - 2 * 3rem); /* calc instead of box-sizing: border-box which would make max-width count padding */
-	flex-grow: 1;
 }
 
 body > header{
@@ -34,7 +34,7 @@ body > header ul{
 	display: flex;
 	list-style: none;
 	margin: 0;
-	padding: 0.5em 1em;
+	padding: 1em;
 }
 
 body > header li{
@@ -62,9 +62,9 @@ body > header li:first-child > a:hover{
 body > footer ul{
 	display: flex;
 	justify-content: space-between;
+	list-style: none;
 	margin: 0;
 	padding: 0.5em 1em;
-	list-style: none;
 }
 
 body > footer li{
@@ -145,7 +145,7 @@ and will just drop this entire query together if it's included. */
 		margin-top: 2em;
 	}
 
-	[id]{
+	*[id]{
 		scroll-margin-top: 3em;
 	}
 }
