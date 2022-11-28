@@ -2188,8 +2188,8 @@ h1 + ul.message,
 	text-align: center;
 }
 
-aside.donation,
-article.ebook section aside.donation{
+.donation,
+article.ebook section .donation{
 	position: relative;
 	border: 1px dashed var(--body-text);
 	color: var(--body-text);
@@ -2205,7 +2205,7 @@ article.ebook section aside.donation{
 	box-sizing: border-box;
 }
 
-aside.donation::before{
+.donation::before{
 	content: "";
 	display: block;
 	position: absolute;
@@ -2220,7 +2220,7 @@ aside.donation::before{
 	background: rgba(0, 0, 0, .4);
 }
 
-aside.donation::after{
+.donation::after{
 	content: "";
 	display: block;
 	position: absolute;
@@ -2235,13 +2235,13 @@ aside.donation::after{
 	background: #dda82a;
 }
 
-aside.donation.closable::before,
-aside.donation.closable::after{
+.donation.closable::before,
+.donation.closable::after{
 	display: none;
 }
 
-article.ebook section aside.donation p::before,
-article.ebook section aside.donation p::after{
+article.ebook section .donation p::before,
+article.ebook section .donation p::after{
 	display: none;
 }
 
@@ -3131,22 +3131,22 @@ ul.feed p{
 		display: none;
 	}
 
-	aside.donation,
-	article.ebook section aside.donation{
+	.donation,
+	article.ebook section .donation{
 		text-align: justify;
 	}
 
-	aside.donation .flipboard{
+	.donation .flipboard{
 		text-align: center;
 	}
 
-	aside.donation .flipboard span{
+	.donation .flipboard span{
 		margin-bottom: 1rem;
 	}
 
-	aside.donation p:last-child,
-	article.ebook section aside.donation p:last-child,
-	aside.donation header p{
+	.donation p:last-child,
+	article.ebook section .donation p:last-child,
+	.donation header p{
 		text-align: center;
 	}
 
@@ -3366,7 +3366,7 @@ ul.feed p{
 		grid-gap: 2rem;
 	}
 
-	aside.donation .flipboard{
+	.donation .flipboard{
 		font-size: 1rem;
 	}
 }

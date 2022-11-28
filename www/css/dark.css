@@ -44,13 +44,13 @@ main.front-page > section > h2::after{
 	border-color: var(--border-light);
 }
 
-aside.donation,
-article.ebook section aside.donation{
+.donation,
+article.ebook section .donation{
 	background: rgba(0, 0, 0, .25);
 }
 
-aside.donation,
-article.ebook section aside.donation{
+.donation,
+article.ebook section .donation{
 	box-shadow: none;
 }
 
@@ -88,7 +88,7 @@ aside button.close{
 	filter: invert(1);
 }
 
-aside.donation .flipboard span{
+.donation .flipboard span{
 	border-color: rgba(255,255,255,.5);
 	box-shadow: none;
 }
