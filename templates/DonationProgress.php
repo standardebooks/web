@@ -5,13 +5,13 @@ if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false)
 	return;
 }
 
-$start = new DateTime('July 1, 2022 00:00:00 America/New_York');
-$end = new DateTime('August 7, 2022 23:59:00 America/New_York');
+$start = new DateTime('November 28, 2022 00:00:00 America/New_York');
+$end = new DateTime('December 31, 2022 23:59:00 America/New_York');
 $now = new DateTime();
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
 $current = Db::QueryInt('SELECT count(*) from Patrons where Created >= ?', [$start]);
-$target = 70;
+$target = 100;
 $stretchCurrent = 0;
 $stretchTarget = 20;
 $totalCurrent = $current;
@@ -19,12 +19,12 @@ $totalTarget = $target;
 $deadline = $end->format('F j');
 $timeLeft = $now->diff($end);
 $timeString = '';
-if($timeLeft->d < 1 && $timeLeft->h < 20){
+if($timeLeft->days < 1 && $timeLeft->h < 20){
 	$timeString = 'Just hours';
 }
-elseif($timeLeft->d >=  1 && $timeLeft->h <= 12){
-	$timeString = $timeLeft->d . ' day';
-	if($timeLeft->d > 1){
+elseif($timeLeft->days >=  1 && $timeLeft->h <= 12){
+	$timeString = $timeLeft->days . ' day';
+	if($timeLeft->days > 1){
 		$timeString .= 's';
 	}
 	else{
@@ -32,8 +32,8 @@ elseif($timeLeft->d >=  1 && $timeLeft->h <= 12){
 	}
 }
 else{
-	$timeString = ($timeLeft->d + 1) . ' day';
-	if($timeLeft->d + 1 > 1){
+	$timeString = ($timeLeft->days + 1) . ' day';
+	if($timeLeft->days + 1 > 1){
 		$timeString .= 's';
 	}
 	else{
@@ -58,7 +58,7 @@ if($stretchTarget > 0 && $current >= $target){
 	<? } ?>
 	<? if(!$stretchOn){ ?>
 	<header>
-		<? if($timeLeft->d > 5){ ?>
+		<? if($timeLeft->days > 5){ ?>
 		<p>Help us reach <?= number_format($target) ?> new patrons by <?= $deadline ?></p>
 		<? }else{ ?>
 		<p><?= $timeString ?> left to help us reach <?= number_format($target) ?> new patrons!</p>
@@ -83,10 +83,10 @@ if($stretchTarget > 0 && $current >= $target){
 	</div>
 	<? if($stretchOn){ ?>
 	<p>When we started this drive, we set a goal of <?= number_format($target) ?> Patrons Circle members by <?= $deadline ?>. Thanks to the incredible generosity of literature lovers from all walks of life, we hit that goal in just over a week!</p>
-	<p>Since there are still weeks left in our drive, we thought we’d challenge our readers to help us reach our stretch goal of 70 patrons, so that we can start the year off on a rock-solid financial footing. Will you help us with a donation, and support free and unrestricted digital literature?</p>
+	<p>Since there are still weeks left in our drive, we thought we’d challenge our readers to help us reach our stretch goal of <?= number_format($totalTarget) ?> patrons, so that we can start the year off on a rock-solid financial footing. Will you help us with a donation, and support free and unrestricted digital literature?</p>
 	<? }else{ ?>
-	<p>We want to make Standard Ebooks a sustainable project that can support the huge amount of work it takes to maintain and operate. Welcoming <?= number_format($target) ?> new Patrons Circle members by <?= $deadline ?> will help keep us on the stable financial footing we need to continue producing beautiful ebooks.</p>
-	<p>Will you help us reach that goal, and support free and unrestricted digital literature?</p>
+	<p>It takes a huge amount of resources and highly-skilled work to create and distribute each of our free ebooks, and we need your support to keep it up. That’s why we want to welcome <?= number_format($target) ?> new patrons by <?= $deadline ?>. It’s our patrons who keep us on the stable financial footing we need to continue producing and giving away beautiful ebooks.</p>
+	<p>Will you become a patron, and support free and unrestricted digital literature?</p>
 	<? } ?>
 	<? if($showDonateButton){ ?><p class="donate-button"><a class="button" href="/donate#patrons-circle">Join the patrons circle</a></p><? } ?>
 </aside>
