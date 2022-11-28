@@ -131,7 +131,7 @@ try{
 			}
 
 			$payment->Created = DateTime::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Created On"]]'))->getText()));
-			$payment->TransactionId = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "ID"]]'))->getText());
+			$payment->TransactionId = trim(str_replace('View on Finance', '', $detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "ID"]]'))->getText()));
 			$payment->IsRecurring = sizeof($headerRow->findElements(WebDriverBy::xpath('//td[contains(., "Recurring")]'))) > 0;
 			$payment->Amount = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Total Amount"]]'))->getText())));
 			$payment->Fee = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Fee"]]'))->getText())));
