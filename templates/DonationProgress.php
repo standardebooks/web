@@ -10,7 +10,30 @@ $end = new DateTime('December 31, 2022 23:59:00 America/New_York');
 $now = new DateTime();
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
-$current = Db::QueryInt('SELECT count(*) from Patrons where Created >= ?', [$start]);
+$current = Db::QueryInt('
+	SELECT sum(cnt)
+	from
+	(
+		(
+			# Anonymous patrons, i.e. from AOGF
+			select count(*) cnt from Payments
+			where
+			UserId is null
+			and
+			(
+				(Amount >= 100 and IsRecurring = false and Created >= ?)
+				or
+				(Amount >= 10 and IsRecurring = true and Created >= ?)
+			)
+		)
+		union all
+		(
+			# All non-anonymous patrons
+			select count(*) as cnt from Patrons
+			where Created >= ?
+		)
+	) x
+	', [$start, $start, $start]);
 $target = 100;
 $stretchCurrent = 0;
 $stretchTarget = 20;
