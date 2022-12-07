@@ -34,7 +34,7 @@ $current = Db::QueryInt('
 		)
 	) x
 	', [$start, $start, $start]);
-$target = 100;
+$target = 75;
 $stretchCurrent = 0;
 $stretchTarget = 20;
 $totalCurrent = $current;
