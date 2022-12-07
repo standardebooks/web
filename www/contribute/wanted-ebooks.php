@@ -302,9 +302,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2194">Mauprat</a> by George Sand</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/11639">Figures of Earth: A Comedy of Appearances</a> by James Branch Cabell</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11752">Chivalry</a> by James Branch Cabell (Note: the 1921 version)</p>
 			</li>
