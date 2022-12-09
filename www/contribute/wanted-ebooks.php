@@ -47,9 +47,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/52228">Search the Sky</a> by Frederik Pohl and C.M. Kornbluth</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/51804">Plague of Pythons</a> by Frederik Pohl</p>
-			</li>
+			</li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard</p>
 			</li> -->
@@ -377,6 +377,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://gutenberg.org/ebooks/54682">Zuñi Folk Tales</a> by Frank Hamilton Cushing</p>
 			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/author/25394">Short stories by Manly Wade Wellman</a> to be compiled into a “Short Fiction” omnibus</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -557,6 +560,12 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Fors_Clavigera">Fors Clavigera</a> by John Ruskin (some transcription may be required: as of September 2022, 5 out of 8 volumes are available on PG)</p>
 			</li>	
+			<li>
+				<p><a href="https://archive.org/details/sinbadromance00scot">Sinbad: A Romance</a> by Cyril Kay Scott (Transcription required.)</p><!--patron-->
+			</li>
+			<li>
+				<p><a href="https://archive.org/details/blindmice00compgoog/page/n6/mode/2up">Blind Mice</a> by Cyril Kay Scott (Transcription required.)</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
