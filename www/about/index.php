@@ -170,7 +170,7 @@ $anonymousPatronCount = Db::QueryInt('SELECT sum(cnt)
 				<ol class="donors patrons">
 					<? foreach($patronsCircle as $patron){ ?>
 						<li>
-							<p><?= Formatter::ToPlainText(str_ireplace(' and ', ' & ', $patron->SortedName)) ?></p>
+							<p><?= Formatter::ToPlainText(str_ireplace(['\'', ' and '], ['’', ' & '], $patron->SortedName)) ?></p>
 						</li>
 					<? } ?>
 					<? if($anonymousPatronCount > 0){ ?>
