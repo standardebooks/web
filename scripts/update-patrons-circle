@@ -10,7 +10,7 @@ $now = new DateTime();
 $lastYear = new DateTime('-1 year');
 
 $expiredPatrons = Db::Query('
-	select * from Patrons
+	SELECT * from Patrons
 	where
 	Ended is null and
 	UserId not in
@@ -19,9 +19,9 @@ $expiredPatrons = Db::Query('
 		UserId is not null
 		and
 		(
-			(IsRecurring = 1 and Amount >= 10 and Created > ? - interval 45 day)
+			(IsRecurring = true and Amount >= 10 and Created > ? - interval 45 day)
 			or
-			(IsRecurring = 0 and Amount >= 100 and Created > ? - interval 1 year)
+			(IsRecurring = false and Amount >= 100 and Created > ? - interval 1 year)
 		)
 	)
 ', [$now, $now], 'Patron');
@@ -46,12 +46,12 @@ if(sizeof($expiredPatrons) > 0){
 	}
 
 	foreach($expiredPatrons as $patron){
-		Db::Query('update Patrons set Ended = ? where UserId = ?', [$now, $patron->UserId]);
-		Db::Query('update Benefits set CanAccessFeeds = false, CanVote = false, CanBulkDownload = false where UserId = ?', [$patron->UserId]);
+		Db::Query('UPDATE Patrons set Ended = ? where UserId = ?', [$now, $patron->UserId]);
+		Db::Query('UPDATE Benefits set CanAccessFeeds = false, CanVote = false, CanBulkDownload = false where UserId = ?', [$patron->UserId]);
 
 		// Email the patron to notify them their term has ended
 		// Is the patron a recurring subscriber?
-		$lastPayment = Db::Query('select * from Payments where UserId = ? order by Created desc limit 1;', [$patron->UserId], 'Payment');
+		$lastPayment = Db::Query('SELECT * from Payments where UserId = ? order by Created desc limit 1;', [$patron->UserId], 'Payment');
 
 		if(sizeof($lastPayment) > 0 && $patron->User->Email !== null){
 			$em = new Email();

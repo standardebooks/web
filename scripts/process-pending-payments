@@ -10,7 +10,6 @@ use Facebook\WebDriver\Firefox\FirefoxDriver;
 use Facebook\WebDriver\Firefox\FirefoxOptions;
 
 use Safe\DateTime;
-use function Safe\file_get_contents;
 use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\putenv;
@@ -60,12 +59,13 @@ try{
 
 	foreach($pendingPayments as $pendingPayment){
 		if($pendingPayment->ChannelId == PAYMENT_CHANNEL_FA){
-			if(Db::QueryInt('SELECT count(*) from Payments where TransactionId = ? limit 1', [$pendingPayment->TransactionId]) > 0){
+			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
+
+			if(Db::QueryInt('SELECT count(*) from Payments where TransactionId = ?', [$pendingPayment->TransactionId]) > 0){
 				$log->Write('Donation already exists in database.');
 				continue;
 			}
 
-			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 			$driver->get('https://fundraising.fracturedatlas.org/admin/donations?query=' . $pendingPayment->TransactionId);
 
 			// Check if we need to log in to FA.
@@ -152,12 +152,12 @@ try{
 				continue;
 			}
 
-			// If this payment isn't anonymous, does it put us in the Patrons Circle?
-			if($payment->User !== null){
-				if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Created >= $lastMonth) || ($payment->Amount >= 100 && $payment->Created >= $lastYear)){
-					// This payment is eligible for the Patrons Circle.
+			// Does this payment put us in the Patrons Circle?
+			if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Created >= $lastMonth) || (!$payment->IsRecurring && $payment->Amount >= 100 && $payment->Created >= $lastYear)){
+				// This payment is eligible for the Patrons Circle!
+				if($payment->User !== null){
 					// Are we already a patron?
-					if(!Db::QueryInt('SELECT count(*) from Patrons where UserId = ? and Ended is null', [$payment->UserId])){
+					if(Db::QueryInt('SELECT count(*) from Patrons where UserId = ? and Ended is null', [$payment->UserId]) == 0){
 						// Not a patron yet, add them to the Patrons Circle
 
 						$patron = new Patron();
@@ -177,9 +177,23 @@ try{
 						$patron->Create();
 					}
 				}
-				else{
-					// Not eligible to be a patron; send a thank you email anyway, but only if this is a non-recurring donation,
-					// or if it's their very first recurring donation
+				elseif(!$payment->IsRecurring){
+					// Fully-anonymous, non-recurring donation eligible for the Patrons Circle. We can't notify them, but do notify the admins.
+					$patron = new Patron();
+					$patron->User = new User();
+
+					$em = new Email();
+					$em->To = ADMIN_EMAIL_ADDRESS;
+					$em->From = ADMIN_EMAIL_ADDRESS;
+					$em->Subject = 'New Patrons Circle member';
+					$em->Body = Template::EmailAdminNewPatron(['patron' => $patron, 'payment' => $payment]);
+					$em->TextBody = Template::EmailAdminNewPatronText(['patron' => $patron, 'payment' => $payment]);;
+					$em->Send();
+				}
+			}
+			else{
+				// Not eligible to be a patron; send a thank you email anyway, but only if this is a non-recurring donation, or if it's their very first recurring donation
+				if($payment->User !== null){
 					$previousPaymentCount = Db::QueryInt('SELECT count(*) from Payments where UserId = ? and IsRecurring = true', [$payment->UserId]);
 
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1

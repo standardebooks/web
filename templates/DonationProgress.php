@@ -21,9 +21,9 @@ $current = Db::QueryInt('
 			UserId is null
 			and
 			(
-				(Amount >= 100 and IsRecurring = false and Created >= ?)
+				(IsRecurring = true and Amount >= 10 and Created >= ?)
 				or
-				(Amount >= 10 and IsRecurring = true and Created >= ?)
+				(IsRecurring = false and Amount >= 100 and Created >= ?)
 			)
 		)
 		union all
