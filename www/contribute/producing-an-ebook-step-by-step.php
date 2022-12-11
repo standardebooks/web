@@ -180,7 +180,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 				</ul>
 				<p>While <code class="bash"><b>se</b> typogrify</code> does a lot of work for you, each ebook is totally different so there’s almost always more work to do that can only be done by hand. However, you will do a third commit first, to put the automated changes in a separate commit from any manual changes.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Typogrify"</i></span></code>
-				<p>As an example of manual changes that might be needed, in <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The S.E. standard requires chapter titles to be in title case, and <code class="bash"><b>se</b> titlecase</code> can do that for us. <code class="bash"><b>se</b> titlecase</code> accepts a string as its argument, and outputs the string in title case.</p>
+				<p>As an example of manual changes that might be needed, in <i>Jekyll</i>, you’ll notice that the chapter titles are in all caps. The S.E. standard requires chapter titles to be in title case, and <code class="bash"><b>se</b> titlecase</code> can do that for us. <code class="bash"><b>se</b> titlecase</code> accepts a string as its argument, and outputs the string in title case. For filtering chapter titles, use it with the <code class="bash">--no-newline</code> switch (abbreviated <code class="bash">-n</code>) to prevent the closing heading tag from being placed on its own line.</p>
 				<aside class="tip">
 					<p>Many text editors allow you to configure external macros—perfect for creating a keyboard shortcut to run <code class="bash"><b>se</b> titlecase</code> on selected text.</p>
 				</aside>
