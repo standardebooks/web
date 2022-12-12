@@ -62,7 +62,7 @@ require_once('Core.php');
 				<p>Modern books that have released to the public domain, including self-published books.</p>
 			</li>
 			<li>
-				<p>Major religious texts from modern world religions, like the Bible or the Koran, won’t be accepted. Texts <em>about</em> religion will usually be accepted. Texts from historical religious movements that were culturally influential but are now defunct, or are otherwise not significant in modern times, <em>might</em> be accepted; ask first.</p>
+				<p>Religious texts from modern world religions, like the Bible, the Koran, or books of prayer, won’t be accepted. Texts <em>about</em> religion—i.e., texts on the philosophy of religion—will usually be accepted. Texts from historical religious movements that were culturally influential but are now defunct, or are otherwise not significant in modern times, <em>might</em> be accepted; ask first.</p>
 			</li>
 			<li>
 				<p>Different editions of books, including editions published in different places or years, and different translations. We aim to host a single “best” edition of an book. For books that differ significantly across editions, this typically means the latest possible edition, presuming that it’s the most correct and most aligned with the author’s intent. (Of course, case-by-case circumstances often warrant exceptions to this rule of thumb.) For books in translation, we want the one public domain translation that reviewers or scholars consider to be the “best.”</p>
