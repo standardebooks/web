@@ -93,7 +93,12 @@ class PollVote extends PropertiesBase{
 
 		$this->Validate();
 		$this->Created = new DateTime();
-		Db::Query('INSERT into PollVotes (UserId, PollItemId, Created) values (?, ?, ?)', [$this->UserId, $this->PollItemId, $this->Created]);
+		Db::Query('
+			INSERT into PollVotes (UserId, PollItemId, Created)
+			values (?,
+			        ?,
+			        ?)
+		', [$this->UserId, $this->PollItemId, $this->Created]);
 	}
 
 	public static function Get(?string $pollUrlName, ?int $userId): PollVote{
@@ -101,10 +106,16 @@ class PollVote extends PropertiesBase{
 			throw new Exceptions\InvalidPollVoteException();
 		}
 
-		$result = Db::Query('SELECT pv.* from PollVotes pv inner join
-					(select pi.PollItemId from PollItems pi inner join Polls p using (PollId)
-						where p.UrlName = ?
-					) x using (PollItemId) where pv.UserId = ?', [$pollUrlName, $userId], 'PollVote');
+		$result = Db::Query('
+					SELECT pv.*
+					from PollVotes pv
+					inner join
+					    (select pi.PollItemId
+					     from PollItems pi
+					     inner join Polls p using (PollId)
+					     where p.UrlName = ? ) x using (PollItemId)
+					where pv.UserId = ?
+				', [$pollUrlName, $userId], 'PollVote');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidPollVoteException();

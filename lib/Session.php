@@ -36,7 +36,12 @@ class Session extends PropertiesBase{
 		$this->User = User::GetIfRegistered($email);
 		$this->UserId = $this->User->UserId;
 
-		$existingSessions = Db::Query('SELECT SessionId, Created from Sessions where UserId = ?', [$this->UserId]);
+		$existingSessions = Db::Query('
+						SELECT SessionId,
+						       Created
+						from Sessions
+						where UserId = ?
+					', [$this->UserId]);
 
 		if(sizeof($existingSessions) > 0){
 			$this->SessionId = $existingSessions[0]->SessionId;
@@ -46,7 +51,12 @@ class Session extends PropertiesBase{
 			$uuid = Uuid::uuid4();
 			$this->SessionId = $uuid->toString();
 			$this->Created = new DateTime();
-			Db::Query('INSERT into Sessions (UserId, SessionId, Created) values (?, ?, ?)', [$this->UserId, $this->SessionId, $this->Created]);
+			Db::Query('
+					INSERT into Sessions (UserId, SessionId, Created)
+					values (?,
+					        ?,
+					        ?)
+				', [$this->UserId, $this->SessionId, $this->Created]);
 		}
 
 		$this->SetSessionCookie($this->SessionId);
@@ -56,7 +66,12 @@ class Session extends PropertiesBase{
 		$sessionId = HttpInput::Str(COOKIE, 'sessionid');
 
 		if($sessionId !== null){
-			$result = Db::Query('SELECT u.* from Users u inner join Sessions s using (UserId) where s.SessionId = ?', [$sessionId], 'User');
+			$result = Db::Query('
+						SELECT u.*
+						from Users u
+						inner join Sessions s using (UserId)
+						where s.SessionId = ?
+					', [$sessionId], 'User');
 
 			if(sizeof($result) > 0){
 				self::SetSessionCookie($sessionId);
@@ -76,7 +91,11 @@ class Session extends PropertiesBase{
 			throw new Exceptions\InvalidSessionException();
 		}
 
-		$result = Db::Query('SELECT * from Sessions where SessionId = ?', [$sessionId], 'Session');
+		$result = Db::Query('
+					SELECT *
+					from Sessions
+					where SessionId = ?
+				', [$sessionId], 'Session');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidSessionException();

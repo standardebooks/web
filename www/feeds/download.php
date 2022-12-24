@@ -26,7 +26,12 @@ try{
 		// Certain user agents may bypass login entirely
 		$isUserAgentAllowed = false;
 		if(isset($_SERVER['HTTP_USER_AGENT'])){
-			$isUserAgentAllowed = Db::QueryInt('select count(*) from FeedUserAgents where instr(?, UserAgent) limit 1', [$_SERVER['HTTP_USER_AGENT']]);
+			$isUserAgentAllowed = Db::QueryInt('
+							SELECT count(*)
+							from FeedUserAgents
+							where instr(?, UserAgent)
+							limit 1
+						', [$_SERVER['HTTP_USER_AGENT']]);
 		}
 
 		if(!$isUserAgentAllowed){

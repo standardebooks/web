@@ -20,14 +20,33 @@ class Patron extends PropertiesBase{
 
 	public function Create(): void{
 		$this->Created = new DateTime();
-		Db::Query('INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails) values(?, ?, ?, ?, ?);', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails]);
+		Db::Query('
+			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails)
+			values(?,
+			       ?,
+			       ?,
+			       ?,
+			       ?)
+		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails]);
 
-
-		Db::Query('INSERT into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload) values (?, true, true, true) on duplicate key update CanVote = true, CanAccessFeeds = true, CanBulkDownload = true', [$this->UserId]);
+		Db::Query('
+			INSERT into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload)
+			values (?,
+			        true,
+			        true,
+			        true) on duplicate key
+			update CanVote = true,
+			       CanAccessFeeds = true,
+			       CanBulkDownload = true
+		', [$this->UserId]);
 
 		// If this is a patron for the first time, send the first-time patron email.
 		// Otherwise, send the returning patron email.
-		$isReturning = Db::QueryInt('SELECT count(*) from Patrons where UserId = ?', [$this->UserId]) > 1;
+		$isReturning = Db::QueryInt('
+				SELECT count(*)
+				from Patrons
+				where UserId = ?
+			', [$this->UserId]) > 1;
 
 		$this->SendWelcomeEmail($isReturning);
 	}
@@ -60,7 +79,11 @@ class Patron extends PropertiesBase{
 	// ***********
 
 	public static function Get(?int $userId): Patron{
-		$result = Db::Query('SELECT * from Patrons where UserId = ?', [$userId], 'Patron');
+		$result = Db::Query('
+			SELECT *
+			from Patrons
+			where UserId = ?
+			', [$userId], 'Patron');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidPatronException();
@@ -70,7 +93,12 @@ class Patron extends PropertiesBase{
 	}
 
 	public static function GetByEmail(?string $email): Patron{
-		$result = Db::Query('SELECT p.* from Patrons p inner join Users u using(UserId) where u.Email = ?', [$email], 'Patron');
+		$result = Db::Query('
+			SELECT p.*
+			from Patrons p
+			inner join Users u using(UserId)
+			where u.Email = ?
+		', [$email], 'Patron');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidPatronException();

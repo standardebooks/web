@@ -44,10 +44,19 @@ $faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
 // 946554ca-ffc0-4259-bcc6-be6c844fbbdc  Regular donation, patrons, private, recurring
 // 416608c6-cbf5-4153-8956-cb9051bb849e  Regular donation, patrons, public, one time, in memory of
 
-$pendingPayments = Db::Query('start transaction;
-				select * from PendingPayments where ProcessedOn is null;
-				update PendingPayments set ProcessedOn = utc_timestamp() where ProcessedOn is null;
-				commit;');
+$pendingPayments = Db::Query('
+				start transaction;
+
+				SELECT *
+				from PendingPayments
+				where ProcessedOn is null;
+
+				UPDATE PendingPayments
+				set ProcessedOn = utc_timestamp()
+				where ProcessedOn is null;
+
+				commit;
+			');
 
 if(sizeof($pendingPayments) == 0){
 	// Don't start the very slow Selenium driver if we have nothing to process
@@ -61,7 +70,11 @@ try{
 		if($pendingPayment->ChannelId == PAYMENT_CHANNEL_FA){
 			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 
-			if(Db::QueryInt('SELECT count(*) from Payments where TransactionId = ?', [$pendingPayment->TransactionId]) > 0){
+			if(Db::QueryInt('
+						SELECT count(*)
+						from Payments
+						where TransactionId = ?
+					', [$pendingPayment->TransactionId]) > 0){
 				$log->Write('Donation already exists in database.');
 				continue;
 			}
@@ -157,7 +170,12 @@ try{
 				// This payment is eligible for the Patrons Circle!
 				if($payment->User !== null){
 					// Are we already a patron?
-					if(Db::QueryInt('SELECT count(*) from Patrons where UserId = ? and Ended is null', [$payment->UserId]) == 0){
+					if(Db::QueryInt('
+							SELECT count(*)
+							from Patrons
+							where UserId = ?
+							    and Ended is null
+						', [$payment->UserId]) == 0){
 						// Not a patron yet, add them to the Patrons Circle
 
 						$patron = new Patron();
@@ -194,7 +212,12 @@ try{
 			else{
 				// Not eligible to be a patron; send a thank you email anyway, but only if this is a non-recurring donation, or if it's their very first recurring donation
 				if($payment->User !== null){
-					$previousPaymentCount = Db::QueryInt('SELECT count(*) from Payments where UserId = ? and IsRecurring = true', [$payment->UserId]);
+					$previousPaymentCount = Db::QueryInt('
+										SELECT count(*)
+										from Payments
+										where UserId = ?
+										    and IsRecurring = true
+									', [$payment->UserId]);
 
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1
 					if(!$payment->IsRecurring || $previousPaymentCount == 1){
@@ -212,7 +235,11 @@ try{
 				}
 			}
 
-			Db::Query('DELETE from PendingPayments where TransactionId = ?;', [$pendingPayment->TransactionId]);
+			Db::Query('
+					DELETE
+					from PendingPayments
+					where TransactionId = ?
+				', [$pendingPayment->TransactionId]);
 
 			$log->Write('Donation processed.');
 		}

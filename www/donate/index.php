@@ -1,7 +1,11 @@
 <?
 require_once('Core.php');
 
-$newsletterSubscriberCount = floor(Db::QueryInt('SELECT count(*) from NewsletterSubscriptions where IsConfirmed = true') / 100) * 100;
+$newsletterSubscriberCount = floor(Db::QueryInt('
+						SELECT count(*)
+						from NewsletterSubscriptions
+						where IsConfirmed = true
+					') / 100) * 100;
 
 ?><?= Template::Header(['title' => 'Donate', 'highlight' => 'donate', 'description' => 'Donate to Standard Ebooks.']) ?>
 <main>

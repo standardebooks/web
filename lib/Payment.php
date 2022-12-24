@@ -33,7 +33,11 @@ class Payment extends PropertiesBase{
 					$this->User = $user;
 
 					// Update their name in case we have their email (but not name) recorded from a newsletter subscription
-					Db::Query('UPDATE Users set Name = ? where UserId = ?', [$this->User->Name, $this->User->UserId]);
+					Db::Query('
+						UPDATE Users
+						set Name = ?
+						where UserId = ?
+					', [$this->User->Name, $this->User->UserId]);
 				}
 				catch(Exceptions\InvalidUserException $ex){
 					// User doesn't exist, create it now
@@ -45,7 +49,16 @@ class Payment extends PropertiesBase{
 		}
 
 		try{
-			Db::Query('INSERT into Payments (UserId, Created, ChannelId, TransactionId, Amount, Fee, IsRecurring) values(?, ?, ?, ?, ?, ?, ?);', [$this->UserId, $this->Created, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring]);
+			Db::Query('
+				INSERT into Payments (UserId, Created, ChannelId, TransactionId, Amount, Fee, IsRecurring)
+				values(?,
+				       ?,
+				       ?,
+				       ?,
+				       ?,
+				       ?,
+				       ?)
+			', [$this->UserId, $this->Created, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){

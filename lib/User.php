@@ -26,7 +26,12 @@ class User extends PropertiesBase{
 	*/
 	protected function GetPayments(): array{
 		if($this->_Payments === null){
-			$this->_Payments = Db::Query('select * from Payments where UserId = ? order by Created desc', [$this->UserId], 'Payment');
+			$this->_Payments = Db::Query('
+							SELECT *
+							from Payments
+							where UserId = ?
+							order by Created desc
+						', [$this->UserId], 'Payment');
 		}
 
 		return $this->_Payments;
@@ -34,7 +39,11 @@ class User extends PropertiesBase{
 
 	protected function GetBenefits(): Benefits{
 		if($this->_Benefits === null){
-			$result = Db::Query('select * from Benefits where UserId = ?', [$this->UserId], 'Benefits');
+			$result = Db::Query('
+						SELECT *
+						from Benefits
+						where UserId = ?
+					', [$this->UserId], 'Benefits');
 
 			if(sizeof($result) == 0){
 				$this->_Benefits = new Benefits();
@@ -70,7 +79,13 @@ class User extends PropertiesBase{
 		$this->Created = new DateTime();
 
 		try{
-			Db::Query('INSERT into Users (Email, Name, Uuid, Created) values (?, ?, ?, ?);', [$this->Email, $this->Name, $this->Uuid, $this->Created]);
+			Db::Query('
+					INSERT into Users (Email, Name, Uuid, Created)
+					values (?,
+					        ?,
+					        ?,
+					        ?)
+				', [$this->Email, $this->Name, $this->Uuid, $this->Created]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){
@@ -91,7 +106,11 @@ class User extends PropertiesBase{
 	// ***********
 
 	public static function Get(?int $userId): User{
-		$result = Db::Query('SELECT * from Users where UserId = ?', [$userId], 'User');
+		$result = Db::Query('
+					SELECT *
+					from Users
+					where UserId = ?
+				', [$userId], 'User');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidUserException();
@@ -105,7 +124,11 @@ class User extends PropertiesBase{
 			throw new Exceptions\InvalidUserException();
 		}
 
-		$result = Db::Query('SELECT * from Users where Email = ?', [$email], 'User');
+		$result = Db::Query('
+					SELECT *
+					from Users
+					where Email = ?
+				', [$email], 'User');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidUserException();
@@ -122,7 +145,13 @@ class User extends PropertiesBase{
 			throw new Exceptions\InvalidUserException();
 		}
 
-		$result = Db::Query('SELECT u.* from Users u inner join Benefits using (UserId) where u.Email = ? or u.Uuid = ?', [$identifier, $identifier], 'User');
+		$result = Db::Query('
+					SELECT u.*
+					from Users u
+					inner join Benefits using (UserId)
+					where u.Email = ?
+					    or u.Uuid = ?
+				', [$identifier, $identifier], 'User');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidUserException();

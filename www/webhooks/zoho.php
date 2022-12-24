@@ -37,7 +37,12 @@ try{
 		if(sizeof($matches) == 2){
 			$transactionId = $matches[1];
 
-			Db::Query('INSERT into PendingPayments (Created, ChannelId, TransactionId) values (utc_timestamp(), ?, ?);', [PAYMENT_CHANNEL_FA, $transactionId]);
+			Db::Query('
+					INSERT into PendingPayments (Created, ChannelId, TransactionId)
+					values (utc_timestamp(),
+					        ?,
+					        ?)
+				', [PAYMENT_CHANNEL_FA, $transactionId]);
 
 			$log->Write('Donation ID: ' . $transactionId);
 		}

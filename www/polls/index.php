@@ -1,9 +1,23 @@
 <?
 require_once('Core.php');
 
-$pastPolls = Db::Query('select * from Polls where utc_timestamp() >= End order by Created desc', [], 'Poll');
+$pastPolls = Db::Query('
+			SELECT *
+			from Polls
+			where utc_timestamp() >= end
+			order by Created desc
+		', [], 'Poll');
 
-$openPolls = Db::Query('select * from Polls where (End is null or utc_timestamp() <= End) and (Start is null or Start <= utc_timestamp()) order by Created desc', [], 'Poll');
+$openPolls = Db::Query('
+			SELECT *
+			from Polls
+			where (end is null
+			       or utc_timestamp() <= end)
+			    and
+			        (start is null
+			         or start <= utc_timestamp())
+			order by Created desc
+		', [], 'Poll');
 
 ?><?= Template::Header(['title' => 'Polls', 'highlight' => '', 'description' => 'The various polls active at Standard Ebooks.']) ?>
 <main>

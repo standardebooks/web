@@ -47,7 +47,14 @@ class NewsletterSubscription extends PropertiesBase{
 		$this->Created = new DateTime();
 
 		try{
-			Db::Query('INSERT into NewsletterSubscriptions (UserId, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Created) values (?, ?, ?, ?, ?);', [$this->User->UserId, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Created]);
+			Db::Query('
+				INSERT into NewsletterSubscriptions (UserId, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Created)
+				values (?,
+				        ?,
+				        ?,
+				        ?,
+				        ?)
+			', [$this->User->UserId, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Created]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){
@@ -66,7 +73,13 @@ class NewsletterSubscription extends PropertiesBase{
 	public function Save(): void{
 		$this->Validate();
 
-		Db::Query('UPDATE NewsletterSubscriptions set IsConfirmed = ?, IsSubscribedToNewsletter = ?, IsSubscribedToSummary = ? where UserId = ?', [$this->IsConfirmed, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->UserId]);
+		Db::Query('
+			UPDATE NewsletterSubscriptions
+			set IsConfirmed = ?,
+			    IsSubscribedToNewsletter = ?,
+			    IsSubscribedToSummary = ?
+			where UserId = ?
+		', [$this->IsConfirmed, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->UserId]);
 	}
 
 	public function SendConfirmationEmail(): void{
@@ -83,11 +96,19 @@ class NewsletterSubscription extends PropertiesBase{
 	}
 
 	public function Confirm(): void{
-		Db::Query('UPDATE NewsletterSubscriptions set IsConfirmed = true where UserId = ?;', [$this->UserId]);
+		Db::Query('
+			UPDATE NewsletterSubscriptions
+			set IsConfirmed = true
+			where UserId = ?
+		', [$this->UserId]);
 	}
 
 	public function Delete(): void{
-		Db::Query('DELETE from NewsletterSubscriptions where UserId = ?;', [$this->UserId]);
+		Db::Query('
+			DELETE
+			from NewsletterSubscriptions
+			where UserId = ?
+		', [$this->UserId]);
 	}
 
 	public function Validate(): void{
@@ -112,7 +133,12 @@ class NewsletterSubscription extends PropertiesBase{
 	// ***********
 
 	public static function Get(string $uuid): NewsletterSubscription{
-		$result = Db::Query('SELECT ns.* from NewsletterSubscriptions ns inner join Users u using(UserId) where u.Uuid = ?', [$uuid], 'NewsletterSubscription');
+		$result = Db::Query('
+				SELECT ns.*
+				from NewsletterSubscriptions ns
+				inner join Users u using(UserId)
+				where u.Uuid = ?
+			', [$uuid], 'NewsletterSubscription');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidNewsletterSubscriptionException();

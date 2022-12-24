@@ -36,7 +36,12 @@ class Poll extends PropertiesBase{
 
 	protected function GetVoteCount(): int{
 		if($this->_VoteCount === null){
-			$this->_VoteCount = Db::QueryInt('SELECT count(*) from PollVotes pv inner join PollItems pi using (PollItemId) where pi.PollId = ?', [$this->PollId]);
+			$this->_VoteCount = Db::QueryInt('
+							SELECT count(*)
+							from PollVotes pv
+							inner join PollItems pi using (PollItemId)
+							where pi.PollId = ?
+						', [$this->PollId]);
 		}
 
 		return $this->_VoteCount;
@@ -47,7 +52,12 @@ class Poll extends PropertiesBase{
 	 */
 	protected function GetPollItems(): array{
 		if($this->_PollItems === null){
-			$this->_PollItems = Db::Query('SELECT * from PollItems where PollId = ? order by SortOrder asc', [$this->PollId], 'PollItem');
+			$this->_PollItems = Db::Query('
+							SELECT *
+							from PollItems
+							where PollId = ?
+							order by SortOrder asc
+						', [$this->PollId], 'PollItem');
 		}
 
 		return $this->_PollItems;
@@ -91,7 +101,11 @@ class Poll extends PropertiesBase{
 			throw new Exceptions\InvalidPollException();
 		}
 
-		$result = Db::Query('SELECT * from Polls where PollId = ?', [$pollId], 'Poll');
+		$result = Db::Query('
+					SELECT *
+					from Polls
+					where PollId = ?
+				', [$pollId], 'Poll');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidPollException();
@@ -105,7 +119,11 @@ class Poll extends PropertiesBase{
 			throw new Exceptions\InvalidPollException();
 		}
 
-		$result = Db::Query('SELECT * from Polls where UrlName = ?', [$urlName], 'Poll');
+		$result = Db::Query('
+					SELECT *
+					from Polls
+					where UrlName = ?
+				', [$urlName], 'Poll');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\InvalidPollException();

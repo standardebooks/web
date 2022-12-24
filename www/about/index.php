@@ -7,38 +7,32 @@ $anonymousPatronCount = 0;
 // Get the Patrons Circle and try to sort by last name ascending
 // See <https://mariadb.com/kb/en/pcre/#unicode-character-properties> for Unicode character properties
 
-$patronsCircle = Db::Query('SELECT if(p.AlternateName is not null, p.AlternateName, u.Name) as SortedName
-				from Patrons p inner join Users u
-				using(UserId)
-				where
-				p.IsAnonymous = false
-				and p.Ended is null
+$patronsCircle = Db::Query('
+				SELECT if(p.AlternateName is not null, p.AlternateName, u.Name) as SortedName
+				from Patrons p
+				inner join Users u using(UserId)
+				where p.IsAnonymous = false
+				    and p.Ended is null
 				order by regexp_substr(SortedName, "[\\\p{Lu}][\\\p{L}\-]*$") asc;
 			');
 
-$anonymousPatronCount = Db::QueryInt('SELECT sum(cnt)
-					from
-					(
-						(
-							select count(*) cnt from Payments
-							where
-							UserId is null
-							and
-							(
-								(IsRecurring = true and Amount >= 10 and Created >= utc_timestamp() - interval 30 day)
-								or
-								(IsRecurring = false and Amount >= 100 and Created >= utc_timestamp() - interval 1 year)
-							)
-						)
-						union all
-						(
-							select count(*) as cnt from Patrons
-							where
-							IsAnonymous = true
-							and
-							Ended is null
-						)
-					) x
+$anonymousPatronCount = Db::QueryInt('
+				SELECT sum(cnt)
+				from (
+				          ( select count(*) cnt
+				           from Payments
+				           where UserId is null
+				               and ( (IsRecurring = true
+				                      and Amount >= 10
+				                      and Created >= utc_timestamp() - interval 30 day)
+				                    or (IsRecurring = false
+				                        and Amount >= 100
+				                        and Created >= utc_timestamp() - interval 1 year) ) )
+				      union all
+				          ( select count(*) as cnt
+				           from Patrons
+				           where IsAnonymous = true
+				               and Ended is null ) ) x
 				');
 
 ?><?= Template::Header(['title' => 'About Standard Ebooks', 'highlight' => 'about', 'description' => 'Standard Ebooks is a volunteer-driven effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the public domain, and Standard Ebook dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain.']) ?>
