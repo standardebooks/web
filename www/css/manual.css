@@ -328,6 +328,32 @@ code.full .utf{
 	text-transform: uppercase;
 }
 
+#step-toc{
+	padding: 1.0em 0;
+	list-style-type: none;
+	counter-reset: css-counter 0;
+}
+
+.step-by-step-guide summary{
+	cursor: pointer;
+	/* fake H2 styling: */
+	font-size: 1.4rem;
+	font-family: "League Spartan", Arial, sans-serif;
+	margin-top: 4rem;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	list-style-position: outside;
+}
+
+#step-toc p{
+	counter-increment: css-counter 1;
+}
+
+#step-toc p:before{
+	content: counter(css-counter) ". ";
+}
+
 .alert p.warning{
 	font-size: 2rem;
 	font-weight: bold;
