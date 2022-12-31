@@ -393,7 +393,8 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/7370">Two Treatises of Government</a> by John Locke (Note: PG only has the 2nd treatise; transcription is required for the 1st treatise)</p><!--patron-->
+				<p><a href="https://www.gutenberg.org/ebooks/7370">Two Treatises of Government</a> by John Locke (Note: PG only has the 2nd treatise; transcription is required for the 1st treatise)</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2383">The Canterbury Tales</a> by Geoffrey Chaucer, edited by David Laing Purves</p>
 			</li>
