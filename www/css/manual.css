@@ -329,7 +329,7 @@ code.full .utf{
 }
 
 .step-by-step-guide details{
-	padding: 1.0em 0;
+	padding: 1rem 0;
 	list-style-type: none;
 	counter-reset: toc 0;
 }
@@ -344,14 +344,6 @@ code.full .utf{
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	list-style-position: outside;
-}
-
-.step-by-step-guide details p {
-	counter-increment: toc 1;
-}
-
-.step-by-step-guide details p::before{
-	content: counter(toc) ". ";
 }
 
 .alert p.warning{

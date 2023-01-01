@@ -18,34 +18,36 @@ require_once('Core.php');
 			<p>If you commingle editorial changes with other changes in your commits, we’ll be forced to ask you to rebase your repository to tease them out. This is very difficult and you’ll get frustrated—so please make sure to keep editorial commits separate!</p>
 			<p>If your working directory contains a mix of changes and you only want to commit some of them, <code class="bash"><b>git</b> add --patch</code> is a <a href="http://git-scm.com/docs/git-add#Documentation/git-add.txt--p">useful way to only commit parts of a file</a>.</p>
 		</aside>
-	    <details id="step-toc">
-	        <summary title="Click to toggle">Table of Contents</summary>
-			<p><a href="#setup">Set up the Standard Ebooks toolset and make sure it’s up-to-date</a></p>
-			<p><a href="#select">Select an ebook to produce</a></p>
-			<p><a href="#locate">Locate page scans of your book online</a></p>
-			<p><a href="#create">Create a Standard Ebooks epub skeleton</a></p>
-			<p><a href="#rough">Do a rough cleanup of the source text and perform the first commit</a></p>
-			<p><a href="#split">Split the source text at logical divisions</a></p>
-			<p><a href="#clean">Clean up the source text and perform the second commit</a></p>
-			<p><a href="#typogrify">Typogrify the source text and perform the corresponding commit(s)</a></p>
-			<p><a href="#transcription">Check for transcription errors</a></p>
-			<p><a href="#footnotes">Convert footnotes to endnotes</a></p>
-			<p><a href="#illustrations">Add a list of illustrations</a></p>
-			<p><a href="#quotation">Converting British quotation to American quotation</a></p>
-			<p><a href="#semantics">Add semantics</a></p>
-			<p><a href="#modernize">Modernize spelling and hyphenation</a></p>
-			<p><a href="#diacritics">Check for consistent diacritics</a></p>
-			<p><a href="#dashes">Check for consistent dashes</a></p>
-			<p><a href="#titles">Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</a></p>
-			<p><a href="#manispine">Build the manifest and spine</a></p>
-			<p><a href="#toc">Build the table of contents</a></p>
-			<p><a href="#lint">Clean and lint</a></p>
-			<p><a href="#proofread">Build and proofread, proofread, proofread!</a></p>
-			<p><a href="#cover">Create the cover image</a></p>
-			<p><a href="#content">Complete content.opf</a></p>
-			<p><a href="#colophon">Complete the imprint and colophon</a></p>
-			<p><a href="#checks">Final checks</a></p>
-			<p><a href="#publication">Initial publication</a></p>
+		<details id="toc">
+			<summary>Table of Contents</summary>
+			<ol>
+				<li><p><a href="#setup">Set up the Standard Ebooks toolset and make sure it’s up-to-date</a></p></li>
+				<li><p><a href="#select">Select an ebook to produce</a></p></li>
+				<li><p><a href="#locate">Locate page scans of your book online</a></p></li>
+				<li><p><a href="#create">Create a Standard Ebooks epub skeleton</a></p></li>
+				<li><p><a href="#rough">Do a rough cleanup of the source text and perform the first commit</a></p></li>
+				<li><p><a href="#split">Split the source text at logical divisions</a></p></li>
+				<li><p><a href="#clean">Clean up the source text and perform the second commit</a></p></li>
+				<li><p><a href="#typogrify">Typogrify the source text and perform the corresponding commit(s)</a></p></li>
+				<li><p><a href="#transcription">Check for transcription errors</a></p></li>
+				<li><p><a href="#footnotes">Convert footnotes to endnotes</a></p></li>
+				<li><p><a href="#illustrations">Add a list of illustrations</a></p></li>
+				<li><p><a href="#quotation">Converting British quotation to American quotation</a></p></li>
+				<li><p><a href="#semantics">Add semantics</a></p></li>
+				<li><p><a href="#modernize">Modernize spelling and hyphenation</a></p></li>
+				<li><p><a href="#diacritics">Check for consistent diacritics</a></p></li>
+				<li><p><a href="#dashes">Check for consistent dashes</a></p></li>
+				<li><p><a href="#titles">Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</a></p></li>
+				<li><p><a href="#manispine">Build the manifest and spine</a></p></li>
+				<li><p><a href="#built-toc">Build the table of contents</a></p></li>
+				<li><p><a href="#lint">Clean and lint</a></p></li>
+				<li><p><a href="#proofread">Build and proofread, proofread, proofread!</a></p></li>
+				<li><p><a href="#cover">Create the cover image</a></p></li>
+				<li><p><a href="#content">Complete content.opf</a></p></li>
+				<li><p><a href="#colophon">Complete the imprint and colophon</a></p></li>
+				<li><p><a href="#checks">Final checks</a></p></li>
+				<li><p><a href="#publication">Initial publication</a></p></li>
+			</ol>
 		</details>
 		<ol>
 			<li>
@@ -541,7 +543,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>The manifest is already in the correct order and doesn’t need to be edited. The spine, however, will have to be reordered to be in the correct reading order. Once you’ve done that, commit!</p><code class="terminal"><span><b>git</b> commit -am <i>"Add manifest and spine"</i></span></code>
 			</li>
 			<li>
-				<h2 id="toc">Build the table of contents</h2>
+				<h2 id="build-toc">Build the table of contents</h2>
 				<p>With the spine in the right order, we can now build the table of contents.</p>
 				<p>The table of contents is a structured document that lets the reader easily navigate the book. In a Standard Ebook, it’s stored outside of the readable text directory with the assumption that the reading system will parse it and display a navigable representation for the user.</p>
 				<p>Use <code class="bash"><b>se</b> build-toc</code> to generate a table of contents for this ebook.</p>
