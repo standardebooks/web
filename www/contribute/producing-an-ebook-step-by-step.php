@@ -49,7 +49,7 @@ require_once('Core.php');
 		</details>
 		<ol>
 			<li>
-				<h2 id="setup" title="setup">Set up the Standard Ebooks toolset and make sure it’s up-to-date</h2>
+				<h2 id="setup">Set up the Standard Ebooks toolset and make sure it’s up-to-date</h2>
 				<p>Standard Ebooks has a toolset that will help you produce an ebook. The toolset installs the <code class="bash"><b>se</b></code> command, which has various subcommands related to creating Standard Ebooks. You can <a href="/tools">read the complete installation instructions</a>, or if you already have <a href="https://pipxproject.github.io/pipx/installation/"><code class="bash"><b>pipx</b></code> installed</a>, run:</p>
 				<code class="terminal"><span><b>pipx</b> install standardebooks</span></code>
 				<p>The toolset changes frequently, so if you’ve installed the toolset in the past, make sure to update the toolset before you start a new ebook:</p>
@@ -58,7 +58,7 @@ require_once('Core.php');
 				<code class="terminal"><span><b>se</b> --version</span></code>
 			</li>
 			<li>
-				<h2 id="select" title="select">Select an ebook to produce</h2>
+				<h2 id="select">Select an ebook to produce</h2>
 				<p>The best place to look for public domain ebooks to produce is <a href="https://www.gutenberg.org">Project Gutenberg</a>. If downloading from Project Gutenberg, be careful of the following:</p>
 				<ul>
 					<li>
@@ -72,7 +72,7 @@ require_once('Core.php');
 				<p>For this guide, we’ll use <i>The Strange Case of Dr. Jekyll and Mr. Hyde</i>, by Robert Louis Stevenson. If you search for it on Gutenberg, you’ll find that there are two versions; the <a href="https://www.gutenberg.org/ebooks/42" rel="nofollow">most popular one</a> is a poor choice to produce, because the transcriber included the page numbers smack in the middle of the text! What a pain those’d be to remove. The <a href="https://www.gutenberg.org/ebooks/43">less popular one</a> is a better choice to produce, because it’s a cleaner transcription.</p>
 			</li>
 			<li>
-				<h2 id="locate" title="locate">Locate page scans of your book online</h2>
+				<h2 id="locate">Locate page scans of your book online</h2>
 				<p>As you produce your book, you’ll want to check your work against the actual page scans. Often the scans contain formatting that is missing from the source transcription. For example, older transcriptions sometimes throw away italics entirely, and you’d never know unless you looked at the page scans. So finding page scans is essential.</p>
 				<p>Below are the three big resources for page scans. You should prefer them in this order:</p>
 				<ul>
@@ -100,7 +100,7 @@ require_once('Core.php');
 				<p>You’ll enter a link to the page scans you used in the <code class="path">content.opf</code> metadata as a <code class="html"><span class="p">&lt;</span><span class="nt">dc:source</span><span class="p">&gt;</span></code> element.</p>
 			</li>
 			<li>
-				<h2 id="create" title="create">Create a Standard Ebooks epub skeleton</h2>
+				<h2 id="create">Create a Standard Ebooks epub skeleton</h2>
 				<p>An epub file is just a bunch of files arranged in a particular folder structure, then all zipped up. That means editing an epub file is as easy as editing a bunch of text files within a certain folder structure, then creating a zip file out of that folder.</p>
 				<p>You can’t just arrange files willy-nilly, though—the epub standard expects certain files in certain places. So once you’ve picked a book to produce, create the basic epub skeleton in a working directory. <code class="bash"><b>se</b> create-draft</code> will create a basic Standard Ebooks epub folder structure, initialize a Git repository within it, and prefill a few fields in <code class="path">content.opf</code> (the file that contains the ebook’s metadata).</p>
 				<ol>
@@ -123,7 +123,7 @@ require_once('Core.php');
 				</ol>
 			</li>
 			<li>
-				<h2 id="rough" title="rough">Do a rough cleanup of the source text and perform the first commit</h2>
+				<h2 id="rough">Do a rough cleanup of the source text and perform the first commit</h2>
 				<p>If you inspect the folder we just created, you’ll see it looks something like this:</p>
 				<figure>
 					<img alt="A tree view of a new Standard Ebooks draft folder" src="/images/epub-draft-tree.png"/>
@@ -154,7 +154,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>For this first commit:</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Initial commit"</i></span></code>
 			</li>
 			<li>
-				<h2 id="split" title="split">Split the source text at logical divisions</h2>
+				<h2 id="split">Split the source text at logical divisions</h2>
 				<p>The file we downloaded contains the entire work. <i>Jekyll</i> is a short work, but for longer work it quickly becomes impractical to have the entire text in one file. Not only is it a pain to edit, but ereaders often have trouble with extremely large files.</p>
 				<p>The next step is to split the file at logical places; that usually means at each chapter break. For works that contain their chapters in larger “parts,” the part division should also be its own file. For example, see <i><a href="/ebooks/robert-louis-stevenson/treasure-island">Treasure Island</a></i>.</p>
 				<p>To split the work, we use <code class="bash"><b>se</b> split-file</code>. <code class="bash"><b>se</b> split-file</code> takes a single file and breaks it in to a new file every time it encounters the markup <code class="html"><span class="c">&lt;!--se:split--&gt;</span></code>. <code class="bash"><b>se</b> split-file</code> automatically includes basic header and footer markup in each split file.</p>
@@ -163,7 +163,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Once we’re happy that the source file has been split correctly, we can remove it.</p><code class="terminal"><span><b>rm</b> <u>src/epub/text/body.xhtml</u></span></code>
 			</li>
 			<li>
-				<h2 id="clean" title="clean">Clean up the source text and perform the second commit</h2>
+				<h2 id="clean">Clean up the source text and perform the second commit</h2>
 				<p>If you open up any of the chapter files we now have in the <code class="path">src/epub/text/</code> folder, you’ll notice that the code isn’t very clean. Paragraphs are split over multiple lines, indentation is all wrong, and so on.</p>
 				<p>If you try opening a chapter in a web browser, you’ll also likely get an error if the chapter includes any HTML entities, like <code class="html">&amp;mdash;</code>. This is because Gutenberg uses plain HTML, which allows entities, but epub uses XHTML, which doesn’t.</p>
 				<p>We can fix all of this pretty quickly using <code class="bash"><b>se</b> clean</code>. <code class="bash"><b>se</b> clean</code> accepts as its argument the root of a Standard Ebook directory. We’re already in the root, so we pass it <code class="path">.</code>.</p><code class="terminal"><span><b>se</b> clean <u>.</u></span></code>
@@ -190,7 +190,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Once the file split and cleanup is complete, you can perform your second commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Split files and clean"</i></span></code>
 			</li>
 			<li>
-				<h2 id="typogrify" title="typogrify">Typogrify the source text and perform the corresponding commit(s)</h2>
+				<h2 id="typogrify">Typogrify the source text and perform the corresponding commit(s)</h2>
 				<p>Now that we have a clean starting point, we can start getting the <em>real</em> work done. <code class="bash"><b>se</b> typogrify</code> can do a lot of the heavy lifting necessary to bring an ebook up to Standard Ebooks typography standards.</p>
 				<p>Like <code class="bash"><b>se</b> clean</code>, <code class="bash"><b>se</b> typogrify</code> accepts as its argument the root of a Standard Ebook directory.</p><code class="terminal"><span><b>se</b> typogrify <u>.</u></span></code>
 				<p>Among other things, <code class="bash"><b>se</b> typogrify</code> does the following:</p>
@@ -268,12 +268,12 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Once you’ve searched the work for the common issues above, if any manual changes were necessary, you should perform the fourth commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Manual typography changes"</i></span></code>
 			</li>
 			<li>
-				<h2 id="transcription" title="transcription">Check for transcription errors</h2>
+				<h2 id="transcription">Check for transcription errors</h2>
 				<p>Transcriptions often have errors, because the O.C.R. software might confuse letters for other, more unusual characters, or because the ebook’s character set got mangled somewhere along the way from the source to your repository. You’ll find most transcription errors when you proofread the text, but right now you use the <code class="bash"><b>se</b> find-unusual-characters</code> tool to see a list of any unusual characters in the transcription. If the tool outputs any, check the source to make sure those characters aren’t errors.</p><code class="terminal"><span><b>se</b> find-unusual-characters <u>.</u></span></code>
 				<p>If any errors had to be corrected, a commit is needed as well.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Correct transcription errors"</i></span></code>
 			</li>
 			<li>
-				<h2 id="footnotes" title="footnotes">Convert footnotes to endnotes</h2>
+				<h2 id="footnotes">Convert footnotes to endnotes</h2>
 				<p>Works often include footnotes, either added by an annotator or as part of the work itself. Since ebooks don’t have a concept of a “page,” there’s no place for footnotes to go. Instead, we convert footnotes to a single endnotes file, which will provide popup references in the final epub.</p>
 				<p>The endnotes file and the format for endnote links are <a href="/manual/latest/7-high-level-structural-patterns#7.10">standardized in the <abbr class="acronym">SEMoS</abbr></a>.</p>
 				<p>If you find that you accidentally mis-ordered an endnote, never fear! <code class="bash"><b>se</b> shift-endnotes</code> will allow you to quickly rearrange endnotes in your ebook.</p>
@@ -281,13 +281,13 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p><i>Jekyll</i> doesn’t have any footnotes or endnotes, so we skip this step.</p>
 			</li>
 			<li>
-				<h2 id="illustrations" title="illustrations">Add a list of illustrations</h2>
+				<h2 id="illustrations">Add a list of illustrations</h2>
 				<p>If a work has illustrations besides the cover and title pages, we include a “list of illustrations” at the end of the book, after the endnotes but before the colophon. The <abbr class="initialism">LoI</abbr> file <a href="/manual/latest/7-high-level-structural-patterns#7.9">is also standardized</a>.</p>
 				<p>If an LOI is created, do a corresponding commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add LOI"</i></span></code>
 				<p><i>Jekyll</i> doesn’t have any illustrations, so we skip this step.</p>
 			</li>
 			<li>
-				<h2 id="quotation" title="quotation">Converting British quotation to American quotation</h2>
+				<h2 id="quotation">Converting British quotation to American quotation</h2>
 				<p>If the work you’re producing uses <a href="http://www.thepunctuationguide.com/british-versus-american-style.html">British quotation style</a> (single quotes for dialog and other outer quotes versus double quotes in American), we have to convert it to American style. We use American style in part because it’s easier to programmatically convert from American to British than it is to convert the other way around. <em>Skip this step if your work is already in American style.</em></p>
 				<p><code class="bash"><b>se</b> british2american</code> attempts to automate the conversion. Your work must already be typogrified (the previous step in this guide) for the script to work.</p><code class="terminal"><span><b>se</b> british2american <u>.</u></span></code>
 				<p>While <code class="bash"><b>se</b> british2american</code> tries its best, thanks to the quirkiness of English punctuation rules it’ll invariably mess some stuff up. Proofreading is required after running the conversion.</p>
@@ -297,7 +297,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>After you’ve run the conversion, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Convert from British-style quotation to American style"</i></span></code>
 			</li>
 			<li>
-				<h2 id="semantics" title="semantics">Add semantics</h2>
+				<h2 id="semantics">Add semantics</h2>
 				<p>Part of producing a book for Standard Ebooks is adding meaningful semantics wherever possible in the text. <code class="bash"><b>se</b> semanticate</code> does a little of that for us—for example, for some common abbreviations—but much of it has to be done by hand.</p>
 				<p>Adding semantics means two things:</p>
 				<ol>
@@ -344,7 +344,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>After you’ve added semantics according to the <a href="/manual"><abbr class="acronym">SEMoS</abbr></a>, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Manually add additional semantics"</i></span></code>
 			</li>
 			<li>
-				<h2 id="modernize" title="modernize">Modernize spelling and hyphenation</h2>
+				<h2 id="modernize">Modernize spelling and hyphenation</h2>
 				<p>Many older works use outdated spelling and hyphenation that would distract a modern reader. (For example, <code class="html">to-night</code> instead of <code class="html">tonight</code>). <code class="bash"><b>se</b> modernize-spelling</code> automatically removes hyphens from words that used to be compounded, but aren’t anymore in modern English spelling.</p>
 				<p><em>Do</em> run this tool on prose. <em>Don’t</em> run this tool on poetry.</p>
 				<code class="terminal"><span><b>se</b> modernize-spelling <u>.</u></span></code>
@@ -493,7 +493,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Modernize hyphenation and spelling"</i></span></code>
 			</li>
 			<li>
-				<h2 id="diacritics" title="diacritics">Check for consistent diacritics</h2>
+				<h2 id="diacritics">Check for consistent diacritics</h2>
 				<p>Sometimes during transcription or even printing, instances of some words might have diacritics while others don’t. For example, a word in one chapter might be spelled <code class="html">châlet</code>, but in the next chapter it might be spelled <code class="html">chalet</code>.</p>
 				<p><code class="bash"><b>se</b> find-mismatched-diacritics</code> lists these instances for you to review. Spelling should be normalized across the work so that all instances of the same word are spelled in the same way. Keep the following in mind as you review these instances:</p>
 				<ul>
@@ -511,13 +511,13 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>If any changes had to be made, a corresponding editorial commit should be done as well.</p><code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Correct mismatched diacritics"</i></span></code>
 			</li>
 			<li>
-				<h2 id="dashes" title="dashes">Check for consistent dashes</h2>
+				<h2 id="dashes">Check for consistent dashes</h2>
 				<p>Similar to <code class="bash"><b>se</b> find-mismatched-diacritics</code>, <code class="bash"><b>se</b> find-mismatched-dashes</code> lists instances where a compound word is spelled both with and without a dash. Dashes in words should be normalized to one or the other style.</p>
 				<code class="terminal"><span><b>se</b> find-mismatched-dashes <u>.</u></span></code>
 				<p>If corrections were made, another commit is needed.</p><code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Correct mismatched dashes"</i></span></code>
 			</li>
 			<li>
-				<h2 id="titles" title="titles">Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</h2>
+				<h2 id="titles">Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</h2>
 				<p>After you’ve added semantics and correctly marked up <a href="/manual/latest/7-high-level-structural-patterns#7.2">section headers</a>, it’s time to update the <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements in each chapter to match <a href="/manual/latest/5-general-xhtml-and-css-patterns#5.4">their expected values</a>.</p>
 				<p>The <code class="bash"><b>se</b> build-title</code> tool takes a well-marked-up section header from a file, and updates the file’s <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> element to match:</p>
 				<code class="terminal"><span><b>se</b> build-title <u>.</u></span></code>
@@ -525,7 +525,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<code class="terminal"><span><b>git</b> commit -am <i>"Add titles"</i></span></code>
 			</li>
 			<li>
-				<h2 id="manispine" title="manispine">Build the manifest and spine</h2>
+				<h2 id="manispine">Build the manifest and spine</h2>
 				<p>In <code class="path">content.opf</code>, the manifest is a list of all of the files in the ebook. The spine is the reading order of the various XHTML files.</p>
 				<p><code class="bash"><b>se</b> build-manifest</code> and <code class="bash"><b>se</b> build-spine</code> will create these for you. Run these on our source directory and they’ll update the <code class="html"><span class="p">&lt;</span><span class="nt">manifest</span><span class="p">&gt;</span></code> and <code class="html"><span class="p">&lt;</span><span class="nt">spine</span><span class="p">&gt;</span></code> elements in <code class="path">content.opf</code>.</p>
 				<aside class="tip">
@@ -541,7 +541,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>The manifest is already in the correct order and doesn’t need to be edited. The spine, however, will have to be reordered to be in the correct reading order. Once you’ve done that, commit!</p><code class="terminal"><span><b>git</b> commit -am <i>"Add manifest and spine"</i></span></code>
 			</li>
 			<li>
-				<h2 id="toc" title="toc">Build the table of contents</h2>
+				<h2 id="toc">Build the table of contents</h2>
 				<p>With the spine in the right order, we can now build the table of contents.</p>
 				<p>The table of contents is a structured document that lets the reader easily navigate the book. In a Standard Ebook, it’s stored outside of the readable text directory with the assumption that the reading system will parse it and display a navigable representation for the user.</p>
 				<p>Use <code class="bash"><b>se</b> build-toc</code> to generate a table of contents for this ebook.</p>
@@ -552,7 +552,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<code class="terminal"><span><b>git</b> commit -am <i>"Add ToC"</i></span></code>
 			</li>
 			<li>
-				<h2 id="lint" title="lint">Clean and lint</h2>
+				<h2 id="lint">Clean and lint</h2>
 				<p>Before you build the ebook for proofreading, it’s a good idea to check the ebook for some common problems you might have run in to during production.</p>
 				<p>First, run <code class="bash"><b>se</b> clean</code> one more time to both clean up the source files, and to alert you if there are XHTML parsing errors. Even though we ran <code class="bash"><b>se</b> clean</code> before, it’s likely that in the course of production the ebook got in to less-than-perfect markup formatting. Remember you can run <code class="bash"><b>se</b> clean</code> as many times as you want—it should always produce the same output.</p>
 				<code class="terminal"><span><b>se</b> clean <u>.</u></span></code>
@@ -561,7 +561,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>If there are no errors, <code class="bash"><b>se</b> lint</code> will complete silently—but again, at this stage we’re expecting to see some errors because our ebook isn’t done yet.</p>
 			</li>
 			<li>
-				<h2 id="proofread" title="proofread">Build and proofread, proofread, proofread!</h2>
+				<h2 id="proofread">Build and proofread, proofread, proofread!</h2>
 				<p>At this point, our ebook is still missing some important things—a cover, the colophon, and some metadata—but the actual book is in a state where we can start proofreading. We complete a cover-to-cover proofread now, even though there’s still work to be done on the ebook, because once you’ve actually read the book, you’ll have a better idea of what kind of cover to select and what to write in the metadata description.</p>
 				<p><code class="bash"><b>se</b> build</code> will create a usable epub file for transfer to your ereader. We’ll run it with the <code class="bash">--kindle</code> and <code class="bash">--kobo</code> flag to build a file for Kindles and Kobos too. If you won’t be using a Kindle or Kobo, you can omit those flags.</p>
 				<code class="terminal"><span><b>se</b> build --output-dir=$HOME/dist/ --kindle --kobo <u>.</u></span></code>
@@ -606,7 +606,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</aside>
 			</li>
 			<li>
-				<h2 id="cover" title="cover">Create the cover image</h2>
+				<h2 id="cover">Create the cover image</h2>
 				<aside class="alert">
 					<p class="warning">STOP</p>
 					<p><strong>Do not commit cover art to your repository’s history until you have <a href="https://groups.google.com/g/standardebooks">cleared your selection with the S.E. Editor-in-Chief.</a></strong></p>
@@ -654,7 +654,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Once we built the images successfully, perform a commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add cover image"</i></span></code>
 			</li>
 			<li>
-				<h2 id="content" title="content">Complete content.opf</h2>
+				<h2 id="content">Complete content.opf</h2>
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text. We already completed the manifest and spine in an earlier step.</p>
 				<p><code class="path">content.opf</code> is standardized. See the <a href="/manual/latest/9-metadata">Metadata section of the <abbr class="acronym">SEMoS</abbr></a> for details on how to fill it out.</p>
 				<p>The last details to fill out here will be the short and long descriptions, verifying any Wikipedia links that <code class="bash"><b>se</b> create-draft</code> automatically found, adding cover artist metadata, filling out any missing author or contributor metadata, and adding your own metadata as the ebook producer.</p>
@@ -665,7 +665,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<code class="terminal"><span><b>git</b> commit -am <i>"Complete content.opf"</i></span></code>
 			</li>
 			<li>
-				<h2 id="colophon" title="colophon">Complete the imprint and colophon</h2>
+				<h2 id="colophon">Complete the imprint and colophon</h2>
 				<p><code class="bash"><b>se</b> create-draft</code> put a skeleton <code class="path">imprint.xhtml</code> file in the <code class="path">./src/epub/text/</code> folder. Fill out the links to the transcription and page scans.</p>
 				<p>There’s also a skeleton <code class="path">colophon.xhtml</code> file. Now that we have the cover image and artist, we can fill out the various fields there. Make sure to credit the original transcribers of the text (generally we assume them to be whoever’s name is on the file we download from Project Gutenberg) and to include a link back to the Gutenberg text we used, along with a link to any scans we used (from the Internet Archive or Hathi Trust, for example).</p>
 				<p>You can also include your own name as the producer of this Standard Ebooks edition. Besides that, the colophon is standardized; don’t get too creative with it.</p>
@@ -674,7 +674,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<code class="terminal"><span><b>git</b> commit -am <i>"Complete the imprint and colophon"</i></span></code>
 			</li>
 			<li>
-				<h2 id="checks" title="checks">Final checks</h2>
+				<h2 id="checks">Final checks</h2>
 				<p>It’s a good idea to run <code class="bash"><b>se</b> typogrify</code> and <code class="bash"><b>se</b> clean</code> one more time before running these final checks. Make sure to review the changes with <code class="bash"><b>git</b> difftool</code> before accepting them—<code class="bash"><b>se</b> typogrify</code> is usually right, but not always!</p>
 				<p>Now that our ebook is complete, let’s verify that there are no errors at the <abbr>S.E.</abbr> style level:</p>
 				<code class="terminal"><span><b>se</b> lint <u>.</u></span></code>
@@ -683,7 +683,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Once that completes without errors, we’re ready to move on to the final step!</p>
 			</li>
 			<li>
-				<h2 id="publication" title="publication">Initial publication</h2>
+				<h2 id="publication">Initial publication</h2>
 				<p>You’re ready to publish!</p>
 				<ul>
 					<li>
