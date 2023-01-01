@@ -1,13 +1,14 @@
 <?
 
-// Hide the alert if the user has closed it
-if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || $GLOBALS['User'] !== null){
-	return;
-}
-
 $start = new DateTime('November 28, 2022 00:00:00 America/New_York');
 $end = new DateTime('December 31, 2022 23:59:00 America/New_York');
 $now = new DateTime();
+
+// Hide the alert if the user has closed it
+if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || $GLOBALS['User'] !== null || $now > $end){
+	return;
+}
+
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
 $current = Db::QueryInt('

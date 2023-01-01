@@ -1,16 +1,17 @@
 <?
 
+$start = new DateTime('May 2, 2022 00:00:00 America/New_York');
+$end = new DateTime('May 8, 2022 23:59:00 America/New_York');
+$now = new DateTime();
+
 // Hide the alert if the user has closed it
-if(!DONATION_DRIVE_COUNTER_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false)){
+if(!DONATION_DRIVE_COUNTER_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || $now > $end){
 	return;
 }
 
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
 $current = 0;
-$start = new DateTime('May 2, 2022 00:00:00 America/New_York');
-$end = new DateTime('May 8, 2022 23:59:00 America/New_York');
-$now = new DateTime();
 
 if($now < $start || $now > $end){
 	return;
