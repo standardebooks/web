@@ -77,9 +77,9 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/46558">The Demi-gods</a> by James Stephens</p>
 			</li> -->
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37332">A Little Princess</a> by Francis Hodgson Burnett</p>
-			</li> -->
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/46409">Heidi</a> by Johanna Spyri</p>
 			</li> -->
@@ -92,9 +92,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/92">Tarzan and the Jewels of Opar</a> (Tarzan 5) by Edgar Rice Burroughs</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/106">Jungle Tales of Tarzan</a> (Tarzan 6) by Edgar Rice Burroughs</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/58874">Tarzan and the Golden Lion</a> (Tarzan 9) by Edgar Rice Burroughs</p>
 			</li>
