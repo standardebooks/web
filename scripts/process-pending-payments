@@ -133,6 +133,13 @@ try{
 					$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Email"]]'))->getText());
 				}
 
+				// These donations are typically (always?) employer matches.
+				// FA does not provide a way to connect the original donation with the employer match.
+				// Example bbf87b83-d341-426f-b6c9-9091e3222e57
+				if($payment->User->Name == 'American Online Giving Foundation'){
+					$payment->IsMatchingDonation = true;
+				}
+
 				// We can get here via an AOGF donation that is anonymous
 				if($payment->User->Email == 'Not provided' || $payment->User->Email == ''){
 					$payment->User = null;
@@ -150,7 +157,7 @@ try{
 			$payment->Fee = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Fee"]]'))->getText())));
 
 			// We might also get a case where the donation is on behalf of a company match, but there's not really a way to distinguish that. Do a rough check.
-			// See donation #00b60a22-eafa-44cb-9850-54bef9763e8d
+			// See donation 00b60a22-eafa-44cb-9850-54bef9763e8d
 			if($payment->User !== null && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name)){
 				$payment->User = null;
 			}
@@ -166,7 +173,23 @@ try{
 			}
 
 			// Does this payment put us in the Patrons Circle?
-			if(($payment->IsRecurring && $payment->Amount >= 10 && $payment->Created >= $lastMonth) || (!$payment->IsRecurring && $payment->Amount >= 100 && $payment->Created >= $lastYear)){
+			if(
+				(
+					$payment->IsRecurring
+					&&
+					$payment->Amount >= 10
+					&&
+					$payment->Created >= $lastMonth
+				)
+				||
+				(
+					!$payment->IsRecurring
+					&&
+					$payment->Amount >= 100
+					&&
+					$payment->Created >= $lastYear
+				)
+			){
 				// This payment is eligible for the Patrons Circle!
 				if($payment->User !== null){
 					// Are we already a patron?
@@ -195,7 +218,7 @@ try{
 						$patron->Create();
 					}
 				}
-				elseif(!$payment->IsRecurring){
+				elseif(!$payment->IsRecurring && !$payment->IsMatchingDonation){
 					// Fully-anonymous, non-recurring donation eligible for the Patrons Circle. We can't notify them, but do notify the admins.
 					$patron = new Patron();
 					$patron->User = new User();

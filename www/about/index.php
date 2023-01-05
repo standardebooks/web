@@ -22,6 +22,7 @@ $anonymousPatronCount = Db::QueryInt('
 				          ( select count(*) cnt
 				           from Payments
 				           where UserId is null
+				               and IsMatchingDonation = false
 				               and ( (IsRecurring = true
 				                      and Amount >= 10
 				                      and Created >= utc_timestamp() - interval 30 day)
@@ -32,7 +33,8 @@ $anonymousPatronCount = Db::QueryInt('
 				          ( select count(*) as cnt
 				           from Patrons
 				           where IsAnonymous = true
-				               and Ended is null ) ) x
+				               and Ended is null )
+				      ) x
 				');
 
 ?><?= Template::Header(['title' => 'About Standard Ebooks', 'highlight' => 'about', 'description' => 'Standard Ebooks is a volunteer-driven effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the public domain, and Standard Ebook dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain.']) ?>

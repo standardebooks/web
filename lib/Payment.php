@@ -13,6 +13,7 @@ class Payment extends PropertiesBase{
 	public $Amount;
 	public $Fee;
 	public $IsRecurring;
+	public $IsMatchingDonation = false;
 
 
 	// *******
@@ -50,15 +51,16 @@ class Payment extends PropertiesBase{
 
 		try{
 			Db::Query('
-				INSERT into Payments (UserId, Created, ChannelId, TransactionId, Amount, Fee, IsRecurring)
+				INSERT into Payments (UserId, Created, ChannelId, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation)
 				values(?,
 				       ?,
 				       ?,
 				       ?,
 				       ?,
 				       ?,
+				       ?,
 				       ?)
-			', [$this->UserId, $this->Created, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring]);
+			', [$this->UserId, $this->Created, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
 		}
 		catch(PDOException $ex){
 			if($ex->errorInfo[1] == 1062){
