@@ -578,6 +578,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://archive.org/details/blindmice00compgoog/page/n6/mode/2up">Blind Mice</a> by Cyril Kay Scott (Transcription required.)</p><!--patron-->
 			</li>
+			<li>
+				<p>The Travels of Marco Polo by Rustichello da Pisa, translated by Henry Yule (<a href="https://gutenberg.org/ebooks/10636">volume 1</a>, <a href="https://gutenberg.org/ebooks/12410">volume 2</a>)</p>
+			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
 		<ul>
