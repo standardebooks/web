@@ -39,9 +39,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/19651">Key Out of Time</a> by Andre Norton</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/18817">Ralestone Luck</a> by Andre Norton</p>
 			</li>
 			<li>
