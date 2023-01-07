@@ -13,7 +13,6 @@
 	<? } ?>
 	<p>As a Patron, once per quarter you may suggest a book for inclusion in our Wanted Ebooks list. Before submitting a suggestion, please review our <a href="https://standardebooks.org/contribute/collections-policy">collections policy</a>; then you can contact me directly at <a href="mailto:<?= EDITOR_IN_CHIEF_EMAIL_ADDRESS ?>"><?= EDITOR_IN_CHIEF_EMAIL_ADDRESS ?></a> with your selection.</p>
 	<p>You also get access to our <a href="https://standardebooks.org/feeds">ebook feeds</a> for use in your ereading app or RSS reader, and <a href="https://standardebooks.org/bulk-downloads">bulk downloads</a> to download collections of ebooks easily. To use the feeds, enter your email address when prompted, and leave the password field empty.</p>
-	<? if(!$isReturning){ ?><p>If I may ask, how did you hear about Standard Ebooks? Having an idea of where our readers and supporters find out about us is extremely helpful.</p><? } ?>
 	<p><? if($isReturning){ ?>As always, please<? }else{ ?>Please<? } ?> don’t hesitate to contact me if you have questions or suggestions. Thanks again for your donation, and for supporting the literate arts!</p>
 	<footer style="margin-top: 2em;">
 		<p>Alex Cabal</p>
