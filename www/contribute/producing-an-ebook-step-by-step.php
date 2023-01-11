@@ -228,8 +228,8 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.8.1">Coordinates</a>. Use the prime and double prime glyphs for coordinates.</p>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"([0-9])+’"</i> <i>"\1′"</i> src/epub/text/<i class="glob">*</i></span></code>
-						<code class="terminal"><span><b>se</b> interactive-replace <i>"([0-9])+”"</i> <i>"\1″"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <i>"([0-9]+)’"</i> <i>"\1′"</i> src/epub/text/<i class="glob">*</i></span></code>
+						<code class="terminal"><span><b>se</b> interactive-replace <i>"([0-9]+)”"</i> <i>"\1″"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.3.3">Text in all caps</a>. Text in all caps is almost never correct, and should either be converted to lowercase with the <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> element (for spoken emphasis), <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> (for extreme spoken emphasis), or <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> (for unsemantic small caps, like in storefront signs).</p>
