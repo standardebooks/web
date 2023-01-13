@@ -1,6 +1,7 @@
 <?
 use Safe\DateTime;
 use function Safe\file_get_contents;
+use function Safe\filesize;
 use function Safe\json_encode;
 use function Safe\glob;
 use function Safe\preg_match;
@@ -57,6 +58,8 @@ class Ebook{
 	public $Updated;
 	public $TextUrl;
 	public $TextSinglePageUrl;
+	public $TextSinglePageSizeNumber = null;
+	public $TextSinglePageSizeUnit = null;
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 
 	public function __construct(?string $wwwFilesystemPath = null){
@@ -100,10 +103,18 @@ class Ebook{
 
 		$this->TextUrl = $this->Url . '/text';
 
-		$tempPath = glob($this->WwwFilesystemPath . '/text/single-page.xhtml');
-		if(sizeof($tempPath) > 0){
+		try{
+			$bytes = filesize($this->WwwFilesystemPath . '/text/single-page.xhtml');
+			$sizes = 'BKMGTP';
+			$factor = floor((strlen($bytes) - 1) / 3);
+			$this->TextSinglePageSizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
+			$this->TextSinglePageSizeUnit = $sizes[$factor] ?? '';
 			$this->TextSinglePageUrl = $this->Url . '/text/single-page';
 		}
+		catch(Exception $ex){
+			// Single page file doesn't exist, just pass
+		}
+
 
 		// Generate the Kindle cover URL.
 		$tempPath = glob($this->WwwFilesystemPath . '/downloads/*_EBOK_portrait.jpg');

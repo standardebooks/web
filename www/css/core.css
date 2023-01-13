@@ -64,6 +64,7 @@
 	--light-input-border: #777;
 	--light-input-outline: #000;
 	--light-table-row-hover: #dddbd5;
+	--light-warning: #932d2d;
 
 	--dark-body-bg: #2c3035;
 	--dark-body-text: #fff;
@@ -76,6 +77,7 @@
 	--dark-input-hover: #118460;
 	--dark-input-outline: #fff;
 	--dark-table-row-hover: #373b3f;
+	--dark-warning: #ec6161;
 
 	--body-text: var(--light-body-text);
 	--header: var(--light-header);
@@ -90,6 +92,7 @@
 	--input-outline: var(--light-input-outline);
 	--link-highlight: var(--button);
 	--table-row-hover: var(--light-table-row-hover);
+	--warning: var(--light-warning);
 }
 
 /* Start CSS reset */
@@ -1139,9 +1142,6 @@ article.ebook #more-ebooks li:nth-child(5) img{
 article.ebook #more-ebooks li:nth-child(2) img,
 article.ebook #more-ebooks li:nth-child(4) img{
 	height: 180px;
-}
-
-article.ebook #more-ebooks li:nth-child(3) img{
 }
 
 time{
@@ -2755,6 +2755,24 @@ aside button.close:active{
 	z-index: -1;
 	border-radius: 2rem;
 	transition: transform .5s;
+}
+
+article.ebook section#read-online ul li p.has-size{
+	display: flex;
+}
+
+article.ebook section#read-online ul li p.has-size span{
+	color: var(--warning);
+	border: 1px solid var(--warning);
+	border-radius: 5px;
+	padding: .25rem .5rem;
+	margin-left: .5rem;
+}
+
+article.ebook section#read-online ul li p.has-size span::before{
+	content: "\f071";
+	font-family: "Fork Awesome";
+	margin-right: .25rem;
 }
 
 ul.feed p{

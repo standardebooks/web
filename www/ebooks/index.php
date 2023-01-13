@@ -56,7 +56,6 @@ try{
 	// Are we looking at a collection?
 	if($collection !== null){
 		$ebooks = Library::GetEbooksByCollection($collection);
-
 		// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
 		if(sizeof($ebooks) > 0){
 			foreach($ebooks[0]->Collections as $c){
@@ -85,7 +84,6 @@ try{
 		$totalEbooks = sizeof($ebooks);
 		$ebooks = array_slice($ebooks, ($page - 1) * $perPage, $perPage);
 	}
-
 
 	if($page > 1){
 		$pageTitle .= ', page ' . $page;
