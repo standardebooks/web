@@ -120,9 +120,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/3809">Master of the World</a> <i>Maître du monde</i> by Jules Verne</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1652">The Survivors of the Chancellor</a> <i>Le Chancellor</i> by Jules Verne</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
 			</li>
 			<li>
@@ -526,9 +523,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/45502">How the Other Half Lives</a> by Jacob Riis</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/7469">Daniel Deronda</a> by George Eliot (part of the BBC 2015 collection)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
