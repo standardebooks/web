@@ -387,6 +387,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://archive.org/details/abiesirishroseno0000anne">Abie’s Irish Rose</a> by Anne Nichols (transcription required)</p><!--patron-->
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7370">Two Treatises of Government</a> by John Locke (Note: PG only has the 2nd treatise; transcription is required for the 1st treatise)</p><!--patron-->
 			</li>
 			<li>
