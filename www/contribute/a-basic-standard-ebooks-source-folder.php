@@ -54,7 +54,7 @@ require_once('Core.php');
 									<p><code class="path">src/epub/text/colophon.xhtml</code> is the template for the Standard Ebooks colophon that appears at the end of every ebook. Usually you’ll edit this last, once you’ve finalized the cover page and metadata.</p>
 								</li>
 								<li>
-									<p><code class="path">src/epub/text/titlepage.xhtml</code> is the template for the titlepage. The only thing to edit here is the title and author in the titlepage <code class="html">alt</code> attribute. Leave the rest alone.</p>
+									<p><code class="path">src/epub/text/titlepage.xhtml</code> is the titlepage. The draft script added the title and author. Don’t edit this unless the title and author are incorrect.</p>
 								</li>
 								<li>
 									<p><code class="path">src/epub/text/unlicense.xhtml</code> is the Standard Ebooks public domain dedication. Don’t edit this at all.</p>
