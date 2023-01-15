@@ -48,13 +48,13 @@ require_once('Core.php');
 							<p><code class="path">src/epub/images/</code> contains the images used in the final epub. Right now it contains the Standard Ebooks logo file used in the colophon; don’t edit the logo. Once you’ve finished the cover and titlepage images in <code class="path">./images/</code>, the <code class="program">build-images</code> script will compile them and put them here.</p>
 						</li>
 						<li>
-							<p><code class="path">src/epub/text/</code> is the meat and potatoes of the ebook! You’ll place the source XHTML files here, alongside the templates the draft script created for you:</p>
+							<p><code class="path">src/epub/text/</code> is the meat and potatoes of the ebook! You’ll place the source XHTML files here, alongside the templates <code class="bash"><b>se</b> create-draft</code> created for you:</p>
 							<ul>
 								<li>
 									<p><code class="path">src/epub/text/colophon.xhtml</code> is the template for the Standard Ebooks colophon that appears at the end of every ebook. Usually you’ll edit this last, once you’ve finalized the cover page and metadata.</p>
 								</li>
 								<li>
-									<p><code class="path">src/epub/text/titlepage.xhtml</code> is the titlepage. The draft script added the title and author. Don’t edit this unless the title and author are incorrect.</p>
+									<p><code class="path">src/epub/text/titlepage.xhtml</code> is the titlepage. <code class="bash"><b>se</b> create-draft</code> generated the title and author. Don’t edit this unless the title and author are incorrect.</p>
 								</li>
 								<li>
 									<p><code class="path">src/epub/text/unlicense.xhtml</code> is the Standard Ebooks public domain dedication. Don’t edit this at all.</p>
