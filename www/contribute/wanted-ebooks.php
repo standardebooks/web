@@ -168,6 +168,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/64235">The Argonautica</a> by Apollonius of Rhodes, translated by Arthur S. Way</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
 			</li>
 			<!-- <li>
@@ -386,6 +389,9 @@ require_once('Core.php');
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.google.com/books/edition/_/JL4DAAAAQAAJ?hl=en&gbpv=1">Pan Tadeusz</a> by Adam Mickiewicz, translated by Maude Ashurst Biggs (<a href="https://www.google.com/books/edition/_/ML4DAAAAQAAJ?hl=en&gbpv=1">Vol. 2</a>; transcription required)</p>
+			</li>
 			<li>
 				<p><a href="https://archive.org/details/abiesirishroseno0000anne">Abie’s Irish Rose</a> by Anne Nichols (transcription required)</p><!--patron-->
 			</li>
