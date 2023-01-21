@@ -387,7 +387,7 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
-				<p><a href="https://www.google.com/books/edition/_/JL4DAAAAQAAJ?hl=en&gbpv=1">Pan Tadeusz</a> by Adam Mickiewicz, translated by Maude Ashurst Biggs (<a href="https://www.google.com/books/edition/_/ML4DAAAAQAAJ?hl=en&gbpv=1">Vol. 2</a>; transcription required)</p>
+				<p><a href="https://www.google.com/books/edition/_/JL4DAAAAQAAJ?hl=en&amp;gbpv=1">Pan Tadeusz</a> by Adam Mickiewicz, translated by Maude Ashurst Biggs (<a href="https://www.google.com/books/edition/_/ML4DAAAAQAAJ?hl=en&amp;gbpv=1">Vol. 2</a>; transcription required)</p>
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/abiesirishroseno0000anne">Abie’s Irish Rose</a> by Anne Nichols (transcription required)</p><!--patron-->
