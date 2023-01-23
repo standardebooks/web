@@ -387,6 +387,12 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://gutenberg.org/ebooks/24869">The Ramayana</a> by Valmiki, translated by Ralph T. H. Griffith</p>
+			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/15474">The Mahabharata</a> by Vyasa, translated by Kisari Mohan Ganguli (<a href="https://gutenberg.org/ebooks/15475">Vol. 2</a>, <a href="https://gutenberg.org/ebooks/15476">Vol. 3</a>, <a href="https://gutenberg.org/ebooks/15477">Vol. 4</a>; as a single production; several sections are missing)</p>
+			</li>
+			<li>
 				<p><a href="https://www.google.com/books/edition/_/JL4DAAAAQAAJ?hl=en&amp;gbpv=1">Pan Tadeusz</a> by Adam Mickiewicz, translated by Maude Ashurst Biggs (<a href="https://www.google.com/books/edition/_/ML4DAAAAQAAJ?hl=en&amp;gbpv=1">Vol. 2</a>; transcription required)</p>
 			</li>
 			<li>
