@@ -168,6 +168,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.fadedpage.com/showbook.php?pid=20210130">Early Autumn</a> by Louis Bromfield (Pulitzer #9)</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/64235">The Argonautica</a> by Apollonius of Rhodes, translated by Arthur S. Way</p>
 			</li>
 			<li>
