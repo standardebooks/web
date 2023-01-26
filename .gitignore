@@ -8,7 +8,6 @@ www/feeds/rss/*/*.xml
 www/feeds/atom/*.xml
 www/feeds/atom/*/*.xml
 vendor/
-composer.lock
 .vagrant/
 *.log
 www/manual/*
