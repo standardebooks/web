@@ -104,7 +104,9 @@ class Ebook{
 		$this->TextUrl = $this->Url . '/text';
 
 		try{
-			$bytes = filesize($this->WwwFilesystemPath . '/text/single-page.xhtml');
+			// PHP Safe throws an exception from filesize() if the file doesn't exist, but PHP still
+			// emits a warning. So, just silence the warning.
+			$bytes = @filesize($this->WwwFilesystemPath . '/text/single-page.xhtml');
 			$sizes = 'BKMGTP';
 			$factor = floor((strlen($bytes) - 1) / 3);
 			$this->TextSinglePageSizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
