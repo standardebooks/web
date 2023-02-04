@@ -603,7 +603,7 @@ require_once('Core.php');
 				<p><a href="https://en.wikipedia.org/wiki/Newcastle_Forgotten_Fantasy_Library">Public domain entries in the Newcastle Forgotten Fantasy Library</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.theguardian.com/books/2003/oct/12/features.fiction">Public domain entries in the Guardian’s top 100 novels of all time list</a></p>
+				<p><a href="https://www.theguardian.com/books/2015/aug/17/the-100-best-novels-written-in-english-the-full-list">Public domain entries in the Guardian’s top 100 novels of all time list</a></p>
 			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Le_Monde's_100_Books_of_the_Century">Public domain entries in Le Mondes’s 100 Books of the Century</a></p>
