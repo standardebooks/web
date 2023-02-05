@@ -47,9 +47,6 @@ require_once('Core.php');
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/51804">Plague of Pythons</a> by Frederik Pohl</p>
 			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
@@ -71,9 +68,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/24742">Mary, Mary</a> by James Stephens</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46558">The Demi-gods</a> by James Stephens</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37332">A Little Princess</a> by Francis Hodgson Burnett</p>
 			</li>
@@ -168,6 +165,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard. This is a cursed production—before you begin, please confirm that you are willing to see it past the finish line.</p>
+			</li>
+			<li>
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20210130">Early Autumn</a> by Louis Bromfield (Pulitzer #9)</p>
 			</li>
 			<li>
@@ -229,9 +229,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/32954">The Black Arrow</a> by Robert Louis Stevenson</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/864">The Master of Ballantrae</a> by Robert Louis Stevenson</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2769">Cleopatra</a> by H. Rider Haggard</p>
