@@ -205,7 +205,7 @@ require_once('Core.php');
 			<ul>
 				<li>
 					<p><b>Why do you offer a separate kepub file, when Kobos can open S.E.’s compatible epub files?</b></p>
-					<p>It’s true that Kobos can open and read regular epub files like the compatible epubs we offer for download. But doing so triggers Kobo’s bad ebook renderer, which based on A.D.E. Your ebooks are going to look bad because the renderer Kobo selects for plain epubs is bad.</p>
+					<p>It’s true that Kobos can open and read regular epub files like the compatible epubs we offer for download. But doing so triggers Kobo’s bad ebook renderer, which is based on A.D.E. Your ebooks are going to look bad because the renderer Kobo selects for plain epubs is bad.</p>
 					<p>When Kobo opens kepub files—which are still epub files, but specially prepared with extra Kobo-specific markup—Kobo uses their advanced Webkit-based renderer to render the ebook. This renderer is very good, and has support for a lot of advanced ebook rendering features that our specially-prepared kepub files take advantage of. Your ebooks will look very good when you use the kepub files instead of the compatible epub files.</p>
 					<p>We very much wish that Kobo would allow plain epubs to be presented to readers using their good renderer, and not A.D.E. You can <a href="https://help.kobo.com/hc/en-us/requests/new">contact Kobo</a> to let them know you’d like that, too.</p>
 				</li>
