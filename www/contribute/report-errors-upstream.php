@@ -5,7 +5,7 @@ require_once('Core.php');
 	<article>
 		<h1>Report Errors Upstream</h1>
 		<p>If you spot an error in a Standard Ebooks ebook, the first thing to do is let us know. If you haven’t already then you can read <a href="/contribute/report-errors">how to let us know about errors</a>.</p>
-		<p>But what if you want to want to make sure the error is also fixed in the source transcriptions? The first thing to do is to find out exactly which transcriptions the ebook was built from.</p>
+		<p>But what if you want to make sure the error is also fixed in the source transcriptions? The first thing to do is to find out exactly which transcriptions the ebook was built from.</p>
 		<p>To do this, find your book on the Standard Ebooks site and scroll to the “More Details” section. For example, <a href="/ebooks/thomas-hardy/far-from-the-madding-crowd#details">here’s that section for Thomas Hardy’s <i>Far From the Madding Crowd</i></a>. You’ll see that as well as links to the book’s page on Wikipedia and its repository of source code, there are links to the page scans at the Internet Archive and the original transcriptions at Project Gutenberg. These last two are the two we’re interested in.</p>
 		<h2>Reporting transcription errors to Project Gutenberg</h2>
 		<p>Gutenberg will happily fix problems with their transcriptions, but want errata reports formatted in a particular way, with proposed changes referenced against the line number of the plain text version of the transcription in question. Let’s look at a recent example.</p>
