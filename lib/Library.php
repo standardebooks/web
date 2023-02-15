@@ -138,6 +138,13 @@ class Library{
 	}
 
 	/**
+	 * @return array<string, Collection>
+	 */
+	public static function GetEbookCollections(): array{
+		return self::GetFromApcu('collections');
+	}
+
+	/**
 	 * @return array<Ebook>
 	 */
 	public static function GetEbooksByCollection(string $collection): array{
@@ -440,9 +447,14 @@ class Library{
 			apcu_store($lockVar, true);
 		}
 
+		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
+		if($collator === null){
+			throw new Exceptions\SeException('Couldn\'t create collator object when rebuilding cache.');
+		}
 		$ebooks = [];
-		$collections = [];
+		$ebooksByCollection = [];
 		$ebooksByTag = [];
+		$collectionsByName = [];
 		$authors = [];
 		$tagsByName = [];
 
@@ -457,8 +469,9 @@ class Library{
 				// Create the collections cache
 				foreach($ebook->Collections as $collection){
 					$urlSafeCollection = Formatter::MakeUrlSafe($collection->Name);
-					if(!array_key_exists($urlSafeCollection, $collections)){
-						$collections[$urlSafeCollection] = [];
+					if(!array_key_exists($urlSafeCollection, $ebooksByCollection)){
+						$ebooksByCollection[$urlSafeCollection] = [];
+						$collectionsByName[$urlSafeCollection] = $collection;
 					}
 
 					// Some items may have the same position in a collection,
@@ -473,7 +486,7 @@ class Library{
 					else{
 						$sortItem->Ordinal = 1;
 					}
-					$collections[$urlSafeCollection][] = $sortItem;
+					$ebooksByCollection[$urlSafeCollection][] = $sortItem;
 				}
 
 				// Create the tags cache
@@ -510,7 +523,7 @@ class Library{
 
 		// Now store various collections
 		apcu_delete(new APCUIterator('/^collection-/'));
-		foreach($collections as $collection => $sortItems){
+		foreach($ebooksByCollection as $collection => $sortItems){
 			// Sort the array by the ebook's ordinal in the collection. We use this custom sort function
 			// because an ebook may share the same place in a collection with another ebook; see above.
 			usort($sortItems, function($a, $b) {
@@ -527,6 +540,10 @@ class Library{
 			}
 			apcu_store('collection-' . $collection, $ebooks);
 		}
+
+		apcu_delete('collections');
+		usort($collectionsByName, function($a, $b) use($collator){ return $collator->compare($a->GetSortedName(), $b->GetSortedName()); });
+		apcu_store('collections', $collectionsByName);
 
 		apcu_delete(new APCUIterator('/^tag-/'));
 		foreach($ebooksByTag as $tagName => $ebooks){

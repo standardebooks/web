@@ -157,7 +157,7 @@ catch(Exceptions\InvalidCollectionException $ex){
 		</nav>
 	<? } ?>
 
-	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
+	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> and a <a href="/collections">list of collections</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
 	<? if(sizeof($ebooks) > 0 && $query == '' && sizeof($tags) == 0 && $collection === null && $page == 1){ ?>
 		<?= Template::ContributeAlert() ?>
 	<? } ?>
