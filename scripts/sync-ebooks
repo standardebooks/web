@@ -244,7 +244,7 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 
 	# get the last segment of the dc:identifier from the metadata
 	properName="$(git -C "${repoName}" show HEAD:src/epub/content.opf |
-		grep -oE "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" |
+		grep -oE "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+</dc:identifier>" |
 		sed -E "s/<[^>]+?>//g" |
 		sed -E "s|url:https://standardebooks.org/ebooks/||g" |
 		sed -E "s|/|_|g").git"
