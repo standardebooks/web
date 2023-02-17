@@ -215,9 +215,9 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 
 	# if the repository name has been truncated due to GitHub's name length limits,
 	# but a local clone with the full name exists, don't attempt to clone it again
-	repoNameLength=$(printf "%s" "${repoName}" | wc -m)
+	repoNameLength=$(printf "%s" "${repoName%.git}" | wc -m)
 	if [ "${repoNameLength}" -ge 100 ]; then
-		if dirs=( "${repoName}"*/ ) && [[ -d ${dirs[0]} ]]; then
+		if dirs=( "${repoName%.git}"*/ ) && [[ -d ${dirs[0]} ]]; then
 			continue
 		fi
 	fi
