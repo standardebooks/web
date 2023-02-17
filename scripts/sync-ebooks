@@ -255,9 +255,15 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 	# if for some reason the repository name isn't the same as the identifier (they are identical
 	# 99% of the time), rename the directory to be the identifier name; not sure why this is done, either
 	if [ "${repoName}" != "${properName}" ]; then
-		if [ "${verbosity}" -gt 0 ]; then
-			printf "Moving %s to %s\n" "${repoName}" "${properName}"
+		if [ -d "${properName}" ]; then
+			if [ "${verbosity}" -gt 0 ]; then
+				printf "Not moving %s to %s: directory exists\n" "${repoName}" "${properName}"
+			fi
+		else
+			if [ "${verbosity}" -gt 0 ]; then
+				printf "Moving %s to %s\n" "${repoName}" "${properName}"
+			fi
+			mv "${repoName}" "${properName}"
 		fi
-		mv "${repoName}" "${properName}"
 	fi
 done
