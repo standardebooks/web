@@ -451,6 +451,7 @@ class Library{
 		if($collator === null){
 			throw new Exceptions\SeException('Couldn\'t create collator object when rebuilding cache.');
 		}
+
 		$ebooks = [];
 		$ebooksByCollection = [];
 		$ebooksByTag = [];
