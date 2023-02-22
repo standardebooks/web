@@ -420,18 +420,18 @@ header nav li a:visited{
 }
 
 header nav li a:hover,
-header nav li a.highlighted:hover{
+header nav li a[aria-current]:hover{
 	color: #fff;
 	border-bottom: 5px solid var(--button);
 	transition: none;
 }
 
-header nav li a.highlighted{
+header nav li a[aria-current]{
 	color: #fff;
 	border-bottom: 5px solid var(--button);
 }
 
-header nav li a.highlighted::after{
+header nav li a[aria-current]::after{
 	position: absolute;
 	content: "";
 	width: 0px;
@@ -3509,7 +3509,7 @@ ul.feed p{
 	body > header > a,
 	header nav li a,
 	header nav li a:hover,
-	header nav li a.highlighted:hover,
+	header nav li a[aria-current]:hover,
 	a.button.next::after,
 	.ebooks nav > a:last-child::after,
 	a[href].button.next:hover::after,

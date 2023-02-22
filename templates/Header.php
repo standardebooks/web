@@ -79,19 +79,19 @@ if(!$isXslt){
 		<nav>
 			<ul>
 				<li>
-					<a<? if($highlight == 'ebooks'){ ?> class="highlighted"<? } ?> href="/ebooks">Ebooks</a>
+					<a<? if($highlight == 'ebooks'){ ?> aria-current="page"<? } ?> href="/ebooks">Ebooks</a>
 				</li>
 				<li>
-					<a<? if($highlight == 'about'){ ?> class="highlighted"<? } ?> href="/about">About</a>
+					<a<? if($highlight == 'about'){ ?> aria-current="page"<? } ?> href="/about">About</a>
 				</li>
 				<li>
-					<a<? if($highlight == 'newsletter'){ ?> class="highlighted"<? } ?> href="/newsletter">Newsletter</a>
+					<a<? if($highlight == 'newsletter'){ ?> aria-current="page"<? } ?> href="/newsletter">Newsletter</a>
 				</li>
 				<li>
-					<a<? if($highlight == 'contribute'){ ?> class="highlighted"<? } ?> href="/contribute">Get Involved</a>
+					<a<? if($highlight == 'contribute'){ ?> aria-current="page"<? } ?> href="/contribute">Get Involved</a>
 				</li>
 				<li>
-					<a<? if($highlight == 'donate'){ ?> class="highlighted"<? } ?> href="/donate">Donate</a>
+					<a<? if($highlight == 'donate'){ ?> aria-current="page"<? } ?> href="/donate">Donate</a>
 				</li>
 			</ul>
 		</nav>
