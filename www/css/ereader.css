@@ -1,0 +1,224 @@
+@font-face{
+	font-family: "League Spartan";
+	src: url("/fonts/league-spartan-bold.ttf") format("truetype");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+body > header{
+	border-bottom: 2px solid black;
+}
+
+body > header > a{
+	background: url("/images/logo-full.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	display: inline-block;
+	height: 70px;
+	margin-bottom: 1rem;
+	text-indent: -9999px;
+	width: 300px;
+}
+
+header nav{
+	font-family: "League Spartan", Arial, sans-serif;
+	text-transform: uppercase;
+}
+
+header nav ul{
+	margin: 0;
+	padding: 0;
+}
+
+header nav li{
+	display: inline-block;
+	margin-bottom: 1rem;
+}
+
+header nav li + li:before{
+	content: "•";
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+header nav li a{
+	text-decoration: none;
+	letter-spacing: 1px;
+	padding: 1rem 0.5rem;
+}
+
+header nav li:first-child a{
+	padding-left: 0;
+}
+
+/* Large images make the page wide, making the rest of the elements small. They are also hard to scroll past. */
+header img,
+.front-page h1 + picture img,
+.narrow.has-hero img{
+	max-height: 200px;
+	width: auto;
+}
+
+footer p:last-child a{
+	background: url("/images/logo-small.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	display: inline-block;
+	text-indent: -9999px;
+	height: 55px;
+	width: 87px;
+}
+
+main.front-page h1,
+a.button,
+.ebooks nav > a,
+form button{
+	font-family: "League Spartan", Arial, sans-serif;
+}
+
+h1,
+.masthead h2{
+	font-size: 2rem;
+	font-family: "League Spartan", Arial, sans-serif;
+}
+
+h2,
+.masthead h3,
+article.ebook > header > hgroup > h2{
+	font-size: 1.4rem;
+	font-family: "League Spartan", Arial, sans-serif;
+}
+
+h3,
+h4,
+h5,
+h6{
+	font-size: 1rem;
+	font-family: "League Spartan", Arial, sans-serif;
+}
+
+main.front-page > section > section figure.stacked{
+	height: 329px;
+	margin-left: 2rem;
+	position: relative;
+	width: 400px;
+}
+
+main.front-page > section > section figure.stacked img.bottom,
+main.front-page > section > section figure.stacked img.top{
+	position: absolute;
+	width: 316px;
+}
+
+main.front-page > section > section figure.stacked img.top{
+	top: 165px;
+	left: 72px;
+}
+
+main.front-page > section > section figure.stacked img.arrow{
+	position: absolute;
+	right: 26px;
+	top: 122px;
+	width: 40px;
+}
+
+.ebooks form label{
+	display: block;
+	margin: 1rem 3rem 1rem 0;
+}
+
+select,
+input[type="text"],
+input[type="month"],
+input[type="email"],
+input[type="search"]{
+	width: 100%;
+}
+
+label.automation-test{
+	display: none;
+}
+
+select{
+	padding-left: 1rem;
+	padding-right: 2rem;
+}
+
+
+label.select > span{
+	display: block;
+}
+
+label.select > span + span{
+	display: inline-block;
+}
+
+ol.ebooks-list{
+	list-style: none;
+}
+
+ol.ebooks-list.grid li{
+	float: left;
+	margin-bottom: 2rem;
+	text-align: center;
+	width: 20rem;
+}
+
+ol.ebooks-list.list > li + li {
+	clear: both;
+	padding-top: 2rem;
+}
+
+ol.ebooks-list.list > li .thumbnail-container{
+	float: left;
+	margin-right: 1rem;
+}
+
+ol.ebooks-list.list ul.tags{
+	list-style: none;
+}
+
+ol.ebooks-list.list ul.tags li{
+	float: left;
+	margin-right: .5rem;
+	margin-top: .5rem;
+}
+
+ol.ebooks-list > li p{
+	margin: 0;
+}
+
+ol.ebooks-list > li img{
+	border-radius: .25rem;
+}
+
+ol.ebooks-list > li > p:nth-of-type(1) > a{
+	font-weight: bold;
+	text-decoration: none;
+}
+
+ol.ebooks-list > li p.author{
+	font-style: italic;
+}
+
+ol.ebooks-list > li p.author a{
+	text-decoration: none;
+}
+
+ol.editors {
+	list-style: none;
+}
+
+p.feeds-alert,
+main.ebooks nav{
+	clear: both;
+}
+
+main.ebooks nav ol{
+	list-style: none;
+}
+
+main.ebooks nav ol li{
+	padding: 1rem;
+}
