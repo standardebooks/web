@@ -194,9 +194,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Ward Radcliffe (#32 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/2276">The Private Memoirs and Confessions of a Justified Sinner</a> by James Hogg (#38 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>, part of the BBC 2015 collection)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/35637">The Secret Glory</a> by Arthur Machen</p>
 			</li>
@@ -274,9 +271,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by D.H. Lawrence (part of the Modern Library and BBC 2015 collections, #2 in the Brangwen Family Saga after <i>The Rainbow</i>)</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/821">Dombey and Son</a> by Charles Dickens (part of the BBC 2015 collection)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
