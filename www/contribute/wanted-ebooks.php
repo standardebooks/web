@@ -23,9 +23,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2081">The Blithedale Romance</a> by Nathaniel Hawthorne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/792">Wieland</a> by Charles Brockden Brown</p>
 			</li>
@@ -116,9 +116,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/30188">The Fifth Queen</a> by Ford Madox Ford (Book 1 in the Fifth Queen Trilogy)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/26698">Privy Seal</a> by Ford Madox Ford (Book 2 in the Fifth Queen Trilogy)</p>
 			</li>
