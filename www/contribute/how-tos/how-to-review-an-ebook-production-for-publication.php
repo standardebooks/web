@@ -7,6 +7,10 @@ require_once('Core.php');
 		<p>After an ebook production is completed, it must go through rounds of review before it is published to ensure the appropriate production quality is assured. Reviewers are assigned by the <a href="/about#editor-in-chief">editor-in-chief</a>, and may be a member of the <a href="/about#editors">editorial staff</a>, or an experienced Standard Ebooks producer. Below is a helpful step-by-step checklist for reviewers of ebook productions. The checklist is by no means exhaustive, but serves as a good starting point for the proofreading process. Reviewers should keep in mind the standards enumerated in the <a href="/manual">Manual of Style</a>, and note any discrepancies not listed below. Before any review steps, ensure the most recent version of the SE toolset is installed.</p>
 		<ol>
 			<li>
+				<h2>Lint</h2>
+				<p>Run <code class="bash"><b>se</b> lint <u>.</u></code> at the root of the project directory. If <code>lint</code> surfaces any nontrivial errors, you should direct the producer to fix the errors before proceeding. If there are false positives, the producer should create an <code>se-lint-ignore.xml</code> to suppress the false positives.</p>
+			</li>
+			<li>
 				<h2>Typogrify</h2>
 				<p>Run <code class="bash"><b>se</b> typogrify <u>.</u></code> at the root of the project directory. The <code>typogrify</code> command is almost always correct, but sometimes not all changes it makes should be accepted. To go over the changes <code>typogrify</code> may have made, run the following <code class="bash"><b>git</b></code> command to also highlight changes made to invisible or hard to differentiate Unicode characters:</p>
 				<code class="terminal"><b>git</b> diff -U0 --word-diff-regex=.</code>
@@ -159,7 +163,7 @@ require_once('Core.php');
 				</ul>
 			</li>
 			<li>
-				<h2>Lint</h2>
+				<h2>Lint again</h2>
 				<p>Run a final <code class="bash"><b>se</b> lint <u>.</u></code> check, and ensure it is silent. If any warnings and errors are produced, they must be noted and addressed.</p>
 			</li>
 			<li>
