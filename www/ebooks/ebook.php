@@ -210,7 +210,7 @@ catch(Exceptions\InvalidEbookException $ex){
 			</div>
 			<?= $ebook->GenerateContributorsRdfa() ?>
 			<h2>Read free</h2>
-			<p class="us-pd-warning">This ebook is only thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that the contents of this ebook are free of copyright restrictions in the country you’re located in before downloading or using this ebook.</p>
+			<p class="us-pd-warning">This ebook is thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that this ebook is free of copyright restrictions in the country you’re located in before accessing, downloading, or using it.</p>
 
 			<div class="downloads-container">
 				<figure class="<? if($ebook->WordCount < 100000){ ?>small<? }elseif($ebook->WordCount >= 100000 && $ebook->WordCount < 200000){ ?>medium<? }elseif($ebook->WordCount >= 200000 && $ebook->WordCount <= 300000){ ?>large<? }elseif($ebook->WordCount >= 300000 && $ebook->WordCount < 400000){ ?>xlarge<? }elseif($ebook->WordCount >= 400000){ ?>xxlarge<? } ?>">
