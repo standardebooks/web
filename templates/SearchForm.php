@@ -3,7 +3,7 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 ?>
 <form action="/ebooks" method="get" rel="search">
 	<label class="tags">Subjects
-		<select multiple="multiple" name="tags[]" size="1">
+		<select <? if(!Template::IsEreaderBrowser()){ ?> multiple="multiple"<? } ?> name="tags[]" size="1">
 			<option value="all">All</option>
 		<? foreach(Library::GetTags() as $tag){ ?>
 			<option value="<?= $tag->UrlName ?>"<? if(!$allSelected && in_array($tag->UrlName, $tags)){ ?> selected="selected"<? } ?>><?= Formatter::ToPlainText($tag->Name) ?></option>
