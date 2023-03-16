@@ -345,7 +345,7 @@ class Ebook{
 		$this->ReadingEase = $readingEase;
 
 		if($this->ReadingEase !== null){
-			if($this->ReadingEase >= 90){
+			if($this->ReadingEase > 89){
 				$this->ReadingEaseDescription = 'very easy';
 			}
 
@@ -369,7 +369,7 @@ class Ebook{
 				$this->ReadingEaseDescription = 'difficult';
 			}
 
-			if($this->ReadingEase < 39){
+			if($this->ReadingEase <= 39){
 				$this->ReadingEaseDescription = 'very difficult';
 			}
 		}
