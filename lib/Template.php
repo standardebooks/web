@@ -54,4 +54,8 @@ class Template{
 
 		exit();
 	}
+
+	public static function IsEreaderBrowser(): bool{
+		return isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], "Kobo") !== false || strpos($_SERVER['HTTP_USER_AGENT'], "Kindle") !== false);
+	}
 }
