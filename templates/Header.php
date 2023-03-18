@@ -4,11 +4,6 @@ $title = $title ?? '';
 $highlight = $highlight ?? '';
 $description = $description ?? '';
 $manual = $manual ?? false;
-
-if(isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], "Kobo") !== false || strpos($_SERVER['HTTP_USER_AGENT'], "Kindle") !== false)){
-	$ereader = true;
-}
-
 $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 $isXslt = $isXslt ?? false;
 $feedUrl = $feedUrl ?? null;
@@ -40,7 +35,7 @@ if(!$isXslt){
 	<link rel="preload" as="font" href="/fonts/league-spartan-bold.woff2" type="font/woff2" crossorigin="anonymous"/>
 	<link rel="preload" as="font" href="/fonts/fork-awesome-subset.woff2" type="font/woff2" crossorigin="anonymous"/>
 	<link rel="preload" as="font" href="/fonts/crimson-pro-italic.woff2" type="font/woff2" crossorigin="anonymous"/> <? /* Don't preload bold/bold-italic as those are used far less frequently */ ?>
-	<? if($ereader){ ?>
+	<? if(Template::IsEreaderBrowser()){ ?>
 	<link href="/css/ereader.css?version=<?= filemtime(WEB_ROOT . '/css/ereader.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? } else { ?>
 	<link href="/css/core.css?version=<?= filemtime(WEB_ROOT . '/css/core.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
