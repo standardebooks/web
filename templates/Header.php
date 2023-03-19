@@ -36,6 +36,7 @@ if(!$isXslt){
 	<link rel="preload" as="font" href="/fonts/fork-awesome-subset.woff2" type="font/woff2" crossorigin="anonymous"/>
 	<link rel="preload" as="font" href="/fonts/crimson-pro-italic.woff2" type="font/woff2" crossorigin="anonymous"/> <? /* Don't preload bold/bold-italic as those are used far less frequently */ ?>
 	<? if(Template::IsEreaderBrowser()){ ?>
+	<link rel="preload" as="font" href="/fonts/league-spartan-bold.ttf" type="font/ttf" crossorigin="anonymous"/>
 	<link href="/css/ereader.css?version=<?= filemtime(WEB_ROOT . '/css/ereader.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? } else { ?>
 	<link href="/css/core.css?version=<?= filemtime(WEB_ROOT . '/css/core.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
