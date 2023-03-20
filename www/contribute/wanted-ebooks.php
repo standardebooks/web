@@ -108,9 +108,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/3808">Robur the Conqueror</a> <i>Robur-le-Conquérant</i> by Jules Verne</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3809">Master of the World</a> <i>Maître du monde</i> by Jules Verne</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
 			</li>
 			<!-- <li>
@@ -568,6 +565,16 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p>The Travels of Marco Polo by Rustichello da Pisa, translated by Henry Yule (<a href="https://gutenberg.org/ebooks/10636">volume 1</a>, <a href="https://gutenberg.org/ebooks/12410">volume 2</a>)</p>
+			</li>
+		</ul>
+		<h2 id="verne">Jules Verne</h2>
+		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
+		<ul>
+			<li>
+				<p>As of 2023, 20,000 Leagues under the Seas does not have an acceptable public domain translation.</p>
+			</li>
+			<li>
+				<p>Master of the World has two PD translations, one from 1911 and one from 1914. The 1911 version is bad, and the 1914 by Cranstoun Metcalfe version is preferred; but, as of 2023, there are no transcriptions or page scans for the 1914 version.</p>
 			</li>
 		</ul>
 		<h2>Uncategorized lists</h2>
