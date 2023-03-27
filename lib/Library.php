@@ -160,6 +160,85 @@ class Library{
 	}
 
 	/**
+	* @param string $query
+	* @param string $status
+	* @param string $sort
+	* @return array<CoverArt>
+	*/
+	public static function FilterCoverArt(string $query = null, string $status = null, string $sort = null): array{
+		$coverArtList = self::GetFromApcu('coverart');
+		$matches = $coverArtList;
+
+		if($sort === null){
+			$sort = SORT_COVER_ART_NEWEST;
+		}
+
+		if($status !== null && $status !== COVER_ART_STATUS_ALL){
+			$matches = [];
+			foreach($coverArtList as $coverArt){
+				if($status === $coverArt->Status){
+					$matches[] = $coverArt;
+				}
+			}
+		}
+
+		if($query !== null){
+			$filteredMatches = [];
+
+			foreach($matches as $coverArt){
+				if($coverArt->Contains($query)){
+					$filteredMatches[] = $coverArt;
+				}
+			}
+
+			$matches = $filteredMatches;
+		}
+
+		switch($sort){
+			case SORT_COVER_ARTIST_ALPHA:
+				usort($matches, function($a, $b){
+					return strcmp(mb_strtolower($a->ArtistSortName), mb_strtolower($b->ArtistSortName));
+				});
+				break;
+
+			case SORT_COVER_ART_NEWEST:
+				usort($matches, function($a, $b){
+					if($a->AddedDate < $b->AddedDate){
+						return -1;
+					}
+					elseif($a->AddedDate == $b->AddedDate){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
+
+				$matches = array_reverse($matches);
+				break;
+
+			case SORT_COVER_ART_PAINTED_NEWEST:
+				usort($matches, function($a, $b){
+					if($a->Year < $b->Year){
+						return -1;
+					}
+					elseif($a->Year == $b->Year){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
+
+				$matches = array_reverse($matches);
+				break;
+		}
+
+		return $matches;
+
+	}
+
+	/**
 	 * @return array<mixed>
 	 */
 	private static function GetFromApcu(string $variable): array{
@@ -458,6 +537,7 @@ class Library{
 		$collectionsByName = [];
 		$authors = [];
 		$tagsByName = [];
+		$coverArtList = [];
 
 		foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"') ?? '')) as $filename){
 			try{
@@ -507,6 +587,9 @@ class Library{
 				}
 
 				$authors[$authorPath][] = $ebook;
+
+				$coverArt = new CoverArt($ebookWwwFilesystemPath, $ebook);
+				$coverArtList[] = $coverArt;
 			}
 			catch(\Exception $ex){
 				// An error in a book isn't fatal; just carry on.
@@ -559,6 +642,9 @@ class Library{
 		foreach($authors as $author => $ebooks){
 			apcu_store('author-' . $author, $ebooks);
 		}
+
+		apcu_delete('coverart');
+		apcu_store('coverart', $coverArtList);
 
 		apcu_delete($lockVar);
 	}

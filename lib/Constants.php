@@ -34,6 +34,14 @@ const SORT_AUTHOR_ALPHA = 'author-alpha';
 const SORT_READING_EASE = 'reading-ease';
 const SORT_LENGTH = 'length';
 
+const COVER_ART_PER_PAGE = 48;
+const COVER_ART_STATUS_ALL = 'all';
+const COVER_ART_STATUS_AVAILABLE = 'available';
+const COVER_ART_STATUS_UNAVAILABLE = 'unavailable';
+const SORT_COVER_ART_NEWEST = 'newest';
+const SORT_COVER_ARTIST_ALPHA = 'artist-alpha';
+const SORT_COVER_ART_PAINTED_NEWEST = 'painted-newest';
+
 const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
 const NO_REPLY_EMAIL_ADDRESS = 'admin@standardebooks.org';

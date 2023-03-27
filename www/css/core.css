@@ -642,6 +642,7 @@ h1 + section > h2:first-child{
 }
 
 a.button,
+.cover-art nav > a,
 .ebooks nav > a,
 form button{
 	border: 1px solid rgba(0, 0, 0, .5);
@@ -814,6 +815,7 @@ h2 + .download-list tr.year-header:first-child th{
 	text-align: center;
 }
 
+.cover-art nav li.highlighted a:focus,
 .ebooks nav li.highlighted a:focus,
 a.button:focus,
 input[type="email"]:focus,
@@ -834,6 +836,7 @@ select::-moz-focus-inner{
 }
 
 a.button:active,
+.cover-art nav > a[href]:active,
 .ebooks nav > a[href]:active,
 form button:active{
 	top: 2px;
@@ -842,6 +845,7 @@ form button:active{
 }
 
 a.button.next::after,
+.cover-art nav > a:last-child::after,
 .ebooks nav > a:last-child::after{
 	font-family: "Fork Awesome";
 	content: "\f061";
@@ -852,12 +856,14 @@ a.button.next::after,
 }
 
 a[href].button.next:hover::after,
+.cover-art nav > a:last-child[href]:hover::after,
 .ebooks nav > a:last-child[href]:hover::after{
 	left: .25rem;
 	position: relative;
 	transition: all 200ms ease;
 }
 
+.cover-art nav > a:first-child:before,
 .ebooks nav > a:first-child:before{
 	font-family: "Fork Awesome";
 	content: "\f060";
@@ -867,6 +873,7 @@ a[href].button.next:hover::after,
 	margin-right: .5rem;
 }
 
+.cover-art nav > a:first-child[href]:hover::before,
 .ebooks nav > a:first-child[href]:hover::before{
 	right: .25rem;
 	position: relative;
@@ -874,6 +881,7 @@ a[href].button.next:hover::after,
 }
 
 a.button.next:hover::after,
+.cover-art nav > a:last-child[href]:hover::after,
 .ebooks nav > a:last-child[href]:hover::after{
 	left: .25rem;
 	position: relative;
@@ -881,14 +889,18 @@ a.button.next:hover::after,
 }
 
 article nav ol li a:hover,
+main.cover-art nav ol li a:hover,
+main.cover-art nav ol li.highlighted a:hover,
 main.ebooks nav ol li a:hover,
 main.ebooks nav ol li.highlighted a:hover,
 a.button:hover,
+.cover-art nav > a:hover,
 .ebooks nav > a:hover,
 form button:hover{
 	background-color: var(--button-highlight);
 }
 
+.cover-art nav > a:not([href]),
 .ebooks nav > a:not([href]){
 	cursor: default;
 	color: #efefef;
@@ -1510,7 +1522,57 @@ ol.ebooks-list > li p.author a{
 	justify-content: center;
 }
 
+ol.cover-art-list.list{
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin: auto;
+	margin-bottom: 4rem;
+	width: 100%;
+	max-width: 30rem;
+}
+
+ol.cover-art-list.list > li{
+	display: grid;
+	grid-template-columns: 6rem 1fr;
+	grid-column-gap: 1rem;
+	grid-template-rows: auto auto 1fr;
+}
+
+ol.cover-art-list.list > li + li {
+	margin-top: 2rem;
+}
+
+ol.cover-art-list.list > li .thumbnail-container{
+	grid-row: 1 / span 3;
+}
+
+ol.cover-art-list.list > li p{
+	text-align: left;
+}
+
+ol.cover-art-list > li p{
+	margin: 0;
+}
+
+ol.cover-art-list > li img{
+	box-sizing: border-box;
+	max-width: 100%;
+	height: auto;
+	border: 1px solid var(--border);
+	border-radius: .25rem;
+}
+
+ol.cover-art-list > li > p:nth-of-type(1) > span{
+	font-weight: bold;
+}
+
+ol.cover-art-list > li .author{
+	font-style: italic;
+}
+
 article nav ol,
+main.cover-art nav ol,
 main.ebooks nav ol{
 	list-style: none;
 	display: flex;
@@ -1621,6 +1683,7 @@ figure p + p{
 	margin-top: 15px;
 }
 
+main.cover-art nav,
 main.ebooks nav{
 	display: flex;
 	justify-content: center;
@@ -1629,12 +1692,14 @@ main.ebooks nav{
 }
 
 article nav ol li,
+main.cover-art nav ol li,
 main.ebooks nav ol li{
 	margin: 0;
 	white-space: nowrap;
 }
 
 article nav ol li a,
+main.cover-art nav ol li a,
 main.ebooks nav ol li a{
 	font-size: 1rem;
 	line-height: 1.4;
@@ -1648,14 +1713,17 @@ main.ebooks nav ol li a{
 }
 
 article nav ol li.highlighted a,
+main.cover-art nav ol li.highlighted a,
 main.ebooks nav ol li.highlighted a{
 	background: var(--button);
 	border: 1px solid rgba(0, 0, 0, .5);
 }
 
 article nav ol li.highlighted a,
+main.cover-art nav ol li.highlighted a,
 main.ebooks nav ol li.highlighted a,
 article nav ol li a:hover,
+main.cover-art nav ol li a:hover,
 main.ebooks nav ol li a:hover{
 	color: #fff;
 	text-decoration: none;
@@ -1911,6 +1979,16 @@ form[action="/ebooks"] button{
 	margin-top: 1.4rem;
 }
 
+form[action="/contribute/cover-art"]{
+	align-items: end;
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: auto auto auto auto 1fr;
+	margin: 0 1rem;
+	margin-bottom: 4rem;
+	max-width: calc(100% - 2rem);
+}
+
 form.single-row{
 	display: flex;
 	flex-direction: column;
@@ -1926,17 +2004,20 @@ form.single-row button{
 }
 
 article nav ol li:not(:first-child):not(:last-child):not(.highlighted),
+main.cover-art nav ol li:not(:first-child):not(:last-child):not(.highlighted),
 main.ebooks nav ol li:not(:first-child):not(:last-child):not(.highlighted){
 	display: none;
 }
 
 article nav ol li.highlighted::before,
+main.cover-art nav ol li.highlighted::before,
 main.ebooks nav ol li.highlighted::before{
 	content: "⋯";
 	padding-right: 1rem;
 }
 
 article nav ol li.highlighted::after,
+main.cover-art nav ol li.highlighted::after,
 main.ebooks nav ol li.highlighted::after{
 	content: "⋯";
 	padding-left: 1rem;
@@ -1946,6 +2027,10 @@ article nav ol li.highlighted:first-child::before,
 article nav ol li.highlighted:last-child::after,
 article nav ol li.highlighted:nth-child(2)::before,
 article nav ol li.highlighted:nth-last-child(2)::after,
+main.cover-art nav ol li.highlighted:first-child::before,
+main.cover-art nav ol li.highlighted:last-child::after,
+main.cover-art nav ol li.highlighted:nth-child(2)::before,
+main.cover-art nav ol li.highlighted:nth-last-child(2)::after,
 main.ebooks nav ol li.highlighted:first-child::before,
 main.ebooks nav ol li.highlighted:last-child::after,
 main.ebooks nav ol li.highlighted:nth-child(2)::before,
@@ -3102,6 +3187,7 @@ ul.feed p{
 	}
 
 	article nav ol li:not(.highlighted),
+	main.cover-art nav ol li:not(.highlighted),
 	main.ebooks nav ol li:not(.highlighted){
 		display: none;
 	}
@@ -3144,6 +3230,8 @@ ul.feed p{
 
 	article nav ol li.highlighted::before,
 	article nav ol li.highlighted::after,
+	main.cover-art nav ol li.highlighted::before,
+	main.cover-art nav ol li.highlighted::after,
 	main.ebooks nav ol li.highlighted::before,
 	main.ebooks nav ol li.highlighted::after{
 		display: none;
@@ -3264,6 +3352,7 @@ ul.feed p{
 		margin-bottom: .5rem;
 	}
 
+	main.cover-art nav,
 	main.ebooks nav{
 		margin-top: .5rem;
 	}
@@ -3302,11 +3391,14 @@ ul.feed p{
 	}
 
 	article nav a[rel],
+	main.cover-art nav > a,
 	main.ebooks nav > a{
 		margin-bottom: 0;
 		font-size: 0;
 	}
 
+	main.cover-art nav > a::before,
+	main.cover-art nav > a::after,
 	main.ebooks nav > a::before,
 	main.ebooks nav > a::after {
 		font-size: 1rem;
@@ -3314,8 +3406,10 @@ ul.feed p{
 	}
 
 	article nav a[rel]::before,
+	main.cover-art nav a[rel]::before,
 	main.ebooks nav a[rel]::before,
 	article nav a[rel]::after,
+	main.cover-art nav a[rel]::after,
 	main.ebooks nav a[rel]::after{
 		font-size: 1rem;
 		margin: 0;
@@ -3474,6 +3568,7 @@ ul.feed p{
 	}
 
 	article nav a[rel],
+	main.cover-art nav > a,
 	main.ebooks nav > a{
 		padding: 1rem;
 	}
@@ -3511,12 +3606,17 @@ ul.feed p{
 	header nav li a:hover,
 	header nav li a[aria-current]:hover,
 	a.button.next::after,
+	.cover-art nav > a:last-child::after,
 	.ebooks nav > a:last-child::after,
 	a[href].button.next:hover::after,
+	.cover-art nav > a:last-child[href]:hover::after,
+	.cover-art nav > a:first-child:before,
+	.cover-art nav > a:first-child[href]:hover::before,
 	.ebooks nav > a:last-child[href]:hover::after,
 	.ebooks nav > a:first-child:before,
 	.ebooks nav > a:first-child[href]:hover::before,
 	a.button.next:hover::after,
+	.cover-art nav > a:last-child[href]:hover::after,
 	.ebooks nav > a:last-child[href]:hover::after,
 	article.ebook section#read-online a::before,
 	article.ebook section#download ul li a[class]::before,
