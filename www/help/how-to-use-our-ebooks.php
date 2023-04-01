@@ -151,7 +151,7 @@ require_once('Core.php');
 							<p>Highlight the ebook in your library and click the “Send to device” button on the toolbar.</p>
 						</li>
 						<li>
-							<p>Eject the Kindle from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
+							<p>Eject the Kobo from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
 						</li>
 					</ol>
 				</li>
