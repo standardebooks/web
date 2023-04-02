@@ -4,7 +4,6 @@ use Safe\DateTime;
 
 /**
  * @property User $User
- * @property PollItem $PollItem
  * @property string $Url
  */
 class Session extends PropertiesBase{
