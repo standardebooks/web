@@ -156,6 +156,9 @@ require_once('Core.php');
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://gutenberg.org/ebooks/4212">Culture and Anarchy</a> by Matthew Arnold</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/67363">The Theory of Moral Sentiments</a> by Adam Smith</p><!--patron-->
 			</li>
 			<li>
