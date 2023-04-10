@@ -162,9 +162,6 @@ require_once('Core.php');
 				<p><a href="https://en.wikisource.org/wiki/Hamilton_(play)">Hamilton</a> by Mary P. Hamlin and George Arliss</p><!--patron-->
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1368">When the World Shook</a> by H. Rider Haggard. This is a cursed production—before you begin, please confirm that you are willing to see it past the finish line.</p>
-			</li>
-			<li>
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20210130">Early Autumn</a> by Louis Bromfield (Pulitzer #9)</p>
 			</li>
 			<li>
