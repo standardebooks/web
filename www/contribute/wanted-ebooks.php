@@ -296,9 +296,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9150">Dick Sand, A Captain at Fifteen</a> <i>Un Capitaine de quinze ans</i> by Jules Verne</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8991">The Fur Country: Seventy Degrees North Latitude</a> <i>Le Pays des fourrures</i> by Jules Verne</p>
 			</li>
@@ -323,9 +323,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10676">El filibusterismo</a> by José Rizal, translated by Charles Derbyshire</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/59752">The Moon Maid</a> (Moon 1) by Edgar Rice Burroughs (Note: We want the 1926 edition which is expanded, but requires transcription)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/11746">Through the Brazilian Wilderness</a> by Theodore Roosevelt (Transcription is missing italics and accents)</p>
 			</li>
