@@ -49,7 +49,13 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 
 		if($type == 'azw3' && $ebook->Azw3Url !== null){
 			$ebookFilePath = $webRoot . '/' . $ebook->Azw3Url;
-			$zip->addFile($ebookFilePath, basename($ebookFilePath));
+			$folderName = basename($ebookFilePath, '.azw3');
+			$zip->addFile($ebookFilePath, $folderName . '/' . basename($ebookFilePath));
+
+			if($ebook->KindleCoverUrl !== null){
+				$ebookThumbnailPath = $webRoot . '/' . $ebook->KindleCoverUrl;
+				$zip->addFile($ebookFilePath, $folderName . '/' . basename($ebookThumbnailPath));
+			}
 		}
 
 		if($type == 'kepub' && $ebook->KepubUrl !== null){
