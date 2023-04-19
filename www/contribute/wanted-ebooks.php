@@ -14,9 +14,6 @@ require_once('Core.php');
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
-			<!-- <li> -->
-				<!-- <p><a href="https://www.gutenberg.org/ebooks/41981">The Jewels of Aptor</a> by Samuel R. Delaney</p> patron -->
-			<!-- </li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
 			</li> -->
@@ -488,9 +485,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6798">Aesthetical Essays</a> by Friedrich Schiller</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Analects">The Analects</a> by Confucius</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/621">The Varieties of Religious Experience</a> by William James</p>
 			</li>
