@@ -37,7 +37,7 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 
 	$zip = new ZipArchive();
 
-	if($zip->open($tempFilename, ZipArchive::CREATE) !== true){
+	if($zip->open($tempFilename, ZipArchive::OVERWRITE) !== true){
 		print('Can\'t open file: ' . $tempFilename . "\n");
 	}
 
