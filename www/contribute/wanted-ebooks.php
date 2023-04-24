@@ -207,9 +207,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/372">Prince Otto</a> by Robert Louis Stevenson</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/32954">The Black Arrow</a> by Robert Louis Stevenson</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2769">Cleopatra</a> by H. Rider Haggard</p>
 			</li>
 			<li>
