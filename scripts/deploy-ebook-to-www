@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 usage(){
 	fmt <<EOF
@@ -243,9 +244,13 @@ do
 
 		sed -i "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
 
-		# Resize and compress the image (formula from Google Page Speed Insights)
-		convert -resize "242" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
-		convert -resize "484" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.svg" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
+		# Resize and compress the cover image (formula from Google Page Speed Insights)
+		# We can't use `convert` directly to do svg -> jpg, as sometimes it fails to load the linked cover.jpg within cover.svg.
+		# So, we use `rsvg-convert` to write a png, then `convert` to convert and compress to jpg.
+		rsvg-convert --width 242 --keep-aspect-ratio --output "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
+		rsvg-convert --width 484 --keep-aspect-ratio --output "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
 
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
@@ -254,7 +259,7 @@ do
 		sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
 
 		# Remove unused images so we can copy the rest over with a glob
-		rm "${imgWorkDir}/${urlSafeIdentifier}".{jpg,svg}
+		rm "${imgWorkDir}/${urlSafeIdentifier}".{png,jpg,svg}
 
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"
