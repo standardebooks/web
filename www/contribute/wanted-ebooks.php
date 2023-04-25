@@ -468,9 +468,6 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/4705">A Treatise of Human Nature</a> by David Hume</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/10827">Discourses on the First Decade of Titus Livius</a> by Niccolò Machiavelli</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10343">Essays of Elia</a> by Charles Lamb</p>
 			</li>
 			<li>
