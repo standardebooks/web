@@ -140,6 +140,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8101">Bertram Cope’s Year</a> by Henry Blake Fuller</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/70652">At the Mountains of Madness</a> by H. P. Lovecraft</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
