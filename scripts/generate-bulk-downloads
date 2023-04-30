@@ -54,7 +54,7 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 
 			if($ebook->KindleCoverUrl !== null){
 				$ebookThumbnailPath = $webRoot . '/' . $ebook->KindleCoverUrl;
-				$zip->addFile($ebookFilePath, $folderName . '/' . basename($ebookThumbnailPath));
+				$zip->addFile($ebookThumbnailPath, $folderName . '/' . basename($ebookThumbnailPath));
 			}
 		}
 
