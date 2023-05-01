@@ -143,6 +143,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70652">At the Mountains of Madness</a> by H. P. Lovecraft</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/16389">The Enchanted April</a> by Elizabeth Von Arnim</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
@@ -373,9 +376,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7370">Two Treatises of Government</a> by John Locke (Note: PG only has the 2nd treatise; transcription is required for the 1st treatise)</p><!--patron-->
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2383">The Canterbury Tales</a> by Geoffrey Chaucer, edited by David Laing Purves</p>
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/f00estuspoembailrich/page/520/mode/2up">Festus</a> by Philip James Bailey (transcription required; editions vary wildly, research required to select the best edition)</p>
