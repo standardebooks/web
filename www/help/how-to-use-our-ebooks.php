@@ -180,17 +180,31 @@ require_once('Core.php');
 						</li>
 					</ol>
 				</li>
-				<li id="sony">
+				<li id="sony-prs-t2">
 					<h3>Sony PRS-T2</h3>
 					<ol>
 						<li>
 							<p>Using a USB cable, connect your Sony PRS-T2 to the computer you downloaded the epub file to.</p>
 						</li>
 						<li>
-							<p>Download, install, and open the <a href="http://www.sony.com.au/support/download/469196">Sony Reader for PC</a> software.</p>
+							<p>Download, install, and open the Sony Reader for PC software.</p>
 						</li>
 						<li>
 							<p>Drag the epub file you downloaded into the Books tab of the Reader for PC software, and then Sync.</p>
+						</li>
+					</ol>
+				</li>
+				<li id="sony-prs-300">
+					<h3>Sony PRS-300</h3>
+					<ol>
+						<li>
+							<p>Using a USB cable, connect your Sony PRS-300 to the computer you downloaded the epub file to. Your PRS-300 will appear as a USB drive that you can browse.</p>
+						</li>
+						<li>
+							<p>Navigate to the <code class="path">./database/media/books/</code> folder on the PRS-300 drive and drag and drop the epub file in.</p>
+						</li>
+						<li>
+							<p>Eject the PRS-300 from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
 						</li>
 					</ol>
 				</li>
