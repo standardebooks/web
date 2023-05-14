@@ -44,19 +44,21 @@ $faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
 // 946554ca-ffc0-4259-bcc6-be6c844fbbdc  Regular donation, patrons, private, recurring
 // 416608c6-cbf5-4153-8956-cb9051bb849e  Regular donation, patrons, public, one time, in memory of
 
-$pendingPayments = Db::Query('
-				start transaction;
+Db::Query('start transaction');
 
+$pendingPayments = Db::Query('
 				SELECT *
 				from PendingPayments
-				where ProcessedOn is null;
-
-				UPDATE PendingPayments
-				set ProcessedOn = utc_timestamp()
-				where ProcessedOn is null;
-
-				commit;
+				where ProcessedOn is null
 			');
+
+Db::Query('
+		UPDATE PendingPayments
+		set ProcessedOn = utc_timestamp()
+		where ProcessedOn is null
+	');
+
+Db::Query('commit');
 
 if(sizeof($pendingPayments) == 0){
 	// Don't start the very slow Selenium driver if we have nothing to process

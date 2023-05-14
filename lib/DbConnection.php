@@ -42,8 +42,7 @@ class DbConnection{
 				$connectionString .= ';dbname=' . $defaultDatabase;
 			}
 
-			// Have to use ATTR_EMULATE_PREPARES = true, otherwise transactions don't work for some reason.
-			$params = [\PDO::ATTR_EMULATE_PREPARES => true, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
+			$params = [\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
 
 			if($forceUtf8){
 				$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';
