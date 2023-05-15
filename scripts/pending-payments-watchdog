@@ -1,0 +1,22 @@
+#!/usr/bin/php
+<?
+
+require_once('/standardebooks.org/web/lib/Core.php');
+
+$pendingPayments = Db::Query('
+				SELECT *
+				from PendingPayments
+				where ProcessedOn is not null
+			');
+
+if(sizeof($pendingPayments) > 0){
+	$em = new Email();
+	$em->To = ADMIN_EMAIL_ADDRESS;
+	$em->From = ADMIN_EMAIL_ADDRESS;
+	$em->Subject = 'Unprocessed payment in database';
+	$em->Body = Template::EmailAdminUnprocessedDonations();
+	$em->TextBody = Template::EmailAdminUnprocessedDonationsText();
+	$em->Send();
+}
+
+?>
