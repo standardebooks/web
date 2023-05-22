@@ -174,14 +174,8 @@ require_once('Core.php');
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/224">A Pair of Blue Eyes</a> by Thomas Hardy</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/39858">Trilby</a> by George du Maurier (#15 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/700">The Old Curiosity Shop</a> by Charles Dickens (#28 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Ward Radcliffe (#32 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
