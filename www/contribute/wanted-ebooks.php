@@ -14,9 +14,9 @@ require_once('Core.php');
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
 			</li>
@@ -41,9 +41,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/6879">The Gold Bat</a> by P. G. Wodehouse</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6927">The White Feather</a> by P. G. Wodehouse</p>
 			</li>
@@ -128,9 +128,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/16677">The Chink in the Armour</a> by Marie Belloc Lowndes</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8939">With Edged Tools</a> by Henry Seton Merriman</p>
 			</li>
