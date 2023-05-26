@@ -636,6 +636,10 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>The Standard Ebooks Editor-in-Chief has the final say on the cover image you pick, and it may be rejected for, among other things, poor public domain status research, being too low resolution, not fitting in with the “fine art” style, or being otherwise inappropriate for your ebook.</p>
 					</li>
 				</ul>
+				<aside class="tip">
+					<p>At the moment <abbr>S.E.</abbr> doesn't have a centralized list of previously-used covers, but you can search our GitHub repos by artist name instead using this query: <code class="path">owner:standardebooks path:src/epub/text/colophon.xhtml name.visual-art.painting ARTIST_NAME</code></p>
+					<p>Here’s a link to an example search for <a href="https://github.com/search?q=owner%3Astandardebooks+path%3Asrc%2Fepub%2Ftext%2Fcolophon.xhtml+name.visual-art.painting+Repin&amp;type=code"><abbr>S.E.</abbr> covers featuring art by Russian artist Ilya Repin</a>.</p>
+				</aside>
 				<p>What can we use for <i>Jekyll</i>? In 1863 Hans von Marées painted an <a href="https://commons.wikimedia.org/wiki/File:Hans_von_Mar%C3%A9es_-_Double_Portrait_of_Mar%C3%A9es_and_Lenbach_-_WGA14059.jpg">eerie self-portrait with a friend</a>. The sallow, enigmatic look of the man on the left suggests the menacing personality of Hyde hiding just behind the sober Jekyll. It was <a href="https://books.google.com/books?id=etcwAQAAMAAJ&amp;pg=PA336">reproduced in a book published in 1910</a>.</p>
 				<p>The cover file itself, <code class="path">./images/cover.svg</code>, is easy to edit. It automatically links to <code class="path">./images/cover.jpg</code>. All you have to do is open <code class="path">cover.svg</code> with a text editor and edit the title and author. Make sure you have the League Spartan font installed on your system!</p>
 				<p>After we’re done with the cover, we’ll have four files in <code class="path">./images/</code>:</p>
