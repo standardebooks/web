@@ -94,17 +94,6 @@ $anonymousPatronCount = Db::QueryInt('
 					</li>
 					<li>
 						<picture>
-							<source srcset="/images/masthead/david-grigg@2x.avif 2x, /images/masthead/david-grigg.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/david-grigg@2x.jpg 2x, /images/masthead/david-grigg.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/david-grigg.jpg" alt="A portrait of Robin Whittleton."/>
-						</picture>
-						<p>
-							<a href="https://rightword.com.au/david.php">David Grigg</a>
-							<img src="/images/masthead/david-grigg-contact.svg" alt="Contact information for David Grigg." class="contact"/>
-						</p>
-					</li>
-					<li>
-						<picture>
 							<source srcset="/images/masthead/b-timothy-keith@2x.avif 2x, /images/masthead/b-timothy-keith.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/b-timothy-keith@2x.jpg 2x, /images/masthead/b-timothy-keith.jpg 1x" type="image/jpg"/>
 							<img src="/images/masthead/b-timothy-keith.jpg" alt="A portrait of Robin Whittleton."/>
