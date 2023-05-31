@@ -146,6 +146,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/16389">The Enchanted April</a> by Elizabeth Von Arnim</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/77">The House of the Seven Gables</a> by Nathaniel Hawthorne</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
