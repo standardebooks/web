@@ -100,7 +100,7 @@ class HttpInput{
 						try{
 							return intval($var);
 						}
-						catch(\Exception $ex){
+						catch(Exception){
 							return $default;
 						}
 					}
@@ -117,7 +117,7 @@ class HttpInput{
 						try{
 							return floatval($var);
 						}
-						catch(\Exception $ex){
+						catch(Exception){
 							return $default;
 						}
 					}

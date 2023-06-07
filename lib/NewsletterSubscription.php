@@ -38,7 +38,7 @@ class NewsletterSubscription extends PropertiesBase{
 		try{
 			$this->User = User::GetByEmail($this->User->Email);
 		}
-		catch(Exceptions\InvalidUserException $ex){
+		catch(Exceptions\InvalidUserException){
 			// User doesn't exist, create the user
 			$this->User->Create();
 		}

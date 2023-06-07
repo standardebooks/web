@@ -78,7 +78,7 @@ class RssFeed extends Feed{
 				$oldEntries[] = $obj;
 			}
 		}
-		catch(Exception $ex){
+		catch(Exception){
 			// Invalid XML
 			return true;
 		}

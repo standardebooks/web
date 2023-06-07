@@ -56,7 +56,7 @@ try{
 	// "Success, no content"
 	http_response_code(204);
 }
-catch(Exceptions\InvalidCredentialsException $ex){
+catch(Exceptions\InvalidCredentialsException){
 	// "Forbidden"
 	$log->Write('Couldn\'t validate POST data.');
 	http_response_code(403);

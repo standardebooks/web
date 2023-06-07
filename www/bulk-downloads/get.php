@@ -21,7 +21,7 @@ try{
 		try{
 			$collections = apcu_fetch('bulk-downloads-collections');
 		}
-		catch(Safe\Exceptions\ApcuException $ex){
+		catch(Safe\Exceptions\ApcuException){
 			$result = Library::RebuildBulkDownloadsCache();
 			$collections = $result['collections'];
 		}
@@ -45,7 +45,7 @@ try{
 		try{
 			$collections = apcu_fetch('bulk-downloads-authors');
 		}
-		catch(Safe\Exceptions\ApcuException $ex){
+		catch(Safe\Exceptions\ApcuException){
 			$result = Library::RebuildBulkDownloadsCache();
 			$collections = $result['authors'];
 		}
@@ -62,13 +62,10 @@ try{
 		}
 	}
 }
-catch(Exceptions\InvalidUserException $ex){
-	$exception = new Exceptions\InvalidPatronException();
-}
-catch(Exceptions\InvalidAuthorException $ex){
+catch(Exceptions\InvalidAuthorException){
 	Template::Emit404();
 }
-catch(Exceptions\InvalidCollectionException $ex){
+catch(Exceptions\InvalidCollectionException){
 	Template::Emit404();
 }
 

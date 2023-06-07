@@ -120,7 +120,7 @@ try{
 		$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::ToPlainText($collectionName) . ' ' . $collectionType;
 	}
 }
-catch(Exceptions\InvalidCollectionException $ex){
+catch(Exceptions\InvalidCollectionException){
 	Template::Emit404();
 }
 ?><?= Template::Header(['title' => $pageTitle, 'feedUrl' => $feedUrl, 'feedTitle' => $feedTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>

@@ -16,6 +16,6 @@ try{
 	http_response_code(303);
 	header('Location: ' . $subscription->Url);
 }
-catch(Exceptions\InvalidNewsletterSubscriptionException $ex){
+catch(Exceptions\InvalidNewsletterSubscriptionException){
 	Template::Emit404();
 }

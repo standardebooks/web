@@ -43,7 +43,7 @@ try{
 	try{
 		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
 	}
-	catch(Safe\Exceptions\ApcuException $ex){
+	catch(Safe\Exceptions\ApcuException){
 		$ebook = new Ebook($wwwFilesystemPath);
 	}
 
@@ -106,7 +106,7 @@ catch(Exceptions\SeeOtherEbookException $ex){
 	header('Location: ' . $ex->Url);
 	exit();
 }
-catch(Exceptions\InvalidEbookException $ex){
+catch(Exceptions\InvalidEbookException){
 	Template::Emit404();
 }
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>

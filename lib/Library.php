@@ -132,7 +132,7 @@ class Library{
 		try{
 			return apcu_fetch('tag-' . $tag) ?? [];
 		}
-		catch(Safe\Exceptions\ApcuException $ex){
+		catch(Safe\Exceptions\ApcuException){
 			return [];
 		}
 	}
@@ -168,12 +168,12 @@ class Library{
 		try{
 			$results = apcu_fetch($variable);
 		}
-		catch(Safe\Exceptions\ApcuException $ex){
+		catch(Safe\Exceptions\ApcuException){
 			Library::RebuildCache();
 			try{
 				$results = apcu_fetch($variable);
 			}
-			catch(Safe\Exceptions\ApcuException $ex){
+			catch(Safe\Exceptions\ApcuException){
 				// We can get here if the cache is currently rebuilding from a different process.
 				// Nothing we can do but wait, so wait 20 seconds before retrying
 				sleep(20);
@@ -181,7 +181,7 @@ class Library{
 				try{
 					$results = apcu_fetch($variable);
 				}
-				catch(Safe\Exceptions\ApcuException $ex){
+				catch(Safe\Exceptions\ApcuException){
 					// Cache STILL rebuilding... give up silently for now
 				}
 			}
@@ -224,7 +224,7 @@ class Library{
 
 				$ebooks[] = new Ebook($ebookWwwFilesystemPath);
 			}
-			catch(\Exception $ex){
+			catch(\Exception){
 				// An error in a book isn't fatal; just carry on.
 			}
 		}
@@ -443,7 +443,7 @@ class Library{
 			$val = apcu_fetch($lockVar);
 			return;
 		}
-		catch(Safe\Exceptions\ApcuException $ex){
+		catch(Safe\Exceptions\ApcuException){
 			apcu_store($lockVar, true);
 		}
 
@@ -508,7 +508,7 @@ class Library{
 
 				$authors[$authorPath][] = $ebook;
 			}
-			catch(\Exception $ex){
+			catch(\Exception){
 				// An error in a book isn't fatal; just carry on.
 			}
 		}

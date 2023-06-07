@@ -29,7 +29,7 @@ try{
 		// Vote was found, don't allow another vote
 		throw new Exceptions\PollVoteExistsException($vote);
 	}
-	catch(Exceptions\InvalidPollVoteException $ex){
+	catch(Exceptions\InvalidPollVoteException){
 		// Vote was not found, user is OK to vote
 	}
 
@@ -38,10 +38,10 @@ try{
 		session_unset();
 	}
 }
-catch(Exceptions\LoginRequiredException $ex){
+catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPollException $ex){
+catch(Exceptions\InvalidPollException){
 	Template::Emit404();
 }
 catch(Exceptions\PollVoteExistsException $ex){

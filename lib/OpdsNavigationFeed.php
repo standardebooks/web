@@ -31,7 +31,7 @@ class OpdsNavigationFeed extends OpdsFeed{
 					}
 				}
 			}
-			catch(Exception $ex){
+			catch(Exception){
 				// XML parsing failure
 			}
 		}

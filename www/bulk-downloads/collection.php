@@ -20,7 +20,7 @@ $collection = [];
 try{
 	$collection = apcu_fetch('bulk-downloads-' . $class);
 }
-catch(Safe\Exceptions\ApcuException $ex){
+catch(Safe\Exceptions\ApcuException){
 	$result = Library::RebuildBulkDownloadsCache();
 	$collection = $result[$class];
 }

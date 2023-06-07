@@ -41,7 +41,7 @@ if($GLOBALS['User'] === null){
 			$session->Create($httpBasicAuthLogin);
 			$GLOBALS['User'] = $session->User;
 		}
-		catch(Exception $ex){
+		catch(Exception){
 			// Do nothing
 		}
 	}

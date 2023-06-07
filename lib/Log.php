@@ -29,7 +29,7 @@ class Log{
 			try{
 				$fp = fopen($this->LogFilePath, 'a+');
 			}
-			catch(\Exception $ex){
+			catch(Exception $ex){
 				self::WriteErrorLogEntry('Couldn\'t open log file: ' . $this->LogFilePath . '. Exception: ' . vds($ex));
 				return;
 			}

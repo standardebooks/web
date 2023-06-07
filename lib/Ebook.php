@@ -113,7 +113,7 @@ class Ebook{
 			$this->TextSinglePageSizeUnit = $sizes[$factor] ?? '';
 			$this->TextSinglePageUrl = $this->Url . '/text/single-page';
 		}
-		catch(Exception $ex){
+		catch(Exception){
 			// Single page file doesn't exist, just pass
 		}
 

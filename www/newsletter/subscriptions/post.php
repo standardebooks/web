@@ -74,7 +74,7 @@ try{
 		header('Location: /newsletter/subscriptions/success');
 	}
 }
-catch(Exceptions\NewsletterSubscriptionExistsException $ex){
+catch(Exceptions\NewsletterSubscriptionExistsException){
 	// Subscription exists.
 	if($requestType == WEB){
 		// If we're accessing from the web, update the subscription,

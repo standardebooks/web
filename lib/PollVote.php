@@ -61,7 +61,7 @@ class PollVote extends PropertiesBase{
 				$vote = PollVote::Get($this->PollItem->Poll->UrlName, $this->UserId);
 				$error->Add(new Exceptions\PollVoteExistsException($vote));
 			}
-			catch(Exceptions\InvalidPollVoteException $ex){
+			catch(Exceptions\InvalidPollVoteException){
 				// User hasn't voted yet, carry on
 			}
 
@@ -81,7 +81,7 @@ class PollVote extends PropertiesBase{
 				$this->User = User::GetByEmail($email);
 				$this->UserId = $this->User->UserId;
 			}
-			catch(Exceptions\InvalidUserException $ex){
+			catch(Exceptions\InvalidUserException){
 				// Can't validate patron email - do nothing for now,
 				// this will be caught later when we validate the vote during creation.
 				// Save the email in the User object in case we want it later,

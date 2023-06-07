@@ -23,7 +23,7 @@ try{
 	$author =  strip_tags($ebooks[0]->AuthorsHtml);
 	$authorUrl = Formatter::ToPlainText($ebooks[0]->AuthorsUrl);
 }
-catch(Exceptions\InvalidAuthorException $ex){
+catch(Exceptions\InvalidAuthorException){
 	Template::Emit404();
 }
 ?><?= Template::Header(['title' => 'Ebooks by ' . $author, 'feedUrl' => str_replace('/ebooks/', '/authors/', $authorUrl), 'feedTitle' => 'Standard Ebooks - Ebooks by ' . $author, 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . $author]) ?>

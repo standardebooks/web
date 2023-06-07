@@ -18,11 +18,11 @@ try{
 		exit();
 	}
 }
-catch(Exceptions\InvalidRequestException $ex){
+catch(Exceptions\InvalidRequestException){
 	http_response_code(405);
 	exit();
 }
-catch(Exceptions\InvalidNewsletterSubscriptionException $ex){
+catch(Exceptions\InvalidNewsletterSubscriptionException){
 	if($requestType == WEB){
 		Template::Emit404();
 	}

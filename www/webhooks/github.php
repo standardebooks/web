@@ -133,7 +133,7 @@ try{
 	// "Success, no content"
 	http_response_code(204);
 }
-catch(Exceptions\InvalidCredentialsException $ex){
+catch(Exceptions\InvalidCredentialsException){
 	// "Forbidden"
 	http_response_code(403);
 }
@@ -149,7 +149,7 @@ catch(Exceptions\WebhookException $ex){
 	// "Client error"
 	http_response_code(400);
 }
-catch(Exceptions\NoopException $ex){
+catch(Exceptions\NoopException){
 	// We arrive here because a special case required us to take no action for the request, but execution also had to be interrupted.
 	// For example, we received a request for a known repo for which we must ignore requests.
 

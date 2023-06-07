@@ -105,7 +105,7 @@ try{
 			try{
 				$toggleButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
 			}
-			catch(Exception $ex){
+			catch(Exception){
 				$log->Write('Error: Couldn\'t find donation.');
 				continue;
 			}
@@ -147,7 +147,7 @@ try{
 					$payment->User = null;
 				}
 			}
-			catch(Exception $ex){
+			catch(Exception){
 				// Anonymous donations don't have these elements present and will throw an exception
 				$payment->User = null;
 			}
@@ -172,7 +172,7 @@ try{
 			try{
 				$payment->Create();
 			}
-			catch(Exceptions\PaymentExistsException $ex){
+			catch(Exceptions\PaymentExistsException){
 				// Payment already exists, just continue
 				$log->Write('Donation already in database.');
 				continue;
@@ -217,7 +217,7 @@ try{
 						try{
 							$patron->AlternateName = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution Text"]]'))->getText());
 						}
-						catch(Exception $ex){
+						catch(Exception){
 						}
 
 						$log->Write('Adding donor as patron ...');

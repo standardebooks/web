@@ -17,7 +17,7 @@ try{
 		session_unset();
 	}
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\SeException){
 	Template::Emit404();
 }
 

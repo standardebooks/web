@@ -6,7 +6,7 @@ $poll = new Poll();
 try{
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\SeException){
 	Template::Emit404();
 }
 

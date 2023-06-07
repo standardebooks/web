@@ -32,7 +32,7 @@ try{
 	header('Content-Disposition: attachment; filename="' . basename($path) . '"');
 	exit();
 }
-catch(Exceptions\LoginRequiredException $ex){
+catch(Exceptions\LoginRequiredException){
 	if(isset($_SERVER['HTTP_REFERER'])){
 		Template::RedirectToLogin(true, $_SERVER['HTTP_REFERER']);
 	}
@@ -48,10 +48,10 @@ catch(Exceptions\LoginRequiredException $ex){
 		}
 	}
 }
-catch(Exceptions\InvalidPermissionsException $ex){
+catch(Exceptions\InvalidPermissionsException){
 	http_response_code(403);
 }
-catch(Exceptions\InvalidFileException $ex){
+catch(Exceptions\InvalidFileException){
 	Template::Emit404();
 }
 

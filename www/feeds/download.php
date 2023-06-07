@@ -70,14 +70,14 @@ try{
 
 	exit();
 }
-catch(Exceptions\LoginRequiredException $ex){
+catch(Exceptions\LoginRequiredException){
 	header('WWW-Authenticate: Basic realm="Enter your Patrons Circle email address and leave the password empty."');
 	http_response_code(401);
 }
-catch(Exceptions\InvalidPermissionsException $ex){
+catch(Exceptions\InvalidPermissionsException){
 	http_response_code(403);
 }
-catch(Exceptions\InvalidFileException $ex){
+catch(Exceptions\InvalidFileException){
 	Template::Emit404();
 }
 

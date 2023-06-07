@@ -48,7 +48,7 @@ try{
 
 	$feedUrl = '/' . $name . '/' . $target;
 }
-catch(Exceptions\InvalidCollectionException $ex){
+catch(Exceptions\InvalidCollectionException){
 	Template::Emit404();
 }
 ?><?= Template::Header(['title' => $title, 'feedTitle' => $feedTitle, 'feedUrl' => $feedUrl, 'description' => $description]) ?>

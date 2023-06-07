@@ -11,7 +11,7 @@ try{
 		$ebooks = Library::Search($query);
 	}
 }
-catch(\Exception $ex){
+catch(\Exception){
 	http_response_code(500);
 	exit();
 }

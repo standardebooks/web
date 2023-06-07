@@ -40,7 +40,7 @@ class Payment extends PropertiesBase{
 						where UserId = ?
 					', [$this->User->Name, $this->User->UserId]);
 				}
-				catch(Exceptions\InvalidUserException $ex){
+				catch(Exceptions\InvalidUserException){
 					// User doesn't exist, create it now
 					$this->User->Create();
 				}
