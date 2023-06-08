@@ -2,7 +2,7 @@
 
 PHP 7+ is required.
 
-## Installing on Ubuntu 20.04 (Focal)
+## Installing on Ubuntu 22.04
 
 ```shell
 # Install Apache, PHP, PHP-FPM, and various other dependencies.
