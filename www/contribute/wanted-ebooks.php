@@ -206,9 +206,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister’s Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
 			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/372">Prince Otto</a> by Robert Louis Stevenson</p>
-			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2769">Cleopatra</a> by H. Rider Haggard</p>
 			</li> -->
@@ -241,9 +238,6 @@ require_once('Core.php');
 			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/William_McGonagall">Poetry of William McGonagall</a> (To be compiled in an omnibus)</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4057">Marius the Epicurean</a> by Walter Pater (<a href="https://www.gutenberg.org/ebooks/4058">Vol. 2</a>; both as a single production)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3261">News from Nowhere</a> by William Morris (Carefully note <a href="https://groups.google.com/g/standardebooks/c/7SdRd0oR5fQ/m/Tg0MeL0FAQAJ">previous discussion on this ebook</a> as editions differ.)</p>
