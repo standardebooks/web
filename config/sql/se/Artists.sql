@@ -1,0 +1,7 @@
+CREATE TABLE `Artists` (
+  `ArtistId` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Name` varchar(191) NOT NULL,
+  `DeathYear` smallint unsigned NULL,
+  PRIMARY KEY (`ArtistId`),
+  UNIQUE KEY `idxUnique` (`Name`,`DeathYear`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
