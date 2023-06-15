@@ -10,12 +10,19 @@ class Artwork extends PropertiesBase{
 	public $Name;
 	public $ArtworkId;
 	public $CompletedYear;
+	public $CompletedYearIsCirca;
 	public $ImageFilesystemPath;
 	public $Created;
 	public $Status;
 	protected $_UrlName;
 	protected $_ArtworkTags = null;
 	protected $_Artist = null;
+
+	public $MuseumPage;
+	public $PublicationYear;
+	public $PublicationYearPage;
+	public $CopyrightPage;
+	public $ArtworkPage;
 
 	// *******
 	// GETTERS
@@ -85,10 +92,6 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
-		if($this->CompletedYear === null || strlen($this->CompletedYear) === 0){
-			$error->Add(new Exceptions\InvalidArtworkException());
-		}
-
 		if($this->ImageFilesystemPath === null || strlen($this->ImageFilesystemPath) === 0){
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
@@ -101,23 +104,35 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
+		$hasMuseumProof = $this->MuseumPage !== null && strlen($this->MuseumPage) > 0;
+		$hasBookProof = $this->PublicationYear !== null
+			&& ($this->PublicationYearPage !== null && strlen($this->PublicationYearPage) > 0)
+			&& ($this->ArtworkPage !== null && strlen($this->ArtworkPage) > 0)
+			&& ($this->CopyrightPage !== null && strlen($this->CopyrightPage) > 0);
+
+		if(!$hasMuseumProof && !$hasBookProof){
+			$error->Add(new Exceptions\InvalidArtworkException('Must have proof of public domain status.'));
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
 	}
 
-	public function Create(): void{
+    /**
+     * @throws \Exceptions\ValidationException
+     */
+	public function Create(): void {
 		$this->Validate();
 		$this->Created = new DateTime();
 		Db::Query('
-			INSERT into Artworks (ArtistId, Name, UrlName, CompletedYear, ImageFilesystemPath, Created)
-			values (?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?)
-		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->ImageFilesystemPath, $this->Created]);
+			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, ImageFilesystemPath, 
+                      			Created, MuseumPage, PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
+				$this->ImageFilesystemPath, $this->Created, $this->MuseumPage, $this->PublicationYear,
+				$this->PublicationYearPage, $this->CopyrightPage, $this->ArtworkPage]
+		);
 
 		$this->ArtworkId = Db::GetLastInsertedId();
 

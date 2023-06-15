@@ -8,5 +8,10 @@ CREATE TABLE `Artworks` (
   `ImageFilesystemPath` varchar(255) NOT NULL,
   `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Status` enum('unverified', 'approved', 'declined', 'in_use') DEFAULT 'unverified',
+  `MuseumPage` varchar(255) NULL,
+  `PublicationYear` smallint unsigned NULL,
+  `PublicationYearPage` varchar(255) NULL,
+  `CopyrightPage` varchar(255) NULL,
+  `ArtworkPage` varchar(255) NULL,
   PRIMARY KEY (`ArtworkId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

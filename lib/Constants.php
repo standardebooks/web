@@ -24,6 +24,7 @@ const REPOS_PATH =			SITE_ROOT . '/ebooks';
 const TEMPLATES_PATH =			SITE_ROOT . '/web/templates';
 const MANUAL_PATH =			WEB_ROOT . '/manual';
 const EBOOKS_DIST_PATH =		WEB_ROOT . '/ebooks/';
+const COVER_ART_UPLOAD_PATH = WEB_ROOT . '/images/uploads/';
 
 const DATABASE_DEFAULT_DATABASE = 	'se';
 const DATABASE_DEFAULT_HOST = 		'localhost';

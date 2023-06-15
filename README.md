@@ -15,6 +15,10 @@ sudo mkdir /var/log/local/
 cd /standardebooks.org/
 git clone https://github.com/standardebooks/web/
 
+# Create & grant ownership of image uploads directory
+mkdir /standardebooks.org/web/www/images/uploads/
+sudo chown www-data:www-data /standardebooks.org/web/www/images/uploads/
+
 # Install dependencies using Composer.
 cd /standardebooks.org/web/
 composer install
