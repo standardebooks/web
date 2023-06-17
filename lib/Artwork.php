@@ -9,6 +9,7 @@ use Safe\DateTime;
 class Artwork extends PropertiesBase{
 	public $Name;
 	public $ArtworkId;
+	public $ArtistId;
 	public $CompletedYear;
 	public $ImageFilesystemPath;
 	public $Created;
@@ -46,25 +47,6 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_ArtworkTags;
-	}
-
-	/**
-	 * @return Artist
-	 */
-	protected function GetArtist(): Artist{
-		if($this->_Artist === null){
-			$result = Db::Query('
-					SELECT *
-					from Artists
-					where ArtistId = ?
-				', [$this->_Artist->ArtistId], 'Artist');
-			if(sizeof($result) == 0){
-				throw new Exceptions\InvalidArtistException();
-			}
-			$this->_Artist = $result[0];
-		}
-
-		return $this->_Artist;
 	}
 
 	// *******
