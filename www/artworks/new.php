@@ -77,7 +77,7 @@ if ($success) {
 				</div>
 				<label>
 					Artwork Tags
-					<input type="text" name="artwork-tags"/>
+					<input type="text" name="artwork-tags" placeholder="tags, comma-separated"/>
 				</label>
 			</fieldset>
 			<fieldset id="pd-proof">
