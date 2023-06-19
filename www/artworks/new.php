@@ -132,7 +132,7 @@ if ($success) {
 							name="color-upload"
 							id="input-color-upload"
 							required="required"
-							accept="image/*"
+							accept="image/jpeg,image/png,image/gif"
 						/>
 					</label>
 					<button>Submit</button>

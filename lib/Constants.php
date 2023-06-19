@@ -35,6 +35,8 @@ const SORT_AUTHOR_ALPHA = 'author-alpha';
 const SORT_READING_EASE = 'reading-ease';
 const SORT_LENGTH = 'length';
 
+const COVER_THUMBNAIL_SIZE = 300;
+
 const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
 const NO_REPLY_EMAIL_ADDRESS = 'admin@standardebooks.org';
