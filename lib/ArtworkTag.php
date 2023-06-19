@@ -1,12 +1,12 @@
 <?
 
 /**
- * @property string $UrlName
+ * @property string $Url
  */
 class ArtworkTag extends PropertiesBase{
 	public $TagId;
 	public $Name;
-	protected $_UrlName;
+	protected $_Url;
 
 	// *******
 	// GETTERS
@@ -15,12 +15,12 @@ class ArtworkTag extends PropertiesBase{
 	/**
 	 * @return string
 	 */
-	protected function GetUrlName(): string{
-		if($this->_UrlName === null){
-			$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
+	protected function GetUrl(): string{
+		if($this->_Url === null){
+			$this->_Url = '/artworks?tag=' . Formatter::MakeUrlSafe($this->Name);
 		}
 
-		return $this->_UrlName;
+		return $this->_Url;
 	}
 
 	// *******
@@ -33,7 +33,7 @@ class ArtworkTag extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkTagException());
 		}
 
-		if($this->UrlName === null || strlen($this->UrlName) === 0){
+		if($this->Url === null || strlen($this->Url) === 0){
 			$error->Add(new Exceptions\InvalidArtworkTagException());
 		}
 
@@ -46,10 +46,9 @@ class ArtworkTag extends PropertiesBase{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into Tags (Name, UrlName)
-			values (?,
-			        ?)
-		', [$this->Name, $this->UrlName]);
+			INSERT into Tags (Name)
+			values (?)
+		', [$this->Name]);
 		$this->TagId = Db::GetLastInsertedId();
 	}
 
@@ -57,13 +56,12 @@ class ArtworkTag extends PropertiesBase{
 		if($name === null){
 			throw new Exceptions\InvalidArtworkTagException();
 		}
-		$urlName = Formatter::MakeUrlSafe($name);
 
 		$result = Db::Query('
 				SELECT *
 				from Tags
-				where UrlName = ?
-			', [$urlName], 'ArtworkTag');
+				where Name = ?
+			', [$name], 'ArtworkTag');
 
 		if(sizeof($result) == 0){
 			$artworkTag = new ArtworkTag();

@@ -1,7 +1,6 @@
 CREATE TABLE `Tags` (
   `TagId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Name` varchar(80) NOT NULL,
-  `UrlName` varchar(80) NOT NULL,
+  `Name` varchar(255) NOT NULL,
   PRIMARY KEY (`TagId`),
-  UNIQUE KEY `idxUnique` (`UrlName`)
+  UNIQUE KEY `idxUnique` (`Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
