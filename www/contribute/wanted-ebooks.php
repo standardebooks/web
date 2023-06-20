@@ -351,6 +351,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://gutenberg.org/ebooks/1539">The Winter’s Tale</a> by William Shakespeare. Note that we want the Victoria Edition if possible.</p><!--patron-->
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2130">Utopia</a> by Thomas Moore</p>
 			</li>
 			<li>
