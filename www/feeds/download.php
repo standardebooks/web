@@ -54,19 +54,48 @@ try{
 	// Much more efficient than reading it in PHP and outputting it that way.
 	header('X-Sendfile: ' . WEB_ROOT . $path);
 
-	if(preg_match('/^\/feeds\/opds/', $path)){
-		header('Content-Type: application/atom+xml;profile=opds-catalog;kind=acquisition; charset=utf-8');
+	$http = new HTTP2();
+	$mime = 'application/xml';
 
-		if(preg_match('/\/index\.xml$/', $path)){
-			header('Content-Type: application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8');
+	// Decide on what content-type to serve via HTTP content negotation.
+	// If the feed is viewed from a web browser, we will usuall serve application/xml as that's typically what's in the browser's Accept header.
+	// If the Accept header has application/rss+xml or application/atom+xml then serve that instead, as those are the
+	// "technically correct" content types that may be requested by RSS readers.
+	if(preg_match('/^\/feeds\/opds/', $path)){
+		$contentType = [
+			'application/atom+xml',
+			'application/xml',
+			'text/xml'
+		];
+		$mime = $http->negotiateMimeType($contentType,  'application/atom+xml');
+
+		if($mime == 'application/atom+xml'){
+			if(preg_match('/\/index\.xml$/', $path)){
+				$mime .= ';profile=opds-catalog;kind=navigation; charset=utf-8';
+			}
+			else{
+				$mime .= ';profile=opds-catalog;kind=acquisition; charset=utf-8';
+			}
 		}
 	}
 	elseif(preg_match('/^\/feeds\/rss/', $path)){
-		header('Content-Type: application/rss+xml');
+		$contentType = [
+			'application/rss+xml',
+			'application/xml',
+			'text/xml'
+		];
+		$mime = $http->negotiateMimeType($contentType,  'application/rss+xml');
 	}
 	elseif(preg_match('/^\/feeds\/atom/', $path)){
-		header('Content-Type: application/atom+xml');
+		$contentType = [
+			'application/atom+xml',
+			'application/xml',
+			'text/xml'
+		];
+		$mime = $http->negotiateMimeType($contentType,  'application/atom+xml');
 	}
+
+	header('Content-Type: ' . $mime);
 
 	exit();
 }
