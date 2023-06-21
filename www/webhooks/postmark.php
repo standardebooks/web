@@ -65,7 +65,6 @@ try{
 		curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($handle, CURLOPT_POSTFIELDS, '{"Suppressions": [{"EmailAddress": "' . $email . '"}]}');
 		curl_exec($handle);
-		curl_close($handle);
 	}
 	elseif($post->RecordType == 'SubscriptionChange' && $post->SuppressionReason === null){
 		$log->Write('Event type: suppression deletion.');

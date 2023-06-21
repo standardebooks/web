@@ -6,6 +6,7 @@ use function Safe\json_encode;
 use function Safe\glob;
 use function Safe\preg_match;
 use function Safe\preg_replace;
+use function Safe\sprintf;
 use function Safe\substr;
 
 class Ebook{
@@ -108,7 +109,7 @@ class Ebook{
 			// emits a warning. So, just silence the warning.
 			$bytes = @filesize($this->WwwFilesystemPath . '/text/single-page.xhtml');
 			$sizes = 'BKMGTP';
-			$factor = floor((strlen($bytes) - 1) / 3);
+			$factor = intval(floor((strlen((string)$bytes) - 1) / 3));
 			$this->TextSinglePageSizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
 			$this->TextSinglePageSizeUnit = $sizes[$factor] ?? '';
 			$this->TextSinglePageUrl = $this->Url . '/text/single-page';

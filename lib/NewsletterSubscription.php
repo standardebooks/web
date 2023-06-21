@@ -57,7 +57,7 @@ class NewsletterSubscription extends PropertiesBase{
 			', [$this->User->UserId, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Created]);
 		}
 		catch(PDOException $ex){
-			if($ex->errorInfo[1] == 1062){
+			if(($ex->errorInfo[1] ?? 0) == 1062){
 				// Duplicate unique key; email already in use
 				throw new Exceptions\NewsletterSubscriptionExistsException();
 			}
