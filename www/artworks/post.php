@@ -4,11 +4,20 @@ use Ramsey\Uuid\Uuid;
 
 require_once('Core.php');
 
+class StoredImage{
+	public $ImagePath;
+	public $ThumbPath;
+
+	public function __construct(string $imagePath, string $thumbPath){
+		$this->ImagePath = $imagePath;
+		$this->ThumbPath = $thumbPath;
+	}
+}
+
 /**
- * @return array<string> an array containing [0] the path to the uploaded image and [1] the path to the thumbnail
  * @throws \Exceptions\InvalidImageUploadException
  */
-function handleImageUpload($uploadTmp): array{
+function handleImageUpload($uploadTmp): StoredImage{
 	$uploadInfo = getimagesize($uploadTmp);
 
 	if ($uploadInfo === false){
@@ -63,7 +72,7 @@ function handleImageUpload($uploadTmp): array{
 	imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
 	$writeFn($thumbImage, $thumbPath);
 
-	return [$uploadPath, $thumbPath];
+	return new StoredImage($uploadPath, $thumbPath);
 }
 
 /**
@@ -108,14 +117,14 @@ try{
 
 	$artwork = new Artwork();
 
-	$imageUpload = handleImageUpload($_FILES['color-upload']['tmp_name']);
+	$storedImage = handleImageUpload($_FILES['color-upload']['tmp_name']);
 
 	$artwork->Artist = $artist;
 	$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
 	$artwork->CompletedYear = HttpInput::Str(POST, 'artwork-year', false);
 	$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);
 	$artwork->ArtworkTags = parseArtworkTags();
-	$artwork->ImageFilesystemPath = $imageUpload[0];
+	$artwork->ImageFilesystemPath = $storedImage->ImagePath;
 	$artwork->Created = new DateTime();
 	$artwork->Status = 'unverified';
 
@@ -134,10 +143,10 @@ try{
 } catch (\Exceptions\SeException $exception){
 	$_SESSION['exception'] = $exception;
 
-	if (isset($imageUpload)){
+	if (isset($storedImage)){
 		// clean up the uploaded file(s)
-		unlink($imageUpload[0]);
-		unlink($imageUpload[1]);
+		unlink($storedImage->ImagePath);
+		unlink($storedImage->ThumbPath);
 	}
 
 	http_response_code(303);
