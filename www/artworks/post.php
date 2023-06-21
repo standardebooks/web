@@ -127,7 +127,7 @@ try{
 
 	$artwork->Create();
 
-	$_SESSION['successfully-submitted-artwork'] = true;
+	$_SESSION['success-message'] = "“" . $artwork->Name . "” submitted successfully!";
 	http_response_code(303);
 	header('Location: ' . "/artworks/new");
 

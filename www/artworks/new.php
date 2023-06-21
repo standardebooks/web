@@ -10,9 +10,9 @@ if ($exception){
 	session_unset();
 }
 
-$success = $_SESSION['successfully-submitted-artwork'] ?? null;
+$successMessage = $_SESSION['success-message'] ?? null;
 
-if ($success){
+if ($successMessage){
 	http_response_code(201);
 	session_unset();
 }
@@ -32,11 +32,11 @@ if ($success){
 			<h2></h2>
 		</hgroup>
 
-			<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(['exception' => $exception]) ?>
 
-		<? if ($success){ ?>
+		<? if ($successMessage){ ?>
 			<p class="message success">
-				Thank you for submitting artwork. It will be reviewed and added to the database if it is approved.
+				<?= $successMessage ?>
 			</p>
 		<? } ?>
 
