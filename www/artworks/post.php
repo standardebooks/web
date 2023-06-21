@@ -8,14 +8,14 @@ require_once('Core.php');
  * @return array<string> an array containing [0] the path to the uploaded image and [1] the path to the thumbnail
  * @throws \Exceptions\InvalidImageUploadException
  */
-function handleImageUpload($uploadTmp): array {
+function handleImageUpload($uploadTmp): array{
 	$uploadInfo = getimagesize($uploadTmp);
 
-	if ($uploadInfo === false) {
+	if ($uploadInfo === false){
 		throw new Exceptions\InvalidImageUploadException();
 	}
 
-	if ($uploadInfo[2] !== IMAGETYPE_GIF && $uploadInfo[2] !== IMAGETYPE_JPEG && $uploadInfo[2] !== IMAGETYPE_PNG) {
+	if ($uploadInfo[2] !== IMAGETYPE_GIF && $uploadInfo[2] !== IMAGETYPE_JPEG && $uploadInfo[2] !== IMAGETYPE_PNG){
 		throw new Exceptions\InvalidImageUploadException();
 	}
 
@@ -25,22 +25,22 @@ function handleImageUpload($uploadTmp): array {
 	$uploadPath = COVER_ART_UPLOAD_PATH . $uid . $ext;
 	$thumbPath = COVER_ART_UPLOAD_PATH . $uid . '.thumb' . $ext;
 
-	if (!move_uploaded_file($uploadTmp, $uploadPath)) {
+	if (!move_uploaded_file($uploadTmp, $uploadPath)){
 		throw new Exceptions\InvalidImageUploadException();
 	}
 
 	$src_w = $uploadInfo[0];
 	$src_h = $uploadInfo[1];
 
-	if ($src_h > $src_w) {
+	if ($src_h > $src_w){
 		$dst_h = COVER_THUMBNAIL_SIZE;
 		$dst_w = intval($dst_h * ($src_w / $src_h));
-	} else {
+	} else{
 		$dst_w = COVER_THUMBNAIL_SIZE;
 		$dst_h = intval($dst_w * ($src_h / $src_w));
 	}
 
-	switch ($uploadInfo[2]) {
+	switch ($uploadInfo[2]){
 		case IMAGETYPE_GIF:
 			$srcImage = imagecreatefromgif($uploadPath);
 			$writeFn = 'imagegif';
@@ -54,7 +54,7 @@ function handleImageUpload($uploadTmp): array {
 			$srcImage = imagecreatefromjpeg($uploadPath);
 			$writeFn = 'imagejpeg';
 
-			if (!$srcImage) {
+			if (!$srcImage){
 				throw new \Exceptions\InvalidImageUploadException();
 			}
 	}
@@ -70,28 +70,28 @@ function handleImageUpload($uploadTmp): array {
  * @return array<ArtworkTag>
  * @throws \Exceptions\InvalidArtworkTagException
  */
-function parseArtworkTags(): array {
+function parseArtworkTags(): array{
 	$artworkTags = HttpInput::Str(POST, 'artwork-tags', false);
 	$artworkTags = array_map('trim', explode(',', $artworkTags)) ?? array();
 	$artworkTags = array_unique($artworkTags);
 
-	return array_map(function ($artworkTag) {
+	return array_map(function ($artworkTag){
 		return ArtworkTag::GetOrCreate($artworkTag);
 	}, $artworkTags);
 }
 
-if (HttpInput::RequestMethod() != HTTP_POST) {
+if (HttpInput::RequestMethod() != HTTP_POST){
 	http_response_code(405);
 	exit();
 }
 
 session_start();
 
-try {
+try{
 	$expectCaptcha = HttpInput::Str(SESSION, 'captcha', false);
 	$actualCaptcha = HttpInput::Str(POST, 'captcha', false);
 
-	if ($expectCaptcha === '' || mb_strtolower($expectCaptcha) !== mb_strtolower($actualCaptcha)) {
+	if ($expectCaptcha === '' || mb_strtolower($expectCaptcha) !== mb_strtolower($actualCaptcha)){
 		throw new Exceptions\InvalidCaptchaException();
 	}
 
@@ -125,10 +125,10 @@ try {
 	http_response_code(303);
 	header('Location: ' . "/artworks/new");
 
-} catch (\Exceptions\SeException $exception) {
+} catch (\Exceptions\SeException $exception){
 	$_SESSION['exception'] = $exception;
 
-	if (isset($imageUpload)) {
+	if (isset($imageUpload)){
 		// clean up the uploaded file(s)
 		unlink($imageUpload[0]);
 		unlink($imageUpload[1]);

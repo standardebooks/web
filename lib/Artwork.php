@@ -122,13 +122,24 @@ class Artwork extends PropertiesBase{
     /**
      * @throws \Exceptions\ValidationException
      */
-	public function Create(): void {
+	public function Create(): void{
 		$this->Validate();
 		$this->Created = new DateTime();
 		Db::Query('
 			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, ImageFilesystemPath, 
-                      			Created, MuseumPage, PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+								  Created, MuseumPage, PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
+			VALUES (?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
+			        ?)
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->ImageFilesystemPath, $this->Created, $this->MuseumPage, $this->PublicationYear,
 				$this->PublicationYearPage, $this->CopyrightPage, $this->ArtworkPage]
