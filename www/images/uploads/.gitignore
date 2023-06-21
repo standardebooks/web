@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Except this file
+!.gitignore
+
+# This directory (/www/images/uploads) contains image uploads and thumbnails that
+# should not be checked into git.
