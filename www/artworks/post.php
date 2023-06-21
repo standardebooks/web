@@ -72,7 +72,13 @@ function handleImageUpload($uploadTmp): array{
  */
 function parseArtworkTags(): array{
 	$artworkTags = HttpInput::Str(POST, 'artwork-tags', false);
+
+	if (!$artworkTags){
+		return array();
+	}
+
 	$artworkTags = array_map('trim', explode(',', $artworkTags)) ?? array();
+	$artworkTags = array_values(array_filter($artworkTags)) ?? array();
 	$artworkTags = array_unique($artworkTags);
 
 	return array_map(function ($artworkTag){
