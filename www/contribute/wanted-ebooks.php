@@ -188,9 +188,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction by Frederik Pohl</a></p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1401">Tarzan the Untamed</a> (Tarzan 7) by Edgar Rice Burroughs</p>
 			</li>
@@ -341,9 +341,9 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/31196">Time and Tide</a> by John Ruskin</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://gutenberg.org/ebooks/54682">Zuñi Folk Tales</a> by Frank Hamilton Cushing</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25394">Short stories by Manly Wade Wellman</a> to be compiled into a “Short Fiction” omnibus</p><!--patron-->
 			</li>
