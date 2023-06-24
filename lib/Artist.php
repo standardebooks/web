@@ -43,7 +43,7 @@ class Artist extends PropertiesBase{
 
 	public static function GetOrCreate(string $name, ?int $deathYear): Artist{
 		$result = Db::Query('
-            SELECT ArtistId, Name, DeathYear
+            SELECT *
             FROM Artists
             WHERE Name = ? AND DeathYear = ?', [$name, $deathYear], 'Artist');
 
@@ -64,7 +64,7 @@ class Artist extends PropertiesBase{
 	 */
 	public static function GetAll(): array{
 		return Db::Query('
-			SELECT ArtistId, Name, DeathYear
+			SELECT *
 			FROM Artists
 			ORDER BY Name', [], 'Artist');
 	}
