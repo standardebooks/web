@@ -1,23 +1,11 @@
 <? /** @noinspection PhpComposerExtensionStubsInspection, PhpIncludeInspection */
 
-use Ramsey\Uuid\Uuid;
-
 require_once('Core.php');
-
-class StoredImage{
-	public $ImagePath;
-	public $ThumbPath;
-
-	public function __construct(string $imagePath, string $thumbPath){
-		$this->ImagePath = $imagePath;
-		$this->ThumbPath = $thumbPath;
-	}
-}
 
 /**
  * @throws \Exceptions\InvalidImageUploadException
  */
-function handleImageUpload($uploadTmp): StoredImage{
+function handleImageUpload(string $uploadTmp, Artwork $artwork): void{
 	$uploadInfo = getimagesize($uploadTmp);
 
 	if ($uploadInfo === false){
@@ -28,13 +16,10 @@ function handleImageUpload($uploadTmp): StoredImage{
 		throw new Exceptions\InvalidImageUploadException();
 	}
 
-	$uid = Uuid::uuid4()->toString();
-	$ext = image_type_to_extension($uploadInfo[2]);
+	$imagePath = WEB_ROOT . $artwork->ImageUrl;
+	$thumbPath = WEB_ROOT . $artwork->ThumbUrl;
 
-	$uploadPath = COVER_ART_UPLOAD_PATH . $uid . $ext;
-	$thumbPath = COVER_ART_UPLOAD_PATH . $uid . '.thumb' . $ext;
-
-	if (!move_uploaded_file($uploadTmp, $uploadPath)){
+	if (!move_uploaded_file($uploadTmp, $imagePath)){
 		throw new Exceptions\InvalidImageUploadException();
 	}
 
@@ -51,16 +36,16 @@ function handleImageUpload($uploadTmp): StoredImage{
 
 	switch ($uploadInfo[2]){
 		case IMAGETYPE_GIF:
-			$srcImage = imagecreatefromgif($uploadPath);
+			$srcImage = imagecreatefromgif($imagePath);
 			$writeFn = 'imagegif';
 			break;
 		case IMAGETYPE_PNG:
-			$srcImage = imagecreatefrompng($uploadPath);
+			$srcImage = imagecreatefrompng($imagePath);
 			$writeFn = 'imagepng';
 			break;
 		case IMAGETYPE_JPEG:
 		default:
-			$srcImage = imagecreatefromjpeg($uploadPath);
+			$srcImage = imagecreatefromjpeg($imagePath);
 			$writeFn = 'imagejpeg';
 
 			if (!$srcImage){
@@ -71,8 +56,6 @@ function handleImageUpload($uploadTmp): StoredImage{
 	$thumbImage = imagecreatetruecolor($dst_w, $dst_h);
 	imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
 	$writeFn($thumbImage, $thumbPath);
-
-	return new StoredImage($uploadPath, $thumbPath);
 }
 
 /**
@@ -117,14 +100,11 @@ try{
 
 	$artwork = new Artwork();
 
-	$storedImage = handleImageUpload($_FILES['color-upload']['tmp_name']);
-
 	$artwork->Artist = $artist;
 	$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
 	$artwork->CompletedYear = HttpInput::Str(POST, 'artwork-year', false);
 	$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);
 	$artwork->ArtworkTags = parseArtworkTags();
-	$artwork->ImageFilesystemPath = $storedImage->ImagePath;
 	$artwork->Created = new DateTime();
 	$artwork->Status = 'unverified';
 
@@ -136,6 +116,8 @@ try{
 
 	$artwork->Create();
 
+	handleImageUpload($_FILES['color-upload']['tmp_name'], $artwork);
+
 	$_SESSION['success-message'] = "“" . $artwork->Name . "” submitted successfully!";
 	http_response_code(303);
 	header('Location: ' . "/artworks/new");
@@ -143,10 +125,13 @@ try{
 } catch (\Exceptions\SeException $exception){
 	$_SESSION['exception'] = $exception;
 
-	if (isset($storedImage)){
+	if (isset($artwork->ArtworkId)){
 		// clean up the uploaded file(s)
-		unlink($storedImage->ImagePath);
-		unlink($storedImage->ThumbPath);
+		unlink(WEB_ROOT . $artwork->ImageUrl);
+		unlink(WEB_ROOT . $artwork->ThumbUrl);
+
+		// remove database entry
+		$artwork->Delete();
 	}
 
 	http_response_code(303);

@@ -5,18 +5,21 @@ use Safe\DateTime;
  * @property string $UrlName
  * @property array<ArtworkTag> $ArtworkTags
  * @property Artist $Artist
+ * @property string $ImageUrl
+ * @property string $ThumbUrl
  */
 class Artwork extends PropertiesBase{
 	public $Name;
 	public $ArtworkId;
 	public $CompletedYear;
 	public $CompletedYearIsCirca;
-	public $ImageFilesystemPath;
 	public $Created;
 	public $Status;
 	protected $_UrlName;
 	protected $_ArtworkTags = null;
 	protected $_Artist = null;
+	protected $_ImageUrl = null;
+	protected $_ThumbUrl = null;
 
 	public $MuseumPage;
 	public $PublicationYear;
@@ -74,6 +77,36 @@ class Artwork extends PropertiesBase{
 		return $this->_Artist;
 	}
 
+	/**
+	 * @throws \Exceptions\InvalidArtworkException
+	 */
+	protected function GetImageUrl(): string{
+		if ($this->_ImageUrl == null){
+			if ($this->ArtworkId == null){
+				throw new \Exceptions\InvalidArtworkException();
+			}
+
+			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . ".jpg";
+		}
+
+		return $this->_ImageUrl;
+	}
+
+	/**
+	 * @throws \Exceptions\InvalidArtworkException
+	 */
+	protected function GetThumbUrl(): string{
+		if ($this->_ThumbUrl == null){
+			if ($this->ArtworkId == null){
+				throw new \Exceptions\InvalidArtworkException();
+			}
+
+			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . ".thumb.jpg";
+		}
+
+		return $this->_ThumbUrl;
+	}
+
 	// *******
 	// METHODS
 	// *******
@@ -89,10 +122,6 @@ class Artwork extends PropertiesBase{
 		}
 
 		if($this->UrlName === null || strlen($this->UrlName) === 0){
-			$error->Add(new Exceptions\InvalidArtworkException());
-		}
-
-		if($this->ImageFilesystemPath === null || strlen($this->ImageFilesystemPath) === 0){
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
@@ -126,10 +155,9 @@ class Artwork extends PropertiesBase{
 		$this->Validate();
 		$this->Created = new DateTime();
 		Db::Query('
-			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, ImageFilesystemPath, 
-								  Created, MuseumPage, PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
+			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, MuseumPage,
+			                      PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
 			VALUES (?,
-			        ?,
 			        ?,
 			        ?,
 			        ?,
@@ -141,8 +169,8 @@ class Artwork extends PropertiesBase{
 			        ?,
 			        ?)
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->ImageFilesystemPath, $this->Created, $this->MuseumPage, $this->PublicationYear,
-				$this->PublicationYearPage, $this->CopyrightPage, $this->ArtworkPage]
+				$this->Created, $this->MuseumPage, $this->PublicationYear, $this->PublicationYearPage,
+				$this->CopyrightPage, $this->ArtworkPage]
 		);
 
 		$this->ArtworkId = Db::GetLastInsertedId();
