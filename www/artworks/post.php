@@ -12,8 +12,8 @@ function handleImageUpload(string $uploadTmp, Artwork $artwork): void{
 		throw new Exceptions\InvalidImageUploadException();
 	}
 
-	if ($uploadInfo[2] !== IMAGETYPE_GIF && $uploadInfo[2] !== IMAGETYPE_JPEG && $uploadInfo[2] !== IMAGETYPE_PNG){
-		throw new Exceptions\InvalidImageUploadException();
+	if ($uploadInfo[2] !== IMAGETYPE_JPEG){
+		throw new Exceptions\InvalidImageUploadException("Uploaded image must be a JPG file.");
 	}
 
 	$imagePath = WEB_ROOT . $artwork->ImageUrl;
@@ -34,28 +34,11 @@ function handleImageUpload(string $uploadTmp, Artwork $artwork): void{
 		$dst_h = intval($dst_w * ($src_h / $src_w));
 	}
 
-	switch ($uploadInfo[2]){
-		case IMAGETYPE_GIF:
-			$srcImage = imagecreatefromgif($imagePath);
-			$writeFn = 'imagegif';
-			break;
-		case IMAGETYPE_PNG:
-			$srcImage = imagecreatefrompng($imagePath);
-			$writeFn = 'imagepng';
-			break;
-		case IMAGETYPE_JPEG:
-		default:
-			$srcImage = imagecreatefromjpeg($imagePath);
-			$writeFn = 'imagejpeg';
-
-			if (!$srcImage){
-				throw new \Exceptions\InvalidImageUploadException();
-			}
-	}
-
+	$srcImage = imagecreatefromjpeg($imagePath);
 	$thumbImage = imagecreatetruecolor($dst_w, $dst_h);
+
 	imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
-	$writeFn($thumbImage, $thumbPath);
+	imagejpeg($thumbImage, $thumbPath);
 }
 
 /**
