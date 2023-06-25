@@ -21,6 +21,27 @@ class Artist extends PropertiesBase{
 			throw $error;
 		}
 	}
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	public static function Get(?int $artistId): Artist{
+		if($artistId === null){
+			throw new Exceptions\InvalidArtistException();
+		}
+
+		$result = Db::Query('
+				SELECT *
+				from Artists
+				where ArtistId = ?
+			', [$artistId], 'Artist');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidArtistException();
+		}
+
+		return $result[0];
+	}
 
 	public function Create(): void{
 		$this->Validate();
