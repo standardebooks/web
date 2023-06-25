@@ -61,4 +61,32 @@ class Artist extends PropertiesBase{
 			where ArtistId = ?
 		', [$this->ArtistId]);
 	}
+
+	public static function GetOrCreate(string $name, ?int $deathYear): Artist{
+		$result = Db::Query('
+            SELECT *
+            FROM Artists
+            WHERE Name = ? AND DeathYear = ?', [$name, $deathYear], 'Artist');
+
+		if (isset($result[0])){
+			return $result[0];
+		}
+
+		$artist = new Artist();
+		$artist->Name = $name;
+		$artist->DeathYear = $deathYear;
+		$artist->Create();
+
+		return $artist;
+	}
+
+	/**
+	 * @return array<Artist>
+	 */
+	public static function GetAll(): array{
+		return Db::Query('
+			SELECT *
+			FROM Artists
+			ORDER BY Name', [], 'Artist');
+	}
 }
