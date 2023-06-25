@@ -13,7 +13,7 @@ function handleImageUpload(string $uploadTmp, Artwork $artwork): void{
 	}
 
 	if ($uploadInfo[2] !== IMAGETYPE_JPEG){
-		throw new Exceptions\InvalidImageUploadException("Uploaded image must be a JPG file.");
+		throw new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.');
 	}
 
 	$imagePath = WEB_ROOT . $artwork->ImageUrl;
@@ -101,9 +101,9 @@ try{
 
 	handleImageUpload($_FILES['color-upload']['tmp_name'], $artwork);
 
-	$_SESSION['success-message'] = "“" . $artwork->Name . "” submitted successfully!";
+	$_SESSION['success-message'] = '“' . $artwork->Name . '” submitted successfully!';
 	http_response_code(303);
-	header('Location: ' . "/artworks/new");
+	header('Location: ' . '/artworks/new');
 
 } catch (\Exceptions\SeException $exception){
 	$_SESSION['exception'] = $exception;

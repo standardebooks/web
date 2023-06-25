@@ -68,7 +68,7 @@ class Artwork extends PropertiesBase{
 				throw new \Exceptions\InvalidArtworkException();
 			}
 
-			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . ".jpg";
+			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '.jpg';
 		}
 
 		return $this->_ImageUrl;
@@ -83,7 +83,7 @@ class Artwork extends PropertiesBase{
 				throw new \Exceptions\InvalidArtworkException();
 			}
 
-			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . ".thumb.jpg";
+			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '.thumb.jpg';
 		}
 
 		return $this->_ThumbUrl;
