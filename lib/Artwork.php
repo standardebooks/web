@@ -5,18 +5,28 @@ use Safe\DateTime;
  * @property string $UrlName
  * @property array<ArtworkTag> $ArtworkTags
  * @property Artist $Artist
+ * @property string $ImageUrl
+ * @property string $ThumbUrl
  */
 class Artwork extends PropertiesBase{
 	public $Name;
 	public $ArtworkId;
 	public $ArtistId;
 	public $CompletedYear;
-	public $ImageFilesystemPath;
+	public $CompletedYearIsCirca;
 	public $Created;
 	public $Status;
 	protected $_UrlName;
 	protected $_ArtworkTags = null;
 	protected $_Artist = null;
+	protected $_ImageUrl = null;
+	protected $_ThumbUrl = null;
+
+	public $MuseumPage;
+	public $PublicationYear;
+	public $PublicationYearPage;
+	public $CopyrightPage;
+	public $ArtworkPage;
 
 	// *******
 	// GETTERS
@@ -49,6 +59,36 @@ class Artwork extends PropertiesBase{
 		return $this->_ArtworkTags;
 	}
 
+	/**
+	 * @throws \Exceptions\InvalidArtworkException
+	 */
+	protected function GetImageUrl(): string{
+		if ($this->_ImageUrl == null){
+			if ($this->ArtworkId == null){
+				throw new \Exceptions\InvalidArtworkException();
+			}
+
+			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '.jpg';
+		}
+
+		return $this->_ImageUrl;
+	}
+
+	/**
+	 * @throws \Exceptions\InvalidArtworkException
+	 */
+	protected function GetThumbUrl(): string{
+		if ($this->_ThumbUrl == null){
+			if ($this->ArtworkId == null){
+				throw new \Exceptions\InvalidArtworkException();
+			}
+
+			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '.thumb.jpg';
+		}
+
+		return $this->_ThumbUrl;
+	}
+
 	// *******
 	// METHODS
 	// *******
@@ -67,14 +107,6 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
-		if($this->CompletedYear === null || strlen($this->CompletedYear) === 0){
-			$error->Add(new Exceptions\InvalidArtworkException());
-		}
-
-		if($this->ImageFilesystemPath === null || strlen($this->ImageFilesystemPath) === 0){
-			$error->Add(new Exceptions\InvalidArtworkException());
-		}
-
 		if($this->Status !== null && !in_array($this->Status, ['unverified', 'approved', 'declined', 'in_use'])){
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
@@ -83,23 +115,45 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
+		$hasMuseumProof = $this->MuseumPage !== null && strlen($this->MuseumPage) > 0;
+		$hasBookProof = $this->PublicationYear !== null
+			&& ($this->PublicationYearPage !== null && strlen($this->PublicationYearPage) > 0)
+			&& ($this->ArtworkPage !== null && strlen($this->ArtworkPage) > 0)
+			&& ($this->CopyrightPage !== null && strlen($this->CopyrightPage) > 0);
+
+		if(!$hasMuseumProof && !$hasBookProof){
+			$error->Add(new Exceptions\InvalidArtworkException('Must have proof of public domain status.'));
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
 	}
 
+    /**
+     * @throws \Exceptions\ValidationException
+     */
 	public function Create(): void{
 		$this->Validate();
 		$this->Created = new DateTime();
 		Db::Query('
-			INSERT into Artworks (ArtistId, Name, UrlName, CompletedYear, ImageFilesystemPath, Created)
-			values (?,
+			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, MuseumPage,
+			                      PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
+			VALUES (?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
+			        ?,
 			        ?,
 			        ?,
 			        ?,
 			        ?,
 			        ?)
-		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->ImageFilesystemPath, $this->Created]);
+		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
+				$this->Created, $this->MuseumPage, $this->PublicationYear, $this->PublicationYearPage,
+				$this->CopyrightPage, $this->ArtworkPage]
+		);
 
 		$this->ArtworkId = Db::GetLastInsertedId();
 

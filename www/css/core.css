@@ -823,6 +823,8 @@ a.button:focus,
 input[type="email"]:focus,
 input[type="text"]:focus,
 input[type="month"]:focus,
+input[type="number"]:focus,
+input[type="url"]:focus,
 input[type="search"]:focus,
 label.checkbox:focus-within,
 select:focus,
@@ -1705,6 +1707,8 @@ label.search{
 select,
 input[type="text"],
 input[type="month"],
+input[type="number"],
+input[type="url"],
 input[type="email"],
 input[type="search"]{
 	-webkit-appearance: none;
@@ -1809,6 +1813,8 @@ a.button,
 button,
 input[type="text"],
 input[type="month"],
+input[type="number"],
+input[type="url"],
 input[type="email"],
 input[type="search"],
 select{
@@ -1826,6 +1832,10 @@ input[type="text"]:focus,
 input[type="text"]:hover,
 input[type="month"]:focus,
 input[type="month"]:hover,
+input[type="number"]:focus,
+input[type="number"]:hover,
+input[type="url"]:focus,
+input[type="url"]:hover,
 input[type="email"]:focus,
 input[type="email"]:hover,
 input[type="search"]:focus,
@@ -1839,6 +1849,8 @@ select:hover{
 
 input[type="text"]:user-invalid,
 input[type="month"]:user-invalid,
+input[type="number"]:user-invalid,
+input[type="url"]:user-invalid,
 input[type="email"]:user-invalid,
 input[type="search"]:user-invalid{
 	border-color: #ff0000;
@@ -1847,6 +1859,8 @@ input[type="search"]:user-invalid{
 
 input[type="text"]:-moz-ui-invalid,
 input[type="month"]:-moz-ui-invalid,
+input[type="number"]:-moz-ui-invalid,
+input[type="url"]:-moz-ui-invalid,
 input[type="email"]:-moz-ui-invalid,
 input[type="search"]:-moz-ui-invalid{
 	border-color: #ff0000;
@@ -1913,6 +1927,41 @@ form[action="/ebooks"] label.per-page{
 form[action="/ebooks"] button{
 	justify-self: end;
 	margin-top: 1.4rem;
+}
+
+form[action="/artworks"] fieldset:not(:first-child) {
+	margin-top: 1rem;
+}
+
+form[action="/artworks"] legend {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin: 0.5rem 0;
+}
+
+form[action="/artworks"] div {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: flex-end;
+	gap: 1rem;
+}
+
+form[action="/artworks"] div label {
+	flex-grow: 1;
+	min-width: 100%;
+}
+
+form[action="/artworks"] div label:nth-of-type(1) {
+	flex-grow: 4;
+	flex-shrink: 0;
+	min-width: 60%;
+}
+
+form[action="/artworks"] div label:nth-of-type(2) {
+	flex-grow: 1;
+	flex-shrink: 0;
+	min-width: 30%;
 }
 
 form.single-row{
@@ -3541,6 +3590,8 @@ ul.feed p{
 	button,
 	input[type="text"],
 	input[type="month"],
+	input[type="number"],
+	input[type="url"],
 	input[type="email"],
 	input[type="search"],
 	select,
@@ -3552,6 +3603,10 @@ ul.feed p{
 	input[type="text"]:hover,
 	input[type="month"]:focus,
 	input[type="month"]:hover,
+	input[type="number"]:focus,
+	input[type="number"]:hover,
+	input[type="url"]:focus,
+	input[type="url"]:hover,
 	input[type="email"]:focus,
 	input[type="email"]:hover,
 	input[type="search"]:focus,
