@@ -3,6 +3,7 @@ use Safe\DateTime;
 
 /**
  * @property string $UrlName
+ * @property string $Slug
  * @property array<ArtworkTag> $ArtworkTags
  * @property Artist $Artist
  * @property string $ImageUrl
@@ -17,6 +18,7 @@ class Artwork extends PropertiesBase{
 	public $Created;
 	public $Status;
 	protected $_UrlName;
+	protected $_Slug;
 	protected $_ArtworkTags = null;
 	protected $_Artist = null;
 	protected $_ImageUrl = null;
@@ -41,6 +43,17 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_UrlName;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function GetSlug(): string{
+		if($this->_Slug === null){
+			$this->_Slug = '/' . $this->Artist->UrlName . '/' . $this->UrlName;
+		}
+
+		return $this->_Slug;
 	}
 
 	/**
@@ -215,5 +228,43 @@ class Artwork extends PropertiesBase{
 			from Artworks
 			where ArtworkId = ?
 		', [$this->ArtworkId]);
+	}
+
+	/**
+	 * @return array<Artwork>
+	 */
+	public static function GetAll(): array{
+		return Db::Query('
+			SELECT *
+			FROM Artworks
+			ORDER BY Name', [], 'Artwork');
+	}
+
+
+	public function Contains(string $query): bool{
+		// When searching an ebook, we search the title, alternate title, author(s), SE tags, series data, and LoC tags.
+		// Also, if the ebook is shorts or poetry, search the ToC as well.
+
+		$searchString = $this->Name;
+
+		$searchString .= ' ' . $this->Artist->Name;
+
+		foreach($this->ArtworkTags as $tag){
+			$searchString .= ' ' . $tag->Name;
+		}
+
+		// Remove diacritics and non-alphanumeric characters
+		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($searchString)));
+		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+
+		if($query == ''){
+			return false;
+		}
+
+		if(mb_stripos($searchString, $query) !== false){
+			return true;
+		}
+
+		return false;
 	}
 }

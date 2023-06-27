@@ -36,6 +36,13 @@ const SORT_READING_EASE = 'reading-ease';
 const SORT_LENGTH = 'length';
 
 const COVER_THUMBNAIL_SIZE = 350;
+const COVER_ARTWORK_PER_PAGE = 48;
+const COVER_ARTWORK_STATUS_ALL = 'all';
+const COVER_ARTWORK_STATUS_APPROVED = 'approved';
+const COVER_ARTWORK_STATUS_IN_USE = 'in-use';
+const SORT_COVER_ARTWORK_CREATED_NEWEST = 'created-newest';
+const SORT_COVER_ARTIST_ALPHA = 'artist-alpha';
+const SORT_COVER_ARTWORK_COMPLETED_NEWEST = 'completed-newest';
 
 const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;

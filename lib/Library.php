@@ -160,6 +160,99 @@ class Library{
 	}
 
 	/**
+	 * @return Artwork
+	 */
+	public static function GetArtworkBySlug(string $slug){
+		return apcu_fetch('artwork-' . $slug);
+	}
+
+	/**
+	* @param string $query
+	* @param string $status
+	* @param string $sort
+	* @return array<Artwork>
+	*/
+	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null): array{
+		$artworks = self::GetFromApcu('artworks');
+		$matches = $artworks;
+
+		if($sort === null){
+			$sort = SORT_COVER_ARTWORK_CREATED_NEWEST;
+		}
+
+		if(in_array($status, [COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_IN_USE], true)){
+			$matches = [];
+			foreach($artworks as $artwork){
+				if($status === $artwork->Status){
+					$matches[] = $artwork;
+				}
+			}
+		}else{
+			$matches = [];
+			foreach($artworks as $artwork){
+				if(in_array($artwork->Status, [COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_IN_USE], true)){
+					$matches[] = $artwork;
+				}
+			}
+		}
+
+		if($query !== null){
+			$filteredMatches = [];
+
+			foreach($matches as $artwork){
+				if($artwork->Contains($query)){
+					$filteredMatches[] = $artwork;
+				}
+			}
+
+			$matches = $filteredMatches;
+		}
+
+		switch($sort){
+			case SORT_COVER_ARTIST_ALPHA:
+				usort($matches, function($a, $b){
+					return strcmp(mb_strtolower($a->Artist->Name), mb_strtolower($b->Artist->Name));
+				});
+				break;
+
+			case SORT_COVER_ARTWORK_CREATED_NEWEST:
+				usort($matches, function($a, $b){
+					if($a->Created < $b->Created){
+						return -1;
+					}
+					elseif($a->Created == $b->Created){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
+
+				$matches = array_reverse($matches);
+				break;
+
+			case SORT_COVER_ARTWORK_COMPLETED_NEWEST:
+				usort($matches, function($a, $b){
+					if($a->CompletedYear < $b->CompletedYear){
+						return -1;
+					}
+					elseif($a->CompletedYear == $b->CompletedYear){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
+
+				$matches = array_reverse($matches);
+				break;
+		}
+
+		return $matches;
+
+	}
+
+	/**
 	 * @return array<mixed>
 	 */
 	private static function GetFromApcu(string $variable): array{
@@ -170,6 +263,7 @@ class Library{
 		}
 		catch(Safe\Exceptions\ApcuException $ex){
 			Library::RebuildCache();
+			Library::RebuildArtworkCache();
 			try{
 				$results = apcu_fetch($variable);
 			}
@@ -433,6 +527,18 @@ class Library{
 		}
 
 		return $retval;
+	}
+
+	public static function RebuildArtworkCache(): void{
+		$artworks = Artwork::GetAll();
+
+		apcu_delete('artworks');
+		apcu_store('artworks', $artworks);
+
+		apcu_delete(new APCUIterator('/^artwork-/'));
+		foreach($artworks as $artwork){
+			apcu_store('artwork-' . $artwork->Slug, $artwork);
+		}
 	}
 
 	public static function RebuildCache(): void{
