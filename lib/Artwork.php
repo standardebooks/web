@@ -130,9 +130,31 @@ class Artwork extends PropertiesBase{
 		}
 	}
 
-    /**
-     * @throws \Exceptions\ValidationException
-     */
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	public static function Get(?int $artworkId): Artwork{
+		if($artworkId === null){
+			throw new Exceptions\InvalidArtworkException();
+		}
+
+		$result = Db::Query('
+				SELECT *
+				from Artworks
+				where ArtworkId = ?
+			', [$artworkId], 'Artwork');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidArtworkException();
+		}
+
+		return $result[0];
+	}
+
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Create(): void{
 		$this->Validate();
 		$this->Created = new DateTime();
@@ -166,6 +188,19 @@ class Artwork extends PropertiesBase{
 				', [$this->ArtworkId, $this->ArtworkTags[$i]->TagId]);
 			}
 		}
+	}
+
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
+	public function Save(): void{
+		$this->Validate();
+
+		Db::Query('
+			UPDATE Artworks
+			set Status = ?
+			where ArtworkId = ?
+		', [$this->Status, $this->ArtworkId]);
 	}
 
 	public function Delete(): void{
