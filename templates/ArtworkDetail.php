@@ -4,9 +4,9 @@
 </picture>
 <h2>Metadata</h2>
 <p>Title: <?= Formatter::ToPlainText($artwork->Name) ?></p>
-<p>Artist: <?= Formatter::ToPlainText($artwork->Artist->Name) ?></p>
+<p>Artist: <?= Formatter::ToPlainText($artwork->Artist->Name) ?>, Death Year: <?= $artwork->Artist->DeathYear ?></p>
 <p>Completed Year: <?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?></p>
-<p>Uploaded: <?= $artwork->Created->format('c') ?></p>
+<p>Uploaded: <?= $artwork->Created->format('F j, Y g:i a') ?></p>
 <p>Status: <?= Formatter::ToPlainText($artwork->Status) ?></p>
 <p>Tags:</p>
 <ul class="tags"><? foreach($artwork->ArtworkTags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
@@ -16,7 +16,7 @@
 	<ul>
 		<li>Link to an approved museum page</li>
 	</ul>
-	<p>or <strong>all</strong> of the following:
+	<p>or <strong>all</strong> of the following:</p>
 	<ol>
 		<li>Year book was published</li>
 		<li>Link to direct page scan of artwork (not just the start of the book, the direct page)</li>
