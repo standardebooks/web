@@ -5,10 +5,10 @@ $artistUrlName = HttpInput::Str(GET, 'artist');
 $artworkUrlName = HttpInput::Str(GET, 'artwork');
 $slug = '/' . $artistUrlName . '/' . $artworkUrlName;
 
-try{
-	$artwork = Library::GetArtworkBySlug($slug);
-}
-catch(Safe\Exceptions\ApcuException){
+
+$artwork = Library::GetArtworkBySlug($slug);
+
+if($artwork === null){
 	Template::Emit404();
 }
 

@@ -163,7 +163,12 @@ class Library{
 	 * @return Artwork
 	 */
 	public static function GetArtworkBySlug(string $slug){
-		return apcu_fetch('artwork-' . $slug);
+		try{
+			return apcu_fetch('artwork-' . $slug);
+		}
+		catch(Safe\Exceptions\ApcuException $ex){
+			return null;
+		}
 	}
 
 	/**
@@ -530,7 +535,7 @@ class Library{
 	}
 
 	public static function RebuildArtworkCache(): void{
-		$artworks = Artwork::GetAll();
+		$artworks = Artwork::GetBrowsable();
 
 		apcu_delete('artworks');
 		apcu_store('artworks', $artworks);

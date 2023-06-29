@@ -231,20 +231,18 @@ class Artwork extends PropertiesBase{
 	}
 
 	/**
-	 * @return array<Artwork>
+	 *  Browsable Artwork can be displayed publically, e.g., at /artworks.
+	 *  Unverified and declined Artwork shouldn't be browsable.
+	 *  @return array<Artwork>
 	 */
-	public static function GetAll(): array{
+	public static function GetBrowsable(): array{
 		return Db::Query('
 			SELECT *
 			FROM Artworks
-			ORDER BY Name', [], 'Artwork');
+			WHERE Status IN ("approved", "in_use")', [], 'Artwork');
 	}
 
-
 	public function Contains(string $query): bool{
-		// When searching an ebook, we search the title, alternate title, author(s), SE tags, series data, and LoC tags.
-		// Also, if the ebook is shorts or poetry, search the ToC as well.
-
 		$searchString = $this->Name;
 
 		$searchString .= ' ' . $this->Artist->Name;
