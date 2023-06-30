@@ -2992,6 +2992,10 @@ ul.feed p{
 	top: .5rem;
 }
 
+.artworks .tags{
+	justify-content: unset;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
