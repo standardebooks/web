@@ -3,14 +3,36 @@
 	<a href="<?= $artwork->ImageUrl ?>"><img src="<?= $artwork->ThumbUrl ?>" property="schema:image"/></a>
 </picture>
 <h2>Metadata</h2>
-<p>Title: <?= Formatter::ToPlainText($artwork->Name) ?></p>
-<p>Artist: <?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if($artwork->Artist->DeathYear !== null){ ?>, <abbr title="deceased">d.</abbr> <?= $artwork->Artist->DeathYear ?><? } ?></p>
-<p>Completed Year: <?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?></p>
-<p>File size: <?= $artwork->ImageSize ?>
-<p>Uploaded: <?= $artwork->Created->format('F j, Y g:i a') ?></p>
-<p>Status: <?= Formatter::ToPlainText($artwork->Status) ?></p>
-<p>Tags:</p>
-<ul class="tags"><? foreach($artwork->ArtworkTags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
+<table class="artwork-metadata">
+	<tr>
+		<td>Title</td>
+		<td><?= Formatter::ToPlainText($artwork->Name) ?></td>
+	</tr>
+	<tr>
+		<td>Artist</td>
+		<td><?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if($artwork->Artist->DeathYear !== null){ ?>, <abbr title="deceased">d.</abbr> <?= $artwork->Artist->DeathYear ?><? } ?></td>
+	</tr>
+	<tr>
+		<td>Completed Year</td>
+		<td><?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?></td>
+	</tr>
+	<tr>
+		<td>File size</td>
+		<td><?= $artwork->ImageSize ?>
+	</tr>
+	<tr>
+		<td>Uploaded</td>
+		<td><?= $artwork->Created->format('F j, Y g:i a') ?></td>
+	</tr>
+	<tr>
+		<td>Status</td>
+		<td><?= Formatter::ToPlainText($artwork->Status) ?></td>
+	</tr>
+	<tr>
+		<td>Tags</td>
+		<td><ul class="tags"><? foreach($artwork->ArtworkTags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul></td>
+	</tr>
+</table>
 <h2>PD Proof</h2>
 <aside class="tip">
 	<p>PD proof must take the form of:</p>

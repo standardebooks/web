@@ -2957,6 +2957,23 @@ ul.feed p{
 	padding-bottom: 0;
 }
 
+.artwork-metadata{
+	margin-top: 1rem;
+}
+
+.artwork-metadata td:first-child{
+	font-weight: bold;
+	width: 25%;
+}
+
+.artwork-metadata td:last-child{
+	width: 75%;
+}
+
+.artwork-metadata td{
+	padding: 0.5rem;
+}
+
 .artworks picture{
 	text-align: center;
 }
