@@ -6,6 +6,7 @@
 <p>Title: <?= Formatter::ToPlainText($artwork->Name) ?></p>
 <p>Artist: <?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if($artwork->Artist->DeathYear !== null){ ?>, <abbr title="deceased">d.</abbr> <?= $artwork->Artist->DeathYear ?><? } ?></p>
 <p>Completed Year: <?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?></p>
+<p>File size: <?= $artwork->ImageSize ?>
 <p>Uploaded: <?= $artwork->Created->format('F j, Y g:i a') ?></p>
 <p>Status: <?= Formatter::ToPlainText($artwork->Status) ?></p>
 <p>Tags:</p>

@@ -1,5 +1,6 @@
 <?
 use Safe\DateTime;
+use function Safe\filesize;
 
 /**
  * @property string $UrlName
@@ -8,6 +9,7 @@ use Safe\DateTime;
  * @property Artist $Artist
  * @property string $ImageUrl
  * @property string $ThumbUrl
+ * @property string $ImageSize
  */
 class Artwork extends PropertiesBase{
 	public $Name;
@@ -23,6 +25,7 @@ class Artwork extends PropertiesBase{
 	protected $_Artist = null;
 	protected $_ImageUrl = null;
 	protected $_ThumbUrl = null;
+	protected $_ImageSize = null;
 
 	public $MuseumPage;
 	public $PublicationYear;
@@ -100,6 +103,26 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_ThumbUrl;
+	}
+
+	/**
+	 * @throws \Exceptions\InvalidArtworkException
+	 */
+	protected function GetImageSize(): string{
+		try{
+			$bytes = @filesize(WEB_ROOT . $this->ImageUrl);
+			$sizes = 'BKMGTP';
+			$factor = floor((strlen($bytes) - 1) / 3);
+			$sizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
+			$sizeUnit = $sizes[$factor] ?? '';
+			$this->_ImageSize = $sizeNumber . $sizeUnit;
+		}
+		catch(Exception $ex){
+			// Image doesn't exist
+			$this->_ImageSize = '';
+		}
+
+		return $this->_ImageSize;
 	}
 
 	// *******
