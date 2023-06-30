@@ -4,7 +4,7 @@
 </picture>
 <h2>Metadata</h2>
 <p>Title: <?= Formatter::ToPlainText($artwork->Name) ?></p>
-<p>Artist: <?= Formatter::ToPlainText($artwork->Artist->Name) ?>, Death Year: <?= $artwork->Artist->DeathYear ?></p>
+<p>Artist: <?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if($artwork->Artist->DeathYear !== null){ ?>, <abbr title="deceased">d.</abbr> <?= $artwork->Artist->DeathYear ?><? } ?></p>
 <p>Completed Year: <?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?></p>
 <p>Uploaded: <?= $artwork->Created->format('F j, Y g:i a') ?></p>
 <p>Status: <?= Formatter::ToPlainText($artwork->Status) ?></p>
