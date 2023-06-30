@@ -351,6 +351,9 @@ require_once('Core.php');
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/1322">Leaves of Grass</a> by Walt Whitman (See <a href="https://www.themarginalian.org/2018/04/11/leaves-of-grass-margaret-cook/">this 1913 edition for cover art</a></p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2130">Utopia</a> by Thomas Moore</p>
 			</li>
 			<li>
