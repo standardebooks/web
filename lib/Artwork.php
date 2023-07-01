@@ -53,7 +53,7 @@ class Artwork extends PropertiesBase{
 	 */
 	protected function GetSlug(): string{
 		if($this->_Slug === null){
-			$this->_Slug = '/' . $this->Artist->UrlName . '/' . $this->UrlName;
+			$this->_Slug = $this->Artist->UrlName . '/' . $this->UrlName;
 		}
 
 		return $this->_Slug;

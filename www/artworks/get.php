@@ -3,7 +3,7 @@ require_once('Core.php');
 
 $artistUrlName = HttpInput::Str(GET, 'artist');
 $artworkUrlName = HttpInput::Str(GET, 'artwork');
-$slug = '/' . $artistUrlName . '/' . $artworkUrlName;
+$slug = $artistUrlName . '/' . $artworkUrlName;
 
 
 $artwork = Library::GetArtworkBySlug($slug);
