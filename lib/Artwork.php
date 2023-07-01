@@ -180,12 +180,12 @@ class Artwork extends PropertiesBase{
 		$this->ArtworkId = Db::GetLastInsertedId();
 
 		if($this->_ArtworkTags !== null){
-			for ($i = 0; $i < count($this->ArtworkTags); $i++){
+			foreach($this->ArtworkTags as $tag){
 				Db::Query('
 					INSERT into ArtworkTags (ArtworkId, TagId)
 					values (?,
 					        ?)
-				', [$this->ArtworkId, $this->ArtworkTags[$i]->TagId]);
+				', [$this->ArtworkId, $tag->TagId]);
 			}
 		}
 	}
