@@ -23,9 +23,9 @@
 		<span>Per page</span>
 		<span>
 			<select name="per-page">
-				<option value="48"<? if($perPage == 48){ ?> selected="selected"<? } ?>>48</option>
-				<option value="96"<? if($perPage == 96){ ?> selected="selected"<? } ?>>96</option>
-				<option value="192"<? if($perPage == 192){ ?> selected="selected"<? } ?>>192</option>
+				<option value="50"<? if($perPage == 50){ ?> selected="selected"<? } ?>>50</option>
+				<option value="100"<? if($perPage == 100){ ?> selected="selected"<? } ?>>100</option>
+				<option value="200"<? if($perPage == 200){ ?> selected="selected"<? } ?>>200</option>
 			</select>
 		</span>
 	</label>

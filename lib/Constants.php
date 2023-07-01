@@ -36,7 +36,7 @@ const SORT_READING_EASE = 'reading-ease';
 const SORT_LENGTH = 'length';
 
 const COVER_THUMBNAIL_SIZE = 350;
-const COVER_ARTWORK_PER_PAGE = 48;
+const COVER_ARTWORK_PER_PAGE = 50;
 const COVER_ARTWORK_STATUS_ALL = 'all';
 const COVER_ARTWORK_STATUS_APPROVED = 'approved';
 const COVER_ARTWORK_STATUS_IN_USE = 'in-use';

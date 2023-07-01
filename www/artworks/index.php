@@ -18,7 +18,7 @@ if($page <= 0){
 	$page = 1;
 }
 
-if($perPage != COVER_ARTWORK_PER_PAGE && $perPage != 96 && $perPage != 192){
+if($perPage != COVER_ARTWORK_PER_PAGE && $perPage != 100 && $perPage != 200){
 	$perPage = COVER_ARTWORK_PER_PAGE;
 }
 
