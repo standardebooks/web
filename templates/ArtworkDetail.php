@@ -14,7 +14,7 @@
 	</tr>
 	<tr>
 		<td>Completed Year</td>
-		<td><?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?></td>
+		<td><? if ($artwork->CompletedYear === null){ ?>(unknown)<? }else{ ?><?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?><? } ?></td>
 	</tr>
 	<tr>
 		<td>File size</td>
