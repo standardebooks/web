@@ -18,7 +18,7 @@
 	</tr>
 	<tr>
 		<td>File size</td>
-		<td><?= $artwork->ImageSize ?>
+		<td><?= $artwork->ImageSize ?></td>
 	</tr>
 	<tr>
 		<td>Uploaded</td>
