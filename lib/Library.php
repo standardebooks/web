@@ -222,7 +222,7 @@ class Library{
 
 			case SORT_COVER_ARTWORK_CREATED_NEWEST:
 				usort($matches, function($a, $b){
-					if($a->Created < $b->Created){
+					if($a->Created > $b->Created){
 						return -1;
 					}
 					elseif($a->Created == $b->Created){
@@ -233,12 +233,11 @@ class Library{
 					}
 				});
 
-				$matches = array_reverse($matches);
 				break;
 
 			case SORT_COVER_ARTWORK_COMPLETED_NEWEST:
 				usort($matches, function($a, $b){
-					if($a->CompletedYear < $b->CompletedYear){
+					if($a->CompletedYear > $b->CompletedYear){
 						return -1;
 					}
 					elseif($a->CompletedYear == $b->CompletedYear){
@@ -249,7 +248,6 @@ class Library{
 					}
 				});
 
-				$matches = array_reverse($matches);
 				break;
 		}
 
