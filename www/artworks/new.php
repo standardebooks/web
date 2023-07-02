@@ -109,12 +109,7 @@ if ($exception){
 						type="text"
 						name="artwork-tags"
 						placeholder="tags, comma-separated"
-						value="<?php
-							$tags = $artwork->ArtworkTags ?? [];
-							$tags = array_column($tags, 'Name');
-							$tags = implode(', ', $tags);
-							print $tags;
-						?>"
+						value="<?= $artwork->ArtworkTagsImploded ?>"
 					/>
 				</label>
 			</fieldset>

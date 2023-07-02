@@ -69,10 +69,9 @@ if (HttpInput::RequestMethod() != HTTP_POST){
 session_start();
 
 try{
-	$artistName = HttpInput::Str(POST, 'artist-name', false);
-	$artistYearOfDeath = HttpInput::Int(POST, 'artist-year-of-death');
-
-	$artist = Artist::GetOrCreate($artistName, $artistYearOfDeath);
+	$artist = new Artist();
+	$artist->Name = HttpInput::Str(POST, 'artist-name', false);
+	$artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
 
 	$artwork = new Artwork();
 
@@ -97,6 +96,7 @@ try{
 		throw new Exceptions\InvalidCaptchaException();
 	}
 
+	$artist->GetOrCreate();
 	$artwork->Create();
 
 	handleImageUpload($_FILES['color-upload']['tmp_name'], $artwork);
@@ -119,6 +119,10 @@ try{
 
 		// remove database entry
 		$artwork->Delete();
+	}
+
+	if (isset($artist->ArtistId)){
+		$artist->DeleteIfUnused();
 	}
 
 	http_response_code(303);

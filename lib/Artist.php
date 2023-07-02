@@ -54,6 +54,22 @@ class Artist extends PropertiesBase{
 		$this->ArtistId = Db::GetLastInsertedId();
 	}
 
+	public function GetOrCreate(): void{
+		$this->Validate();
+		$result = Db::Query('
+			SELECT *
+			FROM Artists
+			WHERE Name = ? AND DeathYear = ?
+		', [$this->Name, $this->DeathYear], 'Artist');
+
+		if (isset($result[0])){
+			$this->ArtistId = $result[0]->ArtistId;
+			return;
+		}
+
+		$this->Create();
+	}
+
 	public function Delete(): void{
 		Db::Query('
 			DELETE
@@ -62,22 +78,13 @@ class Artist extends PropertiesBase{
 		', [$this->ArtistId]);
 	}
 
-	public static function GetOrCreate(string $name, ?int $deathYear): Artist{
-		$result = Db::Query('
-            SELECT *
-            FROM Artists
-            WHERE Name = ? AND DeathYear = ?', [$name, $deathYear], 'Artist');
-
-		if (isset($result[0])){
-			return $result[0];
-		}
-
-		$artist = new Artist();
-		$artist->Name = $name;
-		$artist->DeathYear = $deathYear;
-		$artist->Create();
-
-		return $artist;
+	public function DeleteIfUnused(): void{
+		Db::Query('
+			DELETE
+			FROM Artists
+			WHERE ArtistId NOT IN (SELECT ArtistId FROM Artworks)
+			  AND ArtistId = ?
+		', [$this->ArtistId]);
 	}
 
 	/**
