@@ -14,7 +14,7 @@ if($artwork === null){
 
 ?><?= Template::Header(['title' => $artwork->Name]) ?>
 <main class="artworks">
-	<section>
+	<section class="narrow">
 		<?= Template::ArtworkDetail(['artwork' => $artwork]) ?>
 	</section>
 </main>

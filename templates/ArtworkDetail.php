@@ -1,7 +1,9 @@
 <h1><?= Formatter::ToPlainText($artwork->Name) ?></h1>
-<picture>
-	<a href="<?= $artwork->ImageUrl ?>"><img src="<?= $artwork->ThumbUrl ?>" property="schema:image"/></a>
-</picture>
+<a href="<?= $artwork->ImageUrl ?>">
+	<picture>
+		<img src="<?= $artwork->ThumbUrl ?>" property="schema:image"/>
+	</picture>
+</a>
 <h2>Metadata</h2>
 <table class="artwork-metadata">
 	<tr>

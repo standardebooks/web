@@ -1541,13 +1541,13 @@ ol.artwork-list.list{
 	margin-left: auto;
 	margin-right: auto;
 	width: 100%;
-	max-width: 30rem;
+	max-width: 40rem;
 }
 
 ol.artwork-list.list > li{
 	display: grid;
-	grid-template-columns: 6rem 1fr;
-	grid-column-gap: 1rem;
+	grid-template-columns: 16rem 1fr;
+	grid-column-gap: 2rem;
 	grid-template-rows: auto auto 1fr;
 }
 
@@ -2974,13 +2974,13 @@ ul.feed p{
 	padding: 0.5rem;
 }
 
-.artworks picture{
-	text-align: center;
+.artworks h1 + a{
+	width: auto;
 }
 
 .artworks aside.tip{
 	font-style: italic;
-	margin: 1rem 0;
+	margin: 1rem auto;
 	position: relative;
 	padding: 1rem;
 	padding-left: 2rem;
