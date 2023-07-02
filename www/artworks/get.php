@@ -5,7 +5,6 @@ $artistUrlName = HttpInput::Str(GET, 'artist');
 $artworkUrlName = HttpInput::Str(GET, 'artwork');
 $slug = $artistUrlName . '/' . $artworkUrlName;
 
-
 $artwork = Library::GetArtworkBySlug($slug);
 
 if($artwork === null){
