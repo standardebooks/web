@@ -1,10 +1,29 @@
 <?
 use Safe\DateTime;
 
+/**
+ * @property string $UrlName
+ */
 class Artist extends PropertiesBase{
 	public $ArtistId;
 	public $Name;
 	public $DeathYear;
+	protected $_UrlName;
+
+	// *******
+	// GETTERS
+	// *******
+
+	/**
+	 * @return string
+	 */
+	protected function GetUrlName(): string{
+		if($this->_UrlName === null){
+			$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
+		}
+
+		return $this->_UrlName;
+	}
 
 	// *******
 	// METHODS
