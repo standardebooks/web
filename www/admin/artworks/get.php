@@ -6,7 +6,7 @@ $artworkId = HttpInput::Int(GET, 'artworkid');
 try{
 	$artwork = Artwork::Get($artworkId);
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\SeException){
 	Template::Emit404();
 }
 

@@ -11,7 +11,7 @@ $artworkId = HttpInput::Int(GET, 'artworkid');
 try{
 	$artwork = Artwork::Get($artworkId);
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\SeException){
 	Template::Emit404();
 }
 
@@ -31,10 +31,11 @@ try{
 	}
 
 	$artwork->Save();
+	Library::RebuildArtworkCache();
 
 	http_response_code(303);
 	header('Location: /admin/artworks');
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\SeException){
 	http_response_code(422);
 }

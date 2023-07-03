@@ -1545,13 +1545,13 @@ ol.artwork-list.list{
 	margin-left: auto;
 	margin-right: auto;
 	width: 100%;
-	max-width: 30rem;
+	max-width: 40rem;
 }
 
 ol.artwork-list.list > li{
 	display: grid;
-	grid-template-columns: 6rem 1fr;
-	grid-column-gap: 1rem;
+	grid-template-columns: 16rem 1fr;
+	grid-column-gap: 2rem;
 	grid-template-rows: auto auto 1fr;
 }
 
@@ -2005,6 +2005,16 @@ form[action="/ebooks"] label.per-page{
 form[action="/ebooks"] button{
 	justify-self: end;
 	margin-top: 1.4rem;
+}
+
+.artworks form[action="/artworks"]{
+	align-items: end;
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: auto auto auto auto 1fr;
+	margin: 0 1rem;
+	margin-bottom: 4rem;
+	max-width: calc(100% - 2rem);
 }
 
 form[action="/artworks"] fieldset:not(:first-child) {
@@ -2951,13 +2961,30 @@ ul.feed p{
 	padding-bottom: 0;
 }
 
-.artworks picture{
-	text-align: center;
+.artwork-metadata{
+	margin-top: 1rem;
+}
+
+.artwork-metadata td:first-child{
+	font-weight: bold;
+	width: 25%;
+}
+
+.artwork-metadata td:last-child{
+	width: 75%;
+}
+
+.artwork-metadata td{
+	padding: 0.5rem;
+}
+
+.artworks h1 + a{
+	width: auto;
 }
 
 .artworks aside.tip{
 	font-style: italic;
-	margin: 1rem 0;
+	margin: 1rem auto;
 	position: relative;
 	padding: 1rem;
 	padding-left: 2rem;
@@ -2984,6 +3011,10 @@ ul.feed p{
 	font-style: normal;
 	left: 2rem;
 	top: .5rem;
+}
+
+.artworks .tags{
+	justify-content: unset;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
