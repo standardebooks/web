@@ -1,12 +1,15 @@
 <?
 use Safe\DateTime;
+use function Safe\filesize;
 
 /**
  * @property string $UrlName
+ * @property string $Slug
  * @property array<ArtworkTag> $ArtworkTags
  * @property Artist $Artist
  * @property string $ImageUrl
  * @property string $ThumbUrl
+ * @property string $ImageSize
  */
 class Artwork extends PropertiesBase{
 	public $Name;
@@ -17,10 +20,12 @@ class Artwork extends PropertiesBase{
 	public $Created;
 	public $Status;
 	protected $_UrlName;
+	protected $_Slug;
 	protected $_ArtworkTags = null;
 	protected $_Artist = null;
 	protected $_ImageUrl = null;
 	protected $_ThumbUrl = null;
+	protected $_ImageSize = null;
 
 	public $MuseumPage;
 	public $PublicationYear;
@@ -41,6 +46,17 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_UrlName;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function GetSlug(): string{
+		if($this->_Slug === null){
+			$this->_Slug = $this->Artist->UrlName . '/' . $this->UrlName;
+		}
+
+		return $this->_Slug;
 	}
 
 	/**
@@ -87,6 +103,26 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_ThumbUrl;
+	}
+
+	/**
+	 * @throws \Exceptions\InvalidArtworkException
+	 */
+	protected function GetImageSize(): string{
+		try{
+			$bytes = @filesize(WEB_ROOT . $this->ImageUrl);
+			$sizes = 'BKMGTP';
+			$factor = floor((strlen($bytes) - 1) / 3);
+			$sizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
+			$sizeUnit = $sizes[$factor] ?? '';
+			$this->_ImageSize = $sizeNumber . $sizeUnit;
+		}
+		catch(Exception $ex){
+			// Image doesn't exist
+			$this->_ImageSize = '';
+		}
+
+		return $this->_ImageSize;
 	}
 
 	// *******
@@ -215,5 +251,41 @@ class Artwork extends PropertiesBase{
 			from Artworks
 			where ArtworkId = ?
 		', [$this->ArtworkId]);
+	}
+
+	/**
+	 *  Browsable Artwork can be displayed publically, e.g., at /artworks.
+	 *  Unverified and declined Artwork shouldn't be browsable.
+	 *  @return array<Artwork>
+	 */
+	public static function GetBrowsable(): array{
+		return Db::Query('
+			SELECT *
+			FROM Artworks
+			WHERE Status IN ("approved", "in_use")', [], 'Artwork');
+	}
+
+	public function Contains(string $query): bool{
+		$searchString = $this->Name;
+
+		$searchString .= ' ' . $this->Artist->Name;
+
+		foreach($this->ArtworkTags as $tag){
+			$searchString .= ' ' . $tag->Name;
+		}
+
+		// Remove diacritics and non-alphanumeric characters
+		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($searchString)));
+		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+
+		if($query == ''){
+			return false;
+		}
+
+		if(mb_stripos($searchString, $query) !== false){
+			return true;
+		}
+
+		return false;
 	}
 }

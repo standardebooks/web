@@ -17,7 +17,7 @@ class ArtworkTag extends PropertiesBase{
 	 */
 	protected function GetUrl(): string{
 		if($this->_Url === null){
-			$this->_Url = '/artworks?tag=' . Formatter::MakeUrlSafe($this->Name);
+			$this->_Url = '/artworks?query=' . Formatter::MakeUrlSafe($this->Name);
 		}
 
 		return $this->_Url;
