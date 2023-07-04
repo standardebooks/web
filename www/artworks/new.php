@@ -48,13 +48,13 @@ if ($successMessage){
 						Artist Name
 						<datalist id="artist-names">
 							<?php foreach (Artist::GetAll() as $artist): ?>
-								<option value="<?= $artist->Name ?>"></option>
+								<option value="<?= $artist->Name ?>"><?= $artist->Name ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>(unknown)<? } ?></option>
 							<?php endforeach; ?>
 						</datalist>
 						<input type="text" name="artist-name" list="artist-names" required="required"/>
 					</label>
 					<label>
-						Year of Death
+						Year of death
 						<input type="number" name="artist-year-of-death" min="0" max="<?= gmdate('Y') ?>"/>
 					</label>
 				</div>
@@ -67,7 +67,7 @@ if ($successMessage){
 						<input type="text" name="artwork-name" required="required"/>
 					</label>
 					<label for="artwork-year">
-						Year of Completion
+						Year of completion
 						<label>
 							(circa?
 							<input type="checkbox" name="artwork-year-is-circa"/>)
