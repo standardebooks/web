@@ -1561,6 +1561,7 @@ ol.artwork-list.list > li + li {
 
 ol.artwork-list.list > li .thumbnail-container{
 	grid-row: 1 / span 3;
+	margin-left: auto;
 }
 
 ol.artwork-list.list > li p{
