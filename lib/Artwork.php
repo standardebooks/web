@@ -6,6 +6,7 @@ use function Safe\filesize;
  * @property string $UrlName
  * @property string $Slug
  * @property array<ArtworkTag> $ArtworkTags
+ * @property string $ArtworkTagsImploded
  * @property Artist $Artist
  * @property string $ImageUrl
  * @property string $ThumbUrl
@@ -73,6 +74,12 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_ArtworkTags;
+	}
+
+	protected function GetArtworkTagsImploded(): string{
+		$tags = $this->ArtworkTags ?? [];
+		$tags = array_column($tags, 'Name');
+		return implode(', ', $tags);
 	}
 
 	/**
