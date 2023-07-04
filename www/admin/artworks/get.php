@@ -12,7 +12,7 @@ catch(Exceptions\SeException){
 
 ?><?= Template::Header(['title' => 'Review Artwork', 'highlight' => '', 'description' => 'Unapproved artwork.']) ?>
 <main class="artworks">
-	<section>
+	<section class="narrow">
 		<?= Template::ArtworkDetail(['artwork' => $artwork]) ?>
 	</section>
 	<h2>Review</h2>
