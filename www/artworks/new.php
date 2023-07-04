@@ -3,17 +3,21 @@ require_once('Core.php');
 
 session_start();
 
-$exception = $_SESSION['exception'] ?? null;
-
-if ($exception){
-	http_response_code(422);
-	session_unset();
-}
-
 $successMessage = $_SESSION['success-message'] ?? null;
 
 if ($successMessage){
 	http_response_code(201);
+	session_unset();
+}
+
+/** @var Artwork $artwork */
+$artwork = $_SESSION['artwork'] ?? new Artwork();
+$artist = $artwork->Artist ?? new Artist();
+
+$exception = $_SESSION['exception'] ?? null;
+
+if ($exception){
+	http_response_code(422);
 	session_unset();
 }
 
@@ -47,15 +51,27 @@ if ($successMessage){
 					<label>
 						Artist Name
 						<datalist id="artist-names">
-							<?php foreach (Artist::GetAll() as $artist): ?>
-								<option value="<?= $artist->Name ?>"></option>
+							<?php foreach (Artist::GetAll() as $existingArtist): ?>
+								<option value="<?= $existingArtist->Name ?>"></option>
 							<?php endforeach; ?>
 						</datalist>
-						<input type="text" name="artist-name" list="artist-names" required="required"/>
+						<input
+							type="text"
+							name="artist-name"
+							list="artist-names"
+							required="required"
+							value="<?= $artist->Name ?>"
+						/>
 					</label>
 					<label>
 						Year of Death
-						<input type="number" name="artist-year-of-death" min="0" max="<?= gmdate('Y') ?>"/>
+						<input
+							type="number"
+							name="artist-year-of-death"
+							min="0"
+							max="<?= gmdate('Y') ?>"
+							value="<?= $artist->DeathYear ?>"
+						/>
 					</label>
 				</div>
 			</fieldset>
@@ -64,20 +80,37 @@ if ($successMessage){
 				<div>
 					<label>
 						Artwork Name
-						<input type="text" name="artwork-name" required="required"/>
+						<input type="text" name="artwork-name" required="required"
+						       value="<?= $artwork->Name ?>"/>
 					</label>
 					<label for="artwork-year">
 						Year of Completion
 						<label>
 							(circa?
-							<input type="checkbox" name="artwork-year-is-circa"/>)
+							<input
+								type="checkbox"
+								name="artwork-year-is-circa"
+								value="<?= $artwork->CompletedYearIsCirca ?>"
+							/>)
 						</label>
-						<input type="number" id="artwork-year" name="artwork-year" min="0" max="<?= gmdate('Y') ?>"/>
+						<input
+							type="number"
+							id="artwork-year"
+							name="artwork-year"
+							min="0"
+							max="<?= gmdate('Y') ?>"
+							value="<?= $artwork->CompletedYear ?>"
+						/>
 					</label>
 				</div>
 				<label>
 					Artwork Tags
-					<input type="text" name="artwork-tags" placeholder="tags, comma-separated"/>
+					<input
+						type="text"
+						name="artwork-tags"
+						placeholder="tags, comma-separated"
+						value="<?= $artwork->ArtworkTagsImploded ?>"
+					/>
 				</label>
 			</fieldset>
 			<fieldset id="pd-proof">
@@ -86,25 +119,47 @@ if ($successMessage){
 					<div>
 						<label>
 							Link to page with year of publication
-							<input type="url" name="pd-proof-year-of-publication-page"/>
+							<input
+								type="url"
+								name="pd-proof-year-of-publication-page"
+								value="<?= $artwork->PublicationYearPage ?>"
+							/>
 						</label>
 						<label>
 							Year of publication
-							<input type="number" name="pd-proof-year-of-publication" min="0" max="<?= gmdate('Y') ?>"/>
+							<input
+								type="number"
+								name="pd-proof-year-of-publication"
+								min="0"
+								max="<?= gmdate('Y') ?>"
+								value="<?= $artwork->PublicationYear ?>"
+							/>
 						</label>
 					</div>
 					<label>
 						Link to page with copyright details
-						<input type="url" name="pd-proof-copyright-page"/>
+						<input
+							type="url"
+							name="pd-proof-copyright-page"
+							value="<?= $artwork->CopyrightPage ?>"
+						/>
 					</label>
 					<label>
 						Link to page with artwork
-						<input type="url" name="pd-proof-artwork-page"/>
+						<input
+							type="url"
+							name="pd-proof-artwork-page"
+							value="<?= $artwork->ArtworkPage ?>"
+						/>
 					</label>
 				</fieldset>
 				<label>
 					Link to museum page
-					<input type="url" name="pd-proof-museum-link"/>
+					<input
+						type="url"
+						name="pd-proof-museum-link"
+						value="<?= $artwork->MuseumPage ?>"
+					/>
 				</label>
 			</fieldset>
 			<fieldset>
