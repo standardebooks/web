@@ -52,7 +52,7 @@ if ($exception){
 						Artist Name
 						<datalist id="artist-names">
 							<?php foreach (Artist::GetAll() as $existingArtist): ?>
-								<option value="<?= $existingArtist->Name ?>"></option>
+								<option value="<?= $existingArtist->Name ?>"><?= $existingArtist->Name ?>, d. <? if($existingArtist->DeathYear !== null){ ?><?= $existingArtist->DeathYear ?><? }else{ ?>(unknown)<? } ?></option>
 							<?php endforeach; ?>
 						</datalist>
 						<input
@@ -64,7 +64,7 @@ if ($exception){
 						/>
 					</label>
 					<label>
-						Year of Death
+						Year of death
 						<input
 							type="number"
 							name="artist-year-of-death"
@@ -84,7 +84,7 @@ if ($exception){
 						       value="<?= $artwork->Name ?>"/>
 					</label>
 					<label for="artwork-year">
-						Year of Completion
+						Year of completion
 						<label>
 							(circa?
 							<input
