@@ -69,17 +69,9 @@ if (HttpInput::RequestMethod() != HTTP_POST){
 session_start();
 
 try{
-	$expectCaptcha = HttpInput::Str(SESSION, 'captcha', false);
-	$actualCaptcha = HttpInput::Str(POST, 'captcha', false);
-
-	if ($expectCaptcha === '' || mb_strtolower($expectCaptcha) !== mb_strtolower($actualCaptcha)){
-		throw new Exceptions\InvalidCaptchaException();
-	}
-
-	$artistName = HttpInput::Str(POST, 'artist-name', false);
-	$artistYearOfDeath = HttpInput::Int(POST, 'artist-year-of-death');
-
-	$artist = Artist::GetOrCreate($artistName, $artistYearOfDeath);
+	$artist = new Artist();
+	$artist->Name = HttpInput::Str(POST, 'artist-name', false);
+	$artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
 
 	$artwork = new Artwork();
 
@@ -97,6 +89,14 @@ try{
 	$artwork->CopyrightPage = HttpInput::Str(POST, 'pd-proof-copyright-page', false);
 	$artwork->ArtworkPage = HttpInput::Str(POST, 'pd-proof-artwork-page', false);
 
+	$expectCaptcha = HttpInput::Str(SESSION, 'captcha', false);
+	$actualCaptcha = HttpInput::Str(POST, 'captcha', false);
+
+	if ($expectCaptcha === '' || mb_strtolower($expectCaptcha) !== mb_strtolower($actualCaptcha)){
+		throw new Exceptions\InvalidCaptchaException();
+	}
+
+	$artist->GetOrCreate();
 	$artwork->Create();
 
 	handleImageUpload($_FILES['color-upload']['tmp_name'], $artwork);
@@ -108,6 +108,10 @@ try{
 } catch (\Exceptions\SeException $exception){
 	$_SESSION['exception'] = $exception;
 
+	if (isset($artwork)){
+		$_SESSION['artwork'] = $artwork;
+	}
+
 	if (isset($artwork->ArtworkId)){
 		// clean up the uploaded file(s)
 		unlink(WEB_ROOT . $artwork->ImageUrl);
@@ -115,6 +119,10 @@ try{
 
 		// remove database entry
 		$artwork->Delete();
+	}
+
+	if (isset($artist->ArtistId)){
+		$artist->DeleteIfUnused();
 	}
 
 	http_response_code(303);
