@@ -191,9 +191,6 @@ require_once('Core.php');
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister’s Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/2769">Cleopatra</a> by H. Rider Haggard</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2885">The House of the Wolflings</a> by William Morris</p>
 			</li>
@@ -495,7 +492,7 @@ require_once('Core.php');
 				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short story collections by P. G. Wodehouse</a> (Note that we already have all Jeeves, School and Ukridge Stories completed. A spreadsheet is available that lists the rest.)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short story collections by P. G. Wodehouse</a> (Note that we already have all Jeeves, School, Mulliner, and Ukridge Stories completed. A spreadsheet is available that lists the rest.)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
