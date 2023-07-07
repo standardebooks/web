@@ -1,26 +1,19 @@
 <?
 namespace Exceptions;
 
-use function Safe\json_encode;
-
 class ValidationException extends SeException{
 	public $Exceptions = [];
 	public $HasExceptions = false;
 	public $IsFatal = false;
 
-	public function __construct(?\Exception $exception = null){
-		if($exception !== null){
-			$this->Add($exception);
-		}
-	}
-
 	public function __toString(): string{
 		$output = '';
+
 		foreach($this->Exceptions as $exception){
-			$output .= $exception->getMessage() . '; ';
+			$output .= $exception->getMessage() . "\n";
 		}
 
-		return rtrim($output, '; ');
+		return rtrim($output);
 	}
 
 	public function Add(\Exception $exception, bool $isFatal = false): void{
@@ -38,17 +31,6 @@ class ValidationException extends SeException{
 		}
 
 		$this->HasExceptions = true;
-	}
-
-	public function Serialize(): string{
-		$val = '';
-		foreach($this->Exceptions as $childException){
-			$val .= $childException->getCode() . ',';
-		}
-
-		$val = rtrim($val, ',');
-
-		return $val;
 	}
 
 	public function Has(string $exception): bool{
