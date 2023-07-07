@@ -309,9 +309,6 @@ require_once('Core.php');
 				<p>Epictetus’s “Enchiridion” and fragments as a Short Works compilation, in <a href="http://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0237%3Atext%3Denc">Thomas Wentworth Higginson’s translation</a>, to supersede our <a href="/ebooks/epictetus/short-works/george-long">current edition</a> of his short works in George Long’s inferior translation</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/2055">Two Years Before the Mast</a> by Richard Henry Dana, <abbr>Jr.</abbr></p><!--patron-->
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/36541">A Joy Forever (a.k.a. The Political Economy of Art)</a> by John Ruskin</p>
 			</li>	
 			<li>
