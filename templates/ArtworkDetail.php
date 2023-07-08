@@ -28,7 +28,7 @@
 	</tr>
 	<tr>
 		<td>Status</td>
-		<td><? if($artwork->Status === "approved"){ ?>Approved<? }else if($artwork->Status === "in_use"){ ?>In use by <a href="<?= $artwork->Ebook->Url ?>" property="schema:url"><span property="schema:name"><?= Formatter::ToPlainText($artwork->Ebook->Title) ?></span></a><? }else{ ?><?= Formatter::ToPlainText($artwork->Status) ?><? } ?></td>
+		<td><?= Template::ArtworkStatus(['artwork' => $artwork]) ?></td>
 	</tr>
 	<tr>
 		<td>Tags</td>
