@@ -22,11 +22,11 @@ try{
 	switch($newStatus){
 		case 'approved':
 			$artwork->Status = 'approved';
-			$_SESSION['approved-message'] = '“' . $artwork->Name . '” approved.';
+			$_SESSION['approved-message'] = '“' . Formatter::ToPlainText($artwork->Name) . '” approved.';
 			break;
 		case 'declined':
 			$artwork->Status = 'declined';
-			$_SESSION['declined-message'] = '“' . $artwork->Name . '” declined.';
+			$_SESSION['declined-message'] = '“' . Formatter::ToPlainText($artwork->Name) . '” declined.';
 			break;
 	}
 
