@@ -13,7 +13,7 @@ $artworks = $artworks ?? [];
 		<p>Title: <a href="/admin/artworks/<?= $artwork->ArtworkId ?>" property="schema:name"><?= Formatter::ToPlainText($artwork->Name) ?></a></p>
 		<p>Artist: <span class="author" typeof="schema:Person" property="schema:name"><?= Formatter::ToPlainText($artwork->Artist->Name) ?></span></p>
 		<div>
-			<p>Year completed: <?= $artwork->CompletedYear ?></p>
+			<p>Year completed: <? if ($artwork->CompletedYear === null){ ?>(unknown)<? }else{ ?><?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?><? } ?></p>
 		</div>
 	</li>
 <? } ?>
