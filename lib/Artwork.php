@@ -202,7 +202,7 @@ class Artwork extends PropertiesBase{
 		$this->Validate();
 		$this->Created = new DateTime();
 		Db::Query('
-			INSERT INTO Artworks (ArtistId, Name, CompletedYear, CompletedYearIsCirca, Created, MuseumPage,
+			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, MuseumPage,
 			                      PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
 			VALUES (?,
 			        ?,
@@ -213,8 +213,9 @@ class Artwork extends PropertiesBase{
 			        ?,
 			        ?,
 			        ?,
+			        ?,
 			        ?)
-		', [$this->Artist->ArtistId, $this->Name, $this->CompletedYear, $this->CompletedYearIsCirca,
+		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->MuseumPage, $this->PublicationYear, $this->PublicationYearPage,
 				$this->CopyrightPage, $this->ArtworkPage]
 		);
