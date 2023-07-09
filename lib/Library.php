@@ -160,25 +160,13 @@ class Library{
 	}
 
 	/**
-	 * @return Artwork
-	 */
-	public static function GetArtworkBySlug(string $slug){
-		try{
-			return apcu_fetch('artwork-' . $slug);
-		}
-		catch(Safe\Exceptions\ApcuException $ex){
-			return null;
-		}
-	}
-
-	/**
 	* @param string $query
 	* @param string $status
 	* @param string $sort
 	* @return array<Artwork>
 	*/
 	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null): array{
-		$artworks = self::GetFromApcu('artworks');
+		$artworks = Artwork::GetBrowsable();
 		$matches = $artworks;
 
 		if($sort === null){
@@ -266,7 +254,6 @@ class Library{
 		}
 		catch(Safe\Exceptions\ApcuException $ex){
 			Library::RebuildCache();
-			Library::RebuildArtworkCache();
 			try{
 				$results = apcu_fetch($variable);
 			}
@@ -530,18 +517,6 @@ class Library{
 		}
 
 		return $retval;
-	}
-
-	public static function RebuildArtworkCache(): void{
-		$artworks = Artwork::GetBrowsable();
-
-		apcu_delete('artworks');
-		apcu_store('artworks', $artworks);
-
-		apcu_delete(new APCUIterator('/^artwork-/'));
-		foreach($artworks as $artwork){
-			apcu_store('artwork-' . $artwork->Slug, $artwork);
-		}
 	}
 
 	public static function RebuildCache(): void{

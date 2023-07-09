@@ -195,6 +195,21 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
+	public static function GetByUrlPath($artistUrlName, $artworkUrlName): Artwork{
+		$result = Db::Query('
+				SELECT Artworks.*
+				from Artworks
+				inner join Artists using (ArtistId)
+				where Artists.UrlName = ? and Artworks.UrlName = ?
+			', [$artistUrlName, $artworkUrlName], 'Artwork');
+
+		if(sizeof($result) == 0){
+			return null;
+		}
+
+		return $result[0];
+	}
+
 	/**
 	 * @throws \Exceptions\ValidationException
 	 */
