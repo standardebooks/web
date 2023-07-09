@@ -101,7 +101,7 @@ try{
 
 	handleImageUpload($_FILES['color-upload']['tmp_name'], $artwork);
 
-	$_SESSION['success-message'] = '“' . Formatter::ToPlainText($artwork->Name) . '” submitted successfully!';
+	$_SESSION['success-message'] = '“' . $artwork->Name . '” submitted successfully!';
 	http_response_code(303);
 	header('Location: ' . '/artworks/new');
 

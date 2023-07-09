@@ -11,7 +11,7 @@ if($artwork === null){
 	Template::Emit404();
 }
 
-?><?= Template::Header(['title' => Formatter::ToPlainText($artwork->Name)]) ?>
+?><?= Template::Header(['title' => $artwork->Name]) ?>
 <main class="artworks">
 	<section class="narrow">
 		<?= Template::ArtworkDetail(['artwork' => $artwork]) ?>

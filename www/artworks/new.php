@@ -40,7 +40,7 @@ if ($exception){
 
 		<? if ($successMessage){ ?>
 			<p class="message success">
-				<?= $successMessage ?>
+				<?= Formatter::ToPlainText($successMessage) ?>
 			</p>
 		<? } ?>
 
