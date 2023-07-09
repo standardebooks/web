@@ -13,5 +13,6 @@ CREATE TABLE `Artworks` (
   `CopyrightPage` varchar(255) NULL,
   `ArtworkPage` varchar(255) NULL,
   PRIMARY KEY (`ArtworkId`),
-  KEY `index1` (`Status`)
+  KEY `index1` (`Status`),
+  KEY `index2` (`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
