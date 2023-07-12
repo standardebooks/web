@@ -62,7 +62,7 @@ class DbConnection{
 			}
 
 			if($require){
-				print("Something crazy happened in our database.  <a href=\"/contact/\">Drop us a line</a> and let us know exactly what you were doing and we'll take a look.\n<br />The more detail you can provide, the better!");
+				print("Something crazy happened in our database.");
 				exit();
 			}
 		}
@@ -126,10 +126,10 @@ class DbConnection{
 				$done = true;
 			}
 			catch(\PDOException $ex){
-				if($ex->errorInfo[1] == 1213 && $deadlockRetries < 3){ // InnoDB deadlock, this is normal and happens occasionally.  All we have to do is retry the query.
+				if($ex->errorInfo[1] == 1213 && $deadlockRetries < 3){ // InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
 					$deadlockRetries++;
 
-					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up.   Start at .5 seconds
+					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up.  Start at .5 seconds
 				}
 				elseif($ex->getCode() == '23000'){
 					// Duplicate key, bubble this up without logging it so the business logic can handle it
