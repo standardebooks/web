@@ -28,7 +28,7 @@
 	</tr>
 	<tr>
 		<td>Status</td>
-		<td><?= Formatter::ToPlainText($artwork->Status) ?></td>
+		<td><?= Template::ArtworkStatus(['artwork' => $artwork]) ?></td>
 	</tr>
 	<tr>
 		<td>Tags</td>
