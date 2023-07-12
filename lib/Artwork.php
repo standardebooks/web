@@ -11,6 +11,7 @@ use function Safe\filesize;
  * @property string $ImageUrl
  * @property string $ThumbUrl
  * @property string $ImageSize
+ * @property Ebook $Ebook
  */
 class Artwork extends PropertiesBase{
 	public $Name;
@@ -20,6 +21,7 @@ class Artwork extends PropertiesBase{
 	public $CompletedYearIsCirca;
 	public $Created;
 	public $Status;
+	public $EbookWwwFilesystemPath;
 	protected $_UrlName;
 	protected $_Slug;
 	protected $_ArtworkTags = null;
@@ -27,6 +29,7 @@ class Artwork extends PropertiesBase{
 	protected $_ImageUrl = null;
 	protected $_ThumbUrl = null;
 	protected $_ImageSize = null;
+	protected $_Ebook = null;
 
 	public $MuseumPage;
 	public $PublicationYear;
@@ -130,6 +133,19 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_ImageSize;
+	}
+
+	protected function GetEbook(): Ebook{
+		$this->_Ebook = new Ebook();
+		if ($this->EbookWwwFilesystemPath !== null){
+			try{
+				$this->_Ebook = apcu_fetch('ebook-' . $this->EbookWwwFilesystemPath);
+			}
+			catch(Safe\Exceptions\ApcuException $ex){
+				// The Ebook with that filesystem path isn't cached.
+			}
+		}
+		return $this->_Ebook;
 	}
 
 	// *******

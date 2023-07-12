@@ -1545,14 +1545,21 @@ ol.artwork-list.list{
 }
 
 ol.artwork-list.list > li{
+	border-radius: .25rem;
 	display: grid;
 	grid-template-columns: 16rem 1fr;
 	grid-column-gap: 2rem;
 	grid-template-rows: auto auto 1fr;
+	padding: 1rem;
+}
+
+ol.artwork-list.list > li.in_use{
+	background-color: rgba(0, 0, 0, .2);
+	background-image: url("/images/stripes.svg");
 }
 
 ol.artwork-list.list > li + li {
-	margin-top: 2rem;
+	margin-top: 1rem;
 }
 
 ol.artwork-list.list > li .thumbnail-container{
