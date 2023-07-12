@@ -40,7 +40,7 @@ if ($exception){
 
 		<? if ($successMessage){ ?>
 			<p class="message success">
-				<?= $successMessage ?>
+				<?= Formatter::ToPlainText($successMessage) ?>
 			</p>
 		<? } ?>
 
@@ -52,7 +52,7 @@ if ($exception){
 						Artist Name
 						<datalist id="artist-names">
 							<?php foreach (Artist::GetAll() as $existingArtist): ?>
-								<option value="<?= $existingArtist->Name ?>"><?= $existingArtist->Name ?>, d. <? if($existingArtist->DeathYear !== null){ ?><?= $existingArtist->DeathYear ?><? }else{ ?>(unknown)<? } ?></option>
+								<option value="<?= Formatter::ToPlainText($existingArtist->Name) ?>"><?= Formatter::ToPlainText($existingArtist->Name) ?>, d. <? if($existingArtist->DeathYear !== null){ ?><?= $existingArtist->DeathYear ?><? }else{ ?>(unknown)<? } ?></option>
 							<?php endforeach; ?>
 						</datalist>
 						<input
@@ -60,7 +60,7 @@ if ($exception){
 							name="artist-name"
 							list="artist-names"
 							required="required"
-							value="<?= $artist->Name ?>"
+							value="<?= Formatter::ToPlainText($artist->Name) ?>"
 						/>
 					</label>
 					<label>
@@ -81,7 +81,7 @@ if ($exception){
 					<label>
 						Artwork Name
 						<input type="text" name="artwork-name" required="required"
-						       value="<?= $artwork->Name ?>"/>
+						       value="<?= Formatter::ToPlainText($artwork->Name) ?>"/>
 					</label>
 					<label for="artwork-year">
 						Year of completion
@@ -109,7 +109,7 @@ if ($exception){
 						type="text"
 						name="artwork-tags"
 						placeholder="tags, comma-separated"
-						value="<?= $artwork->ArtworkTagsImploded ?>"
+						value="<?= Formatter::ToPlainText($artwork->ArtworkTagsImploded) ?>"
 					/>
 				</label>
 			</fieldset>
@@ -122,7 +122,7 @@ if ($exception){
 							<input
 								type="url"
 								name="pd-proof-year-of-publication-page"
-								value="<?= $artwork->PublicationYearPage ?>"
+								value="<?= Formatter::ToPlainText($artwork->PublicationYearPage) ?>"
 							/>
 						</label>
 						<label>
@@ -141,7 +141,7 @@ if ($exception){
 						<input
 							type="url"
 							name="pd-proof-copyright-page"
-							value="<?= $artwork->CopyrightPage ?>"
+							value="<?= Formatter::ToPlainText($artwork->CopyrightPage) ?>"
 						/>
 					</label>
 					<label>
@@ -149,7 +149,7 @@ if ($exception){
 						<input
 							type="url"
 							name="pd-proof-artwork-page"
-							value="<?= $artwork->ArtworkPage ?>"
+							value="<?= Formatter::ToPlainText($artwork->ArtworkPage) ?>"
 						/>
 					</label>
 				</fieldset>
@@ -158,7 +158,7 @@ if ($exception){
 					<input
 						type="url"
 						name="pd-proof-museum-link"
-						value="<?= $artwork->MuseumPage ?>"
+						value="<?= Formatter::ToPlainText($artwork->MuseumPage) ?>"
 					/>
 				</label>
 			</fieldset>

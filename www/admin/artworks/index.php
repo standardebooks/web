@@ -38,12 +38,12 @@ $unverifiedArtworks = array_slice($unverifiedArtworks, ($page - 1) * $perPage, $
 		<section id="unapproved-artwork">
 			<? if ($approvedMessage){ ?>
 			<p class="message success">
-				<?= $approvedMessage ?>
+				<?= Formatter::ToPlainText($approvedMessage) ?>
 			</p>
 			<? } ?>
 			<? if ($declinedMessage){ ?>
 			<p class="message">
-				<?= $declinedMessage ?>
+				<?= Formatter::ToPlainText($declinedMessage) ?>
 			</p>
 			<? } ?>
 			<? if($count > 0){ ?>
