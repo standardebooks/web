@@ -3,9 +3,8 @@ require_once('Core.php');
 
 $artistUrlName = HttpInput::Str(GET, 'artist');
 $artworkUrlName = HttpInput::Str(GET, 'artwork');
-$slug = $artistUrlName . '/' . $artworkUrlName;
 
-$artwork = Library::GetArtworkBySlug($slug);
+$artwork = Artwork::GetByUrlPath($artistUrlName, $artworkUrlName);
 
 if($artwork === null){
 	Template::Emit404();
