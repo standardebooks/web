@@ -195,7 +195,7 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
-	public static function GetByUrlPath($artistUrlName, $artworkUrlName): Artwork{
+	public static function GetByUrlPath($artistUrlName, $artworkUrlName): ?Artwork{
 		$result = Db::Query('
 				SELECT Artworks.*
 				from Artworks
