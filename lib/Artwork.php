@@ -200,7 +200,8 @@ class Artwork extends PropertiesBase{
 				SELECT Artworks.*
 				from Artworks
 				inner join Artists using (ArtistId)
-				where Artists.UrlName = ? and Artworks.UrlName = ?
+				where Status in ("approved", "in_use") and
+				Artists.UrlName = ? and Artworks.UrlName = ?
 			', [$artistUrlName, $artworkUrlName], 'Artwork');
 
 		if(sizeof($result) == 0){
