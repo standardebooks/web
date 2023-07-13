@@ -36,6 +36,10 @@ class Artist extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtistException());
 		}
 
+		if($this->UrlName === null || strlen($this->UrlName) === 0){
+			$error->Add(new Exceptions\InvalidArtistException());
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
@@ -65,10 +69,11 @@ class Artist extends PropertiesBase{
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
-			INSERT into Artists (Name, DeathYear)
-			values (?,
+			INSERT into Artists (Name, UrlName, DeathYear)
+			VALUES (?,
+			        ?,
 			        ?)
-		', [$this->Name, $this->DeathYear]);
+		', [$this->Name, $this->UrlName, $this->DeathYear]);
 
 		$this->ArtistId = Db::GetLastInsertedId();
 	}

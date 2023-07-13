@@ -211,6 +211,22 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
+	public static function GetByUrlPath($artistUrlName, $artworkUrlName): ?Artwork{
+		$result = Db::Query('
+				SELECT Artworks.*
+				from Artworks
+				inner join Artists using (ArtistId)
+				where Status in ("approved", "in_use") and
+				Artists.UrlName = ? and Artworks.UrlName = ?
+			', [$artistUrlName, $artworkUrlName], 'Artwork');
+
+		if(sizeof($result) == 0){
+			return null;
+		}
+
+		return $result[0];
+	}
+
 	/**
 	 * @throws \Exceptions\ValidationException
 	 */
@@ -218,7 +234,7 @@ class Artwork extends PropertiesBase{
 		$this->Validate();
 		$this->Created = new DateTime();
 		Db::Query('
-			INSERT INTO Artworks (ArtistId, Name, CompletedYear, CompletedYearIsCirca, Created, MuseumPage,
+			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, MuseumPage,
 			                      PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
 			VALUES (?,
 			        ?,
@@ -229,8 +245,9 @@ class Artwork extends PropertiesBase{
 			        ?,
 			        ?,
 			        ?,
+			        ?,
 			        ?)
-		', [$this->Artist->ArtistId, $this->Name, $this->CompletedYear, $this->CompletedYearIsCirca,
+		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->MuseumPage, $this->PublicationYear, $this->PublicationYearPage,
 				$this->CopyrightPage, $this->ArtworkPage]
 		);

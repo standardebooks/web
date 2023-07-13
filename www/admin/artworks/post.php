@@ -31,7 +31,6 @@ try{
 	}
 
 	$artwork->Save();
-	Library::RebuildArtworkCache();
 
 	http_response_code(303);
 	header('Location: /admin/artworks');
