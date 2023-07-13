@@ -2,6 +2,7 @@ CREATE TABLE `Artworks` (
   `ArtworkId` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ArtistId` int(10) unsigned NOT NULL,
   `Name` varchar(255) NOT NULL,
+  `UrlName` varchar(255) NOT NULL,
   `CompletedYear` smallint unsigned NULL,
   `CompletedYearIsCirca` boolean NOT NULL DEFAULT FALSE,
   `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -13,5 +14,6 @@ CREATE TABLE `Artworks` (
   `ArtworkPage` varchar(255) NULL,
   `EbookWwwFilesystemPath` varchar(255) NULL,
   PRIMARY KEY (`ArtworkId`),
-  KEY `index1` (`Status`)
+  KEY `index1` (`Status`),
+  KEY `index2` (`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
