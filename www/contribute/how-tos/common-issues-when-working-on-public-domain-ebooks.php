@@ -55,7 +55,7 @@ require_once('Core.php');
 		<h2 id="diacritics">Diacritics</h2>
 		<ol>
 			<li>
-				<p>Diacritics on words that appear in Merriam-Webster without them should generally be removed. Modernize spelling corrects some of these, so it is best to wait until after that step to see if any others are left. <code class="bash"><b>se</b> find-mismatched-diacritics</code> can help find instances of these. These commit(s) should be editorial.</p>
+				<p>Diacritics on words that appear in Merriam-Webster without them should generally be removed. <code class="bash"><b>se</b> modernize-spelling</code> corrects some of these, so it is best to wait until after that step to see if any others are left. <code class="bash"><b>se</b> find-mismatched-diacritics</code> can help find instances of these. These commit(s) should be editorial.</p>
 				<p>The circumflex on hôtel is unnecessary…</p>
 				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Is not that the hôtel in which is enclosed the garden of the Lingère du Louvre?”<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				<p>…and therefore can be removed:</p>
