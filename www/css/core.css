@@ -699,13 +699,17 @@ h1 + .message{
 	outline: 1px dashed #fff;
 }
 
-ul.message.error li{
+ul.message.error > li{
 	margin-left: 1rem;
 }
 
-ul.message.error li:only-child{
+ul.message.error > li:only-child{
 	list-style: none;
 	margin-left: 0;
+}
+
+ul.message.error > li + li{
+	margin-top: .5rem;
 }
 
 .bulk-downloads > p,
