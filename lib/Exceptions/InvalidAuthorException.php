@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class InvalidAuthorException extends SeException{
+class InvalidAuthorException extends AppException{
 }

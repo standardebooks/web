@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class InvalidFileException extends SeException{
+class InvalidFileException extends AppException{
 }

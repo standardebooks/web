@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class InvalidEbookException extends SeException{
+class InvalidEbookException extends AppException{
 }

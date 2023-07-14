@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class NoopException extends SeException{
+class NoopException extends AppException{
 }

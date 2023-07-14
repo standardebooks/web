@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidNewsletterSubscriptionException extends SeException{
+class InvalidNewsletterSubscriptionException extends AppException{
 	protected $message = 'We couldn’t find you in our newsletter subscribers list.';
 }

@@ -331,7 +331,7 @@ class Library{
 	public static function RebuildBulkDownloadsCache(): array{
 		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
 		if($collator === null){
-			throw new Exceptions\SeException('Couldn\'t create collator object when rebuilding bulk download cache.');
+			throw new Exceptions\AppException('Couldn\'t create collator object when rebuilding bulk download cache.');
 		}
 		$months = [];
 		$subjects = [];
@@ -396,7 +396,7 @@ class Library{
 		$retval = null;
 		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
 		if($collator === null){
-			throw new Exceptions\SeException('Couldn\'t create collator object when rebuilding feeds cache.');
+			throw new Exceptions\AppException('Couldn\'t create collator object when rebuilding feeds cache.');
 		}
 
 		foreach($feedTypes as $type){
@@ -449,7 +449,7 @@ class Library{
 
 		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
 		if($collator === null){
-			throw new Exceptions\SeException('Couldn\'t create collator object when rebuilding cache.');
+			throw new Exceptions\AppException('Couldn\'t create collator object when rebuilding cache.');
 		}
 
 		$ebooks = [];

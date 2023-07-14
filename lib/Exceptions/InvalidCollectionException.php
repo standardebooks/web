@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class InvalidCollectionException extends SeException{
+class InvalidCollectionException extends AppException{
 }

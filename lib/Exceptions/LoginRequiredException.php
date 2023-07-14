@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class LoginRequiredException extends SeException{
+class LoginRequiredException extends AppException{
 }

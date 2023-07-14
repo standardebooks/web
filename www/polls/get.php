@@ -20,13 +20,13 @@ try{
 		try{
 			PollVote::Get($poll->UrlName, $GLOBALS['User']->UserId);
 		}
-		catch(Exceptions\SeException){
+		catch(Exceptions\AppException){
 			// User has already voted
 			$canVote = true;
 		}
 	}
 }
-catch(Exceptions\SeException){
+catch(Exceptions\AppException){
 	Template::Emit404();
 }
 

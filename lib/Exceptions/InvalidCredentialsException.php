@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidCredentialsException extends SeException{
+class InvalidCredentialsException extends AppException{
 	protected $message = 'Invalid credentials.';
 }

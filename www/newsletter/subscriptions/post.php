@@ -101,7 +101,7 @@ catch(Exceptions\NewsletterSubscriptionExistsException){
 		http_response_code(409);
 	}
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\AppException $ex){
 	// Validation failed
 	if($requestType == WEB){
 		$_SESSION['subscription'] = $subscription;

@@ -33,7 +33,7 @@ try{
 		header('Location: ' . $vote->Url);
 	}
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\AppException $ex){
 	// Validation failed
 	if($requestType == WEB){
 		$_SESSION['vote'] = $vote;

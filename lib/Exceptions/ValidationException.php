@@ -1,7 +1,7 @@
 <?
 namespace Exceptions;
 
-class ValidationException extends SeException{
+class ValidationException extends AppException{
 	public $Exceptions = [];
 	public $HasExceptions = false;
 	public $IsFatal = false;

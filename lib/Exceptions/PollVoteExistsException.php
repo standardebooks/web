@@ -1,7 +1,7 @@
 <?
 namespace Exceptions;
 
-class PollVoteExistsException extends SeException{
+class PollVoteExistsException extends AppException{
 	public $Vote = null;
 	protected $message = 'You’ve already voted in this poll.';
 

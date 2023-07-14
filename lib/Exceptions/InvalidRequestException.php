@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidRequestException extends SeException{
+class InvalidRequestException extends AppException{
 	protected $message = 'Invalid request.';
 }

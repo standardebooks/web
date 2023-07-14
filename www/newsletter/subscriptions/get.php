@@ -39,7 +39,7 @@ try{
 		http_response_code(201);
 	}
 }
-catch(Exceptions\SeException){
+catch(Exceptions\AppException){
 	Template::Emit404();
 }
 

@@ -34,7 +34,7 @@ try{
 		header('Location: ' . $session->Url);
 	}
 }
-catch(Exceptions\SeException $ex){
+catch(Exceptions\AppException $ex){
 	// Login failed
 	if($requestType == WEB){
 		$_SESSION['email'] = $email;

@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidPollItemException extends SeException{
+class InvalidPollItemException extends AppException{
 	protected $message = 'We couldn’t locate that poll item.';
 }

@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class InvalidSessionException extends SeException{
+class InvalidSessionException extends AppException{
 }
