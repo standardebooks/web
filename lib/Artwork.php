@@ -151,6 +151,7 @@ class Artwork extends PropertiesBase{
 	// *******
 	// METHODS
 	// *******
+	/** @throws \Exceptions\ValidationException */
 	protected function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
@@ -186,6 +187,19 @@ class Artwork extends PropertiesBase{
 
 		if($error->HasExceptions){
 			throw $error;
+		}
+	}
+
+	/** @throws \Exceptions\InvalidImageUploadException */
+	private function ValidateImageUpload(string $uploadPath): void{
+		$uploadInfo = getimagesize($uploadPath);
+
+		if ($uploadInfo === false){
+			throw new Exceptions\InvalidImageUploadException();
+		}
+
+		if ($uploadInfo[2] !== IMAGETYPE_JPEG){
+			throw new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.');
 		}
 	}
 
@@ -227,12 +241,102 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
+	public static function Build(string $artistName, ?int $artistDeathYear, string $artworkName, ?int $completedYear,
+				     bool $completedYearIsCirca, ?string $artworkTags, ?int $publicationYear,
+				     ?string $publicationYearPage, ?string $copyrightPage, ?string $artworkPage,
+				     ?string $museumPage): Artwork{
+		/** @return array<ArtworkTag> */
+		function parseArtworkTags(?string $artworkTags): array{
+			if (!$artworkTags) return array();
+
+			$artworkTags = array_map('trim', explode(',', $artworkTags)) ?? array();
+			$artworkTags = array_values(array_filter($artworkTags)) ?? array();
+			$artworkTags = array_unique($artworkTags);
+
+			return array_map(function ($str){
+				$artworkTag = new ArtworkTag();
+				$artworkTag->Name = $str;
+				return $artworkTag;
+			}, $artworkTags);
+		}
+
+		$artist = new Artist();
+		$artist->Name = $artistName;
+		$artist->DeathYear = $artistDeathYear;
+
+		$artwork = new Artwork();
+		$artwork->Artist = $artist;
+		$artwork->Name = $artworkName;
+		$artwork->CompletedYear = $completedYear;
+		$artwork->CompletedYearIsCirca = $completedYearIsCirca;
+		$artwork->ArtworkTags = parseArtworkTags($artworkTags);
+		$artwork->Status = 'unverified';
+		$artwork->Created = new DateTime();
+		$artwork->PublicationYear = $publicationYear;
+		$artwork->PublicationYearPage = $publicationYearPage;
+		$artwork->CopyrightPage = $copyrightPage;
+		$artwork->ArtworkPage = $artworkPage;
+		$artwork->MuseumPage = $museumPage;
+
+		return $artwork;
+	}
+
 	/**
 	 * @throws \Exceptions\ValidationException
+	 * @throws \Exceptions\InvalidImageUploadException
 	 */
-	public function Create(): void{
+	public function Create(string $uploadPath): void{
 		$this->Validate();
-		$this->Created = new DateTime();
+		$this->ValidateImageUpload($uploadPath);
+
+		$thumbnail = self::GenerateThumbnail($uploadPath);
+
+		/** @var ArtworkTag $artworkTag */
+		foreach ($this->ArtworkTags as $artworkTag) {
+			$artworkTag->GetOrCreate();
+		}
+
+		$this->Artist->GetOrCreate();
+		$this->Insert();
+
+		$storedImage = move_uploaded_file($uploadPath, WEB_ROOT . $this->ImageUrl);
+		$storedThumb = imagejpeg($thumbnail, WEB_ROOT . $this->ThumbUrl);
+
+		if (!($storedImage && $storedThumb)){
+			$log = new Log(ARTWORK_UPLOADS_LOG_FILE_PATH);
+			$log->Write("Failed to store image or thumbnail for uploaded artwork [$this->ArtworkId]");
+		}
+	}
+
+	/**
+	 * @throws \Exceptions\InvalidImageUploadException
+	 */
+	private static function GenerateThumbnail(string $srcImagePath): GdImage{
+		$uploadInfo = getimagesize($srcImagePath);
+
+		$src_w = $uploadInfo[0];
+		$src_h = $uploadInfo[1];
+
+		if ($src_h > $src_w){
+			$dst_h = COVER_THUMBNAIL_SIZE;
+			$dst_w = intval($dst_h * ($src_w / $src_h));
+		} else{
+			$dst_w = COVER_THUMBNAIL_SIZE;
+			$dst_h = intval($dst_w * ($src_h / $src_w));
+		}
+
+		$srcImage = imagecreatefromjpeg($srcImagePath);
+		$thumbImage = imagecreatetruecolor($dst_w, $dst_h);
+
+		if (!$thumbImage){
+			throw new \Exceptions\InvalidImageUploadException("Could not create thumbnail");
+		}
+
+		imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
+		return $thumbImage;
+	}
+
+	private function Insert(): void{
 		Db::Query('
 			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, MuseumPage,
 			                      PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)
