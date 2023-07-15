@@ -25,6 +25,7 @@ if ($exception){
 <?= Template::Header(
 	[
 		'title' => 'Submit Artwork',
+		'artwork' => true,
 		'highlight' => '',
 		'description' => 'Submit public domain artwork to the database for use as cover art.'
 	]

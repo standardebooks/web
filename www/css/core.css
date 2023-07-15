@@ -641,16 +641,7 @@ h1 + section > h2:first-child{
 
 }
 
-form button.decline-button{
-	background-color: #777;
-}
-
-form button.decline-button:hover{
-	background-color: #aaa;
-}
-
 a.button,
-.artworks nav > a,
 .ebooks nav > a,
 form button{
 	border: 1px solid rgba(0, 0, 0, .5);
@@ -688,7 +679,6 @@ h1 + .message{
 }
 
 .message{
-	background: rgba(0, 0, 0, .2);
 	border: 2px solid rgba(0, 0, 0, .25);
 	border-radius: .25rem;
 	padding: 1rem;
@@ -824,7 +814,6 @@ h2 + .download-list tr.year-header:first-child th{
 	text-align: center;
 }
 
-.artworks nav li.highlighted a:focus,
 .ebooks nav li.highlighted a:focus,
 a.button:focus,
 input[type="email"]:focus,
@@ -847,7 +836,6 @@ select::-moz-focus-inner{
 }
 
 a.button:active,
-.artworks nav > a[href]:active,
 .ebooks nav > a[href]:active,
 form button:active{
 	top: 2px;
@@ -856,7 +844,6 @@ form button:active{
 }
 
 a.button.next::after,
-.artworks nav > a:last-child::after,
 .ebooks nav > a:last-child::after{
 	font-family: "Fork Awesome";
 	content: "\f061";
@@ -867,14 +854,12 @@ a.button.next::after,
 }
 
 a[href].button.next:hover::after,
-.artworks nav > a:last-child[href]:hover::after,
 .ebooks nav > a:last-child[href]:hover::after{
 	left: .25rem;
 	position: relative;
 	transition: all 200ms ease;
 }
 
-.artworks nav > a:first-child:before,
 .ebooks nav > a:first-child:before{
 	font-family: "Fork Awesome";
 	content: "\f060";
@@ -884,7 +869,6 @@ a[href].button.next:hover::after,
 	margin-right: .5rem;
 }
 
-.artworks nav > a:first-child[href]:hover::before,
 .ebooks nav > a:first-child[href]:hover::before{
 	right: .25rem;
 	position: relative;
@@ -892,7 +876,6 @@ a[href].button.next:hover::after,
 }
 
 a.button.next:hover::after,
-.artworks nav > a:last-child[href]:hover::after,
 .ebooks nav > a:last-child[href]:hover::after{
 	left: .25rem;
 	position: relative;
@@ -900,18 +883,14 @@ a.button.next:hover::after,
 }
 
 article nav ol li a:hover,
-main.artworks nav ol li a:hover,
-main.artworks nav ol li.highlighted a:hover,
 main.ebooks nav ol li a:hover,
 main.ebooks nav ol li.highlighted a:hover,
 a.button:hover,
-.artworks nav > a:hover,
 .ebooks nav > a:hover,
 form button:hover{
 	background-color: var(--button-highlight);
 }
 
-.artworks nav > a:not([href]),
 .ebooks nav > a:not([href]){
 	cursor: default;
 	color: #efefef;
@@ -1533,66 +1512,7 @@ ol.ebooks-list > li p.author a{
 	justify-content: center;
 }
 
-ol.artwork-list.list{
-	display: flex;
-	flex-direction: column;
-	gap: 0;
-	margin-bottom: 4rem;
-	margin-left: auto;
-	margin-right: auto;
-	width: 100%;
-	max-width: 40rem;
-}
-
-ol.artwork-list.list > li{
-	border-radius: .25rem;
-	display: grid;
-	grid-template-columns: 16rem 1fr;
-	grid-column-gap: 2rem;
-	grid-template-rows: auto auto 1fr;
-	padding: 1rem;
-}
-
-ol.artwork-list.list > li.in_use{
-	background-color: rgba(0, 0, 0, .2);
-	background-image: url("/images/stripes.svg");
-}
-
-ol.artwork-list.list > li + li {
-	margin-top: 1rem;
-}
-
-ol.artwork-list.list > li .thumbnail-container{
-	grid-row: 1 / span 3;
-	margin-left: auto;
-}
-
-ol.artwork-list.list > li p{
-	text-align: left;
-}
-
-ol.artwork-list > li p{
-	margin: 0;
-}
-
-ol.artwork-list > li img{
-	box-sizing: border-box;
-	max-width: 100%;
-	height: auto;
-	border: 1px solid var(--border);
-	border-radius: .25rem;
-}
-
-ol.artwork-list > li > p:nth-of-type(1) > span{
-	font-weight: bold;
-}
-
-ol.artwork-list > li .author{
-	font-style: italic;
-}
-
 article nav ol,
-main.artworks nav ol,
 main.ebooks nav ol{
 	list-style: none;
 	display: flex;
@@ -1703,7 +1623,6 @@ figure p + p{
 	margin-top: 15px;
 }
 
-main.artworks nav,
 main.ebooks nav{
 	display: flex;
 	justify-content: center;
@@ -1712,14 +1631,12 @@ main.ebooks nav{
 }
 
 article nav ol li,
-main.artworks nav ol li,
 main.ebooks nav ol li{
 	margin: 0;
 	white-space: nowrap;
 }
 
 article nav ol li a,
-main.artworks nav ol li a,
 main.ebooks nav ol li a{
 	font-size: 1rem;
 	line-height: 1.4;
@@ -1733,17 +1650,14 @@ main.ebooks nav ol li a{
 }
 
 article nav ol li.highlighted a,
-main.artworks nav ol li.highlighted a,
 main.ebooks nav ol li.highlighted a{
 	background: var(--button);
 	border: 1px solid rgba(0, 0, 0, .5);
 }
 
 article nav ol li.highlighted a,
-main.artworks nav ol li.highlighted a,
 main.ebooks nav ol li.highlighted a,
 article nav ol li a:hover,
-main.artworks nav ol li a:hover,
 main.ebooks nav ol li a:hover{
 	color: #fff;
 	text-decoration: none;
@@ -2011,51 +1925,6 @@ form[action="/ebooks"] button{
 	margin-top: 1.4rem;
 }
 
-.artworks form[action="/artworks"]{
-	align-items: end;
-	display: grid;
-	grid-gap: 1rem;
-	grid-template-columns: auto auto auto auto 1fr;
-	margin: 0 1rem;
-	margin-bottom: 4rem;
-	max-width: calc(100% - 2rem);
-}
-
-form[action="/artworks"] fieldset:not(:first-child) {
-	margin-top: 1rem;
-}
-
-form[action="/artworks"] legend {
-	font-size: 1.2rem;
-	font-weight: bold;
-	margin: 0.5rem 0;
-}
-
-form[action="/artworks"] div {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	align-items: flex-end;
-	gap: 1rem;
-}
-
-form[action="/artworks"] div label {
-	flex-grow: 1;
-	min-width: 100%;
-}
-
-form[action="/artworks"] div label:nth-of-type(1) {
-	flex-grow: 4;
-	flex-shrink: 0;
-	min-width: 60%;
-}
-
-form[action="/artworks"] div label:nth-of-type(2) {
-	flex-grow: 1;
-	flex-shrink: 0;
-	min-width: 30%;
-}
-
 form.single-row{
 	display: flex;
 	flex-direction: column;
@@ -2071,20 +1940,17 @@ form.single-row button{
 }
 
 article nav ol li:not(:first-child):not(:last-child):not(.highlighted),
-main.artworks nav ol li:not(:first-child):not(:last-child):not(.highlighted),
 main.ebooks nav ol li:not(:first-child):not(:last-child):not(.highlighted){
 	display: none;
 }
 
 article nav ol li.highlighted::before,
-main.artworks nav ol li.highlighted::before,
 main.ebooks nav ol li.highlighted::before{
 	content: "⋯";
 	padding-right: 1rem;
 }
 
 article nav ol li.highlighted::after,
-main.artworks nav ol li.highlighted::after,
 main.ebooks nav ol li.highlighted::after{
 	content: "⋯";
 	padding-left: 1rem;
@@ -2094,10 +1960,6 @@ article nav ol li.highlighted:first-child::before,
 article nav ol li.highlighted:last-child::after,
 article nav ol li.highlighted:nth-child(2)::before,
 article nav ol li.highlighted:nth-last-child(2)::after,
-main.artworks nav ol li.highlighted:first-child::before,
-main.artworks nav ol li.highlighted:last-child::after,
-main.artworks nav ol li.highlighted:nth-child(2)::before,
-main.artworks nav ol li.highlighted:nth-last-child(2)::after,
 main.ebooks nav ol li.highlighted:first-child::before,
 main.ebooks nav ol li.highlighted:last-child::after,
 main.ebooks nav ol li.highlighted:nth-child(2)::before,
@@ -2965,62 +2827,6 @@ ul.feed p{
 	padding-bottom: 0;
 }
 
-.artwork-metadata{
-	margin-top: 1rem;
-}
-
-.artwork-metadata td:first-child{
-	font-weight: bold;
-	width: 25%;
-}
-
-.artwork-metadata td:last-child{
-	width: 75%;
-}
-
-.artwork-metadata td{
-	padding: 0.5rem;
-}
-
-.artworks h1 + a{
-	width: auto;
-}
-
-.artworks aside.tip{
-	font-style: italic;
-	margin: 1rem auto;
-	position: relative;
-	padding: 1rem;
-	padding-left: 2rem;
-	padding-top: 2rem;
-	background: rgba(0, 0, 0, .2);
-}
-
-.artworks aside.tip::before{
-	font-family: "Fork Awesome";
-	content: "\f0eb";
-	font-size: 1rem;
-	position: absolute;
-	font-style: normal;
-	left: .75rem;
-	top: .25rem;
-}
-
-.artworks aside.tip::after{
-	content: "Tip";
-	font-family: "League Spartan";
-	text-transform: uppercase;
-	font-size: .75rem;
-	position: absolute;
-	font-style: normal;
-	left: 2rem;
-	top: .5rem;
-}
-
-.artworks .tags{
-	justify-content: unset;
-}
-
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
@@ -3310,7 +3116,6 @@ ul.feed p{
 	}
 
 	article nav ol li:not(.highlighted),
-	main.artwork nav ol li:not(.highlighted),
 	main.ebooks nav ol li:not(.highlighted){
 		display: none;
 	}
@@ -3353,8 +3158,6 @@ ul.feed p{
 
 	article nav ol li.highlighted::before,
 	article nav ol li.highlighted::after,
-	main.artworks nav ol li.highlighted::before,
-	main.artworks nav ol li.highlighted::after,
 	main.ebooks nav ol li.highlighted::before,
 	main.ebooks nav ol li.highlighted::after{
 		display: none;
@@ -3475,7 +3278,6 @@ ul.feed p{
 		margin-bottom: .5rem;
 	}
 
-	main.artworks nav,
 	main.ebooks nav{
 		margin-top: .5rem;
 	}
@@ -3514,14 +3316,11 @@ ul.feed p{
 	}
 
 	article nav a[rel],
-	main.artworks nav > a,
 	main.ebooks nav > a{
 		margin-bottom: 0;
 		font-size: 0;
 	}
 
-	main.artworks nav > a::before,
-	main.artworks nav > a::after,
 	main.ebooks nav > a::before,
 	main.ebooks nav > a::after {
 		font-size: 1rem;
@@ -3529,10 +3328,8 @@ ul.feed p{
 	}
 
 	article nav a[rel]::before,
-	main.artworks nav a[rel]::before,
 	main.ebooks nav a[rel]::before,
 	article nav a[rel]::after,
-	main.artworks nav a[rel]::after,
 	main.ebooks nav a[rel]::after{
 		font-size: 1rem;
 		margin: 0;
@@ -3691,7 +3488,6 @@ ul.feed p{
 	}
 
 	article nav a[rel],
-	main.artworks nav > a,
 	main.ebooks nav > a{
 		padding: 1rem;
 	}
@@ -3729,17 +3525,12 @@ ul.feed p{
 	header nav li a:hover,
 	header nav li a[aria-current]:hover,
 	a.button.next::after,
-	.artworks nav > a:last-child::after,
 	.ebooks nav > a:last-child::after,
 	a[href].button.next:hover::after,
-	.artworks nav > a:last-child[href]:hover::after,
-	.artworks nav > a:first-child:before,
-	.artworks nav > a:first-child[href]:hover::before,
 	.ebooks nav > a:last-child[href]:hover::after,
 	.ebooks nav > a:first-child:before,
 	.ebooks nav > a:first-child[href]:hover::before,
 	a.button.next:hover::after,
-	.artworks nav > a:last-child[href]:hover::after,
 	.ebooks nav > a:last-child[href]:hover::after,
 	article.ebook section#read-online a::before,
 	article.ebook section#download ul li a[class]::before,
