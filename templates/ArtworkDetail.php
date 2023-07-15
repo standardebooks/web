@@ -53,6 +53,18 @@
 <ul>
 	<li>Link to an approved museum page: <? if($artwork->MuseumPage !== null){ ?> <a href="<?= Formatter::ToPlainText($artwork->MuseumPage) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
 </ul>
+<? if(!empty($artwork->MuseumPage)){ ?>
+<? $matchingMuseum = Museum::FindMatch($artwork->MuseumPage); ?>
+<? if($matchingMuseum !== NULL){ ?>
+<figure class="corrected full">
+	<p>Approved museum: <?= Formatter::ToPlainText($matchingMuseum->Name) ?> <code>(<?= Formatter::ToPlainText($matchingMuseum->Domain) ?>)</code></p>
+</figure>
+<? }else{ ?>
+<figure class="wrong full">
+	<p>Not an approved musuem</p>
+</figure>
+<? } ?>
+<? } ?>
 <h3>Links to scans</h3>
 <ol>
 	<li>Year book was published: <? if($artwork->PublicationYear !== null){ ?><?= $artwork->PublicationYear ?><? }else{ ?>(not provided)<? } ?></li>
