@@ -10,7 +10,7 @@ catch(Exceptions\SeException){
 	Template::Emit404();
 }
 
-?><?= Template::Header(['title' => 'Review Artwork', 'highlight' => '', 'description' => 'Unapproved artwork.']) ?>
+?><?= Template::Header(['title' => 'Review Artwork', 'artwork' => true, 'highlight' => '', 'description' => 'Unapproved artwork.']) ?>
 <main class="artworks">
 	<section class="narrow">
 		<?= Template::ArtworkDetail(['artwork' => $artwork]) ?>
