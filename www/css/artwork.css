@@ -31,9 +31,7 @@ form button.decline-button:hover{
 	background: rgba(0, 0, 0, .2);
 }
 
-.artworks nav li.highlighted a:focus,
-input[type="number"]:focus,
-input[type="url"]:focus{
+.artworks nav li.highlighted a:focus{
 	outline: 1px dashed var(--input-outline);
 }
 
@@ -190,51 +188,6 @@ main.artworks nav ol li a:hover{
 	color: #fff;
 	text-decoration: none;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
-}
-
-input[type="number"],
-input[type="url"]{
-	-webkit-appearance: none;
-	appearance: none;
-	box-sizing: border-box;
-	width: 100%;
-	background: rgba(0, 0, 0, .05);
-	border-radius: 5px;
-	border: 1px solid var(--input-border);
-	display: flex;
-	align-items: center;
-	padding: 1rem;
-	font-size: .88rem;
-	font-family: "Crimson Pro";
-	color: var(--body-text);
-	line-height: 1.4;
-	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
-}
-
-input[type="number"],
-input[type="url"]{
-	transition: border-color .5s, background-color .5s;
-}
-
-input[type="number"]:focus,
-input[type="number"]:hover,
-input[type="url"]:focus,
-input[type="url"]:hover{
-	border-color: var(--input-outline);
-	background: rgba(0, 0, 0, .1);
-	transition: none;
-}
-
-input[type="number"]:user-invalid,
-input[type="url"]:user-invalid{
-	border-color: #ff0000;
-	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
-}
-
-input[type="number"]:-moz-ui-invalid,
-input[type="url"]:-moz-ui-invalid{
-	border-color: #ff0000;
-	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
 }
 
 .artworks form[action="/artworks"]{
@@ -406,13 +359,7 @@ main.artworks nav ol li.highlighted:nth-last-child(2)::after{
 	.artworks nav > a:last-child[href]:hover::after,
 	.artworks nav > a:first-child:before,
 	.artworks nav > a:first-child[href]:hover::before,
-	.artworks nav > a:last-child[href]:hover::after,
-	input[type="number"],
-	input[type="url"],
-	input[type="number"]:focus,
-	input[type="number"]:hover,
-	input[type="url"]:focus,
-	input[type="url"]:hover{
+	.artworks nav > a:last-child[href]:hover::after{
 		transition: none;
 	}
 }
