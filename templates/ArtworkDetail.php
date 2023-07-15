@@ -57,7 +57,7 @@
 <? $matchingMuseum = Museum::FindMatch($artwork->MuseumPage); ?>
 <? if($matchingMuseum !== NULL){ ?>
 <figure class="corrected full">
-	<p>Approved museum: <?= Formatter::ToPlainText($matchingMuseum->Name) ?> <code>(<?= Formatter::ToPlainText($matchingMuseum->Domain) ?>)</code>
+	<p>Approved museum: <?= Formatter::ToPlainText($matchingMuseum->Name) ?> <code>(<?= Formatter::ToPlainText($matchingMuseum->Domain) ?>)</code></p>
 </figure>
 <? }else{ ?>
 <figure class="wrong full">
