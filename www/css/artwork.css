@@ -1,0 +1,418 @@
+form button.decline-button{
+	background-color: #777;
+}
+
+form button.decline-button:hover{
+	background-color: #aaa;
+}
+
+.artworks nav > a{
+	border: 1px solid rgba(0, 0, 0, .5);
+	font-style: normal;
+	box-sizing: border-box;
+	background-color: var(--button);
+	border-radius: 5px;
+	padding: 1rem 2rem;
+	color: #fff;
+	text-decoration: none;
+	font-family: "League Spartan", Arial, sans-serif;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, .5), 1px 1px 0px rgba(255,255,255, .5) inset;
+	position: relative;
+	text-transform: lowercase;
+	cursor: pointer;
+	white-space: nowrap;
+	font-size: 1rem;
+	hyphens: none;
+	line-height: 1.2;
+}
+
+.message{
+	background: rgba(0, 0, 0, .2);
+}
+
+.artworks nav li.highlighted a:focus,
+input[type="number"]:focus,
+input[type="url"]:focus{
+	outline: 1px dashed var(--input-outline);
+}
+
+.artworks nav > a[href]:active{
+	top: 2px;
+	left: 2px;
+	box-shadow: none;
+}
+
+.artworks nav > a:last-child::after{
+	font-family: "Fork Awesome";
+	content: "\f061";
+	transition: all 200ms ease;
+	position: relative;
+	left: 0;
+	margin-left: .5rem;
+}
+
+.artworks nav > a:last-child[href]:hover::after{
+	left: .25rem;
+	position: relative;
+	transition: all 200ms ease;
+}
+
+.artworks nav > a:first-child:before{
+	font-family: "Fork Awesome";
+	content: "\f060";
+	transition: all 200ms ease;
+	position: relative;
+	right: 0;
+	margin-right: .5rem;
+}
+
+.artworks nav > a:first-child[href]:hover::before{
+	right: .25rem;
+	position: relative;
+	transition: all 200ms ease;
+}
+
+.artworks nav > a:last-child[href]:hover::after{
+	left: .25rem;
+	position: relative;
+	transition: all 200ms ease;
+}
+
+main.artworks nav ol li a:hover,
+main.artworks nav ol li.highlighted a:hover,
+.artworks nav > a:hover{
+	background-color: var(--button-highlight);
+}
+
+.artworks nav > a:not([href]){
+	cursor: default;
+	color: #efefef;
+	box-shadow: none;
+	background: #bbb url("/images/stripes-dark.svg");
+}
+
+ol.artwork-list.list{
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin-bottom: 4rem;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	max-width: 40rem;
+}
+
+ol.artwork-list.list > li{
+	border-radius: .25rem;
+	display: grid;
+	grid-template-columns: 16rem 1fr;
+	grid-column-gap: 2rem;
+	grid-template-rows: auto auto 1fr;
+	padding: 1rem;
+}
+
+ol.artwork-list.list > li.in_use{
+	background-color: rgba(0, 0, 0, .2);
+	background-image: url("/images/stripes.svg");
+}
+
+ol.artwork-list.list > li + li {
+	margin-top: 1rem;
+}
+
+ol.artwork-list.list > li .thumbnail-container{
+	grid-row: 1 / span 3;
+	margin-left: auto;
+}
+
+ol.artwork-list.list > li p{
+	text-align: left;
+}
+
+ol.artwork-list > li p{
+	margin: 0;
+}
+
+ol.artwork-list > li img{
+	box-sizing: border-box;
+	max-width: 100%;
+	height: auto;
+	border: 1px solid var(--border);
+	border-radius: .25rem;
+}
+
+ol.artwork-list > li > p:nth-of-type(1) > span{
+	font-weight: bold;
+}
+
+ol.artwork-list > li .author{
+	font-style: italic;
+}
+
+main.artworks nav ol{
+	list-style: none;
+	display: flex;
+	margin: 0 .5rem;
+}
+
+main.artworks nav{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: none;
+}
+
+main.artworks nav ol li{
+	margin: 0;
+	white-space: nowrap;
+}
+
+main.artworks nav ol li a{
+	font-size: 1rem;
+	line-height: 1.4;
+	padding: 1rem;
+	margin: 0 .5rem;
+	border-radius: .25rem;
+	font-variant-numeric: normal;
+	height: calc(1.4rem + 2rem + 2px);
+	display: inline-block;
+	box-sizing: border-box;
+}
+
+main.artworks nav ol li.highlighted a{
+	background: var(--button);
+	border: 1px solid rgba(0, 0, 0, .5);
+}
+
+main.artworks nav ol li.highlighted a,
+main.artworks nav ol li a:hover{
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+}
+
+input[type="number"],
+input[type="url"]{
+	-webkit-appearance: none;
+	appearance: none;
+	box-sizing: border-box;
+	width: 100%;
+	background: rgba(0, 0, 0, .05);
+	border-radius: 5px;
+	border: 1px solid var(--input-border);
+	display: flex;
+	align-items: center;
+	padding: 1rem;
+	font-size: .88rem;
+	font-family: "Crimson Pro";
+	color: var(--body-text);
+	line-height: 1.4;
+	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
+}
+
+input[type="number"],
+input[type="url"]{
+	transition: border-color .5s, background-color .5s;
+}
+
+input[type="number"]:focus,
+input[type="number"]:hover,
+input[type="url"]:focus,
+input[type="url"]:hover{
+	border-color: var(--input-outline);
+	background: rgba(0, 0, 0, .1);
+	transition: none;
+}
+
+input[type="number"]:user-invalid,
+input[type="url"]:user-invalid{
+	border-color: #ff0000;
+	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
+}
+
+input[type="number"]:-moz-ui-invalid,
+input[type="url"]:-moz-ui-invalid{
+	border-color: #ff0000;
+	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
+}
+
+.artworks form[action="/artworks"]{
+	align-items: end;
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: auto auto auto auto 1fr;
+	margin: 0 1rem;
+	margin-bottom: 4rem;
+	max-width: calc(100% - 2rem);
+}
+
+form[action="/artworks"] fieldset:not(:first-child) {
+	margin-top: 1rem;
+}
+
+form[action="/artworks"] legend {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin: 0.5rem 0;
+}
+
+form[action="/artworks"] div {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: flex-end;
+	gap: 1rem;
+}
+
+form[action="/artworks"] div label {
+	flex-grow: 1;
+	min-width: 100%;
+}
+
+form[action="/artworks"] div label:nth-of-type(1) {
+	flex-grow: 4;
+	flex-shrink: 0;
+	min-width: 60%;
+}
+
+form[action="/artworks"] div label:nth-of-type(2) {
+	flex-grow: 1;
+	flex-shrink: 0;
+	min-width: 30%;
+}
+
+main.artworks nav ol li:not(:first-child):not(:last-child):not(.highlighted){
+	display: none;
+}
+
+main.artworks nav ol li.highlighted::before{
+	content: "⋯";
+	padding-right: 1rem;
+}
+
+main.artworks nav ol li.highlighted::after{
+	content: "⋯";
+	padding-left: 1rem;
+}
+
+main.artworks nav ol li.highlighted:first-child::before,
+main.artworks nav ol li.highlighted:last-child::after,
+main.artworks nav ol li.highlighted:nth-child(2)::before,
+main.artworks nav ol li.highlighted:nth-last-child(2)::after{
+	display: none;
+}
+
+.artwork-metadata{
+	margin-top: 1rem;
+}
+
+.artwork-metadata td:first-child{
+	font-weight: bold;
+	width: 25%;
+}
+
+.artwork-metadata td:last-child{
+	width: 75%;
+}
+
+.artwork-metadata td{
+	padding: 0.5rem;
+}
+
+.artworks h1 + a{
+	width: auto;
+}
+
+.artworks aside.tip{
+	font-style: italic;
+	margin: 1rem auto;
+	position: relative;
+	padding: 1rem;
+	padding-left: 2rem;
+	padding-top: 2rem;
+	background: rgba(0, 0, 0, .2);
+}
+
+.artworks aside.tip::before{
+	font-family: "Fork Awesome";
+	content: "\f0eb";
+	font-size: 1rem;
+	position: absolute;
+	font-style: normal;
+	left: .75rem;
+	top: .25rem;
+}
+
+.artworks aside.tip::after{
+	content: "Tip";
+	font-family: "League Spartan";
+	text-transform: uppercase;
+	font-size: .75rem;
+	position: absolute;
+	font-style: normal;
+	left: 2rem;
+	top: .5rem;
+}
+
+.artworks .tags{
+	justify-content: unset;
+}
+
+@media(max-width: 730px){
+	main.artwork nav ol li:not(.highlighted){
+		display: none;
+	}
+}
+
+@media(max-width: 680px){
+	main.artworks nav ol li.highlighted::before,
+	main.artworks nav ol li.highlighted::after{
+		display: none;
+	}
+}
+
+@media(max-width: 500px){
+	main.artworks nav{
+		margin-top: .5rem;
+	}
+
+	main.artworks nav > a{
+		margin-bottom: 0;
+		font-size: 0;
+	}
+
+	main.artworks nav > a::before,
+	main.artworks nav > a::after{
+		font-size: 1rem;
+		margin: 0 !important;
+	}
+
+	main.artworks nav a[rel]::before,
+	main.artworks nav a[rel]::after{
+		font-size: 1rem;
+		margin: 0;
+	}
+}
+
+@media(max-width: 380px){
+	main.artworks nav > a{
+		padding: 1rem;
+	}
+}
+
+@media(prefers-reduced-motion: reduce){
+	.artworks nav > a:last-child::after,
+	.artworks nav > a:last-child[href]:hover::after,
+	.artworks nav > a:first-child:before,
+	.artworks nav > a:first-child[href]:hover::before,
+	.artworks nav > a:last-child[href]:hover::after,
+	input[type="number"],
+	input[type="url"],
+	input[type="number"]:focus,
+	input[type="number"]:hover,
+	input[type="url"]:focus,
+	input[type="url"]:hover{
+		transition: none;
+	}
+}
