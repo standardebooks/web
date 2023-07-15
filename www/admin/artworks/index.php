@@ -28,7 +28,7 @@ $pages = ceil($count / $perPage);
 
 $unverifiedArtworks = array_slice($unverifiedArtworks, ($page - 1) * $perPage, $perPage);
 
-?><?= Template::Header(['title' => 'Review Artwork Queue', 'highlight' => '', 'description' => 'The queue of unapproved artwork.']) ?>
+?><?= Template::Header(['title' => 'Review Artwork Queue', 'artwork' => true, 'highlight' => '', 'description' => 'The queue of unapproved artwork.']) ?>
 <main class="artworks">
 	<section class="narrow">
 		<hgroup>

@@ -66,7 +66,7 @@ if($perPage !== COVER_ARTWORK_PER_PAGE){
 
 
 $queryString = preg_replace('/^&amp;/ius', '', $queryString);
-?><?= Template::Header(['title' => $pageTitle, 'description' => $pageDescription]) ?>
+?><?= Template::Header(['title' => $pageTitle, 'artwork' => true, 'description' => $pageDescription]) ?>
 <main class="artworks">
 	<section class="narrow">
 		<hgroup>
