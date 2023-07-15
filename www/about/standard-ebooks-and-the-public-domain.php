@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'Standard Ebooks and the public domain', 'highlight' => 'about', 'description' => 'The Standard Ebooks’ philosophy on copyright and the public domain.']) ?>
+<?= Template::Header(['title' => 'Standard Ebooks and the public domain', 'highlight' => 'about', 'description' => 'The Standard Ebooks’ philosophy on copyright and the public domain.']) ?>
 <main>
 	<article>
 		<h1>Standard Ebooks and the public domain</h1>

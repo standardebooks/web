@@ -1,5 +1,4 @@
 <?
-require_once('Core.php');
 use Safe\DateTime;
 
 $ebooks = [];

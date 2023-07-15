@@ -1,5 +1,4 @@
 <?
-require_once('Core.php');
 use function Safe\glob;
 use function Safe\preg_replace;
 use function Safe\sort;

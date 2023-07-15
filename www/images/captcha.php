@@ -1,9 +1,6 @@
 <?
 use function Safe\session_unset;
-
 use Gregwar\Captcha\CaptchaBuilder;
-
-require_once('Core.php');
 
 session_start();
 

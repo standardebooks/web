@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'Producing an ebook for Standard Ebooks', 'highlight' => 'contribute', 'description' => 'A high-level outline of the process of producing an ebook for Standard Ebooks.']) ?>
+<?= Template::Header(['title' => 'Producing an ebook for Standard Ebooks', 'highlight' => 'contribute', 'description' => 'A high-level outline of the process of producing an ebook for Standard Ebooks.']) ?>
 <main>
 	<article>
 		<h1>Producing an ebook for Standard Ebooks</h1>

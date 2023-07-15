@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'How to create figures for music scores', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to producing SVG figures of music notation.']) ?>
+<?= Template::Header(['title' => 'How to create figures for music scores', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to producing SVG figures of music notation.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>How to create figures for music scores</h1>

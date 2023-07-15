@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 // We use a 'succes' page and don't redirect directly to the vote ID resource, because
 // we don't want to reveal the vote ID to the web browser. It should only be sent via email
 // confirmation link.

@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 session_start();
 
 $subscription = new NewsletterSubscription();

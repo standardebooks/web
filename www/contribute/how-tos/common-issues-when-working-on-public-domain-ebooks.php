@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'Common Issues When Working on Public Domain Ebooks', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A list of common issues encountered when converting from public domain transcriptions.']) ?>
+<?= Template::Header(['title' => 'Common Issues When Working on Public Domain Ebooks', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A list of common issues encountered when converting from public domain transcriptions.']) ?>
 <main>
 	<article>
 		<h1>Common Issues When Working on Public Domain Ebooks</h1>

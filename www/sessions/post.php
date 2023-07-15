@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 use function Safe\preg_match;
 use function Safe\session_unset;
 

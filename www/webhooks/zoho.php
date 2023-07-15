@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 use Safe\DateTime;
 use function Safe\file_get_contents;
 use function Safe\preg_match;

@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $patronsCircle = [];
 $anonymousPatronCount = 0;
 

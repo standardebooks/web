@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'Uncategorized Art Resources', 'highlight' => 'contribute', 'description' => 'A list of US-PD art books for use when conducting cover art research.']) ?>
+<?= Template::Header(['title' => 'Uncategorized Art Resources', 'highlight' => 'contribute', 'description' => 'A list of US-PD art books for use when conducting cover art research.']) ?>
 <main>
 	<article id="a-basic-standard-ebooks-source-folder">
 		<h1>Uncategorized art books</h1>

@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 
 ?><?= Template::Header(['title' => 'Website Settings', 'description' => 'Adjust your settings for viewing the Standard Ebooks website.']) ?>

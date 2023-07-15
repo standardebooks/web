@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'How to Review an Ebook Production for Publication', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to proofread and review an ebook production for publication.']) ?>
+<?= Template::Header(['title' => 'How to Review an Ebook Production for Publication', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to proofread and review an ebook production for publication.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>How to Review an Ebook Production for Publication</h1>

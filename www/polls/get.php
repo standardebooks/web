@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 use Safe\DateTime;
 
 $poll = new Poll();

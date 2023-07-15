@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 use Ramsey\Uuid\Uuid;
 use function Safe\session_unset;
 

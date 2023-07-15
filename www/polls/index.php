@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $pastPolls = Db::Query('
 			SELECT *
 			from Polls

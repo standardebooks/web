@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $canDownload = false;
 if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){
 	$canDownload = true;

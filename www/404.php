@@ -1,7 +1,4 @@
-<?
-require_once('Core.php');
-
-?><?= Template::Header(['title' => 'We Couldn’t Find That Document', 'highlight' => '', 'description' => 'We couldn’t find that document.', 'is404' => true]) ?>
+<?= Template::Header(['title' => 'We Couldn’t Find That Document', 'highlight' => '', 'description' => 'We couldn’t find that document.', 'is404' => true]) ?>
 <main>
 	<section class="narrow has-hero">
 		<hgroup>

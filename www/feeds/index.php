@@ -1,7 +1,4 @@
-<?
-require_once('Core.php');
-
-?><?= Template::Header(['title' => 'Ebook Feeds', 'description' => 'A list of available feeds of Standard Ebooks ebooks.']) ?>
+<?= Template::Header(['title' => 'Ebook Feeds', 'description' => 'A list of available feeds of Standard Ebooks ebooks.']) ?>
 <main>
 	<section class="narrow has-hero">
 		<h1>Ebook Feeds</h1>

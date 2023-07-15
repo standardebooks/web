@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $author = HttpInput::Str(GET, 'author', false);
 $collection = HttpInput::Str(GET, 'collection', false);
 $name = null;

@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'Wanted Ebooks', 'highlight' => 'contribute', 'description' => 'A list of ebooks the Standard Ebooks editor would like to see produced, including suggestions for first-time producers.']) ?>
+<?= Template::Header(['title' => 'Wanted Ebooks', 'highlight' => 'contribute', 'description' => 'A list of ebooks the Standard Ebooks editor would like to see produced, including suggestions for first-time producers.']) ?>
 <main>
 	<article>
 		<h1>Wanted Ebooks</h1>

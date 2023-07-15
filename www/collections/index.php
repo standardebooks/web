@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $collections = Library::GetEbookCollections();
 
 ?><?= Template::Header(['title' => 'Ebook Collections', 'highlight' => '', 'description' => 'Browse collections of Standard Ebooks.']) ?>

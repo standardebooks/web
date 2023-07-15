@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $poll = new Poll();
 
 try{

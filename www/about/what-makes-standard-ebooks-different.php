@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'What makes Standard Ebooks different', 'highlight' => 'about', 'description' => 'How Standard Ebooks differs from other free ebook projects.']) ?>
+<?= Template::Header(['title' => 'What makes Standard Ebooks different', 'highlight' => 'about', 'description' => 'How Standard Ebooks differs from other free ebook projects.']) ?>
 <main>
 	<article>
 		<h1>What makes Standard Ebooks different</h1>

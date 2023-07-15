@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 use function Safe\preg_match;
 
 // This page is blocked by HTTP Basic auth.

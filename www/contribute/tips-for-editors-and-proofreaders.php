@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'Tips for Editors and Proofreaders', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A list of tips and tricks for people who’d like to proofread a Standard Ebooks ebook.']) ?>
+<?= Template::Header(['title' => 'Tips for Editors and Proofreaders', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A list of tips and tricks for people who’d like to proofread a Standard Ebooks ebook.']) ?>
 <main>
 	<article>
 		<h1>Tips for Editors and Proofreaders</h1>

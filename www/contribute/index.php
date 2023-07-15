@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'Get Involved', 'highlight' => 'contribute', 'description' => 'Details on how to contribute your time and talent to the volunteer-driven Standard Ebooks project.']) ?>
+<?= Template::Header(['title' => 'Get Involved', 'highlight' => 'contribute', 'description' => 'Details on how to contribute your time and talent to the volunteer-driven Standard Ebooks project.']) ?>
 <main>
 	<article>
 		<h1>Get Involved</h1>

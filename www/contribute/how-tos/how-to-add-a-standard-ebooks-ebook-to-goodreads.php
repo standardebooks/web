@@ -1,6 +1,4 @@
-<?
-require_once('Core.php');
-?><?= Template::Header(['title' => 'How to Add a Standard Ebooks book to Goodreads', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to add a Standard Ebook edition of a book to the Goodreads website.']) ?>
+<?= Template::Header(['title' => 'How to Add a Standard Ebooks book to Goodreads', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to add a Standard Ebook edition of a book to the Goodreads website.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>How to Add a Standard Ebooks Ebook to Goodreads</h1>

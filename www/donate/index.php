@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $newsletterSubscriberCount = floor(Db::QueryInt('
 						SELECT count(*)
 						from NewsletterSubscriptions

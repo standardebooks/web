@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 // See https://developers.google.com/search/docs/data-types/book for RDFa metadata details
 
 use function Safe\preg_match;

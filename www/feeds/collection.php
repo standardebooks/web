@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 use function Safe\apcu_fetch;
 use function Safe\glob;
 use function Safe\preg_replace;

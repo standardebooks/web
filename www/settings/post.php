@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 use function Safe\strtotime;
 
 $hideDonationAlert = HttpInput::Bool(POST, 'hide-donation-alert');

@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 use function Safe\curl_exec;
 use function Safe\curl_init;
 use function Safe\curl_setopt;
