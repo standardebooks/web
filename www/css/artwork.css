@@ -1,3 +1,19 @@
+@font-face{
+	font-family: "Fira Mono";
+	src: local("Fira Mono"), url("/fonts/fira-mono.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face{
+	font-family: "Fira Mono";
+	src: local("Fira Mono"), url("/fonts/fira-mono-bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
 form button.decline-button{
 	background-color: #777;
 }
@@ -362,4 +378,69 @@ main.artworks nav ol li.highlighted:nth-last-child(2)::after{
 	.artworks nav > a:last-child[href]:hover::after{
 		transition: none;
 	}
+}
+
+.artworks figure p{
+	background: #333;
+	border: 1px solid var(--border);
+	border-radius: .25rem;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	color: #fff !important; /* in case code highlighting fails */
+	flex-grow: 1;
+	margin: 0;
+	padding: 1rem;
+	text-align: left;
+}
+
+.artworks figure.wrong::before{
+	background: #762729;
+	font-family: "Fork Awesome";
+	content: "\f00d";
+	font-size: 1.5rem;
+	width: 1.5rem;
+	line-height: 1;
+	margin-right: .5rem;
+	color: #CF4647;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
+	display: inline-block;
+	flex-shrink: 0;
+}
+
+.artworks figure.corrected::before{
+	background: #406451;
+	font-family: "Fork Awesome";
+	content: "\f00c";
+	font-size: 1.5rem;
+	line-height: 1;
+	width: 1.5rem;
+	color: #79BD9A;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
+	flex-shrink: 0;
+}
+
+.artworks figure.wrong::before,
+.artworks figure.corrected::before{
+	display: flex;
+	margin-right: 0;
+	align-self: stretch;
+	align-items: center;
+	justify-content: center;
+	padding: 0 .5rem;
+	border-top-left-radius: .25rem;
+	border-bottom-left-radius: .25rem;
+	border: 1px solid var(--border);
+	border-right: none;
+}
+
+.artworks figure.wrong,
+.artworks figure.corrected{
+	display: flex;
+	align-items: center;
+}
+
+.artworks code{
+	font-variant-numeric: normal;
+	font-family: "Fira Mono", monospace;
+	font-size: .8rem;
 }
