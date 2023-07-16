@@ -12,5 +12,6 @@ vendor/
 *.log
 www/manual/*
 !www/manual/index.php
+config/apache/htpasswd-standardebooks.org
 config/php/fpm/standardebooks.org-secrets.ini
 www/bulk-downloads/*/
