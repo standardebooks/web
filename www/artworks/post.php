@@ -44,5 +44,5 @@ try{
 
 } finally{
 	http_response_code(303);
-	header('Location: ' . '/artworks/new');
+	header('Location: /artworks/new');
 }
