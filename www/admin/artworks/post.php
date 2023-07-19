@@ -18,19 +18,16 @@ catch(Exceptions\SeException){
 session_start();
 
 try{
-	$newStatus = HttpInput::Str(POST, 'status');
-	switch($newStatus){
+	$artwork->Save(status: HttpInput::Str(POST, 'status'));
+
+	switch($artwork->Status){
 		case 'approved':
-			$artwork->Status = 'approved';
 			$_SESSION['approved-message'] = '“' . $artwork->Name . '” approved.';
 			break;
 		case 'declined':
-			$artwork->Status = 'declined';
 			$_SESSION['declined-message'] = '“' . $artwork->Name . '” declined.';
 			break;
 	}
-
-	$artwork->Save();
 
 	http_response_code(303);
 	header('Location: /admin/artworks');

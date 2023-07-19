@@ -268,7 +268,8 @@ class Artwork extends PropertiesBase{
 	/**
 	 * @throws \Exceptions\ValidationException
 	 */
-	public function Save(): void{
+	public function Save(string $status): void{
+		$this->Status = $status;
 		$this->Validate();
 
 		Db::Query('
