@@ -4,7 +4,7 @@ use function Safe\filesize;
 
 /**
  * @property string $UrlName
- * @property string $Slug
+ * @property string $Url
  * @property array<ArtworkTag> $ArtworkTags
  * @property string $ArtworkTagsImploded
  * @property Artist $Artist
@@ -23,7 +23,7 @@ class Artwork extends PropertiesBase{
 	public $Status;
 	public $EbookWwwFilesystemPath;
 	protected $_UrlName;
-	protected $_Slug;
+	protected $_Url;
 	protected $_ArtworkTags = null;
 	protected $_Artist = null;
 	protected $_ImageUrl = null;
@@ -55,12 +55,12 @@ class Artwork extends PropertiesBase{
 	/**
 	 * @return string
 	 */
-	protected function GetSlug(): string{
-		if($this->_Slug === null){
-			$this->_Slug = $this->Artist->UrlName . '/' . $this->UrlName;
+	protected function GetUrl(): string{
+		if($this->_Url === null){
+			$this->_Url = '/artworks/' . $this->Artist->UrlName . '/' . $this->UrlName;
 		}
 
-		return $this->_Slug;
+		return $this->_Url;
 	}
 
 	/**
