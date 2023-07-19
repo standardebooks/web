@@ -184,6 +184,12 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException('Must have proof of public domain status.'));
 		}
 
+		$existingArtwork = Artwork::GetByUrlPath($this->Artist->UrlName, $this->UrlName);
+		// Unverified and declined artwork can match an existing object. Approved and In Use artwork cannot.
+		if($existingArtwork !== null && !in_array($this->Status, ['unverified', 'declined'])){
+			$error->Add(new Exceptions\InvalidArtworkException('Artwork already exisits: ' . SITE_URL . $existingArtwork->Url));
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
