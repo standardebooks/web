@@ -73,7 +73,14 @@ class Ebook{
 		$this->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $this->RepoFilesystemPath) . '.git';
 
 		if(!is_dir($this->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment
-			$this->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $this->RepoFilesystemPath);
+			try{
+				$this->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $this->RepoFilesystemPath);
+			}
+			catch(Exception){
+				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF8 characters,
+				// which a common injection attack vector
+				throw new Exceptions\InvalidEbookException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
+			}
 		}
 
 		if(!is_dir($wwwFilesystemPath)){
