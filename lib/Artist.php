@@ -3,12 +3,14 @@ use Safe\DateTime;
 
 /**
  * @property string $UrlName
+ * @property array<string> $AlternateSpellings
  */
 class Artist extends PropertiesBase{
 	public $ArtistId;
 	public $Name;
 	public $DeathYear;
 	protected $_UrlName;
+	protected $_AlternateSpellings;
 
 	// *******
 	// GETTERS
@@ -23,6 +25,27 @@ class Artist extends PropertiesBase{
 		}
 
 		return $this->_UrlName;
+	}
+
+	/**
+	 * @return array<string>
+	 */
+	protected function GetAlternateSpellings(): array{
+		if($this->_AlternateSpellings === null){
+			$this->_AlternateSpellings = array();
+
+			$result = Db::Query('
+					SELECT *
+					from AlternateSpellings
+					where ArtistId = ?
+				', [$this->ArtistId], 'stdClass');
+
+			foreach($result as $row){
+				$this->_AlternateSpellings[] = $row->AlternateSpelling;
+			}
+		}
+
+		return $this->_AlternateSpellings;
 	}
 
 	// *******
@@ -106,6 +129,12 @@ class Artist extends PropertiesBase{
 		Db::Query('
 			DELETE
 			FROM Artists
+			WHERE ArtistId NOT IN (SELECT ArtistId FROM Artworks)
+			  AND ArtistId = ?
+		', [$this->ArtistId]);
+		Db::Query('
+			DELETE
+			FROM AlternateSpellings
 			WHERE ArtistId NOT IN (SELECT ArtistId FROM Artworks)
 			  AND ArtistId = ?
 		', [$this->ArtistId]);
