@@ -132,6 +132,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/77">The House of the Seven Gables</a> by Nathaniel Hawthorne</p><!--patron-->
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/38703">The Black Moth</a> by Georgette Heyer</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
