@@ -1,6 +1,12 @@
 <?
 use Safe\DateTime;
 use function Safe\filesize;
+use function Safe\getimagesize;
+use function Safe\imagecreatefromjpeg;
+use function Safe\imagecreatetruecolor;
+use function Safe\imagejpeg;
+use function Safe\rename;
+use function Safe\tempnam;
 
 /**
  * @property string $UrlName
@@ -151,6 +157,7 @@ class Artwork extends PropertiesBase{
 	// *******
 	// METHODS
 	// *******
+	/** @throws \Exceptions\ValidationException */
 	protected function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
@@ -186,6 +193,19 @@ class Artwork extends PropertiesBase{
 
 		if($error->HasExceptions){
 			throw $error;
+		}
+	}
+
+	/** @throws \Exceptions\InvalidImageUploadException */
+	private function ValidateImageUpload(string $uploadPath): void{
+		$uploadInfo = getimagesize($uploadPath);
+
+		if ($uploadInfo === false){
+			throw new Exceptions\InvalidImageUploadException();
+		}
+
+		if ($uploadInfo[2] !== IMAGETYPE_JPEG){
+			throw new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.');
 		}
 	}
 
@@ -227,12 +247,114 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
+	public static function Build(string $artistName, ?int $artistDeathYear, string $artworkName, ?int $completedYear,
+				     bool $completedYearIsCirca, ?string $artworkTags, ?int $publicationYear,
+				     ?string $publicationYearPage, ?string $copyrightPage, ?string $artworkPage,
+				     ?string $museumPage): Artwork{
+		$artist = new Artist();
+		$artist->Name = $artistName;
+		$artist->DeathYear = $artistDeathYear;
+
+		$artwork = new Artwork();
+		$artwork->Artist = $artist;
+		$artwork->Name = $artworkName;
+		$artwork->CompletedYear = $completedYear;
+		$artwork->CompletedYearIsCirca = $completedYearIsCirca;
+		$artwork->ArtworkTags = self::ParseArtworkTags($artworkTags);
+		$artwork->Status = 'unverified';
+		$artwork->Created = new DateTime();
+		$artwork->PublicationYear = $publicationYear;
+		$artwork->PublicationYearPage = $publicationYearPage;
+		$artwork->CopyrightPage = $copyrightPage;
+		$artwork->ArtworkPage = $artworkPage;
+		$artwork->MuseumPage = $museumPage;
+
+		return $artwork;
+	}
+
+	/** @return array<ArtworkTag> */
+	private static function ParseArtworkTags(?string $artworkTags): array{
+		if (!$artworkTags) return array();
+
+		$artworkTags = array_map('trim', explode(',', $artworkTags)) ?? array();
+		$artworkTags = array_values(array_filter($artworkTags)) ?? array();
+		$artworkTags = array_unique($artworkTags);
+
+		return array_map(function ($str){
+			$artworkTag = new ArtworkTag();
+			$artworkTag->Name = $str;
+			return $artworkTag;
+		}, $artworkTags);
+	}
+
 	/**
 	 * @throws \Exceptions\ValidationException
+	 * @throws \Exceptions\InvalidImageUploadException
 	 */
-	public function Create(): void{
+	public function Create(string $uploadPath): void{
+		$log = new Log(ARTWORK_UPLOADS_LOG_FILE_PATH);
+
 		$this->Validate();
-		$this->Created = new DateTime();
+		$this->ValidateImageUpload($uploadPath);
+
+		try{
+			$thumbPath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-thumb-");
+			$imagePath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-image-");
+
+			self::GenerateThumbnail($uploadPath, $thumbPath);
+			if (!move_uploaded_file($uploadPath, $imagePath)) throw new \Safe\Exceptions\FilesystemException;
+		} catch (\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
+			$log->Write("Failed to create temp thumbnail or uploaded image.");
+			$log->Write($exception);
+
+			throw new \Exceptions\InvalidImageUploadException("Could not save uploaded image.");
+		}
+
+		/** @var ArtworkTag $artworkTag */
+		foreach ($this->ArtworkTags as $artworkTag) {
+			$artworkTag->GetOrCreate();
+		}
+
+		$this->Artist->GetOrCreate();
+		$this->Insert();
+
+		try{
+			rename($thumbPath, WEB_ROOT . $this->ThumbUrl);
+			rename($imagePath, WEB_ROOT . $this->ImageUrl);
+		} catch (\Safe\Exceptions\FilesystemException $exception){
+			$log->Write("Failed to store image or thumbnail for uploaded artwork [$this->ArtworkId].");
+			$log->Write("Temporary image file at [$imagePath], temporary thumb file at [$thumbPath].");
+			$log->Write($exception);
+
+			throw new \Exceptions\InvalidImageUploadException("Your artwork was submitted but something went wrong. Please contact site administrator.");
+		}
+	}
+
+	/**
+	 * @throws \Safe\Exceptions\ImageException
+	 */
+	private static function GenerateThumbnail(string $srcImagePath, string $dstThumbPath): void{
+		$uploadInfo = getimagesize($srcImagePath);
+
+		$src_w = $uploadInfo[0];
+		$src_h = $uploadInfo[1];
+
+		if ($src_h > $src_w){
+			$dst_h = COVER_THUMBNAIL_SIZE;
+			$dst_w = intval($dst_h * ($src_w / $src_h));
+		} else{
+			$dst_w = COVER_THUMBNAIL_SIZE;
+			$dst_h = intval($dst_w * ($src_h / $src_w));
+		}
+
+		$srcImage = imagecreatefromjpeg($srcImagePath);
+		$thumbImage = imagecreatetruecolor($dst_w, $dst_h);
+
+		imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
+		imagejpeg($thumbImage, $dstThumbPath);
+	}
+
+	private function Insert(): void{
 		Db::Query('
 			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, MuseumPage,
 			                      PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage)

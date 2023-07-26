@@ -78,6 +78,9 @@ class Artist extends PropertiesBase{
 		$this->ArtistId = Db::GetLastInsertedId();
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function GetOrCreate(): void{
 		$this->Validate();
 		$result = Db::Query('

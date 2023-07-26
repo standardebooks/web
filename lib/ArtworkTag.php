@@ -52,24 +52,23 @@ class ArtworkTag extends PropertiesBase{
 		$this->TagId = Db::GetLastInsertedId();
 	}
 
-	public static function GetOrCreate(?string $name): ArtworkTag{
-		if($name === null){
-			throw new Exceptions\InvalidArtworkTagException();
-		}
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
+	public function GetOrCreate(): void{
+		$this->Validate();
 
 		$result = Db::Query('
 				SELECT *
 				from Tags
 				where Name = ?
-			', [$name], 'ArtworkTag');
+			', [$this->Name], 'ArtworkTag');
 
-		if(sizeof($result) == 0){
-			$artworkTag = new ArtworkTag();
-			$artworkTag->Name = $name;
-			$artworkTag->Create();
-			return $artworkTag;
+		if (isset($result[0])){
+			$this->TagId = $result[0]->TagId;
+			return;
 		}
 
-		return $result[0];
+		$this->Create();
 	}
 }
