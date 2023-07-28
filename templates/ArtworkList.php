@@ -6,13 +6,13 @@ $artworks = $artworks ?? [];
 <? foreach($artworks as $artwork){ ?>
 	<li class="<?= $artwork->Status ?>">
 		<div class="thumbnail-container">
-			<a href="/artworks/<?= $artwork->Slug ?>">
+			<a href="<?= $artwork->Url ?>">
 				<picture>
 					<img src="<?= $artwork->ThumbUrl ?>" property="schema:image"/>
 				</picture>
 			</a>
 		</div>
-		<p>Title: <a href="/artworks/<?= $artwork->Slug ?>" property="schema:name"><?= Formatter::ToPlainText($artwork->Name) ?></a></p>
+		<p>Title: <a href="<?= $artwork->Url ?>" property="schema:name"><?= Formatter::ToPlainText($artwork->Name) ?></a></p>
 		<p>
 			Artist: <span class="author" typeof="schema:Person" property="schema:name"><?= Formatter::ToPlainText($artwork->Artist->Name) ?></span>
 			<? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?>(<abbr>AKA</abbr> <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?>

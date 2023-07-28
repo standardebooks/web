@@ -99,6 +99,8 @@ main.artworks nav ol li.highlighted a:hover,
 	background-color: var(--button-highlight);
 }
 
+button:disabled,
+button:disabled:hover,
 .artworks nav > a:not([href]){
 	cursor: default;
 	color: #efefef;
