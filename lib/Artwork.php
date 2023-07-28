@@ -10,7 +10,7 @@ use function Safe\tempnam;
 
 /**
  * @property string $UrlName
- * @property string $Slug
+ * @property string $Url
  * @property array<ArtworkTag> $ArtworkTags
  * @property string $ArtworkTagsImploded
  * @property Artist $Artist
@@ -29,7 +29,7 @@ class Artwork extends PropertiesBase{
 	public $Status;
 	public $EbookWwwFilesystemPath;
 	protected $_UrlName;
-	protected $_Slug;
+	protected $_Url;
 	protected $_ArtworkTags = null;
 	protected $_Artist = null;
 	protected $_ImageUrl = null;
@@ -61,12 +61,12 @@ class Artwork extends PropertiesBase{
 	/**
 	 * @return string
 	 */
-	protected function GetSlug(): string{
-		if($this->_Slug === null){
-			$this->_Slug = $this->Artist->UrlName . '/' . $this->UrlName;
+	protected function GetUrl(): string{
+		if($this->_Url === null){
+			$this->_Url = '/artworks/' . $this->Artist->UrlName . '/' . $this->UrlName;
 		}
 
-		return $this->_Slug;
+		return $this->_Url;
 	}
 
 	/**
@@ -189,6 +189,12 @@ class Artwork extends PropertiesBase{
 
 		if(!$hasMuseumProof && !$hasBookProof){
 			$error->Add(new Exceptions\InvalidArtworkException('Must have proof of public domain status.'));
+		}
+
+		$existingArtwork = Artwork::GetByUrlPath($this->Artist->UrlName, $this->UrlName);
+		// Unverified and declined artwork can match an existing object. Approved and In Use artwork cannot.
+		if($existingArtwork !== null && !in_array($this->Status, ['unverified', 'declined'])){
+			$error->Add(new Exceptions\InvalidArtworkException('Artwork already exisits: ' . SITE_URL . $existingArtwork->Url));
 		}
 
 		if($error->HasExceptions){
@@ -390,7 +396,8 @@ class Artwork extends PropertiesBase{
 	/**
 	 * @throws \Exceptions\ValidationException
 	 */
-	public function Save(): void{
+	public function Save(string $status): void{
+		$this->Status = $status;
 		$this->Validate();
 
 		Db::Query('
