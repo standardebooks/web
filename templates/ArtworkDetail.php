@@ -12,7 +12,11 @@
 	</tr>
 	<tr>
 		<td>Artist</td>
-		<td><?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if($artwork->Artist->DeathYear !== null){ ?>, <abbr title="deceased">d.</abbr> <?= $artwork->Artist->DeathYear ?><? } ?></td>
+		<td>
+			<?= Formatter::ToPlainText($artwork->Artist->Name) ?>
+			<? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?>(<abbr>AKA</abbr> <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?>
+			<? if($artwork->Artist->DeathYear !== null){ ?>, <abbr title="deceased">d.</abbr> <?= $artwork->Artist->DeathYear ?><? } ?>
+		</td>
 	</tr>
 	<tr>
 		<td>Year completed</td>
