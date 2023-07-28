@@ -437,6 +437,7 @@ class Artwork extends PropertiesBase{
 		$searchString = $this->Name;
 
 		$searchString .= ' ' . $this->Artist->Name;
+		$searchString .= ' ' . implode(' ', $this->Artist->AlternateSpellings);
 
 		foreach($this->ArtworkTags as $tag){
 			$searchString .= ' ' . $tag->Name;
