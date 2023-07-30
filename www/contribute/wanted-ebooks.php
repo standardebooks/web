@@ -139,6 +139,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://theotherpages.org/poems/poem-mn.html#macaulay">Poetry by Thomas Macaulay</a> including <i>Lays of Ancient Rome</i></p>
+			</li>
+			<li>
 				<p><a href="https://gutenberg.org/ebooks/4212">Culture and Anarchy</a> by Matthew Arnold</p>
 			</li>
 			<li>
