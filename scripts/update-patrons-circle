@@ -76,7 +76,7 @@ if(sizeof($expiredPatrons) > 0){
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->To = $patron->User->Email;
 			$em->ToName = $patron->Name;
-			$em->Subject = 'Will you continue supporting beautiful digital literature?';
+			$em->Subject = 'Will you still help us make free, beautiful digital literature?';
 
 			if($lastPayment[0]->IsRecurring){
 				// Email recurring donors who have lapsed
