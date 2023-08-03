@@ -27,12 +27,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/18817">Ralestone Luck</a> by Andre Norton</p>
-			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/52228">Search the Sky</a> by Frederik Pohl and C.M. Kornbluth</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/51804">Plague of Pythons</a> by Frederik Pohl</p>
 			</li>
@@ -378,9 +375,9 @@
 			<li>
 				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne (transcription required; research needed to see if we need a poetry omnibus)</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/Pastors_and_Masters">Pastors and Masters</a> by Ivy Compton-Burnett (transcription required)</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Langston_Hughes#Bibliography">Poetry</a> by Langston Hughes. Research is required to see if we need an omnibus.</p><!--patron-->
 			</li>
