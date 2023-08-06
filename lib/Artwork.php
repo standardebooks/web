@@ -308,7 +308,9 @@ class Artwork extends PropertiesBase{
 			$imagePath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-image-");
 
 			self::GenerateThumbnail($uploadPath, $thumbPath);
-			if (!move_uploaded_file($uploadPath, $imagePath)) throw new \Safe\Exceptions\FilesystemException;
+			if(!move_uploaded_file($uploadPath, $imagePath)){
+				throw new \Safe\Exceptions\FilesystemException;
+			}
 		} catch (\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
 			$log->Write("Failed to create temp thumbnail or uploaded image.");
 			$log->Write($exception);
