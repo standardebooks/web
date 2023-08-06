@@ -46,10 +46,10 @@ $unverifiedArtworks = array_slice($unverifiedArtworks, ($page - 1) * $perPage, $
 				<?= Formatter::ToPlainText($declinedMessage) ?>
 			</p>
 			<? } ?>
-			<? if($count > 0){ ?>
-			<?= Template::AdminArtworkList(['artworks' => $unverifiedArtworks]) ?>
+			<? if($count == 0){ ?>
+				<p>No artwork to review.</p>
 			<? }else{ ?>
-			<p>No artwork to review.</p>
+				<?= Template::ArtworkList(['artworks' => $unverifiedArtworks, 'useAdminUrl' => true]) ?>
 			<? } ?>
 		</section>
 	</section>

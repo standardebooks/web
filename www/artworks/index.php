@@ -78,7 +78,7 @@ $queryString = preg_replace('/^&amp;/ius', '', $queryString);
 	<? if($totalArtworkCount == 0){ ?>
 		<p class="no-results">No artwork matched your filters.  You can try different filters, or <a href="/artworks">browse all artwork</a>.</p>
 	<? }else{ ?>
-		<?= Template::ArtworkList(['artworks' => $artworks]) ?>
+		<?= Template::ArtworkList(['artworks' => $artworks, 'useAdminUrl' => false]) ?>
 	<? } ?>
 	<? if($totalArtworkCount > 0){ ?>
 		<nav>
