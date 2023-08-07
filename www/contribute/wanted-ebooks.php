@@ -16,9 +16,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1685">The Mystery of the Yellow Room</a> by Gaston Leroux</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/792">Wieland</a> by Charles Brockden Brown</p>
 			</li>
 			<li>
