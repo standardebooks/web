@@ -129,6 +129,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/38703">The Black Moth</a> by Georgette Heyer</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/70844">Twilight Sleep</a> by Edith Wharton</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
