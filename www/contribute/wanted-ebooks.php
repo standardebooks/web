@@ -33,9 +33,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/6879">The Gold Bat</a> by P. G. Wodehouse</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6927">The White Feather</a> by P. G. Wodehouse</p>
 			</li>
