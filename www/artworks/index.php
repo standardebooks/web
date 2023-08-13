@@ -36,7 +36,7 @@ if($status === COVER_ARTWORK_STATUS_ALL){
 	$status = null;
 }
 
-$artworks = Library::FilterArtwork($query != '' ? $query : null, $status, $sort);
+$artworks = Artwork::Query($query, $status, $sort);
 $pageTitle = 'Browse Artwork';
 $pages = ceil(sizeof($artworks) / $perPage);
 $totalArtworkCount = sizeof($artworks);

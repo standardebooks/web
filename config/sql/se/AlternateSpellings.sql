@@ -1,5 +1,6 @@
 CREATE TABLE `AlternateSpellings` (
   `ArtistId` int(10) unsigned NOT NULL,
   `AlternateSpelling` varchar(255) NOT NULL,
-  UNIQUE KEY `idxUnique` (`ArtistId`,`AlternateSpelling`)
+  UNIQUE KEY `idxUnique` (`ArtistId`,`AlternateSpelling`),
+  FULLTEXT KEY `AlternateSpellingsFullText` (`AlternateSpelling`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -15,5 +15,6 @@ CREATE TABLE `Artworks` (
   `EbookWwwFilesystemPath` varchar(255) NULL,
   PRIMARY KEY (`ArtworkId`),
   KEY `index1` (`Status`),
-  KEY `index2` (`UrlName`)
+  KEY `index2` (`UrlName`),
+  FULLTEXT KEY `ArtworksFullText` (`Name`,`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

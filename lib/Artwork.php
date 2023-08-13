@@ -423,16 +423,38 @@ class Artwork extends PropertiesBase{
 		', [$this->ArtworkId]);
 	}
 
-	/**
-	 *  Browsable Artwork can be displayed publically, e.g., at /artworks.
-	 *  Unverified and declined Artwork shouldn't be browsable.
-	 *  @return array<Artwork>
-	 */
-	public static function GetBrowsable(): array{
+	public static function Query(string $query = '', string|null $status = null, string|null $sort = null): array{
+		$orderBy = match ($sort){
+			SORT_COVER_ARTIST_ALPHA => 'Artists.UrlName ASC',
+			SORT_COVER_ARTWORK_COMPLETED_NEWEST => 'Artworks.CompletedYear DESC',
+			default => 'Artworks.Created DESC',
+		};
+
+		if ($query !== ''){
+			$phoneticQuery = Formatter::MakeUrlSafe($query);
+			$phoneticQuery = explode(separator: '-', string: $phoneticQuery);
+			$phoneticQuery = array_map(callback: 'metaphone', array: $phoneticQuery);
+			$phoneticQuery = implode(separator: ' ', array: $phoneticQuery);
+
+			$query = $query . ' '. $phoneticQuery;
+		}
+
 		return Db::Query('
-			SELECT *
+			SELECT DISTINCT Artworks.*
 			FROM Artworks
-			WHERE Status IN ("approved", "in_use")', [], 'Artwork');
+				LEFT JOIN ArtworkTags USING (ArtworkId)
+				LEFT JOIN Tags USING (TagId)
+				LEFT JOIN Artists USING (ArtistId)
+				LEFT JOIN AlternateSpellings USING (ArtistId)
+			WHERE Artworks.Status IN ("approved", "in_use")
+				AND (? = "" OR (
+					MATCH (Artworks.Name, Artworks.UrlName) AGAINST ( ? ) OR
+					MATCH (Tags.Name) AGAINST ( ? ) OR
+					MATCH (Artists.Name, Artists.UrlName, Artists.PhoneticName) AGAINST ( ? ) OR
+					MATCH (AlternateSpellings.AlternateSpelling) AGAINST ( ? )))
+				AND (? IS NULL OR Artworks.Status = ?)
+			ORDER BY ' . $orderBy . ', Artworks.ArtworkId;',
+			[$query, $query, $query, $query, $query, $status, $status], 'Artwork');
 	}
 
 	public function Contains(string $query): bool{

@@ -4,6 +4,7 @@ use Safe\DateTime;
 /**
  * @property string $UrlName
  * @property array<string> $AlternateSpellings
+ * @property string $PhoneticName
  */
 class Artist extends PropertiesBase{
 	public $ArtistId;
@@ -11,6 +12,7 @@ class Artist extends PropertiesBase{
 	public $DeathYear;
 	protected $_UrlName;
 	protected $_AlternateSpellings;
+	protected $_PhoneticName;
 
 	// *******
 	// GETTERS
@@ -46,6 +48,18 @@ class Artist extends PropertiesBase{
 		}
 
 		return $this->_AlternateSpellings;
+	}
+
+	protected function GetPhoneticName(): string{
+		if ($this->_PhoneticName === null){
+			$phonetic = explode(separator: '-', string: $this->UrlName);
+			$phonetic = array_map(callback: 'metaphone', array: $phonetic);
+			$phonetic = implode(separator: ' ', array: $phonetic);
+
+			$this->_PhoneticName = $phonetic;
+		}
+
+		return $this->_PhoneticName;
 	}
 
 	// *******
@@ -92,11 +106,12 @@ class Artist extends PropertiesBase{
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
-			INSERT into Artists (Name, UrlName, DeathYear)
+			INSERT into Artists (Name, UrlName, DeathYear, PhoneticName)
 			VALUES (?,
 			        ?,
+			        ?,
 			        ?)
-		', [$this->Name, $this->UrlName, $this->DeathYear]);
+		', [$this->Name, $this->UrlName, $this->DeathYear, $this->PhoneticName]);
 
 		$this->ArtistId = Db::GetLastInsertedId();
 	}
