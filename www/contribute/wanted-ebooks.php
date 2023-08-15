@@ -178,14 +178,8 @@
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/25413">Short fiction by Frederik Pohl</a></p>
-			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/1401">Tarzan the Untamed</a> (Tarzan 7) by Edgar Rice Burroughs</p>
-			</li> -->
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2020">Tarzan the Terrible</a> (Tarzan 8) by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/331">The Mucker</a> (Mucker 1) by Edgar Rice Burroughs</p>
 			</li>
