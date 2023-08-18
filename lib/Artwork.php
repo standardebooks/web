@@ -132,6 +132,11 @@ class Artwork extends PropertiesBase{
 			$sizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
 			$sizeUnit = $sizes[$factor] ?? '';
 			$this->_ImageSize = $sizeNumber . $sizeUnit;
+
+			list($imageWidth, $imageHeight) = getimagesize(WEB_ROOT . $this->ImageUrl);
+			if($imageWidth && $imageHeight){
+				$this->_ImageSize .= ' (' . $imageWidth . ' × ' . $imageHeight . ')';
+			}
 		}
 		catch(Exception $ex){
 			// Image doesn't exist
