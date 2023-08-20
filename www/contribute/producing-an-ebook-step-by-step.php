@@ -69,7 +69,7 @@
 					</li>
 				</ul>
 				<p>Picking either the HTML or the epub version is fine as a starting point, but make sure to pick the one that appears to be the most accurate.</p>
-				<p>For this guide, we’ll use <i>The Strange Case of Dr. Jekyll and Mr. Hyde</i>, by Robert Louis Stevenson. If you search for it on Gutenberg, you’ll find that there are two versions; the <a href="https://www.gutenberg.org/ebooks/42" rel="nofollow">most popular one</a> is a poor choice to produce, because the transcriber included the page numbers smack in the middle of the text! What a pain those’d be to remove. The <a href="https://www.gutenberg.org/ebooks/43">less popular one</a> is a better choice to produce, because it’s a cleaner transcription.</p>
+				<p>For this guide, we’ll use <i>The Strange Case of Dr. Jekyll and Mr. Hyde</i>, by Robert Louis Stevenson. If you search for it on Gutenberg, you’ll find that there are two versions; we will use <a href="https://www.gutenberg.org/ebooks/43" rel="nofollow">this</a> one rather than <a href="https://www.gutenberg.org/ebooks/42" rel="nofollow">this</a> one, as it is a cleaner transcription, e.g. has more modern usage of punctuation and compound words, etc.</p>
 			</li>
 			<li>
 				<h2 id="locate">Locate page scans of your book online</h2>
