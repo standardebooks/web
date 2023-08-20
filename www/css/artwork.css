@@ -158,8 +158,9 @@ ol.artwork-list > li img{
 	border-radius: .25rem;
 }
 
-ol.artwork-list > li > p:nth-of-type(1) > span{
+ol.artwork-list > li > p:nth-of-type(1) > a{
 	font-weight: bold;
+	text-decoration: none;
 }
 
 ol.artwork-list > li .author{
