@@ -18,9 +18,9 @@ $useAdminUrl = $useAdminUrl ?? false;
 				</picture>
 			</a>
 		</div>
-		<p>Title: <a href="<?= $url ?>" property="schema:name"><?= Formatter::ToPlainText($artwork->Name) ?></a></p>
+		<p><a href="<?= $url ?>" property="schema:name"><?= Formatter::ToPlainText($artwork->Name) ?></a></p>
 		<p>
-			Artist: <span class="author" typeof="schema:Person" property="schema:name"><?= Formatter::ToPlainText($artwork->Artist->Name) ?></span>
+			<span class="author" typeof="schema:Person" property="schema:name"><?= Formatter::ToPlainText($artwork->Artist->Name) ?></span>
 			<? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?>(<abbr>AKA</abbr> <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?>
 		</p>
 		<div>
