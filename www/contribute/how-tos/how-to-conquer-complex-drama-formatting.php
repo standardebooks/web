@@ -113,7 +113,7 @@
 				<h3>Stichomythia</h3>
 				<p><i>Stichomythia</i> is a technique used in drama where two speakers engage in a rapid or intense exchange of alternating dialog. Here is an example found in William Shakespeare’s <i><a href="https://standardebooks.org/ebooks/william-shakespeare/a-midsummer-nights-dream">A Midsummer Night’s Dream</a></i>.</p>
 				<figure class="full-width">
-					<img src="images/drama-formatting-1.png" alt=""/>
+					<img src="images/drama-formatting-1.png" alt="Five sections of dialog use stichomythia. The second section of dialog continues where the first section has left off. This pattern continues and creates a staircase effect."/>
 				</figure>
 				<p>This highlights moments of conflict, urgency, or intense emotion and conveys dynamic interactions between characters. Unfortunately, there is no great way to format this technique with clear, predictable structuring. The text displayed has no additional indents or margins.</p>
 			</li>
@@ -163,7 +163,7 @@
 				<h3>Attached to personas</h3>
 				<p>Some stage directions are attached to the persona. These directions are placed in <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> elements with the dialog, but in a separate paragraph.</p>
 				<figure class="full-width">
-					<img src="images/drama-formatting-3.png" alt=""/>
+					<img src="images/drama-formatting-3.png" alt="The stage direction “entering” is attached to the persona “Festus”."/>
 				</figure>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
