@@ -129,6 +129,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70844">Twilight Sleep</a> by Edith Wharton</p>
 			</li>
+			<li>
+				<p><a href="https://gutenberg.net.au/ebooks06/0606211h.html">The Castle of Wolfenbach</a> by Eliza Parsons</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
@@ -341,9 +344,6 @@
 			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/15474">The Mahabharata</a> by Vyasa, translated by Kisari Mohan Ganguli (<a href="https://gutenberg.org/ebooks/15475">Vol. 2</a>, <a href="https://gutenberg.org/ebooks/15476">Vol. 3</a>, <a href="https://gutenberg.org/ebooks/15477">Vol. 4</a>; as a single production; several sections are missing)</p>
-			</li>
-			<li>
-				<p><a href="https://www.google.com/books/edition/_/JL4DAAAAQAAJ?hl=en&amp;gbpv=1">Pan Tadeusz</a> by Adam Mickiewicz, translated by Maude Ashurst Biggs (<a href="https://www.google.com/books/edition/_/ML4DAAAAQAAJ?hl=en&amp;gbpv=1">Vol. 2</a>; transcription required)</p>
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/abiesirishroseno0000anne">Abie’s Irish Rose</a> by Anne Nichols (transcription required)</p><!--patron-->
