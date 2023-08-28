@@ -33,8 +33,8 @@ if($toc){
 		$fileName = $epubDirectory . '/' . $chapterLinks[$i]->Path . '.xhtml';
 		$chapter = file_get_contents($fileName);
 		// Inject the navigation footer.
-		$previousLink = $previousObj ? sprintf('<a href="%s"><i>Previous:</i> %s</a>', $bookUrl . '/' . $previousObj->Path, htmlspecialchars($previousObj->Name)) : '';
-		$nextLink = $nextObj ? sprintf('<a href="%s"><i>Next:</i> %s</a>', $bookUrl . '/' . $nextObj->Path, htmlspecialchars($nextObj->Name)) : '';
+		$previousLink = $previousObj ? sprintf('<a href="%s" rel="prev"><i>Previous:</i> %s</a>', $bookUrl . '/' . $previousObj->Path, htmlspecialchars($previousObj->Name)) : '';
+		$nextLink = $nextObj ? sprintf('<a href="%s" rel="next"><i>Next:</i> %s</a>', $bookUrl . '/' . $nextObj->Path, htmlspecialchars($nextObj->Name)) : '';
 		$footer = sprintf('<footer><ul><li>%s</li><li>%s</li></ul></footer>', $previousLink, $nextLink);
 		$chapter = str_replace('</body>', $footer . '</body>', $chapter);
 		file_put_contents($fileName, $chapter);
