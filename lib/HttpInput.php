@@ -22,7 +22,7 @@ class HttpInput{
 	}
 
 	public static function RequestType(): int{
-		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT']) ? WEB : REST;
+		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? WEB : REST;
 	}
 
 	public static function Str(string $type, string $variable, bool $allowEmptyString = true, string $default = null): ?string{

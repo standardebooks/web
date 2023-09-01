@@ -46,10 +46,16 @@ class PollVote extends PropertiesBase{
 			if($this->PollItem === null){
 				$error->Add(new Exceptions\InvalidPollException());
 			}
-		}
-
-		if(!$this->PollItem->Poll->IsActive()){
-			$error->Add(new Exceptions\PollClosedException());
+			else{
+				if($this->PollItem->Poll === null){
+					$error->Add(new Exceptions\InvalidPollException());
+				}
+				else{
+					if(!$this->PollItem->Poll->IsActive()){
+						$error->Add(new Exceptions\PollClosedException());
+					}
+				}
+			}
 		}
 
 		if(!$error->HasExceptions){
