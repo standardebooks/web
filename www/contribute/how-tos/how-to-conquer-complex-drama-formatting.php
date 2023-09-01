@@ -11,30 +11,98 @@
 		</aside>
 		<ol>
 			<li>
+				<h2>Splitting files</h2>
+				<p>Complete dramatic works are divided into acts, scenes, and sometimes short plays. The <code class="bash"><b>se</b> split-file</code> tool automatically uses prose book file structuring, semantics, and naming conventions. These five easy steps will help you avoid some manual work.</p>
+				<ol>
+					<li>
+						<h3>Check your titles</h3>
+						<p>Instead of dealing with chapters, you need to check that your titles for acts, scenes, or short plays are marked with <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code> elements. Headers are usually incorrect or missing in play transcriptions.</p>
+					</li>
+					<li>
+						<h3>Add markers</h3>
+						<p>Like novels, we add markers before the <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code> elements in the source file before splitting.</p>
+						<code class="terminal"><span><b>perl</b> -pi -e <!--Single quote to prevent ! from becoming history expansion--><i>'s|&lt;h2|&lt;!--se:split--&gt;&lt;h2|g'</i> <u>src/epub/text/body.xhtml</u></span></code>
+					</li>
+					<li>
+						<h3>Make a template file</h3>
+						<p>The <code class="bash"><b>se</b> split-file</code> tool defaults to a chapter template. To add the correct file semantics, we need to create the template file <code class="path">/src/epub/text/drama-template.xhtml</code>. If you wish to split the work into acts or scenes, you can copy and paste the following code to your new file:</p>
+						<figure class="html full">
+<code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xmlns:epub</span><span class="o">=</span><span class="s">"http://www.idpf.org/2007/ops"</span> <span class="na">epub:prefix</span><span class="o">=</span><span class="s">"z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANG"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>NUMERAL<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"../css/core.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/css"</span><span class="p">/&gt;</span>
+		<span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"../css/local.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/css"</span><span class="p">/&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"ID"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"chapter z3998:scene"</span><span class="p">&gt;</span>
+			TEXT
+		<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></code>
+						</figure>
+						<p>If you have a work that is a collection of short plays, you can use this code:</p>
+						<figure class="html full">
+<code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xmlns:epub</span><span class="o">=</span><span class="s">"http://www.idpf.org/2007/ops"</span> <span class="na">epub:prefix</span><span class="o">=</span><span class="s">"z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANG"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>NUMERAL<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"../css/core.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/css"</span><span class="p">/&gt;</span>
+		<span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"../css/local.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/css"</span><span class="p">/&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction"</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">article</span> <span class="na">id</span><span class="o">=</span><span class="s">"ID"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:drama"</span><span class="p">&gt;</span>
+			TEXT
+		<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></code>
+						</figure>
+					</li>
+					<li>
+						<h3>Commands and positional arguments</h3>
+						<p>Now it’s time for <code class="bash"><b>se</b> split-file</code> to do some heavy lifting. With the help of positional arguments, we can simultaneously change the file names and which file template to use when we split the source file. You can see what arguments are available by running <code class="bash"><b>se</b> split-file -h</code>.</p>
+						<p>If you are splitting the text into acts, you can use:</p>
+						<code class="terminal"><span><b>se</b> split-file -f act-%n.xhtml -t src/epub/text/drama-template.xhtml src/epub/text/body.xhtml</span> <span><b>mv</b> act<i class="glob">*</i> src/epub/text/</span></code>
+						<p>If you are splitting the text into scenes, you can adjust commands to be:</p>
+						<code class="terminal"><span><b>se</b> split-file -f scene-%n.xhtml -t src/epub/text/drama-template.xhtml src/epub/text/body.xhtml</span> <span><b>mv</b> scene<i class="glob">*</i> src/epub/text/</span></code>
+					</li>
+					<li>
+						<h3>Remove unwanted files</h3>
+						<p>Once we’re happy that the source file has been split correctly, we can remove <code class="path">body.xhtml</code> and <code class="path">drama-template.xhtml</code>.</p>
+						<code class="terminal"><span><b>rm</b> src/epub/text/body.xhtml src/epub/text/drama-template.xhtml</span></code>
+					</li>
+				</ol>
+			</li>
+			<li>
 				<h2>Dramatis personae</h2>
+				<h3>Semantics</h3>
+				<p>The <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element has the semantic inflection of <code class="bash"><span class="s">frontmatter</span></code>, <code class="bash"><span class="s">z3998:fiction</span></code>, and <code class="bash"><span class="s">z3998:drama</span></code>; the <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element has the semantic inflection of <code class="bash"><span class="s">z3998:dramatis-personae</span></code>.</p>
 				<h3>Typography</h3>
 				<p>Most plays have periods after each character description. Make sure to remove the ending periods of each list item, except for abbreviations. The letter case of various speakers can vary widely for stylistic purposes. Convert the speakers’ names and descriptions into sentence cases. Remove any bold, caps, or small-caps styling for personas.</p>
 				<h3>Descriptions</h3>
 				<p>Any descriptions are placed in <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements after the list of speakers and end with periods.</p>
 				<h3>Example</h3>
 				<figure class="html full">
-<code class="html full"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"dramatis-personae"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:dramatis-personae"</span><span class="p">&gt;</span>
-	<span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Dramatis Personae<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
-	<span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
-		<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
-			<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Don Pedro, Prince of Arragon<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-		<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
-		<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
-		<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
-			<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Don John, his bastard brother<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-		<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
-		...
-		<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
-			<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Messengers, watch, attendants, <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"eoc"</span><span class="p">&gt;</span>etc.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-		<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
-	<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
-	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Scene: Messina.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></code>
+<code class="html full">
+<span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"frontmatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"dramatis-personae"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:dramatis-personae"</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Dramatis Personae<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Don Pedro, Prince of Arragon<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Don John, his bastard brother<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+			...
+			<span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Messengers, watch, attendants, <span class="p">&lt;</span><span class="nt">abbr</span> <span class="na">class</span><span class="o">=</span><span class="s">"eoc"</span><span class="p">&gt;</span>etc.<span class="p">&lt;/</span><span class="nt">abbr</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Scene: Messina.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
 				</figure>
 			</li>
 			<li>
