@@ -45,9 +45,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6683">The Little Nugget</a> by P. G. Wodehouse</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/24742">Mary, Mary</a> by James Stephens</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/149">Beyond Thirty aka. The Lost Continent</a> (Beyond 1) by Edgar Rice Burroughs</p>
 			</li>
@@ -180,9 +177,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/2020">Tarzan the Terrible</a> (Tarzan 8) by Edgar Rice Burroughs</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/331">The Mucker</a> (Mucker 1) by Edgar Rice Burroughs</p>
 			</li>
@@ -261,9 +255,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9608">The Cords of Vanity</a> by James Branch Cabell</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/9150">Dick Sand, A Captain at Fifteen</a> <i>Un Capitaine de quinze ans</i> by Jules Verne</p>
-			</li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
 			</li> -->
@@ -494,9 +485,6 @@
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/2843">Poetry</a> by John Clare (Careful research required to deduplicate this large corpus.)</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/17460">Lorna Doone</a> by R. D. Blackmoore</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library and Guardian 2015 100 best novels collections)</p>
