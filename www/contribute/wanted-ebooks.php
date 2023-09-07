@@ -553,6 +553,9 @@
 			<li>
 				<p>Public domain entries in the <a href="https://en.m.wikipedia.org/wiki/Ballantine_Adult_Fantasy_series">Ballantine Adult Fantasy series</a> (Note that not all of these are in the U.S. public domain)</p>
 			</li>
+			<li>
+				<p>Public domain entries in this <a href="https://docs.google.com/spreadsheets/d/1thH8qI_JgKc96Jzyvv6-N3H-oFBon5dwXqqI8DiTS9o/edit?usp=sharing">Spreadsheet of plays that have appeared on lists of the “Best Plays of All Time.”</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
