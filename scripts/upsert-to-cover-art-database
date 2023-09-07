@@ -14,16 +14,19 @@ if(isset($options['v']) || isset($options['verbose'])){
 	$verbose = true;
 }
 
-function NullIfEmpty($elements): ?string{
+/**
+ * Coverts SimpleXMLElement objects with inner tags like this:
+ *   '<abbr>Mr.</abbr> Smith'
+ * to:
+ *   'Mr. Smith'
+ */
+function StripInnerTags($elements): ?string{
 	if($elements === false){
-		return false;
+		return null;
 	}
 
 	if(isset($elements[0])){
-		$str = (string)$elements[0];
-		if($str !== ''){
-			return $str;
-		}
+		return strip_tags($elements[0]->asXML());
 	}
 
 	return null;
@@ -44,7 +47,7 @@ chdir($repoDir);
 $contentOpf = shell_exec("git show HEAD:src/epub/content.opf");
 $xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $contentOpf));
 $xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
-$artistName = NullIfEmpty($xml->xpath('/package/metadata/dc:contributor[@id="artist"]'));
+$artistName = StripInnerTags($xml->xpath('/package/metadata/dc:contributor[@id="artist"]'));
 if($artistName === null){
 	print("Error: Could not find artist name in content.opf\n");
 	exit('Error: missing artistName');
@@ -66,7 +69,7 @@ if(sizeof($matches) == 2){
 }
 
 $colophonXml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $rawColophon));
-$artworkName = NullIfEmpty($colophonXml->xpath('/html/body/main/section/p/i[@epub:type="se:name.visual-art.painting"]'));
+$artworkName = StripInnerTags($colophonXml->xpath('/html/body/main/section/p/i[@epub:type="se:name.visual-art.painting"]'));
 if($artworkName === null){
 	print("Error: Could not find artwork name in colophon.xhtml\n");
 	exit('Error: missing artworkName');
