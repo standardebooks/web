@@ -315,6 +315,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25394">Short stories by Manly Wade Wellman</a> to be compiled into a “Short Fiction” omnibus</p><!--patron-->
 			</li>
+			<li>
+				<p>Norwegian Folktales, by Peter Christen Asbjørnsen and Jørgen Moe, translated by George Dasent (<a href="https://gutenberg.org/ebooks/8933">part 1</a>, <a href="https://gutenberg.org/ebooks/36385">part 2</a>)</p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
