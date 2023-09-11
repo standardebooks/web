@@ -126,13 +126,13 @@ try{
 				// If the donation is via a foundation (like American Online Giving Foundation) then there will be a 'soft credit' <th> element.
 				if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){
 					// We're a foundation donation
-					$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
-					$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
+					$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
+					$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
 				}
 				else{
 					// We're a regular donation
-					$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Name"]]'))->getText());
-					$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Email"]]'))->getText());
+					$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"]]'))->getText());
+					$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"]]'))->getText());
 				}
 
 				// These donations are typically (always?) employer matches.
@@ -152,12 +152,12 @@ try{
 				$payment->User = null;
 			}
 
-			$payment->Created = DateTime::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Created On"]]'))->getText()));
+			$payment->Created = DateTime::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Created"]]'))->getText()));
 			$payment->IsRecurring = sizeof($headerRow->findElements(WebDriverBy::xpath('//td[contains(., "Recurring")]'))) > 0;
-			$payment->Amount = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Total Amount"]]'))->getText())));
-			$payment->Fee = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Fee"]]'))->getText())));
+			$payment->Amount = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Total Amount"]]'))->getText())));
+			$payment->Fee = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Fee"]]'))->getText())));
 
-			$transactionId = $detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "ID"]]'))->getText();
+			$transactionId = $detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]]'))->getText();
 			$transactionId = str_replace('View on FS', '', $transactionId);
 			$transactionId = str_replace('View on Finance', '', $transactionId);
 			$payment->TransactionId = trim($transactionId);
@@ -211,11 +211,11 @@ try{
 						$patron->UserId = $payment->UserId;
 						$patron->User = $payment->User;
 						$patron->User->Payments = [$payment];
-						$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
+						$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
 						$patron->IsSubscribedToEmails = $patron->User !== null && $patron->User->Email !== null;
 
 						try{
-							$patron->AlternateName = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::td[normalize-space(.) = "Attribution Text"]]'))->getText());
+							$patron->AlternateName = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution Text"]]'))->getText());
 						}
 						catch(Exception){
 						}
@@ -279,6 +279,7 @@ catch(Exception $ex){
 	$log->Write('Error: Uncaught exception: ' . $exceptionString);
 
 	$em = new Email(true);
+	$em->To = ADMIN_EMAIL_ADDRESS;
 	$em->Subject = 'Donation processing failed';
 	$em->Body = Template::EmailDonationProcessingFailed(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
 	$em->TextBody = Template::EmailDonationProcessingFailedText(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
