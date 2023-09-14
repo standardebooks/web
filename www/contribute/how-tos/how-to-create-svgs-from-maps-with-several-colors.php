@@ -8,53 +8,61 @@ require_once('Core.php');
 		<ol>
 			<li>
 				<h2>Finding the best quality source scan</h2>
-				<p>You always want to start with the very best scan of the image you can locate. Here's a JPG of the scan from “Through the Brazilian Wilderness”:</p>
+				<p>You always want to start with the very best scan of the image you can locate. Here's the top portion of the scan from “Through the Brazilian Wilderness”:</p>
 				<figure class="full-width">
-					<img src="images/map-example-0.jpg" alt="The source map of Brazil showing both black and red linework."/>
+					<img src="images/map-example-0.jpg" alt="Part of the source map of Brazil showing both black and red linework."/>
 				</figure>
 				<p>As you can see, there is a red line showing the journey, and an accompanying legend.</p>
 			</li>
 			<li>
 				<h2>Process with a suitable bitmap editor</h2>
-				<p>I use an editor for macOS called Acorn, but most other graphic editors would be suitable. The essential requirement is for it to have a function which will let you replace one color with another, and that it support multiple layers.<p>
-				<p>Open the source file in your editor and immediately duplicate the image layer. If you can rename the layers, call one of them “red-layer” and the other “black-layer”.</p> 
-				<p>We are going to use the Replace Color function to replace the colors we don’t want in each layer. See this initial image which shows just a small portion of the map, with the two layers we’ve created.</p>
+				<p>What we need to do before trying to trace the map is to separate out the red lines showing the route from the black lines of the underlying map. We need to end up with two images, one with the red and one with the black.</p>
+				<p>To do this, I duplicate the source image and then replace the colors I don't want in each one with the background color. To demonstrate, I'll use the open-source GIMP graphics program, but any graphics program which can replace one color with another would be suitable.</p>
+				<p>Open the source file in your editor and immediately duplicate the image layer. If you can rename the layers, call one of them “red-layer” and the other “black-layer”.</p>
 				<figure class="full-width">
-					<img src="images/map-example-1.jpg" alt="The image open in Acorn, showing the duplicated layers."/>
+					<img src="images/map-example-1.jpg" alt="The image open in GIMP, showing the duplicated layers."/>
 				</figure>
-				<p>Lock and hide “red-layer” and work on “black-layer”. Now apply the Replace Color to replace red with the background color. In the image below I’ve decreased the tolerance just enough to show you what I’m doing. You will want to increase the tolerance until the red is no longer visible at all.</p>
+				<p>Lock and hide “red-layer” and work on “black-layer”. Now we need to use the Select by Color tool (Select -> By Color) to select as much of the red as we can. To do this, I’ve zoomed in quite closely to ensure I can pick the right color and adjust the tolerance up until we can select all of the red we can see. For this image, I’ve use a tolerance of 252 (the maximum).</p>
 				<figure class="full-width">
-					<img src="images/map-example-2.jpg" alt="The replace color function in action showing the red lines almost gone before tolerance is increased."/>
+					<img src="images/map-example-2.jpg" alt="The select by color function in GIMP showing the red lines selected."/>
 				</figure>
-				<p>Now work on “red-layer” and do the opposite: replace color to remove the black lines.</p>
+				<p>Now we use the Colorize (Colors -> Colorize) tool to replace the red with the background color. To be honest, GIMP isn’t great at this process, so we may need to do some manual clean-up as well. It doesn’t have to be perfect: we just need what remains of the red line to be faint enough, so it won’t be picked up during the tracing step.</p>
 				<figure class="full-width">
-					<img src="images/map-example-3.jpg" alt="The replace color function in action showing the black lines almost gone before tolerance is increased."/>
+					<img src="images/map-example-3.jpg" alt="The GIMP colorize function in action showing the red lines almost gone."/>
 				</figure>
-				<p>Tip: it’s a good idea to retain some “anchor points” at the corners of your image, the same location in each layer, so that when you vectorize, each vector will be of the same outside dimensions. The four corners of the maps would be good for this.</p>
+				<p>Now lock and hide "black-layer" and work on “red-layer” and do the opposite: use the above procedure to remove the <em>black</em> lines.</p>
+				<p>Tip: it’s a really good idea to retain some “anchor points” at the corners of your image, the same location in each layer, so that when you vectorize, each vector will be of the same outside dimensions. The four corners of a map would be good for this. After tracing, we can remove these anchors from the red layer.</p>
 				<figure class="full-width">
-					<img src="images/map-example-4.jpg" alt="The replace color function in action showing the black lines almost gone before tolerance is increased."/>
+					<img src="images/map-example-4.jpg" alt="Showing a map corner copied from the black layer onto the red layer to ensure the dimensions after tracing are the same."/>
 				</figure>
-				<p>When that’s done to your satisfaction, export each layer separately as a JPG or PNG image, with a suitable name.</p>
+				<p>When that’s done to your satisfaction, export each layer separately as a PNG image, with a suitable name such as “red-layer.png” and “black-layer.png”.</p>
 			</li>
 			<li>
 			<h2>Vectorize the images</h2>
-			<p>I use a program called simply “Image Vectorizer” for macOS, but Inkscape would be fine for this.</p>
-			<p>Use the program to vectorize each layer image separately. Save the SVG output as appropriately-named files, say “red-layer.svg” and “black-layer.svg”.</p>
+			<p>You can use the open-source application Inkscape to trace the bitmaps you've created and turn them into vectors, and export them as an SVG.</p>
+			<p>Use File -> Import in Inkscape to open both the red and black PNG images, which will appear as separate layers. Rename the layers appropriately.</p>
+			<p>Then use the Path -> Trace Bitmap tool on each layer separately, as in the screenshot below. These will appear as additional layers. Name these appropriately and then delete the bitmap layers.</p>
+				<figure class="full-width">
+					<img src="images/map-example-5.jpg" alt="Shows the tracing tool being used on the red layer in Inkscape."/>
+				</figure>
 			</li>
 			<li>
-				<h2>Import the SVGs into vector editor and color one layer</h2>
-				<p>I use Affinity Designer for this, but I imagine that any good vector-based editor should work.</p>
-				<p>Import each SVG onto its own layer, and position each layer carefully so they overlap exactly. Then open up “red-layer” and apply color to all of the components. If necessary, you can then edit out the anchor points you placed at the corners of each layer.</p>
+				<h2>Color one layer and export as a single SVG</h2>
+				<p>Now select the “red-vector” layer and apply color to all of the components. If necessary, you can then edit out the anchor points you placed at the corners of the red layer.</p>
 				<figure class="full-width">
-					<img src="images/map-example-6.jpg" alt="Modifying the red layer to apply color."/>
+					<img src="images/map-example-6.jpg" alt="Applying color to the red layer in Inkscape."/>
 				</figure>
-				<p>Now export the combined image as a single SVG file, and apply the various SVG optimizations we prefer.</p>
+				<p>Now make both layers visible and export the combined image as a Plain SVG file, and then apply to that file the various SVG optimizations we prefer.</p>
 				<figure class="full-width">
-					<img src="images/map-example-7.jpg" alt="Combining the two layers for export."/>
+					<img src="images/map-example-7.jpg" alt="Shows the export of a combined SVG file in Inkscape."/>
 				</figure>
 			</li>
 			<li>
 			<p>That’s it, you’re done!</p>
+			</li>
+			<li>
+				<h2>Note</h2>
+				<p>Inkscape does have a “multi-color” trace function, which in theory ought to eliminate the above steps we needed to carry out in GIMP but in practice I haven’t been able to get this to work in any satisfactory manner.</p>
 			</li>
 		</ol>
 	</article>
