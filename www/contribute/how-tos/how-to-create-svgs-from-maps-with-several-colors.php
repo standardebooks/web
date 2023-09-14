@@ -22,7 +22,7 @@ require_once('Core.php');
 				<figure class="full-width">
 					<img src="images/map-example-1.jpg" alt="The image open in GIMP, showing the duplicated layers."/>
 				</figure>
-				<p>Lock and hide “red-layer” and work on “black-layer”. Now we need to use the Select by Color tool (Select -> By Color) to select as much of the red as we can. To do this, I’ve zoomed in quite closely to ensure I can pick the right color and adjust the tolerance up until we can select all of the red we can see. For this image, I’ve use a tolerance of 252 (the maximum).</p>
+				<p>Lock and hide “red-layer” and work on “black-layer”. Now we need to use the Select by Color tool (Select -> By Color) to select as much of the red as we can. To do this, I’ve zoomed in quite closely to ensure I can pick the right color and adjust the tolerance up until we can select all of the red we can see. For this image, I’ve used a tolerance of 252 (the maximum).</p>
 				<figure class="full-width">
 					<img src="images/map-example-2.jpg" alt="The select by color function in GIMP showing the red lines selected."/>
 				</figure>
@@ -30,7 +30,7 @@ require_once('Core.php');
 				<figure class="full-width">
 					<img src="images/map-example-3.jpg" alt="The GIMP colorize function in action showing the red lines almost gone."/>
 				</figure>
-				<p>Now lock and hide "black-layer" and work on “red-layer” and do the opposite: use the above procedure to remove the <em>black</em> lines.</p>
+				<p>Now lock and hide "black-layer" and work on “red-layer” and do the opposite: use the above procedure to remove the <em>black</em> lines. Alternatively, if this is difficult, use the select color function on the red lines again and copy and paste these to a new layer, which you can name “red-copy-layer”, then delete “red-layer”.</p>
 				<p>Tip: it’s a really good idea to retain some “anchor points” at the corners of your image, the same location in each layer, so that when you vectorize, each vector will be of the same outside dimensions. The four corners of a map would be good for this. After tracing, we can remove these anchors from the red layer.</p>
 				<figure class="full-width">
 					<img src="images/map-example-4.jpg" alt="Showing a map corner copied from the black layer onto the red layer to ensure the dimensions after tracing are the same."/>
