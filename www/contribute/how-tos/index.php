@@ -16,6 +16,9 @@
 			<p><a href="/contribute/how-tos/how-to-create-figures-for-music-scores">How to create figures for music scores</a></p>
 		</li>
 		<li>
+			<p><a href="/contribute/how-tos/how-to-create-svgs-from-maps-with-several-colors">How to create SVGs from maps with several colors</a></p>
+		</li>
+		<li>
 			<p><a href="/contribute/how-tos/how-to-review-an-ebook-production-for-publication">How to review an ebook production for publication</a></p>
 		</li>
 		<li>
