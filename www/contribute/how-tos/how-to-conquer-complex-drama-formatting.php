@@ -229,7 +229,7 @@
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
 				<h3>Attached to personas</h3>
-				<p>Some stage directions are attached to the persona. These directions are placed in <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> elements with the dialog, but in a separate paragraph.</p>
+				<p>Some stage directions are attached to the persona. These directions are placed in <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> elements with the dialog. For <i>prose dialog</i>, the stage direction is on the same line as the dialog. For <i>verse dialog</i>, the stage direction is in a separate paragraph before the dialog. The stage direction is not part of the meter; the meter sets specific line lengths and emphasis.</p>
 				<figure class="full-width">
 					<img src="images/drama-formatting-3.png" alt="The stage direction “entering” is attached to the persona “Festus”."/>
 				</figure>
