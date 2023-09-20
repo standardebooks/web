@@ -237,17 +237,18 @@
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span>Festus<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
-	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
-		<span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span>Entering.<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>
-	<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
-	<span class="p">&lt;</span><span class="nt">div</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:verse"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
-			<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>It is I.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
-			<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
-			<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>I said we should be sure to meet thee here:<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
-			<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
-			<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>For I have brought one who would speak with thee.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span>Entering.<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>
 		<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">div</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:verse"</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>It is I.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+				<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>I said we should be sure to meet thee here:<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+				<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>For I have brought one who would speak with thee.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
