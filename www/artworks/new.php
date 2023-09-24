@@ -116,6 +116,18 @@ if ($exception){
 			</fieldset>
 			<fieldset id="pd-proof">
 				<legend>Proof of Public Domain Status</legend>
+				<p>PD proof must take the form of:</p>
+				<fieldset>
+					<label>
+						Link to <a href="/manual/latest/10-art-and-images#10.3.3.7.4">approved museum page</a>
+						<input
+							type="url"
+							name="pd-proof-museum-link"
+							value="<?= Formatter::ToPlainText($artwork->MuseumPage) ?>"
+						/>
+					</label>
+				</fieldset>
+				<p>or direct links to page scans for <strong>all</strong> of the following:</p>
 				<fieldset>
 					<div>
 						<label>
@@ -154,14 +166,7 @@ if ($exception){
 						/>
 					</label>
 				</fieldset>
-				<label>
-					Link to museum page
-					<input
-						type="url"
-						name="pd-proof-museum-link"
-						value="<?= Formatter::ToPlainText($artwork->MuseumPage) ?>"
-					/>
-				</label>
+				<p>See the <a href="/manual/latest/10-art-and-images#10.3.3.7">Manual of Style</a> for full details on US-PD clearance.</p>
 			</fieldset>
 			<fieldset>
 				<legend></legend>

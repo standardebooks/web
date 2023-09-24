@@ -1,3 +1,8 @@
+<?
+$artwork = $artwork ?? null;
+$showPDProofTip = $showPDProofTip ?? true;
+?>
+
 <h1><?= Formatter::ToPlainText($artwork->Name) ?></h1>
 <a href="<?= $artwork->ImageUrl ?>">
 	<picture>
@@ -40,19 +45,21 @@
 	</tr>
 </table>
 <h2>PD Proof</h2>
-<aside class="tip">
-	<p>PD proof must take the form of:</p>
-	<ul>
-		<li>Link to an approved museum page</li>
-	</ul>
-	<p>or <strong>all</strong> of the following:</p>
-	<ol>
-		<li>Year book was published</li>
-		<li>Link to direct page scan of artwork (not just the start of the book, the direct page)</li>
-		<li>Link to direct page scan of page mentioning book publication year (not just the start of the book, the direct page)</li>
-		<li>Link to direct page scan of book copyright/rights statement page (may be the same as the publication year page but not always)</li>
-	</ol>
-</aside>
+<? if ($showPDProofTip){ ?>
+	<aside class="tip">
+		<p>PD proof must take the form of:</p>
+		<ul>
+			<li>Link to an approved museum page</li>
+		</ul>
+		<p>or <strong>all</strong> of the following:</p>
+		<ol>
+			<li>Year book was published</li>
+			<li>Link to direct page scan of artwork (not just the start of the book, the direct page)</li>
+			<li>Link to direct page scan of page mentioning book publication year (not just the start of the book, the direct page)</li>
+			<li>Link to direct page scan of book copyright/rights statement page (may be the same as the publication year page but not always)</li>
+		</ol>
+	</aside>
+<? } ?>
 <h3>Museum page</h3>
 <ul>
 	<li>Link to an approved museum page: <? if($artwork->MuseumPage !== null){ ?> <a href="<?= Formatter::ToPlainText($artwork->MuseumPage) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
