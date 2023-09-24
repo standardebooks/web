@@ -209,10 +209,10 @@ class Artwork extends PropertiesBase{
 
 	/** @throws \Exceptions\InvalidImageUploadException */
 	private function ValidateImageUpload(string $uploadPath): void{
-		$uploadInfo = getimagesize($uploadPath);
-
-		if ($uploadInfo === false){
-			throw new Exceptions\InvalidImageUploadException();
+		try{
+			$uploadInfo = getimagesize($uploadPath);
+		} catch (\Safe\Exceptions\ImageException $exception){
+			throw new Exceptions\InvalidImageUploadException('Could not handle upload: ' . $exception->getMessage());
 		}
 
 		if ($uploadInfo[2] !== IMAGETYPE_JPEG){

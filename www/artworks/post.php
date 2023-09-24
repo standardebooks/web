@@ -31,6 +31,16 @@ try{
 		throw new Exceptions\InvalidCaptchaException();
 	}
 
+	if ($_FILES['color-upload']['error'] > 0){
+		// see https://www.php.net/manual/en/features.file-upload.errors.php
+		$message = match ($_FILES['color-upload']['error']){
+			1 => 'Image upload too large (maximum ' . ini_get('upload_max_filesize') . ')',
+			default => 'Image failed to upload',
+		};
+
+		throw new \Exceptions\InvalidImageUploadException($message);
+	}
+
 	$artwork->Create($_FILES['color-upload']['tmp_name']);
 
 	$_SESSION['success-message'] = '“' . $artwork->Name . '” submitted successfully!';
