@@ -129,6 +129,18 @@
 			<li>
 				<p><a href="https://gutenberg.net.au/ebooks06/0606211h.html">The Castle of Wolfenbach</a> by Eliza Parsons</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/71351">Murder in the Maze</a> by J. J. Connington</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/70996">The D’Arblay Mystery</a> by R. Austin Freeman</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/70964">The Wrong Letter</a> by Walter S. Masterman</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/71073">The Starvel Hollow Tragedy</a> by Freeman Wills Crofts (Inspector French #3)</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
