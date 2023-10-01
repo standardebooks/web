@@ -7,7 +7,7 @@ DESCRIPTION
 	Deploy a Standard Ebook source repository to the web.
 
 USAGE
-	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] [--no-build] [--no-epubcheck] [--no-recompose] [--no-feeds] [-l,--last-push-hash HASH] DIRECTORY [DIRECTORY...]
+	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] [--no-build] [--no-epubcheck] [--no-recompose] [--no-feeds] [--no-bulk-downloads] [--upsert-to-cover-art-database] [-l,--last-push-hash HASH] DIRECTORY [DIRECTORY...]
 		DIRECTORY is a bare source repository.
 		GROUP is a groupname. Defaults to "se".
 		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org/web/www".
@@ -39,6 +39,8 @@ USAGE
 
 		With --no-bulk-downloads, don't generate bulk download files.
 
+		With --upsert-to-cover-art-database, update/insert cover in the cover art database.
+
 EOF
 	exit
 }
@@ -57,6 +59,7 @@ epubcheck="true"
 recompose="true"
 feeds="true"
 bulkDownloads="true"
+coverArtDatabase="false"
 
 if [ $#  -eq 0 ]; then
 	usage
@@ -114,6 +117,10 @@ while [ $# -gt 0 ]; do
 			bulkDownloads="false"
 			shift 1
 			;;
+		--upsert-to-cover-art-database)
+			coverArtDatabase="true"
+			shift 1
+			;;
 		*) break ;;
 	esac
 done
@@ -146,6 +153,10 @@ fi
 
 if ! [ -f "${scriptsDir}"/generate-bulk-downloads ]; then
 	die "\"${scriptsDir}\"/generate-bulk-downloads\" is not a file or could not be found."
+fi
+
+if ! [ -f "${scriptsDir}"/upsert-to-cover-art-database ]; then
+	die "\"${scriptsDir}\"/upsert-to-cover-art-database\" is not a file or could not be found."
 fi
 
 mkdir -p "${webRoot}"/images/covers/
@@ -384,6 +395,18 @@ do
 	if [ "${images}" = "true" ]; then
 		# Move the cover images over
 		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
+	fi
+
+	if [ "${coverArtDatabase}" = "true" ]; then
+		if [ "${verbose}" = "true" ]; then
+			printf "Updating/inserting cover in the cover art database ... "
+		fi
+
+		"${scriptsDir}"/upsert-to-cover-art-database --repoDir "${repoDir}" --workDir "${workDir}" --ebookWwwFilesystemPath "${webDir}"
+
+		if [ "${verbose}" = "true" ]; then
+			printf "Done.\n"
+		fi
 	fi
 
 	# Delete the now-empty work dir (empty except for .git)
