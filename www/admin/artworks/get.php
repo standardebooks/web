@@ -24,7 +24,7 @@ catch(Exceptions\SeException){
 	<? } ?>
 	<form method="post" action="/admin/artworks/<?= $artwork->ArtworkId ?>">
 		<input type="hidden" name="_method" value="PATCH" />
-		<button name="status" value="approved" <? if($existingArtwork !== null){ ?>disabled<? } ?>>Approve</button>
+		<button name="status" value="approved" <? if($existingArtwork !== null){ ?>disabled="disabled"<? } ?>>Approve</button>
 		<button name="status" value="declined" class="decline-button">Decline</button>
 	</form>
 </main>
