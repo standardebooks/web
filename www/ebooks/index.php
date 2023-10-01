@@ -145,13 +145,13 @@ catch(Exceptions\InvalidCollectionException){
 	<? } ?>
 	<? if(sizeof($ebooks) > 0 && $collection === null){ ?>
 		<nav>
-			<a<? if($page > 1){ ?> href="/ebooks/?page=<?= $page - 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+			<a<? if($page > 1){ ?> href="/ebooks?page=<?= $page - 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
 			<? for($i = 1; $i < $pages + 1; $i++){ ?>
-				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks/?page=<?= $i ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>"><?= $i ?></a></li>
+				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks?page=<?= $i ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>"><?= $i ?></a></li>
 			<? } ?>
 			</ol>
-			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="/ebooks/?page=<?= $page + 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="/ebooks?page=<?= $page + 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 		</nav>
 	<? } ?>
 
