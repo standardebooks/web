@@ -141,6 +141,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/71073">The Starvel Hollow Tragedy</a> by Freeman Wills Crofts (Inspector French #3)</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/9662">An Enquiry Concerning Human Understanding</a> by David Hume</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
@@ -280,9 +283,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/author/152">Short fiction and short novels of Saki (H. H. Munro)</a>; some research may be required to determine whether to produce an omnibus Short Fiction or how to divide up his stories</p>
 			</li>
 			<li>
-				<p><a href="http://gutenberg.org/ebooks/14328">The Consolation of Philosophy</a> by Boethius</p>
-			</li>
-			<li>
 				<p><a href="https://en.wikipedia.org/wiki/List_of_works_by_Andrew_Marvell">Poems by Andrew Marvell</a> to be compiled into an omnibus</p>
 			</li>
 			<li>
@@ -291,9 +291,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10676">El filibusterismo</a> by José Rizal, translated by Charles Derbyshire</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/11746">Through the Brazilian Wilderness</a> by Theodore Roosevelt (Transcription is missing italics and accents)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
 			</li>
