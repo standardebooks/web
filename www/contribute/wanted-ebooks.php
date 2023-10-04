@@ -135,9 +135,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70996">The D’Arblay Mystery</a> by R. Austin Freeman</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/70964">The Wrong Letter</a> by Walter S. Masterman</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/71073">The Starvel Hollow Tragedy</a> by Freeman Wills Crofts (Inspector French #3)</p>
 			</li>
