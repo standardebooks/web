@@ -205,9 +205,12 @@ class Artwork extends PropertiesBase{
 		}
 
 		$existingArtwork = Artwork::GetByUrlPath($this->Artist->UrlName, $this->UrlName);
-		// Unverified and declined artwork can match an existing object. Approved and In Use artwork cannot.
-		if($existingArtwork !== null && !in_array($this->Status, ['unverified', 'declined'])){
-			$error->Add(new Exceptions\InvalidArtworkException('Artwork already exisits: ' . SITE_URL . $existingArtwork->Url));
+		// Check for Artwork objects with the same URL but different Artwork IDs.
+		if($existingArtwork !== null && ($existingArtwork->ArtworkId !== $this->ArtworkId)){
+			// Unverified and declined artwork can match an existing object. Approved and In Use artwork cannot.
+			if(!in_array($this->Status, ['unverified', 'declined'])){
+				$error->Add(new Exceptions\InvalidArtworkException('Artwork already exisits: ' . SITE_URL . $existingArtwork->Url));
+			}
 		}
 
 		if($error->HasExceptions){
