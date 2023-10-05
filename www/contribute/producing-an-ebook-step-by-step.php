@@ -621,6 +621,9 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>As you search for an image, keep the following in mind:</p>
 				<ul>
 					<li>
+						<p>Before searching other sources, browse the <a href="/artworks?status=approved">pre-approved artwork</a> on the Standard Ebooks website.</p>
+					</li>
+					<li>
 						<p>Cover images must be in the public domain. Thanks to quirks in copyright law, this is harder to decide for paintings than it is for published writing. In general, Wikipedia is a good starting point for deciding if a work is in the public domain, but very careful research is required to confirm that status.</p>
 					</li>
 					<li>
@@ -637,7 +640,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 				</ul>
 				<aside class="tip">
-					<p>At the moment <abbr>S.E.</abbr> doesn't have a centralized list of previously-used covers, but you can search our GitHub repos by artist name instead using this query: <code class="path">owner:standardebooks path:src/epub/text/colophon.xhtml name.visual-art.painting ARTIST_NAME</code></p>
+					<p>At the moment <abbr>S.E.</abbr> doesn't have a centralized list of all previously-used covers, but you can search and browse most of the <a href="/artworks?status=in_use">previously-used covers</a> on the Standard Ebooks website. You can also search our GitHub repos by artist name instead using this query: <code class="path">owner:standardebooks path:src/epub/text/colophon.xhtml name.visual-art.painting ARTIST_NAME</code></p>
 					<p>Here’s a link to an example search for <a href="https://github.com/search?q=owner%3Astandardebooks+path%3Asrc%2Fepub%2Ftext%2Fcolophon.xhtml+name.visual-art.painting+Repin&amp;type=code"><abbr>S.E.</abbr> covers featuring art by Russian artist Ilya Repin</a>.</p>
 				</aside>
 				<p>What can we use for <i>Jekyll</i>? In 1863 Hans von Marées painted an <a href="https://commons.wikimedia.org/wiki/File:Hans_von_Mar%C3%A9es_-_Double_Portrait_of_Mar%C3%A9es_and_Lenbach_-_WGA14059.jpg">eerie self-portrait with a friend</a>. The sallow, enigmatic look of the man on the left suggests the menacing personality of Hyde hiding just behind the sober Jekyll. It was <a href="https://books.google.com/books?id=etcwAQAAMAAJ&amp;pg=PA336">reproduced in a book published in 1910</a>.</p>
