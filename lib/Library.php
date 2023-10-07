@@ -203,9 +203,17 @@ class Library{
 
 		switch($sort){
 			case SORT_COVER_ARTIST_ALPHA:
-				usort($matches, function($a, $b){
-					return strcmp(mb_strtolower($a->Artist->Name), mb_strtolower($b->Artist->Name));
-				});
+				$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in artist names
+				if($collator === null){
+					usort($matches, function($a, $b){
+						return strcmp(mb_strtolower($a->Artist->Name), mb_strtolower($b->Artist->Name));
+					});
+				}else{
+					usort($matches, function($a, $b) use($collator){
+						return $collator->compare($a->Artist->Name, $b->Artist->Name);
+					});
+				}
+
 				break;
 
 			case SORT_COVER_ARTWORK_CREATED_NEWEST:
