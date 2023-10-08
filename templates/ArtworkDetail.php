@@ -49,7 +49,7 @@ $showPDProofTip = $showPDProofTip ?? true;
 	<aside class="tip">
 		<p>PD proof must take the form of:</p>
 		<ul>
-			<li>Link to an approved museum page</li>
+			<li>Link to an <a href="/manual/latest/10-art-and-images#10.3.3.7.4">approved museum page</a></li>
 		</ul>
 		<p>or <strong>all</strong> of the following:</p>
 		<ol>

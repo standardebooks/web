@@ -119,7 +119,7 @@ if ($exception){
 				<p>PD proof must take the form of:</p>
 				<fieldset>
 					<label>
-						Link to <a href="/manual/latest/10-art-and-images#10.3.3.7.4">approved museum page</a>
+						Link to an <a href="/manual/latest/10-art-and-images#10.3.3.7.4">approved museum page</a>
 						<input
 							type="url"
 							name="pd-proof-museum-link"
@@ -150,7 +150,7 @@ if ($exception){
 						</label>
 					</div>
 					<label>
-						Link to page with copyright details
+						Link to page with copyright details (might be same link as above)
 						<input
 							type="url"
 							name="pd-proof-copyright-page"
@@ -166,7 +166,7 @@ if ($exception){
 						/>
 					</label>
 				</fieldset>
-				<p>See the <a href="/manual/latest/10-art-and-images#10.3.3.7">Manual of Style</a> for full details on US-PD clearance.</p>
+				<p>See the <a href="/manual/latest/10-art-and-images#10.3.3.7">US-PD clearance section of the <abbr class="acronym">SEMoS</abbr></a> for details.</p>
 			</fieldset>
 			<fieldset>
 				<legend></legend>
