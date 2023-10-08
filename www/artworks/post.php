@@ -2,13 +2,6 @@
 
 require_once('Core.php');
 
-if (HttpInput::RequestMethod() != HTTP_POST){
-	http_response_code(405);
-	exit();
-}
-
-session_start();
-
 function post_max_size_bytes(): int{
 	$post_max_size = ini_get('post_max_size');
 	$unit = substr($post_max_size, -1);
@@ -22,11 +15,18 @@ function post_max_size_bytes(): int{
 	};
 }
 
+if(HttpInput::RequestMethod() != HTTP_POST){
+	http_response_code(405);
+	exit();
+}
+
+session_start();
+
 try{
-	if (empty($_POST) || empty($_FILES)){
-		if ($_SERVER['CONTENT_LENGTH'] > post_max_size_bytes()){
-			throw new \Exceptions\InvalidRequestException("Request too large (maximum " . ini_get('post_max_size') . ')');
-		} else{
+	if(empty($_POST) || empty($_FILES)){
+		if($_SERVER['CONTENT_LENGTH'] > post_max_size_bytes()){
+			throw new \Exceptions\InvalidRequestException('Request too large (maximum ' . ini_get('upload_max_filesize') . ')');
+		}else{
 			throw new \Exceptions\InvalidRequestException();
 		}
 	}
@@ -48,15 +48,15 @@ try{
 	$expectCaptcha = HttpInput::Str(SESSION, 'captcha', false);
 	$actualCaptcha = HttpInput::Str(POST, 'captcha', false);
 
-	if ($expectCaptcha === '' || mb_strtolower($expectCaptcha) !== mb_strtolower($actualCaptcha)){
+	if($expectCaptcha === '' || mb_strtolower($expectCaptcha) !== mb_strtolower($actualCaptcha)){
 		throw new Exceptions\InvalidCaptchaException();
 	}
 
 	$uploadError = $_FILES['color-upload']['error'];
-	if ($uploadError > 0){
+	if($uploadError > UPLOAD_ERR_OK){
 		// see https://www.php.net/manual/en/features.file-upload.errors.php
 		$message = match ($uploadError){
-			1 => 'Image upload too large (maximum ' . ini_get('upload_max_filesize') . ')',
+			UPLOAD_ERR_INI_SIZE => 'Image upload too large (maximum ' . ini_get('upload_max_filesize') . ')',
 			default => 'Image failed to upload (error code ' . $uploadError . ')',
 		};
 
@@ -70,7 +70,7 @@ try{
 } catch (\Exceptions\SeException $exception){
 	$_SESSION['exception'] = $exception;
 
-	if (isset($artwork)){
+	if(isset($artwork)){
 		$_SESSION['artwork'] = $artwork;
 	}
 
