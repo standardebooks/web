@@ -219,8 +219,25 @@ main.artworks nav ol li a:hover{
 	max-width: calc(100% - 2rem);
 }
 
-form[action="/artworks"] fieldset:not(:first-child) {
+form[action="/artworks"] > fieldset:not(:first-child) {
 	margin-top: 1rem;
+}
+
+form[action="/artworks"] #pd-proof > fieldset {
+	border-left-color: var(--body-text);
+	border-left-width: 3px;
+	border-left-style: dotted;
+	padding-left: .75rem;
+}
+
+form[action="/artworks"] #pd-proof > p {
+	font-style: italic;
+	margin: .5rem 0;
+	border: none;
+}
+
+form[action="/artworks"] #pd-proof > p:first-of-type {
+	margin-top: 0;
 }
 
 form[action="/artworks"] legend {
@@ -239,19 +256,25 @@ form[action="/artworks"] div {
 
 form[action="/artworks"] div label {
 	flex-grow: 1;
-	min-width: 100%;
+	flex-basis: 100%;
 }
 
 form[action="/artworks"] div label:nth-of-type(1) {
 	flex-grow: 4;
 	flex-shrink: 0;
-	min-width: 60%;
+	flex-basis: 60%;
 }
 
 form[action="/artworks"] div label:nth-of-type(2) {
 	flex-grow: 1;
 	flex-shrink: 0;
-	min-width: 30%;
+	flex-basis: 30%;
+}
+
+@media(max-width: 730px) {
+	form[action="/artworks"] div label {
+		min-width: 100%;
+	}
 }
 
 main.artworks nav ol li:not(:first-child):not(:last-child):not(.highlighted){

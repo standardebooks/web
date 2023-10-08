@@ -13,7 +13,7 @@ if($artwork === null){
 ?><?= Template::Header(['title' => $artwork->Name, 'artwork' => true]) ?>
 <main class="artworks">
 	<section class="narrow">
-		<?= Template::ArtworkDetail(['artwork' => $artwork]) ?>
+		<?= Template::ArtworkDetail(['artwork' => $artwork, 'showPDProofTip' => false]) ?>
 	</section>
 </main>
 <?= Template::Footer() ?>
