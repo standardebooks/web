@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $artworkId = HttpInput::Int(GET, 'artworkid');
 
 try{

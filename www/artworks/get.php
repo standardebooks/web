@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 $artistUrlName = HttpInput::Str(GET, 'artist') ?? '';
 $artworkUrlName = HttpInput::Str(GET, 'artwork') ?? '';
 

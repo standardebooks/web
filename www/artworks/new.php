@@ -1,6 +1,4 @@
 <?php /** @noinspection PhpUndefinedMethodInspection,PhpIncludeInspection */
-require_once('Core.php');
-
 use function Safe\gmdate;
 use function Safe\session_unset;
 

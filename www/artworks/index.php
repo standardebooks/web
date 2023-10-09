@@ -1,6 +1,4 @@
 <?php /** @noinspection PhpUndefinedMethodInspection,PhpIncludeInspection */
-require_once('Core.php');
-
 use function Safe\preg_replace;
 
 $page = HttpInput::Int(GET, 'page') ?? 1;
