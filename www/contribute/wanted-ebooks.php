@@ -144,6 +144,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9662">An Enquiry Concerning Human Understanding</a> by David Hume</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/134">Maria</a> by Mary Wollstonecraft</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
