@@ -620,7 +620,7 @@ class Library{
 			// Sort the array by the ebook's ordinal in the collection. We use this custom sort function
 			// because an ebook may share the same place in a collection with another ebook; see above.
 			usort($sortItems, function($a, $b) {
-				if ($a->Ordinal == $b->Ordinal) {
+				if($a->Ordinal == $b->Ordinal) {
 				        return 0;
 				    }
 				    return ($a->Ordinal < $b->Ordinal) ? -1 : 1;

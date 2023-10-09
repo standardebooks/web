@@ -96,8 +96,8 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\InvalidArtworkException
 	 */
 	protected function GetImageUrl(): string{
-		if ($this->_ImageUrl == null){
-			if ($this->ArtworkId == null){
+		if($this->_ImageUrl == null){
+			if($this->ArtworkId == null){
 				throw new \Exceptions\InvalidArtworkException();
 			}
 
@@ -111,8 +111,8 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\InvalidArtworkException
 	 */
 	protected function GetThumbUrl(): string{
-		if ($this->_ThumbUrl == null){
-			if ($this->ArtworkId == null){
+		if($this->_ThumbUrl == null){
+			if($this->ArtworkId == null){
 				throw new \Exceptions\InvalidArtworkException();
 			}
 
@@ -148,7 +148,7 @@ class Artwork extends PropertiesBase{
 	}
 
 	protected function GetEbook(): ?Ebook{
-		if ($this->EbookWwwFilesystemPath !== null){
+		if($this->EbookWwwFilesystemPath !== null){
 			try{
 				$key = 'ebook-' . $this->EbookWwwFilesystemPath;
 				$this->_Ebook = apcu_exists($key) ? apcu_fetch($key) : null;
@@ -226,7 +226,7 @@ class Artwork extends PropertiesBase{
 			throw new Exceptions\InvalidImageUploadException('Could not handle upload: ' . $exception->getMessage());
 		}
 
-		if ($uploadInfo[2] !== IMAGETYPE_JPEG){
+		if($uploadInfo[2] !== IMAGETYPE_JPEG){
 			throw new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.');
 		}
 	}
@@ -296,7 +296,7 @@ class Artwork extends PropertiesBase{
 
 	/** @return array<ArtworkTag> */
 	private static function ParseArtworkTags(?string $artworkTags): array{
-		if (!$artworkTags) return array();
+		if(!$artworkTags) return array();
 
 		$artworkTags = array_map('trim', explode(',', $artworkTags)) ?? array();
 		$artworkTags = array_values(array_filter($artworkTags)) ?? array();
@@ -388,10 +388,10 @@ class Artwork extends PropertiesBase{
 		$src_w = $uploadInfo[0];
 		$src_h = $uploadInfo[1];
 
-		if ($src_h > $src_w){
+		if($src_h > $src_w){
 			$dst_h = COVER_THUMBNAIL_SIZE;
 			$dst_w = intval($dst_h * ($src_w / $src_h));
-		} else{
+		}else{
 			$dst_w = COVER_THUMBNAIL_SIZE;
 			$dst_h = intval($dst_w * ($src_h / $src_w));
 		}

@@ -14,7 +14,7 @@
 		<span>
 			<select name="sort">
 				<option value="<?= SORT_COVER_ARTWORK_CREATED_NEWEST ?>"<? if($sort == SORT_COVER_ARTWORK_CREATED_NEWEST){ ?> selected="selected"<? } ?>>Added date (new &#x2192; old)</option>
-				<option value="<?= SORT_COVER_ARTIST_ALPHA ?>"<? if ($sort == SORT_COVER_ARTIST_ALPHA){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
+				<option value="<?= SORT_COVER_ARTIST_ALPHA ?>"<? if($sort == SORT_COVER_ARTIST_ALPHA){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
 				<option value="<?= SORT_COVER_ARTWORK_COMPLETED_NEWEST ?>"<? if($sort == SORT_COVER_ARTWORK_COMPLETED_NEWEST){ ?> selected="selected"<? } ?>>Completed date (new &#x2192; old)</option>
 			</select>
 		</span>
