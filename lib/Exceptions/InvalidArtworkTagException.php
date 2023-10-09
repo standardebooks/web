@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class InvalidArtworkTagException extends SeException{
+class InvalidArtworkTagException extends AppException{
 }

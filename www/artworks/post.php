@@ -80,7 +80,7 @@ try{
 
 	$_SESSION['success-message'] = '“' . $artwork->Name . '” submitted successfully!';
 
-} catch (\Exceptions\SeException $exception){
+} catch (\Exceptions\AppException $exception){
 	$_SESSION['exception'] = $exception;
 
 	if(isset($artwork)){

@@ -11,7 +11,7 @@ $artworkId = HttpInput::Int(GET, 'artworkid');
 try{
 	$artwork = Artwork::Get($artworkId);
 }
-catch(Exceptions\SeException){
+catch(Exceptions\AppException){
 	Template::Emit404();
 }
 
@@ -37,6 +37,6 @@ try{
 	http_response_code(303);
 	header('Location: /admin/artworks');
 }
-catch(Exceptions\SeException){
+catch(Exceptions\AppException){
 	http_response_code(422);
 }
