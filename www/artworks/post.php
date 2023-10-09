@@ -1,7 +1,5 @@
 <? /** @noinspection PhpIncludeInspection */
 
-require_once('Core.php');
-
 use function Safe\ini_get;
 use function Safe\substr;
 

@@ -1,6 +1,4 @@
 <?
-require_once('Core.php');
-
 if(HttpInput::RequestMethod() != HTTP_PATCH){
 	http_response_code(405);
 	exit();
