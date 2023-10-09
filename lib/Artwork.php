@@ -395,7 +395,8 @@ class Artwork extends PropertiesBase{
 		if($src_h > $src_w){
 			$dst_h = COVER_THUMBNAIL_SIZE;
 			$dst_w = intval($dst_h * ($src_w / $src_h));
-		}else{
+		}
+		else{
 			$dst_w = COVER_THUMBNAIL_SIZE;
 			$dst_h = intval($dst_w * ($src_h / $src_w));
 		}
