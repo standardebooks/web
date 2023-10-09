@@ -1,6 +1,8 @@
 <?
 require_once('Core.php');
 
+use function Safe\session_unset;
+
 session_start();
 
 $approvedMessage = $_SESSION['approved-message'] ?? null;

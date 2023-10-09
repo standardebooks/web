@@ -1,12 +1,16 @@
 <?
 use Safe\DateTime;
+use function Safe\apcu_fetch;
 use function Safe\copy;
 use function Safe\filesize;
 use function Safe\getimagesize;
+use function Safe\imagecopyresampled;
 use function Safe\imagecreatefromjpeg;
 use function Safe\imagecreatetruecolor;
 use function Safe\imagejpeg;
+use function Safe\preg_replace;
 use function Safe\rename;
+use function Safe\sprintf;
 use function Safe\tempnam;
 
 /**
@@ -129,7 +133,7 @@ class Artwork extends PropertiesBase{
 		try{
 			$bytes = @filesize(WEB_ROOT . $this->ImageUrl);
 			$sizes = 'BKMGTP';
-			$factor = floor((strlen($bytes) - 1) / 3);
+			$factor = intval(floor((strlen((string)$bytes) - 1) / 3));
 			$sizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
 			$sizeUnit = $sizes[$factor] ?? '';
 			$this->_ImageSize = $sizeNumber . $sizeUnit;
@@ -253,7 +257,7 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
-	public static function GetByUrlPath($artistUrlName, $artworkUrlName): ?Artwork{
+	public static function GetByUrlPath(string $artistUrlName, string $artworkUrlName): ?Artwork{
 		$result = Db::Query('
 				SELECT Artworks.*
 				from Artworks
@@ -270,7 +274,7 @@ class Artwork extends PropertiesBase{
 	}
 
 	public static function Build(string $artistName, ?int $artistDeathYear, string $artworkName, ?int $completedYear,
-				     bool $completedYearIsCirca, ?string $artworkTags, ?int $publicationYear,
+				     ?bool $completedYearIsCirca, ?string $artworkTags, ?int $publicationYear,
 				     ?string $publicationYearPage, ?string $copyrightPage, ?string $artworkPage,
 				     ?string $museumPage): Artwork{
 		$artist = new Artist();
@@ -298,8 +302,8 @@ class Artwork extends PropertiesBase{
 	private static function ParseArtworkTags(?string $artworkTags): array{
 		if(!$artworkTags) return array();
 
-		$artworkTags = array_map('trim', explode(',', $artworkTags)) ?? array();
-		$artworkTags = array_values(array_filter($artworkTags)) ?? array();
+		$artworkTags = array_map('trim', explode(',', $artworkTags));
+		$artworkTags = array_values(array_filter($artworkTags));
 		$artworkTags = array_unique($artworkTags);
 
 		return array_map(function ($str){
