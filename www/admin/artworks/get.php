@@ -7,7 +7,7 @@ try{
 	$artwork = Artwork::Get($artworkId);
 	$existingArtwork = Artwork::GetByUrlPath($artwork->Artist->UrlName, $artwork->UrlName);
 }
-catch(Exceptions\SeException){
+catch(Exceptions\AppException){
 	Template::Emit404();
 }
 

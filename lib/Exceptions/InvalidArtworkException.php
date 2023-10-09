@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class InvalidArtworkException extends SeException{
+class InvalidArtworkException extends AppException{
 }

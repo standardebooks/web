@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class InvalidArtistException extends SeException{
+class InvalidArtistException extends AppException{
 }
