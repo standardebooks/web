@@ -1,11 +1,14 @@
 <?php /** @noinspection PhpUndefinedMethodInspection,PhpIncludeInspection */
 require_once('Core.php');
 
+use function Safe\gmdate;
+use function Safe\session_unset;
+
 session_start();
 
 $successMessage = $_SESSION['success-message'] ?? null;
 
-if ($successMessage){
+if($successMessage){
 	http_response_code(201);
 	session_unset();
 }
@@ -16,7 +19,7 @@ $artist = $artwork->Artist ?? new Artist();
 
 $exception = $_SESSION['exception'] ?? null;
 
-if ($exception){
+if($exception){
 	http_response_code(422);
 	session_unset();
 }
@@ -39,7 +42,7 @@ if ($exception){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<? if ($successMessage){ ?>
+		<? if($successMessage){ ?>
 			<p class="message success">
 				<?= Formatter::ToPlainText($successMessage) ?>
 			</p>

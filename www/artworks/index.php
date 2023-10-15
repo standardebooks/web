@@ -52,7 +52,7 @@ if($query != ''){
 	$queryString .= '&amp;query=' . urlencode($query);
 }
 
-if($status != ''){
+if($status !== null){
 	$queryString .= '&amp;status=' . urlencode($status);
 }
 

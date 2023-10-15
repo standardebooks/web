@@ -25,7 +25,7 @@ $showPDProofTip = $showPDProofTip ?? true;
 	</tr>
 	<tr>
 		<td>Year completed</td>
-		<td><? if ($artwork->CompletedYear === null){ ?>(unknown)<? }else{ ?><?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?><? } ?></td>
+		<td><? if($artwork->CompletedYear === null){ ?>(unknown)<? }else{ ?><?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?><? } ?></td>
 	</tr>
 	<tr>
 		<td>File size</td>
@@ -45,7 +45,7 @@ $showPDProofTip = $showPDProofTip ?? true;
 	</tr>
 </table>
 <h2>PD Proof</h2>
-<? if ($showPDProofTip){ ?>
+<? if($showPDProofTip){ ?>
 	<aside class="tip">
 		<p>PD proof must take the form of:</p>
 		<ul>

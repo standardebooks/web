@@ -1,12 +1,14 @@
 <?
 require_once('Core.php');
 
+use function Safe\session_unset;
+
 session_start();
 
 $approvedMessage = $_SESSION['approved-message'] ?? null;
 $declinedMessage = $_SESSION['declined-message'] ?? null;
 
-if ($approvedMessage || $declinedMessage){
+if($approvedMessage || $declinedMessage){
 	http_response_code(201);
 	session_unset();
 }
@@ -36,12 +38,12 @@ $unverifiedArtworks = array_slice($unverifiedArtworks, ($page - 1) * $perPage, $
 		</hgroup>
 
 		<section id="unapproved-artwork">
-			<? if ($approvedMessage){ ?>
+			<? if($approvedMessage){ ?>
 			<p class="message success">
 				<?= Formatter::ToPlainText($approvedMessage) ?>
 			</p>
 			<? } ?>
-			<? if ($declinedMessage){ ?>
+			<? if($declinedMessage){ ?>
 			<p class="message">
 				<?= Formatter::ToPlainText($declinedMessage) ?>
 			</p>
