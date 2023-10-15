@@ -112,7 +112,7 @@ class Artist extends PropertiesBase{
 			WHERE Name = ? AND DeathYear = ?
 		', [$this->Name, $this->DeathYear], 'Artist');
 
-		if (isset($result[0])){
+		if(isset($result[0])){
 			$this->ArtistId = $result[0]->ArtistId;
 			return;
 		}

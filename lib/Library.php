@@ -180,7 +180,8 @@ class Library{
 					$matches[] = $artwork;
 				}
 			}
-		}else{
+		}
+		else{
 			$matches = [];
 			foreach($artworks as $artwork){
 				if(in_array($artwork->Status, [COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_IN_USE], true)){
@@ -208,7 +209,8 @@ class Library{
 					usort($matches, function($a, $b){
 						return strcmp(mb_strtolower($a->Artist->Name), mb_strtolower($b->Artist->Name));
 					});
-				}else{
+				}
+				else{
 					usort($matches, function($a, $b) use($collator){
 						return $collator->compare($a->Artist->Name, $b->Artist->Name);
 					});
@@ -620,7 +622,7 @@ class Library{
 			// Sort the array by the ebook's ordinal in the collection. We use this custom sort function
 			// because an ebook may share the same place in a collection with another ebook; see above.
 			usort($sortItems, function($a, $b) {
-				if ($a->Ordinal == $b->Ordinal) {
+				if($a->Ordinal == $b->Ordinal) {
 				        return 0;
 				    }
 				    return ($a->Ordinal < $b->Ordinal) ? -1 : 1;

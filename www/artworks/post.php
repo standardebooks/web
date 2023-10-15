@@ -2,6 +2,9 @@
 
 require_once('Core.php');
 
+use function Safe\ini_get;
+use function Safe\substr;
+
 function post_max_size_bytes(): int{
 	$post_max_size = ini_get('post_max_size');
 	$unit = substr($post_max_size, -1);
@@ -31,11 +34,21 @@ try{
 		}
 	}
 
+	$artistName = HttpInput::Str(POST, 'artist-name', false);
+	if($artistName === null){
+		throw new \Exceptions\InvalidRequestException('Empty or invalid Artist Name');
+	}
+
+	$artworkName = HttpInput::Str(POST, 'artwork-name', false);
+	if($artworkName === null){
+		throw new \Exceptions\InvalidRequestException('Empty or invalid Artwork Name');
+	}
+
 	$artwork = Artwork::Build(
-		artistName: HttpInput::Str(POST, 'artist-name', false),
+		artistName: $artistName,
 		artistDeathYear: HttpInput::Int(POST, 'artist-year-of-death'),
-		artworkName: HttpInput::Str(POST, 'artwork-name', false),
-		completedYear: HttpInput::Str(POST, 'artwork-year', false),
+		artworkName: $artworkName,
+		completedYear: HttpInput::Int(POST, 'artwork-year'),
 		completedYearIsCirca: HttpInput::Bool(POST, 'artwork-year-is-circa', false),
 		artworkTags: HttpInput::Str(POST, 'artwork-tags', false),
 		publicationYear: HttpInput::Int(POST, 'pd-proof-year-of-publication'),
@@ -48,7 +61,7 @@ try{
 	$expectCaptcha = HttpInput::Str(SESSION, 'captcha', false);
 	$actualCaptcha = HttpInput::Str(POST, 'captcha', false);
 
-	if($expectCaptcha === '' || mb_strtolower($expectCaptcha) !== mb_strtolower($actualCaptcha)){
+	if($expectCaptcha === null || $actualCaptcha === null || mb_strtolower($expectCaptcha) !== mb_strtolower($actualCaptcha)){
 		throw new Exceptions\InvalidCaptchaException();
 	}
 

@@ -64,7 +64,7 @@ class ArtworkTag extends PropertiesBase{
 				where Name = ?
 			', [$this->Name], 'ArtworkTag');
 
-		if (isset($result[0])){
+		if(isset($result[0])){
 			$this->TagId = $result[0]->TagId;
 			return;
 		}
