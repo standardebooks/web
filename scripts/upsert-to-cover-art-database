@@ -118,7 +118,8 @@ if($artwork === null){
 	}
 
 	$artwork->CreateFromFilesystem($coverSourceFile);
-}else{
+}
+else{
 	if($verbose){
 		printf("Existing artwork found at %s/%s, updating its status.\n", $artistUrlName, $artworkUrlName);
 	}

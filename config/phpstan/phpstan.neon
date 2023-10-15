@@ -28,3 +28,6 @@ parameters:
 		- DONATION_ALERT_ON
 		- DONATION_DRIVE_ON
 		- DONATION_DRIVE_COUNTER_ON
+	earlyTerminatingMethodCalls:
+		Template:
+			- Emit404

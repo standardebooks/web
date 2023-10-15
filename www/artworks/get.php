@@ -1,8 +1,8 @@
 <?
 require_once('Core.php');
 
-$artistUrlName = HttpInput::Str(GET, 'artist');
-$artworkUrlName = HttpInput::Str(GET, 'artwork');
+$artistUrlName = HttpInput::Str(GET, 'artist') ?? '';
+$artworkUrlName = HttpInput::Str(GET, 'artwork') ?? '';
 
 $artwork = Artwork::GetByUrlPath($artistUrlName, $artworkUrlName);
 

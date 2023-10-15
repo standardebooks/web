@@ -18,7 +18,12 @@ catch(Exceptions\SeException){
 session_start();
 
 try{
-	$artwork->Save(status: HttpInput::Str(POST, 'status'));
+	$status = HttpInput::Str(POST, 'status', false);
+	if($status === null){
+		throw new \Exceptions\InvalidRequestException('Empty or invalid status');
+	}
+
+	$artwork->Save($status);
 
 	switch($artwork->Status){
 		case 'approved':
