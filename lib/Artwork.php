@@ -143,7 +143,7 @@ class Artwork extends PropertiesBase{
 				$this->_ImageSize .= ' (' . $imageWidth . ' × ' . $imageHeight . ')';
 			}
 		}
-		catch(Exception $ex){
+		catch(Exception){
 			// Image doesn't exist
 			$this->_ImageSize = '';
 		}
@@ -157,7 +157,7 @@ class Artwork extends PropertiesBase{
 				$key = 'ebook-' . $this->EbookWwwFilesystemPath;
 				$this->_Ebook = apcu_exists($key) ? apcu_fetch($key) : null;
 			}
-			catch(Safe\Exceptions\ApcuException $ex){
+			catch(Safe\Exceptions\ApcuException){
 				// The Ebook with that filesystem path isn't cached.
 			}
 		}
