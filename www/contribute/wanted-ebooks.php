@@ -361,9 +361,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/7370">Two Treatises of Government</a> by John Locke (Note: PG only has the 2nd treatise; transcription is required for the 1st treatise)</p><!--patron-->
 			</li>
 			<li>
-				<p><a href="https://archive.org/details/f00estuspoembailrich/page/520/mode/2up">Festus</a> by Philip James Bailey (transcription required; editions vary wildly, research required to select the best edition)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/15000">The Life of Reason</a> by George Santayana</p>
 			</li>
 			<li>
