@@ -5,12 +5,20 @@ use function Safe\session_unset;
 
 session_start();
 
-$approvedMessage = $_SESSION['approved-message'] ?? null;
-$declinedMessage = $_SESSION['declined-message'] ?? null;
+$approvedArtworkId = $_SESSION['approved-artwork-id'] ?? null;
+$declinedArtworkId = $_SESSION['declined-artwork-id'] ?? null;
 
-if($approvedMessage || $declinedMessage){
+if($approvedArtworkId || $declinedArtworkId){
 	http_response_code(201);
 	session_unset();
+}
+
+if($approvedArtworkId){
+	$approvedArtwork = Artwork::Get($approvedArtworkId);
+}
+
+if($declinedArtworkId){
+	$declinedArtwork = Artwork::Get($declinedArtworkId);
 }
 
 $page = HttpInput::Int(GET, 'page') ?? 1;
@@ -38,14 +46,14 @@ $unverifiedArtworks = array_slice($unverifiedArtworks, ($page - 1) * $perPage, $
 		</hgroup>
 
 		<section id="unapproved-artwork">
-			<? if($approvedMessage){ ?>
+			<? if($approvedArtwork){ ?>
 			<p class="message success">
-				<?= Formatter::ToPlainText($approvedMessage) ?>
+				<a href="<?= $approvedArtwork->Url ?>" property="schema:name"><?= Formatter::ToPlainText($approvedArtwork->Name) ?></a> approved.
 			</p>
 			<? } ?>
-			<? if($declinedMessage){ ?>
+			<? if($declinedArtwork){ ?>
 			<p class="message">
-				<?= Formatter::ToPlainText($declinedMessage) ?>
+				“<?= Formatter::ToPlainText($declinedArtwork->Name) ?>” declined.
 			</p>
 			<? } ?>
 			<? if($count == 0){ ?>
