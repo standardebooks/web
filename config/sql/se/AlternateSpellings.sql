@@ -4,15 +4,19 @@ CREATE TABLE `AlternateSpellings` (
   UNIQUE KEY `idxUnique` (`ArtistId`,`AlternateSpelling`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO AlternateSpellings VALUES 
+INSERT INTO AlternateSpellings VALUES
 ((SELECT ArtistId FROM Artists WHERE Name = 'Antonio Zeno Shindler'), 'Antonion Zeno Shindler'),
-((SELECT ArtistId FROM Artists WHERE Name = 'Edward John Poynter'), 'Edward Poynter'),
-((SELECT ArtistId FROM Artists WHERE Name = 'Élisabeth Louise Vigée Le Brun'), 'Élisabeth Vigée Le Brun'),
-((SELECT ArtistId FROM Artists WHERE Name = 'Francisco José de Goya y Lucientes'), 'Francisco Goya'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Edward Poynter'), 'Edward John Poynter'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Élisabeth Vigée Le Brun'), 'Élisabeth Louise Vigée Le Brun'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Francisco Goya'), 'Francisco José de Goya y Lucientes'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Frank Schoonover'), 'Frank E. Schoonover'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Frederic Leighton'), 'Frederick Leighton'),
-((SELECT ArtistId FROM Artists WHERE Name = 'Ivan Ivanovich Shishkin'), 'Ivan Shishkin'),
-((SELECT ArtistId FROM Artists WHERE Name = 'Joaquín Sorolla y Bastida'), 'Joaquín Sorolla'),
+((SELECT ArtistId FROM Artists WHERE Name = 'George Bellows'), 'George Wesley Bellows'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Ivan Shishkin'), 'Ivan Ivanovich Shishkin'),
+((SELECT ArtistId FROM Artists WHERE Name = 'James McNeill Whistler'), 'James Abbott McNeill Whistler'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Joaquín Sorolla'), 'Joaquín Sorolla y Bastida'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'John Singer Sargent'), 'John Sargent'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Pierre-Auguste Renoir'), 'Auguste Renoir'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Raphael'), 'Raffaello Sanzio'),
-((SELECT ArtistId FROM Artists WHERE Name = 'Rembrandt Harmenszoon van Rijn'), 'Rembrandt van Rijn');
+((SELECT ArtistId FROM Artists WHERE Name = 'Rembrandt van Rijn'), 'Rembrandt Harmenszoon van Rijn'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Willem van de Velde the Younger'), 'William van de Velde the Younger');
