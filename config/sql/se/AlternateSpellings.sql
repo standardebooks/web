@@ -12,6 +12,8 @@ INSERT INTO AlternateSpellings VALUES
 ((SELECT ArtistId FROM Artists WHERE Name = 'Frank Schoonover'), 'Frank E. Schoonover'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Frederic Leighton'), 'Frederick Leighton'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'George Bellows'), 'George Wesley Bellows'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Ilya Repin'), 'Illia Riepin'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Ilya Repin'), 'Илья Репин'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Ivan Shishkin'), 'Ivan Ivanovich Shishkin'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'James McNeill Whistler'), 'James Abbott McNeill Whistler'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Joaquín Sorolla'), 'Joaquín Sorolla y Bastida'),
