@@ -27,10 +27,10 @@ try{
 
 	switch($artwork->Status){
 		case 'approved':
-			$_SESSION['approved-message'] = '“' . $artwork->Name . '” approved.';
+			$_SESSION['approved-artwork-id'] = $artwork->ArtworkId;
 			break;
 		case 'declined':
-			$_SESSION['declined-message'] = '“' . $artwork->Name . '” declined.';
+			$_SESSION['declined-artwork-id'] = $artwork->ArtworkId;
 			break;
 	}
 
