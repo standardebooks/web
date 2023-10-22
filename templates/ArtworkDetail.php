@@ -72,7 +72,7 @@ $showPDProofTip = $showPDProofTip ?? true;
 </figure>
 <? }else{ ?>
 <figure class="wrong full">
-	<p>Not an approved musuem</p>
+	<p>Not an approved museum</p>
 </figure>
 <? } ?>
 <? } ?>
