@@ -110,14 +110,35 @@ if($artwork === null){
 	$artwork->Status = 'in_use';
 	$artwork->EbookWwwFilesystemPath = $ebookWwwFilesystemPath;
 
-	$coverSourceFile = tempnam($workDir, 'cover.source.jpg.');
-	// Doesn't handle repos with PNG instead of JPEG source files, i.e., images/cover.source.png
-	exec("git show HEAD:images/cover.source.jpg > $coverSourceFile", $shellOutput, $resultCode);
+	$coverSourceFile = tempnam($workDir, 'cover.source.');
+	// Search for JPEG, PNG, and TIFF source files, in that order.
+	exec("git show HEAD:images/cover.source.jpg > $coverSourceFile.jpg", $shellOutput, $resultCode);
 	if($resultCode !== 0){
-		exit('Error: no images/cover.source.jpg in ' . $repoDir);
+		// No JPEG, try PNG.
+		exec("git show HEAD:images/cover.source.png > $coverSourceFile.png", $shellOutput, $resultCode);
+		if($resultCode == 0){
+			// Found PNG, convert it to JPEG.
+			exec("convert $coverSourceFile.png -resize '3750x>' -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG $coverSourceFile.jpg", $shellOutput, $resultCode);
+			if($resultCode !== 0){
+				exit($repoDir . " Error: Failed to convert images/cover.source.png to JPEG\n");
+			}
+		}else{
+			// No JPEG or PNG, try TIFF.
+			exec("git show HEAD:images/cover.source.tif > $coverSourceFile.tif", $shellOutput, $resultCode);
+			if($resultCode == 0){
+				// Found TIFF, convert it to JPEG.
+				exec("convert $coverSourceFile.tif -resize '3750x>' -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG $coverSourceFile.jpg", $shellOutput, $resultCode);
+				if($resultCode !== 0){
+					exit($repoDir . " Error: Failed to convert images/cover.source.tif to JPEG\n");
+				}
+			}else{
+				exit($repoDir . " Error: no images/cover.source.jpg or images/cover.source.png or images/cover.source.tif\n");
+
+			}
+		}
 	}
 
-	$artwork->CreateFromFilesystem($coverSourceFile);
+	$artwork->CreateFromFilesystem($coverSourceFile . '.jpg');
 }
 else{
 	if($verbose){
