@@ -15,6 +15,7 @@ VALUES
 ('Abraham Manievich', 'abraham-manievich', 1942),
 ('Abraham Walkowitz', 'abraham-walkowitz', 1965),
 ('Adolph Menzel', 'adolph-menzel', 1905),
+('Adriaen van der Spelt', 'adriaen-van-der-spelt', 1673),
 ('Adrien Dauzats', 'adrien-dauzats', 1868),
 ('Aert van der Neer', 'aert-van-der-neer', 1677),
 ('Akseli Gallen-Kallela', 'akseli-gallen-kallela', 1931),

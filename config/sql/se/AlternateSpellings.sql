@@ -6,6 +6,7 @@ CREATE TABLE `AlternateSpellings` (
 
 INSERT INTO AlternateSpellings VALUES
 ((SELECT ArtistId FROM Artists WHERE Name = 'Alexander Helwig Wyant'), 'A. H. Wyant'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Anne-Louis Girodet-Trioson'), 'Anne-Louis Girodet Roussy-Trioson'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Antonio Zeno Shindler'), 'Antonion Zeno Shindler'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Edward Poynter'), 'Edward John Poynter'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Élisabeth Vigée Le Brun'), 'Élisabeth Louise Vigée Le Brun'),
