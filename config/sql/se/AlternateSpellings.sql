@@ -29,4 +29,5 @@ INSERT INTO AlternateSpellings VALUES
 ((SELECT ArtistId FROM Artists WHERE Name = 'Pierre-Auguste Renoir'), 'Auguste Renoir'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Raphael'), 'Raffaello Sanzio'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Rembrandt van Rijn'), 'Rembrandt Harmenszoon van Rijn'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Willard Metcalf'), 'Willard L. Metcalf'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Willem van de Velde the Younger'), 'William van de Velde the Younger');
