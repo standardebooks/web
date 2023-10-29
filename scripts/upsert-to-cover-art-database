@@ -49,8 +49,12 @@ $xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $contentOpf));
 $xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 $artistName = StripInnerTags($xml->xpath('/package/metadata/dc:contributor[@id="artist"]'));
 if($artistName === null){
-	print($repoDir . " Error: Could not find artist name in content.opf\n");
-	exit($repoDir . " Error: missing artistName\n");
+	// Some ebooks have an artist-1 and artist-2. Take artist-1, which isn't ideal, but is usually correct.
+	$artistName = StripInnerTags($xml->xpath('/package/metadata/dc:contributor[@id="artist-1"]'));
+	if($artistName === null){
+		print($repoDir . " Error: Could not find artist name in content.opf\n");
+		exit($repoDir . " Error: missing artistName\n");
+	}
 }
 
 if(!file_exists($ebookWwwFilesystemPath . '/text/colophon.xhtml')){
