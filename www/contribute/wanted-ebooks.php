@@ -147,6 +147,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/134">Maria</a> by Mary Wollstonecraft</p>
 			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/393">The Blue Lagoon</a> by Henry De Vere Stacpoole</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
