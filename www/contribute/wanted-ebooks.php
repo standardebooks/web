@@ -154,7 +154,7 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/434">The Circular Staircase by Roberts Rineheart</a></p>--patron-
+				patron <p><a href="https://www.gutenberg.org/ebooks/434">The Circular Staircase by Roberts Rineheart</a></p>
 			</li> -->
 			<li>
 				<p><a href="https://theotherpages.org/poems/poem-mn.html#macaulay">Poetry by Thomas Macaulay</a> including <i>Lays of Ancient Rome</i></p>
@@ -371,12 +371,6 @@
 			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/Pastors_and_Masters">Pastors and Masters</a> by Ivy Compton-Burnett (transcription required)</p>
-			</li>
-			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Langston_Hughes#Bibliography">Poetry</a> by Langston Hughes. Research is required to see if we need an omnibus.</p><!--patron-->
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/13334">Tales of Soldiers and Civilians</a> by Ambrose Bierce. (Multiple versions exist, research must be done to ensure a complete collection without duplicates across other Bierce collections.)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/32474">The Memoirs of the Conquistadors</a> by Bernal Díaz del Castillo (<a href="https://www.gutenberg.org/ebooks/32475">Volume 2</a>)</p>
