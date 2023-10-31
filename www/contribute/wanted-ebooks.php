@@ -153,9 +153,9 @@
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/434">The Circular Staircase by Roberts Rineheart</a></p><!--patron-->
-			</li>
+			<!-- <li>
+				<p><a href="https://www.gutenberg.org/ebooks/434">The Circular Staircase by Roberts Rineheart</a></p>--patron-
+			</li> -->
 			<li>
 				<p><a href="https://theotherpages.org/poems/poem-mn.html#macaulay">Poetry by Thomas Macaulay</a> including <i>Lays of Ancient Rome</i></p>
 			</li>
@@ -234,9 +234,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3261">News from Nowhere</a> by William Morris (Carefully note <a href="https://groups.google.com/g/standardebooks/c/7SdRd0oR5fQ/m/Tg0MeL0FAQAJ">previous discussion on this ebook</a> as editions differ.)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/51783">The Blazing World</a> by Margaret Cavendish (need significant work lowercasing gratuitous old-timey capitalization)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37892">The Recollections of Alexis de Tocqueville</a></p>
 			</li>
