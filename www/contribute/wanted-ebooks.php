@@ -195,9 +195,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/331">The Mucker</a> (Mucker 1) by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister’s Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
 			</li>
@@ -207,9 +207,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="http://hilobrow.com/2013/03/11/theodore-savage-1/">Theodore Savage</a> by Cicely Hamilton</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
 			</li>
@@ -336,6 +336,9 @@
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://archive.org/details/lifeofwilliammor01mack">The Life of William Morris</a> by J. W. Mackail (transcription required)</p>
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10615">An Essay Concerning Human Understanding</a> by John Locke (<a href="https://www.gutenberg.org/ebooks/10616">Volume 2</a>, to be produced as one ebook)</p><!--patron-->
 			</li>
