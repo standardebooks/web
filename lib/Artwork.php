@@ -226,7 +226,8 @@ class Artwork extends PropertiesBase{
 	private function ValidateImageUpload(string $uploadPath): void{
 		try{
 			$uploadInfo = getimagesize($uploadPath);
-		} catch (\Safe\Exceptions\ImageException $exception){
+		}
+		catch(\Safe\Exceptions\ImageException $exception){
 			throw new Exceptions\InvalidImageUploadException('Could not handle upload: ' . $exception->getMessage());
 		}
 
@@ -331,7 +332,8 @@ class Artwork extends PropertiesBase{
 			if(!move_uploaded_file($uploadPath, $imagePath)){
 				throw new \Safe\Exceptions\FilesystemException;
 			}
-		} catch (\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
+		}
+		catch(\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
 			$log->Write("Failed to create temp thumbnail or uploaded image.");
 			$log->Write($exception);
 
@@ -349,7 +351,8 @@ class Artwork extends PropertiesBase{
 		try{
 			rename($thumbPath, WEB_ROOT . $this->ThumbUrl);
 			rename($imagePath, WEB_ROOT . $this->ImageUrl);
-		} catch (\Safe\Exceptions\FilesystemException $exception){
+		}
+		catch(\Safe\Exceptions\FilesystemException $exception){
 			$log->Write("Failed to store image or thumbnail for uploaded artwork [$this->ArtworkId].");
 			$log->Write("Temporary image file at [$imagePath], temporary thumb file at [$thumbPath].");
 			$log->Write($exception);
@@ -378,7 +381,8 @@ class Artwork extends PropertiesBase{
 		try{
 			copy($coverSourcePath, WEB_ROOT . $this->ImageUrl);
 			self::GenerateThumbnail($coverSourcePath, WEB_ROOT . $this->ThumbUrl);
-		} catch (\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
+		}
+		catch(\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
 			throw new \Exceptions\InvalidImageUploadException("Couldn't create image and thumbnail at " . WEB_ROOT . $this->ImageUrl);
 		}
 	}
