@@ -382,9 +382,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/32474">The Memoirs of the Conquistadors</a> by Bernal Díaz del Castillo (<a href="https://www.gutenberg.org/ebooks/32475">Volume 2</a>)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/10031">Edgar Allan Poe’s poetry corpus</a></p>
-			</li>
-			<li>
 				<p><a href="https://catalog.hathitrust.org/Record/100864353">Saïd the Fisherman</a> by Marmaduke Pickthall (transcription required)</p>
 			</li>
 			<li>
