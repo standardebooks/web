@@ -183,11 +183,11 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
-		if($this->Status !== null && !in_array($this->Status, ['unverified', 'approved', 'declined', 'in_use'])){
+		if($this->Status !== null && !in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_DECLINED, COVER_ARTWORK_STATUS_IN_USE])){
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
-		if($this->Status === 'in_use' && $this->EbookWwwFilesystemPath === null){
+		if($this->Status === COVER_ARTWORK_STATUS_IN_USE && $this->EbookWwwFilesystemPath === null){
 			$error->Add(new Exceptions\InvalidArtworkException('Status in_use requires EbookWwwFilesystemPath'));
 		}
 
@@ -203,7 +203,7 @@ class Artwork extends PropertiesBase{
 
 		if(!$hasMuseumProof && !$hasBookProof){
 			// In-use artwork has its public domain status tracked elsewhere, e.g., on the mailing list.
-			if($this->Status !== 'in_use'){
+			if($this->Status !== COVER_ARTWORK_STATUS_IN_USE){
 				$error->Add(new Exceptions\InvalidArtworkException('Must have proof of public domain status.'));
 			}
 		}
@@ -212,7 +212,7 @@ class Artwork extends PropertiesBase{
 		// Check for Artwork objects with the same URL but different Artwork IDs.
 		if($existingArtwork !== null && ($existingArtwork->ArtworkId !== $this->ArtworkId)){
 			// Unverified and declined artwork can match an existing object. Approved and In Use artwork cannot.
-			if(!in_array($this->Status, ['unverified', 'declined'])){
+			if(!in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_DECLINED])){
 				$error->Add(new Exceptions\InvalidArtworkException('Artwork already exisits: ' . SITE_URL . $existingArtwork->Url));
 			}
 		}
@@ -287,7 +287,7 @@ class Artwork extends PropertiesBase{
 		$artwork->CompletedYear = $completedYear;
 		$artwork->CompletedYearIsCirca = $completedYearIsCirca;
 		$artwork->ArtworkTags = self::ParseArtworkTags($artworkTags);
-		$artwork->Status = 'unverified';
+		$artwork->Status = COVER_ARTWORK_STATUS_UNVERIFIED;
 		$artwork->Created = new DateTime();
 		$artwork->PublicationYear = $publicationYear;
 		$artwork->PublicationYearPage = $publicationYearPage;
@@ -460,7 +460,7 @@ class Artwork extends PropertiesBase{
 
 	public function MarkInUse(string $ebookWwwFilesystemPath): void{
 		$this->EbookWwwFilesystemPath = $ebookWwwFilesystemPath;
-		$this->Save('in_use');
+		$this->Save(COVER_ARTWORK_STATUS_IN_USE);
 	}
 
 	public function Delete(): void{

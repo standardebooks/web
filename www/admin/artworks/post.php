@@ -26,10 +26,10 @@ try{
 	$artwork->Save($status);
 
 	switch($artwork->Status){
-		case 'approved':
+		case COVER_ARTWORK_STATUS_APPROVED:
 			$_SESSION['approved-artwork-id'] = $artwork->ArtworkId;
 			break;
-		case 'declined':
+		case COVER_ARTWORK_STATUS_DECLINED:
 			$_SESSION['declined-artwork-id'] = $artwork->ArtworkId;
 			break;
 	}

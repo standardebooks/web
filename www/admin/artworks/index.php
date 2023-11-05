@@ -38,14 +38,14 @@ $pages = ceil($count / $perPage);
 
 $unverifiedArtworks = array_slice($unverifiedArtworks, ($page - 1) * $perPage, $perPage);
 
-?><?= Template::Header(['title' => 'Review Artwork Queue', 'artwork' => true, 'highlight' => '', 'description' => 'The queue of unapproved artwork.']) ?>
+?><?= Template::Header(['title' => 'Review Artwork Queue', 'artwork' => true, 'highlight' => '', 'description' => 'The queue of unverified artwork.']) ?>
 <main class="artworks">
 	<section class="narrow">
 		<hgroup>
 			<h1>Review Artwork Queue</h1>
 		</hgroup>
 
-		<section id="unapproved-artwork">
+		<section>
 			<? if($approvedArtwork){ ?>
 			<p class="message success">
 				<a href="<?= $approvedArtwork->Url ?>" property="schema:name"><?= Formatter::ToPlainText($approvedArtwork->Name) ?></a> approved.
