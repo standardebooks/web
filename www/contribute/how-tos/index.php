@@ -7,9 +7,6 @@
 			<p><a href="/contribute/how-tos/common-issues-when-working-on-public-domain-ebooks">Common issues when working on public domain ebooks</a></p>
 		</li>
 		<li>
-			<p><a href="/contribute/how-tos/how-to-add-a-standard-ebooks-ebook-to-goodreads">How to add a Standard Ebooks ebook to Goodreads</a></p>
-		</li>
-		<li>
 			<p><a href="/contribute/how-tos/how-to-conquer-complex-drama-formatting">How to conquer complex drama formatting</a></p>
 		</li>
 		<li>
