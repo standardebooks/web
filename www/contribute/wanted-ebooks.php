@@ -13,6 +13,9 @@
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/624">Looking Backward</a> by Edward Bellamy (link to long description of <i>News from Nowhere</i></p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
 			</li>
 			<li>
@@ -232,13 +235,10 @@
 				<p><a href="https://en.m.wikipedia.org/wiki/William_McGonagall">Poetry of William McGonagall</a> (To be compiled in an omnibus)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3261">News from Nowhere</a> by William Morris (Carefully note <a href="https://groups.google.com/g/standardebooks/c/7SdRd0oR5fQ/m/Tg0MeL0FAQAJ">previous discussion on this ebook</a> as editions differ.)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/37892">The Recollections of Alexis de Tocqueville</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by D.H. Lawrence (part of the Modern Library and BBC 2015 collections, #2 in the Brangwen Family Saga after <i>The Rainbow</i>)</p>
+				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by D. H. Lawrence (part of the Modern Library and BBC 2015 collections, #2 in the Brangwen Family Saga after <i>The Rainbow</i>)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
