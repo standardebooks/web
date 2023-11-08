@@ -356,10 +356,10 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</blockquote>
 				<p><code class="bash"><b>se</b> modernize-spelling</code> would replace the dash in <code class="html">gold-thread</code> so that it reads <code class="html">goldthread</code>. Well <code class="html">goldthread</code> is an actual word, which is why it’s in our dictionary, and why the script makes a replacement—but it’s the name of a type of flower, <em>not</em> a golden fabric thread! In this case, <code class="bash"><b>se</b> modernize-spelling</code> made an incorrect replacement, and we have to change it back.</p>
 				<aside class="tip">
-					<p><code class="bash"><b>git</b></code> usually compares changes line-by-line, but since lines in an ebook can be very long, a line-level comparison can make spotting small changes difficult. Instead of just doing <code class="bash"><b>git</b> diff</code>, try the following command to highlight changes at the character level:</p>
-					<code class="terminal"><span><b>git</b> diff -U0 --word-diff-regex=.</span></code>
-					<p>You can also <a href="https://stackoverflow.com/questions/10998792/how-to-color-the-git-console">enable color in your <code class="bash"><b>git</b></code> output</a> to make the output of that command more readable, and even assign it to a shortcut in your <code class="bash"><b>git</b></code> configuration.</p>
-					<p>Alternatively, you can use an external diff GUI to review changes:</p>
+					<p><code class="bash"><b>git</b></code> compares changes line-by-line, but since lines in an ebook can be very long, a line-level comparison can make spotting small changes difficult. Instead of just doing <code class="bash"><b>git</b> diff</code>, try the following command to highlight changes at the character level:</p>
+					<code class="terminal"><span><b>git</b> -c color.ui=always diff -U0 --word-diff-regex=.</span></code>
+					<p>You can also <a href="https://stackoverflow.com/questions/10998792/how-to-color-the-git-console">enable color in your <code class="bash"><b>git</b></code> output globally</a>, or assign this command to a shortcut in your <code class="bash"><b>git</b></code> configuration.</p>
+					<p>Alternatively, you can use an external diff GUI to review changes in closer detail:</p>
 					<code class="terminal"><span><b>git</b> difftool</span></code>
 				</aside>
 				<h3>Modernize spacing in select words</h3>
