@@ -6,6 +6,7 @@ CREATE TABLE `AlternateSpellings` (
 
 INSERT INTO AlternateSpellings VALUES
 ((SELECT ArtistId FROM Artists WHERE Name = 'Alexander Helwig Wyant'), 'A. H. Wyant'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Anne-Louis Girodet-Trioson'), 'Anne-Louis Girodet Roussy-Trioson'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Antonio Zeno Shindler'), 'Antonion Zeno Shindler'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Edward Poynter'), 'Edward John Poynter'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Élisabeth Vigée Le Brun'), 'Élisabeth Louise Vigée Le Brun'),
@@ -29,4 +30,5 @@ INSERT INTO AlternateSpellings VALUES
 ((SELECT ArtistId FROM Artists WHERE Name = 'Pierre-Auguste Renoir'), 'Auguste Renoir'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Raphael'), 'Raffaello Sanzio'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Rembrandt van Rijn'), 'Rembrandt Harmenszoon van Rijn'),
+((SELECT ArtistId FROM Artists WHERE Name = 'Willard Metcalf'), 'Willard L. Metcalf'),
 ((SELECT ArtistId FROM Artists WHERE Name = 'Willem van de Velde the Younger'), 'William van de Velde the Younger');
