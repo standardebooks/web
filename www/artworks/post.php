@@ -78,14 +78,16 @@ try{
 
 	$_SESSION['success-message'] = '“' . $artwork->Name . '” submitted successfully!';
 
-} catch (\Exceptions\AppException $exception){
+}
+catch(\Exceptions\AppException $exception){
 	$_SESSION['exception'] = $exception;
 
 	if(isset($artwork)){
 		$_SESSION['artwork'] = $artwork;
 	}
 
-} finally{
+}
+finally{
 	http_response_code(303);
 	header('Location: /artworks/new');
 }

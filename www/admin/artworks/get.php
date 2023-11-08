@@ -9,7 +9,7 @@ catch(Exceptions\AppException){
 	Template::Emit404();
 }
 
-?><?= Template::Header(['title' => 'Review Artwork', 'artwork' => true, 'highlight' => '', 'description' => 'Unapproved artwork.']) ?>
+?><?= Template::Header(['title' => 'Review Artwork', 'artwork' => true, 'highlight' => '', 'description' => 'Unverified artwork.']) ?>
 <main class="artworks">
 	<section class="narrow">
 		<?= Template::ArtworkDetail(['artwork' => $artwork]) ?>
@@ -24,8 +24,8 @@ catch(Exceptions\AppException){
 	<? } ?>
 	<form method="post" action="/admin/artworks/<?= $artwork->ArtworkId ?>">
 		<input type="hidden" name="_method" value="PATCH" />
-		<button name="status" value="approved" <? if($existingArtwork !== null){ ?>disabled="disabled"<? } ?>>Approve</button>
-		<button name="status" value="declined" class="decline-button">Decline</button>
+		<button name="status" value="<?= COVER_ARTWORK_STATUS_APPROVED ?>" <? if($existingArtwork !== null){ ?>disabled="disabled"<? } ?>>Approve</button>
+		<button name="status" value="<?= COVER_ARTWORK_STATUS_DECLINED ?>" class="decline-button">Decline</button>
 	</form>
 </main>
 <?= Template::Footer() ?>
