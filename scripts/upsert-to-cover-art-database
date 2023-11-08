@@ -49,17 +49,21 @@ $xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $contentOpf));
 $xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 $artistName = StripInnerTags($xml->xpath('/package/metadata/dc:contributor[@id="artist"]'));
 if($artistName === null){
-	print("Error: Could not find artist name in content.opf\n");
-	exit('Error: missing artistName');
+	// Some ebooks have an artist-1 and artist-2. Take artist-1, which isn't ideal, but is usually correct.
+	$artistName = StripInnerTags($xml->xpath('/package/metadata/dc:contributor[@id="artist-1"]'));
+	if($artistName === null){
+		print($repoDir . " Error: Could not find artist name in content.opf\n");
+		exit($repoDir . " Error: missing artistName\n");
+	}
 }
 
 if(!file_exists($ebookWwwFilesystemPath . '/text/colophon.xhtml')){
-	exit('Error: no text/colophon.xhtml at ' . $ebookWwwFilesystemPath);
+	exit($repoDir . ' Error: no text/colophon.xhtml at ' . $ebookWwwFilesystemPath . "\n");
 }
 
 $rawColophon = file_get_contents($ebookWwwFilesystemPath . '/text/colophon.xhtml');
 if(empty($rawColophon)){
-	exit('Error: empty colophon at ' . $ebookWwwFilesystemPath);
+	exit($repoDir . ' Error: empty colophon at ' . $ebookWwwFilesystemPath . "\n");
 }
 
 preg_match('|a painting completed \w+ (\d+)|ius', $rawColophon, $matches);
@@ -71,8 +75,8 @@ if(sizeof($matches) == 2){
 $colophonXml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $rawColophon));
 $artworkName = StripInnerTags($colophonXml->xpath('/html/body/main/section/p/i[@epub:type="se:name.visual-art.painting"]'));
 if($artworkName === null){
-	print("Error: Could not find artwork name in colophon.xhtml\n");
-	exit('Error: missing artworkName');
+	print($repoDir . " Error: Could not find artwork name in colophon.xhtml\n");
+	exit($repoDir . " Error: missing artworkName");
 }
 
 $artistUrlName = Formatter::MakeUrlSafe($artistName);
@@ -90,7 +94,7 @@ $artwork = Artwork::GetByUrlPath($artistUrlName, $artworkUrlName);
 
 if($artwork === null){
 	if($verbose){
-		printf("No existing artwork found at %s/%s, inserting new artwork.\n", $artistUrlName, $artworkUrlName);
+		printf($repoDir . " No existing artwork found at %s/%s, inserting new artwork.\n", $artistUrlName, $artworkUrlName);
 	}
 
 	// The ebook colophon provides the artist's name, but not their death year.
@@ -110,28 +114,49 @@ if($artwork === null){
 	$artwork->Status = 'in_use';
 	$artwork->EbookWwwFilesystemPath = $ebookWwwFilesystemPath;
 
-	$coverSourceFile = tempnam($workDir, 'cover.source.jpg.');
-	// Doesn't handle repos with PNG instead of JPEG source files, i.e., images/cover.source.png
-	exec("git show HEAD:images/cover.source.jpg > $coverSourceFile", $shellOutput, $resultCode);
+	$coverSourceFile = tempnam($workDir, 'cover.source.');
+	// Search for JPEG, PNG, and TIFF source files, in that order.
+	exec("git show HEAD:images/cover.source.jpg > $coverSourceFile.jpg", $shellOutput, $resultCode);
 	if($resultCode !== 0){
-		exit('Error: no images/cover.source.jpg in ' . $repoDir);
+		// No JPEG, try PNG.
+		exec("git show HEAD:images/cover.source.png > $coverSourceFile.png", $shellOutput, $resultCode);
+		if($resultCode == 0){
+			// Found PNG, convert it to JPEG.
+			exec("convert $coverSourceFile.png -resize '3750x>' -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG $coverSourceFile.jpg", $shellOutput, $resultCode);
+			if($resultCode !== 0){
+				exit($repoDir . " Error: Failed to convert images/cover.source.png to JPEG\n");
+			}
+		}else{
+			// No JPEG or PNG, try TIFF.
+			exec("git show HEAD:images/cover.source.tif > $coverSourceFile.tif", $shellOutput, $resultCode);
+			if($resultCode == 0){
+				// Found TIFF, convert it to JPEG.
+				exec("convert $coverSourceFile.tif -resize '3750x>' -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG $coverSourceFile.jpg", $shellOutput, $resultCode);
+				if($resultCode !== 0){
+					exit($repoDir . " Error: Failed to convert images/cover.source.tif to JPEG\n");
+				}
+			}else{
+				exit($repoDir . " Error: no images/cover.source.jpg or images/cover.source.png or images/cover.source.tif\n");
+
+			}
+		}
 	}
 
-	$artwork->CreateFromFilesystem($coverSourceFile);
+	$artwork->CreateFromFilesystem($coverSourceFile . '.jpg');
 }
 else{
 	if($verbose){
-		printf("Existing artwork found at %s/%s, updating its status.\n", $artistUrlName, $artworkUrlName);
+		printf($repoDir . " Existing artwork found at %s/%s, updating its status.\n", $artistUrlName, $artworkUrlName);
 	}
 
 	if($artwork->CompletedYear != $completedYear){
-		printf("Error: Existing database artwork completed year, %d, does not match ebook colophon completed year, %d. Not updating database.\n", $artwork->CompletedYear, $completedYear);
-		exit('Error: completed year');
+		printf($repoDir . " Error: Existing database artwork completed year, %d, does not match ebook colophon completed year, %d. Not updating database.\n", $artwork->CompletedYear, $completedYear);
+		exit($repoDir . " Error: completed year\n");
 	}
 
 	if($artwork->Status === 'in_use'){
-		printf("Error: Existing database artwork already marked as 'in_use' by ebook '%s'. Not updating database.\n", $artwork->EbookWwwFilesystemPath);
-		exit('Error: in_use');
+		printf($repoDir . " Error: Existing database artwork already marked as 'in_use' by ebook '%s'. Not updating database.\n", $artwork->EbookWwwFilesystemPath);
+		exit($repoDir . " Error: in_use\n");
 	}
 
 	$artwork->MarkInUse($ebookWwwFilesystemPath);
