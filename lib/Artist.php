@@ -140,21 +140,6 @@ class Artist extends PropertiesBase{
 		', [$this->ArtistId]);
 	}
 
-	public function DeleteIfUnused(): void{
-		Db::Query('
-			DELETE
-			FROM Artists
-			WHERE ArtistId NOT IN (SELECT ArtistId FROM Artworks)
-			  AND ArtistId = ?
-		', [$this->ArtistId]);
-		Db::Query('
-			DELETE
-			FROM AlternateSpellings
-			WHERE ArtistId NOT IN (SELECT ArtistId FROM Artworks)
-			  AND ArtistId = ?
-		', [$this->ArtistId]);
-	}
-
 	/**
 	 * @return array<Artist>
 	 */
