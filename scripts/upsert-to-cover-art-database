@@ -111,7 +111,7 @@ if($artwork === null){
 	$artwork->CompletedYear = $completedYear;
 	$artwork->CompletedYearIsCirca = false;
 	$artwork->Created = new DateTime();
-	$artwork->Status = 'in_use';
+	$artwork->Status = COVER_ARTWORK_STATUS_IN_USE;
 	$artwork->EbookWwwFilesystemPath = $ebookWwwFilesystemPath;
 
 	$coverSourceFile = tempnam($workDir, 'cover.source.');
@@ -154,7 +154,7 @@ else{
 		exit($repoDir . " Error: completed year\n");
 	}
 
-	if($artwork->Status === 'in_use'){
+	if($artwork->Status === COVER_ARTWORK_STATUS_IN_USE){
 		printf($repoDir . " Error: Existing database artwork already marked as 'in_use' by ebook '%s'. Not updating database.\n", $artwork->EbookWwwFilesystemPath);
 		exit($repoDir . " Error: in_use\n");
 	}

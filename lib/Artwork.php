@@ -183,11 +183,11 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
-		if($this->Status !== null && !in_array($this->Status, ['unverified', 'approved', 'declined', 'in_use'])){
+		if($this->Status !== null && !in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_DECLINED, COVER_ARTWORK_STATUS_IN_USE])){
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
-		if($this->Status === 'in_use' && $this->EbookWwwFilesystemPath === null){
+		if($this->Status === COVER_ARTWORK_STATUS_IN_USE && $this->EbookWwwFilesystemPath === null){
 			$error->Add(new Exceptions\InvalidArtworkException('Status in_use requires EbookWwwFilesystemPath'));
 		}
 
@@ -203,7 +203,7 @@ class Artwork extends PropertiesBase{
 
 		if(!$hasMuseumProof && !$hasBookProof){
 			// In-use artwork has its public domain status tracked elsewhere, e.g., on the mailing list.
-			if($this->Status !== 'in_use'){
+			if($this->Status !== COVER_ARTWORK_STATUS_IN_USE){
 				$error->Add(new Exceptions\InvalidArtworkException('Must have proof of public domain status.'));
 			}
 		}
@@ -212,7 +212,7 @@ class Artwork extends PropertiesBase{
 		// Check for Artwork objects with the same URL but different Artwork IDs.
 		if($existingArtwork !== null && ($existingArtwork->ArtworkId !== $this->ArtworkId)){
 			// Unverified and declined artwork can match an existing object. Approved and In Use artwork cannot.
-			if(!in_array($this->Status, ['unverified', 'declined'])){
+			if(!in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_DECLINED])){
 				$error->Add(new Exceptions\InvalidArtworkException('Artwork already exisits: ' . SITE_URL . $existingArtwork->Url));
 			}
 		}
@@ -226,7 +226,8 @@ class Artwork extends PropertiesBase{
 	private function ValidateImageUpload(string $uploadPath): void{
 		try{
 			$uploadInfo = getimagesize($uploadPath);
-		} catch (\Safe\Exceptions\ImageException $exception){
+		}
+		catch(\Safe\Exceptions\ImageException $exception){
 			throw new Exceptions\InvalidImageUploadException('Could not handle upload: ' . $exception->getMessage());
 		}
 
@@ -287,7 +288,7 @@ class Artwork extends PropertiesBase{
 		$artwork->CompletedYear = $completedYear;
 		$artwork->CompletedYearIsCirca = $completedYearIsCirca;
 		$artwork->ArtworkTags = self::ParseArtworkTags($artworkTags);
-		$artwork->Status = 'unverified';
+		$artwork->Status = COVER_ARTWORK_STATUS_UNVERIFIED;
 		$artwork->Created = new DateTime();
 		$artwork->PublicationYear = $publicationYear;
 		$artwork->PublicationYearPage = $publicationYearPage;
@@ -331,7 +332,8 @@ class Artwork extends PropertiesBase{
 			if(!move_uploaded_file($uploadPath, $imagePath)){
 				throw new \Safe\Exceptions\FilesystemException;
 			}
-		} catch (\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
+		}
+		catch(\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
 			$log->Write("Failed to create temp thumbnail or uploaded image.");
 			$log->Write($exception);
 
@@ -349,7 +351,8 @@ class Artwork extends PropertiesBase{
 		try{
 			rename($thumbPath, WEB_ROOT . $this->ThumbUrl);
 			rename($imagePath, WEB_ROOT . $this->ImageUrl);
-		} catch (\Safe\Exceptions\FilesystemException $exception){
+		}
+		catch(\Safe\Exceptions\FilesystemException $exception){
 			$log->Write("Failed to store image or thumbnail for uploaded artwork [$this->ArtworkId].");
 			$log->Write("Temporary image file at [$imagePath], temporary thumb file at [$thumbPath].");
 			$log->Write($exception);
@@ -378,7 +381,8 @@ class Artwork extends PropertiesBase{
 		try{
 			copy($coverSourcePath, WEB_ROOT . $this->ImageUrl);
 			self::GenerateThumbnail($coverSourcePath, WEB_ROOT . $this->ThumbUrl);
-		} catch (\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
+		}
+		catch(\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
 			throw new \Exceptions\InvalidImageUploadException("Couldn't create image and thumbnail at " . WEB_ROOT . $this->ImageUrl);
 		}
 	}
@@ -460,7 +464,7 @@ class Artwork extends PropertiesBase{
 
 	public function MarkInUse(string $ebookWwwFilesystemPath): void{
 		$this->EbookWwwFilesystemPath = $ebookWwwFilesystemPath;
-		$this->Save('in_use');
+		$this->Save(COVER_ARTWORK_STATUS_IN_USE);
 	}
 
 	public function Delete(): void{
