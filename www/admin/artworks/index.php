@@ -13,10 +13,12 @@ if($approvedArtworkId || $declinedArtworkId){
 	session_unset();
 }
 
+$approvedArtwork = null;
 if($approvedArtworkId){
 	$approvedArtwork = Artwork::Get($approvedArtworkId);
 }
 
+$declinedArtwork = null;
 if($declinedArtworkId){
 	$declinedArtwork = Artwork::Get($declinedArtworkId);
 }
