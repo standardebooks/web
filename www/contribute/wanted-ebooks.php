@@ -210,9 +210,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
 			</li>
-			<!-- <li>
-				<p><a href="http://hilobrow.com/2013/03/11/theodore-savage-1/">Theodore Savage</a> by Cicely Hamilton</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
 			</li>
