@@ -135,9 +135,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70996">The D’Arblay Mystery</a> by R. Austin Freeman</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/70964">The Wrong Letter</a> by Walter S. Masterman</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/71073">The Starvel Hollow Tragedy</a> by Freeman Wills Crofts (Inspector French #3)</p>
 			</li>
@@ -456,9 +453,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/621">The Varieties of Religious Experience</a> by William James</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/53430">Principia Ethica</a> by George Edward Moore</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/38427">The World as Will and Idea</a> by Arthur Schopenhauer (<a href="https://www.gutenberg.org/ebooks/40097">Vol. 2</a>, <a href="https://www.gutenberg.org/ebooks/40868">Vol. 3</a>)</p>
 			</li>
