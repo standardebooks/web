@@ -123,9 +123,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/38703">The Black Moth</a> by Georgette Heyer</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70844">Twilight Sleep</a> by Edith Wharton</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://gutenberg.net.au/ebooks06/0606211h.html">The Castle of Wolfenbach</a> by Eliza Parsons</p>
 			</li>
@@ -150,6 +150,9 @@
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/56426">The Mummy! A Tale of the Twenty-Second Century</a> by Jane C. Loudon</p>
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/434">The Circular Staircase by Roberts Rineheart</a></p>patron
 			</li> -->
