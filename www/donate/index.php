@@ -32,7 +32,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			<h2>Join the Patrons Circle</h2>
 			<p>Members of the Patrons Circle are steadfast supporters of free, unrestricted, and beautifully presented digital literature. Besides helping support the creation of free, gorgeous ebooks, they also have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 			<p>Membership in the Patrons Circle is limited to individuals only. Organizations, please see <a href="#corporate-sponsors">corporate sponsorship</a> instead.</p>
-			<p><i>Join the Patrons Circle with a donation of $10/month or more, or join for one year with a one-time donation of $100 or more.</i></p>
+			<p><i>Join the Patrons Circle by starting a recurring donation of $10/month or more, or join for one year with a one-time donation of $100 or more.</i></p>
 			<h3>Benefits of the Patrons Circle</h3>
 			<ul>
 				<li>
