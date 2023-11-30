@@ -36,7 +36,7 @@ class Artist extends PropertiesBase{
 
 			$result = Db::Query('
 					SELECT *
-					from AlternateSpellings
+					from ArtistAlternateSpellings
 					where ArtistId = ?
 				', [$this->ArtistId], 'stdClass');
 
@@ -123,7 +123,7 @@ class Artist extends PropertiesBase{
 	public static function FindMatch(string $artistName): ?Artist{
 		$result = Db::Query('
 			SELECT a.*
-			FROM Artists a LEFT JOIN AlternateSpellings alt USING (ArtistId)
+			FROM Artists a LEFT JOIN ArtistAlternateSpellings alt USING (ArtistId)
 			WHERE a.Name = ? OR alt.AlternateSpelling = ?
 			ORDER BY a.DeathYear DESC
 			LIMIT 1;

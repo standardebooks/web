@@ -1,4 +1,4 @@
-CREATE TABLE `AlternateSpellings` (
+CREATE TABLE `ArtistAlternateSpellings` (
   `ArtistId` int(10) unsigned NOT NULL,
   `AlternateSpelling` varchar(255) NOT NULL,
   UNIQUE KEY `idxUnique` (`ArtistId`,`AlternateSpelling`)
