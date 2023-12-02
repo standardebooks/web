@@ -114,9 +114,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8101">Bertram Cope’s Year</a> by Henry Blake Fuller</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/70652">At the Mountains of Madness</a> by H. P. Lovecraft</p>
-			</li>
+			</li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/77">The House of the Seven Gables</a> by Nathaniel Hawthorne</p>patron
 			</li> -->
