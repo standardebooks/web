@@ -57,16 +57,16 @@ If everything went well, `https://standardebooks.test/ebooks` will show the one 
 
 ## Installation using Docker
 
-We provide a Dockerfile for testing code changes. You can build an image with:
+We provide a Dockerfile for testing code changes. You can create a container with:
 
 ```shell
-docker build . -t standardebooks -f vms/docker/Dockerfile
+docker build . --tag standardebooks --file vms/docker/Dockerfile
 ```
 
 Then run the built image with:
 
 ```shell
-docker run -dp 443:443 -v "$(pwd):/standardebooks.org/web" standardebooks:latest
+docker run --detach --publish 443:443 --volume "$(pwd):/standardebooks.org/web" standardebooks:latest
 ```
 
 The site will now be available at `https://localhost/`, although as it’s a self-signed certificate you’ll need to accept whatever browser security warnings come up.
