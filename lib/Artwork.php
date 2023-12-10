@@ -8,6 +8,7 @@ use function Safe\imagecopyresampled;
 use function Safe\imagecreatefromjpeg;
 use function Safe\imagecreatetruecolor;
 use function Safe\imagejpeg;
+use function Safe\ini_get;
 use function Safe\preg_replace;
 use function Safe\rename;
 use function Safe\sprintf;
@@ -102,7 +103,7 @@ class Artwork extends PropertiesBase{
 	protected function GetImageUrl(): string{
 		if($this->_ImageUrl == null){
 			if($this->ArtworkId == null){
-				throw new \Exceptions\InvalidArtworkException();
+				throw new Exceptions\InvalidArtworkException();
 			}
 
 			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '.jpg';
@@ -117,7 +118,7 @@ class Artwork extends PropertiesBase{
 	protected function GetThumbUrl(): string{
 		if($this->_ThumbUrl == null){
 			if($this->ArtworkId == null){
-				throw new \Exceptions\InvalidArtworkException();
+				throw new Exceptions\InvalidArtworkException();
 			}
 
 			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '.thumb.jpg';
@@ -168,7 +169,7 @@ class Artwork extends PropertiesBase{
 	// METHODS
 	// *******
 	/** @throws \Exceptions\ValidationException */
-	protected function Validate(): void{
+	protected function Validate(array &$uploadedFile = []): void{
 		$error = new Exceptions\ValidationException();
 
 		if($this->Artist === null){
@@ -217,22 +218,55 @@ class Artwork extends PropertiesBase{
 			}
 		}
 
+		if(!empty($uploadedFile)){
+			$uploadError = $uploadedFile['error'];
+			if($uploadError > UPLOAD_ERR_OK){
+				// see https://www.php.net/manual/en/features.file-upload.errors.php
+				$message = match ($uploadError){
+					UPLOAD_ERR_INI_SIZE => 'Image upload too large (maximum ' . ini_get('upload_max_filesize') . ').',
+					default => 'Image failed to upload (error code ' . $uploadError . ').',
+				};
+				$error->Add(new Exceptions\InvalidImageUploadException($message));
+			}
+			else{
+				$uploadPath = $uploadedFile['tmp_name'];
+				$uploadInfo = [];
+				try{
+					$uploadInfo = getimagesize($uploadPath);
+				}
+				catch(\Safe\Exceptions\ImageException $exception){
+					$error->Add(new Exceptions\InvalidImageUploadException('Could not handle upload: ' . $exception->getMessage()));
+				}
+
+				if(!empty($uploadInfo) && $uploadInfo[2] !== IMAGETYPE_JPEG){
+					$error->Add(new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.'));
+				}
+
+				$thumbPath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-thumb-");
+				if(!str_starts_with($thumbPath, WEB_ROOT . COVER_ART_UPLOAD_PATH)){
+					$error->Add(new Exceptions\InvalidImageUploadException('Failed to generate thumbnail in correct directory.'));
+				}
+				$uploadedFile['thumbPath'] = $thumbPath;
+				try{
+					self::GenerateThumbnail($uploadPath, $thumbPath);
+				}
+				catch(\Safe\Exceptions\ImageException $exception){
+					$error->Add(new Exceptions\InvalidImageUploadException("Failed to generate thumbnail."));
+				}
+
+				$imagePath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-image-");
+				if(!str_starts_with($imagePath, WEB_ROOT . COVER_ART_UPLOAD_PATH)){
+					$error->Add(new Exceptions\InvalidImageUploadException("Failed to save uploaded image in correct directory."));
+				}
+				$uploadedFile['imagePath'] = $imagePath;
+				if(!move_uploaded_file($uploadPath, $imagePath)){
+					$error->Add(new Exceptions\InvalidImageUploadException("Failed to save uploaded image."));
+				}
+			}
+		}
+
 		if($error->HasExceptions){
 			throw $error;
-		}
-	}
-
-	/** @throws \Exceptions\InvalidImageUploadException */
-	private function ValidateImageUpload(string $uploadPath): void{
-		try{
-			$uploadInfo = getimagesize($uploadPath);
-		}
-		catch(\Safe\Exceptions\ImageException $exception){
-			throw new Exceptions\InvalidImageUploadException('Could not handle upload: ' . $exception->getMessage());
-		}
-
-		if($uploadInfo[2] !== IMAGETYPE_JPEG){
-			throw new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.');
 		}
 	}
 
@@ -293,30 +327,10 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\ValidationException
 	 * @throws \Exceptions\InvalidImageUploadException
 	 */
-	public function Create(string $uploadPath): void{
-		$log = new Log(ARTWORK_UPLOADS_LOG_FILE_PATH);
-
-		$this->Validate();
-		$this->ValidateImageUpload($uploadPath);
+	public function Create(array $uploadedFile): void{
+		$this->Validate($uploadedFile);
 		$this->Created = new DateTime();
 
-		try{
-			$thumbPath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-thumb-");
-			$imagePath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-image-");
-
-			self::GenerateThumbnail($uploadPath, $thumbPath);
-			if(!move_uploaded_file($uploadPath, $imagePath)){
-				throw new \Safe\Exceptions\FilesystemException;
-			}
-		}
-		catch(\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
-			$log->Write("Failed to create temp thumbnail or uploaded image.");
-			$log->Write($exception);
-
-			throw new \Exceptions\InvalidImageUploadException("Could not save uploaded image.");
-		}
-
-		/** @var ArtworkTag $artworkTag */
 		foreach ($this->ArtworkTags as $artworkTag) {
 			$artworkTag->GetOrCreate();
 		}
@@ -324,16 +338,19 @@ class Artwork extends PropertiesBase{
 		$this->Artist->GetOrCreate();
 		$this->Insert();
 
+		// rename() is after Insert() because it depends on ArtworkId.
+		// It should be rare that Validate() succeeds but rename() fails because they operate on the same path.
 		try{
-			rename($thumbPath, WEB_ROOT . $this->ThumbUrl);
-			rename($imagePath, WEB_ROOT . $this->ImageUrl);
+			rename($uploadedFile['thumbPath'], WEB_ROOT . $this->ThumbUrl);
+			rename($uploadedFile['imagePath'], WEB_ROOT . $this->ImageUrl);
 		}
 		catch(\Safe\Exceptions\FilesystemException $exception){
+			$log = new Log(ARTWORK_UPLOADS_LOG_FILE_PATH);
 			$log->Write("Failed to store image or thumbnail for uploaded artwork [$this->ArtworkId].");
 			$log->Write("Temporary image file at [$imagePath], temporary thumb file at [$thumbPath].");
 			$log->Write($exception);
 
-			throw new \Exceptions\InvalidImageUploadException("Your artwork was submitted but something went wrong. Please contact site administrator.");
+			throw new Exceptions\InvalidImageUploadException("Your artwork was submitted but something went wrong. Please contact site administrator.");
 		}
 	}
 
@@ -342,7 +359,6 @@ class Artwork extends PropertiesBase{
 	 */
 	public function CreateFromFilesystem(string $coverSourcePath): void{
 		$this->Validate();
-		$this->ValidateImageUpload($coverSourcePath);
 		$this->Created = new DateTime();
 
 		foreach ($this->ArtworkTags as $artworkTag) {
@@ -360,7 +376,7 @@ class Artwork extends PropertiesBase{
 			self::GenerateThumbnail($coverSourcePath, WEB_ROOT . $this->ThumbUrl);
 		}
 		catch(\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
-			throw new \Exceptions\InvalidImageUploadException("Couldn't create image and thumbnail at " . WEB_ROOT . $this->ImageUrl);
+			throw new Exceptions\InvalidImageUploadException("Couldn't create image and thumbnail at " . WEB_ROOT . $this->ImageUrl);
 		}
 	}
 
