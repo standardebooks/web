@@ -168,7 +168,10 @@ class Artwork extends PropertiesBase{
 	// *******
 	// METHODS
 	// *******
-	/** @throws \Exceptions\ValidationException */
+	/**
+	 * @param array<mixed> $uploadedFile
+	 * @throws \Exceptions\ValidationException
+	 */
 	protected function Validate(array &$uploadedFile = []): void{
 		$error = new Exceptions\ValidationException();
 
@@ -324,6 +327,7 @@ class Artwork extends PropertiesBase{
 	}
 
 	/**
+	 * @param array<mixed> $uploadedFile
 	 * @throws \Exceptions\ValidationException
 	 * @throws \Exceptions\InvalidImageUploadException
 	 */
