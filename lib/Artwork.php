@@ -242,7 +242,7 @@ class Artwork extends PropertiesBase{
 					$error->Add(new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.'));
 				}
 
-				$thumbPath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-thumb-");
+				$thumbPath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, 'tmp-thumb-');
 				if(!str_starts_with($thumbPath, WEB_ROOT . COVER_ART_UPLOAD_PATH)){
 					$error->Add(new Exceptions\InvalidImageUploadException('Failed to generate thumbnail in correct directory.'));
 				}
@@ -251,16 +251,16 @@ class Artwork extends PropertiesBase{
 					self::GenerateThumbnail($uploadPath, $thumbPath);
 				}
 				catch(\Safe\Exceptions\ImageException $exception){
-					$error->Add(new Exceptions\InvalidImageUploadException("Failed to generate thumbnail."));
+					$error->Add(new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.'));
 				}
 
-				$imagePath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-image-");
+				$imagePath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, 'tmp-image-');
 				if(!str_starts_with($imagePath, WEB_ROOT . COVER_ART_UPLOAD_PATH)){
-					$error->Add(new Exceptions\InvalidImageUploadException("Failed to save uploaded image in correct directory."));
+					$error->Add(new Exceptions\InvalidImageUploadException('Failed to save uploaded image in correct directory.'));
 				}
 				$uploadedFile['imagePath'] = $imagePath;
 				if(!move_uploaded_file($uploadPath, $imagePath)){
-					$error->Add(new Exceptions\InvalidImageUploadException("Failed to save uploaded image."));
+					$error->Add(new Exceptions\InvalidImageUploadException('Failed to save uploaded image.'));
 				}
 			}
 		}
@@ -346,11 +346,11 @@ class Artwork extends PropertiesBase{
 		}
 		catch(\Safe\Exceptions\FilesystemException $exception){
 			$log = new Log(ARTWORK_UPLOADS_LOG_FILE_PATH);
-			$log->Write("Failed to store image or thumbnail for uploaded artwork [$this->ArtworkId].");
-			$log->Write("Temporary image file at [$imagePath], temporary thumb file at [$thumbPath].");
+			$log->Write('Failed to store image or thumbnail for uploaded artwork ' . $this->ArtworkId . '.');
+			$log->Write('Temporary image file at ' . $uploadedFile['imagePath'] . ', temporary thumb file at ' . $uploadedFile['thumbPath'] . '.');
 			$log->Write($exception);
 
-			throw new Exceptions\InvalidImageUploadException("Your artwork was submitted but something went wrong. Please contact site administrator.");
+			throw new Exceptions\InvalidImageUploadException('Your artwork was submitted but something went wrong. Please contact site administrator.');
 		}
 	}
 
@@ -376,7 +376,7 @@ class Artwork extends PropertiesBase{
 			self::GenerateThumbnail($coverSourcePath, WEB_ROOT . $this->ThumbUrl);
 		}
 		catch(\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
-			throw new Exceptions\InvalidImageUploadException("Couldn't create image and thumbnail at " . WEB_ROOT . $this->ImageUrl);
+			throw new Exceptions\InvalidImageUploadException('Failed to create image and thumbnail at ' . WEB_ROOT . $this->ImageUrl);
 		}
 	}
 
