@@ -274,33 +274,8 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
-	public static function Build(string $artistName, ?int $artistDeathYear, string $artworkName, ?int $completedYear,
-				     ?bool $completedYearIsCirca, ?string $artworkTags, ?int $publicationYear,
-				     ?string $publicationYearPage, ?string $copyrightPage, ?string $artworkPage,
-				     ?string $museumPage): Artwork{
-		$artist = new Artist();
-		$artist->Name = $artistName;
-		$artist->DeathYear = $artistDeathYear;
-
-		$artwork = new Artwork();
-		$artwork->Artist = $artist;
-		$artwork->Name = $artworkName;
-		$artwork->CompletedYear = $completedYear;
-		$artwork->CompletedYearIsCirca = $completedYearIsCirca;
-		$artwork->ArtworkTags = self::ParseArtworkTags($artworkTags);
-		$artwork->Status = COVER_ARTWORK_STATUS_UNVERIFIED;
-		$artwork->Created = new DateTime();
-		$artwork->PublicationYear = $publicationYear;
-		$artwork->PublicationYearPage = $publicationYearPage;
-		$artwork->CopyrightPage = $copyrightPage;
-		$artwork->ArtworkPage = $artworkPage;
-		$artwork->MuseumPage = $museumPage;
-
-		return $artwork;
-	}
-
 	/** @return array<ArtworkTag> */
-	private static function ParseArtworkTags(?string $artworkTags): array{
+	public static function ParseArtworkTags(?string $artworkTags): array{
 		if(!$artworkTags) return array();
 
 		$artworkTags = array_map('trim', explode(',', $artworkTags));
@@ -323,6 +298,7 @@ class Artwork extends PropertiesBase{
 
 		$this->Validate();
 		$this->ValidateImageUpload($uploadPath);
+		$this->Created = new DateTime();
 
 		try{
 			$thumbPath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, "tmp-thumb-");
@@ -367,6 +343,7 @@ class Artwork extends PropertiesBase{
 	public function CreateFromFilesystem(string $coverSourcePath): void{
 		$this->Validate();
 		$this->ValidateImageUpload($coverSourcePath);
+		$this->Created = new DateTime();
 
 		foreach ($this->ArtworkTags as $artworkTag) {
 			$artworkTag->GetOrCreate();

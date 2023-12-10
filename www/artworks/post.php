@@ -32,29 +32,22 @@ try{
 		}
 	}
 
-	$artistName = HttpInput::Str(POST, 'artist-name', false);
-	if($artistName === null){
-		throw new \Exceptions\InvalidRequestException('Empty or invalid Artist Name');
-	}
+	$artist = new Artist();
+	$artist->Name = HttpInput::Str(POST, 'artist-name', false);
+	$artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
 
-	$artworkName = HttpInput::Str(POST, 'artwork-name', false);
-	if($artworkName === null){
-		throw new \Exceptions\InvalidRequestException('Empty or invalid Artwork Name');
-	}
-
-	$artwork = Artwork::Build(
-		artistName: $artistName,
-		artistDeathYear: HttpInput::Int(POST, 'artist-year-of-death'),
-		artworkName: $artworkName,
-		completedYear: HttpInput::Int(POST, 'artwork-year'),
-		completedYearIsCirca: HttpInput::Bool(POST, 'artwork-year-is-circa', false),
-		artworkTags: HttpInput::Str(POST, 'artwork-tags', false),
-		publicationYear: HttpInput::Int(POST, 'pd-proof-year-of-publication'),
-		publicationYearPage: HttpInput::Str(POST, 'pd-proof-year-of-publication-page', false),
-		copyrightPage: HttpInput::Str(POST, 'pd-proof-copyright-page', false),
-		artworkPage: HttpInput::Str(POST, 'pd-proof-artwork-page', false),
-		museumPage: HttpInput::Str(POST, 'pd-proof-museum-link', false),
-	);
+	$artwork = new Artwork();
+	$artwork->Artist = $artist;
+	$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
+	$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
+	$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);
+	$artwork->ArtworkTags = Artwork::ParseArtworkTags(HttpInput::Str(POST, 'artwork-tags', false));
+	$artwork->Status = COVER_ARTWORK_STATUS_UNVERIFIED;
+	$artwork->PublicationYear = HttpInput::Int(POST, 'pd-proof-year-of-publication');
+	$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'pd-proof-year-of-publication-page', false);
+	$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'pd-proof-copyright-page', false);
+	$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'pd-proof-artwork-page', false);
+	$artwork->MuseumUrl = HttpInput::Str(POST, 'pd-proof-museum-link', false);
 
 	$expectCaptcha = HttpInput::Str(SESSION, 'captcha', false);
 	$actualCaptcha = HttpInput::Str(POST, 'captcha', false);
@@ -85,7 +78,6 @@ catch(\Exceptions\AppException $exception){
 	if(isset($artwork)){
 		$_SESSION['artwork'] = $artwork;
 	}
-
 }
 finally{
 	http_response_code(303);
