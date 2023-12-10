@@ -188,7 +188,7 @@ class Artwork extends PropertiesBase{
 		}
 
 		if($this->Status === COVER_ARTWORK_STATUS_IN_USE && $this->EbookWwwFilesystemPath === null){
-			$error->Add(new Exceptions\InvalidArtworkException('Status in_use requires EbookWwwFilesystemPath'));
+			$error->Add(new Exceptions\InvalidArtworkException('Status `in_use` requires EbookWwwFilesystemPath'));
 		}
 
 		if($this->ArtworkTags !== null && count($this->_ArtworkTags) > 1000){
@@ -204,7 +204,7 @@ class Artwork extends PropertiesBase{
 		if(!$hasMuseumProof && !$hasBookProof){
 			// In-use artwork has its public domain status tracked elsewhere, e.g., on the mailing list.
 			if($this->Status !== COVER_ARTWORK_STATUS_IN_USE){
-				$error->Add(new Exceptions\InvalidArtworkException('Must have proof of public domain status.'));
+				$error->Add(new Exceptions\InvalidArtworkException('Missing proof of public domain status.'));
 			}
 		}
 
