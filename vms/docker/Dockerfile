@@ -20,7 +20,7 @@ RUN mkdir /var/log/local
 RUN a2enmod headers expires ssl rewrite proxy proxy_fcgi authn_dbd authn_socache
 
 # Disable opcode caching to enable dynamic PHP reloading
-RUN echo "opcache.enable=0" >> /etc/php/*/fpm/php.ini
+RUN echo "opcache.enable=0" | tee --append /etc/php/*/fpm/php.ini
 
 # Expose port for https
 EXPOSE 443
