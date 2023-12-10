@@ -43,11 +43,11 @@ try{
 	$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);
 	$artwork->ArtworkTags = Artwork::ParseArtworkTags(HttpInput::Str(POST, 'artwork-tags', false));
 	$artwork->Status = COVER_ARTWORK_STATUS_UNVERIFIED;
-	$artwork->PublicationYear = HttpInput::Int(POST, 'pd-proof-year-of-publication');
-	$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'pd-proof-year-of-publication-page', false);
-	$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'pd-proof-copyright-page', false);
-	$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'pd-proof-artwork-page', false);
-	$artwork->MuseumUrl = HttpInput::Str(POST, 'pd-proof-museum-link', false);
+	$artwork->PublicationYear = HttpInput::Int(POST, 'pd-proof-publication-year');
+	$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'pd-proof-publication-year-page-url', false);
+	$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'pd-proof-copyright-page-url', false);
+	$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'pd-proof-artwork-page-url', false);
+	$artwork->MuseumUrl = HttpInput::Str(POST, 'pd-proof-museum-url', false);
 
 	$expectCaptcha = HttpInput::Str(SESSION, 'captcha', false);
 	$actualCaptcha = HttpInput::Str(POST, 'captcha', false);

@@ -123,7 +123,7 @@ if($exception){
 						Link to an <a href="/manual/latest/10-art-and-images#10.3.3.7.4">approved museum page</a>
 						<input
 							type="url"
-							name="pd-proof-museum-link"
+							name="pd-proof-museum-url"
 							value="<?= Formatter::ToPlainText($artwork->MuseumUrl) ?>"
 						/>
 					</label>
@@ -135,7 +135,7 @@ if($exception){
 							Link to page with year of publication
 							<input
 								type="url"
-								name="pd-proof-year-of-publication-page"
+								name="pd-proof-publication-year-page-url"
 								value="<?= Formatter::ToPlainText($artwork->PublicationYearPageUrl) ?>"
 							/>
 						</label>
@@ -143,7 +143,7 @@ if($exception){
 							Year of publication
 							<input
 								type="number"
-								name="pd-proof-year-of-publication"
+								name="pd-proof-publication-year"
 								min="0"
 								max="<?= gmdate('Y') ?>"
 								value="<?= $artwork->PublicationYear ?>"
@@ -154,7 +154,7 @@ if($exception){
 						Link to page with copyright details (might be same link as above)
 						<input
 							type="url"
-							name="pd-proof-copyright-page"
+							name="pd-proof-copyright-page-url"
 							value="<?= Formatter::ToPlainText($artwork->CopyrightPageUrl) ?>"
 						/>
 					</label>
@@ -162,7 +162,7 @@ if($exception){
 						Link to page with artwork
 						<input
 							type="url"
-							name="pd-proof-artwork-page"
+							name="pd-proof-artwork-page-url"
 							value="<?= Formatter::ToPlainText($artwork->ArtworkPageUrl) ?>"
 						/>
 					</label>
