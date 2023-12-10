@@ -42,11 +42,11 @@ class Artwork extends PropertiesBase{
 	protected $_ImageSize = null;
 	protected $_Ebook = null;
 
-	public $MuseumPage;
+	public $MuseumUrl;
 	public $PublicationYear;
-	public $PublicationYearPage;
-	public $CopyrightPage;
-	public $ArtworkPage;
+	public $PublicationYearPageUrl;
+	public $CopyrightPageUrl;
+	public $ArtworkPageUrl;
 
 	// *******
 	// GETTERS
@@ -195,11 +195,11 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
-		$hasMuseumProof = $this->MuseumPage !== null && strlen($this->MuseumPage) > 0;
+		$hasMuseumProof = $this->MuseumUrl !== null && strlen($this->MuseumUrl) > 0;
 		$hasBookProof = $this->PublicationYear !== null
-			&& ($this->PublicationYearPage !== null && strlen($this->PublicationYearPage) > 0)
-			&& ($this->ArtworkPage !== null && strlen($this->ArtworkPage) > 0)
-			&& ($this->CopyrightPage !== null && strlen($this->CopyrightPage) > 0);
+			&& ($this->PublicationYearPageUrl !== null && strlen($this->PublicationYearPageUrl) > 0)
+			&& ($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > 0)
+			&& ($this->CopyrightPageUrl !== null && strlen($this->CopyrightPageUrl) > 0);
 
 		if(!$hasMuseumProof && !$hasBookProof){
 			// In-use artwork has its public domain status tracked elsewhere, e.g., on the mailing list.
@@ -414,8 +414,8 @@ class Artwork extends PropertiesBase{
 
 	private function Insert(): void{
 		Db::Query('
-			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, MuseumPage,
-			                      PublicationYear, PublicationYearPage, CopyrightPage, ArtworkPage, EbookWwwFilesystemPath)
+			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, MuseumUrl,
+			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, EbookWwwFilesystemPath)
 			VALUES (?,
 			        ?,
 			        ?,
@@ -430,8 +430,8 @@ class Artwork extends PropertiesBase{
 			        ?,
 			        ?)
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Status, $this->MuseumPage, $this->PublicationYear, $this->PublicationYearPage,
-				$this->CopyrightPage, $this->ArtworkPage, $this->EbookWwwFilesystemPath]
+				$this->Created, $this->Status, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->EbookWwwFilesystemPath]
 		);
 
 		$this->ArtworkId = Db::GetLastInsertedId();

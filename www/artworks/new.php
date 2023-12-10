@@ -124,7 +124,7 @@ if($exception){
 						<input
 							type="url"
 							name="pd-proof-museum-link"
-							value="<?= Formatter::ToPlainText($artwork->MuseumPage) ?>"
+							value="<?= Formatter::ToPlainText($artwork->MuseumUrl) ?>"
 						/>
 					</label>
 				</fieldset>
@@ -136,7 +136,7 @@ if($exception){
 							<input
 								type="url"
 								name="pd-proof-year-of-publication-page"
-								value="<?= Formatter::ToPlainText($artwork->PublicationYearPage) ?>"
+								value="<?= Formatter::ToPlainText($artwork->PublicationYearPageUrl) ?>"
 							/>
 						</label>
 						<label>
@@ -155,7 +155,7 @@ if($exception){
 						<input
 							type="url"
 							name="pd-proof-copyright-page"
-							value="<?= Formatter::ToPlainText($artwork->CopyrightPage) ?>"
+							value="<?= Formatter::ToPlainText($artwork->CopyrightPageUrl) ?>"
 						/>
 					</label>
 					<label>
@@ -163,7 +163,7 @@ if($exception){
 						<input
 							type="url"
 							name="pd-proof-artwork-page"
-							value="<?= Formatter::ToPlainText($artwork->ArtworkPage) ?>"
+							value="<?= Formatter::ToPlainText($artwork->ArtworkPageUrl) ?>"
 						/>
 					</label>
 				</fieldset>

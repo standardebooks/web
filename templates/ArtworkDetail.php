@@ -62,10 +62,10 @@ $showPDProofTip = $showPDProofTip ?? true;
 <? } ?>
 <h3>Museum page</h3>
 <ul>
-	<li>Link to an approved museum page: <? if($artwork->MuseumPage !== null){ ?> <a href="<?= Formatter::ToPlainText($artwork->MuseumPage) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
+	<li>Link to an approved museum page: <? if($artwork->MuseumUrl !== null){ ?> <a href="<?= Formatter::ToPlainText($artwork->MuseumUrl) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
 </ul>
-<? if(!empty($artwork->MuseumPage)){ ?>
-<? $matchingMuseum = Museum::FindMatch($artwork->MuseumPage); ?>
+<? if(!empty($artwork->MuseumUrl)){ ?>
+<? $matchingMuseum = Museum::FindMatch($artwork->MuseumUrl); ?>
 <? if($matchingMuseum !== NULL){ ?>
 <figure class="corrected full">
 	<p>Approved museum: <?= Formatter::ToPlainText($matchingMuseum->Name) ?> <code>(<?= Formatter::ToPlainText($matchingMuseum->Domain) ?>)</code></p>
@@ -79,7 +79,7 @@ $showPDProofTip = $showPDProofTip ?? true;
 <h3>Links to scans</h3>
 <ol>
 	<li>Year book was published: <? if($artwork->PublicationYear !== null){ ?><?= $artwork->PublicationYear ?><? }else{ ?>(not provided)<? } ?></li>
-	<li>Link to direct page scan of artwork: <? if($artwork->ArtworkPage !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->ArtworkPage) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
-	<li>Link to direct page scan of page mentioning book publication year: <? if($artwork->PublicationYearPage !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->PublicationYearPage) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
-	<li>Link to direct page scan of book copyright/rights statement page: <? if($artwork->CopyrightPage !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->CopyrightPage) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
+	<li>Link to direct page scan of artwork: <? if($artwork->ArtworkPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->ArtworkPageUrl) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
+	<li>Link to direct page scan of page mentioning book publication year: <? if($artwork->PublicationYearPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->PublicationYearPageUrl) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
+	<li>Link to direct page scan of book copyright/rights statement page: <? if($artwork->CopyrightPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->CopyrightPageUrl) ?>">Link</a><? }else{ ?>(not provided)<? } ?></li>
 </ol>
