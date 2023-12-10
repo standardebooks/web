@@ -18,10 +18,11 @@ session_start();
 try{
 	$status = HttpInput::Str(POST, 'status', false);
 	if($status === null){
-		throw new \Exceptions\InvalidRequestException('Empty or invalid status');
+		throw new Exceptions\InvalidRequestException('Empty or invalid status');
 	}
 
-	$artwork->Save($status);
+	$artwork->Status = $status;
+	$artwork->Save();
 
 	switch($artwork->Status){
 		case COVER_ARTWORK_STATUS_APPROVED:

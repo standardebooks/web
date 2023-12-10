@@ -443,8 +443,7 @@ class Artwork extends PropertiesBase{
 	/**
 	 * @throws \Exceptions\ValidationException
 	 */
-	public function Save(string $status): void{
-		$this->Status = $status;
+	public function Save(): void{
 		$this->Validate();
 
 		Db::Query('
@@ -457,7 +456,8 @@ class Artwork extends PropertiesBase{
 
 	public function MarkInUse(string $ebookWwwFilesystemPath): void{
 		$this->EbookWwwFilesystemPath = $ebookWwwFilesystemPath;
-		$this->Save(COVER_ARTWORK_STATUS_IN_USE);
+		$this->Status = COVER_ARTWORK_STATUS_IN_USE;
+		$this->Save();
 	}
 
 	public function Delete(): void{
