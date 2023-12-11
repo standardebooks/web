@@ -332,76 +332,6 @@ class Artwork extends PropertiesBase{
 		}
 
 		$this->Artist->GetOrCreate();
-		$this->Insert();
-
-		try{
-			rename($uploadedFile['thumbPath'], WEB_ROOT . $this->ThumbUrl);
-			if(!move_uploaded_file($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl)){
-				throw new \Safe\Exceptions\FilesystemException('Failed to save uploaded image.');
-			}
-		}
-		catch(\Safe\Exceptions\FilesystemException $exception){
-			$log = new Log(ARTWORK_UPLOADS_LOG_FILE_PATH);
-			$log->Write('Failed to store image or thumbnail for uploaded artwork ' . $this->ArtworkId . '.');
-			$log->Write('Temporary image file at ' . $uploadedFile['imagePath'] . ', temporary thumb file at ' . $uploadedFile['thumbPath'] . '.');
-			$log->Write($exception);
-
-			throw new Exceptions\InvalidImageUploadException('Your artwork was submitted but something went wrong. Please contact site administrator.');
-		}
-	}
-
-	/**
-	 * @throws \Exceptions\ValidationException
-	 */
-	public function CreateFromFilesystem(string $coverSourcePath): void{
-		$this->Validate();
-		$this->Created = new DateTime();
-
-		foreach ($this->ArtworkTags as $artworkTag) {
-			$artworkTag->GetOrCreate();
-		}
-
-		if($this->Artist->ArtistId === null){
-			$this->Artist->GetOrCreate();
-		}
-
-		$this->Insert();
-
-		try{
-			copy($coverSourcePath, WEB_ROOT . $this->ImageUrl);
-			self::GenerateThumbnail($coverSourcePath, WEB_ROOT . $this->ThumbUrl);
-		}
-		catch(\Safe\Exceptions\FilesystemException|\Safe\Exceptions\ImageException $exception){
-			throw new Exceptions\InvalidImageUploadException('Failed to create image and thumbnail at ' . WEB_ROOT . $this->ImageUrl);
-		}
-	}
-
-	/**
-	 * @throws \Safe\Exceptions\ImageException
-	 */
-	private static function GenerateThumbnail(string $srcImagePath, string $dstThumbPath): void{
-		$uploadInfo = getimagesize($srcImagePath);
-
-		$src_w = $uploadInfo[0];
-		$src_h = $uploadInfo[1];
-
-		if($src_h > $src_w){
-			$dst_h = COVER_THUMBNAIL_SIZE;
-			$dst_w = intval($dst_h * ($src_w / $src_h));
-		}
-		else{
-			$dst_w = COVER_THUMBNAIL_SIZE;
-			$dst_h = intval($dst_w * ($src_h / $src_w));
-		}
-
-		$srcImage = imagecreatefromjpeg($srcImagePath);
-		$thumbImage = imagecreatetruecolor($dst_w, $dst_h);
-
-		imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
-		imagejpeg($thumbImage, $dstThumbPath);
-	}
-
-	private function Insert(): void{
 		Db::Query('
 			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, EbookWwwFilesystemPath)
@@ -434,6 +364,46 @@ class Artwork extends PropertiesBase{
 				', [$this->ArtworkId, $tag->TagId]);
 			}
 		}
+
+		try{
+			rename($uploadedFile['thumbPath'], WEB_ROOT . $this->ThumbUrl);
+			if(!move_uploaded_file($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl)){
+				throw new \Safe\Exceptions\FilesystemException('Failed to save uploaded image.');
+			}
+		}
+		catch(\Safe\Exceptions\FilesystemException $exception){
+			$log = new Log(ARTWORK_UPLOADS_LOG_FILE_PATH);
+			$log->Write('Failed to store image or thumbnail for uploaded artwork ' . $this->ArtworkId . '.');
+			$log->Write('Temporary image file at ' . $uploadedFile['tmp_name'] . ', temporary thumb file at ' . $uploadedFile['thumbPath'] . '.');
+			$log->Write($exception);
+
+			throw new Exceptions\InvalidImageUploadException('Your artwork was submitted but something went wrong. Please contact site administrator.');
+		}
+	}
+
+	/**
+	 * @throws \Safe\Exceptions\ImageException
+	 */
+	private static function GenerateThumbnail(string $srcImagePath, string $dstThumbPath): void{
+		$uploadInfo = getimagesize($srcImagePath);
+
+		$src_w = $uploadInfo[0];
+		$src_h = $uploadInfo[1];
+
+		if($src_h > $src_w){
+			$dst_h = COVER_THUMBNAIL_SIZE;
+			$dst_w = intval($dst_h * ($src_w / $src_h));
+		}
+		else{
+			$dst_w = COVER_THUMBNAIL_SIZE;
+			$dst_h = intval($dst_w * ($src_h / $src_w));
+		}
+
+		$srcImage = imagecreatefromjpeg($srcImagePath);
+		$thumbImage = imagecreatetruecolor($dst_w, $dst_h);
+
+		imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
+		imagejpeg($thumbImage, $dstThumbPath);
 	}
 
 	/**
