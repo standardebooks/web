@@ -1,6 +1,7 @@
 <?
 use Safe\DateTime;
 use function Safe\apcu_fetch;
+use function Safe\chmod;
 use function Safe\copy;
 use function Safe\filesize;
 use function Safe\getimagesize;
@@ -252,9 +253,10 @@ class Artwork extends PropertiesBase{
 				$thumbPath = tempnam(sys_get_temp_dir(), 'tmp-thumb-');
 				$uploadedFile['thumbPath'] = $thumbPath;
 				try{
+					chmod($thumbPath, 0644);
 					self::GenerateThumbnail($uploadPath, $thumbPath);
 				}
-				catch(\Safe\Exceptions\ImageException $exception){
+				catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException $exception){
 					$error->Add(new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.'));
 				}
 			}
@@ -323,7 +325,7 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\ValidationException
 	 * @throws \Exceptions\InvalidImageUploadException
 	 */
-	public function Create(array $uploadedFile): void{
+	public function Create(array $uploadedFile, bool $copyFile = false): void{
 		$this->Validate($uploadedFile);
 		$this->Created = new DateTime();
 
@@ -367,8 +369,13 @@ class Artwork extends PropertiesBase{
 
 		try{
 			rename($uploadedFile['thumbPath'], WEB_ROOT . $this->ThumbUrl);
-			if(!move_uploaded_file($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl)){
-				throw new \Safe\Exceptions\FilesystemException('Failed to save uploaded image.');
+			if($copyFile){
+				copy($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl);
+			}
+			else{
+				if(!move_uploaded_file($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl)){
+					throw new \Safe\Exceptions\FilesystemException('Failed to save uploaded image.');
+				}
 			}
 		}
 		catch(\Safe\Exceptions\FilesystemException $exception){

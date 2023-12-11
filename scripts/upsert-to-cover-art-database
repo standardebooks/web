@@ -142,7 +142,8 @@ if($artwork === null){
 		}
 	}
 
-	$artwork->CreateFromFilesystem($coverSourceFile . '.jpg');
+	$uploadedFile = ['tmp_name' => $coverSourceFile . '.jpg', 'error' => UPLOAD_ERR_OK];
+	$artwork->Create($uploadedFile, copyFile: true);
 }
 else{
 	if($verbose){
