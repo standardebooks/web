@@ -221,6 +221,10 @@ class Artwork extends PropertiesBase{
 			}
 		}
 
+		if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
+			$error->Add(new Exceptions\InvalidImageUploadException('Upload path not writable.'));
+		}
+
 		if(!empty($uploadedFile)){
 			$uploadError = $uploadedFile['error'];
 			if($uploadError > UPLOAD_ERR_OK){
@@ -245,25 +249,13 @@ class Artwork extends PropertiesBase{
 					$error->Add(new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.'));
 				}
 
-				$thumbPath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, 'tmp-thumb-');
-				if(!str_starts_with($thumbPath, WEB_ROOT . COVER_ART_UPLOAD_PATH)){
-					$error->Add(new Exceptions\InvalidImageUploadException('Failed to generate thumbnail in correct directory.'));
-				}
+				$thumbPath = tempnam(sys_get_temp_dir(), 'tmp-thumb-');
 				$uploadedFile['thumbPath'] = $thumbPath;
 				try{
 					self::GenerateThumbnail($uploadPath, $thumbPath);
 				}
 				catch(\Safe\Exceptions\ImageException $exception){
 					$error->Add(new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.'));
-				}
-
-				$imagePath = tempnam(WEB_ROOT . COVER_ART_UPLOAD_PATH, 'tmp-image-');
-				if(!str_starts_with($imagePath, WEB_ROOT . COVER_ART_UPLOAD_PATH)){
-					$error->Add(new Exceptions\InvalidImageUploadException('Failed to save uploaded image in correct directory.'));
-				}
-				$uploadedFile['imagePath'] = $imagePath;
-				if(!move_uploaded_file($uploadPath, $imagePath)){
-					$error->Add(new Exceptions\InvalidImageUploadException('Failed to save uploaded image.'));
 				}
 			}
 		}
@@ -342,11 +334,11 @@ class Artwork extends PropertiesBase{
 		$this->Artist->GetOrCreate();
 		$this->Insert();
 
-		// rename() is after Insert() because it depends on ArtworkId.
-		// It should be rare that Validate() succeeds but rename() fails because they operate on the same path.
 		try{
 			rename($uploadedFile['thumbPath'], WEB_ROOT . $this->ThumbUrl);
-			rename($uploadedFile['imagePath'], WEB_ROOT . $this->ImageUrl);
+			if(!move_uploaded_file($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl)){
+				throw new \Safe\Exceptions\FilesystemException('Failed to save uploaded image.');
+			}
 		}
 		catch(\Safe\Exceptions\FilesystemException $exception){
 			$log = new Log(ARTWORK_UPLOADS_LOG_FILE_PATH);
