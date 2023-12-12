@@ -58,6 +58,10 @@ class Artwork extends PropertiesBase{
 	 * @return string
 	 */
 	protected function GetUrlName(): string{
+		if($this->Name === null || $this->Name == ''){
+			return '';
+		}
+
 		if($this->_UrlName === null){
 			$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
 		}
@@ -180,12 +184,15 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException());
 		}
 
-		if($this->Name === null || strlen($this->Name) === 0){
-			$error->Add(new Exceptions\InvalidArtworkException());
+		try{
+			$this->Artist->Validate();
+		}
+		catch(Exceptions\ValidationException $ex){
+			$error->Add($ex);
 		}
 
-		if($this->UrlName === null || strlen($this->UrlName) === 0){
-			$error->Add(new Exceptions\InvalidArtworkException());
+		if($this->Name === null || $this->Name == ''){
+			$error->Add(new Exceptions\ArtworkNameRequiredException ());
 		}
 
 		if($this->Status !== null && !in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_DECLINED, COVER_ARTWORK_STATUS_IN_USE])){

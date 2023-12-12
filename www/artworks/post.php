@@ -32,12 +32,12 @@ try{
 		}
 	}
 
-	$artist = new Artist();
-	$artist->Name = HttpInput::Str(POST, 'artist-name', false);
-	$artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
-
 	$artwork = new Artwork();
-	$artwork->Artist = $artist;
+
+	$artwork->Artist = new Artist();
+	$artwork->Artist->Name = HttpInput::Str(POST, 'artist-name', false);
+	$artwork->Artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
+
 	$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
 	$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 	$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);

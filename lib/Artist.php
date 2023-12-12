@@ -20,6 +20,10 @@ class Artist extends PropertiesBase{
 	 * @return string
 	 */
 	protected function GetUrlName(): string{
+		if($this->Name === null || $this->Name == ''){
+			return '';
+		}
+
 		if($this->_UrlName === null){
 			$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
 		}
@@ -52,15 +56,11 @@ class Artist extends PropertiesBase{
 	// METHODS
 	// *******
 
-	protected function Validate(): void{
+	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
-		if($this->Name === null || strlen($this->Name) === 0){
-			$error->Add(new Exceptions\InvalidArtistException());
-		}
-
-		if($this->UrlName === null || strlen($this->UrlName) === 0){
-			$error->Add(new Exceptions\InvalidArtistException());
+		if($this->Name === null || $this->Name == ''){
+			$error->Add(new Exceptions\ArtistNameRequiredException());
 		}
 
 		if($error->HasExceptions){
