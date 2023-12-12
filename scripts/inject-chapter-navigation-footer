@@ -1,43 +1,53 @@
-#!/usr/bin/php
-<?
-if(count($argv) < 3){
-	print 'Expected usage: inject-chapter-navigation-footer <epubDirectory> <bookUrl>';
-	exit(1);
-}
-$epubDirectory = $argv[1];
-$bookUrl = $argv[2];
+#!/usr/bin/env python3
 
-// Parse the order of chapters from the table of contents.
-$doc = new DOMDocument();
-libxml_use_internal_errors(true); // Suppress warnings from output.
-$doc->loadHTMLFile($epubDirectory . '/toc.xhtml');
-libxml_clear_errors();
-$toc = $doc->getElementById('toc');
-if($toc){
-	$chapterLinks = array();
-	foreach($toc->getElementsByTagName('a') as $link){
-		$obj = new stdClass();
-		$obj->Path = $link->getAttribute('href');
-		$obj->Name = $link->textContent;
+import argparse
+import os
+import html
+import se
+import se.se_epub
+import se.easy_xml
 
-		// Only include links pointing to actual files (e.g. skip href="text/chapter-7#panawes-story").
-		if(file_exists($epubDirectory . '/' . $obj->Path . '.xhtml')){
-			$chapterLinks[] = $obj;
-		}
-	}
+# Require arguments
+parser = argparse.ArgumentParser(description='A script to inject the navigation footer with links in the web version of a Standard Ebook')
+parser.add_argument('ebook_dir', type=str, help='Path to the main directory of the ebook') # No trailing "/" on this path
+parser.add_argument('book_url', type=str, help='The ebook URL') # No trailing "/" on this link
+args = parser.parse_args()
 
-	for($i = 0; $i < count($chapterLinks); $i++){
-		$previousObj = $i > 0 ? $chapterLinks[$i - 1] : null;
-		$nextObj = $i < count($chapterLinks) - 1 ? $chapterLinks[$i + 1] : null;
+ebook_dir = args.ebook_dir
+book_url = args.book_url
 
-		$fileName = $epubDirectory . '/' . $chapterLinks[$i]->Path . '.xhtml';
-		$chapter = file_get_contents($fileName);
-		// Inject the navigation footer.
-		$previousLink = $previousObj ? sprintf('<a href="%s" rel="prev"><i>Previous:</i> %s</a>', $bookUrl . '/' . $previousObj->Path, htmlspecialchars($previousObj->Name)) : '';
-		$nextLink = $nextObj ? sprintf('<a href="%s" rel="next"><i>Next:</i> %s</a>', $bookUrl . '/' . $nextObj->Path, htmlspecialchars($nextObj->Name)) : '';
-		$footer = sprintf('<footer><ul><li>%s</li><li>%s</li></ul></footer>', $previousLink, $nextLink);
-		$chapter = str_replace('</body>', $footer . '</body>', $chapter);
-		file_put_contents($fileName, $chapter);
-	}
-}
-?>
+# Make an instance of the SeEpub class so we can use helper functions to easily get spine
+se_epub = se.se_epub.SeEpub(ebook_dir)
+
+# Get spine paths
+spine_paths = se_epub.spine_file_paths
+
+# Make sure spine paths are of the form "text/chapter-1.xhtml", with no leading "/"
+rel_spine_paths = [
+    '/'.join(str(path).split('/')[str(path).split('/').index('text'):]).lstrip('/') for path in spine_paths
+]
+
+# Get titles from spine
+spine_titles = [se.easy_xml.EasyXmlTree(open(file_path).read()).xpath("//head/title/text()", True) for file_path in spine_paths]
+
+# Make list of dicts containing title and relative path for each file
+chapter_links = [{"title": title, "path": path} for title, path in zip(spine_titles, rel_spine_paths)]
+
+# Create footers
+for i, chapter_link in enumerate(chapter_links):
+    previousObj = chapter_links[i - 1] if i > 0 else None
+    nextObj = chapter_links[i + 1] if i < len(chapter_links) - 1 else None
+
+    fileName = os.path.join(ebook_dir, "src/epub", chapter_link["path"])
+
+    with open(fileName, 'r') as file:
+        chapter = file.read()
+
+    previousLink = f'<a href="{book_url}/{previousObj["path"]}" rel="prev"><i>Previous:</i> {html.escape(previousObj["title"])}</a>' if previousObj else ''
+    nextLink = f'<a href="{book_url}/{nextObj["path"]}" rel="next"><i>Next:</i> {html.escape(nextObj["title"])}</a>' if nextObj else ''
+
+    footer = f'<footer><ul><li>{previousLink}</li><li>{nextLink}</li></ul></footer>'
+    chapter = chapter.replace('</body>', f'{footer}</body>')
+
+    with open(fileName, 'w') as file:
+        file.write(chapter)
