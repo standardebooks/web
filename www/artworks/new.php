@@ -111,6 +111,7 @@ if($exception){
 						type="text"
 						name="artwork-tags"
 						placeholder="tags, comma-separated"
+						required="required"
 						value="<?= Formatter::ToPlainText($artwork->ArtworkTagsImploded) ?>"
 					/>
 				</label>

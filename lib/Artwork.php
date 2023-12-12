@@ -203,8 +203,8 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException('Status `in_use` requires EbookWwwFilesystemPath'));
 		}
 
-		if($this->ArtworkTags !== null && count($this->_ArtworkTags) > 1000){
-			$error->Add(new Exceptions\InvalidArtworkException());
+		if($this->ArtworkTags === null || count($this->_ArtworkTags) == 0 || count($this->_ArtworkTags) > 100){
+			$error->Add(new Exceptions\TagsRequiredException());
 		}
 
 		$hasMuseumProof = $this->MuseumUrl !== null && strlen($this->MuseumUrl) > 0;
