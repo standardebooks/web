@@ -3,6 +3,7 @@ use Safe\DateTime;
 use function Safe\apcu_fetch;
 use function Safe\chmod;
 use function Safe\copy;
+use function Safe\date;
 use function Safe\filesize;
 use function Safe\getimagesize;
 use function Safe\imagecopyresampled;
@@ -193,6 +194,14 @@ class Artwork extends PropertiesBase{
 
 		if($this->Name === null || $this->Name == ''){
 			$error->Add(new Exceptions\ArtworkNameRequiredException ());
+		}
+
+		if($this->CompletedYear !== null && ($this->CompletedYear <=0 || $this->CompletedYear > intval(date('Y')))){
+			$error->Add(new Exceptions\InvalidCompletedYearException());
+		}
+
+		if($this->PublicationYear !== null && ($this->PublicationYear <=0 || $this->PublicationYear > intval(date('Y')))){
+			$error->Add(new Exceptions\InvalidPublicationYearException());
 		}
 
 		if($this->Status !== null && !in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_DECLINED, COVER_ARTWORK_STATUS_IN_USE])){

@@ -1,5 +1,6 @@
 <?
 use Safe\DateTime;
+use function Safe\date;
 
 /**
  * @property string $UrlName
@@ -61,6 +62,10 @@ class Artist extends PropertiesBase{
 
 		if($this->Name === null || $this->Name == ''){
 			$error->Add(new Exceptions\ArtistNameRequiredException());
+		}
+
+		if($this->DeathYear !== null && ($this->DeathYear <=0 || $this->DeathYear > intval(date('Y')))){
+			$error->Add(new Exceptions\InvalidDeathYearException());
 		}
 
 		if($error->HasExceptions){
