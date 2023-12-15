@@ -216,6 +216,22 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\TagsRequiredException());
 		}
 
+		if($this->MuseumUrl !== null && strlen($this->MuseumUrl) > 0 && filter_var($this->MuseumUrl, FILTER_VALIDATE_URL) === false){
+			$error->Add(new Exceptions\InvalidMuseumUrlException());
+		}
+
+		if($this->PublicationYearPageUrl !== null && strlen($this->PublicationYearPageUrl) > 0 && filter_var($this->PublicationYearPageUrl, FILTER_VALIDATE_URL) === false){
+			$error->Add(new Exceptions\InvalidPublicationYearPageUrlException());
+		}
+
+		if($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > 0 && filter_var($this->ArtworkPageUrl, FILTER_VALIDATE_URL) === false){
+			$error->Add(new Exceptions\InvalidArtworkPageUrlException());
+		}
+
+		if($this->CopyrightPageUrl !== null && strlen($this->CopyrightPageUrl) > 0 && filter_var($this->CopyrightPageUrl, FILTER_VALIDATE_URL) === false){
+			$error->Add(new Exceptions\InvalidCopyrightPageUrlException());
+		}
+
 		$hasMuseumProof = $this->MuseumUrl !== null && strlen($this->MuseumUrl) > 0;
 		$hasBookProof = $this->PublicationYear !== null
 			&& ($this->PublicationYearPageUrl !== null && strlen($this->PublicationYearPageUrl) > 0)
