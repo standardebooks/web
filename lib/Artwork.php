@@ -213,7 +213,7 @@ class Artwork extends PropertiesBase{
 		}
 
 		if($this->Status === COVER_ARTWORK_STATUS_IN_USE && $this->EbookWwwFilesystemPath === null){
-			$error->Add(new Exceptions\InvalidArtworkException('Status `in_use` requires EbookWwwFilesystemPath'));
+			$error->Add(new Exceptions\MissingEbookException());
 		}
 
 		if($this->ArtworkTags === null || count($this->_ArtworkTags) == 0){
@@ -265,7 +265,7 @@ class Artwork extends PropertiesBase{
 		if(!$hasMuseumProof && !$hasBookProof){
 			// In-use artwork has its public domain status tracked elsewhere, e.g., on the mailing list.
 			if($this->Status !== COVER_ARTWORK_STATUS_IN_USE){
-				$error->Add(new Exceptions\InvalidArtworkException('Missing proof of public domain status.'));
+				$error->Add(new Exceptions\MissingPdProofException());
 			}
 		}
 
@@ -274,7 +274,7 @@ class Artwork extends PropertiesBase{
 		if($existingArtwork !== null && ($existingArtwork->ArtworkId !== $this->ArtworkId)){
 			// Unverified and declined artwork can match an existing object. Approved and In Use artwork cannot.
 			if(!in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_DECLINED])){
-				$error->Add(new Exceptions\InvalidArtworkException('Artwork already exisits: ' . SITE_URL . $existingArtwork->Url));
+				$error->Add(new Exceptions\ArtworkAlreadyExistsException(SITE_URL . $existingArtwork->Url));
 			}
 		}
 
