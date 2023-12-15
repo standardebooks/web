@@ -70,7 +70,7 @@ if($exception){
 						<input
 							type="number"
 							name="artist-year-of-death"
-							min="0"
+							min="1"
 							max="<?= gmdate('Y') ?>"
 							value="<?= $artist->DeathYear ?>"
 						/>
@@ -99,7 +99,7 @@ if($exception){
 							type="number"
 							id="artwork-year"
 							name="artwork-year"
-							min="0"
+							min="1"
 							max="<?= gmdate('Y') ?>"
 							value="<?= $artwork->CompletedYear ?>"
 						/>
@@ -145,7 +145,7 @@ if($exception){
 							<input
 								type="number"
 								name="pd-proof-publication-year"
-								min="0"
+								min="1"
 								max="<?= gmdate('Y') ?>"
 								value="<?= $artwork->PublicationYear ?>"
 							/>
