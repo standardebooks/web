@@ -42,6 +42,7 @@ const COVER_ARTWORK_STATUS_APPROVED = 'approved';
 const COVER_ARTWORK_STATUS_DECLINED = 'declined';
 const COVER_ARTWORK_STATUS_IN_USE = 'in_use';
 const COVER_ARTWORK_STATUS_UNVERIFIED = 'unverified';
+const COVER_ARTWORK_MAX_STRING_LENGTH = 191;
 const SORT_COVER_ARTWORK_CREATED_NEWEST = 'created-newest';
 const SORT_COVER_ARTIST_ALPHA = 'artist-alpha';
 const SORT_COVER_ARTWORK_COMPLETED_NEWEST = 'completed-newest';

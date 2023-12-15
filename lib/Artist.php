@@ -64,6 +64,10 @@ class Artist extends PropertiesBase{
 			$error->Add(new Exceptions\ArtistNameRequiredException());
 		}
 
+		if(strlen($this->Name) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Artist Name'));
+		}
+
 		if($this->DeathYear !== null && ($this->DeathYear <=0 || $this->DeathYear > intval(date('Y')))){
 			$error->Add(new Exceptions\InvalidDeathYearException());
 		}

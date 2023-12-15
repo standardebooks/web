@@ -196,6 +196,10 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\ArtworkNameRequiredException ());
 		}
 
+		if(strlen($this->Name) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
+		}
+
 		if($this->CompletedYear !== null && ($this->CompletedYear <=0 || $this->CompletedYear > intval(date('Y')))){
 			$error->Add(new Exceptions\InvalidCompletedYearException());
 		}
@@ -212,31 +216,51 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException('Status `in_use` requires EbookWwwFilesystemPath'));
 		}
 
-		if($this->ArtworkTags === null || count($this->_ArtworkTags) == 0 || count($this->_ArtworkTags) > 100){
+		if($this->ArtworkTags === null || count($this->_ArtworkTags) == 0){
 			$error->Add(new Exceptions\TagsRequiredException());
+		}
+
+		if(strlen($this->ArtworkTagsImploded) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Artwork Tags'));
 		}
 
 		if($this->MuseumUrl !== null && strlen($this->MuseumUrl) > 0 && filter_var($this->MuseumUrl, FILTER_VALIDATE_URL) === false){
 			$error->Add(new Exceptions\InvalidMuseumUrlException());
 		}
 
+		if($this->MuseumUrl !== null && strlen($this->MuseumUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Link to an approved museum page'));
+		}
+
 		if($this->PublicationYearPageUrl !== null && strlen($this->PublicationYearPageUrl) > 0 && filter_var($this->PublicationYearPageUrl, FILTER_VALIDATE_URL) === false){
 			$error->Add(new Exceptions\InvalidPublicationYearPageUrlException());
 		}
 
-		if($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > 0 && filter_var($this->ArtworkPageUrl, FILTER_VALIDATE_URL) === false){
-			$error->Add(new Exceptions\InvalidArtworkPageUrlException());
+		if($this->PublicationYearPageUrl !== null && strlen($this->PublicationYearPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Link to page with year of publication'));
 		}
 
 		if($this->CopyrightPageUrl !== null && strlen($this->CopyrightPageUrl) > 0 && filter_var($this->CopyrightPageUrl, FILTER_VALIDATE_URL) === false){
 			$error->Add(new Exceptions\InvalidCopyrightPageUrlException());
 		}
 
+		if($this->CopyrightPageUrl !== null && strlen($this->CopyrightPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Link to page with copyright details'));
+		}
+
+		if($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > 0 && filter_var($this->ArtworkPageUrl, FILTER_VALIDATE_URL) === false){
+			$error->Add(new Exceptions\InvalidArtworkPageUrlException());
+		}
+
+		if($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Link to page with artwork'));
+		}
+
 		$hasMuseumProof = $this->MuseumUrl !== null && strlen($this->MuseumUrl) > 0;
 		$hasBookProof = $this->PublicationYear !== null
 			&& ($this->PublicationYearPageUrl !== null && strlen($this->PublicationYearPageUrl) > 0)
-			&& ($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > 0)
-			&& ($this->CopyrightPageUrl !== null && strlen($this->CopyrightPageUrl) > 0);
+			&& ($this->CopyrightPageUrl !== null && strlen($this->CopyrightPageUrl) > 0)
+			&& ($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > 0);
 
 		if(!$hasMuseumProof && !$hasBookProof){
 			// In-use artwork has its public domain status tracked elsewhere, e.g., on the mailing list.
