@@ -196,7 +196,7 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\ArtworkNameRequiredException ());
 		}
 
-		if(strlen($this->Name) > COVER_ARTWORK_MAX_STRING_LENGTH){
+		if($this->Name !== null && strlen($this->Name) > COVER_ARTWORK_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
 		}
 
