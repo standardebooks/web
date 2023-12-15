@@ -217,7 +217,10 @@ class Artwork extends PropertiesBase{
 		}
 
 		if($this->ArtworkTags === null || count($this->_ArtworkTags) == 0){
-			$error->Add(new Exceptions\TagsRequiredException());
+			// In-use artwork doesn't have user-provided tags.
+			if($this->Status !== COVER_ARTWORK_STATUS_IN_USE){
+				$error->Add(new Exceptions\TagsRequiredException());
+			}
 		}
 
 		if(strlen($this->ArtworkTagsImploded) > COVER_ARTWORK_MAX_STRING_LENGTH){
