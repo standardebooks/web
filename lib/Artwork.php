@@ -272,13 +272,10 @@ class Artwork extends PropertiesBase{
 			}
 		}
 
+		// Check for existing Artwork objects with the same URL but different Artwork IDs.
 		$existingArtwork = Artwork::GetByUrlPath($this->Artist->UrlName, $this->UrlName);
-		// Check for Artwork objects with the same URL but different Artwork IDs.
 		if($existingArtwork !== null && ($existingArtwork->ArtworkId !== $this->ArtworkId)){
-			// Unverified and declined artwork can match an existing object. Approved and In Use artwork cannot.
-			if(!in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_DECLINED])){
-				$error->Add(new Exceptions\ArtworkAlreadyExistsException(SITE_URL . $existingArtwork->Url));
-			}
+			$error->Add(new Exceptions\ArtworkAlreadyExistsException(SITE_URL . $existingArtwork->Url));
 		}
 
 		if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
