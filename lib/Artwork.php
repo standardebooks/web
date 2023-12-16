@@ -484,10 +484,26 @@ class Artwork extends PropertiesBase{
 
 		Db::Query('
 			UPDATE Artworks
-			set Status = ?,
+			SET
+			ArtistId = ?,
+			Name = ?,
+			UrlName = ?,
+			CompletedYear = ?,
+			CompletedYearIsCirca = ?,
+			Created = ?,
+			Status = ?,
+			MuseumUrl = ?,
+			PublicationYear = ?,
+			PublicationYearPageUrl = ?,
+			CopyrightPageUrl = ?,
+			ArtworkPageUrl = ?,
 			EbookWwwFilesystemPath = ?
-			where ArtworkId = ?
-		', [$this->Status, $this->EbookWwwFilesystemPath, $this->ArtworkId]);
+			WHERE
+			ArtworkId = ?
+		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
+				$this->Created, $this->Status, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->EbookWwwFilesystemPath, $this->ArtworkId]
+		);
 	}
 
 	public function MarkInUse(string $ebookWwwFilesystemPath): void{
