@@ -4,5 +4,5 @@ CREATE TABLE `Artists` (
   `UrlName` varchar(255) NOT NULL,
   `DeathYear` smallint unsigned NULL,
   PRIMARY KEY (`ArtistId`),
-  UNIQUE KEY `idxUnique` (`Name`,`DeathYear`)
+  UNIQUE KEY `idxUnique` (`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
