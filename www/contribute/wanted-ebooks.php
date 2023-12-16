@@ -138,14 +138,17 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/71073">The Starvel Hollow Tragedy</a> by Freeman Wills Crofts (Inspector French #3)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/9662">An Enquiry Concerning Human Understanding</a> by David Hume</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/134">Maria</a> by Mary Wollstonecraft</p>
 			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/393">The Blue Lagoon</a> by Henry De Vere Stacpoole</p><!--patron-->
+			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/8677">Behind a Mask</a> by Louisa May Alcott</p><!--patron-->
 			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
@@ -516,6 +519,9 @@
 			<li>
 				<p>The Travels of Marco Polo by Rustichello da Pisa, translated by Henry Yule (<a href="https://gutenberg.org/ebooks/10636">volume 1</a>, <a href="https://gutenberg.org/ebooks/12410">volume 2</a>)</p>
 			</li>
+			<li>
+				<p><a href="https://archive.org/details/mabuse-norbert-jacques-1921-eng/page/8/mode/1up">Dr. Mabuse, the Gambler</a> by Norbert Jacques (transcription required)</p>
+			</li><!--patron-->
 		</ul>
 		<h2 id="verne">Jules Verne</h2>
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
