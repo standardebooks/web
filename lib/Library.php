@@ -160,13 +160,25 @@ class Library{
 	}
 
 	/**
+	 *  Browsable Artwork can be displayed publically, e.g., at /artworks.
+	 *  Unverified and declined Artwork shouldn't be browsable.
+	 *  @return array<Artwork>
+	 */
+	private static function GetBrowsableArtwork(): array{
+		return Db::Query('
+			SELECT *
+			FROM Artworks
+			WHERE Status IN ("approved", "in_use")', [], 'Artwork');
+	}
+
+	/**
 	* @param string $query
 	* @param string $status
 	* @param string $sort
 	* @return array<Artwork>
 	*/
 	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null): array{
-		$artworks = Artwork::GetBrowsable();
+		$artworks = Library::GetBrowsableArtwork();
 		$matches = $artworks;
 
 		if($sort === null){

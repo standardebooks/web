@@ -510,18 +510,6 @@ class Artwork extends PropertiesBase{
 		', [$this->ArtworkId]);
 	}
 
-	/**
-	 *  Browsable Artwork can be displayed publically, e.g., at /artworks.
-	 *  Unverified and declined Artwork shouldn't be browsable.
-	 *  @return array<Artwork>
-	 */
-	public static function GetBrowsable(): array{
-		return Db::Query('
-			SELECT *
-			FROM Artworks
-			WHERE Status IN ("approved", "in_use")', [], 'Artwork');
-	}
-
 	public function Contains(string $query): bool{
 		$searchString = $this->Name;
 
