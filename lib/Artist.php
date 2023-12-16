@@ -118,8 +118,8 @@ class Artist extends PropertiesBase{
 		$result = Db::Query('
 			SELECT *
 			FROM Artists
-			WHERE Name = ? AND DeathYear = ?
-		', [$this->Name, $this->DeathYear], 'Artist');
+			WHERE UrlName = ?
+		', [$this->UrlName], 'Artist');
 
 		if(isset($result[0])){
 			$this->ArtistId = $result[0]->ArtistId;
