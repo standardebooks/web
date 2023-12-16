@@ -387,7 +387,7 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\ValidationException
 	 * @throws \Exceptions\InvalidImageUploadException
 	 */
-	public function Create(array $uploadedFile, bool $copyFile = false): void{
+	public function Create(array $uploadedFile): void{
 		$this->Validate($uploadedFile);
 		$this->Created = new DateTime();
 
@@ -431,13 +431,14 @@ class Artwork extends PropertiesBase{
 
 		try{
 			rename($uploadedFile['thumbPath'], WEB_ROOT . $this->ThumbUrl);
-			if($copyFile){
-				copy($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl);
-			}
-			else{
+
+			if(is_uploaded_file($uploadedFile['tmp_name'])){
 				if(!move_uploaded_file($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl)){
 					throw new \Safe\Exceptions\FilesystemException('Failed to save uploaded image.');
 				}
+			}
+			else{
+				copy($uploadedFile['tmp_name'], WEB_ROOT . $this->ImageUrl);
 			}
 		}
 		catch(\Safe\Exceptions\FilesystemException $exception){
