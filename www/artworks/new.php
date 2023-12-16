@@ -92,7 +92,7 @@ if($exception){
 							<input
 								type="checkbox"
 								name="artwork-year-is-circa"
-								value="<?= $artwork->CompletedYearIsCirca ?>"
+								<? if($artwork->CompletedYearIsCirca){ ?>checked<? } ?>
 							/>)
 						</label>
 						<input
