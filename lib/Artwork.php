@@ -223,8 +223,14 @@ class Artwork extends PropertiesBase{
 			}
 		}
 
-		if(strlen($this->ArtworkTagsImploded) > COVER_ARTWORK_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Artwork Tags'));
+		if($this->ArtworkTags !== null && count($this->_ArtworkTags) > COVER_ARTWORK_MAX_TAGS){
+			$error->Add(new Exceptions\TooManyTagsException());
+		}
+
+		foreach($this->ArtworkTags as $tag){
+			if (strlen($tag->Name) > COVER_ARTWORK_MAX_STRING_LENGTH) {
+				$error->Add(new Exceptions\StringTooLongException('Artwork Tag: '. $tag->Name));
+			}
 		}
 
 		if($this->MuseumUrl !== null && strlen($this->MuseumUrl) > 0 && filter_var($this->MuseumUrl, FILTER_VALIDATE_URL) === false){
@@ -385,7 +391,7 @@ class Artwork extends PropertiesBase{
 		$this->Validate($uploadedFile);
 		$this->Created = new DateTime();
 
-		foreach ($this->ArtworkTags as $artworkTag) {
+		foreach($this->ArtworkTags as $artworkTag) {
 			$artworkTag->GetOrCreate();
 		}
 
