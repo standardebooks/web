@@ -279,9 +279,13 @@ class Artwork extends PropertiesBase{
 		}
 
 		// Check for existing Artwork objects with the same URL but different Artwork IDs.
-		$existingArtwork = Artwork::GetByUrlPath($this->Artist->UrlName, $this->UrlName);
+		$existingArtwork = Artwork::LookupExistingArtwork($this->Artist->UrlName, $this->UrlName);
 		if($existingArtwork !== null && ($existingArtwork->ArtworkId !== $this->ArtworkId)){
-			$error->Add(new Exceptions\ArtworkAlreadyExistsException(SITE_URL . $existingArtwork->Url));
+			$url = '';
+			if(in_array($existingArtwork->Status, [COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_IN_USE])){
+				$url = SITE_URL . $existingArtwork->Url;
+			}
+			$error->Add(new Exceptions\ArtworkAlreadyExistsException($url));
 		}
 
 		if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
@@ -329,6 +333,25 @@ class Artwork extends PropertiesBase{
 		}
 	}
 
+	/**
+         * Looks up an existing artwork regardless of status (unlike GetByUrlPath()) in order to
+         * enforce that the Artist UrlName + Artwork UrlName combo is globally unique.
+         */
+	private static function LookupExistingArtwork(string $artistUrlName, string $artworkUrlName): ?Artwork{
+		$result = Db::Query('
+				SELECT Artworks.*
+				from Artworks
+				inner join Artists using (ArtistId)
+				where Artists.UrlName = ? and Artworks.UrlName = ?
+			', [$artistUrlName, $artworkUrlName], 'Artwork');
+
+		if(sizeof($result) == 0){
+			return null;
+		}
+
+		return $result[0];
+	}
+
 	// ***********
 	// ORM METHODS
 	// ***********
@@ -351,6 +374,10 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
+	/**
+         * Gets a publically available Artwork, i.e., with approved or in_use status.
+         * Artwork with status unverifed and declined aren't available by URL.
+         */
 	public static function GetByUrlPath(string $artistUrlName, string $artworkUrlName): ?Artwork{
 		$result = Db::Query('
 				SELECT Artworks.*
