@@ -26,6 +26,7 @@ use function Safe\tempnam;
  * @property string $ThumbUrl
  * @property string $ImageSize
  * @property Ebook $Ebook
+ * @property null|ArtworkMimeType $MimeType
  */
 class Artwork extends PropertiesBase{
 	public $Name;
@@ -44,6 +45,7 @@ class Artwork extends PropertiesBase{
 	protected $_ThumbUrl = null;
 	protected $_ImageSize = null;
 	protected $_Ebook = null;
+	protected ?ArtworkMimeType $_MimeType = null;
 
 	public $MuseumUrl;
 	public $PublicationYear;
@@ -112,7 +114,7 @@ class Artwork extends PropertiesBase{
 				throw new Exceptions\InvalidArtworkException();
 			}
 
-			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '.jpg';
+			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . $this->MimeType->GetFileExtension();
 		}
 
 		return $this->_ImageUrl;
@@ -169,6 +171,15 @@ class Artwork extends PropertiesBase{
 			}
 		}
 		return $this->_Ebook;
+	}
+
+	protected function SetMimeType(null|string|ArtworkMimeType $mimeType): void{
+		if (is_string($mimeType)){
+			$this->_MimeType = ArtworkMimeType::tryFrom($mimeType);
+		}
+		else{
+			$this->_MimeType = $mimeType;
+		}
 	}
 
 	// *******
@@ -302,25 +313,16 @@ class Artwork extends PropertiesBase{
 				};
 				$error->Add(new Exceptions\InvalidImageUploadException($message));
 			}
+			elseif($this->MimeType === null){
+				$error->Add(new Exceptions\InvalidImageUploadException("Uploaded image must be a JPG, BMP, or PNG file."));
+			}
 			else{
 				$uploadPath = $uploadedFile['tmp_name'];
-				$uploadInfo = [];
-				try{
-					$uploadInfo = getimagesize($uploadPath);
-				}
-				catch(\Safe\Exceptions\ImageException $exception){
-					$error->Add(new Exceptions\InvalidImageUploadException('Could not handle upload: ' . $exception->getMessage()));
-				}
-
-				if(!empty($uploadInfo) && $uploadInfo[2] !== IMAGETYPE_JPEG){
-					$error->Add(new Exceptions\InvalidImageUploadException('Uploaded image must be a JPG file.'));
-				}
-
 				$thumbPath = tempnam(sys_get_temp_dir(), 'tmp-thumb-');
 				$uploadedFile['thumbPath'] = $thumbPath;
 				try{
 					chmod($thumbPath, 0644);
-					self::GenerateThumbnail($uploadPath, $thumbPath);
+					self::GenerateThumbnail($uploadPath, $thumbPath, $this->MimeType);
 				}
 				catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException $exception){
 					$error->Add(new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.'));
@@ -425,8 +427,10 @@ class Artwork extends PropertiesBase{
 		$this->Artist->GetOrCreate();
 		Db::Query('
 			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, MuseumUrl,
-			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, EbookWwwFilesystemPath)
+			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, 
+			                      EbookWwwFilesystemPath, MimeType)
 			VALUES (?,
+			        ?,
 			        ?,
 			        ?,
 			        ?,
@@ -441,7 +445,7 @@ class Artwork extends PropertiesBase{
 			        ?)
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->Status, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->EbookWwwFilesystemPath]
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->EbookWwwFilesystemPath, $this->MimeType->value]
 		);
 
 		$this->ArtworkId = Db::GetLastInsertedId();
@@ -481,7 +485,7 @@ class Artwork extends PropertiesBase{
 	/**
 	 * @throws \Safe\Exceptions\ImageException
 	 */
-	private static function GenerateThumbnail(string $srcImagePath, string $dstThumbPath): void{
+	private static function GenerateThumbnail(string $srcImagePath, string $dstThumbPath, ArtworkMimeType $mimeType): void{
 		$uploadInfo = getimagesize($srcImagePath);
 
 		$src_w = $uploadInfo[0];
@@ -496,7 +500,7 @@ class Artwork extends PropertiesBase{
 			$dst_h = intval($dst_w * ($src_h / $src_w));
 		}
 
-		$srcImage = imagecreatefromjpeg($srcImagePath);
+		$srcImage = $mimeType->ImageCreateFromMimeType($srcImagePath);
 		$thumbImage = imagecreatetruecolor($dst_w, $dst_h);
 
 		imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, $dst_w, $dst_h, $src_w, $src_h);
@@ -524,12 +528,14 @@ class Artwork extends PropertiesBase{
 			PublicationYearPageUrl = ?,
 			CopyrightPageUrl = ?,
 			ArtworkPageUrl = ?,
-			EbookWwwFilesystemPath = ?
+			EbookWwwFilesystemPath = ?,
+			MimeType = ?
 			WHERE
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->Status, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->EbookWwwFilesystemPath, $this->ArtworkId]
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->EbookWwwFilesystemPath, $this->MimeType->value,
+				$this->ArtworkId]
 		);
 	}
 

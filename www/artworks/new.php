@@ -195,7 +195,7 @@ if($exception){
 							name="color-upload"
 							id="input-color-upload"
 							required="required"
-							accept="image/jpeg"
+							accept="<?= implode(",", ArtworkMimeType::Values()) ?>"
 						/>
 					</label>
 					<button>Submit</button>

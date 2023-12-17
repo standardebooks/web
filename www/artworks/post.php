@@ -8,7 +8,7 @@ function post_max_size_bytes(): int{
 	$unit = substr($post_max_size, -1);
 	$size = (int) substr($post_max_size, 0, -1);
 
-	return match ($unit) {
+	return match ($unit){
 		'g', 'G' => $size * 1024 * 1024 * 1024,
 		'm', 'M' => $size * 1024 * 1024,
 		'k', 'K' => $size * 1024,
@@ -48,6 +48,7 @@ try{
 	$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'pd-proof-copyright-page-url', false);
 	$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'pd-proof-artwork-page-url', false);
 	$artwork->MuseumUrl = HttpInput::Str(POST, 'pd-proof-museum-url', false);
+	$artwork->MimeType = ArtworkMimeType::FromUploadedFile($_FILES['color-upload']);
 
 	$expectCaptcha = HttpInput::Str(SESSION, 'captcha', false);
 	$actualCaptcha = HttpInput::Str(POST, 'captcha', false);

@@ -113,6 +113,7 @@ if($artwork === null){
 	$artwork->Created = new DateTime();
 	$artwork->Status = COVER_ARTWORK_STATUS_IN_USE;
 	$artwork->EbookWwwFilesystemPath = $ebookWwwFilesystemPath;
+	$artwork->MimeType = ArtworkMimeType::JPG;
 
 	$coverSourceFile = tempnam($workDir, 'cover.source.');
 	// Search for JPEG, PNG, and TIFF source files, in that order.

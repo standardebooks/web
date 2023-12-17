@@ -13,6 +13,7 @@ CREATE TABLE `Artworks` (
   `CopyrightPageUrl` varchar(255) NULL,
   `ArtworkPageUrl` varchar(255) NULL,
   `EbookWwwFilesystemPath` varchar(255) NULL,
+  `MimeType` varchar(64) NOT NULL,
   PRIMARY KEY (`ArtworkId`),
   KEY `index1` (`Status`),
   KEY `index2` (`UrlName`)
