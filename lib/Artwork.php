@@ -307,7 +307,7 @@ class Artwork extends PropertiesBase{
 			$uploadError = $uploadedFile['error'];
 			if($uploadError > UPLOAD_ERR_OK){
 				// see https://www.php.net/manual/en/features.file-upload.errors.php
-				$message = match ($uploadError){
+				$message = match($uploadError){
 					UPLOAD_ERR_INI_SIZE => 'Image upload too large (maximum ' . ini_get('upload_max_filesize') . ').',
 					default => 'Image failed to upload (error code ' . $uploadError . ').',
 				};

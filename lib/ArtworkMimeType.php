@@ -6,7 +6,7 @@ enum ArtworkMimeType: string{
 	case PNG = "image/png";
 
 	public function GetFileExtension(): string{
-		return match ($this){
+		return match($this){
 			self::JPG => ".jpg",
 			self::BMP => ".bmp",
 			self::PNG => ".png",
@@ -18,7 +18,7 @@ enum ArtworkMimeType: string{
 	 * @throws \Safe\Exceptions\ImageException
 	 */
 	public function ImageCreateFromMimeType(string $filename){
-		return match ($this){
+		return match($this){
 			self::JPG => \Safe\imagecreatefromjpeg($filename),
 			self::BMP => \Safe\imagecreatefrombmp($filename),
 			self::PNG => \Safe\imagecreatefrompng($filename),
@@ -26,16 +26,15 @@ enum ArtworkMimeType: string{
 	}
 
 	public static function FromUploadedFile(array $uploadedFile): null|ArtworkMimeType{
-		$filePath = $uploadedFile['tmp_name'];
-		$fileInfo = finfo_open(FILEINFO_MIME_TYPE);
+		if($uploadedFile['error'] > UPLOAD_ERR_OK){
+			return null;
+		}
 
-		$mimeType = finfo_file($fileInfo, $filePath);
-		$mimeType = match ($mimeType){
+		$mimeType = mime_content_type($uploadedFile['tmp_name']);
+		$mimeType = match($mimeType){
 			"image/x-ms-bmp", "image/x-bmp" => "image/bmp",
 			default => $mimeType,
 		};
-
-		finfo_close($fileInfo);
 
 		if(!$mimeType){
 			return null;
