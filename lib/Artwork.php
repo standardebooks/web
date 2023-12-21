@@ -314,7 +314,7 @@ class Artwork extends PropertiesBase{
 				$error->Add(new Exceptions\InvalidImageUploadException($message));
 			}
 			elseif($this->MimeType === null){
-				$error->Add(new Exceptions\InvalidImageUploadException("Uploaded image must be a JPG, BMP, or PNG file."));
+				$error->Add(new Exceptions\InvalidImageUploadException("Uploaded image must be a JPG, BMP, PNG, or TIFF."));
 			}
 			else{
 				$uploadPath = $uploadedFile['tmp_name'];

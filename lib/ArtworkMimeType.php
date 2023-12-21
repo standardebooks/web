@@ -4,12 +4,14 @@ enum ArtworkMimeType: string{
 	case JPG = "image/jpeg";
 	case BMP = "image/bmp";
 	case PNG = "image/png";
+	case TIFF = "image/tiff";
 
 	public function GetFileExtension(): string{
 		return match($this){
 			self::JPG => ".jpg",
 			self::BMP => ".bmp",
 			self::PNG => ".png",
+			self::TIFF => ".tif",
 		};
 	}
 
@@ -22,7 +24,16 @@ enum ArtworkMimeType: string{
 			self::JPG => \Safe\imagecreatefromjpeg($filename),
 			self::BMP => \Safe\imagecreatefrombmp($filename),
 			self::PNG => \Safe\imagecreatefrompng($filename),
+			self::TIFF => ArtworkMimeType::imagecreatefromtiff($filename),
 		};
+	}
+
+	private static function imagecreatefromtiff(string $filename){
+		exec("convert $filename -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG $filename.thumb.jpg", $shellOutput, $resultCode);
+		if($resultCode !== 0){
+			throw new Exceptions\InvalidImageUploadException("Failed to convert TIFF to JPEG\n");
+		}
+		return \Safe\imagecreatefromjpeg("$filename.thumb.jpg");
 	}
 
 	public static function FromUploadedFile(array $uploadedFile): null|ArtworkMimeType{
