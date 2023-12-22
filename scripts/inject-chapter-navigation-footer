@@ -8,9 +8,9 @@ import se.se_epub
 import se.easy_xml
 
 # Require arguments
-parser = argparse.ArgumentParser(description='A script to inject the navigation footer with links in the web version of a Standard Ebook')
-parser.add_argument('ebook_dir', type=str, help='Path to the main directory of the ebook') # No trailing "/" on this path
-parser.add_argument('book_url', type=str, help='The ebook URL') # No trailing "/" on this link
+parser = argparse.ArgumentParser(description="A script to inject the navigation footer with links in the web version of a Standard Ebook")
+parser.add_argument("ebook_dir", type=str, help="Path to the main directory of the ebook") # No trailing "/" on this path
+parser.add_argument("book_url", type=str, help="The ebook URL") # No trailing "/" on this link
 args = parser.parse_args()
 
 ebook_dir = args.ebook_dir
@@ -23,9 +23,7 @@ se_epub = se.se_epub.SeEpub(ebook_dir)
 spine_paths = se_epub.spine_file_paths
 
 # Make sure spine paths are of the form "text/chapter-1.xhtml", with no leading "/"
-rel_spine_paths = [
-    '/'.join(str(path).split('/')[str(path).split('/').index('text'):]).lstrip('/') for path in spine_paths
-]
+rel_spine_paths = ["/".join(str(path).split("/")[str(path).split("/").index("text"):]).lstrip("/") for path in spine_paths]
 
 # Get titles from spine
 spine_titles = [se.easy_xml.EasyXmlTree(open(file_path).read()).xpath("//head/title/text()", True) for file_path in spine_paths]
@@ -35,19 +33,19 @@ chapter_links = [{"title": title, "path": path} for title, path in zip(spine_tit
 
 # Create footers
 for i, chapter_link in enumerate(chapter_links):
-    previousObj = chapter_links[i - 1] if i > 0 else None
-    nextObj = chapter_links[i + 1] if i < len(chapter_links) - 1 else None
+	previousObj = chapter_links[i - 1] if i > 0 else None
+	nextObj = chapter_links[i + 1] if i < len(chapter_links) - 1 else None
 
-    fileName = os.path.join(ebook_dir, "src/epub", chapter_link["path"])
+	fileName = os.path.join(ebook_dir, "src/epub", chapter_link["path"])
 
-    with open(fileName, 'r') as file:
-        chapter = file.read()
+	with open(fileName, "r") as file:
+		chapter = file.read()
 
-    previousLink = f'<a href="{book_url}/{previousObj["path"]}" rel="prev"><i>Previous:</i> {html.escape(previousObj["title"])}</a>' if previousObj else ''
-    nextLink = f'<a href="{book_url}/{nextObj["path"]}" rel="next"><i>Next:</i> {html.escape(nextObj["title"])}</a>' if nextObj else ''
+	previousLink = f"""<a href="{book_url}/{previousObj["path"]}" rel="prev"><i>Previous:</i> {html.escape(previousObj["title"])}</a>""" if previousObj else ""
+	nextLink = f"""<a href="{book_url}/{nextObj["path"]}" rel="next"><i>Next:</i> {html.escape(nextObj["title"])}</a>""" if nextObj else ""
 
-    footer = f'<footer><ul><li>{previousLink}</li><li>{nextLink}</li></ul></footer>'
-    chapter = chapter.replace('</body>', f'{footer}</body>')
+	footer = f"<footer><ul><li>{previousLink}</li><li>{nextLink}</li></ul></footer>"
+	chapter = chapter.replace("</body>", f"{footer}</body>")
 
-    with open(fileName, 'w') as file:
-        file.write(chapter)
+	with open(fileName, "w") as file:
+		file.write(chapter)
