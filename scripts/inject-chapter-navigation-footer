@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
 import argparse
-import os
 import html
+import os
 import se
-import se.se_epub
 import se.easy_xml
+import se.se_epub
 
 # Require arguments
 parser = argparse.ArgumentParser(description="A script to inject the navigation footer with links in the web version of a Standard Ebook")
