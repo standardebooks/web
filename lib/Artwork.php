@@ -26,7 +26,7 @@ use function Safe\tempnam;
  * @property string $ThumbUrl
  * @property string $ImageSize
  * @property Ebook $Ebook
- * @property null|ArtworkMimeType $MimeType
+ * @property ArtworkMimeType $MimeType
  */
 class Artwork extends PropertiesBase{
 	public $Name;
@@ -109,8 +109,8 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\InvalidArtworkException
 	 */
 	protected function GetImageUrl(): string{
-		if($this->_ImageUrl == null){
-			if($this->ArtworkId == null){
+		if($this->_ImageUrl === null){
+			if($this->ArtworkId === null || $this->MimeType === null){
 				throw new Exceptions\InvalidArtworkException();
 			}
 
@@ -124,8 +124,8 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\InvalidArtworkException
 	 */
 	protected function GetThumbUrl(): string{
-		if($this->_ThumbUrl == null){
-			if($this->ArtworkId == null){
+		if($this->_ThumbUrl === null){
+			if($this->ArtworkId === null){
 				throw new Exceptions\InvalidArtworkException();
 			}
 
@@ -289,6 +289,10 @@ class Artwork extends PropertiesBase{
 			}
 		}
 
+		if($this->MimeType === null){
+			$error->Add(new Exceptions\InvalidMimeTypeException());
+		}
+
 		// Check for existing Artwork objects with the same URL but different Artwork IDs.
 		$existingArtwork = Artwork::LookupExistingArtwork($this->Artist->UrlName, $this->UrlName);
 		if($existingArtwork !== null && ($existingArtwork->ArtworkId !== $this->ArtworkId)){
@@ -303,7 +307,7 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidImageUploadException('Upload path not writable.'));
 		}
 
-		if(!empty($uploadedFile)){
+		if(!empty($uploadedFile) && $this->MimeType !== null){
 			$uploadError = $uploadedFile['error'];
 			if($uploadError > UPLOAD_ERR_OK){
 				// see https://www.php.net/manual/en/features.file-upload.errors.php
@@ -312,9 +316,6 @@ class Artwork extends PropertiesBase{
 					default => 'Image failed to upload (error code ' . $uploadError . ').',
 				};
 				$error->Add(new Exceptions\InvalidImageUploadException($message));
-			}
-			elseif($this->MimeType === null){
-				$error->Add(new Exceptions\InvalidImageUploadException("Uploaded image must be a JPG, BMP, PNG, or TIFF."));
 			}
 			else{
 				$uploadPath = $uploadedFile['tmp_name'];
@@ -427,7 +428,7 @@ class Artwork extends PropertiesBase{
 		$this->Artist->GetOrCreate();
 		Db::Query('
 			INSERT INTO Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, MuseumUrl,
-			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, 
+			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl,
 			                      EbookWwwFilesystemPath, MimeType)
 			VALUES (?,
 			        ?,

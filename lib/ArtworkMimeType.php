@@ -1,4 +1,5 @@
 <?
+use function Safe\mime_content_type;
 
 enum ArtworkMimeType: string{
 	case JPG = "image/jpeg";
@@ -28,6 +29,10 @@ enum ArtworkMimeType: string{
 		};
 	}
 
+	/**
+	 * @return resource
+	 * @throws \Exceptions\InvalidImageUploadException
+	 */
 	private static function imagecreatefromtiff(string $filename){
 		exec("convert $filename -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG $filename.thumb.jpg", $shellOutput, $resultCode);
 		if($resultCode !== 0){
@@ -36,6 +41,9 @@ enum ArtworkMimeType: string{
 		return \Safe\imagecreatefromjpeg("$filename.thumb.jpg");
 	}
 
+	/**
+	 * @param array<mixed> $uploadedFile
+	 */
 	public static function FromUploadedFile(array $uploadedFile): null|ArtworkMimeType{
 		if($uploadedFile['error'] > UPLOAD_ERR_OK){
 			return null;
@@ -54,6 +62,9 @@ enum ArtworkMimeType: string{
 		return ArtworkMimeType::tryFrom($mimeType);
 	}
 
+	/**
+	 * @return array<string>
+	 */
 	public static function Values(): array{
 		return array_map(function (ArtworkMimeType $case){
 			return $case->value;
