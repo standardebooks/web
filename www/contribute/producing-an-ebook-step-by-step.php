@@ -554,8 +554,8 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			</li>
 			<li>
 				<h2 id="lint">Clean and lint</h2>
-				<p>Before you build the ebook for proofreading, it’s a good idea to check the ebook for some common problems you might have run in to during production.</p>
-				<p>First, run <code class="bash"><b>se</b> clean</code> one more time to both clean up the source files, and to alert you if there are XHTML parsing errors. Even though we ran <code class="bash"><b>se</b> clean</code> before, it’s likely that in the course of production the ebook got in to less-than-perfect markup formatting. Remember you can run <code class="bash"><b>se</b> clean</code> as many times as you want—it should always produce the same output.</p>
+				<p>Before you build the ebook for proofreading, it’s a good idea to check the ebook for some common problems you might have run into during production.</p>
+				<p>First, run <code class="bash"><b>se</b> clean</code> one more time to both clean up the source files, and to alert you if there are XHTML parsing errors. Even though we ran <code class="bash"><b>se</b> clean</code> before, it’s likely that in the course of production the ebook got into less-than-perfect markup formatting. Remember you can run <code class="bash"><b>se</b> clean</code> as many times as you want—it should always produce the same output.</p>
 				<code class="terminal"><span><b>se</b> clean <u>.</u></span></code>
 				<p>Now, run <code class="bash"><b>se</b> lint</code>. If your ebook has any problems, you’ll see some output listing them. We’re expecting some errors, because we haven’t added a cover or completed the colophon or metadata. You can ignore those errors for now, because we’ll fix them in a later step. But, you <em>do</em> want to correct any fixable errors related to your previous work.</p>
 				<code class="terminal"><span><b>se</b> lint <u>.</u></span></code>
@@ -598,7 +598,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</ul>
 				<p>There are some things that you don’t have to worry much about when proofreading:</p>
 				<ul>
-					<li><p><b>Spelling errors.</b> Actual spelling errors are very rare. If a word appears to be misspelled, it’s worth it to check the page scans, but such cases are often done on purpose by the author, or using a older spelling, or are spelled differently in en-US vs. en-GB.</p></li>
+					<li><p><b>Spelling errors.</b> Actual spelling errors are very rare. If a word appears to be misspelled, it’s worth it to check the page scans, but such cases are often done on purpose by the author, or using an older spelling, or are spelled differently in en-US vs. en-GB.</p></li>
 					<li><p><b>Changing from en-GB to en-US or vice versa.</b> Spelling differences between the continents were not yet settled then, so it’s common for books to be set in a blend of spellings. We don’t convert from one style to the other, or try to ensure perfect consistency between styles. This includes en-GB differences like using “an” in front of a word starting in “h,” like “an hundred.”</p></li>
 					<li><p><b>Keeping a 100% faithful representation of a print page layout.</b> Sometimes books have complicated page layouts in print. But ebooks are not the same as print books, with the most important distinction being that there is no “page” to align items to. So, we’re not so concerned with maintaining a pixel-perfect reproduction of print layouts; rather, we wish to <em>adapt</em> print layouts as best we can to the ebook medium.</p></li>
 				</ul>
@@ -683,7 +683,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>It’s a good idea to run <code class="bash"><b>se</b> typogrify</code> and <code class="bash"><b>se</b> clean</code> one more time before running these final checks. Make sure to review the changes with <code class="bash"><b>git</b> difftool</code> before accepting them—<code class="bash"><b>se</b> typogrify</code> is usually right, but not always!</p>
 				<p>Now that our ebook is complete, let’s verify that there are no errors at the <abbr>S.E.</abbr> style level:</p>
 				<code class="terminal"><span><b>se</b> lint <u>.</u></span></code>
-				<p>Once <code class="bash"><b>se</b> lint</code> completes without errors, we’re ready to confirm that there are no errors at the epub level. We do this by invoking <code class="bash"><b>se</b> build</code> with the <code class="bash">--check-only</code> flag, which will run <code class="bash"><b>epubcheck</b></code> to verify that our final epub has no errors, but won’t output an ebook files, since we don’t need them right now.</p>
+				<p>Once <code class="bash"><b>se</b> lint</code> completes without errors, we’re ready to confirm that there are no errors at the epub level. We do this by invoking <code class="bash"><b>se</b> build</code> with the <code class="bash">--check-only</code> flag, which will run <code class="bash"><b>epubcheck</b></code> to verify that our final epub has no errors, but won’t output ebook files, since we don’t need them right now.</p>
 				<code class="terminal"><span><b>se</b> build --check-only <u>.</u></span></code>
 				<p>Once that completes without errors, we’re ready to move on to the final step!</p>
 			</li>
