@@ -1,7 +1,7 @@
 <?
 
-$start = new DateTime('May 2, 2022 00:00:00 America/New_York');
-$end = new DateTime('May 8, 2022 23:59:00 America/New_York');
+$start = new DateTime(DONATION_DRIVE_COUNTER_START);
+$end = new DateTime(DONATION_DRIVE_COUNTER_END);
 $now = new DateTime();
 
 // Hide the alert if the user has closed it

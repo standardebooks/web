@@ -98,6 +98,13 @@ define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
 define('DONATION_HOLIDAY_ALERT_ON', time() > strtotime('November 15, ' . gmdate('Y'))  || time() < strtotime('January 7, ' . gmdate('Y')));
 define('DONATION_ALERT_ON', DONATION_HOLIDAY_ALERT_ON || rand(1, 4) == 2);
-define('DONATION_DRIVE_ON', false);
-define('DONATION_DRIVE_COUNTER_ON', false);
 
+// Controls the progress bar donation dialog
+const DONATION_DRIVE_ON = false;
+const DONATION_DRIVE_START = 'December 11, 2023 00:00:00 America/New_York';
+const DONATION_DRIVE_END = 'January 7, 2024 23:59:00 America/New_York';
+
+// Controls the countdown donation dialog
+const DONATION_DRIVE_COUNTER_ON = false;
+const DONATION_DRIVE_COUNTER_START = 'May 2, 2022 00:00:00 America/New_York';
+const DONATION_DRIVE_COUNTER_END = 'May 8, 2022 23:59:00 America/New_York';
