@@ -1,0 +1,243 @@
+<?
+use function Safe\gmdate;
+use function Safe\session_unset;
+
+session_start();
+
+$created = HttpInput::Bool(SESSION, 'artwork-created', false);
+$exception = $_SESSION['exception'] ?? null;
+/** @var Artwork $artwork */
+$artwork = $_SESSION['artwork'] ?? null;
+
+try{
+	if($GLOBALS['User'] === null){
+		throw new Exceptions\LoginRequiredException();
+	}
+
+	if(!$GLOBALS['User']->Benefits->CanUploadArtwork){
+		throw new Exceptions\InvalidPermissionsException();
+	}
+
+	// We got here because an artwork was successfully submitted
+	if($created){
+		http_response_code(201);
+		$artwork = null;
+		session_unset();
+	}
+
+	// We got here because an artwork submission had errors and the user has to try again
+	if($exception){
+		http_response_code(422);
+		session_unset();
+	}
+
+	if($artwork === null){
+		$artwork = new Artwork();
+		$artwork->Artist = new Artist();
+
+		if($GLOBALS['User']->Benefits->CanReviewArtwork){
+			$artwork->Status = COVER_ARTWORK_STATUS_APPROVED;
+		}
+	}
+}
+catch(Exceptions\LoginRequiredException){
+	Template::RedirectToLogin();
+}
+catch(Exceptions\InvalidPermissionsException){
+	Template::Emit403(); // No permissions to submit artwork
+}
+
+?>
+<?= Template::Header(
+	[
+		'title' => 'Submit an Artwork',
+		'artwork' => true,
+		'highlight' => '',
+		'description' => 'Submit public domain artwork to the database for use as cover art.'
+	]
+) ?>
+<main>
+	<section class="narrow">
+		<h1>Submit an Artwork</h1>
+
+		<?= Template::Error(['exception' => $exception]) ?>
+
+		<? if($created){ ?>
+			<p class="message success">Artwork submitted!</p>
+		<? } ?>
+
+		<form method="post" action="/artworks" enctype="multipart/form-data">
+			<fieldset>
+				<legend>Artist details</legend>
+				<label>
+					<span>Name</span>
+					<span>For existing artists, leave the year of death blank.</span>
+					<datalist id="artist-names">
+						<? foreach(Library::GetAllArtists() as $existingArtist){ ?>
+							<option value="<?= Formatter::ToPlainText($existingArtist->Name) ?>"><?= Formatter::ToPlainText($existingArtist->Name) ?>, d. <? if($existingArtist->DeathYear !== null){ ?><?= $existingArtist->DeathYear ?><? }else{ ?>(unknown)<? } ?></option>
+						<? } ?>
+					</datalist>
+					<input
+						type="text"
+						name="artist-name"
+						list="artist-names"
+						required="required"
+						autocomplete="off"
+						value="<?= Formatter::ToPlainText($artwork->Artist->Name) ?>"
+					/>
+				</label>
+				<label>
+					<span>Year of death</span>
+					<span>If circa or unknown, enter the latest possible year.</span>
+					<input
+						type="number"
+						name="artist-year-of-death"
+						min="1"
+						max="<?= gmdate('Y') ?>"
+						value="<?= $artwork->Artist->DeathYear ?>"
+					/>
+				</label>
+			</fieldset>
+			<fieldset>
+				<legend>Artwork details</legend>
+				<label>
+					Name
+					<input type="text" name="artwork-name" required="required"
+					       value="<?= Formatter::ToPlainText($artwork->Name) ?>"/>
+				</label>
+				<fieldset>
+					<label>
+						Year of completion
+						<input
+							type="number"
+							name="artwork-year"
+							min="1"
+							max="<?= gmdate('Y') ?>"
+							value="<?= $artwork->CompletedYear ?>"
+						/>
+					</label>
+					<label>
+						<input
+							type="checkbox"
+							name="artwork-year-is-circa"
+							<? if($artwork->CompletedYearIsCirca){ ?>checked="checked"<? } ?>
+						/> Year is circa
+					</label>
+				</fieldset>
+				<label>
+					<span>Tags</span>
+					<span>A list of comma-separated tags.</span>
+					<input
+						type="text"
+						name="artwork-tags"
+						required="required"
+						autocomplete="off"
+						value="<?= Formatter::ToPlainText($artwork->ImplodeTags()) ?>"
+					/>
+				</label>
+				<label>
+					<span>Image</span>
+					<span>jpg, bmp, png, and tiff are accepted.</span>
+					<input
+						type="file"
+						name="artwork-image"
+						required="required"
+						accept="<?= implode(',', ImageMimeType::Values()) ?>"
+					/>
+				</label>
+			</fieldset>
+			<fieldset id="pd-proof">
+				<legend>Proof of U.S. public domain status</legend>
+				<p>See the <a href="/manual/latest/10-art-and-images#10.3.3.7">US-PD clearance section of the SEMoS</a> for details on this section.</p>
+				<p>PD proof must take the form of <strong>either</strong>:</p>
+				<fieldset>
+					<label>
+						URL of the artwork at an <a href="/manual/latest/10-art-and-images#10.3.3.7.4">approved museum</a>
+						<input
+							type="url"
+							name="artwork-museum-url"
+							autocomplete="off"
+							value="<?= Formatter::ToPlainText($artwork->MuseumUrl) ?>"
+						/>
+					</label>
+				</fieldset>
+				<p><strong>or</strong> proof that the artwork was reproduced in a book published before <?= PD_STRING ?>, with <strong>all</strong> of the following:</p>
+				<fieldset>
+					<label>
+						Year of publication
+						<input
+							type="number"
+							name="artwork-publication-year"
+							min="1"
+							max="<?= gmdate('Y') ?>"
+							value="<?= $artwork->PublicationYear ?>"
+						/>
+					</label>
+					<label>
+						<span>URL of page with year of publication</span>
+						<span>Roman numerals are OK.</span>
+						<input
+							type="url"
+							name="artwork-publication-year-page-url"
+							autocomplete="off"
+							value="<?= Formatter::ToPlainText($artwork->PublicationYearPageUrl) ?>"
+						/>
+					</label>
+					<label>
+						<span>URL of page with rights statement</span>
+						<span>Might be same URL as above; non-English is OK; keywords in other languages include <i>droits</i> and <i>rechte vorbehalten</i>.</span>
+						<input
+							type="url"
+							name="artwork-copyright-page-url"
+							autocomplete="off"
+							value="<?= Formatter::ToPlainText($artwork->CopyrightPageUrl) ?>"
+						/>
+					</label>
+					<label>
+						<input
+							type="checkbox"
+							name="artwork-is-published-in-us"
+							value="true"
+							<? if($artwork->IsPublishedInUs){ ?> checked="checked"<? } ?> />
+						<span>This book was published in the U.S.</span>
+						<span>Yes, if a U.S. city appears anywhere near the publication year or rights statement.</span>
+					</label>
+					<label>
+						URL of page with artwork
+						<input
+							type="url"
+							name="artwork-artwork-page-url"
+							autocomplete="off"
+							value="<?= Formatter::ToPlainText($artwork->ArtworkPageUrl) ?>"
+						/>
+					</label>
+				</fieldset>
+				<p><strong>or</strong> a special reason for an exception:</p>
+				<fieldset>
+					<label>
+					<span>Exception reason</span>
+					<span>Markdown accepted.</span>
+					<textarea maxlength="1024" name="artwork-exception"><?= Formatter::ToPlainText($artwork->Exception) ?></textarea>
+					</label>
+				</fieldset>
+			</fieldset>
+			<? if($GLOBALS['User']->Benefits->CanReviewArtwork){ ?>
+			<fieldset>
+				<legend>Reviewer options</legend>
+				<label>
+					<input
+						type="checkbox"
+						name="artwork-status"
+						value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"
+						<? if($artwork->Status == COVER_ARTWORK_STATUS_APPROVED){ ?> checked="checked"<? } ?> />
+					Approve this artwork immediately
+				</label>
+			</fieldset>
+			<? } ?>
+			<div class="footer">
+				<button>Submit</button>
+			</div>
+		</form>
+	</section>
+</main>
+<?= Template::Footer() ?>

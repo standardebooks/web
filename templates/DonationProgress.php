@@ -3,7 +3,7 @@
 $start = new DateTime(DONATION_DRIVE_START);
 $end = new DateTime(DONATION_DRIVE_END);
 $totalCurrent = 0;
-$baseTarget = 30;
+$baseTarget = 50;
 $stretchCurrent = 0;
 $stretchTarget = 20;
 

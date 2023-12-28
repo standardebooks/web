@@ -2,5 +2,5 @@
 namespace Exceptions;
 
 class InvalidRequestException extends AppException{
-	protected $message = 'Invalid request.';
+	protected $message = 'Invalid HTTP request.';
 }

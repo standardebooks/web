@@ -7,6 +7,7 @@ use function Safe\glob;
 use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\sprintf;
+use function Safe\shell_exec;
 use function Safe\substr;
 
 class Ebook{
@@ -77,8 +78,7 @@ class Ebook{
 				$this->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $this->RepoFilesystemPath);
 			}
 			catch(Exception){
-				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF8 characters,
-				// which a common injection attack vector
+				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, whichis  a common injection attack vector
 				throw new Exceptions\InvalidEbookException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
 			}
 		}
@@ -164,7 +164,7 @@ class Ebook{
 		}
 
 		// Fill in the short history of this repo.
-		$historyEntries = explode("\n", shell_exec('cd ' . escapeshellarg($this->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"') ?? '');
+		$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($this->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"'));
 
 		foreach($historyEntries as $entry){
 			$array = explode(' ', $entry, 3);
@@ -221,7 +221,7 @@ class Ebook{
 
 		// Get SE tags
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
-			$this->Tags[] = new Tag($tag);
+			$this->Tags[] = new EbookTag($tag);
 		}
 
 		$includeToc = sizeof($xml->xpath('/package/metadata/meta[@property="se:is-a-collection"]') ?: []) > 0;
@@ -742,6 +742,10 @@ class Ebook{
 		return $string;
 	}
 
+
+	/**
+	 * @param array<SimpleXMLElement>|false|null $elements
+	 */
 	private function NullIfEmpty($elements): ?string{
 		if($elements === false){
 			return null;

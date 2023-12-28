@@ -823,11 +823,16 @@ a.button:focus,
 input[type="email"]:focus,
 input[type="text"]:focus,
 input[type="month"]:focus,
+input[type="number"]:focus,
+input[type="url"]:focus,
 input[type="search"]:focus,
+input[type="file"]:focus,
 label.checkbox:focus-within,
+label:has(input[type="checkbox"]):focus-within,
 select:focus,
 button:focus,
-nav a[rel]:focus{
+nav a[rel]:focus,
+textarea:focus{
 	outline: 1px dashed var(--input-outline);
 }
 
@@ -1703,8 +1708,11 @@ label.search{
 }
 
 select,
+textarea,
 input[type="text"],
 input[type="month"],
+input[type="number"],
+input[type="url"],
 input[type="email"],
 input[type="search"]{
 	-webkit-appearance: none;
@@ -1734,6 +1742,42 @@ select{
 	padding-left: 1rem;
 	padding-right: 2rem;
 	display: block;
+}
+
+label span{
+	display: block;
+}
+
+label span + span{
+	font-style: italic;
+}
+
+label span + span i{
+	font-style: normal;
+}
+
+input[type="file"],
+label:has(input[type="file"]),
+label:has(input[type="checkbox"]){
+	cursor: pointer;
+}
+
+label + label:has(input[type="checkbox"]){
+	margin-top: 1px; /* So we can see the top outline on focus */
+}
+
+label:has(input[type="checkbox"]):has(> span){
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto 1fr;
+}
+
+label:has(input[type="checkbox"]):has(> span) input{
+	grid-row: 1 / span 2;
+	justify-self: center;
+	align-self: start;
+	margin-top: 10px;
+	margin-right: .5rem;
 }
 
 select[multiple]{
@@ -1809,6 +1853,8 @@ a.button,
 button,
 input[type="text"],
 input[type="month"],
+input[type="number"],
+input[type="url"],
 input[type="email"],
 input[type="search"],
 select{
@@ -1826,10 +1872,16 @@ input[type="text"]:focus,
 input[type="text"]:hover,
 input[type="month"]:focus,
 input[type="month"]:hover,
+input[type="number"]:focus,
+input[type="number"]:hover,
+input[type="url"]:focus,
+input[type="url"]:hover,
 input[type="email"]:focus,
 input[type="email"]:hover,
 input[type="search"]:focus,
 input[type="search"]:hover,
+textarea:focus,
+textarea:hover,
 select:focus,
 select:hover{
 	border-color: var(--input-outline);
@@ -1839,6 +1891,8 @@ select:hover{
 
 input[type="text"]:user-invalid,
 input[type="month"]:user-invalid,
+input[type="number"]:user-invalid,
+input[type="url"]:user-invalid,
 input[type="email"]:user-invalid,
 input[type="search"]:user-invalid{
 	border-color: #ff0000;
@@ -1847,6 +1901,8 @@ input[type="search"]:user-invalid{
 
 input[type="text"]:-moz-ui-invalid,
 input[type="month"]:-moz-ui-invalid,
+input[type="number"]:-moz-ui-invalid,
+input[type="url"]:-moz-ui-invalid,
 input[type="email"]:-moz-ui-invalid,
 input[type="search"]:-moz-ui-invalid{
 	border-color: #ff0000;
@@ -3535,12 +3591,15 @@ ul.feed p{
 	label.select:hover > span + span::after,
 	label.email::before,
 	label.search::before,
+	textarea:hover,
 	nav li.highlighted a,
 	nav a[rel],
 	a.button,
 	button,
 	input[type="text"],
 	input[type="month"],
+	input[type="number"],
+	input[type="url"],
 	input[type="email"],
 	input[type="search"],
 	select,
@@ -3552,6 +3611,10 @@ ul.feed p{
 	input[type="text"]:hover,
 	input[type="month"]:focus,
 	input[type="month"]:hover,
+	input[type="number"]:focus,
+	input[type="number"]:hover,
+	input[type="url"]:focus,
+	input[type="url"]:hover,
 	input[type="email"]:focus,
 	input[type="email"]:hover,
 	input[type="search"]:focus,

@@ -1,0 +1,1 @@
+<p>These images are thought to be free of copyright restrictions in the United States. They may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that these images are free of copyright restrictions in the country you’re located in before accessing, downloading, or using them.</p>

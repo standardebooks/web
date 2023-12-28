@@ -1,17 +1,17 @@
 <?
 use Safe\DateTime;
 use function Safe\apcu_fetch;
+use function Safe\exec;
 use function Safe\filemtime;
 use function Safe\filesize;
 use function Safe\glob;
 use function Safe\gmdate;
 use function Safe\ksort;
-use function Safe\natsort;
 use function Safe\preg_match;
 use function Safe\preg_replace;
+use function Safe\shell_exec;
 use function Safe\sleep;
 use function Safe\sort;
-use function Safe\rsort;
 use function Safe\usort;
 
 
@@ -160,6 +160,112 @@ class Library{
 	}
 
 	/**
+	 *  Browsable Artwork can be displayed publically, e.g., at /artworks.
+	 *  Unverified and declined Artwork shouldn't be browsable.
+	 *  @return array<Artwork>
+	 */
+	private static function GetBrowsableArtwork(): array{
+		return Db::Query('
+			SELECT *
+			FROM Artworks
+			WHERE Status IN ("approved", "in_use")', [], 'Artwork');
+	}
+
+	/**
+	* @param string $query
+	* @param string $status
+	* @param string $sort
+	* @return array<Artwork>
+	*/
+	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null): array{
+		$artworks = Library::GetBrowsableArtwork();
+		$matches = $artworks;
+
+		if($sort === null){
+			$sort = SORT_COVER_ARTWORK_CREATED_NEWEST;
+		}
+
+		if(in_array($status, [COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_IN_USE], true)){
+			$matches = [];
+			foreach($artworks as $artwork){
+				if($status === $artwork->Status){
+					$matches[] = $artwork;
+				}
+			}
+		}
+		else{
+			$matches = [];
+			foreach($artworks as $artwork){
+				if(in_array($artwork->Status, [COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_IN_USE], true)){
+					$matches[] = $artwork;
+				}
+			}
+		}
+
+		if($query !== null){
+			$filteredMatches = [];
+
+			foreach($matches as $artwork){
+				if($artwork->Contains($query)){
+					$filteredMatches[] = $artwork;
+				}
+			}
+
+			$matches = $filteredMatches;
+		}
+
+		switch($sort){
+			case SORT_COVER_ARTIST_ALPHA:
+				$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in artist names
+				if($collator === null){
+					usort($matches, function($a, $b){
+						return strcmp(mb_strtolower($a->Artist->Name), mb_strtolower($b->Artist->Name));
+					});
+				}
+				else{
+					usort($matches, function($a, $b) use($collator){
+						return $collator->compare($a->Artist->Name, $b->Artist->Name);
+					});
+				}
+
+				break;
+
+			case SORT_COVER_ARTWORK_CREATED_NEWEST:
+				usort($matches, function($a, $b){
+					if($a->Created > $b->Created){
+						return -1;
+					}
+					elseif($a->Created == $b->Created){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
+
+				break;
+
+			case SORT_COVER_ARTWORK_COMPLETED_NEWEST:
+				usort($matches, function($a, $b){
+					if($a->CompletedYear > $b->CompletedYear){
+						return -1;
+					}
+					elseif($a->CompletedYear == $b->CompletedYear){
+						return 0;
+					}
+					else{
+						return 1;
+					}
+				});
+
+				break;
+		}
+
+		return $matches;
+
+	}
+
+	/**
 	 * @return array<mixed>
 	 */
 	private static function GetFromApcu(string $variable): array{
@@ -187,6 +293,10 @@ class Library{
 			}
 		}
 
+		if(!is_array($results)){
+			$results = [$results];
+		}
+
 		return $results;
 	}
 
@@ -211,7 +321,8 @@ class Library{
 	 */
 	public static function GetEbooksFromFilesystem(?string $webRoot = WEB_ROOT): array{
 		$ebooks = [];
-		$contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/ebooks/') . ' -name "content.opf" | sort') ?? ''));
+
+		$contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/ebooks/') . ' -name "content.opf" | sort')));
 
 		foreach($contentFiles as $path){
 			if($path == '')
@@ -435,6 +546,21 @@ class Library{
 		return $retval;
 	}
 
+	public static function GetEbook(?string $ebookWwwFilesystemPath): ?Ebook{
+		if($ebookWwwFilesystemPath === null){
+			return null;
+		}
+
+		$result = self::GetFromApcu('ebook-' . $ebookWwwFilesystemPath);
+
+		if(sizeof($result) > 0){
+			return $result[0];
+		}
+		else{
+			return null;
+		}
+	}
+
 	public static function RebuildCache(): void{
 		// We check a lockfile because this can be a long-running command.
 		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.
@@ -459,7 +585,7 @@ class Library{
 		$authors = [];
 		$tagsByName = [];
 
-		foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"') ?? '')) as $filename){
+		foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"'))) as $filename){
 			try{
 				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $filename);
 
@@ -527,8 +653,8 @@ class Library{
 		foreach($ebooksByCollection as $collection => $sortItems){
 			// Sort the array by the ebook's ordinal in the collection. We use this custom sort function
 			// because an ebook may share the same place in a collection with another ebook; see above.
-			usort($sortItems, function($a, $b) {
-				if ($a->Ordinal == $b->Ordinal) {
+			usort($sortItems, function($a, $b){
+				if($a->Ordinal == $b->Ordinal){
 				        return 0;
 				    }
 				    return ($a->Ordinal < $b->Ordinal) ? -1 : 1;
@@ -561,5 +687,15 @@ class Library{
 		}
 
 		apcu_delete($lockVar);
+	}
+
+	/**
+	 * @return array<Artist>
+	 */
+	public static function GetAllArtists(): array{
+		return Db::Query('
+			SELECT *
+			from Artists
+			order by Name asc', [], 'Artist');
 	}
 }

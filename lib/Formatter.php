@@ -40,6 +40,12 @@ class Formatter{
 		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES|ENT_XML1, 'utf-8');
 	}
 
+	public static function EscapeMarkdown(?string $text): string{
+		$parsedown = new Parsedown();
+		$parsedown->setSafeMode(true);
+		return $parsedown->text($text);
+	}
+
 	public static function ToFileSize(?int $bytes): string{
 		// See https://stackoverflow.com/a/5501447
 		$output = '';

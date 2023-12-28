@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'We Couldn’t Find That Document', 'highlight' => '', 'description' => 'We couldn’t find that document.', 'is404' => true]) ?>
+<?= Template::Header(['title' => 'We Couldn’t Find That Document', 'highlight' => '', 'description' => 'We couldn’t find that document.', 'isErrorPage' => true]) ?>
 <main>
 	<section class="narrow has-hero">
 		<hgroup>

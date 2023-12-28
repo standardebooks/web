@@ -3,10 +3,9 @@ use function Safe\substr;
 
 abstract class PropertiesBase{
 	/**
-	* @param mixed $var
 	* @return mixed
 	*/
-	public function __get($var){
+	public function __get(string $var){
 		$function = 'Get' . $var;
 		$privateVar = '_' . $var;
 

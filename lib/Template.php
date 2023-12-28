@@ -1,5 +1,6 @@
 <?
 use function Safe\ob_end_clean;
+use function Safe\ob_start;
 
 class Template{
 	/**
@@ -32,6 +33,12 @@ class Template{
 		else{
 			return self::Get($function, $arguments);
 		}
+	}
+
+	public static function Emit403(): void{
+		http_response_code(403);
+		include(WEB_ROOT . '/403.php');
+		exit();
 	}
 
 	public static function Emit404(): void{

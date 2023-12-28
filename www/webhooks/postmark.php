@@ -9,6 +9,7 @@ use function Safe\substr;
 $log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
 
 try{
+	/** @var string $smtpUsername */
 	$smtpUsername = get_cfg_var('se.secrets.postmark.username');
 
 	$log->Write('Received Postmark webhook.');

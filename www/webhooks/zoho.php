@@ -21,7 +21,10 @@ try{
 	$post = file_get_contents('php://input');
 
 	// Validate the Zoho secret.
-	if(!hash_equals($_SERVER['HTTP_X_HOOK_SIGNATURE'], base64_encode(hash_hmac('sha256', $post, get_cfg_var('se.secrets.zoho.webhook_secret'), true)))){
+	/** @var string $zohoWebhookSecret */
+	$zohoWebhookSecret = get_cfg_var('se.secrets.zoho.webhook_secret');
+
+	if(!hash_equals($_SERVER['HTTP_X_HOOK_SIGNATURE'], base64_encode(hash_hmac('sha256', $post, $zohoWebhookSecret, true)))){
 		throw new Exceptions\InvalidCredentialsException();
 	}
 

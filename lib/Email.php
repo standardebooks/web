@@ -14,7 +14,7 @@ class Email{
 	public $Subject = '';
 	public $Body = '';
 	public $TextBody = '';
-	public $Attachments = array();
+	public $Attachments = [];
 	public $PostmarkStream = null;
 
 	public function __construct(bool $isNoReplyEmail = false){

@@ -3,6 +3,7 @@
 // These functions are broken out of Core.php to satisfy PHPStan
 
 use function Safe\ob_end_clean;
+use function Safe\ob_start;
 
 // Convenience alias of var_dump.
 function vd($var): void{

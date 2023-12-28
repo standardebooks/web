@@ -1,4 +1,6 @@
 <?
+use function Safe\exec;
+
 $author = HttpInput::Str(GET, 'author', false);
 $collection = HttpInput::Str(GET, 'collection', false);
 $name = null;

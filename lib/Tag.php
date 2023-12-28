@@ -1,12 +1,11 @@
 <?
-class Tag{
-	public $Name;
-	public $Url;
-	public $UrlName;
 
-	public function __construct(string $name){
-		$this->Name = $name;
-		$this->UrlName = Formatter::MakeUrlSafe($this->Name);
-		$this->Url = '/subjects/' . $this->UrlName;
-	}
+/**
+ * @property string $Url
+ */
+class Tag extends PropertiesBase{
+	public $TagId;
+	public $Name;
+	public $UrlName;
+	protected $_Url;
 }

@@ -1,9 +1,11 @@
 <?
+use function Safe\exec;
 use function Safe\substr;
 use function Safe\file_get_contents;
 use function Safe\preg_replace;
 use function Safe\json_decode;
 use function Safe\glob;
+use function Safe\shell_exec;
 
 // This script makes various calls to external scripts using exec() (and when called via Apache, as the www-data user).
 // These scripts are allowed using the /etc/sudoers.d/www-data file. Only the specific scripts
@@ -26,7 +28,10 @@ try{
 	$hashAlgorithm = $splitHash[0];
 	$hash = $splitHash[1];
 
-	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, get_cfg_var('se.secrets.github.se_vcs_bot.secret')))){
+	/** @var string $gitHubWebhookSecret */
+	$gitHubWebhookSecret = get_cfg_var('se.secrets.github.se_vcs_bot.secret');
+
+	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, $gitHubWebhookSecret))){
 		throw new Exceptions\InvalidCredentialsException();
 	}
 
@@ -77,7 +82,8 @@ try{
 			$log->Write('Processing ebook `' . $repoName . '` located at `' . $dir . '`.');
 
 			// Check the local repo's last commit. If it matches this push, then don't do anything; we're already up to date.
-			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1') ?? '');
+
+			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1'));
 
 			if($lastCommitSha1 == ''){
 				$log->Write('Error getting last local commit. Output: ' . $lastCommitSha1);

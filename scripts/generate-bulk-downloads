@@ -16,7 +16,7 @@ $updatedByGroup = [];
 function rrmdir($src){
 	// See https://www.php.net/manual/en/function.rmdir.php#117354
 	$dir = opendir($src);
-	while(false !== ($file = readdir($dir))) {
+	while(false !== ($file = readdir($dir))){
 		if (($file != '.') && ($file != '..')){
 			$full = $src . '/' . $file;
 			if(is_dir($full)){

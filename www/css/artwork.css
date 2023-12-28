@@ -1,0 +1,496 @@
+@font-face{
+	font-family: "Fira Mono";
+	src: local("Fira Mono"), url("/fonts/fira-mono.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face{
+	font-family: "Fira Mono";
+	src: local("Fira Mono"), url("/fonts/fira-mono-bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+form button.decline-button{
+	background-color: #777;
+}
+
+form button.decline-button:hover{
+	background-color: #aaa;
+}
+
+.artworks nav > a{
+	border: 1px solid rgba(0, 0, 0, .5);
+	font-style: normal;
+	box-sizing: border-box;
+	background-color: var(--button);
+	border-radius: 5px;
+	padding: 1rem 2rem;
+	color: #fff;
+	text-decoration: none;
+	font-family: "League Spartan", Arial, sans-serif;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+	box-shadow: 2px 2px 0 rgba(0, 0, 0, .5), 1px 1px 0px rgba(255,255,255, .5) inset;
+	position: relative;
+	text-transform: lowercase;
+	cursor: pointer;
+	white-space: nowrap;
+	font-size: 1rem;
+	hyphens: none;
+	line-height: 1.2;
+}
+
+.message{
+	background: rgba(0, 0, 0, .2);
+}
+
+.artworks nav li.highlighted a:focus{
+	outline: 1px dashed var(--input-outline);
+}
+
+.artworks nav > a[href]:active{
+	top: 2px;
+	left: 2px;
+	box-shadow: none;
+}
+
+.artworks nav > a:last-child::after{
+	font-family: "Fork Awesome";
+	content: "\f061";
+	transition: all 200ms ease;
+	position: relative;
+	left: 0;
+	margin-left: .5rem;
+}
+
+.artworks nav > a:last-child[href]:hover::after{
+	left: .25rem;
+	position: relative;
+	transition: all 200ms ease;
+}
+
+.artworks nav > a:first-child:before{
+	font-family: "Fork Awesome";
+	content: "\f060";
+	transition: all 200ms ease;
+	position: relative;
+	right: 0;
+	margin-right: .5rem;
+}
+
+.artworks nav > a:first-child[href]:hover::before{
+	right: .25rem;
+	position: relative;
+	transition: all 200ms ease;
+}
+
+.artworks nav > a:last-child[href]:hover::after{
+	left: .25rem;
+	position: relative;
+	transition: all 200ms ease;
+}
+
+main.artworks nav ol li a:hover,
+main.artworks nav ol li.highlighted a:hover,
+.artworks nav > a:hover{
+	background-color: var(--button-highlight);
+}
+
+button:disabled,
+button:disabled:hover,
+.artworks nav > a:not([href]){
+	cursor: default;
+	color: #efefef;
+	box-shadow: none;
+	background: #bbb url("/images/stripes-dark.svg");
+}
+
+ol.artwork-list.list{
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin-bottom: 4rem;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	max-width: 40rem;
+}
+
+ol.artwork-list.list > li{
+	border-radius: .25rem;
+	display: grid;
+	grid-template-columns: 16rem 1fr;
+	grid-column-gap: 2rem;
+	grid-template-rows: auto auto 1fr;
+	padding: 1rem;
+}
+
+ol.artwork-list.list > li.in_use{
+	background-color: rgba(0, 0, 0, .2);
+	background-image: url("/images/stripes.svg");
+}
+
+ol.artwork-list.list > li + li{
+	margin-top: 1rem;
+}
+
+ol.artwork-list.list > li .thumbnail-container{
+	grid-row: 1 / span 3;
+	margin-left: auto;
+}
+
+ol.artwork-list.list > li p{
+	text-align: left;
+}
+
+ol.artwork-list > li p{
+	margin: 0;
+}
+
+ol.artwork-list > li img{
+	box-sizing: border-box;
+	max-width: 100%;
+	height: auto;
+	border: 1px solid var(--border);
+	border-radius: .25rem;
+}
+
+ol.artwork-list > li > p:nth-of-type(1) > a{
+	font-weight: bold;
+	text-decoration: none;
+}
+
+ol.artwork-list > li .author{
+	font-style: italic;
+}
+
+main.artworks nav ol{
+	list-style: none;
+	display: flex;
+	margin: 0 .5rem;
+}
+
+main.artworks nav{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: none;
+}
+
+main.artworks nav ol li{
+	margin: 0;
+	white-space: nowrap;
+}
+
+main.artworks nav ol li a{
+	font-size: 1rem;
+	line-height: 1.4;
+	padding: 1rem;
+	margin: 0 .5rem;
+	border-radius: .25rem;
+	font-variant-numeric: normal;
+	height: calc(1.4rem + 2rem + 2px);
+	display: inline-block;
+	box-sizing: border-box;
+}
+
+main.artworks nav ol li.highlighted a{
+	background: var(--button);
+	border: 1px solid rgba(0, 0, 0, .5);
+}
+
+main.artworks nav ol li.highlighted a,
+main.artworks nav ol li a:hover{
+	color: #fff;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+}
+
+.artworks form[action="/artworks"]{
+	align-items: end;
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: auto auto auto auto 1fr;
+	margin: 0 1rem;
+	margin-bottom: 4rem;
+	max-width: calc(100% - 2rem);
+}
+
+form[action="/artworks"] > fieldset{
+	display: grid;
+	gap: 1rem;
+}
+
+form[action="/artworks"] > fieldset + fieldset{
+	margin-top: 2rem;
+}
+
+/* Artist details */
+form[action="/artworks"] > fieldset:nth-of-type(1){
+	grid-template-columns: 1fr 1fr;
+}
+
+/* Artwork details */
+form[action="/artworks"] > fieldset:nth-of-type(2){
+	grid-template-columns: 1fr 200px;
+}
+
+form[action="/artworks"] > fieldset label:has(input[name="artwork-tags"]),
+form[action="/artworks"] > fieldset label:has(input[name="artwork-image"]){
+	grid-column: 1 / span 2;
+}
+
+form[action="/artworks"] fieldset fieldset:has(input[name="artwork-publication-year"]){
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	gap: 1rem;
+}
+
+form[action="/artworks"] fieldset fieldset:has(input[name="artwork-publication-year"]) label ~ label{
+	grid-column: 1 / span 2;
+}
+
+form[action="/artworks"] #pd-proof > fieldset{
+	border-left-color: var(--body-text);
+	border-left-width: 3px;
+	border-left-style: dotted;
+	padding-left: .75rem;
+}
+
+form[action="/artworks"] fieldset p{
+	font-style: italic;
+	margin: 0;
+	border: none;
+}
+
+form[action="/artworks"] fieldset p:first-of-type{
+	margin-top: 0;
+}
+
+form[action="/artworks"] legend{
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin: 0.5rem 0;
+}
+
+form[action="/artworks"] label{
+	display: block;
+}
+
+form[action="/artworks"] div.footer{
+	margin-top: 1rem;
+	text-align: right;
+}
+
+main.artworks nav ol li:not(:first-child):not(:last-child):not(.highlighted){
+	display: none;
+}
+
+main.artworks nav ol li.highlighted::before{
+	content: "⋯";
+	padding-right: 1rem;
+}
+
+main.artworks nav ol li.highlighted::after{
+	content: "⋯";
+	padding-left: 1rem;
+}
+
+main.artworks nav ol li.highlighted:first-child::before,
+main.artworks nav ol li.highlighted:last-child::after,
+main.artworks nav ol li.highlighted:nth-child(2)::before,
+main.artworks nav ol li.highlighted:nth-last-child(2)::after{
+	display: none;
+}
+
+.artwork-metadata{
+	margin-top: 1rem;
+}
+
+.artwork-metadata td:first-child{
+	font-weight: bold;
+	width: 25%;
+}
+
+.artwork-metadata td:last-child{
+	width: 75%;
+}
+
+.artwork-metadata td{
+	padding: 0.5rem;
+}
+
+.artworks h1 + a{
+	width: auto;
+}
+
+.artworks aside.tip{
+	font-style: italic;
+	margin: 1rem auto;
+	position: relative;
+	padding: 1rem;
+	padding-left: 2rem;
+	padding-top: 2rem;
+	background: rgba(0, 0, 0, .2);
+}
+
+.artworks aside.tip::before{
+	font-family: "Fork Awesome";
+	content: "\f0eb";
+	font-size: 1rem;
+	position: absolute;
+	font-style: normal;
+	left: .75rem;
+	top: .25rem;
+}
+
+.artworks aside.tip::after{
+	content: "Tip";
+	font-family: "League Spartan";
+	text-transform: uppercase;
+	font-size: .75rem;
+	position: absolute;
+	font-style: normal;
+	left: 2rem;
+	top: .5rem;
+}
+
+.artworks .tags{
+	justify-content: unset;
+}
+
+@media(max-width: 730px){
+	main.artwork nav ol li:not(.highlighted){
+		display: none;
+	}
+}
+
+@media(max-width: 680px){
+	main.artworks nav ol li.highlighted::before,
+	main.artworks nav ol li.highlighted::after{
+		display: none;
+	}
+}
+
+@media(max-width: 500px){
+	main.artworks nav{
+		margin-top: .5rem;
+	}
+
+	main.artworks nav > a{
+		margin-bottom: 0;
+		font-size: 0;
+	}
+
+	main.artworks nav > a::before,
+	main.artworks nav > a::after{
+		font-size: 1rem;
+		margin: 0 !important;
+	}
+
+	main.artworks nav a[rel]::before,
+	main.artworks nav a[rel]::after{
+		font-size: 1rem;
+		margin: 0;
+	}
+}
+
+@media(max-width: 400px){
+	/* Artist details */
+	form[action="/artworks"] > fieldset:nth-of-type(1){
+		grid-template-columns: 1fr;
+	}
+
+	form[action="/artworks"] > fieldset:nth-of-type(2){
+		grid-template-columns: 1fr;
+	}
+
+	form[action="/artworks"] > fieldset label:has(input[name="artwork-tags"]),
+	form[action="/artworks"] > fieldset label:has(input[name="artwork-image"]){
+		grid-column: 1;
+	}
+}
+
+@media(max-width: 380px){
+	main.artworks nav > a{
+		padding: 1rem;
+	}
+}
+
+@media(prefers-reduced-motion: reduce){
+	.artworks nav > a:last-child::after,
+	.artworks nav > a:last-child[href]:hover::after,
+	.artworks nav > a:first-child:before,
+	.artworks nav > a:first-child[href]:hover::before,
+	.artworks nav > a:last-child[href]:hover::after{
+		transition: none;
+	}
+}
+
+.artworks figure p{
+	background: #333;
+	border: 1px solid var(--border);
+	border-radius: .25rem;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	color: #fff !important; /* in case code highlighting fails */
+	flex-grow: 1;
+	margin: 0;
+	padding: 1rem;
+	text-align: left;
+}
+
+.artworks figure.wrong::before{
+	background: #762729;
+	font-family: "Fork Awesome";
+	content: "\f00d";
+	font-size: 1.5rem;
+	width: 1.5rem;
+	line-height: 1;
+	margin-right: .5rem;
+	color: #CF4647;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
+	display: inline-block;
+	flex-shrink: 0;
+}
+
+.artworks figure.corrected::before{
+	background: #406451;
+	font-family: "Fork Awesome";
+	content: "\f00c";
+	font-size: 1.5rem;
+	line-height: 1;
+	width: 1.5rem;
+	color: #79BD9A;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .1);
+	flex-shrink: 0;
+}
+
+.artworks figure.wrong::before,
+.artworks figure.corrected::before{
+	display: flex;
+	margin-right: 0;
+	align-self: stretch;
+	align-items: center;
+	justify-content: center;
+	padding: 0 .5rem;
+	border-top-left-radius: .25rem;
+	border-bottom-left-radius: .25rem;
+	border: 1px solid var(--border);
+	border-right: none;
+}
+
+.artworks figure.wrong,
+.artworks figure.corrected{
+	display: flex;
+	align-items: center;
+}
+
+.artworks code{
+	font-variant-numeric: normal;
+	font-family: "Fira Mono", monospace;
+	font-size: .8rem;
+}
