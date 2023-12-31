@@ -83,7 +83,7 @@ $anonymousPatronCount = Db::QueryInt('
 						<picture>
 							<source srcset="/images/masthead/lukas-bystricky@2x.avif 2x, /images/masthead/lukas-bystricky.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/lukas-bystricky@2x.jpg 2x, /images/masthead/lukas-bystricky.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/lukas-bystricky.jpg" alt="A portrait of Emma Sweeney."/>
+							<img src="/images/masthead/lukas-bystricky.jpg" alt="A portrait of Lukas Bystricky."/>
 						</picture>
 						<p>
 							<a href="https://www.linkedin.com/in/lukasbystricky/">Lukas Bystricky</a>
@@ -94,22 +94,11 @@ $anonymousPatronCount = Db::QueryInt('
 						<picture>
 							<source srcset="/images/masthead/weijia-cheng@2x.avif 2x, /images/masthead/weijia-cheng.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/weijia-cheng@2x.jpg 2x, /images/masthead/weijia-cheng.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/weijia-cheng.jpg" alt="A portrait of Robin Whittleton."/>
+							<img src="/images/masthead/weijia-cheng.jpg" alt="A portrait of Weijia Cheng."/>
 						</picture>
 						<p>
 							<a href="https://www.weijiarhymeswith.asia/">Weijia Cheng</a>
 							<img src="/images/masthead/weijia-cheng-contact.svg" alt="Contact information for Weijia Cheng." class="contact"/>
-						</p>
-					</li>
-					<li>
-						<picture>
-							<source srcset="/images/masthead/b-timothy-keith@2x.avif 2x, /images/masthead/b-timothy-keith.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/b-timothy-keith@2x.jpg 2x, /images/masthead/b-timothy-keith.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/b-timothy-keith.jpg" alt="A portrait of Robin Whittleton."/>
-						</picture>
-						<p>
-							<a href="https://astart.ca">B. Timothy Keith</a>
-							<img src="/images/masthead/b-timothy-keith-contact.svg" alt="Contact information for B. Timothy Keith." class="contact"/>
 						</p>
 					</li>
 					<li>
