@@ -130,6 +130,7 @@ fi
 require "convert" "Try: apt-get install imagemagick"
 require "git" "Try: apt-get install git"
 require "php" "Try: apt-get install php-cli"
+require "rsvg-convert" "Try: apt-get install librsvg2-bin"
 require "se" "Read: https://standardebooks.org/tools"
 
 # cavif is compiled via Cargo: https://github.com/kornelski/cavif-rs
