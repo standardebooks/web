@@ -516,12 +516,15 @@
 			<li>
 				<p><a href="https://archive.org/details/mabuse-norbert-jacques-1921-eng/page/8/mode/1up">Dr. Mabuse, the Gambler</a> by Norbert Jacques (transcription required)</p>
 			</li><!--patron-->
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Dark_Princess">Dark Princess</a> by W. E. B. Du Bois (PD 1928; transcription require)</p>
+			</li>
 		</ul>
 		<h2 id="verne">Jules Verne</h2>
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
 		<ul>
 			<li>
-				<p>As of 2023, 20,000 Leagues under the Seas does not have an acceptable public domain translation.</p>
+				<p>As of 2024, <i>20,000 Leagues Under the Seas</i> does not have an acceptable public domain translation, therefore we will not host that ebook.</p>
 			</li>
 			<li>
 				<p>Master of the World has two PD translations, one from 1911 and one from 1914. The 1911 version is bad, and the 1914 by Cranstoun Metcalfe version is preferred; but, as of 2023, there are no transcriptions or page scans for the 1914 version.</p>
