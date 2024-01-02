@@ -1,6 +1,6 @@
 # Installation
 
-PHP 7+ is required.
+PHP 8+ is required.
 
 ## Installing on Ubuntu 22.04
 
@@ -46,7 +46,15 @@ If everything went well you should now be able to open your web browser and visi
 # First, install the SE toolset, which will make the `se build` command-line executable available to the `deploy-ebook-to-www` script:
 # https://standardebooks.org/tools
 
-# Once the toolset is installed, clone a book and deploy it to your local SE site:
+# Install the SE toolset as a library so we can use it in some automated scripts.
+pip install standardebooks
+
+# The `se` command must be in your $PATH, but installing it via `pip` might not do that automatically.
+# If `which se` doesn't say anything, then either add the `pip` installation of the `se` executable to your $PATH manually, # or install it again using `pipx`; this will create a duplicate installation,
+# but it will also install it in your $PATH for you:
+pipx install standardebooks
+
+# Once the toolset is installed and in your $PATH, clone a book and deploy it to your local SE site:
 mkdir /standardebooks.org/ebooks/
 cd /standardebooks.org/ebooks/
 git clone --bare https://github.com/standardebooks/david-lindsay_a-voyage-to-arcturus
