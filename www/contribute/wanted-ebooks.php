@@ -175,9 +175,6 @@
 				<p><a href="https://en.wikisource.org/wiki/Hamilton_(play)">Hamilton</a> by Mary P. Hamlin and George Arliss</p><!--patron-->
 			</li>
 			<li>
-				<p><a href="https://www.fadedpage.com/showbook.php?pid=20210130">Early Autumn</a> by Louis Bromfield (Pulitzer #9)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/64235">The Argonautica</a> by Apollonius of Rhodes, translated by Arthur S. Way</p>
 			</li>
 			<li>
@@ -188,9 +185,6 @@
 			</li>
 			<li>
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/39858">Trilby</a> by George du Maurier (#15 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3268">The Mysteries of Udolpho</a> by Ann Ward Radcliffe (#32 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
@@ -206,9 +200,6 @@
 			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister’s Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2885">The House of the Wolflings</a> by William Morris</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
