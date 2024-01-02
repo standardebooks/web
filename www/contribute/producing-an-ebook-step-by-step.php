@@ -22,6 +22,7 @@
 				<li><p><a href="#setup">Set up the Standard Ebooks toolset and make sure it’s up-to-date</a></p></li>
 				<li><p><a href="#select">Select an ebook to produce</a></p></li>
 				<li><p><a href="#locate">Locate page scans of your book online</a></p></li>
+				<li><p><a href="#pitch">Contact the mailing list to pitch your production</a></p></li>
 				<li><p><a href="#create">Create a Standard Ebooks epub skeleton</a></p></li>
 				<li><p><a href="#rough">Do a rough cleanup of the source text and perform the first commit</a></p></li>
 				<li><p><a href="#split">Split the source text at logical divisions</a></p></li>
@@ -98,6 +99,10 @@
 					</li>
 				</ul>
 				<p>You’ll enter a link to the page scans you used in the <code class="path">content.opf</code> metadata as a <code class="html"><span class="p">&lt;</span><span class="nt">dc:source</span><span class="p">&gt;</span></code> element.</p>
+			</li>
+			<li>
+				<h2 id="pitch">Contact the mailing list to pitch your production</h2>
+				<p>If you’re looking to submit your ebook to Standard Ebooks, contact the <a href="https://groups.google.com/g/standardebooks">mailing list</a> to pitch the ebook you’ve selected, <em>before you begin production</em>. Include links to the transcription and scans you found. If you are producing this ebook for yourself, not for release at Standard Ebooks, you can skip this step.</p>
 			</li>
 			<li>
 				<h2 id="create">Create a Standard Ebooks epub skeleton</h2>
