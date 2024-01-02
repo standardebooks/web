@@ -103,6 +103,17 @@ $anonymousPatronCount = Db::QueryInt('
 					</li>
 					<li>
 						<picture>
+							<source srcset="/images/masthead/david-reimer@2x.avif 2x, /images/masthead/david-reimer.avif 1x" type="image/avif"/>
+							<source srcset="/images/masthead/david-reimer@2x.jpg 2x, /images/masthead/david-reimer.jpg 1x" type="image/jpg"/>
+							<img src="/images/masthead/david-reimer.jpg" alt="A portrait of David Reimer."/>
+						</picture>
+						<p>
+							David Reimer
+							<img src="/images/masthead/david-reimer-contact.svg" alt="Contact information for David Reimer." class="contact"/>
+						</p>
+					</li>
+					<li>
+						<picture>
 							<source srcset="/images/masthead/vince-rice@2x.avif 2x, /images/masthead/vince-rice.avif 1x" type="image/avif"/>
 							<source srcset="/images/masthead/vince-rice@2x.jpg 2x, /images/masthead/vince-rice.jpg 1x" type="image/jpg"/>
 							<img src="/images/masthead/vince-rice.jpg" alt="A portrait of Vince Rice."/>
