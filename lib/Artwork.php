@@ -309,6 +309,15 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidMimeTypeException());
 		}
 
+		// Check the ebook www filesystem path.
+		// We don't check if it exists, because the book might not be published yet.
+		// But we do a basic check that the string includes one _. It might not include a dash, for example anonymous_poetry
+		if($this->EbookWwwFilesystemPath !== null){
+			if(mb_stripos($this->EbookWwwFilesystemPath, '_') === false){
+				$error->Add(new Exceptions\InvalidEbookException('Invalid ebook. Expected file system slug like “c-s-lewis_poetry”.'));
+			}
+		}
+
 		// Check for existing Artwork objects with the same URL but different Artwork IDs.
 		try{
 			$existingArtwork = Artwork::GetByUrl($this->Artist->UrlName, $this->UrlName);

@@ -1756,6 +1756,10 @@ label span + span{
 	font-style: italic;
 }
 
+label span + span code{
+	font-style: normal;
+}
+
 label span + span i{
 	font-style: normal;
 }
@@ -1798,6 +1802,7 @@ label.select > span + span{
 
 label.select > span + span::after{
 	display: block;
+	font-style: normal;
 	position: absolute;
 	top: calc((2rem + 1.4rem + 2px) / 2 - 10px);
 	right: calc(1rem - 12px / 2);

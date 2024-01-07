@@ -273,21 +273,27 @@ class Library{
 		try{
 			$results = apcu_fetch($variable);
 		}
-		catch(Safe\Exceptions\ApcuException){
-			Library::RebuildCache();
+		catch(Safe\Exceptions\ApcuException $ex){
 			try{
-				$results = apcu_fetch($variable);
+				// If we can't fetch this variable, rebuild the whole cache.
+				apcu_fetch('is-cache-fresh');
 			}
-			catch(Safe\Exceptions\ApcuException){
-				// We can get here if the cache is currently rebuilding from a different process.
-				// Nothing we can do but wait, so wait 20 seconds before retrying
-				sleep(20);
-
+			catch(Safe\Exceptions\ApcuException $ex){
+				Library::RebuildCache();
 				try{
 					$results = apcu_fetch($variable);
 				}
 				catch(Safe\Exceptions\ApcuException){
-					// Cache STILL rebuilding... give up silently for now
+					// We can get here if the cache is currently rebuilding from a different process.
+					// Nothing we can do but wait, so wait 20 seconds before retrying
+					sleep(20);
+
+					try{
+						$results = apcu_fetch($variable);
+					}
+					catch(Safe\Exceptions\ApcuException){
+						// Cache STILL rebuilding... give up silently for now
+					}
 				}
 			}
 		}
@@ -686,6 +692,8 @@ class Library{
 		}
 
 		apcu_delete($lockVar);
+
+		apcu_store('is-cache-fresh', true);
 	}
 
 	/**

@@ -174,6 +174,15 @@ catch(Exceptions\InvalidPermissionsException){
 						/>
 					</label>
 					<label>
+						<input
+							type="checkbox"
+							name="artwork-is-published-in-us"
+							value="true"
+							<? if($artwork->IsPublishedInUs){ ?> checked="checked"<? } ?> />
+						<span>This book was published in the U.S.</span>
+						<span>Yes, if a U.S. city appears anywhere near the publication year or rights statement.</span>
+					</label>
+					<label>
 						<span>URL of page with year of publication</span>
 						<span>Roman numerals on the page scan are OK.</span>
 						<input
@@ -194,16 +203,8 @@ catch(Exceptions\InvalidPermissionsException){
 						/>
 					</label>
 					<label>
-						<input
-							type="checkbox"
-							name="artwork-is-published-in-us"
-							value="true"
-							<? if($artwork->IsPublishedInUs){ ?> checked="checked"<? } ?> />
-						<span>This book was published in the U.S.</span>
-						<span>Yes, if a U.S. city appears anywhere near the publication year or rights statement.</span>
-					</label>
-					<label>
-						URL of page with artwork
+						<span>URL of page with artwork</span>
+						<span>Review the many <a href="/manual/latest/10-art-and-images#10.3.3.7.1.1">gotchas you may encounter</a> when confirming the reproduction is the exact same painting.</span>
 						<input
 							type="url"
 							name="artwork-artwork-page-url"
@@ -224,13 +225,21 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if($GLOBALS['User']->Benefits->CanReviewArtwork){ ?>
 			<fieldset>
 				<legend>Reviewer options</legend>
+				<label class="select">
+					<span>Artwork approval status</span>
+					<span>
+						<select name="artwork-status">
+							<option value="<?= COVER_ARTWORK_STATUS_UNVERIFIED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_UNVERIFIED){ ?> selected="selected"<? } ?>>Unverified</option>
+							<option value="<?= COVER_ARTWORK_STATUS_DECLINED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_DECLINED){ ?> selected="selected"<? } ?>>Declined</option>
+							<option value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_APPROVED){ ?> selected="selected"<? } ?>>Approved</option>
+							<option value="<?= COVER_ARTWORK_STATUS_IN_USE ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_IN_USE){ ?> selected="selected"<? } ?>>In use</option>
+						</select>
+					</span>
+				</label>
 				<label>
-					<input
-						type="checkbox"
-						name="artwork-status"
-						value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"
-						<? if($artwork->Status == COVER_ARTWORK_STATUS_APPROVED){ ?> checked="checked"<? } ?> />
-					Approve this artwork immediately
+					<span>In use by</span>
+					<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
+					<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>"/>
 				</label>
 			</fieldset>
 			<? } ?>
