@@ -137,7 +137,7 @@ catch(Exceptions\InvalidPermissionsException){
 				</label>
 				<label>
 					<span>High-resolution image</span>
-					<span>jpg, bmp, png, and tiff are accepted.</span>
+					<span>jpg, bmp, png, and tiff are accepted; 32MB max.</span>
 					<input
 						type="file"
 						name="artwork-image"

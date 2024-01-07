@@ -11,6 +11,7 @@ $totalArtworkCount = 0;
 $pageDescription = '';
 $pageTitle = '';
 $queryString = '';
+$isAdminView = $GLOBALS['User']?->Benefits?->CanReviewArtwork ?? false;
 
 if($page <= 0){
 	$page = 1;
@@ -26,8 +27,18 @@ if($sort !== null){
 	$sort = mb_strtolower($sort);
 }
 
-if($sort === 'created-newest'){
+if($sort == 'created-newest'){
 	$sort = null;
+}
+
+if($status == 'all'){
+	if($isAdminView){
+		$status = 'all-admin';
+	}
+}
+
+if(!$isAdminView && $status !== 'all' && $status != COVER_ARTWORK_STATUS_APPROVED && $status != COVER_ARTWORK_STATUS_IN_USE){
+	$status = COVER_ARTWORK_STATUS_APPROVED;
 }
 
 $artworks = Library::FilterArtwork($query != '' ? $query : null, $status, $sort);
@@ -63,24 +74,64 @@ if($perPage !== COVER_ARTWORK_PER_PAGE){
 	<section class="narrow">
 		<h1>Browse U.S. Public Domain Artwork</h1>
 		<p>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.</p>
-	<?= Template::ArtworkSearchForm(['query' => $query, 'status' => $status, 'sort' => $sort, 'perPage' => $perPage]) ?>
-	<?= Template::ImageCopyrightNotice() ?>
-	<? if($totalArtworkCount == 0){ ?>
-		<p class="no-results">No artwork matched your filters.  You can try different filters, or <a href="/artworks">browse all artwork</a>.</p>
-	<? }else{ ?>
-		<?= Template::ArtworkList(['artworks' => $artworks, 'useAdminUrl' => false]) ?>
-	<? } ?>
-	<? if($totalArtworkCount > 0){ ?>
-		<nav>
-			<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
-			<ol>
-			<? for($i = 1; $i < $pages + 1; $i++){ ?>
-				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>"><?= $i ?></a></li>
-			<? } ?>
-			</ol>
-			<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
-		</nav>
-	<? } ?>
+		<form action="/artworks" method="get" rel="search">
+			<label class="select">
+				<span>Status</span>
+				<span>
+					<select name="status" size="1">
+						<option value="all"<? if($status === null){ ?> selected="selected"<? } ?>>All</option>
+						<? if($isAdminView){ ?><option value="<?= COVER_ARTWORK_STATUS_UNVERIFIED ?>"<? if($status == COVER_ARTWORK_STATUS_UNVERIFIED){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
+						<? if($isAdminView){ ?><option value="<?= COVER_ARTWORK_STATUS_DECLINED ?>"<? if($status == COVER_ARTWORK_STATUS_DECLINED){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
+						<option value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"<? if($status == COVER_ARTWORK_STATUS_APPROVED){ ?> selected="selected"<? } ?>>Approved</option>
+						<option value="<?= COVER_ARTWORK_STATUS_IN_USE ?>"<? if($status == COVER_ARTWORK_STATUS_IN_USE){ ?> selected="selected"<? } ?>>In use</option>
+					</select>
+				</span>
+			</label>
+			<label class="search">Keywords
+				<input type="search" name="query" value="<?= Formatter::ToPlainText($query ?? '') ?>"/>
+			</label>
+			<label>
+				<span>Sort</span>
+				<span>
+					<select name="sort">
+						<option value="<?= SORT_COVER_ARTWORK_CREATED_NEWEST ?>"<? if($sort == SORT_COVER_ARTWORK_CREATED_NEWEST){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
+						<option value="<?= SORT_COVER_ARTIST_ALPHA ?>"<? if($sort == SORT_COVER_ARTIST_ALPHA){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
+						<option value="<?= SORT_COVER_ARTWORK_COMPLETED_NEWEST ?>"<? if($sort == SORT_COVER_ARTWORK_COMPLETED_NEWEST){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
+					</select>
+				</span>
+			</label>
+			<label>
+				<span>Per page</span>
+				<span>
+					<select name="per-page">
+						<option value="50"<? if($perPage == 50){ ?> selected="selected"<? } ?>>50</option>
+						<option value="100"<? if($perPage == 100){ ?> selected="selected"<? } ?>>100</option>
+						<option value="200"<? if($perPage == 200){ ?> selected="selected"<? } ?>>200</option>
+					</select>
+				</span>
+			</label>
+			<button>Filter</button>
+		</form>
+
+		<?= Template::ImageCopyrightNotice() ?>
+
+		<? if($totalArtworkCount == 0){ ?>
+			<p class="no-results">No artwork matched your filters.  You can try different filters, or <a href="/artworks">browse all artwork</a>.</p>
+		<? }else{ ?>
+			<?= Template::ArtworkList(['artworks' => $artworks, 'showStatus' => $isAdminView && ($status == 'all' || $status == 'all-admin')]) ?>
+		<? } ?>
+
+		<? if($totalArtworkCount > 0){ ?>
+			<nav>
+				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<ol>
+				<? for($i = 1; $i < $pages + 1; $i++){ ?>
+					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>"><?= $i ?></a></li>
+				<? } ?>
+				</ol>
+				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			</nav>
+		<? } ?>
 	</section>
 </main>
 <?= Template::Footer() ?>

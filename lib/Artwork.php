@@ -21,6 +21,7 @@ use function Safe\sprintf;
  * @property Ebook $Ebook
  * @property Museum $Museum
  * @property User $Submitter
+ * @property User $Reviewer
  * @property ?ImageMimeType $MimeType
  */
 class Artwork extends PropertiesBase{
@@ -78,6 +79,14 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_Submitter;
+	}
+
+	protected function GetReviewer(): User{
+		if($this->_Reviewer === null){
+			$this->_Reviewer = User::Get($this->ReviewerUserId);
+		}
+
+		return $this->_Reviewer;
 	}
 
 	protected function GetUrl(): string{
@@ -571,29 +580,6 @@ class Artwork extends PropertiesBase{
 				from Artworks
 				inner join Artists using (ArtistId)
 				where Artists.UrlName = ? and Artworks.UrlName = ?
-			', [$artistUrlName, $artworkUrlName], 'Artwork');
-
-		if(sizeof($result) == 0){
-			throw new Exceptions\ArtworkNotFoundException();
-		}
-
-		return $result[0];
-	}
-
-	/**
-         * Gets a publically available Artwork, i.e., with approved or in_use status.
-         * Artwork with status unverifed and declined aren't available by URL.
-         */
-	/**
-	 * @throws \Exceptions\InvalidArtworkException
-	 */
-	public static function GetByUrlAndIsApproved(string $artistUrlName, string $artworkUrlName): Artwork{
-		$result = Db::Query('
-				SELECT Artworks.*
-				from Artworks
-				inner join Artists using (ArtistId)
-				where Status in ("approved", "in_use") and
-				Artists.UrlName = ? and Artworks.UrlName = ?
 			', [$artistUrlName, $artworkUrlName], 'Artwork');
 
 		if(sizeof($result) == 0){

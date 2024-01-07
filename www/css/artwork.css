@@ -14,14 +14,6 @@
 	font-display: swap;
 }
 
-form button.decline-button{
-	background-color: #777;
-}
-
-form button.decline-button:hover{
-	background-color: #aaa;
-}
-
 .artworks nav > a{
 	border: 1px solid rgba(0, 0, 0, .5);
 	font-style: normal;
@@ -219,6 +211,12 @@ main.artworks nav ol li a:hover{
 	max-width: 100%;
 }
 
+form[action^="/artworks/"]{
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
 .artworks form[action="/artworks"]{
 	align-items: end;
 	display: grid;
@@ -289,7 +287,7 @@ form[action="/artworks"] label{
 	display: block;
 }
 
-form[action="/artworks"] div.footer{
+form div.footer{
 	margin-top: 1rem;
 	text-align: right;
 }

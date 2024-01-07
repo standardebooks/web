@@ -160,46 +160,41 @@ class Library{
 	}
 
 	/**
-	 *  Browsable Artwork can be displayed publically, e.g., at /artworks.
-	 *  Unverified and declined Artwork shouldn't be browsable.
-	 *  @return array<Artwork>
-	 */
-	private static function GetBrowsableArtwork(): array{
-		return Db::Query('
-			SELECT *
-			from Artworks
-			where Status in ("approved", "in_use")', [], 'Artwork');
-	}
-
-	/**
 	* @param string $query
 	* @param string $status
 	* @param string $sort
 	* @return array<Artwork>
 	*/
 	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null): array{
-		$artworks = Library::GetBrowsableArtwork();
+		// Possible special statuses:
+		// null: same as "all"
+		// "all": Show all approved and in use artwork
+		// "all-admin": Show all artwork regardless of status
+
+		$artworks = [];
+
+		if($status === null || $status == 'all'){
+			$artworks = Db::Query('
+				SELECT *
+				from Artworks
+				where Status in ("approved", "in_use")', [], 'Artwork');
+		}
+		elseif($status == 'all-admin'){
+			$artworks = Db::Query('
+				SELECT *
+				from Artworks', [], 'Artwork');
+		}
+		else{
+			$artworks = Db::Query('
+				SELECT *
+				from Artworks
+				where Status = ?', [$status], 'Artwork');
+		}
+
 		$matches = $artworks;
 
 		if($sort === null){
 			$sort = SORT_COVER_ARTWORK_CREATED_NEWEST;
-		}
-
-		if(in_array($status, [COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_IN_USE], true)){
-			$matches = [];
-			foreach($artworks as $artwork){
-				if($status === $artwork->Status){
-					$matches[] = $artwork;
-				}
-			}
-		}
-		else{
-			$matches = [];
-			foreach($artworks as $artwork){
-				if(in_array($artwork->Status, [COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_IN_USE], true)){
-					$matches[] = $artwork;
-				}
-			}
 		}
 
 		if($query !== null){
