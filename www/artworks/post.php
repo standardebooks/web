@@ -34,6 +34,7 @@ try{
 	$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);
 	$artwork->Tags = Artwork::ParseTags(HttpInput::Str(POST, 'artwork-tags', false));
 	$artwork->Status = HttpInput::Str(POST, 'artwork-status', false) ?? COVER_ARTWORK_STATUS_UNVERIFIED;
+	$artwork->SubmitterUserId = $GLOBALS['User']->UserId ?? null;
 	$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us', false);
 	$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');
 	$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url', false);

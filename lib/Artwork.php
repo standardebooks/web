@@ -32,6 +32,7 @@ class Artwork extends PropertiesBase{
 	public $Updated;
 	public $Status;
 	public $EbookWwwFilesystemPath;
+	public $SubmitterUserId;
 	public $ReviewerUserId;
 	public $MuseumUrl;
 	public $PublicationYear;
@@ -380,7 +381,7 @@ class Artwork extends PropertiesBase{
 
 		Db::Query('
 			INSERT into
-			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, ReviewerUserId, MuseumUrl,
+			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, SubmitterUserId, ReviewerUserId, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
 			                      EbookWwwFilesystemPath, MimeType, Exception)
 			values (?,
@@ -399,9 +400,10 @@ class Artwork extends PropertiesBase{
 			        ?,
 			        ?,
 			        ?,
+			        ?,
 			        ?)
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Status, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType->value ?? null, $this->Exception]
 		);
 
@@ -447,6 +449,7 @@ class Artwork extends PropertiesBase{
 			CompletedYearIsCirca = ?,
 			Created = ?,
 			Status = ?,
+			SubmitterUserId = ?,
 			ReviewerUserId = ?,
 			MuseumUrl = ?,
 			PublicationYear = ?,
@@ -460,7 +463,7 @@ class Artwork extends PropertiesBase{
 			where
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Status, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType->value ?? null, $this->Exception,
 				$this->ArtworkId]
 		);
