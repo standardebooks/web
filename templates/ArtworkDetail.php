@@ -1,6 +1,6 @@
 <?
 $artwork = $artwork ?? null;
-$showCopyrightNotice = $showCopyrightNotice ?? true;
+$isAdminView = $isAdminView ?? false;
 
 if($artwork === null){
 	return;
@@ -16,9 +16,7 @@ if($artwork === null){
 	</picture>
 </a>
 
-<? if($showCopyrightNotice){ ?>
-	<?= Template::ImageCopyrightNotice() ?>
-<? } ?>
+<?= Template::ImageCopyrightNotice() ?>
 
 <h2>Metadata</h2>
 <table class="artwork-metadata">
@@ -37,6 +35,10 @@ if($artwork === null){
 		<td><? if($artwork->CompletedYear === null){ ?>Unknown<? }else{ ?><? if($artwork->CompletedYearIsCirca){ ?>Circa <? } ?><?= $artwork->CompletedYear ?><? } ?></td>
 	</tr>
 	<tr>
+		<td>Tags</td>
+		<td><ul class="tags"><? foreach($artwork->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul></td>
+	</tr>
+	<tr>
 		<td>Dimensions</td>
 		<td><?= $artwork->Dimensions ?></td>
 	</tr>
@@ -44,10 +46,12 @@ if($artwork === null){
 		<td>Status</td>
 		<td><?= Template::ArtworkStatus(['artwork' => $artwork]) ?></td>
 	</tr>
+	<? if($isAdminView){ ?>
 	<tr>
-		<td>Tags</td>
-		<td><ul class="tags"><? foreach($artwork->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul></td>
+		<td>Submitted by</td>
+		<td><? if($artwork->SubmitterUserId === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::ToPlainText($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::ToPlainText($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::ToPlainText($artwork->Submitter->Email) ?><? } ?></a><? } ?></td>
 	</tr>
+	<? } ?>
 </table>
 
 <h2>U.S. public domain proof</h2>

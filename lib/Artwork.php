@@ -20,6 +20,7 @@ use function Safe\sprintf;
  * @property string $Dimensions
  * @property Ebook $Ebook
  * @property Museum $Museum
+ * @property User $Submitter
  * @property ?ImageMimeType $MimeType
  */
 class Artwork extends PropertiesBase{
@@ -52,6 +53,7 @@ class Artwork extends PropertiesBase{
 	protected $_Dimensions = null;
 	protected $_Ebook = null;
 	protected $_Museum = null;
+	protected $_Submitter = null;
 	protected ?ImageMimeType $_MimeType = null;
 
 	// *******
@@ -68,6 +70,14 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_UrlName;
+	}
+
+	protected function GetSubmitter(): User{
+		if($this->_Submitter === null){
+			$this->_Submitter = User::Get($this->SubmitterUserId);
+		}
+
+		return $this->_Submitter;
 	}
 
 	protected function GetUrl(): string{

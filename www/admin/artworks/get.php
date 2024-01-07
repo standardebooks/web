@@ -29,7 +29,7 @@ catch(Exceptions\AppException){
 <main class="artworks">
 	<?= Template::Error(['exception' => $exception]) ?>
 	<section class="narrow">
-		<?= Template::ArtworkDetail(['artwork' => $artwork, 'showCopyrightNotice' => false]) ?>
+		<?= Template::ArtworkDetail(['artwork' => $artwork, 'isAdminView' => true]) ?>
 		<? if($artwork->Status == COVER_ARTWORK_STATUS_DECLINED){ ?>
 		<h2>Status</h2>
 		<p>This artwork has been declined by a reviewer.</p>
