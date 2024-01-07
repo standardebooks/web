@@ -58,13 +58,11 @@ if($perPage !== COVER_ARTWORK_PER_PAGE){
 	$queryString .= '&amp;per-page=' . urlencode((string)$perPage);
 }
 
-
-$queryString = preg_replace('/^&amp;/ius', '', $queryString);
 ?><?= Template::Header(['title' => $pageTitle, 'artwork' => true, 'description' => $pageDescription]) ?>
 <main class="artworks">
 	<section class="narrow">
 		<h1>Browse U.S. Public Domain Artwork</h1>
-
+		<p>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.</p>
 	<?= Template::ArtworkSearchForm(['query' => $query, 'status' => $status, 'sort' => $sort, 'perPage' => $perPage]) ?>
 	<?= Template::ImageCopyrightNotice() ?>
 	<? if($totalArtworkCount == 0){ ?>
@@ -74,13 +72,13 @@ $queryString = preg_replace('/^&amp;/ius', '', $queryString);
 	<? } ?>
 	<? if($totalArtworkCount > 0){ ?>
 		<nav>
-			<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+			<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
 			<? for($i = 1; $i < $pages + 1; $i++){ ?>
-				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>"><?= $i ?></a></li>
+				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>"><?= $i ?></a></li>
 			<? } ?>
 			</ol>
-			<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 		</nav>
 	<? } ?>
 	</section>

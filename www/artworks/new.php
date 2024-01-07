@@ -74,7 +74,7 @@ catch(Exceptions\InvalidPermissionsException){
 					<span>For existing artists, leave the year of death blank.</span>
 					<datalist id="artist-names">
 						<? foreach(Library::GetAllArtists() as $existingArtist){ ?>
-							<option value="<?= Formatter::ToPlainText($existingArtist->Name) ?>"><?= Formatter::ToPlainText($existingArtist->Name) ?>, d. <? if($existingArtist->DeathYear !== null){ ?><?= $existingArtist->DeathYear ?><? }else{ ?>(unknown)<? } ?></option>
+							<option value="<?= Formatter::ToPlainText($existingArtist->Name) ?>"><?= Formatter::ToPlainText($existingArtist->Name) ?>, d. <? if($existingArtist->DeathYear !== null){ ?><?= $existingArtist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
 						<? } ?>
 					</datalist>
 					<input
@@ -136,7 +136,7 @@ catch(Exceptions\InvalidPermissionsException){
 					/>
 				</label>
 				<label>
-					<span>Image</span>
+					<span>High-resolution image</span>
 					<span>jpg, bmp, png, and tiff are accepted.</span>
 					<input
 						type="file"
@@ -175,7 +175,7 @@ catch(Exceptions\InvalidPermissionsException){
 					</label>
 					<label>
 						<span>URL of page with year of publication</span>
-						<span>Roman numerals are OK.</span>
+						<span>Roman numerals on the page scan are OK.</span>
 						<input
 							type="url"
 							name="artwork-publication-year-page-url"
@@ -185,7 +185,7 @@ catch(Exceptions\InvalidPermissionsException){
 					</label>
 					<label>
 						<span>URL of page with rights statement</span>
-						<span>Might be same URL as above; non-English is OK; keywords in other languages include <i>droits</i> and <i>rechte vorbehalten</i>.</span>
+						<span>Might be same URL as above; non-English is OK; keywords in other languages include “<i>droits</i>” and “<i>rechte vorbehalten</i>.”</span>
 						<input
 							type="url"
 							name="artwork-copyright-page-url"
@@ -212,7 +212,7 @@ catch(Exceptions\InvalidPermissionsException){
 						/>
 					</label>
 				</fieldset>
-				<p><strong>or</strong> a special reason for an exception:</p>
+				<p><strong>or</strong> a reason for a special exception:</p>
 				<fieldset>
 					<label>
 					<span>Exception reason</span>

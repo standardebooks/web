@@ -32,8 +32,8 @@ class Session extends PropertiesBase{
 	// METHODS
 	// *******
 
-	public function Create(?string $email = null): void{
-		$this->User = User::GetIfRegistered($email);
+	public function Create(?string $email = null, ?string $password = null): void{
+		$this->User = User::GetIfRegistered($email, $password);
 		$this->UserId = $this->User->UserId;
 
 		$existingSessions = Db::Query('
@@ -59,7 +59,7 @@ class Session extends PropertiesBase{
 				', [$this->UserId, $this->SessionId, $this->Created]);
 		}
 
-		$this->SetSessionCookie($this->SessionId);
+		self::SetSessionCookie($this->SessionId);
 	}
 
 	public static function GetLoggedInUser(): ?User{

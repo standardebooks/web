@@ -12,6 +12,7 @@ class User extends PropertiesBase{
 	public $Email;
 	public $Created;
 	public $Uuid;
+	public $PasswordHash;
 	protected $_IsRegistered = null;
 	protected $_Payments = null;
 	protected $_Benefits = null;
@@ -73,19 +74,25 @@ class User extends PropertiesBase{
 	// METHODS
 	// *******
 
-	public function Create(): void{
+	public function Create(?string $password = null): void{
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
 		$this->Created = new DateTime();
 
+		$this->PasswordHash = null;
+		if($password !== null){
+			$this->PasswordHash = password_hash($password, PASSWORD_DEFAULT);
+		}
+
 		try{
 			Db::Query('
-					INSERT into Users (Email, Name, Uuid, Created)
+					INSERT into Users (Email, Name, Uuid, Created, PasswordHash)
 					values (?,
 					        ?,
 					        ?,
+					        ?,
 					        ?)
-				', [$this->Email, $this->Name, $this->Uuid, $this->Created]);
+				', [$this->Email, $this->Name, $this->Uuid, $this->Created, $this->PasswordHash]);
 		}
 		catch(PDOException $ex){
 			if(($ex->errorInfo[1] ?? 0) == 1062){
@@ -137,7 +144,7 @@ class User extends PropertiesBase{
 		return $result[0];
 	}
 
-	public static function GetIfRegistered(?string $identifier): User{
+	public static function GetIfRegistered(?string $identifier, ?string $password = null): User{
 		// We consider a user "registered" if they have a row in the Benefits table.
 		// Emails without that row may only be signed up for the newsletter and thus are not "registered" users
 		// The identifier is either an email or a UUID (api key)
@@ -154,6 +161,15 @@ class User extends PropertiesBase{
 				', [$identifier, $identifier], 'User');
 
 		if(sizeof($result) == 0){
+			throw new Exceptions\InvalidUserException();
+		}
+
+		if($result[0]->PasswordHash !== null && $password === null){
+			// Indicate that a password is required before we log in
+			throw new Exceptions\PasswordRequiredException();
+		}
+
+		if($result[0]->PasswordHash !== null && !password_verify($password ?? '', $result[0]->PasswordHash)){
 			throw new Exceptions\InvalidUserException();
 		}
 

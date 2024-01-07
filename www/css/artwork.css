@@ -128,8 +128,8 @@ ol.artwork-list.list > li{
 	padding: 1rem;
 }
 
-ol.artwork-list.list > li.in_use{
-	background-color: rgba(0, 0, 0, .2);
+ol.artwork-list.list > li.in-use{
+	opacity: .5;
 	background-image: url("/images/stripes.svg");
 }
 
@@ -140,6 +140,12 @@ ol.artwork-list.list > li + li{
 ol.artwork-list.list > li .thumbnail-container{
 	grid-row: 1 / span 3;
 	margin-left: auto;
+}
+
+ol.artwork-list.list > li .thumbnail-container a:has(img){
+	display: block;
+	line-height: 0;
+	border-radius: .25rem;
 }
 
 ol.artwork-list.list > li p{
@@ -209,13 +215,16 @@ main.artworks nav ol li a:hover{
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 }
 
+.artworks img{
+	max-width: 100%;
+}
+
 .artworks form[action="/artworks"]{
 	align-items: end;
 	display: grid;
 	grid-gap: 1rem;
 	grid-template-columns: auto auto auto auto 1fr;
-	margin: 0 1rem;
-	margin-bottom: 4rem;
+	margin-top: 2rem;
 	max-width: calc(100% - 2rem);
 }
 
@@ -312,11 +321,12 @@ main.artworks nav ol li.highlighted:nth-last-child(2)::after{
 
 .artwork-metadata td:first-child{
 	font-weight: bold;
-	width: 25%;
+	text-align: right;
+	white-space: nowrap;
 }
 
 .artwork-metadata td:last-child{
-	width: 75%;
+	width: 100%;
 }
 
 .artwork-metadata td{
@@ -325,6 +335,7 @@ main.artworks nav ol li.highlighted:nth-last-child(2)::after{
 
 .artworks h1 + a{
 	width: auto;
+	line-height: 0;
 }
 
 .artworks aside.tip{
@@ -360,74 +371,6 @@ main.artworks nav ol li.highlighted:nth-last-child(2)::after{
 
 .artworks .tags{
 	justify-content: unset;
-}
-
-@media(max-width: 730px){
-	main.artwork nav ol li:not(.highlighted){
-		display: none;
-	}
-}
-
-@media(max-width: 680px){
-	main.artworks nav ol li.highlighted::before,
-	main.artworks nav ol li.highlighted::after{
-		display: none;
-	}
-}
-
-@media(max-width: 500px){
-	main.artworks nav{
-		margin-top: .5rem;
-	}
-
-	main.artworks nav > a{
-		margin-bottom: 0;
-		font-size: 0;
-	}
-
-	main.artworks nav > a::before,
-	main.artworks nav > a::after{
-		font-size: 1rem;
-		margin: 0 !important;
-	}
-
-	main.artworks nav a[rel]::before,
-	main.artworks nav a[rel]::after{
-		font-size: 1rem;
-		margin: 0;
-	}
-}
-
-@media(max-width: 400px){
-	/* Artist details */
-	form[action="/artworks"] > fieldset:nth-of-type(1){
-		grid-template-columns: 1fr;
-	}
-
-	form[action="/artworks"] > fieldset:nth-of-type(2){
-		grid-template-columns: 1fr;
-	}
-
-	form[action="/artworks"] > fieldset label:has(input[name="artwork-tags"]),
-	form[action="/artworks"] > fieldset label:has(input[name="artwork-image"]){
-		grid-column: 1;
-	}
-}
-
-@media(max-width: 380px){
-	main.artworks nav > a{
-		padding: 1rem;
-	}
-}
-
-@media(prefers-reduced-motion: reduce){
-	.artworks nav > a:last-child::after,
-	.artworks nav > a:last-child[href]:hover::after,
-	.artworks nav > a:first-child:before,
-	.artworks nav > a:first-child[href]:hover::before,
-	.artworks nav > a:last-child[href]:hover::after{
-		transition: none;
-	}
 }
 
 .artworks figure p{
@@ -493,4 +436,85 @@ main.artworks nav ol li.highlighted:nth-last-child(2)::after{
 	font-variant-numeric: normal;
 	font-family: "Fira Mono", monospace;
 	font-size: .8rem;
+}
+
+@media(max-width: 730px){
+	main.artwork nav ol li:not(.highlighted){
+		display: none;
+	}
+}
+
+@media(max-width: 680px){
+	main.artworks nav ol li.highlighted::before,
+	main.artworks nav ol li.highlighted::after{
+		display: none;
+	}
+}
+
+@media(max-width: 500px){
+	main.artworks nav{
+		margin-top: .5rem;
+	}
+
+	main.artworks nav > a{
+		margin-bottom: 0;
+		font-size: 0;
+	}
+
+	main.artworks nav > a::before,
+	main.artworks nav > a::after{
+		font-size: 1rem;
+		margin: 0 !important;
+	}
+
+	main.artworks nav a[rel]::before,
+	main.artworks nav a[rel]::after{
+		font-size: 1rem;
+		margin: 0;
+	}
+
+	.artwork-metadata td{
+		display: block;
+		padding: 0;
+	}
+
+	.artwork-metadata td:first-child{
+		text-align: left;
+	}
+
+	.artwork-metadata tr + tr td:first-child{
+		padding-top: 1rem;
+	}
+}
+
+@media(max-width: 400px){
+	/* Artist details */
+	form[action="/artworks"] > fieldset:nth-of-type(1){
+		grid-template-columns: 1fr;
+	}
+
+	form[action="/artworks"] > fieldset:nth-of-type(2){
+		grid-template-columns: 1fr;
+	}
+
+	form[action="/artworks"] > fieldset label:has(input[name="artwork-tags"]),
+	form[action="/artworks"] > fieldset label:has(input[name="artwork-image"]){
+		grid-column: 1;
+	}
+}
+
+@media(max-width: 380px){
+	main.artworks nav > a{
+		padding: 1rem;
+	}
+}
+
+@media(prefers-reduced-motion: reduce){
+	.artworks nav > a:last-child::after,
+	.artworks nav > a:last-child[href]:hover::after,
+	.artworks nav > a:first-child:before,
+	.artworks nav > a:first-child[href]:hover::before,
+	.artworks nav > a:last-child[href]:hover::after{
+		transition: none;
+	}
 }

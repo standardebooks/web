@@ -821,6 +821,7 @@ h2 + .download-list tr.year-header:first-child th{
 .ebooks nav li.highlighted a:focus,
 a.button:focus,
 input[type="email"]:focus,
+input[type="password"]:focus,
 input[type="text"]:focus,
 input[type="month"]:focus,
 input[type="number"]:focus,
@@ -1714,6 +1715,7 @@ input[type="month"],
 input[type="number"],
 input[type="url"],
 input[type="email"],
+input[type="password"],
 input[type="search"]{
 	-webkit-appearance: none;
 	appearance: none;
@@ -1733,7 +1735,9 @@ input[type="search"]{
 }
 
 label.email input,
-label.search input{
+label.search input,
+label.captcha input,
+label:has(input[type="password"]) input{
 	padding-left: 2.5rem;
 }
 
@@ -1816,16 +1820,20 @@ label.select:hover > span + span::after{
 
 label.select > span + span,
 label.email,
-label.search{
+label.search,
+label.captcha,
+label:has(input[type="password"]){
 	position: relative;
 	max-width: 100%;
 }
 
 label.email::before,
-label.search::before{
+label.search::before,
+label.captcha::before,
+label:has(input[type="password"])::before{
 	display: block;
 	position: absolute;
-	top: calc(2rem + .7rem);
+	bottom: 1.2rem;
 	left: 1rem;
 	font-family: "Fork Awesome";
 	font-size: 1rem;
@@ -1843,8 +1851,16 @@ label.search::before{
 	content: "\f002";
 }
 
-label.email::before{
+label:has(input[type="email"])::before{
 	content: "\f0e0";
+}
+
+label:has(input[type="password"])::before{
+	content: "\f084";
+}
+
+label.captcha::before{
+	content: "\f256";
 }
 
 nav li.highlighted a,
@@ -1856,6 +1872,7 @@ input[type="month"],
 input[type="number"],
 input[type="url"],
 input[type="email"],
+input[type="password"],
 input[type="search"],
 select{
 	transition: border-color .5s, background-color .5s;
@@ -1878,6 +1895,8 @@ input[type="url"]:focus,
 input[type="url"]:hover,
 input[type="email"]:focus,
 input[type="email"]:hover,
+input[type="password"]:focus,
+input[type="password"]:hover,
 input[type="search"]:focus,
 input[type="search"]:hover,
 textarea:focus,
@@ -1894,6 +1913,7 @@ input[type="month"]:user-invalid,
 input[type="number"]:user-invalid,
 input[type="url"]:user-invalid,
 input[type="email"]:user-invalid,
+input[type="password"]:user-invalid,
 input[type="search"]:user-invalid{
 	border-color: #ff0000;
 	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
@@ -1904,6 +1924,7 @@ input[type="month"]:-moz-ui-invalid,
 input[type="number"]:-moz-ui-invalid,
 input[type="url"]:-moz-ui-invalid,
 input[type="email"]:-moz-ui-invalid,
+input[type="password"]:-moz-ui-invalid,
 input[type="search"]:-moz-ui-invalid{
 	border-color: #ff0000;
 	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
@@ -1974,6 +1995,7 @@ form[action="/ebooks"] button{
 form.single-row{
 	display: flex;
 	flex-direction: column;
+	gap: 1rem;
 }
 
 form.single-row label{
@@ -3601,6 +3623,7 @@ ul.feed p{
 	input[type="number"],
 	input[type="url"],
 	input[type="email"],
+	input[type="password"],
 	input[type="search"],
 	select,
 	a.button:hover,
@@ -3617,6 +3640,8 @@ ul.feed p{
 	input[type="url"]:hover,
 	input[type="email"]:focus,
 	input[type="email"]:hover,
+	input[type="password"]:focus,
+	input[type="password"]:hover,
 	input[type="search"]:focus,
 	input[type="search"]:hover,
 	select:focus,

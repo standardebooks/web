@@ -10,7 +10,7 @@ $useAdminUrl = $useAdminUrl ?? false;
 	<? }else{ ?>
 		<? $url = $artwork->Url; ?>
 	<? } ?>
-	<li class="<?= $artwork->Status ?>">
+	<li class="<?= str_replace('_', '-', $artwork->Status) ?>">
 		<div class="thumbnail-container">
 			<a href="<?= $url ?>">
 				<picture>
@@ -25,8 +25,8 @@ $useAdminUrl = $useAdminUrl ?? false;
 			<? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?>(<abbr>AKA</abbr> <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?>
 		</p>
 		<div>
-			<p>Year completed: <? if($artwork->CompletedYear === null){ ?>(unknown)<? }else{ ?><?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?><? } ?></p>
-			<p>Status: <?= Template::ArtworkStatus(['artwork' => $artwork]) ?></p>
+			<p>Year completed: <? if($artwork->CompletedYear === null){ ?>Unknown<? }else{ ?><? if($artwork->CompletedYearIsCirca){ ?>Circa<? } ?><?= $artwork->CompletedYear ?><? } ?></p>
+			<? if($artwork->Status == COVER_ARTWORK_STATUS_IN_USE){ ?><p>Status: <?= Template::ArtworkStatus(['artwork' => $artwork]) ?></p><? } ?>
 			<? if(count($artwork->Tags) > 0){ ?>
 			<p>Tags:</p>
 			<ul class="tags"><? foreach($artwork->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>

@@ -38,7 +38,14 @@ if($GLOBALS['User'] === null){
 
 		$session = new Session();
 		try{
-			$session->Create($httpBasicAuthLogin);
+			$password = $_SERVER['PHP_AUTH_PW'] ?? null;
+			if($password == ''){
+				$password = null;
+			}
+
+			// Most patrons have a null password, meaning they only need to log in using an email and a blank password.
+			// Some users with admin rights need a password to log in.
+			$session->Create($httpBasicAuthLogin, $password);
 			$GLOBALS['User'] = $session->User;
 		}
 		catch(Exception){

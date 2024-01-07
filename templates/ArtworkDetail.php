@@ -1,5 +1,6 @@
 <?
 $artwork = $artwork ?? null;
+$showCopyrightNotice = $showCopyrightNotice ?? true;
 
 if($artwork === null){
 	return;
@@ -15,31 +16,29 @@ if($artwork === null){
 	</picture>
 </a>
 
-<?= Template::ImageCopyrightNotice() ?>
+<? if($showCopyrightNotice){ ?>
+	<?= Template::ImageCopyrightNotice() ?>
+<? } ?>
 
 <h2>Metadata</h2>
 <table class="artwork-metadata">
 	<tr>
 		<td>Title</td>
-		<td><?= Formatter::ToPlainText($artwork->Name) ?></td>
+		<td><i><?= Formatter::ToPlainText($artwork->Name) ?></i></td>
 	</tr>
 	<tr>
 		<td>Artist</td>
 		<td>
-			<?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?> (<abbr>AKA</abbr> <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?>, <abbr title="deceased">d.</abbr> <?= $artwork->Artist->DeathYear ?><? } ?>
+			<?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?> (<abbr>AKA</abbr> <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?>
 		</td>
 	</tr>
 	<tr>
 		<td>Year completed</td>
-		<td><? if($artwork->CompletedYear === null){ ?>(unknown)<? }else{ ?><?= $artwork->CompletedYear ?><? if($artwork->CompletedYearIsCirca){ ?> (circa)<? } ?><? } ?></td>
+		<td><? if($artwork->CompletedYear === null){ ?>Unknown<? }else{ ?><? if($artwork->CompletedYearIsCirca){ ?>Circa <? } ?><?= $artwork->CompletedYear ?><? } ?></td>
 	</tr>
 	<tr>
-		<td>File size</td>
-		<td><?= $artwork->ImageSize ?></td>
-	</tr>
-	<tr>
-		<td>Uploaded</td>
-		<td><?= $artwork->Created->format('F j, Y g:i a') ?></td>
+		<td>Dimensions</td>
+		<td><?= $artwork->Dimensions ?></td>
 	</tr>
 	<tr>
 		<td>Status</td>
@@ -70,9 +69,8 @@ if($artwork === null){
 	<h3>Page scans</h3>
 	<ul>
 		<li>Year book was published: <? if($artwork->PublicationYear !== null){ ?><?= $artwork->PublicationYear ?><? }else{ ?><i>Not provided</i><? } ?></li>
-		<li>Was book published in the U.S.: <? if($artwork->IsPublishedInUs){ ?>Yes<? }else{ ?>No<? } ?></li>
 		<li>Page scan of book publication year: <? if($artwork->PublicationYearPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->PublicationYearPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
-		<li>Page scan of rights statement page: <? if($artwork->CopyrightPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->CopyrightPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
+		<li>Page scan of rights statement: <? if($artwork->CopyrightPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->CopyrightPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
 		<li>Page scan of artwork: <? if($artwork->ArtworkPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->ArtworkPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
 	</ul>
 <? } ?>

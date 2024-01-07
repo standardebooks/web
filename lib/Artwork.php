@@ -17,7 +17,7 @@ use function Safe\sprintf;
  * @property string $ImageUrl
  * @property string $ThumbUrl
  * @property string $Thumb2xUrl
- * @property string $ImageSize
+ * @property string $Dimensions
  * @property Ebook $Ebook
  * @property Museum $Museum
  * @property ?ImageMimeType $MimeType
@@ -48,7 +48,7 @@ class Artwork extends PropertiesBase{
 	protected $_ImageUrl = null;
 	protected $_ThumbUrl = null;
 	protected $_Thumb2xUrl = null;
-	protected $_ImageSize = null;
+	protected $_Dimensions = null;
 	protected $_Ebook = null;
 	protected $_Museum = null;
 	protected ?ImageMimeType $_MimeType = null;
@@ -157,26 +157,20 @@ class Artwork extends PropertiesBase{
 		return $this->_Thumb2xUrl;
 	}
 
-	protected function GetImageSize(): string{
+	protected function GetDimensions(): string{
 		try{
-			$bytes = @filesize(WEB_ROOT . $this->ImageUrl);
-			$sizes = 'BKMGTP';
-			$factor = intval(floor((strlen((string)$bytes) - 1) / 3));
-			$sizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
-			$sizeUnit = $sizes[$factor] ?? '';
-			$this->_ImageSize = $sizeNumber . $sizeUnit;
 
 			list($imageWidth, $imageHeight) = getimagesize(WEB_ROOT . $this->ImageUrl);
 			if($imageWidth && $imageHeight){
-				$this->_ImageSize .= ' (' . $imageWidth . ' × ' . $imageHeight . ')';
+				$this->_Dimensions .= $imageWidth . ' × ' . $imageHeight;
 			}
 		}
 		catch(Exception){
 			// Image doesn't exist
-			$this->_ImageSize = '';
+			$this->_Dimensions = '';
 		}
 
-		return $this->_ImageSize;
+		return $this->_Dimensions;
 	}
 
 	protected function GetEbook(): ?Ebook{
@@ -217,7 +211,7 @@ class Artwork extends PropertiesBase{
 			$error->Add($ex);
 		}
 
-		if(trim($this->Exception) == ''){
+		if($this->Exception !== null && trim($this->Exception) == ''){
 			$this->Exception = null;
 		}
 
@@ -515,11 +509,6 @@ class Artwork extends PropertiesBase{
 		}
 
 		return false;
-	}
-
-	public function HasMatchingMuseum(): bool{
-
-		return true;
 	}
 
 	// ***********

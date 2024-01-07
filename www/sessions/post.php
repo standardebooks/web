@@ -13,6 +13,7 @@ $requestType = HttpInput::RequestType();
 
 $session = new Session();
 $email = HttpInput::Str(POST, 'email', false);
+$password = HttpInput::Str(POST, 'password', false);
 $redirect = HttpInput::Str(POST, 'redirect', false);
 
 try{
@@ -20,7 +21,7 @@ try{
 		$redirect = '/';
 	}
 
-	$session->Create($email);
+	$session->Create($email, $password);
 
 	if($requestType == WEB){
 		http_response_code(303);

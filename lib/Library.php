@@ -167,8 +167,8 @@ class Library{
 	private static function GetBrowsableArtwork(): array{
 		return Db::Query('
 			SELECT *
-			FROM Artworks
-			WHERE Status IN ("approved", "in_use")', [], 'Artwork');
+			from Artworks
+			where Status in ("approved", "in_use")', [], 'Artwork');
 	}
 
 	/**
@@ -262,7 +262,6 @@ class Library{
 		}
 
 		return $matches;
-
 	}
 
 	/**

@@ -112,6 +112,7 @@ if($artwork === null){
 	}
 
 	$artwork = new Artwork();
+	$artwork->Artist = new Artist();
 	$artwork->Artist = $artist;
 	$artwork->Name = $artworkName;
 	$artwork->CompletedYear = $completedYear;

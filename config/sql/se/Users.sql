@@ -4,6 +4,7 @@ CREATE TABLE `Users` (
   `Name` varchar(255) DEFAULT NULL,
   `Created` datetime NOT NULL,
   `Uuid` char(36) NOT NULL,
+  `PasswordHash` varchar(255) NULL,
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `idxEmail` (`Email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4;
