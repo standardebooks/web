@@ -5,9 +5,6 @@ class ArtworkTag extends Tag{
 	// GETTERS
 	// *******
 
-	/**
-	 * @return string
-	 */
 	protected function GetUrl(): string{
 		if($this->_Url === null){
 			$this->_Url = '/artworks?query=' . Formatter::MakeUrlSafe($this->Name);

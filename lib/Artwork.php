@@ -3,11 +3,9 @@ use Safe\DateTime;
 use function Safe\copy;
 use function Safe\date;
 use function Safe\exec;
-use function Safe\filesize;
 use function Safe\getimagesize;
 use function Safe\ini_get;
 use function Safe\preg_replace;
-use function Safe\sprintf;
 
 /**
  * @property string $UrlName

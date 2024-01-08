@@ -5,23 +5,21 @@ use function Safe\date;
 /**
  * @property string $UrlName
  * @property array<string> $AlternateSpellings
+ * @property array<string> $_AlternateSpellings
  */
 class Artist extends PropertiesBase{
-	public $ArtistId;
-	public $Name;
-	public $DeathYear;
-	public $Created;
-	public $Updated;
-	protected $_UrlName;
-	protected $_AlternateSpellings;
+	public ?int $ArtistId;
+	public ?string $Name;
+	public ?int $DeathYear;
+	public ?datetime $Created;
+	public ?datetime $Updated;
+	protected ?string $_UrlName;
+	protected  $_AlternateSpellings;
 
 	// *******
 	// GETTERS
 	// *******
 
-	/**
-	 * @return string
-	 */
 	protected function GetUrlName(): string{
 		if($this->Name === null || $this->Name == ''){
 			return '';
