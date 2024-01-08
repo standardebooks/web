@@ -80,10 +80,16 @@ catch(Exceptions\ArtworkNotFoundException){
 				<td><?= Template::ArtworkStatus(['artwork' => $artwork]) ?></td>
 			</tr>
 			<? if($isAdminView){ ?>
-			<tr>
-				<td>Submitted by</td>
-				<td><? if($artwork->SubmitterUserId === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::ToPlainText($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::ToPlainText($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::ToPlainText($artwork->Submitter->Email) ?><? } ?></a><? } ?></td>
-			</tr>
+				<tr>
+					<td>Submitted by</td>
+					<td><? if($artwork->SubmitterUserId === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::ToPlainText($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::ToPlainText($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::ToPlainText($artwork->Submitter->Email) ?><? } ?></a><? } ?></td>
+				</tr>
+				<? if($artwork->Reviewer !== null){ ?>
+					<tr>
+						<td>Reviewed by</td>
+						<td><a href="mailto:<?= Formatter::ToPlainText($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::ToPlainText($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::ToPlainText($artwork->Reviewer->Email) ?><? } ?></a></td>
+					</tr>
+				<? } ?>
 			<? } ?>
 		</table>
 
@@ -92,13 +98,13 @@ catch(Exceptions\ArtworkNotFoundException){
 			<h3>Museum page</h3>
 			<p><a href="<?= Formatter::ToPlainText($artwork->MuseumUrl) ?>"><?= Formatter::ToPlainText($artwork->MuseumUrl) ?></a></p>
 			<? if($artwork->Museum !== null){ ?>
-			<figure class="corrected full">
-				<p>Approved museum: <?= Formatter::ToPlainText($artwork->Museum->Name) ?> <code>(<?= Formatter::ToPlainText($artwork->Museum->Domain) ?>)</code></p>
-			</figure>
+				<figure class="corrected full">
+					<p>Approved museum: <?= Formatter::ToPlainText($artwork->Museum->Name) ?> <code>(<?= Formatter::ToPlainText($artwork->Museum->Domain) ?>)</code></p>
+				</figure>
 			<? }else{ ?>
-			<figure class="wrong full">
-				<p>Not an approved museum.</p>
-			</figure>
+				<figure class="wrong full">
+					<p>Not an approved museum.</p>
+				</figure>
 			<? } ?>
 		<? } ?>
 
