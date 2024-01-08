@@ -124,11 +124,25 @@ If run successfully, it should output `[OK] No errors`.
 
 Before submitting design contributions, please discuss them with the Standard Ebooks lead. While we encourage discussion and contributions, we can’t guarantee that unsolicited design contributions will be accepted. You can open an issue to discuss potential design contributions with us before you begin.
 
-## Help wanted
+## Help wanted/todo
+
+### Main website
+
+- Add type hints for class variables.
+
+- Convert ebooks from being stored in an APCu cache to our MariaDB database. (This is a big project!)
 
 - Creating a search bar for the SE Manual of Style.
 
 - Finding a self-hosted replacement for GitHub, like possibly [Gitea](https://gitea.io/) or [GitLab](https://about.gitlab.com/), and figuring out how to reproducably install and update it on the SE server.
+
+### Artwork database
+
+- Allow submitter or admins to edit unapproved artwork submissions. Approved/in use submissions should not be editable by anyone.
+
+- Write responsive CSS to make artwork list at `/artworks` mobile-friendly.
+
+- Normalize page scan/museum URLs to remove unnecessary query string parameters and hash anchors, resulting in a minimum viable URL. For example, normalizing `https://books.google.com/books?id=k9qgAAAAMAAJ&newbks=1&newbks_redir=0&pg=PA11#v=onepage&q&f=false` to `https://books.google.com/books?id=k9qgAAAAMAAJ&pg=PA11`
 
 ## PHP code style
 
