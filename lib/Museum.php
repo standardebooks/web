@@ -16,7 +16,7 @@ class Museum extends PropertiesBase{
 			limit 1;
 		', [$url], 'Museum');
 
-		if($result[0] === null){
+		if(sizeof($result[0]) == 0){
 			throw new Exceptions\MuseumNotFoundException();
 		}
 

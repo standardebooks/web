@@ -8,13 +8,13 @@ use function Safe\date;
  * @property array<string> $_AlternateSpellings
  */
 class Artist extends PropertiesBase{
-	public ?int $ArtistId;
-	public ?string $Name;
-	public ?int $DeathYear;
-	public ?datetime $Created;
-	public ?datetime $Updated;
-	protected ?string $_UrlName;
-	protected  $_AlternateSpellings;
+	public ?int $ArtistId = null;
+	public ?string $Name = null;
+	public ?int $DeathYear = null;
+	public ?datetime $Created = null;
+	public ?datetime $Updated = null;
+	protected ?string $_UrlName = null;
+	protected $_AlternateSpellings;
 
 	// *******
 	// GETTERS
