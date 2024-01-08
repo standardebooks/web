@@ -365,7 +365,13 @@ class Artwork extends PropertiesBase{
 			}
 
 			if(!is_uploaded_file($uploadedFile['tmp_name'])){
-				throw new Exceptions\InvalidImageUploadException();
+				$error->Add(new Exceptions\InvalidImageUploadException());
+			}
+
+			// Check for minimum dimensions
+			list($imageWidth, $imageHeight) = getimagesize($uploadedFile['tmp_name']);
+			if(!$imageWidth || !$imageHeight || $imageWidth < COVER_ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < COVER_ARTWORK_IMAGE_MINIMUM_HEIGHT){
+				$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
 			}
 		}
 
