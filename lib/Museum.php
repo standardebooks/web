@@ -1,9 +1,8 @@
 <?
-
 class Museum extends PropertiesBase{
-	public $MuseumId;
-	public $Name;
-	public $Domain;
+	public int $MuseumId;
+	public string $Name;
+	public string $Domain;
 
 	public static function GetByUrl(?string $url): Museum{
 		if($url === null){

@@ -10,58 +10,70 @@ use function Safe\sprintf;
 use function Safe\shell_exec;
 use function Safe\substr;
 
+/**
+ * @property array<GitCommit> $GitCommits
+ * @property array<EbookTag> $EbookTags
+ * @property array<string> $LocTags
+ * @property array<Collection> $Collections
+ * @property array<EbookSource> $Sources
+ * @property array<Contributor> $Authors
+ * @property array<Contributor> $Illustrators
+ * @property array<Contributor> $Translators
+ * @property array<Contributor> $Contributors
+ * @property ?array<string> $TocEntries
+ */
 class Ebook{
-	public $WwwFilesystemPath;
-	public $RepoFilesystemPath;
-	public $Url;
-	public $KindleCoverUrl;
-	public $EpubUrl;
-	public $AdvancedEpubUrl;
-	public $KepubUrl;
-	public $Azw3Url;
-	public $HasDownloads;
+	public string $WwwFilesystemPath;
+	public string $RepoFilesystemPath;
+	public string $Url;
+	public string $KindleCoverUrl;
+	public string $EpubUrl;
+	public string $AdvancedEpubUrl;
+	public string $KepubUrl;
+	public string $Azw3Url;
+	public bool $HasDownloads;
 	public $GitCommits = [];
 	public $Tags = [];
 	public $LocTags = [];
 	public $Collections = [];
-	public $Identifier;
-	public $UrlSafeIdentifier;
-	public $HeroImageUrl;
-	public $HeroImageAvifUrl;
-	public $HeroImage2xUrl;
-	public $HeroImage2xAvifUrl;
-	public $CoverImageUrl;
-	public $CoverImageAvifUrl;
-	public $CoverImage2xUrl;
-	public $CoverImage2xAvifUrl;
-	public $DistCoverUrl;
-	public $Title;
-	public $FullTitle;
-	public $AlternateTitle;
-	public $Description;
-	public $LongDescription;
-	public $Language;
-	public $WordCount;
-	public $ReadingEase;
-	public $ReadingEaseDescription;
-	public $ReadingTime;
-	public $GitHubUrl;
-	public $WikipediaUrl;
+	public string $Identifier;
+	public string $UrlSafeIdentifier;
+	public string $HeroImageUrl;
+	public string $HeroImageAvifUrl;
+	public string $HeroImage2xUrl;
+	public string $HeroImage2xAvifUrl;
+	public string $CoverImageUrl;
+	public string $CoverImageAvifUrl;
+	public string $CoverImage2xUrl;
+	public string $CoverImage2xAvifUrl;
+	public string $DistCoverUrl;
+	public ?string $Title = null;
+	public ?string $FullTitle = null;
+	public ?string $AlternateTitle = null;
+	public ?string $Description = null;
+	public ?string $LongDescription = null;
+	public ?string $Language = null;
+	public int $WordCount;
+	public float $ReadingEase;
+	public string $ReadingEaseDescription;
+	public string $ReadingTime;
+	public ?string $GitHubUrl = null;
+	public ?string $WikipediaUrl = null;
 	public $Sources = [];
-	public $Authors = []; // Array of Contributors
-	public $AuthorsHtml;
-	public $AuthorsUrl; // This is a single URL even if there are multiple authors; for example, /ebooks/karl-marx_friedrich-engels/
-	public $Illustrators = []; // Array of Contributors
-	public $Translators = []; // Array of Contributors
-	public $Contributors = []; // Array of Contributors
-	public $ContributorsHtml;
-	public $TitleWithCreditsHtml = '';
-	public $Created;
-	public $Updated;
-	public $TextUrl;
-	public $TextSinglePageUrl;
-	public $TextSinglePageSizeNumber = null;
-	public $TextSinglePageSizeUnit = null;
+	public $Authors = [];
+	public string $AuthorsHtml;
+	public string $AuthorsUrl; // This is a single URL even if there are multiple authors; for example, /ebooks/karl-marx_friedrich-engels/
+	public $Illustrators = [];
+	public $Translators = [];
+	public $Contributors = [];
+	public ?string $ContributorsHtml = null;
+	public string $TitleWithCreditsHtml = '';
+	public DateTime $Created;
+	public DateTime $Updated;
+	public string $TextUrl;
+	public string $TextSinglePageUrl;
+	public ?string $TextSinglePageSizeNumber = null;
+	public ?string $TextSinglePageSizeUnit = null;
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 
 	public function __construct(?string $wwwFilesystemPath = null){
@@ -384,7 +396,7 @@ class Ebook{
 
 		// Figure out the reading time.
 		$readingTime = ceil($this->WordCount / AVERAGE_READING_WORDS_PER_MINUTE);
-		$this->ReadingTime = $readingTime;
+		$this->ReadingTime = (string)$readingTime;
 
 		if($readingTime < 60){
 			$this->ReadingTime .= ' minute';

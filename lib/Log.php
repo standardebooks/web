@@ -7,8 +7,8 @@ use function Safe\gmdate;
 use function Safe\substr;
 
 class Log{
-	private $RequestId = null;
-	private $LogFilePath = null;
+	private string $RequestId;
+	private ?string $LogFilePath = null;
 
 	public function __construct(?string $logFilePath){
 		// Get a semi-random ID to identify this request within the log.

@@ -1,5 +1,4 @@
 <?
-
 class Db{
 	public static function GetLastInsertedId(): int{
 		return $GLOBALS['DbConnection']->GetLastInsertedId();

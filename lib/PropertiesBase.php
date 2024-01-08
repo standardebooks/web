@@ -1,6 +1,4 @@
 <?
-use function Safe\substr;
-
 abstract class PropertiesBase{
 	/**
 	* @return mixed

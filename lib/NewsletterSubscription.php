@@ -6,12 +6,12 @@ use Safe\DateTime;
  * @property string $Url
  */
 class NewsletterSubscription extends PropertiesBase{
-	public $IsConfirmed = false;
-	public $IsSubscribedToSummary;
-	public $IsSubscribedToNewsletter;
-	public $UserId;
+	public bool $IsConfirmed = false;
+	public bool $IsSubscribedToSummary;
+	public bool $IsSubscribedToNewsletter;
+	public int $UserId;
+	public DateTime $Created;
 	protected $_User;
-	public $Created;
 	protected $_Url = null;
 
 	// *******
@@ -85,8 +85,8 @@ class NewsletterSubscription extends PropertiesBase{
 	public function SendConfirmationEmail(): void{
 		$em = new Email(true);
 		$em->PostmarkStream = EMAIL_POSTMARK_STREAM_BROADCAST;
-		$em->To = $this->User->Email;
-		if($this->User->Name != ''){
+		$em->To = $this->User->Email ?? '';
+		if($this->User->Name !== null && $this->User->Name != ''){
 			$em->ToName = $this->User->Name;
 		}
 		$em->Subject = 'Action required: confirm your newsletter subscription';

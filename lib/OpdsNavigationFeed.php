@@ -1,6 +1,5 @@
 <?
 use Safe\DateTime;
-
 use function Safe\file_get_contents;
 
 class OpdsNavigationFeed extends OpdsFeed{

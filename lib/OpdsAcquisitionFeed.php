@@ -2,7 +2,7 @@
 use Safe\DateTime;
 
 class OpdsAcquisitionFeed extends OpdsFeed{
-	public $IsCrawlable;
+	public bool $IsCrawlable;
 
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent, bool $isCrawlable = false){
 		parent::__construct($title, $subtitle, $url, $path, $entries, $parent);

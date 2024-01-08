@@ -3,23 +3,25 @@ use Safe\DateTime;
 use function Safe\usort;
 
 /**
+ * @property ?array<PollItem> $_PollItems
+ * @property ?array<PollItem> $_PollItemsByWinner
  * @property string $Url
  * @property array<PollItem> $PollItems
  * @property array<PollItem> $PollItemsByWinner
  * @property int $VoteCount
  */
 class Poll extends PropertiesBase{
-	public $PollId;
-	public $Name;
-	public $UrlName;
-	public $Description;
-	public $Created;
-	public $Start;
-	public $End;
-	protected $_Url = null;
+	public int $PollId;
+	public string $Name;
+	public string $UrlName;
+	public string $Description;
+	public DateTime $Created;
+	public DateTime $Start;
+	public DateTime $End;
+	protected ?string $_Url = null;
 	protected $_PollItems = null;
 	protected $_PollItemsByWinner = null;
-	protected $_VoteCount = null;
+	protected ?int $_VoteCount = null;
 
 
 	// *******
@@ -71,7 +73,7 @@ class Poll extends PropertiesBase{
 			$this->_PollItemsByWinner = $this->PollItems;
 			usort($this->_PollItemsByWinner, function(PollItem $a, PollItem $b){ return $a->VoteCount <=> $b->VoteCount; });
 
-			$this->_PollItemsByWinner = array_reverse($this->_PollItemsByWinner);
+			$this->_PollItemsByWinner = array_reverse($this->_PollItemsByWinner ?? []);
 		}
 
 		return $this->_PollItemsByWinner;

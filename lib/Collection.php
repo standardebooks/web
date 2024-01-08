@@ -1,12 +1,11 @@
 <?
-
 use function Safe\preg_replace;
 
 class Collection{
-	public $Name;
-	public $Url;
-	public $SequenceNumber = null;
-	public $Type = null;
+	public string $Name;
+	public string $Url;
+	public ?int $SequenceNumber = null;
+	public ?string $Type = null;
 
 	public function __construct(string $name){
 		$this->Name = $name;

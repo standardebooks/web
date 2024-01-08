@@ -1,5 +1,4 @@
 <?
-use function Safe\preg_match;
 use function Safe\session_unset;
 
 if(HttpInput::RequestMethod() != HTTP_POST){

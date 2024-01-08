@@ -35,8 +35,8 @@ if(HttpInput::Str(POST, 'automationtest', false)){
 try{
 	$subscription->User = new User();
 	$subscription->User->Email = HttpInput::Str(POST, 'email', false);
-	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'issubscribedtonewsletter', false);
-	$subscription->IsSubscribedToSummary = HttpInput::Bool(POST, 'issubscribedtosummary', false);
+	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'issubscribedtonewsletter') ?? false;
+	$subscription->IsSubscribedToSummary = HttpInput::Bool(POST, 'issubscribedtosummary') ?? false;
 
 	$captcha = HttpInput::Str(SESSION, 'captcha', false) ?? '';
 

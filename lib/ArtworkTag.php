@@ -1,5 +1,4 @@
 <?
-
 class ArtworkTag extends Tag{
 	// *******
 	// GETTERS
@@ -19,11 +18,11 @@ class ArtworkTag extends Tag{
 	protected function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
-		if($this->Name === null || strlen($this->Name) === 0){
+		if(strlen($this->Name) == 0){
 			$error->Add(new Exceptions\InvalidArtworkTagException());
 		}
 
-		if($this->Url === null || strlen($this->Url) === 0){
+		if($this->Url === null || strlen($this->Url) == 0){
 			$error->Add(new Exceptions\InvalidArtworkTagException());
 		}
 

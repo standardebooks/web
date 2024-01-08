@@ -7,8 +7,8 @@ use function Safe\getimagesize;
 use function Safe\unlink;
 
 class Image{
-	public $Path;
-	public $MimeType;
+	public string $Path;
+	public ?ImageMimeType $MimeType;
 
 	public function __construct(string $path){
 		$this->Path = $path;

@@ -1,7 +1,7 @@
 <?
 class EbookSource{
-	public $Type;
-	public $Url;
+	public int $Type;
+	public string $Url;
 
 	public function __construct(int $type, string $url){
 		$this->Type = $type;

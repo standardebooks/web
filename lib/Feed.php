@@ -1,18 +1,20 @@
 <?
-use Safe\DateTime;
 use function Safe\exec;
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\tempnam;
 use function Safe\unlink;
 
+/**
+ * @param array<string> $Entries
+ */
 class Feed{
-	public $Url;
-	public $Title;
+	public string $Url;
+	public string $Title;
 	public $Entries = [];
-	public $Path = null;
-	public $Stylesheet = null;
-	protected $XmlString = null;
+	public string $Path;
+	public ?string $Stylesheet = null;
+	protected ?string $XmlString = null;
 
 	/**
 	 * @param string $title

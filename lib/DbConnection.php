@@ -4,10 +4,9 @@ use function Safe\preg_match;
 use function Safe\posix_getpwuid;
 
 class DbConnection{
-	private $_link = null;
-	public $IsConnected = false;
-	public $QueryCount = 0;
-	public $LastQueryAffectedRowCount = 0;
+	private ?\PDO $_link = null;
+	public int $QueryCount = 0;
+	public int $LastQueryAffectedRowCount = 0;
 
 	public function __construct(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string$password = '', bool $forceUtf8 = true, bool $require = true){
 		if($user === null){
@@ -51,8 +50,6 @@ class DbConnection{
 
 			// We can't use persistent connections (connection pooling) because we would have race condition problems with last_insert_id()
 			$this->_link = new \PDO($connectionString, $user, $password, $params);
-
-			$this->IsConnected = true;
 		}
 		catch(Exception $ex){
 			if(SITE_STATUS == SITE_STATUS_DEV){
@@ -79,7 +76,7 @@ class DbConnection{
 	* @return Array<mixed>
 	*/
 	public function Query(string $sql, array $params = [], string $class = 'stdClass'): array{
-		if(!$this->IsConnected){
+		if($this->_link === null){
 			return [];
 		}
 
@@ -245,7 +242,18 @@ class DbConnection{
 
 	// Gets the last auto-increment id
 	public function GetLastInsertedId(): ?int{
+		if($this->_link === null){
+			return null;
+		}
+
 		$id = $this->_link->lastInsertId();
+
+		if($id === false){
+			return null;
+		}
+		else{
+			$id = (int)$id;
+		}
 
 		if($id == 0){
 			return null;

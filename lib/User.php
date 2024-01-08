@@ -4,19 +4,20 @@ use Safe\DateTime;
 
 /**
  * @property Array<Payment> $Payments
+ * @property ?bool $IsRegistered
  * @property Benefits $Benefits
+ * @property ?array<Payment> $_Payments
  */
 class User extends PropertiesBase{
-	public $UserId;
-	public $Name;
-	public $Email;
-	public $Created;
-	public $Uuid;
-	public $PasswordHash;
-	protected $_IsRegistered = null;
+	public int $UserId;
+	public ?string $Name;
+	public ?string $Email;
+	public DateTime $Created;
+	public string $Uuid;
+	public ?string $PasswordHash;
+	protected ?bool $_IsRegistered = null;
 	protected $_Payments = null;
-	protected $_Benefits = null;
-
+	protected ?Benefits $_Benefits = null;
 
 	// *******
 	// GETTERS
@@ -59,7 +60,7 @@ class User extends PropertiesBase{
 		return $this->_Benefits;
 	}
 
-	protected function GetIsRegistered(): bool{
+	protected function GetIsRegistered(): ?bool{
 		if($this->_IsRegistered === null){
 			// A user is "registered" if they have a benefits entry in the table.
 			// This function will fill it out for us.

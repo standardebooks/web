@@ -1,16 +1,15 @@
 <?
-
 /**
  * @property int $VoteCount
  * @property Poll $Poll
  */
 class PollItem extends PropertiesBase{
-	public $PollItemId;
-	public $PollId;
-	public $Name;
-	public $Description;
-	protected $_VoteCount = null;
-	protected $_Poll = null;
+	public int $PollItemId;
+	public int $PollId;
+	public string $Name;
+	public string $Description;
+	protected ?int $_VoteCount = null;
+	protected ?Poll $_Poll = null;
 
 
 	// *******

@@ -128,8 +128,6 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 ### Main website
 
-- Add type hints for class variables.
-
 - Convert ebooks from being stored in an APCu cache to our MariaDB database. (This is a big project!)
 
 - Creating a search bar for the SE Manual of Style.
@@ -186,7 +184,7 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Check for `null` using `===` and `!==`.
 
-- Where possible, include type hints for functions. Due to PHP limitations this may not always be possible, for example in cases where `null` may be passed or returned.
+- Where possible, include type hints for class properties and all functions.
 
 -   If using regex to parse HTML, use `|` as the regex delimiter instead of `/`.
 

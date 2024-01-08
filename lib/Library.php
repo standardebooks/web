@@ -7,13 +7,10 @@ use function Safe\filesize;
 use function Safe\glob;
 use function Safe\gmdate;
 use function Safe\ksort;
-use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\shell_exec;
 use function Safe\sleep;
-use function Safe\sort;
 use function Safe\usort;
-
 
 class Library{
 	/**

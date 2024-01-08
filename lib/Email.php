@@ -2,20 +2,20 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-use function Safe\define;
-use function Safe\file_get_contents;
-
+/**
+ * @property array<array<string>> $Attachments
+ */
 class Email{
-	public $To = '';
-	public $ToName = '';
-	public $From = '';
-	public $FromName = '';
-	public $ReplyTo = '';
-	public $Subject = '';
-	public $Body = '';
-	public $TextBody = '';
+	public string $To = '';
+	public string $ToName = '';
+	public string $From = '';
+	public string $FromName = '';
+	public string $ReplyTo = '';
+	public string $Subject = '';
+	public string $Body = '';
+	public string $TextBody = '';
 	public $Attachments = [];
-	public $PostmarkStream = null;
+	public ?string $PostmarkStream = null;
 
 	public function __construct(bool $isNoReplyEmail = false){
 		if($isNoReplyEmail){
@@ -35,7 +35,7 @@ class Email{
 			$this->ReplyTo = $this->From;
 		}
 
-		if($this->To === null || $this->To == ''){
+		if($this->To == ''){
 			return false;
 		}
 

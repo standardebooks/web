@@ -5,13 +5,13 @@ use Safe\DateTime;
  * @property User $User
  */
 class Patron extends PropertiesBase{
-	public $UserId = null;
+	public ?int $UserId = null;
 	protected $_User = null;
-	public $IsAnonymous;
-	public $AlternateName;
-	public $IsSubscribedToEmails;
-	public $Created = null;
-	public $Ended = null;
+	public bool $IsAnonymous;
+	public ?string $AlternateName;
+	public bool $IsSubscribedToEmails;
+	public ?DateTime $Created = null;
+	public ?DateTime $Ended = null;
 
 
 	// *******
@@ -54,8 +54,8 @@ class Patron extends PropertiesBase{
 	private function SendWelcomeEmail(bool $isReturning): void{
 		if($this->User !== null){
 			$em = new Email();
-			$em->To = $this->User->Email;
-			$em->ToName = $this->User->Name;
+			$em->To = $this->User->Email ?? '';
+			$em->ToName = $this->User->Name ?? '';
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->Subject = 'Thank you for supporting Standard Ebooks!';

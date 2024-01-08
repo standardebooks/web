@@ -1,16 +1,11 @@
 <?
 use Safe\DateTime;
 use function Safe\file_get_contents;
-use function Safe\file_put_contents;
-use function Safe\preg_replace;
-use function Safe\rename;
-use function Safe\tempnam;
-use function Safe\unlink;
 
 class AtomFeed extends Feed{
-	public $Id;
-	public $Updated = null;
-	public $Subtitle = null;
+	public string $Id;
+	public ?DateTime $Updated = null;
+	public ?string $Subtitle = null;
 
 	/**
 	 * @param string $title
@@ -25,7 +20,6 @@ class AtomFeed extends Feed{
 		$this->Id = $url;
 		$this->Stylesheet = SITE_URL . '/feeds/atom/style';
 	}
-
 
 	// *******
 	// METHODS

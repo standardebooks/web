@@ -7,12 +7,12 @@ use Safe\DateTime;
  * @property string $Url
  */
 class PollVote extends PropertiesBase{
-	public $UserId;
-	protected $_User = null;
-	public $Created;
-	public $PollItemId;
-	protected $_PollItem = null;
-	protected $_Url = null;
+	public int $UserId;
+	public DateTime $Created;
+	public ?int $PollItemId = null;
+	protected ?User $_User = null;
+	protected ?PollItem $_PollItem = null;
+	protected ?string $_Url = null;
 
 
 	// *******
@@ -35,7 +35,7 @@ class PollVote extends PropertiesBase{
 	protected function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
-		if($this->UserId === null || $this->User === null){
+		if($this->User === null){
 			$error->Add(new Exceptions\InvalidUserException());
 		}
 

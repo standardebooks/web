@@ -6,7 +6,6 @@ class EbookTag extends Tag{
 		$this->_Url = '/subjects/' . $this->UrlName;
 	}
 
-
 	// *******
 	// GETTERS
 	// *******

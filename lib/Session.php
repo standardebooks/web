@@ -8,11 +8,11 @@ use function Safe\strtotime;
  * @property string $Url
  */
 class Session extends PropertiesBase{
-	public $UserId;
-	protected $_User = null;
-	public $Created;
-	public $SessionId;
-	public $_Url;
+	public int $UserId;
+	protected ?User $_User = null;
+	public DateTime $Created;
+	public string $SessionId;
+	public ?string $_Url = null;
 
 
 	// *******

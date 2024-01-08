@@ -1,19 +1,18 @@
 <?
-
 /**
  * @property User $User
  */
 class Payment extends PropertiesBase{
-	public $PaymentId;
-	public $UserId = null;
-	protected $_User = null;
-	public $Created;
-	public $ChannelId;
-	public $TransactionId;
-	public $Amount;
-	public $Fee;
-	public $IsRecurring;
-	public $IsMatchingDonation = false;
+	public int $PaymentId;
+	public ?int $UserId = null;
+	public DateTime $Created;
+	public int $ChannelId;
+	public string $TransactionId;
+	public float $Amount;
+	public float $Fee;
+	public bool $IsRecurring;
+	public bool $IsMatchingDonation = false;
+	protected ?User $_User = null;
 
 
 	// *******

@@ -1,8 +1,8 @@
 <?
 class Benefits{
-	public $CanAccessFeeds = false;
-	public $CanVote = false;
-	public $CanBulkDownload = false;
-	public $CanUploadArtwork = false;
-	public $CanReviewArtwork = false;
+	public bool $CanAccessFeeds = false;
+	public bool $CanVote = false;
+	public bool $CanBulkDownload = false;
+	public bool $CanUploadArtwork = false;
+	public bool $CanReviewArtwork = false;
 }

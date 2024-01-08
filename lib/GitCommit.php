@@ -2,9 +2,9 @@
 use Safe\DateTimeImmutable;
 
 class GitCommit{
-	public $Created;
-	public $Message;
-	public $Hash;
+	public DateTimeImmutable $Created;
+	public string $Message;
+	public string $Hash;
 
 	public function __construct(string $unixTimestamp, string $hash, string $message){
 		$this->Created = new DateTimeImmutable('@' . $unixTimestamp);

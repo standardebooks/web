@@ -5,7 +5,7 @@ use function Safe\filesize;
 use function Safe\preg_replace;
 
 class RssFeed extends Feed{
-	public $Description;
+	public string $Description;
 
 	/**
 	 * @param string $title
