@@ -8,7 +8,7 @@ use function Safe\unlink;
 
 class Image{
 	public string $Path;
-	public ?ImageMimeType $MimeType;
+	public ?ImageMimeType $MimeType = null;
 
 	public function __construct(string $path){
 		$this->Path = $path;

@@ -8,7 +8,7 @@ class Patron extends PropertiesBase{
 	public ?int $UserId = null;
 	protected $_User = null;
 	public bool $IsAnonymous;
-	public ?string $AlternateName;
+	public ?string $AlternateName = null;
 	public bool $IsSubscribedToEmails;
 	public ?DateTime $Created = null;
 	public ?DateTime $Ended = null;

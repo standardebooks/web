@@ -10,11 +10,11 @@ use Safe\DateTime;
  */
 class User extends PropertiesBase{
 	public int $UserId;
-	public ?string $Name;
-	public ?string $Email;
+	public ?string $Name = null;
+	public ?string $Email = null;
 	public DateTime $Created;
 	public string $Uuid;
-	public ?string $PasswordHash;
+	public ?string $PasswordHash = null;
 	protected ?bool $_IsRegistered = null;
 	protected $_Payments = null;
 	protected ?Benefits $_Benefits = null;

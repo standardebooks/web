@@ -7,9 +7,9 @@ use Safe\DateTime;
  */
 class NewsletterSubscription extends PropertiesBase{
 	public bool $IsConfirmed = false;
-	public bool $IsSubscribedToSummary;
-	public bool $IsSubscribedToNewsletter;
-	public int $UserId;
+	public bool $IsSubscribedToSummary = false;
+	public bool $IsSubscribedToNewsletter = false;
+	public ?int $UserId = null;
 	public DateTime $Created;
 	protected $_User;
 	protected $_Url = null;

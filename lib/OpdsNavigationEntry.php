@@ -4,7 +4,7 @@ class OpdsNavigationEntry{
 	public string $Url;
 	public string $Rel;
 	public string $Type;
-	public ?DateTime $Updated;
+	public ?DateTime $Updated = null;
 	public string $Description;
 	public string $Title;
 	public string $SortTitle;
