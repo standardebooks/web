@@ -2,7 +2,7 @@
 namespace Exceptions;
 
 class SeeOtherEbookException extends AppException{
-	public $Url;
+	public string $Url;
 
 	public function __construct(string $url = ''){
 		$this->Url = $url;

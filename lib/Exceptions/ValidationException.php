@@ -1,10 +1,13 @@
 <?
 namespace Exceptions;
 
+/**
+  * @property array<\Exception> $Exceptions
+ */
 class ValidationException extends AppException{
 	public $Exceptions = [];
-	public $HasExceptions = false;
-	public $IsFatal = false;
+	public bool $HasExceptions = false;
+	public bool $IsFatal = false;
 
 	public function __toString(): string{
 		$output = '';

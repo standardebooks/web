@@ -2,7 +2,7 @@
 namespace Exceptions;
 
 class StringTooLongException extends AppException{
-	public $Source;
+	public string $Source;
 
 	public function __construct(string $source = ''){
 		$this->Source = $source;
