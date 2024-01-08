@@ -154,6 +154,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/4023">Candida</a> by George Bernard Shaw</p><!--patron-->
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46674">Stover at Yale</a> by Owen Johnson</p><!--patron-->
 			</li>
 			<li>
@@ -285,9 +288,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10676">El filibusterismo</a> by José Rizal, translated by Charles Derbyshire</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/11746">Through the Brazilian Wilderness</a> by Theodore Roosevelt (Transcription is missing italics and accents)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
 			</li>
