@@ -194,7 +194,7 @@ catch(Exceptions\InvalidPermissionsException){
 					</label>
 					<label>
 						<span>URL of page with rights statement</span>
-						<span>Might be same URL as above; non-English is OK; keywords in other languages include “<i>droits</i>” and “<i>rechte vorbehalten</i>.”</span>
+						<span>Might be same URL as above; non-English is OK; keywords in other languages include “<i>droits</i>” and “<i>rechte vorbehalten</i>”; not required</span>
 						<input
 							type="url"
 							name="artwork-copyright-page-url"

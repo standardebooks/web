@@ -313,10 +313,7 @@ class Artwork extends PropertiesBase{
 			&& ($this->ArtworkPageUrl !== null && $this->ArtworkPageUrl != '');
 
 		if(!$hasMuseumProof && !$hasBookProof && $this->Exception === null){
-			// In-use artwork has its public domain status tracked elsewhere, e.g., on the mailing list.
-			if($this->Status !== COVER_ARTWORK_STATUS_IN_USE){
-				$error->Add(new Exceptions\MissingPdProofException());
-			}
+			$error->Add(new Exceptions\MissingPdProofException());
 		}
 
 		if($this->MimeType === null){
