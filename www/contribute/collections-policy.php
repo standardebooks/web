@@ -13,7 +13,7 @@
 				<p>Most long fiction, including plays.</p>
 			</li>
 			<li>
-				<p>Most short fiction and poetry, when presented in collections or omnibuses. We consider short fiction to be works less than 40,000 words in length, a length that typically includes novellas. Some independent short works may be produced individually on a case-by-case basis.</p>
+				<p>Most short fiction and poetry, when presented in collections or omnibuses. We consider short fiction to be works less than 40,000 words in length, a length that typically includes novellas. Short plays are 12,500 words or less in length. Some independent short works may be produced individually on a case-by-case basis.</p>
 			</li>
 			<li>
 				<p>Some “timeless” non-fiction, including philosophy, travelogue, classics from antiquity, and notable autobiography. In general, this means books about <em>ideas and experiences</em>, not <em>facts</em>.</p>
