@@ -23,38 +23,39 @@ use function Safe\sprintf;
  * @property User $Submitter
  * @property User $Reviewer
  * @property ?ImageMimeType $MimeType
+ * @property array<ArtworkTag> $_Tags
  */
 class Artwork extends PropertiesBase{
-	public $Name;
-	public $ArtworkId;
-	public $ArtistId;
-	public $CompletedYear;
-	public $CompletedYearIsCirca;
-	public $Created;
-	public $Updated;
-	public $Status;
-	public $EbookWwwFilesystemPath;
-	public $SubmitterUserId;
-	public $ReviewerUserId;
-	public $MuseumUrl;
-	public $PublicationYear;
-	public $PublicationYearPageUrl;
-	public $CopyrightPageUrl;
-	public $ArtworkPageUrl;
-	public $IsPublishedInUs;
-	public $Exception;
-	protected $_UrlName;
-	protected $_Url;
-	protected $_AdminUrl;
+	public ?string $Name;
+	public ?int $ArtworkId;
+	public ?int $ArtistId;
+	public ?int $CompletedYear;
+	public ?bool $CompletedYearIsCirca;
+	public ?DateTime $Created;
+	public ?DateTime $Updated;
+	public ?string $Status;
+	public ?string $EbookWwwFilesystemPath;
+	public ?int $SubmitterUserId;
+	public ?int $ReviewerUserId;
+	public ?string $MuseumUrl;
+	public ?int $PublicationYear;
+	public ?string $PublicationYearPageUrl;
+	public ?string $CopyrightPageUrl;
+	public ?string $ArtworkPageUrl;
+	public ?bool $IsPublishedInUs;
+	public ?string $Exception;
+	protected ?string $_UrlName = null;
+	protected ?string $_Url = null;
 	protected $_Tags = null;
-	protected $_Artist = null;
-	protected $_ImageUrl = null;
-	protected $_ThumbUrl = null;
-	protected $_Thumb2xUrl = null;
-	protected $_Dimensions = null;
-	protected $_Ebook = null;
-	protected $_Museum = null;
-	protected $_Submitter = null;
+	protected ?Artist $_Artist = null;
+	protected ?string $_ImageUrl = null;
+	protected ?string $_ThumbUrl = null;
+	protected ?string $_Thumb2xUrl = null;
+	protected ?string $_Dimensions = null;
+	protected ?Ebook $_Ebook = null;
+	protected ?Museum $_Museum = null;
+	protected ?User $_Submitter = null;
+	protected ?User $_Reviewer = null;
 	protected ?ImageMimeType $_MimeType = null;
 
 	// *******
@@ -97,14 +98,6 @@ class Artwork extends PropertiesBase{
 		return $this->_Url;
 	}
 
-	protected function GetAdminUrl(): string{
-		if($this->_AdminUrl === null){
-			$this->_AdminUrl = '/admin/artworks/' . $this->ArtworkId;
-		}
-
-		return $this->_AdminUrl;
-	}
-
 	/**
 	 * @return array<ArtworkTag>
 	 */
@@ -123,7 +116,12 @@ class Artwork extends PropertiesBase{
 
 	public function GetMuseum(): ?Museum{
 		if($this->_Museum === null){
-			$this->_Museum = Museum::GetByUrl($this->MuseumUrl);
+			try{
+				$this->_Museum = Museum::GetByUrl($this->MuseumUrl);
+			}
+			catch(Exceptions\MuseumNotFoundException){
+				// Pass
+			}
 		}
 
 		return $this->_Museum;
@@ -178,16 +176,15 @@ class Artwork extends PropertiesBase{
 	}
 
 	protected function GetDimensions(): string{
+		$this->_Dimensions = '';
 		try{
-
 			list($imageWidth, $imageHeight) = getimagesize(WEB_ROOT . $this->ImageUrl);
 			if($imageWidth && $imageHeight){
-				$this->_Dimensions .= $imageWidth . ' × ' . $imageHeight;
+				$this->_Dimensions = $imageWidth . ' × ' . $imageHeight;
 			}
 		}
 		catch(Exception){
-			// Image doesn't exist
-			$this->_Dimensions = '';
+			// Image doesn't exist, return blank strin
 		}
 
 		return $this->_Dimensions;
@@ -580,7 +577,11 @@ class Artwork extends PropertiesBase{
 	/**
 	 * @throws \Exceptions\InvalidArtworkException
 	 */
-	public static function GetByUrl(string $artistUrlName, string $artworkUrlName): Artwork{
+	public static function GetByUrl(?string $artistUrlName, ?string $artworkUrlName): Artwork{
+		if($artistUrlName === null || $artworkUrlName === null){
+			throw new Exceptions\ArtworkNotFoundException();
+		}
+
 		$result = Db::Query('
 				SELECT Artworks.*
 				from Artworks

@@ -115,7 +115,9 @@ catch(Exceptions\ArtworkNotFoundException){
 	Template::Emit404();
 }
 catch(Exceptions\AppException $exception){
-	$_SESSION['artwork'] = $artwork ?? null;
+	$artwork = $artwork ?? null;
+
+	$_SESSION['artwork'] = $artwork;
 	$_SESSION['exception'] = $exception;
 
 	http_response_code(303);

@@ -88,7 +88,7 @@ if($perPage !== COVER_ARTWORK_PER_PAGE){
 				</span>
 			</label>
 			<label class="search">Keywords
-				<input type="search" name="query" value="<?= Formatter::ToPlainText($query ?? '') ?>"/>
+				<input type="search" name="query" value="<?= Formatter::ToPlainText($query) ?>"/>
 			</label>
 			<label>
 				<span>Sort</span>

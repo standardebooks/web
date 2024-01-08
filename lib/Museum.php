@@ -5,7 +5,11 @@ class Museum extends PropertiesBase{
 	public $Name;
 	public $Domain;
 
-	public static function GetByUrl(string $url): ?Museum{
+	public static function GetByUrl(?string $url): Museum{
+		if($url === null){
+			throw new Exceptions\MuseumNotFoundException();
+		}
+
 		$result = Db::Query('
 			SELECT *
 			from Museums
@@ -13,6 +17,10 @@ class Museum extends PropertiesBase{
 			limit 1;
 		', [$url], 'Museum');
 
-		return $result[0] ?? null;
+		if($result[0] === null){
+			throw new Exceptions\MuseumNotFoundException();
+		}
+
+		return $result[0];
 	}
 }
