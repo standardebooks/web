@@ -511,9 +511,12 @@ class Artwork extends PropertiesBase{
 			elseif($parsedUrl['host'] == 'www.google.com'){
 				// New style
 
-				if(!preg_match('|^/books/edition/_/[^/]+$|ius', $parsedUrl['path'])){
+				if(!preg_match('|^/books/edition/[^/]+/[^/]+$|ius', $parsedUrl['path'])){
 					throw new Exceptions\InvalidGoogleBooksUrlException();
 				}
+
+				preg_match('|^/books/edition/[^/]+/([^/]+)$|ius', $parsedUrl['path'], $matches);
+				$id = $matches[1];
 
 				parse_str($parsedUrl['query'] ?? '', $vars);
 
@@ -521,7 +524,7 @@ class Artwork extends PropertiesBase{
 					throw new Exceptions\InvalidGoogleBooksUrlException();
 				}
 
-				$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?gbpv=' . $vars['gbpv'] . '&pg=' . $vars['pg'];
+				$outputUrl = 'https://' . $parsedUrl['host'] . '/books/edition/_/' . $id . '?gbpv=' . $vars['gbpv'] . '&pg=' . $vars['pg'];
 			}
 			else{
 				throw new Exceptions\InvalidGoogleBooksUrlException();
