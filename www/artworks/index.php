@@ -118,11 +118,11 @@ if($perPage !== COVER_ARTWORK_PER_PAGE){
 		<? if($totalArtworkCount == 0){ ?>
 			<p class="no-results">No artwork matched your filters.  You can try different filters, or <a href="/artworks">browse all artwork</a>.</p>
 		<? }else{ ?>
-			<?= Template::ArtworkList(['artworks' => $artworks, 'showStatus' => $isAdminView && ($status == 'all' || $status == 'all-admin')]) ?>
+			<?= Template::ArtworkList(['artworks' => $artworks]) ?>
 		<? } ?>
 
 		<? if($totalArtworkCount > 0){ ?>
-			<nav>
+			<nav class="pagination">
 				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
 				<? for($i = 1; $i < $pages + 1; $i++){ ?>

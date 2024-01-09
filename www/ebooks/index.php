@@ -144,7 +144,7 @@ catch(Exceptions\InvalidCollectionException){
 		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => $view, 'collection' => $collectionObject]) ?>
 	<? } ?>
 	<? if(sizeof($ebooks) > 0 && $collection === null){ ?>
-		<nav>
+		<nav class="pagination">
 			<a<? if($page > 1){ ?> href="/ebooks?page=<?= $page - 1 ?><? if($queryString != ''){ ?>&amp;<?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
 			<? for($i = 1; $i < $pages + 1; $i++){ ?>

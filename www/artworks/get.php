@@ -60,7 +60,7 @@ catch(Exceptions\ArtworkNotFoundException){
 			<tr>
 				<td>Artist</td>
 				<td>
-					<?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?> (<abbr>AKA</abbr> <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?>
+					<?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?>
 				</td>
 			</tr>
 			<tr>

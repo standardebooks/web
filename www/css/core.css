@@ -642,7 +642,7 @@ h1 + section > h2:first-child{
 }
 
 a.button,
-.ebooks nav > a,
+main nav.pagination > a,
 form button{
 	border: 1px solid rgba(0, 0, 0, .5);
 	font-style: normal;
@@ -818,7 +818,7 @@ h2 + .download-list tr.year-header:first-child th{
 	text-align: center;
 }
 
-.ebooks nav li.highlighted a:focus,
+main nav.pagination li.highlighted a:focus,
 a.button:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
@@ -844,7 +844,7 @@ select::-moz-focus-inner{
 }
 
 a.button:active,
-.ebooks nav > a[href]:active,
+main nav.pagination > a[href]:active,
 form button:active{
 	top: 2px;
 	left: 2px;
@@ -852,7 +852,7 @@ form button:active{
 }
 
 a.button.next::after,
-.ebooks nav > a:last-child::after{
+main nav.pagination > a:last-child::after{
 	font-family: "Fork Awesome";
 	content: "\f061";
 	transition: all 200ms ease;
@@ -862,13 +862,13 @@ a.button.next::after,
 }
 
 a[href].button.next:hover::after,
-.ebooks nav > a:last-child[href]:hover::after{
+main nav.pagination > a:last-child[href]:hover::after{
 	left: .25rem;
 	position: relative;
 	transition: all 200ms ease;
 }
 
-.ebooks nav > a:first-child:before{
+main nav.pagination > a:first-child:before{
 	font-family: "Fork Awesome";
 	content: "\f060";
 	transition: all 200ms ease;
@@ -877,29 +877,29 @@ a[href].button.next:hover::after,
 	margin-right: .5rem;
 }
 
-.ebooks nav > a:first-child[href]:hover::before{
+main nav.pagination > a:first-child[href]:hover::before{
 	right: .25rem;
 	position: relative;
 	transition: all 200ms ease;
 }
 
 a.button.next:hover::after,
-.ebooks nav > a:last-child[href]:hover::after{
+main nav.pagination > a:last-child[href]:hover::after{
 	left: .25rem;
 	position: relative;
 	transition: all 200ms ease;
 }
 
 article nav ol li a:hover,
-main.ebooks nav ol li a:hover,
-main.ebooks nav ol li.highlighted a:hover,
+main nav.pagination ol li a:hover,
+main nav.pagination ol li.highlighted a:hover,
 a.button:hover,
-.ebooks nav > a:hover,
+main nav.pagination > a:hover,
 form button:hover{
 	background-color: var(--button-highlight);
 }
 
-.ebooks nav > a:not([href]){
+main nav.pagination > a:not([href]){
 	cursor: default;
 	color: #efefef;
 	box-shadow: none;
@@ -1521,7 +1521,7 @@ ol.ebooks-list > li p.author a{
 }
 
 article nav ol,
-main.ebooks nav ol{
+main nav.pagination ol{
 	list-style: none;
 	display: flex;
 	margin: 0 .5rem;
@@ -1631,7 +1631,7 @@ figure p + p{
 	margin-top: 15px;
 }
 
-main.ebooks nav{
+main nav.pagination{
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -1639,13 +1639,13 @@ main.ebooks nav{
 }
 
 article nav ol li,
-main.ebooks nav ol li{
+main nav.pagination ol li{
 	margin: 0;
 	white-space: nowrap;
 }
 
 article nav ol li a,
-main.ebooks nav ol li a{
+main nav.pagination ol li a{
 	font-size: 1rem;
 	line-height: 1.4;
 	padding: 1rem;
@@ -1658,15 +1658,15 @@ main.ebooks nav ol li a{
 }
 
 article nav ol li.highlighted a,
-main.ebooks nav ol li.highlighted a{
+main nav.pagination ol li.highlighted a{
 	background: var(--button);
 	border: 1px solid rgba(0, 0, 0, .5);
 }
 
 article nav ol li.highlighted a,
-main.ebooks nav ol li.highlighted a,
+main nav.pagination ol li.highlighted a,
 article nav ol li a:hover,
-main.ebooks nav ol li a:hover{
+main nav.pagination ol li a:hover{
 	color: #fff;
 	text-decoration: none;
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
@@ -2013,18 +2013,18 @@ form.single-row button{
 }
 
 article nav ol li:not(:first-child):not(:last-child):not(.highlighted),
-main.ebooks nav ol li:not(:first-child):not(:last-child):not(.highlighted){
+main nav.pagination ol li:not(:first-child):not(:last-child):not(.highlighted){
 	display: none;
 }
 
 article nav ol li.highlighted::before,
-main.ebooks nav ol li.highlighted::before{
+main nav.pagination ol li.highlighted::before{
 	content: "⋯";
 	padding-right: 1rem;
 }
 
 article nav ol li.highlighted::after,
-main.ebooks nav ol li.highlighted::after{
+main nav.pagination ol li.highlighted::after{
 	content: "⋯";
 	padding-left: 1rem;
 }
@@ -2033,10 +2033,10 @@ article nav ol li.highlighted:first-child::before,
 article nav ol li.highlighted:last-child::after,
 article nav ol li.highlighted:nth-child(2)::before,
 article nav ol li.highlighted:nth-last-child(2)::after,
-main.ebooks nav ol li.highlighted:first-child::before,
-main.ebooks nav ol li.highlighted:last-child::after,
-main.ebooks nav ol li.highlighted:nth-child(2)::before,
-main.ebooks nav ol li.highlighted:nth-last-child(2)::after{
+main nav.pagination ol li.highlighted:first-child::before,
+main nav.pagination ol li.highlighted:last-child::after,
+main nav.pagination ol li.highlighted:nth-child(2)::before,
+main nav.pagination ol li.highlighted:nth-last-child(2)::after{
 	display: none;
 }
 
@@ -3189,7 +3189,7 @@ ul.feed p{
 	}
 
 	article nav ol li:not(.highlighted),
-	main.ebooks nav ol li:not(.highlighted){
+	main nav.pagination ol li:not(.highlighted){
 		display: none;
 	}
 }
@@ -3231,8 +3231,8 @@ ul.feed p{
 
 	article nav ol li.highlighted::before,
 	article nav ol li.highlighted::after,
-	main.ebooks nav ol li.highlighted::before,
-	main.ebooks nav ol li.highlighted::after{
+	main nav.pagination ol li.highlighted::before,
+	main nav.pagination ol li.highlighted::after{
 		display: none;
 	}
 
@@ -3351,7 +3351,7 @@ ul.feed p{
 		margin-bottom: .5rem;
 	}
 
-	main.ebooks nav{
+	main nav.pagination{
 		margin-top: .5rem;
 	}
 
@@ -3389,21 +3389,21 @@ ul.feed p{
 	}
 
 	article nav a[rel],
-	main.ebooks nav > a{
+	main nav.pagination > a{
 		margin-bottom: 0;
 		font-size: 0;
 	}
 
-	main.ebooks nav > a::before,
-	main.ebooks nav > a::after {
+	main nav.pagination > a::before,
+	main nav.pagination > a::after {
 		font-size: 1rem;
 		margin: 0 !important;
 	}
 
 	article nav a[rel]::before,
-	main.ebooks nav a[rel]::before,
+	main nav.pagination a[rel]::before,
 	article nav a[rel]::after,
-	main.ebooks nav a[rel]::after{
+	main nav.pagination a[rel]::after{
 		font-size: 1rem;
 		margin: 0;
 	}
@@ -3561,7 +3561,7 @@ ul.feed p{
 	}
 
 	article nav a[rel],
-	main.ebooks nav > a{
+	main nav.pagination > a{
 		padding: 1rem;
 	}
 
@@ -3598,13 +3598,13 @@ ul.feed p{
 	header nav li a:hover,
 	header nav li a[aria-current]:hover,
 	a.button.next::after,
-	.ebooks nav > a:last-child::after,
+	main nav.pagination > a:last-child::after,
 	a[href].button.next:hover::after,
-	.ebooks nav > a:last-child[href]:hover::after,
-	.ebooks nav > a:first-child:before,
-	.ebooks nav > a:first-child[href]:hover::before,
+	main nav.pagination > a:last-child[href]:hover::after,
+	main nav.pagination > a:first-child:before,
+	main nav.pagination > a:first-child[href]:hover::before,
 	a.button.next:hover::after,
-	.ebooks nav > a:last-child[href]:hover::after,
+	main nav.pagination > a:last-child[href]:hover::after,
 	article.ebook section#read-online a::before,
 	article.ebook section#download ul li a[class]::before,
 	article.ebook section#details ul li a[class]::before,
