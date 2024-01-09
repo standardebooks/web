@@ -200,7 +200,7 @@ class Artwork extends PropertiesBase{
 
 	protected function GetEbook(): ?Ebook{
 		if($this->_Ebook === null){
-			$this->_Ebook = Library::GetEbook($this->EbookWwwFilesystemPath);
+			$this->_Ebook = Library::GetEbook(EBOOKS_DIST_PATH . str_replace('_', '/', $this->EbookWwwFilesystemPath ?? ''));
 		}
 
 		return $this->_Ebook;
