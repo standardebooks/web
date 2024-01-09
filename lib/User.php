@@ -114,6 +114,10 @@ class User extends PropertiesBase{
 	// ***********
 
 	public static function Get(?int $userId): User{
+		if($userId === null){
+			throw new Exceptions\InvalidUserException();
+		}
+
 		$result = Db::Query('
 					SELECT *
 					from Users

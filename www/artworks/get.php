@@ -82,7 +82,7 @@ catch(Exceptions\ArtworkNotFoundException){
 			<? if($isAdminView){ ?>
 				<tr>
 					<td>Submitted by</td>
-					<td><? if($artwork->SubmitterUserId === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::ToPlainText($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::ToPlainText($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::ToPlainText($artwork->Submitter->Email) ?><? } ?></a><? } ?></td>
+					<td><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::ToPlainText($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::ToPlainText($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::ToPlainText($artwork->Submitter->Email) ?><? } ?></a><? } ?></td>
 				</tr>
 				<? if($artwork->Reviewer !== null){ ?>
 					<tr>

@@ -1,4 +1,6 @@
 <?
+
+use Exceptions\InvalidLoginException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTime;
 use function Safe\strtotime;
@@ -33,33 +35,38 @@ class Session extends PropertiesBase{
 	// *******
 
 	public function Create(?string $email = null, ?string $password = null): void{
-		$this->User = User::GetIfRegistered($email, $password);
-		$this->UserId = $this->User->UserId;
+		try{
+			$this->User = User::GetIfRegistered($email, $password);
+			$this->UserId = $this->User->UserId;
 
-		$existingSessions = Db::Query('
-						SELECT SessionId,
-						       Created
-						from Sessions
-						where UserId = ?
-					', [$this->UserId]);
+			$existingSessions = Db::Query('
+							SELECT SessionId,
+							       Created
+							from Sessions
+							where UserId = ?
+						', [$this->UserId]);
 
-		if(sizeof($existingSessions) > 0){
-			$this->SessionId = $existingSessions[0]->SessionId;
-			$this->Created = $existingSessions[0]->Created;
+			if(sizeof($existingSessions) > 0){
+				$this->SessionId = $existingSessions[0]->SessionId;
+				$this->Created = $existingSessions[0]->Created;
+			}
+			else{
+				$uuid = Uuid::uuid4();
+				$this->SessionId = $uuid->toString();
+				$this->Created = new DateTime();
+				Db::Query('
+						INSERT into Sessions (UserId, SessionId, Created)
+						values (?,
+						        ?,
+						        ?)
+					', [$this->UserId, $this->SessionId, $this->Created]);
+			}
+
+			self::SetSessionCookie($this->SessionId);
 		}
-		else{
-			$uuid = Uuid::uuid4();
-			$this->SessionId = $uuid->toString();
-			$this->Created = new DateTime();
-			Db::Query('
-					INSERT into Sessions (UserId, SessionId, Created)
-					values (?,
-					        ?,
-					        ?)
-				', [$this->UserId, $this->SessionId, $this->Created]);
+		catch(Exceptions\InvalidUserException){
+			throw new InvalidLoginException();
 		}
-
-		self::SetSessionCookie($this->SessionId);
 	}
 
 	public static function GetLoggedInUser(): ?User{

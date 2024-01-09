@@ -72,17 +72,27 @@ class Artwork extends PropertiesBase{
 		return $this->_UrlName;
 	}
 
-	protected function GetSubmitter(): User{
+	protected function GetSubmitter(): ?User{
 		if($this->_Submitter === null){
-			$this->_Submitter = User::Get($this->SubmitterUserId);
+			try{
+				$this->_Submitter = User::Get($this->SubmitterUserId);
+			}
+			catch(Exceptions\InvalidUserException){
+				// Return null
+			}
 		}
 
 		return $this->_Submitter;
 	}
 
-	protected function GetReviewer(): User{
+	protected function GetReviewer(): ?User{
 		if($this->_Reviewer === null){
-			$this->_Reviewer = User::Get($this->ReviewerUserId);
+			try{
+				$this->_Reviewer = User::Get($this->ReviewerUserId);
+			}
+			catch(Exceptions\InvalidUserException){
+				// Return null
+			}
 		}
 
 		return $this->_Reviewer;
