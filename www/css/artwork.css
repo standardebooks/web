@@ -331,9 +331,13 @@ main.artworks nav ol li.highlighted:nth-last-child(2)::after{
 	padding: 0.5rem;
 }
 
-.artworks h1 + a{
+.artworks h1 ~ a[href^="/images/cover-uploads"]{
 	width: auto;
 	line-height: 0;
+}
+
+.artworks p.message + a[href^="/images/cover-uploads"]{
+	margin-top: 2rem;
 }
 
 .artworks aside.tip{
