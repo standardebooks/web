@@ -57,6 +57,27 @@ class Artwork extends PropertiesBase{
 	protected ?ImageMimeType $_MimeType = null;
 
 	// *******
+	// SETTERS
+	// *******
+
+	protected function SetTags(string|array|null $tags): void{
+		if($tags === null || is_array($tags)){
+			$this->_Tags = $tags;
+		}
+		elseif(is_string($tags)){
+			$tags = array_map('trim', explode(',', $tags));
+			$tags = array_values(array_filter($tags));
+			$tags = array_unique($tags);
+
+			$this->_Tags = array_map(function ($str){
+				$tag = new ArtworkTag();
+				$tag->Name = $str;
+				return $tag;
+			}, $tags);
+		}
+	}
+
+	// *******
 	// GETTERS
 	// *******
 
@@ -380,21 +401,6 @@ class Artwork extends PropertiesBase{
 		if($error->HasExceptions){
 			throw $error;
 		}
-	}
-
-	/** @return array<ArtworkTag> */
-	public static function ParseTags(?string $tags): array{
-		if(!$tags) return [];
-
-		$tags = array_map('trim', explode(',', $tags));
-		$tags = array_values(array_filter($tags));
-		$tags = array_unique($tags);
-
-		return array_map(function ($str){
-			$tag = new ArtworkTag();
-			$tag->Name = $str;
-			return $tag;
-		}, $tags);
 	}
 
 	/**

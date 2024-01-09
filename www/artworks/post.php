@@ -30,7 +30,7 @@ try{
 		$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);
-		$artwork->Tags = Artwork::ParseTags(HttpInput::Str(POST, 'artwork-tags', false));
+		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false);
 		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false, COVER_ARTWORK_STATUS_UNVERIFIED);
 		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false);
 		$artwork->SubmitterUserId = $GLOBALS['User']->UserId ?? null;
@@ -76,6 +76,7 @@ try{
 		$artwork->Name = HttpInput::Str(POST, 'artwork-name', false) ?? $artwork->Name;
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year') ?? $artwork->CompletedYear;
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false) ?? $artwork->CompletedYearIsCirca;
+		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? $artwork->Tags;
 		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false) ?? $artwork->Status;
 		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false) ?? $artwork->EbookWwwFilesystemPath;
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us', false) ?? $artwork->IsPublishedInUs;
@@ -85,11 +86,6 @@ try{
 		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url', false) ?? $artwork->ArtworkPageUrl;
 		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url', false) ?? $artwork->MuseumUrl;
 		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception', false) ?? $artwork->Exception;
-
-		$tagsString = HttpInput::Str(POST, 'artwork-tags', false);
-		if($tagsString !== null){
-			$artwork->Tags = Artwork::ParseTags($tagsString);
-		}
 
 		$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 
