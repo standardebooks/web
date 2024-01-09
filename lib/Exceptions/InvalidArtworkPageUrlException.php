@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidArtworkPageUrlException extends AppException{
+class InvalidArtworkPageUrlException extends InvalidUrlException{
 	protected $message = 'Invalid link to page with artwork.';
 }

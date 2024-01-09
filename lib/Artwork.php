@@ -1,10 +1,14 @@
 <?
+
+use Exceptions\InvalidUrlException;
 use Safe\DateTime;
 use function Safe\copy;
 use function Safe\date;
 use function Safe\exec;
 use function Safe\getimagesize;
 use function Safe\ini_get;
+use function Safe\parse_url;
+use function Safe\preg_match;
 use function Safe\preg_replace;
 
 /**
@@ -309,36 +313,68 @@ class Artwork extends PropertiesBase{
 			}
 		}
 
-		if($this->MuseumUrl !== null && strlen($this->MuseumUrl) > 0 && filter_var($this->MuseumUrl, FILTER_VALIDATE_URL) === false){
-			$error->Add(new Exceptions\InvalidMuseumUrlException());
+		if($this->MuseumUrl !== null){
+			if(strlen($this->MuseumUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Link to an approved museum page'));
+			}
+
+			if($this->MuseumUrl == '' || filter_var($this->MuseumUrl, FILTER_VALIDATE_URL) === false){
+				$error->Add(new Exceptions\InvalidMuseumUrlException());
+			}
 		}
 
-		if($this->MuseumUrl !== null && strlen($this->MuseumUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Link to an approved museum page'));
+		if($this->PublicationYearPageUrl !== null){
+			if(strlen($this->PublicationYearPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Link to page with year of publication'));
+			}
+
+			if($this->PublicationYearPageUrl == '' || filter_var($this->PublicationYearPageUrl, FILTER_VALIDATE_URL) === false){
+				$error->Add(new Exceptions\InvalidPublicationYearPageUrlException());
+			}
+			else{
+				try{
+					$this->PublicationYearPageUrl = $this->NormalizePageScanUrl($this->PublicationYearPageUrl);
+				}
+				catch(Exceptions\InvalidUrlException $ex){
+					$error->Add($ex);
+				}
+			}
 		}
 
-		if($this->PublicationYearPageUrl !== null && strlen($this->PublicationYearPageUrl) > 0 && filter_var($this->PublicationYearPageUrl, FILTER_VALIDATE_URL) === false){
-			$error->Add(new Exceptions\InvalidPublicationYearPageUrlException());
+		if($this->CopyrightPageUrl !== null){
+			if(strlen($this->CopyrightPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Link to page with copyright details'));
+			}
+
+			if($this->CopyrightPageUrl == '' || filter_var($this->CopyrightPageUrl, FILTER_VALIDATE_URL) === false){
+				$error->Add(new Exceptions\InvalidCopyrightPageUrlException());
+			}
+			else{
+				try{
+					$this->CopyrightPageUrl = $this->NormalizePageScanUrl($this->CopyrightPageUrl);
+				}
+				catch(Exceptions\InvalidUrlException $ex){
+					$error->Add($ex);
+				}
+			}
 		}
 
-		if($this->PublicationYearPageUrl !== null && strlen($this->PublicationYearPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Link to page with year of publication'));
-		}
+		if($this->ArtworkPageUrl !== null){
+			if(strlen($this->ArtworkPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Link to page with artwork'));
+			}
 
-		if($this->CopyrightPageUrl !== null && strlen($this->CopyrightPageUrl) > 0 && filter_var($this->CopyrightPageUrl, FILTER_VALIDATE_URL) === false){
-			$error->Add(new Exceptions\InvalidCopyrightPageUrlException());
-		}
-
-		if($this->CopyrightPageUrl !== null && strlen($this->CopyrightPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Link to page with copyright details'));
-		}
-
-		if($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > 0 && filter_var($this->ArtworkPageUrl, FILTER_VALIDATE_URL) === false){
-			$error->Add(new Exceptions\InvalidArtworkPageUrlException());
-		}
-
-		if($this->ArtworkPageUrl !== null && strlen($this->ArtworkPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Link to page with artwork'));
+			if($this->ArtworkPageUrl == '' || filter_var($this->ArtworkPageUrl, FILTER_VALIDATE_URL) === false){
+				$error->Add(new Exceptions\InvalidArtworkPageUrlException());
+			}
+			else{
+				try{
+					$this->ArtworkPageUrl = $this->NormalizePageScanUrl($this->ArtworkPageUrl);
+				}
+				catch(Exceptions\InvalidUrlException $ex){
+					$error->Add($ex);
+				}
+			}
 		}
 
 		$hasMuseumProof = $this->MuseumUrl !== null && $this->MuseumUrl != '';
@@ -404,6 +440,95 @@ class Artwork extends PropertiesBase{
 		if($error->HasExceptions){
 			throw $error;
 		}
+	}
+
+	private function NormalizePageScanUrl(string $url): string{
+		$outputUrl = $url;
+
+		try{
+			$parsedUrl = parse_url($url);
+		}
+		catch(Exception){
+			throw new InvalidUrlException($url);
+		}
+
+		if(!is_array($parsedUrl)){
+			throw new InvalidUrlException($url);
+		}
+
+		if(stripos($parsedUrl['host'], 'hathitrust.org') !== false){
+			// https://babel.hathitrust.org/cgi/pt?id=hvd.32044034383265&seq=13
+			if($parsedUrl['host'] != 'babel.hathitrust.org'){
+				throw new Exceptions\InvalidHathiTrustUrlException();
+			}
+
+			if($parsedUrl['path'] != '/cgi/pt'){
+				throw new Exceptions\InvalidHathiTrustUrlException();
+			}
+
+			parse_str($parsedUrl['query'] ?? '', $vars);
+
+			if(!isset($vars['id']) || !isset($vars['seq']) || is_array($vars['id']) || is_array($vars['seq'])){
+				throw new Exceptions\InvalidHathiTrustUrlException();
+			}
+
+			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?id=' . $vars['id'] . '&seq=' . $vars['seq'];
+		}
+
+		if(stripos($parsedUrl['host'], 'archive.org') !== false){
+			// https://archive.org/details/royalacademypict1902roya/page/n9/mode/1up
+
+			if($parsedUrl['host'] != 'archive.org'){
+				throw new Exceptions\InvalidInternetArchiveUrlException();
+			}
+
+			if(!preg_match('|^/details/[^/]+?/page/[^/]+/mode/1up$|ius', $parsedUrl['path'])){
+				throw new Exceptions\InvalidInternetArchiveUrlException();
+			}
+
+			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
+		}
+
+		if(stripos($parsedUrl['host'], 'google.com') !== false){
+			// Old style: https://books.google.com/books?id=mZpAAAAAYAAJ&pg=PA70-IA2
+			// New style: https://www.google.com/books/edition/_/mZpAAAAAYAAJ?gbpv=1&pg=PA70-IA2
+
+			if($parsedUrl['host'] == 'books.google.com'){
+				// Old style, convert to new style
+
+				if($parsedUrl['path'] != '/books'){
+					throw new Exceptions\InvalidGoogleBooksUrlException();
+				}
+
+				parse_str($parsedUrl['query'] ?? '', $vars);
+
+				if(!isset($vars['id']) || !isset($vars['pg']) || is_array($vars['id']) || is_array($vars['pg'])){
+					throw new Exceptions\InvalidGoogleBooksUrlException();
+				}
+
+				$outputUrl = 'https://www.google.com/books/edition/_/' . $vars['id'] . '?gbpv=1&pg=' . $vars['pg'];
+			}
+			elseif($parsedUrl['host'] == 'www.google.com'){
+				// New style
+
+				if(!preg_match('|^/books/edition/_/[^/]+$|ius', $parsedUrl['path'])){
+					throw new Exceptions\InvalidGoogleBooksUrlException();
+				}
+
+				parse_str($parsedUrl['query'] ?? '', $vars);
+
+				if(!isset($vars['gbpv']) || $vars['gbpv'] !== '1' || !isset($vars['pg']) || is_array($vars['pg'])){
+					throw new Exceptions\InvalidGoogleBooksUrlException();
+				}
+
+				$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?gbpv=' . $vars['gbpv'] . '&pg=' . $vars['pg'];
+			}
+			else{
+				throw new Exceptions\InvalidGoogleBooksUrlException();
+			}
+		}
+
+		return $outputUrl;
 	}
 
 	/**

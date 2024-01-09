@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidMuseumUrlException extends AppException{
+class InvalidMuseumUrlException extends InvalidUrlException{
 	protected $message = 'Invalid link to an approved museum page.';
 }

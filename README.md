@@ -140,8 +140,6 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Write responsive CSS to make artwork list at `/artworks` mobile-friendly.
 
-- Normalize page scan/museum URLs to remove unnecessary query string parameters and hash anchors, resulting in a minimum viable URL. For example, normalizing `https://books.google.com/books?id=k9qgAAAAMAAJ&newbks=1&newbks_redir=0&pg=PA11#v=onepage&q&f=false` to `https://books.google.com/books?id=k9qgAAAAMAAJ&pg=PA11`
-
 ## PHP code style
 
 - Indent with tabs.
