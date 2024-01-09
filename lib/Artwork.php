@@ -21,7 +21,7 @@ use function Safe\preg_replace;
  * @property User $Submitter
  * @property User $Reviewer
  * @property ?ImageMimeType $MimeType
- * @property array<ArtworkTag> $_Tags
+ * @property ?array<ArtworkTag> $_Tags
  */
 class Artwork extends PropertiesBase{
 	public ?string $Name = null;
@@ -60,6 +60,9 @@ class Artwork extends PropertiesBase{
 	// SETTERS
 	// *******
 
+	/**
+	 * @param string|null|array<ArtworkTag> $tags
+	 */
 	protected function SetTags(string|array|null $tags): void{
 		if($tags === null || is_array($tags)){
 			$this->_Tags = $tags;
@@ -289,14 +292,14 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\MissingEbookException());
 		}
 
-		if($this->Tags === null || count($this->_Tags) == 0){
+		if(count($this->Tags) == 0){
 			// In-use artwork doesn't have user-provided tags.
 			if($this->Status !== COVER_ARTWORK_STATUS_IN_USE){
 				$error->Add(new Exceptions\TagsRequiredException());
 			}
 		}
 
-		if($this->Tags !== null && count($this->_Tags) > COVER_ARTWORK_MAX_TAGS){
+		if(count($this->Tags) > COVER_ARTWORK_MAX_TAGS){
 			$error->Add(new Exceptions\TooManyTagsException());
 		}
 

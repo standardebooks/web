@@ -11,8 +11,8 @@ parameters:
 		# Ignore errors caused by no type hints on class properties, as that's not available till PHP 7.4
 		- '#Property .+? has no type specified.#'
 
-		# Ignore errors caused by type hints that should be union types. Union types are not yet supported in PHP.
-		- '#Function vd(s|d)?\(\) has parameter \$var with no type specified.#'
+		# Ignore setters for properties that accept several types
+		- '#Property Artwork::\$Tags \(array<ArtworkTag>\) does not accept.+#'
 	level:
 		8
 	paths:

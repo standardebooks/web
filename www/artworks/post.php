@@ -30,7 +30,7 @@ try{
 		$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);
-		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false);
+		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? [];
 		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false, COVER_ARTWORK_STATUS_UNVERIFIED);
 		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false);
 		$artwork->SubmitterUserId = $GLOBALS['User']->UserId ?? null;
