@@ -321,6 +321,14 @@ class Artwork extends PropertiesBase{
 			if($this->MuseumUrl == '' || filter_var($this->MuseumUrl, FILTER_VALIDATE_URL) === false){
 				$error->Add(new Exceptions\InvalidMuseumUrlException());
 			}
+
+			// Don't allow unapproved museums
+			try{
+				Museum::GetByUrl($this->MuseumUrl);
+			}
+			catch(Exceptions\MuseumNotFoundException $ex){
+				$error->Add($ex);
+			}
 		}
 
 		if($this->PublicationYearPageUrl !== null){
