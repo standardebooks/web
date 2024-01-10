@@ -42,6 +42,7 @@ try{
 		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url', false);
 		$artwork->MimeType = ImageMimeType::FromFile($_FILES['artwork-image']['tmp_name'] ?? null);
 		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception', false);
+		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false);
 
 		// Only approved reviewers can set the status to anything but unverified when uploading
 		if($artwork->Status != COVER_ARTWORK_STATUS_UNVERIFIED && !$GLOBALS['User']->Benefits->CanReviewArtwork){
@@ -86,6 +87,7 @@ try{
 		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url', false) ?? $artwork->ArtworkPageUrl;
 		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url', false) ?? $artwork->MuseumUrl;
 		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception', false) ?? $artwork->Exception;
+		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false) ?? $artwork->Notes;
 
 		$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 

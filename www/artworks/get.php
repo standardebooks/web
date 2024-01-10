@@ -119,8 +119,13 @@ catch(Exceptions\ArtworkNotFoundException){
 		<? } ?>
 
 		<? if($artwork->Exception !== null){ ?>
-			<h3>Special public domain exception</h3>
+			<h3>Public domain status exception reason</h3>
 			<?= Formatter::EscapeMarkdown($artwork->Exception) ?>
+		<? } ?>
+
+		<? if($artwork->Notes !== null){ ?>
+			<h2>Special notes</h2>
+			<?= Formatter::EscapeMarkdown($artwork->Notes) ?>
 		<? } ?>
 
 		<? if($isAdminView){ ?>

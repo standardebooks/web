@@ -46,6 +46,7 @@ class Artwork extends PropertiesBase{
 	public ?string $ArtworkPageUrl = null;
 	public ?bool $IsPublishedInUs = null;
 	public ?string $Exception = null;
+	public ?string $Notes = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
 	protected $_Tags = null;
@@ -266,6 +267,10 @@ class Artwork extends PropertiesBase{
 
 		if($this->Exception !== null && trim($this->Exception) == ''){
 			$this->Exception = null;
+		}
+
+		if($this->Notes !== null && trim($this->Notes) == ''){
+			$this->Notes = null;
 		}
 
 		if($this->Name === null || $this->Name == ''){
@@ -564,8 +569,9 @@ class Artwork extends PropertiesBase{
 			INSERT into
 			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, SubmitterUserId, ReviewerUserId, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
-			                      EbookWwwFilesystemPath, MimeType, Exception)
+			                      EbookWwwFilesystemPath, MimeType, Exception, Notes)
 			values (?,
+			        ?,
 			        ?,
 			        ?,
 			        ?,
@@ -585,7 +591,7 @@ class Artwork extends PropertiesBase{
 			        ?)
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType->value ?? null, $this->Exception]
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType->value ?? null, $this->Exception, $this->Notes]
 		);
 
 		$this->ArtworkId = Db::GetLastInsertedId();
@@ -640,12 +646,13 @@ class Artwork extends PropertiesBase{
 			IsPublishedInUs = ?,
 			EbookWwwFilesystemPath = ?,
 			MimeType = ?,
-			Exception = ?
+			Exception = ?,
+			Notes = ?
 			where
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType->value ?? null, $this->Exception,
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType->value ?? null, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);
 	}

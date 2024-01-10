@@ -217,11 +217,19 @@ catch(Exceptions\InvalidPermissionsException){
 				<p><strong>or</strong> a reason for a special exception:</p>
 				<fieldset>
 					<label>
-					<span>Exception reason</span>
+					<span>Public domain status exception reason</span>
 					<span>Markdown accepted.</span>
 					<textarea maxlength="1024" name="artwork-exception"><?= Formatter::ToPlainText($artwork->Exception) ?></textarea>
 					</label>
 				</fieldset>
+			</fieldset>
+			<fieldset>
+				<legend>Other details</legend>
+				<label>
+					<span>Special notes</span>
+					<span>Any notes to remember about this artwork. Markdown accepted.</span>
+					<textarea maxlength="1024" name="artwork-notes"><?= Formatter::ToPlainText($artwork->Notes) ?></textarea>
+				</label>
 			</fieldset>
 			<? if($GLOBALS['User']->Benefits->CanReviewArtwork){ ?>
 			<fieldset>

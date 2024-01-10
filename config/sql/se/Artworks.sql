@@ -19,6 +19,7 @@ CREATE TABLE `Artworks` (
   `EbookWwwFilesystemPath` varchar(255) NULL,
   `MimeType` varchar(64) NOT NULL,
   `Exception` TEXT NULL DEFAULT NULL,
+  `Notes` TEXT NULL DEFAULT NULL
   PRIMARY KEY (`ArtworkId`),
   KEY `index1` (`Status`),
   KEY `index2` (`UrlName`)
