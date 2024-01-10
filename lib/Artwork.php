@@ -600,7 +600,7 @@ class Artwork extends PropertiesBase{
 
 		// Save the source image and clean up metadata
 		$imageUploadPath = $uploadedFile['tmp_name'];
-		exec('exiftool -quiet -overwrite-_original -all= ' . escapeshellarg($imageUploadPath));
+		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imageUploadPath));
 		copy($imageUploadPath, WEB_ROOT . $this->ImageUrl);
 
 		// Generate the thumbnails
