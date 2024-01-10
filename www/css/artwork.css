@@ -276,3 +276,23 @@ form div.footer{
 		grid-column: 1;
 	}
 }
+
+@media(max-width: 1020px){
+	main > section > ol.artwork-list{
+		grid-template-columns: repeat(3, 1fr);
+		gap: 3rem;
+	}
+}
+
+@media(max-width: 760px){
+	main > section > ol.artwork-list{
+		grid-template-columns: repeat(2, 1fr);
+		gap: 3rem;
+	}
+}
+
+@media(max-width: 480px){
+	main > section > ol.artwork-list{
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
