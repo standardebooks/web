@@ -5,7 +5,6 @@ use function Safe\exec;
 use function Safe\filemtime;
 use function Safe\filesize;
 use function Safe\glob;
-use function Safe\gmdate;
 use function Safe\ksort;
 use function Safe\preg_replace;
 use function Safe\shell_exec;
@@ -342,6 +341,7 @@ class Library{
 
 	private static function FillBulkDownloadObject(string $dir, string $downloadType, string $urlRoot): stdClass{
 		$obj = new stdClass();
+		$now = new DateTime('now', new DateTimeZone('UTC'));
 
 		// The count of ebooks in each file is stored as a filesystem attribute
 		$obj->EbookCount = exec('attr -g se-ebook-count ' . escapeshellarg($dir)) ?: null;
@@ -392,7 +392,7 @@ class Library{
 		$obj->UpdatedString = $obj->Updated->format('M j');
 		// Add a period to the abbreviated month, but not if it's May (the only 3-letter month)
 		$obj->UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $obj->UpdatedString);
-		if($obj->Updated->format('Y') != gmdate('Y')){
+		if($obj->Updated->format('Y') != $now->format('Y')){
 			$obj->UpdatedString = $obj->Updated->format('M j, Y');
 		}
 

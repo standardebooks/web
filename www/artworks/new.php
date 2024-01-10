@@ -1,5 +1,5 @@
 <?
-use function Safe\gmdate;
+use Safe\DateTime;
 use function Safe\session_unset;
 
 session_start();
@@ -8,6 +8,7 @@ $created = HttpInput::Bool(SESSION, 'artwork-created', false);
 $exception = $_SESSION['exception'] ?? null;
 /** @var Artwork $artwork */
 $artwork = $_SESSION['artwork'] ?? null;
+$now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
 
 try{
 	if($GLOBALS['User'] === null){
@@ -93,7 +94,7 @@ catch(Exceptions\InvalidPermissionsException){
 						type="number"
 						name="artist-year-of-death"
 						min="1"
-						max="<?= gmdate('Y') ?>"
+						max="<?= $now->format('Y') ?>"
 						value="<?= $artwork->Artist->DeathYear ?>"
 					/>
 				</label>
@@ -112,7 +113,7 @@ catch(Exceptions\InvalidPermissionsException){
 							type="number"
 							name="artwork-year"
 							min="1"
-							max="<?= gmdate('Y') ?>"
+							max="<?= $now->format('Y') ?>"
 							value="<?= $artwork->CompletedYear ?>"
 						/>
 					</label>
@@ -169,7 +170,7 @@ catch(Exceptions\InvalidPermissionsException){
 							type="number"
 							name="artwork-publication-year"
 							min="1"
-							max="<?= gmdate('Y') ?>"
+							max="<?= $now->format('Y') ?>"
 							value="<?= $artwork->PublicationYear ?>"
 						/>
 					</label>

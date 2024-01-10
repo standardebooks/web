@@ -1,8 +1,11 @@
 <?
 // Auto-included by Composer in composer.json to satisfy PHPStan
+use Safe\DateTime;
 use function Safe\define;
-use function Safe\gmdate;
 use function Safe\strtotime;
+
+$now = new DateTime('now', new DateTimeZone('UTC'));
+$nowPd = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
@@ -110,10 +113,10 @@ const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log'; // Must b
 const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writable by `www-data` Unix user.
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // Must be writable by `www-data` Unix user.
 
-define('PD_YEAR', intval(gmdate('Y')) - 96);
+define('PD_YEAR', intval($nowPd->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
-define('DONATION_HOLIDAY_ALERT_ON', time() > strtotime('November 15, ' . gmdate('Y'))  || time() < strtotime('January 7, ' . gmdate('Y')));
+define('DONATION_HOLIDAY_ALERT_ON', $now > new DateTime('November 15, ' . $now->format('Y'), new DateTimeZone('UTC'))  || $now < new DateTime('January 7, ' . $now->add(new DateInterval('P1Y'))->format('Y'), new DateTimeZone('UTC')));
 define('DONATION_ALERT_ON', DONATION_HOLIDAY_ALERT_ON || rand(1, 4) == 2);
 
 // Controls the progress bar donation dialog

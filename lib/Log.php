@@ -1,9 +1,9 @@
 <?
+use Safe\DateTime;
 use function Safe\fopen;
 use function Safe\fwrite;
 use function Safe\fclose;
 use function Safe\error_log;
-use function Safe\gmdate;
 use function Safe\substr;
 
 class Log{
@@ -34,7 +34,9 @@ class Log{
 				return;
 			}
 
-			fwrite($fp, gmdate('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . $text . "\n");
+			$now = new DateTime('now', new DateTimeZone('UTC'));
+
+			fwrite($fp, $now->format('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . $text . "\n");
 			fclose($fp);
 		}
 	}
