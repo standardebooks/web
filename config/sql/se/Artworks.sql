@@ -8,6 +8,7 @@ CREATE TABLE `Artworks` (
   `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated` timestamp NOT NULL,
   `Status` enum('unverified', 'approved', 'declined', 'in_use') DEFAULT 'unverified',
+  `SubmitterUserId` int(10) unsigned NULL,
   `ReviewerUserId` int(10) unsigned NULL,
   `MuseumUrl` varchar(255) NULL,
   `PublicationYear` smallint unsigned NULL,
