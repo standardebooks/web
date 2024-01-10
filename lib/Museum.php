@@ -9,12 +9,19 @@ class Museum extends PropertiesBase{
 			throw new Exceptions\MuseumNotFoundException();
 		}
 
+		try{
+			$parsedUrl = parse_url($url);
+		}
+		catch(Exception){
+			throw new Exceptions\InvalidUrlException($url);
+		}
+
 		$result = Db::Query('
 			SELECT *
 			from Museums
 			where ? like concat("%", Domain, "%")
 			limit 1;
-		', [$url], 'Museum');
+		', [$parsedUrl['host']], 'Museum');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\MuseumNotFoundException();

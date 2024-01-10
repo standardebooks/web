@@ -462,11 +462,11 @@ class Artwork extends PropertiesBase{
 			$parsedUrl = parse_url($url);
 		}
 		catch(Exception){
-			throw new InvalidUrlException($url);
+			throw new Exceptions\InvalidUrlException($url);
 		}
 
 		if(!is_array($parsedUrl)){
-			throw new InvalidUrlException($url);
+			throw new Exceptions\InvalidUrlException($url);
 		}
 
 		if(stripos($parsedUrl['host'], 'hathitrust.org') !== false){
