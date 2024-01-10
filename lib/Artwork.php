@@ -14,6 +14,7 @@ use function Safe\preg_replace;
 /**
  * @property string $UrlName
  * @property string $Url
+ * @property string $EditUrl
  * @property array<ArtworkTag> $Tags
  * @property Artist $Artist
  * @property string $ImageUrl
@@ -158,6 +159,10 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $this->_Url;
+	}
+
+	protected function GetEditUrl(): string{
+		return $this->Url . '/edit';
 	}
 
 	/**

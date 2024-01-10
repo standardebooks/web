@@ -9,6 +9,8 @@ $exception = $_SESSION['exception'] ?? null;
 try{
 	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name') ?? '', HttpInput::Str(GET, 'artwork-url-name') ?? '');
 	$isAdminView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
+	$userId = $GLOBALS['User']->UserId ?? null;
+	$isEditingAllowed = ($artwork->Status == ArtworkStatus::Unverified) && ($isAdminView || ($userId !== null && $userId == $artwork->SubmitterUserId));
 
 	// If the artwork is not approved, and we're not an admin, don't show it.
 	if($artwork->Status != ArtworkStatus::Approved && $artwork->Status != ArtworkStatus::InUse && !$isAdminView){
@@ -126,6 +128,11 @@ catch(Exceptions\ArtworkNotFoundException){
 		<? if($artwork->Notes !== null){ ?>
 			<h2>Special notes</h2>
 			<?= Formatter::EscapeMarkdown($artwork->Notes) ?>
+		<? } ?>
+
+		<? if($isEditingAllowed){ ?>
+			<h2>Edit artwork</h2>
+			<p>Before approval, the editor and submitter may <a href="<?= $artwork->EditUrl ?>">edit <i><?= Formatter::ToPlainText($artwork->Name) ?></i></a>.</p>
 		<? } ?>
 
 		<? if($isAdminView){ ?>
