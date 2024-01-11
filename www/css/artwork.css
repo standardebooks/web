@@ -76,12 +76,24 @@ form[action^="/artworks/"]{
 }
 
 .artworks form[action="/artworks"]{
-	align-items: end;
 	display: grid;
 	grid-gap: 1rem;
-	grid-template-columns: auto auto auto auto 1fr;
+	grid-template-columns: auto auto auto 1fr;
 	margin-top: 2rem;
 	max-width: calc(100% - 2rem);
+}
+
+.artworks form[action="/artworks"] button{
+	justify-self: end;
+	margin-top: 1.4rem;
+}
+
+.artworks form[action="/artworks"] label.search{
+	grid-column: span 3;
+}
+
+.artworks form[action="/artworks"] label.sort{
+	grid-column: span 2;
 }
 
 form[action="/artworks"] > fieldset{
@@ -289,10 +301,33 @@ form div.footer{
 		grid-template-columns: repeat(2, 1fr);
 		gap: 3rem;
 	}
+
+	.artworks form[action="/artworks"]{
+		grid-template-columns: auto 1fr auto;
+	}
+
+	.artworks form[action="/artworks"] label.search,
+	.artworks form[action="/artworks"] label.sort{
+		grid-column: span 2;
+	}
+
+	.artworks form[action="/artworks"] button{
+		grid-column: span 3;
+	}
 }
 
 @media(max-width: 480px){
 	main > section > ol.artwork-list{
-		grid-template-columns: repeat(1, 1fr);
+		grid-template-columns: auto;
+	}
+
+	.artworks form[action="/artworks"]{
+		grid-template-columns: auto;
+	}
+
+	.artworks form[action="/artworks"] label.sort,
+	.artworks form[action="/artworks"] label.search,
+	.artworks form[action="/artworks"] button{
+		grid-column: auto;
 	}
 }
