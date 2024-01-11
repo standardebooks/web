@@ -1,4 +1,6 @@
 <?
+use function Safe\parse_url;
+
 class Museum extends PropertiesBase{
 	public int $MuseumId;
 	public string $Name;
@@ -13,6 +15,10 @@ class Museum extends PropertiesBase{
 			$parsedUrl = parse_url($url);
 		}
 		catch(Exception){
+			throw new Exceptions\InvalidUrlException($url);
+		}
+
+		if(!isset($parsedUrl['host'])){
 			throw new Exceptions\InvalidUrlException($url);
 		}
 

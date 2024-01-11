@@ -32,7 +32,7 @@ class Artwork extends PropertiesBase{
 	public ?int $ArtworkId = null;
 	public ?int $ArtistId = null;
 	public ?int $CompletedYear = null;
-	public ?bool $CompletedYearIsCirca = null;
+	public bool $CompletedYearIsCirca = false;
 	public ?DateTime $Created = null;
 	public ?DateTime $Updated = null;
 	public ?string $Status = null;
@@ -439,10 +439,6 @@ class Artwork extends PropertiesBase{
 				$error->Add(new Exceptions\InvalidImageUploadException($message));
 			}
 
-			if(!is_uploaded_file($uploadedFile['tmp_name'])){
-				$error->Add(new Exceptions\InvalidImageUploadException());
-			}
-
 			// Check for minimum dimensions
 			list($imageWidth, $imageHeight) = getimagesize($uploadedFile['tmp_name']);
 			if(!$imageWidth || !$imageHeight || $imageWidth < COVER_ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < COVER_ARTWORK_IMAGE_MINIMUM_HEIGHT){
@@ -553,7 +549,10 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\InvalidImageUploadException
 	 */
 	public function Create(array $uploadedFile): void{
+		$this->MimeType = ImageMimeType::FromFile($uploadedFile['tmp_name'] ?? null);
+
 		$this->Validate($uploadedFile);
+
 		$this->Created = new DateTime();
 
 		// Can't assign directly to $this->Tags because it's hidden behind a getter

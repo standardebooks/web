@@ -29,7 +29,7 @@ try{
 
 		$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
-		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false);
+		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false) ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? [];
 		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false, COVER_ARTWORK_STATUS_UNVERIFIED);
 		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false);
@@ -40,7 +40,6 @@ try{
 		$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'artwork-copyright-page-url', false);
 		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url', false);
 		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url', false);
-		$artwork->MimeType = ImageMimeType::FromFile($_FILES['artwork-image']['tmp_name'] ?? null);
 		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception', false);
 		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false);
 
@@ -52,6 +51,11 @@ try{
 		// If the artwork is approved, set the reviewer
 		if($artwork->Status != COVER_ARTWORK_STATUS_UNVERIFIED){
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
+		}
+
+		// Confirm that the files came from POST
+		if(!is_uploaded_file($_FILES['artwork-image'])){
+			throw new Exceptions\InvalidImageUploadException();
 		}
 
 		$artwork->Create($_FILES['artwork-image'] ?? []);
