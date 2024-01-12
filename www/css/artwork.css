@@ -35,7 +35,6 @@ ol.artwork-list > li{
 }
 
 ol.artwork-list > li.in-use{
-	opacity: .5;
 	position: relative;
 }
 
