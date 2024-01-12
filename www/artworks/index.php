@@ -17,7 +17,7 @@ if($page <= 0){
 	$page = 1;
 }
 
-if($perPage != COVER_ARTWORK_PER_PAGE && $perPage != 100 && $perPage != 200){
+if($perPage != COVER_ARTWORK_PER_PAGE && $perPage != 40 && $perPage != 80){
 	$perPage = COVER_ARTWORK_PER_PAGE;
 }
 
@@ -104,9 +104,9 @@ if($perPage !== COVER_ARTWORK_PER_PAGE){
 				<span>Per page</span>
 				<span>
 					<select name="per-page">
-						<option value="50"<? if($perPage == 50){ ?> selected="selected"<? } ?>>50</option>
-						<option value="100"<? if($perPage == 100){ ?> selected="selected"<? } ?>>100</option>
-						<option value="200"<? if($perPage == 200){ ?> selected="selected"<? } ?>>200</option>
+						<option value="20"<? if($perPage == 20){ ?> selected="selected"<? } ?>>20</option>
+						<option value="40"<? if($perPage == 40){ ?> selected="selected"<? } ?>>40</option>
+						<option value="80"<? if($perPage == 80){ ?> selected="selected"<? } ?>>80</option>
 					</select>
 				</span>
 			</label>
