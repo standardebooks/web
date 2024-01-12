@@ -68,7 +68,7 @@ class Artist extends PropertiesBase{
 			$error->Add(new Exceptions\StringTooLongException('Artist Name'));
 		}
 
-		if($this->DeathYear !== null && ($this->DeathYear <= 0 || $this->DeathYear > intval(date('Y')))){
+		if($this->DeathYear !== null && ($this->DeathYear <= 0 || $this->DeathYear > intval(date('Y')) + 50)){
 			$error->Add(new Exceptions\InvalidDeathYearException());
 		}
 
