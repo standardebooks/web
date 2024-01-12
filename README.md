@@ -138,7 +138,7 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Allow submitter or admins to edit unapproved artwork submissions. Approved/in use submissions should not be editable by anyone.
 
-- Write responsive CSS to make artwork list at `/artworks` mobile-friendly.
+- Include in-use ebook slug as a search parameter when searching for artwork by keyword.
 
 ## PHP code style
 

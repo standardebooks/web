@@ -323,15 +323,11 @@ class Artwork extends PropertiesBase{
 				$error->Add(new Exceptions\StringTooLongException('Link to an approved museum page'));
 			}
 
-			if($this->MuseumUrl == '' || filter_var($this->MuseumUrl, FILTER_VALIDATE_URL) === false){
-				$error->Add(new Exceptions\InvalidMuseumUrlException());
-			}
-
-			// Don't allow unapproved museums
 			try{
-				Museum::GetByUrl($this->MuseumUrl);
+				$this->Museum = Museum::GetByUrl($this->MuseumUrl);
+				$this->MuseumUrl = Museum::NormalizeUrl($this->MuseumUrl);
 			}
-			catch(Exceptions\MuseumNotFoundException $ex){
+			catch(Exceptions\MuseumNotFoundException | Exceptions\InvalidUrlException $ex){
 				$error->Add($ex);
 			}
 		}
@@ -466,53 +462,68 @@ class Artwork extends PropertiesBase{
 		}
 
 		if(stripos($parsedUrl['host'], 'hathitrust.org') !== false){
-			// https://babel.hathitrust.org/cgi/pt?id=hvd.32044034383265&seq=13
+			$exampleUrl = 'https://babel.hathitrust.org/cgi/pt?id=hvd.32044034383265&seq=13';
+
 			if($parsedUrl['host'] != 'babel.hathitrust.org'){
-				throw new Exceptions\InvalidHathiTrustUrlException();
+				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
 
 			if($parsedUrl['path'] != '/cgi/pt'){
-				throw new Exceptions\InvalidHathiTrustUrlException();
+				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
 
 			parse_str($parsedUrl['query'] ?? '', $vars);
 
 			if(!isset($vars['id']) || !isset($vars['seq']) || is_array($vars['id']) || is_array($vars['seq'])){
-				throw new Exceptions\InvalidHathiTrustUrlException();
+				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?id=' . $vars['id'] . '&seq=' . $vars['seq'];
+
+			return $outputUrl;
 		}
 
 		if(stripos($parsedUrl['host'], 'archive.org') !== false){
-			// https://archive.org/details/royalacademypict1902roya/page/n9/mode/1up
+			$exampleUrl = 'https://archive.org/details/royalacademypict1902roya/page/n9/mode/1up';
 
 			if($parsedUrl['host'] != 'archive.org'){
-				throw new Exceptions\InvalidInternetArchiveUrlException();
+				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
 
-			if(!preg_match('|^/details/[^/]+?/page/[^/]+/mode/1up$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidInternetArchiveUrlException();
+			// If we're missing the view mode, append it
+			if(preg_match('|^/details/[^/]+?/page/[^/]+$|ius', $parsedUrl['path'])){
+				$parsedUrl['path'] = $parsedUrl['path'] . '/mode/1up';
+			}
+
+			// archive.org URLs may have both a book ID and collection ID, like
+			// https://archive.org/details/TheStrandMagazineAnIllustratedMonthly/TheStrandMagazine1914bVol.XlviiiJul-dec/page/n254/mode/1up
+			// The `/page/<number>` portion of the URL may also be missing if we're on page 1 (like the cover)
+			if(!preg_match('|^/details/[^/]+?(/[^/]+?)?(/page/[^/]+)?/mode/1up$|ius', $parsedUrl['path'])){
+				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
+
+			return $outputUrl;
 		}
 
 		if(stripos($parsedUrl['host'], 'google.com') !== false){
 			// Old style: https://books.google.com/books?id=mZpAAAAAYAAJ&pg=PA70-IA2
 			// New style: https://www.google.com/books/edition/_/mZpAAAAAYAAJ?gbpv=1&pg=PA70-IA2
 
+			$exampleUrl = 'https://www.google.com/books/edition/_/mZpAAAAAYAAJ?gbpv=1&pg=PA70-IA2';
+
 			if($parsedUrl['host'] == 'books.google.com'){
 				// Old style, convert to new style
 
 				if($parsedUrl['path'] != '/books'){
-					throw new Exceptions\InvalidGoogleBooksUrlException();
+					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 				}
 
 				parse_str($parsedUrl['query'] ?? '', $vars);
 
 				if(!isset($vars['id']) || !isset($vars['pg']) || is_array($vars['id']) || is_array($vars['pg'])){
-					throw new Exceptions\InvalidGoogleBooksUrlException();
+					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 				}
 
 				$outputUrl = 'https://www.google.com/books/edition/_/' . $vars['id'] . '?gbpv=1&pg=' . $vars['pg'];
@@ -521,7 +532,7 @@ class Artwork extends PropertiesBase{
 				// New style
 
 				if(!preg_match('|^/books/edition/[^/]+/[^/]+$|ius', $parsedUrl['path'])){
-					throw new Exceptions\InvalidGoogleBooksUrlException();
+					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 				}
 
 				preg_match('|^/books/edition/[^/]+/([^/]+)$|ius', $parsedUrl['path'], $matches);
@@ -530,14 +541,16 @@ class Artwork extends PropertiesBase{
 				parse_str($parsedUrl['query'] ?? '', $vars);
 
 				if(!isset($vars['gbpv']) || $vars['gbpv'] !== '1' || !isset($vars['pg']) || is_array($vars['pg'])){
-					throw new Exceptions\InvalidGoogleBooksUrlException();
+					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 				}
 
 				$outputUrl = 'https://' . $parsedUrl['host'] . '/books/edition/_/' . $id . '?gbpv=' . $vars['gbpv'] . '&pg=' . $vars['pg'];
 			}
 			else{
-				throw new Exceptions\InvalidGoogleBooksUrlException();
+				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
+
+			return $outputUrl;
 		}
 
 		return $outputUrl;

@@ -6,7 +6,7 @@ class InvalidUrlException extends AppException{
 
 	public function __construct(?string $url = null){
 		if($url !== null){
-			parent::__construct('Invalid URL: “' . $url . '”.');
+			parent::__construct('Invalid URL: <' . $url . '>.');
 		}
 	}
 }

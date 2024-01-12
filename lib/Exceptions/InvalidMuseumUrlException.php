@@ -2,5 +2,7 @@
 namespace Exceptions;
 
 class InvalidMuseumUrlException extends InvalidUrlException{
-	protected $message = 'Invalid link to an approved museum page.';
+	public function __construct(string $url, string $exampleUrl){
+		$this->message = 'Invalid museum URL: <' . $url . '>. Expected a URL like: <'. $exampleUrl . '>.';
+	}
 }
