@@ -54,7 +54,7 @@ try{
 		}
 
 		// Confirm that the files came from POST
-		if(!is_uploaded_file($_FILES['artwork-image'])){
+		if(!is_uploaded_file($_FILES['artwork-image']['tmp_name'])){
 			throw new Exceptions\InvalidImageUploadException();
 		}
 
