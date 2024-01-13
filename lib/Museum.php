@@ -44,13 +44,15 @@ class Museum extends PropertiesBase{
 				&&
 				isset($parsedUrl['fragment'])
 			){
-				$id = preg_replace('/,.+$/ius', '', $parsedUrl['fragment']);
+				$id = (string)$parsedUrl['fragment'];
+				$id = preg_replace('/,.+$/ius', '', $id);
 				$id = preg_replace('|^/|ius', '', $id);
 				$outputUrl = 'https://' . $parsedUrl['host'] . '/en/collection/' . $id;
 			}
 
 			if(preg_match('|^en/rijksstudio/[^/]+/[^/]+/objects$|ius', $parsedUrl['path']) && isset($parsedUrl['fragment'])){
-				$id = preg_replace('/,.+$/ius', '', $parsedUrl['fragment']);
+				$id = (string)$parsedUrl['fragment'];
+				$id = preg_replace('/,.+$/ius', '', $id);
 				$id = preg_replace('|^/|ius', '', $id);
 				$outputUrl = 'https://' . $parsedUrl['host'] . '/en/collection/' . $id;
 			}
