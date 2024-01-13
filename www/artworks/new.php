@@ -162,8 +162,17 @@ catch(Exceptions\InvalidPermissionsException){
 						/>
 					</label>
 				</fieldset>
-				<p><strong>or</strong> proof that the artwork was reproduced in a book published before <?= PD_STRING ?>, with <strong>all</strong> of the following:</p>
+				<p><strong>or</strong> proof that the artwork was reproduced in a book published before <?= PD_STRING ?>, including the following:</p>
 				<fieldset>
+					<label>
+						<input
+							type="checkbox"
+							name="artwork-is-published-in-us"
+							value="true"
+							<? if($artwork->IsPublishedInUs){ ?> checked="checked"<? } ?> />
+						<span>This book was published in the U.S.</span>
+						<span>Yes, if a U.S. city appears anywhere near the publication year or rights statement.</span>
+					</label>
 					<label>
 						Year of publication
 						<input
@@ -173,15 +182,6 @@ catch(Exceptions\InvalidPermissionsException){
 							max="<?= $now->format('Y') ?>"
 							value="<?= $artwork->PublicationYear ?>"
 						/>
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							name="artwork-is-published-in-us"
-							value="true"
-							<? if($artwork->IsPublishedInUs){ ?> checked="checked"<? } ?> />
-						<span>This book was published in the U.S.</span>
-						<span>Yes, if a U.S. city appears anywhere near the publication year or rights statement.</span>
 					</label>
 					<label>
 						<span>URL of page with year of publication</span>
@@ -195,7 +195,7 @@ catch(Exceptions\InvalidPermissionsException){
 					</label>
 					<label>
 						<span>URL of page with rights statement</span>
-						<span>Might be same URL as above; non-English is OK; keywords in other languages include “<i>droits</i>” and “<i>rechte vorbehalten</i>”; not required</span>
+						<span><strong>This page must include a statement of rights, like the word “copyright” or “all rights reserved.”</strong> If no such page exists, leave this blank. This page might be the same page as above. Non-English is OK; keywords in other languages include “<i>droits</i>” and “<i>rechte vorbehalten</i>.”</span>
 						<input
 							type="url"
 							name="artwork-copyright-page-url"

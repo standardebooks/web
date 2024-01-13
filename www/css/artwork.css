@@ -97,7 +97,7 @@ form[action^="/artworks/"]{
 
 form[action="/artworks"] > fieldset{
 	display: grid;
-	gap: 1rem;
+	gap: 2rem;
 }
 
 form[action="/artworks"] > fieldset + fieldset{
@@ -122,10 +122,11 @@ form[action="/artworks"] > fieldset label:has(input[name="artwork-image"]){
 form[action="/artworks"] fieldset fieldset:has(input[name="artwork-publication-year"]){
 	display: grid;
 	grid-template-columns: 200px 1fr;
-	gap: 1rem;
+	gap: 2rem;
 }
 
-form[action="/artworks"] fieldset fieldset:has(input[name="artwork-publication-year"]) label ~ label{
+form[action="/artworks"] fieldset label:has(input[type="url"]),
+form[action="/artworks"] fieldset label:has(input[type="checkbox"]){
 	grid-column: 1 / span 2;
 }
 
