@@ -506,22 +506,6 @@ class Museum extends PropertiesBase{
 
 			return $outputUrl;
 		}
-		elseif(preg_match('/\bwebumenia\.sk$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
-			$exampleUrl = 'https://www.webumenia.sk/en/dielo/SVK:SNG.O_85';
-
-			if($parsedUrl['host'] != 'www.webumenia.sk'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
-			}
-
-			if(!preg_match('|^/en/dielo/[^/]+?$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
-			}
-
-			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
-
-			return $outputUrl;
-		}
 		elseif(preg_match('/\bdigitaltmuseum\.no$/ius', $parsedUrl['host'])){
 			$exampleUrl = 'https://digitaltmuseum.no/021048495118/fra-saxegardsgaten-maleri';
 
@@ -552,6 +536,22 @@ class Museum extends PropertiesBase{
 
 			return $outputUrl;
 		}
+		// elseif(preg_match('/\bwebumenia\.sk$/ius', $parsedUrl['host'])){
+		// 	// All we need is the int object ID, the last slug is SEO
+		// 	$exampleUrl = 'https://www.webumenia.sk/en/dielo/SVK:SNG.O_85';
+
+		// 	if($parsedUrl['host'] != 'www.webumenia.sk'){
+		// 		throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+		// 	}
+
+		// 	if(!preg_match('|^/en/dielo/[^/]+?$|ius', $parsedUrl['path'])){
+		// 		throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+		// 	}
+
+		// 	$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
+
+		// 	return $outputUrl;
+		// }
 
 		return $outputUrl;
 	}
