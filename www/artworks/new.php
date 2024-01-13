@@ -19,6 +19,8 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
+	$isAdminView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
+
 	// We got here because an artwork was successfully submitted
 	if($created){
 		http_response_code(201);
@@ -36,7 +38,7 @@ try{
 		$artwork = new Artwork();
 		$artwork->Artist = new Artist();
 
-		if($GLOBALS['User']->Benefits->CanReviewArtwork){
+		if($GLOBALS['User']->Benefits->CanReviewOwnArtwork){
 			$artwork->Status = COVER_ARTWORK_STATUS_APPROVED;
 		}
 	}
@@ -231,20 +233,22 @@ catch(Exceptions\InvalidPermissionsException){
 					<textarea maxlength="1024" name="artwork-notes"><?= Formatter::ToPlainText($artwork->Notes) ?></textarea>
 				</label>
 			</fieldset>
-			<? if($GLOBALS['User']->Benefits->CanReviewArtwork){ ?>
+			<? if($isAdminView){ ?>
 			<fieldset>
-				<legend>Reviewer options</legend>
-				<label class="select">
-					<span>Artwork approval status</span>
-					<span>
-						<select name="artwork-status">
-							<option value="<?= COVER_ARTWORK_STATUS_UNVERIFIED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_UNVERIFIED){ ?> selected="selected"<? } ?>>Unverified</option>
-							<option value="<?= COVER_ARTWORK_STATUS_DECLINED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_DECLINED){ ?> selected="selected"<? } ?>>Declined</option>
-							<option value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_APPROVED){ ?> selected="selected"<? } ?>>Approved</option>
-							<option value="<?= COVER_ARTWORK_STATUS_IN_USE ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_IN_USE){ ?> selected="selected"<? } ?>>In use</option>
-						</select>
-					</span>
-				</label>
+				<legend>Editor options</legend>
+				<? if($GLOBALS['User']->Benefits->CanReviewOwnArtwork){ ?>
+					<label class="select">
+						<span>Artwork approval status</span>
+						<span>
+							<select name="artwork-status">
+								<option value="<?= COVER_ARTWORK_STATUS_UNVERIFIED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_UNVERIFIED){ ?> selected="selected"<? } ?>>Unverified</option>
+								<option value="<?= COVER_ARTWORK_STATUS_DECLINED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_DECLINED){ ?> selected="selected"<? } ?>>Declined</option>
+								<option value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_APPROVED){ ?> selected="selected"<? } ?>>Approved</option>
+								<option value="<?= COVER_ARTWORK_STATUS_IN_USE ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_IN_USE){ ?> selected="selected"<? } ?>>In use</option>
+							</select>
+						</span>
+					</label>
+				<? } ?>
 				<label>
 					<span>In use by</span>
 					<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>

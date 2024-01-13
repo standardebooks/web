@@ -5,4 +5,5 @@ class Benefits{
 	public bool $CanBulkDownload = false;
 	public bool $CanUploadArtwork = false;
 	public bool $CanReviewArtwork = false;
+	public bool $CanReviewOwnArtwork = false;
 }

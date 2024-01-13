@@ -129,21 +129,23 @@ catch(Exceptions\ArtworkNotFoundException){
 		<? } ?>
 
 		<? if($isAdminView){ ?>
-			<h2>Reviewer options</h2>
+			<h2>Editor options</h2>
 			<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers.</p>
 			<form method="post" action="<?= $artwork->Url ?>">
 				<input type="hidden" name="_method" value="PATCH" />
-				<label class="select">
-					<span>Artwork approval status</span>
-					<span>
-						<select name="artwork-status">
-							<option value="<?= COVER_ARTWORK_STATUS_UNVERIFIED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_UNVERIFIED){ ?> selected="selected"<? } ?>>Unverified</option>
-							<option value="<?= COVER_ARTWORK_STATUS_DECLINED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_DECLINED){ ?> selected="selected"<? } ?>>Declined</option>
-							<option value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_APPROVED){ ?> selected="selected"<? } ?>>Approved</option>
-							<option value="<?= COVER_ARTWORK_STATUS_IN_USE ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_IN_USE){ ?> selected="selected"<? } ?>>In use</option>
-						</select>
-					</span>
-				</label>
+				<? if(($artwork->SubmitterUserId != $GLOBALS['User']->UserId) || $GLOBALS['User']->Benefits->CanReviewOwnArtwork){ ?>
+					<label class="select">
+						<span>Artwork approval status</span>
+						<span>
+							<select name="artwork-status">
+								<option value="<?= COVER_ARTWORK_STATUS_UNVERIFIED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_UNVERIFIED){ ?> selected="selected"<? } ?>>Unverified</option>
+								<option value="<?= COVER_ARTWORK_STATUS_DECLINED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_DECLINED){ ?> selected="selected"<? } ?>>Declined</option>
+								<option value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_APPROVED){ ?> selected="selected"<? } ?>>Approved</option>
+								<option value="<?= COVER_ARTWORK_STATUS_IN_USE ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_IN_USE){ ?> selected="selected"<? } ?>>In use</option>
+							</select>
+						</span>
+					</label>
+				<? } ?>
 				<label>
 					<span>In use by</span>
 					<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>

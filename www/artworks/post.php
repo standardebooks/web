@@ -44,7 +44,8 @@ try{
 		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false);
 
 		// Only approved reviewers can set the status to anything but unverified when uploading
-		if($artwork->Status != COVER_ARTWORK_STATUS_UNVERIFIED && !$GLOBALS['User']->Benefits->CanReviewArtwork){
+		// The submitter cannot review their own submissions unless they have special permission
+		if($artwork->Status != COVER_ARTWORK_STATUS_UNVERIFIED && !$GLOBALS['User']->Benefits->CanReviewOwnArtwork){
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
@@ -82,7 +83,6 @@ try{
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year') ?? $artwork->CompletedYear;
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false) ?? $artwork->CompletedYearIsCirca;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? $artwork->Tags;
-		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false) ?? $artwork->Status;
 		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false) ?? $artwork->EbookWwwFilesystemPath;
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us', false) ?? $artwork->IsPublishedInUs;
 		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year') ?? $artwork->PublicationYear;
@@ -94,6 +94,18 @@ try{
 		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false) ?? $artwork->Notes;
 
 		$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
+
+		$newStatus = HttpInput::Str(POST, 'artwork-status', false);
+		if($newStatus !== null){
+			if($artwork->Status != $newStatus){
+				// Is the user attempting to review their own artwork?
+				if($artwork->Status != COVER_ARTWORK_STATUS_UNVERIFIED && $GLOBALS['User']->UserId == $artwork->SubmitterUserId && !$GLOBALS['User']->Benefits->CanReviewOwnArtwork){
+					throw new Exceptions\InvalidPermissionsException();
+				}
+			}
+
+			$artwork->Status = $newStatus;
+		}
 
 		$artwork->Save();
 
