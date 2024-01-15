@@ -1,0 +1,218 @@
+#!/usr/bin/php
+<?
+// Note: This script must be run as a user with a $HOME directory,
+// otherwise Firefox won't be able to start with a profile.
+
+// FA is unreliable in the email notifications it sends. They are often missing.
+// This script gets a list of FA transactions directly from their website.
+// It tracks the last transaction it saw in a temp file and won't go past that.
+// If there is no temp file, it gets all transactions from today, and writes the temp file with the last transaction it saw.
+// Any transactions that the script finds and which don't already exist, are added to the database as pending payments.
+// After that, the /scripts/process-pending-payments script will pick them up and do accounting/patron logic.
+
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverExpectedCondition;
+use Facebook\WebDriver\Remote\DesiredCapabilities;
+use Facebook\WebDriver\Firefox\FirefoxDriver;
+use Facebook\WebDriver\Firefox\FirefoxOptions;
+
+use Safe\DateTime;
+use function Safe\file_get_contents;
+use function Safe\preg_replace;
+use function Safe\putenv;
+use function Safe\set_time_limit;
+
+require_once('/standardebooks.org/web/lib/Core.php');
+
+// Disable script timeout because Selenium is very slow
+set_time_limit(0);
+
+// Initialize the Selenium driver
+putenv('WEBDRIVER_FIREFOX_DRIVER=' . SITE_ROOT . '/config/selenium/geckodriver-0.31.0');
+
+$firefoxOptions = new FirefoxOptions();
+$firefoxOptions->addArguments(['-headless']); // WARNING: Only one dash!
+
+$capabilities = DesiredCapabilities::firefox();
+$capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
+
+$driver = null;
+$log = new Log(DONATIONS_LOG_FILE_PATH);
+$faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
+$faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
+$lastSeenTransactionId = null;
+$firstTransactionId = null;
+$transactionFilePath = '/tmp/last-fa-donation';
+$transactionIds = [];
+$now = new DateTime('now', new DateTimeZone('UTC'));
+$today = $now->format('n/j/Y');
+$faItemsPerPage = 20; // How many items are on a full page of FA results?
+
+// General plan: Read /tmp/last-fa-donation to see what the last transaction ID was that we processed.
+// If /tmp/last-fa-donation doesn't exist, get all transactions from today and create the file.
+
+function InsertTransaction($transactionId){
+	$exists = Db::QueryInt('SELECT count(*)
+				from
+				    ( select 1
+				     from Payments
+				     where TransactionId = ?
+				     union select 1
+				     from PendingPayments
+				     where TransactionId = ? ) x',
+			[$transactionId, $transactionId]);
+
+	if(!$exists){
+		Db::Query('INSERT into PendingPayments
+				(Created,
+				ChannelId,
+				TransactionId)
+				values (utc_timestamp(),
+				        ?,
+				        ?)',
+				[PAYMENT_CHANNEL_FA, $transactionId]);
+
+		return true;
+	}
+
+	return false;
+}
+
+try{
+	$log->Write('Ingesting FA donations...');
+	$driver = FirefoxDriver::start($capabilities);
+
+	if(file_exists($transactionFilePath)){
+		$lastSeenTransactionId = trim(file_get_contents($transactionFilePath));
+		if($lastSeenTransactionId == ''){
+			$lastSeenTransactionId = null;
+		}
+	}
+
+	if($lastSeenTransactionId === null){
+		$log->Write('No last transaction ID, checking everything from ' . $now->format('Y-m-d'));
+	}
+	else{
+		$log->Write('Checking from last transaction ID ' . $lastSeenTransactionId);
+	}
+
+	$page = 1;
+	$getMoreTransactions = true;
+
+	while($getMoreTransactions){
+		if($page > 5){
+			// Safety valve for runaway logic
+			throw new Exception('Error: went past page 5 of Fractured Atlas results.');
+		}
+
+		$log->Write('Getting page ' . $page . ' of transactions');
+
+		$driver->get('https://fundraising.fracturedatlas.org/admin/general_support/donations?page=' . $page);
+
+		// Check if we need to log in to FA.
+		// Wait until the <body> element is visible, then check the current URL
+		$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('/html/body')));
+		if(stripos($driver->getCurrentUrl(), 'auth0.com')){
+			$log->Write('Logging in to Fractured Atlas ...');
+
+			// We were redirected to the login page, so try to log in
+			$emailField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="email"]')));
+			$passwordField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="password"]')));
+			$submitButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[@type="submit"]')));
+
+			// Fill out and submit the form
+			$emailField->sendKeys($faUsername);
+			$passwordField->sendKeys($faPassword);
+			$submitButton->click();
+		}
+
+		// Wait until the page finishes loading.
+		// We have to expand the row before we can select its contents, so click the 'expand' button once it's visible
+		try{
+			$toggleButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
+		}
+		catch(Exception){
+			$log->Write('Error: Couldn\'t load donation list.');
+			continue;
+		}
+
+		// If the last seen transaction ID is null, get everything from today
+		if($lastSeenTransactionId === null){
+			$elements = $driver->findElements(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]][parent::tr[preceding-sibling::tr[./td[normalize-space(.) = "' . $today . '"]]]]'));
+
+			if(sizeof($elements) < $faItemsPerPage){
+				$getMoreTransactions = false;
+			}
+
+			for($i = 0; $i < sizeof($elements); $i++){
+				$td = $elements[$i];
+
+				$transactionId = trim($td->getDomProperty('textContent'));
+
+				if($transactionId === null){
+					continue;
+				}
+
+				if($i == 0 && $page == 1){
+					$firstTransactionId = $transactionId;
+				}
+
+				if(InsertTransaction($transactionId)){
+					$log->Write('Inserting transaction ' . $transactionId);
+				}
+			}
+		}
+		else{
+			// Last seen transaction ID is not null, get everything from that ID
+			// Get a list of transaction IDs on the page
+			$elements = $driver->findElements(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]]'));
+			for($i = 0; $i < sizeof($elements); $i++){
+				$td = $elements[$i];
+
+				$transactionId = trim($td->getDomProperty('textContent'));
+
+				if($transactionId === null){
+					continue;
+				}
+
+				if($i == 0 && $page == 1){
+					$firstTransactionId = $transactionId;
+				}
+
+				if($transactionId == $lastSeenTransactionId){
+					$getMoreTransactions = false;
+					break;
+				}
+
+				if(InsertTransaction($transactionId)){
+					$log->Write('Inserting transaction ' . $transactionId);
+				}
+			}
+		}
+
+		$page = $page + 1;
+	}
+
+	if($firstTransactionId !== null){
+		file_put_contents($transactionFilePath, $firstTransactionId);
+	}
+
+	$log->Write('Done.');
+}
+catch(Exception $ex){
+	$exceptionString = vds($ex);
+	$log->Write('Error: Uncaught exception: ' . $exceptionString);
+
+	$em = new Email(true);
+	$em->To = ADMIN_EMAIL_ADDRESS;
+	$em->Subject = 'Ingesting FA donations failed';
+	$em->Body = Template::EmailDonationIngestionFailed(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
+	$em->TextBody = Template::EmailDonationIngestionFailedText(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
+	$em->Send();
+
+	throw $ex;
+}
+finally{
+	$driver->quit();
+}
+?>

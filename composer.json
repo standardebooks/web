@@ -15,7 +15,7 @@
 		"phpmailer/phpmailer": "^6.6.0",
 		"ramsey/uuid": "4.2.3",
 		"gregwar/captcha": "^1.2.0",
-		"php-webdriver/webdriver": "^1.12.1",
+		"php-webdriver/webdriver": "^1.15.1",
 		"pear/http2": "^2.0.0",
 		"erusev/parsedown": "^1.7.4"
 	}
