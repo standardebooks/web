@@ -44,6 +44,7 @@ ol.artwork-list > li.in-use::before{
 	height: 100%;
 	width: 100%;
 	background-image: url("/images/stripes-xdark.svg");
+	pointer-events: none;
 }
 
 ol.artwork-list > li a:has(img){
