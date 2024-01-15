@@ -197,7 +197,7 @@ catch(Exceptions\InvalidPermissionsException){
 					</label>
 					<label>
 						<span>URL of page with rights statement</span>
-						<span><strong>This page must include a statement of rights, like the word “copyright” or “all rights reserved.”</strong> If no such page exists, leave this blank. This page might be the same page as above. Non-English is OK; keywords in other languages include “<i>droits</i>” and “<i>rechte vorbehalten</i>.”</span>
+						<span><strong>This page must include a statement of rights, like the copyright symbol “©” or the words “copyright” or “all rights reserved.”</strong> If no such page exists, leave this blank. This page might be the same page as above. Non-English is OK; keywords in other languages include “<i>droits</i>” and “<i>rechte vorbehalten</i>.”</span>
 						<input
 							type="url"
 							name="artwork-copyright-page-url"
