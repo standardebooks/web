@@ -46,10 +46,6 @@ ol.artwork-list > li.in-use::before{
 	background-image: url("/images/stripes-xdark.svg");
 }
 
-ol.artwork-list > li.in-use img{
-	opacity: .5;
-}
-
 ol.artwork-list > li a:has(img){
 	display: block;
 	line-height: 0;
