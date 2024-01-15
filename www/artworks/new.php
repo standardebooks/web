@@ -76,8 +76,11 @@ catch(Exceptions\InvalidPermissionsException){
 					<span>Name</span>
 					<span>For existing artists, leave the year of death blank.</span>
 					<datalist id="artist-names">
-						<? foreach(Library::GetAllArtists() as $existingArtist){ ?>
-							<option value="<?= Formatter::ToPlainText($existingArtist->Name) ?>"><?= Formatter::ToPlainText($existingArtist->Name) ?>, d. <? if($existingArtist->DeathYear !== null){ ?><?= $existingArtist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
+						<? foreach(Library::GetAllArtists() as $artist){ ?>
+							<option value="<?= Formatter::ToPlainText($artist->Name) ?>"><?= Formatter::ToPlainText($artist->Name) ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
+							<? foreach($artist->AlternateSpellings as $alternateSpelling){ ?>
+								<option value="<?= Formatter::ToPlainText($alternateSpelling) ?>"><?= Formatter::ToPlainText($alternateSpelling) ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
+							<? } ?>
 						<? } ?>
 					</datalist>
 					<input

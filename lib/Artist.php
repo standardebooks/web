@@ -46,7 +46,7 @@ class Artist extends PropertiesBase{
 				', [$this->ArtistId]);
 
 			foreach($result as $row){
-				$this->_AlternateSpellings[] = $row->AlternateSpelling;
+				$this->_AlternateSpellings[] = $row->Name;
 			}
 		}
 
@@ -115,10 +115,12 @@ class Artist extends PropertiesBase{
 	 */
 	public static function GetOrCreate(Artist $artist): Artist{
 		$result = Db::Query('
-			SELECT *
-			from Artists
-			where UrlName = ?
-		', [$artist->UrlName], 'Artist');
+					SELECT a.*
+					from Artists a
+					inner join ArtistAlternateSpellings aas using (ArtistId)
+					where a.UrlName = ?
+					    or aas.UrlName = ?
+		', [$artist->UrlName, $artist->UrlName], 'Artist');
 
 		if(isset($result[0])){
 			return $result[0];
