@@ -22,6 +22,8 @@ class Museum extends PropertiesBase{
 			throw new Exceptions\InvalidUrlException($url);
 		}
 
+		$parsedUrl['path'] = $parsedUrl['path'] ?? '';
+
 		// We can't match on TLD because extracting the TLD for double-barrel TLDs, like .gov.uk, requires a whitelist.
 
 		if(preg_match('/\brijksmuseum\.nl$/ius', $parsedUrl['host'])){
