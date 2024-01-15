@@ -20,6 +20,7 @@ use function Safe\preg_replace;
  * @property string $ThumbUrl
  * @property string $Thumb2xUrl
  * @property string $Dimensions
+ * @property ArtworkStatus|string|null $Status
  * @property Ebook $Ebook
  * @property Museum $Museum
  * @property User $Submitter
@@ -35,7 +36,6 @@ class Artwork extends PropertiesBase{
 	public bool $CompletedYearIsCirca = false;
 	public ?DateTime $Created = null;
 	public ?DateTime $Updated = null;
-	public ?string $Status = null;
 	public ?string $EbookWwwFilesystemPath = null;
 	public ?int $SubmitterUserId = null;
 	public ?int $ReviewerUserId = null;
@@ -60,6 +60,7 @@ class Artwork extends PropertiesBase{
 	protected ?User $_Submitter = null;
 	protected ?User $_Reviewer = null;
 	protected ?ImageMimeType $_MimeType = null;
+	protected ?ArtworkStatus $_Status = null;
 
 	// *******
 	// SETTERS
@@ -68,7 +69,7 @@ class Artwork extends PropertiesBase{
 	/**
 	 * @param string|null|array<ArtworkTag> $tags
 	 */
-	protected function SetTags(string|array|null $tags): void{
+	protected function SetTags(null|string|array $tags): void{
 		if($tags === null || is_array($tags)){
 			$this->_Tags = $tags;
 		}
@@ -82,6 +83,30 @@ class Artwork extends PropertiesBase{
 				$tag->Name = $str;
 				return $tag;
 			}, $tags);
+		}
+	}
+
+	protected function SetStatus(null|string|ArtworkStatus $status): void{
+		if($status instanceof ArtworkStatus){
+			$this->_Status = $status;
+		}
+		elseif($status === null){
+			$this->_Status = null;
+		}
+		else{
+			$this->_Status = ArtworkStatus::from($status);
+		}
+	}
+
+	protected function SetMimeType(null|string|ImageMimeType $mimeType): void{
+		if($mimeType instanceof ImageMimeType){
+			$this->_MimeType = $mimeType;
+		}
+		elseif($mimeType === null){
+			$this->_MimeType = null;
+		}
+		else{
+			$this->_MimeType = ImageMimeType::tryFrom($mimeType);
 		}
 	}
 
@@ -235,15 +260,6 @@ class Artwork extends PropertiesBase{
 		return $this->_Ebook;
 	}
 
-	protected function SetMimeType(null|string|ImageMimeType $mimeType): void{
-		if(is_string($mimeType)){
-			$this->_MimeType = ImageMimeType::tryFrom($mimeType);
-		}
-		else{
-			$this->_MimeType = $mimeType;
-		}
-	}
-
 	// *******
 	// METHODS
 	// *******
@@ -277,7 +293,7 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\ArtworkNameRequiredException());
 		}
 
-		if($this->Name !== null && strlen($this->Name) > COVER_ARTWORK_MAX_STRING_LENGTH){
+		if($this->Name !== null && strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
 		}
 
@@ -293,33 +309,33 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidPublicationYearException());
 		}
 
-		if($this->Status !== null && !in_array($this->Status, [COVER_ARTWORK_STATUS_UNVERIFIED, COVER_ARTWORK_STATUS_APPROVED, COVER_ARTWORK_STATUS_DECLINED, COVER_ARTWORK_STATUS_IN_USE])){
+		if($this->Status === null){
 			$error->Add(new Exceptions\InvalidArtworkException('Invalid status.'));
 		}
 
-		if($this->Status === COVER_ARTWORK_STATUS_IN_USE && $this->EbookWwwFilesystemPath === null){
+		if($this->Status == ArtworkStatus::InUse && $this->EbookWwwFilesystemPath === null){
 			$error->Add(new Exceptions\MissingEbookException());
 		}
 
 		if(count($this->Tags) == 0){
 			// In-use artwork doesn't have user-provided tags.
-			if($this->Status !== COVER_ARTWORK_STATUS_IN_USE){
+			if($this->Status != ArtworkStatus::InUse){
 				$error->Add(new Exceptions\TagsRequiredException());
 			}
 		}
 
-		if(count($this->Tags) > COVER_ARTWORK_MAX_TAGS){
+		if(count($this->Tags) > ARTWORK_MAX_TAGS){
 			$error->Add(new Exceptions\TooManyTagsException());
 		}
 
 		foreach($this->Tags as $tag){
-			if(strlen($tag->Name) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			if(strlen($tag->Name) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Artwork Tag: '. $tag->Name));
 			}
 		}
 
 		if($this->MuseumUrl !== null){
-			if(strlen($this->MuseumUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			if(strlen($this->MuseumUrl) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Link to an approved museum page'));
 			}
 
@@ -333,7 +349,7 @@ class Artwork extends PropertiesBase{
 		}
 
 		if($this->PublicationYearPageUrl !== null){
-			if(strlen($this->PublicationYearPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			if(strlen($this->PublicationYearPageUrl) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Link to page with year of publication'));
 			}
 
@@ -351,7 +367,7 @@ class Artwork extends PropertiesBase{
 		}
 
 		if($this->CopyrightPageUrl !== null){
-			if(strlen($this->CopyrightPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			if(strlen($this->CopyrightPageUrl) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Link to page with copyright details'));
 			}
 
@@ -369,7 +385,7 @@ class Artwork extends PropertiesBase{
 		}
 
 		if($this->ArtworkPageUrl !== null){
-			if(strlen($this->ArtworkPageUrl) > COVER_ARTWORK_MAX_STRING_LENGTH){
+			if(strlen($this->ArtworkPageUrl) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Link to page with artwork'));
 			}
 
@@ -437,7 +453,7 @@ class Artwork extends PropertiesBase{
 
 			// Check for minimum dimensions
 			list($imageWidth, $imageHeight) = getimagesize($uploadedFile['tmp_name']);
-			if(!$imageWidth || !$imageHeight || $imageWidth < COVER_ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < COVER_ARTWORK_IMAGE_MINIMUM_HEIGHT){
+			if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
 				$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
 			}
 		}
@@ -624,8 +640,8 @@ class Artwork extends PropertiesBase{
 		// Generate the thumbnails
 		try{
 			$image = new Image($imageUploadPath);
-			$image->Resize(WEB_ROOT . $this->ThumbUrl, COVER_THUMBNAIL_WIDTH, COVER_THUMBNAIL_HEIGHT);
-			$image->Resize(WEB_ROOT . $this->Thumb2xUrl, COVER_THUMBNAIL_WIDTH * 2, COVER_THUMBNAIL_HEIGHT * 2);
+			$image->Resize(WEB_ROOT . $this->ThumbUrl, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
+			$image->Resize(WEB_ROOT . $this->Thumb2xUrl, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
 		}
 		catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException){
 			throw new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.');
@@ -667,12 +683,6 @@ class Artwork extends PropertiesBase{
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType->value ?? null, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);
-	}
-
-	public function MarkInUse(string $ebookWwwFilesystemPath): void{
-		$this->EbookWwwFilesystemPath = $ebookWwwFilesystemPath;
-		$this->Status = COVER_ARTWORK_STATUS_IN_USE;
-		$this->Save();
 	}
 
 	public function Delete(): void{

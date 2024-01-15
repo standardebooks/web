@@ -31,7 +31,7 @@ try{
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false) ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? [];
-		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false, COVER_ARTWORK_STATUS_UNVERIFIED);
+		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false);
 		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false);
 		$artwork->SubmitterUserId = $GLOBALS['User']->UserId ?? null;
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us', false);
@@ -45,12 +45,12 @@ try{
 
 		// Only approved reviewers can set the status to anything but unverified when uploading
 		// The submitter cannot review their own submissions unless they have special permission
-		if($artwork->Status != COVER_ARTWORK_STATUS_UNVERIFIED && !$GLOBALS['User']->Benefits->CanReviewOwnArtwork){
+		if($artwork->Status !== ArtworkStatus::Unverified && !$GLOBALS['User']->Benefits->CanReviewOwnArtwork){
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
 		// If the artwork is approved, set the reviewer
-		if($artwork->Status != COVER_ARTWORK_STATUS_UNVERIFIED){
+		if($artwork->Status !== ArtworkStatus::Unverified){
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 		}
 
@@ -95,11 +95,11 @@ try{
 
 		$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 
-		$newStatus = HttpInput::Str(POST, 'artwork-status', false);
+		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status', false) ?? '');
 		if($newStatus !== null){
 			if($artwork->Status != $newStatus){
 				// Is the user attempting to review their own artwork?
-				if($artwork->Status != COVER_ARTWORK_STATUS_UNVERIFIED && $GLOBALS['User']->UserId == $artwork->SubmitterUserId && !$GLOBALS['User']->Benefits->CanReviewOwnArtwork){
+				if($artwork->Status != ArtworkStatus::Unverified && $GLOBALS['User']->UserId == $artwork->SubmitterUserId && !$GLOBALS['User']->Benefits->CanReviewOwnArtwork){
 					throw new Exceptions\InvalidPermissionsException();
 				}
 			}

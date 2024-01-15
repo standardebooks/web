@@ -134,11 +134,15 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Finding a self-hosted replacement for GitHub, like possibly [Gitea](https://gitea.io/) or [GitLab](https://about.gitlab.com/), and figuring out how to reproducably install and update it on the SE server.
 
+- Converting some constants to enums, like `SORT_*` or `SOURCE_*`.
+
 ### Artwork database
 
 - Allow submitter or admins to edit unapproved artwork submissions. Approved/in use submissions should not be editable by anyone.
 
 - Include in-use ebook slug as a search parameter when searching for artwork by keyword.
+
+- Remove `in_use` status for an artwork; instead, an artwork with an `EbookWwwFilesystemPath` that is not `null` should be considered to be "in use" regardless of its `Status`.
 
 ## PHP code style
 

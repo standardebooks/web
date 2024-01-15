@@ -38,17 +38,13 @@ const SORT_AUTHOR_ALPHA = 'author-alpha';
 const SORT_READING_EASE = 'reading-ease';
 const SORT_LENGTH = 'length';
 
-const COVER_THUMBNAIL_HEIGHT = 350;
-const COVER_THUMBNAIL_WIDTH = 350;
-const COVER_ARTWORK_PER_PAGE = 20;
-const COVER_ARTWORK_STATUS_APPROVED = 'approved';
-const COVER_ARTWORK_STATUS_DECLINED = 'declined';
-const COVER_ARTWORK_STATUS_IN_USE = 'in_use';
-const COVER_ARTWORK_STATUS_UNVERIFIED = 'unverified';
-const COVER_ARTWORK_MAX_STRING_LENGTH = 250;
-const COVER_ARTWORK_MAX_TAGS = 15;
-const COVER_ARTWORK_IMAGE_MINIMUM_WIDTH = 300;
-const COVER_ARTWORK_IMAGE_MINIMUM_HEIGHT = 300;
+const ARTWORK_THUMBNAIL_HEIGHT = 350;
+const ARTWORK_THUMBNAIL_WIDTH = 350;
+const ARTWORK_PER_PAGE = 20;
+const ARTWORK_MAX_STRING_LENGTH = 250;
+const ARTWORK_MAX_TAGS = 15;
+const ARTWORK_IMAGE_MINIMUM_WIDTH = 300;
+const ARTWORK_IMAGE_MINIMUM_HEIGHT = 300;
 const SORT_COVER_ARTWORK_CREATED_NEWEST = 'created-newest';
 const SORT_COVER_ARTIST_ALPHA = 'artist-alpha';
 const SORT_COVER_ARTWORK_COMPLETED_NEWEST = 'completed-newest';
@@ -116,7 +112,7 @@ const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // M
 define('PD_YEAR', intval($nowPd->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
-define('DONATION_HOLIDAY_ALERT_ON', $now > new DateTime('November 15, ' . $now->format('Y'), new DateTimeZone('UTC'))  || $now < new DateTime('January 7, ' . $now->add(new DateInterval('P1Y'))->format('Y'), new DateTimeZone('UTC')));
+define('DONATION_HOLIDAY_ALERT_ON', $now > new DateTime('November 15, ' . $now->format('Y'), new DateTimeZone('UTC')) || $now < new DateTime('January 7, ' . $now->add(new DateInterval('P1Y'))->format('Y'), new DateTimeZone('UTC')));
 define('DONATION_ALERT_ON', DONATION_HOLIDAY_ALERT_ON || rand(1, 4) == 2);
 
 // Controls the progress bar donation dialog

@@ -11,7 +11,7 @@ try{
 	$isAdminView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
 
 	// If the artwork is not approved, and we're not an admin, don't show it.
-	if($artwork->Status != COVER_ARTWORK_STATUS_APPROVED && $artwork->Status != COVER_ARTWORK_STATUS_IN_USE && !$isAdminView){
+	if($artwork->Status != ArtworkStatus::Approved && $artwork->Status != ArtworkStatus::InUse && !$isAdminView){
 		throw new Exceptions\ArtworkNotFoundException();
 	}
 
@@ -138,10 +138,10 @@ catch(Exceptions\ArtworkNotFoundException){
 						<span>Artwork approval status</span>
 						<span>
 							<select name="artwork-status">
-								<option value="<?= COVER_ARTWORK_STATUS_UNVERIFIED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_UNVERIFIED){ ?> selected="selected"<? } ?>>Unverified</option>
-								<option value="<?= COVER_ARTWORK_STATUS_DECLINED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_DECLINED){ ?> selected="selected"<? } ?>>Declined</option>
-								<option value="<?= COVER_ARTWORK_STATUS_APPROVED ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_APPROVED){ ?> selected="selected"<? } ?>>Approved</option>
-								<option value="<?= COVER_ARTWORK_STATUS_IN_USE ?>"<? if($artwork->Status == COVER_ARTWORK_STATUS_IN_USE){ ?> selected="selected"<? } ?>>In use</option>
+								<option value="<?= ArtworkStatus::Unverified->value ?>"<? if($artwork->Status == ArtworkStatus::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+								<option value="<?= ArtworkStatus::Declined->value ?>"<? if($artwork->Status == ArtworkStatus::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+								<option value="<?= ArtworkStatus::Approved->value ?>"<? if($artwork->Status == ArtworkStatus::Approved){ ?> selected="selected"<? } ?>>Approved</option>
+								<option value="<?= ArtworkStatus::InUse->value ?>"<? if($artwork->Status == ArtworkStatus::InUse){ ?> selected="selected"<? } ?>>In use</option>
 							</select>
 						</span>
 					</label>
