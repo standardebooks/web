@@ -184,9 +184,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/67369">Hadrian the Seventh</a> by Frederick Rolfe (Part of the Guardian 2015 collection.)</p>
-			</li>
-			<li>
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
 			</li>
 			<li>
