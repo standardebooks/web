@@ -96,16 +96,18 @@ class DbConnection{
 			if(is_a($parameter, 'DateTime') || is_a($parameter, 'DateTimeImmutable')){
 				$parameter = $parameter->format('Y-m-d H:i:s');
 			}
-
-			// MySQL strict mode requires 0 or 1 instead of true or false
-			// Can't use PDO::PARAM_BOOL, it just doesn't work
-			if(is_bool($parameter)){
+			elseif(is_bool($parameter)){
+				// MySQL strict mode requires 0 or 1 instead of true or false
+				// Can't use PDO::PARAM_BOOL, it just doesn't work
 				if($parameter){
 					$parameter = 1;
 				}
 				else{
 					$parameter = 0;
 				}
+			}
+			elseif($parameter instanceof BackedEnum){
+				$parameter = $parameter->value;
 			}
 
 			if(is_int($parameter)){
