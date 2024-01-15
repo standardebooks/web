@@ -43,7 +43,7 @@ class Artist extends PropertiesBase{
 					SELECT *
 					from ArtistAlternateSpellings
 					where ArtistId = ?
-				', [$this->ArtistId], 'stdClass');
+				', [$this->ArtistId]);
 
 			foreach($result as $row){
 				$this->_AlternateSpellings[] = $row->AlternateSpelling;
