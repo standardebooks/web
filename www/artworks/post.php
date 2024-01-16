@@ -1,9 +1,41 @@
 <?
+function populateArtworkFields(Artwork $artwork): void{
+	$artwork->Artist = new Artist();
+	$artwork->Artist->Name = HttpInput::Str(POST, 'artist-name', false);
+	$artwork->Artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
+
+	$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
+	$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
+	$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false) ?? false;
+	$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? [];
+	$artwork->Status = HttpInput::Str(POST, 'artwork-status', false) ?? ArtworkStatus::Unverified;
+	$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false);
+	$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us', false);
+	$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');
+	$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url', false);
+	$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'artwork-copyright-page-url', false);
+	$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url', false);
+	$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url', false);
+	$artwork->Exception = HttpInput::Str(POST, 'artwork-exception', false);
+	$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false);
+
+	// Only approved reviewers can set the status to anything but unverified when uploading
+	// The submitter cannot review their own submissions unless they have special permission
+	if($artwork->Status !== ArtworkStatus::Unverified && !$GLOBALS['User']->Benefits->CanReviewOwnArtwork){
+		throw new Exceptions\InvalidPermissionsException();
+	}
+
+	// If the artwork is approved, set the reviewer
+	if($artwork->Status !== ArtworkStatus::Unverified){
+		$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
+	}
+}
+
 try{
 	session_start();
 	$httpMethod =HttpInput::RequestMethod();
 
-	if($httpMethod != HTTP_POST && $httpMethod != HTTP_PATCH){
+	if($httpMethod != HTTP_POST && $httpMethod != HTTP_PATCH && $httpMethod != HTTP_PUT){
 		throw new Exceptions\InvalidRequestException();
 	}
 
@@ -22,37 +54,8 @@ try{
 		}
 
 		$artwork = new Artwork();
-
-		$artwork->Artist = new Artist();
-		$artwork->Artist->Name = HttpInput::Str(POST, 'artist-name', false);
-		$artwork->Artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
-
-		$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
-		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
-		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false) ?? false;
-		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? [];
-		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false) ?? ArtworkStatus::Unverified;
-		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false);
+		populateArtworkFields($artwork);
 		$artwork->SubmitterUserId = $GLOBALS['User']->UserId ?? null;
-		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us', false);
-		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');
-		$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url', false);
-		$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'artwork-copyright-page-url', false);
-		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url', false);
-		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url', false);
-		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception', false);
-		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false);
-
-		// Only approved reviewers can set the status to anything but unverified when uploading
-		// The submitter cannot review their own submissions unless they have special permission
-		if($artwork->Status !== ArtworkStatus::Unverified && !$GLOBALS['User']->Benefits->CanReviewOwnArtwork){
-			throw new Exceptions\InvalidPermissionsException();
-		}
-
-		// If the artwork is approved, set the reviewer
-		if($artwork->Status !== ArtworkStatus::Unverified){
-			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
-		}
 
 		// Confirm that the files came from POST
 		if(!is_uploaded_file($_FILES['artwork-image']['tmp_name'])){
@@ -66,6 +69,40 @@ try{
 
 		http_response_code(303);
 		header('Location: /artworks/new');
+	}
+
+	// PUTing a new artwork
+	if($httpMethod == HTTP_PUT){
+		$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name', false), HttpInput::Str(GET, 'artwork-url-name', false));
+
+		if(!$GLOBALS['User']->Benefits->CanReviewArtwork && !($originalArtwork->SubmitterUserId == $GLOBALS['User']->UserId)){
+			throw new Exceptions\InvalidPermissionsException();
+		}
+
+		$artwork = new Artwork();
+		populateArtworkFields($artwork);
+		$artwork->ArtworkId = $originalArtwork->ArtworkId;
+		$artwork->Created = $originalArtwork->Created;
+		$artwork->SubmitterUserId = $originalArtwork->SubmitterUserId;
+
+		$uploadedFile = [];
+		$uploadError = $_FILES['artwork-image']['error'];
+
+		if($uploadError == UPLOAD_ERR_OK){
+			$uploadedFile = $_FILES['artwork-image'];
+		}
+		// No uploaded file as part of this edit, so retain the MimeType of the original submission.
+		else{
+			$artwork->MimeType = $originalArtwork->MimeType;
+		}
+
+		$artwork->Save($uploadedFile);
+
+		$_SESSION['artwork'] = $artwork;
+		$_SESSION['artwork-saved'] = true;
+
+		http_response_code(303);
+		header('Location: ' . $artwork->Url);
 	}
 
 	// PATCHing a new artwork
@@ -138,6 +175,9 @@ catch(Exceptions\AppException $exception){
 
 	if($httpMethod == HTTP_PATCH && $artwork !== null){
 		header('Location: ' . $artwork->Url);
+	}
+	else if($httpMethod == HTTP_PUT && $artwork !== null){
+		header('Location: ' . $artwork->EditUrl);
 	}
 	else{
 		header('Location: /artworks/new');
