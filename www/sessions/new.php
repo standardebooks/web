@@ -17,7 +17,7 @@ $passwordRequired = false;
 http_response_code(401);
 
 if($exception){
-	if(is_a($exception, 'Exceptions\PasswordRequiredException')){
+	if($exception instanceof Exceptions\PasswordRequiredException){
 		// This login requires a password to proceed.
 		// Prompt the user for a password.
 		http_response_code(401);

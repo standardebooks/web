@@ -27,7 +27,7 @@ class OpdsFeed extends AtomFeed{
 	protected function SaveUpdated(string $entryId, DateTime $updated): void{
 		// Only save the updated timestamp for the given entry ID in this file
 		foreach($this->Entries as $entry){
-			if(is_a($entry, 'OpdsNavigationEntry')){
+			if($entry instanceof OpdsNavigationEntry){
 				if($entry->Id == SITE_URL . $entryId){
 					$entry->Updated = $updated;
 				}

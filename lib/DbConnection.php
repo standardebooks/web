@@ -93,7 +93,7 @@ class DbConnection{
 		foreach($params as $parameter){
 			$name++;
 
-			if(is_a($parameter, 'DateTime') || is_a($parameter, 'DateTimeImmutable')){
+			if($parameter instanceof DateTimeInterface){
 				$parameter = $parameter->format('Y-m-d H:i:s');
 			}
 			elseif(is_bool($parameter)){
