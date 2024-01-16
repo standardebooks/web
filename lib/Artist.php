@@ -117,9 +117,10 @@ class Artist extends PropertiesBase{
 		$result = Db::Query('
 					SELECT a.*
 					from Artists a
-					inner join ArtistAlternateSpellings aas using (ArtistId)
+					left outer join ArtistAlternateSpellings aas using (ArtistId)
 					where a.UrlName = ?
 					    or aas.UrlName = ?
+					limit 1
 		', [$artist->UrlName, $artist->UrlName], 'Artist');
 
 		if(isset($result[0])){
