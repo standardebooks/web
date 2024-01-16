@@ -579,6 +579,21 @@ class Artwork extends PropertiesBase{
 		return $outputUrl;
 	}
 
+	private function WriteImageAndThumbnails(string $imageUploadPath): void{
+		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imageUploadPath));
+		copy($imageUploadPath, WEB_ROOT . $this->ImageUrl);
+
+		// Generate the thumbnails
+		try{
+			$image = new Image($imageUploadPath);
+			$image->Resize(WEB_ROOT . $this->ThumbUrl, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
+			$image->Resize(WEB_ROOT . $this->Thumb2xUrl, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
+		}
+		catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException){
+			throw new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.');
+		}
+	}
+
 	/**
 	 * @param array<mixed> $uploadedFile
 	 * @throws \Exceptions\ValidationException
@@ -591,7 +606,6 @@ class Artwork extends PropertiesBase{
 
 		$this->Created = new DateTime();
 
-		// Can't assign directly to $this->Tags because it's hidden behind a getter
 		$tags = [];
 		foreach($this->Tags as $artworkTag){
 			$tags[] = ArtworkTag::GetOrCreate($artworkTag);
@@ -639,27 +653,31 @@ class Artwork extends PropertiesBase{
 			', [$this->ArtworkId, $tag->TagId]);
 		}
 
-		// Save the source image and clean up metadata
-		$imageUploadPath = $uploadedFile['tmp_name'];
-		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imageUploadPath));
-		copy($imageUploadPath, WEB_ROOT . $this->ImageUrl);
-
-		// Generate the thumbnails
-		try{
-			$image = new Image($imageUploadPath);
-			$image->Resize(WEB_ROOT . $this->ThumbUrl, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
-			$image->Resize(WEB_ROOT . $this->Thumb2xUrl, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
-		}
-		catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException){
-			throw new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.');
-		}
+		$this->WriteImageAndThumbnails($uploadedFile['tmp_name']);
 	}
 
 	/**
+	 * @param array<mixed> $uploadedFile
 	 * @throws \Exceptions\ValidationException
 	 */
-	public function Save(): void{
-		$this->Validate();
+	public function Save(array $uploadedFile = []): void{
+		$this->_UrlName = null;
+
+		if(!empty($uploadedFile) && $uploadedFile['error'] == UPLOAD_ERR_OK){
+			$this->MimeType = ImageMimeType::FromFile($uploadedFile['tmp_name'] ?? null);
+		}
+
+		$this->Validate($uploadedFile);
+
+		$this->Updated = new DateTime();
+
+		$tags = [];
+		foreach($this->Tags as $artworkTag){
+			$tags[] = ArtworkTag::GetOrCreate($artworkTag);
+		}
+		$this->Tags = $tags;
+
+		$this->Artist = Artist::GetOrCreate($this->Artist);
 
 		Db::Query('
 			UPDATE Artworks
@@ -670,6 +688,7 @@ class Artwork extends PropertiesBase{
 			CompletedYear = ?,
 			CompletedYearIsCirca = ?,
 			Created = ?,
+			Updated = ?,
 			Status = ?,
 			SubmitterUserId = ?,
 			ReviewerUserId = ?,
@@ -686,10 +705,29 @@ class Artwork extends PropertiesBase{
 			where
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->Created, $this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);
+
+		Db::Query('
+			DELETE FROM ArtworkTags
+			WHERE
+			ArtworkId = ?
+		', [$this->ArtworkId]
+		);
+
+		foreach($this->Tags as $tag){
+			Db::Query('
+				INSERT INTO ArtworkTags (ArtworkId, TagId)
+				VALUES (?,
+				        ?)
+			', [$this->ArtworkId, $tag->TagId]);
+		}
+
+		if(!empty($uploadedFile) && $uploadedFile['error'] == UPLOAD_ERR_OK){
+			$this->WriteImageAndThumbnails($uploadedFile['tmp_name']);
+		}
 	}
 
 	public function Delete(): void{
