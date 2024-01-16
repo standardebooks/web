@@ -95,11 +95,12 @@ catch(Exceptions\InvalidPermissionsException){
 				<label>
 					<span>Year of death</span>
 					<span>If circa or unknown, enter the latest possible year.</span>
+					<? /* Not using <input type="number"> for now, see https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/ */ ?>
 					<input
-						type="number"
+						type="text"
 						name="artist-year-of-death"
-						min="1"
-						max="<?= $now->format('Y') ?>"
+						inputmode="numeric"
+						pattern="[0-9]+"
 						value="<?= $artwork->Artist->DeathYear ?>"
 					/>
 				</label>
@@ -115,10 +116,10 @@ catch(Exceptions\InvalidPermissionsException){
 					<label>
 						Year of completion
 						<input
-							type="number"
+							type="text"
 							name="artwork-year"
-							min="1"
-							max="<?= $now->format('Y') ?>"
+							inputmode="numeric"
+							pattern="[0-9]+"
 							value="<?= $artwork->CompletedYear ?>"
 						/>
 					</label>
@@ -181,10 +182,10 @@ catch(Exceptions\InvalidPermissionsException){
 					<label>
 						Year of publication
 						<input
-							type="number"
+							type="text"
 							name="artwork-publication-year"
-							min="1"
-							max="<?= $now->format('Y') ?>"
+							inputmode="numeric"
+							pattern="[0-9]+"
 							value="<?= $artwork->PublicationYear ?>"
 						/>
 					</label>

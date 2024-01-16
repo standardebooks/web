@@ -268,6 +268,8 @@ class Artwork extends PropertiesBase{
 	 * @throws \Exceptions\ValidationException
 	 */
 	protected function Validate(array &$uploadedFile = []): void{
+		$now = new DateTime('now', new DateTimeZone('UTC'));
+		$thisYear = intval($now->format('Y'));
 		$error = new Exceptions\ValidationException();
 
 		if($this->Artist === null){
@@ -297,7 +299,7 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
 		}
 
-		if($this->CompletedYear !== null && ($this->CompletedYear <= 0 || $this->CompletedYear > intval(date('Y')))){
+		if($this->CompletedYear !== null && ($this->CompletedYear <= 0 || $this->CompletedYear > $thisYear)){
 			$error->Add(new Exceptions\InvalidCompletedYearException());
 		}
 
@@ -305,7 +307,7 @@ class Artwork extends PropertiesBase{
 			$this->CompletedYearIsCirca = false;
 		}
 
-		if($this->PublicationYear !== null && ($this->PublicationYear <= 0 || $this->PublicationYear > intval(date('Y')))){
+		if($this->PublicationYear !== null && ($this->PublicationYear <= 0 || $this->PublicationYear > $thisYear)){
 			$error->Add(new Exceptions\InvalidPublicationYearException());
 		}
 

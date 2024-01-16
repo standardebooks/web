@@ -2,7 +2,6 @@
 // Auto-included by Composer in composer.json to satisfy PHPStan
 use Safe\DateTime;
 use function Safe\define;
-use function Safe\strtotime;
 
 $now = new DateTime('now', new DateTimeZone('UTC'));
 $nowPd = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone

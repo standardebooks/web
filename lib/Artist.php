@@ -58,6 +58,9 @@ class Artist extends PropertiesBase{
 	// *******
 
 	public function Validate(): void{
+		$now = new DateTime('now', new DateTimeZone('UTC'));
+		$thisYear = intval($now->format('Y'));
+
 		$error = new Exceptions\ValidationException();
 
 		if($this->Name === null || $this->Name == ''){
@@ -68,7 +71,7 @@ class Artist extends PropertiesBase{
 			$error->Add(new Exceptions\StringTooLongException('Artist Name'));
 		}
 
-		if($this->DeathYear !== null && ($this->DeathYear <= 0 || $this->DeathYear > intval(date('Y')) + 50)){
+		if($this->DeathYear !== null && ($this->DeathYear <= 0 || $this->DeathYear > $thisYear + 50)){
 			$error->Add(new Exceptions\InvalidDeathYearException());
 		}
 

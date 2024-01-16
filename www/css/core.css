@@ -674,6 +674,10 @@ input[type="checkbox"]:focus{
 	outline: none;
 }
 
+input[inputmode="numeric"]{
+	text-align: right;
+}
+
 h1 + .message{
 	margin-top: 0;
 }
