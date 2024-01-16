@@ -132,18 +132,6 @@ class Artist extends PropertiesBase{
 		}
 	}
 
-	public static function FindMatch(string $artistName): ?Artist{
-		$result = Db::Query('
-			SELECT a.*
-			from Artists a left join ArtistAlternateSpellings alt using (ArtistId)
-			where a.Name = ? or alt.AlternateSpelling = ?
-			order by a.DeathYear desc
-			limit 1;
-		', [$artistName, $artistName], 'Artist');
-
-		return $result[0] ?? null;
-	}
-
 	public function Delete(): void{
 		Db::Query('
 			DELETE
