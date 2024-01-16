@@ -71,7 +71,7 @@ form[action^="/artworks/"]{
 	gap: 1rem;
 }
 
-.artworks form[action="/artworks"]{
+.artworks form[action^="/artworks"][method="get"]{
 	display: grid;
 	grid-gap: 1rem;
 	grid-template-columns: auto auto auto 1fr;
@@ -79,78 +79,78 @@ form[action^="/artworks/"]{
 	max-width: calc(100% - 2rem);
 }
 
-.artworks form[action="/artworks"] button{
+.artworks form[action^="/artworks"][method="get"] button{
 	justify-self: end;
 	margin-top: 1.4rem;
 }
 
-.artworks form[action="/artworks"] label.search{
+.artworks form[action^="/artworks"][method="get"] label.search{
 	grid-column: span 3;
 }
 
-.artworks form[action="/artworks"] label.sort{
+.artworks form[action^="/artworks"][method="get"] label.sort{
 	grid-column: span 2;
 }
 
-form[action="/artworks"] > fieldset{
+form[action^="/artworks"][enctype="multipart/form-data"] > fieldset{
 	display: grid;
 	gap: 2rem;
 }
 
-form[action="/artworks"] > fieldset + fieldset{
+form[action^="/artworks"][enctype="multipart/form-data"] > fieldset + fieldset{
 	margin-top: 2rem;
 }
 
 /* Artist details */
-form[action="/artworks"] > fieldset:nth-of-type(1){
+form[action^="/artworks"][enctype="multipart/form-data"] > fieldset:nth-of-type(1){
 	grid-template-columns: 1fr 1fr;
 }
 
 /* Artwork details */
-form[action="/artworks"] > fieldset:nth-of-type(2){
+form[action^="/artworks"][enctype="multipart/form-data"] > fieldset:nth-of-type(2){
 	grid-template-columns: 1fr 200px;
 }
 
-form[action="/artworks"] > fieldset label:has(input[name="artwork-tags"]),
-form[action="/artworks"] > fieldset label:has(input[name="artwork-image"]){
+form[action^="/artworks"][enctype="multipart/form-data"] > fieldset label:has(input[name="artwork-tags"]),
+form[action^="/artworks"][enctype="multipart/form-data"] > fieldset label:has(input[name="artwork-image"]){
 	grid-column: 1 / span 2;
 }
 
-form[action="/artworks"] fieldset fieldset:has(input[name="artwork-publication-year"]){
+form[action^="/artworks"][enctype="multipart/form-data"] fieldset fieldset:has(input[name="artwork-publication-year"]){
 	display: grid;
 	grid-template-columns: 200px 1fr;
 	gap: 2rem;
 }
 
-form[action="/artworks"] fieldset label:has(input[type="url"]),
-form[action="/artworks"] fieldset label:has(input[type="checkbox"]){
+form[action^="/artworks"][enctype="multipart/form-data"] fieldset label:has(input[type="url"]),
+form[action^="/artworks"][enctype="multipart/form-data"] fieldset label:has(input[type="checkbox"]){
 	grid-column: 1 / span 2;
 }
 
-form[action="/artworks"] #pd-proof > fieldset{
+form[action^="/artworks"][enctype="multipart/form-data"] #pd-proof > fieldset{
 	border-left-color: var(--body-text);
 	border-left-width: 3px;
 	border-left-style: dotted;
 	padding-left: .75rem;
 }
 
-form[action="/artworks"] fieldset p{
+form[action^="/artworks"][enctype="multipart/form-data"] fieldset p{
 	font-style: italic;
 	margin: 0;
 	border: none;
 }
 
-form[action="/artworks"] fieldset p:first-of-type{
+form[action^="/artworks"][enctype="multipart/form-data"] fieldset p:first-of-type{
 	margin-top: 0;
 }
 
-form[action="/artworks"] legend{
+form[action^="/artworks"][enctype="multipart/form-data"] legend{
 	font-size: 1.2rem;
 	font-weight: bold;
 	margin: 0.5rem 0;
 }
 
-form[action="/artworks"] label{
+form[action^="/artworks"][enctype="multipart/form-data"] label{
 	display: block;
 }
 
@@ -177,6 +177,7 @@ form div.footer{
 	padding: 0.5rem;
 }
 
+main h1 ~ a[href^="/images/cover-uploads"],
 .artworks h1 ~ a[href^="/images/cover-uploads"]{
 	width: auto;
 	line-height: 0;
@@ -272,16 +273,16 @@ form div.footer{
 
 @media(max-width: 400px){
 	/* Artist details */
-	form[action="/artworks"] > fieldset:nth-of-type(1){
+	form[action^="/artworks"][method="get"] > fieldset:nth-of-type(1){
 		grid-template-columns: 1fr;
 	}
 
-	form[action="/artworks"] > fieldset:nth-of-type(2){
+	form[action^="/artworks"][method="get"] > fieldset:nth-of-type(2){
 		grid-template-columns: 1fr;
 	}
 
-	form[action="/artworks"] > fieldset label:has(input[name="artwork-tags"]),
-	form[action="/artworks"] > fieldset label:has(input[name="artwork-image"]){
+	form[action^="/artworks"][method="get"] > fieldset label:has(input[name="artwork-tags"]),
+	form[action^="/artworks"][method="get"] > fieldset label:has(input[name="artwork-image"]){
 		grid-column: 1;
 	}
 }
@@ -299,16 +300,16 @@ form div.footer{
 		gap: 3rem;
 	}
 
-	.artworks form[action="/artworks"]{
+	.artworks form[action^="/artworks"][method="get"]{
 		grid-template-columns: auto 1fr auto;
 	}
 
-	.artworks form[action="/artworks"] label.search,
-	.artworks form[action="/artworks"] label.sort{
+	.artworks form[action^="/artworks"][method="get"] label.search,
+	.artworks form[action^="/artworks"][method="get"] label.sort{
 		grid-column: span 2;
 	}
 
-	.artworks form[action="/artworks"] button{
+	.artworks form[action^="/artworks"][method="get"] button{
 		grid-column: span 3;
 	}
 }
@@ -318,13 +319,13 @@ form div.footer{
 		grid-template-columns: auto;
 	}
 
-	.artworks form[action="/artworks"]{
+	.artworks form[action^="/artworks"][method="get"]{
 		grid-template-columns: auto;
 	}
 
-	.artworks form[action="/artworks"] label.sort,
-	.artworks form[action="/artworks"] label.search,
-	.artworks form[action="/artworks"] button{
+	.artworks form[action^="/artworks"][method="get"] label.sort,
+	.artworks form[action^="/artworks"][method="get"] label.search,
+	.artworks form[action^="/artworks"][method="get"] button{
 		grid-column: auto;
 	}
 }
