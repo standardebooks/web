@@ -161,11 +161,13 @@ class Library{
 	* @param string $sort
 	* @return array<Artwork>
 	*/
-	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null): array{
+	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null, int $submitterUserId = null): array{
 		// Possible special statuses:
 		// null: same as "all"
 		// "all": Show all approved and in use artwork
 		// "all-admin": Show all artwork regardless of status
+		// "all-submitter": Show all approved and in use artwork, plus unverified artwork from the submitter
+		// "unverified-submitter": Show unverified artwork from the submitter
 
 		$artworks = [];
 
@@ -179,6 +181,19 @@ class Library{
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks', [], 'Artwork');
+		}
+		elseif($status == 'all-submitter' && $submitterUserId !== null){
+			$artworks = Db::Query('
+				SELECT *
+				from Artworks
+				where Status in ("approved", "in_use")
+				or (Status = "unverified" and SubmitterUserId = ?)', [$submitterUserId], 'Artwork');
+		}
+		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
+			$artworks = Db::Query('
+				SELECT *
+				from Artworks
+				where Status = "unverified" and SubmitterUserId = ?', [$submitterUserId], 'Artwork');
 		}
 		else{
 			$artworks = Db::Query('

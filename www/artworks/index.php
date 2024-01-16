@@ -5,6 +5,7 @@ $page = HttpInput::Int(GET, 'page') ?? 1;
 $perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
 $query = HttpInput::Str(GET, 'query', false) ?? '';
 $status = HttpInput::Str(GET, 'status', false) ?? null;
+$filterArtworkStatus = $status;
 $sort = HttpInput::Str(GET, 'sort', false);
 $pages = 0;
 $totalArtworkCount = 0;
@@ -12,6 +13,8 @@ $pageDescription = '';
 $pageTitle = '';
 $queryString = '';
 $isAdminView = $GLOBALS['User']?->Benefits?->CanReviewArtwork ?? false;
+$submitterUserId = $GLOBALS['User']?->Benefits?->CanUploadArtwork ? $GLOBALS['User']->UserId : null;
+$isSubmitterView = !$isAdminView && $submitterUserId !== null;
 
 if($page <= 0){
 	$page = 1;
@@ -31,17 +34,39 @@ if($sort == 'created-newest'){
 	$sort = null;
 }
 
-if($status == 'all'){
-	if($isAdminView){
-		$status = 'all-admin';
+if($isAdminView){
+	if($status == 'all' || $status === null){
+		$filterArtworkStatus = 'all-admin';
 	}
 }
 
-if(!$isAdminView && $status !== 'all' && $status != ArtworkStatus::Approved->value && $status != ArtworkStatus::InUse->value){
-	$status = ArtworkStatus::Approved->value;
+if($isSubmitterView){
+	if($status == 'all' || $status === null){
+		$filterArtworkStatus = 'all-submitter';
+	}
+	if($status == 'unverified'){
+		$filterArtworkStatus = 'unverified-submitter';
+	}
 }
 
-$artworks = Library::FilterArtwork($query != '' ? $query : null, $status, $sort);
+if(!$isAdminView && !$isSubmitterView && !in_array($status, array('all', ArtworkStatus::Approved->value, ArtworkStatus::InUse->value))){
+	$status = ArtworkStatus::Approved->value;
+	$filterArtworkStatus = $status;
+}
+
+if($isAdminView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, ArtworkStatus::InUse->value))
+                && !in_array($filterArtworkStatus, array('all-admin', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, ArtworkStatus::InUse->value))){
+	$status = ArtworkStatus::Approved->value;
+	$filterArtworkStatus = $status;
+}
+
+if($isSubmitterView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Approved->value, ArtworkStatus::InUse->value))
+                    && !in_array($filterArtworkStatus, array('all-submitter', 'unverified-submitter', ArtworkStatus::Approved->value, ArtworkStatus::InUse->value))){
+	$status = ArtworkStatus::Approved->value;
+	$filterArtworkStatus = $status;
+}
+
+$artworks = Library::FilterArtwork($query != '' ? $query : null, $filterArtworkStatus, $sort, $submitterUserId);
 $pageTitle = 'Browse Artwork';
 $pages = ceil(sizeof($artworks) / $perPage);
 $totalArtworkCount = sizeof($artworks);
@@ -80,7 +105,7 @@ if($perPage !== ARTWORK_PER_PAGE){
 				<span>
 					<select name="status" size="1">
 						<option value="all"<? if($status === null){ ?> selected="selected"<? } ?>>All</option>
-						<? if($isAdminView){ ?><option value="<?= ArtworkStatus::Unverified->value ?>"<? if($status == ArtworkStatus::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
+						<? if($isAdminView || $isSubmitterView){ ?><option value="<?= ArtworkStatus::Unverified->value ?>"<? if($status == ArtworkStatus::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
 						<? if($isAdminView){ ?><option value="<?= ArtworkStatus::Declined->value ?>"<? if($status == ArtworkStatus::Declined->value){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
 						<option value="<?= ArtworkStatus::Approved->value ?>"<? if($status == ArtworkStatus::Approved->value){ ?> selected="selected"<? } ?>>Approved</option>
 						<option value="<?= ArtworkStatus::InUse->value ?>"<? if($status == ArtworkStatus::InUse->value){ ?> selected="selected"<? } ?>>In use</option>
