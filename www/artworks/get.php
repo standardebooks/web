@@ -12,8 +12,8 @@ try{
 	$userId = $GLOBALS['User']->UserId ?? null;
 	$isEditingAllowed = ($artwork->Status == ArtworkStatus::Unverified) && ($isAdminView || ($userId !== null && $userId == $artwork->SubmitterUserId));
 
-	// If the artwork is not approved, and we're not an admin, don't show it.
-	if($artwork->Status != ArtworkStatus::Approved && $artwork->Status != ArtworkStatus::InUse && !$isAdminView){
+	// If the artwork is not approved, and we're not an admin or the submitter when they can edit, don't show it.
+	if($artwork->Status != ArtworkStatus::Approved && $artwork->Status != ArtworkStatus::InUse && !$isAdminView && !$isEditingAllowed){
 		throw new Exceptions\ArtworkNotFoundException();
 	}
 
