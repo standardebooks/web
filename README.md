@@ -140,11 +140,13 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Allow submitter or admins to edit unapproved artwork submissions. Approved/in use submissions should not be editable by anyone.
 
-- Expose artist alternate spellings in the "new artwork" form. Alternate spellings should be included as a new `<datalist>` item, with an artist ID equal to the artist name of record.
+- Tags should be searched as whole words. For example a search for `male` should not return items tagged as `female`.
 
 - Include in-use ebook slug as a search parameter when searching for artwork by keyword.
 
 - Remove `in_use` status for an artwork; instead, an artwork with an `EbookWwwFilesystemPath` that is not `null` should be considered to be "in use" regardless of its `Status`.
+
+- Artwork searching/filtering should be done in pure SQL, no after-sql filtering in PHP.
 
 ## PHP code style
 
