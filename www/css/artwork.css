@@ -71,7 +71,7 @@ form[action^="/artworks/"]{
 	gap: 1rem;
 }
 
-.artworks form[action="/artworks"][method="get"]{
+.artworks form.browse-artwork{
 	display: grid;
 	grid-gap: 1rem;
 	grid-template-columns: auto auto auto 1fr;
@@ -79,78 +79,78 @@ form[action^="/artworks/"]{
 	max-width: calc(100% - 2rem);
 }
 
-.artworks form[action="/artworks"][method="get"] button{
+.artworks form.browse-artwork button{
 	justify-self: end;
 	margin-top: 1.4rem;
 }
 
-.artworks form[action="/artworks"][method="get"] label.search{
+.artworks form.browse-artwork label.search{
 	grid-column: span 3;
 }
 
-.artworks form[action="/artworks"][method="get"] label.sort{
+.artworks form.browse-artwork label.sort{
 	grid-column: span 2;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] > fieldset{
+form.create-update-artwork > fieldset{
 	display: grid;
 	gap: 2rem;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] > fieldset + fieldset{
+form.create-update-artwork > fieldset + fieldset{
 	margin-top: 2rem;
 }
 
 /* Artist details */
-form[action^="/artworks"][enctype="multipart/form-data"] > fieldset:nth-of-type(1){
+form.create-update-artwork > fieldset:nth-of-type(1){
 	grid-template-columns: 1fr 1fr;
 }
 
 /* Artwork details */
-form[action^="/artworks"][enctype="multipart/form-data"] > fieldset:nth-of-type(2){
+form.create-update-artwork > fieldset:nth-of-type(2){
 	grid-template-columns: 1fr 200px;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] > fieldset label:has(input[name="artwork-tags"]),
-form[action^="/artworks"][enctype="multipart/form-data"] > fieldset label:has(input[name="artwork-image"]){
+form.create-update-artwork > fieldset label:has(input[name="artwork-tags"]),
+form.create-update-artwork > fieldset label:has(input[name="artwork-image"]){
 	grid-column: 1 / span 2;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] fieldset fieldset:has(input[name="artwork-publication-year"]){
+form.create-update-artwork fieldset fieldset:has(input[name="artwork-publication-year"]){
 	display: grid;
 	grid-template-columns: 200px 1fr;
 	gap: 2rem;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] fieldset label:has(input[type="url"]),
-form[action^="/artworks"][enctype="multipart/form-data"] fieldset label:has(input[type="checkbox"]){
+form.create-update-artwork fieldset label:has(input[type="url"]),
+form.create-update-artwork fieldset label:has(input[type="checkbox"]){
 	grid-column: 1 / span 2;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] #pd-proof > fieldset{
+form.create-update-artwork #pd-proof > fieldset{
 	border-left-color: var(--body-text);
 	border-left-width: 3px;
 	border-left-style: dotted;
 	padding-left: .75rem;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] fieldset p{
+form.create-update-artwork fieldset p{
 	font-style: italic;
 	margin: 0;
 	border: none;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] fieldset p:first-of-type{
+form.create-update-artwork fieldset p:first-of-type{
 	margin-top: 0;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] legend{
+form.create-update-artwork legend{
 	font-size: 1.2rem;
 	font-weight: bold;
 	margin: 0.5rem 0;
 }
 
-form[action^="/artworks"][enctype="multipart/form-data"] label{
+form.create-update-artwork label{
 	display: block;
 }
 
@@ -273,16 +273,16 @@ main h1 ~ a[href^="/images/cover-uploads"],
 
 @media(max-width: 400px){
 	/* Artist details */
-	form[action="/artworks"][method="get"] > fieldset:nth-of-type(1){
+	form.browse-artwork > fieldset:nth-of-type(1){
 		grid-template-columns: 1fr;
 	}
 
-	form[action="/artworks"][method="get"] > fieldset:nth-of-type(2){
+	form.browse-artwork > fieldset:nth-of-type(2){
 		grid-template-columns: 1fr;
 	}
 
-	form[action="/artworks"][method="get"] > fieldset label:has(input[name="artwork-tags"]),
-	form[action="/artworks"][method="get"] > fieldset label:has(input[name="artwork-image"]){
+	form.browse-artwork > fieldset label:has(input[name="artwork-tags"]),
+	form.browse-artwork > fieldset label:has(input[name="artwork-image"]){
 		grid-column: 1;
 	}
 }
@@ -300,16 +300,16 @@ main h1 ~ a[href^="/images/cover-uploads"],
 		gap: 3rem;
 	}
 
-	.artworks form[action="/artworks"][method="get"]{
+	.artworks form.browse-artwork{
 		grid-template-columns: auto 1fr auto;
 	}
 
-	.artworks form[action="/artworks"][method="get"] label.search,
-	.artworks form[action="/artworks"][method="get"] label.sort{
+	.artworks form.browse-artwork label.search,
+	.artworks form.browse-artwork label.sort{
 		grid-column: span 2;
 	}
 
-	.artworks form[action="/artworks"][method="get"] button{
+	.artworks form.browse-artwork button{
 		grid-column: span 3;
 	}
 }
@@ -319,13 +319,13 @@ main h1 ~ a[href^="/images/cover-uploads"],
 		grid-template-columns: auto;
 	}
 
-	.artworks form[action="/artworks"][method="get"]{
+	.artworks form.browse-artwork{
 		grid-template-columns: auto;
 	}
 
-	.artworks form[action="/artworks"][method="get"] label.sort,
-	.artworks form[action="/artworks"][method="get"] label.search,
-	.artworks form[action="/artworks"][method="get"] button{
+	.artworks form.browse-artwork label.sort,
+	.artworks form.browse-artwork label.search,
+	.artworks form.browse-artwork button{
 		grid-column: auto;
 	}
 }

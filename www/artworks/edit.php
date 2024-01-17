@@ -61,7 +61,7 @@ catch(Exceptions\InvalidPermissionsException){
 			</picture>
 		</a>
 
-		<form method="post" action="<?= $artwork->Url ?>" enctype="multipart/form-data">
+		<form class="create-update-artwork" method="post" action="<?= $artwork->Url ?>" enctype="multipart/form-data">
 			<input type="hidden" name="_method" value="PUT" />
 
 			<?= Template::ArtworkCreateEditFields(

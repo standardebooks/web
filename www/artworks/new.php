@@ -67,7 +67,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<p class="message success">Artwork submitted!</p>
 		<? } ?>
 
-		<form method="post" action="/artworks" enctype="multipart/form-data">
+		<form class="create-update-artwork" method="post" action="/artworks" enctype="multipart/form-data">
 			<?= Template::ArtworkCreateEditFields(
 				[
 					'artwork' => $artwork,
