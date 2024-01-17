@@ -9,12 +9,14 @@ $exception = $_SESSION['exception'] ?? null;
 try{
 	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name') ?? '', HttpInput::Str(GET, 'artwork-url-name') ?? '');
 	$isAdminView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
-	$userId = $GLOBALS['User']->UserId ?? null;
-	$isEditingAllowed = ($artwork->Status == ArtworkStatus::Unverified) && ($isAdminView || ($userId !== null && $userId == $artwork->SubmitterUserId));
 
 	// If the artwork is not approved, and we're not an admin or the submitter when they can edit, don't show it.
-	if($artwork->Status != ArtworkStatus::Approved && $artwork->Status != ArtworkStatus::InUse && !$isAdminView && !$isEditingAllowed){
-		throw new Exceptions\ArtworkNotFoundException();
+	if(
+		($GLOBALS['User'] === null && $artwork->Status != ArtworkStatus::Approved)
+		||
+		($GLOBALS['User'] !== null && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isAdminView)
+	){
+		throw new Exceptions\InvalidPermissionsException();
 	}
 
 	// We got here because an artwork was successfully submitted
@@ -22,15 +24,25 @@ try{
 		session_unset();
 	}
 
-	// We got here because an artwork submission had errors and the user has to try again
+	// We got here because an artwork PATCH operation had errors and the user has to try again
 	if($exception){
 		http_response_code(422);
+
+		// Before we overwrite the original artwork with our new one, restore the old status,
+		// because if the new status is 'approved' then it will hide the status form entirely,
+		// which will be confusing.
+		$oldStatus = $artwork->Status;
 		$artwork = $_SESSION['artwork'] ?? $artwork;
+		$artwork->Status = $oldStatus;
+
 		session_unset();
 	}
 }
 catch(Exceptions\ArtworkNotFoundException){
 	Template::Emit404();
+}
+catch(Exceptions\InvalidPermissionsException){
+	Template::Emit403();
 }
 
 ?><?= Template::Header(['title' => $artwork->Name, 'artwork' => true]) ?>
@@ -130,17 +142,22 @@ catch(Exceptions\ArtworkNotFoundException){
 			<?= Formatter::EscapeMarkdown($artwork->Notes) ?>
 		<? } ?>
 
-		<? if($isEditingAllowed){ ?>
+		<? if($artwork->CanBeEditedBy($GLOBALS['User'] ?? null)){ ?>
 			<h2>Edit artwork</h2>
 			<p>Before approval, the editor and submitter may <a href="<?= $artwork->EditUrl ?>">edit <i><?= Formatter::ToPlainText($artwork->Name) ?></i></a>.</p>
 		<? } ?>
 
-		<? if($isAdminView){ ?>
+		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 			<h2>Editor options</h2>
-			<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers.</p>
+			<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+				<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers. Once an artwork is approved, it can no longer be edited.</p>
+			<? } ?>
+			<? if($artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+				<p>Set a file system slug to mark this artwork as “in use.”</p>
+			<? } ?>
 			<form method="post" action="<?= $artwork->Url ?>">
 				<input type="hidden" name="_method" value="PATCH" />
-				<? if(($artwork->SubmitterUserId != $GLOBALS['User']->UserId) || $GLOBALS['User']->Benefits->CanReviewOwnArtwork){ ?>
+				<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 					<label class="select">
 						<span>Artwork approval status</span>
 						<span>
@@ -148,16 +165,21 @@ catch(Exceptions\ArtworkNotFoundException){
 								<option value="<?= ArtworkStatus::Unverified->value ?>"<? if($artwork->Status == ArtworkStatus::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
 								<option value="<?= ArtworkStatus::Declined->value ?>"<? if($artwork->Status == ArtworkStatus::Declined){ ?> selected="selected"<? } ?>>Declined</option>
 								<option value="<?= ArtworkStatus::Approved->value ?>"<? if($artwork->Status == ArtworkStatus::Approved){ ?> selected="selected"<? } ?>>Approved</option>
-								<option value="<?= ArtworkStatus::InUse->value ?>"<? if($artwork->Status == ArtworkStatus::InUse){ ?> selected="selected"<? } ?>>In use</option>
 							</select>
 						</span>
 					</label>
+				<? }else{ ?>
+					<input type="hidden" name="artwork-status" value="<?= Formatter::ToPlainText($artwork->Status->value ?? '') ?>" />
 				<? } ?>
-				<label>
-					<span>In use by</span>
-					<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
-					<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>"/>
-				</label>
+				<? if($artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+					<label>
+						<span>In use by</span>
+						<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
+						<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>"/>
+					</label>
+				<? }else{ ?>
+					<input type="hidden" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>" />
+				<? } ?>
 				<div class="footer">
 					<button>Save changes</button>
 				</div>

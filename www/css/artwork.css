@@ -145,9 +145,13 @@ form.create-update-artwork fieldset p:first-of-type{
 }
 
 form.create-update-artwork legend{
-	font-size: 1.2rem;
-	font-weight: bold;
-	margin: 0.5rem 0;
+	font-size: 1.4rem;
+	font-family: "League Spartan", Arial, sans-serif;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
 }
 
 form.create-update-artwork label{
@@ -178,7 +182,8 @@ form div.footer{
 }
 
 main h1 ~ a[href^="/images/cover-uploads"],
-.artworks h1 ~ a[href^="/images/cover-uploads"]{
+.artworks h1 ~ a[href^="/images/cover-uploads"],
+main section.narrow h1 + picture{
 	width: auto;
 	line-height: 0;
 }

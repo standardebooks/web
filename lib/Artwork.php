@@ -58,9 +58,6 @@ class Artwork extends PropertiesBase{
 	protected ?string $_ImageUrl = null;
 	protected ?string $_ThumbUrl = null;
 	protected ?string $_Thumb2xUrl = null;
-	protected ?string $_ImageFsPath = null;
-	protected ?string $_ThumbFsPath = null;
-	protected ?string $_Thumb2xFsPath = null;
 	protected ?string $_Dimensions = null;
 	protected ?Ebook $_Ebook = null;
 	protected ?Museum $_Museum = null;
@@ -252,15 +249,15 @@ class Artwork extends PropertiesBase{
 	}
 
 	protected function GetImageFsPath(): string{
-		return WEB_ROOT . rtrim($this->ImageUrl, '?ts=0123456789');
+		return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->ImageUrl);
 	}
 
 	protected function GetThumbFsPath(): string{
-		return WEB_ROOT . rtrim($this->ThumbUrl, '?ts=0123456789');
+		return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->ThumbUrl);
 	}
 
 	protected function GetThumb2xFsPath(): string{
-		return WEB_ROOT . rtrim($this->Thumb2xUrl, '?ts=0123456789');
+		return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->Thumb2xUrl);
 	}
 
 	protected function GetDimensions(): string{
@@ -289,6 +286,55 @@ class Artwork extends PropertiesBase{
 	// *******
 	// METHODS
 	// *******
+	public function CanBeEditedBy(?User $user): bool{
+		if($user === null){
+			return false;
+		}
+
+		if($user->Benefits->CanReviewOwnArtwork){
+			// Admins can edit all artwork.
+			return true;
+		}
+
+		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
+			// Editors can edit an artwork, and submitters can edit their own artwork, if it's not yet approved.
+			return true;
+		}
+
+		return false;
+	}
+
+	public function CanStatusBeChangedBy(?User $user): bool{
+		if($user === null){
+			return false;
+		}
+
+		if($user->Benefits->CanReviewOwnArtwork){
+			// Admins can change the status of all artwork.
+			return true;
+		}
+
+		if($user->Benefits->CanReviewArtwork && $user->UserId != $this->SubmitterUserId && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
+			// Editors can change the status of artwork they did not submit themselves, and that is not yet approved.
+			return true;
+		}
+
+		return false;
+	}
+
+	public function CanEbookWwwFilesysemPathBeChangedBy(?User $user): bool{
+		if($user === null){
+			return false;
+		}
+
+		if($user->Benefits->CanReviewArtwork || $user->Benefits->CanReviewOwnArtwork){
+			// Admins and editors can change the file system path of all artwork.
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * @param array<mixed> $uploadedFile
 	 * @throws \Exceptions\ValidationException
@@ -341,15 +387,8 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\InvalidArtworkException('Invalid status.'));
 		}
 
-		if($this->Status == ArtworkStatus::InUse && $this->EbookWwwFilesystemPath === null){
-			$error->Add(new Exceptions\MissingEbookException());
-		}
-
 		if(count($this->Tags) == 0){
-			// In-use artwork doesn't have user-provided tags.
-			if($this->Status != ArtworkStatus::InUse){
-				$error->Add(new Exceptions\TagsRequiredException());
-			}
+			$error->Add(new Exceptions\TagsRequiredException());
 		}
 
 		if(count($this->Tags) > ARTWORK_MAX_TAGS){
@@ -686,6 +725,13 @@ class Artwork extends PropertiesBase{
 
 		if(!empty($uploadedFile) && $uploadedFile['error'] == UPLOAD_ERR_OK){
 			$this->MimeType = ImageMimeType::FromFile($uploadedFile['tmp_name'] ?? null);
+
+			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's
+			// updated timestamp won't change automatically.
+			$this->Updated = new DateTime('now', new DateTimeZone('UTC'));
+			$this->_ImageUrl = null;
+			$this->_ThumbUrl = null;
+			$this->_Thumb2xUrl = null;
 		}
 
 		$this->Validate($uploadedFile);
@@ -696,8 +742,15 @@ class Artwork extends PropertiesBase{
 		}
 		$this->Tags = $tags;
 
+		$newDeathYear = $this->Artist->DeathYear;
 		$this->Artist = Artist::GetOrCreate($this->Artist);
 
+		// Save the artist death year in case we changed it
+		if($newDeathYear != $this->Artist->DeathYear){
+			Db::Query('UPDATE Artists set DeathYear = ? where ArtistId = ?', [$newDeathYear , $this->Artist->ArtistId]);
+		}
+
+		// Save the artwork
 		Db::Query('
 			UPDATE Artworks
 			set
@@ -706,7 +759,7 @@ class Artwork extends PropertiesBase{
 			UrlName = ?,
 			CompletedYear = ?,
 			CompletedYearIsCirca = ?,
-			Created = ?,
+			Updated = ?,
 			Status = ?,
 			SubmitterUserId = ?,
 			ReviewerUserId = ?,
@@ -723,7 +776,7 @@ class Artwork extends PropertiesBase{
 			where
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);
@@ -731,16 +784,16 @@ class Artwork extends PropertiesBase{
 		Artist::DeleteUnreferencedArtists();
 
 		Db::Query('
-			DELETE FROM ArtworkTags
-			WHERE
+			DELETE from ArtworkTags
+			where
 			ArtworkId = ?
 		', [$this->ArtworkId]
 		);
 
 		foreach($this->Tags as $tag){
 			Db::Query('
-				INSERT INTO ArtworkTags (ArtworkId, TagId)
-				VALUES (?,
+				INSERT into ArtworkTags (ArtworkId, TagId)
+				values (?,
 				        ?)
 			', [$this->ArtworkId, $tag->TagId]);
 		}
@@ -839,5 +892,30 @@ class Artwork extends PropertiesBase{
 		}
 
 		return $result[0];
+	}
+
+	public static function FromHttpPost(): Artwork{
+		$artwork = new Artwork();
+		$artwork->Artist = new Artist();
+
+		$artwork->Artist->Name = HttpInput::Str(POST, 'artist-name', false);
+		$artwork->Artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
+
+		$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
+		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
+		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false) ?? false;
+		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? [];
+		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false) ?? ArtworkStatus::Unverified;
+		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false);
+		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us', false);
+		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');
+		$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url', false);
+		$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'artwork-copyright-page-url', false);
+		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url', false);
+		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url', false);
+		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception', false);
+		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false);
+
+		return $artwork;
 	}
 }

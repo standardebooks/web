@@ -68,13 +68,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<? } ?>
 
 		<form class="create-update-artwork" method="post" action="/artworks" enctype="multipart/form-data">
-			<?= Template::ArtworkCreateEditFields(
-				[
-					'artwork' => $artwork,
-					'imageRequired' => true,
-					'isAdminView' => $isAdminView
-				]
-			) ?>
+			<?= Template::ArtworkForm(['artwork' => $artwork, 'isAdminView' => $isAdminView]) ?>
 		</form>
 	</section>
 </main>

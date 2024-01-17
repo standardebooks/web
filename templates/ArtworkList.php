@@ -3,7 +3,7 @@ $artworks = $artworks ?? [];
 ?>
 <ol class="artwork-list">
 <? foreach($artworks as $artwork){ ?>
-	<li <? if($artwork->Status == ArtworkStatus::InUse){ ?> class="in-use"<? } ?>>
+	<li <? if($artwork->EbookWwwFilesystemPath !== null){ ?> class="in-use"<? } ?>>
 		<a href="<?= $artwork->Url ?>">
 			<picture>
 				<source srcset="<?= $artwork->Thumb2xUrl ?> 2x, <?= $artwork->ThumbUrl ?> 1x" type="image/jpg"/>

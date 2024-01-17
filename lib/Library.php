@@ -162,12 +162,13 @@ class Library{
 	* @return array<Artwork>
 	*/
 	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null, int $submitterUserId = null): array{
-		// Possible special statuses:
+		// $status is either the string value of an ArtworkStatus enum, or one of these special statuses:
 		// null: same as "all"
 		// "all": Show all approved and in use artwork
 		// "all-admin": Show all artwork regardless of status
 		// "all-submitter": Show all approved and in use artwork, plus unverified artwork from the submitter
 		// "unverified-submitter": Show unverified artwork from the submitter
+		// "in-use": Show only in-use artwork
 
 		$artworks = [];
 
@@ -175,25 +176,38 @@ class Library{
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks
-				where Status in (?, ?)', [ArtworkStatus::Approved->value, ArtworkStatus::InUse->value], 'Artwork');
+				where Status in (?)', [ArtworkStatus::Approved->value], 'Artwork');
 		}
 		elseif($status == 'all-admin'){
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks', [], 'Artwork');
 		}
+		elseif($status == 'in-use'){
+			$artworks = Db::Query('
+				SELECT *
+				from Artworks
+				where Status = ? and EbookWwwFilesystemPath is not null
+				', [ArtworkStatus::Approved->value], 'Artwork');
+		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks
-				where Status in (?, ?)
-				or (Status = ? and SubmitterUserId = ?)', [ArtworkStatus::Approved->value, ArtworkStatus::InUse->value, ArtworkStatus::Unverified->value, $submitterUserId], 'Artwork');
+				where Status = ?
+				or (Status = ? and SubmitterUserId = ?)', [ArtworkStatus::Approved->value, ArtworkStatus::Unverified->value, $submitterUserId], 'Artwork');
 		}
 		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks
 				where Status = ? and SubmitterUserId = ?', [ArtworkStatus::Unverified->value, $submitterUserId], 'Artwork');
+		}
+		elseif($status == ArtworkStatus::Approved->value){
+			$artworks = Db::Query('
+				SELECT *
+				from Artworks
+				where Status = ? and EbookWwwFilesystemPath is null', [ArtworkStatus::Approved->value], 'Artwork');
 		}
 		else{
 			$artworks = Db::Query('

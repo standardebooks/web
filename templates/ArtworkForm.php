@@ -2,7 +2,13 @@
 use Safe\DateTime;
 
 $artwork = $artwork ?? null;
-$imageRequired = $imageRequired ?? true;
+
+if($artwork === null){
+	$artwork = new Artwork();
+	$artwork->Artist = new Artist();
+}
+
+$isEditForm = $isEditForm ?? false;
 $isAdminView = $isAdminView ?? false;
 
 $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
@@ -16,7 +22,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 			<? foreach(Library::GetAllArtists() as $artist){ ?>
 				<option value="<?= Formatter::ToPlainText($artist->Name) ?>"><?= Formatter::ToPlainText($artist->Name) ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
 				<? foreach($artist->AlternateSpellings as $alternateSpelling){ ?>
-					<option value="<?= Formatter::ToPlainText($alternateSpelling) ?>"><?= Formatter::ToPlainText($alternateSpelling) ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
+					<option value="<?= Formatter::ToPlainText($alternateSpelling) ?>"><?= Formatter::ToPlainText($alternateSpelling) ?>, d. <? if($artist->DeathYear !== null){ ?><?= Formatter::ToPlainText($artist->DeathYear) ?><? }else{ ?>unknown<? } ?></option>
 				<? } ?>
 			<? } ?>
 		</datalist>
@@ -38,7 +44,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 			name="artist-year-of-death"
 			inputmode="numeric"
 			pattern="[0-9]+"
-			value="<?= $artwork->Artist->DeathYear ?>"
+			value="<?= Formatter::ToPlainText($artwork->Artist->DeathYear) ?>"
 		/>
 	</label>
 </fieldset>
@@ -57,7 +63,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 				name="artwork-year"
 				inputmode="numeric"
 				pattern="[0-9]+"
-				value="<?= $artwork->CompletedYear ?>"
+				value="<?= Formatter::ToPlainText($artwork->CompletedYear) ?>"
 			/>
 		</label>
 		<label>
@@ -81,11 +87,11 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 	</label>
 	<label>
 		<span>High-resolution image</span>
-		<span>jpg, bmp, png, and tiff are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?> × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?> minimum; 32MB max.</span>
+		<span>jpg, bmp, png, and tiff are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?> × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?> minimum; 32MB max.<? if($isEditForm){ ?> Leave this blank to not change the image.<? } ?></span>
 		<input
 			type="file"
 			name="artwork-image"
-			<? if($imageRequired){ ?>required="required"<? } ?>
+			<? if(!$isEditForm){ ?>required="required"<? } ?>
 			accept="<?= implode(',', ImageMimeType::Values()) ?>"
 		/>
 	</label>
@@ -123,7 +129,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 				name="artwork-publication-year"
 				inputmode="numeric"
 				pattern="[0-9]+"
-				value="<?= $artwork->PublicationYear ?>"
+				value="<?= Formatter::ToPlainText($artwork->PublicationYear) ?>"
 			/>
 		</label>
 		<label>
@@ -174,10 +180,10 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 		<textarea maxlength="1024" name="artwork-notes"><?= Formatter::ToPlainText($artwork->Notes) ?></textarea>
 	</label>
 </fieldset>
-<? if($isAdminView){ ?>
+<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 <fieldset>
 	<legend>Editor options</legend>
-	<? if($GLOBALS['User']->Benefits->CanReviewOwnArtwork){ ?>
+	<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 		<label class="select">
 			<span>Artwork approval status</span>
 			<span>
@@ -185,16 +191,17 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 					<option value="<?= ArtworkStatus::Unverified->value ?>"<? if($artwork->Status == ArtworkStatus::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
 					<option value="<?= ArtworkStatus::Declined->value ?>"<? if($artwork->Status == ArtworkStatus::Declined){ ?> selected="selected"<? } ?>>Declined</option>
 					<option value="<?= ArtworkStatus::Approved->value ?>"<? if($artwork->Status == ArtworkStatus::Approved){ ?> selected="selected"<? } ?>>Approved</option>
-					<option value="<?= ArtworkStatus::InUse->value ?>"<? if($artwork->Status == ArtworkStatus::InUse){ ?> selected="selected"<? } ?>>In use</option>
 				</select>
 			</span>
 		</label>
 	<? } ?>
-	<label>
-		<span>In use by</span>
-		<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
-		<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>"/>
-	</label>
+	<? if($artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+		<label>
+			<span>In use by</span>
+			<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
+			<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>"/>
+		</label>
+	<? } ?>
 </fieldset>
 <? } ?>
 <div class="footer">

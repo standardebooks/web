@@ -4,7 +4,7 @@ use function Safe\session_unset;
 session_start();
 
 $exception = $_SESSION['exception'] ?? null;
-/** @var Artwork $artwork */
+/** @var ?Artwork $artwork */
 $artwork = $_SESSION['artwork'] ?? null;
 
 try{
@@ -13,11 +13,10 @@ try{
 	}
 
 	if($artwork === null){
-		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name') ?? '', HttpInput::Str(GET, 'artwork-url-name') ?? '');
+		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name', false) ?? '', HttpInput::Str(GET, 'artwork-url-name', false) ?? '');
 	}
 
-	$isEditingAllowed = ($artwork->Status == ArtworkStatus::Unverified) && ($GLOBALS['User']->Benefits->CanReviewArtwork || ($artwork->SubmitterUserId == $GLOBALS['User']->UserId));
-	if(!$isEditingAllowed){
+	if(!$artwork->CanBeEditedBy($GLOBALS['User'])){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
@@ -36,13 +35,13 @@ catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403(); // No permissions to submit artwork
+	Template::Emit403(); // No permissions to edit artwork
 }
 
 ?>
 <?= Template::Header(
 	[
-		'title' => 'Edit Artwork',
+		'title' => 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name,
 		'artwork' => true,
 		'highlight' => '',
 		'description' => 'Edit public domain artwork to the database for use as cover art.'
@@ -54,23 +53,14 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<a href="<?= $artwork->ImageUrl ?>">
-			<picture>
-				<source srcset="<?= $artwork->Thumb2xUrl ?> 2x, <?= $artwork->ThumbUrl ?> 1x" type="image/jpg"/>
-				<img src="<?= $artwork->ThumbUrl ?>" alt="" property="schema:image"/>
-			</picture>
-		</a>
+		<picture>
+			<source srcset="<?= $artwork->Thumb2xUrl ?> 2x, <?= $artwork->ThumbUrl ?> 1x" type="image/jpg"/>
+			<img src="<?= $artwork->ThumbUrl ?>" alt="" property="schema:image"/>
+		</picture>
 
 		<form class="create-update-artwork" method="post" action="<?= $artwork->Url ?>" enctype="multipart/form-data">
 			<input type="hidden" name="_method" value="PUT" />
-
-			<?= Template::ArtworkCreateEditFields(
-				[
-					'artwork' => $artwork,
-					'imageRequired' => false,
-					'isAdminView' => $isAdminView
-				]
-			) ?>
+			<?= Template::ArtworkForm(['artwork' => $artwork, 'isEditForm' => true,'isAdminView' => $isAdminView]) ?>
 		</form>
 	</section>
 </main>
