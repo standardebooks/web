@@ -731,6 +731,8 @@ class Artwork extends PropertiesBase{
 				$this->ArtworkId]
 		);
 
+		Artist::DeleteUnreferencedArtists();
+
 		Db::Query('
 			DELETE FROM ArtworkTags
 			WHERE
