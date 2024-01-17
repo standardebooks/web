@@ -141,5 +141,25 @@ class Artist extends PropertiesBase{
 			from Artists
 			where ArtistId = ?
 		', [$this->ArtistId]);
+		Db::Query('
+			DELETE
+			from ArtistAlternateSpellings
+			where ArtistId = ?
+		', [$this->ArtistId]);
+	}
+
+	public static function DeleteUnreferencedArtists(): void{
+		Db::Query('
+			DELETE
+			from Artists
+			where ArtistId NOT IN
+				(SELECT DISTINCT ArtistId FROM Artworks)
+		');
+		Db::Query('
+			DELETE
+			from ArtistAlternateSpellings
+			where ArtistId NOT IN
+				(SELECT DISTINCT ArtistId FROM Artworks)
+		');
 	}
 }
