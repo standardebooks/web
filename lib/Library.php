@@ -175,7 +175,7 @@ class Library{
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks
-				where Status in ("approved", "in_use")', [], 'Artwork');
+				where Status in (?, ?)', [ArtworkStatus::Approved->value, ArtworkStatus::InUse->value], 'Artwork');
 		}
 		elseif($status == 'all-admin'){
 			$artworks = Db::Query('
@@ -186,14 +186,14 @@ class Library{
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks
-				where Status in ("approved", "in_use")
-				or (Status = "unverified" and SubmitterUserId = ?)', [$submitterUserId], 'Artwork');
+				where Status in (?, ?)
+				or (Status = ? and SubmitterUserId = ?)', [ArtworkStatus::Approved->value, ArtworkStatus::InUse->value, ArtworkStatus::Unverified->value, $submitterUserId], 'Artwork');
 		}
 		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks
-				where Status = "unverified" and SubmitterUserId = ?', [$submitterUserId], 'Artwork');
+				where Status = ? and SubmitterUserId = ?', [ArtworkStatus::Unverified->value, $submitterUserId], 'Artwork');
 		}
 		else{
 			$artworks = Db::Query('
