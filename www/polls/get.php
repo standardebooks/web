@@ -31,7 +31,7 @@ catch(Exceptions\AppException){
 ?><?= Template::Header(['title' => $poll->Name, 'highlight' => '', 'description' => $poll->Description]) ?>
 <main>
 	<section class="narrow">
-		<h1><?= Formatter::ToPlainText($poll->Name) ?></h1>
+		<h1><?= Formatter::EscapeHtml($poll->Name) ?></h1>
 		<p><?= $poll->Description ?></p>
 		<? if($poll->IsActive()){ ?>
 			<? if($poll->End !== null){ ?>

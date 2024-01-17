@@ -54,7 +54,7 @@ catch(Exceptions\InvalidCollectionException){
 ?><?= Template::Header(['title' => $title, 'feedTitle' => $feedTitle, 'feedUrl' => $feedUrl, 'description' => $description]) ?>
 <main>
 	<article>
-		<h1>Ebook Feeds for <?= Formatter::ToPlainText($label) ?></h1>
+		<h1>Ebook Feeds for <?= Formatter::EscapeHtml($label) ?></h1>
 		<?= Template::FeedHowTo() ?>
 		<? foreach($feedTypes as $type){ ?>
 		<section id="ebooks-by-<?= $type ?>">
@@ -70,7 +70,7 @@ catch(Exceptions\InvalidCollectionException){
 			<? } ?>
 			<ul class="feed">
 				<li>
-					<p><a href="/feeds/<?= $type ?>/<?= $name ?>/<?= $target?>"><?= Formatter::ToPlainText($label) ?></a></p>
+					<p><a href="/feeds/<?= $type ?>/<?= $name ?>/<?= $target?>"><?= Formatter::EscapeHtml($label) ?></a></p>
 					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/<?= $type ?>/<?= $name ?>/<?= $target?></p>
 				</li>
 			</ul>

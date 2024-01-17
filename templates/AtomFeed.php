@@ -7,10 +7,10 @@ $subtitle = $subtitle ?? null;
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
-	<id><?= SITE_URL . Formatter::ToPlainXmlText($id) ?></id>
-	<link href="<?= SITE_URL . Formatter::ToPlainXmlText($url) ?>" rel="self" type="application/atom+xml"/>
-	<title><?= Formatter::ToPlainXmlText($title) ?></title>
-	<? if($subtitle !== null){ ?><subtitle><?= Formatter::ToPlainXmlText($subtitle) ?></subtitle><? } ?>
+	<id><?= SITE_URL . Formatter::EscapeXml($id) ?></id>
+	<link href="<?= SITE_URL . Formatter::EscapeXml($url) ?>" rel="self" type="application/atom+xml"/>
+	<title><?= Formatter::EscapeXml($title) ?></title>
+	<? if($subtitle !== null){ ?><subtitle><?= Formatter::EscapeXml($subtitle) ?></subtitle><? } ?>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>
 	<updated><?= $updated->format('Y-m-d\TH:i:s\Z') ?></updated>
 	<author>

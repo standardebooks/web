@@ -40,8 +40,8 @@ catch(Safe\Exceptions\ApcuException){
 			<ul class="feed">
 				<? foreach($feeds as $feed){ ?>
 				<li>
-					<p><a href="<?= Formatter::ToPlainText($feed->Url) ?>"><?= Formatter::ToPlainText($feed->Label) ?></a></p>
-					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?><?= Formatter::ToPlainText($feed->Url) ?></p>
+					<p><a href="<?= Formatter::EscapeHtml($feed->Url) ?>"><?= Formatter::EscapeHtml($feed->Label) ?></a></p>
+					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?><?= Formatter::EscapeHtml($feed->Url) ?></p>
 				</li>
 				<? } ?>
 			</ul>

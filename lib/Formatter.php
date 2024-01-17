@@ -32,11 +32,11 @@ class Formatter{
 		return $text;
 	}
 
-	public static function ToPlainText(?string $text): string{
+	public static function EscapeHtml(?string $text): string{
 		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES, 'utf-8');
 	}
 
-	public static function ToPlainXmlText(?string $text): string{
+	public static function EscapeXml(?string $text): string{
 		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES|ENT_XML1, 'utf-8');
 	}
 

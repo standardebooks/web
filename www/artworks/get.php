@@ -48,7 +48,7 @@ catch(Exceptions\InvalidPermissionsException){
 ?><?= Template::Header(['title' => $artwork->Name, 'artwork' => true]) ?>
 <main class="artworks">
 	<section class="narrow">
-		<h1><?= Formatter::ToPlainText($artwork->Name) ?></h1>
+		<h1><?= Formatter::EscapeHtml($artwork->Name) ?></h1>
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
@@ -69,12 +69,12 @@ catch(Exceptions\InvalidPermissionsException){
 		<table class="artwork-metadata">
 			<tr>
 				<td>Title</td>
-				<td><i><?= Formatter::ToPlainText($artwork->Name) ?></i></td>
+				<td><i><?= Formatter::EscapeHtml($artwork->Name) ?></i></td>
 			</tr>
 			<tr>
 				<td>Artist</td>
 				<td>
-					<?= Formatter::ToPlainText($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::ToPlainText', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?>
+					<?= Formatter::EscapeHtml($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateSpellings) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateSpellings)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?>
 				</td>
 			</tr>
 			<tr>
@@ -83,7 +83,7 @@ catch(Exceptions\InvalidPermissionsException){
 			</tr>
 			<tr>
 				<td>Tags</td>
-				<td><ul class="tags"><? foreach($artwork->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul></td>
+				<td><ul class="tags"><? foreach($artwork->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a></li><? } ?></ul></td>
 			</tr>
 			<tr>
 				<td>Dimensions</td>
@@ -96,12 +96,12 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if($isAdminView){ ?>
 				<tr>
 					<td>Submitted by</td>
-					<td><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::ToPlainText($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::ToPlainText($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::ToPlainText($artwork->Submitter->Email) ?><? } ?></a><? } ?></td>
+					<td><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::EscapeHtml($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Submitter->Email) ?><? } ?></a><? } ?></td>
 				</tr>
 				<? if($artwork->Reviewer !== null){ ?>
 					<tr>
 						<td>Reviewed by</td>
-						<td><a href="mailto:<?= Formatter::ToPlainText($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::ToPlainText($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::ToPlainText($artwork->Reviewer->Email) ?><? } ?></a></td>
+						<td><a href="mailto:<?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?><? } ?></a></td>
 					</tr>
 				<? } ?>
 			<? } ?>
@@ -110,10 +110,10 @@ catch(Exceptions\InvalidPermissionsException){
 		<h2>U.S. public domain proof</h2>
 		<? if($artwork->MuseumUrl !== null){ ?>
 			<h3>Museum page</h3>
-			<p><a href="<?= Formatter::ToPlainText($artwork->MuseumUrl) ?>"><?= Formatter::ToPlainText($artwork->MuseumUrl) ?></a></p>
+			<p><a href="<?= Formatter::EscapeHtml($artwork->MuseumUrl) ?>"><?= Formatter::EscapeHtml($artwork->MuseumUrl) ?></a></p>
 			<? if($artwork->Museum !== null){ ?>
 				<figure class="corrected full">
-					<p>Approved museum: <?= Formatter::ToPlainText($artwork->Museum->Name) ?> <code>(<?= Formatter::ToPlainText($artwork->Museum->Domain) ?>)</code></p>
+					<p>Approved museum: <?= Formatter::EscapeHtml($artwork->Museum->Name) ?> <code>(<?= Formatter::EscapeHtml($artwork->Museum->Domain) ?>)</code></p>
 				</figure>
 			<? }else{ ?>
 				<figure class="wrong full">
@@ -126,9 +126,9 @@ catch(Exceptions\InvalidPermissionsException){
 			<h3>Page scans</h3>
 			<ul>
 				<li>Year book was published: <? if($artwork->PublicationYear !== null){ ?><?= $artwork->PublicationYear ?><? }else{ ?><i>Not provided</i><? } ?></li>
-				<li>Page scan of book publication year: <? if($artwork->PublicationYearPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->PublicationYearPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
-				<li>Page scan of rights statement: <? if($artwork->CopyrightPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->CopyrightPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
-				<li>Page scan of artwork: <? if($artwork->ArtworkPageUrl !== null){ ?><a href="<?= Formatter::ToPlainText($artwork->ArtworkPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
+				<li>Page scan of book publication year: <? if($artwork->PublicationYearPageUrl !== null){ ?><a href="<?= Formatter::EscapeHtml($artwork->PublicationYearPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
+				<li>Page scan of rights statement: <? if($artwork->CopyrightPageUrl !== null){ ?><a href="<?= Formatter::EscapeHtml($artwork->CopyrightPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
+				<li>Page scan of artwork: <? if($artwork->ArtworkPageUrl !== null){ ?><a href="<?= Formatter::EscapeHtml($artwork->ArtworkPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
 			</ul>
 		<? } ?>
 
@@ -144,7 +144,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<? if($artwork->CanBeEditedBy($GLOBALS['User'] ?? null)){ ?>
 			<h2>Edit artwork</h2>
-			<p>Before approval, the editor and submitter may <a href="<?= $artwork->EditUrl ?>">edit <i><?= Formatter::ToPlainText($artwork->Name) ?></i></a>.</p>
+			<p>Before approval, the editor and submitter may <a href="<?= $artwork->EditUrl ?>">edit <i><?= Formatter::EscapeHtml($artwork->Name) ?></i></a>.</p>
 		<? } ?>
 
 		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
@@ -169,16 +169,16 @@ catch(Exceptions\InvalidPermissionsException){
 						</span>
 					</label>
 				<? }else{ ?>
-					<input type="hidden" name="artwork-status" value="<?= Formatter::ToPlainText($artwork->Status->value ?? '') ?>" />
+					<input type="hidden" name="artwork-status" value="<?= Formatter::EscapeHtml($artwork->Status->value ?? '') ?>" />
 				<? } ?>
 				<? if($artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 					<label>
 						<span>In use by</span>
 						<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
-						<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>"/>
+						<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::EscapeHtml($artwork->EbookWwwFilesystemPath) ?>"/>
 					</label>
 				<? }else{ ?>
-					<input type="hidden" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>" />
+					<input type="hidden" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::EscapeHtml($artwork->EbookWwwFilesystemPath) ?>" />
 				<? } ?>
 				<div class="footer">
 					<button>Save changes</button>

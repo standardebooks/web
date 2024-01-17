@@ -40,17 +40,17 @@ if($exception){
 			<p><strong>Important:</strong> When making your donation, you must have selected either “List my name publicly” or “Don’t list publicly, but reveal to project” on the donation form; otherwise, your email address isn’t shared with us, and we can’t include you in our login system.</p>
 		<? } ?>
 		<form method="post" action="/sessions" class="single-row">
-			<input type="hidden" name="redirect" value="<?= Formatter::ToPlainText($redirect) ?>" />
+			<input type="hidden" name="redirect" value="<?= Formatter::EscapeHtml($redirect) ?>" />
 			<? if($passwordRequired){ ?>
-				<input type="hidden" name="email" value="<?= Formatter::ToPlainText($email) ?>" maxlength="80" required="required" />
+				<input type="hidden" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
 				<label class="password">
 					<span>Your password</span>
-					<span>Logging in as <?= Formatter::ToPlainText($email) ?>.</span>
+					<span>Logging in as <?= Formatter::EscapeHtml($email) ?>.</span>
 					<input type="password" name="password" value="" required="required" />
 				</label>
 			<? }else{ ?>
 				<label class="email">Your email address
-					<input type="email" name="email" value="<?= Formatter::ToPlainText($email) ?>" maxlength="80" required="required" />
+					<input type="email" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
 				</label>
 			<? } ?>
 			<button>Log in</button>

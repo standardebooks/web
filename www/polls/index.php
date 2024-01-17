@@ -37,7 +37,7 @@ $openPolls = Db::Query('
 				<ul>
 				<? foreach($openPolls as $poll){ ?>
 					<li>
-						<p><a href="<?= $poll->Url ?>"><?= Formatter::ToPlainText($poll->Name) ?></a></p>
+						<p><a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a></p>
 					</li>
 				<? } ?>
 				</ul>
@@ -49,7 +49,7 @@ $openPolls = Db::Query('
 				<ul>
 				<? foreach($pastPolls as $poll){ ?>
 					<li>
-						<p><a href="<?= $poll->Url ?>"><?= Formatter::ToPlainText($poll->Name) ?></a></p>
+						<p><a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a></p>
 					</li>
 				<? } ?>
 				</ul>

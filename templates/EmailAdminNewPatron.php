@@ -17,7 +17,7 @@
 		<tbody>
 			<tr>
 				<td>Name:</td>
-				<td><? if($patron->User->Name === null){ ?>Anonymous <? }else{ ?><?= Formatter::ToPlainText($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?></td>
+				<td><? if($patron->User->Name === null){ ?>Anonymous <? }else{ ?><?= Formatter::EscapeHtml($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?></td>
 			</tr>
 			<tr>
 				<td>Donation type:</td>
@@ -25,15 +25,15 @@
 			</tr>
 			<tr>
 				<td>Donation amount:</td>
-				<td><?= Formatter::ToPlainText(number_format($payment->Amount, 2)) ?></td>
+				<td><?= Formatter::EscapeHtml(number_format($payment->Amount, 2)) ?></td>
 			</tr>
 			<tr>
 				<td>Donation fee:</td>
-				<td><?= Formatter::ToPlainText(number_format($payment->Fee, 2)) ?></td>
+				<td><?= Formatter::EscapeHtml(number_format($payment->Fee, 2)) ?></td>
 			</tr>
 			<tr>
 				<td>Transaction ID:</td>
-				<td><a href="https://fundraising.fracturedatlas.org/admin/donations?query=<?= urlencode($payment->TransactionId) ?>"><?= Formatter::ToPlainText($payment->TransactionId) ?></a></td>
+				<td><a href="https://fundraising.fracturedatlas.org/admin/donations?query=<?= urlencode($payment->TransactionId) ?>"><?= Formatter::EscapeHtml($payment->TransactionId) ?></a></td>
 			</tr>
 		</tbody>
 	</table>

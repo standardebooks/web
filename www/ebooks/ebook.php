@@ -110,24 +110,24 @@ catch(Exceptions\InvalidEbookException){
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>
 <main>
 	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
-		<meta property="schema:description" content="<?= Formatter::ToPlainText($ebook->Description) ?>"/>
-		<meta property="schema:url" content="<?= SITE_URL . Formatter::ToPlainText($ebook->Url) ?>"/>
+		<meta property="schema:description" content="<?= Formatter::EscapeHtml($ebook->Description) ?>"/>
+		<meta property="schema:url" content="<?= SITE_URL . Formatter::EscapeHtml($ebook->Url) ?>"/>
 		<? if($ebook->WikipediaUrl){ ?>
-		<meta property="schema:sameAs" content="<?= Formatter::ToPlainText($ebook->WikipediaUrl) ?>"/>
+		<meta property="schema:sameAs" content="<?= Formatter::EscapeHtml($ebook->WikipediaUrl) ?>"/>
 		<? } ?>
 		<header>
 			<hgroup>
-				<h1 property="schema:name"><?= Formatter::ToPlainText($ebook->Title) ?></h1>
+				<h1 property="schema:name"><?= Formatter::EscapeHtml($ebook->Title) ?></h1>
 				<? foreach($ebook->Authors as $author){ ?>
 					<? /* We include the `resource` attr here because we can have multiple authors, and in that case their href URLs will link to their combined corpus.
 						For example, William Wordsworth & Samuel Coleridge will both link to /ebooks/william-wordsworth_samuel-taylor-coleridge
 						But, each author is an individual, so we have to differentiate them in RDFa with `resource` */ ?>
 					<? if($author->Name != 'Anonymous'){ ?>
-					<h2><a property="schema:author" typeof="schema:Person" href="<?= Formatter::ToPlainText($ebook->AuthorsUrl) ?>" resource="<?= '/ebooks/' . $author->UrlName ?>">
-						<span property="schema:name"><?= Formatter::ToPlainText($author->Name) ?></span>
-						<meta property="schema:url" content="<?= SITE_URL . Formatter::ToPlainText($ebook->AuthorsUrl) ?>"/>
-						<? if($author->NacoafUrl){ ?><meta property="schema:sameAs" content="<?= Formatter::ToPlainText($author->NacoafUrl) ?>"/><? } ?>
-						<? if($author->WikipediaUrl){ ?><meta property="schema:sameAs" content="<?= Formatter::ToPlainText($author->WikipediaUrl) ?>"/><? } ?>
+					<h2><a property="schema:author" typeof="schema:Person" href="<?= Formatter::EscapeHtml($ebook->AuthorsUrl) ?>" resource="<?= '/ebooks/' . $author->UrlName ?>">
+						<span property="schema:name"><?= Formatter::EscapeHtml($author->Name) ?></span>
+						<meta property="schema:url" content="<?= SITE_URL . Formatter::EscapeHtml($ebook->AuthorsUrl) ?>"/>
+						<? if($author->NacoafUrl){ ?><meta property="schema:sameAs" content="<?= Formatter::EscapeHtml($author->NacoafUrl) ?>"/><? } ?>
+						<? if($author->WikipediaUrl){ ?><meta property="schema:sameAs" content="<?= Formatter::EscapeHtml($author->WikipediaUrl) ?>"/><? } ?>
 						</a>
 					</h2>
 					<? } ?>
@@ -148,7 +148,7 @@ catch(Exceptions\InvalidEbookException){
 			<? } ?>
 			<? if(sizeof($ebook->Collections) > 0){ ?>
 				<? foreach($ebook->Collections as $collection){ ?>
-					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::ToPlainText(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
+					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::EscapeHtml(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
 					<? if($collection->Type !== null){ ?>
 						<? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type), -strlen(mb_strtolower($collection->Type))) !== 0){ ?>
 							<?= $collection->Type ?>.
@@ -159,7 +159,7 @@ catch(Exceptions\InvalidEbookException){
 					</p>
 				<? } ?>
 			<? } ?>
-			<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::ToPlainText($tag->Name) ?></a></li><? } ?></ul>
+			<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a></li><? } ?></ul>
 		</aside>
 
 		<section id="description">
@@ -177,24 +177,24 @@ catch(Exceptions\InvalidEbookException){
 		</section>
 
 		<? if($ebook->HasDownloads){ ?>
-		<section id="read-free" property="schema:workExample" typeof="schema:Book" resource="<?= Formatter::ToPlainText($ebook->Url) ?>/downloads">
+		<section id="read-free" property="schema:workExample" typeof="schema:Book" resource="<?= Formatter::EscapeHtml($ebook->Url) ?>/downloads">
 			<meta property="schema:bookFormat" content="http://schema.org/EBook"/>
-			<meta property="schema:url" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url) ?>"/>
+			<meta property="schema:url" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->Url) ?>"/>
 			<meta property="schema:license" content="https://creativecommons.org/publicdomain/zero/1.0/"/>
 			<div property="schema:publisher" typeof="schema:Organization">
 				<meta property="schema:name" content="Standard Ebooks"/>
 				<meta property="schema:logo" content="https://standardebooks.org/images/logo-full.svg"/>
 				<meta property="schema:url" content="https://standardebooks.org"/>
 			</div>
-			<meta property="schema:image" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->DistCoverUrl) ?>"/>
-			<meta property="schema:thumbnailUrl" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
-			<meta property="schema:inLanguage" content="<?= Formatter::ToPlainText($ebook->Language) ?>"/>
-			<meta property="schema:datePublished" content="<?= Formatter::ToPlainText($ebook->Created->format('Y-m-d')) ?>"/>
-			<meta property="schema:dateModified" content="<?= Formatter::ToPlainText($ebook->Updated->format('Y-m-d')) ?>"/>
+			<meta property="schema:image" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->DistCoverUrl) ?>"/>
+			<meta property="schema:thumbnailUrl" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
+			<meta property="schema:inLanguage" content="<?= Formatter::EscapeHtml($ebook->Language) ?>"/>
+			<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->Created->format('Y-m-d')) ?>"/>
+			<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->Updated->format('Y-m-d')) ?>"/>
 			<div property="schema:potentialAction" typeof="http://schema.org/ReadAction">
 				<meta property="schema:actionStatus" content="http://schema.org/PotentialActionStatus"/>
 				<div property="schema:target" typeof="schema:EntryPoint">
-					<meta property="schema:urlTemplate" content="<?= Formatter::ToPlainText(SITE_URL . $ebook->Url) ?>"/>
+					<meta property="schema:urlTemplate" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->Url) ?>"/>
 					<meta property="schema:actionPlatform" content="http://schema.org/DesktopWebPlatform"/>
 					<meta property="schema:actionPlatform" content="http://schema.org/AndroidPlatform"/>
 					<meta property="schema:actionPlatform" content="http://schema.org/IOSPlatform"/>
@@ -298,13 +298,13 @@ catch(Exceptions\InvalidEbookException){
 				<? foreach($ebook->GitCommits as $commit){ ?>
 				<li>
 					<time datetime="<?= $commit->Created->format(DateTime::RFC3339) ?>"><?= $commit->Created->format('M j, Y') ?></time>
-					<p><a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>/commit/<?= Formatter::ToPlainText($commit->Hash) ?>"><?= Formatter::ToPlainText($commit->Message) ?></a></p>
+					<p><a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>/commit/<?= Formatter::EscapeHtml($commit->Hash) ?>"><?= Formatter::EscapeHtml($commit->Message) ?></a></p>
 				</li>
 				<? } ?>
 			</ol>
 			<? if($ebook->GitHubUrl !== null){ ?>
 			<aside>
-				<p>Read the <a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>/commits/master">full change history</a>.</p>
+				<p>Read the <a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>/commits/master">full change history</a>.</p>
 			</aside>
 			<? } ?>
 		</section>
@@ -315,12 +315,12 @@ catch(Exceptions\InvalidEbookException){
 			<ul>
 				<? if($ebook->GitHubUrl !== null){ ?>
 				<li>
-					<p><a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>" class="github">This ebook’s source code at GitHub</a></p>
+					<p><a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>" class="github">This ebook’s source code at GitHub</a></p>
 					</li>
 				<? } ?>
 				<? if($ebook->WikipediaUrl !== null){ ?>
 				<li>
-					<p><a href="<?= Formatter::ToPlainText($ebook->WikipediaUrl) ?>" class="wikipedia">This book at Wikipedia</a></p>
+					<p><a href="<?= Formatter::EscapeHtml($ebook->WikipediaUrl) ?>" class="wikipedia">This book at Wikipedia</a></p>
 				</li>
 				<? } ?>
 			</ul>
@@ -337,13 +337,13 @@ catch(Exceptions\InvalidEbookException){
 					<? foreach($transcriptionSources as $source){ ?>
 					<li>
 						<p>
-							<? if($source->Type == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a>
-							<? }elseif($source->Type == SOURCE_PROJECT_GUTENBERG_AUSTRALIA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a>
-							<? }elseif($source->Type == SOURCE_PROJECT_GUTENBERG_CANADA){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a>
-							<? }elseif($source->Type == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="wikisource">Transcription at Wikisource</a>
-							<? }elseif($source->Type == SOURCE_FADED_PAGE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Transcription at Faded Page</a>
+							<? if($source->Type == SOURCE_PROJECT_GUTENBERG){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a>
+							<? }elseif($source->Type == SOURCE_PROJECT_GUTENBERG_AUSTRALIA){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a>
+							<? }elseif($source->Type == SOURCE_PROJECT_GUTENBERG_CANADA){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a>
+							<? }elseif($source->Type == SOURCE_WIKISOURCE){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="wikisource">Transcription at Wikisource</a>
+							<? }elseif($source->Type == SOURCE_FADED_PAGE){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe">Transcription at Faded Page</a>
 							<? }else{?>
-								<a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Transcription</a>
+								<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe">Transcription</a>
 							<? } ?>
 						</p>
 					</li>
@@ -358,10 +358,10 @@ catch(Exceptions\InvalidEbookException){
 					<? foreach($scanSources as $source){ ?>
 					<li>
 						<p>
-							<? if($source->Type == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="internet-archive">Page scans at the Internet Archive</a>
-							<? }elseif($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a>
-							<? }elseif($source->Type == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="google">Page scans at Google Books</a>
-							<? }else{ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe">Page scans</a><? } ?>
+							<? if($source->Type == SOURCE_INTERNET_ARCHIVE){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="internet-archive">Page scans at the Internet Archive</a>
+							<? }elseif($source->Type == SOURCE_HATHI_TRUST){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="hathitrust">Page scans at HathiTrust</a>
+							<? }elseif($source->Type == SOURCE_GOOGLE_BOOKS){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="google">Page scans at Google Books</a>
+							<? }else{ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe">Page scans</a><? } ?>
 						</p>
 					</li>
 					<? } ?>
@@ -375,7 +375,7 @@ catch(Exceptions\InvalidEbookException){
 					<? foreach($otherSources as $source){ ?>
 					<li>
 						<p>
-							<? if($source->Type == SOURCE_OTHER){ ?><a href="<?= Formatter::ToPlainText($source->Url) ?>" class="globe"><?= Formatter::ToPlainText(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', (string)$source->Url)) /* force type to (string) to satisfy PHPStan */ ?></a><? } ?>
+							<? if($source->Type == SOURCE_OTHER){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe"><?= Formatter::EscapeHtml(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', (string)$source->Url)) /* force type to (string) to satisfy PHPStan */ ?></a><? } ?>
 						</p>
 					</li>
 					<? } ?>
@@ -389,7 +389,7 @@ catch(Exceptions\InvalidEbookException){
 			<h2>Improve this ebook</h2>
 			<p>Anyone can contribute to make a Standard Ebook better for everyone!</p>
 			<p>To report typos, typography errors, or other corrections, see <a href="/contribute/report-errors">how to report errors</a>.</p>
-			<? if($ebook->GitHubUrl !== null){ ?><p>If you’re comfortable with technology and want to contribute directly, check out <a href="<?= Formatter::ToPlainText($ebook->GitHubUrl) ?>">this ebook’s GitHub repository</a> and our <a href="/contribute">contributors section</a>.</p><? } ?>
+			<? if($ebook->GitHubUrl !== null){ ?><p>If you’re comfortable with technology and want to contribute directly, check out <a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>">this ebook’s GitHub repository</a> and our <a href="/contribute">contributors section</a>.</p><? } ?>
 			<p>You can also <a href="/donate">donate to Standard Ebooks</a> to help fund continuing improvement of this and other ebooks.</p>
 		</section>
 
@@ -403,7 +403,7 @@ catch(Exceptions\InvalidEbookException){
 						<picture>
 							<? if($carouselEbook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $carouselEbook->CoverImage2xAvifUrl ?> 2x, <?= $carouselEbook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
 							<source srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x" type="image/jpg"/>
-							<img src="<?= $carouselEbook->CoverImageUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::ToPlainText(strip_tags($carouselEbook->TitleWithCreditsHtml)) ?>" height="200" width="134" loading="lazy"/>
+							<img src="<?= $carouselEbook->CoverImageUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::EscapeHtml(strip_tags($carouselEbook->TitleWithCreditsHtml)) ?>" height="200" width="134" loading="lazy"/>
 						</picture>
 					</a>
 				</li>

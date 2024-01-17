@@ -54,10 +54,10 @@ catch(Exceptions\PollVoteExistsException $ex){
 ?><?= Template::Header(['title' => $poll->Name . ' - Vote Now', 'highlight' => '', 'description' => 'Vote in the ' . $poll->Name . ' poll']) ?>
 <main>
 	<section class="narrow">
-		<h1>Vote in the <?= Formatter::ToPlainText($poll->Name) ?> Poll</h1>
+		<h1>Vote in the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>
 		<?= Template::Error(['exception' => $exception]) ?>
-		<form method="post" action="<?= Formatter::ToPlainText($poll->Url) ?>/votes">
-			<input type="hidden" name="email" value="<? if($vote->User !== null){ ?><?= Formatter::ToPlainText($vote->User->Email) ?><? } ?>" maxlength="80" required="required" />
+		<form method="post" action="<?= Formatter::EscapeHtml($poll->Url) ?>/votes">
+			<input type="hidden" name="email" value="<? if($vote->User !== null){ ?><?= Formatter::EscapeHtml($vote->User->Email) ?><? } ?>" maxlength="80" required="required" />
 			<fieldset>
 				<p>Select one of these options.</p>
 				<ul>
@@ -68,7 +68,7 @@ catch(Exceptions\PollVoteExistsException $ex){
 							<span>
 								<b><?= $pollItem->Name ?></b>
 							<? if($pollItem->Description !== null){ ?>
-								<span><?= Formatter::ToPlainText($pollItem->Description) ?></span>
+								<span><?= Formatter::EscapeHtml($pollItem->Description) ?></span>
 							<? } ?>
 							</span>
 						</label>

@@ -1,22 +1,22 @@
 <entry>
 	<id><?= SITE_URL . $entry->Url ?></id>
-	<title><?= Formatter::ToPlainXmlText($entry->Title) ?></title>
+	<title><?= Formatter::EscapeXml($entry->Title) ?></title>
 	<? foreach($entry->Authors as $author){ ?>
 		<author>
-			<name><?= Formatter::ToPlainXmlText($author->Name) ?></name>
-			<uri><?= SITE_URL . Formatter::ToPlainXmlText($entry->AuthorsUrl) ?></uri>
+			<name><?= Formatter::EscapeXml($author->Name) ?></name>
+			<uri><?= SITE_URL . Formatter::EscapeXml($entry->AuthorsUrl) ?></uri>
 		</author>
 	<? } ?>
 	<published><?= $entry->Created->format('Y-m-d\TH:i:s\Z') ?></published>
 	<updated><?= $entry->Updated->format('Y-m-d\TH:i:s\Z') ?></updated>
 	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
-	<summary type="text"><?= Formatter::ToPlainXmlText($entry->Description) ?></summary>
-	<content type="html"><?= Formatter::ToPlainXmlText($entry->LongDescription) ?></content>
+	<summary type="text"><?= Formatter::EscapeXml($entry->Description) ?></summary>
+	<content type="html"><?= Formatter::EscapeXml($entry->LongDescription) ?></content>
 	<? foreach($entry->LocTags as $subject){ ?>
-	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= Formatter::ToPlainXmlText($subject) ?>"/>
+	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= Formatter::EscapeXml($subject) ?>"/>
 	<? } ?>
 	<? foreach($entry->Tags as $subject){ ?>
-	<category scheme="https://standardebooks.org/vocab/subjects" term="<?= Formatter::ToPlainXmlText($subject->Name) ?>"/>
+	<category scheme="https://standardebooks.org/vocab/subjects" term="<?= Formatter::EscapeXml($subject->Name) ?>"/>
 	<? } ?>
 	<media:thumbnail url="<?= SITE_URL . $entry->Url ?>/downloads/cover-thumbnail.jpg" height="525" width="350"/>
 	<link href="<?= SITE_URL . $entry->Url ?>" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>

@@ -11,7 +11,7 @@ catch(Exceptions\AppException){
 ?><?= Template::Header(['title' => 'Results for the ' . $poll->Name . ' Poll', 'highlight' => '', 'description' => 'The voting results for the ' . $poll->Name . ' poll.']) ?>
 <main>
 	<section class="narrow">
-		<h1>Results for the <?= Formatter::ToPlainText($poll->Name) ?> Poll</h1>
+		<h1>Results for the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>
 		<p class="center-notice">Total votes: <?= number_format($poll->VoteCount) ?></p>
 		<? if($poll->IsActive()){ ?>
 			<? if($poll->End !== null){ ?>

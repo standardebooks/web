@@ -38,10 +38,10 @@ $title = preg_replace('/s$/', '', ucfirst($class));
 				<caption aria-hidden="hidden">Scroll right →</caption>
 				<tbody>
 			<? foreach($collection as $year => $months){
-				$yearHeader = Formatter::ToPlainText($year);
+				$yearHeader = Formatter::EscapeHtml($year);
 			 ?>
 				<tr class="year-header">
-					<th colspan="13" scope="colgroup" id="<?= $yearHeader ?>"><?= Formatter::ToPlainText((string)$year) ?></th>
+					<th colspan="13" scope="colgroup" id="<?= $yearHeader ?>"><?= Formatter::EscapeHtml((string)$year) ?></th>
 				</tr>
 				<tr class="mid-header">
 					<th id="<?= $yearHeader?>-type" scope="col">Month</th>
@@ -51,16 +51,16 @@ $title = preg_replace('/s$/', '', ucfirst($class));
 				</tr>
 
 				<? foreach($months as $month => $collection){
-					$monthHeader = Formatter::ToPlainText($month);
+					$monthHeader = Formatter::EscapeHtml($month);
 				?>
 				<tr>
-					<th class="row-header" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-type" id="<?= $monthHeader ?>"><?= Formatter::ToPlainText($month) ?></th>
-					<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-ebooks"><?= Formatter::ToPlainText(number_format($collection->EbookCount)) ?></td>
-					<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-updated"><?= Formatter::ToPlainText($collection->UpdatedString) ?></td>
+					<th class="row-header" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-type" id="<?= $monthHeader ?>"><?= Formatter::EscapeHtml($month) ?></th>
+					<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-ebooks"><?= Formatter::EscapeHtml(number_format($collection->EbookCount)) ?></td>
+					<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-updated"><?= Formatter::EscapeHtml($collection->UpdatedString) ?></td>
 
 					<? foreach($collection->ZipFiles as $item){ ?>
 						<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download" class="download"><a href="<?= $item->Url ?>"><?= $item->Type ?></a></td>
-						<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download">(<?= Formatter::ToPlainText($item->Size) ?>)</td>
+						<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download">(<?= Formatter::EscapeHtml($item->Size) ?>)</td>
 					<? } ?>
 				</tr>
 				<? } ?>

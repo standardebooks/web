@@ -19,7 +19,7 @@ try{
 	}
 
 	$author =  strip_tags($ebooks[0]->AuthorsHtml);
-	$authorUrl = Formatter::ToPlainText($ebooks[0]->AuthorsUrl);
+	$authorUrl = Formatter::EscapeHtml($ebooks[0]->AuthorsUrl);
 }
 catch(Exceptions\InvalidAuthorException){
 	Template::Emit404();

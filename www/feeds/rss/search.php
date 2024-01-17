@@ -21,7 +21,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . S
 	<channel>
 		<title>Search Results</title>
 		<link><?= SITE_URL ?></link>
-		<description>Results for “<?= Formatter::ToPlainXmlText($query) ?>”.</description>
+		<description>Results for “<?= Formatter::EscapeXml($query) ?>”.</description>
 		<language>en-US</language>
 		<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
 		<lastBuildDate><?= (new DateTime())->format('r') ?></lastBuildDate>

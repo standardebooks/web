@@ -20,9 +20,9 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 		<span>For existing artists, leave the year of death blank.</span>
 		<datalist id="artist-names">
 			<? foreach(Library::GetAllArtists() as $artist){ ?>
-				<option value="<?= Formatter::ToPlainText($artist->Name) ?>"><?= Formatter::ToPlainText($artist->Name) ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
+				<option value="<?= Formatter::EscapeHtml($artist->Name) ?>"><?= Formatter::EscapeHtml($artist->Name) ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
 				<? foreach($artist->AlternateSpellings as $alternateSpelling){ ?>
-					<option value="<?= Formatter::ToPlainText($alternateSpelling) ?>"><?= Formatter::ToPlainText($alternateSpelling) ?>, d. <? if($artist->DeathYear !== null){ ?><?= Formatter::ToPlainText($artist->DeathYear) ?><? }else{ ?>unknown<? } ?></option>
+					<option value="<?= Formatter::EscapeHtml($alternateSpelling) ?>"><?= Formatter::EscapeHtml($alternateSpelling) ?>, d. <? if($artist->DeathYear !== null){ ?><?= Formatter::EscapeHtml($artist->DeathYear) ?><? }else{ ?>unknown<? } ?></option>
 				<? } ?>
 			<? } ?>
 		</datalist>
@@ -32,7 +32,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 			list="artist-names"
 			required="required"
 			autocomplete="off"
-			value="<?= Formatter::ToPlainText($artwork->Artist->Name) ?>"
+			value="<?= Formatter::EscapeHtml($artwork->Artist->Name) ?>"
 		/>
 	</label>
 	<label>
@@ -44,7 +44,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 			name="artist-year-of-death"
 			inputmode="numeric"
 			pattern="[0-9]+"
-			value="<?= Formatter::ToPlainText($artwork->Artist->DeathYear) ?>"
+			value="<?= Formatter::EscapeHtml($artwork->Artist->DeathYear) ?>"
 		/>
 	</label>
 </fieldset>
@@ -53,7 +53,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 	<label>
 		Name
 		<input type="text" name="artwork-name" required="required"
-		       value="<?= Formatter::ToPlainText($artwork->Name) ?>"/>
+		       value="<?= Formatter::EscapeHtml($artwork->Name) ?>"/>
 	</label>
 	<fieldset>
 		<label>
@@ -63,7 +63,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 				name="artwork-year"
 				inputmode="numeric"
 				pattern="[0-9]+"
-				value="<?= Formatter::ToPlainText($artwork->CompletedYear) ?>"
+				value="<?= Formatter::EscapeHtml($artwork->CompletedYear) ?>"
 			/>
 		</label>
 		<label>
@@ -82,7 +82,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 			name="artwork-tags"
 			required="required"
 			autocomplete="off"
-			value="<?= Formatter::ToPlainText($artwork->ImplodeTags()) ?>"
+			value="<?= Formatter::EscapeHtml($artwork->ImplodeTags()) ?>"
 		/>
 	</label>
 	<label>
@@ -107,7 +107,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 				type="url"
 				name="artwork-museum-url"
 				autocomplete="off"
-				value="<?= Formatter::ToPlainText($artwork->MuseumUrl) ?>"
+				value="<?= Formatter::EscapeHtml($artwork->MuseumUrl) ?>"
 			/>
 		</label>
 	</fieldset>
@@ -129,7 +129,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 				name="artwork-publication-year"
 				inputmode="numeric"
 				pattern="[0-9]+"
-				value="<?= Formatter::ToPlainText($artwork->PublicationYear) ?>"
+				value="<?= Formatter::EscapeHtml($artwork->PublicationYear) ?>"
 			/>
 		</label>
 		<label>
@@ -139,7 +139,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 				type="url"
 				name="artwork-publication-year-page-url"
 				autocomplete="off"
-				value="<?= Formatter::ToPlainText($artwork->PublicationYearPageUrl) ?>"
+				value="<?= Formatter::EscapeHtml($artwork->PublicationYearPageUrl) ?>"
 			/>
 		</label>
 		<label>
@@ -149,7 +149,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 				type="url"
 				name="artwork-copyright-page-url"
 				autocomplete="off"
-				value="<?= Formatter::ToPlainText($artwork->CopyrightPageUrl) ?>"
+				value="<?= Formatter::EscapeHtml($artwork->CopyrightPageUrl) ?>"
 			/>
 		</label>
 		<label>
@@ -159,7 +159,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 				type="url"
 				name="artwork-artwork-page-url"
 				autocomplete="off"
-				value="<?= Formatter::ToPlainText($artwork->ArtworkPageUrl) ?>"
+				value="<?= Formatter::EscapeHtml($artwork->ArtworkPageUrl) ?>"
 			/>
 		</label>
 	</fieldset>
@@ -168,7 +168,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 		<label>
 		<span>Public domain status exception reason</span>
 		<span>Markdown accepted.</span>
-		<textarea maxlength="1024" name="artwork-exception"><?= Formatter::ToPlainText($artwork->Exception) ?></textarea>
+		<textarea maxlength="1024" name="artwork-exception"><?= Formatter::EscapeHtml($artwork->Exception) ?></textarea>
 		</label>
 	</fieldset>
 </fieldset>
@@ -177,7 +177,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 	<label>
 		<span>Special notes</span>
 		<span>Any notes to remember about this artwork. Markdown accepted.</span>
-		<textarea maxlength="1024" name="artwork-notes"><?= Formatter::ToPlainText($artwork->Notes) ?></textarea>
+		<textarea maxlength="1024" name="artwork-notes"><?= Formatter::EscapeHtml($artwork->Notes) ?></textarea>
 	</label>
 </fieldset>
 <? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
@@ -199,7 +199,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 		<label>
 			<span>In use by</span>
 			<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
-			<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::ToPlainText($artwork->EbookWwwFilesystemPath) ?>"/>
+			<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::EscapeHtml($artwork->EbookWwwFilesystemPath) ?>"/>
 		</label>
 	<? } ?>
 </fieldset>

@@ -113,7 +113,7 @@ if($perPage !== ARTWORK_PER_PAGE){
 				</span>
 			</label>
 			<label class="search">Keywords
-				<input type="search" name="query" value="<?= Formatter::ToPlainText($query) ?>"/>
+				<input type="search" name="query" value="<?= Formatter::EscapeHtml($query) ?>"/>
 			</label>
 			<label class="sort">
 				<span>Sort</span>

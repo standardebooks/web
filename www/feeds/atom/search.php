@@ -23,7 +23,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . S
 	<link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>" rel="alternate" type="text/html"/>
 	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml"/>
 	<title>Search Results</title>
-	<subtitle>Results for “<?= Formatter::ToPlainXmlText($query) ?>”.</subtitle>
+	<subtitle>Results for “<?= Formatter::EscapeXml($query) ?>”.</subtitle>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>
 	<updated><?= (new Datetime())->Format('Y-m-d\TH:i:s\Z') ?></updated>
 	<author>

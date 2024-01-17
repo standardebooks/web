@@ -489,7 +489,7 @@ class Ebook{
 		$this->AuthorsHtml = $this->GenerateContributorList($this->Authors, true);
 
 		// Now the complete title with credits.
-		$this->TitleWithCreditsHtml = Formatter::ToPlainText($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors);
+		$this->TitleWithCreditsHtml = Formatter::EscapeHtml($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors);
 	}
 
 
@@ -671,30 +671,30 @@ class Ebook{
 
 			if($contributor->WikipediaUrl){
 				if($includeRdfa){
-					$string .= '<a property="' . $role . '" typeof="schema:Person" href="' . Formatter::ToPlainText($contributor->WikipediaUrl) .'"><span property="schema:name">' . Formatter::ToPlainText($contributor->Name) . '</span>';
+					$string .= '<a property="' . $role . '" typeof="schema:Person" href="' . Formatter::EscapeHtml($contributor->WikipediaUrl) .'"><span property="schema:name">' . Formatter::EscapeHtml($contributor->Name) . '</span>';
 
 					if($contributor->NacoafUrl){
-						$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>';
+						$string .= '<meta property="schema:sameAs" content="' . Formatter::EscapeHtml($contributor->NacoafUrl) . '"/>';
 					}
 				}
 				else{
-					$string .= '<a href="' . Formatter::ToPlainText($contributor->WikipediaUrl) .'">' . Formatter::ToPlainText($contributor->Name);
+					$string .= '<a href="' . Formatter::EscapeHtml($contributor->WikipediaUrl) .'">' . Formatter::EscapeHtml($contributor->Name);
 				}
 
 				$string .= '</a>';
 			}
 			else{
 				if($includeRdfa){
-					$string .= '<span property="' . $role . '" typeof="schema:Person"><span property="schema:name">' . Formatter::ToPlainText($contributor->Name) . '</span>';
+					$string .= '<span property="' . $role . '" typeof="schema:Person"><span property="schema:name">' . Formatter::EscapeHtml($contributor->Name) . '</span>';
 
 					if($contributor->NacoafUrl){
-						$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>';
+						$string .= '<meta property="schema:sameAs" content="' . Formatter::EscapeHtml($contributor->NacoafUrl) . '"/>';
 					}
 
 					$string .= '</span>';
 				}
 				else{
-					$string .= Formatter::ToPlainText($contributor->Name);
+					$string .= Formatter::EscapeHtml($contributor->Name);
 				}
 			}
 
@@ -736,14 +736,14 @@ class Ebook{
 				$string .= '<div property="' . $role . '" typeof="schema:Person">' . "\n";
 			}
 
-			$string .= '<meta property="schema:name" content="' . Formatter::ToPlainText($contributor->Name) . '"/>' . "\n";
+			$string .= '<meta property="schema:name" content="' . Formatter::EscapeHtml($contributor->Name) . '"/>' . "\n";
 
 			if($contributor->WikipediaUrl){
-				$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->WikipediaUrl) . '"/>' . "\n";
+				$string .= '<meta property="schema:sameAs" content="' . Formatter::EscapeHtml($contributor->WikipediaUrl) . '"/>' . "\n";
 			}
 
 			if($contributor->NacoafUrl){
-				$string .= '<meta property="schema:sameAs" content="' . Formatter::ToPlainText($contributor->NacoafUrl) . '"/>' . "\n";
+				$string .= '<meta property="schema:sameAs" content="' . Formatter::EscapeHtml($contributor->NacoafUrl) . '"/>' . "\n";
 			}
 
 			$string .= '</div>';

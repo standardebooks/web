@@ -29,8 +29,8 @@ if(!$isXslt){
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head prefix="twitter: https://twitter.com/ schema: http://schema.org/"><? /* The `og` RDFa prefix is part of the RDFa spec */ ?>
 	<meta charset="utf-8"/>
-	<title><? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
-	<? if($description != ''){ ?><meta content="<?= Formatter::ToPlainText($description) ?>" name="description"/><? } ?>
+	<title><? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
+	<? if($description != ''){ ?><meta content="<?= Formatter::EscapeHtml($description) ?>" name="description"/><? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
 	<link rel="preload" as="font" href="/fonts/crimson-pro.woff2" type="font/woff2" crossorigin="anonymous"/> <? /* Fonts require the crossorigin attribute */ ?>
 	<link rel="preload" as="font" href="/fonts/league-spartan-bold.woff2" type="font/woff2" crossorigin="anonymous"/>
@@ -65,15 +65,15 @@ if(!$isXslt){
 	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/opds/new-releases"/>
 	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/rss/new-releases"/>
 	<? }else{ ?>
-	<link rel="alternate" type="application/atom+xml" title="<?= Formatter::ToPlainText($feedTitle) ?>" href="/feeds/atom<?= $feedUrl ?>"/>
-	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::ToPlainText($feedTitle) ?>" href="/feeds/opds<?= $feedUrl ?>"/>
-	<link rel="alternate" type="application/rss+xml" title="<?= Formatter::ToPlainText($feedTitle) ?>" href="/feeds/rss<?= $feedUrl ?>"/>
+	<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/atom<?= $feedUrl ?>"/>
+	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/opds<?= $feedUrl ?>"/>
+	<link rel="alternate" type="application/rss+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/rss<?= $feedUrl ?>"/>
 	<? } ?>
 	<link rel="search" href="/ebooks" type="application/xhtml+xml; charset=utf-8"/>
 	<link rel="search" href="/ebooks/opensearch" type="application/opensearchdescription+xml; charset=utf-8"/>
 	<? if(!$isErrorPage){ ?>
 	<meta content="#394451" name="theme-color"/>
-	<meta content="<? if($title != ''){ ?><?= Formatter::ToPlainText($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
+	<meta content="<? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
 	<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>
 	<meta content="<?= SITE_URL . str_replace(SITE_URL, '', ($_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['SCRIPT_URI'] ?? '')) ?>" property="og:url"/>
 	<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.png') ?>" property="og:image"/>

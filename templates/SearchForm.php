@@ -6,12 +6,12 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<select <? if(!Template::IsEreaderBrowser()){ ?> multiple="multiple"<? } ?> name="tags[]" size="1">
 			<option value="all">All</option>
 		<? foreach(Library::GetTags() as $tag){ ?>
-			<option value="<?= $tag->UrlName ?>"<? if(!$allSelected && in_array($tag->UrlName, $tags)){ ?> selected="selected"<? } ?>><?= Formatter::ToPlainText($tag->Name) ?></option>
+			<option value="<?= $tag->UrlName ?>"<? if(!$allSelected && in_array($tag->UrlName, $tags)){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($tag->Name) ?></option>
 		<? } ?>
 		</select>
 	</label>
 	<label class="search">Keywords
-		<input type="search" name="query" value="<?= Formatter::ToPlainText($query ?? '') ?>"/>
+		<input type="search" name="query" value="<?= Formatter::EscapeHtml($query ?? '') ?>"/>
 	</label>
 	<label class="select sort">
 		<span>Sort</span>

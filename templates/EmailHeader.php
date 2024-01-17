@@ -191,4 +191,4 @@ $letterhead = $letterhead ?? false;
 </head>
 <body>
 	<div class="body<? if($letterhead){ ?> letterhead<? } ?>">
-	<? if($preheader){ ?><p class="preheader"><?= Formatter::ToPlainText($preheader) ?><? for($i = 0; $i < 150 - strlen($preheader); $i++){ ?>&zwnj;&nbsp;<? } ?></p><? } ?>
+	<? if($preheader){ ?><p class="preheader"><?= Formatter::EscapeHtml($preheader) ?><? for($i = 0; $i < 150 - strlen($preheader); $i++){ ?>&zwnj;&nbsp;<? } ?></p><? } ?>

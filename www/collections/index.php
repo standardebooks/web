@@ -13,7 +13,7 @@ $collections = Library::GetEbookCollections();
 		<ul>
 			<? foreach($collections as $collection){ ?>
 			<li>
-				<p><a href="<?= $collection->Url ?>"><?= Formatter::ToPlainText($collection->Name) ?></a></p>
+				<p><a href="<?= $collection->Url ?>"><?= Formatter::EscapeHtml($collection->Name) ?></a></p>
 			</li>
 			<? } ?>
 		</ul>
