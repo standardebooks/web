@@ -690,8 +690,6 @@ class Artwork extends PropertiesBase{
 
 		$this->Validate($uploadedFile);
 
-		$this->Updated = new DateTime();
-
 		$tags = [];
 		foreach($this->Tags as $artworkTag){
 			$tags[] = ArtworkTag::GetOrCreate($artworkTag);
@@ -709,7 +707,6 @@ class Artwork extends PropertiesBase{
 			CompletedYear = ?,
 			CompletedYearIsCirca = ?,
 			Created = ?,
-			Updated = ?,
 			Status = ?,
 			SubmitterUserId = ?,
 			ReviewerUserId = ?,
@@ -726,7 +723,7 @@ class Artwork extends PropertiesBase{
 			where
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);
