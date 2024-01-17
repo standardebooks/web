@@ -20,6 +20,9 @@ use function Safe\preg_replace;
  * @property string $ImageUrl
  * @property string $ThumbUrl
  * @property string $Thumb2xUrl
+ * @property string $ImageFsPath
+ * @property string $ThumbFsPath
+ * @property string $Thumb2xFsPath
  * @property string $Dimensions
  * @property ArtworkStatus|string|null $Status
  * @property Ebook $Ebook
@@ -55,6 +58,9 @@ class Artwork extends PropertiesBase{
 	protected ?string $_ImageUrl = null;
 	protected ?string $_ThumbUrl = null;
 	protected ?string $_Thumb2xUrl = null;
+	protected ?string $_ImageFsPath = null;
+	protected ?string $_ThumbFsPath = null;
+	protected ?string $_Thumb2xFsPath = null;
 	protected ?string $_Dimensions = null;
 	protected ?Ebook $_Ebook = null;
 	protected ?Museum $_Museum = null;
@@ -209,7 +215,7 @@ class Artwork extends PropertiesBase{
 				throw new Exceptions\InvalidArtworkException();
 			}
 
-			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . $this->MimeType->GetFileExtension();
+			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->Updated?->getTimestamp();
 		}
 
 		return $this->_ImageUrl;
@@ -224,34 +230,49 @@ class Artwork extends PropertiesBase{
 				throw new Exceptions\ArtworkNotFoundException();
 			}
 
-			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb.jpg';
+			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->Updated?->getTimestamp();
 		}
 
 		return $this->_ThumbUrl;
 	}
 
+	/**
+	 * @throws \Exceptions\ArtworkNotFoundException
+	 */
 	protected function GetThumb2xUrl(): string{
 		if($this->_Thumb2xUrl === null){
 			if($this->ArtworkId === null){
 				throw new Exceptions\ArtworkNotFoundException();
 			}
 
-			$this->_Thumb2xUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb@2x.jpg';
+			$this->_Thumb2xUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->Updated?->getTimestamp();
 		}
 
 		return $this->_Thumb2xUrl;
 	}
 
+	protected function GetImageFsPath(): string{
+		return WEB_ROOT . rtrim($this->ImageUrl, '?ts=0123456789');
+	}
+
+	protected function GetThumbFsPath(): string{
+		return WEB_ROOT . rtrim($this->ThumbUrl, '?ts=0123456789');
+	}
+
+	protected function GetThumb2xFsPath(): string{
+		return WEB_ROOT . rtrim($this->Thumb2xUrl, '?ts=0123456789');
+	}
+
 	protected function GetDimensions(): string{
 		$this->_Dimensions = '';
 		try{
-			list($imageWidth, $imageHeight) = getimagesize(WEB_ROOT . $this->ImageUrl);
+			list($imageWidth, $imageHeight) = getimagesize($this->ImageFsPath);
 			if($imageWidth && $imageHeight){
 				$this->_Dimensions = $imageWidth . ' × ' . $imageHeight;
 			}
 		}
 		catch(Exception){
-			// Image doesn't exist, return blank strin
+			// Image doesn't exist, return blank string
 		}
 
 		return $this->_Dimensions;
@@ -581,13 +602,13 @@ class Artwork extends PropertiesBase{
 
 	private function WriteImageAndThumbnails(string $imageUploadPath): void{
 		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imageUploadPath));
-		copy($imageUploadPath, WEB_ROOT . $this->ImageUrl);
+		copy($imageUploadPath, $this->ImageFsPath);
 
 		// Generate the thumbnails
 		try{
 			$image = new Image($imageUploadPath);
-			$image->Resize(WEB_ROOT . $this->ThumbUrl, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
-			$image->Resize(WEB_ROOT . $this->Thumb2xUrl, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
+			$image->Resize($this->ThumbFsPath, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
+			$image->Resize($this->Thumb2xFsPath, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
 		}
 		catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException){
 			throw new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.');
