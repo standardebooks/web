@@ -425,7 +425,7 @@ class Artwork extends PropertiesBase{
 			}
 			else{
 				try{
-					$this->PublicationYearPageUrl = $this->NormalizePageScanUrl($this->PublicationYearPageUrl);
+					$this->PublicationYearPageUrl = Artwork::NormalizePageScanUrl($this->PublicationYearPageUrl);
 				}
 				catch(Exceptions\InvalidUrlException $ex){
 					$error->Add($ex);
@@ -443,7 +443,7 @@ class Artwork extends PropertiesBase{
 			}
 			else{
 				try{
-					$this->CopyrightPageUrl = $this->NormalizePageScanUrl($this->CopyrightPageUrl);
+					$this->CopyrightPageUrl = Artwork::NormalizePageScanUrl($this->CopyrightPageUrl);
 				}
 				catch(Exceptions\InvalidUrlException $ex){
 					$error->Add($ex);
@@ -461,7 +461,7 @@ class Artwork extends PropertiesBase{
 			}
 			else{
 				try{
-					$this->ArtworkPageUrl = $this->NormalizePageScanUrl($this->ArtworkPageUrl);
+					$this->ArtworkPageUrl = Artwork::NormalizePageScanUrl($this->ArtworkPageUrl);
 				}
 				catch(Exceptions\InvalidUrlException $ex){
 					$error->Add($ex);
@@ -530,7 +530,7 @@ class Artwork extends PropertiesBase{
 		}
 	}
 
-	private function NormalizePageScanUrl(string $url): string{
+	public static function NormalizePageScanUrl(string $url): string{
 		$outputUrl = $url;
 
 		try{
