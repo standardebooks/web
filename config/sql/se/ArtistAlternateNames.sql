@@ -1,4 +1,4 @@
-CREATE TABLE `ArtistAlternateSpellings` (
+CREATE TABLE `ArtistAlternateNames` (
   `ArtistId` int(10) unsigned NOT NULL,
   `Name` varchar(255) NOT NULL,
   `UrlName` varchar(255) NOT NULL,

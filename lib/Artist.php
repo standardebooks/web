@@ -4,8 +4,8 @@ use function Safe\date;
 
 /**
  * @property string $UrlName
- * @property array<string> $AlternateSpellings
- * @property array<string> $_AlternateSpellings
+ * @property array<string> $AlternateNames
+ * @property array<string> $_AlternateNames
  */
 class Artist extends PropertiesBase{
 	public ?int $ArtistId = null;
@@ -14,7 +14,7 @@ class Artist extends PropertiesBase{
 	public ?datetime $Created = null;
 	public ?datetime $Updated = null;
 	protected ?string $_UrlName = null;
-	protected $_AlternateSpellings;
+	protected $_AlternateNames;
 
 	// *******
 	// GETTERS
@@ -35,22 +35,22 @@ class Artist extends PropertiesBase{
 	/**
 	 * @return array<string>
 	 */
-	protected function GetAlternateSpellings(): array{
-		if($this->_AlternateSpellings === null){
-			$this->_AlternateSpellings = [];
+	protected function GetAlternateNames(): array{
+		if($this->_AlternateNames === null){
+			$this->_AlternateNames = [];
 
 			$result = Db::Query('
 					SELECT *
-					from ArtistAlternateSpellings
+					from ArtistAlternateNames
 					where ArtistId = ?
 				', [$this->ArtistId]);
 
 			foreach($result as $row){
-				$this->_AlternateSpellings[] = $row->Name;
+				$this->_AlternateNames[] = $row->Name;
 			}
 		}
 
-		return $this->_AlternateSpellings;
+		return $this->_AlternateNames;
 	}
 
 	// *******
@@ -120,9 +120,9 @@ class Artist extends PropertiesBase{
 		$result = Db::Query('
 					SELECT a.*
 					from Artists a
-					left outer join ArtistAlternateSpellings aas using (ArtistId)
+					left outer join ArtistAlternateNames aan using (ArtistId)
 					where a.UrlName = ?
-					    or aas.UrlName = ?
+					    or aan.UrlName = ?
 					limit 1
 		', [$artist->UrlName, $artist->UrlName], 'Artist');
 
@@ -143,7 +143,7 @@ class Artist extends PropertiesBase{
 		', [$this->ArtistId]);
 		Db::Query('
 			DELETE
-			from ArtistAlternateSpellings
+			from ArtistAlternateNames
 			where ArtistId = ?
 		', [$this->ArtistId]);
 	}
@@ -157,7 +157,7 @@ class Artist extends PropertiesBase{
 		');
 		Db::Query('
 			DELETE
-			from ArtistAlternateSpellings
+			from ArtistAlternateNames
 			where ArtistId NOT IN
 				(SELECT DISTINCT ArtistId FROM Artworks)
 		');
