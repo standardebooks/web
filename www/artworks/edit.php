@@ -4,12 +4,16 @@ use function Safe\session_unset;
 session_start();
 
 $exception = $_SESSION['exception'] ?? null;
+/** @var Artwork $artwork */
+$artwork = $_SESSION['artwork'] ?? null;
 
 try{
-	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name') ?? '', HttpInput::Str(GET, 'artwork-url-name') ?? '');
-
 	if($GLOBALS['User'] === null){
 		throw new Exceptions\LoginRequiredException();
+	}
+
+	if($artwork === null){
+		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name') ?? '', HttpInput::Str(GET, 'artwork-url-name') ?? '');
 	}
 
 	$isEditingAllowed = ($artwork->Status == ArtworkStatus::Unverified) && ($GLOBALS['User']->Benefits->CanReviewArtwork || ($artwork->SubmitterUserId == $GLOBALS['User']->UserId));
