@@ -745,6 +745,7 @@ class Artwork extends PropertiesBase{
 			', [$this->ArtworkId, $tag->TagId]);
 		}
 
+		// Handle the uploaded file if the user provided one during the save.
 		if(!empty($uploadedFile) && $uploadedFile['error'] == UPLOAD_ERR_OK){
 			$this->WriteImageAndThumbnails($uploadedFile['tmp_name']);
 		}
