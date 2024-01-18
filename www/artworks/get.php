@@ -8,13 +8,14 @@ $exception = $_SESSION['exception'] ?? null;
 
 try{
 	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
-	$isAdminView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
+	$isReviewerView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
+	$isAdminView = $GLOBALS['User']->Benefits->CanReviewOwnArtwork ?? false;
 
 	// If the artwork is not approved, and we're not an admin or the submitter when they can edit, don't show it.
 	if(
 		($GLOBALS['User'] === null && $artwork->Status != ArtworkStatus::Approved)
 		||
-		($GLOBALS['User'] !== null && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isAdminView)
+		($GLOBALS['User'] !== null && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isReviewerView)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
@@ -69,12 +70,12 @@ catch(Exceptions\InvalidPermissionsException){
 		<table class="artwork-metadata">
 			<tr>
 				<td>Title</td>
-				<td><i><?= Formatter::EscapeHtml($artwork->Name) ?></i></td>
+				<td><i><?= Formatter::EscapeHtml($artwork->Name) ?></i><? if($isAdminView){ ?> (#<?= $artwork->ArtworkId ?>)<? } ?></td>
 			</tr>
 			<tr>
 				<td>Artist</td>
 				<td>
-					<?= Formatter::EscapeHtml($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateNames) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?>
+					<?= Formatter::EscapeHtml($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateNames) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?><? if($isAdminView){ ?> (#<?= $artwork->Artist->ArtistId ?>)<? } ?>
 				</td>
 			</tr>
 			<tr>
@@ -93,15 +94,15 @@ catch(Exceptions\InvalidPermissionsException){
 				<td>Status</td>
 				<td><?= Template::ArtworkStatus(['artwork' => $artwork]) ?></td>
 			</tr>
-			<? if($isAdminView){ ?>
+			<? if($isReviewerView){ ?>
 				<tr>
 					<td>Submitted by</td>
-					<td><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::EscapeHtml($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Submitter->Email) ?><? } ?></a><? } ?></td>
+					<td><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::EscapeHtml($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Submitter->Email) ?><? } ?></a><? } ?><? if($isAdminView && $artwork->Submitter !== null){ ?> (#<?= $artwork->Submitter->UserId ?>)<? } ?></td>
 				</tr>
 				<? if($artwork->Reviewer !== null){ ?>
 					<tr>
 						<td>Reviewed by</td>
-						<td><a href="mailto:<?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?><? } ?></a></td>
+						<td><a href="mailto:<?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?><? } ?></a><? if($isAdminView){ ?> (#<?= $artwork->Reviewer->UserId ?>)<? } ?></td>
 					</tr>
 				<? } ?>
 			<? } ?>

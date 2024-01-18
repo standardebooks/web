@@ -10,9 +10,9 @@ $totalArtworkCount = 0;
 $pageDescription = '';
 $pageTitle = '';
 $queryString = '';
-$isAdminView = $GLOBALS['User']?->Benefits?->CanReviewArtwork ?? false;
+$isReviewerView = $GLOBALS['User']?->Benefits?->CanReviewArtwork ?? false;
 $submitterUserId = $GLOBALS['User']?->Benefits?->CanUploadArtwork ? $GLOBALS['User']->UserId : null;
-$isSubmitterView = !$isAdminView && $submitterUserId !== null;
+$isSubmitterView = !$isReviewerView && $submitterUserId !== null;
 
 if($page <= 0){
 	$page = 1;
@@ -32,7 +32,7 @@ if($sort == 'created-newest'){
 	$sort = null;
 }
 
-if($isAdminView){
+if($isReviewerView){
 	if($status == 'all' || $status === null){
 		$filterArtworkStatus = 'all-admin';
 	}
@@ -47,12 +47,12 @@ if($isSubmitterView){
 	}
 }
 
-if(!$isAdminView && !$isSubmitterView && !in_array($status, array('all', ArtworkStatus::Approved->value, 'in-use'))){
+if(!$isReviewerView && !$isSubmitterView && !in_array($status, array('all', ArtworkStatus::Approved->value, 'in-use'))){
 	$status = ArtworkStatus::Approved->value;
 	$filterArtworkStatus = $status;
 }
 
-if($isAdminView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))
+if($isReviewerView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))
                 && !in_array($filterArtworkStatus, array('all-admin', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))){
 	$status = ArtworkStatus::Approved->value;
 	$filterArtworkStatus = $status;
@@ -103,8 +103,8 @@ if($perPage !== ARTWORK_PER_PAGE){
 				<span>
 					<select name="status" size="1">
 						<option value="all"<? if($status === null){ ?> selected="selected"<? } ?>>All</option>
-						<? if($isAdminView || $isSubmitterView){ ?><option value="<?= ArtworkStatus::Unverified->value ?>"<? if($status == ArtworkStatus::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
-						<? if($isAdminView){ ?><option value="<?= ArtworkStatus::Declined->value ?>"<? if($status == ArtworkStatus::Declined->value){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
+						<? if($isReviewerView || $isSubmitterView){ ?><option value="<?= ArtworkStatus::Unverified->value ?>"<? if($status == ArtworkStatus::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
+						<? if($isReviewerView){ ?><option value="<?= ArtworkStatus::Declined->value ?>"<? if($status == ArtworkStatus::Declined->value){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
 						<option value="<?= ArtworkStatus::Approved->value ?>"<? if($status == ArtworkStatus::Approved->value){ ?> selected="selected"<? } ?>>Approved, not in use</option>
 						<option value="in-use"<? if($status == 'in-use'){ ?> selected="selected"<? } ?>>In use</option>
 					</select>
