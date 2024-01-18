@@ -336,10 +336,9 @@ class Artwork extends PropertiesBase{
 	}
 
 	/**
-	 * @param array<mixed> $uploadedFile
 	 * @throws \Exceptions\ValidationException
 	 */
-	protected function Validate(array &$uploadedFile = []): void{
+	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
 		$now = new DateTime('now', new DateTimeZone('UTC'));
 		$thisYear = intval($now->format('Y'));
 		$error = new Exceptions\ValidationException();
@@ -503,23 +502,17 @@ class Artwork extends PropertiesBase{
 			// No duplicates found, continue
 		}
 
-		if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
-			$error->Add(new Exceptions\InvalidImageUploadException('Upload path not writable.'));
+		if($isImageRequired && $imagePath === null){
+			$error->Add(new Exceptions\InvalidImageUploadException('An image is required.'));
 		}
 
-		if(!empty($uploadedFile) && $this->MimeType !== null){
-			$uploadError = $uploadedFile['error'];
-			if($uploadError > UPLOAD_ERR_OK){
-				// see https://www.php.net/manual/en/features.file-upload.errors.php
-				$message = match($uploadError){
-					UPLOAD_ERR_INI_SIZE => 'Image upload too large (maximum ' . ini_get('upload_max_filesize') . ').',
-					default => 'Image failed to upload (error code ' . $uploadError . ').',
-				};
-				$error->Add(new Exceptions\InvalidImageUploadException($message));
+		if($imagePath !== null && $this->MimeType !== null){
+			if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
+				$error->Add(new Exceptions\InvalidImageUploadException('Upload path not writable.'));
 			}
 
 			// Check for minimum dimensions
-			list($imageWidth, $imageHeight) = getimagesize($uploadedFile['tmp_name']);
+			list($imageWidth, $imageHeight) = getimagesize($imagePath);
 			if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
 				$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
 			}
@@ -639,13 +632,13 @@ class Artwork extends PropertiesBase{
 		return $outputUrl;
 	}
 
-	private function WriteImageAndThumbnails(string $imageUploadPath): void{
-		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imageUploadPath));
-		copy($imageUploadPath, $this->ImageFsPath);
+	private function WriteImageAndThumbnails(string $imagePath): void{
+		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imagePath));
+		copy($imagePath, $this->ImageFsPath);
 
 		// Generate the thumbnails
 		try{
-			$image = new Image($imageUploadPath);
+			$image = new Image($imagePath);
 			$image->Resize($this->ThumbFsPath, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
 			$image->Resize($this->Thumb2xFsPath, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
 		}
@@ -655,14 +648,13 @@ class Artwork extends PropertiesBase{
 	}
 
 	/**
-	 * @param array<mixed> $uploadedFile
 	 * @throws \Exceptions\ValidationException
 	 * @throws \Exceptions\InvalidImageUploadException
 	 */
-	public function Create(array $uploadedFile): void{
-		$this->MimeType = ImageMimeType::FromFile($uploadedFile['tmp_name'] ?? null);
+	public function Create(?string $imagePath = null): void{
+		$this->MimeType = ImageMimeType::FromFile($imagePath);
 
-		$this->Validate($uploadedFile);
+		$this->Validate($imagePath, true);
 
 		$this->Created = new DateTime();
 
@@ -713,18 +705,19 @@ class Artwork extends PropertiesBase{
 			', [$this->ArtworkId, $tag->TagId]);
 		}
 
-		$this->WriteImageAndThumbnails($uploadedFile['tmp_name']);
+		if($imagePath !== null){
+			$this->WriteImageAndThumbnails($imagePath);
+		}
 	}
 
 	/**
-	 * @param array<mixed> $uploadedFile
 	 * @throws \Exceptions\ValidationException
 	 */
-	public function Save(array $uploadedFile = []): void{
+	public function Save(?string $imagePath = null): void{
 		$this->_UrlName = null;
 
-		if(!empty($uploadedFile) && $uploadedFile['error'] == UPLOAD_ERR_OK){
-			$this->MimeType = ImageMimeType::FromFile($uploadedFile['tmp_name'] ?? null);
+		if($imagePath !== null){
+			$this->MimeType = ImageMimeType::FromFile($imagePath);
 
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's
 			// updated timestamp won't change automatically.
@@ -734,7 +727,7 @@ class Artwork extends PropertiesBase{
 			$this->_Thumb2xUrl = null;
 		}
 
-		$this->Validate($uploadedFile);
+		$this->Validate($imagePath, false);
 
 		$tags = [];
 		foreach($this->Tags as $artworkTag){
@@ -781,8 +774,17 @@ class Artwork extends PropertiesBase{
 				$this->ArtworkId]
 		);
 
-		Artist::DeleteUnreferencedArtists();
+		// Delete artists who are no longer to attached to an artwork
+		// Don't delete from the ArtistAlternateNames table to prevent accidentally
+		// deleting those manually-added entries.
+		Db::Query('
+			DELETE
+			from Artists
+			where ArtistId not in
+				(select distinct ArtistId from Artworks)
+		');
 
+		// Update tags for this artworke
 		Db::Query('
 			DELETE from ArtworkTags
 			where
@@ -799,8 +801,8 @@ class Artwork extends PropertiesBase{
 		}
 
 		// Handle the uploaded file if the user provided one during the save.
-		if(!empty($uploadedFile) && $uploadedFile['error'] == UPLOAD_ERR_OK){
-			$this->WriteImageAndThumbnails($uploadedFile['tmp_name']);
+		if($imagePath !== null){
+			$this->WriteImageAndThumbnails($imagePath);
 		}
 	}
 

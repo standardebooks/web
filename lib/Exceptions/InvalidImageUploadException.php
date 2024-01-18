@@ -3,5 +3,11 @@
 namespace Exceptions;
 
 class InvalidImageUploadException extends AppException{
-	protected $message = 'Uploaded image is invalid.';
+	public function __construct(?string $message = null){
+		if($message === null){
+			$message = 'Uploaded image is invalid.';
+		}
+
+		parent::__construct($message);
+	}
 }

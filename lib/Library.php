@@ -187,8 +187,8 @@ class Library{
 			$artworks = Db::Query('
 				SELECT *
 				from Artworks
-				where Status = ? and EbookWwwFilesystemPath is not null
-				', [ArtworkStatus::Approved->value], 'Artwork');
+				where EbookWwwFilesystemPath is not null
+				', [], 'Artwork');
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$artworks = Db::Query('

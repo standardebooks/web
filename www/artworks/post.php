@@ -36,12 +36,12 @@ try{
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 		}
 
-		// Confirm that the files came from POST
-		if(!is_uploaded_file($_FILES['artwork-image']['tmp_name'])){
+		// Confirm that we have an image and that it came from POST
+		if(isset($_FILES['artwork-image']) && (!is_uploaded_file($_FILES['artwork-image']['tmp_name']) || $_FILES['artwork-image']['error'] > UPLOAD_ERR_OK)){
 			throw new Exceptions\InvalidImageUploadException();
 		}
 
-		$artwork->Create($_FILES['artwork-image'] ?? []);
+		$artwork->Create($_FILES['artwork-image']['tmp_name'] ?? null);
 
 		$_SESSION['artwork'] = $artwork;
 		$_SESSION['artwork-created'] = true;
@@ -75,18 +75,18 @@ try{
 			$artwork->Status = $newStatus;
 		}
 
-		$uploadedFile = [];
-		$uploadError = $_FILES['artwork-image']['error'];
-
-		if($uploadError == UPLOAD_ERR_OK){
-			$uploadedFile = $_FILES['artwork-image'];
+		// Confirm that we have an image and that it came from POST
+		if(isset($_FILES['artwork-image'])){
+			if(!is_uploaded_file($_FILES['artwork-image']['tmp_name']) || $_FILES['artwork-image']['error'] > UPLOAD_ERR_OK){
+				throw new Exceptions\InvalidImageUploadException();
+			}
 		}
-		// No uploaded file as part of this edit, so retain the MimeType of the original submission.
 		else{
+			// No uploaded file as part of this edit, so retain the MimeType of the original submission.
 			$artwork->MimeType = $originalArtwork->MimeType;
 		}
 
-		$artwork->Save($uploadedFile);
+		$artwork->Save($_FILES['artwork-image']['tmp_name'] ?? null);
 
 		$_SESSION['artwork'] = $artwork;
 		$_SESSION['artwork-saved'] = true;
@@ -110,7 +110,6 @@ try{
 			}
 
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
-			$artwork->Status = $newStatus;
 		}
 
 		$newEbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false) ?? null;
@@ -118,9 +117,8 @@ try{
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
-		$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
-		$artwork->Status = $newStatus;
-		$artwork->EbookWwwFilesystemPath = $newEbookWwwFilesystemPath;
+		$artwork->Status = $newStatus ?? $artwork->Status;
+		$artwork->EbookWwwFilesystemPath = $newEbookWwwFilesystemPath ?? $artwork->EbookWwwFilesystemPath;
 
 		$artwork->Save();
 
