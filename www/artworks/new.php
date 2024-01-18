@@ -17,8 +17,6 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	$isAdminView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
-
 	// We got here because an artwork was successfully submitted
 	if($created){
 		http_response_code(201);
@@ -68,7 +66,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<? } ?>
 
 		<form class="create-update-artwork" method="post" action="/artworks" enctype="multipart/form-data">
-			<?= Template::ArtworkForm(['artwork' => $artwork, 'isAdminView' => $isAdminView]) ?>
+			<?= Template::ArtworkForm(['artwork' => $artwork]) ?>
 		</form>
 	</section>
 </main>

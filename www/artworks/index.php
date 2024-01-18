@@ -1,6 +1,4 @@
 <?
-use function Safe\preg_replace;
-
 $page = HttpInput::Int(GET, 'page') ?? 1;
 $perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
 $query = HttpInput::Str(GET, 'query', false) ?? '';

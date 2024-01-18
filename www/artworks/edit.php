@@ -20,8 +20,6 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	$isAdminView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
-
 	// We got here because an artwork update had errors and the user has to try again
 	if($exception){
 		http_response_code(422);
@@ -44,7 +42,7 @@ catch(Exceptions\InvalidPermissionsException){
 		'title' => 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name,
 		'artwork' => true,
 		'highlight' => '',
-		'description' => 'Edit public domain artwork to the database for use as cover art.'
+		'description' => 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name . ' in the Standard Ebooks cover art database.'
 	]
 ) ?>
 <main>
@@ -60,7 +58,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<form class="create-update-artwork" method="post" action="<?= $artwork->Url ?>" enctype="multipart/form-data">
 			<input type="hidden" name="_method" value="PUT" />
-			<?= Template::ArtworkForm(['artwork' => $artwork, 'isEditForm' => true,'isAdminView' => $isAdminView]) ?>
+			<?= Template::ArtworkForm(['artwork' => $artwork, 'isEditForm' => true]) ?>
 		</form>
 	</section>
 </main>

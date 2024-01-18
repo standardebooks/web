@@ -9,7 +9,6 @@ if($artwork === null){
 }
 
 $isEditForm = $isEditForm ?? false;
-$isAdminView = $isAdminView ?? false;
 
 $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
 ?>

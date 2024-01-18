@@ -101,7 +101,7 @@ try{
 
 		$exceptionRedirectUrl = $artwork->Url;
 
-		// We can PATCH either the status or the ebook www filesystem path.
+		// We can PATCH the status, the ebook www filesystem path, or both.
 
 		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status', false) ?? '');
 		if($newStatus !== null){
