@@ -5,7 +5,7 @@ use function Safe\preg_match;
 // Basic authorization is handled in Core.php. By the time we get here,
 // a valid user has a session.
 
-$path = HttpInput::Str(GET, 'path', false) ?? '';
+$path = HttpInput::Str(GET, 'path') ?? '';
 
 try{
 	$path = '/feeds/' . $path;

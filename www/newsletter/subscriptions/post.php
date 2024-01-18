@@ -13,7 +13,7 @@ $requestType = HttpInput::RequestType();
 
 $subscription = new NewsletterSubscription();
 
-if(HttpInput::Str(POST, 'automationtest', false)){
+if(HttpInput::Str(POST, 'automationtest')){
 	// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
 	if($requestType == WEB){
 		http_response_code(303);
@@ -34,11 +34,11 @@ if(HttpInput::Str(POST, 'automationtest', false)){
 
 try{
 	$subscription->User = new User();
-	$subscription->User->Email = HttpInput::Str(POST, 'email', false);
+	$subscription->User->Email = HttpInput::Str(POST, 'email');
 	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'issubscribedtonewsletter') ?? false;
 	$subscription->IsSubscribedToSummary = HttpInput::Bool(POST, 'issubscribedtosummary') ?? false;
 
-	$captcha = HttpInput::Str(SESSION, 'captcha', false) ?? '';
+	$captcha = HttpInput::Str(SESSION, 'captcha') ?? '';
 
 	$exception = new Exceptions\ValidationException();
 
@@ -49,7 +49,7 @@ try{
 		$exception->Add($ex);
 	}
 
-	if($captcha === '' || mb_strtolower($captcha) !== mb_strtolower(HttpInput::Str(POST, 'captcha', false) ?? '')){
+	if($captcha === '' || mb_strtolower($captcha) !== mb_strtolower(HttpInput::Str(POST, 'captcha') ?? '')){
 		$exception->Add(new Exceptions\InvalidCaptchaException());
 	}
 

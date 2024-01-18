@@ -38,7 +38,7 @@ class NewsletterSubscription extends PropertiesBase{
 		try{
 			$this->User = User::GetByEmail($this->User->Email);
 		}
-		catch(Exceptions\InvalidUserException){
+		catch(Exceptions\UserNotFoundException){
 			// User doesn't exist, create the user
 			$this->User->Create();
 		}
@@ -132,7 +132,11 @@ class NewsletterSubscription extends PropertiesBase{
 	// ORM METHODS
 	// ***********
 
-	public static function Get(string $uuid): NewsletterSubscription{
+	public static function Get(?string $uuid): NewsletterSubscription{
+		if($uuid === null){
+			throw new Exceptions\NewsletterSubscriptionNotFoundException();
+		}
+
 		$result = Db::Query('
 				SELECT ns.*
 				from NewsletterSubscriptions ns
@@ -141,7 +145,7 @@ class NewsletterSubscription extends PropertiesBase{
 			', [$uuid], 'NewsletterSubscription');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidNewsletterSubscriptionException();
+			throw new Exceptions\NewsletterSubscriptionNotFoundException();
 		}
 
 		return $result[0];

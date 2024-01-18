@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidUserException extends AppException{
+class UserNotFoundException extends AppException{
 	protected $message = 'We couldn’t locate that user.';
 }

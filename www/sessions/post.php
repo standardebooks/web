@@ -12,9 +12,9 @@ session_start();
 $requestType = HttpInput::RequestType();
 
 $session = new Session();
-$email = HttpInput::Str(POST, 'email', false);
-$password = HttpInput::Str(POST, 'password', false);
-$redirect = HttpInput::Str(POST, 'redirect', false);
+$email = HttpInput::Str(POST, 'email');
+$password = HttpInput::Str(POST, 'password');
+$redirect = HttpInput::Str(POST, 'redirect');
 
 try{
 	if($redirect === null){

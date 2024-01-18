@@ -5,7 +5,7 @@ $poll = new Poll();
 $canVote = true; // Allow non-logged-in users to see the 'vote' button
 
 try{
-	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
+	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 
 	if(!$poll->IsActive() && $poll->End !== null && $poll->End < new DateTime()){
 		// If the poll ended, redirect to the results

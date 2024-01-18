@@ -3,11 +3,11 @@ use function Safe\session_unset;
 
 session_start();
 
-$saved = HttpInput::Bool(SESSION, 'artwork-saved', false);
+$saved = HttpInput::Bool(SESSION, 'artwork-saved') ?? false;
 $exception = $_SESSION['exception'] ?? null;
 
 try{
-	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name') ?? '', HttpInput::Str(GET, 'artwork-url-name') ?? '');
+	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 	$isAdminView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
 
 	// If the artwork is not approved, and we're not an admin or the submitter when they can edit, don't show it.

@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidPollException extends AppException{
+class PollNotFoundException extends AppException{
 	protected $message = 'We couldn’t locate that poll.';
 }

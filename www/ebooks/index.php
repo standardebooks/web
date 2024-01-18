@@ -4,11 +4,11 @@ use function Safe\preg_replace;
 try{
 	$page = HttpInput::Int(GET, 'page') ?? 1;
 	$perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
-	$query = HttpInput::Str(GET, 'query', false) ?? '';
+	$query = HttpInput::Str(GET, 'query') ?? '';
 	$tags = HttpInput::GetArray('tags') ?? [];
-	$collection = HttpInput::Str(GET, 'collection', false);
-	$view = HttpInput::Str(GET, 'view', false);
-	$sort = HttpInput::Str(GET, 'sort', false);
+	$collection = HttpInput::Str(GET, 'collection');
+	$view = HttpInput::Str(GET, 'view');
+	$sort = HttpInput::Str(GET, 'sort');
 	$pages = 0;
 	$totalEbooks = 0;
 	$collectionObject = null;
@@ -71,7 +71,7 @@ try{
 			$pageHeader = 'Free Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . ucfirst($collectionType);
 		}
 		else{
-			throw new Exceptions\InvalidCollectionException();
+			throw new Exceptions\CollectionNotFoundException();
 		}
 	}
 	else{
@@ -118,7 +118,7 @@ try{
 		$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 	}
 }
-catch(Exceptions\InvalidCollectionException){
+catch(Exceptions\CollectionNotFoundException){
 	Template::Emit404();
 }
 ?><?= Template::Header(['title' => $pageTitle, 'feedUrl' => $feedUrl, 'feedTitle' => $feedTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>

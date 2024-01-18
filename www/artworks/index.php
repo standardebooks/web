@@ -1,10 +1,10 @@
 <?
 $page = HttpInput::Int(GET, 'page') ?? 1;
 $perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
-$query = HttpInput::Str(GET, 'query', false) ?? '';
-$status = HttpInput::Str(GET, 'status', false) ?? null;
+$query = HttpInput::Str(GET, 'query') ?? '';
+$status = HttpInput::Str(GET, 'status') ?? null;
 $filterArtworkStatus = $status;
-$sort = HttpInput::Str(GET, 'sort', false);
+$sort = HttpInput::Str(GET, 'sort');
 $pages = 0;
 $totalArtworkCount = 0;
 $pageDescription = '';

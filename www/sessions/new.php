@@ -8,8 +8,8 @@ if($GLOBALS['User'] !== null){
 	exit();
 }
 
-$email = HttpInput::Str(SESSION, 'email', false);
-$redirect = HttpInput::Str(SESSION, 'redirect', false) ?? HttpInput::Str(GET, 'redirect', false);
+$email = HttpInput::Str(SESSION, 'email');
+$redirect = HttpInput::Str(SESSION, 'redirect') ?? HttpInput::Str(GET, 'redirect');
 
 $exception = $_SESSION['exception'] ?? null;
 $passwordRequired = false;

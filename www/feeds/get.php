@@ -1,8 +1,8 @@
 <?
 use function Safe\exec;
 
-$author = HttpInput::Str(GET, 'author', false);
-$collection = HttpInput::Str(GET, 'collection', false);
+$author = HttpInput::Str(GET, 'author');
+$collection = HttpInput::Str(GET, 'collection');
 $name = null;
 $target = null;
 $feedTypes = ['opds', 'atom', 'rss'];
@@ -24,12 +24,12 @@ if($collection !== null){
 
 try{
 	if($target === null || $name === null){
-		throw new Exceptions\InvalidCollectionException();
+		throw new Exceptions\CollectionNotFoundException();
 	}
 
 	$file = WEB_ROOT . '/feeds/opds/' . $name . '/' . $target . '.xml';
 	if(!is_file($file)){
-		throw new Exceptions\InvalidCollectionException();
+		throw new Exceptions\CollectionNotFoundException();
 	}
 
 	$label = exec('attr -g se-label ' . escapeshellarg($file)) ?: basename($file, '.xml');
@@ -48,7 +48,7 @@ try{
 
 	$feedUrl = '/' . $name . '/' . $target;
 }
-catch(Exceptions\InvalidCollectionException){
+catch(Exceptions\CollectionNotFoundException){
 	Template::Emit404();
 }
 ?><?= Template::Header(['title' => $title, 'feedTitle' => $feedTitle, 'feedUrl' => $feedUrl, 'description' => $description]) ?>

@@ -142,7 +142,7 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Include in-use ebook slug as a search parameter when searching for artwork by keyword.
 
-- Artwork searching/filtering should be done in pure SQL, no after-sql filtering in PHP.
+- Artwork searching/filtering should be done in pure SQL, no after-SQL filtering in PHP.
 
 - Allow listing artwork by artist by visiting `/artworks/<artist-name>`, and link instances of artist name to that URL.
 

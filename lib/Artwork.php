@@ -135,7 +135,7 @@ class Artwork extends PropertiesBase{
 			try{
 				$this->_Submitter = User::Get($this->SubmitterUserId);
 			}
-			catch(Exceptions\InvalidUserException){
+			catch(Exceptions\UserNotFoundException){
 				// Return null
 			}
 		}
@@ -148,7 +148,7 @@ class Artwork extends PropertiesBase{
 			try{
 				$this->_Reviewer = User::Get($this->ReviewerUserId);
 			}
-			catch(Exceptions\InvalidUserException){
+			catch(Exceptions\UserNotFoundException){
 				// Return null
 			}
 		}
@@ -486,7 +486,7 @@ class Artwork extends PropertiesBase{
 		// But we do a basic check that the string includes one _. It might not include a dash, for example anonymous_poetry
 		if($this->EbookWwwFilesystemPath !== null){
 			if(mb_stripos($this->EbookWwwFilesystemPath, '_') === false){
-				$error->Add(new Exceptions\InvalidEbookException('Invalid ebook. Expected file system slug like “c-s-lewis_poetry”.'));
+				$error->Add(new Exceptions\EbookNotFoundException('Invalid ebook. Expected file system slug like “c-s-lewis_poetry”.'));
 			}
 		}
 
@@ -900,23 +900,23 @@ class Artwork extends PropertiesBase{
 		$artwork = new Artwork();
 		$artwork->Artist = new Artist();
 
-		$artwork->Artist->Name = HttpInput::Str(POST, 'artist-name', false);
+		$artwork->Artist->Name = HttpInput::Str(POST, 'artist-name');
 		$artwork->Artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
 
-		$artwork->Name = HttpInput::Str(POST, 'artwork-name', false);
+		$artwork->Name = HttpInput::Str(POST, 'artwork-name');
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
-		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa', false) ?? false;
-		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags', false) ?? [];
-		$artwork->Status = HttpInput::Str(POST, 'artwork-status', false) ?? ArtworkStatus::Unverified;
-		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false);
-		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us', false);
+		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
+		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
+		$artwork->Status = HttpInput::Str(POST, 'artwork-status') ?? ArtworkStatus::Unverified;
+		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path');
+		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
 		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');
-		$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url', false);
-		$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'artwork-copyright-page-url', false);
-		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url', false);
-		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url', false);
-		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception', false);
-		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes', false);
+		$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url');
+		$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'artwork-copyright-page-url');
+		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url');
+		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url');
+		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception');
+		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes');
 
 		return $artwork;
 	}

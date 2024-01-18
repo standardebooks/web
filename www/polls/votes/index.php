@@ -2,7 +2,7 @@
 $poll = new Poll();
 
 try{
-	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
+	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 }
 catch(Exceptions\AppException){
 	Template::Emit404();

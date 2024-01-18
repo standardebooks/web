@@ -36,7 +36,7 @@ class PollItem extends PropertiesBase{
 
 	public static function Get(?int $pollItemId): PollItem{
 		if($pollItemId === null ){
-			throw new Exceptions\InvalidPollItemException();
+			throw new Exceptions\PollItemNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -46,7 +46,7 @@ class PollItem extends PropertiesBase{
 				', [$pollItemId], 'PollItem');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidPollItemException();
+			throw new Exceptions\PollItemNotFoundException();
 		}
 
 		return $result[0];

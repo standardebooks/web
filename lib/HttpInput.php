@@ -50,30 +50,30 @@ class HttpInput{
 		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? WEB : REST;
 	}
 
-	public static function Str(string $type, string $variable, bool $allowEmptyString = true, string $default = null): ?string{
-		$var = self::GetHttpVar($variable, HTTP_VAR_STR, $type, $default);
+	public static function Str(string $type, string $variable, $allowEmptyString = false): ?string{
+		$var = self::GetHttpVar($variable, HTTP_VAR_STR, $type);
 
 		if(is_array($var)){
-			return $default;
+			return null;
 		}
 
-		if(!$allowEmptyString && $var === ''){
+		if(!$allowEmptyString && $var == ''){
 			return null;
 		}
 
 		return $var;
 	}
 
-	public static function Int(string $type, string $variable, int $default = null): ?int{
-		return self::GetHttpVar($variable, HTTP_VAR_INT, $type, $default);
+	public static function Int(string $type, string $variable): ?int{
+		return self::GetHttpVar($variable, HTTP_VAR_INT, $type);
 	}
 
-	public static function Bool(string $type, string $variable, bool $default = null): ?bool{
-		return self::GetHttpVar($variable, HTTP_VAR_BOOL, $type, $default);
+	public static function Bool(string $type, string $variable): ?bool{
+		return self::GetHttpVar($variable, HTTP_VAR_BOOL, $type);
 	}
 
-	public static function Dec(string $type, string $variable, float $default = null): ?float{
-		return self::GetHttpVar($variable, HTTP_VAR_DEC, $type, $default);
+	public static function Dec(string $type, string $variable): ?float{
+		return self::GetHttpVar($variable, HTTP_VAR_DEC, $type);
 	}
 
 	/**
@@ -81,11 +81,11 @@ class HttpInput{
 	* @param array<mixed> $default
 	* @return array<string>
 	*/
-	public static function GetArray(string $variable, array $default = null): ?array{
-		return self::GetHttpVar($variable, HTTP_VAR_ARRAY, GET, $default);
+	public static function GetArray(string $variable): ?array{
+		return self::GetHttpVar($variable, HTTP_VAR_ARRAY, GET);
 	}
 
-	private static function GetHttpVar(string $variable, int $type, string $set, mixed $default): mixed{
+	private static function GetHttpVar(string $variable, int $type, string $set): mixed{
 		$vars = [];
 
 		switch($set){
@@ -110,7 +110,7 @@ class HttpInput{
 			}
 			elseif($type !== HTTP_VAR_ARRAY && is_array($vars[$variable])){
 				// We asked for not an array, but we got an array
-				return $default;
+				return null;
 			}
 			else{
 				$var = trim($vars[$variable]);
@@ -126,7 +126,7 @@ class HttpInput{
 							return intval($var);
 						}
 						catch(Exception){
-							return $default;
+							return null;
 						}
 					}
 					break;
@@ -143,13 +143,13 @@ class HttpInput{
 							return floatval($var);
 						}
 						catch(Exception){
-							return $default;
+							return null;
 						}
 					}
 					break;
 			}
 		}
 
-		return $default;
+		return null;
 	}
 }

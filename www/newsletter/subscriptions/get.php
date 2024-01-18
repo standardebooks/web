@@ -13,7 +13,7 @@ try{
 		$created = true;
 	}
 	else{
-		$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid', false) ?? '');
+		$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
 
 		if(isset($_SESSION['subscription-created']) && $_SESSION['subscription-created'] == $subscription->UserId){
 			$created = true;

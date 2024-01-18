@@ -64,7 +64,7 @@ class Session extends PropertiesBase{
 
 			self::SetSessionCookie($this->SessionId);
 		}
-		catch(Exceptions\InvalidUserException){
+		catch(Exceptions\UserNotFoundException){
 			throw new InvalidLoginException();
 		}
 	}
@@ -95,7 +95,7 @@ class Session extends PropertiesBase{
 
 	public static function Get(?string $sessionId): Session{
 		if($sessionId === null){
-			throw new Exceptions\InvalidSessionException();
+			throw new Exceptions\SessionNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -105,7 +105,7 @@ class Session extends PropertiesBase{
 				', [$sessionId], 'Session');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidSessionException();
+			throw new Exceptions\SessionNotFoundException();
 		}
 
 		return $result[0];

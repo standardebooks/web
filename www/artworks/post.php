@@ -52,7 +52,7 @@ try{
 
 	// PUTing an artwork
 	if($httpMethod == HTTP_PUT){
-		$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name', false), HttpInput::Str(GET, 'artwork-url-name', false));
+		$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
 		if(!$originalArtwork->CanBeEditedBy($GLOBALS['User'])){
 			throw new Exceptions\InvalidPermissionsException();
@@ -65,7 +65,7 @@ try{
 		$artwork->Created = $originalArtwork->Created;
 		$artwork->SubmitterUserId = $originalArtwork->SubmitterUserId;
 
-		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status', false) ?? '');
+		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 		if($newStatus !== null){
 			if($originalArtwork->Status != $newStatus && !$originalArtwork->CanStatusBeChangedBy($GLOBALS['User'])){
 				throw new Exceptions\InvalidPermissionsException();
@@ -97,13 +97,13 @@ try{
 
 	// PATCHing a new artwork
 	if($httpMethod == HTTP_PATCH){
-		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name', false), HttpInput::Str(GET, 'artwork-url-name', false));
+		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
 		$exceptionRedirectUrl = $artwork->Url;
 
 		// We can PATCH the status, the ebook www filesystem path, or both.
 
-		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status', false) ?? '');
+		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 		if($newStatus !== null){
 			if($artwork->Status != $newStatus && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
 				throw new Exceptions\InvalidPermissionsException();
@@ -112,7 +112,7 @@ try{
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 		}
 
-		$newEbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path', false) ?? null;
+		$newEbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path') ?? null;
 		if($artwork->EbookWwwFilesystemPath != $newEbookWwwFilesystemPath && !$artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'])){
 			throw new Exceptions\InvalidPermissionsException();
 		}

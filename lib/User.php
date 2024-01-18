@@ -115,7 +115,7 @@ class User extends PropertiesBase{
 
 	public static function Get(?int $userId): User{
 		if($userId === null){
-			throw new Exceptions\InvalidUserException();
+			throw new Exceptions\UserNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -125,7 +125,7 @@ class User extends PropertiesBase{
 				', [$userId], 'User');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidUserException();
+			throw new Exceptions\UserNotFoundException();
 		}
 
 		return $result[0];
@@ -133,7 +133,7 @@ class User extends PropertiesBase{
 
 	public static function GetByEmail(?string $email): User{
 		if($email === null){
-			throw new Exceptions\InvalidUserException();
+			throw new Exceptions\UserNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -143,7 +143,7 @@ class User extends PropertiesBase{
 				', [$email], 'User');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidUserException();
+			throw new Exceptions\UserNotFoundException();
 		}
 
 		return $result[0];
@@ -154,7 +154,7 @@ class User extends PropertiesBase{
 		// Emails without that row may only be signed up for the newsletter and thus are not "registered" users
 		// The identifier is either an email or a UUID (api key)
 		if($identifier === null){
-			throw new Exceptions\InvalidUserException();
+			throw new Exceptions\UserNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -166,7 +166,7 @@ class User extends PropertiesBase{
 				', [$identifier, $identifier], 'User');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidUserException();
+			throw new Exceptions\UserNotFoundException();
 		}
 
 		if($result[0]->PasswordHash !== null && $password === null){
@@ -175,7 +175,7 @@ class User extends PropertiesBase{
 		}
 
 		if($result[0]->PasswordHash !== null && !password_verify($password ?? '', $result[0]->PasswordHash)){
-			throw new Exceptions\InvalidUserException();
+			throw new Exceptions\UserNotFoundException();
 		}
 
 		return $result[0];

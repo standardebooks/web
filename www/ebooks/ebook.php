@@ -14,12 +14,12 @@ $carousel = [];
 $carouselTag = null;
 
 try{
-	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path', true) ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
+	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
 	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath; // Path to the deployed WWW files for this ebook
 
 	if($urlPath == '' || mb_stripos($wwwFilesystemPath, EBOOKS_DIST_PATH) !== 0){
 		// Ensure the path exists and that the root is in our www directory
-		throw new Exceptions\InvalidEbookException();
+		throw new Exceptions\EbookNotFoundException();
 	}
 	// Were we passed the author and a work but not the translator?
 	// For example:
@@ -104,7 +104,7 @@ catch(Exceptions\SeeOtherEbookException $ex){
 	header('Location: ' . $ex->Url);
 	exit();
 }
-catch(Exceptions\InvalidEbookException){
+catch(Exceptions\EbookNotFoundException){
 	Template::Emit404();
 }
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>

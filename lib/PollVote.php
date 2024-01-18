@@ -36,7 +36,7 @@ class PollVote extends PropertiesBase{
 		$error = new Exceptions\ValidationException();
 
 		if($this->User === null){
-			$error->Add(new Exceptions\InvalidUserException());
+			$error->Add(new Exceptions\UserNotFoundException());
 		}
 
 		if($this->PollItemId === null){
@@ -44,11 +44,11 @@ class PollVote extends PropertiesBase{
 		}
 		else{
 			if($this->PollItem === null){
-				$error->Add(new Exceptions\InvalidPollException());
+				$error->Add(new Exceptions\PollNotFoundException());
 			}
 			else{
 				if($this->PollItem->Poll === null){
-					$error->Add(new Exceptions\InvalidPollException());
+					$error->Add(new Exceptions\PollNotFoundException());
 				}
 				else{
 					if(!$this->PollItem->Poll->IsActive()){
@@ -67,7 +67,7 @@ class PollVote extends PropertiesBase{
 				$vote = PollVote::Get($this->PollItem->Poll->UrlName, $this->UserId);
 				$error->Add(new Exceptions\PollVoteExistsException($vote));
 			}
-			catch(Exceptions\InvalidPollVoteException){
+			catch(Exceptions\PollVoteNotFoundException){
 				// User hasn't voted yet, carry on
 			}
 
@@ -87,7 +87,7 @@ class PollVote extends PropertiesBase{
 				$this->User = User::GetByEmail($email);
 				$this->UserId = $this->User->UserId;
 			}
-			catch(Exceptions\InvalidUserException){
+			catch(Exceptions\UserNotFoundException){
 				// Can't validate patron email - do nothing for now,
 				// this will be caught later when we validate the vote during creation.
 				// Save the email in the User object in case we want it later,
@@ -109,7 +109,7 @@ class PollVote extends PropertiesBase{
 
 	public static function Get(?string $pollUrlName, ?int $userId): PollVote{
 		if($pollUrlName === null || $userId === null){
-			throw new Exceptions\InvalidPollVoteException();
+			throw new Exceptions\PollVoteNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -124,7 +124,7 @@ class PollVote extends PropertiesBase{
 				', [$pollUrlName, $userId], 'PollVote');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidPollVoteException();
+			throw new Exceptions\PollVoteNotFoundException();
 		}
 
 		return $result[0];

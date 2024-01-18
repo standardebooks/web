@@ -100,7 +100,7 @@ class Poll extends PropertiesBase{
 
 	public static function Get(?int $pollId): Poll{
 		if($pollId === null){
-			throw new Exceptions\InvalidPollException();
+			throw new Exceptions\PollNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -110,7 +110,7 @@ class Poll extends PropertiesBase{
 				', [$pollId], 'Poll');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidPollException();
+			throw new Exceptions\PollNotFoundException();
 		}
 
 		return $result[0];
@@ -118,7 +118,7 @@ class Poll extends PropertiesBase{
 
 	public static function GetByUrlName(?string $urlName): Poll{
 		if($urlName === null){
-			throw new Exceptions\InvalidPollException();
+			throw new Exceptions\PollNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -128,7 +128,7 @@ class Poll extends PropertiesBase{
 				', [$urlName], 'Poll');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidPollException();
+			throw new Exceptions\PollNotFoundException();
 		}
 
 		return $result[0];

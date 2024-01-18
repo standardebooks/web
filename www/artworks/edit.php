@@ -13,7 +13,7 @@ try{
 	}
 
 	if($artwork === null){
-		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name', false) ?? '', HttpInput::Str(GET, 'artwork-url-name', false) ?? '');
+		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 	}
 
 	if(!$artwork->CanBeEditedBy($GLOBALS['User'])){

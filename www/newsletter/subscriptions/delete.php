@@ -9,7 +9,7 @@ try{
 		throw new Exceptions\InvalidRequestException();
 	}
 
-	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid') ?? '');
+	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
 	$subscription->Delete();
 
 	if($requestType == REST){
@@ -20,7 +20,7 @@ catch(Exceptions\InvalidRequestException){
 	http_response_code(405);
 	exit();
 }
-catch(Exceptions\InvalidNewsletterSubscriptionException){
+catch(Exceptions\NewsletterSubscriptionNotFoundException){
 	if($requestType == WEB){
 		Template::Emit404();
 	}

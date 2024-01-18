@@ -91,20 +91,20 @@ class Ebook{
 			}
 			catch(Exception){
 				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, whichis  a common injection attack vector
-				throw new Exceptions\InvalidEbookException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
+				throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
 			}
 		}
 
 		if(!is_dir($wwwFilesystemPath)){
-			throw new Exceptions\InvalidEbookException('Invalid www filesystem path: ' . $wwwFilesystemPath);
+			throw new Exceptions\EbookNotFoundException('Invalid www filesystem path: ' . $wwwFilesystemPath);
 		}
 
 		if(!is_dir($this->RepoFilesystemPath)){
-			throw new Exceptions\InvalidEbookException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
+			throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
 		}
 
 		if(!is_file($wwwFilesystemPath . '/content.opf')){
-			throw new Exceptions\InvalidEbookException('Invalid content.opf file: ' . $wwwFilesystemPath . '/content.opf');
+			throw new Exceptions\EbookNotFoundException('Invalid content.opf file: ' . $wwwFilesystemPath . '/content.opf');
 		}
 
 		$this->WwwFilesystemPath = $wwwFilesystemPath;

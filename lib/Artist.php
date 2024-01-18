@@ -85,7 +85,7 @@ class Artist extends PropertiesBase{
 
 	public static function Get(?int $artistId): Artist{
 		if($artistId === null){
-			throw new Exceptions\InvalidArtistException();
+			throw new Exceptions\ArtistNotFoundException();
 		}
 
 		$result = Db::Query('
@@ -95,7 +95,7 @@ class Artist extends PropertiesBase{
 			', [$artistId], 'Artist');
 
 		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidArtistException();
+			throw new Exceptions\ArtistNotFoundException();
 		}
 
 		return $result[0];

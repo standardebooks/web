@@ -19,7 +19,7 @@ try{
 		$vote->User = $GLOBALS['User'];
 	}
 
-	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname', false));
+	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 
 	try{
 		$vote = PollVote::Get($poll->UrlName, $GLOBALS['User']->UserId);
@@ -27,7 +27,7 @@ try{
 		// Vote was found, don't allow another vote
 		throw new Exceptions\PollVoteExistsException($vote);
 	}
-	catch(Exceptions\InvalidPollVoteException){
+	catch(Exceptions\PollVoteNotFoundException){
 		// Vote was not found, user is OK to vote
 	}
 
@@ -39,7 +39,7 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPollException){
+catch(Exceptions\PollNotFoundException){
 	Template::Emit404();
 }
 catch(Exceptions\PollVoteExistsException $ex){

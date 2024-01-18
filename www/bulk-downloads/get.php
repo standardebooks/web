@@ -2,9 +2,9 @@
 use function Safe\apcu_fetch;
 
 $collection = null;
-$collectionUrlName = HttpInput::Str(GET, 'collection', false);
+$collectionUrlName = HttpInput::Str(GET, 'collection');
 $collection = null;
-$authorUrlName = HttpInput::Str(GET, 'author', false);
+$authorUrlName = HttpInput::Str(GET, 'author');
 $canDownload = false;
 
 try{
@@ -32,7 +32,7 @@ try{
 		}
 
 		if($collection === null){
-			throw new Exceptions\InvalidCollectionException();
+			throw new Exceptions\CollectionNotFoundException();
 		}
 	}
 
@@ -56,14 +56,14 @@ try{
 		}
 
 		if($collection === null){
-			throw new Exceptions\InvalidAuthorException();
+			throw new Exceptions\AuthorNotFoundException();
 		}
 	}
 }
-catch(Exceptions\InvalidAuthorException){
+catch(Exceptions\AuthorNotFoundException){
 	Template::Emit404();
 }
-catch(Exceptions\InvalidCollectionException){
+catch(Exceptions\CollectionNotFoundException){
 	Template::Emit404();
 }
 
