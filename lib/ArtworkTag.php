@@ -1,5 +1,6 @@
 <?
 use function Safe\preg_match;
+use function Safe\preg_replace;
 
 class ArtworkTag extends Tag{
 	// *******

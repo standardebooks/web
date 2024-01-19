@@ -490,10 +490,6 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\MissingPdProofException());
 		}
 
-		if($this->MimeType === null){
-			$error->Add(new Exceptions\InvalidMimeTypeException());
-		}
-
 		// Check the ebook www filesystem path.
 		// We don't check if it exists, because the book might not be published yet.
 		// But we do a basic check that the string includes one _. It might not include a dash, for example anonymous_poetry
@@ -529,6 +525,11 @@ class Artwork extends PropertiesBase{
 			if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
 				$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
 			}
+		}
+
+		if($this->MimeType === null && !$error->Has('Exceptions\InvalidImageUploadException')){
+			// Only notify of wrong mimetype if there is no other problem with the uploaded image
+			$error->Add(new Exceptions\InvalidMimeTypeException());
 		}
 
 		if($error->HasExceptions){
