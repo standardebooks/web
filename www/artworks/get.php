@@ -15,7 +15,7 @@ try{
 	if(
 		($GLOBALS['User'] === null && $artwork->Status != ArtworkStatus::Approved)
 		||
-		($GLOBALS['User'] !== null && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isReviewerView)
+		($GLOBALS['User'] !== null && $artwork->Status != ArtworkStatus::Approved && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isReviewerView)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
