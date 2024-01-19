@@ -145,7 +145,8 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<? if($artwork->CanBeEditedBy($GLOBALS['User'] ?? null)){ ?>
 			<h2>Edit artwork</h2>
-			<p>Before approval, the editor and submitter may <a href="<?= $artwork->EditUrl ?>">edit <i><?= Formatter::EscapeHtml($artwork->Name) ?></i></a>.</p>
+			<p>The editor or submitter may edit this artwork before it’s approved. Once it’s approved, it can no longer be edited.</p>
+			<p><a href="<?= $artwork->EditUrl ?>">Edit this artwork.</a></p>
 		<? } ?>
 
 		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
