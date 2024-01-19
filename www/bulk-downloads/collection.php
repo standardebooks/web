@@ -5,7 +5,7 @@ use function Safe\preg_replace;
 $canDownload = false;
 $class = HttpInput::Str(GET, 'class');
 
-if($class != 'authors' && $class != 'collections' && $class != 'subjects' && $class != 'months'){
+if($class === null || ($class != 'authors' && $class != 'collections' && $class != 'subjects' && $class != 'months')){
 	Template::Emit404();
 }
 

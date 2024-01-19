@@ -50,7 +50,7 @@ class HttpInput{
 		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? WEB : REST;
 	}
 
-	public static function Str(string $type, string $variable, $allowEmptyString = false): ?string{
+	public static function Str(string $type, string $variable, bool $allowEmptyString = false): ?string{
 		$var = self::GetHttpVar($variable, HTTP_VAR_STR, $type);
 
 		if(is_array($var)){
@@ -78,7 +78,6 @@ class HttpInput{
 
 	/**
 	* @param string $variable
-	* @param array<mixed> $default
 	* @return array<string>
 	*/
 	public static function GetArray(string $variable): ?array{

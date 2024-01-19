@@ -183,7 +183,7 @@ form div.footer{
 
 main h1 ~ a[href^="/images/cover-uploads"],
 .artworks h1 ~ a[href^="/images/cover-uploads"],
-main section.narrow h1 + picture{
+main section.narrow h1 ~ picture{
 	width: auto;
 	line-height: 0;
 }

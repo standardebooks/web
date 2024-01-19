@@ -296,6 +296,16 @@ class Artwork extends PropertiesBase{
 			return true;
 		}
 
+		// TODO: Remove this once all legacy artworks are cleaned up and approved.
+		// Editors can edit approved artwork that has the 'todo' tag.
+		if($user->Benefits->CanReviewArtwork){
+			foreach($this->Tags as $tag){
+				if($tag->Name == 'todo'){
+					return true;
+				}
+			}
+		}
+
 		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
 			// Editors can edit an artwork, and submitters can edit their own artwork, if it's not yet approved.
 			return true;
@@ -395,8 +405,11 @@ class Artwork extends PropertiesBase{
 		}
 
 		foreach($this->Tags as $tag){
-			if(strlen($tag->Name) > ARTWORK_MAX_STRING_LENGTH){
-				$error->Add(new Exceptions\StringTooLongException('Artwork Tag: '. $tag->Name));
+			try{
+				$tag->Validate();
+			}
+			catch(Exceptions\ValidationException $ex){
+				$error->Add($ex);
 			}
 		}
 
