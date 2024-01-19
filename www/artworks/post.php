@@ -37,7 +37,7 @@ try{
 		}
 
 		// Confirm that we have an image and that it came from POST
-		if(isset($_FILES['artwork-image']) && (!is_uploaded_file($_FILES['artwork-image']['tmp_name']) || $_FILES['artwork-image']['error'] > UPLOAD_ERR_OK || $_FILES['artwork-image']['size'] > 0)){
+		if(isset($_FILES['artwork-image']) && (!is_uploaded_file($_FILES['artwork-image']['tmp_name']) || $_FILES['artwork-image']['error'] > UPLOAD_ERR_OK || $_FILES['artwork-image']['size'] <= 0)){
 			throw new Exceptions\InvalidImageUploadException();
 		}
 
