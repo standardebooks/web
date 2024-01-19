@@ -170,14 +170,6 @@ class Library{
 		// "unverified-submitter": Show unverified artwork from the submitter
 		// "in-use": Show only in-use artwork
 
-		$orderBy = 'Created desc';
-		if($sort == SORT_COVER_ARTIST_ALPHA){
-			$orderBy = 'Name';
-		}
-		elseif($sort == SORT_COVER_ARTWORK_COMPLETED_NEWEST){
-			$orderBy = 'CompletedYear desc';
-		}
-
 		$statusCondition = '';
 		$params = [];
 
@@ -211,12 +203,20 @@ class Library{
 			$params[] = $status;
 		}
 
+		$orderBy = 'Created desc';
+		if($sort == SORT_COVER_ARTIST_ALPHA){
+			$orderBy = 'Name';
+		}
+		elseif($sort == SORT_COVER_ARTWORK_COMPLETED_NEWEST){
+			$orderBy = 'CompletedYear desc';
+		}
+
 		$artworks = [];
-			$artworks = Db::Query("
+			$artworks = Db::Query('
 				SELECT *
 				from Artworks
-				where $statusCondition
-				order by $orderBy", $params, 'Artwork');
+				where ' . $statusCondition .
+				' order by ' . $orderBy, $params, 'Artwork');
 
 		$matches = $artworks;
 
@@ -231,7 +231,6 @@ class Library{
 
 			$matches = $filteredMatches;
 		}
-
 
 		return $matches;
 	}
