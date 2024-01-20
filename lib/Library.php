@@ -212,28 +212,32 @@ class Library{
 			$orderBy = 'art.CompletedYear desc';
 		}
 
+		// Remove diacritics and non-alphanumeric characters
+		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query ?? '')));
+
+		$params[] = '%' . $query . '%'; // art.Name
+		$params[] = '%' . $query . '%'; // art.EbookWwwFilesystemPath
+		$params[] = '%' . $query . '%'; // a.Name
+		$params[] = '%' . $query . '%'; // aan.Name
+		$params[] = $query; // t.Name
+
 		$artworks = Db::Query('
 			SELECT art.*
 			from Artworks art
-			inner join Artists a using (ArtistId)
-			where ' . $statusCondition .
-			' order by ' . $orderBy, $params, 'Artwork');
+			  inner join Artists a using (ArtistId)
+			  left join ArtistAlternateNames aan using (ArtistId)
+			  left join ArtworkTags at using (ArtworkId)
+			  left join Tags t using (TagId)
+			where ' . $statusCondition . '
+			  and (art.Name like ?
+                          or art.EbookWwwFilesystemPath like ?
+			  or a.Name like ?
+			  or aan.Name like ?
+			  or t.Name like ?)
+                        group by art.ArtworkId
+			order by ' . $orderBy, $params, 'Artwork');
 
-		$matches = $artworks;
-
-		if($query !== null){
-			$filteredMatches = [];
-
-			foreach($matches as $artwork){
-				if($artwork->Contains($query)){
-					$filteredMatches[] = $artwork;
-				}
-			}
-
-			$matches = $filteredMatches;
-		}
-
-		return $matches;
+		return $artworks;
 	}
 
 	/**

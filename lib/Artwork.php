@@ -834,31 +834,6 @@ class Artwork extends PropertiesBase{
 		', [$this->ArtworkId]);
 	}
 
-	public function Contains(string $query): bool{
-		$searchString = $this->Name;
-
-		$searchString .= ' ' . $this->Artist->Name;
-		$searchString .= ' ' . implode(' ', $this->Artist->AlternateNames);
-
-		foreach($this->Tags as $tag){
-			$searchString .= ' ' . $tag->Name;
-		}
-
-		// Remove diacritics and non-alphanumeric characters
-		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($searchString)));
-		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
-
-		if($query == ''){
-			return false;
-		}
-
-		if(mb_stripos($searchString, $query) !== false){
-			return true;
-		}
-
-		return false;
-	}
-
 	// ***********
 	// ORM METHODS
 	// ***********
