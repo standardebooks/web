@@ -7,6 +7,7 @@ use function Safe\filesize;
 use function Safe\glob;
 use function Safe\ksort;
 use function Safe\preg_replace;
+use function Safe\preg_split;
 use function Safe\shell_exec;
 use function Safe\sleep;
 use function Safe\usort;
@@ -215,11 +216,13 @@ class Library{
 		// Remove diacritics and non-alphanumeric characters
 		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query ?? '')));
 
-		$params[] = '%' . $query . '%'; // art.Name
-		$params[] = '%' . $query . '%'; // art.EbookWwwFilesystemPath
-		$params[] = '%' . $query . '%'; // a.Name
-		$params[] = '%' . $query . '%'; // aan.Name
-		$params[] = $query; // t.Name
+		$tokenizedQuery = '\b(' . implode('|', preg_split('/\b|\s+/', $query, -1, PREG_SPLIT_NO_EMPTY)) . ')\b';
+
+		$params[] = $tokenizedQuery; // art.Name
+		$params[] = $tokenizedQuery; // art.EbookWwwFilesystemPath
+		$params[] = $tokenizedQuery; // a.Name
+		$params[] = $tokenizedQuery; // aan.Name
+		$params[] = $tokenizedQuery; // t.Name
 
 		$artworks = Db::Query('
 			SELECT art.*
@@ -229,11 +232,11 @@ class Library{
 			  left join ArtworkTags at using (ArtworkId)
 			  left join Tags t using (TagId)
 			where ' . $statusCondition . '
-			  and (art.Name like ?
-                          or art.EbookWwwFilesystemPath like ?
-			  or a.Name like ?
-			  or aan.Name like ?
-			  or t.Name like ?)
+			  and (art.Name regexp ?
+                          or art.EbookWwwFilesystemPath regexp ?
+			  or a.Name regexp ?
+			  or aan.Name regexp ?
+			  or t.Name regexp ?)
                         group by art.ArtworkId
 			order by ' . $orderBy, $params, 'Artwork');
 
