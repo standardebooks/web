@@ -212,12 +212,11 @@ class Library{
 			$orderBy = 'CompletedYear desc';
 		}
 
-		$artworks = [];
-			$artworks = Db::Query('
-				SELECT *
-				from Artworks
-				where ' . $statusCondition .
-				' order by ' . $orderBy, $params, 'Artwork');
+		$artworks = Db::Query('
+			SELECT *
+			from Artworks
+			where ' . $statusCondition .
+			' order by ' . $orderBy, $params, 'Artwork');
 
 		$matches = $artworks;
 
