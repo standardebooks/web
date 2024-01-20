@@ -180,9 +180,6 @@ class Library{
 		elseif($status == 'all-admin'){
 			$statusCondition = 'true';
 		}
-		elseif($status == 'in-use'){
-			$statusCondition = 'EbookWwwFilesystemPath is not null';
-		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$statusCondition = 'Status = ? or (Status = ? and SubmitterUserId = ?)';
 			$params[] = ArtworkStatus::Approved->value;
@@ -193,6 +190,10 @@ class Library{
 			$statusCondition = 'Status = ? and SubmitterUserId = ?';
 			$params[] = ArtworkStatus::Unverified->value;
 			$params[] = $submitterUserId;
+		}
+		elseif($status == 'in-use'){
+			$statusCondition = 'Status = ? and EbookWwwFilesystemPath is not null';
+			$params[] = ArtworkStatus::Approved->value;
 		}
 		elseif($status == ArtworkStatus::Approved->value){
 			$statusCondition = 'Status = ? and EbookWwwFilesystemPath is null';
