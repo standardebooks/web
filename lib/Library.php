@@ -170,57 +170,56 @@ class Library{
 		// "unverified-submitter": Show unverified artwork from the submitter
 		// "in-use": Show only in-use artwork
 
-		$artworks = [];
+		$statusCondition = '';
+		$params = [];
 
 		if($status === null || $status == 'all'){
-			$artworks = Db::Query('
-				SELECT *
-				from Artworks
-				where Status in (?)', [ArtworkStatus::Approved->value], 'Artwork');
+			$statusCondition = 'Status = ?';
+			$params[] = ArtworkStatus::Approved->value;
 		}
 		elseif($status == 'all-admin'){
-			$artworks = Db::Query('
-				SELECT *
-				from Artworks', [], 'Artwork');
-		}
-		elseif($status == 'in-use'){
-			$artworks = Db::Query('
-				SELECT *
-				from Artworks
-				where EbookWwwFilesystemPath is not null
-				', [], 'Artwork');
+			$statusCondition = 'true';
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
-			$artworks = Db::Query('
-				SELECT *
-				from Artworks
-				where Status = ?
-				or (Status = ? and SubmitterUserId = ?)', [ArtworkStatus::Approved->value, ArtworkStatus::Unverified->value, $submitterUserId], 'Artwork');
+			$statusCondition = 'Status = ? or (Status = ? and SubmitterUserId = ?)';
+			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = $submitterUserId;
 		}
 		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
-			$artworks = Db::Query('
-				SELECT *
-				from Artworks
-				where Status = ? and SubmitterUserId = ?', [ArtworkStatus::Unverified->value, $submitterUserId], 'Artwork');
+			$statusCondition = 'Status = ? and SubmitterUserId = ?';
+			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = $submitterUserId;
+		}
+		elseif($status == 'in-use'){
+			$statusCondition = 'Status = ? and EbookWwwFilesystemPath is not null';
+			$params[] = ArtworkStatus::Approved->value;
 		}
 		elseif($status == ArtworkStatus::Approved->value){
-			$artworks = Db::Query('
-				SELECT *
-				from Artworks
-				where Status = ? and EbookWwwFilesystemPath is null', [ArtworkStatus::Approved->value], 'Artwork');
+			$statusCondition = 'Status = ? and EbookWwwFilesystemPath is null';
+			$params[] = ArtworkStatus::Approved->value;
 		}
 		else{
-			$artworks = Db::Query('
-				SELECT *
-				from Artworks
-				where Status = ?', [$status], 'Artwork');
+			$statusCondition = 'Status = ?';
+			$params[] = $status;
 		}
+
+		$orderBy = 'art.Created desc';
+		if($sort == SORT_COVER_ARTIST_ALPHA){
+			$orderBy = 'a.Name';
+		}
+		elseif($sort == SORT_COVER_ARTWORK_COMPLETED_NEWEST){
+			$orderBy = 'art.CompletedYear desc';
+		}
+
+		$artworks = Db::Query('
+			SELECT art.*
+			from Artworks art
+			inner join Artists a using (ArtistId)
+			where ' . $statusCondition .
+			' order by ' . $orderBy, $params, 'Artwork');
 
 		$matches = $artworks;
-
-		if($sort === null){
-			$sort = SORT_COVER_ARTWORK_CREATED_NEWEST;
-		}
 
 		if($query !== null){
 			$filteredMatches = [];
@@ -232,53 +231,6 @@ class Library{
 			}
 
 			$matches = $filteredMatches;
-		}
-
-		switch($sort){
-			case SORT_COVER_ARTIST_ALPHA:
-				$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in artist names
-				if($collator === null){
-					usort($matches, function($a, $b){
-						return strcmp(mb_strtolower($a->Artist->Name), mb_strtolower($b->Artist->Name));
-					});
-				}
-				else{
-					usort($matches, function($a, $b) use($collator){
-						return $collator->compare($a->Artist->Name, $b->Artist->Name);
-					});
-				}
-
-				break;
-
-			case SORT_COVER_ARTWORK_CREATED_NEWEST:
-				usort($matches, function($a, $b){
-					if($a->Created > $b->Created){
-						return -1;
-					}
-					elseif($a->Created == $b->Created){
-						return 0;
-					}
-					else{
-						return 1;
-					}
-				});
-
-				break;
-
-			case SORT_COVER_ARTWORK_COMPLETED_NEWEST:
-				usort($matches, function($a, $b){
-					if($a->CompletedYear > $b->CompletedYear){
-						return -1;
-					}
-					elseif($a->CompletedYear == $b->CompletedYear){
-						return 0;
-					}
-					else{
-						return 1;
-					}
-				});
-
-				break;
 		}
 
 		return $matches;
