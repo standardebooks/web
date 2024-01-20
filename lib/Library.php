@@ -204,17 +204,18 @@ class Library{
 			$params[] = $status;
 		}
 
-		$orderBy = 'Created desc';
+		$orderBy = 'art.Created desc';
 		if($sort == SORT_COVER_ARTIST_ALPHA){
-			$orderBy = 'Name';
+			$orderBy = 'a.Name';
 		}
 		elseif($sort == SORT_COVER_ARTWORK_COMPLETED_NEWEST){
-			$orderBy = 'CompletedYear desc';
+			$orderBy = 'art.CompletedYear desc';
 		}
 
 		$artworks = Db::Query('
-			SELECT *
-			from Artworks
+			SELECT art.*
+			from Artworks art
+			inner join Artists a using (ArtistId)
 			where ' . $statusCondition .
 			' order by ' . $orderBy, $params, 'Artwork');
 
