@@ -204,5 +204,5 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 </fieldset>
 <? } ?>
 <div class="footer">
-	<button>Submit</button>
+	<button><? if($isEditForm){ ?>Save changes<? }else{ ?>Submit<? } ?></button>
 </div>
