@@ -213,10 +213,14 @@ class Library{
 			$orderBy = 'art.CompletedYear desc';
 		}
 
-		// Remove diacritics and non-alphanumeric characters
-		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query ?? '')));
+		// Remove diacritics and non-alphanumeric characters, but preserve apostrophes
+		$query = trim(preg_replace('|[^a-zA-Z0-9\' ]|ius', ' ', Formatter::RemoveDiacritics($query ?? '')));
 
-		$tokenizedQuery = '\b(' . implode('|', preg_split('/\b|\s+/', $query, -1, PREG_SPLIT_NO_EMPTY)) . ')\b';
+		// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
+		$tokenArray = preg_split('/\b\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
+
+		// Join the tokens with '|' to search on any token, but add word boundaries to force the full token to match
+		$tokenizedQuery = '\b(' . implode('|', $tokenArray) . ')\b';
 
 		$params[] = $tokenizedQuery; // art.Name
 		$params[] = $tokenizedQuery; // art.EbookWwwFilesystemPath
