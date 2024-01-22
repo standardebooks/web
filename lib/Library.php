@@ -214,7 +214,7 @@ class Library{
 		}
 
 		// Remove diacritics and non-alphanumeric characters, but preserve apostrophes
-		$query = trim(preg_replace('|[^a-zA-Z0-9\' ]|ius', ' ', Formatter::RemoveDiacritics($query ?? '')));
+		$query = trim(preg_replace('|[^a-zA-Z0-9\'’ ]|ius', ' ', Formatter::RemoveDiacritics($query ?? '')));
 
 		// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
 		$tokenArray = preg_split('/\b\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
