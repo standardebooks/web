@@ -237,7 +237,7 @@ class Library{
 			  left join Tags t using (TagId)
 			where ' . $statusCondition . '
 			  and (art.Name regexp ?
-                          or art.EbookWwwFilesystemPath regexp ?
+                          or replace(art.EbookWwwFilesystemPath, "_", " ") regexp ?
 			  or a.Name regexp ?
 			  or aan.Name regexp ?
 			  or t.Name regexp ?)
