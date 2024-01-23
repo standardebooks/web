@@ -1818,6 +1818,7 @@ label.select > span + span::after{
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
 	transition: color .5s;
+	z-index: -1;
 }
 
 label.search:focus-within::before,
