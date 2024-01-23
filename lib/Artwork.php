@@ -276,6 +276,14 @@ class Artwork extends PropertiesBase{
 	}
 
 	protected function GetEbook(): ?Ebook{
+		// TODO
+		// This function can't get the right ebook for books with additional contributors, because
+		// we don't have the actual SE dc:identifier from content.opf. So we use this rule of thumb to try to guess
+		// the ebook path in APCu. The real solution is to put ebooks in the database. Once we do that, this workaround can be removed.
+		// Failure cases:
+		// leo-tolstoy_short-fiction_louise-maude_aylmer-maude_nathan-haskell-dole_constance-garnett_j-d-duff_leo-weiner_r-s-townsend_hagberg-wright_benjamin-tucker_everymans-library_vladimir-chertkov_isabella-fyvie-may
+		// william-wordsworth_samuel-taylor-coleridge_lyrical-ballads
+		// karl-marx_friedrich-engels_the-communist-manifesto_samuel-moore
 		if($this->_Ebook === null){
 			$this->_Ebook = Library::GetEbook(EBOOKS_DIST_PATH . str_replace('_', '/', $this->EbookWwwFilesystemPath ?? ''));
 		}
