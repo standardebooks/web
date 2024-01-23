@@ -250,7 +250,11 @@ class Library{
 	/**
  	 * @return array<Artwork>
 	 */
-	public static function GetArtworksByArtist(string $artistUrlName): array{
+	public static function GetArtworksByArtist(?string $artistUrlName): array{
+		if($artistUrlName === null){
+			throw new Exceptions\ArtistNotFoundException();
+		}
+
 		$artworks = Db::Query('
 			SELECT art.*
 			from Artworks art
