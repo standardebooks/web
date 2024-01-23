@@ -22,5 +22,6 @@ CREATE TABLE `Artworks` (
   `Notes` TEXT NULL DEFAULT NULL
   PRIMARY KEY (`ArtworkId`),
   KEY `index1` (`Status`),
-  KEY `index2` (`UrlName`)
+  KEY `index2` (`UrlName`),
+  KEY `index3` (`ArtistId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

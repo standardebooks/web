@@ -248,6 +248,20 @@ class Library{
 	}
 
 	/**
+ 	 * @return array<Artwork>
+	 */
+	public static function GetArtworkByArtist(string $artistUrlName): array{
+		$artworks = Db::Query('
+			SELECT art.*
+			from Artworks art
+			  inner join Artists a using (ArtistId)
+			where a.UrlName = ?
+			order by art.Created desc', [$artistUrlName], 'Artwork');
+
+		return $artworks;
+	}
+
+	/**
 	 * @return array<mixed>
 	 */
 	private static function GetFromApcu(string $variable): array{
