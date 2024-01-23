@@ -63,7 +63,7 @@
 			<li>
 				<h2>Check for punctuation outside quotation marks</h2>
 				<p>Run the following command to examine punctuation that might have to be moved inside quotation marks:</p>
-				<code class="terminal"><b>se</b> interactive-replace <i>"’([\.\,])"</i> <i>"\1’"</i> <u>.</u></code>
+				<code class="terminal"><span><b>se</b> interactive-replace <i>"([’”])([,.])" "\2\1"</i> src/epub/text/<i class="glob">*</i></span></code>
 				<p>In general, periods and commas always go inside quotation marks, both single and double. For example:</p>
 				<figure class="wrong html full">
 					<code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>He pronounced it “pleasure”, and as he said it he licked his lips.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
