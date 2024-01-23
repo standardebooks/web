@@ -8,7 +8,7 @@ try{
 		throw new Exceptions\ArtistNotFoundException();
 	}
 
-	$artworks = Library::GetArtworkByArtist($artistUrlName);
+	$artworks = Library::GetArtworksByArtist($artistUrlName);
 
 	if(sizeof($artworks) == 0){
 		throw new Exceptions\ArtistNotFoundException();
