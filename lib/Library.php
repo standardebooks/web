@@ -250,7 +250,7 @@ class Library{
 	/**
  	 * @return array<Artwork>
 	 */
-	public static function GetArtworkByArtist(string $artistUrlName): array{
+	public static function GetArtworksByArtist(string $artistUrlName): array{
 		$artworks = Db::Query('
 			SELECT art.*
 			from Artworks art
