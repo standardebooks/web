@@ -4,6 +4,7 @@ use function Safe\date;
 
 /**
  * @property string $UrlName
+ * @property string $Url
  * @property array<string> $AlternateNames
  * @property array<string> $_AlternateNames
  */
@@ -14,6 +15,7 @@ class Artist extends PropertiesBase{
 	public ?datetime $Created = null;
 	public ?datetime $Updated = null;
 	protected ?string $_UrlName = null;
+	protected ?string $_Url = null;
 	protected $_AlternateNames;
 
 	// *******
@@ -30,6 +32,14 @@ class Artist extends PropertiesBase{
 		}
 
 		return $this->_UrlName;
+	}
+
+	protected function GetUrl(): string{
+		if($this->_Url === null){
+			$this->_Url = '/artworks/' . $this->UrlName;
+		}
+
+		return $this->_Url;
 	}
 
 	/**

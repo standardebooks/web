@@ -75,7 +75,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<tr>
 				<td>Artist</td>
 				<td>
-					<?= Formatter::EscapeHtml($artwork->Artist->Name) ?><? if(sizeof($artwork->Artist->AlternateNames) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?><? if($isAdminView){ ?> (#<?= $artwork->Artist->ArtistId ?>)<? } ?>
+					<a href="<?= $artwork->Artist->Url ?>"><?= Formatter::EscapeHtml($artwork->Artist->Name) ?></a><? if(sizeof($artwork->Artist->AlternateNames) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?><? if($isAdminView){ ?> (#<?= $artwork->Artist->ArtistId ?>)<? } ?>
 				</td>
 			</tr>
 			<tr>
