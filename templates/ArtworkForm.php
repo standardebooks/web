@@ -198,7 +198,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 		<label>
 			<span>In use by</span>
 			<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
-			<input type="url" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
+			<input type="url" autocomplete="off" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
 		</label>
 	<? } ?>
 </fieldset>
