@@ -1,6 +1,20 @@
 <?
+$isReviewerView = $GLOBALS['User']?->Benefits?->CanReviewArtwork ?? false;
+$submitterUserId = $GLOBALS['User']?->Benefits?->CanUploadArtwork ? $GLOBALS['User']->UserId : null;
+$isSubmitterView = !$isReviewerView && $submitterUserId !== null;
+
+$filterArtworkStatus = 'all';
+
+if($isReviewerView){
+	$filterArtworkStatus = 'all-admin';
+}
+
+if($isSubmitterView){
+	$filterArtworkStatus = 'all-submitter';
+}
+
 try{
-	$artworks = Library::GetArtworksByArtist(HttpInput::Str(GET, 'artist-url-name'));
+	$artworks = Library::GetArtworksByArtist(HttpInput::Str(GET, 'artist-url-name'), $filterArtworkStatus, $submitterUserId);
 
 	if(sizeof($artworks) == 0){
 		throw new Exceptions\ArtistNotFoundException();

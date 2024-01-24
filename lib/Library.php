@@ -182,7 +182,7 @@ class Library{
 			$statusCondition = 'true';
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
-			$statusCondition = 'Status = ? or (Status = ? and SubmitterUserId = ?)';
+			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
 			$params[] = ArtworkStatus::Approved->value;
 			$params[] = ArtworkStatus::Unverified->value;
 			$params[] = $submitterUserId;
@@ -250,17 +250,42 @@ class Library{
 	/**
  	 * @return array<Artwork>
 	 */
-	public static function GetArtworksByArtist(?string $artistUrlName): array{
+	public static function GetArtworksByArtist(?string $artistUrlName, ?string $status, ?int $submitterUserId): array{
 		if($artistUrlName === null){
 			throw new Exceptions\ArtistNotFoundException();
 		}
+
+		// $status is only one of three special statuses, which are a subset of FilterArtwork() above:
+		// null: same as "all"
+		// "all": Show all approved and in use artwork
+		// "all-admin": Show all artwork regardless of status
+		// "all-submitter": Show all approved and in use artwork, plus unverified artwork from the submitter
+		$statusCondition = '';
+		$params = [];
+
+		if($status == 'all-admin'){
+			$statusCondition = 'true';
+		}
+		elseif($status == 'all-submitter' && $submitterUserId !== null){
+			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
+			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = $submitterUserId;
+		}
+		else{
+			$statusCondition = 'Status = ?';
+			$params[] = ArtworkStatus::Approved->value;
+		}
+
+		$params[] = $artistUrlName; // a.UrlName
 
 		$artworks = Db::Query('
 			SELECT art.*
 			from Artworks art
 			  inner join Artists a using (ArtistId)
-			where a.UrlName = ?
-			order by art.Created desc', [$artistUrlName], 'Artwork');
+			where ' . $statusCondition . '
+			and a.UrlName = ?
+			order by art.Created desc', $params, 'Artwork');
 
 		return $artworks;
 	}
