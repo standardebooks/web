@@ -16,7 +16,7 @@ CREATE TABLE `Artworks` (
   `CopyrightPageUrl` varchar(255) NULL,
   `ArtworkPageUrl` varchar(255) NULL,
   `IsPublishedInUs` tinyint(1) NOT NULL DEFAULT FALSE,
-  `EbookWwwFilesystemPath` varchar(255) NULL,
+  `EbookUrl` varchar(255) NULL,
   `MimeType` varchar(64) NOT NULL,
   `Exception` TEXT NULL DEFAULT NULL,
   `Notes` TEXT NULL DEFAULT NULL

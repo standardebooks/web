@@ -120,13 +120,13 @@ try{
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 		}
 
-		$newEbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path') ?? null;
-		if($artwork->EbookWwwFilesystemPath != $newEbookWwwFilesystemPath && !$artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'])){
+		$newEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url') ?? null;
+		if($artwork->EbookUrl != $newEbookUrl && !$artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
 		$artwork->Status = $newStatus ?? $artwork->Status;
-		$artwork->EbookWwwFilesystemPath = $newEbookWwwFilesystemPath ?? $artwork->EbookWwwFilesystemPath;
+		$artwork->EbookUrl = $newEbookUrl ?? $artwork->EbookUrl;
 
 		$artwork->Save();
 

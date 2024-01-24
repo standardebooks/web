@@ -2,6 +2,8 @@
 
 use Exceptions\InvalidUrlException;
 use Safe\DateTime;
+
+use function Safe\apcu_cache_info;
 use function Safe\copy;
 use function Safe\date;
 use function Safe\exec;
@@ -40,7 +42,7 @@ class Artwork extends PropertiesBase{
 	public bool $CompletedYearIsCirca = false;
 	public ?DateTime $Created = null;
 	public ?DateTime $Updated = null;
-	public ?string $EbookWwwFilesystemPath = null;
+	public ?string $EbookUrl = null;
 	public ?int $SubmitterUserId = null;
 	public ?int $ReviewerUserId = null;
 	public ?string $MuseumUrl = null;
@@ -276,16 +278,13 @@ class Artwork extends PropertiesBase{
 	}
 
 	protected function GetEbook(): ?Ebook{
-		// TODO
-		// This function can't get the right ebook for books with additional contributors, because
-		// we don't have the actual SE dc:identifier from content.opf. So we use this rule of thumb to try to guess
-		// the ebook path in APCu. The real solution is to put ebooks in the database. Once we do that, this workaround can be removed.
-		// Failure cases:
-		// leo-tolstoy_short-fiction_louise-maude_aylmer-maude_nathan-haskell-dole_constance-garnett_j-d-duff_leo-weiner_r-s-townsend_hagberg-wright_benjamin-tucker_everymans-library_vladimir-chertkov_isabella-fyvie-may
-		// william-wordsworth_samuel-taylor-coleridge_lyrical-ballads
-		// karl-marx_friedrich-engels_the-communist-manifesto_samuel-moore
 		if($this->_Ebook === null){
-			$this->_Ebook = Library::GetEbook(EBOOKS_DIST_PATH . str_replace('_', '/', $this->EbookWwwFilesystemPath ?? ''));
+			if($this->EbookUrl === null){
+				return null;
+			}
+
+			$ebookWwwFilesystemPath = preg_replace('|^https://standardebooks.org/ebooks/|ius', EBOOKS_DIST_PATH, $this->EbookUrl);
+			$this->_Ebook = Library::GetEbook($ebookWwwFilesystemPath);
 		}
 
 		return $this->_Ebook;
@@ -340,7 +339,7 @@ class Artwork extends PropertiesBase{
 		return false;
 	}
 
-	public function CanEbookWwwFilesysemPathBeChangedBy(?User $user): bool{
+	public function CanEbookUrlBeChangedBy(?User $user): bool{
 		if($user === null){
 			return false;
 		}
@@ -501,9 +500,9 @@ class Artwork extends PropertiesBase{
 		// Check the ebook www filesystem path.
 		// We don't check if it exists, because the book might not be published yet.
 		// But we do a basic check that the string includes one _. It might not include a dash, for example anonymous_poetry
-		if($this->EbookWwwFilesystemPath !== null){
-			if(mb_stripos($this->EbookWwwFilesystemPath, '_') === false){
-				$error->Add(new Exceptions\EbookNotFoundException('Invalid ebook. Expected file system slug like “c-s-lewis_poetry”.'));
+		if($this->EbookUrl !== null){
+			if(!preg_match('|^https://standardebooks.org/ebooks/|ius', $this->EbookUrl)){
+				$error->Add(new Exceptions\EbookNotFoundException('Invalid ebook. Expected S.E. URL.'));
 			}
 		}
 
@@ -692,7 +691,7 @@ class Artwork extends PropertiesBase{
 			INSERT into
 			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, SubmitterUserId, ReviewerUserId, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
-			                      EbookWwwFilesystemPath, MimeType, Exception, Notes)
+			                      EbookUrl, MimeType, Exception, Notes)
 			values (?,
 			        ?,
 			        ?,
@@ -714,7 +713,7 @@ class Artwork extends PropertiesBase{
 			        ?)
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType, $this->Exception, $this->Notes]
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookUrl, $this->MimeType, $this->Exception, $this->Notes]
 		);
 
 		$this->ArtworkId = Db::GetLastInsertedId();
@@ -784,7 +783,7 @@ class Artwork extends PropertiesBase{
 			CopyrightPageUrl = ?,
 			ArtworkPageUrl = ?,
 			IsPublishedInUs = ?,
-			EbookWwwFilesystemPath = ?,
+			EbookUrl = ?,
 			MimeType = ?,
 			Exception = ?,
 			Notes = ?
@@ -792,7 +791,7 @@ class Artwork extends PropertiesBase{
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookWwwFilesystemPath, $this->MimeType, $this->Exception, $this->Notes,
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookUrl, $this->MimeType, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);
 
@@ -905,7 +904,7 @@ class Artwork extends PropertiesBase{
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
 		$artwork->Status = HttpInput::Str(POST, 'artwork-status') ?? ArtworkStatus::Unverified;
-		$artwork->EbookWwwFilesystemPath = HttpInput::Str(POST, 'artwork-ebook-www-filesystem-path');
+		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
 		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');
 		$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url');

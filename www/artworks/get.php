@@ -149,12 +149,12 @@ catch(Exceptions\InvalidPermissionsException){
 			<p><a href="<?= $artwork->EditUrl ?>">Edit this artwork.</a></p>
 		<? } ?>
 
-		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 			<h2>Editor options</h2>
 			<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 				<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers. Once an artwork is approved, it can no longer be edited.</p>
 			<? } ?>
-			<? if($artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+			<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 				<p>Set a file system slug to mark this artwork as “in use.”</p>
 			<? } ?>
 			<form method="post" action="<?= $artwork->Url ?>">
@@ -173,14 +173,14 @@ catch(Exceptions\InvalidPermissionsException){
 				<? }else{ ?>
 					<input type="hidden" name="artwork-status" value="<?= Formatter::EscapeHtml($artwork->Status->value ?? '') ?>" />
 				<? } ?>
-				<? if($artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+				<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 					<label>
 						<span>In use by</span>
-						<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
-						<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::EscapeHtml($artwork->EbookWwwFilesystemPath) ?>"/>
+						<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
+						<input type="text" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
 					</label>
 				<? }else{ ?>
-					<input type="hidden" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::EscapeHtml($artwork->EbookWwwFilesystemPath) ?>" />
+					<input type="hidden" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>" />
 				<? } ?>
 				<div class="footer">
 					<button>Save changes</button>

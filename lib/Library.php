@@ -193,11 +193,11 @@ class Library{
 			$params[] = $submitterUserId;
 		}
 		elseif($status == 'in-use'){
-			$statusCondition = 'Status = ? and EbookWwwFilesystemPath is not null';
+			$statusCondition = 'Status = ? and EbookUrl is not null';
 			$params[] = ArtworkStatus::Approved->value;
 		}
 		elseif($status == ArtworkStatus::Approved->value){
-			$statusCondition = 'Status = ? and EbookWwwFilesystemPath is null';
+			$statusCondition = 'Status = ? and EbookUrl is null';
 			$params[] = ArtworkStatus::Approved->value;
 		}
 		else{
@@ -223,7 +223,7 @@ class Library{
 		$tokenizedQuery = '\b(' . implode('|', $tokenArray) . ')\b';
 
 		$params[] = $tokenizedQuery; // art.Name
-		$params[] = $tokenizedQuery; // art.EbookWwwFilesystemPath
+		$params[] = $tokenizedQuery; // art.EbookUrl
 		$params[] = $tokenizedQuery; // a.Name
 		$params[] = $tokenizedQuery; // aan.Name
 		$params[] = $tokenizedQuery; // t.Name
@@ -237,7 +237,7 @@ class Library{
 			  left join Tags t using (TagId)
 			where ' . $statusCondition . '
 			  and (art.Name regexp ?
-                          or replace(art.EbookWwwFilesystemPath, "_", " ") regexp ?
+                          or replace(art.EbookUrl, "_", " ") regexp ?
 			  or a.Name regexp ?
 			  or aan.Name regexp ?
 			  or t.Name regexp ?)

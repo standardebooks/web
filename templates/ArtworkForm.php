@@ -179,7 +179,7 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 		<textarea maxlength="1024" name="artwork-notes"><?= Formatter::EscapeHtml($artwork->Notes) ?></textarea>
 	</label>
 </fieldset>
-<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 <fieldset>
 	<legend>Editor options</legend>
 	<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
@@ -194,11 +194,11 @@ $now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest contin
 			</span>
 		</label>
 	<? } ?>
-	<? if($artwork->CanEbookWwwFilesysemPathBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+	<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 		<label>
 			<span>In use by</span>
-			<span>Ebook file system slug, like <code>c-s-lewis_poetry</code>. If not in use, leave this blank.</span>
-			<input type="text" name="artwork-ebook-www-filesystem-path" value="<?= Formatter::EscapeHtml($artwork->EbookWwwFilesystemPath) ?>"/>
+			<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
+			<input type="url" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
 		</label>
 	<? } ?>
 </fieldset>
