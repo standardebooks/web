@@ -228,6 +228,10 @@ class Library{
 		$params[] = $tokenizedQuery; // aan.Name
 		$params[] = $tokenizedQuery; // t.Name
 
+		// We use replace() below because if there's multiple contributors separated by an underscore,
+		// the underscore won't count as word boundary and we won't get a match.
+		// See https://github.com/standardebooks/web/pull/325
+
 		$artworks = Db::Query('
 			SELECT art.*
 			from Artworks art
@@ -237,11 +241,11 @@ class Library{
 			  left join Tags t using (TagId)
 			where ' . $statusCondition . '
 			  and (art.Name regexp ?
-                          or replace(art.EbookUrl, "_", " ") regexp ?
+			  or replace(art.EbookUrl, "_", " ") regexp ?
 			  or a.Name regexp ?
 			  or aan.Name regexp ?
 			  or t.Name regexp ?)
-                        group by art.ArtworkId
+			group by art.ArtworkId
 			order by ' . $orderBy, $params, 'Artwork');
 
 		return $artworks;
