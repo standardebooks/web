@@ -3,6 +3,7 @@ use Safe\DateTime;
 use function Safe\date;
 
 /**
+ * @property ?int $DeathYear
  * @property string $UrlName
  * @property string $Url
  * @property array<string> $AlternateNames
@@ -11,12 +12,25 @@ use function Safe\date;
 class Artist extends PropertiesBase{
 	public ?int $ArtistId = null;
 	public ?string $Name = null;
-	public ?int $DeathYear = null;
 	public ?datetime $Created = null;
 	public ?datetime $Updated = null;
+	protected ?int $_DeathYear = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
 	protected $_AlternateNames;
+
+	// *******
+	// SETTERS
+	// *******
+
+	protected function SetDeathYear(?int $deathYear): void{
+		if($this->Name == 'Anonymous'){
+			$this->_DeathYear = null;
+		}
+		else {
+			$this->_DeathYear = $deathYear;
+		}
+	}
 
 	// *******
 	// GETTERS
@@ -79,6 +93,10 @@ class Artist extends PropertiesBase{
 
 		if($this->Name !== null && strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Artist Name'));
+		}
+
+		if($this->Name == 'Anonymous' && $this->DeathYear !== null){
+			$this->_DeathYear = null;
 		}
 
 		if($this->DeathYear !== null && ($this->DeathYear <= 0 || $this->DeathYear > $thisYear + 50)){
