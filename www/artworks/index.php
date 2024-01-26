@@ -2,6 +2,7 @@
 $page = HttpInput::Int(GET, 'page') ?? 1;
 $perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
 $query = HttpInput::Str(GET, 'query') ?? '';
+$queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
 $status = HttpInput::Str(GET, 'status') ?? null;
 $filterArtworkStatus = $status;
 $sort = HttpInput::Str(GET, 'sort');
@@ -64,7 +65,13 @@ if($isSubmitterView && !in_array($status, array('all', ArtworkStatus::Unverified
 	$filterArtworkStatus = $status;
 }
 
-$artworks = Library::FilterArtwork($query != '' ? $query : null, $filterArtworkStatus, $sort, $submitterUserId);
+if($queryEbookUrl !== null){
+	$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ?', [$queryEbookUrl, ArtworkStatus::Approved], 'Artwork');
+}
+else{
+	$artworks = Library::FilterArtwork($query != '' ? $query : null, $filterArtworkStatus, $sort, $submitterUserId);
+}
+
 $pageTitle = 'Browse Artwork';
 $pages = ceil(sizeof($artworks) / $perPage);
 $totalArtworkCount = sizeof($artworks);

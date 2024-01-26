@@ -501,7 +501,7 @@ class Artwork extends PropertiesBase{
 		// We don't check if it exists, because the book might not be published yet.
 		// But we do a basic check that the string includes one _. It might not include a dash, for example anonymous_poetry
 		if($this->EbookUrl !== null){
-			if(!preg_match('|^https://standardebooks.org/ebooks/|ius', $this->EbookUrl)){
+			if(!preg_match('|^https://standardebooks.org/ebooks/[^/]+?/[^/]+?|ius', $this->EbookUrl)){
 				$error->Add(new Exceptions\EbookNotFoundException('Invalid ebook. Expected S.E. URL.'));
 			}
 		}
