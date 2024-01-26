@@ -805,7 +805,7 @@ class Artwork extends PropertiesBase{
 				(select distinct ArtistId from Artworks)
 		');
 
-		// Update tags for this artworke
+		// Update tags for this artwork
 		Db::Query('
 			DELETE from ArtworkTags
 			where
@@ -866,10 +866,6 @@ class Artwork extends PropertiesBase{
 		return $result[0];
 	}
 
-	/**
-         * Looks up an existing artwork regardless of status (unlike GetByUrl()) in order to
-         * enforce that the Artist UrlName + Artwork UrlName combo is globally unique.
-         */
 	/**
 	 * @throws \Exceptions\InvalidArtworkException
 	 */
