@@ -429,32 +429,32 @@ class Ebook{
 		foreach($xml->xpath('/package/metadata/dc:source') ?: [] as $element){
 			$e = (string)$element;
 			if(mb_stripos($e, 'gutenberg.org/') !== false){
-				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::ProjectGutenberg, $e);
 			}
 			elseif(mb_stripos($e, 'gutenberg.net.au/') !== false){
-				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG_AUSTRALIA, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::ProjectGutenbergAustralia, $e);
 			}
 			elseif(mb_stripos($e, 'gutenberg.ca/') !== false){
-				$this->Sources[] = new EbookSource(SOURCE_PROJECT_GUTENBERG_CANADA, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::ProjectGutenbergCanada, $e);
 			}
 			elseif(mb_stripos($e, 'archive.org/details') !== false){
 				// `/details` excludes Wayback Machine URLs which may sometimes occur, for example in Lyrical Ballads
-				$this->Sources[] = new EbookSource(SOURCE_INTERNET_ARCHIVE, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::InternetArchive, $e);
 			}
 			elseif(mb_stripos($e, 'hathitrust.org/') !== false){
-				$this->Sources[] = new EbookSource(SOURCE_HATHI_TRUST, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::HathiTrust, $e);
 			}
 			elseif(mb_stripos($e, 'wikisource.org/') !== false){
-				$this->Sources[] = new EbookSource(SOURCE_WIKISOURCE, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::Wikisource, $e);
 			}
 			elseif(mb_stripos($e, 'books.google.com/') !== false || mb_stripos($e, 'google.com/books/') !== false){
-				$this->Sources[] = new EbookSource(SOURCE_GOOGLE_BOOKS, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::GoogleBooks, $e);
 			}
 			elseif(mb_stripos($e, 'www.fadedpage.com') !== false){
-				$this->Sources[] = new EbookSource(SOURCE_FADED_PAGE, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::FadedPage, $e);
 			}
 			else{
-				$this->Sources[] = new EbookSource(SOURCE_OTHER, $e);
+				$this->Sources[] = new EbookSource(EbookSourceType::Other, $e);
 			}
 		}
 
