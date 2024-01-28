@@ -1,9 +1,9 @@
 <?
 $page = HttpInput::Int(GET, 'page') ?? 1;
 $perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
-$query = HttpInput::Str(GET, 'query') ?? '';
+$query = HttpInput::Str(GET, 'query');
 $queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
-$status = HttpInput::Str(GET, 'status') ?? null;
+$status = HttpInput::Str(GET, 'status');
 $filterArtworkStatus = $status;
 $sort = HttpInput::Str(GET, 'sort');
 $pages = 0;
@@ -15,90 +15,108 @@ $isReviewerView = $GLOBALS['User']?->Benefits?->CanReviewArtwork ?? false;
 $submitterUserId = $GLOBALS['User']?->Benefits?->CanUploadArtwork ? $GLOBALS['User']->UserId : null;
 $isSubmitterView = !$isReviewerView && $submitterUserId !== null;
 
-if($page <= 0){
-	$page = 1;
-}
+try{
+	if($page <= 0){
+		$page = 1;
+	}
 
-if($perPage != ARTWORK_PER_PAGE && $perPage != 40 && $perPage != 80){
-	$perPage = ARTWORK_PER_PAGE;
-}
+	if($perPage != ARTWORK_PER_PAGE && $perPage != 40 && $perPage != 80){
+		$perPage = ARTWORK_PER_PAGE;
+	}
 
-// If we're passed string values that are the same as the defaults,
-// set them to null so that we can have cleaner query strings in the navigation footer
-if($sort !== null){
-	$sort = mb_strtolower($sort);
-}
+	// If we're passed string values that are the same as the defaults,
+	// set them to null so that we can have cleaner query strings in the navigation footer
+	if($sort !== null){
+		$sort = mb_strtolower($sort);
+	}
 
-if($sort == 'created-newest'){
-	$sort = null;
-}
+	if($sort == 'created-newest'){
+		$sort = null;
+	}
 
-if($isReviewerView){
-	if($status == 'all' || $status === null){
-		$filterArtworkStatus = 'all-admin';
+	if($isReviewerView){
+		if($status == 'all' || $status === null){
+			$filterArtworkStatus = 'all-admin';
+		}
+	}
+
+	if($isSubmitterView){
+		if($status == 'all' || $status === null){
+			$filterArtworkStatus = 'all-submitter';
+		}
+		if($status == 'unverified'){
+			$filterArtworkStatus = 'unverified-submitter';
+		}
+	}
+
+	if(!$isReviewerView && !$isSubmitterView && !in_array($status, array('all', ArtworkStatus::Approved->value, 'in-use'))){
+		$status = ArtworkStatus::Approved->value;
+		$filterArtworkStatus = $status;
+	}
+
+	if($isReviewerView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))
+	                && !in_array($filterArtworkStatus, array('all-admin', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))){
+		$status = ArtworkStatus::Approved->value;
+		$filterArtworkStatus = $status;
+	}
+
+	if($isSubmitterView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Approved->value, 'in-use'))
+	                    && !in_array($filterArtworkStatus, array('all-submitter', 'unverified-submitter', ArtworkStatus::Approved->value, 'in-use'))){
+		$status = ArtworkStatus::Approved->value;
+		$filterArtworkStatus = $status;
+	}
+
+	if($queryEbookUrl !== null){
+		$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, ArtworkStatus::Approved], 'Artwork');
+		$totalArtworkCount = sizeof($artworks);
+	}
+	else{
+		$result = Library::FilterArtwork($query, $filterArtworkStatus, $sort, $submitterUserId, $page, $perPage);
+		$artworks = $result['artworks'];
+		$totalArtworkCount = $result['artworksCount'];
+	}
+
+	$pageTitle = 'Browse Artwork';
+	if($page > 1){
+		$pageTitle .= ', page ' . $page;
+	}
+
+	$pageDescription = 'Page ' . $page . ' of artwork';
+
+	$queryStringParams = [];
+
+	if($query !== null && $query != ''){
+		$queryStringParams['query'] = $query;
+	}
+
+	if($status !== null){
+		$queryStringParams['status'] = $status;
+	}
+
+	if($sort !== null){
+		$queryStringParams['sort'] = $sort;
+	}
+
+	if($perPage !== ARTWORK_PER_PAGE){
+		$queryStringParams['per-page'] = $perPage;
+	}
+
+	$queryString = http_build_query($queryStringParams);
+
+	$pages = ceil($totalArtworkCount / $perPage);
+	if($pages > 0 && $page > $pages){
+		throw new Exceptions\PageOutOfBoundsException();
 	}
 }
-
-if($isSubmitterView){
-	if($status == 'all' || $status === null){
-		$filterArtworkStatus = 'all-submitter';
+catch(Exceptions\PageOutOfBoundsException){
+	$url = '/artworks?page=' . $pages;
+	if($queryString != ''){
+		$url .= '&' . $queryString;
 	}
-	if($status == 'unverified'){
-		$filterArtworkStatus = 'unverified-submitter';
-	}
+
+	header('Location: ' . $url);
+	exit();
 }
-
-if(!$isReviewerView && !$isSubmitterView && !in_array($status, array('all', ArtworkStatus::Approved->value, 'in-use'))){
-	$status = ArtworkStatus::Approved->value;
-	$filterArtworkStatus = $status;
-}
-
-if($isReviewerView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))
-                && !in_array($filterArtworkStatus, array('all-admin', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))){
-	$status = ArtworkStatus::Approved->value;
-	$filterArtworkStatus = $status;
-}
-
-if($isSubmitterView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Approved->value, 'in-use'))
-                    && !in_array($filterArtworkStatus, array('all-submitter', 'unverified-submitter', ArtworkStatus::Approved->value, 'in-use'))){
-	$status = ArtworkStatus::Approved->value;
-	$filterArtworkStatus = $status;
-}
-
-if($queryEbookUrl !== null){
-	$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ?', [$queryEbookUrl, ArtworkStatus::Approved], 'Artwork');
-}
-else{
-	$artworks = Library::FilterArtwork($query != '' ? $query : null, $filterArtworkStatus, $sort, $submitterUserId);
-}
-
-$pageTitle = 'Browse Artwork';
-$pages = ceil(sizeof($artworks) / $perPage);
-$totalArtworkCount = sizeof($artworks);
-$artworks = array_slice($artworks, ($page - 1) * $perPage, $perPage);
-
-if($page > 1){
-	$pageTitle .= ', page ' . $page;
-}
-
-$pageDescription = 'Page ' . $page . ' of artwork';
-
-if($query != ''){
-	$queryString .= '&amp;query=' . urlencode($query);
-}
-
-if($status !== null){
-	$queryString .= '&amp;status=' . urlencode($status);
-}
-
-if($sort !== null){
-	$queryString .= '&amp;sort=' . urlencode($sort);
-}
-
-if($perPage !== ARTWORK_PER_PAGE){
-	$queryString .= '&amp;per-page=' . urlencode((string)$perPage);
-}
-
 ?><?= Template::Header(['title' => $pageTitle, 'artwork' => true, 'description' => $pageDescription]) ?>
 <main class="artworks">
 	<section class="narrow">
@@ -153,13 +171,13 @@ if($perPage !== ARTWORK_PER_PAGE){
 
 		<? if($totalArtworkCount > 0){ ?>
 			<nav class="pagination">
-				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
 				<? for($i = 1; $i < $pages + 1; $i++){ ?>
-					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>"><?= $i ?></a></li>
+					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>"><?= $i ?></a></li>
 				<? } ?>
 				</ol>
-				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryString != ''){ ?><?= $queryString ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>

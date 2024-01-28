@@ -160,9 +160,13 @@ class Library{
 	* @param string $query
 	* @param string $status
 	* @param string $sort
-	* @return array<Artwork>
+	* @return Array<mixed>
 	*/
-	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null, int $submitterUserId = null): array{
+	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+		// Returns an array of:
+		// ['artworks'] => Array<Artwork>,
+		// ['artworksCount'] => int
+		//
 		// $status is either the string value of an ArtworkStatus enum, or one of these special statuses:
 		// null: same as "all"
 		// "all": Show all approved and in use artwork
@@ -216,39 +220,85 @@ class Library{
 		// Remove diacritics and non-alphanumeric characters, but preserve apostrophes
 		$query = trim(preg_replace('|[^a-zA-Z0-9\'’ ]|ius', ' ', Formatter::RemoveDiacritics($query ?? '')));
 
-		// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
-		$tokenArray = preg_split('/\b\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
-
-		// Join the tokens with '|' to search on any token, but add word boundaries to force the full token to match
-		$tokenizedQuery = '\b(' . implode('|', $tokenArray) . ')\b';
-
-		$params[] = $tokenizedQuery; // art.Name
-		$params[] = $tokenizedQuery; // art.EbookUrl
-		$params[] = $tokenizedQuery; // a.Name
-		$params[] = $tokenizedQuery; // aan.Name
-		$params[] = $tokenizedQuery; // t.Name
-
 		// We use replace() below because if there's multiple contributors separated by an underscore,
 		// the underscore won't count as word boundary and we won't get a match.
 		// See https://github.com/standardebooks/web/pull/325
+		$limit = $perPage;
+		$offset = (($page - 1) * $perPage);
 
-		$artworks = Db::Query('
-			SELECT art.*
-			from Artworks art
-			  inner join Artists a using (ArtistId)
-			  left join ArtistAlternateNames aan using (ArtistId)
-			  left join ArtworkTags at using (ArtworkId)
-			  left join Tags t using (TagId)
-			where ' . $statusCondition . '
-			  and (art.Name regexp ?
-			  or replace(art.EbookUrl, "_", " ") regexp ?
-			  or a.Name regexp ?
-			  or aan.Name regexp ?
-			  or t.Name regexp ?)
-			group by art.ArtworkId
-			order by ' . $orderBy, $params, 'Artwork');
+		if($query == ''){
+			$artworksCount = Db::QueryInt('
+				SELECT count(*)
+				from Artworks art
+				where ' . $statusCondition, $params);
 
-		return $artworks;
+			$params[] = $limit;
+			$params[] = $offset;
+
+			$artworks = Db::Query('
+				SELECT *
+				from Artworks art
+				where ' . $statusCondition . '
+				limit ?
+				offset ?', $params, 'Artwork');
+		}
+		else{
+			// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
+			$tokenArray = preg_split('/\b\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
+
+			// Join the tokens with '|' to search on any token, but add word boundaries to force the full token to match
+			$tokenizedQuery = '\b(' . implode('|', $tokenArray) . ')\b';
+
+			$params[] = $tokenizedQuery; // art.Name
+			$params[] = $tokenizedQuery; // art.EbookUrl
+			$params[] = $tokenizedQuery; // a.Name
+			$params[] = $tokenizedQuery; // aan.Name
+			$params[] = $tokenizedQuery; // t.Name
+
+			$artworksCount = Db::QueryInt('
+				SELECT
+				    count(*)
+				from
+				    (SELECT distinct
+				        ArtworkId
+				    from
+				        Artworks art
+				    inner join Artists a USING (ArtistId)
+				    left join ArtistAlternateNames aan USING (ArtistId)
+				    left join ArtworkTags at USING (ArtworkId)
+				    left join Tags t USING (TagId)
+				    where
+				        ' . $statusCondition . '
+				            and (art.Name regexp ?
+				            or replace(art.EbookUrl, "_", " ") regexp ?
+				            or a.Name regexp ?
+				            or aan.Name regexp ?
+				            or t.Name regexp ?)
+				    group by art.ArtworkId) x', $params);
+
+			$params[] = $limit;
+			$params[] = $offset;
+
+			$artworks = Db::Query('
+				SELECT art.*
+				from Artworks art
+				  inner join Artists a using (ArtistId)
+				  left join ArtistAlternateNames aan using (ArtistId)
+				  left join ArtworkTags at using (ArtworkId)
+				  left join Tags t using (TagId)
+				where ' . $statusCondition . '
+				  and (art.Name regexp ?
+				  or replace(art.EbookUrl, "_", " ") regexp ?
+				  or a.Name regexp ?
+				  or aan.Name regexp ?
+				  or t.Name regexp ?)
+				group by art.ArtworkId
+				order by ' . $orderBy . '
+				limit ?
+				offset ?', $params, 'Artwork');
+		}
+
+		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
 	}
 
 	/**
