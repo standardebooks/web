@@ -2,8 +2,10 @@
 <main>
 	<article id="a-basic-standard-ebooks-source-folder">
 		<h1>Uncategorized art books</h1>
-		<p>You may find these art books published before <?= PD_STRING ?> useful as you conduct cover art research.</p>
+		<p>We need help from volunteers like you to go through these books and categorize the art in them for submission into our <a href="/artworks">Cover Art Database</a>.</p>
+		<p>If you’d like to help us with categorizing this art, <a href="https://groups.google.com/g/standardebooks">contact the mailing list</a> and we’ll set you up with a free account for submitting artwork.</p>
 		<ul>
+			<li><p><a href="https://www.gutenberg.org/files/22463/22463-h/22463-h.htm">Chivalry</a> by James Branch Cabell</p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/000542208">L’Esprit Nouveau</a></p></li>
 			<li><p><a href="https://books.google.com/books?id=PBpAAAAAYAAJ">The History of Modern Painting</a></p></li>
 			<li><p><a href="https://books.google.com/books?id=Q3YoAAAAYAAJ">Art Studies for Schools: Or, Hints on the Use of Reproductions of High Art</a></p></li>
