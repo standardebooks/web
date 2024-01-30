@@ -8,7 +8,7 @@ try{
 	$tags = HttpInput::GetArray('tags') ?? [];
 	$collection = HttpInput::Str(GET, 'collection');
 	$view = HttpInput::Str(GET, 'view');
-	$sort = HttpInput::Str(GET, 'sort');
+	$sort = EbookSort::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 	$pages = 0;
 	$totalEbooks = 0;
 	$collectionObject = null;
@@ -35,15 +35,11 @@ try{
 		$view = mb_strtolower($view);
 	}
 
-	if($sort !== null){
-		$sort = mb_strtolower($sort);
-	}
-
 	if($view === 'grid'){
 		$view = null;
 	}
 
-	if($sort === 'newest'){
+	if($sort == EbookSort::Newest){
 		$sort = null;
 	}
 
@@ -103,7 +99,7 @@ try{
 		}
 
 		if($sort !== null){
-			$queryString .= '&amp;sort=' . urlencode($sort);
+			$queryString .= '&amp;sort=' . urlencode($sort->value);
 		}
 
 		if($perPage !== EBOOKS_PER_PAGE){
