@@ -110,23 +110,27 @@ try{
 		$exceptionRedirectUrl = $artwork->Url;
 
 		// We can PATCH the status, the ebook www filesystem path, or both.
+		if(isset($_POST['artwork-status'])){
+			$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
+			if($newStatus !== null){
+				if($artwork->Status != $newStatus && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
+					throw new Exceptions\InvalidPermissionsException();
+				}
 
-		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
-		if($newStatus !== null){
-			if($artwork->Status != $newStatus && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
+				$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
+			}
+
+			$artwork->Status = $newStatus;
+		}
+
+		if(isset($_POST['artwork-ebook-url'])){
+			$newEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
+			if($artwork->EbookUrl != $newEbookUrl && !$artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){
 				throw new Exceptions\InvalidPermissionsException();
 			}
 
-			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
+			$artwork->EbookUrl = $newEbookUrl;
 		}
-
-		$newEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url') ?? null;
-		if($artwork->EbookUrl != $newEbookUrl && !$artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){
-			throw new Exceptions\InvalidPermissionsException();
-		}
-
-		$artwork->Status = $newStatus ?? $artwork->Status;
-		$artwork->EbookUrl = $newEbookUrl ?? $artwork->EbookUrl;
 
 		$artwork->Save();
 
