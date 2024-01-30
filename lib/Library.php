@@ -159,10 +159,10 @@ class Library{
 	/**
 	* @param string $query
 	* @param string $status
-	* @param string $sort
+	* @param ArtworkSort $sort
 	* @return Array<mixed>
 	*/
-	public static function FilterArtwork(string $query = null, string $status = null, string $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+	public static function FilterArtwork(string $query = null, string $status = null, ArtworkSort $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		// Returns an array of:
 		// ['artworks'] => Array<Artwork>,
 		// ['artworksCount'] => int
@@ -210,10 +210,10 @@ class Library{
 		}
 
 		$orderBy = 'art.Created desc';
-		if($sort == ArtworkSort::ArtistAlpha->value){
+		if($sort == ArtworkSort::ArtistAlpha){
 			$orderBy = 'a.Name';
 		}
-		elseif($sort == ArtworkSort::CompletedNewest->value){
+		elseif($sort == ArtworkSort::CompletedNewest){
 			$orderBy = 'art.CompletedYear desc';
 		}
 
