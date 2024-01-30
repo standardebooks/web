@@ -236,9 +236,11 @@ class Library{
 			$params[] = $offset;
 
 			$artworks = Db::Query('
-				SELECT *
+				SELECT art.*
 				from Artworks art
+				inner join Artists a USING (ArtistId)
 				where ' . $statusCondition . '
+				order by ' . $orderBy . '
 				limit ?
 				offset ?', $params, 'Artwork');
 		}
