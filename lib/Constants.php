@@ -43,9 +43,9 @@ const ARTWORK_IMAGE_MINIMUM_HEIGHT = 300;
 
 const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
-const NO_REPLY_EMAIL_ADDRESS = 'admin@standardebooks.org';
-const ADMIN_EMAIL_ADDRESS = 'admin@standardebooks.org';
-const EDITOR_IN_CHIEF_EMAIL_ADDRESS = 'alex@standardebooks.org';
+define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_address'));
+define('ADMIN_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.admin_address'));
+define('EDITOR_IN_CHIEF_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.editor_in_chief_address'));
 const EDITOR_IN_CHIEF_NAME = 'Alex Cabal';
 define('EMAIL_SMTP_USERNAME', get_cfg_var('se.secrets.postmark.username'));
 const EMAIL_SMTP_HOST = 'smtp.postmarkapp.com';
