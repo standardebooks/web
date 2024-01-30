@@ -16,7 +16,7 @@ class Library{
 	/**
 	* @param string $query
 	* @param array<string> $tags
-	* @param string $sort
+	* @param EbookSort $sort
 	* @return array<Ebook>
 	*/
 	public static function FilterEbooks(string $query = null, array $tags = [], string $sort = null){
@@ -24,7 +24,7 @@ class Library{
 		$matches = $ebooks;
 
 		if($sort === null){
-			$sort = SORT_NEWEST;
+			$sort = EbookSort::Newest->value;
 		}
 
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
@@ -51,13 +51,13 @@ class Library{
 		}
 
 		switch($sort){
-			case SORT_AUTHOR_ALPHA:
+			case EbookSort::AuthorAlpha->value:
 				usort($matches, function($a, $b){
 					return strcmp(mb_strtolower($a->Authors[0]->SortName), mb_strtolower($b->Authors[0]->SortName));
 				});
 				break;
 
-			case SORT_NEWEST:
+			case EbookSort::Newest->value:
 				usort($matches, function($a, $b){
 					if($a->Created < $b->Created){
 						return -1;
@@ -73,7 +73,7 @@ class Library{
 				$matches = array_reverse($matches);
 				break;
 
-			case SORT_READING_EASE:
+			case EbookSort::ReadingEase->value:
 				usort($matches, function($a, $b){
 					if($a->ReadingEase < $b->ReadingEase){
 						return -1;
@@ -89,7 +89,7 @@ class Library{
 				$matches = array_reverse($matches);
 				break;
 
-			case SORT_LENGTH:
+			case EbookSort::Length->value:
 				usort($matches, function($a, $b){
 					if($a->WordCount < $b->WordCount){
 						return -1;

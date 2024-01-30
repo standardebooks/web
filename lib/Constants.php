@@ -32,10 +32,6 @@ const DATABASE_DEFAULT_DATABASE = 	'se';
 const DATABASE_DEFAULT_HOST = 		'localhost';
 
 const EBOOKS_PER_PAGE = 12;
-const SORT_NEWEST = 'newest';
-const SORT_AUTHOR_ALPHA = 'author-alpha';
-const SORT_READING_EASE = 'reading-ease';
-const SORT_LENGTH = 'length';
 
 const ARTWORK_THUMBNAIL_HEIGHT = 350;
 const ARTWORK_THUMBNAIL_WIDTH = 350;
