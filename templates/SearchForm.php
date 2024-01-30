@@ -17,10 +17,10 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<span>Sort</span>
 		<span>
 			<select name="sort">
-				<option value="<?= EbookSort::Newest->value ?>"<? if($sort == EbookSort::Newest->value){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
-				<option value="<?= EbookSort::AuthorAlpha->value ?>"<? if($sort == EbookSort::AuthorAlpha->value){ ?> selected="selected"<? } ?>>Author name  (a &#x2192; z)</option>
-				<option value="<?= EbookSort::ReadingEase->value ?>"<? if($sort == EbookSort::ReadingEase->value){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
-				<option value="<?= EbookSort::Length->value ?>"<? if($sort == EbookSort::Length->value){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
+				<option value="<?= EbookSort::Newest->value ?>"<? if($sort == EbookSort::Newest){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
+				<option value="<?= EbookSort::AuthorAlpha->value ?>"<? if($sort == EbookSort::AuthorAlpha){ ?> selected="selected"<? } ?>>Author name  (a &#x2192; z)</option>
+				<option value="<?= EbookSort::ReadingEase->value ?>"<? if($sort == EbookSort::ReadingEase){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
+				<option value="<?= EbookSort::Length->value ?>"<? if($sort == EbookSort::Length){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
 			</select>
 		</span>
 	</label>
