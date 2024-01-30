@@ -142,9 +142,9 @@ catch(Exceptions\PageOutOfBoundsException){
 				<span>Sort</span>
 				<span>
 					<select name="sort">
-						<option value="<?= SORT_COVER_ARTWORK_CREATED_NEWEST ?>"<? if($sort == SORT_COVER_ARTWORK_CREATED_NEWEST){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
-						<option value="<?= SORT_COVER_ARTIST_ALPHA ?>"<? if($sort == SORT_COVER_ARTIST_ALPHA){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
-						<option value="<?= SORT_COVER_ARTWORK_COMPLETED_NEWEST ?>"<? if($sort == SORT_COVER_ARTWORK_COMPLETED_NEWEST){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
+						<option value="<?= ArtworkSort::CreatedNewest->value ?>"<? if($sort == ArtworkSort::CreatedNewest->value){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
+						<option value="<?= ArtworkSort::ArtistAlpha->value ?>"<? if($sort == ArtworkSort::ArtistAlpha->value){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
+						<option value="<?= ArtworkSort::CompletedNewest->value ?>"<? if($sort == ArtworkSort::CompletedNewest->value){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
 					</select>
 				</span>
 			</label>

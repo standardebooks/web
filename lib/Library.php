@@ -210,10 +210,10 @@ class Library{
 		}
 
 		$orderBy = 'art.Created desc';
-		if($sort == SORT_COVER_ARTIST_ALPHA){
+		if($sort == ArtworkSort::ArtistAlpha->value){
 			$orderBy = 'a.Name';
 		}
-		elseif($sort == SORT_COVER_ARTWORK_COMPLETED_NEWEST){
+		elseif($sort == ArtworkSort::CompletedNewest->value){
 			$orderBy = 'art.CompletedYear desc';
 		}
 
