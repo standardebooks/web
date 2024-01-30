@@ -5,7 +5,7 @@ $query = HttpInput::Str(GET, 'query');
 $queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
 $status = HttpInput::Str(GET, 'status');
 $filterArtworkStatus = $status;
-$sort = HttpInput::Str(GET, 'sort');
+$sort = ArtworkSort::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $pages = 0;
 $totalArtworkCount = 0;
 $pageDescription = '';
@@ -26,11 +26,7 @@ try{
 
 	// If we're passed string values that are the same as the defaults,
 	// set them to null so that we can have cleaner query strings in the navigation footer
-	if($sort !== null){
-		$sort = mb_strtolower($sort);
-	}
-
-	if($sort == 'created-newest'){
+	if($sort == ArtworkSort::CreatedNewest){
 		$sort = null;
 	}
 
@@ -94,7 +90,7 @@ try{
 	}
 
 	if($sort !== null){
-		$queryStringParams['sort'] = $sort;
+		$queryStringParams['sort'] = $sort->value;
 	}
 
 	if($perPage !== ARTWORK_PER_PAGE){
@@ -142,9 +138,9 @@ catch(Exceptions\PageOutOfBoundsException){
 				<span>Sort</span>
 				<span>
 					<select name="sort">
-						<option value="<?= ArtworkSort::CreatedNewest->value ?>"<? if($sort == ArtworkSort::CreatedNewest->value){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
-						<option value="<?= ArtworkSort::ArtistAlpha->value ?>"<? if($sort == ArtworkSort::ArtistAlpha->value){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
-						<option value="<?= ArtworkSort::CompletedNewest->value ?>"<? if($sort == ArtworkSort::CompletedNewest->value){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
+						<option value="<?= ArtworkSort::CreatedNewest->value ?>"<? if($sort == ArtworkSort::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
+						<option value="<?= ArtworkSort::ArtistAlpha->value ?>"<? if($sort == ArtworkSort::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
+						<option value="<?= ArtworkSort::CompletedNewest->value ?>"<? if($sort == ArtworkSort::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
 					</select>
 				</span>
 			</label>
