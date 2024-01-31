@@ -1,8 +1,6 @@
 <?
 use function Safe\exec;
-use function Safe\substr;
 use function Safe\file_get_contents;
-use function Safe\preg_replace;
 use function Safe\json_decode;
 use function Safe\glob;
 use function Safe\shell_exec;

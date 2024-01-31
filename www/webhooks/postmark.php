@@ -4,7 +4,6 @@ use function Safe\curl_init;
 use function Safe\curl_setopt;
 use function Safe\file_get_contents;
 use function Safe\json_decode;
-use function Safe\substr;
 
 $log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
 

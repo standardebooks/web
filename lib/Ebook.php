@@ -8,7 +8,6 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\sprintf;
 use function Safe\shell_exec;
-use function Safe\substr;
 
 /**
  * @property array<GitCommit> $GitCommits
