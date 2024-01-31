@@ -151,6 +151,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/17957">On the Sublime</a> by Longinus</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
 			</li>
 			<li>
