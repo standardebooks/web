@@ -22,8 +22,10 @@ use function Safe\shell_exec;
  * @property ?array<string> $TocEntries
  */
 class Ebook{
+	public ?int $EbookId = null;
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
+	public ?string $AbsoluteUrl = null;
 	public string $Url;
 	public string $KindleCoverUrl;
 	public string $EpubUrl;
@@ -75,6 +77,89 @@ class Ebook{
 	public ?string $TextSinglePageSizeUnit = null;
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 
+	public function Validate(): void{
+		$error = new Exceptions\ValidationException();
+
+		if($this->AbsoluteUrl === null || $this->AbsoluteUrl == ''){
+			$error->Add(new Exceptions\EbookUrlRequiredException());
+		}
+
+		if($this->AbsoluteUrl !== null && strlen($this->AbsoluteUrl) > EBOOKS_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Ebook AbsoluteUrl'));
+		}
+
+		if($this->Title === null || $this->Title == ''){
+			$error->Add(new Exceptions\EbookTitleRequiredException());
+		}
+
+		if($this->Title !== null && strlen($this->Title) > EBOOKS_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Ebook Title'));
+		}
+
+		if($error->HasExceptions){
+			throw $error;
+		}
+	}
+
+	public function Create(): void{
+		$this->Validate();
+		Db::Query('
+			INSERT into Ebooks (AbsoluteUrl, Title)
+			values (?,
+				?)
+		', [$this->AbsoluteUrl, $this->Title]);
+
+		$this->EbookId = Db::GetLastInsertedId();
+	}
+
+	public function Save(): void{
+		$this->Validate();
+		Db::Query('
+			UPDATE Ebooks
+			set
+			AbsoluteUrl = ?,
+			Title = ?
+			where
+			EbookId = ?
+		', [$this->AbsoluteUrl, $this->Title, $this->EbookId]
+		);
+	}
+
+	public static function GetByUrl(?string $absoluteUrl): Ebook{
+		if($absoluteUrl === null){
+			throw new Exceptions\EbookNotFoundException();
+		}
+
+		$result = Db::Query('
+				SELECT *
+				from Ebooks
+				where AbsoluteUrl = ?
+			', [$absoluteUrl], 'Ebook');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\EbookNotFoundException();
+		}
+
+		return $result[0];
+	}
+
+	public function CreateOrUpdate(): void{
+		try{
+			$existingEbook = Ebook::GetByUrl($this->AbsoluteUrl);
+		}
+		catch(Exceptions\EbookNotFoundException){
+			$existingEbook = null;
+		}
+
+		if($existingEbook === null){
+			$this->Create();
+			return;
+		}
+
+		$this->EbookId = $existingEbook->EbookId;
+		$this->Save();
+	}
+
 	public function __construct(?string $wwwFilesystemPath = null){
 		if($wwwFilesystemPath === null){
 			return;
@@ -117,6 +202,8 @@ class Ebook{
 			throw new Exceptions\EbookParsingException('Invalid <dc:identifier> element.');
 		}
 		$this->Identifier = (string)$matches[1];
+
+		$this->AbsoluteUrl = str_replace('url:', '', $this->Identifier);
 
 		$this->UrlSafeIdentifier = str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 
