@@ -57,7 +57,6 @@ epubcheck="true"
 recompose="true"
 feeds="true"
 bulkDownloads="true"
-coverArtDatabase="false"
 
 if [ $#  -eq 0 ]; then
 	usage
@@ -386,16 +385,6 @@ do
 	if [ "${images}" = "true" ]; then
 		# Move the cover images over
 		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
-	fi
-
-	if [ "${coverArtDatabase}" = "true" ]; then
-		if [ "${verbose}" = "true" ]; then
-			printf "Updating/inserting cover in the cover art database ... "
-		fi
-
-		if [ "${verbose}" = "true" ]; then
-			printf "Done.\n"
-		fi
 	fi
 
 	# Delete the now-empty work dir (empty except for .git)
