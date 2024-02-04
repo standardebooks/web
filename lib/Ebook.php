@@ -103,6 +103,13 @@ class Ebook{
 
 	public function Create(): void{
 		$this->Validate();
+
+		$tags = [];
+		foreach($this->Tags as $ebookTag){
+			$tags[] = EbookTag::GetOrCreate($ebookTag);
+		}
+		$this->Tags = $tags;
+
 		Db::Query('
 			INSERT into Ebooks (AbsoluteUrl, Title)
 			values (?,
@@ -110,10 +117,25 @@ class Ebook{
 		', [$this->AbsoluteUrl, $this->Title]);
 
 		$this->EbookId = Db::GetLastInsertedId();
+
+		foreach($this->Tags as $tag){
+			Db::Query('
+				INSERT into EbookTags (EbookId, TagId)
+				values (?,
+				        ?)
+			', [$this->EbookId, $tag->TagId]);
+		}
 	}
 
 	public function Save(): void{
 		$this->Validate();
+
+		$tags = [];
+		foreach($this->Tags as $ebookTag){
+			$tags[] = EbookTag::GetOrCreate($ebookTag);
+		}
+		$this->Tags = $tags;
+
 		Db::Query('
 			UPDATE Ebooks
 			set
@@ -123,6 +145,22 @@ class Ebook{
 			EbookId = ?
 		', [$this->AbsoluteUrl, $this->Title, $this->EbookId]
 		);
+
+		// Update tags for this ebook
+		Db::Query('
+			DELETE from EbookTags
+			where
+			EbookId = ?
+		', [$this->EbookId]
+		);
+
+		foreach($this->Tags as $tag){
+			Db::Query('
+				INSERT into EbookTags (EbookId, TagId)
+				values (?,
+				        ?)
+			', [$this->EbookId, $tag->TagId]);
+		}
 	}
 
 	public static function GetByUrl(?string $absoluteUrl): Ebook{
@@ -319,7 +357,9 @@ class Ebook{
 
 		// Get SE tags
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
-			$this->Tags[] = new EbookTag($tag);
+			$ebookTag = new EbookTag();
+			$ebookTag->Name = $tag;
+			$this->Tags[] = $ebookTag;
 		}
 
 		$includeToc = sizeof($xml->xpath('/package/metadata/meta[@property="se:is-a-collection"]') ?: []) > 0;
