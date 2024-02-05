@@ -198,9 +198,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/331">The Mucker</a> (Mucker 1) by Edgar Rice Burroughs</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister’s Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
 			</li>
@@ -258,9 +255,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2194">Mauprat</a> by George Sand</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/11752">Chivalry</a> by James Branch Cabell (Note: the 1921 version)</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9608">The Cords of Vanity</a> by James Branch Cabell</p>
 			</li>
@@ -365,9 +359,6 @@
 			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/Pastors_and_Masters">Pastors and Masters</a> by Ivy Compton-Burnett (transcription required)</p>
-			</li>
-			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Langston_Hughes#Bibliography">Poetry</a> by Langston Hughes. Research is required to see if we need an omnibus.</p><!--patron-->
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/32474">The Memoirs of the Conquistadors</a> by Bernal Díaz del Castillo (<a href="https://www.gutenberg.org/ebooks/32475">Volume 2</a>)</p>
