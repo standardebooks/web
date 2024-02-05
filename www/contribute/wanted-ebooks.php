@@ -507,6 +507,9 @@
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Dark_Princess">Dark Princess</a> by W. E. B. Du Bois (PD 1928; transcription require)</p>
 			</li>
+			<li>
+				<p><a href="https://archive.org/stream/in.ernet.dli.2015.210843/2015.210843.Tarka-The_djvu.txt">Tarka the Otter</a> by Henry Williamson (transcription required)</p>
+			</li><!--patron-->
 		</ul>
 		<h2 id="verne">Jules Verne</h2>
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
