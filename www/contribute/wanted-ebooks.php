@@ -138,9 +138,6 @@
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/393">The Blue Lagoon</a> by Henry De Vere Stacpoole</p><!--patron-->
 			</li>
-			<li>
-				<p><a href="https://gutenberg.org/ebooks/8677">Behind a Mask</a> by Louisa May Alcott</p><!--patron-->
-			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
