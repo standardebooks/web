@@ -25,7 +25,6 @@ class Ebook{
 	public ?int $EbookId = null;
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
-	public ?string $AbsoluteUrl = null;
 	public string $Url;
 	public string $KindleCoverUrl;
 	public string $EpubUrl;
@@ -80,12 +79,12 @@ class Ebook{
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
-		if($this->AbsoluteUrl === null || $this->AbsoluteUrl == ''){
-			$error->Add(new Exceptions\EbookUrlRequiredException());
+		if($this->Identifier === null || $this->Identifier == ''){
+			$error->Add(new Exceptions\EbookIdentifierRequiredException());
 		}
 
-		if($this->AbsoluteUrl !== null && strlen($this->AbsoluteUrl) > EBOOKS_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Ebook AbsoluteUrl'));
+		if($this->Identifier !== null && strlen($this->Identifier) > EBOOKS_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Ebook Identifier'));
 		}
 
 		if($this->Title === null || $this->Title == ''){
@@ -111,10 +110,10 @@ class Ebook{
 		$this->Tags = $tags;
 
 		Db::Query('
-			INSERT into Ebooks (AbsoluteUrl, Title)
+			INSERT into Ebooks (Identifier, Title)
 			values (?,
 				?)
-		', [$this->AbsoluteUrl, $this->Title]);
+		', [$this->Identifier, $this->Title]);
 
 		$this->EbookId = Db::GetLastInsertedId();
 
@@ -139,11 +138,11 @@ class Ebook{
 		Db::Query('
 			UPDATE Ebooks
 			set
-			AbsoluteUrl = ?,
+			Identifier = ?,
 			Title = ?
 			where
 			EbookId = ?
-		', [$this->AbsoluteUrl, $this->Title, $this->EbookId]
+		', [$this->Identifier, $this->Title, $this->EbookId]
 		);
 
 		// Update tags for this ebook
@@ -163,16 +162,16 @@ class Ebook{
 		}
 	}
 
-	public static function GetByUrl(?string $absoluteUrl): Ebook{
-		if($absoluteUrl === null){
+	public static function GetByIdentifier(?string $identifier): Ebook{
+		if($identifier === null){
 			throw new Exceptions\EbookNotFoundException();
 		}
 
 		$result = Db::Query('
 				SELECT *
 				from Ebooks
-				where AbsoluteUrl = ?
-			', [$absoluteUrl], 'Ebook');
+				where Identifier = ?
+			', [$identifier], 'Ebook');
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\EbookNotFoundException();
@@ -183,7 +182,7 @@ class Ebook{
 
 	public function CreateOrUpdate(): void{
 		try{
-			$existingEbook = Ebook::GetByUrl($this->AbsoluteUrl);
+			$existingEbook = Ebook::GetByIdentifier($this->Identifier);
 		}
 		catch(Exceptions\EbookNotFoundException){
 			$existingEbook = null;
@@ -240,8 +239,6 @@ class Ebook{
 			throw new Exceptions\EbookParsingException('Invalid <dc:identifier> element.');
 		}
 		$this->Identifier = (string)$matches[1];
-
-		$this->AbsoluteUrl = str_replace('url:', '', $this->Identifier);
 
 		$this->UrlSafeIdentifier = str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 
