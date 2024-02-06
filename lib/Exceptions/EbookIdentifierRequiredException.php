@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class EbookUrlRequiredException extends AppException{
+class EbookIdentifierRequiredException extends AppException{
 	protected $message = 'Ebook identifier is required.';
 }

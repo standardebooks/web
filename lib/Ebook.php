@@ -36,7 +36,7 @@ class Ebook{
 	public $Tags = [];
 	public $LocTags = [];
 	public $Collections = [];
-	public string $Identifier;
+	public ?string $Identifier = null;
 	public string $UrlSafeIdentifier;
 	public string $HeroImageUrl;
 	public string $HeroImageAvifUrl;
