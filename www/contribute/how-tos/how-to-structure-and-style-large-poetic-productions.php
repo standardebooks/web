@@ -149,8 +149,8 @@
 <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
 				</figure>
 				<figure class="css full">
-<code class="css full"><span class="nt">span</span> <span class="o">&gt;</span> <span class="nt">span</span><span class="p">:</span><span class="nd">first-child</span><span class="p">{</span>
-	<span class="k">margin-right</span><span class="p">:</span> <span class="mi">1.5</span><span class="kt">em</span><span class="p">;</span>
+<code class="css full"><span class="nt">span</span> <span class="o">&gt;</span> <span class="nt">span</span> <span class="o">+</span> <span class="nt">span</span><span class="p">{</span>
+	<span class="k">margin-left</span><span class="p">:</span> <span class="mi">1.5</span><span class="kt">em</span><span class="p">;</span>
 <span class="p">}</span></code>
 				</figure>
 				<h3 id="dropped-lines">Dropped lines</h3>
