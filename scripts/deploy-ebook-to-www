@@ -7,7 +7,7 @@ DESCRIPTION
 	Deploy a Standard Ebook source repository to the web.
 
 USAGE
-	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] [--no-build] [--no-epubcheck] [--no-recompose] [--no-feeds] [--no-bulk-downloads] [--update-ebook-database] [-l,--last-push-hash HASH] DIRECTORY [DIRECTORY...]
+	deploy-ebook-to-www [-v,--verbose] [-g,--group GROUP] [--webroot WEBROOT] [--weburl WEBURL] [--no-images] [--no-build] [--no-epubcheck] [--no-recompose] [--no-feeds] [--no-bulk-downloads] [-l,--last-push-hash HASH] DIRECTORY [DIRECTORY...]
 		DIRECTORY is a bare source repository.
 		GROUP is a groupname. Defaults to "se".
 		WEBROOT is the path to your webroot. Defaults to "/standardebooks.org/web/www".
@@ -38,8 +38,6 @@ USAGE
 		With --no-feeds, don't generate RSS/Atom/OPDS feeds.
 
 		With --no-bulk-downloads, don't generate bulk download files.
-
-		With --update-ebook-database, update/insert the ebook into the database
 
 EOF
 	exit
@@ -115,10 +113,6 @@ while [ $# -gt 0 ]; do
 			;;
 		--no-bulk-downloads)
 			bulkDownloads="false"
-			shift 1
-			;;
-		--update-ebook-database)
-			ebookDatabase="true"
 			shift 1
 			;;
 		*) break ;;
@@ -394,18 +388,16 @@ do
 		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
 	fi
 
-	if [ "${ebookDatabase}" = "true" ]; then
-		verboseDbFlag=""
-		if [ "${verbose}" = "true" ]; then
-			verboseDbFlag="--verbose"
-			printf "Updating/inserting ebook in database ... "
-		fi
+	verboseDbFlag=""
+	if [ "${verbose}" = "true" ]; then
+		verboseDbFlag="--verbose"
+		printf "Updating/inserting ebook in database ... "
+	fi
 
-		"${scriptsDir}"/update-ebook-database ${verboseDbFlag} --ebookWwwFilesystemPath "${webDir}"
+	"${scriptsDir}"/update-ebook-database ${verboseDbFlag} --ebookWwwFilesystemPath "${webDir}"
 
-		if [ "${verbose}" = "true" ]; then
-			printf "Done.\n"
-		fi
+	if [ "${verbose}" = "true" ]; then
+		printf "Done.\n"
 	fi
 
 	# Delete the now-empty work dir (empty except for .git)
