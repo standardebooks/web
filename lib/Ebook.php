@@ -162,31 +162,8 @@ class Ebook{
 		}
 	}
 
-	public static function GetByIdentifier(?string $identifier): Ebook{
-		if($identifier === null){
-			throw new Exceptions\EbookNotFoundException();
-		}
-
-		$result = Db::Query('
-				SELECT *
-				from Ebooks
-				where Identifier = ?
-			', [$identifier], 'Ebook');
-
-		if(sizeof($result) == 0){
-			throw new Exceptions\EbookNotFoundException();
-		}
-
-		return $result[0];
-	}
-
 	public function CreateOrUpdate(): void{
-		try{
-			$existingEbook = Ebook::GetByIdentifier($this->Identifier);
-		}
-		catch(Exceptions\EbookNotFoundException){
-			$existingEbook = null;
-		}
+		$existingEbook = Library::GetEbookByIdentifier($this->Identifier);
 
 		if($existingEbook === null){
 			$this->Create();
