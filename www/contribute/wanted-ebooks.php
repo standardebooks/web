@@ -36,9 +36,6 @@
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/6927">The White Feather</a> by P. G. Wodehouse</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/6880">The Coming of Bill</a> by P. G. Wodehouse</p>
 			</li>
@@ -112,9 +109,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/8101">Bertram Cope’s Year</a> by Henry Blake Fuller</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/70652">At the Mountains of Madness</a> by H. P. Lovecraft</p>
-			</li> -->
-			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/77">The House of the Seven Gables</a> by Nathaniel Hawthorne</p>patron
 			</li> -->
 			<li>
@@ -165,9 +159,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/56426">The Mummy! A Tale of the Twenty-Second Century</a> by Jane C. Loudon</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/434">The Circular Staircase by Roberts Rineheart</a></p>patron
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://theotherpages.org/poems/poem-mn.html#macaulay">Poetry by Thomas Macaulay</a> including <i>Lays of Ancient Rome</i></p>
 			</li>
@@ -252,9 +246,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2194">Mauprat</a> by George Sand</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/9608">The Cords of Vanity</a> by James Branch Cabell</p>
-			</li>
+			</li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
 			</li> -->
