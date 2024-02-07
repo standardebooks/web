@@ -102,9 +102,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8939">With Edged Tools</a> by Henry Seton Merriman</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/11228">The Marrow of Tradition</a> by Charles W. Chesnutt</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8101">Bertram Cope’s Year</a> by Henry Blake Fuller</p>
 			</li>
@@ -244,9 +241,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/2194">Mauprat</a> by George Sand</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/9608">The Cords of Vanity</a> by James Branch Cabell</p>
-			</li> -->
-			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
 			</li> -->
 			<li>
@@ -303,9 +297,9 @@
 			<li>
 				<p>Norwegian Folktales, by Peter Christen Asbjørnsen and Jørgen Moe, translated by George Dasent (<a href="https://gutenberg.org/ebooks/8933">part 1</a>, <a href="https://gutenberg.org/ebooks/36385">part 2</a>)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3420">A Vindication of the Rights of Woman</a> by Mary Wollstonecraft</p>
-			</li>
+			</li> -->
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
