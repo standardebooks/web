@@ -57,7 +57,6 @@ epubcheck="true"
 recompose="true"
 feeds="true"
 bulkDownloads="true"
-ebookDatabase="false"
 
 if [ $#  -eq 0 ]; then
 	usage
