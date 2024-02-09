@@ -507,12 +507,12 @@ class Artwork extends PropertiesBase{
 			$error->Add(new Exceptions\MissingPdProofException());
 		}
 
-		// Check the ebook www filesystem path.
+		// Check the ebook URL.
 		// We don't check if it exists, because the book might not be published yet.
-		// But we do a basic check that the string includes one _. It might not include a dash, for example anonymous_poetry
+		// But we do a basic check that URL has the correct prefix and that it contains a slash between the author(s) and title.
 		if($this->EbookUrl !== null){
 			if(!preg_match('|^https://standardebooks.org/ebooks/[^/]+?/[^/]+?|ius', $this->EbookUrl)){
-				$error->Add(new Exceptions\EbookNotFoundException('Invalid ebook. Expected S.E. URL.'));
+				$error->Add(new Exceptions\EbookNotFoundException('Invalid ebook URL. Check that it matches the URL in dc:identifier.'));
 			}
 		}
 
