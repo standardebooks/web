@@ -267,7 +267,7 @@ class Artwork extends PropertiesBase{
 		try{
 			list($imageWidth, $imageHeight) = getimagesize($this->ImageFsPath);
 			if($imageWidth && $imageHeight){
-				$this->_Dimensions = $imageWidth . ' × ' . $imageHeight;
+				$this->_Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
 			}
 		}
 		catch(Exception){
