@@ -69,6 +69,7 @@ try{
 		$artwork->ArtworkId = $originalArtwork->ArtworkId;
 		$artwork->Created = $originalArtwork->Created;
 		$artwork->SubmitterUserId = $originalArtwork->SubmitterUserId;
+		$artwork->Status = $originalArtwork->Status; // Overwrite any value got from POST because we need permission to change the status
 
 		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 		if($newStatus !== null){
