@@ -585,7 +585,7 @@ class Artwork extends PropertiesBase{
 				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
 
-			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?id=' . $vars['id'] . '&seq=' . $vars['seq'];
+			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?id=' . $vars['id'] . '&view=1up&seq=' . $vars['seq'];
 
 			return $outputUrl;
 		}
