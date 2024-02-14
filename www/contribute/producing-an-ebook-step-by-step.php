@@ -369,7 +369,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</aside>
 				<h3>Modernize spacing in select words</h3>
 				<p>Over time, spelling of certain common two-word phrases has evolved into a single word. For example, <code class="html">someone</code> used to be the two-word phrase <code class="html">some one</code>, which would read awkwardly to modern readers. This is our chance to modernize such phrases.</p>
-				<p>Note that we use <code class="bash"><b>se</b> interactive-replace</code> to perform an interactive search and replace, instead of doing a global, non-interactive search and replace. This is because some phrases caught by the regular expression should not be changed, depending on context. For example, <code class="html">some one</code> in the following snippet from <a href="/ebooks/anton-chekhov/short-fiction/constance-garnett/">Anton Chekhov’s short fiction</a> <em>should not</em> be corrected:</p>
+				<p>Note that we use <code class="bash"><b>se</b> interactive-replace</code> to perform an interactive search and replace, instead of doing a global, non-interactive search and replace. This is because some phrases caught by the regular expression should not be changed, depending on context. For example, <code class="html">some one</code> in the following snippet from <a href="/ebooks/anton-chekhov/short-fiction/constance-garnett">Anton Chekhov’s short fiction</a> <em>should not</em> be corrected:</p>
 				<blockquote>
 					<p>He wanted to think of some one part of nature as yet untouched...</p>
 				</blockquote>
