@@ -328,6 +328,20 @@ code.full .utf{
 	text-transform: uppercase;
 }
 
+.step-by-step-guide dl{
+	margin-left: 0;
+	padding-left: 0;
+	margin-top: 0;
+}
+
+.step-by-step-guide dl dt{
+	margin-top:1em;
+}
+
+.step-by-step-guide dl dt a:link{
+	font-weight:bold;
+}
+
 .step-by-step-guide details{
 	padding: 1rem 0;
 	list-style-type: none;
