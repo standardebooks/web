@@ -151,12 +151,6 @@ $anonymousPatronCount = Db::QueryInt('
 				<h3>Corporate Sponsors</h3>
 				<ol class="donors corporate">
 					<li>
-						<a href="https://www.zsa.io">
-							<img src="/images/masthead/sponsors/zsa.svg" alt="ZSA" />
-							<p>Keyboards for writing.</p>
-						</a>
-					</li>
-					<li>
 						<a href="https://www.scribophile.com">
 							<img src="/images/masthead/sponsors/scribophile.svg" alt="Scribophile writing community &amp; workshop" />
 							<p>Scribophile</p>
