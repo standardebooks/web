@@ -300,6 +300,9 @@
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3420">A Vindication of the Rights of Woman</a> by Mary Wollstonecraft</p>
 			</li> -->
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/F._Scott_Fitzgerald_bibliography#Short_story_collections">Short stories by F. Scott Fitzgerald</a></p>
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
