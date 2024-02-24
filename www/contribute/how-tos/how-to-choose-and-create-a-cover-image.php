@@ -113,7 +113,7 @@
 							<h3>Museums with CC0 Copyright Licenses</h3>
 							<p>If there is nothing in the database that fits, you can also find public domain art in online museum collections.</p>
 							<p>You can use a painting from an online museum collection without further proof <strong>only if</strong> the museum that holds the original work of art has released it via the CC0 license. The CC0 deed is a legal document by which the museum waives any and all copyright in the image and the underlying work itself. S.E. <strong>does not</strong> accept other public domain declarations (not even other Creative Commons declarations such as CC-PDM).</p>
-							<p>Below you will find an <a href="#references-cc0">extensive list of museums with CC0 collections</a>. Please be sure to check the individual license; not every artwork at every listed museum will have the same license. Only works marked as CC0 will be approved.</p>
+							<p>Below you will find an <a href="#resources-cc0">extensive list of museums with CC0 collections</a>. Please be sure to check the individual license; not every artwork at every listed museum will have the same license. Only works marked as CC0 will be approved.</p>
 						</li>
 						<li id="where-to-find-published-art">
 							<h3>Art Published in a Public Domain Book</h3>
