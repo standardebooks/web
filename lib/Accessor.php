@@ -1,5 +1,5 @@
 <?
-abstract class PropertiesBase{
+abstract class Accessor{
 	/**
 	* @return mixed
 	*/

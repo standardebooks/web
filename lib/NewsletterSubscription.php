@@ -5,7 +5,7 @@ use Safe\DateTime;
  * @property User $User
  * @property string $Url
  */
-class NewsletterSubscription extends PropertiesBase{
+class NewsletterSubscription extends Accessor{
 	public bool $IsConfirmed = false;
 	public bool $IsSubscribedToSummary = false;
 	public bool $IsSubscribedToNewsletter = false;

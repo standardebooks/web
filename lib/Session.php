@@ -9,7 +9,7 @@ use function Safe\strtotime;
  * @property User $User
  * @property string $Url
  */
-class Session extends PropertiesBase{
+class Session extends Accessor{
 	public int $UserId;
 	protected ?User $_User = null;
 	public DateTime $Created;

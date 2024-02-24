@@ -8,7 +8,7 @@ use Safe\DateTime;
  * @property Benefits $Benefits
  * @property ?array<Payment> $_Payments
  */
-class User extends PropertiesBase{
+class User extends Accessor{
 	public int $UserId;
 	public ?string $Name = null;
 	public ?string $Email = null;

@@ -3,7 +3,7 @@
  * @property int $VoteCount
  * @property Poll $Poll
  */
-class PollItem extends PropertiesBase{
+class PollItem extends Accessor{
 	public int $PollItemId;
 	public int $PollId;
 	public string $Name;

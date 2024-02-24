@@ -6,7 +6,7 @@ use Safe\DateTime;
  * @property PollItem $PollItem
  * @property string $Url
  */
-class PollVote extends PropertiesBase{
+class PollVote extends Accessor{
 	public int $UserId;
 	public DateTime $Created;
 	public ?int $PollItemId = null;

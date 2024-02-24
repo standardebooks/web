@@ -4,7 +4,7 @@ use Safe\DateTime;
 /**
  * @property User $User
  */
-class Patron extends PropertiesBase{
+class Patron extends Accessor{
 	public ?int $UserId = null;
 	protected $_User = null;
 	public bool $IsAnonymous;

@@ -9,7 +9,7 @@ use function Safe\date;
  * @property array<string> $AlternateNames
  * @property array<string> $_AlternateNames
  */
-class Artist extends PropertiesBase{
+class Artist extends Accessor{
 	public ?int $ArtistId = null;
 	public ?string $Name = null;
 	public ?datetime $Created = null;

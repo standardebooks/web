@@ -34,7 +34,7 @@ use function Safe\preg_replace;
  * @property ?ImageMimeType $MimeType
  * @property ?array<ArtworkTag> $_Tags
  */
-class Artwork extends PropertiesBase{
+class Artwork extends Accessor{
 	public ?string $Name = null;
 	public ?int $ArtworkId = null;
 	public ?int $ArtistId = null;

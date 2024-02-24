@@ -2,7 +2,7 @@
 /**
  * @property User $User
  */
-class Payment extends PropertiesBase{
+class Payment extends Accessor{
 	public int $PaymentId;
 	public ?int $UserId = null;
 	public DateTime $Created;
