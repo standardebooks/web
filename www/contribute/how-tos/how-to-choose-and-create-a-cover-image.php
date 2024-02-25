@@ -271,7 +271,7 @@
 									<dt><a href="https://www.grpmcollections.org/Browse/Collections">Grand Rapids Public Museum</a></dt>
 									<dd>CC0 items have a CC0 logo and link near the download button.</dd>
 									<dt><a href="https://collections.artsmia.org/">Minneapolis Institute of Art</a></dt>
-									<dd>Public domain items are listed as such under “Rights.”</dd>
+									<dd>Public domain items are listed as such under “Rights.” Clicking on “Public Domain” expands to show the CC-PD mark. (Note that this is one of two museums on this list that does not explicitly use the CC0 license. When this list was first created, the SE Editor in Chief determined that the <a href="https://new.artsmia.org/copyright-and-image-access/">terms of the CC-PD mark at the Minneapolis Institute of Art</a> were substantively similar to a CC0 license. This decision predates the subsequent policy that all museum artworks must explicitly use the CC0 license, and thus the Minneapolis Institute of Art has been grandfathered into this list. <em>No further exceptions to the CC0 rule will be accepted!)</em></dd>
 									<dt><a href="http://www.clevelandart.org/art/collection/search?only-open-access=1&amp;filter-type=Painting">Cleveland Museum of Art</a></dt>
 									<dd>CC0 items have the CC0 logo in the search results and near the download button.</dd>
 									<dt><a href="https://risdmuseum.org/art-design/collection">RISD Museum</a></dt>
@@ -307,7 +307,7 @@
 									<dt><a href="https://cyfrowe.mnw.art.pl/en/home">National Museum in Warsaw</a></dt>
 									<dd>CC0 items say “CC0 — Public domain” under the “Copyrights’ section.</dd>
 									<dt><a href="https://www.nationalmuseum.se/en/explore-art-and-design/images/free-images">National Museum in Stockholm</a></dt>
-									<dd>CC-PD items have the CC-PD mark in the lower left of the item’s detail view.</dd>
+									<dd>CC-PD items have the CC-PD mark in the lower left of the item’s detail view. (Note that this is one of two museums on this list that does not explicitly use the CC0 license. When this list was first created, the SE Editor in Chief determined that the <a href="https://www.nationalmuseum.se/en/explore-art-and-design/images/rights-and-reproductions">terms of the CC-PD mark at the National Museum in Stockholm</a> were substantively similar to a CC0 license. This decision predates the subsequent policy that all museum artworks must explicitly use the CC0 license, and thus the National Museum in Stockholm has been grandfathered into this list. <em>No further exceptions to the CC0 rule will be accepted!)</em></dd>
 									<dt><a href="https://dams.birminghammuseums.org.uk/asset-bank/action/viewDefaultHome">Birmingham Museums</a></dt>
 									<dd>CC0 items say CC0 under the Usage Rights section in the item details.</dd>
 									<dt><a href="https://collections.brightonmuseums.org.uk/?q=&amp;departments=Fine%20Art">Brighton &amp; Hove Museums</a></dt>
