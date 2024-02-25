@@ -218,7 +218,7 @@ class Ebook{
 
 		$this->FullTitle = $this->NullIfEmpty($xml->xpath('/package/metadata/dc:title[@id="fulltitle"]'));
 
-		$this->AlternateTitle = $this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:alternate-title"]'));
+		$this->AlternateTitle = $this->NullIfEmpty($xml->xpath('/package/metadata/meta[@property="dcterms:alternate"][@refines="#title"]'));
 
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if($date !== false && sizeof($date) > 0){
