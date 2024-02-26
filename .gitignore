@@ -1,5 +1,5 @@
 ebooks/*
-www/ebooks/*
+www/ebooks/*/
 www/images/covers/*
 www/feeds/opds/*.xml
 www/feeds/opds/*/*.xml

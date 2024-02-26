@@ -1490,7 +1490,8 @@ ol.ebooks-list > li p{
 	hyphens: none;
 }
 
-ol.ebooks-list > li img{
+ol.ebooks-list > li img,
+img.ebook{
 	box-sizing: border-box;
 	max-width: 100%;
 	height: auto;
@@ -2905,6 +2906,21 @@ ul.feed p{
 	padding-bottom: 0;
 }
 
+.stinger{
+	font-family: "Crimson Pro", serif;
+	font-style: italic;
+	font-size: 2rem;
+}
+
+.thank-you-container{
+	display: flex;
+	gap: 2rem;
+}
+
+.thank-you-container picture{
+	flex-shrink: 0;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
@@ -3154,6 +3170,12 @@ ul.feed p{
 	article nav a[rel]::after{
 		font-size: 1rem;
 		margin: 0;
+	}
+}
+
+@media(max-width: 860px){
+	.thank-you-container picture{
+		display: none;
 	}
 }
 

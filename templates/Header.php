@@ -10,6 +10,7 @@ $isXslt = $isXslt ?? false;
 $feedUrl = $feedUrl ?? null;
 $feedTitle = $feedTitle ?? '';
 $isErrorPage = $isErrorPage ?? false;
+$downloadUrl = $downloadUrl ?? null;
 
 // As of Sep 2022, all versions of Safari have a bug where if the page is served as XHTML,
 // then <picture> elements download all <source>s instead of the first supported match.
@@ -80,6 +81,9 @@ if(!$isXslt){
 	<meta content="summary_large_image" name="twitter:card"/>
 	<meta content="@standardebooks" name="twitter:site"/>
 	<meta content="@standardebooks" name="twitter:creator"/>
+	<? } ?>
+	<? if($downloadUrl !== null){ ?>
+		<meta http-equiv="refresh" content="0; url=<?= Formatter::EscapeHtml($downloadUrl) ?>" />
 	<? } ?>
 </head>
 <body>
