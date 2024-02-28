@@ -69,7 +69,7 @@ try{
 		exit();
 	}
 }
-catch(Exceptions\InvalidFileException){
+catch(Exceptions\InvalidFileException | Exceptions\EbookNotFoundException){
 	Template::Emit404();
 }
 ?><?= Template::Header(['downloadUrl' => $downloadUrl]) ?>
