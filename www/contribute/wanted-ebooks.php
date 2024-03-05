@@ -495,6 +495,9 @@
 			<li>
 				<p><a href="https://archive.org/stream/in.ernet.dli.2015.210843/2015.210843.Tarka-The_djvu.txt">Tarka the Otter</a> by Henry Williamson (transcription required)</p>
 			</li><!--patron-->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/4361">Memoirs of General William T. Sherman</a> by William T. Sherman</p>
+			</li><!--patron-->
 		</ul>
 		<h2 id="verne">Jules Verne</h2>
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
