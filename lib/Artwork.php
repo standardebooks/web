@@ -557,6 +557,9 @@ class Artwork extends Accessor{
 	public static function NormalizePageScanUrl(string $url): string{
 		$outputUrl = $url;
 
+		// Before we start, replace Google TLDs like google.ca with .com
+		$url = preg_replace('|^(https://[^/]+?\.google)\.[^/]+/|ius', '\1.com/', $url);
+
 		try{
 			$parsedUrl = parse_url($url);
 		}
