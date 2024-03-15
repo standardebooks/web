@@ -192,9 +192,6 @@
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Thomas_Gray">Poetry of Thomas Gray</a> to be compiled in an omnibus</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/53685">Melmoth the Wanderer</a> by Charles Maturin</p>
-			</li> -->
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Sheridan_Le_Fanu">Short stories and novellas by Sheridan Le Fanu</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
