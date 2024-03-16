@@ -136,6 +136,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/14988">On the Nature of the Gods</a> by Cicero (PG link includes this work as part of an omnibus)</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/17957">On the Sublime</a> by Longinus</p>
 			</li>
 			<!-- <li>
