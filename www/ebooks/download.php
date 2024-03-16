@@ -1,5 +1,6 @@
 <?
 use function Safe\apcu_fetch;
+use function Safe\strtotime;
 
 // If the user is not logged in, or has less than some amount of downloads, show a thank-you page
 
