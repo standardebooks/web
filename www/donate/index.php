@@ -65,81 +65,30 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			<p><strong>Important:</strong> We need to know your email address to be able to log you in to the Patrons Circle. Make sure to select either “List my name publicly” or “Don’t list publicly, but reveal to project” during checkout to be able to log in to the Patrons Circle.</p>
 			<p class="button-row">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>
-				<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=cd005756-7327-463d-bd53-a08acc5eaa4a" class="button">Donate $100 or more</a>
+				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Donate $100 or more</a>
 			</p>
 		</section>
 		<section id="sponsor-an-ebook">
-			<h2>Sponsor an ebook of your choice</h2>
+			<h2>Sponsor a new ebook</h2>
 			<p>Is there a book you want to see made into a beautiful digital edition? You can give the gift of literature to readers everywhere by sponsoring an addition to the Standard Ebooks catalog.</p>
-			<p>Donate at one of the levels below and a book you select will be carefully hand-produced into an ebook edition that meets our exacting standards, before becoming a permanent addition to our online catalog for the world to read, share, and reuse free of cost or U.S. copyright restrictions. Your name will appear in the ebook’s colophon and metadata, sealing your legacy as a sponsor of the literate arts.</p>
-			<p><em>Before you make your donation</em>, <a href="/about#editor-in-chief">contact the S.E. Editor-in-Chief</a> to confirm that your ebook selection will be accepted at your chosen donation level. These are the general rules:</p>
+			<p>Make a one-time donation based on your selection’s word count, and we’ll carefully hand-produced it into an ebook edition that meets our exacting standards. It will then become a permanent addition to our online catalog for people to read, share, and reuse free of cost or U.S. copyright restrictions. Your name will appear in the ebook’s colophon and metadata, sealing your legacy as a sponsor of the literate arts.</p>
+			<p>These are the general rules:</p>
 			<ul>
 				<li>
 					<p>Your selection must conform to our <a href="/contribute/collections-policy">collections policy</a>.</p>
 				</li>
 				<li>
-					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>. In general, Standard Ebooks doesn’t create new transcriptions or work with raw <a href="https://en.wikipedia.org/wiki/Optical_character_recognition">O.C.R.</a> output.</p>
-				</li>
-				<li>
-					<p>Your selection’s word count will be calculated from the source transcription using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes. <a href="/about#editor-in-chief">Contact the S.E. Editor-in-Chief</a> before donating so that we can calculate your selection’s word count for you.</p>
+					<p>Your selection must have a usable transcription available online, for example at <a href="https://www.gutenberg.org">Project Gutenberg</a> or <a href="https://en.wikisource.org">Wikisource</a>.</p>
 				</li>
 				<li>
 					<p>Standard Ebooks is the sole decisionmaker regarding all aspects of ebook editing and production. Trust us to create an artifact of beauty.</p>
 				</li>
 			</ul>
-			<table>
-				<tbody>
-					<tr>
-						<td>
-							<p>Your choice of ebook of fewer than 100,000 words</p>
-							<p>(Like <i><a href="/ebooks/e-m-forster/a-room-with-a-view">A Room With a View</a></i> by <a href="/ebooks/e-m-forster">E. M. Forster</a>)</p>
-						</td>
-						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=093527b1-b87d-4e25-b750-5abfc4bb6c5a" class="button">Make a $800 donation</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>Your choice of ebook of 100,000–150,000 words</p>
-							<p>(Like <i><a href="/ebooks/charles-dickens/a-tale-of-two-cities">A Tale of Two Cities</a></i> by <a href="/ebooks/charles-dickens">Charles Dickens</a>)</p>
-						</td>
-
-						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=d9d8e346-20a9-411c-84eb-cdd29af8d540" class="button">Make a $950 donation</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>Your choice of ebook of 150,000–200,000 words</p>
-							<p>(Like <i><a href="/ebooks/jane-austen/emma">Emma</a></i> by <a href="/ebooks/jane-austen">Jane Austen</a>)</p>
-						</td>
-
-						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=9eff9db9-8c89-428e-ab9b-58591bb33242" class="button">Make a $1,100 donation</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>Your choice of ebook of 200,000–250,000 words</p>
-							<p>(Like <i><a href="/ebooks/fyodor-dostoevsky/crime-and-punishment/constance-garnett">Crime and Punishment</a></i> by <a href="/ebooks/fyodor-dostoevsky">Fyodor Dostoevsky</a>)</p>
-						</td>
-
-						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=ee08936d-9078-4806-b6be-db4788a130fb" class="button">Make a $1,250 donation</a>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<p>Your choice of ebook of 250,000–300,000 words</p>
-							<p>(Like <i>Ulysses</i> by <a href="https://standardebooks.org/ebooks/james-joyce">James Joyce</a>)</p>
-						</td>
-
-						<td>
-							<a href="https://fundraising.fracturedatlas.org/donor_intents/new?donation_intent=5ec01925-6404-40a3-81e4-d8eae07ba505" class="button">Make a $1,400 donation</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<p><b>Sponsoring a new ebook of your choice requires a donation of $0.009/word</b>, plus Fractured Atlas’ processing fee. Your selection’s word count will be calculated  using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes.</p>
+			<p><em>Before making your donation</em>, <a href="/about#editor-in-chief">contact the S.E. Editor-in-Chief</a> to confirm that your selection will be accepted, and so that we can calculate your selection’s word count.</p>
+			<p class="button-row center">
+				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a donation to sponsor a new ebook</a>
+			</p>
 		</section>
 		<section id="corporate-sponsors">
 			<h2>Corporate sponsorships</h2>
