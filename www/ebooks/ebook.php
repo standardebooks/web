@@ -237,7 +237,7 @@ catch(Exceptions\EbookNotFoundException){
 							<li property="schema:encoding" typeof="schema:MediaObject">
 								<meta property="schema:encodingFormat" content="application/x-mobipocket-ebook"/>
 								<p>
-									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormat::Azw3->value ?>" class="amazon"><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. You may be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
+									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormat::Azw3->value ?>" class="amazon"><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. Despite what you’ve been told, <a href="/help/how-to-use-our-ebooks#kindle-epub">Kindle does not natively support epub.</a> You may also be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
 								</p>
 							</li>
 							<? } ?>
