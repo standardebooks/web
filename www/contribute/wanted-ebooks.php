@@ -175,9 +175,6 @@
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
 			<li>
