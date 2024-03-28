@@ -145,9 +145,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
 			</li> -->
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4023">Candida</a> by George Bernard Shaw</p><!--patron-->
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/46674">Stover at Yale</a> by Owen Johnson</p><!--patron-->
 			</li>
 			<li>
