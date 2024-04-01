@@ -142,11 +142,8 @@
 				<p><a href="https://www.gutenberg.org/ebooks/17957">On the Sublime</a> by Longinus</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
+				<p><a href="https://www.gutenberg.org/ebooks/46674">Stover at Yale</a> by Owen Johnson</p>patron
 			</li> -->
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/46674">Stover at Yale</a> by Owen Johnson</p><!--patron-->
-			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/56426">The Mummy! A Tale of the Twenty-Second Century</a> by Jane C. Loudon</p>
 			</li>
@@ -168,9 +165,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
@@ -285,9 +282,9 @@
 			<li>
 				<p>Norwegian Folktales, by Peter Christen Asbjørnsen and Jørgen Moe, translated by George Dasent (<a href="https://gutenberg.org/ebooks/8933">part 1</a>, <a href="https://gutenberg.org/ebooks/36385">part 2</a>)</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3420">A Vindication of the Rights of Woman</a> by Mary Wollstonecraft</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/F._Scott_Fitzgerald_bibliography#Short_story_collections">Short stories by F. Scott Fitzgerald</a></p>
 			</li>
