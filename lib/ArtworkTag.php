@@ -45,12 +45,6 @@ class ArtworkTag extends Tag{
 			$error->Add(new Exceptions\InvalidArtworkTagNameException());
 		}
 
-		// TODO: Remove this once all legacy artworks are cleaned up and approved.
-		// 'todo' is a reserved tag for legacy artworks.
-		if($this->Name == 'todo'){
-			$error->Add(new Exceptions\InvalidArtworkTagNameException());
-		}
-
 		if($error->HasExceptions){
 			throw $error;
 		}

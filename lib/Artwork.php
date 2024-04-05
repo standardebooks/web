@@ -303,16 +303,6 @@ class Artwork extends Accessor{
 			return true;
 		}
 
-		// TODO: Remove this once all legacy artworks are cleaned up and approved.
-		// Editors can edit approved artwork that has the 'todo' tag.
-		if($user->Benefits->CanReviewArtwork){
-			foreach($this->Tags as $tag){
-				if($tag->Name == 'todo'){
-					return true;
-				}
-			}
-		}
-
 		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
 			// Editors can edit an artwork, and submitters can edit their own artwork, if it's not yet approved.
 			return true;
