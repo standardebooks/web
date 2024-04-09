@@ -1,6 +1,5 @@
 <?
 use function Safe\mime_content_type;
-use function Safe\imagecreatefromjpeg;
 
 enum ImageMimeType: string{
 	case JPG = 'image/jpeg';
