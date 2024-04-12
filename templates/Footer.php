@@ -1,6 +1,18 @@
 	<footer>
+		<ul class="social-media">
+			<li>
+				<p>
+					<a href="https://twitter.com/standardebooks">X</a>
+				</p>
+			</li>
+			<li>
+				<p>
+					<a href="https://www.instagram.com/standardebooks/">Instagram</a>
+				</p>
+			</li>
+		</ul>
 		<p><a href="/newsletter">Subscribe to our free newsletter</a></p>
-		<ul>
+		<ul class="nav-links">
 			<li>
 				<a href="/ebooks">Ebooks</a>
 			</li>

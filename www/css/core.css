@@ -1289,14 +1289,14 @@ body > footer{
 	padding: 2rem 0;
 }
 
-footer p:last-child a{
+footer > p:last-child a{
 	font-size: 0;
 	display: inline-block;
 	margin: auto;
 	margin-top: 2rem;
 }
 
-footer p:last-child a::before{
+footer > p:last-child a::before{
 	content: "";
 	background: url("/images/logo-small.svg");
 	background-size: contain;
@@ -1307,25 +1307,25 @@ footer p:last-child a::before{
 	margin: auto;
 }
 
-footer ul{
+footer ul.nav-links{
 	font-size: 0;
 	margin-bottom: 1rem;
 }
 
-footer ul li{
+footer ul.nav-links li{
 	display: inline-block;
 	list-style: none;
 	text-transform: lowercase;
 	font-size: 0;
 }
 
-footer ul li a,
-footer ul li::after{
+footer ul.nav-links li a,
+footer ul.nav-links li::after{
 	font-size: .9rem;
 	white-space: nowrap;
 }
 
-footer ul li:not(:last-child)::after{
+footer ul.nav-links li:not(:last-child)::after{
 	content: "\b7";
 	margin: 0 10px;
 }
@@ -1338,7 +1338,7 @@ footer > p:first-child{
 	text-transform: lowercase;
 }
 
-footer ul ~ p{
+footer ul.nav-links ~ p{
 	font-size: .6rem;
 }
 
@@ -1363,6 +1363,43 @@ footer > p:first-child::before{
 	display: inline;
 	margin-right: .25rem;
 	font-size: .75rem;
+}
+
+footer ul.social-media{
+	display: flex;
+	gap: 1rem;
+	list-style: none;
+	justify-content: center;
+	margin-bottom: 1rem;
+}
+
+footer ul.social-media a{
+	font-size: 0;
+	display: block;
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+footer ul.social-media a::before{
+	content: "";
+	display: block;
+	height: 100%;
+	width: 100%;
+	background-size: cover;
+	filter: brightness(0) saturate(100%) invert(18%) sepia(33%) saturate(355%) hue-rotate(172deg) brightness(93%) contrast(89%); /* Change color of SVG to #303944 */
+}
+
+footer ul.social-media a[href^="https://twitter.com"]::before{
+	background-image: url("/images/x.svg");
+}
+
+footer ul.social-media a[href^="https://www.instagram.com"]::before{
+	background-image: url("/images/instagram.svg");
+}
+
+footer ul.social-media a:hover::before{
+	/* This filter changes a black background to #62bfa3, which is var(--button-highlight) */
+	filter: invert(69%) sepia(35%) saturate(459%) hue-rotate(111deg) brightness(92%) contrast(87%);
 }
 
 /* ebook list */
