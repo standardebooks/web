@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 $artwork = $artwork ?? null;
 
@@ -10,7 +10,7 @@ if($artwork === null){
 
 $isEditForm = $isEditForm ?? false;
 
-$now = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
+$now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
 ?>
 <fieldset>
 	<legend>Artist details</legend>

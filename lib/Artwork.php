@@ -1,7 +1,7 @@
 <?
 
 use Exceptions\InvalidUrlException;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 use function Safe\apcu_cache_info;
 use function Safe\copy;
@@ -40,8 +40,8 @@ class Artwork extends Accessor{
 	public ?int $ArtistId = null;
 	public ?int $CompletedYear = null;
 	public bool $CompletedYearIsCirca = false;
-	public ?DateTime $Created = null;
-	public ?DateTime $Updated = null;
+	public ?DateTimeImmutable $Created = null;
+	public ?DateTimeImmutable $Updated = null;
 	public ?string $EbookUrl = null;
 	public ?int $SubmitterUserId = null;
 	public ?int $ReviewerUserId = null;
@@ -356,7 +356,7 @@ class Artwork extends Accessor{
 			}
 		}
 
-		$now = new DateTime('now', new DateTimeZone('UTC'));
+		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
 		$error = new Exceptions\ValidationException();
 
@@ -680,7 +680,7 @@ class Artwork extends Accessor{
 
 		$this->Validate($imagePath, true);
 
-		$this->Created = new DateTime();
+		$this->Created = new DateTimeImmutable();
 
 		$tags = [];
 		foreach($this->Tags as $artworkTag){
@@ -745,7 +745,7 @@ class Artwork extends Accessor{
 
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's
 			// updated timestamp won't change automatically.
-			$this->Updated = new DateTime('now', new DateTimeZone('UTC'));
+			$this->Updated = new DateTimeImmutable();
 			$this->_ImageUrl = null;
 			$this->_ThumbUrl = null;
 			$this->_Thumb2xUrl = null;

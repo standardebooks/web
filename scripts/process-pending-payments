@@ -9,7 +9,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Firefox\FirefoxDriver;
 use Facebook\WebDriver\Firefox\FirefoxOptions;
 
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\putenv;
@@ -31,8 +31,8 @@ $capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
 
 $driver = null;
 $log = new Log(DONATIONS_LOG_FILE_PATH);
-$lastMonth = (new DateTime())->sub(new DateInterval('P45D')); // 45 days, a 15 day grace period before Patrons Circle members are dropped off
-$lastYear = (new DateTime())->sub(new DateInterval('P1Y'));
+$lastMonth = (new DateTimeImmutable())->sub(new DateInterval('P45D')); // 45 days, a 15 day grace period before Patrons Circle members are dropped off
+$lastYear = (new DateTimeImmutable())->sub(new DateInterval('P1Y'));
 $faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
 $faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
 
@@ -152,7 +152,7 @@ try{
 				$payment->User = null;
 			}
 
-			$payment->Created = DateTime::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Created"]]'))->getText()));
+			$payment->Created = DateTimeImmutable::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Created"]]'))->getText()));
 			$payment->IsRecurring = sizeof($headerRow->findElements(WebDriverBy::xpath('//td[contains(., "Recurring")]'))) > 0;
 			$payment->Amount = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Total Amount"]]'))->getText())));
 			$payment->Fee = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Fee"]]'))->getText())));

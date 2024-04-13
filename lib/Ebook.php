@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 use function Safe\filesize;
 use function Safe\json_encode;
@@ -67,8 +67,8 @@ class Ebook{
 	public $Contributors = [];
 	public ?string $ContributorsHtml = null;
 	public string $TitleWithCreditsHtml = '';
-	public DateTime $Created;
-	public DateTime $Updated;
+	public DateTimeImmutable $Created;
+	public DateTimeImmutable $Updated;
 	public string $TextUrl;
 	public string $TextSinglePageUrl;
 	public ?string $TextSinglePageSizeNumber = null;
@@ -222,12 +222,12 @@ class Ebook{
 
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if($date !== false && sizeof($date) > 0){
-			$this->Created = new DateTime((string)$date[0]);
+			$this->Created = new DateTimeImmutable((string)$date[0]);
 		}
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
 		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
-			$this->Updated = new DateTime((string)$modifiedDate[0]);
+			$this->Updated = new DateTimeImmutable((string)$modifiedDate[0]);
 		}
 
 		// Get SE tags

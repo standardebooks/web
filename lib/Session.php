@@ -2,7 +2,7 @@
 
 use Exceptions\InvalidLoginException;
 use Ramsey\Uuid\Uuid;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\strtotime;
 
 /**
@@ -12,7 +12,7 @@ use function Safe\strtotime;
 class Session extends Accessor{
 	public int $UserId;
 	protected ?User $_User = null;
-	public DateTime $Created;
+	public DateTimeImmutable $Created;
 	public string $SessionId;
 	public ?string $_Url = null;
 
@@ -53,7 +53,7 @@ class Session extends Accessor{
 			else{
 				$uuid = Uuid::uuid4();
 				$this->SessionId = $uuid->toString();
-				$this->Created = new DateTime();
+				$this->Created = new DateTimeImmutable();
 				Db::Query('
 						INSERT into Sessions (UserId, SessionId, Created)
 						values (?,

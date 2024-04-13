@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 use function Safe\preg_match;
 use function Safe\preg_replace;

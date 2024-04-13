@@ -1,10 +1,10 @@
 <?
 // Auto-included by Composer in composer.json to satisfy PHPStan
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\define;
 
-$now = new DateTime('now', new DateTimeZone('UTC'));
-$nowPd = new DateTime('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
+$now = new DateTimeImmutable();
+$nowPd = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
@@ -94,7 +94,7 @@ const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // M
 define('PD_YEAR', intval($nowPd->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
-define('DONATION_HOLIDAY_ALERT_ON', $now > new DateTime('November 15, ' . $now->format('Y'), new DateTimeZone('UTC')) || $now < new DateTime('January 7, ' . $now->add(new DateInterval('P1Y'))->format('Y'), new DateTimeZone('UTC')));
+define('DONATION_HOLIDAY_ALERT_ON', $now > new DateTimeImmutable('November 15, ' . $now->format('Y')) || $now < new DateTimeImmutable('January 7, ' . $now->add(new DateInterval('P1Y'))->format('Y')));
 define('DONATION_ALERT_ON', DONATION_HOLIDAY_ALERT_ON || rand(1, 4) == 2);
 
 // Controls the progress bar donation dialog

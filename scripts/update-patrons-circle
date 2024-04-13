@@ -2,12 +2,14 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+use Safe\DateTimeImmutable;
+
 // Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members
 // who aren't in that list.
 // We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
 
-$now = new DateTime();
-$lastYear = new DateTime('-1 year');
+$now = new DateTimeImmutable();
+$lastYear = new DateTimeImmutable('-1 year');
 
 $expiredPatrons = Db::Query('
 	SELECT * from Patrons
@@ -38,7 +40,7 @@ if(sizeof($expiredPatrons) > 0){
 		preg_match_all('/<dc:date>(.+?)<\/dc:date>/iu', $metadata, $matches);
 
 		if(sizeof($matches) > 0){
-			$created = new DateTime($matches[1][0]);
+			$created = new DateTimeImmutable($matches[1][0]);
 			if($created >= $lastYear){
 				$ebooksThisYear++;
 			}

@@ -22,7 +22,7 @@ class ValidationException extends AppException{
 	public function Add(\Exception $exception, bool $isFatal = false): void{
 		if(is_a($exception, static::class)){
 			// Type hint for linter
-			/** @var ValidationException $exception */
+			/** @var ValidationException $childException */
 			foreach($exception->Exceptions as $childException){
 				$this->Add($childException);
 			}

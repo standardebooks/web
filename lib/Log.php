@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\fopen;
 use function Safe\fwrite;
 use function Safe\fclose;
@@ -33,7 +33,7 @@ class Log{
 				return;
 			}
 
-			$now = new DateTime('now', new DateTimeZone('UTC'));
+			$now = new DateTimeImmutable();
 
 			fwrite($fp, $now->format('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . $text . "\n");
 			fclose($fp);

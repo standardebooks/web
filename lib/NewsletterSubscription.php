@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
@@ -10,7 +10,7 @@ class NewsletterSubscription extends Accessor{
 	public bool $IsSubscribedToSummary = false;
 	public bool $IsSubscribedToNewsletter = false;
 	public ?int $UserId = null;
-	public DateTime $Created;
+	public DateTimeImmutable $Created;
 	protected $_User;
 	protected $_Url = null;
 
@@ -44,7 +44,7 @@ class NewsletterSubscription extends Accessor{
 		}
 
 		$this->UserId = $this->User->UserId;
-		$this->Created = new DateTime();
+		$this->Created = new DateTimeImmutable();
 
 		try{
 			Db::Query('

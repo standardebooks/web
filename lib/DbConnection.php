@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\preg_match;
 use function Safe\posix_getpwuid;
 
@@ -199,7 +199,7 @@ class DbConnection{
 								switch($metadata[$i]['native_type'] ?? null){
 									case 'DATETIME':
 									case 'TIMESTAMP':
-										$object->{$metadata[$i]['name']} = new DateTime($row[$i], new DateTimeZone('UTC'));
+										$object->{$metadata[$i]['name']} = new DateTimeImmutable($row[$i], new DateTimeZone('UTC'));
 										break;
 
 									case 'LONG':

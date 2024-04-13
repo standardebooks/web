@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
@@ -8,7 +8,7 @@ use Safe\DateTime;
  */
 class PollVote extends Accessor{
 	public int $UserId;
-	public DateTime $Created;
+	public DateTimeImmutable $Created;
 	public ?int $PollItemId = null;
 	protected ?User $_User = null;
 	protected ?PollItem $_PollItem = null;
@@ -98,7 +98,7 @@ class PollVote extends Accessor{
 		}
 
 		$this->Validate();
-		$this->Created = new DateTime();
+		$this->Created = new DateTimeImmutable();
 		Db::Query('
 			INSERT into PollVotes (UserId, PollItemId, Created)
 			values (?,

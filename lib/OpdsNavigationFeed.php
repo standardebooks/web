@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 
 class OpdsNavigationFeed extends OpdsFeed{
@@ -25,7 +25,7 @@ class OpdsNavigationFeed extends OpdsFeed{
 				foreach($xml->xpath('//entry') ?: [] as $existingEntry){
 					foreach($this->Entries as $entry){
 						if($entry->Id == $existingEntry->id){
-							$entry->Updated = new DateTime($existingEntry->updated);
+							$entry->Updated = new DateTimeImmutable($existingEntry->updated);
 						}
 					}
 				}

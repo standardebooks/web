@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\date;
 
 /**
@@ -12,8 +12,8 @@ use function Safe\date;
 class Artist extends Accessor{
 	public ?int $ArtistId = null;
 	public ?string $Name = null;
-	public ?datetime $Created = null;
-	public ?datetime $Updated = null;
+	public ?DateTimeImmutable $Created = null;
+	public ?DateTimeImmutable $Updated = null;
 	protected ?int $_DeathYear = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
@@ -82,7 +82,7 @@ class Artist extends Accessor{
 	// *******
 
 	public function Validate(): void{
-		$now = new DateTime('now', new DateTimeZone('UTC'));
+		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
 
 		$error = new Exceptions\ValidationException();

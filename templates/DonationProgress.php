@@ -1,13 +1,13 @@
 <?
+use Safe\DateTimeImmutable;
 
-$start = new DateTime(DONATION_DRIVE_START);
-$end = new DateTime(DONATION_DRIVE_END);
+$start = new DateTimeImmutable(DONATION_DRIVE_START);
+$end = new DateTimeImmutable(DONATION_DRIVE_END);
+$now = new DateTimeImmutable();
 $totalCurrent = 0;
 $baseTarget = 50;
 $stretchCurrent = 0;
 $stretchTarget = 20;
-
-$now = new DateTime();
 
 // Hide the alert if the user has closed it
 if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || $GLOBALS['User'] !== null || $now > $end){

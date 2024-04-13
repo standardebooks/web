@@ -1,10 +1,10 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 
 class AtomFeed extends Feed{
 	public string $Id;
-	public ?DateTime $Updated = null;
+	public ?DateTimeImmutable $Updated = null;
 	public ?string $Subtitle = null;
 
 	/**
@@ -39,7 +39,7 @@ class AtomFeed extends Feed{
 		// Did we actually update the feed? If so, write to file and update the index
 		if($this->HasChanged($this->Path)){
 			// Files don't match, save the file
-			$this->Updated = new DateTime();
+			$this->Updated = new DateTimeImmutable();
 			$this->Save();
 			return true;
 		}

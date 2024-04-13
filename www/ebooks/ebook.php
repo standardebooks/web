@@ -297,7 +297,7 @@ catch(Exceptions\EbookNotFoundException){
 			<ol>
 				<? foreach($ebook->GitCommits as $commit){ ?>
 				<li>
-					<time datetime="<?= $commit->Created->format(DateTime::RFC3339) ?>"><?= $commit->Created->format('M j, Y') ?></time>
+					<time datetime="<?= $commit->Created->format(DateTimeImmutable::RFC3339) ?>"><?= $commit->Created->format('M j, Y') ?></time>
 					<p><a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>/commit/<?= Formatter::EscapeHtml($commit->Hash) ?>"><?= Formatter::EscapeHtml($commit->Message) ?></a></p>
 				</li>
 				<? } ?>

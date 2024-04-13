@@ -1,11 +1,13 @@
 <?
+use Safe\DateTimeImmutable;
+
 /**
  * @property User $User
  */
 class Payment extends Accessor{
 	public int $PaymentId;
 	public ?int $UserId = null;
-	public DateTime $Created;
+	public DateTimeImmutable $Created;
 	public int $ChannelId;
 	public string $TransactionId;
 	public float $Amount;
