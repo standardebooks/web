@@ -43,6 +43,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			name="artist-year-of-death"
 			inputmode="numeric"
 			pattern="[0-9]+"
+			autocomplete="off"
 			value="<?= Formatter::EscapeHtml($artwork->Artist->DeathYear) ?>"
 		/>
 	</label>
@@ -51,7 +52,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 	<legend>Artwork details</legend>
 	<label>
 		Name
-		<input type="text" name="artwork-name" required="required"
+		<input type="text" name="artwork-name" required="required" autocomplete="off"
 		       value="<?= Formatter::EscapeHtml($artwork->Name) ?>"/>
 	</label>
 	<fieldset>
@@ -62,6 +63,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 				name="artwork-year"
 				inputmode="numeric"
 				pattern="[0-9]+"
+				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->CompletedYear) ?>"
 			/>
 		</label>
@@ -128,12 +130,13 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 				name="artwork-publication-year"
 				inputmode="numeric"
 				pattern="[0-9]+"
+				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->PublicationYear) ?>"
 			/>
 		</label>
 		<label>
 			<span>URL of page with year of publication</span>
-			<span>Roman numerals on the page scan are OK.</span>
+			<span>Roman numerals are OK. If no year is listed, alternate proof may be found in a printed library acquisitions list that shows this book was held by the library in a certain year; enter that in the <a href="#exception">exception field</a>.</span>
 			<input
 				type="url"
 				name="artwork-publication-year-page-url"
@@ -143,7 +146,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 		</label>
 		<label>
 			<span>URL of page with rights statement</span>
-			<span><strong>This page must include a statement of rights, like the copyright symbol “©” or the words “copyright” or “all rights reserved.”</strong> If no such page exists, leave this blank. This page might be the same page as above. Non-English is OK; keywords in other languages include “<i>droits</i>” and “<i>rechte vorbehalten</i>.”</span>
+			<span>This page must include a statement of rights, like the copyright symbol “©” or the words “copyright” or “all rights reserved.” If no such page exists, leave this blank. This page might be the same page as above. Non-English is OK; keywords in other languages include “<i lang="fr">droits</i>” and “<i lang="de">rechte vorbehalten</i>.”</span>
 			<input
 				type="url"
 				name="artwork-copyright-page-url"
@@ -163,7 +166,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 		</label>
 	</fieldset>
 	<p><strong>or</strong> a reason for a special exception:</p>
-	<fieldset>
+	<fieldset id="exception">
 		<label>
 		<span>Public domain status exception reason</span>
 		<span>Markdown accepted.</span>
