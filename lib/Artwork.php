@@ -346,16 +346,6 @@ class Artwork extends Accessor{
 	 * @throws \Exceptions\ValidationException
 	 */
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
-		// TODO: Remove this block once all legacy artworks are fixed up
-		// If this is tagged with 'fixup' and we're the admin user, skip validation
-		if($GLOBALS['User']?->Benefits->CanReviewOwnArtwork){
-			foreach($this->Tags as $tag){
-				if($tag->Name == 'fixup'){
-					return;
-				}
-			}
-		}
-
 		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
 		$error = new Exceptions\ValidationException();
