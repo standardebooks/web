@@ -154,9 +154,6 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
 				<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers. Once an artwork is approved, it can no longer be edited.</p>
 			<? } ?>
-			<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
-				<p>Set a file system slug to mark this artwork as “in use.”</p>
-			<? } ?>
 			<form method="post" action="<?= $artwork->Url ?>">
 				<input type="hidden" name="_method" value="PATCH" />
 				<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
