@@ -42,7 +42,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			type="text"
 			name="artist-year-of-death"
 			inputmode="numeric"
-			pattern="[0-9]+"
+			pattern="[0-9]{1,4}"
 			autocomplete="off"
 			value="<?= Formatter::EscapeHtml($artwork->Artist->DeathYear) ?>"
 		/>
@@ -62,7 +62,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 				type="text"
 				name="artwork-year"
 				inputmode="numeric"
-				pattern="[0-9]+"
+				pattern="[0-9]{1,4}"
 				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->CompletedYear) ?>"
 			/>
@@ -129,7 +129,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 				type="text"
 				name="artwork-publication-year"
 				inputmode="numeric"
-				pattern="[0-9]+"
+				pattern="[0-9]{4}"
 				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->PublicationYear) ?>"
 			/>
