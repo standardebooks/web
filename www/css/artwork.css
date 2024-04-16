@@ -166,6 +166,11 @@ form[action^="/artworks/"]{
 	margin-top: 1.4rem;
 }
 
+
+label.picture::before{
+	bottom: 2.6rem; /* Fix alignment caused by "circa" checkbox */
+}
+
 .artworks form.browse-artwork label.search{
 	grid-column: span 3;
 }
@@ -210,10 +215,10 @@ form.create-update-artwork fieldset label:has(input[type="checkbox"]){
 }
 
 form.create-update-artwork #pd-proof > fieldset{
-	border-left-color: var(--body-text);
-	border-left-width: 3px;
-	border-left-style: dotted;
-	padding-left: .75rem;
+	border-color: var(--body-text);
+	border-width: 3px;
+	border-style: double;
+	padding: 1rem;
 }
 
 form.create-update-artwork fieldset p{
@@ -398,6 +403,21 @@ main section.narrow h1 ~ picture{
 
 	.artworks form.browse-artwork button{
 		grid-column: span 3;
+	}
+}
+
+@media(max-width: 560px){
+	form.create-update-artwork > fieldset:nth-of-type(1),
+	form.create-update-artwork > fieldset:nth-of-type(2),
+	form.create-update-artwork fieldset fieldset:has(input[name="artwork-publication-year"]){
+		grid-template-columns: 1fr;
+	}
+
+	form.create-update-artwork fieldset label:has(input[type="url"]),
+	form.create-update-artwork fieldset label:has(input[type="checkbox"]),
+	form.create-update-artwork > fieldset label:has(input[name="artwork-tags"]),
+	form.create-update-artwork > fieldset label:has(input[name="artwork-image"]){
+		grid-column: 1;
 	}
 }
 

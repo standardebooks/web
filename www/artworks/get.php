@@ -157,7 +157,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<form method="post" action="<?= $artwork->Url ?>">
 				<input type="hidden" name="_method" value="PATCH" />
 				<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
-					<label class="select">
+					<label>
 						<span>Artwork approval status</span>
 						<span>
 							<select name="artwork-status">

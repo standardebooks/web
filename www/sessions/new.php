@@ -43,13 +43,13 @@ if($exception){
 			<input type="hidden" name="redirect" value="<?= Formatter::EscapeHtml($redirect) ?>" />
 			<? if($passwordRequired){ ?>
 				<input type="hidden" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
-				<label class="password">
+				<label>
 					<span>Your password</span>
 					<span>Logging in as <?= Formatter::EscapeHtml($email) ?>.</span>
 					<input type="password" name="password" value="" required="required" />
 				</label>
 			<? }else{ ?>
-				<label class="email">Your email address
+				<label>Your email address
 					<input type="email" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
 				</label>
 			<? } ?>

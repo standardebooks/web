@@ -79,7 +79,7 @@ article.ebook #more-ebooks img:hover{
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .5);
 }
 
-label.select > span + span::after,
+label:has(select) > span + span::after,
 label.search::before{
 	text-shadow: 1px 1px 0 #000;
 }

@@ -14,7 +14,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 ?>
 <fieldset>
 	<legend>Artist details</legend>
-	<label>
+	<label class="user">
 		<span>Name</span>
 		<span>For existing artists, leave the year of death blank.</span>
 		<datalist id="artist-names">
@@ -34,7 +34,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			value="<?= Formatter::EscapeHtml($artwork->Artist->Name) ?>"
 		/>
 	</label>
-	<label>
+	<label class="year">
 		<span>Year of death</span>
 		<span>If circa or unknown, enter the latest possible year.</span>
 		<? /* Not using <input type="number"> for now, see https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/ */ ?>
@@ -50,13 +50,13 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 </fieldset>
 <fieldset>
 	<legend>Artwork details</legend>
-	<label>
+	<label class="picture">
 		Name
 		<input type="text" name="artwork-name" required="required" autocomplete="off"
 		       value="<?= Formatter::EscapeHtml($artwork->Name) ?>"/>
 	</label>
 	<fieldset>
-		<label>
+		<label class="year">
 			Year of completion
 			<input
 				type="text"
@@ -75,7 +75,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			/> Year is circa
 		</label>
 	</fieldset>
-	<label>
+	<label class="tags">
 		<span>Tags</span>
 		<span>A list of comma-separated tags.</span>
 		<input
@@ -123,7 +123,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			<span>This book was published in the U.S.</span>
 			<span>Yes, if a U.S. city appears anywhere near the publication year or rights statement.</span>
 		</label>
-		<label>
+		<label class="year">
 			Year of publication
 			<input
 				type="text"
@@ -186,7 +186,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 <fieldset>
 	<legend>Editor options</legend>
 	<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
-		<label class="select">
+		<label>
 			<span>Artwork approval status</span>
 			<span>
 				<select name="artwork-status">

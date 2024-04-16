@@ -10,10 +10,10 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<? } ?>
 		</select>
 	</label>
-	<label class="search">Keywords
+	<label>Keywords
 		<input type="search" name="query" value="<?= Formatter::EscapeHtml($query ?? '') ?>"/>
 	</label>
-	<label class="select sort">
+	<label class="sort">
 		<span>Sort</span>
 		<span>
 			<select name="sort">
@@ -24,7 +24,7 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 			</select>
 		</span>
 	</label>
-	<label class="select view">
+	<label class="view">
 		<span>View</span>
 		<span>
 			<select name="view">
@@ -33,7 +33,7 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 			</select>
 		</span>
 	</label>
-	<label class="select per-page">
+	<label class="per-page">
 		<span>Per page</span>
 		<span>
 			<select name="per-page">

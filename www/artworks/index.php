@@ -119,7 +119,7 @@ catch(Exceptions\PageOutOfBoundsException){
 		<h1>Browse U.S. Public Domain Artwork</h1>
 		<p>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.</p>
 		<form class="browse-artwork" action="/artworks" method="get" rel="search">
-			<label class="select">
+			<label>
 				<span>Status</span>
 				<span>
 					<select name="status" size="1">
@@ -131,10 +131,10 @@ catch(Exceptions\PageOutOfBoundsException){
 					</select>
 				</span>
 			</label>
-			<label class="search">Keywords
+			<label>Keywords
 				<input type="search" name="query" value="<?= Formatter::EscapeHtml($query) ?>"/>
 			</label>
-			<label class="select sort">
+			<label class="sort">
 				<span>Sort</span>
 				<span>
 					<select name="sort">
@@ -144,7 +144,7 @@ catch(Exceptions\PageOutOfBoundsException){
 					</select>
 				</span>
 			</label>
-			<label class="select">
+			<label>
 				<span>Per page</span>
 				<span>
 					<select name="per-page">

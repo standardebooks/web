@@ -5,7 +5,7 @@ $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 <main>
 	<h1>Website Settings</h1>
 	<form action="/settings" method="post">
-		<label class="select">
+		<label>
 			<span>Color scheme</span>
 			<span>
 				<select name="color-scheme">
