@@ -88,7 +88,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 	</label>
 	<label>
 		<span>High-resolution image</span>
-		<span>jpg, bmp, png, and tiff are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?> × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?> minimum; 32MB max.<? if($isEditForm){ ?> Leave this blank to not change the image.<? } ?></span>
+		<span>jpg, bmp, png, and tiff are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?> × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?> minimum; 96MB max.<? if($isEditForm){ ?> Leave this blank to not change the image.<? } ?></span>
 		<input
 			type="file"
 			name="artwork-image"
