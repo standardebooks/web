@@ -47,6 +47,7 @@
 					<li><p><a href="#stage-directions-attached-to-personas">Attached to personas</a></p></li>
 					<li><p><a href="#stage-directions-songs">Songs</a></p></li>
 					<li><p><a href="#stage-directions-parentheses">Parentheses</a></p></li>
+					<li><p><a href="#stage-directions-multiple-paragraphs">Multiple paragraphs</a></p></li>
 					<li><p><a href="#stage-directions-a-stage-direction-for-a-stage-direction">A stage direction for a stage direction</a></p></li>
 				</ol>
 			</ol>
@@ -335,6 +336,24 @@
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">/&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span>The neighbour (a woman) passes the hut, and listens to a call from within.<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
+				</figure>
+				<h3 id="stage-directions-multiple-paragraphs">Multiple paragraphs</h3>
+				<p>When a stage direction spans multiple paragraphs, each paragraph should be marked with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span></code>.</p>
+<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">td</span><span class="p">/&gt;</span>
+	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">i</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
