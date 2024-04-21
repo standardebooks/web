@@ -1,0 +1,31 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+$longopts = ['ebookWwwFilesystemPath:', 'verbose'];
+$options = getopt('v', $longopts);
+
+$ebookWwwFilesystemPath = $options['ebookWwwFilesystemPath'] ?? false;
+
+$verbose = false;
+if(isset($options['v']) || isset($options['verbose'])){
+	$verbose = true;
+}
+
+if(!$ebookWwwFilesystemPath){
+	print("Expected usage: update-ebook-database [-v] --ebookWwwFilesystemPath <path>\n");
+	exit(1);
+}
+
+if($verbose){
+	print("ebookWwwFilesystemPath: $ebookWwwFilesystemPath\n");
+}
+
+$ebook = new Ebook($ebookWwwFilesystemPath);
+
+if($verbose){
+	print("Title: $ebook->Title\n");
+	print("Identifier: $ebook->Identifier\n");
+}
+
+$ebook->CreateOrUpdate();
