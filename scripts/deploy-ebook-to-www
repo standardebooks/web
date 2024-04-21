@@ -57,7 +57,6 @@ epubcheck="true"
 recompose="true"
 feeds="true"
 bulkDownloads="true"
-coverArtDatabase="false"
 
 if [ $#  -eq 0 ]; then
 	usage
@@ -388,14 +387,16 @@ do
 		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
 	fi
 
-	if [ "${coverArtDatabase}" = "true" ]; then
-		if [ "${verbose}" = "true" ]; then
-			printf "Updating/inserting cover in the cover art database ... "
-		fi
+	verboseDbFlag=""
+	if [ "${verbose}" = "true" ]; then
+		verboseDbFlag="--verbose"
+		printf "Updating/inserting ebook in database ... "
+	fi
 
-		if [ "${verbose}" = "true" ]; then
-			printf "Done.\n"
-		fi
+	"${scriptsDir}"/update-ebook-database ${verboseDbFlag} --ebookWwwFilesystemPath "${webDir}"
+
+	if [ "${verbose}" = "true" ]; then
+		printf "Done.\n"
 	fi
 
 	# Delete the now-empty work dir (empty except for .git)
