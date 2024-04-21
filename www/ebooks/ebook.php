@@ -282,8 +282,8 @@ catch(Exceptions\EbookNotFoundException){
 							<li property="schema:encoding" typeof="schema:mediaObject">
 								<meta property="schema:description" content="XHTML"/>
 								<meta property="schema:encodingFormat" content="application/xhtml+xml"/>
-								<p<? if($ebook->TextSinglePageSizeNumber >= 3 && $ebook->TextSinglePageSizeUnit == 'M'){ ?> class="has-size"<? } ?>>
-									<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a><? if($ebook->TextSinglePageSizeNumber >= 3 && $ebook->TextSinglePageSizeUnit == 'M'){ ?><span><?= $ebook->TextSinglePageSizeNumber ?>MB</span><? } ?>
+								<p<? if($ebook->TextSinglePageByteCount >= EBOOK_SINGLE_PAGE_SIZE_WARNING){ ?> class="has-size"<? } ?>>
+									<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a><? if($ebook->TextSinglePageByteCount >= EBOOK_SINGLE_PAGE_SIZE_WARNING){ ?><span><?= $ebook->TextSinglePageSizeNumber ?>MB</span><? } ?>
 								</p>
 							</li>
 							<? } ?>
