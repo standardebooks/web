@@ -12,7 +12,7 @@ use function Safe\shell_exec;
 /**
  * @property array<GitCommit> $GitCommits
  * @property array<EbookTag> $EbookTags
- * @property array<string> $LocTags
+ * @property array<LocSubject> $LocSubjects
  * @property array<Collection> $Collections
  * @property array<EbookSource> $Sources
  * @property array<Contributor> $Authors
@@ -20,8 +20,10 @@ use function Safe\shell_exec;
  * @property array<Contributor> $Translators
  * @property array<Contributor> $Contributors
  * @property ?array<string> $TocEntries
+ * @property string $IndexableText
  */
-class Ebook{
+class Ebook extends Accessor{
+	public ?int $EbookId = null;
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
 	public string $Url;
@@ -33,7 +35,7 @@ class Ebook{
 	public bool $HasDownloads;
 	public $GitCommits = [];
 	public $Tags = [];
-	public $LocTags = [];
+	public $LocSubjects = [];
 	public $Collections = [];
 	public string $Identifier;
 	public string $UrlSafeIdentifier;
@@ -73,7 +75,48 @@ class Ebook{
 	public string $TextSinglePageUrl;
 	public ?string $TextSinglePageSizeNumber = null;
 	public ?string $TextSinglePageSizeUnit = null;
+	public ?int $TextSinglePageByteCount = null;
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
+	protected ?string $_IndexableText = null;
+
+	// *******
+	// GETTERS
+	// *******
+
+	protected function GetIndexableText(): string{
+		if($this->_IndexableText === null){
+			$this->_IndexableText = $this->FullTitle ?? $this->Title;
+
+			$this->_IndexableText .= ' ' . $this->AlternateTitle;
+
+			foreach($this->Collections as $collection){
+				$this->_IndexableText .= ' ' . $collection->Name;
+			}
+
+			foreach($this->Authors as $author){
+				$this->_IndexableText .= ' ' . $author->Name;
+			}
+
+			foreach($this->Tags as $tag){
+				$this->_IndexableText .= ' ' . $tag->Name;
+			}
+
+			foreach($this->LocSubjects as $subject){
+				$this->_IndexableText .= ' ' . $subject->Name;
+			}
+
+			if($this->TocEntries !== null){
+				foreach($this->TocEntries as $item){
+					$this->_IndexableText .= ' ' . $item;
+				}
+			}
+
+			$this->_IndexableText .= ' ' . $this->Description;
+			$this->_IndexableText .= ' ' . $this->LongDescription;
+		}
+
+		return $this->_IndexableText;
+	}
 
 	public function __construct(?string $wwwFilesystemPath = null){
 		if($wwwFilesystemPath === null){
@@ -125,10 +168,10 @@ class Ebook{
 		try{
 			// PHP Safe throws an exception from filesize() if the file doesn't exist, but PHP still
 			// emits a warning. So, just silence the warning.
-			$bytes = @filesize($this->WwwFilesystemPath . '/text/single-page.xhtml');
+			$this->TextSinglePageByteCount = @filesize($this->WwwFilesystemPath . '/text/single-page.xhtml');
 			$sizes = 'BKMGTP';
-			$factor = intval(floor((strlen((string)$bytes) - 1) / 3));
-			$this->TextSinglePageSizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
+			$factor = intval(floor((strlen((string)$this->TextSinglePageByteCount) - 1) / 3));
+			$this->TextSinglePageSizeNumber = sprintf('%.1f', $this->TextSinglePageByteCount / pow(1024, $factor));
 			$this->TextSinglePageSizeUnit = $sizes[$factor] ?? '';
 			$this->TextSinglePageUrl = $this->Url . '/text/single-page';
 		}
@@ -232,7 +275,9 @@ class Ebook{
 
 		// Get SE tags
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
-			$this->Tags[] = new EbookTag($tag);
+			$ebookTag = new EbookTag();
+			$ebookTag->Name = $tag;
+			$this->Tags[] = $ebookTag;
 		}
 
 		$includeToc = sizeof($xml->xpath('/package/metadata/meta[@property="se:is-a-collection"]') ?: []) > 0;
@@ -262,8 +307,10 @@ class Ebook{
 		}
 
 		// Get LoC tags
-		foreach($xml->xpath('/package/metadata/dc:subject') ?: [] as $tag){
-			$this->LocTags[] = (string)$tag;
+		foreach($xml->xpath('/package/metadata/dc:subject') ?: [] as $subject){
+			$locSubject = new LocSubject();
+			$locSubject->Name = $subject;
+			$this->LocSubjects[] = $locSubject;
 		}
 
 		// Figure out authors and contributors
@@ -496,6 +543,60 @@ class Ebook{
 	// METHODS
 	// *******
 
+	public function Validate(): void{
+		$error = new Exceptions\ValidationException();
+
+		if($this->Identifier === null || $this->Identifier == ''){
+			$error->Add(new Exceptions\EbookIdentifierRequiredException());
+		}
+
+		if($this->Identifier !== null && strlen($this->Identifier) > EBOOKS_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Ebook Identifier'));
+		}
+
+		if($this->Title === null || $this->Title == ''){
+			$error->Add(new Exceptions\EbookTitleRequiredException());
+		}
+
+		if($this->Title !== null && strlen($this->Title) > EBOOKS_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Ebook Title'));
+		}
+
+		// TODO: Add more validation.
+
+		if($error->HasExceptions){
+			throw $error;
+		}
+	}
+
+	public function CreateOrUpdate(): void{
+		$existingEbook = Library::GetEbookByIdentifier($this->Identifier);
+
+		if($existingEbook === null){
+			$this->Create();
+			return;
+		}
+
+		$this->EbookId = $existingEbook->EbookId;
+		$this->Save();
+	}
+
+	private function InsertTagStrings(): void{
+		$tags = [];
+		foreach($this->Tags as $ebookTag){
+			$tags[] = EbookTag::GetOrCreate($ebookTag);
+		}
+		$this->Tags = $tags;
+	}
+
+	private function InsertLocSubjectStrings(): void{
+		$subjects = [];
+		foreach($this->LocSubjects as $locSubject){
+			$subjects[] = LocSubject::GetOrCreate($locSubject);
+		}
+		$this->LocSubjects = $subjects;
+	}
+
 	public function GetCollectionPosition(Collection $collection): ?int{
 		foreach($this->Collections as $c){
 			if($c->Name == $collection->Name){
@@ -526,8 +627,8 @@ class Ebook{
 			$searchString .= ' ' . $tag->Name;
 		}
 
-		foreach($this->LocTags as $tag){
-			$searchString .= ' ' . $tag;
+		foreach($this->LocSubjects as $subject){
+			$searchString .= ' ' . $subject->Name;
 		}
 
 		if($this->TocEntries !== null){
@@ -792,5 +893,275 @@ class Ebook{
 		}
 
 		return false;
+	}
+
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	public function Create(): void{
+		$this->Validate();
+
+		$this->InsertTagStrings();
+		$this->InsertLocSubjectStrings();
+
+		Db::Query('
+			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
+				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
+				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
+				EbookCreated, EbookUpdated, TextSinglePageByteCount, IndexableText)
+			values (?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?)
+		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
+				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
+				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
+				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
+				$this->Created, $this->Updated, $this->TextSinglePageByteCount, $this->IndexableText]);
+
+		$this->EbookId = Db::GetLastInsertedId();
+
+		$this->InsertTags();
+		$this->InsertLocSubjects();
+		$this->InsertGitCommits();
+		$this->InsertCollections();
+		$this->InsertSources();
+		$this->InsertContributors();
+		$this->InsertTocEntries();
+	}
+
+	public function Save(): void{
+		$this->Validate();
+
+		$this->InsertTagStrings();
+		$this->InsertLocSubjectStrings();
+
+		Db::Query('
+			UPDATE Ebooks
+			set
+			Identifier = ?,
+			WwwFilesystemPath = ?,
+			RepoFilesystemPath = ?,
+			KindleCoverUrl = ?,
+			EpubUrl = ?,
+			AdvancedEpubUrl = ?,
+			KepubUrl = ?,
+			Azw3Url = ?,
+			DistCoverUrl = ?,
+			Title = ?,
+			FullTitle = ?,
+			AlternateTitle = ?,
+			Description = ?,
+			LongDescription = ?,
+			Language = ?,
+			WordCount = ?,
+			ReadingEase = ?,
+			GitHubUrl = ?,
+			WikipediaUrl = ?,
+			EbookCreated = ?,
+			EbookUpdated = ?,
+			TextSinglePageByteCount = ?,
+			IndexableText = ?
+			where
+			EbookId = ?
+		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
+				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
+				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
+				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
+				$this->Created, $this->Updated, $this->TextSinglePageByteCount, $this->IndexableText,
+				$this->EbookId]);
+
+		$this->DeleteTags();
+		$this->InsertTags();
+
+		$this->DeleteLocSubjects();
+		$this->InsertLocSubjects();
+
+		$this->DeleteGitCommits();
+		$this->InsertGitCommits();
+
+		$this->DeleteCollections();
+		$this->InsertCollections();
+
+		$this->DeleteSources();
+		$this->InsertSources();
+
+		$this->DeleteContributors();
+		$this->InsertContributors();
+
+		$this->DeleteTocEntries();
+		$this->InsertTocEntries();
+	}
+
+	private function DeleteTags(): void{
+		Db::Query('
+			DELETE from EbookTags
+			where
+			EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	private function InsertTags(): void{
+		foreach($this->Tags as $tag){
+			Db::Query('
+				INSERT into EbookTags (EbookId, TagId)
+				values (?,
+				        ?)
+			', [$this->EbookId, $tag->TagId]);
+		}
+	}
+
+	private function DeleteLocSubjects(): void{
+		Db::Query('
+			DELETE from EbookLocSubjects
+			where
+			EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	private function InsertLocSubjects(): void{
+		foreach($this->LocSubjects as $locSubject){
+			Db::Query('
+				INSERT into EbookLocSubjects (EbookId, LocSubjectId)
+				values (?,
+				        ?)
+			', [$this->EbookId, $locSubject->LocSubjectId]);
+		}
+	}
+
+	private function DeleteGitCommits(): void{
+		Db::Query('
+			DELETE from GitCommits
+			where
+			EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	private function InsertGitCommits(): void{
+		foreach($this->GitCommits as $commit){
+			Db::Query('
+				INSERT into GitCommits (EbookId, Created, Message, Hash)
+				values (?,
+					?,
+					?,
+				        ?)
+			', [$this->EbookId, $commit->Created, $commit->Message, $commit->Hash]);
+		}
+	}
+
+	private function DeleteCollections(): void{
+		Db::Query('
+			DELETE from Collections
+			where
+			EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	private function InsertCollections(): void{
+		foreach($this->Collections as $collection){
+			Db::Query('
+				INSERT into Collections (EbookId, Name, UrlName, SequenceNumber, Type)
+				values (?,
+					?,
+					?,
+					?,
+				        ?)
+			', [$this->EbookId, $collection->Name, $collection->UrlName, $collection->SequenceNumber, $collection->Type]);
+		}
+	}
+
+	private function DeleteSources(): void{
+		Db::Query('
+			DELETE from EbookSources
+			where
+			EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	private function InsertSources(): void{
+		foreach($this->Sources as $source){
+			Db::Query('
+				INSERT into EbookSources (EbookId, Type, Url)
+				values (?,
+					?,
+				        ?)
+			', [$this->EbookId, $source->Type->value, $source->Url]);
+		}
+	}
+
+	private function DeleteContributors(): void{
+		Db::Query('
+			DELETE from Contributors
+			where
+			EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	private function InsertContributors(): void{
+		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Contributors);
+		foreach($allContributors as $sortOrder => $contributor){
+			Db::Query('
+				INSERT into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
+					NacoafUrl, SortOrder)
+				values (?,
+					?,
+					?,
+					?,
+					?,
+					?,
+					?,
+					?,
+				        ?)
+			', [$this->EbookId, $contributor->Name, $contributor->UrlName, $contributor->SortName,
+				$contributor->WikipediaUrl, $contributor->MarcRole, $contributor->FullName,
+				$contributor->NacoafUrl, $sortOrder]);
+		}
+	}
+
+	private function DeleteTocEntries(): void{
+		Db::Query('
+			DELETE from TocEntries
+			where
+			EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	private function InsertTocEntries(): void{
+		if($this->TocEntries !== null){
+			foreach($this->TocEntries as $tocEntry){
+				Db::Query('
+					INSERT into TocEntries (EbookId, TocEntry)
+					values (?,
+						?)
+				', [$this->EbookId, $tocEntry]);
+			}
+		}
 	}
 }

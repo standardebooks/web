@@ -1,14 +1,14 @@
 <?
-enum EbookSourceType{
-	case ProjectGutenberg;
-	case ProjectGutenbergAustralia;
-	case ProjectGutenbergCanada;
-	case InternetArchive;
-	case HathiTrust;
-	case Wikisource;
-	case GoogleBooks;
-	case FadedPage;
-	case Other;
+enum EbookSourceType: int{
+	case ProjectGutenberg = 1;
+	case ProjectGutenbergAustralia = 2;
+	case ProjectGutenbergCanada = 3;
+	case InternetArchive = 4;
+	case HathiTrust = 5;
+	case Wikisource = 6;
+	case GoogleBooks = 7;
+	case FadedPage = 8;
+	case Other = 9;
 }
 
 class EbookSource{
