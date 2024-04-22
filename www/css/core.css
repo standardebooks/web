@@ -65,6 +65,7 @@
 	--light-input-outline: #000;
 	--light-table-row-hover: #dddbd5;
 	--light-warning: #932d2d;
+	--light-input-icon-shadow: rgba(255, 255, 255, .5);
 
 	--dark-body-bg: #2c3035;
 	--dark-body-text: #fff;
@@ -78,6 +79,7 @@
 	--dark-input-outline: #fff;
 	--dark-table-row-hover: #373b3f;
 	--dark-warning: #ec6161;
+	--dark-input-icon-shadow: rgba(0, 0, 0, .5);
 
 	--body-text: var(--light-body-text);
 	--header: var(--light-header);
@@ -93,6 +95,7 @@
 	--link-highlight: var(--button);
 	--table-row-hover: var(--light-table-row-hover);
 	--warning: var(--light-warning);
+	--input-icon-shadow: var(--light-input-icon-shadow);
 }
 
 /* Start CSS reset */
@@ -1908,7 +1911,7 @@ label:has(input[type="password"])::before{
 	line-height: 1;
 	color: var(--sub-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
-	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
+	text-shadow: 1px 1px 0 var(--input-icon-shadow);
 	width: 1rem;
 	transition: color .5s;
 	cursor: text;
@@ -3167,11 +3170,11 @@ ul.feed p{
 		display: none;
 	}
 
-	footer ul li{
+	footer ul.nav-links li{
 		display: inline;
 	}
 
-	footer ul li:nth-child(4)::after{
+	footer ul.nav-links li:nth-child(4)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
@@ -3310,14 +3313,14 @@ ul.feed p{
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
-	footer ul li:nth-child(2)::after,
-	footer ul li:nth-child(5)::after{
+	footer ul.nav-links li:nth-child(2)::after,
+	footer ul.nav-links li:nth-child(5)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
 	}
 
-	footer ul li:nth-child(4)::after{
+	footer ul.nav-links li:nth-child(4)::after{
 		content: "\b7";
 		white-space: normal;
 		margin: 0 10px;
@@ -3560,17 +3563,17 @@ ul.feed p{
 		margin-top: 2rem;
 	}
 
-	footer ul li:nth-child(2)::after,
-	footer ul li:nth-child(4)::after,
-	footer ul li:nth-child(6)::after{
+	footer ul.nav-links li:nth-child(2)::after,
+	footer ul.nav-links li:nth-child(4)::after,
+	footer ul.nav-links li:nth-child(6)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
 	}
 
-	footer ul li:nth-child(1)::after,
-	footer ul li:nth-child(3)::after,
-	footer ul li:nth-child(5)::after{
+	footer ul.nav-links li:nth-child(1)::after,
+	footer ul.nav-links li:nth-child(3)::after,
+	footer ul.nav-links li:nth-child(5)::after{
 		content: "\b7";
 		white-space: normal;
 		margin: 0 10px;
@@ -3592,11 +3595,7 @@ ul.feed p{
 		height: .75rem;
 	}
 
-	body > footer{
-		padding-top: 1rem;
-	}
-
-	body > footer > p:first-child{
+	body > footer > p:first-of-type{
 		line-height: 1.4;
 	}
 
@@ -3689,7 +3688,7 @@ ul.feed p{
 		columns: 1;
 	}
 
-	footer ul li:nth-child(7)::after{
+	footer ul.nav-links li:nth-child(7)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
