@@ -1,7 +1,6 @@
 <?
 class LocSubject extends Tag{
 	public int $LocSubjectId;
-	public string $Name;
 
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
