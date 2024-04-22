@@ -44,19 +44,19 @@ class EbookTag extends Tag{
 		$this->TagId = Db::GetLastInsertedId();
 	}
 
-	public static function GetOrCreate(EbookTag $ebookTag): EbookTag{
+	public function GetByNameOrCreate(string $name): EbookTag{
 		$result = Db::Query('
 				SELECT *
 				from Tags
 				where Name = ?
-			', [$ebookTag->Name], 'EbookTag');
+			', [$name], 'EbookTag');
 
 		if(isset($result[0])){
 			return $result[0];
 		}
 		else{
-			$ebookTag->Create();
-			return $ebookTag;
+			$this->Create();
+			return $this;
 		}
 	}
 }

@@ -24,19 +24,19 @@ class LocSubject extends Tag{
 		$this->LocSubjectId = Db::GetLastInsertedId();
 	}
 
-	public static function GetOrCreate(LocSubject $locSubject): LocSubject{
+	public function GetByNameOrCreate(string $name): LocSubject{
 		$result = Db::Query('
 				SELECT *
 				from LocSubjects
 				where Name = ?
-			', [$locSubject->Name], 'LocSubject');
+			', [$name], 'LocSubject');
 
 		if(isset($result[0])){
 			return $result[0];
 		}
 		else{
-			$locSubject->Create();
-			return $locSubject;
+			$this->Create();
+			return $this;
 		}
 	}
 }
