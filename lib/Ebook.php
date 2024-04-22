@@ -583,11 +583,11 @@ class Ebook{
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
-		if($this->Identifier === null || $this->Identifier == ''){
+		if($this->Identifier == ''){
 			$error->Add(new Exceptions\EbookIdentifierRequiredException());
 		}
 
-		if($this->Identifier !== null && strlen($this->Identifier) > EBOOKS_MAX_STRING_LENGTH){
+		if(strlen($this->Identifier) > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook Identifier'));
 		}
 
