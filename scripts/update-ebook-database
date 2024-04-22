@@ -2,17 +2,19 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+use function Safe\getopt;
+
 $longopts = ['ebookWwwFilesystemPath:', 'verbose'];
 $options = getopt('v', $longopts);
 
-$ebookWwwFilesystemPath = $options['ebookWwwFilesystemPath'] ?? false;
+$ebookWwwFilesystemPath = $options['ebookWwwFilesystemPath'] ?? null;
 
 $verbose = false;
 if(isset($options['v']) || isset($options['verbose'])){
 	$verbose = true;
 }
 
-if(!$ebookWwwFilesystemPath){
+if($ebookWwwFilesystemPath === null){
 	print("Expected usage: update-ebook-database [-v,--verbose] --ebookWwwFilesystemPath <path>\n");
 	exit(1);
 }
