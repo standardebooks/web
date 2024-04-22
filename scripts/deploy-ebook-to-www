@@ -393,7 +393,7 @@ do
 		printf "Updating/inserting ebook in database ... "
 	fi
 
-	"${scriptsDir}"/update-ebook-database ${verboseDbFlag} --ebookWwwFilesystemPath "${webDir}"
+	"${scriptsDir}"/update-ebook-database "${verboseDbFlag}" --ebookWwwFilesystemPath "${webDir}"
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"
