@@ -13,7 +13,7 @@ if(isset($options['v']) || isset($options['verbose'])){
 }
 
 if(!$ebookWwwFilesystemPath){
-	print("Expected usage: update-ebook-database [-v] --ebookWwwFilesystemPath <path>\n");
+	print("Expected usage: update-ebook-database [-v,--verbose] --ebookWwwFilesystemPath <path>\n");
 	exit(1);
 }
 
