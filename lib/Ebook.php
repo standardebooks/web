@@ -584,7 +584,7 @@ class Ebook extends Accessor{
 	private function InsertTagStrings(): void{
 		$tags = [];
 		foreach($this->Tags as $ebookTag){
-			$tags[] = EbookTag::GetOrCreate($ebookTag);
+			$tags[] = $ebookTag->GetByNameOrCreate($ebookTag->Name);
 		}
 		$this->Tags = $tags;
 	}
@@ -592,7 +592,7 @@ class Ebook extends Accessor{
 	private function InsertLocSubjectStrings(): void{
 		$subjects = [];
 		foreach($this->LocSubjects as $locSubject){
-			$subjects[] = LocSubject::GetOrCreate($locSubject);
+			$subjects[] = $locSubject->GetByNameOrCreate($locSubject->Name);
 		}
 		$this->LocSubjects = $subjects;
 	}
