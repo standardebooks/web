@@ -55,6 +55,9 @@ $anonymousPatronCount = Db::QueryInt('
 				<li>
 					<p><a href="/about/standard-ebooks-and-the-public-domain">Standard Ebooks and the public domain</a></p>
 				</li>
+				<li>
+					<p><a href="/about/accessibility">How we make Standard Ebooks accessible</a></p>
+				</li>
 			</ul>
 		</section>
 		<section id="masthead" class="masthead">
