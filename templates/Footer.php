@@ -7,6 +7,11 @@
 			</li>
 			<li>
 				<p>
+					<a href="https://www.facebook.com/standardebooks/">Facebook</a>
+				</p>
+			</li>
+			<li>
+				<p>
 					<a href="https://www.instagram.com/standardebooks/">Instagram</a>
 				</p>
 			</li>

@@ -1396,6 +1396,10 @@ footer ul.social-media a[href^="https://twitter.com"]::before{
 	background-image: url("/images/x.svg");
 }
 
+footer ul.social-media a[href^="https://www.facebook.com"]::before{
+	background-image: url("/images/facebook.svg");
+}
+
 footer ul.social-media a[href^="https://www.instagram.com"]::before{
 	background-image: url("/images/instagram.svg");
 }
