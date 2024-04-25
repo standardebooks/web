@@ -1,5 +1,4 @@
 <?
-
 use Exceptions\InvalidLoginException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;

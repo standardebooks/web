@@ -1,14 +1,8 @@
 <?
-
-use Exceptions\InvalidUrlException;
 use Safe\DateTimeImmutable;
-
-use function Safe\apcu_cache_info;
 use function Safe\copy;
-use function Safe\date;
 use function Safe\exec;
 use function Safe\getimagesize;
-use function Safe\ini_get;
 use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_replace;
@@ -26,13 +20,10 @@ use function Safe\preg_replace;
  * @property string $ThumbFsPath
  * @property string $Thumb2xFsPath
  * @property string $Dimensions
- * @property ArtworkStatus|string|null $Status
  * @property Ebook $Ebook
  * @property Museum $Museum
  * @property User $Submitter
  * @property User $Reviewer
- * @property ?ImageMimeType $MimeType
- * @property ?array<ArtworkTag> $_Tags
  */
 class Artwork extends Accessor{
 	public ?string $Name = null;
@@ -53,8 +44,11 @@ class Artwork extends Accessor{
 	public ?bool $IsPublishedInUs = null;
 	public ?string $Exception = null;
 	public ?string $Notes = null;
+	public ?ImageMimeType $MimeType = null;
+	public ?ArtworkStatus $Status = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
+	protected ?string $_EditUrl = null;
 	protected $_Tags = null;
 	protected ?Artist $_Artist = null;
 	protected ?string $_ImageUrl = null;
@@ -65,8 +59,6 @@ class Artwork extends Accessor{
 	protected ?Museum $_Museum = null;
 	protected ?User $_Submitter = null;
 	protected ?User $_Reviewer = null;
-	protected ?ImageMimeType $_MimeType = null;
-	protected ?ArtworkStatus $_Status = null;
 
 	// *******
 	// SETTERS
@@ -89,30 +81,6 @@ class Artwork extends Accessor{
 				$tag->Name = $str;
 				return $tag;
 			}, $tags);
-		}
-	}
-
-	protected function SetStatus(null|string|ArtworkStatus $status): void{
-		if($status instanceof ArtworkStatus){
-			$this->_Status = $status;
-		}
-		elseif($status === null){
-			$this->_Status = null;
-		}
-		else{
-			$this->_Status = ArtworkStatus::from($status);
-		}
-	}
-
-	protected function SetMimeType(null|string|ImageMimeType $mimeType): void{
-		if($mimeType instanceof ImageMimeType){
-			$this->_MimeType = $mimeType;
-		}
-		elseif($mimeType === null){
-			$this->_MimeType = null;
-		}
-		else{
-			$this->_MimeType = ImageMimeType::tryFrom($mimeType);
 		}
 	}
 
@@ -167,7 +135,11 @@ class Artwork extends Accessor{
 	}
 
 	protected function GetEditUrl(): string{
-		return $this->Url . '/edit';
+		if($this->_EditUrl === null){
+			$this->_EditUrl = $this->Url . '/edit';
+		}
+
+		return $this->_EditUrl;
 	}
 
 	/**
@@ -265,7 +237,8 @@ class Artwork extends Accessor{
 	protected function GetDimensions(): string{
 		$this->_Dimensions = '';
 		try{
-			list($imageWidth, $imageHeight) = getimagesize($this->ImageFsPath);
+			// Safe\getimagesize() emits a warning if the file doesn't exist
+			list($imageWidth, $imageHeight) = @getimagesize($this->ImageFsPath);
 			if($imageWidth && $imageHeight){
 				$this->_Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
 			}
@@ -892,7 +865,7 @@ class Artwork extends Accessor{
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
-		$artwork->Status = HttpInput::Str(POST, 'artwork-status') ?? ArtworkStatus::Unverified;
+		$artwork->Status = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? ArtworkStatus::Unverified;
 		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
 		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');

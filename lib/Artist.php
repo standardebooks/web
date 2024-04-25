@@ -1,6 +1,5 @@
 <?
 use Safe\DateTimeImmutable;
-use function Safe\date;
 
 /**
  * @property ?int $DeathYear

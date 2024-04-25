@@ -219,6 +219,39 @@ class DbConnection{
 										$object->{$metadata[$i]['name']} = $row[$i] == 1 ? true : false;
 										break;
 
+									case 'STRING':
+										// We don't check the type VAR_STRING here because in MariaDB, enums are always of type STRING.
+										// Since this check is slow, we don't want to run it unnecessarily.
+										if($class == 'stdClass'){
+											$object->{$metadata[$i]['name']} = $row[$i];
+										}
+										else{
+											// If the column is a string and we're filling a typed object, check if the object property is a backed enum. If so, generate it using from(). Otherwise, fill it with a string.
+											// Note: Using ReflectionProperty in this way is pretty slow. Maybe we'll think of a
+											// better way to automatically fill enum types later.
+											try{
+												$rp = new ReflectionProperty($object, $metadata[$i]['name']);
+												/** @var ?ReflectionNamedType $property */
+												$property = $rp->getType();
+												if($property !== null){
+													$type = $property->getName();
+													if(is_a($type, 'BackedEnum', true)){
+														$object->{$metadata[$i]['name']} = $type::from($row[$i]);
+													}
+													else{
+														$object->{$metadata[$i]['name']} = $row[$i];
+													}
+												}
+												else{
+													$object->{$metadata[$i]['name']} = $row[$i];
+												}
+											}
+											catch(\Exception){
+												$object->{$metadata[$i]['name']} = $row[$i];
+											}
+										}
+										break;
+
 									default:
 										$object->{$metadata[$i]['name']} = $row[$i];
 										break;

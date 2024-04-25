@@ -17,7 +17,7 @@ CREATE TABLE `Artworks` (
   `ArtworkPageUrl` varchar(255) NULL,
   `IsPublishedInUs` tinyint(1) NOT NULL DEFAULT FALSE,
   `EbookUrl` varchar(255) NULL,
-  `MimeType` varchar(64) NOT NULL,
+  `MimeType` enum('image/jpeg', 'image/png', 'image/bmp', 'image/tiff') NOT NULL,
   `Exception` TEXT NULL DEFAULT NULL,
   `Notes` TEXT NULL DEFAULT NULL
   PRIMARY KEY (`ArtworkId`),

@@ -1,5 +1,4 @@
 <?
-
 enum EbookFormat: string{
 	case Epub = 'epub';
 	case Azw3 = 'azw3';
