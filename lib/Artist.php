@@ -84,7 +84,7 @@ class Artist extends Accessor{
 		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
 
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidArtistException();
 
 		if($this->Name === null || $this->Name == ''){
 			$error->Add(new Exceptions\ArtistNameRequiredException());

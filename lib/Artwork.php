@@ -321,10 +321,10 @@ class Artwork extends Accessor{
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
 		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidArtworkException();
 
 		if($this->Artist === null){
-			$error->Add(new Exceptions\InvalidArtworkException());
+			$error->Add(new Exceptions\InvalidArtistException());
 		}
 
 		try{

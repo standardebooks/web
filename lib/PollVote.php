@@ -7,7 +7,7 @@ use Safe\DateTimeImmutable;
  * @property string $Url
  */
 class PollVote extends Accessor{
-	public int $UserId;
+	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
 	public ?int $PollItemId = null;
 	protected ?User $_User = null;
@@ -33,7 +33,7 @@ class PollVote extends Accessor{
 	// *******
 
 	protected function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidPollVoteException();
 
 		if($this->User === null){
 			$error->Add(new Exceptions\UserNotFoundException());

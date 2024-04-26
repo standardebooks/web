@@ -33,8 +33,7 @@ try{
 		header('Location: ' . $session->Url);
 	}
 }
-catch(Exceptions\AppException $ex){
-	// Login failed
+catch(Exceptions\InvalidLoginException $ex){
 	if($requestType == WEB){
 		$_SESSION['email'] = $email;
 		$_SESSION['redirect'] = $redirect;

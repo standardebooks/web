@@ -31,8 +31,8 @@ class NewsletterSubscription extends Accessor{
 	// METHODS
 	// *******
 
-	public function Create(): void{
-		$this->Validate();
+	public function Create(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
+		$this->Validate($expectedCaptcha, $receivedCaptcha);
 
 		// Do we need to create a user?
 		try{
@@ -111,8 +111,8 @@ class NewsletterSubscription extends Accessor{
 		', [$this->UserId]);
 	}
 
-	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+	public function Validate(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
+		$error = new Exceptions\InvalidNewsletterSubscription();
 
 		if($this->User === null || $this->User->Email == '' || !filter_var($this->User->Email, FILTER_VALIDATE_EMAIL)){
 			$error->Add(new Exceptions\InvalidEmailException());
@@ -120,6 +120,12 @@ class NewsletterSubscription extends Accessor{
 
 		if(!$this->IsSubscribedToSummary && !$this->IsSubscribedToNewsletter){
 			$error->Add(new Exceptions\NewsletterRequiredException());
+		}
+
+		if($expectedCaptcha !== null){
+			if($expectedCaptcha === '' || mb_strtolower($expectedCaptcha) !== mb_strtolower($receivedCaptcha ?? '')){
+				$error->Add(new Exceptions\InvalidCaptchaException());
+			}
 		}
 
 		if($error->HasExceptions){

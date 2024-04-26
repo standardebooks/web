@@ -27,7 +27,7 @@ class ArtworkTag extends Tag{
 	// METHODS
 	// *******
 	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidArtworkTagException($this->Name);
 
 		$this->Name = mb_strtolower(trim($this->Name));
 		// Collapse spaces into one
