@@ -898,7 +898,7 @@ class Ebook extends Accessor{
 	// ORM METHODS
 	// ***********
 
-	public static function GetByIdentifier(?string $identifier): ?Ebook{
+	public static function GetByIdentifier(?string $identifier): Ebook{
 		if($identifier === null){
 			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
 		}
