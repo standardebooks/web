@@ -133,7 +133,7 @@ class DbConnection{
 				}
 				elseif($ex->getCode() == '23000'){
 					// Duplicate key, bubble this up without logging it so the business logic can handle it
-					throw($ex);
+					throw new Exceptions\DuplicateDatabaseKeyException();
 				}
 				else{
 					$done = true;
