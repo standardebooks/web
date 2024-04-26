@@ -649,24 +649,6 @@ class Library{
 		}
 	}
 
-	public static function GetEbookByIdentifier(?string $identifier): ?Ebook{
-		if($identifier === null){
-			return null;
-		}
-
-		$result = Db::Query('
-				SELECT *
-				from Ebooks
-				where Identifier = ?
-			', [$identifier], 'Ebook');
-
-		if(sizeof($result) == 0){
-			return null;
-		}
-
-		return $result[0];
-	}
-
 	public static function RebuildCache(): void{
 		// We check a lockfile because this can be a long-running command.
 		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.
