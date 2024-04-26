@@ -607,15 +607,14 @@ class Ebook{
 	}
 
 	public function CreateOrUpdate(): void{
-		$existingEbook = Library::GetEbookByIdentifier($this->Identifier);
-
-		if($existingEbook === null){
-			$this->Create();
-			return;
+		try{
+			$existingEbook = Ebook::GetByIdentifier($this->Identifier);
+			$this->EbookId = $existingEbook->EbookId;
+			$this->Save();
 		}
-
-		$this->EbookId = $existingEbook->EbookId;
-		$this->Save();
+		catch(Exceptions\EbookNotFoundException){
+			$this->Create();
+		}
 	}
 
 	private function InsertTagStrings(): void{
@@ -935,6 +934,24 @@ class Ebook{
 	// ***********
 	// ORM METHODS
 	// ***********
+
+	public static function GetByIdentifier(?string $identifier): ?Ebook{
+		if($identifier === null){
+			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
+		}
+
+		$result = Db::Query('
+				SELECT *
+				from Ebooks
+				where Identifier = ?
+			', [$identifier], 'Ebook');
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
+		}
+
+		return $result[0];
+	}
 
 	public function Create(): void{
 		$this->Validate();
