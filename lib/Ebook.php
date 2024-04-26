@@ -935,6 +935,9 @@ class Ebook{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws \Exceptions\EbookNotFoundException
+	 */
 	public static function GetByIdentifier(?string $identifier): Ebook{
 		if($identifier === null){
 			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
