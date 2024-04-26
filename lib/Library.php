@@ -676,24 +676,6 @@ class Library{
 		}
 	}
 
-	public static function GetEbookByIdentifier(?string $identifier): ?Ebook{
-		if($identifier === null){
-			return null;
-		}
-
-		$result = Db::Query('
-				SELECT *
-				from Ebooks
-				where Identifier = ?
-			', [$identifier], 'Ebook');
-
-		if(sizeof($result) == 0){
-			return null;
-		}
-
-		return $result[0];
-	}
-
 	/**
 	 * @throws Exceptions\AppException
 	 */
