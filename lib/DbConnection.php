@@ -8,7 +8,7 @@ class DbConnection{
 	public int $QueryCount = 0;
 	public int $LastQueryAffectedRowCount = 0;
 
-	public function __construct(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string $password = '', bool $forceUtf8 = true, bool $require = true){
+	public function __construct(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string $password = '', bool $forceUtf8 = true){
 		if($user === null){
 			// Get the user running the script for local socket login
 			$user = posix_getpwuid(posix_geteuid());
@@ -51,13 +51,10 @@ class DbConnection{
 		$this->_link = new \PDO($connectionString, $user, $password, $params);
 	}
 
-	// Inputs:	string 	$sql 		= the SQL query to execute
-	//		array 	$params 	= an array of parameters to bind to the SQL statement
-	// Returns:	a resource record or null on error
 	/**
-	* @param string $sql
-	* @param array<mixed> $params
-	* @param string $class
+	* @param string $sql The SQL query to execute.
+	* @param array<mixed> $params An array of parameters to bind to the SQL statement.
+	* @param string $class The type of object to return in the return array.
 	* @return Array<mixed>
 	*/
 	public function Query(string $sql, array $params = [], string $class = 'stdClass'): array{
@@ -69,9 +66,11 @@ class DbConnection{
 		$result = [];
 		$preparedSql = $sql;
 
-		$handle = $this->_link->prepare($preparedSql);
-		if(!is_array($params)){
-			$params = [$params];
+		try{
+			$handle = $this->_link->prepare($preparedSql);
+		}
+		catch(\PDOException $ex){
+			throw $this->CreateDetailedException($ex, $preparedSql, $params);
 		}
 
 		$name = 0;
@@ -122,20 +121,22 @@ class DbConnection{
 				}
 				else{
 					$done = true;
-					if(SITE_STATUS == SITE_STATUS_DEV){
-						throw($ex);
-					}
-					else{
-						Log::WriteErrorLogEntry($ex->getMessage());
-						Log::WriteErrorLogEntry($preparedSql);
-						Log::WriteErrorLogEntry(vds($params));
-						throw($ex);
-					}
+					throw $this->CreateDetailedException($ex, $preparedSql, $params);
 				}
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	* @param \PdoException $ex The exception to create details from.
+	* @param string $preparedSql The prepared SQL that caused the exception.
+	* @param array<mixed> $params The parameters passed to the prepared SQL.
+	*/
+	private function CreateDetailedException(\PDOException $ex, string $preparedSql, array $params): Exceptions\DatabaseQueryException{
+		// Throw a custom exception that includes more information on the query and paramaters
+		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $preparedSql . '. Parameters: ' . vds($params));
 	}
 
 	/**
@@ -260,7 +261,6 @@ class DbConnection{
 		return $result;
 	}
 
-	// Gets the last auto-increment id
 	public function GetLastInsertedId(): ?int{
 		if($this->_link === null){
 			return null;

@@ -27,6 +27,8 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 	});
 }
 
+$GLOBALS['DbConnection'] = new DbConnection(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
+
 $GLOBALS['User'] = Session::GetLoggedInUser();
 
 if($GLOBALS['User'] === null){
