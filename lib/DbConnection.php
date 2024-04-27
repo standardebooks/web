@@ -19,51 +19,36 @@ class DbConnection{
 
 		$connectionString = 'mysql:';
 
-		try{
-			if(stripos($host, ':') !== false){
-				$port = null;
-				preg_match('/([^:]*):([0-9]+)/ius', $host, $matches);
-				$host = $matches[1];
-				if(sizeof($matches) > 2){
-					$port = $matches[2];
-				}
-
-				$connectionString .= 'host=' . $host;
-
-				if($port !== null){
-					$connectionString .= ';port=' . $port;
-				}
-			}
-			else{
-				$connectionString .= 'host=' . $host;
+		if(stripos($host, ':') !== false){
+			$port = null;
+			preg_match('/([^:]*):([0-9]+)/ius', $host, $matches);
+			$host = $matches[1];
+			if(sizeof($matches) > 2){
+				$port = $matches[2];
 			}
 
-			if($defaultDatabase !== null){
-				$connectionString .= ';dbname=' . $defaultDatabase;
-			}
+			$connectionString .= 'host=' . $host;
 
-			$params = [\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
-
-			if($forceUtf8){
-				$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';
-			}
-
-			// We can't use persistent connections (connection pooling) because we would have race condition problems with last_insert_id()
-			$this->_link = new \PDO($connectionString, $user, $password, $params);
-		}
-		catch(Exception $ex){
-			if(SITE_STATUS == SITE_STATUS_DEV){
-				var_dump($ex);
-			}
-			else{
-				Log::WriteErrorLogEntry('Error connecting to ' . $connectionString . '. Exception: ' . vds($ex));
-			}
-
-			if($require){
-				print("Something crazy happened in our database.");
-				exit();
+			if($port !== null){
+				$connectionString .= ';port=' . $port;
 			}
 		}
+		else{
+			$connectionString .= 'host=' . $host;
+		}
+
+		if($defaultDatabase !== null){
+			$connectionString .= ';dbname=' . $defaultDatabase;
+		}
+
+		$params = [\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
+
+		if($forceUtf8){
+			$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';
+		}
+
+		// We can't use persistent connections (connection pooling) because we would have race condition problems with last_insert_id()
+		$this->_link = new \PDO($connectionString, $user, $password, $params);
 	}
 
 	// Inputs:	string 	$sql 		= the SQL query to execute
