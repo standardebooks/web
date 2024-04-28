@@ -1,14 +1,8 @@
 <?
-
-use Exceptions\InvalidUrlException;
-use Safe\DateTime;
-
-use function Safe\apcu_cache_info;
+use Safe\DateTimeImmutable;
 use function Safe\copy;
-use function Safe\date;
 use function Safe\exec;
 use function Safe\getimagesize;
-use function Safe\ini_get;
 use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_replace;
@@ -26,13 +20,10 @@ use function Safe\preg_replace;
  * @property string $ThumbFsPath
  * @property string $Thumb2xFsPath
  * @property string $Dimensions
- * @property ArtworkStatus|string|null $Status
  * @property Ebook $Ebook
  * @property Museum $Museum
  * @property User $Submitter
  * @property User $Reviewer
- * @property ?ImageMimeType $MimeType
- * @property ?array<ArtworkTag> $_Tags
  */
 class Artwork extends Accessor{
 	public ?string $Name = null;
@@ -40,8 +31,8 @@ class Artwork extends Accessor{
 	public ?int $ArtistId = null;
 	public ?int $CompletedYear = null;
 	public bool $CompletedYearIsCirca = false;
-	public ?DateTime $Created = null;
-	public ?DateTime $Updated = null;
+	public ?DateTimeImmutable $Created = null;
+	public ?DateTimeImmutable $Updated = null;
 	public ?string $EbookUrl = null;
 	public ?int $SubmitterUserId = null;
 	public ?int $ReviewerUserId = null;
@@ -53,8 +44,11 @@ class Artwork extends Accessor{
 	public ?bool $IsPublishedInUs = null;
 	public ?string $Exception = null;
 	public ?string $Notes = null;
+	public ?ImageMimeType $MimeType = null;
+	public ?ArtworkStatus $Status = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
+	protected ?string $_EditUrl = null;
 	protected $_Tags = null;
 	protected ?Artist $_Artist = null;
 	protected ?string $_ImageUrl = null;
@@ -65,8 +59,6 @@ class Artwork extends Accessor{
 	protected ?Museum $_Museum = null;
 	protected ?User $_Submitter = null;
 	protected ?User $_Reviewer = null;
-	protected ?ImageMimeType $_MimeType = null;
-	protected ?ArtworkStatus $_Status = null;
 
 	// *******
 	// SETTERS
@@ -89,30 +81,6 @@ class Artwork extends Accessor{
 				$tag->Name = $str;
 				return $tag;
 			}, $tags);
-		}
-	}
-
-	protected function SetStatus(null|string|ArtworkStatus $status): void{
-		if($status instanceof ArtworkStatus){
-			$this->_Status = $status;
-		}
-		elseif($status === null){
-			$this->_Status = null;
-		}
-		else{
-			$this->_Status = ArtworkStatus::from($status);
-		}
-	}
-
-	protected function SetMimeType(null|string|ImageMimeType $mimeType): void{
-		if($mimeType instanceof ImageMimeType){
-			$this->_MimeType = $mimeType;
-		}
-		elseif($mimeType === null){
-			$this->_MimeType = null;
-		}
-		else{
-			$this->_MimeType = ImageMimeType::tryFrom($mimeType);
 		}
 	}
 
@@ -167,7 +135,11 @@ class Artwork extends Accessor{
 	}
 
 	protected function GetEditUrl(): string{
-		return $this->Url . '/edit';
+		if($this->_EditUrl === null){
+			$this->_EditUrl = $this->Url . '/edit';
+		}
+
+		return $this->_EditUrl;
 	}
 
 	/**
@@ -265,7 +237,8 @@ class Artwork extends Accessor{
 	protected function GetDimensions(): string{
 		$this->_Dimensions = '';
 		try{
-			list($imageWidth, $imageHeight) = getimagesize($this->ImageFsPath);
+			// Safe\getimagesize() emits a warning if the file doesn't exist
+			list($imageWidth, $imageHeight) = @getimagesize($this->ImageFsPath);
 			if($imageWidth && $imageHeight){
 				$this->_Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
 			}
@@ -301,16 +274,6 @@ class Artwork extends Accessor{
 		if($user->Benefits->CanReviewOwnArtwork){
 			// Admins can edit all artwork.
 			return true;
-		}
-
-		// TODO: Remove this once all legacy artworks are cleaned up and approved.
-		// Editors can edit approved artwork that has the 'todo' tag.
-		if($user->Benefits->CanReviewArtwork){
-			foreach($this->Tags as $tag){
-				if($tag->Name == 'todo'){
-					return true;
-				}
-			}
 		}
 
 		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
@@ -356,22 +319,12 @@ class Artwork extends Accessor{
 	 * @throws \Exceptions\ValidationException
 	 */
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
-		// TODO: Remove this block once all legacy artworks are fixed up
-		// If this is tagged with 'fixup' and we're the admin user, skip validation
-		if($GLOBALS['User']?->Benefits->CanReviewOwnArtwork){
-			foreach($this->Tags as $tag){
-				if($tag->Name == 'fixup'){
-					return;
-				}
-			}
-		}
-
-		$now = new DateTime('now', new DateTimeZone('UTC'));
+		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidArtworkException();
 
 		if($this->Artist === null){
-			$error->Add(new Exceptions\InvalidArtworkException());
+			$error->Add(new Exceptions\InvalidArtistException());
 		}
 
 		try{
@@ -557,6 +510,9 @@ class Artwork extends Accessor{
 	public static function NormalizePageScanUrl(string $url): string{
 		$outputUrl = $url;
 
+		// Before we start, replace Google TLDs like google.ca with .com
+		$url = preg_replace('|^(https://[^/]+?\.google)\.[^/]+/|ius', '\1.com/', $url);
+
 		try{
 			$parsedUrl = parse_url($url);
 		}
@@ -687,7 +643,7 @@ class Artwork extends Accessor{
 
 		$this->Validate($imagePath, true);
 
-		$this->Created = new DateTime();
+		$this->Created = new DateTimeImmutable();
 
 		$tags = [];
 		foreach($this->Tags as $artworkTag){
@@ -752,7 +708,7 @@ class Artwork extends Accessor{
 
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's
 			// updated timestamp won't change automatically.
-			$this->Updated = new DateTime('now', new DateTimeZone('UTC'));
+			$this->Updated = new DateTimeImmutable();
 			$this->_ImageUrl = null;
 			$this->_ThumbUrl = null;
 			$this->_Thumb2xUrl = null;
@@ -909,7 +865,7 @@ class Artwork extends Accessor{
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
-		$artwork->Status = HttpInput::Str(POST, 'artwork-status') ?? ArtworkStatus::Unverified;
+		$artwork->Status = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? ArtworkStatus::Unverified;
 		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
 		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');

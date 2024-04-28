@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 use function Safe\filesize;
 use function Safe\preg_replace;
@@ -27,7 +27,7 @@ class RssFeed extends Feed{
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
-			$feed = Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => (new DateTime())->format('r')]);
+			$feed = Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => (new DateTimeImmutable())->format('r')]);
 
 			$this->XmlString = $this->CleanXmlString($feed);
 		}

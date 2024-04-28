@@ -1,6 +1,6 @@
 <?
 use Ramsey\Uuid\Uuid;
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 /**
  * @property Array<Payment> $Payments
@@ -12,7 +12,7 @@ class User extends Accessor{
 	public int $UserId;
 	public ?string $Name = null;
 	public ?string $Email = null;
-	public DateTime $Created;
+	public DateTimeImmutable $Created;
 	public string $Uuid;
 	public ?string $PasswordHash = null;
 	protected ?bool $_IsRegistered = null;
@@ -78,7 +78,7 @@ class User extends Accessor{
 	public function Create(?string $password = null): void{
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
-		$this->Created = new DateTime();
+		$this->Created = new DateTimeImmutable();
 
 		$this->PasswordHash = null;
 		if($password !== null){

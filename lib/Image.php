@@ -51,7 +51,7 @@ class Image{
 		try{
 			exec('convert '.  escapeshellarg($this->Path) . ' ' . escapeshellarg($tempFilename), $shellOutput, $resultCode);
 
-			if($resultCode !== 0){
+			if($resultCode !== 0 || !is_file($tempFilename)){
 				throw new Exceptions\InvalidImageUploadException('Failed to convert TIFF to JPEG');
 			}
 

@@ -27,7 +27,7 @@ class ArtworkTag extends Tag{
 	// METHODS
 	// *******
 	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidArtworkTagException($this->Name);
 
 		$this->Name = mb_strtolower(trim($this->Name));
 		// Collapse spaces into one
@@ -42,12 +42,6 @@ class ArtworkTag extends Tag{
 		}
 
 		if(preg_match('/[^\sa-z0-9]/ius', $this->Name)){
-			$error->Add(new Exceptions\InvalidArtworkTagNameException());
-		}
-
-		// TODO: Remove this once all legacy artworks are cleaned up and approved.
-		// 'todo' is a reserved tag for legacy artworks.
-		if($this->Name == 'todo'){
 			$error->Add(new Exceptions\InvalidArtworkTagNameException());
 		}
 

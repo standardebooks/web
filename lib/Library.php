@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\apcu_fetch;
 use function Safe\exec;
 use function Safe\filemtime;
@@ -432,7 +432,7 @@ class Library{
 
 	private static function FillBulkDownloadObject(string $dir, string $downloadType, string $urlRoot): stdClass{
 		$obj = new stdClass();
-		$now = new DateTime('now', new DateTimeZone('UTC'));
+		$now = new DateTimeImmutable();
 
 		// The count of ebooks in each file is stored as a filesystem attribute
 		$obj->EbookCount = exec('attr -g se-ebook-count ' . escapeshellarg($dir)) ?: null;
@@ -479,7 +479,7 @@ class Library{
 			$obj->ZipFiles[] = $zipFile;
 		}
 
-		$obj->Updated = new DateTime('@' . filemtime($files[0]));
+		$obj->Updated = new DateTimeImmutable('@' . filemtime($files[0]));
 		$obj->UpdatedString = $obj->Updated->format('M j');
 		// Add a period to the abbreviated month, but not if it's May (the only 3-letter month)
 		$obj->UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $obj->UpdatedString);
@@ -546,7 +546,7 @@ class Library{
 		foreach($dirs as $dir){
 			$obj = self::FillBulkDownloadObject($dir, 'months', '/months');
 
-			$date = new DateTime($obj->Label . '-01');
+			$date = new DateTimeImmutable($obj->Label . '-01');
 			$year = $date->format('Y');
 			$month = $date->format('F');
 

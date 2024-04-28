@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\preg_match;
 use function Safe\posix_getpwuid;
 
@@ -8,7 +8,7 @@ class DbConnection{
 	public int $QueryCount = 0;
 	public int $LastQueryAffectedRowCount = 0;
 
-	public function __construct(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string$password = '', bool $forceUtf8 = true, bool $require = true){
+	public function __construct(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string $password = '', bool $forceUtf8 = true){
 		if($user === null){
 			// Get the user running the script for local socket login
 			$user = posix_getpwuid(posix_geteuid());
@@ -19,60 +19,42 @@ class DbConnection{
 
 		$connectionString = 'mysql:';
 
-		try{
-			if(stripos($host, ':') !== false){
-				$port = null;
-				preg_match('/([^:]*):([0-9]+)/ius', $host, $matches);
-				$host = $matches[1];
-				if(sizeof($matches) > 2){
-					$port = $matches[2];
-				}
-
-				$connectionString .= 'host=' . $host;
-
-				if($port !== null){
-					$connectionString .= ';port=' . $port;
-				}
-			}
-			else{
-				$connectionString .= 'host=' . $host;
+		if(stripos($host, ':') !== false){
+			$port = null;
+			preg_match('/([^:]*):([0-9]+)/ius', $host, $matches);
+			$host = $matches[1];
+			if(sizeof($matches) > 2){
+				$port = $matches[2];
 			}
 
-			if($defaultDatabase !== null){
-				$connectionString .= ';dbname=' . $defaultDatabase;
-			}
+			$connectionString .= 'host=' . $host;
 
-			$params = [\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
-
-			if($forceUtf8){
-				$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';
-			}
-
-			// We can't use persistent connections (connection pooling) because we would have race condition problems with last_insert_id()
-			$this->_link = new \PDO($connectionString, $user, $password, $params);
-		}
-		catch(Exception $ex){
-			if(SITE_STATUS == SITE_STATUS_DEV){
-				var_dump($ex);
-			}
-			else{
-				Log::WriteErrorLogEntry('Error connecting to ' . $connectionString . '. Exception: ' . vds($ex));
-			}
-
-			if($require){
-				print("Something crazy happened in our database.");
-				exit();
+			if($port !== null){
+				$connectionString .= ';port=' . $port;
 			}
 		}
+		else{
+			$connectionString .= 'host=' . $host;
+		}
+
+		if($defaultDatabase !== null){
+			$connectionString .= ';dbname=' . $defaultDatabase;
+		}
+
+		$params = [\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
+
+		if($forceUtf8){
+			$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';
+		}
+
+		// We can't use persistent connections (connection pooling) because we would have race condition problems with last_insert_id()
+		$this->_link = new \PDO($connectionString, $user, $password, $params);
 	}
 
-	// Inputs:	string 	$sql 		= the SQL query to execute
-	//		array 	$params 	= an array of parameters to bind to the SQL statement
-	// Returns:	a resource record or null on error
 	/**
-	* @param string $sql
-	* @param array<mixed> $params
-	* @param string $class
+	* @param string $sql The SQL query to execute.
+	* @param array<mixed> $params An array of parameters to bind to the SQL statement.
+	* @param string $class The type of object to return in the return array.
 	* @return Array<mixed>
 	*/
 	public function Query(string $sql, array $params = [], string $class = 'stdClass'): array{
@@ -84,9 +66,11 @@ class DbConnection{
 		$result = [];
 		$preparedSql = $sql;
 
-		$handle = $this->_link->prepare($preparedSql);
-		if(!is_array($params)){
-			$params = [$params];
+		try{
+			$handle = $this->_link->prepare($preparedSql);
+		}
+		catch(\PDOException $ex){
+			throw $this->CreateDetailedException($ex, $preparedSql, $params);
 		}
 
 		$name = 0;
@@ -133,24 +117,26 @@ class DbConnection{
 				}
 				elseif($ex->getCode() == '23000'){
 					// Duplicate key, bubble this up without logging it so the business logic can handle it
-					throw($ex);
+					throw new Exceptions\DuplicateDatabaseKeyException();
 				}
 				else{
 					$done = true;
-					if(SITE_STATUS == SITE_STATUS_DEV){
-						throw($ex);
-					}
-					else{
-						Log::WriteErrorLogEntry($ex->getMessage());
-						Log::WriteErrorLogEntry($preparedSql);
-						Log::WriteErrorLogEntry(vds($params));
-						throw($ex);
-					}
+					throw $this->CreateDetailedException($ex, $preparedSql, $params);
 				}
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	* @param \PdoException $ex The exception to create details from.
+	* @param string $preparedSql The prepared SQL that caused the exception.
+	* @param array<mixed> $params The parameters passed to the prepared SQL.
+	*/
+	private function CreateDetailedException(\PDOException $ex, string $preparedSql, array $params): Exceptions\DatabaseQueryException{
+		// Throw a custom exception that includes more information on the query and paramaters
+		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $preparedSql . '. Parameters: ' . vds($params));
 	}
 
 	/**
@@ -199,7 +185,7 @@ class DbConnection{
 								switch($metadata[$i]['native_type'] ?? null){
 									case 'DATETIME':
 									case 'TIMESTAMP':
-										$object->{$metadata[$i]['name']} = new DateTime($row[$i], new DateTimeZone('UTC'));
+										$object->{$metadata[$i]['name']} = new DateTimeImmutable($row[$i], new DateTimeZone('UTC'));
 										break;
 
 									case 'LONG':
@@ -217,6 +203,39 @@ class DbConnection{
 
 									case 'BOOL':
 										$object->{$metadata[$i]['name']} = $row[$i] == 1 ? true : false;
+										break;
+
+									case 'STRING':
+										// We don't check the type VAR_STRING here because in MariaDB, enums are always of type STRING.
+										// Since this check is slow, we don't want to run it unnecessarily.
+										if($class == 'stdClass'){
+											$object->{$metadata[$i]['name']} = $row[$i];
+										}
+										else{
+											// If the column is a string and we're filling a typed object, check if the object property is a backed enum. If so, generate it using from(). Otherwise, fill it with a string.
+											// Note: Using ReflectionProperty in this way is pretty slow. Maybe we'll think of a
+											// better way to automatically fill enum types later.
+											try{
+												$rp = new ReflectionProperty($object, $metadata[$i]['name']);
+												/** @var ?ReflectionNamedType $property */
+												$property = $rp->getType();
+												if($property !== null){
+													$type = $property->getName();
+													if(is_a($type, 'BackedEnum', true)){
+														$object->{$metadata[$i]['name']} = $type::from($row[$i]);
+													}
+													else{
+														$object->{$metadata[$i]['name']} = $row[$i];
+													}
+												}
+												else{
+													$object->{$metadata[$i]['name']} = $row[$i];
+												}
+											}
+											catch(\Exception){
+												$object->{$metadata[$i]['name']} = $row[$i];
+											}
+										}
 										break;
 
 									default:
@@ -242,7 +261,6 @@ class DbConnection{
 		return $result;
 	}
 
-	// Gets the last auto-increment id
 	public function GetLastInsertedId(): ?int{
 		if($this->_link === null){
 			return null;

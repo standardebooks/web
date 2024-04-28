@@ -1,6 +1,4 @@
 <?
-use Safe\DateTime;
-
 class OpdsAcquisitionFeed extends OpdsFeed{
 	public bool $IsCrawlable;
 

@@ -31,7 +31,7 @@ if($exception){
 			<label class="automation-test"><? /* Test for spam bots filling out all fields */ ?>
 				<input type="text" name="automationtest" value="" maxlength="80" />
 			</label>
-			<label class="email">Your email address
+			<label>Your email address
 				<input type="email" name="email" value="<? if($subscription->User !== null){ ?><?= Formatter::EscapeHtml($subscription->User->Email) ?><? } ?>" maxlength="80" required="required" />
 			</label>
 			<label class="captcha">

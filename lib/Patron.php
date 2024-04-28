@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
@@ -10,8 +10,8 @@ class Patron extends Accessor{
 	public bool $IsAnonymous;
 	public ?string $AlternateName = null;
 	public bool $IsSubscribedToEmails;
-	public ?DateTime $Created = null;
-	public ?DateTime $Ended = null;
+	public ?DateTimeImmutable $Created = null;
+	public ?DateTimeImmutable $Ended = null;
 
 
 	// *******
@@ -19,7 +19,7 @@ class Patron extends Accessor{
 	// *******
 
 	public function Create(): void{
-		$this->Created = new DateTime();
+		$this->Created = new DateTimeImmutable();
 		Db::Query('
 			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails)
 			values(?,

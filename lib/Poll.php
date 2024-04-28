@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\usort;
 
 /**
@@ -15,9 +15,9 @@ class Poll extends Accessor{
 	public string $Name;
 	public string $UrlName;
 	public string $Description;
-	public DateTime $Created;
-	public DateTime $Start;
-	public DateTime $End;
+	public DateTimeImmutable $Created;
+	public DateTimeImmutable $Start;
+	public DateTimeImmutable $End;
 	protected ?string $_Url = null;
 	protected $_PollItems = null;
 	protected $_PollItemsByWinner = null;
@@ -85,7 +85,7 @@ class Poll extends Accessor{
 	// *******
 
 	public function IsActive(): bool{
-		$now = new DateTime();
+		$now = new DateTimeImmutable();
 		if( ($this->Start !== null && $this->Start > $now) || ($this->End !== null && $this->End < $now)){
 			return false;
 		}

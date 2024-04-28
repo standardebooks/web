@@ -38,26 +38,10 @@ try{
 	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'issubscribedtonewsletter') ?? false;
 	$subscription->IsSubscribedToSummary = HttpInput::Bool(POST, 'issubscribedtosummary') ?? false;
 
-	$captcha = HttpInput::Str(SESSION, 'captcha') ?? '';
+	$expectedCaptcha = HttpInput::Str(SESSION, 'captcha') ?? '';
+	$receivedCaptcha = HttpInput::Str(POST, 'captcha');
 
-	$exception = new Exceptions\ValidationException();
-
-	try{
-		$subscription->Validate();
-	}
-	catch(Exceptions\ValidationException $ex){
-		$exception->Add($ex);
-	}
-
-	if($captcha === '' || mb_strtolower($captcha) !== mb_strtolower(HttpInput::Str(POST, 'captcha') ?? '')){
-		$exception->Add(new Exceptions\InvalidCaptchaException());
-	}
-
-	if($exception->HasExceptions){
-		throw $exception;
-	}
-
-	$subscription->Create();
+	$subscription->Create($expectedCaptcha, $receivedCaptcha);
 
 	session_unset();
 
@@ -99,8 +83,7 @@ catch(Exceptions\NewsletterSubscriptionExistsException){
 		http_response_code(409);
 	}
 }
-catch(Exceptions\AppException $ex){
-	// Validation failed
+catch(Exceptions\InvalidNewsletterSubscription $ex){
 	if($requestType == WEB){
 		$_SESSION['subscription'] = $subscription;
 		$_SESSION['exception'] = $ex;

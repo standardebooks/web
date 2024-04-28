@@ -1,8 +1,9 @@
 <?
+use Safe\DateTimeImmutable;
 
-$start = new DateTime(DONATION_DRIVE_COUNTER_START);
-$end = new DateTime(DONATION_DRIVE_COUNTER_END);
-$now = new DateTime();
+$start = new DateTimeImmutable(DONATION_DRIVE_COUNTER_START);
+$end = new DateTimeImmutable(DONATION_DRIVE_COUNTER_END);
+$now = new DateTimeImmutable();
 
 // Hide the alert if the user has closed it
 if(!DONATION_DRIVE_COUNTER_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || $now > $end){

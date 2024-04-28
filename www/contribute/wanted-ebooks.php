@@ -31,9 +31,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/18817">Ralestone Luck</a> by Andre Norton</p>
 			</li>
 			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/51804">Plague of Pythons</a> by Frederik Pohl</p>
-			</li> -->
-			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li> -->
 			<li>
@@ -72,9 +69,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3808">Robur the Conqueror</a> <i>Robur-le-Conquérant</i> by Jules Verne</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/11263">A Special Correspondent</a> <i>Claudius Bombarnac</i> by Jules Verne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/26698">Privy Seal</a> by Ford Madox Ford (Book 2 in the Fifth Queen Trilogy)</p>
 			</li>
@@ -135,20 +132,35 @@
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/393">The Blue Lagoon</a> by Henry De Vere Stacpoole</p><!--patron-->
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/15454">Imperium in Imperio</a> by Sutton E. Griggs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/36033">Overshadowed</a> by Sutton E. Griggs</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/472">The House Behind the Cedars</a> by Charles W. Chesnutt</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/19746">The Colonel’s Dream</a> by Charles W. Chesnutt</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/15487">Democracy and Social Ethics</a> by Jane Addams</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/67764">Shepherds of the Wild</a> by Edison Marshall</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/13279">A Yankee in the Trenches</a> by Robert Derby Holmes (Keep illustrations and glossary)</p><!--patron-->
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/14988">On the Nature of the Gods</a> by Cicero (PG link includes this work as part of an omnibus)</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/17957">On the Sublime</a> by Longinus</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1951">The Coming Race</a> by Edward Bulwer-Lytton</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4023">Candida</a> by George Bernard Shaw</p><!--patron-->
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/46674">Stover at Yale</a> by Owen Johnson</p><!--patron-->
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/56426">The Mummy! A Tale of the Twenty-Second Century</a> by Jane C. Loudon</p>
@@ -171,12 +183,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/author/8301">Short fiction by H. Beam Piper</a></p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
@@ -195,9 +204,6 @@
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Thomas_Gray">Poetry of Thomas Gray</a> to be compiled in an omnibus</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/53685">Melmoth the Wanderer</a> by Charles Maturin</p>
-			</li> -->
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Sheridan_Le_Fanu">Short stories and novellas by Sheridan Le Fanu</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
@@ -294,9 +300,9 @@
 			<li>
 				<p>Norwegian Folktales, by Peter Christen Asbjørnsen and Jørgen Moe, translated by George Dasent (<a href="https://gutenberg.org/ebooks/8933">part 1</a>, <a href="https://gutenberg.org/ebooks/36385">part 2</a>)</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3420">A Vindication of the Rights of Woman</a> by Mary Wollstonecraft</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/F._Scott_Fitzgerald_bibliography#Short_story_collections">Short stories by F. Scott Fitzgerald</a></p>
 			</li>
@@ -494,6 +500,9 @@
 			</li>
 			<li>
 				<p><a href="https://archive.org/stream/in.ernet.dli.2015.210843/2015.210843.Tarka-The_djvu.txt">Tarka the Otter</a> by Henry Williamson (transcription required)</p>
+			</li><!--patron-->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/4361">Memoirs of General William T. Sherman</a> by William T. Sherman</p>
 			</li><!--patron-->
 		</ul>
 		<h2 id="verne">Jules Verne</h2>

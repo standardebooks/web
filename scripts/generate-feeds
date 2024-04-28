@@ -2,7 +2,7 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\getopt;
 use function Safe\mkdir;
 use function Safe\preg_replace;
@@ -11,7 +11,7 @@ function SortByUpdatedDesc($a, $b){
 	return $b->Updated <=> $a->Updated;
 }
 
-function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $labelSort = null, DateTime $now = null): void{
+function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $labelSort = null, DateTimeImmutable $now = null): void{
 	$updateAttrs = false;
 
 	if($force){
@@ -31,7 +31,7 @@ function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $label
 	}
 }
 
-function CreateOpdsCollectionFeed(string $name, string $url, string $description, array $collections, array $ebooks, DateTime $now, string $webRoot, OpdsNavigationFeed $opdsRoot, bool $force): void{
+function CreateOpdsCollectionFeed(string $name, string $url, string $description, array $collections, array $ebooks, DateTimeImmutable $now, string $webRoot, OpdsNavigationFeed $opdsRoot, bool $force): void{
 	$collator = collator_create('en_US'); // Used for sorting letters with diacritics like in author names
 	usort($collections, function($a, $b) use($collator){ return $collator->compare($a['sortedname'], $b['sortedname']); });
 
@@ -108,7 +108,7 @@ usort($allEbooks, 'SortByUpdatedDesc');
 usort($newestEbooks, function($a, $b){ return $b->Created <=> $a->Created; });
 $newestEbooks = array_slice($newestEbooks, 0, $ebooksPerNewestEbooksFeed);
 
-$now = new DateTime();
+$now = new DateTimeImmutable();
 
 // Create OPDS feeds
 $opdsRootEntries = [

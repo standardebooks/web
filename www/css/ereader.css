@@ -145,12 +145,11 @@ select{
 	padding-right: 2rem;
 }
 
-
-label.select > span{
+label:has(select) > span{
 	display: block;
 }
 
-label.select > span + span{
+label:has(select) > span + span{
 	display: inline-block;
 }
 
@@ -175,11 +174,11 @@ ol.ebooks-list.list > li .thumbnail-container{
 	margin-right: 1rem;
 }
 
-ol.ebooks-list.list ul.tags{
+ol.ebooks-list.list ul.genres{
 	list-style: none;
 }
 
-ol.ebooks-list.list ul.tags li{
+ol.ebooks-list.list ul.genres li{
 	float: left;
 	margin-right: .5rem;
 	margin-top: .5rem;

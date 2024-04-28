@@ -65,6 +65,7 @@
 	--light-input-outline: #000;
 	--light-table-row-hover: #dddbd5;
 	--light-warning: #932d2d;
+	--light-input-icon-shadow: rgba(255, 255, 255, .5);
 
 	--dark-body-bg: #2c3035;
 	--dark-body-text: #fff;
@@ -78,6 +79,7 @@
 	--dark-input-outline: #fff;
 	--dark-table-row-hover: #373b3f;
 	--dark-warning: #ec6161;
+	--dark-input-icon-shadow: rgba(0, 0, 0, .5);
 
 	--body-text: var(--light-body-text);
 	--header: var(--light-header);
@@ -93,6 +95,7 @@
 	--link-highlight: var(--button);
 	--table-row-hover: var(--light-table-row-hover);
 	--warning: var(--light-warning);
+	--input-icon-shadow: var(--light-input-icon-shadow);
 }
 
 /* Start CSS reset */
@@ -1289,14 +1292,14 @@ body > footer{
 	padding: 2rem 0;
 }
 
-footer p:last-child a{
+footer > p:last-child a{
 	font-size: 0;
 	display: inline-block;
 	margin: auto;
 	margin-top: 2rem;
 }
 
-footer p:last-child a::before{
+footer > p:last-child a::before{
 	content: "";
 	background: url("/images/logo-small.svg");
 	background-size: contain;
@@ -1307,25 +1310,25 @@ footer p:last-child a::before{
 	margin: auto;
 }
 
-footer ul{
+footer ul.nav-links{
 	font-size: 0;
 	margin-bottom: 1rem;
 }
 
-footer ul li{
+footer ul.nav-links li{
 	display: inline-block;
 	list-style: none;
 	text-transform: lowercase;
 	font-size: 0;
 }
 
-footer ul li a,
-footer ul li::after{
+footer ul.nav-links li a,
+footer ul.nav-links li::after{
 	font-size: .9rem;
 	white-space: nowrap;
 }
 
-footer ul li:not(:last-child)::after{
+footer ul.nav-links li:not(:last-child)::after{
 	content: "\b7";
 	margin: 0 10px;
 }
@@ -1338,7 +1341,7 @@ footer > p:first-child{
 	text-transform: lowercase;
 }
 
-footer ul ~ p{
+footer ul.nav-links ~ p{
 	font-size: .6rem;
 }
 
@@ -1363,6 +1366,47 @@ footer > p:first-child::before{
 	display: inline;
 	margin-right: .25rem;
 	font-size: .75rem;
+}
+
+footer ul.social-media{
+	display: flex;
+	gap: 1rem;
+	list-style: none;
+	justify-content: center;
+	margin-bottom: 1rem;
+}
+
+footer ul.social-media a{
+	font-size: 0;
+	display: block;
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+footer ul.social-media a::before{
+	content: "";
+	display: block;
+	height: 100%;
+	width: 100%;
+	background-size: cover;
+	filter: brightness(0) saturate(100%) invert(18%) sepia(33%) saturate(355%) hue-rotate(172deg) brightness(93%) contrast(89%); /* Change color of SVG to #303944 */
+}
+
+footer ul.social-media a[href^="https://twitter.com"]::before{
+	background-image: url("/images/x.svg");
+}
+
+footer ul.social-media a[href^="https://www.facebook.com"]::before{
+	background-image: url("/images/facebook.svg");
+}
+
+footer ul.social-media a[href^="https://www.instagram.com"]::before{
+	background-image: url("/images/instagram.svg");
+}
+
+footer ul.social-media a:hover::before{
+	/* This filter changes a black background to #62bfa3, which is var(--button-highlight) */
+	filter: invert(69%) sepia(35%) saturate(459%) hue-rotate(111deg) brightness(92%) contrast(87%);
 }
 
 /* ebook list */
@@ -1708,8 +1752,8 @@ label.automation-test{
 	display: none;
 }
 
-label.email,
-label.search{
+label:has(input[type="email"]),
+label:has(input[type="search"]){
 	display: block;
 }
 
@@ -1739,9 +1783,14 @@ input[type="search"]{
 	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
 }
 
-label.email input,
-label.search input,
+label:has(input[type="email"]) input,
+label:has(input[type="search"]) input,
+label:has(input[type="url"]) input,
 label.captcha input,
+label.year input,
+label.tags input,
+label.picture input,
+label.user input,
 label:has(input[type="password"]) input{
 	padding-left: 2.5rem;
 }
@@ -1753,12 +1802,17 @@ select{
 	display: block;
 }
 
+label:not(:has(input[type="checkbox"])){
+	font-weight: bold;
+}
+
 label span{
 	display: block;
 }
 
 label span + span{
 	font-style: italic;
+	font-weight: normal;
 }
 
 label span + span code{
@@ -1797,15 +1851,15 @@ select[multiple]{
 	padding: 1rem;
 }
 
-label.select > span{
+label:has(select) > span{
 	display: block;
 }
 
-label.select > span + span{
+label:has(select) > span + span{
 	display: inline-block;
 }
 
-label.select > span + span::after{
+label:has(select) > span + span::after{
 	display: block;
 	font-style: normal;
 	position: absolute;
@@ -1822,25 +1876,35 @@ label.select > span + span::after{
 	z-index: -1;
 }
 
-label.search:focus-within::before,
-label.search:hover::before,
-label.select:hover > span + span::after{
+label:has(input[type="search"]):focus-within::before,
+label:has(input[type="search"]):hover::before,
+label:has(select):hover > span + span::after{
 	color: var(--input-outline);
 	transition: none;
 }
 
-label.select > span + span,
-label.email,
-label.search,
+label:has(select) > span + span,
+label:has(input[type="email"]),
+label:has(input[type="search"]),
+label:has(input[type="url"]),
 label.captcha,
+label.year,
+label.tags,
+label.picture,
+label.user,
 label:has(input[type="password"]){
 	position: relative;
 	max-width: 100%;
 }
 
-label.email::before,
-label.search::before,
+label:has(input[type="email"])::before,
+label:has(input[type="search"])::before,
 label.captcha::before,
+label.year::before,
+label.tags::before,
+label.picture::before,
+label.user::before,
+label:has(input[type="url"])::before,
 label:has(input[type="password"])::before{
 	display: block;
 	position: absolute;
@@ -1849,16 +1913,19 @@ label:has(input[type="password"])::before{
 	font-family: "Fork Awesome";
 	font-size: 1rem;
 	line-height: 1;
-	margin-right: 1rem;
 	color: var(--sub-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
-	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
+	text-shadow: 1px 1px 0 var(--input-icon-shadow);
 	width: 1rem;
 	transition: color .5s;
 	cursor: text;
 }
 
-label.search::before{
+label:has(input[type="url"])::before{
+	content: "\f0c1";
+}
+
+label:has(input[type="search"])::before{
 	content: "\f002";
 }
 
@@ -1872,6 +1939,22 @@ label:has(input[type="password"])::before{
 
 label.captcha::before{
 	content: "\f256";
+}
+
+label.year::before{
+	content: "\f073";
+}
+
+label.tags:not(:has(select))::before{
+	content: "\f02c";
+}
+
+label.picture::before{
+	content: "\f03e";
+}
+
+label.user::before{
+	content: "\f007";
 }
 
 nav li.highlighted a,
@@ -1978,7 +2061,7 @@ form[action="/ebooks"] label.tags select{
 	height: calc(100% - 1.4rem);
 }
 
-form[action="/ebooks"] label.search{
+form[action="/ebooks"] label:has(input[type="search"]){
 	grid-column: 2 / span 4;
 }
 
@@ -2364,8 +2447,8 @@ form[action="/newsletter/subscriptions"]{
 	margin-bottom: 0;
 }
 
-form[action*="/polls/"] label.email,
-form[action="/newsletter/subscriptions"] label.email,
+form[action*="/polls/"] label:has(input[type="email"]),
+form[action="/newsletter/subscriptions"] label:has(input[type="email"]),
 form[action="/newsletter/subscriptions"] label.captcha{
 	grid-column: 1 / span 2;
 }
@@ -2403,6 +2486,14 @@ fieldset{
 
 fieldset p{
 	border-bottom: 1px dashed var(--input-border);
+}
+
+fieldset p:has(+ ul){
+	font-weight: bold;
+}
+
+input[type="checkbox"] + span:has(+ span){
+	font-weight: bold;
 }
 
 label.checkbox{
@@ -2941,7 +3032,7 @@ ul.feed p{
 		grid-row: 1;
 	}
 
-	form[action="/ebooks"] label.search{
+	form[action="/ebooks"] label:has(input[type="search"]){
 		grid-column: 2 / span 3;
 	}
 
@@ -3005,7 +3096,7 @@ ul.feed p{
 		height: calc(1rem + 1.4rem + 1rem + 2px); /* Size equal to a select boxes */
 	}
 
-	form[action="/ebooks"] label.search{
+	form[action="/ebooks"] label:has(input[type="search"]){
 		grid-row: 1;
 		grid-column: 2 / span 3;
 	}
@@ -3083,11 +3174,11 @@ ul.feed p{
 		display: none;
 	}
 
-	footer ul li{
+	footer ul.nav-links li{
 		display: inline;
 	}
 
-	footer ul li:nth-child(4)::after{
+	footer ul.nav-links li:nth-child(4)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
@@ -3189,7 +3280,7 @@ ul.feed p{
 		grid-column: 1 / span 2;
 	}
 
-	form[action="/ebooks"] label.search{
+	form[action="/ebooks"] label:has(input[type="search"]){
 		grid-row: 1;
 		grid-column: 3 / span 2;
 	}
@@ -3226,14 +3317,14 @@ ul.feed p{
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
-	footer ul li:nth-child(2)::after,
-	footer ul li:nth-child(5)::after{
+	footer ul.nav-links li:nth-child(2)::after,
+	footer ul.nav-links li:nth-child(5)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
 	}
 
-	footer ul li:nth-child(4)::after{
+	footer ul.nav-links li:nth-child(4)::after{
 		content: "\b7";
 		white-space: normal;
 		margin: 0 10px;
@@ -3336,7 +3427,7 @@ ul.feed p{
 		grid-column: 1 / span 3;
 	}
 
-	form[action="/ebooks"] label.search{
+	form[action="/ebooks"] label:has(input[type="search"]){
 		grid-row: 2;
 		grid-column: 1 / span 3;
 	}
@@ -3476,17 +3567,17 @@ ul.feed p{
 		margin-top: 2rem;
 	}
 
-	footer ul li:nth-child(2)::after,
-	footer ul li:nth-child(4)::after,
-	footer ul li:nth-child(6)::after{
+	footer ul.nav-links li:nth-child(2)::after,
+	footer ul.nav-links li:nth-child(4)::after,
+	footer ul.nav-links li:nth-child(6)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
 	}
 
-	footer ul li:nth-child(1)::after,
-	footer ul li:nth-child(3)::after,
-	footer ul li:nth-child(5)::after{
+	footer ul.nav-links li:nth-child(1)::after,
+	footer ul.nav-links li:nth-child(3)::after,
+	footer ul.nav-links li:nth-child(5)::after{
 		content: "\b7";
 		white-space: normal;
 		margin: 0 10px;
@@ -3508,11 +3599,7 @@ ul.feed p{
 		height: .75rem;
 	}
 
-	body > footer{
-		padding-top: 1rem;
-	}
-
-	body > footer > p:first-child{
+	body > footer > p:first-of-type{
 		line-height: 1.4;
 	}
 
@@ -3545,7 +3632,7 @@ ul.feed p{
 		grid-template-columns: 100%;
 	}
 
-	form[action="/ebooks"] label.search,
+	form[action="/ebooks"] label:has(input[type="search"]),
 	form[action="/ebooks"] label.tags,
 	form[action="/ebooks"] label.sort,
 	form[action="/ebooks"] label.view,
@@ -3605,7 +3692,7 @@ ul.feed p{
 		columns: 1;
 	}
 
-	footer ul li:nth-child(7)::after{
+	footer ul.nav-links li:nth-child(7)::after{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
@@ -3639,12 +3726,12 @@ ul.feed p{
 	article.ebook #more-ebooks img,
 	article.ebook #more-ebooks a:active img,
 	ol.ebooks-list > li a[tabindex]:active,
-	label.select > span + span::after,
-	label.search:focus-within::before,
-	label.search:hover::before,
-	label.select:hover > span + span::after,
-	label.email::before,
-	label.search::before,
+	label:has(select) > span + span::after,
+	label:has(input[type="search"]):focus-within::before,
+	label:has(input[type="search"]):hover::before,
+	label:has(select):hover > span + span::after,
+	label:has(input[type="email"])::before,
+	label:has(input[type="search"])::before,
 	textarea:hover,
 	nav li.highlighted a,
 	nav a[rel],

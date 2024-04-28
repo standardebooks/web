@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
@@ -7,8 +7,8 @@ use Safe\DateTime;
  * @property string $Url
  */
 class PollVote extends Accessor{
-	public int $UserId;
-	public DateTime $Created;
+	public ?int $UserId = null;
+	public DateTimeImmutable $Created;
 	public ?int $PollItemId = null;
 	protected ?User $_User = null;
 	protected ?PollItem $_PollItem = null;
@@ -33,7 +33,7 @@ class PollVote extends Accessor{
 	// *******
 
 	protected function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidPollVoteException();
 
 		if($this->User === null){
 			$error->Add(new Exceptions\UserNotFoundException());
@@ -98,7 +98,7 @@ class PollVote extends Accessor{
 		}
 
 		$this->Validate();
-		$this->Created = new DateTime();
+		$this->Created = new DateTimeImmutable();
 		Db::Query('
 			INSERT into PollVotes (UserId, PollItemId, Created)
 			values (?,

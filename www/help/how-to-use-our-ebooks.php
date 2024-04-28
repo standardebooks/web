@@ -240,11 +240,12 @@
 					<p><b>Why can’t I use “Send to Kindle” to send an azw3 file to my Kindle?</b></p>
 					<p>We don’t know! You’d think that Amazon would allow you to send the very file format it invented to its own devices. But Amazon hasn’t made it possible to send azw3 files via “Send to Kindle,” even though they surely could. You should <a href="https://www.amazon.com/help/">complain to Amazon</a>, or vote with your wallet and buy a better ereader.</p>
 				</li>
-				<li>
+				<li id="kindle-epub">
 					<p><b>I heard that Kindles support epubs now. Is that true?</b></p>
 					<p>No, Kindle devices still do not natively support epub files.</p>
 					<p>It’s true that Amazon’s Send to Kindle feature now <em>accepts</em> epubs. But, when you use the Send to Kindle feature to send an epub to your Kindle device, Amazon actually converts the epub file to an Amazon format before delivering it to your device. We have no control over this conversion, so chances are it’s not going to look great.</p>
 					<p>It’s still not possible to use a USB cable to transfer an epub file to your Kindle device.</p>
+					<p>Since sending an epub to your Kindle using Send to Kindle automatically converts it to an Amazon format, you should just use our specially-prepared Amazon ebook files to begin with. These files will not be changed by your Kindle, so you can be sure you’re getting our intended reading experience.</p>
 				</li>
 				<li>
 					<p><b>I just can’t deal with azw3 files, I need a mobi file!</b></p>

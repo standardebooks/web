@@ -1,5 +1,5 @@
 <?
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\file_put_contents;
 
 class OpdsFeed extends AtomFeed{
@@ -24,7 +24,7 @@ class OpdsFeed extends AtomFeed{
 	// METHODS
 	// *******
 
-	protected function SaveUpdated(string $entryId, DateTime $updated): void{
+	protected function SaveUpdated(string $entryId, DateTimeImmutable $updated): void{
 		// Only save the updated timestamp for the given entry ID in this file
 		foreach($this->Entries as $entry){
 			if($entry instanceof OpdsNavigationEntry){
@@ -50,7 +50,7 @@ class OpdsFeed extends AtomFeed{
 		if($this->HasChanged($this->Path)){
 			// Files don't match, save the file and update the parent navigation feed with the last updated timestamp
 
-			$this->Updated = new DateTime();
+			$this->Updated = new DateTimeImmutable();
 
 			if($this->Parent !== null){
 				$this->Parent->SaveUpdated($this->Id, $this->Updated);

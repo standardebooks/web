@@ -16,7 +16,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Firefox\FirefoxDriver;
 use Facebook\WebDriver\Firefox\FirefoxOptions;
 
-use Safe\DateTime;
+use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 use function Safe\preg_replace;
 use function Safe\putenv;
@@ -44,7 +44,7 @@ $lastSeenTransactionId = null;
 $firstTransactionId = null;
 $transactionFilePath = '/tmp/last-fa-donation';
 $transactionIds = [];
-$now = new DateTime('now', new DateTimeZone('UTC'));
+$now = new DateTimeImmutable();
 $today = $now->format('n/j/Y');
 $faItemsPerPage = 20; // How many items are on a full page of FA results?
 

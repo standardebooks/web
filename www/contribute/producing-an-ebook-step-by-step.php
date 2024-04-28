@@ -298,7 +298,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p><code class="bash"><b>se</b> british2american</code> attempts to automate the conversion. Your work must already be typogrified (one of the previous steps in this guide) for the script to work.</p><code class="terminal"><span><b>se</b> british2american <u>.</u></span></code>
 				<p>While <code class="bash"><b>se</b> british2american</code> tries its best, thanks to the quirkiness of English punctuation rules it’ll invariably mess some stuff up. Proofreading is required after running the conversion.</p>
 				<aside class="tip">
-					<p>This regex is useful for spotting incorrectly converted quotes next to em dashes: <code class="regex">“[^”‘]+’⁠—(?=[^”]*?&lt;/p&gt;;)</code></p>
+					<p>This regex is useful for spotting incorrectly converted quotes next to em dashes: <code class="regex">“[^”‘]+’⁠—</code></p>
 				</aside>
 				<p>After you’ve run the conversion, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Convert from British-style quotation to American style"</i></span></code>
 			</li>
