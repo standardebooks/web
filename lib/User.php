@@ -95,14 +95,8 @@ class User extends Accessor{
 					        ?)
 				', [$this->Email, $this->Name, $this->Uuid, $this->Created, $this->PasswordHash]);
 		}
-		catch(PDOException $ex){
-			if(($ex->errorInfo[1] ?? 0) == 1062){
-				// Duplicate unique key; email already in use
-				throw new Exceptions\UserExistsException();
-			}
-			else{
-				throw $ex;
-			}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\UserExistsException();
 		}
 
 		$this->UserId = Db::GetLastInsertedId();

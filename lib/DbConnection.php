@@ -1,4 +1,8 @@
 <?
+use Safe\DateTimeImmutable;
+use function Safe\preg_match;
+use function Safe\posix_getpwuid;
+
 class DbConnection{
 	private ?\PDO $_link = null;
 	public int $QueryCount = 0;
@@ -104,17 +108,16 @@ class DbConnection{
 				$done = true;
 			}
 			catch(\PDOException $ex){
-				if(isset($ex->errorInfo) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
+				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
 					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
 					$deadlockRetries++;
 					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up.  Start at .5 seconds
 				}
-				elseif(isset($ex->errorInfo) && $ex->errorInfo[1] == 1062){
+				elseif(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1062){
 					// Duplicate key, bubble this up without logging it so the business logic can handle it
 					throw new Exceptions\DuplicateDatabaseKeyException();
 				}
 				else{
-					$done = true;
 					throw $this->CreateDetailedException($ex, $sql, $params);
 				}
 			}
@@ -138,7 +141,7 @@ class DbConnection{
 	/**
 	* @return Array<mixed>
 	*/
-	private function ExecuteQuery(PDOStatement $handle, string $class = 'stdClass'): array{
+	private function ExecuteQuery(\PDOStatement $handle, string $class = 'stdClass'): array{
 		$handle->execute();
 
 		$this->LastQueryAffectedRowCount = $handle->rowCount();
@@ -248,7 +251,7 @@ class DbConnection{
 			catch(\PDOException $ex){
 				// HY000 is thrown when there is no result set, e.g. for an update operation.
 				// If anything besides that is thrown, then send it up the stack
-				if(!isset($ex->errorInfo) || $ex->errorInfo[0] != "HY000"){
+				if(!isset($ex->errorInfo[0]) || $ex->errorInfo[0] != "HY000"){
 					throw $ex;
 				}
 			}

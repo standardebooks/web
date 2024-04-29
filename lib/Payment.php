@@ -63,14 +63,8 @@ class Payment extends Accessor{
 				       ?)
 			', [$this->UserId, $this->Created, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
 		}
-		catch(PDOException $ex){
-			if(($ex->errorInfo[1] ?? 0) == 1062){
-				// Duplicate unique key; transction ID already exists
-				throw new Exceptions\PaymentExistsException();
-			}
-			else{
-				throw $ex;
-			}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\PaymentExistsException();
 		}
 
 		$this->PaymentId = Db::GetLastInsertedId();

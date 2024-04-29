@@ -56,14 +56,8 @@ class NewsletterSubscription extends Accessor{
 				        ?)
 			', [$this->User->UserId, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Created]);
 		}
-		catch(PDOException $ex){
-			if(($ex->errorInfo[1] ?? 0) == 1062){
-				// Duplicate unique key; email already in use
-				throw new Exceptions\NewsletterSubscriptionExistsException();
-			}
-			else{
-				throw $ex;
-			}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\NewsletterSubscriptionExistsException();
 		}
 
 		// Send the double opt-in confirmation email
