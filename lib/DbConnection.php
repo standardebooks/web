@@ -153,102 +153,100 @@ class DbConnection{
 		do{
 			try{
 				$columnCount = $handle->columnCount();
-				if($columnCount > 0){
 
-					$metadata = [];
+				if($columnCount == 0){
+					continue;
+				}
 
-					for($i = 0; $i < $columnCount; $i++){
-						$metadata[$i] = $handle->getColumnMeta($i);
-						if($metadata[$i] && preg_match('/^(Is|Has|Can)[A-Z]/u', $metadata[$i]['name']) === 1){
-							// MySQL doesn't have a native boolean type, so fake it here if the column
-							// name starts with Is, Has, or Can and is followed by an uppercase letter
-							$metadata[$i]['native_type'] = 'BOOL';
+				$metadata = [];
+
+				for($i = 0; $i < $columnCount; $i++){
+					$metadata[$i] = $handle->getColumnMeta($i);
+					if($metadata[$i] && preg_match('/^(Is|Has|Can)[A-Z]/u', $metadata[$i]['name']) === 1){
+						// MySQL doesn't have a native boolean type, so fake it here if the column
+						// name starts with Is, Has, or Can and is followed by an uppercase letter
+						$metadata[$i]['native_type'] = 'BOOL';
+					}
+				}
+
+				$rows = $handle->fetchAll(\PDO::FETCH_NUM);
+
+				foreach($rows as $row){
+					$object = new $class();
+
+					for($i = 0; $i < $handle->columnCount(); $i++){
+						if($metadata[$i] === false){
+							continue;
 						}
-					}
 
-					$rows = $handle->fetchAll(\PDO::FETCH_NUM);
+						if($row[$i] === null){
+							$object->{$metadata[$i]['name']} = null;
+						}
+						else{
+							switch($metadata[$i]['native_type'] ?? null){
+								case 'DATETIME':
+								case 'TIMESTAMP':
+									$object->{$metadata[$i]['name']} = new DateTimeImmutable($row[$i], new DateTimeZone('UTC'));
+									break;
 
-					if(!is_array($rows)){
-						continue;
-					}
+								case 'LONG':
+								case 'TINY':
+								case 'SHORT':
+								case 'INT24':
+								case 'LONGLONG':
+									$object->{$metadata[$i]['name']} = intval($row[$i]);
+									break;
 
-					foreach($rows as $row){
-						$object = new $class();
+								case 'FLOAT':
+								case 'DOUBLE':
+									$object->{$metadata[$i]['name']} = floatval($row[$i]);
+									break;
 
-						for($i = 0; $i < $handle->columnCount(); $i++){
-							if($metadata[$i] === false){
-								continue;
-							}
+								case 'BOOL':
+									$object->{$metadata[$i]['name']} = $row[$i] == 1 ? true : false;
+									break;
 
-							if($row[$i] === null){
-								$object->{$metadata[$i]['name']} = null;
-							}
-							else{
-								switch($metadata[$i]['native_type'] ?? null){
-									case 'DATETIME':
-									case 'TIMESTAMP':
-										$object->{$metadata[$i]['name']} = new DateTimeImmutable($row[$i], new DateTimeZone('UTC'));
-										break;
-
-									case 'LONG':
-									case 'TINY':
-									case 'SHORT':
-									case 'INT24':
-									case 'LONGLONG':
-										$object->{$metadata[$i]['name']} = intval($row[$i]);
-										break;
-
-									case 'FLOAT':
-									case 'DOUBLE':
-										$object->{$metadata[$i]['name']} = floatval($row[$i]);
-										break;
-
-									case 'BOOL':
-										$object->{$metadata[$i]['name']} = $row[$i] == 1 ? true : false;
-										break;
-
-									case 'STRING':
-										// We don't check the type VAR_STRING here because in MariaDB, enums are always of type STRING.
-										// Since this check is slow, we don't want to run it unnecessarily.
-										if($class == 'stdClass'){
-											$object->{$metadata[$i]['name']} = $row[$i];
-										}
-										else{
-											// If the column is a string and we're filling a typed object, check if the object property is a backed enum. If so, generate it using from(). Otherwise, fill it with a string.
-											// Note: Using ReflectionProperty in this way is pretty slow. Maybe we'll think of a
-											// better way to automatically fill enum types later.
-											try{
-												$rp = new ReflectionProperty($object, $metadata[$i]['name']);
-												/** @var ?ReflectionNamedType $property */
-												$property = $rp->getType();
-												if($property !== null){
-													$type = $property->getName();
-													if(is_a($type, 'BackedEnum', true)){
-														$object->{$metadata[$i]['name']} = $type::from($row[$i]);
-													}
-													else{
-														$object->{$metadata[$i]['name']} = $row[$i];
-													}
+								case 'STRING':
+									// We don't check the type VAR_STRING here because in MariaDB, enums are always of type STRING.
+									// Since this check is slow, we don't want to run it unnecessarily.
+									if($class == 'stdClass'){
+										$object->{$metadata[$i]['name']} = $row[$i];
+									}
+									else{
+										// If the column is a string and we're filling a typed object, check if the object property is a backed enum. If so, generate it using from(). Otherwise, fill it with a string.
+										// Note: Using ReflectionProperty in this way is pretty slow. Maybe we'll think of a
+										// better way to automatically fill enum types later.
+										try{
+											$rp = new ReflectionProperty($object, $metadata[$i]['name']);
+											/** @var ?ReflectionNamedType $property */
+											$property = $rp->getType();
+											if($property !== null){
+												$type = $property->getName();
+												if(is_a($type, 'BackedEnum', true)){
+													$object->{$metadata[$i]['name']} = $type::from($row[$i]);
 												}
 												else{
 													$object->{$metadata[$i]['name']} = $row[$i];
 												}
 											}
-											catch(\Exception){
+											else{
 												$object->{$metadata[$i]['name']} = $row[$i];
 											}
 										}
-										break;
+										catch(\Exception){
+											$object->{$metadata[$i]['name']} = $row[$i];
+										}
+									}
+									break;
 
-									default:
-										$object->{$metadata[$i]['name']} = $row[$i];
-										break;
-								}
+								default:
+									$object->{$metadata[$i]['name']} = $row[$i];
+									break;
 							}
 						}
-
-						$result[] = $object;
 					}
+
+					$result[] = $object;
 				}
 			}
 			catch(\PDOException $ex){
@@ -258,7 +256,8 @@ class DbConnection{
 					throw $ex;
 				}
 			}
-		}while($handle->nextRowset());
+		}
+		while($handle->nextRowset());
 
 		return $result;
 	}
