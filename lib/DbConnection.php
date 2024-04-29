@@ -56,6 +56,8 @@ class DbConnection{
 	* @param array<mixed> $params An array of parameters to bind to the SQL statement.
 	* @param string $class The type of object to return in the return array.
 	* @return Array<mixed>
+	* @throws Exceptions\DuplicateDatabaseKeyException When a unique key constraint has been violated.
+	* @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
 	*/
 	public function Query(string $sql, array $params = [], string $class = 'stdClass'): array{
 		if($this->_link === null){
@@ -129,7 +131,7 @@ class DbConnection{
 	}
 
 	/**
-	* @param PdoException $ex The exception to create details from.
+	* @param \PDOException $ex The exception to create details from.
 	* @param string $preparedSql The prepared SQL that caused the exception.
 	* @param array<mixed> $params The parameters passed to the prepared SQL.
 	*/
@@ -140,6 +142,7 @@ class DbConnection{
 
 	/**
 	* @return Array<mixed>
+	* @throws \PDOException When an error occurs during execution of the query.
 	*/
 	private function ExecuteQuery(\PDOStatement $handle, string $class = 'stdClass'): array{
 		$handle->execute();
