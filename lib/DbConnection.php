@@ -62,15 +62,13 @@ class DbConnection{
 			return [];
 		}
 
-		$this->QueryCount++;
 		$result = [];
-		$preparedSql = $sql;
 
 		try{
-			$handle = $this->_link->prepare($preparedSql);
+			$handle = $this->_link->prepare($sql);
 		}
 		catch(\PDOException $ex){
-			throw $this->CreateDetailedException($ex, $preparedSql, $params);
+			throw $this->CreateDetailedException($ex, $sql, $params);
 		}
 
 		$name = 0;
@@ -121,10 +119,12 @@ class DbConnection{
 				}
 				else{
 					$done = true;
-					throw $this->CreateDetailedException($ex, $preparedSql, $params);
+					throw $this->CreateDetailedException($ex, $sql, $params);
 				}
 			}
 		}
+
+		$this->QueryCount++;
 
 		return $result;
 	}
