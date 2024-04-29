@@ -1,8 +1,4 @@
 <?
-use Safe\DateTimeImmutable;
-use function Safe\preg_match;
-use function Safe\posix_getpwuid;
-
 class DbConnection{
 	private ?\PDO $_link = null;
 	public int $QueryCount = 0;
@@ -108,12 +104,12 @@ class DbConnection{
 				$done = true;
 			}
 			catch(\PDOException $ex){
-				if(isset($ex->errorInfo) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){ // InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
+				if(isset($ex->errorInfo) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
+					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
 					$deadlockRetries++;
-
 					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up.  Start at .5 seconds
 				}
-				elseif($ex->getCode() == '23000'){
+				elseif(isset($ex->errorInfo) && $ex->errorInfo[1] == 1062){
 					// Duplicate key, bubble this up without logging it so the business logic can handle it
 					throw new Exceptions\DuplicateDatabaseKeyException();
 				}
@@ -130,7 +126,7 @@ class DbConnection{
 	}
 
 	/**
-	* @param \PdoException $ex The exception to create details from.
+	* @param PdoException $ex The exception to create details from.
 	* @param string $preparedSql The prepared SQL that caused the exception.
 	* @param array<mixed> $params The parameters passed to the prepared SQL.
 	*/
