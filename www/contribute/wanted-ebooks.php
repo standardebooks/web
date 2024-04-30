@@ -310,6 +310,9 @@
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://en.m.wikipedia.org/wiki/Wolf_Solent">Wolf Solent</a> by John Cowper Powys (transcription required)</p>
+			</li>
+			<li>
 				<p><a href="https://archive.org/details/lifeofwilliammor01mack">The Life of William Morris</a> by J. W. Mackail (transcription required)</p>
 			</li>
 			<li>
