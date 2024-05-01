@@ -697,7 +697,7 @@ class Ebook extends Accessor{
 			$error->Add(new Exceptions\EbookIndexableTextRequiredException());
 		}
 
-    if($error->HasExceptions){
+	if($error->HasExceptions){
 			throw $error;
 		}
 	}
