@@ -171,8 +171,15 @@ class DbConnection{
 
 				$rows = $handle->fetchAll(\PDO::FETCH_NUM);
 
+				$useObjectFillMethod = method_exists($class, 'FromRow');
+
 				foreach($rows as $row){
-					$object = new $class();
+					if($useObjectFillMethod){
+						$object = new stdClass();
+					}
+					else{
+						$object = new $class();
+					}
 
 					for($i = 0; $i < $handle->columnCount(); $i++){
 						if($metadata[$i] === false){
@@ -246,7 +253,12 @@ class DbConnection{
 						}
 					}
 
-					$result[] = $object;
+					if($useObjectFillMethod){
+						$result[] = $class::FromRow($object);
+					}
+					else{
+						$result[] = $object;
+					}
 				}
 			}
 			catch(\PDOException $ex){
