@@ -162,11 +162,6 @@ class DbConnection{
 
 				for($i = 0; $i < $columnCount; $i++){
 					$metadata[$i] = $handle->getColumnMeta($i);
-					if($metadata[$i] && preg_match('/^(Is|Has|Can)[A-Z]/u', $metadata[$i]['name']) === 1){
-						// MySQL doesn't have a native boolean type, so fake it here if the column
-						// name starts with Is, Has, or Can and is followed by an uppercase letter
-						$metadata[$i]['native_type'] = 'BOOL';
-					}
 				}
 
 				$rows = $handle->fetchAll(\PDO::FETCH_NUM);
@@ -207,10 +202,6 @@ class DbConnection{
 								case 'FLOAT':
 								case 'DOUBLE':
 									$object->{$metadata[$i]['name']} = floatval($row[$i]);
-									break;
-
-								case 'BOOL':
-									$object->{$metadata[$i]['name']} = $row[$i] == 1 ? true : false;
 									break;
 
 								case 'STRING':
