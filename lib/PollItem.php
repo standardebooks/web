@@ -34,6 +34,9 @@ class PollItem extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\PollNotFoundException
+	 */
 	public static function Get(?int $pollItemId): PollItem{
 		if($pollItemId === null ){
 			throw new Exceptions\PollItemNotFoundException();
@@ -45,10 +48,6 @@ class PollItem extends Accessor{
 					where PollItemId = ?
 				', [$pollItemId], 'PollItem');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\PollItemNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PollItemNotFoundException();
 	}
 }

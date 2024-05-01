@@ -132,6 +132,9 @@ class NewsletterSubscription extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\NewsletterSubscriptionNotFoundException
+	 */
 	public static function Get(?string $uuid): NewsletterSubscription{
 		if($uuid === null){
 			throw new Exceptions\NewsletterSubscriptionNotFoundException();
@@ -144,10 +147,6 @@ class NewsletterSubscription extends Accessor{
 				where u.Uuid = ?
 			', [$uuid], 'NewsletterSubscription');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\NewsletterSubscriptionNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
 	}
 }

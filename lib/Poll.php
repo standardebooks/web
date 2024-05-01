@@ -98,6 +98,9 @@ class Poll extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\PollNotFoundException
+	 */
 	public static function Get(?int $pollId): Poll{
 		if($pollId === null){
 			throw new Exceptions\PollNotFoundException();
@@ -109,13 +112,12 @@ class Poll extends Accessor{
 					where PollId = ?
 				', [$pollId], 'Poll');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\PollNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PollNotFoundException();
 	}
 
+	/**
+	 * @throws Exceptions\PollNotFoundException
+	 */
 	public static function GetByUrlName(?string $urlName): Poll{
 		if($urlName === null){
 			throw new Exceptions\PollNotFoundException();
@@ -127,10 +129,6 @@ class Poll extends Accessor{
 					where UrlName = ?
 				', [$urlName], 'Poll');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\PollNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PollNotFoundException();
 	}
 }

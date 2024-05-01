@@ -1,6 +1,6 @@
 <?
 namespace Exceptions;
 
-class InvalidPatronException extends AppException{
+class PatronNotFoundException extends AppException{
 	protected $message = 'We couldn’t locate you in the Patrons Circle.';
 }

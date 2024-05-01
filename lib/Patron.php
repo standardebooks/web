@@ -78,21 +78,31 @@ class Patron extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\PatronNotFoundException
+	 */
 	public static function Get(?int $userId): Patron{
+		if($userId === null){
+			throw new Exceptions\PatronNotFoundException();
+		}
+
 		$result = Db::Query('
 			SELECT *
 			from Patrons
 			where UserId = ?
 			', [$userId], 'Patron');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidPatronException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PatronNotFoundException();;
 	}
 
+	/**
+	 * @throws Exceptions\PatronNotFoundException
+	 */
 	public static function GetByEmail(?string $email): Patron{
+		if($email === null){
+			throw new Exceptions\PatronNotFoundException();
+		}
+
 		$result = Db::Query('
 			SELECT p.*
 			from Patrons p
@@ -100,10 +110,6 @@ class Patron extends Accessor{
 			where u.Email = ?
 		', [$email], 'Patron');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidPatronException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PatronNotFoundException();
 	}
 }

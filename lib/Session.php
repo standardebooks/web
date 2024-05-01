@@ -92,6 +92,9 @@ class Session extends Accessor{
 		setcookie('sessionid', $sessionId, ['expires' => strtotime('+1 week'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']); // Expires in two weeks
 	}
 
+	/**
+	 * @throws Exceptions\SessionNotFoundException
+	 */
 	public static function Get(?string $sessionId): Session{
 		if($sessionId === null){
 			throw new Exceptions\SessionNotFoundException();
@@ -103,10 +106,6 @@ class Session extends Accessor{
 					where SessionId = ?
 				', [$sessionId], 'Session');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\SessionNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\SessionNotFoundException();
 	}
 }

@@ -178,7 +178,7 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\InvalidArtworkException
+	 *@throws Exceptions\InvalidArtworkException
 	 */
 	protected function GetImageUrl(): string{
 		if($this->_ImageUrl === null){
@@ -193,7 +193,7 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ArtworkNotFoundException
+	 *@throws Exceptions\ArtworkNotFoundException
 	 */
 	protected function GetThumbUrl(): string{
 		if($this->_ThumbUrl === null){
@@ -208,7 +208,7 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ArtworkNotFoundException
+	 *@throws Exceptions\ArtworkNotFoundException
 	 */
 	protected function GetThumb2xUrl(): string{
 		if($this->_Thumb2xUrl === null){
@@ -316,7 +316,7 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 *@throws Exceptions\ValidationException
 	 */
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
 		$now = new DateTimeImmutable();
@@ -635,8 +635,8 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
-	 * @throws \Exceptions\InvalidImageUploadException
+	 *@throws Exceptions\ValidationException
+	 *@throws Exceptions\InvalidImageUploadException
 	 */
 	public function Create(?string $imagePath = null): void{
 		$this->MimeType = ImageMimeType::FromFile($imagePath);
@@ -698,7 +698,7 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 *@throws Exceptions\ValidationException
 	 */
 	public function Save(?string $imagePath = null): void{
 		$this->_UrlName = null;
@@ -812,7 +812,7 @@ class Artwork extends Accessor{
 	// ***********
 
 	/**
-	 * @throws \Exceptions\ArtworkNotFoundException
+	 *@throws Exceptions\ArtworkNotFoundException
 	 */
 	public static function Get(?int $artworkId): Artwork{
 		if($artworkId === null){
@@ -825,15 +825,11 @@ class Artwork extends Accessor{
 				where ArtworkId = ?
 			', [$artworkId], 'Artwork');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\ArtworkNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\ArtworkNotFoundException();
 	}
 
 	/**
-	 * @throws \Exceptions\InvalidArtworkException
+	 *@throws Exceptions\InvalidArtworkException
 	 */
 	public static function GetByUrl(?string $artistUrlName, ?string $artworkUrlName): Artwork{
 		if($artistUrlName === null || $artworkUrlName === null){
@@ -847,11 +843,7 @@ class Artwork extends Accessor{
 				where Artists.UrlName = ? and Artworks.UrlName = ?
 			', [$artistUrlName, $artworkUrlName], 'Artwork');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\ArtworkNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\ArtworkNotFoundException();
 	}
 
 	public static function FromHttpPost(): Artwork{

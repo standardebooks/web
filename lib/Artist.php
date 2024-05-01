@@ -80,6 +80,9 @@ class Artist extends Accessor{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\InvalidArtistException
+	 */
 	public function Validate(): void{
 		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
@@ -110,6 +113,10 @@ class Artist extends Accessor{
 	// ORM METHODS
 	// ***********
 
+
+	/**
+	 * @throws Exceptions\ArtistNotFoundException
+	 */
 	public static function Get(?int $artistId): Artist{
 		if($artistId === null){
 			throw new Exceptions\ArtistNotFoundException();
@@ -121,11 +128,7 @@ class Artist extends Accessor{
 				where ArtistId = ?
 			', [$artistId], 'Artist');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\ArtistNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();;
 	}
 
 	public function Create(): void{
@@ -141,7 +144,7 @@ class Artist extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\ValidationException
 	 */
 	public static function GetOrCreate(Artist $artist): Artist{
 		$result = Db::Query('

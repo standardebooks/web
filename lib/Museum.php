@@ -560,6 +560,10 @@ class Museum extends Accessor{
 		return $outputUrl;
 	}
 
+	/**
+	* @throws Exceptions\MuseumNotFoundException
+	* @throws Exceptions\InvalidUrlException
+	*/
 	public static function GetByUrl(?string $url): Museum{
 		if($url === null){
 			throw new Exceptions\MuseumNotFoundException();
@@ -583,10 +587,6 @@ class Museum extends Accessor{
 			limit 1;
 		', [$parsedUrl['host']], 'Museum');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\MuseumNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\MuseumNotFoundException();
 	}
 }

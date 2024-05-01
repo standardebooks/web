@@ -32,6 +32,9 @@ class PollVote extends Accessor{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\InvalidPollVoteException
+	 */
 	protected function Validate(): void{
 		$error = new Exceptions\InvalidPollVoteException();
 
@@ -72,7 +75,7 @@ class PollVote extends Accessor{
 			}
 
 			if(!$this->User->Benefits->CanVote){
-				$error->Add(new Exceptions\InvalidPatronException());
+				$error->Add(new Exceptions\InvalidPermissionsException());
 			}
 		}
 
@@ -107,6 +110,9 @@ class PollVote extends Accessor{
 		', [$this->UserId, $this->PollItemId, $this->Created]);
 	}
 
+	/**
+	 * @throws Exceptions\PollVoteNotFoundException
+	 */
 	public static function Get(?string $pollUrlName, ?int $userId): PollVote{
 		if($pollUrlName === null || $userId === null){
 			throw new Exceptions\PollVoteNotFoundException();
@@ -123,10 +129,6 @@ class PollVote extends Accessor{
 					where pv.UserId = ?
 				', [$pollUrlName, $userId], 'PollVote');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\PollVoteNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PollVoteNotFoundException();
 	}
 }

@@ -107,6 +107,9 @@ class User extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\UserNotFoundException
+	 */
 	public static function Get(?int $userId): User{
 		if($userId === null){
 			throw new Exceptions\UserNotFoundException();
@@ -118,13 +121,12 @@ class User extends Accessor{
 					where UserId = ?
 				', [$userId], 'User');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\UserNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\UserNotFoundException();
 	}
 
+	/**
+	 * @throws Exceptions\UserNotFoundException
+	 */
 	public static function GetByEmail(?string $email): User{
 		if($email === null){
 			throw new Exceptions\UserNotFoundException();
@@ -136,13 +138,12 @@ class User extends Accessor{
 					where Email = ?
 				', [$email], 'User');
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\UserNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\UserNotFoundException();
 	}
 
+	/**
+	 * @throws Exceptions\UserNotFoundException
+	 */
 	public static function GetIfRegistered(?string $identifier, ?string $password = null): User{
 		// We consider a user "registered" if they have a row in the Benefits table.
 		// Emails without that row may only be signed up for the newsletter and thus are not "registered" users

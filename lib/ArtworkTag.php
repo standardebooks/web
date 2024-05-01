@@ -26,6 +26,10 @@ class ArtworkTag extends Tag{
 	// *******
 	// METHODS
 	// *******
+
+	/**
+	 * @throws Exceptions\ValidationException
+	 */
 	public function Validate(): void{
 		$error = new Exceptions\InvalidArtworkTagException($this->Name);
 
@@ -61,7 +65,7 @@ class ArtworkTag extends Tag{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\ValidationException
 	 */
 	public static function GetOrCreate(ArtworkTag $artworkTag): ArtworkTag{
 		$result = Db::Query('
