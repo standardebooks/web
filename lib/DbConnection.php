@@ -201,6 +201,7 @@ class DbConnection{
 
 								case 'FLOAT':
 								case 'DOUBLE':
+								case 'NEWDECIMAL':
 									$object->{$metadata[$i]['name']} = floatval($row[$i]);
 									break;
 
