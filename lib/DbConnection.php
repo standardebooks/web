@@ -215,7 +215,7 @@ class DbConnection{
 										// Note: Using ReflectionProperty in this way is pretty slow. Maybe we'll think of a
 										// better way to automatically fill enum types later.
 										try{
-											$rp = new ReflectionProperty($object, $metadata[$i]['name']);
+											$rp = new ReflectionProperty($class, $metadata[$i]['name']);
 											/** @var ?ReflectionNamedType $property */
 											$property = $rp->getType();
 											if($property !== null){
