@@ -43,7 +43,7 @@ class Image{
 
 	/**
 	 * @return resource
-	 *@throws Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	private function GetImageHandleFromTiff(){
 		$tempFilename = sys_get_temp_dir() . '/se-' . pathinfo($this->Path)['filename'] . '.jpg';
