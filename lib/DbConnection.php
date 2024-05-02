@@ -117,7 +117,7 @@ class DbConnection{
 				}
 				elseif(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1062){
 					// Duplicate key, bubble this up without logging it so the business logic can handle it
-					throw new Exceptions\DuplicateDatabaseKeyException();
+					throw new Exceptions\DuplicateDatabaseKeyException(str_replace('SQLSTATE[23000]: Integrity constraint violation: 1062 ', '', $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params)));
 				}
 				else{
 					throw $this->CreateDetailedException($ex, $sql, $params);
@@ -132,12 +132,12 @@ class DbConnection{
 
 	/**
 	* @param \PDOException $ex The exception to create details from.
-	* @param string $preparedSql The prepared SQL that caused the exception.
+	* @param string $sql The prepared SQL that caused the exception.
 	* @param array<mixed> $params The parameters passed to the prepared SQL.
 	*/
-	private function CreateDetailedException(\PDOException $ex, string $preparedSql, array $params): Exceptions\DatabaseQueryException{
+	private function CreateDetailedException(\PDOException $ex, string $sql, array $params): Exceptions\DatabaseQueryException{
 		// Throw a custom exception that includes more information on the query and paramaters
-		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $preparedSql . '. Parameters: ' . vds($params));
+		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params));
 	}
 
 	/**
