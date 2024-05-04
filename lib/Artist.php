@@ -8,7 +8,9 @@ use Safe\DateTimeImmutable;
  * @property array<string> $AlternateNames
  * @property array<string> $_AlternateNames
  */
-class Artist extends Accessor{
+class Artist{
+	use Traits\Accessor;
+
 	public ?int $ArtistId = null;
 	public ?string $Name = null;
 	public ?DateTimeImmutable $Created = null;
@@ -16,7 +18,7 @@ class Artist extends Accessor{
 	protected ?int $_DeathYear = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
-	protected $_AlternateNames;
+	protected array $_AlternateNames;
 
 	// *******
 	// SETTERS

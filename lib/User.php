@@ -3,12 +3,14 @@ use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
 /**
- * @property Array<Payment> $Payments
+ * @property array<Payment> $Payments
  * @property ?bool $IsRegistered
  * @property Benefits $Benefits
  * @property ?array<Payment> $_Payments
  */
-class User extends Accessor{
+class User{
+	use Traits\Accessor;
+
 	public int $UserId;
 	public ?string $Name = null;
 	public ?string $Email = null;

@@ -6,7 +6,9 @@ use Safe\DateTimeImmutable;
  * @property PollItem $PollItem
  * @property string $Url
  */
-class PollVote extends Accessor{
+class PollVote{
+	use Traits\Accessor;
+
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
 	public ?int $PollItemId = null;

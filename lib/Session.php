@@ -8,7 +8,9 @@ use function Safe\strtotime;
  * @property User $User
  * @property string $Url
  */
-class Session extends Accessor{
+class Session{
+	use Traits\Accessor;
+
 	public int $UserId;
 	protected ?User $_User = null;
 	public DateTimeImmutable $Created;

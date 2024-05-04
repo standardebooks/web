@@ -5,7 +5,9 @@ use Safe\DateTimeImmutable;
  * @property User $User
  * @property string $Url
  */
-class NewsletterSubscription extends Accessor{
+class NewsletterSubscription{
+	use Traits\Accessor;
+
 	public bool $IsConfirmed = false;
 	public bool $IsSubscribedToSummary = false;
 	public bool $IsSubscribedToNewsletter = false;
