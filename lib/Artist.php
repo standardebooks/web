@@ -3,10 +3,10 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property ?int $DeathYear
- * @property string $UrlName
- * @property string $Url
- * @property array<string> $AlternateNames
- * @property array<string> $_AlternateNames
+ * @property ?string $UrlName
+ * @property ?string $Url
+ * @property ?array<string> $AlternateNames
+ * @property ?array<string> $_AlternateNames
  */
 class Artist{
 	use Traits\Accessor;
@@ -18,7 +18,7 @@ class Artist{
 	protected ?int $_DeathYear = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
-	protected array $_AlternateNames;
+	protected ?array $_AlternateNames = null;
 
 	// *******
 	// SETTERS
