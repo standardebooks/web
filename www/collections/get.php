@@ -28,7 +28,7 @@ try{
 	$pageDescription = 'A list of free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 	$pageHeader = 'Free Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . ucfirst($collectionType);
 
-	$feedUrl = '/collections/' . Formatter::EscapeHtml($collection);
+	$feedUrl = '/collections/' . $collection;
 	$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 }
 catch(Exceptions\CollectionNotFoundException){

@@ -36,10 +36,6 @@ class Formatter{
 		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES, 'utf-8');
 	}
 
-	public static function EscapeXhtmlQueryString(?string $text): string{
-		return str_replace('&', '&amp;', trim($text ?? ''));
-	}
-
 	public static function EscapeXml(?string $text): string{
 		// Accepts a query string that has already been url-encoded. For example,
 		// ?foo=bar+baz&x=y
