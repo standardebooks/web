@@ -72,9 +72,6 @@ const HTTP_PUT = 3;
 const HTTP_DELETE = 4;
 const HTTP_HEAD = 5;
 
-const VIEW_GRID = 'grid';
-const VIEW_LIST = 'list';
-
 const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
 const PAYMENT_CHANNEL_FA = 0;

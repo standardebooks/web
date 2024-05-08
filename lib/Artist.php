@@ -6,9 +6,12 @@ use Safe\DateTimeImmutable;
  * @property ?string $UrlName
  * @property ?string $Url
  * @property ?array<string> $AlternateNames
- * @property ?array<string> $_AlternateNames
  */
 class Artist{
+	/**
+	 * @var array<string> $_AlternateNames
+	 */
+
 	use Traits\Accessor;
 
 	public ?int $ArtistId = null;
@@ -18,7 +21,7 @@ class Artist{
 	protected ?int $_DeathYear = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
-	protected ?array $_AlternateNames = null;
+	protected $_AlternateNames = null; // Don't type hint this here, otherwise PHPStan will complain
 
 	// *******
 	// SETTERS

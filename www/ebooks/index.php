@@ -5,7 +5,7 @@ $page = HttpInput::Int(GET, 'page') ?? 1;
 $perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
 $query = HttpInput::Str(GET, 'query') ?? '';
 $tags = HttpInput::GetArray('tags') ?? [];
-$view = HttpInput::Str(GET, 'view');
+$view = ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '');
 $sort = EbookSort::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $queryString = '';
 $queryStringParams = [];
@@ -21,11 +21,7 @@ try{
 
 	// If we're passed string values that are the same as the defaults,
 	// set them to null so that we can have cleaner query strings in the navigation footer
-	if($view !== null){
-		$view = mb_strtolower($view);
-	}
-
-	if($view === 'grid'){
+	if($view === ViewType::Grid){
 		$view = null;
 	}
 
@@ -44,7 +40,6 @@ try{
 	$totalEbooks = sizeof($ebooks);
 	$ebooks = array_slice($ebooks, ($page - 1) * $perPage, $perPage);
 
-
 	if($page > 1){
 		$pageTitle .= ', page ' . $page;
 	}
@@ -60,7 +55,7 @@ try{
 	}
 
 	if($view !== null){
-		$queryStringParams['view'] = $view;
+		$queryStringParams['view'] = $view->value;
 	}
 
 	if($sort !== null){
