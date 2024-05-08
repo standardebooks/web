@@ -23,12 +23,12 @@
 					<li><p><a href="#modernize-poems-carefully">Modernize poems <i>carefully</i>!</a></p></li>
 					<li><p><a href="#modernization-exceptions">Modernization exceptions</a></p></li>
 					<ol>
-						<li><p><a href="hyphenations-and-spacings">Hyphenations and spacings</a></p></li>
-						<li><p><a href="mismatched-diacritics">Mismatched diacritics</a></p></li>
-						<li><p><a href="unusual-pronunciations">Unusual pronunciations</a></p></li>
-						<li><p><a href="eye-rhymes">Eye rhymes</a></p></li>
-						<li><p><a href="uncommon-contractions">Uncommon contractions</a></p></li>
-						<li><p><a href="archaisms">Archaisms</a></p></li>
+						<li><p><a href="#hyphenations-and-spacings">Hyphenations and spacings</a></p></li>
+						<li><p><a href="#mismatched-diacritics">Mismatched diacritics</a></p></li>
+						<li><p><a href="#unusual-pronunciations">Unusual pronunciations</a></p></li>
+						<li><p><a href="#eye-rhymes">Eye rhymes</a></p></li>
+						<li><p><a href="#uncommon-contractions">Uncommon contractions</a></p></li>
+						<li><p><a href="#archaisms">Archaisms</a></p></li>
 					</ol>
 				</ol>
 				<li><p><a href="#unusual-formatting">Unusual formatting</a></p></li>
