@@ -11,6 +11,7 @@ $feedUrl = $feedUrl ?? null;
 $feedTitle = $feedTitle ?? '';
 $isErrorPage = $isErrorPage ?? false;
 $downloadUrl = $downloadUrl ?? null;
+$canonicalUrl = $canonicalUrl ?? null;
 
 // As of Sep 2022, all versions of Safari have a bug where if the page is served as XHTML,
 // then <picture> elements download all <source>s instead of the first supported match.
@@ -55,6 +56,9 @@ if(!$isXslt){
 	<? if($artwork){ ?>
 	<link href="/css/artwork.css?version=<?= filemtime(WEB_ROOT . '/css/artwork.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? } ?>
+	<? if($canonicalUrl){ ?>
+	<link rel="canonical" href="<?= Formatter::EscapeHtml($canonicalUrl) ?>" />
+	<? } ?>
 	<link href="/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
 	<link href="/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"/>
 	<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
@@ -66,9 +70,9 @@ if(!$isXslt){
 	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/opds/new-releases"/>
 	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/rss/new-releases"/>
 	<? }else{ ?>
-	<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/atom<?= $feedUrl ?>"/>
-	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/opds<?= $feedUrl ?>"/>
-	<link rel="alternate" type="application/rss+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/rss<?= $feedUrl ?>"/>
+	<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/atom<?= Formatter::EscapeHtml($feedUrl) ?>"/>
+	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/opds<?= Formatter::EscapeHtml($feedUrl) ?>"/>
+	<link rel="alternate" type="application/rss+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/rss<?= Formatter::EscapeHtml($feedUrl) ?>"/>
 	<? } ?>
 	<link rel="search" href="/ebooks" type="application/xhtml+xml; charset=utf-8"/>
 	<link rel="search" href="/ebooks/opensearch" type="application/opensearchdescription+xml; charset=utf-8"/>

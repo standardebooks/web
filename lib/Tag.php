@@ -2,7 +2,9 @@
 /**
  * @property string $Url
  */
-class Tag extends Accessor{
+class Tag{
+	use Traits\Accessor;
+
 	public int $TagId;
 	public string $Name;
 	public string $UrlName;

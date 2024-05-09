@@ -4,7 +4,9 @@ use Safe\DateTimeImmutable;
 /**
  * @property User $User
  */
-class Payment extends Accessor{
+class Payment{
+	use Traits\Accessor;
+
 	public int $PaymentId;
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;

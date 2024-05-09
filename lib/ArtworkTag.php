@@ -4,14 +4,6 @@ use function Safe\preg_replace;
 
 class ArtworkTag extends Tag{
 	// *******
-	// SETTERS
-	// *******
-
-	// protected function SetName($name): void{
-	// 	$this->_Name =
-	// }
-
-	// *******
 	// GETTERS
 	// *******
 

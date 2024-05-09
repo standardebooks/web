@@ -97,7 +97,22 @@ try{
 		$queryStringParams['per-page'] = $perPage;
 	}
 
+	if($page > 1){
+		$queryStringParams['page'] = $page;
+	}
+
+	ksort($queryStringParams);
+
 	$queryString = http_build_query($queryStringParams);
+
+	unset($queryStringParams['page']);
+	$queryStringWithoutPage = http_build_query($queryStringParams);
+
+	$canonicalUrl = SITE_URL . '/artworks';
+
+	if($queryString != ''){
+		$canonicalUrl .=  '?' . $queryString;
+	}
 
 	$pages = ceil($totalArtworkCount / $perPage);
 	if($pages > 0 && $page > $pages){
@@ -106,14 +121,14 @@ try{
 }
 catch(Exceptions\PageOutOfBoundsException){
 	$url = '/artworks?page=' . $pages;
-	if($queryString != ''){
-		$url .= '&' . $queryString;
+	if($queryStringWithoutPage != ''){
+		$url .= '&' . $queryStringWithoutPage;
 	}
 
 	header('Location: ' . $url);
 	exit();
 }
-?><?= Template::Header(['title' => $pageTitle, 'artwork' => true, 'description' => $pageDescription]) ?>
+?><?= Template::Header(['title' => $pageTitle, 'artwork' => true, 'description' => $pageDescription, 'canonicalUrl' => $canonicalUrl]) ?>
 <main class="artworks">
 	<section class="narrow">
 		<h1>Browse U.S. Public Domain Artwork</h1>
@@ -167,13 +182,13 @@ catch(Exceptions\PageOutOfBoundsException){
 
 		<? if($totalArtworkCount > 0){ ?>
 			<nav class="pagination">
-				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
 				<? for($i = 1; $i < $pages + 1; $i++){ ?>
-					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>"><?= $i ?></a></li>
+					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"><?= $i ?></a></li>
 				<? } ?>
 				</ol>
-				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>

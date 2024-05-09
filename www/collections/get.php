@@ -28,7 +28,7 @@ try{
 	$pageDescription = 'A list of free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 	$pageHeader = 'Free Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . ucfirst($collectionType);
 
-	$feedUrl = '/collections/' . Formatter::EscapeHtml($collection);
+	$feedUrl = '/collections/' . $collection;
 	$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 }
 catch(Exceptions\CollectionNotFoundException){
@@ -49,7 +49,7 @@ catch(Exceptions\CollectionNotFoundException){
 	<? if(sizeof($ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
-		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => VIEW_GRID, 'collection' => $collectionObject]) ?>
+		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => ViewType::Grid, 'collection' => $collectionObject]) ?>
 	<? } ?>
 
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> and a <a href="/collections">list of collections</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>

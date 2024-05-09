@@ -155,8 +155,6 @@ catch(Exceptions\ArtworkNotFoundException){
 	Template::Emit404();
 }
 catch(Exceptions\AppException $exception){
-	$artwork = $artwork ?? null;
-
 	$_SESSION['artwork'] = $artwork;
 	$_SESSION['exception'] = $exception;
 

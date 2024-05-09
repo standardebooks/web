@@ -10,7 +10,9 @@ use function Safe\usort;
  * @property array<PollItem> $PollItemsByWinner
  * @property int $VoteCount
  */
-class Poll extends Accessor{
+class Poll{
+	use Traits\Accessor;
+
 	public int $PollId;
 	public string $Name;
 	public string $UrlName;

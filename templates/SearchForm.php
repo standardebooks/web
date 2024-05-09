@@ -28,8 +28,8 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<span>View</span>
 		<span>
 			<select name="view">
-				<option value="<?= VIEW_GRID ?>"<? if($view == VIEW_GRID){ ?> selected="selected"<? } ?>>Grid</option>
-				<option value="<?= VIEW_LIST ?>"<? if($view == VIEW_LIST){ ?> selected="selected"<? } ?>>List</option>
+				<option value="<?= ViewType::Grid->value ?>"<? if($view == ViewType::Grid){ ?> selected="selected"<? } ?>>Grid</option>
+				<option value="<?= ViewType::List->value ?>"<? if($view == ViewType::List){ ?> selected="selected"<? } ?>>List</option>
 			</select>
 		</span>
 	</label>

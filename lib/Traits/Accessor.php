@@ -1,9 +1,8 @@
 <?
-abstract class Accessor{
-	/**
-	* @return mixed
-	*/
-	public function __get(string $var){
+namespace Traits;
+
+trait Accessor{
+	public function __get(string $var): mixed{
 		$function = 'Get' . $var;
 		$privateVar = '_' . $var;
 
@@ -29,11 +28,7 @@ abstract class Accessor{
 		}
 	}
 
-	/**
-	* @param mixed $val
-	* @return mixed
-	*/
-	public function __set(string $var, $val){
+	public function __set(string $var, mixed $val): void{
 		$function = 'Set' . $var;
 		$privateVar = '_' . $var;
 

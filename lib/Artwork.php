@@ -25,7 +25,9 @@ use function Safe\preg_replace;
  * @property User $Submitter
  * @property User $Reviewer
  */
-class Artwork extends Accessor{
+class Artwork{
+	use Traits\Accessor;
+
 	public ?string $Name = null;
 	public ?int $ArtworkId = null;
 	public ?int $ArtistId = null;
