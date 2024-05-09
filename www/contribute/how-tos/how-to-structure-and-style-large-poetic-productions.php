@@ -104,7 +104,7 @@
 					<p>If you’re not sure about whether it makes sense to modernize a specific word, please ask on the <a href="https://groups.google.com/g/standardebooks">mailing list</a>.</p>
 				</aside>
 				<h3 id="modernize-prose-frontmatter-and-backmatter">Modernize prose frontmatter and backmatter</h3>
-				<p>Prose elements, such as poem titles, dedications, prefaces, and endnotes should have spelling, hyphenation, spacing in select words modernized as normal. See the step “<a href="producing-an-ebook-step-by-step.php#modernize">Modernizing Spelling and Hyphenation</a>” in the Step by Step guide.</p>
+				<p>Prose elements, such as poem titles, dedications, prefaces, and endnotes should have spelling, hyphenation, spacing in select words modernized as normal. See the step “<a href="https://standardebooks.org/contribute/producing-an-ebook-step-by-step#modernize">Modernizing Spelling and Hyphenation</a>” in the Step by Step guide.</p>
 				<p>You can target specific files with the <code class="bash"><b>se</b> modernize-spelling</code> tool.</p>
 				<code class="terminal">
 					<span><b>se</b> modernize-spelling src/epub/text/preface.xhtml</span>
@@ -118,6 +118,7 @@
 				<ol>
 					<li>
 						<h4 id="hyphenations-and-spacings">Hyphenations and spacings</h4>
+						<p>Hyphenations and spaces in poetry are fundamental elements that contribute to the visual and auditory experience of a poem. Hyphenations can serve to emphasize certain syllables or create rhythmic patterns within lines. The placement of spaces can influence the pacing, tone, and meaning of a poem. Together, they convey the poet’s intended message or evoke certain emotions in the reader. Modernizing spelling can erase a poet’s intended styling.</p>
 						<aside class="tip">
 							<p>If a poetic work is translated from its original language, dashes can be normalized.</p>
 							<code class="terminal"><span><b>se</b> find-mismatched-dashes <u>.</u></span></code>
