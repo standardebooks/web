@@ -130,7 +130,7 @@
 						<p>The <code class="bash"><b>se</b> find-mismatched-diacritics</code> tool will flag these for review. Make sure to verify that the diacritics match the source scans.</p>
 						<figure class="html full">
 <code class="html full">...
-<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>The <b>wingéd</b> hounds of Winter ceased to bay.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>The <b>wingèd</b> hounds of Winter ceased to bay.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>The stupor of a doom completed lay<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
 ...</code>
