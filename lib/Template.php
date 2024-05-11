@@ -4,7 +4,6 @@ use function Safe\ob_start;
 
 class Template{
 	/**
-	* @param string $templateName
 	* @param array<mixed> $arguments
 	*/
 	protected static function Get(string $templateName, array $arguments = []): string{
@@ -23,7 +22,6 @@ class Template{
 	}
 
 	/**
-	* @param string $function
 	* @param array<mixed> $arguments
 	*/
 	public static function __callStatic(string $function, array $arguments): string{

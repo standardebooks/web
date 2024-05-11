@@ -15,9 +15,10 @@ class Session{
 	use Traits\Accessor;
 
 	public int $UserId;
-	protected ?User $_User = null;
 	public DateTimeImmutable $Created;
 	public string $SessionId;
+
+	protected ?User $_User = null;
 	public ?string $_Url = null;
 
 

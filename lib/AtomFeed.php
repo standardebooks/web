@@ -12,7 +12,7 @@ class AtomFeed extends Feed{
 	 * @param string $subtitle
 	 * @param string $url
 	 * @param string $path
-	 * @param array<Ebook> $entries
+	 * @param array<Ebook|OpdsNavigationEntry> $entries
 	 */
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries){
 		parent::__construct($title, $url, $path, $entries);

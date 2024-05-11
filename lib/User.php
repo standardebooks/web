@@ -1,16 +1,15 @@
 <?
-
 use Exceptions\UserExistsException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
 /**
  * @property array<Payment> $Payments
- * @property ?bool $IsRegistered
+ * @property bool $IsRegistered
  * @property Benefits $Benefits
- * @property ?array<Payment> $_Payments
  */
 class User{
+
 	use Traits\Accessor;
 
 	public int $UserId;
@@ -19,7 +18,9 @@ class User{
 	public DateTimeImmutable $Created;
 	public string $Uuid;
 	public ?string $PasswordHash = null;
+
 	protected ?bool $_IsRegistered = null;
+	/** @var ?array<Payment> $_Payments */
 	protected $_Payments = null;
 	protected ?Benefits $_Benefits = null;
 

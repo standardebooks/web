@@ -2,6 +2,7 @@
 namespace Exceptions;
 
 class InvalidUrlException extends AppException{
+	/** @var string $message */
 	protected $message = 'Invalid URL.';
 
 	public function __construct(?string $url = null){

@@ -1,6 +1,4 @@
 <?
-
-use Exceptions\InvalidPollVoteException;
 use Safe\DateTimeImmutable;
 
 /**
@@ -14,6 +12,7 @@ class PollVote{
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
 	public ?int $PollItemId = null;
+
 	protected ?User $_User = null;
 	protected ?PollItem $_PollItem = null;
 	protected ?string $_Url = null;

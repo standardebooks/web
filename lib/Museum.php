@@ -1,10 +1,4 @@
 <?
-
-use Exceptions\InvalidUrlException;
-use Safe\Exceptions\PcreException;
-use Exceptions\InvalidMuseumUrlException;
-use Exceptions\InvalidPageScanUrlException;
-
 use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_replace;

@@ -11,18 +11,6 @@ use function Safe\preg_replace;
 use function Safe\sprintf;
 use function Safe\shell_exec;
 
-/**
- * @property array<GitCommit> $GitCommits
- * @property array<EbookTag> $EbookTags
- * @property array<string> $LocTags
- * @property array<Collection> $Collections
- * @property array<EbookSource> $Sources
- * @property array<Contributor> $Authors
- * @property array<Contributor> $Illustrators
- * @property array<Contributor> $Translators
- * @property array<Contributor> $Contributors
- * @property ?array<string> $TocEntries
- */
 class Ebook{
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
@@ -33,9 +21,13 @@ class Ebook{
 	public string $KepubUrl;
 	public string $Azw3Url;
 	public bool $HasDownloads;
+	/** @var array<GitCommit> $GitCommits */
 	public $GitCommits = [];
+	/** @var array<EbookTag> $Tags */
 	public $Tags = [];
+	/** @var array<string> $LocTags */
 	public $LocTags = [];
+	/** @var array<Collection> $Collections */
 	public $Collections = [];
 	public string $Identifier;
 	public string $UrlSafeIdentifier;
@@ -60,12 +52,17 @@ class Ebook{
 	public string $ReadingTime;
 	public ?string $GitHubUrl = null;
 	public ?string $WikipediaUrl = null;
+	/** @var array<EbookSource> $Sources */
 	public $Sources = [];
+	/** @var array<Contributor> $Authors */
 	public $Authors = [];
 	public string $AuthorsHtml;
 	public string $AuthorsUrl; // This is a single URL even if there are multiple authors; for example, /ebooks/karl-marx_friedrich-engels/
+	/** @var array<Contributor> $Illustrators */
 	public $Illustrators = [];
+	/** @var array<Contributor> $Translators */
 	public $Translators = [];
+	/** @var array<Contributor> $Contributors */
 	public $Contributors = [];
 	public ?string $ContributorsHtml = null;
 	public string $TitleWithCreditsHtml = '';
@@ -75,6 +72,7 @@ class Ebook{
 	public string $TextSinglePageUrl;
 	public ?string $TextSinglePageSizeNumber = null;
 	public ?string $TextSinglePageSizeUnit = null;
+	/** @var ?array<string> $TocEntries */
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 
 	/**

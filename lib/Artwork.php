@@ -1,12 +1,5 @@
 <?
-
-use Exceptions\InvalidImageUploadException;
-use Exceptions\InvalidPageScanUrlException;
-use Exceptions\InvalidUrlException;
 use Safe\DateTimeImmutable;
-use Safe\Exceptions\ExecException;
-use Safe\Exceptions\FilesystemException;
-use Safe\Exceptions\PcreException;
 
 use function Safe\copy;
 use function Safe\exec;
@@ -19,7 +12,8 @@ use function Safe\preg_replace;
  * @property string $UrlName
  * @property string $Url
  * @property string $EditUrl
- * @property array<ArtworkTag> $Tags
+ * @property-read array<ArtworkTag> $Tags
+ * @property-write array<ArtworkTag>|string $Tags
  * @property Artist $Artist
  * @property string $ImageUrl
  * @property string $ThumbUrl
@@ -56,9 +50,11 @@ class Artwork{
 	public ?string $Notes = null;
 	public ?ImageMimeType $MimeType = null;
 	public ?ArtworkStatus $Status = null;
+
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
 	protected ?string $_EditUrl = null;
+	/** @var ?array<ArtworkTag> $_Tags */
 	protected $_Tags = null;
 	protected ?Artist $_Artist = null;
 	protected ?string $_ImageUrl = null;

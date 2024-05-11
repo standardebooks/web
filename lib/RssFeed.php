@@ -1,8 +1,5 @@
 <?
 use Safe\DateTimeImmutable;
-use Safe\Exceptions\DatetimeException;
-use Safe\Exceptions\FilesystemException;
-use Safe\Exceptions\ExecException;
 
 use function Safe\file_get_contents;
 use function Safe\filesize;
@@ -12,10 +9,6 @@ class RssFeed extends Feed{
 	public string $Description;
 
 	/**
-	 * @param string $title
-	 * @param string $description
-	 * @param string $url
-	 * @param string $path
 	 * @param array<Ebook> $entries
 	 */
 	public function __construct(string $title, string $description, string $url, string $path, array $entries){
@@ -65,6 +58,7 @@ class RssFeed extends Feed{
 
 		$currentEntries = [];
 		foreach($this->Entries as $entry){
+			/** @var Ebook $entry */
 			$obj = new StdClass();
 			$obj->Size = (string)filesize(WEB_ROOT . $entry->EpubUrl);
 			$obj->Id = preg_replace('/^url:/ius', '', $entry->Identifier);

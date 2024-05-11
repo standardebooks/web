@@ -4,12 +4,7 @@ use function Safe\file_get_contents;
 
 class OpdsNavigationFeed extends OpdsFeed{
 	/**
-	 * @param string $title
-	 * @param string $subtitle
-	 * @param string $url
-	 * @param string $path
-	 * @param array<Ebook> $entries
-	 * @param OpdsNavigationFeed $parent
+	 * @param array<OpdsNavigationEntry> $entries
 	 */
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent){
 		parent::__construct($title, $subtitle, $url, $path, $entries, $parent);
@@ -24,6 +19,7 @@ class OpdsNavigationFeed extends OpdsFeed{
 				$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($this->Path)));
 				foreach($xml->xpath('//entry') ?: [] as $existingEntry){
 					foreach($this->Entries as $entry){
+						/** @var OpdsNavigationEntry $entry */
 						if($entry->Id == $existingEntry->id){
 							$entry->Updated = new DateTimeImmutable($existingEntry->updated);
 						}

@@ -1,8 +1,4 @@
 <?
-
-use Safe\Exceptions\ImageException;
-use Exceptions\InvalidImageUploadException;
-
 use function Safe\exec;
 use function Safe\imagecopyresampled;
 use function Safe\imagecreatetruecolor;

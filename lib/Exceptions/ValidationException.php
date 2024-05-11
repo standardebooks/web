@@ -1,10 +1,8 @@
 <?
 namespace Exceptions;
 
-/**
-  * @property array<\Exception> $Exceptions
- */
 class ValidationException extends AppException{
+	/** @var array<\Exception> $Exceptions */
 	public $Exceptions = [];
 	public bool $HasExceptions = false;
 	public bool $IsFatal = false;

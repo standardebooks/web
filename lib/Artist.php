@@ -8,20 +8,18 @@ use Safe\DateTimeImmutable;
  * @property ?array<string> $AlternateNames
  */
 class Artist{
-	/**
-	 * @var array<string> $_AlternateNames
-	 */
-
 	use Traits\Accessor;
 
 	public ?int $ArtistId = null;
 	public ?string $Name = null;
 	public ?DateTimeImmutable $Created = null;
 	public ?DateTimeImmutable $Updated = null;
+
 	protected ?int $_DeathYear = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
-	protected $_AlternateNames = null; // Don't type hint this here, otherwise PHPStan will complain
+	/** @var ?array<string> $_AlternateNames */
+	protected $_AlternateNames = null;
 
 	// *******
 	// SETTERS

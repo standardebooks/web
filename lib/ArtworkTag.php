@@ -1,7 +1,4 @@
 <?
-
-use Exceptions\InvalidArtworkTagException;
-
 use function Safe\preg_match;
 use function Safe\preg_replace;
 
@@ -50,7 +47,7 @@ class ArtworkTag extends Tag{
 	}
 
 	/**
-	 * @throws InvalidArtworkTagException
+	 * @throws Exceptions\InvalidArtworkTagException
 	 */
 	public function Create(): void{
 		$this->Validate();

@@ -1,14 +1,5 @@
 <?
-
-use Exceptions\AppException;
-use Exceptions\ArtistNotFoundException;
 use Safe\DateTimeImmutable;
-use Safe\Exceptions\ExecException;
-use Safe\Exceptions\PcreException;
-use Safe\Exceptions\FilesystemException;
-use Safe\Exceptions\DatetimeException;
-use Safe\Exceptions\ArrayException;
-use Safe\Exceptions\MiscException;
 
 use function Safe\apcu_fetch;
 use function Safe\exec;
@@ -24,13 +15,11 @@ use function Safe\usort;
 
 class Library{
 	/**
-	* @param string $query
 	* @param array<string> $tags
-	* @param EbookSort $sort
 	* @return array<Ebook>
 	* @throws Exceptions\AppException
 	*/
-	public static function FilterEbooks(string $query = null, array $tags = [], EbookSort $sort = null){
+	public static function FilterEbooks(string $query = null, array $tags = [], EbookSort $sort = null): array{
 		$ebooks = Library::GetEbooks();
 		$matches = $ebooks;
 

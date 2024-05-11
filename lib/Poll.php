@@ -3,8 +3,6 @@ use Safe\DateTimeImmutable;
 use function Safe\usort;
 
 /**
- * @property ?array<PollItem> $_PollItems
- * @property ?array<PollItem> $_PollItemsByWinner
  * @property string $Url
  * @property array<PollItem> $PollItems
  * @property array<PollItem> $PollItemsByWinner
@@ -21,7 +19,9 @@ class Poll{
 	public DateTimeImmutable $Start;
 	public DateTimeImmutable $End;
 	protected ?string $_Url = null;
+	/** @var ?array<PollItem> $_PollItems */
 	protected $_PollItems = null;
+	/** @var ?array<PollItem> $_PollItemsByWinner */
 	protected $_PollItemsByWinner = null;
 	protected ?int $_VoteCount = null;
 

@@ -1,7 +1,4 @@
 <?
-
-use Exceptions\UserExistsException;
-use Exceptions\PaymentExistsException;
 use Safe\DateTimeImmutable;
 
 /**
@@ -19,6 +16,7 @@ class Payment{
 	public float $Fee;
 	public bool $IsRecurring;
 	public bool $IsMatchingDonation = false;
+
 	protected ?User $_User = null;
 
 

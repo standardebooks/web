@@ -8,13 +8,13 @@ class Patron{
 	use Traits\Accessor;
 
 	public ?int $UserId = null;
-	protected $_User = null;
 	public bool $IsAnonymous;
 	public ?string $AlternateName = null;
 	public bool $IsSubscribedToEmails;
 	public ?DateTimeImmutable $Created = null;
 	public ?DateTimeImmutable $Ended = null;
 
+	protected ?User $_User = null;
 
 	// *******
 	// METHODS

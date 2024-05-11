@@ -1,9 +1,5 @@
 <?
-
-use Exceptions\InvalidNewsletterSubscription;
-use Exceptions\NewsletterSubscriptionExistsException;
 use Safe\DateTimeImmutable;
-use Safe\Exceptions\ErrorfuncException;
 
 /**
  * @property User $User
@@ -17,8 +13,8 @@ class NewsletterSubscription{
 	public bool $IsSubscribedToNewsletter = false;
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
-	protected $_User;
-	protected $_Url = null;
+	protected ?User $_User = null;
+	protected ?string $_Url = null;
 
 	// *******
 	// GETTERS

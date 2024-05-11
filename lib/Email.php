@@ -2,9 +2,6 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-/**
- * @property array<array<string>> $Attachments
- */
 class Email{
 	public string $To = '';
 	public string $ToName = '';
@@ -14,6 +11,7 @@ class Email{
 	public string $Subject = '';
 	public string $Body = '';
 	public string $TextBody = '';
+	/** @var array<array<string>> $Attachments */
 	public $Attachments = [];
 	public ?string $PostmarkStream = null;
 

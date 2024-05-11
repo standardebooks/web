@@ -10,7 +10,7 @@ class OpdsFeed extends AtomFeed{
 	 * @param string $subtitle
 	 * @param string $url
 	 * @param string $path
-	 * @param array<Ebook> $entries
+	 * @param array<Ebook|OpdsNavigationEntry> $entries
 	 * @param OpdsNavigationFeed $parent
 	 */
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent){
