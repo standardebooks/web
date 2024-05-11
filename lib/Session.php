@@ -1,7 +1,10 @@
 <?
 use Exceptions\InvalidLoginException;
+use Exceptions\PasswordRequiredException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
+use Safe\Exceptions\DatetimeException;
+
 use function Safe\strtotime;
 
 /**
@@ -35,6 +38,10 @@ class Session{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\InvalidLoginException
+	 * @throws Exceptions\PasswordRequiredException
+	 */
 	public function Create(?string $email = null, ?string $password = null): void{
 		try{
 			$this->User = User::GetIfRegistered($email, $password);
@@ -54,6 +61,8 @@ class Session{
 			else{
 				$uuid = Uuid::uuid4();
 				$this->SessionId = $uuid->toString();
+
+				/** @throws void */
 				$this->Created = new DateTimeImmutable();
 				Db::Query('
 						INSERT into Sessions (UserId, SessionId, Created)

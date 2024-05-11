@@ -1,4 +1,8 @@
 <?
+
+use Safe\Exceptions\ImageException;
+use Exceptions\InvalidImageUploadException;
+
 use function Safe\exec;
 use function Safe\imagecopyresampled;
 use function Safe\imagecreatetruecolor;
@@ -69,19 +73,37 @@ class Image{
 		return $handle;
 	}
 
+	/**
+	 * @throws Exceptions\InvalidImageUploadException
+	 */
 	public function Resize(string $destImagePath, int $width, int $height): void{
-		$imageDimensions = getimagesize($this->Path);
+		try{
+			$imageDimensions = getimagesize($this->Path);
+		}
+		catch(\Safe\Exceptions\ImageException $ex){
+			throw new Exceptions\InvalidImageUploadException($ex->getMessage());
+		}
 
 		$imageWidth = $imageDimensions[0];
 		$imageHeight = $imageDimensions[1];
 
 		if($imageHeight > $imageWidth){
 			$destinationHeight = $height;
-			$destinationWidth = intval($destinationHeight * ($imageWidth / $imageHeight));
+			try{
+				$destinationWidth = intval($destinationHeight * ($imageWidth / $imageHeight));
+			}
+			catch(\DivisionByZeroError){
+				$destinationWidth = 0;
+			}
 		}
 		else{
 			$destinationWidth = $width;
-			$destinationHeight = intval($destinationWidth * ($imageHeight / $imageWidth));
+			try{
+				$destinationHeight = intval($destinationWidth * ($imageHeight / $imageWidth));
+			}
+			catch(\DivisionByZeroError){
+				$destinationHeight = 0;
+			}
 		}
 
 		$srcImageHandle = $this->GetImageHandle();

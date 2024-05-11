@@ -89,6 +89,7 @@ class Artist{
 	 * @throws Exceptions\InvalidArtistException
 	 */
 	public function Validate(): void{
+		/** @throws void */
 		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
 
@@ -136,6 +137,9 @@ class Artist{
 		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();;
 	}
 
+	/**
+	 * @throws Exceptions\InvalidArtistException
+	 */
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
@@ -149,7 +153,7 @@ class Artist{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtistException
 	 */
 	public static function GetOrCreate(Artist $artist): Artist{
 		$result = Db::Query('

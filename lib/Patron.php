@@ -21,6 +21,7 @@ class Patron{
 	// *******
 
 	public function Create(): void{
+		/** @throws void */
 		$this->Created = new DateTimeImmutable();
 		Db::Query('
 			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails)

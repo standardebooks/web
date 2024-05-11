@@ -1,5 +1,7 @@
 <?
+
 use Safe\DateTimeImmutable;
+
 use function Safe\file_get_contents;
 use function Safe\filesize;
 use function Safe\json_encode;
@@ -75,6 +77,11 @@ class Ebook{
 	public ?string $TextSinglePageSizeUnit = null;
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 
+	/**
+	 * @throws Exceptions\EbookNotFoundException
+	 * @throws Exceptions\EbookParsingException
+	 * @throws Exceptions\InvalidGitCommitException
+	 */
 	public function __construct(?string $wwwFilesystemPath = null){
 		if($wwwFilesystemPath === null){
 			return;
@@ -88,7 +95,7 @@ class Ebook{
 			try{
 				$this->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $this->RepoFilesystemPath);
 			}
-			catch(Exception){
+			catch(\Exception){
 				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, whichis  a common injection attack vector
 				throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $this->RepoFilesystemPath);
 			}
@@ -128,11 +135,16 @@ class Ebook{
 			$bytes = @filesize($this->WwwFilesystemPath . '/text/single-page.xhtml');
 			$sizes = 'BKMGTP';
 			$factor = intval(floor((strlen((string)$bytes) - 1) / 3));
-			$this->TextSinglePageSizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
+			try{
+				$this->TextSinglePageSizeNumber = sprintf('%.1f', $bytes / pow(1024, $factor));
+			}
+			catch(\DivisionByZeroError){
+				$this->TextSinglePageSizeNumber = '0';
+			}
 			$this->TextSinglePageSizeUnit = $sizes[$factor] ?? '';
 			$this->TextSinglePageUrl = $this->Url . '/text/single-page';
 		}
-		catch(Exception){
+		catch(\Exception){
 			// Single page file doesn't exist, just pass
 		}
 
@@ -206,7 +218,13 @@ class Ebook{
 		}
 
 		// Now do some heavy XML lifting!
-		$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $rawMetadata));
+		try{
+			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $rawMetadata));
+		}
+		catch(\Exception $ex){
+			throw new Exceptions\EbookParsingException($ex->getMessage());
+		}
+
 		$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 
 		$this->Title = $this->NullIfEmpty($xml->xpath('/package/metadata/dc:title'));
@@ -222,11 +240,13 @@ class Ebook{
 
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if($date !== false && sizeof($date) > 0){
+			/** @throws void */
 			$this->Created = new DateTimeImmutable((string)$date[0]);
 		}
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
 		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
+			/** @throws void */
 			$this->Updated = new DateTimeImmutable((string)$modifiedDate[0]);
 		}
 
@@ -240,7 +260,12 @@ class Ebook{
 		// Fill the ToC if necessary
 		if($includeToc){
 			$this->TocEntries = [];
-			$tocDom = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($wwwFilesystemPath . '/toc.xhtml')));
+			try{
+				$tocDom = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($wwwFilesystemPath . '/toc.xhtml')));
+			}
+			catch(\Exception $ex){
+				throw new Exceptions\EbookParsingException($ex->getMessage());
+			}
 			$tocDom->registerXPathNamespace('epub', 'http://www.idpf.org/2007/ops');
 			foreach($tocDom->xpath('/html/body//nav[@epub:type="toc"]//a[not(contains(@epub:type, "z3998:roman")) and not(text() = "Titlepage" or text() = "Imprint" or text() = "Colophon" or text() = "Endnotes" or text() = "Uncopyright") and not(contains(@href, "halftitle"))]') ?: [] as $item){
 				$this->TocEntries[] = (string)$item;

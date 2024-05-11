@@ -2,6 +2,7 @@
 use function Safe\preg_replace;
 
 $page = HttpInput::Int(GET, 'page') ?? 1;
+$pages = 0;
 $perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
 $query = HttpInput::Str(GET, 'query') ?? '';
 $tags = HttpInput::GetArray('tags') ?? [];
@@ -9,6 +10,7 @@ $view = ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '');
 $sort = EbookSort::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $queryString = '';
 $queryStringParams = [];
+$queryStringWithoutPage = '';
 
 try{
 	if($page <= 0){
@@ -94,6 +96,12 @@ catch(Exceptions\PageOutOfBoundsException){
 	}
 
 	header('Location: ' . $url);
+	exit();
+}
+catch(Exceptions\AppException $ex){
+	// Something very unexpected happened, log and emit 500
+	http_response_code(500); // Internal server error
+	Log::WriteErrorLogEntry($ex);
 	exit();
 }
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription, 'canonicalUrl' => $canonicalUrl]) ?>

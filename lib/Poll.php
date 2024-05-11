@@ -87,6 +87,7 @@ class Poll{
 	// *******
 
 	public function IsActive(): bool{
+		/** @throws void */
 		$now = new DateTimeImmutable();
 		if( ($this->Start !== null && $this->Start > $now) || ($this->End !== null && $this->End < $now)){
 			return false;

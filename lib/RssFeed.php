@@ -1,5 +1,9 @@
 <?
 use Safe\DateTimeImmutable;
+use Safe\Exceptions\DatetimeException;
+use Safe\Exceptions\FilesystemException;
+use Safe\Exceptions\ExecException;
+
 use function Safe\file_get_contents;
 use function Safe\filesize;
 use function Safe\preg_replace;
@@ -27,7 +31,9 @@ class RssFeed extends Feed{
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
-			$feed = Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => (new DateTimeImmutable())->format('r')]);
+			/** @throws void */
+			$timestamp = (new DateTimeImmutable())->format('r');
+			$feed = Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => $timestamp]);
 
 			$this->XmlString = $this->CleanXmlString($feed);
 		}

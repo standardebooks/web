@@ -1,4 +1,7 @@
 <?
+
+use Exceptions\UserExistsException;
+use Exceptions\PaymentExistsException;
 use Safe\DateTimeImmutable;
 
 /**
@@ -23,6 +26,9 @@ class Payment{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\PaymentExistsException
+	 */
 	public function Create(): void{
 		if($this->UserId === null){
 			// Check if we have to create a new user in the database
@@ -45,7 +51,13 @@ class Payment{
 				}
 				catch(Exceptions\UserNotFoundException){
 					// User doesn't exist, create it now
-					$this->User->Create();
+
+					try{
+						$this->User->Create();
+					}
+					catch(Exceptions\UserExistsException){
+						// User already exists, pass
+					}
 				}
 
 				$this->UserId = $this->User->UserId;

@@ -1,4 +1,7 @@
 <?
+
+use Exceptions\PollItemNotFoundException;
+
 /**
  * @property int $VoteCount
  * @property Poll $Poll
@@ -37,7 +40,7 @@ class PollItem{
 	// ***********
 
 	/**
-	 * @throws Exceptions\PollNotFoundException
+	 * @throws Exceptions\PollItemNotFoundException
 	 */
 	public static function Get(?int $pollItemId): PollItem{
 		if($pollItemId === null ){

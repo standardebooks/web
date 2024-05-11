@@ -1,4 +1,7 @@
 <?
+
+use Exceptions\InvalidArtworkTagException;
+
 use function Safe\preg_match;
 use function Safe\preg_replace;
 
@@ -20,7 +23,7 @@ class ArtworkTag extends Tag{
 	// *******
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtworkTagException
 	 */
 	public function Validate(): void{
 		$error = new Exceptions\InvalidArtworkTagException($this->Name);
@@ -46,6 +49,9 @@ class ArtworkTag extends Tag{
 		}
 	}
 
+	/**
+	 * @throws InvalidArtworkTagException
+	 */
 	public function Create(): void{
 		$this->Validate();
 
@@ -57,7 +63,7 @@ class ArtworkTag extends Tag{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtworkTagException
 	 */
 	public static function GetOrCreate(ArtworkTag $artworkTag): ArtworkTag{
 		$result = Db::Query('

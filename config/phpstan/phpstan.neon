@@ -30,3 +30,14 @@ parameters:
 			- Emit404
 			- Emit403
 			- RedirectToLogin
+	exceptions:
+		check:
+			missingCheckedExceptionInThrows: true
+			tooWideThrowType: true
+		uncheckedExceptionRegexes:
+			-'#^Safe\\#'
+		uncheckedExceptionClasses:
+			- 'Exceptions\DatabaseQueryException'
+			- 'PDOException'
+			- 'TypeError'
+			- 'ValueError'

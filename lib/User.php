@@ -1,4 +1,6 @@
 <?
+
+use Exceptions\UserExistsException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
@@ -77,9 +79,14 @@ class User{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws UserExistsException
+	 */
 	public function Create(?string $password = null): void{
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
+
+		/** @throws void */
 		$this->Created = new DateTimeImmutable();
 
 		$this->PasswordHash = null;
@@ -145,6 +152,7 @@ class User{
 
 	/**
 	 * @throws Exceptions\UserNotFoundException
+	 * @throws Exceptions\PasswordRequiredException
 	 */
 	public static function GetIfRegistered(?string $identifier, ?string $password = null): User{
 		// We consider a user "registered" if they have a row in the Benefits table.

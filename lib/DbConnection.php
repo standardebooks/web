@@ -188,6 +188,7 @@ class DbConnection{
 							switch($metadata[$i]['native_type'] ?? null){
 								case 'DATETIME':
 								case 'TIMESTAMP':
+									/** @throws void */
 									$object->{$metadata[$i]['name']} = new DateTimeImmutable($row[$i], new DateTimeZone('UTC'));
 									break;
 

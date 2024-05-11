@@ -1,4 +1,6 @@
 <?
+
+use Exceptions\InvalidPollVoteException;
 use Safe\DateTimeImmutable;
 
 /**
@@ -86,6 +88,9 @@ class PollVote{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\InvalidPollVoteException
+	 */
 	public function Create(?string $email = null): void{
 		if($email !== null){
 			try{
@@ -103,13 +108,11 @@ class PollVote{
 		}
 
 		$this->Validate();
-		$this->Created = new DateTimeImmutable();
 		Db::Query('
-			INSERT into PollVotes (UserId, PollItemId, Created)
+			INSERT into PollVotes (UserId, PollItemId)
 			values (?,
-			        ?,
 			        ?)
-		', [$this->UserId, $this->PollItemId, $this->Created]);
+		', [$this->UserId, $this->PollItemId]);
 	}
 
 	/**

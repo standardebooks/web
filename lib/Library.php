@@ -1,5 +1,15 @@
 <?
+
+use Exceptions\AppException;
+use Exceptions\ArtistNotFoundException;
 use Safe\DateTimeImmutable;
+use Safe\Exceptions\ExecException;
+use Safe\Exceptions\PcreException;
+use Safe\Exceptions\FilesystemException;
+use Safe\Exceptions\DatetimeException;
+use Safe\Exceptions\ArrayException;
+use Safe\Exceptions\MiscException;
+
 use function Safe\apcu_fetch;
 use function Safe\exec;
 use function Safe\filemtime;
@@ -18,6 +28,7 @@ class Library{
 	* @param array<string> $tags
 	* @param EbookSort $sort
 	* @return array<Ebook>
+	* @throws Exceptions\AppException
 	*/
 	public static function FilterEbooks(string $query = null, array $tags = [], EbookSort $sort = null){
 		$ebooks = Library::GetEbooks();
@@ -109,6 +120,7 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooks(): array{
 		// Get all ebooks, unsorted.
@@ -117,6 +129,7 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
 		return self::GetFromApcu('author-' . $wwwFilesystemPath);
@@ -136,6 +149,7 @@ class Library{
 
 	/**
 	 * @return array<string, Collection>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbookCollections(): array{
 		return self::GetFromApcu('collections');
@@ -143,6 +157,7 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooksByCollection(string $collection): array{
 		// Do we have the tag's ebooks cached?
@@ -151,6 +166,7 @@ class Library{
 
 	/**
 	 * @return array<Tag>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetTags(): array{
 		return self::GetFromApcu('tags');
@@ -303,8 +319,10 @@ class Library{
 		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
 	}
 
+
 	/**
- 	 * @return array<Artwork>
+	 * @return array<Artwork>
+	 * @throws Exceptions\ArtistNotFoundException
 	 */
 	public static function GetArtworksByArtist(?string $artistUrlName, ?string $status, ?int $submitterUserId): array{
 		if($artistUrlName === null){
@@ -346,8 +364,10 @@ class Library{
 		return $artworks;
 	}
 
+
 	/**
 	 * @return array<mixed>
+	 * @throws Exceptions\AppException
 	 */
 	private static function GetFromApcu(string $variable): array{
 		$results = [];
@@ -389,6 +409,7 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
+	 * @throws Exceptions\AppException
 	 */
 	public static function Search(string $query): array{
 		$ebooks = Library::GetEbooks();
@@ -432,6 +453,8 @@ class Library{
 
 	private static function FillBulkDownloadObject(string $dir, string $downloadType, string $urlRoot): stdClass{
 		$obj = new stdClass();
+
+		/** @throws void */
 		$now = new DateTimeImmutable();
 
 		// The count of ebooks in each file is stored as a filesystem attribute
@@ -479,6 +502,7 @@ class Library{
 			$obj->ZipFiles[] = $zipFile;
 		}
 
+		/** @throws void */
 		$obj->Updated = new DateTimeImmutable('@' . filemtime($files[0]));
 		$obj->UpdatedString = $obj->Updated->format('M j');
 		// Add a period to the abbreviated month, but not if it's May (the only 3-letter month)
@@ -526,6 +550,7 @@ class Library{
 
 	/**
 	 * @return array<string, array<int|string, array<int|string, mixed>>>
+	 * @throws Exceptions\AppException
 	 */
 	public static function RebuildBulkDownloadsCache(): array{
 		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
@@ -546,7 +571,12 @@ class Library{
 		foreach($dirs as $dir){
 			$obj = self::FillBulkDownloadObject($dir, 'months', '/months');
 
-			$date = new DateTimeImmutable($obj->Label . '-01');
+			try{
+				$date = new DateTimeImmutable($obj->Label . '-01');
+			}
+			catch(\Exception){
+				throw new Exceptions\AppException('Couldn\'t parse date on bulk download object.');
+			}
 			$year = $date->format('Y');
 			$month = $date->format('F');
 
@@ -588,6 +618,7 @@ class Library{
 
 	/**
 	 * @return array<string, array<int|string, array<int|string, mixed>>>
+	 * @throws Exceptions\AppException
 	 */
 	public static function RebuildFeedsCache(?string $returnType = null, ?string $returnClass = null): ?array{
 		$feedTypes = ['opds', 'atom', 'rss'];
@@ -634,6 +665,9 @@ class Library{
 		return $retval;
 	}
 
+	/**
+	 * @throws Exceptions\AppException
+	 */
 	public static function GetEbook(?string $ebookWwwFilesystemPath): ?Ebook{
 		if($ebookWwwFilesystemPath === null){
 			return null;
@@ -649,6 +683,9 @@ class Library{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\AppException
+	 */
 	public static function RebuildCache(): void{
 		// We check a lockfile because this can be a long-running command.
 		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.

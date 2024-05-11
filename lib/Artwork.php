@@ -1,5 +1,13 @@
 <?
+
+use Exceptions\InvalidImageUploadException;
+use Exceptions\InvalidPageScanUrlException;
+use Exceptions\InvalidUrlException;
 use Safe\DateTimeImmutable;
+use Safe\Exceptions\ExecException;
+use Safe\Exceptions\FilesystemException;
+use Safe\Exceptions\PcreException;
+
 use function Safe\copy;
 use function Safe\exec;
 use function Safe\getimagesize;
@@ -160,6 +168,9 @@ class Artwork{
 		return $this->_Tags;
 	}
 
+	/**
+	 * @throws Exceptions\InvalidUrlException
+	 */
 	public function GetMuseum(): ?Museum{
 		if($this->_Museum === null){
 			try{
@@ -252,6 +263,9 @@ class Artwork{
 		return $this->_Dimensions;
 	}
 
+	/**
+	 * @throws Exceptions\AppException
+	 */
 	protected function GetEbook(): ?Ebook{
 		if($this->_Ebook === null){
 			if($this->EbookUrl === null){
@@ -318,9 +332,10 @@ class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtworkException
 	 */
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
+		/** @throws void */
 		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
 		$error = new Exceptions\InvalidArtworkException();
@@ -509,6 +524,10 @@ class Artwork{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\InvalidUrlException
+	 * @throws Exceptions\InvalidPageScanUrlException
+	 */
 	public static function NormalizePageScanUrl(string $url): string{
 		$outputUrl = $url;
 
@@ -621,6 +640,9 @@ class Artwork{
 		return $outputUrl;
 	}
 
+	/**
+	 * @throws Exceptions\InvalidImageUploadException
+	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
 		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imagePath));
 		copy($imagePath, $this->ImageFsPath);
@@ -645,6 +667,7 @@ class Artwork{
 
 		$this->Validate($imagePath, true);
 
+		/** @throws void */
 		$this->Created = new DateTimeImmutable();
 
 		$tags = [];
@@ -700,7 +723,10 @@ class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtworkException
+	 * @throws Exceptions\InvalidArtistException
+	 * @throws Exceptions\InvalidArtworkTagException
+	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	public function Save(?string $imagePath = null): void{
 		$this->_UrlName = null;
@@ -710,6 +736,7 @@ class Artwork{
 
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's
 			// updated timestamp won't change automatically.
+			/** @throws void */
 			$this->Updated = new DateTimeImmutable();
 			$this->_ImageUrl = null;
 			$this->_ThumbUrl = null;

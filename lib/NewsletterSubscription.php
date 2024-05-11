@@ -1,5 +1,9 @@
 <?
+
+use Exceptions\InvalidNewsletterSubscription;
+use Exceptions\NewsletterSubscriptionExistsException;
 use Safe\DateTimeImmutable;
+use Safe\Exceptions\ErrorfuncException;
 
 /**
  * @property User $User
@@ -33,6 +37,10 @@ class NewsletterSubscription{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\InvalidNewsletterSubscription
+	 * @throws Exceptions\NewsletterSubscriptionExistsException
+	 */
 	public function Create(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
 		$this->Validate($expectedCaptcha, $receivedCaptcha);
 
@@ -42,10 +50,18 @@ class NewsletterSubscription{
 		}
 		catch(Exceptions\UserNotFoundException){
 			// User doesn't exist, create the user
-			$this->User->Create();
+
+			try{
+				$this->User->Create();
+			}
+			catch(Exceptions\UserExistsException){
+				// User exists, pass
+			}
 		}
 
 		$this->UserId = $this->User->UserId;
+
+		/** @throws void */
 		$this->Created = new DateTimeImmutable();
 
 		try{
@@ -66,6 +82,9 @@ class NewsletterSubscription{
 		$this->SendConfirmationEmail();
 	}
 
+	/**
+	 * @throws Exceptions\InvalidNewsletterSubscription
+	 */
 	public function Save(): void{
 		$this->Validate();
 
@@ -107,6 +126,10 @@ class NewsletterSubscription{
 		', [$this->UserId]);
 	}
 
+
+	/**
+	 * @throws Exceptions\InvalidNewsletterSubscription
+	 */
 	public function Validate(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
 		$error = new Exceptions\InvalidNewsletterSubscription();
 
