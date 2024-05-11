@@ -4,7 +4,7 @@ session_start();
 $subscription = new NewsletterSubscription();
 
 try{
-	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
+	$subscription = NewsletterSubscription::Get(HttpInput::Str(HttpVariableSource::Get, 'uuid'));
 
 	if(!$subscription->IsConfirmed){
 		$subscription->Confirm();

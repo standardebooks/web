@@ -1,13 +1,13 @@
 <?
 use function Safe\preg_replace;
 
-$page = HttpInput::Int(GET, 'page') ?? 1;
+$page = HttpInput::Int(HttpVariableSource::Get, 'page') ?? 1;
 $pages = 0;
-$perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
-$query = HttpInput::Str(GET, 'query') ?? '';
-$tags = HttpInput::GetArray('tags') ?? [];
-$view = ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '');
-$sort = EbookSort::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
+$perPage = HttpInput::Int(HttpVariableSource::Get, 'per-page') ?? EBOOKS_PER_PAGE;
+$query = HttpInput::Str(HttpVariableSource::Get, 'query') ?? '';
+$tags = HttpInput::Array(HttpVariableSource::Get, 'tags') ?? [];
+$view = ViewType::tryFrom(HttpInput::Str(HttpVariableSource::Get, 'view') ?? '');
+$sort = EbookSort::tryFrom(HttpInput::Str(HttpVariableSource::Get, 'sort') ?? '');
 $queryString = '';
 $queryStringParams = [];
 $queryStringWithoutPage = '';

@@ -5,17 +5,14 @@ use function Safe\curl_setopt;
 use function Safe\file_get_contents;
 use function Safe\json_decode;
 
-$log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
-
 try{
+	$log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
 	/** @var string $smtpUsername */
 	$smtpUsername = get_cfg_var('se.secrets.postmark.username');
 
 	$log->Write('Received Postmark webhook.');
 
-	if(HttpInput::RequestMethod() != HTTP_POST){
-		throw new Exceptions\WebhookException('Expected HTTP POST.');
-	}
+	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
 
 	$apiKey = get_cfg_var('se.secrets.postmark.api_key');
 

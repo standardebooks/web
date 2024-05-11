@@ -654,7 +654,9 @@ class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtworkException
+	 * @throws Exceptions\InvalidArtworkTagException
+	 * @throws Exceptions\InvalidArtistException
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	public function Create(?string $imagePath = null): void{
@@ -874,23 +876,23 @@ class Artwork{
 		$artwork = new Artwork();
 		$artwork->Artist = new Artist();
 
-		$artwork->Artist->Name = HttpInput::Str(POST, 'artist-name');
-		$artwork->Artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
+		$artwork->Artist->Name = HttpInput::Str(HttpVariableSource::Post, 'artist-name');
+		$artwork->Artist->DeathYear = HttpInput::Int(HttpVariableSource::Post, 'artist-year-of-death');
 
-		$artwork->Name = HttpInput::Str(POST, 'artwork-name');
-		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
-		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
-		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
-		$artwork->Status = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? ArtworkStatus::Unverified;
-		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
-		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
-		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');
-		$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url');
-		$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'artwork-copyright-page-url');
-		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url');
-		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url');
-		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception');
-		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes');
+		$artwork->Name = HttpInput::Str(HttpVariableSource::Post, 'artwork-name');
+		$artwork->CompletedYear = HttpInput::Int(HttpVariableSource::Post, 'artwork-year');
+		$artwork->CompletedYearIsCirca = HttpInput::Bool(HttpVariableSource::Post, 'artwork-year-is-circa') ?? false;
+		$artwork->Tags = HttpInput::Str(HttpVariableSource::Post, 'artwork-tags') ?? [];
+		$artwork->Status = ArtworkStatus::tryFrom(HttpInput::Str(HttpVariableSource::Post, 'artwork-status') ?? '') ?? ArtworkStatus::Unverified;
+		$artwork->EbookUrl = HttpInput::Str(HttpVariableSource::Post, 'artwork-ebook-url');
+		$artwork->IsPublishedInUs = HttpInput::Bool(HttpVariableSource::Post, 'artwork-is-published-in-us') ?? false;
+		$artwork->PublicationYear = HttpInput::Int(HttpVariableSource::Post, 'artwork-publication-year');
+		$artwork->PublicationYearPageUrl = HttpInput::Str(HttpVariableSource::Post, 'artwork-publication-year-page-url');
+		$artwork->CopyrightPageUrl = HttpInput::Str(HttpVariableSource::Post, 'artwork-copyright-page-url');
+		$artwork->ArtworkPageUrl = HttpInput::Str(HttpVariableSource::Post, 'artwork-artwork-page-url');
+		$artwork->MuseumUrl = HttpInput::Str(HttpVariableSource::Post, 'artwork-museum-url');
+		$artwork->Exception = HttpInput::Str(HttpVariableSource::Post, 'artwork-exception');
+		$artwork->Notes = HttpInput::Str(HttpVariableSource::Post, 'artwork-notes');
 
 		return $artwork;
 	}

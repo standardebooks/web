@@ -1,27 +1,19 @@
 <?
-use function Safe\preg_match;
-
-$requestType = HttpInput::RequestType();
-
 try{
 	// We may use GET if we're called from an unsubscribe link in an email
-	if(!in_array(HttpInput::RequestMethod(), [HTTP_DELETE, HTTP_GET])){
-		throw new Exceptions\InvalidRequestException();
-	}
+	HttpInput::ValidateRequestMethod([HttpMethod::Get, HttpMethod::Delete]);
 
-	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
+	$requestType = HttpInput::RequestType();
+
+	$subscription = NewsletterSubscription::Get(HttpInput::Str(HttpVariableSource::Get, 'uuid'));
 	$subscription->Delete();
 
-	if($requestType == REST){
+	if($requestType == HttpRequestType::Rest){
 		exit();
 	}
 }
-catch(Exceptions\InvalidRequestException){
-	http_response_code(405);
-	exit();
-}
 catch(Exceptions\NewsletterSubscriptionNotFoundException){
-	if($requestType == WEB){
+	if($requestType == HttpRequestType::Web){
 		Template::Emit404();
 	}
 	else{

@@ -4,8 +4,8 @@ use function Safe\glob;
 use function Safe\preg_replace;
 use function Safe\usort;
 
-$class = HttpInput::Str(GET, 'class') ?? '';
-$type = HttpInput::Str(GET, 'type') ?? '';
+$class = HttpInput::Str(HttpVariableSource::Get, 'class') ?? '';
+$type = HttpInput::Str(HttpVariableSource::Get, 'type') ?? '';
 
 if($class != 'authors' && $class != 'collections' && $class != 'subjects'){
 	Template::Emit404();

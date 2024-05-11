@@ -65,12 +65,12 @@ function InsertTransaction($transactionId){
 	if(!$exists){
 		Db::Query('INSERT into PendingPayments
 				(Created,
-				ChannelId,
+				Processor,
 				TransactionId)
 				values (utc_timestamp(),
 				        ?,
 				        ?)',
-				[PAYMENT_CHANNEL_FA, $transactionId]);
+				[PaymentProcessor::FracturedAtlas, $transactionId]);
 
 		return true;
 	}

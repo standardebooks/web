@@ -8,16 +8,13 @@ use function Safe\shell_exec;
 // This script makes various calls to external scripts using exec() (and when called via Apache, as the www-data user).
 // These scripts are allowed using the /etc/sudoers.d/www-data file. Only the specific scripts
 // in that file may be executed by this script.
-
-$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
-$lastPushHashFlag = '';
-
 try{
-	$log->Write('Received GitHub webhook.');
+	$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
+	$lastPushHashFlag = '';
 
-	if(HttpInput::RequestMethod() != HTTP_POST){
-		throw new Exceptions\WebhookException('Expected HTTP POST.');
-	}
+	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
+
+	$log->Write('Received GitHub webhook.');
 
 	$post = file_get_contents('php://input');
 

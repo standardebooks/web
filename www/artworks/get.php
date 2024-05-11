@@ -3,11 +3,11 @@ use function Safe\session_unset;
 
 session_start();
 
-$saved = HttpInput::Bool(SESSION, 'artwork-saved') ?? false;
+$saved = HttpInput::Bool(HttpVariableSource::Session, 'artwork-saved') ?? false;
 $exception = $_SESSION['exception'] ?? null;
 
 try{
-	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
+	$artwork = Artwork::GetByUrl(HttpInput::Str(HttpVariableSource::Get, 'artist-url-name'), HttpInput::Str(HttpVariableSource::Get, 'artwork-url-name'));
 	$isReviewerView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
 	$isAdminView = $GLOBALS['User']->Benefits->CanReviewOwnArtwork ?? false;
 

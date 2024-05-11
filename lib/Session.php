@@ -81,7 +81,7 @@ class Session{
 	}
 
 	public static function GetLoggedInUser(): ?User{
-		$sessionId = HttpInput::Str(COOKIE, 'sessionid');
+		$sessionId = HttpInput::Str(HttpVariableSource::Cookie, 'sessionid');
 
 		if($sessionId !== null){
 			$result = Db::Query('

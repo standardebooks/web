@@ -69,7 +69,8 @@ try{
 	$driver = FirefoxDriver::start($capabilities);
 
 	foreach($pendingPayments as $pendingPayment){
-		if($pendingPayment->ChannelId == PAYMENT_CHANNEL_FA){
+		$pendingPayment->Processor = PaymentProcessor::from($pendingPayment->Processor);
+		if($pendingPayment->Processor == PaymentProcessor::FracturedAtlas){
 			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 
 			if(Db::QueryInt('
@@ -121,7 +122,7 @@ try{
 
 			$payment = new Payment();
 			$payment->User = new User();
-			$payment->ChannelId = $pendingPayment->ChannelId;
+			$payment->Processor = $pendingPayment->Processor;
 			try{
 				// If the donation is via a foundation (like American Online Giving Foundation) then there will be a 'soft credit' <th> element.
 				if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){

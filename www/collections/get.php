@@ -2,7 +2,7 @@
 use function Safe\preg_replace;
 
 try{
-	$collection = HttpInput::Str(GET, 'collection') ?? '';
+	$collection = HttpInput::Str(HttpVariableSource::Get, 'collection') ?? '';
 	$collectionObject = null;
 	$collectionName = '';
 	$collectionType = '';

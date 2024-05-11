@@ -4,7 +4,7 @@ use Safe\DateTimeImmutable;
 $ebooks = [];
 
 try{
-	$query = HttpInput::Str(GET, 'query') ?? '';
+	$query = HttpInput::Str(HttpVariableSource::Get, 'query') ?? '';
 
 	if($query !== ''){
 		$ebooks = Library::Search($query);

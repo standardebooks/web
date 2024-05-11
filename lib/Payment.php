@@ -10,7 +10,7 @@ class Payment{
 	public int $PaymentId;
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
-	public int $ChannelId;
+	public PaymentProcessor $Processor;
 	public string $TransactionId;
 	public float $Amount;
 	public float $Fee;
@@ -64,7 +64,7 @@ class Payment{
 
 		try{
 			Db::Query('
-				INSERT into Payments (UserId, Created, ChannelId, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation)
+				INSERT into Payments (UserId, Created, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation)
 				values(?,
 				       ?,
 				       ?,
@@ -73,7 +73,7 @@ class Payment{
 				       ?,
 				       ?,
 				       ?)
-			', [$this->UserId, $this->Created, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
+			', [$this->UserId, $this->Created, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\PaymentExistsException();

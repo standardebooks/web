@@ -7,7 +7,7 @@ use function Safe\sort;
 
 $currentManual = Manual::GetLatestVersion();
 
-$url = HttpInput::Str(GET, 'url') ?? '';
+$url = HttpInput::Str(HttpVariableSource::Get, 'url') ?? '';
 $url = preg_replace('|^/|ius', '', $url);
 $url = preg_replace('|\.php$|ius', '', $url);
 $url = preg_replace('|/$|ius', '', $url);
