@@ -1,9 +1,6 @@
 <?
-use Exceptions\InvalidLoginException;
-use Exceptions\PasswordRequiredException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
-use Safe\Exceptions\DatetimeException;
 
 use function Safe\strtotime;
 
@@ -76,12 +73,12 @@ class Session{
 			self::SetSessionCookie($this->SessionId);
 		}
 		catch(Exceptions\UserNotFoundException){
-			throw new InvalidLoginException();
+			throw new Exceptions\InvalidLoginException();
 		}
 	}
 
 	public static function GetLoggedInUser(): ?User{
-		$sessionId = HttpInput::Str(HttpVariableSource::Cookie, 'sessionid');
+		$sessionId = HttpInput::Str(COOKIE, 'sessionid');
 
 		if($sessionId !== null){
 			$result = Db::Query('

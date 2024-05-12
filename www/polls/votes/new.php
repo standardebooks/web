@@ -19,7 +19,7 @@ try{
 		$vote->User = $GLOBALS['User'];
 	}
 
-	$poll = Poll::GetByUrlName(HttpInput::Str(HttpVariableSource::Get, 'pollurlname'));
+	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 
 	try{
 		$vote = PollVote::Get($poll->UrlName, $GLOBALS['User']->UserId);

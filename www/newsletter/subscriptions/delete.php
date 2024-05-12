@@ -5,7 +5,7 @@ try{
 
 	$requestType = HttpInput::RequestType();
 
-	$subscription = NewsletterSubscription::Get(HttpInput::Str(HttpVariableSource::Get, 'uuid'));
+	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
 	$subscription->Delete();
 
 	if($requestType == HttpRequestType::Rest){

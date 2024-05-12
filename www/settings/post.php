@@ -1,8 +1,8 @@
 <?
 use function Safe\strtotime;
 
-$hideDonationAlert = HttpInput::Bool(HttpVariableSource::Post, 'hide-donation-alert');
-$colorScheme = HttpInput::Str(HttpVariableSource::Post, 'color-scheme');
+$hideDonationAlert = HttpInput::Bool(POST, 'hide-donation-alert');
+$colorScheme = HttpInput::Str(POST, 'color-scheme');
 
 if($hideDonationAlert !== null){
 	setcookie('hide-donation-alert', $hideDonationAlert ? 'true' : 'false', ['expires' => strtotime('+1 month'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);

@@ -3,7 +3,7 @@ use function Safe\apcu_fetch;
 use function Safe\preg_replace;
 
 $canDownload = false;
-$class = HttpInput::Str(HttpVariableSource::Get, 'class');
+$class = HttpInput::Str(GET, 'class');
 
 if($class === null || ($class != 'authors' && $class != 'collections' && $class != 'subjects' && $class != 'months')){
 	Template::Emit404();

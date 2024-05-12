@@ -10,9 +10,9 @@ try{
 
 	$vote = new PollVote();
 
-	$vote->PollItemId = HttpInput::Int(HttpVariableSource::Post, 'pollitemid');
+	$vote->PollItemId = HttpInput::Int(POST, 'pollitemid');
 
-	$vote->Create(HttpInput::Str(HttpVariableSource::Post, 'email'));
+	$vote->Create(HttpInput::Str(POST, 'email'));
 
 	session_unset();
 
@@ -34,7 +34,7 @@ catch(Exceptions\InvalidPollVoteException $ex){
 
 		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity
 		http_response_code(303);
-		header('Location: /polls/' . (HttpInput::Str(HttpVariableSource::Get, 'pollurlname') ?? '') . '/votes/new');
+		header('Location: /polls/' . (HttpInput::Str(GET, 'pollurlname') ?? '') . '/votes/new');
 	}
 	else{
 		// Access via HttpRequestType::Rest api; 422 Unprocessable Entity

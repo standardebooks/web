@@ -1,7 +1,7 @@
 <?
 use function Safe\preg_match;
 
-$path = HttpInput::Str(HttpVariableSource::Get, 'path') ?? '';
+$path = HttpInput::Str(GET, 'path') ?? '';
 
 try{
 	$path = '/bulk-downloads/' . $path;

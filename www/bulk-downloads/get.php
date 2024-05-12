@@ -2,9 +2,9 @@
 use function Safe\apcu_fetch;
 
 $collection = null;
-$collectionUrlName = HttpInput::Str(HttpVariableSource::Get, 'collection');
+$collectionUrlName = HttpInput::Str(GET, 'collection');
 $collection = null;
-$authorUrlName = HttpInput::Str(HttpVariableSource::Get, 'author');
+$authorUrlName = HttpInput::Str(GET, 'author');
 $canDownload = false;
 
 try{

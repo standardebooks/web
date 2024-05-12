@@ -11,7 +11,7 @@ try{
 
 	$subscription = new NewsletterSubscription();
 
-	if(HttpInput::Str(HttpVariableSource::Post, 'automationtest')){
+	if(HttpInput::Str(POST, 'automationtest')){
 		// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
 		if($requestType == HttpRequestType::Web){
 			http_response_code(303);
@@ -32,12 +32,12 @@ try{
 
 
 	$subscription->User = new User();
-	$subscription->User->Email = HttpInput::Str(HttpVariableSource::Post, 'email');
-	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(HttpVariableSource::Post, 'issubscribedtonewsletter') ?? false;
-	$subscription->IsSubscribedToSummary = HttpInput::Bool(HttpVariableSource::Post, 'issubscribedtosummary') ?? false;
+	$subscription->User->Email = HttpInput::Str(POST, 'email');
+	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'issubscribedtonewsletter') ?? false;
+	$subscription->IsSubscribedToSummary = HttpInput::Bool(POST, 'issubscribedtosummary') ?? false;
 
-	$expectedCaptcha = HttpInput::Str(HttpVariableSource::Session, 'captcha') ?? '';
-	$receivedCaptcha = HttpInput::Str(HttpVariableSource::Post, 'captcha');
+	$expectedCaptcha = HttpInput::Str(SESSION, 'captcha') ?? '';
+	$receivedCaptcha = HttpInput::Str(POST, 'captcha');
 
 	$subscription->Create($expectedCaptcha, $receivedCaptcha);
 

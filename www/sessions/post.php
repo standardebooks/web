@@ -9,9 +9,9 @@ try{
 	$requestType = HttpInput::RequestType();
 
 	$session = new Session();
-	$email = HttpInput::Str(HttpVariableSource::Post, 'email');
-	$password = HttpInput::Str(HttpVariableSource::Post, 'password');
-	$redirect = HttpInput::Str(HttpVariableSource::Post, 'redirect');
+	$email = HttpInput::Str(POST, 'email');
+	$password = HttpInput::Str(POST, 'password');
+	$redirect = HttpInput::Str(POST, 'redirect');
 
 	if($redirect === null){
 		$redirect = '/';

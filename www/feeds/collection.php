@@ -1,11 +1,9 @@
 <?
 use function Safe\apcu_fetch;
-use function Safe\glob;
 use function Safe\preg_replace;
-use function Safe\usort;
 
-$class = HttpInput::Str(HttpVariableSource::Get, 'class') ?? '';
-$type = HttpInput::Str(HttpVariableSource::Get, 'type') ?? '';
+$class = HttpInput::Str(GET, 'class') ?? '';
+$type = HttpInput::Str(GET, 'type') ?? '';
 
 if($class != 'authors' && $class != 'collections' && $class != 'subjects'){
 	Template::Emit404();

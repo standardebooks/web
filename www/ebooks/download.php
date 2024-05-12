@@ -10,8 +10,8 @@ $showThankYouPage = $GLOBALS['User'] === null && $downloadCount < 5;
 $downloadUrl = null;
 
 try{
-	$urlPath = HttpInput::Str(HttpVariableSource::Get, 'url-path') ?? null;
-	$format = EbookFormat::tryFrom(HttpInput::Str(HttpVariableSource::Get, 'format') ?? '') ?? EbookFormat::Epub;
+	$urlPath = HttpInput::Str(GET, 'url-path') ?? null;
+	$format = EbookFormat::tryFrom(HttpInput::Str(GET, 'format') ?? '') ?? EbookFormat::Epub;
 	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath;
 
 	// Do we have the ebook cached?

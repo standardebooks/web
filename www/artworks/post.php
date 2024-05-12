@@ -53,7 +53,7 @@ try{
 
 	// PUTing an artwork
 	if($httpMethod == HttpMethod::Put){
-		$originalArtwork = Artwork::GetByUrl(HttpInput::Str(HttpVariableSource::Get, 'artist-url-name'), HttpInput::Str(HttpVariableSource::Get, 'artwork-url-name'));
+		$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
 		if(!$originalArtwork->CanBeEditedBy($GLOBALS['User'])){
 			throw new Exceptions\InvalidPermissionsException();
@@ -67,7 +67,7 @@ try{
 		$artwork->SubmitterUserId = $originalArtwork->SubmitterUserId;
 		$artwork->Status = $originalArtwork->Status; // Overwrite any value got from POST because we need permission to change the status
 
-		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(HttpVariableSource::Post, 'artwork-status') ?? '');
+		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 		if($newStatus !== null){
 			if($originalArtwork->Status != $newStatus && !$originalArtwork->CanStatusBeChangedBy($GLOBALS['User'])){
 				throw new Exceptions\InvalidPermissionsException();
@@ -102,13 +102,13 @@ try{
 
 	// PATCHing a new artwork
 	if($httpMethod == HttpMethod::Patch){
-		$artwork = Artwork::GetByUrl(HttpInput::Str(HttpVariableSource::Get, 'artist-url-name'), HttpInput::Str(HttpVariableSource::Get, 'artwork-url-name'));
+		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
 		$exceptionRedirectUrl = $artwork->Url;
 
 		// We can PATCH the status, the ebook www filesystem path, or both.
 		if(isset($_POST['artwork-status'])){
-			$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(HttpVariableSource::Post, 'artwork-status') ?? '');
+			$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 			if($newStatus !== null){
 				if($artwork->Status != $newStatus && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
 					throw new Exceptions\InvalidPermissionsException();
@@ -121,7 +121,7 @@ try{
 		}
 
 		if(isset($_POST['artwork-ebook-url'])){
-			$newEbookUrl = HttpInput::Str(HttpVariableSource::Post, 'artwork-ebook-url');
+			$newEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 			if($artwork->EbookUrl != $newEbookUrl && !$artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){
 				throw new Exceptions\InvalidPermissionsException();
 			}

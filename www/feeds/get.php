@@ -1,8 +1,8 @@
 <?
 use function Safe\exec;
 
-$author = HttpInput::Str(HttpVariableSource::Get, 'author');
-$collection = HttpInput::Str(HttpVariableSource::Get, 'collection');
+$author = HttpInput::Str(GET, 'author');
+$collection = HttpInput::Str(GET, 'collection');
 $name = null;
 $target = null;
 $feedTypes = ['opds', 'atom', 'rss'];

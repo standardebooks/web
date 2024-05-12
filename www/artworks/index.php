@@ -1,11 +1,11 @@
 <?
-$page = HttpInput::Int(HttpVariableSource::Get, 'page') ?? 1;
-$perPage = HttpInput::Int(HttpVariableSource::Get, 'per-page') ?? ARTWORK_PER_PAGE;
-$query = HttpInput::Str(HttpVariableSource::Get, 'query');
-$queryEbookUrl = HttpInput::Str(HttpVariableSource::Get, 'query-ebook-url');
-$status = HttpInput::Str(HttpVariableSource::Get, 'status');
+$page = HttpInput::Int(GET, 'page') ?? 1;
+$perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
+$query = HttpInput::Str(GET, 'query');
+$queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
+$status = HttpInput::Str(GET, 'status');
 $filterArtworkStatus = $status;
-$sort = ArtworkSort::tryFrom(HttpInput::Str(HttpVariableSource::Get, 'sort') ?? '');
+$sort = ArtworkSort::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $pages = 0;
 $totalArtworkCount = 0;
 $pageDescription = '';
