@@ -23,9 +23,11 @@ if($type === 'atom'){
 }
 
 try{
+	/** @var array<stdClass> $feeds */
 	$feeds = apcu_fetch('feeds-index-' . $type . '-' . $class);
 }
 catch(Safe\Exceptions\ApcuException){
+	/** @var array<stdClass> $feeds */
 	$feeds = Library::RebuildFeedsCache($type, $class);
 }
 ?><?= Template::Header(['title' => $ucType . ' Ebook Feeds by ' . $ucTitle, 'description' => 'A list of available ' . $ucType . ' feeds of Standard Ebooks ebooks by ' . $lcTitle . '.']) ?>

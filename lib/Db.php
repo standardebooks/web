@@ -9,21 +9,22 @@ class Db{
 	}
 
 	/**
-	* @param string $query
-	* @param array<mixed> $args
-	* @param string $class
-	* @return Array<mixed>
-	*/
+	 * @template T
+	 * @param string $query
+	 * @param array<mixed> $args
+	 * @param class-string<T> $class
+	 * @return Array<T>
+	 */
 	public static function Query(string $query, array $args = [], string $class = 'stdClass'): array{
 		return $GLOBALS['DbConnection']->Query($query, $args, $class);
 	}
 
 	/**
-	* Returns a single integer value for the first column database query result.
-	* This is useful for queries that return a single integer as a result, like count(*) or sum(*).
-	* @param string $query
-	* @param array<mixed> $args
-	*/
+	 * Returns a single integer value for the first column database query result.
+	 * This is useful for queries that return a single integer as a result, like count(*) or sum(*).
+	 * @param string $query
+	 * @param array<mixed> $args
+	 */
 	public static function QueryInt(string $query, array $args = []): int{
 		$result = $GLOBALS['DbConnection']->Query($query, $args);
 

@@ -35,6 +35,7 @@ try{
 		throw new Exceptions\WebhookException('Couldn\'t understand HTTP request.', $post);
 	}
 
+	/** @var array<array<string>> $data */
 	$data = json_decode($post, true);
 
 	// Decide what event we just received.

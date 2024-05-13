@@ -41,24 +41,26 @@ class DbConnection{
 			$connectionString .= ';dbname=' . $defaultDatabase;
 		}
 
+		// We can't use persistent connections (connection pooling) because we would have race condition problems with last_insert_id()
 		$params = [\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
 
 		if($forceUtf8){
 			$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';
 		}
 
-		// We can't use persistent connections (connection pooling) because we would have race condition problems with last_insert_id()
 		$this->_link = new \PDO($connectionString, $user, $password, $params);
 	}
 
 	/**
-	* @param string $sql The SQL query to execute.
-	* @param array<mixed> $params An array of parameters to bind to the SQL statement.
-	* @param string $class The type of object to return in the return array.
-	* @return Array<mixed>
-	* @throws Exceptions\DuplicateDatabaseKeyException When a unique key constraint has been violated.
-	* @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
-	*/
+	 * Execute a generic query in the database.
+	 * @template T
+	 * @param string $sql The SQL query to execute.
+	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
+	 * @param class-string<T> $class The type of object to return in the return array.
+	 * @return Array<T>
+	 * @throws Exceptions\DuplicateDatabaseKeyException When a unique key constraint has been violated.
+	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
+	 */
 	public function Query(string $sql, array $params = [], string $class = 'stdClass'): array{
 		if($this->_link === null){
 			return [];
@@ -131,19 +133,11 @@ class DbConnection{
 	}
 
 	/**
-	* @param \PDOException $ex The exception to create details from.
-	* @param string $sql The prepared SQL that caused the exception.
-	* @param array<mixed> $params The parameters passed to the prepared SQL.
-	*/
-	private function CreateDetailedException(\PDOException $ex, string $sql, array $params): Exceptions\DatabaseQueryException{
-		// Throw a custom exception that includes more information on the query and paramaters
-		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params));
-	}
-
-	/**
-	* @return Array<mixed>
-	* @throws \PDOException When an error occurs during execution of the query.
-	*/
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return Array<T>
+	 * @throws \PDOException When an error occurs during execution of the query.
+	 */
 	private function ExecuteQuery(\PDOStatement $handle, string $class = 'stdClass'): array{
 		$handle->execute();
 
@@ -286,5 +280,15 @@ class DbConnection{
 		}
 
 		return $id;
+	}
+
+	/**
+	 * @param \PDOException $ex The exception to create details from.
+	 * @param string $sql The prepared SQL that caused the exception.
+	 * @param array<mixed> $params The parameters passed to the prepared SQL.
+	 */
+	private function CreateDetailedException(\PDOException $ex, string $sql, array $params): Exceptions\DatabaseQueryException{
+		// Throw a custom exception that includes more information on the query and paramaters
+		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params));
 	}
 }

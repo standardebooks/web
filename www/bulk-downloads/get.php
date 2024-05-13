@@ -17,10 +17,13 @@ try{
 
 		// Get all collections and then find the specific one we're looking for
 		try{
+			/** @var array<stdClass> $collections */
 			$collections = apcu_fetch('bulk-downloads-collections');
 		}
 		catch(Safe\Exceptions\ApcuException){
 			$result = Library::RebuildBulkDownloadsCache();
+
+			/** @var array<stdClass> $collections */
 			$collections = $result['collections'];
 		}
 
@@ -41,10 +44,13 @@ try{
 
 		// Get all authors and then find the specific one we're looking for
 		try{
+			/** @var array<stdClass> $collections */
 			$collections = apcu_fetch('bulk-downloads-authors');
 		}
 		catch(Safe\Exceptions\ApcuException){
 			$result = Library::RebuildBulkDownloadsCache();
+
+			/** @var array<stdClass> $collections */
 			$collections = $result['authors'];
 		}
 
@@ -70,7 +76,7 @@ catch(Exceptions\CollectionNotFoundException){
 ?><?= Template::Header(['title' => 'Download ', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
 <main>
 	<section class="bulk-downloads">
-		<h1>Download the <?= $collection->Label ?> Collection</h1>
+		<h1>Download the <?= $collection?->Label ?> Collection</h1>
 		<? if($canDownload){ ?>
 			<p>Select the ebook format in which you’d like to download this collection.</p>
 			<p>You can also read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which ebook format to download</a>.</p>

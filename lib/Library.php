@@ -113,6 +113,7 @@ class Library{
 	 */
 	public static function GetEbooks(): array{
 		// Get all ebooks, unsorted.
+		/** @var array<Ebook> */
 		return self::GetFromApcu('ebooks');
 	}
 
@@ -121,6 +122,7 @@ class Library{
 	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
+		/** @var array<Ebook> */
 		return self::GetFromApcu('author-' . $wwwFilesystemPath);
 	}
 
@@ -129,6 +131,7 @@ class Library{
 	 */
 	public static function GetEbooksByTag(string $tag): array{
 		try{
+			/** @var array<Ebook> */
 			return apcu_fetch('tag-' . $tag) ?? [];
 		}
 		catch(Safe\Exceptions\ApcuException){
@@ -141,6 +144,7 @@ class Library{
 	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbookCollections(): array{
+		/** @var array<string, Collection> */
 		return self::GetFromApcu('collections');
 	}
 
@@ -150,6 +154,7 @@ class Library{
 	 */
 	public static function GetEbooksByCollection(string $collection): array{
 		// Do we have the tag's ebooks cached?
+		/** @var array<Ebook> */
 		return self::GetFromApcu('collection-' . $collection);
 	}
 
@@ -158,6 +163,7 @@ class Library{
 	 * @throws Exceptions\AppException
 	 */
 	public static function GetTags(): array{
+		/** @var array<Tag> */
 		return self::GetFromApcu('tags');
 	}
 
@@ -538,7 +544,7 @@ class Library{
 	}
 
 	/**
-	 * @return array<string, array<int|string, array<int|string, mixed>>>
+	 * @return array<string, array<int|string, array<int|string, stdClass>>>
 	 * @throws Exceptions\AppException
 	 */
 	public static function RebuildBulkDownloadsCache(): array{
@@ -662,6 +668,7 @@ class Library{
 			return null;
 		}
 
+		/** @var array<Ebook> $result */
 		$result = self::GetFromApcu('ebook-' . $ebookWwwFilesystemPath);
 
 		if(sizeof($result) > 0){

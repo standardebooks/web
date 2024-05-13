@@ -23,6 +23,7 @@ try{
 		throw new Exceptions\InvalidCredentialsException();
 	}
 
+	/** @var stdClass $data */
 	$data = json_decode($post);
 
 	if($data->fromAddress == 'support@fracturedatlas.org' && strpos($data->subject, 'NOTICE:') !== false){

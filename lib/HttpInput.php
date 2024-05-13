@@ -84,18 +84,22 @@ class HttpInput{
 			return null;
 		}
 
+		/** @var ?string $var */
 		return $var;
 	}
 
 	public static function Int(HttpVariableSource $set, string $variable): ?int{
+		/** @var ?int */
 		return self::GetHttpVar($variable, HttpVariableType::Integer, $set);
 	}
 
 	public static function Bool(HttpVariableSource $set, string $variable): ?bool{
+		/** @var ?bool */
 		return self::GetHttpVar($variable, HttpVariableType::Boolean, $set);
 	}
 
 	public static function Dec(HttpVariableSource $set, string $variable): ?float{
+		/** @var ?float */
 		return self::GetHttpVar($variable, HttpVariableType::Decimal, $set);
 	}
 
@@ -104,9 +108,13 @@ class HttpInput{
 	* @return array<string>
 	*/
 	public static function Array(HttpVariableSource $set, string $variable): ?array{
+		/** @var array<string> */
 		return self::GetHttpVar($variable, HttpVariableType::Array, $set);
 	}
 
+	/**
+	 * @return array<string>|array<int>|array<float>|array<bool>|string|int|float|bool|null
+	 */
 	private static function GetHttpVar(string $variable, HttpVariableType $type, HttpVariableSource $set): mixed{
 		$vars = [];
 

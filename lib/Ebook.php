@@ -15,7 +15,7 @@ class Ebook{
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
 	public string $Url;
-	public string $KindleCoverUrl;
+	public ?string $KindleCoverUrl;
 	public string $EpubUrl;
 	public string $AdvancedEpubUrl;
 	public string $KepubUrl;
@@ -68,8 +68,8 @@ class Ebook{
 	public string $TitleWithCreditsHtml = '';
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
-	public string $TextUrl;
-	public string $TextSinglePageUrl;
+	public ?string $TextUrl;
+	public ?string $TextSinglePageUrl;
 	public ?string $TextSinglePageSizeNumber = null;
 	public ?string $TextSinglePageSizeUnit = null;
 	/** @var ?array<string> $TocEntries */

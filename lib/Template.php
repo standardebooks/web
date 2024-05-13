@@ -25,7 +25,7 @@ class Template{
 	* @param array<mixed> $arguments
 	*/
 	public static function __callStatic(string $function, array $arguments): string{
-		if(isset($arguments[0])){
+		if(isset($arguments[0]) && is_array($arguments[0])){
 			return self::Get($function, $arguments[0]);
 		}
 		else{

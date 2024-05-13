@@ -16,14 +16,11 @@ try{
 
 	// Do we have the ebook cached?
 	try{
+		/** @var Ebook $ebook */
 		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
 	}
 	catch(Safe\Exceptions\ApcuException){
 		$ebook = new Ebook($wwwFilesystemPath);
-	}
-
-	if($ebook === null){
-		throw new Exceptions\InvalidFileException();
 	}
 
 	switch($format){

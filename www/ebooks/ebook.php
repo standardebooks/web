@@ -28,6 +28,7 @@ try{
 	// https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald/edmund-dulac
 	// We can tell because if so, the dir we are passed will exist, but there will be no 'src' folder.
 	if(is_dir($wwwFilesystemPath) && !is_dir($wwwFilesystemPath . '/src')){
+		/** @var DirectoryIterator $file */
 		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($wwwFilesystemPath)) as $file){
 			// This iterator will do a deep scan on the directory. When we hit another directory, the filename will be "." and the path will contain the directory path.
 			// We want to find where the "src" directory is, and the directory directly below that will be the final web URL we're looking for.
@@ -39,6 +40,7 @@ try{
 
 	// Do we have the ebook cached?
 	try{
+		/** @var Ebook $ebook */
 		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
 	}
 	catch(Safe\Exceptions\ApcuException){
@@ -211,7 +213,7 @@ catch(Exceptions\EbookNotFoundException){
 			<p class="us-pd-warning">This ebook is thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that this ebook is free of copyright restrictions in the country you’re located in before accessing, downloading, or using it.</p>
 
 			<div class="downloads-container">
-				<figure class="<? if($ebook->WordCount < 100000){ ?>small<? }elseif($ebook->WordCount >= 100000 && $ebook->WordCount < 200000){ ?>medium<? }elseif($ebook->WordCount >= 200000 && $ebook->WordCount <= 300000){ ?>large<? }elseif($ebook->WordCount >= 300000 && $ebook->WordCount < 400000){ ?>xlarge<? }elseif($ebook->WordCount >= 400000){ ?>xxlarge<? } ?>">
+				<figure class="<? if($ebook->WordCount < 100000){ ?>small<? }elseif($ebook->WordCount < 200000){ ?>medium<? }elseif($ebook->WordCount <= 300000){ ?>large<? }elseif($ebook->WordCount < 400000){ ?>xlarge<? }else{ ?>xxlarge<? } ?>">
 					<picture>
 						<source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/>
 						<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
