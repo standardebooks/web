@@ -5,7 +5,7 @@
 	},
 	"autoload": {
 		"psr-4": {"": "lib/"},
-		"files": ["lib/Constants.php", "lib/CoreFunctions.php"]
+		"files": ["lib/Constants.php"]
 	},
 	"platform":{
 		"php": "8.1.2"
