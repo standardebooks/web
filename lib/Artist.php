@@ -130,7 +130,7 @@ class Artist{
 				SELECT *
 				from Artists
 				where ArtistId = ?
-			', [$artistId], 'Artist');
+			', [$artistId], Artist::class);
 
 		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();;
 	}
@@ -161,7 +161,7 @@ class Artist{
 					where a.UrlName = ?
 					    or aan.UrlName = ?
 					limit 1
-		', [$artist->UrlName, $artist->UrlName], 'Artist');
+		', [$artist->UrlName, $artist->UrlName], Artist::class);
 
 		if(isset($result[0])){
 			return $result[0];
@@ -178,6 +178,7 @@ class Artist{
 			from Artists
 			where ArtistId = ?
 		', [$this->ArtistId]);
+
 		Db::Query('
 			DELETE
 			from ArtistAlternateNames

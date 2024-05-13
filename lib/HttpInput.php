@@ -48,7 +48,7 @@ class HttpInput{
 	}
 
 	/**
-	 * @return int The maximum size for an HTTP POST request, in bytes
+	 * @return int The maximum size for an HTTP POST request, in bytes.
 	 */
 	public static function GetMaxPostSize(): int{
 		$post_max_size = ini_get('post_max_size');

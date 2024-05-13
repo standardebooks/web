@@ -592,7 +592,7 @@ class Museum{
 			from Museums
 			where ? like concat("%", Domain, "%")
 			limit 1;
-		', [$parsedUrl['host']], 'Museum');
+		', [$parsedUrl['host']], Museum::class);
 
 		return $result[0] ?? throw new Exceptions\MuseumNotFoundException();
 	}

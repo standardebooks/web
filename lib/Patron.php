@@ -93,7 +93,7 @@ class Patron{
 			SELECT *
 			from Patrons
 			where UserId = ?
-			', [$userId], 'Patron');
+			', [$userId], Patron::class);
 
 		return $result[0] ?? throw new Exceptions\PatronNotFoundException();;
 	}
@@ -111,7 +111,7 @@ class Patron{
 			from Patrons p
 			inner join Users u using(UserId)
 			where u.Email = ?
-		', [$email], 'Patron');
+		', [$email], Patron::class);
 
 		return $result[0] ?? throw new Exceptions\PatronNotFoundException();
 	}

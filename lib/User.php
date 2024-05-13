@@ -38,7 +38,7 @@ class User{
 							from Payments
 							where UserId = ?
 							order by Created desc
-						', [$this->UserId], 'Payment');
+						', [$this->UserId], Payment::class);
 		}
 
 		return $this->_Payments;
@@ -50,7 +50,7 @@ class User{
 						SELECT *
 						from Benefits
 						where UserId = ?
-					', [$this->UserId], 'Benefits');
+					', [$this->UserId], Benefits::class);
 
 			if(sizeof($result) == 0){
 				$this->_Benefits = new Benefits();
@@ -129,7 +129,7 @@ class User{
 					SELECT *
 					from Users
 					where UserId = ?
-				', [$userId], 'User');
+				', [$userId], User::class);
 
 		return $result[0] ?? throw new Exceptions\UserNotFoundException();
 	}
@@ -146,7 +146,7 @@ class User{
 					SELECT *
 					from Users
 					where Email = ?
-				', [$email], 'User');
+				', [$email], User::class);
 
 		return $result[0] ?? throw new Exceptions\UserNotFoundException();
 	}
@@ -169,7 +169,7 @@ class User{
 					inner join Benefits using (UserId)
 					where u.Email = ?
 					    or u.Uuid = ?
-				', [$identifier, $identifier], 'User');
+				', [$identifier, $identifier], User::class);
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\UserNotFoundException();

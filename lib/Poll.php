@@ -61,7 +61,7 @@ class Poll{
 							from PollItems
 							where PollId = ?
 							order by SortOrder asc
-						', [$this->PollId], 'PollItem');
+						', [$this->PollId], PollItem::class);
 		}
 
 		return $this->_PollItems;
@@ -113,7 +113,7 @@ class Poll{
 					SELECT *
 					from Polls
 					where PollId = ?
-				', [$pollId], 'Poll');
+				', [$pollId], Poll::class);
 
 		return $result[0] ?? throw new Exceptions\PollNotFoundException();
 	}
@@ -130,7 +130,7 @@ class Poll{
 					SELECT *
 					from Polls
 					where UrlName = ?
-				', [$urlName], 'Poll');
+				', [$urlName], Poll::class);
 
 		return $result[0] ?? throw new Exceptions\PollNotFoundException();
 	}

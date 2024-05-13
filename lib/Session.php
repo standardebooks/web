@@ -86,7 +86,7 @@ class Session{
 						from Users u
 						inner join Sessions s using (UserId)
 						where s.SessionId = ?
-					', [$sessionId], 'User');
+					', [$sessionId], User::class);
 
 			if(sizeof($result) > 0){
 				self::SetSessionCookie($sessionId);
@@ -113,7 +113,7 @@ class Session{
 					SELECT *
 					from Sessions
 					where SessionId = ?
-				', [$sessionId], 'Session');
+				', [$sessionId], Session::class);
 
 		return $result[0] ?? throw new Exceptions\SessionNotFoundException();
 	}

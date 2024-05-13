@@ -51,7 +51,7 @@ class PollItem{
 					SELECT *
 					from PollItems
 					where PollItemId = ?
-				', [$pollItemId], 'PollItem');
+				', [$pollItemId], PollItem::class);
 
 		return $result[0] ?? throw new Exceptions\PollItemNotFoundException();
 	}

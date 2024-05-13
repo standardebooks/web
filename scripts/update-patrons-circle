@@ -26,7 +26,7 @@ $expiredPatrons = Db::Query('
 			(IsRecurring = false and Amount >= 100 and Created > ? - interval 1 year)
 		)
 	)
-', [$now, $now], 'Patron');
+', [$now, $now], Patron::class);
 
 if(sizeof($expiredPatrons) > 0){
 	$ebooksThisYear = 0;
@@ -70,7 +70,7 @@ if(sizeof($expiredPatrons) > 0){
 						where UserId = ?
 						order by Created desc
 						limit 1
-					', [$patron->UserId], 'Payment');
+					', [$patron->UserId], Payment::class);
 
 		if(sizeof($lastPayment) > 0 && $patron->User->Email !== null){
 			$em = new Email();

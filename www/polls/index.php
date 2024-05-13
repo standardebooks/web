@@ -4,7 +4,7 @@ $pastPolls = Db::Query('
 			from Polls
 			where utc_timestamp() >= end
 			order by Start desc
-		', [], 'Poll');
+		', [], Poll::class);
 
 $openPolls = Db::Query('
 			SELECT *
@@ -15,7 +15,7 @@ $openPolls = Db::Query('
 			        (Start is null
 			         or Start <= utc_timestamp())
 			order by Start desc
-		', [], 'Poll');
+		', [], Poll::class);
 
 ?><?= Template::Header(['title' => 'Polls', 'highlight' => '', 'description' => 'The various polls active at Standard Ebooks.']) ?>
 <main>

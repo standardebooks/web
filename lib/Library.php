@@ -171,7 +171,7 @@ class Library{
 	* @param string $query
 	* @param string $status
 	* @param ArtworkSort $sort
-	* @return Array<mixed>
+	* @return array<string, array<Artwork>|int>
 	*/
 	public static function FilterArtwork(string $query = null, string $status = null, ArtworkSort $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		// Returns an array of:
@@ -253,7 +253,7 @@ class Library{
 				where ' . $statusCondition . '
 				order by ' . $orderBy . '
 				limit ?
-				offset ?', $params, 'Artwork');
+				offset ?', $params, Artwork::class);
 		}
 		else{
 			// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
@@ -308,12 +308,11 @@ class Library{
 				group by art.ArtworkId
 				order by ' . $orderBy . '
 				limit ?
-				offset ?', $params, 'Artwork');
+				offset ?', $params, Artwork::class);
 		}
 
 		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
 	}
-
 
 	/**
 	 * @return array<Artwork>
@@ -354,7 +353,7 @@ class Library{
 			  inner join Artists a using (ArtistId)
 			where ' . $statusCondition . '
 			and a.UrlName = ?
-			order by art.Created desc', $params, 'Artwork');
+			order by art.Created desc', $params, Artwork::class);
 
 		return $artworks;
 	}
@@ -819,6 +818,6 @@ class Library{
 		return Db::Query('
 			SELECT *
 			from Artists
-			order by Name asc', [], 'Artist');
+			order by Name asc', [], Artist::class);
 	}
 }

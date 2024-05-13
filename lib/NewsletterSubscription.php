@@ -166,7 +166,7 @@ class NewsletterSubscription{
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.Uuid = ?
-			', [$uuid], 'NewsletterSubscription');
+			', [$uuid], NewsletterSubscription::class);
 
 		return $result[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
 	}

@@ -63,12 +63,14 @@ try{
 	}
 
 	if($queryEbookUrl !== null){
-		$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, ArtworkStatus::Approved], 'Artwork');
+		$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, ArtworkStatus::Approved], Artwork::class);
 		$totalArtworkCount = sizeof($artworks);
 	}
 	else{
 		$result = Library::FilterArtwork($query, $filterArtworkStatus, $sort, $submitterUserId, $page, $perPage);
+		/** @var array<Artwork> $artworks */
 		$artworks = $result['artworks'];
+		/** @var int $totalArtworkCount */
 		$totalArtworkCount = $result['artworksCount'];
 	}
 

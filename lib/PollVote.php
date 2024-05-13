@@ -131,7 +131,7 @@ class PollVote{
 					     inner join Polls p using (PollId)
 					     where p.UrlName = ? ) x using (PollItemId)
 					where pv.UserId = ?
-				', [$pollUrlName, $userId], 'PollVote');
+				', [$pollUrlName, $userId], PollVote::class);
 
 		return $result[0] ?? throw new Exceptions\PollVoteNotFoundException();
 	}

@@ -158,7 +158,7 @@ class Artwork{
 							from Tags t
 							inner join ArtworkTags at using (TagId)
 							where ArtworkId = ?
-						', [$this->ArtworkId], 'ArtworkTag');
+						', [$this->ArtworkId], ArtworkTag::class);
 		}
 
 		return $this->_Tags;
@@ -849,7 +849,7 @@ class Artwork{
 				SELECT *
 				from Artworks
 				where ArtworkId = ?
-			', [$artworkId], 'Artwork');
+			', [$artworkId], Artwork::class);
 
 		return $result[0] ?? throw new Exceptions\ArtworkNotFoundException();
 	}
@@ -867,7 +867,7 @@ class Artwork{
 				from Artworks
 				inner join Artists using (ArtistId)
 				where Artists.UrlName = ? and Artworks.UrlName = ?
-			', [$artistUrlName, $artworkUrlName], 'Artwork');
+			', [$artistUrlName, $artworkUrlName], Artwork::class);
 
 		return $result[0] ?? throw new Exceptions\ArtworkNotFoundException();
 	}

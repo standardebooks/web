@@ -67,7 +67,7 @@ class ArtworkTag extends Tag{
 				SELECT *
 				from Tags
 				where Name = ?
-			', [$artworkTag->Name], 'ArtworkTag');
+			', [$artworkTag->Name], ArtworkTag::class);
 
 		if(isset($result[0])){
 			return $result[0];
