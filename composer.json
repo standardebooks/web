@@ -1,4 +1,5 @@
 {
+	"license": "CC0-1.0",
 	"require-dev": {
 		"phpstan/phpstan": "^1.7.14",
 		"thecodingmachine/phpstan-safe-rule": "^1.2.0"
@@ -13,7 +14,7 @@
 	"require": {
 		"thecodingmachine/safe": "^2.5.0",
 		"phpmailer/phpmailer": "^6.6.0",
-		"ramsey/uuid": "4.2.3",
+		"ramsey/uuid": "^4.7.6",
 		"gregwar/captcha": "^1.2.0",
 		"php-webdriver/webdriver": "^1.15.1",
 		"pear/http2": "^2.0.0",
