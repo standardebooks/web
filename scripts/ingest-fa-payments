@@ -52,14 +52,16 @@ $faItemsPerPage = 20; // How many items are on a full page of FA results?
 // If /tmp/last-fa-donation doesn't exist, get all transactions from today and create the file.
 
 function InsertTransaction($transactionId){
-	$exists = Db::QueryInt('SELECT count(*)
-				from
-				    ( select 1
-				     from Payments
-				     where TransactionId = ?
-				     union select 1
-				     from PendingPayments
-				     where TransactionId = ? ) x',
+	$exists = Db::QueryInt('SELECT exists(
+					select *
+					from
+					    ( select 1
+					     from Payments
+					     where TransactionId = ?
+					     union select 1
+					     from PendingPayments
+					     where TransactionId = ? ) x
+				)',
 			[$transactionId, $transactionId]);
 
 	if(!$exists){
