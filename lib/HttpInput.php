@@ -4,10 +4,11 @@ use function Safe\preg_match;
 
 class HttpInput{
 	/**
+	 * Check that the request's HTTP method is in a list of allowed HTTP methods.
 	 * @param ?array<HttpMethod> $allowedHttpMethods An array containing a list of allowed HTTP methods, or null if any valid HTTP method is allowed.
-	 * @param bool $throwException If true, in case of errors throw an exception; if false, in case of errors output HTTP 405 and exit the script immediately.
-	 * @throws Exceptions\InvalidHttpMethodException If the HTTP method is not recognized.
-	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is not in the list of allowed methods.
+	 * @param bool $throwException If the request HTTP method isn't allowed, then throw an exception; otherwise, output HTTP 405 and exit the script immediately.
+	 * @throws Exceptions\InvalidHttpMethodException If the HTTP method is not recognized and `$throwException` is `true`.
+	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is not in the list of allowed methods and `$throwException` is `true`.
 	 */
 	public static function ValidateRequestMethod(?array $allowedHttpMethods = null, bool $throwException = false): HttpMethod{
 		try{
@@ -46,7 +47,10 @@ class HttpInput{
 		return $requestMethod;
 	}
 
-	public static function GetMaxPostSize(): int{ // bytes
+	/**
+	 * @return int The maximum size for an HTTP POST request, in bytes
+	 */
+	public static function GetMaxPostSize(): int{
 		$post_max_size = ini_get('post_max_size');
 		$unit = substr($post_max_size, -1);
 		$size = (int) substr($post_max_size, 0, -1);
@@ -69,7 +73,7 @@ class HttpInput{
 		return false;
 	}
 
-	public static function RequestType(): HttpRequestType{
+	public static function GetRequestType(): HttpRequestType{
 		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? HttpRequestType::Web : HttpRequestType::Rest;
 	}
 

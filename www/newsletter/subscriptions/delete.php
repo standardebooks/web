@@ -3,7 +3,7 @@ try{
 	// We may use GET if we're called from an unsubscribe link in an email
 	HttpInput::ValidateRequestMethod([HttpMethod::Get, HttpMethod::Delete]);
 
-	$requestType = HttpInput::RequestType();
+	$requestType = HttpInput::GetRequestType();
 
 	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
 	$subscription->Delete();

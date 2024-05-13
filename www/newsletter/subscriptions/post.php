@@ -7,7 +7,7 @@ try{
 
 	session_start();
 
-	$requestType = HttpInput::RequestType();
+	$requestType = HttpInput::GetRequestType();
 
 	$subscription = new NewsletterSubscription();
 

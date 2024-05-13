@@ -6,7 +6,7 @@ try{
 
 	session_start();
 
-	$requestType = HttpInput::RequestType();
+	$requestType = HttpInput::GetRequestType();
 
 	$vote = new PollVote();
 
