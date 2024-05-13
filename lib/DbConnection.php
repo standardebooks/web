@@ -4,7 +4,7 @@ use function Safe\preg_match;
 use function Safe\posix_getpwuid;
 
 class DbConnection{
-	private ?\PDO $_link = null;
+	private \PDO $_link;
 	public int $QueryCount = 0;
 	public int $LastQueryAffectedRowCount = 0;
 
@@ -62,50 +62,11 @@ class DbConnection{
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
 	 */
 	public function Query(string $sql, array $params = [], string $class = 'stdClass'): array{
-		if($this->_link === null){
-			return [];
-		}
-
+		$handle = $this->PreparePdoHandle($sql, $params);
 		$result = [];
-
-		try{
-			$handle = $this->_link->prepare($sql);
-		}
-		catch(\PDOException $ex){
-			throw $this->CreateDetailedException($ex, $sql, $params);
-		}
-
-		$name = 0;
-		foreach($params as $parameter){
-			$name++;
-
-			if($parameter instanceof DateTimeInterface){
-				$parameter = $parameter->format('Y-m-d H:i:s');
-			}
-			elseif(is_bool($parameter)){
-				// MySQL strict mode requires 0 or 1 instead of true or false
-				// Can't use PDO::PARAM_BOOL, it just doesn't work
-				if($parameter){
-					$parameter = 1;
-				}
-				else{
-					$parameter = 0;
-				}
-			}
-			elseif($parameter instanceof BackedEnum){
-				$parameter = $parameter->value;
-			}
-
-			if(is_int($parameter)){
-				$handle->bindValue($name, $parameter, PDO::PARAM_INT);
-			}
-			else{
-				$handle->bindValue($name, $parameter);
-			}
-		}
-
 		$deadlockRetries = 0;
 		$done = false;
+
 		while(!$done){
 			try{
 				$result = $this->ExecuteQuery($handle, $class);
@@ -133,9 +94,123 @@ class DbConnection{
 	}
 
 	/**
+	 * Execute a select query that returns a join against multiple tables.
+	 *
+	 * For example, `select * from Users inner join Posts using (UserId)`.
+	 *
+	 * The result is an array of rows. Each row is an array of tables, with each table containing its columns and values. For example,
+	 *
+	 * ```
+	 * [
+	 *	[
+	 *		'Users' => [
+	 *			'UserId' => 111,
+	 *			'Name' => 'Alice'
+	 *		],
+	 *		'Posts' => [
+	 *			'PostId' => 222,
+	 *			'Title' => 'Lorem Ipsum'
+	 *		],
+	 *	],
+	 *	[
+	 *		'Users' => [
+	 *			'UserId' => 333,
+	 *			'Name' => 'Bob'
+	 *		],
+	 *		'Posts' => [
+	 *			'PostId' => 444,
+	 *			'Title' => 'Dolor sit'
+	 *		]
+	 *	]
+	 *  ]
+	 * ```
+	 *
+	 * **Important note:** When joining against two tables, SQL only returns one column for the join key (typically an ID value). Therefore, if both objects require an ID, the filler method must explicitly assign the ID to one of the two objects that's missing it. The above example shows this behavior: note how we join on UserId, but only the Users result has the UserId column, even though the Posts table also has a UserId column.
+	 *
+	 * @template T
+	 * @param string $sql The SQL query to execute.
+	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
+	 * @param class-string<T> $class The class to instantiate for each row, or null to return an array of rows.
+	 * @return array<T>|array<array<mixed>> Returns an array of $class if $class is not null, otherwise returns an array of rows.
+	 * @throws Exceptions\AppException If a class was specified but the class doesn't have a FromMultiTableRow method.
+	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
+	 */
+	public function MultiTableSelect(string $sql, array $params = [], ?string $class = null): array{
+		if($class !== null && !method_exists($class, 'FromMultiTableRow')){
+			throw new Exceptions\AppException('Multi table select attempted, but class ' . $class . ' doesn\'t have a FromMultiTableRow() method.');
+		}
+
+		$handle = $this->PreparePdoHandle($sql, $params);
+		$result = [];
+		$deadlockRetries = 0;
+		$done = false;
+
+		while(!$done){
+			try{
+				$result = $this->ExecuteMultiTableSelect($handle, $class);
+				$done = true;
+			}
+			catch(\PDOException $ex){
+				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
+					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
+					$deadlockRetries++;
+					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up.  Start at .5 seconds
+				}
+				else{
+					throw $this->CreateDetailedException($ex, $sql, $params);
+				}
+			}
+		}
+
+		$this->QueryCount++;
+
+		return $result;
+	}
+
+	/**
+	 * @param string $sql The SQL query to execute.
+	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
+	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
+	 */
+	private function PreparePdoHandle(string $sql, array $params): \PDOStatement{
+		try{
+			$handle = $this->_link->prepare($sql);
+		}
+		catch(\PDOException $ex){
+			throw $this->CreateDetailedException($ex, $sql, $params);
+		}
+
+		$name = 0;
+		foreach($params as $parameter){
+			$name++;
+
+			if($parameter instanceof DateTimeInterface){
+				$handle->bindValue($name, $parameter->format('Y-m-d H:i:s'));
+			}
+			elseif(is_bool($parameter)){
+				// MySQL strict mode requires 0 or 1 instead of true or false
+				// Can't use PDO::PARAM_BOOL, it just doesn't work
+
+				$handle->bindValue($name, $parameter ? 1 : 0, PDO::PARAM_INT);
+			}
+			elseif($parameter instanceof BackedEnum){
+				$handle->bindValue($name, $parameter->value);
+			}
+			elseif(is_int($parameter)){
+				$handle->bindValue($name, $parameter, PDO::PARAM_INT);
+			}
+			else{
+				$handle->bindValue($name, $parameter);
+			}
+		}
+
+		return $handle;
+	}
+
+	/**
 	 * @template T
 	 * @param class-string<T> $class
-	 * @return Array<T>
+	 * @return array<T>
 	 * @throws \PDOException When an error occurs during execution of the query.
 	 */
 	private function ExecuteQuery(\PDOStatement $handle, string $class = 'stdClass'): array{
@@ -175,68 +250,13 @@ class DbConnection{
 							continue;
 						}
 
-						if($row[$i] === null){
-							$object->{$metadata[$i]['name']} = null;
+						if($useObjectFillMethod){
+							// Don't specify a class so that we don't perform an enum check at this point.
+							// We'll check for enum types in the class's FromRow() method.
+							$object->{$metadata[$i]['name']} = $this->GetColumnValue($row[$i], $metadata[$i]);
 						}
 						else{
-							switch($metadata[$i]['native_type'] ?? null){
-								case 'DATETIME':
-								case 'TIMESTAMP':
-									/** @throws void */
-									$object->{$metadata[$i]['name']} = new DateTimeImmutable($row[$i], new DateTimeZone('UTC'));
-									break;
-
-								case 'LONG':
-								case 'TINY':
-								case 'SHORT':
-								case 'INT24':
-								case 'LONGLONG':
-									$object->{$metadata[$i]['name']} = intval($row[$i]);
-									break;
-
-								case 'FLOAT':
-								case 'DOUBLE':
-								case 'NEWDECIMAL':
-									$object->{$metadata[$i]['name']} = floatval($row[$i]);
-									break;
-
-								case 'STRING':
-									// We don't check the type VAR_STRING here because in MariaDB, enums are always of type STRING.
-									// Since this check is slow, we don't want to run it unnecessarily.
-									if($class == 'stdClass'){
-										$object->{$metadata[$i]['name']} = $row[$i];
-									}
-									else{
-										// If the column is a string and we're filling a typed object, check if the object property is a backed enum. If so, generate it using from(). Otherwise, fill it with a string.
-										// Note: Using ReflectionProperty in this way is pretty slow. Maybe we'll think of a
-										// better way to automatically fill enum types later.
-										try{
-											$rp = new ReflectionProperty($class, $metadata[$i]['name']);
-											/** @var ?ReflectionNamedType $property */
-											$property = $rp->getType();
-											if($property !== null){
-												$type = $property->getName();
-												if(is_a($type, 'BackedEnum', true)){
-													$object->{$metadata[$i]['name']} = $type::from($row[$i]);
-												}
-												else{
-													$object->{$metadata[$i]['name']} = $row[$i];
-												}
-											}
-											else{
-												$object->{$metadata[$i]['name']} = $row[$i];
-											}
-										}
-										catch(\Exception){
-											$object->{$metadata[$i]['name']} = $row[$i];
-										}
-									}
-									break;
-
-								default:
-									$object->{$metadata[$i]['name']} = $row[$i];
-									break;
-							}
+							$object->{$metadata[$i]['name']} = $this->GetColumnValue($row[$i], $metadata[$i], $class);
 						}
 					}
 
@@ -261,11 +281,126 @@ class DbConnection{
 		return $result;
 	}
 
-	public function GetLastInsertedId(): ?int{
-		if($this->_link === null){
+	/**
+	 * @template T
+	 * @param ?class-string<T> $class
+	 * @return array<T>|array<array<mixed>>
+	 * @throws \PDOException When an error occurs during execution of the query.
+	 */
+	private function ExecuteMultiTableSelect(\PDOStatement $handle, ?string $class): array{
+		$handle->execute();
+
+		$this->LastQueryAffectedRowCount = $handle->rowCount();
+
+		$result = [];
+		do{
+			$columnCount = $handle->columnCount();
+
+			if($columnCount == 0){
+				continue;
+			}
+
+			$metadata = [];
+
+			for($i = 0; $i < $columnCount; $i++){
+				$metadata[$i] = $handle->getColumnMeta($i);
+			}
+
+			$rows = $handle->fetchAll(\PDO::FETCH_NUM);
+
+			foreach($rows as $row){
+				$resultRow = [];
+				for($i = 0; $i < $handle->columnCount(); $i++){
+					if($metadata[$i] === false || !isset($metadata[$i]['table'])){
+						continue;
+					}
+
+					// Don't specify a class, so that we skip enum evaluation. We'll evaluate enums in the class's FromMultiTable function, if any.
+					$resultRow[$metadata[$i]['table']][$metadata[$i]['name']] = $this->GetColumnValue($row[$i], $metadata[$i]);
+				}
+
+				if($class === null){
+					$result[] = $resultRow;
+				}
+				else{
+					$result[] = $class::FromMultiTableRow($resultRow);
+				}
+			}
+		}
+		while($handle->nextRowset());
+
+		return $result;
+	}
+
+	/**
+	 * @param array<mixed> $metadata
+	 */
+	private function GetColumnValue(mixed $column, array $metadata, string $class = 'stdClass'): mixed{
+		if($column === null){
 			return null;
 		}
+		else{
+			switch($metadata['native_type'] ?? null){
+				case 'DATETIME':
+				case 'TIMESTAMP':
+					/** @throws void */
+					/** @var string $column */
+					return new DateTimeImmutable($column);
 
+				case 'LONG':
+				case 'TINY':
+				case 'SHORT':
+				case 'INT24':
+				case 'LONGLONG':
+					/** @var int $column */
+					return intval($column);
+
+				case 'FLOAT':
+				case 'DOUBLE':
+				case 'NEWDECIMAL':
+					/** @var string $column */
+					return floatval($column);
+
+				case 'STRING':
+					// We don't check the type VAR_STRING here because in MariaDB, enums are always of type STRING.
+					// Since this check is slow, we don't want to run it unnecessarily.
+					if($class == 'stdClass'){
+						return $column;
+					}
+					else{
+						// If the column is a string and we're filling a typed object, check if the object property is a backed enum. If so, generate it using from(). Otherwise, fill it with a string.
+						// Note: Using ReflectionProperty in this way is pretty slow. Maybe we'll think of a
+						// better way to automatically fill enum types later.
+						try{
+							$rp = new ReflectionProperty($class, $metadata['name']);
+							/** @var ?ReflectionNamedType $property */
+							$property = $rp->getType();
+							if($property !== null){
+								$type = $property->getName();
+								if(is_a($type, 'BackedEnum', true)){
+									/** @var string $column */
+									return $type::from($column);
+								}
+								else{
+									return $column;
+								}
+							}
+							else{
+								return $column;
+							}
+						}
+						catch(\Exception){
+							return $column;
+						}
+					}
+
+				default:
+					return $column;
+			}
+		}
+	}
+
+	public function GetLastInsertedId(): ?int{
 		$id = $this->_link->lastInsertId();
 
 		if($id === false){
@@ -283,10 +418,10 @@ class DbConnection{
 	}
 
 	/**
-	 * @param \PDOException $ex The exception to create details from.
-	 * @param string $sql The prepared SQL that caused the exception.
-	 * @param array<mixed> $params The parameters passed to the prepared SQL.
-	 */
+	* @param \PDOException $ex The exception to create details from.
+	* @param string $sql The prepared SQL that caused the exception.
+	* @param array<mixed> $params The parameters passed to the prepared SQL.
+	*/
 	private function CreateDetailedException(\PDOException $ex, string $sql, array $params): Exceptions\DatabaseQueryException{
 		// Throw a custom exception that includes more information on the query and paramaters
 		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params));

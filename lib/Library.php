@@ -175,7 +175,7 @@ class Library{
 	*/
 	public static function FilterArtwork(string $query = null, string $status = null, ArtworkSort $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		// Returns an array of:
-		// ['artworks'] => Array<Artwork>,
+		// ['artworks'] => array<Artwork>,
 		// ['artworksCount'] => int
 		//
 		// $status is either the string value of an ArtworkStatus enum, or one of these special statuses:

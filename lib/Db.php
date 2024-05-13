@@ -13,7 +13,7 @@ class Db{
 	 * @param string $query
 	 * @param array<mixed> $args
 	 * @param class-string<T> $class
-	 * @return Array<T>
+	 * @return array<T>
 	 */
 	public static function Query(string $query, array $args = [], string $class = 'stdClass'): array{
 		return $GLOBALS['DbConnection']->Query($query, $args, $class);
