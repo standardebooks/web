@@ -2,6 +2,9 @@
 use function Safe\preg_replace;
 
 class Formatter{
+	/**
+	 * Remove diacritics from a string.
+	 */
 	public static function RemoveDiacritics(string $text): string{
 		if(!isset($GLOBALS['transliterator'])){
 			$GLOBALS['transliterator'] = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
@@ -10,6 +13,21 @@ class Formatter{
 		return $GLOBALS['transliterator']->transliterate($text);
 	}
 
+	/**
+	 * Escape a string so that it's appropriate to use in a URL slug.
+	 *
+	 * This does the following to the string:
+	 *
+	 * 1. Removes any diacritics.
+	 *
+	 * 2. Removes apostrophes.
+	 *
+	 * 3. Converts the string to lowercase.
+	 *
+	 * 4. Converts any non-digit, non-letter character to a space.
+	 *
+	 * 5. Converts any sequence of one or more spaces to a single dash.
+	 */
 	public static function MakeUrlSafe(string $text): string{
 		// Remove accent characters
 		$text = self::RemoveDiacritics($text);
@@ -32,24 +50,38 @@ class Formatter{
 		return $text;
 	}
 
+	/**
+	 * Escape a string so that it's safe to output directly into an HTML document.
+	 */
 	public static function EscapeHtml(?string $text): string{
 		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES, 'utf-8');
 	}
 
+	/**
+	 * Escape a strin so that it's safe to output directly into an XML document. Note that this is **not the same** as escaping for HTML. Any query strings in URLs should already be URL-encoded, for example `?foo=bar+baz&x=y`.
+	 */
 	public static function EscapeXml(?string $text): string{
-		// Accepts a query string that has already been url-encoded. For example,
-		// ?foo=bar+baz&x=y
 		return htmlspecialchars(trim($text ?? ''), ENT_QUOTES|ENT_XML1, 'utf-8');
 	}
 
-	public static function EscapeMarkdown(?string $text): string{
-		$parsedown = new Parsedown();
-		$parsedown->setSafeMode(true);
-		return $parsedown->text($text);
+	/**
+	 * Convert a string of Markdown into HTML.
+	 */
+	public static function MarkdownToHtml(?string $text): string{
+		if(!isset($GLOBALS['markdown-parser'])){
+			$GLOBALS['markdown-parser'] = new Parsedown();
+			$GLOBALS['markdown-parser']->setSafeMode(true);
+		}
+
+		return $GLOBALS['markdown-parser']->text($text);
 	}
 
+	/**
+	 * Given a number of bytes, return a string containing a human-readable filesize.
+	 *
+	 * @see https://stackoverflow.com/a/5501447
+	 */
 	public static function ToFileSize(?int $bytes): string{
-		// See https://stackoverflow.com/a/5501447
 		$output = '';
 
 		if($bytes >= 1073741824){

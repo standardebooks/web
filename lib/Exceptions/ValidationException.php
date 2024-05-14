@@ -3,7 +3,7 @@ namespace Exceptions;
 
 class ValidationException extends AppException{
 	/** @var array<\Exception> $Exceptions */
-	public $Exceptions = [];
+	public array $Exceptions = [];
 	public bool $HasExceptions = false;
 	public bool $IsFatal = false;
 
@@ -19,8 +19,7 @@ class ValidationException extends AppException{
 
 	public function Add(\Exception $exception, bool $isFatal = false): void{
 		/** @var ValidationException $exception */
-		if(is_a($exception, static::class)){
-			/** @var ValidationException $childException */
+		if($exception instanceof static){
 			foreach($exception->Exceptions as $childException){
 				$this->Add($childException);
 			}
@@ -29,6 +28,8 @@ class ValidationException extends AppException{
 			$this->Exceptions[] = $exception;
 		}
 
+		// Don't set $this->IsFatal directly, so that a non-fatal exception
+		// added later won't overwrite the fatality of a previous exception.
 		if($isFatal){
 			$this->IsFatal = true;
 		}
@@ -44,11 +45,5 @@ class ValidationException extends AppException{
 		}
 
 		return false;
-	}
-
-	public function Clear(): void{
-		unset($this->Exceptions);
-		$this->Exceptions = [];
-		$this->HasExceptions = false;
 	}
 }

@@ -8,6 +8,15 @@ class DbConnection{
 	public int $QueryCount = 0;
 	public int $LastQueryAffectedRowCount = 0;
 
+	/**
+	 * Create a new database connection.
+	 *
+	 * @param ?string $defaultDatabase The default database to connect to, or `null` not to define one.
+	 * @param string $host The database hostname.
+	 * @param ?string $user The user to connect to, or `null` to log in as the current Unix user via a local socket.
+	 * @param string $password The password to use, or an empty string if no password is required.
+	 * @param bool $forceUtf8 If **TRUE**, issue `set names utf8mb4 collate utf8mb4_unicode_ci` when starting the connection.
+	 */
 	public function __construct(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string $password = '', bool $forceUtf8 = true){
 		if($user === null){
 			// Get the user running the script for local socket login
@@ -53,11 +62,15 @@ class DbConnection{
 
 	/**
 	 * Execute a generic query in the database.
+	 *
 	 * @template T
+	 *
 	 * @param string $sql The SQL query to execute.
 	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
 	 * @param class-string<T> $class The type of object to return in the return array.
-	 * @return Array<T>
+	 *
+	 * @return Array<T> An array of objects of type `$class`, or `stdClass` if `$class` is `null`.
+	 *
 	 * @throws Exceptions\DuplicateDatabaseKeyException When a unique key constraint has been violated.
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
 	 */
@@ -128,11 +141,14 @@ class DbConnection{
 	 * **Important note:** When joining against two tables, SQL only returns one column for the join key (typically an ID value). Therefore, if both objects require an ID, the filler method must explicitly assign the ID to one of the two objects that's missing it. The above example shows this behavior: note how we join on UserId, but only the Users result has the UserId column, even though the Posts table also has a UserId column.
 	 *
 	 * @template T
+	 *
 	 * @param string $sql The SQL query to execute.
 	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
-	 * @param class-string<T> $class The class to instantiate for each row, or null to return an array of rows.
-	 * @return array<T>|array<array<mixed>> Returns an array of $class if $class is not null, otherwise returns an array of rows.
-	 * @throws Exceptions\AppException If a class was specified but the class doesn't have a FromMultiTableRow method.
+	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
+	 *
+	 * @return array<T>|array<array<mixed>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
+	 *
+	 * @throws Exceptions\AppException If a class was specified but the class doesn't have a `FromMultiTableRow` method.
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
 	 */
 	public function MultiTableSelect(string $sql, array $params = [], ?string $class = null): array{
@@ -168,8 +184,13 @@ class DbConnection{
 	}
 
 	/**
+	 * Given a string of SQL, prepare a PDO handle by binding the parameters to the query.
+	 *
 	 * @param string $sql The SQL query to execute.
 	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
+	 *
+	 * @return \PdoStatement The `\PDOStatement` to be used to execute the query.
+	 *
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
 	 */
 	private function PreparePdoHandle(string $sql, array $params): \PDOStatement{
@@ -208,9 +229,15 @@ class DbConnection{
 	}
 
 	/**
+	 * Execute a regular query and return the result as an array of objects.
+	 *
 	 * @template T
-	 * @param class-string<T> $class
-	 * @return array<T>
+	 *
+	 * @param \PdoStatement $handle The PDO handle to execute.
+	 * @param class-string<T> $class The type of object to return in the return array.
+	 *
+	 * @return array<T> An array of objects of type `$class`, or `stdClass` if `$class` is `null`.
+	 *
 	 * @throws \PDOException When an error occurs during execution of the query.
 	 */
 	private function ExecuteQuery(\PDOStatement $handle, string $class = 'stdClass'): array{
@@ -282,9 +309,15 @@ class DbConnection{
 	}
 
 	/**
+	 * Execute a multi-table select query.
+	 *
 	 * @template T
-	 * @param ?class-string<T> $class
-	 * @return array<T>|array<array<mixed>>
+	 *
+	 * @param \PdoStatement $handle The PDO handle to execute.
+	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
+	 *
+	 * @return array<T>|array<array<mixed>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
+	 *
 	 * @throws \PDOException When an error occurs during execution of the query.
 	 */
 	private function ExecuteMultiTableSelect(\PDOStatement $handle, ?string $class): array{
@@ -333,7 +366,13 @@ class DbConnection{
 	}
 
 	/**
-	 * @param array<mixed> $metadata
+	 * Given a column value and its database driver metadata, return a strongly-typed value.
+	 *
+	 * @param mixed $column The value of the column, most likely either a string or integer.
+	 * @param array<mixed> $metadata An array of metadata returned from the database driver.
+	 * @param string $class The type of object that this return value will be part of.
+	 *
+	 * @return mixed The strongly-typed column value.
 	 */
 	private function GetColumnValue(mixed $column, array $metadata, string $class = 'stdClass'): mixed{
 		if($column === null){
@@ -402,6 +441,9 @@ class DbConnection{
 
 	/**
 	 * Get the ID of the last row that was inserted during this database connection.
+	 *
+	 * @return int The ID of the last row that was inserted during this database connection.
+	 *
 	 * @throws Exceptions\DatabaseQueryException When the last inserted ID can't be determined.
 	 */
 	public function GetLastInsertedId(): int{
@@ -421,10 +463,14 @@ class DbConnection{
 	}
 
 	/**
-	* @param \PDOException $ex The exception to create details from.
-	* @param string $sql The prepared SQL that caused the exception.
-	* @param array<mixed> $params The parameters passed to the prepared SQL.
-	*/
+	 * Create a detailed `Exceptions\DatabaseQueryException` from a `\PDOException`.
+	 *
+	 * @param \PDOException $ex The exception to create details from.
+	 * @param string $sql The prepared SQL that caused the exception.
+	 * @param array<mixed> $params The parameters passed to the prepared SQL.
+	 *
+	 * @return Exceptions\DatabaseQueryException A more detailed exception to be thrown further up the stack.
+	 */
 	private function CreateDetailedException(\PDOException $ex, string $sql, array $params): Exceptions\DatabaseQueryException{
 		// Throw a custom exception that includes more information on the query and paramaters
 		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params));

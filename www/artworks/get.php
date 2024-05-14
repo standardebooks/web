@@ -13,9 +13,9 @@ try{
 
 	// If the artwork is not approved, and we're not an admin or the submitter when they can edit, don't show it.
 	if(
-		($GLOBALS['User'] === null && $artwork->Status != ArtworkStatus::Approved)
+		($GLOBALS['User'] === null && $artwork->Status != ArtworkStatusType::Approved)
 		||
-		($GLOBALS['User'] !== null && $artwork->Status != ArtworkStatus::Approved && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isReviewerView)
+		($GLOBALS['User'] !== null && $artwork->Status != ArtworkStatusType::Approved && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isReviewerView)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
@@ -135,12 +135,12 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<? if($artwork->Exception !== null){ ?>
 			<h3>Public domain status exception reason</h3>
-			<?= Formatter::EscapeMarkdown($artwork->Exception) ?>
+			<?= Formatter::MarkdownToHtml($artwork->Exception) ?>
 		<? } ?>
 
 		<? if($artwork->Notes !== null){ ?>
 			<h2>Special notes</h2>
-			<?= Formatter::EscapeMarkdown($artwork->Notes) ?>
+			<?= Formatter::MarkdownToHtml($artwork->Notes) ?>
 		<? } ?>
 
 		<? if($artwork->CanBeEditedBy($GLOBALS['User'] ?? null)){ ?>
@@ -161,9 +161,9 @@ catch(Exceptions\InvalidPermissionsException){
 						<span>Artwork approval status</span>
 						<span>
 							<select name="artwork-status">
-								<option value="<?= ArtworkStatus::Unverified->value ?>"<? if($artwork->Status == ArtworkStatus::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
-								<option value="<?= ArtworkStatus::Declined->value ?>"<? if($artwork->Status == ArtworkStatus::Declined){ ?> selected="selected"<? } ?>>Declined</option>
-								<option value="<?= ArtworkStatus::Approved->value ?>"<? if($artwork->Status == ArtworkStatus::Approved){ ?> selected="selected"<? } ?>>Approved</option>
+								<option value="<?= ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+								<option value="<?= ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+								<option value="<?= ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
 							</select>
 						</span>
 					</label>

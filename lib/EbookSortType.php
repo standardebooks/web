@@ -1,5 +1,5 @@
 <?
-enum EbookSort: string{
+enum EbookSortType: string{
 	case Newest = 'newest';
 	case AuthorAlpha = 'author-alpha';
 	case ReadingEase = 'reading-ease';

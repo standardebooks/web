@@ -190,9 +190,9 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			<span>Artwork approval status</span>
 			<span>
 				<select name="artwork-status">
-					<option value="<?= ArtworkStatus::Unverified->value ?>"<? if($artwork->Status == ArtworkStatus::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
-					<option value="<?= ArtworkStatus::Declined->value ?>"<? if($artwork->Status == ArtworkStatus::Declined){ ?> selected="selected"<? } ?>>Declined</option>
-					<option value="<?= ArtworkStatus::Approved->value ?>"<? if($artwork->Status == ArtworkStatus::Approved){ ?> selected="selected"<? } ?>>Approved</option>
+					<option value="<?= ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+					<option value="<?= ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+					<option value="<?= ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
 				</select>
 			</span>
 		</label>

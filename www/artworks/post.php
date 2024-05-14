@@ -23,12 +23,12 @@ try{
 
 		// Only approved reviewers can set the status to anything but unverified when uploading.
 		// The submitter cannot review their own submissions unless they have special permission.
-		if($artwork->Status !== ArtworkStatus::Unverified && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
+		if($artwork->Status !== ArtworkStatusType::Unverified && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
 		// If the artwork is approved, set the reviewer
-		if($artwork->Status !== ArtworkStatus::Unverified){
+		if($artwork->Status !== ArtworkStatusType::Unverified){
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 		}
 
@@ -67,7 +67,7 @@ try{
 		$artwork->SubmitterUserId = $originalArtwork->SubmitterUserId;
 		$artwork->Status = $originalArtwork->Status; // Overwrite any value got from POST because we need permission to change the status
 
-		$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
+		$newStatus = ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 		if($newStatus !== null){
 			if($originalArtwork->Status != $newStatus && !$originalArtwork->CanStatusBeChangedBy($GLOBALS['User'])){
 				throw new Exceptions\InvalidPermissionsException();
@@ -108,7 +108,7 @@ try{
 
 		// We can PATCH the status, the ebook www filesystem path, or both.
 		if(isset($_POST['artwork-status'])){
-			$newStatus = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
+			$newStatus = ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 			if($newStatus !== null){
 				if($artwork->Status != $newStatus && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
 					throw new Exceptions\InvalidPermissionsException();

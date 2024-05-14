@@ -49,7 +49,7 @@ class Artwork{
 	public ?string $Exception = null;
 	public ?string $Notes = null;
 	public ?ImageMimeType $MimeType = null;
-	public ?ArtworkStatus $Status = null;
+	public ?ArtworkStatusType $Status = null;
 
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
@@ -287,7 +287,7 @@ class Artwork{
 			return true;
 		}
 
-		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
+		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatusType::Unverified || $this->Status == ArtworkStatusType::Declined)){
 			// Editors can edit an artwork, and submitters can edit their own artwork, if it's not yet approved.
 			return true;
 		}
@@ -305,7 +305,7 @@ class Artwork{
 			return true;
 		}
 
-		if($user->Benefits->CanReviewArtwork && $user->UserId != $this->SubmitterUserId && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
+		if($user->Benefits->CanReviewArtwork && $user->UserId != $this->SubmitterUserId && ($this->Status == ArtworkStatusType::Unverified || $this->Status == ArtworkStatusType::Declined)){
 			// Editors can change the status of artwork they did not submit themselves, and that is not yet approved.
 			return true;
 		}
@@ -883,7 +883,7 @@ class Artwork{
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
-		$artwork->Status = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? ArtworkStatus::Unverified;
+		$artwork->Status = ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? ArtworkStatusType::Unverified;
 		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
 		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');

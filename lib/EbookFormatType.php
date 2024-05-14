@@ -1,5 +1,5 @@
 <?
-enum EbookFormat: string{
+enum EbookFormatType: string{
 	case Epub = 'epub';
 	case Azw3 = 'azw3';
 	case Kepub = 'kepub';

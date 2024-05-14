@@ -12,18 +12,32 @@ mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 date_default_timezone_set('UTC');
 
-// Convenience alias of var_dump.
+/**
+ * Convenient shorthand alias of `var_dump()`.
+ *
+ * @param mixed $var The variable to dump.
+ */
 function vd(mixed $var): void{
 	var_dump($var);
 }
 
-// var_dump($var) then die().
+/**
+ * Convenient shorthand alias to `var_dump()`, then `die()`.
+ *
+ * @param mixed $var The variable to dump.
+ */
 function vdd(mixed $var): void{
 	var_dump($var);
 	die();
 }
 
-// var_dump into a string.
+/**
+ * `var_dump()` into a string.
+ *
+ * @param mixed $var The variable to dump into a string.
+ *
+ * @return string The output of `var_dump()`.
+ */
 function vds(mixed $var): string{
 	ob_start();
 	var_dump($var);

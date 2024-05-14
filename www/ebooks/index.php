@@ -7,7 +7,7 @@ $perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
 $query = HttpInput::Str(GET, 'query') ?? '';
 $tags = HttpInput::Array(GET, 'tags') ?? [];
 $view = ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '');
-$sort = EbookSort::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
+$sort = EbookSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $queryString = '';
 $queryStringParams = [];
 $queryStringWithoutPage = '';
@@ -27,7 +27,7 @@ try{
 		$view = null;
 	}
 
-	if($sort == EbookSort::Newest){
+	if($sort == EbookSortType::Newest){
 		$sort = null;
 	}
 

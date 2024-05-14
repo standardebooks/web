@@ -10,7 +10,7 @@ class Payment{
 	public int $PaymentId;
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
-	public PaymentProcessor $Processor;
+	public PaymentProcessorType $Processor;
 	public string $TransactionId;
 	public float $Amount;
 	public float $Fee;

@@ -19,12 +19,12 @@ class Library{
 	* @return array<Ebook>
 	* @throws Exceptions\AppException
 	*/
-	public static function FilterEbooks(string $query = null, array $tags = [], EbookSort $sort = null): array{
+	public static function FilterEbooks(string $query = null, array $tags = [], EbookSortType $sort = null): array{
 		$ebooks = Library::GetEbooks();
 		$matches = $ebooks;
 
 		if($sort === null){
-			$sort = EbookSort::Newest;
+			$sort = EbookSortType::Newest;
 		}
 
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
@@ -51,13 +51,13 @@ class Library{
 		}
 
 		switch($sort){
-			case EbookSort::AuthorAlpha:
+			case EbookSortType::AuthorAlpha:
 				usort($matches, function($a, $b){
 					return strcmp(mb_strtolower($a->Authors[0]->SortName), mb_strtolower($b->Authors[0]->SortName));
 				});
 				break;
 
-			case EbookSort::Newest:
+			case EbookSortType::Newest:
 				usort($matches, function($a, $b){
 					if($a->Created < $b->Created){
 						return -1;
@@ -73,7 +73,7 @@ class Library{
 				$matches = array_reverse($matches);
 				break;
 
-			case EbookSort::ReadingEase:
+			case EbookSortType::ReadingEase:
 				usort($matches, function($a, $b){
 					if($a->ReadingEase < $b->ReadingEase){
 						return -1;
@@ -89,7 +89,7 @@ class Library{
 				$matches = array_reverse($matches);
 				break;
 
-			case EbookSort::Length:
+			case EbookSortType::Length:
 				usort($matches, function($a, $b){
 					if($a->WordCount < $b->WordCount){
 						return -1;
@@ -170,10 +170,10 @@ class Library{
 	/**
 	* @param string $query
 	* @param string $status
-	* @param ArtworkSort $sort
+	* @param ArtworkSortType $sort
 	* @return array<string, array<Artwork>|int>
 	*/
-	public static function FilterArtwork(string $query = null, string $status = null, ArtworkSort $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+	public static function FilterArtwork(string $query = null, string $status = null, ArtworkSortType $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		// Returns an array of:
 		// ['artworks'] => array<Artwork>,
 		// ['artworksCount'] => int
@@ -191,29 +191,29 @@ class Library{
 
 		if($status === null || $status == 'all'){
 			$statusCondition = 'Status = ?';
-			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatusType::Approved->value;
 		}
 		elseif($status == 'all-admin'){
 			$statusCondition = 'true';
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
-			$params[] = ArtworkStatus::Approved->value;
-			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = ArtworkStatusType::Approved->value;
+			$params[] = ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
 			$statusCondition = 'Status = ? and SubmitterUserId = ?';
-			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		elseif($status == 'in-use'){
 			$statusCondition = 'Status = ? and EbookUrl is not null';
-			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatusType::Approved->value;
 		}
-		elseif($status == ArtworkStatus::Approved->value){
+		elseif($status == ArtworkStatusType::Approved->value){
 			$statusCondition = 'Status = ? and EbookUrl is null';
-			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatusType::Approved->value;
 		}
 		else{
 			$statusCondition = 'Status = ?';
@@ -221,10 +221,10 @@ class Library{
 		}
 
 		$orderBy = 'art.Created desc';
-		if($sort == ArtworkSort::ArtistAlpha){
+		if($sort == ArtworkSortType::ArtistAlpha){
 			$orderBy = 'a.Name';
 		}
-		elseif($sort == ArtworkSort::CompletedNewest){
+		elseif($sort == ArtworkSortType::CompletedNewest){
 			$orderBy = 'art.CompletedYear desc';
 		}
 
@@ -336,13 +336,13 @@ class Library{
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
-			$params[] = ArtworkStatus::Approved->value;
-			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = ArtworkStatusType::Approved->value;
+			$params[] = ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		else{
 			$statusCondition = 'Status = ?';
-			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatusType::Approved->value;
 		}
 
 		$params[] = $artistUrlName; // a.UrlName

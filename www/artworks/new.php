@@ -35,7 +35,7 @@ try{
 		$artwork->Artist = new Artist();
 
 		if($GLOBALS['User']->Benefits->CanReviewOwnArtwork){
-			$artwork->Status = ArtworkStatus::Approved;
+			$artwork->Status = ArtworkStatusType::Approved;
 		}
 	}
 }
