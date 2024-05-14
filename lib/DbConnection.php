@@ -400,21 +400,24 @@ class DbConnection{
 		}
 	}
 
-	public function GetLastInsertedId(): ?int{
-		$id = $this->_link->lastInsertId();
+	/**
+	 * Get the ID of the last row that was inserted during this database connection.
+	 * @throws Exceptions\DatabaseQueryException When the last inserted ID can't be determined.
+	 */
+	public function GetLastInsertedId(): int{
+		try{
+			$id = $this->_link->lastInsertId();
+		}
+		catch(\PDOException){
+			$id = false;
+		}
 
-		if($id === false){
-			return null;
+		if($id === false || $id == '0'){
+			throw new Exceptions\DatabaseQueryException('Couldn\'t get last insert ID.');
 		}
 		else{
-			$id = (int)$id;
+			return intval($id);
 		}
-
-		if($id == 0){
-			return null;
-		}
-
-		return $id;
 	}
 
 	/**
