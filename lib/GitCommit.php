@@ -6,9 +6,11 @@ class GitCommit{
 	public string $Message;
 	public string $Hash;
 
-	public function __construct(string $unixTimestamp, string $hash, string $message){
-		$this->Created = new DateTimeImmutable('@' . $unixTimestamp);
-		$this->Message = $message;
-		$this->Hash = $hash;
+	public static function FromLog(string $unixTimestamp, string $hash, string $message): GitCommit{
+		$instance = new GitCommit();
+		$instance->Created = new DateTimeImmutable('@' . $unixTimestamp);
+		$instance->Message = $message;
+		$instance->Hash = $hash;
+		return $instance;
 	}
 }

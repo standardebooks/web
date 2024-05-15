@@ -19,7 +19,7 @@ try{
 		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
 	}
 	catch(Safe\Exceptions\ApcuException){
-		$ebook = new Ebook($wwwFilesystemPath);
+		$ebook = Ebook::FromFilesystem($wwwFilesystemPath);
 	}
 
 	if($ebook === null){
