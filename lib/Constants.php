@@ -80,8 +80,8 @@ define('DONATION_ALERT_ON', DONATION_HOLIDAY_ALERT_ON || rand(1, 4) == 2);
 
 // Controls the progress bar donation dialog
 const DONATION_DRIVE_ON = true;
-const DONATION_DRIVE_START = 'December 11, 2023 00:00:00 America/New_York';
-const DONATION_DRIVE_END = 'January 7, 2024 23:59:00 America/New_York';
+const DONATION_DRIVE_START = 'May 20, 2024 00:00:00 America/New_York';
+const DONATION_DRIVE_END = 'June 3, 2024 23:59:00 America/New_York';
 
 // Controls the countdown donation dialog
 const DONATION_DRIVE_COUNTER_ON = false;
