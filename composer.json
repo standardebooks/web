@@ -3,9 +3,6 @@
 	"platform":{
 		"php": "8.1.2"
 	},
-	"config":{
-		"classmap-authoritative": true
-	},
 	"autoload-dev": {
 		"psr-4": {
 			"": "lib/"
