@@ -4,6 +4,7 @@ use function Safe\session_unset;
 session_start();
 
 $saved = HttpInput::Bool(SESSION, 'artwork-saved') ?? false;
+/** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 
 try{
@@ -33,6 +34,7 @@ try{
 		// because if the new status is 'approved' then it will hide the status form entirely,
 		// which will be confusing.
 		$oldStatus = $artwork->Status;
+		/** @var Artwork $artwork */
 		$artwork = $_SESSION['artwork'] ?? $artwork;
 		$artwork->Status = $oldStatus;
 
@@ -75,7 +77,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<tr>
 				<td>Artist</td>
 				<td>
-					<a href="<?= $artwork->Artist->Url ?>"><?= Formatter::EscapeHtml($artwork->Artist->Name) ?></a><? if(sizeof($artwork->Artist->AlternateNames) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?><? if($isAdminView){ ?> (#<?= $artwork->Artist->ArtistId ?>)<? } ?>
+					<a href="<?= $artwork->Artist->Url ?>"><?= Formatter::EscapeHtml($artwork->Artist->Name) ?></a><? if(sizeof($artwork->Artist->AlternateNames ?? []) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?><? if($isAdminView){ ?> (#<?= $artwork->Artist->ArtistId ?>)<? } ?>
 				</td>
 			</tr>
 			<tr>
@@ -126,7 +128,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<? if($artwork->PublicationYear !== null){ ?>
 			<h3>Page scans</h3>
 			<ul>
-				<li>Year book was published: <? if($artwork->PublicationYear !== null){ ?><?= $artwork->PublicationYear ?><? }else{ ?><i>Not provided</i><? } ?></li>
+				<li>Year book was published: <?= $artwork->PublicationYear ?></li>
 				<li>Page scan of book publication year: <? if($artwork->PublicationYearPageUrl !== null){ ?><a href="<?= Formatter::EscapeHtml($artwork->PublicationYearPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
 				<li>Page scan of rights statement: <? if($artwork->CopyrightPageUrl !== null){ ?><a href="<?= Formatter::EscapeHtml($artwork->CopyrightPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
 				<li>Page scan of artwork: <? if($artwork->ArtworkPageUrl !== null){ ?><a href="<?= Formatter::EscapeHtml($artwork->ArtworkPageUrl) ?>">Link</a><? }else{ ?><i>Not provided</i><? } ?></li>
@@ -143,20 +145,20 @@ catch(Exceptions\InvalidPermissionsException){
 			<?= Formatter::MarkdownToHtml($artwork->Notes) ?>
 		<? } ?>
 
-		<? if($artwork->CanBeEditedBy($GLOBALS['User'] ?? null)){ ?>
+		<? if($artwork->CanBeEditedBy($GLOBALS['User'])){ ?>
 			<h2>Edit artwork</h2>
 			<p>The editor or submitter may edit this artwork before it’s approved. Once it’s approved, it can no longer be edited.</p>
 			<p><a href="<?= $artwork->EditUrl ?>">Edit this artwork.</a></p>
 		<? } ?>
 
-		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User']) || $artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){ ?>
 			<h2>Editor options</h2>
-			<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+			<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'])){ ?>
 				<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers. Once an artwork is approved, it can no longer be edited.</p>
 			<? } ?>
 			<form method="post" action="<?= $artwork->Url ?>">
 				<input type="hidden" name="_method" value="PATCH" />
-				<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+				<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'])){ ?>
 					<label>
 						<span>Artwork approval status</span>
 						<span>
@@ -170,7 +172,7 @@ catch(Exceptions\InvalidPermissionsException){
 				<? }else{ ?>
 					<input type="hidden" name="artwork-status" value="<?= Formatter::EscapeHtml($artwork->Status->value ?? '') ?>" />
 				<? } ?>
-				<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+				<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){ ?>
 					<label>
 						<span>In use by</span>
 						<span>The full S.E. ebook URL. If not in use, leave this blank.</span>

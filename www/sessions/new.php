@@ -10,7 +10,7 @@ if($GLOBALS['User'] !== null){
 
 $email = HttpInput::Str(SESSION, 'email');
 $redirect = HttpInput::Str(SESSION, 'redirect') ?? HttpInput::Str(GET, 'redirect');
-
+/** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 $passwordRequired = false;
 

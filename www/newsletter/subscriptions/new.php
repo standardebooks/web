@@ -3,7 +3,9 @@ use function Safe\session_unset;
 
 session_start();
 
+/** @var NewsletterSubscription $exception */
 $subscription = $_SESSION['subscription'] ?? new NewsletterSubscription();
+/** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 
 if($exception){
