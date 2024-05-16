@@ -168,12 +168,9 @@ class Library{
 	}
 
 	/**
-	* @param string $query
-	* @param string $status
-	* @param ArtworkSortType $sort
 	* @return array<string, array<Artwork>|int>
 	*/
-	public static function FilterArtwork(string $query = null, string $status = null, ArtworkSortType $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+	public static function FilterArtwork(?string $query = null, ?string $status = null, ?ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		// Returns an array of:
 		// ['artworks'] => array<Artwork>,
 		// ['artworksCount'] => int
@@ -229,7 +226,12 @@ class Library{
 		}
 
 		// Remove diacritics and non-alphanumeric characters, but preserve apostrophes
-		$query = trim(preg_replace('|[^a-zA-Z0-9\'’ ]|ius', ' ', Formatter::RemoveDiacritics($query ?? '')));
+		if($query !== null && $query != ''){
+			$query = trim(preg_replace('|[^a-zA-Z0-9\'’ ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+		}
+		else{
+			$query = '';
+		}
 
 		// We use replace() below because if there's multiple contributors separated by an underscore,
 		// the underscore won't count as word boundary and we won't get a match.
