@@ -300,6 +300,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2870">Washington Square</a> by Henry James</p><!--patron-->
 			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/31318">Geronimo’s Story of His Life</a> by Geronimo</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
