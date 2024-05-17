@@ -58,9 +58,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/369">The Outlaw of Torn</a> by Edgar Rice Burroughs</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/51">Anne of the Island</a> by L. M. Montgomery</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10041">The Rivet in Grandfather’s Neck</a> by James Branch Cabell</p>
 			</li>
 			<li>
@@ -493,7 +490,7 @@
 				<p><a href="https://archive.org/details/mabuse-norbert-jacques-1921-eng/page/8/mode/1up">Dr. Mabuse, the Gambler</a> by Norbert Jacques (transcription required)</p>
 			</li><!--patron-->
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Dark_Princess">Dark Princess</a> by W. E. B. Du Bois (PD 1928; transcription require)</p>
+				<p><a href="https://en.wikipedia.org/wiki/Dark_Princess">Dark Princess</a> by W. E. B. Du Bois (PD 1928; transcription required)</p>
 			</li>
 			<li>
 				<p><a href="https://archive.org/stream/in.ernet.dli.2015.210843/2015.210843.Tarka-The_djvu.txt">Tarka the Otter</a> by Henry Williamson (transcription required)</p>
