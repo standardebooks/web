@@ -15,30 +15,11 @@ function findObjectDifferences($fs, $db): array{
 	foreach($fsProperties as $fsProperty){
 		$dbProperty = $dbReflection->getProperty($fsProperty->getName());
 
-		// Make properties accessible for comparison
-/*
-		$fsProperty->setAccessible(true);
-		$dbProperty->setAccessible(true);
-*/
-
-		//print("\n" . $fsProperty->getName() . "\n");
-
 		try{
 			if($fsProperty->getName()[0] === '_'){
 				// Property starts with underscore, remove the underscore and call __get()
 				$propertyNameWithoutUnderscore = substr($fsProperty->getName(), 1);
-				//if(is_array($fsProperty->getValue($fs))){
 				if(is_array($fs->$propertyNameWithoutUnderscore) && is_array($db->$propertyNameWithoutUnderscore)){
-/*
-					print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' . "\n");
-					print("fs:\n");
-					print_r($fsProperty->getValue($fs));
-					print_r("db:\n");
-					print_r($dbProperty->getValue($db));
-					print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' . "\n");
-*/
-
-
 					for($i = 0; $i < count($fsProperty->getValue($fs)); $i++){
 						if(is_object($fsProperty->getValue($fs)[$i])){
 							$arrayDiff = findObjectDifferences($fsProperty->getValue($fs)[$i], $dbProperty->getValue($db)[$i]);
@@ -47,51 +28,19 @@ function findObjectDifferences($fs, $db): array{
 							}
 						}
 						else if($fsProperty->getValue($fs)[$i] != $dbProperty->getValue($db)[$i]){
-/*
-							print('>++++++++++++++++++++++++++++++++++++++++++++++++' . "\n");
-							print("Diff found on property: " . $fsProperty);
-							print('>++++++++++++++++++++++++++++++++++++++++++++++++' . "\n");
-*/
 							$diffs[$fsProperty->getName()] = ["fs" => $fsProperty->getValue($fs), "db" => $dbProperty->getValue($db)];
 						}
 					}
 				}
 				else if($fs->$propertyNameWithoutUnderscore != $db->$propertyNameWithoutUnderscore){
-		//print("\n" . $fsProperty->getName() . "\n");
-/*
-					print('++++++++++++++++++++++++++++++++++++++++++++++++' . "\n");
-					print("Diff found on property: " . $fsProperty);
-					print('++++++++++++++++++++++++++++++++++++++++++++++++' . "\n");
-*/
 					$diffs[$fsProperty->getName()] = ["fs" => $fsProperty->getValue($fs), "db" => $dbProperty->getValue($db)];
-				}
-				else{
-					//print_r('NO DIFF on :' . $fsProperty);
 				}
 			}
 			else if($fsProperty->getValue($fs) != $dbProperty->getValue($db)){
-		//print("\n" . $fsProperty->getName() . "\n");
-/*
-				print('================================================' . "\n");
-				print_r('Diff on :' . $fsProperty);
-				print('================================================' . "\n");
-*/
 				$diffs[$fsProperty->getName()] = ["fs" => $fsProperty->getValue($fs), "db" => $dbProperty->getValue($db)];
 			}
-/*
-			else{
-				//print_r('NO DIFF on :' . $fsProperty);
-			}
-*/
 		}
 		catch(Error $e){
-/*
-		print("\n" . $fsProperty->getName() . "\n");
-			print('------------------------------------------------' . "\n");
-			print_r('Missing property: ' . $fsProperty);
-			print_r('Error: ' . $e);
-			print('------------------------------------------------' . "\n");
-*/
 			$diffs[$fsProperty->getName()] = ['missing'];
 		}
 	}
