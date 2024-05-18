@@ -257,7 +257,7 @@ catch(Exceptions\EbookNotFoundException){
 							<li property="schema:encoding" typeof="schema:MediaObject">
 								<meta property="schema:encodingFormat" content="application/epub+zip"/>
 								<p>
-									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormat::AdvancedEpub->value ?>" class="epub"><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
+									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormatType::AdvancedEpub->value ?>" class="epub"><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
 									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormatType::AdvancedEpub->value ?>" class="epub"><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
 								</p>
 							</li>

@@ -3,6 +3,9 @@ class LocSubject{
 	public int $LocSubjectId;
 	public string $Name;
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
@@ -15,6 +18,9 @@ class LocSubject{
 		}
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Create(): void{
 		$this->Validate();
 
@@ -25,6 +31,9 @@ class LocSubject{
 		$this->LocSubjectId = Db::GetLastInsertedId();
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function GetByNameOrCreate(string $name): LocSubject{
 		$result = Db::Query('
 				SELECT *

@@ -18,8 +18,6 @@ use function Safe\shell_exec;
  * @property array<Collection> $Collections
  * @property array<EbookSource> $Sources
  * @property array<Contributor> $Authors
- * @property string $AuthorsHtml
- * @property string $AuthorsUrl
  * @property array<Contributor> $Illustrators
  * @property array<Contributor> $Translators
  * @property array<Contributor> $Contributors
@@ -35,6 +33,10 @@ use function Safe\shell_exec;
  * @property string $CoverImageAvifUrl
  * @property string $CoverImage2xUrl
  * @property string $CoverImage2xAvifUrl
+ * @property string $ReadingEaseDescription
+ * @property string $ReadingTime
+ * @property string $AuthorsHtml
+ * @property string $AuthorsUrl
  * @property string $ContributorsHtml
  * @property string $TitleWithCreditsHtml
  * @property string $TextUrl
@@ -49,7 +51,7 @@ class Ebook{
 	public ?int $EbookId = null;
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
-	public string $KindleCoverUrl;
+	public ?string $KindleCoverUrl = null;
 	public string $EpubUrl;
 	public string $AdvancedEpubUrl;
 	public string $KepubUrl;
@@ -69,25 +71,25 @@ class Ebook{
 	public DateTimeImmutable $EbookCreated;
 	public DateTimeImmutable $EbookUpdated;
 	public ?int $TextSinglePageByteCount = null;
-	/** @var array<GitCommit> $GitCommits */
+	/** @var array<GitCommit> $_GitCommits */
 	protected $_GitCommits = [];
-	/** @var array<EbookTag> $Tags */
+	/** @var array<EbookTag> $_Tags */
 	protected $_Tags = [];
-	/** @var array<string> $LocSubjects */
+	/** @var array<LocSubject> $_LocSubjects */
 	protected $_LocSubjects = [];
-	/** @var array<Collection> $Collections */
+	/** @var array<Collection> $_Collections */
 	protected $_Collections = [];
-	/** @var array<EbookSource> $Sources */
+	/** @var array<EbookSource> $_Sources */
 	protected $_Sources = [];
-	/** @var array<Contributor> $Authors */
+	/** @var array<Contributor> $_Authors */
 	protected $_Authors = [];
-	/** @var array<Contributor> $Illustrators */
+	/** @var array<Contributor> $_Illustrators */
 	protected $_Illustrators = [];
-	/** @var array<Contributor> $Translators */
+	/** @var array<Contributor> $_Translators */
 	protected $_Translators = [];
-	/** @var array<Contributor> $Contributors */
+	/** @var array<Contributor> $_Contributors */
 	protected $_Contributors = [];
-	/** @var ?array<string> $TocEntries */
+	/** @var ?array<string> $_TocEntries */
 	protected $_TocEntries = []; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 	protected ?string $_Url = null;
 	protected ?bool $_HasDownloads = null;
@@ -934,6 +936,10 @@ class Ebook{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws \Exception
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Validate(): void{
 		$now = new DateTimeImmutable();
 		$error = new Exceptions\ValidationException();
@@ -1093,6 +1099,9 @@ class Ebook{
 		}
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function CreateOrUpdate(): void{
 		try{
 			$existingEbook = Ebook::GetByIdentifier($this->Identifier);
@@ -1104,6 +1113,9 @@ class Ebook{
 		}
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	private function InsertTagStrings(): void{
 		$tags = [];
 		foreach($this->Tags as $ebookTag){
@@ -1112,6 +1124,9 @@ class Ebook{
 		$this->Tags = $tags;
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	private function InsertLocSubjectStrings(): void{
 		$subjects = [];
 		foreach($this->LocSubjects as $locSubject){
@@ -1443,6 +1458,10 @@ class Ebook{
 		return $result[0];
 	}
 
+	/**
+	 * @throws \Exception
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Create(): void{
 		$this->Validate();
 
@@ -1494,6 +1513,10 @@ class Ebook{
 		$this->InsertTocEntries();
 	}
 
+	/**
+	 * @throws \Exception
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Save(): void{
 		$this->Validate();
 
