@@ -1,21 +1,26 @@
 <?
+use Exceptions\UserExistsException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
 /**
- * @property Array<Payment> $Payments
- * @property ?bool $IsRegistered
+ * @property array<Payment> $Payments
+ * @property bool $IsRegistered
  * @property Benefits $Benefits
- * @property ?array<Payment> $_Payments
  */
-class User extends Accessor{
+class User{
+
+	use Traits\Accessor;
+
 	public int $UserId;
 	public ?string $Name = null;
 	public ?string $Email = null;
 	public DateTimeImmutable $Created;
 	public string $Uuid;
 	public ?string $PasswordHash = null;
+
 	protected ?bool $_IsRegistered = null;
+	/** @var ?array<Payment> $_Payments */
 	protected $_Payments = null;
 	protected ?Benefits $_Benefits = null;
 
@@ -33,7 +38,7 @@ class User extends Accessor{
 							from Payments
 							where UserId = ?
 							order by Created desc
-						', [$this->UserId], 'Payment');
+						', [$this->UserId], Payment::class);
 		}
 
 		return $this->_Payments;
@@ -45,7 +50,7 @@ class User extends Accessor{
 						SELECT *
 						from Benefits
 						where UserId = ?
-					', [$this->UserId], 'Benefits');
+					', [$this->UserId], Benefits::class);
 
 			if(sizeof($result) == 0){
 				$this->_Benefits = new Benefits();
@@ -75,9 +80,14 @@ class User extends Accessor{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws UserExistsException
+	 */
 	public function Create(?string $password = null): void{
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
+
+		/** @throws void */
 		$this->Created = new DateTimeImmutable();
 
 		$this->PasswordHash = null;
@@ -95,14 +105,8 @@ class User extends Accessor{
 					        ?)
 				', [$this->Email, $this->Name, $this->Uuid, $this->Created, $this->PasswordHash]);
 		}
-		catch(PDOException $ex){
-			if(($ex->errorInfo[1] ?? 0) == 1062){
-				// Duplicate unique key; email already in use
-				throw new Exceptions\UserExistsException();
-			}
-			else{
-				throw $ex;
-			}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\UserExistsException();
 		}
 
 		$this->UserId = Db::GetLastInsertedId();
@@ -113,6 +117,9 @@ class User extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\UserNotFoundException
+	 */
 	public static function Get(?int $userId): User{
 		if($userId === null){
 			throw new Exceptions\UserNotFoundException();
@@ -122,15 +129,14 @@ class User extends Accessor{
 					SELECT *
 					from Users
 					where UserId = ?
-				', [$userId], 'User');
+				', [$userId], User::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\UserNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\UserNotFoundException();
 	}
 
+	/**
+	 * @throws Exceptions\UserNotFoundException
+	 */
 	public static function GetByEmail(?string $email): User{
 		if($email === null){
 			throw new Exceptions\UserNotFoundException();
@@ -140,15 +146,15 @@ class User extends Accessor{
 					SELECT *
 					from Users
 					where Email = ?
-				', [$email], 'User');
+				', [$email], User::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\UserNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\UserNotFoundException();
 	}
 
+	/**
+	 * @throws Exceptions\UserNotFoundException
+	 * @throws Exceptions\PasswordRequiredException
+	 */
 	public static function GetIfRegistered(?string $identifier, ?string $password = null): User{
 		// We consider a user "registered" if they have a row in the Benefits table.
 		// Emails without that row may only be signed up for the newsletter and thus are not "registered" users
@@ -163,7 +169,7 @@ class User extends Accessor{
 					inner join Benefits using (UserId)
 					where u.Email = ?
 					    or u.Uuid = ?
-				', [$identifier, $identifier], 'User');
+				', [$identifier, $identifier], User::class);
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\UserNotFoundException();

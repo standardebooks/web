@@ -1,9 +1,14 @@
 <?
+
+use Exceptions\PollItemNotFoundException;
+
 /**
  * @property int $VoteCount
  * @property Poll $Poll
  */
-class PollItem extends Accessor{
+class PollItem{
+	use Traits\Accessor;
+
 	public int $PollItemId;
 	public int $PollId;
 	public string $Name;
@@ -34,6 +39,9 @@ class PollItem extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\PollItemNotFoundException
+	 */
 	public static function Get(?int $pollItemId): PollItem{
 		if($pollItemId === null ){
 			throw new Exceptions\PollItemNotFoundException();
@@ -43,12 +51,8 @@ class PollItem extends Accessor{
 					SELECT *
 					from PollItems
 					where PollItemId = ?
-				', [$pollItemId], 'PollItem');
+				', [$pollItemId], PollItem::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\PollItemNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PollItemNotFoundException();
 	}
 }

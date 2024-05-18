@@ -11,35 +11,32 @@ $downloadUrl = null;
 
 try{
 	$urlPath = HttpInput::Str(GET, 'url-path') ?? null;
-	$format = EbookFormat::tryFrom(HttpInput::Str(GET, 'format') ?? '') ?? EbookFormat::Epub;
+	$format = EbookFormatType::tryFrom(HttpInput::Str(GET, 'format') ?? '') ?? EbookFormatType::Epub;
 	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath;
 
 	// Do we have the ebook cached?
 	try{
+		/** @var Ebook $ebook */
 		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
 	}
 	catch(Safe\Exceptions\ApcuException){
 		$ebook = Ebook::FromFilesystem($wwwFilesystemPath);
 	}
 
-	if($ebook === null){
-		throw new Exceptions\InvalidFileException();
-	}
-
 	switch($format){
-		case EbookFormat::Kepub:
+		case EbookFormatType::Kepub:
 			$downloadUrl = $ebook->KepubUrl;
 			break;
 
-		case EbookFormat::Azw3:
+		case EbookFormatType::Azw3:
 			$downloadUrl = $ebook->Azw3Url;
 			break;
 
-		case EbookFormat::AdvancedEpub:
+		case EbookFormatType::AdvancedEpub:
 			$downloadUrl = $ebook->AdvancedEpubUrl;
 			break;
 
-		case EbookFormat::Epub:
+		case EbookFormatType::Epub:
 		default:
 			$downloadUrl = $ebook->EpubUrl;
 			break;

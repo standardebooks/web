@@ -3,7 +3,9 @@
  * @property string $Url
  * @property string $UrlName
  */
-class Tag extends Accessor{
+class Tag{
+	use Traits\Accessor;
+
 	public int $TagId;
 	public string $Name;
 	protected ?string $_UrlName = null;

@@ -4,7 +4,9 @@ use function Safe\preg_replace;
 /**
  * @property string $Url
  */
-class Collection extends Accessor{
+class Collection{
+	use Traits\Accessor;
+
 	public string $Name;
 	public string $UrlName;
 	public ?int $SequenceNumber = null;

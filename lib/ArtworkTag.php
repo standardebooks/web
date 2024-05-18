@@ -4,14 +4,6 @@ use function Safe\preg_replace;
 
 class ArtworkTag extends Tag{
 	// *******
-	// SETTERS
-	// *******
-
-	// protected function SetName($name): void{
-	// 	$this->_Name =
-	// }
-
-	// *******
 	// GETTERS
 	// *******
 
@@ -26,6 +18,10 @@ class ArtworkTag extends Tag{
 	// *******
 	// METHODS
 	// *******
+
+	/**
+	 * @throws Exceptions\InvalidArtworkTagException
+	 */
 	public function Validate(): void{
 		$error = new Exceptions\InvalidArtworkTagException($this->Name);
 
@@ -50,6 +46,9 @@ class ArtworkTag extends Tag{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\InvalidArtworkTagException
+	 */
 	public function Create(): void{
 		$this->Validate();
 
@@ -61,14 +60,14 @@ class ArtworkTag extends Tag{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtworkTagException
 	 */
 	public static function GetOrCreate(ArtworkTag $artworkTag): ArtworkTag{
 		$result = Db::Query('
 				SELECT *
 				from Tags
 				where Name = ?
-			', [$artworkTag->Name], 'ArtworkTag');
+			', [$artworkTag->Name], ArtworkTag::class);
 
 		if(isset($result[0])){
 			return $result[0];

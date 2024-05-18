@@ -2,7 +2,7 @@ CREATE TABLE `Payments` (
   `PaymentId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserId` int(10) unsigned DEFAULT NULL,
   `Created` datetime NOT NULL,
-  `ChannelId` tinyint(4) unsigned NOT NULL,
+  `Processor` enum('fractured_atlas') NOT NULL,
   `TransactionId` varchar(80) NOT NULL,
   `Amount` decimal(7,2) unsigned NOT NULL,
   `Fee` decimal(7,2) unsigned NOT NULL DEFAULT 0.00,

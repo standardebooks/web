@@ -1,5 +1,7 @@
 <?
+
 use Safe\DateTimeImmutable;
+
 use function Safe\file_get_contents;
 use function Safe\filesize;
 use function Safe\json_encode;
@@ -41,7 +43,9 @@ use function Safe\shell_exec;
  * @property string $TextSinglePageSizeUnit
  * @property string $IndexableText
  */
-class Ebook extends Accessor{
+class Ebook{
+	use Traits\Accessor;
+
 	public ?int $EbookId = null;
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
@@ -65,16 +69,26 @@ class Ebook extends Accessor{
 	public DateTimeImmutable $EbookCreated;
 	public DateTimeImmutable $EbookUpdated;
 	public ?int $TextSinglePageByteCount = null;
-	protected $_GitCommits = null;
-	protected $_Tags = null;
-	protected $_LocSubjects = null;
-	protected $_Collections = null;
-	protected $_Sources = null;
-	protected $_Authors = null;
-	protected $_Illustrators = null;
-	protected $_Translators = null;
-	protected $_Contributors = null;
-	protected $_TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
+	/** @var array<GitCommit> $GitCommits */
+	protected $_GitCommits = [];
+	/** @var array<EbookTag> $Tags */
+	protected $_Tags = [];
+	/** @var array<string> $LocSubjects */
+	protected $_LocSubjects = [];
+	/** @var array<Collection> $Collections */
+	protected $_Collections = [];
+	/** @var array<EbookSource> $Sources */
+	protected $_Sources = [];
+	/** @var array<Contributor> $Authors */
+	protected $_Authors = [];
+	/** @var array<Contributor> $Illustrators */
+	protected $_Illustrators = [];
+	/** @var array<Contributor> $Translators */
+	protected $_Translators = [];
+	/** @var array<Contributor> $Contributors */
+	protected $_Contributors = [];
+	/** @var ?array<string> $TocEntries */
+	protected $_TocEntries = []; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 	protected ?string $_Url = null;
 	protected ?bool $_HasDownloads = null;
 	protected ?string $_UrlSafeIdentifier = null;
@@ -106,13 +120,13 @@ class Ebook extends Accessor{
 	 * @return array<GitCommit>
 	 */
 	protected function GetGitCommits(): array{
-		if($this->_GitCommits === null){
+		if(empty($this->_GitCommits)){
 			$this->_GitCommits = Db::Query('
 							SELECT *
 							from GitCommits
 							where EbookId = ?
 							order by Created desc
-						', [$this->EbookId], 'GitCommit');
+						', [$this->EbookId], GitCommit::class);
 		}
 
 		return $this->_GitCommits;
@@ -122,14 +136,14 @@ class Ebook extends Accessor{
 	 * @return array<EbookTag>
 	 */
 	protected function GetTags(): array{
-		if($this->_Tags === null){
+		if(empty($this->_Tags)){
 			$this->_Tags = Db::Query('
 						SELECT t.*
 						from Tags t
 						inner join EbookTags et using (TagId)
 						where EbookId = ?
 						order by et.EbookTagId
-					', [$this->EbookId], 'EbookTag');
+					', [$this->EbookId], EbookTag::class);
 		}
 
 		return $this->_Tags;
@@ -139,14 +153,14 @@ class Ebook extends Accessor{
 	 * @return array<LocSubject>
 	 */
 	protected function GetLocSubjects(): array{
-		if($this->_LocSubjects === null){
+		if(empty($this->_LocSubjects)){
 			$this->_LocSubjects = Db::Query('
 							SELECT l.*
 							from LocSubjects l
 							inner join EbookLocSubjects el using (LocSubjectId)
 							where EbookId = ?
 							order by el.EbookLocSubjectId
-					', [$this->EbookId], 'LocSubject');
+					', [$this->EbookId], LocSubject::class);
 		}
 
 		return $this->_LocSubjects;
@@ -156,12 +170,12 @@ class Ebook extends Accessor{
 	 * @return array<Collection>
 	 */
 	protected function GetCollections(): array{
-		if($this->_Collections === null){
+		if(empty($this->_Collections)){
 			$this->_Collections = Db::Query('
 							SELECT *
 							from Collections
 							where EbookId = ?
-						', [$this->EbookId], 'Collection');
+						', [$this->EbookId], Collection::class);
 		}
 
 		return $this->_Collections;
@@ -171,12 +185,12 @@ class Ebook extends Accessor{
 	 * @return array<EbookSource>
 	 */
 	protected function GetSources(): array{
-		if($this->_Sources === null){
+		if(empty($this->_Sources)){
 			$this->_Sources = Db::Query('
 						SELECT *
 						from EbookSources
 						where EbookId = ?
-					', [$this->EbookId], 'EbookSource');
+					', [$this->EbookId], EbookSource::class);
 		}
 
 		return $this->_Sources;
@@ -186,13 +200,13 @@ class Ebook extends Accessor{
 	 * @return array<Contributor>
 	 */
 	protected function GetAuthors(): array{
-		if($this->_Authors === null){
+		if(empty($this->_Authors)){
 			$this->_Authors = Db::Query('
 						SELECT *
 						from Contributors
 						where EbookId = ?
 							and MarcRole = ?
-					', [$this->EbookId, 'aut'], 'Contributor');
+					', [$this->EbookId, 'aut'], Contributor::class);
 		}
 
 		return $this->_Authors;
@@ -202,13 +216,13 @@ class Ebook extends Accessor{
 	 * @return array<Contributor>
 	 */
 	protected function GetIllustrators(): array{
-		if($this->_Illustrators === null){
+		if(empty($this->_Illustrators)){
 			$this->_Illustrators = Db::Query('
 							SELECT *
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
-						', [$this->EbookId, 'ill'], 'Contributor');
+						', [$this->EbookId, 'ill'], Contributor::class);
 		}
 
 		return $this->_Illustrators;
@@ -218,13 +232,13 @@ class Ebook extends Accessor{
 	 * @return array<Contributor>
 	 */
 	protected function GetTranslators(): array{
-		if($this->_Translators === null){
+		if(empty($this->_Translators)){
 			$this->_Translators = Db::Query('
 							SELECT *
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
-						', [$this->EbookId, 'trl'], 'Contributor');
+						', [$this->EbookId, 'trl'], Contributor::class);
 		}
 
 		return $this->_Translators;
@@ -234,13 +248,13 @@ class Ebook extends Accessor{
 	 * @return array<Contributor>
 	 */
 	protected function GetContributors(): array{
-		if($this->_Contributors === null){
+		if(empty($this->_Contributors)){
 			$this->_Contributors = Db::Query('
 							SELECT *
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
-						', [$this->EbookId, 'ctb'], 'Contributor');
+						', [$this->EbookId, 'ctb'], Contributor::class);
 		}
 
 		return $this->_Contributors;
@@ -250,14 +264,14 @@ class Ebook extends Accessor{
 	 * @return array<mixed>
 	 */
 	protected function GetTocEntries(): array{
-		if($this->_TocEntries === null){
+		if(empty($this->_TocEntries)){
 			$this->_TocEntries = [];
 
 			$result = Db::Query('
 					SELECT *
 					from TocEntries
 					where EbookId = ?
-				', [$this->EbookId], 'stdClass');
+				', [$this->EbookId], stdClass::class);
 
 			foreach($result as $row){
 				$this->_TocEntries[] = $row->TocEntry;
@@ -517,7 +531,12 @@ class Ebook extends Accessor{
 		if($this->_TextSinglePageSizeNumber === null){
 			$sizes = 'BKMGTP';
 			$factor = intval(floor((strlen((string)$this->TextSinglePageByteCount) - 1) / 3));
-			$this->_TextSinglePageSizeNumber = sprintf('%.1f', $this->TextSinglePageByteCount / pow(1024, $factor));
+			try{
+				$this->_TextSinglePageSizeNumber = sprintf('%.1f', $this->TextSinglePageByteCount / pow(1024, $factor));
+			}
+			catch(\DivisionByZeroError){
+				$this->_TextSinglePageSizeNumber = '0';
+			}
 		}
 
 		return $this->_TextSinglePageSizeNumber;
@@ -568,9 +587,20 @@ class Ebook extends Accessor{
 		return $this->_IndexableText;
 	}
 
+	/**
+	 * Construct an Ebook from a filesystem path.
+	 *
+	 * @param string $wwwFilesystemPath The valid readable filesytem path where the ebook is served on the web.
+	 * 
+	 * @return Ebook The populated Ebook object.
+	 *
+	 * @throws Exceptions\EbookNotFoundException
+	 * @throws Exceptions\EbookParsingException
+	 * @throws Exceptions\InvalidGitCommitException
+	 */
 	public static function FromFilesystem(?string $wwwFilesystemPath = null): Ebook{
 		if($wwwFilesystemPath === null){
-			throw new Exceptions\InvalidEbookWwwFilesystemPathException($wwwFilesystemPath);
+			throw new Exceptions\EbookNotFoundException('Invalid www filesystem path: ' . $wwwFilesystemPath);
 		}
 
 		$ebookFromFilesystem = new Ebook();
@@ -583,7 +613,7 @@ class Ebook extends Accessor{
 			try{
 				$ebookFromFilesystem->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $ebookFromFilesystem->RepoFilesystemPath);
 			}
-			catch(Exception){
+			catch(\Exception){
 				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, whichis  a common injection attack vector
 				throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $ebookFromFilesystem->RepoFilesystemPath);
 			}
@@ -617,7 +647,7 @@ class Ebook extends Accessor{
 			// emits a warning. So, just silence the warning.
 			$ebookFromFilesystem->TextSinglePageByteCount = @filesize($ebookFromFilesystem->WwwFilesystemPath . '/text/single-page.xhtml');
 		}
-		catch(Exception){
+		catch(\Exception){
 			// Single page file doesn't exist, just pass
 		}
 
@@ -668,7 +698,13 @@ class Ebook extends Accessor{
 		$ebookFromFilesystem->GitCommits = $gitCommits;
 
 		// Now do some heavy XML lifting!
-		$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $rawMetadata));
+		try{
+			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', $rawMetadata));
+		}
+		catch(\Exception $ex){
+			throw new Exceptions\EbookParsingException($ex->getMessage());
+		}
+
 		$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 
 		$ebookFromFilesystem->Title = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title'));
@@ -684,11 +720,13 @@ class Ebook extends Accessor{
 
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if($date !== false && sizeof($date) > 0){
+			/** @throws void */
 			$ebookFromFilesystem->EbookCreated = new DateTimeImmutable((string)$date[0]);
 		}
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
 		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
+			/** @throws void */
 			$ebookFromFilesystem->EbookUpdated = new DateTimeImmutable((string)$modifiedDate[0]);
 		}
 
@@ -706,7 +744,12 @@ class Ebook extends Accessor{
 		// Fill the ToC if necessary
 		if($includeToc){
 			$tocEntries = [];
-			$tocDom = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($wwwFilesystemPath . '/toc.xhtml')));
+			try{
+				$tocDom = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($wwwFilesystemPath . '/toc.xhtml')));
+			}
+			catch(\Exception $ex){
+				throw new Exceptions\EbookParsingException($ex->getMessage());
+			}
 			$tocDom->registerXPathNamespace('epub', 'http://www.idpf.org/2007/ops');
 			foreach($tocDom->xpath('/html/body//nav[@epub:type="toc"]//a[not(contains(@epub:type, "z3998:roman")) and not(text() = "Titlepage" or text() = "Imprint" or text() = "Colophon" or text() = "Endnotes" or text() = "Uncopyright") and not(contains(@href, "halftitle"))]') ?: [] as $item){
 				$tocEntries[] = (string)$item;
@@ -1391,7 +1434,7 @@ class Ebook extends Accessor{
 				SELECT *
 				from Ebooks
 				where Identifier = ?
-			', [$identifier], 'Ebook');
+			', [$identifier], Ebook::class);
 
 		if(sizeof($result) == 0){
 			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);

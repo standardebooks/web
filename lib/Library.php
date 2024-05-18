@@ -1,5 +1,6 @@
 <?
 use Safe\DateTimeImmutable;
+
 use function Safe\apcu_fetch;
 use function Safe\exec;
 use function Safe\filemtime;
@@ -14,17 +15,16 @@ use function Safe\usort;
 
 class Library{
 	/**
-	* @param string $query
 	* @param array<string> $tags
-	* @param EbookSort $sort
 	* @return array<Ebook>
+	* @throws Exceptions\AppException
 	*/
-	public static function FilterEbooks(string $query = null, array $tags = [], EbookSort $sort = null){
+	public static function FilterEbooks(string $query = null, array $tags = [], EbookSortType $sort = null): array{
 		$ebooks = Library::GetEbooks();
 		$matches = $ebooks;
 
 		if($sort === null){
-			$sort = EbookSort::Newest;
+			$sort = EbookSortType::Newest;
 		}
 
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
@@ -51,13 +51,13 @@ class Library{
 		}
 
 		switch($sort){
-			case EbookSort::AuthorAlpha:
+			case EbookSortType::AuthorAlpha:
 				usort($matches, function($a, $b){
 					return strcmp(mb_strtolower($a->Authors[0]->SortName), mb_strtolower($b->Authors[0]->SortName));
 				});
 				break;
 
-			case EbookSort::Newest:
+			case EbookSortType::Newest:
 				usort($matches, function($a, $b){
 					if($a->EbookCreated < $b->EbookCreated){
 						return -1;
@@ -73,7 +73,7 @@ class Library{
 				$matches = array_reverse($matches);
 				break;
 
-			case EbookSort::ReadingEase:
+			case EbookSortType::ReadingEase:
 				usort($matches, function($a, $b){
 					if($a->ReadingEase < $b->ReadingEase){
 						return -1;
@@ -89,7 +89,7 @@ class Library{
 				$matches = array_reverse($matches);
 				break;
 
-			case EbookSort::Length:
+			case EbookSortType::Length:
 				usort($matches, function($a, $b){
 					if($a->WordCount < $b->WordCount){
 						return -1;
@@ -109,16 +109,20 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooks(): array{
 		// Get all ebooks, unsorted.
+		/** @var array<Ebook> */
 		return self::GetFromApcu('ebooks');
 	}
 
 	/**
 	 * @return array<Ebook>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
+		/** @var array<Ebook> */
 		return self::GetFromApcu('author-' . $wwwFilesystemPath);
 	}
 
@@ -127,6 +131,7 @@ class Library{
 	 */
 	public static function GetEbooksByTag(string $tag): array{
 		try{
+			/** @var array<Ebook> */
 			return apcu_fetch('tag-' . $tag) ?? [];
 		}
 		catch(Safe\Exceptions\ApcuException){
@@ -136,35 +141,41 @@ class Library{
 
 	/**
 	 * @return array<string, Collection>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbookCollections(): array{
+		/** @var array<string, Collection> */
 		return self::GetFromApcu('collections');
 	}
 
 	/**
 	 * @return array<Ebook>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooksByCollection(string $collection): array{
 		// Do we have the tag's ebooks cached?
+		/** @var array<Ebook> */
 		return self::GetFromApcu('collection-' . $collection);
 	}
 
 	/**
 	 * @return array<Tag>
+	 * @throws Exceptions\AppException
 	 */
 	public static function GetTags(): array{
+		/** @var array<Tag> */
 		return self::GetFromApcu('tags');
 	}
 
 	/**
 	* @param string $query
 	* @param string $status
-	* @param ArtworkSort $sort
-	* @return Array<mixed>
+	* @param ArtworkSortType $sort
+	* @return array<string, array<Artwork>|int>
 	*/
-	public static function FilterArtwork(string $query = null, string $status = null, ArtworkSort $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+	public static function FilterArtwork(string $query = null, string $status = null, ArtworkSortType $sort = null, int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		// Returns an array of:
-		// ['artworks'] => Array<Artwork>,
+		// ['artworks'] => array<Artwork>,
 		// ['artworksCount'] => int
 		//
 		// $status is either the string value of an ArtworkStatus enum, or one of these special statuses:
@@ -180,29 +191,29 @@ class Library{
 
 		if($status === null || $status == 'all'){
 			$statusCondition = 'Status = ?';
-			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatusType::Approved->value;
 		}
 		elseif($status == 'all-admin'){
 			$statusCondition = 'true';
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
-			$params[] = ArtworkStatus::Approved->value;
-			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = ArtworkStatusType::Approved->value;
+			$params[] = ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
 			$statusCondition = 'Status = ? and SubmitterUserId = ?';
-			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		elseif($status == 'in-use'){
 			$statusCondition = 'Status = ? and EbookUrl is not null';
-			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatusType::Approved->value;
 		}
-		elseif($status == ArtworkStatus::Approved->value){
+		elseif($status == ArtworkStatusType::Approved->value){
 			$statusCondition = 'Status = ? and EbookUrl is null';
-			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatusType::Approved->value;
 		}
 		else{
 			$statusCondition = 'Status = ?';
@@ -210,10 +221,10 @@ class Library{
 		}
 
 		$orderBy = 'art.Created desc';
-		if($sort == ArtworkSort::ArtistAlpha){
+		if($sort == ArtworkSortType::ArtistAlpha){
 			$orderBy = 'a.Name';
 		}
-		elseif($sort == ArtworkSort::CompletedNewest){
+		elseif($sort == ArtworkSortType::CompletedNewest){
 			$orderBy = 'art.CompletedYear desc';
 		}
 
@@ -242,7 +253,7 @@ class Library{
 				where ' . $statusCondition . '
 				order by ' . $orderBy . '
 				limit ?
-				offset ?', $params, 'Artwork');
+				offset ?', $params, Artwork::class);
 		}
 		else{
 			// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
@@ -297,14 +308,15 @@ class Library{
 				group by art.ArtworkId
 				order by ' . $orderBy . '
 				limit ?
-				offset ?', $params, 'Artwork');
+				offset ?', $params, Artwork::class);
 		}
 
 		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
 	}
 
 	/**
- 	 * @return array<Artwork>
+	 * @return array<Artwork>
+	 * @throws Exceptions\ArtistNotFoundException
 	 */
 	public static function GetArtworksByArtist(?string $artistUrlName, ?string $status, ?int $submitterUserId): array{
 		if($artistUrlName === null){
@@ -324,13 +336,13 @@ class Library{
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
-			$params[] = ArtworkStatus::Approved->value;
-			$params[] = ArtworkStatus::Unverified->value;
+			$params[] = ArtworkStatusType::Approved->value;
+			$params[] = ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		else{
 			$statusCondition = 'Status = ?';
-			$params[] = ArtworkStatus::Approved->value;
+			$params[] = ArtworkStatusType::Approved->value;
 		}
 
 		$params[] = $artistUrlName; // a.UrlName
@@ -341,13 +353,15 @@ class Library{
 			  inner join Artists a using (ArtistId)
 			where ' . $statusCondition . '
 			and a.UrlName = ?
-			order by art.Created desc', $params, 'Artwork');
+			order by art.Created desc', $params, Artwork::class);
 
 		return $artworks;
 	}
 
+
 	/**
 	 * @return array<mixed>
+	 * @throws Exceptions\AppException
 	 */
 	private static function GetFromApcu(string $variable): array{
 		$results = [];
@@ -389,6 +403,7 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
+	 * @throws Exceptions\AppException
 	 */
 	public static function Search(string $query): array{
 		$ebooks = Library::GetEbooks();
@@ -432,6 +447,8 @@ class Library{
 
 	private static function FillBulkDownloadObject(string $dir, string $downloadType, string $urlRoot): stdClass{
 		$obj = new stdClass();
+
+		/** @throws void */
 		$now = new DateTimeImmutable();
 
 		// The count of ebooks in each file is stored as a filesystem attribute
@@ -479,6 +496,7 @@ class Library{
 			$obj->ZipFiles[] = $zipFile;
 		}
 
+		/** @throws void */
 		$obj->Updated = new DateTimeImmutable('@' . filemtime($files[0]));
 		$obj->UpdatedString = $obj->Updated->format('M j');
 		// Add a period to the abbreviated month, but not if it's May (the only 3-letter month)
@@ -525,7 +543,8 @@ class Library{
 	}
 
 	/**
-	 * @return array<string, array<int|string, array<int|string, mixed>>>
+	 * @return array<string, array<int|string, array<int|string, stdClass>>>
+	 * @throws Exceptions\AppException
 	 */
 	public static function RebuildBulkDownloadsCache(): array{
 		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
@@ -546,7 +565,12 @@ class Library{
 		foreach($dirs as $dir){
 			$obj = self::FillBulkDownloadObject($dir, 'months', '/months');
 
-			$date = new DateTimeImmutable($obj->Label . '-01');
+			try{
+				$date = new DateTimeImmutable($obj->Label . '-01');
+			}
+			catch(\Exception){
+				throw new Exceptions\AppException('Couldn\'t parse date on bulk download object.');
+			}
 			$year = $date->format('Y');
 			$month = $date->format('F');
 
@@ -588,6 +612,7 @@ class Library{
 
 	/**
 	 * @return array<string, array<int|string, array<int|string, mixed>>>
+	 * @throws Exceptions\AppException
 	 */
 	public static function RebuildFeedsCache(?string $returnType = null, ?string $returnClass = null): ?array{
 		$feedTypes = ['opds', 'atom', 'rss'];
@@ -634,11 +659,15 @@ class Library{
 		return $retval;
 	}
 
+	/**
+	 * @throws Exceptions\AppException
+	 */
 	public static function GetEbook(?string $ebookWwwFilesystemPath): ?Ebook{
 		if($ebookWwwFilesystemPath === null){
 			return null;
 		}
 
+		/** @var array<Ebook> $result */
 		$result = self::GetFromApcu('ebook-' . $ebookWwwFilesystemPath);
 
 		if(sizeof($result) > 0){
@@ -649,6 +678,9 @@ class Library{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\AppException
+	 */
 	public static function RebuildCache(): void{
 		// We check a lockfile because this can be a long-running command.
 		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.
@@ -786,6 +818,6 @@ class Library{
 		return Db::Query('
 			SELECT *
 			from Artists
-			order by Name asc', [], 'Artist');
+			order by Name asc', [], Artist::class);
 	}
 }

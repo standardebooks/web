@@ -4,7 +4,7 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\getopt;
 
-function findObjectDifferences($fs, $db): bool{
+function findObjectDifferences($fs, $db): array{
 	$diffs = [];
 	$fsReflection = new ReflectionClass($fs);
 	$dbReflection = new ReflectionClass($db);

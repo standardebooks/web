@@ -3,26 +3,54 @@ use function Safe\ini_get;
 use function Safe\preg_match;
 
 class HttpInput{
-	public static function RequestMethod(): int{
-		$method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+	/**
+	 * Check that the request's HTTP method is in a list of allowed HTTP methods.
+	 * @param ?array<HttpMethod> $allowedHttpMethods An array containing a list of allowed HTTP methods, or null if any valid HTTP method is allowed.
+	 * @param bool $throwException If the request HTTP method isn't allowed, then throw an exception; otherwise, output HTTP 405 and exit the script immediately.
+	 * @throws Exceptions\InvalidHttpMethodException If the HTTP method is not recognized and `$throwException` is `true`.
+	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is not in the list of allowed methods and `$throwException` is `true`.
+	 */
+	public static function ValidateRequestMethod(?array $allowedHttpMethods = null, bool $throwException = false): HttpMethod{
+		try{
+			$requestMethod = HttpMethod::from($_POST['_method'] ?? $_SERVER['REQUEST_METHOD']);
+			if($allowedHttpMethods !== null){
+				$isRequestMethodAllowed = false;
+				foreach($allowedHttpMethods as $allowedHttpMethod){
+					if($requestMethod == $allowedHttpMethod){
+						$isRequestMethodAllowed = true;
+					}
+				}
 
-		switch($method){
-			case 'POST':
-				return HTTP_POST;
-			case 'PUT':
-				return HTTP_PUT;
-			case 'DELETE':
-				return HTTP_DELETE;
-			case 'PATCH':
-				return HTTP_PATCH;
-			case 'HEAD':
-				return HTTP_HEAD;
+				if(!$isRequestMethodAllowed){
+					throw new Exceptions\HttpMethodNotAllowedException();
+				}
+			}
+		}
+		catch(\ValueError | Exceptions\HttpMethodNotAllowedException $ex){
+			if($throwException){
+				if($ex instanceof \ValueError){
+					throw new Exceptions\InvalidHttpMethodException();
+				}
+				else{
+					throw $ex;
+				}
+			}
+			else{
+				if($allowedHttpMethods !== null){
+					header('Allow: ' . implode(',', array_map(fn($httpMethod): string => $httpMethod->value, $allowedHttpMethods)));
+				}
+				http_response_code(405);
+				exit();
+			}
 		}
 
-		return HTTP_GET;
+		return $requestMethod;
 	}
 
-	public static function GetMaxPostSize(): int{ // bytes
+	/**
+	 * @return int The maximum size for an HTTP POST request, in bytes.
+	 */
+	public static function GetMaxPostSize(): int{
 		$post_max_size = ini_get('post_max_size');
 		$unit = substr($post_max_size, -1);
 		$size = (int) substr($post_max_size, 0, -1);
@@ -45,12 +73,12 @@ class HttpInput{
 		return false;
 	}
 
-	public static function RequestType(): int{
-		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? WEB : REST;
+	public static function GetRequestType(): HttpRequestType{
+		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? HttpRequestType::Web : HttpRequestType::Rest;
 	}
 
-	public static function Str(string $type, string $variable, bool $allowEmptyString = false): ?string{
-		$var = self::GetHttpVar($variable, HTTP_VAR_STR, $type);
+	public static function Str(HttpVariableSource $set, string $variable, bool $allowEmptyString = false): ?string{
+		$var = self::GetHttpVar($variable, HttpVariableType::String, $set);
 
 		if(is_array($var)){
 			return null;
@@ -60,53 +88,61 @@ class HttpInput{
 			return null;
 		}
 
+		/** @var ?string $var */
 		return $var;
 	}
 
-	public static function Int(string $type, string $variable): ?int{
-		return self::GetHttpVar($variable, HTTP_VAR_INT, $type);
+	public static function Int(HttpVariableSource $set, string $variable): ?int{
+		/** @var ?int */
+		return self::GetHttpVar($variable, HttpVariableType::Integer, $set);
 	}
 
-	public static function Bool(string $type, string $variable): ?bool{
-		return self::GetHttpVar($variable, HTTP_VAR_BOOL, $type);
+	public static function Bool(HttpVariableSource $set, string $variable): ?bool{
+		/** @var ?bool */
+		return self::GetHttpVar($variable, HttpVariableType::Boolean, $set);
 	}
 
-	public static function Dec(string $type, string $variable): ?float{
-		return self::GetHttpVar($variable, HTTP_VAR_DEC, $type);
+	public static function Dec(HttpVariableSource $set, string $variable): ?float{
+		/** @var ?float */
+		return self::GetHttpVar($variable, HttpVariableType::Decimal, $set);
 	}
 
 	/**
 	* @param string $variable
 	* @return array<string>
 	*/
-	public static function GetArray(string $variable): ?array{
-		return self::GetHttpVar($variable, HTTP_VAR_ARRAY, GET);
+	public static function Array(HttpVariableSource $set, string $variable): ?array{
+		/** @var array<string> */
+		return self::GetHttpVar($variable, HttpVariableType::Array, $set);
 	}
 
-	private static function GetHttpVar(string $variable, int $type, string $set): mixed{
+	/**
+	 * @return array<string>|array<int>|array<float>|array<bool>|string|int|float|bool|null
+	 */
+	private static function GetHttpVar(string $variable, HttpVariableType $type, HttpVariableSource $set): mixed{
 		$vars = [];
 
 		switch($set){
-			case GET:
+			case HttpVariableSource::Get:
 				$vars = $_GET;
 				break;
-			case POST:
+			case HttpVariableSource::Post:
 				$vars = $_POST;
 				break;
-			case COOKIE:
+			case HttpVariableSource::Cookie:
 				$vars = $_COOKIE;
 				break;
-			case SESSION:
+			case HttpVariableSource::Session:
 				$vars = $_SESSION;
 				break;
 		}
 
 		if(isset($vars[$variable])){
-			if($type == HTTP_VAR_ARRAY && is_array($vars[$variable])){
+			if($type == HttpVariableType::Array && is_array($vars[$variable])){
 				// We asked for an array, and we got one
 				return $vars[$variable];
 			}
-			elseif($type !== HTTP_VAR_ARRAY && is_array($vars[$variable])){
+			elseif($type !== HttpVariableType::Array && is_array($vars[$variable])){
 				// We asked for not an array, but we got an array
 				return null;
 			}
@@ -115,9 +151,9 @@ class HttpInput{
 			}
 
 			switch($type){
-				case HTTP_VAR_STR:
+				case HttpVariableType::String:
 					return $var;
-				case HTTP_VAR_INT:
+				case HttpVariableType::Integer:
 					// Can't use ctype_digit because we may want negative integers
 					if(is_numeric($var) && mb_strpos($var, '.') === false){
 						try{
@@ -128,14 +164,14 @@ class HttpInput{
 						}
 					}
 					break;
-				case HTTP_VAR_BOOL:
+				case HttpVariableType::Boolean:
 					if($var === '0' || strtolower($var) == 'false' || strtolower($var) == 'off'){
 						return false;
 					}
 					else{
 						return true;
 					}
-				case HTTP_VAR_DEC:
+				case HttpVariableType::Decimal:
 					if(is_numeric($var)){
 						try{
 							return floatval($var);

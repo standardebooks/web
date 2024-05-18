@@ -5,12 +5,10 @@ use function Safe\file_put_contents;
 use function Safe\tempnam;
 use function Safe\unlink;
 
-/**
- * @param array<string> $Entries
- */
 class Feed{
 	public string $Url;
 	public string $Title;
+	/** @var array<Ebook|OpdsNavigationEntry> $Entries */
 	public $Entries = [];
 	public string $Path;
 	public ?string $Stylesheet = null;
@@ -20,7 +18,7 @@ class Feed{
 	 * @param string $title
 	 * @param string $url
 	 * @param string $path
-	 * @param array<Ebook> $entries
+	 * @param array<Ebook|OpdsNavigationEntry> $entries
 	 */
 	public function __construct(string $title, string $url, string $path, array $entries){
 		$this->Url = $url;

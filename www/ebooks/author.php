@@ -19,19 +19,19 @@ try{
 	}
 
 	$author =  strip_tags($ebooks[0]->AuthorsHtml);
-	$authorUrl = Formatter::EscapeHtml($ebooks[0]->AuthorsUrl);
+	$authorUrl = $ebooks[0]->AuthorsUrl;
 }
 catch(Exceptions\AuthorNotFoundException){
 	Template::Emit404();
 }
-?><?= Template::Header(['title' => 'Ebooks by ' . $author, 'feedUrl' => str_replace('/ebooks/', '/authors/', $authorUrl), 'feedTitle' => 'Standard Ebooks - Ebooks by ' . $author, 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . $author]) ?>
+?><?= Template::Header(['title' => 'Ebooks by ' . $author, 'feedUrl' => str_replace('/ebooks/', '/authors/', $authorUrl), 'feedTitle' => 'Standard Ebooks - Ebooks by ' . $author, 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . $author, 'canonicalUrl' => SITE_URL . $authorUrl]) ?>
 <main class="ebooks">
 	<h1 class="is-collection">Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
 	<p class="ebooks-toolbar">
-		<a class="button" href="<?= $authorUrl ?>/downloads">Download collection</a>
-		<a class="button" href="<?= $authorUrl ?>/feeds">Feeds for this author</a>
+		<a class="button" href="<?= Formatter::EscapeHtml($authorUrl) ?>/downloads">Download collection</a>
+		<a class="button" href="<?= Formatter::EscapeHtml($authorUrl) ?>/feeds">Feeds for this author</a>
 	</p>
-	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => VIEW_GRID]) ?>
+	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => ViewType::Grid]) ?>
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> and a <a href="/collections">list of collections</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
 	<?= Template::ContributeAlert() ?>
 </main>

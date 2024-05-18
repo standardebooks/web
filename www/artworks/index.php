@@ -5,7 +5,7 @@ $query = HttpInput::Str(GET, 'query');
 $queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
 $status = HttpInput::Str(GET, 'status');
 $filterArtworkStatus = $status;
-$sort = ArtworkSort::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
+$sort = ArtworkSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $pages = 0;
 $totalArtworkCount = 0;
 $pageDescription = '';
@@ -26,7 +26,7 @@ try{
 
 	// If we're passed string values that are the same as the defaults,
 	// set them to null so that we can have cleaner query strings in the navigation footer
-	if($sort == ArtworkSort::CreatedNewest){
+	if($sort == ArtworkSortType::CreatedNewest){
 		$sort = null;
 	}
 
@@ -45,30 +45,32 @@ try{
 		}
 	}
 
-	if(!$isReviewerView && !$isSubmitterView && !in_array($status, array('all', ArtworkStatus::Approved->value, 'in-use'))){
-		$status = ArtworkStatus::Approved->value;
+	if(!$isReviewerView && !$isSubmitterView && !in_array($status, array('all', ArtworkStatusType::Approved->value, 'in-use'))){
+		$status = ArtworkStatusType::Approved->value;
 		$filterArtworkStatus = $status;
 	}
 
-	if($isReviewerView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))
-	                && !in_array($filterArtworkStatus, array('all-admin', ArtworkStatus::Unverified->value, ArtworkStatus::Declined->value, ArtworkStatus::Approved->value, 'in-use'))){
-		$status = ArtworkStatus::Approved->value;
+	if($isReviewerView && !in_array($status, array('all', ArtworkStatusType::Unverified->value, ArtworkStatusType::Declined->value, ArtworkStatusType::Approved->value, 'in-use'))
+	                && !in_array($filterArtworkStatus, array('all-admin', ArtworkStatusType::Unverified->value, ArtworkStatusType::Declined->value, ArtworkStatusType::Approved->value, 'in-use'))){
+		$status = ArtworkStatusType::Approved->value;
 		$filterArtworkStatus = $status;
 	}
 
-	if($isSubmitterView && !in_array($status, array('all', ArtworkStatus::Unverified->value, ArtworkStatus::Approved->value, 'in-use'))
-	                    && !in_array($filterArtworkStatus, array('all-submitter', 'unverified-submitter', ArtworkStatus::Approved->value, 'in-use'))){
-		$status = ArtworkStatus::Approved->value;
+	if($isSubmitterView && !in_array($status, array('all', ArtworkStatusType::Unverified->value, ArtworkStatusType::Approved->value, 'in-use'))
+	                    && !in_array($filterArtworkStatus, array('all-submitter', 'unverified-submitter', ArtworkStatusType::Approved->value, 'in-use'))){
+		$status = ArtworkStatusType::Approved->value;
 		$filterArtworkStatus = $status;
 	}
 
 	if($queryEbookUrl !== null){
-		$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, ArtworkStatus::Approved], 'Artwork');
+		$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, ArtworkStatusType::Approved], Artwork::class);
 		$totalArtworkCount = sizeof($artworks);
 	}
 	else{
 		$result = Library::FilterArtwork($query, $filterArtworkStatus, $sort, $submitterUserId, $page, $perPage);
+		/** @var array<Artwork> $artworks */
 		$artworks = $result['artworks'];
+		/** @var int $totalArtworkCount */
 		$totalArtworkCount = $result['artworksCount'];
 	}
 
@@ -97,7 +99,22 @@ try{
 		$queryStringParams['per-page'] = $perPage;
 	}
 
+	if($page > 1){
+		$queryStringParams['page'] = $page;
+	}
+
+	ksort($queryStringParams);
+
 	$queryString = http_build_query($queryStringParams);
+
+	unset($queryStringParams['page']);
+	$queryStringWithoutPage = http_build_query($queryStringParams);
+
+	$canonicalUrl = SITE_URL . '/artworks';
+
+	if($queryString != ''){
+		$canonicalUrl .=  '?' . $queryString;
+	}
 
 	$pages = ceil($totalArtworkCount / $perPage);
 	if($pages > 0 && $page > $pages){
@@ -106,14 +123,14 @@ try{
 }
 catch(Exceptions\PageOutOfBoundsException){
 	$url = '/artworks?page=' . $pages;
-	if($queryString != ''){
-		$url .= '&' . $queryString;
+	if($queryStringWithoutPage != ''){
+		$url .= '&' . $queryStringWithoutPage;
 	}
 
 	header('Location: ' . $url);
 	exit();
 }
-?><?= Template::Header(['title' => $pageTitle, 'artwork' => true, 'description' => $pageDescription]) ?>
+?><?= Template::Header(['title' => $pageTitle, 'artwork' => true, 'description' => $pageDescription, 'canonicalUrl' => $canonicalUrl]) ?>
 <main class="artworks">
 	<section class="narrow">
 		<h1>Browse U.S. Public Domain Artwork</h1>
@@ -124,9 +141,9 @@ catch(Exceptions\PageOutOfBoundsException){
 				<span>
 					<select name="status" size="1">
 						<option value="all"<? if($status === null){ ?> selected="selected"<? } ?>>All</option>
-						<? if($isReviewerView || $isSubmitterView){ ?><option value="<?= ArtworkStatus::Unverified->value ?>"<? if($status == ArtworkStatus::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
-						<? if($isReviewerView){ ?><option value="<?= ArtworkStatus::Declined->value ?>"<? if($status == ArtworkStatus::Declined->value){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
-						<option value="<?= ArtworkStatus::Approved->value ?>"<? if($status == ArtworkStatus::Approved->value){ ?> selected="selected"<? } ?>>Approved, not in use</option>
+						<? if($isReviewerView || $isSubmitterView){ ?><option value="<?= ArtworkStatusType::Unverified->value ?>"<? if($status == ArtworkStatusType::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
+						<? if($isReviewerView){ ?><option value="<?= ArtworkStatusType::Declined->value ?>"<? if($status == ArtworkStatusType::Declined->value){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
+						<option value="<?= ArtworkStatusType::Approved->value ?>"<? if($status == ArtworkStatusType::Approved->value){ ?> selected="selected"<? } ?>>Approved, not in use</option>
 						<option value="in-use"<? if($status == 'in-use'){ ?> selected="selected"<? } ?>>In use</option>
 					</select>
 				</span>
@@ -138,9 +155,9 @@ catch(Exceptions\PageOutOfBoundsException){
 				<span>Sort</span>
 				<span>
 					<select name="sort">
-						<option value="<?= ArtworkSort::CreatedNewest->value ?>"<? if($sort == ArtworkSort::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
-						<option value="<?= ArtworkSort::ArtistAlpha->value ?>"<? if($sort == ArtworkSort::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
-						<option value="<?= ArtworkSort::CompletedNewest->value ?>"<? if($sort == ArtworkSort::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
+						<option value="<?= ArtworkSortType::CreatedNewest->value ?>"<? if($sort == ArtworkSortType::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
+						<option value="<?= ArtworkSortType::ArtistAlpha->value ?>"<? if($sort == ArtworkSortType::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
+						<option value="<?= ArtworkSortType::CompletedNewest->value ?>"<? if($sort == ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
 					</select>
 				</span>
 			</label>
@@ -167,13 +184,13 @@ catch(Exceptions\PageOutOfBoundsException){
 
 		<? if($totalArtworkCount > 0){ ?>
 			<nav class="pagination">
-				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
 				<? for($i = 1; $i < $pages + 1; $i++){ ?>
-					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>"><?= $i ?></a></li>
+					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"><?= $i ?></a></li>
 				<? } ?>
 				</ol>
-				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryString != ''){ ?><?= Formatter::EscapeXhtmlQueryString('&' . $queryString) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>

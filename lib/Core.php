@@ -2,13 +2,52 @@
 // Composer auto-loads the lib/ directory in composer.json
 require __DIR__ . '/../vendor/autoload.php';
 
+use function Safe\error_log;
 use function Safe\mb_internal_encoding;
 use function Safe\mb_http_output;
-use function Safe\error_log;
+use function Safe\ob_end_clean;
+use function Safe\ob_start;
 
 mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 date_default_timezone_set('UTC');
+
+/**
+ * Convenient shorthand alias of `var_dump()`.
+ *
+ * @param mixed $var The variable to dump.
+ */
+function vd(mixed $var): void{
+	var_dump($var);
+}
+
+/**
+ * Convenient shorthand alias to `var_dump()`, then `die()`.
+ *
+ * @param mixed $var The variable to dump.
+ */
+function vdd(mixed $var): void{
+	var_dump($var);
+	die();
+}
+
+/**
+ * `var_dump()` into a string.
+ *
+ * @param mixed $var The variable to dump into a string.
+ *
+ * @return string The output of `var_dump()`.
+ */
+function vds(mixed $var): string{
+	ob_start();
+	var_dump($var);
+	$str = ob_get_contents();
+	if($str === false){
+		$str = '';
+	}
+	ob_end_clean();
+	return $str;
+}
 
 // Custom error handler to output more details about the specific Apache request that caused an exception.
 if(SITE_STATUS == SITE_STATUS_LIVE){

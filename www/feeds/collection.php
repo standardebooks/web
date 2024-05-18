@@ -1,8 +1,6 @@
 <?
 use function Safe\apcu_fetch;
-use function Safe\glob;
 use function Safe\preg_replace;
-use function Safe\usort;
 
 $class = HttpInput::Str(GET, 'class') ?? '';
 $type = HttpInput::Str(GET, 'type') ?? '';
@@ -25,9 +23,11 @@ if($type === 'atom'){
 }
 
 try{
+	/** @var array<stdClass> $feeds */
 	$feeds = apcu_fetch('feeds-index-' . $type . '-' . $class);
 }
 catch(Safe\Exceptions\ApcuException){
+	/** @var array<stdClass> $feeds */
 	$feeds = Library::RebuildFeedsCache($type, $class);
 }
 ?><?= Template::Header(['title' => $ucType . ' Ebook Feeds by ' . $ucTitle, 'description' => 'A list of available ' . $ucType . ' feeds of Standard Ebooks ebooks by ' . $lcTitle . '.']) ?>

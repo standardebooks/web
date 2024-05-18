@@ -1,22 +1,17 @@
 <?
-use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 use function Safe\preg_match;
-use function Safe\preg_replace;
 use function Safe\json_decode;
 
 // This webhook receives POSTs when email from a Fractured Atlas donation is received
 // at the SE Zoho email account. This script processes the email, and inserts the donation ID
 // into the database for later processing by ~se/web/scripts/process-pending-payments
-
-$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
-
 try{
-	$log->Write('Received Zoho webhook.');
+	$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
 
-	if(HttpInput::RequestMethod() != HTTP_POST){
-		throw new Exceptions\WebhookException('Expected HTTP POST.');
-	}
+	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
+
+	$log->Write('Received Zoho webhook.');
 
 	$post = file_get_contents('php://input');
 
@@ -28,6 +23,7 @@ try{
 		throw new Exceptions\InvalidCredentialsException();
 	}
 
+	/** @var stdClass $data */
 	$data = json_decode($post);
 
 	if($data->fromAddress == 'support@fracturedatlas.org' && strpos($data->subject, 'NOTICE:') !== false){
@@ -39,11 +35,11 @@ try{
 			$transactionId = $matches[1];
 
 			Db::Query('
-					INSERT into PendingPayments (Created, ChannelId, TransactionId)
+					INSERT into PendingPayments (Created, Processor, TransactionId)
 					values (utc_timestamp(),
 					        ?,
 					        ?)
-				', [PAYMENT_CHANNEL_FA, $transactionId]);
+				', [PaymentProcessorType::FracturedAtlas, $transactionId]);
 
 			$log->Write('Donation ID: ' . $transactionId);
 		}

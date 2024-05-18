@@ -1,5 +1,6 @@
 <?
 use Safe\DateTimeImmutable;
+
 use function Safe\file_get_contents;
 use function Safe\filesize;
 use function Safe\preg_replace;
@@ -8,10 +9,6 @@ class RssFeed extends Feed{
 	public string $Description;
 
 	/**
-	 * @param string $title
-	 * @param string $description
-	 * @param string $url
-	 * @param string $path
 	 * @param array<Ebook> $entries
 	 */
 	public function __construct(string $title, string $description, string $url, string $path, array $entries){
@@ -27,7 +24,9 @@ class RssFeed extends Feed{
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
-			$feed = Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => (new DateTimeImmutable())->format('r')]);
+			/** @throws void */
+			$timestamp = (new DateTimeImmutable())->format('r');
+			$feed = Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => $timestamp]);
 
 			$this->XmlString = $this->CleanXmlString($feed);
 		}
@@ -59,6 +58,7 @@ class RssFeed extends Feed{
 
 		$currentEntries = [];
 		foreach($this->Entries as $entry){
+			/** @var Ebook $entry */
 			$obj = new StdClass();
 			$obj->Size = (string)filesize(WEB_ROOT . $entry->EpubUrl);
 			$obj->Id = preg_replace('/^url:/ius', '', $entry->Identifier);

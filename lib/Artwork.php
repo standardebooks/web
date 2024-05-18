@@ -1,5 +1,6 @@
 <?
 use Safe\DateTimeImmutable;
+
 use function Safe\copy;
 use function Safe\exec;
 use function Safe\getimagesize;
@@ -11,7 +12,8 @@ use function Safe\preg_replace;
  * @property string $UrlName
  * @property string $Url
  * @property string $EditUrl
- * @property array<ArtworkTag> $Tags
+ * @property-read array<ArtworkTag> $Tags
+ * @property-write array<ArtworkTag>|string $Tags
  * @property Artist $Artist
  * @property string $ImageUrl
  * @property string $ThumbUrl
@@ -25,7 +27,9 @@ use function Safe\preg_replace;
  * @property User $Submitter
  * @property User $Reviewer
  */
-class Artwork extends Accessor{
+class Artwork{
+	use Traits\Accessor;
+
 	public ?string $Name = null;
 	public ?int $ArtworkId = null;
 	public ?int $ArtistId = null;
@@ -45,10 +49,12 @@ class Artwork extends Accessor{
 	public ?string $Exception = null;
 	public ?string $Notes = null;
 	public ?ImageMimeType $MimeType = null;
-	public ?ArtworkStatus $Status = null;
+	public ?ArtworkStatusType $Status = null;
+
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
 	protected ?string $_EditUrl = null;
+	/** @var ?array<ArtworkTag> $_Tags */
 	protected $_Tags = null;
 	protected ?Artist $_Artist = null;
 	protected ?string $_ImageUrl = null;
@@ -152,12 +158,15 @@ class Artwork extends Accessor{
 							from Tags t
 							inner join ArtworkTags at using (TagId)
 							where ArtworkId = ?
-						', [$this->ArtworkId], 'ArtworkTag');
+						', [$this->ArtworkId], ArtworkTag::class);
 		}
 
 		return $this->_Tags;
 	}
 
+	/**
+	 * @throws Exceptions\InvalidUrlException
+	 */
 	public function GetMuseum(): ?Museum{
 		if($this->_Museum === null){
 			try{
@@ -178,7 +187,7 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\InvalidArtworkException
+	 * @throws Exceptions\InvalidArtworkException
 	 */
 	protected function GetImageUrl(): string{
 		if($this->_ImageUrl === null){
@@ -193,7 +202,7 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ArtworkNotFoundException
+	 * @throws Exceptions\ArtworkNotFoundException
 	 */
 	protected function GetThumbUrl(): string{
 		if($this->_ThumbUrl === null){
@@ -208,7 +217,7 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ArtworkNotFoundException
+	 * @throws Exceptions\ArtworkNotFoundException
 	 */
 	protected function GetThumb2xUrl(): string{
 		if($this->_Thumb2xUrl === null){
@@ -250,6 +259,9 @@ class Artwork extends Accessor{
 		return $this->_Dimensions;
 	}
 
+	/**
+	 * @throws Exceptions\AppException
+	 */
 	protected function GetEbook(): ?Ebook{
 		if($this->_Ebook === null){
 			if($this->EbookUrl === null){
@@ -276,7 +288,7 @@ class Artwork extends Accessor{
 			return true;
 		}
 
-		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
+		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatusType::Unverified || $this->Status == ArtworkStatusType::Declined)){
 			// Editors can edit an artwork, and submitters can edit their own artwork, if it's not yet approved.
 			return true;
 		}
@@ -294,7 +306,7 @@ class Artwork extends Accessor{
 			return true;
 		}
 
-		if($user->Benefits->CanReviewArtwork && $user->UserId != $this->SubmitterUserId && ($this->Status == ArtworkStatus::Unverified || $this->Status == ArtworkStatus::Declined)){
+		if($user->Benefits->CanReviewArtwork && $user->UserId != $this->SubmitterUserId && ($this->Status == ArtworkStatusType::Unverified || $this->Status == ArtworkStatusType::Declined)){
 			// Editors can change the status of artwork they did not submit themselves, and that is not yet approved.
 			return true;
 		}
@@ -316,9 +328,10 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtworkException
 	 */
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
+		/** @throws void */
 		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
 		$error = new Exceptions\InvalidArtworkException();
@@ -507,6 +520,10 @@ class Artwork extends Accessor{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\InvalidUrlException
+	 * @throws Exceptions\InvalidPageScanUrlException
+	 */
 	public static function NormalizePageScanUrl(string $url): string{
 		$outputUrl = $url;
 
@@ -619,6 +636,9 @@ class Artwork extends Accessor{
 		return $outputUrl;
 	}
 
+	/**
+	 * @throws Exceptions\InvalidImageUploadException
+	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
 		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imagePath));
 		copy($imagePath, $this->ImageFsPath);
@@ -635,14 +655,17 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
-	 * @throws \Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\InvalidArtworkException
+	 * @throws Exceptions\InvalidArtworkTagException
+	 * @throws Exceptions\InvalidArtistException
+	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	public function Create(?string $imagePath = null): void{
 		$this->MimeType = ImageMimeType::FromFile($imagePath);
 
 		$this->Validate($imagePath, true);
 
+		/** @throws void */
 		$this->Created = new DateTimeImmutable();
 
 		$tags = [];
@@ -698,7 +721,10 @@ class Artwork extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtworkException
+	 * @throws Exceptions\InvalidArtistException
+	 * @throws Exceptions\InvalidArtworkTagException
+	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	public function Save(?string $imagePath = null): void{
 		$this->_UrlName = null;
@@ -708,6 +734,7 @@ class Artwork extends Accessor{
 
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's
 			// updated timestamp won't change automatically.
+			/** @throws void */
 			$this->Updated = new DateTimeImmutable();
 			$this->_ImageUrl = null;
 			$this->_ThumbUrl = null;
@@ -812,7 +839,7 @@ class Artwork extends Accessor{
 	// ***********
 
 	/**
-	 * @throws \Exceptions\ArtworkNotFoundException
+	 * @throws Exceptions\ArtworkNotFoundException
 	 */
 	public static function Get(?int $artworkId): Artwork{
 		if($artworkId === null){
@@ -823,17 +850,13 @@ class Artwork extends Accessor{
 				SELECT *
 				from Artworks
 				where ArtworkId = ?
-			', [$artworkId], 'Artwork');
+			', [$artworkId], Artwork::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\ArtworkNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\ArtworkNotFoundException();
 	}
 
 	/**
-	 * @throws \Exceptions\InvalidArtworkException
+	 * @throws Exceptions\ArtworkNotFoundException
 	 */
 	public static function GetByUrl(?string $artistUrlName, ?string $artworkUrlName): Artwork{
 		if($artistUrlName === null || $artworkUrlName === null){
@@ -845,13 +868,9 @@ class Artwork extends Accessor{
 				from Artworks
 				inner join Artists using (ArtistId)
 				where Artists.UrlName = ? and Artworks.UrlName = ?
-			', [$artistUrlName, $artworkUrlName], 'Artwork');
+			', [$artistUrlName, $artworkUrlName], Artwork::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\ArtworkNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\ArtworkNotFoundException();
 	}
 
 	public static function FromHttpPost(): Artwork{
@@ -865,7 +884,7 @@ class Artwork extends Accessor{
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
-		$artwork->Status = ArtworkStatus::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? ArtworkStatus::Unverified;
+		$artwork->Status = ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? ArtworkStatusType::Unverified;
 		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
 		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');

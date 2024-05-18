@@ -6,10 +6,13 @@ use Safe\DateTimeImmutable;
  * @property PollItem $PollItem
  * @property string $Url
  */
-class PollVote extends Accessor{
+class PollVote{
+	use Traits\Accessor;
+
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
 	public ?int $PollItemId = null;
+
 	protected ?User $_User = null;
 	protected ?PollItem $_PollItem = null;
 	protected ?string $_Url = null;
@@ -32,6 +35,9 @@ class PollVote extends Accessor{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\InvalidPollVoteException
+	 */
 	protected function Validate(): void{
 		$error = new Exceptions\InvalidPollVoteException();
 
@@ -72,7 +78,7 @@ class PollVote extends Accessor{
 			}
 
 			if(!$this->User->Benefits->CanVote){
-				$error->Add(new Exceptions\InvalidPatronException());
+				$error->Add(new Exceptions\InvalidPermissionsException());
 			}
 		}
 
@@ -81,6 +87,9 @@ class PollVote extends Accessor{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\InvalidPollVoteException
+	 */
 	public function Create(?string $email = null): void{
 		if($email !== null){
 			try{
@@ -98,15 +107,16 @@ class PollVote extends Accessor{
 		}
 
 		$this->Validate();
-		$this->Created = new DateTimeImmutable();
 		Db::Query('
-			INSERT into PollVotes (UserId, PollItemId, Created)
+			INSERT into PollVotes (UserId, PollItemId)
 			values (?,
-			        ?,
 			        ?)
-		', [$this->UserId, $this->PollItemId, $this->Created]);
+		', [$this->UserId, $this->PollItemId]);
 	}
 
+	/**
+	 * @throws Exceptions\PollVoteNotFoundException
+	 */
 	public static function Get(?string $pollUrlName, ?int $userId): PollVote{
 		if($pollUrlName === null || $userId === null){
 			throw new Exceptions\PollVoteNotFoundException();
@@ -121,12 +131,8 @@ class PollVote extends Accessor{
 					     inner join Polls p using (PollId)
 					     where p.UrlName = ? ) x using (PollItemId)
 					where pv.UserId = ?
-				', [$pollUrlName, $userId], 'PollVote');
+				', [$pollUrlName, $userId], PollVote::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\PollVoteNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PollVoteNotFoundException();
 	}
 }

@@ -9,7 +9,7 @@ $nowPd = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // La
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
 
-define('SITE_STATUS', get_cfg_var('se.site_status') ?: SITE_STATUS_DEV); // Set in the PHP INI configuration for both CLI and FPM. Have to use define() and not const so we can use a function.
+define('SITE_STATUS', get_cfg_var('app.site_status') ?: SITE_STATUS_DEV); // Set in the PHP INI configuration for both CLI and FPM. Have to use define() and not const so we can use a function.
 
 // No trailing slash on any of the below constants.
 if(SITE_STATUS == SITE_STATUS_LIVE){
@@ -47,45 +47,26 @@ const ARTWORK_IMAGE_MINIMUM_HEIGHT = 300;
 
 const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
+
+// These are defined for convenience, so that getting HTTP input isn't so wordy
+const GET = HttpVariableSource::Get;
+const POST = HttpVariableSource::Post;
+const SESSION = HttpVariableSource::Session;
+const COOKIE = HttpVariableSource::Cookie;
+
 define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_address'));
 define('ADMIN_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.admin_address'));
 define('EDITOR_IN_CHIEF_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.editor_in_chief_address'));
+
 const EDITOR_IN_CHIEF_NAME = 'Alex Cabal';
+
 define('EMAIL_SMTP_USERNAME', get_cfg_var('se.secrets.postmark.username'));
 const EMAIL_SMTP_HOST = 'smtp.postmarkapp.com';
 const EMAIL_POSTMARK_STREAM_BROADCAST = 'the-standard-ebooks-newsletter';
 
-const REST = 0;
-const WEB = 1;
-
-const GET = 'GET';
-const POST = 'POST';
-const COOKIE = 'COOKIE';
-const SESSION = 'SESSION';
-
-const HTTP_VAR_INT = 0;
-const HTTP_VAR_STR = 1;
-const HTTP_VAR_BOOL = 2;
-const HTTP_VAR_DEC = 3;
-const HTTP_VAR_ARRAY = 4;
-
-const HTTP_GET = 0;
-const HTTP_POST = 1;
-const HTTP_PATCH = 2;
-const HTTP_PUT = 3;
-const HTTP_DELETE = 4;
-const HTTP_HEAD = 5;
-
-const VIEW_GRID = 'grid';
-const VIEW_LIST = 'list';
-
 const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
-const PAYMENT_CHANNEL_FA = 0;
-
 const FA_FEE_PERCENT = 0.87;
-
-const SE_SUBJECTS = ['Adventure', 'Autobiography', 'Biography', 'Children’s', 'Comedy', 'Drama', 'Fantasy', 'Fiction', 'Horror', 'Memoir', 'Mystery', 'Nonfiction', 'Philosophy', 'Poetry', 'Satire', 'Science Fiction', 'Shorts', 'Spirituality', 'Tragedy', 'Travel'];
 
 const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web']; // If we get GitHub push requests featuring these repos, silently ignore instead of returning an error.
 

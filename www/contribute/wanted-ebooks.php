@@ -169,23 +169,17 @@
 				<p><a href="https://theotherpages.org/poems/poem-mn.html#macaulay">Poetry by Thomas Macaulay</a> including <i>Lays of Ancient Rome</i></p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/4212">Culture and Anarchy</a> by Matthew Arnold</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/67363">The Theory of Moral Sentiments</a> by Adam Smith</p><!--patron-->
 			</li>
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/Hamilton_(play)">Hamilton</a> by Mary P. Hamlin and George Arliss</p><!--patron-->
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/64235">The Argonautica</a> by Apollonius of Rhodes, translated by Arthur S. Way</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://theanarchistlibrary.org/library/petr-kropotkin-memoirs-of-a-revolutionist">Memoirs of a Revolutionist</a> by Peter Kropotkin</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
 			</li>
@@ -206,9 +200,6 @@
 			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Sheridan_Le_Fanu">Short stories and novellas by Sheridan Le Fanu</a> (To be compiled in an omnibus “Short Fiction”)</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/17617">David Harum</a> by Edward Noyes Westcott</p>
 			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/William_McGonagall">Poetry of William McGonagall</a> (To be compiled in an omnibus)</p>
@@ -306,9 +297,15 @@
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/F._Scott_Fitzgerald_bibliography#Short_story_collections">Short stories by F. Scott Fitzgerald</a></p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/2870">Washington Square</a> by Henry James</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://en.m.wikipedia.org/wiki/Wolf_Solent">Wolf Solent</a> by John Cowper Powys (transcription required)</p>
+			</li>
 			<li>
 				<p><a href="https://archive.org/details/lifeofwilliammor01mack">The Life of William Morris</a> by J. W. Mackail (transcription required)</p>
 			</li>
@@ -344,9 +341,6 @@
 			</li>
 			<li>
 				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne (transcription required; research needed to see if we need a poetry omnibus)</p>
-			</li>
-			<li>
-				<p><a href="https://en.m.wikipedia.org/wiki/Pastors_and_Masters">Pastors and Masters</a> by Ivy Compton-Burnett (transcription required)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/32474">The Memoirs of the Conquistadors</a> by Bernal Díaz del Castillo (<a href="https://www.gutenberg.org/ebooks/32475">Volume 2</a>)</p>

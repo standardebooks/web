@@ -69,13 +69,16 @@ try{
 	$driver = FirefoxDriver::start($capabilities);
 
 	foreach($pendingPayments as $pendingPayment){
-		if($pendingPayment->ChannelId == PAYMENT_CHANNEL_FA){
+		$pendingPayment->Processor = PaymentProcessor::from($pendingPayment->Processor);
+		if($pendingPayment->Processor == PaymentProcessor::FracturedAtlas){
 			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 
 			if(Db::QueryInt('
-						SELECT count(*)
-						from Payments
-						where TransactionId = ?
+						SELECT exists(
+							select *
+							from Payments
+							where TransactionId = ?
+						)
 					', [$pendingPayment->TransactionId]) > 0){
 				$log->Write('Donation already exists in database.');
 				continue;
@@ -121,7 +124,7 @@ try{
 
 			$payment = new Payment();
 			$payment->User = new User();
-			$payment->ChannelId = $pendingPayment->ChannelId;
+			$payment->Processor = $pendingPayment->Processor;
 			try{
 				// If the donation is via a foundation (like American Online Giving Foundation) then there will be a 'soft credit' <th> element.
 				if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){
@@ -200,10 +203,12 @@ try{
 				if($payment->User !== null){
 					// Are we already a patron?
 					if(Db::QueryInt('
-							SELECT count(*)
-							from Patrons
-							where UserId = ?
-							    and Ended is null
+							SELECT exists(
+								select *
+								from Patrons
+								where UserId = ?
+								    and Ended is null
+							)
 						', [$payment->UserId]) == 0){
 						// Not a patron yet, add them to the Patrons Circle
 
@@ -222,6 +227,21 @@ try{
 
 						$log->Write('Adding donor as patron ...');
 						$patron->Create();
+					}
+					elseif(!$payment->IsRecurring && !$payment->IsMatchingDonation){
+						// User is already a patron, but they made another non-recurring, non-matching donation.
+						// Send a thank-you email.
+
+						$log->Write('Sending thank you email to patron donor donating extra.');
+						$em = new Email();
+						$em->To = $payment->User->Email;
+						$em->ToName = $payment->User->Name;
+						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+						$em->FromName = EDITOR_IN_CHIEF_NAME;
+						$em->Subject = 'Thank you for supporting Standard Ebooks!';
+						$em->Body = Template::EmailDonationThankYou();
+						$em->TextBody = Template::EmailDonationThankYouText();
+						$em->Send();
 					}
 				}
 				elseif(!$payment->IsRecurring && !$payment->IsMatchingDonation){

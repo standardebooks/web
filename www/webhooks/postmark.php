@@ -5,17 +5,14 @@ use function Safe\curl_setopt;
 use function Safe\file_get_contents;
 use function Safe\json_decode;
 
-$log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
-
 try{
+	$log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
 	/** @var string $smtpUsername */
 	$smtpUsername = get_cfg_var('se.secrets.postmark.username');
 
 	$log->Write('Received Postmark webhook.');
 
-	if(HttpInput::RequestMethod() != HTTP_POST){
-		throw new Exceptions\WebhookException('Expected HTTP POST.');
-	}
+	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
 
 	$apiKey = get_cfg_var('se.secrets.postmark.api_key');
 
@@ -24,13 +21,16 @@ try{
 		throw new Exceptions\InvalidCredentialsException();
 	}
 
-	$post = json_decode(file_get_contents('php://input'));
+	$post = file_get_contents('php://input');
 
-	if(!$post || !property_exists($post, 'RecordType')){
+	/** @var stdClass $data */
+	$data = json_decode($post);
+
+	if(!property_exists($data, 'RecordType')){
 		throw new Exceptions\WebhookException('Couldn\'t understand HTTP request.', $post);
 	}
 
-	if($post->RecordType == 'SpamComplaint'){
+	if($data->RecordType == 'SpamComplaint'){
 		// Received when a user marks an email as spam
 		$log->Write('Event type: spam complaint.');
 
@@ -39,13 +39,13 @@ try{
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.Email = ?
-			', [$post->Email]);
+			', [$data->Email]);
 	}
-	elseif($post->RecordType == 'SubscriptionChange' && $post->SuppressSending){
+	elseif($data->RecordType == 'SubscriptionChange' && $data->SuppressSending){
 		// Received when a user clicks Postmark's "Unsubscribe" link in a newsletter email
 		$log->Write('Event type: unsubscribe.');
 
-		$email = $post->Recipient;
+		$email = $data->Recipient;
 
 		// Remove the email from our newsletter list
 		Db::Query('
@@ -57,18 +57,18 @@ try{
 
 		// Remove the suppression from Postmark, since we deleted it from our own list we will never email them again anyway
 		$handle = curl_init();
-		curl_setopt($handle, CURLOPT_URL, 'https://api.postmarkapp.com/message-streams/' . $post->MessageStream . '/suppressions/delete');
+		curl_setopt($handle, CURLOPT_URL, 'https://api.postmarkapp.com/message-streams/' . $data->MessageStream . '/suppressions/delete');
 		curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Accept: application/json', 'X-Postmark-Server-Token: ' . $smtpUsername]);
 		curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($handle, CURLOPT_POSTFIELDS, '{"Suppressions": [{"EmailAddress": "' . $email . '"}]}');
 		curl_exec($handle);
 	}
-	elseif($post->RecordType == 'SubscriptionChange' && $post->SuppressionReason === null){
+	elseif($data->RecordType == 'SubscriptionChange' && $data->SuppressionReason === null){
 		$log->Write('Event type: suppression deletion.');
 	}
 	else{
-		$log->Write('Unrecognized event: ' . $post->RecordType);
+		$log->Write('Unrecognized event: ' . $data->RecordType);
 	}
 
 	$log->Write('Event processed.');

@@ -11,11 +11,11 @@ $artworks = $artworks ?? [];
 		}
 
 		switch($artwork->Status){
-			case ArtworkStatus::Unverified:
+			case ArtworkStatusType::Unverified:
 				$class .= ' unverified';
 				break;
 
-			case ArtworkStatus::Declined:
+			case ArtworkStatusType::Declined:
 				$class .= ' declined';
 				break;
 		}

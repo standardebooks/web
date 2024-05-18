@@ -17,10 +17,10 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<span>Sort</span>
 		<span>
 			<select name="sort">
-				<option value="<?= EbookSort::Newest->value ?>"<? if($sort == EbookSort::Newest){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
-				<option value="<?= EbookSort::AuthorAlpha->value ?>"<? if($sort == EbookSort::AuthorAlpha){ ?> selected="selected"<? } ?>>Author name  (a &#x2192; z)</option>
-				<option value="<?= EbookSort::ReadingEase->value ?>"<? if($sort == EbookSort::ReadingEase){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
-				<option value="<?= EbookSort::Length->value ?>"<? if($sort == EbookSort::Length){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
+				<option value="<?= EbookSortType::Newest->value ?>"<? if($sort == EbookSortType::Newest){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
+				<option value="<?= EbookSortType::AuthorAlpha->value ?>"<? if($sort == EbookSortType::AuthorAlpha){ ?> selected="selected"<? } ?>>Author name  (a &#x2192; z)</option>
+				<option value="<?= EbookSortType::ReadingEase->value ?>"<? if($sort == EbookSortType::ReadingEase){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
+				<option value="<?= EbookSortType::Length->value ?>"<? if($sort == EbookSortType::Length){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
 			</select>
 		</span>
 	</label>
@@ -28,8 +28,8 @@ $allSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<span>View</span>
 		<span>
 			<select name="view">
-				<option value="<?= VIEW_GRID ?>"<? if($view == VIEW_GRID){ ?> selected="selected"<? } ?>>Grid</option>
-				<option value="<?= VIEW_LIST ?>"<? if($view == VIEW_LIST){ ?> selected="selected"<? } ?>>List</option>
+				<option value="<?= ViewType::Grid->value ?>"<? if($view == ViewType::Grid){ ?> selected="selected"<? } ?>>Grid</option>
+				<option value="<?= ViewType::List->value ?>"<? if($view == ViewType::List){ ?> selected="selected"<? } ?>>List</option>
 			</select>
 		</span>
 	</label>

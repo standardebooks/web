@@ -3,11 +3,18 @@ use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_replace;
 
-class Museum extends Accessor{
+class Museum{
+	use Traits\Accessor;
+
 	public int $MuseumId;
 	public string $Name;
 	public string $Domain;
 
+	/**
+	 * @throws Exceptions\InvalidUrlException
+	 * @throws Exceptions\InvalidMuseumUrlException
+	 * @throws Exceptions\InvalidPageScanUrlException
+	 */
 	public static function NormalizeUrl(string $url): string{
 		$outputUrl = $url;
 
@@ -560,6 +567,10 @@ class Museum extends Accessor{
 		return $outputUrl;
 	}
 
+	/**
+	* @throws Exceptions\MuseumNotFoundException
+	* @throws Exceptions\InvalidUrlException
+	*/
 	public static function GetByUrl(?string $url): Museum{
 		if($url === null){
 			throw new Exceptions\MuseumNotFoundException();
@@ -581,12 +592,8 @@ class Museum extends Accessor{
 			from Museums
 			where ? like concat("%", Domain, "%")
 			limit 1;
-		', [$parsedUrl['host']], 'Museum');
+		', [$parsedUrl['host']], Museum::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\MuseumNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\MuseumNotFoundException();
 	}
 }

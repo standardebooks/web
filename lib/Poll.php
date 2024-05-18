@@ -3,14 +3,14 @@ use Safe\DateTimeImmutable;
 use function Safe\usort;
 
 /**
- * @property ?array<PollItem> $_PollItems
- * @property ?array<PollItem> $_PollItemsByWinner
  * @property string $Url
  * @property array<PollItem> $PollItems
  * @property array<PollItem> $PollItemsByWinner
  * @property int $VoteCount
  */
-class Poll extends Accessor{
+class Poll{
+	use Traits\Accessor;
+
 	public int $PollId;
 	public string $Name;
 	public string $UrlName;
@@ -19,7 +19,9 @@ class Poll extends Accessor{
 	public DateTimeImmutable $Start;
 	public DateTimeImmutable $End;
 	protected ?string $_Url = null;
+	/** @var ?array<PollItem> $_PollItems */
 	protected $_PollItems = null;
+	/** @var ?array<PollItem> $_PollItemsByWinner */
 	protected $_PollItemsByWinner = null;
 	protected ?int $_VoteCount = null;
 
@@ -59,7 +61,7 @@ class Poll extends Accessor{
 							from PollItems
 							where PollId = ?
 							order by SortOrder asc
-						', [$this->PollId], 'PollItem');
+						', [$this->PollId], PollItem::class);
 		}
 
 		return $this->_PollItems;
@@ -85,6 +87,7 @@ class Poll extends Accessor{
 	// *******
 
 	public function IsActive(): bool{
+		/** @throws void */
 		$now = new DateTimeImmutable();
 		if( ($this->Start !== null && $this->Start > $now) || ($this->End !== null && $this->End < $now)){
 			return false;
@@ -98,6 +101,9 @@ class Poll extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\PollNotFoundException
+	 */
 	public static function Get(?int $pollId): Poll{
 		if($pollId === null){
 			throw new Exceptions\PollNotFoundException();
@@ -107,15 +113,14 @@ class Poll extends Accessor{
 					SELECT *
 					from Polls
 					where PollId = ?
-				', [$pollId], 'Poll');
+				', [$pollId], Poll::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\PollNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PollNotFoundException();
 	}
 
+	/**
+	 * @throws Exceptions\PollNotFoundException
+	 */
 	public static function GetByUrlName(?string $urlName): Poll{
 		if($urlName === null){
 			throw new Exceptions\PollNotFoundException();
@@ -125,12 +130,8 @@ class Poll extends Accessor{
 					SELECT *
 					from Polls
 					where UrlName = ?
-				', [$urlName], 'Poll');
+				', [$urlName], Poll::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\PollNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PollNotFoundException();
 	}
 }

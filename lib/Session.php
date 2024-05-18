@@ -1,18 +1,21 @@
 <?
-use Exceptions\InvalidLoginException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
+
 use function Safe\strtotime;
 
 /**
  * @property User $User
  * @property string $Url
  */
-class Session extends Accessor{
+class Session{
+	use Traits\Accessor;
+
 	public int $UserId;
-	protected ?User $_User = null;
 	public DateTimeImmutable $Created;
 	public string $SessionId;
+
+	protected ?User $_User = null;
 	public ?string $_Url = null;
 
 
@@ -33,6 +36,10 @@ class Session extends Accessor{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\InvalidLoginException
+	 * @throws Exceptions\PasswordRequiredException
+	 */
 	public function Create(?string $email = null, ?string $password = null): void{
 		try{
 			$this->User = User::GetIfRegistered($email, $password);
@@ -52,6 +59,8 @@ class Session extends Accessor{
 			else{
 				$uuid = Uuid::uuid4();
 				$this->SessionId = $uuid->toString();
+
+				/** @throws void */
 				$this->Created = new DateTimeImmutable();
 				Db::Query('
 						INSERT into Sessions (UserId, SessionId, Created)
@@ -64,7 +73,7 @@ class Session extends Accessor{
 			self::SetSessionCookie($this->SessionId);
 		}
 		catch(Exceptions\UserNotFoundException){
-			throw new InvalidLoginException();
+			throw new Exceptions\InvalidLoginException();
 		}
 	}
 
@@ -77,7 +86,7 @@ class Session extends Accessor{
 						from Users u
 						inner join Sessions s using (UserId)
 						where s.SessionId = ?
-					', [$sessionId], 'User');
+					', [$sessionId], User::class);
 
 			if(sizeof($result) > 0){
 				self::SetSessionCookie($sessionId);
@@ -92,6 +101,9 @@ class Session extends Accessor{
 		setcookie('sessionid', $sessionId, ['expires' => strtotime('+1 week'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']); // Expires in two weeks
 	}
 
+	/**
+	 * @throws Exceptions\SessionNotFoundException
+	 */
 	public static function Get(?string $sessionId): Session{
 		if($sessionId === null){
 			throw new Exceptions\SessionNotFoundException();
@@ -101,12 +113,8 @@ class Session extends Accessor{
 					SELECT *
 					from Sessions
 					where SessionId = ?
-				', [$sessionId], 'Session');
+				', [$sessionId], Session::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\SessionNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\SessionNotFoundException();
 	}
 }

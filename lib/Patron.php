@@ -4,21 +4,24 @@ use Safe\DateTimeImmutable;
 /**
  * @property User $User
  */
-class Patron extends Accessor{
+class Patron{
+	use Traits\Accessor;
+
 	public ?int $UserId = null;
-	protected $_User = null;
 	public bool $IsAnonymous;
 	public ?string $AlternateName = null;
 	public bool $IsSubscribedToEmails;
 	public ?DateTimeImmutable $Created = null;
 	public ?DateTimeImmutable $Ended = null;
 
+	protected ?User $_User = null;
 
 	// *******
 	// METHODS
 	// *******
 
 	public function Create(): void{
+		/** @throws void */
 		$this->Created = new DateTimeImmutable();
 		Db::Query('
 			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails)
@@ -78,32 +81,38 @@ class Patron extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\PatronNotFoundException
+	 */
 	public static function Get(?int $userId): Patron{
+		if($userId === null){
+			throw new Exceptions\PatronNotFoundException();
+		}
+
 		$result = Db::Query('
 			SELECT *
 			from Patrons
 			where UserId = ?
-			', [$userId], 'Patron');
+			', [$userId], Patron::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidPatronException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PatronNotFoundException();;
 	}
 
+	/**
+	 * @throws Exceptions\PatronNotFoundException
+	 */
 	public static function GetByEmail(?string $email): Patron{
+		if($email === null){
+			throw new Exceptions\PatronNotFoundException();
+		}
+
 		$result = Db::Query('
 			SELECT p.*
 			from Patrons p
 			inner join Users u using(UserId)
 			where u.Email = ?
-		', [$email], 'Patron');
+		', [$email], Patron::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\InvalidPatronException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\PatronNotFoundException();
 	}
 }

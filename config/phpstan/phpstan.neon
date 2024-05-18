@@ -7,14 +7,8 @@ parameters:
 	ignoreErrors:
 		# Ignore errors caused by Template static class reflection
 		- '#Call to an undefined static method Template::[a-zA-Z0-9\\_]+\(\)\.#'
-
-		# Ignore errors caused by no type hints on class properties, as that's not available till PHP 7.4
-		- '#Property .+? has no type specified.#'
-
-		# Ignore setters for properties that accept several types
-		- '#Property Artwork::\$Tags \(array<ArtworkTag>\) does not accept.+#'
 	level:
-		8
+		9
 	paths:
 		- %rootDir%/../../../lib
 		- %rootDir%/../../../www
@@ -30,3 +24,14 @@ parameters:
 			- Emit404
 			- Emit403
 			- RedirectToLogin
+	exceptions:
+		check:
+			missingCheckedExceptionInThrows: true
+			tooWideThrowType: true
+		uncheckedExceptionRegexes:
+			-'#^Safe\\#'
+		uncheckedExceptionClasses:
+			- 'Exceptions\DatabaseQueryException'
+			- 'PDOException'
+			- 'TypeError'
+			- 'ValueError'

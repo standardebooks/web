@@ -25,10 +25,11 @@ try{
 		$isUserAgentAllowed = false;
 		if(isset($_SERVER['HTTP_USER_AGENT'])){
 			$isUserAgentAllowed = Db::QueryInt('
-							SELECT count(*)
-							from FeedUserAgents
-							where instr(?, UserAgent)
-							limit 1
+							SELECT exists(
+								select *
+								from FeedUserAgents
+								where instr(?, UserAgent)
+							)
 						', [$_SERVER['HTTP_USER_AGENT']]);
 		}
 

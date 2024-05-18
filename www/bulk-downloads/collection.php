@@ -16,10 +16,12 @@ if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){
 $collection = [];
 
 try{
+	/** @var array<string, array<string, stdClass>> $collection */
 	$collection = apcu_fetch('bulk-downloads-' . $class);
 }
 catch(Safe\Exceptions\ApcuException){
 	$result = Library::RebuildBulkDownloadsCache();
+	/** @var array<string, array<string, stdClass>> $collection */
 	$collection = $result[$class];
 }
 

@@ -10,7 +10,7 @@ class OpdsFeed extends AtomFeed{
 	 * @param string $subtitle
 	 * @param string $url
 	 * @param string $path
-	 * @param array<Ebook> $entries
+	 * @param array<Ebook|OpdsNavigationEntry> $entries
 	 * @param OpdsNavigationFeed $parent
 	 */
 	public function __construct(string $title, string $subtitle, string $url, string $path, array $entries, ?OpdsNavigationFeed $parent){
@@ -50,6 +50,7 @@ class OpdsFeed extends AtomFeed{
 		if($this->HasChanged($this->Path)){
 			// Files don't match, save the file and update the parent navigation feed with the last updated timestamp
 
+			/** @throws void */
 			$this->Updated = new DateTimeImmutable();
 
 			if($this->Parent !== null){

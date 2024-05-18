@@ -3,20 +3,23 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property ?int $DeathYear
- * @property string $UrlName
- * @property string $Url
- * @property array<string> $AlternateNames
- * @property array<string> $_AlternateNames
+ * @property ?string $UrlName
+ * @property ?string $Url
+ * @property ?array<string> $AlternateNames
  */
-class Artist extends Accessor{
+class Artist{
+	use Traits\Accessor;
+
 	public ?int $ArtistId = null;
 	public ?string $Name = null;
 	public ?DateTimeImmutable $Created = null;
 	public ?DateTimeImmutable $Updated = null;
+
 	protected ?int $_DeathYear = null;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
-	protected $_AlternateNames;
+	/** @var ?array<string> $_AlternateNames */
+	protected $_AlternateNames = null;
 
 	// *******
 	// SETTERS
@@ -80,7 +83,11 @@ class Artist extends Accessor{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\InvalidArtistException
+	 */
 	public function Validate(): void{
+		/** @throws void */
 		$now = new DateTimeImmutable();
 		$thisYear = intval($now->format('Y'));
 
@@ -110,6 +117,10 @@ class Artist extends Accessor{
 	// ORM METHODS
 	// ***********
 
+
+	/**
+	 * @throws Exceptions\ArtistNotFoundException
+	 */
 	public static function Get(?int $artistId): Artist{
 		if($artistId === null){
 			throw new Exceptions\ArtistNotFoundException();
@@ -119,15 +130,14 @@ class Artist extends Accessor{
 				SELECT *
 				from Artists
 				where ArtistId = ?
-			', [$artistId], 'Artist');
+			', [$artistId], Artist::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\ArtistNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();;
 	}
 
+	/**
+	 * @throws Exceptions\InvalidArtistException
+	 */
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
@@ -141,7 +151,7 @@ class Artist extends Accessor{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\InvalidArtistException
 	 */
 	public static function GetOrCreate(Artist $artist): Artist{
 		$result = Db::Query('
@@ -151,7 +161,7 @@ class Artist extends Accessor{
 					where a.UrlName = ?
 					    or aan.UrlName = ?
 					limit 1
-		', [$artist->UrlName, $artist->UrlName], 'Artist');
+		', [$artist->UrlName, $artist->UrlName], Artist::class);
 
 		if(isset($result[0])){
 			return $result[0];
@@ -168,6 +178,7 @@ class Artist extends Accessor{
 			from Artists
 			where ArtistId = ?
 		', [$this->ArtistId]);
+
 		Db::Query('
 			DELETE
 			from ArtistAlternateNames

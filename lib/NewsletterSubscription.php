@@ -5,14 +5,16 @@ use Safe\DateTimeImmutable;
  * @property User $User
  * @property string $Url
  */
-class NewsletterSubscription extends Accessor{
+class NewsletterSubscription{
+	use Traits\Accessor;
+
 	public bool $IsConfirmed = false;
 	public bool $IsSubscribedToSummary = false;
 	public bool $IsSubscribedToNewsletter = false;
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
-	protected $_User;
-	protected $_Url = null;
+	protected ?User $_User = null;
+	protected ?string $_Url = null;
 
 	// *******
 	// GETTERS
@@ -31,6 +33,10 @@ class NewsletterSubscription extends Accessor{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\InvalidNewsletterSubscription
+	 * @throws Exceptions\NewsletterSubscriptionExistsException
+	 */
 	public function Create(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
 		$this->Validate($expectedCaptcha, $receivedCaptcha);
 
@@ -40,10 +46,18 @@ class NewsletterSubscription extends Accessor{
 		}
 		catch(Exceptions\UserNotFoundException){
 			// User doesn't exist, create the user
-			$this->User->Create();
+
+			try{
+				$this->User->Create();
+			}
+			catch(Exceptions\UserExistsException){
+				// User exists, pass
+			}
 		}
 
 		$this->UserId = $this->User->UserId;
+
+		/** @throws void */
 		$this->Created = new DateTimeImmutable();
 
 		try{
@@ -56,20 +70,17 @@ class NewsletterSubscription extends Accessor{
 				        ?)
 			', [$this->User->UserId, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Created]);
 		}
-		catch(PDOException $ex){
-			if(($ex->errorInfo[1] ?? 0) == 1062){
-				// Duplicate unique key; email already in use
-				throw new Exceptions\NewsletterSubscriptionExistsException();
-			}
-			else{
-				throw $ex;
-			}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\NewsletterSubscriptionExistsException();
 		}
 
 		// Send the double opt-in confirmation email
 		$this->SendConfirmationEmail();
 	}
 
+	/**
+	 * @throws Exceptions\InvalidNewsletterSubscription
+	 */
 	public function Save(): void{
 		$this->Validate();
 
@@ -111,6 +122,10 @@ class NewsletterSubscription extends Accessor{
 		', [$this->UserId]);
 	}
 
+
+	/**
+	 * @throws Exceptions\InvalidNewsletterSubscription
+	 */
 	public function Validate(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
 		$error = new Exceptions\InvalidNewsletterSubscription();
 
@@ -138,6 +153,9 @@ class NewsletterSubscription extends Accessor{
 	// ORM METHODS
 	// ***********
 
+	/**
+	 * @throws Exceptions\NewsletterSubscriptionNotFoundException
+	 */
 	public static function Get(?string $uuid): NewsletterSubscription{
 		if($uuid === null){
 			throw new Exceptions\NewsletterSubscriptionNotFoundException();
@@ -148,12 +166,8 @@ class NewsletterSubscription extends Accessor{
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.Uuid = ?
-			', [$uuid], 'NewsletterSubscription');
+			', [$uuid], NewsletterSubscription::class);
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\NewsletterSubscriptionNotFoundException();
-		}
-
-		return $result[0];
+		return $result[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
 	}
 }

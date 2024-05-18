@@ -28,6 +28,7 @@ try{
 	// https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald/edmund-dulac
 	// We can tell because if so, the dir we are passed will exist, but there will be no 'src' folder.
 	if(is_dir($wwwFilesystemPath) && !is_dir($wwwFilesystemPath . '/src')){
+		/** @var DirectoryIterator $file */
 		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($wwwFilesystemPath)) as $file){
 			// This iterator will do a deep scan on the directory. When we hit another directory, the filename will be "." and the path will contain the directory path.
 			// We want to find where the "src" directory is, and the directory directly below that will be the final web URL we're looking for.
@@ -39,6 +40,7 @@ try{
 
 	// Do we have the ebook cached?
 	try{
+		/** @var Ebook $ebook */
 		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
 	}
 	catch(Safe\Exceptions\ApcuException){
@@ -107,7 +109,7 @@ catch(Exceptions\SeeOtherEbookException $ex){
 catch(Exceptions\EbookNotFoundException){
 	Template::Emit404();
 }
-?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description]) ?>
+?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'canonicalUrl' => SITE_URL . $ebook->Url]) ?>
 <main>
 	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
 		<meta property="schema:description" content="<?= Formatter::EscapeHtml($ebook->Description) ?>"/>
@@ -211,7 +213,7 @@ catch(Exceptions\EbookNotFoundException){
 			<p class="us-pd-warning">This ebook is thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that this ebook is free of copyright restrictions in the country you’re located in before accessing, downloading, or using it.</p>
 
 			<div class="downloads-container">
-				<figure class="<? if($ebook->WordCount < 100000){ ?>small<? }elseif($ebook->WordCount >= 100000 && $ebook->WordCount < 200000){ ?>medium<? }elseif($ebook->WordCount >= 200000 && $ebook->WordCount <= 300000){ ?>large<? }elseif($ebook->WordCount >= 300000 && $ebook->WordCount < 400000){ ?>xlarge<? }elseif($ebook->WordCount >= 400000){ ?>xxlarge<? } ?>">
+				<figure class="<? if($ebook->WordCount < 100000){ ?>small<? }elseif($ebook->WordCount < 200000){ ?>medium<? }elseif($ebook->WordCount <= 300000){ ?>large<? }elseif($ebook->WordCount < 400000){ ?>xlarge<? }else{ ?>xxlarge<? } ?>">
 					<picture>
 						<source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/>
 						<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
@@ -228,7 +230,7 @@ catch(Exceptions\EbookNotFoundException){
 								<meta property="schema:description" content="epub"/>
 								<meta property="schema:encodingFormat" content="application/epub+zip"/>
 								<p>
-									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormat::Epub->value ?>" class="epub">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span>
+									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormatType::Epub->value ?>" class="epub">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span>
 								</p>
 							</li>
 							<? } ?>
@@ -237,7 +239,7 @@ catch(Exceptions\EbookNotFoundException){
 							<li property="schema:encoding" typeof="schema:MediaObject">
 								<meta property="schema:encodingFormat" content="application/x-mobipocket-ebook"/>
 								<p>
-									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormat::Azw3->value ?>" class="amazon"><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. Despite what you’ve been told, <a href="/help/how-to-use-our-ebooks#kindle-epub">Kindle does not natively support epub.</a> You may also be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
+									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormatType::Azw3->value ?>" class="amazon"><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. Despite what you’ve been told, <a href="/help/how-to-use-our-ebooks#kindle-epub">Kindle does not natively support epub.</a> You may also be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
 								</p>
 							</li>
 							<? } ?>
@@ -246,7 +248,7 @@ catch(Exceptions\EbookNotFoundException){
 							<li property="schema:encoding" typeof="schema:MediaObject">
 								<meta property="schema:encodingFormat" content="application/kepub+zip"/>
 								<p>
-									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormat::Kepub->value ?>" class="kobo"><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps. You may also be interested in our <a href="/help/how-to-use-our-ebooks#kobo-faq">Kobo FAQ</a>.</span>
+									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormatType::Kepub->value ?>" class="kobo"><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps. You may also be interested in our <a href="/help/how-to-use-our-ebooks#kobo-faq">Kobo FAQ</a>.</span>
 								</p>
 							</li>
 							<? } ?>
@@ -256,6 +258,7 @@ catch(Exceptions\EbookNotFoundException){
 								<meta property="schema:encodingFormat" content="application/epub+zip"/>
 								<p>
 									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormat::AdvancedEpub->value ?>" class="epub"><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
+									<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= EbookFormatType::AdvancedEpub->value ?>" class="epub"><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
 								</p>
 							</li>
 							<? } ?>

@@ -33,6 +33,7 @@ class Log{
 				return;
 			}
 
+			/** @throws void */
 			$now = new DateTimeImmutable();
 
 			fwrite($fp, $now->format('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . $text . "\n");

@@ -4,16 +4,19 @@ use Safe\DateTimeImmutable;
 /**
  * @property User $User
  */
-class Payment extends Accessor{
+class Payment{
+	use Traits\Accessor;
+
 	public int $PaymentId;
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
-	public int $ChannelId;
+	public PaymentProcessorType $Processor;
 	public string $TransactionId;
 	public float $Amount;
 	public float $Fee;
 	public bool $IsRecurring;
 	public bool $IsMatchingDonation = false;
+
 	protected ?User $_User = null;
 
 
@@ -21,6 +24,9 @@ class Payment extends Accessor{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws Exceptions\PaymentExistsException
+	 */
 	public function Create(): void{
 		if($this->UserId === null){
 			// Check if we have to create a new user in the database
@@ -43,7 +49,13 @@ class Payment extends Accessor{
 				}
 				catch(Exceptions\UserNotFoundException){
 					// User doesn't exist, create it now
-					$this->User->Create();
+
+					try{
+						$this->User->Create();
+					}
+					catch(Exceptions\UserExistsException){
+						// User already exists, pass
+					}
 				}
 
 				$this->UserId = $this->User->UserId;
@@ -52,7 +64,7 @@ class Payment extends Accessor{
 
 		try{
 			Db::Query('
-				INSERT into Payments (UserId, Created, ChannelId, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation)
+				INSERT into Payments (UserId, Created, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation)
 				values(?,
 				       ?,
 				       ?,
@@ -61,16 +73,10 @@ class Payment extends Accessor{
 				       ?,
 				       ?,
 				       ?)
-			', [$this->UserId, $this->Created, $this->ChannelId, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
+			', [$this->UserId, $this->Created, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
 		}
-		catch(PDOException $ex){
-			if(($ex->errorInfo[1] ?? 0) == 1062){
-				// Duplicate unique key; transction ID already exists
-				throw new Exceptions\PaymentExistsException();
-			}
-			else{
-				throw $ex;
-			}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\PaymentExistsException();
 		}
 
 		$this->PaymentId = Db::GetLastInsertedId();
