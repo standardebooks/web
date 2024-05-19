@@ -72,23 +72,23 @@ class Ebook{
 	public DateTimeImmutable $EbookUpdated;
 	public ?int $TextSinglePageByteCount = null;
 	/** @var array<GitCommit> $_GitCommits */
-	protected $_GitCommits = [];
+	protected $_GitCommits = null;
 	/** @var array<EbookTag> $_Tags */
-	protected $_Tags = [];
+	protected $_Tags = null;
 	/** @var array<LocSubject> $_LocSubjects */
-	protected $_LocSubjects = [];
+	protected $_LocSubjects = null;
 	/** @var array<Collection> $_Collections */
-	protected $_Collections = [];
+	protected $_Collections = null;
 	/** @var array<EbookSource> $_Sources */
-	protected $_Sources = [];
+	protected $_Sources = null;
 	/** @var array<Contributor> $_Authors */
-	protected $_Authors = [];
+	protected $_Authors = null;
 	/** @var array<Contributor> $_Illustrators */
-	protected $_Illustrators = [];
+	protected $_Illustrators = null;
 	/** @var array<Contributor> $_Translators */
-	protected $_Translators = [];
+	protected $_Translators = null;
 	/** @var array<Contributor> $_Contributors */
-	protected $_Contributors = [];
+	protected $_Contributors = null;
 	/** @var ?array<string> $_TocEntries */
 	protected $_TocEntries = []; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
 	protected ?string $_Url = null;
@@ -122,7 +122,7 @@ class Ebook{
 	 * @return array<GitCommit>
 	 */
 	protected function GetGitCommits(): array{
-		if(empty($this->_GitCommits)){
+		if($this->_GitCommits !== null){
 			$this->_GitCommits = Db::Query('
 							SELECT *
 							from GitCommits
@@ -138,7 +138,7 @@ class Ebook{
 	 * @return array<EbookTag>
 	 */
 	protected function GetTags(): array{
-		if(empty($this->_Tags)){
+		if($this->_Tags !== null){
 			$this->_Tags = Db::Query('
 						SELECT t.*
 						from Tags t
@@ -155,7 +155,7 @@ class Ebook{
 	 * @return array<LocSubject>
 	 */
 	protected function GetLocSubjects(): array{
-		if(empty($this->_LocSubjects)){
+		if($this->_LocSubjects !== null){
 			$this->_LocSubjects = Db::Query('
 							SELECT l.*
 							from LocSubjects l
@@ -172,7 +172,7 @@ class Ebook{
 	 * @return array<Collection>
 	 */
 	protected function GetCollections(): array{
-		if(empty($this->_Collections)){
+		if($this->_Collections !== null){
 			$this->_Collections = Db::Query('
 							SELECT *
 							from Collections
@@ -187,7 +187,7 @@ class Ebook{
 	 * @return array<EbookSource>
 	 */
 	protected function GetSources(): array{
-		if(empty($this->_Sources)){
+		if($this->_Sources !== null){
 			$this->_Sources = Db::Query('
 						SELECT *
 						from EbookSources
@@ -202,7 +202,7 @@ class Ebook{
 	 * @return array<Contributor>
 	 */
 	protected function GetAuthors(): array{
-		if(empty($this->_Authors)){
+		if($this->_Authors !== null){
 			$this->_Authors = Db::Query('
 						SELECT *
 						from Contributors
@@ -218,7 +218,7 @@ class Ebook{
 	 * @return array<Contributor>
 	 */
 	protected function GetIllustrators(): array{
-		if(empty($this->_Illustrators)){
+		if($this->_Illustrators !== null){
 			$this->_Illustrators = Db::Query('
 							SELECT *
 							from Contributors
@@ -234,7 +234,7 @@ class Ebook{
 	 * @return array<Contributor>
 	 */
 	protected function GetTranslators(): array{
-		if(empty($this->_Translators)){
+		if($this->_Translators !== null){
 			$this->_Translators = Db::Query('
 							SELECT *
 							from Contributors
@@ -250,7 +250,7 @@ class Ebook{
 	 * @return array<Contributor>
 	 */
 	protected function GetContributors(): array{
-		if(empty($this->_Contributors)){
+		if($this->_Contributors !== null){
 			$this->_Contributors = Db::Query('
 							SELECT *
 							from Contributors
@@ -811,11 +811,11 @@ class Ebook{
 						Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'))
 					);
 		}
-		$ebookFromFilesystem->Authors = $authors;
-
-		if(sizeof($ebookFromFilesystem->Authors) == 0){
+		if(sizeof($authors) == 0){
 			throw new Exceptions\EbookParsingException('Invalid <dc:creator> element.');
 		}
+
+		$ebookFromFilesystem->Authors = $authors;
 
 		$illustrators = [];
 		$translators = [];
@@ -854,10 +854,10 @@ class Ebook{
 			}
 
 			// If we added an illustrator who is also the translator, remove the illustrator credit so the name doesn't appear twice
-			foreach($ebookFromFilesystem->Illustrators as $key => $illustrator){
-				foreach($ebookFromFilesystem->Translators as $translator){
+			foreach($illustrators as $key => $illustrator){
+				foreach($translators as $translator){
 					if($translator->Name == $illustrator->Name){
-						unset($ebookFromFilesystem->Illustrators[$key]);
+						unset($illustrators[$key]);
 						break;
 					}
 				}
