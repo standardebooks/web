@@ -9,8 +9,18 @@ $baseTarget = 50;
 $stretchCurrent = 0;
 $stretchTarget = 20;
 
-// Hide the alert if the user has closed it
-if(!DONATION_DRIVE_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || $GLOBALS['User'] !== null || $now > $end){
+// Hide the alert if...
+if(
+	!DONATION_DRIVE_ON // The drive isn't running
+	||
+	($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) // If the user has hidden the box
+	||
+	$GLOBALS['User'] !== null // If a user is logged in
+	||
+	$start > $now // If the drive hasn't started yet
+	||
+	$now > $end // If the drive has ended
+){
 	return;
 }
 

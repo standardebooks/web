@@ -69,8 +69,8 @@ try{
 	$driver = FirefoxDriver::start($capabilities);
 
 	foreach($pendingPayments as $pendingPayment){
-		$pendingPayment->Processor = PaymentProcessor::from($pendingPayment->Processor);
-		if($pendingPayment->Processor == PaymentProcessor::FracturedAtlas){
+		$pendingPayment->Processor = PaymentProcessorType::from($pendingPayment->Processor);
+		if($pendingPayment->Processor == PaymentProcessorType::FracturedAtlas){
 			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 
 			if(Db::QueryInt('

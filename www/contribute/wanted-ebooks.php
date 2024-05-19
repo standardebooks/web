@@ -58,9 +58,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/369">The Outlaw of Torn</a> by Edgar Rice Burroughs</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/51">Anne of the Island</a> by L. M. Montgomery</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10041">The Rivet in Grandfather’s Neck</a> by James Branch Cabell</p>
 			</li>
 			<li>
@@ -300,6 +297,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2870">Washington Square</a> by Henry James</p><!--patron-->
 			</li>
+			<li>
+				<p><a href="https://gutenberg.org/ebooks/31318">Geronimo’s Story of His Life</a> by Geronimo</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
@@ -490,7 +490,7 @@
 				<p><a href="https://archive.org/details/mabuse-norbert-jacques-1921-eng/page/8/mode/1up">Dr. Mabuse, the Gambler</a> by Norbert Jacques (transcription required)</p>
 			</li><!--patron-->
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Dark_Princess">Dark Princess</a> by W. E. B. Du Bois (PD 1928; transcription require)</p>
+				<p><a href="https://en.wikipedia.org/wiki/Dark_Princess">Dark Princess</a> by W. E. B. Du Bois (PD 1928; transcription required)</p>
 			</li>
 			<li>
 				<p><a href="https://archive.org/stream/in.ernet.dli.2015.210843/2015.210843.Tarka-The_djvu.txt">Tarka the Otter</a> by Henry Williamson (transcription required)</p>
@@ -540,6 +540,9 @@
 			</li>
 			<li>
 				<p>Public domain entries in this <a href="https://docs.google.com/spreadsheets/d/1thH8qI_JgKc96Jzyvv6-N3H-oFBon5dwXqqI8DiTS9o/edit?usp=sharing">Spreadsheet of plays that have appeared on lists of the “Best Plays of All Time.”</a></p>
+			</li>
+			<li>
+				<p>Entries in the <a href="https://en.wikipedia.org/wiki/Harvard_Classics#The_Harvard_Classics_Shelf_of_Fiction">Harvard Classics Shelf of Fiction</a></p>
 			</li>
 		</ul>
 	</article>

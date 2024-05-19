@@ -5,6 +5,7 @@ session_start();
 
 $poll = new Poll();
 $vote = new PollVote();
+/** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 
 try{
@@ -13,6 +14,7 @@ try{
 	}
 
 	if(isset($_SESSION['vote'])){
+		/** @var PollVote $vote */
 		$vote = $_SESSION['vote'];
 	}
 	else{

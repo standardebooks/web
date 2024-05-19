@@ -1,15 +1,27 @@
 {
 	"license": "CC0-1.0",
-	"require-dev": {
-		"phpstan/phpstan": "^1.7.14",
-		"thecodingmachine/phpstan-safe-rule": "^1.2.0"
-	},
-	"autoload": {
-		"psr-4": {"": "lib/"},
-		"files": ["lib/Constants.php"]
-	},
 	"platform":{
 		"php": "8.1.2"
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"": "lib/"
+		},
+		"files": [
+			"lib/Constants.php"
+		]
+	},
+	"autoload": {
+		"classmap": [
+			"lib/"
+		],
+		"files": [
+			"lib/Constants.php"
+		]
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^1.11.1",
+		"thecodingmachine/phpstan-safe-rule": "^1.2.0"
 	},
 	"require": {
 		"thecodingmachine/safe": "^2.5.0",

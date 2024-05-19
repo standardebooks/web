@@ -72,7 +72,7 @@ function InsertTransaction($transactionId){
 				values (utc_timestamp(),
 				        ?,
 				        ?)',
-				[PaymentProcessor::FracturedAtlas, $transactionId]);
+				[PaymentProcessorType::FracturedAtlas, $transactionId]);
 
 		return true;
 	}
