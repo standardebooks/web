@@ -36,4 +36,22 @@ class Db{
 
 		return 0;
 	}
+
+	/**
+	 * Returns a single float value for the first column database query result.
+	 *
+	 * This is useful for queries that return a single float as a result, like `avg(*)` or `sum(*)`.
+	 *
+	 * @param string $query
+	 * @param array<mixed> $args
+	 */
+	public static function QueryFloat(string $query, array $args = []): float{
+		$result = $GLOBALS['DbConnection']->Query($query, $args);
+
+		if(sizeof($result) > 0){
+			return current((Array)$result[0]);
+		}
+
+		return 0;
+	}
 }
