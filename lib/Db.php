@@ -21,7 +21,9 @@ class Db{
 
 	/**
 	 * Returns a single integer value for the first column database query result.
-	 * This is useful for queries that return a single integer as a result, like count(*) or sum(*).
+	 *
+	 * This is useful for queries that return a single integer as a result, like `count(*)` or `sum(*)`.
+	 *
 	 * @param string $query
 	 * @param array<mixed> $args
 	 */

@@ -138,7 +138,7 @@ class DbConnection{
 	 *  ]
 	 * ```
 	 *
-	 * **Important note:** When joining against two tables, SQL only returns one column for the join key (typically an ID value). Therefore, if both objects require an ID, the filler method must explicitly assign the ID to one of the two objects that's missing it. The above example shows this behavior: note how we join on UserId, but only the Users result has the UserId column, even though the Posts table also has a UserId column.
+	 * **Important note:** When joining against two tables, SQL only returns one column for the join key (typically an ID value). Therefore, if both objects require an ID, the filler method must explicitly assign the ID to one of the two objects that's missing it. The above example shows this behavior: note how we join on `UserId`, but only the `Users` result has the `UserId` column, even though the `Posts` table also has a `UserId` column.
 	 *
 	 * @template T
 	 *
@@ -148,7 +148,7 @@ class DbConnection{
 	 *
 	 * @return array<T>|array<array<mixed>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
 	 *
-	 * @throws Exceptions\AppException If a class was specified but the class doesn't have a `FromMultiTableRow` method.
+	 * @throws Exceptions\AppException If a class was specified but the class doesn't have a `FromMultiTableRow()` method.
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
 	 */
 	public function MultiTableSelect(string $sql, array $params = [], ?string $class = null): array{
