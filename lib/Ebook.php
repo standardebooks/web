@@ -580,6 +580,10 @@ class Ebook{
 	// METHODS
 	// *******
 
+	/**
+	 * @throws \Exception
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Validate(): void{
 		$now = new DateTimeImmutable();
 		$error = new Exceptions\ValidationException();
@@ -739,6 +743,9 @@ class Ebook{
 		}
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function CreateOrUpdate(): void{
 		try{
 			$existingEbook = Ebook::GetByIdentifier($this->Identifier);
@@ -750,6 +757,9 @@ class Ebook{
 		}
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	private function InsertTagStrings(): void{
 		$tags = [];
 		foreach($this->Tags as $ebookTag){
@@ -758,6 +768,9 @@ class Ebook{
 		$this->Tags = $tags;
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	private function InsertLocSubjectStrings(): void{
 		$subjects = [];
 		foreach($this->LocSubjects as $locSubject){
@@ -1089,6 +1102,9 @@ class Ebook{
 		return $result[0];
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function Create(): void{
 		$this->Validate();
 
@@ -1140,6 +1156,9 @@ class Ebook{
 		$this->InsertTocEntries();
 	}
 
+	/**
+	 * @throws \Exception
+	 */
 	public function Save(): void{
 		$this->Validate();
 
