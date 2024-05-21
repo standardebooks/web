@@ -192,8 +192,8 @@ catch(Exceptions\EbookNotFoundException){
 			<meta property="schema:image" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->DistCoverUrl) ?>"/>
 			<meta property="schema:thumbnailUrl" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
 			<meta property="schema:inLanguage" content="<?= Formatter::EscapeHtml($ebook->Language) ?>"/>
-			<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->Created->format('Y-m-d')) ?>"/>
-			<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->Updated->format('Y-m-d')) ?>"/>
+			<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->EbookCreated->format('Y-m-d')) ?>"/>
+			<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->EbookUpdated->format('Y-m-d')) ?>"/>
 			<div property="schema:potentialAction" typeof="http://schema.org/ReadAction">
 				<meta property="schema:actionStatus" content="http://schema.org/PotentialActionStatus"/>
 				<div property="schema:target" typeof="schema:EntryPoint">

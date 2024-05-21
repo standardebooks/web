@@ -57,7 +57,7 @@ class AtomFeed extends Feed{
 		foreach($this->Entries as $entry){
 			$obj = new StdClass();
 			if($entry instanceof Ebook){
-				$obj->Updated = $entry->Updated->format('Y-m-d\TH:i:s\Z');
+				$obj->Updated = $entry->EbookUpdated->format('Y-m-d\TH:i:s\Z');
 				$obj->Id = SITE_URL . $entry->Url;
 			}
 			else{
