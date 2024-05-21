@@ -8,13 +8,15 @@ class Contributor{
 	public ?string $FullName = null;
 	public ?string $NacoafUrl = null;
 
-	public function __construct(string $name, string $sortName = null, string $fullName = null, string $wikipediaUrl = null, string $marcRole = null, string $nacoafUrl = null){
-		$this->Name = str_replace('\'', '’', $name);
-		$this->UrlName = Formatter::MakeUrlSafe($name);
-		$this->SortName = $sortName;
-		$this->FullName = $fullName;
-		$this->WikipediaUrl = $wikipediaUrl;
-		$this->MarcRole = $marcRole;
-		$this->NacoafUrl = $nacoafUrl;
+	public static function FromProperties(string $name, string $sortName = null, string $fullName = null, string $wikipediaUrl = null, string $marcRole = null, string $nacoafUrl = null): Contributor{
+		$instance = new Contributor();
+		$instance->Name = str_replace('\'', '’', $name);
+		$instance->UrlName = Formatter::MakeUrlSafe($name);
+		$instance->SortName = $sortName;
+		$instance->FullName = $fullName;
+		$instance->WikipediaUrl = $wikipediaUrl;
+		$instance->MarcRole = $marcRole;
+		$instance->NacoafUrl = $nacoafUrl;
+		return $instance;
 	}
 }

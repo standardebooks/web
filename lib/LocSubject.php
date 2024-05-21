@@ -1,6 +1,7 @@
 <?
-class LocSubject extends Tag{
+class LocSubject{
 	public int $LocSubjectId;
+	public string $Name;
 
 	/**
 	 * @throws Exceptions\ValidationException
