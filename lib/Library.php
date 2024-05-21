@@ -59,10 +59,10 @@ class Library{
 
 			case EbookSortType::Newest:
 				usort($matches, function($a, $b){
-					if($a->Created < $b->Created){
+					if($a->EbookCreated < $b->EbookCreated){
 						return -1;
 					}
-					elseif($a->Created == $b->Created){
+					elseif($a->EbookCreated == $b->EbookCreated){
 						return 0;
 					}
 					else{
