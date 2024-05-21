@@ -387,13 +387,11 @@ do
 		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
 	fi
 
-	verboseDbFlag=""
 	if [ "${verbose}" = "true" ]; then
-		verboseDbFlag="--verbose"
 		printf "Updating/inserting ebook in database ... "
 	fi
 
-	"${scriptsDir}"/update-ebook-database "${verboseDbFlag}" --ebookWwwFilesystemPath "${webDir}"
+	"${scriptsDir}"/update-ebook-database --ebookWwwFilesystemPath "${webDir}"
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"
