@@ -22,6 +22,10 @@ class EbookTag extends Tag{
 	// *******
 	// METHODS
 	// *******
+
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
@@ -34,6 +38,9 @@ class EbookTag extends Tag{
 		}
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function Create(): void{
 		$this->Validate();
 
@@ -44,6 +51,9 @@ class EbookTag extends Tag{
 		$this->TagId = Db::GetLastInsertedId();
 	}
 
+	/**
+	 * @throws \Exceptions\ValidationException
+	 */
 	public function GetByNameOrCreate(string $name): EbookTag{
 		$result = Db::Query('
 				SELECT *
