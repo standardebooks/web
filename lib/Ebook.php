@@ -82,12 +82,12 @@ class Ebook{
 	public $Contributors = [];
 	public ?string $ContributorsHtml = null;
 	public string $TitleWithCreditsHtml = '';
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
 	public ?string $TextUrl;
 	public ?string $TextSinglePageUrl;
 	public ?string $TextSinglePageSizeNumber = null;
 	public ?string $TextSinglePageSizeUnit = null;
+	public DateTimeImmutable $EbookCreated;
+	public DateTimeImmutable $EbookUpdated;
 	public ?int $TextSinglePageByteCount = null;
 	/** @var ?array<string> $TocEntries */
 	public $TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
@@ -296,13 +296,13 @@ class Ebook{
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if($date !== false && sizeof($date) > 0){
 			/** @throws void */
-			$this->Created = new DateTimeImmutable((string)$date[0]);
+			$this->EbookCreated = new DateTimeImmutable((string)$date[0]);
 		}
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
 		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
 			/** @throws void */
-			$this->Updated = new DateTimeImmutable((string)$modifiedDate[0]);
+			$this->EbookUpdated = new DateTimeImmutable((string)$modifiedDate[0]);
 		}
 
 		// Get SE tags
@@ -722,12 +722,12 @@ class Ebook{
 			$error->Add(new Exceptions\StringTooLongException('Ebook WikipediaUrl'));
 		}
 
-		if($this->Created > $now || $this->Created < EBOOK_EARLIEST_CREATION_DATE){
-			$error->Add(new Exceptions\InvalidEbookCreatedDatetimeException($this->Created));
+		if($this->EbookCreated > $now || $this->EbookCreated < EBOOK_EARLIEST_CREATION_DATE){
+			$error->Add(new Exceptions\InvalidEbookCreatedDatetimeException($this->EbookCreated));
 		}
 
-		if($this->Updated > $now || $this->Updated < EBOOK_EARLIEST_CREATION_DATE){
-			$error->Add(new Exceptions\InvalidEbookUpdatedDatetimeException($this->Updated));
+		if($this->EbookUpdated > $now || $this->EbookUpdated < EBOOK_EARLIEST_CREATION_DATE){
+			$error->Add(new Exceptions\InvalidEbookUpdatedDatetimeException($this->EbookUpdated));
 
 		}
 
@@ -1144,7 +1144,7 @@ class Ebook{
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
 				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->Created, $this->Updated, $this->TextSinglePageByteCount, $this->IndexableText]);
+				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText]);
 
 		$this->EbookId = Db::GetLastInsertedId();
 
@@ -1198,7 +1198,7 @@ class Ebook{
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
 				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->Created, $this->Updated, $this->TextSinglePageByteCount, $this->IndexableText,
+				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
 				$this->EbookId]);
 
 		$this->DeleteTags();

@@ -10,7 +10,7 @@ use function Safe\mkdir;
 use function Safe\preg_replace;
 
 function SortByUpdatedDesc(Ebook $a, Ebook $b): int{
-	return $b->Updated <=> $a->Updated;
+	return $b->EbookUpdated <=> $a->EbookUpdated;
 }
 
 function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $labelSort = null, DateTimeImmutable $now = null): void{
@@ -111,7 +111,7 @@ foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 }
 
 usort($allEbooks, 'SortByUpdatedDesc');
-usort($newestEbooks, function($a, $b){ return $b->Created <=> $a->Created; });
+usort($newestEbooks, function($a, $b){ return $b->EbookCreated <=> $a->EbookCreated; });
 $newestEbooks = array_slice($newestEbooks, 0, $ebooksPerNewestEbooksFeed);
 
 $now = new DateTimeImmutable();
