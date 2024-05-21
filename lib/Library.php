@@ -433,7 +433,7 @@ class Library{
 			try{
 				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path);
 
-				$ebooks[] = new Ebook($ebookWwwFilesystemPath);
+				$ebooks[] = Ebook::FromFilesystem($ebookWwwFilesystemPath);
 			}
 			catch(\Exception){
 				// An error in a book isn't fatal; just carry on.
@@ -704,7 +704,7 @@ class Library{
 			try{
 				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $filename);
 
-				$ebook = new Ebook($ebookWwwFilesystemPath);
+				$ebook = Ebook::FromFilesystem($ebookWwwFilesystemPath);
 
 				$ebooks[$ebookWwwFilesystemPath] = $ebook;
 

@@ -7,7 +7,7 @@ use function Safe\preg_replace;
 use function Safe\apcu_fetch;
 use function Safe\shuffle;
 
-$ebook = new Ebook();
+$ebook = null;
 $transcriptionSources = [];
 $scanSources = [];
 $otherSources = [];
@@ -45,7 +45,7 @@ try{
 		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
 	}
 	catch(Safe\Exceptions\ApcuException){
-		$ebook = new Ebook($wwwFilesystemPath);
+		$ebook = Ebook::FromFilesystem($wwwFilesystemPath);
 	}
 
 	// Divide our sources into transcriptions and scans
