@@ -4,6 +4,47 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\getopt;
 
+function findObjectDifferences($fs, $db): array{
+	$diffs = [];
+	$fsReflection = new ReflectionClass($fs);
+	$dbReflection = new ReflectionClass($db);
+
+	foreach($fsReflection->getProperties() as $fsProperty){
+		$dbProperty = $dbReflection->getProperty($fsProperty->getName());
+
+		try{
+			if($fsProperty->getName()[0] === '_'){
+				// Property starts with underscore, remove the underscore and call __get()
+				$propertyNameWithoutUnderscore = substr($fsProperty->getName(), 1);
+				if(is_array($fs->$propertyNameWithoutUnderscore) && is_array($db->$propertyNameWithoutUnderscore)){
+					for($i = 0; $i < count($fsProperty->getValue($fs)); $i++){
+						if(is_object($fsProperty->getValue($fs)[$i])){
+							$arrayDiff = findObjectDifferences($fsProperty->getValue($fs)[$i], $dbProperty->getValue($db)[$i]);
+							if(!empty($arrayDiff)){
+								$diffs[$fsProperty->getName()] = $arrayDiff;
+							}
+						}
+						else if($fsProperty->getValue($fs)[$i] != $dbProperty->getValue($db)[$i]){
+							$diffs[$fsProperty->getName()] = ["fs" => $fsProperty->getValue($fs), "db" => $dbProperty->getValue($db)];
+						}
+					}
+				}
+				else if($fs->$propertyNameWithoutUnderscore != $db->$propertyNameWithoutUnderscore){
+					$diffs[$fsProperty->getName()] = ["fs" => $fsProperty->getValue($fs), "db" => $dbProperty->getValue($db)];
+				}
+			}
+			else if($fsProperty->getValue($fs) != $dbProperty->getValue($db)){
+				$diffs[$fsProperty->getName()] = ["fs" => $fsProperty->getValue($fs), "db" => $dbProperty->getValue($db)];
+			}
+		}
+		catch(Error $e){
+			$diffs[$fsProperty->getName()] = ['missing'];
+		}
+	}
+
+	return $diffs;
+}
+
 $longopts = ['ebookWwwFilesystemPath:', 'verbose'];
 $options = getopt('v', $longopts);
 
@@ -23,11 +64,27 @@ if($verbose){
 	print("ebookWwwFilesystemPath: $ebookWwwFilesystemPath\n");
 }
 
-$ebook = new Ebook($ebookWwwFilesystemPath);
+$ebookFromFilesystem = Ebook::FromFilesystem($ebookWwwFilesystemPath);
 
 if($verbose){
-	print("Title: $ebook->Title\n");
-	print("Identifier: $ebook->Identifier\n");
+	print("Title: $ebookFromFilesystem->Title\n");
+	print("Identifier: $ebookFromFilesystem->Identifier\n");
 }
 
-$ebook->CreateOrUpdate();
+$ebookFromFilesystem->CreateOrUpdate();
+
+$ebookFromDatabase = Ebook::GetByIdentifier($ebookFromFilesystem->Identifier);
+
+$diffs = findObjectDifferences($ebookFromFilesystem, $ebookFromDatabase);
+
+if(!empty($diffs)){
+	print("Error: Difference in Ebook on filesystem and in database. Diffs:\n");
+	print_r($diffs);
+	exit(1);
+}
+else{
+	if($verbose){
+		print("Ebook on filesystem and in database match.\n");
+	}
+	exit(0);
+}
