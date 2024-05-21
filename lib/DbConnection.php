@@ -380,6 +380,7 @@ class DbConnection{
 		}
 		else{
 			switch($metadata['native_type'] ?? null){
+				case 'DATE':
 				case 'DATETIME':
 				case 'TIMESTAMP':
 					/** @throws void */
