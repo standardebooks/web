@@ -132,9 +132,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/15454">Imperium in Imperio</a> by Sutton E. Griggs</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/36033">Overshadowed</a> by Sutton E. Griggs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/472">The House Behind the Cedars</a> by Charles W. Chesnutt</p>
 			</li>
@@ -171,9 +171,6 @@
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/Hamilton_(play)">Hamilton</a> by Mary P. Hamlin and George Arliss</p><!--patron-->
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/64235">The Argonautica</a> by Apollonius of Rhodes, translated by Arthur S. Way</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
 			</li>
