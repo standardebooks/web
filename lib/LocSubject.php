@@ -3,7 +3,7 @@ class LocSubject extends Tag{
 	public int $LocSubjectId;
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\ValidationException
 	 */
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
@@ -18,7 +18,7 @@ class LocSubject extends Tag{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\ValidationException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -31,7 +31,7 @@ class LocSubject extends Tag{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\ValidationException
 	 */
 	public function GetByNameOrCreate(string $name): LocSubject{
 		$result = Db::Query('
