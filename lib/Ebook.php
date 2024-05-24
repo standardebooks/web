@@ -581,11 +581,12 @@ class Ebook{
 	// *******
 
 	/**
-	 * @throws \Exception
 	 * @throws \Exceptions\ValidationException
 	 */
 	public function Validate(): void{
+		/** @throws void */
 		$now = new DateTimeImmutable();
+
 		$error = new Exceptions\ValidationException();
 
 		if($this->Identifier == ''){
@@ -744,7 +745,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exceptions\ValidationException
 	 */
 	public function CreateOrUpdate(): void{
 		try{
@@ -1103,7 +1104,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exceptions\ValidationException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -1157,7 +1158,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws \Exception
+	 * @throws Exceptions\ValidationException
 	 */
 	public function Save(): void{
 		$this->Validate();
