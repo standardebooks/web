@@ -581,7 +581,7 @@ class Ebook{
 	// *******
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\ValidationException
 	 */
 	public function Validate(): void{
 		/** @throws void */
@@ -759,7 +759,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\ValidationException
 	 */
 	private function InsertTagStrings(): void{
 		$tags = [];
@@ -770,7 +770,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws \Exceptions\ValidationException
+	 * @throws Exceptions\ValidationException
 	 */
 	private function InsertLocSubjectStrings(): void{
 		$subjects = [];
@@ -1083,7 +1083,7 @@ class Ebook{
 	// ***********
 
 	/**
-	 * @throws \Exceptions\EbookNotFoundException
+	 * @throws Exceptions\EbookNotFoundException
 	 */
 	public static function GetByIdentifier(?string $identifier): Ebook{
 		if($identifier === null){
