@@ -10,4 +10,4 @@ CREATE TABLE `Payments` (
   `IsMatchingDonation` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`PaymentId`),
   KEY `index2` (`UserId`,`Amount`,`Created`,`IsRecurring`)
-) ENGINE=InnoDB AUTO_INCREMENT=828 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
