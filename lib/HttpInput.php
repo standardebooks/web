@@ -107,6 +107,30 @@ class HttpInput{
 		return self::GetHttpVar($variable, HttpVariableType::Decimal, $set);
 	}
 
+	public static function Date(HttpVariableSource $set, string $variable): ?DateTimeImmutable{
+		/** @var ?DateTimeImmutable */
+		return self::GetHttpVar($variable, HttpVariableType::DateTime, $set);
+	}
+
+	/**
+	 * Returns the absolute path of the requested file upload, or `null` if there isn't one.
+	 *
+	 * @throws Exceptions\InvalidFileUploadException If there is a file upload present, but the upload somehow failed.
+	 */
+	public static function File(string $variable): ?string{
+		$filePath = null;
+
+		if(isset($_FILES[$variable]) && $_FILES[$variable]['size'] > 0){
+			if(!is_uploaded_file($_FILES[$variable]['tmp_name']) || $_FILES[$variable]['error'] > UPLOAD_ERR_OK){
+				throw new Exceptions\InvalidFileUploadException();
+			}
+
+			$filePath = $_FILES[$variable]['tmp_name'] ?? null;
+		}
+
+		return $filePath;
+	}
+
 	/**
 	* @param string $variable
 	* @return array<string>

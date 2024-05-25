@@ -1,4 +1,7 @@
 <?
+
+use Exceptions\InvalidImageUploadException;
+
 try{
 	session_start();
 	$httpMethod = HttpInput::ValidateRequestMethod([HttpMethod::Post, HttpMethod::Patch, HttpMethod::Put]);
@@ -32,17 +35,7 @@ try{
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 		}
 
-		// Confirm that we have an image and that it came from POST
-		$imagePath = null;
-		if(isset($_FILES['artwork-image']) && $_FILES['artwork-image']['size'] > 0){
-			if(!is_uploaded_file($_FILES['artwork-image']['tmp_name']) || $_FILES['artwork-image']['error'] > UPLOAD_ERR_OK){
-				throw new Exceptions\InvalidImageUploadException();
-			}
-
-			$imagePath = $_FILES['artwork-image']['tmp_name'] ?? null;
-		}
-
-		$artwork->Create($imagePath);
+		$artwork->Create(HttpInput::File('artwork-image'));
 
 		$_SESSION['artwork'] = $artwork;
 		$_SESSION['artwork-created'] = true;
@@ -77,21 +70,7 @@ try{
 			$artwork->Status = $newStatus;
 		}
 
-		// Confirm that we have an image and that it came from POST
-		$imagePath = null;
-		if(isset($_FILES['artwork-image']) && $_FILES['artwork-image']['size'] > 0){
-			if(!is_uploaded_file($_FILES['artwork-image']['tmp_name']) || $_FILES['artwork-image']['error'] > UPLOAD_ERR_OK){
-				throw new Exceptions\InvalidImageUploadException();
-			}
-
-			$imagePath = $_FILES['artwork-image']['tmp_name'] ?? null;
-		}
-		else{
-			// No uploaded file as part of this edit, so retain the MimeType of the original submission.
-			$artwork->MimeType = $originalArtwork->MimeType;
-		}
-
-		$artwork->Save($imagePath);
+		$artwork->Save(HttpInput::File('artwork-image'));
 
 		$_SESSION['artwork'] = $artwork;
 		$_SESSION['artwork-saved'] = true;
@@ -100,7 +79,7 @@ try{
 		header('Location: ' . $artwork->Url);
 	}
 
-	// PATCHing a new artwork
+	// PATCHing an artwork
 	if($httpMethod == HttpMethod::Patch){
 		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
@@ -147,7 +126,13 @@ catch(Exceptions\InvalidPermissionsException){
 catch(Exceptions\ArtworkNotFoundException){
 	Template::Emit404();
 }
-catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidImageUploadException | Exceptions\ArtworkNotFoundException $ex){
+catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidFileUploadException | Exceptions\ArtworkNotFoundException $ex){
+
+	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
+	if($ex instanceof Exceptions\InvalidFileUploadException){
+		$ex = new InvalidImageUploadException();
+	}
+
 	$_SESSION['artwork'] = $artwork;
 	$_SESSION['exception'] = $ex;
 
