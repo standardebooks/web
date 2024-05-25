@@ -1,7 +1,5 @@
 <?
 
-use Exceptions\InvalidImageUploadException;
-
 try{
 	session_start();
 	$httpMethod = HttpInput::ValidateRequestMethod([HttpMethod::Post, HttpMethod::Patch, HttpMethod::Put]);
@@ -126,11 +124,10 @@ catch(Exceptions\InvalidPermissionsException){
 catch(Exceptions\ArtworkNotFoundException){
 	Template::Emit404();
 }
-catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidFileUploadException | Exceptions\ArtworkNotFoundException $ex){
-
+catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidFileUploadException $ex){
 	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
 	if($ex instanceof Exceptions\InvalidFileUploadException){
-		$ex = new InvalidImageUploadException();
+		$ex = new Exceptions\InvalidImageUploadException();
 	}
 
 	$_SESSION['artwork'] = $artwork;
