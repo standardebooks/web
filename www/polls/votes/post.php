@@ -17,7 +17,7 @@ try{
 	session_unset();
 
 	if($requestType == HttpRequestType::Web){
-		$_SESSION['vote-created'] = $vote->UserId;
+		$_SESSION['is-vote-created'] = $vote->UserId;
 		http_response_code(303);
 		header('Location: ' . $vote->Url);
 	}

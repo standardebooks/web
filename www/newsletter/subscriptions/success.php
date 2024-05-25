@@ -9,7 +9,7 @@ session_start();
 
 $created = false;
 
-if(isset($_SESSION['subscription-created'])){
+if(isset($_SESSION['is-subscription-created'])){
 	$created = true;
 	session_unset();
 }

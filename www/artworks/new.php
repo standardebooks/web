@@ -3,7 +3,7 @@ use function Safe\session_unset;
 
 session_start();
 
-$created = HttpInput::Bool(SESSION, 'artwork-created') ?? false;
+$created = HttpInput::Bool(SESSION, 'is-artwork-created') ?? false;
 /** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 /** @var ?Artwork $artwork */

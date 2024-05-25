@@ -18,7 +18,7 @@ try{
 			$uuid = Uuid::uuid4();
 			$subscription->User = new User();
 			$subscription->User->Uuid = $uuid->toString();
-			$_SESSION['subscription-created'] = 0; // 0 means 'bot'
+			$_SESSION['is-subscription-created'] = 0; // 0 means 'bot'
 			header('Location: /newsletter/subscriptions/success');
 		}
 		else{
@@ -45,7 +45,7 @@ try{
 
 	if($requestType == HttpRequestType::Web){
 		http_response_code(303);
-		$_SESSION['subscription-created'] = $subscription->UserId;
+		$_SESSION['is-subscription-created'] = $subscription->UserId;
 		header('Location: /newsletter/subscriptions/success');
 	}
 	else{

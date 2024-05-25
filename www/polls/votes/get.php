@@ -9,7 +9,7 @@ $created = false;
 try{
 	$vote = PollVote::Get(HttpInput::Str(GET, 'pollurlname'), HttpInput::Int(GET, 'userid'));
 
-	if(isset($_SESSION['vote-created']) && $_SESSION['vote-created'] == $vote->UserId){
+	if(isset($_SESSION['is-vote-created']) && $_SESSION['is-vote-created'] == $vote->UserId){
 		$created = true;
 		http_response_code(201);
 		session_unset();

@@ -9,13 +9,13 @@ $updated = false;
 $confirmed = false;
 
 try{
-	if(isset($_SESSION['subscription-created']) && $_SESSION['subscription-created'] == 0){
+	if(isset($_SESSION['is-subscription-created']) && $_SESSION['is-subscription-created'] == 0){
 		$created = true;
 	}
 	else{
 		$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
 
-		if(isset($_SESSION['subscription-created']) && $_SESSION['subscription-created'] == $subscription->UserId){
+		if(isset($_SESSION['is-subscription-created']) && $_SESSION['is-subscription-created'] == $subscription->UserId){
 			$created = true;
 		}
 
