@@ -21,8 +21,8 @@ parameters:
 		- DONATION_DRIVE_COUNTER_ON
 	earlyTerminatingMethodCalls:
 		Template:
-			- Emit404
 			- Emit403
+			- Emit404
 			- RedirectToLogin
 	exceptions:
 		check:
