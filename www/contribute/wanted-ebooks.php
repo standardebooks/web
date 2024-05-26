@@ -337,7 +337,7 @@
 				<p><a href="https://archive.org/details/scepticismandani00santuoft/page/n5">Skepticism and Animal Faith</a> by George Santayana. (transcription required)</p>
 			</li>
 			<li>
-				<p><a href="https://archive.org/details/in.ernet.dli.2015.74113">When We Were Very Young</a> by A. A. Milne (transcription required; research needed to see if we need a poetry omnibus)</p>
+				<p><a href="https://gutenberg.org/ebooks/70271">When We Were Very Young</a> by A. A. Milne (research needed to see if we need a poetry omnibus)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/32474">The Memoirs of the Conquistadors</a> by Bernal Díaz del Castillo (<a href="https://www.gutenberg.org/ebooks/32475">Volume 2</a>)</p>
@@ -472,7 +472,7 @@
 				<p>Poetry by <a href="https://en.wikisource.org/wiki/Author:Edwin_Arlington_Robinson">E. A. Robinson</a></p>
 			</li>
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Fors_Clavigera">Fors Clavigera</a> by John Ruskin (some transcription may be required: as of September 2022, 5 out of 8 volumes are available on PG)</p>
+				<p><a href="https://en.wikipedia.org/wiki/Fors_Clavigera">Fors Clavigera</a> by John Ruskin (some transcription may be required: as of May 2024, 6 out of 8 volumes are available on PG)</p>
 			</li>	
 			<li>
 				<p><a href="https://archive.org/details/sinbadromance00scot">Sinbad: A Romance</a> by Cyril Kay Scott (Transcription required.)</p><!--patron-->
