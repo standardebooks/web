@@ -3,7 +3,7 @@ use function Safe\session_unset;
 
 session_start();
 
-$saved = HttpInput::Bool(SESSION, 'is-artwork-saved') ?? false;
+$isSaved = HttpInput::Bool(SESSION, 'is-saved') ?? false;
 /** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 
@@ -22,7 +22,7 @@ try{
 	}
 
 	// We got here because an artwork was successfully submitted
-	if($saved){
+	if($isSaved){
 		session_unset();
 	}
 
@@ -55,7 +55,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<? if($saved){ ?>
+		<? if($isSaved){ ?>
 			<p class="message success">Artwork saved!</p>
 		<? } ?>
 

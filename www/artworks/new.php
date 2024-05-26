@@ -3,7 +3,7 @@ use function Safe\session_unset;
 
 session_start();
 
-$created = HttpInput::Bool(SESSION, 'is-artwork-created') ?? false;
+$isCreated = HttpInput::Bool(SESSION, 'is-created') ?? false;
 /** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 /** @var ?Artwork $artwork */
@@ -19,7 +19,7 @@ try{
 	}
 
 	// We got here because an artwork was successfully submitted
-	if($created){
+	if($isCreated){
 		http_response_code(201);
 		$artwork = null;
 		session_unset();
@@ -62,7 +62,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<? if($created){ ?>
+		<? if($isCreated){ ?>
 			<p class="message success">Artwork submitted!</p>
 		<? } ?>
 

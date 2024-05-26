@@ -36,7 +36,7 @@ try{
 		$artwork->Create(HttpInput::File('artwork-image'));
 
 		$_SESSION['artwork'] = $artwork;
-		$_SESSION['is-artwork-created'] = true;
+		$_SESSION['is-created'] = true;
 
 		http_response_code(303);
 		header('Location: /artworks/new');
@@ -71,7 +71,7 @@ try{
 		$artwork->Save(HttpInput::File('artwork-image'));
 
 		$_SESSION['artwork'] = $artwork;
-		$_SESSION['is-artwork-saved'] = true;
+		$_SESSION['is-saved'] = true;
 
 		http_response_code(303);
 		header('Location: ' . $artwork->Url);
@@ -109,7 +109,7 @@ try{
 		$artwork->Save();
 
 		$_SESSION['artwork'] = $artwork;
-		$_SESSION['is-artwork-saved'] = true;
+		$_SESSION['is-saved'] = true;
 
 		http_response_code(303);
 		header('Location: ' . $artwork->Url);
