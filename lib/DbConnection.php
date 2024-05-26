@@ -111,29 +111,29 @@ class DbConnection{
 	 *
 	 * For example, `select * from Users inner join Posts using (UserId)`.
 	 *
-	 * The result is an array of rows. Each row is an array of tables, with each table containing its columns and values. For example,
+	 * The result is an array of rows. Each row is an array of objects, with each object containing its columns and values. For example,
 	 *
 	 * ```
 	 * [
 	 *	[
-	 *		'Users' => [
+	 *		'Users' => {
 	 *			'UserId' => 111,
 	 *			'Name' => 'Alice'
-	 *		],
-	 *		'Posts' => [
+	 *		},
+	 *		'Posts' => {
 	 *			'PostId' => 222,
 	 *			'Title' => 'Lorem Ipsum'
-	 *		],
+	 *		},
 	 *	],
 	 *	[
-	 *		'Users' => [
+	 *		'Users' => {
 	 *			'UserId' => 333,
 	 *			'Name' => 'Bob'
-	 *		],
-	 *		'Posts' => [
+	 *		},
+	 *		'Posts' => {
 	 *			'PostId' => 444,
 	 *			'Title' => 'Dolor sit'
-	 *		]
+	 *		}
 	 *	]
 	 *  ]
 	 * ```
@@ -146,7 +146,7 @@ class DbConnection{
 	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
 	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
 	 *
-	 * @return array<T>|array<array<mixed>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
+	 * @return array<T>|array<array<object>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
 	 *
 	 * @throws Exceptions\AppException If a class was specified but the class doesn't have a `FromMultiTableRow()` method.
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
@@ -316,7 +316,7 @@ class DbConnection{
 	 * @param \PdoStatement $handle The PDO handle to execute.
 	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
 	 *
-	 * @return array<T>|array<array<mixed>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
+	 * @return array<T>|array<array<object>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
 	 *
 	 * @throws \PDOException When an error occurs during execution of the query.
 	 */
@@ -343,13 +343,16 @@ class DbConnection{
 
 			foreach($rows as $row){
 				$resultRow = [];
+				$object = new stdClass();
 				for($i = 0; $i < $handle->columnCount(); $i++){
 					if($metadata[$i] === false || !isset($metadata[$i]['table'])){
 						continue;
 					}
 
+					$object->{$metadata[$i]['name']} = $this->GetColumnValue($row[$i], $metadata[$i]);
+
 					// Don't specify a class, so that we skip enum evaluation. We'll evaluate enums in the class's FromMultiTable function, if any.
-					$resultRow[$metadata[$i]['table']][$metadata[$i]['name']] = $this->GetColumnValue($row[$i], $metadata[$i]);
+					$resultRow[$metadata[$i]['table']] = $object;
 				}
 
 				if($class === null){
