@@ -97,7 +97,7 @@ while [ $# -gt 0 ]; do
 			shift 2
 			;;
 		-b|--bare)
-			bare="--bare"
+			bare="--mirror"
 			shift 1
 			;;
 		*)
