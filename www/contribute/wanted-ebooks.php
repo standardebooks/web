@@ -126,9 +126,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/134">Maria</a> by Mary Wollstonecraft</p>
 			</li>
-			<li>
-				<p><a href="https://gutenberg.org/ebooks/393">The Blue Lagoon</a> by Henry De Vere Stacpoole</p><!--patron-->
-			</li>
+			<!-- <li>
+				<p><a href="https://gutenberg.org/ebooks/393">The Blue Lagoon</a> by Henry De Vere Stacpoole</p>patron
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/15454">Imperium in Imperio</a> by Sutton E. Griggs</p>
 			</li>
