@@ -69,7 +69,7 @@ class DbConnection{
 	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
 	 * @param class-string<T> $class The type of object to return in the return array.
 	 *
-	 * @return Array<T> An array of objects of type `$class`, or `stdClass` if `$class` is `null`.
+	 * @return array<T> An array of objects of type `$class`, or `stdClass` if `$class` is `null`.
 	 *
 	 * @throws Exceptions\DuplicateDatabaseKeyException When a unique key constraint has been violated.
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
@@ -146,7 +146,7 @@ class DbConnection{
 	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
 	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
 	 *
-	 * @return array<T>|array<array<object>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
+	 * @return array<T>|array<array<string, object>> An array of `$class` if `$class` is not `null`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
 	 *
 	 * @throws Exceptions\AppException If a class was specified but the class doesn't have a `FromMultiTableRow()` method.
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
@@ -316,7 +316,7 @@ class DbConnection{
 	 * @param \PdoStatement $handle The PDO handle to execute.
 	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
 	 *
-	 * @return array<T>|array<array<object>> An array of `$class` if `$class` is not `null`, otherwise an array of rows.
+	 * @return array<T>|array<array<string, object>> An array of `$class` if `$class` is not `null`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
 	 *
 	 * @throws \PDOException When an error occurs during execution of the query.
 	 */
@@ -343,15 +343,15 @@ class DbConnection{
 
 			foreach($rows as $row){
 				$resultRow = [];
-				$object = new stdClass();
 				for($i = 0; $i < $handle->columnCount(); $i++){
 					if($metadata[$i] === false || !isset($metadata[$i]['table'])){
 						continue;
 					}
 
+					$object = $resultRow[$metadata[$i]['table']] ?? new stdClass();
+
 					$object->{$metadata[$i]['name']} = $this->GetColumnValue($row[$i], $metadata[$i]);
 
-					// Don't specify a class, so that we skip enum evaluation. We'll evaluate enums in the class's FromMultiTable function, if any.
 					$resultRow[$metadata[$i]['table']] = $object;
 				}
 
