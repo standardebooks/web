@@ -82,8 +82,8 @@
 			</li>
 			<li>
 				<h2>Insert the music as a figure and add a List of Illustrations</h2>
-				<p>Once the music is ready, it is inserted like any other image. For full guidance, see <a href="https://standardebooks.org/manual/1.6.0/7-high-level-structural-patterns#7.8">section 7.8</a> of the manual.</p>
-				<p>As this is an illustration, a List of Illustrations is needed. For full guidance, see <a href="https://standardebooks.org/manual/1.6.0/7-high-level-structural-patterns#7.9">section 7.9 of the manual</a>.</p>
+				<p>Once the music is ready, it is inserted like any other image. For full guidance, see <a href="https://standardebooks.org/manual/latest/7-high-level-structural-patterns#7.8">section 7.8</a> of the manual.</p>
+				<p>As this is an illustration, a List of Illustrations is needed. For full guidance, see <a href="https://standardebooks.org/manual/latest/7-high-level-structural-patterns#7.9">section 7.9 of the manual</a>.</p>
 			</li>
 		</ol>
 	</article>
