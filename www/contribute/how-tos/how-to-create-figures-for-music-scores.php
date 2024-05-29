@@ -23,7 +23,7 @@
 				<aside class="tip">
 					<p>If you are not using MuseScore, you may need to <a href="https://www.musicxml.com/">install a plugin</a> to be able to export as MusicXML.</p>
 				</aside>
-				<p>MusicXML files should be named <code class="interpreted-text" role="string">illustration-n.xml</code> and saved in <code class="interpreted-text" role="string">./images/</code>. Ensure that they have a .xml filename. SVG files should be saved as <code class="interpreted-text" role="string">illustration-n.svg</code> in <code class="interpreted-text" role="string">./src/epub/images/</code>.</p>
+				<p>MusicXML files should be named <code class="path">illustration-n.xml</code> and saved in <code class="path">./images/</code>. Ensure that they have a .xml filename. SVG files should be saved as <code class="path">illustration-n.svg</code> in <code class="path">./src/epub/images/</code>.</p>
 				<aside class="tip">
 					<p>While you may need to have extra bars at the end of a phrase to decrease the layout stretch and compress the notation visually for SVG export, you should remove these extra bars, as well as any unused titles or other elements before saving as MusicXML.</p>
 				</aside>
