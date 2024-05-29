@@ -39,14 +39,8 @@ try{
 		}
 	}
 
-	// Do we have the ebook cached?
-	try{
-		/** @var Ebook $ebook */
-		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
-	}
-	catch(Safe\Exceptions\ApcuException){
-		$ebook = Ebook::FromFilesystem($wwwFilesystemPath);
-	}
+	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
+	$ebook = Ebook::GetByIdentifier($identifier);
 
 	// Divide our sources into transcriptions and scans
 	foreach($ebook->Sources as $source){
