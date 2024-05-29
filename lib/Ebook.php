@@ -41,8 +41,7 @@ use function Safe\shell_exec;
  * @property string $TitleWithCreditsHtml
  * @property string $TextUrl
  * @property string $TextSinglePageUrl
- * @property string $TextSinglePageSizeNumber
- * @property string $TextSinglePageSizeUnit
+ * @property string $TextSinglePageSizeFormatted
  * @property string $IndexableText
  */
 class Ebook{
@@ -110,8 +109,7 @@ class Ebook{
 	protected ?string $_TitleWithCreditsHtml = null;
 	protected ?string $_TextUrl = null;
 	protected ?string $_TextSinglePageUrl = null;
-	protected ?string $_TextSinglePageSizeNumber = null;
-	protected ?string $_TextSinglePageSizeUnit = null;
+	protected ?string $_TextSinglePageSizeFormatted = null;
 	protected ?string $_IndexableText = null;
 
 	// *******
@@ -523,29 +521,26 @@ class Ebook{
 		return $this->_TextSinglePageUrl;
 	}
 
-	protected function GetTextSinglePageSizeNumber(): string{
-		if($this->_TextSinglePageSizeNumber === null){
-			$sizes = 'BKMGTP';
-			$factor = intval(floor((strlen((string)$this->TextSinglePageByteCount) - 1) / 3));
-			try{
-				$this->_TextSinglePageSizeNumber = sprintf('%.1f', $this->TextSinglePageByteCount / pow(1024, $factor));
+	protected function GetTextSinglePageSizeFormatted(): string{
+		if($this->_TextSinglePageSizeFormatted === null){
+			$bytes = $this->TextSinglePageByteCount;
+			$sizes = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+
+			$index = 0;
+			while($bytes >= 1024 && $index < count($sizes) - 1){
+				$bytes /= 1024;
+				$index++;
 			}
-			catch(\DivisionByZeroError){
-				$this->_TextSinglePageSizeNumber = '0';
+
+			if($index == 0){
+				// No decimal point for smaller than a KB.
+				$this->_TextSinglePageSizeFormatted = sprintf("%d %s", $bytes, $sizes[$index]);
+			}else{
+				$this->_TextSinglePageSizeFormatted = sprintf("%.1f %s", $bytes, $sizes[$index]);
 			}
 		}
 
-		return $this->_TextSinglePageSizeNumber;
-	}
-
-	protected function GetTextSinglePageSizeUnit(): string{
-		if($this->_TextSinglePageSizeUnit === null){
-			$sizes = 'BKMGTP';
-			$factor = intval(floor((strlen((string)$this->TextSinglePageByteCount) - 1) / 3));
-			$this->_TextSinglePageSizeUnit = $sizes[$factor] ?? '';
-		}
-
-		return $this->_TextSinglePageSizeUnit;
+		return $this->_TextSinglePageSizeFormatted;
 	}
 
 	protected function GetIndexableText(): string{
