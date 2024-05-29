@@ -263,7 +263,7 @@ class Ebook{
 	}
 
 	/**
-	 * @return array<mixed>
+	 * @return array<string>
 	 */
 	protected function GetTocEntries(): array{
 		if($this->_TocEntries === null){
@@ -283,9 +283,9 @@ class Ebook{
 		return $this->_TocEntries;
 	}
 
-	protected function GetUrl(): ?string{
+	protected function GetUrl(): string{
 		if($this->_Url === null){
-			$this->Url = str_replace(WEB_ROOT, '', $this->WwwFilesystemPath);
+			$this->_Url = str_replace(WEB_ROOT, '', $this->WwwFilesystemPath);
 		}
 
 		return $this->_Url;
@@ -299,9 +299,9 @@ class Ebook{
 		return $this->_HasDownloads;
 	}
 
-	protected function GetUrlSafeIdentifier(): ?string{
+	protected function GetUrlSafeIdentifier(): string{
 		if($this->_UrlSafeIdentifier === null){
-			$this->UrlSafeIdentifier = str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
+			$this->_UrlSafeIdentifier = str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 		}
 
 		return $this->_UrlSafeIdentifier;
@@ -312,9 +312,9 @@ class Ebook{
 		return substr(sha1($gitCommits[0]->Created->format('U') . ' ' . $gitCommits[0]->Message), 0, 8);
 	}
 
-	protected function GetHeroImageUrl(): ?string{
+	protected function GetHeroImageUrl(): string{
 		if($this->_HeroImageUrl === null){
-			$this->HeroImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero.jpg';
+			$this->_HeroImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero.jpg';
 		}
 
 		return $this->_HeroImageUrl;
@@ -330,7 +330,7 @@ class Ebook{
 		return $this->_HeroImageAvifUrl;
 	}
 
-	protected function GetHeroImage2xUrl(): ?string{
+	protected function GetHeroImage2xUrl(): string{
 		if($this->_HeroImage2xUrl === null){
 			$this->_HeroImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero@2x.jpg';
 		}
@@ -348,9 +348,9 @@ class Ebook{
 		return $this->_HeroImage2xAvifUrl;
 	}
 
-	protected function GetCoverImageUrl(): ?string{
+	protected function GetCoverImageUrl(): string{
 		if($this->_CoverImageUrl === null){
-			$this->CoverImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover.jpg';
+			$this->_CoverImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover.jpg';
 		}
 
 		return $this->_CoverImageUrl;
@@ -366,7 +366,7 @@ class Ebook{
 		return $this->_CoverImageAvifUrl;
 	}
 
-	protected function GetCoverImage2xUrl(): ?string{
+	protected function GetCoverImage2xUrl(): string{
 		if($this->_CoverImage2xUrl === null){
 			$this->_CoverImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover@2x.jpg';
 		}
@@ -384,33 +384,27 @@ class Ebook{
 		return $this->_CoverImage2xAvifUrl;
 	}
 
-	protected function GetReadingEaseDescription(): ?string{
+	protected function GetReadingEaseDescription(): string{
 		if($this->_ReadingEaseDescription === null){
 			if($this->ReadingEase > 89){
 				$this->_ReadingEaseDescription = 'very easy';
 			}
-
-			if($this->ReadingEase >= 79 && $this->ReadingEase <= 89){
+			elseif($this->ReadingEase >= 79 && $this->ReadingEase <= 89){
 				$this->_ReadingEaseDescription = 'easy';
 			}
-
-			if($this->ReadingEase > 69 && $this->ReadingEase <= 79){
+			elseif($this->ReadingEase > 69 && $this->ReadingEase <= 79){
 				$this->_ReadingEaseDescription = 'fairly easy';
 			}
-
-			if($this->ReadingEase > 59 && $this->ReadingEase <= 69){
+			elseif($this->ReadingEase > 59 && $this->ReadingEase <= 69){
 				$this->_ReadingEaseDescription = 'average difficulty';
 			}
-
-			if($this->ReadingEase > 49 && $this->ReadingEase <= 59){
+			elseif($this->ReadingEase > 49 && $this->ReadingEase <= 59){
 				$this->_ReadingEaseDescription = 'fairly difficult';
 			}
-
-			if($this->ReadingEase > 39 && $this->ReadingEase <= 49){
+			elseif($this->ReadingEase > 39 && $this->ReadingEase <= 49){
 				$this->_ReadingEaseDescription = 'difficult';
 			}
-
-			if($this->ReadingEase <= 39){
+			else{
 				$this->_ReadingEaseDescription = 'very difficult';
 			}
 		}
