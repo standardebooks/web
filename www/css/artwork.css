@@ -156,14 +156,14 @@ form[action^="/artworks/"]{
 .artworks form.browse-artwork{
 	display: grid;
 	grid-gap: 1rem;
-	grid-template-columns: auto auto auto 1fr;
 	margin-top: 2rem;
 	max-width: calc(100% - 2rem);
+	width: auto;
 }
 
 .artworks form.browse-artwork button{
 	justify-self: end;
-	margin-top: 1.4rem;
+	grid-column: 1 / span 4;
 }
 
 label.picture::before{
@@ -172,10 +172,6 @@ label.picture::before{
 
 .artworks form.browse-artwork label.search{
 	grid-column: span 3;
-}
-
-.artworks form.browse-artwork label.sort{
-	grid-column: span 2;
 }
 
 form.create-update-artwork > fieldset{
