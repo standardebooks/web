@@ -457,9 +457,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/author/2843">Poetry</a> by John Clare (Careful research required to deduplicate this large corpus.)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4300">Ulysses</a> by James Joyce (Part of the Modern Library and Guardian 2015 100 best novels collections)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/45847">The Autobiography of Thomas Jefferson</a>, by Thomas Jefferson</p>
 			</li>
 			<li>
