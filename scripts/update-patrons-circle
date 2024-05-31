@@ -77,7 +77,7 @@ if(sizeof($expiredPatrons) > 0){
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->To = $patron->User->Email;
-			$em->ToName = $patron->Name;
+			$em->ToName = $patron->User->Name;
 			$em->Subject = 'Will you still help us make free, beautiful digital literature?';
 
 			if($lastPayment[0]->IsRecurring){
