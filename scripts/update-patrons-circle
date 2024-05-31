@@ -4,6 +4,10 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use Safe\DateTimeImmutable;
 
+use function Safe\file_get_contents;
+use function Safe\preg_match_all;
+use function Safe\shell_exec;
+
 // Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members
 // who aren't in that list.
 // We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
@@ -33,7 +37,7 @@ if(sizeof($expiredPatrons) > 0){
 
 	// We can't use the Library class to get ebooks because this script is typically run via cron or CLI,
 	// which doesn't have access PHP-FMP's APCu cache.
-	foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"') ?? '')) as $filename){
+	foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"'))) as $filename){
 		$metadata = file_get_contents($filename);
 
 		// Don't create a new Ebook object because that's very slow. Just do a regex match for speed.
@@ -77,7 +81,7 @@ if(sizeof($expiredPatrons) > 0){
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->To = $patron->User->Email;
-			$em->ToName = $patron->User->Name;
+			$em->ToName = $patron->User->Name ?? '';
 			$em->Subject = 'Will you still help us make free, beautiful digital literature?';
 
 			if($lastPayment[0]->IsRecurring){

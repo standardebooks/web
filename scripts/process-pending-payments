@@ -160,14 +160,14 @@ try{
 			$payment->Amount = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Total Amount"]]'))->getText())));
 			$payment->Fee = floatval(str_replace('$', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Fee"]]'))->getText())));
 
-			$transactionId = $detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]]'))->getText();
+			$transactionId = (string)($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]]'))->getText());
 			$transactionId = str_replace('View on FS', '', $transactionId);
 			$transactionId = str_replace('View on Finance', '', $transactionId);
 			$payment->TransactionId = trim($transactionId);
 
 			// We might also get a case where the donation is on behalf of a company match, but there's not really a way to distinguish that. Do a rough check.
 			// See donation 00b60a22-eafa-44cb-9850-54bef9763e8d
-			if($payment->User !== null && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name)){
+			if($payment->User !== null && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name ?? '')){
 				$payment->User = null;
 			}
 
@@ -234,8 +234,8 @@ try{
 
 						$log->Write('Sending thank you email to patron donor donating extra.');
 						$em = new Email();
-						$em->To = $payment->User->Email;
-						$em->ToName = $payment->User->Name;
+						$em->To = $payment->User->Email ?? '';
+						$em->ToName = $payment->User->Name ?? '';
 						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 						$em->FromName = EDITOR_IN_CHIEF_NAME;
 						$em->Subject = 'Thank you for supporting Standard Ebooks!';
@@ -272,8 +272,8 @@ try{
 					if(!$payment->IsRecurring || $previousPaymentCount == 1){
 						$log->Write('Sending thank you email to non-patron donor.');
 						$em = new Email();
-						$em->To = $payment->User->Email;
-						$em->ToName = $payment->User->Name;
+						$em->To = $payment->User->Email ?? '';
+						$em->ToName = $payment->User->Name ?? '';
 						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 						$em->FromName = EDITOR_IN_CHIEF_NAME;
 						$em->Subject = 'Thank you for supporting Standard Ebooks!';

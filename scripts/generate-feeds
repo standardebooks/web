@@ -3,11 +3,13 @@
 require_once('/standardebooks.org/web/lib/Core.php');
 
 use Safe\DateTimeImmutable;
+
+use function Safe\exec;
 use function Safe\getopt;
 use function Safe\mkdir;
 use function Safe\preg_replace;
 
-function SortByUpdatedDesc($a, $b){
+function SortByUpdatedDesc(Ebook $a, Ebook $b): int{
 	return $b->Updated <=> $a->Updated;
 }
 
@@ -31,6 +33,10 @@ function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $label
 	}
 }
 
+/**
+ * @param array<string, array<string, string>> $collections
+ * @param array<Ebook> $ebooks
+ */
 function CreateOpdsCollectionFeed(string $name, string $url, string $description, array $collections, array $ebooks, DateTimeImmutable $now, string $webRoot, OpdsNavigationFeed $opdsRoot, bool $force): void{
 	$collator = collator_create('en_US'); // Used for sorting letters with diacritics like in author names
 	usort($collections, function($a, $b) use($collator){ return $collator->compare($a['sortedname'], $b['sortedname']); });

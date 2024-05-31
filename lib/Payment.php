@@ -2,7 +2,7 @@
 use Safe\DateTimeImmutable;
 
 /**
- * @property User $User
+ * @property ?User $User
  */
 class Payment{
 	use Traits\Accessor;
@@ -18,6 +18,17 @@ class Payment{
 	public bool $IsMatchingDonation = false;
 
 	protected ?User $_User = null;
+
+	/**
+	 * @throws Exceptions\UserNotFoundException
+	 */
+	protected function GetUser(): ?User{
+		if($this->_User === null && $this->UserId !== null){
+			$this->_User = User::Get($this->UserId);
+		}
+
+		return $this->_User;
+	}
 
 
 	// *******

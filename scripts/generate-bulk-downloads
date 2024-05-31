@@ -2,7 +2,18 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+use function Safe\copy;
+use function Safe\exec;
+use function Safe\file_get_contents;
+use function Safe\filemtime;
+use function Safe\getopt;
+use function Safe\glob;
 use function Safe\mkdir;
+use function Safe\opendir;
+use function Safe\preg_replace;
+use function Safe\rmdir;
+use function Safe\tempnam;
+use function Safe\unlink;
 
 $longopts = ['webroot:'];
 $options = getopt('', $longopts);
@@ -13,7 +24,7 @@ $groups = ['collections', 'subjects', 'authors', 'months'];
 $ebooksByGroup = [];
 $updatedByGroup = [];
 
-function rrmdir($src){
+function rrmdir(string $src): void{
 	// See https://www.php.net/manual/en/function.rmdir.php#117354
 	$dir = opendir($src);
 	while(false !== ($file = readdir($dir))){
@@ -32,6 +43,9 @@ function rrmdir($src){
 	rmdir($src);
 }
 
+/**
+ * @param array<Ebook> $ebooks
+ */
 function CreateZip(string $filePath, array $ebooks, string $type, string $webRoot): void{
 	$tempFilename = tempnam(sys_get_temp_dir(), "se-ebooks");
 
@@ -198,7 +212,7 @@ foreach($groups as $group){
 			mkdir($parentDir, 0775, true);
 		}
 
-		exec('attr -q -s se-ebook-count -V ' . escapeshellarg(sizeof($collection->Ebooks)) . ' ' . escapeshellarg($parentDir));
+		exec('attr -q -s se-ebook-count -V ' . escapeshellarg((string)sizeof($collection->Ebooks)) . ' ' . escapeshellarg($parentDir));
 		exec('attr -q -s se-label -V ' . escapeshellarg($collection->Label) . ' ' . escapeshellarg($parentDir));
 		exec('attr -q -s se-label-sort -V ' . escapeshellarg($collection->LabelSort) . ' ' . escapeshellarg($parentDir));
 

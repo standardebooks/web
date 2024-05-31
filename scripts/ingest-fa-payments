@@ -18,6 +18,7 @@ use Facebook\WebDriver\Firefox\FirefoxOptions;
 
 use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
+use function Safe\file_put_contents;
 use function Safe\preg_replace;
 use function Safe\putenv;
 use function Safe\set_time_limit;
@@ -51,7 +52,7 @@ $faItemsPerPage = 20; // How many items are on a full page of FA results?
 // General plan: Read /tmp/last-fa-donation to see what the last transaction ID was that we processed.
 // If /tmp/last-fa-donation doesn't exist, get all transactions from today and create the file.
 
-function InsertTransaction($transactionId){
+function InsertTransaction(string $transactionId): bool{
 	$exists = Db::QueryInt('SELECT exists(
 					select *
 					from
@@ -151,7 +152,7 @@ try{
 
 				$transactionId = trim($td->getDomProperty('textContent'));
 
-				if($transactionId === null){
+				if($transactionId === ''){
 					continue;
 				}
 
@@ -173,7 +174,7 @@ try{
 
 				$transactionId = trim($td->getDomProperty('textContent'));
 
-				if($transactionId === null){
+				if($transactionId === ''){
 					continue;
 				}
 
@@ -215,6 +216,6 @@ catch(Exception $ex){
 	throw $ex;
 }
 finally{
-	$driver->quit();
+	$driver?->quit();
 }
 ?>
