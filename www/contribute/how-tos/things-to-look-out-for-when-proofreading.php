@@ -15,10 +15,10 @@
 			<ul>
 				<li><p><b>Spelling errors.</b> Actual spelling errors are very rare. If a word appears to be misspelled, it’s worth it to check the page scans, but such cases are often done on purpose by the author, or using an older spelling, or are spelled differently in en-US vs. en-GB.</p></li>
 				<li><p><b>Changing from en-GB to en-US or vice versa.</b> Spelling differences between the continents were not yet settled then, so it’s common for books to be set in a blend of spellings. We don’t convert from one style to the other, or try to ensure perfect consistency between styles. This includes en-GB differences like using “an” in front of a word starting in “h,” like “an hundred.”</p></li>
-				<li><p><br>Compound words.</b> Some words that today are usually written as a single word may in older works be printed as two words separated by a space or a hyphen. The most common cases are handled by <code class="bash"><b>se</b> modernize-spelling</code>, however there are so many possible combinations that eliminating or standardizing all of them would be a major challenge. As such it is <i>not required</i> to change compound words, although this can <i>optionally</i> be done provided there is sufficient evidence that a modern printing would do so. The following words are exceptions and <i>should never be modernized</i> (<abbr class="initialism">N.B. this does not mean we split them if they are already printed as a single word):</p>
+				<li><p><b>Compound words.</b> Some words that today are usually written as a single word may in older works be printed as two words separated by a space or a hyphen. The most common cases are handled by <code class="bash"><b>se</b> modernize-spelling</code>, however there are so many possible combinations that eliminating or standardizing all of them would be a major challenge. As such it is <i>not required</i> to change compound words, although this can <i>optionally</i> be done provided there is sufficient evidence that a modern printing would do so. The following words are exceptions and <i>should never be modernized</i> (<abbr class="initialism">N.B. this does not mean we split them if they are already printed as a single word):</p>
 				<ul>
 						<li><p>none the less</p></li>
-				        <li><p>on to</p></li>
+				        	<li><p>on to</p></li>
 						<li><p>worth while</p></li>
 				</ul>
 				</li>
