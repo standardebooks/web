@@ -509,8 +509,8 @@ class Artwork{
 			}
 		}
 
-		if($this->MimeType === null && !$error->Has('Exceptions\InvalidImageUploadException')){
-			// Only notify of wrong mimetype if there is no other problem with the uploaded image
+		if($imagePath !== null && $this->MimeType === null && !$error->Has('Exceptions\InvalidImageUploadException')){
+			// Only notify of wrong mimetype if there are no other problem with the uploaded image
 			$error->Add(new Exceptions\InvalidMimeTypeException());
 		}
 

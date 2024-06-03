@@ -68,6 +68,10 @@ try{
 			$artwork->Status = $newStatus;
 		}
 
+		if(HttpInput::File('artwork-image') === null){
+			$artwork->MimeType = $originalArtwork->MimeType;
+		}
+
 		$artwork->Save(HttpInput::File('artwork-image'));
 
 		$_SESSION['artwork'] = $artwork;
