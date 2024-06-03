@@ -547,6 +547,21 @@ class Museum{
 
 			return $outputUrl;
 		}
+		elseif(preg_match('/\blenbachhaus\.de$/', $parsedUrl['host'])){
+			$exampleUrl = 'https://www.lenbachhaus.de/en/digital/collection-online/detail/hymnus-an-michelangelo-30036437';
+
+			if($parsedUrl['host'] != 'www.lenbachhaus.de'){
+				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+			}
+
+			if(!preg_match('|^/en/digital/collection-online/detail/[^/]+$|ius', $parsedUrl['path'])){
+				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+			}
+
+			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
+
+			return $outputUrl;
+		}
 		// elseif(preg_match('/\bwebumenia\.sk$/ius', $parsedUrl['host'])){
 		// 	// All we need is the int object ID, the last slug is SEO
 		// 	$exampleUrl = 'https://www.webumenia.sk/en/dielo/SVK:SNG.O_85';
