@@ -37,12 +37,14 @@ class Session{
 	// *******
 
 	/**
+	 * @param ?string $identifier Either the email, or the UUID, of the user attempting to log in.
+	 *
 	 * @throws Exceptions\InvalidLoginException
 	 * @throws Exceptions\PasswordRequiredException
 	 */
-	public function Create(?string $email = null, ?string $password = null): void{
+	public function Create(?string $identifier = null, ?string $password = null): void{
 		try{
-			$this->User = User::GetIfRegistered($email, $password);
+			$this->User = User::GetIfRegistered($identifier, $password);
 			$this->UserId = $this->User->UserId;
 
 			$existingSessions = Db::Query('

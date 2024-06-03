@@ -1,5 +1,4 @@
 <?
-use Exceptions\UserExistsException;
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
@@ -9,7 +8,6 @@ use Safe\DateTimeImmutable;
  * @property Benefits $Benefits
  */
 class User{
-
 	use Traits\Accessor;
 
 	public int $UserId;
@@ -81,7 +79,7 @@ class User{
 	// *******
 
 	/**
-	 * @throws UserExistsException
+	 * @throws Exceptions\UserExistsException
 	 */
 	public function Create(?string $password = null): void{
 		$uuid = Uuid::uuid4();
@@ -125,13 +123,11 @@ class User{
 			throw new Exceptions\UserNotFoundException();
 		}
 
-		$result = Db::Query('
+		return Db::Query('
 					SELECT *
 					from Users
 					where UserId = ?
-				', [$userId], User::class);
-
-		return $result[0] ?? throw new Exceptions\UserNotFoundException();
+				', [$userId], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
 	}
 
 	/**
@@ -142,13 +138,11 @@ class User{
 			throw new Exceptions\UserNotFoundException();
 		}
 
-		$result = Db::Query('
+		return Db::Query('
 					SELECT *
 					from Users
 					where Email = ?
-				', [$email], User::class);
-
-		return $result[0] ?? throw new Exceptions\UserNotFoundException();
+				', [$email], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
 	}
 
 	/**
@@ -163,27 +157,23 @@ class User{
 			throw new Exceptions\UserNotFoundException();
 		}
 
-		$result = Db::Query('
+		$user = Db::Query('
 					SELECT u.*
 					from Users u
 					inner join Benefits using (UserId)
 					where u.Email = ?
 					    or u.Uuid = ?
-				', [$identifier, $identifier], User::class);
+				', [$identifier, $identifier], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
 
-		if(sizeof($result) == 0){
-			throw new Exceptions\UserNotFoundException();
-		}
-
-		if($result[0]->PasswordHash !== null && $password === null){
+		if($user->PasswordHash !== null && $password === null){
 			// Indicate that a password is required before we log in
 			throw new Exceptions\PasswordRequiredException();
 		}
 
-		if($result[0]->PasswordHash !== null && !password_verify($password ?? '', $result[0]->PasswordHash)){
+		if($user->PasswordHash !== null && !password_verify($password ?? '', $user->PasswordHash)){
 			throw new Exceptions\UserNotFoundException();
 		}
 
-		return $result[0];
+		return $user;
 	}
 }
