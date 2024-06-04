@@ -5,7 +5,7 @@ $start = new DateTimeImmutable(DONATION_DRIVE_START);
 $end = new DateTimeImmutable(DONATION_DRIVE_END);
 $now = new DateTimeImmutable();
 $totalCurrent = 0;
-$baseTarget = 50;
+$baseTarget = 25;
 $stretchCurrent = 0;
 $stretchTarget = 20;
 
@@ -118,8 +118,8 @@ if($stretchTarget > 0 && $totalCurrent >= $baseTarget){
 		<? if($stretchOn){ ?><progress class="stretch" max="<?= $stretchTarget ?>" value="<?= $stretchCurrent ?>"></progress><? } ?>
 	</div>
 	<? if($stretchOn){ ?>
-	<p>When we started this drive, we set a goal of <?= number_format($baseTarget) ?> Patrons Circle members by <?= $deadline ?>. Thanks to the incredible generosity of literature lovers from all walks of life, we hit that goal in just over a week!</p>
-	<p>Since there are still weeks left in our drive, we thought we’d challenge our readers to help us reach our stretch goal of <?= number_format($totalTarget) ?> patrons, so that we can start the year off on a rock-solid financial footing. Will you help us with a donation, and support free and unrestricted digital literature?</p>
+	<p>When we started this drive, we set a goal of <?= number_format($baseTarget) ?> Patrons Circle members by <?= $deadline ?>. Thanks to the incredible generosity of literature lovers like you, we hit that goal!</p>
+	<p>Since there’s still some time left in our drive, we thought we’d challenge our readers to help us reach our stretch goal of <?= number_format($totalTarget) ?> patrons, so that we can continue on a rock-solid financial footing. Will you help us with a donation, and support free and unrestricted digital literature?</p>
 	<? }else{ ?>
 	<p>It takes a huge amount of resources and highly-skilled work to create and distribute each of our free ebooks, and we need your support to keep it up. That’s why we want to welcome <?= number_format($baseTarget) ?> new patrons by <?= $deadline ?>. It’s our patrons who keep us on the stable financial footing we need to continue producing and giving away beautiful ebooks.</p>
 	<p>Will you become a patron, and support free and unrestricted digital literature?</p>
