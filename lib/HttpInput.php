@@ -1,4 +1,6 @@
 <?
+use Safe\DateTimeImmutable;
+
 use function Safe\ini_get;
 use function Safe\preg_match;
 
@@ -141,7 +143,7 @@ class HttpInput{
 	}
 
 	/**
-	 * @return array<string>|array<int>|array<float>|array<bool>|string|int|float|bool|null
+	 * @return array<string>|array<int>|array<float>|array<bool>|string|int|float|bool|DateTimeImmutable|null
 	 */
 	private static function GetHttpVar(string $variable, HttpVariableType $type, HttpVariableSource $set): mixed{
 		$vars = [];
@@ -170,8 +172,11 @@ class HttpInput{
 				// We asked for not an array, but we got an array
 				return null;
 			}
-			else{
+			elseif(is_string($vars[$variable])){
 				$var = trim($vars[$variable]);
+			}
+			else{
+				$var = $vars[$variable];
 			}
 
 			switch($type){
@@ -189,7 +194,7 @@ class HttpInput{
 					}
 					break;
 				case HttpVariableType::Boolean:
-					if($var === '0' || strtolower($var) == 'false' || strtolower($var) == 'off'){
+					if($var === false || $var === '0' || strtolower($var) == 'false' || strtolower($var) == 'off'){
 						return false;
 					}
 					else{
@@ -201,6 +206,17 @@ class HttpInput{
 							return floatval($var);
 						}
 						catch(Exception){
+							return null;
+						}
+					}
+					break;
+				case Enums\HttpVariableType::DateTime:
+					if($var != ''){
+						try{
+							return new DateTimeImmutable($var);
+						}
+						catch(Exception){
+							vdd('q');
 							return null;
 						}
 					}
