@@ -1,6 +1,5 @@
 <?
 use Safe\DateTimeImmutable;
-use function Safe\apcu_fetch;
 
 // If the user is not logged in, or has less than some amount of downloads, show a thank-you page
 
@@ -11,18 +10,10 @@ $downloadUrl = null;
 
 try{
 	$urlPath = HttpInput::Str(GET, 'url-path') ?? null;
+	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
+	$ebook = Ebook::GetByIdentifier($identifier);
+
 	$format = EbookFormatType::tryFrom(HttpInput::Str(GET, 'format') ?? '') ?? EbookFormatType::Epub;
-	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath;
-
-	// Do we have the ebook cached?
-	try{
-		/** @var Ebook $ebook */
-		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
-	}
-	catch(Safe\Exceptions\ApcuException){
-		$ebook = Ebook::FromFilesystem($wwwFilesystemPath);
-	}
-
 	switch($format){
 		case EbookFormatType::Kepub:
 			$downloadUrl = $ebook->KepubUrl;
