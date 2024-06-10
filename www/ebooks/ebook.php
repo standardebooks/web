@@ -4,7 +4,6 @@
 use Safe\DateTimeImmutable;
 use function Safe\preg_match;
 use function Safe\preg_replace;
-use function Safe\apcu_fetch;
 use function Safe\shuffle;
 
 $ebook = null;
