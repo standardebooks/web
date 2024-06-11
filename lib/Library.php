@@ -660,25 +660,6 @@ class Library{
 	/**
 	 * @throws Exceptions\AppException
 	 */
-	public static function GetEbook(?string $ebookWwwFilesystemPath): ?Ebook{
-		if($ebookWwwFilesystemPath === null){
-			return null;
-		}
-
-		/** @var array<Ebook> $result */
-		$result = self::GetFromApcu('ebook-' . $ebookWwwFilesystemPath);
-
-		if(sizeof($result) > 0){
-			return $result[0];
-		}
-		else{
-			return null;
-		}
-	}
-
-	/**
-	 * @throws Exceptions\AppException
-	 */
 	public static function RebuildCache(): void{
 		// We check a lockfile because this can be a long-running command.
 		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.
