@@ -140,12 +140,21 @@ class Library{
 	}
 
 	/**
-	 * @return array<string, Collection>
+	 * @return array<Collection>
 	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbookCollections(): array{
-		/** @var array<string, Collection> */
-		return self::GetFromApcu('collections');
+		$collections = Db::Query('
+					SELECT distinct UrlName, Name
+					from Collections
+				', [], Collection::class);
+
+		$collator = Collator::create('en_US');
+		if($collator === null){
+			throw new Exceptions\AppException('Couldn\'t create collator object when getting collections.');
+		}
+		usort($collections, function($a, $b) use($collator){ return $collator->compare($a->GetSortedName(), $b->GetSortedName()); });
+		return $collections;
 	}
 
 	/**
