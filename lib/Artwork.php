@@ -259,7 +259,7 @@ class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\AppException
+	 * @throws Exceptions\EbookNotFoundException
 	 */
 	protected function GetEbook(): ?Ebook{
 		if($this->_Ebook === null){
@@ -267,8 +267,8 @@ class Artwork{
 				return null;
 			}
 
-			$ebookWwwFilesystemPath = preg_replace('|^https://standardebooks.org/ebooks/|ius', EBOOKS_DIST_PATH, $this->EbookUrl);
-			$this->_Ebook = Library::GetEbook($ebookWwwFilesystemPath);
+			$identifier = 'url:' . $this->EbookUrl;
+			$this->_Ebook = Ebook::GetByIdentifier($identifier);
 		}
 
 		return $this->_Ebook;
