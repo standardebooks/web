@@ -209,8 +209,8 @@ catch(Exception $ex){
 	$em = new Email(true);
 	$em->To = ADMIN_EMAIL_ADDRESS;
 	$em->Subject = 'Ingesting FA donations failed';
-	$em->Body = Template::EmailDonationIngestionFailed(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
-	$em->TextBody = Template::EmailDonationIngestionFailedText(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
+	$em->Body = Template::EmailDonationProcessingFailed(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
+	$em->TextBody = Template::EmailDonationProcessingFailedText(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
 	$em->Send();
 
 	throw $ex;

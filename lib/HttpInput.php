@@ -210,7 +210,7 @@ class HttpInput{
 						}
 					}
 					break;
-				case Enums\HttpVariableType::DateTime:
+				case HttpVariableType::DateTime:
 					if($var != ''){
 						try{
 							return new DateTimeImmutable($var);
