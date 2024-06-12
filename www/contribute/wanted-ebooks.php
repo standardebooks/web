@@ -162,9 +162,9 @@
 			<li>
 				<p><a href="https://theotherpages.org/poems/poem-mn.html#macaulay">Poetry by Thomas Macaulay</a> including <i>Lays of Ancient Rome</i></p>
 			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/67363">The Theory of Moral Sentiments</a> by Adam Smith</p><!--patron-->
-			</li>
+			<!-- <li>
+				<p><a href="https://www.gutenberg.org/ebooks/67363">The Theory of Moral Sentiments</a> by Adam Smith</p>patron
+			</li> -->
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/Hamilton_(play)">Hamilton</a> by Mary P. Hamlin and George Arliss</p><!--patron-->
 			</li>
