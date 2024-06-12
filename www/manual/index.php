@@ -8,9 +8,15 @@ use function Safe\sort;
 $currentManual = Manual::GetLatestVersion();
 
 $url = HttpInput::Str(GET, 'url') ?? '';
-$url = preg_replace('|^/|ius', '', $url);
-$url = preg_replace('|\.php$|ius', '', $url);
-$url = preg_replace('|/$|ius', '', $url);
+
+try{
+	$url = preg_replace('|^/|ius', '', $url);
+	$url = preg_replace('|\.php$|ius', '', $url);
+	$url = preg_replace('|/$|ius', '', $url);
+}
+catch(\Exception){
+	Template::Emit404();
+}
 
 if($url != ''){
 	$url = '/' . $url;
