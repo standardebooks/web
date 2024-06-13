@@ -188,7 +188,7 @@ class HttpInput{
 						try{
 							return intval($var);
 						}
-						catch(Exception){
+						catch(\Exception){
 							return null;
 						}
 					}
@@ -205,7 +205,7 @@ class HttpInput{
 						try{
 							return floatval($var);
 						}
-						catch(Exception){
+						catch(\Exception){
 							return null;
 						}
 					}
@@ -215,8 +215,7 @@ class HttpInput{
 						try{
 							return new DateTimeImmutable($var);
 						}
-						catch(Exception){
-							vdd('q');
+						catch(\Exception){
 							return null;
 						}
 					}

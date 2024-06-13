@@ -1,11 +1,9 @@
 <?
-use function Safe\strtotime;
-
 $hideDonationAlert = HttpInput::Bool(POST, 'hide-donation-alert');
 $colorScheme = HttpInput::Str(POST, 'color-scheme');
 
 if($hideDonationAlert !== null){
-	setcookie('hide-donation-alert', $hideDonationAlert ? 'true' : 'false', ['expires' => strtotime('+1 month'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
+	setcookie('hide-donation-alert', $hideDonationAlert ? 'true' : 'false', ['expires' => (new DateTimeImmutable('+1 month'))->format('@'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
 }
 
 if($colorScheme !== null){
@@ -18,7 +16,7 @@ if($colorScheme !== null){
 		setcookie('color-scheme', '', ['expires' => 0, 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
 	}
 	else{
-		setcookie('color-scheme', $colorScheme, ['expires' => strtotime('+1 year'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
+		setcookie('color-scheme', $colorScheme, ['expires' => (new DateTimeImmutable('+1 year'))->format('@'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
 	}
 }
 

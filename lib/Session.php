@@ -2,8 +2,6 @@
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
-use function Safe\strtotime;
-
 /**
  * @property User $User
  * @property string $Url
@@ -100,7 +98,7 @@ class Session{
 	}
 
 	public static function SetSessionCookie(string $sessionId): void{
-		setcookie('sessionid', $sessionId, ['expires' => strtotime('+1 week'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']); // Expires in two weeks
+		setcookie('sessionid', $sessionId, ['expires' => (new DateTimeImmutable('+1 week'))->format('@'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']); // Expires in two weeks
 	}
 
 	/**
