@@ -159,12 +159,16 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooksByCollection(string $collection): array{
-		// Do we have the tag's ebooks cached?
-		/** @var array<Ebook> */
-		return self::GetFromApcu('collection-' . $collection);
+		$ebooks = Db::Query('
+				SELECT e.*
+				from Ebooks e inner join Collections c using (EbookId)
+				where c.UrlName = ?
+				order by c.SequenceNumber, e.Title
+				', [$collection], Ebook::class);
+
+		return $ebooks;
 	}
 
 	/**
