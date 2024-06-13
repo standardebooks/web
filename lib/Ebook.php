@@ -472,7 +472,7 @@ class Ebook{
 				$this->_ContributorsHtml .= ' illustrated by ' . Ebook::GenerateContributorList($this->Illustrators, false) . ';';
 			}
 
-			if($this->_ContributorsHtml !== null){
+			if(!empty($this->_ContributorsHtml)){
 				$this->_ContributorsHtml = ucfirst(rtrim(trim($this->_ContributorsHtml), ';'));
 
 				if(substr(strip_tags($this->_ContributorsHtml), -1) != '.'){
