@@ -172,12 +172,17 @@ class Library{
 	}
 
 	/**
-	 * @return array<Tag>
-	 * @throws Exceptions\AppException
+	 * @return array<EbookTag>
 	 */
 	public static function GetTags(): array{
-		/** @var array<Tag> */
-		return self::GetFromApcu('tags');
+		$tags = Db::Query('
+				SELECT distinct t.*
+				from Tags t
+				inner join EbookTags et using (TagId)
+				order by t.Name
+			', [], EbookTag::class);
+
+		return $tags;
 	}
 
 	/**
