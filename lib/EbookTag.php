@@ -59,7 +59,7 @@ class EbookTag extends Tag{
 				SELECT *
 				from Tags
 				where Name = ?
-			', [$name], 'EbookTag');
+			', [$name], EbookTag::class);
 
 		if(isset($result[0])){
 			return $result[0];
