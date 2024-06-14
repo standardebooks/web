@@ -39,7 +39,7 @@ class LocSubject{
 				SELECT *
 				from LocSubjects
 				where Name = ?
-			', [$name], 'LocSubject');
+			', [$name], LocSubject::class);
 
 		if(isset($result[0])){
 			return $result[0];
