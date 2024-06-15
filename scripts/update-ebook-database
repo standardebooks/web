@@ -17,14 +17,14 @@ function findObjectDifferences($fs, $db): array{
 				// Property starts with underscore, remove the underscore and call __get()
 				$propertyNameWithoutUnderscore = substr($fsProperty->getName(), 1);
 				if(is_array($fs->$propertyNameWithoutUnderscore) && is_array($db->$propertyNameWithoutUnderscore)){
-					for($i = 0; $i < count($fsProperty->getValue($fs)); $i++){
-						if(is_object($fsProperty->getValue($fs)[$i])){
-							$arrayDiff = findObjectDifferences($fsProperty->getValue($fs)[$i], $dbProperty->getValue($db)[$i]);
+					foreach($fsProperty->getValue($fs) as $key => $value){
+						if(is_object($fsProperty->getValue($fs)[$key])){
+							$arrayDiff = findObjectDifferences($fsProperty->getValue($fs)[$key], $dbProperty->getValue($db)[$key]);
 							if(!empty($arrayDiff)){
 								$diffs[$fsProperty->getName()] = $arrayDiff;
 							}
 						}
-						else if($fsProperty->getValue($fs)[$i] != $dbProperty->getValue($db)[$i]){
+						else if($fsProperty->getValue($fs)[$key] != $dbProperty->getValue($db)[$key]){
 							$diffs[$fsProperty->getName()] = ["fs" => $fsProperty->getValue($fs), "db" => $dbProperty->getValue($db)];
 						}
 					}
