@@ -2276,11 +2276,17 @@ h1 + ul.message,
 
 .masthead ol.donors.corporate p{
 	text-align: center;
+	margin-top: .5rem;
 }
 
 .masthead ol.donors.corporate a{
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+}
+
+.masthead ol.donors.corporate img.no-border{
+	border: none;
 }
 
 .masthead ol li{
