@@ -310,9 +310,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/20288">Edward II</a> by Christopher Marlowe (<a href="https://archive.org/details/marlowesedwardii00marluoft/page/6/mode/2up">possible scans</a>, confirm the edition first)</p><!--patron-->
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/1322">Leaves of Grass</a> by Walt Whitman (See <a href="https://www.themarginalian.org/2018/04/11/leaves-of-grass-margaret-cook/">this 1913 edition</a> for cover art)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2130">Utopia</a> by Thomas Moore</p>
 			</li>
 			<li>
