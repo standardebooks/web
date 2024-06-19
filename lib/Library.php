@@ -163,9 +163,11 @@ class Library{
 	public static function GetEbooksByCollection(string $collection): array{
 		$ebooks = Db::Query('
 				SELECT e.*
-				from Ebooks e inner join Collections c using (EbookId)
+				from Ebooks e
+				inner join CollectionEbooks ce using (EbookId)
+				inner join Collections c using (CollectionId)
 				where c.UrlName = ?
-				order by c.SequenceNumber, e.Title
+				order by ce.SequenceNumber, e.EbookCreated desc
 				', [$collection], Ebook::class);
 
 		return $ebooks;
@@ -728,8 +730,8 @@ class Library{
 					// then later we sort by that instead of by array index.
 					$sortItem = new stdClass();
 					$sortItem->Ebook = $ebook;
-					if($collection->SequenceNumber !== null){
-						$sortItem->Ordinal = $collection->SequenceNumber;
+					if($ebook->GetCollectionPosition($collection) !== null){
+						$sortItem->Ordinal = $ebook->GetCollectionPosition($collection);
 					}
 					else{
 						$sortItem->Ordinal = 1;

@@ -143,7 +143,7 @@ catch(Exceptions\EbookNotFoundException){
 			<? } ?>
 			<? if(sizeof($ebook->Collections) > 0){ ?>
 				<? foreach($ebook->Collections as $collection){ ?>
-					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::EscapeHtml(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
+					<p><? if($ebook->GetCollectionPosition($collection) !== null){ ?>№ <?= number_format($ebook->GetCollectionPosition($collection)) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::EscapeHtml(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
 					<? if($collection->Type !== null){ ?>
 						<? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type), -strlen(mb_strtolower($collection->Type))) !== 0){ ?>
 							<?= $collection->Type ?>.

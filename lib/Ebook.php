@@ -16,6 +16,7 @@ use function Safe\shell_exec;
  * @property array<EbookTag> $Tags
  * @property array<LocSubject> $LocSubjects
  * @property array<Collection> $Collections
+ * @property array<string, int> $CollectionPositions
  * @property array<EbookSource> $Sources
  * @property array<Contributor> $Authors
  * @property array<Contributor> $Illustrators
@@ -78,6 +79,8 @@ class Ebook{
 	protected $_LocSubjects = null;
 	/** @var array<Collection> $_Collections */
 	protected $_Collections = null;
+	/** @var array<string, int> $_CollectionPositions */
+	protected $_CollectionPositions = null;
 	/** @var array<EbookSource> $_Sources */
 	protected $_Sources = null;
 	/** @var array<Contributor> $_Authors */
@@ -172,13 +175,36 @@ class Ebook{
 	protected function GetCollections(): array{
 		if($this->_Collections === null){
 			$this->_Collections = Db::Query('
-							SELECT *
-							from Collections
-							where EbookId = ?
+							SELECT c.*
+							from Collections c
+							inner join CollectionEbooks ce using (CollectionId)
+							where ce.EbookId = ?
 						', [$this->EbookId], Collection::class);
 		}
 
 		return $this->_Collections;
+	}
+
+	/**
+	 * @return array<string, int>
+	 */
+	protected function GetCollectionPositions(): array{
+		if($this->_CollectionPositions === null){
+			$this->_CollectionPositions = [];
+
+			$result = Db::Query('
+					SELECT c.UrlName, ce.SequenceNumber
+					from Collections c
+					inner join CollectionEbooks ce using (CollectionId)
+					where ce.EbookId = ?
+				', [$this->EbookId], stdClass::class);
+
+			foreach($result as $row){
+				$this->_CollectionPositions[(string)$row->UrlName] = $row->SequenceNumber;
+			}
+		}
+
+		return $this->_CollectionPositions;
 	}
 
 	/**
@@ -750,12 +776,13 @@ class Ebook{
 
 		// Get SE collections
 		$collections = [];
+		$collectionPositions = [];
 		foreach($xml->xpath('/package/metadata/meta[@property="belongs-to-collection"]') ?: [] as $collection){
 			$c = Collection::FromName($collection);
 			$id = $collection->attributes()->id ?? '';
 
 			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="group-position"]') ?: [] as $s){
-				$c->SequenceNumber = (int)$s;
+				$collectionPositions[$c->UrlName] = (int)$s;
 			}
 			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="collection-type"]') ?: [] as $s){
 				$c->Type = (string)$s;
@@ -763,6 +790,7 @@ class Ebook{
 			$collections[] = $c;
 		}
 		$ebookFromFilesystem->Collections = $collections;
+		$ebookFromFilesystem->CollectionPositions = $collectionPositions;
 
 		// Get LoC tags
 		$locSubjects = [];
@@ -1125,14 +1153,19 @@ class Ebook{
 		$this->LocSubjects = $subjects;
 	}
 
-	public function GetCollectionPosition(Collection $collection): ?int{
-		foreach($this->Collections as $c){
-			if($c->Name == $collection->Name){
-				return $c->SequenceNumber;
-			}
+	/**
+	 * @throws Exceptions\ValidationException
+	 */
+	private function InsertCollections(): void{
+		$collections = [];
+		foreach($this->Collections as $collection){
+			$collections[] = $collection->GetByUrlNameOrCreate($collection->UrlName);
 		}
+		$this->Collections = $collections;
+	}
 
-		return null;
+	public function GetCollectionPosition(Collection $collection): ?int{
+		return $this->CollectionPositions[$collection->UrlName] ?? null;
 	}
 
 	public function Contains(string $query): bool{
@@ -1456,6 +1489,7 @@ class Ebook{
 
 		$this->InsertTagStrings();
 		$this->InsertLocSubjectStrings();
+		$this->InsertCollections();
 
 		Db::Query('
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
@@ -1496,10 +1530,13 @@ class Ebook{
 		$this->InsertTags();
 		$this->InsertLocSubjects();
 		$this->InsertGitCommits();
-		$this->InsertCollections();
 		$this->InsertSources();
 		$this->InsertContributors();
 		$this->InsertTocEntries();
+
+		foreach($this->Collections as $collection){
+			$collection->AddEbook($this, $this->GetCollectionPosition($collection));
+		}
 	}
 
 	/**
@@ -1510,6 +1547,7 @@ class Ebook{
 
 		$this->InsertTagStrings();
 		$this->InsertLocSubjectStrings();
+		$this->InsertCollections();
 
 		Db::Query('
 			UPDATE Ebooks
@@ -1555,9 +1593,6 @@ class Ebook{
 		$this->DeleteGitCommits();
 		$this->InsertGitCommits();
 
-		$this->DeleteCollections();
-		$this->InsertCollections();
-
 		$this->DeleteSources();
 		$this->InsertSources();
 
@@ -1566,6 +1601,11 @@ class Ebook{
 
 		$this->DeleteTocEntries();
 		$this->InsertTocEntries();
+
+		Collection::RemoveEbook($this);
+		foreach($this->Collections as $collection){
+			$collection->AddEbook($this, $this->GetCollectionPosition($collection));
+		}
 	}
 
 	private function DeleteTags(): void{
@@ -1624,28 +1664,6 @@ class Ebook{
 					?,
 				        ?)
 			', [$this->EbookId, $commit->Created, $commit->Message, $commit->Hash]);
-		}
-	}
-
-	private function DeleteCollections(): void{
-		Db::Query('
-			DELETE from Collections
-			where
-			EbookId = ?
-		', [$this->EbookId]
-		);
-	}
-
-	private function InsertCollections(): void{
-		foreach($this->Collections as $collection){
-			Db::Query('
-				INSERT into Collections (EbookId, Name, UrlName, SequenceNumber, Type)
-				values (?,
-					?,
-					?,
-					?,
-				        ?)
-			', [$this->EbookId, $collection->Name, $collection->UrlName, $collection->SequenceNumber, $collection->Type]);
 		}
 	}
 
