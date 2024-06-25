@@ -163,9 +163,11 @@ class Library{
 	public static function GetEbooksByCollection(string $collection): array{
 		$ebooks = Db::Query('
 				SELECT e.*
-				from Ebooks e inner join Collections c using (EbookId)
+				from Ebooks e
+				inner join CollectionEbooks ce using (EbookId)
+				inner join Collections c using (CollectionId)
 				where c.UrlName = ?
-				order by c.SequenceNumber, e.Title
+				order by ce.SequenceNumber, e.EbookCreated desc
 				', [$collection], Ebook::class);
 
 		return $ebooks;
@@ -711,7 +713,9 @@ class Library{
 				$ebooks[$ebookWwwFilesystemPath] = $ebook;
 
 				// Create the collections cache
-				foreach($ebook->Collections as $collection){
+				foreach($ebook->CollectionMemberships as $collectionMembership){
+					$collection = $collectionMembership->Collection;
+					$sequenceNumber = $collectionMembership->SequenceNumber;
 					$urlSafeCollection = Formatter::MakeUrlSafe($collection->Name);
 					if(!array_key_exists($urlSafeCollection, $ebooksByCollection)){
 						$ebooksByCollection[$urlSafeCollection] = [];
@@ -724,8 +728,8 @@ class Library{
 					// then later we sort by that instead of by array index.
 					$sortItem = new stdClass();
 					$sortItem->Ebook = $ebook;
-					if($collection->SequenceNumber !== null){
-						$sortItem->Ordinal = $collection->SequenceNumber;
+					if($sequenceNumber !== null){
+						$sortItem->Ordinal = $sequenceNumber;
 					}
 					else{
 						$sortItem->Ordinal = 1;
