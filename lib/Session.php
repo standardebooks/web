@@ -98,7 +98,7 @@ class Session{
 	}
 
 	public static function SetSessionCookie(string $sessionId): void{
-		setcookie('sessionid', $sessionId, ['expires' => (new DateTimeImmutable('+1 week'))->format('@'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']); // Expires in two weeks
+		setcookie('sessionid', $sessionId, ['expires' => (new DateTimeImmutable('+1 week'))->format('U'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']); // Expires in two weeks
 	}
 
 	/**
