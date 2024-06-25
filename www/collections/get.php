@@ -10,7 +10,8 @@ try{
 	$ebooks = Library::GetEbooksByCollection($collection);
 	// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
 	if(sizeof($ebooks) > 0){
-		foreach($ebooks[0]->Collections as $c){
+		foreach($ebooks[0]->CollectionMemberships as $cm){
+			$c = $cm->Collection;
 			if($collection == Formatter::MakeUrlSafe($c->Name)){
 				$collectionObject = $c;
 			}
