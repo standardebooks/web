@@ -1,5 +1,9 @@
 <?
 class EbookTag extends Tag{
+	public function __construct(){
+		$this->Type = 'ebook';
+	}
+
 	// *******
 	// GETTERS
 	// *******
@@ -33,6 +37,10 @@ class EbookTag extends Tag{
 			$error->Add(new Exceptions\StringTooLongException('Ebook tag: '. $this->Name));
 		}
 
+		if($this->Type != 'ebook'){
+			$error->Add(new Exceptions\InvalidEbookTagTypeException($this->Type));
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
@@ -45,9 +53,10 @@ class EbookTag extends Tag{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into Tags (Name)
-			values (?)
-		', [$this->Name]);
+			INSERT into Tags (Name, Type)
+			values (?,
+				?)
+		', [$this->Name, $this->Type]);
 		$this->TagId = Db::GetLastInsertedId();
 	}
 
