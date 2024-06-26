@@ -1,6 +1,8 @@
 CREATE TABLE `Tags` (
   `TagId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
+  `Type` enum('artwork', 'ebook') DEFAULT 'artwork',
   PRIMARY KEY (`TagId`),
-  UNIQUE KEY `idxUnique` (`Name`)
+  KEY `index1` (`Name`),
+  KEY `index2` (`Type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

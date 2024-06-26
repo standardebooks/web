@@ -178,10 +178,10 @@ class Library{
 	 */
 	public static function GetTags(): array{
 		$tags = Db::Query('
-				SELECT distinct t.*
+				SELECT *
 				from Tags t
-				inner join EbookTags et using (TagId)
-				order by t.Name
+				where Type = "ebook"
+				order by Name
 			', [], EbookTag::class);
 
 		return $tags;
