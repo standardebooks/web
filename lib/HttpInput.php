@@ -184,7 +184,7 @@ class HttpInput{
 					return $var;
 				case HttpVariableType::Integer:
 					// Can't use ctype_digit because we may want negative integers
-					if(is_numeric($var) && mb_strpos($var, '.') === false){
+					if(is_numeric($var) && mb_strpos(strval($var), '.') === false){
 						try{
 							return intval($var);
 						}
