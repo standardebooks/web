@@ -1,4 +1,5 @@
 <?
+use Safe\DateTimeImmutable;
 use function Safe\apcu_fetch;
 
 // If the user is not logged in, or has less than some amount of downloads, show a thank-you page
@@ -60,7 +61,7 @@ try{
 
 	// Increment local download count, expires in 2 weeks
 	$downloadCount++;
-	setcookie('download-count', (string)$downloadCount, ['expires' => (new DateTimeImmutable('+2 week'))->format('U'), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']);
+	setcookie('download-count', (string)$downloadCount, ['expires' => intval((new DateTimeImmutable('+2 week'))->format('U')), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']);
 }
 catch(Exceptions\InvalidFileException | Exceptions\EbookNotFoundException){
 	Template::Emit404();
