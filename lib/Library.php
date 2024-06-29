@@ -127,19 +127,6 @@ class Library{
 	}
 
 	/**
-	 * @return array<Ebook>
-	 */
-	public static function GetEbooksByTag(string $tag): array{
-		try{
-			/** @var array<Ebook> */
-			return apcu_fetch('tag-' . $tag) ?? [];
-		}
-		catch(Safe\Exceptions\ApcuException){
-			return [];
-		}
-	}
-
-	/**
 	 * @return array<Collection>
 	 * @throws Exceptions\AppException
 	 */
@@ -171,6 +158,34 @@ class Library{
 				', [$collection], Ebook::class);
 
 		return $ebooks;
+	}
+
+	/**
+	 * @return array<Ebook>
+	 */
+	public static function GetRelatedEbooks(Ebook $ebook, int $count, ?EbookTag $relatedTag): array{
+		if($relatedTag !== null){
+			$relatedEbooks = Db::Query('
+						SELECT e.*
+						from Ebooks e
+						inner join EbookTags et using (EbookId)
+						where et.TagId = ?
+						    and et.EbookId != ?
+						order by RAND()
+						limit ?
+				', [$relatedTag->TagId, $ebook->EbookId, $count], Ebook::class);
+		}
+		else{
+			$relatedEbooks = Db::Query('
+						SELECT *
+						from Ebooks
+						where EbookId != ?
+						order by RAND()
+						limit ?
+				', [$ebook->EbookId, $count], Ebook::class);
+		}
+
+		return $relatedEbooks;
 	}
 
 	/**
