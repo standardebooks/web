@@ -158,7 +158,7 @@ class Library{
 	 */
 	public static function GetEbookCollections(): array{
 		$collections = Db::Query('
-					SELECT distinct UrlName, Name
+					SELECT *
 					from Collections
 				', [], Collection::class);
 
