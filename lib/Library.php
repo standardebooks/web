@@ -119,11 +119,38 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
 	 */
-	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
-		/** @var array<Ebook> */
-		return self::GetFromApcu('author-' . $wwwFilesystemPath);
+	public static function GetEbooksByAuthor(string $urlPath): array{
+		if(mb_strpos($urlPath, '_') === false){
+			// Single author
+			return Db::Query('
+					SELECT e.*
+					from Ebooks e
+					inner join Contributors con using (EbookId)
+					where con.MarcRole = "aut"
+					    and con.UrlName = ?
+					order by e.EbookCreated desc
+				', [$urlPath], Ebook::class);
+		}
+		else{
+			// Multiple authors, e.g., karl-marx_friedrich-engels
+			$authors = explode('_', $urlPath);
+			$queryPlaceholder = '(' . implode(', ', array_fill(0, count($authors), '?')) . ')'; // For example, (?, ?) for two authors
+
+			$params = $authors;
+			$params[] = sizeof($authors); // The number of authors in the URL must match the number of Contributor records.
+
+			return Db::Query('
+					SELECT e.*
+					from Ebooks e
+					inner join Contributors con using (EbookId)
+					where con.MarcRole = "aut"
+					    and con.UrlName in ' . $queryPlaceholder . '
+					group by e.EbookId
+					having count(distinct con.UrlName) = ?
+					order by e.EbookCreated desc
+				', $params, Ebook::class);
+		}
 	}
 
 	/**
