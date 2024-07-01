@@ -145,6 +145,15 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/73533">The Poetic Edda</a> translated by Henry Adams Bellows</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/55458">The Curse of Kehama</a> by Robert Southey (<a href="https://www.gutenberg.org/ebooks/55459">Vol. 2</a>)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/71470">Roderick the Last of the Goths</a> by Robert Southey</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/13279">A Yankee in the Trenches</a> by Robert Derby Holmes (Keep illustrations and glossary)</p><!--patron-->
 			</li>
 			<li>
@@ -164,9 +173,6 @@
 			</li> -->
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/Hamilton_(play)">Hamilton</a> by Mary P. Hamlin and George Arliss</p><!--patron-->
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/21700">Don Juan</a> by Lord Byron</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/7021">Short fiction by Andre Norton</a></p>
@@ -294,6 +300,18 @@
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Thalaba_the_Destroyer">Thalaba the Destroyer</a> by Robert Southey (transcription required; editions vary widely; research on best edition is required)</p>
+			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Joan_of_Arc_(poem)">Joan of Arc</a> by Robert Southey (transcription required)</p>
+			</li>
+			<li>
+				<p><a href="https://en.wikipedia.org/wiki/Madoc_(poem)">Madoc</a> by Robert Southey (transcription required)</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/36068">Poetry</a> by James McIntyre, “The Cheese Poet” (partial transcription required; more poems found in <i><a href="https://archive.org/details/cihm_09542">Musings on the Banks of Canadian Thames</a></i>)</p>
+			</li>
 			<li>
 				<p><a href="https://en.m.wikipedia.org/wiki/Wolf_Solent">Wolf Solent</a> by John Cowper Powys (transcription required)</p>
 			</li>
