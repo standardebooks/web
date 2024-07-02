@@ -135,7 +135,6 @@ class Library{
 		else{
 			// Multiple authors, e.g., karl-marx_friedrich-engels
 			$authors = explode('_', $urlPath);
-			$queryPlaceholder = '(' . implode(', ', array_fill(0, count($authors), '?')) . ')'; // For example, (?, ?) for two authors
 
 			$params = $authors;
 			$params[] = sizeof($authors); // The number of authors in the URL must match the number of Contributor records.
@@ -145,7 +144,7 @@ class Library{
 					from Ebooks e
 					inner join Contributors con using (EbookId)
 					where con.MarcRole = "aut"
-					    and con.UrlName in ' . $queryPlaceholder . '
+					    and con.UrlName in ' . Db::CreateSetSql($authors)  . '
 					group by e.EbookId
 					having count(distinct con.UrlName) = ?
 					order by e.EbookCreated desc
