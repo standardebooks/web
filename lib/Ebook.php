@@ -36,7 +36,6 @@ use function Safe\shell_exec;
  * @property string $ReadingEaseDescription
  * @property string $ReadingTime
  * @property string $AuthorsHtml
- * @property string $AuthorsUrl
  * @property string $ContributorsHtml
  * @property string $TitleWithCreditsHtml
  * @property string $TextUrl
@@ -50,6 +49,7 @@ class Ebook{
 	public ?int $EbookId = null;
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
+	public string $AuthorsUrl; // This is a single URL even if there are multiple authors; for example, /ebooks/karl-marx_friedrich-engels/
 	public ?string $KindleCoverUrl = null;
 	public string $EpubUrl;
 	public string $AdvancedEpubUrl;
@@ -104,7 +104,6 @@ class Ebook{
 	protected ?string $_ReadingEaseDescription = null;
 	protected ?string $_ReadingTime = null;
 	protected ?string $_AuthorsHtml = null;
-	protected ?string $_AuthorsUrl = null; // This is a single URL even if there are multiple authors; for example, /ebooks/karl-marx_friedrich-engels/
 	protected ?string $_ContributorsHtml = null;
 	protected ?string $_TitleWithCreditsHtml = null;
 	protected ?string $_TextUrl = null;
@@ -450,14 +449,6 @@ class Ebook{
 		return $this->_AuthorsHtml;
 	}
 
-	protected function GetAuthorsUrl(): string{
-		if($this->_AuthorsUrl === null){
-			$this->_AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
-		}
-
-		return $this->_AuthorsUrl;
-	}
-
 	protected function GetContributorsHtml(): string{
 		if($this->_ContributorsHtml === null){
 			$this->_ContributorsHtml = '';
@@ -634,6 +625,7 @@ class Ebook{
 			throw new Exceptions\EbookParsingException('Invalid <dc:identifier> element.');
 		}
 		$ebookFromFilesystem->Identifier = (string)$matches[1];
+		$ebookFromFilesystem->AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $ebookFromFilesystem->Identifier);
 
 		try{
 			// PHP Safe throws an exception from filesize() if the file doesn't exist, but PHP still
@@ -1476,8 +1468,8 @@ class Ebook{
 		$this->InsertCollections();
 
 		Db::Query('
-			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
-				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
+			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, AuthorsUrl, KindleCoverUrl,
+				EpubUrl, AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
 				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
 				EbookCreated, EbookUpdated, TextSinglePageByteCount, IndexableText)
 			values (?,
@@ -1502,12 +1494,14 @@ class Ebook{
 				?,
 				?,
 				?,
+				?,
 				?)
-		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
-				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
-				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText]);
+		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->AuthorsUrl,
+				$this->KindleCoverUrl, $this->EpubUrl, $this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url,
+				$this->DistCoverUrl, $this->Title, $this->FullTitle, $this->AlternateTitle, $this->Description,
+				$this->LongDescription, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
+				$this->WikipediaUrl, $this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
+				$this->IndexableText]);
 
 		$this->EbookId = Db::GetLastInsertedId();
 
@@ -1536,6 +1530,7 @@ class Ebook{
 			Identifier = ?,
 			WwwFilesystemPath = ?,
 			RepoFilesystemPath = ?,
+			AuthorsUrl = ?,
 			KindleCoverUrl = ?,
 			EpubUrl = ?,
 			AdvancedEpubUrl = ?,
@@ -1558,12 +1553,12 @@ class Ebook{
 			IndexableText = ?
 			where
 			EbookId = ?
-		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
-				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
-				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-				$this->EbookId]);
+		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->AuthorsUrl,
+				$this->KindleCoverUrl, $this->EpubUrl, $this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url,
+				$this->DistCoverUrl, $this->Title, $this->FullTitle, $this->AlternateTitle, $this->Description,
+				$this->LongDescription, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
+				$this->WikipediaUrl, $this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
+				$this->IndexableText, $this->EbookId]);
 
 		$this->DeleteTags();
 		$this->InsertTags();

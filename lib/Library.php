@@ -119,11 +119,14 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
 	 */
-	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
-		/** @var array<Ebook> */
-		return self::GetFromApcu('author-' . $wwwFilesystemPath);
+	public static function GetEbooksByAuthor(string $authorsUrl): array{
+		return Db::Query('
+				SELECT *
+				from Ebooks
+				where AuthorsUrl = ?
+				order by EbookCreated desc
+                               ', [$authorsUrl], Ebook::class);
 	}
 
 	/**

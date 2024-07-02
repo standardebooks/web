@@ -5,6 +5,7 @@ CREATE TABLE `Ebooks` (
   `Updated` timestamp NOT NULL,
   `WwwFilesystemPath` varchar(511) NOT NULL,
   `RepoFilesystemPath` varchar(511) NOT NULL,
+  `AuthorsUrl` varchar(511) NULL,
   `KindleCoverUrl` varchar(511) NULL,
   `EpubUrl` varchar(511) NULL,
   `AdvancedEpubUrl` varchar(511) NULL,
@@ -27,5 +28,6 @@ CREATE TABLE `Ebooks` (
   `IndexableText` text NOT NULL,
   PRIMARY KEY (`EbookId`),
   UNIQUE KEY `index1` (`Identifier`),
+  KEY `index2` (`AuthorsUrl`),
   FULLTEXT `idxSearch` (`IndexableText`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

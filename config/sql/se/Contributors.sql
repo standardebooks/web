@@ -10,6 +10,5 @@ CREATE TABLE `Contributors` (
   `NacoafUrl` varchar(255) NULL,
   `SortOrder` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`ContributorId`),
-  KEY `index1` (`EbookId`),
-  KEY `index2` (`UrlName`)
+  KEY `index1` (`EbookId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -12,7 +12,8 @@ try{
 		throw new Exceptions\AuthorNotFoundException();
 	}
 
-	$ebooks = Library::GetEbooksByAuthor($wwwFilesystemPath);
+	$authorsUrl = '/ebooks/' . $urlPath;
+	$ebooks = Library::GetEbooksByAuthor($authorsUrl);
 
 	if(sizeof($ebooks) == 0){
 		throw new Exceptions\AuthorNotFoundException();
