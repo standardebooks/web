@@ -102,9 +102,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70844">Twilight Sleep</a> by Edith Wharton</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://gutenberg.net.au/ebooks06/0606211h.html">The Castle of Wolfenbach</a> by Eliza Parsons</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/71351">Murder in the Maze</a> by J. J. Connington</p>
 			</li>
