@@ -168,13 +168,9 @@ class Library{
 	}
 
 	/**
-	* @return array<string, array<Artwork>|int>
+	* @return array{artworks: array<Artwork>, artworksCount: int}
 	*/
 	public static function FilterArtwork(?string $query = null, ?string $status = null, ?ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
-		// Returns an array of:
-		// ['artworks'] => array<Artwork>,
-		// ['artworksCount'] => int
-		//
 		// $status is either the string value of an ArtworkStatus enum, or one of these special statuses:
 		// null: same as "all"
 		// "all": Show all approved and in use artwork
