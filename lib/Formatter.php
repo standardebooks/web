@@ -2,15 +2,32 @@
 use function Safe\preg_replace;
 
 class Formatter{
+	private static Transliterator $_Transliterator;
+	private static Parsedown $_MarkdownParser;
+
 	/**
-	 * Remove diacritics from a string.
+	 * Remove diacritics from a string, leaving the now-unaccented characters in place.
 	 */
 	public static function RemoveDiacritics(string $text): string{
-		if(!isset($GLOBALS['transliterator'])){
-			$GLOBALS['transliterator'] = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
+		if(!isset(Formatter::$_Transliterator)){
+			$transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
+
+			if($transliterator === null){
+				return $text;
+			}
+			else{
+				Formatter::$_Transliterator = $transliterator;
+			}
 		}
 
-		return $GLOBALS['transliterator']->transliterate($text);
+		$transliteratedText = Formatter::$_Transliterator->transliterate($text);
+
+		if($transliteratedText === false){
+			return $text;
+		}
+		else{
+			return $transliteratedText;
+		}
 	}
 
 	/**
@@ -30,7 +47,7 @@ class Formatter{
 	 */
 	public static function MakeUrlSafe(string $text): string{
 		// Remove accent characters
-		$text = self::RemoveDiacritics($text);
+		$text = Formatter::RemoveDiacritics($text);
 
 		// Remove apostrophes
 		$text = preg_replace('/[\'’]/u', '', $text);
@@ -68,12 +85,12 @@ class Formatter{
 	 * Convert a string of Markdown into HTML.
 	 */
 	public static function MarkdownToHtml(?string $text): string{
-		if(!isset($GLOBALS['markdown-parser'])){
-			$GLOBALS['markdown-parser'] = new Parsedown();
-			$GLOBALS['markdown-parser']->setSafeMode(true);
+		if(!isset(Formatter::$_MarkdownParser)){
+			Formatter::$_MarkdownParser = new Parsedown();
+			Formatter::$_MarkdownParser->setSafeMode(true);
 		}
 
-		return $GLOBALS['markdown-parser']->text($text);
+		return Formatter::$_MarkdownParser->text($text);
 	}
 
 	/**
