@@ -16,95 +16,68 @@ use function Safe\usort;
 class Library{
 	/**
 	* @param array<string> $tags
-	* @return array<Ebook>
-	* @throws Exceptions\AppException
+	* @return array<string, array<Ebook>|int>
 	*/
-	public static function FilterEbooks(string $query = null, array $tags = [], EbookSortType $sort = null): array{
-		$ebooks = Library::GetEbooks();
-		$matches = $ebooks;
+	public static function FilterEbooks(string $query = null, array $tags = [], EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE): array{
+		// Returns an array of:
+		// ['ebooks'] => array<Ebook>,
+		// ['ebooksCount'] => int
 
-		if($sort === null){
-			$sort = EbookSortType::Newest;
+		$limit = $perPage;
+		$offset = (($page - 1) * $perPage);
+		$joinContributors = '';
+		$joinTags = '';
+		$params = [];
+		$whereCondition = 'where true';
+
+		$orderBy = 'e.EbookCreated desc';
+		if($sort == EbookSortType::AuthorAlpha){
+			$joinContributors = 'inner join Contributors con using (EbookId)';
+			$whereCondition .= ' AND con.MarcRole = "aut"';
+			$orderBy = 'con.SortName, e.EbookCreated desc';
+		}
+		elseif($sort == EbookSortType::ReadingEase){
+			$orderBy = 'e.ReadingEase desc';
+		}
+		elseif($sort == EbookSortType::Length){
+			$orderBy = 'e.WordCount';
 		}
 
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
-			$matches = [];
-			foreach($tags as $tag){
-				foreach($ebooks as $ebook){
-					if($ebook->HasTag($tag)){
-						$matches[$ebook->Identifier] = $ebook;
-					}
-				}
-			}
+			$joinTags = 'inner join EbookTags et using (EbookId)
+					inner join Tags t using (TagId)';
+			$whereCondition .= ' AND t.Name in ' . Db::CreateSetSql($tags) . ' ';
+			$params = $tags;
 		}
 
-		if($query !== null){
-			$filteredMatches = [];
-
-			foreach($matches as $ebook){
-				if($ebook->Contains($query)){
-					$filteredMatches[$ebook->Identifier] = $ebook;
-				}
-			}
-
-			$matches = $filteredMatches;
+		if($query !== null && $query != ''){
+			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+			$whereCondition .= ' AND match(e.IndexableText) against(?) ';
+			$params[] = $query;
 		}
 
-		switch($sort){
-			case EbookSortType::AuthorAlpha:
-				usort($matches, function($a, $b){
-					return strcmp(mb_strtolower($a->Authors[0]->SortName), mb_strtolower($b->Authors[0]->SortName));
-				});
-				break;
+		$ebooksCount = Db::QueryInt('
+				SELECT count(distinct e.EbookId)
+				from Ebooks e
+				' . $joinContributors . '
+				' . $joinTags . '
+				' . $whereCondition . '
+				', $params);
 
-			case EbookSortType::Newest:
-				usort($matches, function($a, $b){
-					if($a->EbookCreated < $b->EbookCreated){
-						return -1;
-					}
-					elseif($a->EbookCreated == $b->EbookCreated){
-						return 0;
-					}
-					else{
-						return 1;
-					}
-				});
+		$params[] = $limit;
+		$params[] = $offset;
 
-				$matches = array_reverse($matches);
-				break;
+		$ebooks = Db::Query('
+				SELECT distinct e.*
+				from Ebooks e
+				' . $joinContributors . '
+				' . $joinTags . '
+				' . $whereCondition . '
+				order by ' . $orderBy . '
+				limit ?
+				offset ?', $params, Ebook::class);
 
-			case EbookSortType::ReadingEase:
-				usort($matches, function($a, $b){
-					if($a->ReadingEase < $b->ReadingEase){
-						return -1;
-					}
-					elseif($a->ReadingEase == $b->ReadingEase){
-						return 0;
-					}
-					else{
-						return 1;
-					}
-				});
-
-				$matches = array_reverse($matches);
-				break;
-
-			case EbookSortType::Length:
-				usort($matches, function($a, $b){
-					if($a->WordCount < $b->WordCount){
-						return -1;
-					}
-					elseif($a->WordCount == $b->WordCount){
-						return 0;
-					}
-					else{
-						return 1;
-					}
-				});
-				break;
-		}
-
-		return $matches;
+		return ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount];
 	}
 
 	/**

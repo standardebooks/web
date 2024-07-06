@@ -35,12 +35,14 @@ try{
 		$tags = [];
 	}
 
-	$ebooks = Library::FilterEbooks($query != '' ? $query : null, $tags, $sort);
+	$result = Library::FilterEbooks($query != '' ? $query : null, $tags, $sort, $page, $perPage);
+	/** @var array<Ebook> $ebooks */
+	$ebooks = $result['ebooks'];
+	/** @var int $totalEbooks */
+	$totalEbooks = $result['ebooksCount'];
 	$pageTitle = 'Browse Standard Ebooks';
 	$pageHeader = 'Browse Ebooks';
-	$pages = ceil(sizeof($ebooks) / $perPage);
-	$totalEbooks = sizeof($ebooks);
-	$ebooks = array_slice($ebooks, ($page - 1) * $perPage, $perPage);
+	$pages = ceil($totalEbooks / $perPage);
 
 	if($page > 1){
 		$pageTitle .= ', page ' . $page;
