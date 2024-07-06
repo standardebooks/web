@@ -16,13 +16,9 @@ use function Safe\usort;
 class Library{
 	/**
 	* @param array<string> $tags
-	* @return array<string, array<Ebook>|int>
+	* @return array{ebooks: array<Ebook>, ebooksCount: int}
 	*/
 	public static function FilterEbooks(string $query = null, array $tags = [], EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE): array{
-		// Returns an array of:
-		// ['ebooks'] => array<Ebook>,
-		// ['ebooksCount'] => int
-
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
 		$joinContributors = '';
