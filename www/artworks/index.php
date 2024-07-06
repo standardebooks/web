@@ -68,9 +68,7 @@ try{
 	}
 	else{
 		$result = Library::FilterArtwork($query, $filterArtworkStatus, $sort, $submitterUserId, $page, $perPage);
-		/** @var array<Artwork> $artworks */
 		$artworks = $result['artworks'];
-		/** @var int $totalArtworkCount */
 		$totalArtworkCount = $result['artworksCount'];
 	}
 
