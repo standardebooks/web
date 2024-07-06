@@ -27,5 +27,6 @@ CREATE TABLE `Ebooks` (
   `IndexableText` text NOT NULL,
   PRIMARY KEY (`EbookId`),
   UNIQUE KEY `index1` (`Identifier`),
+  KEY `index2` (`EbookCreated`),
   FULLTEXT `idxSearch` (`IndexableText`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
