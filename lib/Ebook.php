@@ -1420,16 +1420,6 @@ class Ebook{
 		return null;
 	}
 
-	public function HasTag(string $tag): bool{
-		foreach($this->Tags as $t){
-			if(strtolower($t->UrlName) == strtolower($tag)){
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	public function IsInCollection(string $collection): bool{
 		foreach($this->CollectionMemberships as $cm){
 			if(strtolower(Formatter::RemoveDiacritics($cm->Collection->Name)) == strtolower(Formatter::RemoveDiacritics($collection))){
