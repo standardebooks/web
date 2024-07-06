@@ -572,8 +572,8 @@ class Ebook{
 				}
 			}
 
-			$this->_IndexableText .= ' ' . $this->Description;
-			$this->_IndexableText .= ' ' . $this->LongDescription;
+			// Remove diacritics and non-alphanumeric characters
+			$this->_IndexableText = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($this->_IndexableText)));
 		}
 
 		return $this->_IndexableText;
