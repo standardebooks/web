@@ -1420,16 +1420,6 @@ class Ebook{
 		return null;
 	}
 
-	public function IsInCollection(string $collection): bool{
-		foreach($this->CollectionMemberships as $cm){
-			if(strtolower(Formatter::RemoveDiacritics($cm->Collection->Name)) == strtolower(Formatter::RemoveDiacritics($collection))){
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	// ***********
 	// ORM METHODS
 	// ***********
