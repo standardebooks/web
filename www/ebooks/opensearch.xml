@@ -8,8 +8,8 @@
 	<OutputEncoding>UTF-8</OutputEncoding>
 	<InputEncoding>UTF-8</InputEncoding>
 	<Url type="application/xhtml+xml" template="https://standardebooks.org/ebooks?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
-	<Url type="application/rss+xml" template="https://standardebooks.org/feeds/rss/all?query={searchTerms}"/>
-	<Url type="application/atom+xml" template="https://standardebooks.org/feeds/atom/all?query={searchTerms}"/>
-	<Url type="application/atom+xml;profile=opds-catalog;kind=acquisition" template="https://standardebooks.org/feeds/opds/all?query={searchTerms}"/>
+	<Url type="application/rss+xml" template="https://standardebooks.org/feeds/rss/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
+	<Url type="application/atom+xml" template="https://standardebooks.org/feeds/atom/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
+	<Url type="application/atom+xml;profile=opds-catalog;kind=acquisition" template="https://standardebooks.org/feeds/opds/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
 	<Query role="example" searchTerms="fiction" startPage="1" count="12"/>
 </OpenSearchDescription>
