@@ -431,23 +431,6 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
-	 */
-	public static function Search(string $query): array{
-		$ebooks = Library::GetEbooks();
-		$matches = [];
-
-		foreach($ebooks as $ebook){
-			if($ebook->Contains($query)){
-				$matches[] = $ebook;
-			}
-		}
-
-		return $matches;
-	}
-
-	/**
-	 * @return array<Ebook>
 	 */
 	public static function GetEbooksFromFilesystem(?string $webRoot = WEB_ROOT): array{
 		$ebooks = [];
