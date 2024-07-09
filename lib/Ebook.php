@@ -1152,51 +1152,6 @@ class Ebook{
 		return null;
 	}
 
-	public function Contains(string $query): bool{
-		// When searching an ebook, we search the title, alternate title, author(s), SE tags, series data, and LoC tags.
-		// Also, if the ebook is shorts or poetry, search the ToC as well.
-
-		$searchString = $this->FullTitle ?? $this->Title;
-
-		$searchString .= ' ' . $this->AlternateTitle;
-
-		foreach($this->CollectionMemberships as $collectionMembership){
-			$searchString .= ' ' . $collectionMembership->Collection->Name;
-		}
-
-		foreach($this->Authors as $author){
-			$searchString .= ' ' . $author->Name;
-		}
-
-		foreach($this->Tags as $tag){
-			$searchString .= ' ' . $tag->Name;
-		}
-
-		foreach($this->LocSubjects as $subject){
-			$searchString .= ' ' . $subject->Name;
-		}
-
-		if($this->TocEntries !== null){
-			foreach($this->TocEntries as $item){
-				$searchString .= ' ' . $item;
-			}
-		}
-
-		// Remove diacritics and non-alphanumeric characters
-		$searchString = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($searchString)));
-		$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
-
-		if($query == ''){
-			return false;
-		}
-
-		if(mb_stripos($searchString, $query) !== false){
-			return true;
-		}
-
-		return false;
-	}
-
 	public function GenerateJsonLd(): string{
 		$output = new stdClass();
 		$output->{'@context'} = 'https://schema.org';
