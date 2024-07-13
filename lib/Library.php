@@ -805,7 +805,7 @@ class Library{
 	/**
 	 * @return array<Artist>
 	 */
-	public static function GetAllArtists(): array{
+	public static function GetArtists(): array{
 		return Db::Query('
 			SELECT *
 			from Artists
