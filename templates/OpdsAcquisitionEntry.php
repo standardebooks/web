@@ -11,8 +11,8 @@
 			<? if($author->NacoafUrl !== null){ ?><schema:sameAs><?= Formatter::EscapeXml($author->NacoafUrl) ?></schema:sameAs><? } ?>
 		</author>
 	<? } ?>
-	<published><?= $entry->Created->format('Y-m-d\TH:i:s\Z') ?></published>
-	<dc:issued><?= $entry->Created->format('Y-m-d\TH:i:s\Z') ?></dc:issued>
+	<published><?= $entry->EbookCreated->format('Y-m-d\TH:i:s\Z') ?></published>
+	<dc:issued><?= $entry->EbookCreated->format('Y-m-d\TH:i:s\Z') ?></dc:issued>
 	<updated><?= $entry->Updated->format('Y-m-d\TH:i:s\Z') ?></updated>
 	<dc:language><?= Formatter::EscapeXml($entry->Language) ?></dc:language>
 	<dc:publisher>Standard Ebooks</dc:publisher>
