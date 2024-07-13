@@ -89,7 +89,7 @@ foreach($dirs as $dir){
 }
 
 // Iterate over all ebooks to build the various feeds.
-foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
+foreach(Library::GetEbooks() as $ebook){
 	$allEbooks[] = $ebook;
 	$newestEbooks[] = $ebook;
 
