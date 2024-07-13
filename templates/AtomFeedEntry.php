@@ -12,8 +12,8 @@
 	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
 	<summary type="text"><?= Formatter::EscapeXml($entry->Description) ?></summary>
 	<content type="html"><?= Formatter::EscapeXml($entry->LongDescription) ?></content>
-	<? foreach($entry->LocTags as $subject){ ?>
-	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= Formatter::EscapeXml($subject) ?>"/>
+	<? foreach($entry->LocSubjects as $subject){ ?>
+	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= Formatter::EscapeXml($subject->Name) ?>"/>
 	<? } ?>
 	<? foreach($entry->Tags as $subject){ ?>
 	<category scheme="https://standardebooks.org/vocab/subjects" term="<?= Formatter::EscapeXml($subject->Name) ?>"/>
