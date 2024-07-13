@@ -147,7 +147,8 @@ foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 	}
 
 	// Add to the 'books by collection' list
-	foreach($ebook->Collections as $collection){
+	foreach($ebook->CollectionMemberships as $cm){
+		$collection = $cm->Collection;
 		if(!isset($ebooksByGroup['collections'][$collection->Name])){
 			$obj = new stdClass();
 			$obj->Label = $collection->Name;
