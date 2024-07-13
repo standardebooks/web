@@ -78,12 +78,13 @@ class Library{
 
 	/**
 	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooks(): array{
 		// Get all ebooks, unsorted.
-		/** @var array<Ebook> */
-		return self::GetFromApcu('ebooks');
+		return Db::Query('
+				SELECT *
+				from Ebooks
+			', [], Ebook::class);
 	}
 
 	/**
@@ -384,76 +385,6 @@ class Library{
 			order by art.Created desc', $params, Artwork::class);
 
 		return $artworks;
-	}
-
-
-	/**
-	 * @return array<mixed>
-	 * @throws Exceptions\AppException
-	 */
-	private static function GetFromApcu(string $variable): array{
-		$results = [];
-
-		try{
-			$results = apcu_fetch($variable);
-		}
-		catch(Safe\Exceptions\ApcuException $ex){
-			try{
-				// If we can't fetch this variable, rebuild the whole cache.
-				apcu_fetch('is-cache-fresh');
-			}
-			catch(Safe\Exceptions\ApcuException $ex){
-				Library::RebuildCache();
-				try{
-					$results = apcu_fetch($variable);
-				}
-				catch(Safe\Exceptions\ApcuException){
-					// We can get here if the cache is currently rebuilding from a different process.
-					// Nothing we can do but wait, so wait 20 seconds before retrying
-					sleep(20);
-
-					try{
-						$results = apcu_fetch($variable);
-					}
-					catch(Safe\Exceptions\ApcuException){
-						// Cache STILL rebuilding... give up silently for now
-					}
-				}
-			}
-		}
-
-		if(!is_array($results)){
-			$results = [$results];
-		}
-
-		return $results;
-	}
-
-	/**
-	 * @return array<Ebook>
-	 */
-	public static function GetEbooksFromFilesystem(?string $webRoot = WEB_ROOT): array{
-		$ebooks = [];
-
-		$contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/ebooks/') . ' -name "content.opf" | sort')));
-
-		foreach($contentFiles as $path){
-			if($path == '')
-				continue;
-
-			$ebookWwwFilesystemPath = '';
-
-			try{
-				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path);
-
-				$ebooks[] = Ebook::FromFilesystem($ebookWwwFilesystemPath);
-			}
-			catch(\Exception){
-				// An error in a book isn't fatal; just carry on.
-			}
-		}
-
-		return $ebooks;
 	}
 
 	private static function FillBulkDownloadObject(string $dir, string $downloadType, string $urlRoot): stdClass{

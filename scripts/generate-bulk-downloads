@@ -104,7 +104,7 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 }
 
 // Iterate over all ebooks and arrange them by publication month
-foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
+foreach(Library::GetEbooks() as $ebook){
 	$timestamp = $ebook->EbookCreated->format('Y-m');
 	$updatedTimestamp = $ebook->EbookUpdated->getTimestamp();
 
