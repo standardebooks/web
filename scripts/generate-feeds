@@ -99,7 +99,8 @@ foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 		$subjects[$urlName] = ['id' => $urlName, 'name' => $tag->Name, 'sortedname' => $tag->Name];
 	}
 
-	foreach($ebook->Collections as $collection){
+	foreach($ebook->CollectionMemberships as $cm){
+		$collection = $cm->Collection;
 		$urlName = Formatter::MakeUrlSafe($collection->Name);
 		$ebooksByCollection[$urlName][] = $ebook;
 		$collections[$urlName] = ['id' => $urlName, 'name' => $collection->Name, 'sortedname' => $collection->GetSortedName()];
