@@ -18,7 +18,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 		<span>Name</span>
 		<span>For existing artists, leave the year of death blank.</span>
 		<datalist id="artist-names">
-			<? foreach(Library::GetAllArtists() as $artist){ ?>
+			<? foreach(Library::GetArtists() as $artist){ ?>
 				<option value="<?= Formatter::EscapeHtml($artist->Name) ?>"><?= Formatter::EscapeHtml($artist->Name) ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
 				<? foreach($artist->AlternateNames as $alternateName){ ?>
 					<option value="<?= Formatter::EscapeHtml($alternateName) ?>"><?= Formatter::EscapeHtml($alternateName) ?>, d. <? if($artist->DeathYear !== null){ ?><?= Formatter::EscapeHtml($artist->DeathYear) ?><? }else{ ?>unknown<? } ?></option>
