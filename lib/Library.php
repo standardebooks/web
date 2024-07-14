@@ -1,7 +1,6 @@
 <?
 use Safe\DateTimeImmutable;
 
-use function Safe\apcu_fetch;
 use function Safe\exec;
 use function Safe\filemtime;
 use function Safe\filesize;
@@ -9,8 +8,6 @@ use function Safe\glob;
 use function Safe\ksort;
 use function Safe\preg_replace;
 use function Safe\preg_split;
-use function Safe\shell_exec;
-use function Safe\sleep;
 use function Safe\usort;
 
 class Library{
@@ -599,141 +596,6 @@ class Library{
 		}
 
 		return $retval;
-	}
-
-	/**
-	 * @throws Exceptions\AppException
-	 */
-	public static function RebuildCache(): void{
-		// We check a lockfile because this can be a long-running command.
-		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.
-		$lockVar = 'library-cache-rebuilding';
-		try{
-			$val = apcu_fetch($lockVar);
-			return;
-		}
-		catch(Safe\Exceptions\ApcuException){
-			apcu_store($lockVar, true);
-		}
-
-		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
-		if($collator === null){
-			throw new Exceptions\AppException('Couldn\'t create collator object when rebuilding cache.');
-		}
-
-		$ebooks = [];
-		$ebooksByCollection = [];
-		$ebooksByTag = [];
-		$collectionsByName = [];
-		$authors = [];
-		$tagsByName = [];
-
-		foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"'))) as $filename){
-			try{
-				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $filename);
-
-				$ebook = Ebook::FromFilesystem($ebookWwwFilesystemPath);
-
-				$ebooks[$ebookWwwFilesystemPath] = $ebook;
-
-				// Create the collections cache
-				foreach($ebook->CollectionMemberships as $collectionMembership){
-					$collection = $collectionMembership->Collection;
-					$sequenceNumber = $collectionMembership->SequenceNumber;
-					$urlSafeCollection = Formatter::MakeUrlSafe($collection->Name);
-					if(!array_key_exists($urlSafeCollection, $ebooksByCollection)){
-						$ebooksByCollection[$urlSafeCollection] = [];
-						$collectionsByName[$urlSafeCollection] = $collection;
-					}
-
-					// Some items may have the same position in a collection,
-					// like _Some Do Not..._ and _No More Parades_ are both #57 in the Modern Library's 100 best novels.
-					// To accomodate that, we create an anonymous object that holds the sequence number as a separate value,
-					// then later we sort by that instead of by array index.
-					$sortItem = new stdClass();
-					$sortItem->Ebook = $ebook;
-					if($sequenceNumber !== null){
-						$sortItem->Ordinal = $sequenceNumber;
-					}
-					else{
-						$sortItem->Ordinal = 1;
-					}
-					$ebooksByCollection[$urlSafeCollection][] = $sortItem;
-				}
-
-				// Create the tags cache
-				foreach($ebook->Tags as $tag){
-					$tagsByName[$tag->UrlName] = $tag;
-					if(!array_key_exists($tag->UrlName, $ebooksByTag)){
-						$ebooksByTag[$tag->UrlName] = [];
-					}
-
-					$ebooksByTag[$tag->UrlName][] = $ebook;
-				}
-
-				// Create the authors cache
-				$authorPath = EBOOKS_DIST_PATH . rtrim(preg_replace('|^/ebooks/|ius', '', $ebook->AuthorsUrl), '/');
-				if(!array_key_exists($authorPath, $authors)){
-					$authors[$authorPath] = [];
-				}
-
-				$authors[$authorPath][] = $ebook;
-			}
-			catch(\Exception){
-				// An error in a book isn't fatal; just carry on.
-			}
-		}
-
-		apcu_delete('ebooks');
-		apcu_store('ebooks', $ebooks);
-
-		// Before we sort the list of ebooks and lose the array keys, store them by individual ebook
-		apcu_delete(new APCUIterator('/^ebook-/'));
-		foreach($ebooks as $ebookWwwFilesystemPath => $ebook){
-			apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
-		}
-
-		// Now store various collections
-		apcu_delete(new APCUIterator('/^collection-/'));
-		foreach($ebooksByCollection as $collection => $sortItems){
-			// Sort the array by the ebook's ordinal in the collection. We use this custom sort function
-			// because an ebook may share the same place in a collection with another ebook; see above.
-			usort($sortItems, function($a, $b){
-				if($a->Ordinal == $b->Ordinal){
-				        return 0;
-				    }
-				    return ($a->Ordinal < $b->Ordinal) ? -1 : 1;
-			});
-
-			// Now pull the actual ebooks out of the anonymous objects we just sorted
-			$ebooks = [];
-			foreach($sortItems as $sortItem){
-				$ebooks[] = $sortItem->Ebook;
-			}
-			apcu_store('collection-' . $collection, $ebooks);
-		}
-
-		apcu_delete('collections');
-		usort($collectionsByName, function($a, $b) use($collator){ return $collator->compare($a->GetSortedName(), $b->GetSortedName()); });
-		apcu_store('collections', $collectionsByName);
-
-		apcu_delete(new APCUIterator('/^tag-/'));
-		foreach($ebooksByTag as $tagName => $ebooks){
-			apcu_store('tag-' . $tagName, $ebooks);
-		}
-
-		ksort($tagsByName);
-		apcu_delete('tags');
-		apcu_store('tags', $tagsByName);
-
-		apcu_delete(new APCUIterator('/^author-/'));
-		foreach($authors as $author => $ebooks){
-			apcu_store('author-' . $author, $ebooks);
-		}
-
-		apcu_delete($lockVar);
-
-		apcu_store('is-cache-fresh', true);
 	}
 
 	/**
