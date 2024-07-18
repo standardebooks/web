@@ -1765,7 +1765,8 @@ input[type="number"],
 input[type="url"],
 input[type="email"],
 input[type="password"],
-input[type="search"]{
+input[type="search"],
+input[type="file"]{
 	-webkit-appearance: none;
 	appearance: none;
 	box-sizing: border-box;
@@ -2008,18 +2009,8 @@ input[type="number"]:user-invalid,
 input[type="url"]:user-invalid,
 input[type="email"]:user-invalid,
 input[type="password"]:user-invalid,
-input[type="search"]:user-invalid{
-	border-color: #ff0000;
-	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
-}
-
-input[type="text"]:-moz-ui-invalid,
-input[type="month"]:-moz-ui-invalid,
-input[type="number"]:-moz-ui-invalid,
-input[type="url"]:-moz-ui-invalid,
-input[type="email"]:-moz-ui-invalid,
-input[type="password"]:-moz-ui-invalid,
-input[type="search"]:-moz-ui-invalid{
+input[type="search"]:user-invalid,
+input[type="file"]:user-invalid{
 	border-color: #ff0000;
 	box-shadow: 1px 1px 0 #ff0000, -1px -1px 0 #ff0000;
 }

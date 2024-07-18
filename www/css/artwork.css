@@ -343,6 +343,10 @@ main section.narrow h1 ~ picture{
 	font-size: .8rem;
 }
 
+.artworks h2 + h3{
+	margin-top: 1rem;
+}
+
 @media(max-width: 500px){
 	.artwork-metadata td{
 		display: block;

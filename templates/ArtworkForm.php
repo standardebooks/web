@@ -201,7 +201,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 		<label>
 			<span>In use by</span>
 			<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
-			<input type="url" autocomplete="off" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
+			<input type="url" autocomplete="off" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/" pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
 		</label>
 	<? } ?>
 </fieldset>
