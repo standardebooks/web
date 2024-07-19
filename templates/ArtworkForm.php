@@ -30,7 +30,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			name="artist-name"
 			list="artist-names"
 			required="required"
-			autocomplete="off"
 			value="<?= Formatter::EscapeHtml($artwork->Artist->Name) ?>"
 		/>
 	</label>
@@ -43,7 +42,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			name="artist-year-of-death"
 			inputmode="numeric"
 			pattern="[0-9]{1,4}"
-			autocomplete="off"
 			value="<?= Formatter::EscapeHtml($artwork->Artist->DeathYear) ?>"
 		/>
 	</label>
@@ -52,7 +50,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 	<legend>Artwork details</legend>
 	<label class="picture">
 		Name
-		<input type="text" name="artwork-name" required="required" autocomplete="off"
+		<input type="text" name="artwork-name" required="required"
 		       value="<?= Formatter::EscapeHtml($artwork->Name) ?>"/>
 	</label>
 	<fieldset>
@@ -63,7 +61,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 				name="artwork-year"
 				inputmode="numeric"
 				pattern="[0-9]{1,4}"
-				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->CompletedYear) ?>"
 			/>
 		</label>
@@ -82,7 +79,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			type="text"
 			name="artwork-tags"
 			required="required"
-			autocomplete="off"
 			value="<?= Formatter::EscapeHtml($artwork->ImplodeTags()) ?>"
 		/>
 	</label>
@@ -107,7 +103,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			<input
 				type="url"
 				name="artwork-museum-url"
-				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->MuseumUrl) ?>"
 			/>
 		</label>
@@ -130,7 +125,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 				name="artwork-publication-year"
 				inputmode="numeric"
 				pattern="[0-9]{4}"
-				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->PublicationYear) ?>"
 			/>
 		</label>
@@ -140,7 +134,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			<input
 				type="url"
 				name="artwork-publication-year-page-url"
-				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->PublicationYearPageUrl) ?>"
 			/>
 		</label>
@@ -150,7 +143,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			<input
 				type="url"
 				name="artwork-copyright-page-url"
-				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->CopyrightPageUrl) ?>"
 			/>
 		</label>
@@ -160,7 +152,6 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 			<input
 				type="url"
 				name="artwork-artwork-page-url"
-				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($artwork->ArtworkPageUrl) ?>"
 			/>
 		</label>
@@ -201,7 +192,7 @@ $now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Late
 		<label>
 			<span>In use by</span>
 			<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
-			<input type="url" autocomplete="off" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/" pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
+			<input type="url" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/" pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
 		</label>
 	<? } ?>
 </fieldset>

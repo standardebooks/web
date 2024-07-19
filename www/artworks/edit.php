@@ -57,7 +57,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<img src="<?= $artwork->ThumbUrl ?>" alt="" property="schema:image"/>
 		</picture>
 
-		<form class="create-update-artwork" method="post" action="<?= $artwork->Url ?>" enctype="multipart/form-data">
+		<form class="create-update-artwork" method="post" action="<?= $artwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
 			<input type="hidden" name="_method" value="PUT" />
 			<?= Template::ArtworkForm(['artwork' => $artwork, 'isEditForm' => true]) ?>
 		</form>

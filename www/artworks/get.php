@@ -156,7 +156,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'])){ ?>
 				<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers. Once an artwork is approved, it can no longer be edited.</p>
 			<? } ?>
-			<form method="post" action="<?= $artwork->Url ?>">
+			<form method="post" action="<?= $artwork->Url ?>" autocomplete="off">
 				<input type="hidden" name="_method" value="PATCH" />
 				<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'])){ ?>
 					<label>
@@ -176,7 +176,7 @@ catch(Exceptions\InvalidPermissionsException){
 					<label>
 						<span>In use by</span>
 						<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
-						<input type="url" autocomplete="off" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
+						<input type="url" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
 					</label>
 				<? }else{ ?>
 					<input type="hidden" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>" />
