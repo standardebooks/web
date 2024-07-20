@@ -70,6 +70,15 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1vE0G9zslmxHZP17k529UiwPqSA9Zz8RBETtIHMA5Hqk/edit">Works by Thornton Burgess</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTMD5RdLAIxp2HQ0rZqaaYbavr4s0-vIRB8GCP7dTJRm0QYbOQvyvuxTDs5R1HhiYeNOJrLMVzgkArG/pubhtml">Short fiction by Hans Christian Anderson</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQv6NVX2LwU60gMK1AtORZI3NDDM2lXqwqCL6abuqnb6p9H6IbjheTwbUKbcZggG0Ny5f7yJ87RuQJ-/pubhtml">Short fiction by Rudyard Kipling</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSyA8rKpA1AF8rNKY_eC-xIYkGoQZq-FavQqJ3-VXGu1DK1_NSYmxqAonbSo4AVjAM4Ps8jtYO0wfqr/pubhtml">Short fiction by Sabine Baring-Gould</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
