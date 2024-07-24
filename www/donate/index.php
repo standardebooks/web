@@ -84,7 +84,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 					<p>Standard Ebooks is the sole decisionmaker regarding all aspects of ebook editing and production. Trust us to create an artifact of beauty.</p>
 				</li>
 			</ul>
-			<p><b>Sponsoring a new ebook of your choice requires a donation of $0.009/word</b>, plus Fractured Atlas’ processing fee. Your selection’s word count will be calculated  using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes.</p>
+			<p><b>Sponsoring a new ebook of your choice calls for a donation of $900 + $0.02 per word over the first 100,000</b>, plus Fractured Atlas’ processing fee. Ebooks that are especially complex or that requiring significant advanced formatting may call for an additional donation. Your selection’s word count will be calculated using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes.</p>
 			<p><em>Before making your donation</em>, <a href="/about#editor-in-chief">contact the S.E. Editor-in-Chief</a> to confirm that your selection will be accepted, and so that we can calculate your selection’s word count.</p>
 			<p class="button-row center">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a donation to sponsor a new ebook</a>
