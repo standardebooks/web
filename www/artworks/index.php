@@ -132,7 +132,7 @@ catch(Exceptions\PageOutOfBoundsException){
 <main class="artworks">
 	<section class="narrow">
 		<h1>Browse U.S. Public Domain Artwork</h1>
-		<p>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.</p>
+		<p><? if($GLOBALS['User']?->Benefits->CanUploadArtwork){ ?><a href="/artworks/new">Submit new public domain artwork.</a><? }else{ ?>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.<? } ?></p>
 		<form class="browse-artwork" action="/artworks" method="get" rel="search">
 			<label>
 				<span>Status</span>
