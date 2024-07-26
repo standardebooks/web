@@ -51,7 +51,7 @@
 					</ol>
 					<h4 id="kindle-method-2">Method 2—Download Directly to Kindle</h4>
 					<p>This method won’t add the ebook to your Kindle library, but your Kindle will remember your reading position.</p>
-					<p>This method also won’t add include a cover image. If you want a cover image, use <a href="#kindle-method-1">method 1</a>.</p>
+					<p>This method also won’t include a cover image. If you want a cover image, use <a href="#kindle-method-1">method 1</a>.</p>
 					<ol>
 						<li>
 							<p>From your Kindle’s home screen, tap the 3 dots in the upper-right corner.</p>
