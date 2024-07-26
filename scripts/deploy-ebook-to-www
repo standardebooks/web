@@ -414,22 +414,6 @@ if tsp | grep --quiet --extended-regexp "^[0-9]+\s+queued"; then
 	queuedTasks="true"
 fi
 
-if [ "${queuedTasks}" = "false" ]; then
-	if [ "${verbose}" = "true" ]; then
-		printf "Rebuilding web library cache ... "
-	fi
-
-	"${scriptsDir}"/rebuild-cache library
-
-	if [ "${verbose}" = "true" ]; then
-		printf "Done.\n"
-	fi
-else
-	if [ "${verbose}" = "true" ]; then
-		printf "Tasks queued after this one, not rebuilding web library cache.\n"
-	fi
-fi
-
 if [ "${feeds}" = "true" ]; then
 	# Build the various feeds catalog, but only if we don't have more items in the tsp build queue.
 	if [ "${queuedTasks}" = "false" ]; then
