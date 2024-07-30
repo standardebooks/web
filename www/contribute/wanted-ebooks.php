@@ -45,9 +45,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/106">Jungle Tales of Tarzan</a> (Tarzan 6) by Edgar Rice Burroughs</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/58874">Tarzan and the Golden Lion</a> (Tarzan 9) by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61837">Tarzan and the Ant Men</a> (Tarzan 10) by Edgar Rice Burroughs</p>
 			</li>
@@ -114,9 +114,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/71073">The Starvel Hollow Tragedy</a> by Freeman Wills Crofts (Inspector French #3)</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/9662">An Enquiry Concerning Human Understanding</a> by David Hume</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/134">Maria</a> by Mary Wollstonecraft</p>
 			</li>
