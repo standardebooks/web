@@ -291,9 +291,9 @@
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/F._Scott_Fitzgerald_bibliography#Short_story_collections">Short stories by F. Scott Fitzgerald</a></p>
 			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2870">Washington Square</a> by Henry James</p><!--patron-->
-			</li>
+			<!-- <li>
+				<p><a href="https://www.gutenberg.org/ebooks/2870">Washington Square</a> by Henry James</p>patron
+			</li> -->
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/31318">Geronimo’s Story of His Life</a> by Geronimo</p><!--patron-->
 			</li>
@@ -443,9 +443,6 @@
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/7416">The Thirteen</a> by Honoré de Balzac</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/45502">How the Other Half Lives</a> by Jacob Riis</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
