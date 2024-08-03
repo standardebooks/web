@@ -91,9 +91,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/8939">With Edged Tools</a> by Henry Seton Merriman</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/8101">Bertram Cope’s Year</a> by Henry Blake Fuller</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/77">The House of the Seven Gables</a> by Nathaniel Hawthorne</p><!--patron-->
 			</li>
 			<li>
@@ -152,9 +149,6 @@
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/71470">Roderick the Last of the Goths</a> by Robert Southey</p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/13279">A Yankee in the Trenches</a> by Robert Derby Holmes (Keep illustrations and glossary)</p><!--patron-->
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/14988">On the Nature of the Gods</a> by Cicero (PG link includes this work as part of an omnibus)</p>
