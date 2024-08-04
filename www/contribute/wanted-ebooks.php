@@ -175,9 +175,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/36483">William Meister’s Apprenticeship</a> by Johann Wolfgang von Goethe (<a href="https://books.google.com/books?id=HIxaAAAAYAAJ">Page scans</a>)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/2944">Essays by Ralph Waldo Emerson</a> (<a href="https://www.gutenberg.org/ebooks/2945">Part 2</a>), to be compiled into a single “Essays”</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1436">A Voyage to Abyssinia</a> by Jerónimo Lobo</p>
 			</li>
 			<li>
