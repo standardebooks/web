@@ -2,7 +2,7 @@ CREATE TABLE `Ebooks` (
   `EbookId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Identifier` varchar(511) NOT NULL,
   `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updated` timestamp NOT NULL,
+  `Updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `WwwFilesystemPath` varchar(511) NOT NULL,
   `RepoFilesystemPath` varchar(511) NOT NULL,
   `KindleCoverUrl` varchar(511) NULL,
