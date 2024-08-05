@@ -25,6 +25,9 @@
 			<p><a href="/contribute/how-tos/how-to-structure-and-style-large-poetic-productions">How to structure and style large poetic productions</a></p>
 		</li>
 		<li>
+			<p><a href="/contribute/how-tos/things-to-look-out-for-when-proofreading">Things to look out for when proofreading</a></p>
+		</li>
+		<li>
 			<p><a href="https://docs.google.com/spreadsheets/d/1IldpmxjK06BxPL4CCOEJZpw_bxm4AhYnrTchS03QP3k/">A spreadsheet listing short fiction by various authors</a>, including upcoming stories that may soon enter the public domain.</p>
 		</li>
 	</ul>
