@@ -69,6 +69,8 @@ class Ebook{
 	public ?string $WikipediaUrl = null;
 	public DateTimeImmutable $EbookCreated;
 	public DateTimeImmutable $EbookUpdated;
+	public DateTimeImmutable $Created;
+	public DateTimeImmutable $Updated;
 	public ?int $TextSinglePageByteCount = null;
 	/** @var array<GitCommit> $_GitCommits */
 	protected $_GitCommits = null;
@@ -1571,12 +1573,17 @@ class Ebook{
 
 	private function InsertCollectionMemberships(): void{
 		foreach($this->CollectionMemberships as $collectionMembership){
+			$collectionMembership->EbookId = $this->EbookId;
+			$collectionMembership->CollectionId = $collectionMembership->Collection->CollectionId;
+
 			Db::Query('
 				INSERT into CollectionEbooks (EbookId, CollectionId, SequenceNumber)
 				values (?,
 					?,
 				        ?)
-			', [$this->EbookId, $collectionMembership->Collection->CollectionId, $collectionMembership->SequenceNumber]);
+			', [$collectionMembership->EbookId, $collectionMembership->CollectionId, $collectionMembership->SequenceNumber]);
+
+			$collectionMembership->CollectionEbookId = Db::GetLastInsertedId();
 		}
 	}
 
@@ -1591,13 +1598,17 @@ class Ebook{
 
 	private function InsertGitCommits(): void{
 		foreach($this->GitCommits as $commit){
+			$commit->EbookId = $this->EbookId;
+
 			Db::Query('
 				INSERT into GitCommits (EbookId, Created, Message, Hash)
 				values (?,
 					?,
 					?,
 				        ?)
-			', [$this->EbookId, $commit->Created, $commit->Message, $commit->Hash]);
+			', [$commit->EbookId, $commit->Created, $commit->Message, $commit->Hash]);
+
+			$commit->GitCommitId = Db::GetLastInsertedId();
 		}
 	}
 
@@ -1612,12 +1623,16 @@ class Ebook{
 
 	private function InsertSources(): void{
 		foreach($this->Sources as $source){
+			$source->EbookId = $this->EbookId;
+
 			Db::Query('
 				INSERT into EbookSources (EbookId, Type, Url)
 				values (?,
 					?,
 				        ?)
-			', [$this->EbookId, $source->Type->value, $source->Url]);
+			', [$source->EbookId, $source->Type->value, $source->Url]);
+
+			$source->EbookSourceId = Db::GetLastInsertedId();
 		}
 	}
 
@@ -1633,6 +1648,9 @@ class Ebook{
 	private function InsertContributors(): void{
 		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Contributors);
 		foreach($allContributors as $sortOrder => $contributor){
+			$contributor->EbookId = $this->EbookId;
+			$contributor->SortOrder = $sortOrder;
+
 			Db::Query('
 				INSERT into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
 					NacoafUrl, SortOrder)
@@ -1645,9 +1663,11 @@ class Ebook{
 					?,
 					?,
 				        ?)
-			', [$this->EbookId, $contributor->Name, $contributor->UrlName, $contributor->SortName,
+			', [$contributor->EbookId, $contributor->Name, $contributor->UrlName, $contributor->SortName,
 				$contributor->WikipediaUrl, $contributor->MarcRole, $contributor->FullName,
-				$contributor->NacoafUrl, $sortOrder]);
+				$contributor->NacoafUrl, $contributor->SortOrder]);
+
+			$contributor->ContributorId = Db::GetLastInsertedId();
 		}
 	}
 

@@ -1,5 +1,7 @@
 <?
 class Contributor{
+	public ?int $ContributorId = null;
+	public ?int $EbookId = null;
 	public string $Name;
 	public string $UrlName;
 	public ?string $SortName = null;
@@ -7,6 +9,7 @@ class Contributor{
 	public ?string $MarcRole = null;
 	public ?string $FullName = null;
 	public ?string $NacoafUrl = null;
+	public ?int $SortOrder = null;
 
 	public static function FromProperties(string $name, string $sortName = null, string $fullName = null, string $wikipediaUrl = null, string $marcRole = null, string $nacoafUrl = null): Contributor{
 		$instance = new Contributor();

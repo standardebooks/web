@@ -2,6 +2,8 @@
 use Safe\DateTimeImmutable;
 
 class GitCommit{
+	public ?int $GitCommitId = null;
+	public ?int $EbookId = null;
 	public DateTimeImmutable $Created;
 	public string $Message;
 	public string $Hash;
