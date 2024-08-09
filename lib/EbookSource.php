@@ -1,5 +1,7 @@
 <?
 class EbookSource{
+	public ?int $EbookSourceId = null;
+	public ?int $EbookId = null;
 	public EbookSourceType $Type;
 	public string $Url;
 
