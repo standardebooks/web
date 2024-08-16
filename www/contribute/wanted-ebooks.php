@@ -136,6 +136,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3031">Wild Animals I Have Known</a> by Ernest Thompson Seton (Note: PG transcription has removed formatting)</p><!--patron-->
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/73533">The Poetic Edda</a> translated by Henry Adams Bellows</p>
 			</li>
 			<li>
