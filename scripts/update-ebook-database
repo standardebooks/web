@@ -4,9 +4,8 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\getopt;
 
-$ignoredProperites = ['Created', 'Updated'];  // Ebooks from the filesystem don't have these DB properties set.
-
 function findObjectDifferences($fs, $db): array{
+	static $ignoredProperites = ['Created', 'Updated'];  // Ebooks from the filesystem don't have these DB properties set.
 	$diffs = [];
 	$fsReflection = new ReflectionClass($fs);
 	$dbReflection = new ReflectionClass($db);
