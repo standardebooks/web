@@ -10,7 +10,7 @@ class Collection{
 	public int $CollectionId;
 	public string $Name;
 	public string $UrlName;
-	public ?string $Type = null;
+	public ?CollectionType $Type = null;
 	protected ?string $_Url = null;
 
 	protected function GetUrl(): ?string{
@@ -59,7 +59,7 @@ class Collection{
 			$error->Add(new Exceptions\StringTooLongException('Collection name: '. $this->Name));
 		}
 
-		if($this->Type !== null && ($this->Type != 'series' && $this->Type != 'set')){
+		if($this->Type !== null && ($this->Type != CollectionType::Series && $this->Type != CollectionType::Set)){
 			$error->Add(new Exceptions\InvalidCollectionTypeException($this->Type));
 		}
 
