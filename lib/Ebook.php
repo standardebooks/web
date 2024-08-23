@@ -762,7 +762,7 @@ class Ebook{
 				$cm->SequenceNumber = (int)$s;
 			}
 			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="collection-type"]') ?: [] as $s){
-				$cm->Collection->Type = (string)$s;
+				$cm->Collection->Type = CollectionType::tryFrom((string)$s) ?? CollectionType::Unknown;
 			}
 			$collectionMemberships[] = $cm;
 		}
