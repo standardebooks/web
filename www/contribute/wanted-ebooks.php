@@ -136,6 +136,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/33346">How to Tell the Birds from the Flowers and Other Woodcuts</a> by Robert Williams Wood</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3031">Wild Animals I Have Known</a> by Ernest Thompson Seton (Note: PG transcription has removed formatting)</p><!--patron-->
 			</li>
 			<li>
