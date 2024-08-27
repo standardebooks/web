@@ -105,9 +105,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/71073">The Starvel Hollow Tragedy</a> by Freeman Wills Crofts (Inspector French #3)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/9662">An Enquiry Concerning Human Understanding</a> by David Hume</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/134">Maria</a> by Mary Wollstonecraft</p>
 			</li>
