@@ -310,9 +310,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/10615">An Essay Concerning Human Understanding</a> by John Locke (<a href="https://www.gutenberg.org/ebooks/10616">Volume 2</a>, to be produced as one ebook)</p><!--patron-->
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/20288">Edward II</a> by Christopher Marlowe (<a href="https://archive.org/details/marlowesedwardii00marluoft/page/6/mode/2up">possible scans</a>, confirm the edition first)</p><!--patron-->
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2130">Utopia</a> by Thomas Moore</p>
 			</li>
 			<li>
