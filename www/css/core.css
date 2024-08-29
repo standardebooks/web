@@ -2514,6 +2514,10 @@ label.checkbox span > span{
 	margin-top: .25rem;
 }
 
+label.checkbox span{
+	font-weight: normal;
+}
+
 article.step-by-step-guide ol ol{
 	margin-left: 1.2rem;
 	list-style: decimal;
