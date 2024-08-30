@@ -85,9 +85,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/8939">With Edged Tools</a> by Henry Seton Merriman</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/77">The House of the Seven Gables</a> by Nathaniel Hawthorne</p><!--patron-->
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/38703">The Black Moth</a> by Georgette Heyer</p>
 			</li>
 			<li>
@@ -288,6 +285,9 @@
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/71853">Manhattan Transfer</a> by John Dos Passos</p>
+			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Thalaba_the_Destroyer">Thalaba the Destroyer</a> by Robert Southey (transcription required; editions vary widely; research on best edition is required)</p>
 			</li>
