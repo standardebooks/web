@@ -154,7 +154,7 @@
 				<p><a href="https://www.gutenberg.org/ebooks/17957">On the Sublime</a> by Longinus</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/56426">The Mummy! A Tale of the Twenty-Second Century</a> by Jane C. Loudon</p>
+				<p><a href="https://www.gutenberg.org/ebooks/56426">The Mummy! A Tale of the Twenty-Second Century</a> by Jane C. Loudon (Transcription is of the 1st edition, but we want to update it to the 2nd or later edition)</p>
 			</li>
 			<li>
 				<p><a href="https://theotherpages.org/poems/poem-mn.html#macaulay">Poetry by Thomas Macaulay</a> including <i>Lays of Ancient Rome</i></p>
