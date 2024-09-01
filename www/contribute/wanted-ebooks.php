@@ -129,6 +129,18 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/73011">The House at Pooh Corner</a> by A. A. Milne. (Note: remove illustrations)</p><!-- patron -->
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/72140">The Homemaker</a> by Dorothy Canfield Fisher</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/67929">The Bridal Wreath</a> by Sigrid Undset</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/60741">Jenny</a> by Sigrid Undset</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/37725">The Fisher Girl</a> by Bjørnstjerne Bjørnson</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
