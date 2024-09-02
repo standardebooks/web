@@ -23,7 +23,7 @@ try{
 	}
 
 	$collectionName = preg_replace('/^The /ius', '', $collectionObject->Name);
-	$collectionType = $collectionObject->Type ?? 'collection';
+	$collectionType = $collectionObject->Type->value ?? 'collection';
 
 	$pageTitle = 'Browse free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 	$pageDescription = 'A list of free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
