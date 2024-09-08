@@ -8,6 +8,7 @@ use function Safe\glob;
 use function Safe\ksort;
 use function Safe\preg_replace;
 use function Safe\preg_split;
+use function Safe\sprintf;
 use function Safe\usort;
 
 class Library{
@@ -45,7 +46,8 @@ class Library{
 
 		if($query !== null && $query != ''){
 			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
-			$whereCondition .= ' AND match(e.IndexableText) against(?) ';
+			$query = sprintf('"%s"', $query);  // Require an exact match via double quotes.
+			$whereCondition .= ' AND match(e.IndexableText) against(? IN BOOLEAN MODE) ';
 			$params[] = $query;
 		}
 
