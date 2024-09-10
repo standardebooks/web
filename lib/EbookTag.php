@@ -53,10 +53,11 @@ class EbookTag extends Tag{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into Tags (Name, Type)
+			INSERT into Tags (Name, UrlName, Type)
 			values (?,
+				?,
 				?)
-		', [$this->Name, $this->Type]);
+		', [$this->Name, $this->UrlName, $this->Type]);
 		$this->TagId = Db::GetLastInsertedId();
 	}
 

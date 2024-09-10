@@ -40,7 +40,7 @@ class Library{
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
 			$joinTags = 'inner join EbookTags et using (EbookId)
 					inner join Tags t using (TagId)';
-			$whereCondition .= ' AND t.Name in ' . Db::CreateSetSql($tags) . ' ';
+			$whereCondition .= ' AND t.UrlName in ' . Db::CreateSetSql($tags) . ' ';
 			$params = $tags;
 		}
 
