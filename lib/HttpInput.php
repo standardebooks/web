@@ -2,19 +2,56 @@
 use Safe\DateTimeImmutable;
 
 use function Safe\ini_get;
+use function Safe\glob;
 use function Safe\preg_match;
+use function Safe\preg_replace;
+use function Safe\mb_convert_encoding;
 
 class HttpInput{
 	/**
-	 * Check that the request's HTTP method is in a list of allowed HTTP methods.
-	 * @param ?array<HttpMethod> $allowedHttpMethods An array containing a list of allowed HTTP methods, or null if any valid HTTP method is allowed.
-	 * @param bool $throwException If the request HTTP method isn't allowed, then throw an exception; otherwise, output HTTP 405 and exit the script immediately.
-	 * @throws Exceptions\InvalidHttpMethodException If the HTTP method is not recognized and `$throwException` is `true`.
-	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is not in the list of allowed methods and `$throwException` is `true`.
+	 * Calculate the HTTP method of the request, then include `<METHOD>.php` and exit.
 	 */
-	public static function ValidateRequestMethod(?array $allowedHttpMethods = null, bool $throwException = false): HttpMethod{
+	public static function DispatchRest(): void{
 		try{
-			$requestMethod = HttpMethod::from($_POST['_method'] ?? $_SERVER['REQUEST_METHOD']);
+			$httpMethod = HttpInput::ValidateRequestMethod(null, true);
+
+			$filename = mb_strtolower($httpMethod->value) . '.php';
+
+			if(!file_exists($filename)){
+				throw new Exceptions\InvalidHttpMethodException();
+			}
+
+			if($httpMethod == Enums\HttpMethod::Post){
+				// If we're a HTTP POST, then we got here from a POST request initially, so just continue
+				return;
+			}
+
+			include($filename);
+
+			exit();
+		}
+		catch(Exceptions\InvalidHttpMethodException | Exceptions\HttpMethodNotAllowedException){
+			$filenames = glob('{delete,get,patch,post,put}.php', GLOB_BRACE);
+
+			if(sizeof($filenames) > 0){
+				header('Allow: ' . implode(',', array_map(fn($filename): string => mb_strtoupper(preg_replace('/^([a-z]+)[\.\-].+$/i', '\1', $filename)), $filenames)));
+			}
+
+			http_response_code(Enums\HttpCode::MethodNotAllowed->value);
+			exit();
+		}
+	}
+
+	/**
+	 * Check that the request's HTTP method is in a list of allowed HTTP methods.
+	 * @param ?array<Enums\HttpMethod> $allowedHttpMethods An array containing a list of allowed HTTP methods, or null if any valid HTTP method is allowed.
+	 * @param bool $throwException If the request HTTP method isn't allowed, then throw an exception; otherwise, output HTTP 405 and exit the script immediately.
+	 * @throws Exceptions\InvalidHttpMethodException If the HTTP method is not recognized, and `$throwException` is `true`.
+	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is recognized but not allowed, and `$throwException` is `true`.
+	 */
+	public static function ValidateRequestMethod(?array $allowedHttpMethods = null, bool $throwException = false): Enums\HttpMethod{
+		try{
+			$requestMethod = Enums\HttpMethod::from($_POST['_method'] ?? $_GET['_method'] ?? $_SERVER['REQUEST_METHOD']);
 			if($allowedHttpMethods !== null){
 				$isRequestMethodAllowed = false;
 				foreach($allowedHttpMethods as $allowedHttpMethod){
@@ -41,7 +78,7 @@ class HttpInput{
 				if($allowedHttpMethods !== null){
 					header('Allow: ' . implode(',', array_map(fn($httpMethod): string => $httpMethod->value, $allowedHttpMethods)));
 				}
-				http_response_code(405);
+				http_response_code(Enums\HttpCode::MethodNotAllowed->value);
 				exit();
 			}
 		}
@@ -53,7 +90,7 @@ class HttpInput{
 	 * @return int The maximum size for an HTTP POST request, in bytes.
 	 */
 	public static function GetMaxPostSize(): int{
-		$post_max_size = ini_get('post_max_size');
+		$post_max_size = ini_get('upload_max_filesize');
 		$unit = substr($post_max_size, -1);
 		$size = (int) substr($post_max_size, 0, -1);
 
@@ -71,16 +108,35 @@ class HttpInput{
 				return true;
 			}
 		}
+		elseif(sizeof($_FILES) > 0){
+			// We received files but may have an error because the size exceeded our limit.
+			foreach($_FILES as $file){
+				$error = $file['error'] ?? UPLOAD_ERR_OK;
+
+				if($error == UPLOAD_ERR_INI_SIZE || $error == UPLOAD_ERR_FORM_SIZE){
+					return true;
+				}
+			}
+		}
 
 		return false;
 	}
 
-	public static function GetRequestType(): HttpRequestType{
-		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? HttpRequestType::Web : HttpRequestType::Rest;
+	public static function GetRequestType(): Enums\HttpRequestType{
+		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? Enums\HttpRequestType::Web : Enums\HttpRequestType::Rest;
 	}
 
-	public static function Str(HttpVariableSource $set, string $variable, bool $allowEmptyString = false): ?string{
-		$var = self::GetHttpVar($variable, HttpVariableType::String, $set);
+	/**
+	 * Get a string from an HTTP variable set.
+	 *
+	 * If the variable is set but empty, returns `null` unless `$allowEmptyString` is **`TRUE`**, in which case it returns an empty string.
+	 *
+	 * @param Enums\HttpVariableSource $set
+	 * @param string $variable
+	 * @param bool $allowEmptyString If the variable exists but is empty, return an empty string instead of `null`.
+	 */
+	public static function Str(Enums\HttpVariableSource $set, string $variable, bool $allowEmptyString = false): ?string{
+		$var = self::GetHttpVar($variable, Enums\HttpVariableType::String, $set);
 
 		if(is_array($var)){
 			return null;
@@ -94,24 +150,51 @@ class HttpInput{
 		return $var;
 	}
 
-	public static function Int(HttpVariableSource $set, string $variable): ?int{
+	public static function Int(Enums\HttpVariableSource $set, string $variable): ?int{
 		/** @var ?int */
-		return self::GetHttpVar($variable, HttpVariableType::Integer, $set);
+		return self::GetHttpVar($variable, Enums\HttpVariableType::Integer, $set);
 	}
 
-	public static function Bool(HttpVariableSource $set, string $variable): ?bool{
+	public static function Bool(Enums\HttpVariableSource $set, string $variable): ?bool{
 		/** @var ?bool */
-		return self::GetHttpVar($variable, HttpVariableType::Boolean, $set);
+		return self::GetHttpVar($variable, Enums\HttpVariableType::Boolean, $set);
 	}
 
-	public static function Dec(HttpVariableSource $set, string $variable): ?float{
+	public static function Dec(Enums\HttpVariableSource $set, string $variable): ?float{
 		/** @var ?float */
-		return self::GetHttpVar($variable, HttpVariableType::Decimal, $set);
+		return self::GetHttpVar($variable, Enums\HttpVariableType::Decimal, $set);
 	}
 
-	public static function Date(HttpVariableSource $set, string $variable): ?DateTimeImmutable{
+	public static function Date(Enums\HttpVariableSource $set, string $variable): ?DateTimeImmutable{
 		/** @var ?DateTimeImmutable */
-		return self::GetHttpVar($variable, HttpVariableType::DateTime, $set);
+		return self::GetHttpVar($variable, Enums\HttpVariableType::DateTime, $set);
+	}
+
+	/**
+	 * Return an object of type `$class` from `$_SESSION`, or `null` of no object of that type exists in `$_SESSION`.
+	 *
+	 * @template T of object
+	 * @param string $variable
+	 * @param class-string<T>|array<class-string<T>> $class The class of the object to return, or an array of possible classes to return.
+	 *
+	 * @return ?T An object of type `$class`, or `null` if no object of that type exists in `$_SESSION`.
+	 */
+	public static function SessionObject(string $variable, string|array $class): ?object{
+		if(!is_array($class)){
+			$class = [$class];
+		}
+
+		$object = $_SESSION[$variable] ?? null;
+
+		if($object !== null){
+			foreach($class as $c){
+				if(is_a($object, $c)){
+					return $object;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -137,85 +220,95 @@ class HttpInput{
 	* @param string $variable
 	* @return array<string>
 	*/
-	public static function Array(HttpVariableSource $set, string $variable): ?array{
+	public static function Array(Enums\HttpVariableSource $set, string $variable): ?array{
 		/** @var array<string> */
-		return self::GetHttpVar($variable, HttpVariableType::Array, $set);
+		return self::GetHttpVar($variable, Enums\HttpVariableType::Array, $set);
 	}
 
 	/**
 	 * @return array<string>|array<int>|array<float>|array<bool>|string|int|float|bool|DateTimeImmutable|null
 	 */
-	private static function GetHttpVar(string $variable, HttpVariableType $type, HttpVariableSource $set): mixed{
+	private static function GetHttpVar(string $variable, Enums\HttpVariableType $type, Enums\HttpVariableSource $set): mixed{
+		// Note that in Core.php we parse the request body of DELETE, PATCH, and PUT into $_POST.
+
 		$vars = [];
 
 		switch($set){
-			case HttpVariableSource::Get:
+			case Enums\HttpVariableSource::Get:
 				$vars = $_GET;
 				break;
-			case HttpVariableSource::Post:
+			case Enums\HttpVariableSource::Post:
 				$vars = $_POST;
 				break;
-			case HttpVariableSource::Cookie:
+			case Enums\HttpVariableSource::Cookie:
 				$vars = $_COOKIE;
 				break;
-			case HttpVariableSource::Session:
+			case Enums\HttpVariableSource::Session:
 				$vars = $_SESSION;
 				break;
 		}
 
 		if(isset($vars[$variable])){
-			if($type == HttpVariableType::Array && is_array($vars[$variable])){
+			if($type == Enums\HttpVariableType::Array && is_array($vars[$variable])){
 				// We asked for an array, and we got one
 				return $vars[$variable];
 			}
-			elseif($type !== HttpVariableType::Array && is_array($vars[$variable])){
+			elseif($type !== Enums\HttpVariableType::Array && is_array($vars[$variable])){
 				// We asked for not an array, but we got an array
 				return null;
 			}
 			elseif(is_string($vars[$variable])){
-				$var = trim($vars[$variable]);
+				// HTML `<textarea>`s encode newlines as `\r\n`, i.e. TWO characters, when submitting form data. However jQuery's `.val()` and HTML's `@maxlength` treat newlines as ONE character. So, strip `\r` here so that character lengths align between what the browser reports, and what it actually sends. This also solves column length issues when storing in the DB.
+				$var = trim(str_replace("\r", "", $vars[$variable]));
 			}
 			else{
 				$var = $vars[$variable];
 			}
 
 			switch($type){
-				case HttpVariableType::String:
-					return $var;
-				case HttpVariableType::Integer:
+				case Enums\HttpVariableType::String:
+					// Attempt to fix broken UTF8 strings, often passed by bots and scripts.
+					// Broken UTF8 can cause exceptions in functions like `preg_replace()`.
+					try{
+						return mb_convert_encoding($var, 'utf-8');
+					}
+					catch(\Safe\Exceptions\MbstringException){
+						return '';
+					}
+				case Enums\HttpVariableType::Integer:
 					// Can't use ctype_digit because we may want negative integers
-					if(is_numeric($var) && mb_strpos(strval($var), '.') === false){
+					if(is_numeric($var) && mb_strpos((string)$var, '.') === false){
 						try{
 							return intval($var);
 						}
-						catch(\Exception){
+						catch(Exception){
 							return null;
 						}
 					}
 					break;
-				case HttpVariableType::Boolean:
+				case Enums\HttpVariableType::Boolean:
 					if($var === false || $var === '0' || strtolower($var) == 'false' || strtolower($var) == 'off'){
 						return false;
 					}
 					else{
 						return true;
 					}
-				case HttpVariableType::Decimal:
+				case Enums\HttpVariableType::Decimal:
 					if(is_numeric($var)){
 						try{
 							return floatval($var);
 						}
-						catch(\Exception){
+						catch(Exception){
 							return null;
 						}
 					}
 					break;
-				case HttpVariableType::DateTime:
+				case Enums\HttpVariableType::DateTime:
 					if($var != ''){
 						try{
 							return new DateTimeImmutable($var);
 						}
-						catch(\Exception){
+						catch(Exception){
 							return null;
 						}
 					}

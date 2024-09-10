@@ -12,7 +12,7 @@ try{
 	$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
 	$lastPushHashFlag = '';
 
-	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
+	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
 
 	$log->Write('Received GitHub webhook.');
 

@@ -9,7 +9,7 @@ use function Safe\json_decode;
 try{
 	$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
 
-	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
+	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
 
 	$log->Write('Received Zoho webhook.');
 

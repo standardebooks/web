@@ -45,10 +45,10 @@ const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
 
 // These are defined for convenience, so that getting HTTP input isn't so wordy
-const GET = HttpVariableSource::Get;
-const POST = HttpVariableSource::Post;
-const SESSION = HttpVariableSource::Session;
-const COOKIE = HttpVariableSource::Cookie;
+const GET = Enums\HttpVariableSource::Get;
+const POST = Enums\HttpVariableSource::Post;
+const SESSION = Enums\HttpVariableSource::Session;
+const COOKIE = Enums\HttpVariableSource::Cookie;
 
 define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_address'));
 define('ADMIN_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.admin_address'));

@@ -2,7 +2,7 @@
 use function Safe\session_unset;
 
 try{
-	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
+	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
 
 	session_start();
 
@@ -21,18 +21,18 @@ try{
 
 	session_unset();
 
-	if($requestType == HttpRequestType::Web){
+	if($requestType == Enums\HttpRequestType::Web){
 		http_response_code(303);
 		header('Location: ' . $redirect);
 	}
 	else{
-		// Access via HttpRequestType::Rest api; 201 CREATED with location
+		// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
 		http_response_code(201);
 		header('Location: ' . $session->Url);
 	}
 }
 catch(Exceptions\InvalidLoginException | Exceptions\PasswordRequiredException $ex){
-	if($requestType == HttpRequestType::Web){
+	if($requestType == Enums\HttpRequestType::Web){
 		$_SESSION['email'] = $email;
 		$_SESSION['redirect'] = $redirect;
 		$_SESSION['exception'] = $ex;
@@ -42,7 +42,7 @@ catch(Exceptions\InvalidLoginException | Exceptions\PasswordRequiredException $e
 		header('Location: /sessions/new');
 	}
 	else{
-		// Access via HttpRequestType::Rest api; 422 Unprocessable Entity
+		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity
 		http_response_code(422);
 	}
 }

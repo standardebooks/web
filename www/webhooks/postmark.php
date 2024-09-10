@@ -12,7 +12,7 @@ try{
 
 	$log->Write('Received Postmark webhook.');
 
-	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
+	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
 
 	$apiKey = get_cfg_var('se.secrets.postmark.api_key');
 

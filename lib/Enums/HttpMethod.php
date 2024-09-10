@@ -1,4 +1,6 @@
 <?
+namespace Enums;
+
 enum HttpMethod: string{
 	case Delete = 'DELETE';
 	case Get = 'GET';

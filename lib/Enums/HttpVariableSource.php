@@ -1,4 +1,6 @@
 <?
+namespace Enums;
+
 enum HttpVariableSource{
 	case Get;
 	case Post;

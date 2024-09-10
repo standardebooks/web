@@ -9,7 +9,7 @@ class DbConnection{
 	public int $LastQueryAffectedRowCount = 0;
 
 	/**
-	 * Create a new database connection.
+	 * Create a database connection.
 	 *
 	 * @param ?string $defaultDatabase The default database to connect to, or `null` not to define one.
 	 * @param string $host The database hostname.
@@ -28,7 +28,7 @@ class DbConnection{
 
 		$connectionString = 'mysql:';
 
-		if(stripos($host, ':') !== false){
+		if(mb_stripos($host, ':') !== false){
 			$port = null;
 			preg_match('/([^:]*):([0-9]+)/ius', $host, $matches);
 			$host = $matches[1];
@@ -113,7 +113,7 @@ class DbConnection{
 	 *
 	 * The result is an array of rows. Each row is an array of objects, with each object containing its columns and values. For example,
 	 *
-	 * ```
+	 * ```php
 	 * [
 	 *	[
 	 *		'Users' => {
@@ -123,7 +123,7 @@ class DbConnection{
 	 *		'Posts' => {
 	 *			'PostId' => 222,
 	 *			'Title' => 'Lorem Ipsum'
-	 *		},
+	 *		}
 	 *	],
 	 *	[
 	 *		'Users' => {
@@ -146,14 +146,14 @@ class DbConnection{
 	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
 	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
 	 *
-	 * @return array<T>|array<array<string, object>> An array of `$class` if `$class` is not `null`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
+	 * @return array<T>|array<array<string, stdClass>> An array of `$class` if `$class` is not `null`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
 	 *
-	 * @throws Exceptions\AppException If a class was specified but the class doesn't have a `FromMultiTableRow()` method.
+	 * @throws Exceptions\MultiSelectMethodNotFoundException If a class was specified but the class doesn't have a `FromMultiTableRow()` method.
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
 	 */
 	public function MultiTableSelect(string $sql, array $params = [], ?string $class = null): array{
 		if($class !== null && !method_exists($class, 'FromMultiTableRow')){
-			throw new Exceptions\AppException('Multi table select attempted, but class ' . $class . ' doesn\'t have a FromMultiTableRow() method.');
+			throw new Exceptions\MultiSelectMethodNotFoundException($class);
 		}
 
 		$handle = $this->PreparePdoHandle($sql, $params);
@@ -316,7 +316,7 @@ class DbConnection{
 	 * @param \PdoStatement $handle The PDO handle to execute.
 	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
 	 *
-	 * @return array<T>|array<array<string, object>> An array of `$class` if `$class` is not `null`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
+	 * @return array<T>|array<array<string, stdClass>> An array of `$class` if `$class` is not `null`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
 	 *
 	 * @throws \PDOException When an error occurs during execution of the query.
 	 */

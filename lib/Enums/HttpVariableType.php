@@ -1,4 +1,6 @@
 <?
+namespace Enums;
+
 enum HttpVariableType{
 	case Array;
 	case Boolean;

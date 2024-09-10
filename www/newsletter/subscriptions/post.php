@@ -3,7 +3,7 @@ use Ramsey\Uuid\Uuid;
 use function Safe\session_unset;
 
 try{
-	HttpInput::ValidateRequestMethod([HttpMethod::Post]);
+	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
 
 	session_start();
 
@@ -13,7 +13,7 @@ try{
 
 	if(HttpInput::Str(POST, 'automationtest')){
 		// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
-		if($requestType == HttpRequestType::Web){
+		if($requestType == Enums\HttpRequestType::Web){
 			http_response_code(303);
 			$uuid = Uuid::uuid4();
 			$subscription->User = new User();
@@ -22,7 +22,7 @@ try{
 			header('Location: /newsletter/subscriptions/success');
 		}
 		else{
-			// Access via HttpRequestType::Rest api; 201 CREATED with location
+			// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
 			http_response_code(201);
 			header('Location: /newsletter/subscriptions/success');
 		}
@@ -43,20 +43,20 @@ try{
 
 	session_unset();
 
-	if($requestType == HttpRequestType::Web){
+	if($requestType == Enums\HttpRequestType::Web){
 		http_response_code(303);
 		$_SESSION['is-subscription-created'] = $subscription->UserId;
 		header('Location: /newsletter/subscriptions/success');
 	}
 	else{
-		// Access via HttpRequestType::Rest api; 201 CREATED with location
+		// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
 		http_response_code(201);
 		header('Location: /newsletter/subscriptions/success');
 	}
 }
 catch(Exceptions\NewsletterSubscriptionExistsException){
 	// Subscription exists.
-	if($requestType == HttpRequestType::Web){
+	if($requestType == Enums\HttpRequestType::Web){
 		// If we're accessing from the web, update the subscription,
 		// re-sending the confirmation email if the user isn't yet confirmed
 		$existingSubscription = NewsletterSubscription::Get($subscription->User->Uuid);
@@ -77,12 +77,12 @@ catch(Exceptions\NewsletterSubscriptionExistsException){
 		}
 	}
 	else{
-		// Access via HttpRequestType::Rest api; 409 CONFLICT
+		// Access via Enums\HttpRequestType::Rest api; 409 CONFLICT
 		http_response_code(409);
 	}
 }
 catch(Exceptions\InvalidNewsletterSubscription $ex){
-	if($requestType == HttpRequestType::Web){
+	if($requestType == Enums\HttpRequestType::Web){
 		$_SESSION['subscription'] = $subscription;
 		$_SESSION['exception'] = $ex;
 
@@ -91,7 +91,7 @@ catch(Exceptions\InvalidNewsletterSubscription $ex){
 		header('Location: /newsletter/subscriptions/new');
 	}
 	else{
-		// Access via HttpRequestType::Rest api; 422 Unprocessable Entity
+		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity
 		http_response_code(422);
 	}
 }

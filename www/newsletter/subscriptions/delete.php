@@ -1,19 +1,19 @@
 <?
 try{
 	// We may use GET if we're called from an unsubscribe link in an email
-	HttpInput::ValidateRequestMethod([HttpMethod::Get, HttpMethod::Delete]);
+	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Get, Enums\HttpMethod::Delete]);
 
 	$requestType = HttpInput::GetRequestType();
 
 	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
 	$subscription->Delete();
 
-	if($requestType == HttpRequestType::Rest){
+	if($requestType == Enums\HttpRequestType::Rest){
 		exit();
 	}
 }
 catch(Exceptions\NewsletterSubscriptionNotFoundException){
-	if($requestType == HttpRequestType::Web){
+	if($requestType == Enums\HttpRequestType::Web){
 		Template::Emit404();
 	}
 	else{

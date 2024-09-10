@@ -2,7 +2,7 @@
 
 try{
 	session_start();
-	$httpMethod = HttpInput::ValidateRequestMethod([HttpMethod::Post, HttpMethod::Patch, HttpMethod::Put]);
+	$httpMethod = HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post, Enums\HttpMethod::Patch, Enums\HttpMethod::Put]);
 	$exceptionRedirectUrl = '/artworks/new';
 
 	if(HttpInput::IsRequestTooLarge()){
@@ -14,7 +14,7 @@ try{
 	}
 
 	// POSTing a new artwork
-	if($httpMethod == HttpMethod::Post){
+	if($httpMethod == Enums\HttpMethod::Post){
 		if(!$GLOBALS['User']->Benefits->CanUploadArtwork){
 			throw new Exceptions\InvalidPermissionsException();
 		}
@@ -43,7 +43,7 @@ try{
 	}
 
 	// PUTing an artwork
-	if($httpMethod == HttpMethod::Put){
+	if($httpMethod == Enums\HttpMethod::Put){
 		$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
 		if(!$originalArtwork->CanBeEditedBy($GLOBALS['User'])){
@@ -82,7 +82,7 @@ try{
 	}
 
 	// PATCHing an artwork
-	if($httpMethod == HttpMethod::Patch){
+	if($httpMethod == Enums\HttpMethod::Patch){
 		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
 		$exceptionRedirectUrl = $artwork->Url;
