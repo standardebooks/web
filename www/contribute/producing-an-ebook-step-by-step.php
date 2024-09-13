@@ -269,6 +269,12 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 							</tbody>
 						</table>
 					</li>
+					<li>
+						<p>
+							<a href="/manual/latest/single-page#8.7.7.6">Non-breaking hyphens are used when a word is stretched out for effect.</a>
+						</p>
+						<p>Although it will produce a lot of false positives, this regex can help you find stretched words: <code class="regex">(?i)([a-z])-\1</code></p>
+					</li>
 				</ul>
 				<h3>The fourth commit</h3>
 				<p>Once you’ve searched the work for the common issues above, if any manual changes were necessary, you should perform the fourth commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Manual typography changes"</i></span></code>
