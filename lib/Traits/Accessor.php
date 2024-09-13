@@ -31,12 +31,6 @@ namespace Traits;
  * $foo->Bar = 'ipsum';
  * print($foo->Bar); // ipsum
  * ```
- *
- * **Note:** Using the null coalesce `??` operator on an `Accessor` property is equivalent to calling `isset()` and short-circuiting on **`FALSE`**, *instead of calling the getter.*
- *
- * For example, `$object->Tag->Name ?? ''` will always return `""` if `$object->_Tag = <uninitialized>`, without calling the getter first.
- *
- * See <https://reddit.com/r/PHPhelp/comments/x2avqu/anyone_know_the_rules_behind_null_coalescing/>.
  */
 trait Accessor{
 	public function __get(string $var): mixed{
@@ -86,6 +80,61 @@ trait Accessor{
 		else{
 			$this->$var = $val;
 		}
+	}
+
+	/**
+	 * Determine if a property is initialized and not `NULL` by first calling its getter.
+	 *
+	 * Calling `\isset()` on a property will result in the property's getter being called first. This is to facilitate null coalesce chains, for example `$user->Benefits->CanPost ?? false`. `\isset()` short-circuits if the variable is not initialized, so if we didn't call the getter, then it may never get called if the property hasn't been read yet, leading to surprising results.
+	 *
+	 * `Accessor::isset()` will swallow any exceptions thrown by the getter and return **`FALSE`** instead.
+	 *
+	 * For example, consider:
+	 *
+	 * ```
+	 * class Test{
+	 * 	use Traits\Accessor;
+	 *
+	 * 	public int $UserId;
+	 *
+	 * 	protected User $_User;
+	 * }
+	 *
+	 * $t = new Test();
+	 *
+	 * isset($t->User); // false
+	 *
+	 * $t->UserId = 1; // This User exists.
+	 *
+	 * isset($t->User); // true
+	 *
+	 * $t = new Test();
+	 *
+	 * $t->UserId = 100; // This User does not exist.
+	 *
+	 * isset($t->User); // false
+	 *
+	 * $t->User = new User();
+	 *
+	 * isset($t->User); // true
+	 *
+	 * @see <https://reddit.com/r/PHPhelp/comments/x2avqu/anyone_know_the_rules_behind_null_coalescing/>
+	 */
+	public function __isset(string $var): bool{
+		$privateVar = '_' . $var;
+
+		if(property_exists($this, $privateVar)){
+			try{
+				$this->__get($var);
+			}
+			catch(\Throwable){
+				// Pass.
+			}
+
+			return isset($this->$privateVar);
+		}
+
+		return false;
 	}
 
 	public function __unset(string $var): void{
