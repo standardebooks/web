@@ -3,7 +3,7 @@
 	<section class="narrow has-hero">
 		<hgroup>
 			<h1>This Ebook Is No Longer Available</h1>
-			<h2>This is 451 error.</h2>
+			<h2>This is a 451 error.</h2>
 		</hgroup>
 		<picture data-caption="The Preaching of St. Paul at Ephesus. Eustache Le Sueur, 1649">
 			<source srcset="/images/the-preaching-of-st-paul-at-ephesus@2x.avif 2x, /images/the-preaching-of-st-paul-at-ephesus.avif 1x" type="image/avif"/>
