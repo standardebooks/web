@@ -147,7 +147,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<? if($artwork->CanBeEditedBy($GLOBALS['User'])){ ?>
 			<h2>Edit artwork</h2>
-			<p>The editor or submitter may edit this artwork before it’s approved. Once it’s approved, it can no longer be edited.</p>
+			<p>An editor or the submitter may edit this artwork before it’s approved. Once it’s approved, it can no longer be edited.</p>
 			<p><a href="<?= $artwork->EditUrl ?>">Edit this artwork.</a></p>
 		<? } ?>
 
