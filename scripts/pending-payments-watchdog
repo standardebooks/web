@@ -18,5 +18,3 @@ if(sizeof($pendingPayments) > 0){
 	$em->TextBody = Template::EmailAdminUnprocessedDonationsText();
 	$em->Send();
 }
-
-?>

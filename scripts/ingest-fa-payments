@@ -1,14 +1,15 @@
 #!/usr/bin/php
 <?
-// Note: This script must be run as a user with a $HOME directory,
-// otherwise Firefox won't be able to start with a profile.
+// Note: This script must be run as a user with a $HOME directory, otherwise Firefox won't be able to start with a profile.
 
-// FA is unreliable in the email notifications it sends. They are often missing.
-// This script gets a list of FA transactions directly from their website.
-// It tracks the last transaction it saw in a temp file and won't go past that.
-// If there is no temp file, it gets all transactions from today, and writes the temp file with the last transaction it saw.
-// Any transactions that the script finds and which don't already exist, are added to the database as pending payments.
-// After that, the /scripts/process-pending-payments script will pick them up and do accounting/patron logic.
+/**
+ * FA is unreliable in the email notifications it sends. They are often missing.
+ * This script gets a list of FA transactions directly from their website.
+ * It tracks the last transaction it saw in a temp file and won't go past that.
+ * If there is no temp file, it gets all transactions from today, and writes the temp file with the last transaction it saw.
+ * Any transactions that the script finds and which don't already exist, are added to the database as pending payments.
+ * After that, the `/scripts/process-pending-payments` script will pick them up and do accounting/patron logic.
+ */
 
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -25,10 +26,10 @@ use function Safe\set_time_limit;
 
 require_once('/standardebooks.org/web/lib/Core.php');
 
-// Disable script timeout because Selenium is very slow
+// Disable script timeout because Selenium is very slow.
 set_time_limit(0);
 
-// Initialize the Selenium driver
+// Initialize the Selenium driver.
 putenv('WEBDRIVER_FIREFOX_DRIVER=' . SITE_ROOT . '/config/selenium/geckodriver-0.31.0');
 
 $firefoxOptions = new FirefoxOptions();
@@ -53,7 +54,7 @@ $faItemsPerPage = 20; // How many items are on a full page of FA results?
 // If /tmp/last-fa-donation doesn't exist, get all transactions from today and create the file.
 
 function InsertTransaction(string $transactionId): bool{
-	$exists = Db::QueryInt('SELECT exists(
+	$exists = Db::QueryBool('SELECT exists(
 					select *
 					from
 					    ( select 1
@@ -104,7 +105,7 @@ try{
 
 	while($getMoreTransactions){
 		if($page > 5){
-			// Safety valve for runaway logic
+			// Safety valve for runaway logic.
 			throw new Exception('Error: went past page 5 of Fractured Atlas results.');
 		}
 
@@ -113,24 +114,24 @@ try{
 		$driver->get('https://fundraising.fracturedatlas.org/admin/general_support/donations?page=' . $page);
 
 		// Check if we need to log in to FA.
-		// Wait until the <body> element is visible, then check the current URL
+		// Wait until the <body> element is visible, then check the current URL.
 		$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('/html/body')));
 		if(stripos($driver->getCurrentUrl(), 'auth0.com')){
 			$log->Write('Logging in to Fractured Atlas ...');
 
-			// We were redirected to the login page, so try to log in
+			// We were redirected to the login page, so try to log in.
 			$emailField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="email"]')));
 			$passwordField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="password"]')));
 			$submitButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[@type="submit"]')));
 
-			// Fill out and submit the form
+			// Fill out and submit the form.
 			$emailField->sendKeys($faUsername);
 			$passwordField->sendKeys($faPassword);
 			$submitButton->click();
 		}
 
 		// Wait until the page finishes loading.
-		// We have to expand the row before we can select its contents, so click the 'expand' button once it's visible
+		// We have to expand the row before we can select its contents, so click the 'expand' button once it's visible.
 		try{
 			$toggleButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
 		}
@@ -139,7 +140,7 @@ try{
 			continue;
 		}
 
-		// If the last seen transaction ID is null, get everything from today
+		// If the last seen transaction ID is null, get everything from today.
 		if($lastSeenTransactionId === null){
 			$elements = $driver->findElements(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]][parent::tr[preceding-sibling::tr[./td[normalize-space(.) = "' . $today . '"]]]]'));
 
@@ -166,8 +167,8 @@ try{
 			}
 		}
 		else{
-			// Last seen transaction ID is not null, get everything from that ID
-			// Get a list of transaction IDs on the page
+			// Last seen transaction ID is not null, get everything from that ID.
+			// Get a list of transaction IDs on the page.
 			$elements = $driver->findElements(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]]'));
 			for($i = 0; $i < sizeof($elements); $i++){
 				$td = $elements[$i];
@@ -218,4 +219,3 @@ catch(Exception $ex){
 finally{
 	$driver?->quit();
 }
-?>

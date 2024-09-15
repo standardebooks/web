@@ -1,7 +1,6 @@
 #!/usr/bin/php
 <?
-// Note: This script must be run as a user with a $HOME directory,
-// otherwise Firefox won't be able to start with a profile.
+// Note: This script must be run as a user with a $HOME directory, otherwise Firefox won't be able to start with a profile.
 
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
@@ -17,21 +16,21 @@ use function Safe\set_time_limit;
 
 require_once('/standardebooks.org/web/lib/Core.php');
 
-// Disable script timeout because Selenium is very slow
+// Disable script timeout because Selenium is very slow.
 set_time_limit(0);
 
 // Initialize the Selenium driver
 putenv('WEBDRIVER_FIREFOX_DRIVER=' . SITE_ROOT . '/config/selenium/geckodriver-0.31.0');
 
 $firefoxOptions = new FirefoxOptions();
-$firefoxOptions->addArguments(['-headless']); // WARNING: Only one dash!
+$firefoxOptions->addArguments(['-headless']); // **Warning**: Only one dash!
 
 $capabilities = DesiredCapabilities::firefox();
 $capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
 
 $driver = null;
 $log = new Log(DONATIONS_LOG_FILE_PATH);
-$lastMonth = (new DateTimeImmutable())->sub(new DateInterval('P45D')); // 45 days, a 15 day grace period before Patrons Circle members are dropped off
+$lastMonth = (new DateTimeImmutable())->sub(new DateInterval('P45D')); // 45 days, a 15 day grace period before Patrons Circle members are dropped off.
 $lastYear = (new DateTimeImmutable())->sub(new DateInterval('P1Y'));
 $faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
 $faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
@@ -61,7 +60,7 @@ Db::Query('
 Db::Query('commit');
 
 if(sizeof($pendingPayments) == 0){
-	// Don't start the very slow Selenium driver if we have nothing to process
+	// Don't start the very slow Selenium driver if we have nothing to process.
 	exit();
 }
 
@@ -73,13 +72,13 @@ try{
 		if($pendingPayment->Processor == PaymentProcessorType::FracturedAtlas){
 			$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 
-			if(Db::QueryInt('
+			if(Db::QueryBool('
 						SELECT exists(
 							select *
 							from Payments
 							where TransactionId = ?
 						)
-					', [$pendingPayment->TransactionId]) > 0){
+					', [$pendingPayment->TransactionId])){
 				$log->Write('Donation already exists in database.');
 				continue;
 			}
@@ -87,24 +86,24 @@ try{
 			$driver->get('https://fundraising.fracturedatlas.org/admin/donations?query=' . $pendingPayment->TransactionId);
 
 			// Check if we need to log in to FA.
-			// Wait until the <body> element is visible, then check the current URL
+			// Wait until the <body> element is visible, then check the current URL.
 			$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('/html/body')));
 			if(stripos($driver->getCurrentUrl(), 'auth0.com')){
 				$log->Write('Logging in to Fractured Atlas ...');
 
-				// We were redirected to the login page, so try to log in
+				// We were redirected to the login page, so try to log in.
 				$emailField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="email"]')));
 				$passwordField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="password"]')));
 				$submitButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[@type="submit"]')));
 
-				// Fill out and submit the form
+				// Fill out and submit the form.
 				$emailField->sendKeys($faUsername);
 				$passwordField->sendKeys($faPassword);
 				$submitButton->click();
 			}
 
 			// Wait until the page finishes loading.
-			// We have to expand the row before we can select its contents, so click the 'expand' button once it's visible
+			// We have to expand the row before we can select its contents, so click the 'expand' button once it's visible.
 			try{
 				$toggleButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
 			}
@@ -116,8 +115,7 @@ try{
 
 			// Our target row is now visible, extract the data!
 
-			// In the FA donations table, there is a header row, and an expandable details row. The header row tells us if the donation is recurring,
-			// and the details row has the rest of the information
+			// In the FA donations table, there is a header row, and an expandable details row. The header row tells us if the donation is recurring, and the details row has the rest of the information.
 			$detailsRow = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//tr[starts-with(@id, "expanded") and contains(@id, "' . $pendingPayment->TransactionId . '")]')));
 
 			$headerRow = $driver->findElement(WebDriverBy::xpath('//tr[not(starts-with(@id, "expanded")) and contains(@id, "' . $pendingPayment->TransactionId . '")]'));
@@ -145,13 +143,13 @@ try{
 					$payment->IsMatchingDonation = true;
 				}
 
-				// We can get here via an AOGF donation that is anonymous
+				// We can get here via an AOGF donation that is anonymous.
 				if($payment->User->Email == 'Not provided' || $payment->User->Email == ''){
 					$payment->User = null;
 				}
 			}
 			catch(Exception){
-				// Anonymous donations don't have these elements present and will throw an exception
+				// Anonymous donations don't have these elements present and will throw an exception.
 				$payment->User = null;
 			}
 
@@ -171,12 +169,12 @@ try{
 				$payment->User = null;
 			}
 
-			// All set - create the payment
+			// All set - create the payment.
 			try{
 				$payment->Create();
 			}
 			catch(Exceptions\PaymentExistsException){
-				// Payment already exists, just continue
+				// Payment already exists, just continue.
 				$log->Write('Donation already in database.');
 				continue;
 			}
@@ -202,15 +200,15 @@ try{
 				// This payment is eligible for the Patrons Circle!
 				if($payment->User !== null){
 					// Are we already a patron?
-					if(Db::QueryInt('
+					if(!Db::QueryBool('
 							SELECT exists(
 								select *
 								from Patrons
 								where UserId = ?
 								    and Ended is null
 							)
-						', [$payment->UserId]) == 0){
-						// Not a patron yet, add them to the Patrons Circle
+						', [$payment->UserId])){
+						// Not a patron yet, add them to the Patrons Circle.
 
 						$patron = new Patron();
 						$patron->UserId = $payment->UserId;
@@ -259,7 +257,7 @@ try{
 				}
 			}
 			else{
-				// Not eligible to be a patron; send a thank you email anyway, but only if this is a non-recurring donation, or if it's their very first recurring donation
+				// Not eligible to be a patron; send a thank you email anyway, but only if this is a non-recurring donation, or if it's their very first recurring. donation
 				if($payment->User !== null){
 					$previousPaymentCount = Db::QueryInt('
 										SELECT count(*)
@@ -268,7 +266,7 @@ try{
 										    and IsRecurring = true
 									', [$payment->UserId]);
 
-					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1
+					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
 					if(!$payment->IsRecurring || $previousPaymentCount == 1){
 						$log->Write('Sending thank you email to non-patron donor.');
 						$em = new Email();
@@ -310,4 +308,3 @@ catch(Exception $ex){
 finally{
 	$driver->quit();
 }
-?>

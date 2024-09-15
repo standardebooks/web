@@ -8,8 +8,7 @@ use function Safe\file_get_contents;
 use function Safe\preg_match_all;
 use function Safe\shell_exec;
 
-// Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members
-// who aren't in that list.
+// Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members who aren't in that list.
 // We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
 
 $now = new DateTimeImmutable();
@@ -35,8 +34,7 @@ $expiredPatrons = Db::Query('
 if(sizeof($expiredPatrons) > 0){
 	$ebooksThisYear = 0;
 
-	// We can't use the Library class to get ebooks because this script is typically run via cron or CLI,
-	// which doesn't have access PHP-FMP's APCu cache.
+	// We can't use the Library class to get ebooks because this script is typically run via cron or CLI, which doesn't have access PHP-FMP's APCu cache.
 	foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"'))) as $filename){
 		$metadata = file_get_contents($filename);
 
@@ -66,7 +64,7 @@ if(sizeof($expiredPatrons) > 0){
 				where UserId = ?
 			', [$patron->UserId]);
 
-		// Email the patron to notify them their term has ended
+		// Email the patron to notify them their term has ended.
 		// Is the patron a recurring subscriber?
 		$lastPayment = Db::Query('
 						SELECT *
@@ -85,12 +83,12 @@ if(sizeof($expiredPatrons) > 0){
 			$em->Subject = 'Will you still help us make free, beautiful digital literature?';
 
 			if($lastPayment[0]->IsRecurring){
-				// Email recurring donors who have lapsed
+				// Email recurring donors who have lapsed.
 				$em->Body = Template::EmailPatronsCircleRecurringCompleted();
 				$em->TextBody = Template::EmailPatronsCircleRecurringCompletedText();
 			}
 			else{
-				// Email one time donors who have expired after one year
+				// Email one time donors who have expired after one year.
 				$em->Body = Template::EmailPatronsCircleCompleted(['ebooksThisYear' => $ebooksThisYear]);
 				$em->TextBody = Template::EmailPatronsCircleCompletedText(['ebooksThisYear' => $ebooksThisYear]);
 			}
@@ -99,5 +97,3 @@ if(sizeof($expiredPatrons) > 0){
 		}
 	}
 }
-
-?>

@@ -41,7 +41,7 @@ function CreateOpdsCollectionFeed(string $name, string $url, string $description
 	$collator = collator_create('en_US'); // Used for sorting letters with diacritics like in author names
 	usort($collections, function($a, $b) use($collator){ return $collator->compare($a['sortedname'], $b['sortedname']); });
 
-	// Create the collections navigation document
+	// Create the collections navigation document.
 	$collectionNavigationEntries = [];
 	foreach($collections as $collection){
 		$entry = new OpdsNavigationEntry($collection['name'], str_replace('%s', $collection['name'], $description), $url . '/' . $collection['id'], $now, 'subsection', 'navigation');
@@ -52,7 +52,7 @@ function CreateOpdsCollectionFeed(string $name, string $url, string $description
 	$collectionsFeed->Subtitle = 'Browse Standard Ebooks by ' . $name . '.';
 	SaveFeed($collectionsFeed, $force, null, null, $now);
 
-	// Now generate each individual collection feed
+	// Now generate each individual collection feed.
 	foreach($collectionNavigationEntries as $collectionNavigationEntry){
 		$id = basename($collectionNavigationEntry->Id);
 		usort($ebooks[$id], 'SortByUpdatedDesc');
@@ -88,7 +88,7 @@ foreach($dirs as $dir){
 	}
 }
 
-// Iterate over all ebooks to build the various feeds
+// Iterate over all ebooks to build the various feeds.
 foreach(Library::GetEbooksFromFilesystem($webRoot) as $ebook){
 	$allEbooks[] = $ebook;
 	$newestEbooks[] = $ebook;
@@ -116,7 +116,7 @@ $newestEbooks = array_slice($newestEbooks, 0, $ebooksPerNewestEbooksFeed);
 
 $now = new DateTimeImmutable();
 
-// Create OPDS feeds
+// Create OPDS feeds.
 $opdsRootEntries = [
 	new OpdsNavigationEntry(
 		'Newest Standard Ebooks',
@@ -159,44 +159,44 @@ $opdsRootEntries = [
 $opdsRoot = new OpdsNavigationFeed('Standard Ebooks', 'The Standard Ebooks catalog.', '/feeds/opds', $webRoot . '/feeds/opds/index.xml', $opdsRootEntries, null);
 SaveFeed($opdsRoot, $force, null, null, $now);
 
-// Create the Subjects feeds
+// Create the Subjects feeds.
 CreateOpdsCollectionFeed('subject', '/feeds/opds/subjects', 'Standard Ebooks in the “%s” subject, most-recently-released first.', $subjects, $ebooksBySubject, $now, $webRoot, $opdsRoot, $force);
 
-// Create the Collections feeds
+// Create the Collections feeds.
 CreateOpdsCollectionFeed('collection', '/feeds/opds/collections', 'Standard Ebooks in the “%s” collection, most-recently-released first.', $collections, $ebooksByCollection, $now, $webRoot, $opdsRoot, $force);
 
-// Create the Author feeds
+// Create the Author feeds.
 CreateOpdsCollectionFeed('author', '/feeds/opds/authors', 'Standard Ebooks by %s, most-recently-released first.', $authors, $ebooksByAuthor, $now, $webRoot, $opdsRoot, $force);
 
-// Create the All feed
+// Create the All feed.
 $allFeed = new OpdsAcquisitionFeed('All Standard Ebooks', 'All Standard Ebooks, most-recently-updated first. This is a Complete Acquisition Feed as defined in OPDS 1.2 §2.5.', '/feeds/opds/all', $webRoot . '/feeds/opds/all.xml', $allEbooks, $opdsRoot, true);
 SaveFeed($allFeed, $force, null, null, $now);
 
-// Create the Newest feed
+// Create the Newest feed.
 $newestFeed = new OpdsAcquisitionFeed('Newest Standard Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/opds/new-releases', $webRoot . '/feeds/opds/new-releases.xml', $newestEbooks, $opdsRoot);
 SaveFeed($newestFeed, $force, null, null, $now);
 
 
 
-// Create RSS/Atom feeds
+// Create RSS/Atom feeds.
 
-// Create the RSS All feed
+// Create the RSS All feed.
 $allRssFeed = new RssFeed('Standard Ebooks - All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/feeds/rss/all',  $webRoot . '/feeds/rss/all.xml', $allEbooks);
 SaveFeed($allRssFeed, $force, null, null);
 
-// Create the RSS Newest feed
+// Create the RSS Newest feed.
 $newestRssFeed = new RssFeed('Standard Ebooks - Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/rss/new-releases', $webRoot . '/feeds/rss/new-releases.xml', $newestEbooks);
 SaveFeed($newestRssFeed, $force, null, null);
 
-// Create the Atom All feed
+// Create the Atom All feed.
 $allAtomFeed = new AtomFeed('Standard Ebooks - All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/feeds/atom/all',  $webRoot . '/feeds/atom/all.xml', $allEbooks);
 SaveFeed($allAtomFeed, $force, null, null, $now);
 
-// Create the Atom Newest feed
+// Create the Atom Newest feed.
 $newestAtomFeed = new AtomFeed('Standard Ebooks - Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/atom/new-releases', $webRoot . '/feeds/atom/new-releases.xml', $newestEbooks);
 SaveFeed($newestAtomFeed, $force, null, null, $now);
 
-// Generate each individual subject feed
+// Generate each individual subject feed.
 foreach($ebooksBySubject as $subject => $ebooks){
 	usort($ebooks, 'SortByUpdatedDesc');
 
@@ -210,7 +210,7 @@ foreach($ebooksBySubject as $subject => $ebooks){
 	SaveFeed($subjectAtomFeed, $force, $subjects[$subject]['name'], $subjects[$subject]['sortedname'], $now);
 }
 
-// Generate each individual collection feed
+// Generate each individual collection feed.
 foreach($ebooksByCollection as $collection => $ebooks){
 	usort($ebooks, 'SortByUpdatedDesc');
 
@@ -226,7 +226,7 @@ foreach($ebooksByCollection as $collection => $ebooks){
 	SaveFeed($collectionAtomFeed, $force, $collections[$collection]['name'], $collections[$collection]['sortedname'], $now);
 }
 
-// Generate each individual author feed
+// Generate each individual author feed.
 foreach($ebooksByAuthor as $collection => $ebooks){
 	usort($ebooks, 'SortByUpdatedDesc');
 
@@ -240,8 +240,8 @@ foreach($ebooksByAuthor as $collection => $ebooks){
 	SaveFeed($collectionAtomFeed, $force, $authors[$collection]['name'], $authors[$collection]['sortedname'], $now);
 }
 
-// Set ownership and permissions
-// We don't use PHP's built in chown/chmod chmod can't accept strings
+// Set ownership and permissions.
+// We don't use PHP's built in chown/chmod chmod can't accept strings.
 // The `chmod +X` command, with a capital X, makes only matched directories executable.
 exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/feeds/*/*.xml');
 exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/feeds/*/*/*.xml');

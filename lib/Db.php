@@ -54,4 +54,22 @@ class Db{
 
 		return 0;
 	}
+
+	/**
+	 * Returns a single boolean value for the first column database query result.
+	 *
+	 * This is useful for queries that return a boolean as a result, like `select exists()`.
+	 *
+	 * @param string $query
+	 * @param array<mixed> $args
+	 */
+	public static function QueryBool(string $query, array $args = []): bool{
+		$result = $GLOBALS['DbConnection']->Query($query, $args);
+
+		if(sizeof($result) > 0){
+			return (bool)current((array)$result[0]);
+		}
+
+		return false;
+	}
 }
