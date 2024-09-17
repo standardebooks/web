@@ -193,6 +193,7 @@ class Ebook{
 						SELECT *
 						from EbookSources
 						where EbookId = ?
+						order by EbookSourceId
 					', [$this->EbookId], EbookSource::class);
 		}
 
@@ -209,6 +210,7 @@ class Ebook{
 						from Contributors
 						where EbookId = ?
 							and MarcRole = ?
+						order by ContributorId
 					', [$this->EbookId, 'aut'], Contributor::class);
 		}
 
@@ -225,6 +227,7 @@ class Ebook{
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
+							order by ContributorId
 						', [$this->EbookId, 'ill'], Contributor::class);
 		}
 
@@ -241,6 +244,7 @@ class Ebook{
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
+							order by ContributorId
 						', [$this->EbookId, 'trl'], Contributor::class);
 		}
 
@@ -257,6 +261,7 @@ class Ebook{
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
+							order by ContributorId
 						', [$this->EbookId, 'ctb'], Contributor::class);
 		}
 
@@ -274,6 +279,7 @@ class Ebook{
 					SELECT *
 					from TocEntries
 					where EbookId = ?
+					order by TocEntryId
 				', [$this->EbookId], stdClass::class);
 
 			foreach($result as $row){
