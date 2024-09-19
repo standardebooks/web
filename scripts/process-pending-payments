@@ -19,7 +19,7 @@ require_once('/standardebooks.org/web/lib/Core.php');
 // Disable script timeout because Selenium is very slow.
 set_time_limit(0);
 
-// Initialize the Selenium driver
+// Initialize the Selenium driver.
 putenv('WEBDRIVER_FIREFOX_DRIVER=' . SITE_ROOT . '/config/selenium/geckodriver-0.31.0');
 
 $firefoxOptions = new FirefoxOptions();
@@ -123,12 +123,14 @@ try{
 			$payment = new Payment();
 			$payment->User = new User();
 			$payment->Processor = $pendingPayment->Processor;
+			$hasSoftCredit = false;
 			try{
 				// If the donation is via a foundation (like American Online Giving Foundation) then there will be a 'soft credit' <th> element.
 				if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){
 					// We're a foundation donation
 					$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
 					$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
+					$hasSoftCredit = true;
 				}
 				else{
 					// We're a regular donation
@@ -144,7 +146,7 @@ try{
 				}
 
 				// We can get here via an AOGF donation that is anonymous.
-				if($payment->User->Email == 'Not provided' || $payment->User->Email == ''){
+				if(!$hasSoftCredit && ($payment->User->Email == 'Not provided' || $payment->User->Email == '')){
 					$payment->User = null;
 				}
 			}
@@ -165,7 +167,7 @@ try{
 
 			// We might also get a case where the donation is on behalf of a company match, but there's not really a way to distinguish that. Do a rough check.
 			// See donation 00b60a22-eafa-44cb-9850-54bef9763e8d
-			if($payment->User !== null && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name ?? '')){
+			if($payment->User !== null && !$hasSoftCredit && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name ?? '')){
 				$payment->User = null;
 			}
 
@@ -179,7 +181,8 @@ try{
 				continue;
 			}
 
-			// Does this payment put us in the Patrons Circle?
+			// Does this payment create a new Patron in the Patrons Circle?
+			// If the user is *already* a Patron, then we just create the payment without further processing.
 			if(
 				(
 					$payment->IsRecurring
@@ -243,7 +246,7 @@ try{
 					}
 				}
 				elseif(!$payment->IsRecurring && !$payment->IsMatchingDonation){
-					// Fully-anonymous, non-recurring donation eligible for the Patrons Circle. We can't notify them, but do notify the admins.
+					// Fully-anonymous, non-recurring donation eligible for the Patrons Circle. We can't create a `Patron` or thank them, but we do notify the admins.
 					$patron = new Patron();
 					$patron->User = new User();
 
@@ -256,29 +259,28 @@ try{
 					$em->Send();
 				}
 			}
-			else{
-				// Not eligible to be a patron; send a thank you email anyway, but only if this is a non-recurring donation, or if it's their very first recurring. donation
-				if($payment->User !== null){
-					$previousPaymentCount = Db::QueryInt('
-										SELECT count(*)
-										from Payments
-										where UserId = ?
-										    and IsRecurring = true
-									', [$payment->UserId]);
+			elseif($payment->User !== null){
+				// Payment amount is not eligible for the Patrons Circle; send a thank you email anyway, but only if this is a non-recurring donation, or if it's their very first recurring donation.
 
-					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
-					if(!$payment->IsRecurring || $previousPaymentCount == 1){
-						$log->Write('Sending thank you email to non-patron donor.');
-						$em = new Email();
-						$em->To = $payment->User->Email ?? '';
-						$em->ToName = $payment->User->Name ?? '';
-						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
-						$em->FromName = EDITOR_IN_CHIEF_NAME;
-						$em->Subject = 'Thank you for supporting Standard Ebooks!';
-						$em->Body = Template::EmailDonationThankYou();
-						$em->TextBody = Template::EmailDonationThankYouText();
-						$em->Send();
-					}
+				$previousPaymentCount = Db::QueryInt('
+									SELECT count(*)
+									from Payments
+									where UserId = ?
+									    and IsRecurring = true
+								', [$payment->UserId]);
+
+				// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
+				if(!$payment->IsRecurring || $previousPaymentCount == 1){
+					$log->Write('Sending thank you email to non-patron donor.');
+					$em = new Email();
+					$em->To = $payment->User->Email ?? '';
+					$em->ToName = $payment->User->Name ?? '';
+					$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+					$em->FromName = EDITOR_IN_CHIEF_NAME;
+					$em->Subject = 'Thank you for supporting Standard Ebooks!';
+					$em->Body = Template::EmailDonationThankYou();
+					$em->TextBody = Template::EmailDonationThankYouText();
+					$em->Send();
 				}
 			}
 
