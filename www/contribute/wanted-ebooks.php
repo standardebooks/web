@@ -142,6 +142,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/169">The Well at the World’s End</a> by William Morris</p>
+			</li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/33346">How to Tell the Birds from the Flowers and Other Woodcuts</a> by Robert Williams Wood</p>
 			</li>
 			<li>
