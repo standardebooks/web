@@ -202,9 +202,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/37892">The Recollections of Alexis de Tocqueville</a></p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/4240">Women in Love</a> by D. H. Lawrence (part of the Modern Library and BBC 2015 collections, #2 in the Brangwen Family Saga after <i>The Rainbow</i>)</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/54672">The Indiscreet Toys</a> by Denis Diderot</p>
 			</li>
 			<li>
