@@ -562,6 +562,21 @@ class Museum{
 
 			return $outputUrl;
 		}
+		elseif(preg_match('/\bkmska\.be$/', $parsedUrl['host'])){
+			$exampleUrl = 'https://kmska.be/en/masterpiece/restaurant-mille-colonnes-amsterdam';
+
+			if($parsedUrl['host'] != 'kmska.be'){
+				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+			}
+
+			if(!preg_match('|^/en/masterpiece/[^/]+$|ius', $parsedUrl['path'])){
+				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+			}
+
+			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
+
+			return $outputUrl;
+		}
 		// elseif(preg_match('/\bwebumenia\.sk$/ius', $parsedUrl['host'])){
 		// 	// All we need is the int object ID, the last slug is SEO
 		// 	$exampleUrl = 'https://www.webumenia.sk/en/dielo/SVK:SNG.O_85';
