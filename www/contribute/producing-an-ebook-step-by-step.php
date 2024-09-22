@@ -81,13 +81,13 @@
 						<p><a href="https://archive.org">The Internet Archive</a></p>
 					</li>
 					<li>
-						<p><a href="https://www.hathitrust.org">The Hathi Trust Digital library</a></p>
+						<p><a href="https://www.hathitrust.org">The HathiTrust Digital library</a></p>
 					</li>
 					<li>
 						<p><a href="https://books.google.com">Google Books</a></p>
 					</li>
 				</ul>
-				<p>Internet Archive has the widest amount of scans, with the most permissive viewing and lending policy. Hathi Trust has many of the same scans as Google Books, but with a more permissive viewing policy. Google Books restricts readers based on IP address and does a poor job of implementing per-country copyright law, so people outside of the U.S. may not be able to access scans of books that are in the public domain of their country.</p>
+				<p>Internet Archive has the widest amount of scans, with the most permissive viewing and lending policy. HathiTrust has many of the same scans as Google Books, but with a more permissive viewing policy. Google Books restricts readers based on IP address and does a poor job of implementing per-country copyright law, so people outside of the U.S. may not be able to access scans of books that are in the public domain of their country.</p>
 				<p>Each of those sources allows you to filter results by publication date, so make sure you select a maximum publication date of December 31, <?= PD_YEAR ?> (in other words, everything published before <?= PD_STRING ?>) to ensure they’re in the U.S. public domain.</p>
 				<p>Please keep the following important notes in mind when searching for page scans:</p>
 				<ul>
@@ -664,7 +664,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			<li>
 				<h2 id="colophon">Complete the imprint and colophon</h2>
 				<p><code class="bash"><b>se</b> create-draft</code> put a skeleton <code class="path">imprint.xhtml</code> file in the <code class="path">./src/epub/text/</code> folder. Fill out the links to the transcription and page scans.</p>
-				<p>There’s also a skeleton <code class="path">colophon.xhtml</code> file. Now that we have the cover image and artist, we can fill out the various fields there. Make sure to credit the original transcribers of the text (generally we assume them to be whoever’s name is on the file we download from Project Gutenberg) and to include a link back to the Gutenberg text we used, along with a link to any scans we used (from the Internet Archive or Hathi Trust, for example).</p>
+				<p>There’s also a skeleton <code class="path">colophon.xhtml</code> file. Now that we have the cover image and artist, we can fill out the various fields there. Make sure to credit the original transcribers of the text (generally we assume them to be whoever’s name is on the file we download from Project Gutenberg) and to include a link back to the Gutenberg text we used, along with a link to any scans we used (from the Internet Archive or HathiTrust, for example).</p>
 				<p>You can also include your own name as the producer of this Standard Ebooks edition. Besides that, the colophon is standardized; don’t get too creative with it.</p>
 				<p>Leave the release date unchanged, as <code class="bash"><b>se</b> prepare-release</code> will fill it in for you in a later step.</p>
 				<p>Once you’re done, commit:</p>
