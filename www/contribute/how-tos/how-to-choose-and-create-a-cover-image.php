@@ -118,7 +118,7 @@
 						<li id="where-to-find-published-art">
 							<h3>Art Published in a Public Domain Book</h3>
 							<p>The final way to clear a painting for use as a cover image is to locate a reproduction of that painting in a book published before <?= PD_STRING ?>. This option gives you the most freedom in finding a suitable image, but it can be difficult; proving an artwork’s public domain status this way can sometimes be the most time-consuming part of the ebook production process.</p>
-							<p>This process involves: (1) identifying a work of art that you think will be a suitable cover, then (2) finding book page scans with a reproduction of that artwork in a book published before <?= PD_STRING ?> at an online book archive like the Internet Archive, Google Books, or Hathi Trust. (Note that if your IP address is not in the U.S., some book archives may disable book previews.)</p>
+							<p>This process involves: (1) identifying a work of art that you think will be a suitable cover, then (2) finding book page scans with a reproduction of that artwork in a book published before <?= PD_STRING ?> at an online book archive like the Internet Archive, Google Books, or HathiTrust. (Note that if your IP address is not in the U.S., some book archives may disable book previews.)</p>
 							<section>
 								<h4>Public Domain Proof Tips</h4>
 								<ul>
@@ -133,7 +133,7 @@
 								<ul>
 									<li><p>In older books it was common to have etchings of paintings. Etchings are not strict reproductions, and so we cannot count them for PD clearance. Etchings can sometimes be identified by: (1) having more clearly defined lines, or shading with more contrast; (2) having shading done with a stipple effect; (3) differences in small amorphous details like the shape of clouds, trees, or fabric compared to the original painting. Etchings mostly fell out of use by around 1900.</p></li>
 									<li><p>Painters often produced several different versions of the same artwork. For PD clearance, your scan must be of the exact version you will be using. Carefully compare the two. Check for differences in small details, like the position of trees, clouds, reflections, or water. Any difference and the proof will be rejected.</p></li>
-									<li><p>Do not rely on the date given in the catalog entry at Hathi Trust or the Internet Archive; these can be wrong. Please verify the page scan of the copyright page to ensure the book was published before <?= PD_STRING ?>.</p></li>
+									<li><p>Do not rely on the date given in the catalog entry at HathiTrust or the Internet Archive; these can be wrong. Please verify the page scan of the copyright page to ensure the book was published before <?= PD_STRING ?>.</p></li>
 								</ul>
 							</section>
 						</li>
