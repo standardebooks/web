@@ -222,9 +222,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/52356">Essays and Dialogues</a> by Giacomo Leopardi</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2194">Mauprat</a> by George Sand</p>
-			</li>
+			</li> -->
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
 			</li> -->
