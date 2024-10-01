@@ -108,9 +108,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/15454">Imperium in Imperio</a> by Sutton E. Griggs</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/36033">Overshadowed</a> by Sutton E. Griggs</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/472">The House Behind the Cedars</a> by Charles W. Chesnutt</p>
 			</li>
