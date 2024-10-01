@@ -12,9 +12,9 @@
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
 		<ul>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/624">Looking Backward</a> by Edward Bellamy (link to long description of <i>News from Nowhere</i></p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
 			</li>
