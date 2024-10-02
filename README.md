@@ -50,7 +50,8 @@ If everything went well you should now be able to open your web browser and visi
 pip install standardebooks
 
 # The `se` command must be in your $PATH, but installing it via `pip` might not do that automatically.
-# If `which se` doesn't say anything, then either add the `pip` installation of the `se` executable to your $PATH manually, # or install it again using `pipx`; this will create a duplicate installation,
+# If `which se` doesn't say anything, then either add the `pip` installation of the `se` executable to your $PATH manually,
+# or install it again using `pipx`; this will create a duplicate installation,
 # but it will also install it in your $PATH for you:
 pipx install standardebooks
 
