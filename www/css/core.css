@@ -1351,11 +1351,6 @@ footer > a{
 	font-size: 0;
 }
 
-footer > p{
-	display: inlie-flex;
-	align-items: center;
-}
-
 footer > p:first-child{
 	font-size: .9rem;
 }
