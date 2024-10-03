@@ -4,7 +4,7 @@ use function Safe\preg_replace;
 
 class ArtworkTag extends Tag{
 	public function __construct(){
-		$this->Type = 'artwork';
+		$this->Type = TagType::Artwork;
 	}
 
 	// *******
@@ -45,7 +45,7 @@ class ArtworkTag extends Tag{
 			$error->Add(new Exceptions\InvalidArtworkTagNameException());
 		}
 
-		if($this->Type != 'artwork'){
+		if($this->Type != TagType::Artwork){
 			$error->Add(new Exceptions\InvalidArtworkTagTypeException($this->Type));
 		}
 
@@ -76,8 +76,8 @@ class ArtworkTag extends Tag{
 				SELECT *
 				from Tags
 				where Name = ?
-				and Type = "artwork"
-			', [$artworkTag->Name], ArtworkTag::class);
+					and Type = ?
+			', [$artworkTag->Name, TagType::Artwork], ArtworkTag::class);
 
 		if(isset($result[0])){
 			return $result[0];

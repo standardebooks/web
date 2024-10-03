@@ -8,7 +8,7 @@ class Tag{
 
 	public int $TagId;
 	public string $Name;
-	public string $Type;
+	public TagType $Type;
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
 }

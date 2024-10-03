@@ -1,13 +1,15 @@
 <?
 namespace Exceptions;
 
+use \TagType;
+
 class InvalidEbookTagTypeException extends AppException{
 	/** @var string $message */
-	protected $message = 'Type should be `ebook`.';
+	protected $message = 'Type should be `TagType::Ebook`.';
 
-	public function __construct(?string $tagType){
-		if($tagType !== null && trim($tagType) != ''){
-			$this->message .= ' Type provided: ' . $tagType;
+	public function __construct(?TagType $tagType){
+		if($tagType !== null){
+			$this->message .= ' Type provided: ' . $tagType->value;
 		}
 
 		parent::__construct($this->message);
