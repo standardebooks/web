@@ -60,7 +60,7 @@ class Collection{
 		}
 
 		if($this->Type !== null && ($this->Type != CollectionType::Series && $this->Type != CollectionType::Set)){
-			$error->Add(new Exceptions\InvalidCollectionTypeException($this->Type->value));
+			$error->Add(new Exceptions\InvalidCollectionTypeException($this->Type));
 		}
 
 		if($error->HasExceptions){
