@@ -1,7 +1,7 @@
 <?
 class EbookTag extends Tag{
 	public function __construct(){
-		$this->Type = 'ebook';
+		$this->Type = TagType::Ebook;
 	}
 
 	// *******
@@ -37,7 +37,7 @@ class EbookTag extends Tag{
 			$error->Add(new Exceptions\StringTooLongException('Ebook tag: '. $this->Name));
 		}
 
-		if($this->Type != 'ebook'){
+		if($this->Type != TagType::Ebook){
 			$error->Add(new Exceptions\InvalidEbookTagTypeException($this->Type));
 		}
 
@@ -69,7 +69,8 @@ class EbookTag extends Tag{
 				SELECT *
 				from Tags
 				where Name = ?
-			', [$name], EbookTag::class);
+					and Type = ?
+			', [$name, TagType::Ebook], EbookTag::class);
 
 		if(isset($result[0])){
 			return $result[0];
