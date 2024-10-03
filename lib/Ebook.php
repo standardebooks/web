@@ -1636,7 +1636,7 @@ class Ebook{
 				values (?,
 					?,
 				        ?)
-			', [$source->EbookId, $source->Type->value, $source->Url]);
+			', [$source->EbookId, $source->Type, $source->Url]);
 
 			$source->EbookSourceId = Db::GetLastInsertedId();
 		}
