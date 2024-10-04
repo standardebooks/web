@@ -16,7 +16,7 @@ CREATE TABLE `Ebooks` (
   `AlternateTitle` varchar(255) NULL,
   `Description` text NOT NULL,
   `LongDescription` text NOT NULL,
-  `Language` varchar(10) NULL,
+  `Language` varchar(10) NOT NULL,
   `WordCount` int(10) unsigned NOT NULL,
   `ReadingEase` float NOT NULL,
   `GitHubUrl` varchar(255) NULL,
