@@ -55,6 +55,11 @@ class Collection{
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
+		$this->Name = trim($this->Name ?? '');
+		if($this->Name == ''){
+			$error->Add(new Exceptions\CollectionNameRequiredException());
+		}
+
 		if(strlen($this->Name) > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Collection name: '. $this->Name));
 		}
