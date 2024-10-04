@@ -944,6 +944,7 @@ class Ebook{
 
 		$error = new Exceptions\ValidationException();
 
+		$this->Identifier = trim($this->Identifier ?? '');
 		if($this->Identifier == ''){
 			$error->Add(new Exceptions\EbookIdentifierRequiredException());
 		}
@@ -952,6 +953,7 @@ class Ebook{
 			$error->Add(new Exceptions\StringTooLongException('Ebook Identifier'));
 		}
 
+		$this->WwwFilesystemPath = trim($this->WwwFilesystemPath ?? '');
 		if(!is_readable($this->WwwFilesystemPath)){
 			$error->Add(new Exceptions\InvalidEbookWwwFilesystemPathException($this->WwwFilesystemPath));
 		}
@@ -960,6 +962,7 @@ class Ebook{
 			$error->Add(new Exceptions\StringTooLongException('Ebook WwwFilesystemPath'));
 		}
 
+		$this->RepoFilesystemPath = trim($this->RepoFilesystemPath ?? '');
 		if(!is_readable($this->RepoFilesystemPath)){
 			$error->Add(new Exceptions\InvalidEbookRepoFilesystemPathException($this->RepoFilesystemPath));
 		}
@@ -968,129 +971,169 @@ class Ebook{
 			$error->Add(new Exceptions\StringTooLongException('Ebook RepoFilesystemPath'));
 		}
 
-		if($this->KindleCoverUrl !== null && !preg_match('|/*_EBOK_portrait.jpg|ius', $this->KindleCoverUrl)){
+		if(isset($this->KindleCoverUrl)){
+			$this->KindleCoverUrl = trim($this->KindleCoverUrl);
+		}
+
+		if(isset($this->KindleCoverUrl) && !preg_match('|/*_EBOK_portrait.jpg|ius', $this->KindleCoverUrl)){
 			$error->Add(new Exceptions\InvalidEbookKindleCoverUrlException('Invalid Ebook KindleCoverUrl: ' . $this->KindleCoverUrl));
 
 		}
 
-		if($this->KindleCoverUrl !== null && strlen($this->KindleCoverUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
+		if(isset($this->KindleCoverUrl) && strlen($this->KindleCoverUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook KindleCoverUrl'));
 		}
 
-		if($this->EpubUrl !== null && !preg_match('|/*.epub|ius', $this->EpubUrl)){
+		if(isset($this->EpubUrl)){
+			$this->EpubUrl = trim($this->EpubUrl);
+		}
+
+		if(isset($this->EpubUrl) && !preg_match('|/*.epub|ius', $this->EpubUrl)){
 			$error->Add(new Exceptions\InvalidEbookEpubUrlException('Invalid Ebook EpubUrl: ' . $this->EpubUrl));
 
 		}
 
-		if($this->EpubUrl !== null && strlen($this->EpubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
+		if(isset($this->EpubUrl) && strlen($this->EpubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook EpubUrl'));
 		}
 
-		if($this->AdvancedEpubUrl !== null && !preg_match('|/*_advanced.epub|ius', $this->AdvancedEpubUrl)){
+		if(isset($this->AdvancedEpubUrl)){
+			$this->AdvancedEpubUrl = trim($this->AdvancedEpubUrl);
+		}
+
+		if(isset($this->AdvancedEpubUrl) && !preg_match('|/*_advanced.epub|ius', $this->AdvancedEpubUrl)){
 			$error->Add(new Exceptions\InvalidEbookAdvancedEpubUrlException('Invalid Ebook AdvancedEpubUrl: ' . $this->AdvancedEpubUrl));
 
 		}
 
-		if($this->AdvancedEpubUrl !== null && strlen($this->AdvancedEpubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
+		if(isset($this->AdvancedEpubUrl) && strlen($this->AdvancedEpubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook AdvancedEpubUrl'));
 		}
 
-		if($this->KepubUrl !== null && !preg_match('|/*.kepub.epub|ius', $this->KepubUrl)){
+		if(isset($this->KepubUrl)){
+			$this->KepubUrl = trim($this->KepubUrl);
+		}
+
+		if(isset($this->KepubUrl) && !preg_match('|/*.kepub.epub|ius', $this->KepubUrl)){
 			$error->Add(new Exceptions\InvalidEbookKepubUrlException('Invalid Ebook KepubUrl: ' . $this->KepubUrl));
 
 		}
 
-		if($this->KepubUrl !== null && strlen($this->KepubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
+		if(isset($this->KepubUrl) && strlen($this->KepubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook KepubUrl'));
 		}
 
-		if($this->Azw3Url !== null && !preg_match('|/*.azw3|ius', $this->Azw3Url)){
+		if(isset($this->Azw3Url)){
+			$this->Azw3Url = trim($this->Azw3Url);
+		}
+
+		if(isset($this->Azw3Url) && !preg_match('|/*.azw3|ius', $this->Azw3Url)){
 			$error->Add(new Exceptions\InvalidEbookAzw3UrlException('Invalid Ebook Azw3Url: ' . $this->Azw3Url));
 
 		}
 
-		if($this->Azw3Url !== null && strlen($this->Azw3Url) > EBOOKS_MAX_LONG_STRING_LENGTH){
+		if(isset($this->Azw3Url) && strlen($this->Azw3Url) > EBOOKS_MAX_LONG_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook Azw3Url'));
 		}
 
-		if($this->DistCoverUrl !== null && !preg_match('|/*cover.jpg|ius', $this->DistCoverUrl)){
+		if(isset($this->DistCoverUrl)){
+			$this->DistCoverUrl = trim($this->DistCoverUrl);
+		}
+
+		if(isset($this->DistCoverUrl) && !preg_match('|/*cover.jpg|ius', $this->DistCoverUrl)){
 			$error->Add(new Exceptions\InvalidEbookDistCoverUrlException('Invalid Ebook DistCoverUrl: ' . $this->DistCoverUrl));
 
 		}
 
-		if($this->DistCoverUrl !== null && strlen($this->DistCoverUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
+		if(isset($this->DistCoverUrl) && strlen($this->DistCoverUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook DistCoverUrl'));
 		}
 
-		if($this->Title === null || $this->Title == ''){
+		$this->Title = trim($this->Title ?? '');
+		if($this->Title == ''){
 			$error->Add(new Exceptions\EbookTitleRequiredException());
 		}
 
-		if($this->Title !== null && strlen($this->Title) > EBOOKS_MAX_STRING_LENGTH){
+		if(strlen($this->Title) > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook Title'));
 		}
 
-		if($this->FullTitle !== null && strlen($this->FullTitle) > EBOOKS_MAX_STRING_LENGTH){
+		if(isset($this->FullTitle)){
+			$this->FullTitle = trim($this->FullTitle);
+		}
+
+		if(isset($this->FullTitle) && strlen($this->FullTitle) > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook FullTitle'));
 		}
 
-		if($this->AlternateTitle !== null && strlen($this->AlternateTitle) > EBOOKS_MAX_STRING_LENGTH){
+		if(isset($this->AlternateTitle)){
+			$this->AlternateTitle = trim($this->AlternateTitle);
+		}
+
+		if(isset($this->AlternateTitle) && strlen($this->AlternateTitle) > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook AlternateTitle'));
 		}
 
-		if($this->Description === null || $this->Description == ''){
+		$this->Description = trim($this->Description ?? '');
+		if($this->Description == ''){
 			$error->Add(new Exceptions\EbookDescriptionRequiredException());
 		}
 
-		if($this->LongDescription === null || $this->LongDescription == ''){
+		$this->LongDescription = trim($this->LongDescription ?? '');
+		if($this->LongDescription == ''){
 			$error->Add(new Exceptions\EbookLongDescriptionRequiredException());
 		}
 
-		if($this->Language !== null && strlen($this->Language) > 10){
+		$this->Language = trim($this->Language ?? '');
+		if($this->Language == ''){
+			$error->Add(new Exceptions\EbookLanguageRequiredException());
+		}
+
+		if(strlen($this->Language) > 10){
 			$error->Add(new Exceptions\StringTooLongException('Ebook Language: ' . $this->Language));
 		}
 
-		if($this->WordCount <= 0){
+		if(isset($this->WordCount) && $this->WordCount <= 0){
 			$error->Add(new Exceptions\InvalidEbookWordCountException('Invalid Ebook WordCount: ' . $this->WordCount));
 		}
 
 		// In theory, Flesch reading ease can be negative, but in practice it's positive.
-		if($this->ReadingEase <= 0){
+		if(isset($this->ReadingEase) && $this->ReadingEase <= 0){
 			$error->Add(new Exceptions\InvalidEbookReadingEaseException('Invalid Ebook ReadingEase: ' . $this->ReadingEase));
 		}
 
-		if($this->GitHubUrl !== null && !preg_match('|https://github.com/standardebooks/\w+|ius', $this->GitHubUrl)){
+		if(isset($this->GitHubUrl) && !preg_match('|https://github.com/standardebooks/\w+|ius', $this->GitHubUrl)){
 			$error->Add(new Exceptions\InvalidEbookGitHubUrlException('Invalid Ebook GitHubUrl: ' . $this->GitHubUrl));
 
 		}
 
-		if($this->GitHubUrl !== null && strlen($this->GitHubUrl) > EBOOKS_MAX_STRING_LENGTH){
+		if(isset($this->GitHubUrl) && strlen($this->GitHubUrl) > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook GitHubUrl'));
 		}
 
-		if($this->WikipediaUrl !== null && !preg_match('|https://.*wiki.*|ius', $this->WikipediaUrl)){
+		if(isset($this->WikipediaUrl) && !preg_match('|https://.*wiki.*|ius', $this->WikipediaUrl)){
 			$error->Add(new Exceptions\InvalidEbookWikipediaUrlException('Invalid Ebook WikipediaUrl: ' . $this->WikipediaUrl));
 
 		}
 
-		if($this->WikipediaUrl !== null && strlen($this->WikipediaUrl) > EBOOKS_MAX_STRING_LENGTH){
+		if(isset($this->WikipediaUrl) && strlen($this->WikipediaUrl) > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook WikipediaUrl'));
 		}
 
-		if($this->EbookCreated > $now || $this->EbookCreated < EBOOK_EARLIEST_CREATION_DATE){
+		if(!isset($this->EbookCreated) || $this->EbookCreated > $now || $this->EbookCreated < EBOOK_EARLIEST_CREATION_DATE){
 			$error->Add(new Exceptions\InvalidEbookCreatedDatetimeException($this->EbookCreated));
 		}
 
-		if($this->EbookUpdated > $now || $this->EbookUpdated < EBOOK_EARLIEST_CREATION_DATE){
+		if(!isset($this->EbookUpdated) || $this->EbookUpdated > $now || $this->EbookUpdated < EBOOK_EARLIEST_CREATION_DATE){
 			$error->Add(new Exceptions\InvalidEbookUpdatedDatetimeException($this->EbookUpdated));
 
 		}
 
-		if($this->TextSinglePageByteCount === null || $this->TextSinglePageByteCount <= 0){
+		if(!isset($this->TextSinglePageByteCount) || $this->TextSinglePageByteCount <= 0){
 			$error->Add(new Exceptions\InvalidEbookTextSinglePageByteCountException('Invalid Ebook TextSinglePageByteCount: ' . $this->TextSinglePageByteCount));
 		}
 
-		if($this->IndexableText === null || $this->IndexableText == ''){
+		if(!isset($this->IndexableText) || $this->IndexableText == ''){
 			$error->Add(new Exceptions\EbookIndexableTextRequiredException());
 		}
 
