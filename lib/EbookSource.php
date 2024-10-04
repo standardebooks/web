@@ -11,4 +11,15 @@ class EbookSource{
 		$instance->Url = $url;
 		return $instance;
 	}
+
+	public function Create(): void{
+		Db::Query('
+			INSERT into EbookSources (EbookId, Type, Url)
+			values (?,
+				?,
+				?)
+		', [$this->EbookId, $this->Type, $this->Url]);
+
+		$this->EbookSourceId = Db::GetLastInsertedId();
+	}
 }

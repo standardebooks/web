@@ -23,4 +23,16 @@ class GitCommit{
 		$instance->Hash = $hash;
 		return $instance;
 	}
+
+	public function Create(): void{
+		Db::Query('
+			INSERT into GitCommits (EbookId, Created, Message, Hash)
+			values (?,
+				?,
+				?,
+				?)
+		', [$this->EbookId, $this->Created, $this->Message, $this->Hash]);
+
+		$this->GitCommitId = Db::GetLastInsertedId();
+	}
 }
