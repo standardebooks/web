@@ -22,4 +22,23 @@ class Contributor{
 		$instance->NacoafUrl = $nacoafUrl;
 		return $instance;
 	}
+
+	public function Create(): void{
+		Db::Query('
+			INSERT into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
+				NacoafUrl, SortOrder)
+			values (?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?)
+		', [$this->EbookId, $this->Name, $this->UrlName, $this->SortName, $this->WikipediaUrl, $this->MarcRole, $this->FullName,
+			$this->NacoafUrl, $this->SortOrder]);
+
+		$this->ContributorId = Db::GetLastInsertedId();
+	}
 }

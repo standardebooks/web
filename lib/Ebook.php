@@ -1605,16 +1605,7 @@ class Ebook{
 	private function InsertGitCommits(): void{
 		foreach($this->GitCommits as $commit){
 			$commit->EbookId = $this->EbookId;
-
-			Db::Query('
-				INSERT into GitCommits (EbookId, Created, Message, Hash)
-				values (?,
-					?,
-					?,
-				        ?)
-			', [$commit->EbookId, $commit->Created, $commit->Message, $commit->Hash]);
-
-			$commit->GitCommitId = Db::GetLastInsertedId();
+			$commit->Create();
 		}
 	}
 
@@ -1630,15 +1621,7 @@ class Ebook{
 	private function InsertSources(): void{
 		foreach($this->Sources as $source){
 			$source->EbookId = $this->EbookId;
-
-			Db::Query('
-				INSERT into EbookSources (EbookId, Type, Url)
-				values (?,
-					?,
-				        ?)
-			', [$source->EbookId, $source->Type, $source->Url]);
-
-			$source->EbookSourceId = Db::GetLastInsertedId();
+			$source->Create();
 		}
 	}
 
@@ -1656,24 +1639,7 @@ class Ebook{
 		foreach($allContributors as $sortOrder => $contributor){
 			$contributor->EbookId = $this->EbookId;
 			$contributor->SortOrder = $sortOrder;
-
-			Db::Query('
-				INSERT into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
-					NacoafUrl, SortOrder)
-				values (?,
-					?,
-					?,
-					?,
-					?,
-					?,
-					?,
-					?,
-				        ?)
-			', [$contributor->EbookId, $contributor->Name, $contributor->UrlName, $contributor->SortName,
-				$contributor->WikipediaUrl, $contributor->MarcRole, $contributor->FullName,
-				$contributor->NacoafUrl, $contributor->SortOrder]);
-
-			$contributor->ContributorId = Db::GetLastInsertedId();
+			$contributor->Create();
 		}
 	}
 
