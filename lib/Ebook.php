@@ -1533,8 +1533,7 @@ class Ebook{
 	private function DeleteTags(): void{
 		Db::Query('
 			DELETE from EbookTags
-			where
-			EbookId = ?
+			where EbookId = ?
 		', [$this->EbookId]
 		);
 	}
@@ -1552,8 +1551,7 @@ class Ebook{
 	private function DeleteLocSubjects(): void{
 		Db::Query('
 			DELETE from EbookLocSubjects
-			where
-			EbookId = ?
+			where EbookId = ?
 		', [$this->EbookId]
 		);
 	}
@@ -1571,8 +1569,7 @@ class Ebook{
 	private function DeleteCollectionMemberships(): void{
 		Db::Query('
 			DELETE from CollectionEbooks
-			where
-			EbookId = ?
+			where EbookId = ?
 		', [$this->EbookId]
 		);
 	}
@@ -1596,8 +1593,7 @@ class Ebook{
 	private function DeleteGitCommits(): void{
 		Db::Query('
 			DELETE from GitCommits
-			where
-			EbookId = ?
+			where EbookId = ?
 		', [$this->EbookId]
 		);
 	}
@@ -1612,8 +1608,7 @@ class Ebook{
 	private function DeleteSources(): void{
 		Db::Query('
 			DELETE from EbookSources
-			where
-			EbookId = ?
+			where EbookId = ?
 		', [$this->EbookId]
 		);
 	}
@@ -1628,8 +1623,7 @@ class Ebook{
 	private function DeleteContributors(): void{
 		Db::Query('
 			DELETE from Contributors
-			where
-			EbookId = ?
+			where EbookId = ?
 		', [$this->EbookId]
 		);
 	}
@@ -1646,8 +1640,7 @@ class Ebook{
 	private function DeleteTocEntries(): void{
 		Db::Query('
 			DELETE from TocEntries
-			where
-			EbookId = ?
+			where EbookId = ?
 		', [$this->EbookId]
 		);
 	}
