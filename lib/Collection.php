@@ -55,13 +55,34 @@ class Collection{
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
-		$this->Name = trim($this->Name ?? '');
-		if($this->Name == ''){
+		if(isset($this->Name)){
+			$this->Name = trim($this->Name);
+
+			if($this->Name == ''){
+				$error->Add(new Exceptions\CollectionNameRequiredException());
+			}
+
+			if(strlen($this->Name) > EBOOKS_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Collection name: '. $this->Name));
+			}
+		}
+		else{
 			$error->Add(new Exceptions\CollectionNameRequiredException());
 		}
 
-		if(strlen($this->Name) > EBOOKS_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Collection name: '. $this->Name));
+		if(isset($this->UrlName)){
+			$this->UrlName = trim($this->UrlName);
+
+			if($this->UrlName == ''){
+				$error->Add(new Exceptions\CollectionUrlNameRequiredException());
+			}
+
+			if(strlen($this->UrlName) > EBOOKS_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Collection UrlName: '. $this->UrlName));
+			}
+		}
+		else{
+			$error->Add(new Exceptions\CollectionUrlNameRequiredException());
 		}
 
 		if($this->Type !== null && ($this->Type != CollectionType::Series && $this->Type != CollectionType::Set)){
