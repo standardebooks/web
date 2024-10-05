@@ -33,13 +33,19 @@ class EbookTag extends Tag{
 	public function Validate(): void{
 		$error = new Exceptions\ValidationException();
 
-		$this->Name = trim($this->Name ?? '');
-		if($this->Name == ''){
-			$error->Add(new Exceptions\EbookTagNameRequiredException());
-		}
+		if(isset($this->Name)){
+			$this->Name = trim($this->Name);
 
-		if(strlen($this->Name) > EBOOKS_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Ebook tag: '. $this->Name));
+			if($this->Name == ''){
+				$error->Add(new Exceptions\EbookTagNameRequiredException());
+			}
+
+			if(strlen($this->Name) > EBOOKS_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Ebook tag: '. $this->Name));
+			}
+		}
+		else{
+			$error->Add(new Exceptions\EbookTagNameRequiredException());
 		}
 
 		if($this->Type != TagType::Ebook){

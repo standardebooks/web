@@ -1750,6 +1750,9 @@ class Ebook{
 		);
 	}
 
+	/**
+	 * @throws Exceptions\ValidationException
+	 */
 	private function InsertGitCommits(): void{
 		foreach($this->GitCommits as $commit){
 			$commit->EbookId = $this->EbookId;
@@ -1765,6 +1768,9 @@ class Ebook{
 		);
 	}
 
+	/**
+	 * @throws Exceptions\ValidationException
+	 */
 	private function InsertSources(): void{
 		foreach($this->Sources as $source){
 			$source->EbookId = $this->EbookId;
@@ -1780,6 +1786,9 @@ class Ebook{
 		);
 	}
 
+	/**
+	 * @throws Exceptions\ValidationException
+	 */
 	private function InsertContributors(): void{
 		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Contributors);
 		foreach($allContributors as $sortOrder => $contributor){
