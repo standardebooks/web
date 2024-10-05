@@ -37,7 +37,7 @@ catch(Exceptions\ValidationException $validationException){
 	$exceptions = $validationException->Exceptions;
 	if(count($exceptions) == 1){
 		print("\nA ValidationException occurred when updating the ebook database:\n");
-		print($ex->getMessage() . "\n");
+		print("\t" . get_class($exceptions[0]) . ": " . $exceptions[0]->getMessage() . "\n");
 		print("[ERROR] Found 1 error\n");
 	}
 	else{
