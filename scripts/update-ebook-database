@@ -44,7 +44,7 @@ catch(Exceptions\ValidationException $validationException){
 		print("\nValidationExceptions when updating the ebook database:\n");
 
 		foreach($exceptions as $ex){
-			print("\t" . $ex->getMessage() . "\n");
+			print("\t" . get_class($ex) . ": " . $ex->getMessage() . "\n");
 		}
 
 		print("[ERROR] Found " . count($exceptions) . " errors\n");
