@@ -4,10 +4,10 @@ usage(){
 	echo -n
 	fmt <<EOF
 DESCRIPTION
-	Rebuild one of three caches stored in APCu for the standardebooks.org FPM pool.
+	Rebuild one of the caches stored in APCu for the standardebooks.org FPM pool.
 
 USAGE
-	rebuild-cache {library,bulk-downloads,feeds}
+	rebuild-cache {bulk-downloads,feeds}
 EOF
 	exit 1
 }
@@ -26,10 +26,6 @@ fi
 # MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/rebuild-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
 
 type="$1"
-
-if [ "${type}" = "library" ]; then
-	echo "<?php require_once('Core.php'); Library::RebuildCache(); ?>" > /tmp/rebuild-cache.php
-fi
 
 if [ "${type}" = "bulk-downloads" ]; then
 	echo "<?php require_once('Core.php'); Library::RebuildBulkDownloadsCache(); ?>" > /tmp/rebuild-cache.php

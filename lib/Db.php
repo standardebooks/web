@@ -72,4 +72,21 @@ class Db{
 
 		return false;
 	}
+
+	/**
+	 * Returns an SQL query string appropriate for set membership.
+	 *
+	 * This is useful for queries of the form WHERE var IN (?,?,?) and the length of the set is dynamic.
+	 *
+	 * @param array<mixed> $arr
+	 */
+	public static function CreateSetSql(array $arr): string{
+		$sql = '(';
+
+		for($i = 0; $i < sizeof($arr); $i++){
+			$sql .= '?,';
+		}
+
+		return rtrim($sql, ',') . ')';
+	}
 }
