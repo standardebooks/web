@@ -34,9 +34,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/7464">The Adventures of Sally</a> by P. G. Wodehouse</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/149">Beyond Thirty A.K.A. The Lost Continent</a> (Beyond 1) by Edgar Rice Burroughs</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
 			</li>
 			<li>
