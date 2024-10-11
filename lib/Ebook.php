@@ -1268,7 +1268,7 @@ class Ebook{
 	/**
 	 * @throws Exceptions\ValidationException
 	 */
-	private function InsertTagStrings(): void{
+	private function CreateTags(): void{
 		$tags = [];
 		foreach($this->Tags as $ebookTag){
 			$tags[] = $ebookTag->GetByNameOrCreate($ebookTag->Name);
@@ -1279,7 +1279,7 @@ class Ebook{
 	/**
 	 * @throws Exceptions\ValidationException
 	 */
-	private function InsertLocSubjectStrings(): void{
+	private function CreateLocSubjects(): void{
 		$subjects = [];
 		foreach($this->LocSubjects as $locSubject){
 			$subjects[] = $locSubject->GetByNameOrCreate($locSubject->Name);
@@ -1290,7 +1290,7 @@ class Ebook{
 	/**
 	 * @throws Exceptions\ValidationException
 	 */
-	private function InsertCollections(): void{
+	private function CreateCollections(): void{
 		$collectionMemberships = [];
 		foreach($this->CollectionMemberships as $collectionMembership){
 			$collection = $collectionMembership->Collection;
@@ -1566,9 +1566,9 @@ class Ebook{
 	public function Create(): void{
 		$this->Validate();
 
-		$this->InsertTagStrings();
-		$this->InsertLocSubjectStrings();
-		$this->InsertCollections();
+		$this->CreateTags();
+		$this->CreateLocSubjects();
+		$this->CreateCollections();
 
 		Db::Query('
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
@@ -1606,13 +1606,13 @@ class Ebook{
 
 		$this->EbookId = Db::GetLastInsertedId();
 
-		$this->InsertTags();
-		$this->InsertLocSubjects();
-		$this->InsertCollectionMemberships();
-		$this->InsertGitCommits();
-		$this->InsertSources();
-		$this->InsertContributors();
-		$this->InsertTocEntries();
+		$this->AddTags();
+		$this->AddLocSubjects();
+		$this->AddCollectionMemberships();
+		$this->AddGitCommits();
+		$this->AddSources();
+		$this->AddContributors();
+		$this->AddTocEntries();
 	}
 
 	/**
@@ -1621,9 +1621,9 @@ class Ebook{
 	public function Save(): void{
 		$this->Validate();
 
-		$this->InsertTagStrings();
-		$this->InsertLocSubjectStrings();
-		$this->InsertCollections();
+		$this->CreateTags();
+		$this->CreateLocSubjects();
+		$this->CreateCollections();
 
 		Db::Query('
 			UPDATE Ebooks
@@ -1660,29 +1660,29 @@ class Ebook{
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
 				$this->EbookId]);
 
-		$this->DeleteTags();
-		$this->InsertTags();
+		$this->RemoveTags();
+		$this->AddTags();
 
-		$this->DeleteLocSubjects();
-		$this->InsertLocSubjects();
+		$this->RemoveLocSubjects();
+		$this->AddLocSubjects();
 
-		$this->DeleteCollectionMemberships();
-		$this->InsertCollectionMemberships();
+		$this->RemoveCollectionMemberships();
+		$this->AddCollectionMemberships();
 
-		$this->DeleteGitCommits();
-		$this->InsertGitCommits();
+		$this->RemoveGitCommits();
+		$this->AddGitCommits();
 
-		$this->DeleteSources();
-		$this->InsertSources();
+		$this->RemoveSources();
+		$this->AddSources();
 
-		$this->DeleteContributors();
-		$this->InsertContributors();
+		$this->RemoveContributors();
+		$this->AddContributors();
 
-		$this->DeleteTocEntries();
-		$this->InsertTocEntries();
+		$this->RemoveTocEntries();
+		$this->AddTocEntries();
 	}
 
-	private function DeleteTags(): void{
+	private function RemoveTags(): void{
 		Db::Query('
 			DELETE from EbookTags
 			where EbookId = ?
@@ -1690,7 +1690,7 @@ class Ebook{
 		);
 	}
 
-	private function InsertTags(): void{
+	private function AddTags(): void{
 		foreach($this->Tags as $tag){
 			Db::Query('
 				INSERT into EbookTags (EbookId, TagId)
@@ -1700,7 +1700,7 @@ class Ebook{
 		}
 	}
 
-	private function DeleteLocSubjects(): void{
+	private function RemoveLocSubjects(): void{
 		Db::Query('
 			DELETE from EbookLocSubjects
 			where EbookId = ?
@@ -1708,7 +1708,7 @@ class Ebook{
 		);
 	}
 
-	private function InsertLocSubjects(): void{
+	private function AddLocSubjects(): void{
 		foreach($this->LocSubjects as $locSubject){
 			Db::Query('
 				INSERT into EbookLocSubjects (EbookId, LocSubjectId)
@@ -1718,7 +1718,7 @@ class Ebook{
 		}
 	}
 
-	private function DeleteCollectionMemberships(): void{
+	private function RemoveCollectionMemberships(): void{
 		Db::Query('
 			DELETE from CollectionEbooks
 			where EbookId = ?
@@ -1726,7 +1726,7 @@ class Ebook{
 		);
 	}
 
-	private function InsertCollectionMemberships(): void{
+	private function AddCollectionMemberships(): void{
 		foreach($this->CollectionMemberships as $collectionMembership){
 			$collectionMembership->EbookId = $this->EbookId;
 			$collectionMembership->CollectionId = $collectionMembership->Collection->CollectionId;
@@ -1742,7 +1742,7 @@ class Ebook{
 		}
 	}
 
-	private function DeleteGitCommits(): void{
+	private function RemoveGitCommits(): void{
 		Db::Query('
 			DELETE from GitCommits
 			where EbookId = ?
@@ -1753,14 +1753,14 @@ class Ebook{
 	/**
 	 * @throws Exceptions\ValidationException
 	 */
-	private function InsertGitCommits(): void{
+	private function AddGitCommits(): void{
 		foreach($this->GitCommits as $commit){
 			$commit->EbookId = $this->EbookId;
 			$commit->Create();
 		}
 	}
 
-	private function DeleteSources(): void{
+	private function RemoveSources(): void{
 		Db::Query('
 			DELETE from EbookSources
 			where EbookId = ?
@@ -1771,14 +1771,14 @@ class Ebook{
 	/**
 	 * @throws Exceptions\ValidationException
 	 */
-	private function InsertSources(): void{
+	private function AddSources(): void{
 		foreach($this->Sources as $source){
 			$source->EbookId = $this->EbookId;
 			$source->Create();
 		}
 	}
 
-	private function DeleteContributors(): void{
+	private function RemoveContributors(): void{
 		Db::Query('
 			DELETE from Contributors
 			where EbookId = ?
@@ -1789,7 +1789,7 @@ class Ebook{
 	/**
 	 * @throws Exceptions\ValidationException
 	 */
-	private function InsertContributors(): void{
+	private function AddContributors(): void{
 		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Contributors);
 		foreach($allContributors as $sortOrder => $contributor){
 			$contributor->EbookId = $this->EbookId;
@@ -1798,7 +1798,7 @@ class Ebook{
 		}
 	}
 
-	private function DeleteTocEntries(): void{
+	private function RemoveTocEntries(): void{
 		Db::Query('
 			DELETE from TocEntries
 			where EbookId = ?
@@ -1806,7 +1806,7 @@ class Ebook{
 		);
 	}
 
-	private function InsertTocEntries(): void{
+	private function AddTocEntries(): void{
 		if($this->TocEntries !== null){
 			foreach($this->TocEntries as $tocEntry){
 				Db::Query('
