@@ -1003,7 +1003,7 @@ class Ebook{
 		}
 
 		if(isset($this->KindleCoverUrl)){
-			if(!preg_match('|/*_EBOK_portrait.jpg|ius', $this->KindleCoverUrl)){
+			if(!preg_match('|/*_EBOK_portrait.jpg$|ius', $this->KindleCoverUrl)){
 				$error->Add(new Exceptions\InvalidEbookKindleCoverUrlException('Invalid Ebook KindleCoverUrl: ' . $this->KindleCoverUrl));
 			}
 
@@ -1018,7 +1018,7 @@ class Ebook{
 		}
 
 		if(isset($this->EpubUrl)){
-			if(!preg_match('|/*.epub|ius', $this->EpubUrl)){
+			if(!preg_match('|/*.epub$|ius', $this->EpubUrl)){
 				$error->Add(new Exceptions\InvalidEbookEpubUrlException('Invalid Ebook EpubUrl: ' . $this->EpubUrl));
 			}
 
@@ -1033,7 +1033,7 @@ class Ebook{
 		}
 
 		if(isset($this->AdvancedEpubUrl)){
-			if(!preg_match('|/*_advanced.epub|ius', $this->AdvancedEpubUrl)){
+			if(!preg_match('|/*_advanced.epub$|ius', $this->AdvancedEpubUrl)){
 				$error->Add(new Exceptions\InvalidEbookAdvancedEpubUrlException('Invalid Ebook AdvancedEpubUrl: ' . $this->AdvancedEpubUrl));
 			}
 
@@ -1049,7 +1049,7 @@ class Ebook{
 		}
 
 		if(isset($this->KepubUrl)){
-			if(!preg_match('|/*.kepub.epub|ius', $this->KepubUrl)){
+			if(!preg_match('|/*.kepub.epub$|ius', $this->KepubUrl)){
 				$error->Add(new Exceptions\InvalidEbookKepubUrlException('Invalid Ebook KepubUrl: ' . $this->KepubUrl));
 			}
 
@@ -1064,7 +1064,7 @@ class Ebook{
 		}
 
 		if(isset($this->Azw3Url)){
-			if(!preg_match('|/*.azw3|ius', $this->Azw3Url)){
+			if(!preg_match('|/*.azw3$|ius', $this->Azw3Url)){
 				$error->Add(new Exceptions\InvalidEbookAzw3UrlException('Invalid Ebook Azw3Url: ' . $this->Azw3Url));
 			}
 
@@ -1079,7 +1079,7 @@ class Ebook{
 		}
 
 		if(isset($this->DistCoverUrl)){
-			if(!preg_match('|/*cover.jpg|ius', $this->DistCoverUrl)){
+			if(!preg_match('|/*cover.jpg$|ius', $this->DistCoverUrl)){
 				$error->Add(new Exceptions\InvalidEbookDistCoverUrlException('Invalid Ebook DistCoverUrl: ' . $this->DistCoverUrl));
 			}
 
@@ -1183,7 +1183,7 @@ class Ebook{
 		}
 
 		if(isset($this->GitHubUrl)){
-			if(!preg_match('|https://github.com/standardebooks/\w+|ius', $this->GitHubUrl)){
+			if(!preg_match('|^https://github.com/standardebooks/\w+|ius', $this->GitHubUrl)){
 				$error->Add(new Exceptions\InvalidEbookGitHubUrlException('Invalid Ebook GitHubUrl: ' . $this->GitHubUrl));
 			}
 
@@ -1198,7 +1198,7 @@ class Ebook{
 		}
 
 		if(isset($this->WikipediaUrl)){
-			if(!preg_match('|https://.*wiki.*|ius', $this->WikipediaUrl)){
+			if(!preg_match('|^https://.*wiki.*|ius', $this->WikipediaUrl)){
 				$error->Add(new Exceptions\InvalidEbookWikipediaUrlException('Invalid Ebook WikipediaUrl: ' . $this->WikipediaUrl));
 			}
 
