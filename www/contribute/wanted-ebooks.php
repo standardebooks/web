@@ -18,9 +18,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/1480">Tom Brown’s School Days</a> by Thomas Hughes</p>
 			</li>
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/792">Wieland</a> by Charles Brockden Brown</p>
-			</li> -->
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “Bigelow, Smith & Co.”)</p>
 			</li> -->
@@ -168,9 +168,6 @@
 			<li>
 				<p><a href="https://theotherpages.org/poems/poem-mn.html#macaulay">Poetry by Thomas Macaulay</a> including <i>Lays of Ancient Rome</i></p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/67363">The Theory of Moral Sentiments</a> by Adam Smith</p>patron
-			</li> -->
 			<li>
 				<p><a href="https://en.wikisource.org/wiki/Hamilton_(play)">Hamilton</a> by Mary P. Hamlin and George Arliss</p><!--patron-->
 			</li>
@@ -222,15 +219,12 @@
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/2194">Mauprat</a> by George Sand</p>
 			</li> -->
-			<!-- <li>
+			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
-			</li> -->
+			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8991">The Fur Country: Seventy Degrees North Latitude</a> <i>Le Pays des fourrures</i> by Jules Verne</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/29413">The Adventures of Captain Hatteras</a> <i>Voyages et aventures du capitaine Hatteras</i> by Jules Verne</p>
-			</li> -->
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/13782">Lady Rose’s Daughter</a> by Mary Augusta Ward</p>
 			</li>
@@ -441,9 +435,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short story collections by P. G. Wodehouse</a> (Note that we already have all Jeeves, School, Mulliner, and Ukridge Stories completed. A spreadsheet is available that lists the rest.)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2981">The Memoirs of Casanova</a></p>
 			</li>
