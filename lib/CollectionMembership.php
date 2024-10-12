@@ -1,6 +1,4 @@
 <?
-use function Safe\preg_replace;
-
 /**
  * @property Collection $Collection
  */
