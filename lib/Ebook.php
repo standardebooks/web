@@ -1692,11 +1692,16 @@ class Ebook{
 
 	private function AddTags(): void{
 		foreach($this->Tags as $tag){
-			Db::Query('
-				INSERT into EbookTags (EbookId, TagId)
-				values (?,
-				        ?)
-			', [$this->EbookId, $tag->TagId]);
+			try{
+				Db::Query('
+					INSERT into EbookTags (EbookId, TagId)
+					values (?,
+						?)
+				', [$this->EbookId, $tag->TagId]);
+			}
+			catch(Exceptions\DuplicateDatabaseKeyException){
+				// The Ebook already has the Tag, which is fine.
+			}
 		}
 	}
 
@@ -1710,11 +1715,16 @@ class Ebook{
 
 	private function AddLocSubjects(): void{
 		foreach($this->LocSubjects as $locSubject){
-			Db::Query('
-				INSERT into EbookLocSubjects (EbookId, LocSubjectId)
-				values (?,
-				        ?)
-			', [$this->EbookId, $locSubject->LocSubjectId]);
+			try{
+				Db::Query('
+					INSERT into EbookLocSubjects (EbookId, LocSubjectId)
+					values (?,
+						?)
+				', [$this->EbookId, $locSubject->LocSubjectId]);
+			}
+			catch(Exceptions\DuplicateDatabaseKeyException){
+				// The Ebook already has the LocSubject, which is fine.
+			}
 		}
 	}
 
@@ -1731,14 +1741,19 @@ class Ebook{
 			$collectionMembership->EbookId = $this->EbookId;
 			$collectionMembership->CollectionId = $collectionMembership->Collection->CollectionId;
 
-			Db::Query('
-				INSERT into CollectionEbooks (EbookId, CollectionId, SequenceNumber)
-				values (?,
-					?,
-				        ?)
-			', [$collectionMembership->EbookId, $collectionMembership->CollectionId, $collectionMembership->SequenceNumber]);
+			try{
+				Db::Query('
+					INSERT into CollectionEbooks (EbookId, CollectionId, SequenceNumber)
+					values (?,
+						?,
+						?)
+				', [$collectionMembership->EbookId, $collectionMembership->CollectionId, $collectionMembership->SequenceNumber]);
 
-			$collectionMembership->CollectionEbookId = Db::GetLastInsertedId();
+				$collectionMembership->CollectionEbookId = Db::GetLastInsertedId();
+			}
+			catch(Exceptions\DuplicateDatabaseKeyException){
+				// The Ebook is already a member of this Collection.
+			}
 		}
 	}
 
