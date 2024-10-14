@@ -210,7 +210,7 @@ class Ebook{
 						from Contributors
 						where EbookId = ?
 							and MarcRole = ?
-						order by ContributorId
+						order by SortOrder asc
 					', [$this->EbookId, 'aut'], Contributor::class);
 		}
 
@@ -227,7 +227,7 @@ class Ebook{
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
-							order by ContributorId
+							order by SortOrder asc
 						', [$this->EbookId, 'ill'], Contributor::class);
 		}
 
@@ -244,7 +244,7 @@ class Ebook{
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
-							order by ContributorId
+							order by SortOrder asc
 						', [$this->EbookId, 'trl'], Contributor::class);
 		}
 
@@ -261,7 +261,7 @@ class Ebook{
 							from Contributors
 							where EbookId = ?
 								and MarcRole = ?
-							order by ContributorId
+							order by SortOrder asc
 						', [$this->EbookId, 'ctb'], Contributor::class);
 		}
 
