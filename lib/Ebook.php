@@ -161,7 +161,7 @@ class Ebook{
 							from LocSubjects l
 							inner join EbookLocSubjects el using (LocSubjectId)
 							where EbookId = ?
-							order by el.EbookLocSubjectId
+							order by SortOrder asc
 					', [$this->EbookId], LocSubject::class);
 		}
 
@@ -1714,13 +1714,14 @@ class Ebook{
 	}
 
 	private function AddLocSubjects(): void{
-		foreach($this->LocSubjects as $locSubject){
+		foreach($this->LocSubjects as $sortOrder => $locSubject){
 			try{
 				Db::Query('
-					INSERT into EbookLocSubjects (EbookId, LocSubjectId)
+					INSERT into EbookLocSubjects (EbookId, LocSubjectId, SortOrder)
 					values (?,
+						?,
 						?)
-				', [$this->EbookId, $locSubject->LocSubjectId]);
+				', [$this->EbookId, $locSubject->LocSubjectId, $sortOrder]);
 			}
 			catch(Exceptions\DuplicateDatabaseKeyException){
 				// The Ebook already has the LocSubject, which is fine.
