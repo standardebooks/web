@@ -193,7 +193,7 @@ class Ebook{
 						SELECT *
 						from EbookSources
 						where EbookId = ?
-						order by EbookSourceId
+						order by SortOrder asc
 					', [$this->EbookId], EbookSource::class);
 		}
 
@@ -1790,8 +1790,9 @@ class Ebook{
 	 * @throws Exceptions\ValidationException
 	 */
 	private function AddSources(): void{
-		foreach($this->Sources as $source){
+		foreach($this->Sources as $sortOrder => $source){
 			$source->EbookId = $this->EbookId;
+			$source->SortOrder = $sortOrder;
 			$source->Create();
 		}
 	}
