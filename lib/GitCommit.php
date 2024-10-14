@@ -2,7 +2,6 @@
 use Safe\DateTimeImmutable;
 
 class GitCommit{
-	public ?int $GitCommitId = null;
 	public ?int $EbookId = null;
 	public DateTimeImmutable $Created;
 	public string $Message;
@@ -85,7 +84,5 @@ class GitCommit{
 				?,
 				?)
 		', [$this->EbookId, $this->Created, $this->Message, $this->Hash]);
-
-		$this->GitCommitId = Db::GetLastInsertedId();
 	}
 }
