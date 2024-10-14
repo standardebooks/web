@@ -144,7 +144,7 @@ class Ebook{
 						from Tags t
 						inner join EbookTags et using (TagId)
 						where EbookId = ?
-						order by et.EbookTagId
+						order by SortOrder asc
 					', [$this->EbookId], EbookTag::class);
 		}
 
@@ -1691,13 +1691,14 @@ class Ebook{
 	}
 
 	private function AddTags(): void{
-		foreach($this->Tags as $tag){
+		foreach($this->Tags as $sortOrder => $tag){
 			try{
 				Db::Query('
-					INSERT into EbookTags (EbookId, TagId)
+					INSERT into EbookTags (EbookId, TagId, SortOrder)
 					values (?,
+						?,
 						?)
-				', [$this->EbookId, $tag->TagId]);
+				', [$this->EbookId, $tag->TagId, $sortOrder]);
 			}
 			catch(Exceptions\DuplicateDatabaseKeyException){
 				// The Ebook already has the Tag, which is fine.
