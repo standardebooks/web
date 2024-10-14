@@ -3,10 +3,10 @@
 use Safe\DateTimeImmutable;
 
 class EbookSource{
-	public ?int $EbookSourceId = null;
 	public ?int $EbookId = null;
 	public EbookSourceType $Type;
 	public string $Url;
+	public ?int $SortOrder = null;
 
 	public static function FromTypeAndUrl(EbookSourceType $type, string $url): EbookSource{
 		$instance = new EbookSource();
@@ -39,6 +39,10 @@ class EbookSource{
 			$error->Add(new Exceptions\EbookSourceUrlRequiredException());
 		}
 
+		if(!isset($this->SortOrder)){
+			$error->Add(new Exceptions\EbookSourceSortOrderRequiredException());
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
@@ -50,12 +54,11 @@ class EbookSource{
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
-			INSERT into EbookSources (EbookId, Type, Url)
+			INSERT into EbookSources (EbookId, Type, Url, SortOrder)
 			values (?,
 				?,
+				?,
 				?)
-		', [$this->EbookId, $this->Type, $this->Url]);
-
-		$this->EbookSourceId = Db::GetLastInsertedId();
+		', [$this->EbookId, $this->Type, $this->Url, $this->SortOrder]);
 	}
 }
