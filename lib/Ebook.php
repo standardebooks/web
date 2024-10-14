@@ -177,7 +177,7 @@ class Ebook{
 							SELECT *
 							from CollectionEbooks
 							where EbookId = ?
-							order by CollectionEbookId
+							order by SortOrder asc
 						', [$this->EbookId], CollectionMembership::class);
 		}
 
@@ -1737,19 +1737,20 @@ class Ebook{
 	}
 
 	private function AddCollectionMemberships(): void{
-		foreach($this->CollectionMemberships as $collectionMembership){
+		foreach($this->CollectionMemberships as $sortOrder => $collectionMembership){
 			$collectionMembership->EbookId = $this->EbookId;
 			$collectionMembership->CollectionId = $collectionMembership->Collection->CollectionId;
+			$collectionMembership->SortOrder = $sortOrder;
 
 			try{
 				Db::Query('
-					INSERT into CollectionEbooks (EbookId, CollectionId, SequenceNumber)
+					INSERT into CollectionEbooks (EbookId, CollectionId, SequenceNumber, SortOrder)
 					values (?,
 						?,
+						?,
 						?)
-				', [$collectionMembership->EbookId, $collectionMembership->CollectionId, $collectionMembership->SequenceNumber]);
-
-				$collectionMembership->CollectionEbookId = Db::GetLastInsertedId();
+				', [$collectionMembership->EbookId, $collectionMembership->CollectionId, $collectionMembership->SequenceNumber,
+						$collectionMembership->SortOrder]);
 			}
 			catch(Exceptions\DuplicateDatabaseKeyException){
 				// The Ebook is already a member of this Collection.
