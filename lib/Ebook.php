@@ -279,7 +279,7 @@ class Ebook{
 					SELECT *
 					from TocEntries
 					where EbookId = ?
-					order by TocEntryId
+					order by SortOrder asc
 				', [$this->EbookId], stdClass::class);
 
 			foreach($result as $row){
@@ -1827,12 +1827,13 @@ class Ebook{
 
 	private function AddTocEntries(): void{
 		if($this->TocEntries !== null){
-			foreach($this->TocEntries as $tocEntry){
+			foreach($this->TocEntries as $sortOrder => $tocEntry){
 				Db::Query('
-					INSERT into TocEntries (EbookId, TocEntry)
+					INSERT into TocEntries (EbookId, TocEntry, SortOrder)
 					values (?,
+						?,
 						?)
-				', [$this->EbookId, $tocEntry]);
+				', [$this->EbookId, $tocEntry, $sortOrder]);
 			}
 		}
 	}
