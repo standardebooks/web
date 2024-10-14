@@ -5,7 +5,6 @@ use Safe\DateTimeImmutable;
 use function Safe\preg_match;
 
 class Contributor{
-	public ?int $ContributorId = null;
 	public ?int $EbookId = null;
 	public string $Name;
 	public string $UrlName;
@@ -136,7 +135,5 @@ class Contributor{
 				?)
 		', [$this->EbookId, $this->Name, $this->UrlName, $this->SortName, $this->WikipediaUrl, $this->MarcRole, $this->FullName,
 			$this->NacoafUrl, $this->SortOrder]);
-
-		$this->ContributorId = Db::GetLastInsertedId();
 	}
 }

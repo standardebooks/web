@@ -1,5 +1,4 @@
 CREATE TABLE `Contributors` (
-  `ContributorId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `EbookId` int(10) unsigned NOT NULL,
   `Name` varchar(255) NOT NULL,
   `UrlName` varchar(255) NOT NULL,
@@ -9,7 +8,6 @@ CREATE TABLE `Contributors` (
   `FullName` varchar(255) NULL,
   `NacoafUrl` varchar(255) NULL,
   `SortOrder` tinyint(3) unsigned NOT NULL,
-  PRIMARY KEY (`ContributorId`),
   KEY `index1` (`EbookId`),
   KEY `index2` (`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
