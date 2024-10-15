@@ -79,6 +79,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSyA8rKpA1AF8rNKY_eC-xIYkGoQZq-FavQqJ3-VXGu1DK1_NSYmxqAonbSo4AVjAM4Ps8jtYO0wfqr/pubhtml">Short fiction by Sabine Baring-Gould</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1nLP-Ij0RTM15X8Xx6o_vV45GVdE2EiylCI2SRT2rN1Q/edit">Short Fiction by E. F. Benson</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
