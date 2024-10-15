@@ -112,9 +112,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/19746">The Colonel’s Dream</a> by Charles W. Chesnutt</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/15487">Democracy and Social Ethics</a> by Jane Addams</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/67764">Shepherds of the Wild</a> by Edison Marshall</p><!--patron-->
 			</li>
 			<li>
