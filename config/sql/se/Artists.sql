@@ -4,7 +4,7 @@ CREATE TABLE `Artists` (
   `UrlName` varchar(255) NOT NULL,
   `DeathYear` smallint unsigned NULL,
   `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updated` timestamp NOT NULL,
+  `Updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ArtistId`),
   UNIQUE KEY `idxUnique` (`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

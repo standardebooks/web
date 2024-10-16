@@ -4,15 +4,15 @@
 use Safe\DateTimeImmutable;
 use function Safe\preg_match;
 use function Safe\preg_replace;
-use function Safe\apcu_fetch;
 use function Safe\shuffle;
 
-$ebook = new Ebook();
+$ebook = null;
 $transcriptionSources = [];
 $scanSources = [];
 $otherSources = [];
 $carousel = [];
 $carouselTag = null;
+$targetCarouselSize = 5;
 
 try{
 	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
@@ -39,14 +39,8 @@ try{
 		}
 	}
 
-	// Do we have the ebook cached?
-	try{
-		/** @var Ebook $ebook */
-		$ebook = apcu_fetch('ebook-' . $wwwFilesystemPath);
-	}
-	catch(Safe\Exceptions\ApcuException){
-		$ebook = new Ebook($wwwFilesystemPath);
-	}
+	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
+	$ebook = Ebook::GetByIdentifier($identifier);
 
 	// Divide our sources into transcriptions and scans
 	foreach($ebook->Sources as $source){
@@ -71,36 +65,10 @@ try{
 		}
 	}
 
-	// Generate the bottom carousel.
-	// Pick a random tag from this ebook, and get ebooks in the same tag
-	$ebooks = [];
 	if(sizeof($ebook->Tags) > 0){
 		$carouselTag = $ebook->Tags[rand(0, sizeof($ebook->Tags) - 1)];
-		$ebooks = Library::GetEbooksByTag(strtolower($carouselTag->Name));
 	}
-	else{
-		$ebooks = Library::GetEbooks();
-	}
-
-	shuffle($ebooks);
-
-	$targetCarouselSize = 5;
-	// Use <= here because we want to exclude the ebook we're looking at from the carousel.
-	// One of the matching ebooks will always be the current ebook.
-	if(sizeof($ebooks) <= $targetCarouselSize){
-		$targetCarouselSize = sizeof($ebooks) - 1;
-	}
-
-	if($targetCarouselSize > 0){
-		$i = 0;
-		while(sizeof($carousel) < $targetCarouselSize){
-			if(isset($ebooks[$i]) && $ebooks[$i]->Url !== $ebook->Url){
-				$carousel[] = $ebooks[$i];
-			}
-
-			$i++;
-		}
-	}
+	$carousel = Library::GetRelatedEbooks($ebook, $targetCarouselSize, $carouselTag);
 }
 catch(Exceptions\SeeOtherEbookException $ex){
 	http_response_code(301);
@@ -149,12 +117,14 @@ catch(Exceptions\EbookNotFoundException){
 			<? if($ebook->ContributorsHtml !== null){ ?>
 			<p><?= $ebook->ContributorsHtml ?></p>
 			<? } ?>
-			<? if(sizeof($ebook->Collections) > 0){ ?>
-				<? foreach($ebook->Collections as $collection){ ?>
-					<p><? if($collection->SequenceNumber !== null){ ?>№ <?= number_format($collection->SequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::EscapeHtml(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
+			<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
+				<? foreach($ebook->CollectionMemberships as $collectionMembership){ ?>
+					<? $collection = $collectionMembership->Collection; ?>
+					<? $sequenceNumber = $collectionMembership->SequenceNumber; ?>
+					<p><? if($sequenceNumber !== null){ ?>№ <?= number_format($sequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::EscapeHtml(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
 					<? if($collection->Type !== null){ ?>
-						<? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type), -strlen(mb_strtolower($collection->Type))) !== 0){ ?>
-							<?= $collection->Type ?>.
+						<? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type->value), -strlen(mb_strtolower($collection->Type->value))) !== 0){ ?>
+							<?= $collection->Type->value ?>.
 						<? } ?>
 					<? }else{ ?>
 							collection.
@@ -192,8 +162,8 @@ catch(Exceptions\EbookNotFoundException){
 			<meta property="schema:image" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->DistCoverUrl) ?>"/>
 			<meta property="schema:thumbnailUrl" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
 			<meta property="schema:inLanguage" content="<?= Formatter::EscapeHtml($ebook->Language) ?>"/>
-			<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->Created->format('Y-m-d')) ?>"/>
-			<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->Updated->format('Y-m-d')) ?>"/>
+			<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->EbookCreated->format('Y-m-d')) ?>"/>
+			<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->EbookUpdated->format('Y-m-d')) ?>"/>
 			<div property="schema:potentialAction" typeof="http://schema.org/ReadAction">
 				<meta property="schema:actionStatus" content="http://schema.org/PotentialActionStatus"/>
 				<div property="schema:target" typeof="schema:EntryPoint">
@@ -282,8 +252,8 @@ catch(Exceptions\EbookNotFoundException){
 							<li property="schema:encoding" typeof="schema:mediaObject">
 								<meta property="schema:description" content="XHTML"/>
 								<meta property="schema:encodingFormat" content="application/xhtml+xml"/>
-								<p<? if($ebook->TextSinglePageSizeNumber >= 3 && $ebook->TextSinglePageSizeUnit == 'M'){ ?> class="has-size"<? } ?>>
-									<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a><? if($ebook->TextSinglePageSizeNumber >= 3 && $ebook->TextSinglePageSizeUnit == 'M'){ ?><span><?= $ebook->TextSinglePageSizeNumber ?>MB</span><? } ?>
+								<p<? if($ebook->TextSinglePageByteCount >= EBOOK_SINGLE_PAGE_SIZE_WARNING){ ?> class="has-size"<? } ?>>
+									<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a><? if($ebook->TextSinglePageByteCount >= EBOOK_SINGLE_PAGE_SIZE_WARNING){ ?><span><?= $ebook->TextSinglePageSizeFormatted ?></span><? } ?>
 								</p>
 							</li>
 							<? } ?>

@@ -6,7 +6,7 @@ CREATE TABLE `Artworks` (
   `CompletedYear` smallint unsigned NULL,
   `CompletedYearIsCirca` boolean NOT NULL DEFAULT FALSE,
   `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updated` timestamp NOT NULL,
+  `Updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Status` enum('unverified', 'approved', 'declined', 'in_use') DEFAULT 'unverified',
   `SubmitterUserId` int(10) unsigned NULL,
   `ReviewerUserId` int(10) unsigned NULL,
@@ -19,7 +19,7 @@ CREATE TABLE `Artworks` (
   `EbookUrl` varchar(255) NULL,
   `MimeType` enum('image/jpeg', 'image/png', 'image/bmp', 'image/tiff') NOT NULL,
   `Exception` TEXT NULL DEFAULT NULL,
-  `Notes` TEXT NULL DEFAULT NULL
+  `Notes` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`ArtworkId`),
   KEY `index1` (`Status`),
   KEY `index2` (`UrlName`),

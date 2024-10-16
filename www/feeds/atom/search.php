@@ -5,9 +5,11 @@ $ebooks = [];
 
 try{
 	$query = HttpInput::Str(GET, 'query') ?? '';
+	$startPage = HttpInput::Int(GET, 'page') ?? 1;
+	$count = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
 
 	if($query !== ''){
-		$ebooks = Library::Search($query);
+		$ebooks = Library::FilterEbooks($query, [], EbookSortType::Newest, $startPage, $count)['ebooks'];
 	}
 }
 catch(\Exception){

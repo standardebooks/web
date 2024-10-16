@@ -27,10 +27,16 @@ const MANUAL_PATH =			WEB_ROOT . '/manual';
 const EBOOKS_DIST_PATH =		WEB_ROOT . '/ebooks/';
 const COVER_ART_UPLOAD_PATH =		'/images/cover-uploads/';
 
+const EBOOKS_IDENTIFIER_PREFIX =	'url:https://standardebooks.org/ebooks/';
+
 const DATABASE_DEFAULT_DATABASE = 	'se';
 const DATABASE_DEFAULT_HOST = 		'localhost';
 
 const EBOOKS_PER_PAGE = 12;
+const EBOOKS_MAX_STRING_LENGTH = 250;
+const EBOOKS_MAX_LONG_STRING_LENGTH = 500;
+const EBOOK_SINGLE_PAGE_SIZE_WARNING = 3 *1024 * 1024; // 3145728
+const EBOOK_EARLIEST_CREATION_DATE = new DateTimeImmutable('2014-01-01');
 
 const ARTWORK_THUMBNAIL_HEIGHT = 350;
 const ARTWORK_THUMBNAIL_WIDTH = 350;

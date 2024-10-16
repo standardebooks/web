@@ -3,6 +3,10 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 
 class ArtworkTag extends Tag{
+	public function __construct(){
+		$this->Type = TagType::Artwork;
+	}
+
 	// *******
 	// GETTERS
 	// *******
@@ -41,6 +45,10 @@ class ArtworkTag extends Tag{
 			$error->Add(new Exceptions\InvalidArtworkTagNameException());
 		}
 
+		if($this->Type != TagType::Artwork){
+			$error->Add(new Exceptions\InvalidArtworkTagTypeException($this->Type));
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
@@ -53,9 +61,10 @@ class ArtworkTag extends Tag{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into Tags (Name)
-			values (?)
-		', [$this->Name]);
+			INSERT into Tags (Name, Type)
+			values (?,
+				?)
+		', [$this->Name, $this->Type]);
 		$this->TagId = Db::GetLastInsertedId();
 	}
 
@@ -67,7 +76,8 @@ class ArtworkTag extends Tag{
 				SELECT *
 				from Tags
 				where Name = ?
-			', [$artworkTag->Name], ArtworkTag::class);
+					and Type = ?
+			', [$artworkTag->Name, TagType::Artwork], ArtworkTag::class);
 
 		if(isset($result[0])){
 			return $result[0];

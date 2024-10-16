@@ -10,7 +10,8 @@ try{
 	$ebooks = Library::GetEbooksByCollection($collection);
 	// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
 	if(sizeof($ebooks) > 0){
-		foreach($ebooks[0]->Collections as $c){
+		foreach($ebooks[0]->CollectionMemberships as $cm){
+			$c = $cm->Collection;
 			if($collection == Formatter::MakeUrlSafe($c->Name)){
 				$collectionObject = $c;
 			}
@@ -22,7 +23,7 @@ try{
 	}
 
 	$collectionName = preg_replace('/^The /ius', '', $collectionObject->Name);
-	$collectionType = $collectionObject->Type ?? 'collection';
+	$collectionType = $collectionObject->Type->value ?? 'collection';
 
 	$pageTitle = 'Browse free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 	$pageDescription = 'A list of free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
