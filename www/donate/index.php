@@ -17,7 +17,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 		<picture data-caption="The Quiet Hour. Albert Chevallier Tayler, 1925">
 			<source srcset="/images/the-quiet-hour@2x.avif 2x, /images/the-quiet-hour.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-quiet-hour@2x.jpg 2x, /images/the-quiet-hour.jpg 1x" type="image/jpg"/>
-			<img src="/images/the-quiet-hour@2x.jpg" alt="An oil painting of a women reading a book by a writing desk at twilight."/>
+			<img src="/images/the-quiet-hour@2x.jpg" alt="An oil painting of a woman reading a book by a writing desk at twilight."/>
 		</picture>
 		<section id="donate">
 			<p>We work hard to create beautifully-formatted ebooks that are free of cost and free of U.S. copyright restrictions. It takes a team of highly-skilled specialists working together for weeks and even months to ensure that an ebook meets our exacting aesthetic and technical standards, before it’s offered to readers for free.</p>
@@ -71,7 +71,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 		<section id="sponsor-an-ebook">
 			<h2>Sponsor a new ebook</h2>
 			<p>Is there a book you want to see made into a beautiful digital edition? You can give the gift of literature to readers everywhere by sponsoring an addition to the Standard Ebooks catalog.</p>
-			<p>Make a one-time donation based on your selection’s word count, and we’ll carefully hand-produced it into an ebook edition that meets our exacting standards. It will then become a permanent addition to our online catalog for people to read, share, and reuse free of cost or U.S. copyright restrictions. Your name will appear in the ebook’s colophon and metadata, sealing your legacy as a sponsor of the literate arts.</p>
+			<p>Make a one-time donation based on your selection’s word count, and we’ll carefully hand-produce it into an ebook edition that meets our exacting standards. It will then become a permanent addition to our online catalog for people to read, share, and reuse free of cost or U.S. copyright restrictions. Your name will appear in the ebook’s colophon and metadata, sealing your legacy as a sponsor of the literate arts.</p>
 			<p>These are the general rules:</p>
 			<ul>
 				<li>
@@ -84,7 +84,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 					<p>Standard Ebooks is the sole decisionmaker regarding all aspects of ebook editing and production. Trust us to create an artifact of beauty.</p>
 				</li>
 			</ul>
-			<p><b>Sponsoring a new ebook of your choice calls for a donation of $900 + $0.02 per word over the first 100,000</b>, plus Fractured Atlas’ processing fee. Ebooks that are especially complex or that requiring significant advanced formatting may call for an additional donation. Your selection’s word count will be calculated using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes.</p>
+			<p><b>Sponsoring a new ebook of your choice calls for a donation of $900 + $0.02 per word over the first 100,000</b>, plus Fractured Atlas’ processing fee. Ebooks that are especially complex or that require significant advanced formatting may call for an additional donation. Your selection’s word count will be calculated using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes.</p>
 			<p><em>Before making your donation</em>, <a href="/about#editor-in-chief">contact the S.E. Editor-in-Chief</a> to confirm that your selection will be accepted, and so that we can calculate your selection’s word count.</p>
 			<p class="button-row center">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a donation to sponsor a new ebook</a>
