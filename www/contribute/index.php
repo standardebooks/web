@@ -73,7 +73,7 @@
 					<p><a href="https://github.com/standardebooks">All Standard Ebooks ebook source files.</a></p>
 				</li>
 				<li>
-					<p><a href="/contribute/spreadsheets">All list of various research spreadsheets our volunteers created and use.</a></p>
+					<p><a href="/contribute/spreadsheets">A list of various research spreadsheets our volunteers created and use.</a></p>
 				</li>
 			</ul>
 		</section>
