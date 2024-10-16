@@ -3,7 +3,7 @@
 	<article>
 		<h1>Report Errors</h1>
 		<p>You can report any kind of error in a Standard Ebook to us and we’ll do our best to get it corrected as soon as we can.</p>
-		<p>If you’re a software developer or you’re comfortable with technology, you can fix the error yourself at the ebook’s <a href="https://www.github.com/standardebooks/">GitHub repository</a>, and submit a pull request.</p>
+		<p>If you’re a software developer or you’re comfortable with technology, you can fix the error yourself in the ebook’s <a href="https://www.github.com/standardebooks/">GitHub repository</a>, and submit a pull request.</p>
 		<p>If you’d rather not do that, then you can report an error directly to us and we’ll take care of it. To report an error, you’ll need:</p>
 		<ol>
 			<li>
@@ -11,7 +11,7 @@
 			</li>
 			<li>
 				<p><b>The word immediately before and after the word that contains the error.</b> Usually three words is enough for us to quickly locate the error in the ebook, but if you think only three words isn’t enough, a few more won’t hurt.</p>
-				<p>If the error doesn’t include a word, just send us a quick description of what’s going on.</p>
+				<p>If the error doesn’t involve a specific word, just send us a quick description of what’s going on.</p>
 				<p>For example, say you’ve spotted the incorrectly curled quotation mark in the text below:</p>
 				<blockquote>
 					<p>He rose excitedly. “Go get <mark class="error">‘</mark>em, tiger!” he cried.</p>
@@ -24,7 +24,7 @@
 			</li>
 		</ol>
 		<p>Once you have these two items, <a href="https://groups.google.com/g/standardebooks">contact us via our mailing list</a> with that information and we’ll get right on it!</p>
-		<p>We often use transcripts from other projects as a base for Standard Ebooks. If you’d like, you can also report any transcription errors to those projects too (contributing upstream, in open source terminology). <a href="/contribute/report-errors-upstream">Our guide to reporting errors to Gutenberg and other sources.</a></p>
+		<p>We often use transcripts from other projects as a base for Standard Ebooks. If you’d like, you can also report any transcription errors to those projects too (contributing upstream, in open source terminology). <a href="/contribute/report-errors-upstream">You can follow our guide to reporting errors to Gutenberg and other sources.</a></p>
 	</article>
 </main>
 <?= Template::Footer() ?>
