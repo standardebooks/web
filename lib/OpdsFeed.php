@@ -50,8 +50,7 @@ class OpdsFeed extends AtomFeed{
 		if($this->HasChanged($this->Path)){
 			// Files don't match, save the file and update the parent navigation feed with the last updated timestamp
 
-			/** @throws void */
-			$this->Updated = new DateTimeImmutable();
+			$this->Updated = NOW;
 
 			if($this->Parent !== null){
 				$this->Parent->SaveUpdated($this->Id, $this->Updated);

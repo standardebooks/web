@@ -46,8 +46,7 @@ $lastSeenTransactionId = null;
 $firstTransactionId = null;
 $transactionFilePath = '/tmp/last-fa-donation';
 $transactionIds = [];
-$now = new DateTimeImmutable();
-$today = $now->format('n/j/Y');
+$today = NOW->format('n/j/Y');
 $faItemsPerPage = 20; // How many items are on a full page of FA results?
 
 // General plan: Read /tmp/last-fa-donation to see what the last transaction ID was that we processed.
@@ -94,7 +93,7 @@ try{
 	}
 
 	if($lastSeenTransactionId === null){
-		$log->Write('No last transaction ID, checking everything from ' . $now->format('Y-m-d'));
+		$log->Write('No last transaction ID, checking everything from ' . NOW->format('Y-m-d'));
 	}
 	else{
 		$log->Write('Checking from last transaction ID ' . $lastSeenTransactionId);

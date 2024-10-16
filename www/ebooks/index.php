@@ -110,7 +110,7 @@ catch(Exceptions\AppException $ex){
 	<?= Template::DonationCounter() ?>
 	<?= Template::DonationProgress() ?>
 	<? if(!DONATION_DRIVE_ON && !DONATION_DRIVE_COUNTER_ON && DONATION_HOLIDAY_ALERT_ON){ ?>
-	<?= Template::DonationAlert() ?>
+		<?= Template::DonationAlert() ?>
 	<? } ?>
 	<?= Template::SearchForm(['query' => $query, 'tags' => $tags, 'sort' => $sort, 'view' => $view, 'perPage' => $perPage]) ?>
 	<? if(sizeof($ebooks) == 0){ ?>

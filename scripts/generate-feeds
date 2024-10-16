@@ -114,15 +114,13 @@ usort($allEbooks, 'SortByUpdatedDesc');
 usort($newestEbooks, function($a, $b){ return $b->Created <=> $a->Created; });
 $newestEbooks = array_slice($newestEbooks, 0, $ebooksPerNewestEbooksFeed);
 
-$now = new DateTimeImmutable();
-
 // Create OPDS feeds.
 $opdsRootEntries = [
 	new OpdsNavigationEntry(
 		'Newest Standard Ebooks',
 		'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.',
 		'/feeds/opds/new-releases',
-		$now,
+		NOW,
 		'http://opds-spec.org/sort/new',
 		'acquisition'
 		),
@@ -130,51 +128,51 @@ $opdsRootEntries = [
 		'Standard Ebooks by Subject',
 		'Browse Standard Ebooks by subject.',
 		'/feeds/opds/subjects',
-		$now,
+		NOW,
 		'subsection',
 		'navigation'),
 	new OpdsNavigationEntry(
 		'Standard Ebooks by Collection',
 		'Browse Standard Ebooks by collection.',
 		'/feeds/opds/collections',
-		$now,
+		NOW,
 		'subsection',
 		'navigation'),
 	new OpdsNavigationEntry(
 		'Standard Ebooks by Author',
 		'Browse Standard Ebooks by author.',
 		'/feeds/opds/authors',
-		$now,
+		NOW,
 		'subsection',
 		'navigation'),
 	new OpdsNavigationEntry(
 		'All Standard Ebooks',
 		'All Standard Ebooks, most-recently-updated first. This is a Complete Acquisition Feed as defined in OPDS 1.2 §2.5.',
 		'/feeds/opds/all',
-		$now,
+		NOW,
 		'http://opds-spec.org/crawlable',
 		'acquisition')
 ];
 
 $opdsRoot = new OpdsNavigationFeed('Standard Ebooks', 'The Standard Ebooks catalog.', '/feeds/opds', $webRoot . '/feeds/opds/index.xml', $opdsRootEntries, null);
-SaveFeed($opdsRoot, $force, null, null, $now);
+SaveFeed($opdsRoot, $force, null, null, NOW);
 
 // Create the Subjects feeds.
-CreateOpdsCollectionFeed('subject', '/feeds/opds/subjects', 'Standard Ebooks in the “%s” subject, most-recently-released first.', $subjects, $ebooksBySubject, $now, $webRoot, $opdsRoot, $force);
+CreateOpdsCollectionFeed('subject', '/feeds/opds/subjects', 'Standard Ebooks in the “%s” subject, most-recently-released first.', $subjects, $ebooksBySubject, NOW, $webRoot, $opdsRoot, $force);
 
 // Create the Collections feeds.
-CreateOpdsCollectionFeed('collection', '/feeds/opds/collections', 'Standard Ebooks in the “%s” collection, most-recently-released first.', $collections, $ebooksByCollection, $now, $webRoot, $opdsRoot, $force);
+CreateOpdsCollectionFeed('collection', '/feeds/opds/collections', 'Standard Ebooks in the “%s” collection, most-recently-released first.', $collections, $ebooksByCollection, NOW, $webRoot, $opdsRoot, $force);
 
 // Create the Author feeds.
-CreateOpdsCollectionFeed('author', '/feeds/opds/authors', 'Standard Ebooks by %s, most-recently-released first.', $authors, $ebooksByAuthor, $now, $webRoot, $opdsRoot, $force);
+CreateOpdsCollectionFeed('author', '/feeds/opds/authors', 'Standard Ebooks by %s, most-recently-released first.', $authors, $ebooksByAuthor, NOW, $webRoot, $opdsRoot, $force);
 
 // Create the All feed.
 $allFeed = new OpdsAcquisitionFeed('All Standard Ebooks', 'All Standard Ebooks, most-recently-updated first. This is a Complete Acquisition Feed as defined in OPDS 1.2 §2.5.', '/feeds/opds/all', $webRoot . '/feeds/opds/all.xml', $allEbooks, $opdsRoot, true);
-SaveFeed($allFeed, $force, null, null, $now);
+SaveFeed($allFeed, $force, null, null, NOW);
 
 // Create the Newest feed.
 $newestFeed = new OpdsAcquisitionFeed('Newest Standard Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/opds/new-releases', $webRoot . '/feeds/opds/new-releases.xml', $newestEbooks, $opdsRoot);
-SaveFeed($newestFeed, $force, null, null, $now);
+SaveFeed($newestFeed, $force, null, null, NOW);
 
 
 
@@ -190,11 +188,11 @@ SaveFeed($newestRssFeed, $force, null, null);
 
 // Create the Atom All feed.
 $allAtomFeed = new AtomFeed('Standard Ebooks - All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/feeds/atom/all',  $webRoot . '/feeds/atom/all.xml', $allEbooks);
-SaveFeed($allAtomFeed, $force, null, null, $now);
+SaveFeed($allAtomFeed, $force, null, null, NOW);
 
 // Create the Atom Newest feed.
 $newestAtomFeed = new AtomFeed('Standard Ebooks - Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/atom/new-releases', $webRoot . '/feeds/atom/new-releases.xml', $newestEbooks);
-SaveFeed($newestAtomFeed, $force, null, null, $now);
+SaveFeed($newestAtomFeed, $force, null, null, NOW);
 
 // Generate each individual subject feed.
 foreach($ebooksBySubject as $subject => $ebooks){
@@ -207,7 +205,7 @@ foreach($ebooksBySubject as $subject => $ebooks){
 	SaveFeed($subjectRssFeed, $force, $subjects[$subject]['name'], $subjects[$subject]['sortedname']);
 
 	$subjectAtomFeed = new AtomFeed($title, $subtitle, '/feeds/atom/subjects/' . Formatter::MakeUrlSafe($subject),  $webRoot . '/feeds/atom/subjects/' . Formatter::MakeUrlSafe($subject) . '.xml', $ebooks);
-	SaveFeed($subjectAtomFeed, $force, $subjects[$subject]['name'], $subjects[$subject]['sortedname'], $now);
+	SaveFeed($subjectAtomFeed, $force, $subjects[$subject]['name'], $subjects[$subject]['sortedname'], NOW);
 }
 
 // Generate each individual collection feed.
@@ -223,7 +221,7 @@ foreach($ebooksByCollection as $collection => $ebooks){
 	SaveFeed($collectionRssFeed, $force, $collections[$collection]['name'], $collections[$collection]['sortedname']);
 
 	$collectionAtomFeed = new AtomFeed($title, $subtitle, '/feeds/atom/collections/' . Formatter::MakeUrlSafe($collection),  $webRoot . '/feeds/atom/collections/' . Formatter::MakeUrlSafe($collection) . '.xml', $ebooks);
-	SaveFeed($collectionAtomFeed, $force, $collections[$collection]['name'], $collections[$collection]['sortedname'], $now);
+	SaveFeed($collectionAtomFeed, $force, $collections[$collection]['name'], $collections[$collection]['sortedname'], NOW);
 }
 
 // Generate each individual author feed.
@@ -237,7 +235,7 @@ foreach($ebooksByAuthor as $collection => $ebooks){
 	SaveFeed($collectionRssFeed, $force, $authors[$collection]['name'], $authors[$collection]['sortedname']);
 
 	$collectionAtomFeed = new AtomFeed($title, $subtitle, '/feeds/atom/authors/' . $authors[$collection]['id'],  $webRoot . '/feeds/atom/authors/' . $authors[$collection]['id'] . '.xml', $ebooks);
-	SaveFeed($collectionAtomFeed, $force, $authors[$collection]['name'], $authors[$collection]['sortedname'], $now);
+	SaveFeed($collectionAtomFeed, $force, $authors[$collection]['name'], $authors[$collection]['sortedname'], NOW);
 }
 
 // Set ownership and permissions.

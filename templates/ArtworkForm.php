@@ -9,8 +9,6 @@ if($artwork === null){
 }
 
 $isEditForm = $isEditForm ?? false;
-
-$now = new DateTimeImmutable('now', new DateTimeZone('America/Juneau')); // Latest continental US time zone
 ?>
 <fieldset>
 	<legend>Artist details</legend>

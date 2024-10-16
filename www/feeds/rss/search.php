@@ -24,7 +24,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . S
 		<description>Results for “<?= Formatter::EscapeXml($query) ?>”.</description>
 		<language>en-US</language>
 		<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
-		<lastBuildDate><?= (new DateTimeImmutable())->format('r') ?></lastBuildDate>
+		<lastBuildDate><?= NOW->format('r') ?></lastBuildDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
 		<atom:link href="<?= SITE_URL ?>/feeds/rss/all?query=<?= urlencode($query) ?>" rel="self" type="application/rss+xml"/>
 		<atom:link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />

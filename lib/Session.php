@@ -60,8 +60,7 @@ class Session{
 				$uuid = Uuid::uuid4();
 				$this->SessionId = $uuid->toString();
 
-				/** @throws void */
-				$this->Created = new DateTimeImmutable();
+				$this->Created = NOW;
 				Db::Query('
 						INSERT into Sessions (UserId, SessionId, Created)
 						values (?,

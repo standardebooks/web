@@ -7,7 +7,7 @@ $canVote = true; // Allow non-logged-in users to see the 'vote' button
 try{
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 
-	if(!$poll->IsActive() && $poll->End !== null && $poll->End < new DateTimeImmutable()){
+	if(!$poll->IsActive() && $poll->End !== null && $poll->End < NOW){
 		// If the poll ended, redirect to the results
 		header('Location: ' . $poll->Url . '/votes');
 		exit();
@@ -47,7 +47,7 @@ catch(Exceptions\AppException){
 				<a href="<?= $poll->Url ?>/votes" class="button">View results</a>
 			</p>
 		<? }else{ ?>
-			<? if($poll->Start !== null && $poll->Start > new DateTimeImmutable()){ ?>
+			<? if($poll->Start !== null && $poll->Start > NOW){ ?>
 				<p class="center-notice">This poll opens on <?= $poll->Start->format('F j, Y g:i a') ?>.</p>
 			<? }else{ ?>
 				<p class="center-notice">This poll closed on <?= $poll->End->format('F j, Y g:i a') ?>.</p>

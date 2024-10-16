@@ -11,7 +11,6 @@ use function Safe\shell_exec;
 // Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members who aren't in that list.
 // We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
 
-$now = new DateTimeImmutable();
 $lastYear = new DateTimeImmutable('-1 year');
 
 $expiredPatrons = Db::Query('
@@ -29,7 +28,7 @@ $expiredPatrons = Db::Query('
 			(IsRecurring = false and Amount >= 100 and Created > ? - interval 1 year)
 		)
 	)
-', [$now, $now], Patron::class);
+', [NOW, NOW], Patron::class);
 
 if(sizeof($expiredPatrons) > 0){
 	$ebooksThisYear = 0;
@@ -54,7 +53,7 @@ if(sizeof($expiredPatrons) > 0){
 				UPDATE Patrons
 				set Ended = ?
 				where UserId = ?
-			', [$now, $patron->UserId]);
+			', [NOW, $patron->UserId]);
 
 		Db::Query('
 				UPDATE Benefits

@@ -85,8 +85,7 @@ class User{
 		$uuid = Uuid::uuid4();
 		$this->Uuid = $uuid->toString();
 
-		/** @throws void */
-		$this->Created = new DateTimeImmutable();
+		$this->Created = NOW;
 
 		$this->PasswordHash = null;
 		if($password !== null){

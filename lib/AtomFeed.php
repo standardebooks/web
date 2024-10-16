@@ -39,8 +39,7 @@ class AtomFeed extends Feed{
 		// Did we actually update the feed? If so, write to file and update the index
 		if($this->HasChanged($this->Path)){
 			// Files don't match, save the file
-			/** @throws void */
-			$this->Updated = new DateTimeImmutable();
+			$this->Updated = NOW;
 			$this->Save();
 			return true;
 		}

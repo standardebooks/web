@@ -330,9 +330,7 @@ class Artwork{
 	 * @throws Exceptions\InvalidArtworkException
 	 */
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
-		/** @throws void */
-		$now = new DateTimeImmutable();
-		$thisYear = intval($now->format('Y'));
+		$thisYear = intval(NOW->format('Y'));
 		$error = new Exceptions\InvalidArtworkException();
 
 		if($this->Artist === null){
@@ -664,8 +662,7 @@ class Artwork{
 
 		$this->Validate($imagePath, true);
 
-		/** @throws void */
-		$this->Created = new DateTimeImmutable();
+		$this->Created = NOW;
 
 		$tags = [];
 		foreach($this->Tags as $artworkTag){
@@ -731,10 +728,8 @@ class Artwork{
 		if($imagePath !== null){
 			$this->MimeType = ImageMimeType::FromFile($imagePath);
 
-			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's
-			// updated timestamp won't change automatically.
-			/** @throws void */
-			$this->Updated = new DateTimeImmutable();
+			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's updated timestamp won't change automatically.
+			$this->Updated = NOW;
 			$this->_ImageUrl = null;
 			$this->_ThumbUrl = null;
 			$this->_Thumb2xUrl = null;
@@ -751,12 +746,12 @@ class Artwork{
 		$newDeathYear = $this->Artist->DeathYear;
 		$this->Artist = Artist::GetOrCreate($this->Artist);
 
-		// Save the artist death year in case we changed it
+		// Save the artist death year in case we changed it.
 		if($newDeathYear != $this->Artist->DeathYear){
 			Db::Query('UPDATE Artists set DeathYear = ? where ArtistId = ?', [$newDeathYear , $this->Artist->ArtistId]);
 		}
 
-		// Save the artwork
+		// Save the artwork.
 		Db::Query('
 			UPDATE Artworks
 			set
@@ -787,9 +782,8 @@ class Artwork{
 				$this->ArtworkId]
 		);
 
-		// Delete artists who are no longer to attached to an artwork
-		// Don't delete from the ArtistAlternateNames table to prevent accidentally
-		// deleting those manually-added entries.
+		// Delete artists who are no longer to attached to an artwork.
+		// Don't delete from the ArtistAlternateNames table to prevent accidentally deleting those manually-added entries.
 		Db::Query('
 			DELETE
 			from Artists
@@ -797,7 +791,7 @@ class Artwork{
 				(select distinct ArtistId from Artworks)
 		');
 
-		// Update tags for this artwork
+		// Update tags for this artwork.
 		Db::Query('
 			DELETE from ArtworkTags
 			where

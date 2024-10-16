@@ -446,9 +446,6 @@ class Library{
 	private static function FillBulkDownloadObject(string $dir, string $downloadType, string $urlRoot): stdClass{
 		$obj = new stdClass();
 
-		/** @throws void */
-		$now = new DateTimeImmutable();
-
 		// The count of ebooks in each file is stored as a filesystem attribute
 		$obj->EbookCount = exec('attr -g se-ebook-count ' . escapeshellarg($dir)) ?: null;
 		if($obj->EbookCount == null){
@@ -499,7 +496,7 @@ class Library{
 		$obj->UpdatedString = $obj->Updated->format('M j');
 		// Add a period to the abbreviated month, but not if it's May (the only 3-letter month)
 		$obj->UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $obj->UpdatedString);
-		if($obj->Updated->format('Y') != $now->format('Y')){
+		if($obj->Updated->format('Y') != NOW->format('Y')){
 			$obj->UpdatedString = $obj->Updated->format('M j, Y');
 		}
 

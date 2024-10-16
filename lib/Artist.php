@@ -87,9 +87,7 @@ class Artist{
 	 * @throws Exceptions\InvalidArtistException
 	 */
 	public function Validate(): void{
-		/** @throws void */
-		$now = new DateTimeImmutable();
-		$thisYear = intval($now->format('Y'));
+		$thisYear = intval(NOW->format('Y'));
 
 		$error = new Exceptions\InvalidArtistException();
 

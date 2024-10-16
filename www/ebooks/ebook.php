@@ -170,7 +170,7 @@ catch(Exceptions\EbookNotFoundException){
 			<?= Template::DonationCounter() ?>
 			<?= Template::DonationProgress() ?>
 			<? if(!DONATION_DRIVE_ON && !DONATION_DRIVE_COUNTER_ON && DONATION_ALERT_ON){ ?>
-			<?= Template::DonationAlert() ?>
+				<?= Template::DonationAlert() ?>
 			<? } ?>
 			<? if($ebook->LongDescription === null){ ?>
 				<p><i>There’s no description for this ebook yet.</i></p>

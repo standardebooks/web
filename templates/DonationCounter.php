@@ -1,12 +1,6 @@
 <?
-use Safe\DateTimeImmutable;
-
-$start = new DateTimeImmutable(DONATION_DRIVE_COUNTER_START);
-$end = new DateTimeImmutable(DONATION_DRIVE_COUNTER_END);
-$now = new DateTimeImmutable();
-
-// Hide the alert if the user has closed it
-if(!DONATION_DRIVE_COUNTER_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || $now > $end){
+// Hide the alert if the user has closed it.
+if(!DONATION_DRIVE_COUNTER_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || NOW > DONATION_DRIVE_COUNTER_END){
 	return;
 }
 
@@ -14,12 +8,12 @@ $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
 $current = 0;
 
-if($now < $start || $now > $end){
+if(NOW < DONATION_DRIVE_COUNTER_START || NOW > DONATION_DRIVE_COUNTER_END){
 	return;
 }
 
-$deadline = $end->format('F j');
-$timeLeft = $now->diff($end);
+$deadline = DONATION_DRIVE_COUNTER_END->format('F j');
+$timeLeft = NOW->diff(DONATION_DRIVE_COUNTER_END);
 $timeString = '';
 if($timeLeft->d < 1 && $timeLeft->h < 20){
 	$timeString = 'Just hours';
@@ -44,14 +38,13 @@ else{
 }
 
 $digits = str_split(str_pad($current, 3, "0", STR_PAD_LEFT))
-
 ?>
 <aside class="donation counter closable">
 	<? if($autoHide){ ?>
-	<form action="/settings" method="post">
-		<input type="hidden" name="hide-donation-alert" value="1" />
-		<button class="close" title="Close this box">Close this box</button>
-	</form>
+		<form action="/settings" method="post">
+			<input type="hidden" name="hide-donation-alert" value="true" />
+			<button class="close" title="Close this box">Close this box</button>
+		</form>
 	<? } ?>
 	<header>
 		<p><?= $timeString ?> left to help us win $1,000</p>
@@ -64,5 +57,9 @@ $digits = str_split(str_pad($current, 3, "0", STR_PAD_LEFT))
 	<p><strong>Each one-time donation of any amount to Standard Ebooks through <?= $deadline ?> gives us one entry in this $1,000 giveaway.</strong> The more donations we receive through <?= $deadline ?>, the more chances we have to win!</p>
 	<p><strong>This is a great time to <a href="/donate#patrons-circle">join our Patrons Circle</a> with a one-time donation of $100.</strong> Not only will your donation support us directly, but it’ll give us one more entry in this big giveaway.</p>
 	<p>Will you show your support for free, beautiful digital literature?</p>
-	<? if($showDonateButton){ ?><p class="donate-button"><a class="button" href="/donate">Make a one-time donation!</a></p><? } ?>
+	<? if($showDonateButton){ ?>
+		<p class="donate-button">
+			<a class="button" href="/donate">Make a one-time donation!</a>
+		</p>
+	<? } ?>
 </aside>

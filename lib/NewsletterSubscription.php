@@ -57,8 +57,7 @@ class NewsletterSubscription{
 
 		$this->UserId = $this->User->UserId;
 
-		/** @throws void */
-		$this->Created = new DateTimeImmutable();
+		$this->Created = NOW;
 
 		try{
 			Db::Query('

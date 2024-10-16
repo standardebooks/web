@@ -24,8 +24,7 @@ class RssFeed extends Feed{
 
 	protected function GetXmlString(): string{
 		if($this->XmlString === null){
-			/** @throws void */
-			$timestamp = (new DateTimeImmutable())->format('r');
+			$timestamp = NOW->format('r');
 			$feed = Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => $timestamp]);
 
 			$this->XmlString = $this->CleanXmlString($feed);
