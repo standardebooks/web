@@ -1,6 +1,6 @@
 <?
 // Hide the alert if the user has closed it.
-if(!DONATION_DRIVE_COUNTER_ON || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || NOW > DONATION_DRIVE_COUNTER_END){
+if(!DONATION_DRIVE_COUNTER_ENABLED || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || NOW > DONATION_DRIVE_COUNTER_END){
 	return;
 }
 

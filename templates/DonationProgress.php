@@ -1,54 +1,23 @@
 <?
-$totalCurrent = 0;
-$baseTarget = 50;
-$stretchCurrent = 0;
-$stretchTarget = 20;
+$donationDrive = DonationDrive::GetByIsRunning();
 
-// Hide the alert if...
 if(
-	!DONATION_DRIVE_ON // The drive isn't running
+	!DONATION_DRIVES_ENABLED // Drives aren't enabled.
 	||
-	($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) // If the user has hidden the box
+	($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) // If the user has hidden the box.
 	||
-	$GLOBALS['User'] !== null // If a user is logged in
+	$GLOBALS['User'] !== null // If a user is logged in.
 	||
-	DONATION_DRIVE_START > NOW // If the drive hasn't started yet
-	||
-	NOW > DONATION_DRIVE_END // If the drive has ended
+	$donationDrive === null // There is no donation drive running right now.
 ){
 	return;
 }
 
 $autoHide = $autoHide ?? true;
 $showDonateButton = $showDonateButton ?? true;
-$totalCurrent = Db::QueryInt('
-	SELECT sum(cnt)
-	from
-	(
-		(
-			# Anonymous patrons, i.e. from AOGF
-			select count(*) cnt from Payments
-			where
-			UserId is null
-			and
-			(
-				(IsRecurring = true and Amount >= 10 and Created >= ?)
-				or
-				(IsRecurring = false and Amount >= 100 and Created >= ?)
-			)
-		)
-		union all
-		(
-			# All non-anonymous patrons
-			select count(*) as cnt from Patrons
-			where Created >= ?
-		)
-	) x
-	', [DONATION_DRIVE_START, DONATION_DRIVE_START, DONATION_DRIVE_START]);
 
-$totalTarget = $baseTarget;
-$deadline = DONATION_DRIVE_END->format('F j');
-$timeLeft = NOW->diff(DONATION_DRIVE_END);
+$deadline = $donationDrive->End->format('F j');
+$timeLeft = NOW->diff($donationDrive->End);
 $timeString = '';
 if($timeLeft->days < 1 && $timeLeft->h < 20){
 	$timeString = 'Just hours';
@@ -71,13 +40,6 @@ else{
 		$timeString = 'Only ' . $timeString;
 	}
 }
-
-$stretchOn = false;
-if($stretchTarget > 0 && $totalCurrent >= $baseTarget){
-	$stretchOn = true;
-	$stretchCurrent = $totalCurrent - $baseTarget;
-	$totalTarget = $baseTarget + $stretchTarget;
-}
 ?>
 <aside class="donation closable">
 	<? if($autoHide){ ?>
@@ -86,38 +48,38 @@ if($stretchTarget > 0 && $totalCurrent >= $baseTarget){
 			<button class="close" title="Close this box">Close this box</button>
 		</form>
 	<? } ?>
-	<? if(!$stretchOn){ ?>
+	<? if(!$donationDrive->IsStretchEnabled){ ?>
 		<header>
 			<? if($timeLeft->days > 5){ ?>
-				<p>Help us reach <?= number_format($baseTarget) ?> new patrons by <?= $deadline ?></p>
+				<p>Help us reach <?= number_format($donationDrive->TargetDonationCount) ?> new patrons by <?= $deadline ?></p>
 			<? }else{ ?>
-				<p><?= $timeString ?> left to help us reach <?= number_format($baseTarget) ?> new patrons!</p>
+				<p><?= $timeString ?> left to help us reach <?= number_format($donationDrive->TargetDonationCount) ?> new patrons!</p>
 			<? } ?>
 		</header>
 	<? }else{ ?>
 		<header>
-			<p>Help us meet our stretch goal of<br/> <?= number_format($totalTarget) ?> new patrons by <?= $deadline ?></p>
+			<p>Help us meet our stretch goal of<br/> <?= number_format($donationDrive->TargetDonationCount) ?> new patrons by <?= $deadline ?></p>
 		</header>
 	<? } ?>
 	<div class="progress">
 		<div aria-hidden="true">
 			<p class="start">0</p>
-			<p><?= number_format($totalCurrent) ?>/<?= number_format($totalTarget) ?></p>
-			<? if($stretchOn){ ?>
-				<p class="stretch-base"><?= number_format($baseTarget) ?></p>
+			<p><?= number_format($donationDrive->DonationCount) ?>/<?= number_format($donationDrive->TargetDonationCount) ?></p>
+			<? if($donationDrive->IsStretchEnabled){ ?>
+				<p class="stretch-base"><?= number_format($donationDrive->BaseTargetDonationCount) ?></p>
 			<? } ?>
-			<p class="target"><?= number_format($totalTarget) ?></p>
+			<p class="target"><?= number_format($donationDrive->TargetDonationCount) ?></p>
 		</div>
-		<progress max="<?= $baseTarget ?>" value="<?= $totalCurrent - $stretchCurrent ?>"></progress>
-		<? if($stretchOn){ ?>
-			<progress class="stretch" max="<?= $stretchTarget ?>" value="<?= $stretchCurrent ?>"></progress>
+		<progress max="<?= $donationDrive->TargetDonationCount ?>" value="<?= $donationDrive->DonationCount - $donationDrive->StretchDonationCount ?>"></progress>
+		<? if($donationDrive->IsStretchEnabled){ ?>
+			<progress class="stretch" max="<?= $donationDrive->StretchTargetDonationCount ?>" value="<?= $donationDrive->StretchDonationCount ?>"></progress>
 		<? } ?>
 	</div>
-	<? if($stretchOn){ ?>
-		<p>When we started this drive, we set a goal of <?= number_format($baseTarget) ?> Patrons Circle members by <?= $deadline ?>. Thanks to the incredible generosity of literature lovers like you, we hit that goal!</p>
-		<p>Since there’s still some time left in our drive, we thought we’d challenge our readers to help us reach our stretch goal of <?= number_format($totalTarget) ?> patrons, so that we can continue on a rock-solid financial footing. Will you help us with a donation, and support free and unrestricted digital literature?</p>
+	<? if($donationDrive->IsStretchEnabled){ ?>
+		<p>When we started this drive, we set a goal of <?= number_format($donationDrive->BaseTargetDonationCount) ?> Patrons Circle members by <?= $deadline ?>. Thanks to the incredible generosity of literature lovers like you, we hit that goal!</p>
+		<p>Since there’s still some time left in our drive, we thought we’d challenge our readers to help us reach our stretch goal of <?= number_format($donationDrive->TargetDonationCount) ?> patrons, so that we can continue on a rock-solid financial footing. Will you help us with a donation, and support free and unrestricted digital literature?</p>
 	<? }else{ ?>
-		<p>It takes a huge amount of resources and highly-skilled work to create and distribute each of our free ebooks, and we need your support to keep it up. That’s why we want to welcome <?= number_format($baseTarget) ?> new patrons by <?= $deadline ?>. It’s our patrons who keep us on the stable financial footing we need to continue producing and giving away beautiful ebooks.</p>
+		<p>It takes a huge amount of resources and highly-skilled work to create and distribute each of our free ebooks, and we need your support to keep it up. That’s why we want to welcome <?= number_format($donationDrive->TargetDonationCount) ?> new patrons by <?= $deadline ?>. It’s our patrons who keep us on the stable financial footing we need to continue producing and giving away beautiful ebooks.</p>
 		<p>Will you become a patron, and support free and unrestricted digital literature?</p>
 	<? } ?>
 	<? if($showDonateButton){ ?>

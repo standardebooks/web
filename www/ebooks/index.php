@@ -109,9 +109,9 @@ catch(Exceptions\AppException $ex){
 	<h1><?= $pageHeader ?></h1>
 	<?= Template::DonationCounter() ?>
 	<?= Template::DonationProgress() ?>
-	<? if(!DONATION_DRIVE_ON && !DONATION_DRIVE_COUNTER_ON && DONATION_HOLIDAY_ALERT_ON){ ?>
-		<?= Template::DonationAlert() ?>
-	<? } ?>
+
+	<?= Template::DonationAlert() ?>
+
 	<?= Template::SearchForm(['query' => $query, 'tags' => $tags, 'sort' => $sort, 'view' => $view, 'perPage' => $perPage]) ?>
 	<? if(sizeof($ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
@@ -123,7 +123,9 @@ catch(Exceptions\AppException $ex){
 			<a<? if($page > 1){ ?> href="/ebooks?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
 			<? for($i = 1; $i < $pages + 1; $i++){ ?>
-				<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/ebooks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"><?= $i ?></a></li>
+				<li<? if($page == $i){ ?> class="highlighted"<? } ?>>
+					<a href="/ebooks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"><?= $i ?></a>
+				</li>
 			<? } ?>
 			</ol>
 			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="/ebooks?page=<?= $page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>

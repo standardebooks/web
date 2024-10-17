@@ -74,15 +74,26 @@ const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // M
 define('PD_YEAR', intval((new DateTimeImmutable('now', new DateTimeZone('America/Juneau')))->format('Y')) - 96); // Latest continental US time zone.
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
-define('DONATION_HOLIDAY_ALERT_ON', NOW > new DateTimeImmutable('November 15, ' . NOW->format('Y')) || NOW < new DateTimeImmutable('January 7, ' . NOW->add(new DateInterval('P1Y'))->format('Y')));
-define('DONATION_ALERT_ON', DONATION_HOLIDAY_ALERT_ON || rand(1, 4) == 2);
+// Controls the progress bar donation dialog.
+const DONATION_DRIVES_ENABLED = true; // **`TRUE`** to enable automatic donation drives; **`FALSE`** to disable all donation drives.
+const DONATION_DRIVE_DATES = [
+				new DonationDrive(
+							'Spring drive',
+							new DateTimeImmutable('Second Monday of May'),
+							new DateTimeImmutable('Second Monday of May +2 weeks'),
+							50,
+							20
+						),
+				new DonationDrive(
+							'Holiday drive',
+							NOW < new DateTimeImmutable('November 15') ? new DateTimeImmutable('November 15') : new DateTimeImmutable('November 15 -1 year'),
+							NOW < new DateTimeImmutable('January 7') ? new DateTimeImmutable('January 7') : new DateTimeImmutable('January 7 +1 year'),
+							50,
+							20
+						)
+			];
 
-// Controls the progress bar donation dialog
-const DONATION_DRIVE_ON = true;
-const DONATION_DRIVE_START = new DateTimeImmutable('May 20, 2024 00:00:00 America/New_York');
-const DONATION_DRIVE_END = new DateTimeImmutable('June 3, 2024 23:59:00 America/New_York');
-
-// Controls the countdown donation dialog
-const DONATION_DRIVE_COUNTER_ON = false;
+// Controls the countdown donation dialog, basically unused right now.
+const DONATION_DRIVE_COUNTER_ENABLED = false;
 const DONATION_DRIVE_COUNTER_START = new DateTimeImmutable('May 2, 2022 00:00:00 America/New_York');
 const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00 America/New_York');

@@ -15,10 +15,8 @@ parameters:
 		- %rootDir%/../../../scripts
 	dynamicConstantNames:
 		- SITE_STATUS
-		- DONATION_HOLIDAY_ALERT_ON
-		- DONATION_ALERT_ON
-		- DONATION_DRIVE_ON
-		- DONATION_DRIVE_COUNTER_ON
+		- DONATION_DRIVE_ENABLED
+		- DONATION_DRIVE_COUNTER_ENABLED
 	earlyTerminatingMethodCalls:
 		Template:
 			- Emit403

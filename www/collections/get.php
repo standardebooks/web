@@ -39,9 +39,9 @@ catch(Exceptions\CollectionNotFoundException){
 	<h1 class="is-collection"><?= $pageHeader ?></h1>
 	<?= Template::DonationCounter() ?>
 	<?= Template::DonationProgress() ?>
-	<? if(!DONATION_DRIVE_ON && !DONATION_DRIVE_COUNTER_ON && DONATION_HOLIDAY_ALERT_ON){ ?>
-		<?= Template::DonationAlert() ?>
-	<? } ?>
+
+	<?= Template::DonationAlert() ?>
+
 	<p class="ebooks-toolbar">
 		<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection) ?>/downloads">Download collection</a>
 		<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection) ?>/feeds">Collection feeds</a>

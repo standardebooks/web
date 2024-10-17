@@ -2314,7 +2314,7 @@ h1 + ul.message,
 .masthead ol li p{
 	margin-top: 0;
 	text-align: left;
-	display: inline-block; /* Prevent a p from breaking across column division */
+	display: inline-block; /* Prevent a `<p>` from breaking across column division */
 }
 
 .masthead hgroup * + *{
@@ -2326,7 +2326,6 @@ h1 + ul.message,
 }
 
 .donate aside{
-	border-top: 1px dashed var(--sub-text);
 	margin-top: 1rem;
 	padding-top: 1rem;
 	font-style: italic;
