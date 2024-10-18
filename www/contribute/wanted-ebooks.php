@@ -133,6 +133,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://sacred-texts.com/pag/mm/">Malleus Maleficarum</a> by Heinrich Kramer, translated by Montague Summers (<a href="https://catalog.hathitrust.org/Record/000584799">page scans</a>)</p>
+			</li>
+			<li>
 				<p><a href="https://gutenberg.net.au/ebooks06/0606211h.html">The Castle of Wolfenbach</a> by Eliza Parsons</p>
 			</li>
 			<li>
