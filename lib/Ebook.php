@@ -8,7 +8,6 @@ use function Safe\json_encode;
 use function Safe\glob;
 use function Safe\preg_match;
 use function Safe\preg_replace;
-use function Safe\sprintf;
 use function Safe\shell_exec;
 
 /**
