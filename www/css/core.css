@@ -1387,7 +1387,7 @@ footer ul.social-media a::before{
 	filter: brightness(0) saturate(100%) invert(18%) sepia(33%) saturate(355%) hue-rotate(172deg) brightness(93%) contrast(89%); /* Change color of SVG to #303944 */
 }
 
-footer ul.social-media a[href^="https://twitter.com"]::before{
+footer ul.social-media a[href^="https://x.com"]::before{
 	background-image: url("/images/x.svg");
 }
 

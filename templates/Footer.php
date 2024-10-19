@@ -2,7 +2,7 @@
 		<ul class="social-media">
 			<li>
 				<p>
-					<a href="https://twitter.com/standardebooks">X</a>
+					<a href="https://x.com/standardebooks">X</a>
 				</p>
 			</li>
 			<li>
