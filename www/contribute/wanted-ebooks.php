@@ -133,6 +133,9 @@
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://gutenberg.net.au/ebooks07/0700461h.html">John Brown’s Body</a> by Stephen Vincent Benét</p>
+			</li>
+			<li>
 				<p><a href="https://sacred-texts.com/pag/mm/">Malleus Maleficarum</a> by Heinrich Kramer, translated by Montague Summers (<a href="https://catalog.hathitrust.org/Record/000584799">page scans</a>)</p>
 			</li>
 			<li>
@@ -143,6 +146,9 @@
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/33346">How to Tell the Birds from the Flowers and Other Woodcuts</a> by Robert Williams Wood</p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/43013">Animal Analogues</a> by Robert Williams Wood</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/3031">Wild Animals I Have Known</a> by Ernest Thompson Seton (Note: PG transcription has removed formatting)</p><!--patron-->
