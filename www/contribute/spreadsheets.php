@@ -29,7 +29,7 @@
 				<p><a href="https://docs.google.com/spreadsheets/d/1lDcLirkqn2eK8Pp35UqhOemozD-5lBzz-nPZ14lymJc/edit">Plays by J. M. Synge</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1lDcLirkqn2eK8Pp35UqhOemozD-5lBzz-nPZ14lymJc/edit">Works by Frederick Pohl</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1C-v7kjwZ0rbkp0C2pjInTh35d6jKA-BEoKvS500Agz8/edit">Works by Frederick Pohl</a></p>
 			</li>
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/11RGuTztG5LzOfpOtchkjcuQhwkHShhE7PZL_bs4ygwg/edit">Works by H. P. Lovecraft</a> (<a href="https://docs.google.com/spreadsheets/d/11RGuTztG5LzOfpOtchkjcuQhwkHShhE7PZL_bs4ygwg/edit">Alternate spreadsheet</a>)</p>
