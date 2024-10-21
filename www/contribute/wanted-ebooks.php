@@ -240,9 +240,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10676">El filibusterismo</a> by José Rizal, translated by Charles Derbyshire</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/64037">The Life of Jesus Critically Examined</a> by David Strauss</p>
 			</li>
@@ -265,9 +265,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/31196">Time and Tide</a> by John Ruskin</p>
 			</li>
 			<li>
-				<p><a href="https://gutenberg.org/ebooks/54682">Zuñi Folk Tales</a> by Frank Hamilton Cushing</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/25394">Short stories by Manly Wade Wellman</a> to be compiled into a “Short Fiction” omnibus</p><!--patron-->
 			</li>
 			<li>
@@ -276,9 +273,6 @@
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3420">A Vindication of the Rights of Woman</a> by Mary Wollstonecraft</p>
 			</li> -->
-			<li>
-				<p><a href="https://en.wikipedia.org/wiki/F._Scott_Fitzgerald_bibliography#Short_story_collections">Short stories by F. Scott Fitzgerald</a></p>
-			</li>
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/31318">Geronimo’s Story of His Life</a> by Geronimo</p><!--patron-->
 			</li>
