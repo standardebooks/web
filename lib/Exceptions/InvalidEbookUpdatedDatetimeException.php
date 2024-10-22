@@ -10,6 +10,6 @@ class InvalidEbookUpdatedDatetimeException extends AppException{
 	public function __construct(DateTimeImmutable $updatedDatetime){
 		/** @throws void */
 		$now = new DateTimeImmutable();
-		$this->message = 'Invalid EbookUpdated datetime. ' . $updatedDatetime->format('Y-m-d') . ' is not between ' . EBOOK_EARLIEST_CREATION_DATE->format('Y-m-d') . ' and ' . $now->format('Y-m-d') . '.';
+		$this->message = 'Invalid EbookUpdated datetime. ' . $updatedDatetime->format('Y-m-d') . ' is after ' . $now->format('Y-m-d') . '.';
 	}
 }

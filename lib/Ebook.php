@@ -1207,7 +1207,7 @@ class Ebook{
 		}
 
 		if(isset($this->EbookCreated)){
-			if($this->EbookCreated > $now || $this->EbookCreated < EBOOK_EARLIEST_CREATION_DATE){
+			if($this->EbookCreated > $now){
 				$error->Add(new Exceptions\InvalidEbookCreatedDatetimeException($this->EbookCreated));
 			}
 		}
@@ -1216,7 +1216,7 @@ class Ebook{
 		}
 
 		if(isset($this->EbookUpdated)){
-			if($this->EbookUpdated > $now || $this->EbookUpdated < EBOOK_EARLIEST_CREATION_DATE){
+			if($this->EbookUpdated > $now){
 				$error->Add(new Exceptions\InvalidEbookUpdatedDatetimeException($this->EbookUpdated));
 
 			}

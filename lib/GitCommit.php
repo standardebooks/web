@@ -37,7 +37,7 @@ class GitCommit{
 		}
 
 		if(isset($this->Created)){
-			if($this->Created > $now || $this->Created < EBOOK_EARLIEST_CREATION_DATE){
+			if($this->Created > $now){
 				$error->Add(new Exceptions\InvalidGitCommitCreatedDatetimeException($this->Created));
 			}
 		}
