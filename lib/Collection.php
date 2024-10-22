@@ -13,9 +13,9 @@ class Collection{
 	public ?CollectionType $Type = null;
 	protected ?string $_Url = null;
 
-	protected function GetUrl(): ?string{
+	protected function GetUrl(): string{
 		if($this->_Url === null){
-			$this->Url = '/collections/' . $this->UrlName;
+			$this->_Url = '/collections/' . $this->UrlName;
 		}
 
 		return $this->_Url;
