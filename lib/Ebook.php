@@ -891,35 +891,37 @@ class Ebook{
 		// Next the page scan source URLs.
 		$sources = [];
 		foreach($xml->xpath('/package/metadata/dc:source') ?: [] as $element){
-			$e = (string)$element;
-			if(mb_stripos($e, 'gutenberg.org/') !== false){
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::ProjectGutenberg, $e);
+			$ebookSource = new EbookSource();
+			$ebookSource->Url = (string)$element;
+			$ebookSource->Type = EbookSourceType::Other;
+
+			if(mb_stripos($ebookSource->Url, 'gutenberg.org/') !== false){
+				$ebookSource->Type = EbookSourceType::ProjectGutenberg;
 			}
-			elseif(mb_stripos($e, 'gutenberg.net.au/') !== false){
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::ProjectGutenbergAustralia, $e);
+			elseif(mb_stripos($ebookSource->Url, 'gutenberg.net.au/') !== false){
+				$ebookSource->Type = EbookSourceType::ProjectGutenbergAustralia;
 			}
-			elseif(mb_stripos($e, 'gutenberg.ca/') !== false){
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::ProjectGutenbergCanada, $e);
+			elseif(mb_stripos($ebookSource->Url, 'gutenberg.ca/') !== false){
+				$ebookSource->Type = EbookSourceType::ProjectGutenbergCanada;
 			}
-			elseif(mb_stripos($e, 'archive.org/details') !== false){
+			elseif(mb_stripos($ebookSource->Url, 'archive.org/details') !== false){
 				// `/details` excludes Wayback Machine URLs which may sometimes occur, for example in Lyrical Ballads
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::InternetArchive, $e);
+				$ebookSource->Type = EbookSourceType::InternetArchive;
 			}
-			elseif(mb_stripos($e, 'hathitrust.org/') !== false){
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::HathiTrust, $e);
+			elseif(mb_stripos($ebookSource->Url, 'hathitrust.org/') !== false){
+				$ebookSource->Type = EbookSourceType::HathiTrust;
 			}
-			elseif(mb_stripos($e, 'wikisource.org/') !== false){
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::Wikisource, $e);
+			elseif(mb_stripos($ebookSource->Url, 'wikisource.org/') !== false){
+				$ebookSource->Type = EbookSourceType::Wikisource;
 			}
-			elseif(mb_stripos($e, 'books.google.com/') !== false || mb_stripos($e, 'google.com/books/') !== false){
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::GoogleBooks, $e);
+			elseif(mb_stripos($ebookSource->Url, 'books.google.com/') !== false || mb_stripos($ebookSource->Url, 'google.com/books/') !== false){
+				$ebookSource->Type = EbookSourceType::GoogleBooks;
 			}
-			elseif(mb_stripos($e, 'www.fadedpage.com') !== false){
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::FadedPage, $e);
+			elseif(mb_stripos($ebookSource->Url, 'www.fadedpage.com') !== false){
+				$ebookSource->Type = EbookSourceType::FadedPage;
 			}
-			else{
-				$sources[] = EbookSource::FromTypeAndUrl(EbookSourceType::Other, $e);
-			}
+
+			$sources[] = $ebookSource;
 		}
 		$ebookFromFilesystem->Sources = $sources;
 
