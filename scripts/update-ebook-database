@@ -23,7 +23,14 @@ if($verbose){
 	print("ebookWwwFilesystemPath: $ebookWwwFilesystemPath\n");
 }
 
-$ebook = Ebook::FromFilesystem($ebookWwwFilesystemPath);
+try{
+	$ebook = Ebook::FromFilesystem($ebookWwwFilesystemPath);
+}
+catch(Exceptions\AppException $appException){
+	print("An AppException occurred when updating the ebook database:\n");
+	print("\t" . get_class($appException) . ": " . $appException->getMessage() . "\n");
+	exit(1);
+}
 
 if($verbose){
 	print("Title: $ebook->Title\n");
