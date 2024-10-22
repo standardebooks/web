@@ -8,13 +8,6 @@ class EbookSource{
 	public string $Url;
 	public ?int $SortOrder = null;
 
-	public static function FromTypeAndUrl(EbookSourceType $type, string $url): EbookSource{
-		$instance = new EbookSource();
-		$instance->Type = $type;
-		$instance->Url = $url;
-		return $instance;
-	}
-
 	/**
 	 * @throws Exceptions\ValidationException
 	 */
