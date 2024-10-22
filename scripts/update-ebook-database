@@ -4,10 +4,10 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\getopt;
 
-$longopts = ['ebookWwwFilesystemPath:', 'verbose'];
+$longopts = ['ebook-www-filesystem-path:', 'verbose'];
 $options = getopt('v', $longopts);
 
-$ebookWwwFilesystemPath = $options['ebookWwwFilesystemPath'] ?? null;
+$ebookWwwFilesystemPath = $options['ebook-www-filesystem-path'] ?? null;
 
 $verbose = false;
 if(isset($options['v']) || isset($options['verbose'])){
@@ -15,12 +15,12 @@ if(isset($options['v']) || isset($options['verbose'])){
 }
 
 if($ebookWwwFilesystemPath === null){
-	print("Expected usage: update-ebook-database [-v,--verbose] --ebookWwwFilesystemPath <path>\n");
+	print("Expected usage: update-ebook-database [-v,--verbose] --ebook-www-filesystem-path <path>\n");
 	exit(1);
 }
 
 if($verbose){
-	print("ebookWwwFilesystemPath: $ebookWwwFilesystemPath\n");
+	print("ebook-www-filesystem-path: $ebookWwwFilesystemPath\n");
 }
 
 try{
