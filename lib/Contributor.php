@@ -31,9 +31,6 @@ class Contributor{
 	 * @throws Exceptions\ValidationException
 	 */
 	public function Validate(): void{
-		/** @throws void */
-		$now = new DateTimeImmutable();
-
 		$error = new Exceptions\ValidationException();
 
 		if(!isset($this->EbookId)){
