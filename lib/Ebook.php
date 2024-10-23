@@ -690,9 +690,8 @@ class Ebook{
 		$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($ebookFromFilesystem->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"'));
 
 		$gitCommits = [];
-		foreach($historyEntries as $entry){
-			$array = explode(' ', $entry, 3);
-			$gitCommits[] = GitCommit::FromLog($array[0], $array[1], $array[2]);
+		foreach($historyEntries as $logLine){
+			$gitCommits[] = GitCommit::FromLogLine($logLine);
 		}
 		$ebookFromFilesystem->GitCommits = $gitCommits;
 

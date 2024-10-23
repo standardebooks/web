@@ -10,14 +10,17 @@ class GitCommit{
 	/**
 	 * @throws Exceptions\InvalidGitCommitException
 	 */
-	public static function FromLog(string $unixTimestamp, string $hash, string $message): GitCommit{
+	public static function FromLogLine(string $logLine): GitCommit{
 		$instance = new GitCommit();
+		list($unixTimestamp, $hash, $message) = explode(' ', $logLine, 3);
+
 		try{
 			$instance->Created = new DateTimeImmutable('@' . $unixTimestamp);
 		}
 		catch(\Exception){
 			throw new Exceptions\InvalidGitCommitException('Invalid timestamp for Git commit.');
 		}
+
 		$instance->Message = $message;
 		$instance->Hash = $hash;
 		return $instance;
