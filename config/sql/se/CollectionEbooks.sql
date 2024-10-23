@@ -1,4 +1,4 @@
-CREATE TABLE `CollectionEbooks` (
+CREATE TABLE IF NOT EXISTS `CollectionEbooks` (
   `EbookId` int(10) unsigned NOT NULL,
   `CollectionId` int(10) unsigned NOT NULL,
   `SequenceNumber` int(10) unsigned NULL,
