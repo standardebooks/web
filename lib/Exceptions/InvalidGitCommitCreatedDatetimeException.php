@@ -8,8 +8,6 @@ class InvalidGitCommitCreatedDatetimeException extends AppException{
 	protected $message = 'Invalid GitCommit Created datetime.';
 
 	public function __construct(DateTimeImmutable $createdDatetime){
-		/** @throws void */
-		$now = new DateTimeImmutable();
-		$this->message = 'Invalid GitCommit Created datetime. ' . $createdDatetime->format('Y-m-d') . ' is after ' . $now->format('Y-m-d') . '.';
+		$this->message = 'Invalid GitCommit Created datetime. ' . $createdDatetime->format('Y-m-d') . ' is after ' . NOW->format('Y-m-d') . '.';
 	}
 }

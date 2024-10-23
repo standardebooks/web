@@ -939,9 +939,6 @@ class Ebook{
 	 * @throws Exceptions\ValidationException
 	 */
 	public function Validate(): void{
-		/** @throws void */
-		$now = new DateTimeImmutable();
-
 		$error = new Exceptions\ValidationException();
 
 		if(isset($this->Identifier)){
@@ -1208,7 +1205,7 @@ class Ebook{
 		}
 
 		if(isset($this->EbookCreated)){
-			if($this->EbookCreated > $now){
+			if($this->EbookCreated > NOW){
 				$error->Add(new Exceptions\InvalidEbookCreatedDatetimeException($this->EbookCreated));
 			}
 		}
@@ -1217,7 +1214,7 @@ class Ebook{
 		}
 
 		if(isset($this->EbookUpdated)){
-			if($this->EbookUpdated > $now){
+			if($this->EbookUpdated > NOW){
 				$error->Add(new Exceptions\InvalidEbookUpdatedDatetimeException($this->EbookUpdated));
 
 			}
