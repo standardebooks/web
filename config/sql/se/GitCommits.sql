@@ -1,4 +1,4 @@
-CREATE TABLE `GitCommits` (
+CREATE TABLE IF NOT EXISTS `GitCommits` (
   `EbookId` int(10) unsigned NOT NULL,
   `Created` datetime NOT NULL,
   `Message` text NOT NULL,
