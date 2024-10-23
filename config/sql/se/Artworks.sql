@@ -1,4 +1,4 @@
-CREATE TABLE `Artworks` (
+CREATE TABLE IF NOT EXISTS `Artworks` (
   `ArtworkId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ArtistId` int(10) unsigned NOT NULL,
   `Name` varchar(255) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE `Artworks` (
   `EbookUrl` varchar(255) NULL,
   `MimeType` enum('image/jpeg', 'image/png', 'image/bmp', 'image/tiff') NOT NULL,
   `Exception` TEXT NULL DEFAULT NULL,
-  `Notes` TEXT NULL DEFAULT NULL
+  `Notes` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`ArtworkId`),
   KEY `index1` (`Status`),
   KEY `index2` (`UrlName`),

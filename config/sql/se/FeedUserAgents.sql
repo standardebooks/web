@@ -1,4 +1,4 @@
-CREATE TABLE `FeedUserAgents` (
+CREATE TABLE IF NOT EXISTS `FeedUserAgents` (
   `UserAgentId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UserAgent` text NOT NULL,
   `Created` datetime NOT NULL,

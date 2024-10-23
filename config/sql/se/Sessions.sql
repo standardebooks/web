@@ -1,4 +1,4 @@
-CREATE TABLE `Sessions` (
+CREATE TABLE IF NOT EXISTS `Sessions` (
   `UserId` int(10) unsigned NOT NULL,
   `Created` datetime NOT NULL,
   `SessionId` char(36) NOT NULL,

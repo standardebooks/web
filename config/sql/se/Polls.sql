@@ -1,4 +1,4 @@
-CREATE TABLE `Polls` (
+CREATE TABLE IF NOT EXISTS `Polls` (
   `PollId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Name` varchar(255) NOT NULL,

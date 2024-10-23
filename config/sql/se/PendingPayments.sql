@@ -1,4 +1,4 @@
-CREATE TABLE `PendingPayments` (
+CREATE TABLE IF NOT EXISTS `PendingPayments` (
   `Created` datetime NOT NULL,
   `Processor` enum('fractured_atlas') NOT NULL,
   `TransactionId` varchar(80) NOT NULL,

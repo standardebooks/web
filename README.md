@@ -38,6 +38,11 @@ sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/p
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/fpm/conf.d/
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
 sudo systemctl restart "php*-fpm.service"
+
+# Create and populate the SE database.
+mariadb < /standardebooks.org/web/config/sql/se.sql
+mariadb < /standardebooks.org/web/config/sql/users.sql
+mariadb se < /standardebooks.org/web/config/sql/se/*.sql
 ```
 
 If everything went well you should now be able to open your web browser and visit `https://standardebooks.test`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:

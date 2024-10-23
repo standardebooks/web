@@ -1,4 +1,4 @@
-CREATE TABLE `Benefits` (
+CREATE TABLE IF NOT EXISTS `Benefits` (
   `UserId` int(10) unsigned NOT NULL,
   `CanAccessFeeds` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanVote` tinyint(1) unsigned NOT NULL DEFAULT 0,
