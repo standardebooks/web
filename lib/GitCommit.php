@@ -30,9 +30,6 @@ class GitCommit{
 	 * @throws Exceptions\ValidationException
 	 */
 	public function Validate(): void{
-		/** @throws void */
-		$now = new DateTimeImmutable();
-
 		$error = new Exceptions\ValidationException();
 
 		if(!isset($this->EbookId)){
@@ -40,7 +37,7 @@ class GitCommit{
 		}
 
 		if(isset($this->Created)){
-			if($this->Created > $now){
+			if($this->Created > NOW){
 				$error->Add(new Exceptions\InvalidGitCommitCreatedDatetimeException($this->Created));
 			}
 		}

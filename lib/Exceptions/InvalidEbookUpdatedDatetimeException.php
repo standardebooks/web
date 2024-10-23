@@ -8,8 +8,6 @@ class InvalidEbookUpdatedDatetimeException extends AppException{
 	protected $message = 'Invalid EbookUpdated datetime.';
 
 	public function __construct(DateTimeImmutable $updatedDatetime){
-		/** @throws void */
-		$now = new DateTimeImmutable();
-		$this->message = 'Invalid EbookUpdated datetime. ' . $updatedDatetime->format('Y-m-d') . ' is after ' . $now->format('Y-m-d') . '.';
+		$this->message = 'Invalid EbookUpdated datetime. ' . $updatedDatetime->format('Y-m-d') . ' is after ' . NOW->format('Y-m-d') . '.';
 	}
 }
