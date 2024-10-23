@@ -1,4 +1,4 @@
-CREATE TABLE `Ebooks` (
+CREATE TABLE IF NOT EXISTS `Ebooks` (
   `EbookId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Identifier` varchar(511) NOT NULL,
   `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

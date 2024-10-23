@@ -1,4 +1,4 @@
-CREATE TABLE `Contributors` (
+CREATE TABLE IF NOT EXISTS `Contributors` (
   `EbookId` int(10) unsigned NOT NULL,
   `Name` varchar(255) NOT NULL,
   `UrlName` varchar(255) NOT NULL,
