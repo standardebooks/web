@@ -27,6 +27,13 @@
 					<li><p><a href="#dramatis-personae-descriptions">Descriptions</a></p></li>
 					<li><p><a href="#dramatis-personae-example">Example</a></p></li>
 				</ol>
+				<li><p><a href="#bodymatter-file-semantics">Bodymatter file semantics</a></p></li>
+				<ol>
+					<li><p><a href="#bodymatter-file-semantics-play-without-acts">Play without acts</a></p></li>
+					<li><p><a href="#bodymatter-file-semantics-acts-without-scenes">Acts without scenes</a></p></li>
+					<li><p><a href="#bodymatter-file-semantics-acts-with-scenes">Acts with scenes</a></p></li>
+					<li><p><a href="#bodymatter-file-semantics-play-in-a-collection">Play in a collection</a></p></li>
+				</ol>
 				<li><p><a href="#introductory-scene-descriptions">Introductory scene descriptions</a></p></li>
 				<li><p><a href="#personas">Personas</a></p></li>
 				<ol>
@@ -38,14 +45,15 @@
 				<ol>
 					<li><p><a href="#dialog-multiple-paragraphs">Multiple paragraphs</a></p></li>
 					<li><p><a href="#dialog-prose-and-verse">Prose and verse</a></p></li>
-					<li><p><a href="#dialog-Stichomythia">Stichomythia</a></p></li>
+					<li><p><a href="#dialog-stichomythia">Stichomythia</a></p></li>
+					<li><p><a href="#dialog-ancient-greek-choral-sections">Ancient Greek choral sections</a></p></li>
 				</ol>
 				<li><p><a href="#stage-directions">Stage directions</a></p></li>
 				<ol>
 					<li><p><a href="#stage-directions-right-aligned-and-brackets">Right-aligned and brackets</a></p></li>
 					<li><p><a href="#stage-directions-interrupting-dialog">Interrupting dialog</a></p></li>
 					<li><p><a href="#stage-directions-attached-to-personas">Attached to personas</a></p></li>
-					<li><p><a href="#stage-directions-songs">Songs</a></p></li>
+					<li><p><a href="#stage-directions-song">“Song.”</a></p></li>
 					<li><p><a href="#stage-directions-parentheses">Parentheses</a></p></li>
 					<li><p><a href="#stage-directions-multiple-paragraphs">Multiple paragraphs</a></p></li>
 					<li><p><a href="#stage-directions-a-stage-direction-for-a-stage-direction">A stage direction for a stage direction</a></p></li>
@@ -68,7 +76,7 @@
 					</li>
 					<li>
 						<h3 id="splitting-files-make-a-template-file">Make a template file</h3>
-						<p>The <code class="bash"><b>se</b> split-file</code> tool defaults to a chapter template. To add the correct file semantics, we need to create the template file <code class="path">/src/epub/text/drama-template.xhtml</code>. If you wish to split the work into acts or scenes, you can copy and paste the following code to your new file:</p>
+						<p>The <code class="bash"><b>se</b> split-file</code> tool defaults to a chapter template. To add the correct file semantics, we need to create the template file <code class="path">/src/epub/text/drama-template.xhtml</code>. If you wish to split the work into acts, you can copy and paste the following code to your new file:</p>
 						<figure class="html full">
 <code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">"http://www.w3.org/1999/xhtml"</span> <span class="na">xmlns:epub</span><span class="o">=</span><span class="s">"http://www.idpf.org/2007/ops"</span> <span class="na">epub:prefix</span><span class="o">=</span><span class="s">"z3998: http://www.daisy.org/z3998/2012/vocab/structure/, se: https://standardebooks.org/vocab/1.0"</span> <span class="na">xml:lang</span><span class="o">=</span><span class="s">"LANG"</span><span class="p">&gt;</span>
@@ -126,8 +134,7 @@
 				<p>Any descriptions are placed in <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements after the list of speakers and end with periods.</p>
 				<h3 id="dramatis-personae-example">Example</h3>
 				<figure class="html full">
-<code class="html full">
-<span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"frontmatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
+<code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"frontmatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"dramatis-personae"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:dramatis-personae"</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">h2</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"title"</span><span class="p">&gt;</span>Dramatis Personae<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
@@ -145,6 +152,62 @@
 		<span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Scene: Messina.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
+				</figure>
+			</li>
+			<li>
+				<h2 id="bodymatter-file-semantics">Bodymatter file semantics</h2>
+				<p>Plays can come in all shapes and sizes, and no two plays look alike. Figuring out where to place play semantics can be very confusing! Here are some basic play structures to show where play semantics go.</p>
+				<h3 id="bodymatter-file-semantics-play-without-acts">Play without acts</h3>
+				<p>Some plays are not divided into acts. These plays are placed in a single file named after the play. <code class="bash"><span class="s">z3998:drama</span></code> and <code class="bash"><span class="s">z3998:scene</span></code> are located in the top-level section.</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"ID"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:drama z3998:scene"</span><span class="p">&gt;</span>
+	...
+	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
+				</figure>
+				<p>Some single-act plays do have scene sections, which are divided into section elements in the file with the <code class="bash"><span class="s">z3998:scene</span></code> semantic.</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"ID"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:drama"</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"scene-1"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:scene"</span><span class="p">&gt;</span>
+			...
+		<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
+				</figure>
+				<h3 id="bodymatter-file-semantics-acts-without-scenes">Acts without scenes</h3>
+				<p>Some plays are divided in to acts without scene sections. The body element contains the <code class="bash"><span class="s">z3998:drama</span></code> semantic; the top-level section element contains both <code class="bash"><span class="s">chapter</span></code> and <code class="bash"><span class="s">z3998:scene</span></code> semantics.</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"act-1"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"chapter z3998:scene"</span><span class="p">&gt;</span>
+	...
+	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
+				</figure>
+				<h3 id="bodymatter-file-semantics-acts-with-scenes">Acts with scenes</h3>
+				<p>If a multi-act play has scene sections, the top-level section only has the <code class="bash"><span class="s">chapter</span></code> semantic, and the scene section elements are tagged with <code class="bash"><span class="s">z3998:scene</span></code>.</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"act-1"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"chapter"</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"label"</span><span class="p">&gt;</span>Act<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">span</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"ordinal z3998:roman"</span><span class="p">&gt;</span>I<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"scene-1-1"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:scene"</span><span class="p">&gt;</span>
+			...
+		<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
+				</figure>
+				<h3 id="bodymatter-file-semantics-play-in-a-collection">Play in a collection</h3>
+				<p>The rarest case encountered is a collection of short plays. Each play is in its own file, with article elements tagged with <code class="bash"><span class="s">z3998:drama</span></code>.</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">article</span> <span class="na">id</span><span class="o">=</span><span class="s">"ID"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:drama"</span><span class="p">&gt;</span>
+		...
+	<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
 				</figure>
 			</li>
@@ -221,17 +284,71 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="dialog-Stichomythia">Stichomythia</h3>
+				<h3 id="dialog-stichomythia">Stichomythia</h3>
 				<p><i>Stichomythia</i> is a technique used in drama where two speakers engage in a rapid or intense exchange of alternating dialog. Here is an example found in William Shakespeare’s <i><a href="https://standardebooks.org/ebooks/william-shakespeare/a-midsummer-nights-dream">A Midsummer Night’s Dream</a></i>.</p>
 				<figure class="full-width">
 					<img src="images/drama-formatting-1.png" alt="Five sections of dialog use stichomythia. The second section of dialog continues where the first section has left off. This pattern continues and creates a staircase effect."/>
 				</figure>
 				<p>This highlights moments of conflict, urgency, or intense emotion and conveys dynamic interactions between characters. Unfortunately, there is no great way to format this technique with clear, predictable structuring. The text displayed has no additional indents or margins.</p>
+				<h3 id="dialog-ancient-greek-choral-sections">Ancient Greek choral sections</h3>
+				<p>Ancient Greek drama can contain choral sections where each stanza is labeled as strophe, antistrophe, or epode. The sections are numbered if a chorus sings/chants a pattern of strophic, antistrophic, and epodic units. The labels are formatted with italics, parentheses around the label, and right-alignment.</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">td</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span>Chorus<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">td</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:song"</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Strophe 1<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Antistrophe 1<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Epode 1<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+			<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+				<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+			<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+		...
+	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
+				</figure>
+				<figure class="css full">
+<code class="css full"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:song"</span><span class="o">]</span> <span class="nt">div</span> <span class="o">+</span> <span class="nt">div</span><span class="p">{</span>
+	<span class="k">margin-top</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:song"</span><span class="o">]</span> <span class="nt">header</span> <span class="nt">p</span><span class="p">{</span>
+	<span class="k">font-style</span><span class="p">:</span> <span class="kc">italic</span><span class="p">;</span>
+	<span class="k">text-align</span><span class="p">:</span> <span class="kc">right</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:song"</span><span class="o">]</span> <span class="nt">header</span> <span class="nt">p</span><span class="p"><span class="p">::</span><span class="nd">before</span><span class="p">{</span>
+	<span class="k">content</span><span class="p">:</span> <span class="s2">"("</span><span class="p">;</span>
+	<span class="k">font-style</span><span class="p">:</span> <span class="kc">normal</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:song"</span><span class="o">]</span> <span class="nt">header</span> <span class="nt">p</span><span class="p"><span class="p">::</span><span class="nd">after</span><span class="p">{</span>
+	<span class="k">content</span><span class="p">:</span> <span class="s2">")"</span><span class="p">;</span>
+	<span class="k">font-style</span><span class="p">:</span> <span class="kc">normal</span><span class="p">;</span>
+<span class="p">}</span></code>
+				</figure>
 			</li>
 			<li>
 				<h2 id="stage-directions">Stage directions</h2>
 				<h3 id="stage-directions-right-aligned-and-brackets">Right-aligned and brackets</h3>
-				<p>Exit or exeunt stage directions are traditionally shown right-aligned and bracketed. These are formatted like other inline stage directions and placed at the end of the preceding dialog. Compare how the following page scan source is structured in HTML.</p>
+				<p>Some stage direction have only an opening bracket and are right-aligned, like exit or exeunt stage directions. These are formatted like other inline stage directions and placed at the end of the preceding dialog. Compare how the following page scan source is structured in HTML.</p>
 				<figure class="full-width">
 					<img src="images/drama-formatting-2.png" alt="The stage direction “Goes.” is right-aligned and is preceded by a left bracket."/>
 				</figure>
@@ -295,8 +412,8 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="stage-directions-songs">Songs</h3>
-				<p>Some songs are given a title or just labeled as “Song”. Treat these as stage direction rows.</p>
+				<h3 id="stage-directions-song">“Song.”</h3>
+				<p>Some songs are given a title or just labeled as “Song.” Treat these as stage direction rows.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">/&gt;</span>
