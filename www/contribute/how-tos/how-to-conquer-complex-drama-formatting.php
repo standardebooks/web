@@ -334,12 +334,12 @@
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">right</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:song"</span><span class="o">]</span> <span class="nt">header</span> <span class="nt">p</span><span class="p"><span class="p">::</span><span class="nd">before</span><span class="p">{</span>
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:song"</span><span class="o">]</span> <span class="nt">header</span> <span class="nt">p</span><span class="p">::</span><span class="nd">before</span><span class="p">{</span>
 	<span class="k">content</span><span class="p">:</span> <span class="s2">"("</span><span class="p">;</span>
 	<span class="k">font-style</span><span class="p">:</span> <span class="kc">normal</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:song"</span><span class="o">]</span> <span class="nt">header</span> <span class="nt">p</span><span class="p"><span class="p">::</span><span class="nd">after</span><span class="p">{</span>
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:song"</span><span class="o">]</span> <span class="nt">header</span> <span class="nt">p</span><span class="p">::</span><span class="nd">after</span><span class="p">{</span>
 	<span class="k">content</span><span class="p">:</span> <span class="s2">")"</span><span class="p">;</span>
 	<span class="k">font-style</span><span class="p">:</span> <span class="kc">normal</span><span class="p">;</span>
 <span class="p">}</span></code>
