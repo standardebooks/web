@@ -11,16 +11,16 @@
 			<? if($author->NacoafUrl !== null){ ?><schema:sameAs><?= Formatter::EscapeXml($author->NacoafUrl) ?></schema:sameAs><? } ?>
 		</author>
 	<? } ?>
-	<published><?= $entry->Created->format('Y-m-d\TH:i:s\Z') ?></published>
-	<dc:issued><?= $entry->Created->format('Y-m-d\TH:i:s\Z') ?></dc:issued>
+	<published><?= $entry->EbookCreated->format('Y-m-d\TH:i:s\Z') ?></published>
+	<dc:issued><?= $entry->EbookCreated->format('Y-m-d\TH:i:s\Z') ?></dc:issued>
 	<updated><?= $entry->Updated->format('Y-m-d\TH:i:s\Z') ?></updated>
 	<dc:language><?= Formatter::EscapeXml($entry->Language) ?></dc:language>
 	<dc:publisher>Standard Ebooks</dc:publisher>
 	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
 	<summary type="text"><?= Formatter::EscapeXml($entry->Description) ?></summary>
 	<content type="html"><?= Formatter::EscapeXml($entry->LongDescription) ?></content>
-	<? foreach($entry->LocTags as $subject){ ?>
-	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= Formatter::EscapeXml($subject) ?>"/>
+	<? foreach($entry->LocSubjects as $subject){ ?>
+	<category scheme="http://purl.org/dc/terms/LCSH" term="<?= Formatter::EscapeXml($subject->Name) ?>"/>
 	<? } ?>
 	<? foreach($entry->Tags as $subject){ ?>
 	<category scheme="https://standardebooks.org/vocab/subjects" term="<?= Formatter::EscapeXml($subject->Name) ?>"/>

@@ -1,0 +1,62 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+use function Safe\getopt;
+
+$longopts = ['ebook-www-filesystem-path:', 'verbose'];
+$options = getopt('v', $longopts);
+
+$ebookWwwFilesystemPath = $options['ebook-www-filesystem-path'] ?? null;
+
+$verbose = false;
+if(isset($options['v']) || isset($options['verbose'])){
+	$verbose = true;
+}
+
+if($ebookWwwFilesystemPath === null){
+	print("Expected usage: update-ebook-database [-v,--verbose] --ebook-www-filesystem-path <path>\n");
+	exit(1);
+}
+
+if($verbose){
+	print("ebook-www-filesystem-path: $ebookWwwFilesystemPath\n");
+}
+
+try{
+	$ebook = Ebook::FromFilesystem($ebookWwwFilesystemPath);
+}
+catch(Exceptions\AppException $appException){
+	print("An AppException occurred when updating the ebook database:\n");
+	print("\t" . get_class($appException) . ": " . $appException->getMessage() . "\n");
+	exit(1);
+}
+
+if($verbose){
+	print("Title: $ebook->Title\n");
+	print("Identifier: $ebook->Identifier\n");
+}
+
+try{
+	$ebook->CreateOrUpdate();
+}
+catch(Exceptions\ValidationException $validationException){
+	$exceptions = $validationException->Exceptions;
+	if(count($exceptions) == 1){
+		print("\nA ValidationException occurred when updating the ebook database:\n");
+		print("\t" . get_class($exceptions[0]) . ": " . $exceptions[0]->getMessage() . "\n");
+		print("[ERROR] Found 1 error\n");
+	}
+	else{
+		print("\nValidationExceptions when updating the ebook database:\n");
+
+		foreach($exceptions as $ex){
+			print("\t" . get_class($ex) . ": " . $ex->getMessage() . "\n");
+		}
+
+		print("[ERROR] Found " . count($exceptions) . " errors\n");
+	}
+	exit(1);
+}
+
+exit(0);

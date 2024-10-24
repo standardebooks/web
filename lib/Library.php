@@ -1,7 +1,6 @@
 <?
 use Safe\DateTimeImmutable;
 
-use function Safe\apcu_fetch;
 use function Safe\exec;
 use function Safe\filemtime;
 use function Safe\filesize;
@@ -9,162 +8,193 @@ use function Safe\glob;
 use function Safe\ksort;
 use function Safe\preg_replace;
 use function Safe\preg_split;
-use function Safe\shell_exec;
-use function Safe\sleep;
+use function Safe\sprintf;
 use function Safe\usort;
 
 class Library{
 	/**
 	* @param array<string> $tags
-	* @return array<Ebook>
-	* @throws Exceptions\AppException
+	* @return array{ebooks: array<Ebook>, ebooksCount: int}
 	*/
-	public static function FilterEbooks(string $query = null, array $tags = [], EbookSortType $sort = null): array{
-		$ebooks = Library::GetEbooks();
-		$matches = $ebooks;
+	public static function FilterEbooks(string $query = null, array $tags = [], EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE): array{
+		$limit = $perPage;
+		$offset = (($page - 1) * $perPage);
+		$joinContributors = '';
+		$joinTags = '';
+		$params = [];
+		$whereCondition = 'where true';
 
-		if($sort === null){
-			$sort = EbookSortType::Newest;
+		$orderBy = 'e.EbookCreated desc';
+		if($sort == EbookSortType::AuthorAlpha){
+			$joinContributors = 'inner join Contributors con using (EbookId)';
+			$whereCondition .= ' AND con.MarcRole = "aut"';
+			$orderBy = 'con.SortName, e.EbookCreated desc';
+		}
+		elseif($sort == EbookSortType::ReadingEase){
+			$orderBy = 'e.ReadingEase desc';
+		}
+		elseif($sort == EbookSortType::Length){
+			$orderBy = 'e.WordCount';
 		}
 
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
-			$matches = [];
-			foreach($tags as $tag){
-				foreach($ebooks as $ebook){
-					if($ebook->HasTag($tag)){
-						$matches[$ebook->Identifier] = $ebook;
-					}
-				}
-			}
+			$joinTags = 'inner join EbookTags et using (EbookId)
+					inner join Tags t using (TagId)';
+			$whereCondition .= ' AND t.UrlName in ' . Db::CreateSetSql($tags) . ' ';
+			$params = $tags;
 		}
 
-		if($query !== null){
-			$filteredMatches = [];
-
-			foreach($matches as $ebook){
-				if($ebook->Contains($query)){
-					$filteredMatches[$ebook->Identifier] = $ebook;
-				}
-			}
-
-			$matches = $filteredMatches;
+		if($query !== null && $query != ''){
+			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+			$query = sprintf('"%s"', $query);  // Require an exact match via double quotes.
+			$whereCondition .= ' AND match(e.IndexableText) against(? IN BOOLEAN MODE) ';
+			$params[] = $query;
 		}
 
-		switch($sort){
-			case EbookSortType::AuthorAlpha:
-				usort($matches, function($a, $b){
-					return strcmp(mb_strtolower($a->Authors[0]->SortName), mb_strtolower($b->Authors[0]->SortName));
-				});
-				break;
+		$ebooksCount = Db::QueryInt('
+				SELECT count(distinct e.EbookId)
+				from Ebooks e
+				' . $joinContributors . '
+				' . $joinTags . '
+				' . $whereCondition . '
+				', $params);
 
-			case EbookSortType::Newest:
-				usort($matches, function($a, $b){
-					if($a->Created < $b->Created){
-						return -1;
-					}
-					elseif($a->Created == $b->Created){
-						return 0;
-					}
-					else{
-						return 1;
-					}
-				});
+		$params[] = $limit;
+		$params[] = $offset;
 
-				$matches = array_reverse($matches);
-				break;
+		$ebooks = Db::Query('
+				SELECT distinct e.*
+				from Ebooks e
+				' . $joinContributors . '
+				' . $joinTags . '
+				' . $whereCondition . '
+				order by ' . $orderBy . '
+				limit ?
+				offset ?', $params, Ebook::class);
 
-			case EbookSortType::ReadingEase:
-				usort($matches, function($a, $b){
-					if($a->ReadingEase < $b->ReadingEase){
-						return -1;
-					}
-					elseif($a->ReadingEase == $b->ReadingEase){
-						return 0;
-					}
-					else{
-						return 1;
-					}
-				});
-
-				$matches = array_reverse($matches);
-				break;
-
-			case EbookSortType::Length:
-				usort($matches, function($a, $b){
-					if($a->WordCount < $b->WordCount){
-						return -1;
-					}
-					elseif($a->WordCount == $b->WordCount){
-						return 0;
-					}
-					else{
-						return 1;
-					}
-				});
-				break;
-		}
-
-		return $matches;
+		return ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount];
 	}
 
 	/**
 	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooks(): array{
 		// Get all ebooks, unsorted.
-		/** @var array<Ebook> */
-		return self::GetFromApcu('ebooks');
-	}
-
-	/**
-	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
-	 */
-	public static function GetEbooksByAuthor(string $wwwFilesystemPath): array{
-		/** @var array<Ebook> */
-		return self::GetFromApcu('author-' . $wwwFilesystemPath);
+		return Db::Query('
+				SELECT *
+				from Ebooks
+			', [], Ebook::class);
 	}
 
 	/**
 	 * @return array<Ebook>
 	 */
-	public static function GetEbooksByTag(string $tag): array{
-		try{
-			/** @var array<Ebook> */
-			return apcu_fetch('tag-' . $tag) ?? [];
+	public static function GetEbooksByAuthor(string $urlPath): array{
+		if(mb_strpos($urlPath, '_') === false){
+			// Single author
+			return Db::Query('
+					SELECT e.*
+					from Ebooks e
+					inner join Contributors con using (EbookId)
+					where con.MarcRole = "aut"
+					    and con.UrlName = ?
+					order by e.EbookCreated desc
+				', [$urlPath], Ebook::class);
 		}
-		catch(Safe\Exceptions\ApcuException){
-			return [];
+		else{
+			// Multiple authors, e.g., karl-marx_friedrich-engels
+			$authors = explode('_', $urlPath);
+
+			$params = $authors;
+			$params[] = sizeof($authors); // The number of authors in the URL must match the number of Contributor records.
+
+			return Db::Query('
+					SELECT e.*
+					from Ebooks e
+					inner join Contributors con using (EbookId)
+					where con.MarcRole = "aut"
+					    and con.UrlName in ' . Db::CreateSetSql($authors)  . '
+					group by e.EbookId
+					having count(distinct con.UrlName) = ?
+					order by e.EbookCreated desc
+				', $params, Ebook::class);
 		}
 	}
 
 	/**
-	 * @return array<string, Collection>
+	 * @return array<Collection>
 	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbookCollections(): array{
-		/** @var array<string, Collection> */
-		return self::GetFromApcu('collections');
+		$collections = Db::Query('
+					SELECT *
+					from Collections
+				', [], Collection::class);
+
+		$collator = Collator::create('en_US');
+		if($collator === null){
+			throw new Exceptions\AppException('Couldn\'t create collator object when getting collections.');
+		}
+		usort($collections, function($a, $b) use($collator){ return $collator->compare($a->GetSortedName(), $b->GetSortedName()); });
+		return $collections;
 	}
 
 	/**
 	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbooksByCollection(string $collection): array{
-		// Do we have the tag's ebooks cached?
-		/** @var array<Ebook> */
-		return self::GetFromApcu('collection-' . $collection);
+		$ebooks = Db::Query('
+				SELECT e.*
+				from Ebooks e
+				inner join CollectionEbooks ce using (EbookId)
+				inner join Collections c using (CollectionId)
+				where c.UrlName = ?
+				order by ce.SequenceNumber, e.EbookCreated desc
+				', [$collection], Ebook::class);
+
+		return $ebooks;
 	}
 
 	/**
-	 * @return array<Tag>
-	 * @throws Exceptions\AppException
+	 * @return array<Ebook>
+	 */
+	public static function GetRelatedEbooks(Ebook $ebook, int $count, ?EbookTag $relatedTag): array{
+		if($relatedTag !== null){
+			$relatedEbooks = Db::Query('
+						SELECT e.*
+						from Ebooks e
+						inner join EbookTags et using (EbookId)
+						where et.TagId = ?
+						    and et.EbookId != ?
+						order by RAND()
+						limit ?
+				', [$relatedTag->TagId, $ebook->EbookId, $count], Ebook::class);
+		}
+		else{
+			$relatedEbooks = Db::Query('
+						SELECT *
+						from Ebooks
+						where EbookId != ?
+						order by RAND()
+						limit ?
+				', [$ebook->EbookId, $count], Ebook::class);
+		}
+
+		return $relatedEbooks;
+	}
+
+	/**
+	 * @return array<EbookTag>
 	 */
 	public static function GetTags(): array{
-		/** @var array<Tag> */
-		return self::GetFromApcu('tags');
+		$tags = Db::Query('
+				SELECT *
+				from Tags t
+				where Type = "ebook"
+				order by Name
+			', [], EbookTag::class);
+
+		return $tags;
 	}
 
 	/**
@@ -354,93 +384,6 @@ class Library{
 			order by art.Created desc', $params, Artwork::class);
 
 		return $artworks;
-	}
-
-
-	/**
-	 * @return array<mixed>
-	 * @throws Exceptions\AppException
-	 */
-	private static function GetFromApcu(string $variable): array{
-		$results = [];
-
-		try{
-			$results = apcu_fetch($variable);
-		}
-		catch(Safe\Exceptions\ApcuException $ex){
-			try{
-				// If we can't fetch this variable, rebuild the whole cache.
-				apcu_fetch('is-cache-fresh');
-			}
-			catch(Safe\Exceptions\ApcuException $ex){
-				Library::RebuildCache();
-				try{
-					$results = apcu_fetch($variable);
-				}
-				catch(Safe\Exceptions\ApcuException){
-					// We can get here if the cache is currently rebuilding from a different process.
-					// Nothing we can do but wait, so wait 20 seconds before retrying
-					sleep(20);
-
-					try{
-						$results = apcu_fetch($variable);
-					}
-					catch(Safe\Exceptions\ApcuException){
-						// Cache STILL rebuilding... give up silently for now
-					}
-				}
-			}
-		}
-
-		if(!is_array($results)){
-			$results = [$results];
-		}
-
-		return $results;
-	}
-
-	/**
-	 * @return array<Ebook>
-	 * @throws Exceptions\AppException
-	 */
-	public static function Search(string $query): array{
-		$ebooks = Library::GetEbooks();
-		$matches = [];
-
-		foreach($ebooks as $ebook){
-			if($ebook->Contains($query)){
-				$matches[] = $ebook;
-			}
-		}
-
-		return $matches;
-	}
-
-	/**
-	 * @return array<Ebook>
-	 */
-	public static function GetEbooksFromFilesystem(?string $webRoot = WEB_ROOT): array{
-		$ebooks = [];
-
-		$contentFiles = explode("\n", trim(shell_exec('find ' . escapeshellarg($webRoot . '/ebooks/') . ' -name "content.opf" | sort')));
-
-		foreach($contentFiles as $path){
-			if($path == '')
-				continue;
-
-			$ebookWwwFilesystemPath = '';
-
-			try{
-				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $path);
-
-				$ebooks[] = new Ebook($ebookWwwFilesystemPath);
-			}
-			catch(\Exception){
-				// An error in a book isn't fatal; just carry on.
-			}
-		}
-
-		return $ebooks;
 	}
 
 	private static function FillBulkDownloadObject(string $dir, string $downloadType, string $urlRoot): stdClass{
@@ -655,161 +598,9 @@ class Library{
 	}
 
 	/**
-	 * @throws Exceptions\AppException
-	 */
-	public static function GetEbook(?string $ebookWwwFilesystemPath): ?Ebook{
-		if($ebookWwwFilesystemPath === null){
-			return null;
-		}
-
-		/** @var array<Ebook> $result */
-		$result = self::GetFromApcu('ebook-' . $ebookWwwFilesystemPath);
-
-		if(sizeof($result) > 0){
-			return $result[0];
-		}
-		else{
-			return null;
-		}
-	}
-
-	/**
-	 * @throws Exceptions\AppException
-	 */
-	public static function RebuildCache(): void{
-		// We check a lockfile because this can be a long-running command.
-		// We don't want to queue up a bunch of these in case someone is refreshing the index constantly.
-		$lockVar = 'library-cache-rebuilding';
-		try{
-			$val = apcu_fetch($lockVar);
-			return;
-		}
-		catch(Safe\Exceptions\ApcuException){
-			apcu_store($lockVar, true);
-		}
-
-		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
-		if($collator === null){
-			throw new Exceptions\AppException('Couldn\'t create collator object when rebuilding cache.');
-		}
-
-		$ebooks = [];
-		$ebooksByCollection = [];
-		$ebooksByTag = [];
-		$collectionsByName = [];
-		$authors = [];
-		$tagsByName = [];
-
-		foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"'))) as $filename){
-			try{
-				$ebookWwwFilesystemPath = preg_replace('|/content\.opf|ius', '', $filename);
-
-				$ebook = new Ebook($ebookWwwFilesystemPath);
-
-				$ebooks[$ebookWwwFilesystemPath] = $ebook;
-
-				// Create the collections cache
-				foreach($ebook->Collections as $collection){
-					$urlSafeCollection = Formatter::MakeUrlSafe($collection->Name);
-					if(!array_key_exists($urlSafeCollection, $ebooksByCollection)){
-						$ebooksByCollection[$urlSafeCollection] = [];
-						$collectionsByName[$urlSafeCollection] = $collection;
-					}
-
-					// Some items may have the same position in a collection,
-					// like _Some Do Not..._ and _No More Parades_ are both #57 in the Modern Library's 100 best novels.
-					// To accomodate that, we create an anonymous object that holds the sequence number as a separate value,
-					// then later we sort by that instead of by array index.
-					$sortItem = new stdClass();
-					$sortItem->Ebook = $ebook;
-					if($collection->SequenceNumber !== null){
-						$sortItem->Ordinal = $collection->SequenceNumber;
-					}
-					else{
-						$sortItem->Ordinal = 1;
-					}
-					$ebooksByCollection[$urlSafeCollection][] = $sortItem;
-				}
-
-				// Create the tags cache
-				foreach($ebook->Tags as $tag){
-					$tagsByName[$tag->UrlName] = $tag;
-					if(!array_key_exists($tag->UrlName, $ebooksByTag)){
-						$ebooksByTag[$tag->UrlName] = [];
-					}
-
-					$ebooksByTag[$tag->UrlName][] = $ebook;
-				}
-
-				// Create the authors cache
-				$authorPath = EBOOKS_DIST_PATH . rtrim(preg_replace('|^/ebooks/|ius', '', $ebook->AuthorsUrl), '/');
-				if(!array_key_exists($authorPath, $authors)){
-					$authors[$authorPath] = [];
-				}
-
-				$authors[$authorPath][] = $ebook;
-			}
-			catch(\Exception){
-				// An error in a book isn't fatal; just carry on.
-			}
-		}
-
-		apcu_delete('ebooks');
-		apcu_store('ebooks', $ebooks);
-
-		// Before we sort the list of ebooks and lose the array keys, store them by individual ebook
-		apcu_delete(new APCUIterator('/^ebook-/'));
-		foreach($ebooks as $ebookWwwFilesystemPath => $ebook){
-			apcu_store('ebook-' . $ebookWwwFilesystemPath, $ebook);
-		}
-
-		// Now store various collections
-		apcu_delete(new APCUIterator('/^collection-/'));
-		foreach($ebooksByCollection as $collection => $sortItems){
-			// Sort the array by the ebook's ordinal in the collection. We use this custom sort function
-			// because an ebook may share the same place in a collection with another ebook; see above.
-			usort($sortItems, function($a, $b){
-				if($a->Ordinal == $b->Ordinal){
-				        return 0;
-				    }
-				    return ($a->Ordinal < $b->Ordinal) ? -1 : 1;
-			});
-
-			// Now pull the actual ebooks out of the anonymous objects we just sorted
-			$ebooks = [];
-			foreach($sortItems as $sortItem){
-				$ebooks[] = $sortItem->Ebook;
-			}
-			apcu_store('collection-' . $collection, $ebooks);
-		}
-
-		apcu_delete('collections');
-		usort($collectionsByName, function($a, $b) use($collator){ return $collator->compare($a->GetSortedName(), $b->GetSortedName()); });
-		apcu_store('collections', $collectionsByName);
-
-		apcu_delete(new APCUIterator('/^tag-/'));
-		foreach($ebooksByTag as $tagName => $ebooks){
-			apcu_store('tag-' . $tagName, $ebooks);
-		}
-
-		ksort($tagsByName);
-		apcu_delete('tags');
-		apcu_store('tags', $tagsByName);
-
-		apcu_delete(new APCUIterator('/^author-/'));
-		foreach($authors as $author => $ebooks){
-			apcu_store('author-' . $author, $ebooks);
-		}
-
-		apcu_delete($lockVar);
-
-		apcu_store('is-cache-fresh', true);
-	}
-
-	/**
 	 * @return array<Artist>
 	 */
-	public static function GetAllArtists(): array{
+	public static function GetArtists(): array{
 		return Db::Query('
 			SELECT *
 			from Artists
