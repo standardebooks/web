@@ -82,6 +82,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1nLP-Ij0RTM15X8Xx6o_vV45GVdE2EiylCI2SRT2rN1Q/edit">Short Fiction by E. F. Benson</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1ydCo8uwS4dJfSJoFgqIIAy9AuSfNcq0UhmKQ447-wY0/edit">Short Fiction by Frank Belknap</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
