@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `Artworks` (
   `UrlName` varchar(255) NOT NULL,
   `CompletedYear` smallint unsigned NULL,
   `CompletedYearIsCirca` boolean NOT NULL DEFAULT FALSE,
-  `Created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Status` enum('unverified', 'approved', 'declined', 'in_use') DEFAULT 'unverified',
   `SubmitterUserId` int(10) unsigned NULL,
