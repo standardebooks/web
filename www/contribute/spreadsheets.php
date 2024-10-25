@@ -85,6 +85,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1ydCo8uwS4dJfSJoFgqIIAy9AuSfNcq0UhmKQ447-wY0/edit">Short Fiction by Frank Belknap</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1jGIMLt2YaDT80312vNUfZBPbYxJBXHSCOYYtE85ILuk/edit">Short Fiction by Nella Larsen</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
