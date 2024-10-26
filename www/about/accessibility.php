@@ -11,7 +11,7 @@
 		</section>
 		<section id="website">
 			<h2>Our website</h2>
-			<p>Our website is built using valid semantic <abbr>XHTML</abbr>. Non-decorative images have alternative text to describe their contents. The site has a dark mode if preferred, and if you’d like to override this you can do that from the <a href="https://standardebooks.org/settings">settings</a> page. To the best of our knowledge, the site is compliant with <abbr>WCAG</abbr> 2.2 level AA.</p>
+			<p>Our website is built using valid semantic <abbr>XHTML</abbr>. Non-decorative images have alternative text to describe their contents. The site has a dark mode if preferred, and if you’d like to override this you can do that from the <a href="https://standardebooks.org/settings">settings</a> page. To the best of our knowledge, the site is compliant with <abbr>WCAG</abbr> 2.2 level AA, with the exception of the newsletter sign-up page. If you can’t use this and would like to receive a newsletter, please <a href="https://groups.google.com/g/standardebooks">contact the mailing list</a>.</p>
 		</section>
 		<section id="support">
 			<h2>Support</h2>
