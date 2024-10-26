@@ -15,12 +15,18 @@ ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/
 ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/fpm/conf.d/
 ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
 
+# Create and populate the SE database.
+service mariadb start
+mariadb < /standardebooks.org/web/config/sql/se.sql
+mariadb < /standardebooks.org/web/config/sql/users.sql
+mariadb se < /standardebooks.org/web/config/sql/se/*.sql
+
 # Enable web server configuration
 a2ensite standardebooks.test
 
 # Restart services to load new configuration
 service apache2 restart
-service php7.4-fpm restart
+service php8.1-fpm restart
 
 # Keep the server available by holding open the container
 tail -f /dev/null
