@@ -71,13 +71,13 @@
 				<p><a href="https://docs.google.com/spreadsheets/d/1vE0G9zslmxHZP17k529UiwPqSA9Zz8RBETtIHMA5Hqk/edit">Works by Thornton Burgess</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTMD5RdLAIxp2HQ0rZqaaYbavr4s0-vIRB8GCP7dTJRm0QYbOQvyvuxTDs5R1HhiYeNOJrLMVzgkArG/pubhtml">Short fiction by Hans Christian Anderson</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1rXHudjoiDoaWsS48KEw4lJWBVFVKkmhjqzaOKVB0IWQ/edit">Short fiction by Hans Christian Anderson</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQv6NVX2LwU60gMK1AtORZI3NDDM2lXqwqCL6abuqnb6p9H6IbjheTwbUKbcZggG0Ny5f7yJ87RuQJ-/pubhtml">Short fiction by Rudyard Kipling</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1WkpEyYxPD21PbXH9yS5VZW1UcbhBNSnIFKJIS2wgA8A/edit">Short fiction by Rudyard Kipling</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSyA8rKpA1AF8rNKY_eC-xIYkGoQZq-FavQqJ3-VXGu1DK1_NSYmxqAonbSo4AVjAM4Ps8jtYO0wfqr/pubhtml">Short fiction by Sabine Baring-Gould</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1I4kXf3z2pmHTIVt7V3K57XiFmwof21o4uQOMNPK2oLo/edit">Short fiction by Sabine Baring-Gould</a></p>
 			</li>
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1nLP-Ij0RTM15X8Xx6o_vV45GVdE2EiylCI2SRT2rN1Q/edit">Short Fiction by E. F. Benson</a></p>
@@ -87,6 +87,27 @@
 			</li>
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1jGIMLt2YaDT80312vNUfZBPbYxJBXHSCOYYtE85ILuk/edit">Short Fiction by Nella Larsen</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1oYtEyX5ymsm8EN45LORUoh_WOKmiigu3GvMwSMzdizU/edit">Short Fiction by Nelson S. Bond</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/17s4F5KlwHUODq87DUzEXWA0yAt7s2aeHBV52iDWpAsI/edit">Short Fiction by F. Scott Fitzgerald</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1kYI2BOTfi1NaUmzVpLWT0kQ_lh2g8WL24WV4bmdEjmw/edit">Short Fiction by Jonas Lie</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1EA2U0gyDzA14gSH4vUsVYaFpKNik93TvoOOXQ-fklyg/edit">Short Fiction by Katherine Mansfield</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1GDro-upVK4qg4jLtgHvHUU8QwfAqDzt0mevrVlG7nSY/edit">Short Fiction by Mary de Morgan</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1ZbxSMsHQOlCohISZxyox3PQDefFnb0V5GeDwxXjZE4M/edit">Poetry by Paul Laurence Dunbar</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1JZwIq2GlV5Ly2xVCuPhVzYkM99mmRLeNrUcQHADBsAU/edit">Short Fiction by Paul Laurence Dunbar</a></p>
 			</li>
 		</ul>
 	</article>
