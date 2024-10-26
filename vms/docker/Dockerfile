@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 # Install required packages
 RUN apt update
-RUN DEBIAN_FRONTEND=noninteractive apt install -y composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip apache2 apache2-utils libfcgi0ldbl task-spooler libaprutil1-dbd-mysql attr libapache2-mod-xsendfile sudo imagemagick openjdk-8-jre python3 pip calibre
+RUN DEBIAN_FRONTEND=noninteractive apt install -y composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip php-mysql apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server attr libapache2-mod-xsendfile libimage-exiftool-perl sudo imagemagick openjdk-8-jre python3 pip calibre
 
 # Install Python package for standardebooks
 RUN pip install standardebooks
@@ -15,9 +15,10 @@ RUN sudo usermod -g committers se
 # Create necessary directories
 RUN mkdir -p /standardebooks.org/web
 RUN mkdir /var/log/local
+RUN mkdir /run/php
 
 # Enable Apache modules
-RUN a2enmod headers expires ssl rewrite proxy proxy_fcgi authn_dbd authn_socache
+RUN a2enmod headers expires ssl rewrite proxy proxy_fcgi xsendfile
 
 # Disable opcode caching to enable dynamic PHP reloading
 RUN echo "opcache.enable=0" | tee --append /etc/php/*/fpm/php.ini
