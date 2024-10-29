@@ -75,7 +75,7 @@ class Contributor{
 		}
 
 		if(isset($this->WikipediaUrl)){
-			if(!preg_match('|https://.*wiki.*|ius', $this->WikipediaUrl)){
+			if(!preg_match('|^https://.*wiki.*|ius', $this->WikipediaUrl)){
 				$error->Add(new Exceptions\InvalidContributorWikipediaUrlException('Invalid Contributor WikipediaUrl: ' . $this->WikipediaUrl));
 			}
 
@@ -95,7 +95,7 @@ class Contributor{
 		}
 
 		if(isset($this->NacoafUrl)){
-			if(!preg_match('|https?://id\.loc\.gov/.*|ius', $this->NacoafUrl)){
+			if(!preg_match('|^https?://id\.loc\.gov/.*|ius', $this->NacoafUrl)){
 				$error->Add(new Exceptions\InvalidContributorNacoafUrlException('Invalid Contributor NacoafUrl: ' . $this->NacoafUrl));
 			}
 
