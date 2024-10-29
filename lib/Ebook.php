@@ -90,7 +90,7 @@ class Ebook{
 	/** @var array<Contributor> $_Contributors */
 	protected $_Contributors = null;
 	/** @var ?array<string> $_TocEntries */
-	protected $_TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise
+	protected $_TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise.
 	protected ?string $_Url = null;
 	protected ?bool $_HasDownloads = null;
 	protected ?string $_UrlSafeIdentifier = null;
@@ -579,7 +579,7 @@ class Ebook{
 				}
 			}
 
-			// Remove diacritics and non-alphanumeric characters
+			// Remove diacritics and non-alphanumeric characters.
 			$this->_IndexableText = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($this->_IndexableText)));
 		}
 
@@ -609,12 +609,12 @@ class Ebook{
 		$ebookFromFilesystem->RepoFilesystemPath = str_replace(EBOOKS_DIST_PATH, '', $wwwFilesystemPath);
 		$ebookFromFilesystem->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $ebookFromFilesystem->RepoFilesystemPath) . '.git';
 
-		if(!is_dir($ebookFromFilesystem->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment
+		if(!is_dir($ebookFromFilesystem->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment.
 			try{
 				$ebookFromFilesystem->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $ebookFromFilesystem->RepoFilesystemPath);
 			}
 			catch(\Exception){
-				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, whichis  a common injection attack vector
+				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, whichis  a common injection attack vector.
 				throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $ebookFromFilesystem->RepoFilesystemPath);
 			}
 		}
@@ -648,7 +648,7 @@ class Ebook{
 			$ebookFromFilesystem->TextSinglePageByteCount = @filesize($ebookFromFilesystem->WwwFilesystemPath . '/text/single-page.xhtml');
 		}
 		catch(\Exception){
-			// Single page file doesn't exist, just pass
+			// Single page file doesn't exist, just pass.
 		}
 
 		// Generate the Kindle cover URL.
@@ -663,13 +663,13 @@ class Ebook{
 			$ebookFromFilesystem->EpubUrl = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
-		// Generate the epub URL
+		// Generate the epub URL.
 		$tempPath = glob($ebookFromFilesystem->WwwFilesystemPath . '/downloads/*_advanced.epub');
 		if(sizeof($tempPath) > 0){
 			$ebookFromFilesystem->AdvancedEpubUrl = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
-		// Generate the Kepub URL
+		// Generate the Kepub URL.
 		$tempPath = glob($ebookFromFilesystem->WwwFilesystemPath . '/downloads/*.kepub.epub');
 		if(sizeof($tempPath) > 0){
 			$ebookFromFilesystem->KepubUrl = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
@@ -728,7 +728,7 @@ class Ebook{
 			$ebookFromFilesystem->EbookUpdated = new DateTimeImmutable((string)$modifiedDate[0]);
 		}
 
-		// Get SE tags
+		// Get SE tags.
 		$tags = [];
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
 			$ebookTag = new EbookTag();
@@ -739,7 +739,7 @@ class Ebook{
 
 		$includeToc = sizeof($xml->xpath('/package/metadata/meta[@property="se:is-a-collection"]') ?: []) > 0;
 
-		// Fill the ToC if necessary
+		// Fill the ToC if necessary.
 		if($includeToc){
 			$tocEntries = [];
 			try{
@@ -755,7 +755,7 @@ class Ebook{
 			$ebookFromFilesystem->TocEntries = $tocEntries;
 		}
 
-		// Get SE collections
+		// Get SE collections.
 		$collectionMemberships = [];
 		foreach($xml->xpath('/package/metadata/meta[@property="belongs-to-collection"]') ?: [] as $collection){
 			$cm = new CollectionMembership();
@@ -772,7 +772,7 @@ class Ebook{
 		}
 		$ebookFromFilesystem->CollectionMemberships = $collectionMemberships;
 
-		// Get LoC tags
+		// Get LoC tags.
 		$locSubjects = [];
 		foreach($xml->xpath('/package/metadata/dc:subject') ?: [] as $subject){
 			$locSubject = new LocSubject();
@@ -781,7 +781,7 @@ class Ebook{
 		}
 		$ebookFromFilesystem->LocSubjects = $locSubjects;
 
-		// Figure out authors and contributors
+		// Figure out authors and contributors.
 		$authors = [];
 		foreach($xml->xpath('/package/metadata/dc:creator') ?: [] as $author){
 			$id = '';
@@ -833,7 +833,7 @@ class Ebook{
 							Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'))
 						);
 
-				// A display-sequence of 0 indicates that we don't want to process this contributor
+				// A display-sequence of 0 indicates that we don't want to process this contributor.
 				$displaySequence = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="display-seq"][@refines="#' . $id . '"]'));
 				if($displaySequence !== '0'){
 					if($role == 'trl'){
@@ -850,7 +850,7 @@ class Ebook{
 				}
 			}
 
-			// If we added an illustrator who is also the translator, remove the illustrator credit so the name doesn't appear twice
+			// If we added an illustrator who is also the translator, remove the illustrator credit so the name doesn't appear twice.
 			foreach($illustrators as $key => $illustrator){
 				foreach($translators as $translator){
 					if($translator->Name == $illustrator->Name){
@@ -904,7 +904,7 @@ class Ebook{
 				$ebookSource->Type = EbookSourceType::ProjectGutenbergCanada;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'archive.org/details') !== false){
-				// `/details` excludes Wayback Machine URLs which may sometimes occur, for example in Lyrical Ballads
+				// `/details` excludes Wayback Machine URLs which may sometimes occur, for example in Lyrical Ballads.
 				$ebookSource->Type = EbookSourceType::InternetArchive;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'hathitrust.org/') !== false){
