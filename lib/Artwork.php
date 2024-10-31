@@ -258,9 +258,6 @@ class Artwork{
 		return $this->_Dimensions;
 	}
 
-	/**
-	 * @throws Exceptions\EbookNotFoundException
-	 */
 	protected function GetEbook(): ?Ebook{
 		if($this->_Ebook === null){
 			if($this->EbookUrl === null){
@@ -268,7 +265,13 @@ class Artwork{
 			}
 
 			$identifier = 'url:' . $this->EbookUrl;
-			$this->_Ebook = Ebook::GetByIdentifier($identifier);
+			try{
+				$this->_Ebook = Ebook::GetByIdentifier($identifier);
+			}
+			catch(Exceptions\EbookNotFoundException){
+				// The ebook is probably unreleased.
+				return null;
+			}
 		}
 
 		return $this->_Ebook;
