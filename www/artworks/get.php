@@ -8,7 +8,26 @@ $isSaved = HttpInput::Bool(SESSION, 'is-saved') ?? false;
 $exception = $_SESSION['exception'] ?? null;
 
 try{
-	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
+	try{
+		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
+	}
+	catch(Exceptions\ArtworkNotFoundException $ex){
+		// We didn't find the artwork under this artist, does the artist exist under an alternate name?
+		try{
+			$artist = Artist::GetByAlternateUrlName(HttpInput::Str(GET, 'artist-url-name'));
+			$artwork = Artwork::GetByUrl($artist->UrlName, HttpInput::Str(GET, 'artwork-url-name'));
+
+			// Artwork found under an artist alternate name, redirect there and exit.
+			http_response_code(Enums\HttpCode::MovedPermanently->value);
+			header('Location: ' . $artwork->Url);
+			exit();
+		}
+		catch(Exceptions\ArtistNotFoundException){
+			// The artwork is really not found, throw the original exception.
+			throw $ex;
+		}
+	}
+
 	$isReviewerView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
 	$isAdminView = $GLOBALS['User']->Benefits->CanReviewOwnArtwork ?? false;
 

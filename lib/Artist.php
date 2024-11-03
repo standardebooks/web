@@ -130,7 +130,26 @@ class Artist{
 				where ArtistId = ?
 			', [$artistId], Artist::class);
 
-		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();;
+		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();
+	}
+
+	/**
+	 * @throws Exceptions\ArtistNotFoundException
+	 */
+	public static function GetByAlternateUrlName(?string $urlName): Artist{
+		if($urlName === null){
+			throw new Exceptions\ArtistNotFoundException();
+		}
+
+		$result = Db::Query('
+				SELECT a.*
+					from Artists a
+					left outer join ArtistAlternateNames aan using (ArtistId)
+					where aan.UrlName = ?
+					limit 1
+			', [$urlName], Artist::class);
+
+		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();
 	}
 
 	/**
