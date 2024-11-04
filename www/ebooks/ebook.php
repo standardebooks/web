@@ -39,6 +39,7 @@ try{
 	}
 
 	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
+
 	$ebook = Ebook::GetByIdentifier($identifier);
 
 	// Divide our sources into transcriptions and scans.
@@ -75,6 +76,12 @@ catch(Exceptions\SeeOtherEbookException $ex){
 	exit();
 }
 catch(Exceptions\EbookNotFoundException){
+	// Are we accessing a placeholder for a Public Domain Day book that is not yet released?
+	if(array_key_exists($urlPath, PD_DAY_EBOOKS)){
+		require('/standardebooks.org/web/www/ebooks/public-domain-day-placeholder.php');
+		exit();
+	}
+
 	Template::Emit404();
 }
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'canonicalUrl' => SITE_URL . $ebook->Url]) ?>

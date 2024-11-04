@@ -102,3 +102,22 @@ const DONATION_DRIVE_DATES = [
 const DONATION_DRIVE_COUNTER_ENABLED = false;
 const DONATION_DRIVE_COUNTER_START = new DateTimeImmutable('May 2, 2022 00:00:00 America/New_York');
 const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00 America/New_York');
+
+const PD_DAY_YEAR = 2025;
+const PD_DAY_DRAFT_PATH = '/standardebooks.org/drafts/' . PD_DAY_YEAR;
+const PD_DAY_EBOOKS = [
+		'graham-greene/the-man-within' => ['author' => 'Graham Greene', 'title' => 'The Man Within'],
+		'c-s-forester/brown-on-resolution' => ['author' => 'C. S. Forester', 'title' => 'Brown on Resolution'],
+		'dashiell-hammett/red-harvest' => ['author' => 'Dashiell Hammett', 'title' => 'Red Harvest'],
+		'dashiell-hammett/the-dain-curse' => ['author' => 'Dashiell Hammett', 'title' => 'The Dain Curse'],
+		'erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen' => ['author' => 'Erich Maria Remarque', 'title' => 'All Quiet on the Western Front', 'translator' => 'A. W. Wheen'],
+		'ernest-hemingway/a-farewell-to-arms' => ['author' => 'Ernest Heminway', 'title' => 'A Farewell to Arms'],
+		'j-b-priestley/the-good-companions' => ['author' => 'J. B. Priestley', 'title' => 'The Good Companions'],
+		'john-steinbeck/cup-of-gold' => ['author' => 'John Steinbeck', 'title' => 'Cup of Gold'],
+		'oliver-la-farge/laughing-boy' => ['author' => 'Oliver La Farge', 'title' => 'Laughing Boy'],
+		'william-faulkner/the-sound-and-the-fury' => ['author' => 'William Faulkner', 'title' => 'The Sound and the Fury'],
+		'mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai' => ['author' => 'Mahatma Gandhi', 'title' => 'The Story of My Experiments with Truth'],
+		'arthur-conan-doyle/the-maracot-deep' => ['author' => 'Arthur Conan Doyle', 'title' => 'The Maracot Deep'],
+		'sinclair-lewis/dodsworth' => ['author' => 'Sinclair Lewis', 'title' => 'Dodsworth'],
+		'thomas-wolfe/look-homeard-angel' => ['author' => 'Thomas Wolfe', 'title' => 'Look Homeward, Angel']
+	];

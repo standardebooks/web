@@ -606,8 +606,13 @@ class Ebook{
 		$ebookFromFilesystem = new Ebook();
 
 		// First, construct a source repo path from our WWW filesystem path.
-		$ebookFromFilesystem->RepoFilesystemPath = str_replace(EBOOKS_DIST_PATH, '', $wwwFilesystemPath);
-		$ebookFromFilesystem->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $ebookFromFilesystem->RepoFilesystemPath) . '.git';
+		if(str_starts_with($wwwFilesystemPath, '/')){
+			$ebookFromFilesystem->RepoFilesystemPath = $wwwFilesystemPath;
+		}
+		else{
+			$ebookFromFilesystem->RepoFilesystemPath = str_replace(EBOOKS_DIST_PATH, '', $wwwFilesystemPath);
+			$ebookFromFilesystem->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $ebookFromFilesystem->RepoFilesystemPath) . '.git';
+		}
 
 		if(!is_dir($ebookFromFilesystem->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment.
 			try{
@@ -643,8 +648,7 @@ class Ebook{
 		$ebookFromFilesystem->Identifier = (string)$matches[1];
 
 		try{
-			// PHP Safe throws an exception from filesize() if the file doesn't exist, but PHP still
-			// emits a warning. So, just silence the warning.
+			// PHP Safe throws an exception from filesize() if the file doesn't exist, but PHP still emits a warning. So, just silence the warning.
 			$ebookFromFilesystem->TextSinglePageByteCount = @filesize($ebookFromFilesystem->WwwFilesystemPath . '/text/single-page.xhtml');
 		}
 		catch(\Exception){
@@ -687,13 +691,18 @@ class Ebook{
 		}
 
 		// Fill in the short history of this repo.
-		$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($ebookFromFilesystem->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"'));
+		try{
+			$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($ebookFromFilesystem->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"'));
 
-		$gitCommits = [];
-		foreach($historyEntries as $logLine){
-			$gitCommits[] = GitCommit::FromLogLine($logLine);
+			$gitCommits = [];
+			foreach($historyEntries as $logLine){
+				$gitCommits[] = GitCommit::FromLogLine($logLine);
+			}
+			$ebookFromFilesystem->GitCommits = $gitCommits;
 		}
-		$ebookFromFilesystem->GitCommits = $gitCommits;
+		catch(\Safe\Exceptions\ExecException){
+			// Pass.
+		}
 
 		// Now do some heavy XML lifting!
 		try{

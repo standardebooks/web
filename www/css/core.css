@@ -2936,6 +2936,11 @@ aside button.close:active{
 	transition: transform .5s;
 }
 
+article.ebook.public-domain-day-placeholder #read-free p{
+	text-align: center;
+	font-style: italic;
+}
+
 article.ebook section#read-online ul li p.has-size{
 	display: flex;
 }
