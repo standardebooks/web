@@ -1,5 +1,5 @@
 <?
-// See https://developers.google.com/search/docs/data-types/book for RDFa metadata details
+// See <https://developers.google.com/search/docs/data-types/book> for RDFa metadata details.
 
 use Safe\DateTimeImmutable;
 use function Safe\preg_match;
@@ -15,24 +15,23 @@ $carouselTag = null;
 $targetCarouselSize = 5;
 
 try{
-	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after https://standardebooks.org/ebooks/
-	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath; // Path to the deployed WWW files for this ebook
+	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
+	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath; // Path to the deployed WWW files for this ebook.
 
 	if($urlPath == '' || mb_stripos($wwwFilesystemPath, EBOOKS_DIST_PATH) !== 0){
-		// Ensure the path exists and that the root is in our www directory
+		// Ensure the path exists and that the root is in our www directory.
 		throw new Exceptions\EbookNotFoundException();
 	}
+
 	// Were we passed the author and a work but not the translator?
-	// For example:
-	// https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam
-	// Instead of:
-	// https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald/edmund-dulac
-	// We can tell because if so, the dir we are passed will exist, but there will be no 'src' folder.
+	// For example: <https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam>
+	// Instead of: <https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald/edmund-dulac>.
+	// We can tell because if so, the dir we are passed will exist, but there will be no `src` folder.
 	if(is_dir($wwwFilesystemPath) && !is_dir($wwwFilesystemPath . '/src')){
 		/** @var DirectoryIterator $file */
 		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($wwwFilesystemPath)) as $file){
-			// This iterator will do a deep scan on the directory. When we hit another directory, the filename will be "." and the path will contain the directory path.
-			// We want to find where the "src" directory is, and the directory directly below that will be the final web URL we're looking for.
+			// This iterator will do a deep scan on the directory. When we hit another directory, the filename will be `.` and the path will contain the directory path.
+			// We want to find where the `src` directory is, and the directory directly below that will be the final web URL we're looking for.
 			if($file->getFilename() == '.' && preg_match('|/src$|ius', $file->getPath())){
 				throw new Exceptions\SeeOtherEbookException(preg_replace(['|' . WEB_ROOT . '|ius', '|/src$|ius'], '', $file->getPath()));
 			}
@@ -42,7 +41,7 @@ try{
 	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
 	$ebook = Ebook::GetByIdentifier($identifier);
 
-	// Divide our sources into transcriptions and scans
+	// Divide our sources into transcriptions and scans.
 	foreach($ebook->Sources as $source){
 		switch($source->Type){
 			case EbookSourceType::ProjectGutenberg:
@@ -94,15 +93,16 @@ catch(Exceptions\EbookNotFoundException){
 						For example, William Wordsworth & Samuel Coleridge will both link to /ebooks/william-wordsworth_samuel-taylor-coleridge
 						But, each author is an individual, so we have to differentiate them in RDFa with `resource` */ ?>
 					<? if($author->Name != 'Anonymous'){ ?>
-						<h2><a property="schema:author" typeof="schema:Person" href="<?= Formatter::EscapeHtml($ebook->AuthorsUrl) ?>" resource="<?= '/ebooks/' . $author->UrlName ?>">
-							<span property="schema:name"><?= Formatter::EscapeHtml($author->Name) ?></span>
-							<meta property="schema:url" content="<?= SITE_URL . Formatter::EscapeHtml($ebook->AuthorsUrl) ?>"/>
-							<? if($author->NacoafUrl){ ?>
-								<meta property="schema:sameAs" content="<?= Formatter::EscapeHtml($author->NacoafUrl) ?>"/>
-							<? } ?>
-							<? if($author->WikipediaUrl){ ?>
-								<meta property="schema:sameAs" content="<?= Formatter::EscapeHtml($author->WikipediaUrl) ?>"/>
-							<? } ?>
+						<h2>
+							<a property="schema:author" typeof="schema:Person" href="<?= Formatter::EscapeHtml($ebook->AuthorsUrl) ?>" resource="<?= '/ebooks/' . $author->UrlName ?>">
+								<span property="schema:name"><?= Formatter::EscapeHtml($author->Name) ?></span>
+								<meta property="schema:url" content="<?= SITE_URL . Formatter::EscapeHtml($ebook->AuthorsUrl) ?>"/>
+								<? if($author->NacoafUrl){ ?>
+									<meta property="schema:sameAs" content="<?= Formatter::EscapeHtml($author->NacoafUrl) ?>"/>
+								<? } ?>
+								<? if($author->WikipediaUrl){ ?>
+									<meta property="schema:sameAs" content="<?= Formatter::EscapeHtml($author->WikipediaUrl) ?>"/>
+								<? } ?>
 							</a>
 						</h2>
 					<? } ?>
@@ -127,18 +127,25 @@ catch(Exceptions\EbookNotFoundException){
 				<? foreach($ebook->CollectionMemberships as $collectionMembership){ ?>
 					<? $collection = $collectionMembership->Collection; ?>
 					<? $sequenceNumber = $collectionMembership->SequenceNumber; ?>
-					<p><? if($sequenceNumber !== null){ ?>№ <?= number_format($sequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::EscapeHtml(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
-					<? if($collection->Type !== null){ ?>
-						<? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type->value), -strlen(mb_strtolower($collection->Type->value))) !== 0){ ?>
-							<?= $collection->Type->value ?>.
+					<p>
+						<? if($sequenceNumber !== null){ ?>№ <?= number_format($sequenceNumber) ?> in the<? }else{ ?>Part of the<? } ?> <a href="<?= $collection->Url ?>" property="schema:isPartOf"><?= Formatter::EscapeHtml(preg_replace('/^The /ius', '', (string)$collection->Name)) ?></a>
+						<? if($collection->Type !== null){ ?>
+							<? if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type->value), -strlen(mb_strtolower($collection->Type->value))) !== 0){ ?>
+								<?= $collection->Type->value ?>.
+							<? } ?>
+						<? }else{ ?>
+							collection.
 						<? } ?>
-					<? }else{ ?>
-						collection.
-					<? } ?>
 					</p>
 				<? } ?>
 			<? } ?>
-			<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a></li><? } ?></ul>
+			<ul class="tags">
+				<? foreach($ebook->Tags as $tag){ ?>
+					<li>
+						<a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a>
+					</li>
+				<? } ?>
+			</ul>
 		</aside>
 
 		<section id="description">
@@ -149,7 +156,9 @@ catch(Exceptions\EbookNotFoundException){
 			<?= Template::DonationAlert() ?>
 
 			<? if($ebook->LongDescription === null){ ?>
-				<p><i>There’s no description for this ebook yet.</i></p>
+				<p>
+					<i>There’s no description for this ebook yet.</i>
+				</p>
 			<? }else{ ?>
 				<?= $ebook->LongDescription ?>
 			<? } ?>
@@ -277,7 +286,9 @@ catch(Exceptions\EbookNotFoundException){
 				<? foreach($ebook->GitCommits as $commit){ ?>
 					<li>
 						<time datetime="<?= $commit->Created->format(DateTimeImmutable::RFC3339) ?>"><?= $commit->Created->format('M j, Y') ?></time>
-						<p><a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>/commit/<?= Formatter::EscapeHtml($commit->Hash) ?>"><?= Formatter::EscapeHtml($commit->Message) ?></a></p>
+						<p>
+							<a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>/commit/<?= Formatter::EscapeHtml($commit->Hash) ?>"><?= Formatter::EscapeHtml($commit->Message) ?></a>
+						</p>
 					</li>
 				<? } ?>
 			</ol>
@@ -294,12 +305,16 @@ catch(Exceptions\EbookNotFoundException){
 				<ul>
 					<? if($ebook->GitHubUrl !== null){ ?>
 						<li>
-							<p><a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>" class="github">This ebook’s source code at GitHub</a></p>
+							<p>
+								<a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>" class="github">This ebook’s source code at GitHub</a>
+							</p>
 						</li>
 					<? } ?>
 					<? if($ebook->WikipediaUrl !== null){ ?>
 						<li>
-							<p><a href="<?= Formatter::EscapeHtml($ebook->WikipediaUrl) ?>" class="wikipedia">This book at Wikipedia</a></p>
+							<p>
+								<a href="<?= Formatter::EscapeHtml($ebook->WikipediaUrl) ?>" class="wikipedia">This book at Wikipedia</a>
+							</p>
 						</li>
 					<? } ?>
 				</ul>
@@ -314,23 +329,23 @@ catch(Exceptions\EbookNotFoundException){
 						<h3>Transcriptions</h3>
 						<ul>
 							<? foreach($transcriptionSources as $source){ ?>
-							<li>
-								<p>
-									<? if($source->Type == EbookSourceType::ProjectGutenberg){ ?>
-										<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a>
-									<? }elseif($source->Type == EbookSourceType::ProjectGutenbergAustralia){ ?>
-										<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a>
-									<? }elseif($source->Type == EbookSourceType::ProjectGutenbergCanada){ ?>
-										<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a>
-									<? }elseif($source->Type == EbookSourceType::Wikisource){ ?>
-										<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="wikisource">Transcription at Wikisource</a>
-									<? }elseif($source->Type == EbookSourceType::FadedPage){ ?>
-										<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe">Transcription at Faded Page</a>
-									<? }else{?>
-										<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe">Transcription</a>
-									<? } ?>
-								</p>
-							</li>
+								<li>
+									<p>
+										<? if($source->Type == EbookSourceType::ProjectGutenberg){ ?>
+											<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg</a>
+										<? }elseif($source->Type == EbookSourceType::ProjectGutenbergAustralia){ ?>
+											<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Australia</a>
+										<? }elseif($source->Type == EbookSourceType::ProjectGutenbergCanada){ ?>
+											<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="project-gutenberg">Transcription at Project Gutenberg Canada</a>
+										<? }elseif($source->Type == EbookSourceType::Wikisource){ ?>
+											<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="wikisource">Transcription at Wikisource</a>
+										<? }elseif($source->Type == EbookSourceType::FadedPage){ ?>
+											<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe">Transcription at Faded Page</a>
+										<? }else{?>
+											<a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe">Transcription</a>
+										<? } ?>
+									</p>
+								</li>
 							<? } ?>
 						</ul>
 					</section>
