@@ -119,5 +119,5 @@ const PD_DAY_EBOOKS = [
 		'mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai' => ['author' => 'Mahatma Gandhi', 'title' => 'The Story of My Experiments with Truth'],
 		'arthur-conan-doyle/the-maracot-deep' => ['author' => 'Arthur Conan Doyle', 'title' => 'The Maracot Deep'],
 		'sinclair-lewis/dodsworth' => ['author' => 'Sinclair Lewis', 'title' => 'Dodsworth'],
-		'thomas-wolfe/look-homeard-angel' => ['author' => 'Thomas Wolfe', 'title' => 'Look Homeward, Angel']
+		'thomas-wolfe/look-homeward-angel' => ['author' => 'Thomas Wolfe', 'title' => 'Look Homeward, Angel']
 	];
