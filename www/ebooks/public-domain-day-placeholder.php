@@ -11,7 +11,7 @@ try{
 	}
 	catch(Exceptions\EbookNotFoundException $ex){
 		// We may have ebooks listed as in progress, but no actual draft repos yet.
-		// In that case, fill in the details from PD_DAY_EBOOKS.
+		// In that case, fill in the details from `PD_DAY_EBOOKS`.
 		if(array_key_exists($urlPath, PD_DAY_EBOOKS)){
 			$ebook = new Ebook();
 
@@ -44,9 +44,6 @@ catch(Exceptions\EbookNotFoundException){
 			<hgroup>
 				<h1><?= Formatter::EscapeHtml($ebook->Title) ?></h1>
 				<? foreach($ebook->Authors as $author){ ?>
-					<? /* We include the `resource` attr here because we can have multiple authors, and in that case their href URLs will link to their combined corpus.
-						For example, William Wordsworth & Samuel Coleridge will both link to /ebooks/william-wordsworth_samuel-taylor-coleridge
-						But, each author is an individual, so we have to differentiate them in RDFa with `resource` */ ?>
 					<? if($author->Name != 'Anonymous'){ ?>
 						<h2>
 							<a href="<?= Formatter::EscapeHtml($ebook->AuthorsUrl) ?>"><?= Formatter::EscapeHtml($author->Name) ?></a>
@@ -104,7 +101,6 @@ catch(Exceptions\EbookNotFoundException){
 		</section>
 
 		<section id="read-free">
-			<?= $ebook->GenerateContributorsRdfa() ?>
 			<h2>Read free</h2>
 			<p>This book will enter the public domain in the U.S. on <b>January 1, <?= PD_DAY_YEAR ?></b>.</p>
 			<p>We’ve been working hard, and have this ebook prepared and ready for you to download free on January 1. Bookmark this page and come back then to read this ebook for free!</p>
