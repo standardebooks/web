@@ -314,8 +314,7 @@ class Ebook{
 	}
 
 	private function GetLatestCommitHash(): string{
-		$gitCommits = $this->GitCommits;
-		return substr(sha1($gitCommits[0]->Created->format('U') . ' ' . $gitCommits[0]->Message), 0, 8);
+		return substr(sha1($this->GitCommits[0]->Hash), 0, 8);
 	}
 
 	protected function GetHeroImageUrl(): string{
@@ -606,7 +605,7 @@ class Ebook{
 		$ebookFromFilesystem = new Ebook();
 
 		// First, construct a source repo path from our WWW filesystem path.
-		if(str_starts_with($wwwFilesystemPath, '/')){
+		if(is_dir($wwwFilesystemPath . '/.git')){
 			$ebookFromFilesystem->RepoFilesystemPath = $wwwFilesystemPath;
 		}
 		else{
