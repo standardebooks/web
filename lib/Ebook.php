@@ -602,24 +602,25 @@ class Ebook{
 			throw new Exceptions\InvalidEbookWwwFilesystemPathException($wwwFilesystemPath);
 		}
 
-		$ebookFromFilesystem = new Ebook();
+		$ebook = new Ebook();
 
 		// First, construct a source repo path from our WWW filesystem path.
 		if(is_dir($wwwFilesystemPath . '/.git')){
-			$ebookFromFilesystem->RepoFilesystemPath = $wwwFilesystemPath;
+			$wwwFilesystemPath = $wwwFilesystemPath . '/src/epub';
+			$ebook->RepoFilesystemPath = $wwwFilesystemPath;
 		}
 		else{
-			$ebookFromFilesystem->RepoFilesystemPath = str_replace(EBOOKS_DIST_PATH, '', $wwwFilesystemPath);
-			$ebookFromFilesystem->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $ebookFromFilesystem->RepoFilesystemPath) . '.git';
+			$ebook->RepoFilesystemPath = str_replace(EBOOKS_DIST_PATH, '', $wwwFilesystemPath);
+			$ebook->RepoFilesystemPath = SITE_ROOT . '/ebooks/' . str_replace('/', '_', $ebook->RepoFilesystemPath) . '.git';
 		}
 
-		if(!is_dir($ebookFromFilesystem->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment.
+		if(!is_dir($ebook->RepoFilesystemPath)){ // On dev systems we might not have the bare repos, so make an adjustment.
 			try{
-				$ebookFromFilesystem->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $ebookFromFilesystem->RepoFilesystemPath);
+				$ebook->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $ebook->RepoFilesystemPath);
 			}
 			catch(\Exception){
 				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, whichis  a common injection attack vector.
-				throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $ebookFromFilesystem->RepoFilesystemPath);
+				throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $ebook->RepoFilesystemPath);
 			}
 		}
 
@@ -627,15 +628,15 @@ class Ebook{
 			throw new Exceptions\EbookNotFoundException('Invalid www filesystem path: ' . $wwwFilesystemPath);
 		}
 
-		if(!is_dir($ebookFromFilesystem->RepoFilesystemPath)){
-			throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $ebookFromFilesystem->RepoFilesystemPath);
+		if(!is_dir($ebook->RepoFilesystemPath)){
+			throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $ebook->RepoFilesystemPath);
 		}
 
 		if(!is_file($wwwFilesystemPath . '/content.opf')){
 			throw new Exceptions\EbookNotFoundException('Invalid content.opf file: ' . $wwwFilesystemPath . '/content.opf');
 		}
 
-		$ebookFromFilesystem->WwwFilesystemPath = $wwwFilesystemPath;
+		$ebook->WwwFilesystemPath = $wwwFilesystemPath;
 
 		$rawMetadata = file_get_contents($wwwFilesystemPath . '/content.opf');
 
@@ -644,60 +645,60 @@ class Ebook{
 		if(sizeof($matches) != 2){
 			throw new Exceptions\EbookParsingException('Invalid <dc:identifier> element.');
 		}
-		$ebookFromFilesystem->Identifier = (string)$matches[1];
+		$ebook->Identifier = (string)$matches[1];
 
 		try{
 			// PHP Safe throws an exception from filesize() if the file doesn't exist, but PHP still emits a warning. So, just silence the warning.
-			$ebookFromFilesystem->TextSinglePageByteCount = @filesize($ebookFromFilesystem->WwwFilesystemPath . '/text/single-page.xhtml');
+			$ebook->TextSinglePageByteCount = @filesize($ebook->WwwFilesystemPath . '/text/single-page.xhtml');
 		}
 		catch(\Exception){
 			// Single page file doesn't exist, just pass.
 		}
 
 		// Generate the Kindle cover URL.
-		$tempPath = glob($ebookFromFilesystem->WwwFilesystemPath . '/downloads/*_EBOK_portrait.jpg');
+		$tempPath = glob($ebook->WwwFilesystemPath . '/downloads/*_EBOK_portrait.jpg');
 		if(sizeof($tempPath) > 0){
-			$ebookFromFilesystem->KindleCoverUrl = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
+			$ebook->KindleCoverUrl = $ebook->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Generate the compatible epub URL.
-		$tempPath = glob($ebookFromFilesystem->WwwFilesystemPath . '/downloads/*.epub');
+		$tempPath = glob($ebook->WwwFilesystemPath . '/downloads/*.epub');
 		if(sizeof($tempPath) > 0){
-			$ebookFromFilesystem->EpubUrl = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
+			$ebook->EpubUrl = $ebook->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Generate the epub URL.
-		$tempPath = glob($ebookFromFilesystem->WwwFilesystemPath . '/downloads/*_advanced.epub');
+		$tempPath = glob($ebook->WwwFilesystemPath . '/downloads/*_advanced.epub');
 		if(sizeof($tempPath) > 0){
-			$ebookFromFilesystem->AdvancedEpubUrl = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
+			$ebook->AdvancedEpubUrl = $ebook->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Generate the Kepub URL.
-		$tempPath = glob($ebookFromFilesystem->WwwFilesystemPath . '/downloads/*.kepub.epub');
+		$tempPath = glob($ebook->WwwFilesystemPath . '/downloads/*.kepub.epub');
 		if(sizeof($tempPath) > 0){
-			$ebookFromFilesystem->KepubUrl = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
+			$ebook->KepubUrl = $ebook->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Generate the azw3 URL.
-		$tempPath = glob($ebookFromFilesystem->WwwFilesystemPath . '/downloads/*.azw3');
+		$tempPath = glob($ebook->WwwFilesystemPath . '/downloads/*.azw3');
 		if(sizeof($tempPath) > 0){
-			$ebookFromFilesystem->Azw3Url = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
+			$ebook->Azw3Url = $ebook->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
-		$tempPath = glob($ebookFromFilesystem->WwwFilesystemPath . '/downloads/cover.jpg');
+		$tempPath = glob($ebook->WwwFilesystemPath . '/downloads/cover.jpg');
 		if(sizeof($tempPath) > 0){
-			$ebookFromFilesystem->DistCoverUrl = $ebookFromFilesystem->Url . '/downloads/' . basename($tempPath[0]);
+			$ebook->DistCoverUrl = $ebook->Url . '/downloads/' . basename($tempPath[0]);
 		}
 
 		// Fill in the short history of this repo.
 		try{
-			$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($ebookFromFilesystem->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"'));
+			$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($ebook->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"'));
 
 			$gitCommits = [];
 			foreach($historyEntries as $logLine){
 				$gitCommits[] = GitCommit::FromLogLine($logLine);
 			}
-			$ebookFromFilesystem->GitCommits = $gitCommits;
+			$ebook->GitCommits = $gitCommits;
 		}
 		catch(\Safe\Exceptions\ExecException){
 			// Pass.
@@ -713,27 +714,27 @@ class Ebook{
 
 		$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 
-		$ebookFromFilesystem->Title = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title'));
-		if($ebookFromFilesystem->Title === null){
+		$ebook->Title = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title'));
+		if($ebook->Title === null){
 			throw new Exceptions\EbookParsingException('Invalid <dc:title> element.');
 		}
 
-		$ebookFromFilesystem->Title = str_replace('\'', '’', $ebookFromFilesystem->Title);
+		$ebook->Title = str_replace('\'', '’', $ebook->Title);
 
-		$ebookFromFilesystem->FullTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title[@id="fulltitle"]'));
+		$ebook->FullTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title[@id="fulltitle"]'));
 
-		$ebookFromFilesystem->AlternateTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="dcterms:alternate"][@refines="#title"]'));
+		$ebook->AlternateTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="dcterms:alternate"][@refines="#title"]'));
 
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if($date !== false && sizeof($date) > 0){
 			/** @throws void */
-			$ebookFromFilesystem->EbookCreated = new DateTimeImmutable((string)$date[0]);
+			$ebook->EbookCreated = new DateTimeImmutable((string)$date[0]);
 		}
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
 		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
 			/** @throws void */
-			$ebookFromFilesystem->EbookUpdated = new DateTimeImmutable((string)$modifiedDate[0]);
+			$ebook->EbookUpdated = new DateTimeImmutable((string)$modifiedDate[0]);
 		}
 
 		// Get SE tags.
@@ -743,7 +744,7 @@ class Ebook{
 			$ebookTag->Name = $tag;
 			$tags[] = $ebookTag;
 		}
-		$ebookFromFilesystem->Tags = $tags;
+		$ebook->Tags = $tags;
 
 		$includeToc = sizeof($xml->xpath('/package/metadata/meta[@property="se:is-a-collection"]') ?: []) > 0;
 
@@ -760,7 +761,7 @@ class Ebook{
 			foreach($tocDom->xpath('/html/body//nav[@epub:type="toc"]//a[not(contains(@epub:type, "z3998:roman")) and not(text() = "Titlepage" or text() = "Imprint" or text() = "Colophon" or text() = "Endnotes" or text() = "Uncopyright") and not(contains(@href, "halftitle"))]') ?: [] as $item){
 				$tocEntries[] = (string)$item;
 			}
-			$ebookFromFilesystem->TocEntries = $tocEntries;
+			$ebook->TocEntries = $tocEntries;
 		}
 
 		// Get SE collections.
@@ -778,7 +779,7 @@ class Ebook{
 			}
 			$collectionMemberships[] = $cm;
 		}
-		$ebookFromFilesystem->CollectionMemberships = $collectionMemberships;
+		$ebook->CollectionMemberships = $collectionMemberships;
 
 		// Get LoC tags.
 		$locSubjects = [];
@@ -787,7 +788,7 @@ class Ebook{
 			$locSubject->Name = $subject;
 			$locSubjects[] = $locSubject;
 		}
-		$ebookFromFilesystem->LocSubjects = $locSubjects;
+		$ebook->LocSubjects = $locSubjects;
 
 		// Figure out authors and contributors.
 		$authors = [];
@@ -820,7 +821,7 @@ class Ebook{
 			throw new Exceptions\EbookParsingException('Invalid <dc:creator> element.');
 		}
 
-		$ebookFromFilesystem->Authors = $authors;
+		$ebook->Authors = $authors;
 
 		$illustrators = [];
 		$translators = [];
@@ -869,31 +870,31 @@ class Ebook{
 			}
 
 		}
-		$ebookFromFilesystem->Illustrators = $illustrators;
-		$ebookFromFilesystem->Translators = $translators;
-		$ebookFromFilesystem->Contributors = $contributors;
+		$ebook->Illustrators = $illustrators;
+		$ebook->Translators = $translators;
+		$ebook->Contributors = $contributors;
 
 		// Some basic data.
-		$ebookFromFilesystem->Description = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:description'));
-		$ebookFromFilesystem->Language = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:language'));
-		$ebookFromFilesystem->LongDescription = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:long-description"]'));
+		$ebook->Description = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:description'));
+		$ebook->Language = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:language'));
+		$ebook->LongDescription = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:long-description"]'));
 
 		$wordCount = 0;
 		$wordCountElement = $xml->xpath('/package/metadata/meta[@property="se:word-count"]');
 		if($wordCountElement !== false && sizeof($wordCountElement) > 0){
 			$wordCount = (int)$wordCountElement[0];
 		}
-		$ebookFromFilesystem->WordCount = $wordCount;
+		$ebook->WordCount = $wordCount;
 
 		$readingEase = 0;
 		$readingEaseElement = $xml->xpath('/package/metadata/meta[@property="se:reading-ease.flesch"]');
 		if($readingEaseElement !== false && sizeof($readingEaseElement) > 0){
 			$readingEase = (float)$readingEaseElement[0];
 		}
-		$ebookFromFilesystem->ReadingEase = $readingEase;
+		$ebook->ReadingEase = $readingEase;
 
 		// First the Wikipedia URLs.
-		$ebookFromFilesystem->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][not(@refines)]'));
+		$ebook->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][not(@refines)]'));
 
 		// Next the page scan source URLs.
 		$sources = [];
@@ -930,12 +931,12 @@ class Ebook{
 
 			$sources[] = $ebookSource;
 		}
-		$ebookFromFilesystem->Sources = $sources;
+		$ebook->Sources = $sources;
 
 		// Next the GitHub URLs.
-		$ebookFromFilesystem->GitHubUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.vcs.github"][not(@refines)]'));
+		$ebook->GitHubUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.vcs.github"][not(@refines)]'));
 
-		return $ebookFromFilesystem;
+		return $ebook;
 	}
 
 

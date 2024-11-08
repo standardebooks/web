@@ -7,7 +7,7 @@ $ebook = null;
 try{
 	try{
 		// Attempt to read a draft ebook repo from the filesystem.
-		$ebook = Ebook::FromFilesystem(PD_DAY_DRAFT_PATH . '/' . str_replace('/', '_', $urlPath) . '/src/epub');
+		$ebook = Ebook::FromFilesystem(PD_DAY_DRAFT_PATH . '/' . str_replace('/', '_', $urlPath));
 	}
 	catch(Exceptions\EbookNotFoundException $ex){
 		// We may have ebooks listed as in progress, but no actual draft repos yet.
@@ -27,7 +27,7 @@ try{
 
 			$ebook->Title = PD_DAY_EBOOKS[$urlPath]['title'];
 			$ebook->WwwFilesystemPath = '';
-			$ebook->Identifier = '';
+			$ebook->Identifier = 'url:https://standardebooks.org/ebooks/' . $urlPath;
 		}
 		else{
 			throw $ex;
