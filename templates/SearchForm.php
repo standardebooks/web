@@ -1,8 +1,8 @@
 <?
 /**
  * @var array<string> $tags
- * @var EbookSortType $sort
- * @var ViewType $view
+ * @var Enums\EbookSortType $sort
+ * @var Enums\ViewType $view
  * @var int $perPage
  */
 
@@ -24,10 +24,10 @@ $isAllSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<span>Sort</span>
 		<span>
 			<select name="sort">
-				<option value="<?= EbookSortType::Newest->value ?>"<? if($sort == EbookSortType::Newest){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
-				<option value="<?= EbookSortType::AuthorAlpha->value ?>"<? if($sort == EbookSortType::AuthorAlpha){ ?> selected="selected"<? } ?>>Author name  (a &#x2192; z)</option>
-				<option value="<?= EbookSortType::ReadingEase->value ?>"<? if($sort == EbookSortType::ReadingEase){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
-				<option value="<?= EbookSortType::Length->value ?>"<? if($sort == EbookSortType::Length){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
+				<option value="<?= Enums\EbookSortType::Newest->value ?>"<? if($sort == Enums\EbookSortType::Newest){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
+				<option value="<?= Enums\EbookSortType::AuthorAlpha->value ?>"<? if($sort == Enums\EbookSortType::AuthorAlpha){ ?> selected="selected"<? } ?>>Author name  (a &#x2192; z)</option>
+				<option value="<?= Enums\EbookSortType::ReadingEase->value ?>"<? if($sort == Enums\EbookSortType::ReadingEase){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
+				<option value="<?= Enums\EbookSortType::Length->value ?>"<? if($sort == Enums\EbookSortType::Length){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
 			</select>
 		</span>
 	</label>
@@ -35,8 +35,8 @@ $isAllSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		<span>View</span>
 		<span>
 			<select name="view">
-				<option value="<?= ViewType::Grid->value ?>"<? if($view == ViewType::Grid){ ?> selected="selected"<? } ?>>Grid</option>
-				<option value="<?= ViewType::List->value ?>"<? if($view == ViewType::List){ ?> selected="selected"<? } ?>>List</option>
+				<option value="<?= Enums\ViewType::Grid->value ?>"<? if($view == Enums\ViewType::Grid){ ?> selected="selected"<? } ?>>Grid</option>
+				<option value="<?= Enums\ViewType::List->value ?>"<? if($view == Enums\ViewType::List){ ?> selected="selected"<? } ?>>List</option>
 			</select>
 		</span>
 	</label>

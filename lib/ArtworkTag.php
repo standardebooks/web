@@ -4,7 +4,7 @@ use function Safe\preg_replace;
 
 class ArtworkTag extends Tag{
 	public function __construct(){
-		$this->Type = TagType::Artwork;
+		$this->Type = Enums\TagType::Artwork;
 	}
 
 	// *******
@@ -45,7 +45,7 @@ class ArtworkTag extends Tag{
 			$error->Add(new Exceptions\InvalidArtworkTagNameException());
 		}
 
-		if($this->Type != TagType::Artwork){
+		if($this->Type != Enums\TagType::Artwork){
 			$error->Add(new Exceptions\InvalidArtworkTagTypeException($this->Type));
 		}
 
@@ -77,7 +77,7 @@ class ArtworkTag extends Tag{
 				from Tags
 				where Name = ?
 					and Type = ?
-			', [$artworkTag->Name, TagType::Artwork], ArtworkTag::class);
+			', [$artworkTag->Name, Enums\TagType::Artwork], ArtworkTag::class);
 
 		if(isset($result[0])){
 			return $result[0];

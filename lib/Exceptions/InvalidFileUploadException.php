@@ -1,5 +1,4 @@
-<?php
-
+<?
 namespace Exceptions;
 
 class InvalidFileUploadException extends AppException{

@@ -1,4 +1,6 @@
 <?
+namespace Enums;
+
 use function Safe\mime_content_type;
 
 enum ImageMimeType: string{

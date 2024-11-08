@@ -48,8 +48,8 @@ class Artwork{
 	public ?bool $IsPublishedInUs = null;
 	public ?string $Exception = null;
 	public ?string $Notes = null;
-	public ?ImageMimeType $MimeType = null;
-	public ?ArtworkStatusType $Status = null;
+	public ?Enums\ImageMimeType $MimeType = null;
+	public ?Enums\ArtworkStatusType $Status = null;
 
 	protected ?string $_UrlName = null;
 	protected ?string $_Url = null;
@@ -290,7 +290,7 @@ class Artwork{
 			return true;
 		}
 
-		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == ArtworkStatusType::Unverified || $this->Status == ArtworkStatusType::Declined)){
+		if(($user->Benefits->CanReviewArtwork || $user->UserId == $this->SubmitterUserId) && ($this->Status == Enums\ArtworkStatusType::Unverified || $this->Status == Enums\ArtworkStatusType::Declined)){
 			// Editors can edit an artwork, and submitters can edit their own artwork, if it's not yet approved.
 			return true;
 		}
@@ -308,7 +308,7 @@ class Artwork{
 			return true;
 		}
 
-		if($user->Benefits->CanReviewArtwork && $user->UserId != $this->SubmitterUserId && ($this->Status == ArtworkStatusType::Unverified || $this->Status == ArtworkStatusType::Declined)){
+		if($user->Benefits->CanReviewArtwork && $user->UserId != $this->SubmitterUserId && ($this->Status == Enums\ArtworkStatusType::Unverified || $this->Status == Enums\ArtworkStatusType::Declined)){
 			// Editors can change the status of artwork they did not submit themselves, and that is not yet approved.
 			return true;
 		}
@@ -661,7 +661,7 @@ class Artwork{
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	public function Create(?string $imagePath = null): void{
-		$this->MimeType = ImageMimeType::FromFile($imagePath);
+		$this->MimeType = Enums\ImageMimeType::FromFile($imagePath);
 
 		$this->Validate($imagePath, true);
 
@@ -729,7 +729,7 @@ class Artwork{
 		$this->_UrlName = null;
 
 		if($imagePath !== null){
-			$this->MimeType = ImageMimeType::FromFile($imagePath);
+			$this->MimeType = Enums\ImageMimeType::FromFile($imagePath);
 
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's updated timestamp won't change automatically.
 			$this->Updated = NOW;
@@ -880,7 +880,7 @@ class Artwork{
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
 		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
-		$artwork->Status = ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? ArtworkStatusType::Unverified;
+		$artwork->Status = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? Enums\ArtworkStatusType::Unverified;
 		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
 		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');

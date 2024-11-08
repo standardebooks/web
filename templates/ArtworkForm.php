@@ -87,7 +87,7 @@ $isEditForm = $isEditForm ?? false;
 			type="file"
 			name="artwork-image"
 			<? if(!$isEditForm){ ?>required="required"<? } ?>
-			accept="<?= implode(',', ImageMimeType::Values()) ?>"
+			accept="<?= implode(',', Enums\ImageMimeType::Values()) ?>"
 		/>
 	</label>
 </fieldset>
@@ -179,9 +179,9 @@ $isEditForm = $isEditForm ?? false;
 			<span>Artwork approval status</span>
 			<span>
 				<select name="artwork-status">
-					<option value="<?= ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
-					<option value="<?= ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
-					<option value="<?= ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
+					<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+					<option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+					<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
 				</select>
 			</span>
 		</label>

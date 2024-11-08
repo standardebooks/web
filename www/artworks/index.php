@@ -5,7 +5,7 @@ $query = HttpInput::Str(GET, 'query');
 $queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
 $status = HttpInput::Str(GET, 'status');
 $filterArtworkStatus = $status;
-$sort = ArtworkSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
+$sort = Enums\ArtworkSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $pages = 0;
 $totalArtworkCount = 0;
 $pageDescription = '';
@@ -26,7 +26,7 @@ try{
 
 	// If we're passed string values that are the same as the defaults,
 	// set them to null so that we can have cleaner query strings in the navigation footer
-	if($sort == ArtworkSortType::CreatedNewest){
+	if($sort == Enums\ArtworkSortType::CreatedNewest){
 		$sort = null;
 	}
 
@@ -45,25 +45,25 @@ try{
 		}
 	}
 
-	if(!$isReviewerView && !$isSubmitterView && !in_array($status, array('all', ArtworkStatusType::Approved->value, 'in-use'))){
-		$status = ArtworkStatusType::Approved->value;
+	if(!$isReviewerView && !$isSubmitterView && !in_array($status, array('all', Enums\ArtworkStatusType::Approved->value, 'in-use'))){
+		$status = Enums\ArtworkStatusType::Approved->value;
 		$filterArtworkStatus = $status;
 	}
 
-	if($isReviewerView && !in_array($status, array('all', ArtworkStatusType::Unverified->value, ArtworkStatusType::Declined->value, ArtworkStatusType::Approved->value, 'in-use'))
-	                && !in_array($filterArtworkStatus, array('all-admin', ArtworkStatusType::Unverified->value, ArtworkStatusType::Declined->value, ArtworkStatusType::Approved->value, 'in-use'))){
-		$status = ArtworkStatusType::Approved->value;
+	if($isReviewerView && !in_array($status, array('all', Enums\ArtworkStatusType::Unverified->value, Enums\ArtworkStatusType::Declined->value, Enums\ArtworkStatusType::Approved->value, 'in-use'))
+	                && !in_array($filterArtworkStatus, array('all-admin', Enums\ArtworkStatusType::Unverified->value, Enums\ArtworkStatusType::Declined->value, Enums\ArtworkStatusType::Approved->value, 'in-use'))){
+		$status = Enums\ArtworkStatusType::Approved->value;
 		$filterArtworkStatus = $status;
 	}
 
-	if($isSubmitterView && !in_array($status, array('all', ArtworkStatusType::Unverified->value, ArtworkStatusType::Approved->value, 'in-use'))
-	                    && !in_array($filterArtworkStatus, array('all-submitter', 'unverified-submitter', ArtworkStatusType::Approved->value, 'in-use'))){
-		$status = ArtworkStatusType::Approved->value;
+	if($isSubmitterView && !in_array($status, array('all', Enums\ArtworkStatusType::Unverified->value, Enums\ArtworkStatusType::Approved->value, 'in-use'))
+	                    && !in_array($filterArtworkStatus, array('all-submitter', 'unverified-submitter', Enums\ArtworkStatusType::Approved->value, 'in-use'))){
+		$status = Enums\ArtworkStatusType::Approved->value;
 		$filterArtworkStatus = $status;
 	}
 
 	if($queryEbookUrl !== null){
-		$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, ArtworkStatusType::Approved], Artwork::class);
+		$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class);
 		$totalArtworkCount = sizeof($artworks);
 	}
 	else{
@@ -139,9 +139,9 @@ catch(Exceptions\PageOutOfBoundsException){
 				<span>
 					<select name="status" size="1">
 						<option value="all"<? if($status === null){ ?> selected="selected"<? } ?>>All</option>
-						<? if($isReviewerView || $isSubmitterView){ ?><option value="<?= ArtworkStatusType::Unverified->value ?>"<? if($status == ArtworkStatusType::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
-						<? if($isReviewerView){ ?><option value="<?= ArtworkStatusType::Declined->value ?>"<? if($status == ArtworkStatusType::Declined->value){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
-						<option value="<?= ArtworkStatusType::Approved->value ?>"<? if($status == ArtworkStatusType::Approved->value){ ?> selected="selected"<? } ?>>Approved, not in use</option>
+						<? if($isReviewerView || $isSubmitterView){ ?><option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($status == Enums\ArtworkStatusType::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
+						<? if($isReviewerView){ ?><option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($status == Enums\ArtworkStatusType::Declined->value){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
+						<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($status == Enums\ArtworkStatusType::Approved->value){ ?> selected="selected"<? } ?>>Approved, not in use</option>
 						<option value="in-use"<? if($status == 'in-use'){ ?> selected="selected"<? } ?>>In use</option>
 					</select>
 				</span>
@@ -153,9 +153,9 @@ catch(Exceptions\PageOutOfBoundsException){
 				<span>Sort</span>
 				<span>
 					<select name="sort">
-						<option value="<?= ArtworkSortType::CreatedNewest->value ?>"<? if($sort == ArtworkSortType::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
-						<option value="<?= ArtworkSortType::ArtistAlpha->value ?>"<? if($sort == ArtworkSortType::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
-						<option value="<?= ArtworkSortType::CompletedNewest->value ?>"<? if($sort == ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
+						<option value="<?= Enums\ArtworkSortType::CreatedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
+						<option value="<?= Enums\ArtworkSortType::ArtistAlpha->value ?>"<? if($sort == Enums\ArtworkSortType::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
+						<option value="<?= Enums\ArtworkSortType::CompletedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
 					</select>
 				</span>
 			</label>

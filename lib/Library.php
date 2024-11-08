@@ -16,7 +16,7 @@ class Library{
 	* @param array<string> $tags
 	* @return array{ebooks: array<Ebook>, ebooksCount: int}
 	*/
-	public static function FilterEbooks(string $query = null, array $tags = [], EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE): array{
+	public static function FilterEbooks(string $query = null, array $tags = [], Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE): array{
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
 		$joinContributors = '';
@@ -25,15 +25,15 @@ class Library{
 		$whereCondition = 'where true';
 
 		$orderBy = 'e.EbookCreated desc';
-		if($sort == EbookSortType::AuthorAlpha){
+		if($sort == Enums\EbookSortType::AuthorAlpha){
 			$joinContributors = 'inner join Contributors con using (EbookId)';
 			$whereCondition .= ' AND con.MarcRole = "aut"';
 			$orderBy = 'con.SortName, e.EbookCreated desc';
 		}
-		elseif($sort == EbookSortType::ReadingEase){
+		elseif($sort == Enums\EbookSortType::ReadingEase){
 			$orderBy = 'e.ReadingEase desc';
 		}
-		elseif($sort == EbookSortType::Length){
+		elseif($sort == Enums\EbookSortType::Length){
 			$orderBy = 'e.WordCount';
 		}
 
@@ -200,7 +200,7 @@ class Library{
 	/**
 	* @return array{artworks: array<Artwork>, artworksCount: int}
 	*/
-	public static function FilterArtwork(?string $query = null, ?string $status = null, ?ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+	public static function FilterArtwork(?string $query = null, ?string $status = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		// $status is either the string value of an ArtworkStatus enum, or one of these special statuses:
 		// null: same as "all"
 		// "all": Show all approved and in use artwork
@@ -214,29 +214,29 @@ class Library{
 
 		if($status === null || $status == 'all'){
 			$statusCondition = 'Status = ?';
-			$params[] = ArtworkStatusType::Approved->value;
+			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 		elseif($status == 'all-admin'){
 			$statusCondition = 'true';
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
-			$params[] = ArtworkStatusType::Approved->value;
-			$params[] = ArtworkStatusType::Unverified->value;
+			$params[] = Enums\ArtworkStatusType::Approved->value;
+			$params[] = Enums\ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
 			$statusCondition = 'Status = ? and SubmitterUserId = ?';
-			$params[] = ArtworkStatusType::Unverified->value;
+			$params[] = Enums\ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		elseif($status == 'in-use'){
 			$statusCondition = 'Status = ? and EbookUrl is not null';
-			$params[] = ArtworkStatusType::Approved->value;
+			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
-		elseif($status == ArtworkStatusType::Approved->value){
+		elseif($status == Enums\ArtworkStatusType::Approved->value){
 			$statusCondition = 'Status = ? and EbookUrl is null';
-			$params[] = ArtworkStatusType::Approved->value;
+			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 		else{
 			$statusCondition = 'Status = ?';
@@ -244,10 +244,10 @@ class Library{
 		}
 
 		$orderBy = 'art.Created desc';
-		if($sort == ArtworkSortType::ArtistAlpha){
+		if($sort == Enums\ArtworkSortType::ArtistAlpha){
 			$orderBy = 'a.Name';
 		}
-		elseif($sort == ArtworkSortType::CompletedNewest){
+		elseif($sort == Enums\ArtworkSortType::CompletedNewest){
 			$orderBy = 'art.CompletedYear desc';
 		}
 
@@ -364,13 +364,13 @@ class Library{
 		}
 		elseif($status == 'all-submitter' && $submitterUserId !== null){
 			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
-			$params[] = ArtworkStatusType::Approved->value;
-			$params[] = ArtworkStatusType::Unverified->value;
+			$params[] = Enums\ArtworkStatusType::Approved->value;
+			$params[] = Enums\ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		else{
 			$statusCondition = 'Status = ?';
-			$params[] = ArtworkStatusType::Approved->value;
+			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 
 		$params[] = $artistUrlName; // a.UrlName

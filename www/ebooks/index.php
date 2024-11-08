@@ -6,8 +6,8 @@ $pages = 0;
 $perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
 $query = HttpInput::Str(GET, 'query') ?? '';
 $tags = HttpInput::Array(GET, 'tags') ?? [];
-$view = ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '');
-$sort = EbookSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
+$view = Enums\ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '');
+$sort = Enums\EbookSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $queryString = '';
 $queryStringParams = [];
 $queryStringWithoutPage = '';
@@ -23,11 +23,11 @@ try{
 
 	// If we're passed string values that are the same as the defaults,
 	// set them to null so that we can have cleaner query strings in the navigation footer
-	if($view === ViewType::Grid){
+	if($view === Enums\ViewType::Grid){
 		$view = null;
 	}
 
-	if($sort == EbookSortType::Newest){
+	if($sort == Enums\EbookSortType::Newest){
 		$sort = null;
 	}
 

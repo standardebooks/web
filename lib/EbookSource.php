@@ -4,7 +4,7 @@ use Safe\DateTimeImmutable;
 
 class EbookSource{
 	public ?int $EbookId = null;
-	public EbookSourceType $Type;
+	public Enums\EbookSourceType $Type;
 	public string $Url;
 	public ?int $SortOrder = null;
 

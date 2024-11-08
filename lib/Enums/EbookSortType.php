@@ -1,4 +1,6 @@
 <?
+namespace Enums;
+
 enum EbookSortType: string{
 	case Newest = 'newest';
 	case AuthorAlpha = 'author-alpha';

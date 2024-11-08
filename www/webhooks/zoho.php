@@ -39,7 +39,7 @@ try{
 					values (utc_timestamp(),
 					        ?,
 					        ?)
-				', [PaymentProcessorType::FracturedAtlas, $transactionId]);
+				', [Enums\PaymentProcessorType::FracturedAtlas, $transactionId]);
 
 			$log->Write('Donation ID: ' . $transactionId);
 		}

@@ -13,11 +13,11 @@
 		}
 
 		switch($artwork->Status){
-			case ArtworkStatusType::Unverified:
+			case Enums\ArtworkStatusType::Unverified:
 				$class .= ' unverified';
 				break;
 
-			case ArtworkStatusType::Declined:
+			case Enums\ArtworkStatusType::Declined:
 				$class .= ' declined';
 				break;
 		}

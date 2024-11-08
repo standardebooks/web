@@ -1,4 +1,6 @@
 <?
+namespace Enums;
+
 enum EbookSourceType: string{
 	case ProjectGutenberg = 'project_gutenberg';
 	case ProjectGutenbergAustralia = 'project_gutenberg_australia';

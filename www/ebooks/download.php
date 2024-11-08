@@ -13,21 +13,21 @@ try{
 	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
 	$ebook = Ebook::GetByIdentifier($identifier);
 
-	$format = EbookFormatType::tryFrom(HttpInput::Str(GET, 'format') ?? '') ?? EbookFormatType::Epub;
+	$format = Enums\EbookFormatType::tryFrom(HttpInput::Str(GET, 'format') ?? '') ?? Enums\EbookFormatType::Epub;
 	switch($format){
-		case EbookFormatType::Kepub:
+		case Enums\EbookFormatType::Kepub:
 			$downloadUrl = $ebook->KepubUrl;
 			break;
 
-		case EbookFormatType::Azw3:
+		case Enums\EbookFormatType::Azw3:
 			$downloadUrl = $ebook->Azw3Url;
 			break;
 
-		case EbookFormatType::AdvancedEpub:
+		case Enums\EbookFormatType::AdvancedEpub:
 			$downloadUrl = $ebook->AdvancedEpubUrl;
 			break;
 
-		case EbookFormatType::Epub:
+		case Enums\EbookFormatType::Epub:
 		default:
 			$downloadUrl = $ebook->EpubUrl;
 			break;

@@ -1,4 +1,6 @@
 <?
+namespace Enums;
+
 enum EbookFormatType: string{
 	case Epub = 'epub';
 	case Azw3 = 'azw3';

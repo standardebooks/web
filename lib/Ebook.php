@@ -775,7 +775,7 @@ class Ebook{
 				$cm->SequenceNumber = (int)$s;
 			}
 			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="collection-type"]') ?: [] as $s){
-				$cm->Collection->Type = CollectionType::tryFrom((string)$s) ?? CollectionType::Unknown;
+				$cm->Collection->Type = Enums\CollectionType::tryFrom((string)$s) ?? Enums\CollectionType::Unknown;
 			}
 			$collectionMemberships[] = $cm;
 		}
@@ -901,32 +901,32 @@ class Ebook{
 		foreach($xml->xpath('/package/metadata/dc:source') ?: [] as $element){
 			$ebookSource = new EbookSource();
 			$ebookSource->Url = (string)$element;
-			$ebookSource->Type = EbookSourceType::Other;
+			$ebookSource->Type = Enums\EbookSourceType::Other;
 
 			if(mb_stripos($ebookSource->Url, 'gutenberg.org/') !== false){
-				$ebookSource->Type = EbookSourceType::ProjectGutenberg;
+				$ebookSource->Type = Enums\EbookSourceType::ProjectGutenberg;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'gutenberg.net.au/') !== false){
-				$ebookSource->Type = EbookSourceType::ProjectGutenbergAustralia;
+				$ebookSource->Type = Enums\EbookSourceType::ProjectGutenbergAustralia;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'gutenberg.ca/') !== false){
-				$ebookSource->Type = EbookSourceType::ProjectGutenbergCanada;
+				$ebookSource->Type = Enums\EbookSourceType::ProjectGutenbergCanada;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'archive.org/details') !== false){
 				// `/details` excludes Wayback Machine URLs which may sometimes occur, for example in Lyrical Ballads.
-				$ebookSource->Type = EbookSourceType::InternetArchive;
+				$ebookSource->Type = Enums\EbookSourceType::InternetArchive;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'hathitrust.org/') !== false){
-				$ebookSource->Type = EbookSourceType::HathiTrust;
+				$ebookSource->Type = Enums\EbookSourceType::HathiTrust;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'wikisource.org/') !== false){
-				$ebookSource->Type = EbookSourceType::Wikisource;
+				$ebookSource->Type = Enums\EbookSourceType::Wikisource;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'books.google.com/') !== false || mb_stripos($ebookSource->Url, 'google.com/books/') !== false){
-				$ebookSource->Type = EbookSourceType::GoogleBooks;
+				$ebookSource->Type = Enums\EbookSourceType::GoogleBooks;
 			}
 			elseif(mb_stripos($ebookSource->Url, 'www.fadedpage.com') !== false){
-				$ebookSource->Type = EbookSourceType::FadedPage;
+				$ebookSource->Type = Enums\EbookSourceType::FadedPage;
 			}
 
 			$sources[] = $ebookSource;

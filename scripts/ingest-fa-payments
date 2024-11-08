@@ -73,7 +73,7 @@ function InsertTransaction(string $transactionId): bool{
 				values (utc_timestamp(),
 				        ?,
 				        ?)',
-				[PaymentProcessorType::FracturedAtlas, $transactionId]);
+				[Enums\PaymentProcessorType::FracturedAtlas, $transactionId]);
 
 		return true;
 	}

@@ -10,7 +10,7 @@ class Collection{
 	public int $CollectionId;
 	public string $Name;
 	public string $UrlName;
-	public ?CollectionType $Type = null;
+	public ?Enums\CollectionType $Type = null;
 	protected ?string $_Url = null;
 
 	protected function GetUrl(): string{
@@ -85,7 +85,7 @@ class Collection{
 			$error->Add(new Exceptions\CollectionUrlNameRequiredException());
 		}
 
-		if($this->Type !== null && ($this->Type != CollectionType::Series && $this->Type != CollectionType::Set)){
+		if($this->Type !== null && ($this->Type != Enums\CollectionType::Series && $this->Type != Enums\CollectionType::Set)){
 			$error->Add(new Exceptions\InvalidCollectionTypeException($this->Type));
 		}
 

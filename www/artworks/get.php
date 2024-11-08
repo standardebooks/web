@@ -33,9 +33,9 @@ try{
 
 	// If the artwork is not approved, and we're not an admin or the submitter when they can edit, don't show it.
 	if(
-		($GLOBALS['User'] === null && $artwork->Status != ArtworkStatusType::Approved)
+		($GLOBALS['User'] === null && $artwork->Status != Enums\ArtworkStatusType::Approved)
 		||
-		($GLOBALS['User'] !== null && $artwork->Status != ArtworkStatusType::Approved && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isReviewerView)
+		($GLOBALS['User'] !== null && $artwork->Status != Enums\ArtworkStatusType::Approved && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isReviewerView)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
@@ -182,9 +182,9 @@ catch(Exceptions\InvalidPermissionsException){
 						<span>Artwork approval status</span>
 						<span>
 							<select name="artwork-status">
-								<option value="<?= ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
-								<option value="<?= ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
-								<option value="<?= ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
+								<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+								<option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+								<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
 							</select>
 						</span>
 					</label>

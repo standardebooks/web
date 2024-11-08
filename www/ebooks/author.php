@@ -31,7 +31,7 @@ catch(Exceptions\AuthorNotFoundException){
 		<a class="button" href="<?= Formatter::EscapeHtml($authorUrl) ?>/downloads">Download collection</a>
 		<a class="button" href="<?= Formatter::EscapeHtml($authorUrl) ?>/feeds">Feeds for this author</a>
 	</p>
-	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => ViewType::Grid]) ?>
+	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => Enums\ViewType::Grid]) ?>
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> and a <a href="/collections">list of collections</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
 	<?= Template::ContributeAlert() ?>
 </main>

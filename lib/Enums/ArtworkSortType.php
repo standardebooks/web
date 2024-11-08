@@ -1,4 +1,6 @@
 <?
+namespace Enums;
+
 enum ArtworkSortType: string{
 	case CreatedNewest = 'created-newest';
 	case ArtistAlpha = 'artist-alpha';

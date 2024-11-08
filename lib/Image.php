@@ -8,11 +8,11 @@ use function Safe\unlink;
 
 class Image{
 	public string $Path;
-	public ?ImageMimeType $MimeType = null;
+	public ?Enums\ImageMimeType $MimeType = null;
 
 	public function __construct(string $path){
 		$this->Path = $path;
-		$this->MimeType = ImageMimeType::FromFile($path);
+		$this->MimeType = Enums\ImageMimeType::FromFile($path);
 	}
 
 	/**
@@ -22,16 +22,16 @@ class Image{
 	 */
 	private function GetImageHandle(){
 		switch($this->MimeType){
-			case ImageMimeType::JPG:
+			case Enums\ImageMimeType::JPG:
 				$handle = \Safe\imagecreatefromjpeg($this->Path);
 				break;
-			case ImageMimeType::BMP:
+			case Enums\ImageMimeType::BMP:
 				$handle = \Safe\imagecreatefrombmp($this->Path);
 				break;
-			case ImageMimeType::PNG:
+			case Enums\ImageMimeType::PNG:
 				$handle = \Safe\imagecreatefrompng($this->Path);
 				break;
-			case ImageMimeType::TIFF:
+			case Enums\ImageMimeType::TIFF:
 				$handle = $this->GetImageHandleFromTiff();
 				break;
 			default:
