@@ -1,12 +1,20 @@
 <?
+/**
+ * Notes:
+ *
+ * - *All* OPDS feeds must contain a `rel="http://opds-spec.org/crawlable"` link pointing to the `/feeds/opds/all` feed.
+ * - The `<fh:complete/>` element is required to note this as a "Complete Acquisition Feeds"; see <https://specs.opds.io/opds-1.2#25-complete-acquisition-feeds>.
+ */
 
-/* Notes:
-
-- *All* OPDS feeds must contain a rel="http://opds-spec.org/crawlable" link pointing to the /feeds/opds/all feed
-
-- The <fh:complete/> element is required to note this as a "Complete Acquisition Feeds"; see https://specs.opds.io/opds-1.2#25-complete-acquisition-feeds
-
-*/
+/**
+ * @var string $id
+ * @var string $url
+ * @var string $parentUrl
+ * @var string $title
+ * @var ?string $subtitle
+ * @var DateTimeImmutable $updated
+ * @var array<Ebook> $entries
+ */
 
 $isCrawlable = $isCrawlable ?? false;
 $subtitle = $subtitle ?? null;
@@ -24,10 +32,14 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<link href="<?= SITE_URL ?>/feeds/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition; charset=utf-8"/>
 	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml; charset=utf-8"/>
 	<title><?= Formatter::EscapeXml($title) ?></title>
-	<? if($subtitle !== null){ ?><subtitle><?= Formatter::EscapeXml($subtitle) ?></subtitle><? } ?>
+	<? if($subtitle !== null){ ?>
+		<subtitle><?= Formatter::EscapeXml($subtitle) ?></subtitle>
+	<? } ?>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>
 	<updated><?= $updated->format('Y-m-d\TH:i:s\Z') ?></updated>
-	<? if($isCrawlable){ ?><fh:complete/><? } ?>
+	<? if($isCrawlable){ ?>
+		<fh:complete/>
+	<? } ?>
 	<author>
 		<name>Standard Ebooks</name>
 		<uri><?= SITE_URL ?></uri>

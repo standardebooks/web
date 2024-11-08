@@ -1,4 +1,8 @@
-<?= Template::EmailHeader(['letterhead' => true]) ?>
+<?
+/**
+ * @var int $ebooksThisYear
+ */
+?><?= Template::EmailHeader(['letterhead' => true]) ?>
 <p>Hello,</p>
 <p>Last year, your generous donation to <a href="<?= SITE_URL ?>">Standard Ebooks</a> made it possible for us to continue producing beautiful ebook editions for free distribution.</p>
 <p>It also allowed me to add you to our <a href="<?= SITE_URL ?>/about#patrons-circle">Patrons Circle</a>, a group of donors who are honored on our masthead, and who have a direct voice in the future of our <a href="<?= SITE_URL ?>/ebooks">ebook catalog</a>, for one year.</p>

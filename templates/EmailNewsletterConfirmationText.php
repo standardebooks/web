@@ -1,3 +1,10 @@
+<?
+/**
+ * @var bool $isSubscribedToNewsletter
+ * @var bool $isSubscribedToSummary
+ * @var NewsletterSubscription $subscription
+ */
+?>
 # Confirm your newsletter subscription
 
 Thank you for subscribing to the Standard Ebooks newsletter!

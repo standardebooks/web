@@ -1,4 +1,5 @@
 <?
+use function Safe\filemtime;
 
 $title = $title ?? '';
 $highlight = $highlight ?? '';

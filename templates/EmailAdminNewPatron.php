@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+<?
+/**
+ * @var Patron $patron
+ * @var Payment $payment
+ */
+?><!DOCTYPE html>
 <html>
 <head>
 	<title>New Patrons Circle member</title>

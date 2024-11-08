@@ -1,3 +1,8 @@
+<?
+/**
+ * @var int $ebooksThisYear
+ */
+?>
 Hello,
 
 Last year, your generous donation to Standard Ebooks made it possible for us to continue producing beautiful ebook editions for free distribution.

@@ -1,7 +1,7 @@
 <?
-use Safe\DateTimeImmutable;
-
-$artwork = $artwork ?? null;
+/**
+ * @var ?Artwork $artwork
+ */
 
 if($artwork === null){
 	$artwork = new Artwork();
@@ -18,8 +18,8 @@ $isEditForm = $isEditForm ?? false;
 		<datalist id="artist-names">
 			<? foreach(Library::GetArtists() as $artist){ ?>
 				<option value="<?= Formatter::EscapeHtml($artist->Name) ?>"><?= Formatter::EscapeHtml($artist->Name) ?>, d. <? if($artist->DeathYear !== null){ ?><?= $artist->DeathYear ?><? }else{ ?>unknown<? } ?></option>
-				<? foreach($artist->AlternateNames as $alternateName){ ?>
-					<option value="<?= Formatter::EscapeHtml($alternateName) ?>"><?= Formatter::EscapeHtml($alternateName) ?>, d. <? if($artist->DeathYear !== null){ ?><?= Formatter::EscapeHtml($artist->DeathYear) ?><? }else{ ?>unknown<? } ?></option>
+				<? foreach(($artist->AlternateNames ?? []) as $alternateName){ ?>
+					<option value="<?= Formatter::EscapeHtml($alternateName) ?>"><?= Formatter::EscapeHtml($alternateName) ?>, d. <? if($artist->DeathYear !== null){ ?><?= Formatter::EscapeHtml((string)$artist->DeathYear) ?><? }else{ ?>unknown<? } ?></option>
 				<? } ?>
 			<? } ?>
 		</datalist>
@@ -40,7 +40,7 @@ $isEditForm = $isEditForm ?? false;
 			name="artist-year-of-death"
 			inputmode="numeric"
 			pattern="[0-9]{1,4}"
-			value="<?= Formatter::EscapeHtml($artwork->Artist->DeathYear) ?>"
+			value="<?= Formatter::EscapeHtml((string)$artwork->Artist->DeathYear) ?>"
 		/>
 	</label>
 </fieldset>
@@ -59,7 +59,7 @@ $isEditForm = $isEditForm ?? false;
 				name="artwork-year"
 				inputmode="numeric"
 				pattern="[0-9]{1,4}"
-				value="<?= Formatter::EscapeHtml($artwork->CompletedYear) ?>"
+				value="<?= Formatter::EscapeHtml((string)$artwork->CompletedYear) ?>"
 			/>
 		</label>
 		<label>
@@ -123,7 +123,7 @@ $isEditForm = $isEditForm ?? false;
 				name="artwork-publication-year"
 				inputmode="numeric"
 				pattern="[0-9]{4}"
-				value="<?= Formatter::EscapeHtml($artwork->PublicationYear) ?>"
+				value="<?= Formatter::EscapeHtml((string)$artwork->PublicationYear) ?>"
 			/>
 		</label>
 		<label>

@@ -1,10 +1,24 @@
-<?= Template::EmailHeader() ?>
+<?
+/**
+ * @var bool $isSubscribedToNewsletter
+ * @var bool $isSubscribedToSummary
+ * @var NewsletterSubscription $subscription
+ */
+?><?= Template::EmailHeader() ?>
 <h1>Confirm your newsletter subscription</h1>
 <p>Thank you for subscribing to the Standard Ebooks newsletter!</p>
 <p>You subscribed to:</p>
 <ul>
-	<? if($isSubscribedToNewsletter){ ?><li><p>The occasional Standard Ebooks newsletter</p></li><? } ?>
-	<? if($isSubscribedToSummary){ ?><li><p>A monthly summary of new ebook releases</p></li><? } ?>
+	<? if($isSubscribedToNewsletter){ ?>
+		<li>
+			<p>The occasional Standard Ebooks newsletter</p>
+		</li>
+	<? } ?>
+	<? if($isSubscribedToSummary){ ?>
+		<li>
+			<p>A monthly summary of new ebook releases</p>
+		</li>
+	<? } ?>
 </ul>
 <p>Please use the button below to confirm your subscription—you won’t receive email from us until you do.</p>
 <p class="button-row">

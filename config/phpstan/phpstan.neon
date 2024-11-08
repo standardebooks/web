@@ -24,7 +24,7 @@ parameters:
 		- %rootDir%/../../../templates
 	dynamicConstantNames:
 		- SITE_STATUS
-		- DONATION_DRIVE_ENABLED
+		- DONATION_DRIVES_ENABLED
 		- DONATION_DRIVE_COUNTER_ENABLED
 	earlyTerminatingMethodCalls:
 		Template:

@@ -1,6 +1,9 @@
 <?
+/**
+ * @var ?Exception $exception
+ */
 
-if(!$exception){
+if($exception === null){
 	return;
 }
 
@@ -15,8 +18,8 @@ else{
 ?>
 <ul class="message error">
 	<? foreach($exceptions as $ex){ ?>
-	<li>
-		<p><? $message = $ex->getMessage(); if($message == ''){ $message = 'An error occurred.'; } ?><?= str_replace('CAPTCHA', '<abbr class="acronym">CAPTCHA</abbr>', Formatter::EscapeHtml($message)) ?></p>
-	</li>
+		<li>
+			<p><? $message = $ex->getMessage(); if($message == ''){ $message = 'An error occurred.'; } ?><?= str_replace('CAPTCHA', '<abbr class="acronym">CAPTCHA</abbr>', Formatter::EscapeHtml($message)) ?></p>
+		</li>
 	<? } ?>
 </ul>

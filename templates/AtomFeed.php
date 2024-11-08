@@ -1,4 +1,13 @@
 <?
+/**
+ * @var string $id
+ * @var string $url
+ * @var string $title
+ * @var ?string $subtitle
+ * @var DateTimeImmutable $updated
+ * @var array<Ebook> $entries
+ */
+
 $subtitle = $subtitle ?? null;
 
 // Note that the XSL stylesheet gets stripped during `se clean` when we generate the feed.

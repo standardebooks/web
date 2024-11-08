@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?
+/**
+ * @var string $exception
+ */
+?><!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Donation processing failed</title>

@@ -1,5 +1,7 @@
 <?
-$artworks = $artworks ?? [];
+/**
+ * @var array<Artwork> $artworks
+ */
 ?>
 <ol class="artwork-list">
 <? foreach($artworks as $artwork){ ?>

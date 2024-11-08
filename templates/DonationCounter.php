@@ -37,7 +37,7 @@ else{
 	}
 }
 
-$digits = str_split(str_pad($current, 3, "0", STR_PAD_LEFT))
+$digits = str_split(str_pad((string)$current, 3, "0", STR_PAD_LEFT))
 ?>
 <aside class="donation counter closable">
 	<? if($autoHide){ ?>
