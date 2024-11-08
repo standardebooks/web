@@ -35,7 +35,7 @@ catch(Exceptions\AppException){
 		<p><?= $poll->Description ?></p>
 		<? if($poll->IsActive()){ ?>
 			<? if($poll->End !== null){ ?>
-				<p class="center-notice">This poll closes on <?= $poll->End->format('F j, Y g:i a') ?>.</p>
+				<p class="center-notice">This poll closes on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?>.</p>
 			<? } ?>
 			<? if(!$canVote){ ?>
 				<p class="center-notice">You’ve already voted in this poll.</p>
@@ -48,9 +48,9 @@ catch(Exceptions\AppException){
 			</p>
 		<? }else{ ?>
 			<? if($poll->Start !== null && $poll->Start > NOW){ ?>
-				<p class="center-notice">This poll opens on <?= $poll->Start->format('F j, Y g:i a') ?>.</p>
+				<p class="center-notice">This poll opens on <?= $poll->Start->format(Enums\DateTimeFormat::FullDateTime->value) ?>.</p>
 			<? }else{ ?>
-				<p class="center-notice">This poll closed on <?= $poll->End->format('F j, Y g:i a') ?>.</p>
+				<p class="center-notice">This poll closed on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?>.</p>
 				<p class="button-row narrow"><a href="<?= $poll->Url ?>/votes" class="button">View results</a></p>
 			<? } ?>
 		<? } ?>

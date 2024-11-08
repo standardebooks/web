@@ -52,7 +52,7 @@ try{
 
 	// Increment local download count, expires in 2 weeks
 	$downloadCount++;
-	setcookie('download-count', (string)$downloadCount, ['expires' => intval((new DateTimeImmutable('+2 week'))->format('U')), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']);
+	setcookie('download-count', (string)$downloadCount, ['expires' => intval((new DateTimeImmutable('+2 week'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']);
 }
 catch(Exceptions\InvalidFileException | Exceptions\EbookNotFoundException){
 	Template::Emit404();

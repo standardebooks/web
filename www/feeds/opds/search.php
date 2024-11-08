@@ -28,7 +28,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"". SI
 	<title>Search Results</title>
 	<subtitle>Results for “<?= Formatter::EscapeXml($query) ?>”.</subtitle>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>
-	<updated><?= NOW->format('Y-m-d\TH:i:s\Z') ?></updated>
+	<updated><?= NOW->format(Enums\DateTimeFormat::Iso->value) ?></updated>
 	<author>
 		<name>Standard Ebooks</name>
 		<uri><?= SITE_URL ?></uri>

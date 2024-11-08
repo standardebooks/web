@@ -18,7 +18,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<description><?= Formatter::EscapeXml($description) ?></description>
 		<language>en-US</language>
 		<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
-		<lastBuildDate><?= $updated->format('r'); ?></lastBuildDate>
+		<lastBuildDate><?= $updated->format(Enums\DateTimeFormat::Rss->value); ?></lastBuildDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
 		<atom:link href="<?= SITE_URL . Formatter::EscapeXml($url) ?>" rel="self" type="application/rss+xml"/>
 		<atom:link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />

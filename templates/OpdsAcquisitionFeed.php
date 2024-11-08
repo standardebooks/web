@@ -36,7 +36,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<subtitle><?= Formatter::EscapeXml($subtitle) ?></subtitle>
 	<? } ?>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>
-	<updated><?= $updated->format('Y-m-d\TH:i:s\Z') ?></updated>
+	<updated><?= $updated->format(Enums\DateTimeFormat::Iso->value) ?></updated>
 	<? if($isCrawlable){ ?>
 		<fh:complete/>
 	<? } ?>
