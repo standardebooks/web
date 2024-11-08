@@ -1,5 +1,5 @@
 <?
-// Composer auto-loads the lib/ directory in composer.json
+// Composer auto-loads the `lib/` directory in `composer.json`.
 require __DIR__ . '/../vendor/autoload.php';
 
 use function Safe\error_log;
@@ -74,8 +74,7 @@ if($GLOBALS['User'] === null){
 	$httpBasicAuthLogin = $_SERVER['PHP_AUTH_USER'] ?? null;
 
 	if($httpBasicAuthLogin !== null){
-		// If there's no logged in user, but a username was sent via HTTP basic auth,
-		// log them in while we're here.
+		// If there's no logged in user, but a username was sent via HTTP basic auth, log them in while we're here.
 
 		$session = new Session();
 		try{
@@ -90,7 +89,7 @@ if($GLOBALS['User'] === null){
 			$GLOBALS['User'] = $session->User;
 		}
 		catch(Exception){
-			// Do nothing
+			// Do nothing.
 		}
 	}
 }

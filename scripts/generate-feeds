@@ -13,7 +13,7 @@ function SortByUpdatedDesc(Ebook $a, Ebook $b): int{
 	return $b->EbookUpdated <=> $a->EbookUpdated;
 }
 
-function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $labelSort = null, DateTimeImmutable $now = null): void{
+function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $labelSort = null, ?DateTimeImmutable $now = null): void{
 	$updateAttrs = false;
 
 	if($force){
@@ -35,11 +35,24 @@ function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $label
 
 /**
  * @param array<string, array<string, string>> $collections
- * @param array<Ebook> $ebooks
+ * @param array<string, array<Ebook>> $ebooks
  */
 function CreateOpdsCollectionFeed(string $name, string $url, string $description, array $collections, array $ebooks, DateTimeImmutable $now, string $webRoot, OpdsNavigationFeed $opdsRoot, bool $force): void{
-	$collator = collator_create('en_US'); // Used for sorting letters with diacritics like in author names
-	usort($collections, function($a, $b) use($collator){ return $collator->compare($a['sortedname'], $b['sortedname']); });
+	$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
+
+	if($collator === null){
+		return;
+	}
+
+	usort($collections, function($a, $b) use($collator){
+		$result = $collator->compare($a['sortedname'], $b['sortedname']);
+		if($result === false){
+			return 0;
+		}
+		else{
+			return $result;
+		}
+	});
 
 	// Create the collections navigation document.
 	$collectionNavigationEntries = [];
@@ -108,7 +121,7 @@ foreach(Library::GetEbooks() as $ebook){
 
 	$authorsUrl = preg_replace('|^/ebooks/|', '', $ebook->AuthorsUrl);
 	$ebooksByAuthor[$authorsUrl][] = $ebook;
-	$authors[$authorsUrl] = ['id' => $authorsUrl, 'name' => strip_tags($ebook->AuthorsHtml), 'sortedname' => $ebook->Authors[0]->SortName];
+	$authors[$authorsUrl] = ['id' => $authorsUrl, 'name' => strip_tags($ebook->AuthorsHtml), 'sortedname' => $ebook->Authors[0]->SortName ?? $ebook->Authors[0]->Name];
 }
 
 usort($allEbooks, 'SortByUpdatedDesc');

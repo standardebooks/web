@@ -2,8 +2,7 @@
 use function Safe\preg_match;
 
 // This page is blocked by HTTP Basic auth.
-// Basic authorization is handled in Core.php. By the time we get here,
-// a valid user has a session.
+// Basic authorization is handled in Core.php. By the time we get here, a valid user has a session.
 
 $path = HttpInput::Str(GET, 'path') ?? '';
 
@@ -58,8 +57,7 @@ try{
 
 	// Decide on what content-type to serve via HTTP content negotation.
 	// If the feed is viewed from a web browser, we will usuall serve application/xml as that's typically what's in the browser's Accept header.
-	// If the Accept header has application/rss+xml or application/atom+xml then serve that instead, as those are the
-	// "technically correct" content types that may be requested by RSS readers.
+	// If the Accept header has application/rss+xml or application/atom+xml then serve that instead, as those are the "technically correct" content types that may be requested by RSS readers.
 	if(preg_match('/^\/feeds\/opds/', $path)){
 		$contentType = [
 			'application/atom+xml',
@@ -109,5 +107,5 @@ catch(Exceptions\InvalidFileException){
 	Template::Emit404();
 }
 
-// Print the login info page
+// Print the login info page.
 include(WEB_ROOT . '/feeds/401.php');

@@ -1,11 +1,13 @@
 <?
+use Safe\DateTimeImmutable;
+
 use function Safe\exec;
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\tempnam;
 use function Safe\unlink;
 
-class Feed{
+abstract class Feed{
 	public string $Url;
 	public string $Title;
 	/** @var array<Ebook|OpdsNavigationEntry> $Entries */
@@ -13,6 +15,7 @@ class Feed{
 	public string $Path;
 	public ?string $Stylesheet = null;
 	protected ?string $XmlString = null;
+	public ?DateTimeImmutable $Updated = null;
 
 	/**
 	 * @param string $title
@@ -31,6 +34,8 @@ class Feed{
 	// *******
 	// METHODS
 	// *******
+
+	abstract public function SaveIfChanged(): bool;
 
 	protected function CleanXmlString(string $xmlString): string{
 		$tempFilename = tempnam('/tmp/', 'se-');

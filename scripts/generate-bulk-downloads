@@ -21,11 +21,10 @@ $webRoot = $options['webroot'] ?? WEB_ROOT;
 
 $types = ['epub', 'epub-advanced', 'azw3', 'kepub', 'xhtml'];
 $groups = ['collections', 'subjects', 'authors', 'months'];
-$ebooksByGroup = [];
-$updatedByGroup = [];
+$ebooksByGroup = ['collections' => [], 'subjects' => [], 'authors' => [], 'months' => []];
 
 function rrmdir(string $src): void{
-	// See https://www.php.net/manual/en/function.rmdir.php#117354
+	// See <https://www.php.net/manual/en/function.rmdir.php#117354>.
 	$dir = opendir($src);
 	while(false !== ($file = readdir($dir))){
 		if (($file != '.') && ($file != '..')){
@@ -103,12 +102,12 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 	exec('attr -q -s se-ebook-type -V ' . escapeshellarg($type) . ' ' . escapeshellarg($filePath));
 }
 
-// Iterate over all ebooks and arrange them by publication month
+// Iterate over all ebooks and arrange them by publication month.
 foreach(Library::GetEbooks() as $ebook){
 	$timestamp = $ebook->EbookCreated->format('Y-m');
 	$updatedTimestamp = $ebook->EbookUpdated->getTimestamp();
 
-	// Add to the 'ebooks by month' list
+	// Add to the 'ebooks by month' list.
 	if(!isset($ebooksByGroup['months'][$timestamp])){
 		$obj = new stdClass();
 		$obj->Label = $timestamp;
@@ -126,7 +125,7 @@ foreach(Library::GetEbooks() as $ebook){
 		}
 	}
 
-	// Add to the 'books by subject' list
+	// Add to the 'books by subject' list.
 	foreach($ebook->Tags as $tag){
 		if(!isset($ebooksByGroup['subjects'][$tag->Name])){
 			$obj = new stdClass();
@@ -146,7 +145,7 @@ foreach(Library::GetEbooks() as $ebook){
 		}
 	}
 
-	// Add to the 'books by collection' list
+	// Add to the 'books by collection' list.
 	foreach($ebook->CollectionMemberships as $cm){
 		$collection = $cm->Collection;
 		if(!isset($ebooksByGroup['collections'][$collection->Name])){
@@ -167,7 +166,7 @@ foreach(Library::GetEbooks() as $ebook){
 		}
 	}
 
-	// Add to the 'books by author' list
+	// Add to the 'books by author' list.
 	// We have to index by UrlName for cases like `Samuel Butler` whose UrlName is `samuel-butler-1612-1680`.
 	$authorsUrl = preg_replace('|^/ebooks/|', '', $ebook->AuthorsUrl);
 	if(!isset($ebooksByGroup['authors'][$authorsUrl])){
@@ -189,7 +188,7 @@ foreach(Library::GetEbooks() as $ebook){
 }
 
 foreach($groups as $group){
-	// First delete any orphan directories that we don't expect to be here, for example a collection that was later renamed
+	// First delete any orphan directories that we don't expect to be here, for example a collection that was later renamed.
 	foreach(glob($webRoot . '/bulk-downloads/' . $group . '/*/') as $dir){
 		$expected = false;
 		foreach($ebooksByGroup[$group] as $collection){
@@ -217,13 +216,13 @@ foreach($groups as $group){
 		exec('attr -q -s se-label -V ' . escapeshellarg($collection->Label) . ' ' . escapeshellarg($parentDir));
 		exec('attr -q -s se-label-sort -V ' . escapeshellarg($collection->LabelSort) . ' ' . escapeshellarg($parentDir));
 
-		// We also need to save the URL label for author edge cases like `Samuel Butler` -> `samuel-butler-1612-1680` or `Karl Marx and Freidrich Engels` -> `karl-marx_friedrich-engels`
+		// We also need to save the URL label for author edge cases like `Samuel Butler` -> `samuel-butler-1612-1680` or `Karl Marx and Freidrich Engels` -> `karl-marx_friedrich-engels`.
 		exec('attr -q -s se-url-label -V ' . escapeshellarg($collection->UrlLabel) . ' ' . escapeshellarg($parentDir));
 
 		foreach($types as $type){
 			$filePath =  $parentDir . '/se-ebooks-' . $collection->UrlLabel . '-' . $type . '.zip';
 
-			// If the file doesn't exist, or if the content.opf last updated time is newer than the file modification time
+			// If the file doesn't exist, or if the `content.opf` last updated time is newer than the file modification time.
 			if(!file_exists($filePath) || filemtime($filePath) < $collection->Updated){
 				print('Creating ' . $filePath . "\n");
 
@@ -233,8 +232,8 @@ foreach($groups as $group){
 	}
 }
 
-// Set ownership and permissions
-// We don't use PHP's built in chown/chmod chmod can't accept strings
-// The `chmod +X` command, with a capital X, makes only matched directories executable.
+// Set ownership and permissions.
+// We don't use PHP's built in `chown()`/`chmod()` because `chmod()` can't accept strings.
+// The `chmod +X` command, with a capital `X`, makes only matched directories executable.
 exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/bulk-downloads/*/');
 exec('sudo chmod --preserve-root --recursive a+r,ug+w,a+X ' . escapeshellarg($webRoot) . '/bulk-downloads/*/');

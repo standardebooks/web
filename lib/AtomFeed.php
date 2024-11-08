@@ -1,10 +1,8 @@
 <?
-use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 
 class AtomFeed extends Feed{
 	public string $Id;
-	public ?DateTimeImmutable $Updated = null;
 	public ?string $Subtitle = null;
 
 	/**

@@ -145,13 +145,16 @@ class User{
 	}
 
 	/**
+	 * Get a `User` if they are considered "registered".
+	 *
+	 * We consider a `User` "registered" if they have a row in the `Benefits` table. Emails without that row may only be signed up for the newsletter, and thus are not considered to be "registered" users.
+	 *
+	 * @param ?string $identifier Either an email or a UUID (i.e., an api key).
+	 *
 	 * @throws Exceptions\UserNotFoundException
 	 * @throws Exceptions\PasswordRequiredException
 	 */
 	public static function GetIfRegistered(?string $identifier, ?string $password = null): User{
-		// We consider a user "registered" if they have a row in the Benefits table.
-		// Emails without that row may only be signed up for the newsletter and thus are not "registered" users
-		// The identifier is either an email or a UUID (api key)
 		if($identifier === null){
 			throw new Exceptions\UserNotFoundException();
 		}

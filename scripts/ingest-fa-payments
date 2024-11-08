@@ -16,8 +16,8 @@ use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Firefox\FirefoxDriver;
 use Facebook\WebDriver\Firefox\FirefoxOptions;
+use Facebook\WebDriver\WebDriverElement;
 
-use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\preg_replace;
@@ -119,8 +119,11 @@ try{
 			$log->Write('Logging in to Fractured Atlas ...');
 
 			// We were redirected to the login page, so try to log in.
+			/** @var WebDriverElement $emailField */
 			$emailField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="email"]')));
+			/** @var WebDriverElement $passwordField */
 			$passwordField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="password"]')));
+			/** @var WebDriverElement $submitButton */
 			$submitButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[@type="submit"]')));
 
 			// Fill out and submit the form.
@@ -150,7 +153,9 @@ try{
 			for($i = 0; $i < sizeof($elements); $i++){
 				$td = $elements[$i];
 
-				$transactionId = trim($td->getDomProperty('textContent'));
+				/** @var string $transactionId */
+				$transactionId = $td->getDomProperty('textContent');
+				$transactionId = trim($transactionId);
 
 				if($transactionId === ''){
 					continue;
@@ -172,7 +177,9 @@ try{
 			for($i = 0; $i < sizeof($elements); $i++){
 				$td = $elements[$i];
 
-				$transactionId = trim($td->getDomProperty('textContent'));
+				/** @var string $transactionId */
+				$transactionId = $td->getDomProperty('textContent');
+				$transactionId = trim($transactionId);
 
 				if($transactionId === ''){
 					continue;

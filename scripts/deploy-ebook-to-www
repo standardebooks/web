@@ -126,14 +126,14 @@ if ! [ -d "${webRoot}" ]; then
 	die "${webRoot} does not exist or is not a directory."
 fi
 
-# Check for dependencies
+# Check for dependencies.
 require "convert" "Try: apt-get install imagemagick"
 require "git" "Try: apt-get install git"
 require "php" "Try: apt-get install php-cli"
 require "rsvg-convert" "Try: apt-get install librsvg2-bin"
 require "se" "Read: https://standardebooks.org/tools"
 
-# cavif is compiled via Cargo: https://github.com/kornelski/cavif-rs
+# `cavif` is compiled via Cargo, see <https://github.com/kornelski/cavif-rs>.
 
 scriptsDir="$(dirname "$(readlink -f "$0")")"
 
@@ -186,7 +186,7 @@ do
 
 	if [ "${lastPushHash}" != "" ]; then
 		# We were passed the hash of the last push before this one.
-		# Check to see if the cover image changed, to decide if we want to rebuild the cover image thumbnail/hero
+		# Check to see if the cover image changed, to decide if we want to rebuild the cover image thumbnail/hero.
 		diff=$(git diff "${lastPushHash}" HEAD)
 
 		if [ "${images}" = "true" ]; then
@@ -199,8 +199,8 @@ do
 		fi
 
 		if [ "${build}" = "true" ]; then
-			# Check to see if the actual ebook changed, to decide if we want to build
-			# Always build if it doesn't exist
+			# Check to see if the actual ebook changed, to decide if we want to build.
+			# Always build if it doesn't exist.
 			if [[ ! -f "${webDir}/downloads/*.epub" ]] || [[ "${diff}" =~ diff\ --git\ a/src/ ]]; then
 				build="true"
 			else
@@ -227,26 +227,26 @@ do
 		git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
 		git show HEAD:images/cover.svg > "${imgWorkDir}/${urlSafeIdentifier}.svg"
 
-		# We have to cd into the work dir, otherwise convert won't pick up the relative path of the jpg background in cover.svg
+		# We have to `cd` into the work dir, otherwise `convert` won't pick up the relative path of the jpg background in `cover.svg`.
 		pushd "${imgWorkDir}" > /dev/null || exit
 
-		# Build the hero image for individual ebook pages
-		# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078
+		# Build the hero image for individual ebook pages.
+		# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078.
 		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
 		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
 
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif"
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif"
 
-		# Build the cover image thumbnail
+		# Build the cover image thumbnail.
 		# We use JPG instead of SVG for several reasons:
-		# 1. A JPG is roughly 1/2 the file size of the same SVG, because the SVG must contain the JPG in base64 encoding
+		# 1. A JPG is roughly 1/2 the file size of the same SVG, because the SVG must contain the JPG in base64 encoding.
 		# 2. The "scale up" effect on mouse hover is blurry when used on SVGs.
 
 		sed -i "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
 
-		# Resize and compress the cover image (formula from Google Page Speed Insights)
-		# We can't use `convert` directly to do svg -> jpg, as sometimes it fails to load the linked cover.jpg within cover.svg.
+		# Resize and compress the cover image (formula from Google Page Speed Insights).
+		# We can't use `convert` directly to do svg -> jpg, as sometimes it fails to load the linked `cover.jpg` within `cover.svg`.
 		# So, we use `rsvg-convert` to write a png, then `convert` to convert and compress to jpg.
 		rsvg-convert --width 242 --keep-aspect-ratio --output "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
 		rsvg-convert --width 484 --keep-aspect-ratio --output "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
@@ -259,7 +259,7 @@ do
 		sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}/${urlSafeIdentifier}"*
 		sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
 
-		# Remove unused images so we can copy the rest over with a glob
+		# Remove unused images so we can copy the rest over with a glob.
 		rm "${imgWorkDir}/${urlSafeIdentifier}".{png,jpg,svg}
 
 		if [ "${verbose}" = "true" ]; then
@@ -278,7 +278,7 @@ do
 
 		mkdir -p "${workDir}/downloads"
 
-		# Build the ebook
+		# Build the ebook.
 		if [ "${epubcheck}" = "true" ]; then
 			if ! se build --output-dir="${workDir}"/downloads/ --check --kindle --kobo "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
@@ -291,7 +291,7 @@ do
 			fi
 		fi
 
-		# Build distributable covers
+		# Build distributable covers.
 		convert -resize "1400" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover.jpg"
 		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover-thumbnail.jpg"
 
@@ -299,11 +299,10 @@ do
 			printf "Done.\n"
 		fi
 
-		# Get the book URL
+		# Get the book URL.
 		bookUrl=$(grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">.+?</dc:identifier>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/.*?url:https:\/\/standardebooks.org(.*?)<.*/\1/g")
 
-		# Get the last commit date so that we can update the modified timestamp in
-		# deployed content.opf. generate-opds uses this timestamp in its output.
+		# Get the last commit date so that we can update the modified timestamp in deployed `content.opf`. `generate-feeds` uses this timestamp in its output.
 		modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
 		sed --in-place --regexp-extended "s/<meta property=\"dcterms:modified\">.+?<\/meta>/<meta property=\"dcterms:modified\">${modifiedDate}<\/meta>/" "${workDir}/src/epub/content.opf"
 
@@ -313,16 +312,16 @@ do
 			fi
 
 			# Recompose the epub into a single file, but put it outside of the epub src for now so we don't stomp on it with the following sections.
-			# We do this first because the tweaks below shouldn't apply to the single-page file
+			# We do this first because the tweaks below shouldn't apply to the single-page file.
 			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/css/web.css" "${workDir}"
 
-			# Wrap book contents in a <main> tag
+			# Wrap book contents in a `<main>` element.
 			sed --in-place --regexp-extended "s|<body([^>]*)>|<body><main\1>|; s|</body>|</main></body>|" "${workDir}"/single-page.xhtml
 
-			# Add a navbar with a link back to the homepage
+			# Add a navbar with a link back to the homepage.
 			sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li></ul></nav></header>|" "${workDir}"/single-page.xhtml
 
-			# Adjust sponsored links in the colophon
+			# Adjust sponsored links in the colophon.
 			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.xhtml
 
 			if [ "${verbose}" = "true" ]; then
@@ -330,60 +329,60 @@ do
 			fi
 		fi
 
-		# Make some compatibility adjustments for the individual XHTML files
+		# Make some compatibility adjustments for the individual XHTML files.
 
-		# Remove instances of the .xhtml filename extension in the source text
+		# Remove instances of the .xhtml filename extension in the source text.
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place 's/\.xhtml//g'
 
-		# Add our web stylesheet to XHTML files
+		# Add our web stylesheet to XHTML files.
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended 's|</title>|</title>\n\t\t<link href="/css/web.css" media="screen" rel="stylesheet" type="text/css"/>|'
 
-		# Remove -epub-* CSS properties from CSS files as they're invalid in a web context
+		# Remove `-epub-*` CSS properties from CSS files as they're invalid in a web context.
 		sed --in-place --regexp-extended "s|\s*\-epub\-[^;]+?;||g" "${workDir}"/src/epub/css/*.css
 
-		# Add lang attributes
+		# Add lang attributes.
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended 's/xml:lang="([^"]+?)"/xml:lang="\1" lang="\1"/g'
 
-		# Add the work title to <title> tags in the source text
+		# Add the work title to <title> tags in the source text.
 		workTitle=$(grep --only-matching --extended-regexp "<dc:title id=\"title\">(.+?)</dc:title>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/<[^>]+?>//g")
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g"
 
-		# Wrap book contents in a <main> tag
+		# Wrap book contents in a `<main>` element.
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<body([^>]*)>|<body><main\1>|; s|</body>|</main></body>|"
 
-		# Add the header nav to each page
+		# Add the header nav to each page.
 		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li><li><a href=\"${bookUrl}/text\">Table of contents</a></li></ul></nav></header>|"
 
-		# Add a chapter navigation footer to each page
+		# Add a chapter navigation footer to each page.
 		"${scriptsDir}"/inject-chapter-navigation-footer "${workDir}" "${bookUrl}"
 
-		# Adjust sponsored links in the colophon
+		# Adjust sponsored links in the colophon.
 		sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/src/epub/text/colophon.xhtml
 
 		# Done adding compatibility!
 
 		if [ "${recompose}" = "true" ]; then
-			# Move the single-page file back into the /src/epub/text/ folder
+			# Move the single-page file back into the `/src/epub/text/` folder.
 			mv "${workDir}"/single-page.xhtml "${workDir}"/src/epub/text/single-page.xhtml
 		fi
 
-		# Add viewport meta elements to all output
+		# Add viewport meta elements to all output.
 		find "${workDir}" \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place "s|</title>|</title>\n\t\t<meta content=\"width=device-width, initial-scale=1\" name=\"viewport\"/>|"
 
-		# Delete the contents of the old webdir
+		# Delete the contents of the old webdir.
 		rm --preserve-root --recursive --force "${webDir}"
 
-		# Re-create the webdir
+		# Re-create the webdir.
 		mkdir -p "${webDir}"
 
-		# Move contents of the work dir over
+		# Move contents of the work dir over.
 		mv "${workDir}"/downloads "${webDir}/"
 		rm "${workDir}/src/epub/onix.xml"
 		mv "${workDir}"/src/epub/* "${webDir}/"
 	fi
 
 	if [ "${images}" = "true" ]; then
-		# Move the cover images over
+		# Move the cover images over.
 		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
 	fi
 
@@ -397,7 +396,7 @@ do
 		printf "Done.\n"
 	fi
 
-	# Delete the now-empty work dir (empty except for .git)
+	# Delete the now-empty work dir (empty except for `.git`).
 	rm --preserve-root --recursive --force "${workDir}" "${imgWorkDir}"
 
 	sudo chgrp --preserve-root --recursive "${group}" "${webDir}"
@@ -415,7 +414,7 @@ if tsp | grep --quiet --extended-regexp "^[0-9]+\s+queued"; then
 fi
 
 if [ "${feeds}" = "true" ]; then
-	# Build the various feeds catalog, but only if we don't have more items in the tsp build queue.
+	# Build the various feeds catalog, but only if we don't have more items in the `tsp` build queue.
 	if [ "${queuedTasks}" = "false" ]; then
 		if [ "${verbose}" = "true" ]; then
 			printf "Building feeds ... "
@@ -435,7 +434,7 @@ if [ "${feeds}" = "true" ]; then
 fi
 
 if [ "${bulkDownloads}" = "true" ]; then
-	# Build the various feeds catalog, but only if we don't have more items in the tsp build queue.
+	# Build the various feeds catalog, but only if we don't have more items in the `tsp` build queue.
 	if [ "${queuedTasks}" = "false" ]; then
 		if [ "${verbose}" = "true" ]; then
 			printf "Building bulk downloads ... "

@@ -13,6 +13,15 @@ parameters:
 		- %rootDir%/../../../lib
 		- %rootDir%/../../../www
 		- %rootDir%/../../../scripts
+		- %rootDir%/../../../scripts/generate-feeds
+		- %rootDir%/../../../scripts/generate-bulk-downloads
+		- %rootDir%/../../../scripts/ingest-fa-payments
+		- %rootDir%/../../../scripts/inject-chapter-navigation-footer
+		- %rootDir%/../../../scripts/pending-payments-watchdog
+		- %rootDir%/../../../scripts/process-pending-payments
+		- %rootDir%/../../../scripts/update-ebook-database
+		- %rootDir%/../../../scripts/update-patrons-circle
+		- %rootDir%/../../../templates
 	dynamicConstantNames:
 		- SITE_STATUS
 		- DONATION_DRIVE_ENABLED
