@@ -34,10 +34,10 @@ $isEditForm = $isEditForm ?? false;
 	<label class="year">
 		<span>Year of death</span>
 		<span>If circa or unknown, enter the latest possible year.</span>
-		<? /* Not using <input type="number"> for now, see https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/ */ ?>
+		<? /* Not using `<input type="number">` for now, see <https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/>. */ ?>
 		<input
 			type="text"
-			name="artist-year-of-death"
+			name="artist-death-year"
 			inputmode="numeric"
 			pattern="[0-9]{1,4}"
 			value="<?= Formatter::EscapeHtml((string)$artwork->Artist->DeathYear) ?>"
@@ -56,7 +56,7 @@ $isEditForm = $isEditForm ?? false;
 			Year of completion
 			<input
 				type="text"
-				name="artwork-year"
+				name="artwork-completed-year"
 				inputmode="numeric"
 				pattern="[0-9]{1,4}"
 				value="<?= Formatter::EscapeHtml((string)$artwork->CompletedYear) ?>"
@@ -65,7 +65,7 @@ $isEditForm = $isEditForm ?? false;
 		<label>
 			<input
 				type="checkbox"
-				name="artwork-year-is-circa"
+				name="artwork-completed-year-is-circa"
 				<? if($artwork->CompletedYearIsCirca){ ?>checked="checked"<? } ?>
 			/> Year is circa
 		</label>
@@ -172,28 +172,28 @@ $isEditForm = $isEditForm ?? false;
 	</label>
 </fieldset>
 <? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
-<fieldset>
-	<legend>Editor options</legend>
-	<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
-		<label>
-			<span>Artwork approval status</span>
-			<span>
-				<select name="artwork-status">
-					<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
-					<option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
-					<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
-				</select>
-			</span>
-		</label>
-	<? } ?>
-	<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
-		<label>
-			<span>In use by</span>
-			<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
-			<input type="url" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/" pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
-		</label>
-	<? } ?>
-</fieldset>
+	<fieldset>
+		<legend>Editor options</legend>
+		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+			<label>
+				<span>Artwork approval status</span>
+				<span>
+					<select name="artwork-status">
+						<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+						<option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+						<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
+					</select>
+				</span>
+			</label>
+		<? } ?>
+		<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+			<label>
+				<span>In use by</span>
+				<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
+				<input type="url" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/" pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
+			</label>
+		<? } ?>
+	</fieldset>
 <? } ?>
 <div class="footer">
 	<button><? if($isEditForm){ ?>Save changes<? }else{ ?>Submit<? } ?></button>

@@ -17,7 +17,9 @@ try{
 		/** @var PollVote $vote */
 		$vote = $_SESSION['vote'];
 	}
-	else{
+
+	if(!isset($vote->UserId)){
+		$vote->UserId = $GLOBALS['User']->UserId;
 		$vote->User = $GLOBALS['User'];
 	}
 
@@ -59,23 +61,23 @@ catch(Exceptions\PollVoteExistsException $ex){
 		<h1>Vote in the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>
 		<?= Template::Error(['exception' => $exception]) ?>
 		<form method="post" action="<?= Formatter::EscapeHtml($poll->Url) ?>/votes">
-			<input type="hidden" name="email" value="<? if($vote->User !== null){ ?><?= Formatter::EscapeHtml($vote->User->Email) ?><? } ?>" maxlength="80" required="required" />
+			<input type="hidden" name="email" value="<?= Formatter::EscapeHtml($vote->User->Email) ?>" maxlength="80" required="required" />
 			<fieldset>
 				<p>Select one of these options.</p>
 				<ul>
-				<? foreach($poll->PollItems as $pollItem){ ?>
-					<li>
-						<label class="checkbox">
-							<input type="radio" value="<?= $pollItem->PollItemId ?>" name="pollitemid" required="required"<? if($vote->PollItemId == $pollItem->PollItemId){ ?> checked="checked"<? } ?>/>
-							<span>
-								<b><?= $pollItem->Name ?></b>
-							<? if($pollItem->Description !== null){ ?>
-								<span><?= Formatter::EscapeHtml($pollItem->Description) ?></span>
-							<? } ?>
-							</span>
-						</label>
-					</li>
-				<? } ?>
+					<? foreach($poll->PollItems as $pollItem){ ?>
+						<li>
+							<label class="checkbox">
+								<input type="radio" value="<?= $pollItem->PollItemId ?>" name="poll-vote-poll-item-id" required="required"<? if(isset($vote->PollItemId) && $vote->PollItemId == $pollItem->PollItemId){ ?> checked="checked"<? } ?>/>
+								<span>
+									<b><?= $pollItem->Name ?></b>
+									<? if($pollItem->Description !== null){ ?>
+										<span><?= Formatter::EscapeHtml($pollItem->Description) ?></span>
+									<? } ?>
+								</span>
+							</label>
+						</li>
+					<? } ?>
 				</ul>
 			</fieldset>
 			<button>Vote</button>

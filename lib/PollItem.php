@@ -1,7 +1,4 @@
 <?
-
-use Exceptions\PollItemNotFoundException;
-
 /**
  * @property int $VoteCount
  * @property Poll $Poll
@@ -13,8 +10,9 @@ class PollItem{
 	public int $PollId;
 	public string $Name;
 	public string $Description;
-	protected ?int $_VoteCount = null;
-	protected ?Poll $_Poll = null;
+
+	protected int $_VoteCount;
+	protected Poll $_Poll;
 
 
 	// *******
@@ -22,7 +20,7 @@ class PollItem{
 	// *******
 
 	protected function GetVoteCount(): int{
-		if($this->_VoteCount === null){
+		if(!isset($this->_VoteCount)){
 			$this->_VoteCount = Db::QueryInt('
 							SELECT count(*)
 							from PollVotes pv

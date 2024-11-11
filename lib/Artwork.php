@@ -7,6 +7,7 @@ use function Safe\getimagesize;
 use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_replace;
+use function Safe\unlink;
 
 /**
  * @property string $UrlName
@@ -24,19 +25,20 @@ use function Safe\preg_replace;
  * @property string $Dimensions
  * @property Ebook $Ebook
  * @property Museum $Museum
- * @property User $Submitter
- * @property User $Reviewer
+ * @property ?User $Submitter
+ * @property ?User $Reviewer
  */
 class Artwork{
 	use Traits\Accessor;
+	use Traits\PropertyFromHttp;
 
-	public ?string $Name = null;
-	public ?int $ArtworkId = null;
-	public ?int $ArtistId = null;
+	public int $ArtworkId;
+	public string $Name = '';
+	public int $ArtistId;
 	public ?int $CompletedYear = null;
 	public bool $CompletedYearIsCirca = false;
-	public ?DateTimeImmutable $Created = null;
-	public ?DateTimeImmutable $Updated = null;
+	public DateTimeImmutable $Created;
+	public DateTimeImmutable $Updated;
 	public ?string $EbookUrl = null;
 	public ?int $SubmitterUserId = null;
 	public ?int $ReviewerUserId = null;
@@ -45,26 +47,27 @@ class Artwork{
 	public ?string $PublicationYearPageUrl = null;
 	public ?string $CopyrightPageUrl = null;
 	public ?string $ArtworkPageUrl = null;
-	public ?bool $IsPublishedInUs = null;
+	public bool $IsPublishedInUs = false;
 	public ?string $Exception = null;
 	public ?string $Notes = null;
-	public ?Enums\ImageMimeType $MimeType = null;
-	public ?Enums\ArtworkStatusType $Status = null;
+	public Enums\ImageMimeType $MimeType;
+	public Enums\ArtworkStatusType $Status = Enums\ArtworkStatusType::Unverified;
 
-	protected ?string $_UrlName = null;
-	protected ?string $_Url = null;
-	protected ?string $_EditUrl = null;
-	/** @var ?array<ArtworkTag> $_Tags */
-	protected $_Tags = null;
-	protected ?Artist $_Artist = null;
-	protected ?string $_ImageUrl = null;
-	protected ?string $_ThumbUrl = null;
-	protected ?string $_Thumb2xUrl = null;
-	protected ?string $_Dimensions = null;
-	protected ?Ebook $_Ebook = null;
-	protected ?Museum $_Museum = null;
-	protected ?User $_Submitter = null;
-	protected ?User $_Reviewer = null;
+	protected string $_UrlName;
+	protected string $_Url;
+	protected string $_EditUrl;
+	/** @var array<ArtworkTag> $_Tags */
+	protected array $_Tags;
+	protected Artist $_Artist;
+	protected string $_ImageUrl;
+	protected string $_ThumbUrl;
+	protected string $_Thumb2xUrl;
+	protected string $_Dimensions ;
+	protected ?Ebook $_Ebook;
+	protected ?Museum $_Museum;
+	protected ?User $_Submitter;
+	protected ?User $_Reviewer;
+
 
 	// *******
 	// SETTERS
@@ -74,45 +77,54 @@ class Artwork{
 	 * @param string|null|array<ArtworkTag> $tags
 	 */
 	protected function SetTags(null|string|array $tags): void{
-		if($tags === null || is_array($tags)){
+		if(is_array($tags)){
 			$this->_Tags = $tags;
 		}
-		elseif(is_string($tags)){
-			$tags = array_map('trim', explode(',', $tags));
-			$tags = array_values(array_filter($tags));
-			$tags = array_unique($tags);
+		else{
+			$tags = trim($tags ?? '');
 
-			$this->_Tags = array_map(function ($str){
-				$tag = new ArtworkTag();
-				$tag->Name = $str;
-				return $tag;
-			}, $tags);
+			if($tags === ''){
+				$this->_Tags = [];
+			}
+			else{
+				$tags = array_map('trim', explode(',', $tags));
+				$tags = array_values(array_filter($tags));
+				$tags = array_unique($tags);
+
+				$this->_Tags = array_map(function ($str): ArtworkTag{
+					$tag = new ArtworkTag();
+					$tag->Name = $str;
+					return $tag;
+				}, $tags);
+			}
 		}
 	}
+
 
 	// *******
 	// GETTERS
 	// *******
 
 	protected function GetUrlName(): string{
-		if($this->Name === null || $this->Name == ''){
-			return '';
-		}
-
-		if($this->_UrlName === null){
-			$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
+		if(!isset($this->_UrlName)){
+			if(!isset($this->Name) || $this->Name == ''){
+				$this->_UrlName = '';
+			}
+			else{
+				$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
+			}
 		}
 
 		return $this->_UrlName;
 	}
 
 	protected function GetSubmitter(): ?User{
-		if($this->_Submitter === null){
+		if(!isset($this->_Submitter)){
 			try{
 				$this->_Submitter = User::Get($this->SubmitterUserId);
 			}
 			catch(Exceptions\UserNotFoundException){
-				// Return null
+				$this->Submitter = null;
 			}
 		}
 
@@ -120,12 +132,12 @@ class Artwork{
 	}
 
 	protected function GetReviewer(): ?User{
-		if($this->_Reviewer === null){
+		if(!isset($this->_Reviewer)){
 			try{
 				$this->_Reviewer = User::Get($this->ReviewerUserId);
 			}
 			catch(Exceptions\UserNotFoundException){
-				// Return null
+				$this->_Reviewer = null;
 			}
 		}
 
@@ -133,7 +145,7 @@ class Artwork{
 	}
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = '/artworks/' . $this->Artist->UrlName . '/' . $this->UrlName;
 		}
 
@@ -141,7 +153,7 @@ class Artwork{
 	}
 
 	protected function GetEditUrl(): string{
-		if($this->_EditUrl === null){
+		if(!isset($this->_EditUrl)){
 			$this->_EditUrl = $this->Url . '/edit';
 		}
 
@@ -152,7 +164,7 @@ class Artwork{
 	 * @return array<ArtworkTag>
 	 */
 	protected function GetTags(): array{
-		if($this->_Tags === null){
+		if(!isset($this->_Tags)){
 			$this->_Tags = Db::Query('
 							SELECT t.*
 							from Tags t
@@ -168,34 +180,28 @@ class Artwork{
 	 * @throws Exceptions\InvalidUrlException
 	 */
 	public function GetMuseum(): ?Museum{
-		if($this->_Museum === null){
+		if(!isset($this->_Museum)){
 			try{
 				$this->_Museum = Museum::GetByUrl($this->MuseumUrl);
 			}
 			catch(Exceptions\MuseumNotFoundException){
-				// Pass
+				// Pass.
 			}
 		}
 
 		return $this->_Museum;
 	}
 
-	public function ImplodeTags(): string{
-		$tags = $this->Tags ?? [];
-		$tags = array_column($tags, 'Name');
-		return trim(implode(', ', $tags));
-	}
-
 	/**
 	 * @throws Exceptions\InvalidArtworkException
 	 */
 	protected function GetImageUrl(): string{
-		if($this->_ImageUrl === null){
-			if($this->ArtworkId === null || $this->MimeType === null){
+		if(!isset($this->_ImageUrl)){
+			if(!isset($this->ArtworkId) || !isset($this->MimeType)){
 				throw new Exceptions\InvalidArtworkException();
 			}
 
-			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->Updated?->getTimestamp();
+			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->Updated->getTimestamp();
 		}
 
 		return $this->_ImageUrl;
@@ -205,12 +211,12 @@ class Artwork{
 	 * @throws Exceptions\ArtworkNotFoundException
 	 */
 	protected function GetThumbUrl(): string{
-		if($this->_ThumbUrl === null){
-			if($this->ArtworkId === null){
+		if(!isset($this->_ThumbUrl)){
+			if(!isset($this->ArtworkId)){
 				throw new Exceptions\ArtworkNotFoundException();
 			}
 
-			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->Updated?->getTimestamp();
+			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->Updated->getTimestamp();
 		}
 
 		return $this->_ThumbUrl;
@@ -220,12 +226,12 @@ class Artwork{
 	 * @throws Exceptions\ArtworkNotFoundException
 	 */
 	protected function GetThumb2xUrl(): string{
-		if($this->_Thumb2xUrl === null){
-			if($this->ArtworkId === null){
+		if(!isset($this->_Thumb2xUrl)){
+			if(!isset($this->ArtworkId)){
 				throw new Exceptions\ArtworkNotFoundException();
 			}
 
-			$this->_Thumb2xUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->Updated?->getTimestamp();
+			$this->_Thumb2xUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->Updated->getTimestamp();
 		}
 
 		return $this->_Thumb2xUrl;
@@ -244,22 +250,24 @@ class Artwork{
 	}
 
 	protected function GetDimensions(): string{
-		$this->_Dimensions = '';
-		try{
-			list($imageWidth, $imageHeight) = getimagesize($this->ImageFsPath);
-			if($imageWidth && $imageHeight){
-				$this->_Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
+		if(!isset($this->Dimensions)){
+			$this->_Dimensions = '';
+			try{
+				list($imageWidth, $imageHeight) = getimagesize($this->ImageFsPath);
+				if($imageWidth && $imageHeight){
+					$this->_Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
+				}
 			}
-		}
-		catch(Exception){
-			// Image doesn't exist, return blank string
+			catch(Exception){
+				// Image doesn't exist, return a blank string.
+			}
 		}
 
 		return $this->_Dimensions;
 	}
 
 	protected function GetEbook(): ?Ebook{
-		if($this->_Ebook === null){
+		if(!isset($this->_Ebook)){
 			if($this->EbookUrl === null){
 				return null;
 			}
@@ -277,9 +285,11 @@ class Artwork{
 		return $this->_Ebook;
 	}
 
+
 	// *******
 	// METHODS
 	// *******
+
 	public function CanBeEditedBy(?User $user): bool{
 		if($user === null){
 			return false;
@@ -336,15 +346,16 @@ class Artwork{
 		$thisYear = intval(NOW->format('Y'));
 		$error = new Exceptions\InvalidArtworkException();
 
-		if($this->Artist === null){
+		if(!isset($this->Artist)){
 			$error->Add(new Exceptions\InvalidArtistException());
 		}
-
-		try{
-			$this->Artist->Validate();
-		}
-		catch(Exceptions\ValidationException $ex){
-			$error->Add($ex);
+		else{
+			try{
+				$this->Artist->Validate();
+			}
+			catch(Exceptions\ValidationException $ex){
+				$error->Add($ex);
+			}
 		}
 
 		if($this->Exception !== null && trim($this->Exception) == ''){
@@ -355,12 +366,17 @@ class Artwork{
 			$this->Notes = null;
 		}
 
-		if($this->Name === null || $this->Name == ''){
-			$error->Add(new Exceptions\ArtworkNameRequiredException());
-		}
+		if(isset($this->Name)){
+			if($this->Name == ''){
+				$error->Add(new Exceptions\ArtworkNameRequiredException());
+			}
 
-		if($this->Name !== null && strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
+			if(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
+			}
+		}
+		else{
+			$error->Add(new Exceptions\ArtworkNameRequiredException());
 		}
 
 		if($this->CompletedYear !== null && ($this->CompletedYear <= 0 || $this->CompletedYear > $thisYear)){
@@ -375,25 +391,30 @@ class Artwork{
 			$error->Add(new Exceptions\InvalidPublicationYearException());
 		}
 
-		if($this->Status === null){
+		if(!isset($this->Status)){
 			$error->Add(new Exceptions\InvalidArtworkException('Invalid status.'));
 		}
 
-		if(count($this->Tags) == 0){
+		if(isset($this->Tags)){
+			if(count($this->Tags) == 0){
+				$error->Add(new Exceptions\TagsRequiredException());
+			}
+
+			if(count($this->Tags) > ARTWORK_MAX_TAGS){
+				$error->Add(new Exceptions\TooManyTagsException());
+			}
+
+			foreach($this->Tags as $tag){
+				try{
+					$tag->Validate();
+				}
+				catch(Exceptions\ValidationException $ex){
+					$error->Add($ex);
+				}
+			}
+		}
+		else{
 			$error->Add(new Exceptions\TagsRequiredException());
-		}
-
-		if(count($this->Tags) > ARTWORK_MAX_TAGS){
-			$error->Add(new Exceptions\TooManyTagsException());
-		}
-
-		foreach($this->Tags as $tag){
-			try{
-				$tag->Validate();
-			}
-			catch(Exceptions\ValidationException $ex){
-				$error->Add($ex);
-			}
 		}
 
 		if($this->MuseumUrl !== null){
@@ -482,42 +503,50 @@ class Artwork{
 			}
 		}
 
-		// Check for existing Artwork objects with the same URL but different Artwork IDs.
-		try{
-			$existingArtwork = Artwork::GetByUrl($this->Artist->UrlName, $this->UrlName);
-			if($existingArtwork->ArtworkId != $this->ArtworkId){
-				// Duplicate found, alert the user
-				$error->Add(new Exceptions\ArtworkAlreadyExistsException());
+		// Check for existing `Artwork` objects with the same URL but different `ArtworkID`s.
+		if(isset($this->ArtworkId)){
+			try{
+				$existingArtwork = Artwork::GetByUrl($this->Artist->UrlName, $this->UrlName);
+				if($existingArtwork->ArtworkId != $this->ArtworkId){
+					// Duplicate found, alert the user.
+					$error->Add(new Exceptions\ArtworkAlreadyExistsException());
+				}
 			}
-		}
-		catch(Exceptions\ArtworkNotFoundException){
-			// No duplicates found, continue
-		}
-
-		if($isImageRequired && $imagePath === null){
-			$error->Add(new Exceptions\InvalidImageUploadException('An image is required.'));
-		}
-
-		if($imagePath !== null && $this->MimeType !== null){
-			if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
-				$error->Add(new Exceptions\InvalidImageUploadException('Upload path not writable.'));
-			}
-
-			// Check for minimum dimensions
-			list($imageWidth, $imageHeight) = getimagesize($imagePath);
-			if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
-				$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
+			catch(Exceptions\ArtworkNotFoundException){
+				// No duplicates found, continue.
 			}
 		}
 
-		if($imagePath !== null && $this->MimeType === null && !$error->Has('Exceptions\InvalidImageUploadException')){
-			// Only notify of wrong mimetype if there are no other problem with the uploaded image
+		if($isImageRequired){
+			if($imagePath === null){
+				$error->Add(new Exceptions\InvalidImageUploadException('An image is required.'));
+			}
+			else{
+				if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
+					$error->Add(new Exceptions\InvalidImageUploadException('Upload path not writable.'));
+				}
+
+				// Check for minimum dimensions.
+				list($imageWidth, $imageHeight) = getimagesize($imagePath);
+				if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
+					$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
+				}
+			}
+		}
+
+		if(!isset($this->MimeType)){
 			$error->Add(new Exceptions\InvalidMimeTypeException());
 		}
 
 		if($error->HasExceptions){
 			throw $error;
 		}
+	}
+
+	public function ImplodeTags(): string{
+		$tags = $this->Tags ?? [];
+		$tags = array_column($tags, 'Name');
+		return trim(implode(', ', $tags));
 	}
 
 	/**
@@ -661,11 +690,12 @@ class Artwork{
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	public function Create(?string $imagePath = null): void{
-		$this->MimeType = Enums\ImageMimeType::FromFile($imagePath);
+		$this->MimeType = Enums\ImageMimeType::FromFile($imagePath) ?? throw new Exceptions\InvalidImageUploadException();
 
 		$this->Validate($imagePath, true);
 
 		$this->Created = NOW;
+		$this->Updated = NOW;
 
 		$tags = [];
 		foreach($this->Tags as $artworkTag){
@@ -677,7 +707,7 @@ class Artwork{
 
 		Db::Query('
 			INSERT into
-			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Status, SubmitterUserId, ReviewerUserId, MuseumUrl,
+			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Updated, Status, SubmitterUserId, ReviewerUserId, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
 			                      EbookUrl, MimeType, Exception, Notes)
 			values (?,
@@ -698,9 +728,10 @@ class Artwork{
 			        ?,
 			        ?,
 			        ?,
+			        ?,
 			        ?)
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->Created, $this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookUrl, $this->MimeType, $this->Exception, $this->Notes]
 		);
 
@@ -726,16 +757,16 @@ class Artwork{
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	public function Save(?string $imagePath = null): void{
-		$this->_UrlName = null;
+		unset($this->_UrlName);
 
 		if($imagePath !== null){
-			$this->MimeType = Enums\ImageMimeType::FromFile($imagePath);
+			$this->MimeType = Enums\ImageMimeType::FromFile($imagePath) ?? throw new Exceptions\InvalidImageUploadException();
 
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's updated timestamp won't change automatically.
 			$this->Updated = NOW;
-			$this->_ImageUrl = null;
-			$this->_ThumbUrl = null;
-			$this->_Thumb2xUrl = null;
+			unset($this->_ImageUrl);
+			unset($this->_ThumbUrl);
+			unset($this->_Thumb2xUrl);
 		}
 
 		$this->Validate($imagePath, false);
@@ -828,7 +859,29 @@ class Artwork{
 			from Artworks
 			where ArtworkId = ?
 		', [$this->ArtworkId]);
+
+		try{
+			unlink($this->ImageFsPath);
+		}
+		catch(\Safe\Exceptions\FilesystemException){
+			// Pass.
+		}
+
+		try{
+			unlink($this->ThumbFsPath);
+		}
+		catch(\Safe\Exceptions\FilesystemException){
+			// Pass.
+		}
+
+		try{
+			unlink($this->Thumb2xFsPath);
+		}
+		catch(\Safe\Exceptions\FilesystemException){
+			// Pass.
+		}
 	}
+
 
 	// ***********
 	// ORM METHODS
@@ -871,14 +924,10 @@ class Artwork{
 
 	public static function FromHttpPost(): Artwork{
 		$artwork = new Artwork();
-		$artwork->Artist = new Artist();
 
-		$artwork->Artist->Name = HttpInput::Str(POST, 'artist-name');
-		$artwork->Artist->DeathYear = HttpInput::Int(POST, 'artist-year-of-death');
-
-		$artwork->Name = HttpInput::Str(POST, 'artwork-name');
+		$artwork->Name = HttpInput::Str(POST, 'artwork-name') ?? '';
 		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
-		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-year-is-circa') ?? false;
+		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-completed-year-is-circa') ?? false;
 		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
 		$artwork->Status = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? Enums\ArtworkStatusType::Unverified;
 		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
@@ -892,5 +941,29 @@ class Artwork{
 		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes');
 
 		return $artwork;
+	}
+
+	public function FillFromHttpPost(): void{
+		if(!isset($this->Artist)){
+			$this->Artist = new Artist();
+		}
+
+		$this->Artist->FillFromHttpPost();
+
+		$this->PropertyFromHttp('Name');
+		$this->PropertyFromHttp('CompletedYear');
+		$this->PropertyFromHttp('CompletedYearIsCirca');
+		$this->PropertyFromHttp('Status');
+		$this->PropertyFromHttp('EbookUrl');
+		$this->PropertyFromHttp('IsPublishedInUs');
+		$this->PropertyFromHttp('PublicationYear');
+		$this->PropertyFromHttp('PublicationYearPageUrl');
+		$this->PropertyFromHttp('CopyrightPageUrl');
+		$this->PropertyFromHttp('ArtworkPageUrl');
+		$this->PropertyFromHttp('MuseumUrl');
+		$this->PropertyFromHttp('Exception');
+		$this->PropertyFromHttp('Notes');
+
+		$this->Tags = HttpInput::Str(POST, 'artwork-tags') ?? ''; // Converted from a string to an array via a setter.
 	}
 }

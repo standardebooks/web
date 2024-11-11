@@ -9,49 +9,39 @@ use Safe\DateTimeImmutable;
  */
 class Artist{
 	use Traits\Accessor;
+	use Traits\PropertyFromHttp;
 
-	public ?int $ArtistId = null;
-	public ?string $Name = null;
-	public ?DateTimeImmutable $Created = null;
-	public ?DateTimeImmutable $Updated = null;
+	public int $ArtistId;
+	public string $Name = '';
+	public DateTimeImmutable $Created;
+	public DateTimeImmutable $Updated;
+	public ?int $DeathYear = null;
 
-	protected ?int $_DeathYear = null;
-	protected ?string $_UrlName = null;
-	protected ?string $_Url = null;
-	/** @var ?array<string> $_AlternateNames */
-	protected $_AlternateNames = null;
+	protected string $_UrlName;
+	protected string $_Url;
+	/** @var array<string> $_AlternateNames */
+	protected array $_AlternateNames;
 
-	// *******
-	// SETTERS
-	// *******
-
-	protected function SetDeathYear(?int $deathYear): void{
-		if($this->Name == 'Anonymous'){
-			$this->_DeathYear = null;
-		}
-		else {
-			$this->_DeathYear = $deathYear;
-		}
-	}
 
 	// *******
 	// GETTERS
 	// *******
 
 	protected function GetUrlName(): string{
-		if($this->Name === null || $this->Name == ''){
-			return '';
-		}
-
-		if($this->_UrlName === null){
-			$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
+		if(!isset($this->_UrlName)){
+			if(!isset($this->Name) || $this->Name == ''){
+				$this->_UrlName = '';
+			}
+			else{
+				$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
+			}
 		}
 
 		return $this->_UrlName;
 	}
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = '/artworks/' . $this->UrlName;
 		}
 
@@ -62,7 +52,7 @@ class Artist{
 	 * @return array<string>
 	 */
 	protected function GetAlternateNames(): array{
-		if($this->_AlternateNames === null){
+		if(!isset($this->_AlternateNames)){
 			$this->_AlternateNames = [];
 
 			$result = Db::Query('
@@ -79,6 +69,7 @@ class Artist{
 		return $this->_AlternateNames;
 	}
 
+
 	// *******
 	// METHODS
 	// *******
@@ -91,16 +82,15 @@ class Artist{
 
 		$error = new Exceptions\InvalidArtistException();
 
-		if($this->Name === null || $this->Name == ''){
+		if(!isset($this->Name) || $this->Name == ''){
 			$error->Add(new Exceptions\ArtistNameRequiredException());
 		}
-
-		if($this->Name !== null && strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
+		elseif(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Artist Name'));
 		}
 
 		if($this->Name == 'Anonymous' && $this->DeathYear !== null){
-			$this->_DeathYear = null;
+			$this->DeathYear = null;
 		}
 
 		if($this->DeathYear !== null && ($this->DeathYear <= 0 || $this->DeathYear > $thisYear + 50)){
@@ -111,10 +101,15 @@ class Artist{
 			throw $error;
 		}
 	}
+
+	public function FillFromHttpPost(): void{
+		$this->PropertyFromHttp('Name');
+		$this->PropertyFromHttp('DeathYear');
+	}
+
 	// ***********
 	// ORM METHODS
 	// ***********
-
 
 	/**
 	 * @throws Exceptions\ArtistNotFoundException
@@ -124,13 +119,11 @@ class Artist{
 			throw new Exceptions\ArtistNotFoundException();
 		}
 
-		$result = Db::Query('
+		return Db::Query('
 				SELECT *
 				from Artists
 				where ArtistId = ?
-			', [$artistId], Artist::class);
-
-		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();
+			', [$artistId], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
 	}
 
 	/**
@@ -141,15 +134,13 @@ class Artist{
 			throw new Exceptions\ArtistNotFoundException();
 		}
 
-		$result = Db::Query('
+		return Db::Query('
 				SELECT a.*
 					from Artists a
 					left outer join ArtistAlternateNames aan using (ArtistId)
 					where aan.UrlName = ?
 					limit 1
-			', [$urlName], Artist::class);
-
-		return $result[0] ?? throw new Exceptions\ArtistNotFoundException();
+			', [$urlName], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
 	}
 
 	/**

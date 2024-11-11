@@ -13,6 +13,11 @@ class Collection{
 	public ?Enums\CollectionType $Type = null;
 	protected ?string $_Url = null;
 
+
+	// *******
+	// GETTERS
+	// *******
+
 	protected function GetUrl(): string{
 		if($this->_Url === null){
 			$this->_Url = '/collections/' . $this->UrlName;
@@ -20,6 +25,11 @@ class Collection{
 
 		return $this->_Url;
 	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	public static function FromName(string $name): Collection{
 		$instance = new Collection();
@@ -44,6 +54,11 @@ class Collection{
 
 		return $result[0] ?? throw new Exceptions\CollectionNotFoundException();;
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	public function GetSortedName(): string{
 		return preg_replace('/^(the|and|a|)\s/ius', '', $this->Name);

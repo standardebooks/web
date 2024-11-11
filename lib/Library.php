@@ -5,15 +5,13 @@ use function Safe\exec;
 use function Safe\filemtime;
 use function Safe\filesize;
 use function Safe\glob;
-use function Safe\ksort;
 use function Safe\preg_replace;
 use function Safe\preg_split;
-use function Safe\sprintf;
-use function Safe\usort;
 
 class Library{
 	/**
 	* @param array<string> $tags
+	*
 	* @return array{ebooks: array<Ebook>, ebooksCount: int}
 	*/
 	public static function FilterEbooks(string $query = null, array $tags = [], Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE): array{
@@ -102,11 +100,11 @@ class Library{
 				', [$urlPath], Ebook::class);
 		}
 		else{
-			// Multiple authors, e.g., karl-marx_friedrich-engels
+			// Multiple authors, e.g., `karl-marx_friedrich-engels`.
 			$authors = explode('_', $urlPath);
 
 			$params = $authors;
-			$params[] = sizeof($authors); // The number of authors in the URL must match the number of Contributor records.
+			$params[] = sizeof($authors); // The number of authors in the URL must match the number of `Contributor` records.
 
 			return Db::Query('
 					SELECT e.*
@@ -123,6 +121,7 @@ class Library{
 
 	/**
 	 * @return array<Collection>
+	 *
 	 * @throws Exceptions\AppException
 	 */
 	public static function GetEbookCollections(): array{
@@ -135,7 +134,10 @@ class Library{
 		if($collator === null){
 			throw new Exceptions\AppException('Couldn\'t create collator object when getting collections.');
 		}
-		usort($collections, function($a, $b) use($collator){ return $collator->compare($a->GetSortedName(), $b->GetSortedName()); });
+		usort($collections, function(Collection $a, Collection $b) use($collator){
+			$result = $collator->compare($a->GetSortedName(), $b->GetSortedName());
+			return $result === false ? 0 : $result;
+		});
 		return $collections;
 	}
 
@@ -344,6 +346,7 @@ class Library{
 
 	/**
 	 * @return array<Artwork>
+	 *
 	 * @throws Exceptions\ArtistNotFoundException
 	 */
 	public static function GetArtworksByArtist(?string $artistUrlName, ?string $status, ?int $submitterUserId): array{
@@ -451,7 +454,8 @@ class Library{
 
 	/**
 	 * @param array<int, stdClass> $items
-	 * @return array<string, array<int|string, array<int|string, mixed>>>
+	 *
+	 * @return array<int, stdClass>
 	 */
 	private static function SortBulkDownloads(array $items): array{
 		// This sorts our items in a special order, epub first and advanced epub last
@@ -481,7 +485,8 @@ class Library{
 	}
 
 	/**
-	 * @return array<string, array<int|string, array<int|string, stdClass>>>
+	 * @return array{'months': array<string, array<string, stdClass>>, 'subjects': array<stdClass>, 'collections': array<stdClass>, 'authors': array<stdClass>}
+	 *
 	 * @throws Exceptions\AppException
 	 */
 	public static function RebuildBulkDownloadsCache(): array{
@@ -489,6 +494,7 @@ class Library{
 		if($collator === null){
 			throw new Exceptions\AppException('Couldn\'t create collator object when rebuilding bulk download cache.');
 		}
+		/** @var array<string, array<string, stdClass>> $months */
 		$months = [];
 		$subjects = [];
 		$collections = [];
@@ -509,6 +515,8 @@ class Library{
 			catch(\Exception){
 				throw new Exceptions\AppException('Couldn\'t parse date on bulk download object.');
 			}
+
+			/** @var string $year Required to satisfy PHPStan */
 			$year = $date->format('Y');
 			$month = $date->format('F');
 
@@ -533,7 +541,10 @@ class Library{
 		foreach(glob(WEB_ROOT . '/bulk-downloads/collections/*/', GLOB_NOSORT) as $dir){
 			$collections[] = self::FillBulkDownloadObject($dir, 'collections', '/collections');
 		}
-		usort($collections, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
+		usort($collections, function(stdClass $a, stdClass $b) use($collator): int{
+			$result = $collator->compare($a->LabelSort, $b->LabelSort);
+			return $result === false ? 0 : $result;
+		});
 
 		apcu_store('bulk-downloads-collections', $collections, 43200); // 12 hours
 
@@ -541,7 +552,10 @@ class Library{
 		foreach(glob(WEB_ROOT . '/bulk-downloads/authors/*/', GLOB_NOSORT) as $dir){
 			$authors[] = self::FillBulkDownloadObject($dir, 'authors', '/ebooks');
 		}
-		usort($authors, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
+		usort($authors, function(stdClass $a, stdClass $b) use($collator): int{
+			$result = $collator->compare($a->LabelSort, $b->LabelSort);
+			return $result === false ? 0 : $result;
+		});
 
 		apcu_store('bulk-downloads-authors', $authors, 43200); // 12 hours
 
@@ -549,7 +563,8 @@ class Library{
 	}
 
 	/**
-	 * @return array<string, array<int|string, array<int|string, mixed>>>
+	 * @return array<stdClass>
+	 *
 	 * @throws Exceptions\AppException
 	 */
 	public static function RebuildFeedsCache(?string $returnType = null, ?string $returnClass = null): ?array{
@@ -584,7 +599,10 @@ class Library{
 					$feeds[] = $obj;
 				}
 
-				usort($feeds, function($a, $b) use($collator){ return $collator->compare($a->LabelSort, $b->LabelSort); });
+				usort($feeds, function(stdClass $a, stdClass $b) use($collator): int{
+					$result = $collator->compare($a->LabelSort, $b->LabelSort);
+					return $result === false ? 0 : $result;
+				});
 
 				if($type == $returnType && $class == $returnClass){
 					$retval = $feeds;

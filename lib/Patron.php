@@ -7,14 +7,15 @@ use Safe\DateTimeImmutable;
 class Patron{
 	use Traits\Accessor;
 
-	public ?int $UserId = null;
+	public int $UserId;
 	public bool $IsAnonymous;
 	public ?string $AlternateName = null;
 	public bool $IsSubscribedToEmails;
-	public ?DateTimeImmutable $Created = null;
+	public DateTimeImmutable $Created;
 	public ?DateTimeImmutable $Ended = null;
 
-	protected ?User $_User = null;
+	protected User $_User;
+
 
 	// *******
 	// METHODS

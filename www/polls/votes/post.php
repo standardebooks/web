@@ -10,7 +10,7 @@ try{
 
 	$vote = new PollVote();
 
-	$vote->PollItemId = HttpInput::Int(POST, 'pollitemid');
+	$vote->FillFromHttpPost();
 
 	$vote->Create(HttpInput::Str(POST, 'email'));
 

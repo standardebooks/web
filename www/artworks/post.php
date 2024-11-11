@@ -19,7 +19,9 @@ try{
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
-		$artwork = Artwork::FromHttpPost();
+		$artwork = new Artwork();
+		$artwork->FillFromHttpPost();
+
 		$artwork->SubmitterUserId = $GLOBALS['User']->UserId ?? null;
 
 		// Only approved reviewers can set the status to anything but unverified when uploading.
@@ -28,7 +30,7 @@ try{
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
-		// If the artwork is approved, set the reviewer
+		// If the artwork is approved, set the reviewer.
 		if($artwork->Status !== Enums\ArtworkStatusType::Unverified){
 			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
 		}
@@ -56,7 +58,7 @@ try{
 		$artwork->ArtworkId = $originalArtwork->ArtworkId;
 		$artwork->Created = $originalArtwork->Created;
 		$artwork->SubmitterUserId = $originalArtwork->SubmitterUserId;
-		$artwork->Status = $originalArtwork->Status; // Overwrite any value got from POST because we need permission to change the status
+		$artwork->Status = $originalArtwork->Status; // Overwrite any value got from POST because we need permission to change the status.
 
 		$newStatus = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 		if($newStatus !== null){
@@ -96,9 +98,12 @@ try{
 				}
 
 				$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
-			}
 
-			$artwork->Status = $newStatus;
+				$artwork->Status = $newStatus;
+			}
+			else{
+				unset($artwork->Status);
+			}
 		}
 
 		if(isset($_POST['artwork-ebook-url'])){

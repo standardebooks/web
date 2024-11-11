@@ -208,7 +208,7 @@ try{
 					)
 				){
 					// This payment is eligible for the Patrons Circle!
-					if($payment->User !== null){
+					if($payment->UserId !== null && $payment->User !== null){
 						// Are we already a patron?
 						if(!Db::QueryBool('
 								SELECT exists(

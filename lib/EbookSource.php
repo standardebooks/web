@@ -3,18 +3,20 @@
 use Safe\DateTimeImmutable;
 
 class EbookSource{
-	public ?int $EbookId = null;
+	public int $EbookId;
 	public Enums\EbookSourceType $Type;
 	public string $Url;
-	public ?int $SortOrder = null;
+	public int $SortOrder;
+
+
+	// *******
+	// METHODS
+	// *******
 
 	/**
 	 * @throws Exceptions\ValidationException
 	 */
 	public function Validate(): void{
-		/** @throws void */
-		$now = new DateTimeImmutable();
-
 		$error = new Exceptions\ValidationException();
 
 		if(!isset($this->EbookId)){

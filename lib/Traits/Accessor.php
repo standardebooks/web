@@ -117,6 +117,7 @@ trait Accessor{
 	 * $t->User = new User();
 	 *
 	 * isset($t->User); // true
+	 * ```
 	 *
 	 * @see <https://reddit.com/r/PHPhelp/comments/x2avqu/anyone_know_the_rules_behind_null_coalescing/>
 	 */

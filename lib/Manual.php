@@ -1,9 +1,12 @@
 <?
 use function Safe\glob;
 use function Safe\preg_match_all;
-use function Safe\sort;
 
 class Manual{
+	// *******
+	// METHODS
+	// *******
+
 	public static function GetLatestVersion(): string{
 		$dirs = glob(MANUAL_PATH . '/*', GLOB_ONLYDIR);
 		sort($dirs);

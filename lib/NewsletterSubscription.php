@@ -13,15 +13,17 @@ class NewsletterSubscription{
 	public bool $IsSubscribedToNewsletter = false;
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
-	protected ?User $_User = null;
-	protected ?string $_Url = null;
+
+	protected ?User $_User;
+	protected string $_Url;
+
 
 	// *******
 	// GETTERS
 	// *******
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = '/newsletter/subscriptions/' . $this->User->Uuid;
 		}
 

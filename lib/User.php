@@ -17,10 +17,11 @@ class User{
 	public string $Uuid;
 	public ?string $PasswordHash = null;
 
-	protected ?bool $_IsRegistered = null;
-	/** @var ?array<Payment> $_Payments */
-	protected $_Payments = null;
-	protected ?Benefits $_Benefits = null;
+	protected bool $_IsRegistered;
+	/** @var array<Payment> $_Payments */
+	protected array $_Payments;
+	protected Benefits $_Benefits;
+
 
 	// *******
 	// GETTERS
@@ -30,7 +31,7 @@ class User{
 	* @return array<Payment>
 	*/
 	protected function GetPayments(): array{
-		if($this->_Payments === null){
+		if(!isset($this->_Payments)){
 			$this->_Payments = Db::Query('
 							SELECT *
 							from Payments
@@ -43,7 +44,7 @@ class User{
 	}
 
 	protected function GetBenefits(): Benefits{
-		if($this->_Benefits === null){
+		if(!isset($this->_Benefits)){
 			$result = Db::Query('
 						SELECT *
 						from Benefits
@@ -64,7 +65,7 @@ class User{
 	}
 
 	protected function GetIsRegistered(): ?bool{
-		if($this->_IsRegistered === null){
+		if(!isset($this->_IsRegistered)){
 			// A user is "registered" if they have a benefits entry in the table.
 			// This function will fill it out for us.
 			$this->GetBenefits();

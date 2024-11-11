@@ -30,7 +30,6 @@ try{
 		exit();
 	}
 
-
 	$subscription->User = new User();
 	$subscription->User->Email = HttpInput::Str(POST, 'email');
 	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'issubscribedtonewsletter') ?? false;

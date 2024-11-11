@@ -5,9 +5,10 @@
 class CollectionMembership{
 	use Traits\Accessor;
 
-	public ?int $EbookId = null;
-	public ?int $CollectionId = null;
+	public int $EbookId;
+	public int $CollectionId;
 	public ?int $SequenceNumber = null;
-	public ?int $SortOrder = null;
-	protected ?Collection $_Collection = null;
+	public int $SortOrder;
+
+	protected Collection $_Collection;
 }

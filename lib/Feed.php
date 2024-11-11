@@ -14,8 +14,8 @@ abstract class Feed{
 	public $Entries = [];
 	public string $Path;
 	public ?string $Stylesheet = null;
-	protected ?string $XmlString = null;
-	public ?DateTimeImmutable $Updated = null;
+	protected string $_XmlString;
+	public DateTimeImmutable $Updated;
 
 	/**
 	 * @param string $title
@@ -29,6 +29,13 @@ abstract class Feed{
 		$this->Path = $path;
 		$this->Entries = $entries;
 	}
+
+
+	// *******
+	// GETTERS
+	// *******
+
+	abstract protected function GetXmlString(): string;
 
 
 	// *******
@@ -50,11 +57,6 @@ abstract class Feed{
 		}
 
 		return $output;
-	}
-
-	protected function GetXmlString(): string{
-		// Virtual function, meant to be implemented by subclass
-		return '';
 	}
 
 	public function Save(): void{

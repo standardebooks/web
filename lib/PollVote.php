@@ -8,14 +8,15 @@ use Safe\DateTimeImmutable;
  */
 class PollVote{
 	use Traits\Accessor;
+	use Traits\PropertyFromHttp;
 
-	public ?int $UserId = null;
+	public int $UserId;
 	public DateTimeImmutable $Created;
-	public ?int $PollItemId = null;
+	public int $PollItemId;
 
-	protected ?User $_User = null;
-	protected ?PollItem $_PollItem = null;
-	protected ?string $_Url = null;
+	protected User $_User;
+	protected PollItem $_PollItem;
+	protected string $_Url;
 
 
 	// *******
@@ -23,7 +24,7 @@ class PollVote{
 	// *******
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
 		}
 
@@ -41,26 +42,30 @@ class PollVote{
 	protected function Validate(): void{
 		$error = new Exceptions\InvalidPollVoteException();
 
-		if($this->User === null){
+		if(!isset($this->UserId)){
 			$error->Add(new Exceptions\UserNotFoundException());
 		}
+		else{
+			try{
+				// Attempt to get the `User`.
+				User::Get($this->UserId);
+			}
+			catch(Exceptions\UserNotFoundException $ex){
+				$error->Add($ex);
+			}
+		}
 
-		if($this->PollItemId === null){
+		if(!isset($this->PollItemId)){
 			$error->Add(new Exceptions\PollItemRequiredException());
 		}
 		else{
-			if($this->PollItem === null){
-				$error->Add(new Exceptions\PollNotFoundException());
+			try{
+				if(!$this->PollItem->Poll->IsActive()){
+					$error->Add(new Exceptions\PollClosedException());
+				}
 			}
-			else{
-				if($this->PollItem->Poll === null){
-					$error->Add(new Exceptions\PollNotFoundException());
-				}
-				else{
-					if(!$this->PollItem->Poll->IsActive()){
-						$error->Add(new Exceptions\PollClosedException());
-					}
-				}
+			catch(Exceptions\PollItemNotFoundException | Exceptions\PollNotFoundException){
+				$error->Add(new Exceptions\PollNotFoundException());
 			}
 		}
 
@@ -97,10 +102,8 @@ class PollVote{
 				$this->UserId = $this->User->UserId;
 			}
 			catch(Exceptions\UserNotFoundException){
-				// Can't validate patron email - do nothing for now,
-				// this will be caught later when we validate the vote during creation.
-				// Save the email in the User object in case we want it later,
-				// for example prefilling the 'create' form after an error is returned.
+				// Can't validate patron email - do nothing for now, this will be caught later when we validate the vote during creation.
+				// Save the email in the User object in case we want it later, for example prefilling the 'create' form after an error is returned.
 				$this->User = new User();
 				$this->User->Email = $email;
 			}
@@ -134,5 +137,9 @@ class PollVote{
 				', [$pollUrlName, $userId], PollVote::class);
 
 		return $result[0] ?? throw new Exceptions\PollVoteNotFoundException();
+	}
+
+	public function FillFromHttpPost(): void{
+		$this->PropertyFromHttp('PollItemId');
 	}
 }

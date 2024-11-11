@@ -62,7 +62,7 @@ class Image{
 				unlink($tempFilename);
 			}
 			catch(Exception){
-				// Pass if file doesn't exist
+				// Pass if file doesn't exist.
 			}
 		}
 

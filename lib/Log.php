@@ -1,5 +1,4 @@
 <?
-use Safe\DateTimeImmutable;
 use function Safe\fopen;
 use function Safe\fwrite;
 use function Safe\fclose;

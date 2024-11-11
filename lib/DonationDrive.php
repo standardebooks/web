@@ -18,15 +18,10 @@ class DonationDrive{
 	public function __construct(public string $Name, public DateTimeImmutable $Start, public DateTimeImmutable $End, public int $BaseTargetDonationCount, public int $StretchTargetDonationCount){
 	}
 
-	public static function GetByIsRunning(): ?DonationDrive{
-		foreach(DONATION_DRIVE_DATES as $donationDrive){
-			if(NOW > $donationDrive->Start && NOW < $donationDrive->End){
-				return $donationDrive;
-			}
-		}
 
-		return null;
-	}
+	// *******
+	// GETTERS
+	// *******
 
 	protected function GetDonationCount(): int{
 		if(!isset($this->_DonationCount)){
@@ -91,5 +86,20 @@ class DonationDrive{
 		}
 
 		return $this->_IsStretchEnabled;
+	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	public static function GetByIsRunning(): ?DonationDrive{
+		foreach(DONATION_DRIVE_DATES as $donationDrive){
+			if(NOW > $donationDrive->Start && NOW < $donationDrive->End){
+				return $donationDrive;
+			}
+		}
+
+		return null;
 	}
 }

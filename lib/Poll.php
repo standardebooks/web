@@ -1,6 +1,5 @@
 <?
 use Safe\DateTimeImmutable;
-use function Safe\usort;
 
 /**
  * @property string $Url
@@ -18,12 +17,13 @@ class Poll{
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Start;
 	public DateTimeImmutable $End;
-	protected ?string $_Url = null;
-	/** @var ?array<PollItem> $_PollItems */
-	protected $_PollItems = null;
-	/** @var ?array<PollItem> $_PollItemsByWinner */
-	protected $_PollItemsByWinner = null;
-	protected ?int $_VoteCount = null;
+
+	protected string $_Url;
+	/** @var array<PollItem> $_PollItems */
+	protected array $_PollItems;
+	/** @var array<PollItem> $_PollItemsByWinner */
+	protected array $_PollItemsByWinner;
+	protected int $_VoteCount;
 
 
 	// *******
@@ -31,7 +31,7 @@ class Poll{
 	// *******
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = '/polls/' . $this->UrlName;
 		}
 
@@ -39,7 +39,7 @@ class Poll{
 	}
 
 	protected function GetVoteCount(): int{
-		if($this->_VoteCount === null){
+		if(!isset($this->_VoteCount)){
 			$this->_VoteCount = Db::QueryInt('
 							SELECT count(*)
 							from PollVotes pv
@@ -55,7 +55,7 @@ class Poll{
 	 * @return array<PollItem>
 	 */
 	protected function GetPollItems(): array{
-		if($this->_PollItems === null){
+		if(!isset($this->_PollItems)){
 			$this->_PollItems = Db::Query('
 							SELECT *
 							from PollItems
@@ -71,11 +71,11 @@ class Poll{
 	 * @return array<PollItem>
 	 */
 	protected function GetPollItemsByWinner(): array{
-		if($this->_PollItemsByWinner === null){
+		if(!isset($this->_PollItemsByWinner)){
 			$this->_PollItemsByWinner = $this->PollItems;
 			usort($this->_PollItemsByWinner, function(PollItem $a, PollItem $b){ return $a->VoteCount <=> $b->VoteCount; });
 
-			$this->_PollItemsByWinner = array_reverse($this->_PollItemsByWinner ?? []);
+			$this->_PollItemsByWinner = array_reverse($this->_PollItemsByWinner);
 		}
 
 		return $this->_PollItemsByWinner;
@@ -87,7 +87,6 @@ class Poll{
 	// *******
 
 	public function IsActive(): bool{
-		/** @throws void */
 		if( ($this->Start !== null && $this->Start > NOW) || ($this->End !== null && $this->End < NOW)){
 			return false;
 		}

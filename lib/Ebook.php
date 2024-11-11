@@ -46,7 +46,7 @@ use function Safe\shell_exec;
 class Ebook{
 	use Traits\Accessor;
 
-	public ?int $EbookId = null;
+	public int $EbookId;
 	public string $Identifier;
 	public string $WwwFilesystemPath;
 	public string $RepoFilesystemPath;
@@ -56,12 +56,12 @@ class Ebook{
 	public ?string $KepubUrl = null;
 	public ?string $Azw3Url = null;
 	public ?string $DistCoverUrl = null;
-	public ?string $Title = null;
+	public string $Title;
 	public ?string $FullTitle = null;
 	public ?string $AlternateTitle = null;
-	public ?string $Description = null;
-	public ?string $LongDescription = null;
-	public ?string $Language = null;
+	public string $Description;
+	public string $LongDescription;
+	public string $Language;
 	public int $WordCount;
 	public float $ReadingEase;
 	public ?string $GitHubUrl = null;
@@ -71,47 +71,48 @@ class Ebook{
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
 	public ?int $TextSinglePageByteCount = null;
+
 	/** @var array<GitCommit> $_GitCommits */
-	protected $_GitCommits = null;
+	protected array $_GitCommits;
 	/** @var array<EbookTag> $_Tags */
-	protected $_Tags = null;
+	protected array $_Tags;
 	/** @var array<LocSubject> $_LocSubjects */
-	protected $_LocSubjects = null;
+	protected array $_LocSubjects;
 	/** @var array<CollectionMembership> $_CollectionMemberships */
-	protected $_CollectionMemberships = null;
+	protected array $_CollectionMemberships;
 	/** @var array<EbookSource> $_Sources */
-	protected $_Sources = null;
+	protected array $_Sources;
 	/** @var array<Contributor> $_Authors */
-	protected $_Authors = null;
+	protected array $_Authors;
 	/** @var array<Contributor> $_Illustrators */
-	protected $_Illustrators = null;
+	protected array $_Illustrators;
 	/** @var array<Contributor> $_Translators */
-	protected $_Translators = null;
+	protected array$_Translators;
 	/** @var array<Contributor> $_Contributors */
-	protected $_Contributors = null;
+	protected array $_Contributors;
 	/** @var ?array<string> $_TocEntries */
-	protected $_TocEntries = null; // A list of non-Roman ToC entries ONLY IF the work has the 'se:is-a-collection' metadata element, null otherwise.
-	protected ?string $_Url = null;
-	protected ?bool $_HasDownloads = null;
-	protected ?string $_UrlSafeIdentifier = null;
-	protected ?string $_HeroImageUrl = null;
-	protected ?string $_HeroImageAvifUrl = null;
-	protected ?string $_HeroImage2xUrl = null;
-	protected ?string $_HeroImage2xAvifUrl = null;
-	protected ?string $_CoverImageUrl = null;
-	protected ?string $_CoverImageAvifUrl = null;
-	protected ?string $_CoverImage2xUrl = null;
-	protected ?string $_CoverImage2xAvifUrl = null;
-	protected ?string $_ReadingEaseDescription = null;
-	protected ?string $_ReadingTime = null;
-	protected ?string $_AuthorsHtml = null;
-	protected ?string $_AuthorsUrl = null; // This is a single URL even if there are multiple authors; for example, /ebooks/karl-marx_friedrich-engels/
-	protected ?string $_ContributorsHtml = null;
-	protected ?string $_TitleWithCreditsHtml = null;
-	protected ?string $_TextUrl = null;
-	protected ?string $_TextSinglePageUrl = null;
-	protected ?string $_TextSinglePageSizeFormatted = null;
-	protected ?string $_IndexableText = null;
+	protected ?array $_TocEntries = null; // A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
+	protected string $_Url;
+	protected bool $_HasDownloads;
+	protected string $_UrlSafeIdentifier;
+	protected string $_HeroImageUrl;
+	protected string $_HeroImageAvifUrl;
+	protected string $_HeroImage2xUrl;
+	protected string $_HeroImage2xAvifUrl;
+	protected string $_CoverImageUrl;
+	protected string $_CoverImageAvifUrl;
+	protected string $_CoverImage2xUrl;
+	protected string $_CoverImage2xAvifUrl;
+	protected string $_ReadingEaseDescription;
+	protected string $_ReadingTime;
+	protected string $_AuthorsHtml;
+	protected string $_AuthorsUrl; // This is a single URL even if there are multiple authors; for example, `/ebooks/karl-marx_friedrich-engels/`.
+	protected string $_ContributorsHtml;
+	protected string $_TitleWithCreditsHtml;
+	protected string $_TextUrl;
+	protected string $_TextSinglePageUrl;
+	protected string $_TextSinglePageSizeFormatted;
+	protected string $_IndexableText;
 
 	// *******
 	// GETTERS
@@ -121,7 +122,7 @@ class Ebook{
 	 * @return array<GitCommit>
 	 */
 	protected function GetGitCommits(): array{
-		if($this->_GitCommits === null){
+		if(!isset($this->_GitCommits)){
 			$this->_GitCommits = Db::Query('
 							SELECT *
 							from GitCommits
@@ -137,7 +138,7 @@ class Ebook{
 	 * @return array<EbookTag>
 	 */
 	protected function GetTags(): array{
-		if($this->_Tags === null){
+		if(!isset($this->_Tags)){
 			$this->_Tags = Db::Query('
 						SELECT t.*
 						from Tags t
@@ -154,7 +155,7 @@ class Ebook{
 	 * @return array<LocSubject>
 	 */
 	protected function GetLocSubjects(): array{
-		if($this->_LocSubjects === null){
+		if(!isset($this->_LocSubjects)){
 			$this->_LocSubjects = Db::Query('
 							SELECT l.*
 							from LocSubjects l
@@ -171,7 +172,7 @@ class Ebook{
 	 * @return array<CollectionMembership>
 	 */
 	protected function GetCollectionMemberships(): array{
-		if($this->_CollectionMemberships === null){
+		if(!isset($this->_CollectionMemberships)){
 			$this->_CollectionMemberships = Db::Query('
 							SELECT *
 							from CollectionEbooks
@@ -187,7 +188,7 @@ class Ebook{
 	 * @return array<EbookSource>
 	 */
 	protected function GetSources(): array{
-		if($this->_Sources === null){
+		if(!isset($this->_Sources)){
 			$this->_Sources = Db::Query('
 						SELECT *
 						from EbookSources
@@ -203,7 +204,7 @@ class Ebook{
 	 * @return array<Contributor>
 	 */
 	protected function GetAuthors(): array{
-		if($this->_Authors === null){
+		if(!isset($this->_Authors)){
 			$this->_Authors = Db::Query('
 						SELECT *
 						from Contributors
@@ -220,7 +221,7 @@ class Ebook{
 	 * @return array<Contributor>
 	 */
 	protected function GetIllustrators(): array{
-		if($this->_Illustrators === null){
+		if(!isset($this->_Illustrators)){
 			$this->_Illustrators = Db::Query('
 							SELECT *
 							from Contributors
@@ -237,7 +238,7 @@ class Ebook{
 	 * @return array<Contributor>
 	 */
 	protected function GetTranslators(): array{
-		if($this->_Translators === null){
+		if(!isset($this->_Translators)){
 			$this->_Translators = Db::Query('
 							SELECT *
 							from Contributors
@@ -254,7 +255,7 @@ class Ebook{
 	 * @return array<Contributor>
 	 */
 	protected function GetContributors(): array{
-		if($this->_Contributors === null){
+		if(!isset($this->_Contributors)){
 			$this->_Contributors = Db::Query('
 							SELECT *
 							from Contributors
@@ -268,10 +269,10 @@ class Ebook{
 	}
 
 	/**
-	 * @return array<string>
+	 * @return ?array<string>
 	 */
-	protected function GetTocEntries(): array{
-		if($this->_TocEntries === null){
+	protected function GetTocEntries(): ?array{
+		if(!isset($this->_TocEntries)){
 			$this->_TocEntries = [];
 
 			$result = Db::Query('
@@ -279,10 +280,14 @@ class Ebook{
 					from TocEntries
 					where EbookId = ?
 					order by SortOrder asc
-				', [$this->EbookId], stdClass::class);
+				', [$this->EbookId]);
 
 			foreach($result as $row){
 				$this->_TocEntries[] = $row->TocEntry;
+			}
+
+			if(sizeof($this->_TocEntries) == 0){
+				$this->_TocEntries = null;
 			}
 		}
 
@@ -290,7 +295,7 @@ class Ebook{
 	}
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = str_replace(WEB_ROOT, '', $this->WwwFilesystemPath);
 		}
 
@@ -298,7 +303,7 @@ class Ebook{
 	}
 
 	protected function GetHasDownloads(): bool{
-		if($this->_HasDownloads === null){
+		if(!isset($this->_HasDownloads)){
 			$this->_HasDownloads = $this->EpubUrl || $this->AdvancedEpubUrl || $this->KepubUrl || $this->Azw3Url;
 		}
 
@@ -306,7 +311,7 @@ class Ebook{
 	}
 
 	protected function GetUrlSafeIdentifier(): string{
-		if($this->_UrlSafeIdentifier === null){
+		if(!isset($this->_UrlSafeIdentifier)){
 			$this->_UrlSafeIdentifier = str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 		}
 
@@ -318,7 +323,7 @@ class Ebook{
 	}
 
 	protected function GetHeroImageUrl(): string{
-		if($this->_HeroImageUrl === null){
+		if(!isset($this->_HeroImageUrl)){
 			$this->_HeroImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero.jpg';
 		}
 
@@ -326,7 +331,7 @@ class Ebook{
 	}
 
 	protected function GetHeroImageAvifUrl(): ?string{
-		if($this->_HeroImageAvifUrl === null){
+		if(!isset($this->_HeroImageAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero.avif')){
 				$this->_HeroImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero.avif';
 			}
@@ -336,7 +341,7 @@ class Ebook{
 	}
 
 	protected function GetHeroImage2xUrl(): string{
-		if($this->_HeroImage2xUrl === null){
+		if(!isset($this->_HeroImage2xUrl)){
 			$this->_HeroImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero@2x.jpg';
 		}
 
@@ -344,7 +349,7 @@ class Ebook{
 	}
 
 	protected function GetHeroImage2xAvifUrl(): ?string{
-		if($this->_HeroImage2xAvifUrl === null){
+		if(!isset($this->_HeroImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero@2x.avif')){
 				$this->_HeroImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero@2x.avif';
 			}
@@ -354,7 +359,7 @@ class Ebook{
 	}
 
 	protected function GetCoverImageUrl(): string{
-		if($this->_CoverImageUrl === null){
+		if(!isset($this->_CoverImageUrl)){
 			$this->_CoverImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover.jpg';
 		}
 
@@ -362,7 +367,7 @@ class Ebook{
 	}
 
 	protected function GetCoverImageAvifUrl(): ?string{
-		if($this->_CoverImageAvifUrl === null){
+		if(!isset($this->_CoverImageAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.avif')){
 				$this->_CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover.avif';
 			}
@@ -372,7 +377,7 @@ class Ebook{
 	}
 
 	protected function GetCoverImage2xUrl(): string{
-		if($this->_CoverImage2xUrl === null){
+		if(!isset($this->_CoverImage2xUrl)){
 			$this->_CoverImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover@2x.jpg';
 		}
 
@@ -380,7 +385,7 @@ class Ebook{
 	}
 
 	protected function GetCoverImage2xAvifUrl(): ?string{
-		if($this->_CoverImage2xAvifUrl === null){
+		if(!isset($this->_CoverImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover@2x.avif')){
 				$this->_CoverImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover@2x.avif';
 			}
@@ -390,7 +395,7 @@ class Ebook{
 	}
 
 	protected function GetReadingEaseDescription(): string{
-		if($this->_ReadingEaseDescription === null){
+		if(!isset($this->_ReadingEaseDescription)){
 			if($this->ReadingEase > 89){
 				$this->_ReadingEaseDescription = 'very easy';
 			}
@@ -418,7 +423,7 @@ class Ebook{
 	}
 
 	protected function GetReadingTime(): string{
-		if($this->_ReadingTime === null){
+		if(!isset($this->_ReadingTime)){
 			$readingTime = ceil($this->WordCount / AVERAGE_READING_WORDS_PER_MINUTE);
 			$this->_ReadingTime = (string)$readingTime;
 
@@ -449,7 +454,7 @@ class Ebook{
 	}
 
 	protected function GetAuthorsHtml(): string{
-		if($this->_AuthorsHtml === null){
+		if(!isset($this->_AuthorsHtml)){
 			$this->_AuthorsHtml = Ebook::GenerateContributorList($this->Authors, true);
 		}
 
@@ -457,7 +462,7 @@ class Ebook{
 	}
 
 	protected function GetAuthorsUrl(): string{
-		if($this->_AuthorsUrl === null){
+		if(!isset($this->_AuthorsUrl)){
 			$this->_AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
 		}
 
@@ -465,7 +470,7 @@ class Ebook{
 	}
 
 	protected function GetContributorsHtml(): string{
-		if($this->_ContributorsHtml === null){
+		if(!isset($this->_ContributorsHtml)){
 			$this->_ContributorsHtml = '';
 			if(sizeof($this->Contributors) > 0){
 				$this->_ContributorsHtml .= ' with ' . Ebook::GenerateContributorList($this->Contributors, false) . ';';
@@ -492,7 +497,7 @@ class Ebook{
 	}
 
 	protected function GetTitleWithCreditsHtml(): string{
-		if($this->_TitleWithCreditsHtml === null){
+		if(!isset($this->_TitleWithCreditsHtml)){
 			$titleContributors = '';
 			if(sizeof($this->Contributors) > 0){
 				$titleContributors .= '. With ' . Ebook::GenerateContributorList($this->Contributors, false);
@@ -513,7 +518,7 @@ class Ebook{
 	}
 
 	protected function GetTextUrl(): string{
-		if($this->_TextUrl === null){
+		if(!isset($this->_TextUrl)){
 			$this->_TextUrl = $this->Url . '/text';
 		}
 
@@ -521,7 +526,7 @@ class Ebook{
 	}
 
 	protected function GetTextSinglePageUrl(): string{
-		if($this->_TextSinglePageUrl === null){
+		if(!isset($this->_TextSinglePageUrl)){
 			$this->_TextSinglePageUrl = $this->Url . '/text/single-page';
 		}
 
@@ -529,7 +534,7 @@ class Ebook{
 	}
 
 	protected function GetTextSinglePageSizeFormatted(): string{
-		if($this->_TextSinglePageSizeFormatted === null){
+		if(!isset($this->_TextSinglePageSizeFormatted)){
 			$bytes = $this->TextSinglePageByteCount;
 			$sizes = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
 
@@ -551,7 +556,7 @@ class Ebook{
 	}
 
 	protected function GetIndexableText(): string{
-		if($this->_IndexableText === null){
+		if(!isset($this->_IndexableText)){
 			$this->_IndexableText = $this->FullTitle ?? $this->Title;
 
 			$this->_IndexableText .= ' ' . $this->AlternateTitle;
@@ -584,6 +589,11 @@ class Ebook{
 
 		return $this->_IndexableText;
 	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	/**
 	 * Construct an Ebook from a filesystem path.
@@ -714,8 +724,8 @@ class Ebook{
 
 		$xml->registerXPathNamespace('dc', 'http://purl.org/dc/elements/1.1/');
 
-		$ebook->Title = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title'));
-		if($ebook->Title === null){
+		$ebook->Title = trim(Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title')) ?? '');
+		if($ebook->Title == ''){
 			throw new Exceptions\EbookParsingException('Invalid <dc:title> element.');
 		}
 
@@ -808,14 +818,16 @@ class Ebook{
 				$fileAs = (string)$author;
 			}
 
-			$authors[] = Contributor::FromProperties(
-						(string)$author,
-						$fileAs,
-						Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]')),
-						Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]')),
-						'aut',
-						Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'))
-					);
+			$contributor = new Contributor();
+			$contributor->Name = (string)$author;
+			$contributor->UrlName = Formatter::MakeUrlSafe($contributor->Name);
+			$contributor->SortName = $fileAs;
+			$contributor->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]'));
+			$contributor->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'));
+			$contributor->MarcRole = 'aut';
+			$contributor->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'));
+
+			$authors[] = $contributor;
 		}
 		if(sizeof($authors) == 0){
 			throw new Exceptions\EbookParsingException('Invalid <dc:creator> element.');
@@ -833,14 +845,14 @@ class Ebook{
 			}
 
 			foreach($xml->xpath('/package/metadata/meta[ (@property="role" or @property="se:role") and @refines="#' . $id . '"]') ?: [] as $role){
-				$c = Contributor::FromProperties(
-							(string)$contributor,
-							Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]')),
-							Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]')),
-							Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]')),
-							$role,
-							Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'))
-						);
+				$c = new Contributor();
+				$c->Name = (string)$contributor;
+				$c->UrlName = Formatter::MakeUrlSafe($contributor->Name);
+				$c->SortName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]'));
+				$c->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]'));
+				$c->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'));
+				$c->MarcRole = $role;
+				$c->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'));
 
 				// A display-sequence of 0 indicates that we don't want to process this contributor.
 				$displaySequence = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="display-seq"][@refines="#' . $id . '"]'));
@@ -875,9 +887,9 @@ class Ebook{
 		$ebook->Contributors = $contributors;
 
 		// Some basic data.
-		$ebook->Description = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:description'));
-		$ebook->Language = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:language'));
-		$ebook->LongDescription = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:long-description"]'));
+		$ebook->Description = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:description')) ?? '';
+		$ebook->LongDescription = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:long-description"]')) ?? '';
+		$ebook->Language = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:language')) ?? '';
 
 		$wordCount = 0;
 		$wordCountElement = $xml->xpath('/package/metadata/meta[@property="se:word-count"]');
@@ -1048,7 +1060,6 @@ class Ebook{
 			}
 		}
 
-
 		$this->KepubUrl = trim($this->KepubUrl ?? '');
 		if($this->KepubUrl == ''){
 			$this->KepubUrl = null;
@@ -1095,7 +1106,7 @@ class Ebook{
 		}
 
 		if(isset($this->Title)){
-			$this->Title = trim($this->Title ?? '');
+			$this->Title = trim($this->Title);
 
 			if($this->Title == ''){
 				$error->Add(new Exceptions\EbookTitleRequiredException());
@@ -1128,7 +1139,7 @@ class Ebook{
 		}
 
 		if(isset($this->Description)){
-			$this->Description = trim($this->Description ?? '');
+			$this->Description = trim($this->Description);
 
 			if($this->Description == ''){
 				$error->Add(new Exceptions\EbookDescriptionRequiredException());
@@ -1139,7 +1150,7 @@ class Ebook{
 		}
 
 		if(isset($this->LongDescription)){
-			$this->LongDescription = trim($this->LongDescription ?? '');
+			$this->LongDescription = trim($this->LongDescription);
 
 			if($this->LongDescription == ''){
 				$error->Add(new Exceptions\EbookLongDescriptionRequiredException());
@@ -1150,7 +1161,7 @@ class Ebook{
 		}
 
 		if(isset($this->Language)){
-			$this->Language = trim($this->Language ?? '');
+			$this->Language = trim($this->Language);
 
 			if($this->Language == ''){
 				$error->Add(new Exceptions\EbookLanguageRequiredException());
@@ -1520,8 +1531,9 @@ class Ebook{
 		return $string;
 	}
 
-
 	/**
+	 * If the given list of elements has an element that is not `''`, return that value; otherwise, return `null`.
+	 *
 	 * @param array<SimpleXMLElement>|false|null $elements
 	 */
 	private static function NullIfEmpty($elements): ?string{
@@ -1529,8 +1541,6 @@ class Ebook{
 			return null;
 		}
 
-		// Helper function when getting values from SimpleXml.
-		// Checks if the result is set, and returns the value if so; if the value is the empty string, return null.
 		if(isset($elements[0])){
 			$str = (string)$elements[0];
 			if($str !== ''){
@@ -1539,31 +1549,6 @@ class Ebook{
 		}
 
 		return null;
-	}
-
-	// ***********
-	// ORM METHODS
-	// ***********
-
-	/**
-	 * @throws Exceptions\EbookNotFoundException
-	 */
-	public static function GetByIdentifier(?string $identifier): Ebook{
-		if($identifier === null){
-			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
-		}
-
-		$result = Db::Query('
-				SELECT *
-				from Ebooks
-				where Identifier = ?
-			', [$identifier], Ebook::class);
-
-		if(sizeof($result) == 0){
-			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
-		}
-
-		return $result[0];
 	}
 
 	/**
@@ -1842,5 +1827,30 @@ class Ebook{
 				', [$this->EbookId, $tocEntry, $sortOrder]);
 			}
 		}
+	}
+
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	/**
+	 * @throws Exceptions\EbookNotFoundException
+	 */
+	public static function GetByIdentifier(?string $identifier): Ebook{
+		if($identifier === null){
+			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
+		}
+
+		$result = Db::Query('
+				SELECT *
+				from Ebooks
+				where Identifier = ?
+			', [$identifier], Ebook::class);
+
+		if(sizeof($result) == 0){
+			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
+		}
+
+		return $result[0];
 	}
 }

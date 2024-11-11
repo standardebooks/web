@@ -2,10 +2,15 @@
 use Safe\DateTimeImmutable;
 
 class GitCommit{
-	public ?int $EbookId = null;
+	public int $EbookId;
 	public DateTimeImmutable $Created;
 	public string $Message;
 	public string $Hash;
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	/**
 	 * @throws Exceptions\InvalidGitCommitException
@@ -25,6 +30,11 @@ class GitCommit{
 		$instance->Hash = $hash;
 		return $instance;
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	/**
 	 * @throws Exceptions\ValidationException

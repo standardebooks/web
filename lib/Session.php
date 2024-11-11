@@ -13,8 +13,8 @@ class Session{
 	public DateTimeImmutable $Created;
 	public string $SessionId;
 
-	protected ?User $_User = null;
-	public ?string $_Url = null;
+	protected User $_User;
+	public string $_Url;
 
 
 	// *******
@@ -22,7 +22,7 @@ class Session{
 	// *******
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = '/sessions/' . $this->SessionId;
 		}
 
@@ -100,6 +100,11 @@ class Session{
 		/** @throws void */
 		setcookie('sessionid', $sessionId, ['expires' => intval((new DateTimeImmutable('+1 week'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']); // Expires in two weeks
 	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	/**
 	 * @throws Exceptions\SessionNotFoundException

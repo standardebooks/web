@@ -19,6 +19,11 @@ class Payment{
 
 	protected ?User $_User = null;
 
+
+	// *******
+	// GETTERS
+	// *******
+
 	/**
 	 * @throws Exceptions\UserNotFoundException
 	 */

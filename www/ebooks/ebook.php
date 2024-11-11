@@ -162,13 +162,7 @@ catch(Exceptions\EbookNotFoundException){
 
 			<?= Template::DonationAlert() ?>
 
-			<? if($ebook->LongDescription === null){ ?>
-				<p>
-					<i>There’s no description for this ebook yet.</i>
-				</p>
-			<? }else{ ?>
-				<?= $ebook->LongDescription ?>
-			<? } ?>
+			<?= $ebook->LongDescription ?>
 		</section>
 
 		<? if($ebook->HasDownloads){ ?>

@@ -21,13 +21,13 @@ class RssFeed extends Feed{
 	// *******
 
 	protected function GetXmlString(): string{
-		if($this->XmlString === null){
+		if(!isset($this->_XmlString)){
 			$feed = Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => NOW]);
 
-			$this->XmlString = $this->CleanXmlString($feed);
+			$this->_XmlString = $this->CleanXmlString($feed);
 		}
 
-		return $this->XmlString;
+		return $this->_XmlString;
 	}
 
 	public function SaveIfChanged(): bool{

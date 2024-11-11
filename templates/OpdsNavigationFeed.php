@@ -39,7 +39,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<entry>
 			<title><?= Formatter::EscapeXml($entry->Title) ?></title>
 			<link href="<?= SITE_URL . Formatter::EscapeXml($entry->Url) ?>" rel="<?= Formatter::EscapeXml($entry->Rel) ?>" type="application/atom+xml;profile=opds-catalog;kind=<?= $entry->Type ?>; charset=utf-8"/>
-			<updated><? if($entry->Updated !== null){ ?><?= $entry->Updated->format(Enums\DateTimeFormat::Iso->value) ?><? } ?></updated>
+			<updated><?= $entry->Updated->format(Enums\DateTimeFormat::Iso->value) ?></updated>
 			<id><?= Formatter::EscapeXml($entry->Id) ?></id>
 			<content type="text"><?= Formatter::EscapeXml($entry->Description) ?></content>
 		</entry>

@@ -10,6 +10,11 @@ class Museum{
 	public string $Name;
 	public string $Domain;
 
+
+	// *******
+	// METHODS
+	// *******
+
 	/**
 	 * @throws Exceptions\InvalidUrlException
 	 * @throws Exceptions\InvalidMuseumUrlException
@@ -596,6 +601,10 @@ class Museum{
 
 		return $outputUrl;
 	}
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	/**
 	* @throws Exceptions\MuseumNotFoundException

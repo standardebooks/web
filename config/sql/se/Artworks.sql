@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `Artworks` (
   `CompletedYearIsCirca` boolean NOT NULL DEFAULT FALSE,
   `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `Status` enum('unverified', 'approved', 'declined', 'in_use') DEFAULT 'unverified',
+  `Status` enum('unverified', 'approved', 'declined', 'in_use') NOT NULL DEFAULT 'unverified',
   `SubmitterUserId` int(10) unsigned NULL,
   `ReviewerUserId` int(10) unsigned NULL,
   `MuseumUrl` varchar(255) NULL,

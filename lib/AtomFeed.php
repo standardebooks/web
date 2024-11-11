@@ -19,18 +19,19 @@ class AtomFeed extends Feed{
 		$this->Stylesheet = SITE_URL . '/feeds/atom/style';
 	}
 
+
 	// *******
 	// METHODS
 	// *******
 
 	protected function GetXmlString(): string{
-		if($this->XmlString === null){
+		if(!isset($this->_XmlString)){
 			$feed = Template::AtomFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'subtitle' => $this->Subtitle, 'updated' => $this->Updated, 'entries' => $this->Entries]);
 
-			$this->XmlString = $this->CleanXmlString($feed);
+			$this->_XmlString = $this->CleanXmlString($feed);
 		}
 
-		return $this->XmlString;
+		return $this->_XmlString;
 	}
 
 	public function SaveIfChanged(): bool{
@@ -58,7 +59,7 @@ class AtomFeed extends Feed{
 				$obj->Id = SITE_URL . $entry->Url;
 			}
 			else{
-				$obj->Updated = $entry->Updated !== null ? $entry->Updated->format(Enums\DateTimeFormat::Iso->value) : '';
+				$obj->Updated = $entry->Updated->format(Enums\DateTimeFormat::Iso->value);
 				$obj->Id = $entry->Id;
 			}
 			$currentEntries[] = $obj;

@@ -4,24 +4,19 @@ class EbookTag extends Tag{
 		$this->Type = Enums\TagType::Ebook;
 	}
 
+
 	// *******
 	// GETTERS
 	// *******
-	protected function GetUrlName(): string{
-		if($this->_UrlName === null){
-			$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
-		}
-
-		return $this->_UrlName;
-	}
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = '/subjects/' . $this->UrlName;
 		}
 
 		return $this->_Url;
 	}
+
 
 	// *******
 	// METHODS
@@ -43,6 +38,8 @@ class EbookTag extends Tag{
 			if(strlen($this->Name) > EBOOKS_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Ebook tag: '. $this->Name));
 			}
+
+			$this->UrlName = Formatter::MakeUrlSafe($this->Name);
 		}
 		else{
 			$error->Add(new Exceptions\EbookTagNameRequiredException());
@@ -71,6 +68,11 @@ class EbookTag extends Tag{
 		', [$this->Name, $this->UrlName, $this->Type]);
 		$this->TagId = Db::GetLastInsertedId();
 	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
 
 	/**
 	 * @throws Exceptions\ValidationException

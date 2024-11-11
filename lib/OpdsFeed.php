@@ -36,7 +36,7 @@ abstract class OpdsFeed extends AtomFeed{
 
 		$this->Updated = $updated;
 
-		$this->XmlString = null;
+		unset($this->_XmlString);
 		file_put_contents($this->Path, $this->GetXmlString());
 
 		// Do we have any parents of our own to update?

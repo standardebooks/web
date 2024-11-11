@@ -3,6 +3,10 @@ class LocSubject{
 	public int $LocSubjectId;
 	public string $Name;
 
+	// *******
+	// METHODS
+	// *******
+
 	/**
 	 * @throws Exceptions\ValidationException
 	 */

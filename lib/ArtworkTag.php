@@ -7,17 +7,19 @@ class ArtworkTag extends Tag{
 		$this->Type = Enums\TagType::Artwork;
 	}
 
+
 	// *******
 	// GETTERS
 	// *******
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = '/artworks?query=' . Formatter::MakeUrlSafe($this->Name);
 		}
 
 		return $this->_Url;
 	}
+
 
 	// *******
 	// METHODS
@@ -29,20 +31,27 @@ class ArtworkTag extends Tag{
 	public function Validate(): void{
 		$error = new Exceptions\InvalidArtworkTagException($this->Name);
 
-		$this->Name = mb_strtolower(trim($this->Name));
-		// Collapse spaces into one
-		$this->Name = preg_replace('/[\s]+/ius', ' ', $this->Name);
+		if(isset($this->Name)){
+			$this->Name = mb_strtolower(trim($this->Name));
+			// Collapse spaces into one
+			$this->Name = preg_replace('/[\s]+/ius', ' ', $this->Name);
 
-		if(strlen($this->Name) == 0){
-			$error->Add(new Exceptions\InvalidArtworkTagNameException());
+			if(strlen($this->Name) == 0){
+				$error->Add(new Exceptions\InvalidArtworkTagNameException());
+			}
+
+			if(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
+				$error->Add(new Exceptions\StringTooLongException('Artwork tag: '. $this->Name));
+			}
+
+			if(preg_match('/[^\sa-z0-9]/ius', $this->Name)){
+				$error->Add(new Exceptions\InvalidArtworkTagNameException());
+			}
+
+			$this->UrlName = Formatter::MakeUrlSafe($this->Name);
 		}
-
-		if(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Artwork tag: '. $this->Name));
-		}
-
-		if(preg_match('/[^\sa-z0-9]/ius', $this->Name)){
-			$error->Add(new Exceptions\InvalidArtworkTagNameException());
+		else{
+			$error->Add(new Exceptions\ArtworkTagNameRequiredException());
 		}
 
 		if($this->Type != Enums\TagType::Artwork){
@@ -61,10 +70,11 @@ class ArtworkTag extends Tag{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into Tags (Name, Type)
+			INSERT into Tags (Name, UrlName, Type)
 			values (?,
+				?,
 				?)
-		', [$this->Name, $this->Type]);
+		', [$this->Name, $this->UrlName, $this->Type]);
 		$this->TagId = Db::GetLastInsertedId();
 	}
 
