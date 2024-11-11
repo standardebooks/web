@@ -37,7 +37,7 @@ $collection = $collection ?? null;
 				<? } ?>
 				</div>
 				<div class="details">
-					<? if($ebook->ContributorsHtml !== null){ ?>
+					<? if($ebook->ContributorsHtml != ''){ ?>
 						<div>
 							<p><?= rtrim($ebook->ContributorsHtml, '.') ?></p>
 						</div>

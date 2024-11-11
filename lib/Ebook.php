@@ -766,6 +766,7 @@ class Ebook{
 		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
 			$ebookTag = new EbookTag();
 			$ebookTag->Name = $tag;
+			$ebookTag->UrlName = Formatter::MakeUrlSafe($ebookTag->Name);
 			$tags[] = $ebookTag;
 		}
 		$ebook->Tags = $tags;
@@ -1855,17 +1856,26 @@ class Ebook{
 			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
 		}
 
-		$result = Db::Query('
+		return Db::Query('
 				SELECT *
 				from Ebooks
 				where Identifier = ?
-			', [$identifier], Ebook::class);
+			', [$identifier], Ebook::class)[0] ?? throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
+	}
 
-		if(sizeof($result) == 0){
+	/**
+	 * @throws Exceptions\EbookNotFoundException
+	 */
+	public static function GetByIdentifierStartingWith(?string $identifier): Ebook{
+		if($identifier === null){
 			throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
 		}
 
-		return $result[0];
+		return Db::Query('
+				SELECT *
+				from Ebooks
+				where Identifier like concat(?, "%")
+			', [$identifier], Ebook::class)[0] ?? throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
 	}
 
 	/**

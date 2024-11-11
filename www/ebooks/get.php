@@ -15,30 +15,7 @@ $carouselTag = null;
 $targetCarouselSize = 5;
 
 try{
-	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
-	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath; // Path to the deployed WWW files for this ebook.
-
-	if($urlPath == '' || mb_stripos($wwwFilesystemPath, EBOOKS_DIST_PATH) !== 0){
-		// Ensure the path exists and that the root is in our www directory.
-		throw new Exceptions\EbookNotFoundException();
-	}
-
-	// Were we passed the author and a work but not the translator?
-	// For example: <https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam>
-	// Instead of: <https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald/edmund-dulac>.
-	// We can tell because if so, the dir we are passed will exist, but there will be no `src` folder.
-	if(is_dir($wwwFilesystemPath) && !is_dir($wwwFilesystemPath . '/src')){
-		/** @var DirectoryIterator $file */
-		foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($wwwFilesystemPath)) as $file){
-			// This iterator will do a deep scan on the directory. When we hit another directory, the filename will be `.` and the path will contain the directory path.
-			// We want to find where the `src` directory is, and the directory directly below that will be the final web URL we're looking for.
-			if($file->getFilename() == '.' && preg_match('|/src$|ius', $file->getPath())){
-				throw new Exceptions\SeeOtherEbookException(preg_replace(['|' . WEB_ROOT . '|ius', '|/src$|ius'], '', $file->getPath()));
-			}
-		}
-	}
-
-	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
+	$identifier = EBOOKS_IDENTIFIER_PREFIX .  trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
 
 	$ebook = Ebook::GetByIdentifier($identifier);
 
@@ -68,16 +45,27 @@ try{
 	if(sizeof($ebook->Tags) > 0){
 		$carouselTag = $ebook->Tags[rand(0, sizeof($ebook->Tags) - 1)];
 	}
+
 	$carousel = Ebook::GetAllByRelated($ebook, $targetCarouselSize, $carouselTag);
 }
-catch(Exceptions\SeeOtherEbookException $ex){
-	http_response_code(301);
-	header('Location: ' . $ex->Url);
-	exit();
-}
 catch(Exceptions\EbookNotFoundException){
+	// Were we passed the author and a work but not the translator?
+	// For example: <https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam>
+	// Instead of: <https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald>.
+	try{
+		$ebook = Ebook::GetByIdentifierStartingWith($identifier);
+
+		// Found, redirect.
+		http_response_code(301);
+		header('Location: ' . $ebook->Url);
+		exit();
+	}
+	catch(Exceptions\EbookNotFoundException){
+		// Still not found, continue.
+	}
+
 	// Are we accessing a placeholder for a Public Domain Day book that is not yet released?
-	if(array_key_exists($urlPath, PD_DAY_EBOOKS)){
+	if(array_key_exists($identifier, PD_DAY_EBOOKS)){
 		require('/standardebooks.org/web/www/ebooks/public-domain-day-placeholder.php');
 		exit();
 	}
@@ -127,7 +115,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<aside id="reading-ease">
 			<p><?= number_format($ebook->WordCount) ?> words (<?= $ebook->ReadingTime ?>) with a reading ease of <?= $ebook->ReadingEase ?> (<?= $ebook->ReadingEaseDescription ?>)</p>
-			<? if($ebook->ContributorsHtml !== null){ ?>
+			<? if($ebook->ContributorsHtml != ''){ ?>
 				<p><?= $ebook->ContributorsHtml ?></p>
 			<? } ?>
 			<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>

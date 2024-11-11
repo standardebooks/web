@@ -106,20 +106,20 @@ const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00 A
 const PD_DAY_YEAR = 2025;
 const PD_DAY_DRAFT_PATH = '/standardebooks.org/drafts/' . PD_DAY_YEAR;
 const PD_DAY_EBOOKS = [
-		'graham-greene/the-man-within' => ['author' => 'Graham Greene', 'title' => 'The Man Within'],
-		'c-s-forester/brown-on-resolution' => ['author' => 'C. S. Forester', 'title' => 'Brown on Resolution'],
-		'dashiell-hammett/red-harvest' => ['author' => 'Dashiell Hammett', 'title' => 'Red Harvest'],
-		'dashiell-hammett/the-dain-curse' => ['author' => 'Dashiell Hammett', 'title' => 'The Dain Curse'],
-		'erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen' => ['author' => 'Erich Maria Remarque', 'title' => 'All Quiet on the Western Front', 'translator' => 'A. W. Wheen'],
-		'ernest-hemingway/a-farewell-to-arms' => ['author' => 'Ernest Heminway', 'title' => 'A Farewell to Arms'],
-		'j-b-priestley/the-good-companions' => ['author' => 'J. B. Priestley', 'title' => 'The Good Companions'],
-		'john-steinbeck/cup-of-gold' => ['author' => 'John Steinbeck', 'title' => 'Cup of Gold'],
-		'oliver-la-farge/laughing-boy' => ['author' => 'Oliver La Farge', 'title' => 'Laughing Boy'],
-		'william-faulkner/the-sound-and-the-fury' => ['author' => 'William Faulkner', 'title' => 'The Sound and the Fury'],
-		'mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai' => ['author' => 'Mahatma Gandhi', 'title' => 'The Story of My Experiments with Truth'],
-		'arthur-conan-doyle/the-maracot-deep' => ['author' => 'Arthur Conan Doyle', 'title' => 'The Maracot Deep'],
-		'sinclair-lewis/dodsworth' => ['author' => 'Sinclair Lewis', 'title' => 'Dodsworth'],
-		'thomas-wolfe/look-homeward-angel' => ['author' => 'Thomas Wolfe', 'title' => 'Look Homeward, Angel'],
-		'lloyd-c-douglas/magnificent-obsession' => ['author' => 'Lloyd C. Dougals', 'title' => 'Magnificent Obsession'],
-		'edith-wharton/hudson-river-bracketed' => ['author' => 'Edith Wharton', 'title' => 'Hudson River Bracketed']
+		EBOOKS_IDENTIFIER_PREFIX . 'graham-greene/the-man-within' => ['author' => 'Graham Greene', 'title' => 'The Man Within'],
+		EBOOKS_IDENTIFIER_PREFIX . 'c-s-forester/brown-on-resolution' => ['author' => 'C. S. Forester', 'title' => 'Brown on Resolution'],
+		EBOOKS_IDENTIFIER_PREFIX . 'dashiell-hammett/red-harvest' => ['author' => 'Dashiell Hammett', 'title' => 'Red Harvest'],
+		EBOOKS_IDENTIFIER_PREFIX . 'dashiell-hammett/the-dain-curse' => ['author' => 'Dashiell Hammett', 'title' => 'The Dain Curse'],
+		EBOOKS_IDENTIFIER_PREFIX . 'erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen' => ['author' => 'Erich Maria Remarque', 'title' => 'All Quiet on the Western Front', 'translator' => 'A. W. Wheen'],
+		EBOOKS_IDENTIFIER_PREFIX . 'ernest-hemingway/a-farewell-to-arms' => ['author' => 'Ernest Heminway', 'title' => 'A Farewell to Arms'],
+		EBOOKS_IDENTIFIER_PREFIX . 'j-b-priestley/the-good-companions' => ['author' => 'J. B. Priestley', 'title' => 'The Good Companions'],
+		EBOOKS_IDENTIFIER_PREFIX . 'john-steinbeck/cup-of-gold' => ['author' => 'John Steinbeck', 'title' => 'Cup of Gold'],
+		EBOOKS_IDENTIFIER_PREFIX . 'oliver-la-farge/laughing-boy' => ['author' => 'Oliver La Farge', 'title' => 'Laughing Boy'],
+		EBOOKS_IDENTIFIER_PREFIX . 'william-faulkner/the-sound-and-the-fury' => ['author' => 'William Faulkner', 'title' => 'The Sound and the Fury'],
+		EBOOKS_IDENTIFIER_PREFIX . 'mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai' => ['author' => 'Mahatma Gandhi', 'title' => 'The Story of My Experiments with Truth'],
+		EBOOKS_IDENTIFIER_PREFIX . 'arthur-conan-doyle/the-maracot-deep' => ['author' => 'Arthur Conan Doyle', 'title' => 'The Maracot Deep'],
+		EBOOKS_IDENTIFIER_PREFIX . 'sinclair-lewis/dodsworth' => ['author' => 'Sinclair Lewis', 'title' => 'Dodsworth'],
+		EBOOKS_IDENTIFIER_PREFIX . 'thomas-wolfe/look-homeward-angel' => ['author' => 'Thomas Wolfe', 'title' => 'Look Homeward, Angel'],
+		EBOOKS_IDENTIFIER_PREFIX . 'lloyd-c-douglas/magnificent-obsession' => ['author' => 'Lloyd C. Dougals', 'title' => 'Magnificent Obsession'],
+		EBOOKS_IDENTIFIER_PREFIX . 'edith-wharton/hudson-river-bracketed' => ['author' => 'Edith Wharton', 'title' => 'Hudson River Bracketed']
 	];

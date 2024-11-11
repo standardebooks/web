@@ -1,33 +1,36 @@
 <?
 use function Safe\preg_replace;
 
-/** @var string $urlPath Passed from script this is included from. */
+/** @var string $identifier Passed from script this is included from. */
 $ebook = null;
 
 try{
 	try{
 		// Attempt to read a draft ebook repo from the filesystem.
-		$ebook = Ebook::FromFilesystem(PD_DAY_DRAFT_PATH . '/' . str_replace('/', '_', $urlPath));
+		$ebook = Ebook::FromFilesystem(PD_DAY_DRAFT_PATH . '/' . str_replace('/', '_', preg_replace('|^' . EBOOKS_IDENTIFIER_PREFIX . '|', '', $identifier)));
 	}
 	catch(Exceptions\EbookNotFoundException $ex){
 		// We may have ebooks listed as in progress, but no actual draft repos yet.
 		// In that case, fill in the details from `PD_DAY_EBOOKS`.
-		if(array_key_exists($urlPath, PD_DAY_EBOOKS)){
+		if(array_key_exists($identifier, PD_DAY_EBOOKS)){
 			$ebook = new Ebook();
+			$ebook->EbookId = 0;
+			$ebook->Description = '';
+			$ebook->LongDescription = '';
 
 			$c = new Contributor();
-			$c->Name = PD_DAY_EBOOKS[$urlPath]['author'];
+			$c->Name = PD_DAY_EBOOKS[$identifier]['author'];
 			$ebook->Authors = [$c];
 
-			if(isset(PD_DAY_EBOOKS[$urlPath]['translator'])){
+			if(isset(PD_DAY_EBOOKS[$identifier]['translator'])){
 				$c = new Contributor();
-				$c->Name = PD_DAY_EBOOKS[$urlPath]['translator'];
+				$c->Name = PD_DAY_EBOOKS[$identifier]['translator'];
 				$ebook->Translators = [$c];
 			}
 
-			$ebook->Title = PD_DAY_EBOOKS[$urlPath]['title'];
+			$ebook->Title = PD_DAY_EBOOKS[$identifier]['title'];
 			$ebook->WwwFilesystemPath = '';
-			$ebook->Identifier = 'url:https://standardebooks.org/ebooks/' . $urlPath;
+			$ebook->Identifier = 'url:https://standardebooks.org/ebooks/' . $identifier;
 		}
 		else{
 			throw $ex;
@@ -59,7 +62,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<? if(sizeof($ebook->Tags) > 0){ ?>
 			<aside id="reading-ease">
-				<? if($ebook->ContributorsHtml !== null){ ?>
+				<? if($ebook->ContributorsHtml != ''){ ?>
 					<p><?= $ebook->ContributorsHtml ?></p>
 				<? } ?>
 				<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
