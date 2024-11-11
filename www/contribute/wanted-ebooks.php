@@ -270,9 +270,6 @@
 			<li>
 				<p>Norwegian Folktales, by Peter Christen Asbjørnsen and Jørgen Moe, translated by George Dasent (<a href="https://gutenberg.org/ebooks/8933">part 1</a>, <a href="https://gutenberg.org/ebooks/36385">part 2</a>)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/3420">A Vindication of the Rights of Woman</a> by Mary Wollstonecraft</p>
-			</li> -->
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/31318">Geronimo’s Story of His Life</a> by Geronimo</p><!--patron-->
 			</li>
@@ -432,9 +429,6 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/author/783">Short story collections by P. G. Wodehouse</a> (Note that we already have all Jeeves, School, Mulliner, and Ukridge Stories completed. A spreadsheet is available that lists the rest.)</p>
 			</li>
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/3207">Leviathan</a> by Thomas Hobbes</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/2981">The Memoirs of Casanova</a></p>
 			</li>
