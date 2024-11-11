@@ -200,17 +200,54 @@ class Ebook{
 	}
 
 	/**
+	 * Fill all contributor properties for this ebook, e.g. authors, translators, etc.
+	 *
+	 * We do this in a single database query to prevent 4+ queries for each ebook.
+	 */
+	protected function GetAllContributors(): void{
+		$contributors = Db::Query('
+						SELECT *
+						from Contributors
+						where EbookId = ?
+						order by MarcRole asc, SortOrder asc
+					', [$this->EbookId], Contributor::class);
+
+		$this->_Authors = [];
+		$this->_Translators = [];
+		$this->_Illustrators = [];
+		$this->_Contributors = [];
+
+		foreach($contributors as $contributor){
+			switch($contributor->MarcRole){
+				case Enums\MarcRole::Author:
+					$this->_Authors[] = $contributor;
+
+					break;
+
+				case Enums\MarcRole::Translator:
+					$this->_Translators[] = $contributor;
+
+					break;
+
+				case Enums\MarcRole::Illustrator:
+					$this->_Illustrators[] = $contributor;
+
+					break;
+
+				case Enums\MarcRole::Contributor:
+					$this->_Contributors[] = $contributor;
+
+					break;
+			}
+		}
+	}
+
+	/**
 	 * @return array<Contributor>
 	 */
 	protected function GetAuthors(): array{
 		if(!isset($this->_Authors)){
-			$this->_Authors = Db::Query('
-						SELECT *
-						from Contributors
-						where EbookId = ?
-							and MarcRole = ?
-						order by SortOrder asc
-					', [$this->EbookId, 'aut'], Contributor::class);
+			$this->GetAllContributors();
 		}
 
 		return $this->_Authors;
@@ -221,13 +258,7 @@ class Ebook{
 	 */
 	protected function GetIllustrators(): array{
 		if(!isset($this->_Illustrators)){
-			$this->_Illustrators = Db::Query('
-							SELECT *
-							from Contributors
-							where EbookId = ?
-								and MarcRole = ?
-							order by SortOrder asc
-						', [$this->EbookId, 'ill'], Contributor::class);
+			$this->GetAllContributors();
 		}
 
 		return $this->_Illustrators;
@@ -238,13 +269,7 @@ class Ebook{
 	 */
 	protected function GetTranslators(): array{
 		if(!isset($this->_Translators)){
-			$this->_Translators = Db::Query('
-							SELECT *
-							from Contributors
-							where EbookId = ?
-								and MarcRole = ?
-							order by SortOrder asc
-						', [$this->EbookId, 'trl'], Contributor::class);
+			$this->GetAllContributors();
 		}
 
 		return $this->_Translators;
@@ -255,13 +280,7 @@ class Ebook{
 	 */
 	protected function GetContributors(): array{
 		if(!isset($this->_Contributors)){
-			$this->_Contributors = Db::Query('
-							SELECT *
-							from Contributors
-							where EbookId = ?
-								and MarcRole = ?
-							order by SortOrder asc
-						', [$this->EbookId, 'ctb'], Contributor::class);
+			$this->GetAllContributors();
 		}
 
 		return $this->_Contributors;
@@ -317,13 +336,9 @@ class Ebook{
 		return $this->_UrlSafeIdentifier;
 	}
 
-	private function GetLatestCommitHash(): string{
-		return substr(sha1($this->GitCommits[0]->Hash), 0, 8);
-	}
-
 	protected function GetHeroImageUrl(): string{
 		if(!isset($this->_HeroImageUrl)){
-			$this->_HeroImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero.jpg';
+			$this->_HeroImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero.jpg';
 		}
 
 		return $this->_HeroImageUrl;
@@ -332,7 +347,7 @@ class Ebook{
 	protected function GetHeroImageAvifUrl(): ?string{
 		if(!isset($this->_HeroImageAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero.avif')){
-				$this->_HeroImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero.avif';
+				$this->_HeroImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero.avif';
 			}
 		}
 
@@ -341,7 +356,7 @@ class Ebook{
 
 	protected function GetHeroImage2xUrl(): string{
 		if(!isset($this->_HeroImage2xUrl)){
-			$this->_HeroImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero@2x.jpg';
+			$this->_HeroImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.jpg';
 		}
 
 		return $this->_HeroImage2xUrl;
@@ -350,7 +365,7 @@ class Ebook{
 	protected function GetHeroImage2xAvifUrl(): ?string{
 		if(!isset($this->_HeroImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero@2x.avif')){
-				$this->_HeroImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-hero@2x.avif';
+				$this->_HeroImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.avif';
 			}
 		}
 
@@ -359,7 +374,7 @@ class Ebook{
 
 	protected function GetCoverImageUrl(): string{
 		if(!isset($this->_CoverImageUrl)){
-			$this->_CoverImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover.jpg';
+			$this->_CoverImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.jpg';
 		}
 
 		return $this->_CoverImageUrl;
@@ -368,7 +383,7 @@ class Ebook{
 	protected function GetCoverImageAvifUrl(): ?string{
 		if(!isset($this->_CoverImageAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.avif')){
-				$this->_CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover.avif';
+				$this->_CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.avif';
 			}
 		}
 
@@ -377,7 +392,7 @@ class Ebook{
 
 	protected function GetCoverImage2xUrl(): string{
 		if(!isset($this->_CoverImage2xUrl)){
-			$this->_CoverImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover@2x.jpg';
+			$this->_CoverImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.jpg';
 		}
 
 		return $this->_CoverImage2xUrl;
@@ -386,7 +401,7 @@ class Ebook{
 	protected function GetCoverImage2xAvifUrl(): ?string{
 		if(!isset($this->_CoverImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover@2x.avif')){
-				$this->_CoverImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . $this->GetLatestCommitHash() . '-cover@2x.avif';
+				$this->_CoverImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.avif';
 			}
 		}
 
@@ -823,7 +838,7 @@ class Ebook{
 			$contributor->SortName = $fileAs;
 			$contributor->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]'));
 			$contributor->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'));
-			$contributor->MarcRole = 'aut';
+			$contributor->MarcRole = Enums\MarcRole::Author;
 			$contributor->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'));
 
 			$authors[] = $contributor;
@@ -850,7 +865,7 @@ class Ebook{
 				$c->SortName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]'));
 				$c->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]'));
 				$c->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'));
-				$c->MarcRole = $role;
+				$c->MarcRole = Enums\MarcRole::tryFrom((string)$role) ?? Enums\MarcRole::Contributor;
 				$c->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'));
 
 				// A display-sequence of 0 indicates that we don't want to process this contributor.
@@ -1437,10 +1452,10 @@ class Ebook{
 		foreach($contributors as $contributor){
 			$role = 'schema:contributor';
 			switch($contributor->MarcRole){
-				case 'trl':
+				case Enums\MarcRole::Translator:
 					$role = 'schema:translator';
 					break;
-				case 'ill':
+				case Enums\MarcRole::Illustrator:
 					$role = 'schema:illustrator';
 					break;
 			}
@@ -1497,10 +1512,10 @@ class Ebook{
 		foreach($this->Translators as $contributor){
 			$role = 'schema:contributor';
 			switch($contributor->MarcRole){
-				case 'trl':
+				case Enums\MarcRole::Translator:
 					$role = 'schema:translator';
 					break;
-				case 'ill':
+				case Enums\MarcRole::Illustrator:
 					$role = 'schema:illustrator';
 					break;
 			}

@@ -7,7 +7,7 @@ class Contributor{
 	public string $UrlName;
 	public ?string $SortName = null;
 	public ?string $WikipediaUrl = null;
-	public ?string $MarcRole = null;
+	public Enums\MarcRole $MarcRole;
 	public ?string $FullName = null;
 	public ?string $NacoafUrl = null;
 	public int $SortOrder;
@@ -32,19 +32,14 @@ class Contributor{
 			if($this->Name == ''){
 				$error->Add(new Exceptions\ContributorNameRequiredException());
 			}
+
+			$this->UrlName = Formatter::MakeUrlSafe($this->Name);
 		}
 		else{
 			$error->Add(new Exceptions\ContributorNameRequiredException());
 		}
 
-		if(isset($this->UrlName)){
-			$this->UrlName = trim($this->UrlName);
-
-			if($this->UrlName == ''){
-				$error->Add(new Exceptions\ContributorUrlNameRequiredException());
-			}
-		}
-		else{
+		if(!isset($this->UrlName)){
 			$error->Add(new Exceptions\ContributorUrlNameRequiredException());
 		}
 
@@ -71,11 +66,6 @@ class Contributor{
 			if(strlen($this->WikipediaUrl) > EBOOKS_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Contributor WikipediaUrl'));
 			}
-		}
-
-		$this->MarcRole = trim($this->MarcRole ?? '');
-		if($this->MarcRole == ''){
-			$this->MarcRole = null;
 		}
 
 		$this->NacoafUrl = trim($this->NacoafUrl ?? '');
