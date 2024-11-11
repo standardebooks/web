@@ -7,6 +7,7 @@ use function Safe\getimagesize;
 use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_replace;
+use function Safe\preg_split;
 use function Safe\unlink;
 
 /**
@@ -922,25 +923,194 @@ class Artwork{
 		return $result[0] ?? throw new Exceptions\ArtworkNotFoundException();
 	}
 
-	public static function FromHttpPost(): Artwork{
-		$artwork = new Artwork();
+	/**
+	 * @return array<Artwork>
+	 *
+	 * @throws Exceptions\ArtistNotFoundException
+	 */
+	public static function GetAllByArtist(?string $artistUrlName, ?string $status, ?int $submitterUserId): array{
+		if($artistUrlName === null){
+			throw new Exceptions\ArtistNotFoundException();
+		}
 
-		$artwork->Name = HttpInput::Str(POST, 'artwork-name') ?? '';
-		$artwork->CompletedYear = HttpInput::Int(POST, 'artwork-year');
-		$artwork->CompletedYearIsCirca = HttpInput::Bool(POST, 'artwork-completed-year-is-circa') ?? false;
-		$artwork->Tags = HttpInput::Str(POST, 'artwork-tags') ?? [];
-		$artwork->Status = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '') ?? Enums\ArtworkStatusType::Unverified;
-		$artwork->EbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
-		$artwork->IsPublishedInUs = HttpInput::Bool(POST, 'artwork-is-published-in-us') ?? false;
-		$artwork->PublicationYear = HttpInput::Int(POST, 'artwork-publication-year');
-		$artwork->PublicationYearPageUrl = HttpInput::Str(POST, 'artwork-publication-year-page-url');
-		$artwork->CopyrightPageUrl = HttpInput::Str(POST, 'artwork-copyright-page-url');
-		$artwork->ArtworkPageUrl = HttpInput::Str(POST, 'artwork-artwork-page-url');
-		$artwork->MuseumUrl = HttpInput::Str(POST, 'artwork-museum-url');
-		$artwork->Exception = HttpInput::Str(POST, 'artwork-exception');
-		$artwork->Notes = HttpInput::Str(POST, 'artwork-notes');
+		// $status is only one of three special statuses, which are a subset of FilterArtwork() above:
+		// null: same as "all"
+		// "all": Show all approved and in use artwork
+		// "all-admin": Show all artwork regardless of status
+		// "all-submitter": Show all approved and in use artwork, plus unverified artwork from the submitter
+		$statusCondition = '';
+		$params = [];
 
-		return $artwork;
+		if($status == 'all-admin'){
+			$statusCondition = 'true';
+		}
+		elseif($status == 'all-submitter' && $submitterUserId !== null){
+			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
+			$params[] = Enums\ArtworkStatusType::Approved->value;
+			$params[] = Enums\ArtworkStatusType::Unverified->value;
+			$params[] = $submitterUserId;
+		}
+		else{
+			$statusCondition = 'Status = ?';
+			$params[] = Enums\ArtworkStatusType::Approved->value;
+		}
+
+		$params[] = $artistUrlName; // a.UrlName
+
+		$artworks = Db::Query('
+			SELECT art.*
+			from Artworks art
+			  inner join Artists a using (ArtistId)
+			where ' . $statusCondition . '
+			and a.UrlName = ?
+			order by art.Created desc', $params, Artwork::class);
+
+		return $artworks;
+	}
+
+	/**
+	* @return array{artworks: array<Artwork>, artworksCount: int}
+	*/
+	public static function GetAllByFilter(?string $query = null, ?string $status = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+		// $status is either the string value of an ArtworkStatus enum, or one of these special statuses:
+		// null: same as "all"
+		// "all": Show all approved and in use artwork
+		// "all-admin": Show all artwork regardless of status
+		// "all-submitter": Show all approved and in use artwork, plus unverified artwork from the submitter
+		// "unverified-submitter": Show unverified artwork from the submitter
+		// "in-use": Show only in-use artwork
+
+		$statusCondition = '';
+		$params = [];
+
+		if($status === null || $status == 'all'){
+			$statusCondition = 'Status = ?';
+			$params[] = Enums\ArtworkStatusType::Approved->value;
+		}
+		elseif($status == 'all-admin'){
+			$statusCondition = 'true';
+		}
+		elseif($status == 'all-submitter' && $submitterUserId !== null){
+			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
+			$params[] = Enums\ArtworkStatusType::Approved->value;
+			$params[] = Enums\ArtworkStatusType::Unverified->value;
+			$params[] = $submitterUserId;
+		}
+		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
+			$statusCondition = 'Status = ? and SubmitterUserId = ?';
+			$params[] = Enums\ArtworkStatusType::Unverified->value;
+			$params[] = $submitterUserId;
+		}
+		elseif($status == 'in-use'){
+			$statusCondition = 'Status = ? and EbookUrl is not null';
+			$params[] = Enums\ArtworkStatusType::Approved->value;
+		}
+		elseif($status == Enums\ArtworkStatusType::Approved->value){
+			$statusCondition = 'Status = ? and EbookUrl is null';
+			$params[] = Enums\ArtworkStatusType::Approved->value;
+		}
+		else{
+			$statusCondition = 'Status = ?';
+			$params[] = $status;
+		}
+
+		$orderBy = 'art.Created desc';
+		if($sort == Enums\ArtworkSortType::ArtistAlpha){
+			$orderBy = 'a.Name';
+		}
+		elseif($sort == Enums\ArtworkSortType::CompletedNewest){
+			$orderBy = 'art.CompletedYear desc';
+		}
+
+		// Remove diacritics and non-alphanumeric characters, but preserve apostrophes
+		if($query !== null && $query != ''){
+			$query = trim(preg_replace('|[^a-zA-Z0-9\'’ ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+		}
+		else{
+			$query = '';
+		}
+
+		// We use replace() below because if there's multiple contributors separated by an underscore,
+		// the underscore won't count as word boundary and we won't get a match.
+		// See https://github.com/standardebooks/web/pull/325
+		$limit = $perPage;
+		$offset = (($page - 1) * $perPage);
+
+		if($query == ''){
+			$artworksCount = Db::QueryInt('
+				SELECT count(*)
+				from Artworks art
+				where ' . $statusCondition, $params);
+
+			$params[] = $limit;
+			$params[] = $offset;
+
+			$artworks = Db::Query('
+				SELECT art.*
+				from Artworks art
+				inner join Artists a USING (ArtistId)
+				where ' . $statusCondition . '
+				order by ' . $orderBy . '
+				limit ?
+				offset ?', $params, Artwork::class);
+		}
+		else{
+			// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
+			$tokenArray = preg_split('/\b\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
+
+			// Join the tokens with '|' to search on any token, but add word boundaries to force the full token to match
+			$tokenizedQuery = '\b(' . implode('|', $tokenArray) . ')\b';
+
+			$params[] = $tokenizedQuery; // art.Name
+			$params[] = $tokenizedQuery; // art.EbookUrl
+			$params[] = $tokenizedQuery; // a.Name
+			$params[] = $tokenizedQuery; // aan.Name
+			$params[] = $tokenizedQuery; // t.Name
+
+			$artworksCount = Db::QueryInt('
+				SELECT
+				    count(*)
+				from
+				    (SELECT distinct
+				        ArtworkId
+				    from
+				        Artworks art
+				    inner join Artists a USING (ArtistId)
+				    left join ArtistAlternateNames aan USING (ArtistId)
+				    left join ArtworkTags at USING (ArtworkId)
+				    left join Tags t USING (TagId)
+				    where
+				        ' . $statusCondition . '
+				            and (art.Name regexp ?
+				            or replace(art.EbookUrl, "_", " ") regexp ?
+				            or a.Name regexp ?
+				            or aan.Name regexp ?
+				            or t.Name regexp ?)
+				    group by art.ArtworkId) x', $params);
+
+			$params[] = $limit;
+			$params[] = $offset;
+
+			$artworks = Db::Query('
+				SELECT art.*
+				from Artworks art
+				  inner join Artists a using (ArtistId)
+				  left join ArtistAlternateNames aan using (ArtistId)
+				  left join ArtworkTags at using (ArtworkId)
+				  left join Tags t using (TagId)
+				where ' . $statusCondition . '
+				  and (art.Name regexp ?
+				  or replace(art.EbookUrl, "_", " ") regexp ?
+				  or a.Name regexp ?
+				  or aan.Name regexp ?
+				  or t.Name regexp ?)
+				group by art.ArtworkId
+				order by ' . $orderBy . '
+				limit ?
+				offset ?', $params, Artwork::class);
+		}
+
+		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
 	}
 
 	public function FillFromHttpPost(): void{

@@ -68,7 +68,7 @@ try{
 	if(sizeof($ebook->Tags) > 0){
 		$carouselTag = $ebook->Tags[rand(0, sizeof($ebook->Tags) - 1)];
 	}
-	$carousel = Library::GetRelatedEbooks($ebook, $targetCarouselSize, $carouselTag);
+	$carousel = Ebook::GetAllByRelated($ebook, $targetCarouselSize, $carouselTag);
 }
 catch(Exceptions\SeeOtherEbookException $ex){
 	http_response_code(301);

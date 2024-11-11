@@ -55,6 +55,17 @@ class Collection{
 		return $result[0] ?? throw new Exceptions\CollectionNotFoundException();;
 	}
 
+	/**
+	 * @return array<Collection>
+	 */
+	public static function GetAll(): array{
+		return Db::Query('
+					SELECT *
+					from Collections
+					order by Name asc
+				', [], Collection::class);
+	}
+
 
 	// *******
 	// METHODS

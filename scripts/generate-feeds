@@ -38,7 +38,7 @@ function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $label
  * @param array<string, array<Ebook>> $ebooks
  */
 function CreateOpdsCollectionFeed(string $name, string $url, string $description, array $collections, array $ebooks, DateTimeImmutable $now, string $webRoot, OpdsNavigationFeed $opdsRoot, bool $force): void{
-	$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
+	$collator = Collator::create('en_US'); // Used for sorting letters with diacritics, like in author names.
 
 	if($collator === null){
 		return;
@@ -97,7 +97,7 @@ foreach($dirs as $dir){
 }
 
 // Iterate over all ebooks to build the various feeds.
-foreach(Library::GetEbooks() as $ebook){
+foreach(Ebook::GetAll() as $ebook){
 	$allEbooks[] = $ebook;
 	$newestEbooks[] = $ebook;
 

@@ -93,4 +93,18 @@ class EbookTag extends Tag{
 			return $this;
 		}
 	}
+
+	/**
+	 * @return array<EbookTag>
+	 */
+	public static function GetAll(): array{
+		$tags = Db::Query('
+				SELECT *
+				from Tags t
+				where Type = ?
+				order by Name
+			', [Enums\TagType::Ebook], EbookTag::class);
+
+		return $tags;
+	}
 }

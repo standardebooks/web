@@ -14,7 +14,7 @@ if($isSubmitterView){
 }
 
 try{
-	$artworks = Library::GetArtworksByArtist(HttpInput::Str(GET, 'artist-url-name'), $filterArtworkStatus, $submitterUserId);
+	$artworks = Artwork::GetAllByArtist(HttpInput::Str(GET, 'artist-url-name'), $filterArtworkStatus, $submitterUserId);
 
 	if(sizeof($artworks) == 0){
 		throw new Exceptions\ArtistNotFoundException();

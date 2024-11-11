@@ -67,7 +67,7 @@ try{
 		$totalArtworkCount = sizeof($artworks);
 	}
 	else{
-		$result = Library::FilterArtwork($query, $filterArtworkStatus, $sort, $submitterUserId, $page, $perPage);
+		$result = Artwork::GetAllByFilter($query, $filterArtworkStatus, $sort, $submitterUserId, $page, $perPage);
 		$artworks = $result['artworks'];
 		$totalArtworkCount = $result['artworksCount'];
 	}

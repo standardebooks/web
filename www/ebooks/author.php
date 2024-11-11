@@ -12,7 +12,7 @@ try{
 		throw new Exceptions\AuthorNotFoundException();
 	}
 
-	$ebooks = Library::GetEbooksByAuthor($urlPath);
+	$ebooks = Ebook::GetAllByAuthor($urlPath);
 
 	if(sizeof($ebooks) == 0){
 		throw new Exceptions\AuthorNotFoundException();

@@ -1,5 +1,5 @@
 <?
-$collections = Library::GetEbookCollections();
+$collections = Collection::GetAll();
 
 ?><?= Template::Header(['title' => 'Ebook Collections', 'highlight' => '', 'description' => 'Browse collections of Standard Ebooks.']) ?>
 <main>

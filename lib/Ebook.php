@@ -1,5 +1,4 @@
 <?
-
 use Safe\DateTimeImmutable;
 
 use function Safe\file_get_contents;
@@ -1852,5 +1851,159 @@ class Ebook{
 		}
 
 		return $result[0];
+	}
+
+	/**
+	 * @return array<Ebook>
+	 */
+	public static function GetAll(): array{
+		// Get all ebooks, unsorted.
+		return Db::Query('
+				SELECT *
+				from Ebooks
+			', [], Ebook::class);
+	}
+
+	/**
+	 * @return array<Ebook>
+	 */
+	public static function GetAllByAuthor(string $urlPath): array{
+		if(mb_strpos($urlPath, '_') === false){
+			// Single author
+			return Db::Query('
+					SELECT e.*
+					from Ebooks e
+					inner join Contributors con using (EbookId)
+					where con.MarcRole = "aut"
+					    and con.UrlName = ?
+					order by e.EbookCreated desc
+				', [$urlPath], Ebook::class);
+		}
+		else{
+			// Multiple authors, e.g., `karl-marx_friedrich-engels`.
+			$authors = explode('_', $urlPath);
+
+			$params = $authors;
+			$params[] = sizeof($authors); // The number of authors in the URL must match the number of `Contributor` records.
+
+			return Db::Query('
+					SELECT e.*
+					from Ebooks e
+					inner join Contributors con using (EbookId)
+					where con.MarcRole = "aut"
+					    and con.UrlName in ' . Db::CreateSetSql($authors)  . '
+					group by e.EbookId
+					having count(distinct con.UrlName) = ?
+					order by e.EbookCreated desc
+				', $params, Ebook::class);
+		}
+	}
+
+	/**
+	 * @return array<Ebook>
+	 */
+	public static function GetAllByCollection(string $collection): array{
+		$ebooks = Db::Query('
+				SELECT e.*
+				from Ebooks e
+				inner join CollectionEbooks ce using (EbookId)
+				inner join Collections c using (CollectionId)
+				where c.UrlName = ?
+				order by ce.SequenceNumber, e.EbookCreated desc
+				', [$collection], Ebook::class);
+
+		return $ebooks;
+	}
+
+	/**
+	 * @return array<Ebook>
+	 */
+	public static function GetAllByRelated(Ebook $ebook, int $count, ?EbookTag $relatedTag): array{
+		if($relatedTag !== null){
+			$relatedEbooks = Db::Query('
+						SELECT e.*
+						from Ebooks e
+						inner join EbookTags et using (EbookId)
+						where et.TagId = ?
+						    and et.EbookId != ?
+						order by RAND()
+						limit ?
+				', [$relatedTag->TagId, $ebook->EbookId, $count], Ebook::class);
+		}
+		else{
+			$relatedEbooks = Db::Query('
+						SELECT *
+						from Ebooks
+						where EbookId != ?
+						order by RAND()
+						limit ?
+				', [$ebook->EbookId, $count], Ebook::class);
+		}
+
+		return $relatedEbooks;
+	}
+
+	/**
+	* @param array<string> $tags
+	*
+	* @return array{ebooks: array<Ebook>, ebooksCount: int}
+	*/
+	public static function GetAllByFilter(string $query = null, array $tags = [], Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE): array{
+		$limit = $perPage;
+		$offset = (($page - 1) * $perPage);
+		$joinContributors = '';
+		$joinTags = '';
+		$params = [];
+		$whereCondition = 'where true';
+
+		$orderBy = 'e.EbookCreated desc';
+		if($sort == Enums\EbookSortType::AuthorAlpha){
+			$joinContributors = 'inner join Contributors con using (EbookId)';
+			$whereCondition .= ' AND con.MarcRole = "aut"';
+			$orderBy = 'con.SortName, e.EbookCreated desc';
+		}
+		elseif($sort == Enums\EbookSortType::ReadingEase){
+			$orderBy = 'e.ReadingEase desc';
+		}
+		elseif($sort == Enums\EbookSortType::Length){
+			$orderBy = 'e.WordCount';
+		}
+
+		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
+			$joinTags = 'inner join EbookTags et using (EbookId)
+					inner join Tags t using (TagId)';
+			$whereCondition .= ' AND t.UrlName in ' . Db::CreateSetSql($tags) . ' ';
+			$params = $tags;
+		}
+
+		if($query !== null && $query != ''){
+			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+			$query = sprintf('"%s"', $query);  // Require an exact match via double quotes.
+			$whereCondition .= ' AND match(e.IndexableText) against(? IN BOOLEAN MODE) ';
+			$params[] = $query;
+		}
+
+		$ebooksCount = Db::QueryInt('
+				SELECT count(distinct e.EbookId)
+				from Ebooks e
+				' . $joinContributors . '
+				' . $joinTags . '
+				' . $whereCondition . '
+				', $params);
+
+		$params[] = $limit;
+		$params[] = $offset;
+
+		$ebooks = Db::Query('
+				SELECT distinct e.*
+				from Ebooks e
+				' . $joinContributors . '
+				' . $joinTags . '
+				' . $whereCondition . '
+				order by ' . $orderBy . '
+				limit ?
+				offset ?', $params, Ebook::class);
+
+		return ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount];
 	}
 }

@@ -127,6 +127,16 @@ class Artist{
 	}
 
 	/**
+	 * @return array<Artist>
+	 */
+	public static function GetAll(): array{
+		return Db::Query('
+			SELECT *
+			from Artists
+			order by Name asc', [], Artist::class);
+	}
+
+	/**
 	 * @throws Exceptions\ArtistNotFoundException
 	 */
 	public static function GetByAlternateUrlName(?string $urlName): Artist{

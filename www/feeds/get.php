@@ -5,7 +5,6 @@ $author = HttpInput::Str(GET, 'author');
 $collection = HttpInput::Str(GET, 'collection');
 $name = null;
 $target = null;
-$feedTypes = ['opds', 'atom', 'rss'];
 $feedTitle = '';
 $feedUrl = '';
 $title = '';
@@ -56,33 +55,33 @@ catch(Exceptions\CollectionNotFoundException){
 	<article>
 		<h1>Ebook Feeds for <?= Formatter::EscapeHtml($label) ?></h1>
 		<?= Template::FeedHowTo() ?>
-		<? foreach($feedTypes as $type){ ?>
-			<section id="ebooks-by-<?= $type ?>">
+		<? foreach(Enums\FeedType::cases() as $feedType){ ?>
+			<section id="ebooks-by-<?= $feedType->value ?>">
 				<h2>
-					<? if($type == 'rss'){ ?>
+					<? if($feedType == Enums\FeedType::Rss){ ?>
 						RSS 2.0
 					<? } ?>
-					<? if($type == 'atom'){ ?>
+					<? if($feedType == Enums\FeedType::Atom){ ?>
 						Atom 1.0
 					<? } ?>
-					<? if($type == 'opds'){ ?>
+					<? if($feedType == Enums\FeedType::Opds){ ?>
 						OPDS 1.2
 					<? } ?>
 					Feed
 				</h2>
-				<? if($type == 'opds'){ ?>
+				<? if($feedType == Enums\FeedType::Opds){ ?>
 					<p>Import this feed into your ereader app to get access to these ebooks directly in your ereader.</p>
 				<? } ?>
-				<? if($type == 'atom'){ ?>
+				<? if($feedType == Enums\FeedType::Atom){ ?>
 					<p>Get updates in your <a href="https://en.wikipedia.org/wiki/Comparison_of_feed_aggregators">RSS client</a> whenever a new ebook is released, or parse this feed for easy scripting.</p>
 				<? } ?>
-				<? if($type == 'rss'){ ?>
+				<? if($feedType == Enums\FeedType::Rss){ ?>
 					<p>The predecessor of Atom, compatible with most RSS clients.</p>
 				<? } ?>
 				<ul class="feed">
 					<li>
-						<p><a href="/feeds/<?= $type ?>/<?= $name ?>/<?= $target?>"><?= Formatter::EscapeHtml($label) ?></a></p>
-						<p class="url"><? if(isset(Session::$User->Email)){ ?>https://<?= rawurlencode(Session::$User->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/<?= $type ?>/<?= $name ?>/<?= $target?></p>
+						<p><a href="/feeds/<?= $feedType->value ?>/<?= $name ?>/<?= $target?>"><?= Formatter::EscapeHtml($label) ?></a></p>
+						<p class="url"><? if(isset(Session::$User->Email)){ ?>https://<?= rawurlencode(Session::$User->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/<?= $feedType->value ?>/<?= $name ?>/<?= $target?></p>
 					</li>
 				</ul>
 			</section>

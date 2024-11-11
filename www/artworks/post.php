@@ -54,7 +54,8 @@ try{
 
 		$exceptionRedirectUrl = $originalArtwork->EditUrl;
 
-		$artwork = Artwork::FromHttpPost();
+		$artwork = new Artwork();
+		$artwork->FillFromHttpPost();
 		$artwork->ArtworkId = $originalArtwork->ArtworkId;
 		$artwork->Created = $originalArtwork->Created;
 		$artwork->SubmitterUserId = $originalArtwork->SubmitterUserId;
