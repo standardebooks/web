@@ -7,6 +7,14 @@ trait PropertyFromHttp{
 	/**
 	 * Given the string name of a property, try to fill it from HTTP data (POST by default).
 	 *
+	 * Keys in the `$_POST` array must be in the format: `<class-name>-<property-name>`, where `<property-name>` may contain dashes to separate words.
+	 *
+	 * For example:
+	 *
+	 * - `$_POST['test-foo-id']` maps to `Test::$FooId`.
+	 *
+	 * - `$_POST['test-bar']` maps to `Test::$Bar`.
+	 *
 	 * This function will try to infer the type of the class property using reflection.
 	 *
 	 * - If a variable doesn't match a class property (either by name or by type), then the class property is unchanged.
@@ -30,39 +38,43 @@ trait PropertyFromHttp{
 	 *
 	 * - POST `['test-foo' => 'bar']`:
 	 *
-	 * 	No changes
+	 * 	No changes, because `Test::$Foo` is not defined.
 	 *
 	 * - POST `['test-id' => '123']`:
 	 *
-	 * 	`$Id`: set to `123`
+	 * 	`Test::$Id` set to `123`.
 	 *
 	 * - POST `['test-id' => '']`:
 	 *
-	 * 	`$Id`: unchanged, because it is not nullable
+	 * 	`Test::$Id` unchanged, because it is not nullable.
 	 *
 	 * - POST `['test-name' => 'bob']`:
 	 *
-	 * 	`$Name`: set to `"bob"`
+	 * 	`Test::$Name` set to `"bob"`.
 	 *
 	 * - POST `['test-name' => '']`:
 	 *
-	 * 	`$Name`: set to `""`, because it is not nullable
+	 * 	`Test::$Name` set to `""` instead of `null`, because it is not nullable.
 	 *
 	 * - POST `['test-description' => 'abc']`:
 	 *
-	 * 	`$Description`: set to `abc`
+	 * 	`Test::$Description` set to `"abc"`.
 	 *
 	 * - POST `['test-description' => '']`:
 	 *
-	 * 	`$Description`: set to `null`, because it is nullable
+	 * 	`Test::$Description` set to `null`, because it is nullable.
 	 *
 	 * - POST `['test-chapter-number' => '456']`:
 	 *
-	 * 	`$ChapterNumber`: set to `456`
+	 * 	`Test::$ChapterNumber` set to `456`.
+	 *
+	 * - POST `['test-chapter-number' => 'abc']`:
+	 *
+	 * 	`Test::$ChapterNumber` is unchanged, because we are passed a string but the corresponding property is an int.
 	 *
 	 * - POST `['test-chapter-number' => '']`:
 	 *
-	 * 	`$ChapterNumber`: set to `null`, because an empty string sets nullable properties to `null`.
+	 * 	`Test::$ChapterNumber` set to `null`, because an empty string sets nullable properties to `null`.
 	 */
 	public function PropertyFromHttp(string $property, \Enums\HttpVariableSource $set = POST, ?string $httpName = null): void{
 		try{
