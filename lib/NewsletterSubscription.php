@@ -14,7 +14,7 @@ class NewsletterSubscription{
 	public ?int $UserId = null;
 	public DateTimeImmutable $Created;
 
-	protected ?User $_User;
+	protected User $_User;
 	protected string $_Url;
 
 

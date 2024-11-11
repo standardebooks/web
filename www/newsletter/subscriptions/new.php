@@ -3,7 +3,7 @@ use function Safe\session_unset;
 
 session_start();
 
-/** @var NewsletterSubscription $exception */
+/** @var NewsletterSubscription $subscription */
 $subscription = $_SESSION['subscription'] ?? new NewsletterSubscription();
 /** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
@@ -34,7 +34,7 @@ if($exception){
 				<input type="text" name="automationtest" value="" maxlength="80" />
 			</label>
 			<label>Your email address
-				<input type="email" name="email" value="<?= Formatter::EscapeHtml($subscription->User?->Email) ?>" maxlength="80" required="required" />
+				<input type="email" name="email" value="<?= Formatter::EscapeHtml($subscription->User->Email ?? '') ?>" maxlength="80" required="required" />
 			</label>
 			<label class="captcha">
 				Type the letters in the <abbr class="acronym">CAPTCHA</abbr> image
