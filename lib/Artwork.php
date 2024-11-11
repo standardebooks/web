@@ -186,7 +186,7 @@ class Artwork{
 				$this->_Museum = Museum::GetByUrl($this->MuseumUrl);
 			}
 			catch(Exceptions\MuseumNotFoundException){
-				// Pass.
+				$this->_Museum = null;
 			}
 		}
 
