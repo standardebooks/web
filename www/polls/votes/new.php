@@ -9,7 +9,7 @@ $vote = new PollVote();
 $exception = $_SESSION['exception'] ?? null;
 
 try{
-	if($GLOBALS['User'] === null){
+	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
@@ -19,14 +19,14 @@ try{
 	}
 
 	if(!isset($vote->UserId)){
-		$vote->UserId = $GLOBALS['User']->UserId;
-		$vote->User = $GLOBALS['User'];
+		$vote->UserId = Session::$User->UserId;
+		$vote->User = Session::$User;
 	}
 
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 
 	try{
-		$vote = PollVote::Get($poll->UrlName, $GLOBALS['User']->UserId);
+		$vote = PollVote::Get($poll->UrlName, Session::$User->UserId);
 
 		// Vote was found, don't allow another vote
 		throw new Exceptions\PollVoteExistsException($vote);

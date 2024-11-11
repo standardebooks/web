@@ -68,9 +68,9 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 
 $GLOBALS['DbConnection'] = new DbConnection(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
 
-$GLOBALS['User'] = Session::GetLoggedInUser();
+Session::InitializeFromCookie();
 
-if($GLOBALS['User'] === null){
+if(Session::$User === null){
 	$httpBasicAuthLogin = $_SERVER['PHP_AUTH_USER'] ?? null;
 
 	if($httpBasicAuthLogin !== null){
@@ -83,10 +83,10 @@ if($GLOBALS['User'] === null){
 				$password = null;
 			}
 
-			// Most patrons have a null password, meaning they only need to log in using an email and a blank password.
+			// Most patrons have a `null` password, meaning they only need to log in using an email and a blank password.
 			// Some users with admin rights need a password to log in.
 			$session->Create($httpBasicAuthLogin, $password);
-			$GLOBALS['User'] = $session->User;
+			Session::$User = $session->User;
 		}
 		catch(Exception){
 			// Do nothing.

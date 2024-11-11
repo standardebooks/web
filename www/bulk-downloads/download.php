@@ -10,7 +10,7 @@ try{
 		throw new Exceptions\InvalidFileException();
 	}
 
-	if($GLOBALS['User'] === null){
+	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
@@ -18,7 +18,7 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	if(!$GLOBALS['User']->Benefits->CanBulkDownload){
+	if(!Session::$User->Benefits->CanBulkDownload){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 

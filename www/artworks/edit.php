@@ -9,7 +9,7 @@ $exception = $_SESSION['exception'] ?? null;
 $artwork = $_SESSION['artwork'] ?? null;
 
 try{
-	if($GLOBALS['User'] === null){
+	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
@@ -17,7 +17,7 @@ try{
 		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 	}
 
-	if(!$artwork->CanBeEditedBy($GLOBALS['User'])){
+	if(!$artwork->CanBeEditedBy(Session::$User)){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 

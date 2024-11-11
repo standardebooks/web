@@ -15,7 +15,8 @@
 				</li>
 				<li>
 					<p><a href="/feeds/atom/all">All ebooks</a></p>
-					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/atom/all</p>
+					<p class="url">
+						<? if(isset(Session::$User->Email)){ ?>https://<?= rawurlencode(Session::$User->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/atom/all</p>
 					<p>All Standard Ebooks, most-recently-released first.</p>
 				</li>
 			</ul>

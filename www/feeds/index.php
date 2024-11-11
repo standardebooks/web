@@ -17,7 +17,7 @@
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/opds">The Standard Ebooks OPDS feed</a></p>
-					<p class="url"><? if($GLOBALS['User'] !== null){ ?>https://<?= rawurlencode($GLOBALS['User']->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/opds</p>
+					<p class="url"><? if(isset(Session::$User->Email)){ ?>https://<?= rawurlencode(Session::$User->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/opds</p>
 				</li>
 			</ul>
 		</section>

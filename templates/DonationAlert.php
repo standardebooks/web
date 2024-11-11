@@ -3,7 +3,7 @@
 $donationDrive = DonationDrive::GetByIsRunning();
 
 if(
-	$GLOBALS['User'] !== null // If a user is logged in.
+	Session::$User !== null // If a user is logged in.
 	||
 	$donationDrive !== null // There is a currently-running donation drive.
 	||
@@ -12,7 +12,7 @@ if(
 	return;
 }
 
-if($GLOBALS['User'] === null){
+if(Session::$User === null){
 	// The Kindle browsers renders `<aside>` as an undismissable popup. Serve a `<div>` to Kindle instead.
 	// See <https://github.com/standardebooks/web/issues/204>.
 	$element = 'aside';

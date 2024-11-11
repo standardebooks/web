@@ -171,10 +171,10 @@ $isEditForm = $isEditForm ?? false;
 		<textarea maxlength="1024" name="artwork-notes"><?= Formatter::EscapeHtml($artwork->Notes) ?></textarea>
 	</label>
 </fieldset>
-<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null) || $artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+<? if($artwork->CanStatusBeChangedBy(Session::$User) || $artwork->CanEbookUrlBeChangedBy(Session::$User)){ ?>
 	<fieldset>
 		<legend>Editor options</legend>
-		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+		<? if($artwork->CanStatusBeChangedBy(Session::$User)){ ?>
 			<label>
 				<span>Artwork approval status</span>
 				<span>
@@ -186,7 +186,7 @@ $isEditForm = $isEditForm ?? false;
 				</span>
 			</label>
 		<? } ?>
-		<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'] ?? null)){ ?>
+		<? if($artwork->CanEbookUrlBeChangedBy(Session::$User)){ ?>
 			<label>
 				<span>In use by</span>
 				<span>The full S.E. ebook URL. If not in use, leave this blank.</span>

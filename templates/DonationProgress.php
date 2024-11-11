@@ -6,7 +6,7 @@ if(
 	||
 	($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) // If the user has hidden the box.
 	||
-	$GLOBALS['User'] !== null // If a user is logged in.
+	Session::$User !== null // If a user is logged in.
 	||
 	$donationDrive === null // There is no donation drive running right now.
 ){

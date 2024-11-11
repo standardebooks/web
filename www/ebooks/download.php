@@ -5,7 +5,7 @@ use Safe\DateTimeImmutable;
 
 $ebook = null;
 $downloadCount = $_COOKIE['download-count'] ?? 0;
-$showThankYouPage = $GLOBALS['User'] === null && $downloadCount < 5;
+$showThankYouPage = Session::$User === null && $downloadCount < 5;
 $downloadUrl = null;
 
 try{

@@ -3,7 +3,7 @@ use function Safe\session_unset;
 
 session_start();
 
-if($GLOBALS['User'] !== null){
+if(Session::$User !== null){
 	header('Location: /');
 	exit();
 }

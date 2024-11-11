@@ -8,7 +8,7 @@ $authorUrlName = HttpInput::Str(GET, 'author');
 $canDownload = false;
 
 try{
-	if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){
+	if(Session::$User?->Benefits->CanBulkDownload){
 		$canDownload = true;
 	}
 

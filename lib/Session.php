@@ -3,17 +3,17 @@ use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
 /**
- * @property User $User
  * @property string $Url
  */
 class Session{
 	use Traits\Accessor;
 
+	public static ?User $User = null;
+
 	public int $UserId;
 	public DateTimeImmutable $Created;
 	public string $SessionId;
 
-	protected User $_User;
 	public string $_Url;
 
 
@@ -42,8 +42,8 @@ class Session{
 	 */
 	public function Create(?string $identifier = null, ?string $password = null): void{
 		try{
-			$this->User = User::GetIfRegistered($identifier, $password);
-			$this->UserId = $this->User->UserId;
+			Session::$User = User::GetIfRegistered($identifier, $password);
+			$this->UserId = Session::$User->UserId;
 
 			$existingSessions = Db::Query('
 							SELECT SessionId,
@@ -76,26 +76,6 @@ class Session{
 		}
 	}
 
-	public static function GetLoggedInUser(): ?User{
-		$sessionId = HttpInput::Str(COOKIE, 'sessionid');
-
-		if($sessionId !== null){
-			$result = Db::Query('
-						SELECT u.*
-						from Users u
-						inner join Sessions s using (UserId)
-						where s.SessionId = ?
-					', [$sessionId], User::class);
-
-			if(sizeof($result) > 0){
-				self::SetSessionCookie($sessionId);
-				return $result[0];
-			}
-		}
-
-		return null;
-	}
-
 	public static function SetSessionCookie(string $sessionId): void{
 		/** @throws void */
 		setcookie('sessionid', $sessionId, ['expires' => intval((new DateTimeImmutable('+1 week'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']); // Expires in two weeks
@@ -121,5 +101,23 @@ class Session{
 				', [$sessionId], Session::class);
 
 		return $result[0] ?? throw new Exceptions\SessionNotFoundException();
+	}
+
+	public static function InitializeFromCookie(): void{
+		$sessionId = HttpInput::Str(COOKIE, 'sessionid');
+
+		if($sessionId !== null){
+			$result = Db::Query('
+						SELECT u.*
+						from Users u
+						inner join Sessions s using (UserId)
+						where s.SessionId = ?
+					', [$sessionId], User::class);
+
+			if(sizeof($result) > 0){
+				self::SetSessionCookie($sessionId);
+				Session::$User = $result[0];
+			}
+		}
 	}
 }

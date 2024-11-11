@@ -1,22 +1,20 @@
 <?
-use Safe\DateTimeImmutable;
-
 $poll = new Poll();
-$canVote = true; // Allow non-logged-in users to see the 'vote' button
+$canVote = true; // Allow non-logged-in users to see the 'vote' button.
 
 try{
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 
 	if(!$poll->IsActive() && $poll->End !== null && $poll->End < NOW){
-		// If the poll ended, redirect to the results
+		// If the poll ended, redirect to the results.
 		header('Location: ' . $poll->Url . '/votes');
 		exit();
 	}
 
-	if(isset($GLOBALS['User'])){
-		$canVote = false; // User is logged in, hide the vote button unless they haven't voted yet
+	if(Session::$User !== null){
+		$canVote = false; // User is logged in, hide the vote button unless they haven't voted yet.
 		try{
-			PollVote::Get($poll->UrlName, $GLOBALS['User']->UserId);
+			PollVote::Get($poll->UrlName, Session::$User->UserId);
 		}
 		catch(Exceptions\AppException){
 			// User has already voted
@@ -42,7 +40,7 @@ catch(Exceptions\AppException){
 			<? } ?>
 			<p class="button-row narrow">
 				<? if($canVote){ ?>
-				<a href="<?= $poll->Url ?>/votes/new" class="button">Vote now</a>
+					<a href="<?= $poll->Url ?>/votes/new" class="button">Vote now</a>
 				<? } ?>
 				<a href="<?= $poll->Url ?>/votes" class="button">View results</a>
 			</p>

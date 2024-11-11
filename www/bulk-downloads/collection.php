@@ -9,7 +9,7 @@ if($class === null || ($class != 'authors' && $class != 'collections' && $class 
 	Template::Emit404();
 }
 
-if($GLOBALS['User'] !== null && $GLOBALS['User']->Benefits->CanBulkDownload){
+if(Session::$User?->Benefits->CanBulkDownload){
 	$canDownload = true;
 }
 

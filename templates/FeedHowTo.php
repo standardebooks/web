@@ -1,6 +1,6 @@
 <section id="accessing-the-feeds">
 	<h2>Accessing the feeds</h2>
-	<? if($GLOBALS['User'] === null){ ?>
+	<? if(Session::$User === null){ ?>
 		<p>Our New Releases feeds are open to everyone. Our other feeds are a benefit of Patrons Circle membership.</p>
 		<ul>
 			<li>
@@ -19,7 +19,7 @@
 		<p>
 			<i>If you’re a Patrons Circle member, when prompted enter your email address and leave the password field blank to access a feed.</i>
 		</p>
-	<? }elseif($GLOBALS['User']->Benefits->CanAccessFeeds){ ?>
+	<? }elseif(Session::$User->Benefits->CanAccessFeeds){ ?>
 		<p>When prompted enter your email address and leave the password field blank to access a feed.</p>
 	<? }else{ ?>
 		<p>

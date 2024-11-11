@@ -10,11 +10,11 @@ $exception = $_SESSION['exception'] ?? null;
 $artwork = $_SESSION['artwork'] ?? null;
 
 try{
-	if($GLOBALS['User'] === null){
+	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!$GLOBALS['User']->Benefits->CanUploadArtwork){
+	if(!Session::$User->Benefits->CanUploadArtwork){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
@@ -35,7 +35,7 @@ try{
 		$artwork = new Artwork();
 		$artwork->Artist = new Artist();
 
-		if($GLOBALS['User']->Benefits->CanReviewOwnArtwork){
+		if(Session::$User->Benefits->CanReviewOwnArtwork){
 			$artwork->Status = Enums\ArtworkStatusType::Approved;
 		}
 	}

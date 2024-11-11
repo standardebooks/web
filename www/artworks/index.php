@@ -11,8 +11,8 @@ $totalArtworkCount = 0;
 $pageDescription = '';
 $pageTitle = '';
 $queryString = '';
-$isReviewerView = $GLOBALS['User']?->Benefits?->CanReviewArtwork ?? false;
-$submitterUserId = $GLOBALS['User']?->Benefits?->CanUploadArtwork ? $GLOBALS['User']->UserId : null;
+$isReviewerView = Session::$User?->Benefits?->CanReviewArtwork ?? false;
+$submitterUserId = Session::$User?->Benefits?->CanUploadArtwork ? Session::$User->UserId : null;
 $isSubmitterView = !$isReviewerView && $submitterUserId !== null;
 
 try{
@@ -132,7 +132,7 @@ catch(Exceptions\PageOutOfBoundsException){
 <main class="artworks">
 	<section class="narrow">
 		<h1>Browse U.S. Public Domain Artwork</h1>
-		<p><? if($GLOBALS['User']?->Benefits->CanUploadArtwork){ ?><a href="/artworks/new">Submit new public domain artwork.</a><? }else{ ?>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.<? } ?></p>
+		<p><? if(Session::$User?->Benefits->CanUploadArtwork){ ?><a href="/artworks/new">Submit new public domain artwork.</a><? }else{ ?>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.<? } ?></p>
 		<form class="browse-artwork" action="/artworks" method="get" rel="search">
 			<label>
 				<span>Status</span>

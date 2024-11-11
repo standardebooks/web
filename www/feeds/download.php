@@ -33,7 +33,7 @@ try{
 		}
 
 		if(!$isUserAgentAllowed){
-			if($GLOBALS['User'] === null){
+			if(Session::$User === null){
 				throw new Exceptions\LoginRequiredException();
 			}
 
@@ -41,7 +41,7 @@ try{
 				throw new Exceptions\InvalidPermissionsException();
 			}
 
-			if(!$GLOBALS['User']->Benefits->CanAccessFeeds){
+			if(!Session::$User->Benefits->CanAccessFeeds){
 				throw new Exceptions\InvalidPermissionsException();
 			}
 		}

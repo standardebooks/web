@@ -9,30 +9,30 @@ try{
 		throw new Exceptions\InvalidRequestException('File upload too large.');
 	}
 
-	if($GLOBALS['User'] === null){
+	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
 	// POSTing a new artwork
 	if($httpMethod == Enums\HttpMethod::Post){
-		if(!$GLOBALS['User']->Benefits->CanUploadArtwork){
+		if(!Session::$User->Benefits->CanUploadArtwork){
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
 		$artwork = new Artwork();
 		$artwork->FillFromHttpPost();
 
-		$artwork->SubmitterUserId = $GLOBALS['User']->UserId ?? null;
+		$artwork->SubmitterUserId = Session::$User->UserId ?? null;
 
 		// Only approved reviewers can set the status to anything but unverified when uploading.
 		// The submitter cannot review their own submissions unless they have special permission.
-		if($artwork->Status !== Enums\ArtworkStatusType::Unverified && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
+		if($artwork->Status !== Enums\ArtworkStatusType::Unverified && !$artwork->CanStatusBeChangedBy(Session::$User)){
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
 		// If the artwork is approved, set the reviewer.
 		if($artwork->Status !== Enums\ArtworkStatusType::Unverified){
-			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
+			$artwork->ReviewerUserId = Session::$User->UserId;
 		}
 
 		$artwork->Create(HttpInput::File('artwork-image'));
@@ -48,7 +48,7 @@ try{
 	if($httpMethod == Enums\HttpMethod::Put){
 		$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
-		if(!$originalArtwork->CanBeEditedBy($GLOBALS['User'])){
+		if(!$originalArtwork->CanBeEditedBy(Session::$User)){
 			throw new Exceptions\InvalidPermissionsException();
 		}
 
@@ -62,11 +62,11 @@ try{
 
 		$newStatus = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 		if($newStatus !== null){
-			if($originalArtwork->Status != $newStatus && !$originalArtwork->CanStatusBeChangedBy($GLOBALS['User'])){
+			if($originalArtwork->Status != $newStatus && !$originalArtwork->CanStatusBeChangedBy(Session::$User)){
 				throw new Exceptions\InvalidPermissionsException();
 			}
 
-			$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
+			$artwork->ReviewerUserId = Session::$User->UserId;
 			$artwork->Status = $newStatus;
 		}
 
@@ -93,11 +93,11 @@ try{
 		if(isset($_POST['artwork-status'])){
 			$newStatus = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
 			if($newStatus !== null){
-				if($artwork->Status != $newStatus && !$artwork->CanStatusBeChangedBy($GLOBALS['User'])){
+				if($artwork->Status != $newStatus && !$artwork->CanStatusBeChangedBy(Session::$User)){
 					throw new Exceptions\InvalidPermissionsException();
 				}
 
-				$artwork->ReviewerUserId = $GLOBALS['User']->UserId;
+				$artwork->ReviewerUserId = Session::$User->UserId;
 
 				$artwork->Status = $newStatus;
 			}
@@ -108,7 +108,7 @@ try{
 
 		if(isset($_POST['artwork-ebook-url'])){
 			$newEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
-			if($artwork->EbookUrl != $newEbookUrl && !$artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){
+			if($artwork->EbookUrl != $newEbookUrl && !$artwork->CanEbookUrlBeChangedBy(Session::$User)){
 				throw new Exceptions\InvalidPermissionsException();
 			}
 

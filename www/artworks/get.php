@@ -28,14 +28,14 @@ try{
 		}
 	}
 
-	$isReviewerView = $GLOBALS['User']->Benefits->CanReviewArtwork ?? false;
-	$isAdminView = $GLOBALS['User']->Benefits->CanReviewOwnArtwork ?? false;
+	$isReviewerView = Session::$User->Benefits->CanReviewArtwork ?? false;
+	$isAdminView = Session::$User->Benefits->CanReviewOwnArtwork ?? false;
 
 	// If the artwork is not approved, and we're not an admin or the submitter when they can edit, don't show it.
 	if(
-		($GLOBALS['User'] === null && $artwork->Status != Enums\ArtworkStatusType::Approved)
+		(Session::$User === null && $artwork->Status != Enums\ArtworkStatusType::Approved)
 		||
-		($GLOBALS['User'] !== null && $artwork->Status != Enums\ArtworkStatusType::Approved && $artwork->SubmitterUserId != $GLOBALS['User']->UserId && !$isReviewerView)
+		(Session::$User !== null && $artwork->Status != Enums\ArtworkStatusType::Approved && $artwork->SubmitterUserId != Session::$User->UserId && !$isReviewerView)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
@@ -164,20 +164,20 @@ catch(Exceptions\InvalidPermissionsException){
 			<?= Formatter::MarkdownToHtml($artwork->Notes) ?>
 		<? } ?>
 
-		<? if($artwork->CanBeEditedBy($GLOBALS['User'])){ ?>
+		<? if($artwork->CanBeEditedBy(Session::$User)){ ?>
 			<h2>Edit artwork</h2>
 			<p>An editor or the submitter may edit this artwork before it’s approved. Once it’s approved, it can no longer be edited.</p>
 			<p><a href="<?= $artwork->EditUrl ?>">Edit this artwork.</a></p>
 		<? } ?>
 
-		<? if($artwork->CanStatusBeChangedBy($GLOBALS['User']) || $artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){ ?>
+		<? if($artwork->CanStatusBeChangedBy(Session::$User) || $artwork->CanEbookUrlBeChangedBy(Session::$User)){ ?>
 			<h2>Editor options</h2>
-			<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'])){ ?>
+			<? if($artwork->CanStatusBeChangedBy(Session::$User)){ ?>
 				<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers. Once an artwork is approved, it can no longer be edited.</p>
 			<? } ?>
 			<form method="post" action="<?= $artwork->Url ?>" autocomplete="off">
 				<input type="hidden" name="_method" value="PATCH" />
-				<? if($artwork->CanStatusBeChangedBy($GLOBALS['User'])){ ?>
+				<? if($artwork->CanStatusBeChangedBy(Session::$User)){ ?>
 					<label>
 						<span>Artwork approval status</span>
 						<span>
@@ -191,7 +191,7 @@ catch(Exceptions\InvalidPermissionsException){
 				<? }else{ ?>
 					<input type="hidden" name="artwork-status" value="<?= Formatter::EscapeHtml($artwork->Status->value ?? '') ?>" />
 				<? } ?>
-				<? if($artwork->CanEbookUrlBeChangedBy($GLOBALS['User'])){ ?>
+				<? if($artwork->CanEbookUrlBeChangedBy(Session::$User)){ ?>
 					<label>
 						<span>In use by</span>
 						<span>The full S.E. ebook URL. If not in use, leave this blank.</span>

@@ -1,6 +1,6 @@
 <?
-$isReviewerView = $GLOBALS['User']?->Benefits?->CanReviewArtwork ?? false;
-$submitterUserId = $GLOBALS['User']?->Benefits?->CanUploadArtwork ? $GLOBALS['User']->UserId : null;
+$isReviewerView = Session::$User?->Benefits?->CanReviewArtwork ?? false;
+$submitterUserId = Session::$User?->Benefits?->CanUploadArtwork ? Session::$User->UserId : null;
 $isSubmitterView = !$isReviewerView && $submitterUserId !== null;
 
 $filterArtworkStatus = 'all';
