@@ -304,8 +304,6 @@
 									<dd>CC0 items say “License: CC CC0 1.0” under the “License information” section. In the art metadata, “Owner of collection” <strong>must</strong> be “Lillehammer Kunstmuseum.” Any other art on <a href="https://www.digitaltmuseum.no">digitaltmuseum.no</a> or <a href="https://www.digitaltmuseum.se">digitaltmuseum.se</a> must be cleared separately.</dd>
 									<dt><a href="https://zbiory.mnk.pl/">National Museum in Krakow</a></dt>
 									<dd>CC0 items say "CC0 - Public Domain" under the Copyright section.</dd>
-									<dt><a href="https://cyfrowe.mnw.art.pl/en/home">National Museum in Warsaw</a></dt>
-									<dd>CC0 items say “CC0 — Public domain” under the “Copyrights’ section.</dd>
 									<dt><a href="https://www.nationalmuseum.se/en/explore-art-and-design/images/free-images">National Museum in Stockholm</a></dt>
 									<dd>CC-PD items have the CC-PD mark in the lower left of the item’s detail view.</dd>
 									<dt><a href="https://dams.birminghammuseums.org.uk/asset-bank/action/viewDefaultHome">Birmingham Museums</a></dt>

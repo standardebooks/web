@@ -537,21 +537,21 @@ class Museum{
 
 			return $outputUrl;
 		}
-		elseif(preg_match('/\bart\.pl$/ius', $parsedUrl['host'])){
-			$exampleUrl = 'https://cyfrowe.mnw.art.pl/en/catalog/445066';
+		// elseif(preg_match('/\bart\.pl$/ius', $parsedUrl['host'])){
+		// 	$exampleUrl = 'https://cyfrowe.mnw.art.pl/en/catalog/445066';
 
-			if($parsedUrl['host'] != 'cyfrowe.mnw.art.pl'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
-			}
+		// 	if($parsedUrl['host'] != 'cyfrowe.mnw.art.pl'){
+		// 		throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+		// 	}
 
-			if(!preg_match('|^/en/catalog/[^/]+?$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
-			}
+		// 	if(!preg_match('|^/en/catalog/[^/]+?$|ius', $parsedUrl['path'])){
+		// 		throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+		// 	}
 
-			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
+		// 	$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
 
-			return $outputUrl;
-		}
+		// 	return $outputUrl;
+		// }
 		elseif(preg_match('/\blenbachhaus\.de$/', $parsedUrl['host'])){
 			$exampleUrl = 'https://www.lenbachhaus.de/en/digital/collection-online/detail/hymnus-an-michelangelo-30036437';
 
