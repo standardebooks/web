@@ -786,6 +786,8 @@ class Artwork{
 			Db::Query('UPDATE Artists set DeathYear = ? where ArtistId = ?', [$newDeathYear , $this->Artist->ArtistId]);
 		}
 
+		$this->Updated = NOW;
+
 		// Save the artwork.
 		Db::Query('
 			UPDATE Artworks
