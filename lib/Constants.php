@@ -86,7 +86,7 @@ const DONATION_DRIVE_DATES = [
 							'Spring drive',
 							new DateTimeImmutable('Second Monday of May'),
 							new DateTimeImmutable('Second Monday of May +2 weeks'),
-							50,
+							40,
 							20
 						),
 				new DonationDrive(
@@ -94,7 +94,7 @@ const DONATION_DRIVE_DATES = [
 							NOW < new DateTimeImmutable('November 15') ? new DateTimeImmutable('November 15') : new DateTimeImmutable('November 15 -1 year'),
 							NOW < new DateTimeImmutable('January 7') ? new DateTimeImmutable('January 7') : new DateTimeImmutable('January 7 +1 year'),
 							50,
-							20
+							30
 						)
 			];
 
