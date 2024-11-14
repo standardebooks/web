@@ -91,7 +91,7 @@ const DONATION_DRIVE_DATES = [
 						),
 				new DonationDrive(
 							'Holiday drive',
-							NOW < new DateTimeImmutable('November 15') ? new DateTimeImmutable('November 15') : new DateTimeImmutable('November 15 -1 year'),
+							NOW < new DateTimeImmutable('November 25') ? new DateTimeImmutable('November 25') : new DateTimeImmutable('November 25 -1 year'),
 							NOW < new DateTimeImmutable('January 7') ? new DateTimeImmutable('January 7') : new DateTimeImmutable('January 7 +1 year'),
 							50,
 							30
