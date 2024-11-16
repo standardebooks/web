@@ -1,9 +1,14 @@
 <?
+/**
+ * GET /collections/<collection>/feeds
+ * GET /ebooks/<author>/feeds
+ */
+
 use function Safe\exec;
 
 $author = HttpInput::Str(GET, 'author');
 $collection = HttpInput::Str(GET, 'collection');
-$name = null;
+$collectionType = null;
 $target = null;
 $feedTitle = '';
 $feedUrl = '';
@@ -12,40 +17,40 @@ $description = '';
 $label = null;
 
 if($author !== null){
-	$name = 'authors';
+	$collectionType = Enums\FeedCollectionType::Authors;
 	$target = $author;
 }
 
 if($collection !== null){
-	$name = 'collections';
+	$collectionType = Enums\FeedCollectionType::Collections;
 	$target = $collection;
 }
 
 try{
-	if($target === null || $name === null){
+	if($target === null || $collectionType === null){
 		throw new Exceptions\CollectionNotFoundException();
 	}
 
-	$file = WEB_ROOT . '/feeds/opds/' . $name . '/' . $target . '.xml';
+	$file = WEB_ROOT . '/feeds/opds/' . $collectionType->value . '/' . $target . '.xml';
 	if(!is_file($file)){
 		throw new Exceptions\CollectionNotFoundException();
 	}
 
 	$label = exec('attr -g se-label ' . escapeshellarg($file)) ?: basename($file, '.xml');
 
-	if($name == 'authors'){
+	if($collectionType == Enums\FeedCollectionType::Authors){
 		$title = 'Ebook feeds for ' . $label;
 		$description = 'A list of available ebook feeds for ebooks by ' . $label . '.';
 		$feedTitle = 'Standard Ebooks - Ebooks by ' . $label;
 	}
 
-	if($name == 'collections'){
+	if($collectionType == Enums\FeedCollectionType::Collections){
 		$title = 'Ebook feeds for the ' . $label . ' collection';
 		$description = 'A list of available ebook feeds for ebooks in the ' . $label . ' collection.';
 		$feedTitle = 'Standard Ebooks - Ebooks in the ' . $label . ' collection';
 	}
 
-	$feedUrl = '/' . $name . '/' . $target;
+	$feedUrl = '/' . $collectionType->value . '/' . $target;
 }
 catch(Exceptions\CollectionNotFoundException){
 	Template::Emit404();
@@ -57,18 +62,7 @@ catch(Exceptions\CollectionNotFoundException){
 		<?= Template::FeedHowTo() ?>
 		<? foreach(Enums\FeedType::cases() as $feedType){ ?>
 			<section id="ebooks-by-<?= $feedType->value ?>">
-				<h2>
-					<? if($feedType == Enums\FeedType::Rss){ ?>
-						RSS 2.0
-					<? } ?>
-					<? if($feedType == Enums\FeedType::Atom){ ?>
-						Atom 1.0
-					<? } ?>
-					<? if($feedType == Enums\FeedType::Opds){ ?>
-						OPDS 1.2
-					<? } ?>
-					Feed
-				</h2>
+				<h2><?= $feedType->GetDisplayName() ?> Feed</h2>
 				<? if($feedType == Enums\FeedType::Opds){ ?>
 					<p>Import this feed into your ereader app to get access to these ebooks directly in your ereader.</p>
 				<? } ?>
@@ -80,8 +74,10 @@ catch(Exceptions\CollectionNotFoundException){
 				<? } ?>
 				<ul class="feed">
 					<li>
-						<p><a href="/feeds/<?= $feedType->value ?>/<?= $name ?>/<?= $target?>"><?= Formatter::EscapeHtml($label) ?></a></p>
-						<p class="url"><? if(isset(Session::$User->Email)){ ?>https://<?= rawurlencode(Session::$User->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/<?= $feedType->value ?>/<?= $name ?>/<?= $target?></p>
+						<p>
+							<a href="/feeds/<?= $feedType->value ?>/<?= $collectionType->value ?>/<?= $target?>"><?= Formatter::EscapeHtml($label) ?></a>
+						</p>
+						<p class="url"><? if(isset(Session::$User->Email)){ ?>https://<?= rawurlencode(Session::$User->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/<?= $feedType->value ?>/<?= $collectionType->value ?>/<?= $target?></p>
 					</li>
 				</ul>
 			</section>

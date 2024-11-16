@@ -37,8 +37,10 @@ function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $label
  * @param array<string, array<string, string>> $collections
  * @param array<string, array<Ebook>> $ebooks
  */
-function CreateOpdsCollectionFeed(string $name, string $url, string $description, array $collections, array $ebooks, DateTimeImmutable $now, string $webRoot, OpdsNavigationFeed $opdsRoot, bool $force): void{
+function CreateOpdsCollectionFeed(Enums\FeedCollectionType $collectionType, string $url, string $description, array $collections, array $ebooks, string $webRoot, OpdsNavigationFeed $opdsRoot, bool $force): void{
 	$collator = Collator::create('en_US'); // Used for sorting letters with diacritics, like in author names.
+
+	$name = preg_replace('/s$/', '', $collectionType->value);
 
 	if($collator === null){
 		return;
@@ -52,20 +54,20 @@ function CreateOpdsCollectionFeed(string $name, string $url, string $description
 	// Create the collections navigation document.
 	$collectionNavigationEntries = [];
 	foreach($collections as $collection){
-		$entry = new OpdsNavigationEntry($collection['name'], str_replace('%s', $collection['name'], $description), $url . '/' . $collection['id'], $now, 'subsection', 'navigation');
+		$entry = new OpdsNavigationEntry($collection['name'], str_replace('%s', $collection['name'], $description), $url . '/' . $collection['id'], NOW, 'subsection', 'navigation');
 		$entry->SortTitle = $collection['sortedname'];
 		$collectionNavigationEntries[] = $entry;
 	}
 	$collectionsFeed = new OpdsNavigationFeed('Standard Ebooks by ' . ucfirst($name), 'Browse Standard Ebooks by ' . $name . '.', $url, $webRoot . $url . '/index.xml', $collectionNavigationEntries, $opdsRoot);
 	$collectionsFeed->Subtitle = 'Browse Standard Ebooks by ' . $name . '.';
-	SaveFeed($collectionsFeed, $force, null, null, $now);
+	SaveFeed($collectionsFeed, $force, null, null, NOW);
 
 	// Now generate each individual collection feed.
 	foreach($collectionNavigationEntries as $collectionNavigationEntry){
 		$id = basename($collectionNavigationEntry->Id);
 		usort($ebooks[$id], 'SortByUpdatedDesc');
 		$collectionFeed = new OpdsAcquisitionFeed($collectionNavigationEntry->Title . ' Ebooks', $collectionNavigationEntry->Description, $url . '/' . $id, $webRoot . $url . '/' . $id . '.xml', $ebooks[$id], $collectionsFeed);
-		SaveFeed($collectionFeed, $force, $collectionNavigationEntry->Title, $collectionNavigationEntry->SortTitle, $now);
+		SaveFeed($collectionFeed, $force, $collectionNavigationEntry->Title, $collectionNavigationEntry->SortTitle, NOW);
 	}
 }
 
@@ -167,13 +169,13 @@ $opdsRoot = new OpdsNavigationFeed('Standard Ebooks', 'The Standard Ebooks catal
 SaveFeed($opdsRoot, $force, null, null, NOW);
 
 // Create the Subjects feeds.
-CreateOpdsCollectionFeed('subject', '/feeds/opds/subjects', 'Standard Ebooks in the “%s” subject, most-recently-released first.', $subjects, $ebooksBySubject, NOW, $webRoot, $opdsRoot, $force);
+CreateOpdsCollectionFeed(Enums\FeedCollectionType::Subjects, '/feeds/opds/subjects', 'Standard Ebooks in the “%s” subject, most-recently-released first.', $subjects, $ebooksBySubject, $webRoot, $opdsRoot, $force);
 
 // Create the Collections feeds.
-CreateOpdsCollectionFeed('collection', '/feeds/opds/collections', 'Standard Ebooks in the “%s” collection, most-recently-released first.', $collections, $ebooksByCollection, NOW, $webRoot, $opdsRoot, $force);
+CreateOpdsCollectionFeed(Enums\FeedCollectionType::Collections, '/feeds/opds/collections', 'Standard Ebooks in the “%s” collection, most-recently-released first.', $collections, $ebooksByCollection, $webRoot, $opdsRoot, $force);
 
 // Create the Author feeds.
-CreateOpdsCollectionFeed('author', '/feeds/opds/authors', 'Standard Ebooks by %s, most-recently-released first.', $authors, $ebooksByAuthor, NOW, $webRoot, $opdsRoot, $force);
+CreateOpdsCollectionFeed(Enums\FeedCollectionType::Authors, '/feeds/opds/authors', 'Standard Ebooks by %s, most-recently-released first.', $authors, $ebooksByAuthor, $webRoot, $opdsRoot, $force);
 
 // Create the All feed.
 $allFeed = new OpdsAcquisitionFeed('All Standard Ebooks', 'All Standard Ebooks, most-recently-updated first. This is a Complete Acquisition Feed as defined in OPDS 1.2 §2.5.', '/feeds/opds/all', $webRoot . '/feeds/opds/all.xml', $allEbooks, $opdsRoot, true);
