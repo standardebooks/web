@@ -3,18 +3,18 @@ $isReviewerView = Session::$User?->Benefits?->CanReviewArtwork ?? false;
 $submitterUserId = Session::$User?->Benefits?->CanUploadArtwork ? Session::$User->UserId : null;
 $isSubmitterView = !$isReviewerView && $submitterUserId !== null;
 
-$filterArtworkStatus = 'all';
+$artworkFilterType = Enums\ArtworkFilterType::Approved;
 
 if($isReviewerView){
-	$filterArtworkStatus = 'all-admin';
+	$artworkFilterType = Enums\ArtworkFilterType::Admin;
 }
 
 if($isSubmitterView){
-	$filterArtworkStatus = 'all-submitter';
+	$artworkFilterType = Enums\ArtworkFilterType::ApprovedSubmitter;
 }
 
 try{
-	$artworks = Artwork::GetAllByArtist(HttpInput::Str(GET, 'artist-url-name'), $filterArtworkStatus, $submitterUserId);
+	$artworks = Artwork::GetAllByArtist(HttpInput::Str(GET, 'artist-url-name'), $artworkFilterType, $submitterUserId);
 
 	if(sizeof($artworks) == 0){
 		throw new Exceptions\ArtistNotFoundException();

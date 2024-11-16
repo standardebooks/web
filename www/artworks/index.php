@@ -1,10 +1,10 @@
 <?
+$artworks = [];
 $page = HttpInput::Int(GET, 'page') ?? 1;
 $perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
 $query = HttpInput::Str(GET, 'query');
 $queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
-$status = HttpInput::Str(GET, 'status');
-$filterArtworkStatus = $status;
+$artworkFilterType = Enums\ArtworkFilterType::tryFrom(HttpInput::Str(GET, 'status') ?? '');
 $sort = Enums\ArtworkSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $pages = 0;
 $totalArtworkCount = 0;
@@ -30,43 +30,48 @@ try{
 	}
 
 	if($isReviewerView){
-		if($status == 'all' || $status === null){
-			$filterArtworkStatus = 'all-admin';
+		if($artworkFilterType == Enums\ArtworkFilterType::All || $artworkFilterType === null){
+			$artworkFilterType = Enums\ArtworkFilterType::Admin;
+		}
+		if($artworkFilterType == Enums\ArtworkFilterType::UnverifiedSubmitter){
+			$artworkFilterType = Enums\ArtworkFilterType::Unverified;
 		}
 	}
 
 	if($isSubmitterView){
-		if($status == 'all' || $status === null){
-			$filterArtworkStatus = 'all-submitter';
+		if($artworkFilterType == Enums\ArtworkFilterType::All || $artworkFilterType === null){
+			$artworkFilterType = Enums\ArtworkFilterType::ApprovedSubmitter;
 		}
-		if($status == 'unverified'){
-			$filterArtworkStatus = 'unverified-submitter';
+		if($artworkFilterType == Enums\ArtworkFilterType::Unverified){
+			$artworkFilterType = Enums\ArtworkFilterType::UnverifiedSubmitter;
 		}
 	}
 
-	if(!$isReviewerView && !$isSubmitterView && !in_array($status, array('all', Enums\ArtworkStatusType::Approved->value, 'in-use'))){
-		$status = Enums\ArtworkStatusType::Approved->value;
-		$filterArtworkStatus = $status;
+	if(
+		!$isReviewerView
+		&&
+		!$isSubmitterView
+		&&
+		!in_array($artworkFilterType, [Enums\ArtworkFilterType::Approved, Enums\ArtworkFilterType::ApprovedNotInUse, Enums\ArtworkFilterType::ApprovedInUse])
+	){
+		$artworkFilterType = Enums\ArtworkFilterType::Approved;
 	}
 
-	if($isReviewerView && !in_array($status, array('all', Enums\ArtworkStatusType::Unverified->value, Enums\ArtworkStatusType::Declined->value, Enums\ArtworkStatusType::Approved->value, 'in-use'))
-	                && !in_array($filterArtworkStatus, array('all-admin', Enums\ArtworkStatusType::Unverified->value, Enums\ArtworkStatusType::Declined->value, Enums\ArtworkStatusType::Approved->value, 'in-use'))){
-		$status = Enums\ArtworkStatusType::Approved->value;
-		$filterArtworkStatus = $status;
-	}
-
-	if($isSubmitterView && !in_array($status, array('all', Enums\ArtworkStatusType::Unverified->value, Enums\ArtworkStatusType::Approved->value, 'in-use'))
-	                    && !in_array($filterArtworkStatus, array('all-submitter', 'unverified-submitter', Enums\ArtworkStatusType::Approved->value, 'in-use'))){
-		$status = Enums\ArtworkStatusType::Approved->value;
-		$filterArtworkStatus = $status;
+	if(
+		$isSubmitterView
+		&&
+		!in_array($artworkFilterType, [Enums\ArtworkFilterType::ApprovedSubmitter, Enums\ArtworkFilterType::UnverifiedSubmitter, Enums\ArtworkFilterType::ApprovedInUse, Enums\ArtworkFilterType::ApprovedNotInUse])
+	){
+		$artworkFilterType = Enums\ArtworkFilterType::ApprovedSubmitter;
 	}
 
 	if($queryEbookUrl !== null){
-		$artworks = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class);
-		$totalArtworkCount = sizeof($artworks);
+		// We're being called from the `review` script, and we're only interested if the artwork exists for this URL.
+		$artworks[] = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class)[0] ?? throw new Exceptions\ArtworkNotFoundException();
+		$totalArtworkCount = 1;
 	}
 	else{
-		$result = Artwork::GetAllByFilter($query, $filterArtworkStatus, $sort, $submitterUserId, $page, $perPage);
+		$result = Artwork::GetAllByFilter($query, $artworkFilterType, $sort, $submitterUserId, $page, $perPage);
 		$artworks = $result['artworks'];
 		$totalArtworkCount = $result['artworksCount'];
 	}
@@ -84,8 +89,8 @@ try{
 		$queryStringParams['query'] = $query;
 	}
 
-	if($status !== null){
-		$queryStringParams['status'] = $status;
+	if($artworkFilterType !== null){
+		$queryStringParams['status'] = $artworkFilterType->value;
 	}
 
 	if($sort !== null){
@@ -118,6 +123,9 @@ try{
 		throw new Exceptions\PageOutOfBoundsException();
 	}
 }
+catch(Exceptions\ArtworkNotFoundException){
+	Template::Emit404();
+}
 catch(Exceptions\PageOutOfBoundsException){
 	$url = '/artworks?page=' . $pages;
 	if($queryStringWithoutPage != ''){
@@ -131,21 +139,35 @@ catch(Exceptions\PageOutOfBoundsException){
 <main class="artworks">
 	<section class="narrow">
 		<h1>Browse U.S. Public Domain Artwork</h1>
-		<p><? if(Session::$User?->Benefits->CanUploadArtwork){ ?><a href="/artworks/new">Submit new public domain artwork.</a><? }else{ ?>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.<? } ?></p>
+		<p>
+			<? if(Session::$User?->Benefits->CanUploadArtwork){ ?>
+				<a href="/artworks/new">Submit new public domain artwork.</a>
+			<? }else{ ?>
+				You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.
+			<? } ?>
+		</p>
 		<form class="browse-artwork" action="/artworks" method="get" rel="search">
 			<label>
 				<span>Status</span>
 				<span>
 					<select name="status" size="1">
-						<option value="all"<? if($status === null){ ?> selected="selected"<? } ?>>All</option>
-						<? if($isReviewerView || $isSubmitterView){ ?><option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($status == Enums\ArtworkStatusType::Unverified->value){ ?> selected="selected"<? } ?>>Unverified</option><? } ?>
-						<? if($isReviewerView){ ?><option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($status == Enums\ArtworkStatusType::Declined->value){ ?> selected="selected"<? } ?>>Declined</option><? } ?>
-						<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($status == Enums\ArtworkStatusType::Approved->value){ ?> selected="selected"<? } ?>>Approved, not in use</option>
-						<option value="in-use"<? if($status == 'in-use'){ ?> selected="selected"<? } ?>>In use</option>
+						<option value="<?= Enums\ArtworkFilterType::All->value ?>"<? if($artworkFilterType === null || $artworkFilterType == Enums\ArtworkFilterType::All){ ?> selected="selected"<? } ?>>All</option>
+						<? if($isReviewerView){ ?>
+							<option value="<?= Enums\ArtworkFilterType::Unverified->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+						<? } ?>
+						<? if($isSubmitterView){ ?>
+							<option value="<?= Enums\ArtworkFilterType::UnverifiedSubmitter->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::UnverifiedSubmitter){ ?> selected="selected"<? } ?>>Unverified</option>
+						<? } ?>
+						<? if($isReviewerView){ ?>
+							<option value="<?= Enums\ArtworkFilterType::Declined->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+						<? } ?>
+						<option value="<?= Enums\ArtworkFilterType::ApprovedNotInUse->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::ApprovedNotInUse){ ?> selected="selected"<? } ?>>Approved, not in use</option>
+						<option value="<?= Enums\ArtworkFilterType::ApprovedInUse->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::ApprovedInUse){ ?> selected="selected"<? } ?>>Approved, in use</option>
 					</select>
 				</span>
 			</label>
-			<label>Keywords
+			<label>
+				<span>Keywords</span>
 				<input type="search" name="query" value="<?= Formatter::EscapeHtml($query) ?>"/>
 			</label>
 			<label class="sort">

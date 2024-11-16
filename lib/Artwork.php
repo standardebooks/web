@@ -930,29 +930,29 @@ class Artwork{
 	 *
 	 * @throws Exceptions\ArtistNotFoundException
 	 */
-	public static function GetAllByArtist(?string $artistUrlName, ?string $status, ?int $submitterUserId): array{
+	public static function GetAllByArtist(?string $artistUrlName, ?Enums\ArtworkFilterType $artworkFilterType, ?int $submitterUserId): array{
 		if($artistUrlName === null){
 			throw new Exceptions\ArtistNotFoundException();
 		}
 
-		// $status is only one of three special statuses, which are a subset of FilterArtwork() above:
-		// null: same as "all"
-		// "all": Show all approved and in use artwork
-		// "all-admin": Show all artwork regardless of status
-		// "all-submitter": Show all approved and in use artwork, plus unverified artwork from the submitter
+		if($artworkFilterType === null){
+			$artworkFilterType = Enums\ArtworkFilterType::Approved;
+		}
+
 		$statusCondition = '';
 		$params = [];
 
-		if($status == 'all-admin'){
+		if($artworkFilterType == Enums\ArtworkFilterType::Admin){
 			$statusCondition = 'true';
 		}
-		elseif($status == 'all-submitter' && $submitterUserId !== null){
+		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedSubmitter && $submitterUserId !== null){
 			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 			$params[] = Enums\ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		else{
+			// Default to the `Enums\ArtworkFilterType::Approved` view.
 			$statusCondition = 'Status = ?';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
@@ -973,47 +973,48 @@ class Artwork{
 	/**
 	* @return array{artworks: array<Artwork>, artworksCount: int}
 	*/
-	public static function GetAllByFilter(?string $query = null, ?string $status = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
-		// $status is either the string value of an ArtworkStatus enum, or one of these special statuses:
-		// null: same as "all"
-		// "all": Show all approved and in use artwork
-		// "all-admin": Show all artwork regardless of status
-		// "all-submitter": Show all approved and in use artwork, plus unverified artwork from the submitter
-		// "unverified-submitter": Show unverified artwork from the submitter
-		// "in-use": Show only in-use artwork
+	public static function GetAllByFilter(?string $query = null, ?Enums\ArtworkFilterType $artworkFilterType = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+		if($artworkFilterType === null){
+			$artworkFilterType = Enums\ArtworkFilterType::Approved;
+		}
 
 		$statusCondition = '';
 		$params = [];
 
-		if($status === null || $status == 'all'){
-			$statusCondition = 'Status = ?';
-			$params[] = Enums\ArtworkStatusType::Approved->value;
-		}
-		elseif($status == 'all-admin'){
+		if($artworkFilterType == Enums\ArtworkFilterType::Admin){
 			$statusCondition = 'true';
 		}
-		elseif($status == 'all-submitter' && $submitterUserId !== null){
+		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedSubmitter && $submitterUserId !== null){
 			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 			$params[] = Enums\ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
-		elseif($status == 'unverified-submitter' && $submitterUserId !== null){
+		elseif($artworkFilterType == Enums\ArtworkFilterType::UnverifiedSubmitter && $submitterUserId !== null){
 			$statusCondition = 'Status = ? and SubmitterUserId = ?';
 			$params[] = Enums\ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
-		elseif($status == 'in-use'){
+		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedInUse){
 			$statusCondition = 'Status = ? and EbookUrl is not null';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
-		elseif($status == Enums\ArtworkStatusType::Approved->value){
+		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedNotInUse){
 			$statusCondition = 'Status = ? and EbookUrl is null';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
-		else{
+		elseif($artworkFilterType == Enums\ArtworkFilterType::Declined){
 			$statusCondition = 'Status = ?';
-			$params[] = $status;
+			$params[] = Enums\ArtworkStatusType::Declined->value;
+		}
+		elseif($artworkFilterType == Enums\ArtworkFilterType::Unverified){
+			$statusCondition = 'Status = ?';
+			$params[] = Enums\ArtworkStatusType::Unverified->value;
+		}
+		else{
+			// Default to the `Enums\ArtworkFilterType::Approved` view.
+			$statusCondition = 'Status = ?';
+			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 
 		$orderBy = 'art.Created desc';
@@ -1024,7 +1025,7 @@ class Artwork{
 			$orderBy = 'art.CompletedYear desc';
 		}
 
-		// Remove diacritics and non-alphanumeric characters, but preserve apostrophes
+		// Remove diacritics and non-alphanumeric characters, but preserve apostrophes.
 		if($query !== null && $query != ''){
 			$query = trim(preg_replace('|[^a-zA-Z0-9\'’ ]|ius', ' ', Formatter::RemoveDiacritics($query)));
 		}
@@ -1032,9 +1033,7 @@ class Artwork{
 			$query = '';
 		}
 
-		// We use replace() below because if there's multiple contributors separated by an underscore,
-		// the underscore won't count as word boundary and we won't get a match.
-		// See https://github.com/standardebooks/web/pull/325
+		// We use `replace()` below because if there's multiple contributors separated by an underscore, the underscore won't count as word boundary and we won't get a match. See <https://github.com/standardebooks/web/pull/325>.
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
 
@@ -1060,7 +1059,7 @@ class Artwork{
 			// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
 			$tokenArray = preg_split('/\b\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
 
-			// Join the tokens with '|' to search on any token, but add word boundaries to force the full token to match
+			// Join the tokens with `|` to search on any token, but add word boundaries to force the full token to match.
 			$tokenizedQuery = '\b(' . implode('|', $tokenArray) . ')\b';
 
 			$params[] = $tokenizedQuery; // art.Name
