@@ -31,9 +31,9 @@ class RssFeed extends Feed{
 	}
 
 	public function SaveIfChanged(): bool{
-		// Did we actually update the feed? If so, write to file and update the index
+		// Did we actually update the feed? If so, write to file and update the index.
 		if($this->HasChanged($this->Path)){
-			// Files don't match, save the file
+			// Files don't match, save the file.
 			$this->Save();
 			return true;
 		}
@@ -42,11 +42,7 @@ class RssFeed extends Feed{
 	}
 
 	protected function HasChanged(string $path): bool{
-		// RSS doesn't have information about when an item was updated,
-		// only when it was first published. So, we approximate on whether the feed
-		// has changed by looking at the length of the enclosed file.
-		// This can sometimes be the same even if the file has changed, but most of the time
-		// it also changes.
+		// RSS doesn't have information about when an item was updated, only when it was first published. So, we approximate on whether the feed has changed by looking at the length of the enclosed file. This can sometimes be the same even if the file has changed, but most of the time it also changes.
 
 		if(!is_file($path)){
 			return true;
@@ -75,7 +71,7 @@ class RssFeed extends Feed{
 			}
 		}
 		catch(Exception){
-			// Invalid XML
+			// Invalid XML.
 			return true;
 		}
 

@@ -40,18 +40,16 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	// We got here because an artwork was successfully submitted
+	// We got here because an artwork was successfully submitted.
 	if($isSaved){
 		session_unset();
 	}
 
-	// We got here because an artwork PATCH operation had errors and the user has to try again
+	// We got here because an artwork PATCH operation had errors and the user has to try again.
 	if($exception){
 		http_response_code(422);
 
-		// Before we overwrite the original artwork with our new one, restore the old status,
-		// because if the new status is 'approved' then it will hide the status form entirely,
-		// which will be confusing.
+		// Before we overwrite the original artwork with our new one, restore the old status, because if the new status is 'approved' then it will hide the status form entirely, which will be confusing.
 		$oldStatus = $artwork->Status;
 		/** @var Artwork $artwork */
 		$artwork = $_SESSION['artwork'] ?? $artwork;

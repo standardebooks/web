@@ -18,14 +18,14 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	// We got here because an artwork was successfully submitted
+	// We got here because an artwork was successfully submitted.
 	if($isCreated){
 		http_response_code(201);
 		$artwork = null;
 		session_unset();
 	}
 
-	// We got here because an artwork submission had errors and the user has to try again
+	// We got here because an artwork submission had errors and the user has to try again.
 	if($exception){
 		http_response_code(422);
 		session_unset();
@@ -44,7 +44,7 @@ catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403(); // No permissions to submit artwork
+	Template::Emit403(); // No permissions to submit artwork.
 }
 
 ?>

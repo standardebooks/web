@@ -1,6 +1,4 @@
 <?
-use Safe\DateTimeImmutable;
-
 $ebooks = [];
 
 try{

@@ -1,7 +1,7 @@
 <?
 use Safe\DateTimeImmutable;
 
-// If the user is not logged in, or has less than some amount of downloads, show a thank-you page
+// If the user is not logged in, or has less than some amount of downloads, show a thank-you page.
 
 $ebook = null;
 $downloadCount = $_COOKIE['download-count'] ?? 0;
@@ -34,7 +34,7 @@ try{
 	}
 
 	if(!$showThankYouPage){
-		// Download the file directly, without showing the thank you page
+		// Download the file directly, without showing the thank you page.
 		$downloadPath = WEB_ROOT . $downloadUrl;
 
 		if(!is_file($downloadPath)){
@@ -42,7 +42,7 @@ try{
 		}
 
 		// Everything OK, serve the file using Apache.
-		// The xsendfile Apache module tells Apache to serve the file, including not-modified or etag headers.
+		// The `xsendfile` Apache module tells Apache to serve the file, including `not-modified` or `etag` headers.
 		// Much more efficient than reading it in PHP and outputting it that way.
 		header('X-Sendfile: ' . $downloadPath);
 		header('Content-Type: ' . $format->GetMimeType());
@@ -50,7 +50,7 @@ try{
 		exit();
 	}
 
-	// Increment local download count, expires in 2 weeks
+	// Increment local download count, expires in 2 weeks.
 	$downloadCount++;
 	setcookie('download-count', (string)$downloadCount, ['expires' => intval((new DateTimeImmutable('+2 week'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']);
 }

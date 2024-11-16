@@ -23,7 +23,7 @@ try{
 	}
 
 	// Everything OK, serve the file using Apache.
-	// The xsendfile Apache module tells Apache to serve the file, including not-modified or etag headers.
+	// The `xsendfile` Apache module tells Apache to serve the file, including `not-modified` or `etag` headers.
 	// Much more efficient than reading it in PHP and outputting it that way.
 	header('X-Sendfile: ' . WEB_ROOT . $path);
 	header('Content-Type: application/zip');
@@ -37,8 +37,7 @@ catch(Exceptions\LoginRequiredException){
 	else{
 		preg_match('|(^/bulk-downloads/[^/]+?)/|ius', $path, $matches);
 		if(sizeof($matches) == 2){
-			// If we arrived from the bulk-downloads page,
-			// Make the login form redirect to the bulk download root, instead of refreshing directly into a download
+			// If we arrived from the bulk-downloads page make the login form redirect to the bulk download root, instead of refreshing directly into a download.
 			Template::RedirectToLogin(true, $matches[1]);
 		}
 		else{

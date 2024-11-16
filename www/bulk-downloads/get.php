@@ -15,7 +15,7 @@ try{
 	if($collectionUrlName !== null){
 		$collections = [];
 
-		// Get all collections and then find the specific one we're looking for
+		// Get all collections and then find the specific one we're looking for.
 		try{
 			/** @var array<stdClass> $collections */
 			$collections = apcu_fetch('bulk-downloads-collections');
@@ -42,7 +42,7 @@ try{
 	if($authorUrlName !== null){
 		$authors = [];
 
-		// Get all authors and then find the specific one we're looking for
+		// Get all authors and then find the specific one we're looking for.
 		try{
 			/** @var array<stdClass> $collections */
 			$collections = apcu_fetch('bulk-downloads-authors');

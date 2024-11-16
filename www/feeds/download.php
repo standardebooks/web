@@ -2,7 +2,7 @@
 use function Safe\preg_match;
 
 // This page is blocked by HTTP Basic auth.
-// Basic authorization is handled in Core.php. By the time we get here, a valid user has a session.
+// Basic authorization is handled in `Core.php`. By the time we get here, a valid user has a session.
 
 $path = HttpInput::Str(GET, 'path') ?? '';
 
@@ -48,7 +48,7 @@ try{
 	}
 
 	// Everything OK, serve the file using Apache.
-	// The xsendfile Apache module tells Apache to serve the file, including not-modified or etag headers.
+	// The `xsendfile` Apache module tells Apache to serve the file, including `not-modified` or `etag` headers.
 	// Much more efficient than reading it in PHP and outputting it that way.
 	header('X-Sendfile: ' . WEB_ROOT . $path);
 
@@ -56,8 +56,8 @@ try{
 	$mime = 'application/xml';
 
 	// Decide on what content-type to serve via HTTP content negotation.
-	// If the feed is viewed from a web browser, we will usuall serve application/xml as that's typically what's in the browser's Accept header.
-	// If the Accept header has application/rss+xml or application/atom+xml then serve that instead, as those are the "technically correct" content types that may be requested by RSS readers.
+	// If the feed is viewed from a web browser, we will usuall serve application/xml as that's typically what's in the browser's `Accept` header.
+	// If the `Accept` header is `application/rss+xml` or `application/atom+xml` then serve that instead, as those are the "technically correct" content types that may be requested by RSS readers.
 	if(preg_match('/^\/feeds\/opds/', $path)){
 		$contentType = [
 			'application/atom+xml',

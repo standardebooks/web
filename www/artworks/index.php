@@ -24,8 +24,7 @@ try{
 		$perPage = ARTWORK_PER_PAGE;
 	}
 
-	// If we're passed string values that are the same as the defaults,
-	// set them to null so that we can have cleaner query strings in the navigation footer
+	// If we're passed string values that are the same as the defaults, set them to null so that we can have cleaner query strings in the navigation footer.
 	if($sort == Enums\ArtworkSortType::CreatedNewest){
 		$sort = null;
 	}

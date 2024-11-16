@@ -21,8 +21,7 @@ try{
 		$perPage = EBOOKS_PER_PAGE;
 	}
 
-	// If we're passed string values that are the same as the defaults,
-	// set them to null so that we can have cleaner query strings in the navigation footer
+	// If we're passed string values that are the same as the defaults, set them to null so that we can have cleaner query strings in the navigation footer.
 	if($view === Enums\ViewType::Grid){
 		$view = null;
 	}
@@ -99,8 +98,8 @@ catch(Exceptions\PageOutOfBoundsException){
 	exit();
 }
 catch(Exceptions\AppException $ex){
-	// Something very unexpected happened, log and emit 500
-	http_response_code(500); // Internal server error
+	// Something very unexpected happened, log and emit 500.
+	http_response_code(500); // Internal server error.
 	Log::WriteErrorLogEntry($ex);
 	exit();
 }

@@ -8,7 +8,7 @@ try{
 	$collectionType = '';
 
 	$ebooks = Ebook::GetAllByCollection($collection);
-	// Get the *actual* name of the collection, in case there are accent marks (like "Arsène Lupin")
+	// Get the *actual* name of the collection, in case there are accent marks (like `Arsène Lupin`).
 	if(sizeof($ebooks) > 0){
 		foreach($ebooks[0]->CollectionMemberships as $cm){
 			$c = $cm->Collection;

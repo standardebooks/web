@@ -13,7 +13,7 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	// POSTing a new artwork
+	// POSTing a new artwork.
 	if($httpMethod == Enums\HttpMethod::Post){
 		if(!Session::$User->Benefits->CanUploadArtwork){
 			throw new Exceptions\InvalidPermissionsException();
@@ -44,7 +44,7 @@ try{
 		header('Location: /artworks/new');
 	}
 
-	// PUTing an artwork
+	// PUTing an artwork.
 	if($httpMethod == Enums\HttpMethod::Put){
 		$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 
@@ -84,7 +84,7 @@ try{
 		header('Location: ' . $artwork->Url);
 	}
 
-	// PATCHing an artwork
+	// PATCHing an artwork.
 	if($httpMethod == Enums\HttpMethod::Patch){
 		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
 

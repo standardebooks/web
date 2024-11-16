@@ -2,8 +2,8 @@
 $patronsCircle = [];
 $anonymousPatronCount = 0;
 
-// Get the Patrons Circle and try to sort by last name ascending
-// See <https://mariadb.com/kb/en/pcre/#unicode-character-properties> for Unicode character properties
+// Get the Patrons Circle and try to sort by last name ascending.
+// See <https://mariadb.com/kb/en/pcre/#unicode-character-properties> for Unicode character properties.
 
 $patronsCircle = Db::Query('
 				SELECT if(p.AlternateName is not null, p.AlternateName, u.Name) as SortedName
