@@ -40,7 +40,7 @@ use function Safe\filesize;
 	<? if(file_exists(WEB_ROOT . $entry->Azw3Url)){ ?>
 		<link href="<?= SITE_URL . $entry->Azw3Url ?>" length="<?= filesize(WEB_ROOT . $entry->Azw3Url) ?>" rel="enclosure" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
 	<? } ?>
-	<? if(file_exists(WEB_ROOT . $entry->TextSinglePageUrl)){ ?>
-		<link href="<?= SITE_URL . $entry->TextSinglePageUrl ?>" length="<?= filesize(WEB_ROOT . $entry->TextSinglePageUrl) ?>" rel="enclosure" title="XHTML" type="application/xhtml+xml" />
+	<? if(file_exists(WEB_ROOT . $entry->TextSinglePageUrl . '.xhtml')){ ?>
+		<link href="<?= SITE_URL . $entry->TextSinglePageUrl ?>" length="<?= filesize(WEB_ROOT . $entry->TextSinglePageUrl . '.xhtml') ?>" rel="enclosure" title="XHTML" type="application/xhtml+xml" />
 	<? } ?>
 </entry>
