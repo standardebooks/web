@@ -1399,6 +1399,14 @@ footer ul.social-media a[href^="https://www.instagram.com"]::before{
 	background-image: url("/images/instagram.svg");
 }
 
+footer ul.social-media a[href^="https://bsky.app"]::before{
+	background-image: url("/images/bluesky.svg");
+}
+
+footer ul.social-media a[href^="https://mastodon.social"]::before{
+	background-image: url("/images/mastodon.svg");
+}
+
 footer ul.social-media a:hover::before{
 	/* This filter changes a black background to #62bfa3, which is var(--button-highlight) */
 	filter: invert(69%) sepia(35%) saturate(459%) hue-rotate(111deg) brightness(92%) contrast(87%);

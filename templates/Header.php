@@ -33,32 +33,34 @@ if(!$isXslt){
 <head prefix="twitter: https://twitter.com/ schema: http://schema.org/"><? /* The `og` RDFa prefix is part of the RDFa spec */ ?>
 	<meta charset="utf-8"/>
 	<title><? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover.</title>
-	<? if($description != ''){ ?><meta content="<?= Formatter::EscapeHtml($description) ?>" name="description"/><? } ?>
+	<? if($description != ''){ ?>
+		<meta content="<?= Formatter::EscapeHtml($description) ?>" name="description"/>
+	<? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
 	<link rel="preload" as="font" href="/fonts/crimson-pro.woff2" type="font/woff2" crossorigin="anonymous"/> <? /* Fonts require the crossorigin attribute */ ?>
 	<link rel="preload" as="font" href="/fonts/league-spartan-bold.woff2" type="font/woff2" crossorigin="anonymous"/>
 	<link rel="preload" as="font" href="/fonts/fork-awesome-subset.woff2" type="font/woff2" crossorigin="anonymous"/>
 	<link rel="preload" as="font" href="/fonts/crimson-pro-italic.woff2" type="font/woff2" crossorigin="anonymous"/> <? /* Don't preload bold/bold-italic as those are used far less frequently */ ?>
 	<? if(Template::IsEreaderBrowser()){ ?>
-	<link rel="preload" as="font" href="/fonts/league-spartan-bold.ttf" type="font/ttf" crossorigin="anonymous"/>
-	<link href="/css/ereader.css?version=<?= filemtime(WEB_ROOT . '/css/ereader.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
+		<link rel="preload" as="font" href="/fonts/league-spartan-bold.ttf" type="font/ttf" crossorigin="anonymous"/>
+		<link href="/css/ereader.css?version=<?= filemtime(WEB_ROOT . '/css/ereader.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? }else{ ?>
-	<link href="/css/core.css?version=<?= filemtime(WEB_ROOT . '/css/core.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
-	<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
-	<link href="/css/dark.css?version=<?= filemtime(WEB_ROOT . '/css/dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
-	<? } ?>
+		<link href="/css/core.css?version=<?= filemtime(WEB_ROOT . '/css/core.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
+		<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
+			<link href="/css/dark.css?version=<?= filemtime(WEB_ROOT . '/css/dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
+		<? } ?>
 	<? } ?>
 	<? if($manual){ ?>
-	<link href="/css/manual.css?version=<?= filemtime(WEB_ROOT . '/css/manual.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
-	<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
-	<link href="/css/manual-dark.css?version=<?= filemtime(WEB_ROOT . '/css/manual-dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
-	<? } ?>
+		<link href="/css/manual.css?version=<?= filemtime(WEB_ROOT . '/css/manual.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
+		<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
+			<link href="/css/manual-dark.css?version=<?= filemtime(WEB_ROOT . '/css/manual-dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
+		<? } ?>
 	<? } ?>
 	<? if($artwork){ ?>
-	<link href="/css/artwork.css?version=<?= filemtime(WEB_ROOT . '/css/artwork.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
+		<link href="/css/artwork.css?version=<?= filemtime(WEB_ROOT . '/css/artwork.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? } ?>
 	<? if($canonicalUrl){ ?>
-	<link rel="canonical" href="<?= Formatter::EscapeHtml($canonicalUrl) ?>" />
+		<link rel="canonical" href="<?= Formatter::EscapeHtml($canonicalUrl) ?>" />
 	<? } ?>
 	<link href="/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
 	<link href="/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"/>
@@ -67,25 +69,26 @@ if(!$isXslt){
 	<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 	<link href="/manifest.json" rel="manifest"/>
 	<? if($feedUrl === null){ ?>
-	<link rel="alternate" type="application/atom+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/atom/new-releases"/>
-	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/opds/new-releases"/>
-	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/rss/new-releases"/>
+		<link rel="alternate" type="application/atom+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/atom/new-releases"/>
+		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/opds/new-releases"/>
+		<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/rss/new-releases"/>
 	<? }else{ ?>
-	<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/atom<?= Formatter::EscapeHtml($feedUrl) ?>"/>
-	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/opds<?= Formatter::EscapeHtml($feedUrl) ?>"/>
-	<link rel="alternate" type="application/rss+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/rss<?= Formatter::EscapeHtml($feedUrl) ?>"/>
+		<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/atom<?= Formatter::EscapeHtml($feedUrl) ?>"/>
+		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/opds<?= Formatter::EscapeHtml($feedUrl) ?>"/>
+		<link rel="alternate" type="application/rss+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/rss<?= Formatter::EscapeHtml($feedUrl) ?>"/>
 	<? } ?>
 	<link rel="search" href="/ebooks" type="application/xhtml+xml; charset=utf-8"/>
 	<link rel="search" href="/ebooks/opensearch" type="application/opensearchdescription+xml; charset=utf-8"/>
 	<? if(!$isErrorPage){ ?>
-	<meta content="#394451" name="theme-color"/>
-	<meta content="<? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
-	<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>
-	<meta content="<?= SITE_URL . str_replace(SITE_URL, '', ($_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['SCRIPT_URI'] ?? '')) ?>" property="og:url"/>
-	<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.png') ?>" property="og:image"/>
-	<meta content="summary_large_image" name="twitter:card"/>
-	<meta content="@standardebooks" name="twitter:site"/>
-	<meta content="@standardebooks" name="twitter:creator"/>
+		<meta content="#394451" name="theme-color"/>
+		<meta content="<? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
+		<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>
+		<meta content="<?= SITE_URL . str_replace(SITE_URL, '', ($_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['SCRIPT_URI'] ?? '')) ?>" property="og:url"/>
+		<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.png') ?>" property="og:image"/>
+		<meta content="summary_large_image" name="twitter:card"/>
+		<meta content="@standardebooks" name="twitter:site"/>
+		<meta content="@standardebooks" name="twitter:creator"/>
+		<meta content="@standardebooks@mastodon.social" name="fediverse:creator"/>
 	<? } ?>
 	<? if($downloadUrl !== null){ ?>
 		<meta http-equiv="refresh" content="0; url=<?= Formatter::EscapeHtml($downloadUrl) ?>" />
