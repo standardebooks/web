@@ -15,6 +15,7 @@
 					<a href="https://www.instagram.com/standardebooks/" rel="me">Instagram</a>
 				</p>
 			</li>
+			<? /* Disable for now until we have someone managing these accounts.
 			<li>
 				<p>
 					<a href="https://mastodon.social/@standardebooks" rel="me">Mastadon</a>
@@ -25,6 +26,7 @@
 					<a href="https://bsky.app/profile/standardebooks.bsky.social" rel="me">Bluesky</a>
 				</p>
 			</li>
+			*/ ?>
 		</ul>
 		<p><a href="/newsletter">Subscribe to our free newsletter</a></p>
 		<ul class="nav-links">
