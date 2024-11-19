@@ -64,9 +64,6 @@
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20140450">Bellarion the Fortunate</a> by Rafael Sabatini</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3337">Hunting the Grisly and Other Sketches</a> by Theodore Roosevelt</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61935">Outdoor Pastimes of an American Hunter</a> by Theodore Roosevelt</p>
 			</li>
 			<li>
@@ -87,9 +84,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70844">Twilight Sleep</a> by Edith Wharton</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/71351">Murder in the Maze</a> by J. J. Connington</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70996">The D’Arblay Mystery</a> by R. Austin Freeman</p>
 			</li>
@@ -519,6 +516,9 @@
 			</li>
 			<li>
 				<p>Entries in the <a href="https://en.wikipedia.org/wiki/Harvard_Classics#The_Harvard_Classics_Shelf_of_Fiction">Harvard Classics Shelf of Fiction</a></p>
+			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/3337">The Wilderness Hunter</a> by Theodore Roosevelt (a 2 volume work in which this PG transcription is volume 2; editions vary widely; transcription likely required for volume 1 or the latest possible combined edition)</p>
 			</li>
 		</ul>
 	</article>
