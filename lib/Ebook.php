@@ -1951,7 +1951,7 @@ class Ebook{
 						inner join EbookTags et using (EbookId)
 						where et.TagId = ?
 						    and et.EbookId != ?
-						order by RAND()
+						order by rand()
 						limit ?
 				', [$relatedTag->TagId, $ebook->EbookId, $count], Ebook::class);
 		}
@@ -1960,7 +1960,7 @@ class Ebook{
 						SELECT *
 						from Ebooks
 						where EbookId != ?
-						order by RAND()
+						order by rand()
 						limit ?
 				', [$ebook->EbookId, $count], Ebook::class);
 		}

@@ -7,8 +7,12 @@ enum HttpCode: int{
 	case Accepted = 202;
 	case NoContent = 204;
 
-	case MovedPermanently = 301; // Permanent redirect
-	case Found = 302; // Temporary redirect
+	/** Permanent redirect. */
+	case MovedPermanently = 301;
+
+	/** Temporary redirect. */
+	case Found = 302;
+
 	case SeeOther = 303;
 
 	case BadRequest = 400;
