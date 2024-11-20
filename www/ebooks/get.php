@@ -205,7 +205,7 @@ catch(Exceptions\EbookNotFoundException){
 										<meta property="schema:description" content="epub"/>
 										<meta property="schema:encodingFormat" content="application/epub+zip"/>
 										<p>
-											<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= Enums\EbookFormatType::Epub->value ?>" class="epub">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span>
+											<span><a property="schema:contentUrl" rel="nofollow" href="<?= $ebook->Url ?>/download?format=<?= Enums\EbookFormatType::Epub->value ?>" class="epub">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kobos Original, and Kobo WiFi (no EPUB3 support).</span>
 										</p>
 									</li>
 								<? } ?>
