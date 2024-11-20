@@ -34,7 +34,7 @@ try{
 
 	if($created){
 		// HTTP 201 Created
-		http_response_code(201);
+		http_response_code(Enums\HttpCode::Created->value);
 	}
 }
 catch(Exceptions\AppException){

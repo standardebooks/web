@@ -20,14 +20,14 @@ try{
 
 	// We got here because an artwork was successfully submitted.
 	if($isCreated){
-		http_response_code(201);
+		http_response_code(Enums\HttpCode::Created->value);
 		$artwork = null;
 		session_unset();
 	}
 
 	// We got here because an artwork submission had errors and the user has to try again.
 	if($exception){
-		http_response_code(422);
+		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
 	}
 

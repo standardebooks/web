@@ -47,7 +47,7 @@ try{
 
 	// We got here because an artwork PATCH operation had errors and the user has to try again.
 	if($exception){
-		http_response_code(422);
+		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 
 		// Before we overwrite the original artwork with our new one, restore the old status, because if the new status is 'approved' then it will hide the status form entirely, which will be confusing.
 		$oldStatus = $artwork->Status;

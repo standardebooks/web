@@ -14,18 +14,18 @@ $redirect = HttpInput::Str(SESSION, 'redirect') ?? HttpInput::Str(GET, 'redirect
 $exception = $_SESSION['exception'] ?? null;
 $passwordRequired = false;
 
-http_response_code(401);
+http_response_code(Enums\HttpCode::Unauthorized->value);
 
 if($exception){
 	if($exception instanceof Exceptions\PasswordRequiredException){
 		// This login requires a password to proceed.
 		// Prompt the user for a password.
-		http_response_code(401);
+		http_response_code(Enums\HttpCode::Unauthorized->value);
 		$passwordRequired = true;
 		$exception = null; // Clear the exception so we don't show an error
 	}
 	else{
-		http_response_code(422);
+		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	}
 	session_unset();
 }

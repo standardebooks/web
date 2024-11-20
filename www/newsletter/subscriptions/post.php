@@ -14,7 +14,7 @@ try{
 	if(HttpInput::Str(POST, 'automationtest')){
 		// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
 		if($requestType == Enums\HttpRequestType::Web){
-			http_response_code(303);
+			http_response_code(Enums\HttpCode::SeeOther->value);
 			$uuid = Uuid::uuid4();
 			$subscription->User = new User();
 			$subscription->User->Uuid = $uuid->toString();
@@ -23,7 +23,7 @@ try{
 		}
 		else{
 			// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
-			http_response_code(201);
+			http_response_code(Enums\HttpCode::Created->value);
 			header('Location: /newsletter/subscriptions/success');
 		}
 
@@ -43,13 +43,13 @@ try{
 	session_unset();
 
 	if($requestType == Enums\HttpRequestType::Web){
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		$_SESSION['is-subscription-created'] = $subscription->UserId;
 		header('Location: /newsletter/subscriptions/success');
 	}
 	else{
 		// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
-		http_response_code(201);
+		http_response_code(Enums\HttpCode::Created->value);
 		header('Location: /newsletter/subscriptions/success');
 	}
 }
@@ -62,7 +62,7 @@ catch(Exceptions\NewsletterSubscriptionExistsException){
 		$subscription->IsConfirmed = $existingSubscription->IsConfirmed;
 		$subscription->Save();
 
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 
 		if(!$subscription->IsConfirmed){
 			// Don't re-send the email after all, to prevent spam
@@ -77,7 +77,7 @@ catch(Exceptions\NewsletterSubscriptionExistsException){
 	}
 	else{
 		// Access via Enums\HttpRequestType::Rest api; 409 CONFLICT
-		http_response_code(409);
+		http_response_code(Enums\HttpCode::Conflict->value);
 	}
 }
 catch(Exceptions\InvalidNewsletterSubscription $ex){
@@ -86,11 +86,11 @@ catch(Exceptions\InvalidNewsletterSubscription $ex){
 		$_SESSION['exception'] = $ex;
 
 		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /newsletter/subscriptions/new');
 	}
 	else{
 		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity
-		http_response_code(422);
+		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	}
 }

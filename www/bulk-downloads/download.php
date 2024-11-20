@@ -46,7 +46,7 @@ catch(Exceptions\LoginRequiredException){
 	}
 }
 catch(Exceptions\InvalidPermissionsException){
-	http_response_code(403);
+	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\InvalidFileException){
 	Template::Emit404();

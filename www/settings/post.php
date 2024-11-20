@@ -23,7 +23,7 @@ if($colorScheme !== null){
 }
 
 // HTTP 303, See other
-http_response_code(303);
+http_response_code(Enums\HttpCode::SeeOther->value);
 
 $redirect = $_SERVER['HTTP_REFERER'] ?? '/';
 header('Location: ' . $redirect);

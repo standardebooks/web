@@ -17,7 +17,7 @@ catch(Exceptions\NewsletterSubscriptionNotFoundException){
 		Template::Emit404();
 	}
 	else{
-		http_response_code(404);
+		http_response_code(Enums\HttpCode::NotFound->value);
 		exit();
 	}
 }

@@ -9,7 +9,7 @@ $subscription = $_SESSION['subscription'] ?? new NewsletterSubscription();
 $exception = $_SESSION['exception'] ?? null;
 
 if($exception){
-	http_response_code(422);
+	http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	session_unset();
 }
 

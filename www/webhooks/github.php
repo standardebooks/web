@@ -131,11 +131,11 @@ try{
 	}
 
 	// "Success, no content"
-	http_response_code(204);
+	http_response_code(Enums\HttpCode::NoContent->value);
 }
 catch(Exceptions\InvalidCredentialsException){
 	// "Forbidden"
-	http_response_code(403);
+	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\WebhookException $ex){
 	// Uh oh, something went wrong!
@@ -147,13 +147,13 @@ catch(Exceptions\WebhookException $ex){
 	print($ex->getMessage());
 
 	// "Client error"
-	http_response_code(400);
+	http_response_code(Enums\HttpCode::BadRequest->value);
 }
 catch(Exceptions\NoopException){
 	// We arrive here because a special case required us to take no action for the request, but execution also had to be interrupted.
 	// For example, we received a request for a known repo for which we must ignore requests.
 
 	// "Success, no content"
-	http_response_code(204);
+	http_response_code(Enums\HttpCode::NoContent->value);
 }
 ?>

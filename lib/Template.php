@@ -34,13 +34,13 @@ class Template{
 	}
 
 	public static function Emit403(): void{
-		http_response_code(403);
+		http_response_code(Enums\HttpCode::Forbidden->value);
 		include(WEB_ROOT . '/403.php');
 		exit();
 	}
 
 	public static function Emit404(): void{
-		http_response_code(404);
+		http_response_code(Enums\HttpCode::NotFound->value);
 		include(WEB_ROOT . '/404.php');
 		exit();
 	}

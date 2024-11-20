@@ -22,5 +22,5 @@ if($url != ''){
 	$url = '/' . $url;
 }
 
-http_response_code(302);
+http_response_code(Enums\HttpCode::Found->value);
 header('Location: /manual/' . $currentManual . $url);

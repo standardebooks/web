@@ -22,12 +22,12 @@ try{
 	session_unset();
 
 	if($requestType == Enums\HttpRequestType::Web){
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: ' . $redirect);
 	}
 	else{
 		// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
-		http_response_code(201);
+		http_response_code(Enums\HttpCode::Created->value);
 		header('Location: ' . $session->Url);
 	}
 }
@@ -38,11 +38,11 @@ catch(Exceptions\InvalidLoginException | Exceptions\PasswordRequiredException $e
 		$_SESSION['exception'] = $ex;
 
 		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /sessions/new');
 	}
 	else{
 		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity
-		http_response_code(422);
+		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	}
 }

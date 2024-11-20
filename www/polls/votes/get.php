@@ -11,7 +11,7 @@ try{
 
 	if(isset($_SESSION['is-vote-created']) && $_SESSION['is-vote-created'] == $vote->UserId){
 		$created = true;
-		http_response_code(201);
+		http_response_code(Enums\HttpCode::Created->value);
 		session_unset();
 	}
 }

@@ -56,7 +56,7 @@ catch(Exceptions\EbookNotFoundException){
 		$ebook = Ebook::GetByIdentifierStartingWith($identifier);
 
 		// Found, redirect.
-		http_response_code(301);
+		http_response_code(Enums\HttpCode::MovedPermanently->value);
 		header('Location: ' . $ebook->Url);
 		exit();
 	}

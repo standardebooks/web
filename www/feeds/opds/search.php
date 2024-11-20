@@ -11,7 +11,7 @@ try{
 	}
 }
 catch(\Exception){
-	http_response_code(500);
+	http_response_code(Enums\HttpCode::InternalServerError->value);
 	exit();
 }
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"". SITE_URL . "/feeds/opds/style\" type=\"text/xsl\"?>\n");

@@ -40,7 +40,7 @@ try{
 		$_SESSION['artwork'] = $artwork;
 		$_SESSION['is-created'] = true;
 
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /artworks/new');
 	}
 
@@ -80,7 +80,7 @@ try{
 		$_SESSION['artwork'] = $artwork;
 		$_SESSION['is-saved'] = true;
 
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: ' . $artwork->Url);
 	}
 
@@ -121,7 +121,7 @@ try{
 		$_SESSION['artwork'] = $artwork;
 		$_SESSION['is-saved'] = true;
 
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: ' . $artwork->Url);
 	}
 }
@@ -143,6 +143,6 @@ catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException
 	$_SESSION['artwork'] = $artwork;
 	$_SESSION['exception'] = $ex;
 
-	http_response_code(303);
+	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('Location: ' . $exceptionRedirectUrl);
 }

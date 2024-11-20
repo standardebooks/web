@@ -11,7 +11,7 @@ try{
 	}
 }
 catch(\Exception){
-	http_response_code(500);
+	http_response_code(Enums\HttpCode::InternalServerError->value);
 	include(WEB_ROOT . '/404.php');
 	exit();
 }

@@ -18,12 +18,12 @@ try{
 
 	if($requestType == Enums\HttpRequestType::Web){
 		$_SESSION['is-vote-created'] = $vote->UserId;
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: ' . $vote->Url);
 	}
 	else{
 		// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
-		http_response_code(201);
+		http_response_code(Enums\HttpCode::Created->value);
 		header('Location: ' . $vote->Url);
 	}
 }
@@ -33,11 +33,11 @@ catch(Exceptions\InvalidPollVoteException $ex){
 		$_SESSION['exception'] = $ex;
 
 		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity
-		http_response_code(303);
+		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /polls/' . (HttpInput::Str(GET, 'pollurlname') ?? '') . '/votes/new');
 	}
 	else{
 		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity
-		http_response_code(422);
+		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	}
 }

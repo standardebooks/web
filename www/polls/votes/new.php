@@ -36,7 +36,7 @@ try{
 	}
 
 	if($exception){
-		http_response_code(422);
+		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
 	}
 }

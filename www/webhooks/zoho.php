@@ -51,12 +51,12 @@ try{
 	$log->Write('Event processed.');
 
 	// "Success, no content"
-	http_response_code(204);
+	http_response_code(Enums\HttpCode::NoContent->value);
 }
 catch(Exceptions\InvalidCredentialsException){
 	// "Forbidden"
 	$log->Write('Couldn\'t validate POST data.');
-	http_response_code(403);
+	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\WebhookException $ex){
 	// Uh oh, something went wrong!
@@ -68,5 +68,5 @@ catch(Exceptions\WebhookException $ex){
 	print($ex->getMessage());
 
 	// "Client error"
-	http_response_code(400);
+	http_response_code(Enums\HttpCode::BadRequest->value);
 }

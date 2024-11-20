@@ -99,7 +99,7 @@ catch(Exceptions\PageOutOfBoundsException){
 }
 catch(Exceptions\AppException $ex){
 	// Something very unexpected happened, log and emit 500.
-	http_response_code(500); // Internal server error.
+	http_response_code(Enums\HttpCode::InternalServerError->value); // Internal server error.
 	Log::WriteErrorLogEntry($ex);
 	exit();
 }
