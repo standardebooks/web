@@ -23,7 +23,7 @@
 			</li>
 			<li>
 				<p>
-					<a href="https://bsky.app/profile/standardebooks.bsky.social" rel="me">Bluesky</a>
+					<a href="https://bsky.app/profile/standardebooks.org" rel="me">Bluesky</a>
 				</p>
 			</li>
 			*/ ?>
