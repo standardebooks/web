@@ -7,6 +7,7 @@ $ebook = null;
 try{
 	try{
 		// Attempt to read a draft ebook repo from the filesystem.
+		// **Important:** The `deploy` script *does not tranfer `.git` folders,* which `Ebook::FromFilesystem()` needs to have. Therefore, use `rsync` to sync Public Domain Day ebooks including their `.git` folders.
 		$ebook = Ebook::FromFilesystem(PD_DAY_DRAFT_PATH . '/' . str_replace('/', '_', preg_replace('|^' . EBOOKS_IDENTIFIER_PREFIX . '|', '', $identifier)));
 	}
 	catch(Exceptions\EbookNotFoundException $ex){

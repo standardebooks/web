@@ -22,7 +22,7 @@ if($exception){
 		// Prompt the user for a password.
 		http_response_code(Enums\HttpCode::Unauthorized->value);
 		$passwordRequired = true;
-		$exception = null; // Clear the exception so we don't show an error
+		$exception = null; // Clear the exception so we don't show an error.
 	}
 	else{
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);

@@ -3,7 +3,7 @@ use function Safe\session_unset;
 
 session_start();
 
-$isSaved = HttpInput::Bool(SESSION, 'is-saved') ?? false;
+$isSaved = HttpInput::Bool(SESSION, 'is-artwork-saved') ?? false;
 /** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 
@@ -49,7 +49,7 @@ try{
 	if($exception){
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 
-		// Before we overwrite the original artwork with our new one, restore the old status, because if the new status is 'approved' then it will hide the status form entirely, which will be confusing.
+		// Before we overwrite the original artwork with our new one, restore the old status, because if the new status is `approved` then it will hide the status form entirely, which will be confusing.
 		$oldStatus = $artwork->Status;
 		/** @var Artwork $artwork */
 		$artwork = $_SESSION['artwork'] ?? $artwork;

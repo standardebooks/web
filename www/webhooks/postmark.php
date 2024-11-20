@@ -16,7 +16,7 @@ try{
 
 	$apiKey = get_cfg_var('se.secrets.postmark.api_key');
 
-	// Ensure this webhook actually came from Postmark
+	// Ensure this webhook actually came from Postmark.
 	if($apiKey != ($_SERVER['HTTP_X_SE_KEY'] ?? '')){
 		throw new Exceptions\InvalidCredentialsException();
 	}
@@ -31,7 +31,7 @@ try{
 	}
 
 	if($data->RecordType == 'SpamComplaint'){
-		// Received when a user marks an email as spam
+		// Received when a user marks an email as spam.
 		$log->Write('Event type: spam complaint.');
 
 		Db::Query('
@@ -42,12 +42,12 @@ try{
 			', [$data->Email]);
 	}
 	elseif($data->RecordType == 'SubscriptionChange' && $data->SuppressSending){
-		// Received when a user clicks Postmark's "Unsubscribe" link in a newsletter email
+		// Received when a user clicks Postmark's "Unsubscribe" link in a newsletter email.
 		$log->Write('Event type: unsubscribe.');
 
 		$email = $data->Recipient;
 
-		// Remove the email from our newsletter list
+		// Remove the email from our newsletter list.
 		Db::Query('
 				DELETE ns.*
 				from NewsletterSubscriptions ns
@@ -55,7 +55,7 @@ try{
 				where u.Email = ?
 		', [$email]);
 
-		// Remove the suppression from Postmark, since we deleted it from our own list we will never email them again anyway
+		// Remove the suppression from Postmark, since we deleted it from our own list we will never email them again anyway.
 		$handle = curl_init();
 		curl_setopt($handle, CURLOPT_URL, 'https://api.postmarkapp.com/message-streams/' . $data->MessageStream . '/suppressions/delete');
 		curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
@@ -73,11 +73,9 @@ try{
 
 	$log->Write('Event processed.');
 
-	// "Success, no content"
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
 catch(Exceptions\InvalidCredentialsException){
-	// "Forbidden"
 	$log->Write('Invalid key: ' . ($_SERVER['HTTP_X_SE_KEY'] ?? ''));
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
@@ -90,6 +88,5 @@ catch(Exceptions\WebhookException $ex){
 	// Print less details to the client.
 	print($ex->getMessage());
 
-	// "Client error"
 	http_response_code(Enums\HttpCode::BadRequest->value);
 }

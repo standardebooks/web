@@ -26,7 +26,7 @@ try{
 		header('Location: ' . $redirect);
 	}
 	else{
-		// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
+		// Access via REST API; output `201 Created` with location.
 		http_response_code(Enums\HttpCode::Created->value);
 		header('Location: ' . $session->Url);
 	}

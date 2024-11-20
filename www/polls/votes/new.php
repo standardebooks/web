@@ -28,11 +28,11 @@ try{
 	try{
 		$vote = PollVote::Get($poll->UrlName, Session::$User->UserId);
 
-		// Vote was found, don't allow another vote
+		// Vote was found, don't allow another vote.
 		throw new Exceptions\PollVoteExistsException($vote);
 	}
 	catch(Exceptions\PollVoteNotFoundException){
-		// Vote was not found, user is OK to vote
+		// Vote was not found, user is OK to vote.
 	}
 
 	if($exception){

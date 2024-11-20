@@ -30,7 +30,7 @@ catch(Exceptions\AppException){
 							<div aria-hidden="true">
 								<p><?= number_format($pollItem->VoteCount) ?></p>
 							</div>
-							<? /* @max must be at least 1, otherwise 0/0 will appear as 100% */ ?>
+							<? /* `@max` must be at least 1, otherwise 0/0 will appear as 100%. */ ?>
 							<meter min="0" max="<?= $poll->VoteCount ?: 1 ?>" value="<?= $pollItem->VoteCount ?>"></meter>
 						</div>
 					</td>

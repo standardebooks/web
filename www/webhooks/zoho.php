@@ -3,9 +3,7 @@ use function Safe\file_get_contents;
 use function Safe\preg_match;
 use function Safe\json_decode;
 
-// This webhook receives POSTs when email from a Fractured Atlas donation is received
-// at the SE Zoho email account. This script processes the email, and inserts the donation ID
-// into the database for later processing by ~se/web/scripts/process-pending-payments
+// This webhook receives POSTs when email from a Fractured Atlas donation is received at the SE Zoho email account. This script processes the email, and inserts the donation ID into the database for later processing by `~se/web/scripts/process-pending-payments`.
 try{
 	$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
 
@@ -29,7 +27,7 @@ try{
 	if($data->fromAddress == 'support@fracturedatlas.org' && strpos($data->subject, 'NOTICE:') !== false){
 		$log->Write('Processing new donation.');
 
-		// Get the donation ID
+		// Get the donation ID.
 		preg_match('/Donation ID: ([0-9a-f\-]+)/us', $data->html, $matches);
 		if(sizeof($matches) == 2){
 			$transactionId = $matches[1];
@@ -50,11 +48,9 @@ try{
 
 	$log->Write('Event processed.');
 
-	// "Success, no content"
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
 catch(Exceptions\InvalidCredentialsException){
-	// "Forbidden"
 	$log->Write('Couldn\'t validate POST data.');
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
@@ -67,6 +63,5 @@ catch(Exceptions\WebhookException $ex){
 	// Print less details to the client.
 	print($ex->getMessage());
 
-	// "Client error"
 	http_response_code(Enums\HttpCode::BadRequest->value);
 }

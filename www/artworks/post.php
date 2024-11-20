@@ -38,7 +38,7 @@ try{
 		$artwork->Create(HttpInput::File('artwork-image'));
 
 		$_SESSION['artwork'] = $artwork;
-		$_SESSION['is-created'] = true;
+		$_SESSION['is-artwork-created'] = true;
 
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /artworks/new');
@@ -78,7 +78,7 @@ try{
 		$artwork->Save(HttpInput::File('artwork-image'));
 
 		$_SESSION['artwork'] = $artwork;
-		$_SESSION['is-saved'] = true;
+		$_SESSION['is-artwork-saved'] = true;
 
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: ' . $artwork->Url);
@@ -119,7 +119,7 @@ try{
 		$artwork->Save();
 
 		$_SESSION['artwork'] = $artwork;
-		$_SESSION['is-saved'] = true;
+		$_SESSION['is-artwork-saved'] = true;
 
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: ' . $artwork->Url);
