@@ -123,6 +123,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/60741">Jenny</a> by Sigrid Undset</p>
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/71913">The Green Hat</a> by Michael Arlen</p>
+			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/37725">The Fisher Girl</a> by Bjørnstjerne Bjørnson</p>
 			</li> -->
