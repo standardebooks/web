@@ -47,8 +47,8 @@ class Ebook{
 
 	public int $EbookId;
 	public string $Identifier;
-	public string $WwwFilesystemPath;
-	public string $RepoFilesystemPath;
+	public ?string $WwwFilesystemPath = null;
+	public ?string $RepoFilesystemPath = null;
 	public ?string $KindleCoverUrl = null;
 	public ?string $EpubUrl = null;
 	public ?string $AdvancedEpubUrl = null;
@@ -58,17 +58,17 @@ class Ebook{
 	public string $Title;
 	public ?string $FullTitle = null;
 	public ?string $AlternateTitle = null;
-	public string $Description;
-	public string $LongDescription;
-	public string $Language;
-	public int $WordCount;
-	public float $ReadingEase;
+	public ?string $Description = null;
+	public ?string $LongDescription = null;
+	public ?string $Language = null;
+	public ?int $WordCount = null;
+	public ?float $ReadingEase = null;
 	public ?string $GitHubUrl = null;
 	public ?string $WikipediaUrl = null;
 	/** When the ebook was published. */
-	public DateTimeImmutable $EbookCreated;
+	public ?DateTimeImmutable $EbookCreated = null;
 	/** When the ebook was updated. */
-	public DateTimeImmutable $EbookUpdated;
+	public ?DateTimeImmutable $EbookUpdated = null;
 	/** When the database row was created. */
 	public DateTimeImmutable $Created;
 	/** When the database row was updated. */
@@ -996,13 +996,12 @@ class Ebook{
 			$error->Add(new Exceptions\EbookIdentifierRequiredException());
 		}
 
+		$this->WwwFilesystemPath = trim($this->WwwFilesystemPath ?? '');
+		if($this->WwwFilesystemPath == ''){
+			$this->WwwFilesystemPath = null;
+		}
+
 		if(isset($this->WwwFilesystemPath)){
-			$this->WwwFilesystemPath = trim($this->WwwFilesystemPath);
-
-			if($this->WwwFilesystemPath == ''){
-				$error->Add(new Exceptions\EbookWwwFilesystemPathRequiredException());
-			}
-
 			if(strlen($this->WwwFilesystemPath) > EBOOKS_MAX_LONG_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Ebook WwwFilesystemPath'));
 			}
@@ -1011,17 +1010,13 @@ class Ebook{
 				$error->Add(new Exceptions\InvalidEbookWwwFilesystemPathException($this->WwwFilesystemPath));
 			}
 		}
-		else{
-			$error->Add(new Exceptions\EbookWwwFilesystemPathRequiredException());
+
+		$this->RepoFilesystemPath = trim($this->RepoFilesystemPath ?? '');
+		if($this->RepoFilesystemPath == ''){
+			$this->RepoFilesystemPath = null;
 		}
 
 		if(isset($this->RepoFilesystemPath)){
-			$this->RepoFilesystemPath = trim($this->RepoFilesystemPath);
-
-			if($this->RepoFilesystemPath == ''){
-				$error->Add(new Exceptions\EbookRepoFilesystemPathRequiredException());
-			}
-
 			if(strlen($this->RepoFilesystemPath) > EBOOKS_MAX_LONG_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Ebook RepoFilesystemPath'));
 			}
@@ -1029,9 +1024,6 @@ class Ebook{
 			if(!is_readable($this->RepoFilesystemPath)){
 				$error->Add(new Exceptions\InvalidEbookRepoFilesystemPathException($this->RepoFilesystemPath));
 			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookRepoFilesystemPathRequiredException());
 		}
 
 		$this->KindleCoverUrl = trim($this->KindleCoverUrl ?? '');
@@ -1157,41 +1149,27 @@ class Ebook{
 			$error->Add(new Exceptions\StringTooLongException('Ebook AlternateTitle'));
 		}
 
-		if(isset($this->Description)){
-			$this->Description = trim($this->Description);
-
-			if($this->Description == ''){
-				$error->Add(new Exceptions\EbookDescriptionRequiredException());
-			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookDescriptionRequiredException());
+		$this->Description = trim($this->Description ?? '');
+		if($this->Description == ''){
+			$this->Description = null;
 		}
 
-		if(isset($this->LongDescription)){
-			$this->LongDescription = trim($this->LongDescription);
-
-			if($this->LongDescription == ''){
-				$error->Add(new Exceptions\EbookLongDescriptionRequiredException());
-			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookLongDescriptionRequiredException());
+		if(isset($this->Description) && strlen($this->Description) > EBOOKS_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Ebook Description'));
 		}
 
-		if(isset($this->Language)){
-			$this->Language = trim($this->Language);
-
-			if($this->Language == ''){
-				$error->Add(new Exceptions\EbookLanguageRequiredException());
-			}
-
-			if(strlen($this->Language) > 10){
-				$error->Add(new Exceptions\StringTooLongException('Ebook Language: ' . $this->Language));
-			}
+		$this->LongDescription = trim($this->LongDescription ?? '');
+		if($this->LongDescription == ''){
+			$this->LongDescription = null;
 		}
-		else{
-			$error->Add(new Exceptions\EbookLanguageRequiredException());
+
+		$this->Language = trim($this->Language ?? '');
+		if($this->Language == ''){
+			$this->Language = null;
+		}
+
+		if(isset($this->Language) && strlen($this->Language) > 10){
+			$error->Add(new Exceptions\StringTooLongException('Ebook Language: ' . $this->Language));
 		}
 
 		if(isset($this->WordCount)){
@@ -1199,18 +1177,12 @@ class Ebook{
 				$error->Add(new Exceptions\InvalidEbookWordCountException('Invalid Ebook WordCount: ' . $this->WordCount));
 			}
 		}
-		else{
-			$error->Add(new Exceptions\EbookWordCountRequiredException());
-		}
 
 		if(isset($this->ReadingEase)){
 			// In theory, Flesch reading ease can be negative, but in practice it's positive.
 			if($this->ReadingEase <= 0){
 				$error->Add(new Exceptions\InvalidEbookReadingEaseException('Invalid Ebook ReadingEase: ' . $this->ReadingEase));
 			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookReadingEaseRequiredException());
 		}
 
 		$this->GitHubUrl = trim($this->GitHubUrl ?? '');
@@ -1248,9 +1220,6 @@ class Ebook{
 				$error->Add(new Exceptions\InvalidEbookCreatedDatetimeException($this->EbookCreated));
 			}
 		}
-		else{
-			$error->Add(new Exceptions\EbookCreatedDatetimeRequiredException());
-		}
 
 		if(isset($this->EbookUpdated)){
 			if($this->EbookUpdated > NOW){
@@ -1258,17 +1227,11 @@ class Ebook{
 
 			}
 		}
-		else{
-			$error->Add(new Exceptions\EbookUpdatedDatetimeRequiredException());
-		}
 
 		if(isset($this->TextSinglePageByteCount)){
 			if($this->TextSinglePageByteCount <= 0){
 				$error->Add(new Exceptions\InvalidEbookTextSinglePageByteCountException('Invalid Ebook TextSinglePageByteCount: ' . $this->TextSinglePageByteCount));
 			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookTextSinglePageByteCountRequiredException());
 		}
 
 		if(isset($this->IndexableText)){
