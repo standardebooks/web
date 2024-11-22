@@ -36,9 +36,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/363">The Oakdale Affair</a> (Mucker 3) by Edgar Rice Burroughs</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/106">Jungle Tales of Tarzan</a> (Tarzan 6) by Edgar Rice Burroughs</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61837">Tarzan and the Ant Men</a> (Tarzan 10) by Edgar Rice Burroughs</p>
 			</li>
