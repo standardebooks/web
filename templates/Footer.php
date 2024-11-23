@@ -18,7 +18,7 @@
 			<? /* Disable for now until we have someone managing these accounts.
 			<li>
 				<p>
-					<a href="https://mastodon.social/@standardebooks" rel="me">Mastadon</a>
+					<a href="https://mastodon.social/@standardebooks" rel="me">Mastodon</a>
 				</p>
 			</li>
 			<li>
