@@ -1,0 +1,71 @@
+form.create-update-ebook-placeholder > fieldset{
+	display: grid;
+	gap: 2rem;
+}
+
+form.create-update-ebook-placeholder > fieldset + fieldset{
+	margin-top: 2rem;
+}
+
+/* Artist details */
+form.create-update-ebook-placeholder > fieldset:nth-of-type(1){
+	grid-template-columns: 1fr 1fr;
+}
+
+/* Artwork details */
+form.create-update-ebook-placeholder > fieldset:nth-of-type(2){
+	grid-template-columns: 1fr 200px;
+}
+
+form.create-update-ebook-placeholder > fieldset label:has(input[name="ebook-placeholder-transcription-url"]),
+form.create-update-ebook-placeholder > fieldset label:has(textarea[name="ebook-placeholder-notes"]){
+	grid-column: 1 / span 2;
+}
+
+form.create-update-ebook-placeholder fieldset fieldset:has(input[name="collection-membership-sequence-number"]),
+form.create-update-ebook-placeholder fieldset fieldset:has(input[name="ebook-placeholder-year-published"]){
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	gap: 2rem;
+}
+
+form.create-update-ebook-placeholder fieldset label:has(input[type="url"]),
+form.create-update-ebook-placeholder fieldset label:has(input[type="checkbox"]){
+	grid-column: 1 / span 2;
+}
+
+form.create-update-ebook-placeholder #pd-proof > fieldset{
+	border-color: var(--body-text);
+	border-width: 3px;
+	border-style: double;
+	padding: 1rem;
+}
+
+form.create-update-ebook-placeholder fieldset p{
+	font-style: italic;
+	margin: 0;
+	border: none;
+}
+
+form.create-update-ebook-placeholder fieldset p:first-of-type{
+	margin-top: 0;
+}
+
+form.create-update-ebook-placeholder legend{
+	font-size: 1.4rem;
+	font-family: "League Spartan", Arial, sans-serif;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+form.create-update-ebook-placeholder label{
+	display: block;
+}
+
+form div.footer{
+	margin-top: 1rem;
+	text-align: right;
+}
