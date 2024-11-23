@@ -135,7 +135,7 @@ catch(Exceptions\PageOutOfBoundsException){
 	header('Location: ' . $url);
 	exit();
 }
-?><?= Template::Header(['title' => $pageTitle, 'artwork' => true, 'description' => $pageDescription, 'canonicalUrl' => $canonicalUrl]) ?>
+?><?= Template::Header(['title' => $pageTitle, 'css' => ['/css/artwork.css'], 'description' => $pageDescription, 'canonicalUrl' => $canonicalUrl]) ?>
 <main class="artworks">
 	<section class="narrow">
 		<h1>Browse U.S. Public Domain Artwork</h1>

@@ -45,18 +45,18 @@ class Payment{
 	 */
 	public function Create(): void{
 		if($this->UserId === null){
-			// Check if we have to create a new user in the database
+			// Check if we have to create a new `User` in the database.
 
-			// If the User object isn't null, then check if we already have this user in our system
+			// If the `User` isn't **null**, then check if we already have this user in our system.
 			if($this->User !== null && $this->User->Email !== null){
 				try{
 					$user = User::GetByEmail($this->User->Email);
 
-					// User exists, use their data
+					// `User` exists, use their data
 					$user->Name = $this->User->Name;
 					$this->User = $user;
 
-					// Update their name in case we have their email (but not name) recorded from a newsletter subscription
+					// Update their name in case we have their email (but not name) recorded from a newsletter subscription.
 					Db::Query('
 						UPDATE Users
 						set Name = ?
@@ -64,13 +64,13 @@ class Payment{
 					', [$this->User->Name, $this->User->UserId]);
 				}
 				catch(Exceptions\UserNotFoundException){
-					// User doesn't exist, create it now
+					// User doesn't exist, create it now.
 
 					try{
 						$this->User->Create();
 					}
-					catch(Exceptions\UserExistsException){
-						// User already exists, pass
+					catch(Exceptions\UserExistsException | Exceptions\InvalidUserException){
+						// `User` already exists, pass.
 					}
 				}
 

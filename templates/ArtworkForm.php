@@ -196,5 +196,11 @@ $isEditForm = $isEditForm ?? false;
 	</fieldset>
 <? } ?>
 <div class="footer">
-	<button><? if($isEditForm){ ?>Save changes<? }else{ ?>Submit<? } ?></button>
+	<button>
+		<? if($isEditForm){ ?>
+			Save changes
+		<? }else{ ?>
+			Submit
+		<? } ?>
+	</button>
 </div>

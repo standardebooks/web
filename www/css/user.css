@@ -1,0 +1,34 @@
+label:has(input[name="password-action"]:not(:checked)) + label{
+	display: none;
+}
+
+label:has(input[name="password-action"]) + label{
+	margin-left: 1.5rem;
+	margin-top: .5rem;
+}
+
+table td{
+	padding: .5rem;
+	vertical-align: top;
+}
+
+table td:first-child{
+	font-weight: bold;
+	text-align: right;
+	white-space: nowrap;
+}
+
+table td + td{
+	width: 100%;
+}
+
+form{
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+legend{
+	width: 100%;
+}
+

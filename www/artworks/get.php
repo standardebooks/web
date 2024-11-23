@@ -4,8 +4,7 @@ use function Safe\session_unset;
 session_start();
 
 $isSaved = HttpInput::Bool(SESSION, 'is-artwork-saved') ?? false;
-/** @var ?\Exception $exception */
-$exception = $_SESSION['exception'] ?? null;
+$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 
 try{
 	try{
@@ -65,7 +64,7 @@ catch(Exceptions\InvalidPermissionsException){
 	Template::Emit403();
 }
 
-?><?= Template::Header(['title' => $artwork->Name, 'artwork' => true]) ?>
+?><?= Template::Header(['title' => $artwork->Name, 'css' => ['/css/artwork.css']]) ?>
 <main class="artworks">
 	<section class="narrow">
 		<h1><?= Formatter::EscapeHtml($artwork->Name) ?></h1>
@@ -173,8 +172,8 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if($artwork->CanStatusBeChangedBy(Session::$User)){ ?>
 				<p>Review the metadata and PD proof for this artwork submission. Approve to make it available for future producers. Once an artwork is approved, it can no longer be edited.</p>
 			<? } ?>
-			<form method="post" action="<?= $artwork->Url ?>" autocomplete="off">
-				<input type="hidden" name="_method" value="PATCH" />
+			<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $artwork->Url ?>" autocomplete="off">
+				<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 				<? if($artwork->CanStatusBeChangedBy(Session::$User)){ ?>
 					<label>
 						<span>Artwork approval status</span>

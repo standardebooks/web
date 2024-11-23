@@ -4,10 +4,8 @@ use function Safe\session_unset;
 session_start();
 
 $isCreated = HttpInput::Bool(SESSION, 'is-artwork-created') ?? false;
-/** @var ?\Exception $exception */
-$exception = $_SESSION['exception'] ?? null;
-/** @var ?Artwork $artwork */
-$artwork = $_SESSION['artwork'] ?? null;
+$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+$artwork = HttpInput::SessionObject('artwork', Artwork::class);
 
 try{
 	if(Session::$User === null){
@@ -51,7 +49,7 @@ catch(Exceptions\InvalidPermissionsException){
 <?= Template::Header(
 	[
 		'title' => 'Submit an Artwork',
-		'artwork' => true,
+		'css' => ['/css/artwork.css'],
 		'highlight' => '',
 		'description' => 'Submit public domain artwork to the database for use as cover art.'
 	]
@@ -66,7 +64,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<p class="message success">Artwork submitted!</p>
 		<? } ?>
 
-		<form class="create-update-artwork" method="post" action="/artworks" enctype="multipart/form-data" autocomplete="off">
+		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="/artworks" enctype="multipart/form-data" autocomplete="off">
 			<?= Template::ArtworkForm(['artwork' => $artwork]) ?>
 		</form>
 	</section>

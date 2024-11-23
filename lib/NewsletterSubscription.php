@@ -42,18 +42,18 @@ class NewsletterSubscription{
 	public function Create(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
 		$this->Validate($expectedCaptcha, $receivedCaptcha);
 
-		// Do we need to create a user?
+		// Do we need to create a `User`?
 		try{
 			$this->User = User::GetByEmail($this->User->Email);
 		}
 		catch(Exceptions\UserNotFoundException){
-			// User doesn't exist, create the user
+			// User doesn't exist, create the `User`.
 
 			try{
 				$this->User->Create();
 			}
-			catch(Exceptions\UserExistsException){
-				// User exists, pass
+			catch(Exceptions\UserExistsException | Exceptions\InvalidUserException){
+				// `User` exists, pass.
 			}
 		}
 
@@ -75,7 +75,7 @@ class NewsletterSubscription{
 			throw new Exceptions\NewsletterSubscriptionExistsException();
 		}
 
-		// Send the double opt-in confirmation email
+		// Send the double opt-in confirmation email.
 		$this->SendConfirmationEmail();
 	}
 
@@ -162,13 +162,27 @@ class NewsletterSubscription{
 			throw new Exceptions\NewsletterSubscriptionNotFoundException();
 		}
 
-		$result = Db::Query('
+		return Db::Query('
 				SELECT ns.*
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.Uuid = ?
-			', [$uuid], NewsletterSubscription::class);
+			', [$uuid], NewsletterSubscription::class)[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
+	}
 
-		return $result[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
+	/**
+	 * @throws Exceptions\NewsletterSubscriptionNotFoundException
+	 */
+	public static function GetByUserId(?int $userId): NewsletterSubscription{
+		if($userId === null){
+			throw new Exceptions\NewsletterSubscriptionNotFoundException();
+		}
+
+		return Db::Query('
+				SELECT ns.*
+				from NewsletterSubscriptions ns
+				inner join Users u using(UserId)
+				where u.UserId = ?
+			', [$userId], NewsletterSubscription::class)[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
 	}
 }

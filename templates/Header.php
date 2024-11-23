@@ -5,7 +5,6 @@ $title = $title ?? '';
 $highlight = $highlight ?? '';
 $description = $description ?? '';
 $manual = $manual ?? false;
-$artwork = $artwork ?? false;
 $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 $isXslt = $isXslt ?? false;
 $feedUrl = $feedUrl ?? null;
@@ -13,11 +12,11 @@ $feedTitle = $feedTitle ?? '';
 $isErrorPage = $isErrorPage ?? false;
 $downloadUrl = $downloadUrl ?? null;
 $canonicalUrl = $canonicalUrl ?? null;
+$css = $css ?? [];
 
-// As of Sep 2022, all versions of Safari have a bug where if the page is served as XHTML,
-// then <picture> elements download all <source>s instead of the first supported match.
-// So, we try to detect Safari here, and don't use multiple <source> if we find Safari.
-// See https://bugs.webkit.org/show_bug.cgi?id=245411
+// As of Sep. 2022, all versions of Safari have a bug where if the page is served as XHTML, then `<picture>` elements download all `<source>`s instead of the first supported match.
+// So, we try to detect Safari here, and don't use multiple `<source>` if we find Safari.
+// See <https://bugs.webkit.org/show_bug.cgi?id=245411>.
 $isSafari = stripos($_SERVER['HTTP_USER_AGENT'] ?? '', 'safari') !== false;
 
 if(!$isXslt){
@@ -56,8 +55,8 @@ if(!$isXslt){
 			<link href="/css/manual-dark.css?version=<?= filemtime(WEB_ROOT . '/css/manual-dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
 		<? } ?>
 	<? } ?>
-	<? if($artwork){ ?>
-		<link href="/css/artwork.css?version=<?= filemtime(WEB_ROOT . '/css/artwork.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
+	<? foreach($css as $url){ ?>
+		<link href="<?= Formatter::EscapeHtml($url) ?>?version=<?= filemtime(WEB_ROOT . $url) ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? } ?>
 	<? if($canonicalUrl){ ?>
 		<link rel="canonical" href="<?= Formatter::EscapeHtml($canonicalUrl) ?>" />

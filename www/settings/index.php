@@ -4,7 +4,7 @@ $colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
 ?><?= Template::Header(['title' => 'Website Settings', 'description' => 'Adjust your settings for viewing the Standard Ebooks website.']) ?>
 <main>
 	<h1>Website Settings</h1>
-	<form action="/settings" method="post">
+	<form action="/settings" method="<?= Enums\HttpMethod::Post->value ?>">
 		<label>
 			<span>Color scheme</span>
 			<span>

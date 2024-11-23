@@ -23,7 +23,7 @@ try{
 catch(Exceptions\ArtistNotFoundException){
 	Template::Emit404();
 }
-?><?= Template::Header(['title' => 'Artwork by ' . $artworks[0]->Artist->Name, 'artwork' => true]) ?>
+?><?= Template::Header(['title' => 'Artwork by ' . $artworks[0]->Artist->Name, 'css' => ['/css/artwork.css']]) ?>
 <main class="artworks">
 	<section class="narrow">
 		<h1>Artwork by <?= Formatter::EscapeHtml($artworks[0]->Artist->Name) ?></h1>

@@ -39,7 +39,7 @@ if($exception){
 			<p>Anyone can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature.</p>
 			<p><strong>Important:</strong> When making your donation, you must have selected either “List my name publicly” or “Don’t list publicly, but reveal to project” on the donation form; otherwise, your email address isn’t shared with us, and we can’t include you in our login system.</p>
 		<? } ?>
-		<form method="post" action="/sessions" class="single-row">
+		<form method="<?= Enums\HttpMethod::Post->value ?>" action="/sessions" class="single-row">
 			<input type="hidden" name="redirect" value="<?= Formatter::EscapeHtml($redirect) ?>" />
 			<? if($passwordRequired){ ?>
 				<input type="hidden" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />

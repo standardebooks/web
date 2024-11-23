@@ -4,18 +4,12 @@ use function Safe\session_unset;
 session_start();
 
 $poll = new Poll();
-$vote = new PollVote();
-/** @var ?\Exception $exception */
-$exception = $_SESSION['exception'] ?? null;
+$vote = HttpInput::SessionObject('vote', PollVote::class) ?? new PollVote();
+$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 
 try{
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
-	}
-
-	if(isset($_SESSION['vote'])){
-		/** @var PollVote $vote */
-		$vote = $_SESSION['vote'];
 	}
 
 	if(!isset($vote->UserId)){
@@ -60,7 +54,7 @@ catch(Exceptions\PollVoteExistsException $ex){
 	<section class="narrow">
 		<h1>Vote in the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>
 		<?= Template::Error(['exception' => $exception]) ?>
-		<form method="post" action="<?= Formatter::EscapeHtml($poll->Url) ?>/votes">
+		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= Formatter::EscapeHtml($poll->Url) ?>/votes">
 			<input type="hidden" name="email" value="<?= Formatter::EscapeHtml($vote->User->Email) ?>" maxlength="80" required="required" />
 			<fieldset>
 				<p>Select one of these options.</p>

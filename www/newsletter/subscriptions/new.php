@@ -29,7 +29,7 @@ if($exception){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<form action="/newsletter/subscriptions" method="post">
+		<form action="/newsletter/subscriptions" method="<?= Enums\HttpMethod::Post->value ?>">
 			<label class="automation-test"><? /* Test for spam bots filling out all fields */ ?>
 				<input type="text" name="automationtest" value="" maxlength="80" />
 			</label>
@@ -47,10 +47,10 @@ if($exception){
 				<p>What kind of email would you like to receive?</p>
 				<ul>
 					<li>
-						<label class="checkbox"><input type="checkbox" value="1" name="issubscribedtonewsletter"<? if($subscription->IsSubscribedToNewsletter){ ?> checked="checked"<? } ?> />The occasional Standard Ebooks newsletter</label>
+						<label><input type="checkbox" value="1" name="issubscribedtonewsletter"<? if($subscription->IsSubscribedToNewsletter){ ?> checked="checked"<? } ?> />The occasional Standard Ebooks newsletter</label>
 					</li>
 					<li>
-						<label class="checkbox"><input type="checkbox" value="1" name="issubscribedtosummary"<? if($subscription->IsSubscribedToSummary){ ?> checked="checked"<? } ?> />A monthly summary of new ebook releases</label>
+						<label><input type="checkbox" value="1" name="issubscribedtosummary"<? if($subscription->IsSubscribedToSummary){ ?> checked="checked"<? } ?> />A monthly summary of new ebook releases</label>
 					</li>
 				</ul>
 			</fieldset>

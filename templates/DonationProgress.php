@@ -43,7 +43,7 @@ else{
 ?>
 <aside class="donation closable">
 	<? if($autoHide){ ?>
-		<form action="/settings" method="post">
+		<form action="/settings" method="<?= Enums\HttpMethod::Post->value ?>">
 			<input type="hidden" name="hide-donation-alert" value="true" />
 			<button class="close" title="Close this box">Close this box</button>
 		</form>

@@ -835,7 +835,7 @@ input[type="number"]:focus,
 input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="file"]:focus,
-label.checkbox:focus-within,
+label:has(input[type="radio"]):focus-within,
 label:has(input[type="checkbox"]):focus-within,
 select:focus,
 button:focus,
@@ -1829,20 +1829,24 @@ label span + span i{
 
 input[type="file"],
 label:has(input[type="file"]),
+label:has(input[type="radio"]),
 label:has(input[type="checkbox"]){
 	cursor: pointer;
 }
 
+label + label:has(input[type="radio"]),
 label + label:has(input[type="checkbox"]){
 	margin-top: 1px; /* So we can see the top outline on focus */
 }
 
+label:has(input[type="radio"]):has(> span),
 label:has(input[type="checkbox"]):has(> span){
 	display: grid;
 	grid-template-columns: auto 1fr;
 	grid-template-rows: auto 1fr;
 }
 
+label:has(input[type="radio"]):has(> span) input,
 label:has(input[type="checkbox"]):has(> span) input{
 	grid-row: 1 / span 2;
 	justify-self: center;
@@ -1897,6 +1901,7 @@ label.tags,
 label.picture,
 label.user,
 label:has(input[type="password"]){
+	display: block;
 	position: relative;
 	max-width: 100%;
 }
@@ -2483,10 +2488,12 @@ fieldset{
 	border: none;
 }
 
-fieldset p{
+fieldset p,
+fieldset legend{
 	border-bottom: 1px dashed var(--input-border);
 }
 
+fieldset legend,
 fieldset p:has(+ ul){
 	font-weight: bold;
 }
@@ -2495,7 +2502,8 @@ input[type="checkbox"] + span:has(+ span){
 	font-weight: bold;
 }
 
-label.checkbox{
+label:has(input[type="radio"]),
+label:has(input[type="checkbox"]){
 	display: inline-flex;
 	align-items: flex-start;
 	text-align: left;
@@ -2503,20 +2511,24 @@ label.checkbox{
 	cursor: pointer;
 }
 
-label.checkbox input{
+label:has(input[type="radio"]) input,
+label:has(input[type="checkbox"]) input{
 	margin-right: .25rem;
 }
 
-label.checkbox span{
+label:has(input[type="radio"]) span,
+label:has(input[type="checkbox"]) span{
 	display: block;
 }
 
-label.checkbox span > span{
+label:has(input[type="radio"]) span > span,
+label:has(input[type="checkbox"]) span > span{
 	line-height: 1.6;
 	margin-top: .25rem;
 }
 
-label.checkbox span{
+label:has(input[type="radio"]) span,
+label:has(input[type="checkbox"]) span{
 	font-weight: normal;
 }
 

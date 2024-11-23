@@ -3,10 +3,8 @@ use function Safe\session_unset;
 
 session_start();
 
-/** @var ?\Exception $exception */
-$exception = $_SESSION['exception'] ?? null;
-/** @var ?Artwork $artwork */
-$artwork = $_SESSION['artwork'] ?? null;
+$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+$artwork = HttpInput::SessionObject('artwork', Artwork::class);
 
 try{
 	if(Session::$User === null){
@@ -41,7 +39,7 @@ catch(Exceptions\InvalidPermissionsException){
 <?= Template::Header(
 	[
 		'title' => 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name,
-		'artwork' => true,
+		'css' => ['/css/artwork.css'],
 		'highlight' => '',
 		'description' => 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name . ' in the Standard Ebooks cover art database.'
 	]
@@ -57,8 +55,8 @@ catch(Exceptions\InvalidPermissionsException){
 			<img src="<?= $artwork->ThumbUrl ?>" alt="" property="schema:image"/>
 		</picture>
 
-		<form class="create-update-artwork" method="post" action="<?= $artwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
-			<input type="hidden" name="_method" value="PUT" />
+		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $artwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
+			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
 			<?= Template::ArtworkForm(['artwork' => $artwork, 'isEditForm' => true]) ?>
 		</form>
 	</section>
