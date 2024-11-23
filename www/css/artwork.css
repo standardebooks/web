@@ -234,6 +234,7 @@ form.create-update-artwork legend{
 	line-height: 1.2;
 	letter-spacing: 1px;
 	text-transform: uppercase;
+	border-bottom: none;
 }
 
 form.create-update-artwork label{
@@ -243,6 +244,10 @@ form.create-update-artwork label{
 form div.footer{
 	margin-top: 1rem;
 	text-align: right;
+}
+
+label:has(select[name="artwork-status"]){
+	margin-right: auto;
 }
 
 .artwork-metadata{
