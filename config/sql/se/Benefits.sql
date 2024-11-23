@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `Benefits` (
   `CanReviewArtwork` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanReviewOwnArtwork` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanEditUsers` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `CanCreateEbookPlaceholder` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`UserId`),
   KEY `idxBenefits` (`CanAccessFeeds`,`CanVote`,`CanBulkDownload`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
