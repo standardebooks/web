@@ -95,6 +95,7 @@ if($ebook === null){
 		<span>Difficulty</span>
 		<span>
 			<select name="ebook-placeholder-difficulty">
+				<option value=""></option>
 				<option value="beginner">Beginner</option>
 				<option value="intermediate">Intermediate</option>
 				<option value="advanced">Advanced</option>
