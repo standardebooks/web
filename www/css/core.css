@@ -2344,6 +2344,10 @@ h1 + ul.message,
 	font-style: italic;
 }
 
+.donate aside:first-child{
+	margin-top: 0;
+}
+
 .donate table{
 	margin: 1rem auto 0 auto;
 }
