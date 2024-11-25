@@ -167,8 +167,14 @@ class User{
 			$this->PasswordHash = null;
 		}
 
+		if(!isset($this->_Benefits)){
+			// Set this for validation purposes.
+			// Skip the accessor because it will attempt to use `$this->UserId` which may not be set yet.
+			$this->_Benefits = new Benefits();
+		}
+
 		// Some benefits require this `User` to have a password set.
-		if($this->Benefits?->RequiresPassword && $this->PasswordHash === null){
+		if($this->Benefits->RequiresPassword && $this->PasswordHash === null){
 			$error->Add(new Exceptions\BenefitsRequirePasswordException());
 		}
 
