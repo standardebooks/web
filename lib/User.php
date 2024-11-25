@@ -101,19 +101,24 @@ class User{
 
 	protected function GetBenefits(): Benefits{
 		if(!isset($this->_Benefits)){
-			$result = Db::Query('
-						SELECT *
-						from Benefits
-						where UserId = ?
-					', [$this->UserId], Benefits::class);
+			if(isset($this->UserId)){
+				$result = Db::Query('
+							SELECT *
+							from Benefits
+							where UserId = ?
+						', [$this->UserId], Benefits::class);
 
-			if(sizeof($result) == 0){
-				$this->_Benefits = new Benefits();
-				$this->_IsRegistered = false;
+				if(sizeof($result) == 0){
+					$this->_Benefits = new Benefits();
+					$this->_IsRegistered = false;
+				}
+				else{
+					$this->_Benefits = $result[0];
+					$this->_IsRegistered = true;
+				}
 			}
 			else{
-				$this->_Benefits = $result[0];
-				$this->_IsRegistered = true;
+				$this->_Benefits = new Benefits();
 			}
 		}
 
@@ -165,12 +170,6 @@ class User{
 
 		if(trim($this->PasswordHash ?? '') == ''){
 			$this->PasswordHash = null;
-		}
-
-		if(!isset($this->_Benefits)){
-			// Set this for validation purposes.
-			// Skip the accessor because it will attempt to use `$this->UserId` which may not be set yet.
-			$this->_Benefits = new Benefits();
 		}
 
 		// Some benefits require this `User` to have a password set.
