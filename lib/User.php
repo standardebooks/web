@@ -168,7 +168,7 @@ class User{
 		}
 
 		// Some benefits require this `User` to have a password set.
-		if($this->Benefits->RequiresPassword && $this->PasswordHash === null){
+		if($this->Benefits?->RequiresPassword && $this->PasswordHash === null){
 			$error->Add(new Exceptions\BenefitsRequirePasswordException());
 		}
 
