@@ -22,8 +22,9 @@ if [ $# -ne 1 ]; then
 	usage
 fi
 
-# If this script is run by a user without sudo powers, they can be given permission to run this command by creating a file in sudoers.d with:
-# MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/rebuild-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
+# If this script is run by a user without sudo powers, they can be given permission to run this command by creating a file in `sudoers.d` with:
+#
+#     MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/rebuild-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
 
 type="$1"
 
@@ -35,5 +36,5 @@ if [ "${type}" = "feeds" ]; then
 	echo "<?php require_once('Core.php'); Feed::RebuildFeedsCache(); ?>" > /tmp/rebuild-cache.php
 fi
 
-sudo -u www-data env SCRIPT_FILENAME=/tmp/rebuild-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/standardebooks.org.sock" &> /dev/null
+sudo --user=www-data env SCRIPT_FILENAME=/tmp/rebuild-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/standardebooks.org.sock" &> /dev/null
 rm /tmp/rebuild-cache.php

@@ -22,9 +22,10 @@ if [ $# -ne 1 ]; then
 	usage
 fi
 
-# If this script is run by a user without sudo powers, they can be given for this command by creating a file in sudoers.d with:
-# MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
+# If this script is run by a user without sudo powers, they can be given for this command by creating a file in `sudoers.d` with:
+#
+#     MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
 
 echo '<?php opcache_reset();?>' > /tmp/php-fpm-opcache-reset.php
-sudo -u www-data env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/$1.sock" &> /dev/null
+sudo --user www-data env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/$1.sock" &> /dev/null
 rm /tmp/php-fpm-opcache-reset.php
