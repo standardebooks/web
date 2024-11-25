@@ -3032,6 +3032,22 @@ ul.feed p{
 	flex-shrink: 0;
 }
 
+.join-patrons-circle-callout{
+	border: 3px double;
+	padding: 2rem;
+	margin-top: 3rem;
+}
+
+.join-patrons-circle-callout h3{
+	margin: 0;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.join-patrons-circle-callout .button-row{
+	margin-bottom: 1rem;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
