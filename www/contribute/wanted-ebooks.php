@@ -421,9 +421,6 @@
 				<p><a href="https://en.wikisource.org/wiki/The_Complete_Angler,_5th_edition">The Complete Angler</a> by Izaak Walton (Note: the Wikisource transcription will be easier to work with than the PG transcription.)</p>
 			</li>
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/7416">The Thirteen</a> by Honoré de Balzac</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/10800">The Anatomy of Melancholy</a> by Robert Burton</p>
 			</li>
 			<li>
