@@ -78,6 +78,12 @@
 				<p>For example, the only public domain translations of <i>Twenty Thousand Leagues Under the Seas</i> are ones widely considered to be slapdash—thus we wouldn’t accept any of them, even if that means not hosting the ebook at all.</p>
 			</li>
 		</ul>
+		<h2>Some caveats</h2>
+		<ul>
+			<li>
+				<p>We remove decorative illustrations, i.e., illustrations which are not essential to the book’s plot or fundamental integrity. This mostly only applies to works of fiction. For this reason we will not accept requests to add illustrations to existing ebooks.</p>
+			</li>
+		</ul>
 	</article>
 </main>
 <?= Template::Footer() ?>
