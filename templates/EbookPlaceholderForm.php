@@ -2,11 +2,8 @@
 /**
  * @var ?Ebook $ebook
  */
+$ebook = $ebook ?? new Ebook();
 
-if($ebook === null){
-	$ebook = new Ebook();
-	//$ebook->EbookPlaceholder = new EbookPlaceholder();
-}
 ?>
 <fieldset>
 	<legend>Contributors</legend>
