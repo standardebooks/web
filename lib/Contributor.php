@@ -1,7 +1,12 @@
 <?
 use function Safe\preg_match;
 
+/**
+ * @property ?string $Url The URL of this `Contributor` if their MARC role is `Enums\MarcRole::Author`, or **null** otherwise.
+ */
 class Contributor{
+	use Traits\Accessor;
+
 	public int $EbookId;
 	public string $Name;
 	public string $UrlName;
@@ -11,6 +16,26 @@ class Contributor{
 	public ?string $FullName = null;
 	public ?string $NacoafUrl = null;
 	public int $SortOrder;
+
+	protected ?string $_Url;
+
+
+	// *******
+	// GETTERS
+	// *******
+
+	protected function GetUrl(): ?string{
+		if(!isset($this->_Url)){
+			if($this->MarcRole == Enums\MarcRole::Author){
+				$this->_Url = '/ebooks/' . $this->UrlName;
+			}
+			else{
+				$this->_Url = null;
+			}
+		}
+
+		return $this->_Url;
+	}
 
 	// *******
 	// METHODS
@@ -111,5 +136,17 @@ class Contributor{
 				?)
 		', [$this->EbookId, $this->Name, $this->UrlName, $this->SortName, $this->WikipediaUrl, $this->MarcRole, $this->FullName,
 			$this->NacoafUrl, $this->SortOrder]);
+	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	/**
+	 * @return array<Contributor>
+	 */
+	public static function GetAllByMarcRole(Enums\MarcRole $marcRole): array{
+		return Db::Query('SELECT * from Contributors where MarcRole = ?', [$marcRole], Contributor::class);
 	}
 }
