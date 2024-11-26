@@ -1164,8 +1164,10 @@ class Ebook{
 			$this->Language = null;
 		}
 
-		if(isset($this->Language) && strlen($this->Language) > 10){
-			$error->Add(new Exceptions\StringTooLongException('Ebook Language: ' . $this->Language));
+		if(isset($this->Language)){
+			if(strlen($this->Language) > 10){
+				$error->Add(new Exceptions\StringTooLongException('Ebook Language: ' . $this->Language));
+			}
 		}
 
 		if(isset($this->WordCount)){
