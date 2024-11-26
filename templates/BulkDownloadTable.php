@@ -18,11 +18,19 @@
 		<? foreach($collections as $collection){ ?>
 			<tr>
 				<td class="row-header"><a href="<?= $collection->Url ?>"><?= Formatter::EscapeHtml($collection->Label) ?></a></td>
-				<td class="number"><?= Formatter::EscapeHtml(number_format($collection->EbookCount)) ?></td>
-				<td class="number"><?= Formatter::EscapeHtml($collection->UpdatedString) ?></td>
+				<td class="number">
+					<?= Formatter::EscapeHtml(number_format($collection->EbookCount)) ?>
+				</td>
+				<td class="number">
+					<?= Formatter::EscapeHtml($collection->UpdatedString) ?>
+				</td>
 				<? foreach($collection->ZipFiles as $item){ ?>
-					<td class="download"><a href="<?= $item->Url ?>"><?= $item->Type ?></a></td>
-					<td>(<?= Formatter::EscapeHtml($item->Size) ?>)</td>
+					<td class="download">
+						<a href="<?= $item->Url ?>"><?= $item->Type ?></a>
+					</td>
+					<td>
+						(<?= Formatter::EscapeHtml($item->Size) ?>)
+					</td>
 				<? } ?>
 			</tr>
 		<? } ?>

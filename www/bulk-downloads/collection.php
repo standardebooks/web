@@ -39,39 +39,48 @@ $title = preg_replace('/s$/', '', ucfirst($class));
 			<table class="download-list">
 				<caption aria-hidden="hidden">Scroll right →</caption>
 				<tbody>
-			<? foreach($collection as $year => $months){
-				$yearHeader = Formatter::EscapeHtml($year);
-			 ?>
-				<tr class="year-header">
-					<th colspan="13" scope="colgroup" id="<?= $yearHeader ?>"><?= Formatter::EscapeHtml((string)$year) ?></th>
-				</tr>
-				<tr class="mid-header">
-					<th id="<?= $yearHeader?>-type" scope="col">Month</th>
-					<th id="<?= $yearHeader ?>-ebooks" scope="col">Ebooks</th>
-					<th id="<?= $yearHeader ?>-updated" scope="col">Updated</th>
-					<th id="<?= $yearHeader ?>-download" colspan="10" scope="col">Ebook format</th>
-				</tr>
+					<? foreach($collection as $year => $months){ ?>
+						<? $yearHeader = Formatter::EscapeHtml($year); ?>
+						<tr class="year-header">
+							<th colspan="13" scope="colgroup" id="<?= $yearHeader ?>">
+								<?= Formatter::EscapeHtml((string)$year) ?>
+							</th>
+						</tr>
+						<tr class="mid-header">
+							<th id="<?= $yearHeader?>-type" scope="col">Month</th>
+							<th id="<?= $yearHeader ?>-ebooks" scope="col">Ebooks</th>
+							<th id="<?= $yearHeader ?>-updated" scope="col">Updated</th>
+							<th id="<?= $yearHeader ?>-download" colspan="10" scope="col">Ebook format</th>
+						</tr>
 
-				<? foreach($months as $month => $collection){
-					$monthHeader = Formatter::EscapeHtml($month);
-				?>
-				<tr>
-					<th class="row-header" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-type" id="<?= $monthHeader ?>"><?= Formatter::EscapeHtml($month) ?></th>
-					<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-ebooks"><?= Formatter::EscapeHtml(number_format($collection->EbookCount)) ?></td>
-					<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-updated"><?= Formatter::EscapeHtml($collection->UpdatedString) ?></td>
+						<? foreach($months as $month => $collection){ ?>
+							<? $monthHeader = Formatter::EscapeHtml($month); ?>
+							<tr>
+								<th class="row-header" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-type" id="<?= $monthHeader ?>">
+									<?= Formatter::EscapeHtml($month) ?>
+								</th>
+								<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-ebooks">
+									<?= Formatter::EscapeHtml(number_format($collection->EbookCount)) ?>
+								</td>
+								<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-updated">
+									<?= Formatter::EscapeHtml($collection->UpdatedString) ?>
+								</td>
 
-					<? foreach($collection->ZipFiles as $item){ ?>
-						<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download" class="download"><a href="<?= $item->Url ?>"><?= $item->Type ?></a></td>
-						<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download">(<?= Formatter::EscapeHtml($item->Size) ?>)</td>
+								<? foreach($collection->ZipFiles as $item){ ?>
+									<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download" class="download">
+										<a href="<?= $item->Url ?>"><?= $item->Type ?></a>
+									</td>
+									<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download">
+										(<?= Formatter::EscapeHtml($item->Size) ?>)
+									</td>
+								<? } ?>
+							</tr>
+						<? } ?>
 					<? } ?>
-				</tr>
-				<? } ?>
-
-			<? } ?>
 				</tbody>
 			</table>
 		<? }else{ ?>
-		<?= Template::BulkDownloadTable(['label' => $title, 'collections' => $collection]); ?>
+			<?= Template::BulkDownloadTable(['label' => $title, 'collections' => $collection]); ?>
 		<? } ?>
 	</section>
 </main>
