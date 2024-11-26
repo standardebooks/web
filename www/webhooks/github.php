@@ -1,12 +1,14 @@
 <?
+/**
+ * This script makes various calls to external scripts using `exec()` (and when called via Apache, as the `www-data` user).
+ * These scripts are allowed using the `/etc/sudoers.d/www-data` file. Only the specific scripts in that file may be executed by this script.
+ */
 use function Safe\exec;
 use function Safe\file_get_contents;
 use function Safe\json_decode;
 use function Safe\glob;
 use function Safe\shell_exec;
 
-// This script makes various calls to external scripts using exec() (and when called via Apache, as the www-data user).
-// These scripts are allowed using the /etc/sudoers.d/www-data file. Only the specific scripts in that file may be executed by this script.
 try{
 	$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
 	$lastPushHashFlag = '';
@@ -61,7 +63,7 @@ try{
 			// Get the filesystem path for the ebook.
 			$dir = REPOS_PATH . '/' . $repoName . '.git';
 
-			// Confirm we're looking at a Git repo in our filesystem
+			// Confirm we're looking at a Git repo in our filesystem.
 			if(!file_exists($dir . '/HEAD')){
 				// We might be looking for a repo whose name is so long, it was truncated for GitHub. Try to check that here by simply globbing the rest.
 				$dirs = glob(REPOS_PATH . '/' . $repoName . '*');
@@ -94,7 +96,7 @@ try{
 
 			// Get the current HEAD hash and save for later.
 			$output = [];
-			exec('sudo --set-home --user se-vcs-bot git -C ' . escapeshellarg($dir) . ' rev-parse HEAD', $output, $returnCode);
+			exec('sudo --set-home --user=se-vcs-bot git -C ' . escapeshellarg($dir) . ' rev-parse HEAD', $output, $returnCode);
 			if($returnCode != 0){
 				$log->Write('Couldn\'t get last commit of local repo. Output: ' . implode("\n", $output));
 			}
@@ -104,7 +106,7 @@ try{
 
 			// Now that we have the ebook filesystem path, pull the latest commit from GitHub.
 			$output = [];
-			exec('sudo --set-home --user se-vcs-bot ' . SITE_ROOT . '/scripts/pull-from-github ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
+			exec('sudo --set-home --user=se-vcs-bot ' . SITE_ROOT . '/scripts/pull-from-github ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
 				$log->Write('Error pulling from GitHub. Output: ' . implode("\n", $output));
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
@@ -115,7 +117,7 @@ try{
 
 			// Our local repo is now updated. Build the ebook!
 			$output = [];
-			exec('sudo --set-home --user se-vcs-bot tsp ' . SITE_ROOT . '/web/scripts/deploy-ebook-to-www' . $lastPushHashFlag . ' ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
+			exec('sudo --set-home --user=se-vcs-bot tsp ' . SITE_ROOT . '/web/scripts/deploy-ebook-to-www' . $lastPushHashFlag . ' ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 			if($returnCode != 0){
 				$log->Write('Error queueing ebook for deployment to web. Output: ' . implode("\n", $output));
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
@@ -151,4 +153,3 @@ catch(Exceptions\NoopException){
 
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
-?>

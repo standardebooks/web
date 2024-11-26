@@ -27,5 +27,5 @@ fi
 #     MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
 
 echo '<?php opcache_reset();?>' > /tmp/php-fpm-opcache-reset.php
-sudo --user www-data env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/$1.sock" &> /dev/null
+sudo --user=www-data env SCRIPT_FILENAME=/tmp/php-fpm-opcache-reset.php REQUEST_METHOD=GET cgi-fcgi -bind -connect "/run/php/$1.sock" &> /dev/null
 rm /tmp/php-fpm-opcache-reset.php
