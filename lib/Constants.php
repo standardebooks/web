@@ -1,9 +1,10 @@
 <?
-// Auto-included by Composer in composer.json to satisfy PHPStan.
+// Auto-included by Composer in `composer.json` to satisfy PHPStan.
 use Safe\DateTimeImmutable;
 use function Safe\define;
 
 const NOW = new DateTimeImmutable();
+const LATEST_CONTINENTAL_US_TZ = new DateTimeZone('America/Juneau');
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
@@ -76,7 +77,7 @@ const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log'; // Must b
 const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writable by `www-data` Unix user.
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // Must be writable by `www-data` Unix user.
 
-define('PD_YEAR', intval((new DateTimeImmutable('now', new DateTimeZone('America/Juneau')))->format('Y')) - 96); // Latest continental US time zone.
+define('PD_YEAR', intval((new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ))->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
 // Controls the progress bar donation dialog.
@@ -100,8 +101,8 @@ const DONATION_DRIVE_DATES = [
 
 // Controls the countdown donation dialog, basically unused right now.
 const DONATION_DRIVE_COUNTER_ENABLED = false;
-const DONATION_DRIVE_COUNTER_START = new DateTimeImmutable('May 2, 2022 00:00:00 America/New_York');
-const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00 America/New_York');
+const DONATION_DRIVE_COUNTER_START = new DateTimeImmutable('May 2, 2022 00:00:00', new DateTimeZone('America/New_York'));
+const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00', new DateTimeZone('America/New_York'));
 
 const PD_DAY_YEAR = 2025;
 const PD_DAY_DRAFT_PATH = '/standardebooks.org/drafts/' . PD_DAY_YEAR;

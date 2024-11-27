@@ -2799,12 +2799,11 @@ progress.stretch::-moz-progress-bar{
 	border-left: 5px solid #E9C91F;
 }
 
-aside button.close{
+button.close{
 	display: block;
 	font-size: 0;
 	border: none;
 	box-shadow: none;
-	padding: 0;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -2819,11 +2818,12 @@ aside button.close{
 	margin: 0;
 }
 
-aside button.close:hover{
+button.close:hover{
 	opacity: 1;
+	background-color: transparent;
 }
 
-aside button.close:active{
+button.close:active{
 	left: auto;
 	top: 1px;
 	right: -1px;
@@ -3071,6 +3071,35 @@ hr + p{
 	margin-top: 0;
 }
 
+.public-domain-day-banner{
+	width: 100%;
+	text-align: center;
+	padding: 1rem;
+	background: #d37a71;
+	margin-bottom: 1.5rem;
+	color: #fff;
+	text-shadow: 1px 1px 0px rgba(0, 0, 0, .75);
+	position: relative;
+	overflow: hidden;
+	box-sizing: border-box;
+	box-shadow: 0 0 1rem rgba(0, 0, 0, .75);
+}
+
+.public-domain-day-banner button.close{
+	background-image: url('/images/close-dark.svg');
+	top: 2px;
+	right: 2px;
+}
+
+body > header:has(.public-domain-day-banner){
+	flex-wrap: wrap;
+	padding-top: 0;
+}
+
+form[action="/settings"] label{
+	display: inline-block;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{
@@ -3266,6 +3295,10 @@ hr + p{
 
 	.downloads-container figure + div{
 		padding-left: 0;
+	}
+
+	.public-domain-day-banner strong{
+		display: block;
 	}
 }
 
@@ -3845,24 +3878,116 @@ hr + p{
 		box-shadow: none;
 	}
 
+	figure.realistic-ebook:hover  img,
 	.ebook .downloads-container:hover figure img{ /* cover */
 		filter: brightness(1.15);
 		transform: translateY(-.5rem);
 	}
 
+	figure.realistic-ebook:hover picture::after,
 	.ebook .downloads-container:hover figure picture::after{ /* back board */
 		transform: translateY(calc(-1 * (var(--size) + .5rem)));
 	}
 
+	.realistic-ebook:hover picture::before,
 	.ebook .downloads-container:hover picture::before{ /* pages */
 		transform: rotate(90deg) skewy(-45deg) translateX(-.5rem) translateY(-.5rem);
 	}
 
+	figure.realistic-ebook:hover::after,
 	.ebook .downloads-container:hover figure::after{ /* spine */
 		transform: skewY(45deg) translateY(-.5rem);
 	}
 
+	figure.realistic-ebook:hover::before
 	.ebook .downloads-container:hover figure::before{ /* shadow */
 		transform: skewX(45deg) scale(1.05);
+	}
+
+	#confettis{
+		top: 0;
+		overflow: hidden;
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		pointer-events: none;
+	}
+
+	.confetti{
+		left: 50%;
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		transform-origin: left top;
+		animation: confetti 5s ease-in-out -2s infinite;
+	}
+
+	@keyframes confetti{
+		0%{
+			transform: rotateZ(15deg) rotateY(0deg) translate(0, 0);
+		}
+		25%{
+			transform: rotateZ(5deg) rotateY(360deg) translate(-5vw, 20vh);
+		}
+		50%{
+			transform: rotateZ(15deg) rotateY(720deg) translate(5vw, 60vh);
+		}
+		75%{
+			transform: rotateZ(5deg) rotateY(1080deg) translate(-10vw, 80vh);
+		}
+		100%{
+			transform: rotateZ(15deg) rotateY(1440deg) translate(10vw, 110vh);
+		}
+	}
+
+	.confetti:nth-child(1){
+		left: 10%;
+		animation-delay: 0;
+		background-color: #fc0120;
+	}
+	.confetti:nth-child(2){
+		left: 20%;
+		animation-delay: -5s;
+		background-color: #8257e6;
+	}
+	.confetti:nth-child(3){
+		left: 30%;
+		animation-delay: -3s;
+		background-color: #ffbf4d;
+	}
+	.confetti:nth-child(4){
+		left: 40%;
+		animation-delay: -2.5s;
+		background-color: #fe5d7a;
+	}
+	.confetti:nth-child(5){
+		left: 50%;
+		animation-delay: -4s;
+		background-color: #45ec9c;
+	}
+	.confetti:nth-child(6){
+		left: 60%;
+		animation-delay: -6s;
+		background-color: #f6e327;
+	}
+	.confetti:nth-child(7){
+		left: 70%;
+		animation-delay: -1.5s;
+		background-color: #f769ce;
+	}
+	.confetti:nth-child(8){
+		left: 80%;
+		animation-delay: -2s;
+		background-color: #007de7;
+	}
+	.confetti:nth-child(9){
+		left: 90%;
+		animation-delay: -3.5s;
+		background-color: #63b4fc;
+	}
+	.confetti:nth-child(10){
+		left: 100%;
+		animation-delay: -2.5s;
+		background-color: #f9c4ea;
 	}
 }

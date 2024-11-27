@@ -1,6 +1,6 @@
 <?
 // Hide the alert if the user has closed it.
-if(!DONATION_DRIVE_COUNTER_ENABLED || ($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) || NOW > DONATION_DRIVE_COUNTER_END){
+if(!DONATION_DRIVE_COUNTER_ENABLED || ($autoHide ?? (HttpInput::Bool(COOKIE, 'hide-donation-alert') ?? false)) || NOW > DONATION_DRIVE_COUNTER_END){
 	return;
 }
 
@@ -42,6 +42,7 @@ $digits = str_split(str_pad((string)$current, 3, "0", STR_PAD_LEFT))
 <aside class="donation counter closable">
 	<? if($autoHide){ ?>
 		<form action="/settings" method="<?= Enums\HttpMethod::Post->value ?>">
+			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 			<input type="hidden" name="hide-donation-alert" value="true" />
 			<button class="close" title="Close this box">Close this box</button>
 		</form>

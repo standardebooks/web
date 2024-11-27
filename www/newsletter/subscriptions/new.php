@@ -31,7 +31,7 @@ if($exception){
 
 		<form action="/newsletter/subscriptions" method="<?= Enums\HttpMethod::Post->value ?>">
 			<label class="automation-test"><? /* Test for spam bots filling out all fields */ ?>
-				<input type="text" name="automationtest" value="" maxlength="80" />
+				<input type="text" name="automation-test" value="" maxlength="80" />
 			</label>
 			<label>Your email address
 				<input type="email" name="email" value="<?= Formatter::EscapeHtml($subscription->User->Email ?? '') ?>" maxlength="80" required="required" />

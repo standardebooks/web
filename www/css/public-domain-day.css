@@ -11,6 +11,11 @@
 	margin-left: 1rem;
 }
 
+.public-domain-day div + div > p:last-child{
+	text-align: right;
+	font-style: italic;
+}
+
 .public-domain-day h2{
 	margin-top: 0;
 }
@@ -29,6 +34,12 @@
 
 .public-domain-day figure{
 	margin-top: -1rem;
+}
+
+.empty{
+	text-align: center;
+	font-style: italic;
+	margin-top: 2rem;
 }
 
 @media(max-width: 1000px){

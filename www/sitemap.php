@@ -20,12 +20,12 @@ print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 	<url>
 		<loc><?= SITE_URL ?>/authors</loc>
 	</url>
-	<!-- <url>
+	<url>
 		<loc><?= SITE_URL ?>/blog</loc>
-	</url> -->
-	<!-- <url>
+	</url>
+	<url>
 		<loc><?= SITE_URL ?>/blog/public-domain-day-2025</loc>
-	</url> -->
+	</url>
 	<? foreach($authors as $author){ ?>
 		<url>
 			<loc><?= SITE_URL ?><?= $author->Url ?></loc>

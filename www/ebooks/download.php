@@ -4,7 +4,7 @@ use Safe\DateTimeImmutable;
 // If the user is not logged in, or has less than some amount of downloads, show a thank-you page.
 
 $ebook = null;
-$downloadCount = $_COOKIE['download-count'] ?? 0;
+$downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
 $showThankYouPage = Session::$User === null && $downloadCount < 5;
 $downloadUrl = null;
 

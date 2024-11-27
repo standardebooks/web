@@ -90,8 +90,9 @@ h1,h2,h3,h4,h5,h6{
 	text-shadow: 2px 2px 0 rgba(0, 0, 0, .75);
 }
 
-aside button.close{
-	filter: invert(1);
+button.close{
+	/* Can't use `filter: invert()` because that also inverts the focus outline. */
+	background-image: url("/images/close-dark.svg");
 }
 
 .donation .flipboard span{

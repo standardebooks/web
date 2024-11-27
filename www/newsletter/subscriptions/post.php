@@ -11,7 +11,7 @@ try{
 
 	$subscription = new NewsletterSubscription();
 
-	if(HttpInput::Str(POST, 'automationtest')){
+	if(HttpInput::Str(POST, 'automation-test')){
 		// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
 		if($requestType == Enums\HttpRequestType::Web){
 			http_response_code(Enums\HttpCode::SeeOther->value);

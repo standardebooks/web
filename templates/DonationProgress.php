@@ -4,7 +4,7 @@ $donationDrive = DonationDrive::GetByIsRunning();
 if(
 	!DONATION_DRIVES_ENABLED // Drives aren't enabled.
 	||
-	($autoHide ?? $_COOKIE['hide-donation-alert'] ?? false) // If the user has hidden the box.
+	($autoHide ?? (HttpInput::Bool(COOKIE, 'hide-donation-alert') ?? false)) // If the user has hidden the box.
 	||
 	Session::$User !== null // If a user is logged in.
 	||
@@ -44,6 +44,7 @@ else{
 <aside class="donation closable">
 	<? if($autoHide){ ?>
 		<form action="/settings" method="<?= Enums\HttpMethod::Post->value ?>">
+			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 			<input type="hidden" name="hide-donation-alert" value="true" />
 			<button class="close" title="Close this box">Close this box</button>
 		</form>

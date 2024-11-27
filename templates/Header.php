@@ -1,11 +1,12 @@
 <?
+use Safe\DateTimeImmutable;
 use function Safe\filemtime;
 
 $title = $title ?? '';
 $highlight = $highlight ?? '';
 $description = $description ?? '';
 $manual = $manual ?? false;
-$colorScheme = $_COOKIE['color-scheme'] ?? 'auto';
+$colorScheme = Enums\ColorSchemeType::tryFrom(HttpInput::Str(COOKIE, 'color-scheme') ?? Enums\ColorSchemeType::Auto->value);
 $isXslt = $isXslt ?? false;
 $feedUrl = $feedUrl ?? null;
 $feedTitle = $feedTitle ?? '';
@@ -13,6 +14,7 @@ $isErrorPage = $isErrorPage ?? false;
 $downloadUrl = $downloadUrl ?? null;
 $canonicalUrl = $canonicalUrl ?? null;
 $css = $css ?? [];
+$showPublicDomainDayBanner = new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ) < new DateTimeImmutable('January 14', LATEST_CONTINENTAL_US_TZ) && !(HttpInput::Bool(COOKIE, 'hide-public-domain-day-banner') ?? false);
 
 // As of Sep. 2022, all versions of Safari have a bug where if the page is served as XHTML, then `<picture>` elements download all `<source>`s instead of the first supported match.
 // So, we try to detect Safari here, and don't use multiple `<source>` if we find Safari.
@@ -45,14 +47,14 @@ if(!$isXslt){
 		<link href="/css/ereader.css?version=<?= filemtime(WEB_ROOT . '/css/ereader.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? }else{ ?>
 		<link href="/css/core.css?version=<?= filemtime(WEB_ROOT . '/css/core.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
-		<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
-			<link href="/css/dark.css?version=<?= filemtime(WEB_ROOT . '/css/dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
+		<? if($colorScheme == Enums\ColorSchemeType::Auto || $colorScheme == Enums\ColorSchemeType::Dark){ ?>
+			<link href="/css/dark.css?version=<?= filemtime(WEB_ROOT . '/css/dark.css') ?>" media="screen<? if($colorScheme == Enums\ColorSchemeType::Auto){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
 		<? } ?>
 	<? } ?>
 	<? if($manual){ ?>
 		<link href="/css/manual.css?version=<?= filemtime(WEB_ROOT . '/css/manual.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
-		<? if($colorScheme == 'auto' || $colorScheme == 'dark'){ ?>
-			<link href="/css/manual-dark.css?version=<?= filemtime(WEB_ROOT . '/css/manual-dark.css') ?>" media="screen<? if($colorScheme == 'auto'){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
+		<? if($colorScheme == Enums\ColorSchemeType::Auto || $colorScheme == Enums\ColorSchemeType::Dark){ ?>
+			<link href="/css/manual-dark.css?version=<?= filemtime(WEB_ROOT . '/css/manual-dark.css') ?>" media="screen<? if($colorScheme == Enums\ColorSchemeType::Auto){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
 		<? } ?>
 	<? } ?>
 	<? foreach($css as $url){ ?>
@@ -95,6 +97,27 @@ if(!$isXslt){
 </head>
 <body>
 	<header>
+		<? if($showPublicDomainDayBanner){ ?>
+			<div class="public-domain-day-banner">
+				<div id="confettis">
+					<div class="confetti"></div>
+					<div class="confetti"></div>
+					<div class="confetti"></div>
+					<div class="confetti"></div>
+					<div class="confetti"></div>
+					<div class="confetti"></div>
+					<div class="confetti"></div>
+					<div class="confetti"></div>
+					<div class="confetti"></div>
+				</div>
+				<strong>Happy Public Domain Day <?= PD_DAY_YEAR ?>!</strong> <a href="/blog/public-domain-day-<?= PD_DAY_YEAR ?>">See what new literature is free to read starting January 1.</a>
+				<form action="/settings" method="<?= Enums\HttpMethod::Post->value ?>">
+					<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
+					<input type="hidden" name="hide-public-domain-day-banner" value="true" />
+					<button class="close" title="Hide this banner">Hide this banner</button>
+				</form>
+			</div>
+		<? } ?>
 		<a href="/">Standard Ebooks</a>
 		<nav>
 			<ul>
