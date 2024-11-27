@@ -277,6 +277,9 @@
 		<h2>Advanced productions</h2>
 		<ul>
 			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/33858">The Adventurous Simplicissimus</a> by Hans Jakob Christoph von Grimmelshausen</p><!--patron-->
+			</li>
+			<li>
 				<p><a href="http://penelope.uchicago.edu/Thayer/E/Roman/Texts/Plutarch/Lives/Caesar*.html">Parallel Lives</a> by Plutarch (translated in 1919 by Bernadotte Perin)</p><!--patron-->
 			</li>
 			<li>
