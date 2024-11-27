@@ -67,7 +67,6 @@ catch(Exceptions\InvalidFileException | Exceptions\EbookNotFoundException){
 			<img class="ebook" src="<?= $ebook->CoverImage2xUrl ?>" alt="The cover for the Standard Ebooks edition of <?= Formatter::EscapeHtml(strip_tags($ebook->TitleWithCreditsHtml)) ?>" property="schema:image" height="335" width="224"/>
 		</picture>
 		<div>
-
 			<?= Template::DonationCounter() ?>
 			<?= Template::DonationProgress() ?>
 

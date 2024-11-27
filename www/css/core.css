@@ -2855,31 +2855,41 @@ aside button.close:active{
 	padding-left: 1rem;
 }
 
-.ebook figure.small{
+a:has(figure.realistic-ebook):focus{
+	outline: none;
+}
+
+a:focus figure.realistic-ebook img,
+a:focus figure.realistic-ebook picture::after,
+a:focus figure.realistic-ebook::after{
+	outline: 1px dashed var(--input-outline);
+}
+
+figure.realistic-ebook.small{
 	--size: 1rem;
 }
 
-.ebook figure,
-.ebook figure.medium{
+figure.realistic-ebook,
+figure.realistic-ebook.medium{
 	--size: 1.5rem;
 }
 
-.ebook figure.large{
+figure.realistic-ebook.large{
 	--size: 2rem;
 	margin-top: 2rem;
 }
 
-.ebook figure.xlarge{
+figure.realistic-ebook.xlarge{
 	--size: 2.5rem;
 	margin-top: 2rem;
 }
 
-.ebook figure.xxlarge{
+figure.realistic-ebook.xxlarge{
 	--size: 3rem;
 	margin-top: 2rem;
 }
 
-.ebook figure{
+figure.realistic-ebook{
 	transform: skewY(-10deg) scale(.75);
 	font-size: 0;
 	width: 242px;
@@ -2888,7 +2898,7 @@ aside button.close:active{
 	align-self: flex-start;
 }
 
-.ebook figure img{ /* cover */
+figure.realistic-ebook img{ /* cover */
 	/* override previous cascade */
 	width: auto;
 	background: #222;
@@ -2898,7 +2908,7 @@ aside button.close:active{
 	transition: transform .5s, filter .5s;
 }
 
-.ebook figure::after{ /* spine */
+figure.realistic-ebook::after{ /* spine */
 	content: "";
 	position: absolute;
 	width: calc(var(--size) + 2px);
@@ -2915,7 +2925,7 @@ aside button.close:active{
 	border-bottom-left-radius: 5px;
 }
 
-.ebook figure picture::before{ /* pages */
+figure.realistic-ebook picture::before{ /* pages */
 	content: "";
 	position: absolute;
 	width: var(--size);
@@ -2931,7 +2941,7 @@ aside button.close:active{
 	z-index: -1;
 }
 
-.ebook figure picture::after{ /* back board */
+figure.realistic-ebook picture::after{ /* back board */
 	content: "";
 	position: absolute;
 	width: 100%;
@@ -2945,7 +2955,7 @@ aside button.close:active{
 	transition: transform .5s;
 }
 
-.ebook figure::before{ /* shadow */
+figure.realistic-ebook::before{ /* shadow */
 	content: "";
 	background: rgba(0, 0, 0, .5);
 	position: absolute;
@@ -3050,6 +3060,15 @@ ul.feed p{
 
 .join-patrons-circle-callout .button-row{
 	margin-bottom: 1rem;
+}
+
+hr{
+	margin: 2rem auto;
+	border: 1px dashed var(--sub-text);
+}
+
+hr + p{
+	margin-top: 0;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
@@ -3234,14 +3253,14 @@ ul.feed p{
 		padding-top: 0;
 	}
 
-	.ebook figure{
+	figure.realistic-ebook{
 		transform: skewY(-10deg) scale(.5);
 		margin-top: -1rem;
 	}
 
-	.ebook figure.large,
-	.ebook figure.xlarge,
-	.ebook figure.xxlarge{
+	figure.realistic-ebook.large,
+	figure.realistic-ebook.xlarge,
+	figure.realistic-ebook.xxlarge{
 		margin-top: 0;
 	}
 
@@ -3452,7 +3471,7 @@ ul.feed p{
 }
 
 @media(max-width: 580px){
-	.ebook figure{
+	figure.realistic-ebook{
 		display: none;
 	}
 }

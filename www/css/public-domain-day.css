@@ -1,0 +1,66 @@
+.public-domain-day{
+	margin-top: 4rem;
+}
+
+.public-domain-day li{
+	display: flex;
+	margin-top: 6rem;
+}
+
+.public-domain-day div + div{
+	margin-left: 1rem;
+}
+
+.public-domain-day h2{
+	margin-top: 0;
+}
+
+.public-domain-day h2 a{
+	text-decoration: none;
+}
+
+.byline{
+	font-style: italic;
+}
+
+.byline a{
+	font-style: normal;
+}
+
+.public-domain-day figure{
+	margin-top: -1rem;
+}
+
+@media(max-width: 1000px){
+	.public-domain-day div + div{
+		margin-left: 0;
+	}
+
+	.public-domain-day div > a{
+		width: 7rem;
+	}
+
+	.public-domain-day figure{
+		margin-top: -3rem;
+	}
+}
+
+@media(max-width: 580px){
+	.public-domain-day li{
+		flex-direction: column;
+	}
+
+	.public-domain-day div:first-child{
+		text-align: center;
+	}
+
+	.public-domain-day div > a{
+		margin: auto;
+		display: block;
+		height: 15rem;
+	}
+
+	figure.realistic-ebook{
+		display: block;
+	}
+}

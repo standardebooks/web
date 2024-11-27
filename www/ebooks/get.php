@@ -84,9 +84,13 @@ catch(Exceptions\EbookNotFoundException){
 			<hgroup>
 				<h1 property="schema:name"><?= Formatter::EscapeHtml($ebook->Title) ?></h1>
 				<? foreach($ebook->Authors as $author){ ?>
-					<? /* We include the `resource` attr here because we can have multiple authors, and in that case their href URLs will link to their combined corpus.
-						For example, William Wordsworth & Samuel Coleridge will both link to /ebooks/william-wordsworth_samuel-taylor-coleridge
-						But, each author is an individual, so we have to differentiate them in RDFa with `resource` */ ?>
+					<?
+						/* We include the `resource` attr here because we can have multiple authors, and in that case their href URLs will link to their combined corpus.
+
+						For example, William Wordsworth & Samuel Coleridge will both link to `/ebooks/william-wordsworth_samuel-taylor-coleridge`.
+
+						But, each author is an individual, so we have to differentiate them in RDFa with `resource`.
+					*/ ?>
 					<? if($author->Name != 'Anonymous'){ ?>
 						<h2>
 							<a property="schema:author" typeof="schema:Person" href="<?= Formatter::EscapeHtml($ebook->AuthorsUrl) ?>" resource="<?= '/ebooks/' . $author->UrlName ?>">
@@ -188,13 +192,7 @@ catch(Exceptions\EbookNotFoundException){
 				<p class="us-pd-warning">This ebook is thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that this ebook is free of copyright restrictions in the country you’re located in before accessing, downloading, or using it.</p>
 
 				<div class="downloads-container">
-					<figure class="<? if($ebook->WordCount < 100000){ ?>small<? }elseif($ebook->WordCount < 200000){ ?>medium<? }elseif($ebook->WordCount <= 300000){ ?>large<? }elseif($ebook->WordCount < 400000){ ?>xlarge<? }else{ ?>xxlarge<? } ?>">
-						<picture>
-							<source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/>
-							<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
-							<img src="<?= $ebook->CoverImageUrl ?>" alt="" height="363" width="242"/>
-						</picture>
-					</figure>
+					<?= Template::RealisticEbook(['ebook' => $ebook]) ?>
 					<div>
 						<section id="download">
 							<h3>Download for ereaders</h3>
