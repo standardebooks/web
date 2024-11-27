@@ -22,7 +22,7 @@ class HttpInput{
 			}
 
 			if($httpMethod == Enums\HttpMethod::Post){
-				// If we're a HTTP POST, then we got here from a POST request initially, so just continue
+				// If we're a HTTP POST, then we got here from a POST request initially, so just continue.
 				return;
 			}
 
@@ -44,6 +44,7 @@ class HttpInput{
 
 	/**
 	 * Check that the request's HTTP method is in a list of allowed HTTP methods.
+	 *
 	 * @param ?array<Enums\HttpMethod> $allowedHttpMethods An array containing a list of allowed HTTP methods, or null if any valid HTTP method is allowed.
 	 * @param bool $throwException If the request HTTP method isn't allowed, then throw an exception; otherwise, output HTTP 405 and exit the script immediately.
 	 * @throws Exceptions\InvalidHttpMethodException If the HTTP method is not recognized, and `$throwException` is `true`.
@@ -229,7 +230,7 @@ class HttpInput{
 	 * @return array<string>|array<int>|array<float>|array<bool>|string|int|float|bool|DateTimeImmutable|null
 	 */
 	private static function GetHttpVar(string $variable, Enums\HttpVariableType $type, Enums\HttpVariableSource $set): mixed{
-		// Note that in Core.php we parse the request body of DELETE, PATCH, and PUT into $_POST.
+		// Note that in `Core.php` we parse the request body of DELETE, PATCH, and PUT into `$_POST`.
 
 		$vars = [];
 
@@ -250,15 +251,15 @@ class HttpInput{
 
 		if(isset($vars[$variable])){
 			if($type == Enums\HttpVariableType::Array && is_array($vars[$variable])){
-				// We asked for an array, and we got one
+				// We asked for an array, and we got one.
 				return $vars[$variable];
 			}
 			elseif($type !== Enums\HttpVariableType::Array && is_array($vars[$variable])){
-				// We asked for not an array, but we got an array
+				// We asked for not an array, but we got an array.
 				return null;
 			}
 			elseif(is_string($vars[$variable])){
-				// HTML `<textarea>`s encode newlines as `\r\n`, i.e. TWO characters, when submitting form data. However jQuery's `.val()` and HTML's `@maxlength` treat newlines as ONE character. So, strip `\r` here so that character lengths align between what the browser reports, and what it actually sends. This also solves column length issues when storing in the DB.
+				// HTML `<textarea>`s encode newlines as `\r\n`, i.e. *two* characters, when submitting form data. However jQuery's `.val()` and HTML's `@maxlength` treat newlines as *one* character. So, strip `\r` here so that character lengths align between what the browser reports, and what it actually sends. This also solves column length issues when storing in the DB.
 				$var = trim(str_replace("\r", "", $vars[$variable]));
 			}
 			else{
@@ -276,7 +277,7 @@ class HttpInput{
 						return '';
 					}
 				case Enums\HttpVariableType::Integer:
-					// Can't use ctype_digit because we may want negative integers
+					// Can't use `ctype_digit()` because we may want negative integers.
 					if(is_numeric($var) && mb_strpos((string)$var, '.') === false){
 						try{
 							return intval($var);

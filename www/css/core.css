@@ -3075,7 +3075,7 @@ hr + p{
 	width: 100%;
 	text-align: center;
 	padding: 1rem;
-	background: #d37a71;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, .1) 100%), #d37a71;
 	margin-bottom: 1.5rem;
 	color: #fff;
 	text-shadow: 1px 1px 0px rgba(0, 0, 0, .75);
@@ -3089,6 +3089,27 @@ hr + p{
 	background-image: url('/images/close-dark.svg');
 	top: 2px;
 	right: 2px;
+}
+
+.public-domain-day-banner button.close:focus{
+	outline-color: var(--dark-input-outline);
+}
+
+.public-domain-day-banner strong::before{
+	content: '';
+	background: url('/images/confetti.svg') center center no-repeat;
+	background-size: contain;
+	display: inline-block;
+	height: 2rem;
+	width: 2rem;
+	vertical-align: middle;
+	margin-top: -.5rem;
+	margin-right: .5rem;
+}
+
+.public-domain-day-banner a:any-link:hover{
+	color: #4c6f98;
+	text-shadow: 1px 1px 0px rgba(255, 255, 255, .5);
 }
 
 body > header:has(.public-domain-day-banner){
@@ -3299,6 +3320,7 @@ form[action="/settings"] label{
 
 	.public-domain-day-banner strong{
 		display: block;
+		margin-left: -2rem;
 	}
 }
 

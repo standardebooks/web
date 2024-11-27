@@ -14,7 +14,7 @@ $isErrorPage = $isErrorPage ?? false;
 $downloadUrl = $downloadUrl ?? null;
 $canonicalUrl = $canonicalUrl ?? null;
 $css = $css ?? [];
-$showPublicDomainDayBanner = new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ) < new DateTimeImmutable('January 14', LATEST_CONTINENTAL_US_TZ) && !(HttpInput::Bool(COOKIE, 'hide-public-domain-day-banner') ?? false);
+$showPublicDomainDayBanner = PD_NOW < new DateTimeImmutable('January 14', LATEST_CONTINENTAL_US_TZ) && !(HttpInput::Bool(COOKIE, 'hide-public-domain-day-banner') ?? false);
 
 // As of Sep. 2022, all versions of Safari have a bug where if the page is served as XHTML, then `<picture>` elements download all `<source>`s instead of the first supported match.
 // So, we try to detect Safari here, and don't use multiple `<source>` if we find Safari.
@@ -110,7 +110,7 @@ if(!$isXslt){
 					<div class="confetti"></div>
 					<div class="confetti"></div>
 				</div>
-				<strong>Happy Public Domain Day <?= PD_DAY_YEAR ?>!</strong> <a href="/blog/public-domain-day-<?= PD_DAY_YEAR ?>">See what new literature is free to read starting January 1.</a>
+				<a href="/blog/public-domain-day-<?= PD_DAY_YEAR ?>"><strong>Happy Public Domain Day <?= PD_DAY_YEAR ?>!</strong> See what’s free to read starting January 1.</a>
 				<form action="/settings" method="<?= Enums\HttpMethod::Post->value ?>">
 					<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 					<input type="hidden" name="hide-public-domain-day-banner" value="true" />

@@ -5,6 +5,7 @@ use function Safe\define;
 
 const NOW = new DateTimeImmutable();
 const LATEST_CONTINENTAL_US_TZ = new DateTimeZone('America/Juneau');
+const PD_NOW = new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ); // This timestamp should be used for Public Domain Day calculations.
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
@@ -77,7 +78,7 @@ const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log'; // Must b
 const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writable by `www-data` Unix user.
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // Must be writable by `www-data` Unix user.
 
-define('PD_YEAR', intval((new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ))->format('Y')) - 96);
+define('PD_YEAR', intval(PD_NOW->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
 // Controls the progress bar donation dialog.
