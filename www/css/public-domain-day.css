@@ -42,6 +42,18 @@
 	margin-top: 2rem;
 }
 
+figure.realistic-ebook.large{
+	margin-top: -.5rem;
+}
+
+figure.realistic-ebook.xlarge{
+	margin-top: -.5rem;
+}
+
+figure.realistic-ebook.xxlarge{
+	margin-top: -.5rem;
+}
+
 @media(max-width: 1000px){
 	.public-domain-day div + div{
 		margin-left: 0;
