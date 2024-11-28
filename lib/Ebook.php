@@ -2008,26 +2008,38 @@ class Ebook{
 			$params[] = $query;
 		}
 
-		$ebooksCount = Db::QueryInt('
-				SELECT count(distinct e.EbookId)
-				from Ebooks e
-				' . $joinContributors . '
-				' . $joinTags . '
-				' . $whereCondition . '
-				', $params);
+		try{
+			$ebooksCount = Db::QueryInt('
+					SELECT count(distinct e.EbookId)
+					from Ebooks e
+					' . $joinContributors . '
+					' . $joinTags . '
+					' . $whereCondition . '
+					', $params);
 
-		$params[] = $limit;
-		$params[] = $offset;
+			$params[] = $limit;
+			$params[] = $offset;
 
-		$ebooks = Db::Query('
-				SELECT distinct e.*
-				from Ebooks e
-				' . $joinContributors . '
-				' . $joinTags . '
-				' . $whereCondition . '
-				order by ' . $orderBy . '
-				limit ?
-				offset ?', $params, Ebook::class);
+			$ebooks = Db::Query('
+					SELECT distinct e.*
+					from Ebooks e
+					' . $joinContributors . '
+					' . $joinTags . '
+					' . $whereCondition . '
+					order by ' . $orderBy . '
+					limit ?
+					offset ?', $params, Ebook::class);
+		}
+		catch(Exceptions\DatabaseQueryException $ex){
+			if(stripos($ex->getMessage(), 'General error: 191 Too many words in a FTS phrase or proximity search') !== false){
+				// This exception occurs when the search string is too long for MariaDB to handle.
+				$ebooksCount = 0;
+				$ebooks = [];
+			}
+			else{
+				throw $ex;
+			}
+		}
 
 		return ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount];
 	}
