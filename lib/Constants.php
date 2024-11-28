@@ -123,5 +123,6 @@ const PD_DAY_EBOOKS = [
 		EBOOKS_IDENTIFIER_PREFIX . 'sinclair-lewis/dodsworth' => ['author' => 'Sinclair Lewis', 'title' => 'Dodsworth'],
 		EBOOKS_IDENTIFIER_PREFIX . 'thomas-wolfe/look-homeward-angel' => ['author' => 'Thomas Wolfe', 'title' => 'Look Homeward, Angel'],
 		EBOOKS_IDENTIFIER_PREFIX . 'lloyd-c-douglas/magnificent-obsession' => ['author' => 'Lloyd C. Dougals', 'title' => 'Magnificent Obsession'],
-		EBOOKS_IDENTIFIER_PREFIX . 'edith-wharton/hudson-river-bracketed' => ['author' => 'Edith Wharton', 'title' => 'Hudson River Bracketed']
+		EBOOKS_IDENTIFIER_PREFIX . 'edith-wharton/hudson-river-bracketed' => ['author' => 'Edith Wharton', 'title' => 'Hudson River Bracketed'],
+		EBOOKS_IDENTIFIER_PREFIX . 'calvin-coolidge/the-autobiography-of-calvin-coolidge' => ['author' => 'Calvin Coolidge', 'title' => 'The Autobiography of Calvin Coolidge']
 	];
