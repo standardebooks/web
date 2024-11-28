@@ -1984,7 +1984,7 @@ class Ebook{
 		$orderBy = 'e.EbookCreated desc';
 		if($sort == Enums\EbookSortType::AuthorAlpha){
 			$joinContributors = 'inner join Contributors con using (EbookId)';
-			$whereCondition .= ' AND con.MarcRole = "aut"';
+			$whereCondition .= ' and con.MarcRole = "aut"';
 			$orderBy = 'con.SortName, e.EbookCreated desc';
 		}
 		elseif($sort == Enums\EbookSortType::ReadingEase){
@@ -1997,14 +1997,14 @@ class Ebook{
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
 			$joinTags = 'inner join EbookTags et using (EbookId)
 					inner join Tags t using (TagId)';
-			$whereCondition .= ' AND t.UrlName in ' . Db::CreateSetSql($tags) . ' ';
+			$whereCondition .= ' and t.UrlName in ' . Db::CreateSetSql($tags) . ' ';
 			$params = $tags;
 		}
 
 		if($query !== null && $query != ''){
 			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
 			$query = sprintf('"%s"', $query);  // Require an exact match via double quotes.
-			$whereCondition .= ' AND match(e.IndexableText) against(? IN BOOLEAN MODE) ';
+			$whereCondition .= ' and match(e.IndexableText) against(? in boolean mode) ';
 			$params[] = $query;
 		}
 
