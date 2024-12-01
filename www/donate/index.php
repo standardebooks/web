@@ -32,9 +32,9 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			<h2>Join the Patrons Circle</h2>
 			<p>Members of the Patrons Circle are steadfast supporters of free, unrestricted, and beautifully presented digital literature. Besides helping support the creation of free, gorgeous ebooks, they also have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 			<p>Membership in the Patrons Circle is limited to individuals only. Organizations, please see <a href="#corporate-sponsors">corporate sponsorship</a> instead.</p>
-			<p><i>Join the Patrons Circle by starting a recurring donation of $10/month or more, or join for one year with a one-time donation of $100 or more.</i></p>
 			<div class="join-patrons-circle-callout">
 				<h3>Join now</h3>
+				<p><i>Join the Patrons Circle by starting a recurring donation of $10/month or more, or join for one year with a one-time donation of $100 or more.</i></p>
 				<p class="button-row">
 					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>
 					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Donate $100 or more</a>
