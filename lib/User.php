@@ -64,7 +64,12 @@ class User{
 		if(!isset($this->_Patron)){
 			try{
 				$this->_Patron = Patron::Get($this->UserId);
-				$this->IsPatron = true;
+				if($this->_Patron->Ended === null){
+					$this->IsPatron = true;
+				}
+				else{
+					$this->IsPatron = false;
+				}
 			}
 			catch(Exceptions\PatronNotFoundException){
 				$this->_Patron = null;
