@@ -157,6 +157,9 @@ catch(Exceptions\SeeOtherException $ex){
 		<? if(sizeof($user->Payments) == 0){ ?>
 			<p>None.</p>
 		<? }else{ ?>
+			<p>
+				<a href="https://fundraising.fracturedatlas.org/admin/general_support/donations?query=<?= urlencode($user->Email) ?>">View all payments at Fractured Atlas</a>
+			</p>
 			<table class="payments">
 				<thead>
 					<tr>
