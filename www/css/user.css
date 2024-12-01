@@ -32,3 +32,74 @@ legend{
 	width: 100%;
 }
 
+.payments thead{
+	font-weight: bold;
+}
+
+.payments tbody td:first-child{
+	width: 100%;
+	font-weight: normal;
+}
+
+.payments time{
+	color: var(--body-text);
+}
+
+.payments td + td{
+	text-align: right;
+	width: auto;
+}
+
+.payments td:nth-child(2){
+	text-align: center;
+}
+
+.payments td:last-child{
+	text-align: left;
+	white-space: nowrap;
+}
+
+.payments tbody time{
+	width: auto;
+	margin: auto;
+}
+
+@media(max-width: 1000px){
+	.payments thead{
+		display: none;
+	}
+
+	.payments tbody td{
+		display: block;
+		text-align: left;
+		padding: 0;
+	}
+
+	.payments tbody td:first-child{
+		padding-top: 2rem;
+	}
+
+	.payments tbody td:nth-child(2){
+		text-align: left;
+	}
+
+	.payments tbody td:nth-child(2)::before{
+		content: 'Recurring? ';
+		font-weight: bold;
+	}
+
+	.payments tbody td:nth-child(3)::before{
+		content: 'Gross: ';
+		font-weight: bold;
+	}
+
+	.payments tbody td:nth-child(4)::before{
+		content: 'Fee: ';
+		font-weight: bold;
+	}
+
+	.payments tbody td:nth-child(5)::before{
+		content: 'Net: ';
+		font-weight: bold;
+	}
+}

@@ -152,6 +152,52 @@ catch(Exceptions\SeeOtherException $ex){
 				<? } ?>
 			</tbody>
 		</table>
+
+		<h2>Payments</h2>
+		<? if(sizeof($user->Payments) == 0){ ?>
+			<p>None.</p>
+		<? }else{ ?>
+			<table class="payments">
+				<thead>
+					<tr>
+						<td>Created</td>
+						<td>Recurring?</td>
+						<td>Gross</td>
+						<td>Fee</td>
+						<td>Net</td>
+						<td>Transaction ID</td>
+					</tr>
+				</thead>
+				<tbody>
+					<? foreach($user->Payments as $payment){ ?>
+						<tr>
+							<td>
+								<time datetime="<?= $payment->Created->format(Enums\DateTimeFormat::Html->value) ?>"><?= $payment->Created->Format(Enums\DateTimeFormat::FullDateTime->value) ?></time>
+							</td>
+							<td>
+								<? if($payment->IsRecurring){ ?>
+									☑
+								<? }else{ ?>
+									☐
+								<? } ?>
+							</td>
+							<td>
+								$<?= number_format($payment->Amount, 2) ?>
+							</td>
+							<td>
+								$<?= number_format($payment->Fee, 2) ?>
+							</td>
+							<td>
+								$<?= number_format($payment->Amount - $payment->Fee, 2) ?>
+							</td>
+							<td>
+								<a href="<?= $payment->ProcessorUrl ?>"><?= Formatter::EscapeHtml($payment->TransactionId) ?></a>
+							</td>
+						</tr>
+					<? } ?>
+				</tbody>
+			</table>
+		<? } ?>
 	</section>
 </main>
 <?= Template::Footer() ?>

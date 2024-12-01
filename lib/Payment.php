@@ -3,6 +3,7 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property ?User $User
+ * @property string $ProcessorUrl
  */
 class Payment{
 	use Traits\Accessor;
@@ -18,6 +19,7 @@ class Payment{
 	public bool $IsMatchingDonation = false;
 
 	protected ?User $_User = null;
+	protected string $_ProcessorUrl;
 
 
 	// *******
@@ -28,11 +30,26 @@ class Payment{
 	 * @throws Exceptions\UserNotFoundException
 	 */
 	protected function GetUser(): ?User{
-		if($this->_User === null && $this->UserId !== null){
+		if(!isset($this->_User) && $this->UserId !== null){
 			$this->_User = User::Get($this->UserId);
 		}
 
 		return $this->_User;
+	}
+
+	protected function GetProcessorUrl(): string{
+		if(!isset($this->_ProcessorUrl)){
+			switch($this->Processor){
+				case Enums\PaymentProcessorType::FracturedAtlas:
+					// This is not a permalink per se, because the FA permalink shows us the donor-facing receipt, without useful information like attribution, etc. However if we search by donation ID, we *do* get that information.
+					$this->_ProcessorUrl = 'https://fundraising.fracturedatlas.org/admin/general_support/donations?query=' . $this->TransactionId;
+					break;
+				default:
+					$this->_ProcessorUrl = '';
+			}
+		}
+
+		return $this->_ProcessorUrl;
 	}
 
 
