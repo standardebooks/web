@@ -25,9 +25,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/33928">Bel Ami</a> by Guy de Maupassant (<a href="https://books.google.com/books?id=aPQVAAAAYAAJ">this uncredited translation</a> is by “Bigelow, Smith & Co.”)</p>
 			</li> -->
 			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
-			</li>
-			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/18817">Ralestone Luck</a> by Andre Norton</p>
 			</li>
 			<li>
@@ -132,6 +129,9 @@
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
+			<!-- <li>
+				<p><a href="https://www.gutenberg.org/ebooks/19474">Uller Uprising</a> by H. Beam Piper</p>
+			</li> -->
 			<li>
 				<p><a href="https://gutenberg.net.au/ebooks07/0700461h.html">John Brown’s Body</a> by Stephen Vincent Benét</p>
 			</li>
