@@ -278,7 +278,7 @@ class User{
 	}
 
 	/**
-	 * Get a `User` based on either a `UserId`, `Email`, or `Uuid`.
+	 * Get a `User` based on either a `UserId`, `Email`, or `Uuid`, or `Name`.
 	 *
 	 * @throws Exceptions\UserNotFoundException
 	 */
@@ -293,11 +293,11 @@ class User{
 		elseif(mb_stripos($identifier, '@') !== false){
 			return User::GetByEmail($identifier);
 		}
-		elseif(mb_stripos($identifier, '-') !== false){
+		elseif(preg_match('/^[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}$/', $identifier)){
 			return User::GetByUuid($identifier);
 		}
 		else{
-			throw new Exceptions\UserNotFoundException();
+			return User::GetByName($identifier);
 		}
 	}
 
@@ -314,6 +314,21 @@ class User{
 					from Users
 					where Email = ?
 				', [$email], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
+	}
+
+	/**
+	 * @throws Exceptions\UserNotFoundException
+	 */
+	public static function GetByName(?string $name): User{
+		if($name === null){
+			throw new Exceptions\UserNotFoundException();
+		}
+
+		return Db::Query('
+					SELECT *
+					from Users
+					where Name = ?
+				', [$name], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
 	}
 
 	/**
