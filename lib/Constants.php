@@ -107,6 +107,7 @@ const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00',
 
 const PD_DAY_YEAR = 2025;
 const PD_DAY_DRAFT_PATH = '/standardebooks.org/drafts/' . PD_DAY_YEAR;
+// These books will have placeholder URLs enabled, which are useful for things like the PDR Public Domain Advent Calendar.
 const PD_DAY_EBOOKS = [
 		EBOOKS_IDENTIFIER_PREFIX . 'graham-greene/the-man-within' => ['author' => 'Graham Greene', 'title' => 'The Man Within'],
 		EBOOKS_IDENTIFIER_PREFIX . 'c-s-forester/brown-on-resolution' => ['author' => 'C. S. Forester', 'title' => 'Brown on Resolution'],
@@ -124,5 +125,4 @@ const PD_DAY_EBOOKS = [
 		EBOOKS_IDENTIFIER_PREFIX . 'thomas-wolfe/look-homeward-angel' => ['author' => 'Thomas Wolfe', 'title' => 'Look Homeward, Angel'],
 		EBOOKS_IDENTIFIER_PREFIX . 'lloyd-c-douglas/magnificent-obsession' => ['author' => 'Lloyd C. Dougals', 'title' => 'Magnificent Obsession'],
 		EBOOKS_IDENTIFIER_PREFIX . 'edith-wharton/hudson-river-bracketed' => ['author' => 'Edith Wharton', 'title' => 'Hudson River Bracketed'],
-		EBOOKS_IDENTIFIER_PREFIX . 'calvin-coolidge/the-autobiography-of-calvin-coolidge' => ['author' => 'Calvin Coolidge', 'title' => 'The Autobiography of Calvin Coolidge']
 	];

@@ -5,19 +5,22 @@ $identifiers = [
 	'url:https://standardebooks.org/ebooks/william-faulkner/the-sound-and-the-fury',
 	'url:https://standardebooks.org/ebooks/erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen',
 	'url:https://standardebooks.org/ebooks/ernest-hemingway/a-farewell-to-arms',
+	'url:https://standardebooks.org/ebooks/mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai',
 	'url:https://standardebooks.org/ebooks/john-steinbeck/cup-of-gold',
 	'url:https://standardebooks.org/ebooks/dashiell-hammett/red-harvest',
 	'url:https://standardebooks.org/ebooks/sinclair-lewis/dodsworth',
 	'url:https://standardebooks.org/ebooks/oliver-la-farge/laughing-boy',
-	'url:https://standardebooks.org/ebooks/graham-greene/the-man-within',
 	'url:https://standardebooks.org/ebooks/calvin-coolidge/the-autobiography-of-calvin-coolidge',
+	'url:https://standardebooks.org/ebooks/graham-greene/the-man-within',
+	'url:https://standardebooks.org/ebooks/edith-wharton/hudson-river-bracketed',
 	'url:https://standardebooks.org/ebooks/lloyd-c-douglas/magnificent-obsession',
-	'url:https://standardebooks.org/ebooks/josephine-tey/the-man-in-the-queue',
-	'url:https://standardebooks.org/ebooks/john-buchan/the-courts-of-the-morning',
 	'url:https://standardebooks.org/ebooks/j-b-priestley/the-good-companions',
+	'url:https://standardebooks.org/ebooks/thomas-wolfe/look-homeward-angel',
 	'url:https://standardebooks.org/ebooks/dashiell-hammett/the-dain-curse',
 	'url:https://standardebooks.org/ebooks/c-s-forester/brown-on-resolution',
-	'url:https://standardebooks.org/ebooks/arthur-conan-doyle/the-maracot-deep'
+	'url:https://standardebooks.org/ebooks/john-buchan/the-courts-of-the-morning',
+	'url:https://standardebooks.org/ebooks/arthur-conan-doyle/the-maracot-deep',
+	'url:https://standardebooks.org/ebooks/josephine-tey/the-man-in-the-queue',
 ];
 
 $ebooks = Db::Query('SELECT * from Ebooks where Identifier in ' . Db::CreateSetSql($identifiers), $identifiers, Ebook::class);
@@ -76,7 +79,15 @@ foreach($ebooks as $ebook){
 		case 'url:https://standardebooks.org/ebooks/arthur-conan-doyle/the-maracot-deep':
 			$description = '<p>While investigating the deepest part of the Atlantic Ocean, a team led by Dr. Maracot is cut off from their ship and hurled to the bottom of the ocean. There, they find themselves in the remnants of the ancient civilization of Atlantis.</p><p>Though Doyle is most famous for his <a href="/collections/sherlock-holmes">Sherlock Holmes</a> stories, in which a brilliant logician uses reason and deduction to solve crime, in later years he became deeply spiritual. This novel, written just a year before his death, combines his interest in science and reason with his new spiritual outlook.</p>';
 			break;
-
+		case 'url:https://standardebooks.org/ebooks/edith-wharton/hudson-river-bracketed':
+			$description = '<p>Vance Weston is a young Midwestern man looking to make his way in the world of literature. He gets his chance when he visits some relatives in New York, caretakers of a house in the titular Hudson River Bracketed style.</p><p>Weston is a boy of little means; perhaps it’s this vast gulf between the character’s life and Edith Wharton’s own life that allowed her to feel more free to write in many semi-autobiographical details. In any case, she considered <i>Hudson River Bracketed</i> to be her finest novel, and went so far as to write a sequel in 1932.';
+			break;
+		case 'url:https://standardebooks.org/ebooks/mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai':
+			$description = '<p>Mahatma Gandhi, father of the nation to post-colonial India, writes the story of his early life through 1921. He covers his childhood and his parents, his travels and his experiences with prejudice, how his interest in political activity and nonviolence developed throughout the years, and more. Despite this detailed treatment of his life, Gandhi asserts in the introduction that his purpose was not to write a “real autobiography,” but rather to “tell the story of my experiments with truth, and as my life consist of nothing but experiments.”</p>';
+			break;
+		case 'url:https://standardebooks.org/ebooks/thomas-wolfe/look-homeward-angel';
+			$description = '<p><i>Look Homeward, Angel</i> is Thomas Wolfe’s first novel, and the one on which his considerable fame as a master of the American autobiographical novel rests. The book covers the youth of Eugene Grant, a young man living in North Carolina, and widely considered to be a direct stand-in for Wolfe himself. It was a commercial and critical success, securing Wolfe’s reputation as one of the most important writers in the Southern Renaissance.</p>';
+			break;
 	}
 
 	$ebooksWithDescriptions[array_search($ebook->Identifier, $identifiers)] = ['ebook' => $ebook, 'description' => $description];
