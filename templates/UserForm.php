@@ -40,16 +40,11 @@ $passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
 </fieldset>
 <fieldset>
 	<ul>
-		<li>
-			<label>
-				<input type="radio" name="password-action" value="<?= Enums\PasswordActionType::None->value ?>"<? if($passwordAction == Enums\PasswordActionType::None){ ?> checked="checked"<? } ?> />Don’t change password
-			</label>
-		</li>
 		<? if($user->PasswordHash === null){ ?>
 			<li>
 				<fieldset>
 					<label>
-						<input type="radio" name="password-action" value="<?= Enums\PasswordActionType::Edit->value ?>"<? if($passwordAction == Enums\PasswordActionType::Edit){ ?> checked="checked"<? } ?> />Create a new password
+						<input type="checkbox" name="password-action" value="<?= Enums\PasswordActionType::Edit->value ?>"<? if($passwordAction == Enums\PasswordActionType::Edit){ ?> checked="checked"<? } ?> />Set a password
 					</label>
 					<label>
 						Password
@@ -61,6 +56,11 @@ $passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
 				</fieldset>
 			</li>
 		<? }else{ ?>
+			<li>
+				<label>
+					<input type="radio" name="password-action" value="<?= Enums\PasswordActionType::None->value ?>"<? if($passwordAction == Enums\PasswordActionType::None){ ?> checked="checked"<? } ?> />Don’t change password
+				</label>
+			</li>
 			<li>
 				<label>
 					<input type="radio" name="password-action" value="<?= Enums\PasswordActionType::Delete->value ?>"<? if($passwordAction == Enums\PasswordActionType::Delete){ ?> checked="checked"<? } ?> />Remove password
