@@ -29,7 +29,8 @@ const MANUAL_PATH =			WEB_ROOT . '/manual';
 const EBOOKS_DIST_PATH =		WEB_ROOT . '/ebooks/';
 const COVER_ART_UPLOAD_PATH =		'/images/cover-uploads/';
 
-const EBOOKS_IDENTIFIER_PREFIX =	'url:https://standardebooks.org/ebooks/';
+const EBOOKS_IDENTIFIER_ROOT =		'url:https://standardebooks.org';
+const EBOOKS_IDENTIFIER_PREFIX =	EBOOKS_IDENTIFIER_ROOT . '/ebooks/';
 
 const DATABASE_DEFAULT_DATABASE = 	'se';
 const DATABASE_DEFAULT_HOST = 		'localhost';

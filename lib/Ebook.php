@@ -41,6 +41,7 @@ use function Safe\shell_exec;
  * @property string $TextSinglePageUrl
  * @property string $TextSinglePageSizeFormatted
  * @property string $IndexableText
+ * @property EbookPlaceholder $EbookPlaceholder
  */
 class Ebook{
 	use Traits\Accessor;
@@ -112,6 +113,7 @@ class Ebook{
 	protected string $_TextSinglePageUrl;
 	protected string $_TextSinglePageSizeFormatted;
 	protected string $_IndexableText;
+	protected ?EbookPlaceholder $_EbookPlaceholder = null;
 
 	// *******
 	// GETTERS
@@ -314,7 +316,7 @@ class Ebook{
 
 	protected function GetUrl(): string{
 		if(!isset($this->_Url)){
-			$this->_Url = str_replace(WEB_ROOT, '', $this->WwwFilesystemPath);
+			$this->_Url = str_replace(EBOOKS_IDENTIFIER_ROOT, '', $this->Identifier);
 		}
 
 		return $this->_Url;
@@ -602,6 +604,19 @@ class Ebook{
 		}
 
 		return $this->_IndexableText;
+	}
+
+	protected function GetEbookPlaceholder(): ?EbookPlaceholder{
+		if(!isset($this->_EbookPlaceholder)){
+			$result = Db::Query('
+					SELECT *
+					from EbookPlaceholders
+					where EbookId = ?
+				', [$this->EbookId], EbookPlaceholder::class);
+			$this->_EbookPlaceholder = $result[0] ?? null;
+		}
+
+		return $this->_EbookPlaceholder;
 	}
 
 
@@ -966,6 +981,44 @@ class Ebook{
 		return $ebook;
 	}
 
+	/**
+	 * Populate the `Identifier` property based on the `Title`, `Authors`, `Translators`, and `Illustrators`. Used when creating ebook placeholders.
+	 *
+	 * @throws Exceptions\InvalidEbookIdentifierException
+	 */
+	public function FillIdentifierFromTitleAndContributors(): void{
+		if(!isset($this->Authors) || empty($this->Authors)){
+			throw new Exceptions\InvalidEbookIdentifierException('Authors required');
+		}
+
+		if(!isset($this->Title)){
+			throw new Exceptions\InvalidEbookIdentifierException('Title required');
+		}
+
+		$authorString = implode('_', array_map('Formatter::MakeUrlSafe', array_column($this->Authors, 'Name')));
+		$titleString = Formatter::MakeUrlSafe($this->Title);
+		$translatorString = '';
+		$illustratorString = '';
+
+		if(isset($this->Translators) || !empty($this->Translators)){
+			$translatorString = implode('_', array_map('Formatter::MakeUrlSafe', array_column($this->Translators, 'Name')));
+		}
+
+		if(isset($this->Illustrators) || !empty($this->Illustrators)){
+			$illustratorString = implode('_', array_map('Formatter::MakeUrlSafe', array_column($this->Illustrators, 'Name')));
+		}
+
+		$this->Identifier = EBOOKS_IDENTIFIER_PREFIX . $authorString . '/' . $titleString;
+
+		if(!empty($translatorString)){
+			$this->Identifier .= '/' . $translatorString;
+		}
+
+		if(!empty($illustratorString)){
+			$this->Identifier .= '/' . $illustratorString;
+		}
+	}
+
 
 	// *******
 	// METHODS
@@ -1243,6 +1296,23 @@ class Ebook{
 			$error->Add(new Exceptions\EbookIndexableTextRequiredException());
 		}
 
+		if(isset($this->EbookPlaceholder)){
+			try{
+				$this->EbookPlaceholder->Validate();
+			}
+			catch(Exceptions\ValidationException $ex){
+				$error->Add($ex);
+			}
+		}
+
+		if($this->IsPlaceholder() && !isset($this->EbookPlaceholder)){
+			$error->Add(new Exceptions\EbookMissingPlaceholderException());
+		}
+
+		if(!$this->IsPlaceholder() && isset($this->EbookPlaceholder)){
+			$error->Add(new Exceptions\EbookUnexpectedPlaceholderException());
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
@@ -1511,6 +1581,10 @@ class Ebook{
 		return $string;
 	}
 
+	public function IsPlaceholder(): bool{
+		return $this->WwwFilesystemPath === null;
+	}
+
 	/**
 	 * If the given list of elements has an element that is not `''`, return that value; otherwise, return `null`.
 	 *
@@ -1584,6 +1658,7 @@ class Ebook{
 		$this->AddSources();
 		$this->AddContributors();
 		$this->AddTocEntries();
+		$this->AddEbookPlaceholder();
 	}
 
 	/**
@@ -1651,6 +1726,9 @@ class Ebook{
 
 		$this->RemoveTocEntries();
 		$this->AddTocEntries();
+
+		$this->RemoveEbookPlaceholder();
+		$this->AddEbookPlaceholder();
 	}
 
 	private function RemoveTags(): void{
@@ -1806,6 +1884,24 @@ class Ebook{
 						?)
 				', [$this->EbookId, $tocEntry, $sortOrder]);
 			}
+		}
+	}
+
+	private function RemoveEbookPlaceholder(): void{
+		Db::Query('
+			DELETE from EbookPlaceholders
+			where EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	/**
+	 * @throws Exceptions\ValidationException
+	 */
+	private function AddEbookPlaceholder(): void{
+		if(isset($this->EbookPlaceholder)){
+			$this->EbookPlaceholder->EbookId = $this->EbookId;
+			$this->EbookPlaceholder->Create();
 		}
 	}
 

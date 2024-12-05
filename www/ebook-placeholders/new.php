@@ -3,7 +3,7 @@ use function Safe\session_unset;
 
 session_start();
 
-$isCreated = HttpInput::Bool(SESSION, 'is-ebook-created') ?? false;
+$isCreated = HttpInput::Bool(SESSION, 'is-ebook-placeholder-created') ?? false;
 $exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 $ebook = HttpInput::SessionObject('ebook', Ebook::class);
 
@@ -19,6 +19,7 @@ try{
 	// We got here because an ebook was successfully created.
 	if($isCreated){
 		http_response_code(Enums\HttpCode::Created->value);
+		$createdEbook = $ebook;
 		$ebook = null;
 		session_unset();
 	}
@@ -29,9 +30,7 @@ try{
 		session_unset();
 	}
 
-	if($ebook === null){
-		$ebook = new Ebook();
-	}
+	$ebook = $ebook ?? new Ebook();
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -55,8 +54,8 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<? if($isCreated){ ?>
-			<p class="message success">Ebook Placeholder created!</p>
+		<? if($isCreated && isset($createdEbook)){ ?>
+			<p class="message success">Ebook Placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a></p>
 		<? } ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="/ebook-placeholders" enctype="multipart/form-data" autocomplete="off">
