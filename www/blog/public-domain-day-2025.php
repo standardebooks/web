@@ -18,6 +18,7 @@ $identifiers = [
 	'url:https://standardebooks.org/ebooks/thomas-wolfe/look-homeward-angel',
 	'url:https://standardebooks.org/ebooks/dashiell-hammett/the-dain-curse',
 	'url:https://standardebooks.org/ebooks/c-s-forester/brown-on-resolution',
+	'url:https://standardebooks.org/ebooks/agatha-christie/the-seven-dials-mystery',
 	'url:https://standardebooks.org/ebooks/john-buchan/the-courts-of-the-morning',
 	'url:https://standardebooks.org/ebooks/arthur-conan-doyle/the-maracot-deep',
 	'url:https://standardebooks.org/ebooks/josephine-tey/the-man-in-the-queue',
@@ -87,6 +88,9 @@ foreach($ebooks as $ebook){
 			break;
 		case 'url:https://standardebooks.org/ebooks/thomas-wolfe/look-homeward-angel';
 			$description = '<p><i>Look Homeward, Angel</i> is Thomas Wolfe’s first novel, and the one on which his considerable fame as a master of the American autobiographical novel rests. The book covers the youth of Eugene Grant, a young man living in North Carolina, and widely considered to be a direct stand-in for Wolfe himself. It was a commercial and critical success, securing Wolfe’s reputation as one of the most important writers in the Southern Renaissance.</p>';
+			break;
+		case 'url:https://standardebooks.org/ebooks/agatha-christie/the-seven-dials-mystery';
+			$description = '<p><i>The Seven Dials Mystery</i> is the second book to feature <a href="/collections/superintendent-battle">Superintendent Battle</a> and the grand country estate of <a href="/ebooks/agatha-christie/the-secret-of-chimneys">Chimneys</a>. Chimneys is again the setting for a houseparty for a group of guests. One of them has a habit of oversleeping, and as a joke the other guests place eight alarm clocks near his bed to make sure he wakes up on time. But the next morning he’s discovered dead in his bed—and Bundle, the bright daughter of Lord Caterham, takes up the case.</p>';
 			break;
 	}
 
