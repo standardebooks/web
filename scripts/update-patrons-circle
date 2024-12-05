@@ -1,98 +1,35 @@
 #!/usr/bin/php
 <?
+/**
+ * Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members who aren't in that list.
+ * We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
+ */
+
 require_once('/standardebooks.org/web/lib/Core.php');
 
-use Safe\DateTimeImmutable;
-
-use function Safe\file_get_contents;
-use function Safe\preg_match_all;
-use function Safe\shell_exec;
-
-// Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members who aren't in that list.
-// We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
-
-$lastYear = new DateTimeImmutable('-1 year');
-
 $expiredPatrons = Db::Query('
-	SELECT * from Patrons
-	where
-	Ended is null and
+	SELECT * from Patrons where
+	Ended is null
+	and
 	UserId not in
 	(
-		select distinct UserId from Payments where
-		UserId is not null
-		and
-		(
-			(IsRecurring = true and Amount >= 10 and Created > ? - interval 45 day)
-			or
-			(IsRecurring = false and Amount >= 100 and Created > ? - interval 1 year)
-		)
+		select distinct p.UserId from Patrons p
+		inner join Payments py
+		using (UserId)
+		where
+			p.Ended is null and
+			(
+				(IsRecurring = true and CycleType = ? and Amount >= p.BaseCost and py.Created > ? - interval 45 day)
+				or
+				(IsRecurring = false and CycleType = ? and Amount >= p.BaseCost and py.Created > ? - interval 1 year)
+			)
 	)
-', [NOW, NOW], Patron::class);
+', [Enums\CycleType::Monthly, NOW, Enums\CycleType::Yearly, NOW], Patron::class);
 
 if(sizeof($expiredPatrons) > 0){
-	$ebooksThisYear = 0;
-
-	// We can't use the Library class to get ebooks because this script is typically run via cron or CLI, which doesn't have access PHP-FMP's APCu cache.
-	foreach(explode("\n", trim(shell_exec('find ' . EBOOKS_DIST_PATH . ' -name "content.opf"'))) as $filename){
-		$metadata = file_get_contents($filename);
-
-		// Don't create a new Ebook object because that's very slow. Just do a regex match for speed.
-		preg_match_all('/<dc:date>(.+?)<\/dc:date>/iu', $metadata, $matches);
-
-		if(sizeof($matches) > 0){
-			$created = new DateTimeImmutable($matches[1][0]);
-			if($created >= $lastYear){
-				$ebooksThisYear++;
-			}
-		}
-	}
+	$ebooksThisYear = Db::QueryInt('SELECT count(*) from Ebooks where EbookCreated >= ? - interval 1 year', [NOW]);
 
 	foreach($expiredPatrons as $patron){
-		Db::Query('
-				UPDATE Patrons
-				set Ended = ?
-				where UserId = ?
-			', [NOW, $patron->UserId]);
-
-		Db::Query('
-				UPDATE Benefits
-				set CanAccessFeeds = false,
-				    CanVote = false,
-				    CanBulkDownload = false
-				where UserId = ?
-			', [$patron->UserId]);
-
-		// Email the patron to notify them their term has ended.
-		// Is the patron a recurring subscriber?
-		$lastPayment = Db::Query('
-						SELECT *
-						from Payments
-						where UserId = ?
-						order by Created desc
-						limit 1
-					', [$patron->UserId], Payment::class);
-
-		if(sizeof($lastPayment) > 0 && $patron->User->Email !== null){
-			$em = new Email();
-			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
-			$em->FromName = EDITOR_IN_CHIEF_NAME;
-			$em->To = $patron->User->Email;
-			$em->ToName = $patron->User->Name ?? '';
-			$em->Subject = 'Will you still help us make free, beautiful digital literature?';
-
-			if($lastPayment[0]->IsRecurring){
-				// Email recurring donors who have lapsed.
-				$em->Body = Template::EmailPatronsCircleRecurringCompleted();
-				$em->TextBody = Template::EmailPatronsCircleRecurringCompletedText();
-			}
-			else{
-				// Email one time donors who have expired after one year.
-				$em->Body = Template::EmailPatronsCircleCompleted(['ebooksThisYear' => $ebooksThisYear]);
-				$em->TextBody = Template::EmailPatronsCircleCompletedText(['ebooksThisYear' => $ebooksThisYear]);
-			}
-
-			$em->Send();
-		}
+		$patron->End($ebooksThisYear);
 	}
 }

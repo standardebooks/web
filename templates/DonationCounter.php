@@ -56,7 +56,7 @@ $digits = str_split(str_pad((string)$current, 3, "0", STR_PAD_LEFT))
 	</div>
 	<p>Our fiscal sponsor, <a href="https://www.fracturedatlas.org">Fractured Atlas</a>, is celebrating the twenty-year anniversary of their fiscal sponsorship program by <a href="https://media.fracturedatlas.org/what-would-you-do-with-an-extra-1000">distributing $1,000 to twenty different projects</a>.</p>
 	<p><strong>Each one-time donation of any amount to Standard Ebooks through <?= $deadline ?> gives us one entry in this $1,000 giveaway.</strong> The more donations we receive through <?= $deadline ?>, the more chances we have to win!</p>
-	<p><strong>This is a great time to <a href="/donate#patrons-circle">join our Patrons Circle</a> with a one-time donation of $100.</strong> Not only will your donation support us directly, but it’ll give us one more entry in this big giveaway.</p>
+	<p><strong>This is a great time to <a href="/donate#patrons-circle">join our Patrons Circle</a> with a donation of $<?= number_format(PATRONS_CIRCLE_YEARLY_COST) ?>.</strong> Not only will your donation support us directly, but it’ll give us one more entry in this big giveaway.</p>
 	<p>Will you show your support for free, beautiful digital literature?</p>
 	<? if($showDonateButton){ ?>
 		<p class="donate-button">

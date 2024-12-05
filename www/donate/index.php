@@ -34,10 +34,10 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			<p>Membership in the Patrons Circle is limited to individuals only. Organizations, please see <a href="#corporate-sponsors">corporate sponsorship</a> instead.</p>
 			<div class="join-patrons-circle-callout">
 				<h3>Join now</h3>
-				<p><i>Join the Patrons Circle by starting a recurring donation of $10/month or more, or join for one year with a one-time donation of $100 or more.</i></p>
+				<p><i>Join the Patrons Circle by starting a recurring donation of $<?= number_format(PATRONS_CIRCLE_MONTHLY_COST) ?>/month or more, or join for one year with a one-time donation of $<?= number_format(PATRONS_CIRCLE_YEARLY_COST) ?> or more.</i></p>
 				<p class="button-row">
-					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $10/month or more</a>
-					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Donate $100 or more</a>
+					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate $<?= number_format(PATRONS_CIRCLE_MONTHLY_COST) ?>/month or more</a>
+					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Donate $<?= number_format(PATRONS_CIRCLE_YEARLY_COST) ?> or more</a>
 				</p>
 				<p><strong>Important:</strong> We need to know your email address to be able to log you in to the Patrons Circle. Make sure to select either “List my name publicly” or “Don’t list publicly, but reveal to project” during checkout to be able to log in to the Patrons Circle.</p>
 			</div>

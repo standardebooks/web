@@ -50,6 +50,9 @@ const ARTWORK_IMAGE_MINIMUM_HEIGHT = 300;
 const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
 
+const PATRONS_CIRCLE_MONTHLY_COST = 15;
+const PATRONS_CIRCLE_YEARLY_COST = 150;
+
 // These are defined for convenience, so that getting HTTP input isn't so wordy.
 const GET = Enums\HttpVariableSource::Get;
 const POST = Enums\HttpVariableSource::Post;

@@ -3,6 +3,7 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
+ * @property ?Payment $LastPayment
  */
 class Patron{
 	use Traits\Accessor;
@@ -13,8 +14,30 @@ class Patron{
 	public bool $IsSubscribedToEmails;
 	public DateTimeImmutable $Created;
 	public ?DateTimeImmutable $Ended = null;
+	public ?float $BaseCost = null;
+	public ?Enums\CycleType $CycleType = null;
 
+	protected ?Payment $_LastPayment = null;
 	protected User $_User;
+
+
+	// *******
+	// GETTERS
+	// *******
+
+	protected function GetLastPayment(): ?Payment{
+		if(!isset($this->_LastPayment)){
+			$this->_LastPayment = Db::Query('
+						SELECT *
+						from Payments
+						where UserId = ?
+						order by Created desc
+						limit 1
+					', [$this->UserId], Payment::class)[0] ?? null;
+		}
+
+		return $this->_LastPayment;
+	}
 
 
 	// *******
@@ -24,13 +47,14 @@ class Patron{
 	public function Create(): void{
 		$this->Created = NOW;
 		Db::Query('
-			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails)
+			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails, BaseCost, CycleType)
 			values(?,
 			       ?,
 			       ?,
 			       ?,
+			       ?,
 			       ?)
-		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails]);
+		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails, $this->BaseCost, $this->CycleType]);
 
 		Db::Query('
 			INSERT into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload)
@@ -76,6 +100,49 @@ class Patron{
 		}
 	}
 
+	public function End(?int $ebooksThisYear): void{
+		if($ebooksThisYear === null){
+			$ebooksThisYear = Db::QueryInt('SELECT count(*) from Ebooks where EbookCreated >= ? - interval 1 year', [NOW]);
+		}
+
+		Db::Query('
+				UPDATE Patrons
+				set Ended = ?
+				where UserId = ?
+			', [NOW, $this->UserId]);
+
+		Db::Query('
+				UPDATE Benefits
+				set CanAccessFeeds = false,
+				    CanVote = false,
+				    CanBulkDownload = false
+				where UserId = ?
+			', [$this->UserId]);
+
+		// Email the patron to notify them their term has ended.
+		if($this->LastPayment !== null && $this->User->Email !== null){
+			$em = new Email();
+			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+			$em->FromName = EDITOR_IN_CHIEF_NAME;
+			$em->To = $this->User->Email;
+			$em->ToName = $this->User->Name ?? '';
+			$em->Subject = 'Will you continue to help us make free, beautiful digital literature?';
+
+			if($this->CycleType == Enums\CycleType::Monthly){
+				// Email recurring donors who have lapsed.
+				$em->Body = Template::EmailPatronsCircleRecurringCompleted();
+				$em->TextBody = Template::EmailPatronsCircleRecurringCompletedText();
+			}
+			else{
+				// Email one time donors who have expired after one year.
+				$em->Body = Template::EmailPatronsCircleCompleted(['ebooksThisYear' => $ebooksThisYear]);
+				$em->TextBody = Template::EmailPatronsCircleCompletedText(['ebooksThisYear' => $ebooksThisYear]);
+			}
+
+			$em->Send();
+		}
+	}
+
 
 	// ***********
 	// ORM METHODS
@@ -93,6 +160,8 @@ class Patron{
 			SELECT *
 			from Patrons
 			where UserId = ?
+			order by Created desc
+			limit 1
 			', [$userId], Patron::class);
 
 		return $result[0] ?? throw new Exceptions\PatronNotFoundException();;
@@ -111,6 +180,8 @@ class Patron{
 			from Patrons p
 			inner join Users u using(UserId)
 			where u.Email = ?
+			order by p.Created desc
+			limit 1
 		', [$email], Patron::class);
 
 		return $result[0] ?? throw new Exceptions\PatronNotFoundException();
