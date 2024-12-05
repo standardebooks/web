@@ -15,7 +15,7 @@ if(isset($options['v']) || isset($options['verbose'])){
 }
 
 if($ebookWwwFilesystemPath === null){
-	print("Expected usage: update-ebook-database [-v,--verbose] --ebook-www-filesystem-path <path>\n");
+	print("Usage: update-ebook-database [-v,--verbose] --ebook-www-filesystem-path PATH\n");
 	exit(1);
 }
 

@@ -19,7 +19,7 @@ use function Safe\shell_exec;
  * @property array<Contributor> $Illustrators
  * @property array<Contributor> $Translators
  * @property array<Contributor> $Contributors
- * @property ?array<string> $TocEntries
+ * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
  * @property string $Url
  * @property bool $HasDownloads
  * @property string $UrlSafeIdentifier
@@ -34,7 +34,7 @@ use function Safe\shell_exec;
  * @property string $ReadingEaseDescription
  * @property string $ReadingTime
  * @property string $AuthorsHtml
- * @property string $AuthorsUrl
+ * @property string $AuthorsUrl This is a single URL even if there are multiple authors; for example, `/ebooks/karl-marx_friedrich-engels/`.
  * @property string $ContributorsHtml
  * @property string $TitleWithCreditsHtml
  * @property string $TextUrl
@@ -65,9 +65,13 @@ class Ebook{
 	public float $ReadingEase;
 	public ?string $GitHubUrl = null;
 	public ?string $WikipediaUrl = null;
+	/** When the ebook was published. */
 	public DateTimeImmutable $EbookCreated;
+	/** When the ebook was updated. */
 	public DateTimeImmutable $EbookUpdated;
+	/** When the database row was created. */
 	public DateTimeImmutable $Created;
+	/** When the database row was updated. */
 	public DateTimeImmutable $Updated;
 	public ?int $TextSinglePageByteCount = null;
 
@@ -90,7 +94,7 @@ class Ebook{
 	/** @var array<Contributor> $_Contributors */
 	protected array $_Contributors;
 	/** @var ?array<string> $_TocEntries */
-	protected ?array $_TocEntries = null; // A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
+	protected ?array $_TocEntries = null;
 	protected string $_Url;
 	protected bool $_HasDownloads;
 	protected string $_UrlSafeIdentifier;
@@ -105,7 +109,7 @@ class Ebook{
 	protected string $_ReadingEaseDescription;
 	protected string $_ReadingTime;
 	protected string $_AuthorsHtml;
-	protected string $_AuthorsUrl; // This is a single URL even if there are multiple authors; for example, `/ebooks/karl-marx_friedrich-engels/`.
+	protected string $_AuthorsUrl;
 	protected string $_ContributorsHtml;
 	protected string $_TitleWithCreditsHtml;
 	protected string $_TextUrl;
