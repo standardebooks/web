@@ -82,7 +82,7 @@ try{
 							)
 						', [$pendingPayment->TransactionId])){
 					$log->Write('Donation already exists in database.');
-					continue 2; // `switch` is considered a "loop" by PHP.
+					break;
 				}
 
 				$driver->get('https://fundraising.fracturedatlas.org/admin/donations?query=' . $pendingPayment->TransactionId);
@@ -115,7 +115,7 @@ try{
 				}
 				catch(Exception){
 					$log->Write('Error: Couldn\'t find donation.');
-					continue 2; // `switch` is considered a "loop" by PHP.
+					break;
 				}
 				$toggleButton->click();
 
@@ -185,7 +185,7 @@ try{
 				catch(Exceptions\PaymentExistsException){
 					// Payment already exists, just continue.
 					$log->Write('Donation already in database.');
-					continue 2; // `switch` is considered a "loop" by PHP.
+					break;
 				}
 
 				// Does this payment create a new Patron in the Patrons Circle?
@@ -290,15 +290,15 @@ try{
 						$em->Send();
 					}
 				}
-
-				Db::Query('
-						DELETE
-						from PendingPayments
-						where TransactionId = ?
-					', [$pendingPayment->TransactionId]);
-
-				$log->Write('Donation processed.');
 		}
+
+		Db::Query('
+				DELETE
+				from PendingPayments
+				where TransactionId = ?
+			', [$pendingPayment->TransactionId]);
+
+		$log->Write('Donation processed.');
 	}
 }
 catch(Exception $ex){
