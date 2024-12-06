@@ -110,7 +110,7 @@ $ebook = $ebook ?? new Ebook();
 				name="sequence-number-collection-name-1"
 				inputmode="numeric"
 				pattern="[0-9]{1,3}"
-				value="<? if(isset($ebook->CollectionMemberships)){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
+				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
 			/>
 		</label>
 	</fieldset>
@@ -120,16 +120,11 @@ $ebook = $ebook ?? new Ebook();
 	<fieldset>
 		<label>
 			<span>Second Collection</span>
-			<datalist id="collection-names">
-				<? foreach(Collection::GetAll() as $collection){ ?>
-					<option value="<?= Formatter::EscapeHtml($collection->Name) ?>"><?= Formatter::EscapeHtml($collection->Name) ?></option>
-				<? } ?>
-			</datalist>
 			<input
 				type="text"
 				name="collection-name-2"
 				list="collection-names"
-				value="<? if(isset($ebook->CollectionMemberships)){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->Collection->Name) ?><? } ?>"
+				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[1]->Collection->Name) ?><? } ?>"
 			/>
 		</label>
 		<fieldset>
@@ -140,7 +135,7 @@ $ebook = $ebook ?? new Ebook();
 					name="sequence-number-collection-name-2"
 					inputmode="numeric"
 					pattern="[0-9]{1,3}"
-					value="<? if(isset($ebook->CollectionMemberships)){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
+					value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[1]->SequenceNumber) ?><? } ?>"
 				/>
 			</label>
 		</fieldset>
@@ -148,16 +143,11 @@ $ebook = $ebook ?? new Ebook();
 	<fieldset>
 		<label>
 			<span>Third Collection</span>
-			<datalist id="collection-names">
-				<? foreach(Collection::GetAll() as $collection){ ?>
-					<option value="<?= Formatter::EscapeHtml($collection->Name) ?>"><?= Formatter::EscapeHtml($collection->Name) ?></option>
-				<? } ?>
-			</datalist>
 			<input
 				type="text"
 				name="collection-name-3"
 				list="collection-names"
-				value="<? if(isset($ebook->CollectionMemberships)){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->Collection->Name) ?><? } ?>"
+				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[2]->Collection->Name) ?><? } ?>"
 			/>
 		</label>
 		<fieldset>
@@ -168,7 +158,7 @@ $ebook = $ebook ?? new Ebook();
 					name="sequence-number-collection-name-3"
 					inputmode="numeric"
 					pattern="[0-9]{1,3}"
-					value="<? if(isset($ebook->CollectionMemberships)){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
+					value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[2]->SequenceNumber) ?><? } ?>"
 				/>
 			</label>
 		</fieldset>
