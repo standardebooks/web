@@ -1024,11 +1024,11 @@ class Ebook{
 
 		$this->Identifier = EBOOKS_IDENTIFIER_PREFIX . $authorString . '/' . $titleString;
 
-		if(!empty($translatorString)){
+		if($translatorString != ''){
 			$this->Identifier .= '/' . $translatorString;
 		}
 
-		if(!empty($illustratorString)){
+		if($illustratorString != ''){
 			$this->Identifier .= '/' . $illustratorString;
 		}
 	}
