@@ -652,6 +652,11 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			</li>
 			<li>
 				<h2 id="content">Complete content.opf</h2>
+				<aside class="alert">
+					<p class="warning">STOP</p>
+					<p><strong>Do not use AI tools to write or edit any part of the metadata,</strong> including the descriptions.</p>
+					<p>Using AI tools in any part of the step-by-step guide is strictly prohibited.</p>
+				</aside>
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text. We already completed the manifest and spine in an earlier step.</p>
 				<p><code class="path">content.opf</code> is standardized. See the <a href="/manual/latest/9-metadata">Metadata section of the <abbr class="acronym">SEMoS</abbr></a> for details on how to fill it out.</p>
 				<p>The last details to fill out here will be the short and long descriptions, verifying any Wikipedia links that <code class="bash"><b>se</b> create-draft</code> automatically found, adding cover artist metadata, filling out any missing author or contributor metadata, and adding your own metadata as the ebook producer.</p>
