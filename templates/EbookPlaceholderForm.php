@@ -19,7 +19,7 @@ $ebook = $ebook ?? new Ebook();
 			name="author-name-1"
 			list="author-names"
 			required="required"
-			value="<? if(isset($ebook->Authors) && count($ebook->Authors) > 0){ ?><?= Formatter::EscapeHtml($ebook->Authors[0]->Name) ?><? } ?>"
+			value="<? if(isset($ebook->Authors) && sizeof($ebook->Authors) > 0){ ?><?= Formatter::EscapeHtml($ebook->Authors[0]->Name) ?><? } ?>"
 		/>
 	</label>
 </fieldset>
@@ -32,7 +32,7 @@ $ebook = $ebook ?? new Ebook();
 				type="text"
 				name="author-name-2"
 				list="author-names"
-				value="<? if(isset($ebook->Authors) && count($ebook->Authors) > 1){ ?><?= Formatter::EscapeHtml($ebook->Authors[1]->Name) ?><? } ?>"
+				value="<? if(isset($ebook->Authors) && sizeof($ebook->Authors) > 1){ ?><?= Formatter::EscapeHtml($ebook->Authors[1]->Name) ?><? } ?>"
 			/>
 		</label>
 		<label class="user">
@@ -41,7 +41,7 @@ $ebook = $ebook ?? new Ebook();
 				type="text"
 				name="author-name-3"
 				list="author-names"
-				value="<? if(isset($ebook->Authors) && count($ebook->Authors) > 2){ ?><?= Formatter::EscapeHtml($ebook->Authors[2]->Name) ?><? } ?>"
+				value="<? if(isset($ebook->Authors) && sizeof($ebook->Authors) > 2){ ?><?= Formatter::EscapeHtml($ebook->Authors[2]->Name) ?><? } ?>"
 			/>
 		</label>
 		<label class="user">
@@ -55,7 +55,7 @@ $ebook = $ebook ?? new Ebook();
 				type="text"
 				name="translator-name-1"
 				list="translator-names"
-				value="<? if(isset($ebook->Translators) && count($ebook->Translators) > 0){ ?><?= Formatter::EscapeHtml($ebook->Translators[0]->Name) ?><? } ?>"
+				value="<? if(isset($ebook->Translators) && sizeof($ebook->Translators) > 0){ ?><?= Formatter::EscapeHtml($ebook->Translators[0]->Name) ?><? } ?>"
 			/>
 		</label>
 		<label class="user">
@@ -64,7 +64,7 @@ $ebook = $ebook ?? new Ebook();
 				type="text"
 				name="translator-name-2"
 				list="translator-names"
-				value="<? if(isset($ebook->Translators) && count($ebook->Translators) > 1){ ?><?= Formatter::EscapeHtml($ebook->Translators[1]->Name) ?><? } ?>"
+				value="<? if(isset($ebook->Translators) && sizeof($ebook->Translators) > 1){ ?><?= Formatter::EscapeHtml($ebook->Translators[1]->Name) ?><? } ?>"
 			/>
 		</label>
 	</fieldset>
