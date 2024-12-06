@@ -1001,7 +1001,7 @@ class Ebook{
 	 * @throws Exceptions\InvalidEbookIdentifierException
 	 */
 	public function FillIdentifierFromTitleAndContributors(): void{
-		if(!isset($this->Authors) || empty($this->Authors)){
+		if(!isset($this->Authors) || sizeof($this->Authors) == 0){
 			throw new Exceptions\InvalidEbookIdentifierException('Authors required');
 		}
 
@@ -1014,11 +1014,11 @@ class Ebook{
 		$translatorString = '';
 		$illustratorString = '';
 
-		if(isset($this->Translators) || !empty($this->Translators)){
+		if(isset($this->Translators) && sizeof($this->Translators) > 0){
 			$translatorString = Ebook::GetContributorsUrlSlug($this->Translators);
 		}
 
-		if(isset($this->Illustrators) || !empty($this->Illustrators)){
+		if(isset($this->Illustrators) && sizeof($this->Illustrators) > 0){
 			$illustratorString = Ebook::GetContributorsUrlSlug($this->Illustrators);
 		}
 
