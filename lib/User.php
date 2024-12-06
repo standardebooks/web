@@ -9,7 +9,6 @@ use function Safe\preg_match;
  * @property bool $IsRegistered A user is "registered" if they have an entry in the `Benefits` table; a password is required to log in.
  * @property Benefits $Benefits
  * @property string $Url
- * @property bool $IsPatron
  * @property ?Patron $Patron
  * @property ?NewsletterSubscription $NewsletterSubscription
  */
@@ -30,7 +29,6 @@ class User{
 	protected array $_Payments;
 	protected Benefits $_Benefits;
 	protected string $_Url;
-	protected bool $_IsPatron;
 	protected ?Patron $_Patron;
 	protected ?NewsletterSubscription $_NewsletterSubscription;
 
@@ -38,14 +36,6 @@ class User{
 	// *******
 	// GETTERS
 	// *******
-
-	protected function GetIsPatron(): bool{
-		if(!isset($this->_IsPatron)){
-			$this->GetPatron();
-		}
-
-		return $this->_IsPatron;
-	}
 
 	protected function GetNewsletterSubscription(): ?NewsletterSubscription{
 		if(!isset($this->_NewsletterSubscription)){
@@ -64,16 +54,9 @@ class User{
 		if(!isset($this->_Patron)){
 			try{
 				$this->_Patron = Patron::Get($this->UserId);
-				if($this->_Patron->Ended === null){
-					$this->IsPatron = true;
-				}
-				else{
-					$this->IsPatron = false;
-				}
 			}
 			catch(Exceptions\PatronNotFoundException){
 				$this->_Patron = null;
-				$this->IsPatron = false;
 			}
 		}
 

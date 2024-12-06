@@ -7,6 +7,10 @@ label:has(input[name="password-action"]) + label{
 	margin-top: .5rem;
 }
 
+h2 + table{
+	margin-top: .5rem;
+}
+
 table td{
 	padding: .5rem;
 	vertical-align: top;

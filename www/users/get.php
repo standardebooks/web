@@ -78,12 +78,20 @@ catch(Exceptions\SeeOtherException $ex){
 			<tbody>
 				<tr>
 					<td>Is Patron:</td>
-					<td><? if($user->IsPatron){ ?>☑<? }else{ ?>☐<? } ?></td>
+					<td><? if($user->Patron !== null && $user->Patron->Ended === null){ ?>☑<? }else{ ?>☐<? } ?></td>
 				</tr>
-				<? if($user->IsPatron && $user->Patron !== null){ ?>
+				<? if($user->Patron !== null && $user->Patron->Ended === null){ ?>
 					<tr>
 						<td>Created:</td>
 						<td><?= $user->Patron->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></td>
+					</tr>
+					<tr>
+						<td>Cycle type:</td>
+						<td><?= ucfirst($user->Patron->CycleType->value) ?></td>
+					</tr>
+					<tr>
+						<td>Base cost:</td>
+						<td>$<?= number_format($user->Patron->BaseCost) ?></td>
 					</tr>
 					<tr>
 						<td>Is anonymous:</td>
