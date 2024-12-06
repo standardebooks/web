@@ -985,7 +985,22 @@ class Ebook{
 	}
 
 	/**
-	 * Populate the `Identifier` property based on the `Title`, `Authors`, `Translators`, and `Illustrators`. Used when creating ebook placeholders.
+	 * Joins the `Name` properites of `Contributor` objects as a URL slug, e.g.,
+	 *
+	 * 	```
+	 * 	([0] => Contributor Object ([Name] => William Wordsworth), ([1] => Contributor Object ([Name] => Samuel Coleridge)))
+	 * 	```
+	 *
+	 * returns `william-wordsworth_samuel-taylor-coleridge`.
+	 *
+	 * @param array<Contributor> $contributors
+	 */
+	protected static function GetContributorsUrlSlug(array $contributors): string{
+		return implode('_', array_map('Formatter::MakeUrlSafe', array_column($contributors, 'Name')));
+	}
+
+	/**
+	 * Populates the `Identifier` property based on the `Title`, `Authors`, `Translators`, and `Illustrators`. Used when creating ebook placeholders.
 	 *
 	 * @throws Exceptions\InvalidEbookIdentifierException
 	 */
@@ -998,17 +1013,17 @@ class Ebook{
 			throw new Exceptions\InvalidEbookIdentifierException('Title required');
 		}
 
-		$authorString = implode('_', array_map('Formatter::MakeUrlSafe', array_column($this->Authors, 'Name')));
+		$authorString = Ebook::GetContributorsUrlSlug($this->Authors);
 		$titleString = Formatter::MakeUrlSafe($this->Title);
 		$translatorString = '';
 		$illustratorString = '';
 
 		if(isset($this->Translators) || !empty($this->Translators)){
-			$translatorString = implode('_', array_map('Formatter::MakeUrlSafe', array_column($this->Translators, 'Name')));
+			$translatorString = Ebook::GetContributorsUrlSlug($this->Translators);
 		}
 
 		if(isset($this->Illustrators) || !empty($this->Illustrators)){
-			$illustratorString = implode('_', array_map('Formatter::MakeUrlSafe', array_column($this->Illustrators, 'Name')));
+			$illustratorString = Ebook::GetContributorsUrlSlug($this->Illustrators);
 		}
 
 		$this->Identifier = EBOOKS_IDENTIFIER_PREFIX . $authorString . '/' . $titleString;
