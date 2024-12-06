@@ -231,11 +231,11 @@ try{
 
 							if($payment->IsRecurring){
 								$patron->BaseCost = PATRONS_CIRCLE_MONTHLY_COST;
-								$patron->CycleType == Enums\CycleType::Monthly;
+								$patron->CycleType = Enums\CycleType::Monthly;
 							}
 							else{
 								$patron->BaseCost = PATRONS_CIRCLE_YEARLY_COST;
-								$patron->CycleType == Enums\CycleType::Yearly;
+								$patron->CycleType = Enums\CycleType::Yearly;
 							}
 
 							$log->Write('Adding donor as patron ...');

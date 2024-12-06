@@ -53,6 +53,7 @@ class Patron{
 			       ?,
 			       ?,
 			       ?,
+			       ?,
 			       ?)
 		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails, $this->BaseCost, $this->CycleType]);
 
