@@ -32,7 +32,6 @@ form.create-update-ebook-placeholder fieldset fieldset:has(input[name="ebook-pla
 	gap: 2rem;
 }
 
-form.create-update-ebook-placeholder fieldset label:has(input[type="url"]),
 form.create-update-ebook-placeholder fieldset label:has(input[type="checkbox"]){
 	grid-column: 1 / span 2;
 }
@@ -71,4 +70,14 @@ form.create-update-ebook-placeholder label{
 form div.footer{
 	margin-top: 1rem;
 	text-align: right;
+}
+
+/* Hide the next fieldset unless the ebook-placeholder-is-wanted checkbox is checked. */
+form.create-update-ebook-placeholder fieldset:has(input[name="ebook-placeholder-is-wanted"]) fieldset{
+	display: none;
+	grid-column: 1 / span 2;
+}
+
+form.create-update-ebook-placeholder fieldset:has(input[name="ebook-placeholder-is-wanted"]:checked) fieldset{
+	display: grid;
 }

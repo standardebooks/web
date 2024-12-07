@@ -174,47 +174,49 @@ $ebook = $ebook ?? new Ebook();
 			<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->IsWanted){ ?>checked="checked"<? } ?>
 		/>
 	</label>
-	<label>
-		<span>Did a Patron request this book?</span>
-		<input
-			type="checkbox"
-			name="ebook-placeholder-is-patron"
-			<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->IsPatron){ ?>checked="checked"<? } ?>
-		/>
-	</label>
-	<label>
-		<span>Difficulty</span>
-		<span>
-			<select name="ebook-placeholder-difficulty">
-				<option value=""></option>
-				<option value="<?= \Enums\EbookPlaceholderDifficulty::Beginner->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Difficulty == Enums\EbookPlaceholderDifficulty::Beginner){ ?> selected="selected"<? } ?>>Beginner</option>
-				<option value="<?= \Enums\EbookPlaceholderDifficulty::Intermediate->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Difficulty == Enums\EbookPlaceholderDifficulty::Intermediate){ ?> selected="selected"<? } ?>>Intermediate</option>
-				<option value="<?= \Enums\EbookPlaceholderDifficulty::Advanced->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Difficulty == Enums\EbookPlaceholderDifficulty::Advanced){ ?> selected="selected"<? } ?>>Advanced</option>
-			</select>
-		</span>
-	</label>
-	<label>
-		<span>Wanted list status</span>
-		<span>
-			<select name="ebook-placeholder-status">
-				<option value="<?= \Enums\EbookPlaceholderStatus::Wanted->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Status == Enums\EbookPlaceholderStatus::Wanted){ ?> selected="selected"<? } ?>>Wanted</option>
-				<option value="<?= \Enums\EbookPlaceholderStatus::InProgress->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Status == Enums\EbookPlaceholderStatus::InProgress){ ?> selected="selected"<? } ?>>In progress</option>
-			</select>
-		</span>
-	</label>
-	<label>
-		<span>Transcription URL</span>
-		<input
-			type="text"
-			name="ebook-placeholder-transcription-url"
-			value="<? if(isset($ebook->EbookPlaceholder)){ ?><?= Formatter::EscapeHtml($ebook->EbookPlaceholder->TranscriptionUrl) ?><? } ?>"
-		/>
-	</label>
-	<label>
-		<span>Wanted list notes</span>
-		<span>Markdown accepted</span>
-		<textarea maxlength="1024" name="ebook-placeholder-notes"><? if(isset($ebook->EbookPlaceholder)){ ?><?= Formatter::EscapeHtml($ebook->EbookPlaceholder->Notes) ?><? } ?></textarea>
-	</label>
+	<fieldset>
+		<label>
+			<span>Did a Patron request this book?</span>
+			<input
+				type="checkbox"
+				name="ebook-placeholder-is-patron"
+				<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->IsPatron){ ?>checked="checked"<? } ?>
+			/>
+		</label>
+		<label>
+			<span>Difficulty</span>
+			<span>
+				<select name="ebook-placeholder-difficulty">
+					<option value=""></option>
+					<option value="<?= Enums\EbookPlaceholderDifficulty::Beginner->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Difficulty == Enums\EbookPlaceholderDifficulty::Beginner){ ?> selected="selected"<? } ?>>Beginner</option>
+					<option value="<?= Enums\EbookPlaceholderDifficulty::Intermediate->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Difficulty == Enums\EbookPlaceholderDifficulty::Intermediate){ ?> selected="selected"<? } ?>>Intermediate</option>
+					<option value="<?= Enums\EbookPlaceholderDifficulty::Advanced->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Difficulty == Enums\EbookPlaceholderDifficulty::Advanced){ ?> selected="selected"<? } ?>>Advanced</option>
+				</select>
+			</span>
+		</label>
+		<label>
+			<span>Wanted list status</span>
+			<span>
+				<select name="ebook-placeholder-status">
+					<option value="<?= Enums\EbookPlaceholderStatus::Wanted->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Status == Enums\EbookPlaceholderStatus::Wanted){ ?> selected="selected"<? } ?>>Wanted</option>
+					<option value="<?= Enums\EbookPlaceholderStatus::InProgress->value ?>"<? if(isset($ebook->EbookPlaceholder) && $ebook->EbookPlaceholder->Status == Enums\EbookPlaceholderStatus::InProgress){ ?> selected="selected"<? } ?>>In progress</option>
+				</select>
+			</span>
+		</label>
+		<label>
+			<span>Transcription URL</span>
+			<input
+				type="text"
+				name="ebook-placeholder-transcription-url"
+				value="<? if(isset($ebook->EbookPlaceholder)){ ?><?= Formatter::EscapeHtml($ebook->EbookPlaceholder->TranscriptionUrl) ?><? } ?>"
+			/>
+		</label>
+		<label>
+			<span>Wanted list notes</span>
+			<span>Markdown accepted</span>
+			<textarea maxlength="1024" name="ebook-placeholder-notes"><? if(isset($ebook->EbookPlaceholder)){ ?><?= Formatter::EscapeHtml($ebook->EbookPlaceholder->Notes) ?><? } ?></textarea>
+		</label>
+	</fieldset>
 </fieldset>
 <div class="footer">
 	<button>Submit</button>
