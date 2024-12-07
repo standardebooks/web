@@ -126,6 +126,9 @@
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/37725">The Fisher Girl</a> by Bjørnstjerne Bjørnson</p>
 			</li> -->
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/74319">The Conscience of a Conservative</a> by Barry Goldwater</p>
+			</li>
 		</ul>
 		<h2>Moderate-difficulty productions</h2>
 		<ul>
