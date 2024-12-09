@@ -2020,6 +2020,9 @@ class Ebook{
 	}
 
 	/**
+	 * Queries for related to books to be shown, e.g., in a carousel.
+	 *
+	 * Filters out placeholder books because they are not useful for browsing.
 	 * @return array<Ebook>
 	 */
 	public static function GetAllByRelated(Ebook $ebook, int $count, ?EbookTag $relatedTag): array{
@@ -2030,6 +2033,7 @@ class Ebook{
 						inner join EbookTags et using (EbookId)
 						where et.TagId = ?
 						    and et.EbookId != ?
+						    and e.WwwFilesystemPath is not null
 						order by rand()
 						limit ?
 				', [$relatedTag->TagId, $ebook->EbookId, $count], Ebook::class);
@@ -2039,6 +2043,7 @@ class Ebook{
 						SELECT *
 						from Ebooks
 						where EbookId != ?
+						    and WwwFilesystemPath is not null
 						order by rand()
 						limit ?
 				', [$ebook->EbookId, $count], Ebook::class);
