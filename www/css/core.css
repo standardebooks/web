@@ -1572,6 +1572,23 @@ ol.ebooks-list > li p.author a{
 	justify-content: center;
 }
 
+.placeholder-cover {
+	align-items: center;
+	background-color: #282828;
+	background-image: url("/images/stripes-xdark.svg");
+	border-radius: .25rem;
+	border: 1px solid var(--border);
+	display: flex;
+	height: 335px;
+	justify-content: center;
+	width: 224px;
+}
+
+.placeholder-cover::before {
+	content: "Placeholder";
+	font-size: .6rem;
+}
+
 article nav ol,
 main nav.pagination ol{
 	list-style: none;
