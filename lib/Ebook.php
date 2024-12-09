@@ -2075,13 +2075,13 @@ class Ebook{
 		if($sort == Enums\EbookSortType::AuthorAlpha){
 			$joinContributors = 'inner join Contributors con using (EbookId)';
 			$whereCondition .= ' and con.MarcRole = "aut"';
-			$orderBy = 'con.SortName, e.EbookCreated desc';
+			$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreated desc'; // Put placeholders at the end
 		}
 		elseif($sort == Enums\EbookSortType::ReadingEase){
 			$orderBy = 'e.ReadingEase desc';
 		}
 		elseif($sort == Enums\EbookSortType::Length){
-			$orderBy = 'e.WordCount';
+			$orderBy = 'e.WwwFilesystemPath is null, e.WordCount'; // Put placeholders at the end
 		}
 
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
