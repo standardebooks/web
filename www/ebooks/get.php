@@ -19,6 +19,11 @@ try{
 
 	$ebook = Ebook::GetByIdentifier($identifier);
 
+	if($ebook->IsPlaceholder()){
+		require('/standardebooks.org/web/www/ebook-placeholders/get.php');
+		exit();
+	}
+
 	// Divide our sources into transcriptions and scans.
 	foreach($ebook->Sources as $source){
 		switch($source->Type){
