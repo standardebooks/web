@@ -7,7 +7,7 @@ try{
 	$count = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
 
 	if($query !== ''){
-		$ebooks = Ebook::GetAllByFilter($query, [], Enums\EbookSortType::Newest, $startPage, $count)['ebooks'];
+		$ebooks = Ebook::GetAllByFilter($query, [], Enums\EbookSortType::Newest, $startPage, $count, Enums\EbookReleaseStatusFilter::Released)['ebooks'];
 	}
 }
 catch(\Exception){
