@@ -5,21 +5,25 @@ class EbookPlaceholder{
 
 	public int $EbookId;
 	public ?int $YearPublished = null;
-	public Enums\EbookPlaceholderStatus $Status;
+	public bool $IsWanted = false;
+	public ?Enums\EbookPlaceholderStatus $Status = null;
 	public ?Enums\EbookPlaceholderDifficulty $Difficulty = null;
 	public ?string $TranscriptionUrl = null;
-	public bool $IsWanted = false;
 	public bool $IsPatron = false;
 	public ?string $Notes = null;
 
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('YearPublished');
-		$this->PropertyFromHttp('Status');
-		$this->PropertyFromHttp('Difficulty');
-		$this->PropertyFromHttp('TranscriptionUrl');
 		$this->PropertyFromHttp('IsWanted');
-		$this->PropertyFromHttp('IsPatron');
-		$this->PropertyFromHttp('Notes');
+
+		// These properties apply only to books on the SE wanted list.
+		if($this->IsWanted){
+			$this->PropertyFromHttp('Status');
+			$this->PropertyFromHttp('Difficulty');
+			$this->PropertyFromHttp('TranscriptionUrl');
+			$this->PropertyFromHttp('IsPatron');
+			$this->PropertyFromHttp('Notes');
+		}
 	}
 
 	/**
