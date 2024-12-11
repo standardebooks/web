@@ -12,7 +12,7 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanCreateEbookPlaceholder){
+	if(!Session::$User->Benefits->CanCreateEbookPlaceholders){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 

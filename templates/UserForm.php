@@ -138,8 +138,8 @@ $passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
 		<li>
 			<label>
 				<input type="hidden" name="benefits-can-create-ebook-placeholder" value="false" />
-				<input type="checkbox" name="benefits-can-create-ebook-placeholder" value="true"<? if($user->Benefits->CanCreateEbookPlaceholder){ ?> checked="checked"<? } ?> />
-				Can create ebook placeholder
+				<input type="checkbox" name="benefits-can-create-ebook-placeholder" value="true"<? if($user->Benefits->CanCreateEbookPlaceholders){ ?> checked="checked"<? } ?> />
+				Can create ebook placeholders
 			</label>
 		</li>
 	</ul>

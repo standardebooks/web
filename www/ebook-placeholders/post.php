@@ -11,7 +11,7 @@ try{
 
 	// POSTing a new ebook placeholder.
 	if($httpMethod == Enums\HttpMethod::Post){
-		if(!Session::$User->Benefits->CanCreateEbookPlaceholder){
+		if(!Session::$User->Benefits->CanCreateEbookPlaceholders){
 			throw new Exceptions\InvalidPermissionsException();
 		}
 

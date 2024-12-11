@@ -159,7 +159,7 @@ catch(Exceptions\SeeOtherException $ex){
 					</tr>
 					<tr>
 						<td>Can create ebook placeholders:</td>
-						<td><? if($user->Benefits->CanCreateEbookPlaceholder){ ?>☑<? }else{ ?>☐<? } ?></td>
+						<td><? if($user->Benefits->CanCreateEbookPlaceholders){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 				<? } ?>
 			</tbody>
