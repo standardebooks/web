@@ -1,6 +1,10 @@
 <?
 
+/**
+ * @property bool $IsPublicDomain
+ */
 class EbookPlaceholder{
+	use Traits\Accessor;
 	use Traits\PropertyFromHttp;
 
 	public int $EbookId;
@@ -11,6 +15,16 @@ class EbookPlaceholder{
 	public ?string $TranscriptionUrl = null;
 	public bool $IsPatron = false;
 	public ?string $Notes = null;
+
+	protected bool $_IsPublicDomain;
+
+	protected function GetIsPublicDomain(): bool{
+		if(!isset($this->_IsPublicDomain)){
+			$this->_IsPublicDomain = $this->YearPublished === null ? true : $this->YearPublished <= PD_YEAR;
+		}
+
+		return $this->_IsPublicDomain;
+	}
 
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('YearPublished');

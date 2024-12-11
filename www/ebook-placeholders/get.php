@@ -20,7 +20,7 @@ catch(Exceptions\EbookNotFoundException){
 	])
 ?>
 <main>
-	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
+	<article class="ebook ebook-placeholder" typeof="schema:Book" about="<?= $ebook->Url ?>">
 		<header>
 			<hgroup>
 				<h1 property="schema:name"><?= Formatter::EscapeHtml($ebook->Title) ?></h1>
@@ -48,12 +48,7 @@ catch(Exceptions\EbookNotFoundException){
 					<? } ?>
 				<? } ?>
 			</hgroup>
-			<picture>
-				<source srcset="/images/public-domain-day-placeholder-cover-hero@2x.jpg 2x, /images/public-domain-day-placeholder-cover-hero.jpg 1x" type="image/jpg"/>
-				<img src="/images/public-domain-day-placeholder-cover-hero@2x.jpg" alt="" height="439" width="1318" />
-			</picture>
 		</header>
-
 
 		<aside id="reading-ease">
 			<? if($ebook->ContributorsHtml != ''){ ?>
@@ -77,40 +72,17 @@ catch(Exceptions\EbookNotFoundException){
 			<? } ?>
 		</aside>
 
-		<section>
-			<h2>Raw placeholder data</h2>
-			<table>
-				<tr>
-					<td>Year published</td>
-					<td><?= $ebook->EbookPlaceholder->YearPublished ?></td>
-				</tr>
-				<tr>
-					<td>IsWanted</td>
-					<td><?= $ebook->EbookPlaceholder->IsWanted ?></td>
-				</tr>
-				<tr>
-					<td>Status</td>
-					<td><? if(isset($ebook->EbookPlaceholder->Status)){ ?><?= $ebook->EbookPlaceholder->Status->value ?><? } ?></td>
-				</tr>
-				<tr>
-					<td>Difficulty</td>
-					<td><? if(isset($ebook->EbookPlaceholder->Difficulty)){ ?><?= $ebook->EbookPlaceholder->Difficulty->value ?><? } ?></td>
-				</tr>
-				<tr>
-					<td>Transcription Url</td>
-					<td><?= $ebook->EbookPlaceholder->TranscriptionUrl ?></td>
-				</tr>
-				<tr>
-					<td>IsPatron</td>
-					<td><?= $ebook->EbookPlaceholder->IsPatron ?></td>
-				</tr>
-				<tr>
-					<td>Notes</td>
-					<td><? if(isset($ebook->EbookPlaceholder->Notes)){ ?><?= Formatter::MarkdownToHtml($ebook->EbookPlaceholder->Notes) ?><? } ?></td>
-				</tr>
-			</table>
+		<section class="placeholder-details">
+			<? if($ebook->EbookPlaceholder->IsPublicDomain){ ?>
+				<p>We don’t have this ebook in our catalog yet.</p>
+				<p>You can <a href="/donate#sponsor-an-ebook">sponsor the production of this ebook</a> and we’ll get working on it immediately!</p>
+			<? }elseif($ebook->EbookPlaceholder->YearPublished !== null){ ?>
+				<p>This book was published in <?= $ebook->EbookPlaceholder->YearPublished ?>, and will therefore enter the U.S. public domain on <b>January 1, <?= $ebook->EbookPlaceholder->YearPublished + 96 ?>.</b></p>
+				<p>We can’t work on it any earlier than that.</p>
+			<? }else{ ?>
+				<p>This book is not yet in the U.S. public domain. We can’t offer it it until it is.</p>
+			<? } ?>
 		</section>
-
 	</article>
 </main>
 <?= Template::Footer() ?>

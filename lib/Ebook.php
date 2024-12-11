@@ -1625,9 +1625,18 @@ class Ebook{
 
 	/**
 	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\DuplicateEbookException If an `Ebook` with the given identifier already exists.
 	 */
 	public function Create(): void{
 		$this->Validate();
+
+		try{
+			Ebook::GetByIdentifier($this->Identifier);
+			throw new Exceptions\DuplicateEbookException($this->Identifier);
+		}
+		catch(Exceptions\EbookNotFoundException){
+			// Pass.
+		}
 
 		$this->CreateTags();
 		$this->CreateLocSubjects();

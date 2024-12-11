@@ -81,3 +81,12 @@ form.create-update-ebook-placeholder fieldset:has(input[name="ebook-placeholder-
 form.create-update-ebook-placeholder fieldset:has(input[name="ebook-placeholder-is-wanted"]:checked) fieldset{
 	display: grid;
 }
+
+article.ebook.ebook-placeholder > header{
+	border: 2px dashed var(--sub-text);
+	border-top: 0;
+}
+
+article.ebook.ebook-placeholder .placeholder-details{
+	padding-top: 2rem;
+}

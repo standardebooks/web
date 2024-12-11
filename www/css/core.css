@@ -1572,21 +1572,12 @@ ol.ebooks-list > li p.author a{
 	justify-content: center;
 }
 
-.placeholder-cover {
-	align-items: center;
-	background-color: #282828;
-	background-image: url("/images/stripes-xdark.svg");
+.placeholder-cover{
+	background-color: transparent;
 	border-radius: .25rem;
-	border: 1px solid var(--border);
-	display: flex;
-	height: 335px;
-	justify-content: center;
-	width: 224px;
-}
-
-.placeholder-cover::before {
-	content: "Placeholder";
-	font-size: .6rem;
+	border: 2px dashed var(--sub-text);
+	height: 331px;
+	width: 221px;
 }
 
 article nav ol,
@@ -3137,6 +3128,83 @@ body > header:has(.public-domain-day-banner){
 form[action="/settings"] label{
 	display: inline-block;
 }
+
+
+
+
+
+
+ol.ebooks-list > li a.wanted,
+ol.ebooks-list > li.wanted .placeholder-cover{
+	position: relative;
+}
+
+ol.ebooks-list > li.wanted .placeholder-cover::before,
+ol.ebooks-list > li.wanted a::after{
+	/* Ribbon */
+	font-family: "League Spartan", sans-serif;
+	position: absolute;
+	left: -.5rem;
+	top: calc(.25rem + 3px);
+	padding: .5rem 1rem .5rem .5rem;
+	line-height: 1;
+	color: #ffffff;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .75);
+	text-transform: uppercase;
+	font-size: .5rem;
+	white-space: nowrap;
+	font-weight: bold;
+	clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+	z-index: 2;
+}
+
+ol.ebooks-list > li[property="schema:hasPart"][value].wanted .placeholder-cover::before,
+ol.ebooks-list > li[property="schema:hasPart"][value].wanted a::after{
+	top: calc(.25rem + 3px + 2rem);
+}
+
+ol.ebooks-list > li.wanted .placeholder-cover::after{
+	/* Ribbon bottom wrap-around */
+	content: "";
+	position: absolute;
+	top: calc(.5rem + .5rem + .5rem + .5rem - 2px);
+	height: .5rem;
+	width: .5rem;
+	left: -.5rem;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+	z-index: 1;
+	filter: brightness(50%);
+}
+
+ol.ebooks-list > li[property="schema:hasPart"][value].wanted .placeholder-cover::after{
+	top: calc(.25rem + 3px + 2rem + .5rem + .5rem + .5rem);
+}
+
+ol.ebooks-list > li.wanted a::after{
+	/* Ribbon shadow */
+	left: calc(-.5rem + 4px);
+	top: calc(.5rem + 2px);
+	background: rgba(0, 0, 0, .4);
+	z-index: auto;
+}
+
+ol.ebooks-list > li[property="schema:hasPart"][value].wanted a::after{
+	top: calc(.25rem + 3px + 2rem + 4px);
+}
+
+ol.ebooks-list > li.wanted .placeholder-cover::before,
+ol.ebooks-list > li.wanted .placeholder-cover::after{
+	background: #861d1d;
+}
+
+ol.ebooks-list > li.wanted .placeholder-cover::before,
+ol.ebooks-list > li.wanted a::after{
+	content: "wanted";
+}
+
+
+
+
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */

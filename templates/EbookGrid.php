@@ -12,14 +12,14 @@ $collection = $collection ?? null;
 		<meta property="schema:name" content="<?= Formatter::EscapeHtml($collection->Name) ?>"/>
 	<? } ?>
 	<? foreach($ebooks as $ebook){ ?>
-		<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart"<? if($ebook->GetCollectionPosition($collection) !== null){ ?> value="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?><? }else{ ?> about="<?= $ebook->Url ?>"<? } ?>>
+		<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart"<? if($ebook->GetCollectionPosition($collection) !== null){ ?> value="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?><? }else{ ?> about="<?= $ebook->Url ?>"<? } ?><? if($ebook->EbookPlaceholder?->IsWanted){ ?> class="wanted"<? } ?>>
 			<? if($collection !== null && $ebook->GetCollectionPosition($collection) !== null){ ?>
 				<meta property="schema:position" content="<?= $ebook->GetCollectionPosition($collection) ?>"/>
 			<? } ?>
 			<div class="thumbnail-container" aria-hidden="true"><? /* We need a container in case the thumb is shorter than the description, so that the focus outline doesn't take up the whole grid space */ ?>
 				<a href="<?= $ebook->Url ?>" tabindex="-1" property="schema:url"<? if($collection !== null && $ebook->GetCollectionPosition($collection) !== null){ ?> data-ordinal="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?>>
 					<? if($ebook->IsPlaceholder()){ ?>
-						<div class="placeholder-cover"></div>
+						<div class="placeholder-cover"/>
 					<? }else{ ?>
 						<picture>
 							<? if($ebook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
