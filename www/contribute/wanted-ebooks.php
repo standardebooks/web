@@ -225,9 +225,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/52356">Essays and Dialogues</a> by Giacomo Leopardi</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/3091">Eight Hundred Leagues on the Amazon</a> <i>La Jangada</i> by Jules Verne</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8991">The Fur Country: Seventy Degrees North Latitude</a> <i>Le Pays des fourrures</i> by Jules Verne</p>
 			</li>
