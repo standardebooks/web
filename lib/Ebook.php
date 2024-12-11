@@ -2076,11 +2076,23 @@ class Ebook{
 		$joinTags = '';
 		$params = [];
 
-		$whereCondition = 'where true';
-		if($releaseStatusFilter == Enums\EbookReleaseStatusFilter::Released){
-			$whereCondition = 'where e.WwwFilesystemPath is not null';
-		}elseif($releaseStatusFilter == Enums\EbookReleaseStatusFilter::Placeholder){
-			$whereCondition = 'where e.WwwFilesystemPath is null';
+		switch($releaseStatusFilter){
+			case Enums\EbookReleaseStatusFilter::Released:
+				$whereCondition = 'where e.WwwFilesystemPath is not null';
+				break;
+			case Enums\EbookReleaseStatusFilter::Placeholder:
+				$whereCondition = 'where e.WwwFilesystemPath is null';
+				break;
+			case Enums\EbookReleaseStatusFilter::All:
+			default:
+				if($query !== null && $query != ''){
+					// If the query is present, show both released and placeholder ebooks.
+					$whereCondition = 'where true';
+				}else{
+					// If there is no query, hide placeholder ebooks.
+					$whereCondition = 'where e.WwwFilesystemPath is not null';
+				}
+				break;
 		}
 
 		$orderBy = 'e.EbookCreated desc';
