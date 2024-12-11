@@ -3129,11 +3129,6 @@ form[action="/settings"] label{
 	display: inline-block;
 }
 
-
-
-
-
-
 ol.ebooks-list > li a.wanted,
 ol.ebooks-list > li.wanted .placeholder-cover{
 	position: relative;
@@ -3201,10 +3196,6 @@ ol.ebooks-list > li.wanted .placeholder-cover::before,
 ol.ebooks-list > li.wanted a::after{
 	content: "wanted";
 }
-
-
-
-
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
