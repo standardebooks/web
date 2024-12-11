@@ -157,6 +157,10 @@ catch(Exceptions\SeeOtherException $ex){
 						<td>Can edit users:</td>
 						<td><? if($user->Benefits->CanEditUsers){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
+					<tr>
+						<td>Can create ebook placeholders:</td>
+						<td><? if($user->Benefits->CanCreateEbookPlaceholder){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
 				<? } ?>
 			</tbody>
 		</table>
