@@ -5,8 +5,6 @@ use function Safe\preg_replace;
 /** @var string $identifier Passed from script this is included from. */
 $ebook = null;
 
-$ebook = null;
-
 try{
 	$ebook = Ebook::GetByIdentifier($identifier);
 }
