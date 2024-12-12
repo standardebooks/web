@@ -1338,6 +1338,7 @@ class Ebook{
 
 	/**
 	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\DuplicateEbookException
 	 */
 	public function CreateOrUpdate(): void{
 		try{
