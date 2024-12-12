@@ -19,7 +19,7 @@ $collection = $collection ?? null;
 			<div class="thumbnail-container" aria-hidden="true"><? /* We need a container in case the thumb is shorter than the description, so that the focus outline doesn't take up the whole grid space */ ?>
 				<a href="<?= $ebook->Url ?>" tabindex="-1" property="schema:url"<? if($collection !== null && $ebook->GetCollectionPosition($collection) !== null){ ?> data-ordinal="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?>>
 					<? if($ebook->IsPlaceholder()){ ?>
-						<div class="placeholder-cover"/>
+						<div class="placeholder-cover"></div><? /* Don't self-close as this changes how Chrome renders */ ?>
 					<? }else{ ?>
 						<picture>
 							<? if($ebook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
