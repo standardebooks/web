@@ -80,7 +80,7 @@ catch(Exceptions\EbookNotFoundException){
 				<p>This book was published in <?= $ebook->EbookPlaceholder->YearPublished ?>, and will therefore enter the U.S. public domain on <b>January 1, <?= $ebook->EbookPlaceholder->YearPublished + 96 ?>.</b></p>
 				<p>We can’t work on it any earlier than that.</p>
 			<? }else{ ?>
-				<p>This book is not yet in the U.S. public domain. We can’t offer it it until it is.</p>
+				<p>This book is not yet in the U.S. public domain. We can’t offer it until it is.</p>
 			<? } ?>
 		</section>
 	</article>
