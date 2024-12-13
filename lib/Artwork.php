@@ -393,7 +393,7 @@ class Artwork{
 		}
 
 		if(!isset($this->Status)){
-			$error->Add(new Exceptions\InvalidArtworkException('Invalid status.'));
+			$error->Add(new Exceptions\InvalidArtworkStatusException());
 		}
 
 		if(isset($this->Tags)){
