@@ -24,7 +24,8 @@ $identifiers = [
 	'url:https://standardebooks.org/ebooks/josephine-tey/the-man-in-the-queue',
 ];
 
-$ebooks = Db::Query('SELECT * from Ebooks where Identifier in ' . Db::CreateSetSql($identifiers), $identifiers, Ebook::class);
+// Get all `Ebook`s that are not placeholders. We may have some PD Day books in our placeholders list but we don't want to show them here!
+$ebooks = Db::Query('SELECT e.* from Ebooks e left outer join EbookPlaceholders ep using (EbookId) where Identifier in ' . Db::CreateSetSql($identifiers) . ' and ep.EbookId is null', $identifiers, Ebook::class);
 
 $ebooksWithDescriptions = [];
 
@@ -118,7 +119,7 @@ ksort($ebooksWithDescriptions);
 		<p>And 1929 was a literary doozy!</p>
 		<p>Books by <a href="/ebooks/william-faulkner">William Faulkner</a>, <a href="/ebooks/ernest-hemingway">Ernest Hemingway</a>, <a href="/ebooks/mahatma-gandhi">Mahatma Gandhi</a>, and <a href="/ebooks/john-steinbeck">John Steinbeck</a> enter the U.S. public domain. Joining these esteemed names is the English translation of <i><a href="/ebooks/erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen">All Quiet on the Western Front</a></i>; <i><a href="/ebooks/dashiell-hammett/red-harvest">Red Harvest</a></i>, the first novel featuring the <a href="/collections/continental-op">Continental Op</a>, the nameless hard-boiled noir detective who created the archetype for every hard-drinking, fedora-wearing private eye to grace page and screen since; and much more.</p>
 		<p>Our friends at the Public Domain Review have written about some <a href="https://publicdomainreview.org/blog/2025/01/public-domain-day-2025/">other things that enter the public domain this year, too</a>.</p>
-		<p>At Standard Ebooks, our volunteers have been working hard these past few months to prepare a selection of 1929 ebooks for Public Domain Day, and now we’re excited to finally be able to share these <strong><?= number_format(sizeof($ebooks)) ?> new ebooks</strong> with you! Join us in celebrating the liberation of our cultural heritage by downloading these ebooks we’ve prepared for you, and reading them for free:</p>
+		<p>At Standard Ebooks, our volunteers have been working hard these past few months to prepare a selection of 1929 ebooks for Public Domain Day, and now we’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new ebooks</strong> with you! Join us in celebrating the liberation of our cultural heritage by downloading these ebooks we’ve prepared for you, and reading them for free:</p>
 		<? if(sizeof($ebooksWithDescriptions) == 0){ ?>
 			<p class="empty">We’re still preparing these free ebooks for Public Domain Day. Check back after January 1!</p>
 		<? }else{ ?>
