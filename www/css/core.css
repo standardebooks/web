@@ -3166,13 +3166,13 @@ form[action="/settings"] label{
 	display: inline-block;
 }
 
-ol.ebooks-list > li a.wanted,
-ol.ebooks-list > li.wanted .placeholder-cover{
+ol.ebooks-list > li a.ribbon,
+ol.ebooks-list > li.ribbon .placeholder-cover{
 	position: relative;
 }
 
-ol.ebooks-list > li.wanted .placeholder-cover::before,
-ol.ebooks-list > li.wanted a::after{
+ol.ebooks-list > li.ribbon .placeholder-cover::before,
+ol.ebooks-list > li.ribbon a::after{
 	/* Ribbon */
 	font-family: "League Spartan", sans-serif;
 	position: absolute;
@@ -3190,16 +3190,16 @@ ol.ebooks-list > li.wanted a::after{
 	z-index: 2;
 }
 
-ol.ebooks-list > li[property="schema:hasPart"][value].wanted .placeholder-cover::before,
-ol.ebooks-list > li[property="schema:hasPart"][value].wanted a::after{
+ol.ebooks-list > li[property="schema:hasPart"][value].ribbon .placeholder-cover::before,
+ol.ebooks-list > li[property="schema:hasPart"][value].ribbon a::after{
 	top: calc(.25rem + 3px + 2rem);
 }
 
-ol.ebooks-list > li.wanted .placeholder-cover::after{
+ol.ebooks-list > li.ribbon .placeholder-cover::after{
 	/* Ribbon bottom wrap-around */
 	content: "";
 	position: absolute;
-	top: calc(.5rem + .5rem + .5rem + .5rem - 2px);
+	top: calc(.5rem + .5rem + .5rem + .5rem - 3px);
 	height: .5rem;
 	width: .5rem;
 	left: -.5rem;
@@ -3208,11 +3208,11 @@ ol.ebooks-list > li.wanted .placeholder-cover::after{
 	filter: brightness(50%);
 }
 
-ol.ebooks-list > li[property="schema:hasPart"][value].wanted .placeholder-cover::after{
+ol.ebooks-list > li[property="schema:hasPart"][value].ribbon .placeholder-cover::after{
 	top: calc(.25rem + 3px + 2rem + .5rem + .5rem + .5rem);
 }
 
-ol.ebooks-list > li.wanted a::after{
+ol.ebooks-list > li.ribbon a::after{
 	/* Ribbon shadow */
 	left: calc(-.5rem + 4px);
 	top: calc(.5rem + 2px);
@@ -3220,18 +3220,38 @@ ol.ebooks-list > li.wanted a::after{
 	z-index: auto;
 }
 
-ol.ebooks-list > li[property="schema:hasPart"][value].wanted a::after{
+ol.ebooks-list > li[property="schema:hasPart"][value].ribbon a::after{
 	top: calc(.25rem + 3px + 2rem + 4px);
 }
 
-ol.ebooks-list > li.wanted .placeholder-cover::before,
-ol.ebooks-list > li.wanted .placeholder-cover::after{
+ol.ebooks-list > li.ribbon.wanted .placeholder-cover::before,
+ol.ebooks-list > li.ribbon.wanted .placeholder-cover::after{
+	background: #383760;
+}
+
+ol.ebooks-list > li.ribbon.wanted .placeholder-cover::before,
+ol.ebooks-list > li.ribbon.wanted a::after{
+	content: "wanted";
+}
+
+ol.ebooks-list > li.ribbon.in-progress .placeholder-cover::before,
+ol.ebooks-list > li.ribbon.in-progress .placeholder-cover::after{
+	background: #389660;
+}
+
+ol.ebooks-list > li.ribbon.in-progress .placeholder-cover::before,
+ol.ebooks-list > li.ribbon.in-progress a::after{
+	content: "in progress";
+}
+
+ol.ebooks-list > li.ribbon.not-pd .placeholder-cover::before,
+ol.ebooks-list > li.ribbon.not-pd .placeholder-cover::after{
 	background: #861d1d;
 }
 
-ol.ebooks-list > li.wanted .placeholder-cover::before,
-ol.ebooks-list > li.wanted a::after{
-	content: "wanted";
+ol.ebooks-list > li.ribbon.not-pd .placeholder-cover::before,
+ol.ebooks-list > li.ribbon.not-pd a::after{
+	content: "not p.d. yet";
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
