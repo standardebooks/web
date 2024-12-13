@@ -4,6 +4,7 @@ use function Safe\preg_replace;
 class Formatter{
 	private static Transliterator $_Transliterator;
 	private static Parsedown $_MarkdownParser;
+	private static NumberFormatter $_NumberFormatter;
 
 	/**
 	 * Remove diacritics from a string, leaving the now-unaccented characters in place.
@@ -118,6 +119,34 @@ class Formatter{
 		}
 		else{
 			$output = '0B';
+		}
+
+		return $output;
+	}
+
+	/**
+	 * Format a float into a USD currency string. The result is prepended with `$`.
+	 *
+	 * @param ?float $amount The amount to format.
+	 * @param bool $trimZeroCents If `$amount` has zero cents, don't include the cents value.
+	 */
+	public static function FormatCurrency(?float $amount, bool $trimZeroCents = false): string{
+		if($amount === null){
+			$amount = 0;
+		}
+
+		if(!isset(Formatter::$_NumberFormatter)){
+			Formatter::$_NumberFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+		}
+
+		$output = Formatter::$_NumberFormatter->formatCurrency($amount, 'USD');
+
+		if($output === false){
+			$output = '$0.00';
+		}
+
+		if($trimZeroCents){
+			$output = preg_replace('/\.00$/u', '', $output);
 		}
 
 		return $output;

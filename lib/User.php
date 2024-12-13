@@ -11,6 +11,7 @@ use function Safe\preg_match;
  * @property string $Url
  * @property ?Patron $Patron
  * @property ?NewsletterSubscription $NewsletterSubscription
+ * @property ?Payment $LastPayment
  */
 class User{
 	use Traits\Accessor;
@@ -27,6 +28,7 @@ class User{
 	protected bool $_IsRegistered;
 	/** @var array<Payment> $_Payments */
 	protected array $_Payments;
+	protected ?Payment $_LastPayment;
 	protected Benefits $_Benefits;
 	protected string $_Url;
 	protected ?Patron $_Patron;
@@ -85,6 +87,20 @@ class User{
 		}
 
 		return $this->_Payments;
+	}
+
+	protected function GetLastPayment(): ?Payment{
+		if(!isset($this->_LastPayment)){
+			$this->_LastPayment = Db::Query('
+							SELECT *
+							from Payments
+							where UserId = ?
+							order by Created desc
+							limit 1
+						', [$this->UserId], Payment::class)[0] ?? null;
+		}
+
+		return $this->_LastPayment;
 	}
 
 	protected function GetBenefits(): Benefits{

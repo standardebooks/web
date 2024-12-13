@@ -3,6 +3,8 @@
  * @var ?Exception $exception
  */
 
+use Exceptions\AppException;
+
 if($exception === null){
 	return;
 }
@@ -18,8 +20,18 @@ else{
 ?>
 <ul class="message error">
 	<? foreach($exceptions as $ex){ ?>
+		<?
+			$message = $ex->getMessage();
+			if($message == ''){
+				$message = 'An error occurred.';
+			}
+
+			if(!($ex instanceof AppException) || $ex->MessageType == Enums\ExceptionMessageType::Text){
+				$message = '<p>' . str_replace('CAPTCHA', '<abbr class="acronym">CAPTCHA</abbr>', Formatter::EscapeHtml($message)) . '</p>';
+			}
+		?>
 		<li>
-			<p><? $message = $ex->getMessage(); if($message == ''){ $message = 'An error occurred.'; } ?><?= str_replace('CAPTCHA', '<abbr class="acronym">CAPTCHA</abbr>', Formatter::EscapeHtml($message)) ?></p>
+			<?= $message ?>
 		</li>
 	<? } ?>
 </ul>

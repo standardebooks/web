@@ -87,11 +87,23 @@ catch(Exceptions\SeeOtherException $ex){
 					</tr>
 					<tr>
 						<td>Cycle type:</td>
-						<td><?= ucfirst($user->Patron->CycleType->value) ?></td>
+						<td>
+							<? if($user->Patron->CycleType !== null){ ?>
+								<?= ucfirst($user->Patron->CycleType->value) ?>
+							<? }else{ ?>
+								<i>Not set</i>
+							<? } ?>
+						</td>
 					</tr>
 					<tr>
 						<td>Base cost:</td>
-						<td>$<?= number_format($user->Patron->BaseCost) ?></td>
+						<td>
+							<? if($user->Patron->BaseCost !== null){ ?>
+								<?= Formatter::FormatCurrency($user->Patron->BaseCost) ?>
+							<? }else{ ?>
+								<i>Not set</i>
+							<? } ?>
+						</td>
 					</tr>
 					<tr>
 						<td>Is anonymous:</td>
@@ -193,13 +205,13 @@ catch(Exceptions\SeeOtherException $ex){
 								<? } ?>
 							</td>
 							<td>
-								$<?= number_format($payment->Amount, 2) ?>
+								<?= Formatter::FormatCurrency($payment->Amount) ?>
 							</td>
 							<td>
-								$<?= number_format($payment->Fee, 2) ?>
+								<?= Formatter::FormatCurrency($payment->Fee) ?>
 							</td>
 							<td>
-								$<?= number_format($payment->Amount - $payment->Fee, 2) ?>
+								<?= Formatter::FormatCurrency($payment->Amount - $payment->Fee) ?>
 							</td>
 							<td>
 								<a href="<?= $payment->ProcessorUrl ?>"><?= Formatter::EscapeHtml($payment->TransactionId) ?></a>
