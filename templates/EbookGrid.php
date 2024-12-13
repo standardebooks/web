@@ -46,8 +46,10 @@ $collection = $collection ?? null;
 							<p><?= rtrim($ebook->ContributorsHtml, '.') ?></p>
 						</div>
 					<? } ?>
-					<p><?= number_format($ebook->WordCount) ?> words • <?= $ebook->ReadingEase ?> reading ease</p>
-					<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a></li><? } ?></ul>
+					<? if(!$ebook->IsPlaceholder()){ ?>
+						<p><?= number_format($ebook->WordCount) ?> words • <?= $ebook->ReadingEase ?> reading ease</p>
+						<ul class="tags"><? foreach($ebook->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a></li><? } ?></ul>
+					<? } ?>
 				</div>
 			<? } ?>
 		</li>

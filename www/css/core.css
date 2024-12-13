@@ -1580,6 +1580,11 @@ ol.ebooks-list > li p.author a{
 	width: 221px;
 }
 
+ol.ebooks-list.list .placeholder-cover{
+	height: 191px;
+	width: 126px;
+}
+
 article nav ol,
 main nav.pagination ol{
 	list-style: none;
