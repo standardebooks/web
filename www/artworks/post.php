@@ -93,17 +93,17 @@ try{
 		// We can PATCH the status, the ebook www filesystem path, or both.
 		if(isset($_POST['artwork-status'])){
 			$newStatus = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
-			if($newStatus !== null){
-				if($artwork->Status != $newStatus && !$artwork->CanStatusBeChangedBy(Session::$User)){
+			if($artwork->Status != $newStatus){
+				if(!$artwork->CanStatusBeChangedBy(Session::$User)){
 					throw new Exceptions\InvalidPermissionsException();
 				}
 
-				$artwork->ReviewerUserId = Session::$User->UserId;
-
-				$artwork->Status = $newStatus;
-			}
-			else{
-				unset($artwork->Status);
+				if($newStatus !== null){
+					$artwork->ReviewerUserId = Session::$User->UserId;
+					$artwork->Status = $newStatus;
+				}else{
+					unset($artwork->Status);
+				}
 			}
 		}
 
