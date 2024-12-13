@@ -19,10 +19,10 @@ if($created){
 	http_response_code(Enums\HttpCode::Created->value);
 }
 
-?><?= Template::Header(['title' => 'Your subscription to the Standard Ebooks newsletter', 'highlight' => 'newsletter', 'description' => 'Your subscription to the Standard Ebooks newsletter.']) ?>
+?><?= Template::Header(['title' => 'Your Subscription to the Standard Ebooks Newsletter', 'highlight' => 'newsletter', 'description' => 'Your subscription to the Standard Ebooks newsletter.']) ?>
 <main>
 	<section class="narrow">
-		<h1>Almost done!</h1>
+		<h1>Almost Done!</h1>
 		<p>Please check your email inbox for a confirmation email containing a link to finalize your subscription to our newsletter.</p>
 		<p>Your subscription won’t be activated until you click that link—this helps us prevent spam. Thank you!</p>
 	</section>

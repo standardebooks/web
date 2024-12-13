@@ -1,7 +1,7 @@
-<?= Template::Header(['title' => 'How to structure and style large poetic productions', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to formatting poetry collections, long narrative poems, and unusual poetic features.']) ?>
+<?= Template::Header(['title' => 'How to Structure and Style Large Poetic Productions', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to formatting poetry collections, long narrative poems, and unusual poetic features.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
-		<h1>How to structure and style large poetic productions</h1>
+		<h1>How to Structure and Style Large Poetic Productions</h1>
 		<p>The presentation of poems can take various styles and forms. Unlike prose, the structure of a poem adds additional meaning through indentations, line breaks, caesuras, spacing, and even the <i>shape</i> of the text. Here is a guide to help with some of poetry’s less intuitive formatting.</p>
 		<aside class="alert">
 			<p class="warning">Before you read</p>

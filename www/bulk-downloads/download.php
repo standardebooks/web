@@ -52,10 +52,10 @@ catch(Exceptions\InvalidFileException){
 	Template::Emit404();
 }
 
-?><?= Template::Header(['title' => 'Download ', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
+?><?= Template::Header(['title' => 'Downloading Ebook Collections', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
 <main>
 	<section class="narrow">
-		<h1>Downloading ebook collections</h1>
+		<h1>Downloading Ebook Collections</h1>
 		<p><a href="/about#patrons-circle">Patrons circle members</a> can download zip files containing all of the ebooks that were released in a given month of Standard Ebooks history. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature.</p>
 	</section>
 </main>

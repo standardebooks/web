@@ -1,7 +1,7 @@
 <?= Template::Header(['title' => 'Uncategorized Art Resources', 'highlight' => 'contribute', 'description' => 'A list of US-PD art books for use when conducting cover art research.']) ?>
 <main>
 	<article id="a-basic-standard-ebooks-source-folder">
-		<h1>Uncategorized art books</h1>
+		<h1>Uncategorized Art Resources</h1>
 		<p>We need help from volunteers like you to go through these books and categorize the art in them for submission into our <a href="/artworks">Cover Art Database</a>.</p>
 		<p>If you’d like to help us with categorizing this art, <a href="https://groups.google.com/g/standardebooks">contact the mailing list</a> and we’ll set you up with a free account for submitting artwork.</p>
 		<ul>

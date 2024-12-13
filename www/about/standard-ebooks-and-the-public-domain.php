@@ -1,7 +1,7 @@
-<?= Template::Header(['title' => 'Standard Ebooks and the public domain', 'highlight' => 'about', 'description' => 'The Standard Ebooks’ philosophy on copyright and the public domain.']) ?>
+<?= Template::Header(['title' => 'Standard Ebooks and the Public Domain', 'highlight' => 'about', 'description' => 'The Standard Ebooks’ philosophy on copyright and the public domain.']) ?>
 <main>
 	<article>
-		<h1>Standard Ebooks and the public domain</h1>
+		<h1>Standard Ebooks and the Public Domain</h1>
 		<p>All of our ebooks are texts that are thought to be in the public domain in the United States. We base our cover art designs on art that is also thought to be in the public domain in the United States.</p>
 		<p>Standard Ebooks puts significant work into designing, formatting, marking up, and hosting our ebooks. While some think we could, or even <em>should</em>, release our work with some kind of copyright notice, instead <strong>Standard Ebooks dedicates the entirety of each of our ebook files, including markup, cover art, and everything in between, to the public domain</strong>.</p>
 		<p>The public domain is a priceless resource for all of us, and for the generations after us. It’s a free repository of our culture going back centuries—a way for us to see where we came from and to chart where we’re going. It represents our collective cultural heritage.</p>

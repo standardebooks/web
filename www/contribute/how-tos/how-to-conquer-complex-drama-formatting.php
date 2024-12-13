@@ -1,7 +1,7 @@
-<?= Template::Header(['title' => 'How to conquer complex drama formatting', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to formatting any complex plays or dramatic dialog sections.']) ?>
+<?= Template::Header(['title' => 'How to Conquer Complex Drama Formatting', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to formatting any complex plays or dramatic dialog sections.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
-		<h1>How to conquer complex drama formatting</h1>
+		<h1>How to Conquer Complex Drama Formatting</h1>
 		<p>Producing plays or structuring dramatic dialog sections can be daunting due to their intricate nature and unfamiliar formatting. Don’t panic! This comprehensive guide is designed to offer clear and concise explanations, along with practical examples, to help individuals navigate a wide range of situations with ease.</p>
 		<aside class="alert">
 			<p class="warning">Before you read</p>

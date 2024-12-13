@@ -19,10 +19,10 @@ catch(Exceptions\AppException){
 	Template::Emit404();
 }
 
-?><?= Template::Header(['title' => 'Thank you for voting!', 'highlight' => '', 'description' => 'Thank you for voting in a Standard Ebooks poll!']) ?>
+?><?= Template::Header(['title' => 'Your Vote Has Been Recorded!', 'highlight' => '', 'description' => 'Thank you for voting in a Standard Ebooks poll!']) ?>
 <main>
 	<section class="narrow">
-		<h1>Your vote has been recorded!</h1>
+		<h1>Your Vote Has Been Recorded!</h1>
 		<? if($created){ ?>
 			<p class="center-notice">Thank you for voting in the <a href="<?= $vote->PollItem->Poll->Url ?>"><?= Formatter::EscapeHtml($vote->PollItem->Poll->Name) ?> poll</a>.</p>
 		<? }else{ ?>

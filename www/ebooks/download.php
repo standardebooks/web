@@ -61,9 +61,9 @@ try{
 catch(Exceptions\InvalidFileException | Exceptions\EbookNotFoundException){
 	Template::Emit404();
 }
-?><?= Template::Header(['downloadUrl' => $downloadUrl]) ?>
+?><?= Template::Header(['title' => 'Your Download Has Started!', 'downloadUrl' => $downloadUrl]) ?>
 <main class="donate">
-	<h1>Your download has started!</h1>
+	<h1>Your Download Has Started!</h1>
 	<div class="thank-you-container">
 		<picture>
 			<? if($ebook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>

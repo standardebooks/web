@@ -1,9 +1,9 @@
 <?
 require_once('Core.php');
-?><?= Template::Header(['title' => 'How to create SVGs from maps with several colors', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to producing SVG from images such as maps with more than a single color.']) ?>
+?><?= Template::Header(['title' => 'How to Create SVGs from Maps with Several Colors', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to producing SVG from images such as maps with more than a single color.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
-		<h1>How to create SVGs from maps with several colors</h1>
+		<h1>How to Create SVGs from Maps with Several Colors</h1>
 		<p>It’s not unusual to find a map which has an additional line or lines in color showing the route of a journey. We want to preserve this color in the final SVG of the map we include with the book. We will use as an example a map reproduced in <i>Through the Brazilian Wilderness</i> by Theodore Roosevelt</p>
 		<ol>
 			<li>

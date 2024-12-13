@@ -49,7 +49,7 @@ catch(Exceptions\PollVoteExistsException $ex){
 	header('Location: ' . $redirect);
 	exit();
 }
-?><?= Template::Header(['title' => $poll->Name . ' - Vote Now', 'highlight' => '', 'description' => 'Vote in the ' . $poll->Name . ' poll']) ?>
+?><?= Template::Header(['title' => 'Vote in the ' . $poll->Name . ' Poll', 'highlight' => '', 'description' => 'Vote in the ' . $poll->Name . ' poll']) ?>
 <main>
 	<section class="narrow">
 		<h1>Vote in the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>

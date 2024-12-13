@@ -1,7 +1,7 @@
-<?= Template::Header(['title' => 'How to create figures for music scores', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to producing SVG figures of music notation.']) ?>
+<?= Template::Header(['title' => 'How to Create Figures for Music Scores', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to producing SVG figures of music notation.']) ?>
 <main class="manual">
 	<article class="step-by-step-guide">
-		<h1>How to create figures for music scores</h1>
+		<h1>How to Create Figures for Music Scores</h1>
 		<p>Standard Ebooks handles instances of music notation in books by recreating them in a modern score editor and embedding them as SVG files much as any other illustration. To explain the process, let us consider the example of <a href="https://standardebooks.org/ebooks/george-bernard-shaw/man-and-superman"><i>Man and Superman</i></a>, which has three instances of music notation.</p>
 		<ol>
 			<li>

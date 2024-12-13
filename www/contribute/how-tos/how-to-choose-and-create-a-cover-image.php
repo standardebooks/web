@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'How to choose and create a cover image', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to choosing, clearing, and formatting your cover image.']) ?>
+<?= Template::Header(['title' => 'How to Choose and Create a Cover Image', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to choosing, clearing, and formatting your cover image.']) ?>
 <main class="manual">
 		<article class="step-by-step-guide">
 			<h1>How to Choose and Create a Cover Image</h1>

@@ -41,11 +41,11 @@ catch(Exceptions\AppException){
 	Template::Emit404();
 }
 
-?><?= Template::Header(['title' => 'Your subscription to the Standard Ebooks newsletter', 'highlight' => 'newsletter', 'description' => 'Your subscription to the Standard Ebooks newsletter.']) ?>
+?><?= Template::Header(['title' => 'Your Subscription to the Standard Ebooks Newsletter', 'highlight' => 'newsletter', 'description' => 'Your subscription to the Standard Ebooks newsletter.']) ?>
 <main>
 	<section class="narrow">
 		<? if($subscription->IsConfirmed){ ?>
-		<h1>Your Standard Ebooks Newsletter Subscription</h1>
+			<h1>Your Standard Ebooks Newsletter Subscription</h1>
 		<? if($updated){ ?>
 			<p class="message success">Your settings have been saved!</p>
 		<? } ?>
@@ -54,16 +54,24 @@ catch(Exceptions\AppException){
 		<? } ?>
 		<p>You’re set to receive the following newsletters:</p>
 		<ul>
-			<? if($subscription->IsSubscribedToSummary){ ?><li><p>A monthly summary of new ebook releases</p></li><? } ?>
-			<? if($subscription->IsSubscribedToNewsletter){ ?><li><p>The occasional Standard Ebooks newsletter</p></li><? } ?>
+			<? if($subscription->IsSubscribedToSummary){ ?>
+				<li>
+					<p>A monthly summary of new ebook releases</p>
+				</li>
+			<? } ?>
+			<? if($subscription->IsSubscribedToNewsletter){ ?>
+				<li>
+					<p>The occasional Standard Ebooks newsletter</p>
+				</li>
+			<? } ?>
 		</ul>
 		<p class="button-row narrow">
 			<a href="<?= $subscription->Url ?>/delete" class="button">Unsubscribe</a>
 		</p>
 		<? }else{ ?>
-		<h1>Almost done!</h1>
-		<p>Please check your email inbox for a confirmation email containing a link to finalize your subscription to our newsletter.</p>
-		<p>Your subscription won’t be activated until you click that link—this helps us prevent spam. Thank you!</p>
+			<h1>Almost Done!</h1>
+			<p>Please check your email inbox for a confirmation email containing a link to finalize your subscription to our newsletter.</p>
+			<p>Your subscription won’t be activated until you click that link—this helps us prevent spam. Thank you!</p>
 		<? } ?>
 	</section>
 </main>

@@ -1,7 +1,7 @@
-<?= Template::Header(['title' => 'Producing an ebook for Standard Ebooks', 'highlight' => 'contribute', 'description' => 'A high-level outline of the process of producing an ebook for Standard Ebooks.']) ?>
+<?= Template::Header(['title' => 'Producing an Ebook for Standard Ebooks', 'highlight' => 'contribute', 'description' => 'A high-level outline of the process of producing an ebook for Standard Ebooks.']) ?>
 <main>
 	<article>
-		<h1>Producing an ebook for Standard Ebooks</h1>
+		<h1>Producing an Ebook for Standard Ebooks</h1>
 		<p>Our tools and processes are all open source, so anyone with the right technical and editorial knowledge can produce a new Standard Ebooks ebook!</p>
 		<p>Here’s what the process of getting an ebook on Standard Ebooks looks like.</p>
 		<ol>
