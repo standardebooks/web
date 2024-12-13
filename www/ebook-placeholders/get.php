@@ -74,11 +74,26 @@ catch(Exceptions\EbookNotFoundException){
 
 		<section class="placeholder-details">
 			<? if($ebook->EbookPlaceholder->IsPublicDomain){ ?>
-				<p>We don’t have this ebook in our catalog yet.</p>
-				<p>You can <a href="/donate#sponsor-an-ebook">sponsor the production of this ebook</a> and we’ll get working on it immediately!</p>
+				<? if($ebook->EbookPlaceholder->Status == \Enums\EbookPlaceholderStatus::InProgress){ ?>
+					<p>We don’t have this ebook in our catalog yet, but someone is working on it now! We hope to have it available for you to read very soon.</p>
+				<? }else{ ?>
+					<p>We don’t have this ebook in our catalog yet, but it’s <? if($ebook->EbookPlaceholder->IsWanted){ ?>on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a><? }else{ ?>in the U.S. public domain<? } ?>!</p>
+					<ul>
+						<li>
+							<p><a href="/donate#sponsor-an-ebook">Sponsor this ebook</a> and we’ll get working on it immediately, so that you and everyone can read it for free forever. You can also choose to have your name inscribed in the ebook’s colophon.</p>
+						</li>
+						<li>
+							<? if($ebook->EbookPlaceholder->Difficulty == \Enums\EbookPlaceholderDifficulty::Beginner){ ?>
+								<p><a href="/contribute#technical-contributors">Produce this ebook yourself</a> and your work will allow others to read it for free forever. <em>This book is a good choice to start with if you’ve never created an ebook for us before</em>—we’ll help you through the process!</p>
+							<? }else{ ?>
+								<p>If you’ve created an ebook for us before, you can <a href="/contribute#technical-contributors">produce this ebook yourself</a> so that others can read it for free. Your name will inscribed in the colophon as the ebook’s producer.</p>
+							<? } ?>
+						</li>
+					</ul>
+				<? } ?>
 			<? }elseif($ebook->EbookPlaceholder->YearPublished !== null){ ?>
 				<p>This book was published in <?= $ebook->EbookPlaceholder->YearPublished ?>, and will therefore enter the U.S. public domain <?= $ebook->EbookPlaceholder->TimeTillIsPublicDomain != '' ? 'in ' .  $ebook->EbookPlaceholder->TimeTillIsPublicDomain : '' ?> on <b>January 1, <?= $ebook->EbookPlaceholder->YearPublished + 96 ?>.</b></p>
-				<p>We can’t work on it any earlier than that.</p>
+				<p><a href="/about/standard-ebooks-and-the-public-domain">Read more about Standard Ebooks and the U.S. Public Domain.</a></p>
 			<? }else{ ?>
 				<p>This book is not yet in the U.S. public domain. We can’t offer it until it is.</p>
 			<? } ?>

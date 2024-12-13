@@ -90,3 +90,7 @@ article.ebook.ebook-placeholder > header{
 article.ebook.ebook-placeholder .placeholder-details{
 	padding-top: 2rem;
 }
+
+article.ebook.ebook-placeholder .placeholder-details ul{
+	list-style: disc;
+}
