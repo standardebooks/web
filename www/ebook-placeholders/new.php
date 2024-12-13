@@ -51,7 +51,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<?= Template::Error(['exception' => $exception]) ?>
 
 		<? if($isCreated && isset($createdEbook)){ ?>
-			<p class="message success">Ebook Placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a></p>
+			<p class="message success">Ebook Placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a>!</p>
 		<? } ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="/ebook-placeholders" autocomplete="off">
