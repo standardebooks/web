@@ -1190,6 +1190,9 @@ class Ebook{
 				$error->Add(new Exceptions\EbookTitleRequiredException());
 			}
 
+			// Sometimes placeholders may have `'` in the title.
+			$this->Title = str_replace('\'', '’', $this->Title);
+
 			if(strlen($this->Title) > EBOOKS_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Ebook Title'));
 			}
