@@ -2,6 +2,7 @@
 
 /**
  * @property bool $IsPublicDomain
+ * @property string $TimeTillIsPublicDomain A string describing how much longer it will be before this work is in the U.S. public domain, like `3 months` or `20 years`.
  */
 class EbookPlaceholder{
 	use Traits\Accessor;
@@ -17,6 +18,7 @@ class EbookPlaceholder{
 	public ?string $Notes = null;
 
 	protected bool $_IsPublicDomain;
+	protected string $_TimeTillIsPublicDomain;
 
 	protected function GetIsPublicDomain(): bool{
 		if(!isset($this->_IsPublicDomain)){
@@ -30,6 +32,30 @@ class EbookPlaceholder{
 		}
 
 		return $this->_IsPublicDomain;
+	}
+
+	protected function GetTimeTillIsPublicDomain(): string{
+		if(!isset($this->_TimeTillIsPublicDomain)){
+			if($this->IsPublicDomain || $this->YearPublished === null){
+				$this->_TimeTillIsPublicDomain = '';
+			}
+			else{
+				$years = (int)($this->YearPublished) + 96 - (int)(NOW->format('Y'));
+				if($years > 1){
+					$this->_TimeTillIsPublicDomain = $years . ' years';
+				}
+				else{
+					$months = 13 - (int)(NOW->format('n'));
+					$this->_TimeTillIsPublicDomain = $months . ' month';
+
+					if($months != 1){
+						$this->_TimeTillIsPublicDomain .= 's';
+					}
+				}
+			}
+		}
+
+		return $this->_TimeTillIsPublicDomain;
 	}
 
 	public function FillFromHttpPost(): void{

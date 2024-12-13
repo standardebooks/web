@@ -77,7 +77,7 @@ catch(Exceptions\EbookNotFoundException){
 				<p>We don’t have this ebook in our catalog yet.</p>
 				<p>You can <a href="/donate#sponsor-an-ebook">sponsor the production of this ebook</a> and we’ll get working on it immediately!</p>
 			<? }elseif($ebook->EbookPlaceholder->YearPublished !== null){ ?>
-				<p>This book was published in <?= $ebook->EbookPlaceholder->YearPublished ?>, and will therefore enter the U.S. public domain on <b>January 1, <?= $ebook->EbookPlaceholder->YearPublished + 96 ?>.</b></p>
+				<p>This book was published in <?= $ebook->EbookPlaceholder->YearPublished ?>, and will therefore enter the U.S. public domain <?= $ebook->EbookPlaceholder->TimeTillIsPublicDomain != '' ? 'in ' .  $ebook->EbookPlaceholder->TimeTillIsPublicDomain : '' ?> on <b>January 1, <?= $ebook->EbookPlaceholder->YearPublished + 96 ?>.</b></p>
 				<p>We can’t work on it any earlier than that.</p>
 			<? }else{ ?>
 				<p>This book is not yet in the U.S. public domain. We can’t offer it until it is.</p>
