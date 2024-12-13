@@ -19,8 +19,21 @@ try{
 	if($isCreated){
 		// We got here because an `Ebook` was successfully created.
 		http_response_code(Enums\HttpCode::Created->value);
-		$createdEbook = $ebook;
-		$ebook = null;
+		$createdEbook = clone $ebook;
+
+		if(sizeof($ebook->CollectionMemberships) > 0){
+			// If the `EbookPlaceholder` we just added is part of a collection, prefill the form with the same data to make it easier to submit series.
+			unset($ebook->EbookId);
+			unset($ebook->Title);
+			$ebook->EbookPlaceholder->YearPublished = null;
+			foreach($ebook->CollectionMemberships as $collectionMembership){
+				$collectionMembership->SequenceNumber++;
+			}
+		}
+		else{
+			$ebook = null;
+		}
+
 		session_unset();
 	}
 	elseif($exception){
