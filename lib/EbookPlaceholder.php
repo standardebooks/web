@@ -20,7 +20,13 @@ class EbookPlaceholder{
 
 	protected function GetIsPublicDomain(): bool{
 		if(!isset($this->_IsPublicDomain)){
-			$this->_IsPublicDomain = $this->YearPublished === null ? true : $this->YearPublished <= PD_YEAR;
+			if($this->IsWanted){
+				// If this book is on our wanted list, we can assume it's already PD. Otherwise works like pulp sci fi, etc., that did not renew would be shown as "not PD yet".
+				$this->_IsPublicDomain = true;
+			}
+			else{
+				$this->_IsPublicDomain = $this->YearPublished === null ? true : $this->YearPublished <= PD_YEAR;
+			}
 		}
 
 		return $this->_IsPublicDomain;
