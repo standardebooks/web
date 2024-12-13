@@ -101,7 +101,8 @@ try{
 				if($newStatus !== null){
 					$artwork->ReviewerUserId = Session::$User->UserId;
 					$artwork->Status = $newStatus;
-				}else{
+				}
+				else{
 					unset($artwork->Status);
 				}
 			}
