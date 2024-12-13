@@ -12,7 +12,7 @@ $isEditForm = $isEditForm ?? false;
 ?>
 <fieldset>
 	<legend>Artist details</legend>
-	<label class="user">
+	<label class="icon user">
 		<span>Name</span>
 		<span>For existing artists, leave the year of death blank.</span>
 		<datalist id="artist-names">
@@ -31,7 +31,7 @@ $isEditForm = $isEditForm ?? false;
 			value="<?= Formatter::EscapeHtml($artwork->Artist->Name) ?>"
 		/>
 	</label>
-	<label class="year">
+	<label class="icon year">
 		<span>Year of death</span>
 		<span>If circa or unknown, enter the latest possible year.</span>
 		<? /* Not using `<input type="number">` for now, see <https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/>. */ ?>
@@ -46,13 +46,13 @@ $isEditForm = $isEditForm ?? false;
 </fieldset>
 <fieldset>
 	<legend>Artwork details</legend>
-	<label class="picture">
+	<label class="icon picture">
 		Name
 		<input type="text" name="artwork-name" required="required"
 		       value="<?= Formatter::EscapeHtml($artwork->Name) ?>"/>
 	</label>
 	<fieldset>
-		<label class="year">
+		<label class="icon year">
 			Year of completion
 			<input
 				type="text"
@@ -70,7 +70,7 @@ $isEditForm = $isEditForm ?? false;
 			/> Year is circa
 		</label>
 	</fieldset>
-	<label class="tags">
+	<label class="icon tags">
 		<span>Tags</span>
 		<span>A list of comma-separated tags.</span>
 		<input
@@ -116,7 +116,7 @@ $isEditForm = $isEditForm ?? false;
 			<span>This book was published in the U.S.</span>
 			<span>Yes, if a U.S. city appears anywhere near the publication year or rights statement.</span>
 		</label>
-		<label class="year">
+		<label class="icon year">
 			Year of publication
 			<input
 				type="text"

@@ -15,7 +15,7 @@ $passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
 	/>
 </label>
 
-<label class="user">
+<label class="icon user">
 	Name
 	<input
 		type="text"
@@ -133,6 +133,13 @@ $passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
 				<input type="hidden" name="benefits-can-edit-users" value="false" />
 				<input type="checkbox" name="benefits-can-edit-users" value="true"<? if($user->Benefits->CanEditUsers){ ?> checked="checked"<? } ?> />
 				Can edit users
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="hidden" name="benefits-can-create-ebook-placeholder" value="false" />
+				<input type="checkbox" name="benefits-can-create-ebook-placeholder" value="true"<? if($user->Benefits->CanCreateEbookPlaceholders){ ?> checked="checked"<? } ?> />
+				Can create ebook placeholders
 			</label>
 		</li>
 	</ul>

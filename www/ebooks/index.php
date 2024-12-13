@@ -34,7 +34,7 @@ try{
 		$tags = [];
 	}
 
-	$result = Ebook::GetAllByFilter($query != '' ? $query : null, $tags, $sort, $page, $perPage);
+	$result = Ebook::GetAllByFilter($query != '' ? $query : null, $tags, $sort, $page, $perPage, Enums\EbookReleaseStatusFilter::All);
 	$ebooks = $result['ebooks'];
 	$totalEbooks = $result['ebooksCount'];
 	$pageTitle = 'Browse Standard Ebooks';

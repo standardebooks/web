@@ -840,7 +840,8 @@ label:has(input[type="checkbox"]):focus-within,
 select:focus,
 button:focus,
 nav a[rel]:focus,
-textarea:focus{
+textarea:focus,
+summary:focus{
 	outline: 1px dashed var(--input-outline);
 }
 
@@ -1572,6 +1573,19 @@ ol.ebooks-list > li p.author a{
 	justify-content: center;
 }
 
+.placeholder-cover{
+	background-color: transparent;
+	border-radius: .25rem;
+	border: 2px dashed var(--sub-text);
+	height: 331px;
+	width: 221px;
+}
+
+ol.ebooks-list.list .placeholder-cover{
+	height: 191px;
+	width: 126px;
+}
+
 article nav ol,
 main nav.pagination ol{
 	list-style: none;
@@ -1790,12 +1804,9 @@ input[type="file"]{
 label:has(input[type="email"]) input,
 label:has(input[type="search"]) input,
 label:has(input[type="url"]) input,
-label.captcha input,
-label.year input,
-label.tags input,
-label.picture input,
-label.user input,
-label:has(input[type="password"]) input{
+label.icon input,
+label:has(input[type="password"]) input,
+label.icon select{
 	padding-left: 2.5rem;
 }
 
@@ -1850,8 +1861,8 @@ label:has(input[type="radio"]):has(> span) input,
 label:has(input[type="checkbox"]):has(> span) input{
 	grid-row: 1 / span 2;
 	justify-self: center;
-	align-self: start;
-	margin-top: 10px;
+	align-self: center;
+	margin: 0;
 	margin-right: .5rem;
 }
 
@@ -1895,11 +1906,7 @@ label:has(select) > span + span,
 label:has(input[type="email"]),
 label:has(input[type="search"]),
 label:has(input[type="url"]),
-label.captcha,
-label.year,
-label.tags,
-label.picture,
-label.user,
+label.icon,
 label:has(input[type="password"]){
 	display: block;
 	position: relative;
@@ -1908,11 +1915,7 @@ label:has(input[type="password"]){
 
 label:has(input[type="email"])::before,
 label:has(input[type="search"])::before,
-label.captcha::before,
-label.year::before,
-label.tags::before,
-label.picture::before,
-label.user::before,
+label.icon::before,
 label:has(input[type="url"])::before,
 label:has(input[type="password"])::before{
 	display: block;
@@ -1952,6 +1955,26 @@ label.captcha::before{
 
 label.year::before{
 	content: "\f073";
+}
+
+label.meter::before{
+	content: "\f0e4";
+}
+
+label.collection::before{
+	content: "\f0e8";
+}
+
+label.book::before{
+	content: "\f02d";
+}
+
+label.ordered-list::before{
+	content: "\f0cb";
+}
+
+label.hourglass::before{
+	content: "\f254";
 }
 
 label.tags:not(:has(select))::before{
@@ -2489,15 +2512,37 @@ form[action="/newsletter/subscriptions"] fieldset{
 
 fieldset{
 	padding: 0;
+	margin: 0;
 	border: none;
 }
 
-fieldset p,
-fieldset legend{
+label.controls-following-fieldset + fieldset,
+details summary ~ *{
+	margin-left: 1rem;
+}
+
+fieldset p{
 	border-bottom: 1px dashed var(--input-border);
 }
 
-fieldset legend,
+fieldset legend{
+	font-size: 1.4rem;
+	font-family: "League Spartan", Arial, sans-serif;
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+summary{
+	cursor: pointer;
+}
+
+summary + fieldset{
+	margin-top: 1rem;
+}
+
 fieldset p:has(+ ul){
 	font-weight: bold;
 }
@@ -2604,8 +2649,8 @@ aside header{
 	font-size: 1.5rem;
 }
 
-.meter,
-.progress{
+div.meter,
+div.progress{
 	position: relative;
 	font-size: 0;
 }
@@ -2677,13 +2722,13 @@ aside header{
 	border-top: 1px solid #000;
 }
 
-.progress + p{
+div.progress + p{
 	margin-top: 2rem;
 	hyphens: auto;
 }
 
-.meter p,
-.progress p{
+div.meter p,
+div.progress p{
 	font-size: 1rem;
 	font-family: "League Spartan", Arial, sans-serif;
 	left: 0;
@@ -2701,7 +2746,7 @@ aside header{
 	margin-top: 0;
 }
 
-.progress p.start{
+div.progress p.start{
 	margin-right: auto;
 	margin-left: 1rem;
 	border: none;
@@ -2710,7 +2755,7 @@ aside header{
 	font-size: .75rem;
 }
 
-.progress p.target{
+div.progress p.target{
 	margin-left: auto;
 	margin-right: 1rem;
 	border: none;
@@ -2719,8 +2764,8 @@ aside header{
 	font-size: .75rem;
 }
 
-.meter > div,
-.progress > div{
+div.meter > div,
+div.progress > div{
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -3119,6 +3164,74 @@ body > header:has(.public-domain-day-banner){
 
 form[action="/settings"] label{
 	display: inline-block;
+}
+
+ol.ebooks-list > li a.wanted,
+ol.ebooks-list > li.wanted .placeholder-cover{
+	position: relative;
+}
+
+ol.ebooks-list > li.wanted .placeholder-cover::before,
+ol.ebooks-list > li.wanted a::after{
+	/* Ribbon */
+	font-family: "League Spartan", sans-serif;
+	position: absolute;
+	left: -.5rem;
+	top: calc(.25rem + 3px);
+	padding: .5rem 1rem .5rem .5rem;
+	line-height: 1;
+	color: #ffffff;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .75);
+	text-transform: uppercase;
+	font-size: .5rem;
+	white-space: nowrap;
+	font-weight: bold;
+	clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+	z-index: 2;
+}
+
+ol.ebooks-list > li[property="schema:hasPart"][value].wanted .placeholder-cover::before,
+ol.ebooks-list > li[property="schema:hasPart"][value].wanted a::after{
+	top: calc(.25rem + 3px + 2rem);
+}
+
+ol.ebooks-list > li.wanted .placeholder-cover::after{
+	/* Ribbon bottom wrap-around */
+	content: "";
+	position: absolute;
+	top: calc(.5rem + .5rem + .5rem + .5rem - 2px);
+	height: .5rem;
+	width: .5rem;
+	left: -.5rem;
+	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
+	z-index: 1;
+	filter: brightness(50%);
+}
+
+ol.ebooks-list > li[property="schema:hasPart"][value].wanted .placeholder-cover::after{
+	top: calc(.25rem + 3px + 2rem + .5rem + .5rem + .5rem);
+}
+
+ol.ebooks-list > li.wanted a::after{
+	/* Ribbon shadow */
+	left: calc(-.5rem + 4px);
+	top: calc(.5rem + 2px);
+	background: rgba(0, 0, 0, .4);
+	z-index: auto;
+}
+
+ol.ebooks-list > li[property="schema:hasPart"][value].wanted a::after{
+	top: calc(.25rem + 3px + 2rem + 4px);
+}
+
+ol.ebooks-list > li.wanted .placeholder-cover::before,
+ol.ebooks-list > li.wanted .placeholder-cover::after{
+	background: #861d1d;
+}
+
+ol.ebooks-list > li.wanted .placeholder-cover::before,
+ol.ebooks-list > li.wanted a::after{
+	content: "wanted";
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
@@ -3717,13 +3830,13 @@ form[action="/settings"] label{
 		line-height: 1.4;
 	}
 
-	.progress p.start,
-	.progress p.target,
-	.progress p.stretch-base{
+	div.progress p.start,
+	div.progress p.target,
+	div.progress p.stretch-base{
 		display: none;
 	}
 
-	.progress p{
+	div.progress p{
 		border: none;
 		background: transparent;
 	}

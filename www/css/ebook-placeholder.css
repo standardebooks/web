@@ -1,0 +1,92 @@
+form.create-update-ebook-placeholder fieldset{
+	display: grid;
+	gap: 2rem;
+}
+
+form.create-update-ebook-placeholder details + fieldset,
+form.create-update-ebook-placeholder fieldset + fieldset{
+	margin-top: 2rem;
+}
+
+form.create-update-ebook-placeholder > fieldset:nth-of-type(1),
+form.create-update-ebook-placeholder details:nth-of-type(1) fieldset{
+	grid-template-columns: 1fr 1fr;
+}
+
+form.create-update-ebook-placeholder > fieldset:nth-of-type(2),
+form.create-update-ebook-placeholder details:nth-of-type(2) fieldset{
+	grid-template-columns: 1fr 200px;
+}
+
+form.create-update-ebook-placeholder fieldset label:has(input[name="ebook-placeholder-transcription-url"]),
+form.create-update-ebook-placeholder fieldset label:has(textarea[name="ebook-placeholder-notes"]){
+	grid-column: 1 / span 2;
+}
+
+form.create-update-ebook-placeholder fieldset fieldset:has(input[name="sequence-number-collection-name-1"]),
+form.create-update-ebook-placeholder fieldset fieldset:has(input[name="sequence-number-collection-name-2"]),
+form.create-update-ebook-placeholder fieldset fieldset:has(input[name="sequence-number-collection-name-3"]),
+form.create-update-ebook-placeholder fieldset fieldset:has(input[name="ebook-placeholder-year-published"]){
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	gap: 2rem;
+}
+
+form.create-update-ebook-placeholder fieldset label:has(input[type="checkbox"]){
+	grid-column: 1 / span 2;
+}
+
+form.create-update-ebook-placeholder details{
+	margin-top: 1rem;
+}
+
+form.create-update-ebook-placeholder summary{
+	font-style: italic;
+}
+
+form.create-update-ebook-placeholder fieldset p{
+	font-style: italic;
+	margin: 0;
+	border: none;
+}
+
+form.create-update-ebook-placeholder fieldset p:first-of-type{
+	margin-top: 0;
+}
+
+form.create-update-ebook-placeholder legend{
+	font-size: 1.4rem;
+	font-family: "League Spartan", Arial, sans-serif;
+	margin-bottom: 1rem;
+	line-height: 1.2;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+form.create-update-ebook-placeholder label{
+	display: block;
+}
+
+form div.footer{
+	margin-top: 1rem;
+	text-align: right;
+}
+
+/* Hide the next fieldset unless the ebook-placeholder-is-wanted checkbox is checked. */
+form.create-update-ebook-placeholder fieldset:has(input[name="ebook-placeholder-is-wanted"]) fieldset{
+	display: none;
+	grid-column: 1 / span 2;
+}
+
+form.create-update-ebook-placeholder fieldset:has(input[name="ebook-placeholder-is-wanted"]:checked) fieldset{
+	display: grid;
+}
+
+article.ebook.ebook-placeholder > header{
+	border: 2px dashed var(--sub-text);
+	border-top: 0;
+}
+
+article.ebook.ebook-placeholder .placeholder-details{
+	padding-top: 2rem;
+}

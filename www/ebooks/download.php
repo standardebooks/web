@@ -13,6 +13,10 @@ try{
 	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
 	$ebook = Ebook::GetByIdentifier($identifier);
 
+	if($ebook->IsPlaceholder()){
+		throw new Exceptions\InvalidFileException();
+	}
+
 	$format = Enums\EbookFormatType::tryFrom(HttpInput::Str(GET, 'format') ?? '') ?? Enums\EbookFormatType::Epub;
 	switch($format){
 		case Enums\EbookFormatType::Kepub:

@@ -9,12 +9,12 @@
 $isAllSelected = sizeof($tags) == 0 || in_array('all', $tags);
 ?>
 <form action="/ebooks" method="get" rel="search">
-	<label class="tags">Subjects
+	<label class="icon tags">Subjects
 		<select <? if(!Template::IsEreaderBrowser()){ ?> multiple="multiple"<? } ?> name="tags[]" size="1">
 			<option value="all">All</option>
-		<? foreach(EbookTag::GetAll() as $tag){ ?>
-			<option value="<?= $tag->UrlName ?>"<? if(!$isAllSelected && in_array($tag->UrlName, $tags)){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($tag->Name) ?></option>
-		<? } ?>
+			<? foreach(EbookTag::GetAll() as $tag){ ?>
+				<option value="<?= $tag->UrlName ?>"<? if(!$isAllSelected && in_array($tag->UrlName, $tags)){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($tag->Name) ?></option>
+			<? } ?>
 		</select>
 	</label>
 	<label>Keywords

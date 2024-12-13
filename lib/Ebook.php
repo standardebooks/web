@@ -41,14 +41,15 @@ use function Safe\shell_exec;
  * @property string $TextSinglePageUrl
  * @property string $TextSinglePageSizeFormatted
  * @property string $IndexableText
+ * @property EbookPlaceholder $EbookPlaceholder
  */
 class Ebook{
 	use Traits\Accessor;
 
 	public int $EbookId;
 	public string $Identifier;
-	public string $WwwFilesystemPath;
-	public string $RepoFilesystemPath;
+	public ?string $WwwFilesystemPath = null;
+	public ?string $RepoFilesystemPath = null;
 	public ?string $KindleCoverUrl = null;
 	public ?string $EpubUrl = null;
 	public ?string $AdvancedEpubUrl = null;
@@ -58,17 +59,17 @@ class Ebook{
 	public string $Title;
 	public ?string $FullTitle = null;
 	public ?string $AlternateTitle = null;
-	public string $Description;
-	public string $LongDescription;
-	public string $Language;
-	public int $WordCount;
-	public float $ReadingEase;
+	public ?string $Description = null;
+	public ?string $LongDescription = null;
+	public ?string $Language = null;
+	public ?int $WordCount = null;
+	public ?float $ReadingEase = null;
 	public ?string $GitHubUrl = null;
 	public ?string $WikipediaUrl = null;
 	/** When the ebook was published. */
-	public DateTimeImmutable $EbookCreated;
+	public ?DateTimeImmutable $EbookCreated = null;
 	/** When the ebook was updated. */
-	public DateTimeImmutable $EbookUpdated;
+	public ?DateTimeImmutable $EbookUpdated = null;
 	/** When the database row was created. */
 	public DateTimeImmutable $Created;
 	/** When the database row was updated. */
@@ -116,6 +117,7 @@ class Ebook{
 	protected string $_TextSinglePageUrl;
 	protected string $_TextSinglePageSizeFormatted;
 	protected string $_IndexableText;
+	protected ?EbookPlaceholder $_EbookPlaceholder = null;
 
 	// *******
 	// GETTERS
@@ -318,7 +320,7 @@ class Ebook{
 
 	protected function GetUrl(): string{
 		if(!isset($this->_Url)){
-			$this->_Url = str_replace(WEB_ROOT, '', $this->WwwFilesystemPath);
+			$this->_Url = str_replace(EBOOKS_IDENTIFIER_ROOT, '', $this->Identifier);
 		}
 
 		return $this->_Url;
@@ -554,7 +556,7 @@ class Ebook{
 	protected function GetTextSinglePageSizeFormatted(): string{
 		if(!isset($this->_TextSinglePageSizeFormatted)){
 			$bytes = $this->TextSinglePageByteCount;
-			$sizes = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+			$sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
 			$index = 0;
 			while($bytes >= 1024 && $index < count($sizes) - 1){
@@ -606,6 +608,18 @@ class Ebook{
 		}
 
 		return $this->_IndexableText;
+	}
+
+	protected function GetEbookPlaceholder(): ?EbookPlaceholder{
+		if(!isset($this->_EbookPlaceholder)){
+			$this->_EbookPlaceholder = Db::Query('
+							SELECT *
+							from EbookPlaceholders
+							where EbookId = ?
+						', [$this->EbookId], EbookPlaceholder::class)[0] ?? null;
+		}
+
+		return $this->_EbookPlaceholder;
 	}
 
 
@@ -970,6 +984,59 @@ class Ebook{
 		return $ebook;
 	}
 
+	/**
+	 * Joins the `Name` properites of `Contributor` objects as a URL slug, e.g.,
+	 *
+	 * 	```
+	 * 	([0] => Contributor Object ([Name] => William Wordsworth), ([1] => Contributor Object ([Name] => Samuel Coleridge)))
+	 * 	```
+	 *
+	 * returns `william-wordsworth_samuel-taylor-coleridge`.
+	 *
+	 * @param array<Contributor> $contributors
+	 */
+	protected static function GetContributorsUrlSlug(array $contributors): string{
+		return implode('_', array_map('Formatter::MakeUrlSafe', array_column($contributors, 'Name')));
+	}
+
+	/**
+	 * Populates the `Identifier` property based on the `Title`, `Authors`, `Translators`, and `Illustrators`. Used when creating ebook placeholders.
+	 *
+	 * @throws Exceptions\InvalidEbookIdentifierException
+	 */
+	public function FillIdentifierFromTitleAndContributors(): void{
+		if(!isset($this->Authors) || sizeof($this->Authors) == 0){
+			throw new Exceptions\InvalidEbookIdentifierException('Authors required');
+		}
+
+		if(!isset($this->Title)){
+			throw new Exceptions\InvalidEbookIdentifierException('Title required');
+		}
+
+		$authorString = Ebook::GetContributorsUrlSlug($this->Authors);
+		$titleString = Formatter::MakeUrlSafe($this->Title);
+		$translatorString = '';
+		$illustratorString = '';
+
+		if(isset($this->Translators) && sizeof($this->Translators) > 0){
+			$translatorString = Ebook::GetContributorsUrlSlug($this->Translators);
+		}
+
+		if(isset($this->Illustrators) && sizeof($this->Illustrators) > 0){
+			$illustratorString = Ebook::GetContributorsUrlSlug($this->Illustrators);
+		}
+
+		$this->Identifier = EBOOKS_IDENTIFIER_PREFIX . $authorString . '/' . $titleString;
+
+		if($translatorString != ''){
+			$this->Identifier .= '/' . $translatorString;
+		}
+
+		if($illustratorString != ''){
+			$this->Identifier .= '/' . $illustratorString;
+		}
+	}
+
 
 	// *******
 	// METHODS
@@ -996,13 +1063,12 @@ class Ebook{
 			$error->Add(new Exceptions\EbookIdentifierRequiredException());
 		}
 
+		$this->WwwFilesystemPath = trim($this->WwwFilesystemPath ?? '');
+		if($this->WwwFilesystemPath == ''){
+			$this->WwwFilesystemPath = null;
+		}
+
 		if(isset($this->WwwFilesystemPath)){
-			$this->WwwFilesystemPath = trim($this->WwwFilesystemPath);
-
-			if($this->WwwFilesystemPath == ''){
-				$error->Add(new Exceptions\EbookWwwFilesystemPathRequiredException());
-			}
-
 			if(strlen($this->WwwFilesystemPath) > EBOOKS_MAX_LONG_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Ebook WwwFilesystemPath'));
 			}
@@ -1011,17 +1077,13 @@ class Ebook{
 				$error->Add(new Exceptions\InvalidEbookWwwFilesystemPathException($this->WwwFilesystemPath));
 			}
 		}
-		else{
-			$error->Add(new Exceptions\EbookWwwFilesystemPathRequiredException());
+
+		$this->RepoFilesystemPath = trim($this->RepoFilesystemPath ?? '');
+		if($this->RepoFilesystemPath == ''){
+			$this->RepoFilesystemPath = null;
 		}
 
 		if(isset($this->RepoFilesystemPath)){
-			$this->RepoFilesystemPath = trim($this->RepoFilesystemPath);
-
-			if($this->RepoFilesystemPath == ''){
-				$error->Add(new Exceptions\EbookRepoFilesystemPathRequiredException());
-			}
-
 			if(strlen($this->RepoFilesystemPath) > EBOOKS_MAX_LONG_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Ebook RepoFilesystemPath'));
 			}
@@ -1029,9 +1091,6 @@ class Ebook{
 			if(!is_readable($this->RepoFilesystemPath)){
 				$error->Add(new Exceptions\InvalidEbookRepoFilesystemPathException($this->RepoFilesystemPath));
 			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookRepoFilesystemPathRequiredException());
 		}
 
 		$this->KindleCoverUrl = trim($this->KindleCoverUrl ?? '');
@@ -1157,41 +1216,29 @@ class Ebook{
 			$error->Add(new Exceptions\StringTooLongException('Ebook AlternateTitle'));
 		}
 
-		if(isset($this->Description)){
-			$this->Description = trim($this->Description);
-
-			if($this->Description == ''){
-				$error->Add(new Exceptions\EbookDescriptionRequiredException());
-			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookDescriptionRequiredException());
+		$this->Description = trim($this->Description ?? '');
+		if($this->Description == ''){
+			$this->Description = null;
 		}
 
-		if(isset($this->LongDescription)){
-			$this->LongDescription = trim($this->LongDescription);
-
-			if($this->LongDescription == ''){
-				$error->Add(new Exceptions\EbookLongDescriptionRequiredException());
-			}
+		if(isset($this->Description) && strlen($this->Description) > EBOOKS_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Ebook Description'));
 		}
-		else{
-			$error->Add(new Exceptions\EbookLongDescriptionRequiredException());
+
+		$this->LongDescription = trim($this->LongDescription ?? '');
+		if($this->LongDescription == ''){
+			$this->LongDescription = null;
+		}
+
+		$this->Language = trim($this->Language ?? '');
+		if($this->Language == ''){
+			$this->Language = null;
 		}
 
 		if(isset($this->Language)){
-			$this->Language = trim($this->Language);
-
-			if($this->Language == ''){
-				$error->Add(new Exceptions\EbookLanguageRequiredException());
-			}
-
 			if(strlen($this->Language) > 10){
 				$error->Add(new Exceptions\StringTooLongException('Ebook Language: ' . $this->Language));
 			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookLanguageRequiredException());
 		}
 
 		if(isset($this->WordCount)){
@@ -1199,18 +1246,12 @@ class Ebook{
 				$error->Add(new Exceptions\InvalidEbookWordCountException('Invalid Ebook WordCount: ' . $this->WordCount));
 			}
 		}
-		else{
-			$error->Add(new Exceptions\EbookWordCountRequiredException());
-		}
 
 		if(isset($this->ReadingEase)){
 			// In theory, Flesch reading ease can be negative, but in practice it's positive.
 			if($this->ReadingEase <= 0){
 				$error->Add(new Exceptions\InvalidEbookReadingEaseException('Invalid Ebook ReadingEase: ' . $this->ReadingEase));
 			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookReadingEaseRequiredException());
 		}
 
 		$this->GitHubUrl = trim($this->GitHubUrl ?? '');
@@ -1248,9 +1289,6 @@ class Ebook{
 				$error->Add(new Exceptions\InvalidEbookCreatedDatetimeException($this->EbookCreated));
 			}
 		}
-		else{
-			$error->Add(new Exceptions\EbookCreatedDatetimeRequiredException());
-		}
 
 		if(isset($this->EbookUpdated)){
 			if($this->EbookUpdated > NOW){
@@ -1258,17 +1296,11 @@ class Ebook{
 
 			}
 		}
-		else{
-			$error->Add(new Exceptions\EbookUpdatedDatetimeRequiredException());
-		}
 
 		if(isset($this->TextSinglePageByteCount)){
 			if($this->TextSinglePageByteCount <= 0){
 				$error->Add(new Exceptions\InvalidEbookTextSinglePageByteCountException('Invalid Ebook TextSinglePageByteCount: ' . $this->TextSinglePageByteCount));
 			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookTextSinglePageByteCountRequiredException());
 		}
 
 		if(isset($this->IndexableText)){
@@ -1282,6 +1314,23 @@ class Ebook{
 			$error->Add(new Exceptions\EbookIndexableTextRequiredException());
 		}
 
+		if(isset($this->EbookPlaceholder)){
+			try{
+				$this->EbookPlaceholder->Validate();
+			}
+			catch(Exceptions\ValidationException $ex){
+				$error->Add($ex);
+			}
+		}
+
+		if($this->IsPlaceholder() && !isset($this->EbookPlaceholder)){
+			$error->Add(new Exceptions\EbookMissingPlaceholderException());
+		}
+
+		if(!$this->IsPlaceholder() && isset($this->EbookPlaceholder)){
+			$error->Add(new Exceptions\EbookUnexpectedPlaceholderException());
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
@@ -1289,6 +1338,7 @@ class Ebook{
 
 	/**
 	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\DuplicateEbookException
 	 */
 	public function CreateOrUpdate(): void{
 		try{
@@ -1550,6 +1600,10 @@ class Ebook{
 		return $string;
 	}
 
+	public function IsPlaceholder(): bool{
+		return $this->WwwFilesystemPath === null;
+	}
+
 	/**
 	 * If the given list of elements has an element that is not `''`, return that value; otherwise, return `null`.
 	 *
@@ -1572,9 +1626,18 @@ class Ebook{
 
 	/**
 	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\DuplicateEbookException If an `Ebook` with the given identifier already exists.
 	 */
 	public function Create(): void{
 		$this->Validate();
+
+		try{
+			Ebook::GetByIdentifier($this->Identifier);
+			throw new Exceptions\DuplicateEbookException($this->Identifier);
+		}
+		catch(Exceptions\EbookNotFoundException){
+			// Pass.
+		}
 
 		$this->CreateTags();
 		$this->CreateLocSubjects();
@@ -1623,6 +1686,7 @@ class Ebook{
 		$this->AddSources();
 		$this->AddContributors();
 		$this->AddTocEntries();
+		$this->AddEbookPlaceholder();
 	}
 
 	/**
@@ -1690,6 +1754,9 @@ class Ebook{
 
 		$this->RemoveTocEntries();
 		$this->AddTocEntries();
+
+		$this->RemoveEbookPlaceholder();
+		$this->AddEbookPlaceholder();
 	}
 
 	private function RemoveTags(): void{
@@ -1848,6 +1915,24 @@ class Ebook{
 		}
 	}
 
+	private function RemoveEbookPlaceholder(): void{
+		Db::Query('
+			DELETE from EbookPlaceholders
+			where EbookId = ?
+		', [$this->EbookId]
+		);
+	}
+
+	/**
+	 * @throws Exceptions\ValidationException
+	 */
+	private function AddEbookPlaceholder(): void{
+		if(isset($this->EbookPlaceholder)){
+			$this->EbookPlaceholder->EbookId = $this->EbookId;
+			$this->EbookPlaceholder->Create();
+		}
+	}
+
 	// ***********
 	// ORM METHODS
 	// ***********
@@ -1929,6 +2014,9 @@ class Ebook{
 	}
 
 	/**
+	 * Queries for books in a collection.
+	 *
+	 * Puts ebooks without a `SequenceNumber` at the end of the list, which is more common in a collection with both published and placeholder ebooks.
 	 * @return array<Ebook>
 	 */
 	public static function GetAllByCollection(string $collection): array{
@@ -1938,13 +2026,16 @@ class Ebook{
 				inner join CollectionEbooks ce using (EbookId)
 				inner join Collections c using (CollectionId)
 				where c.UrlName = ?
-				order by ce.SequenceNumber, e.EbookCreated desc
+				order by ce.SequenceNumber is null, ce.SequenceNumber, e.EbookCreated desc
 				', [$collection], Ebook::class);
 
 		return $ebooks;
 	}
 
 	/**
+	 * Queries for related to books to be shown, e.g., in a carousel.
+	 *
+	 * Filters out placeholder books because they are not useful for browsing.
 	 * @return array<Ebook>
 	 */
 	public static function GetAllByRelated(Ebook $ebook, int $count, ?EbookTag $relatedTag): array{
@@ -1955,6 +2046,7 @@ class Ebook{
 						inner join EbookTags et using (EbookId)
 						where et.TagId = ?
 						    and et.EbookId != ?
+						    and e.WwwFilesystemPath is not null
 						order by rand()
 						limit ?
 				', [$relatedTag->TagId, $ebook->EbookId, $count], Ebook::class);
@@ -1964,6 +2056,7 @@ class Ebook{
 						SELECT *
 						from Ebooks
 						where EbookId != ?
+						    and WwwFilesystemPath is not null
 						order by rand()
 						limit ?
 				', [$ebook->EbookId, $count], Ebook::class);
@@ -1977,25 +2070,43 @@ class Ebook{
 	*
 	* @return array{ebooks: array<Ebook>, ebooksCount: int}
 	*/
-	public static function GetAllByFilter(string $query = null, array $tags = [], Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE): array{
+	public static function GetAllByFilter(string $query = null, array $tags = [], Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): array{
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
 		$joinContributors = '';
 		$joinTags = '';
 		$params = [];
-		$whereCondition = 'where true';
+
+		switch($releaseStatusFilter){
+			case Enums\EbookReleaseStatusFilter::Released:
+				$whereCondition = 'where e.WwwFilesystemPath is not null';
+				break;
+			case Enums\EbookReleaseStatusFilter::Placeholder:
+				$whereCondition = 'where e.WwwFilesystemPath is null';
+				break;
+			case Enums\EbookReleaseStatusFilter::All:
+			default:
+				if($query !== null && $query != ''){
+					// If the query is present, show both released and placeholder ebooks.
+					$whereCondition = 'where true';
+				}else{
+					// If there is no query, hide placeholder ebooks.
+					$whereCondition = 'where e.WwwFilesystemPath is not null';
+				}
+				break;
+		}
 
 		$orderBy = 'e.EbookCreated desc';
 		if($sort == Enums\EbookSortType::AuthorAlpha){
 			$joinContributors = 'inner join Contributors con using (EbookId)';
 			$whereCondition .= ' and con.MarcRole = "aut"';
-			$orderBy = 'con.SortName, e.EbookCreated desc';
+			$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreated desc'; // Put placeholders at the end
 		}
 		elseif($sort == Enums\EbookSortType::ReadingEase){
 			$orderBy = 'e.ReadingEase desc';
 		}
 		elseif($sort == Enums\EbookSortType::Length){
-			$orderBy = 'e.WordCount';
+			$orderBy = 'e.WwwFilesystemPath is null, e.WordCount'; // Put placeholders at the end
 		}
 
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"

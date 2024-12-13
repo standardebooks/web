@@ -42,6 +42,28 @@ class Contributor{
 	// *******
 
 	/**
+	 * @return array<Contributor>
+	 */
+	public static function GetAllAuthorNames(): array{
+		return Db::Query('
+			SELECT DISTINCT Name
+			from Contributors
+			where MarcRole = "aut"
+			order by Name asc', [], Contributor::class);
+	}
+
+	/**
+	 * @return array<Contributor>
+	 */
+	public static function GetAllTranslatorNames(): array{
+		return Db::Query('
+			SELECT DISTINCT Name
+			from Contributors
+			where MarcRole = "trl"
+			order by Name asc', [], Contributor::class);
+	}
+
+	/**
 	 * @throws Exceptions\ValidationException
 	 */
 	public function Validate(): void{

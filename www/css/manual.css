@@ -349,7 +349,6 @@ code.full .utf{
 }
 
 .step-by-step-guide summary{
-	cursor: pointer;
 	/* reproduce H2 styling: */
 	font-size: 1.4rem;
 	font-family: "League Spartan", Arial, sans-serif;

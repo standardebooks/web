@@ -16,15 +16,14 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	// We got here because an artwork was successfully submitted.
 	if($isCreated){
+		// We got here because an `Artwork` was successfully submitted.
 		http_response_code(Enums\HttpCode::Created->value);
 		$artwork = null;
 		session_unset();
 	}
-
-	// We got here because an artwork submission had errors and the user has to try again.
-	if($exception){
+	elseif($exception){
+		// We got here because an `Artwork` submission had errors and the user has to try again.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
 	}

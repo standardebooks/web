@@ -102,7 +102,15 @@ catch(Exceptions\InvalidPermissionsException){
 			</tr>
 			<tr>
 				<td>Tags</td>
-				<td><ul class="tags"><? foreach($artwork->Tags as $tag){ ?><li><a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a></li><? } ?></ul></td>
+				<td>
+					<ul class="tags">
+						<? foreach($artwork->Tags as $tag){ ?>
+							<li>
+								<a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a>
+							</li>
+						<? } ?>
+					</ul>
+				</td>
 			</tr>
 			<tr>
 				<td>Dimensions</td>
