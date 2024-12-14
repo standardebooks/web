@@ -612,11 +612,16 @@ class Ebook{
 
 	protected function GetEbookPlaceholder(): ?EbookPlaceholder{
 		if(!isset($this->_EbookPlaceholder)){
-			$this->_EbookPlaceholder = Db::Query('
-							SELECT *
-							from EbookPlaceholders
-							where EbookId = ?
-						', [$this->EbookId], EbookPlaceholder::class)[0] ?? null;
+			if(!isset($this->EbookId)){
+				$this->_EbookPlaceholder = null;
+			}
+			else{
+				$this->_EbookPlaceholder = Db::Query('
+								SELECT *
+								from EbookPlaceholders
+								where EbookId = ?
+							', [$this->EbookId], EbookPlaceholder::class)[0] ?? null;
+			}
 		}
 
 		return $this->_EbookPlaceholder;

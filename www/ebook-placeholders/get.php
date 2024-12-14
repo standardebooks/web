@@ -78,7 +78,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<section class="placeholder-details">
 			<? if($ebook->EbookPlaceholder->IsPublicDomain){ ?>
-				<? if($ebook->EbookPlaceholder->Status == \Enums\EbookPlaceholderStatus::InProgress){ ?>
+				<? if($ebook->EbookPlaceholder->IsInProgress){ ?>
 					<p>We don’t have this ebook in our catalog yet, but someone is working on it now! We hope to have it available for you to read very soon.</p>
 				<? }else{ ?>
 					<p>We don’t have this ebook in our catalog yet, but it’s <? if($ebook->EbookPlaceholder->IsWanted){ ?>on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a><? }else{ ?>in the U.S. public domain<? } ?>!</p>

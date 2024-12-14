@@ -11,7 +11,7 @@ class EbookPlaceholder{
 	public int $EbookId;
 	public ?int $YearPublished = null;
 	public bool $IsWanted = false;
-	public ?Enums\EbookPlaceholderStatus $Status = null;
+	public bool $IsInProgress = false;
 	public ?Enums\EbookPlaceholderDifficulty $Difficulty = null;
 	public ?string $TranscriptionUrl = null;
 	public bool $IsPatron = false;
@@ -61,10 +61,10 @@ class EbookPlaceholder{
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('YearPublished');
 		$this->PropertyFromHttp('IsWanted');
+		$this->PropertyFromHttp('IsInProgress');
 
 		// These properties apply only to books on the SE wanted list.
 		if($this->IsWanted){
-			$this->PropertyFromHttp('Status');
 			$this->PropertyFromHttp('Difficulty');
 			$this->PropertyFromHttp('TranscriptionUrl');
 			$this->PropertyFromHttp('IsPatron');
@@ -104,8 +104,8 @@ class EbookPlaceholder{
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
-			INSERT into EbookPlaceholders (EbookId, YearPublished, Status, Difficulty, TranscriptionUrl,
-				IsWanted, IsPatron, Notes)
+			INSERT into EbookPlaceholders (EbookId, YearPublished, Difficulty, TranscriptionUrl,
+				IsWanted, IsInProgress, IsPatron, Notes)
 			values (?,
 				?,
 				?,
@@ -114,7 +114,7 @@ class EbookPlaceholder{
 				?,
 				?,
 				?)
-		', [$this->EbookId, $this->YearPublished, $this->Status, $this->Difficulty, $this->TranscriptionUrl,
-			$this->IsWanted, $this->IsPatron, $this->Notes]);
+		', [$this->EbookId, $this->YearPublished, $this->Difficulty, $this->TranscriptionUrl,
+			$this->IsWanted, $this->IsInProgress, $this->IsPatron, $this->Notes]);
 	}
 }
