@@ -7,6 +7,10 @@ $ebook = null;
 
 try{
 	$ebook = Ebook::GetByIdentifier($identifier);
+
+	if($ebook->EbookPlaceholder === null){
+		throw new Exceptions\EbookNotFoundException();
+	}
 }
 catch(Exceptions\EbookNotFoundException){
 	Template::Emit404();

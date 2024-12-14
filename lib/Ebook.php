@@ -41,7 +41,7 @@ use function Safe\shell_exec;
  * @property string $TextSinglePageUrl
  * @property string $TextSinglePageSizeFormatted
  * @property string $IndexableText
- * @property EbookPlaceholder $EbookPlaceholder
+ * @property ?EbookPlaceholder $EbookPlaceholder
  */
 class Ebook{
 	use Traits\Accessor;

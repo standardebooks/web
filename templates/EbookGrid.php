@@ -12,7 +12,7 @@ $collection = $collection ?? null;
 		<meta property="schema:name" content="<?= Formatter::EscapeHtml($collection->Name) ?>"/>
 	<? } ?>
 	<? foreach($ebooks as $ebook){ ?>
-		<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart"<? if($ebook->GetCollectionPosition($collection) !== null){ ?> value="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?><? }else{ ?> about="<?= $ebook->Url ?>"<? } ?><? if($ebook->EbookPlaceholder?->IsWanted){ ?> class="ribbon <? if($ebook->EbookPlaceholder?->Status == \Enums\EbookPlaceholderStatus::InProgress){ ?>in-progress<? }else{ ?>wanted<? } ?>"<? }elseif($ebook->EbookPlaceholder !== null && !$ebook->EbookPlaceholder->IsPublicDomain){ ?> class="ribbon not-pd"<? } ?>>
+		<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart"<? if($ebook->GetCollectionPosition($collection) !== null){ ?> value="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?><? }else{ ?> about="<?= $ebook->Url ?>"<? } ?><? if($ebook->EbookPlaceholder?->IsWanted){ ?> class="ribbon <? if($ebook->EbookPlaceholder->Status == \Enums\EbookPlaceholderStatus::InProgress){ ?>in-progress<? }else{ ?>wanted<? } ?>"<? }elseif($ebook->EbookPlaceholder !== null && !$ebook->EbookPlaceholder->IsPublicDomain){ ?> class="ribbon not-pd"<? } ?>>
 			<? if($collection !== null && $ebook->GetCollectionPosition($collection) !== null){ ?>
 				<meta property="schema:position" content="<?= $ebook->GetCollectionPosition($collection) ?>"/>
 			<? } ?>
