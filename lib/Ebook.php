@@ -2020,17 +2020,17 @@ class Ebook{
 	 * Queries for books in a collection.
 	 *
 	 * Puts ebooks without a `SequenceNumber` at the end of the list, which is more common in a collection with both published and placeholder ebooks.
+	 *
 	 * @return array<Ebook>
 	 */
-	public static function GetAllByCollection(string $collection): array{
+	public static function GetAllByCollection(int $collectionId): array{
 		$ebooks = Db::Query('
 				SELECT e.*
 				from Ebooks e
 				inner join CollectionEbooks ce using (EbookId)
-				inner join Collections c using (CollectionId)
-				where c.UrlName = ?
+				where ce.CollectionId = ?
 				order by ce.SequenceNumber is null, ce.SequenceNumber, e.EbookCreated desc
-				', [$collection], Ebook::class);
+				', [$collectionId], Ebook::class);
 
 		return $ebooks;
 	}

@@ -7,25 +7,6 @@ label:has(input[name="password-action"]) + label{
 	margin-top: .5rem;
 }
 
-h2 + table{
-	margin-top: .5rem;
-}
-
-table td{
-	padding: .5rem;
-	vertical-align: top;
-}
-
-table td:first-child{
-	font-weight: bold;
-	text-align: right;
-	white-space: nowrap;
-}
-
-table td + td{
-	width: 100%;
-}
-
 form{
 	display: flex;
 	flex-direction: column;

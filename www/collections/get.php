@@ -2,34 +2,15 @@
 use function Safe\preg_replace;
 
 try{
-	$collection = HttpInput::Str(GET, 'collection') ?? '';
-	$collectionObject = null;
-	$collectionName = '';
-	$collectionType = '';
-
-	$ebooks = Ebook::GetAllByCollection($collection);
-	// Get the *actual* name of the collection, in case there are accent marks (like `Arsène Lupin`).
-	if(sizeof($ebooks) > 0){
-		foreach($ebooks[0]->CollectionMemberships as $cm){
-			$c = $cm->Collection;
-			if($collection == Formatter::MakeUrlSafe($c->Name)){
-				$collectionObject = $c;
-			}
-		}
-	}
-
-	if($collectionObject === null){
-		throw new Exceptions\CollectionNotFoundException();
-	}
-
-	$collectionName = preg_replace('/^The /ius', '', $collectionObject->Name);
-	$collectionType = $collectionObject->Type->value ?? 'collection';
+	$collection = Collection::GetByUrlName(HttpInput::Str(GET, 'collection'));
+	$collectionName = preg_replace('/^The /ius', '', $collection->Name);
+	$collectionType = $collection->Type->value ?? 'collection';
 
 	$pageTitle = 'Browse free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 	$pageDescription = 'A list of free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 	$pageHeader = 'Free Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . ucfirst($collectionType);
 
-	$feedUrl = '/collections/' . $collection;
+	$feedUrl = '/collections/' . $collection->UrlName;
 	$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 }
 catch(Exceptions\CollectionNotFoundException){
@@ -44,13 +25,26 @@ catch(Exceptions\CollectionNotFoundException){
 	<?= Template::DonationAlert() ?>
 
 	<p class="ebooks-toolbar">
-		<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection) ?>/downloads">Download collection</a>
-		<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection) ?>/feeds">Collection feeds</a>
+		<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection->UrlName) ?>/downloads">Download collection</a>
+		<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection->UrlName) ?>/feeds">Collection feeds</a>
 	</p>
-	<? if(sizeof($ebooks) == 0){ ?>
+
+	<? if(sizeof($collection->Ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
-		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => Enums\ViewType::Grid, 'collection' => $collectionObject]) ?>
+		<?= Template::EbookGrid(['ebooks' => $collection->Ebooks, 'view' => Enums\ViewType::Grid, 'collection' => $collection]) ?>
+	<? } ?>
+
+	<? if(Session::$User?->Benefits->CanEditCollections){ ?>
+		<h2>Metadata</h2>
+		<table class="admin-table">
+			<tbody>
+				<tr>
+					<td>Collection ID:</td>
+					<td><?= $collection->CollectionId ?></td>
+				</tr>
+			</tbody>
+		</table>
 	<? } ?>
 
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> and a <a href="/collections">list of collections</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>

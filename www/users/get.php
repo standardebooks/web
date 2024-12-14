@@ -52,7 +52,7 @@ catch(Exceptions\SeeOtherException $ex){
 		<a href="<?= $user->Url ?>/edit">Edit user</a>
 
 		<h2>Basics</h2>
-		<table>
+		<table class="admin-table">
 			<tbody>
 				<tr>
 					<td>Email:</td>
@@ -74,7 +74,7 @@ catch(Exceptions\SeeOtherException $ex){
 		</table>
 
 		<h2>Patron info</h2>
-		<table>
+		<table class="admin-table">
 			<tbody>
 				<tr>
 					<td>Is Patron:</td>
@@ -134,7 +134,7 @@ catch(Exceptions\SeeOtherException $ex){
 		<? } ?>
 
 		<h2>Registration info</h2>
-		<table>
+		<table class="admin-table">
 			<tbody>
 				<tr>
 					<td>Is registered:</td>

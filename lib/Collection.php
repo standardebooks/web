@@ -3,6 +3,7 @@ use function Safe\preg_replace;
 
 /**
  * @property string $Url
+ * @property array<Ebook> $Ebooks
  */
 class Collection{
 	use Traits\Accessor;
@@ -13,7 +14,9 @@ class Collection{
 	public ?Enums\CollectionType $Type = null;
 	public bool $ArePlaceholdersComplete; /** Has a producer verified that every possible item in this `Collection` been added to our database? */
 
-	protected ?string $_Url = null;
+	protected string $_Url;
+	/** @var array<Ebook> $_Ebooks */
+	protected array $_Ebooks;
 
 
 	// *******
@@ -21,11 +24,22 @@ class Collection{
 	// *******
 
 	protected function GetUrl(): string{
-		if($this->_Url === null){
+		if(!isset($this->_Url)){
 			$this->_Url = '/collections/' . $this->UrlName;
 		}
 
 		return $this->_Url;
+	}
+
+	/**
+	 * @return array<Ebook>
+	 */
+	protected function GetEbooks(): array{
+		if(!isset($this->_Ebooks)){
+			$this->_Ebooks = Ebook::GetAllByCollection($this->CollectionId);
+		}
+
+		return $this->_Ebooks;
 	}
 
 
@@ -53,6 +67,23 @@ class Collection{
 				from Collections
 				where CollectionId = ?
 			', [$collectionId], Collection::class);
+
+		return $result[0] ?? throw new Exceptions\CollectionNotFoundException();;
+	}
+
+	/**
+	 * @throws Exceptions\CollectionNotFoundException
+	 */
+	public static function GetByUrlName(?string $urlName): Collection{
+		if($urlName === null){
+			throw new Exceptions\CollectionNotFoundException();
+		}
+
+		$result = Db::Query('
+				SELECT *
+				from Collections
+				where UrlName = ?
+			', [$urlName], Collection::class);
 
 		return $result[0] ?? throw new Exceptions\CollectionNotFoundException();;
 	}

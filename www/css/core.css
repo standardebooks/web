@@ -3254,6 +3254,25 @@ ol.ebooks-list > li.ribbon.not-pd a::after{
 	content: "not p.d. yet";
 }
 
+h2 + table.admin-table{
+	margin-top: .5rem;
+}
+
+table.admin-table td{
+	padding: .5rem;
+	vertical-align: top;
+}
+
+table.admin-table td:first-child{
+	font-weight: bold;
+	text-align: right;
+	white-space: nowrap;
+}
+
+table.admin-table td + td{
+	width: 100%;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{

@@ -15,6 +15,7 @@ class Benefits{
 	public bool $CanReviewArtwork = false;
 	public bool $CanReviewOwnArtwork = false;
 	public bool $CanEditUsers = false;
+	public bool $CanEditCollections = false;
 	public bool $CanCreateEbookPlaceholders = false;
 
 	protected bool $_HasBenefits;
