@@ -11,6 +11,8 @@ class Collection{
 	public string $Name;
 	public string $UrlName;
 	public ?Enums\CollectionType $Type = null;
+	public bool $ArePlaceholdersComplete; /** Has a producer verified that every possible item in this `Collection` been added to our database? */
+
 	protected ?string $_Url = null;
 
 
