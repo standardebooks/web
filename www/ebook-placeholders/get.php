@@ -86,7 +86,7 @@ catch(Exceptions\EbookNotFoundException){
 							<? if($ebook->EbookPlaceholder->Difficulty == \Enums\EbookPlaceholderDifficulty::Beginner){ ?>
 								<p><a href="/contribute#technical-contributors">Produce this ebook yourself</a> and your work will allow others to read it for free forever. <em>This book is a good choice to start with if you’ve never created an ebook for us before</em>—we’ll help you through the process!</p>
 							<? }else{ ?>
-								<p>If you’ve created an ebook for us before, you can <a href="/contribute#technical-contributors">produce this ebook yourself</a> so that others can read it for free. Your name will inscribed in the colophon as the ebook’s producer.</p>
+								<p>If you’ve created an ebook for us before, you can <a href="/contribute#technical-contributors">produce this ebook yourself</a> so that others can read it for free. Your name will be inscribed in the colophon as the ebook’s producer.</p>
 							<? } ?>
 						</li>
 					</ul>
