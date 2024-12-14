@@ -102,6 +102,24 @@ catch(Exceptions\EbookNotFoundException){
 				<p>This book is not yet in the U.S. public domain. We can’t offer it until it is.</p>
 			<? } ?>
 		</section>
+
+		<? if(Session::$User?->Benefits->CanEditEbooks){ ?>
+			<section id="metadata">
+				<h2>Metadata</h2>
+				<table class="admin-table">
+					<tbody>
+						<tr>
+							<td>Ebook ID:</td>
+							<td><?= $ebook->EbookId ?></td>
+						</tr>
+						<tr>
+							<td>Identifier:</td>
+							<td><?= Formatter::EscapeHtml($ebook->Identifier) ?></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		<? } ?>
 	</article>
 </main>
 <?= Template::Footer() ?>

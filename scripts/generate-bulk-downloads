@@ -110,6 +110,10 @@ foreach(Ebook::GetAll() as $ebook){
 		continue;
 	}
 
+	if($ebook->EbookCreated === null || $ebook->EbookUpdated === null){
+		continue;
+	}
+
 	$timestamp = $ebook->EbookCreated->format('Y-m');
 	$updatedTimestamp = $ebook->EbookUpdated->getTimestamp();
 

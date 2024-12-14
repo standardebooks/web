@@ -123,7 +123,9 @@ catch(Exceptions\EbookNotFoundException){
 
 
 		<aside id="reading-ease">
-			<p><?= number_format($ebook->WordCount) ?> words (<?= $ebook->ReadingTime ?>) with a reading ease of <?= $ebook->ReadingEase ?> (<?= $ebook->ReadingEaseDescription ?>)</p>
+			<? if($ebook->WordCount !== null){ ?>
+				<p><?= number_format($ebook->WordCount) ?> words (<?= $ebook->ReadingTime ?>) with a reading ease of <?= $ebook->ReadingEase ?> (<?= $ebook->ReadingEaseDescription ?>)</p>
+			<? } ?>
 			<? if($ebook->ContributorsHtml != ''){ ?>
 				<p><?= $ebook->ContributorsHtml ?></p>
 			<? } ?>
@@ -175,8 +177,12 @@ catch(Exceptions\EbookNotFoundException){
 				<meta property="schema:image" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->DistCoverUrl) ?>"/>
 				<meta property="schema:thumbnailUrl" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
 				<meta property="schema:inLanguage" content="<?= Formatter::EscapeHtml($ebook->Language) ?>"/>
-				<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->EbookCreated->format('Y-m-d')) ?>"/>
-				<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->EbookUpdated->format('Y-m-d')) ?>"/>
+				<? if($ebook->EbookCreated !== null){ ?>
+					<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->EbookCreated->format('Y-m-d')) ?>"/>
+				<? } ?>
+				<? if($ebook->EbookUpdated !== null){ ?>
+					<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->EbookUpdated->format('Y-m-d')) ?>"/>
+				<? } ?>
 				<div property="schema:potentialAction" typeof="http://schema.org/ReadAction">
 					<meta property="schema:actionStatus" content="http://schema.org/PotentialActionStatus"/>
 					<div property="schema:target" typeof="schema:EntryPoint">
@@ -390,6 +396,24 @@ catch(Exceptions\EbookNotFoundException){
 			<? } ?>
 			<p>You can also <a href="/donate">donate to Standard Ebooks</a> to help fund continuing improvement of this and other ebooks.</p>
 		</section>
+
+		<? if(Session::$User?->Benefits->CanEditEbooks){ ?>
+			<section id="metadata">
+				<h2>Metadata</h2>
+				<table class="admin-table">
+					<tbody>
+						<tr>
+							<td>Ebook ID:</td>
+							<td><?= $ebook->EbookId ?></td>
+						</tr>
+						<tr>
+							<td>Identifier:</td>
+							<td><?= Formatter::EscapeHtml($ebook->Identifier) ?></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		<? } ?>
 
 		<? if(sizeof($carousel) > 0){ ?>
 			<aside id="more-ebooks">

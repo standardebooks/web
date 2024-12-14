@@ -10,7 +10,7 @@ use function Safe\preg_replace;
 	<title><?= Formatter::EscapeXml($entry->Title) ?>, by <?= Formatter::EscapeXml(strip_tags($entry->AuthorsHtml)) ?></title>
 	<link><?= SITE_URL . Formatter::EscapeXml($entry->Url) ?></link>
 	<description><?= Formatter::EscapeXml($entry->Description) ?></description>
-	<pubDate><?= $entry->EbookCreated->format(Enums\DateTimeFormat::Rss->value) ?></pubDate>
+	<pubDate><?= $entry->EbookCreated?->format(Enums\DateTimeFormat::Rss->value) ?></pubDate>
 	<guid><?= Formatter::EscapeXml(preg_replace('/^url:/ius', '', $entry->Identifier)) ?></guid>
 	<? foreach($entry->Tags as $tag){ ?>
 		<category domain="https://standardebooks.org/vocab/subjects"><?= Formatter::EscapeXml($tag->Name) ?></category>

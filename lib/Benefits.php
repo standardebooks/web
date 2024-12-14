@@ -16,6 +16,7 @@ class Benefits{
 	public bool $CanReviewOwnArtwork = false;
 	public bool $CanEditUsers = false;
 	public bool $CanEditCollections = false;
+	public bool $CanEditEbooks = false;
 	public bool $CanCreateEbookPlaceholders = false;
 
 	protected bool $_HasBenefits;
@@ -29,6 +30,10 @@ class Benefits{
 			$this->CanReviewOwnArtwork
 			||
 			$this->CanEditUsers
+			||
+			$this->CanEditCollections
+			||
+			$this->CanEditEbooks
 			||
 			$this->CanCreateEbookPlaceholders
 		){

@@ -55,14 +55,21 @@ class AtomFeed extends Feed{
 		foreach($this->Entries as $entry){
 			$obj = new StdClass();
 			if($entry instanceof Ebook){
-				$obj->Updated = $entry->EbookUpdated->format(Enums\DateTimeFormat::Iso->value);
-				$obj->Id = SITE_URL . $entry->Url;
+				if($entry->EbookUpdated !== null){
+					$obj->Updated = $entry->EbookUpdated->format(Enums\DateTimeFormat::Iso->value);
+					$obj->Id = SITE_URL . $entry->Url;
+				}
 			}
 			else{
-				$obj->Updated = $entry->Updated->format(Enums\DateTimeFormat::Iso->value);
-				$obj->Id = $entry->Id;
+				if($entry->Updated !== null){
+					$obj->Updated = $entry->Updated->format(Enums\DateTimeFormat::Iso->value);
+					$obj->Id = $entry->Id;
+				}
 			}
-			$currentEntries[] = $obj;
+
+			if(isset($obj->Id)){
+				$currentEntries[] = $obj;
+			}
 		}
 
 		$oldEntries = [];

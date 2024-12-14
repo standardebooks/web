@@ -47,7 +47,9 @@ $collection = $collection ?? null;
 						</div>
 					<? } ?>
 					<? if(!$ebook->IsPlaceholder()){ ?>
-						<p><?= number_format($ebook->WordCount) ?> words • <?= $ebook->ReadingEase ?> reading ease</p>
+						<? if($ebook->WordCount !== null){ ?>
+							<p><?= number_format($ebook->WordCount) ?> words • <?= $ebook->ReadingEase ?> reading ease</p>
+						<? } ?>
 						<ul class="tags">
 							<? foreach($ebook->Tags as $tag){ ?>
 								<li>

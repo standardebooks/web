@@ -444,7 +444,7 @@ class Ebook{
 
 	protected function GetReadingTime(): string{
 		if(!isset($this->_ReadingTime)){
-			$readingTime = ceil($this->WordCount / AVERAGE_READING_WORDS_PER_MINUTE);
+			$readingTime = ceil(($this->WordCount ?? 0) / AVERAGE_READING_WORDS_PER_MINUTE);
 			$this->_ReadingTime = (string)$readingTime;
 
 			if($readingTime < 60){
