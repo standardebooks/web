@@ -20,6 +20,7 @@ $includeStatus = $includeStatus ?? true;
 				<th scope="col">Status</th>
 			<? } ?>
 			<th/>
+			<th/>
 		</tr>
 	</thead>
 	<tbody>
@@ -38,10 +39,10 @@ $includeStatus = $includeStatus ?? true;
 					<? } ?>
 				</td>
 				<td>
-					<?= $project->LastCommitTimestamp?->format(Enums\DateTimeFormat::ShortDate->value) ?>
+					<?= $project->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
 				</td>
 				<td>
-					<?= $project->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
+					<?= $project->LastCommitTimestamp?->format(Enums\DateTimeFormat::ShortDate->value) ?>
 				</td>
 				<? if($includeStatus){ ?>
 					<td class="status">
@@ -50,6 +51,11 @@ $includeStatus = $includeStatus ?? true;
 				<? } ?>
 				<td>
 					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">GitHub</a>
+				</td>
+				<td>
+					<? if($project->DiscussionUrl !== null){ ?>
+						<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>">Discussion</a>
+					<? } ?>
 				</td>
 			</tr>
 		<? } ?>

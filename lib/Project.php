@@ -1,5 +1,12 @@
 <?
+use function Safe\curl_exec;
+use function Safe\curl_getinfo;
+use function Safe\curl_init;
+use function Safe\curl_setopt;
+use function Safe\json_decode;
 use function Safe\preg_match;
+use function Safe\preg_replace;
+
 use Safe\DateTimeImmutable;
 
 /**
@@ -137,6 +144,18 @@ class Project{
 	public function Create(): void{
 		$this->Validate();
 
+		try{
+			$this->FetchLatestCommit();
+		}
+		catch(Exceptions\AppException){
+			// Pass; it's OK if this fails during creation.
+		}
+
+		// Don't let the started date be later than the first commit date. This can happen if the producer starts to commit before their project is approved on the mailing list.
+		if($this->LastCommitTimestamp !== null && $this->LastCommitTimestamp > $this->Started){
+			$this->Started = $this->LastCommitTimestamp;
+		}
+
 		// Is this ebook already released?
 		if(!$this->Ebook->IsPlaceholder()){
 			throw new Exceptions\EbookIsNotAPlaceholderException();
@@ -231,6 +250,65 @@ class Project{
 		$this->PropertyFromHttp('Ended');
 		$this->PropertyFromHttp('ManagerUserId');
 		$this->PropertyFromHttp('ReviewerUserId');
+	}
+
+	/**
+	 * @throws Exceptions\AppException If the operation faile.d
+	 */
+	public function FetchLatestCommit(?string $apiKey = null): void{
+		$headers = [
+					'Accept: application/vnd.github+json',
+					'X-GitHub-Api-Version: 2022-11-28',
+					'User-Agent: Standard Ebooks' // Required by GitHub.
+				];
+
+		if($apiKey !== null){
+			$headers[] = 'Authorization: Bearer ' . $apiKey;
+		}
+
+		// First, we check if the repo has been renamed. If so, update the repo now.
+		$curl = curl_init($this->VcsUrl);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, Enums\HttpMethod::Head->value); // Only perform HTTP HEAD.
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_exec($curl);
+
+		/** @var string $finalUrl */
+		$finalUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+		// Were we redirected?
+		if($finalUrl != $this->VcsUrl){
+			$this->VcsUrl = $finalUrl;
+		}
+
+		// Now check the actual commits.
+		$url = preg_replace('|^https://github.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/commits');
+
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+		try{
+			$response = curl_exec($curl);
+			/** @var int $httpCode */
+			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+			if(!is_string($response)){
+				throw new Exceptions\AppException('Response from GitHub was not a string: ' . $response);
+			}
+
+			if($httpCode != Enums\HttpCode::Ok->value){
+				throw new Exception('HTTP code from GitHub was: ' . $httpCode);
+			}
+
+			/** @var array<stdClass> $commits */
+			$commits = json_decode($response);
+
+			if(sizeof($commits) > 0){
+				$this->LastCommitTimestamp = new DateTimeImmutable($commits[0]->commit->committer->date);
+			}
+		}
+		catch(Exception $ex){
+			throw new Exceptions\AppException('Error in update-project-commits for URL <' . $url . '>: ' . $ex->getMessage(), 0, $ex);
+		}
 	}
 
 

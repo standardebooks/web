@@ -2,87 +2,55 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+use function Safe\file_get_contents;
+
 /**
  * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit. If the commit is more than 30 days old, mark the `Project` as stalled.
  */
 
-use function Safe\curl_exec;
-use function Safe\curl_getinfo;
-use function Safe\curl_init;
-use function Safe\curl_setopt;
-use function Safe\file_get_contents;
-use function Safe\json_decode;
-use function Safe\preg_replace;
+
 
 use Safe\DateTimeImmutable;
 
-$apiToken = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
 
-$headers = [
-			'Accept: application/vnd.github+json',
-			'Authorization: Bearer ' . $apiToken,
-			'X-GitHub-Api-Version: 2022-11-28',
-			'User-Agent: Standard Ebooks' // Required by GitHub.
-		];
 
 $projects = array_merge(
 		Project::GetAllByStatus(Enums\ProjectStatusType::InProgress),
 		Project::GetAllByStatus(Enums\ProjectStatusType::Stalled)
 	);
 
+$apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
+$oldestAllowedCommitTimestamp = new DateTimeImmutable('30 days ago');
+
 foreach($projects as $project){
-	// First, we check if the repo has been renamed. If so, update the repo now.
-	$curl = curl_init($project->VcsUrl);
-	curl_setopt($curl, CURLOPT_CUSTOMREQUEST, Enums\HttpMethod::Head->value); // Only perform HTTP HEAD.
-	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-	curl_exec($curl);
-
-	$finalUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-	// Were we redirected?
-	if($finalUrl != $project->VcsUrl){
-		$project->VcsUrl = $finalUrl;
-		$project->Save();
-	}
-
-	// Now check the actual commits.
-	$url = preg_replace('|^https://github.com/|iu', 'https://api.github.com/repos/', $project->VcsUrl . '/commits');
-
-	$curl = curl_init($url);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
 	try{
-		$response = curl_exec($curl);
-		/** @var int $httpCode */
-		$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		$project->FetchLatestCommit($apiKey);
 
-		if(!is_string($response)){
-			throw new Exception('Response from GitHub was not a string: ' . $response);
-		}
-
-		if($httpCode != Enums\HttpCode::Ok->value){
-			throw new Exception('HTTP code from GitHub was: ' . $httpCode);
-		}
-
-		/** @var array<stdClass> $commits */
-		$commits = json_decode($response);
-
-		if(sizeof($commits) > 0){
-			$project->LastCommitTimestamp = new DateTimeImmutable($commits[0]->commit->committer->date);
-		}
-
-		if($project->LastCommitTimestamp !== null && $project->LastCommitTimestamp < new DateTimeImmutable('30 days ago')){
+		if(
+			$project->Status == Enums\ProjectStatusType::InProgress
+			&&
+			$project->LastCommitTimestamp !== null
+			&&
+			$project->LastCommitTimestamp < $oldestAllowedCommitTimestamp
+		){
+			// An active `Project` has stalled.
 			$project->Status = Enums\ProjectStatusType::Stalled;
 		}
-		else{
+		elseif(
+			$project->Status == Enums\ProjectStatusType::Stalled
+			&&
+			$project->LastCommitTimestamp !== null
+			&&
+			$project->LastCommitTimestamp >= $oldestAllowedCommitTimestamp
+		){
 			// Revive previously-stalled `Project`s.
 			$project->Status = Enums\ProjectStatusType::InProgress;
 		}
 
 		$project->Save();
 	}
-	catch(Exception $ex){
-		Log::WriteErrorLogEntry('Error in update-project-commits for URL <' . $url . '>: ' . $ex->getMessage());
+	catch(Exceptions\AppException $ex){
+		Log::WriteErrorLogEntry($ex->getMessage());
 	}
 
 	sleep(1);
