@@ -1029,6 +1029,17 @@ class Ebook{
 	}
 
 	/**
+	 * @throws Exceptions\EbookNotFoundException If the `Ebook` can't be found.
+	 */
+	public static function Get(?int $ebookId): Ebook{
+		if($ebookId === null){
+			throw new Exceptions\EbookNotFoundException();
+		}
+
+		return Db::Query('SELECT * from Ebooks where EbookId = ?', [$ebookId], Ebook::class)[0] ?? throw new Exceptions\EbookNotFoundException();
+	}
+
+	/**
 	 * Joins the `Name` properites of `Contributor` objects as a URL slug, e.g.,
 	 *
 	 * 	```

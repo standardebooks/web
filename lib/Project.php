@@ -31,6 +31,11 @@ class Project{
 	protected User $_ReviewerUser;
 	protected string $_Url;
 
+
+	// *******
+	// GETTERS
+	// *******
+
 	protected function GetUrl(): string{
 		if(!isset($this->_Url)){
 			$this->_Url = '/projects/' . $this->ProjectId;
@@ -38,6 +43,11 @@ class Project{
 
 		return $this->_Url;
 	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	/**
 	 * @throws Exceptions\InvalidProjectException If the `Project` is invalid.
@@ -217,5 +227,28 @@ class Project{
 		$this->PropertyFromHttp('Ended');
 		$this->PropertyFromHttp('ManagerUserId');
 		$this->PropertyFromHttp('ReviewerUserId');
+	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	/**
+	 * @throws Exceptions\ProjectNotFoundException If the `Project` can't be found.
+	 */
+	public static function Get(?int $projectId): Project{
+		if($projectId === null){
+			throw new Exceptions\ProjectNotFoundException();
+		}
+
+		return Db::Query('SELECT * from Projects where ProjectId = ?', [$projectId], Project::class)[0] ?? throw new Exceptions\ProjectNotFoundException();
+	}
+
+	/**
+	 * @return array<Project>
+	 */
+	public static function GetAllByStatus(Enums\ProjectStatusType $status): array{
+		return Db::Query('SELECT * from Projects where Status = ? order by Started desc', [$status], Project::class);
 	}
 }

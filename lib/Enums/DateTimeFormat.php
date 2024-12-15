@@ -22,4 +22,7 @@ enum DateTimeFormat: string{
 
 	/** Like `1641426132`. */
 	case UnixTimestamp = 'U';
+
+	/** Like Jan 5, 2024 */
+	case ShortDate = 'M j, Y';
 }

@@ -4,7 +4,7 @@
  * @var array<stdClass> $collections
  */
 ?>
-<table class="download-list">
+<table class="data-table bulk-downloads-table">
 	<caption aria-hidden="hidden">Scroll right →</caption>
 	<thead>
 		<tr class="mid-header">

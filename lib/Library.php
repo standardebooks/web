@@ -62,7 +62,7 @@ class Library{
 		// Add a period to the abbreviated month, but not if it's May (the only 3-letter month)
 		$obj->UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $obj->UpdatedString);
 		if($obj->Updated->format('Y') != NOW->format('Y')){
-			$obj->UpdatedString = $obj->Updated->format('M j, Y');
+			$obj->UpdatedString = $obj->Updated->format(Enums\DateTimeFormat::ShortDate->value);
 		}
 
 		// Sort the downloads by filename extension

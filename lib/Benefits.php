@@ -18,6 +18,9 @@ class Benefits{
 	public bool $CanEditCollections = false;
 	public bool $CanEditEbooks = false;
 	public bool $CanCreateEbookPlaceholders = false;
+	public bool $CanManageProjects = false;
+	public bool $CanReviewProjects = false;
+	public bool $CanEditProjects = false;
 
 	protected bool $_HasBenefits;
 
@@ -36,6 +39,12 @@ class Benefits{
 			$this->CanEditEbooks
 			||
 			$this->CanCreateEbookPlaceholders
+			||
+			$this->CanManageProjects
+			||
+			$this->CanReviewProjects
+			||
+			$this->CanEditProjects
 		){
 			return true;
 		}
