@@ -237,9 +237,6 @@
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/List_of_works_by_Andrew_Marvell">Poems by Andrew Marvell</a> to be compiled into an omnibus</p>
 			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/10676">El filibusterismo</a> by José Rizal, translated by Charles Derbyshire</p>
-			</li>
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/8117">Demons</a> by Fyodor Dostoevsky (Garnett translated the title as “The Possessed”)</p>
 			</li> -->
