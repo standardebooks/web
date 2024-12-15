@@ -81,9 +81,6 @@
 			<!-- <li>
 				<p><a href="https://www.gutenberg.org/ebooks/70844">Twilight Sleep</a> by Edith Wharton</p>
 			</li> -->
-			<!-- <li>
-				<p><a href="https://www.gutenberg.org/ebooks/71351">Murder in the Maze</a> by J. J. Connington</p>
-			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/70996">The D’Arblay Mystery</a> by R. Austin Freeman</p>
 			</li>
