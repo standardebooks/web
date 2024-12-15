@@ -64,10 +64,10 @@ class Contributor{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidContributorException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidContributorException();
 
 		if(!isset($this->EbookId)){
 			$error->Add(new Exceptions\ContributorEbookIdRequiredException());
@@ -140,7 +140,7 @@ class Contributor{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidContributorException
 	 */
 	public function Create(): void{
 		$this->Validate();

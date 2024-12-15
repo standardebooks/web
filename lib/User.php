@@ -346,6 +346,34 @@ class User{
 	}
 
 	/**
+	 * @return array<User>
+	 */
+	public static function GetAllByCanManageProjects(): array{
+		return Db::Query('
+					SELECT u.*
+					from Users u
+					inner join Benefits b
+					using (UserId)
+					where b.CanManageProjects = true
+					order by Name asc
+				', [], User::class);
+	}
+
+	/**
+	 * @return array<User>
+	 */
+	public static function GetAllByCanReviewProjects(): array{
+		return Db::Query('
+					SELECT u.*
+					from Users u
+					inner join Benefits b
+					using (UserId)
+					where b.CanReviewProjects = true
+					order by Name asc
+				', [], User::class);
+	}
+
+	/**
 	 * Get a `User` if they are considered "registered".
 	 *
 	 * We consider a `User` "registered" if they have a row in the `Benefits` table. Emails without that row may only be signed up for the newsletter, and thus are not considered to be "registered" users.

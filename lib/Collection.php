@@ -109,10 +109,10 @@ class Collection{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidCollectionException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidCollectionException();
 
 		if(isset($this->Name)){
 			$this->Name = trim($this->Name);
@@ -154,7 +154,7 @@ class Collection{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidCollectionException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -169,7 +169,7 @@ class Collection{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidCollectionException
 	 */
 	public function GetByUrlNameOrCreate(string $urlName): Collection{
 		$result = Db::Query('

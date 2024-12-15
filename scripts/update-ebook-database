@@ -39,6 +39,18 @@ if($verbose){
 
 try{
 	$ebook->CreateOrUpdate();
+
+	// If there was an `EbookPlaceholder` for this ebook, delete it.
+	if($ebook->EbookPlaceholder !== null){
+		$ebook->EbookPlaceholder->Delete();
+	}
+
+	// If there was a `Project` for this ebook, mark it as completed.
+	if($ebook->ProjectInProgress !== null){
+		$ebook->ProjectInProgress->Status = Enums\ProjectStatusType::Completed;
+		$ebook->ProjectInProgress->Ended = NOW;
+		$ebook->ProjectInProgress->Save();
+	}
 }
 catch(Exceptions\ValidationException $validationException){
 	$exceptions = $validationException->Exceptions;

@@ -42,6 +42,8 @@ use function Safe\shell_exec;
  * @property string $TextSinglePageSizeFormatted
  * @property string $IndexableText
  * @property ?EbookPlaceholder $EbookPlaceholder
+ * @property array<Project> $Projects
+ * @property ?Project $ProjectInProgress
  */
 class Ebook{
 	use Traits\Accessor;
@@ -118,10 +120,47 @@ class Ebook{
 	protected string $_TextSinglePageSizeFormatted;
 	protected string $_IndexableText;
 	protected ?EbookPlaceholder $_EbookPlaceholder = null;
+	/** @var array<Project> $_Projects */
+	protected array $_Projects;
+	protected ?Project $_ProjectInProgress;
 
 	// *******
 	// GETTERS
 	// *******
+
+	/**
+	 * @return array<Project>
+	 */
+	protected function GetProjects(): array{
+		if(!isset($this->_Projects)){
+			$this->_Projects = Db::Query('
+							SELECT *
+							from Projects
+							where EbookId = ?
+							order by Created desc
+						', [$this->EbookId], Project::class);
+		}
+
+		return $this->_Projects;
+	}
+
+	protected function GetProjectInProgress(): ?Project{
+		if(!isset($this->_ProjectInProgress)){
+			if(!isset($this->EbookId)){
+				$this->_ProjectInProgress = null;
+			}
+			else{
+				$this->_ProjectInProgress = Db::Query('
+								SELECT *
+								from Projects
+								where EbookId = ?
+								and Status in (?, ?)
+							', [$this->EbookId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class)[0] ?? null;
+			}
+		}
+
+		return $this->_ProjectInProgress;
+	}
 
 	/**
 	 * @return array<GitCommit>
@@ -1048,10 +1087,10 @@ class Ebook{
 	// *******
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidEbookException();
 
 		if(isset($this->Identifier)){
 			$this->Identifier = trim($this->Identifier);
@@ -1335,17 +1374,13 @@ class Ebook{
 			$error->Add(new Exceptions\EbookMissingPlaceholderException());
 		}
 
-		if(!$this->IsPlaceholder() && isset($this->EbookPlaceholder)){
-			$error->Add(new Exceptions\EbookUnexpectedPlaceholderException());
-		}
-
 		if($error->HasExceptions){
 			throw $error;
 		}
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookException
 	 * @throws Exceptions\DuplicateEbookException
 	 */
 	public function CreateOrUpdate(): void{
@@ -1360,7 +1395,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookTagException
 	 */
 	private function CreateTags(): void{
 		$tags = [];
@@ -1371,7 +1406,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidLocSubjectException
 	 */
 	private function CreateLocSubjects(): void{
 		$subjects = [];
@@ -1382,7 +1417,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidCollectionException
 	 */
 	private function CreateCollections(): void{
 		$collectionMemberships = [];
@@ -1633,7 +1668,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookException
 	 * @throws Exceptions\DuplicateEbookException If an `Ebook` with the given identifier already exists.
 	 */
 	public function Create(): void{
@@ -1647,9 +1682,16 @@ class Ebook{
 			// Pass.
 		}
 
-		$this->CreateTags();
-		$this->CreateLocSubjects();
-		$this->CreateCollections();
+		try{
+			$this->CreateTags();
+			$this->CreateLocSubjects();
+			$this->CreateCollections();
+		}
+		catch(Exceptions\ValidationException $ex){
+			$error = new Exceptions\InvalidEbookException();
+			$error->Add($ex);
+			throw $error;
+		}
 
 		Db::Query('
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
@@ -1687,25 +1729,39 @@ class Ebook{
 
 		$this->EbookId = Db::GetLastInsertedId();
 
-		$this->AddTags();
-		$this->AddLocSubjects();
-		$this->AddCollectionMemberships();
-		$this->AddGitCommits();
-		$this->AddSources();
-		$this->AddContributors();
-		$this->AddTocEntries();
-		$this->AddEbookPlaceholder();
+		try{
+			$this->AddTags();
+			$this->AddLocSubjects();
+			$this->AddCollectionMemberships();
+			$this->AddGitCommits();
+			$this->AddSources();
+			$this->AddContributors();
+			$this->AddTocEntries();
+			$this->AddEbookPlaceholder();
+		}
+		catch(Exceptions\ValidationException $ex){
+			$error = new Exceptions\InvalidEbookException();
+			$error->Add($ex);
+			throw $error;
+		}
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookException
 	 */
 	public function Save(): void{
 		$this->Validate();
 
-		$this->CreateTags();
-		$this->CreateLocSubjects();
-		$this->CreateCollections();
+		try{
+			$this->CreateTags();
+			$this->CreateLocSubjects();
+			$this->CreateCollections();
+		}
+		catch(Exceptions\ValidationException $ex){
+			$error = new Exceptions\InvalidEbookException();
+			$error->Add($ex);
+			throw $error;
+		}
 
 		Db::Query('
 			UPDATE Ebooks
@@ -1742,29 +1798,37 @@ class Ebook{
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
 				$this->EbookId]);
 
-		$this->RemoveTags();
-		$this->AddTags();
 
-		$this->RemoveLocSubjects();
-		$this->AddLocSubjects();
+		try{
+			$this->RemoveTags();
+			$this->AddTags();
 
-		$this->RemoveCollectionMemberships();
-		$this->AddCollectionMemberships();
+			$this->RemoveLocSubjects();
+			$this->AddLocSubjects();
 
-		$this->RemoveGitCommits();
-		$this->AddGitCommits();
+			$this->RemoveCollectionMemberships();
+			$this->AddCollectionMemberships();
 
-		$this->RemoveSources();
-		$this->AddSources();
+			$this->RemoveGitCommits();
+			$this->AddGitCommits();
 
-		$this->RemoveContributors();
-		$this->AddContributors();
+			$this->RemoveSources();
+			$this->AddSources();
 
-		$this->RemoveTocEntries();
-		$this->AddTocEntries();
+			$this->RemoveContributors();
+			$this->AddContributors();
 
-		$this->RemoveEbookPlaceholder();
-		$this->AddEbookPlaceholder();
+			$this->RemoveTocEntries();
+			$this->AddTocEntries();
+
+			$this->RemoveEbookPlaceholder();
+			$this->AddEbookPlaceholder();
+		}
+		catch(Exceptions\ValidationException $ex){
+			$error = new Exceptions\InvalidEbookException();
+			$error->Add($ex);
+			throw $error;
+		}
 	}
 
 	private function RemoveTags(): void{
@@ -1854,7 +1918,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidGitCommitException
 	 */
 	private function AddGitCommits(): void{
 		foreach($this->GitCommits as $commit){
@@ -1872,7 +1936,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidSourceException
 	 */
 	private function AddSources(): void{
 		foreach($this->Sources as $sortOrder => $source){
@@ -1891,7 +1955,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidContributorException
 	 */
 	private function AddContributors(): void{
 		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Contributors);
@@ -1932,7 +1996,7 @@ class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookPlaceholderException
 	 */
 	private function AddEbookPlaceholder(): void{
 		if(isset($this->EbookPlaceholder)){

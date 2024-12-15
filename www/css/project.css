@@ -1,0 +1,13 @@
+.project-form{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.project-form label:has(input[type="url"]){
+	grid-column: 1 / span 2
+}
+
+
+.project-form label:has(input[name="project-manager-user-id"]){
+	grid-column-start: 1;
+}

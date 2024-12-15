@@ -23,10 +23,10 @@ class EbookTag extends Tag{
 	// *******
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookTagException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidEbookTagException();
 
 		if(isset($this->Name)){
 			$this->Name = trim($this->Name);
@@ -55,7 +55,7 @@ class EbookTag extends Tag{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookTagException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -75,7 +75,7 @@ class EbookTag extends Tag{
 	// ***********
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookTagException
 	 */
 	public function GetByNameOrCreate(string $name): EbookTag{
 		$result = Db::Query('

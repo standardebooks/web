@@ -73,11 +73,11 @@ class EbookPlaceholder{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookPlaceholderException
 	 */
 	public function Validate(): void{
 		$thisYear = intval(NOW->format('Y'));
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidEbookPlaceholderException();
 
 		if(isset($this->YearPublished) && ($this->YearPublished <= 0 || $this->YearPublished > $thisYear)){
 			$error->Add(new Exceptions\InvalidEbookPlaceholderYearPublishedException());
@@ -99,7 +99,7 @@ class EbookPlaceholder{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidEbookPlaceholderException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -116,5 +116,14 @@ class EbookPlaceholder{
 				?)
 		', [$this->EbookId, $this->YearPublished, $this->Difficulty, $this->TranscriptionUrl,
 			$this->IsWanted, $this->IsInProgress, $this->IsPatron, $this->Notes]);
+	}
+
+	public function Delete(): void{
+		Db::Query('
+			DELETE
+			from EbookPlaceholders
+			where EbookId = ?
+			',
+		[$this->EbookId]);
 	}
 }

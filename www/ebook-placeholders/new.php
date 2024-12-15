@@ -26,8 +26,11 @@ try{
 				// If the `EbookPlaceholder` we just added is part of a collection, prefill the form with the same data to make it easier to submit series.
 				unset($ebook->EbookId);
 				unset($ebook->Title);
+				unset($ebook->ProjectInProgress);
 				if($ebook->EbookPlaceholder !== null){
 					$ebook->EbookPlaceholder->YearPublished = null;
+					$ebook->EbookPlaceholder->IsWanted = false;
+					$ebook->EbookPlaceholder->IsInProgress = false;
 				}
 				foreach($ebook->CollectionMemberships as $collectionMembership){
 					$collectionMembership->SequenceNumber++;
@@ -56,7 +59,7 @@ catch(Exceptions\InvalidPermissionsException){
 <?= Template::Header(
 	[
 		'title' => 'Create an Ebook Placeholder',
-		'css' => ['/css/ebook-placeholder.css'],
+		'css' => ['/css/ebook-placeholder.css', '/css/project.css'],
 		'highlight' => '',
 		'description' => 'Create a placeholder for an ebook not yet in the collection.'
 	]

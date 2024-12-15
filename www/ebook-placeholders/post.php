@@ -82,12 +82,29 @@ try{
 			// Pass and create the placeholder. There is no existing ebook with this identifier.
 		}
 
+		// Do we have a `Project` to create at the same time?
+		$project = null;
+		if($ebookPlaceholder->IsInProgress){
+			$project = new Project();
+			$project->FillFromHttpPost();
+			$project->Started = NOW;
+			$project->EbookId = 0; // Dummy value to pass validation, we'll set it to the real value before creating the `Project`.
+			$project->Validate();
+		}
+
 		// These properties must be set before calling `Ebook::Create()` to prevent the getters from triggering DB queries or accessing `Ebook::$EbookId` before it is set.
 		$ebook->Tags = [];
 		$ebook->LocSubjects = [];
 		$ebook->Illustrators = [];
 		$ebook->Contributors = [];
 		$ebook->Create();
+
+		if($ebookPlaceholder->IsInProgress && $project !== null){
+			$project->EbookId = $ebook->EbookId;
+			$project->Ebook = $ebook;
+			$project->Create();
+			$ebook->ProjectInProgress = $project;
+		}
 
 		$_SESSION['ebook'] = $ebook;
 		$_SESSION['is-ebook-placeholder-created'] = true;

@@ -76,7 +76,7 @@ catch(Exceptions\EbookNotFoundException){
 			<? } ?>
 		</aside>
 
-		<section class="placeholder-details">
+		<section class="placeholder-details" id="details">
 			<? if($ebook->EbookPlaceholder->IsPublicDomain){ ?>
 				<? if($ebook->EbookPlaceholder->IsInProgress){ ?>
 					<p>We don’t have this ebook in our catalog yet, but someone is working on it now! We hope to have it available for you to read very soon.</p>
@@ -87,7 +87,7 @@ catch(Exceptions\EbookNotFoundException){
 							<p><a href="/donate#sponsor-an-ebook">Sponsor this ebook</a> and we’ll get working on it immediately, so that you and everyone can read it for free forever. You can also choose to have your name inscribed in the ebook’s colophon.</p>
 						</li>
 						<li>
-							<? if($ebook->EbookPlaceholder->Difficulty == \Enums\EbookPlaceholderDifficulty::Beginner){ ?>
+							<? if($ebook->EbookPlaceholder->Difficulty == Enums\EbookPlaceholderDifficulty::Beginner){ ?>
 								<p><a href="/contribute#technical-contributors">Produce this ebook yourself</a> and your work will allow others to read it for free forever. <em>This book is a good choice to start with if you’ve never created an ebook for us before</em>—we’ll help you through the process!</p>
 							<? }else{ ?>
 								<p>If you’ve created an ebook for us before, you can <a href="/contribute#technical-contributors">produce this ebook yourself</a> so that others can read it for free. Your name will be inscribed in the colophon as the ebook’s producer.</p>
@@ -105,19 +105,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<? if(Session::$User?->Benefits->CanEditEbooks){ ?>
 			<section id="metadata">
-				<h2>Metadata</h2>
-				<table class="admin-table">
-					<tbody>
-						<tr>
-							<td>Ebook ID:</td>
-							<td><?= $ebook->EbookId ?></td>
-						</tr>
-						<tr>
-							<td>Identifier:</td>
-							<td><?= Formatter::EscapeHtml($ebook->Identifier) ?></td>
-						</tr>
-					</tbody>
-				</table>
+				<?= Template::EbookMetadata(['ebook' => $ebook]) ?>
 			</section>
 		<? } ?>
 	</article>

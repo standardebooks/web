@@ -37,10 +37,10 @@ class GitCommit{
 	// *******
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidGitCommitException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidGitCommitException();
 
 		if(!isset($this->EbookId)){
 			$error->Add(new Exceptions\GitCommitEbookIdRequiredException());
@@ -83,7 +83,7 @@ class GitCommit{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidGitCommitException
 	 */
 	public function Create(): void{
 		$this->Validate();

@@ -8,10 +8,10 @@ class LocSubject{
 	// *******
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidLocSubjectException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\ValidationException();
+		$error = new Exceptions\InvalidLocSubjectException();
 
 		if(isset($this->Name)){
 			$this->Name = trim($this->Name);
@@ -34,7 +34,7 @@ class LocSubject{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidLocSubjectException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -47,7 +47,7 @@ class LocSubject{
 	}
 
 	/**
-	 * @throws Exceptions\ValidationException
+	 * @throws Exceptions\InvalidLocSubjectException
 	 */
 	public function GetByNameOrCreate(string $name): LocSubject{
 		$result = Db::Query('

@@ -1,9 +1,5 @@
 <?
-/**
- * @var ?Ebook $ebook
- */
 $ebook = $ebook ?? new Ebook();
-
 ?>
 <fieldset>
 	<legend>Contributors</legend>
@@ -84,7 +80,7 @@ $ebook = $ebook ?? new Ebook();
 				name="ebook-placeholder-year-published"
 				inputmode="numeric"
 				pattern="[0-9]{1,4}"
-				value="<?= Formatter::EscapeHtml((string)($ebook?->EbookPlaceholder?->YearPublished)) ?>"
+				value="<?= Formatter::EscapeHtml((string)($ebook->EbookPlaceholder?->YearPublished)) ?>"
 			/>
 		</label>
 	</fieldset>
@@ -165,16 +161,21 @@ $ebook = $ebook ?? new Ebook();
 	</fieldset>
 </details>
 <fieldset>
-
-	<label>
+	<legend>Project</legend>
+	<label class="controls-following-fieldset">
 		<span>In progress?</span>
 		<input type="hidden" name="ebook-placeholder-is-in-progress" value="false" />
 		<input
 			type="checkbox"
 			name="ebook-placeholder-is-in-progress"
-			<? if($ebook?->EbookPlaceholder?->IsInProgress){ ?>checked="checked"<? } ?>
+			<? if($ebook->EbookPlaceholder?->IsInProgress){ ?>checked="checked"<? } ?>
 		/>
 	</label>
+	<fieldset class="project-form">
+		<?= Template::ProjectForm(['project' => $ebook->ProjectInProgress]) ?>
+	</fieldset>
+</fieldset>
+<fieldset>
 	<legend>Wanted list</legend>
 	<label class="controls-following-fieldset">
 		<span>On the wanted list?</span>
@@ -182,7 +183,7 @@ $ebook = $ebook ?? new Ebook();
 		<input
 			type="checkbox"
 			name="ebook-placeholder-is-wanted"
-			<? if($ebook?->EbookPlaceholder?->IsWanted){ ?>checked="checked"<? } ?>
+			<? if($ebook->EbookPlaceholder?->IsWanted){ ?>checked="checked"<? } ?>
 		/>
 	</label>
 	<fieldset>
@@ -192,7 +193,7 @@ $ebook = $ebook ?? new Ebook();
 			<input
 				type="checkbox"
 				name="ebook-placeholder-is-patron"
-				<? if($ebook?->EbookPlaceholder?->IsPatron){ ?>checked="checked"<? } ?>
+				<? if($ebook->EbookPlaceholder?->IsPatron){ ?>checked="checked"<? } ?>
 			/>
 		</label>
 		<label class="icon meter">
@@ -200,9 +201,9 @@ $ebook = $ebook ?? new Ebook();
 			<span>
 				<select name="ebook-placeholder-difficulty">
 					<option value=""></option>
-					<option value="<?= Enums\EbookPlaceholderDifficulty::Beginner->value ?>"<? if($ebook?->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Beginner){ ?> selected="selected"<? } ?>>Beginner</option>
-					<option value="<?= Enums\EbookPlaceholderDifficulty::Intermediate->value ?>"<? if($ebook?->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Intermediate){ ?> selected="selected"<? } ?>>Intermediate</option>
-					<option value="<?= Enums\EbookPlaceholderDifficulty::Advanced->value ?>"<? if($ebook?->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Advanced){ ?> selected="selected"<? } ?>>Advanced</option>
+					<option value="<?= Enums\EbookPlaceholderDifficulty::Beginner->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Beginner){ ?> selected="selected"<? } ?>>Beginner</option>
+					<option value="<?= Enums\EbookPlaceholderDifficulty::Intermediate->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Intermediate){ ?> selected="selected"<? } ?>>Intermediate</option>
+					<option value="<?= Enums\EbookPlaceholderDifficulty::Advanced->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Advanced){ ?> selected="selected"<? } ?>>Advanced</option>
 				</select>
 			</span>
 		</label>
@@ -211,13 +212,13 @@ $ebook = $ebook ?? new Ebook();
 			<input
 				type="url"
 				name="ebook-placeholder-transcription-url"
-				value="<?= Formatter::EscapeHtml($ebook?->EbookPlaceholder?->TranscriptionUrl) ?>"
+				value="<?= Formatter::EscapeHtml($ebook->EbookPlaceholder?->TranscriptionUrl) ?>"
 			/>
 		</label>
 		<label>
 			<span>Notes</span>
 			<span>Markdown accepted.</span>
-			<textarea maxlength="1024" name="ebook-placeholder-notes"><?= Formatter::EscapeHtml($ebook?->EbookPlaceholder?->Notes) ?></textarea>
+			<textarea maxlength="1024" name="ebook-placeholder-notes"><?= Formatter::EscapeHtml($ebook->EbookPlaceholder?->Notes) ?></textarea>
 		</label>
 	</fieldset>
 </fieldset>

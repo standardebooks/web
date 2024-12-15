@@ -73,12 +73,12 @@ form div.footer{
 }
 
 /* Hide the next fieldset unless the ebook-placeholder-is-wanted checkbox is checked. */
-form.create-update-ebook-placeholder fieldset:has(input[name="ebook-placeholder-is-wanted"]) fieldset{
+form.create-update-ebook-placeholder label.controls-following-fieldset + fieldset{
 	display: none;
 	grid-column: 1 / span 2;
 }
 
-form.create-update-ebook-placeholder fieldset:has(input[name="ebook-placeholder-is-wanted"]:checked) fieldset{
+form.create-update-ebook-placeholder label.controls-following-fieldset:has(input[type="checkbox"]:checked) + fieldset{
 	display: grid;
 }
 

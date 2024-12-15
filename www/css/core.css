@@ -2516,6 +2516,14 @@ fieldset{
 	border: none;
 }
 
+label.controls-following-fieldset + fieldset{
+	display: none;
+}
+
+label.controls-following-fieldset:has(input[type="checkbox"]:checked) + fieldset{
+	display: block;
+}
+
 label.controls-following-fieldset + fieldset,
 details summary ~ *{
 	margin-left: 1rem;
