@@ -5,10 +5,8 @@ $authorUrl = '';
 
 try{
 	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
-	$wwwFilesystemPath = EBOOKS_DIST_PATH . $urlPath; // Path to the deployed www files for this ebook.
 
-	if($urlPath == '' || mb_stripos($wwwFilesystemPath, EBOOKS_DIST_PATH) !== 0 || !is_dir($wwwFilesystemPath)){
-		// Ensure the path exists and that the root is in our www directory.
+	if($urlPath == ''){
 		throw new Exceptions\AuthorNotFoundException();
 	}
 
