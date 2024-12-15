@@ -1576,12 +1576,21 @@ ol.ebooks-list > li p.author a{
 	justify-content: center;
 }
 
+ol.ebooks-list > li .thumbnail-container > a:has(.placeholder-cover){
+	max-width: 224px;
+	width: 100%; /* for responsive placeholder width */
+}
+
+ol.ebooks-list.list > li .thumbnail-container > a:has(.placeholder-cover){
+	width: auto; /* center the placeholder above the title in narrow list view */
+}
+
 .placeholder-cover{
+	aspect-ratio: 224 / 335;
 	background-color: transparent;
 	border-radius: .25rem;
 	border: 2px dashed var(--sub-text);
-	height: 331px;
-	width: 221px;
+	box-sizing: border-box;
 }
 
 ol.ebooks-list.list .placeholder-cover{
