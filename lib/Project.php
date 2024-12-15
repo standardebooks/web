@@ -25,6 +25,7 @@ class Project{
 	public ?DateTimeImmutable $Ended = null;
 	public int $ManagerUserId;
 	public int $ReviewerUserId;
+	public ?DateTimeImmutable $LastCommitTimestamp = null;
 
 	protected Ebook $_Ebook;
 	protected User $_ManagerUser;
@@ -160,7 +161,8 @@ class Project{
 					Started,
 					Ended,
 					ManagerUserId,
-					ReviewerUserId
+					ReviewerUserId,
+					LastCommitTimestamp
 				)
 				values
 				(
@@ -175,9 +177,10 @@ class Project{
 					?,
 					?,
 					?,
+					?,
 					?
 				)
-			', [$this->EbookId, $this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId]);
+			', [$this->EbookId, $this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp]);
 
 		$this->ProjectId = Db::GetLastInsertedId();
 	}
@@ -200,10 +203,11 @@ class Project{
 			Started = ?,
 			Ended = ?,
 			ManagerUserId = ?,
-			ReviewerUserId = ?
+			ReviewerUserId = ?,
+			LastCommitTimestamp = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->ProjectId]);
+		', [$this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->ProjectId]);
 
 		if($this->Status == Enums\ProjectStatusType::Abandoned){
 			Db::Query('

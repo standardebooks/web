@@ -12,5 +12,6 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `Ended` datetime DEFAULT NULL,
   `ManagerUserId` int(11) NOT NULL,
   `ReviewerUserId` int(11) NOT NULL,
+  `LastCommitTimestamp` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`ProjectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

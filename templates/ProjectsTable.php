@@ -4,6 +4,7 @@
  */
 
 $includeTitle = $includeTitle ?? true;
+$includeStatus = $includeStatus ?? true;
 ?>
 <table class="data-table">
 	<caption aria-hidden="hidden">Scroll right →</caption>
@@ -12,9 +13,12 @@ $includeTitle = $includeTitle ?? true;
 			<? if($includeTitle){ ?>
 				<th scope="col">Title</th>
 			<? } ?>
-			<th scope="col">Started</th>
 			<th scope="col">Producer</th>
-			<th scope="col">Status</th>
+			<th scope="col">Started</th>
+			<th scope="col">Last commit</th>
+			<? if($includeStatus){ ?>
+				<th scope="col">Status</th>
+			<? } ?>
 			<th/>
 		</tr>
 	</thead>
@@ -26,9 +30,6 @@ $includeTitle = $includeTitle ?? true;
 						<a href="<?= $project->Ebook->Url ?>"><?= Formatter::EscapeHtml($project->Ebook->Title) ?></a>
 					</td>
 				<? } ?>
-				<td>
-					<?= $project->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
-				</td>
 				<td class="producer">
 					<? if($project->ProducerEmail !== null){ ?>
 						<a href="mailto:<?= Formatter::EscapeHtml($project->ProducerEmail) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
@@ -36,11 +37,19 @@ $includeTitle = $includeTitle ?? true;
 						<?= Formatter::EscapeHtml($project->ProducerName) ?>
 					<? } ?>
 				</td>
-				<td class="status">
-					<?= ucfirst($project->Status->GetDisplayName()) ?>
+				<td>
+					<?= $project->LastCommitTimestamp?->format(Enums\DateTimeFormat::ShortDate->value) ?>
 				</td>
 				<td>
-					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">GitHub repo</a>
+					<?= $project->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
+				</td>
+				<? if($includeStatus){ ?>
+					<td class="status">
+						<?= ucfirst($project->Status->GetDisplayName()) ?>
+					</td>
+				<? } ?>
+				<td>
+					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">GitHub</a>
 				</td>
 			</tr>
 		<? } ?>

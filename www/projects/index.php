@@ -27,12 +27,12 @@ catch(Exceptions\InvalidPermissionsException){
 				<i>None.</i>
 			</p>
 		<? }else{ ?>
-			<?= Template::ProjectsTable(['projects' => $inProgressProjects]) ?>
+			<?= Template::ProjectsTable(['projects' => $inProgressProjects, 'includeStatus' => false]) ?>
 		<? } ?>
 
 		<? if(sizeof($stalledProjects) > 0){ ?>
 			<h2>Stalled projects</h2>
-			<?= Template::ProjectsTable(['projects' => $stalledProjects]) ?>
+			<?= Template::ProjectsTable(['projects' => $stalledProjects, 'includeStatus' => false]) ?>
 		<? } ?>
 	</section>
 </main>
