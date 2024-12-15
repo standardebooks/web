@@ -57,9 +57,9 @@
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/27432">The Fifth Queen Crowned</a> by Ford Madox Ford (Book 3 in the Fifth Queen Trilogy)</p>
 			</li>
-			<li>
+			<!-- <li>
 				<p><a href="https://www.fadedpage.com/showbook.php?pid=20140450">Bellarion the Fortunate</a> by Rafael Sabatini</p>
-			</li>
+			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/61935">Outdoor Pastimes of an American Hunter</a> by Theodore Roosevelt</p>
 			</li>
