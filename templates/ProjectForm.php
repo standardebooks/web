@@ -8,7 +8,6 @@ $reviewers = User::GetAllByCanReviewProjects();
 	<input
 		type="text"
 		name="project-producer-name"
-		required="required"
 		value="<?= Formatter::EscapeHtml($project->ProducerName ?? '') ?>"
 	/>
 </label>
@@ -61,8 +60,7 @@ $reviewers = User::GetAllByCanReviewProjects();
 	<input
 		type="url"
 		name="project-vcs-url"
-		required="required"
-		placeholder="https://github.com/"
+		placeholder="https://github.com/..."
 		pattern="^https:\/\/github\.com\/[^\/]+/[^\/]+/?$"
 		value="<?= Formatter::EscapeHtml($project->VcsUrl ?? '') ?>"
 	/>

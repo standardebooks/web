@@ -76,7 +76,7 @@ catch(Exceptions\EbookNotFoundException){
 			<? } ?>
 		</aside>
 
-		<section class="placeholder-details" id="details">
+		<section class="placeholder-details" id="placeholder-details">
 			<? if($ebook->EbookPlaceholder->IsPublicDomain){ ?>
 				<? if($ebook->EbookPlaceholder->IsInProgress){ ?>
 					<p>We don’t have this ebook in our catalog yet, but someone is working on it now! We hope to have it available for you to read very soon.</p>
