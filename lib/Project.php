@@ -5,6 +5,7 @@ use function Safe\curl_init;
 use function Safe\curl_setopt;
 use function Safe\json_decode;
 use function Safe\preg_match;
+use function Safe\preg_match_all;
 use function Safe\preg_replace;
 
 use Safe\DateTimeImmutable;
@@ -33,6 +34,7 @@ class Project{
 	public int $ManagerUserId;
 	public int $ReviewerUserId;
 	public ?DateTimeImmutable $LastCommitTimestamp = null;
+	public ?DateTimeImmutable $LastDiscussionTimestamp = null;
 
 	protected Ebook $_Ebook;
 	protected User $_ManagerUser;
@@ -145,14 +147,21 @@ class Project{
 		$this->Validate();
 
 		try{
-			$this->FetchLatestCommit();
+			$this->FetchLastDiscussionTimestamp();
+		}
+		catch(Exceptions\AppException){
+			// Pass; it's OK if this fails during creation.
+		}
+
+		try{
+			$this->FetchLatestCommitTimestamp();
 		}
 		catch(Exceptions\AppException){
 			// Pass; it's OK if this fails during creation.
 		}
 
 		// Don't let the started date be later than the first commit date. This can happen if the producer starts to commit before their project is approved on the mailing list.
-		if($this->LastCommitTimestamp !== null && $this->LastCommitTimestamp > $this->Started){
+		if($this->LastCommitTimestamp !== null && $this->Started > $this->LastCommitTimestamp){
 			$this->Started = $this->LastCommitTimestamp;
 		}
 
@@ -181,7 +190,8 @@ class Project{
 					Ended,
 					ManagerUserId,
 					ReviewerUserId,
-					LastCommitTimestamp
+					LastCommitTimestamp,
+					LastDiscussionTimestamp
 				)
 				values
 				(
@@ -197,9 +207,10 @@ class Project{
 					?,
 					?,
 					?,
+					?,
 					?
 				)
-			', [$this->EbookId, $this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp]);
+			', [$this->EbookId, $this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp]);
 
 		$this->ProjectId = Db::GetLastInsertedId();
 	}
@@ -223,10 +234,11 @@ class Project{
 			Ended = ?,
 			ManagerUserId = ?,
 			ReviewerUserId = ?,
-			LastCommitTimestamp = ?
+			LastCommitTimestamp = ?,
+			LastDiscussionTimestamp = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->ProjectId]);
+		', [$this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->ProjectId]);
 
 		if($this->Status == Enums\ProjectStatusType::Abandoned){
 			Db::Query('
@@ -253,9 +265,9 @@ class Project{
 	}
 
 	/**
-	 * @throws Exceptions\AppException If the operation faile.d
+	 * @throws Exceptions\AppException If the operation failed.
 	 */
-	public function FetchLatestCommit(?string $apiKey = null): void{
+	public function FetchLatestCommitTimestamp(?string $apiKey = null): void{
 		$headers = [
 					'Accept: application/vnd.github+json',
 					'X-GitHub-Api-Version: 2022-11-28',
@@ -292,11 +304,11 @@ class Project{
 			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 			if(!is_string($response)){
-				throw new Exceptions\AppException('Response from GitHub was not a string: ' . $response);
+				throw new Exceptions\AppException('Response from <' . $url . '> was not a string: ' . $response);
 			}
 
 			if($httpCode != Enums\HttpCode::Ok->value){
-				throw new Exception('HTTP code from GitHub was: ' . $httpCode);
+				throw new Exception('HTTP code ' . $httpCode . ' received for URL <' . $url . '>.');
 			}
 
 			/** @var array<stdClass> $commits */
@@ -307,7 +319,52 @@ class Project{
 			}
 		}
 		catch(Exception $ex){
-			throw new Exceptions\AppException('Error in update-project-commits for URL <' . $url . '>: ' . $ex->getMessage(), 0, $ex);
+			throw new Exceptions\AppException('Error when fetching commits for URL <' . $url . '>: ' . $ex->getMessage(), 0, $ex);
+		}
+	}
+
+	/**
+	 * @throws Exceptions\AppException If the operation faile.d
+	 */
+	public function FetchLastDiscussionTimestamp(): void{
+		if($this->DiscussionUrl === null){
+			return;
+		}
+
+		$curl = curl_init($this->DiscussionUrl);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+		try{
+			$response = curl_exec($curl);
+			/** @var int $httpCode */
+			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+			if(!is_string($response)){
+				throw new Exceptions\AppException('Response from <' . $this->DiscussionUrl . '> was not a string: ' . $response);
+			}
+
+			if($httpCode != Enums\HttpCode::Ok->value){
+				throw new Exception('HTTP code ' . $httpCode . ' received for URL <' . $this->DiscussionUrl . '>.');
+			}
+
+			$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{2}:[\d]{2}:[\d]{2} (?:AM|PM))<\/span>/iu', $response, $matches);
+
+			if($matchCount > 0){
+				// Unsure of the time zone, so just assume UTC.
+				try{
+					$this->LastDiscussionTimestamp = new DateTimeImmutable(str_replace(' ', ' ', $matches[1][sizeof($matches[1]) - 1]));
+				}
+				catch(\Exception $ex){
+					// Failed to parse date, pass.
+					$this->LastDiscussionTimestamp = null;
+				}
+			}
+			else{
+				$this->LastDiscussionTimestamp = null;
+			}
+		}
+		catch(Exception $ex){
+			throw new Exceptions\AppException('Error when fetching discussion for URL <' . $this->DiscussionUrl . '>: ' . $ex->getMessage(), 0, $ex);
 		}
 	}
 

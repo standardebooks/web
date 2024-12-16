@@ -1,0 +1,99 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+use function Safe\file_get_contents;
+
+/**
+ * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit. If the commit is more than 30 days old, mark the `Project` as stalled.
+ */
+
+
+
+use Safe\DateTimeImmutable;
+
+
+
+$projects = array_merge(
+		Project::GetAllByStatus(Enums\ProjectStatusType::InProgress),
+		Project::GetAllByStatus(Enums\ProjectStatusType::Stalled)
+	);
+
+$apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
+$oldestAllowedTimestamp = new DateTimeImmutable('30 days ago');
+
+foreach($projects as $project){
+	try{
+		$project->FetchLastDiscussionTimestamp();
+	}
+	catch(Exceptions\AppException $ex){
+		Log::WriteErrorLogEntry($ex->getMessage());
+	}
+
+	try{
+		$project->FetchLatestCommitTimestamp($apiKey);
+
+	}
+	catch(Exceptions\AppException $ex){
+		Log::WriteErrorLogEntry($ex->getMessage());
+	}
+
+	if(
+		$project->Status == Enums\ProjectStatusType::InProgress
+		&&
+		(
+			(
+				$project->LastCommitTimestamp !== null
+				&&
+				$project->LastDiscussionTimestamp === null
+				&&
+				$project->LastCommitTimestamp < $oldestAllowedTimestamp
+			)
+			||
+			(
+				$project->LastCommitTimestamp !== null
+				&&
+				$project->LastDiscussionTimestamp !== null
+				&&
+				$project->LastCommitTimestamp < $oldestAllowedTimestamp
+				&&
+				$project->LastDiscussionTimestamp < $oldestAllowedTimestamp
+			)
+		)
+	){
+		// An active `Project` has stalled.
+		$project->Status = Enums\ProjectStatusType::Stalled;
+	}
+	elseif(
+		$project->Status == Enums\ProjectStatusType::Stalled
+		&&
+		(
+			(
+				$project->LastCommitTimestamp !== null
+				&&
+				$project->LastDiscussionTimestamp === null
+				&&
+				$project->LastCommitTimestamp >= $oldestAllowedTimestamp
+			)
+			||
+			(
+				$project->LastCommitTimestamp !== null
+				&&
+				$project->LastDiscussionTimestamp !== null
+				&&
+				(
+					$project->LastCommitTimestamp >= $oldestAllowedTimestamp
+					||
+					$project->LastDiscussionTimestamp >= $oldestAllowedTimestamp
+				)
+			)
+		)
+	){
+		// Revive previously-stalled `Project`s.
+		$project->Status = Enums\ProjectStatusType::InProgress;
+	}
+
+	$project->Save();
+
+	sleep(1);
+}

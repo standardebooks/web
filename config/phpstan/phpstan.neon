@@ -21,7 +21,7 @@ parameters:
 		- %rootDir%/../../../scripts/process-pending-payments
 		- %rootDir%/../../../scripts/update-ebook-database
 		- %rootDir%/../../../scripts/update-patrons-circle
-		- %rootDir%/../../../scripts/update-project-commits
+		- %rootDir%/../../../scripts/update-project-statuses
 		- %rootDir%/../../../templates
 	dynamicConstantNames:
 		- SITE_STATUS
