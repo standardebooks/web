@@ -23,12 +23,11 @@ form.create-update-ebook-placeholder fieldset label:has(textarea[name="ebook-pla
 	grid-column: 1 / span 2;
 }
 
-form.create-update-ebook-placeholder fieldset fieldset:has(input[name="sequence-number-collection-name-1"]),
-form.create-update-ebook-placeholder fieldset fieldset:has(input[name="sequence-number-collection-name-2"]),
-form.create-update-ebook-placeholder fieldset fieldset:has(input[name="sequence-number-collection-name-3"]),
-form.create-update-ebook-placeholder fieldset fieldset:has(input[name="ebook-placeholder-year-published"]){
+form.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-1"]),
+form.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-2"]),
+form.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-3"]){
 	display: grid;
-	grid-template-columns: 200px 1fr;
+	grid-template-columns: 1fr 200px 200px;
 	gap: 2rem;
 }
 
@@ -41,6 +40,12 @@ form.create-update-ebook-placeholder details{
 }
 
 form.create-update-ebook-placeholder summary{
+	font-style: italic;
+}
+
+form.create-update-ebook-placeholder p{
+	margin-bottom: 1rem;
+	margin-top: 1.5rem;
 	font-style: italic;
 }
 
