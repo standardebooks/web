@@ -190,9 +190,6 @@
 				<p><a href="https://www.gutenberg.org/ebooks/author/2683">Short fiction by Vernon Lee</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Thomas_Gray">Poetry of Thomas Gray</a> to be compiled in an omnibus</p>
-			</li>
-			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Sheridan_Le_Fanu">Short stories and novellas by Sheridan Le Fanu</a> (To be compiled in an omnibus “Short Fiction”)</p>
 			</li>
 			<li>
@@ -227,6 +224,9 @@
 			</li> -->
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/8991">The Fur Country: Seventy Degrees North Latitude</a> <i>Le Pays des fourrures</i> by Jules Verne</p>
+			</li>
+			<li>
+				<p><a href="https://www.fadedpage.com/showbook.php?pid=20140612">The Perennial Bachelor</a>, by Anne Parrish (Harper Novel Prize winner 1925)</p>
 			</li>
 			<li>
 				<p><a href="http://www.gutenberg.org/ebooks/13782">Lady Rose’s Daughter</a> by Mary Augusta Ward</p>
@@ -338,9 +338,6 @@
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/44608">The Baburnama</a> by Ẓahīr-ud-Dīn Muhammad Bābur</p>
-			</li>
-			<li>
-				<p>The Perennial Bachelor, by Anne Parrish. (Harper Novel Prize winner 1925; transcription required)</p>
 			</li>
 			<li>
 				<p><a href="https://www.gutenberg.org/ebooks/55625">The Revenger’s Tragedy</a>, by Thomas Middleton. Mistakenly attributed to Cyril Tourneur. (#10 in <a href="https://standardebooks.org/collections/the-telegraphs-greatest-villains-in-literature">Greatest Villains</a>)</p>
