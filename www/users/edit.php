@@ -10,7 +10,7 @@ $passwordAction = HttpInput::SessionObject('password-action', Enums\PasswordActi
 
 try{
 	if($user === null){
-		$user = User::Get(HttpInput::Int(GET, 'user-id'));
+		$user = User::GetByIdentifier(HttpInput::Str(GET, 'user-identifier'));
 	}
 
 	if(Session::$User === null){
@@ -40,13 +40,14 @@ catch(Exceptions\InvalidPermissionsException){
 <?= Template::Header(
 	[
 		'title' => 'Edit user #' . $user->UserId,
+		'canonicalUrl' => $user->Url . '/edit',
 		'css' => ['/css/user.css'],
 		'highlight' => ''
 	]
 ) ?>
 <main>
 	<section class="narrow">
-		<h1>Edit User #<?= $user->UserId ?></h1>
+		<h1>Edit <?= Formatter::EscapeHtml($user->DisplayName) ?></h1>
 
 		<?= Template::Error(['exception' => $exception]) ?>
 

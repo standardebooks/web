@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `Benefits` (
   `CanEditUsers` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanEditCollections` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanEditEbooks` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `CanCreateEbookPlaceholders` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `CanEditEbookPlaceholders` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanManageProjects` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanReviewProjects` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanEditProjects` tinyint(1) unsigned NOT NULL DEFAULT 0,

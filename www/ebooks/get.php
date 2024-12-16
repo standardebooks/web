@@ -398,9 +398,7 @@ catch(Exceptions\EbookNotFoundException){
 		</section>
 
 		<? if(Session::$User?->Benefits->CanEditEbooks){ ?>
-			<section id="metadata">
-				<?= Template::EbookMetadata(['ebook' => $ebook]) ?>
-			</section>
+			<?= Template::EbookMetadata(['ebook' => $ebook]) ?>
 		<? } ?>
 
 		<? if(sizeof($carousel) > 0){ ?>

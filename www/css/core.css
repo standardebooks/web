@@ -749,6 +749,16 @@ ul.message.error > li + li{
 	padding-top: 2rem;
 }
 
+.data-table td:first-child,
+.data-table th:first-child{
+	padding-left: 0;
+}
+
+.data-table td:last-child,
+.data-table th:last-child{
+	padding-left: 0;
+}
+
 .data-table td,
 .data-table th{
 	padding: .25rem .5rem;
@@ -3291,6 +3301,20 @@ table.admin-table td:first-child{
 
 table.admin-table td + td{
 	width: 100%;
+}
+
+.empty-notice{
+	text-align: center;
+	font-style: italic;
+}
+
+nav.breadcrumbs{
+	font-style: italic;
+	margin-top: 1rem;
+}
+
+nav.breadcrumbs + h1{
+	margin-top: 0;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */

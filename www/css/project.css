@@ -12,15 +12,16 @@
 	grid-column-start: 1;
 }
 
-h2 + table.projects{
-	margin-top: 2rem;
-}
-
-table.projects thead{
-	font-style: italic;
-}
-
 table.data-table .status,
 table.data-table .producer{
 	white-space: nowrap;
+}
+
+table.data-table{
+	width: 100%;
+}
+
+table.data-table td.status.stalled{
+	background: #861d1d !important; /* Override hover backgound color */
+	color: #ffffff;
 }

@@ -137,9 +137,30 @@ $passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
 		</li>
 		<li>
 			<label>
-				<input type="hidden" name="benefits-can-create-ebook-placeholder" value="false" />
-				<input type="checkbox" name="benefits-can-create-ebook-placeholder" value="true"<? if($user->Benefits->CanCreateEbookPlaceholders){ ?> checked="checked"<? } ?> />
-				Can create ebook placeholders
+				<input type="hidden" name="benefits-can-edit-ebook-placeholders" value="false" />
+				<input type="checkbox" name="benefits-can-edit-ebook-placeholders" value="true"<? if($user->Benefits->CanEditEbookPlaceholders){ ?> checked="checked"<? } ?> />
+				Can edit ebook placeholders
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="hidden" name="benefits-can-edit-projects" value="false" />
+				<input type="checkbox" name="benefits-can-edit-projects" value="true"<? if($user->Benefits->CanManageProjects){ ?> checked="checked"<? } ?> />
+				Can edit projects
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="hidden" name="benefits-can-manage-projects" value="false" />
+				<input type="checkbox" name="benefits-can-manage-projects" value="true"<? if($user->Benefits->CanManageProjects){ ?> checked="checked"<? } ?> />
+				Can manage projects
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="hidden" name="benefits-can-review-projects" value="false" />
+				<input type="checkbox" name="benefits-can-review-projects" value="true"<? if($user->Benefits->CanManageProjects){ ?> checked="checked"<? } ?> />
+				Can review projects
 			</label>
 		</li>
 	</ul>

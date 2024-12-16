@@ -12,6 +12,7 @@ use function Safe\preg_match;
  * @property ?Patron $Patron
  * @property ?NewsletterSubscription $NewsletterSubscription
  * @property ?Payment $LastPayment
+ * @property string $DisplayName A string that represent's the `User`'s name, or email, or ID.
  */
 class User{
 	use Traits\Accessor;
@@ -33,11 +34,28 @@ class User{
 	protected string $_Url;
 	protected ?Patron $_Patron;
 	protected ?NewsletterSubscription $_NewsletterSubscription;
+	protected string $_DisplayName;
 
 
 	// *******
 	// GETTERS
 	// *******
+
+	protected function GetDisplayName(): string{
+		if(!isset($this->_DisplayName)){
+			if($this->Name !== null){
+				$this->_DisplayName = $this->Name;
+			}
+			elseif($this->Email !== null){
+				$this->_DisplayName = $this->Email;
+			}
+			else{
+				$this->_DisplayName = 'User #' . $this->UserId;
+			}
+		}
+
+		return $this->_DisplayName;
+	}
 
 	protected function GetNewsletterSubscription(): ?NewsletterSubscription{
 		if(!isset($this->_NewsletterSubscription)){

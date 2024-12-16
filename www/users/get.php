@@ -8,11 +8,6 @@ $isSaved = HttpInput::Bool(SESSION, 'is-user-saved') ?? false;
 try{
 	$user = User::GetByIdentifier(HttpInput::Str(GET, 'user-identifier'));
 
-	// Even though the identifier can be either an email, user ID, or UUID, we want the URL of this page to be based on a user ID only.
-	if(!ctype_digit(HttpInput::Str(GET, 'user-identifier'))){
-		throw new Exceptions\SeeOtherException($user->Url);
-	}
-
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
@@ -35,15 +30,16 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::Emit403();
 }
-catch(Exceptions\SeeOtherException $ex){
-	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $ex->Url);
-}
-
-?><?= Template::Header(['title' => 'User #' . $user->UserId, 'css' => ['/css/user.css']]) ?>
+?><?= Template::Header(
+	[
+		'title' => $user->DisplayName,
+		'canonicalUrl' => $user->Url,
+		'css' => ['/css/user.css']
+	]
+) ?>
 <main>
 	<section class="narrow">
-		<h1>User #<?= $user->UserId ?></h1>
+		<h1><?= Formatter::EscapeHtml($user->DisplayName) ?></h1>
 
 		<? if($isSaved){ ?>
 			<p class="message success">User saved!</p>
@@ -51,9 +47,17 @@ catch(Exceptions\SeeOtherException $ex){
 
 		<a href="<?= $user->Url ?>/edit">Edit user</a>
 
+		<? if($user->Benefits->CanManageProjects || $user->Benefits->CanReviewProjects){ ?>
+			<a href="<?= $user->Url ?>/projects">Projects</a>
+		<? } ?>
+
 		<h2>Basics</h2>
 		<table class="admin-table">
 			<tbody>
+				<tr>
+					<td>User ID:</td>
+					<td><?= $user->UserId ?></td>
+				</tr>
 				<tr>
 					<td>Email:</td>
 					<td><?= Formatter::EscapeHtml($user->Email) ?></td>
@@ -170,8 +174,20 @@ catch(Exceptions\SeeOtherException $ex){
 						<td><? if($user->Benefits->CanEditUsers){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 					<tr>
-						<td>Can create ebook placeholders:</td>
-						<td><? if($user->Benefits->CanCreateEbookPlaceholders){ ?>☑<? }else{ ?>☐<? } ?></td>
+						<td>Can edit ebook placeholders:</td>
+						<td><? if($user->Benefits->CanEditEbookPlaceholders){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
+						<td>Can edit projects:</td>
+						<td><? if($user->Benefits->CanEditProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
+						<td>Can manage projects:</td>
+						<td><? if($user->Benefits->CanManageProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
+						<td>Can review projects:</td>
+						<td><? if($user->Benefits->CanReviewProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 				<? } ?>
 			</tbody>
@@ -179,7 +195,7 @@ catch(Exceptions\SeeOtherException $ex){
 
 		<h2>Payments</h2>
 		<? if(sizeof($user->Payments) == 0){ ?>
-			<p>None.</p>
+			<p class="empty-notice">None.</p>
 		<? }else{ ?>
 			<p>
 				<a href="https://fundraising.fracturedatlas.org/admin/general_support/donations?query=<?= urlencode($user->Email ?? '') ?>">View all payments at Fractured Atlas</a>

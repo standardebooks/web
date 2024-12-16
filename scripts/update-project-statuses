@@ -3,16 +3,11 @@
 require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\file_get_contents;
+use Safe\DateTimeImmutable;
 
 /**
  * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit. If the commit is more than 30 days old, mark the `Project` as stalled.
  */
-
-
-
-use Safe\DateTimeImmutable;
-
-
 
 $projects = array_merge(
 		Project::GetAllByStatus(Enums\ProjectStatusType::InProgress),

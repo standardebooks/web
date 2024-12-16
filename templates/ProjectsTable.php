@@ -14,8 +14,10 @@ $includeStatus = $includeStatus ?? true;
 				<th scope="col">Title</th>
 			<? } ?>
 			<th scope="col">Producer</th>
+			<th scope="col">Manager</th>
+			<th scope="col">Reviewer</th>
 			<th scope="col">Started</th>
-			<th scope="col">Last commit</th>
+			<th scope="col">Last activity</th>
 			<? if($includeStatus){ ?>
 				<th scope="col">Status</th>
 			<? } ?>
@@ -39,13 +41,19 @@ $includeStatus = $includeStatus ?? true;
 					<? } ?>
 				</td>
 				<td>
+					<a href="<?= $project->ManagerUser->Url ?>/projects"><?= Formatter::EscapeHtml($project->ManagerUser->DisplayName) ?></a>
+				</td>
+				<td>
+					<a href="<?= $project->ReviewerUser->Url ?>/projects"><?= Formatter::EscapeHtml($project->ReviewerUser->DisplayName) ?></a>
+				</td>
+				<td>
 					<?= $project->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
 				</td>
 				<td>
-					<?= $project->LastCommitTimestamp?->format(Enums\DateTimeFormat::ShortDate->value) ?>
+					<?= $project->LastActivityTimestamp->format(Enums\DateTimeFormat::ShortDate->value) ?>
 				</td>
 				<? if($includeStatus){ ?>
-					<td class="status">
+					<td class="status<? if($project->Status == Enums\ProjectStatusType::Stalled){ ?> stalled<? } ?>">
 						<?= ucfirst($project->Status->GetDisplayName()) ?>
 					</td>
 				<? } ?>

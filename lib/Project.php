@@ -15,6 +15,7 @@ use Safe\DateTimeImmutable;
  * @property User $ManagerUser
  * @property User $ReviewerUser
  * @property string $Url
+ * @property DateTimeImmutable $LastActivityTimestamp The timestamp of the latest activity, whether it's a commit, a discussion post, or simply the started timestamp.
  */
 class Project{
 	use Traits\Accessor;
@@ -40,6 +41,7 @@ class Project{
 	protected User $_ManagerUser;
 	protected User $_ReviewerUser;
 	protected string $_Url;
+	protected DateTimeImmutable $_LastActivityTimestamp;
 
 
 	// *******
@@ -52,6 +54,22 @@ class Project{
 		}
 
 		return $this->_Url;
+	}
+
+	protected function GetLastActivityTimestamp(): DateTimeImmutable{
+		if(!isset($this->_LastActivityTimestamp)){
+			$dates = [
+				(int)($this->LastCommitTimestamp?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastCommitTimestamp ?? NOW,
+				(int)($this->LastDiscussionTimestamp?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastDiscussionTimestamp ?? NOW,
+				(int)($this->Started->format(Enums\DateTimeFormat::UnixTimestamp->value)) => $this->Started,
+			];
+
+			ksort($dates);
+
+			$this->_LastActivityTimestamp = end($dates);
+		}
+
+		return $this->_LastActivityTimestamp;
 	}
 
 
@@ -95,6 +113,12 @@ class Project{
 		$this->DiscussionUrl = trim($this->DiscussionUrl ?? '');
 		if($this->DiscussionUrl == ''){
 			$this->DiscussionUrl = null;
+		}
+		else{
+			if(preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl)){
+				// Get the base thread URL in case we were passed a URL with a specific message or query string.
+				$this->DiscussionUrl = preg_replace('|^(https://groups\.google\.com/g/standardebooks/c/[^/]+).*|iu', '\1', $this->DiscussionUrl);
+			}
 		}
 
 		$this->VcsUrl = rtrim(trim($this->VcsUrl ?? ''), '/');
@@ -268,6 +292,10 @@ class Project{
 	 * @throws Exceptions\AppException If the operation failed.
 	 */
 	public function FetchLatestCommitTimestamp(?string $apiKey = null): void{
+		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl)){
+			return;
+		}
+
 		$headers = [
 					'Accept: application/vnd.github+json',
 					'X-GitHub-Api-Version: 2022-11-28',
@@ -327,7 +355,7 @@ class Project{
 	 * @throws Exceptions\AppException If the operation faile.d
 	 */
 	public function FetchLastDiscussionTimestamp(): void{
-		if($this->DiscussionUrl === null){
+		if(!preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl ?? '')){
 			return;
 		}
 
@@ -347,7 +375,7 @@ class Project{
 				throw new Exception('HTTP code ' . $httpCode . ' received for URL <' . $this->DiscussionUrl . '>.');
 			}
 
-			$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{2}:[\d]{2}:[\d]{2} (?:AM|PM))<\/span>/iu', $response, $matches);
+			$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response, $matches);
 
 			if($matchCount > 0){
 				// Unsure of the time zone, so just assume UTC.
@@ -389,5 +417,19 @@ class Project{
 	 */
 	public static function GetAllByStatus(Enums\ProjectStatusType $status): array{
 		return Db::Query('SELECT * from Projects where Status = ? order by Started desc', [$status], Project::class);
+	}
+
+	/**
+	 * @return array<Project>
+	 */
+	public static function GetAllByManagerUserId(int $userId): array{
+		return Db::Query('SELECT * from Projects where ManagerUserId = ? and Status in (?, ?) order by Started desc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
+	}
+
+	/**
+	 * @return array<Project>
+	 */
+	public static function GetAllByReviewerUserId(int $userId): array{
+		return Db::Query('SELECT * from Projects where ReviewerUserId = ? and Status in (?, ?) order by Started desc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
 	}
 }
