@@ -40,7 +40,7 @@ $ebook = $ebook ?? new Ebook();
 				value="<? if(isset($ebook->Authors) && sizeof($ebook->Authors) > 2){ ?><?= Formatter::EscapeHtml($ebook->Authors[2]->Name) ?><? } ?>"
 			/>
 		</label>
-		<label class="icon user">
+		<label class="icon language">
 			<span>Translator</span>
 			<datalist id="translator-names">
 				<? foreach(Contributor::GetAllTranslatorNames() as $translator){ ?>
@@ -54,7 +54,7 @@ $ebook = $ebook ?? new Ebook();
 				value="<? if(isset($ebook->Translators) && sizeof($ebook->Translators) > 0){ ?><?= Formatter::EscapeHtml($ebook->Translators[0]->Name) ?><? } ?>"
 			/>
 		</label>
-		<label class="icon user">
+		<label class="icon language">
 			<span>Second translator</span>
 			<input
 				type="text"
@@ -83,10 +83,10 @@ $ebook = $ebook ?? new Ebook();
 		/>
 	</label>
 </fieldset>
-<p>For existing collections, leave the type blank. It will be ignored.</p>
 <fieldset>
 	<label class="icon collection">
 		<span>Collection</span>
+		<span>For existing collections, leave the type blank.</span>
 		<datalist id="collection-names">
 			<? foreach(Collection::GetAll() as $collection){ ?>
 				<option value="<?= Formatter::EscapeHtml($collection->Name) ?>"><?= Formatter::EscapeHtml($collection->Name) ?></option>
@@ -99,7 +99,7 @@ $ebook = $ebook ?? new Ebook();
 			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->Collection->Name) ?><? } ?>"
 		/>
 	</label>
-	<label>
+	<label class="icon indent extra-line">
 		<span>Type</span>
 		<span>
 			<select name="type-collection-name-1">
@@ -109,7 +109,7 @@ $ebook = $ebook ?? new Ebook();
 			</select>
 		</span>
 	</label>
-	<label class="icon ordered-list">
+	<label class="icon ordered-list extra-line">
 		<span>Number in collection</span>
 		<input
 			type="text"
@@ -132,7 +132,7 @@ $ebook = $ebook ?? new Ebook();
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[1]->Collection->Name) ?><? } ?>"
 			/>
 		</label>
-		<label>
+		<label class="icon indent">
 			<span>Type</span>
 			<span>
 				<select name="type-collection-name-2">
@@ -163,7 +163,7 @@ $ebook = $ebook ?? new Ebook();
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[2]->Collection->Name) ?><? } ?>"
 			/>
 		</label>
-		<label>
+		<label class="icon indent">
 			<span>Type</span>
 			<span>
 				<select name="type-collection-name-3">

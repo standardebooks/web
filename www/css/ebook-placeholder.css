@@ -99,3 +99,10 @@ article.ebook.ebook-placeholder .placeholder-details{
 article.ebook.ebook-placeholder .placeholder-details ul{
 	list-style: disc;
 }
+
+.extra-line > span:first-child::before{
+	content: 'Spacer';
+	visibility: hidden;
+	display: block;
+	font-weight: normal;
+}

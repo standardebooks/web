@@ -2011,6 +2011,14 @@ label.user::before{
 	content: "\f007";
 }
 
+label.indent::before{
+	content: "\f03c";
+}
+
+label.language::before{
+	content: "\f1ab";
+}
+
 nav li.highlighted a,
 nav a[rel],
 a.button,
@@ -2563,6 +2571,7 @@ fieldset legend{
 	line-height: 1.2;
 	letter-spacing: 1px;
 	text-transform: uppercase;
+	padding: 0; /* Reset browser style */
 }
 
 summary{
