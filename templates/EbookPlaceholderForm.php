@@ -72,18 +72,16 @@ $ebook = $ebook ?? new Ebook();
 		<input type="text" name="ebook-title" required="required"
 		       value="<?= Formatter::EscapeHtml($ebook->Title ?? '') ?>"/>
 	</label>
-	<fieldset>
-		<label class="icon year">
-			Year published
-			<input
-				type="text"
-				name="ebook-placeholder-year-published"
-				inputmode="numeric"
-				pattern="[0-9]{1,4}"
-				value="<?= Formatter::EscapeHtml((string)($ebook->EbookPlaceholder?->YearPublished)) ?>"
-			/>
-		</label>
-	</fieldset>
+	<label class="icon year">
+		Year published
+		<input
+			type="text"
+			name="ebook-placeholder-year-published"
+			inputmode="numeric"
+			pattern="[0-9]{1,4}"
+			value="<?= Formatter::EscapeHtml((string)($ebook->EbookPlaceholder?->YearPublished)) ?>"
+		/>
+	</label>
 	<label class="icon collection">
 		<span>Collection</span>
 		<datalist id="collection-names">
@@ -98,18 +96,16 @@ $ebook = $ebook ?? new Ebook();
 			value="<? if(isset($ebook->CollectionMemberships)){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->Collection->Name) ?><? } ?>"
 		/>
 	</label>
-	<fieldset>
-		<label class="icon ordered-list">
-			<span>Number in collection</span>
-			<input
-				type="text"
-				name="sequence-number-collection-name-1"
-				inputmode="numeric"
-				pattern="[0-9]{1,3}"
-				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
-			/>
-		</label>
-	</fieldset>
+	<label class="icon ordered-list">
+		<span>Number in collection</span>
+		<input
+			type="text"
+			name="sequence-number-collection-name-1"
+			inputmode="numeric"
+			pattern="[0-9]{1,3}"
+			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
+		/>
+	</label>
 </fieldset>
 <details>
 	<summary>Additional collections</summary>
@@ -123,18 +119,16 @@ $ebook = $ebook ?? new Ebook();
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[1]->Collection->Name) ?><? } ?>"
 			/>
 		</label>
-		<fieldset>
-			<label class="icon ordered-list">
-				<span>Number in collection</span>
-				<input
-					type="text"
-					name="sequence-number-collection-name-2"
-					inputmode="numeric"
-					pattern="[0-9]{1,3}"
-					value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[1]->SequenceNumber) ?><? } ?>"
-				/>
-			</label>
-		</fieldset>
+		<label class="icon ordered-list">
+			<span>Number in collection</span>
+			<input
+				type="text"
+				name="sequence-number-collection-name-2"
+				inputmode="numeric"
+				pattern="[0-9]{1,3}"
+				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[1]->SequenceNumber) ?><? } ?>"
+			/>
+		</label>
 	</fieldset>
 	<fieldset>
 		<label class="icon collection">
@@ -146,18 +140,16 @@ $ebook = $ebook ?? new Ebook();
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[2]->Collection->Name) ?><? } ?>"
 			/>
 		</label>
-		<fieldset>
-			<label class="icon ordered-list">
-				<span>Number in collection</span>
-				<input
-					type="text"
-					name="sequence-number-collection-name-3"
-					inputmode="numeric"
-					pattern="[0-9]{1,3}"
-					value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[2]->SequenceNumber) ?><? } ?>"
-				/>
-			</label>
-		</fieldset>
+		<label class="icon ordered-list">
+			<span>Number in collection</span>
+			<input
+				type="text"
+				name="sequence-number-collection-name-3"
+				inputmode="numeric"
+				pattern="[0-9]{1,3}"
+				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[2]->SequenceNumber) ?><? } ?>"
+			/>
+		</label>
 	</fieldset>
 </details>
 <fieldset>
