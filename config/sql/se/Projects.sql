@@ -14,5 +14,6 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `ReviewerUserId` int(11) NOT NULL,
   `LastCommitTimestamp` DATETIME NULL DEFAULT NULL,
   `LastDiscussionTimestamp` DATETIME NULL DEFAULT NULL,
+  `IsStatusAutomaticallyUpdated` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ProjectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

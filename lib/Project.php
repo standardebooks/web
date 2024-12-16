@@ -12,10 +12,11 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property Ebook $Ebook
- * @property User $ManagerUser
- * @property User $ReviewerUser
+ * @property User $Manager
+ * @property User $Reviewer
  * @property string $Url
  * @property DateTimeImmutable $LastActivityTimestamp The timestamp of the latest activity, whether it's a commit, a discussion post, or simply the started timestamp.
+ * @property array<ProjectReminder> $Reminders
  */
 class Project{
 	use Traits\Accessor;
@@ -36,12 +37,15 @@ class Project{
 	public int $ReviewerUserId;
 	public ?DateTimeImmutable $LastCommitTimestamp = null;
 	public ?DateTimeImmutable $LastDiscussionTimestamp = null;
+	public bool $IsStatusAutomaticallyUpdated = true;
 
 	protected Ebook $_Ebook;
-	protected User $_ManagerUser;
-	protected User $_ReviewerUser;
+	protected User $_Manager;
+	protected User $_Reviewer;
 	protected string $_Url;
 	protected DateTimeImmutable $_LastActivityTimestamp;
+	/** @var array<ProjectReminder> $_Reminders */
+	protected array $_Reminders;
 
 
 	// *******
@@ -70,6 +74,39 @@ class Project{
 		}
 
 		return $this->_LastActivityTimestamp;
+	}
+
+	/**
+	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
+	 */
+	protected function GetManager(): User{
+		if(!isset($this->_Manager)){
+			$this->_Manager = User::Get($this->ManagerUserId);
+		}
+
+		return $this->_Manager;
+	}
+
+	/**
+	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
+	 */
+	protected function GetReviewer(): User{
+		if(!isset($this->_Reviewer)){
+			$this->_Reviewer = User::Get($this->ReviewerUserId);
+		}
+
+		return $this->_Reviewer;
+	}
+
+	/**
+	 * @return array<ProjectReminder>
+	 */
+	protected function GetReminders(): array{
+		if(!isset($this->_Reminders)){
+			$this->_Reminders = Db::Query('SELECT * from ProjectReminders where ProjectId = ? order by Created asc', [$this->ProjectId], ProjectReminder::class);
+		}
+
+		return $this->_Reminders;
 	}
 
 
@@ -134,7 +171,7 @@ class Project{
 		}
 		else{
 			try{
-				$this->_ManagerUser = User::Get($this->ManagerUserId);
+				$this->_Manager = User::Get($this->ManagerUserId);
 			}
 			catch(Exceptions\UserNotFoundException){
 				$error->Add(new Exceptions\UserNotFoundException('Manager user not found.'));
@@ -146,7 +183,7 @@ class Project{
 		}
 		else{
 			try{
-				$this->_ReviewerUser = User::Get($this->ReviewerUserId);
+				$this->_Reviewer = User::Get($this->ReviewerUserId);
 			}
 			catch(Exceptions\UserNotFoundException){
 				$error->Add(new Exceptions\UserNotFoundException('Reviewer user not found.'));
@@ -215,7 +252,8 @@ class Project{
 					ManagerUserId,
 					ReviewerUserId,
 					LastCommitTimestamp,
-					LastDiscussionTimestamp
+					LastDiscussionTimestamp,
+					IsStatusAutomaticallyUpdated
 				)
 				values
 				(
@@ -232,11 +270,49 @@ class Project{
 					?,
 					?,
 					?,
+					?,
 					?
 				)
-			', [$this->EbookId, $this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp]);
+			', [$this->EbookId, $this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
 
 		$this->ProjectId = Db::GetLastInsertedId();
+
+		// Notify the manager.
+		if($this->Status == Enums\ProjectStatusType::InProgress){
+			if($this->ManagerUserId == $this->ReviewerUserId){
+				if($this->Manager->Email !== null){
+					$em = new Email();
+					$em->From = ADMIN_EMAIL_ADDRESS;
+					$em->To = $this->Manager->Email;
+					$em->Subject = 'New ebook project to manage and review';
+					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'manage and review']);
+					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'manage and review']);
+					$em->Send();
+				}
+			}
+			else{
+				if($this->Manager->Email !== null){
+					$em = new Email();
+					$em->From = ADMIN_EMAIL_ADDRESS;
+					$em->To = $this->Manager->Email;
+					$em->Subject = 'New ebook project to manage';
+					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'manage']);
+					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'manage']);
+					$em->Send();
+				}
+
+				// Notify the reviewer.
+				if($this->Reviewer->Email !== null){
+					$em = new Email();
+					$em->From = ADMIN_EMAIL_ADDRESS;
+					$em->To = $this->Reviewer->Email;
+					$em->Subject = 'New ebook project to review';
+					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'review']);
+					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'review']);
+					$em->Send();
+				}
+			}
+		}
 	}
 
 	/**
@@ -259,10 +335,11 @@ class Project{
 			ManagerUserId = ?,
 			ReviewerUserId = ?,
 			LastCommitTimestamp = ?,
-			LastDiscussionTimestamp = ?
+			LastDiscussionTimestamp = ?,
+			IsStatusAutomaticallyUpdated = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->ProjectId]);
+		', [$this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
 
 		if($this->Status == Enums\ProjectStatusType::Abandoned){
 			Db::Query('
@@ -286,6 +363,7 @@ class Project{
 		$this->PropertyFromHttp('Ended');
 		$this->PropertyFromHttp('ManagerUserId');
 		$this->PropertyFromHttp('ReviewerUserId');
+		$this->PropertyFromHttp('IsStatusAutomaticallyUpdated');
 	}
 
 	/**
@@ -394,6 +472,47 @@ class Project{
 		catch(Exception $ex){
 			throw new Exceptions\AppException('Error when fetching discussion for URL <' . $this->DiscussionUrl . '>: ' . $ex->getMessage(), 0, $ex);
 		}
+	}
+
+	public function GetReminder(Enums\ProjectReminderType $type): ?ProjectReminder{
+		foreach($this->Reminders as $reminder){
+			if($reminder->Type == $type){
+				return $reminder;
+			}
+		}
+
+		return null;
+	}
+
+	public function SendReminder(Enums\ProjectReminderType $type): void{
+		if($this->ProducerEmail === null || $this->GetReminder($type) !== null){
+			return;
+		}
+
+		$reminder = new ProjectReminder();
+		$reminder->ProjectId = $this->ProjectId;
+		$reminder->Type = $type;
+		$reminder->Create();
+
+		$em = new Email();
+		$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+		$em->FromName = EDITOR_IN_CHIEF_NAME;
+		$em->To = $this->ProducerEmail;
+		$em->Subject = 'Your Standard Ebooks ebook';
+
+		switch($type){
+			case Enums\ProjectReminderType::Stalled:
+				$em->Body = Template::EmailProjectStalled();
+				$em->TextBody = Template::EmailProjectStalledText();
+				break;
+
+			case Enums\ProjectReminderType::Abandoned:
+				$em->Body = Template::EmailProjectAbandoned();
+				$em->TextBody = Template::EmailProjectAbandonedText();
+				break;
+		}
+
+		$em->Send();
 	}
 
 

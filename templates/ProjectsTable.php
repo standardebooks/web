@@ -16,7 +16,6 @@ $includeStatus = $includeStatus ?? true;
 			<th scope="col">Producer</th>
 			<th scope="col">Manager</th>
 			<th scope="col">Reviewer</th>
-			<th scope="col">Started</th>
 			<th scope="col">Last activity</th>
 			<? if($includeStatus){ ?>
 				<th scope="col">Status</th>
@@ -43,13 +42,10 @@ $includeStatus = $includeStatus ?? true;
 					<? } ?>
 				</td>
 				<td>
-					<a href="<?= $project->ManagerUser->Url ?>/projects"><?= Formatter::EscapeHtml($project->ManagerUser->DisplayName) ?></a>
+					<a href="<?= $project->Manager->Url ?>/projects"><?= Formatter::EscapeHtml($project->Manager->DisplayName) ?></a>
 				</td>
 				<td>
-					<a href="<?= $project->ReviewerUser->Url ?>/projects"><?= Formatter::EscapeHtml($project->ReviewerUser->DisplayName) ?></a>
-				</td>
-				<td>
-					<?= $project->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
+					<a href="<?= $project->Reviewer->Url ?>/projects"><?= Formatter::EscapeHtml($project->Reviewer->DisplayName) ?></a>
 				</td>
 				<td>
 					<?= $project->LastActivityTimestamp->format(Enums\DateTimeFormat::ShortDate->value) ?>
@@ -60,7 +56,7 @@ $includeStatus = $includeStatus ?? true;
 					</td>
 				<? } ?>
 				<td>
-					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">GitHub</a>
+					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">Respository</a>
 				</td>
 				<td>
 					<? if($project->DiscussionUrl !== null){ ?>

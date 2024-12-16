@@ -9,13 +9,15 @@ use Safe\DateTimeImmutable;
  * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit. If the commit is more than 30 days old, mark the `Project` as stalled.
  */
 
+/** @var array<Project> $projects */
 $projects = array_merge(
 		Project::GetAllByStatus(Enums\ProjectStatusType::InProgress),
 		Project::GetAllByStatus(Enums\ProjectStatusType::Stalled)
 	);
 
 $apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
-$oldestAllowedTimestamp = new DateTimeImmutable('30 days ago');
+$oldestStalledTimestamp = new DateTimeImmutable('60 days ago');
+$oldestAbandonedTimestamp = new DateTimeImmutable('90 days ago');
 
 foreach($projects as $project){
 	try{
@@ -33,59 +35,39 @@ foreach($projects as $project){
 		Log::WriteErrorLogEntry($ex->getMessage());
 	}
 
-	if(
-		$project->Status == Enums\ProjectStatusType::InProgress
-		&&
-		(
-			(
-				$project->LastCommitTimestamp !== null
-				&&
-				$project->LastDiscussionTimestamp === null
-				&&
-				$project->LastCommitTimestamp < $oldestAllowedTimestamp
-			)
-			||
-			(
-				$project->LastCommitTimestamp !== null
-				&&
-				$project->LastDiscussionTimestamp !== null
-				&&
-				$project->LastCommitTimestamp < $oldestAllowedTimestamp
-				&&
-				$project->LastDiscussionTimestamp < $oldestAllowedTimestamp
-			)
-		)
-	){
-		// An active `Project` has stalled.
-		$project->Status = Enums\ProjectStatusType::Stalled;
-	}
-	elseif(
-		$project->Status == Enums\ProjectStatusType::Stalled
-		&&
-		(
-			(
-				$project->LastCommitTimestamp !== null
-				&&
-				$project->LastDiscussionTimestamp === null
-				&&
-				$project->LastCommitTimestamp >= $oldestAllowedTimestamp
-			)
-			||
-			(
-				$project->LastCommitTimestamp !== null
-				&&
-				$project->LastDiscussionTimestamp !== null
-				&&
-				(
-					$project->LastCommitTimestamp >= $oldestAllowedTimestamp
-					||
-					$project->LastDiscussionTimestamp >= $oldestAllowedTimestamp
-				)
-			)
-		)
-	){
-		// Revive previously-stalled `Project`s.
-		$project->Status = Enums\ProjectStatusType::InProgress;
+	if($project->IsStatusAutomaticallyUpdated){
+		if(
+			$project->Status == Enums\ProjectStatusType::InProgress
+			&&
+			$project->LastActivityTimestamp < $oldestStalledTimestamp
+		){
+			// An active `Project` has stalled.
+			$project->Status = Enums\ProjectStatusType::Stalled;
+
+			// Send an email to the producer.
+			$project->SendReminder(Enums\ProjectReminderType::Stalled);
+		}
+		elseif(
+			$project->Status == Enums\ProjectStatusType::Stalled
+			&&
+			$project->LastActivityTimestamp >= $oldestStalledTimestamp
+		){
+			// Revive previously-stalled `Project`s.
+			$project->Status = Enums\ProjectStatusType::InProgress;
+		}
+		elseif(
+			$project->Status == Enums\ProjectStatusType::Stalled
+			&&
+			$project->LastActivityTimestamp < $oldestStalledTimestamp
+			&&
+			$project->GetReminder(Enums\ProjectReminderType::Stalled)?->Created < $oldestAbandonedTimestamp
+		){
+			// A stalled `Project` is now abandoned.
+			$project->Status = Enums\ProjectStatusType::Abandoned;
+
+			// Send a notification to the producer.
+			$project->SendReminder(Enums\ProjectReminderType::Abandoned);
+		}
 	}
 
 	$project->Save();

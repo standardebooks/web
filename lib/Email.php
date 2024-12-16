@@ -73,10 +73,11 @@ class Email{
 			}
 
 			if(SITE_STATUS == SITE_STATUS_DEV){
-				Log::WriteErrorLogEntry('Sending mail to ' . $this->To . ' from ' . $this->From);
-				Log::WriteErrorLogEntry('Subject: ' . $this->Subject);
-				Log::WriteErrorLogEntry($this->Body);
-				Log::WriteErrorLogEntry($this->TextBody);
+				$log = new Log(EMAIL_LOG_FILE_PATH);
+				$log->Write('Sending mail to ' . $this->To . ' from ' . $this->From);
+				$log->Write('Subject: ' . $this->Subject);
+				$log->Write($this->Body);
+				$log->Write($this->TextBody);
 			}
 			else{
 				$phpMailer->Send();

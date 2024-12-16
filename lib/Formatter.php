@@ -83,6 +83,20 @@ class Formatter{
 	}
 
 	/**
+	 * Escape a string for use in Markdown.
+	 */
+	public static function EscapeMarkdown(?string $text): string{
+		if($text === null){
+			return '';
+		}
+
+		return str_replace(
+			['\\', '-', '#', '*', '+', '`', '.', '[', ']', '(', ')', '!', '<', '>', '_', '{', '}', '|'],
+			['\\\\', '\-', '\#', '\*', '\+', '\`', '\.', '\[', '\]', '\(', '\)', '\!', '\<', '\>', '\_', '\{', '\}', '\|'],
+		$text);
+	}
+
+	/**
 	 * Convert a string of Markdown into HTML.
 	 */
 	public static function MarkdownToHtml(?string $text): string{

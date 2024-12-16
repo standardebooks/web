@@ -81,6 +81,7 @@ const POSTMARK_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-postmark.log'; /
 const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log'; // Must be writable by `www-data` Unix user.
 const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writable by `www-data` Unix user.
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // Must be writable by `www-data` Unix user.
+const EMAIL_LOG_FILE_PATH =		'/var/log/local/standardebooks.org-email.log'; // Must be writable by `www-data` Unix user.
 
 define('PD_YEAR', intval(PD_NOW->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));

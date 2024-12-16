@@ -56,6 +56,16 @@ $reviewers = User::GetAllByCanReviewProjects();
 </label>
 
 <label>
+	<span>Automatically update status?</span>
+	<input type="hidden" name="project-is-status-automatically-updated" value="false" />
+	<input
+		type="checkbox"
+		name="project-is-status-automatically-updated"
+		<? if($project->IsStatusAutomaticallyUpdated){ ?>checked="checked"<? } ?>
+	/>
+</label>
+
+<label>
 	<span>VCS URL</span>
 	<input
 		type="url"

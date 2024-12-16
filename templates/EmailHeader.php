@@ -1,6 +1,7 @@
 <?
 $preheader = $preheader ?? null;
 $letterhead = $letterhead ?? false;
+$hasDataTable = $hasDataTable ?? false;
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,30 +39,30 @@ $letterhead = $letterhead ?? false;
 		}
 
 		<? if($letterhead){ ?>
-		div.body.letterhead{
-			background-image: url("https://standardebooks.org/images/logo-email.png");
-			background-position: top 2em right 2em;
-			background-repeat: no-repeat;
-			background-size: 210px 49px;
-			padding-top: 5em;
-		}
+			div.body.letterhead{
+				background-image: url("https://standardebooks.org/images/logo-email.png");
+				background-position: top 2em center;
+				background-repeat: no-repeat;
+				background-size: 210px 49px;
+				padding-top: 6em;
+			}
 		<? } ?>
 
 		<? if($preheader){ ?>
-		.preheader{
-			display: none !important;
-			color: #ffffff;
-			font-size: 1px;
-			height: 0;
-			line-height: 1px;
-			mso-hide: all;
-			opacity: 0;
-			overflow: hidden;
-			position: absolute;
-			top: -9999px;
-			visibility: hidden;
-			width: 0;
-		}
+			.preheader{
+				display: none !important;
+				color: #ffffff;
+				font-size: 1px;
+				height: 0;
+				line-height: 1px;
+				mso-hide: all;
+				opacity: 0;
+				overflow: hidden;
+				position: absolute;
+				top: -9999px;
+				visibility: hidden;
+				width: 0;
+			}
 		<? } ?>
 
 		img.logo{
@@ -140,6 +141,11 @@ $letterhead = $letterhead ?? false;
 			max-width: 55px;
 		}
 
+		.footer.no-links{
+			font-size: 1em;
+			padding-top: 0;
+		}
+
 		footer{
 			margin-right: 4em;
 			margin-top: 2em;
@@ -184,9 +190,17 @@ $letterhead = $letterhead ?? false;
 			text-align: center;
 		}
 
-		.letterhead{
-			text-align: right;
-		}
+		<? if($hasDataTable){ ?>
+			table.data-table td:first-child{
+				font-weight: bold;
+				text-align: right;
+			}
+
+			table.data-table td{
+				padding: .25em;
+				border: none;
+			}
+		<? } ?>
 	</style>
 </head>
 <body>
