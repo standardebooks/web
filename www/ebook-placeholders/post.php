@@ -73,15 +73,6 @@ try{
 		$ebookPlaceholder->FillFromHttpPost();
 		$ebook->EbookPlaceholder = $ebookPlaceholder;
 
-		$ebook->FillIdentifierFromTitleAndContributors();
-		try{
-			$existingEbook = Ebook::GetByIdentifier($ebook->Identifier);
-			throw new Exceptions\DuplicateEbookException($ebook->Identifier);
-		}
-		catch(Exceptions\EbookNotFoundException){
-			// Pass and create the placeholder. There is no existing ebook with this identifier.
-		}
-
 		// Do we have a `Project` to create at the same time?
 		$project = null;
 		if($ebookPlaceholder->IsInProgress){
@@ -90,6 +81,15 @@ try{
 			$project->Started = NOW;
 			$project->EbookId = 0; // Dummy value to pass validation, we'll set it to the real value before creating the `Project`.
 			$project->Validate();
+		}
+
+		$ebook->FillIdentifierFromTitleAndContributors();
+		try{
+			$existingEbook = Ebook::GetByIdentifier($ebook->Identifier);
+			throw new Exceptions\DuplicateEbookException($ebook->Identifier);
+		}
+		catch(Exceptions\EbookNotFoundException){
+			// Pass and create the placeholder. There is no existing ebook with this identifier.
 		}
 
 		// These properties must be set before calling `Ebook::Create()` to prevent the getters from triggering DB queries or accessing `Ebook::$EbookId` before it is set.

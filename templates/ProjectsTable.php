@@ -36,6 +36,8 @@ $includeStatus = $includeStatus ?? true;
 				<td class="producer">
 					<? if($project->ProducerEmail !== null){ ?>
 						<a href="mailto:<?= Formatter::EscapeHtml($project->ProducerEmail) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
+					<? }elseif($project->DiscussionUrl !== null){ ?>
+						<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
 					<? }else{ ?>
 						<?= Formatter::EscapeHtml($project->ProducerName) ?>
 					<? } ?>
