@@ -61,6 +61,7 @@ try{
 			}
 			$collectionSequenceNumber = HttpInput::Int(POST, 'sequence-number-' . $collectionNameField);
 			$collection = Collection::FromName($collectionName);
+			$collection->Type = Enums\CollectionType::tryFrom(HttpInput::Str(POST, 'type-' . $collectionNameField) ?? '');
 
 			$cm = new CollectionMembership();
 			$cm->Collection = $collection;

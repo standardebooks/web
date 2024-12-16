@@ -82,6 +82,9 @@ $ebook = $ebook ?? new Ebook();
 			value="<?= Formatter::EscapeHtml((string)($ebook->EbookPlaceholder?->YearPublished)) ?>"
 		/>
 	</label>
+</fieldset>
+<p>For existing collections, leave the type blank. It will be ignored.</p>
+<fieldset>
 	<label class="icon collection">
 		<span>Collection</span>
 		<datalist id="collection-names">
@@ -95,6 +98,16 @@ $ebook = $ebook ?? new Ebook();
 			list="collection-names"
 			value="<? if(isset($ebook->CollectionMemberships)){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->Collection->Name) ?><? } ?>"
 		/>
+	</label>
+	<label>
+		<span>Type</span>
+		<span>
+			<select name="type-collection-name-1">
+				<option value=""></option>
+				<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0 && $ebook->CollectionMemberships[0]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
+				<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0 && $ebook->CollectionMemberships[0]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
+			</select>
+		</span>
 	</label>
 	<label class="icon ordered-list">
 		<span>Number in collection</span>
@@ -119,6 +132,16 @@ $ebook = $ebook ?? new Ebook();
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[1]->Collection->Name) ?><? } ?>"
 			/>
 		</label>
+		<label>
+			<span>Type</span>
+			<span>
+				<select name="type-collection-name-2">
+					<option value=""></option>
+					<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1 && $ebook->CollectionMemberships[1]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
+					<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1 && $ebook->CollectionMemberships[1]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
+				</select>
+			</span>
+		</label>
 		<label class="icon ordered-list">
 			<span>Number in collection</span>
 			<input
@@ -139,6 +162,16 @@ $ebook = $ebook ?? new Ebook();
 				list="collection-names"
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[2]->Collection->Name) ?><? } ?>"
 			/>
+		</label>
+		<label>
+			<span>Type</span>
+			<span>
+				<select name="type-collection-name-3">
+					<option value=""></option>
+					<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2 && $ebook->CollectionMemberships[2]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
+					<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2 && $ebook->CollectionMemberships[2]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
+				</select>
+			</span>
 		</label>
 		<label class="icon ordered-list">
 			<span>Number in collection</span>
