@@ -2,6 +2,7 @@
 /**
  * @var Project $project
  * @var string $role
+ * @var User $user
  */
 ?>
 You’ve been assigned a new ebook project to **<?= $role ?>**:

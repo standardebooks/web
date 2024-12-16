@@ -38,7 +38,14 @@ catch(Exceptions\InvalidPermissionsException){
 ) ?>
 <main>
 	<section>
-		<nav class="breadcrumbs"><a href="<?= $user->Url ?>"><?= Formatter::EscapeHtml($user->DisplayName) ?></a> →</nav>
+		<nav class="breadcrumbs">
+			<? if(Session::$User->Benefits->CanEditUsers){ ?>
+				<a href="<?= $user->Url ?>"><?= Formatter::EscapeHtml($user->DisplayName) ?></a>
+			<? }else{ ?>
+				<?= Formatter::EscapeHtml($user->DisplayName) ?>
+			<? } ?>
+			→
+		</nav>
 		<h1>Projects</h1>
 		<section id="managing">
 			<h2>Managing</h2>

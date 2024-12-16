@@ -56,7 +56,7 @@ $includeStatus = $includeStatus ?? true;
 					</td>
 				<? } ?>
 				<td>
-					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">Respository</a>
+					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">Repository</a>
 				</td>
 				<td>
 					<? if($project->DiscussionUrl !== null){ ?>

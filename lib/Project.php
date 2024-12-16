@@ -277,27 +277,29 @@ class Project{
 
 		$this->ProjectId = Db::GetLastInsertedId();
 
-		// Notify the manager.
+		// Notify the manager and reviewer.
 		if($this->Status == Enums\ProjectStatusType::InProgress){
+			// The manager is also the reviewer, just send one email.
 			if($this->ManagerUserId == $this->ReviewerUserId){
 				if($this->Manager->Email !== null){
 					$em = new Email();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
 					$em->Subject = 'New ebook project to manage and review';
-					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'manage and review']);
-					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'manage and review']);
+					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'manage and review', 'user' => $this->Manager]);
+					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'manage and review', 'user' => $this->Manager]);
 					$em->Send();
 				}
 			}
 			else{
+				// Notify the manager.
 				if($this->Manager->Email !== null){
 					$em = new Email();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
 					$em->Subject = 'New ebook project to manage';
-					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'manage']);
-					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'manage']);
+					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'manage', 'user' => $this->Manager]);
+					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'manage', 'user' => $this->Manager]);
 					$em->Send();
 				}
 
@@ -307,8 +309,8 @@ class Project{
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Reviewer->Email;
 					$em->Subject = 'New ebook project to review';
-					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'review']);
-					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'review']);
+					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'review', 'user' => $this->Reviewer]);
+					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'review', 'user' => $this->Reviewer]);
 					$em->Send();
 				}
 			}

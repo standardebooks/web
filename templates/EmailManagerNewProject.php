@@ -2,6 +2,7 @@
 /**
  * @var Project $project
  * @var string $role
+ * @var User $user
  */
 ?><?= Template::EmailHeader(['hasDataTable' => true, 'letterhead' => true]) ?>
 <p>You’ve been assigned a new ebook project to <strong><?= $role ?></strong>:</p>
@@ -55,7 +56,7 @@
 <ul>
 	<li>
 		<p>
-			<a href="<?= SITE_URL ?><?= $project->Manager->Url ?>/projects">See all of the ebook projects you’re currently assigned to.</a>
+			<a href="<?= SITE_URL ?><?= $user->Url ?>/projects">See all of the ebook projects you’re currently assigned to.</a>
 		</p>
 	</li>
 	<li>
