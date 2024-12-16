@@ -93,7 +93,7 @@ $ebook = $ebook ?? new Ebook();
 			type="text"
 			name="collection-name-1"
 			list="collection-names"
-			value="<? if(isset($ebook->CollectionMemberships)){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->Collection->Name) ?><? } ?>"
+			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->Collection->Name) ?><? } ?>"
 		/>
 	</label>
 	<label class="icon ordered-list">
