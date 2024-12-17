@@ -72,10 +72,12 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<? if($isOnlyProjectCreated){ ?>
-			<p class="message success">An ebook placeholder <a href="<?= $createdEbook->Url ?>">already exists</a> for this ebook, but a a new project was created!</p>
-		<? }elseif($isCreated && isset($createdEbook)){ ?>
-			<p class="message success">Ebook placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a>!</p>
+		<? if(isset($createdEbook)){ ?>
+			<? if($isOnlyProjectCreated){ ?>
+				<p class="message success">An ebook placeholder <a href="<?= $createdEbook->Url ?>">already exists</a> for this ebook, but a a new project was created!</p>
+			<? }elseif($isCreated){ ?>
+				<p class="message success">Ebook placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a>!</p>
+			<? } ?>
 		<? } ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="/ebook-placeholders" autocomplete="off">

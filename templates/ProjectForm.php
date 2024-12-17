@@ -76,8 +76,6 @@ $areFieldsRequired = $areFieldsRequired ?? true;
 	<input
 		type="url"
 		name="project-vcs-url"
-		placeholder="https://github.com/..."
-		pattern="^https:\/\/github\.com\/[^\/]+/[^\/]+/?$"
 		autocomplete="off"
 		value="<?= Formatter::EscapeHtml($project->VcsUrl ?? '') ?>"
 	/>

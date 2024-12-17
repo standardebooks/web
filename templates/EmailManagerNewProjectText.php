@@ -16,10 +16,12 @@ You’ve been assigned a new ebook project to **<?= $role ?>**:
 
 - Reviewer: [<?= Formatter::EscapeMarkdown($project->Reviewer->DisplayName) ?>](<?= Formatter::EscapeMarkdown(SITE_URL . $project->Reviewer->Url . '/projects') ?>)
 
-- Repository: [GitHub](<?= Formatter::EscapeMarkdown($project->VcsUrl) ?>)
+<? if($project->VcsUrl !== null){ ?>
+- Repository: [<?= Formatter::EscapeHtml($project->VcsUrlDomain) ?>](<?= Formatter::EscapeMarkdown($project->VcsUrl) ?>)
 
+<? } ?>
 <? if($project->DiscussionUrl !== null){ ?>
-- Discussion: [Google Groups](<?= Formatter::EscapeMarkdown($project->DiscussionUrl) ?>)
+- Discussion: [<?= Formatter::EscapeHtml($project->DiscussionUrlDomain) ?>](<?= Formatter::EscapeMarkdown($project->DiscussionUrl) ?>)
 
 <? } ?>
 If you’re unable to <?= $role ?> this ebook project, [email the Editor-in-Chief](mailto:<?= Formatter::EscapeMarkdown(EDITOR_IN_CHIEF_EMAIL_ADDRESS) ?>) and we’ll reassign it.

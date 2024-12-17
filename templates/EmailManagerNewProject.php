@@ -36,17 +36,19 @@
 				<a href="<?= SITE_URL ?><?= $project->Reviewer->Url ?>/projects"><?= Formatter::EscapeHtml($project->Reviewer->DisplayName) ?></a>
 			</td>
 		</tr>
-		<tr>
-			<td>Repository:</td>
-			<td>
-				<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">GitHub</a>
-			</td>
-		</tr>
+		<? if($project->VcsUrl !== null){ ?>
+			<tr>
+				<td>Repository:</td>
+				<td>
+					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>"><?= Formatter::EscapeHtml($project->VcsUrlDomain) ?></a>
+				</td>
+			</tr>
+		<? } ?>
 		<? if($project->DiscussionUrl !== null){ ?>
 			<tr>
 				<td>Discussion:</td>
 				<td>
-					<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>">Google Groups</a>
+					<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->DiscussionUrlDomain) ?></a>
 				</td>
 			</tr>
 		<? } ?>

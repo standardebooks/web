@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `ProducerName` varchar(151) NOT NULL DEFAULT '',
   `ProducerEmail` varchar(80) DEFAULT NULL,
   `DiscussionUrl` varchar(255) DEFAULT NULL,
-  `VcsUrl` varchar(255) NOT NULL,
+  `VcsUrl` varchar(255) DEFAULT NULL,
   `Created` timestamp NOT NULL DEFAULT current_timestamp(),
   `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `Started` datetime NOT NULL,

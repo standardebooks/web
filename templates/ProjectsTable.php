@@ -7,7 +7,7 @@ $includeTitle = $includeTitle ?? true;
 $includeStatus = $includeStatus ?? true;
 ?>
 <table class="data-table">
-	<caption aria-hidden="hidden">Scroll right →</caption>
+	<caption aria-hidden="true">Scroll right →</caption>
 	<thead>
 		<tr class="mid-header">
 			<? if($includeTitle){ ?>
@@ -20,8 +20,8 @@ $includeStatus = $includeStatus ?? true;
 			<? if($includeStatus){ ?>
 				<th scope="col">Status</th>
 			<? } ?>
-			<th/>
-			<th/>
+			<th></th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -56,7 +56,9 @@ $includeStatus = $includeStatus ?? true;
 					</td>
 				<? } ?>
 				<td>
-					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">Repository</a>
+					<? if($project->VcsUrl !== null){ ?>
+						<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">Repository</a>
+					<? } ?>
 				</td>
 				<td>
 					<? if($project->DiscussionUrl !== null){ ?>

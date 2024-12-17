@@ -364,7 +364,7 @@
 				</li>
 				<li id="i-still-have-questions">
 					<h2>I still have questions!</h2>
-					<p>If you’re unsure about anything, or have a question that isn’t answered here, please ask on the <a href="https://groups.google.com/g/standardebooks">Google Groups mailing list.</a> The experienced producers there can answer any question you might have.</p>
+					<p>If you’re unsure about anything, or have a question that isn’t answered here, please ask on our <a href="https://groups.google.com/g/standardebooks">mailing list.</a> The experienced producers there can answer any question you might have.</p>
 				</li>
 			</ol>
 		</article>

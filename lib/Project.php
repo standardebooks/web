@@ -4,6 +4,7 @@ use function Safe\curl_getinfo;
 use function Safe\curl_init;
 use function Safe\curl_setopt;
 use function Safe\json_decode;
+use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_match_all;
 use function Safe\preg_replace;
@@ -17,6 +18,8 @@ use Safe\DateTimeImmutable;
  * @property string $Url
  * @property DateTimeImmutable $LastActivityTimestamp The timestamp of the latest activity, whether it's a commit, a discussion post, or simply the started timestamp.
  * @property array<ProjectReminder> $Reminders
+ * @property ?string $VcsUrlDomain
+ * @property ?string $DiscussionUrlDomain
  */
 class Project{
 	use Traits\Accessor;
@@ -28,7 +31,7 @@ class Project{
 	public string $ProducerName;
 	public ?string $ProducerEmail = null;
 	public ?string $DiscussionUrl = null;
-	public string $VcsUrl;
+	public ?string $VcsUrl;
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
 	public DateTimeImmutable $Started;
@@ -46,11 +49,63 @@ class Project{
 	protected DateTimeImmutable $_LastActivityTimestamp;
 	/** @var array<ProjectReminder> $_Reminders */
 	protected array $_Reminders;
+	protected ?string $_VcsUrlDomain;
+	protected ?string $_DiscussionUrlDomain;
 
 
 	// *******
 	// GETTERS
 	// *******
+
+	protected function GetVcsUrlDomain(): ?string{
+		if(!isset($this->_VcsUrlDomain)){
+			if($this->VcsUrl === null){
+				$this->_VcsUrlDomain = null;
+			}
+			else{
+				try{
+					$domain = parse_url($this->VcsUrl, PHP_URL_HOST);
+
+					if(is_string($domain)){
+						$this->_VcsUrlDomain = strtolower($domain);
+					}
+					else{
+						$this->_VcsUrlDomain = null;
+					}
+				}
+				catch(\Exception){
+					$this->_VcsUrlDomain = null;
+				}
+			}
+		}
+
+		return $this->_VcsUrlDomain;
+	}
+
+	protected function GetDiscussionUrlDomain(): ?string{
+		if(!isset($this->_DiscussionUrlDomain)){
+			if($this->DiscussionUrl === null){
+				$this->_DiscussionUrlDomain = null;
+			}
+			else{
+				try{
+					$domain = parse_url($this->DiscussionUrl, PHP_URL_HOST);
+
+					if(is_string($domain)){
+						$this->_DiscussionUrlDomain = strtolower($domain);
+					}
+					else{
+						$this->_DiscussionUrlDomain = null;
+					}
+				}
+				catch(\Exception){
+					$this->_DiscussionUrlDomain = null;
+				}
+			}
+		}
+
+		return $this->_DiscussionUrlDomain;
+	}
 
 	protected function GetUrl(): string{
 		if(!isset($this->_Url)){
@@ -158,12 +213,15 @@ class Project{
 			}
 		}
 
-		$this->VcsUrl = rtrim(trim($this->VcsUrl ?? ''), '/');
+		$this->VcsUrl = trim($this->VcsUrl ?? '');
 		if($this->VcsUrl == ''){
-			$error->Add(new Exceptions\VcsUrlRequiredException());
+			$this->VcsUrl = null;
 		}
-		elseif(!preg_match('|^https://github.com/[^/]+/[^/]+|ius', $this->VcsUrl)){
-			$error->Add(new Exceptions\InvalidVcsUrlException());
+		elseif(preg_match('|^https?://(www\.)?github.com/|ius', $this->VcsUrl)){
+			$this->VcsUrl = rtrim($this->VcsUrl, '/');
+			if(!preg_match('|^https://github.com/[^/]+/[^/]+|ius', $this->VcsUrl)){
+				$error->Add(new Exceptions\InvalidVcsUrlException());
+			}
 		}
 
 		if(!isset($this->ManagerUserId)){
@@ -373,7 +431,7 @@ class Project{
 	 * @throws Exceptions\AppException If the operation failed.
 	 */
 	public function FetchLatestCommitTimestamp(?string $apiKey = null): void{
-		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl)){
+		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl ?? '')){
 			return;
 		}
 

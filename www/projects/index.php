@@ -1,4 +1,5 @@
 <?
+use function Safe\session_unset;
 
 try{
 	if(Session::$User === null){

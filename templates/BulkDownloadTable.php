@@ -5,7 +5,7 @@
  */
 ?>
 <table class="data-table bulk-downloads-table">
-	<caption aria-hidden="hidden">Scroll right →</caption>
+	<caption aria-hidden="true">Scroll right →</caption>
 	<thead>
 		<tr class="mid-header">
 			<th scope="col"><?= Formatter::EscapeHtml($label) ?></th>
