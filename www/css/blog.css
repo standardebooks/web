@@ -1,0 +1,35 @@
+.editors-note{
+	border: 3px double #222222;
+	padding: 2em;
+	font-style: italic;
+	box-sizing: border-box;
+}
+
+.editors-note h2{
+	margin-top: 0;
+	font-style: normal;
+	text-align: center;
+}
+
+.editors-note i,
+.editors-note em{
+	font-style: normal;
+}
+
+h1 + .editors-note,
+.byline + .editors-note{
+	margin-bottom: 2rem;
+}
+
+.byline + .editors-note,
+.byline + .donation{
+	margin-top: 2rem;
+}
+
+section.blog{
+	display: block;
+}
+
+.byline{
+	font-style: italic;
+}

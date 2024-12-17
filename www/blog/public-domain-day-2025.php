@@ -102,7 +102,8 @@ ksort($ebooksWithDescriptions);
 
 ?><?= Template::Header(['title' => 'Happy Public Domain Day 2025! - Blog', 'highlight' => '', 'description' => 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day 2025!', 'css' => ['/css/public-domain-day.css']]) ?>
 <main>
-	<section class="narrow">
+	<section class="narrow blog">
+		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
 		<h1>Happy Public Domain Day 2025!</h1>
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>

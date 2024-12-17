@@ -308,9 +308,9 @@ main p:first-child, main ul:first-child, main ol:first-child, main ul li:first-c
 
 blockquote{
 	margin: 1rem;
-	background: rgba(0, 0, 0, .25);
+	background: rgba(0, 0, 0, .05);
 	padding: 1rem;
-	border-radius: .25rem;
+	border-radius: .5rem;
 	border: 1px solid rgba(255,255,255,.25);
 }
 
@@ -1130,48 +1130,53 @@ article.ebook #more-ebooks h2{
 	margin-top: 2rem;
 }
 
-article.ebook #more-ebooks ul{
+ul.ebook-carousel{
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	align-content: center;
 	margin-top: 2rem;
 	margin-left: -1rem;
+	gap: 1rem;
 }
 
-article.ebook #more-ebooks ul li{
+ul.ebook-carousel li{
 	margin: 0;
 	font-size: 0;
-	margin-left: 1rem;
 }
 
-article.ebook #more-ebooks img{
+ul.ebook-carousel a{
+	display: block;
+	border-radius: .25rem;
+	transition: transform .2s ease;
+}
+
+.ebook-carousel img{
 	height: 200px;
 	border-radius: .25rem;
 	border: 1px solid var(--border);
-	transition: transform .2s ease;
 	box-sizing: border-box;
 	width: auto;
 }
 
-article.ebook #more-ebooks img:hover{
+.ebook-carousel a:hover{
 	transform: scale(1.05);
 	box-shadow: 3px 3px 1px rgba(0, 0, 0, .25);
 }
 
-article.ebook #more-ebooks a:active img{
+.ebook-carousel a:active{
 	transform: scale(1.025);
 	transition: none;
 	box-shadow: none;
 }
 
-article.ebook #more-ebooks li:nth-child(1) img,
-article.ebook #more-ebooks li:nth-child(5) img{
+.ebook-carousel.multi-size li:nth-child(1) img,
+.ebook-carousel.multi-size li:nth-child(5) img{
 	height: 160px;
 }
 
-article.ebook #more-ebooks li:nth-child(2) img,
-article.ebook #more-ebooks li:nth-child(4) img{
+.ebook-carousel.multi-size li:nth-child(2) img,
+.ebook-carousel.multi-size li:nth-child(4) img{
 	height: 180px;
 }
 
@@ -3320,6 +3325,7 @@ table.admin-table td + td{
 nav.breadcrumbs{
 	font-style: italic;
 	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
 
 nav.breadcrumbs + h1{
@@ -3478,15 +3484,15 @@ nav.breadcrumbs + h1{
 		width: 100%;
 	}
 
-	article.ebook #more-ebooks ul{
+	ul.ebook-carousel{
 		flex-wrap: wrap;
 	}
 
-	article.ebook #more-ebooks ul li{
+	ul.ebook-carousel li{
 		width: calc(25% - 1rem);
 	}
 
-	article.ebook #more-ebooks li img{
+	ul.ebook-carousel li img{
 		width: 100%;
 		height: auto !important;
 	}
@@ -3799,13 +3805,12 @@ nav.breadcrumbs + h1{
 		margin-top: .5rem;
 	}
 
-	article.ebook #more-ebooks ul{
+	ul.ebook-carousel{
 		margin-top: 1rem;
 	}
 
-	article.ebook #more-ebooks ul li{
+	ul.ebook-carousel li{
 		width: calc(50% - 1rem);
-		margin-top: 1rem;
 	}
 
 	article.ebook #history li time,
@@ -4049,8 +4054,8 @@ nav.breadcrumbs + h1{
 	article.ebook section#download ul li a[class]::before,
 	article.ebook section#details ul li a[class]::before,
 	article.ebook section#sources ul li a[class]::before,
-	article.ebook #more-ebooks img,
-	article.ebook #more-ebooks a:active img,
+	.ebook-carousel img,
+	.ebook-carousel a:active img,
 	ol.ebooks-list > li a[tabindex]:active,
 	label:has(select) > span + span::after,
 	label:has(input[type="search"]):focus-within::before,
