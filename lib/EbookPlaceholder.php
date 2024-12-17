@@ -118,6 +118,27 @@ class EbookPlaceholder{
 			$this->IsWanted, $this->IsInProgress, $this->IsPatron, $this->Notes]);
 	}
 
+	/**
+	 * @throws Exceptions\InvalidEbookPlaceholderException
+	 */
+	public function Save(): void{
+		$this->Validate();
+		Db::Query('
+			UPDATE
+				EbookPlaceholders
+			set
+			YearPublished = ?,
+			Difficulty = ?,
+			TranscriptionUrl = ?,
+			IsWanted = ?,
+			IsInProgress = ?,
+			IsPatron = ?,
+			Notes = ?
+			where EbookId = ?
+		', [$this->YearPublished, $this->Difficulty, $this->TranscriptionUrl,
+			$this->IsWanted, $this->IsInProgress, $this->IsPatron, $this->Notes, $this->EbookId]);
+	}
+
 	public function Delete(): void{
 		Db::Query('
 			DELETE

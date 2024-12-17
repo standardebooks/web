@@ -65,6 +65,17 @@ foreach($projects as $project){
 			// A stalled `Project` is now abandoned.
 			$project->Status = Enums\ProjectStatusType::Abandoned;
 
+			// Set the corresponding `EbookPlaceholder` to not be "in progress" any more.
+			if($project->Ebook->EbookPlaceholder !== null){
+				try{
+					$project->Ebook->EbookPlaceholder->IsInProgress = false;
+					$project->Ebook->EbookPlaceholder->Save();
+				}
+				catch(Exceptions\InvalidEbookPlaceholderException){
+					// Pass.
+				}
+			}
+
 			// Send a notification to the producer.
 			$project->SendReminder(Enums\ProjectReminderType::Abandoned);
 		}
