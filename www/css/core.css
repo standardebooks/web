@@ -3326,6 +3326,13 @@ nav.breadcrumbs + h1{
 	margin-top: 0;
 }
 
+.extra-line > span:first-child::before{
+	content: 'Spacer';
+	visibility: hidden;
+	display: block;
+	font-weight: normal;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{

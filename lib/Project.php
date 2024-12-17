@@ -191,7 +191,7 @@ class Project{
 		}
 
 		if(!isset($this->Started)){
-			$error->Add(new Exceptions\StartedTimestampRequiredException());
+			$this->Started = NOW;
 		}
 
 		if($error->HasExceptions){
@@ -356,6 +356,7 @@ class Project{
 	}
 
 	public function FillFromHttpPost(): void{
+		$this->PropertyFromHttp('EbookId');
 		$this->PropertyFromHttp('ProducerName');
 		$this->PropertyFromHttp('ProducerEmail');
 		$this->PropertyFromHttp('DiscussionUrl');

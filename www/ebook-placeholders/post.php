@@ -85,26 +85,34 @@ try{
 		}
 
 		$ebook->FillIdentifierFromTitleAndContributors();
-		try{
-			$existingEbook = Ebook::GetByIdentifier($ebook->Identifier);
-			throw new Exceptions\DuplicateEbookException($ebook->Identifier);
-		}
-		catch(Exceptions\EbookNotFoundException){
-			// Pass and create the placeholder. There is no existing ebook with this identifier.
-		}
 
 		// These properties must be set before calling `Ebook::Create()` to prevent the getters from triggering DB queries or accessing `Ebook::$EbookId` before it is set.
 		$ebook->Tags = [];
 		$ebook->LocSubjects = [];
 		$ebook->Illustrators = [];
 		$ebook->Contributors = [];
-		$ebook->Create();
+
+		try{
+			$ebook->Create();
+		}
+		catch(Exceptions\DuplicateEbookException $ex){
+			// If the identifier already exists but a `Project` was sent with this request, create the `Project` anyway.
+			$existingEbook = Ebook::GetByIdentifier($ebook->Identifier);
+			if($ebookPlaceholder->IsInProgress && $project !== null){
+				$ebook->EbookId = $existingEbook->EbookId;
+				$_SESSION['is-only-ebook-project-created'] = true;
+			}
+			else{
+				// No `Project`, throw the exception and really fail.
+				$ebook = $existingEbook;
+				throw $ex;
+			}
+		}
 
 		if($ebookPlaceholder->IsInProgress && $project !== null){
 			$project->EbookId = $ebook->EbookId;
 			$project->Ebook = $ebook;
 			$project->Create();
-			$ebook->ProjectInProgress = $project;
 		}
 
 		$_SESSION['ebook'] = $ebook;

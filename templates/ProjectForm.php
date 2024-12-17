@@ -2,12 +2,18 @@
 $project = $project ?? new Project();
 $managers = User::GetAllByCanManageProjects();
 $reviewers = User::GetAllByCanReviewProjects();
+$areFieldsRequired = $areFieldsRequired ?? true;
 ?>
+<input type="hidden" name="project-ebook-id" value="<?= $project->EbookId ?? '' ?>" />
+
 <label class="icon user">
 	<span>Producer name</span>
 	<input
 		type="text"
 		name="project-producer-name"
+		<? if($areFieldsRequired){ ?>
+			required="required"
+		<? } ?>
 		value="<?= Formatter::EscapeHtml($project->ProducerName ?? '') ?>"
 	/>
 </label>
@@ -72,6 +78,7 @@ $reviewers = User::GetAllByCanReviewProjects();
 		name="project-vcs-url"
 		placeholder="https://github.com/..."
 		pattern="^https:\/\/github\.com\/[^\/]+/[^\/]+/?$"
+		autocomplete="off"
 		value="<?= Formatter::EscapeHtml($project->VcsUrl ?? '') ?>"
 	/>
 </label>
@@ -81,6 +88,7 @@ $reviewers = User::GetAllByCanReviewProjects();
 	<input
 		type="url"
 		name="project-discussion-url"
+		autocomplete="off"
 		value="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"
 	/>
 </label>

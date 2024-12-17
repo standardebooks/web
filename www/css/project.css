@@ -12,6 +12,20 @@
 	grid-column-start: 1;
 }
 
+.project-form{
+	display: grid;
+	gap: 2rem;
+}
+
+.project-form label:has(input[type="checkbox"]){
+	grid-column: 1 / span 2;
+}
+
+.project-form div.footer{
+	grid-column: 1 / span 2;
+	text-align: right;
+}
+
 table.data-table .status,
 table.data-table .producer{
 	white-space: nowrap;

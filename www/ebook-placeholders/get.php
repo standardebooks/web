@@ -1,5 +1,4 @@
 <?
-
 use function Safe\preg_replace;
 
 /** @var string $identifier Passed from script this is included from. */
@@ -108,7 +107,7 @@ catch(Exceptions\EbookNotFoundException){
 		<? } ?>
 
 		<? if(Session::$User?->Benefits->CanEditProjects || Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects){ ?>
-			<?= Template::EbookProjects(['ebook' => $ebook]) ?>
+			<?= Template::EbookProjects(['ebook' => $ebook, 'showAddButton' => Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null]) ?>
 		<? } ?>
 	</article>
 </main>

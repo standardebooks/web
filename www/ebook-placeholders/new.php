@@ -4,8 +4,10 @@ use function Safe\session_unset;
 session_start();
 
 $isCreated = HttpInput::Bool(SESSION, 'is-ebook-placeholder-created') ?? false;
+$isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;
 $exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 $ebook = HttpInput::SessionObject('ebook', Ebook::class);
+$project = HttpInput::SessionObject('project', Project::class);
 
 try{
 	if(Session::$User === null){
@@ -16,7 +18,7 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	if($isCreated){
+	if($isCreated || $isOnlyProjectCreated){
 		// We got here because an `Ebook` was successfully created.
 		http_response_code(Enums\HttpCode::Created->value);
 		if($ebook !== null){
@@ -70,8 +72,10 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<? if($isCreated && isset($createdEbook)){ ?>
-			<p class="message success">Ebook Placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a>!</p>
+		<? if($isOnlyProjectCreated){ ?>
+			<p class="message success">An ebook placeholder <a href="<?= $createdEbook->Url ?>">already exists</a> for this ebook, but a a new project was created!</p>
+		<? }elseif($isCreated && isset($createdEbook)){ ?>
+			<p class="message success">Ebook placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a>!</p>
 		<? } ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="/ebook-placeholders" autocomplete="off">

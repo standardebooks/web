@@ -1,4 +1,5 @@
 <?
+
 try{
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -12,6 +13,16 @@ try{
 		!Session::$User->Benefits->CanEditProjects
 	){
 		throw new Exceptions\InvalidPermissionsException();
+	}
+
+	session_start();
+
+	$isCreated = HttpInput::Bool(SESSION, 'is-project-created') ?? false;
+
+	if($isCreated){
+		// We got here because a `Project` was successfully submitted.
+		http_response_code(Enums\HttpCode::Created->value);
+		session_unset();
 	}
 
 	$inProgressProjects = Project::GetAllByStatus(Enums\ProjectStatusType::InProgress);
@@ -31,6 +42,11 @@ catch(Exceptions\InvalidPermissionsException){
 <main>
 	<section>
 		<h1>Projects</h1>
+
+		<? if($isCreated){ ?>
+			<p class="message success">Project created!</p>
+		<? } ?>
+
 		<section id="active">
 			<h2>Active projects</h2>
 			<? if(sizeof($inProgressProjects) == 0){ ?>

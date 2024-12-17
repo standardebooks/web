@@ -70,7 +70,7 @@ $ebook = $ebook ?? new Ebook();
 	<label class="icon book">
 		<span>Title</span>
 		<input type="text" name="ebook-title" required="required"
-		       value="<?= Formatter::EscapeHtml($ebook->Title ?? '') ?>"/>
+		       value="<?= Formatter::EscapeHtml($ebook->Title ?? '') ?>" autocomplete="off"/>
 	</label>
 	<label class="icon year">
 		Year published
@@ -79,6 +79,7 @@ $ebook = $ebook ?? new Ebook();
 			name="ebook-placeholder-year-published"
 			inputmode="numeric"
 			pattern="[0-9]{1,4}"
+			autocomplete="off"
 			value="<?= Formatter::EscapeHtml((string)($ebook->EbookPlaceholder?->YearPublished)) ?>"
 		/>
 	</label>
@@ -116,6 +117,7 @@ $ebook = $ebook ?? new Ebook();
 			name="sequence-number-collection-name-1"
 			inputmode="numeric"
 			pattern="[0-9]{1,3}"
+			autocomplete="off"
 			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
 		/>
 	</label>
@@ -149,6 +151,7 @@ $ebook = $ebook ?? new Ebook();
 				name="sequence-number-collection-name-2"
 				inputmode="numeric"
 				pattern="[0-9]{1,3}"
+			autocomplete="off"
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[1]->SequenceNumber) ?><? } ?>"
 			/>
 		</label>
@@ -180,6 +183,7 @@ $ebook = $ebook ?? new Ebook();
 				name="sequence-number-collection-name-3"
 				inputmode="numeric"
 				pattern="[0-9]{1,3}"
+			autocomplete="off"
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[2]->SequenceNumber) ?><? } ?>"
 			/>
 		</label>
@@ -197,7 +201,7 @@ $ebook = $ebook ?? new Ebook();
 		/>
 	</label>
 	<fieldset class="project-form">
-		<?= Template::ProjectForm(['project' => $ebook->ProjectInProgress]) ?>
+		<?= Template::ProjectForm(['project' => $ebook->ProjectInProgress, 'areFieldsRequired' => false]) ?>
 	</fieldset>
 </fieldset>
 <fieldset>
@@ -237,6 +241,7 @@ $ebook = $ebook ?? new Ebook();
 			<input
 				type="url"
 				name="ebook-placeholder-transcription-url"
+				autocomplete="off"
 				value="<?= Formatter::EscapeHtml($ebook->EbookPlaceholder?->TranscriptionUrl) ?>"
 			/>
 		</label>
