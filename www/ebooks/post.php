@@ -21,7 +21,7 @@ try{
 	}
 
 	// POSTing published `Ebooks` is not supported.
-	Template::ExitWithCode(Enums\HttpCode::NotFound);
+	Template::ExitWithCode(Enums\HttpCode::MethodNotAllowed);
 }
 catch(Exceptions\EbookNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
