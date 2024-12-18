@@ -62,7 +62,7 @@ $showArtworkStatus = $showArtworkStatus ?? true;
 					<? if($project->Ebook->Artwork !== null){ ?>
 						<i>
 							<a href="<?= $project->Ebook->Artwork->Url ?>"><?= Formatter::EscapeHtml($project->Ebook->Artwork->Name) ?></a>
-						</i> <i>(<?= ucfirst($project->Ebook->Artwork->Status->value) ?>.)</i>
+						</i> (<?= ucfirst($project->Ebook->Artwork->Status->value) ?>)
 					<? }else{ ?>
 						<i>None.</i>
 					<? } ?>

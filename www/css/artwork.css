@@ -243,24 +243,6 @@ label:has(select[name="artwork-status"]){
 	margin-right: auto;
 }
 
-.artwork-metadata{
-	margin-top: 1rem;
-}
-
-.artwork-metadata td:first-child{
-	font-weight: bold;
-	text-align: right;
-	white-space: nowrap;
-}
-
-.artwork-metadata td:last-child{
-	width: 100%;
-}
-
-.artwork-metadata td{
-	padding: 0.5rem;
-}
-
 main h1 ~ a[href^="/images/cover-uploads"],
 .artworks h1 ~ a[href^="/images/cover-uploads"],
 main section.narrow h1 ~ picture{
@@ -343,21 +325,6 @@ main section.narrow h1 ~ picture{
 
 .artworks h2 + h3{
 	margin-top: 1rem;
-}
-
-@media(max-width: 500px){
-	.artwork-metadata td{
-		display: block;
-		padding: 0;
-	}
-
-	.artwork-metadata td:first-child{
-		text-align: left;
-	}
-
-	.artwork-metadata tr + tr td:first-child{
-		padding-top: 1rem;
-	}
 }
 
 @media(max-width: 400px){

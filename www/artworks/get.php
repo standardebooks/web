@@ -85,23 +85,23 @@ catch(Exceptions\InvalidPermissionsException){
 		<?= Template::ImageCopyrightNotice() ?>
 
 		<h2>Metadata</h2>
-		<table class="artwork-metadata">
+		<table class="admin-table">
 			<tr>
-				<td>Title</td>
+				<td>Title:</td>
 				<td><i><?= Formatter::EscapeHtml($artwork->Name) ?></i><? if($isAdminView){ ?> (#<?= $artwork->ArtworkId ?>)<? } ?></td>
 			</tr>
 			<tr>
-				<td>Artist</td>
+				<td>Artist:</td>
 				<td>
 					<a href="<?= $artwork->Artist->Url ?>"><?= Formatter::EscapeHtml($artwork->Artist->Name) ?></a><? if(sizeof($artwork->Artist->AlternateNames ?? []) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?><? if($isAdminView){ ?> (#<?= $artwork->Artist->ArtistId ?>)<? } ?>
 				</td>
 			</tr>
 			<tr>
-				<td>Year completed</td>
+				<td>Year completed:</td>
 				<td><? if($artwork->CompletedYear === null){ ?>Unknown<? }else{ ?><? if($artwork->CompletedYearIsCirca){ ?>Circa <? } ?><?= $artwork->CompletedYear ?><? } ?></td>
 			</tr>
 			<tr>
-				<td>Tags</td>
+				<td>Tags:</td>
 				<td>
 					<ul class="tags">
 						<? foreach($artwork->Tags as $tag){ ?>
@@ -113,21 +113,21 @@ catch(Exceptions\InvalidPermissionsException){
 				</td>
 			</tr>
 			<tr>
-				<td>Dimensions</td>
+				<td>Dimensions:</td>
 				<td><?= $artwork->Dimensions ?></td>
 			</tr>
 			<tr>
-				<td>Status</td>
+				<td>Status:</td>
 				<td><?= Template::ArtworkStatus(['artwork' => $artwork]) ?></td>
 			</tr>
 			<? if($isReviewerView){ ?>
 				<tr>
-					<td>Submitted by</td>
+					<td>Submitted by:</td>
 					<td><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::EscapeHtml($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Submitter->Email) ?><? } ?></a><? } ?><? if($isAdminView && $artwork->Submitter !== null){ ?> (#<?= $artwork->Submitter->UserId ?>)<? } ?></td>
 				</tr>
 				<? if($artwork->Reviewer !== null){ ?>
 					<tr>
-						<td>Reviewed by</td>
+						<td>Reviewed by:</td>
 						<td><a href="mailto:<?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?><? } ?></a><? if($isAdminView){ ?> (#<?= $artwork->Reviewer->UserId ?>)<? } ?></td>
 					</tr>
 				<? } ?>

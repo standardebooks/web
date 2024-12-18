@@ -3912,6 +3912,19 @@ nav.breadcrumbs + h1{
 		white-space: normal;
 		margin: 0 10px;
 	}
+
+	table.admin-table td{
+		display: block;
+		padding: 0;
+	}
+
+	table.admin-table td:first-child{
+		text-align: left;
+	}
+
+	table.admin-table tr + tr td:first-child{
+		padding-top: 1rem;
+	}
 }
 
 @media(max-width: 470px){
