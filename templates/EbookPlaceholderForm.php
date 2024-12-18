@@ -1,5 +1,6 @@
 <?
 $ebook = $ebook ?? new Ebook();
+$isEditForm = $isEditForm ?? false;
 ?>
 <fieldset>
 	<legend>Contributors</legend>
@@ -189,21 +190,23 @@ $ebook = $ebook ?? new Ebook();
 		</label>
 	</fieldset>
 </details>
-<fieldset>
-	<legend>Project</legend>
-	<label class="controls-following-fieldset">
-		<span>In progress?</span>
-		<input type="hidden" name="ebook-placeholder-is-in-progress" value="false" />
-		<input
-			type="checkbox"
-			name="ebook-placeholder-is-in-progress"
-			<? if($ebook->EbookPlaceholder?->IsInProgress){ ?>checked="checked"<? } ?>
-		/>
-	</label>
-	<fieldset class="project-form">
-		<?= Template::ProjectForm(['project' => $ebook->ProjectInProgress, 'areFieldsRequired' => false]) ?>
+<? if(!$isEditForm){ ?>
+	<fieldset>
+		<legend>Project</legend>
+		<label class="controls-following-fieldset">
+			<span>In progress?</span>
+			<input type="hidden" name="ebook-placeholder-is-in-progress" value="false" />
+			<input
+				type="checkbox"
+				name="ebook-placeholder-is-in-progress"
+				<? if($ebook->EbookPlaceholder?->IsInProgress){ ?>checked="checked"<? } ?>
+			/>
+		</label>
+		<fieldset class="project-form">
+			<?= Template::ProjectForm(['project' => $ebook->ProjectInProgress, 'areFieldsRequired' => false]) ?>
+		</fieldset>
 	</fieldset>
-</fieldset>
+<? } ?>
 <fieldset>
 	<legend>Wanted list</legend>
 	<label class="controls-following-fieldset">

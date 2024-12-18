@@ -7,7 +7,6 @@
 	grid-column: 1 / span 2
 }
 
-
 .project-form label:has(input[name="project-manager-user-id"]){
 	grid-column-start: 1;
 }

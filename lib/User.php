@@ -9,6 +9,7 @@ use function Safe\preg_match;
  * @property bool $IsRegistered A user is "registered" if they have an entry in the `Benefits` table; a password is required to log in.
  * @property Benefits $Benefits
  * @property string $Url
+ * @property string $EditUrl
  * @property ?Patron $Patron
  * @property ?NewsletterSubscription $NewsletterSubscription
  * @property ?Payment $LastPayment
@@ -32,6 +33,7 @@ class User{
 	protected ?Payment $_LastPayment;
 	protected Benefits $_Benefits;
 	protected string $_Url;
+	protected string $_EditUrl;
 	protected ?Patron $_Patron;
 	protected ?NewsletterSubscription $_NewsletterSubscription;
 	protected string $_DisplayName;
@@ -89,6 +91,14 @@ class User{
 		}
 
 		return $this->_Url;
+	}
+
+	protected function GetEditUrl(): string{
+		if(!isset($this->_EditUrl)){
+			$this->_EditUrl = $this->Url . '/edit';
+		}
+
+		return $this->_EditUrl;
 	}
 
 	/**

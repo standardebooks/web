@@ -16,6 +16,7 @@ use Safe\DateTimeImmutable;
  * @property User $Manager
  * @property User $Reviewer
  * @property string $Url
+ * @property string $EditUrl
  * @property DateTimeImmutable $LastActivityTimestamp The timestamp of the latest activity, whether it's a commit, a discussion post, or simply the started timestamp.
  * @property array<ProjectReminder> $Reminders
  * @property ?string $VcsUrlDomain
@@ -46,6 +47,7 @@ class Project{
 	protected User $_Manager;
 	protected User $_Reviewer;
 	protected string $_Url;
+	protected string $_EditUrl;
 	protected DateTimeImmutable $_LastActivityTimestamp;
 	/** @var array<ProjectReminder> $_Reminders */
 	protected array $_Reminders;
@@ -113,6 +115,14 @@ class Project{
 		}
 
 		return $this->_Url;
+	}
+
+	protected function GetEditUrl(): string{
+		if(!isset($this->_EditUrl)){
+			$this->_EditUrl = $this->Url . '/edit';
+		}
+
+		return $this->_EditUrl;
 	}
 
 	protected function GetLastActivityTimestamp(): DateTimeImmutable{

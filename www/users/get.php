@@ -45,7 +45,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<p class="message success">User saved!</p>
 		<? } ?>
 
-		<a href="<?= $user->Url ?>/edit">Edit user</a>
+		<a href="<?= $user->EditUrl ?>">Edit user</a>
 
 		<? if($user->Benefits->CanManageProjects || $user->Benefits->CanReviewProjects){ ?>
 			<a href="<?= $user->Url ?>/projects">Projects</a>

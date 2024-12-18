@@ -4,6 +4,7 @@ try{
 	session_start();
 
 	$httpMethod = HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post, Enums\HttpMethod::Patch, Enums\HttpMethod::Put]);
+	$exceptionRedirectUrl = '/projects/new';
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -26,6 +27,20 @@ try{
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /projects');
 	}
+
+	// PUTing a `Project`.
+	if($httpMethod == Enums\HttpMethod::Put){
+		$project = Project::Get(HttpInput::Int(GET, 'project-id'));
+		$exceptionRedirectUrl = $project->EditUrl;
+
+		$project->FillFromHttpPost();
+
+		$project->Save();
+
+		$_SESSION['is-project-saved'] = true;
+		http_response_code(Enums\HttpCode::SeeOther->value);
+		header('Location: ' . $project->Ebook->Url);
+	}
 }
 catch(Exceptions\EbookNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -41,5 +56,5 @@ catch(Exceptions\InvalidProjectException | Exceptions\ProjectExistsException | E
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: /projects/new');
+	header('Location: ' . $exceptionRedirectUrl);
 }

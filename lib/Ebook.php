@@ -36,6 +36,7 @@ use function Safe\shell_exec;
  * @property string $ReadingTime
  * @property string $AuthorsHtml
  * @property string $AuthorsUrl This is a single URL even if there are multiple authors; for example, `/ebooks/karl-marx_friedrich-engels/`.
+ * @property string $AuthorsString
  * @property string $ContributorsHtml
  * @property string $TitleWithCreditsHtml
  * @property string $TextUrl
@@ -115,6 +116,7 @@ class Ebook{
 	protected string $_ReadingTime;
 	protected string $_AuthorsHtml;
 	protected string $_AuthorsUrl;
+	protected string $_AuthorsString;
 	protected string $_ContributorsHtml;
 	protected string $_TitleWithCreditsHtml;
 	protected string $_TextUrl;
@@ -536,6 +538,14 @@ class Ebook{
 		}
 
 		return $this->_AuthorsUrl;
+	}
+
+	protected function GetAuthorsString(): string{
+		if(!isset($this->_AuthorsString)){
+			$this->_AuthorsString = strip_tags(Ebook::GenerateContributorList($this->Authors, false));
+		}
+
+		return $this->_AuthorsString;
 	}
 
 	protected function GetContributorsHtml(): string{

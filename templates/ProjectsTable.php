@@ -5,6 +5,7 @@
 
 $includeTitle = $includeTitle ?? true;
 $includeStatus = $includeStatus ?? true;
+$showEditButton = $showEditButton ?? false;
 ?>
 <table class="data-table">
 	<caption aria-hidden="true">Scroll right →</caption>
@@ -22,6 +23,9 @@ $includeStatus = $includeStatus ?? true;
 			<? } ?>
 			<th></th>
 			<th></th>
+			<? if($showEditButton){ ?>
+				<th></th>
+			<? } ?>
 		</tr>
 	</thead>
 	<tbody>
@@ -65,6 +69,11 @@ $includeStatus = $includeStatus ?? true;
 						<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>">Discussion</a>
 					<? } ?>
 				</td>
+				<? if($showEditButton){ ?>
+					<td>
+						<a href="<?= $project->EditUrl ?>">Edit</a>
+					</td>
+				<? } ?>
 			</tr>
 		<? } ?>
 	</tbody>

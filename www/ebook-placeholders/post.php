@@ -16,7 +16,7 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	// POSTing a new ebook placeholder.
+	// POSTing an `EbookPlaceholder`.
 	if($httpMethod == Enums\HttpMethod::Post){
 		$ebook = new Ebook();
 
@@ -61,7 +61,8 @@ try{
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /ebook-placeholders/new');
 	}
-	// PUT a new ebook placeholder.
+
+	// PUT an `EbookPlaceholder`.
 	if($httpMethod == Enums\HttpMethod::Put){
 		$originalEbook = Ebook::GetByIdentifier($identifier);
 		$exceptionRedirectUrl = $originalEbook->EditUrl;
@@ -72,34 +73,7 @@ try{
 		$ebook->EbookId = $originalEbook->EbookId;
 		$ebook->Created = $originalEbook->Created;
 
-		// Do we have a `Project` to create/save at the same time?
-		$project = null;
-		if($ebook->EbookPlaceholder?->IsInProgress){
-			$originalProject = $originalEbook->ProjectInProgress;
-			$project = new Project();
-			$project->FillFromHttpPost();
-			$project->EbookId = $ebook->EbookId;
-			$project->Ebook = $ebook;
-			if(isset($originalProject)){
-				$project->ProjectId = $originalProject->ProjectId;
-				$project->Started = $originalProject->Started;
-			}
-			else{
-				$project->Started = NOW;
-			}
-			$project->Validate();
-		}
-
 		$ebook->Save();
-
-		if($ebook->EbookPlaceholder?->IsInProgress && $project !== null){
-			if(isset($originalProject)){
-				$project->Save();
-			}
-			else{
-				$project->Create();
-			}
-		}
 
 		$_SESSION['is-ebook-placeholder-saved'] = true;
 		http_response_code(Enums\HttpCode::SeeOther->value);

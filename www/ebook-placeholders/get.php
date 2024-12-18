@@ -8,6 +8,7 @@ session_start();
 $ebook = null;
 
 $isSaved = HttpInput::Bool(SESSION, 'is-ebook-placeholder-saved') ?? false;
+$isProjectSaved = HttpInput::Bool(SESSION, 'is-project-saved') ?? false;
 
 try{
 	$ebook = Ebook::GetByIdentifier($identifier);
@@ -63,7 +64,11 @@ catch(Exceptions\EbookNotFoundException){
 		</header>
 
 		<? if($isSaved){ ?>
-			<p class="message success">Ebook Placeholder saved!</p>
+			<p class="message success">Ebook placeholder saved!</p>
+		<? } ?>
+
+		<? if($isProjectSaved){ ?>
+			<p class="message success">Project saved!</p>
 		<? } ?>
 
 		<aside id="reading-ease">
@@ -115,17 +120,12 @@ catch(Exceptions\EbookNotFoundException){
 			<? } ?>
 		</section>
 
-		<? if(Session::$User?->Benefits->CanEditEbooks){ ?>
-			<?= Template::EbookMetadata(['ebook' => $ebook]) ?>
+		<? if(Session::$User?->Benefits->CanEditEbooks || Session::$User?->Benefits->CanEditEbookPlaceholders){ ?>
+			<?= Template::EbookMetadata(['ebook' => $ebook, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
 		<? } ?>
 
 		<? if(Session::$User?->Benefits->CanEditProjects || Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects){ ?>
-			<?= Template::EbookProjects(['ebook' => $ebook, 'showAddButton' => Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null]) ?>
-		<? } ?>
-
-		<? if(Session::$User?->Benefits->CanEditEbookPlaceholders){ ?>
-			<h2>Edit ebook placeholder</h2>
-			<p><a href="<?= $ebook->EditUrl ?>">Edit this ebook placeholder.</a></p>
+			<?= Template::EbookProjects(['ebook' => $ebook, 'showAddButton' => Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null, 'showEditButton' => Session::$User->Benefits->CanEditProjects]) ?>
 		<? } ?>
 	</article>
 </main>

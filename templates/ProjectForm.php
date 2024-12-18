@@ -3,8 +3,11 @@ $project = $project ?? new Project();
 $managers = User::GetAllByCanManageProjects();
 $reviewers = User::GetAllByCanReviewProjects();
 $areFieldsRequired = $areFieldsRequired ?? true;
+$isEditForm = $isEditForm ?? false;
 ?>
-<input type="hidden" name="project-ebook-id" value="<?= $project->EbookId ?? '' ?>" />
+<? if(!$isEditForm){ ?>
+	<input type="hidden" name="project-ebook-id" value="<?= $project->EbookId ?? '' ?>" />
+<? } ?>
 
 <label class="icon user">
 	<span>Producer name</span>
