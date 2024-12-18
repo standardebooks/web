@@ -45,7 +45,9 @@ use function Safe\shell_exec;
  * @property string $IndexableText
  * @property ?EbookPlaceholder $EbookPlaceholder
  * @property array<Project> $Projects
+ * @property array<Project> $PastProjects
  * @property ?Project $ProjectInProgress
+ * @property ?Artwork $Artwork
  */
 final class Ebook{
 	use Traits\Accessor;
@@ -127,11 +129,29 @@ final class Ebook{
 	protected ?EbookPlaceholder $_EbookPlaceholder = null;
 	/** @var array<Project> $_Projects */
 	protected array $_Projects;
+	/** @var array<Project> $_PastProjects */
+	protected array $_PastProjects;
 	protected ?Project $_ProjectInProgress;
+	protected ?Artwork $_Artwork;
 
 	// *******
 	// GETTERS
 	// *******
+
+	protected function GetArtwork(): ?Artwork{
+		if(!isset($this->_Artwork)){
+			$this->_Artwork = Db::Query('
+							SELECT
+							*
+							from
+							Artworks
+							where
+							EbookUrl = ?
+						', [preg_replace('/^url:/iu', '', $this->Identifier)], Artwork::class)[0] ?? null;
+		}
+
+		return $this->_Artwork;
+	}
 
 	/**
 	 * @return array<Project>
@@ -141,6 +161,8 @@ final class Ebook{
 			$this->_Projects = Db::Query('
 							SELECT *
 							from Projects
+							inner join Ebooks
+							using(EbookId)
 							where EbookId = ?
 							order by Created desc
 						', [$this->EbookId], Project::class);
@@ -158,6 +180,8 @@ final class Ebook{
 				$this->_ProjectInProgress = Db::Query('
 								SELECT *
 								from Projects
+								inner join Ebooks
+								using(EbookId)
 								where EbookId = ?
 								and Status in (?, ?)
 							', [$this->EbookId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class)[0] ?? null;
@@ -165,6 +189,29 @@ final class Ebook{
 		}
 
 		return $this->_ProjectInProgress;
+	}
+
+	/**
+	 * @return array<Project>
+	 */
+	protected function GetPastProjects(): array{
+		if(!isset($this->_PastProjects)){
+			if(!isset($this->EbookId)){
+				$this->_PastProjects = [];
+			}
+			else{
+				$this->_PastProjects = Db::Query('
+								SELECT *
+								from Projects
+								inner join Ebooks
+								using(EbookId)
+								where EbookId = ?
+								and Status in (?, ?)
+							', [$this->EbookId, Enums\ProjectStatusType::Completed, Enums\ProjectStatusType::Abandoned], Project::class);
+			}
+		}
+
+		return $this->_PastProjects;
 	}
 
 	/**

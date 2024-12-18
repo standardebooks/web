@@ -3296,6 +3296,7 @@ ol.ebooks-list > li.ribbon.not-pd a::after{
 	content: "not p.d. yet";
 }
 
+p + table.admin-table,
 h2 + table.admin-table{
 	margin-top: .5rem;
 }

@@ -74,7 +74,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<? if(isset($createdEbook)){ ?>
 			<? if($isOnlyProjectCreated){ ?>
-				<p class="message success">An ebook placeholder <a href="<?= $createdEbook->Url ?>">already exists</a> for this ebook, but a a new project was created!</p>
+				<p class="message success">An ebook placeholder <a href="<?= $createdEbook->Url ?>">already exists</a> for this ebook, but a new project was created!</p>
 			<? }elseif($isCreated){ ?>
 				<p class="message success">Ebook placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a>!</p>
 			<? } ?>

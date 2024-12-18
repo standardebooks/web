@@ -1,7 +1,7 @@
 <?
 $preheader = $preheader ?? null;
 $letterhead = $letterhead ?? false;
-$hasDataTable = $hasDataTable ?? false;
+$hasAdminTable = $hasAdminTable ?? false;
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -190,13 +190,13 @@ $hasDataTable = $hasDataTable ?? false;
 			text-align: center;
 		}
 
-		<? if($hasDataTable){ ?>
-			table.data-table td:first-child{
+		<? if($hasAdminTable){ ?>
+			table.admin-table td:first-child{
 				font-weight: bold;
 				text-align: right;
 			}
 
-			table.data-table td{
+			table.admin-table td{
 				padding: .25em;
 				border: none;
 			}

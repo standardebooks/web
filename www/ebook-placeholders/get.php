@@ -125,7 +125,31 @@ catch(Exceptions\EbookNotFoundException){
 		<? } ?>
 
 		<? if(Session::$User?->Benefits->CanEditProjects || Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects){ ?>
-			<?= Template::EbookProjects(['ebook' => $ebook, 'showAddButton' => Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null, 'showEditButton' => Session::$User->Benefits->CanEditProjects]) ?>
+			<? if($ebook->ProjectInProgress !== null){ ?>
+				<section id="projects">
+					<h2>Project in progress</h2>
+					<? if(Session::$User->Benefits->CanEditProjects){ ?>
+						<p>
+							<a href="<?= $ebook->ProjectInProgress->EditUrl ?>">Edit project</a>
+						</p>
+					<? } ?>
+					<?= Template::ProjectDetailsTable(['project' => $ebook->ProjectInProgress, 'showTitle' => false]) ?>
+				</section>
+			<? } ?>
+
+			<section id="projects">
+				<h2>Past projects</h2>
+				<? if(Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null){ ?>
+					<p>
+						<a href="<?= $ebook->Url ?>/projects/new">New project</a>
+					</p>
+				<? } ?>
+				<? if(sizeof($ebook->PastProjects) == 0){ ?>
+					<p class="empty-notice">None.</p>
+				<? }else{ ?>
+					<?= Template::ProjectsTable(['projects' => $ebook->PastProjects, 'includeTitle' => false, 'showEditButton' => Session::$User->Benefits->CanEditProjects]) ?>
+				<? } ?>
+			</section>
 		<? } ?>
 	</article>
 </main>
