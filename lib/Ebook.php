@@ -47,7 +47,7 @@ use function Safe\shell_exec;
  * @property array<Project> $Projects
  * @property ?Project $ProjectInProgress
  */
-class Ebook{
+final class Ebook{
 	use Traits\Accessor;
 	use Traits\FromRow;
 

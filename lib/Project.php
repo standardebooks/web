@@ -22,7 +22,7 @@ use Safe\DateTimeImmutable;
  * @property ?string $VcsUrlDomain
  * @property ?string $DiscussionUrlDomain
  */
-class Project{
+final class Project{
 	use Traits\Accessor;
 	use Traits\FromRow;
 	use Traits\PropertyFromHttp;

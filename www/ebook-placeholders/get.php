@@ -121,7 +121,7 @@ catch(Exceptions\EbookNotFoundException){
 		</section>
 
 		<? if(Session::$User?->Benefits->CanEditEbooks || Session::$User?->Benefits->CanEditEbookPlaceholders){ ?>
-			<?= Template::EbookMetadata(['ebook' => $ebook, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+			<?= Template::EbookMetadata(['ebook' => $ebook, 'showPlaceholderMetadata' => Session::$User->Benefits->CanEditEbookPlaceholders]) ?>
 		<? } ?>
 
 		<? if(Session::$User?->Benefits->CanEditProjects || Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects){ ?>

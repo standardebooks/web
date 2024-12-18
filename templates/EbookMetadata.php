@@ -41,4 +41,3 @@ $showPlaceholderMetadata = $showPlaceholderMetadata ?? false;
 		</table>
 	</section>
 <? } ?>
-
