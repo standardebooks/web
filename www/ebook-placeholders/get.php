@@ -1,14 +1,23 @@
 <?
 use function Safe\preg_replace;
+use function Safe\session_unset;
+
+session_start();
 
 /** @var string $identifier Passed from script this is included from. */
 $ebook = null;
+
+$isSaved = HttpInput::Bool(SESSION, 'is-ebook-placeholder-saved') ?? false;
 
 try{
 	$ebook = Ebook::GetByIdentifier($identifier);
 
 	if($ebook->EbookPlaceholder === null){
 		throw new Exceptions\EbookNotFoundException();
+	}
+
+	if($isSaved){
+		session_unset();
 	}
 }
 catch(Exceptions\EbookNotFoundException){
@@ -52,6 +61,10 @@ catch(Exceptions\EbookNotFoundException){
 				<? } ?>
 			</hgroup>
 		</header>
+
+		<? if($isSaved){ ?>
+			<p class="message success">Ebook Placeholder saved!</p>
+		<? } ?>
 
 		<aside id="reading-ease">
 			<? if($ebook->ContributorsHtml != ''){ ?>
@@ -108,6 +121,11 @@ catch(Exceptions\EbookNotFoundException){
 
 		<? if(Session::$User?->Benefits->CanEditProjects || Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects){ ?>
 			<?= Template::EbookProjects(['ebook' => $ebook, 'showAddButton' => Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null]) ?>
+		<? } ?>
+
+		<? if(Session::$User?->Benefits->CanEditEbookPlaceholders){ ?>
+			<h2>Edit ebook placeholder</h2>
+			<p><a href="<?= $ebook->EditUrl ?>">Edit this ebook placeholder.</a></p>
 		<? } ?>
 	</article>
 </main>

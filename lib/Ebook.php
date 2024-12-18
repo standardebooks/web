@@ -21,6 +21,7 @@ use function Safe\shell_exec;
  * @property array<Contributor> $Contributors
  * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
  * @property string $Url
+ * @property string $EditUrl
  * @property bool $HasDownloads
  * @property string $UrlSafeIdentifier
  * @property string $HeroImageUrl
@@ -99,6 +100,7 @@ class Ebook{
 	/** @var ?array<string> $_TocEntries */
 	protected ?array $_TocEntries = null;
 	protected string $_Url;
+	protected string $_EditUrl;
 	protected bool $_HasDownloads;
 	protected string $_UrlSafeIdentifier;
 	protected string $_HeroImageUrl;
@@ -363,6 +365,14 @@ class Ebook{
 		}
 
 		return $this->_Url;
+	}
+
+	protected function GetEditUrl(): string{
+		if(!isset($this->_EditUrl)){
+			$this->_EditUrl = $this->Url . '/edit';
+		}
+
+		return $this->_EditUrl;
 	}
 
 	protected function GetHasDownloads(): bool{
@@ -1059,7 +1069,7 @@ class Ebook{
 	 *
 	 * @throws Exceptions\InvalidEbookIdentifierException
 	 */
-	public function FillIdentifierFromTitleAndContributors(): void{
+	protected function FillIdentifierFromTitleAndContributors(): void{
 		if(!isset($this->Authors) || sizeof($this->Authors) == 0){
 			throw new Exceptions\InvalidEbookIdentifierException('Authors required');
 		}
@@ -1092,6 +1102,78 @@ class Ebook{
 		}
 	}
 
+	/**
+	 * Populates `EbookPlaceholder` and other fields from `Template::EbookPlaceholderForm()`.
+	 *
+	 * @throws Exceptions\InvalidEbookIdentifierException
+	 */
+	public function FillFromEbookPlaceholderForm(): void{
+		$title = HttpInput::Str(POST, 'ebook-title');
+		if(isset($title)){
+			$this->Title = $title;
+		}
+
+		$authors = [];
+		$authorFields = ['author-name-1', 'author-name-2', 'author-name-3'];
+		foreach($authorFields as $authorField){
+			$authorName = HttpInput::Str(POST, $authorField);
+			if(!isset($authorName)){
+				continue;
+			}
+			$author = new Contributor();
+			$author->Name = $authorName;
+			$author->UrlName = Formatter::MakeUrlSafe($author->Name);
+			$author->MarcRole = Enums\MarcRole::Author;
+			$authors[] = $author;
+		}
+		$this->Authors = $authors;
+
+		$translators = [];
+		$translatorFields = ['translator-name-1', 'translator-name-2'];
+		foreach($translatorFields as $translatorField){
+			$translatorName = HttpInput::Str(POST, $translatorField);
+			if(!isset($translatorName)){
+				continue;
+			}
+			$translator = new Contributor();
+			$translator->Name = $translatorName;
+			$translator->UrlName = Formatter::MakeUrlSafe($translator->Name);
+			$translator->MarcRole = Enums\MarcRole::Translator;
+			$translators[] = $translator;
+		}
+		$this->Translators = $translators;
+
+		$collectionMemberships = [];
+		$collectionNameFields = ['collection-name-1', 'collection-name-2', 'collection-name-3'];
+		foreach($collectionNameFields as $collectionNameField){
+			$collectionName = HttpInput::Str(POST, $collectionNameField);
+			if(!isset($collectionName)){
+				continue;
+			}
+			$collectionSequenceNumber = HttpInput::Int(POST, 'sequence-number-' . $collectionNameField);
+			$collection = Collection::FromName($collectionName);
+			$collection->Type = Enums\CollectionType::tryFrom(HttpInput::Str(POST, 'type-' . $collectionNameField) ?? '');
+
+			$cm = new CollectionMembership();
+			$cm->Collection = $collection;
+			$cm->SequenceNumber = $collectionSequenceNumber;
+			$collectionMemberships[] = $cm;
+		}
+		$this->CollectionMemberships = $collectionMemberships;
+
+		$ebookPlaceholder = new EbookPlaceholder();
+		$ebookPlaceholder->FillFromHttpPost();
+		$this->EbookPlaceholder = $ebookPlaceholder;
+
+		// These properties must be set before calling `Ebook::Create()` to prevent the getters from triggering DB queries or accessing `Ebook::$EbookId` before it is set.
+		$this->Contributors = [];
+		$this->Illustrators = [];
+		$this->LocSubjects = [];
+		$this->Tags = [];
+		$this->TocEntries  = [];
+
+		$this->FillIdentifierFromTitleAndContributors();
+	}
 
 	// *******
 	// METHODS

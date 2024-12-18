@@ -1,82 +1,30 @@
 <?
 
+/** @var string $identifier Passed from script this is included from. */
+$ebook = null;
+
 try{
 	session_start();
-	$httpMethod = HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
+	$httpMethod = HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post, Enums\HttpMethod::Put]);
 	$exceptionRedirectUrl = '/ebook-placeholders/new';
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
+	if(!Session::$User->Benefits->CanEditEbookPlaceholders){
+		throw new Exceptions\InvalidPermissionsException();
+	}
+
 	// POSTing a new ebook placeholder.
 	if($httpMethod == Enums\HttpMethod::Post){
-		if(!Session::$User->Benefits->CanEditEbookPlaceholders){
-			throw new Exceptions\InvalidPermissionsException();
-		}
-
 		$ebook = new Ebook();
 
-		$title = HttpInput::Str(POST, 'ebook-title');
-		if(isset($title)){
-			$ebook->Title = $title;
-		}
-
-		$authors = [];
-		$authorFields = ['author-name-1', 'author-name-2', 'author-name-3'];
-		foreach($authorFields as $authorField){
-			$authorName = HttpInput::Str(POST, $authorField);
-			if(!isset($authorName)){
-				continue;
-			}
-			$author = new Contributor();
-			$author->Name = $authorName;
-			$author->UrlName = Formatter::MakeUrlSafe($author->Name);
-			$author->MarcRole = Enums\MarcRole::Author;
-			$authors[] = $author;
-		}
-		$ebook->Authors = $authors;
-
-		$translators = [];
-		$translatorFields = ['translator-name-1', 'translator-name-2'];
-		foreach($translatorFields as $translatorField){
-			$translatorName = HttpInput::Str(POST, $translatorField);
-			if(!isset($translatorName)){
-				continue;
-			}
-			$translator = new Contributor();
-			$translator->Name = $translatorName;
-			$translator->UrlName = Formatter::MakeUrlSafe($translator->Name);
-			$translator->MarcRole = Enums\MarcRole::Translator;
-			$translators[] = $translator;
-		}
-		$ebook->Translators = $translators;
-
-		$collectionMemberships = [];
-		$collectionNameFields = ['collection-name-1', 'collection-name-2', 'collection-name-3'];
-		foreach($collectionNameFields as $collectionNameField){
-			$collectionName = HttpInput::Str(POST, $collectionNameField);
-			if(!isset($collectionName)){
-				continue;
-			}
-			$collectionSequenceNumber = HttpInput::Int(POST, 'sequence-number-' . $collectionNameField);
-			$collection = Collection::FromName($collectionName);
-			$collection->Type = Enums\CollectionType::tryFrom(HttpInput::Str(POST, 'type-' . $collectionNameField) ?? '');
-
-			$cm = new CollectionMembership();
-			$cm->Collection = $collection;
-			$cm->SequenceNumber = $collectionSequenceNumber;
-			$collectionMemberships[] = $cm;
-		}
-		$ebook->CollectionMemberships = $collectionMemberships;
-
-		$ebookPlaceholder = new EbookPlaceholder();
-		$ebookPlaceholder->FillFromHttpPost();
-		$ebook->EbookPlaceholder = $ebookPlaceholder;
+		$ebook->FillFromEbookPlaceholderForm();
 
 		// Do we have a `Project` to create at the same time?
 		$project = null;
-		if($ebookPlaceholder->IsInProgress){
+		if($ebook->EbookPlaceholder?->IsInProgress){
 			$project = new Project();
 			$project->FillFromHttpPost();
 			$project->Started = NOW;
@@ -84,21 +32,13 @@ try{
 			$project->Validate();
 		}
 
-		$ebook->FillIdentifierFromTitleAndContributors();
-
-		// These properties must be set before calling `Ebook::Create()` to prevent the getters from triggering DB queries or accessing `Ebook::$EbookId` before it is set.
-		$ebook->Tags = [];
-		$ebook->LocSubjects = [];
-		$ebook->Illustrators = [];
-		$ebook->Contributors = [];
-
 		try{
 			$ebook->Create();
 		}
 		catch(Exceptions\DuplicateEbookException $ex){
 			// If the identifier already exists but a `Project` was sent with this request, create the `Project` anyway.
 			$existingEbook = Ebook::GetByIdentifier($ebook->Identifier);
-			if($ebookPlaceholder->IsInProgress && $project !== null){
+			if($ebook->EbookPlaceholder?->IsInProgress && $existingEbook->ProjectInProgress === null && $project !== null){
 				$ebook->EbookId = $existingEbook->EbookId;
 				$_SESSION['is-only-ebook-project-created'] = true;
 			}
@@ -109,7 +49,7 @@ try{
 			}
 		}
 
-		if($ebookPlaceholder->IsInProgress && $project !== null){
+		if($ebook->EbookPlaceholder?->IsInProgress && $project !== null){
 			$project->EbookId = $ebook->EbookId;
 			$project->Ebook = $ebook;
 			$project->Create();
@@ -120,6 +60,50 @@ try{
 
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /ebook-placeholders/new');
+	}
+	// PUT a new ebook placeholder.
+	if($httpMethod == Enums\HttpMethod::Put){
+		$originalEbook = Ebook::GetByIdentifier($identifier);
+		$exceptionRedirectUrl = $originalEbook->EditUrl;
+
+		$ebook = new Ebook();
+
+		$ebook->FillFromEbookPlaceholderForm();
+		$ebook->EbookId = $originalEbook->EbookId;
+		$ebook->Created = $originalEbook->Created;
+
+		// Do we have a `Project` to create/save at the same time?
+		$project = null;
+		if($ebook->EbookPlaceholder?->IsInProgress){
+			$originalProject = $originalEbook->ProjectInProgress;
+			$project = new Project();
+			$project->FillFromHttpPost();
+			$project->EbookId = $ebook->EbookId;
+			$project->Ebook = $ebook;
+			if(isset($originalProject)){
+				$project->ProjectId = $originalProject->ProjectId;
+				$project->Started = $originalProject->Started;
+			}
+			else{
+				$project->Started = NOW;
+			}
+			$project->Validate();
+		}
+
+		$ebook->Save();
+
+		if($ebook->EbookPlaceholder?->IsInProgress && $project !== null){
+			if(isset($originalProject)){
+				$project->Save();
+			}
+			else{
+				$project->Create();
+			}
+		}
+
+		$_SESSION['is-ebook-placeholder-saved'] = true;
+		http_response_code(Enums\HttpCode::SeeOther->value);
+		header('Location: ' . $ebook->Url);
 	}
 }
 catch(Exceptions\LoginRequiredException){
