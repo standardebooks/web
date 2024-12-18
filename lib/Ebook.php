@@ -49,6 +49,7 @@ use function Safe\shell_exec;
  */
 class Ebook{
 	use Traits\Accessor;
+	use Traits\FromRow;
 
 	public int $EbookId;
 	public string $Identifier;
