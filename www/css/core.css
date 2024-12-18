@@ -3220,7 +3220,7 @@ ol.ebooks-list > li.ribbon a::after{
 	/* Ribbon */
 	font-family: "League Spartan", sans-serif;
 	position: absolute;
-	left: -.5rem;
+	left: calc(-.5rem - 2px);
 	top: calc(.25rem + 3px);
 	padding: .5rem 1rem .5rem .5rem;
 	line-height: 1;
@@ -3246,7 +3246,7 @@ ol.ebooks-list > li.ribbon .placeholder-cover::after{
 	top: calc(.5rem + .5rem + .5rem + .5rem - 3px);
 	height: .5rem;
 	width: .5rem;
-	left: -.5rem;
+	left: calc(-.5rem - 2px);
 	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 0);
 	z-index: 1;
 	filter: brightness(50%);
@@ -3258,7 +3258,7 @@ ol.ebooks-list > li[property="schema:hasPart"][value].ribbon .placeholder-cover:
 
 ol.ebooks-list > li.ribbon a::after{
 	/* Ribbon shadow */
-	left: calc(-.5rem + 4px);
+	left: calc(-.5rem + 2px);
 	top: calc(.5rem + 2px);
 	background: rgba(0, 0, 0, .4);
 	z-index: auto;
