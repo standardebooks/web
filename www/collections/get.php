@@ -14,7 +14,7 @@ try{
 	$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 }
 catch(Exceptions\CollectionNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(['title' => $pageTitle, 'feedUrl' => $feedUrl, 'feedTitle' => $feedTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
 <main class="ebooks">

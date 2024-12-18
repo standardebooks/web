@@ -6,7 +6,7 @@ $canDownload = false;
 $class = HttpInput::Str(GET, 'class');
 
 if($class === null || ($class != 'authors' && $class != 'collections' && $class != 'subjects' && $class != 'months')){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 if(Session::$User?->Benefits->CanBulkDownload){

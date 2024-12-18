@@ -38,7 +38,7 @@ try{
 	}
 }
 catch(Exceptions\AppException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 ?><?= Template::Header(['title' => 'Your Subscription to the Standard Ebooks Newsletter', 'highlight' => 'newsletter', 'description' => 'Your subscription to the Standard Ebooks newsletter.']) ?>

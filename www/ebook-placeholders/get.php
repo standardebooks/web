@@ -21,7 +21,7 @@ try{
 	}
 }
 catch(Exceptions\EbookNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(
 	[

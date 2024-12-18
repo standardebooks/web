@@ -6,11 +6,11 @@ $collectionType = Enums\FeedCollectionType::tryFrom(HttpInput::Str(GET, 'class')
 $type = Enums\FeedType::tryFrom(HttpInput::Str(GET, 'type') ?? '');
 
 if($collectionType === null){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 if($type === null || ($type != Enums\FeedType::Rss && $type != Enums\FeedType::Atom)){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 $feeds = [];
@@ -26,7 +26,7 @@ catch(Safe\Exceptions\ApcuException){
 	$feeds = Feed::RebuildFeedsCache($type, $collectionType);
 
 	if($feeds === null){
-		Template::Emit404();
+		Template::ExitWithCode(Enums\HttpCode::NotFound);
 	}
 }
 ?><?= Template::Header(['title' => $type->GetDisplayName() . ' Ebook Feeds by ' . $ucTitle, 'description' => 'A list of available ' . $type->GetDisplayName() . ' feeds of Standard Ebooks ebooks by ' . $lcTitle . '.']) ?>

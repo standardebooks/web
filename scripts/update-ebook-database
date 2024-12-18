@@ -41,9 +41,7 @@ try{
 	$ebook->CreateOrUpdate();
 
 	// If there was an `EbookPlaceholder` for this ebook, delete it.
-	if($ebook->EbookPlaceholder !== null){
-		$ebook->EbookPlaceholder->Delete();
-	}
+	$ebook->EbookPlaceholder?->Delete();
 
 	// If there was a `Project` for this ebook, mark it as completed.
 	if($ebook->ProjectInProgress !== null){

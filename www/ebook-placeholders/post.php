@@ -110,7 +110,7 @@ catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException | Exceptions\InvalidHttpMethodException | Exceptions\HttpMethodNotAllowedException){
-	Template::Emit403();
+	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\AppException $ex){
 	$_SESSION['ebook'] = $ebook;

@@ -58,10 +58,10 @@ catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403();
+	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\UserNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\InvalidUserException | Exceptions\UserExistsException $ex){
 	if($generateNewUuid){

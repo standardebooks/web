@@ -28,13 +28,13 @@ try{
 	}
 }
 catch(Exceptions\EbookNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403();
+	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\InvalidProjectException | Exceptions\ProjectExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
 	$_SESSION['project'] = $project;

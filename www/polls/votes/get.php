@@ -16,7 +16,7 @@ try{
 	}
 }
 catch(Exceptions\AppException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 ?><?= Template::Header(['title' => 'Your Vote Has Been Recorded!', 'highlight' => '', 'description' => 'Thank you for voting in a Standard Ebooks poll!']) ?>

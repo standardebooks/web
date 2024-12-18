@@ -58,10 +58,10 @@ try{
 	}
 }
 catch(Exceptions\ArtworkNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403();
+	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 
 ?><?= Template::Header(['title' => $artwork->Name, 'css' => ['/css/artwork.css']]) ?>

@@ -55,7 +55,7 @@ catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403(); // No permissions to create an ebook placeholder.
+	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to create an ebook placeholder.
 }
 ?>
 <?= Template::Header(

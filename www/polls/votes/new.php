@@ -38,7 +38,7 @@ catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\PollNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\PollVoteExistsException $ex){
 	$redirect = $poll->Url;

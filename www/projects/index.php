@@ -33,7 +33,7 @@ catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403();
+	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header([
 				'title' => 'Projects',

@@ -15,5 +15,5 @@ try{
 	header('Location: ' . $subscription->Url);
 }
 catch(Exceptions\NewsletterSubscriptionNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }

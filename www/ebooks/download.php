@@ -59,7 +59,7 @@ try{
 	setcookie('download-count', (string)$downloadCount, ['expires' => intval((new DateTimeImmutable('+2 week'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']);
 }
 catch(Exceptions\InvalidFileException | Exceptions\EbookNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(['title' => 'Your Download Has Started!', 'downloadUrl' => $downloadUrl]) ?>
 <main class="donate">

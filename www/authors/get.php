@@ -20,7 +20,7 @@ try{
 	$authorUrl = $ebooks[0]->AuthorsUrl;
 }
 catch(Exceptions\AuthorNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(['title' => 'Ebooks by ' . $author, 'feedUrl' => str_replace('/ebooks/', '/authors/', $authorUrl), 'feedTitle' => 'Standard Ebooks - Ebooks by ' . $author, 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . $author, 'canonicalUrl' => SITE_URL . $authorUrl]) ?>
 <main class="ebooks">

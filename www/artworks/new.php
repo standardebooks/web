@@ -41,7 +41,7 @@ catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403(); // No permissions to submit artwork.
+	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to submit artwork.
 }
 
 ?>

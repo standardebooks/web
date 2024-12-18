@@ -15,7 +15,7 @@ try{
 	$url = preg_replace('|/$|ius', '', $url);
 }
 catch(\Exception){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 if($url != ''){

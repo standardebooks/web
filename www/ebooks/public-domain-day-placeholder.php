@@ -39,7 +39,7 @@ try{
 	}
 }
 catch(Exceptions\EbookNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'canonicalUrl' => SITE_URL . $ebook->Url]) ?>
 <main>

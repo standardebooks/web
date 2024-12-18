@@ -26,13 +26,13 @@ try{
 	}
 }
 catch(Exceptions\ArtworkNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
 catch(Exceptions\InvalidPermissionsException){
-	Template::Emit403(); // No permissions to edit artwork.
+	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to edit artwork.
 }
 
 ?>

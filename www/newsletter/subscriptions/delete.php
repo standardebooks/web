@@ -14,7 +14,7 @@ try{
 }
 catch(Exceptions\NewsletterSubscriptionNotFoundException){
 	if($requestType == Enums\HttpRequestType::Web){
-		Template::Emit404();
+		Template::ExitWithCode(Enums\HttpCode::NotFound);
 	}
 	else{
 		http_response_code(Enums\HttpCode::NotFound->value);

@@ -124,7 +124,7 @@ try{
 	}
 }
 catch(Exceptions\ArtworkNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\PageOutOfBoundsException){
 	$url = '/artworks?page=' . $pages;

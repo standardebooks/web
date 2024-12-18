@@ -49,7 +49,7 @@ catch(Exceptions\InvalidPermissionsException){
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\InvalidFileException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 ?><?= Template::Header(['title' => 'Downloading Ebook Collections', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>

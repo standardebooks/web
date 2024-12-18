@@ -5,7 +5,7 @@ try{
 	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 }
 catch(Exceptions\AppException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 ?><?= Template::Header(['title' => 'Results for the ' . $poll->Name . ' Poll', 'highlight' => '', 'description' => 'The voting results for the ' . $poll->Name . ' poll.']) ?>

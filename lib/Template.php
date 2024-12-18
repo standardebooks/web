@@ -33,19 +33,39 @@ class Template{
 		}
 	}
 
-	public static function Emit403(): void{
-		http_response_code(Enums\HttpCode::Forbidden->value);
-		include(WEB_ROOT . '/403.php');
+	/**
+	 * Exit the script while outputting the given HTTP code.
+	 *
+	 * @param bool $showPage If **`TRUE`**, show a special page given the HTTP code (like a 404 page).
+	 *
+	 * @return never
+	 */
+	public static function ExitWithCode(Enums\HttpCode $httpCode, bool $showPage = true, Enums\HttpRequestType $requestType = Enums\HttpRequestType::Web): void{
+		http_response_code($httpCode->value);
+
+		if($requestType == Enums\HttpRequestType::Web && $showPage){
+			switch($httpCode){
+				case Enums\HttpCode::Forbidden:
+					include(WEB_ROOT . '/403.php');
+					break;
+				case Enums\HttpCode::NotFound:
+					include(WEB_ROOT . '/404.php');
+					break;
+			}
+		}
+
 		exit();
 	}
 
-	public static function Emit404(): void{
-		http_response_code(Enums\HttpCode::NotFound->value);
-		include(WEB_ROOT . '/404.php');
-		exit();
-	}
-
-	public static function RedirectToLogin(bool $redirectToDestination = true, string $destinationUrl = null): void{
+	/**
+	 * Redirect the user to the login page.
+	 *
+	 * @param bool $redirectToDestination After login, redirect the user to the page they came from.
+	 * @param ?string $destinationUrl If `$redirectToDestination` is **`TRUE`**, redirect to this URL instead of hte page they came from.
+	 *
+	 * @return never
+	 */
+	public static function RedirectToLogin(bool $redirectToDestination = true, ?string $destinationUrl = null): void{
 		if($redirectToDestination){
 			if($destinationUrl === null){
 				$destinationUrl = $_SERVER['SCRIPT_URL'];

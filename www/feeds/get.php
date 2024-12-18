@@ -53,7 +53,7 @@ try{
 	$feedUrl = '/' . $collectionType->value . '/' . $target;
 }
 catch(Exceptions\CollectionNotFoundException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(['title' => $title, 'feedTitle' => $feedTitle, 'feedUrl' => $feedUrl, 'description' => $description]) ?>
 <main>

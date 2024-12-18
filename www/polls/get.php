@@ -23,7 +23,7 @@ try{
 	}
 }
 catch(Exceptions\AppException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 ?><?= Template::Header(['title' => $poll->Name, 'highlight' => '', 'description' => $poll->Description]) ?>

@@ -104,7 +104,7 @@ catch(Exceptions\InvalidPermissionsException){
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\InvalidFileException){
-	Template::Emit404();
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
 // Print the login info page.
