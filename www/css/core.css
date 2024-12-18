@@ -749,14 +749,12 @@ ul.message.error > li + li{
 	padding-top: 2rem;
 }
 
-.data-table td:first-child,
 .data-table th:first-child{
 	padding-left: 0;
 }
 
-.data-table td:last-child,
 .data-table th:last-child{
-	padding-left: 0;
+	padding-right: 0;
 }
 
 .data-table td,
