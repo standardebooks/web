@@ -21,6 +21,16 @@ $showPlaceholderMetadata = $showPlaceholderMetadata ?? false;
 	<section id="placeholder-metadata">
 		<h2>Placeholder metadata</h2>
 		<p><a href="<?= $ebook->EditUrl ?>">Edit placeholder</a></p>
+		<details>
+			<summary>Delete placeholder</summary>
+			<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $ebook->Url ?>">
+				<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>" />
+				<p>Delete the <code>Ebook</code>, <code>EbookPlaceholder</code>, <code>Project</code>, and other related objects.</p>
+				<div class="footer">
+					<button class="delete">Delete</button>
+				</div>
+			</form>
+		</details>
 		<table class="admin-table">
 			<tbody>
 				<tr>

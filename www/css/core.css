@@ -933,6 +933,14 @@ main.front-page > a.button{
 	text-align: center;
 }
 
+button.delete{
+	background-color: maroon;
+}
+
+button.delete:hover{
+	background-color: firebrick;
+}
+
 article.ebook ul,
 article.ebook ol{
 	list-style: none;

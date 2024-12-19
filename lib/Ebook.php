@@ -2156,6 +2156,27 @@ final class Ebook{
 		}
 	}
 
+	public function Delete(): void{
+		$this->RemoveTags();
+		$this->RemoveLocSubjects();
+		$this->RemoveCollectionMemberships();
+		$this->RemoveGitCommits();
+		$this->RemoveSources();
+		$this->RemoveContributors();
+		$this->RemoveTocEntries();
+		$this->RemoveEbookPlaceholder();
+
+		foreach($this->Projects as $project){
+			$project->Delete();
+		}
+
+		Db::Query('
+			DELETE
+			from Ebooks
+			where EbookId = ?
+		', [$this->EbookId]);
+	}
+
 	// ***********
 	// ORM METHODS
 	// ***********
