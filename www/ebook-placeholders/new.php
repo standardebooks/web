@@ -5,9 +5,11 @@ session_start();
 
 $isCreated = HttpInput::Bool(SESSION, 'is-ebook-placeholder-created') ?? false;
 $isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;
+$isDeleted = HttpInput::Bool(SESSION, 'is-ebook-placeholder-deleted') ?? false;
 $exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 $ebook = HttpInput::SessionObject('ebook', Ebook::class);
 $project = HttpInput::SessionObject('project', Project::class);
+$deletedEbookTitle = '';
 
 try{
 	if(Session::$User === null){
@@ -45,6 +47,13 @@ try{
 
 		session_unset();
 	}
+	elseif($isDeleted){
+		if($ebook !== null){
+			$deletedEbookTitle = $ebook->Title;
+			$ebook = null;
+		}
+		session_unset();
+	}
 	elseif($exception){
 		// We got here because an `Ebook` submission had errors and the user has to try again.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
@@ -78,6 +87,8 @@ catch(Exceptions\InvalidPermissionsException){
 			<? }elseif($isCreated){ ?>
 				<p class="message success">Ebook placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a>!</p>
 			<? } ?>
+		<? }elseif($isDeleted){ ?>
+			<p class="message success">Ebook placeholder deleted: <?= Formatter::EscapeHtml($deletedEbookTitle) ?></p>
 		<? } ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="/ebook-placeholders" autocomplete="off">
