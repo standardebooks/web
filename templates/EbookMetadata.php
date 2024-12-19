@@ -32,11 +32,13 @@ $showPlaceholderMetadata = $showPlaceholderMetadata ?? false;
 						<td>Is Patron selection:</td>
 						<td><? if($ebook->EbookPlaceholder->IsPatron){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
+					<? if($ebook->EbookPlaceholder->Difficulty !== null){ ?>
+						<tr>
+							<td>Difficulty:</td>
+							<td><?= ucfirst($ebook->EbookPlaceholder->Difficulty->value) ?></td>
+						</tr>
+					<? } ?>
 				<? } ?>
-				<tr>
-					<td>Difficulty:</td>
-					<td><?= ucfirst($ebook->EbookPlaceholder->Difficulty->value ?? '') ?></td>
-				</tr>
 			</tbody>
 		</table>
 	</section>
