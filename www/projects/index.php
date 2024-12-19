@@ -19,8 +19,10 @@ try{
 	session_start();
 
 	$isCreated = HttpInput::Bool(SESSION, 'is-project-created') ?? false;
+	$isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;
+	$createdProject = HttpInput::SessionObject('project', Project::class);
 
-	if($isCreated){
+	if($isCreated || $isOnlyProjectCreated){
 		// We got here because a `Project` was successfully submitted.
 		http_response_code(Enums\HttpCode::Created->value);
 		session_unset();
@@ -43,9 +45,19 @@ catch(Exceptions\InvalidPermissionsException){
 <main>
 	<section>
 		<h1>Projects</h1>
+		<? if(Session::$User->Benefits->CanEditProjects){ ?>
+			<p>
+				<a href="/projects/new">New project</a>
+			</p>
+		<? } ?>
+		<? if($createdProject !== null){ ?>
+			<? if($isCreated){ ?>
+				<p class="message success">Project for <a href="<?= $createdProject->Ebook->Url ?>"><?= Formatter::EscapeHtml($createdProject->Ebook->Title) ?></a> created!</p>
+			<? } ?>
 
-		<? if($isCreated){ ?>
-			<p class="message success">Project created!</p>
+			<? if($isOnlyProjectCreated){ ?>
+				<p class="message success">An ebook placeholder <a href="<?= $createdProject->Ebook->Url ?>">already exists</a> for this ebook, but a new project was created!</p>
+			<? } ?>
 		<? } ?>
 
 		<section id="active">

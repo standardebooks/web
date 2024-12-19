@@ -2562,6 +2562,10 @@ details summary ~ *{
 	margin-left: 1rem;
 }
 
+fieldset label.controls-following-fieldset + fieldset{
+	margin-top: -.5rem;
+}
+
 fieldset p{
 	border-bottom: 1px dashed var(--input-border);
 }

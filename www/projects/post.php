@@ -20,7 +20,36 @@ try{
 
 		$project->FillFromHttpPost();
 
-		$project->Create();
+		// Are we creating a new placeholder at the same time?
+		if(!isset($project->EbookId)){
+			$project->Ebook = new Ebook();
+			$project->Ebook->FillFromEbookPlaceholderForm();
+			$project->Ebook->Validate();
+
+			$project->Validate(true, true);
+
+			try{
+				$project->Ebook->Create();
+				$project->EbookId = $project->Ebook->EbookId;
+			}
+			catch(Exceptions\DuplicateEbookException $ex){
+				// If the `Ebook` already exists, create the `Project` anyway.
+				$project->Ebook = Ebook::GetByIdentifier($project->Ebook->Identifier);
+				if(!$project->Ebook->EbookPlaceholder?->IsInProgress){
+					$project->EbookId = $project->Ebook->EbookId;
+					$_SESSION['is-only-ebook-project-created'] = true;
+				}
+				else{
+					// `Ebook` exists and it's not a placeholder, so really fail.
+					throw new Exceptions\EbookIsNotAPlaceholderException();
+				}
+			}
+
+			$project->Create();
+		}
+		else{
+			$project->Create();
+		}
 
 		$_SESSION['project'] = $project;
 		$_SESSION['is-project-created'] = true;
@@ -52,7 +81,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidProjectException | Exceptions\ProjectExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
+catch(Exceptions\InvalidProjectException | Exceptions\InvalidEbookException | Exceptions\ProjectExistsException | Exceptions\DuplicateEbookException | Exceptions\EbookIsNotAPlaceholderException $ex){
 	$_SESSION['project'] = $project;
 	$_SESSION['exception'] = $ex;
 

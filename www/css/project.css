@@ -25,6 +25,10 @@
 	text-align: right;
 }
 
+.project-form .placeholder-form{
+	grid-column:  1 / span 2;
+}
+
 table.data-table .status,
 table.data-table .producer{
 	white-space: nowrap;

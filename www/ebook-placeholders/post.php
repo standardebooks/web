@@ -42,9 +42,9 @@ try{
 				$_SESSION['is-only-ebook-project-created'] = true;
 			}
 			else{
-				// No `Project`, throw the exception and really fail.
+				// The existing ebook already has a `Project`, throw the exception and really fail.
 				$ebook = $existingEbook;
-				throw $ex;
+				throw new Exceptions\ProjectExistsException('This ebook already exists, and already has an in-progress project.');
 			}
 		}
 
@@ -85,7 +85,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException | Exceptions\InvalidHttpMethodException | Exceptions\HttpMethodNotAllowedException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidEbookException | Exceptions\InvalidProjectException $ex){
+catch(Exceptions\InvalidEbookException | Exceptions\ProjectExistsException | Exceptions\InvalidProjectException $ex){
 	$_SESSION['ebook'] = $ebook;
 	$_SESSION['exception'] = $ex;
 

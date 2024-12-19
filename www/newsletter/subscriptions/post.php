@@ -32,8 +32,8 @@ try{
 
 	$subscription->User = new User();
 	$subscription->User->Email = HttpInput::Str(POST, 'email');
-	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'issubscribedtonewsletter') ?? false;
-	$subscription->IsSubscribedToSummary = HttpInput::Bool(POST, 'issubscribedtosummary') ?? false;
+	$subscription->IsSubscribedToNewsletter = HttpInput::Bool(POST, 'is-subscribed-to-newsletter') ?? false;
+	$subscription->IsSubscribedToSummary = HttpInput::Bool(POST, 'is-subscribed-to-summary') ?? false;
 
 	$expectedCaptcha = HttpInput::Str(SESSION, 'captcha') ?? '';
 	$receivedCaptcha = HttpInput::Str(POST, 'captcha');

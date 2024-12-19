@@ -1,6 +1,7 @@
 <?
 $ebook = $ebook ?? new Ebook();
 $isEditForm = $isEditForm ?? false;
+$showProjectForm = $showProjectForm ?? true;
 ?>
 <fieldset>
 	<legend>Contributors</legend>
@@ -190,11 +191,11 @@ $isEditForm = $isEditForm ?? false;
 		</label>
 	</fieldset>
 </details>
-<? if(!$isEditForm){ ?>
+<? if(!$isEditForm && $showProjectForm){ ?>
 	<fieldset>
 		<legend>Project</legend>
 		<label class="controls-following-fieldset">
-			<span>In progress?</span>
+			<span>In progress</span>
 			<input type="hidden" name="ebook-placeholder-is-in-progress" value="false" />
 			<input
 				type="checkbox"
@@ -210,7 +211,7 @@ $isEditForm = $isEditForm ?? false;
 <fieldset>
 	<legend>Wanted list</legend>
 	<label class="controls-following-fieldset">
-		<span>On the wanted list?</span>
+		<span>On the wanted list</span>
 		<input type="hidden" name="ebook-placeholder-is-wanted" value="false" />
 		<input
 			type="checkbox"
@@ -220,7 +221,7 @@ $isEditForm = $isEditForm ?? false;
 	</label>
 	<fieldset>
 		<label>
-			<span>Did a Patron request this book?</span>
+			<span>A Patron requested this book</span>
 			<input type="hidden" name="ebook-placeholder-is-patron" value="false" />
 			<input
 				type="checkbox"
@@ -255,6 +256,3 @@ $isEditForm = $isEditForm ?? false;
 		</label>
 	</fieldset>
 </fieldset>
-<div class="footer">
-	<button>Submit</button>
-</div>

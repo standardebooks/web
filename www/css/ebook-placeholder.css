@@ -1,65 +1,65 @@
-form.create-update-ebook-placeholder fieldset{
+.create-update-ebook-placeholder fieldset{
 	display: grid;
 	gap: 2rem;
 }
 
-form.create-update-ebook-placeholder details + fieldset,
-form.create-update-ebook-placeholder fieldset + fieldset{
+.create-update-ebook-placeholder details + fieldset,
+.create-update-ebook-placeholder fieldset + fieldset{
 	margin-top: 2rem;
 }
 
-form.create-update-ebook-placeholder > fieldset:nth-of-type(1),
-form.create-update-ebook-placeholder details:nth-of-type(1) fieldset{
+.create-update-ebook-placeholder > fieldset:nth-of-type(1),
+.create-update-ebook-placeholder details:nth-of-type(1) fieldset{
 	grid-template-columns: 1fr 1fr;
 }
 
-form.create-update-ebook-placeholder > fieldset:nth-of-type(2),
-form.create-update-ebook-placeholder details:nth-of-type(2) fieldset{
+.create-update-ebook-placeholder > fieldset:nth-of-type(2),
+.create-update-ebook-placeholder details:nth-of-type(2) fieldset{
 	grid-template-columns: 1fr 200px;
 }
 
-form.create-update-ebook-placeholder fieldset label:has(input[name="ebook-placeholder-transcription-url"]),
-form.create-update-ebook-placeholder fieldset label:has(textarea[name="ebook-placeholder-notes"]){
+.create-update-ebook-placeholder fieldset label:has(input[name="ebook-placeholder-transcription-url"]),
+.create-update-ebook-placeholder fieldset label:has(textarea[name="ebook-placeholder-notes"]){
 	grid-column: 1 / span 2;
 }
 
-form.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-1"]),
-form.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-2"]),
-form.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-3"]){
+.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-1"]),
+.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-2"]),
+.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-3"]){
 	display: grid;
 	grid-template-columns: 1fr 200px 200px;
 	gap: 2rem;
 }
 
-form.create-update-ebook-placeholder fieldset label:has(input[type="checkbox"]){
+.create-update-ebook-placeholder fieldset label:has(input[type="checkbox"]){
 	grid-column: 1 / span 2;
 }
 
-form.create-update-ebook-placeholder details{
+.create-update-ebook-placeholder details{
 	margin-top: 1rem;
 }
 
-form.create-update-ebook-placeholder summary{
+.create-update-ebook-placeholder summary{
 	font-style: italic;
 }
 
-form.create-update-ebook-placeholder p{
+.create-update-ebook-placeholder p{
 	margin-bottom: 1rem;
 	margin-top: 1.5rem;
 	font-style: italic;
 }
 
-form.create-update-ebook-placeholder fieldset p{
+.create-update-ebook-placeholder fieldset p{
 	font-style: italic;
 	margin: 0;
 	border: none;
 }
 
-form.create-update-ebook-placeholder fieldset p:first-of-type{
+.create-update-ebook-placeholder fieldset p:first-of-type{
 	margin-top: 0;
 }
 
-form.create-update-ebook-placeholder legend{
+.create-update-ebook-placeholder legend{
 	font-size: 1.4rem;
 	font-family: "League Spartan", Arial, sans-serif;
 	margin-bottom: 1rem;
@@ -68,7 +68,7 @@ form.create-update-ebook-placeholder legend{
 	text-transform: uppercase;
 }
 
-form.create-update-ebook-placeholder label{
+.create-update-ebook-placeholder label{
 	display: block;
 }
 
@@ -78,12 +78,12 @@ form div.footer{
 }
 
 /* Hide the next fieldset unless the ebook-placeholder-is-wanted checkbox is checked. */
-form.create-update-ebook-placeholder label.controls-following-fieldset + fieldset{
+.create-update-ebook-placeholder label.controls-following-fieldset + fieldset{
 	display: none;
 	grid-column: 1 / span 2;
 }
 
-form.create-update-ebook-placeholder label.controls-following-fieldset:has(input[type="checkbox"]:checked) + fieldset{
+.create-update-ebook-placeholder label.controls-following-fieldset:has(input[type="checkbox"]:checked) + fieldset{
 	display: grid;
 }
 

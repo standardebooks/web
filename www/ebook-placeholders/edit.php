@@ -56,6 +56,9 @@ catch(Exceptions\InvalidPermissionsException){
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $ebook->Url ?>" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
 			<?= Template::EbookPlaceholderForm(['ebook' => $ebook, 'isEditForm' => true]) ?>
+			<div class="footer">
+				<button>Save</button>
+			</div>
 		</form>
 	</section>
 </main>

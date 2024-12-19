@@ -54,7 +54,7 @@ catch(Exceptions\InvalidPermissionsException){
 }
 ?><?= Template::Header([
 				'title' => 'New Project',
-				'css' => ['/css/project.css'],
+				'css' => ['/css/project.css', '/css/ebook-placeholder.css'],
 				'description' => 'Add a new ebook project.'
 			]) ?>
 <main>
@@ -69,7 +69,13 @@ catch(Exceptions\InvalidPermissionsException){
 		<?= Template::Error(['exception' => $exception]) ?>
 
 		<form action="/projects" method="<?= Enums\HttpMethod::Post->value ?>" class="project-form">
-			<?= Template::ProjectForm(['project' => $project, 'areFieldsRequired' => true]) ?>
+			<?= Template::ProjectForm(['project' => $project]) ?>
+			<? if(!isset($project->EbookId)){ ?>
+				<fieldset class="create-update-ebook-placeholder placeholder-form">
+					<legend>Placeholder</legend>
+					<?= Template::EbookPlaceholderForm(['ebook' => $project->Ebook ?? new Ebook(), 'showProjectForm' => false]) ?>
+				</fieldset>
+			<? } ?>
 			<div class="footer">
 				<button>Submit</button>
 			</div>

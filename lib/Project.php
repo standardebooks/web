@@ -222,6 +222,10 @@ final class Project{
 				// Get the base thread URL in case we were passed a URL with a specific message or query string.
 				$this->DiscussionUrl = preg_replace('|^(https://groups\.google\.com/g/standardebooks/c/[^/]+).*|iu', '\1', $this->DiscussionUrl);
 			}
+
+			if(!preg_match('|^https://groups\.google\.com/g/standardebooks/c/[^/\?]+$|iu', $this->DiscussionUrl)){
+				$error->Add(new Exceptions\InvalidDiscussionUrlException($this->DiscussionUrl));
+			}
 		}
 
 		$this->VcsUrl = trim($this->VcsUrl ?? '');
@@ -231,7 +235,7 @@ final class Project{
 		elseif(preg_match('|^https?://(www\.)?github.com/|ius', $this->VcsUrl)){
 			$this->VcsUrl = rtrim($this->VcsUrl, '/');
 			if(!preg_match('|^https://github.com/[^/]+/[^/]+$|ius', $this->VcsUrl)){
-				$error->Add(new Exceptions\InvalidVcsUrlException());
+				$error->Add(new Exceptions\InvalidVcsUrlException($this->VcsUrl));
 			}
 		}
 
