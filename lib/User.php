@@ -402,6 +402,46 @@ class User{
 	}
 
 	/**
+	 * Get a random `User` who is available to be assigned to the given role.
+	 *
+	 * @param Enums\ProjectRoleType $role The role to select for.
+	 * @param int $excludedUserId Don't include this `UserId` when selecting; `null` to not exclude any users.
+	 *
+	 * @throws Exceptions\UserNotFoundException If no `User` is available to be assigned to a `Project`.
+	 */
+	public static function GetByAvailableForProjectAssignment(Enums\ProjectRoleType $role, ?int $excludedUserId): User{
+		// First, check if there are `User`s available for assignment.
+		// We use `coalesce()` to allow comparison in case `$excludedUserId` is `null` - there will never be a `UserId` of `0`.
+		$doUnassignedUsersExist = Db::QueryBool('SELECT exists (select * from ProjectUnassignedUsers where Role = ? and UserId != coalesce(?, 0))', [$role, $excludedUserId]);
+
+		// No unassigned `User`s left. Refill the list.
+		if(!$doUnassignedUsersExist){
+			Db::Query('
+					INSERT ignore
+					into ProjectUnassignedUsers
+					(UserId, Role)
+					select
+						Users.UserId,
+						?
+					from Users
+					inner join Benefits
+					using (UserId)
+					where
+						Benefits.CanManageProjects = true
+						and Benefits.CanBeAutoAssignedToProjects = true
+				', [$role]);
+		}
+
+		// Now, select a random `User`.
+		$user = Db::Query('SELECT u.* from Users u inner join ProjectUnassignedUsers puu using (UserId) where Role = ? and UserId != coalesce(?, 0) order by rand()', [$role, $excludedUserId], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
+
+		// Delete the `User` we just got from the unassigned users list.
+		Db::Query('DELETE from ProjectUnassignedUsers where UserId = ? and Role = ?', [$user->UserId, $role]);
+
+		return $user;
+	}
+
+	/**
 	 * Get a `User` if they are considered "registered".
 	 *
 	 * We consider a `User` "registered" if they have a row in the `Benefits` table. Emails without that row may only be signed up for the newsletter, and thus are not considered to be "registered" users.

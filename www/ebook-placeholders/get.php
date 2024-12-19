@@ -17,7 +17,7 @@ try{
 		throw new Exceptions\EbookNotFoundException();
 	}
 
-	if($isSaved){
+	if($isSaved || $isProjectSaved){
 		session_unset();
 	}
 }

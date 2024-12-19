@@ -1899,11 +1899,11 @@ label:has(select) > span{
 	display: block;
 }
 
-label:has(select) > span + span{
+label:has(select) > span + span:last-child{
 	display: inline-block;
 }
 
-label:has(select) > span + span::after{
+label:has(select) > span + span:last-child::after{
 	display: block;
 	font-style: normal;
 	position: absolute;
@@ -1927,7 +1927,7 @@ label:has(select):hover > span + span::after{
 	transition: none;
 }
 
-label:has(select) > span + span,
+label:has(select) > span + span:last-child,
 label:has(input[type="email"]),
 label:has(input[type="search"]),
 label:has(input[type="url"]),
@@ -4069,7 +4069,7 @@ nav.breadcrumbs + h1{
 	.ebook-carousel img,
 	.ebook-carousel a:active img,
 	ol.ebooks-list > li a[tabindex]:active,
-	label:has(select) > span + span::after,
+	label:has(select) > span + span:last-child::after,
 	label:has(input[type="search"]):focus-within::before,
 	label:has(input[type="search"]):hover::before,
 	label:has(select):hover > span + span::after,

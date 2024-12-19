@@ -32,8 +32,14 @@ $isEditForm = $isEditForm ?? false;
 
 <label class="icon user">
 	<span>Manager</span>
+	<? if(!$isEditForm){ ?>
+		<span>Leave blank to auto-assign.</span>
+	<? } ?>
 	<span>
 		<select name="project-manager-user-id">
+			<? if(!$isEditForm){ ?>
+				<option value="">&#160;</option>
+			<? } ?>
 			<? foreach($managers as $manager){ ?>
 				<option value="<?= $manager->UserId ?>"<? if(isset($project->ManagerUserId) && $project->ManagerUserId == $manager->UserId){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($manager->Name) ?></option>
 			<? } ?>
@@ -43,8 +49,14 @@ $isEditForm = $isEditForm ?? false;
 
 <label class="icon user">
 	<span>Reviewer</span>
+	<? if(!$isEditForm){ ?>
+		<span>Leave blank to auto-assign.</span>
+	<? } ?>
 	<span>
 		<select name="project-reviewer-user-id">
+			<? if(!$isEditForm){ ?>
+				<option value="">&#160;</option>
+			<? } ?>
 			<? foreach($reviewers as $reviewer){ ?>
 				<option value="<?= $reviewer->UserId ?>"<? if(isset($project->ReviewerUserId) && $project->ReviewerUserId == $reviewer->UserId){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($reviewer->Name) ?></option>
 			<? } ?>
@@ -65,7 +77,7 @@ $isEditForm = $isEditForm ?? false;
 </label>
 
 <label>
-	<span>Automatically update status?</span>
+	<span>Automatically update status</span>
 	<input type="hidden" name="project-is-status-automatically-updated" value="false" />
 	<input
 		type="checkbox"

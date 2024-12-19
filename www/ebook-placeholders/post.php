@@ -28,8 +28,7 @@ try{
 			$project = new Project();
 			$project->FillFromHttpPost();
 			$project->Started = NOW;
-			$project->EbookId = 0; // Dummy value to pass validation, we'll set it to the real value before creating the `Project`.
-			$project->Validate();
+			$project->Validate(true, true);
 		}
 
 		try{
@@ -86,7 +85,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException | Exceptions\InvalidHttpMethodException | Exceptions\HttpMethodNotAllowedException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\AppException $ex){
+catch(Exceptions\InvalidEbookException | Exceptions\InvalidProjectException $ex){
 	$_SESSION['ebook'] = $ebook;
 	$_SESSION['exception'] = $ex;
 

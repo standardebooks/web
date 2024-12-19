@@ -21,6 +21,7 @@ class Benefits{
 	public bool $CanManageProjects = false;
 	public bool $CanReviewProjects = false;
 	public bool $CanEditProjects = false;
+	public bool $CanBeAutoAssignedToProjects = false;
 
 	protected bool $_HasBenefits;
 
@@ -45,6 +46,8 @@ class Benefits{
 			$this->CanReviewProjects
 			||
 			$this->CanEditProjects
+			||
+			$this->CanBeAutoAssignedToProjects
 		){
 			return true;
 		}

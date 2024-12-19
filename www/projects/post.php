@@ -17,6 +17,7 @@ try{
 	// POSTing a new `Project`.
 	if($httpMethod == Enums\HttpMethod::Post){
 		$project = new Project();
+
 		$project->FillFromHttpPost();
 
 		$project->Create();

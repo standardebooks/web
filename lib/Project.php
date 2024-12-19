@@ -183,10 +183,10 @@ final class Project{
 	/**
 	 * @throws Exceptions\InvalidProjectException If the `Project` is invalid.
 	 */
-	public function Validate(): void{
+	public function Validate(bool $allowUnsetEbookId = false, bool $allowUnsetRoles = false): void{
 		$error = new Exceptions\InvalidProjectException();
 
-		if(!isset($this->EbookId)){
+		if(!$allowUnsetEbookId && !isset($this->EbookId)){
 			$error->Add(new Exceptions\EbookRequiredException());
 		}
 
@@ -235,10 +235,10 @@ final class Project{
 			}
 		}
 
-		if(!isset($this->ManagerUserId)){
+		if(!$allowUnsetRoles && !isset($this->ManagerUserId)){
 			$error->Add(new Exceptions\ManagerRequiredException());
 		}
-		else{
+		elseif(isset($this->ManagerUserId)){
 			try{
 				$this->_Manager = User::Get($this->ManagerUserId);
 			}
@@ -247,10 +247,10 @@ final class Project{
 			}
 		}
 
-		if(!isset($this->ReviewerUserId)){
-			$error->Add(new Exceptions\ManagerRequiredException());
+		if(!$allowUnsetRoles && !isset($this->ReviewerUserId)){
+			$error->Add(new Exceptions\ReviewerRequiredException());
 		}
-		else{
+		elseif(isset($this->ReviewerUserId)){
 			try{
 				$this->_Reviewer = User::Get($this->ReviewerUserId);
 			}
@@ -269,12 +269,39 @@ final class Project{
 	}
 
 	/**
+	 * Creates a new `Project`. If `Project::$Manager` or `Project::$Reviewer` are unassigned, they will be automatically assigned.
+	 *
 	 * @throws Exceptions\InvalidProjectException If the `Project` is invalid.
 	 * @throws Exceptions\EbookIsNotAPlaceholderException If the `Project`'s `Ebook` is not a placeholder.
 	 * @throws Exceptions\ProjectExistsException If the `Project`'s `Ebook` already has an active `Project`.
+	 * @throws Exceptions\UserNotFoundException If a manager or reviewer could not be auto-assigned.
 	 */
 	public function Create(): void{
-		$this->Validate();
+		if(!isset($this->ManagerUserId)){
+			try{
+				$this->Manager = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Manager, null);
+			}
+			catch(Exceptions\UserNotFoundException){
+				throw new Exceptions\UserNotFoundException('Could not auto-assign a suitable manager.');
+			}
+
+			$this->ManagerUserId = $this->Manager->UserId;
+		}
+
+		if(!isset($this->ReviewerUserId)){
+			try{
+				$this->Reviewer = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Reviewer, $this->Manager->UserId);
+			}
+			catch(Exceptions\UserNotFoundException){
+				unset($this->Manager);
+				unset($this->ManagerUserId);
+				throw new Exceptions\UserNotFoundException('Could not auto-assign a suitable reviewer.');
+			}
+
+			$this->ReviewerUserId = $this->Reviewer->UserId;
+		}
+
+		$this->Validate(false, true);
 
 		try{
 			$this->FetchLastDiscussionTimestamp();
