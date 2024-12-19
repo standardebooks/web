@@ -20,6 +20,25 @@ class Db{
 	}
 
 	/**
+	 * Execute a select query that returns a join against multiple tables.
+	 *
+	 * @template T
+	 *
+	 * @param string $sql The SQL query to execute.
+	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
+	 * @param class-string<T> $class The class to instantiate for each row, or `null` to return an array of rows.
+	 *
+	 * @return array<T> An array of `$class`.
+	 *
+	 * @throws Exceptions\MultiSelectMethodNotFoundException If a class was specified but the class doesn't have a `FromMultiTableRow()` method.
+	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
+	 */
+	public static function MultiTableSelect(string $sql, array $params, string $class): array{
+		/** @throws Exceptions\DatabaseQueryException|Exceptions\MultiSelectMethodNotFoundException */
+		return $GLOBALS['DbConnection']->MultiTableSelect($sql, $params, $class);
+	}
+
+	/**
 	 * Returns a single integer value for the first column database query result.
 	 *
 	 * This is useful for queries that return a single integer as a result, like `count(*)` or `sum(*)`.

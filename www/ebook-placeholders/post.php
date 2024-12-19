@@ -82,7 +82,6 @@ try{
 	// DELETE an `EbookPlaceholder`.
 	if($httpMethod == Enums\HttpMethod::Delete){
 		$ebook = Ebook::GetByIdentifier($identifier);
-		$exceptionRedirectUrl = $ebook->Url;
 
 		$ebook->Delete();
 
