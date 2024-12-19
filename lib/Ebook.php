@@ -22,6 +22,7 @@ use function Safe\shell_exec;
  * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
  * @property string $Url
  * @property string $EditUrl
+ * @property string $DeleteUrl
  * @property bool $HasDownloads
  * @property string $UrlSafeIdentifier
  * @property string $HeroImageUrl
@@ -105,6 +106,7 @@ final class Ebook{
 	protected ?array $_TocEntries = null;
 	protected string $_Url;
 	protected string $_EditUrl;
+	protected string $_DeleteUrl;
 	protected bool $_HasDownloads;
 	protected string $_UrlSafeIdentifier;
 	protected string $_HeroImageUrl;
@@ -158,13 +160,13 @@ final class Ebook{
 	 */
 	protected function GetProjects(): array{
 		if(!isset($this->_Projects)){
-			$this->_Projects = Db::Query('
+			$this->_Projects = Db::MultiTableSelect('
 							SELECT *
 							from Projects
 							inner join Ebooks
 							using(EbookId)
 							where EbookId = ?
-							order by Created desc
+							order by Projects.Created desc
 						', [$this->EbookId], Project::class);
 		}
 
@@ -177,7 +179,7 @@ final class Ebook{
 				$this->_ProjectInProgress = null;
 			}
 			else{
-				$this->_ProjectInProgress = Db::Query('
+				$this->_ProjectInProgress = Db::MultiTableSelect('
 								SELECT *
 								from Projects
 								inner join Ebooks
@@ -200,7 +202,7 @@ final class Ebook{
 				$this->_PastProjects = [];
 			}
 			else{
-				$this->_PastProjects = Db::Query('
+				$this->_PastProjects = Db::MultiTableSelect('
 								SELECT *
 								from Projects
 								inner join Ebooks
@@ -423,6 +425,14 @@ final class Ebook{
 		}
 
 		return $this->_EditUrl;
+	}
+
+	protected function GetDeleteUrl(): string{
+		if(!isset($this->_DeleteUrl)){
+			$this->_DeleteUrl = $this->Url . '/delete';
+		}
+
+		return $this->_DeleteUrl;
 	}
 
 	protected function GetHasDownloads(): bool{

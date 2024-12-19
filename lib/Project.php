@@ -677,7 +677,7 @@ final class Project{
 	public static function FromMultiTableRow(array $row): Project{
 		$object = Project::FromRow($row['Projects']);
 
-		if($row['Ebooks']->EbookId !== null){
+		if($row['Projects']->EbookId !== null){
 			$row['Ebooks']->EbookId = $object->EbookId;
 			$object->Ebook = Ebook::FromRow($row['Ebooks']);
 		}

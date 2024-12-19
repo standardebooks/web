@@ -20,7 +20,7 @@ try{
 	$ebook = Ebook::GetByIdentifier($identifier);
 
 	if($ebook->IsPlaceholder()){
-		require('/standardebooks.org/web/www/ebook-placeholders/get.php');
+		require(WEB_ROOT . '/ebook-placeholders/get.php');
 		exit();
 	}
 
@@ -71,7 +71,7 @@ catch(Exceptions\EbookNotFoundException){
 
 	// Are we accessing a placeholder for a Public Domain Day book that is not yet released?
 	if(array_key_exists($identifier, PD_DAY_EBOOKS)){
-		require('/standardebooks.org/web/www/ebooks/public-domain-day-placeholder.php');
+		require(WEB_ROOT . '/ebooks/public-domain-day-placeholder.php');
 		exit();
 	}
 

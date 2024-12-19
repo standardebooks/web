@@ -16,11 +16,11 @@ try{
 	$ebook = Ebook::GetByIdentifier($identifier);
 
 	if($ebook->IsPlaceholder()){
-		require(WEB_ROOT . '/ebook-placeholders/edit.php');
+		require(WEB_ROOT . '/ebook-placeholders/delete.php');
 		exit();
 	}
 
-	// Editing published `Ebooks` is not supported.
+	// Deleting published `Ebooks` is not supported.
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\EbookNotFoundException){

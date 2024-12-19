@@ -16,7 +16,7 @@ try{
 	$ebook = Ebook::GetByIdentifier($identifier);
 
 	if($ebook->IsPlaceholder()){
-		require('/standardebooks.org/web/www/ebook-placeholders/post.php');
+		require(WEB_ROOT . '/ebook-placeholders/post.php');
 		exit();
 	}
 

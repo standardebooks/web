@@ -41,10 +41,10 @@ catch(Exceptions\InvalidPermissionsException){
 ?>
 <?= Template::Header(
 	[
-		'title' => 'Edit ' . $ebook->Title,
+		'title' => 'Delete ' . $ebook->Title,
 		'css' => ['/css/ebook-placeholder.css'],
 		'highlight' => '',
-		'description' => 'Edit ' . $ebook->Title
+		'description' => 'Delete ' . $ebook->Title
 	]
 ) ?>
 <main>
@@ -53,15 +53,15 @@ catch(Exceptions\InvalidPermissionsException){
 			<a href="<?= $ebook->AuthorsUrl ?>"><?= $ebook->AuthorsString ?></a> →
 			<a href="<?= $ebook->Url ?>"><?= Formatter::EscapeHtml($ebook->Title) ?></a> →
 		</nav>
-		<h1>Edit</h1>
+		<h1>Delete</h1>
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $ebook->Url ?>" autocomplete="off">
-			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
-			<?= Template::EbookPlaceholderForm(['ebook' => $ebook, 'isEditForm' => true]) ?>
+		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $ebook->Url ?>">
+			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>" />
+			<p>Are you sure you want to permanently delete <i><?= Formatter::EscapeHtml($ebook->Title) ?></i>?</p>
 			<div class="footer">
-				<button>Save</button>
+				<button class="delete">Delete</button>
 			</div>
 		</form>
 	</section>
