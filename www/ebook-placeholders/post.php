@@ -5,7 +5,7 @@ $ebook = null;
 
 try{
 	session_start();
-	$httpMethod = HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post, Enums\HttpMethod::Put]);
+	$httpMethod = HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post, Enums\HttpMethod::Put, Enums\HttpMethod::Delete]);
 	$exceptionRedirectUrl = '/ebook-placeholders/new';
 
 	if(Session::$User === null){
@@ -77,6 +77,20 @@ try{
 		$_SESSION['is-ebook-placeholder-saved'] = true;
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: ' . $ebook->Url);
+	}
+
+	// DELETE an `EbookPlaceholder`.
+	if($httpMethod == Enums\HttpMethod::Delete){
+		$ebook = Ebook::GetByIdentifier($identifier);
+		$exceptionRedirectUrl = $ebook->Url;
+
+		$ebook->Delete();
+
+		$_SESSION['ebook'] = $ebook;
+		$_SESSION['is-ebook-placeholder-deleted'] = true;
+
+		http_response_code(Enums\HttpCode::SeeOther->value);
+		header('Location: /ebook-placeholders/new');
 	}
 }
 catch(Exceptions\LoginRequiredException){

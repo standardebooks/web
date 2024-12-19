@@ -455,6 +455,20 @@ final class Project{
 		}
 	}
 
+	public function Delete(): void{
+		Db::Query('
+			DELETE
+			from ProjectReminders
+			where ProjectId = ?
+		', [$this->ProjectId]);
+
+		Db::Query('
+			DELETE
+			from Projects
+			where ProjectId = ?
+		', [$this->ProjectId]);
+	}
+
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('EbookId');
 		$this->PropertyFromHttp('ProducerName');
