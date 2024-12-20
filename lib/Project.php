@@ -652,21 +652,21 @@ final class Project{
 	 * @return array<Project>
 	 */
 	public static function GetAllByStatus(Enums\ProjectStatusType $status): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where Projects.Status = ? order by Title asc', [$status], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where Projects.Status = ? order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$status], Project::class);
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByManagerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where ManagerUserId = ? and Status in (?, ?) order by Title asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where ManagerUserId = ? and Status in (?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByReviewerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where ReviewerUserId = ? and Status in (?, ?) order by Title asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where ReviewerUserId = ? and Status in (?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
 	}
 
 	/**
