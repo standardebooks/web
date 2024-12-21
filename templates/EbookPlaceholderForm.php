@@ -80,7 +80,7 @@ $showProjectForm = $showProjectForm ?? true;
 			type="text"
 			name="ebook-placeholder-year-published"
 			inputmode="numeric"
-			pattern="[0-9]{1,4}"
+			pattern="^[0-9]{1,4}$"
 			autocomplete="off"
 			value="<?= Formatter::EscapeHtml((string)($ebook->EbookPlaceholder?->YearPublished)) ?>"
 		/>
@@ -118,7 +118,7 @@ $showProjectForm = $showProjectForm ?? true;
 			type="text"
 			name="sequence-number-collection-name-1"
 			inputmode="numeric"
-			pattern="[0-9]{1,3}"
+			pattern="^[0-9]{1,3}$"
 			autocomplete="off"
 			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
 		/>
@@ -152,7 +152,7 @@ $showProjectForm = $showProjectForm ?? true;
 				type="text"
 				name="sequence-number-collection-name-2"
 				inputmode="numeric"
-				pattern="[0-9]{1,3}"
+				pattern="^[0-9]{1,3}$"
 			autocomplete="off"
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[1]->SequenceNumber) ?><? } ?>"
 			/>
@@ -184,7 +184,7 @@ $showProjectForm = $showProjectForm ?? true;
 				type="text"
 				name="sequence-number-collection-name-3"
 				inputmode="numeric"
-				pattern="[0-9]{1,3}"
+				pattern="^[0-9]{1,3}$"
 			autocomplete="off"
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[2]->SequenceNumber) ?><? } ?>"
 			/>

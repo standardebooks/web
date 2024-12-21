@@ -39,7 +39,7 @@ $isEditForm = $isEditForm ?? false;
 			type="text"
 			name="artist-death-year"
 			inputmode="numeric"
-			pattern="[0-9]{1,4}"
+			pattern="^[0-9]{1,4}$"
 			value="<?= Formatter::EscapeHtml((string)$artwork->Artist->DeathYear) ?>"
 		/>
 	</label>
@@ -58,7 +58,7 @@ $isEditForm = $isEditForm ?? false;
 				type="text"
 				name="artwork-completed-year"
 				inputmode="numeric"
-				pattern="[0-9]{1,4}"
+				pattern="^[0-9]{1,4}$"
 				value="<?= Formatter::EscapeHtml((string)$artwork->CompletedYear) ?>"
 			/>
 		</label>
@@ -122,7 +122,7 @@ $isEditForm = $isEditForm ?? false;
 				type="text"
 				name="artwork-publication-year"
 				inputmode="numeric"
-				pattern="[0-9]{4}"
+				pattern="^[0-9]{4}$"
 				value="<?= Formatter::EscapeHtml((string)$artwork->PublicationYear) ?>"
 			/>
 		</label>
