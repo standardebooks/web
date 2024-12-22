@@ -17,7 +17,11 @@ legend{
 	width: 100%;
 }
 
-.payments thead{
+.payments{
+	margin-top: 1rem;
+}
+
+.payments thead th{
 	font-weight: bold;
 }
 

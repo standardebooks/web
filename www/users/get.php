@@ -200,15 +200,15 @@ catch(Exceptions\InvalidPermissionsException){
 			<p>
 				<a href="https://fundraising.fracturedatlas.org/admin/general_support/donations?query=<?= urlencode($user->Email ?? '') ?>">View all payments at Fractured Atlas</a>
 			</p>
-			<table class="payments">
+			<table class="data-table payments">
 				<thead>
 					<tr>
-						<td>Created</td>
-						<td>Recurring?</td>
-						<td>Gross</td>
-						<td>Fee</td>
-						<td>Net</td>
-						<td>Transaction ID</td>
+						<th>Created</th>
+						<th>Recurring?</th>
+						<th>Gross</th>
+						<th>Fee</th>
+						<th>Net</th>
+						<th>Transaction ID</th>
 					</tr>
 				</thead>
 				<tbody>
