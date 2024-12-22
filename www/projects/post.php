@@ -24,7 +24,7 @@ try{
 		if(!isset($project->EbookId)){
 			$project->Ebook = new Ebook();
 			$project->Ebook->FillFromEbookPlaceholderForm();
-			if($project->Status == Enums\ProjectStatusType::InProgress || $project->Status == Enums\ProjectStatusType::Stalled){
+			if(isset($project->Ebook->EbookPlaceholder) && ($project->Status == Enums\ProjectStatusType::InProgress || $project->Status == Enums\ProjectStatusType::Stalled)){
 				$project->Ebook->EbookPlaceholder->IsInProgress = true;
 			}
 			$project->Ebook->Validate();
