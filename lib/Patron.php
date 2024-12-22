@@ -91,13 +91,15 @@ class Patron{
 			$em->TextBody = Template::EmailPatronsCircleWelcomeText(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
 			$em->Send();
 
-			$em = new Email();
-			$em->To = ADMIN_EMAIL_ADDRESS;
-			$em->From = ADMIN_EMAIL_ADDRESS;
-			$em->Subject = 'New Patrons Circle member';
-			$em->Body = Template::EmailAdminNewPatron(['patron' => $this, 'payment' => $this->User->Payments[0]]);
-			$em->TextBody = Template::EmailAdminNewPatronText(['patron' => $this, 'payment' => $this->User->Payments[0]]);;
-			$em->Send();
+			if(!$isReturning){
+				$em = new Email();
+				$em->To = ADMIN_EMAIL_ADDRESS;
+				$em->From = ADMIN_EMAIL_ADDRESS;
+				$em->Subject = 'New Patrons Circle member';
+				$em->Body = Template::EmailAdminNewPatron(['patron' => $this, 'payment' => $this->User->Payments[0]]);
+				$em->TextBody = Template::EmailAdminNewPatronText(['patron' => $this, 'payment' => $this->User->Payments[0]]);;
+				$em->Send();
+			}
 		}
 	}
 
