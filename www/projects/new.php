@@ -68,7 +68,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<?= Template::Error(['exception' => $exception]) ?>
 
-		<form action="/projects" method="<?= Enums\HttpMethod::Post->value ?>" class="project-form">
+		<form action="/projects" autocomplete="off" method="<?= Enums\HttpMethod::Post->value ?>" class="project-form">
 			<?= Template::ProjectForm(['project' => $project]) ?>
 			<? if(!isset($project->EbookId)){ ?>
 				<fieldset class="create-update-ebook-placeholder placeholder-form">
