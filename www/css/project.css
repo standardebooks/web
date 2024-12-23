@@ -1,6 +1,8 @@
 .project-form{
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+	align-items: end;
+	gap: 2rem;
 }
 
 .project-form label:has(input[type="url"]){
@@ -9,11 +11,6 @@
 
 .project-form label:has(input[name="project-manager-user-id"]){
 	grid-column-start: 1;
-}
-
-.project-form{
-	display: grid;
-	gap: 2rem;
 }
 
 .project-form label:has(input[type="checkbox"]){
@@ -26,7 +23,7 @@
 }
 
 .project-form .placeholder-form{
-	grid-column:  1 / span 2;
+	grid-column: 1 / span 2;
 }
 
 table.data-table .status,
@@ -41,4 +38,17 @@ table.data-table{
 table.data-table td.status.stalled{
 	background: #861d1d !important; /* Override hover backgound color */
 	color: #ffffff;
+}
+
+@media(max-width: 750px){
+	.project-form{
+		grid-template-columns: 1fr;
+	}
+
+	.project-form label:has(input[type="url"]),
+	.project-form label:has(input[type="checkbox"]),
+	.project-form div.footer,
+	.project-form .placeholder-form{
+		grid-column: 1;
+	}
 }
