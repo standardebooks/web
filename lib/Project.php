@@ -389,7 +389,7 @@ final class Project{
 		if($this->Status == Enums\ProjectStatusType::InProgress){
 			// The manager is also the reviewer, just send one email.
 			if($this->ManagerUserId == $this->ReviewerUserId){
-				if($this->Manager->Email !== null){
+				if($this->Manager->Email !== null && $this->Manager->Name != $this->ProducerName){
 					$em = new Email();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
