@@ -201,6 +201,37 @@ $hasAdminTable = $hasAdminTable ?? false;
 				border: none;
 			}
 		<? } ?>
+
+		@media(prefers-color-scheme: dark){
+			body{
+				background: #2c3035;
+			}
+
+			div.body{
+				background: transparent;
+				color: #fff;
+			}
+
+			a,
+			a:link,
+			a:visited{
+				color: #fff;
+			}
+
+			a:hover{
+				color: #4f9d85;
+			}
+
+			<? if($letterhead){ ?>
+				div.body.letterhead{
+					background-image: url("https://standardebooks.org/images/logo-email-dark.png");
+				}
+			<? } ?>
+
+			div.footer img{
+				filter: invert(100%);
+			}
+		}
 	</style>
 </head>
 <body>
