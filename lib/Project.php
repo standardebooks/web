@@ -281,9 +281,17 @@ final class Project{
 	 * @throws Exceptions\UserNotFoundException If a manager or reviewer could not be auto-assigned.
 	 */
 	public function Create(): void{
+		// Is this `Project` being produced by one of the editors?
+		try{
+			$producer = User::GetByIdentifier($this->ProducerName);
+		}
+		catch(Exceptions\UserNotFoundException){
+			$producer = null;
+		}
+
 		if(!isset($this->ManagerUserId)){
 			try{
-				$this->Manager = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Manager, null);
+				$this->Manager = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Manager, [$producer->UserId ?? 0]);
 			}
 			catch(Exceptions\UserNotFoundException){
 				throw new Exceptions\UserNotFoundException('Could not auto-assign a suitable manager.');
@@ -294,7 +302,7 @@ final class Project{
 
 		if(!isset($this->ReviewerUserId)){
 			try{
-				$this->Reviewer = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Reviewer, $this->Manager->UserId);
+				$this->Reviewer = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Reviewer, [$this->Manager->UserId, $producer->UserId ?? 0]);
 			}
 			catch(Exceptions\UserNotFoundException){
 				unset($this->Manager);

@@ -2,6 +2,7 @@
 $project = $project ?? new Project();
 $managers = User::GetAllByCanManageProjects();
 $reviewers = User::GetAllByCanReviewProjects();
+$pastProducers = User::GetNamesByHasProducedProject();
 $areFieldsRequired = $areFieldsRequired ?? true;
 $isEditForm = $isEditForm ?? false;
 ?>
@@ -9,11 +10,18 @@ $isEditForm = $isEditForm ?? false;
 	<input type="hidden" name="project-ebook-id" value="<?= $project->EbookId ?? '' ?>" />
 <? } ?>
 
+<datalist id="editors">
+	<? foreach($pastProducers as $row){ ?>
+		<option value="<?= Formatter::EscapeHtml($row->ProducerName) ?>"><?= Formatter::EscapeHtml($row->ProducerName) ?></option>
+	<? } ?>
+</datalist>
+
 <label class="icon user">
 	<span>Producer name</span>
 	<input
 		type="text"
 		name="project-producer-name"
+		list="editors"
 		<? if($areFieldsRequired){ ?>
 			required="required"
 		<? } ?>

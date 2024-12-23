@@ -402,17 +402,32 @@ class User{
 	}
 
 	/**
+	 * @return array<stdClass>
+	 */
+	public static function GetNamesByHasProducedProject(): array{
+		return Db::Query('
+					SELECT
+					distinct (ProducerName)
+					from Projects
+					order by ProducerName asc
+				', []);
+	}
+
+	/**
 	 * Get a random `User` who is available to be assigned to the given role.
 	 *
 	 * @param Enums\ProjectRoleType $role The role to select for.
-	 * @param int $excludedUserId Don't include this `UserId` when selecting; `null` to not exclude any users.
+	 * @param array<int> $excludedUserIds Don't include these `UserId` when selecting.
 	 *
 	 * @throws Exceptions\UserNotFoundException If no `User` is available to be assigned to a `Project`.
 	 */
-	public static function GetByAvailableForProjectAssignment(Enums\ProjectRoleType $role, ?int $excludedUserId): User{
+	public static function GetByAvailableForProjectAssignment(Enums\ProjectRoleType $role, array $excludedUserIds = []): User{
+		if(sizeof($excludedUserIds) == 0){
+			$excludedUserIds = [0];
+		}
+
 		// First, check if there are `User`s available for assignment.
-		// We use `coalesce()` to allow comparison in case `$excludedUserId` is `null` - there will never be a `UserId` of `0`.
-		$doUnassignedUsersExist = Db::QueryBool('SELECT exists (select * from ProjectUnassignedUsers where Role = ? and UserId != coalesce(?, 0))', [$role, $excludedUserId]);
+		$doUnassignedUsersExist = Db::QueryBool('SELECT exists (select * from ProjectUnassignedUsers where Role = ? and UserId not in ' . Db::CreateSetSql($excludedUserIds) . ')', array_merge([$role], $excludedUserIds));
 
 		// No unassigned `User`s left. Refill the list.
 		if(!$doUnassignedUsersExist){
@@ -433,7 +448,7 @@ class User{
 		}
 
 		// Now, select a random `User`.
-		$user = Db::Query('SELECT u.* from Users u inner join ProjectUnassignedUsers puu using (UserId) where Role = ? and UserId != coalesce(?, 0) order by rand()', [$role, $excludedUserId], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
+		$user = Db::Query('SELECT u.* from Users u inner join ProjectUnassignedUsers puu using (UserId) where Role = ? and UserId not in ' . Db::CreateSetSql($excludedUserIds) . ' order by rand()', array_merge([$role], $excludedUserIds), User::class)[0] ?? throw new Exceptions\UserNotFoundException();
 
 		// Delete the `User` we just got from the unassigned users list.
 		Db::Query('DELETE from ProjectUnassignedUsers where UserId = ? and Role = ?', [$user->UserId, $role]);
