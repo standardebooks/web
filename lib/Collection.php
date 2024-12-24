@@ -99,6 +99,17 @@ class Collection{
 				', [], Collection::class);
 	}
 
+	/**
+	 * Deletes `Collection`s that no `Ebook`s are members of.
+	 */
+	public static function DeleteUnused(): void{
+		Db::Query('
+			DELETE
+			from Collections
+			where CollectionId not in
+				(select distinct CollectionId from CollectionEbooks)
+		');
+	}
 
 	// *******
 	// METHODS

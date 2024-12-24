@@ -1984,6 +1984,10 @@ final class Ebook{
 
 			$this->RemoveEbookPlaceholder();
 			$this->AddEbookPlaceholder();
+
+			EbookTag::DeleteUnused();
+			LocSubject::DeleteUnused();
+			Collection::DeleteUnused();
 		}
 		catch(Exceptions\ValidationException $ex){
 			$error = new Exceptions\InvalidEbookException();
@@ -2175,6 +2179,10 @@ final class Ebook{
 		$this->RemoveContributors();
 		$this->RemoveTocEntries();
 		$this->RemoveEbookPlaceholder();
+
+		EbookTag::DeleteUnused();
+		LocSubject::DeleteUnused();
+		Collection::DeleteUnused();
 
 		foreach($this->Projects as $project){
 			$project->Delete();

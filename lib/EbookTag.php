@@ -107,4 +107,17 @@ class EbookTag extends Tag{
 
 		return $tags;
 	}
+
+	/**
+	 * Deletes `EbookTag`s that are not associated with any `Ebook`s.
+	 */
+	public static function DeleteUnused(): void{
+		Db::Query('
+			DELETE
+			from Tags
+			where Type = ?
+				and TagId not in
+					(select distinct TagId from EbookTags)
+		', [Enums\TagType::Ebook]);
+	}
 }
