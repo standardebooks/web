@@ -64,4 +64,16 @@ class LocSubject{
 			return $this;
 		}
 	}
+
+	/**
+	 * Deletes `LocSubject`s that are not associated with any `Ebook`s.
+	 */
+	public static function DeleteUnused(): void{
+		Db::Query('
+			DELETE
+			from LocSubjects
+			where LocSubjectId not in
+				(select distinct LocSubjectId from EbookLocSubjects)
+		');
+	}
 }
