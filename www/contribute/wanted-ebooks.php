@@ -270,6 +270,9 @@
 			<li>
 				<p><a href="https://gutenberg.org/ebooks/31318">Geronimo’s Story of His Life</a> by Geronimo</p><!--patron-->
 			</li>
+			<li>
+				<p><a href="https://www.gutenberg.org/ebooks/13159">Lost Illustions</a> by Honoré de Balzac (part of the Human Comedy series)</p><!--patron-->
+			</li>
 		</ul>
 		<h2>Advanced productions</h2>
 		<ul>
