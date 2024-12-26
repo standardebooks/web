@@ -135,7 +135,7 @@ catch(Exceptions\InvalidPermissionsException){
 catch(Exceptions\ArtworkNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidFileUploadException $ex){
+catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidImageUploadException | Exceptions\InvalidFileUploadException $ex){
 	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
 	if($ex instanceof Exceptions\InvalidFileUploadException){
 		$ex = new Exceptions\InvalidImageUploadException();
