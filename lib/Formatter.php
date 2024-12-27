@@ -109,6 +109,18 @@ class Formatter{
 	}
 
 	/**
+	 * Convert a string of Markdown into inline HTML.
+	 */
+	public static function MarkdownToInlineHtml(?string $text): string{
+		if(!isset(Formatter::$_MarkdownParser)){
+			Formatter::$_MarkdownParser = new Parsedown();
+			Formatter::$_MarkdownParser->setSafeMode(true);
+		}
+
+		return Formatter::$_MarkdownParser->line($text);
+	}
+
+	/**
 	 * Given a number of bytes, return a string containing a human-readable filesize.
 	 *
 	 * @see https://stackoverflow.com/a/5501447
