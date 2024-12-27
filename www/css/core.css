@@ -3278,6 +3278,15 @@ ol.ebooks-list > li[property="schema:hasPart"][value].ribbon a::after{
 	top: calc(.25rem + 3px + 2rem + 4px);
 }
 
+ol.ebooks-list > li.ribbon .placeholder-cover::before, /* Ribbon */
+ol.ebooks-list > li.ribbon .placeholder-cover::after{ /* Ribbon bottom wrap-around */
+	left: calc(-.5rem - 2px); /* Subtract 2px from the rules above to account for the placeholder's border. */
+}
+
+ol.ebooks-list > li.ribbon a:has(.placeholder-cover)::after { /* Ribbon shadow */
+	left: calc(-.5rem + 2px); /* Subtract 2px from the rule above (-.5rem + 4px) to account for the placeholder's border. */
+}
+
 ol.ebooks-list > li.ribbon.wanted .placeholder-cover::before,
 ol.ebooks-list > li.ribbon.wanted .placeholder-cover::after{
 	background: #383760;
