@@ -109,6 +109,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1JZwIq2GlV5Ly2xVCuPhVzYkM99mmRLeNrUcQHADBsAU/edit">Short Fiction by Paul Laurence Dunbar</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1J9eXqZuq9P7HjZRsqJ8N-g5B4DM-Fi0PPWUBXW4AGOE/edit">Poetry by Georgia Douglas Johnson</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
