@@ -2420,4 +2420,21 @@ final class Ebook{
 
 		return ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount];
 	}
+
+	/**
+	 * Queries for `Ebook`s on the wanted list for a given `EbookPlaceholderDifficulty`.
+	 *
+	 * @return array<Ebook>
+	 */
+	public static function GetWantedByDifficulty(Enums\EbookPlaceholderDifficulty $difficulty): array{
+		return Db::Query('
+				SELECT Ebooks.*
+				from Ebooks inner join EbookPlaceholders using (EbookId)
+				where EbookPlaceholders.IsWanted = true and
+					EbookPlaceholders.IsInProgress = false and
+					EbookPlaceholders.Difficulty = ?
+				order by Ebooks.Updated desc
+			', [$difficulty], Ebook::class);
+
+	}
 }
