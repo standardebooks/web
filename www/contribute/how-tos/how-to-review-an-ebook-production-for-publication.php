@@ -34,6 +34,13 @@
 				<p>Run <code class="bash"><b>se</b> build-title <u>.</u></code>, <code class="bash"><b>se</b> build-toc <u>.</u></code> and <code class="bash"><b>se</b> build-images <u>.</u></code> at the root of the project directory. No changes should be made by these tools if the producer correctly generated the title page, table of content, and image files. Any discrepancies can be highlighted and investigated via the <code class="bash"><b>git</b> diff</code> listed in Step 1.</p>
 			</li>
 			<li>
+				<h2>Review initial commit</h2>
+				<p>Check out the initial commit and review <code>body.xhtml</code> with your text editor of choice to make sure that the Project Gutenberg license text wasn’t accidentally committed to the repository:</p>
+				<code class="terminal"><b>git</b> checkout <i>"$COMMIT"</i></code>
+				<p>If the license text was committed, the producer will have to rebase it out. Once you are done reviewing the initial commit, use the following command to leave the detached <code>HEAD</code> state:</p>
+				<code class="terminal"><b>git</b> switch -</code>
+			</li>
+			<li>
 				<h2>Review editorial commits</h2>
 				<p>Use the following <code class="bash"><b>git</b></code> command to highlight all editorial commits:</p>
 				<code class="terminal"><b>git</b> log --pretty=<i>"format:%h: %s"</i> --grep=<i>"\[Editorial\]"</i></code>
