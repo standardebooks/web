@@ -1,38 +1,7 @@
 <?
-use function Safe\ob_end_clean;
-use function Safe\ob_start;
-
-function WantedEbooks(Enums\EbookPlaceholderDifficulty $difficulty, ?bool $showPlaceholderMetadata): string{
-	$ebooks = Ebook::GetByIsWantedAndDifficulty($difficulty);
-	$showPlaceholderMetadata = $showPlaceholderMetadata ?? false;
-
-	ob_start();
-	?>
-	<ul>
-		<? foreach($ebooks as $ebook){ ?>
-			<li>
-				<? if(isset($ebook->EbookPlaceholder->TranscriptionUrl)){ ?><a href="<?= $ebook->EbookPlaceholder->TranscriptionUrl ?>"><? } ?>
-				<?= Formatter::EscapeHtml($ebook->Title) ?><? if(isset($ebook->EbookPlaceholder->TranscriptionUrl)){ ?></a><? } ?>
-				<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
-					(<? foreach($ebook->CollectionMemberships as $index => $collectionMembership){ ?><?= Template::CollectionDescriptor(['collectionMembership' => $collectionMembership]) ?><? if($index < sizeof($ebook->CollectionMemberships) - 1){ ?>, <? } ?><? } ?>)
-				<? } ?>
-				by <?= Formatter::EscapeHtml($ebook->AuthorsString) ?><? if($ebook->ContributorsHtml != ''){ ?>. <? } ?>
-				<?= $ebook->ContributorsHtml ?>
-				<? if(isset($ebook->EbookPlaceholder->Notes)){ ?>(<?= Formatter::MarkdownToHtml($ebook->EbookPlaceholder->Notes, true) ?>)<? } ?>
-				<? if($showPlaceholderMetadata){ ?>
-					<p>Ebook ID: <?= $ebook->EbookId ?>, <a href="<?= $ebook->Url ?>">View placeholder</a></p>
-				<? } ?>
-			</li>
-		<? } ?>
-	</ul>
-
-	<?
-	$contents = ob_get_contents() ?: '';
-	ob_end_clean();
-
-	return $contents;
-}
-
+$beginnerEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty::Beginner);
+$intermediateEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty::Intermediate);
+$advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty::Advanced);
 ?>
 <?= Template::Header(['title' => 'Wanted Ebooks', 'highlight' => 'contribute', 'description' => 'A list of ebooks the Standard Ebooks editor would like to see produced, including suggestions for first-time producers.']) ?>
 <main>
@@ -47,14 +16,29 @@ function WantedEbooks(Enums\EbookPlaceholderDifficulty $difficulty, ?bool $showP
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
-		<?= WantedEbooks(Enums\EbookPlaceholderDifficulty::Beginner, Session::$User?->Benefits->CanEditEbookPlaceholders) ?>
+		<ul class="wanted-list">
+			<? foreach($beginnerEbooks as $ebook){ ?>
+				<?= Template::WantedEbook(['ebook' => $ebook, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+			<? } ?>
+		</ul>
+
 		<h2>Moderate-difficulty productions</h2>
-		<?= WantedEbooks(Enums\EbookPlaceholderDifficulty::Intermediate, Session::$User?->Benefits->CanEditEbookPlaceholders) ?>
+		<ul class="wanted-list">
+			<? foreach($intermediateEbooks as $ebook){ ?>
+				<?= Template::WantedEbook(['ebook' => $ebook, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+			<? } ?>
+		</ul>
+
 		<h2>Advanced productions</h2>
-		<?= WantedEbooks(Enums\EbookPlaceholderDifficulty::Advanced, Session::$User?->Benefits->CanEditEbookPlaceholders) ?>
+		<ul class="wanted-list">
+			<? foreach($advancedEbooks as $ebook){ ?>
+				<?= Template::WantedEbook(['ebook' => $ebook, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+			<? } ?>
+		</ul>
+
 		<h2 id="verne">Jules Verne</h2>
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
-		<ul>
+		<ul class="wanted-list">
 			<li>
 				<p>As of 2024, <i>20,000 Leagues Under the Seas</i> does not have an acceptable public domain translation, therefore we will not host that ebook.</p>
 			</li>
@@ -62,6 +46,7 @@ function WantedEbooks(Enums\EbookPlaceholderDifficulty $difficulty, ?bool $showP
 				<p>Master of the World has two PD translations, one from 1911 and one from 1914. The 1911 version is bad, and the 1914 by Cranstoun Metcalfe version is preferred; but, as of 2023, there are no transcriptions or page scans for the 1914 version.</p>
 			</li>
 		</ul>
+
 		<h2>Uncategorized lists</h2>
 		<ul>
 			<li>
@@ -96,9 +81,6 @@ function WantedEbooks(Enums\EbookPlaceholderDifficulty $difficulty, ?bool $showP
 			</li>
 			<li>
 				<p>Entries in the <a href="https://en.wikipedia.org/wiki/Harvard_Classics#The_Harvard_Classics_Shelf_of_Fiction">Harvard Classics Shelf of Fiction</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.gutenberg.org/ebooks/3337">The Wilderness Hunter</a> by Theodore Roosevelt (a 2 volume work in which this PG transcription is volume 2; editions vary widely; transcription likely required for volume 1 or the latest possible combined edition)</p>
 			</li>
 		</ul>
 	</article>

@@ -3359,6 +3359,35 @@ nav.breadcrumbs + h1{
 	font-weight: normal;
 }
 
+.patron-selection{
+	background-color: #e8c50b;
+	border: 1px solid #c8b341;
+	border-radius: 5px;
+	box-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5) inset;
+}
+
+a.patron-selection:any-link{
+	color: #fff;
+	font-style: italic;
+	font-weight: bold;
+	padding: 0 .5rem;
+	text-decoration: none;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+	transition: background 200ms ease;
+	margin-left: .5rem;
+	white-space: nowrap;
+	display: inline-block;
+}
+
+a.patron-selection:any-link:hover{
+	background: #eed967;
+	transition: none;
+}
+
+.wanted-list{
+	text-align: left;
+}
+
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */
 	/* For iPad, unset the height so it matches the other elements */
 	select[multiple]{

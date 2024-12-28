@@ -2433,7 +2433,7 @@ final class Ebook{
 				where EbookPlaceholders.IsWanted = true and
 					EbookPlaceholders.IsInProgress = false and
 					EbookPlaceholders.Difficulty = ?
-				order by Ebooks.Updated desc
+				order by Ebooks.Created asc
 			', [$difficulty], Ebook::class);
 
 	}
