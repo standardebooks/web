@@ -97,7 +97,7 @@ class Formatter{
 	}
 
 	/**
-	 * Convert a string of Markdown into HTML.
+	 * Convert a string of Markdown into an HTML fragment.
 	 */
 	public static function MarkdownToHtml(?string $text): string{
 		if(!isset(Formatter::$_MarkdownParser)){
