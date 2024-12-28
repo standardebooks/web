@@ -1,3 +1,39 @@
+<?
+use function Safe\ob_end_clean;
+use function Safe\ob_start;
+
+function WantedEbooks(Enums\EbookPlaceholderDifficulty $difficulty, ?bool $showPlaceholderMetadata): string{
+	$ebooks = Ebook::GetWantedByDifficulty($difficulty);
+	$showPlaceholderMetadata = $showPlaceholderMetadata ?? false;
+
+	ob_start();
+	?>
+	<ul>
+		<? foreach($ebooks as $ebook){ ?>
+			<li>
+				<? if(isset($ebook->EbookPlaceholder->TranscriptionUrl)){ ?><a href="<?= $ebook->EbookPlaceholder->TranscriptionUrl ?>"><? } ?>
+				<?= Formatter::EscapeHtml($ebook->Title) ?><? if(isset($ebook->EbookPlaceholder->TranscriptionUrl)){ ?></a><? } ?>
+				<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
+					(<? foreach($ebook->CollectionMemberships as $index => $collectionMembership){ ?><?= Template::CollectionFormatted(['collectionMembership' => $collectionMembership]) ?><? if($index < sizeof($ebook->CollectionMemberships) - 1){ ?>, <? } ?><? } ?>)
+				<? } ?>
+				by <?= Formatter::EscapeHtml($ebook->AuthorsString) ?><? if($ebook->ContributorsHtml != ''){ ?>. <? } ?>
+				<?= $ebook->ContributorsHtml ?>
+				<? if(isset($ebook->EbookPlaceholder->Notes)){ ?>(<?= Formatter::MarkdownToInlineHtml($ebook->EbookPlaceholder->Notes) ?>)<? } ?>
+				<? if($showPlaceholderMetadata){ ?>
+					<p>Ebook ID: <?= $ebook->EbookId ?>, <a href="<?= $ebook->Url ?>">View placeholder</a></p>
+				<? } ?>
+			</li>
+		<? } ?>
+	</ul>
+
+	<?
+	$contents = ob_get_contents() ?: '';
+	ob_end_clean();
+
+	return $contents;
+}
+
+?>
 <?= Template::Header(['title' => 'Wanted Ebooks', 'highlight' => 'contribute', 'description' => 'A list of ebooks the Standard Ebooks editor would like to see produced, including suggestions for first-time producers.']) ?>
 <main>
 	<article>
@@ -11,11 +47,11 @@
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
-		<?= Template::WantedEbooks(['difficulty' => Enums\EbookPlaceholderDifficulty::Beginner, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+		<?= WantedEbooks(Enums\EbookPlaceholderDifficulty::Beginner, Session::$User?->Benefits->CanEditEbookPlaceholders) ?>
 		<h2>Moderate-difficulty productions</h2>
-		<?= Template::WantedEbooks(['difficulty' => Enums\EbookPlaceholderDifficulty::Intermediate, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+		<?= WantedEbooks(Enums\EbookPlaceholderDifficulty::Intermediate, Session::$User?->Benefits->CanEditEbookPlaceholders) ?>
 		<h2>Advanced productions</h2>
-		<?= Template::WantedEbooks(['difficulty' => Enums\EbookPlaceholderDifficulty::Advanced, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+		<?= WantedEbooks(Enums\EbookPlaceholderDifficulty::Advanced, Session::$User?->Benefits->CanEditEbookPlaceholders) ?>
 		<h2 id="verne">Jules Verne</h2>
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
 		<ul>
