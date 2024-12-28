@@ -132,7 +132,7 @@ catch(Exceptions\EbookNotFoundException){
 			<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
 				<? foreach($ebook->CollectionMemberships as $collectionMembership){ ?>
 					<p>
-						<?= Template::CollectionFormatted(['collectionMembership' => $collectionMembership]) ?>.
+						<?= Template::CollectionDescriptor(['collectionMembership' => $collectionMembership]) ?>.
 					</p>
 				<? } ?>
 			<? } ?>
