@@ -2426,7 +2426,7 @@ final class Ebook{
 	 *
 	 * @return array<Ebook>
 	 */
-	public static function GetWantedByDifficulty(Enums\EbookPlaceholderDifficulty $difficulty): array{
+	public static function GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty $difficulty): array{
 		return Db::Query('
 				SELECT Ebooks.*
 				from Ebooks inner join EbookPlaceholders using (EbookId)

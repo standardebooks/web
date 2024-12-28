@@ -3,7 +3,7 @@ use function Safe\ob_end_clean;
 use function Safe\ob_start;
 
 function WantedEbooks(Enums\EbookPlaceholderDifficulty $difficulty, ?bool $showPlaceholderMetadata): string{
-	$ebooks = Ebook::GetWantedByDifficulty($difficulty);
+	$ebooks = Ebook::GetByIsWantedAndDifficulty($difficulty);
 	$showPlaceholderMetadata = $showPlaceholderMetadata ?? false;
 
 	ob_start();
