@@ -161,12 +161,12 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<? if($artwork->Exception !== null){ ?>
 			<h3>Public domain status exception reason</h3>
-			<?= Formatter::MarkdownToHtml($artwork->Exception) ?>
+			<?= Formatter::MarkdownToHtml($artwork->Exception, false) ?>
 		<? } ?>
 
 		<? if($artwork->Notes !== null){ ?>
 			<h2>Special notes</h2>
-			<?= Formatter::MarkdownToHtml($artwork->Notes) ?>
+			<?= Formatter::MarkdownToHtml($artwork->Notes, false) ?>
 		<? } ?>
 
 		<? if($artwork->CanBeEditedBy(Session::$User)){ ?>

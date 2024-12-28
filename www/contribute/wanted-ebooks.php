@@ -18,7 +18,7 @@ function WantedEbooks(Enums\EbookPlaceholderDifficulty $difficulty, ?bool $showP
 				<? } ?>
 				by <?= Formatter::EscapeHtml($ebook->AuthorsString) ?><? if($ebook->ContributorsHtml != ''){ ?>. <? } ?>
 				<?= $ebook->ContributorsHtml ?>
-				<? if(isset($ebook->EbookPlaceholder->Notes)){ ?>(<?= Formatter::MarkdownToInlineHtml($ebook->EbookPlaceholder->Notes) ?>)<? } ?>
+				<? if(isset($ebook->EbookPlaceholder->Notes)){ ?>(<?= Formatter::MarkdownToHtml($ebook->EbookPlaceholder->Notes, true) ?>)<? } ?>
 				<? if($showPlaceholderMetadata){ ?>
 					<p>Ebook ID: <?= $ebook->EbookId ?>, <a href="<?= $ebook->Url ?>">View placeholder</a></p>
 				<? } ?>
