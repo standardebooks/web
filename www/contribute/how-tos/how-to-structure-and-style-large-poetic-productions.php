@@ -17,6 +17,7 @@
 					<li><p><a href="#a-single-collections-file">A single collections file</a></p></li>
 					<li><p><a href="#multiple-files">Multiple files</a></p></li>
 				</ol>
+				<li><p><a href="#manual-transcription">Manual transcription</a></p></li>
 				<li><p><a href="#modernizing-poetic-works">Modernizing poetic works</a></p></li>
 				<ol>
 					<li><p><a href="#modernize-prose-frontmatter-and-backmatter">Modernize prose frontmatter and backmatter</a></p></li>
@@ -95,6 +96,42 @@
 		<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
 	<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></code>
+				</figure>
+			</li>
+			<li>
+				<h2 id="manual-transcription">Manual transcription</h2>
+				<p>In some cases, working on a large omnibus compilation involves working with poems whose HTML transcriptions are crude or nonexistent. Transcribing poetry, while an advanced production technique, is somewhat more feasible than transcribing prose because of the much smaller amount of text compared to prose. However, poetry formatting (e.g. indentation) poses some challenges for transcription. Manually inserting the whole array of <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> elements and breaks would be unwieldy at best. Instead, it can be easier to use a shell script to convert temporary markup into the final desired HTML:</p>
+				<code class="terminal">
+					<span class="cp">#!/bin/bash</span>
+					<br/>
+					<span class="cp"># Repeat this descending pattern for more indentation levels</span>
+					<span><b>se</b> interactive-replace <i>'v####(.*)'</i> <i>'&lt;span class="i3"&gt;\1&lt;/span&gt;&lt;br/&gt;'</i> $1</span>
+					<span><b>se</b> interactive-replace <i>'v###(.*)'</i> <i>'&lt;span class="i2"&gt;\1&lt;/span&gt;&lt;br/&gt;'</i> $1</span>
+					<span><b>se</b> interactive-replace <i>'v##(.*)'</i> <i>'&lt;span class="i1"&gt;\1&lt;/span&gt;&lt;br/&gt;'</i> $1</span>
+					<span><b>se</b> interactive-replace <i>'v#(.*)'</i> <i>'&lt;span&gt;\1&lt;/span&gt;&lt;br/&gt;'</i> $1</span>
+					<span><b>se</b> interactive-replace <i>'&lt;br/&gt;\s+&lt;/p&gt;'</i> <i>'&lt;/p&gt;'</i> $1</span>
+					<span><b>se</b> clean $1</span>
+				</code>
+				<p>Here is an example of the temporary markup:</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+v#This line is not indented.
+v##This line is at i1.
+v###This line is at i2.
+v####This line is at i3.
+<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
+				</figure>
+				<p>Running the script on this file produces this HTML:</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>This line is not indented.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+	<span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"i1"</span><span class="p">&gt;</span>This line is at i1.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+	<span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"i2"</span><span class="p">&gt;</span>This line is at i2.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span>
+	<span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">"i3"</span><span class="p">&gt;</span>This line is at i3.<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
 				</figure>
 			</li>
 			<li>
