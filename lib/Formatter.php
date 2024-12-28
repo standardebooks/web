@@ -99,25 +99,17 @@ class Formatter{
 	/**
 	 * Convert a string of Markdown into an HTML fragment.
 	 */
-	public static function MarkdownToHtml(?string $text): string{
+	public static function MarkdownToHtml(?string $text, bool $inline = false): string{
 		if(!isset(Formatter::$_MarkdownParser)){
 			Formatter::$_MarkdownParser = new Parsedown();
 			Formatter::$_MarkdownParser->setSafeMode(true);
 		}
 
-		return Formatter::$_MarkdownParser->text($text);
-	}
-
-	/**
-	 * Convert a string of Markdown into inline HTML.
-	 */
-	public static function MarkdownToInlineHtml(?string $text): string{
-		if(!isset(Formatter::$_MarkdownParser)){
-			Formatter::$_MarkdownParser = new Parsedown();
-			Formatter::$_MarkdownParser->setSafeMode(true);
+		if($inline){
+			return Formatter::$_MarkdownParser->line($text);
+		}else{
+			return Formatter::$_MarkdownParser->text($text);
 		}
-
-		return Formatter::$_MarkdownParser->line($text);
 	}
 
 	/**
