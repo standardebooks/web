@@ -464,6 +464,9 @@ final class Ebook{
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero.avif')){
 				$this->_HeroImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero.avif';
 			}
+			else{
+				$this->_HeroImageAvifUrl = '';
+			}
 		}
 
 		return $this->_HeroImageAvifUrl;
@@ -481,6 +484,9 @@ final class Ebook{
 		if(!isset($this->_HeroImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero@2x.avif')){
 				$this->_HeroImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.avif';
+			}
+			else{
+				$this->_HeroImage2xAvifUrl = '';
 			}
 		}
 
@@ -500,6 +506,9 @@ final class Ebook{
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.avif')){
 				$this->_CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.avif';
 			}
+			else{
+				$this->_CoverImageAvifUrl = '';
+			}
 		}
 
 		return $this->_CoverImageAvifUrl;
@@ -517,6 +526,9 @@ final class Ebook{
 		if(!isset($this->_CoverImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover@2x.avif')){
 				$this->_CoverImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.avif';
+			}
+			else{
+				$this->_CoverImage2xAvifUrl = '';
 			}
 		}
 
