@@ -55,7 +55,9 @@ try{
 		}
 
 		$_SESSION['project'] = $project;
-		$_SESSION['is-project-created'] = true;
+		if(!isset($_SESSION['is-only-ebook-project-created'])){
+			$_SESSION['is-project-created'] = true;
+		}
 
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /projects');
