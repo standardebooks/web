@@ -12,9 +12,9 @@ $collections = Collection::GetAll();
 		</picture>
 		<ul>
 			<? foreach($collections as $collection){ ?>
-			<li>
-				<p><a href="<?= $collection->Url ?>"><?= Formatter::EscapeHtml($collection->Name) ?></a></p>
-			</li>
+				<li>
+					<p><a href="<?= $collection->Url ?>"><?= Formatter::EscapeHtml($collection->Name) ?></a></p>
+				</li>
 			<? } ?>
 		</ul>
 	</section>
