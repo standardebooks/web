@@ -21,7 +21,7 @@ $showProjectForm = $showProjectForm ?? true;
 		/>
 	</label>
 </fieldset>
-<details>
+<details<? if( (isset($ebook->Authors) && sizeof($ebook->Authors) > 1) || (isset($ebook->Translators) && sizeof($ebook->Translators) > 0) ){ ?> open="open"<? } ?>>
 	<summary>Additional contributors</summary>
 	<fieldset>
 		<label class="icon user">
@@ -124,7 +124,7 @@ $showProjectForm = $showProjectForm ?? true;
 		/>
 	</label>
 </fieldset>
-<details>
+<details<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?> open="open"<? } ?>>
 	<summary>Additional collections</summary>
 	<fieldset>
 		<label class="icon collection">
