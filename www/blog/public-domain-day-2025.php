@@ -102,27 +102,30 @@ ksort($ebooksWithDescriptions);
 
 ?><?= Template::Header(['title' => 'Happy Public Domain Day 2025! - Blog', 'highlight' => '', 'description' => 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day 2025!', 'css' => ['/css/public-domain-day.css']]) ?>
 <main>
-	<section class="narrow blog">
+	<section class="narrow blog has-hero">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
-		<h1>Happy Public Domain Day 2025!</h1>
+		<h1>Public Domain Day 2025 at Standard Ebooks</h1>
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
+		<picture data-caption="The Artist’s Father, Reading a Newspaper. Albert Engström, 1892">
+			<source srcset="/images/newspaper-reading@2x.avif 2x, /images/newspaper-reading.avif 1x" type="image/avif"/>
+			<source srcset="/images/newspaper-reading@2x.jpg 2x, /images/newspaper-reading.jpg 1x" type="image/jpg"/>
+			<img src="/images/newspaper-reading@2x.jpg" alt="An oil painting of a man reclining on a bench with a newspaper open in front of his face."/>
+		</picture>
 		<p>Happy Public Domain Day!</p>
-		<p>Around the world, people celebrate Public Domain Day on January 1, the day in which copyright expires on some older works, putting them in the public domain in many different countries.</p>
-		<p>Some countries have a copyright term of the life of the author plus seventy years. These countries have been celebrating Public Domain Day for some time now, despite such a long term.</p>
+		<p>Around the world, people celebrate Public Domain Day on January 1, the day in which copyright expires on some older works and they enter the public domain in many different countries.</p>
 		<p>In the U.S. Constitution, copyright terms were meant to be very limited in order to “promote the Progress of Science and useful Arts.” The first copyright act, written in 1790 by the founding fathers themselves, set the term to be up to twenty-eight years.</p>
-		<p>But since then, powerful corporations have continuously extended the length of copyright to promote not the progress of society, but their profit. The result is that today in the U.S., work only enters the public domain ninety-five years after publication. Our cultural output is locked away from us for <em>nearly a century</em>.</p>
-		<p>2019 was the year in which the first works from almost a hundred years ago were finally scheduled to enter the public domain, ending this long, corporate-dictated cultural winter. As that year approached, we had every reason to assume that these powerful corporations would once again lobby to extend copyright even further.</p>
-		<p>But as 2019 drew closer, it became clear that these corporations <em>wouldn’t</em> try to extend copyright yet again—making 2019 the first year in almost a century in which a significant amount of art and literature once again entered the U.S. public domain, free for anyone in the U.S. to read, use, share, remix, build upon, and enjoy.</p>
-		<p>Ever since then, each year we’ve been joining our international friends in celebrating Public Domain Day by preparing some of the biggest literary hits of the year for you to read on January 1.</p>
-		<hr/>
-		<p><strong>In 2025, books published in 1929 enter the U.S. public domain.</strong></p>
+		<p>But since then, powerful corporations have repeatedly extended the length of copyright to promote not the progress of society, but their profit. The result is that today in the U.S., work only enters the public domain ninety-five years after publication—our culture is locked away from us for <em>nearly a century</em>.</p>
+		<p>2019 was the year in which new works were finally scheduled to enter the public domain, ending this long, corporate-dictated cultural winter. And as that year drew closer, it became clear that these corporations <em>wouldn’t</em> try to extend copyright yet again—making 2019 the first year in almost a century in which a significant amount of art and literature once again entered the U.S. public domain, free for anyone in the U.S. to read, use, share, remix, build upon, and enjoy.</p>
+		<p>Ever since then, we’ve been celebrating Public Domain Day by preparing some of the biggest literary hits of the year for you to read on January 1.</p>
+		<hr class="fleuron"/>
+		<p><strong>On January 1, 2025, books published in 1929 enter the U.S. public domain.</strong></p>
 		<p>And 1929 was a literary doozy!</p>
-		<p>Books by <a href="/ebooks/william-faulkner">William Faulkner</a>, <a href="/ebooks/ernest-hemingway">Ernest Hemingway</a>, <a href="/ebooks/mahatma-gandhi">Mahatma Gandhi</a>, and <a href="/ebooks/john-steinbeck">John Steinbeck</a> enter the U.S. public domain. Joining these esteemed names is the English translation of <i><a href="/ebooks/erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen">All Quiet on the Western Front</a></i>; <i><a href="/ebooks/dashiell-hammett/red-harvest">Red Harvest</a></i>, the first novel featuring the <a href="/collections/continental-op">Continental Op</a>, the nameless hard-boiled noir detective who created the archetype for every hard-drinking, fedora-wearing private eye to grace page and screen since; and much more.</p>
+		<p>Books by <a href="/ebooks/william-faulkner">William Faulkner</a>, <a href="/ebooks/ernest-hemingway">Ernest Hemingway</a>, <a href="/ebooks/mahatma-gandhi">Mahatma Gandhi</a>, and <a href="/ebooks/john-steinbeck">John Steinbeck</a> enter the U.S. public domain. Joining these esteemed names is the English translation of <i><a href="/ebooks/erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen">All Quiet on the Western Front</a></i>, the war novel so grisly that it was banned in parts of Europe; <i><a href="/ebooks/dashiell-hammett/red-harvest">Red Harvest</a></i>, the first novel starring the <a href="/collections/continental-op">Continental Op</a>, the hard-boiled noir detective who formed the archetype for every hard-drinking, fedora-wearing private eye to grace page and screen since; and much more.</p>
 		<p>Our friends at the Public Domain Review have written about some <a href="https://publicdomainreview.org/blog/2025/01/public-domain-day-2025/">other things that enter the public domain this year, too</a>.</p>
-		<p>At Standard Ebooks, our volunteers have been working hard these past few months to prepare a selection of 1929 ebooks for Public Domain Day, and now we’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new ebooks</strong> with you! Join us in celebrating the liberation of our cultural heritage by downloading these ebooks we’ve prepared for you, and reading them for free:</p>
+		<p>These past few months at Standard Ebooks, our volunteers have been working hard to prepare a selection of the books published in 1929 in advance of Public Domain Day. We’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new free ebooks</strong> with you!</p>
 		<? if(sizeof($ebooksWithDescriptions) == 0){ ?>
-			<p class="empty">We’re still preparing these free ebooks for Public Domain Day. Check back after January 1!</p>
+			<p class="empty">We’re still preparing these free ebooks for Public Domain Day. Check back on January 1!</p>
 		<? }else{ ?>
 			<ul class="public-domain-day">
 				<? foreach($ebooksWithDescriptions as $ebookGroup){ ?>
@@ -147,6 +150,9 @@ ksort($ebooksWithDescriptions);
 					</li>
 				<? } ?>
 			</ul>
+			<?= Template::DonationCounter() ?>
+			<?= Template::DonationProgress() ?>
+
 		<? } ?>
 	</section>
 </main>

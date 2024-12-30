@@ -103,3 +103,7 @@ button.close{
 label.email::before{
 	text-shadow: none;
 }
+
+hr.fleuron::before{
+	filter: invert(100%);
+}
