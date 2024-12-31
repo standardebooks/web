@@ -3200,7 +3200,7 @@ hr + p{
 	width: 100%;
 	text-align: center;
 	padding: 1rem;
-	background: radial-gradient(circle, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, .1) 100%), #d37a71;
+	background: radial-gradient(circle, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, .2) 100%), #ff8579;
 	margin-bottom: 1.5rem;
 	color: #fff;
 	text-shadow: 1px 1px 0px rgba(0, 0, 0, .75);
