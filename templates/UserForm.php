@@ -145,7 +145,7 @@ $passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
 		<li>
 			<label>
 				<input type="hidden" name="benefits-can-edit-projects" value="false" />
-				<input type="checkbox" name="benefits-can-edit-projects" value="true"<? if($user->Benefits->CanManageProjects){ ?> checked="checked"<? } ?> />
+				<input type="checkbox" name="benefits-can-edit-projects" value="true"<? if($user->Benefits->CanEditProjects){ ?> checked="checked"<? } ?> />
 				Can edit projects
 			</label>
 		</li>
@@ -159,7 +159,7 @@ $passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
 		<li>
 			<label>
 				<input type="hidden" name="benefits-can-review-projects" value="false" />
-				<input type="checkbox" name="benefits-can-review-projects" value="true"<? if($user->Benefits->CanManageProjects){ ?> checked="checked"<? } ?> />
+				<input type="checkbox" name="benefits-can-review-projects" value="true"<? if($user->Benefits->CanReviewProjects){ ?> checked="checked"<? } ?> />
 				Can review projects
 			</label>
 		</li>
