@@ -1358,7 +1358,7 @@ footer ul.nav-links li:not(:last-child)::after{
 	margin: 0 10px;
 }
 
-footer > p:first-child{
+footer p.newsletter{
 	line-height: 1;
 	white-space: normal;
 	hyphens: none;
@@ -1376,11 +1376,13 @@ footer > a{
 	font-size: 0;
 }
 
-footer > p:first-child{
-	font-size: .9rem;
+footer p.social-media-manager{
+	font-style: italic;
+	margin-bottom: 1rem;
+	font-size: smaller;
 }
 
-footer > p:first-child::before{
+footer p.newsletter::before{
 	font-family: "Fork Awesome";
 	content: "\f0e0";
 	display: inline;

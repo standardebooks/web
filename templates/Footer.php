@@ -1,4 +1,5 @@
 	<footer>
+		<p class="social-media-manager">We’re looking for a volunteer to manage our social media accounts. <a href="/about#editor-in-chief">Get in touch!</a></p>
 		<ul class="social-media">
 			<li>
 				<p>
@@ -26,7 +27,7 @@
 				</p>
 			</li>
 		</ul>
-		<p><a href="/newsletter">Subscribe to our free newsletter</a></p>
+		<p class="newsletter"><a href="/newsletter">Subscribe to our free newsletter</a></p>
 		<ul class="nav-links">
 			<li>
 				<a href="/ebooks">Ebooks</a>
