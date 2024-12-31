@@ -104,10 +104,10 @@ class Collection{
 	 */
 	public static function DeleteUnused(): void{
 		Db::Query('
-			DELETE
-			from Collections
-			where CollectionId not in
-				(select distinct CollectionId from CollectionEbooks)
+			DELETE c
+			from Collections c
+				left join CollectionEbooks ce using (CollectionId)
+			where ce.CollectionId is null
 		');
 	}
 

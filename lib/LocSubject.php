@@ -70,10 +70,10 @@ class LocSubject{
 	 */
 	public static function DeleteUnused(): void{
 		Db::Query('
-			DELETE
-			from LocSubjects
-			where LocSubjectId not in
-				(select distinct LocSubjectId from EbookLocSubjects)
+			DELETE ls
+			from LocSubjects ls
+				left join EbookLocSubjects els using (LocSubjectId)
+			where els.LocSubjectId is null
 		');
 	}
 }

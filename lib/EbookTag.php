@@ -113,11 +113,11 @@ class EbookTag extends Tag{
 	 */
 	public static function DeleteUnused(): void{
 		Db::Query('
-			DELETE
-			from Tags
-			where Type = ?
-				and TagId not in
-					(select distinct TagId from EbookTags)
+			DELETE t
+			from Tags t 
+				left join EbookTags et using (TagId)
+			where t.Type = ?
+				and et.TagId is null
 		', [Enums\TagType::Ebook]);
 	}
 }
