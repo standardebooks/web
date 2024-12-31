@@ -20,6 +20,8 @@ if($exception){
 			<h1>Subscribe to the Newsletter</h1>
 			<p>to receive missives from the vanguard of digital literature</p>
 		</hgroup>
+		<?= Template::DonationCounter() ?>
+		<?= Template::DonationProgress() ?>
 		<picture data-caption="The Newsletter. William John Wainwright, 1888">
 			<source srcset="/images/the-newsletter@2x.avif 2x, /images/the-newsletter.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-newsletter@2x.jpg 2x, /images/the-newsletter.jpg 1x" type="image/jpg"/>
