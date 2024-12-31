@@ -3,7 +3,7 @@
 	<section class="narrow has-hero">
 		<hgroup>
 			<h1>You Don’t Have Permission to View This Page</h1>
-			<h2>This is a 403 error.</h2>
+			<p>This is a 403 error.</p>
 		</hgroup>
 		<picture data-caption="The Guard Room. David Teniers II, 1642">
 			<source srcset="/images/guard-room@2x.avif 2x, /images/guard-room.avif 1x" type="image/avif"/>

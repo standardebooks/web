@@ -3,7 +3,7 @@
 	<article>
 		<hgroup>
 			<h1>Collections Policy</h1>
-			<h2 class="miniheader">Or, ebooks we do and don’t accept.</h2>
+			<p class="miniheader">Or, ebooks we do and don’t accept.</p>
 		</hgroup>
 		<p>Standard Ebooks only works on books that have entered the U.S. public domain due to copyright expiration. Generally this means a book must have been published before <?= PD_STRING ?>, though there are exceptions for works from later periods that didn’t follow copyright formalities. For more information on determining the copyright status of a work in the U.S., see <a href="https://www.gutenberg.org/help/copyright.html">Project Gutenberg’s Copyright How-To</a>.</p>
 		<p>Note that a book that is in the U.S. public domain may not be in the public domain of other countries, and vice versa.</p>

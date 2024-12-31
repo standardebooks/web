@@ -10,7 +10,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 	<section class="donate narrow has-hero">
 		<hgroup>
 			<h1>Donate to Standard Ebooks</h1>
-			<h2>and help bring the beauty of literature to the digital age</h2>
+			<p>and help bring the beauty of literature to the digital age</p>
 		</hgroup>
 		<?= Template::DonationCounter(['autoHide' => false, 'showDonateButton' => false]) ?>
 		<?= Template::DonationProgress(['autoHide' => false, 'showDonateButton' => false]) ?>

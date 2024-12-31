@@ -97,7 +97,7 @@ catch(Exceptions\EbookNotFoundException){
 						But, each author is an individual, so we have to differentiate them in RDFa with `resource`.
 					*/ ?>
 					<? if($author->Name != 'Anonymous'){ ?>
-						<h2>
+						<p>
 							<a property="schema:author" typeof="schema:Person" href="<?= Formatter::EscapeHtml($ebook->AuthorsUrl) ?>" resource="<?= '/ebooks/' . $author->UrlName ?>">
 								<span property="schema:name"><?= Formatter::EscapeHtml($author->Name) ?></span>
 								<meta property="schema:url" content="<?= SITE_URL . Formatter::EscapeHtml($ebook->AuthorsUrl) ?>"/>
@@ -108,7 +108,7 @@ catch(Exceptions\EbookNotFoundException){
 									<meta property="schema:sameAs" content="<?= Formatter::EscapeHtml($author->WikipediaUrl) ?>"/>
 								<? } ?>
 							</a>
-						</h2>
+						</p>
 					<? } ?>
 				<? } ?>
 			</hgroup>

@@ -3,7 +3,7 @@
 	<section class="narrow has-hero">
 		<hgroup>
 			<h1>We Couldn’t Find That Document</h1>
-			<h2>This is a 404 error.</h2>
+			<p>This is a 404 error.</p>
 		</hgroup>
 		<picture data-caption="Blind Orion Searching for the Rising Sun. Nicolas Poussin, 1658">
 			<source srcset="/images/blind-orion@2x.avif 2x, /images/blind-orion.avif 1x" type="image/avif"/>

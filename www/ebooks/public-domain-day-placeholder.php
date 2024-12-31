@@ -49,9 +49,9 @@ catch(Exceptions\EbookNotFoundException){
 				<h1><?= Formatter::EscapeHtml($ebook->Title) ?></h1>
 				<? foreach($ebook->Authors as $author){ ?>
 					<? if($author->Name != 'Anonymous'){ ?>
-						<h2>
+						<p>
 							<a href="<?= Formatter::EscapeHtml($ebook->AuthorsUrl) ?>"><?= Formatter::EscapeHtml($author->Name) ?></a>
-						</h2>
+						</p>
 					<? } ?>
 				<? } ?>
 			</hgroup>

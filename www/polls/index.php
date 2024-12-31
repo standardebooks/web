@@ -22,7 +22,7 @@ $openPolls = Db::Query('
 	<section class="narrow has-hero">
 		<hgroup>
 			<h1>Vote in Our Polls</h1>
-			<h2>and decide the direction of the Standard Ebooks catalog</h2>
+			<p>and decide the direction of the Standard Ebooks catalog</p>
 		</hgroup>
 		<picture data-caption="County Election. John Sartain after George Caleb Bingham, 1854">
 			<source srcset="/images/county-election@2x.avif 2x, /images/county-election.avif 1x" type="image/avif"/>

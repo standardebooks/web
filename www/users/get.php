@@ -45,10 +45,14 @@ catch(Exceptions\InvalidPermissionsException){
 			<p class="message success">User saved!</p>
 		<? } ?>
 
-		<a href="<?= $user->EditUrl ?>">Edit user</a>
+		<p>
+			<a href="<?= $user->EditUrl ?>">Edit user</a>
+		</p>
 
 		<? if($user->Benefits->CanManageProjects || $user->Benefits->CanReviewProjects){ ?>
-			<a href="<?= $user->Url ?>/projects">Projects</a>
+			<p>
+				<a href="<?= $user->Url ?>/projects">Projects</a>
+			</p>
 		<? } ?>
 
 		<h2>Basics</h2>
@@ -125,7 +129,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<h2>Newsletter subscriptions</h2>
 		<? if($user->NewsletterSubscription === null || (!$user->NewsletterSubscription->IsSubscribedToNewsletter && !$user->NewsletterSubscription->IsSubscribedToSummary)){ ?>
-			<p>None.</p>
+			<p class="empty-notice">None.</p>
 		<? }else{ ?>
 			<ul>
 				<? if($user->NewsletterSubscription->IsSubscribedToNewsletter){ ?>

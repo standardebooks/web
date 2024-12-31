@@ -18,7 +18,7 @@ if($exception){
 	<section class="narrow has-hero">
 		<hgroup>
 			<h1>Subscribe to the Newsletter</h1>
-			<h2>to receive missives from the vanguard of digital literature</h2>
+			<p>to receive missives from the vanguard of digital literature</p>
 		</hgroup>
 		<picture data-caption="The Newsletter. William John Wainwright, 1888">
 			<source srcset="/images/the-newsletter@2x.avif 2x, /images/the-newsletter.avif 1x" type="image/avif"/>

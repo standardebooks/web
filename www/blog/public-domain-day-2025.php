@@ -104,7 +104,10 @@ ksort($ebooksWithDescriptions);
 <main>
 	<section class="narrow blog has-hero">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
-		<h1>Public Domain Day 2025 in Literature</h1>
+		<hgroup>
+			<h1>Public Domain Day in Literature</h1>
+			<p><?= number_format(sizeof($identifiers)) ?> of the best new books entering the public domain in 2025</p>
+		</hgroup>
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
 		<picture data-caption="The Artist’s Father, Reading a Newspaper. Albert Engström, 1892">

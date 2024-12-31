@@ -1,14 +1,19 @@
 <?= Template::Header(['title' => 'Get Involved', 'highlight' => 'contribute', 'description' => 'Details on how to contribute your time and talent to the volunteer-driven Standard Ebooks project.']) ?>
 <main>
-	<article>
-		<h1>Get Involved</h1>
+	<article class="has-hero">
+		<hgroup>
+			<h1>Get Involved</h1>
+			<p>and help create ebooks that are a pleasure to read</p>
+		</hgroup>
+		<picture data-caption="The Printing House of Bernardo Cennini. Tito Lessi, 1907">
+			<source srcset="/images/the-printing-house@2x.avif 2x, /images/the-printing-house.avif 1x" type="image/avif"/>
+			<source srcset="/images/the-printing-house@2x.jpg 2x, /images/the-printing-house.jpg 1x" type="image/jpg"/>
+			<img src="/images/the-printing-house@2x.jpg" alt="An oil painting of four men in a printer’s workshop creating prints."/>
+		</picture>
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
-		<section id="intro">
-			<h2>Help create ebooks that are a pleasure to read</h2>
-			<p>Standard Ebooks is a volunteer-driven project, and there’s room for people of all skill levels to contribute.</p>
-			<p>At the most basic level, anyone can <a href="https://groups.google.com/g/standardebooks">contribute feedback via our mailing list</a>. Day-to-day readers can <a href="/contribute/report-errors">tell us about errors they spot in our ebooks</a>. People with an eye for typography and a talent for editing can proofread whole ebooks. Technically inclined readers can produce ebooks themselves, or <a href="https://github.com/standardebooks">contribute via GitHub</a>. You can also <a href="/donate">make a financial contribution</a> to help fund continued ebook development.</p>
-		</section>
+		<p>Standard Ebooks is a volunteer-driven project, and there’s room for people of all skill levels to contribute.</p>
+		<p>At the most basic level, anyone can <a href="https://groups.google.com/g/standardebooks">contribute feedback via our mailing list</a>. Day-to-day readers can <a href="/contribute/report-errors">tell us about errors they spot in our ebooks</a>. People with an eye for typography and a talent for editing can proofread whole ebooks. Technically inclined readers can produce ebooks themselves, or <a href="https://github.com/standardebooks">contribute via GitHub</a>. You can also <a href="/donate">make a financial contribution</a> to help fund continued ebook development.</p>
 		<section id="everyone">
 			<h2>Everyone</h2>
 			<ul>

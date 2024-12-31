@@ -261,6 +261,7 @@ main > section.narrow.has-hero > picture{
 	max-width: none;
 }
 
+main .has-hero > picture,
 main > section.narrow.has-hero > picture{
 	position: relative;
 	width: auto;
@@ -322,11 +323,11 @@ ol ol, ol ul, ul ul, ul ol{
 	margin-left: 1.2rem;
 }
 
-h1,h2,h3,h4,h5,h6{
+h1,h2,h3,h4,h5,h6,hgroup > p{
 	color: var(--header);
 }
 
-h1,h2,h3,h4,h5,h6,.ebook h1 + p{
+h1,h2,h3,h4,h5,h6,.ebook h1 + p,hgroup > p{
 	-webkit-hyphens: none;
 	hyphens: none;
 }
@@ -1022,7 +1023,7 @@ article.ebook > header > hgroup > *{
 	color: #fff;
 }
 
-article.ebook > header > hgroup > h2{
+article.ebook > header > hgroup > p{
 	font-size: 1.4rem;
 	font-family: "League Spartan", Arial, sans-serif;
 	line-height: 1;
@@ -1256,7 +1257,7 @@ article.ebook h1{
 	padding: 0;
 }
 
-article.ebook hgroup h2{
+article.ebook hgroup p{
 	overflow-wrap: anywhere;
 	text-align: center;
 }
@@ -1283,6 +1284,7 @@ article.ebook aside#reading-ease{
 }
 
 h2,
+hgroup > p,
 .masthead h3{
 	font-size: 1.4rem;
 	font-family: "League Spartan", Arial, sans-serif;
@@ -1388,6 +1390,10 @@ footer p.newsletter::before{
 	display: inline;
 	margin-right: .25rem;
 	font-size: .75rem;
+}
+
+footer p.newsletter:hover::before{
+	color: var(--link-highlight);
 }
 
 footer ul.social-media{
@@ -2202,6 +2208,10 @@ main nav.pagination ol li.highlighted:nth-last-child(2)::after{
 	max-width: none;
 }
 
+.has-hero nav + hgroup{
+	padding-top: 0;
+}
+
 .has-hero picture{
 	max-width: none;
 	text-align: center;
@@ -2226,7 +2236,7 @@ h1 + ul.message,
 
 .has-hero hgroup h1,
 .has-hero > h1,
-.has-hero hgroup h2,
+.has-hero hgroup p,
 .has-hero > h2{
 	border: none;
 	padding: 0;
@@ -2244,7 +2254,7 @@ h1 + ul.message,
 	margin: 0;
 }
 
-.has-hero hgroup h2,
+.has-hero hgroup p,
 .has-hero > h2{
 	font-family: "Crimson Pro", serif;
 	font-style: italic;
@@ -3933,7 +3943,7 @@ a.patron-selection:any-link:hover{
 		font-size: 1.5rem;
 	}
 
-	article.ebook > header > hgroup > h2{
+	article.ebook > header > hgroup > p{
 		font-size: 1.2rem;
 	}
 
