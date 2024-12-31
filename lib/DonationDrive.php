@@ -57,7 +57,7 @@ class DonationDrive{
 		if(!isset($this->_TargetDonationCount)){
 			$this->_TargetDonationCount = $this->BaseTargetDonationCount;
 
-			if($this->DonationCount > $this->BaseTargetDonationCount){
+			if($this->DonationCount >= $this->BaseTargetDonationCount){
 				$this->_TargetDonationCount = $this->_TargetDonationCount + $this->StretchTargetDonationCount;
 			}
 		}

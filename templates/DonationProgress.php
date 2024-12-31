@@ -40,6 +40,10 @@ else{
 		$timeString = 'Only ' . $timeString;
 	}
 }
+
+if($donationDrive->IsStretchEnabled){
+	$stretchStartingPosition = round( ($donationDrive->BaseTargetDonationCount / $donationDrive->TargetDonationCount) * 100, 0, PHP_ROUND_HALF_DOWN);
+}
 ?>
 <aside class="donation closable">
 	<? if($autoHide){ ?>
@@ -62,7 +66,7 @@ else{
 			<p>Help us meet our stretch goal of<br/> <?= number_format($donationDrive->TargetDonationCount) ?> new patrons by <?= $deadline ?></p>
 		</header>
 	<? } ?>
-	<div class="progress">
+	<div class="progress"<? if($donationDrive->IsStretchEnabled){ ?> style="--stretch-starting-position: <?= $stretchStartingPosition ?>%; --stretch-base-counter-position: <?= $stretchStartingPosition - 1 ?>%"<? } ?>>
 		<div aria-hidden="true">
 			<p class="start">0</p>
 			<p><?= number_format($donationDrive->DonationCount) ?>/<?= number_format($donationDrive->TargetDonationCount) ?></p>
@@ -77,7 +81,7 @@ else{
 		<? } ?>
 	</div>
 	<? if($donationDrive->IsStretchEnabled){ ?>
-		<p>When we started this drive, we set a goal of <?= number_format($donationDrive->BaseTargetDonationCount) ?> Patrons Circle members by <?= $deadline ?>. Thanks to the incredible generosity of literature lovers like you, we hit that goal!</p>
+		<p>When we started this drive, we set a goal of <?= number_format($donationDrive->BaseTargetDonationCount) ?> Patrons Circle members by <?= $deadline ?>. Thanks to the incredible generosity of literature lovers like you, we hit that goal faster than we hoped!</p>
 		<p>Since there’s still some time left in our drive, we thought we’d challenge our readers to help us reach our stretch goal of <?= number_format($donationDrive->TargetDonationCount) ?> patrons, so that we can continue on a rock-solid financial footing. Will you help us with a donation, and support free and unrestricted digital literature?</p>
 	<? }else{ ?>
 		<p>It takes a huge amount of resources and highly-skilled work to create and distribute each of our free ebooks, and we need your support to keep it up. That’s why we want to welcome <?= number_format($donationDrive->TargetDonationCount) ?> new patrons by <?= $deadline ?>. It’s our patrons who keep us on the stable financial footing we need to continue producing and giving away beautiful ebooks.</p>

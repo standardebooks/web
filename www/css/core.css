@@ -2861,21 +2861,20 @@ progress::-moz-progress-bar{
 	box-shadow: 1px 0 1px rgba(0, 0, 0, .25);
 }
 
-p.stretch-base{
+div.progress p.stretch-base{
 	position: absolute;
 	border: none;
 	background: none;
 	padding: 0;
-	left: 70.5%;
+	left: var(--stretch-base-counter-position);
 	font-size: .75rem;
 }
 
 progress.stretch{
-	--starting-pos: 71.5%;
 	position: absolute;
-	left: var(--starting-pos);
+	left: var(--stretch-starting-position);
+	width: calc(100% - var(--stretch-starting-position) + 1px);
 	top: 0;
-	width: calc(100% - var(--starting-pos) + 1px);
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 	overflow: auto; /* enable drop shadow glow */
