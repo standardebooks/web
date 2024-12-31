@@ -2300,7 +2300,7 @@ final class Ebook{
 				from Ebooks e
 				inner join CollectionEbooks ce using (EbookId)
 				where ce.CollectionId = ?
-				order by ce.SequenceNumber is null, ce.SequenceNumber, e.EbookCreated asc
+				order by ce.SequenceNumber is null, ce.SequenceNumber, isnull(e.EbookCreated), e.EbookCreated asc
 				', [$collectionId], Ebook::class);
 
 		return $ebooks;
