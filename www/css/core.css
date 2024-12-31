@@ -3210,6 +3210,11 @@ hr + p{
 	box-shadow: 0 0 1rem rgba(0, 0, 0, .75);
 }
 
+.public-domain-day-banner a{
+	margin-left: -2.5rem;
+	font-size: larger;
+}
+
 .public-domain-day-banner button.close{
 	background-image: url('/images/close-dark.svg');
 	top: 2px;
