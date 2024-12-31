@@ -100,11 +100,11 @@ foreach($ebooks as $ebook){
 
 ksort($ebooksWithDescriptions);
 
-?><?= Template::Header(['title' => 'Public Domain Day 2025 at Standard Ebooks - Blog', 'highlight' => '', 'description' => 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day 2025!', 'css' => ['/css/public-domain-day.css']]) ?>
+?><?= Template::Header(['title' => 'Public Domain Day 2025 in Literature - Blog', 'highlight' => '', 'description' => 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day 2025!', 'css' => ['/css/public-domain-day.css']]) ?>
 <main>
 	<section class="narrow blog has-hero">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
-		<h1>Public Domain Day 2025 at Standard Ebooks</h1>
+		<h1>Public Domain Day 2025 in Literature</h1>
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
 		<picture data-caption="The Artist’s Father, Reading a Newspaper. Albert Engström, 1892">
@@ -116,8 +116,8 @@ ksort($ebooksWithDescriptions);
 		<p>Around the world, people celebrate Public Domain Day on January 1, the day in which copyright expires on some older works and they enter the public domain in many different countries.</p>
 		<p>In the U.S. Constitution, copyright terms were meant to be very limited in order to “promote the Progress of Science and useful Arts.” The first copyright act, written in 1790 by the founding fathers themselves, set the term to be up to twenty-eight years.</p>
 		<p>But since then, powerful corporations have repeatedly extended the length of copyright to promote not the progress of society, but their profit. The result is that today in the U.S., work only enters the public domain ninety-five years after publication—locking our culture away for <em>nearly a century</em>.</p>
-		<p>2019 was the year in which new works were finally scheduled to enter the public domain, ending this long, corporate-dictated cultural winter. And as that year drew closer, it became clear that these corporations <em>wouldn’t</em> try to extend copyright yet again—making 2019 the first year in almost a century in which a significant amount of art and literature once again entered the U.S. public domain, free for anyone in the U.S. to read, use, share, remix, build upon, and enjoy.</p>
-		<p>Ever since then, we’ve been celebrating Public Domain Day by preparing some of the biggest literary hits of the year for you to read on January 1.</p>
+		<p>2019 was the year in which new works were finally scheduled to enter the public domain, ending this long, corporate-dictated cultural winter. And as that year drew closer, it became clear that these corporations <em>wouldn’t</em> try to extend copyright yet again—making it the first year in almost a century in which a significant amount of art and literature once again entered the U.S. public domain, free for anyone in the U.S. to read, use, share, remix, build upon, and enjoy.</p>
+		<p>Ever since then, we’ve been celebrating Public Domain Day by preparing some of the year’s biggest literary hits for you to read on January 1.</p>
 		<hr class="fleuron"/>
 		<p><strong>On January 1, 2025, books published in 1929 enter the U.S. public domain.</strong></p>
 		<p>And 1929 was a literary doozy!</p>

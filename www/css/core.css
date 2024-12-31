@@ -3174,7 +3174,7 @@ hr.fleuron{
 
 hr.fleuron::before{
 	content: "";
-	background-image: url('/images/william-morris-fleuron.svg');
+	background-image: url('/images/fleuron.svg');
 	display: block;
 	height: 2rem;
 	background-size: contain;
