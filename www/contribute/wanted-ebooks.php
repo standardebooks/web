@@ -43,7 +43,7 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 				<p><a href="https://en.wikipedia.org/wiki/James_Tait_Black_Memorial_Prize">Entries in the James Tait Black Memorial Prize list</a></p>
 			</li>
 			<li>
-				<p><a href="https://en.m.wikipedia.org/wiki/Prix_Goncourt">English translations from the Prix Goncourt list</a></p>
+				<p><a href="https://en.wikipedia.org/wiki/Prix_Goncourt">English translations from the Prix Goncourt list</a></p>
 			</li>
 			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Hawthornden_Prize">Entries in the Hawthornden Prize list</a></p>
@@ -64,7 +64,7 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 				<p><a href="https://en.wikipedia.org/wiki/Pulitzer_Prize_for_Fiction">Public domain entries in Pulitzer Prize for Fiction</a></p>
 			</li>
 			<li>
-				<p>Public domain entries in the <a href="https://en.m.wikipedia.org/wiki/Ballantine_Adult_Fantasy_series">Ballantine Adult Fantasy series</a> (Note that not all of these are in the U.S. public domain)</p>
+				<p>Public domain entries in the <a href="https://en.wikipedia.org/wiki/Ballantine_Adult_Fantasy_series">Ballantine Adult Fantasy series</a> (Note that not all of these are in the U.S. public domain)</p>
 			</li>
 			<li>
 				<p>Public domain entries in this <a href="https://docs.google.com/spreadsheets/d/1thH8qI_JgKc96Jzyvv6-N3H-oFBon5dwXqqI8DiTS9o/edit?usp=sharing">Spreadsheet of plays that have appeared on lists of the “Best Plays of All Time.”</a></p>
