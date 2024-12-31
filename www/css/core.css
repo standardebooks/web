@@ -2299,7 +2299,7 @@ h1 + ul.message,
 .masthead ol{
 	list-style: none;
 	display: grid;
-	grid-gap: 1rem;
+	grid-gap: 2rem;
 }
 
 .masthead ol.editors{

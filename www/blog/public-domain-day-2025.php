@@ -110,10 +110,10 @@ ksort($ebooksWithDescriptions);
 		</hgroup>
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
-		<picture data-caption="The Artist’s Father, Reading a Newspaper. Albert Engström, 1892">
-			<source srcset="/images/newspaper-reading@2x.avif 2x, /images/newspaper-reading.avif 1x" type="image/avif"/>
-			<source srcset="/images/newspaper-reading@2x.jpg 2x, /images/newspaper-reading.jpg 1x" type="image/jpg"/>
-			<img src="/images/newspaper-reading@2x.jpg" alt="An oil painting of a man reclining on a bench with a newspaper open in front of his face."/>
+		<picture data-caption="The Reader. Harold Knight, circa 1910">
+			<source srcset="/images/the-reader@2x.avif 2x, /images/the-reader.avif 1x" type="image/avif"/>
+			<source srcset="/images/the-reader@2x.jpg 2x, /images/the-reader.jpg 1x" type="image/jpg"/>
+			<img src="/images/the-reader@2x.jpg" alt="An oil painting of a woman reading a book in front of a bookcase."/>
 		</picture>
 		<p>Happy Public Domain Day!</p>
 		<p>Around the world, people celebrate Public Domain Day on January 1, the day in which copyright expires on some older works and they enter the public domain in many different countries.</p>
