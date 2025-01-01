@@ -6,6 +6,8 @@ use function Safe\define;
 const NOW = new DateTimeImmutable();
 const LATEST_CONTINENTAL_US_TZ = new DateTimeZone('America/Juneau');
 const PD_NOW = new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ); // This timestamp should be used for Public Domain Day calculations.
+define('PD_YEAR', intval(PD_NOW->format('Y')) - 96);
+define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
@@ -83,8 +85,6 @@ const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writ
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // Must be writable by `www-data` Unix user.
 const EMAIL_LOG_FILE_PATH =		'/var/log/local/standardebooks.org-email.log'; // Must be writable by `www-data` Unix user.
 
-define('PD_YEAR', intval(PD_NOW->format('Y')) - 96);
-define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 
 // Controls the progress bar donation dialog.
 const DONATION_DRIVES_ENABLED = true; // **`TRUE`** to enable automatic donation drives; **`FALSE`** to disable all donation drives.
@@ -109,25 +109,3 @@ const DONATION_DRIVE_DATES = [
 const DONATION_DRIVE_COUNTER_ENABLED = false;
 const DONATION_DRIVE_COUNTER_START = new DateTimeImmutable('May 2, 2022 00:00:00', new DateTimeZone('America/New_York'));
 const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00', new DateTimeZone('America/New_York'));
-
-const PD_DAY_YEAR = 2025;
-const PD_DAY_DRAFT_PATH = '/standardebooks.org/drafts/' . PD_DAY_YEAR;
-// These books will have placeholder URLs enabled, which are useful for things like the PDR Public Domain Advent Calendar.
-const PD_DAY_EBOOKS = [
-		EBOOKS_IDENTIFIER_PREFIX . 'graham-greene/the-man-within' => ['author' => 'Graham Greene', 'title' => 'The Man Within'],
-		EBOOKS_IDENTIFIER_PREFIX . 'c-s-forester/brown-on-resolution' => ['author' => 'C. S. Forester', 'title' => 'Brown on Resolution'],
-		EBOOKS_IDENTIFIER_PREFIX . 'dashiell-hammett/red-harvest' => ['author' => 'Dashiell Hammett', 'title' => 'Red Harvest'],
-		EBOOKS_IDENTIFIER_PREFIX . 'dashiell-hammett/the-dain-curse' => ['author' => 'Dashiell Hammett', 'title' => 'The Dain Curse'],
-		EBOOKS_IDENTIFIER_PREFIX . 'erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen' => ['author' => 'Erich Maria Remarque', 'title' => 'All Quiet on the Western Front', 'translator' => 'A. W. Wheen'],
-		EBOOKS_IDENTIFIER_PREFIX . 'ernest-hemingway/a-farewell-to-arms' => ['author' => 'Ernest Heminway', 'title' => 'A Farewell to Arms'],
-		EBOOKS_IDENTIFIER_PREFIX . 'j-b-priestley/the-good-companions' => ['author' => 'J. B. Priestley', 'title' => 'The Good Companions'],
-		EBOOKS_IDENTIFIER_PREFIX . 'john-steinbeck/cup-of-gold' => ['author' => 'John Steinbeck', 'title' => 'Cup of Gold'],
-		EBOOKS_IDENTIFIER_PREFIX . 'oliver-la-farge/laughing-boy' => ['author' => 'Oliver La Farge', 'title' => 'Laughing Boy'],
-		EBOOKS_IDENTIFIER_PREFIX . 'william-faulkner/the-sound-and-the-fury' => ['author' => 'William Faulkner', 'title' => 'The Sound and the Fury'],
-		EBOOKS_IDENTIFIER_PREFIX . 'mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai' => ['author' => 'Mahatma Gandhi', 'title' => 'The Story of My Experiments with Truth'],
-		EBOOKS_IDENTIFIER_PREFIX . 'arthur-conan-doyle/the-maracot-deep' => ['author' => 'Arthur Conan Doyle', 'title' => 'The Maracot Deep'],
-		EBOOKS_IDENTIFIER_PREFIX . 'sinclair-lewis/dodsworth' => ['author' => 'Sinclair Lewis', 'title' => 'Dodsworth'],
-		EBOOKS_IDENTIFIER_PREFIX . 'thomas-wolfe/look-homeward-angel' => ['author' => 'Thomas Wolfe', 'title' => 'Look Homeward, Angel'],
-		EBOOKS_IDENTIFIER_PREFIX . 'lloyd-c-douglas/magnificent-obsession' => ['author' => 'Lloyd C. Dougals', 'title' => 'Magnificent Obsession'],
-		EBOOKS_IDENTIFIER_PREFIX . 'edith-wharton/hudson-river-bracketed' => ['author' => 'Edith Wharton', 'title' => 'Hudson River Bracketed'],
-	];

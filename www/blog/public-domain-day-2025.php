@@ -108,8 +108,10 @@ ksort($ebooksWithDescriptions);
 			<h1>Public Domain Day in Literature</h1>
 			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in 2025</p>
 		</hgroup>
-		<?= Template::DonationCounter() ?>
-		<?= Template::DonationProgress() ?>
+		<? if(false){ ?>
+			<?= Template::DonationCounter() ?>
+			<?= Template::DonationProgress() ?>
+		<? } ?>
 		<picture data-caption="The Reader. Harold Knight, circa 1910">
 			<source srcset="/images/the-reader@2x.avif 2x, /images/the-reader.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-reader@2x.jpg 2x, /images/the-reader.jpg 1x" type="image/jpg"/>

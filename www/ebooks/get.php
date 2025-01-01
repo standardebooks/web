@@ -69,12 +69,6 @@ catch(Exceptions\EbookNotFoundException){
 		// Still not found, continue.
 	}
 
-	// Are we accessing a placeholder for a Public Domain Day book that is not yet released?
-	if(array_key_exists($identifier, PD_DAY_EBOOKS)){
-		require(WEB_ROOT . '/ebooks/public-domain-day-placeholder.php');
-		exit();
-	}
-
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'canonicalUrl' => SITE_URL . $ebook->Url]) ?>
