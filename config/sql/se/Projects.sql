@@ -15,5 +15,6 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `LastCommitTimestamp` DATETIME NULL DEFAULT NULL,
   `LastDiscussionTimestamp` DATETIME NULL DEFAULT NULL,
   `IsStatusAutomaticallyUpdated` tinyint(1) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`ProjectId`)
+  PRIMARY KEY (`ProjectId`),
+  KEY `index1` (`EbookId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
