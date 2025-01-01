@@ -106,7 +106,7 @@ ksort($ebooksWithDescriptions);
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
 		<hgroup>
 			<h1>Public Domain Day in Literature</h1>
-			<p><?= number_format(sizeof($identifiers)) ?> of the best new books entering the public domain in 2025</p>
+			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in 2025</p>
 		</hgroup>
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
