@@ -164,8 +164,8 @@ final class Ebook{
 							SELECT *
 							from Projects
 							inner join Ebooks
-							using(EbookId)
-							where EbookId = ?
+							on Projects.EbookId = Ebooks.EbookId
+							where Ebooks.EbookId = ?
 							order by Projects.Created desc
 						', [$this->EbookId], Project::class);
 		}
@@ -183,8 +183,8 @@ final class Ebook{
 								SELECT *
 								from Projects
 								inner join Ebooks
-								using(EbookId)
-								where EbookId = ?
+								on Projects.EbookId = Ebooks.EbookId
+								where Ebooks.EbookId = ?
 								and Status in (?, ?)
 							', [$this->EbookId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class)[0] ?? null;
 			}
@@ -206,8 +206,8 @@ final class Ebook{
 								SELECT *
 								from Projects
 								inner join Ebooks
-								using(EbookId)
-								where EbookId = ?
+								on Projects.EbookId = Ebooks.EbookId
+								where Ebooks.EbookId = ?
 								and Status in (?, ?)
 							', [$this->EbookId, Enums\ProjectStatusType::Completed, Enums\ProjectStatusType::Abandoned], Project::class);
 			}
