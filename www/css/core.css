@@ -3617,6 +3617,10 @@ a.patron-selection:any-link:hover{
 		padding-left: 0;
 	}
 
+	.public-domain-day-banner a{
+		margin: 0;
+	}
+
 	.public-domain-day-banner strong{
 		display: block;
 		margin-left: -2rem;
