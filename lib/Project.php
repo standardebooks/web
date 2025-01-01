@@ -660,21 +660,21 @@ final class Project{
 	 * @return array<Project>
 	 */
 	public static function GetAllByStatus(Enums\ProjectStatusType $status): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where Projects.Status = ? order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$status], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where Projects.Status = ? order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$status], Project::class);
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByManagerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where ManagerUserId = ? and Status in (?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ManagerUserId = ? and Status in (?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByReviewerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks using (EbookId) where ReviewerUserId = ? and Status in (?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ReviewerUserId = ? and Status in (?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
 	}
 
 	/**
@@ -686,7 +686,6 @@ final class Project{
 		$object = Project::FromRow($row['Projects']);
 
 		if($row['Projects']->EbookId !== null){
-			$row['Ebooks']->EbookId = $object->EbookId;
 			$object->Ebook = Ebook::FromRow($row['Ebooks']);
 		}
 

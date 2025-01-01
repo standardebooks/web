@@ -109,7 +109,7 @@ class DbConnection{
 	/**
 	 * Execute a select query that returns a join against multiple tables.
 	 *
-	 * For example, `select * from Users inner join Posts using (UserId)`.
+	 * For example, `select * from Users inner join Posts on Users.UserId = Posts.UserId`.
 	 *
 	 * The result is an array of rows. Each row is an array of objects, with each object containing its columns and values. For example,
 	 *
@@ -122,6 +122,7 @@ class DbConnection{
 	 *		},
 	 *		'Posts' => {
 	 *			'PostId' => 222,
+	 *			'UserId' => 111,
 	 *			'Title' => 'Lorem Ipsum'
 	 *		}
 	 *	],
@@ -132,13 +133,14 @@ class DbConnection{
 	 *		},
 	 *		'Posts' => {
 	 *			'PostId' => 444,
+	 *			'UserId' => 333,
 	 *			'Title' => 'Dolor sit'
 	 *		}
 	 *	]
 	 *  ]
 	 * ```
 	 *
-	 * **Important note:** When joining against two tables, SQL only returns one column for the join key (typically an ID value). Therefore, if both objects require an ID, the filler method must explicitly assign the ID to one of the two objects that's missing it. The above example shows this behavior: note how we join on `UserId`, but only the `Users` result has the `UserId` column, even though the `Posts` table also has a `UserId` column.
+	 * **Important note:** If the two tables above were joined via `using (UserId)` instead of `on Users.UserId = Posts.UserId`, the SQL query would return only one column for the join key (`UserId` in this case). Therefore, if both objects require an ID, the filler method must explicitly assign the ID to one of the two objects that's missing it. In the above example, the `Users` result would have the `UserId` column, and `Posts` would not.
 	 *
 	 * @template T
 	 *
