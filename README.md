@@ -134,7 +134,7 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 ### Main website
 
-- Convert ebooks from being stored in an APCu cache to our MariaDB database. (This is a big project!)
+- Creating a favicon
 
 - Creating a search bar for the SE Manual of Style.
 
