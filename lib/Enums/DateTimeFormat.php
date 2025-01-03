@@ -25,4 +25,7 @@ enum DateTimeFormat: string{
 
 	/** Like Jan 5, 2024 */
 	case ShortDate = 'M j, Y';
+
+	/** Like Jan 5 */
+	case ShortDateWithoutYear = 'M j';
 }

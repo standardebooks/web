@@ -52,7 +52,11 @@ $showEditButton = $showEditButton ?? false;
 					<a href="<?= $project->Reviewer->Url ?>/projects"><?= Formatter::EscapeHtml($project->Reviewer->DisplayName) ?></a>
 				</td>
 				<td>
-					<?= $project->LastActivityTimestamp->format(Enums\DateTimeFormat::ShortDate->value) ?>
+					<? if(intval($project->LastActivityTimestamp->format('Y')) == intval(NOW->format('Y'))){ ?>
+						<?= $project->LastActivityTimestamp->format(Enums\DateTimeFormat::ShortDateWithoutYear->value) ?>
+					<? }else{ ?>
+						<?= $project->LastActivityTimestamp->format(Enums\DateTimeFormat::ShortDate->value) ?>
+					<? } ?>
 				</td>
 				<? if($includeStatus){ ?>
 					<td class="status<? if($project->Status == Enums\ProjectStatusType::Stalled){ ?> stalled<? } ?>">
