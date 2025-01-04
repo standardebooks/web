@@ -1378,12 +1378,6 @@ footer > a{
 	font-size: 0;
 }
 
-footer p.social-media-manager{
-	font-style: italic;
-	margin-bottom: 1rem;
-	font-size: smaller;
-}
-
 footer p.newsletter::before{
 	font-family: "Fork Awesome";
 	content: "\f0e0";

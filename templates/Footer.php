@@ -1,5 +1,4 @@
 	<footer>
-		<p class="social-media-manager">We’re looking for a volunteer to manage our social media accounts. <a href="/about#editor-in-chief">Get in touch!</a></p>
 		<ul class="social-media">
 			<li>
 				<p>
