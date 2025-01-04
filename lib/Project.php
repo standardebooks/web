@@ -218,6 +218,25 @@ final class Project{
 			$this->DiscussionUrl = null;
 		}
 		else{
+			if(preg_match('|^https://groups\.google\.com/d/msgid/|iu', $this->DiscussionUrl)){
+				// This URL links to a message which will perform some HTTP redirects to resolve to the actual thread URL.
+				// Resolve that URL before continuing.
+				$curl = curl_init();
+
+				curl_setopt($curl, CURLOPT_HEADER, true);
+				curl_setopt($curl, CURLOPT_NOBODY, true);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+
+				curl_setopt($curl, CURLOPT_URL, $this->DiscussionUrl);
+				curl_exec($curl);
+
+				/** @var string $url */
+				$url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+
+				$this->DiscussionUrl = $url;
+			}
+
 			if(preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl)){
 				// Get the base thread URL in case we were passed a URL with a specific message or query string.
 				$this->DiscussionUrl = preg_replace('|^(https://groups\.google\.com/g/standardebooks/c/[^/]+).*|iu', '\1', $this->DiscussionUrl);
