@@ -56,13 +56,13 @@ try{
 		', [$email]);
 
 		// Remove the suppression from Postmark, since we deleted it from our own list we will never email them again anyway.
-		$handle = curl_init();
-		curl_setopt($handle, CURLOPT_URL, 'https://api.postmarkapp.com/message-streams/' . $data->MessageStream . '/suppressions/delete');
-		curl_setopt($handle, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($handle, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Accept: application/json', 'X-Postmark-Server-Token: ' . $smtpUsername]);
-		curl_setopt($handle, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($handle, CURLOPT_POSTFIELDS, '{"Suppressions": [{"EmailAddress": "' . $email . '"}]}');
-		curl_exec($handle);
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, 'https://api.postmarkapp.com/message-streams/' . $data->MessageStream . '/suppressions/delete');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Accept: application/json', 'X-Postmark-Server-Token: ' . $smtpUsername]);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_setopt($curl, CURLOPT_POSTFIELDS, '{"Suppressions": [{"EmailAddress": "' . $email . '"}]}');
+		curl_exec($curl);
 	}
 	elseif($data->RecordType == 'SubscriptionChange' && $data->SuppressionReason === null){
 		$log->Write('Event type: suppression deletion.');
