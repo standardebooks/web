@@ -311,7 +311,7 @@ do
 				printf "Recomposing ebook ... "
 			fi
 
-			# Recompose the epub into a single file, but put it outside of the epub src for now so we don't stomp on it with the following sections.
+			# Recompose the epub into a single file, but put it outside of the epub source for now so we don't stomp on it with the following sections.
 			# We do this first because the tweaks below shouldn't apply to the single-page file.
 			se recompose-epub --xhtml --output "${workDir}"/single-page.xhtml --extra-css-file="${webRoot}/css/web.css" "${workDir}"
 
@@ -322,7 +322,10 @@ do
 			sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li></ul></nav></header>|" "${workDir}"/single-page.xhtml
 
 			# Adjust sponsored links in the colophon.
-			sed --in-place 's|<p><a href="http|<p><a href="http|g' "${workDir}"/single-page.xhtml
+			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.xhtml
+
+			# Add a canonical `<meta>` element.
+			sed --in-place "s|</title>|</title>\n\t\t<link rel=\"canonical\" href=\"https://standardebooks.org${bookUrl}/text/single-page\" />|" "${workDir}"/single-page.xhtml
 
 			if [ "${verbose}" = "true" ]; then
 				printf "Done.\n"
@@ -330,34 +333,47 @@ do
 		fi
 
 		# Make some compatibility adjustments for the individual XHTML files.
+		workTitle=$(grep --only-matching --extended-regexp "<dc:title id=\"title\">(.+?)</dc:title>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/<[^>]+?>//g")
 
-		# Remove instances of the .xhtml filename extension in the source text.
-		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place 's/\.xhtml//g'
+		for filename in $(find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml"); do
 
-		# Add our web stylesheet to XHTML files.
-		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended 's|</title>|</title>\n\t\t<link href="/css/web.css" media="screen" rel="stylesheet" type="text/css"/>|'
+			# Add our web stylesheet to XHTML files.
+			sed --in-place --regexp-extended 's|</title>|</title>\n\t\t<link href="/css/web.css" media="screen" rel="stylesheet" type="text/css"/>|' "${filename}"
+
+			# Add `@lang` attributes.
+			sed --in-place --regexp-extended 's/xml:lang="([^"]+?)"/xml:lang="\1" lang="\1"/g' "${filename}"
+
+			# Add the work title to `<title>` elements in the source text.
+			sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g" "${filename}"
+
+			# Wrap book contents in a `<main>` element.
+			sed --in-place --regexp-extended "s|<body([^>]*)>|<body><main\1>|; s|</body>|</main></body>|" "${filename}"
+
+			# Add the header nav to each page.
+			sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li><li><a href=\"${bookUrl}/text\">Table of contents</a></li></ul></nav></header>|" "${filename}"
+
+			# Add a canonical `<meta>` element.
+			fileUrl=$(echo "${filename}" | sed --regexp-extended "s|^.+/src/epub(/text/.+\.xhtml$)|https://standardebooks.org${bookUrl}\1|")
+
+			# Special case for `toc.xhtml`.
+			if [[ "${fileUrl}" =~ /toc\.xhtml$ ]]; then
+				fileUrl="https://standardebooks.org${bookUrl}/text"
+			fi
+
+			sed --in-place "s|</title>|</title>\n\t\t<link rel=\"canonical\" href=\"${fileUrl}\" />|" "${filename}"
+
+			# Remove instances of the `.xhtml` filename extension in the source text.
+			sed --in-place 's/\.xhtml//g' "${filename}"
+		done
 
 		# Remove `-epub-*` CSS properties from CSS files as they're invalid in a web context.
 		sed --in-place --regexp-extended "s|\s*\-epub\-[^;]+?;||g" "${workDir}"/src/epub/css/*.css
-
-		# Add lang attributes.
-		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended 's/xml:lang="([^"]+?)"/xml:lang="\1" lang="\1"/g'
-
-		# Add the work title to <title> tags in the source text.
-		workTitle=$(grep --only-matching --extended-regexp "<dc:title id=\"title\">(.+?)</dc:title>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/<[^>]+?>//g")
-		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g"
-
-		# Wrap book contents in a `<main>` element.
-		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<body([^>]*)>|<body><main\1>|; s|</body>|</main></body>|"
-
-		# Add the header nav to each page.
-		find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li><li><a href=\"${bookUrl}/text\">Table of contents</a></li></ul></nav></header>|"
 
 		# Add a chapter navigation footer to each page.
 		"${scriptsDir}"/inject-chapter-navigation-footer "${workDir}" "${bookUrl}"
 
 		# Adjust sponsored links in the colophon.
-		sed --in-place 's|<p><a href="http|<p><a href="http|g' "${workDir}"/src/epub/text/colophon.xhtml
+		sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/src/epub/text/colophon.xhtml
 
 		# Done adding compatibility!
 
