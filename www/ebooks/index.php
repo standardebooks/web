@@ -11,6 +11,7 @@ $sort = Enums\EbookSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $queryString = '';
 $queryStringParams = [];
 $queryStringWithoutPage = '';
+$pageUrl = '/ebooks';
 
 try{
 	if($page <= 0){
@@ -32,17 +33,6 @@ try{
 
 	if(sizeof($tags) == 1 && mb_strtolower($tags[0]) == 'all'){
 		$tags = [];
-	}
-
-	$result = Ebook::GetAllByFilter($query != '' ? $query : null, $tags, $sort, $page, $perPage, Enums\EbookReleaseStatusFilter::All);
-	$ebooks = $result['ebooks'];
-	$totalEbooks = $result['ebooksCount'];
-	$pageTitle = 'Browse Standard Ebooks';
-	$pageHeader = 'Browse Ebooks';
-	$pages = ceil($totalEbooks / $perPage);
-
-	if($page > 1){
-		$pageTitle .= ', page ' . $page;
 	}
 
 	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks free ebook library';
@@ -73,15 +63,44 @@ try{
 
 	ksort($queryStringParams);
 
+	// If all we did was select one tag, redirect the user to `/subjects/<TAG>` instead of `/ebooks?tag[0]=<TAG>`.
+	if(sizeof($tags) == 1 && $query == '' && preg_match('|^/ebooks|iu', $_SERVER['REQUEST_URI'] ?? '')){
+		unset($queryStringParams['tags']);
+		$queryStringWithoutTags = http_build_query($queryStringParams);
+		$url = '/subjects/' . $tags[0];
+		if($queryStringWithoutTags != ''){
+			$url .= '?' . $queryStringWithoutTags;
+		}
+		header('Location: ' . $url);
+		exit();
+	}
+
+	// We only have one tag, change the page URL used for back/next links to `/subjects/<TAG>`.
+	if(sizeof($tags) == 1 && $query == ''){
+		$pageUrl = '/subjects/' . $tags[0];
+		unset($queryStringParams['tags']);
+	}
+
 	$queryString = http_build_query($queryStringParams);
 
 	unset($queryStringParams['page']);
 	$queryStringWithoutPage = http_build_query($queryStringParams);
 
-	$canonicalUrl = SITE_URL . '/ebooks';
+	$canonicalUrl = SITE_URL . $pageUrl;
 
 	if($queryString != ''){
-		$canonicalUrl .=  '?' . $queryString;
+		$canonicalUrl .= '?' . $queryString;
+	}
+
+	$result = Ebook::GetAllByFilter($query != '' ? $query : null, $tags, $sort, $page, $perPage, Enums\EbookReleaseStatusFilter::All);
+	$ebooks = $result['ebooks'];
+	$totalEbooks = $result['ebooksCount'];
+	$pageTitle = 'Browse Standard Ebooks';
+	$pageHeader = 'Browse Ebooks';
+	$pages = ceil($totalEbooks / $perPage);
+
+	if($page > 1){
+		$pageTitle .= ', page ' . $page;
 	}
 
 	if($pages > 0 && $page > $pages){
@@ -119,15 +138,15 @@ catch(Exceptions\AppException $ex){
 	<? } ?>
 	<? if(sizeof($ebooks) > 0){ ?>
 		<nav class="pagination">
-			<a<? if($page > 1){ ?> href="/ebooks?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+			<a<? if($page > 1){ ?> href="<?= $pageUrl ?>?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
 			<? for($i = 1; $i < $pages + 1; $i++){ ?>
 				<li<? if($page == $i){ ?> class="highlighted"<? } ?>>
-					<a href="/ebooks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"><?= $i ?></a>
+					<a href="<?= $pageUrl ?>?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"><?= $i ?></a>
 				</li>
 			<? } ?>
 			</ol>
-			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="/ebooks?page=<?= $page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="<?= $pageUrl ?>?page=<?= $page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 		</nav>
 	<? } ?>
 
