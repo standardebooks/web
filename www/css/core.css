@@ -3648,6 +3648,10 @@ a.patron-selection:any-link:hover{
 	.donate table td p{
 		text-align: center;
 	}
+
+	div.progress p.stretch-base{
+		display: none;
+	}
 }
 
 @media(max-width: 870px){
