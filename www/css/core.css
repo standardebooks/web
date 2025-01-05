@@ -3763,6 +3763,7 @@ a.patron-selection:any-link:hover{
 	.donation,
 	article.ebook section .donation{
 		text-align: justify;
+		hyphens: auto;
 	}
 
 	.donation .flipboard{
