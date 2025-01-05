@@ -124,12 +124,14 @@ print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		<url>
 			<loc><?= SITE_URL ?><?= $ebook->Url ?></loc>
 		</url>
-		<url>
-			<loc><?= SITE_URL ?><?= $ebook->TextUrl ?></loc>
-		</url>
-		<url>
-			<loc><?= SITE_URL ?><?= $ebook->TextSinglePageUrl ?></loc>
-		</url>
+		<? if(!$ebook->IsPlaceholder()){ ?>
+			<url>
+				<loc><?= SITE_URL ?><?= $ebook->TextUrl ?></loc>
+			</url>
+			<url>
+				<loc><?= SITE_URL ?><?= $ebook->TextSinglePageUrl ?></loc>
+			</url>
+		<? } ?>
 	<? } ?>
 	<url>
 		<loc><?= SITE_URL ?>/feeds</loc>
