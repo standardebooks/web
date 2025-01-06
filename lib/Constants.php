@@ -5,9 +5,11 @@ use function Safe\define;
 
 const NOW = new DateTimeImmutable();
 const LATEST_CONTINENTAL_US_TZ = new DateTimeZone('America/Juneau');
-const PD_NOW = new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ); // This timestamp should be used for Public Domain Day calculations.
+/** This timestamp should be used for Public Domain Day calculations. */
+const PD_NOW = new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ);
 define('PD_YEAR', intval(PD_NOW->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
+const SITE_TZ = new  DateTimeZone('America/Chicago');
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';
@@ -91,15 +93,15 @@ const DONATION_DRIVES_ENABLED = true; // **`TRUE`** to enable automatic donation
 const DONATION_DRIVE_DATES = [
 				new DonationDrive(
 							'Spring drive',
-							new DateTimeImmutable('Second Monday of May'),
-							new DateTimeImmutable('Second Monday of May +2 weeks'),
+							new DateTimeImmutable('Second Monday of May', SITE_TZ),
+							new DateTimeImmutable('Second Monday of May 22:00 +2 weeks', SITE_TZ),
 							40,
 							20
 						),
 				new DonationDrive(
 							'Holiday drive',
-							NOW < new DateTimeImmutable('January 7') ? new DateTimeImmutable('November 25 -1 year') : new DateTimeImmutable('November 25'),
-							NOW < new DateTimeImmutable('January 7') ? new DateTimeImmutable('January 7') : new DateTimeImmutable('January 7 +1 year'),
+							NOW < new DateTimeImmutable('January 7', SITE_TZ) ? new DateTimeImmutable('November 25 -1 year') : new DateTimeImmutable('November 25'),
+							NOW < new DateTimeImmutable('January 7', SITE_TZ) ? new DateTimeImmutable('January 7 22:00', SITE_TZ) : new DateTimeImmutable('January 7 22:00 +1 year', SITE_TZ),
 							75,
 							50
 						)
