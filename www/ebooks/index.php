@@ -1,4 +1,5 @@
 <?
+use function Safe\preg_match;
 use function Safe\preg_replace;
 
 $page = HttpInput::Int(GET, 'page') ?? 1;

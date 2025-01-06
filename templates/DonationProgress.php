@@ -63,7 +63,7 @@ if($donationDrive->IsStretchEnabled){
 		</header>
 	<? }else{ ?>
 		<header>
-			<p>Help us meet our stretch goal of<br/> <?= number_format($donationDrive->TargetDonationCount) ?> new patrons by <?= $deadline ?></p>
+			<p><? if($timeLeft->days <= 1){ ?><?= $timeString ?> left—<br/>Help us meet our stretch goal of<br/> <?= number_format($donationDrive->TargetDonationCount) ?> new patrons<? }else{ ?>Help us meet our stretch goal of<br/> <?= number_format($donationDrive->TargetDonationCount) ?> new patrons by <?= $deadline ?><? } ?></p>
 		</header>
 	<? } ?>
 	<div class="progress"<? if($donationDrive->IsStretchEnabled){ ?> style="--stretch-starting-position: <?= $stretchStartingPosition ?>%; --stretch-base-counter-position: <?= $stretchStartingPosition - 1 ?>%"<? } ?>>

@@ -38,13 +38,13 @@ try{
 			catch(Exceptions\DuplicateEbookException $ex){
 				// If the `Ebook` already exists, create the `Project` anyway.
 				$project->Ebook = Ebook::GetByIdentifier($project->Ebook->Identifier);
-				if(!$project->Ebook->EbookPlaceholder?->IsInProgress){
+				if($project->Ebook->EbookPlaceholder !== null && !$project->Ebook->EbookPlaceholder->IsInProgress){
 					$project->EbookId = $project->Ebook->EbookId;
 					$_SESSION['is-only-ebook-project-created'] = true;
 
 					// Set the placeholder to in progress.
-					$project->Ebook->EbookPlaceholder?->IsInProgress = true;
-					$project->Ebook->EbookPlaceholder?->Save();
+					$project->Ebook->EbookPlaceholder->IsInProgress = true;
+					$project->Ebook->EbookPlaceholder->Save();
 				}
 				else{
 					// `Ebook` exists and it's not a placeholder, so really fail.
