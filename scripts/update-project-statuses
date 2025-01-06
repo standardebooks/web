@@ -6,7 +6,13 @@ use function Safe\file_get_contents;
 use Safe\DateTimeImmutable;
 
 /**
- * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit. If the commit is more than 30 days old, mark the `Project` as stalled.
+ * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit.
+ *
+ * If the last activity was more than 30 days old, mark the `Project` as stalled and send a reminder email.
+ *
+ * 60 days after the reminder email, the `Project` is marked as abandoned if there has not been any activity since.
+ *
+ * If a `Project` stalls and is re-activated, the process will repeat except no further reminder emails will be sent.
  */
 
 /** @var array<Project> $projects */
@@ -17,7 +23,7 @@ $projects = array_merge(
 
 $apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
 $oldestStalledTimestamp = new DateTimeImmutable('60 days ago');
-$oldestAbandonedTimestamp = new DateTimeImmutable('90 days ago');
+$oldestAbandonedTimestamp = new DateTimeImmutable('60 days ago');
 
 foreach($projects as $project){
 	try{
