@@ -41,6 +41,10 @@ try{
 				if(!$project->Ebook->EbookPlaceholder?->IsInProgress){
 					$project->EbookId = $project->Ebook->EbookId;
 					$_SESSION['is-only-ebook-project-created'] = true;
+
+					// Set the placeholder to in progress.
+					$project->Ebook->EbookPlaceholder?->IsInProgress = true;
+					$project->Ebook->EbookPlaceholder?->Save();
 				}
 				else{
 					// `Ebook` exists and it's not a placeholder, so really fail.
