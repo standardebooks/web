@@ -2304,6 +2304,10 @@ h1 + ul.message,
 	line-height: 1;
 }
 
+.masthead ol.editors p br{
+	margin-bottom: .5rem;
+}
+
 .masthead ol.donors.patrons{
 	font-style: italic;
 	display: block;
