@@ -1,0 +1,20 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+Db::Query('DELETE u.* from Users u
+		left outer join Payments on u.UserId = Payments.UserId
+		left outer join NewsletterSubscriptions on u.UserId = NewsletterSubscriptions.UserId
+		left outer join Benefits on u.UserId = Benefits.UserId
+		left outer join Patrons on u.UserId = Patrons.UserId
+		left outer join PollVotes on u.UserId = PollVotes.UserId
+		left outer join Sessions on u.UserId = Sessions.UserId
+		left outer join Artworks on u.UserId = Artworks.SubmitterUserId
+		where
+		Payments.userid is null
+		and NewsletterSubscriptions.userid is null
+		and Benefits.userid is null
+		and Patrons.userid is null
+		and PollVotes.userid is null
+		and Sessions.userid is null
+		and Artworks.SubmitterUserId is null');
