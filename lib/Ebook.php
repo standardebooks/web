@@ -1441,10 +1441,6 @@ final class Ebook{
 			$this->Description = null;
 		}
 
-		if(isset($this->Description) && strlen($this->Description) > EBOOKS_MAX_STRING_LENGTH){
-			$error->Add(new Exceptions\StringTooLongException('Ebook Description'));
-		}
-
 		$this->LongDescription = trim($this->LongDescription ?? '');
 		if($this->LongDescription == ''){
 			$this->LongDescription = null;
