@@ -13,7 +13,8 @@ use function Safe\preg_match;
  * @property ?Patron $Patron
  * @property ?NewsletterSubscription $NewsletterSubscription
  * @property ?Payment $LastPayment
- * @property string $DisplayName A string that represent's the `User`'s name, or email, or ID.
+ * @property string $DisplayName The `User`'s name, or email, or ID.
+ * @property ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
  */
 class User{
 	use Traits\Accessor;
@@ -37,11 +38,40 @@ class User{
 	protected ?Patron $_Patron;
 	protected ?NewsletterSubscription $_NewsletterSubscription;
 	protected string $_DisplayName;
+	protected ?string $_SortName = null;
 
 
 	// *******
 	// GETTERS
 	// *******
+
+	protected function GetSortName(): string{
+		if(!isset($this->_SortName)){
+			if($this->Name !== null){
+				preg_match('/\s(?:de |de la |di |van |von )?[^\s]+$/iu', $this->Name, $lastNameMatches);
+				if(sizeof($lastNameMatches) == 0){
+					$this->SortName = $this->Name;
+				}
+				else{
+					$lastName = trim($lastNameMatches[0]);
+
+					preg_match('/^(.+)' . preg_quote($lastName, '/') . '$/u', $this->Name, $firstNameMatches);
+
+					if(sizeof($firstNameMatches) == 0){
+						$this->SortName = $this->Name;
+					}
+					else{
+						$this->_SortName = $lastName . ', ' . trim($firstNameMatches[1]);
+					}
+				}
+			}
+			else{
+				$this->_SortName = null;
+			}
+		}
+
+		return $this->_SortName;
+	}
 
 	protected function GetDisplayName(): string{
 		if(!isset($this->_DisplayName)){

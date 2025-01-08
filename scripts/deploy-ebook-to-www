@@ -58,7 +58,7 @@ recompose="true"
 feeds="true"
 bulkDownloads="true"
 
-if [ $#  -eq 0 ]; then
+if [ $# -eq 0 ]; then
 	usage
 fi
 

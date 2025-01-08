@@ -676,6 +676,17 @@ final class Project{
 	}
 
 	/**
+	 * @throws Exceptions\ProjectNotFoundException If the `Project` can't be found.
+	 */
+	public static function GetByIdentifierAndIsInProgress(?string $identifier): Project{
+		if($identifier === null){
+			throw new Exceptions\ProjectNotFoundException();
+		}
+
+		return Db::Query('SELECT Projects.* from Ebooks inner join Projects using (EbookId) where Ebooks.Identifier = ? and Projects.Status = ?', [$identifier, Enums\ProjectStatusType::InProgress], Project::class)[0] ?? throw new Exceptions\ProjectNotFoundException();
+	}
+
+	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByStatus(Enums\ProjectStatusType $status): array{
