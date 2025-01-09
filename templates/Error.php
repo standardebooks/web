@@ -3,8 +3,6 @@
  * @var ?Exception $exception
  */
 
-use Exceptions\AppException;
-
 if($exception === null){
 	return;
 }
@@ -26,7 +24,7 @@ else{
 				$message = 'An error occurred.';
 			}
 
-			if(!($ex instanceof AppException) || $ex->MessageType == Enums\ExceptionMessageType::Text){
+			if(!($ex instanceof Exceptions\AppException) || $ex->MessageType == Enums\ExceptionMessageType::Text){
 				$message = '<p>' . str_replace('CAPTCHA', '<abbr class="acronym">CAPTCHA</abbr>', Formatter::EscapeHtml($message)) . '</p>';
 			}
 		?>

@@ -35,17 +35,14 @@ try{
 			$ebook->Create();
 		}
 		catch(Exceptions\DuplicateEbookException $ex){
-			// If the identifier already exists but a `Project` was sent with this request, create the `Project` anyway.
-			$existingEbook = Ebook::GetByIdentifier($ebook->Identifier);
-			if($ebook->EbookPlaceholder?->IsInProgress && $existingEbook->ProjectInProgress === null && $project !== null){
-				$ebook->EbookId = $existingEbook->EbookId;
-				$_SESSION['is-only-ebook-project-created'] = true;
-			}
-			else{
-				// The existing ebook already has a `Project`, throw the exception and really fail.
-				$ebook = $existingEbook;
-				throw new Exceptions\ProjectExistsException('This ebook already exists, and already has an in-progress project.');
-			}
+			$ebook = Ebook::GetByIdentifier($ebook->Identifier);
+
+			// An existing `EbookPlaceholder` already exists.
+			$ex = new Exceptions\EbookPlaceholderExistsException('An ebook placeholder already exists for this book: <a href="' . $ebook->Url . '">' . Formatter::EscapeHtml($ebook->Title) . '</a>.');
+
+			$ex->MessageType = Enums\ExceptionMessageType::Html;
+
+			throw $ex;
 		}
 
 		if($ebook->EbookPlaceholder?->IsInProgress && $project !== null){
@@ -98,7 +95,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException | Exceptions\InvalidHttpMethodException | Exceptions\HttpMethodNotAllowedException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidEbookException | Exceptions\ProjectExistsException | Exceptions\InvalidProjectException $ex){
+catch(Exceptions\InvalidEbookException | Exceptions\EbookPlaceholderExistsException | Exceptions\InvalidProjectException $ex){
 	$_SESSION['ebook'] = $ebook;
 	$_SESSION['exception'] = $ex;
 
