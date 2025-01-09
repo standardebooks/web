@@ -45,7 +45,7 @@ class User{
 	// GETTERS
 	// *******
 
-	protected function GetSortName(): string{
+	protected function GetSortName(): ?string{
 		if(!isset($this->_SortName)){
 			if($this->Name !== null){
 				preg_match('/\s(?:de |de la |di |van |von )?[^\s]+$/iu', $this->Name, $lastNameMatches);
