@@ -1,7 +1,7 @@
 <?
 namespace Exceptions;
 
-class DuplicateEbookException extends AppException{
+class EbookExistsException extends AppException{
 	public function __construct(string $identifier){
 		$this->message = 'Ebook already exists with identifier: ' . $identifier;
 

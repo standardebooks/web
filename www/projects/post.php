@@ -35,7 +35,7 @@ try{
 				$project->Ebook->Create();
 				$project->EbookId = $project->Ebook->EbookId;
 			}
-			catch(Exceptions\DuplicateEbookException $ex){
+			catch(Exceptions\EbookExistsException $ex){
 				// If the `Ebook` already exists, create the `Project` anyway.
 				$project->Ebook = Ebook::GetByIdentifier($project->Ebook->Identifier);
 				if($project->Ebook->EbookPlaceholder !== null && !$project->Ebook->EbookPlaceholder->IsInProgress){
@@ -90,7 +90,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidProjectException | Exceptions\InvalidEbookException | Exceptions\ProjectExistsException | Exceptions\DuplicateEbookException | Exceptions\EbookIsNotAPlaceholderException $ex){
+catch(Exceptions\InvalidProjectException | Exceptions\InvalidEbookException | Exceptions\ProjectExistsException | Exceptions\EbookExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
 	$_SESSION['project'] = $project;
 	$_SESSION['exception'] = $ex;
 

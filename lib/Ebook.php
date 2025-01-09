@@ -1550,7 +1550,7 @@ final class Ebook{
 
 	/**
 	 * @throws Exceptions\InvalidEbookException
-	 * @throws Exceptions\DuplicateEbookException
+	 * @throws Exceptions\EbookExistsException
 	 */
 	public function CreateOrUpdate(): void{
 		try{
@@ -1838,14 +1838,14 @@ final class Ebook{
 
 	/**
 	 * @throws Exceptions\InvalidEbookException
-	 * @throws Exceptions\DuplicateEbookException If an `Ebook` with the given identifier already exists.
+	 * @throws Exceptions\EbookExistsException If an `Ebook` with the given identifier already exists.
 	 */
 	public function Create(): void{
 		$this->Validate();
 
 		try{
 			Ebook::GetByIdentifier($this->Identifier);
-			throw new Exceptions\DuplicateEbookException($this->Identifier);
+			throw new Exceptions\EbookExistsException($this->Identifier);
 		}
 		catch(Exceptions\EbookNotFoundException){
 			// Pass.
@@ -1917,7 +1917,7 @@ final class Ebook{
 
 	/**
 	 * @throws Exceptions\InvalidEbookException If the `Ebook` is invalid.
-	 * @throws Exceptions\DuplicateEbookException If an `Ebook` with the same title and author already exists.
+	 * @throws Exceptions\EbookExistsException If an `Ebook` with the same title and author already exists.
 	 */
 	public function Save(): void{
 		$this->Validate();
@@ -1970,7 +1970,7 @@ final class Ebook{
 					$this->EbookId]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
-			throw new Exceptions\DuplicateEbookException($this->Identifier);
+			throw new Exceptions\EbookExistsException($this->Identifier);
 		}
 
 

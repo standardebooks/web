@@ -34,7 +34,7 @@ try{
 		try{
 			$ebook->Create();
 		}
-		catch(Exceptions\DuplicateEbookException $ex){
+		catch(Exceptions\EbookExistsException $ex){
 			$ebook = Ebook::GetByIdentifier($ebook->Identifier);
 
 			// An existing `EbookPlaceholder` already exists.
@@ -72,7 +72,7 @@ try{
 		try{
 			$ebook->Save();
 		}
-		catch(Exceptions\DuplicateEbookException){
+		catch(Exceptions\EbookExistsException){
 			throw new Exceptions\EbookPlaceholderExistsException();
 		}
 
