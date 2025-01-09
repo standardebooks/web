@@ -37,7 +37,9 @@ try{
 					$ebook->EbookPlaceholder->IsInProgress = false;
 				}
 				foreach($ebook->CollectionMemberships as $collectionMembership){
-					$collectionMembership->SequenceNumber++;
+					if($collectionMembership->SequenceNumber !== null){
+						$collectionMembership->SequenceNumber++;
+					}
 				}
 			}
 			else{
