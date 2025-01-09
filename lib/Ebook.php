@@ -1916,7 +1916,8 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookException
+	 * @throws Exceptions\InvalidEbookException If the `Ebook` is invalid.
+	 * @throws Exceptions\DuplicateEbookException If an `Ebook` with the same title and author already exists.
 	 */
 	public function Save(): void{
 		$this->Validate();
@@ -1932,40 +1933,45 @@ final class Ebook{
 			throw $error;
 		}
 
-		Db::Query('
-			UPDATE Ebooks
-			set
-			Identifier = ?,
-			WwwFilesystemPath = ?,
-			RepoFilesystemPath = ?,
-			KindleCoverUrl = ?,
-			EpubUrl = ?,
-			AdvancedEpubUrl = ?,
-			KepubUrl = ?,
-			Azw3Url = ?,
-			DistCoverUrl = ?,
-			Title = ?,
-			FullTitle = ?,
-			AlternateTitle = ?,
-			Description = ?,
-			LongDescription = ?,
-			Language = ?,
-			WordCount = ?,
-			ReadingEase = ?,
-			GitHubUrl = ?,
-			WikipediaUrl = ?,
-			EbookCreated = ?,
-			EbookUpdated = ?,
-			TextSinglePageByteCount = ?,
-			IndexableText = ?
-			where
-			EbookId = ?
-		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
-				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
-				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-				$this->EbookId]);
+		try{
+			Db::Query('
+				UPDATE Ebooks
+				set
+				Identifier = ?,
+				WwwFilesystemPath = ?,
+				RepoFilesystemPath = ?,
+				KindleCoverUrl = ?,
+				EpubUrl = ?,
+				AdvancedEpubUrl = ?,
+				KepubUrl = ?,
+				Azw3Url = ?,
+				DistCoverUrl = ?,
+				Title = ?,
+				FullTitle = ?,
+				AlternateTitle = ?,
+				Description = ?,
+				LongDescription = ?,
+				Language = ?,
+				WordCount = ?,
+				ReadingEase = ?,
+				GitHubUrl = ?,
+				WikipediaUrl = ?,
+				EbookCreated = ?,
+				EbookUpdated = ?,
+				TextSinglePageByteCount = ?,
+				IndexableText = ?
+				where
+				EbookId = ?
+			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
+					$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
+					$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
+					$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
+					$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
+					$this->EbookId]);
+		}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\DuplicateEbookException($this->Identifier);
+		}
 
 
 		try{

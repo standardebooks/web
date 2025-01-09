@@ -69,7 +69,12 @@ try{
 		$ebook->EbookId = $originalEbook->EbookId;
 		$ebook->Created = $originalEbook->Created;
 
-		$ebook->Save();
+		try{
+			$ebook->Save();
+		}
+		catch(Exceptions\DuplicateEbookException){
+			throw new Exceptions\EbookPlaceholderExistsException();
+		}
 
 		$_SESSION['is-ebook-placeholder-saved'] = true;
 		http_response_code(Enums\HttpCode::SeeOther->value);
