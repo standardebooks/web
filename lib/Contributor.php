@@ -79,6 +79,10 @@ class Contributor{
 			if($this->Name == ''){
 				$error->Add(new Exceptions\ContributorNameRequiredException());
 			}
+			else{
+				// Sometimes placeholders may have `'` in the name.
+				$this->Name = str_replace('\'', '’', $this->Name);
+			}
 
 			$this->UrlName = Formatter::MakeUrlSafe($this->Name);
 		}
