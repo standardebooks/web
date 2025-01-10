@@ -30,7 +30,7 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
 		<ul class="wanted-list">
 			<li>
-				<p>As of 2024, <i>20,000 Leagues Under the Seas</i> does not have an acceptable public domain translation, therefore we will not host that ebook.</p>
+				<p>As of 2025, <i>20,000 Leagues Under the Seas</i> does not have an acceptable public domain translation, therefore we will not host that ebook.</p>
 			</li>
 			<li>
 				<p>Master of the World has two PD translations, one from 1911 and one from 1914. The 1911 version is bad, and the 1914 by Cranstoun Metcalfe version is preferred; but, as of 2023, there are no transcriptions or page scans for the 1914 version.</p>
