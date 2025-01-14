@@ -496,11 +496,15 @@ class Artwork{
 		}
 
 		// Check the ebook URL.
-		// We don't check if it exists, because the book might not be published yet.
-		// But we do a basic check that URL has the correct prefix and that it contains a slash between the author(s) and title.
 		if($this->EbookUrl !== null){
-			if(!preg_match('|^https://standardebooks.org/ebooks/[^/]+?/[^/]+?|ius', $this->EbookUrl)){
-				$error->Add(new Exceptions\EbookNotFoundException('Invalid ebook URL. Check that it matches the URL in dc:identifier.'));
+			try{
+				Ebook::GetByIdentifier('url:' . $this->EbookUrl);
+
+				// Ebook found, continue.
+			}
+			catch(Exceptions\EbookNotFoundException){
+				// Ebook not found, error!
+				$error->Add(new Exceptions\EbookNotFoundException('Couldn’t find an ebook with that URL.'));
 			}
 		}
 
