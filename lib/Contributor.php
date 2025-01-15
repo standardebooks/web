@@ -83,14 +83,19 @@ class Contributor{
 				// Sometimes placeholders may have `'` in the name.
 				$this->Name = str_replace('\'', '’', $this->Name);
 			}
-
-			$this->UrlName = Formatter::MakeUrlSafe($this->Name);
 		}
 		else{
 			$error->Add(new Exceptions\ContributorNameRequiredException());
 		}
 
-		if(!isset($this->UrlName)){
+		if(isset($this->UrlName)){
+			$this->UrlName = trim($this->UrlName);
+
+			if($this->UrlName == ''){
+				$error->Add(new Exceptions\ContributorUrlNameRequiredException());
+			}
+		}
+		else{
 			$error->Add(new Exceptions\ContributorUrlNameRequiredException());
 		}
 

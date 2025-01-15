@@ -987,7 +987,7 @@ final class Ebook{
 
 			$contributor = new Contributor();
 			$contributor->Name = (string)$author;
-			$contributor->UrlName = Formatter::MakeUrlSafe($contributor->Name);
+			$contributor->UrlName = Ebook::MatchContributorUrlNameToIdentifier(Formatter::MakeUrlSafe($contributor->Name), $ebook->Identifier);
 			$contributor->SortName = $fileAs;
 			$contributor->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]'));
 			$contributor->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'));
@@ -1014,7 +1014,7 @@ final class Ebook{
 			foreach($xml->xpath('/package/metadata/meta[ (@property="role" or @property="se:role") and @refines="#' . $id . '"]') ?: [] as $role){
 				$c = new Contributor();
 				$c->Name = (string)$contributor;
-				$c->UrlName = Formatter::MakeUrlSafe($contributor->Name);
+				$c->UrlName = Ebook::MatchContributorUrlNameToIdentifier(Formatter::MakeUrlSafe($c->Name), $ebook->Identifier);
 				$c->SortName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]'));
 				$c->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]'));
 				$c->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'));
@@ -1127,6 +1127,37 @@ final class Ebook{
 		}
 
 		return Db::Query('SELECT * from Ebooks where EbookId = ?', [$ebookId], Ebook::class)[0] ?? throw new Exceptions\EbookNotFoundException();
+	}
+
+	/**
+	 * Find the matching URL name in the `Identifier` string. The `Identifier` has strings like `samuel-butler-1612-1680`, and should be the source of truth for a `Contributor` `UrlName`.
+	 *
+	 * Examples:
+	 *
+	 * 	$urlName = 'samuel-butler'
+	 * 	$identifier = 'url:https://standardebooks.org/ebooks/samuel-butler-1612-1680/hudibras'
+	 * 	returns: 'samuel-butler-1612-1680'
+	 *
+	 * 	$urlName = 'william-wordsworth'
+	 * 	$identifier = 'url:https://standardebooks.org/ebooks/william-wordsworth_samuel-taylor-coleridge/lyrical-ballads'
+	 * 	returns: 'william-wordsworth'
+	 *
+	 * 	$urlName = 'aylmer-maude'
+	 * 	$identifier = 'url:https://standardebooks.org/ebooks/leo-tolstoy/the-power-of-darkness/louise-maude_aylmer-maude'
+	 * 	returns: 'aylmer-maude'
+	 *
+	 * 	$urlName = 'leonard-welsted' // Elided from the Identifier with et-al.
+	 * 	$identifier = 'url:https://standardebooks.org/ebooks/ovid/metamorphoses/john-dryden_joseph-addison_laurence-eusden_arthur-maynwaring_samuel-croxall_nahum-tate_william-stonestreet_thomas-vernon_john-gay_alexander-pope_stephen-harvey_william-congreve_et-al'
+	 * 	returns: 'leonard-welsted' // Returns original input when there is no match.
+	 *
+	 */
+	protected static function MatchContributorUrlNameToIdentifier(string $urlName, string $identifier): string{
+		if(preg_match('|' . $urlName . '[^\/_]*|ius', $identifier, $matches)){
+			return $matches[0];
+		}
+		else{
+			return $urlName;
+		}
 	}
 
 	/**
