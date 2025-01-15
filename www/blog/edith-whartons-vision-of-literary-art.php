@@ -1,6 +1,5 @@
 <?
-// NOTE: Missing Hudson River Bracketed!
-$ebookIds = [288, 485, 289, 908, 565];
+$ebookIds = [288, 485, 289, 908, 565, 2114];
 $carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
 ?>
 <?= Template::Header(['title' => 'Joyce’s Ulysses, the Rubáiyát, and “Yes”', 'css' => ['/css/blog.css'], 'highlight' => '', 'description' => '']) ?>
