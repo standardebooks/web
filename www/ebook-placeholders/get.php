@@ -1,5 +1,4 @@
 <?
-use function Safe\preg_replace;
 use function Safe\session_unset;
 
 session_start();
