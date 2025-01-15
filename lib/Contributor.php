@@ -73,19 +73,14 @@ class Contributor{
 			$error->Add(new Exceptions\ContributorEbookIdRequiredException());
 		}
 
-		if(isset($this->Name)){
-			$this->Name = trim($this->Name);
 
-			if($this->Name == ''){
-				$error->Add(new Exceptions\ContributorNameRequiredException());
-			}
-			else{
-				// Sometimes placeholders may have `'` in the name.
-				$this->Name = str_replace('\'', '’', $this->Name);
-			}
+		$this->Name = trim($this->Name ?? '');
+		if($this->Name == ''){
+			$error->Add(new Exceptions\ContributorNameRequiredException());
 		}
 		else{
-			$error->Add(new Exceptions\ContributorNameRequiredException());
+			// Sometimes placeholders may have `'` in the name.
+			$this->Name = str_replace('\'', '’', $this->Name);
 		}
 
 		if(isset($this->UrlName)){
