@@ -1069,6 +1069,7 @@ class Artwork{
 			$params[] = $tokenizedQuery; // art.Name
 			$params[] = $tokenizedQuery; // art.EbookUrl
 			$params[] = $tokenizedQuery; // a.Name
+			$params[] = $tokenizedQuery; // a.UrlName
 			$params[] = $tokenizedQuery; // aan.Name
 			$params[] = $tokenizedQuery; // t.Name
 
@@ -1089,6 +1090,7 @@ class Artwork{
 				            and (art.Name regexp ?
 				            or replace(art.EbookUrl, "_", " ") regexp ?
 				            or a.Name regexp ?
+				            or a.UrlName regexp ?
 				            or aan.Name regexp ?
 				            or t.Name regexp ?)
 				    group by art.ArtworkId) x', $params);
@@ -1107,6 +1109,7 @@ class Artwork{
 				  and (art.Name regexp ?
 				  or replace(art.EbookUrl, "_", " ") regexp ?
 				  or a.Name regexp ?
+				  or a.UrlName regexp ?
 				  or aan.Name regexp ?
 				  or t.Name regexp ?)
 				group by art.ArtworkId
