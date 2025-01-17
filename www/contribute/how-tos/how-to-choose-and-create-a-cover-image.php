@@ -263,7 +263,7 @@
 									<dt><a href="https://collections.britishart.yale.edu/?utf8=%E2%9C%93&amp;f%5Bcollection_ss%5D%5B%5D=Paintings+and+Sculpture&amp;range%5BearliestDate_is%5D%5Bbegin%5D=1614&amp;range%5BearliestDate_is%5D%5Bend%5D=1900&amp;search_field=all_fields&amp;q=">Yale Center for British Art</a></dt>
 									<dd>CC0 items have a “0 Public Domain” icon under the picture, which links to the CC0 license.</dd>
 									<dt><a href="https://artgallery.yale.edu/">Yale University Art Gallery</a></dt>
-									<dd>CC0 items say “No Copyright - United States” under the “Object copyright” section, which links to a CC0 license.</dd>
+									<dd>CC0 items say “No Copyright – United States” under the “Object copyright” section, which links to a CC0 license.</dd>
 									<dt><a href="https://www.artic.edu/collection?q=test&amp;is_public_domain=1&amp;department_ids=European+Painting+and+Sculpture">Art Institute of Chicago</a></dt>
 									<dd>CC0 items say CC0 in the lower left of the painting in the art detail page.</dd>
 									<dt><a href="https://art.thewalters.org/">The Walters Art Museum</a></dt>
@@ -303,7 +303,7 @@
 									<dt><a href="https://digitaltmuseum.no/search/?aq=owner%3F%3A%22LKM%22+license%3F%3A%22zero%22+type%3F%3A%22Fineart%22+media%3F%3A%22image%22">Lillehammer Kunstmuseum</a></dt>
 									<dd>CC0 items say “License: CC CC0 1.0” under the “License information” section. In the art metadata, “Owner of collection” <strong>must</strong> be “Lillehammer Kunstmuseum.” Any other art on <a href="https://www.digitaltmuseum.no">digitaltmuseum.no</a> or <a href="https://www.digitaltmuseum.se">digitaltmuseum.se</a> must be cleared separately.</dd>
 									<dt><a href="https://zbiory.mnk.pl/">National Museum in Krakow</a></dt>
-									<dd>CC0 items say "CC0 - Public Domain" under the Copyright section.</dd>
+									<dd>CC0 items say "CC0 – Public Domain" under the Copyright section.</dd>
 									<dt><a href="https://www.nationalmuseum.se/en/explore-art-and-design/images/free-images">National Museum in Stockholm</a></dt>
 									<dd>CC-PD items have the CC-PD mark in the lower left of the item’s detail view.</dd>
 									<dt><a href="https://dams.birminghammuseums.org.uk/asset-bank/action/viewDefaultHome">Birmingham Museums</a></dt>
@@ -311,7 +311,7 @@
 									<dt><a href="https://collections.brightonmuseums.org.uk/?q=&amp;departments=Fine%20Art">Brighton &amp; Hove Museums</a></dt>
 									<dd>CC0 items have the URL of the CC0 license in the “License” field.</dd>
 									<dt><a href="https://emuseum.aberdeencity.gov.uk/collections/102307/open-access-images--fine-art">Aberdeen Archives, Gallery &amp; Museums</a></dt>
-									<dd>CC0 items say “Out of copyright - CC0” on the copyright line.</dd>
+									<dd>CC0 items say “Out of copyright – CC0” on the copyright line.</dd>
 								</dl>
 							</section>
 						</li>

@@ -18,8 +18,8 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 	<?= Template::Header(['isXslt' => true]) ?>
 	<main class="opds">
 		<xsl:choose>
-			<xsl:when test="contains(/atom:feed/atom:title, 'Standard Ebooks - ')">
-				<h1><xsl:value-of select="substring-after(/atom:feed/atom:title, 'Standard Ebooks - ')"/></h1>
+			<xsl:when test="contains(/atom:feed/atom:title, 'Standard Ebooks – ')">
+				<h1><xsl:value-of select="substring-after(/atom:feed/atom:title, 'Standard Ebooks – ')"/></h1>
 			</xsl:when>
 			<xsl:otherwise>
 				<h1><xsl:value-of select="/atom:feed/atom:title"/></h1>

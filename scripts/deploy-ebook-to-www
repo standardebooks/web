@@ -344,7 +344,7 @@ do
 			sed --in-place --regexp-extended 's/xml:lang="([^"]+?)"/xml:lang="\1" lang="\1"/g' "${filename}"
 
 			# Add the work title to `<title>` elements in the source text.
-			sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g" "${filename}"
+			sed --in-place --regexp-extended "s|<title>|<title>${workTitle} – |g" "${filename}"
 
 			# Wrap book contents in a `<main>` element.
 			sed --in-place --regexp-extended "s|<body([^>]*)>|<body><main\1>|; s|</body>|</main></body>|" "${filename}"

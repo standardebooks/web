@@ -33,7 +33,7 @@ if(!$isXslt){
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head prefix="twitter: https://twitter.com/ schema: http://schema.org/"><? /* The `og` RDFa prefix is part of the RDFa spec */ ?>
 	<meta charset="utf-8"/>
-	<title><? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover</title>
+	<title><? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?> – <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover</title>
 	<? if($description != ''){ ?>
 		<meta content="<?= Formatter::EscapeHtml($description) ?>" name="description"/>
 	<? } ?>
@@ -70,9 +70,9 @@ if(!$isXslt){
 	<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 	<link href="/manifest.json" rel="manifest"/>
 	<? if($feedUrl === null){ ?>
-		<link rel="alternate" type="application/atom+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/atom/new-releases"/>
-		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/opds/new-releases"/>
-		<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/rss/new-releases"/>
+		<link rel="alternate" type="application/atom+xml" title="Standard Ebooks – New Releases" href="https://standardebooks.org/feeds/atom/new-releases"/>
+		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks – New Releases" href="https://standardebooks.org/feeds/opds/new-releases"/>
+		<link rel="alternate" type="application/rss+xml" title="Standard Ebooks – New Releases" href="https://standardebooks.org/feeds/rss/new-releases"/>
 	<? }else{ ?>
 		<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/atom<?= Formatter::EscapeHtml($feedUrl) ?>"/>
 		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/opds<?= Formatter::EscapeHtml($feedUrl) ?>"/>

@@ -31,7 +31,7 @@ try{
 catch(Exceptions\AuthorNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(['title' => 'Ebooks by ' . $author, 'feedUrl' => str_replace('/ebooks/', '/authors/', $authorUrl), 'feedTitle' => 'Standard Ebooks - Ebooks by ' . $author, 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . $author, 'canonicalUrl' => SITE_URL . $authorUrl]) ?>
+?><?= Template::Header(['title' => 'Ebooks by ' . $author, 'feedUrl' => str_replace('/ebooks/', '/authors/', $authorUrl), 'feedTitle' => 'Standard Ebooks – Ebooks by ' . $author, 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . $author, 'canonicalUrl' => SITE_URL . $authorUrl]) ?>
 <main class="ebooks">
 	<h1 class="is-collection">Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
 	<? if($showLinks){ ?>

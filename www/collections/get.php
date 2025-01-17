@@ -11,7 +11,7 @@ try{
 	$pageHeader = 'Free Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . ucfirst($collectionType);
 
 	$feedUrl = '/collections/' . $collection->UrlName;
-	$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
+	$feedTitle = 'Standard Ebooks – Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
 }
 catch(Exceptions\CollectionNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

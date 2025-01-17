@@ -17,7 +17,7 @@
 			<li><p><a href="https://catalog.hathitrust.org/Record/009438136">Catalog Record: Illustrated catalogue : paintings in the...</a></p></li>
 			<li><p><a href="https://books.google.com/books?id=Qn1FAQAAMAAJ">A.L.A. Portrait Index: Index to Portraits Contained in Printed Books and</a></p></li>
 			<li><p><a href="https://babel.hathitrust.org/cgi/pt?id=njp.32101066379189;view=thumb;seq=5">The Nicolas Roerich exhibition, with introduction and catalogue</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=NBgtAAAAYAAJ">Art of the British Empire Overseas - Charles Holme</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=NBgtAAAAYAAJ">Art of the British Empire Overseas – Charles Holme</a></p></li>
 			<li><p><a href="https://books.google.com/books?id=i6hEAQAAMAAJ">The International Studio</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/008018731">Catalog Record: Royal Academy pictures and sculpture</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/100237187">Catalog Record: Paris-Salon, 1883</a></p></li>
@@ -34,13 +34,13 @@
 			<li><p><a href="http://brandywine.doetech.net/Detlobjps.cfm?ParentListID=126891&amp;amp;ObjectID=1531590&amp;amp;rec_num=175">Object Detail</a></p></li>
 			<li><p><a href="https://babel.hathitrust.org/cgi/pt?id=yale.39002088545273;view=thumb;seq=57">(this is a whole series) Royal Academy pictures and sculpture. 1900</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/011254573">Catalog Record: The art of the Hon. John Collier</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=_0w4AAAAMAAJ">The Story of American Painting: The Evolution of Painting in America from - Charles Henry Caffin</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=_0w4AAAAMAAJ">The Story of American Painting: The Evolution of Painting in America from – Charles Henry Caffin</a></p></li>
 			<li><p><a href="https://archive.org/details/diekunstmonatshe21mnuoft">Die Kunst : Monatsheft für freie und angewandte Kunst</a></p></li>
 			<li><p><a href="https://archive.org/stream/cubistesfuturist00coquuoft#page/267/mode/thumb">Cubistes, futuristes, passéistes; essai sur la</a></p></li>
 			<li><p><a href="https://archive.org/stream/einblickin00wald#page/23/mode/thumb">Einblick in Kunst: Expressionismus, Futurismus,...</a></p></li>
 			<li><p><a href="https://archive.org/stream/studiointernatio54lond#page/8/mode/thumb">Studio international</a></p></li>
 			<li><p><a href="https://books.google.com/books?id=q7GUsAXiiA4C">The Magazine of Art</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=sdJAAAAAYAAJ">Cubists and Post-impressionism - Arthur Jerome Eddy</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=sdJAAAAAYAAJ">Cubists and Post-impressionism – Arthur Jerome Eddy</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/100344340">Catalog Record: L'art flamand</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/100445834">Catalog Record: L'école belge de peinture, 1830-1905</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/100578657">Catalog Record: Fernand Khnopff</a></p></li>
@@ -48,23 +48,23 @@
 			<li><p><a href="https://archive.org/stream/catalogueofficiel00expo#page/40/mode/thumb">Catalogue officiel illustré de l'Exposition cen...</a></p></li>
 			<li><p><a href="https://babel.hathitrust.org/cgi/pt?id=njp.32101067654994;view=1up;seq=6">Offizieller Katalog der Internationalen Kunst-Ausstellung (1899).</a></p></li>
 			<li><p><a href="https://babel.hathitrust.org/cgi/pt?id=wu.89057259921;view=1up;seq=23">British painting, by Irene Maguinness.</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=Jl9OAQAAMAAJ">Illustrated Catalogue: Paintings in the Metropolitan Museum of Art, New York - George Henry Story</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=Jl9OAQAAMAAJ">Illustrated Catalogue: Paintings in the Metropolitan Museum of Art, New York – George Henry Story</a></p></li>
 			<li><p><a href="https://archive.org/stream/bub_gb_yxRaAAAAYAAJ#page/n54/mode/thumb">Impressionisten Guys, Manet, Van Gogh, Pissarro...</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/000636935">Catalog Record: The Royal Academy illustrated</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/000071454">Catalog Record: The Art journal</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/100585480">Catalog Record: Handbuch der Kunstgeschichte</a></p></li>
 			<li><p><a href="https://babel.hathitrust.org/cgi/pt?id=nyp.33433082172564;view=thumb;seq=9">Catalogue of the annual exhibition. v. 70-71 (1901-1902).</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/000521207">Catalog Record: Catalogue of the annual exhibition of...</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=mEpGAQAAIAAJ">Meissonier, his life and his art - Jean Louis Ernest Meissonier, Octave Gréard</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=mEpGAQAAIAAJ">Meissonier, his life and his art – Jean Louis Ernest Meissonier, Octave Gréard</a></p></li>
 			<li><p><a href="https://babel.hathitrust.org/cgi/pt?id=gri.ark:/13960/t4fn6k42j;view=thumb;seq=41">Catalogue of the annual exhibition / The Pennsylvania 1905.</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=xCtAAAAAYAAJ">Zur Geschichte der Düsseldorfer Kunst insbesondere im xix. Jahrhundert - Friedrich Schaarschmidt</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=v7hHAQAAIAAJ">Bryan's dictionary of painters and engravers - Michael Bryan, George Charles Williamson</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=xCtAAAAAYAAJ">Zur Geschichte der Düsseldorfer Kunst insbesondere im xix. Jahrhundert – Friedrich Schaarschmidt</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=v7hHAQAAIAAJ">Bryan's dictionary of painters and engravers – Michael Bryan, George Charles Williamson</a></p></li>
 			<li><p><a href="https://archive.org/details/memorialexhibiti00eaki">Memorial exhibition of the works of the late Thomas Eakins, beginning December 23, 1917 and continuing through January 13, 1918: Eakins, Thomas, 1844-1916</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=CSFbAAAAYAAJ">Kunst und Künstler: Illustrierte Monatsschrift für bildende Kunst und - Karl Scheffler</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=CSFbAAAAYAAJ">Kunst und Künstler: Illustrierte Monatsschrift für bildende Kunst und – Karl Scheffler</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/000415396">Catalog Record: Gauguin et le groupe de Pont-Aven. Documents...</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/000062223">Catalog Record: Salon of the Nationale</a></p></li>
 			<li><p><a href="https://books.google.com/books?id=JAcrAAAAYAAJ">Academy Notes</a></p></li>
-			<li><p><a href="https://books.google.com/books?id=etcwAQAAMAAJ">Great Painters of the XLX Century and Their Paintings - Léonce Bénédite</a></p></li>
+			<li><p><a href="https://books.google.com/books?id=etcwAQAAMAAJ">Great Painters of the XLX Century and Their Paintings – Léonce Bénédite</a></p></li>
 			<li><p><a href="https://catalog.hathitrust.org/Record/005722615">Catalog Record: Catalogue of paintings and drawings</a></p></li>
 			<li><p><a href="https://books.google.com/books?id=nH9HAQAAMAAJ">The International Studio</a></p></li>
 			<li><p><a href="https://books.google.com/books?id=B6saAAAAYAAJ">Exhibition: Oil Paintings by Contemporary American Artists</a></p></li>

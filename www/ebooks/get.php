@@ -71,7 +71,7 @@ catch(Exceptions\EbookNotFoundException){
 
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'canonicalUrl' => SITE_URL . $ebook->Url]) ?>
+?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' – Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'canonicalUrl' => SITE_URL . $ebook->Url]) ?>
 <main>
 	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
 		<meta property="schema:description" content="<?= Formatter::EscapeHtml($ebook->Description) ?>"/>

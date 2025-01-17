@@ -194,26 +194,26 @@ SaveFeed($newestFeed, $force, null, null, NOW);
 // Create RSS/Atom feeds.
 
 // Create the RSS All feed.
-$allRssFeed = new RssFeed('Standard Ebooks - All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/feeds/rss/all',  $webRoot . '/feeds/rss/all.xml', $allEbooks);
+$allRssFeed = new RssFeed('Standard Ebooks – All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/feeds/rss/all',  $webRoot . '/feeds/rss/all.xml', $allEbooks);
 SaveFeed($allRssFeed, $force, null, null);
 
 // Create the RSS Newest feed.
-$newestRssFeed = new RssFeed('Standard Ebooks - Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/rss/new-releases', $webRoot . '/feeds/rss/new-releases.xml', $newestEbooks);
+$newestRssFeed = new RssFeed('Standard Ebooks – Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/rss/new-releases', $webRoot . '/feeds/rss/new-releases.xml', $newestEbooks);
 SaveFeed($newestRssFeed, $force, null, null);
 
 // Create the Atom All feed.
-$allAtomFeed = new AtomFeed('Standard Ebooks - All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/feeds/atom/all',  $webRoot . '/feeds/atom/all.xml', $allEbooks);
+$allAtomFeed = new AtomFeed('Standard Ebooks – All Ebooks', 'All Standard Ebooks, most-recently-released first.', '/feeds/atom/all',  $webRoot . '/feeds/atom/all.xml', $allEbooks);
 SaveFeed($allAtomFeed, $force, null, null, NOW);
 
 // Create the Atom Newest feed.
-$newestAtomFeed = new AtomFeed('Standard Ebooks - Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/atom/new-releases', $webRoot . '/feeds/atom/new-releases.xml', $newestEbooks);
+$newestAtomFeed = new AtomFeed('Standard Ebooks – Newest Ebooks', 'The ' . number_format($ebooksPerNewestEbooksFeed) . ' latest Standard Ebooks, most-recently-released first.', '/feeds/atom/new-releases', $webRoot . '/feeds/atom/new-releases.xml', $newestEbooks);
 SaveFeed($newestAtomFeed, $force, null, null, NOW);
 
 // Generate each individual subject feed.
 foreach($ebooksBySubject as $subject => $ebooks){
 	usort($ebooks, 'SortByUpdatedDesc');
 
-	$title = 'Standard Ebooks - ' . $subjects[$subject]['name'] . ' Ebooks';
+	$title = 'Standard Ebooks – ' . $subjects[$subject]['name'] . ' Ebooks';
 	$subtitle = 'Standard Ebooks in the “' . strtolower($subjects[$subject]['name']) . '” subject, most-recently-released first.';
 
 	$subjectRssFeed = new RssFeed($title, $subtitle, '/feeds/rss/subjects/' . Formatter::MakeUrlSafe($subject),  $webRoot . '/feeds/rss/subjects/' . Formatter::MakeUrlSafe($subject) . '.xml', $ebooks);
@@ -229,7 +229,7 @@ foreach($ebooksByCollection as $collection => $ebooks){
 
 	$titleName = preg_replace('/^The /ius', '', $collections[$collection]['name']);
 
-	$title ='Standard Ebooks - Ebooks in the ' . $titleName . ' collection';
+	$title ='Standard Ebooks – Ebooks in the ' . $titleName . ' collection';
 	$subtitle = 'Standard Ebooks in the ' . $titleName . ' collection, most-recently-released first.';
 
 	$collectionRssFeed = new RssFeed($title, $subtitle, '/feeds/rss/collections/' . Formatter::MakeUrlSafe($collection),  $webRoot . '/feeds/rss/collections/' . Formatter::MakeUrlSafe($collection) . '.xml', $ebooks);
@@ -243,7 +243,7 @@ foreach($ebooksByCollection as $collection => $ebooks){
 foreach($ebooksByAuthor as $collection => $ebooks){
 	usort($ebooks, 'SortByUpdatedDesc');
 
-	$title = 'Standard Ebooks - Ebooks by ' . $authors[$collection]['name'];
+	$title = 'Standard Ebooks – Ebooks by ' . $authors[$collection]['name'];
 	$subtitle = 'Standard Ebooks by ' . $authors[$collection]['name'] . ', most-recently-released first.';
 
 	$collectionRssFeed = new RssFeed($title, $subtitle, '/feeds/rss/authors/' . $authors[$collection]['id'],  $webRoot . '/feeds/rss/authors/' . $authors[$collection]['id'] . '.xml', $ebooks);

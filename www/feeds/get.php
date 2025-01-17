@@ -41,13 +41,13 @@ try{
 	if($collectionType == Enums\FeedCollectionType::Authors){
 		$title = 'Ebook feeds for ' . $label;
 		$description = 'A list of available ebook feeds for ebooks by ' . $label . '.';
-		$feedTitle = 'Standard Ebooks - Ebooks by ' . $label;
+		$feedTitle = 'Standard Ebooks – Ebooks by ' . $label;
 	}
 
 	if($collectionType == Enums\FeedCollectionType::Collections){
 		$title = 'Ebook feeds for the ' . $label . ' collection';
 		$description = 'A list of available ebook feeds for ebooks in the ' . $label . ' collection.';
-		$feedTitle = 'Standard Ebooks - Ebooks in the ' . $label . ' collection';
+		$feedTitle = 'Standard Ebooks – Ebooks in the ' . $label . ' collection';
 	}
 
 	$feedUrl = '/' . $collectionType->value . '/' . $target;
