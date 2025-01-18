@@ -61,7 +61,7 @@ for filename in ${directory}/${filenameBase}.*; do
 			# ipv6loganon is provided by the `ipv6calc` package
 			grep --extended-regexp "\[${grepString}" "${filename}" | ipv6loganon --anonymize-paranoid >> "${directory}/${logMonth}/${logFilename}"
 
-			gzip --best "${directory}/${logMonth}/${logFilename}"
+			gzip --force --best "${directory}/${logMonth}/${logFilename}"
 
 			chown --preserve-root --recursive www-data:adm "${directory}/${logMonth}"
 			chmod --preserve-root --recursive g+w "${directory}/${logMonth}"
@@ -70,3 +70,6 @@ for filename in ${directory}/${filenameBase}.*; do
 		rm "${filename}"
 	fi
 done
+
+# Set this for `fail2ban` to use.
+ln -s "$1" "${directory}"/current.log

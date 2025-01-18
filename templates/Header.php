@@ -119,6 +119,8 @@ if(!$isXslt){
 			</div>
 		<? } ?>
 		<a href="/">Standard Ebooks</a>
+		<? /* This link is hidden to regular users, and also disallowed by `robots.txt`. If a rude bot crawls this URL, `fail2ban` bans the IP for 24 hours. See `./config/fail2ban/filter.d/se.conf`. */ ?>
+		<a href="/honeypot" hidden="hidden">Following this link will ban your IP for 24 hours</a>
 		<nav>
 			<ul>
 				<li>

@@ -1,1 +1,4 @@
 Sitemap: https://standardebooks.org/sitemap
+
+User-agent: *
+Disallow: /honeypot
