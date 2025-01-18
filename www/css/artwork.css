@@ -274,7 +274,7 @@ main section.narrow h1 ~ picture{
 .artworks figure.wrong::before{
 	background: #762729;
 	font-family: "Fork Awesome";
-	content: "\f00d";
+	content: "\f00d" / "";
 	font-size: 1.5rem;
 	width: 1.5rem;
 	line-height: 1;
@@ -288,7 +288,7 @@ main section.narrow h1 ~ picture{
 .artworks figure.corrected::before{
 	background: #406451;
 	font-family: "Fork Awesome";
-	content: "\f00c";
+	content: "\f00c" / "";
 	font-size: 1.5rem;
 	line-height: 1;
 	width: 1.5rem;

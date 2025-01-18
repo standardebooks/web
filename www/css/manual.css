@@ -368,7 +368,7 @@ code.full .utf{
 
 .alert p.warning::before,
 .alert p.warning::after{
-	content: "\f071";
+	content: "\f071" / "";
 	font-family: "Fork Awesome";
 }
 
@@ -389,7 +389,7 @@ figure p.wrong{
 figure p.wrong::before,
 figure.wrong::before{
 	font-family: "Fork Awesome";
-	content: "\f00d";
+	content: "\f00d" / "";
 	font-size: 1.5rem;
 	width: 1.5rem;
 	line-height: 1;
@@ -403,7 +403,7 @@ figure.wrong::before{
 figure p.corrected::before,
 figure.corrected::before{
 	font-family: "Fork Awesome";
-	content: "\f00c";
+	content: "\f00c" / "";
 	font-size: 1.5rem;
 	line-height: 1;
 	margin-right: .5rem;
@@ -624,7 +624,7 @@ figure.corrected code{
 
 .manual aside.tip::before{
 	font-family: "Fork Awesome";
-	content: "\f0eb";
+	content: "\f0eb" / "";
 	font-size: 1rem;
 	position: absolute;
 	font-style: normal;

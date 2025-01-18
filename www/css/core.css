@@ -399,7 +399,7 @@ header nav li{
 }
 
 header nav li + li:before{
-	content: "•";
+	content: "•" / "";
 	font-size: 16px;
 	margin-left: 10px;
 	margin-right: 10px;
@@ -874,7 +874,7 @@ form button:active{
 a.button.next::after,
 main nav.pagination > a:last-child::after{
 	font-family: "Fork Awesome";
-	content: "\f061";
+	content: "\f061" / "";
 	transition: all 200ms ease;
 	position: relative;
 	left: 0;
@@ -890,7 +890,7 @@ main nav.pagination > a:last-child[href]:hover::after{
 
 main nav.pagination > a:first-child:before{
 	font-family: "Fork Awesome";
-	content: "\f060";
+	content: "\f060" / "";
 	transition: all 200ms ease;
 	position: relative;
 	right: 0;
@@ -1356,7 +1356,7 @@ footer ul.nav-links li::after{
 }
 
 footer ul.nav-links li:not(:last-child)::after{
-	content: "\b7";
+	content: "\b7" / "";
 	margin: 0 10px;
 }
 
@@ -1380,7 +1380,7 @@ footer > a{
 
 footer p.newsletter::before{
 	font-family: "Fork Awesome";
-	content: "\f0e0";
+	content: "\f0e0" / "";
 	display: inline;
 	margin-right: .25rem;
 	font-size: .75rem;
@@ -1919,7 +1919,7 @@ label:has(select) > span + span:last-child::after{
 	position: absolute;
 	top: calc((2rem + 1.4rem + 2px) / 2 - 10px);
 	right: calc(1rem - 12px / 2);
-	content: "\f107";
+	content: "\f107" / "";
 	font-family: "Fork Awesome";
 	font-size: 1rem;
 	line-height: 1;
@@ -1969,67 +1969,67 @@ label:has(input[type="password"])::before{
 }
 
 label:has(input[type="url"])::before{
-	content: "\f0c1";
+	content: "\f0c1" / "";
 }
 
 label:has(input[type="search"])::before{
-	content: "\f002";
+	content: "\f002" / "";
 }
 
 label:has(input[type="email"])::before{
-	content: "\f0e0";
+	content: "\f0e0" / "";
 }
 
 label:has(input[type="password"])::before{
-	content: "\f084";
+	content: "\f084" / "";
 }
 
 label.captcha::before{
-	content: "\f256";
+	content: "\f256" / "";
 }
 
 label.year::before{
-	content: "\f073";
+	content: "\f073" / "";
 }
 
 label.meter::before{
-	content: "\f0e4";
+	content: "\f0e4" / "";
 }
 
 label.collection::before{
-	content: "\f0e8";
+	content: "\f0e8" / "";
 }
 
 label.book::before{
-	content: "\f02d";
+	content: "\f02d" / "";
 }
 
 label.ordered-list::before{
-	content: "\f0cb";
+	content: "\f0cb" / "";
 }
 
 label.hourglass::before{
-	content: "\f254";
+	content: "\f254" / "";
 }
 
 label.tags:not(:has(select))::before{
-	content: "\f02c";
+	content: "\f02c" / "";
 }
 
 label.picture::before{
-	content: "\f03e";
+	content: "\f03e" / "";
 }
 
 label.user::before{
-	content: "\f007";
+	content: "\f007" / "";
 }
 
 label.indent::before{
-	content: "\f03c";
+	content: "\f03c" / "";
 }
 
 label.language::before{
-	content: "\f1ab";
+	content: "\f1ab" / "";
 }
 
 nav li.highlighted a,
@@ -2173,13 +2173,13 @@ main nav.pagination ol li:not(:first-child):not(:last-child):not(.highlighted){
 
 article nav ol li.highlighted::before,
 main nav.pagination ol li.highlighted::before{
-	content: "⋯";
+	content: "⋯" / "";
 	padding-right: 1rem;
 }
 
 article nav ol li.highlighted::after,
 main nav.pagination ol li.highlighted::after{
-	content: "⋯";
+	content: "⋯" / "";
 	padding-left: 1rem;
 }
 
@@ -2694,11 +2694,11 @@ h1.is-collection{
 }
 
 .ebooks-toolbar a.button[href*="/downloads"]::before{
-	content: "\f019";
+	content: "\f019" / "";
 }
 
 .ebooks-toolbar a.button[href*="/feeds"]::before{
-	content: "\f143";
+	content: "\f143" / "";
 }
 
 abbr.acronym{
@@ -3091,7 +3091,7 @@ article.ebook section#read-online ul li p.has-size span{
 }
 
 article.ebook section#read-online ul li p.has-size span::before{
-	content: "\f071";
+	content: "\f071" / "";
 	font-family: "Fork Awesome";
 	margin-right: .25rem;
 }
@@ -3580,7 +3580,7 @@ a.patron-selection:any-link:hover{
 	}
 
 	footer ul.nav-links li:nth-child(4)::after{
-		content: "\A"; /* This is a line break */
+		content: "\A" / ""; /* This is a line break */
 		white-space: pre;
 		margin: 0;
 	}
@@ -3733,13 +3733,13 @@ a.patron-selection:any-link:hover{
 
 	footer ul.nav-links li:nth-child(2)::after,
 	footer ul.nav-links li:nth-child(5)::after{
-		content: "\A"; /* This is a line break */
+		content: "\A" / ""; /* This is a line break */
 		white-space: pre;
 		margin: 0;
 	}
 
 	footer ul.nav-links li:nth-child(4)::after{
-		content: "\b7";
+		content: "\b7" / "";
 		white-space: normal;
 		margin: 0 10px;
 	}
@@ -3984,7 +3984,7 @@ a.patron-selection:any-link:hover{
 	footer ul.nav-links li:nth-child(2)::after,
 	footer ul.nav-links li:nth-child(4)::after,
 	footer ul.nav-links li:nth-child(6)::after{
-		content: "\A"; /* This is a line break */
+		content: "\A" / ""; /* This is a line break */
 		white-space: pre;
 		margin: 0;
 	}
@@ -3992,7 +3992,7 @@ a.patron-selection:any-link:hover{
 	footer ul.nav-links li:nth-child(1)::after,
 	footer ul.nav-links li:nth-child(3)::after,
 	footer ul.nav-links li:nth-child(5)::after{
-		content: "\b7";
+		content: "\b7" / "";
 		white-space: normal;
 		margin: 0 10px;
 	}
@@ -4120,7 +4120,7 @@ a.patron-selection:any-link:hover{
 	}
 
 	footer ul.nav-links li:nth-child(7)::after{
-		content: "\A"; /* This is a line break */
+		content: "\A" / ""; /* This is a line break */
 		white-space: pre;
 		margin: 0;
 	}
