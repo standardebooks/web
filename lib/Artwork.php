@@ -1029,9 +1029,15 @@ class Artwork{
 			$orderBy = 'art.CompletedYear desc';
 		}
 
-		// Remove diacritics and non-alphanumeric characters, but preserve apostrophes.
+		// Remove diacritics and non-alphanumeric characters.
 		if($query !== null && $query != ''){
-			$query = trim(preg_replace('|[^a-zA-Z0-9\'’ ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+			$query = Formatter::RemoveDiacritics($query);
+
+			// Remove apostrophes outright, don't replace with a space.
+			$query = preg_replace('/[\'’]/u', '', $query);
+
+			// Replace all other non-alphanumeric characters with a space.
+			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', $query));
 		}
 		else{
 			$query = '';
@@ -1067,6 +1073,7 @@ class Artwork{
 			$tokenizedQuery = '\b(' . implode('|', $tokenArray) . ')\b';
 
 			$params[] = $tokenizedQuery; // art.Name
+			$params[] = $tokenizedQuery; // art.UrlName
 			$params[] = $tokenizedQuery; // art.EbookUrl
 			$params[] = $tokenizedQuery; // a.Name
 			$params[] = $tokenizedQuery; // a.UrlName
@@ -1088,6 +1095,7 @@ class Artwork{
 				    where
 				        ' . $statusCondition . '
 				            and (art.Name regexp ?
+				            or art.UrlName regexp ?
 				            or replace(art.EbookUrl, "_", " ") regexp ?
 				            or a.Name regexp ?
 				            or a.UrlName regexp ?
@@ -1107,6 +1115,7 @@ class Artwork{
 				  left join Tags t using (TagId)
 				where ' . $statusCondition . '
 				  and (art.Name regexp ?
+				  or art.UrlName regexp ?
 				  or replace(art.EbookUrl, "_", " ") regexp ?
 				  or a.Name regexp ?
 				  or a.UrlName regexp ?
