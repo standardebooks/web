@@ -608,6 +608,13 @@ main.front-page > section > section > h3{
 	hyphens: none;
 }
 
+header a[href="/honeypot"]{
+	/* Hide from clients who don't support the `@hidden` attribute, like older Kindle browsers. */
+	display: none;
+	position: absolute;
+	left: -9999rem;
+}
+
 main.center h1{
 	margin-top: 4rem;
 	border: none;
