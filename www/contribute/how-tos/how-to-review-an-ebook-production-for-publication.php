@@ -100,6 +100,11 @@
 				<code class="terminal"><b>grep</b> --recursive --line-number <i>"&lt;i&gt;"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
 			</li>
 			<li>
+				<h2>Review bold and strong elements</h2>
+				<p>The <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> and <code><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> elements are not to be used interchangeably (see relevant section of the Manual <a href="manual/latest/single-page#8.3.3">here</a>). Use the following command to check their usage in the production (alternatively, use the regular expression search function in a text editor):</p>
+				<code class="terminal"><b>grep</b> --recursive --line-number --extended-regexp <i>"&lt;(b|strong)&gt;"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
+			</li>
+			<li>
 				<h2>Review XHTML file structure</h2>
 				<p>Do a final look through of each XHTML file for spelling, styling, and formatting discrepancies. Possible things to look out for:</p>
 				<ul>
@@ -116,6 +121,9 @@
 								<p>Does each chapter file include the wrapping <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element for its corresponding part, for recomposition? (See <a href="/manual/latest/single-page#4.1.1.1">Manual</a>)</p>
 							</li>
 						</ul>
+					</li>
+					<li>
+						<p>If the book has illustrations, check that the illustration names and ids are correct. (See <a href="/manual/latest/single-page#7.8">manual</a>)</p>
 					</li>
 				</ul>
 			</li>
