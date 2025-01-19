@@ -37,6 +37,7 @@ header nav li{
 }
 
 header nav li + li:before{
+	content: "•";
 	content: "•" / "";
 	margin-left: 10px;
 	margin-right: 10px;
