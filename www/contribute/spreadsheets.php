@@ -112,6 +112,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1J9eXqZuq9P7HjZRsqJ8N-g5B4DM-Fi0PPWUBXW4AGOE/edit">Poetry by Georgia Douglas Johnson</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/document/d/1oKSdWxAypKpSzky1ToQ1j3_3FGD73DxPpD-4c_7v8S4/edit">Philosophical Works by René Descartes</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
