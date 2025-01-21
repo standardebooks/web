@@ -29,11 +29,17 @@
 				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>“Surrender you two! and confound you for two wild beasts!”<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 			</li>
 			<li>
-				<p>Older public domain works, especially eighteenth century and prior, often used uppercased words as a kind of emphasis. Unless they are for purposes of personification, they should be changed to lowercase.</p>
+				<p>Older public domain works, especially eighteenth century and prior, often used capitalized words as a kind of emphasis. Unless they are for purposes of personification, they should be changed to lowercase.</p>
 				<p>Here, “History” is a personification, but “Courtiers” is not.</p>
 				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>To the eye of History many things, in that sick-room of Louis, are now visible, which to the Courtiers there present were invisible.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				<p>Therefore, “Courtiers” should be lowercased. This would be also be an editorial commit.</p>
 				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>To the eye of History many things, in that sick-room of Louis, are now visible, which to the courtiers there present were invisible.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
+			</li>
+			<li>
+			    <p>Often, the first few words of each chapter in a work are set in all- or small-caps. We do not retain that formatting.
+				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I SUPPOSE that in the days before the catastrophe I was a very fair representative of the better type of business man.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
+				<p>The first two words should be changed to normal sentence case in an editorial commit.</p>
+				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I suppose that in the days before the catastrophe I was a very fair representative of the better type of business man.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 			</li>
 		</ol>
 	</section>
