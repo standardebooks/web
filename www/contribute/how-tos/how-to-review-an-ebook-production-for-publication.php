@@ -102,7 +102,7 @@
 			<li>
 				<h2>Review bold and strong elements</h2>
 				<p>The <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> and <code><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> elements are not to be used interchangeably (see relevant section of the Manual <a href="manual/latest/single-page#8.3.3">here</a>). Use the following command to check their usage in the production (alternatively, use the regular expression search function in a text editor):</p>
-				<code class="terminal"><b>grep</b> --recursive --line-number --extended-regexp <i>"&lt;(b|strong)&gt;"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
+				<code class="terminal"><b>grep</b> --recursive --line-number --extended-regexp <i>"&lt;(b\W|strong)"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
 			</li>
 			<li>
 				<h2>Review XHTML file structure</h2>
