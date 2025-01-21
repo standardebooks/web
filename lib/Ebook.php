@@ -2424,9 +2424,9 @@ final class Ebook{
 		}
 
 		if($query !== null && $query != ''){
-			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
-			$query = sprintf('"%s"', $query);  // Require an exact match via double quotes.
-			$whereCondition .= ' and match(e.IndexableText) against(? in boolean mode) ';
+			// Preserve quotes in the query so the user can enter, e.g., "war and peace" for an exact match.
+			$query = trim(preg_replace('|[^a-zA-Z0-9" ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+			$whereCondition .= ' and match(e.IndexableText) against(?) ';
 			$params[] = $query;
 		}
 
