@@ -115,6 +115,9 @@
 			<li>
 				<p><a href="https://docs.google.com/document/d/1oKSdWxAypKpSzky1ToQ1j3_3FGD73DxPpD-4c_7v8S4/edit">Philosophical Works by René Descartes</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1KZHCdrtxXyCVNUPoujEH9xi36NH8vDXNMU0ofm4OJNg">Short Fiction by Andre Norton</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
