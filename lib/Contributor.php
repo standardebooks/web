@@ -172,7 +172,7 @@ class Contributor{
 	/**
 	 * @return array<Contributor>
 	 */
-	public static function GetAllByMarcRole(Enums\MarcRole $marcRole): array{
-		return Db::Query('SELECT * from Contributors where MarcRole = ?', [$marcRole], Contributor::class);
+	public static function GetDistinctByMarcRole(Enums\MarcRole $marcRole): array{
+		return Db::Query('SELECT * from Contributors where MarcRole = ? group by UrlName', [$marcRole], Contributor::class);
 	}
 }

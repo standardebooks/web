@@ -4,7 +4,7 @@
  */
 
 $ebooks = Ebook::GetAll();
-$authors = Contributor::GetAllByMarcRole(Enums\MarcRole::Author);
+$authors = Contributor::GetDistinctByMarcRole(Enums\MarcRole::Author);
 $collections = Collection::GetAll();
 
 header("Content-Type: application/xml");
