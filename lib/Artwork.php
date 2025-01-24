@@ -509,17 +509,14 @@ class Artwork{
 		}
 
 		// Check for existing `Artwork` objects with the same URL but different `ArtworkID`s.
-		if(isset($this->ArtworkId)){
-			try{
-				$existingArtwork = Artwork::GetByUrl($this->Artist->UrlName, $this->UrlName);
-				if($existingArtwork->ArtworkId != $this->ArtworkId){
-					// Duplicate found, alert the user.
-					$error->Add(new Exceptions\ArtworkAlreadyExistsException());
-				}
+		try{
+			$existingArtwork = Artwork::GetByUrl($this->Artist->UrlName, $this->UrlName);
+			if(!isset($this->ArtworkId) || $existingArtwork->ArtworkId != $this->ArtworkId){
+				$error->Add(new Exceptions\ArtworkAlreadyExistsException());
 			}
-			catch(Exceptions\ArtworkNotFoundException){
-				// No duplicates found, continue.
-			}
+		}
+		catch(Exceptions\ArtworkNotFoundException){
+			// No duplicates found, continue.
 		}
 
 		if($isImageRequired){
