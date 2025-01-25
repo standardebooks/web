@@ -118,6 +118,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1KZHCdrtxXyCVNUPoujEH9xi36NH8vDXNMU0ofm4OJNg">Short Fiction by Andre Norton</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/11rKzjg_XqnxNfK3x6tQFLzj0QLPLDEpR5_1AwQglao4">Short Fiction by Manly Wade Wellman</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
