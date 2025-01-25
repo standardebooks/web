@@ -89,5 +89,5 @@ foreach($projects as $project){
 
 	$project->Save();
 
-	sleep(1);
+	sleep(5);
 }

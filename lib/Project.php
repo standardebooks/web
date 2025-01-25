@@ -554,11 +554,11 @@ final class Project{
 			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 			if(!is_string($response)){
-				throw new Exceptions\AppException('Response from <' . $url . '> was not a string: ' . $response);
+				throw new Exceptions\AppException('Server did not respond with a string: ' . $response);
 			}
 
 			if($httpCode != Enums\HttpCode::Ok->value){
-				throw new Exception('HTTP code ' . $httpCode . ' received for URL <' . $url . '>.');
+				throw new Exception('Server responded with HTTP ' . $httpCode . '.');
 			}
 
 			/** @var array<stdClass> $commits */
@@ -590,11 +590,11 @@ final class Project{
 			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 			if(!is_string($response)){
-				throw new Exceptions\AppException('Response from <' . $this->DiscussionUrl . '> was not a string: ' . $response);
+				throw new Exceptions\AppException('Server did not respond with a string: ' . $response);
 			}
 
 			if($httpCode != Enums\HttpCode::Ok->value){
-				throw new Exception('HTTP code ' . $httpCode . ' received for URL <' . $this->DiscussionUrl . '>.');
+				throw new Exception('Server responded with HTTP ' . $httpCode . '.');
 			}
 
 			$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response, $matches);
