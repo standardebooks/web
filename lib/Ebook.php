@@ -44,6 +44,8 @@ use function Safe\shell_exec;
  * @property string $TextSinglePageUrl
  * @property string $TextSinglePageSizeFormatted
  * @property string $IndexableText
+ * @property string $IndexableAuthors
+ * @property ?string $IndexableCollections
  * @property ?EbookPlaceholder $EbookPlaceholder
  * @property array<Project> $Projects
  * @property array<Project> $PastProjects
@@ -128,6 +130,8 @@ final class Ebook{
 	protected string $_TextSinglePageUrl;
 	protected string $_TextSinglePageSizeFormatted;
 	protected string $_IndexableText;
+	protected string $_IndexableAuthors;
+	protected ?string $_IndexableCollections = null;
 	protected ?EbookPlaceholder $_EbookPlaceholder = null;
 	/** @var array<Project> $_Projects */
 	protected array $_Projects;
@@ -732,11 +736,38 @@ final class Ebook{
 				}
 			}
 
-			// Remove diacritics and non-alphanumeric characters.
-			$this->_IndexableText = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($this->_IndexableText)));
+			$this->_IndexableText = Formatter::RemoveDiacriticsAndNonalphanumerics($this->_IndexableText);
 		}
 
 		return $this->_IndexableText;
+	}
+
+	protected function GetIndexableAuthors(): string{
+		if(!isset($this->_IndexableAuthors)){
+			$this->_IndexableAuthors = '';
+
+			foreach($this->Authors as $author){
+				$this->_IndexableAuthors .= ' ' . $author->Name;
+			}
+
+			$this->_IndexableAuthors = Formatter::RemoveDiacriticsAndNonalphanumerics($this->_IndexableAuthors);
+		}
+
+		return $this->_IndexableAuthors;
+	}
+
+	protected function GetIndexableCollections(): ?string{
+		if(!isset($this->_IndexableCollections)){
+			foreach($this->CollectionMemberships as $collectionMembership){
+				$this->_IndexableCollections .= ' ' . $collectionMembership->Collection->Name;
+			}
+
+			if(isset($this->_IndexableCollections)){
+				$this->_IndexableCollections = Formatter::RemoveDiacriticsAndNonalphanumerics($this->_IndexableCollections);
+			}
+		}
+
+		return $this->_IndexableCollections;
 	}
 
 	protected function GetEbookPlaceholder(): ?EbookPlaceholder{
@@ -1561,6 +1592,22 @@ final class Ebook{
 			$error->Add(new Exceptions\EbookIndexableTextRequiredException());
 		}
 
+		if(isset($this->IndexableAuthors)){
+			$this->IndexableAuthors = trim($this->IndexableAuthors ?? '');
+
+			if($this->IndexableAuthors == ''){
+				$error->Add(new Exceptions\EbookIndexableAuthorsRequiredException());
+			}
+		}
+		else{
+			$error->Add(new Exceptions\EbookIndexableAuthorsRequiredException());
+		}
+
+		$this->IndexableCollections = trim($this->IndexableCollections ?? '');
+		if($this->IndexableCollections == ''){
+			$this->IndexableCollections = null;
+		}
+
 		if(isset($this->EbookPlaceholder)){
 			try{
 				$this->EbookPlaceholder->Validate();
@@ -1897,8 +1944,11 @@ final class Ebook{
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
 				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
-				EbookCreated, EbookUpdated, TextSinglePageByteCount, IndexableText)
+				EbookCreated, EbookUpdated, TextSinglePageByteCount, IndexableText, IndexableAuthors,
+				IndexableCollections)
 			values (?,
+				?,
+				?,
 				?,
 				?,
 				?,
@@ -1925,7 +1975,8 @@ final class Ebook{
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
 				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText]);
+				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
+				$this->IndexableAuthors, $this->IndexableCollections]);
 
 		$this->EbookId = Db::GetLastInsertedId();
 
@@ -1990,7 +2041,9 @@ final class Ebook{
 				EbookCreated = ?,
 				EbookUpdated = ?,
 				TextSinglePageByteCount = ?,
-				IndexableText = ?
+				IndexableText = ?,
+				IndexableAuthors = ?,
+				IndexableCollections = ?
 				where
 				EbookId = ?
 			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
@@ -1998,6 +2051,7 @@ final class Ebook{
 					$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 					$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 					$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
+					$this->IndexableAuthors, $this->IndexableCollections,
 					$this->EbookId]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
@@ -2380,6 +2434,7 @@ final class Ebook{
 	public static function GetAllByFilter(string $query = null, array $tags = [], Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): array{
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
+		$relevanceScoreField = '';
 		$joinContributors = '';
 		$joinTags = '';
 		$params = [];
@@ -2424,10 +2479,22 @@ final class Ebook{
 		}
 
 		if($query !== null && $query != ''){
-			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($query)));
-			$query = sprintf('"%s"', $query);  // Require an exact match via double quotes.
-			$whereCondition .= ' and match(e.IndexableText) against(? in boolean mode) ';
+			// Preserve quotes in the query so the user can enter, e.g., "war and peace" for an exact match.
+			$query = trim(preg_replace('|[^a-zA-Z0-9" ]|ius', ' ', Formatter::RemoveDiacritics($query)));
+
+			$relevanceScoreField = ', (
+				match(e.Title) against (?) * ' . EBOOK_SEARCH_WEIGHT_TITLE . ' +
+				match(e.IndexableAuthors) against (?) * ' . EBOOK_SEARCH_WEIGHT_AUTHORS . ' +
+				match(e.IndexableCollections) against (?) * ' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ' +
+				match(e.IndexableText) against (?)
+			) as relevance_score ';
+
+			$whereCondition .= ' and match(e.IndexableText) against(?) ';
 			$params[] = $query;
+
+			if($sort == null || $sort == Enums\EbookSortType::Relevance || $sort == Enums\EbookSortType::Newest){
+				$orderBy = 'relevance_score desc, e.EbookCreated desc';
+			}
 		}
 
 		try{
@@ -2439,11 +2506,17 @@ final class Ebook{
 					' . $whereCondition . '
 					', $params);
 
+			if($relevanceScoreField != ''){
+				// `relevance_score` is at the beginning of the query, so these params must go at the start of the array.
+				array_unshift($params, $query, $query, $query, $query);
+			}
+
 			$params[] = $limit;
 			$params[] = $offset;
 
 			$ebooks = Db::Query('
 					SELECT distinct e.*
+					' . $relevanceScoreField . '
 					from Ebooks e
 					' . $joinContributors . '
 					' . $joinTags . '
