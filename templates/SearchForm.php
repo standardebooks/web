@@ -18,13 +18,17 @@ $isAllSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		</select>
 	</label>
 	<label>Keywords
-		<input type="search" name="query" value="<?= Formatter::EscapeHtml($query ?? '') ?>"/>
+		<input type="search" name="query" placeholder="Quotes allowed, e.g., &quot;war and peace&quot;" value="<?= Formatter::EscapeHtml($query ?? '') ?>"/>
 	</label>
 	<label class="sort">
 		<span>Sort</span>
 		<span>
 			<select name="sort">
-				<option value="<?= Enums\EbookSortType::Newest->value ?>"<? if($sort == Enums\EbookSortType::Newest){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
+				<? if(isset($query) && $query != ''){ ?>
+					<option value="<?= Enums\EbookSortType::Relevance->value ?>"<? if($sort == Enums\EbookSortType::Relevance){ ?> selected="selected"<? } ?>>Relevance</option>
+				<? }else{ ?>
+					<option value="<?= Enums\EbookSortType::Newest->value ?>"<? if($sort == Enums\EbookSortType::Newest){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
+				<? } ?>
 				<option value="<?= Enums\EbookSortType::AuthorAlpha->value ?>"<? if($sort == Enums\EbookSortType::AuthorAlpha){ ?> selected="selected"<? } ?>>Author name  (a &#x2192; z)</option>
 				<option value="<?= Enums\EbookSortType::ReadingEase->value ?>"<? if($sort == Enums\EbookSortType::ReadingEase){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
 				<option value="<?= Enums\EbookSortType::Length->value ?>"<? if($sort == Enums\EbookSortType::Length){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
