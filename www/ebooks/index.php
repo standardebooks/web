@@ -28,6 +28,14 @@ try{
 		$view = null;
 	}
 
+	if($query != ''){
+		$queryStringParams['query'] = $query;
+		// If the user entered a query with the default sort order, change it to relevance sort.
+		if($sort == Enums\EbookSortType::Newest){
+			$sort = Enums\EbookSortType::Relevance;
+		}
+	}
+
 	if($sort == Enums\EbookSortType::Newest){
 		$sort = null;
 	}
@@ -37,10 +45,6 @@ try{
 	}
 
 	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks free ebook library';
-
-	if($query != ''){
-		$queryStringParams['query'] = $query;
-	}
 
 	if(sizeof($tags) > 0){
 		$queryStringParams['tags'] = $tags;
