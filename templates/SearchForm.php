@@ -18,7 +18,7 @@ $isAllSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		</select>
 	</label>
 	<label>Keywords
-		<input type="search" name="query" placeholder="Quotes allowed, e.g., &quot;war and peace&quot;" value="<?= Formatter::EscapeHtml($query ?? '') ?>"/>
+		<input type="search" name="query" value="<?= Formatter::EscapeHtml($query ?? '') ?>"/>
 	</label>
 	<label class="sort">
 		<span>Sort</span>
