@@ -2487,13 +2487,13 @@ final class Ebook{
 				match(e.IndexableAuthors) against (?) * ' . EBOOK_SEARCH_WEIGHT_AUTHORS . ' +
 				match(e.IndexableCollections) against (?) * ' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ' +
 				match(e.IndexableText) against (?)
-			) as relevance_score ';
+			) as RelevanceScore ';
 
 			$whereCondition .= ' and match(e.IndexableText) against(?) ';
 			$params[] = $query;
 
 			if($sort == null || $sort == Enums\EbookSortType::Relevance || $sort == Enums\EbookSortType::Newest){
-				$orderBy = 'relevance_score desc, e.EbookCreated desc';
+				$orderBy = 'RelevanceScore desc, e.EbookCreated desc';
 			}
 		}
 
@@ -2507,7 +2507,7 @@ final class Ebook{
 					', $params);
 
 			if($relevanceScoreField != ''){
-				// `relevance_score` is at the beginning of the query, so these params must go at the start of the array.
+				// `RelevanceScore` is at the beginning of the query, so these params must go at the start of the array.
 				array_unshift($params, $query, $query, $query, $query);
 			}
 
