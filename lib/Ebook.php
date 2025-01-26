@@ -1582,7 +1582,7 @@ final class Ebook{
 		}
 
 		if(isset($this->IndexableText)){
-			$this->IndexableText = trim($this->IndexableText ?? '');
+			$this->IndexableText = trim($this->IndexableText);
 
 			if($this->IndexableText == ''){
 				$error->Add(new Exceptions\EbookIndexableTextRequiredException());
@@ -1593,7 +1593,7 @@ final class Ebook{
 		}
 
 		if(isset($this->IndexableAuthors)){
-			$this->IndexableAuthors = trim($this->IndexableAuthors ?? '');
+			$this->IndexableAuthors = trim($this->IndexableAuthors);
 
 			if($this->IndexableAuthors == ''){
 				$error->Add(new Exceptions\EbookIndexableAuthorsRequiredException());
