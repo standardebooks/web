@@ -16,10 +16,7 @@ use Safe\DateTimeImmutable;
  */
 
 /** @var array<Project> $projects */
-$projects = array_merge(
-		Project::GetAllByStatus(Enums\ProjectStatusType::InProgress),
-		Project::GetAllByStatus(Enums\ProjectStatusType::Stalled)
-	);
+$projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
 
 $apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
 $oldestStalledTimestamp = new DateTimeImmutable('60 days ago');
@@ -34,7 +31,7 @@ foreach($projects as $project){
 	}
 
 	try{
-		$project->FetchLatestCommitTimestamp($apiKey);
+		$project->FetchLastCommitTimestamp($apiKey);
 
 	}
 	catch(Exceptions\AppException $ex){
@@ -42,8 +39,19 @@ foreach($projects as $project){
 	}
 
 	if($project->IsStatusAutomaticallyUpdated){
+		// Check if this project is in review.
+		if($project->Status == Enums\ProjectStatusType::InProgress){
+			$project->FetchReviewStatus();
+		}
+
 		if(
-			$project->Status == Enums\ProjectStatusType::InProgress
+			(
+				$project->Status == Enums\ProjectStatusType::InProgress
+				||
+				$project->Status == Enums\ProjectStatusType::AwaitingReview
+				||
+				$project->Status == Enums\ProjectStatusType::Reviewed
+			)
 			&&
 			$project->LastActivityTimestamp < $oldestStalledTimestamp
 		){

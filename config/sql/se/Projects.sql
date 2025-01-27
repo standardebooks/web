@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `Projects` (
   `ProjectId` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Status` enum('in_progress','stalled','completed','abandoned') NOT NULL DEFAULT 'in_progress',
+  `Status` enum('in_progress','awaiting_review','reviewed','stalled','completed','abandoned') NOT NULL DEFAULT 'in_progress',
   `EbookId` int(11) NOT NULL,
   `ProducerName` varchar(151) NOT NULL DEFAULT '',
   `ProducerEmail` varchar(80) DEFAULT NULL,

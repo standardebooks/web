@@ -35,8 +35,22 @@ table.data-table{
 	width: 100%;
 }
 
+table.data-table td.status{
+	text-align: center;
+}
+
 table.data-table td.status.stalled{
 	background: #861d1d !important; /* Override hover backgound color */
+	color: #ffffff;
+}
+
+table.data-table td.status.awaiting-review{
+	background: #d5b434 !important; /* Override hover backgound color */
+	color: #ffffff;
+}
+
+table.data-table td.status.reviewed{
+	background: #1d863c !important; /* Override hover backgound color */
 	color: #ffffff;
 }
 

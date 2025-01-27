@@ -10,12 +10,12 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanEditProjects){
-		throw new Exceptions\InvalidPermissionsException();
-	}
-
 	// POSTing a new `Project`.
 	if($httpMethod == Enums\HttpMethod::Post){
+		if(!Session::$User->Benefits->CanEditProjects){
+			throw new Exceptions\InvalidPermissionsException();
+		}
+
 		$project = new Project();
 
 		$project->FillFromHttpPost();
@@ -69,10 +69,40 @@ try{
 
 	// PUTing a `Project`.
 	if($httpMethod == Enums\HttpMethod::Put){
+		if(!Session::$User->Benefits->CanEditProjects){
+			throw new Exceptions\InvalidPermissionsException();
+		}
+
 		$project = Project::Get(HttpInput::Int(GET, 'project-id'));
 		$exceptionRedirectUrl = $project->EditUrl;
 
 		$project->FillFromHttpPost();
+
+		$project->Save();
+
+		$_SESSION['is-project-saved'] = true;
+		http_response_code(Enums\HttpCode::SeeOther->value);
+		header('Location: ' . $project->Ebook->Url);
+	}
+
+	// PATCHing a `Project`.
+	if($httpMethod == Enums\HttpMethod::Patch){
+		$project = Project::Get(HttpInput::Int(GET, 'project-id'));
+		$exceptionRedirectUrl = $project->EditUrl;
+
+		if(
+			!Session::$User->Benefits->CanEditProjects
+			&&
+			(
+				$project->ManagerUserId != Session::$User->UserId
+				||
+				$project->ReviewerUserId != Session::$User->UserId
+			)
+		){
+			throw new Exceptions\InvalidPermissionsException();
+		}
+
+		$project->PropertyFromHttp('Status');
 
 		$project->Save();
 

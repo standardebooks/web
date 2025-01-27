@@ -59,7 +59,7 @@ $showEditButton = $showEditButton ?? false;
 					<? } ?>
 				</td>
 				<? if($includeStatus){ ?>
-					<td class="status<? if($project->Status == Enums\ProjectStatusType::Stalled){ ?> stalled<? } ?>">
+					<td class="status<? if($project->Status == Enums\ProjectStatusType::Stalled){ ?> stalled<? } ?><? if($project->Status == Enums\ProjectStatusType::AwaitingReview){ ?> awaiting-review<? } ?><? if($project->Status == Enums\ProjectStatusType::Reviewed){ ?> reviewed<? } ?>">
 						<?= ucfirst($project->Status->GetDisplayName()) ?>
 					</td>
 				<? } ?>

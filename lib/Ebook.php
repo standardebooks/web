@@ -185,8 +185,8 @@ final class Ebook{
 								inner join Ebooks
 								on Projects.EbookId = Ebooks.EbookId
 								where Ebooks.EbookId = ?
-								and Status in (?, ?)
-							', [$this->EbookId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class)[0] ?? null;
+								and Status in (?, ?, ?, ?)
+							', [$this->EbookId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed], Project::class)[0] ?? null;
 			}
 		}
 

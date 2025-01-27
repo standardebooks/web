@@ -1927,7 +1927,7 @@ label:has(select) > span + span:last-child{
 	display: inline-block;
 }
 
-label:has(select) > span + span:last-child::after{
+label:has(select) > span:has(select)::after{
 	display: block;
 	font-style: normal;
 	position: absolute;
@@ -2225,6 +2225,15 @@ main nav.pagination ol li.highlighted:last-child::after,
 main nav.pagination ol li.highlighted:nth-child(2)::before,
 main nav.pagination ol li.highlighted:nth-last-child(2)::after{
 	display: none;
+}
+
+.single-line-form{
+	display: flex;
+	gap: 1rem;
+}
+
+.single-line-form button{
+	margin: 0;
 }
 
 .has-hero hgroup{
@@ -3785,6 +3794,14 @@ a.patron-selection:any-link:hover{
 		font-size: 0;
 		gap: 0;
 		padding: .5rem .75rem;
+	}
+
+	table.admin-table .single-line-form{
+		flex-direction: column;
+	}
+
+	table.admin-table .single-line-form button{
+		align-self: flex-end;
 	}
 }
 

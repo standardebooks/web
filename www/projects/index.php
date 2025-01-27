@@ -28,7 +28,7 @@ try{
 		session_unset();
 	}
 
-	$inProgressProjects = Project::GetAllByStatus(Enums\ProjectStatusType::InProgress);
+	$inProgressProjects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed]);
 	$stalledProjects = Project::GetAllByStatus(Enums\ProjectStatusType::Stalled);
 }
 catch(Exceptions\LoginRequiredException){

@@ -9,6 +9,7 @@ use function Safe\preg_match;
 use function Safe\preg_match_all;
 use function Safe\preg_replace;
 
+use Enums\ProjectStatusType;
 use Safe\DateTimeImmutable;
 
 /**
@@ -342,7 +343,7 @@ final class Project{
 		}
 
 		try{
-			$this->FetchLatestCommitTimestamp();
+			$this->FetchLastCommitTimestamp();
 		}
 		catch(Exceptions\AppException){
 			// Pass; it's OK if this fails during creation.
@@ -511,9 +512,69 @@ final class Project{
 	}
 
 	/**
+	 * Update this object's `Status` to `reviewed` if there is a GitHub issue containing the word `review`.
+	 *
 	 * @throws Exceptions\AppException If the operation failed.
 	 */
-	public function FetchLatestCommitTimestamp(?string $apiKey = null): void{
+	public function FetchReviewStatus(?string $apiKey = null): void{
+		if($this->Status == Enums\ProjectStatusType::Reviewed){
+			return;
+		}
+
+		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl ?? '')){
+			return;
+		}
+
+		$headers = [
+					'Accept: application/vnd.github+json',
+					'X-GitHub-Api-Version: 2022-11-28',
+					'User-Agent: Standard Ebooks' // Required by GitHub.
+				];
+
+		if($apiKey !== null){
+			$headers[] = 'Authorization: Bearer ' . $apiKey;
+		}
+
+		$url = preg_replace('|^https://github.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/issues');
+
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+		try{
+			$response = curl_exec($curl);
+			/** @var int $httpCode */
+			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+			if(!is_string($response)){
+				throw new Exceptions\AppException('Server did not respond with a string: ' . $response);
+			}
+
+			if($httpCode != Enums\HttpCode::Ok->value){
+				throw new Exception('Server responded with HTTP ' . $httpCode . '.');
+			}
+
+			/** @var array<stdClass> $issues */
+			$issues = json_decode($response);
+
+			foreach($issues as $issue){
+				if(preg_match('/\breview/iu', $issue->title)){
+					$this->Status = Enums\ProjectStatusType::Reviewed;
+					return;
+				}
+			}
+		}
+		catch(Exception $ex){
+			throw new Exceptions\AppException('Error when fetching issues for URL <' . $url . '>: ' . $ex->getMessage(), 0, $ex);
+		}
+	}
+
+	/**
+	 * Update this object's `LastCommitTimestamp` with data from its GitHub repo.
+	 *
+	 * @throws Exceptions\AppException If the operation failed.
+	 */
+	public function FetchLastCommitTimestamp(?string $apiKey = null): void{
 		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl ?? '')){
 			return;
 		}
@@ -574,7 +635,9 @@ final class Project{
 	}
 
 	/**
-	 * @throws Exceptions\AppException If the operation faile.d
+	 * Update this object's `LastDiscussionTimestamp` with data from its discussion page.
+	 *
+	 * @throws Exceptions\AppException If the operation failed.
 	 */
 	public function FetchLastDiscussionTimestamp(): void{
 		if(!preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl ?? '')){
@@ -628,6 +691,9 @@ final class Project{
 		return null;
 	}
 
+	/**
+	 * Send an email reminder to the producer notifying them about their project status.
+	 */
 	public function SendReminder(Enums\ProjectReminderType $type): void{
 		if($this->ProducerEmail === null || $this->GetReminder($type) !== null){
 			return;
@@ -694,17 +760,26 @@ final class Project{
 	}
 
 	/**
+	 * @param array<Enums\ProjectStatusType> $statuses
+	 *
+	 * @return array<Project>
+	 */
+	public static function GetAllByStatuses(array $statuses): array{
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where Projects.Status in ' . Db::CreateSetSql($statuses) . ' order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', $statuses, Project::class);
+	}
+
+	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByManagerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ManagerUserId = ? and Status in (?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ManagerUserId = ? and Status in (?, ?, ?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, ProjectStatusType::Reviewed], Project::class);
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByReviewerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ReviewerUserId = ? and Status in (?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ReviewerUserId = ? and Status in (?, ?, ?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, ProjectStatusType::Reviewed], Project::class);
 	}
 
 	/**
