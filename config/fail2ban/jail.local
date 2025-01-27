@@ -1,6 +1,6 @@
 [se]
 
-enabled = false
+enabled = true
 filter = se
 port = http,https
 bantime = 24h
