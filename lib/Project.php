@@ -56,6 +56,9 @@ final class Project{
 	protected ?string $_VcsUrlDomain;
 	protected ?string $_DiscussionUrlDomain;
 
+	/** Have we already checked that the `$VcsUrl` is current? */
+	private bool $IsVcsUrlUpdated = false;
+
 
 	// *******
 	// GETTERS
@@ -512,7 +515,7 @@ final class Project{
 	}
 
 	/**
-	 * Update this object's `Status` to `reviewed` if there is a GitHub issue containing the word `review`.
+	 * Update this `Project`'s `$Status` to `reviewed` if there is a GitHub issue containing the word `review`.
 	 *
 	 * @throws Exceptions\AppException If the operation failed.
 	 */
@@ -525,21 +528,13 @@ final class Project{
 			return;
 		}
 
-		$headers = [
-					'Accept: application/vnd.github+json',
-					'X-GitHub-Api-Version: 2022-11-28',
-					'User-Agent: Standard Ebooks' // Required by GitHub.
-				];
-
-		if($apiKey !== null){
-			$headers[] = 'Authorization: Bearer ' . $apiKey;
-		}
+		$this->UpdateVcsUrl();
 
 		$url = preg_replace('|^https://github.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/issues');
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $this->GenerateGitHubApiRequestHeaders($apiKey));
 
 		try{
 			$response = curl_exec($curl);
@@ -570,15 +565,11 @@ final class Project{
 	}
 
 	/**
-	 * Update this object's `LastCommitTimestamp` with data from its GitHub repo.
+	 * Generate an array of HTTP headers to use for authenticating to the GitHub API.
 	 *
-	 * @throws Exceptions\AppException If the operation failed.
+	 * @return array<string>
 	 */
-	public function FetchLastCommitTimestamp(?string $apiKey = null): void{
-		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl ?? '')){
-			return;
-		}
-
+	private function GenerateGitHubApiRequestHeaders(?string $apiKey): array{
 		$headers = [
 					'Accept: application/vnd.github+json',
 					'X-GitHub-Api-Version: 2022-11-28',
@@ -589,7 +580,21 @@ final class Project{
 			$headers[] = 'Authorization: Bearer ' . $apiKey;
 		}
 
-		// First, we check if the repo has been renamed. If so, update the repo now.
+		return $headers;
+	}
+
+	/**
+	 * Check if the `$VcsUrl` has been renamed since we stored it, and if it has, update it.
+	 */
+	private function UpdateVcsUrl(): void{
+		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl ?? '')){
+			return;
+		}
+
+		if($this->IsVcsUrlUpdated){
+			return;
+		}
+
 		$curl = curl_init($this->VcsUrl);
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, Enums\HttpMethod::Head->value); // Only perform HTTP HEAD.
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
@@ -597,17 +602,32 @@ final class Project{
 
 		/** @var string $finalUrl */
 		$finalUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+
 		// Were we redirected?
 		if($finalUrl != $this->VcsUrl){
 			$this->VcsUrl = $finalUrl;
 		}
 
-		// Now check the actual commits.
+		$this->IsVcsUrlUpdated = true;
+	}
+
+	/**
+	 * Update this object's `$LastCommitTimestamp` with data from its GitHub repo.
+	 *
+	 * @throws Exceptions\AppException If the operation failed.
+	 */
+	public function FetchLastCommitTimestamp(?string $apiKey = null): void{
+		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl ?? '')){
+			return;
+		}
+
+		$this->UpdateVcsUrl();
+
 		$url = preg_replace('|^https://github.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/commits');
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $this->GenerateGitHubApiRequestHeaders($apiKey));
 
 		try{
 			$response = curl_exec($curl);
@@ -635,7 +655,7 @@ final class Project{
 	}
 
 	/**
-	 * Update this object's `LastDiscussionTimestamp` with data from its discussion page.
+	 * Update this object's `$LastDiscussionTimestamp` with data from its discussion page.
 	 *
 	 * @throws Exceptions\AppException If the operation failed.
 	 */
