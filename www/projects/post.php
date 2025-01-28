@@ -93,11 +93,9 @@ try{
 		if(
 			!Session::$User->Benefits->CanEditProjects
 			&&
-			(
-				$project->ManagerUserId != Session::$User->UserId
-				||
-				$project->ReviewerUserId != Session::$User->UserId
-			)
+			$project->ManagerUserId != Session::$User->UserId
+			&&
+			$project->ReviewerUserId != Session::$User->UserId
 		){
 			throw new Exceptions\InvalidPermissionsException();
 		}
