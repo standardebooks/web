@@ -25,8 +25,13 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   `EbookUpdated` datetime NULL,
   `TextSinglePageByteCount` bigint unsigned NULL,
   `IndexableText` text NOT NULL,
+  `IndexableAuthors` text NOT NULL,
+  `IndexableCollections` text NULL,
   PRIMARY KEY (`EbookId`),
   UNIQUE KEY `index1` (`Identifier`),
   KEY `index2` (`EbookCreated`),
-  FULLTEXT `idxSearch` (`IndexableText`)
+  FULLTEXT `idxSearch` (`IndexableText`),
+  FULLTEXT `idxSearchTitle` (`Title`),
+  FULLTEXT `idxSearchAuthors` (`IndexableAuthors`),
+  FULLTEXT `idxSearchCollections` (`IndexableCollections`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

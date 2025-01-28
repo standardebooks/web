@@ -6,4 +6,5 @@ enum EbookSortType: string{
 	case AuthorAlpha = 'author-alpha';
 	case ReadingEase = 'reading-ease';
 	case Length = 'length';
+	case Relevance = 'relevance';
 }
