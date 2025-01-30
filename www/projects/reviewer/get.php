@@ -5,7 +5,7 @@ try{
 	if($urlPath !== null){
 		$identifier = EBOOKS_IDENTIFIER_PREFIX .  trim(str_replace('.', '', $urlPath), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
 
-		$project = Project::GetByIdentifierAndIsInProgress($identifier);
+		$project = Project::GetByIdentifierAndIsActive($identifier);
 	}
 	else{
 		$project = Project::Get(HttpInput::Int(GET, 'project-id'));
