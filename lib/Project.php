@@ -680,7 +680,8 @@ final class Project{
 				throw new Exception('Server responded with HTTP ' . $httpCode . '.');
 			}
 
-			$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response, $matches);
+			// Posts that were today are listed as `n minutes ago` or `n hours ago`, without a timestamp. Try to approximate a timestamp if that's the case.
+			$matchCount = preg_match_all('/<span class="[^"]+?">[^<]+\(([\d]+ (?:minutes?|hours?) ago)\s*\)\s*<\/span>/ius', $response, $matches);
 
 			if($matchCount > 0){
 				// Unsure of the time zone, so just assume UTC.
@@ -693,7 +694,22 @@ final class Project{
 				}
 			}
 			else{
-				$this->LastDiscussionTimestamp = null;
+				// No `n minutes ago` matches, try to match a full timestamp.
+				$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response, $matches);
+
+				if($matchCount > 0){
+					// Unsure of the time zone, so just assume UTC.
+					try{
+						$this->LastDiscussionTimestamp = new DateTimeImmutable(str_replace(' ', ' ', $matches[1][sizeof($matches[1]) - 1]));
+					}
+					catch(\Exception $ex){
+						// Failed to parse date, pass.
+						$this->LastDiscussionTimestamp = null;
+					}
+				}
+				else{
+					$this->LastDiscussionTimestamp = null;
+				}
 			}
 		}
 		catch(Exception $ex){
