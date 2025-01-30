@@ -35,7 +35,7 @@ try{
 			break;
 
 		case 'Vince Rice':
-			$output->Url = 'https://www.brokenandsa';
+			$output->Url = 'https://www.brokenandsaved.com';
 			break;
 
 		case 'David Reimer':
