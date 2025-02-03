@@ -32,6 +32,13 @@ class Formatter{
 	}
 
 	/**
+	 * Remove diacritics and non-alphanumeric characters.
+	 */
+	public static function RemoveDiacriticsAndNonalphanumerics(string $text): string{
+		return trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', Formatter::RemoveDiacritics($text)));
+	}
+
+	/**
 	 * Escape a string so that it's appropriate to use in a URL slug.
 	 *
 	 * This does the following to the string:
