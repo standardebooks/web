@@ -33,7 +33,12 @@ $showEditButton = $showEditButton ?? false;
 			<tr>
 				<? if($includeTitle){ ?>
 					<td class="row-header">
-						<a href="<?= $project->Ebook->Url ?>"><?= Formatter::EscapeHtml($project->Ebook->Title) ?></a>
+						<a href="<?= $project->Ebook->Url ?>">
+							<?= Formatter::EscapeHtml($project->Ebook->Title) ?>
+							<? if($project->Ebook->Title == "Poetry" || $project->Ebook->Title == "Short Fiction" || $project->Ebook->Title == "Essays"){ ?>
+								(<?= Formatter::EscapeHtml($project->Ebook->AuthorsString) ?>)
+							<? } ?>
+						</a>
 					</td>
 				<? } ?>
 				<td class="producer">
