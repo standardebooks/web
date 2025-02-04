@@ -5,6 +5,11 @@
 		<ul>
 			<li>
 				<p>
+					<a href="/blog/death-and-beauty-in-the-alps">Death and Beauty in the Alps</a>
+				</p>
+			</li>
+			<li>
+				<p>
 					<a href="/blog/edith-whartons-vision-of-literary-art">Edith Wharton’s Vision of Literary Art</a>
 				</p>
 			</li>
