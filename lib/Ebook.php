@@ -2481,7 +2481,7 @@ final class Ebook{
 				match(e.IndexableText) against (?)
 			) as RelevanceScore ';
 
-			$whereCondition .= ' and match(e.IndexableText) against(?) ';
+			$whereCondition .= ' and match(e.IndexableText, e.Title, e.IndexableAuthors, e.IndexableCollections) against(?) ';
 			$params[] = $query;
 
 			if($sort == null || $sort == Enums\EbookSortType::Relevance || $sort == Enums\EbookSortType::Newest){
