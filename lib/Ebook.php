@@ -710,17 +710,9 @@ final class Ebook{
 
 	protected function GetIndexableText(): string{
 		if(!isset($this->_IndexableText)){
-			$this->_IndexableText = $this->FullTitle ?? $this->Title;
+			$this->_IndexableText = $this->FullTitle ?? '';
 
 			$this->_IndexableText .= ' ' . $this->AlternateTitle;
-
-			foreach($this->CollectionMemberships as $collectionMembership){
-				$this->_IndexableText .= ' ' . $collectionMembership->Collection->Name;
-			}
-
-			foreach($this->Authors as $author){
-				$this->_IndexableText .= ' ' . $author->Name;
-			}
 
 			foreach($this->Tags as $tag){
 				$this->_IndexableText .= ' ' . $tag->Name;
