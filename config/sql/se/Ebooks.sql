@@ -33,5 +33,6 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   FULLTEXT `idxSearch` (`IndexableText`),
   FULLTEXT `idxSearchTitle` (`Title`),
   FULLTEXT `idxSearchAuthors` (`IndexableAuthors`),
-  FULLTEXT `idxSearchCollections` (`IndexableCollections`)
+  FULLTEXT `idxSearchCollections` (`IndexableCollections`),
+  FULLTEXT `idxSearchCombined` (`IndexableText`, `Title`, `IndexableAuthors`, `IndexableCollections`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
