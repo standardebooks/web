@@ -35,7 +35,7 @@ function rrmdir(string $src): void{
 				rrmdir($full);
 			}
 			else{
-				unlink($full);
+				@unlink($full);
 			}
 		}
 	}
@@ -99,7 +99,7 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 	// We have to do a copy, then unlink because `rename()` can't rename across file systems.
 	// If the bulk downloads are symlinked to a storage volume, then `rename()` won't work.
 	copy($tempFilename, $filePath);
-	unlink($tempFilename);
+	@unlink($tempFilename);
 
 	exec('attr -q -s se-ebook-type -V ' . escapeshellarg($type) . ' ' . escapeshellarg($filePath));
 }

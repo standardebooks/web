@@ -865,21 +865,21 @@ class Artwork{
 		', [$this->ArtworkId]);
 
 		try{
-			unlink($this->ImageFsPath);
+			@unlink($this->ImageFsPath);
 		}
 		catch(\Safe\Exceptions\FilesystemException){
 			// Pass.
 		}
 
 		try{
-			unlink($this->ThumbFsPath);
+			@unlink($this->ThumbFsPath);
 		}
 		catch(\Safe\Exceptions\FilesystemException){
 			// Pass.
 		}
 
 		try{
-			unlink($this->Thumb2xFsPath);
+			@unlink($this->Thumb2xFsPath);
 		}
 		catch(\Safe\Exceptions\FilesystemException){
 			// Pass.

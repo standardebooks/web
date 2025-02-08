@@ -50,7 +50,7 @@ abstract class Feed{
 		file_put_contents($tempFilename, $xmlString);
 		exec('se clean ' . escapeshellarg($tempFilename) . ' 2>&1', $output); // Capture the result in case there's an error, otherwise it prints to stdout
 		$output = file_get_contents($tempFilename);
-		unlink($tempFilename);
+		@unlink($tempFilename);
 
 		// At the moment, `se clean` strips stylesheet declarations. Restore them here.
 		if($this->Stylesheet !== null){

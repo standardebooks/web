@@ -1,5 +1,6 @@
 <?
 use function Safe\exec;
+use function Safe\glob;
 use function Safe\imagecopyresampled;
 use function Safe\imagecreatetruecolor;
 use function Safe\imagejpeg;
@@ -46,23 +47,40 @@ class Image{
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	private function GetImageHandleFromTiff(){
-		$tempFilename = sys_get_temp_dir() . '/se-' . pathinfo($this->Path)['filename'] . '.jpg';
+		$basename = pathinfo($this->Path)['filename'];
+		$tempDirectory = sys_get_temp_dir();
+		$tempFilename = $tempDirectory . '/se-' . $basename . '.jpg';
 
 		try{
 			exec('convert '.  escapeshellarg($this->Path) . ' ' . escapeshellarg($tempFilename), $shellOutput, $resultCode);
 
-			if($resultCode !== 0 || !is_file($tempFilename)){
+			if($resultCode !== 0){
 				throw new Exceptions\InvalidImageUploadException('Failed to convert TIFF to JPEG');
 			}
 
-			$handle = \Safe\imagecreatefromjpeg($tempFilename);
+			// Sometimes TIFF files can have multiple images, or "pages" in one file. In that case, `convert` outputs multiple files named `<file>-0.jpg`, `<file>-1.jpg`, etc., instead of `<file>.jpg`.
+			// Test for that case here.
+			$pagedFilename = $tempDirectory  . '/se-' . $basename . '-0.jpg';
+			if(is_file($pagedFilename)){
+				// This TIFF has pages!
+				$handle = \Safe\imagecreatefromjpeg($pagedFilename);
+			}
+			elseif(is_file($tempFilename)){
+				// Regular TIFF.
+				$handle = \Safe\imagecreatefromjpeg($tempFilename);
+			}
+			else{
+				throw new Exceptions\InvalidImageUploadException('Failed to convert TIFF to JPEG');
+			}
 		}
 		finally{
-			try{
-				unlink($tempFilename);
-			}
-			catch(Exception){
-				// Pass if file doesn't exist.
+			foreach(glob($tempDirectory . '/se-' . $basename . '*.jpg') as $filename){
+				try{
+					@unlink($filename);
+				}
+				catch(Exception){
+					// Pass.
+				}
 			}
 		}
 
