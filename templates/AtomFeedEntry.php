@@ -15,8 +15,8 @@ use function Safe\filesize;
 			<uri><?= SITE_URL . Formatter::EscapeXml($entry->AuthorsUrl) ?></uri>
 		</author>
 	<? } ?>
-	<published><?= $entry->EbookCreated->format(Enums\DateTimeFormat::Iso->value) ?></published>
-	<updated><?= $entry->EbookUpdated->format(Enums\DateTimeFormat::Iso->value) ?></updated>
+	<published><?= $entry->EbookCreated?->format(Enums\DateTimeFormat::Iso->value) ?></published>
+	<updated><?= $entry->EbookUpdated?->format(Enums\DateTimeFormat::Iso->value) ?></updated>
 	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
 	<summary type="text"><?= Formatter::EscapeXml($entry->Description) ?></summary>
 	<content type="html"><?= Formatter::EscapeXml($entry->LongDescription) ?></content>
