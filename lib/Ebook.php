@@ -43,7 +43,7 @@ use function Safe\shell_exec;
  * @property string $TextUrl
  * @property string $TextSinglePageUrl
  * @property string $TextSinglePageSizeFormatted
- * @property string $IndexableText
+ * @property ?string $IndexableText
  * @property string $IndexableAuthors
  * @property ?string $IndexableCollections
  * @property ?EbookPlaceholder $EbookPlaceholder
@@ -129,7 +129,7 @@ final class Ebook{
 	protected string $_TextUrl;
 	protected string $_TextSinglePageUrl;
 	protected string $_TextSinglePageSizeFormatted;
-	protected string $_IndexableText;
+	protected ?string $_IndexableText = null;
 	protected string $_IndexableAuthors;
 	protected ?string $_IndexableCollections = null;
 	protected ?EbookPlaceholder $_EbookPlaceholder = null;
@@ -708,7 +708,7 @@ final class Ebook{
 		return $this->_TextSinglePageSizeFormatted;
 	}
 
-	protected function GetIndexableText(): string{
+	protected function GetIndexableText(): ?string{
 		if(!isset($this->_IndexableText)){
 			$this->_IndexableText = $this->FullTitle ?? '';
 
@@ -1573,15 +1573,9 @@ final class Ebook{
 			}
 		}
 
-		if(isset($this->IndexableText)){
-			$this->IndexableText = trim($this->IndexableText);
-
-			if($this->IndexableText == ''){
-				$error->Add(new Exceptions\EbookIndexableTextRequiredException());
-			}
-		}
-		else{
-			$error->Add(new Exceptions\EbookIndexableTextRequiredException());
+		$this->IndexableText = trim($this->IndexableText ?? '');
+		if($this->IndexableText == ''){
+			$this->IndexableText = null;
 		}
 
 		if(isset($this->IndexableAuthors)){

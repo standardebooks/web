@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   `EbookCreated` datetime NULL,
   `EbookUpdated` datetime NULL,
   `TextSinglePageByteCount` bigint unsigned NULL,
-  `IndexableText` text NOT NULL,
+  `IndexableText` text NULL,
   `IndexableAuthors` text NOT NULL,
   `IndexableCollections` text NULL,
   PRIMARY KEY (`EbookId`),
