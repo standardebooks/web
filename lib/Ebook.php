@@ -2426,7 +2426,7 @@ final class Ebook{
 	public static function GetAllByFilter(string $query = null, array $tags = [], Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): array{
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
-		$relevanceScoreField = '';
+		$orderByRelevance = false;
 		$joinContributors = '';
 		$joinTags = '';
 		$params = [];
@@ -2474,18 +2474,18 @@ final class Ebook{
 			// Preserve quotes in the query so the user can enter, e.g., "war and peace" for an exact match.
 			$query = trim(preg_replace('|[^a-zA-Z0-9" ]|ius', ' ', Formatter::RemoveDiacritics($query)));
 
-			$relevanceScoreField = ', (
-				match(e.Title) against (?) * ' . EBOOK_SEARCH_WEIGHT_TITLE . ' +
-				match(e.IndexableAuthors) against (?) * ' . EBOOK_SEARCH_WEIGHT_AUTHORS . ' +
-				match(e.IndexableCollections) against (?) * ' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ' +
-				match(e.IndexableText) against (?)
-			) as RelevanceScore ';
-
 			$whereCondition .= ' and match(e.IndexableText, e.Title, e.IndexableAuthors, e.IndexableCollections) against(?) ';
 			$params[] = $query;
 
 			if($sort == null || $sort == Enums\EbookSortType::Relevance || $sort == Enums\EbookSortType::Newest){
-				$orderBy = 'RelevanceScore desc, e.EbookCreated desc';
+				$orderBy = '(
+						match(e.Title) against (?) * ' . EBOOK_SEARCH_WEIGHT_TITLE . ' +
+						match(e.IndexableAuthors) against (?) * ' . EBOOK_SEARCH_WEIGHT_AUTHORS . ' +
+						match(e.IndexableCollections) against (?) * ' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ' +
+						match(e.IndexableText) against (?)
+					) desc, e.EbookCreated desc';
+				// $params are added below based on this boolean.
+				$orderByRelevance = true;
 			}
 		}
 
@@ -2498,9 +2498,12 @@ final class Ebook{
 					' . $whereCondition . '
 					', $params);
 
-			if($relevanceScoreField != ''){
-				// `RelevanceScore` is at the beginning of the query, so these params must go at the start of the array.
-				array_unshift($params, $query, $query, $query, $query);
+			if($orderByRelevance){
+				$params[] = $query; // match(e.Title) against (?)
+				$params[] = $query; // match(e.IndexableAuthors) against (?)
+				$params[] = $query; // match(e.IndexableCollections) against (?)
+				$params[] = $query; // match(e.IndexableText) against (?)
+
 			}
 
 			$params[] = $limit;
@@ -2508,7 +2511,6 @@ final class Ebook{
 
 			$ebooks = Db::Query('
 					SELECT distinct e.*
-					' . $relevanceScoreField . '
 					from Ebooks e
 					' . $joinContributors . '
 					' . $joinTags . '
