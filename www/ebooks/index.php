@@ -23,20 +23,27 @@ try{
 		$perPage = EBOOKS_PER_PAGE;
 	}
 
+	if($sort == Enums\EbookSortType::Default){
+		if($query != ''){
+			$sort = Enums\EbookSortType::Relevance;
+		}
+		else{
+			$sort = Enums\EbookSortType::Newest;
+		}
+	}
+
+	// Malformed query: Can't sort by `Relevance` if `$query` is empty.
+	// This could happen if the user was looking at `Relevance` results, then deleted the query and hit the Filter button.
+	if($sort == Enums\EbookSortType::Relevance && $query == ''){
+		$sort = Enums\EbookSortType::Newest;
+	}
+
 	// If we're passed string values that are the same as the defaults, set them to null so that we can have cleaner query strings in the navigation footer.
 	if($view === Enums\ViewType::Grid){
 		$view = null;
 	}
 
-	if($query != ''){
-		$queryStringParams['query'] = $query;
-		// If the user entered a query with the default sort order, change it to relevance sort.
-		if($sort == Enums\EbookSortType::Newest){
-			$sort = Enums\EbookSortType::Relevance;
-		}
-	}
-
-	if($sort == Enums\EbookSortType::Newest){
+	if(($sort == Enums\EbookSortType::Newest && $query == '') || ($sort == Enums\EbookSortType::Relevance && $query != '')){
 		$sort = null;
 	}
 
@@ -45,6 +52,10 @@ try{
 	}
 
 	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks free ebook library';
+
+	if($query != ''){
+		$queryStringParams['query'] = $query;
+	}
 
 	if(sizeof($tags) > 0){
 		$queryStringParams['tags'] = $tags;
