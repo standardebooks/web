@@ -2444,6 +2444,15 @@ final class Ebook{
 				break;
 		}
 
+		if($sort === null || $sort == Enums\EbookSortType::Default){
+			if($query !== null && $query != ''){
+				$sort = Enums\EbookSortType::Relevance;
+			}
+			else{
+				$sort = Enums\EbookSortType::Newest;
+			}
+		}
+
 		$orderBy = 'e.EbookCreated desc';
 		if($sort == Enums\EbookSortType::AuthorAlpha){
 			$joinContributors = 'inner join Contributors con using (EbookId)';
@@ -2471,7 +2480,7 @@ final class Ebook{
 			$whereCondition .= ' and match(e.IndexableText, e.Title, e.IndexableAuthors, e.IndexableCollections) against(?) ';
 			$params[] = $query;
 
-			if($sort == null || $sort == Enums\EbookSortType::Relevance || $sort == Enums\EbookSortType::Newest){
+			if($sort == Enums\EbookSortType::Relevance){
 				$orderBy = '(
 						match(e.Title) against (?) * ' . EBOOK_SEARCH_WEIGHT_TITLE . ' +
 						match(e.IndexableAuthors) against (?) * ' . EBOOK_SEARCH_WEIGHT_AUTHORS . ' +
