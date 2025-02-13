@@ -729,6 +729,10 @@ final class Ebook{
 			}
 
 			$this->_IndexableText = Formatter::RemoveDiacriticsAndNonalphanumerics($this->_IndexableText);
+
+			if($this->_IndexableText == ''){
+				$this->_IndexableText = null;
+			}
 		}
 
 		return $this->_IndexableText;
