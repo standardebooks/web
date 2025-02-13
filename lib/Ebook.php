@@ -2510,7 +2510,6 @@ final class Ebook{
 				$params[] = $query; // match(e.IndexableAuthors) against (?)
 				$params[] = $query; // match(e.IndexableCollections) against (?)
 				$params[] = $query; // match(e.IndexableText) against (?)
-
 			}
 
 			$params[] = $limit;
