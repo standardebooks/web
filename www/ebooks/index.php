@@ -23,12 +23,27 @@ try{
 		$perPage = EBOOKS_PER_PAGE;
 	}
 
+	if($sort == Enums\EbookSortType::Default){
+		if($query != ''){
+			$sort = Enums\EbookSortType::Relevance;
+		}
+		else{
+			$sort = Enums\EbookSortType::Newest;
+		}
+	}
+
+	// Malformed query: Can't sort by `Relevance` if `$query` is empty.
+	// This could happen if the user was looking at `Relevance` results, then deleted the query and hit the Filter button.
+	if($sort == Enums\EbookSortType::Relevance && $query == ''){
+		$sort = Enums\EbookSortType::Newest;
+	}
+
 	// If we're passed string values that are the same as the defaults, set them to null so that we can have cleaner query strings in the navigation footer.
 	if($view === Enums\ViewType::Grid){
 		$view = null;
 	}
 
-	if($sort == Enums\EbookSortType::Newest){
+	if(($sort == Enums\EbookSortType::Newest && $query == '') || ($sort == Enums\EbookSortType::Relevance && $query != '')){
 		$sort = null;
 	}
 
