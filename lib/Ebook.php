@@ -43,9 +43,6 @@ use function Safe\shell_exec;
  * @property string $TextUrl
  * @property string $TextSinglePageUrl
  * @property string $TextSinglePageSizeFormatted
- * @property ?string $IndexableText
- * @property string $IndexableAuthors
- * @property ?string $IndexableCollections
  * @property ?EbookPlaceholder $EbookPlaceholder
  * @property array<Project> $Projects
  * @property array<Project> $PastProjects
@@ -129,9 +126,6 @@ final class Ebook{
 	protected string $_TextUrl;
 	protected string $_TextSinglePageUrl;
 	protected string $_TextSinglePageSizeFormatted;
-	protected ?string $_IndexableText = null;
-	protected string $_IndexableAuthors;
-	protected ?string $_IndexableCollections = null;
 	protected ?EbookPlaceholder $_EbookPlaceholder = null;
 	/** @var array<Project> $_Projects */
 	protected array $_Projects;
@@ -139,6 +133,10 @@ final class Ebook{
 	protected array $_PastProjects;
 	protected ?Project $_ProjectInProgress;
 	protected ?Artwork $_Artwork;
+
+	private ?string $IndexableText = null;
+	private string $IndexableAuthors;
+	private ?string $IndexableCollections = null;
 
 	// *******
 	// GETTERS
@@ -706,64 +704,6 @@ final class Ebook{
 		}
 
 		return $this->_TextSinglePageSizeFormatted;
-	}
-
-	protected function GetIndexableText(): ?string{
-		if(!isset($this->_IndexableText)){
-			$this->_IndexableText = $this->FullTitle ?? '';
-
-			$this->_IndexableText .= ' ' . $this->AlternateTitle;
-
-			foreach($this->Tags as $tag){
-				$this->_IndexableText .= ' ' . $tag->Name;
-			}
-
-			foreach($this->LocSubjects as $subject){
-				$this->_IndexableText .= ' ' . $subject->Name;
-			}
-
-			if($this->TocEntries !== null){
-				foreach($this->TocEntries as $item){
-					$this->_IndexableText .= ' ' . $item;
-				}
-			}
-
-			$this->_IndexableText = Formatter::RemoveDiacriticsAndNonalphanumerics($this->_IndexableText);
-
-			if($this->_IndexableText == ''){
-				$this->_IndexableText = null;
-			}
-		}
-
-		return $this->_IndexableText;
-	}
-
-	protected function GetIndexableAuthors(): string{
-		if(!isset($this->_IndexableAuthors)){
-			$this->_IndexableAuthors = '';
-
-			foreach($this->Authors as $author){
-				$this->_IndexableAuthors .= ' ' . $author->Name;
-			}
-
-			$this->_IndexableAuthors = Formatter::RemoveDiacriticsAndNonalphanumerics($this->_IndexableAuthors);
-		}
-
-		return $this->_IndexableAuthors;
-	}
-
-	protected function GetIndexableCollections(): ?string{
-		if(!isset($this->_IndexableCollections)){
-			foreach($this->CollectionMemberships as $collectionMembership){
-				$this->_IndexableCollections .= ' ' . $collectionMembership->Collection->Name;
-			}
-
-			if(isset($this->_IndexableCollections)){
-				$this->_IndexableCollections = Formatter::RemoveDiacriticsAndNonalphanumerics($this->_IndexableCollections);
-			}
-		}
-
-		return $this->_IndexableCollections;
 	}
 
 	protected function GetEbookPlaceholder(): ?EbookPlaceholder{
@@ -1577,25 +1517,10 @@ final class Ebook{
 			}
 		}
 
-		$this->IndexableText = trim($this->IndexableText ?? '');
-		if($this->IndexableText == ''){
-			$this->IndexableText = null;
-		}
+		$this->InitializeIndexableProperties();
 
-		if(isset($this->IndexableAuthors)){
-			$this->IndexableAuthors = trim($this->IndexableAuthors);
-
-			if($this->IndexableAuthors == ''){
-				$error->Add(new Exceptions\EbookIndexableAuthorsRequiredException());
-			}
-		}
-		else{
+		if($this->IndexableAuthors == ''){
 			$error->Add(new Exceptions\EbookIndexableAuthorsRequiredException());
-		}
-
-		$this->IndexableCollections = trim($this->IndexableCollections ?? '');
-		if($this->IndexableCollections == ''){
-			$this->IndexableCollections = null;
 		}
 
 		if(isset($this->EbookPlaceholder)){
@@ -1882,6 +1807,58 @@ final class Ebook{
 
 	public function IsPlaceholder(): bool{
 		return $this->WwwFilesystemPath === null;
+	}
+
+	/**
+	 * Initialize the various indexable properties that are used to search against.
+	 */
+	protected function InitializeIndexableProperties(): void{
+		// Initialize `IndexableText`.
+		$this->IndexableText = $this->FullTitle ?? '';
+
+		$this->IndexableText .= ' ' . $this->AlternateTitle;
+
+		foreach($this->Tags as $tag){
+			$this->IndexableText .= ' ' . $tag->Name;
+		}
+
+		foreach($this->LocSubjects as $subject){
+			$this->IndexableText .= ' ' . $subject->Name;
+		}
+
+		if($this->TocEntries !== null){
+			foreach($this->TocEntries as $item){
+				$this->IndexableText .= ' ' . $item;
+			}
+		}
+
+		$this->IndexableText = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableText);
+
+		if($this->IndexableText == ''){
+			$this->IndexableText = null;
+		}
+
+		// Initialize `IndexableAuthors`.
+		$this->IndexableAuthors = '';
+
+		foreach($this->Authors as $author){
+			$this->IndexableAuthors .= ' ' . $author->Name;
+		}
+
+		$this->IndexableAuthors = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableAuthors);
+
+		// Initialize `IndexableCollections`.
+		$this->IndexableCollections = '';
+
+		foreach($this->CollectionMemberships as $collectionMembership){
+			$this->IndexableCollections .= ' ' . $collectionMembership->Collection->Name;
+		}
+
+		$this->IndexableCollections = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableCollections);
+
+		if($this->IndexableCollections == ''){
+			$this->IndexableCollections = null;
+		}
 	}
 
 	/**
