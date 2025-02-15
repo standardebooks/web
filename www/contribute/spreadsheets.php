@@ -121,6 +121,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/11rKzjg_XqnxNfK3x6tQFLzj0QLPLDEpR5_1AwQglao4">Short Fiction by Manly Wade Wellman</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/16gEP0sxqUKFtkCz35pEKsE1G3gfBTg0kNKbEiR-dBnI">Short Fiction by Richard Connell</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
