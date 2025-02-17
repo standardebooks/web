@@ -248,72 +248,7 @@
 						</li>
 						<li id="resources-cc0">
 							<h3>Museums with CC0 Collections</h3>
-							<p>Only images from these collections that are explicitly marked as CC0 can be used without further research. Not every painting at every listed museum is CC0; you must confirm the presence of a CC0 deed for the specific image you want to use.</p>
-							<p>Where available, these links go directly so search results for public domain paintings.</p>
-							<section>
-								<dl>
-									<dt><a href="https://www.metmuseum.org/art/collection/search?showOnly=withImage%7CopenAccess&amp;material=Paintings">Met Museum</a></dt>
-									<dd>CC0 items have an “OA Public Domain” icon under the picture, which leads to the Met’s Open Access Initiative page that clarifies a CC0 license.</dd>
-									<dt><a href="https://www.si.edu/search/collection-images?edan_q=landscape&amp;edan_fq%5B0%5D=object_type%3A%22Paintings%22">The Smithsonian</a></dt>
-									<dd>CC0 items say CC0 under Restrictions &amp; Rights in the item details.</dd>
-									<dt><a href="https://www.nga.gov/collection/collection-search.html">National Gallery of Art</a></dt>
-									<dd>CC0 items have a “0 Public Domain” icon under the picture, which leads to an Open Access policy mentioning a CC0 license.</dd>
-									<dt><a href="https://www.getty.edu/art/collection">Getty Museum Collection</a></dt>
-									<dd>CC0 items have a “0 public domain” icon that links to a CC0 license. <strong>Beware, some items say “no copyright” which is not the same as CC0 and cannot be used!</strong></dd>
-									<dt><a href="https://collections.britishart.yale.edu/?utf8=%E2%9C%93&amp;f%5Bcollection_ss%5D%5B%5D=Paintings+and+Sculpture&amp;range%5BearliestDate_is%5D%5Bbegin%5D=1614&amp;range%5BearliestDate_is%5D%5Bend%5D=1900&amp;search_field=all_fields&amp;q=">Yale Center for British Art</a></dt>
-									<dd>CC0 items have a “0 Public Domain” icon under the picture, which links to the CC0 license.</dd>
-									<dt><a href="https://artgallery.yale.edu/">Yale University Art Gallery</a></dt>
-									<dd>CC0 items say “No Copyright - United States” under the “Object copyright” section, which links to a CC0 license.</dd>
-									<dt><a href="https://www.artic.edu/collection?q=test&amp;is_public_domain=1&amp;department_ids=European+Painting+and+Sculpture">Art Institute of Chicago</a></dt>
-									<dd>CC0 items say CC0 in the lower left of the painting in the art detail page.</dd>
-									<dt><a href="https://art.thewalters.org/">The Walters Art Museum</a></dt>
-									<dd>CC0 items are listed as "CC Creative Commons License" which links to a CC0 rights page.</dd>
-									<dt><a href="https://www.grpmcollections.org/Browse/Collections">Grand Rapids Public Museum</a></dt>
-									<dd>CC0 items have a CC0 logo and link near the download button.</dd>
-									<dt><a href="https://collections.artsmia.org/">Minneapolis Institute of Art</a></dt>
-									<dd>Public domain items are listed as such under “Rights.”</dd>
-									<dt><a href="http://www.clevelandart.org/art/collection/search?only-open-access=1&amp;filter-type=Painting">Cleveland Museum of Art</a></dt>
-									<dd>CC0 items have the CC0 logo in the search results and near the download button.</dd>
-									<dt><a href="https://risdmuseum.org/art-design/collection">RISD Museum</a></dt>
-									<dd>CC0 items have a link to the CC0 license in the “Use” section.</dd>
-									<dt><a href="https://www.rijksmuseum.nl/en/search?q=&amp;f=1&amp;p=1&amp;ps=12&amp;type=painting&amp;imgonly=True&amp;st=Objects">Rijksmuseum</a></dt>
-									<dd>Open the “Object Data” section and check the “Copyright” entry under the “Acquisition and right” section. If it says "Public domain," click through to confirm CC0.</dd>
-									<dt><a href="https://www.museabrugge.be/en/collections/browse">Musea Brugge</a></dt>
-									<dd>CC0 items indicate the images are published under the CC0 license in the “Copyright” line.</dd>
-									<dt>
-										<a href="https://open.smk.dk/en/">National Gallery of Denmark</a>
-									</dt>
-									<dd>CC0 items have “No copyright” icon and a “Free to use” notice, and the About page states that such images are released via CC0.</dd>
-									<dt><a href="https://nivaagaard.dk/en/the-collection/">Nivaagaards Malerisamling</a></dt>
-									<dd>CC0 items say “Public Domain” by the picture, which leads to a license details page, which links to a CC0 license.</dd>
-									<dt><a href="https://kataloget.thorvaldsensmuseum.dk/en/results?q=&amp;level%5B%5D=B">Thorvaldsens Museum</a></dt>
-									<dd>CC0 items have a “0” icon under the picture, which links to the “Copyright” page, which links to the CC0 license.</dd>
-									<dt>
-										<a href="https://www.kansallisgalleria.fi/en/search?category=artwork&amp;classification=painting&amp;copyrightFree=true&amp;hasImage=true">Finnish National Gallery</a>
-									</dt>
-									<dd>CC0 items say “Copyright Free,” and the general rights statement in the original Finnish indicates that such images are CC0 licensed.</dd>
-									<dt><a href="http://parismuseescollections.paris.fr/en/recherche/image-libre/true/avec-image/true/denominations/peinture-166168?mode=mosaique&amp;solrsort=ds_created%20desc">Paris Musées</a></dt>
-									<dd>CC0 items have the CC0 logo near the download button.</dd>
-									<dt><a href="https://www.lenbachhaus.de/en/discover/collection-online">Lenbachhaus</a></dt>
-									<dd>CC0 items say CC0 below the picture with a link to the CC0 license.</dd>
-									<dt><a href="https://www.kunsthalle-karlsruhe.de/en/collection/">Staatliche Kunsthalle Karlsruhe</a></dt>
-									<dd>CC0 items have a CC0 icon below the picture.</dd>
-									<dt><a href="https://kmska.be/en/overview/the-collection">Royal Museum of Fine Arts Antwerp</a></dt>
-									<dd>CC0 items say “This image may be downloaded for free” in the “Copyright and legal” section, which has a link to a disclaimer stating that KMSKA releases the photo under a CC0 license.</dd>
-									<dt><a href="https://digitaltmuseum.no/search/?aq=owner%3F%3A%22LKM%22+license%3F%3A%22zero%22+type%3F%3A%22Fineart%22+media%3F%3A%22image%22">Lillehammer Kunstmuseum</a></dt>
-									<dd>CC0 items say “License: CC CC0 1.0” under the “License information” section. In the art metadata, “Owner of collection” <strong>must</strong> be “Lillehammer Kunstmuseum.” Any other art on <a href="https://www.digitaltmuseum.no">digitaltmuseum.no</a> or <a href="https://www.digitaltmuseum.se">digitaltmuseum.se</a> must be cleared separately.</dd>
-									<dt><a href="https://zbiory.mnk.pl/">National Museum in Krakow</a></dt>
-									<dd>CC0 items say "CC0 - Public Domain" under the Copyright section.</dd>
-									<dt><a href="https://www.nationalmuseum.se/en/explore-art-and-design/images/free-images">National Museum in Stockholm</a></dt>
-									<dd>CC-PD items have the CC-PD mark in the lower left of the item’s detail view.</dd>
-									<dt><a href="https://dams.birminghammuseums.org.uk/asset-bank/action/viewDefaultHome">Birmingham Museums</a></dt>
-									<dd>CC0 items say CC0 under the Usage Rights section in the item details.</dd>
-									<dt><a href="https://collections.brightonmuseums.org.uk/?q=&amp;departments=Fine%20Art">Brighton &amp; Hove Museums</a></dt>
-									<dd>CC0 items have the URL of the CC0 license in the “License” field.</dd>
-									<dt><a href="https://emuseum.aberdeencity.gov.uk/collections/102307/open-access-images--fine-art">Aberdeen Archives, Gallery &amp; Museums</a></dt>
-									<dd>CC0 items say “Out of copyright - CC0” on the copyright line.</dd>
-								</dl>
-							</section>
+							<p>Only images in our <a href="https://standardebooks.org/manual/latest/10-art-and-images#10.3.3.7">approved list of museums</a> can be used without further research. These museums have explicitly released their images under the CC0 license. Not every painting at every listed museum is CC0; you must confirm the presence of a CC0 deed for the specific image you want to use. Museums not in our list may not be used as public domain proof.</p>
 						</li>
 						<li id="resources-images">
 							<h3>Sources for high definition image downloads</h3>
