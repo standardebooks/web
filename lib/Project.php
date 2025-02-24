@@ -638,6 +638,11 @@ final class Project{
 				throw new Exceptions\AppException('Server did not respond with a string: ' . $response);
 			}
 
+			// GitHub API returns `HTTP 409 Conflict` if the repository is empty.
+			if($httpCode == Enums\HttpCode::Conflict->value){
+				return;
+			}
+
 			if($httpCode != Enums\HttpCode::Ok->value){
 				throw new Exception('Server responded with HTTP ' . $httpCode . '.');
 			}
