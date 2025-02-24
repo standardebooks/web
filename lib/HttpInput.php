@@ -18,7 +18,7 @@ class HttpInput{
 			$filename = mb_strtolower($httpMethod->value) . '.php';
 
 			if(!file_exists($filename)){
-				throw new Exceptions\InvalidHttpMethodException();
+				throw new Exceptions\HttpMethodNotAllowedException();
 			}
 
 			if($httpMethod == Enums\HttpMethod::Post){
@@ -30,7 +30,7 @@ class HttpInput{
 
 			exit();
 		}
-		catch(Exceptions\InvalidHttpMethodException | Exceptions\HttpMethodNotAllowedException){
+		catch(Exceptions\HttpMethodNotAllowedException){
 			$filenames = glob('{delete,get,patch,post,put}.php', GLOB_BRACE);
 
 			if(sizeof($filenames) > 0){
@@ -47,8 +47,7 @@ class HttpInput{
 	 *
 	 * @param ?array<Enums\HttpMethod> $allowedHttpMethods An array containing a list of allowed HTTP methods, or null if any valid HTTP method is allowed.
 	 * @param bool $throwException If the request HTTP method isn't allowed, then throw an exception; otherwise, output HTTP 405 and exit the script immediately.
-	 * @throws Exceptions\InvalidHttpMethodException If the HTTP method is not recognized, and `$throwException` is `true`.
-	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is recognized but not allowed, and `$throwException` is `true`.
+	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is not allowed, and `$throwException` is `true`.
 	 */
 	public static function ValidateRequestMethod(?array $allowedHttpMethods = null, bool $throwException = false): Enums\HttpMethod{
 		try{
@@ -66,14 +65,9 @@ class HttpInput{
 				}
 			}
 		}
-		catch(\ValueError | Exceptions\HttpMethodNotAllowedException $ex){
+		catch(\ValueError | Exceptions\HttpMethodNotAllowedException){
 			if($throwException){
-				if($ex instanceof \ValueError){
-					throw new Exceptions\InvalidHttpMethodException();
-				}
-				else{
-					throw $ex;
-				}
+				throw new Exceptions\HttpMethodNotAllowedException();
 			}
 			else{
 				if($allowedHttpMethods !== null){

@@ -97,7 +97,7 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException | Exceptions\InvalidHttpMethodException | Exceptions\HttpMethodNotAllowedException){
+catch(Exceptions\InvalidPermissionsException | Exceptions\HttpMethodNotAllowedException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\InvalidEbookException | Exceptions\EbookPlaceholderExistsException | Exceptions\InvalidProjectException $ex){
