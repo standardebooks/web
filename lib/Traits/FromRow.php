@@ -2,7 +2,7 @@
 namespace Traits;
 
 /**
- * Normally, the `DbConnection` class fills in an object itself, using reflection to decide on enums. Sometimes, we want to define an explicit `FromRow()` method on a class. This trait provides a default `FromRow()` method that assigns columns to object properties, and attemps to figure out enum types. The object can override this method if necessary.
+ * Normally, the `Db` class fills in an object itself, using reflection to decide on enums. Sometimes, we want to define an explicit `FromRow()` method on a class. This trait provides a default `FromRow()` method that assigns columns to object properties, and attemps to figure out enum types. The object can override this method if necessary.
  */
 trait FromRow{
 	/**

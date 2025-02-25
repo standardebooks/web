@@ -66,7 +66,7 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 	});
 }
 
-$GLOBALS['DbConnection'] = new DbConnection(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
+Db::Connect(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
 
 Session::InitializeFromCookie();
 
