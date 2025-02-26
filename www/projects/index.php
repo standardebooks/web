@@ -1,4 +1,7 @@
 <?
+
+use PhpParser\Node\Stmt\For_;
+
 use function Safe\session_unset;
 
 try{
@@ -52,11 +55,11 @@ catch(Exceptions\InvalidPermissionsException){
 		<? } ?>
 		<? if($createdProject !== null){ ?>
 			<? if($isCreated){ ?>
-				<p class="message success">Project for <a href="<?= $createdProject->Ebook->Url ?>"><?= Formatter::EscapeHtml($createdProject->Ebook->Title) ?></a> created!</p>
+				<p class="message success">Project for <a href="<?= $createdProject->Ebook->Url ?>"><?= Formatter::EscapeHtml($createdProject->Ebook->Title) ?></a> created! Manager: <a href="<?= $createdProject->Manager->Url ?>"><?= Formatter::EscapeHtml($createdProject->Manager->Name) ?></a>, reviewer: <a href="<?= $createdProject->Reviewer->Url ?>"><?= Formatter::EscapeHtml($createdProject->Reviewer->Name) ?></a>.</p>
 			<? } ?>
 
 			<? if($isOnlyProjectCreated){ ?>
-				<p class="message success">An ebook placeholder <a href="<?= $createdProject->Ebook->Url ?>">already exists</a> for this ebook, but a new project was created!</p>
+				<p class="message success">An ebook placeholder <a href="<?= $createdProject->Ebook->Url ?>">already exists</a> for this ebook, but a new project was created! Manager: <a href="<?= $createdProject->Manager->Url ?>"><?= Formatter::EscapeHtml($createdProject->Manager->Name) ?></a>, reviewer: <a href="<?= $createdProject->Reviewer->Url ?>"><?= Formatter::EscapeHtml($createdProject->Reviewer->Name) ?></a>.</p>
 			<? } ?>
 		<? } ?>
 
