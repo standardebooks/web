@@ -2354,7 +2354,7 @@ final class Ebook{
 	*
 	* @return array{ebooks: array<Ebook>, ebooksCount: int}
 	*/
-	public static function GetAllByFilter(string $query = null, array $tags = [], Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): array{
+	public static function GetAllByFilter(?string $query = null, array $tags = [], ?Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): array{
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
 		$orderByRelevance = false;
