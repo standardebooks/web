@@ -118,7 +118,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidProjectException | Exceptions\InvalidEbookException | Exceptions\ProjectExistsException | Exceptions\EbookExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
+catch(Exceptions\InvalidProjectException | Exceptions\InvalidEbookException | Exceptions\ProjectExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
 	$_SESSION['project'] = $project;
 	$_SESSION['exception'] = $ex;
 

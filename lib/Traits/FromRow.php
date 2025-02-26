@@ -7,7 +7,7 @@ namespace Traits;
 trait FromRow{
 	/**
 	 * Fill an object with the given database row.
-	 * This is useful when a subclass has to fill its object in a `FromRow()` method, but its parent class also has a `FromRow()` method defined. For example, `CompoundAction` and `Action`.
+	 * This is useful when a subclass has to fill its object in a `FromRow()` method, but its parent class also has a `FromRow()` method defined.
 	 *
 	 * @template T of self
 	 *

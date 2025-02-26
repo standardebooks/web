@@ -317,12 +317,7 @@ class HttpInput{
 				case Enums\HttpVariableType::Integer:
 					// Can't use `ctype_digit()` because we may want negative integers.
 					if(is_numeric($var) && mb_strpos((string)$var, '.') === false){
-						try{
-							return intval($var);
-						}
-						catch(Exception){
-							return null;
-						}
+						return intval($var);
 					}
 					break;
 				case Enums\HttpVariableType::Boolean:
@@ -334,12 +329,7 @@ class HttpInput{
 					}
 				case Enums\HttpVariableType::Decimal:
 					if(is_numeric($var)){
-						try{
-							return floatval($var);
-						}
-						catch(Exception){
-							return null;
-						}
+						return floatval($var);
 					}
 					break;
 				case Enums\HttpVariableType::DateTime:

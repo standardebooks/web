@@ -325,5 +325,7 @@ catch(Exception $ex){
 	throw $ex;
 }
 finally{
+	// `$driver` may be unintialized if we ctrl + c during Selenium initialization.
+	/** @phpstan-ignore nullsafe.neverNull */
 	$driver?->quit();
 }

@@ -23,7 +23,12 @@ enum ImageMimeType: string{
 			return null;
 		}
 
-		$mimeType = mime_content_type($path);
+		try{
+			$mimeType = mime_content_type($path);
+		}
+		catch(\Safe\Exceptions\FileinfoException){
+			return null;
+		}
 
 		$mimeType = match($mimeType){
 			'image/x-ms-bmp', 'image/x-bmp' => 'image/bmp',

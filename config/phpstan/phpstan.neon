@@ -33,6 +33,8 @@ parameters:
 			- Emit404
 			- RedirectToLogin
 	exceptions:
+		# PHPStan only uses PHPDocs to compute exception bubbling; without this line, PHPStan assumes that any function without a `@throws` doc throws any number of exceptions, instead of no exceptions.
+		implicitThrows: false
 		check:
 			missingCheckedExceptionInThrows: true
 			tooWideThrowType: true

@@ -18,25 +18,30 @@ class Image{
 
 	/**
 	 * @return \GdImage
-	 * @throws \Safe\Exceptions\ImageException
+	 *
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	private function GetImageHandle(){
-		switch($this->MimeType){
-			case Enums\ImageMimeType::JPG:
-				$handle = \Safe\imagecreatefromjpeg($this->Path);
-				break;
-			case Enums\ImageMimeType::BMP:
-				$handle = \Safe\imagecreatefrombmp($this->Path);
-				break;
-			case Enums\ImageMimeType::PNG:
-				$handle = \Safe\imagecreatefrompng($this->Path);
-				break;
-			case Enums\ImageMimeType::TIFF:
-				$handle = $this->GetImageHandleFromTiff();
-				break;
-			default:
-				throw new \Exceptions\InvalidImageUploadException();
+		try{
+			switch($this->MimeType){
+				case Enums\ImageMimeType::JPG:
+					$handle = \Safe\imagecreatefromjpeg($this->Path);
+					break;
+				case Enums\ImageMimeType::BMP:
+					$handle = \Safe\imagecreatefrombmp($this->Path);
+					break;
+				case Enums\ImageMimeType::PNG:
+					$handle = \Safe\imagecreatefrompng($this->Path);
+					break;
+				case Enums\ImageMimeType::TIFF:
+					$handle = $this->GetImageHandleFromTiff();
+					break;
+				default:
+					throw new \Exceptions\InvalidImageUploadException();
+			}
+		}
+		catch(\Safe\Exceptions\ImageException){
+			throw new \Exceptions\InvalidImageUploadException();
 		}
 
 		return $handle;
@@ -93,38 +98,33 @@ class Image{
 	public function Resize(string $destImagePath, int $width, int $height): void{
 		try{
 			$imageDimensions = getimagesize($this->Path);
+
+			$imageWidth = $imageDimensions[0] ?? 0;
+			$imageHeight = $imageDimensions[1] ?? 0;
+
+			if($imageHeight > $imageWidth){
+				$destinationHeight = $height;
+				$destinationWidth = intval($destinationHeight * ($imageWidth / $imageHeight));
+			}
+			else{
+				$destinationWidth = $width;
+				if($imageWidth == 0){
+					$destinationHeight = 0;
+				}
+				else{
+					$destinationHeight = intval($destinationWidth * ($imageHeight / $imageWidth));
+				}
+			}
+
+			$srcImageHandle = $this->GetImageHandle();
+			$thumbImageHandle = imagecreatetruecolor($destinationWidth, $destinationHeight);
+
+			imagecopyresampled($thumbImageHandle, $srcImageHandle, 0, 0, 0, 0, $destinationWidth, $destinationHeight, $imageWidth, $imageHeight);
+
+			imagejpeg($thumbImageHandle, $destImagePath);
 		}
 		catch(\Safe\Exceptions\ImageException $ex){
 			throw new Exceptions\InvalidImageUploadException($ex->getMessage());
 		}
-
-		$imageWidth = $imageDimensions[0] ?? 0;
-		$imageHeight = $imageDimensions[1] ?? 0;
-
-		if($imageHeight > $imageWidth){
-			$destinationHeight = $height;
-			try{
-				$destinationWidth = intval($destinationHeight * ($imageWidth / $imageHeight));
-			}
-			catch(\DivisionByZeroError){
-				$destinationWidth = 0;
-			}
-		}
-		else{
-			$destinationWidth = $width;
-			try{
-				$destinationHeight = intval($destinationWidth * ($imageHeight / $imageWidth));
-			}
-			catch(\DivisionByZeroError){
-				$destinationHeight = 0;
-			}
-		}
-
-		$srcImageHandle = $this->GetImageHandle();
-		$thumbImageHandle = imagecreatetruecolor($destinationWidth, $destinationHeight);
-
-		imagecopyresampled($thumbImageHandle, $srcImageHandle, 0, 0, 0, 0, $destinationWidth, $destinationHeight, $imageWidth, $imageHeight);
-
-		imagejpeg($thumbImageHandle, $destImagePath);
 	}
 }

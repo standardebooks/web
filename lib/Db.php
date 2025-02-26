@@ -321,6 +321,7 @@ class Db{
 	 */
 	protected static function PreparePdoHandle(string $sql, array $params): \PDOStatement{
 		try{
+			/** @throws \PDOException */
 			$handle = static::$Link->prepare($sql);
 		}
 		catch(\PDOException $ex){

@@ -60,6 +60,10 @@ class PollVote{
 		}
 		else{
 			try{
+				/**
+				 * @throws Exceptions\PollItemNotFoundException
+				 * @throws Exceptions\PollNotFoundException
+				 */
 				if(!$this->PollItem->Poll->IsActive()){
 					$error->Add(new Exceptions\PollClosedException());
 				}

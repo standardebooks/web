@@ -676,16 +676,16 @@ class Artwork{
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
-		exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imagePath));
-		copy($imagePath, $this->ImageFsPath);
-
-		// Generate the thumbnails
 		try{
+			exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imagePath));
+			copy($imagePath, $this->ImageFsPath);
+
+			// Generate the thumbnails
 			$image = new Image($imagePath);
 			$image->Resize($this->ThumbFsPath, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
 			$image->Resize($this->Thumb2xFsPath, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
 		}
-		catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException){
+		catch(\Safe\Exceptions\ExecException | \Safe\Exceptions\FilesystemException){
 			throw new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.');
 		}
 	}

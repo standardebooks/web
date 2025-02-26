@@ -126,6 +126,7 @@ trait Accessor{
 
 		if(property_exists($this, $privateVar)){
 			try{
+				/** @throws \Throwable */
 				$this->__get($var);
 			}
 			catch(\Throwable){

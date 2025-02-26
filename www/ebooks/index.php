@@ -134,12 +134,6 @@ catch(Exceptions\PageOutOfBoundsException){
 	header('Location: ' . $url);
 	exit();
 }
-catch(Exceptions\AppException $ex){
-	// Something very unexpected happened, log and emit 500.
-	http_response_code(Enums\HttpCode::InternalServerError->value); // Internal server error.
-	Log::WriteErrorLogEntry($ex);
-	exit();
-}
 ?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription, 'canonicalUrl' => $canonicalUrl]) ?>
 <main class="ebooks">
 	<h1><?= $pageHeader ?></h1>
