@@ -15,8 +15,8 @@ class Poll{
 	public string $UrlName;
 	public string $Description;
 	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Start;
-	public DateTimeImmutable $End;
+	public ?DateTimeImmutable $Start;
+	public ?DateTimeImmutable $End;
 
 	protected string $_Url;
 	/** @var array<PollItem> $_PollItems */

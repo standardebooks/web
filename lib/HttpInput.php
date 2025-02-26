@@ -1,6 +1,7 @@
 <?
 use Safe\DateTimeImmutable;
 
+use function Safe\file_get_contents;
 use function Safe\ini_get;
 use function Safe\glob;
 use function Safe\preg_match;
@@ -8,6 +9,31 @@ use function Safe\preg_replace;
 use function Safe\mb_convert_encoding;
 
 class HttpInput{
+	/**
+	 * If we received a `DELETE`, `PATCH`, or `PUT` request, parse the request body into `$_POST`.
+	 *
+	 * This can't handle file uploads, which due to PHP limitations *must* be sent via `POST`.
+	 */
+	public static function Initialize(): void{
+		/** @var string $contentType */
+		$contentType = $_SERVER['CONTENT_TYPE'] ?? '';
+		if(
+			isset($_SERVER['REQUEST_METHOD'])
+			&&
+			(
+				$_SERVER['REQUEST_METHOD'] == Enums\HttpMethod::Delete->value
+				||
+				$_SERVER['REQUEST_METHOD'] == Enums\HttpMethod::Patch->value
+				||
+				$_SERVER['REQUEST_METHOD'] == Enums\HttpMethod::Put->value
+			)
+			&&
+			preg_match('/^application\/x-www-form-urlencoded(;|$)/', $contentType)
+		){
+			parse_str(file_get_contents('php://input'), $_POST);
+		}
+	}
+
 	/**
 	 * Calculate the HTTP method of the request, then include `<METHOD>.php` and exit.
 	 */
@@ -22,10 +48,11 @@ class HttpInput{
 			}
 
 			if($httpMethod == Enums\HttpMethod::Post){
-				// If we're a HTTP POST, then we got here from a POST request initially, so just continue.
+				// If we're a HTTP `POST`, then we got here from a `POST` request initially, so just continue.
 				return;
 			}
 
+			/** @phpstan-ignore-next-line */
 			include($filename);
 
 			exit();
@@ -47,11 +74,13 @@ class HttpInput{
 	 *
 	 * @param ?array<Enums\HttpMethod> $allowedHttpMethods An array containing a list of allowed HTTP methods, or null if any valid HTTP method is allowed.
 	 * @param bool $throwException If the request HTTP method isn't allowed, then throw an exception; otherwise, output HTTP 405 and exit the script immediately.
-	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is not allowed, and `$throwException` is `true`.
+	 * @throws Exceptions\HttpMethodNotAllowedException If the HTTP method is recognized but not allowed, and `$throwException` is `true`.
 	 */
 	public static function ValidateRequestMethod(?array $allowedHttpMethods = null, bool $throwException = false): Enums\HttpMethod{
 		try{
-			$requestMethod = Enums\HttpMethod::from($_POST['_method'] ?? $_GET['_method'] ?? $_SERVER['REQUEST_METHOD']);
+			/** @var string $requestMethodString */
+			$requestMethodString = $_POST['_method'] ?? $_GET['_method'] ?? $_SERVER['REQUEST_METHOD'];
+			$requestMethod = Enums\HttpMethod::from($requestMethodString);
 			if($allowedHttpMethods !== null){
 				$isRequestMethodAllowed = false;
 				foreach($allowedHttpMethods as $allowedHttpMethod){
@@ -65,9 +94,14 @@ class HttpInput{
 				}
 			}
 		}
-		catch(\ValueError | Exceptions\HttpMethodNotAllowedException){
+		catch(\ValueError | Exceptions\HttpMethodNotAllowedException $ex){
 			if($throwException){
-				throw new Exceptions\HttpMethodNotAllowedException();
+				if($ex instanceof \ValueError){
+					throw new Exceptions\HttpMethodNotAllowedException();
+				}
+				else{
+					throw $ex;
+				}
 			}
 			else{
 				if($allowedHttpMethods !== null){
@@ -82,7 +116,7 @@ class HttpInput{
 	}
 
 	/**
-	 * @return int The maximum size for an HTTP POST request, in bytes.
+	 * @return int The maximum size for an HTTP `POST` request, in bytes.
 	 */
 	public static function GetMaxPostSize(): int{
 		$post_max_size = ini_get('upload_max_filesize');
@@ -106,6 +140,7 @@ class HttpInput{
 		elseif(sizeof($_FILES) > 0){
 			// We received files but may have an error because the size exceeded our limit.
 			foreach($_FILES as $file){
+				/** @var array<string, int> $file */
 				$error = $file['error'] ?? UPLOAD_ERR_OK;
 
 				if($error == UPLOAD_ERR_INI_SIZE || $error == UPLOAD_ERR_FORM_SIZE){
@@ -118,7 +153,9 @@ class HttpInput{
 	}
 
 	public static function GetRequestType(): Enums\HttpRequestType{
-		return preg_match('/\btext\/html\b/ius', $_SERVER['HTTP_ACCEPT'] ?? '') ? Enums\HttpRequestType::Web : Enums\HttpRequestType::Rest;
+		/** @var string $httpAccept */
+		$httpAccept = $_SERVER['HTTP_ACCEPT'] ?? '';
+		return preg_match('/\btext\/html\b/ius',$httpAccept) ? Enums\HttpRequestType::Web : Enums\HttpRequestType::Rest;
 	}
 
 	/**
@@ -181,7 +218,7 @@ class HttpInput{
 
 		$object = $_SESSION[$variable] ?? null;
 
-		if($object !== null){
+		if(is_object($object)){
 			foreach($class as $c){
 				if(is_a($object, $c)){
 					return $object;
@@ -200,12 +237,17 @@ class HttpInput{
 	public static function File(string $variable): ?string{
 		$filePath = null;
 
-		if(isset($_FILES[$variable]) && $_FILES[$variable]['size'] > 0){
-			if(!is_uploaded_file($_FILES[$variable]['tmp_name']) || $_FILES[$variable]['error'] > UPLOAD_ERR_OK){
-				throw new Exceptions\InvalidFileUploadException();
-			}
+		if(isset($_FILES[$variable])){
+			/** @var array{'error': int, 'size': int, 'tmp_name': string} $file */
+			$file = $_FILES[$variable];
 
-			$filePath = $_FILES[$variable]['tmp_name'] ?? null;
+			if($file['size'] > 0){
+				if(!is_uploaded_file($file['tmp_name']) || $file['error'] > UPLOAD_ERR_OK){
+					throw new Exceptions\InvalidFileUploadException();
+				}
+
+				$filePath = $file['tmp_name'];
+			}
 		}
 
 		return $filePath;
@@ -221,11 +263,9 @@ class HttpInput{
 	}
 
 	/**
-	 * @return array<string>|array<int>|array<float>|array<bool>|string|int|float|bool|DateTimeImmutable|null
+	 * @return array<string>|array<int>|array<float>|array<bool>|array<mixed>|string|int|float|bool|DateTimeImmutable|null
 	 */
 	private static function GetHttpVar(string $variable, Enums\HttpVariableType $type, Enums\HttpVariableSource $set): mixed{
-		// Note that in `Core.php` we parse the request body of DELETE, PATCH, and PUT into `$_POST`.
-
 		$vars = [];
 
 		switch($set){
@@ -262,6 +302,10 @@ class HttpInput{
 
 			switch($type){
 				case Enums\HttpVariableType::String:
+					if(!is_string($var)){
+						return '';
+					}
+
 					// Attempt to fix broken UTF8 strings, often passed by bots and scripts.
 					// Broken UTF8 can cause exceptions in functions like `preg_replace()`.
 					try{
@@ -282,7 +326,7 @@ class HttpInput{
 					}
 					break;
 				case Enums\HttpVariableType::Boolean:
-					if($var === false || $var === '0' || strtolower($var) == 'false' || strtolower($var) == 'off'){
+					if($var === false || (is_string($var) && ($var === '0' || strtolower($var) == 'false' || strtolower($var) == 'off'))){
 						return false;
 					}
 					else{
@@ -299,7 +343,7 @@ class HttpInput{
 					}
 					break;
 				case Enums\HttpVariableType::DateTime:
-					if($var != ''){
+					if(is_string($var) && $var != ''){
 						try{
 							return new DateTimeImmutable($var);
 						}

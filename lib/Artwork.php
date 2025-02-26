@@ -254,7 +254,7 @@ class Artwork{
 		if(!isset($this->Dimensions)){
 			$this->_Dimensions = '';
 			try{
-				list($imageWidth, $imageHeight) = getimagesize($this->ImageFsPath);
+				list($imageWidth, $imageHeight) = (getimagesize($this->ImageFsPath) ?? throw new \Exception());
 				if($imageWidth && $imageHeight){
 					$this->_Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
 				}
@@ -529,9 +529,14 @@ class Artwork{
 				}
 
 				// Check for minimum dimensions.
-				list($imageWidth, $imageHeight) = getimagesize($imagePath);
-				if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
-					$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
+				try{
+					list($imageWidth, $imageHeight) = (getimagesize($imagePath) ?? throw new \Exception());
+					if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
+						$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
+					}
+				}
+				catch(\Exception){
+					$error->Add(new Exceptions\InvalidImageUploadException());
 				}
 			}
 		}
@@ -647,7 +652,7 @@ class Artwork{
 				}
 
 				preg_match('|^/books/edition/[^/]+/([^/]+)$|ius', $parsedUrl['path'], $matches);
-				$id = $matches[1];
+				$id = $matches[1] ?? '';
 
 				parse_str($parsedUrl['query'] ?? '', $vars);
 

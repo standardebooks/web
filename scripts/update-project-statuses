@@ -2,8 +2,9 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
-use function Safe\file_get_contents;
 use Safe\DateTimeImmutable;
+use function Safe\file_get_contents;
+use function Safe\sleep;
 
 /**
  * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit.

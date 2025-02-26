@@ -45,7 +45,7 @@ class Email{
 			$phpMailer->AddAddress($this->To, $this->ToName);
 			$phpMailer->Subject = $this->Subject;
 			$phpMailer->CharSet = 'UTF-8';
-			if($this->TextBody !== null && $this->TextBody != ''){
+			if($this->TextBody != ''){
 				$phpMailer->IsHTML(true);
 				$phpMailer->Body = $this->Body;
 				$phpMailer->AltBody = $this->TextBody;
@@ -55,9 +55,7 @@ class Email{
 			}
 
 			foreach($this->Attachments as $attachment){
-				if(is_array($attachment)){
-					$phpMailer->addStringAttachment($attachment['contents'], $attachment['filename']);
-				}
+				$phpMailer->addStringAttachment($attachment['contents'], $attachment['filename']);
 			}
 
 			$phpMailer->IsSMTP();

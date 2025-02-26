@@ -71,6 +71,7 @@ Db::Connect(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
 Session::InitializeFromCookie();
 
 if(Session::$User === null){
+	/** @var ?string $httpBasicAuthLogin */
 	$httpBasicAuthLogin = $_SERVER['PHP_AUTH_USER'] ?? null;
 
 	if($httpBasicAuthLogin !== null){
@@ -78,6 +79,7 @@ if(Session::$User === null){
 
 		$session = new Session();
 		try{
+			/** @var ?string $password */
 			$password = $_SERVER['PHP_AUTH_PW'] ?? null;
 			if($password == ''){
 				$password = null;

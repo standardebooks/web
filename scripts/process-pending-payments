@@ -10,6 +10,7 @@ use Facebook\WebDriver\Firefox\FirefoxOptions;
 use Facebook\WebDriver\WebDriverElement;
 
 use Safe\DateTimeImmutable;
+use function Safe\get_cfg_var;
 use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\putenv;

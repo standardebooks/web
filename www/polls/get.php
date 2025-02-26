@@ -48,7 +48,9 @@ catch(Exceptions\AppException){
 			<? if($poll->Start !== null && $poll->Start > NOW){ ?>
 				<p class="center-notice">This poll opens on <?= $poll->Start->format(Enums\DateTimeFormat::FullDateTime->value) ?>.</p>
 			<? }else{ ?>
-				<p class="center-notice">This poll closed on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?>.</p>
+				<? if($poll->End !== null){ ?>
+					<p class="center-notice">This poll closed on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?>.</p>
+				<? } ?>
 				<p class="button-row narrow"><a href="<?= $poll->Url ?>/votes" class="button">View results</a></p>
 			<? } ?>
 		<? } ?>

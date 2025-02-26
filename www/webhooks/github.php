@@ -6,11 +6,13 @@
 use function Safe\exec;
 use function Safe\file_get_contents;
 use function Safe\json_decode;
+use function Safe\get_cfg_var;
 use function Safe\glob;
 use function Safe\shell_exec;
 
+$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
+
 try{
-	$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
 	$lastPushHashFlag = '';
 
 	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
@@ -20,7 +22,9 @@ try{
 	$post = file_get_contents('php://input');
 
 	// Validate the GitHub secret.
-	$splitHash = explode('=', $_SERVER['HTTP_X_HUB_SIGNATURE']);
+	/** @var string $githubSignature */
+	$githubSignature = $_SERVER['HTTP_X_HUB_SIGNATURE'] ?? '';
+	$splitHash = explode('=', $githubSignature);
 	$hashAlgorithm = $splitHash[0];
 	$hash = $splitHash[1];
 
@@ -80,7 +84,7 @@ try{
 
 			// Check the local repo's last commit. If it matches this push, then don't do anything; we're already up to date.
 
-			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1'));
+			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1') ?? '');
 
 			if($lastCommitSha1 == ''){
 				$log->Write('Error getting last local commit. Output: ' . $lastCommitSha1);
@@ -95,12 +99,11 @@ try{
 			}
 
 			// Get the current HEAD hash and save for later.
-			$output = [];
 			exec('sudo --set-home --user=se-vcs-bot git -C ' . escapeshellarg($dir) . ' rev-parse HEAD', $output, $returnCode);
 			if($returnCode != 0){
 				$log->Write('Couldn\'t get last commit of local repo. Output: ' . implode("\n", $output));
 			}
-			else{
+			elseif(sizeof($output ?? []) > 0){
 				$lastPushHashFlag = ' --last-push-hash ' . escapeshellarg($output[0]);
 			}
 

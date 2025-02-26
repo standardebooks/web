@@ -1,6 +1,7 @@
 <?
 // Auto-included by Composer in `composer.json` to satisfy PHPStan.
 use Safe\DateTimeImmutable;
+use function Safe\get_cfg_var;
 use function Safe\define;
 
 const NOW = new DateTimeImmutable();

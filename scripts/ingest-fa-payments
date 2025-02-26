@@ -20,6 +20,7 @@ use Facebook\WebDriver\WebDriverElement;
 
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
+use function Safe\get_cfg_var;
 use function Safe\preg_replace;
 use function Safe\putenv;
 use function Safe\set_time_limit;

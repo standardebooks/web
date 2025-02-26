@@ -32,7 +32,9 @@ try{
 }
 catch(Exceptions\LoginRequiredException){
 	if(isset($_SERVER['HTTP_REFERER'])){
-		Template::RedirectToLogin(true, $_SERVER['HTTP_REFERER']);
+		/** @var string $httpReferer */
+		$httpReferer = $_SERVER['HTTP_REFERER'];
+		Template::RedirectToLogin(true, $httpReferer);
 	}
 	else{
 		preg_match('|(^/bulk-downloads/[^/]+?)/|ius', $path, $matches);

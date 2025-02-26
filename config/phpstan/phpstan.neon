@@ -40,7 +40,6 @@ parameters:
 			-'#^Safe\\#'
 		uncheckedExceptionClasses:
 			- 'Exceptions\DatabaseQueryException'
-			- 'Exceptions\DuplicateDatabaseKeyException'
 			- 'Exceptions\MultiSelectMethodNotFoundException'
 			- 'PDOException'
 			- 'TypeError'

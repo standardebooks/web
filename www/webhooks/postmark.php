@@ -3,10 +3,12 @@ use function Safe\curl_exec;
 use function Safe\curl_init;
 use function Safe\curl_setopt;
 use function Safe\file_get_contents;
+use function Safe\get_cfg_var;
 use function Safe\json_decode;
 
+$log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
+
 try{
-	$log = new Log(POSTMARK_WEBHOOK_LOG_FILE_PATH);
 	/** @var string $smtpUsername */
 	$smtpUsername = get_cfg_var('se.secrets.postmark.username');
 
@@ -17,7 +19,9 @@ try{
 	$apiKey = get_cfg_var('se.secrets.postmark.api_key');
 
 	// Ensure this webhook actually came from Postmark.
-	if($apiKey != ($_SERVER['HTTP_X_SE_KEY'] ?? '')){
+	/** @var string $postmarkKey */
+	$postmarkKey = $_SERVER['HTTP_X_SE_KEY'] ?? '';
+	if($apiKey != $postmarkKey){
 		throw new Exceptions\InvalidCredentialsException();
 	}
 
@@ -76,7 +80,8 @@ try{
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
 catch(Exceptions\InvalidCredentialsException){
-	$log->Write('Invalid key: ' . ($_SERVER['HTTP_X_SE_KEY'] ?? ''));
+	/** @var string $postmarkKey */
+	$log->Write('Invalid key: ' . $postmarkKey);
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\WebhookException $ex){

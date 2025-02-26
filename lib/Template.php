@@ -68,6 +68,7 @@ class Template{
 	public static function RedirectToLogin(bool $redirectToDestination = true, ?string $destinationUrl = null): void{
 		if($redirectToDestination){
 			if($destinationUrl === null){
+				/** @var string $destinationUrl */
 				$destinationUrl = $_SERVER['SCRIPT_URL'];
 			}
 
@@ -81,6 +82,8 @@ class Template{
 	}
 
 	public static function IsEreaderBrowser(): bool{
-		return isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], "Kobo") !== false || strpos($_SERVER['HTTP_USER_AGENT'], "Kindle") !== false);
+		/** @var string $httpUserAgent */
+		$httpUserAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+		return $httpUserAgent != '' && (strpos($httpUserAgent, "Kobo") !== false || strpos($httpUserAgent, "Kindle") !== false);
 	}
 }

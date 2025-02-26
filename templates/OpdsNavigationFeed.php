@@ -2,7 +2,7 @@
 /**
  * @var string $id
  * @var string $url
- * @var string $parentUrl
+ * @var ?string $parentUrl
  * @var string $title
  * @var ?string $subtitle
  * @var DateTimeImmutable $updated

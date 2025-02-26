@@ -20,11 +20,11 @@
 		]
 	},
 	"require-dev": {
-		"phpstan/phpstan": "^1.11.1",
-		"thecodingmachine/phpstan-safe-rule": "^1.2.0"
+		"phpstan/phpstan": "^2.1.6",
+		"thecodingmachine/phpstan-safe-rule": "^1.4.0"
 	},
 	"require": {
-		"thecodingmachine/safe": "^2.5.0",
+		"thecodingmachine/safe": "^3.0.2",
 		"phpmailer/phpmailer": "^6.6.0",
 		"ramsey/uuid": "^4.7.6",
 		"gregwar/captcha": "^1.2.0",

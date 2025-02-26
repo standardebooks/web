@@ -11,8 +11,8 @@ $totalArtworkCount = 0;
 $pageDescription = '';
 $pageTitle = '';
 $queryString = '';
-$isReviewerView = Session::$User?->Benefits?->CanReviewArtwork ?? false;
-$submitterUserId = Session::$User?->Benefits?->CanUploadArtwork ? Session::$User->UserId : null;
+$isReviewerView = Session::$User?->Benefits->CanReviewArtwork ?? false;
+$submitterUserId = Session::$User?->Benefits->CanUploadArtwork ? Session::$User->UserId : null;
 $isSubmitterView = !$isReviewerView && $submitterUserId !== null;
 
 try{
@@ -127,6 +127,7 @@ catch(Exceptions\ArtworkNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\PageOutOfBoundsException){
+	/** @var string $queryStringWithoutPage */
 	$url = '/artworks?page=' . $pages;
 	if($queryStringWithoutPage != ''){
 		$url .= '&' . $queryStringWithoutPage;

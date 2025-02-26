@@ -36,6 +36,9 @@ class Museum{
 
 		$parsedUrl['path'] = $parsedUrl['path'] ?? '';
 
+		// We've initialized `$parsedUrl`, formally define it for PHPStan.
+		/** @var array{'path': string, 'host': string, 'fragment'?: string, 'query'?: string} $parsedUrl */
+
 		// We can't match on TLD because extracting the TLD for double-barrel TLDs, like .gov.uk, requires a whitelist.
 
 		if(preg_match('/\brijksmuseum\.nl$/ius', $parsedUrl['host'])){
@@ -105,10 +108,6 @@ class Museum{
 			$exampleUrl = 'https://collection.nationalmuseum.se/eMP/eMuseumPlus?service=ExternalInterface&module=collection&objectId=18217';
 
 			if($parsedUrl['host'] != 'collection.nationalmuseum.se'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
-			}
-
-			if($parsedUrl['path'] != '/eMP/eMuseumPlus'){
 				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
 			}
 

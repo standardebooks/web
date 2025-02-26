@@ -61,10 +61,8 @@ class AtomFeed extends Feed{
 				}
 			}
 			else{
-				if($entry->Updated !== null){
-					$obj->Updated = $entry->Updated->format(Enums\DateTimeFormat::Iso->value);
-					$obj->Id = $entry->Id;
-				}
+				$obj->Updated = $entry->Updated->format(Enums\DateTimeFormat::Iso->value);
+				$obj->Id = $entry->Id;
 			}
 
 			if(isset($obj->Id)){

@@ -17,7 +17,7 @@ class Image{
 	}
 
 	/**
-	 * @return resource
+	 * @return \GdImage
 	 * @throws \Safe\Exceptions\ImageException
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
@@ -43,7 +43,7 @@ class Image{
 	}
 
 	/**
-	 * @return resource
+	 * @return \GdImage
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	private function GetImageHandleFromTiff(){
@@ -98,8 +98,8 @@ class Image{
 			throw new Exceptions\InvalidImageUploadException($ex->getMessage());
 		}
 
-		$imageWidth = $imageDimensions[0];
-		$imageHeight = $imageDimensions[1];
+		$imageWidth = $imageDimensions[0] ?? 0;
+		$imageHeight = $imageDimensions[1] ?? 0;
 
 		if($imageHeight > $imageWidth){
 			$destinationHeight = $height;

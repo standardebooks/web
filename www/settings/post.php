@@ -30,6 +30,7 @@ if($httpMethod == Enums\HttpMethod::Patch){
 	// HTTP 303, See other
 	http_response_code(Enums\HttpCode::SeeOther->value);
 
+	/** @var string $redirect */
 	$redirect = $_SERVER['HTTP_REFERER'] ?? '/';
 	header('Location: ' . $redirect);
 }

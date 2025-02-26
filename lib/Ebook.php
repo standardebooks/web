@@ -465,7 +465,7 @@ final class Ebook{
 		return $this->_HeroImageUrl;
 	}
 
-	protected function GetHeroImageAvifUrl(): ?string{
+	protected function GetHeroImageAvifUrl(): string{
 		if(!isset($this->_HeroImageAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero.avif')){
 				$this->_HeroImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero.avif';
@@ -486,7 +486,7 @@ final class Ebook{
 		return $this->_HeroImage2xUrl;
 	}
 
-	protected function GetHeroImage2xAvifUrl(): ?string{
+	protected function GetHeroImage2xAvifUrl(): string{
 		if(!isset($this->_HeroImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero@2x.avif')){
 				$this->_HeroImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.avif';
@@ -507,7 +507,7 @@ final class Ebook{
 		return $this->_CoverImageUrl;
 	}
 
-	protected function GetCoverImageAvifUrl(): ?string{
+	protected function GetCoverImageAvifUrl(): string{
 		if(!isset($this->_CoverImageAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.avif')){
 				$this->_CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.avif';
@@ -528,7 +528,7 @@ final class Ebook{
 		return $this->_CoverImage2xUrl;
 	}
 
-	protected function GetCoverImage2xAvifUrl(): ?string{
+	protected function GetCoverImage2xAvifUrl(): string{
 		if(!isset($this->_CoverImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover@2x.avif')){
 				$this->_CoverImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.avif';
@@ -839,7 +839,7 @@ final class Ebook{
 
 		// Fill in the short history of this repo.
 		try{
-			$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($ebook->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"'));
+			$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($ebook->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"') ?? '');
 
 			$gitCommits = [];
 			foreach($historyEntries as $logLine){
@@ -873,13 +873,13 @@ final class Ebook{
 		$ebook->AlternateTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="dcterms:alternate"][@refines="#title"]'));
 
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
-		if($date !== false && sizeof($date) > 0){
+		if(sizeof($date) > 0){
 			/** @throws void */
 			$ebook->EbookCreated = new DateTimeImmutable((string)$date[0]);
 		}
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
-		if($modifiedDate !== false && sizeof($modifiedDate) > 0){
+		if(sizeof($modifiedDate) > 0){
 			/** @throws void */
 			$ebook->EbookUpdated = new DateTimeImmutable((string)$modifiedDate[0]);
 		}
@@ -949,7 +949,7 @@ final class Ebook{
 
 			$fileAs = null;
 			$fileAsElement = $xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]') ?: [];
-			if($fileAsElement !== false && sizeof($fileAsElement) > 0){
+			if(sizeof($fileAsElement) > 0){
 				$fileAs = (string)$fileAsElement[0];
 			}
 			else{
@@ -1030,15 +1030,15 @@ final class Ebook{
 		$ebook->Language = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:language')) ?? '';
 
 		$wordCount = 0;
-		$wordCountElement = $xml->xpath('/package/metadata/meta[@property="se:word-count"]');
-		if($wordCountElement !== false && sizeof($wordCountElement) > 0){
+		$wordCountElement = $xml->xpath('/package/metadata/meta[@property="se:word-count"]') ?: [];
+		if(sizeof($wordCountElement) > 0){
 			$wordCount = (int)$wordCountElement[0];
 		}
 		$ebook->WordCount = $wordCount;
 
 		$readingEase = 0;
-		$readingEaseElement = $xml->xpath('/package/metadata/meta[@property="se:reading-ease.flesch"]');
-		if($readingEaseElement !== false && sizeof($readingEaseElement) > 0){
+		$readingEaseElement = $xml->xpath('/package/metadata/meta[@property="se:reading-ease.flesch"]') ?: [];
+		if(sizeof($readingEaseElement) > 0){
 			$readingEase = (float)$readingEaseElement[0];
 		}
 		$ebook->ReadingEase = $readingEase;
@@ -1124,7 +1124,7 @@ final class Ebook{
 	 */
 	protected static function MatchContributorUrlNameToIdentifier(string $urlName, string $identifier): string{
 		if(preg_match('|' . $urlName . '[^\/_]*|ius', $identifier, $matches)){
-			return $matches[0];
+			return $matches[0] ?? '';
 		}
 		else{
 			return $urlName;
