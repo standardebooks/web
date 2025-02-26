@@ -35,7 +35,9 @@ sudo systemctl restart apache2.service
 
 # Link and enable the SE PHP-FPM pool.
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/cli/conf.d/
+sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test-secrets.ini /etc/php/*/cli/conf.d/
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/fpm/conf.d/
+sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test-secrets.ini /etc/php/*/fpm/conf.d/
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
 sudo systemctl restart "php*-fpm.service"
 
