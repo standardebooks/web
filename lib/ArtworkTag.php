@@ -13,11 +13,7 @@ class ArtworkTag extends Tag{
 	// *******
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/artworks?query=' . Formatter::MakeUrlSafe($this->Name);
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/artworks?query=' . Formatter::MakeUrlSafe($this->Name);
 	}
 
 

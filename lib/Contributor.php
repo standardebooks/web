@@ -73,7 +73,6 @@ class Contributor{
 			$error->Add(new Exceptions\ContributorEbookIdRequiredException());
 		}
 
-
 		$this->Name = trim($this->Name ?? '');
 		if($this->Name == ''){
 			$error->Add(new Exceptions\ContributorNameRequiredException());

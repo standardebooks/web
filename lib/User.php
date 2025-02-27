@@ -116,49 +116,33 @@ class User{
 	}
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/users/' . $this->UserId;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/users/' . $this->UserId;
 	}
 
 	protected function GetEditUrl(): string{
-		if(!isset($this->_EditUrl)){
-			$this->_EditUrl = $this->Url . '/edit';
-		}
-
-		return $this->_EditUrl;
+		return $this->_EditUrl ??= $this->Url . '/edit';
 	}
 
 	/**
 	* @return array<Payment>
 	*/
 	protected function GetPayments(): array{
-		if(!isset($this->_Payments)){
-			$this->_Payments = Db::Query('
+		return $this->_Payments ??= Db::Query('
 							SELECT *
 							from Payments
 							where UserId = ?
 							order by Created desc
 						', [$this->UserId], Payment::class);
-		}
-
-		return $this->_Payments;
 	}
 
 	protected function GetLastPayment(): ?Payment{
-		if(!isset($this->_LastPayment)){
-			$this->_LastPayment = Db::Query('
+		return $this->_LastPayment ??= Db::Query('
 							SELECT *
 							from Payments
 							where UserId = ?
 							order by Created desc
 							limit 1
 						', [$this->UserId], Payment::class)[0] ?? null;
-		}
-
-		return $this->_LastPayment;
 	}
 
 	protected function GetBenefits(): Benefits{

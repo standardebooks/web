@@ -23,11 +23,7 @@ class NewsletterSubscription{
 	// *******
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/newsletter/subscriptions/' . $this->User->Uuid;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/newsletter/subscriptions/' . $this->User->Uuid;
 	}
 
 

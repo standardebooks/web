@@ -10,11 +10,7 @@ class EbookTag extends Tag{
 	// *******
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/subjects/' . $this->UrlName;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/subjects/' . $this->UrlName;
 	}
 
 

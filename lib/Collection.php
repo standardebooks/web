@@ -24,22 +24,14 @@ class Collection{
 	// *******
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/collections/' . $this->UrlName;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/collections/' . $this->UrlName;
 	}
 
 	/**
 	 * @return array<Ebook>
 	 */
 	protected function GetEbooks(): array{
-		if(!isset($this->_Ebooks)){
-			$this->_Ebooks = Ebook::GetAllByCollection($this->CollectionId);
-		}
-
-		return $this->_Ebooks;
+		return $this->_Ebooks ??= Ebook::GetAllByCollection($this->CollectionId);
 	}
 
 

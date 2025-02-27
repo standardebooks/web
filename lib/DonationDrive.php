@@ -24,33 +24,30 @@ class DonationDrive{
 	// *******
 
 	protected function GetDonationCount(): int{
-		if(!isset($this->_DonationCount)){
-			$this->_DonationCount = Db::QueryInt('
-									SELECT sum(cnt)
-									from
+		return $this->_DonationCount ??= Db::QueryInt('
+								SELECT sum(cnt)
+								from
+								(
 									(
+										# Anonymous patrons, i.e. from AOGF
+										select count(*) cnt from Payments
+										where
+										UserId is null
+										and
 										(
-											# Anonymous patrons, i.e. from AOGF
-											select count(*) cnt from Payments
-											where
-											UserId is null
-											and
-											(
-												(IsRecurring = true and Amount >= 10 and Created >= ?)
-												or
-												(IsRecurring = false and Amount >= 100 and Created >= ?)
-											)
+											(IsRecurring = true and Amount >= 10 and Created >= ?)
+											or
+											(IsRecurring = false and Amount >= 100 and Created >= ?)
 										)
-										union all
-										(
-											# All non-anonymous patrons
-											select count(*) as cnt from Patrons
-											where Created >= ?
-										)
-									) x
-									', [$this->Start, $this->Start, $this->Start]);
-		}
-		return $this->_DonationCount;
+									)
+									union all
+									(
+										# All non-anonymous patrons
+										select count(*) as cnt from Patrons
+										where Created >= ?
+									)
+								) x
+								', [$this->Start, $this->Start, $this->Start]);
 	}
 
 	protected function GetTargetDonationCount(): int{

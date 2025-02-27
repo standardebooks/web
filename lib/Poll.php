@@ -31,40 +31,28 @@ class Poll{
 	// *******
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/polls/' . $this->UrlName;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/polls/' . $this->UrlName;
 	}
 
 	protected function GetVoteCount(): int{
-		if(!isset($this->_VoteCount)){
-			$this->_VoteCount = Db::QueryInt('
+		return $this->_VoteCount ??= Db::QueryInt('
 							SELECT count(*)
 							from PollVotes pv
 							inner join PollItems pi using (PollItemId)
 							where pi.PollId = ?
 						', [$this->PollId]);
-		}
-
-		return $this->_VoteCount;
 	}
 
 	/**
 	 * @return array<PollItem>
 	 */
 	protected function GetPollItems(): array{
-		if(!isset($this->_PollItems)){
-			$this->_PollItems = Db::Query('
+		return $this->_PollItems ??= Db::Query('
 							SELECT *
 							from PollItems
 							where PollId = ?
 							order by SortOrder asc
 						', [$this->PollId], PollItem::class);
-		}
-
-		return $this->_PollItems;
 	}
 
 	/**

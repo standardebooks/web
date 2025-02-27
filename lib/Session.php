@@ -24,11 +24,7 @@ class Session{
 	// *******
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/sessions/' . $this->SessionId;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/sessions/' . $this->SessionId;
 	}
 
 

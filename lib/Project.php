@@ -115,19 +115,11 @@ final class Project{
 	}
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/projects/' . $this->ProjectId;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/projects/' . $this->ProjectId;
 	}
 
 	protected function GetEditUrl(): string{
-		if(!isset($this->_EditUrl)){
-			$this->_EditUrl = $this->Url . '/edit';
-		}
-
-		return $this->_EditUrl;
+		return $this->_EditUrl ??= $this->Url . '/edit';
 	}
 
 	protected function GetLastActivityTimestamp(): DateTimeImmutable{
@@ -150,33 +142,21 @@ final class Project{
 	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
 	 */
 	protected function GetManager(): User{
-		if(!isset($this->_Manager)){
-			$this->_Manager = User::Get($this->ManagerUserId);
-		}
-
-		return $this->_Manager;
+		return $this->_Manager ??= User::Get($this->ManagerUserId);
 	}
 
 	/**
 	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
 	 */
 	protected function GetReviewer(): User{
-		if(!isset($this->_Reviewer)){
-			$this->_Reviewer = User::Get($this->ReviewerUserId);
-		}
-
-		return $this->_Reviewer;
+		return $this->_Reviewer ??= User::Get($this->ReviewerUserId);
 	}
 
 	/**
 	 * @return array<ProjectReminder>
 	 */
 	protected function GetReminders(): array{
-		if(!isset($this->_Reminders)){
-			$this->_Reminders = Db::Query('SELECT * from ProjectReminders where ProjectId = ? order by Created asc', [$this->ProjectId], ProjectReminder::class);
-		}
-
-		return $this->_Reminders;
+		return $this->_Reminders ??= Db::Query('SELECT * from ProjectReminders where ProjectId = ? order by Created asc', [$this->ProjectId], ProjectReminder::class);
 	}
 
 

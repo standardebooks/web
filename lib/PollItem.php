@@ -20,16 +20,12 @@ class PollItem{
 	// *******
 
 	protected function GetVoteCount(): int{
-		if(!isset($this->_VoteCount)){
-			$this->_VoteCount = Db::QueryInt('
+		return $this->_VoteCount ??= Db::QueryInt('
 							SELECT count(*)
 							from PollVotes pv
 							inner join PollItems pi using (PollItemId)
 							where pi.PollItemId = ?
 						', [$this->PollItemId]);
-		}
-
-		return $this->_VoteCount;
 	}
 
 

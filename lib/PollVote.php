@@ -24,11 +24,7 @@ class PollVote{
 	// *******
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
 	}
 
 

@@ -13,10 +13,6 @@ class OpdsAcquisitionFeed extends OpdsFeed{
 	// *******
 
 	protected function GetXmlString(): string{
-		if(!isset($this->_XmlString)){
-			$this->_XmlString = $this->CleanXmlString(Template::OpdsAcquisitionFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updated' => $this->Updated, 'isCrawlable' => $this->IsCrawlable, 'subtitle' => $this->Subtitle, 'entries' => $this->Entries]));
-		}
-
-		return $this->_XmlString;
+		return $this->_XmlString ??= $this->CleanXmlString(Template::OpdsAcquisitionFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updated' => $this->Updated, 'isCrawlable' => $this->IsCrawlable, 'subtitle' => $this->Subtitle, 'entries' => $this->Entries]));
 	}
 }

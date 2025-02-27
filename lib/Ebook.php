@@ -143,8 +143,7 @@ final class Ebook{
 	// *******
 
 	protected function GetArtwork(): ?Artwork{
-		if(!isset($this->_Artwork)){
-			$this->_Artwork = Db::Query('
+		return $this->_Artwork ??= Db::Query('
 							SELECT
 							*
 							from
@@ -152,17 +151,13 @@ final class Ebook{
 							where
 							EbookUrl = ?
 						', [preg_replace('/^url:/iu', '', $this->Identifier)], Artwork::class)[0] ?? null;
-		}
-
-		return $this->_Artwork;
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	protected function GetProjects(): array{
-		if(!isset($this->_Projects)){
-			$this->_Projects = Db::MultiTableSelect('
+		return $this->_Projects ??= Db::MultiTableSelect('
 							SELECT *
 							from Projects
 							inner join Ebooks
@@ -170,9 +165,6 @@ final class Ebook{
 							where Ebooks.EbookId = ?
 							order by Projects.Created desc
 						', [$this->EbookId], Project::class);
-		}
-
-		return $this->_Projects;
 	}
 
 	protected function GetProjectInProgress(): ?Project{
@@ -222,82 +214,62 @@ final class Ebook{
 	 * @return array<GitCommit>
 	 */
 	protected function GetGitCommits(): array{
-		if(!isset($this->_GitCommits)){
-			$this->_GitCommits = Db::Query('
+		return $this->_GitCommits ??= Db::Query('
 							SELECT *
 							from GitCommits
 							where EbookId = ?
 							order by Created desc
 						', [$this->EbookId], GitCommit::class);
-		}
-
-		return $this->_GitCommits;
 	}
 
 	/**
 	 * @return array<EbookTag>
 	 */
 	protected function GetTags(): array{
-		if(!isset($this->_Tags)){
-			$this->_Tags = Db::Query('
+		return $this->_Tags ??= Db::Query('
 						SELECT t.*
 						from Tags t
 						inner join EbookTags et using (TagId)
 						where EbookId = ?
 						order by SortOrder asc
 					', [$this->EbookId], EbookTag::class);
-		}
-
-		return $this->_Tags;
 	}
 
 	/**
 	 * @return array<LocSubject>
 	 */
 	protected function GetLocSubjects(): array{
-		if(!isset($this->_LocSubjects)){
-			$this->_LocSubjects = Db::Query('
+		return $this->_LocSubjects ??= Db::Query('
 							SELECT l.*
 							from LocSubjects l
 							inner join EbookLocSubjects el using (LocSubjectId)
 							where EbookId = ?
 							order by SortOrder asc
 					', [$this->EbookId], LocSubject::class);
-		}
-
-		return $this->_LocSubjects;
 	}
 
 	/**
 	 * @return array<CollectionMembership>
 	 */
 	protected function GetCollectionMemberships(): array{
-		if(!isset($this->_CollectionMemberships)){
-			$this->_CollectionMemberships = Db::Query('
+		return $this->_CollectionMemberships ??= Db::Query('
 							SELECT *
 							from CollectionEbooks
 							where EbookId = ?
 							order by SortOrder asc
 						', [$this->EbookId], CollectionMembership::class);
-		}
-
-		return $this->_CollectionMemberships;
 	}
 
 	/**
 	 * @return array<EbookSource>
 	 */
 	protected function GetSources(): array{
-		if(!isset($this->_Sources)){
-			$this->_Sources = Db::Query('
+		return $this->_Sources ??= Db::Query('
 						SELECT *
 						from EbookSources
 						where EbookId = ?
 						order by SortOrder asc
 					', [$this->EbookId], EbookSource::class);
-		}
-
-		return $this->_Sources;
 	}
 
 	/**
@@ -418,51 +390,27 @@ final class Ebook{
 	}
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = str_replace(EBOOKS_IDENTIFIER_ROOT, '', $this->Identifier);
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= str_replace(EBOOKS_IDENTIFIER_ROOT, '', $this->Identifier);
 	}
 
 	protected function GetEditUrl(): string{
-		if(!isset($this->_EditUrl)){
-			$this->_EditUrl = $this->Url . '/edit';
-		}
-
-		return $this->_EditUrl;
+		return $this->_EditUrl ??= $this->Url . '/edit';
 	}
 
 	protected function GetDeleteUrl(): string{
-		if(!isset($this->_DeleteUrl)){
-			$this->_DeleteUrl = $this->Url . '/delete';
-		}
-
-		return $this->_DeleteUrl;
+		return $this->_DeleteUrl ??= $this->Url . '/delete';
 	}
 
 	protected function GetHasDownloads(): bool{
-		if(!isset($this->_HasDownloads)){
-			$this->_HasDownloads = $this->EpubUrl || $this->AdvancedEpubUrl || $this->KepubUrl || $this->Azw3Url;
-		}
-
-		return $this->_HasDownloads;
+		return $this->_HasDownloads ??= $this->EpubUrl || $this->AdvancedEpubUrl || $this->KepubUrl || $this->Azw3Url;
 	}
 
 	protected function GetUrlSafeIdentifier(): string{
-		if(!isset($this->_UrlSafeIdentifier)){
-			$this->_UrlSafeIdentifier = str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
-		}
-
-		return $this->_UrlSafeIdentifier;
+		return $this->_UrlSafeIdentifier ??= str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 	}
 
 	protected function GetHeroImageUrl(): string{
-		if(!isset($this->_HeroImageUrl)){
-			$this->_HeroImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero.jpg';
-		}
-
-		return $this->_HeroImageUrl;
+		return $this->_HeroImageUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero.jpg';
 	}
 
 	protected function GetHeroImageAvifUrl(): string{
@@ -479,11 +427,7 @@ final class Ebook{
 	}
 
 	protected function GetHeroImage2xUrl(): string{
-		if(!isset($this->_HeroImage2xUrl)){
-			$this->_HeroImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.jpg';
-		}
-
-		return $this->_HeroImage2xUrl;
+		return $this->_HeroImage2xUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.jpg';
 	}
 
 	protected function GetHeroImage2xAvifUrl(): string{
@@ -500,11 +444,7 @@ final class Ebook{
 	}
 
 	protected function GetCoverImageUrl(): string{
-		if(!isset($this->_CoverImageUrl)){
-			$this->_CoverImageUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.jpg';
-		}
-
-		return $this->_CoverImageUrl;
+		return $this->_CoverImageUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.jpg';
 	}
 
 	protected function GetCoverImageAvifUrl(): string{
@@ -521,11 +461,7 @@ final class Ebook{
 	}
 
 	protected function GetCoverImage2xUrl(): string{
-		if(!isset($this->_CoverImage2xUrl)){
-			$this->_CoverImage2xUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.jpg';
-		}
-
-		return $this->_CoverImage2xUrl;
+		return $this->_CoverImage2xUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.jpg';
 	}
 
 	protected function GetCoverImage2xAvifUrl(): string{
@@ -601,27 +537,15 @@ final class Ebook{
 	}
 
 	protected function GetAuthorsHtml(): string{
-		if(!isset($this->_AuthorsHtml)){
-			$this->_AuthorsHtml = Ebook::GenerateContributorList($this->Authors, true);
-		}
-
-		return $this->_AuthorsHtml;
+		return $this->_AuthorsHtml ??= Ebook::GenerateContributorList($this->Authors, true);
 	}
 
 	protected function GetAuthorsUrl(): string{
-		if(!isset($this->_AuthorsUrl)){
-			$this->_AuthorsUrl = preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
-		}
-
-		return $this->_AuthorsUrl;
+		return $this->_AuthorsUrl ??= preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
 	}
 
 	protected function GetAuthorsString(): string{
-		if(!isset($this->_AuthorsString)){
-			$this->_AuthorsString = strip_tags(Ebook::GenerateContributorList($this->Authors, false));
-		}
-
-		return $this->_AuthorsString;
+		return $this->_AuthorsString ??= strip_tags(Ebook::GenerateContributorList($this->Authors, false));
 	}
 
 	protected function GetContributorsHtml(): string{
@@ -673,19 +597,11 @@ final class Ebook{
 	}
 
 	protected function GetTextUrl(): string{
-		if(!isset($this->_TextUrl)){
-			$this->_TextUrl = $this->Url . '/text';
-		}
-
-		return $this->_TextUrl;
+		return $this->_TextUrl ??= $this->Url . '/text';
 	}
 
 	protected function GetTextSinglePageUrl(): string{
-		if(!isset($this->_TextSinglePageUrl)){
-			$this->_TextSinglePageUrl = $this->Url . '/text/single-page';
-		}
-
-		return $this->_TextSinglePageUrl;
+		return $this->_TextSinglePageUrl ??= $this->Url . '/text/single-page';
 	}
 
 	protected function GetTextSinglePageSizeFormatted(): string{

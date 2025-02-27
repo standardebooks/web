@@ -41,11 +41,7 @@ class Artist{
 	}
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/artworks/' . $this->UrlName;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/artworks/' . $this->UrlName;
 	}
 
 	/**
@@ -82,7 +78,9 @@ class Artist{
 
 		$error = new Exceptions\InvalidArtistException();
 
-		if(!isset($this->Name) || $this->Name == ''){
+		$this->Name = trim($this->Name ?? '');
+
+		if($this->Name == ''){
 			$error->Add(new Exceptions\ArtistNameRequiredException());
 		}
 		elseif(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){

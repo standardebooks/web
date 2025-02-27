@@ -4,8 +4,8 @@ use function Safe\ob_start;
 
 class Template{
 	/**
-	* @param array<mixed> $arguments
-	*/
+	 * @param array<mixed> $arguments
+	 */
 	protected static function Get(string $templateName, array $arguments = []): string{
 		// Expand the passed variables to make them available to the included template.
 		// We use these funny names so that we can use 'name' and 'value' as template variables if we want to.
@@ -22,8 +22,8 @@ class Template{
 	}
 
 	/**
-	* @param array<mixed> $arguments
-	*/
+	 * @param array<mixed> $arguments
+	 */
 	public static function __callStatic(string $function, array $arguments): string{
 		if(isset($arguments[0]) && is_array($arguments[0])){
 			return self::Get($function, $arguments[0]);

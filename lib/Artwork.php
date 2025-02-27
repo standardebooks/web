@@ -146,35 +146,23 @@ class Artwork{
 	}
 
 	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/artworks/' . $this->Artist->UrlName . '/' . $this->UrlName;
-		}
-
-		return $this->_Url;
+		return $this->_Url ??= '/artworks/' . $this->Artist->UrlName . '/' . $this->UrlName;
 	}
 
 	protected function GetEditUrl(): string{
-		if(!isset($this->_EditUrl)){
-			$this->_EditUrl = $this->Url . '/edit';
-		}
-
-		return $this->_EditUrl;
+		return $this->_EditUrl ??= $this->Url . '/edit';
 	}
 
 	/**
 	 * @return array<ArtworkTag>
 	 */
 	protected function GetTags(): array{
-		if(!isset($this->_Tags)){
-			$this->_Tags = Db::Query('
+		return $this->_Tags ??= Db::Query('
 							SELECT t.*
 							from Tags t
 							inner join ArtworkTags at using (TagId)
 							where ArtworkId = ?
 						', [$this->ArtworkId], ArtworkTag::class);
-		}
-
-		return $this->_Tags;
 	}
 
 	/**
@@ -359,28 +347,29 @@ class Artwork{
 			}
 		}
 
-		if($this->Exception !== null && trim($this->Exception) == ''){
+		$this->Exception = trim($this->Exception ?? '');
+
+		if($this->Exception == ''){
 			$this->Exception = null;
 		}
 
-		if($this->Notes !== null && trim($this->Notes) == ''){
+		$this->Notes = trim($this->Notes ?? '');
+
+		if($this->Notes == ''){
 			$this->Notes = null;
 		}
 
-		if(isset($this->Name)){
-			if($this->Name == ''){
-				$error->Add(new Exceptions\ArtworkNameRequiredException());
-			}
+		$this->Name = trim($this->Name ?? '');
 
-			if(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
-				$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
-			}
-		}
-		else{
+		if($this->Name == ''){
 			$error->Add(new Exceptions\ArtworkNameRequiredException());
 		}
 
-		if($this->CompletedYear !== null && ($this->CompletedYear <= 0 || $this->CompletedYear > $thisYear)){
+		if(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
+		}
+
+		if(isset($this->CompletedYear) && ($this->CompletedYear <= 0 || $this->CompletedYear > $thisYear)){
 			$error->Add(new Exceptions\InvalidCompletedYearException());
 		}
 
@@ -388,7 +377,7 @@ class Artwork{
 			$this->CompletedYearIsCirca = false;
 		}
 
-		if($this->PublicationYear !== null && ($this->PublicationYear <= 0 || $this->PublicationYear > $thisYear)){
+		if(isset($this->PublicationYear) && ($this->PublicationYear <= 0 || $this->PublicationYear > $thisYear)){
 			$error->Add(new Exceptions\InvalidPublicationYearException());
 		}
 
@@ -396,29 +385,28 @@ class Artwork{
 			$error->Add(new Exceptions\InvalidArtworkStatusException());
 		}
 
-		if(isset($this->Tags)){
-			if(count($this->Tags) == 0){
-				$error->Add(new Exceptions\TagsRequiredException());
-			}
+		$this->Tags ??= [];
 
-			if(count($this->Tags) > ARTWORK_MAX_TAGS){
-				$error->Add(new Exceptions\TooManyTagsException());
-			}
-
-			foreach($this->Tags as $tag){
-				try{
-					$tag->Validate();
-				}
-				catch(Exceptions\ValidationException $ex){
-					$error->Add($ex);
-				}
-			}
-		}
-		else{
+		if(sizeof($this->Tags) == 0){
 			$error->Add(new Exceptions\TagsRequiredException());
 		}
 
-		if($this->MuseumUrl !== null){
+		if(sizeof($this->Tags) > ARTWORK_MAX_TAGS){
+			$error->Add(new Exceptions\TooManyTagsException());
+		}
+
+		foreach($this->Tags as $tag){
+			try{
+				$tag->Validate();
+			}
+			catch(Exceptions\ValidationException $ex){
+				$error->Add($ex);
+			}
+		}
+
+		$this->MuseumUrl = trim($this->MuseumUrl ?? '');
+
+		if($this->MuseumUrl != ''){
 			if(strlen($this->MuseumUrl) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Link to an approved museum page'));
 			}
@@ -431,13 +419,18 @@ class Artwork{
 				$error->Add($ex);
 			}
 		}
+		else{
+			$this->MuseumUrl = null;
+		}
 
-		if($this->PublicationYearPageUrl !== null){
+		$this->PublicationYearPageUrl = trim($this->PublicationYearPageUrl ?? '');
+
+		if($this->PublicationYearPageUrl != ''){
 			if(strlen($this->PublicationYearPageUrl) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Link to page with year of publication'));
 			}
 
-			if($this->PublicationYearPageUrl == '' || filter_var($this->PublicationYearPageUrl, FILTER_VALIDATE_URL) === false){
+			if(filter_var($this->PublicationYearPageUrl, FILTER_VALIDATE_URL) === false){
 				$error->Add(new Exceptions\InvalidPublicationYearPageUrlException());
 			}
 			else{
@@ -449,13 +442,18 @@ class Artwork{
 				}
 			}
 		}
+		else{
+			$this->PublicationYearPageUrl = null;
+		}
 
-		if($this->CopyrightPageUrl !== null){
+		$this->CopyrightPageUrl = trim($this->CopyrightPageUrl ?? '');
+
+		if($this->CopyrightPageUrl != ''){
 			if(strlen($this->CopyrightPageUrl) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Link to page with copyright details'));
 			}
 
-			if($this->CopyrightPageUrl == '' || filter_var($this->CopyrightPageUrl, FILTER_VALIDATE_URL) === false){
+			if(filter_var($this->CopyrightPageUrl, FILTER_VALIDATE_URL) === false){
 				$error->Add(new Exceptions\InvalidCopyrightPageUrlException());
 			}
 			else{
@@ -467,13 +465,18 @@ class Artwork{
 				}
 			}
 		}
+		else{
+			$this->CopyrightPageUrl = null;
+		}
 
-		if($this->ArtworkPageUrl !== null){
+		$this->ArtworkPageUrl = trim($this->ArtworkPageUrl ?? '');
+
+		if($this->ArtworkPageUrl != ''){
 			if(strlen($this->ArtworkPageUrl) > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Link to page with artwork'));
 			}
 
-			if($this->ArtworkPageUrl == '' || filter_var($this->ArtworkPageUrl, FILTER_VALIDATE_URL) === false){
+			if(filter_var($this->ArtworkPageUrl, FILTER_VALIDATE_URL) === false){
 				$error->Add(new Exceptions\InvalidArtworkPageUrlException());
 			}
 			else{
@@ -485,18 +488,20 @@ class Artwork{
 				}
 			}
 		}
+		else{
+			$this->ArtworkPageUrl = null;
+		}
 
-		$hasMuseumProof = $this->MuseumUrl !== null && $this->MuseumUrl != '';
-		$hasBookProof = $this->PublicationYear !== null
-			&& ($this->PublicationYearPageUrl !== null && $this->PublicationYearPageUrl != '')
-			&& ($this->ArtworkPageUrl !== null && $this->ArtworkPageUrl != '');
+		$hasMuseumProof = $this->MuseumUrl !== null;
+		$hasBookProof = $this->PublicationYear !== null && $this->PublicationYearPageUrl !== null && $this->ArtworkPageUrl !== null;
 
 		if(!$hasMuseumProof && !$hasBookProof && $this->Exception === null){
 			$error->Add(new Exceptions\MissingPdProofException());
 		}
 
-		// Check the ebook URL.
-		if($this->EbookUrl !== null){
+		$this->EbookUrl = trim($this->EbookUrl ?? '');
+
+		if($this->EbookUrl != ''){
 			try{
 				Ebook::GetByIdentifier('url:' . $this->EbookUrl);
 
@@ -506,6 +511,9 @@ class Artwork{
 				// Ebook not found, error!
 				$error->Add(new Exceptions\EbookNotFoundException('Couldn’t find an ebook with that URL.'));
 			}
+		}
+		else{
+			$this->EbookUrl = null;
 		}
 
 		// Check for existing `Artwork` objects with the same URL but different `ArtworkID`s.
