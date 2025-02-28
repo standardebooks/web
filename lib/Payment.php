@@ -64,12 +64,12 @@ class Payment{
 		if($this->UserId === null){
 			// Check if we have to create a new `User` in the database.
 
-			// If the `User` isn't **null**, then check if we already have this user in our system.
+			// If the `User` isn't `null`, then check if we already have this `User` in our system.
 			if($this->User !== null && $this->User->Email !== null){
 				try{
 					$user = User::GetByEmail($this->User->Email);
 
-					// `User` exists, use their data
+					// `User` exists, use their data.
 					$user->Name = $this->User->Name;
 					$this->User = $user;
 
@@ -82,7 +82,6 @@ class Payment{
 				}
 				catch(Exceptions\UserNotFoundException){
 					// User doesn't exist, create it now.
-
 					try{
 						$this->User->Create();
 					}

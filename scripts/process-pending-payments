@@ -153,8 +153,14 @@ try{
 						$payment->IsMatchingDonation = true;
 					}
 
+					// Sometimes a soft credit is `Anonymous` or `Anonymous Anonymous`.
+					// See donation `7f296e18-6492-48e1-aeca-5063c6a0bbbb`.
+					if($hasSoftCredit && preg_match('/Anonymous(\s*Anonymous)*/ius', $payment->User->Name)){
+						$payment->User = null;
+					}
+
 					// We can get here via an AOGF donation that is anonymous.
-					if(!$hasSoftCredit && ($payment->User->Email == 'Not provided' || $payment->User->Email == '')){
+					if(!$hasSoftCredit && ($payment->User?->Email == 'Not provided' || $payment->User?->Email == '')){
 						$payment->User = null;
 					}
 				}
