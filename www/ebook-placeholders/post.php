@@ -68,6 +68,9 @@ try{
 		$ebook->FillFromEbookPlaceholderForm();
 		$ebook->EbookId = $originalEbook->EbookId;
 		$ebook->Created = $originalEbook->Created;
+		if(isset($ebook->EbookPlaceholder) && isset($originalEbook->EbookPlaceholder)){
+			$ebook->EbookPlaceholder->IsInProgress = $originalEbook->EbookPlaceholder->IsInProgress;
+		}
 
 		try{
 			$ebook->Save();
