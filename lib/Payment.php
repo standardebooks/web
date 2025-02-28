@@ -30,7 +30,11 @@ class Payment{
 	 * @throws Exceptions\UserNotFoundException
 	 */
 	protected function GetUser(): ?User{
-		return $this->_User ??= User::Get($this->UserId);
+		if(!isset($this->_User) && $this->UserId !== null){
+			$this->_User = User::Get($this->UserId);
+		}
+
+		return $this->_User;
 	}
 
 	protected function GetProcessorUrl(): string{
