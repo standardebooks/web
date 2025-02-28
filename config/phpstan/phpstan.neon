@@ -4,11 +4,15 @@ includes:
 	- ../../vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
 
 parameters:
+	level: 9
+
 	ignoreErrors:
-		# Ignore errors caused by Template static class reflection
+		# Ignore errors caused by `Template` static class reflection.
 		- '#Call to an undefined static method Template::[a-zA-Z0-9\\_]+\(\)\.#'
-	level:
-		9
+
+	bootstrapFiles:
+		- %rootDir%/../../../lib/Constants.php
+
 	paths:
 		- %rootDir%/../../../lib
 		- %rootDir%/../../../www
@@ -23,23 +27,23 @@ parameters:
 		- %rootDir%/../../../scripts/update-patrons-circle
 		- %rootDir%/../../../scripts/update-project-statuses
 		- %rootDir%/../../../templates
+
 	dynamicConstantNames:
 		- SITE_STATUS
 		- DONATION_DRIVES_ENABLED
 		- DONATION_DRIVE_COUNTER_ENABLED
-	earlyTerminatingMethodCalls:
-		Template:
-			- Emit403
-			- Emit404
-			- RedirectToLogin
+
 	exceptions:
 		# PHPStan only uses PHPDocs to compute exception bubbling; without this line, PHPStan assumes that any function without a `@throws` doc throws any number of exceptions, instead of no exceptions.
 		implicitThrows: false
+
 		check:
 			missingCheckedExceptionInThrows: true
 			tooWideThrowType: true
+
 		uncheckedExceptionRegexes:
-			-'#^Safe\\#'
+			- '#^Safe\\#'
+
 		uncheckedExceptionClasses:
 			- 'Exceptions\DatabaseQueryException'
 			- 'Exceptions\MultiSelectMethodNotFoundException'

@@ -6,17 +6,11 @@
 	"autoload-dev": {
 		"psr-4": {
 			"": "lib/"
-		},
-		"files": [
-			"lib/Constants.php"
-		]
+		}
 	},
 	"autoload": {
 		"classmap": [
 			"lib/"
-		],
-		"files": [
-			"lib/Constants.php"
 		]
 	},
 	"require-dev": {

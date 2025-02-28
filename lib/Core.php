@@ -1,6 +1,7 @@
 <?
 // Composer auto-loads the `lib/` directory in `composer.json`.
 require __DIR__ . '/../vendor/autoload.php';
+require_once('Constants.php');
 
 use function Safe\error_log;
 use function Safe\mb_internal_encoding;
