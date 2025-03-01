@@ -45,7 +45,7 @@ class RssFeed extends Feed{
 		$currentEntries = [];
 		foreach($this->Entries as $entry){
 			/** @var Ebook $entry */
-			$obj = new StdClass();
+			$obj = new stdClass();
 			$obj->Size = (string)filesize(WEB_ROOT . $entry->EpubUrl);
 			$obj->Id = preg_replace('/^url:/ius', '', $entry->Identifier);
 			$currentEntries[] = $obj;
@@ -56,7 +56,7 @@ class RssFeed extends Feed{
 			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($path)));
 			$xml->registerXPathNamespace('atom', 'http://www.w3.org/2005/Atom');
 			foreach($xml->xpath('/rss/channel/item') ?: [] as $entry){
-				$obj = new StdClass();
+				$obj = new stdClass();
 				foreach($entry->xpath('enclosure') ?: [] as $enclosure){
 					$obj->Size = (string)$enclosure['length'];
 				}

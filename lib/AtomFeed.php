@@ -53,7 +53,7 @@ class AtomFeed extends Feed{
 
 		$currentEntries = [];
 		foreach($this->Entries as $entry){
-			$obj = new StdClass();
+			$obj = new stdClass();
 			if($entry instanceof Ebook){
 				if($entry->EbookUpdated !== null){
 					$obj->Updated = $entry->EbookUpdated->format(Enums\DateTimeFormat::Iso->value);
@@ -75,7 +75,7 @@ class AtomFeed extends Feed{
 			$xml = new SimpleXMLElement(str_replace('xmlns=', 'ns=', file_get_contents($path)));
 
 			foreach($xml->xpath('/feed/entry') ?: [] as $entry){
-				$obj = new StdClass();
+				$obj = new stdClass();
 				$obj->Updated = $entry->updated;
 				$obj->Id = $entry->id;
 				$oldEntries[] = $obj;

@@ -40,25 +40,25 @@ class Email{
 		$phpMailer = new PHPMailer(true);
 
 		try{
-			$phpMailer->SetFrom($this->From, $this->FromName);
-			$phpMailer->AddReplyTo($this->ReplyTo);
-			$phpMailer->AddAddress($this->To, $this->ToName);
+			$phpMailer->setFrom($this->From, $this->FromName);
+			$phpMailer->addReplyTo($this->ReplyTo);
+			$phpMailer->addAddress($this->To, $this->ToName);
 			$phpMailer->Subject = $this->Subject;
 			$phpMailer->CharSet = 'UTF-8';
 			if($this->TextBody != ''){
-				$phpMailer->IsHTML(true);
+				$phpMailer->isHTML(true);
 				$phpMailer->Body = $this->Body;
 				$phpMailer->AltBody = $this->TextBody;
 			}
 			else{
-				$phpMailer->MsgHTML($this->Body);
+				$phpMailer->msgHTML($this->Body);
 			}
 
 			foreach($this->Attachments as $attachment){
 				$phpMailer->addStringAttachment($attachment['contents'], $attachment['filename']);
 			}
 
-			$phpMailer->IsSMTP();
+			$phpMailer->isSMTP();
 			$phpMailer->SMTPAuth = true;
 			$phpMailer->SMTPSecure = 'tls';
 			$phpMailer->Port = 587;
@@ -78,7 +78,7 @@ class Email{
 				$log->Write($this->TextBody);
 			}
 			else{
-				$phpMailer->Send();
+				$phpMailer->send();
 			}
 		}
 		catch(Exception $ex){

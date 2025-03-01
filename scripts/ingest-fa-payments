@@ -116,7 +116,7 @@ try{
 		// Check if we need to log in to FA.
 		// Wait until the <body> element is visible, then check the current URL.
 		$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('/html/body')));
-		if(stripos($driver->getCurrentUrl(), 'auth0.com')){
+		if(stripos($driver->getCurrentURL(), 'auth0.com')){
 			$log->Write('Logging in to Fractured Atlas ...');
 
 			// We were redirected to the login page, so try to log in.

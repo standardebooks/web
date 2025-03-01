@@ -76,7 +76,7 @@ catch(Exceptions\InvalidPermissionsException){
 				</tr>
 				<tr>
 					<td>Created:</td>
-					<td><?= $user->Created->Format(Enums\DateTimeFormat::FullDateTime->value) ?></td>
+					<td><?= $user->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></td>
 				</tr>
 			</tbody>
 		</table>
@@ -219,7 +219,7 @@ catch(Exceptions\InvalidPermissionsException){
 					<? foreach($user->Payments as $payment){ ?>
 						<tr>
 							<td>
-								<time datetime="<?= $payment->Created->format(Enums\DateTimeFormat::Html->value) ?>"><?= $payment->Created->Format(Enums\DateTimeFormat::FullDateTime->value) ?></time>
+								<time datetime="<?= $payment->Created->format(Enums\DateTimeFormat::Html->value) ?>"><?= $payment->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></time>
 							</td>
 							<td>
 								<? if($payment->IsRecurring){ ?>

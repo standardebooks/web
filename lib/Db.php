@@ -315,7 +315,7 @@ class Db{
 	 * @param string $sql The SQL query to execute.
 	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
 	 *
-	 * @return \PdoStatement The `\PDOStatement` to be used to execute the query.
+	 * @return \PDOStatement The `\PDOStatement` to be used to execute the query.
 	 *
 	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
 	 */
@@ -360,7 +360,7 @@ class Db{
 	 *
 	 * @template T
 	 *
-	 * @param \PdoStatement $handle The PDO handle to execute.
+	 * @param \PDOStatement $handle The PDO handle to execute.
 	 * @param class-string<T> $class The type of object to return in the return array.
 	 *
 	 * @return array<T> An array of objects of type `$class`, or `stdClass` if `$class` is `null`.
@@ -440,7 +440,7 @@ class Db{
 	 *
 	 * @template T
 	 *
-	 * @param \PdoStatement $handle The PDO handle to execute.
+	 * @param \PDOStatement $handle The PDO handle to execute.
 	 * @param class-string<T> $class The class to instantiate for each row, or `stdClass` to return an array of rows.
 	 *
 	 * @return array<T>|array<array<string, stdClass>> An array of `$class` if `$class` is not `stdClass`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.

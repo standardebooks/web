@@ -5,6 +5,9 @@ includes:
 
 parameters:
 	level: 9
+	checkFunctionNameCase: true
+	checkInternalClassCaseSensitivity: true
+	checkTooWideReturnTypesInProtectedAndPublicMethods: true
 
 	ignoreErrors:
 		# Ignore errors caused by `Template` static class reflection.
