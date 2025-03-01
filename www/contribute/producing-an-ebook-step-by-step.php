@@ -510,7 +510,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p><code class="bash"><b>se</b> find-mismatched-diacritics</code> lists these instances for you to review. Spelling should be normalized across the work so that all instances of the same word are spelled in the same way. Keep the following in mind as you review these instances:</p>
 				<ul>
 					<li>
-						<p>In modern English spelling, many diacritics are removed (like <code class="html">chalet</code>). If in doubt, ask the S.E. Editor-in-Chief.</p>
+						<p>In modern English spelling, many diacritics are removed (like <code class="html">chalet</code>). If in doubt, ask your assigned project manager.</p>
 					</li>
 					<li>
 						<p>Even though diacritics might be removed in English spelling, they may be preserved in non-English text, or in proper names.</p>
@@ -603,7 +603,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<h2 id="cover">Create the cover image</h2>
 				<aside class="alert">
 					<p class="warning">STOP</p>
-					<p><strong>Do not commit cover art to your repository’s history until you have <a href="https://groups.google.com/g/standardebooks">cleared your selection with the S.E. Editor-in-Chief.</a></strong></p>
+					<p><strong>Do not commit cover art to your repository’s history until you have <a href="https://groups.google.com/g/standardebooks">cleared your selection with the S.E. Editor-in-Chief or your assigned project manager.</a></strong></p>
 					<p>If you commit non-public-domain cover art, you’ll have to rebase your repository to remove the art from its history. This is complicated, dangerous, and annoying, and you’ll be tempted to give up.</p>
 					<p><a href="https://groups.google.com/g/standardebooks">Contact us first</a> with page scans verifying your cover art’s public domain status before you commit your cover art!</p>
 				</aside>
@@ -621,7 +621,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>The image you pick should be a “fine art” oil painting so that all Standard Ebooks have a consistent cover style. This is actually easier than you think, because it turns out most public domain artwork is from the era of fine art.</p>
 					</li>
 					<li>
-						<p>You must provide proof of public domain status to the S.E. Editor-in-Chief in the form of a page scan of the painting from a book published before <?= PD_STRING ?>, and the Editor-in-Chief must approve your selection before you can commit it to your repository.</p>
+						<p>You must provide proof of public domain status to the S.E. Editor-in-Chief in the form of a page scan of the painting from a book published before <?= PD_STRING ?>, and the Editor-in-Chief or your assigned project manager must approve your selection before you can commit it to your repository.</p>
 					</li>
 					<li>
 						<p>The Standard Ebooks Editor-in-Chief has the final say on the cover image you pick, and it may be rejected for, among other things, poor public domain status research, being too low resolution, not fitting in with the “fine art” style, or being otherwise inappropriate for your ebook.</p>
