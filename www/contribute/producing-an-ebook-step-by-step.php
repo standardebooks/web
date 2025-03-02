@@ -503,6 +503,27 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					<p>Commits are easy and free. Don’t worry about making many small commits, if it means that editorial commits are clean and isolated. If you commingle editorial changes with other changes, we’ll have to ask you to rebase your repository to tease them out. This is very difficult—so please make sure to keep editorial commits separate!</p>
 				</aside>
 				<code class="terminal"><span><b>git</b> commit -am <i>"[Editorial] Modernize hyphenation and spelling"</i></span></code>
+				<h3>Manual spelling changes</h3>
+				<p>Other spelling changes can be made to a work, with the following caveats:</p>
+				<ul>
+					<li>
+						<p>We do not generally bother with changing or removing dashes or spaces from compound words, other than what <code class="terminal">modernize-spelling</code> already handles. For example, our corpus has <code class="html">dining-room</code>, <code class="html">witch-doctor</code>, and hundreds of other words where a space might be more modern, just as we have compounds with spaces where no space might be more modern. Usage changes over time in both directions, and it is simply too large a task to tackle.</p>
+					</li>
+					<li>
+						<p>We only want to modernize <strong>spelling</strong>, not grammar or word-usage, so only “sound-alike” changes should be made. Thus, updating <code class="html">mak</code> to <code class="html">make</code> is OK, but changing <code class="html">maketh</code> to <code class="html">makes</code> is not.</p>
+					</li>
+					<li>
+						<p>We do not change spelling from U.S. to British or vice-versa, even to align with a book’s “language.” Having mixed spelling in a book, i.e. some British, some U.S., was quite common and not something we try to standardize. <a href="https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences">This article</a> provides a good overview of the differences in spelling between British and U.S. English.</p>
+					</li>
+					<li>
+						<p>If, after having run <code class="terminal"><b>se</b> modernize-spelling</code>, you find a hyphenated compound word that appears in Merriam-Webster's basic online search results without a hyphen, then you can make an Editorial change to update it. It would also be helpful if you would let us know so we can add the word to the internal word list that <code class="terminal">modernize-spelling</code> uses.</p>
+					</li>
+					<li>
+						<p>If you find an archaic word that you believe might qualify to be modernized, a good way to check is with a Google Ngram search, at <code class="terminal">https://books.google.com/ngrams/graph?year_start=1800&year_end=2022&corpus=en-fiction&smoothing=3</code>.</p>
+					</li>
+					</ul>
+				<p>For the reasons specified above, any manual spelling changes made should be in an <code class="html">[Editorial]</code> commit, e.g.</p>
+				<code class="html"><b>git</b> commit -m <i>"[Editorial] Modernize spelling, mak -> make"</i></code>.
 			</li>
 			<li>
 				<h2 id="diacritics">Check for consistent diacritics</h2>
