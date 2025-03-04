@@ -3,7 +3,7 @@
  * Notes:
  *
  * - *All* OPDS feeds must contain a `rel="http://opds-spec.org/crawlable"` link pointing to the `/feeds/opds/all` feed.
- * - The `<fh:complete/>` element is required to note this as a "Complete Acquisition Feeds"; see <https://specs.opds.io/opds-1.2#25-complete-acquisition-feeds>.
+ * - The `<fh:complete/>` element is required to note this as a "Complete Acquisition Feed"; see <https://specs.opds.io/opds-1.2#25-complete-acquisition-feeds>.
  */
 
 /**
@@ -16,8 +16,8 @@
  * @var array<Ebook> $entries
  */
 
-$isCrawlable = $isCrawlable ?? false;
-$subtitle = $subtitle ?? null;
+$isCrawlable ??= false;
+$subtitle ??= null;
 
 // Note that the XSL stylesheet gets stripped during `se clean` when we generate the feed.
 // `se clean` will also start adding empty namespaces everywhere if we include the stylesheet declaration first.
@@ -45,6 +45,6 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<uri><?= SITE_URL ?></uri>
 	</author>
 	<? foreach($entries as $entry){ ?>
-		<?= Template::OpdsAcquisitionEntry(['entry' => $entry]) ?>
+		<?= Template::OpdsAcquisitionEntry(entry: $entry) ?>
 	<? } ?>
 </feed>

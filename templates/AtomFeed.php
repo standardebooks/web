@@ -8,7 +8,7 @@
  * @var array<Ebook> $entries
  */
 
-$subtitle = $subtitle ?? null;
+$subtitle ??= null;
 
 // Note that the XSL stylesheet gets stripped during `se clean` when we generate the feed.
 // `se clean` will also start adding empty namespaces everywhere if we include the stylesheet declaration first.
@@ -28,6 +28,6 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	</author>
 	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />
 	<? foreach($entries as $entry){ ?>
-		<?= Template::AtomFeedEntry(['entry' => $entry]) ?>
+		<?= Template::AtomFeedEntry(entry: $entry) ?>
 	<? } ?>
 </feed>

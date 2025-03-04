@@ -1,7 +1,7 @@
 <?
 $collections = Collection::GetAll();
 
-?><?= Template::Header(['title' => 'Ebook Collections', 'highlight' => '', 'description' => 'Browse collections of Standard Ebooks.']) ?>
+?><?= Template::Header(title: 'Ebook Collections', description: 'Browse collections of Standard Ebooks.') ?>
 <main>
 	<section class="narrow has-hero">
 		<h1>Ebook Collections</h1>

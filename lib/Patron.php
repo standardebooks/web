@@ -83,8 +83,8 @@ class Patron{
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->Subject = 'Thank you for supporting Standard Ebooks!';
-			$em->Body = Template::EmailPatronsCircleWelcome(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
-			$em->TextBody = Template::EmailPatronsCircleWelcomeText(['isAnonymous' => $this->IsAnonymous, 'isReturning' => $isReturning]);
+			$em->Body = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
+			$em->TextBody = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
 			$em->Send();
 
 			if(!$isReturning){
@@ -92,8 +92,8 @@ class Patron{
 				$em->To = ADMIN_EMAIL_ADDRESS;
 				$em->From = ADMIN_EMAIL_ADDRESS;
 				$em->Subject = 'New Patrons Circle member';
-				$em->Body = Template::EmailAdminNewPatron(['patron' => $this, 'payment' => $this->User->Payments[0]]);
-				$em->TextBody = Template::EmailAdminNewPatronText(['patron' => $this, 'payment' => $this->User->Payments[0]]);;
+				$em->Body = Template::EmailAdminNewPatron(patron: $this, payment: $this->User->Payments[0]);
+				$em->TextBody = Template::EmailAdminNewPatronText(patron: $this, payment: $this->User->Payments[0]);;
 				$em->Send();
 			}
 		}
@@ -134,8 +134,8 @@ class Patron{
 			}
 			else{
 				// Email one time donors who have expired after one year.
-				$em->Body = Template::EmailPatronsCircleCompleted(['ebooksThisYear' => $ebooksThisYear]);
-				$em->TextBody = Template::EmailPatronsCircleCompletedText(['ebooksThisYear' => $ebooksThisYear]);
+				$em->Body = Template::EmailPatronsCircleCompleted(ebooksThisYear: $ebooksThisYear);
+				$em->TextBody = Template::EmailPatronsCircleCompletedText(ebooksThisYear: $ebooksThisYear);
 			}
 
 			$em->Send();

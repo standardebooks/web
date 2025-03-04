@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'This Ebook Is No Longer Available', 'highlight' => '', 'description' => 'This ebook is unavailable due to legal reasons.']) ?>
+<?= Template::Header(title: 'This Ebook Is No Longer Available', description: 'This ebook is unavailable due to legal reasons.') ?>
 <main>
 	<section class="narrow has-hero">
 		<hgroup>

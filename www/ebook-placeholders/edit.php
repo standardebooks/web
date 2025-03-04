@@ -40,12 +40,9 @@ catch(Exceptions\InvalidPermissionsException){
 }
 ?>
 <?= Template::Header(
-	[
-		'title' => 'Edit ' . $ebook->Title,
-		'css' => ['/css/ebook-placeholder.css'],
-		'highlight' => '',
-		'description' => 'Edit ' . $ebook->Title
-	]
+	title: 'Edit ' . $ebook->Title,
+	css: ['/css/ebook-placeholder.css'],
+	description: 'Edit ' . $ebook->Title
 ) ?>
 <main>
 	<section class="narrow">
@@ -55,11 +52,11 @@ catch(Exceptions\InvalidPermissionsException){
 		</nav>
 		<h1>Edit</h1>
 
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $ebook->Url ?>" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
-			<?= Template::EbookPlaceholderForm(['ebook' => $ebook, 'isEditForm' => true]) ?>
+			<?= Template::EbookPlaceholderForm(ebook: $ebook, isEditForm: true) ?>
 			<div class="footer">
 				<button>Save</button>
 			</div>

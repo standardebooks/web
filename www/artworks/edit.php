@@ -1,15 +1,15 @@
 <?
 use function Safe\session_unset;
 
-session_start();
-
-$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-$artwork = HttpInput::SessionObject('artwork', Artwork::class);
-
 try{
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
+
+	session_start();
+
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+	$artwork = HttpInput::SessionObject('artwork', Artwork::class);
 
 	if($artwork === null){
 		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
@@ -34,21 +34,17 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to edit artwork.
 }
-
 ?>
 <?= Template::Header(
-	[
-		'title' => 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name,
-		'css' => ['/css/artwork.css'],
-		'highlight' => '',
-		'description' => 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name . ' in the Standard Ebooks cover art database.'
-	]
+		title: 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name,
+		css: ['/css/artwork.css'],
+		description: 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name . ' in the Standard Ebooks cover art database.'
 ) ?>
 <main>
 	<section class="narrow">
 		<h1>Edit Artwork</h1>
 
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 
 		<picture>
 			<source srcset="<?= $artwork->Thumb2xUrl ?> 2x, <?= $artwork->ThumbUrl ?> 1x" type="image/jpg"/>
@@ -57,7 +53,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $artwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
-			<?= Template::ArtworkForm(['artwork' => $artwork, 'isEditForm' => true]) ?>
+			<?= Template::ArtworkForm(artwork: $artwork, isEditForm: true) ?>
 		</form>
 	</section>
 </main>

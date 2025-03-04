@@ -71,7 +71,7 @@ catch(Exceptions\EbookNotFoundException){
 
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(['title' => strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', 'ogType' => 'book', 'coverUrl' => $ebook->DistCoverUrl, 'highlight' => 'ebooks', 'description' => 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, 'canonicalUrl' => SITE_URL . $ebook->Url]) ?>
+?><?= Template::Header(title: strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', ogType: 'book', coverUrl: $ebook->DistCoverUrl, highlight: 'ebooks', description: 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, canonicalUrl: SITE_URL . $ebook->Url) ?>
 <main>
 	<article class="ebook" typeof="schema:Book" about="<?= $ebook->Url ?>">
 		<meta property="schema:description" content="<?= Formatter::EscapeHtml($ebook->Description) ?>"/>
@@ -126,7 +126,7 @@ catch(Exceptions\EbookNotFoundException){
 			<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
 				<? foreach($ebook->CollectionMemberships as $collectionMembership){ ?>
 					<p>
-						<?= Template::CollectionDescriptor(['collectionMembership' => $collectionMembership]) ?>.
+						<?= Template::CollectionDescriptor(collectionMembership: $collectionMembership) ?>.
 					</p>
 				<? } ?>
 			<? } ?>
@@ -188,7 +188,7 @@ catch(Exceptions\EbookNotFoundException){
 				<p class="us-pd-warning">This ebook is thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that this ebook is free of copyright restrictions in the country you’re located in before accessing, downloading, or using it.</p>
 
 				<div class="downloads-container">
-					<?= Template::RealisticEbook(['ebook' => $ebook]) ?>
+					<?= Template::RealisticEbook(ebook: $ebook) ?>
 					<div>
 						<section id="download">
 							<h3>Download for ereaders</h3>
@@ -383,13 +383,13 @@ catch(Exceptions\EbookNotFoundException){
 		</section>
 
 		<? if(Session::$User?->Benefits->CanEditEbooks){ ?>
-			<?= Template::EbookMetadata(['ebook' => $ebook]) ?>
+			<?= Template::EbookMetadata(ebook: $ebook) ?>
 		<? } ?>
 
 		<? if(sizeof($carousel) > 0){ ?>
 			<aside id="more-ebooks">
 				<h2>More free<? if($carouselTag !== null){ ?> <?= strtolower($carouselTag->Name) ?><? } ?> ebooks</h2>
-				<?= Template::EbookCarousel(['carousel' => $carousel, 'isMultiSize' => true]) ?>
+				<?= Template::EbookCarousel(carousel: $carousel, isMultiSize: true) ?>
 			</aside>
 		<? } ?>
 	</article>

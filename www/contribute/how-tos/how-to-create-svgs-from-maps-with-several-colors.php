@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'How to Create SVGs from Maps with Several Colors', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to producing SVG from images such as maps with more than a single color.']) ?>
+<?= Template::Header(title: 'How to Create SVGs from Maps with Several Colors', isManual: true, highlight: 'contribute', description: 'A guide to producing SVG from images such as maps with more than a single color.') ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>How to Create SVGs from Maps with Several Colors</h1>

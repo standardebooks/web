@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'How to Use Our Ebooks', 'highlight' => 'contribute', 'manual' => true, 'description' => 'Help, tips, and tricks for using the ebook files you download from Standard Ebooks.']) ?>
+<?= Template::Header(title: 'How to Use Our Ebooks', highlight: 'contribute', isManual: true, description: 'Help, tips, and tricks for using the ebook files you download from Standard Ebooks.') ?>
 <main>
 	<article>
 		<h1>How to Use Our Ebooks</h1>

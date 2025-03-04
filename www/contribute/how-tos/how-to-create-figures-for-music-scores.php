@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'How to Create Figures for Music Scores', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to producing SVG figures of music notation.']) ?>
+<?= Template::Header(title: 'How to Create Figures for Music Scores', isManual: true, highlight: 'contribute', description: 'A guide to producing SVG figures of music notation.') ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>How to Create Figures for Music Scores</h1>

@@ -2,7 +2,7 @@
 $ebookIds = [1085, 1052];
 $carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
 ?>
-<?= Template::Header(['title' => 'Death and Beauty in the Alps', 'css' => ['/css/blog.css'], 'highlight' => '', 'description' => '']) ?>
+<?= Template::Header(title: 'Death and Beauty in the Alps', css: ['/css/blog.css']) ?>
 <main>
 	<section class="narrow blog">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
@@ -31,7 +31,7 @@ $carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSq
 		<p><em>Scrambles Amongst the Alps</em> has something of both “darkling thrush” and “darkling plain”: an “eternal note of sadness” following terrible loss, but also real, if fleeting, notes of joy in laboring for, and realizing, a hope widely believed impossible.</p>
 		<p>The woe of its best-known story is confounded by lesser-known, brighter elements—even if they’re only “thin atomies” in comparison—praising the worth of the endeavour and the value of the toil it required, despite the cruel hand the explorers were dealt.</p>
 		<h2 id="ebooks-in-this-newsletter">Free ebooks in this post</h2>
-		<?= Template::EbookCarousel(['carousel' => $carousel]) ?>
+		<?= Template::EbookCarousel(carousel: $carousel) ?>
 	</section>
 </main>
 <?= Template::Footer() ?>

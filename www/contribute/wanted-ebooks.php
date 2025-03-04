@@ -3,7 +3,7 @@ $beginnerEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 $intermediateEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty::Intermediate);
 $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty::Advanced);
 ?>
-<?= Template::Header(['title' => 'Wanted Ebooks', 'highlight' => 'contribute', 'description' => 'A list of ebooks the Standard Ebooks editor would like to see produced, including suggestions for first-time producers.']) ?>
+<?= Template::Header(title: 'Wanted Ebooks', highlight: 'contribute', description: 'A list of ebooks the Standard Ebooks editor would like to see produced, including suggestions for first-time producers.') ?>
 <main>
 	<article>
 		<h1>Wanted Ebooks</h1>
@@ -18,13 +18,13 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
-		<?= Template::WantedEbooksList(['ebooks' => $beginnerEbooks, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+		<?= Template::WantedEbooksList(ebooks: $beginnerEbooks, showPlaceholderMetadata: Session::$User->Benefits->CanEditEbookPlaceholders ?? false) ?>
 
 		<h2>Moderate-difficulty productions</h2>
-		<?= Template::WantedEbooksList(['ebooks' => $intermediateEbooks, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+		<?= Template::WantedEbooksList(ebooks: $intermediateEbooks, showPlaceholderMetadata: Session::$User->Benefits->CanEditEbookPlaceholders ?? false) ?>
 
 		<h2>Advanced productions</h2>
-		<?= Template::WantedEbooksList(['ebooks' => $advancedEbooks, 'showPlaceholderMetadata' => Session::$User?->Benefits->CanEditEbookPlaceholders]) ?>
+		<?= Template::WantedEbooksList(ebooks: $advancedEbooks, showPlaceholderMetadata: Session::$User->Benefits->CanEditEbookPlaceholders ?? false) ?>
 
 		<h2 id="verne">Jules Verne</h2>
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>

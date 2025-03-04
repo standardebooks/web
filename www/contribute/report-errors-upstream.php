@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Report Errors Upstream', 'highlight' => 'contribute', 'description' => 'Our guide to reporting errors to Gutenberg and other sources.']) ?>
+<?= Template::Header(title: 'Report Errors Upstream', highlight: 'contribute', description: 'Our guide to reporting errors to Gutenberg and other sources.') ?>
 <main>
 	<article>
 		<h1>Report Errors Upstream</h1>

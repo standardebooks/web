@@ -17,7 +17,7 @@ $openPolls = Db::Query('
 			order by Start desc
 		', [], Poll::class);
 
-?><?= Template::Header(['title' => 'Polls', 'highlight' => '', 'description' => 'The various polls active at Standard Ebooks.']) ?>
+?><?= Template::Header(title: 'Polls', description: 'The various polls active at Standard Ebooks.') ?>
 <main>
 	<section class="narrow has-hero">
 		<hgroup>

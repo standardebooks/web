@@ -31,11 +31,9 @@ catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(
-	[
-		'title' => $user->DisplayName,
-		'canonicalUrl' => $user->Url,
-		'css' => ['/css/user.css']
-	]
+	title: $user->DisplayName,
+	canonicalUrl: $user->Url,
+	css: ['/css/user.css']
 ) ?>
 <main>
 	<section class="narrow">

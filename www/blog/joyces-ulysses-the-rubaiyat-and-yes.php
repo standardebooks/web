@@ -2,7 +2,7 @@
 $ebookIds = [565, 778, 561, 1059];
 $carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
 ?>
-<?= Template::Header(['title' => 'Joyce’s Ulysses, the Rubáiyát, and “Yes”', 'css' => ['/css/blog.css'], 'highlight' => '', 'description' => '']) ?>
+<?= Template::Header(title: 'Joyce’s Ulysses, the Rubáiyát, and “Yes”', css: ['/css/blog.css']) ?>
 <main>
 	<section class="narrow blog">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
@@ -44,7 +44,7 @@ $carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSq
 		<p>Speaking of consonance: Brown says, citing Ellmann, that the last record Joyce heard before he died was a performance of Lehmann’s setting of Fitzgerald’s Omar. As is often the case with Ellmann, this might not be true, but it’s not absurd to suppose that it could be.</p>
 		<p>And as very often with <i>Ulysses</i>, what first seems like nothing, or like material for a joke, may also turn out to be something else too, even something that matters. If <i>Ulysses</i> doesn’t entirely affirm life, then it does, in this respect at least, reflect it.</p>
 		<h2 id="ebooks-in-this-newsletter">Free ebooks in this post</h2>
-		<?= Template::EbookCarousel(['carousel' => $carousel]) ?>
+		<?= Template::EbookCarousel(carousel: $carousel) ?>
 	</section>
 </main>
 <?= Template::Footer() ?>

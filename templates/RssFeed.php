@@ -31,7 +31,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 			<width>144</width>
 		</image>
 		<? foreach($entries as $entry){ ?>
-			<?= Template::RssEntry(['entry' => $entry]) ?>
+			<?= Template::RssEntry(entry: $entry) ?>
 		<? } ?>
 	</channel>
 </rss>

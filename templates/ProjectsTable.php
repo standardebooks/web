@@ -3,9 +3,9 @@
  * @var array<Project> $projects
  */
 
-$includeTitle = $includeTitle ?? true;
-$includeStatus = $includeStatus ?? true;
-$showEditButton = $showEditButton ?? false;
+$includeTitle ??= true;
+$includeStatus ??= true;
+$showEditButton ??= false;
 ?>
 <table class="data-table">
 	<caption aria-hidden="true">Scroll right →</caption>

@@ -1,7 +1,10 @@
 <?
-$ebook = $ebook ?? new Ebook();
-$isEditForm = $isEditForm ?? false;
-$showProjectForm = $showProjectForm ?? true;
+/**
+ * @var Ebook $ebook
+ */
+
+$isEditForm ??= false;
+$showProjectForm ??= true;
 ?>
 <fieldset>
 	<legend>Contributors</legend>
@@ -204,7 +207,7 @@ $showProjectForm = $showProjectForm ?? true;
 			/>
 		</label>
 		<fieldset class="project-form">
-			<?= Template::ProjectForm(['project' => $ebook->ProjectInProgress, 'areFieldsRequired' => false]) ?>
+			<?= Template::ProjectForm(project: $ebook->ProjectInProgress ?? new Project(), areFieldsRequired: false) ?>
 		</fieldset>
 	</fieldset>
 <? } ?>

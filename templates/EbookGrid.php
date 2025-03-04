@@ -1,11 +1,11 @@
 <?
 /**
- * @var ?Collection $collection
  * @var array<Ebook> $ebooks
+ * @var ?Collection $collection
  */
 
-$view = $view ?? Enums\ViewType::Grid;
-$collection = $collection ?? null;
+$view ??= Enums\ViewType::Grid;
+$collection ??= null;
 ?>
 <ol class="ebooks-list<? if($view == Enums\ViewType::List){ ?>  list<? }else{ ?> grid<? } ?>"<? if($collection !== null){ ?> typeof="schema:BookSeries" about="<?= $collection->Url ?>"<? } ?>>
 	<? if($collection !== null){ ?>

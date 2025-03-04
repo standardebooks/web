@@ -40,12 +40,9 @@ catch(Exceptions\InvalidPermissionsException){
 }
 ?>
 <?= Template::Header(
-	[
-		'title' => 'Delete ' . $ebook->Title,
-		'css' => ['/css/ebook-placeholder.css'],
-		'highlight' => '',
-		'description' => 'Delete ' . $ebook->Title
-	]
+	title: 'Delete ' . $ebook->Title,
+	css: ['/css/ebook-placeholder.css'],
+	description: 'Delete ' . $ebook->Title
 ) ?>
 <main>
 	<section class="narrow">
@@ -55,7 +52,7 @@ catch(Exceptions\InvalidPermissionsException){
 		</nav>
 		<h1>Delete</h1>
 
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 
 		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $ebook->Url ?>">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>" />

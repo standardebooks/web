@@ -35,12 +35,9 @@ catch(Exceptions\InvalidPermissionsException){
 }
 ?>
 <?= Template::Header(
-	[
-		'title' => 'Edit Project for ' . $project->Ebook->Title,
-		'css' => ['/css/project.css'],
-		'highlight' => '',
-		'description' => 'Edit the project for ' . $project->Ebook->Title
-	]
+	title: 'Edit Project for ' . $project->Ebook->Title,
+	css: ['/css/project.css'],
+	description: 'Edit the project for ' . $project->Ebook->Title
 ) ?>
 <main>
 	<section class="narrow">
@@ -51,11 +48,11 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<h1>Edit Project</h1>
 
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 
 		<form class="project-form" autocomplete="off" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $project->Url ?>">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
-			<?= Template::ProjectForm(['project' => $project, 'isEditForm' => true]) ?>
+			<?= Template::ProjectForm(project: $project, isEditForm: true) ?>
 			<div class="footer">
 				<button>Save</button>
 			</div>

@@ -1,5 +1,5 @@
 <?
-$includeLinks = $includeLinks ?? true;
+$includeLinks ??= true;
 ?>
 		<div class="footer<? if(!$includeLinks){ ?> no-links<? } ?>">
 			<? if($includeLinks){ ?>

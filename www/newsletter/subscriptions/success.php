@@ -19,7 +19,7 @@ if($created){
 	http_response_code(Enums\HttpCode::Created->value);
 }
 
-?><?= Template::Header(['title' => 'Your Subscription to the Standard Ebooks Newsletter', 'highlight' => 'newsletter', 'description' => 'Your subscription to the Standard Ebooks newsletter.']) ?>
+?><?= Template::Header(title: 'Your Subscription to the Standard Ebooks Newsletter', highlight: 'newsletter', description: 'Your subscription to the Standard Ebooks newsletter.') ?>
 <main>
 	<section class="narrow">
 		<h1>Almost Done!</h1>

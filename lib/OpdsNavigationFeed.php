@@ -2,6 +2,9 @@
 use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 
+/**
+ * @property array<OpdsNavigationEntry> $Entries
+ */
 class OpdsNavigationFeed extends OpdsFeed{
 	/**
 	 * @param array<OpdsNavigationEntry> $entries
@@ -38,6 +41,6 @@ class OpdsNavigationFeed extends OpdsFeed{
 	// *******
 
 	protected function GetXmlString(): string{
-		return $this->_XmlString ??= $this->CleanXmlString(Template::OpdsNavigationFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'parentUrl' => $this->Parent ? $this->Parent->Url : null, 'updated' => $this->Updated, 'subtitle' => $this->Subtitle, 'entries' => $this->Entries]));
+		return $this->_XmlString ??= $this->CleanXmlString(Template::OpdsNavigationFeed(id: $this->Id, url: $this->Url, title: $this->Title, parentUrl: $this->Parent->Url ?? '', updated: $this->Updated, subtitle: $this->Subtitle, entries: $this->Entries));
 	}
 }

@@ -1,4 +1,4 @@
-<?= Template::EmailHeader(['letterhead' => true]) ?>
+<?= Template::EmailHeader(hasLetterhead: true) ?>
 <p>Hello,</p>
 <p>I couldn’t help but notice that your monthly donation to Standard Ebooks has recently ended. Your generous donation allowed me to add you to our <a href="<?= SITE_URL ?>/about#patrons-circle">Patrons Circle</a>, a group of donors who are honored on our masthead, and who have a direct voice in the future of our <a href="<?= SITE_URL ?>/ebooks">ebook catalog</a>.</p>
 <p>Oftentimes credit cards will expire, or recurring charges will get accidentally canceled for any number of nebulous administrative reasons. If you didn’t mean to cancel your recurring donation—and thus your Patrons Circle membership—now’s a great time to <a href="<?= SITE_URL ?>/donate#patrons-circle">renew it</a>.</p>

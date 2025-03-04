@@ -1,10 +1,14 @@
 <?
-$project = $project ?? new Project();
+/**
+ * @var Project $project
+ */
+
+$areFieldsRequired ??= true;
+$isEditForm ??= false;
+
 $managers = User::GetAllByCanManageProjects();
 $reviewers = User::GetAllByCanReviewProjects();
 $pastProducers = User::GetNamesByHasProducedProject();
-$areFieldsRequired = $areFieldsRequired ?? true;
-$isEditForm = $isEditForm ?? false;
 ?>
 <? if(!$isEditForm){ ?>
 	<input type="hidden" name="project-ebook-id" value="<?= $project->EbookId ?? '' ?>" />

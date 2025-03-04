@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Research Spreadsheets', 'highlight' => 'contribute', 'description' => 'A list of spreadsheets created and used by Standard Ebooks producers.']) ?>
+<?= Template::Header(title: 'Research Spreadsheets', highlight: 'contribute', description: 'A list of spreadsheets created and used by Standard Ebooks producers.') ?>
 <main>
 	<article>
 		<h1>Research Spreadsheets</h1>

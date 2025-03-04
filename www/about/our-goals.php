@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Our Goals', 'highlight' => 'about', 'description' => 'The goals of Standard Ebooks.']) ?>
+<?= Template::Header(title: 'Our Goals', highlight: 'about', description: 'The goals of Standard Ebooks.') ?>
 <main>
 	<article>
 		<h1>Our Goals</h1>

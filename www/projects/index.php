@@ -40,11 +40,11 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-?><?= Template::Header([
-				'title' => 'Projects',
-				'css' => ['/css/project.css'],
-				'description' => 'Ebook projects currently underway at Standard Ebooks.'
-			]) ?>
+?><?= Template::Header(
+	title: 'Projects',
+	css: ['/css/project.css'],
+	description: 'Ebook projects currently underway at Standard Ebooks.'
+) ?>
 <main>
 	<section>
 		<h1>Projects</h1>
@@ -68,14 +68,14 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if(sizeof($inProgressProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(['projects' => $inProgressProjects, 'includeStatus' => false]) ?>
+				<?= Template::ProjectsTable(projects: $inProgressProjects, includeStatus: false) ?>
 			<? } ?>
 		</section>
 
 		<? if(sizeof($stalledProjects) > 0){ ?>
 			<section id="stalled">
 				<h2>Stalled projects</h2>
-				<?= Template::ProjectsTable(['projects' => $stalledProjects, 'includeStatus' => false]) ?>
+				<?= Template::ProjectsTable(projects: $stalledProjects, includeStatus: false) ?>
 			</section>
 		<? } ?>
 	</section>

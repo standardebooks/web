@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Accessibility', 'highlight' => 'about', 'description' => 'How we make Standard Ebooks accessible.']) ?>
+<?= Template::Header(title: 'Accessibility', highlight: 'about', description: 'How we make Standard Ebooks accessible.') ?>
 <main>
 	<section class="accessibility narrow">
 		<h1>Accessibility</h1>

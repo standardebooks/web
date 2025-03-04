@@ -23,7 +23,7 @@ if($feedType == Enums\FeedType::Atom){
 	$title = 'Standard Ebooks Atom Feeds';
 }
 
-?><?= Template::Header(['title' => 'The Standard Ebooks OPDS feed', 'highlight' => '', 'description' => 'Get access to the Standard Ebooks OPDS feed for use in ereading programs in scripting.']) ?>
+?><?= Template::Header(title: 'The Standard Ebooks OPDS feed', description: 'Get access to the Standard Ebooks OPDS feed for use in ereading programs in scripting.') ?>
 <main>
 	<section class="narrow has-hero">
 		<? if($feedType == Enums\FeedType::Opds){ ?>

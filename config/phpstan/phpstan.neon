@@ -9,10 +9,6 @@ parameters:
 	checkInternalClassCaseSensitivity: true
 	checkTooWideReturnTypesInProtectedAndPublicMethods: true
 
-	ignoreErrors:
-		# Ignore errors caused by `Template` static class reflection.
-		- '#Call to an undefined static method Template::[a-zA-Z0-9\\_]+\(\)\.#'
-
 	bootstrapFiles:
 		- %rootDir%/../../../lib/Constants.php
 

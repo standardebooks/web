@@ -1,14 +1,9 @@
 <?
 /**
- * @var ?Artwork $artwork
+ * @var Artwork $artwork
  */
 
-if($artwork === null){
-	$artwork = new Artwork();
-	$artwork->Artist = new Artist();
-}
-
-$isEditForm = $isEditForm ?? false;
+$isEditForm ??= false;
 ?>
 <fieldset>
 	<legend>Artist details</legend>

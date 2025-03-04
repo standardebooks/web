@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'How to Structure and Style Large Poetic Productions', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to formatting poetry collections, long narrative poems, and unusual poetic features.']) ?>
+<?= Template::Header(title: 'How to Structure and Style Large Poetic Productions', isManual: true, highlight: 'contribute', description: 'A guide to formatting poetry collections, long narrative poems, and unusual poetic features.') ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>How to Structure and Style Large Poetic Productions</h1>

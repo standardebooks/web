@@ -24,7 +24,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . S
 		<uri><?= SITE_URL ?></uri>
 	</author>
 	<opensearch:totalResults><?= sizeof($ebooks) ?></opensearch:totalResults>
-<? foreach($ebooks as $ebook){ ?>
-	<?= Template::AtomFeedEntry(['entry' => $ebook]) ?>
-<? } ?>
+	<? foreach($ebooks as $ebook){ ?>
+		<?= Template::AtomFeedEntry(entry: $ebook) ?>
+	<? } ?>
 </feed>

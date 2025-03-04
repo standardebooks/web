@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Atom 1.0 Ebook Feeds', 'description' => 'A list of available Atom 1.0 feeds of Standard Ebooks ebooks.']) ?>
+<?= Template::Header(title: 'Atom 1.0 Ebook Feeds', description: 'A list of available Atom 1.0 feeds of Standard Ebooks ebooks.') ?>
 <main>
 	<section class="narrow">
 		<h1>Atom 1.0 Ebook Feeds</h1>

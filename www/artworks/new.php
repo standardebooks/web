@@ -1,16 +1,16 @@
 <?
 use function Safe\session_unset;
 
-session_start();
-
-$isCreated = HttpInput::Bool(SESSION, 'is-artwork-created') ?? false;
-$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-$artwork = HttpInput::SessionObject('artwork', Artwork::class);
-
 try{
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
+
+	session_start();
+
+	$isCreated = HttpInput::Bool(SESSION, 'is-artwork-created') ?? false;
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+	$artwork = HttpInput::SessionObject('artwork', Artwork::class);
 
 	if(!Session::$User->Benefits->CanUploadArtwork){
 		throw new Exceptions\InvalidPermissionsException();
@@ -46,25 +46,22 @@ catch(Exceptions\InvalidPermissionsException){
 
 ?>
 <?= Template::Header(
-	[
-		'title' => 'Submit an Artwork',
-		'css' => ['/css/artwork.css'],
-		'highlight' => '',
-		'description' => 'Submit public domain artwork to the database for use as cover art.'
-	]
+		title: 'Submit an Artwork',
+		css: ['/css/artwork.css'],
+		description: 'Submit public domain artwork to the database for use as cover art.'
 ) ?>
 <main>
 	<section class="narrow">
 		<h1>Submit an Artwork</h1>
 
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 
 		<? if($isCreated){ ?>
 			<p class="message success">Artwork submitted!</p>
 		<? } ?>
 
 		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="/artworks" enctype="multipart/form-data" autocomplete="off">
-			<?= Template::ArtworkForm(['artwork' => $artwork]) ?>
+			<?= Template::ArtworkForm(artwork: $artwork) ?>
 		</form>
 	</section>
 </main>

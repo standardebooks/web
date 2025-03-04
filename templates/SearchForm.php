@@ -1,5 +1,6 @@
 <?
 /**
+ * @var string $query
  * @var array<string> $tags
  * @var Enums\EbookSortType $sort
  * @var Enums\ViewType $view
@@ -18,13 +19,13 @@ $isAllSelected = sizeof($tags) == 0 || in_array('all', $tags);
 		</select>
 	</label>
 	<label>Keywords
-		<input type="search" name="query" value="<?= Formatter::EscapeHtml($query ?? '') ?>"/>
+		<input type="search" name="query" value="<?= Formatter::EscapeHtml($query) ?>"/>
 	</label>
 	<label class="sort">
 		<span>Sort</span>
 		<span>
 			<select name="sort">
-				<? if(isset($query) && $query != ''){ ?>
+				<? if($query != ''){ ?>
 					<option value="<?= Enums\EbookSortType::Relevance->value ?>"<? if($sort == Enums\EbookSortType::Relevance){ ?> selected="selected"<? } ?>>Relevance</option>
 					<option value="<?= Enums\EbookSortType::Newest->value ?>"<? if($sort == Enums\EbookSortType::Newest){ ?> selected="selected"<? } ?>>S.E. release date (new &#x2192; old)</option>
 				<? }else{ ?>

@@ -27,6 +27,6 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"". SI
 	</author>
 	<opensearch:totalResults><?= sizeof($ebooks) ?></opensearch:totalResults>
 <? foreach($ebooks as $ebook){ ?>
-	<?= Template::OpdsAcquisitionEntry(['entry' => $ebook]) ?>
+	<?= Template::OpdsAcquisitionEntry(entry: $ebook) ?>
 <? } ?>
 </feed>

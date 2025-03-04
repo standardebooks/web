@@ -52,11 +52,11 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-?><?= Template::Header([
-				'title' => 'New Project',
-				'css' => ['/css/project.css', '/css/ebook-placeholder.css'],
-				'description' => 'Add a new ebook project.'
-			]) ?>
+?><?= Template::Header(
+	title: 'New Project',
+	css: ['/css/project.css', '/css/ebook-placeholder.css'],
+	description: 'Add a new ebook project.'
+) ?>
 <main>
 	<section class="narrow">
 		<? if(isset($project->Ebook)){ ?>
@@ -66,14 +66,14 @@ catch(Exceptions\InvalidPermissionsException){
 		<? } ?>
 		<h1>New Project</h1>
 
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 
 		<form action="/projects" autocomplete="off" method="<?= Enums\HttpMethod::Post->value ?>" class="project-form">
-			<?= Template::ProjectForm(['project' => $project]) ?>
+			<?= Template::ProjectForm(project: $project) ?>
 			<? if(!isset($project->EbookId)){ ?>
 				<fieldset class="create-update-ebook-placeholder placeholder-form">
 					<legend>Placeholder</legend>
-					<?= Template::EbookPlaceholderForm(['ebook' => $project->Ebook ?? new Ebook(), 'showProjectForm' => false]) ?>
+					<?= Template::EbookPlaceholderForm(ebook: $project->Ebook ?? new Ebook(), showProjectForm: false) ?>
 				</fieldset>
 			<? } ?>
 			<div class="footer">

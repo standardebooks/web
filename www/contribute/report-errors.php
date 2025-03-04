@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Report Errors', 'highlight' => 'contribute', 'description' => 'How to report a typo or error you’ve found in a Standard Ebooks ebook.']) ?>
+<?= Template::Header(title: 'Report Errors', highlight: 'contribute', description: 'How to report a typo or error you’ve found in a Standard Ebooks ebook.') ?>
 <main>
 	<article>
 		<h1>Report Errors</h1>

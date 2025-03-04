@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Producing an Ebook, Step by Step', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A detailed step-by-step description of the complete process of producing an ebook for Standard Ebooks, start to finish.']) ?>
+<?= Template::Header(title: 'Producing an Ebook, Step by Step', isManual: true, highlight: 'contribute', description: 'A detailed step-by-step description of the complete process of producing an ebook for Standard Ebooks, start to finish.') ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>Producing an Ebook, Step by Step</h1>

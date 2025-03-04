@@ -3,6 +3,9 @@ use function Safe\file_get_contents;
 use function Safe\filesize;
 use function Safe\preg_replace;
 
+/**
+ * @property array<Ebook> $Entries
+ */
 class RssFeed extends Feed{
 	public string $Description;
 
@@ -21,7 +24,7 @@ class RssFeed extends Feed{
 	// *******
 
 	protected function GetXmlString(): string{
-		return $this->_XmlString ??= $this->CleanXmlString(Template::RssFeed(['url' => $this->Url, 'description' => $this->Description, 'title' => $this->Title, 'entries' => $this->Entries, 'updated' => NOW]));
+		return $this->_XmlString ??= $this->CleanXmlString(Template::RssFeed(url: $this->Url, description: $this->Description, title: $this->Title, entries: $this->Entries, updated: NOW));
 	}
 
 	public function SaveIfChanged(): bool{

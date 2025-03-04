@@ -2,18 +2,32 @@
 use Safe\DateTimeImmutable;
 use function Safe\filemtime;
 
-$title = $title ?? '';
-$highlight = $highlight ?? '';
-$description = $description ?? '';
-$manual = $manual ?? false;
+/**
+ * @var ?string $title
+ * @var ?string $highlight
+ * @var ?string $description
+ * @var ?string $feedUrl
+ * @var ?string $feedTitle
+ * @var ?string $downloadUrl
+ * @var ?string $canonicalUrl
+ * @var ?string $coverUrl
+ */
+
+$title ??= null;
+$highlight ??= null;
+$description ??= null;
+$feedUrl ??= null;
+$feedTitle ??= null;
+$downloadUrl ??= null;
+$canonicalUrl ??= null;
+$coverUrl ??= null;
+$css ??= [];
+$isManual ??= false;
+$isXslt ??= false;
+$isErrorPage ??= false;
+$ogType ??= 'website';
+
 $colorScheme = Enums\ColorSchemeType::tryFrom(HttpInput::Str(COOKIE, 'color-scheme') ?? Enums\ColorSchemeType::Auto->value);
-$isXslt = $isXslt ?? false;
-$feedUrl = $feedUrl ?? null;
-$feedTitle = $feedTitle ?? '';
-$isErrorPage = $isErrorPage ?? false;
-$downloadUrl = $downloadUrl ?? null;
-$canonicalUrl = $canonicalUrl ?? null;
-$css = $css ?? [];
 $showPublicDomainDayBanner = PD_NOW > new DateTimeImmutable('January 1, 8:00 AM', SITE_TZ) && PD_NOW < new DateTimeImmutable('January 14', LATEST_CONTINENTAL_US_TZ) && !(HttpInput::Bool(COOKIE, 'hide-public-domain-day-banner') ?? false);
 
 // As of Sep. 2022, all versions of Safari have a bug where if the page is served as XHTML, then `<picture>` elements download all `<source>`s instead of the first supported match.
@@ -41,8 +55,8 @@ if(!$isXslt){
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head prefix="twitter: https://twitter.com/ schema: http://schema.org/"><? /* The `og` RDFa prefix is part of the RDFa spec */ ?>
 	<meta charset="utf-8"/>
-	<title><? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover</title>
-	<? if($description != ''){ ?>
+	<title><? if($title !== null){ ?><?= Formatter::EscapeHtml($title) ?> - <? } ?>Standard Ebooks: Free and liberated ebooks, carefully produced for the true book lover</title>
+	<? if($description !== null){ ?>
 		<meta content="<?= Formatter::EscapeHtml($description) ?>" name="description"/>
 	<? } ?>
 	<meta content="width=device-width, initial-scale=1" name="viewport"/>
@@ -59,7 +73,7 @@ if(!$isXslt){
 			<link href="/css/dark.css?version=<?= filemtime(WEB_ROOT . '/css/dark.css') ?>" media="screen<? if($colorScheme == Enums\ColorSchemeType::Auto){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
 		<? } ?>
 	<? } ?>
-	<? if($manual){ ?>
+	<? if($isManual){ ?>
 		<link href="/css/manual.css?version=<?= filemtime(WEB_ROOT . '/css/manual.css') ?>" media="screen" rel="stylesheet" type="text/css"/>
 		<? if($colorScheme == Enums\ColorSchemeType::Auto || $colorScheme == Enums\ColorSchemeType::Dark){ ?>
 			<link href="/css/manual-dark.css?version=<?= filemtime(WEB_ROOT . '/css/manual-dark.css') ?>" media="screen<? if($colorScheme == Enums\ColorSchemeType::Auto){ ?> and (prefers-color-scheme: dark)<? } ?>" rel="stylesheet" type="text/css"/>
@@ -68,7 +82,7 @@ if(!$isXslt){
 	<? foreach($css as $url){ ?>
 		<link href="<?= Formatter::EscapeHtml($url) ?>?version=<?= filemtime(WEB_ROOT . $url) ?>" media="screen" rel="stylesheet" type="text/css"/>
 	<? } ?>
-	<? if($canonicalUrl){ ?>
+	<? if($canonicalUrl !== null){ ?>
 		<link rel="canonical" href="<?= Formatter::EscapeHtml($canonicalUrl) ?>" />
 	<? } ?>
 	<link href="/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
@@ -90,8 +104,8 @@ if(!$isXslt){
 	<link rel="search" href="/ebooks/opensearch" type="application/opensearchdescription+xml; charset=utf-8"/>
 	<? if(!$isErrorPage){ ?>
 		<meta content="#394451" name="theme-color"/>
-		<meta content="<? if($title != ''){ ?><?= Formatter::EscapeHtml($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
-		<meta content="<?= $ogType ?? 'website' ?>" property="og:type"/>
+		<meta content="<? if($title !== null){ ?><?= Formatter::EscapeHtml($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
+		<meta content="<?= $ogType ?>" property="og:type"/>
 		<meta content="<?= $pageUrl ?>" property="og:url"/>
 		<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.png') ?>" property="og:image"/>
 		<meta content="summary_large_image" name="twitter:card"/>

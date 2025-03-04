@@ -397,8 +397,8 @@ final class Project{
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
 					$em->Subject = 'New ebook project to manage and review';
-					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'manage and review', 'user' => $this->Manager]);
-					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'manage and review', 'user' => $this->Manager]);
+					$em->Body = Template::EmailManagerNewProject(project: $this, role: 'manage and review', user: $this->Manager);
+					$em->TextBody = Template::EmailManagerNewProjectText(project: $this, role: 'manage and review', user: $this->Manager);
 					$em->Send();
 				}
 			}
@@ -409,8 +409,8 @@ final class Project{
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
 					$em->Subject = 'New ebook project to manage';
-					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'manage', 'user' => $this->Manager]);
-					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'manage', 'user' => $this->Manager]);
+					$em->Body = Template::EmailManagerNewProject(project: $this, role: 'manage', user: $this->Manager);
+					$em->TextBody = Template::EmailManagerNewProjectText(project: $this, role: 'manage', user: $this->Manager);
 					$em->Send();
 				}
 
@@ -420,8 +420,8 @@ final class Project{
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Reviewer->Email;
 					$em->Subject = 'New ebook project to review';
-					$em->Body = Template::EmailManagerNewProject(['project' => $this, 'role' => 'review', 'user' => $this->Reviewer]);
-					$em->TextBody = Template::EmailManagerNewProjectText(['project' => $this, 'role' => 'review', 'user' => $this->Reviewer]);
+					$em->Body = Template::EmailManagerNewProject(project: $this, role: 'review', user: $this->Reviewer);
+					$em->TextBody = Template::EmailManagerNewProjectText(project: $this, role: 'review', user: $this->Reviewer);
 					$em->Send();
 				}
 			}

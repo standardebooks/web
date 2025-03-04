@@ -1,13 +1,12 @@
 <?
 use function Safe\apcu_fetch;
 
-$collection = null;
-$collectionUrlName = HttpInput::Str(GET, 'collection');
-$collection = null;
-$authorUrlName = HttpInput::Str(GET, 'author');
-$canDownload = false;
-
 try{
+	$collection = null;
+	$collectionUrlName = HttpInput::Str(GET, 'collection');
+	$authorUrlName = HttpInput::Str(GET, 'author');
+	$canDownload = false;
+
 	if(Session::$User?->Benefits->CanBulkDownload){
 		$canDownload = true;
 	}
@@ -32,10 +31,6 @@ try{
 				$collection = $c;
 				break;
 			}
-		}
-
-		if($collection === null){
-			throw new Exceptions\CollectionNotFoundException();
 		}
 	}
 
@@ -65,6 +60,10 @@ try{
 			throw new Exceptions\AuthorNotFoundException();
 		}
 	}
+
+	if($collection === null){
+		throw new Exceptions\CollectionNotFoundException();
+	}
 }
 catch(Exceptions\AuthorNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -73,17 +72,17 @@ catch(Exceptions\CollectionNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
-?><?= Template::Header(['title' => 'Download ', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
+?><?= Template::Header(title: 'Download ', description: 'Download zip files containing all of the Standard Ebooks released in a given month.') ?>
 <main>
 	<section class="bulk-downloads">
-		<h1>Download the <?= $collection?->Label ?> Collection</h1>
+		<h1>Download the <?= $collection->Label ?> Collection</h1>
 		<? if($canDownload){ ?>
 			<p>Select the ebook format in which you’d like to download this collection.</p>
 			<p>You can also read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which ebook format to download</a>.</p>
 		<? }else{ ?>
 			<p><a href="/about#patrons-circle">Patrons circle members</a> can download zip files containing all of the ebooks in a collection. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature.</p>
 		<? } ?>
-		<?= Template::BulkDownloadTable(['label' => 'Collection', 'collections' => [$collection]]); ?>
+		<?= Template::BulkDownloadTable(label: 'Collection', collections: [$collection]); ?>
 	</section>
 </main>
 <?= Template::Footer() ?>

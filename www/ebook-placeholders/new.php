@@ -1,15 +1,6 @@
 <?
 use function Safe\session_unset;
 
-session_start();
-
-$isCreated = HttpInput::Bool(SESSION, 'is-ebook-placeholder-created') ?? false;
-$isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;
-$isDeleted = HttpInput::Bool(SESSION, 'is-ebook-placeholder-deleted') ?? false;
-$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-$ebook = HttpInput::SessionObject('ebook', Ebook::class);
-$project = HttpInput::SessionObject('project', Project::class);
-$deletedEbookTitle = '';
 
 try{
 	if(Session::$User === null){
@@ -19,6 +10,16 @@ try{
 	if(!Session::$User->Benefits->CanEditEbookPlaceholders){
 		throw new Exceptions\InvalidPermissionsException();
 	}
+
+	session_start();
+
+	$isCreated = HttpInput::Bool(SESSION, 'is-ebook-placeholder-created') ?? false;
+	$isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;
+	$isDeleted = HttpInput::Bool(SESSION, 'is-ebook-placeholder-deleted') ?? false;
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+	$ebook = HttpInput::SessionObject('ebook', Ebook::class);
+	$project = HttpInput::SessionObject('project', Project::class);
+	$deletedEbookTitle = '';
 
 	if($isCreated || $isOnlyProjectCreated){
 		// We got here because an `Ebook` was successfully created.
@@ -70,18 +71,15 @@ catch(Exceptions\InvalidPermissionsException){
 }
 ?>
 <?= Template::Header(
-	[
-		'title' => 'Create an Ebook Placeholder',
-		'css' => ['/css/ebook-placeholder.css', '/css/project.css'],
-		'highlight' => '',
-		'description' => 'Create a placeholder for an ebook not yet in the collection.'
-	]
+	title: 'Create an Ebook Placeholder',
+	css: ['/css/ebook-placeholder.css', '/css/project.css'],
+	description: 'Create a placeholder for an ebook not yet in the collection.'
 ) ?>
 <main>
 	<section class="narrow">
 		<h1>Create an Ebook Placeholder</h1>
 
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 
 		<? if(isset($createdEbook)){ ?>
 			<? if($isOnlyProjectCreated){ ?>
@@ -94,7 +92,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<? } ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="/ebook-placeholders" autocomplete="off">
-			<?= Template::EbookPlaceholderForm(['ebook' => $ebook]) ?>
+			<?= Template::EbookPlaceholderForm(ebook: $ebook ?? new Ebook()) ?>
 			<div class="footer">
 				<button>Submit</button>
 			</div>

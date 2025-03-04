@@ -23,14 +23,14 @@ try{
 catch(Exceptions\ArtistNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(['title' => 'Artwork by ' . $artworks[0]->Artist->Name, 'css' => ['/css/artwork.css']]) ?>
+?><?= Template::Header(title: 'Artwork by ' . $artworks[0]->Artist->Name, css: ['/css/artwork.css']) ?>
 <main class="artworks">
 	<section class="narrow">
 		<h1>Artwork by <?= Formatter::EscapeHtml($artworks[0]->Artist->Name) ?></h1>
 
 		<?= Template::ImageCopyrightNotice() ?>
 
-		<?= Template::ArtworkList(['artworks' => $artworks]) ?>
+		<?= Template::ArtworkList(artworks: $artworks) ?>
 	</section>
 </main>
 <?= Template::Footer() ?>

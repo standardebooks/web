@@ -31,7 +31,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . S
 		</image>
 		<opensearch:totalResults><?= sizeof($ebooks) ?></opensearch:totalResults>
 		<? foreach($ebooks as $ebook){ ?>
-			<?= Template::RssEntry(['entry' => $ebook]) ?>
+			<?= Template::RssEntry(entry: $ebook) ?>
 		<? } ?>
 	</channel>
 </rss>

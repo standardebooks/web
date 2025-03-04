@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'You Don’t Have Permission to View This Page', 'highlight' => '', 'description' => 'You don’t have permission to view this page.', 'isErrorPage' => true]) ?>
+<?= Template::Header(title: 'You Don’t Have Permission to View This Page', description: 'You don’t have permission to view this page.', isErrorPage: true) ?>
 <main>
 	<section class="narrow has-hero">
 		<hgroup>

@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Managing Your Recurring Donation', 'highlight' => 'contribute', 'manual' => false, 'description' => 'Help with managing your recurring donation to Standard Ebooks.']) ?>
+<?= Template::Header(title: 'Managing Your Recurring Donation', highlight: 'contribute', isManual: false, description: 'Help with managing your recurring donation to Standard Ebooks.') ?>
 <main>
 	<article>
 		<h1>Managing or Canceling Your Recurring Donation</h1>

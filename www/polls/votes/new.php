@@ -49,11 +49,11 @@ catch(Exceptions\PollVoteExistsException $ex){
 	header('Location: ' . $redirect);
 	exit();
 }
-?><?= Template::Header(['title' => 'Vote in the ' . $poll->Name . ' Poll', 'highlight' => '', 'description' => 'Vote in the ' . $poll->Name . ' poll']) ?>
+?><?= Template::Header(title: 'Vote in the ' . $poll->Name . ' Poll', description: 'Vote in the ' . $poll->Name . ' poll') ?>
 <main>
 	<section class="narrow">
 		<h1>Vote in the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= Formatter::EscapeHtml($poll->Url) ?>/votes">
 			<input type="hidden" name="email" value="<?= Formatter::EscapeHtml($vote->User->Email) ?>" maxlength="80" required="required" />
 			<fieldset>

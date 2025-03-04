@@ -98,8 +98,8 @@ class NewsletterSubscription{
 			$em->ToName = $this->User->Name;
 		}
 		$em->Subject = 'Action required: confirm your newsletter subscription';
-		$em->Body = Template::EmailNewsletterConfirmation(['subscription' => $this, 'isSubscribedToSummary' => $this->IsSubscribedToSummary, 'isSubscribedToNewsletter' => $this->IsSubscribedToNewsletter]);
-		$em->TextBody = Template::EmailNewsletterConfirmationText(['subscription' => $this, 'isSubscribedToSummary' => $this->IsSubscribedToSummary, 'isSubscribedToNewsletter' => $this->IsSubscribedToNewsletter]);
+		$em->Body = Template::EmailNewsletterConfirmation(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
+		$em->TextBody = Template::EmailNewsletterConfirmationText(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
 		$em->Send();
 	}
 

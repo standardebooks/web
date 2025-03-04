@@ -26,7 +26,9 @@ class AtomFeed extends Feed{
 
 	protected function GetXmlString(): string{
 		if(!isset($this->_XmlString)){
-			$feed = Template::AtomFeed(['id' => $this->Id, 'url' => $this->Url, 'title' => $this->Title, 'subtitle' => $this->Subtitle, 'updated' => $this->Updated, 'entries' => $this->Entries]);
+			/** @var array<Ebook> $entries */
+			$entries = $this->Entries;
+			$feed = Template::AtomFeed(id: $this->Id, url: $this->Url, title: $this->Title, subtitle: $this->Subtitle, updated: $this->Updated, entries: $entries);
 
 			$this->_XmlString = $this->CleanXmlString($feed);
 		}

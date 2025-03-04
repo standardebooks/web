@@ -277,8 +277,8 @@ try{
 						$em->To = ADMIN_EMAIL_ADDRESS;
 						$em->From = ADMIN_EMAIL_ADDRESS;
 						$em->Subject = 'New Patrons Circle member';
-						$em->Body = Template::EmailAdminNewPatron(['patron' => $patron, 'payment' => $payment]);
-						$em->TextBody = Template::EmailAdminNewPatronText(['patron' => $patron, 'payment' => $payment]);;
+						$em->Body = Template::EmailAdminNewPatron(patron: $patron, payment: $payment);
+						$em->TextBody = Template::EmailAdminNewPatronText(patron: $patron, payment: $payment);;
 						$em->Send();
 					}
 				}
@@ -324,8 +324,8 @@ catch(Exception $ex){
 	$em = new Email(true);
 	$em->To = ADMIN_EMAIL_ADDRESS;
 	$em->Subject = 'Donation processing failed';
-	$em->Body = Template::EmailDonationProcessingFailed(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
-	$em->TextBody = Template::EmailDonationProcessingFailedText(['exception' => preg_replace('/^/m', "\t", $exceptionString)]);
+	$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
+	$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
 	$em->Send();
 
 	throw $ex;

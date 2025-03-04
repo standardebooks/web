@@ -1,4 +1,4 @@
-<?= Template::Header(['description' => 'Free and liberated ebooks, carefully produced for the true book lover. Download free ebooks with professional-quality formatting and typography, in formats compatible with your ereader.', 'canonicalUrl' => SITE_URL]) ?>
+<?= Template::Header(description: 'Free and liberated ebooks, carefully produced for the true book lover. Download free ebooks with professional-quality formatting and typography, in formats compatible with your ereader.', canonicalUrl: SITE_URL) ?>
 <main class="front-page">
 	<h1>Free and liberated ebooks,<br/> carefully produced for the true book lover.</h1>
 	<picture>

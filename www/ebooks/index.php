@@ -7,8 +7,8 @@ $pages = 0;
 $perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
 $query = HttpInput::Str(GET, 'query') ?? '';
 $tags = HttpInput::Array(GET, 'tags') ?? [];
-$view = Enums\ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '');
-$sort = Enums\EbookSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
+$view = Enums\ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '') ?? Enums\ViewType::Grid;
+$sort = Enums\EbookSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '') ?? Enums\EbookSortType::Default;
 $queryString = '';
 $queryStringParams = [];
 $queryStringWithoutPage = '';
@@ -38,13 +38,8 @@ try{
 		$sort = Enums\EbookSortType::Newest;
 	}
 
-	// If we're passed string values that are the same as the defaults, set them to null so that we can have cleaner query strings in the navigation footer.
-	if($view === Enums\ViewType::Grid){
-		$view = null;
-	}
-
 	if(($sort == Enums\EbookSortType::Newest && $query == '') || ($sort == Enums\EbookSortType::Relevance && $query != '')){
-		$sort = null;
+		$sort = Enums\EbookSortType::Default;
 	}
 
 	if(sizeof($tags) == 1 && mb_strtolower($tags[0]) == 'all'){
@@ -61,11 +56,12 @@ try{
 		$queryStringParams['tags'] = $tags;
 	}
 
-	if($view !== null){
+	// If we're passed string values that are the same as the defaults, don't include them in the query string so that we can have cleaner query strings in the navigation footer.
+	if($view != Enums\ViewType::Grid){
 		$queryStringParams['view'] = $view->value;
 	}
 
-	if($sort !== null){
+	if($sort != Enums\EbookSortType::Default){
 		$queryStringParams['sort'] = $sort->value;
 	}
 
@@ -134,7 +130,7 @@ catch(Exceptions\PageOutOfBoundsException){
 	header('Location: ' . $url);
 	exit();
 }
-?><?= Template::Header(['title' => $pageTitle, 'highlight' => 'ebooks', 'description' => $pageDescription, 'canonicalUrl' => $canonicalUrl]) ?>
+?><?= Template::Header(title: $pageTitle, highlight: 'ebooks', description: $pageDescription, canonicalUrl: $canonicalUrl) ?>
 <main class="ebooks">
 	<h1><?= $pageHeader ?></h1>
 	<?= Template::DonationCounter() ?>
@@ -142,11 +138,12 @@ catch(Exceptions\PageOutOfBoundsException){
 
 	<?= Template::DonationAlert() ?>
 
-	<?= Template::SearchForm(['query' => $query, 'tags' => $tags, 'sort' => $sort, 'view' => $view, 'perPage' => $perPage]) ?>
+	<?= Template::SearchForm(query: $query, tags: $tags, sort: $sort, view: $view, perPage: $perPage) ?>
+
 	<? if(sizeof($ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
-		<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => $view]) ?>
+		<?= Template::EbookGrid(ebooks: $ebooks, view: $view) ?>
 	<? } ?>
 	<? if(sizeof($ebooks) > 0){ ?>
 		<nav class="pagination">

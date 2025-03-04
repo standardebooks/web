@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'How to Conquer Complex Drama Formatting', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A guide to formatting any complex plays or dramatic dialog sections.']) ?>
+<?= Template::Header(title: 'How to Conquer Complex Drama Formatting', isManual: true, highlight: 'contribute', description: 'A guide to formatting any complex plays or dramatic dialog sections.') ?>
 <main class="manual">
 	<article class="step-by-step-guide">
 		<h1>How to Conquer Complex Drama Formatting</h1>

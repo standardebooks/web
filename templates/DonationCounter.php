@@ -4,8 +4,8 @@ if(!DONATION_DRIVE_COUNTER_ENABLED || ($autoHide ?? (HttpInput::Bool(COOKIE, 'hi
 	return;
 }
 
-$autoHide = $autoHide ?? true;
-$showDonateButton = $showDonateButton ?? true;
+$autoHide ??= true;
+$showDonateButton ??= true;
 $current = 0;
 
 if(NOW < DONATION_DRIVE_COUNTER_START || NOW > DONATION_DRIVE_COUNTER_END){

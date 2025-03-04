@@ -41,7 +41,7 @@ catch(Exceptions\AppException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
-?><?= Template::Header(['title' => 'Your Subscription to the Standard Ebooks Newsletter', 'highlight' => 'newsletter', 'description' => 'Your subscription to the Standard Ebooks newsletter.']) ?>
+?><?= Template::Header(title: 'Your Subscription to the Standard Ebooks Newsletter', highlight: 'newsletter', description: 'Your subscription to the Standard Ebooks newsletter.') ?>
 <main>
 	<section class="narrow">
 		<? if($subscription->IsConfirmed){ ?>

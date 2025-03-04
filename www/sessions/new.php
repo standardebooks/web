@@ -29,11 +29,11 @@ if($exception){
 	}
 	session_unset();
 }
-?><?= Template::Header(['title' => 'Log In', 'highlight' => '', 'description' => 'Log in to your Standard Ebooks Patrons Circle account.']) ?>
+?><?= Template::Header(title: 'Log In', description: 'Log in to your Standard Ebooks Patrons Circle account.') ?>
 <main>
 	<section class="narrow">
 		<h1>Log In</h1>
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 		<? if(!$passwordRequired){ ?>
 			<p>Enter your email address to log in to Standard Ebooks. Once you’re logged in, your Patrons Circle benefits (like <a href="/polls">voting in our occasional polls</a> and access to our <a href="/bulk-downloads">bulk ebook downloads</a> and <a href="/feeds">ebook feeds</a>) will be available to you.</p>
 			<p>Anyone can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature.</p>

@@ -55,7 +55,7 @@ try{
 catch(Exceptions\CollectionNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(['title' => $title, 'feedTitle' => $feedTitle, 'feedUrl' => $feedUrl, 'description' => $description]) ?>
+?><?= Template::Header(title: $title, feedTitle: $feedTitle, feedUrl: $feedUrl, description: $description) ?>
 <main>
 	<article>
 		<h1>Ebook Feeds for <?= Formatter::EscapeHtml($label) ?></h1>

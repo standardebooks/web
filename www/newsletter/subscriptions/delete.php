@@ -22,7 +22,7 @@ catch(Exceptions\NewsletterSubscriptionNotFoundException){
 	}
 }
 
-?><?= Template::Header(['title' => 'You’ve Been Unsubscribed', 'highlight' => 'newsletter', 'description' => 'You’ve unsubscribed from the Standard Ebooks newsletter.']) ?>
+?><?= Template::Header(title: 'You’ve Been Unsubscribed', highlight: 'newsletter', description: 'You’ve unsubscribed from the Standard Ebooks newsletter.') ?>
 <main>
 	<article>
 		<h1>You’ve Been Unsubscribed</h1>

@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Standard Ebooks and the Public Domain', 'highlight' => 'about', 'description' => 'The Standard Ebooks’ philosophy on copyright and the public domain.']) ?>
+<?= Template::Header(title: 'Standard Ebooks and the Public Domain', highlight: 'about', description: 'The Standard Ebooks’ philosophy on copyright and the public domain.') ?>
 <main>
 	<article>
 		<h1>Standard Ebooks and the Public Domain</h1>

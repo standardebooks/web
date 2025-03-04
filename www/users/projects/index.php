@@ -29,12 +29,10 @@ catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(
-	[
-		'title' => 'Projects',
-		'canonicalUrl' => $user->Url,
-		'css' => ['/css/project.css'],
-		'description' => 'Ebook projects currently underway at Standard Ebooks.'
-	]
+	title: 'Projects',
+	canonicalUrl: $user->Url,
+	css: ['/css/project.css'],
+	description: 'Ebook projects currently underway at Standard Ebooks.'
 ) ?>
 <main>
 	<section>
@@ -52,7 +50,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if(sizeof($managingProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(['projects' => $managingProjects]) ?>
+				<?= Template::ProjectsTable(projects: $managingProjects) ?>
 			<? } ?>
 		</section>
 
@@ -61,7 +59,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if(sizeof($reviewingProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(['projects' => $reviewingProjects]) ?>
+				<?= Template::ProjectsTable(projects: $reviewingProjects) ?>
 			<? } ?>
 		</section>
 	</section>

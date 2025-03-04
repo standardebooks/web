@@ -1,62 +1,65 @@
 <?
-use function Safe\ob_end_clean;
-use function Safe\ob_start;
+use Safe\DateTimeImmutable;
 
-class Template{
-	/**
-	 * @param array<mixed> $arguments
-	 */
-	protected static function Get(string $templateName, array $arguments = []): string{
-		// Expand the passed variables to make them available to the included template.
-		// We use these funny names so that we can use 'name' and 'value' as template variables if we want to.
-		foreach($arguments as $innerName => $innerValue){
-			$$innerName = $innerValue;
-		}
-
-		ob_start();
-		include(TEMPLATES_PATH . '/' . $templateName . '.php');
-		$contents = ob_get_contents() ?: '';
-		ob_end_clean();
-
-		return $contents;
-	}
-
-	/**
-	 * @param array<mixed> $arguments
-	 */
-	public static function __callStatic(string $function, array $arguments): string{
-		if(isset($arguments[0]) && is_array($arguments[0])){
-			return self::Get($function, $arguments[0]);
-		}
-		else{
-			return self::Get($function, $arguments);
-		}
-	}
-
-	/**
-	 * Exit the script while outputting the given HTTP code.
-	 *
-	 * @param bool $showPage If **`TRUE`**, show a special page given the HTTP code (like a 404 page).
-	 *
-	 * @return never
-	 */
-	public static function ExitWithCode(Enums\HttpCode $httpCode, bool $showPage = true, Enums\HttpRequestType $requestType = Enums\HttpRequestType::Web): void{
-		http_response_code($httpCode->value);
-
-		if($requestType == Enums\HttpRequestType::Web && $showPage){
-			switch($httpCode){
-				case Enums\HttpCode::Forbidden:
-					include(WEB_ROOT . '/403.php');
-					break;
-				case Enums\HttpCode::NotFound:
-					include(WEB_ROOT . '/404.php');
-					break;
-			}
-		}
-
-		exit();
-	}
-
+/**
+ * @method static string ArtworkForm(Artwork $artwork, $isEditForm = false)
+ * @method static string ArtworkList(array<Artwork> $artworks)
+ * @method static string AtomFeed(string $id, string $url, string $title, ?string $subtitle = null, DateTimeImmutable $updated, array<Ebook> $entries)
+ * @method static string AtomFeedEntry(Ebook $entry)
+ * @method static string BulkDownloadTable(string $label, array<stdClass> $collections)
+ * @method static string CollectionDescriptor(?CollectionMembership $collectionMembership)
+ * @method static string ContributeAlert()
+ * @method static string DonationAlert()
+ * @method static string DonationCounter(bool $autoHide = true, bool $showDonateButton = true)
+ * @method static string DonationProgress(bool $autoHide = true, bool $showDonateButton = true)
+ * @method static string EbookCarousel(array<Ebook> $carousel, bool $isMultiSize = false)
+ * @method static string EbookGrid(array<Ebook> $ebooks, ?Collection $collection = null, Enums\ViewType $view = Enums\ViewType::Grid)
+ * @method static string EbookMetadata(Ebook $ebook, bool $showPlaceholderMetadata = false)
+ * @method static string EbookPlaceholderForm(Ebook $ebook, bool $isEditForm = false, bool $showProjectForm = true)
+ * @method static string EmailAdminNewPatron(Patron $patron, Payment $payment)
+ * @method static string EmailAdminNewPatronText(Patron $patron, Payment $payment)
+ * @method static string EmailAdminUnprocessedDonations()
+ * @method static string EmailAdminUnprocessedDonationsText()
+ * @method static string EmailDonationProcessingFailed(string $exception)
+ * @method static string EmailDonationProcessingFailedText(string $exception)
+ * @method static string EmailDonationThankYou()
+ * @method static string EmailDonationThankYouText()
+ * @method static string EmailFooter(bool $includeLinks = true)
+ * @method static string EmailFooterText()
+ * @method static string EmailHeader(?string $preheader = null, bool $hasLetterhead = false, bool $hasAdminTable = false)
+ * @method static string EmailManagerNewProject(Project $project, string $role, User $user)
+ * @method static string EmailManagerNewProjectText(Project $project, string $role, User $user)
+ * @method static string EmailNewsletterConfirmation(bool $isSubscribedToNewsletter, bool $isSubscribedToSummary, NewsletterSubscription $subscription)
+ * @method static string EmailNewsletterConfirmationText(bool $isSubscribedToNewsletter, bool $isSubscribedToSummary, NewsletterSubscription $subscription)
+ * @method static string EmailPatronsCircleCompleted(int $ebooksThisYear)
+ * @method static string EmailPatronsCircleCompletedText(int $ebooksThisYear)
+ * @method static string EmailPatronsCircleRecurringCompleted()
+ * @method static string EmailPatronsCircleRecurringCompletedText()
+ * @method static string EmailPatronsCircleWelcome(bool $isAnonymous, bool $isReturning)
+ * @method static string EmailPatronsCircleWelcomeText(bool $isAnonymous, bool $isReturning)
+ * @method static string EmailProjectAbandoned()
+ * @method static string EmailProjectAbandonedText()
+ * @method static string EmailProjectStalled()
+ * @method static string EmailProjectStalledText()
+ * @method static string Error(?Exception $exception)
+ * @method static string FeedHowTo()
+ * @method static string Footer()
+ * @method static string Header(?string $title = null, ?string $highlight = null, ?string $description = null, bool $isManual = false, bool $isXslt = false, ?string $feedUrl = null, ?string $feedTitle = null, bool $isErrorPage = false, ?string $downloadUrl = null, ?string $canonicalUrl = null, ?string $coverUrl = null, string $ogType = 'website', array<string> $css = [])
+ * @method static string ImageCopyrightNotice()
+ * @method static string OpdsAcquisitionEntry(Ebook $entry)
+ * @method static string OpdsAcquisitionFeed(string $id, string $url, string $parentUrl, string $title, ?string $subtitle, DateTimeImmutable $updated, array<Ebook> $entries, bool $isCrawlable = false)
+ * @method static string OpdsNavigationFeed(string $id, string $url, ?string $parentUrl, string $title, ?string $subtitle, DateTimeImmutable $updated, array<OpdsNavigationEntry> $entries)
+ * @method static string ProjectDetailsTable(Project $project, bool $useFullyQualifiedUrls = false, bool $showTitle = true, bool $showArtworkStatus = true)
+ * @method static string ProjectForm(Project $project, $areFieldsRequired = true, $isEditForm = false)
+ * @method static string ProjectsTable(array<Project> $projects, bool $includeTitle = true, bool $includeStatus = true, bool $showEditButton = false)
+ * @method static string RealisticEbook(Ebook $ebook)
+ * @method static string RssEntry(Ebook $entry)
+ * @method static string RssFeed(string $title, string $description, DateTimeImmutable $updated, string $url, array<Ebook> $entries)
+ * @method static string SearchForm(string $query, array<string> $tags, Enums\EbookSortType $sort, Enums\ViewType $view, int $perPage)
+ * @method static string UserForm(User $user, Enums\PasswordActionType $passwordAction, bool $generateNewUuid, bool $isEditForm = false)
+ * @method static string WantedEbooksList(array<Ebook> $ebooks, bool $showPlaceholderMetadata)
+ */
+class Template extends TemplateBase{
 	/**
 	 * Redirect the user to the login page.
 	 *

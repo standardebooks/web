@@ -1,8 +1,11 @@
 <?
-$user = $user ?? new User();
-$isEditForm = $isEditForm ?? false;
-$generateNewUuid = $generateNewUuid ?? false;
-$passwordAction = $passwordAction ?? Enums\PasswordActionType::None;
+/**
+ * @var User $user
+ * @var Enums\PasswordActionType $passwordAction;
+ * @var bool $generateNewUuid
+ */
+
+$isEditForm ??= false;
 ?>
 
 <label class="email">

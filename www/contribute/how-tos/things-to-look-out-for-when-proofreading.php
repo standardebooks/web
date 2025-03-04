@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Things to Look Out For When Proofreading', 'manual' => true, 'highlight' => 'contribute', 'description' => 'A list of things to look out for when proofreading.']) ?>
+<?= Template::Header(title: 'Things to Look Out For When Proofreading', isManual: true, highlight: 'contribute', description: 'A list of things to look out for when proofreading.') ?>
 <main>
 	<article>
 		<h1>Things to Look Out For When Proofreading</h1>

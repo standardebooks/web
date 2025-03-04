@@ -4,7 +4,7 @@ if(Session::$User?->Benefits->CanBulkDownload){
 	$canDownload = true;
 }
 
-?><?= Template::Header(['title' => 'Bulk Ebook Downloads', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
+?><?= Template::Header(title: 'Bulk Ebook Downloads', description: 'Download zip files containing all of the Standard Ebooks released in a given month.') ?>
 <main>
 	<section class="narrow has-hero">
 		<h1>Bulk Ebook Down­loads</h1>

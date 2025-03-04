@@ -31,7 +31,7 @@ try{
 catch(Exceptions\AuthorNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(['title' => 'Ebooks by ' . $author, 'feedUrl' => str_replace('/ebooks/', '/authors/', $authorUrl), 'feedTitle' => 'Standard Ebooks - Ebooks by ' . $author, 'highlight' => 'ebooks', 'description' => 'All of the Standard Ebooks ebooks by ' . $author, 'canonicalUrl' => SITE_URL . $authorUrl]) ?>
+?><?= Template::Header(title: 'Ebooks by ' . $author, feedUrl: str_replace('/ebooks/', '/authors/', $authorUrl), feedTitle: 'Standard Ebooks - Ebooks by ' . $author, highlight: 'ebooks', description: 'All of the Standard Ebooks ebooks by ' . $author, canonicalUrl: SITE_URL . $authorUrl) ?>
 <main class="ebooks">
 	<h1 class="is-collection">Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
 	<? if($showLinks){ ?>
@@ -40,7 +40,7 @@ catch(Exceptions\AuthorNotFoundException){
 			<a class="button" href="<?= Formatter::EscapeHtml($authorUrl) ?>/feeds">Feeds for this author</a>
 		</p>
 	<? } ?>
-	<?= Template::EbookGrid(['ebooks' => $ebooks, 'view' => Enums\ViewType::Grid]) ?>
+	<?= Template::EbookGrid(ebooks: $ebooks, view: Enums\ViewType::Grid) ?>
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> and a <a href="/collections">list of collections</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
 	<?= Template::ContributeAlert() ?>
 </main>

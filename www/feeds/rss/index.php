@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'RSS 2.0 Ebook Feeds', 'description' => 'A list of available RSS 2.0 feeds of Standard Ebooks ebooks.']) ?>
+<?= Template::Header(title: 'RSS 2.0 Ebook Feeds', description: 'A list of available RSS 2.0 feeds of Standard Ebooks ebooks.') ?>
 <main>
 	<section class="narrow">
 		<h1>RSS 2.0 Ebook Feeds</h1>

@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'How-to Guides For Difficult Productions', 'manual' => true, 'highlight' => 'contribute', 'description' => 'Guides on how to produce more difficult productions.']) ?>
+<?= Template::Header(title: 'How-to Guides For Difficult Productions', isManual: true, highlight: 'contribute', description: 'Guides on how to produce more difficult productions.') ?>
 <main>
 <article>
 	<h1>How-to Guides</h1>

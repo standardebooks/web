@@ -19,7 +19,7 @@ catch(Exceptions\AppException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
-?><?= Template::Header(['title' => 'Your Vote Has Been Recorded!', 'highlight' => '', 'description' => 'Thank you for voting in a Standard Ebooks poll!']) ?>
+?><?= Template::Header(title: 'Your Vote Has Been Recorded!', description: 'Thank you for voting in a Standard Ebooks poll!') ?>
 <main>
 	<section class="narrow">
 		<h1>Your Vote Has Been Recorded!</h1>

@@ -13,7 +13,7 @@ if($exception){
 	session_unset();
 }
 
-?><?= Template::Header(['title' => 'Subscribe to the Standard Ebooks newsletter', 'highlight' => 'newsletter', 'description' => 'Subscribe to the Standard Ebooks newsletter to receive occasional updates about the project.']) ?>
+?><?= Template::Header(title: 'Subscribe to the Standard Ebooks newsletter', highlight: 'newsletter', description: 'Subscribe to the Standard Ebooks newsletter to receive occasional updates about the project.') ?>
 <main>
 	<section class="narrow has-hero">
 		<hgroup>
@@ -29,7 +29,7 @@ if($exception){
 		</picture>
 		<p>Subscribe to receive news, updates, and more from Standard Ebooks. Your information will never be shared, and you can unsubscribe at any time.</p>
 
-		<?= Template::Error(['exception' => $exception]) ?>
+		<?= Template::Error(exception: $exception) ?>
 
 		<form action="/newsletter/subscriptions" method="<?= Enums\HttpMethod::Post->value ?>">
 			<label class="automation-test"><? /* Test for spam bots filling out all fields */ ?>

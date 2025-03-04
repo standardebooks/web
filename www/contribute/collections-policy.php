@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Collections Policy', 'highlight' => 'contribute', 'description' => 'Standard Ebooks only accepts certain kinds of ebooks for production and hosting. This is the full list.']) ?>
+<?= Template::Header(title: 'Collections Policy', highlight: 'contribute', description: 'Standard Ebooks only accepts certain kinds of ebooks for production and hosting. This is the full list.') ?>
 <main>
 	<article>
 		<hgroup>

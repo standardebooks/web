@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'A Basic Standard Ebooks Source Folder', 'manual' => true, 'highlight' => 'contribute', 'description' => 'All Standard Ebooks source folders have the same basic structure, described here.']) ?>
+<?= Template::Header(title: 'A Basic Standard Ebooks Source Folder', isManual: true, highlight: 'contribute', description: 'All Standard Ebooks source folders have the same basic structure, described here.') ?>
 <main>
 	<article id="a-basic-standard-ebooks-source-folder">
 		<h1>A Basic Standard Ebooks Source Folder</h1>

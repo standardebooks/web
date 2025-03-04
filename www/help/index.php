@@ -1,4 +1,4 @@
-<?= Template::Header(['title' => 'Help', 'highlight' => '', 'description' => 'Help with Standard Ebooks.']) ?>
+<?= Template::Header(title: 'Help', description: 'Help with Standard Ebooks.') ?>
 <main>
 	<section class="narrow">
 		<h1>Help</h1>

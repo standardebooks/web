@@ -9,7 +9,7 @@
  * @var array<OpdsNavigationEntry> $entries
  */
 
-$subtitle = $subtitle ?? null;
+$subtitle ??= null;
 
 // Note that the XSL stylesheet gets stripped during `se clean` when we generate the feed.
 // `se clean` will also start adding empty namespaces everywhere if we include the stylesheet declaration first.

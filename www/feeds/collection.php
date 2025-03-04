@@ -29,7 +29,7 @@ catch(Safe\Exceptions\ApcuException){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);
 	}
 }
-?><?= Template::Header(['title' => $type->GetDisplayName() . ' Ebook Feeds by ' . $ucTitle, 'description' => 'A list of available ' . $type->GetDisplayName() . ' feeds of Standard Ebooks ebooks by ' . $lcTitle . '.']) ?>
+?><?= Template::Header(title: $type->GetDisplayName() . ' Ebook Feeds by ' . $ucTitle, description: 'A list of available ' . $type->GetDisplayName() . ' feeds of Standard Ebooks ebooks by ' . $lcTitle . '.') ?>
 <main>
 	<article>
 		<h1><?= $type->GetDisplayName() ?> Ebook Feeds by <?= $ucTitle ?></h1>

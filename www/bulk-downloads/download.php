@@ -54,7 +54,7 @@ catch(Exceptions\InvalidFileException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
-?><?= Template::Header(['title' => 'Downloading Ebook Collections', 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks released in a given month.']) ?>
+?><?= Template::Header(title: 'Downloading Ebook Collections', description: 'Download zip files containing all of the Standard Ebooks released in a given month.') ?>
 <main>
 	<section class="narrow">
 		<h1>Downloading Ebook Collections</h1>

@@ -26,7 +26,7 @@ catch(Exceptions\AppException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
-?><?= Template::Header(['title' => $poll->Name, 'highlight' => '', 'description' => $poll->Description]) ?>
+?><?= Template::Header(title: $poll->Name, description: $poll->Description) ?>
 <main>
 	<section class="narrow">
 		<h1><?= Formatter::EscapeHtml($poll->Name) ?></h1>

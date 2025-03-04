@@ -3,7 +3,7 @@
  * @var array<Ebook> $carousel
  */
 
-$isMultiSize = $isMultiSize ?? false;
+$isMultiSize ??= false;
 ?>
 <? if(sizeof($carousel) > 0){ ?>
 	<ul class="ebook-carousel<? if($isMultiSize){ ?> multi-size<? } ?>">

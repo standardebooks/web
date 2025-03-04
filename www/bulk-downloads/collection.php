@@ -27,7 +27,7 @@ catch(Safe\Exceptions\ApcuException){
 
 $title = preg_replace('/s$/', '', ucfirst($class));
 
-?><?= Template::Header(['title' => 'Downloads by ' . $title, 'highlight' => '', 'description' => 'Download zip files containing all of the Standard Ebooks in a given collection.']) ?>
+?><?= Template::Header(title: 'Downloads by ' . $title, description: 'Download zip files containing all of the Standard Ebooks in a given collection.') ?>
 <main>
 	<section class="bulk-downloads">
 		<h1>Down­loads by <?= $title ?></h1>
@@ -80,7 +80,10 @@ $title = preg_replace('/s$/', '', ucfirst($class));
 				</tbody>
 			</table>
 		<? }else{ ?>
-			<?= Template::BulkDownloadTable(['label' => $title, 'collections' => $collection]); ?>
+			<?
+			/** @var array<stdClass> $collection */
+			 ?>
+			<?= Template::BulkDownloadTable(label: $title, collections: $collection); ?>
 		<? } ?>
 	</section>
 </main>

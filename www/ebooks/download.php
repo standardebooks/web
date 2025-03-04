@@ -61,7 +61,7 @@ try{
 catch(Exceptions\InvalidFileException | Exceptions\EbookNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(['title' => 'Your Download Has Started!', 'downloadUrl' => $downloadUrl]) ?>
+?><?= Template::Header(title: 'Your Download Has Started!', downloadUrl: $downloadUrl) ?>
 <main class="donate">
 	<h1>Your Download Has Started!</h1>
 	<div class="thank-you-container">

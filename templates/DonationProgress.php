@@ -13,8 +13,8 @@ if(
 	return;
 }
 
-$autoHide = $autoHide ?? true;
-$showDonateButton = $showDonateButton ?? true;
+$autoHide ??= true;
+$showDonateButton ??= true;
 
 $deadline = $donationDrive->End->format('F j');
 $timeLeft = NOW->diff($donationDrive->End);

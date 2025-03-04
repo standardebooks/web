@@ -1,13 +1,13 @@
 <?
+use Enums\HttpMethod;
+
 /**
  * @var Project $project
  */
 
-use Enums\HttpMethod;
-
-$useFullyQualifiedUrls = $useFullyQualifiedUrls ?? false;
-$showTitle = $showTitle ?? true;
-$showArtworkStatus = $showArtworkStatus ?? true;
+$useFullyQualifiedUrls ??= false;
+$showTitle ??= true;
+$showArtworkStatus ??= true;
 ?>
 <table class="admin-table">
 	<tbody>

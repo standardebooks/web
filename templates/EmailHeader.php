@@ -1,7 +1,11 @@
 <?
-$preheader = $preheader ?? null;
-$letterhead = $letterhead ?? false;
-$hasAdminTable = $hasAdminTable ?? false;
+/**
+ * @var ?string $preheader
+ */
+
+$preheader ??= null;
+$hasLetterhead ??= false;
+$hasAdminTable ??= false;
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +42,7 @@ $hasAdminTable = $hasAdminTable ?? false;
 			-webkit-text-size-adjust: none;
 		}
 
-		<? if($letterhead){ ?>
+		<? if($hasLetterhead){ ?>
 			div.body.letterhead{
 				background-image: url("https://standardebooks.org/images/logo-email.png");
 				background-position: top 2em center;
@@ -222,7 +226,7 @@ $hasAdminTable = $hasAdminTable ?? false;
 				color: #4f9d85;
 			}
 
-			<? if($letterhead){ ?>
+			<? if($hasLetterhead){ ?>
 				div.body.letterhead{
 					background-image: url("https://standardebooks.org/images/logo-email-dark.png");
 				}
@@ -235,7 +239,7 @@ $hasAdminTable = $hasAdminTable ?? false;
 	</style>
 </head>
 <body>
-	<div class="body<? if($letterhead){ ?> letterhead<? } ?>">
+	<div class="body<? if($hasLetterhead){ ?> letterhead<? } ?>">
 		<? if($preheader){ ?>
 			<p class="preheader"><?= Formatter::EscapeHtml($preheader) ?><? for($i = 0; $i < 150 - strlen($preheader); $i++){ ?>&zwnj;&nbsp;<? } ?></p>
 		<? } ?>

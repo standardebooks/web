@@ -24,12 +24,11 @@ catch(Exceptions\EbookNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(
-	[
-		'title' => strip_tags($ebook->TitleWithCreditsHtml),
-		'css' => ['/css/ebook-placeholder.css'],
-		'highlight' => 'ebooks',
-		'canonicalUrl' => SITE_URL . $ebook->Url
-	])
+	title: strip_tags($ebook->TitleWithCreditsHtml),
+	css: ['/css/ebook-placeholder.css'],
+	highlight: 'ebooks',
+	canonicalUrl: SITE_URL . $ebook->Url
+)
 ?>
 <main>
 	<article class="ebook ebook-placeholder" typeof="schema:Book" about="<?= $ebook->Url ?>">
@@ -77,7 +76,7 @@ catch(Exceptions\EbookNotFoundException){
 			<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
 				<? foreach($ebook->CollectionMemberships as $collectionMembership){ ?>
 					<p>
-						<?= Template::CollectionDescriptor(['collectionMembership' => $collectionMembership]) ?>.
+						<?= Template::CollectionDescriptor(collectionMembership: $collectionMembership) ?>.
 					</p>
 				<? } ?>
 			<? } ?>
@@ -111,7 +110,7 @@ catch(Exceptions\EbookNotFoundException){
 		</section>
 
 		<? if(Session::$User?->Benefits->CanEditEbooks || Session::$User?->Benefits->CanEditEbookPlaceholders){ ?>
-			<?= Template::EbookMetadata(['ebook' => $ebook, 'showPlaceholderMetadata' => Session::$User->Benefits->CanEditEbookPlaceholders]) ?>
+			<?= Template::EbookMetadata(ebook: $ebook, showPlaceholderMetadata: Session::$User->Benefits->CanEditEbookPlaceholders) ?>
 		<? } ?>
 
 		<? if(Session::$User?->Benefits->CanEditProjects || Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects){ ?>
@@ -123,7 +122,7 @@ catch(Exceptions\EbookNotFoundException){
 							<a href="<?= $ebook->ProjectInProgress->EditUrl ?>">Edit project</a>
 						</p>
 					<? } ?>
-					<?= Template::ProjectDetailsTable(['project' => $ebook->ProjectInProgress, 'showTitle' => false]) ?>
+					<?= Template::ProjectDetailsTable(project: $ebook->ProjectInProgress, showTitle: false) ?>
 				</section>
 			<? } ?>
 
@@ -137,7 +136,7 @@ catch(Exceptions\EbookNotFoundException){
 				<? if(sizeof($ebook->PastProjects) == 0){ ?>
 					<p class="empty-notice">None.</p>
 				<? }else{ ?>
-					<?= Template::ProjectsTable(['projects' => $ebook->PastProjects, 'includeTitle' => false, 'showEditButton' => Session::$User->Benefits->CanEditProjects]) ?>
+					<?= Template::ProjectsTable(projects: $ebook->PastProjects, includeTitle: false, showEditButton: Session::$User->Benefits->CanEditProjects) ?>
 				<? } ?>
 			</section>
 		<? } ?>

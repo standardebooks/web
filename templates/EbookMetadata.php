@@ -3,7 +3,7 @@
  * @var Ebook $ebook
  */
 
-$showPlaceholderMetadata = $showPlaceholderMetadata ?? false;
+$showPlaceholderMetadata ??= false;
 ?>
 <section id="metadata">
 	<h2>Metadata</h2>

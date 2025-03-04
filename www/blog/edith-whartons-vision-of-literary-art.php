@@ -2,7 +2,7 @@
 $ebookIds = [288, 485, 289, 908, 565, 2114];
 $carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
 ?>
-<?= Template::Header(['title' => 'Edith Wharton’s Vision of Literary Art', 'css' => ['/css/blog.css'], 'highlight' => '', 'description' => '']) ?>
+<?= Template::Header(title: 'Edith Wharton’s Vision of Literary Art', css: ['/css/blog.css']) ?>
 <main>
 	<section class="narrow blog">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
@@ -33,7 +33,7 @@ $carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSq
 		<p><em>Hudson River Bracketed</em> is long out of print. Wharton patently lost the critical and commercial “<em>Wettgesang</em>” of the 1930s; even her sympathizers tend to admit that she’s in no way a star of that period, so the analogy to the Prologue in Heaven falls (or sounds) very flat.</p>
 		<p>But whether Wharton’s second-last work falls entirely flat too is something that can be judged, if at all, only in the old way, by reading it. This wasn’t very easy to do until January 1, but now you can read our <a href="https://standardebooks.org/ebooks/edith-wharton/hudson-river-bracketed">new ebook edition for free</a> at Standard Ebooks.</p>
 		<h2 id="ebooks-in-this-newsletter">Free ebooks in this post</h2>
-		<?= Template::EbookCarousel(['carousel' => $carousel]) ?>
+		<?= Template::EbookCarousel(carousel: $carousel) ?>
 	</section>
 </main>
 <?= Template::Footer() ?>

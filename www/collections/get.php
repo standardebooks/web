@@ -16,7 +16,7 @@ try{
 catch(Exceptions\CollectionNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(['title' => $pageTitle, 'feedUrl' => $feedUrl, 'feedTitle' => $feedTitle, 'highlight' => 'ebooks', 'description' => $pageDescription]) ?>
+?><?= Template::Header(title: $pageTitle, feedUrl: $feedUrl, feedTitle: $feedTitle, highlight: 'ebooks', description: $pageDescription) ?>
 <main class="ebooks">
 	<h1 class="is-collection"><?= $pageHeader ?></h1>
 	<?= Template::DonationCounter() ?>
@@ -32,7 +32,7 @@ catch(Exceptions\CollectionNotFoundException){
 	<? if(sizeof($collection->Ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
-		<?= Template::EbookGrid(['ebooks' => $collection->Ebooks, 'view' => Enums\ViewType::Grid, 'collection' => $collection]) ?>
+		<?= Template::EbookGrid(ebooks: $collection->Ebooks, view: Enums\ViewType::Grid, collection: $collection) ?>
 	<? } ?>
 
 	<? if(Session::$User?->Benefits->CanEditCollections){ ?>
