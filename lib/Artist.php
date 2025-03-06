@@ -5,6 +5,7 @@ use Safe\DateTimeImmutable;
  * @property ?int $DeathYear
  * @property ?string $UrlName
  * @property ?string $Url
+ * @property string $DeleteUrl
  * @property ?array<string> $AlternateNames
  */
 class Artist{
@@ -19,6 +20,7 @@ class Artist{
 
 	protected string $_UrlName;
 	protected string $_Url;
+	protected string $_DeleteUrl;
 	/** @var array<string> $_AlternateNames */
 	protected array $_AlternateNames;
 
@@ -42,6 +44,10 @@ class Artist{
 
 	protected function GetUrl(): string{
 		return $this->_Url ??= '/artworks/' . $this->UrlName;
+	}
+
+	protected function GetDeleteUrl(): string{
+		return $this->_DeleteUrl ??= '/artists/' . $this->UrlName . '/delete';
 	}
 
 	/**
@@ -137,6 +143,38 @@ class Artist{
 	/**
 	 * @throws Exceptions\ArtistNotFoundException
 	 */
+	public static function GetByName(?string $name): Artist{
+		if($name === null){
+			throw new Exceptions\ArtistNotFoundException();
+		}
+
+		return Db::Query('
+				SELECT a.*
+					from Artists a
+					left outer join ArtistAlternateNames aan using (ArtistId)
+					where a.Name = ?
+					    or aan.Name = ?
+			', [$name, $name], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
+	}
+
+	/**
+	 * @throws Exceptions\ArtistNotFoundException
+	 */
+	public static function GetByUrlName(?string $urlName): Artist{
+		if($urlName === null){
+			throw new Exceptions\ArtistNotFoundException();
+		}
+
+		return Db::Query('
+				SELECT *
+					from Artists
+					where UrlName = ?
+			', [$urlName], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
+	}
+
+	/**
+	 * @throws Exceptions\ArtistNotFoundException
+	 */
 	public static function GetByAlternateUrlName(?string $urlName): Artist{
 		if($urlName === null){
 			throw new Exceptions\ArtistNotFoundException();
@@ -149,6 +187,36 @@ class Artist{
 					where aan.UrlName = ?
 					limit 1
 			', [$urlName], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
+	}
+
+	/**
+	 * @throws Exceptions\ArtistAlternateNameExistsException
+	 */
+	public function AddAlternateName(string $name): void{
+		try{
+			Db::Query('
+				INSERT into ArtistAlternateNames (ArtistId, Name, UrlName)
+				values (?,
+					?,
+					?)
+			', [$this->ArtistId, $name, Formatter::MakeUrlSafe($name)]);
+		}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\ArtistAlternateNameExistsException();
+		}
+	}
+
+	/**
+	 * Reassigns all the artworks currently assigned to this artist to the given canoncial artist.
+	 *
+	 * @param Artist $canonicalArtist
+	 */
+	public function ReassignArtworkTo(Artist $canonicalArtist): void{
+		Db::Query('
+			UPDATE Artworks
+			set ArtistId = ?
+			where ArtistId = ?
+		', [$canonicalArtist->ArtistId, $this->ArtistId]);
 	}
 
 	/**
@@ -188,7 +256,21 @@ class Artist{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\ArtistHasArtworkException
+	 */
 	public function Delete(): void{
+		$hasArtwork = Db::QueryBool('
+			SELECT exists (
+				SELECT ArtworkId
+				from Artworks
+				where ArtistId = ?
+			)', [$this->ArtistId]);
+
+		if($hasArtwork){
+			throw new Exceptions\ArtistHasArtworkException();
+		}
+
 		Db::Query('
 			DELETE
 			from Artists
