@@ -166,6 +166,7 @@ form[action^="/artworks/"]{
 	grid-column: 1 / span 4;
 }
 
+.user + label:has(input[type="checkbox"]),
 .year + label:has(input[type="checkbox"]){
 	margin-top: .5rem;
 }
