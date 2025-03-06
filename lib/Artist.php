@@ -149,10 +149,12 @@ class Artist{
 		}
 
 		return Db::Query('
-				SELECT *
-					from Artists
-					where Name = ?
-			', [$name], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException('Name: ' . $name);
+				SELECT a.*
+					from Artists a
+					left outer join ArtistAlternateNames aan using (ArtistId)
+					where a.Name = ?
+					    or aan.Name = ?
+			', [$name, $name], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
 	}
 
 	/**
@@ -167,7 +169,7 @@ class Artist{
 				SELECT *
 					from Artists
 					where UrlName = ?
-			', [$urlName], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException('URL name: ' . $urlName);
+			', [$urlName], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
 	}
 
 	/**
@@ -187,13 +189,21 @@ class Artist{
 			', [$urlName], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
 	}
 
+	/**
+	 * @throws Exceptions\ArtistAlternateNameExistsException
+	 */
 	public function AddAlternateName(string $name): void{
-		Db::Query('
-			INSERT into ArtistAlternateNames (ArtistId, Name, UrlName)
-			values (?,
-				?,
-				?)
-		', [$this->ArtistId, $name, Formatter::MakeUrlSafe($name)]);
+		try{
+			Db::Query('
+				INSERT into ArtistAlternateNames (ArtistId, Name, UrlName)
+				values (?,
+					?,
+					?)
+			', [$this->ArtistId, $name, Formatter::MakeUrlSafe($name)]);
+		}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\ArtistAlternateNameExistsException();
+		}
 	}
 
 	/**
@@ -248,12 +258,16 @@ class Artist{
 
 	/**
 	 * @throws Exceptions\ArtistHasArtworkException
-	 * @throws Exceptions\ArtistNotFoundException
 	 */
 	public function Delete(): void{
-		$artworkCount = count(Artwork::GetAllByArtist($this->UrlName, Enums\ArtworkFilterType::Admin, null /* submitterUserId */));
+		$hasArtwork = Db::QueryBool('
+			SELECT exists (
+				SELECT ArtworkId
+				from Artworks
+				where ArtistId = ?
+			)', [$this->ArtistId]);
 
-		if($artworkCount > 0){
+		if($hasArtwork){
 			throw new Exceptions\ArtistHasArtworkException();
 		}
 

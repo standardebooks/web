@@ -16,7 +16,6 @@ try{
 	if($httpMethod == Enums\HttpMethod::Delete){
 		$artistToDelete = Artist::GetByUrlName(HttpInput::Str(GET, 'artist-url-name') ?? '');
 		$exceptionRedirectUrl = $artistToDelete->DeleteUrl;
-		$artworkReassignedCount = count(Artwork::GetAllByArtist($artistToDelete->UrlName, Enums\ArtworkFilterType::Admin, null /* submitterUserId */));
 
 		$canonicalArtist = Artist::GetByName(HttpInput::Str(POST, 'canonical-artist-name') ?? '');
 		$addAlternateName = HttpInput::Bool(POST, 'add-alternate-name');
@@ -30,7 +29,6 @@ try{
 
 		$_SESSION['is-artist-deleted'] = true;
 		$_SESSION['deleted-artist'] = $artistToDelete;
-		$_SESSION['artwork-reassigned-count'] = $artworkReassignedCount;
 		if($addAlternateName){
 			$_SESSION['is-alternate-name-added'] = true;
 		}
@@ -45,7 +43,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException | Exceptions\HttpMethodNotAllowedException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\ArtistNotFoundException | Exceptions\ArtistHasArtworkException $ex){
+catch(Exceptions\ArtistNotFoundException | Exceptions\ArtistHasArtworkException | Exceptions\ArtistAlternateNameExistsException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

@@ -3,5 +3,5 @@ namespace Exceptions;
 
 class ArtistHasArtworkException extends AppException{
 	/** @var string $message */
-	protected $message = 'Artist has artwork assoicated with it. Can’t delete.';
+	protected $message = 'Artist has associated artwork and cannot be deleted.';
 }

@@ -20,7 +20,6 @@ session_start();
 
 $isArtistDeleted = HttpInput::Bool(SESSION, 'is-artist-deleted') ?? false;
 $deletedArtist = HttpInput::SessionObject('deleted-artist', Artist::class);
-$artworkReassignedCount = HttpInput::Int(SESSION, 'artwork-reassigned-count') ?? false;
 $isAlternateNameAdded = HttpInput::Bool(SESSION, 'is-alternate-name-added') ?? false;
 
 try{
@@ -45,11 +44,7 @@ catch(Exceptions\ArtistNotFoundException){
 		<h1>Artwork by <?= Formatter::EscapeHtml($artist->Name) ?></h1>
 
 		<? if($isArtistDeleted && $deletedArtist !== null){ ?>
-			<ul class="message success">
-				<li>Artist deleted: <?= $deletedArtist->Name ?></li>
-				<? if($isAlternateNameAdded){ ?><li>An alternate name (A.K.A.) was added.</li><? } ?>
-				<li>Total artworks reassigned here: <?= $artworkReassignedCount ?></li>
-			</ul>
+			<p class="message success">Artist deleted: <?= $deletedArtist->Name ?><? if($isAlternateNameAdded){ ?>. An alternate name (A.K.A.) was added.<? } ?></p>
 		<? } ?>
 
 		<?= Template::ImageCopyrightNotice() ?>
@@ -58,7 +53,7 @@ catch(Exceptions\ArtistNotFoundException){
 
 		<? if($isAdminView){ ?>
 			<h2>Admin</h2>
-			<p><a href="<?= $artist->DeleteUrl  ?>">Delete artist and reassign artwork</a></p>
+			<p><a href="<?= $artist->DeleteUrl ?>">Delete artist and reassign artwork</a></p>
 		<? } ?>
 	</section>
 </main>

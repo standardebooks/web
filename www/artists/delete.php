@@ -16,8 +16,7 @@ try{
 
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 
-	$artist = Artist::GetByUrlName(HttpInput::Str(GET, 'artist-url-name') ?? '');
-	$artworkCount = count(Artwork::GetAllByArtist($artist->UrlName, Enums\ArtworkFilterType::Admin, null /* submitterUserId */));
+	$artist = Artist::GetByUrlName(HttpInput::Str(GET, 'artist-url-name'));
 
 	if($exception){
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
@@ -48,13 +47,14 @@ catch(Exceptions\InvalidPermissionsException){
 			<p>Are you sure you want to permanently delete <?= Formatter::EscapeHtml($artist->Name) ?>?</p>
 			<label class="icon user">
 				<span>Canonical Artist</span>
-				<span>Reassign artwork by <?= Formatter::EscapeHtml($artist->Name) ?> to this artist. Total artworks to reassign: <?= $artworkCount ?></span>
+				<span>Reassign artwork by <?= Formatter::EscapeHtml($artist->Name) ?> to this artist.</span>
 				<datalist id="artist-names-except-this-artist">
 					<? foreach(Artist::GetAll() as $a){ ?>
-						<? if($a->ArtistId == $artist->ArtistId){ continue; } ?>
-						<option value="<?= Formatter::EscapeHtml($a->Name) ?>"><?= Formatter::EscapeHtml($a->Name) ?>, d. <? if($a->DeathYear !== null){ ?><?= $a->DeathYear ?><? }else{ ?>unknown<? } ?></option>
-						<? foreach(($a->AlternateNames ?? []) as $alternateName){ ?>
-							<option value="<?= Formatter::EscapeHtml($alternateName) ?>"><?= Formatter::EscapeHtml($alternateName) ?>, d. <? if($a->DeathYear !== null){ ?><?= Formatter::EscapeHtml((string)$a->DeathYear) ?><? }else{ ?>unknown<? } ?></option>
+						<? if($a->ArtistId != $artist->ArtistId){ ?>
+							<option value="<?= Formatter::EscapeHtml($a->Name) ?>"><?= Formatter::EscapeHtml($a->Name) ?>, d. <? if($a->DeathYear !== null){ ?><?= $a->DeathYear ?><? }else{ ?>unknown<? } ?></option>
+							<? foreach(($a->AlternateNames ?? []) as $alternateName){ ?>
+								<option value="<?= Formatter::EscapeHtml($alternateName) ?>"><?= Formatter::EscapeHtml($alternateName) ?>, d. <? if($a->DeathYear !== null){ ?><?= Formatter::EscapeHtml((string)$a->DeathYear) ?><? }else{ ?>unknown<? } ?></option>
+							<? } ?>
 						<? } ?>
 					<? } ?>
 				</datalist>
