@@ -52,6 +52,9 @@ catch(Exceptions\InvalidPermissionsException){
 ) ?>
 <main>
 	<section class="narrow">
+		<nav class="breadcrumbs">
+			<a href="/artworks">Artworks</a> →
+		</nav>
 		<h1>Submit an Artwork</h1>
 
 		<?= Template::Error(exception: $exception) ?>
