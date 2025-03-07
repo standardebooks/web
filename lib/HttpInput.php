@@ -30,6 +30,7 @@ class HttpInput{
 			&&
 			preg_match('/^application\/x-www-form-urlencoded(;|$)/', $contentType)
 		){
+			// TODO: On PHP >= 8.4, use the new `request_parse_body()` function instead.
 			parse_str(file_get_contents('php://input'), $_POST);
 		}
 	}
