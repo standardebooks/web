@@ -151,8 +151,8 @@ final class Ebook{
 							from
 							Artworks
 							where
-							EbookUrl = ?
-						', [preg_replace('/^url:/iu', '', $this->Identifier)], Artwork::class)[0] ?? null;
+							EbookId = ?
+						', [$this->EbookId], Artwork::class)[0] ?? null;
 	}
 
 	/**

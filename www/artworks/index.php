@@ -67,7 +67,7 @@ try{
 
 	if($queryEbookUrl !== null){
 		// We're being called from the `review` script, and we're only interested if the artwork exists for this URL.
-		$artworks[] = Db::Query('SELECT * from Artworks where EbookUrl = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class)[0] ?? throw new Exceptions\ArtworkNotFoundException();
+		$artworks[] = Db::Query('SELECT a.* from Artworks a inner join Ebooks e using (EbookId) where e.Identifier = ? and Status = ? limit 1', ['url:' . $queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class)[0] ?? throw new Exceptions\ArtworkNotFoundException();
 		$totalArtworkCount = 1;
 	}
 	else{
