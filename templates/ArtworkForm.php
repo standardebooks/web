@@ -58,6 +58,7 @@ $isEditForm ??= false;
 			/>
 		</label>
 		<label>
+			<input type="hidden" name="artwork-completed-year-is-circa" value="false" />
 			<input
 				type="checkbox"
 				name="artwork-completed-year-is-circa"
@@ -103,6 +104,7 @@ $isEditForm ??= false;
 	<p><strong>or</strong> proof that the artwork was reproduced in a book published before <?= PD_STRING ?>, including the following:</p>
 	<fieldset>
 		<label>
+			<input type="hidden" name="artwork-is-published-in-us" value="false" />
 			<input
 				type="checkbox"
 				name="artwork-is-published-in-us"

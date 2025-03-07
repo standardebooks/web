@@ -36,17 +36,17 @@ catch(Exceptions\InvalidPermissionsException){
 <main>
 	<section class="narrow">
 		<nav class="breadcrumbs">
-			<a href="<?= $artist->Url ?>"><?= $artist->Name ?></a> →
+			<a href="/artworks">Artworks</a> → <a href="<?= $artist->Url ?>"><?= $artist->Name ?></a> →
 		</nav>
 		<h1>Delete</h1>
 
 		<?= Template::Error(exception: $exception) ?>
 
-		<form method="<?= Enums\HttpMethod::Post->value ?>" action="/artists/<?= $artist->UrlName ?>">
+		<p>Are you sure you want to permanently delete <?= Formatter::EscapeHtml($artist->Name) ?>?</p>
+		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $artist->Url ?>">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>" />
-			<p>Are you sure you want to permanently delete <?= Formatter::EscapeHtml($artist->Name) ?>?</p>
 			<label class="icon user">
-				<span>Canonical Artist</span>
+				<span>Canonical artist</span>
 				<span>Reassign artwork by <?= Formatter::EscapeHtml($artist->Name) ?> to this artist.</span>
 				<datalist id="artist-names-except-this-artist">
 					<? foreach(Artist::GetAll() as $a){ ?>
@@ -67,14 +67,15 @@ catch(Exceptions\InvalidPermissionsException){
 			</label>
 
 			<label>
+				<input type="hidden" name="add-alternate-name" value="false" />
 				<input
 					type="checkbox"
 					name="add-alternate-name" />
-				<span>Add <?= Formatter::EscapeHtml($artist->Name) ?> as an alternate name (A.K.A.) to the canonical artist</span>
+				<span>Add “<?= Formatter::EscapeHtml($artist->Name) ?>” as an alternate name of the canonical artist</span>
 			</label>
 
 			<div class="footer">
-				<button class="delete">Delete and Reassign</button>
+				<button class="delete">Delete artist</button>
 			</div>
 		</form>
 	</section>

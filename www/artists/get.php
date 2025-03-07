@@ -41,10 +41,17 @@ catch(Exceptions\ArtistNotFoundException){
 ?><?= Template::Header(title: 'Artwork by ' . $artist->Name, css: ['/css/artwork.css']) ?>
 <main class="artworks">
 	<section class="narrow">
+		<nav class="breadcrumbs">
+			<a href="/artworks">Artworks</a> →
+		</nav>
 		<h1>Artwork by <?= Formatter::EscapeHtml($artist->Name) ?></h1>
-
+		<? if(sizeof($artist->AlternateNames) > 0){ ?>
+			<p>
+				<i>Also known as <?= Formatter::EscapeHtml($artist->AlternateNamesString) ?>.</i>
+			</p>
+		<? } ?>
 		<? if($isArtistDeleted && $deletedArtist !== null){ ?>
-			<p class="message success">Artist deleted: <?= $deletedArtist->Name ?><? if($isAlternateNameAdded){ ?>. An alternate name (A.K.A.) was added.<? } ?></p>
+			<p class="message success"><?= $deletedArtist->Name ?> has been deleted<? if($isAlternateNameAdded){ ?> and their name has been added as an alternate name of <?= Formatter::EscapeHtml($artist->Name) ?><? } ?>.</p>
 		<? } ?>
 
 		<?= Template::ImageCopyrightNotice() ?>

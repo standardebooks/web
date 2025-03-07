@@ -49,10 +49,16 @@ if($exception){
 				<p>What kind of email would you like to receive?</p>
 				<ul>
 					<li>
-						<label><input type="checkbox" value="true" name="is-subscribed-to-newsletter"<? if($subscription->IsSubscribedToNewsletter){ ?> checked="checked"<? } ?> />The occasional Standard Ebooks newsletter</label>
+						<label>
+							<input type="hidden" name="is-subscribed-to-newsletter" value="false" />
+							<input type="checkbox" value="true" name="is-subscribed-to-newsletter"<? if($subscription->IsSubscribedToNewsletter){ ?> checked="checked"<? } ?> />The occasional Standard Ebooks newsletter
+						</label>
 					</li>
 					<li>
-						<label><input type="checkbox" value="true" name="is-subscribed-to-summary"<? if($subscription->IsSubscribedToSummary){ ?> checked="checked"<? } ?> />A monthly summary of new ebook releases</label>
+						<label>
+							<input type="hidden" name="is-subscribed-to-summary" value="false" />
+							<input type="checkbox" value="true" name="is-subscribed-to-summary"<? if($subscription->IsSubscribedToSummary){ ?> checked="checked"<? } ?> />A monthly summary of new ebook releases
+						</label>
 					</li>
 				</ul>
 			</fieldset>

@@ -6,7 +6,8 @@ use Safe\DateTimeImmutable;
  * @property ?string $UrlName
  * @property ?string $Url
  * @property string $DeleteUrl
- * @property ?array<string> $AlternateNames
+ * @property array<string> $AlternateNames
+ * @property string $AlternateNamesString
  */
 class Artist{
 	use Traits\Accessor;
@@ -23,6 +24,7 @@ class Artist{
 	protected string $_DeleteUrl;
 	/** @var array<string> $_AlternateNames */
 	protected array $_AlternateNames;
+	protected string $_AlternateNamesString;
 
 
 	// *******
@@ -47,7 +49,7 @@ class Artist{
 	}
 
 	protected function GetDeleteUrl(): string{
-		return $this->_DeleteUrl ??= '/artists/' . $this->UrlName . '/delete';
+		return $this->_DeleteUrl ??= '/artworks/' . $this->UrlName . '/delete';
 	}
 
 	/**
@@ -69,6 +71,41 @@ class Artist{
 		}
 
 		return $this->_AlternateNames;
+	}
+
+	protected function GetAlternateNamesString(): string{
+		if(!isset($this->_AlternateNamesString)){
+			$this->_AlternateNamesString = '';
+
+			$alternateNames = array_slice($this->AlternateNames, 0, -2);
+			$lastTwoAlternateNames = array_slice($this->AlternateNames, -2);
+
+			foreach($alternateNames as $alternateName){
+				$this->_AlternateNamesString .= $alternateName . ', ';
+			}
+
+			$this->_AlternateNamesString = rtrim($this->_AlternateNamesString, ', ');
+
+			if(sizeof($lastTwoAlternateNames) == 1){
+				if(sizeof($alternateNames) > 0){
+					$this->_AlternateNamesString .= ', and ';
+				}
+
+				$this->_AlternateNamesString .= $lastTwoAlternateNames[0];
+			}
+
+			if(sizeof($lastTwoAlternateNames) == 2){
+				if(sizeof($alternateNames) > 0){
+					$this->_AlternateNamesString .= ', ';
+					$this->_AlternateNamesString .= $lastTwoAlternateNames[0] . ', and ' . $lastTwoAlternateNames[1];
+				}
+				else{
+					$this->_AlternateNamesString .= $lastTwoAlternateNames[0] . ' and ' . $lastTwoAlternateNames[1];
+				}
+			}
+		}
+
+		return $this->_AlternateNamesString;
 	}
 
 
@@ -214,6 +251,13 @@ class Artist{
 	public function ReassignArtworkTo(Artist $canonicalArtist): void{
 		Db::Query('
 			UPDATE Artworks
+			set ArtistId = ?
+			where ArtistId = ?
+		', [$canonicalArtist->ArtistId, $this->ArtistId]);
+
+		Db::Query('
+			UPDATE
+			ArtistAlternateNames
 			set ArtistId = ?
 			where ArtistId = ?
 		', [$canonicalArtist->ArtistId, $this->ArtistId]);
