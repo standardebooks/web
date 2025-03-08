@@ -216,10 +216,10 @@ catch(Exceptions\InvalidPermissionsException){
 					<label>
 						<span>In use by</span>
 						<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
-						<input type="url" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/..." pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>"/>
+						<input type="url" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/..." pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$" value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>"/>
 					</label>
 				<? }else{ ?>
-					<input type="hidden" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->EbookUrl) ?>" />
+					<input type="hidden" name="artwork-ebook-url" value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>" />
 				<? } ?>
 				<div class="footer">
 					<button>Save changes</button>

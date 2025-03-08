@@ -1,6 +1,5 @@
 <?
 use function Safe\filesize;
-use function Safe\preg_replace;
 
 /**
  * @var Ebook $entry
@@ -11,7 +10,7 @@ use function Safe\preg_replace;
 	<link><?= SITE_URL . Formatter::EscapeXml($entry->Url) ?></link>
 	<description><?= Formatter::EscapeXml($entry->Description) ?></description>
 	<pubDate><?= $entry->EbookCreated?->format(Enums\DateTimeFormat::Rss->value) ?></pubDate>
-	<guid><?= Formatter::EscapeXml(preg_replace('/^url:/ius', '', $entry->Identifier)) ?></guid>
+	<guid><?= Formatter::EscapeXml($entry->FullUrl) ?></guid>
 	<? foreach($entry->Tags as $tag){ ?>
 		<category domain="https://standardebooks.org/vocab/subjects"><?= Formatter::EscapeXml($tag->Name) ?></category>
 	<? } ?>

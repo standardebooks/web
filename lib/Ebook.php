@@ -20,7 +20,8 @@ use function Safe\shell_exec;
  * @property array<Contributor> $Translators
  * @property array<Contributor> $Contributors
  * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
- * @property string $Url
+ * @property string $Url The correct URL to use in order to link to this ebook. Its format is `/ebooks/...`
+ * @property string $FullUrl The absolute URL that reviewers and admins may enter into forms in order to refer to this ebook. Its format is `https://standardebooks.org/ebooks/...`
  * @property string $EditUrl
  * @property string $DeleteUrl
  * @property bool $HasDownloads
@@ -104,6 +105,7 @@ final class Ebook{
 	/** @var ?array<string> $_TocEntries */
 	protected ?array $_TocEntries = null;
 	protected string $_Url;
+	protected string $_FullUrl;
 	protected string $_EditUrl;
 	protected string $_DeleteUrl;
 	protected bool $_HasDownloads;
@@ -391,6 +393,10 @@ final class Ebook{
 
 	protected function GetUrl(): string{
 		return $this->_Url ??= str_replace(EBOOKS_IDENTIFIER_ROOT, '', $this->Identifier);
+	}
+
+	protected function GetFullUrl(): string{
+		return $this->_FullUrl ??= preg_replace('/^url:/ius', '', $this->Identifier);
 	}
 
 	protected function GetEditUrl(): string{
