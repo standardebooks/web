@@ -1073,11 +1073,11 @@ class Artwork{
 				        ArtworkId
 				    from
 				        Artworks art
-				    inner join Artists a USING (ArtistId)
-				    left join ArtistAlternateNames aan USING (ArtistId)
-				    left join ArtworkTags at USING (ArtworkId)
-				    left join Ebooks e USING (EbookId)
-				    left join Tags t USING (TagId)
+				    inner join Artists a using (ArtistId)
+				    left join ArtistAlternateNames aan using (ArtistId)
+				    left join ArtworkTags at using (ArtworkId)
+				    left join Ebooks e using (EbookId)
+				    left join Tags t using (TagId)
 				    where
 				        ' . $statusCondition . '
 				            and (art.Name regexp ?
@@ -1099,7 +1099,7 @@ class Artwork{
 				  inner join Artists a using (ArtistId)
 				  left join ArtistAlternateNames aan using (ArtistId)
 				  left join ArtworkTags at using (ArtworkId)
-				  left join Ebooks e USING (EbookId)
+				  left join Ebooks e using (EbookId)
 				  left join Tags t using (TagId)
 				where ' . $statusCondition . '
 				  and (art.Name regexp ?

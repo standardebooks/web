@@ -20,8 +20,8 @@ use function Safe\shell_exec;
  * @property array<Contributor> $Translators
  * @property array<Contributor> $Contributors
  * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
- * @property string $Url The correct URL to use in order to link to this ebook. Its format is `/ebooks/...`
- * @property string $FullUrl The absolute URL that reviewers and admins may enter into forms in order to refer to this ebook. Its format is `https://standardebooks.org/ebooks/...`
+ * @property string $Url The relative URL of this ebook, like `/ebooks/...`.
+ * @property string $FullUrl The absolute URL of this ebook, like `https://standardebooks.org/ebooks/...`.
  * @property string $EditUrl
  * @property string $DeleteUrl
  * @property bool $HasDownloads
