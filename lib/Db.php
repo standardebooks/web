@@ -11,10 +11,13 @@ class Db{
 	/**
 	 * Returns a single integer value for the first column database query result.
 	 *
-	 * This is useful for queries that return a single integer as a result, like `count(*)` or `sum(*)`.
+	 * This is useful for queries that return a single integer as a result, like `count(*)`, `sum(*)`, or `insert ... returning`.
 	 *
 	 * @param string $query
 	 * @param array<mixed> $args
+	 *
+	 * @throws Exceptions\DuplicateDatabaseKeyException If a unique key constraint has been violated.
+	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
 	 */
 	public static function QueryInt(string $query, array $args = []): int{
 		$result = static::Query($query, $args);
@@ -33,6 +36,8 @@ class Db{
 	 *
 	 * @param string $query
 	 * @param array<mixed> $args
+	 *
+	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
 	 */
 	public static function QueryFloat(string $query, array $args = []): float{
 		$result = static::Query($query, $args);
@@ -51,6 +56,8 @@ class Db{
 	 *
 	 * @param string $query
 	 * @param array<mixed> $args
+	 *
+	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
 	 */
 	public static function QueryBool(string $query, array $args = []): bool{
 		$result = static::Query($query, $args);
@@ -145,8 +152,8 @@ class Db{
 	 *
 	 * @return array<T> An array of objects of type `$class`, or `stdClass` if `$class` is `null`.
 	 *
-	 * @throws Exceptions\DuplicateDatabaseKeyException When a unique key constraint has been violated.
-	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
+	 * @throws Exceptions\DuplicateDatabaseKeyException If a unique key constraint has been violated.
+	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
 	 */
 	public static function Query(string $sql, array $params = [], string $class = 'stdClass'): array{
 		$handle = static::PreparePdoHandle($sql, $params);
@@ -202,7 +209,7 @@ class Db{
 	 * @return array<T> An array of `$class`.
 	 *
 	 * @throws Exceptions\MultiSelectMethodNotFoundException If the class doesn't have a `FromMultiTableRow()` method.
-	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
+	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
 	 */
 	public static function MultiTableSelect(string $sql, array $params, string $class): array{
 		if(!method_exists($class, 'FromMultiTableRow')){
@@ -278,7 +285,7 @@ class Db{
 	 *
 	 * @return array<array<string, stdClass>> An array of `$class` if `$class` is not `null`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
 	 *
-	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
+	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
 	 */
 	public static function MultiTableSelectGeneric(string $sql, array $params): array{
 		$handle = static::PreparePdoHandle($sql, $params);
@@ -317,7 +324,7 @@ class Db{
 	 *
 	 * @return \PDOStatement The `\PDOStatement` to be used to execute the query.
 	 *
-	 * @throws Exceptions\DatabaseQueryException When an error occurs during execution of the query.
+	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
 	 */
 	protected static function PreparePdoHandle(string $sql, array $params): \PDOStatement{
 		try{
@@ -365,7 +372,7 @@ class Db{
 	 *
 	 * @return array<T> An array of objects of type `$class`, or `stdClass` if `$class` is `null`.
 	 *
-	 * @throws \PDOException When an error occurs during execution of the query.
+	 * @throws \PDOException If an error occurs during execution of the query.
 	 */
 	protected static function ExecuteQuery(\PDOStatement $handle, string $class = 'stdClass'): array{
 		$handle->execute();
@@ -445,7 +452,7 @@ class Db{
 	 *
 	 * @return array<T>|array<array<string, stdClass>> An array of `$class` if `$class` is not `stdClass`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
 	 *
-	 * @throws \PDOException When an error occurs during execution of the query.
+	 * @throws \PDOException If an error occurs during execution of the query.
 	 */
 	protected static function ExecuteMultiTableSelect(\PDOStatement $handle, string $class): array{
 		$handle->execute();
@@ -566,29 +573,6 @@ class Db{
 				default:
 					return $column;
 			}
-		}
-	}
-
-	/**
-	 * Get the ID of the last row that was inserted during this database connection.
-	 *
-	 * @return int The ID of the last row that was inserted during this database connection.
-	 *
-	 * @throws Exceptions\DatabaseQueryException When the last inserted ID can't be determined.
-	 */
-	public static function GetLastInsertedId(): int{
-		try{
-			$id = static::$Link->lastInsertId();
-		}
-		catch(\PDOException){
-			$id = false;
-		}
-
-		if($id === false || $id == '0'){
-			throw new Exceptions\DatabaseQueryException('Couldn\'t get last insert ID.');
-		}
-		else{
-			return intval($id);
 		}
 	}
 

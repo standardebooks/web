@@ -1777,7 +1777,7 @@ final class Ebook{
 			throw $error;
 		}
 
-		Db::Query('
+		$this->EbookId = Db::QueryInt('
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
 				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
@@ -1808,14 +1808,13 @@ final class Ebook{
 				?,
 				?,
 				?)
+			returning EbookId
 		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
 				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
 				$this->IndexableAuthors, $this->IndexableCollections]);
-
-		$this->EbookId = Db::GetLastInsertedId();
 
 		try{
 			$this->AddTags();

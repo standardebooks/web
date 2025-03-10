@@ -251,20 +251,19 @@ class User{
 		}
 
 		try{
-			Db::Query('
+			$this->UserId = Db::QueryInt('
 					INSERT into Users (Email, Name, Uuid, Created, PasswordHash)
 					values (?,
 					        ?,
 					        ?,
 					        ?,
 					        ?)
+					returning UserId
 				', [$this->Email, $this->Name, $this->Uuid, $this->Created, $this->PasswordHash]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\UserExistsException();
 		}
-
-		$this->UserId = Db::GetLastInsertedId();
 	}
 
 	/**
