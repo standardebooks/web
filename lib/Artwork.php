@@ -720,7 +720,7 @@ class Artwork{
 
 		$this->Artist = Artist::GetOrCreate($this->Artist);
 
-		Db::Query('
+		$this->ArtworkId = Db::QueryInt('
 			INSERT into
 			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Updated, Status, SubmitterUserId, ReviewerUserId, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
@@ -745,12 +745,11 @@ class Artwork{
 			        ?,
 			        ?,
 			        ?)
+			returning ArtworkId
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookUrl, $this->MimeType, $this->Exception, $this->Notes]
 		);
-
-		$this->ArtworkId = Db::GetLastInsertedId();
 
 		foreach($this->Tags as $tag){
 			Db::Query('

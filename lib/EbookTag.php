@@ -56,13 +56,13 @@ class EbookTag extends Tag{
 	public function Create(): void{
 		$this->Validate();
 
-		Db::Query('
+		$this->TagId = Db::QueryInt('
 			INSERT into Tags (Name, UrlName, Type)
 			values (?,
 				?,
 				?)
+			returning TagId
 		', [$this->Name, $this->UrlName, $this->Type]);
-		$this->TagId = Db::GetLastInsertedId();
 	}
 
 

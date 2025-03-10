@@ -268,14 +268,13 @@ class Artist{
 	 */
 	public function Create(): void{
 		$this->Validate();
-		Db::Query('
+		$this->ArtistId = Db::QueryInt('
 			INSERT into Artists (Name, UrlName, DeathYear)
 			values (?,
 			        ?,
 			        ?)
+			returning ArtistId
 		', [$this->Name, $this->UrlName, $this->DeathYear]);
-
-		$this->ArtistId = Db::GetLastInsertedId();
 	}
 
 	/**

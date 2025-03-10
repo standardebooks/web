@@ -347,7 +347,7 @@ final class Project{
 			throw new Exceptions\ProjectExistsException();
 		}
 
-		Db::Query('
+		$this->ProjectId = Db::QueryInt('
 				INSERT into Projects
 				(
 					EbookId,
@@ -384,9 +384,8 @@ final class Project{
 					?,
 					?
 				)
+				returning ProjectId
 			', [$this->EbookId, $this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
-
-		$this->ProjectId = Db::GetLastInsertedId();
 
 		// Notify the manager and reviewer.
 		if($this->Status == Enums\ProjectStatusType::InProgress){

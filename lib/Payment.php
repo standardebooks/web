@@ -95,7 +95,7 @@ class Payment{
 		}
 
 		try{
-			Db::Query('
+			$this->PaymentId = Db::QueryInt('
 				INSERT into Payments (UserId, Created, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation)
 				values(?,
 				       ?,
@@ -105,12 +105,11 @@ class Payment{
 				       ?,
 				       ?,
 				       ?)
+				returning PaymentId
 			', [$this->UserId, $this->Created, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\PaymentExistsException();
 		}
-
-		$this->PaymentId = Db::GetLastInsertedId();
 	}
 }

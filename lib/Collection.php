@@ -162,13 +162,13 @@ class Collection{
 	public function Create(): void{
 		$this->Validate();
 
-		Db::Query('
+		$this->CollectionId = Db::QueryInt('
 			INSERT into Collections (Name, UrlName, Type)
 			values (?,
 				?,
 				?)
+			returning CollectionId
 		', [$this->Name, $this->UrlName, $this->Type]);
-		$this->CollectionId = Db::GetLastInsertedId();
 	}
 
 	/**

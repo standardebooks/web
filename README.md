@@ -215,3 +215,11 @@ Before submitting design contributions, please discuss them with the Standard Eb
     else
         print('Bar!');
     ````
+
+- SQL statements have the first keyword in ALL CAPS to facilitate syntax highlighting; however subsequent keywords are all lowercase.
+
+    ````sql
+    SELECT * from Users where Username = 'Foo'
+    ````
+
+- When using SQL to insert a record and later retrieve the last inserted ID, use the `insert ... returning` construct, and not `insert` followed by `select last_insert_id()`.

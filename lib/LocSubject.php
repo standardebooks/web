@@ -39,11 +39,11 @@ class LocSubject{
 	public function Create(): void{
 		$this->Validate();
 
-		Db::Query('
+		$this->LocSubjectId = Db::QueryInt('
 			INSERT into LocSubjects (Name)
 			values (?)
+			returning LocSubjectId
 		', [$this->Name]);
-		$this->LocSubjectId = Db::GetLastInsertedId();
 	}
 
 	/**
