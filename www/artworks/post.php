@@ -55,7 +55,16 @@ try{
 		$exceptionRedirectUrl = $originalArtwork->EditUrl;
 
 		$artwork = new Artwork();
-		$artwork->FillFromHttpPost();
+
+		try{
+			$artwork->FillFromHttpPost();
+		}
+		catch(Exceptions\AppException $ex){
+			// Restore the original artwork so the user can correct the error and try again.
+			$artwork = $originalArtwork;
+			throw $ex;
+		}
+
 		$artwork->ArtworkId = $originalArtwork->ArtworkId;
 		$artwork->Created = $originalArtwork->Created;
 		$artwork->SubmitterUserId = $originalArtwork->SubmitterUserId;
@@ -110,11 +119,27 @@ try{
 
 		if(isset($_POST['artwork-ebook-url'])){
 			$newEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
-			if($artwork->EbookUrl != $newEbookUrl && !$artwork->CanEbookUrlBeChangedBy(Session::$User)){
-				throw new Exceptions\InvalidPermissionsException();
-			}
+			if(isset($newEbookUrl)){
+				try{
+					$newEbook = Ebook::GetByIdentifier('url:' . $newEbookUrl);
+				}
+				catch(Exceptions\EbookNotFoundException){
+					throw new Exceptions\InvalidUrlException($newEbookUrl);
+				}
 
-			$artwork->EbookUrl = $newEbookUrl;
+				if($artwork->EbookId != $newEbook->EbookId && !$artwork->CanEbookUrlBeChangedBy(Session::$User)){
+					throw new Exceptions\InvalidPermissionsException();
+				}
+
+				$artwork->EbookId = $newEbook->EbookId;
+			}
+			else{
+				if(isset($artwork->EbookId) && !$artwork->CanEbookUrlBeChangedBy(Session::$User)){
+					throw new Exceptions\InvalidPermissionsException();
+				}
+
+				$artwork->EbookId = null;
+			}
 		}
 
 		$artwork->Save();
@@ -135,7 +160,7 @@ catch(Exceptions\InvalidPermissionsException){
 catch(Exceptions\ArtworkNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidImageUploadException | Exceptions\InvalidFileUploadException $ex){
+catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidImageUploadException | Exceptions\InvalidFileUploadException | Exceptions\InvalidUrlException $ex){
 	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
 	if($ex instanceof Exceptions\InvalidFileUploadException){
 		$ex = new Exceptions\InvalidImageUploadException();

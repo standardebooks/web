@@ -8,7 +8,7 @@
 		<?
 			$class = '';
 
-			if($artwork->EbookUrl !== null){
+			if($artwork->EbookId !== null){
 				$class .= ' in-use';
 			}
 

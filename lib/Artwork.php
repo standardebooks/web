@@ -40,7 +40,7 @@ class Artwork{
 	public bool $CompletedYearIsCirca = false;
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
-	public ?string $EbookUrl = null;
+	public ?int $EbookId = null;
 	public ?int $SubmitterUserId = null;
 	public ?int $ReviewerUserId = null;
 	public ?string $MuseumUrl = null;
@@ -64,7 +64,7 @@ class Artwork{
 	protected string $_ThumbUrl;
 	protected string $_Thumb2xUrl;
 	protected string $_Dimensions ;
-	protected ?Ebook $_Ebook;
+	protected ?Ebook $_Ebook = null;
 	protected ?Museum $_Museum;
 	protected ?User $_Submitter;
 	protected ?User $_Reviewer;
@@ -253,25 +253,6 @@ class Artwork{
 		}
 
 		return $this->_Dimensions;
-	}
-
-	protected function GetEbook(): ?Ebook{
-		if(!isset($this->_Ebook)){
-			if($this->EbookUrl === null){
-				return null;
-			}
-
-			$identifier = 'url:' . $this->EbookUrl;
-			try{
-				$this->_Ebook = Ebook::GetByIdentifier($identifier);
-			}
-			catch(Exceptions\EbookNotFoundException){
-				// The ebook is probably unreleased.
-				return null;
-			}
-		}
-
-		return $this->_Ebook;
 	}
 
 
@@ -499,21 +480,16 @@ class Artwork{
 			$error->Add(new Exceptions\MissingPdProofException());
 		}
 
-		$this->EbookUrl = trim($this->EbookUrl ?? '');
-
-		if($this->EbookUrl != ''){
+		if(isset($this->EbookId)){
 			try{
-				Ebook::GetByIdentifier('url:' . $this->EbookUrl);
+				Ebook::Get($this->EbookId);
 
 				// Ebook found, continue.
 			}
 			catch(Exceptions\EbookNotFoundException){
 				// Ebook not found, error!
-				$error->Add(new Exceptions\EbookNotFoundException('Couldn’t find an ebook with that URL.'));
+				$error->Add(new Exceptions\EbookNotFoundException('Couldn’t find an ebook with EbookId: ' . $this->EbookId));
 			}
-		}
-		else{
-			$this->EbookUrl = null;
 		}
 
 		// Check for existing `Artwork` objects with the same URL but different `ArtworkID`s.
@@ -724,7 +700,7 @@ class Artwork{
 			INSERT into
 			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Updated, Status, SubmitterUserId, ReviewerUserId, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
-			                      EbookUrl, MimeType, Exception, Notes)
+			                      EbookId, MimeType, Exception, Notes)
 			values (?,
 			        ?,
 			        ?,
@@ -748,7 +724,7 @@ class Artwork{
 			returning ArtworkId
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Created, $this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookUrl, $this->MimeType, $this->Exception, $this->Notes]
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes]
 		);
 
 		foreach($this->Tags as $tag){
@@ -820,7 +796,7 @@ class Artwork{
 			CopyrightPageUrl = ?,
 			ArtworkPageUrl = ?,
 			IsPublishedInUs = ?,
-			EbookUrl = ?,
+			EbookId = ?,
 			MimeType = ?,
 			Exception = ?,
 			Notes = ?
@@ -828,7 +804,7 @@ class Artwork{
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
 				$this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookUrl, $this->MimeType, $this->Exception, $this->Notes,
+				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);
 
@@ -1009,11 +985,11 @@ class Artwork{
 			$params[] = $submitterUserId;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedInUse){
-			$statusCondition = 'Status = ? and EbookUrl is not null';
+			$statusCondition = 'Status = ? and EbookId is not null';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedNotInUse){
-			$statusCondition = 'Status = ? and EbookUrl is null';
+			$statusCondition = 'Status = ? and EbookId is null';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::Declined){
@@ -1052,7 +1028,6 @@ class Artwork{
 			$query = '';
 		}
 
-		// We use `replace()` below because if there's multiple contributors separated by an underscore, the underscore won't count as word boundary and we won't get a match. See <https://github.com/standardebooks/web/pull/325>.
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
 
@@ -1083,10 +1058,11 @@ class Artwork{
 
 			$params[] = $tokenizedQuery; // art.Name
 			$params[] = $tokenizedQuery; // art.UrlName
-			$params[] = $tokenizedQuery; // art.EbookUrl
 			$params[] = $tokenizedQuery; // a.Name
 			$params[] = $tokenizedQuery; // a.UrlName
 			$params[] = $tokenizedQuery; // aan.Name
+			$params[] = $tokenizedQuery; // e.Title
+			$params[] = $tokenizedQuery; // e.IndexableAuthors
 			$params[] = $tokenizedQuery; // t.Name
 
 			$artworksCount = Db::QueryInt('
@@ -1100,15 +1076,17 @@ class Artwork{
 				    inner join Artists a USING (ArtistId)
 				    left join ArtistAlternateNames aan USING (ArtistId)
 				    left join ArtworkTags at USING (ArtworkId)
+				    left join Ebooks e USING (EbookId)
 				    left join Tags t USING (TagId)
 				    where
 				        ' . $statusCondition . '
 				            and (art.Name regexp ?
 				            or art.UrlName regexp ?
-				            or replace(art.EbookUrl, "_", " ") regexp ?
 				            or a.Name regexp ?
 				            or a.UrlName regexp ?
 				            or aan.Name regexp ?
+				            or e.Title regexp ?
+				            or e.IndexableAuthors regexp ?
 				            or t.Name regexp ?)
 				    group by art.ArtworkId) x', $params);
 
@@ -1121,14 +1099,16 @@ class Artwork{
 				  inner join Artists a using (ArtistId)
 				  left join ArtistAlternateNames aan using (ArtistId)
 				  left join ArtworkTags at using (ArtworkId)
+				  left join Ebooks e USING (EbookId)
 				  left join Tags t using (TagId)
 				where ' . $statusCondition . '
 				  and (art.Name regexp ?
 				  or art.UrlName regexp ?
-				  or replace(art.EbookUrl, "_", " ") regexp ?
 				  or a.Name regexp ?
 				  or a.UrlName regexp ?
 				  or aan.Name regexp ?
+				  or e.Title regexp ?
+				  or e.IndexableAuthors regexp ?
 				  or t.Name regexp ?)
 				group by art.ArtworkId
 				order by ' . $orderBy . '
@@ -1139,6 +1119,9 @@ class Artwork{
 		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
 	}
 
+	/**
+	 * @throws Exceptions\InvalidUrlException
+	 */
 	public function FillFromHttpPost(): void{
 		if(!isset($this->Artist)){
 			$this->Artist = new Artist();
@@ -1150,7 +1133,6 @@ class Artwork{
 		$this->PropertyFromHttp('CompletedYear');
 		$this->PropertyFromHttp('CompletedYearIsCirca');
 		$this->PropertyFromHttp('Status');
-		$this->PropertyFromHttp('EbookUrl');
 		$this->PropertyFromHttp('IsPublishedInUs');
 		$this->PropertyFromHttp('PublicationYear');
 		$this->PropertyFromHttp('PublicationYearPageUrl');
@@ -1161,5 +1143,17 @@ class Artwork{
 		$this->PropertyFromHttp('Notes');
 
 		$this->Tags = HttpInput::Str(POST, 'artwork-tags') ?? ''; // Converted from a string to an array via a setter.
+
+		$ebookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
+		if(isset($ebookUrl)){
+			try{
+				$ebook = Ebook::GetByIdentifier('url:' . $ebookUrl);
+				$this->EbookId = $ebook->EbookId;
+			}
+			catch(Exceptions\EbookNotFoundException){
+				throw new Exceptions\InvalidUrlException($ebookUrl);
+			}
+
+		}
 	}
 }

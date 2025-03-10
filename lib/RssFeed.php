@@ -1,7 +1,6 @@
 <?
 use function Safe\file_get_contents;
 use function Safe\filesize;
-use function Safe\preg_replace;
 
 /**
  * @property array<Ebook> $Entries
@@ -50,7 +49,7 @@ class RssFeed extends Feed{
 			/** @var Ebook $entry */
 			$obj = new stdClass();
 			$obj->Size = (string)filesize(WEB_ROOT . $entry->EpubUrl);
-			$obj->Id = preg_replace('/^url:/ius', '', $entry->Identifier);
+			$obj->Id = $entry->FullUrl;
 			$currentEntries[] = $obj;
 		}
 
