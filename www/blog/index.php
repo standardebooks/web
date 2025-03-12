@@ -3,11 +3,11 @@
 	<section class="narrow">
 		<h1>Blog</h1>
 		<ul>
-			<!-- <li>
+			<li>
 				<p>
 					<a href="/blog/of-human-bondage-spinoza-and-the-meaning-of-life"><i>Of Human Bondage</i>, Spinoza, and the Meaning of Life</a>
 				</p>
-			</li> -->
+			</li>
 			<li>
 				<p>
 					<a href="/blog/death-and-beauty-in-the-alps">Death and Beauty in the Alps</a>
