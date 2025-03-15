@@ -33,16 +33,20 @@ foreach($projects as $project){
 
 	try{
 		$project->FetchLastCommitTimestamp($apiKey);
-
 	}
 	catch(Exceptions\AppException $ex){
-		Log::WriteErrorLogEntry($ex->getMessage());
+		// 404, continue.
 	}
 
 	if($project->IsStatusAutomaticallyUpdated){
 		// Check if this project is in review.
 		if($project->Status == Enums\ProjectStatusType::InProgress){
-			$project->FetchReviewStatus();
+			try{
+				$project->FetchReviewStatus();
+			}
+			catch(Exceptions\AppException){
+				// 404, continue.
+			}
 		}
 
 		if(
