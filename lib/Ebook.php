@@ -1706,6 +1706,7 @@ final class Ebook{
 			}
 		}
 
+		$this->IndexableText = str_replace('-', ' ', $this->IndexableText);
 		$this->IndexableText = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableText);
 
 		if($this->IndexableText == ''){
@@ -1719,6 +1720,7 @@ final class Ebook{
 			$this->IndexableAuthors .= ' ' . $author->Name;
 		}
 
+		$this->IndexableAuthors = str_replace('-', ' ', $this->IndexableAuthors);
 		$this->IndexableAuthors = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableAuthors);
 
 		// Initialize `IndexableCollections`.
@@ -1728,6 +1730,7 @@ final class Ebook{
 			$this->IndexableCollections .= ' ' . $collectionMembership->Collection->Name;
 		}
 
+		$this->IndexableCollections = str_replace('-', ' ', $this->IndexableCollections);
 		$this->IndexableCollections = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableCollections);
 
 		if($this->IndexableCollections == ''){
@@ -2332,6 +2335,8 @@ final class Ebook{
 		}
 
 		if($query !== null && $query != ''){
+			$query = str_replace('-', ' ', $query);
+
 			// Preserve quotes in the query so the user can enter, e.g., "war and peace" for an exact match.
 			$query = trim(preg_replace('|[^a-zA-Z0-9" ]|ius', '', Formatter::RemoveDiacritics($query)));
 
