@@ -118,7 +118,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<aside id="reading-ease">
 			<? if($ebook->WordCount !== null){ ?>
-				<meta property="schema:wordCount" content="<?= Formatter::EscapeHtml($ebook->WordCount) ?>"/>
+				<meta property="schema:wordCount" content="<?= Formatter::EscapeHtml((string)$ebook->WordCount) ?>"/>
 				<p><?= number_format($ebook->WordCount) ?> words (<?= $ebook->ReadingTime ?>) with a reading ease of <?= $ebook->ReadingEase ?> (<?= $ebook->ReadingEaseDescription ?>)</p>
 			<? } ?>
 			<? if($ebook->ContributorsHtml != ''){ ?>
