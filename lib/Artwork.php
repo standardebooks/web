@@ -29,7 +29,7 @@ use function Safe\unlink;
  * @property ?User $Submitter
  * @property ?User $Reviewer
  */
-class Artwork{
+final class Artwork{
 	use Traits\Accessor;
 	use Traits\PropertyFromHttp;
 

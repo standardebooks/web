@@ -6,7 +6,7 @@ $feedType = '';
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 preg_match('/^\/feeds\/(opds|rss|atom)/ius', $requestUri, $matches);
 
-if(sizeof($matches) > 0){
+if(isset($matches[1])){
 	$feedType = Enums\FeedType::tryFrom(strtolower($matches[1]));
 }
 

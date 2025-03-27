@@ -39,6 +39,7 @@ abstract class OpdsFeed extends AtomFeed{
 
 		$this->Updated = $updated;
 
+		/** @phpstan-ignore-next-line */
 		unset($this->_XmlString);
 		file_put_contents($this->Path, $this->GetXmlString());
 

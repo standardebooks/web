@@ -138,15 +138,14 @@ class HttpInput{
 				return true;
 			}
 		}
-		elseif(sizeof($_FILES) > 0){
-			// We received files but may have an error because the size exceeded our limit.
-			foreach($_FILES as $file){
-				/** @var array<string, int> $file */
-				$error = $file['error'] ?? UPLOAD_ERR_OK;
 
-				if($error == UPLOAD_ERR_INI_SIZE || $error == UPLOAD_ERR_FORM_SIZE){
-					return true;
-				}
+		// We received files but may have an error because the size exceeded our limit.
+		foreach($_FILES as $file){
+			/** @var array<string, int> $file */
+			$error = $file['error'] ?? UPLOAD_ERR_OK;
+
+			if($error == UPLOAD_ERR_INI_SIZE || $error == UPLOAD_ERR_FORM_SIZE){
+				return true;
 			}
 		}
 

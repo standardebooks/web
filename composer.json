@@ -1,6 +1,6 @@
 {
 	"license": "CC0-1.0",
-	"platform":{
+	"platform": {
 		"php": "8.1.2"
 	},
 	"autoload-dev": {
