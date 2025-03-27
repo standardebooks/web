@@ -2,10 +2,10 @@
 use Safe\DateTimeImmutable;
 
 /**
- * @property string $Url
+ * @property-read string $Url
  * @property array<PollItem> $PollItems
  * @property array<PollItem> $PollItemsByWinner
- * @property int $VoteCount
+ * @property-read int $VoteCount
  */
 class Poll{
 	use Traits\Accessor;

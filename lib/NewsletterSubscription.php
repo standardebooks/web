@@ -3,7 +3,7 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
- * @property string $Url
+ * @property-read string $Url
  */
 class NewsletterSubscription{
 	use Traits\Accessor;

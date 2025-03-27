@@ -3,11 +3,11 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property ?int $DeathYear
- * @property ?string $UrlName
- * @property ?string $Url
- * @property string $DeleteUrl
+ * @property string $UrlName
+ * @property-read string $Url
+ * @property-read string $DeleteUrl
  * @property array<string> $AlternateNames
- * @property string $AlternateNamesString
+ * @property-read string $AlternateNamesString
  */
 class Artist{
 	use Traits\Accessor;

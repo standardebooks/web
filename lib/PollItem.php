@@ -1,6 +1,6 @@
 <?
 /**
- * @property int $VoteCount
+ * @property-read int $VoteCount
  * @property Poll $Poll
  */
 class PollItem{

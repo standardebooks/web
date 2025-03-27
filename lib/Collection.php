@@ -2,7 +2,7 @@
 use function Safe\preg_replace;
 
 /**
- * @property string $Url
+ * @property-read string $Url
  * @property array<Ebook> $Ebooks
  */
 class Collection{

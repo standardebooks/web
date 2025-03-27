@@ -1,6 +1,6 @@
 <?
 /**
- * @property string $Url
+ * @property-read string $Url
  */
 class Tag{
 	use Traits\Accessor;
@@ -10,5 +10,5 @@ class Tag{
 	public string $UrlName;
 	public Enums\TagType $Type;
 
-	protected string $_Url;
+	protected string $_Url; // For subclasses.
 }

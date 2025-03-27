@@ -16,12 +16,12 @@ use Safe\DateTimeImmutable;
  * @property Ebook $Ebook
  * @property User $Manager
  * @property User $Reviewer
- * @property string $Url
- * @property string $EditUrl
+ * @property-read string $Url
+ * @property-read string $EditUrl
  * @property DateTimeImmutable $LastActivityTimestamp The timestamp of the latest activity, whether it's a commit, a discussion post, or simply the started timestamp.
  * @property array<ProjectReminder> $Reminders
- * @property ?string $VcsUrlDomain
- * @property ?string $DiscussionUrlDomain
+ * @property-read ?string $VcsUrlDomain
+ * @property-read ?string $DiscussionUrlDomain
  */
 final class Project{
 	use Traits\Accessor;

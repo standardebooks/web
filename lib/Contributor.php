@@ -2,7 +2,7 @@
 use function Safe\preg_match;
 
 /**
- * @property ?string $Url The URL of this `Contributor` if their MARC role is `Enums\MarcRole::Author`, or **null** otherwise.
+ * @property-read ?string $Url The URL of this `Contributor` if their MARC role is `Enums\MarcRole::Author`, or `null` otherwise.
  */
 class Contributor{
 	use Traits\Accessor;

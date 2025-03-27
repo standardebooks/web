@@ -1,8 +1,8 @@
 <?
 
 /**
- * @property bool $IsPublicDomain
- * @property string $TimeTillIsPublicDomain A string describing how much longer it will be before this work is in the U.S. public domain, like `3 months` or `20 years`.
+ * @property-read bool $IsPublicDomain
+ * @property-read string $TimeTillIsPublicDomain A string describing how much longer it will be before this work is in the U.S. public domain, like `3 months` or `20 years`.
  */
 class EbookPlaceholder{
 	use Traits\Accessor;

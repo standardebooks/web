@@ -6,15 +6,15 @@ use function Safe\preg_match;
 
 /**
  * @property array<Payment> $Payments
- * @property bool $IsRegistered A user is "registered" if they have an entry in the `Benefits` table; a password is required to log in.
+ * @property-read bool $IsRegistered A user is "registered" if they have an entry in the `Benefits` table; a password is required to log in.
  * @property Benefits $Benefits
- * @property string $Url
- * @property string $EditUrl
+ * @property-read string $Url
+ * @property-read string $EditUrl
  * @property ?Patron $Patron
  * @property ?NewsletterSubscription $NewsletterSubscription
- * @property ?Payment $LastPayment
- * @property string $DisplayName The `User`'s name, or email, or ID.
- * @property ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
+ * @property-read ?Payment $LastPayment
+ * @property-read string $DisplayName The `User`'s name, or email, or ID.
+ * @property-read ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
  */
 class User{
 	use Traits\Accessor;
@@ -50,7 +50,7 @@ class User{
 			if($this->Name !== null){
 				preg_match('/\s(?:de |de la |di |van |von )?[^\s]+$/iu', $this->Name, $lastNameMatches);
 				if(sizeof($lastNameMatches) == 0){
-					$this->SortName = $this->Name;
+					$this->_SortName = $this->Name;
 				}
 				else{
 					$lastName = trim($lastNameMatches[0]);
@@ -58,7 +58,7 @@ class User{
 					preg_match('/^(.+)' . preg_quote($lastName, '/') . '$/u', $this->Name, $firstNameMatches);
 
 					if(sizeof($firstNameMatches) == 0){
-						$this->SortName = $this->Name;
+						$this->_SortName = $this->Name;
 					}
 					else{
 						$this->_SortName = $lastName . ', ' . trim($firstNameMatches[1]);
@@ -289,7 +289,7 @@ class User{
 			elseif($this->Benefits->HasBenefits){
 				$this->Benefits->UserId = $this->UserId;
 				$this->Benefits->Create();
-				$this->IsRegistered = true;
+				$this->_IsRegistered = true;
 			}
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){

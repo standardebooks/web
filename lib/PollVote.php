@@ -4,7 +4,7 @@ use Safe\DateTimeImmutable;
 /**
  * @property User $User
  * @property PollItem $PollItem
- * @property string $Url
+ * @property-read string $Url
  */
 class PollVote{
 	use Traits\Accessor;

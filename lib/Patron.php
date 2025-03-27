@@ -3,7 +3,7 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
- * @property ?Payment $LastPayment
+ * @property-read ?Payment $LastPayment
  */
 class Patron{
 	use Traits\Accessor;

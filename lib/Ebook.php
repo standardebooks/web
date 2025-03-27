@@ -22,9 +22,9 @@ use function Safe\shell_exec;
  * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
  * @property string $Url The relative URL of this ebook, like `/ebooks/...`.
  * @property string $FullUrl The absolute URL of this ebook, like `https://standardebooks.org/ebooks/...`.
- * @property string $EditUrl
- * @property string $DeleteUrl
- * @property bool $HasDownloads
+ * @property-read string $EditUrl
+ * @property-read string $DeleteUrl
+ * @property-read bool $HasDownloads
  * @property string $UrlSafeIdentifier
  * @property string $HeroImageUrl
  * @property string $HeroImageAvifUrl
@@ -45,10 +45,10 @@ use function Safe\shell_exec;
  * @property string $TextSinglePageUrl
  * @property string $TextSinglePageSizeFormatted
  * @property ?EbookPlaceholder $EbookPlaceholder
- * @property array<Project> $Projects
- * @property array<Project> $PastProjects
- * @property ?Project $ProjectInProgress
- * @property ?Artwork $Artwork
+ * @property-read array<Project> $Projects
+ * @property-read array<Project> $PastProjects
+ * @property-read ?Project $ProjectInProgress
+ * @property-read ?Artwork $Artwork
  */
 final class Ebook{
 	use Traits\Accessor;

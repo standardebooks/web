@@ -1,7 +1,7 @@
 <?
 /**
- * @property bool $HasBenefits Are any of the benefits in this object **`TRUE`**?
- * @property bool $RequiresPassword Do any of the benefits in this object require the `User` to have a password set?
+ * @property-read bool $HasBenefits Are any of the benefits in this object **`TRUE`**?
+ * @property-read bool $RequiresPassword Do any of the benefits in this object require the `User` to have a password set?
  */
 class Benefits{
 	use Traits\Accessor;

@@ -2,10 +2,10 @@
 use Safe\DateTimeImmutable;
 
 /**
- * @property int $DonationCount
- * @property int $StretchDonationCount
- * @property bool $IsStretchEnabled
- * @property int $TargetDonationCount
+ * @property-read int $DonationCount
+ * @property-read int $StretchDonationCount
+ * @property-read bool $IsStretchEnabled
+ * @property-read int $TargetDonationCount
  */
 class DonationDrive{
 	use Traits\Accessor;

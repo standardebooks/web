@@ -5,7 +5,7 @@ use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
 /**
- * @property string $Url
+ * @property-read string $Url
  */
 class Session{
 	use Traits\Accessor;

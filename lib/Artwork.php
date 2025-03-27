@@ -12,8 +12,8 @@ use function Safe\unlink;
 
 /**
  * @property string $UrlName
- * @property string $Url
- * @property string $EditUrl
+ * @property-read string $Url
+ * @property-read string $EditUrl
  * @property-read array<ArtworkTag> $Tags
  * @property-write array<ArtworkTag>|string $Tags
  * @property Artist $Artist
