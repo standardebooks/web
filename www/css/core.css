@@ -1601,6 +1601,7 @@ ol.ebooks-list.list > li > p:nth-of-type(1) > a{
 
 ol.ebooks-list > li .thumbnail-container > a:first-child{
 	font-size: 0; /* for correct focus outline */
+	border-radius: .25rem;
 }
 
 ol.ebooks-list > li p.author{
