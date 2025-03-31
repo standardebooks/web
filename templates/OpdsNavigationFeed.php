@@ -21,7 +21,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<link href="<?= SITE_URL . Formatter::EscapeXml($url) ?>" rel="self" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
 	<link href="<?= SITE_URL ?>/feeds/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
 	<link href="<?= SITE_URL ?>/feeds/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition; charset=utf-8"/>
-	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml; charset=utf-8"/>
+	<link href="<?= SITE_URL ?>/opensearch" rel="search" type="application/opensearchdescription+xml" title="Standard Ebooks"/>
 	<? if($parentUrl !== null){ ?>
 		<link href="<?= SITE_URL ?><?= Formatter::EscapeXml($parentUrl) ?>" rel="up" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
 	<? } ?>

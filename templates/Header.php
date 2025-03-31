@@ -46,8 +46,7 @@ if(!$isErrorPage){
 if(!$isXslt){
 	if(!$isSafari){
 		header('content-type: application/xhtml+xml; charset=utf-8');
-		print('<?xml version="1.0" encoding="utf-8"?>');
-		print("\n");
+		print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	}
 	print("<!DOCTYPE html>\n");
 }
@@ -100,8 +99,7 @@ if(!$isXslt){
 		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/opds<?= Formatter::EscapeHtml($feedUrl) ?>"/>
 		<link rel="alternate" type="application/rss+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/rss<?= Formatter::EscapeHtml($feedUrl) ?>"/>
 	<? } ?>
-	<link rel="search" href="/ebooks" type="application/xhtml+xml; charset=utf-8"/>
-	<link rel="search" href="/ebooks/opensearch" type="application/opensearchdescription+xml; charset=utf-8"/>
+	<link rel="search" href="<?= SITE_URL ?>/opensearch" type="application/opensearchdescription+xml" title="Standard Ebooks"/><? // Firefox will show this as `Search with Standard Ebooks`. Can't include `charset` in the MIME type because Chrome will refuse it. ?>
 	<? if(!$isErrorPage){ ?>
 		<meta content="#394451" name="theme-color"/>
 		<meta content="<? if($title !== null){ ?><?= Formatter::EscapeHtml($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>

@@ -13,8 +13,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . S
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
 	<id><?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?></id>
 	<link href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>" rel="self" type="application/atom+xml"/>
-	<link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>" rel="alternate" type="text/html"/>
-	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml"/>
+	<link href="<?= SITE_URL ?>/opensearch" rel="search" type="application/opensearchdescription+xml" title="Standard Ebooks"/>
 	<title>Search Results</title>
 	<subtitle>Results for “<?= Formatter::EscapeXml($query) ?>”.</subtitle>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>

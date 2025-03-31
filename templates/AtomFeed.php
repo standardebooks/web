@@ -26,7 +26,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		<name>Standard Ebooks</name>
 		<uri><?= SITE_URL ?></uri>
 	</author>
-	<link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />
+	<link href="<?= SITE_URL ?>/opensearch" rel="search" type="application/opensearchdescription+xml" title="Standard Ebooks"/>
 	<? foreach($entries as $entry){ ?>
 		<?= Template::AtomFeedEntry(entry: $entry) ?>
 	<? } ?>

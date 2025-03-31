@@ -11,8 +11,7 @@ catch(Exceptions\EbookNotFoundException){
 }
 
 header('content-type: application/xml; charset=utf-8');
-print('<?xml version="1.0" encoding="utf-8"?>');
-print("\n");
+print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>
 <collections>
 	<? foreach($ebook->CollectionMemberships as $collectionMembership){ ?>

@@ -20,7 +20,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . S
 		<lastBuildDate><?= NOW->format(Enums\DateTimeFormat::Rss->value) ?></lastBuildDate>
 		<docs>http://blogs.law.harvard.edu/tech/rss</docs>
 		<atom:link href="<?= SITE_URL ?>/feeds/rss/all?query=<?= urlencode($query) ?>" rel="self" type="application/rss+xml"/>
-		<atom:link href="<?= SITE_URL ?>/ebooks/opensearch" rel="search" type="application/opensearchdescription+xml" />
+		<atom:link href="<?= SITE_URL ?>/opensearch" rel="search" type="application/opensearchdescription+xml" title="Standard Ebooks" />
 		<image>
 			<url><?= SITE_URL ?>/images/logo-rss.png</url>
 			<title>Search Results</title> <? /* must be identical to channel title */ ?>

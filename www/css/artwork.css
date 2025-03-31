@@ -161,6 +161,10 @@ form[action^="/artworks/"]{
 	width: auto;
 }
 
+.artworks p.no-results{
+	margin-top: 4rem;
+}
+
 .artworks form.browse-artwork button{
 	justify-self: end;
 	grid-column: 1 / span 4;
