@@ -41,6 +41,9 @@ sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test-secrets.in
 sudo ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
 sudo systemctl restart "php*-fpm.service"
 
+# Link MariaDB configuration.
+sudo ln -s /standardebooks.org/web/config/mariadb/99-se.cnf /etc/mysql/mariadb.conf.d/
+
 # Create and populate the SE database.
 mariadb < /standardebooks.org/web/config/sql/se.sql
 mariadb < /standardebooks.org/web/config/sql/users.sql
