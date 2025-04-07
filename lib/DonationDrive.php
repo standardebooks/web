@@ -35,9 +35,9 @@ class DonationDrive{
 										UserId is null
 										and
 										(
-											(IsRecurring = true and Amount >= 10 and Created >= ?)
-											or
-											(IsRecurring = false and Amount >= 100 and Created >= ?)
+											#(IsRecurring = true and Amount >= ? and Created >= ?)
+											#or
+											(IsRecurring = false and Amount >= ? and Created >= ?)
 										)
 									)
 									union all
@@ -47,7 +47,7 @@ class DonationDrive{
 										where Created >= ?
 									)
 								) x
-								', [$this->Start, $this->Start, $this->Start]);
+								', [PATRONS_CIRCLE_YEARLY_COST, $this->Start, $this->Start]);
 	}
 
 	protected function GetTargetDonationCount(): int{
