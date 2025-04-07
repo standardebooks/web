@@ -54,6 +54,10 @@ figure.realistic-ebook.xxlarge{
 	margin-top: -.5rem;
 }
 
+.public-domain-day + aside.donation{
+	margin-top: 4rem;
+}
+
 @media(max-width: 1000px){
 	.public-domain-day div + div{
 		margin-left: 0;
