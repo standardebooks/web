@@ -3540,7 +3540,7 @@ a.patron-selection:any-link:hover{
 	}
 
 	form[action="/ebooks"] label.tags select{
-		height: calc(1rem + 1.4rem + 1rem + 2px); /* Size equal to a select boxes */
+		height: calc(1rem + 1.4rem + 1rem - 2px); /* Size equal to a select boxes */
 	}
 
 	form[action="/ebooks"] label:has(input[type="search"]){
