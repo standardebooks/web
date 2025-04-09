@@ -3,6 +3,11 @@
 	<section class="narrow">
 		<h1>Blog</h1>
 		<ul>
+			<!-- <li>
+				<p>
+					<a href="/blog/the-ugly-duckling-and-the-carmelite-in-middlemarch">The Ugly Duckling and the Carmelite in <i>Middlemarch</i></a>
+				</p>
+			</li> -->
 			<li>
 				<p>
 					<a href="/blog/of-human-bondage-spinoza-and-the-meaning-of-life"><i>Of Human Bondage</i>, Spinoza, and the Meaning of Life</a>
