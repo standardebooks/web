@@ -44,23 +44,27 @@ class Contributor{
 	/**
 	 * @return array<Contributor>
 	 */
-	public static function GetAllAuthorNames(): array{
+	public static function GetAllByMarcRole(Enums\MarcRole $marcRole): array{
 		return Db::Query('
-			SELECT DISTINCT Name
+			SELECT
+			*
 			from Contributors
-			where MarcRole = "aut"
-			order by Name asc', [], Contributor::class);
+			where MarcRole = ?
+			and SortName is not null
+			group by SortName
+			order by SortName asc', [$marcRole], Contributor::class);
 	}
 
 	/**
-	 * @return array<Contributor>
+	 * @return array<stdClass>
 	 */
-	public static function GetAllTranslatorNames(): array{
+	public static function GetAllNamesByMarcRole(Enums\MarcRole $marcRole): array{
 		return Db::Query('
-			SELECT DISTINCT Name
+			SELECT
+			distinct Name
 			from Contributors
-			where MarcRole = "trl"
-			order by Name asc', [], Contributor::class);
+			where MarcRole = ?
+			order by Name asc', [$marcRole]);
 	}
 
 	/**

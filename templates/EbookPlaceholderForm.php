@@ -11,7 +11,7 @@ $showProjectForm ??= true;
 	<label class="icon user">
 		<span>Author</span>
 		<datalist id="author-names">
-			<? foreach(Contributor::GetAllAuthorNames() as $author){ ?>
+			<? foreach(Contributor::GetAllNamesByMarcRole(Enums\MarcRole::Author) as $author){ ?>
 				<option value="<?= Formatter::EscapeHtml($author->Name) ?>"><?= Formatter::EscapeHtml($author->Name) ?></option>
 			<? } ?>
 		</datalist>
@@ -48,7 +48,7 @@ $showProjectForm ??= true;
 		<label class="icon language">
 			<span>Translator</span>
 			<datalist id="translator-names">
-				<? foreach(Contributor::GetAllTranslatorNames() as $translator){ ?>
+				<? foreach(Contributor::GetAllNamesByMarcRole(Enums\MarcRole::Translator) as $translator){ ?>
 					<option value="<?= Formatter::EscapeHtml($translator->Name) ?>"><?= Formatter::EscapeHtml($translator->Name) ?></option>
 				<? } ?>
 			</datalist>
