@@ -182,6 +182,7 @@ html{
 	font-family: "Crimson Pro", Georgia, serif;
 	-webkit-hyphens: auto;
 	hyphens: auto;
+	text-wrap: pretty;
 	font-size: 22px;
 	line-height: 1.4;
 	background: var(--body-bg);
