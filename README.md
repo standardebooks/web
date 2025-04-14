@@ -6,7 +6,7 @@ PHP 8+ is required.
 
 ```shell
 # Install Apache, PHP, PHP-FPM, and various other dependencies.
-sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip php-mysql apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server attr libapache2-mod-xsendfile libimage-exiftool-perl
+sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip php-mysql apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server attr libapache2-mod-xsendfile libimage-exiftool-perl librsvg2-bin task-spooler attr
 
 # Create the site root and logs root and clone this repo into it.
 sudo mkdir /standardebooks.org/
@@ -18,6 +18,12 @@ git clone https://github.com/standardebooks/web/
 # Install dependencies using Composer.
 cd /standardebooks.org/web/
 composer install
+
+# Install the SE toolset as a library in `.venv` so we can use it in some scripts.
+python3 -m venv .venv
+source .venv/bin/activate
+pip3 install standardebooks
+deactivate
 
 # Add standardebooks.test to your hosts file.
 echo -e "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
@@ -43,33 +49,28 @@ sudo systemctl restart "php*-fpm.service"
 
 # Link MariaDB configuration.
 sudo ln -s /standardebooks.org/web/config/mariadb/99-se.cnf /etc/mysql/mariadb.conf.d/
+sudo systemctl restart mariadb.service
 
 # Create and populate the SE database.
 mariadb < /standardebooks.org/web/config/sql/se.sql
 mariadb < /standardebooks.org/web/config/sql/users.sql
 mariadb se < /standardebooks.org/web/config/sql/se/*.sql
+
+# Create users and groups.
+sudo useradd se
+sudo groupadd committers
+sudo groupadd se-secrets
+sudo usermod --append --groups committers,se-secrets se
+sudo usermod --append --groups se-secrets www-data
 ```
 
 If everything went well you should now be able to open your web browser and visit `https://standardebooks.test`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:
 
 ```shell
-# First, install the SE toolset, which will make the `se build` command-line executable available to the `deploy-ebook-to-www` script:
-# https://standardebooks.org/tools
-
-# Install the SE toolset as a library so we can use it in some automated scripts.
-pip install standardebooks
-
-# The `se` command must be in your $PATH, but installing it via `pip` might not do that automatically.
-# If `which se` doesn't say anything, then either add the `pip` installation of the `se` executable to your $PATH manually,
-# or install it again using `pipx`; this will create a duplicate installation,
-# but it will also install it in your $PATH for you:
-pipx install standardebooks
-
-# Once the toolset is installed and in your $PATH, clone a book and deploy it to your local SE site:
 mkdir /standardebooks.org/ebooks/
 cd /standardebooks.org/ebooks/
 git clone --bare https://github.com/standardebooks/david-lindsay_a-voyage-to-arcturus
-/standardebooks.org/web/scripts/deploy-ebook-to-www david-lindsay_a-voyage-to-arcturus.git
+/standardebooks.org/web/scripts/deploy-ebook-to-www /standardebooks.org/ebooks/david-lindsay_a-voyage-to-arcturus.git
 ```
 
 If everything went well, `https://standardebooks.test/ebooks` will show the one ebook you deployed.
@@ -126,7 +127,7 @@ This repository includes [PHPStan](https://github.com/phpstan/phpstan) to static
 To run PHPStan, execute:
 
 ```shell
-$> <REPO-ROOT>/vendor/bin/phpstan analyse -c <REPO-ROOT>/config/phpstan/phpstan.neon
+<REPO-ROOT>/vendor/phpstan/phpstan/phpstan analyze --configuration=<REPO-ROOT>/config/phpstan/phpstan.neon
 ```
 
 If run successfully, it should output `[OK] No errors`.
@@ -139,7 +140,7 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 ### Main website
 
-- Creating a favicon
+- Creating a favicon.
 
 - Creating a search bar for the SE Manual of Style.
 

@@ -149,6 +149,10 @@ if ! [ -f "${scriptsDir}"/generate-bulk-downloads ]; then
 	die "\"${scriptsDir}\"/generate-bulk-downloads\" is not a file or could not be found."
 fi
 
+if ! [ -f "${scriptsDir}/../.venv/bin/activate" ]; then
+	die "\"${scriptsDir}\"/../.venv/bin/activate\" is not a file or could not be found. Make sure you have installed the \`standardebooks\` package into a Python virtual environment."
+fi
+
 mkdir -p "${webRoot}"/images/covers/
 
 for dir in "$@"
@@ -232,8 +236,8 @@ do
 
 		# Build the hero image for individual ebook pages.
 		# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078.
-		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
-		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
+		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
+		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
 
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif"
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif"
@@ -250,8 +254,8 @@ do
 		# So, we use `rsvg-convert` to write a png, then `convert` to convert and compress to jpg.
 		rsvg-convert --width 242 --keep-aspect-ratio --output "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
 		rsvg-convert --width 484 --keep-aspect-ratio --output "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
-		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
-		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
 
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
@@ -292,8 +296,8 @@ do
 		fi
 
 		# Build distributable covers.
-		convert -resize "1400" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover.jpg"
-		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB -interlace JPEG "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover-thumbnail.jpg"
+		convert -resize "1400" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover.jpg"
+		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover-thumbnail.jpg"
 
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"
@@ -370,7 +374,9 @@ do
 		sed --in-place --regexp-extended "s|\s*\-epub\-[^;]+?;||g" "${workDir}"/src/epub/css/*.css
 
 		# Add a chapter navigation footer to each page.
+		source "${scriptsDir}/../.venv/bin/activate"
 		"${scriptsDir}"/inject-chapter-navigation-footer "${workDir}" "${bookUrl}"
+		deactivate
 
 		# Adjust sponsored links in the colophon.
 		sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/src/epub/text/colophon.xhtml
