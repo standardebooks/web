@@ -4,6 +4,13 @@ use function Safe\filesize;
 /**
  * @var Ebook $entry
  */
+
+try{
+	$filesize = @filesize(WEB_ROOT . $entry->EpubUrl);
+}
+catch(Safe\Exceptions\FilesystemException){
+	$filesize = '0';
+}
 ?>
 <item>
 	<title><?= Formatter::EscapeXml($entry->Title) ?>, by <?= Formatter::EscapeXml(strip_tags($entry->AuthorsHtml)) ?></title>
@@ -16,6 +23,6 @@ use function Safe\filesize;
 	<? } ?>
 	<media:thumbnail url="<?= SITE_URL . $entry->Url ?>/downloads/cover-thumbnail.jpg" height="525" width="350"/>
 	<? if($entry->EpubUrl !== null){ ?>
-		<enclosure url="<?= SITE_URL . Formatter::EscapeXml($entry->EpubUrl)  ?>" length="<?= filesize(WEB_ROOT . $entry->EpubUrl) ?>" type="application/epub+zip" />  <? /* Only one <enclosure> is allowed */ ?>
+		<enclosure url="<?= SITE_URL . Formatter::EscapeXml($entry->EpubUrl)  ?>" length="<?= $filesize ?>" type="application/epub+zip" />  <? /* Only one <enclosure> is allowed */ ?>
 	<? } ?>
 </item>

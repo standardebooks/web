@@ -48,7 +48,13 @@ class RssFeed extends Feed{
 		foreach($this->Entries as $entry){
 			/** @var Ebook $entry */
 			$obj = new stdClass();
-			$obj->Size = (string)filesize(WEB_ROOT . $entry->EpubUrl);
+			try{
+				// Safe can still emit a warning if the file isn't found, silence that here.
+				$obj->Size = @(string)filesize(WEB_ROOT . $entry->EpubUrl);
+			}
+			catch(Safe\Exceptions\FilesystemException){
+				$obj->Size = '0';
+			}
 			$obj->Id = $entry->FullUrl;
 			$currentEntries[] = $obj;
 		}
