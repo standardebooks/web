@@ -431,8 +431,10 @@ do
 done
 
 queuedTasks="false"
-if tsp | grep --quiet --extended-regexp "^[0-9]+\s+queued"; then
-	queuedTasks="true"
+if which tsp > /dev/null; then
+	if tsp | grep --quiet --extended-regexp "^[0-9]+\s+queued"; then
+		queuedTasks="true"
+	fi
 fi
 
 if [ "${feeds}" = "true" ]; then
