@@ -16,11 +16,13 @@ const SITE_STATUS_DEV =			'dev';
 
 define('SITE_STATUS', get_cfg_var('app.site_status')); // Set in the PHP INI configuration for both CLI and FPM. Have to use `define()` and not `const` so we can use a function.
 
-// No trailing slash on any of the below constants.
+
 if(SITE_STATUS == SITE_STATUS_LIVE){
+	/** No trailing slash. */
 	define('SITE_DOMAIN', 'standardebooks.org');
 }
 else{
+	/** No trailing slash. */
 	define('SITE_DOMAIN', 'standardebooks.test');
 }
 
@@ -82,26 +84,34 @@ const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
 const FA_FEE_PERCENT = 0.87;
 
-const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web']; // If we get GitHub push requests featuring these repos, silently ignore instead of returning an error.
+/** If we get GitHub push requests featuring these repos, silently ignore instead of returning an error. */
+const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web'];
 
-const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log'; // Must be writable by `www-data` Unix user.
-const POSTMARK_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-postmark.log'; // Must be writable by `www-data` Unix user.
-const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log'; // Must be writable by `www-data` Unix user.
-const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log'; // Must be writable by `www-data` Unix user.
-const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log'; // Must be writable by `www-data` Unix user.
-const EMAIL_LOG_FILE_PATH =		'/var/log/local/standardebooks.org-email.log'; // Must be writable by `www-data` Unix user.
+/** Must be writable by `www-data` Unix user. */
+const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log';
+/** Must be writable by `www-data` Unix user. */
+const POSTMARK_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-postmark.log';
+/** Must be writable by `www-data` Unix user. */
+const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log';
+/** Must be writable by `www-data` Unix user. */
+const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log';
+/** Must be writable by `www-data` Unix user. */
+const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log';
+/** Must be writable by `www-data` Unix user. */
+const EMAIL_LOG_FILE_PATH =		'/var/log/local/standardebooks.org-email.log';
 
 
 // Controls the progress bar donation dialog.
-const DONATION_DRIVES_ENABLED = true; // **`TRUE`** to enable automatic donation drives; **`FALSE`** to disable all donation drives.
+/** **`TRUE`** to enable automatic donation drives; **`FALSE`** to disable all donation drives. */
+const DONATION_DRIVES_ENABLED = true;
 const DONATION_DRIVE_DATES = [
-				new DonationDrive(
-							'Spring drive',
-							new DateTimeImmutable('Second Monday of May', SITE_TZ),
-							new DateTimeImmutable('Second Monday of May 22:00 +2 weeks', SITE_TZ),
-							40,
-							20
-						),
+				// new DonationDrive(
+				// 			'Spring drive',
+				// 			new DateTimeImmutable('Second Monday of May', SITE_TZ),
+				// 			new DateTimeImmutable('Second Monday of May 22:00 +2 weeks', SITE_TZ),
+				// 			40,
+				// 			20
+				// 		),
 				new DonationDrive(
 							'Holiday drive',
 							NOW < new DateTimeImmutable('January 7, 22:00', SITE_TZ) ? new DateTimeImmutable('November 25 -1 year', SITE_TZ) : new DateTimeImmutable('November 25', SITE_TZ),
@@ -111,7 +121,7 @@ const DONATION_DRIVE_DATES = [
 						)
 			];
 
-// Controls the countdown donation dialog, basically unused right now.
+/** Controls the countdown donation dialog, basically unused right now. */
 const DONATION_DRIVE_COUNTER_ENABLED = false;
 const DONATION_DRIVE_COUNTER_START = new DateTimeImmutable('May 2, 2022 00:00:00', new DateTimeZone('America/New_York'));
 const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00', new DateTimeZone('America/New_York'));
