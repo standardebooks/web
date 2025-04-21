@@ -124,6 +124,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/16gEP0sxqUKFtkCz35pEKsE1G3gfBTg0kNKbEiR-dBnI">Short Fiction by Richard Connell</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1KCml33TpVzDRd9Y3UrYdwefI61VNDKeqgRvC3Pug13E">Poetry by Robert Frost</a> (also see <a href="https://groups.google.com/d/msgid/standardebooks/8a231682-9e5a-485a-8e27-4562f3f1485fn%40googlegroups.com">this mailing list discussion</a>)</p>
+			</li>
 		</ul>
 	</article>
 </main>
