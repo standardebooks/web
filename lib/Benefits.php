@@ -2,6 +2,7 @@
 /**
  * @property-read bool $HasBenefits Are any of the benefits in this object **`TRUE`**?
  * @property-read bool $RequiresPassword Do any of the benefits in this object require the `User` to have a password set?
+ * @property-read bool $IsEditor Can this `User` manage or review projects?
  */
 class Benefits{
 	use Traits\Accessor;
@@ -48,6 +49,18 @@ class Benefits{
 			$this->CanEditProjects
 			||
 			$this->CanBeAutoAssignedToProjects
+		){
+			return true;
+		}
+
+		return false;
+	}
+
+	protected function GetIsEditor(): bool{
+		if(
+			$this->CanManageProjects
+			||
+			$this->CanReviewProjects
 		){
 			return true;
 		}

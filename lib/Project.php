@@ -712,11 +712,21 @@ final class Project{
 	}
 
 	/**
-	 * Send an email reminder to the producer notifying them about their project status.
+	 * Send an email reminder to the producer notifying them about their project status, but only if they're not an editor.
 	 */
 	public function SendReminder(Enums\ProjectReminderType $type): void{
 		if($this->ProducerEmail === null || $this->GetReminder($type) !== null){
 			return;
+		}
+
+		try{
+			$user = User::GetByEmail($this->ProducerEmail);
+			if($user->Benefits->IsEditor){
+				return;
+			}
+		}
+		catch(Exceptions\UserNotFoundException){
+			// Pass.
 		}
 
 		$reminder = new ProjectReminder();
