@@ -29,16 +29,16 @@ use function Safe\filesize;
 	<media:thumbnail url="<?= SITE_URL . $entry->Url ?>/downloads/cover-thumbnail.jpg" height="525" width="350"/>
 	<link href="<?= SITE_URL . $entry->Url ?>" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
 	<? if(file_exists(WEB_ROOT . $entry->EpubUrl)){ ?>
-		<link href="<?= SITE_URL . $entry->EpubUrl ?>" length="<?= filesize(WEB_ROOT . $entry->EpubUrl) ?>" rel="enclosure" title="Recommended compatible epub" type="application/epub+zip" />
+		<link href="<?= SITE_URL . $entry->GetDownloadUrl(Enums\EbookFormatType::Epub, Enums\EbookDownloadSource::Feed) ?>" length="<?= filesize(WEB_ROOT . $entry->EpubUrl) ?>" rel="enclosure" title="Recommended compatible epub" type="application/epub+zip" />
 	<? } ?>
 	<? if(file_exists(WEB_ROOT . $entry->AdvancedEpubUrl)){ ?>
-		<link href="<?= SITE_URL . $entry->AdvancedEpubUrl ?>" length="<?= filesize(WEB_ROOT . $entry->AdvancedEpubUrl) ?>" rel="enclosure" title="Advanced epub" type="application/epub+zip" />
+		<link href="<?= SITE_URL . $entry->GetDownloadUrl(Enums\EbookFormatType::AdvancedEpub, Enums\EbookDownloadSource::Feed) ?>" length="<?= filesize(WEB_ROOT . $entry->AdvancedEpubUrl) ?>" rel="enclosure" title="Advanced epub" type="application/epub+zip" />
 	<? } ?>
 	<? if(file_exists(WEB_ROOT . $entry->KepubUrl)){ ?>
-		<link href="<?= SITE_URL . $entry->KepubUrl ?>" length="<?= filesize(WEB_ROOT . $entry->KepubUrl) ?>" rel="enclosure" title="Kobo Kepub epub" type="application/kepub+zip" />
+		<link href="<?= SITE_URL . $entry->GetDownloadUrl(Enums\EbookFormatType::Kepub, Enums\EbookDownloadSource::Feed) ?>" length="<?= filesize(WEB_ROOT . $entry->KepubUrl) ?>" rel="enclosure" title="Kobo Kepub epub" type="application/kepub+zip" />
 	<? } ?>
 	<? if(file_exists(WEB_ROOT . $entry->Azw3Url)){ ?>
-		<link href="<?= SITE_URL . $entry->Azw3Url ?>" length="<?= filesize(WEB_ROOT . $entry->Azw3Url) ?>" rel="enclosure" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+		<link href="<?= SITE_URL . $entry->GetDownloadUrl(Enums\EbookFormatType::Azw3, Enums\EbookDownloadSource::Feed) ?>" length="<?= filesize(WEB_ROOT . $entry->Azw3Url) ?>" rel="enclosure" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
 	<? } ?>
 	<? if(file_exists(WEB_ROOT . $entry->TextSinglePageUrl . '.xhtml')){ ?>
 		<link href="<?= SITE_URL . $entry->TextSinglePageUrl ?>" length="<?= filesize(WEB_ROOT . $entry->TextSinglePageUrl . '.xhtml') ?>" rel="enclosure" title="XHTML" type="application/xhtml+xml" />

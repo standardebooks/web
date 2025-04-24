@@ -1167,6 +1167,34 @@ final class Ebook{
 		$this->SetIdentifier();
 	}
 
+	public function GetDownloadUrl(Enums\EbookFormatType $format = Enums\EbookFormatType::Epub, ?Enums\EbookDownloadSource $source = null): ?string{
+		switch($format){
+			case Enums\EbookFormatType::Kepub:
+				$downloadUrl = $this->KepubUrl;
+				break;
+
+			case Enums\EbookFormatType::Azw3:
+				$downloadUrl = $this->Azw3Url;
+				break;
+
+			case Enums\EbookFormatType::AdvancedEpub:
+				$downloadUrl = $this->AdvancedEpubUrl;
+				break;
+
+			case Enums\EbookFormatType::Epub:
+			default:
+				$downloadUrl = $this->EpubUrl;
+				break;
+		}
+
+		if(isset($source)){
+			$downloadUrl .= '?source=' . $source->value;
+
+		}
+
+		return $downloadUrl;
+	}
+
 	// *******
 	// METHODS
 	// *******
