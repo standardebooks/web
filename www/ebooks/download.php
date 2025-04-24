@@ -1,12 +1,17 @@
 <?
 use Safe\DateTimeImmutable;
 
-// If the user is not logged in, or has less than some amount of downloads, show a thank-you page.
 
 $ebook = null;
-$downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
-$showThankYouPage = Session::$User === null && $downloadCount < 5;
 $downloadUrl = null;
+$downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
+$source = Enums\EbookDownloadSource::tryFrom(HttpInput::Str(GET, 'source') ?? '');
+
+// Skip the thank you page if any of these are true:
+// * The user is logged in.
+// * Their `download-count` cookie is above some amount.
+// * The link is from a specific source.
+$skipThankYouPage = isset(Session::$User) || $downloadCount > 4 || isset($source);
 
 try{
 	$urlPath = HttpInput::Str(GET, 'url-path') ?? null;
@@ -17,28 +22,21 @@ try{
 		throw new Exceptions\InvalidFileException();
 	}
 
-	$format = Enums\EbookFormatType::tryFrom(HttpInput::Str(GET, 'format') ?? '') ?? Enums\EbookFormatType::Epub;
-	switch($format){
-		case Enums\EbookFormatType::Kepub:
-			$downloadUrl = $ebook->KepubUrl;
-			break;
-
-		case Enums\EbookFormatType::Azw3:
-			$downloadUrl = $ebook->Azw3Url;
-			break;
-
-		case Enums\EbookFormatType::AdvancedEpub:
-			$downloadUrl = $ebook->AdvancedEpubUrl;
-			break;
-
-		case Enums\EbookFormatType::Epub:
-		default:
-			$downloadUrl = $ebook->EpubUrl;
-			break;
+	$filename = HttpInput::Str(GET, 'filename');
+	if(!isset($filename)){
+		throw new Exceptions\InvalidFileException();
 	}
 
-	if(!$showThankYouPage){
+	try{
+		$format = Enums\EbookFormatType::FromFilename($filename);
+	}
+	catch(Exceptions\InvalidEbookFormatException){
+		throw new Exceptions\InvalidFileException();
+	}
+
+	if($skipThankYouPage){
 		// Download the file directly, without showing the thank you page.
+		$downloadUrl = $ebook->GetDownloadUrl($format);
 		$downloadPath = WEB_ROOT . $downloadUrl;
 
 		if(!is_file($downloadPath)){
@@ -53,6 +51,8 @@ try{
 		header('Content-Disposition: attachment; filename="' . basename($downloadPath) . '"');
 		exit();
 	}
+
+	$downloadUrl = $ebook->GetDownloadUrl($format, Enums\EbookDownloadSource::DownloadPage);
 
 	// Increment local download count, expires in 2 weeks.
 	$downloadCount++;

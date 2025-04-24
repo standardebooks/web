@@ -200,7 +200,7 @@ catch(Exceptions\EbookNotFoundException){
 										<meta property="schema:description" content="epub"/>
 										<meta property="schema:encodingFormat" content="application/epub+zip"/>
 										<p>
-											<span><a property="schema:contentUrl" href="<?= $ebook->Url ?>/download?format=<?= Enums\EbookFormatType::Epub->value ?>" class="epub">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span>
+											<span><a property="schema:contentUrl" href="<?= $ebook->GetDownloadUrl(Enums\EbookFormatType::Epub) ?>" class="epub">Compatible epub</a></span> <span>—</span> <span>All devices and apps except Kindles and Kobos.</span>
 										</p>
 									</li>
 								<? } ?>
@@ -209,7 +209,7 @@ catch(Exceptions\EbookNotFoundException){
 									<li property="schema:encoding" typeof="schema:MediaObject">
 										<meta property="schema:encodingFormat" content="application/x-mobipocket-ebook"/>
 										<p>
-											<span><a property="schema:contentUrl" href="<?= $ebook->Url ?>/download?format=<?= Enums\EbookFormatType::Azw3->value ?>" class="amazon"><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. Despite what you’ve been told, <a href="/help/how-to-use-our-ebooks#kindle-epub">Kindle does not natively support epub.</a> You may also be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
+											<span><a property="schema:contentUrl" href="<?= $ebook->GetDownloadUrl(Enums\EbookFormatType::Azw3) ?>" class="amazon"><span property="schema:description">azw3</span></a></span> <span>—</span> <span>Kindle devices and apps.<? if($ebook->KindleCoverUrl !== null){ ?> Also download the <a href="<?= $ebook->KindleCoverUrl ?>">Kindle cover thumbnail</a> to see the cover in your Kindle’s library. Despite what you’ve been told, <a href="/help/how-to-use-our-ebooks#kindle-epub">Kindle does not natively support epub.</a> You may also be interested in our <a href="/help/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? }else{ ?> Also see our <a href="/how-to-use-our-ebooks#kindle-faq">Kindle FAQ</a>.<? } ?></span>
 										</p>
 									</li>
 								<? } ?>
@@ -218,7 +218,7 @@ catch(Exceptions\EbookNotFoundException){
 									<li property="schema:encoding" typeof="schema:MediaObject">
 										<meta property="schema:encodingFormat" content="application/kepub+zip"/>
 										<p>
-											<span><a property="schema:contentUrl" href="<?= $ebook->Url ?>/download?format=<?= Enums\EbookFormatType::Kepub->value ?>" class="kobo"><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps. You may also be interested in our <a href="/help/how-to-use-our-ebooks#kobo-faq">Kobo FAQ</a>.</span>
+											<span><a property="schema:contentUrl" href="<?= $ebook->GetDownloadUrl(Enums\EbookFormatType::Kepub) ?>" class="kobo"><span property="schema:description">kepub</span></a></span> <span>—</span> <span>Kobo devices and apps. You may also be interested in our <a href="/help/how-to-use-our-ebooks#kobo-faq">Kobo FAQ</a>.</span>
 										</p>
 									</li>
 								<? } ?>
@@ -227,7 +227,7 @@ catch(Exceptions\EbookNotFoundException){
 									<li property="schema:encoding" typeof="schema:MediaObject">
 										<meta property="schema:encodingFormat" content="application/epub+zip"/>
 										<p>
-											<span><a property="schema:contentUrl" href="<?= $ebook->Url ?>/download?format=<?= Enums\EbookFormatType::AdvancedEpub->value ?>" class="epub"><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
+											<span><a property="schema:contentUrl" href="<?= $ebook->GetDownloadUrl(Enums\EbookFormatType::AdvancedEpub) ?>" class="epub"><span property="schema:description">Advanced epub</span></a></span> <span>—</span> <span>An advanced format that uses the latest technology not yet fully supported by most ereaders.</span>
 										</p>
 									</li>
 								<? } ?>

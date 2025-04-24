@@ -13,4 +13,27 @@ enum EbookFormatType: string{
 			default => 'application/epub+zip'
 		};
 	}
+
+	/**
+	 * @throws \Exceptions\InvalidEbookFormatException
+	 */
+	public static function FromFilename(string $filename): self{
+		if(str_ends_with($filename, '.azw3')){
+			return self::Azw3;
+		}
+
+		if(str_ends_with($filename, '.kepub.epub')){
+			return self::Kepub;
+		}
+
+		if(str_ends_with($filename, '_advanced.epub')){
+			return self::AdvancedEpub;
+		}
+
+		if(str_ends_with($filename, '.epub')){
+			return self::Epub;
+		}
+
+		throw new \Exceptions\InvalidEbookFormatException();
+	}
 }
