@@ -353,6 +353,9 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> element to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the <abbr class="acronym">SEMoS</abbr></a> for templates on how to semantically format poetry, verse, and song.</p>
 					</li>
 				</ul>
+				<aside class="tip">
+					<p>All types of poetry, letters, and other blockquotes might require adding CSS rules to your production. This code goes into the <code class="path">./src/epub/css/local.css</code> file. Examples of formatting are provided in the <a href="/manual/VERSION/7-high-level-structural-patterns"><abbr class="acronym">SEMoS</abbr></a>.</p>
+				</aside>
 				<p>After you’ve added semantics according to the <a href="/manual"><abbr class="acronym">SEMoS</abbr></a>, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Manually add additional semantics"</i></span></code>
 			</li>
 			<li>
