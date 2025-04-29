@@ -574,20 +574,25 @@ final class Project{
 			return;
 		}
 
-		$curl = curl_init($this->VcsUrl);
-		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, Enums\HttpMethod::Head->value); // Only perform HTTP HEAD.
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-		curl_exec($curl);
+		try{
+			$curl = curl_init($this->VcsUrl);
+			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, Enums\HttpMethod::Head->value); // Only perform HTTP HEAD.
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_exec($curl);
 
-		/** @var string $finalUrl */
-		$finalUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+			/** @var string $finalUrl */
+			$finalUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
 
-		// Were we redirected?
-		if($finalUrl != $this->VcsUrl){
-			$this->VcsUrl = $finalUrl;
+			// Were we redirected?
+			if($finalUrl != $this->VcsUrl){
+				$this->VcsUrl = $finalUrl;
+			}
+
+			$this->IsVcsUrlUpdated = true;
 		}
-
-		$this->IsVcsUrlUpdated = true;
+		catch(Safe\Exceptions\CurlException){
+			// Probably a temporary failure, just continue but don't mark the URL as having been updated.
+		}
 	}
 
 	/**
