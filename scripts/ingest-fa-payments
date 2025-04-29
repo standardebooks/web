@@ -220,8 +220,6 @@ catch(Exception $ex){
 	$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
 	$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
 	$em->Send();
-
-	throw $ex;
 }
 finally{
 	// `$driver` may be unintialized if we ctrl + c during Selenium initialization.
