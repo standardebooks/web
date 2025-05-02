@@ -189,11 +189,16 @@ class User{
 	/**
 	 * @throws Exceptions\InvalidUserException
 	 */
-	public function Validate(): void{
+	public function Validate(bool $requireEmail): void{
 		$error = new Exceptions\InvalidUserException();
 
-		if(!isset($this->Email)){
-			$error->Add(new Exceptions\EmailRequiredException());
+		if(trim($this->Email ?? '') == ''){
+			if($requireEmail){
+				$error->Add(new Exceptions\EmailRequiredException());
+			}
+			else{
+				$this->Email = null;
+			}
 		}
 		else{
 			if(filter_var($this->Email, FILTER_VALIDATE_EMAIL) === false){
@@ -238,10 +243,10 @@ class User{
 	 * @throws Exceptions\InvalidUserException
 	 * @throws Exceptions\UserExistsException
 	 */
-	public function Create(?string $password = null): void{
+	public function Create(?string $password = null, bool $requireEmail = true): void{
 		$this->GenerateUuid();
 
-		$this->Validate();
+		$this->Validate($requireEmail);
 
 		$this->Created = NOW;
 
@@ -270,8 +275,8 @@ class User{
 	 * @throws Exceptions\InvalidUserException
 	 * @throws Exceptions\UserExistsException
 	 */
-	public function Save(): void{
-		$this->Validate();
+	public function Save(bool $requireEmail = true): void{
+		$this->Validate($requireEmail);
 
 		$this->Updated = NOW;
 

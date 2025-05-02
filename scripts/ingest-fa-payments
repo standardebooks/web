@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?
-// Note: This script must be run as a user with a $HOME directory, otherwise Firefox won't be able to start with a profile.
+// Note: This script must be run as a user with a `$HOME` directory, otherwise Firefox won't be able to start with a profile.
 
 /**
  * FA is unreliable in the email notifications it sends. They are often missing.
@@ -50,8 +50,8 @@ $transactionIds = [];
 $today = NOW->format('n/j/Y');
 $faItemsPerPage = 20; // How many items are on a full page of FA results?
 
-// General plan: Read /tmp/last-fa-donation to see what the last transaction ID was that we processed.
-// If /tmp/last-fa-donation doesn't exist, get all transactions from today and create the file.
+// General plan: Read `/tmp/last-fa-donation` to see what the last transaction ID was that we processed.
+// If `/tmp/last-fa-donation` doesn't exist, get all transactions from today and create the file.
 
 function InsertTransaction(string $transactionId): bool{
 	$exists = Db::QueryBool('SELECT exists(
@@ -222,7 +222,7 @@ catch(Exception $ex){
 	$em->Send();
 }
 finally{
-	// `$driver` may be unintialized if we ctrl + c during Selenium initialization.
+	// `$driver` may be unintialized if we `ctrl + c` during Selenium initialization.
 	/** @phpstan-ignore nullsafe.neverNull */
 	$driver?->quit();
 }

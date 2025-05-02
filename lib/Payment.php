@@ -68,7 +68,6 @@ class Payment{
 			if($this->User !== null && $this->User->Email !== null){
 				try{
 					$user = User::GetByEmail($this->User->Email);
-
 					// `User` exists, use their data.
 					$user->Name = $this->User->Name;
 					$this->User = $user;
@@ -82,8 +81,9 @@ class Payment{
 				}
 				catch(Exceptions\UserNotFoundException){
 					// User doesn't exist, create it now.
+					// Don't require an email address because we might be an anonymous `User`, or a matching donation from a fund.
 					try{
-						$this->User->Create();
+						$this->User->Create(requireEmail: false);
 					}
 					catch(Exceptions\UserExistsException | Exceptions\InvalidUserException){
 						// `User` already exists, pass.
