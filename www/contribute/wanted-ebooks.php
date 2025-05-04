@@ -30,10 +30,10 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
 		<ul class="wanted-list">
 			<li>
-				<p>As of 2025, <i>20,000 Leagues Under the Seas</i> does not have an acceptable public domain translation, therefore we will not host that ebook.</p>
+				<p>The first acceptable translation of <i><a href="/ebooks/jules-verne/twenty-thousand-leagues-under-the-seas/walter-james-miller">20,000 Leagues Under the Seas</a></i> was published in 1966 by Walter James Miller. All known earlier translations are widely considered to be bad, therefore we won’t host them and must wait until the Miller translation enters the public domain.</p>
 			</li>
 			<li>
-				<p>Master of the World has two PD translations, one from 1911 and one from 1914. The 1911 version is bad, and the 1914 by Cranstoun Metcalfe version is preferred; but, as of 2023, there are no transcriptions or page scans for the 1914 version.</p>
+				<p>Master of the World has two PD translations, one from 1911 and one from 1914. The 1911 version is bad, and the 1914 by Cranstoun Metcalfe version is preferred; but as of 2023, there are no transcriptions or page scans of the 1914 version.</p>
 			</li>
 		</ul>
 
