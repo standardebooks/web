@@ -81,7 +81,7 @@
 						<p><a href="https://archive.org">The Internet Archive</a></p>
 					</li>
 					<li>
-						<p><a href="https://www.hathitrust.org">The HathiTrust Digital library</a></p>
+						<p><a href="https://www.hathitrust.org">The HathiTrust Digital Library</a></p>
 					</li>
 					<li>
 						<p><a href="https://books.google.com">Google Books</a></p>
