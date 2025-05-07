@@ -127,6 +127,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1KCml33TpVzDRd9Y3UrYdwefI61VNDKeqgRvC3Pug13E">Poetry by Robert Frost</a> (also see <a href="https://groups.google.com/d/msgid/standardebooks/8a231682-9e5a-485a-8e27-4562f3f1485fn%40googlegroups.com">this mailing list discussion</a>)</p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1MWoVEgZjol7UcCKUB1bQVdAAofLn1sAV8Yb9BlmttMs/edit">Poetry and Short Fiction by John Buchan</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
