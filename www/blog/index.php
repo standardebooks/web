@@ -3,6 +3,11 @@
 	<section class="narrow">
 		<h1>Blog</h1>
 		<ul>
+			<!-- <li>
+				<p>
+					<a href="/blog/a-kind-of-bolshevism-in-an-uncanny-bookshop">A Kind of Bolshevism in an Uncanny Bookshop</a>
+				</p>
+			</li> -->
 			<li>
 				<p>
 					<a href="/blog/the-ugly-duckling-and-the-carmelite-in-middlemarch">The Ugly Duckling and the Carmelite in <i>Middlemarch</i></a>

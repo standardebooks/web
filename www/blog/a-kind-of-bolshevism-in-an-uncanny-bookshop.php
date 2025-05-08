@@ -1,0 +1,36 @@
+<?
+$ebookIds = [2321, 1080, 185, 1090, 431];
+$carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
+?>
+<?= Template::Header(title: 'A Kind of Bolshevism in an Uncanny Bookshop', css: ['/css/blog.css']) ?>
+<main>
+	<section class="narrow blog">
+		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
+		<h1>A Kind of Bolshevism in an Uncanny Bookshop</h1>
+		<p class="byline">By Erin Endrei</p>
+		<?= Template::DonationCounter() ?>
+		<?= Template::DonationProgress() ?>
+		<div class="editors-note">
+			<p>This article first appeared in the May 2025 edition of our <a href="/newsletter">email newsletter</a>.</p>
+		</div>
+		<p><a href="https://standardebooks.org/ebooks/c-e-montague/disenchantment"><em>Disenchantment</em></a> by C. E. Montague considers the effects of the First World War on the minds of English people; its title is the author’s assessment in one word. In <a href="https://standardebooks.org/ebooks/bertrand-russell/the-practice-and-theory-of-bolshevism"><em>The Practice and Theory of Bolshevism</em></a>, published two years earlier, <a href="https://standardebooks.org/ebooks/bertrand-russell">Bertrand Russell</a> mentions the existence of the phenomenon that Montague covers in detail. He asserts further that that phenomenon is one of the causes of Bolshevism’s success:</p>
+		<blockquote>
+			<p>The war has left throughout Europe a mood of disillusionment and despair which calls aloud for a new religion, as the only force capable of giving men the energy to live vigorously. Bolshevism has supplied the new religion.</p>
+		</blockquote>
+		<p>Russell is theorizing from experience; he had been a member of a delegation sent to Russia by the British Labour Party in 1920, and his account of that visit forms the first part of his book. The historian Stephen White <a href="https://www.jstor.org/stable/572911">records</a> that the delegation had been planned in December 1919 with the aim of obtaining an “impartial and independent” view of political and economic conditions under the Bolsheviks. In the Standard Ebooks catalogue you can find two more accounts of the delegation, now a mostly forgotten historical episode, in books by anarchists <a href="https://standardebooks.org/ebooks/alexander-berkman/the-bolshevik-myth">Alexander Berkman</a> and <a href="https://standardebooks.org/ebooks/emma-goldman/my-disillusionment-in-russia">Emma Goldman</a>.</p>
+		<p>In that same year, 1919, the lighthearted mystery novel <a href="https://standardebooks.org/ebooks/christopher-morley/the-haunted-bookshop"><em>The Haunted Bookshop</em></a> was published, the second of Christopher Morley’s novels to feature a bookseller named Roger Mifflin. Like Russell, the fictional Mifflin both acknowledges postwar disillusionment and asserts that there exists a unique solution to it. The solution is even better than Russell’s, though, because it will also simultaneously bring about world peace: this is Mifflin’s conviction. What’s needed is neither a new religion, nor an old one, nor any particular ideology, but, simply, “books,” for “it’s in books that most of us learn how splendidly worthwhile life is.”</p>
+		<p>Mifflin goes on to assert that books can prevent war, and even erects in his shop a sign making this claim of Thomas Hardy’s little-read drama <em>The Dynasts</em>: “If every delegate to the <a href="https://en.m.wikipedia.org/wiki/Paris_Peace_Conference_(1919%E2%80%931920)">[Paris] Peace Conference</a> could be made to read it [<em>The Dynasts</em>] before the sessions begin, there will be no more wars.”</p>
+		<p>This isn’t a joke to everyone: in 1942 Hendrik Willem van Loon, author of the preface of <a href="https://standardebooks.org/ebooks/lewis-mumford/the-story-of-utopias"><em>The Story of Utopias</em></a>, <a href="https://archive.org/details/praiseoffollywit00erasrich/page/n11/mode/2up?q=conference">wrote with apparent seriousness</a> (though in hindsight rather than in anticipation) the very same thing about <em>The Praise of Folly</em> by the Renaissance humanist Erasmus.</p>
+		<p>We might differ in our judgments of such proposals. But, without spoiling too much, <em>The Haunted Bookshop</em> still ends by emphasizing the world off the page, and the hazards of elevating the activity of reading too highly above it. In the end it’s Mifflin, the arch-booklover, who ends up looking a little oblivious.</p>
+		<p>So on the face of it, it appears that Morley must be making a mockery of a sort of bookishness that combines exalted expectations of its own benefits with claims to universal relevance.</p>
+		<p>At the same time, Morley, a journalist and prolific writer in many genres, did clearly believe in the value of reading in at least the same sense that you and I do as friends of Standard Ebooks. (See, for an entertaining example, his “<a href="https://archive.org/details/completeworksofs00rock/page/n15/mode/2up">introduction to yourself as a reader of Shakespeare</a>.”) And it seems to me also that there is a grain of truth in his parody.</p>
+		<p>The grain of truth is that what we read <em>does</em> affect us, and what groups of people individually read doesn’t just affect, but can partly determine, what we mean by those people’s “culture.” What people read can affect whether or not they’re hopeful or disillusioned, as Mifflin suggests when he expatiates on life’s worth. It can also affect whether they—we—are liable to become “illusioned,” or, as we might more idiomatically put it, “deluded.” Examples abound, but I’m reminded of <a href="https://standardebooks.org/ebooks/gustave-flaubert/madame-bovary">Madame Bovary’s</a> husband and mother-in-law banning her from reading “sentimental novels.”</p>
+		<p>Earlier in <em>The Haunted Bookshop</em>, this grain of truth—that reading can help people, but that it depends on who they are and what they’re reading—is expressed using a popular dietary analogy. It’s trendy today to call AI-generated text “slop”; the bookseller protagonist similarly fears for the intellectual health of people who misguidedly read material that he likens to “husks” in contrast to the nutritious grain on offer from good books.</p>
+		<p>So Morley’s main character might be intended to serve as a corrective to an exaggerated or impractical reverence towards books. At the same time he expresses a truth about books, or at least about reading: it’s not the case that anything is better than nothing, but some writing is indeed vastly better than no writing. This holds whether or not we fully accept the analogy of reading habits to diet.</p>
+		<p>I don’t; but we can agree to a considerable degree about the value of reading, and about its limits, while disagreeing about which metaphors most usefully express that value, and those limits. <em>The Haunted Bookshop</em> is no analysis like Russell’s or Montague’s, but it does—perhaps surprisingly, given its genre—provide some food for thought on these matters.</p>
+		<h2 id="ebooks-in-this-newsletter">Free ebooks in this post</h2>
+		<?= Template::EbookCarousel(carousel: $carousel) ?>
+	</section>
+</main>
+<?= Template::Footer() ?>
+
