@@ -1,4 +1,5 @@
 <?
+use function Safe\session_start;
 
 try{
 	session_start();

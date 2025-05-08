@@ -1,8 +1,10 @@
 {
-	"license": "CC0-1.0",
-	"platform": {
-		"php": "8.1.2"
+	"config": {
+		"platform": {
+			"php": "8.1.2"
+		}
 	},
+	"license": "CC0-1.0",
 	"autoload-dev": {
 		"psr-4": {
 			"": "lib/"
@@ -18,6 +20,7 @@
 		"thecodingmachine/phpstan-safe-rule": "^1.4.0"
 	},
 	"require": {
+		"php": "8.1.2",
 		"thecodingmachine/safe": "^3.0.2",
 		"phpmailer/phpmailer": "^6.6.0",
 		"ramsey/uuid": "^4.7.6",

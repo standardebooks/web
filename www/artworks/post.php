@@ -1,9 +1,11 @@
 <?
+use function Safe\session_start;
 
 try{
 	session_start();
 	$httpMethod = HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post, Enums\HttpMethod::Patch, Enums\HttpMethod::Put]);
 	$exceptionRedirectUrl = '/artworks/new';
+	$artwork = new Artwork();
 
 	if(HttpInput::IsRequestTooLarge()){
 		throw new Exceptions\InvalidRequestException('File upload too large.');
@@ -18,8 +20,6 @@ try{
 		if(!Session::$User->Benefits->CanUploadArtwork){
 			throw new Exceptions\InvalidPermissionsException();
 		}
-
-		$artwork = new Artwork();
 		$artwork->FillFromHttpPost();
 
 		$artwork->SubmitterUserId = Session::$User->UserId ?? null;
@@ -53,8 +53,6 @@ try{
 		}
 
 		$exceptionRedirectUrl = $originalArtwork->EditUrl;
-
-		$artwork = new Artwork();
 
 		try{
 			$artwork->FillFromHttpPost();

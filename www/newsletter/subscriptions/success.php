@@ -3,6 +3,7 @@
 // we don't want to reveal the vote ID to the web browser. It should only be sent via email
 // confirmation link.
 
+use function Safe\session_start;
 use function \Safe\session_unset;
 
 session_start();

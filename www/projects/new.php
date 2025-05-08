@@ -4,6 +4,7 @@
  * GET /projects/new
  */
 
+use function Safe\session_start;
 use function Safe\session_unset;
 
 session_start();

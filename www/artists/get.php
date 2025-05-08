@@ -1,4 +1,5 @@
 <?
+use function Safe\session_start;
 use function Safe\session_unset;
 
 $isReviewerView = Session::$User?->Benefits->CanReviewArtwork ?? false;

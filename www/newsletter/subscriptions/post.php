@@ -1,5 +1,6 @@
 <?
 use Ramsey\Uuid\Uuid;
+use function Safe\session_start;
 use function Safe\session_unset;
 
 try{

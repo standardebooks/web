@@ -1,4 +1,6 @@
 <?
+use function Safe\session_start;
+
 session_start();
 
 $subscription = new NewsletterSubscription();

@@ -1,4 +1,5 @@
 <?
+use function Safe\session_start;
 
 /** @var string $identifier Passed from script this is included from. */
 $ebook = null;

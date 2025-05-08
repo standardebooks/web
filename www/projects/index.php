@@ -1,7 +1,6 @@
 <?
 
-use PhpParser\Node\Stmt\For_;
-
+use function Safe\session_start;
 use function Safe\session_unset;
 
 try{
