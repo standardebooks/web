@@ -237,6 +237,8 @@ final class Project{
 		}
 		elseif(preg_match('|^https?://(www\.)?github.com/|ius', $this->VcsUrl)){
 			$this->VcsUrl = rtrim($this->VcsUrl, '/');
+			// Remove query strings.
+			$this->VcsUrl = preg_replace('/\?[^\?]+$/iu', '', $this->VcsUrl);
 			if(!preg_match('|^https://github.com/[^/]+/[^/]+$|ius', $this->VcsUrl)){
 				$error->Add(new Exceptions\InvalidVcsUrlException($this->VcsUrl));
 			}
