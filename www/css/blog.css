@@ -1,5 +1,5 @@
 .editors-note{
-	border: 3px double #222222;
+	border: 3px double var(--body-text);
 	padding: 2em;
 	font-style: italic;
 	box-sizing: border-box;
