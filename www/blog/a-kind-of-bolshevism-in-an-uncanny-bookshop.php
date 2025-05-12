@@ -33,4 +33,3 @@ $carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSq
 	</section>
 </main>
 <?= Template::Footer() ?>
-

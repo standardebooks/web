@@ -114,33 +114,37 @@ try{
 		$driver->get('https://fundraising.fracturedatlas.org/admin/general_support/donations?page=' . $page);
 
 		// Check if we need to log in to FA.
-		// Wait until the <body> element is visible, then check the current URL.
+		// Wait until the `<body>` element is visible, then check the current URL.
 		$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('/html/body')));
-		if(stripos($driver->getCurrentURL(), 'auth0.com')){
+		if(stripos($driver->getCurrentURL(), 'auth.fracturedatlas.org')){
+			// We were redirected to the login page, so try to log in.
 			$log->Write('Logging in to Fractured Atlas ...');
 
-			// We were redirected to the login page, so try to log in.
 			/** @var WebDriverElement $emailField */
-			$emailField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="email"]')));
+			$emailField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@inputmode="email"]')));
+			$emailField->sendKeys($faUsername);
+
 			/** @var WebDriverElement $passwordField */
 			$passwordField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@type="password"]')));
-			/** @var WebDriverElement $submitButton */
-			$submitButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[@type="submit"]')));
-
-			// Fill out and submit the form.
-			$emailField->sendKeys($faUsername);
+			// FA requires an explicit click on the password field for some reason.
+			$passwordField->click();
+			$passwordField->clear();
 			$passwordField->sendKeys($faPassword);
-			$submitButton->click();
+
+			// Submit the form.
+			/** @var WebDriverElement $form */
+			$form = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//form')));
+			$form->submit();
 		}
 
 		// Wait until the page finishes loading.
 		// We have to expand the row before we can select its contents, so click the 'expand' button once it's visible.
 		try{
-			$toggleButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
+			$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
 		}
-		catch(Exception){
+		catch(Exception $ex){
 			$log->Write('Error: Couldn\'t load donation list.');
-			continue;
+			throw $ex;
 		}
 
 		// If the last seen transaction ID is null, get everything from today.
@@ -205,7 +209,12 @@ try{
 	}
 
 	if($firstTransactionId !== null){
-		file_put_contents($transactionFilePath, $firstTransactionId);
+		try{
+			file_put_contents($transactionFilePath, $firstTransactionId);
+		}
+		catch(\Exception){
+			// Might not have the right permissions, pass.
+		}
 	}
 
 	$log->Write('Done.');
