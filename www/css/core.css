@@ -311,8 +311,9 @@ main p:first-child, main ul:first-child, main ol:first-child, main ul li:first-c
 blockquote{
 	margin: 1rem;
 	background: rgba(0, 0, 0, .05);
-	padding: 1rem;
-	border-radius: .5rem;
+	padding: 1.5rem;
+	box-sizing: border-box;
+	border-radius: .25rem;
 	border: 1px solid rgba(255,255,255,.25);
 }
 
