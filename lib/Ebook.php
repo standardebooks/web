@@ -2160,6 +2160,28 @@ final class Ebook{
 		}
 	}
 
+	public function RecordDownload(): void{
+		$ipAddress = $_SERVER['REMOTE_ADDR'] ?? null;
+		$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+
+		// The `IpAddr` column expects IPv6 address strings.
+		if(is_string($ipAddress) && filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)){
+			$ipAddress = '::ffff:' . $ipAddress;
+		}
+
+		if (is_string($userAgent) && strlen($userAgent) > 255) {
+			$userAgent = substr($userAgent, 0, 255);
+		}
+
+		Db::Query('
+			INSERT into EbookDownloads (EbookId, IpAddr, UserAgent)
+			values (?,
+				?,
+				?)
+		', [$this->EbookId, $ipAddress, $userAgent]
+		);
+	}
+
 	public function Delete(): void{
 		$this->RemoveTags();
 		$this->RemoveLocSubjects();
