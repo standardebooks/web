@@ -83,6 +83,8 @@ final class Ebook{
 	/** When the database row was updated. */
 	public DateTimeImmutable $Updated;
 	public ?int $TextSinglePageByteCount = null;
+	public int $DownloadsPast30Days = 0;
+	public int $DownloadsTotal = 0;
 
 	/** @var array<GitCommit> $_GitCommits */
 	protected array $_GitCommits;
@@ -1421,6 +1423,14 @@ final class Ebook{
 			$error->Add(new Exceptions\InvalidEbookTextSinglePageByteCountException('Invalid Ebook TextSinglePageByteCount: ' . $this->TextSinglePageByteCount));
 		}
 
+		if(isset($this->DownloadsPast30Days) && $this->DownloadsPast30Days < 0){
+			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid Ebook DownloadsPast30Days: ' . $this->DownloadsPast30Days));
+		}
+
+		if(isset($this->DownloadsTotal) && $this->DownloadsTotal < 0){
+			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid Ebook DownloadsTotal: ' . $this->DownloadsTotal));
+		}
+
 		if(sizeof($this->Authors) == 0){
 			$error->Add(new Exceptions\EbookAuthorRequiredException());
 		}
@@ -1819,8 +1829,10 @@ final class Ebook{
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
 				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
 				EbookCreated, EbookUpdated, TextSinglePageByteCount, IndexableText, IndexableAuthors,
-				IndexableCollections)
+				IndexableCollections, DownloadsPast30Days, DownloadsTotal)
 			values (?,
+				?,
+				?,
 				?,
 				?,
 				?,
@@ -1851,7 +1863,8 @@ final class Ebook{
 				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-				$this->IndexableAuthors, $this->IndexableCollections]);
+				$this->IndexableAuthors, $this->IndexableCollections, $this->DownloadsPast30Days,
+				$this->DownloadsTotal]);
 
 		try{
 			$this->AddTags();
@@ -1918,7 +1931,9 @@ final class Ebook{
 				TextSinglePageByteCount = ?,
 				IndexableText = ?,
 				IndexableAuthors = ?,
-				IndexableCollections = ?
+				IndexableCollections = ?,
+				DownloadsPast30Days = ?,
+				DownloadsTotal = ?
 				where
 				EbookId = ?
 			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
@@ -1926,7 +1941,8 @@ final class Ebook{
 					$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 					$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 					$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-					$this->IndexableAuthors, $this->IndexableCollections,
+					$this->IndexableAuthors, $this->IndexableCollections, $this->DownloadsPast30Days,
+					$this->DownloadsTotal,
 					$this->EbookId]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
