@@ -34,6 +34,8 @@ try{
 		throw new Exceptions\InvalidFileException();
 	}
 
+	$ebook->RecordDownload();
+
 	if($skipThankYouPage){
 		// Download the file directly, without showing the thank you page.
 		$downloadUrl = $ebook->GetDownloadUrl($format);

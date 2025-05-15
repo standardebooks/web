@@ -83,6 +83,8 @@ final class Ebook{
 	/** When the database row was updated. */
 	public DateTimeImmutable $Updated;
 	public ?int $TextSinglePageByteCount = null;
+	public ?int $DownloadsPast30Days = null;
+	public ?int $DownloadsTotal = null;
 
 	/** @var array<GitCommit> $_GitCommits */
 	protected array $_GitCommits;
@@ -1421,6 +1423,14 @@ final class Ebook{
 			$error->Add(new Exceptions\InvalidEbookTextSinglePageByteCountException('Invalid Ebook TextSinglePageByteCount: ' . $this->TextSinglePageByteCount));
 		}
 
+		if(isset($this->DownloadsPast30Days) && $this->DownloadsPast30Days <= 0){
+			$error->Add(new Exceptions\InvalidEbookDownloadsException('Invalid Ebook DownloadsPast30Days: ' . $this->DownloadsPast30Days));
+		}
+
+		if(isset($this->DownloadsTotal) && $this->DownloadsTotal <= 0){
+			$error->Add(new Exceptions\InvalidEbookDownloadsException('Invalid Ebook DownloadsTotal: ' . $this->DownloadsTotal));
+		}
+
 		if(sizeof($this->Authors) == 0){
 			$error->Add(new Exceptions\EbookAuthorRequiredException());
 		}
@@ -1819,8 +1829,10 @@ final class Ebook{
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
 				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
 				EbookCreated, EbookUpdated, TextSinglePageByteCount, IndexableText, IndexableAuthors,
-				IndexableCollections)
+				IndexableCollections, DownloadsPast30Days, DownloadsTotal)
 			values (?,
+				?,
+				?,
 				?,
 				?,
 				?,
@@ -1851,7 +1863,8 @@ final class Ebook{
 				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-				$this->IndexableAuthors, $this->IndexableCollections]);
+				$this->IndexableAuthors, $this->IndexableCollections, $this->DownloadsPast30Days,
+				$this->DownloadsTotal]);
 
 		try{
 			$this->AddTags();
@@ -1918,7 +1931,9 @@ final class Ebook{
 				TextSinglePageByteCount = ?,
 				IndexableText = ?,
 				IndexableAuthors = ?,
-				IndexableCollections = ?
+				IndexableCollections = ?,
+				DownloadsPast30Days = ?,
+				DownloadsTotal = ?
 				where
 				EbookId = ?
 			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
@@ -1926,7 +1941,8 @@ final class Ebook{
 					$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 					$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 					$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-					$this->IndexableAuthors, $this->IndexableCollections,
+					$this->IndexableAuthors, $this->IndexableCollections, $this->DownloadsPast30Days,
+					$this->DownloadsTotal,
 					$this->EbookId]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
@@ -2142,6 +2158,28 @@ final class Ebook{
 			$this->EbookPlaceholder->EbookId = $this->EbookId;
 			$this->EbookPlaceholder->Create();
 		}
+	}
+
+	public function RecordDownload(): void{
+		$ipAddress = $_SERVER['REMOTE_ADDR'] ?? null;
+		$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+
+		// The `IpAddr` column expects IPv6 address strings.
+		if(is_string($ipAddress) && filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)){
+			$ipAddress = '::ffff:' . $ipAddress;
+		}
+
+		if (is_string($userAgent) && strlen($userAgent) > 255) {
+			$userAgent = substr($userAgent, 0, 255);
+		}
+
+		Db::Query('
+			INSERT into EbookDownloads (EbookId, IpAddr, UserAgent)
+			values (?,
+				?,
+				?)
+		', [$this->EbookId, $ipAddress, $userAgent]
+		);
 	}
 
 	public function Delete(): void{
