@@ -2160,6 +2160,18 @@ final class Ebook{
 		}
 	}
 
+	/**
+	 * @throws Exceptions\InvalidEbookDownloadException
+	 */
+	public function AddDownload(?string $ipAddress, ?string $userAgent): void{
+		$ebookDownload = new EbookDownload();
+		$ebookDownload->EbookId = $this->EbookId;
+		$ebookDownload->IpAddress = $ipAddress;
+		$ebookDownload->UserAgent = $userAgent;
+
+		$ebookDownload->Create();
+	}
+
 	public function Delete(): void{
 		$this->RemoveTags();
 		$this->RemoveLocSubjects();
