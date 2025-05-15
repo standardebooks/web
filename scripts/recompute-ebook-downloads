@@ -1,0 +1,89 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+function isBot($userAgent, $ipAddr): bool{
+	if(empty($userAgent) || strlen($userAgent) < 20){
+		return true;
+	}
+
+	$botKeywords = [
+		'bot', 'crawl', 'spider', 'slurp', 'chatgpt', 'search',
+		'python', 'java', 'curl', 'wget', 'scrape'
+	];
+
+	foreach($botKeywords as $keyword){
+		if(strpos($userAgent, $keyword) !== false){
+			return true;
+		}
+	}
+
+	return false;
+}
+
+$ebookDatePairs = Db::Query('
+	SELECT EbookId, date(Created) as DownloadDate
+	from EbookDownloads
+	group by EbookId, DownloadDate
+');
+
+foreach($ebookDatePairs as $pair){
+	$ebookId = (int)$pair->EbookId;
+	$downloadDate = $pair->DownloadDate->format('Y-m-d');
+
+	$downloads = Db::Query('
+		SELECT UserAgent, IpAddr
+		from EbookDownloads
+		where EbookId = ?
+			and date(Created) = ?
+	', [$ebookId, $downloadDate]);
+
+	$downloadCount = 0;
+	$botDownloadCount = 0;
+
+	foreach($downloads as $download){
+		if(isBot($download->UserAgent, $download->IpAddr)){
+			$botDownloadCount++;
+		}
+		else{
+			$downloadCount++;
+		}
+	}
+
+	Db::Query('
+        	INSERT into EbookDownloadSummaries (EbookId, Date, DownloadCount, BotDownloadCount)
+		values (?,
+			?,
+			?,
+			?)
+		on duplicate key update
+			DownloadCount = values(DownloadCount),
+			BotDownloadCount = values(BotDownloadCount)
+	', [$ebookId, $downloadDate, $downloadCount, $botDownloadCount]);
+}
+
+Db::Query('
+	UPDATE Ebooks e
+	left join (
+		select EbookId, sum(DownloadCount) AS DownloadsPast30Days
+		from EbookDownloadSummaries
+		where Date >= curdate() - interval 29 day
+		group by EbookId
+	) s on e.EbookId = s.EbookId
+	set e.DownloadsPast30Days = coalesce(s.DownloadsPast30Days, 0);
+');
+
+Db::Query('
+	UPDATE Ebooks e
+	left join (
+		select EbookId, sum(DownloadCount) AS DownloadsTotal
+		from EbookDownloadSummaries
+		group by EbookId
+	) s on e.EbookId = s.EbookId
+	set e.DownloadsTotal = coalesce(s.DownloadsTotal, 0);
+');
+
+Db::Query('
+	DELETE from EbookDownloads
+	where Created < now() - interval 60 day
+');
