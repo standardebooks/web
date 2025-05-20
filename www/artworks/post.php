@@ -119,7 +119,7 @@ try{
 			$newEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 			if(isset($newEbookUrl)){
 				try{
-					$newEbook = Ebook::GetByIdentifier('url:' . $newEbookUrl);
+					$newEbook = Ebook::GetByIdentifier($newEbookUrl);
 				}
 				catch(Exceptions\EbookNotFoundException){
 					throw new Exceptions\InvalidUrlException($newEbookUrl);

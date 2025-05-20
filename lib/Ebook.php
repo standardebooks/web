@@ -396,7 +396,7 @@ final class Ebook{
 	}
 
 	protected function GetFullUrl(): string{
-		return $this->_FullUrl ??= preg_replace('/^url:/ius', '', $this->Identifier);
+		return $this->_FullUrl ??= $this->Identifier;
 	}
 
 	protected function GetEditUrl(): string{
@@ -412,7 +412,7 @@ final class Ebook{
 	}
 
 	protected function GetUrlSafeIdentifier(): string{
-		return $this->_UrlSafeIdentifier ??= str_replace(['url:https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
+		return $this->_UrlSafeIdentifier ??= str_replace(['https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 	}
 
 	protected function GetHeroImageUrl(): string{
@@ -547,7 +547,7 @@ final class Ebook{
 	}
 
 	protected function GetAuthorsUrl(): string{
-		return $this->_AuthorsUrl ??= preg_replace('|url:https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
+		return $this->_AuthorsUrl ??= preg_replace('|https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
 	}
 
 	protected function GetAuthorsString(): string{
@@ -1028,19 +1028,19 @@ final class Ebook{
 	 * Examples:
 	 *
 	 * 	$urlName = 'samuel-butler'
-	 * 	$identifier = 'url:https://standardebooks.org/ebooks/samuel-butler-1612-1680/hudibras'
+	 * 	$identifier = 'https://standardebooks.org/ebooks/samuel-butler-1612-1680/hudibras'
 	 * 	returns: 'samuel-butler-1612-1680'
 	 *
 	 * 	$urlName = 'william-wordsworth'
-	 * 	$identifier = 'url:https://standardebooks.org/ebooks/william-wordsworth_samuel-taylor-coleridge/lyrical-ballads'
+	 * 	$identifier = 'https://standardebooks.org/ebooks/william-wordsworth_samuel-taylor-coleridge/lyrical-ballads'
 	 * 	returns: 'william-wordsworth'
 	 *
 	 * 	$urlName = 'aylmer-maude'
-	 * 	$identifier = 'url:https://standardebooks.org/ebooks/leo-tolstoy/the-power-of-darkness/louise-maude_aylmer-maude'
+	 * 	$identifier = 'https://standardebooks.org/ebooks/leo-tolstoy/the-power-of-darkness/louise-maude_aylmer-maude'
 	 * 	returns: 'aylmer-maude'
 	 *
 	 * 	$urlName = 'leonard-welsted' // Elided from the Identifier with et-al.
-	 * 	$identifier = 'url:https://standardebooks.org/ebooks/ovid/metamorphoses/john-dryden_joseph-addison_laurence-eusden_arthur-maynwaring_samuel-croxall_nahum-tate_william-stonestreet_thomas-vernon_john-gay_alexander-pope_stephen-harvey_william-congreve_et-al'
+	 * 	$identifier = 'https://standardebooks.org/ebooks/ovid/metamorphoses/john-dryden_joseph-addison_laurence-eusden_arthur-maynwaring_samuel-croxall_nahum-tate_william-stonestreet_thomas-vernon_john-gay_alexander-pope_stephen-harvey_william-congreve_et-al'
 	 * 	returns: 'leonard-welsted' // Returns original input when there is no match.
 	 *
 	 */
