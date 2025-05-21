@@ -36,5 +36,6 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   FULLTEXT `idxSearchTitle` (`Title`),
   FULLTEXT `idxSearchAuthors` (`IndexableAuthors`),
   FULLTEXT `idxSearchCollections` (`IndexableCollections`),
-  FULLTEXT `idxSearchCombined` (`IndexableText`, `Title`, `IndexableAuthors`, `IndexableCollections`)
+  FULLTEXT `idxSearchCombined` (`IndexableText`, `Title`, `IndexableAuthors`, `IndexableCollections`),
+  KEY `idxPopularity` (`DownloadsPast30Days` DESC, `EbookCreated` DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
