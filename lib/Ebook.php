@@ -2389,13 +2389,19 @@ final class Ebook{
 		if($sort == Enums\EbookSortType::AuthorAlpha){
 			$joinContributors = 'inner join Contributors con using (EbookId)';
 			$whereCondition .= ' and con.MarcRole = "aut"';
-			$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreated desc'; // Put placeholders at the end
+			$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreated desc'; // Put placeholders at the end.
 		}
 		elseif($sort == Enums\EbookSortType::ReadingEase){
 			$orderBy = 'e.ReadingEase desc';
 		}
 		elseif($sort == Enums\EbookSortType::Length){
-			$orderBy = 'e.WwwFilesystemPath is null, e.WordCount'; // Put placeholders at the end
+			$orderBy = 'e.WwwFilesystemPath is null, e.WordCount'; // Put placeholders at the end.
+		}
+		elseif($sort == Enums\EbookSortType::Popularity){
+			// Searches with a keyword `query` present sort placeholdrs at the end because their
+			// `DownloadsPast30Days` count is zero and their `EbookCreated` date is `NULL`.
+			// Searches without a keyword `query` filter out placeholders in the `WHERE` clause.
+			$orderBy = 'e.DownloadsPast30Days desc, e.EbookCreated desc';
 		}
 
 		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
