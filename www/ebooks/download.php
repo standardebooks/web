@@ -34,6 +34,19 @@ try{
 		throw new Exceptions\InvalidFileException();
 	}
 
+	/** @var string|null $ipAddress */
+	$ipAddress = $_SERVER['REMOTE_ADDR'] ?? null;
+
+	/** @var string|null $userAgent */
+	$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
+
+	try{
+		$ebook->AddDownload($ipAddress, $userAgent);
+	}
+	catch(Exceptions\InvalidEbookDownloadException){
+		// Pass. Allow the download to continue even if it isn't recorded.
+	}
+
 	if($skipThankYouPage){
 		// Download the file directly, without showing the thank you page.
 		$downloadUrl = $ebook->GetDownloadUrl($format);

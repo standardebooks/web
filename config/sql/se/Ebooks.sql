@@ -27,6 +27,8 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   `IndexableText` text NULL,
   `IndexableAuthors` text NOT NULL,
   `IndexableCollections` text NULL,
+  `DownloadsPast30Days` int(10) unsigned NOT NULL DEFAULT 0,
+  `DownloadsTotal` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`EbookId`),
   UNIQUE KEY `index1` (`Identifier`),
   KEY `index2` (`EbookCreated`),

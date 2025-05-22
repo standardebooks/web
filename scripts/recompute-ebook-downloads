@@ -1,0 +1,59 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+$downloadDates = Db::Query('
+	SELECT distinct date(Created) as DownloadDate
+	from EbookDownloads
+');
+
+foreach($downloadDates as $date){
+	$downloadDate = $date->DownloadDate;
+	$summaries = [];
+
+	$ebookDownloads = EbookDownload::GetAllByDate($downloadDate);
+	foreach($ebookDownloads as $ebookDownload){
+		$ebookId = $ebookDownload->EbookId;
+
+		if(!isset($summaries[$ebookId])){
+			$summaries[$ebookId] = new EbookDownloadSummary($ebookId, $downloadDate);
+		}
+
+		if($ebookDownload->IsBot()){
+			$summaries[$ebookId]->BotDownloadCount++;
+		}
+		else{
+			$summaries[$ebookId]->DownloadCount++;
+		}
+	}
+
+	foreach($summaries as $summary){
+		$summary->Create();
+	}
+}
+
+Db::Query('
+	UPDATE Ebooks e
+	left join (
+		select EbookId, sum(DownloadCount) AS DownloadsPast30Days
+		from EbookDownloadSummaries
+		where Date >= curdate() - interval 29 day
+		group by EbookId
+	) s on e.EbookId = s.EbookId
+	set e.DownloadsPast30Days = coalesce(s.DownloadsPast30Days, 0)
+');
+
+Db::Query('
+	UPDATE Ebooks e
+	left join (
+		select EbookId, sum(DownloadCount) AS DownloadsTotal
+		from EbookDownloadSummaries
+		group by EbookId
+	) s on e.EbookId = s.EbookId
+	set e.DownloadsTotal = coalesce(s.DownloadsTotal, 0)
+');
+
+Db::Query('
+	DELETE from EbookDownloads
+	where Created < utc_timestamp() - interval 60 day
+');
