@@ -1,4 +1,12 @@
 Sitemap: https://standardebooks.org/sitemap
 
+# Badly-behaved bots
 User-agent: *
 Disallow: /honeypot
+
+# SEO crawlers
+User-agent: SemrushBot
+User-agent: DotBot
+User-agent: AhrefsBot
+User-agent: SEOkicks
+Disallow: /ebooks/*/downloads/*
