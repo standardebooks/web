@@ -83,7 +83,9 @@ final class Ebook{
 	/** When the database row was updated. */
 	public DateTimeImmutable $Updated;
 	public ?int $TextSinglePageByteCount = null;
+	/** The numer of non-bot downloads in the past 30 days. */
 	public int $DownloadsPast30Days = 0;
+	/** The numer of all-time non-bot downloads. */
 	public int $DownloadsTotal = 0;
 
 	/** @var array<GitCommit> $_GitCommits */

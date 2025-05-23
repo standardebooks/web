@@ -5,7 +5,7 @@ use Safe\DateTimeImmutable;
 class EbookDownloadSummary{
 	public int $EbookId;
 	public DateTimeImmutable $Date;
-	/** The number of downloads by non-bot clients on the given date. */
+	/** The total number of downloads, including bot downloads, on the given date. */
 	public int $DownloadCount = 0;
 	/** The number of downloads by bot clients on the given date. */
 	public int $BotDownloadCount = 0;

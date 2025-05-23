@@ -19,11 +19,10 @@ foreach($downloadDates as $date){
 			$summaries[$ebookId] = new EbookDownloadSummary($ebookId, $downloadDate);
 		}
 
+		$summaries[$ebookId]->DownloadCount++;
+
 		if($ebookDownload->IsBot()){
 			$summaries[$ebookId]->BotDownloadCount++;
-		}
-		else{
-			$summaries[$ebookId]->DownloadCount++;
 		}
 	}
 
@@ -35,9 +34,9 @@ foreach($downloadDates as $date){
 Db::Query('
 	UPDATE Ebooks e
 	left join (
-		select EbookId, sum(DownloadCount) as DownloadsPast30Days
+		select EbookId, sum(DownloadCount) - sum(BotDownloadCount) as DownloadsPast30Days
 		from EbookDownloadSummaries
-		where Date >= date(utc_timetamp()) - interval 30 day
+		where Date >= date(utc_timestamp()) - interval 30 day
 		group by EbookId
 	) s on e.EbookId = s.EbookId
 	set e.DownloadsPast30Days = coalesce(s.DownloadsPast30Days, 0)
@@ -46,7 +45,7 @@ Db::Query('
 Db::Query('
 	UPDATE Ebooks e
 	left join (
-		select EbookId, sum(DownloadCount) as DownloadsTotal
+		select EbookId, sum(DownloadCount) - sum(BotDownloadCount) as DownloadsTotal
 		from EbookDownloadSummaries
 		group by EbookId
 	) s on e.EbookId = s.EbookId
