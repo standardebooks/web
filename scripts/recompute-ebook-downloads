@@ -35,9 +35,9 @@ foreach($downloadDates as $date){
 Db::Query('
 	UPDATE Ebooks e
 	left join (
-		select EbookId, sum(DownloadCount) AS DownloadsPast30Days
+		select EbookId, sum(DownloadCount) as DownloadsPast30Days
 		from EbookDownloadSummaries
-		where Date >= curdate() - interval 29 day
+		where Date >= date(utc_timetamp()) - interval 30 day
 		group by EbookId
 	) s on e.EbookId = s.EbookId
 	set e.DownloadsPast30Days = coalesce(s.DownloadsPast30Days, 0)
@@ -46,7 +46,7 @@ Db::Query('
 Db::Query('
 	UPDATE Ebooks e
 	left join (
-		select EbookId, sum(DownloadCount) AS DownloadsTotal
+		select EbookId, sum(DownloadCount) as DownloadsTotal
 		from EbookDownloadSummaries
 		group by EbookId
 	) s on e.EbookId = s.EbookId

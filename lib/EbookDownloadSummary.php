@@ -5,7 +5,9 @@ use Safe\DateTimeImmutable;
 class EbookDownloadSummary{
 	public int $EbookId;
 	public DateTimeImmutable $Date;
+	/** The number of downloads by non-bot clients on the given date. */
 	public int $DownloadCount = 0;
+	/** The number of downloads by bot clients on the given date. */
 	public int $BotDownloadCount = 0;
 
 	public function __construct(int $ebookId, DateTimeImmutable $date){
