@@ -248,7 +248,7 @@
 						</li>
 						<li id="resources-cc0">
 							<h3>Museums with CC0 Collections</h3>
-							<p>Only images in our <a href="https://standardebooks.org/manual/latest/10-art-and-images#10.3.3.7">approved list of museums</a> can be used without further research. These museums have explicitly released their images under the CC0 license. Not every painting at every listed museum is CC0; you must confirm the presence of a CC0 deed for the specific image you want to use. Museums not in our list may not be used as public domain proof.</p>
+							<p>Only images in our <a href="https://standardebooks.org/manual/latest/10-art-and-images#10.3.3.7.4">list of approved museums</a> can be used without further research. These museums have explicitly released their images under the CC0 license. Not every painting at every listed museum is CC0; you must confirm the presence of a CC0 deed for the specific image you want to use. Museums not in our list may not be used as public domain proof.</p>
 						</li>
 						<li id="resources-images">
 							<h3>Sources for high definition image downloads</h3>
