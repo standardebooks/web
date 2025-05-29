@@ -57,7 +57,7 @@
 				<p>For example, we wouldn’t produce anything by <a href="https://en.wikipedia.org/wiki/William_Blake">William Blake</a>, as his intricate arrangement of words and illustration would result in an ebook that is merely a series of images, without parseable text.</p>
 			</li>
 			<li>
-				<p>Modern books that have released to the public domain, including self-published books.</p>
+				<p>Modern books that have been released to the public domain, including self-published books.</p>
 			</li>
 			<li>
 				<p>Religious texts from modern world religions, like the Bible, the Koran, or books of prayer, won’t be accepted. Texts <em>about</em> religion—i.e., texts on the philosophy of religion—will usually be accepted. Texts from historical religious movements that were culturally influential but are now defunct, or are otherwise not significant in modern times, <em>might</em> be accepted; ask first.</p>
