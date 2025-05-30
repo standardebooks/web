@@ -186,7 +186,7 @@ do
 		continue
 	fi
 
-	urlSafeIdentifier=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s|url:https://standardebooks.org/ebooks/||g" | sed --regexp-extended "s|/|_|g")
+	urlSafeIdentifier=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s|https://standardebooks.org/ebooks/||g" | sed --regexp-extended "s|/|_|g")
 
 	if [ "${lastPushHash}" != "" ]; then
 		# We were passed the hash of the last push before this one.
@@ -213,7 +213,7 @@ do
 		fi
 	fi
 
-	webDir=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">url:https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s/^url:https:\/\/standardebooks.org\/ebooks\/?//")
+	webDir=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s/^https:\/\/standardebooks.org\/ebooks\/?//")
 
 	if [ "${webDir}" = "" ]; then
 		die "Empty webdir!"
@@ -304,7 +304,7 @@ do
 		fi
 
 		# Get the book URL.
-		bookUrl=$(grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">.+?</dc:identifier>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/.*?url:https:\/\/standardebooks.org(.*?)<.*/\1/g")
+		bookUrl=$(grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">.+?</dc:identifier>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/.*?https:\/\/standardebooks.org(.*?)<.*/\1/g")
 
 		# Get the last commit date so that we can update the modified timestamp in deployed `content.opf`. `generate-feeds` uses this timestamp in its output.
 		modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
