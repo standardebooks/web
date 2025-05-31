@@ -9,4 +9,7 @@ User-agent: SemrushBot
 User-agent: DotBot
 User-agent: AhrefsBot
 User-agent: SEOkicks
+User-agent: DataForSeoBot
+User-agent: proximic
+
 Disallow: /ebooks/*/downloads/*
