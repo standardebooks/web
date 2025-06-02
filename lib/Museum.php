@@ -331,13 +331,13 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bnga\.gov$/ius', $parsedUrl['host'])){
-			$exampleUrl = 'https://www.nga.gov/collection/art-object-page.46522.html';
+			$exampleUrl = 'https://www.nga.gov/artworks/102195-fallen-tree';
 
 			if($parsedUrl['host'] != 'www.nga.gov'){
 				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
 			}
 
-			if(!preg_match('|^/collection/art-object-page\.[^/]+\.html$|ius', $parsedUrl['path'])){
+			if(!preg_match('|^/artworks/[^/]+$|ius', $parsedUrl['path'])){
 				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
 			}
 
