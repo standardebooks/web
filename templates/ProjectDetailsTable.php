@@ -70,38 +70,38 @@ $showArtworkStatus ??= true;
 					<? } ?>
 				</td>
 			</tr>
-		<? } ?>
-		<tr>
-			<td>Status:</td>
-			<td>
-				<? if(
-					Session::$User?->Benefits->CanEditProjects
-					||
-					$project->ManagerUserId == Session::$User?->UserId
-					||
-					$project->ReviewerUserId == Session::$User?->UserId
-				){ ?>
+			<tr>
+				<td>Status:</td>
+				<td>
+					<? if(
+						Session::$User?->Benefits->CanEditProjects
+						||
+						$project->ManagerUserId == Session::$User?->UserId
+						||
+						$project->ReviewerUserId == Session::$User?->UserId
+					){ ?>
 
-					<form action="<?= $project->Url ?>" method="<?= HttpMethod::Post->value ?>" class="single-line-form">
-						<input type="hidden" name="_method" value="<?= HttpMethod::Patch->value ?>" />
-						<label class="icon meter">
-							<span>
-								<select name="project-status">
-									<option value="<?= Enums\ProjectStatusType::InProgress->value ?>"<? if($project->Status == Enums\ProjectStatusType::InProgress){?> selected="selected"<? } ?>>In progress</option>
-									<option value="<?= Enums\ProjectStatusType::AwaitingReview->value ?>"<? if($project->Status == Enums\ProjectStatusType::AwaitingReview){?> selected="selected"<? } ?>>Awaiting review</option>
-									<option value="<?= Enums\ProjectStatusType::Reviewed->value ?>"<? if($project->Status == Enums\ProjectStatusType::Reviewed){?> selected="selected"<? } ?>>Reviewed</option>
-									<option value="<?= Enums\ProjectStatusType::Stalled->value ?>"<? if($project->Status == Enums\ProjectStatusType::Stalled){?> selected="selected"<? } ?>>Stalled</option>
-									<option value="<?= Enums\ProjectStatusType::Completed->value ?>"<? if($project->Status == Enums\ProjectStatusType::Completed){?> selected="selected"<? } ?>>Completed</option>
-									<option value="<?= Enums\ProjectStatusType::Abandoned->value ?>"<? if($project->Status == Enums\ProjectStatusType::Abandoned){?> selected="selected"<? } ?>>Abandoned</option>
-								</select>
-							</span>
-						</label>
-						<button>Save changes</button>
-					</form>
-				<? }else{ ?>
-					<?= ucfirst($project->Status->GetDisplayName()) ?>
-				<? } ?>
-			</td>
-		</tr>
+						<form action="<?= $project->Url ?>" method="<?= HttpMethod::Post->value ?>" class="single-line-form">
+							<input type="hidden" name="_method" value="<?= HttpMethod::Patch->value ?>" />
+							<label class="icon meter">
+								<span>
+									<select name="project-status">
+										<option value="<?= Enums\ProjectStatusType::InProgress->value ?>"<? if($project->Status == Enums\ProjectStatusType::InProgress){?> selected="selected"<? } ?>>In progress</option>
+										<option value="<?= Enums\ProjectStatusType::AwaitingReview->value ?>"<? if($project->Status == Enums\ProjectStatusType::AwaitingReview){?> selected="selected"<? } ?>>Awaiting review</option>
+										<option value="<?= Enums\ProjectStatusType::Reviewed->value ?>"<? if($project->Status == Enums\ProjectStatusType::Reviewed){?> selected="selected"<? } ?>>Reviewed</option>
+										<option value="<?= Enums\ProjectStatusType::Stalled->value ?>"<? if($project->Status == Enums\ProjectStatusType::Stalled){?> selected="selected"<? } ?>>Stalled</option>
+										<option value="<?= Enums\ProjectStatusType::Completed->value ?>"<? if($project->Status == Enums\ProjectStatusType::Completed){?> selected="selected"<? } ?>>Completed</option>
+										<option value="<?= Enums\ProjectStatusType::Abandoned->value ?>"<? if($project->Status == Enums\ProjectStatusType::Abandoned){?> selected="selected"<? } ?>>Abandoned</option>
+									</select>
+								</span>
+							</label>
+							<button>Save changes</button>
+						</form>
+					<? }else{ ?>
+						<?= ucfirst($project->Status->GetDisplayName()) ?>
+					<? } ?>
+				</td>
+			</tr>
+		<? } ?>
 	</tbody>
 </table>
