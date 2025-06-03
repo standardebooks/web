@@ -3,6 +3,11 @@
 	<section class="narrow">
 		<h1>Blog</h1>
 		<ul>
+			<!-- <li>
+				<p>
+					<a href="/blog/the-book-that-solved-philsophy">The Book That Solved Philosophy</a>
+				</p>
+			</li> -->
 			<li>
 				<p>
 					<a href="/blog/a-kind-of-bolshevism-in-an-uncanny-bookshop">A Kind of Bolshevism in an Uncanny Bookshop</a>
