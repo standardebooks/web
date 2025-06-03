@@ -1,6 +1,5 @@
 <?
-$ebookIds = [565, 778, 561, 1059];
-$carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
+$carousel = Ebook::GetAllBySet([565, 778, 561, 1059]);
 ?>
 <?= Template::Header(title: 'Joyce’s Ulysses, the Rubáiyát, and “Yes”', css: ['/css/blog.css']) ?>
 <main>

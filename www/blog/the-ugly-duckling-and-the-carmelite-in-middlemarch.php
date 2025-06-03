@@ -1,6 +1,5 @@
 <?
-$ebookIds = [415, 607];
-$carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
+$carousel = Ebook::GetAllBySet([415, 607]);
 ?>
 <?= Template::Header(title: 'The Ugly Duckling and the Carmelite in Middlemarch', css: ['/css/blog.css']) ?>
 <main>

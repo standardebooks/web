@@ -1,6 +1,5 @@
 <?
-$ebookIds = [2321, 1080, 185, 1090, 431];
-$carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
+$carousel = Ebook::GetAllBySet([2321, 1080, 185, 1090, 431]);
 ?>
 <?= Template::Header(title: 'A Kind of Bolshevism in an Uncanny Bookshop', css: ['/css/blog.css']) ?>
 <main>

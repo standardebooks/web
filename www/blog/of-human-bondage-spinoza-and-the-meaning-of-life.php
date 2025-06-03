@@ -1,6 +1,5 @@
 <?
-$ebookIds = [981, 561, 833];
-$carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
+$carousel = Ebook::GetAllBySet([981, 561, 833]);
 ?>
 <?= Template::Header(title: 'Of Human Bondage, Spinoza, and the Meaning of Life', css: ['/css/blog.css']) ?>
 <main>

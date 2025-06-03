@@ -1,6 +1,5 @@
 <?
-$ebookIds = [1085, 1052];
-$carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
+$carousel = Ebook::GetAllBySet([1085, 1052]);
 ?>
 <?= Template::Header(title: 'Death and Beauty in the Alps', css: ['/css/blog.css']) ?>
 <main>

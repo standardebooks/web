@@ -2280,9 +2280,9 @@ final class Ebook{
 	}
 
 	/**
-	 * Queries for books in a collection.
+	 * Get `Ebook`s in a collection.
 	 *
-	 * Puts ebooks without a `SequenceNumber` at the end of the list, which is more common in a collection with both published and placeholder ebooks.
+	 * Puts `Ebook`s without a `SequenceNumber` at the end of the list, which is more common in a collection with both published and placeholder ebooks.
 	 *
 	 * @return array<Ebook>
 	 */
@@ -2299,9 +2299,10 @@ final class Ebook{
 	}
 
 	/**
-	 * Queries for related to books to be shown, e.g., in a carousel.
+	 * Get related `Ebook`s, e.g., in a carousel.
 	 *
-	 * Filters out placeholder books because they are not useful for browsing.
+	 * Does not include `EbookPlaceholder`s, because they're not useful for browsing.
+	 *
 	 * @return array<Ebook>
 	 */
 	public static function GetAllByRelated(Ebook $ebook, int $count, ?EbookTag $relatedTag): array{
@@ -2329,6 +2330,17 @@ final class Ebook{
 		}
 
 		return $relatedEbooks;
+	}
+
+	/**
+	 * Get all `Ebook`s in a set of `EbookId`s.
+	 *
+	 * @param array<int> $ebookIds
+	 *
+	 * @return array<Ebook>
+	 */
+	public static function GetAllBySet(array $ebookIds): array{
+		return Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
 	}
 
 	/**

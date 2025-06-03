@@ -1,6 +1,5 @@
 <?
-$ebookIds = [288, 485, 289, 908, 565, 2114];
-$carousel = Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
+$carousel = Ebook::GetAllBySet([288, 485, 289, 908, 565, 2114]);
 ?>
 <?= Template::Header(title: 'Edith Wharton’s Vision of Literary Art', css: ['/css/blog.css']) ?>
 <main>
