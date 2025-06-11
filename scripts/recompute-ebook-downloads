@@ -2,6 +2,8 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+EbookDownload::UpdateCloudIpRanges();
+
 $downloadDates = Db::Query('
 	SELECT distinct date(Created) as DownloadDate
 	from EbookDownloads
