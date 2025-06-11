@@ -10,7 +10,7 @@ $carousel = Ebook::GetAllBySet([698, 142, 389]);
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
 		<div class="editors-note">
-			<p>This article first appeared in the June 2026 edition of our <a href="/newsletter">email newsletter</a>.</p>
+			<p>This article first appeared in the June 2025 edition of our <a href="/newsletter">email newsletter</a>.</p>
 		</div>
 		<p><a href="https://standardebooks.org/ebooks/ludwig-wittgenstein">Ludwig Wittgenstein</a>, born in 1889, was a member of one of the most prominent families of late nineteenth-century Vienna. After studying engineering, he went on to exert an enormous influence upon English-speaking philosophy in the first half of the twentieth century.</p>
 		<p>The <i><a href="https://standardebooks.org/ebooks/ludwig-wittgenstein/tractatus-logico-philosophicus/c-k-ogden">Tractatus Logico-Philosophicus</a></i> was the only philosophical work he published during his lifetime, and despite its brevity it has earned a well-deserved reputation for obscurity. It primarily concerns the relationship between language and the world, but also responds to then-recent advances in logic made by the German mathematician Gottlob Frege and the English philosopher <a href="https://standardebooks.org/ebooks/bertrand-russell">Bertrand Russell</a>.</p>
