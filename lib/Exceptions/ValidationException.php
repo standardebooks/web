@@ -45,4 +45,16 @@ class ValidationException extends AppException{
 
 		return false;
 	}
+
+	public function Remove(string $exception): void{
+		$newExceptions = [];
+
+		foreach($this->Exceptions as $childException){
+			if(!is_a($childException, $exception)){
+				$newExceptions[] = $childException;
+			}
+		}
+
+		$this->Exceptions = $newExceptions;
+	}
 }

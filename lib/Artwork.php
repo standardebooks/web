@@ -508,6 +508,13 @@ final class Artwork{
 				$error->Add(new Exceptions\InvalidImageUploadException('An image is required.'));
 			}
 			else{
+				try{
+					$this->MimeType = Enums\ImageMimeType::FromFile($imagePath) ?? throw new Exceptions\InvalidMimeTypeException();
+				}
+				catch(Exceptions\InvalidMimeTypeException $ex){
+					$error->Add($ex);
+				}
+
 				if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
 					$error->Add(new Exceptions\InvalidImageUploadException('Upload path not writable.'));
 				}
@@ -523,10 +530,6 @@ final class Artwork{
 					$error->Add(new Exceptions\InvalidImageUploadException());
 				}
 			}
-		}
-
-		if(!isset($this->MimeType)){
-			$error->Add(new Exceptions\InvalidMimeTypeException());
 		}
 
 		if($error->HasExceptions){
@@ -681,8 +684,6 @@ final class Artwork{
 	 * @throws Exceptions\InvalidImageUploadException
 	 */
 	public function Create(?string $imagePath = null): void{
-		$this->MimeType = Enums\ImageMimeType::FromFile($imagePath) ?? throw new Exceptions\InvalidImageUploadException();
-
 		$this->Validate($imagePath, true);
 
 		$this->Created = NOW;
@@ -750,8 +751,6 @@ final class Artwork{
 		unset($this->_UrlName);
 
 		if($imagePath !== null){
-			$this->MimeType = Enums\ImageMimeType::FromFile($imagePath) ?? throw new Exceptions\InvalidImageUploadException();
-
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's updated timestamp won't change automatically.
 			$this->Updated = NOW;
 			unset($this->_ImageUrl);

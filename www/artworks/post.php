@@ -7,10 +7,6 @@ try{
 	$exceptionRedirectUrl = '/artworks/new';
 	$artwork = new Artwork();
 
-	if(HttpInput::IsRequestTooLarge()){
-		throw new Exceptions\InvalidRequestException('File upload too large.');
-	}
-
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
@@ -162,6 +158,12 @@ catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException
 	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
 	if($ex instanceof Exceptions\InvalidFileUploadException){
 		$ex = new Exceptions\InvalidImageUploadException();
+	}
+
+	// If the `Artwork` reports that no image is uploaded, check to see if the image upload was too large. If so, show the user a clearer error message.
+	if($ex instanceof Exceptions\InvalidArtworkException && $ex->Has(Exceptions\InvalidImageUploadException::class) && HttpInput::IsRequestTooLarge()){
+		$ex->Remove(Exceptions\InvalidImageUploadException::class);
+		$ex->Add(new Exceptions\InvalidRequestException('File upload too large.'));
 	}
 
 	$_SESSION['artwork'] = $artwork;
