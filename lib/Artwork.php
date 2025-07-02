@@ -1146,7 +1146,7 @@ final class Artwork{
 		$ebookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 		if(isset($ebookUrl)){
 			try{
-				$ebook = Ebook::GetByIdentifier('url:' . $ebookUrl);
+				$ebook = Ebook::GetByIdentifier($ebookUrl);
 				$this->EbookId = $ebook->EbookId;
 			}
 			catch(Exceptions\EbookNotFoundException){
