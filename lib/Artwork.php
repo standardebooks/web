@@ -550,7 +550,7 @@ final class Artwork{
 	public static function NormalizePageScanUrl(string $url): string{
 		$outputUrl = $url;
 
-		// Before we start, replace Google TLDs like google.ca with .com
+		// Before we start, replace global Google TLDs like `google.ca` with `google.com`.
 		$url = preg_replace('|^(https://[^/]+?\.google)\.[^/]+/|ius', '\1.com/', $url);
 
 		try{
@@ -598,9 +598,8 @@ final class Artwork{
 				$parsedUrl['path'] = $parsedUrl['path'] . '/mode/1up';
 			}
 
-			// archive.org URLs may have both a book ID and collection ID, like
-			// https://archive.org/details/TheStrandMagazineAnIllustratedMonthly/TheStrandMagazine1914bVol.XlviiiJul-dec/page/n254/mode/1up
-			// The `/page/<number>` portion of the URL may also be missing if we're on page 1 (like the cover)
+			// Internet Archive URLs may have both a book ID and collection ID, like <https://archive.org/details/TheStrandMagazineAnIllustratedMonthly/TheStrandMagazine1914bVol.XlviiiJul-dec/page/n254/mode/1up>.
+			// The `/page/<number>` portion of the URL may also be missing if we're on page 1 (like the cover).
 			if(!preg_match('|^/details/[^/]+?(/[^/]+?)?(/page/[^/]+)?/mode/1up$|ius', $parsedUrl['path'])){
 				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
@@ -611,13 +610,13 @@ final class Artwork{
 		}
 
 		if(stripos($parsedUrl['host'], 'google.com') !== false){
-			// Old style: https://books.google.com/books?id=mZpAAAAAYAAJ&pg=PA70-IA2
-			// New style: https://www.google.com/books/edition/_/mZpAAAAAYAAJ?gbpv=1&pg=PA70-IA2
+			// Old style: <https://books.google.com/books?id=mZpAAAAAYAAJ&pg=PA70-IA2>.
+			// New style: <https://www.google.com/books/edition/_/mZpAAAAAYAAJ?gbpv=1&pg=PA70-IA2>.
 
 			$exampleUrl = 'https://www.google.com/books/edition/_/mZpAAAAAYAAJ?gbpv=1&pg=PA70-IA2';
 
 			if($parsedUrl['host'] == 'books.google.com'){
-				// Old style, convert to new style
+				// Old style, convert to new style.
 
 				if($parsedUrl['path'] != '/books'){
 					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
@@ -632,7 +631,7 @@ final class Artwork{
 				$outputUrl = 'https://www.google.com/books/edition/_/' . $vars['id'] . '?gbpv=1&pg=' . $vars['pg'];
 			}
 			elseif($parsedUrl['host'] == 'www.google.com'){
-				// New style
+				// New style.
 
 				if(!preg_match('|^/books/edition/[^/]+/[^/]+$|ius', $parsedUrl['path'])){
 					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
@@ -667,7 +666,7 @@ final class Artwork{
 			exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imagePath));
 			copy($imagePath, $this->ImageFsPath);
 
-			// Generate the thumbnails
+			// Generate the thumbnails.
 			$image = new Image($imagePath);
 			$image->Resize($this->ThumbFsPath, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
 			$image->Resize($this->Thumb2xFsPath, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
