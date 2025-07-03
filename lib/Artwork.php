@@ -503,7 +503,7 @@ final class Artwork{
 			// No duplicates found, continue.
 		}
 
-		if($isImageRequired){
+		if($isImageRequired || $imagePath !== null){
 			if($imagePath === null){
 				$error->Add(new Exceptions\InvalidImageUploadException('An image is required.'));
 			}
