@@ -3,6 +3,11 @@
 	<section class="narrow">
 		<h1>Blog</h1>
 		<ul>
+			<!-- <li>
+				<p>
+					<a href="/blog/aesops-fabulous-nature">Aesop’s Fabulous Nature</a>
+				</p>
+			</li> -->
 			<li>
 				<p>
 					<a href="/blog/the-book-that-solved-philosophy">The Book That Solved Philosophy</a>
