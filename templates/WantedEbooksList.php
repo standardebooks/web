@@ -8,7 +8,7 @@
 	<? foreach($ebooks as $ebook){ ?>
 		<li>
 			<p>
-				<? if(isset($ebook->EbookPlaceholder->TranscriptionUrl)){ ?><a href="<?= $ebook->EbookPlaceholder->TranscriptionUrl ?>"><? } ?><i><?= Formatter::EscapeHtml($ebook->Title) ?></i><? if(isset($ebook->EbookPlaceholder->TranscriptionUrl)){ ?></a><? } ?>
+				<? if(isset($ebook->EbookPlaceholder->TranscriptionUrl)){ ?><a href="<?= Formatter::EscapeHtml($ebook->EbookPlaceholder->TranscriptionUrl) ?>"><? } ?><i><?= Formatter::EscapeHtml($ebook->Title) ?></i><? if(isset($ebook->EbookPlaceholder->TranscriptionUrl)){ ?></a><? } ?>
 
 
 				by <?= Formatter::EscapeHtml($ebook->AuthorsString) ?>. <?= $ebook->ContributorsHtml ?>
