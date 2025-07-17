@@ -45,10 +45,7 @@ class EbookDownload{
 			$this->UserAgent = null;
 		}
 
-		// The `IpAddress` column expects IPv6 address strings.
-		if(is_string($this->IpAddress) && filter_var($this->IpAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)){
-			$this->IpAddress = '::ffff:' . $this->IpAddress;
-		}
+		$this->IpAddress = Formatter::ToIpv6($this->IpAddress);
 
 		if($error->HasExceptions){
 			throw $error;
@@ -85,5 +82,27 @@ class EbookDownload{
 				where Created >= ?
 					and Created < ?
 			', [$startDate, $endDate], EbookDownload::class);
+	}
+
+	/**
+	 * Gets the count of `EbookDownload` objects by the given IP address newer than the given created time.
+	 *
+	 * @param string $ipAddress The IP address to search for.
+	 * @param DateTimeImmutable $startDateTime The minimum creation timestamp (inclusive).
+	 * @return int The total number of `EbookDownload` objects matching the criteria.
+	 */
+	public static function GetCountByIpAddressSince(?string $ipAddress, DateTimeImmutable $startDateTime): int{
+		if(!isset($ipAddress)){
+			return 0;
+		}
+
+		$ipAddress = Formatter::ToIpv6($ipAddress);
+
+		return Db::QueryInt('
+				SELECT count(*)
+				from EbookDownloads
+				where IpAddress = ?
+					and Created >= ?
+			', [$ipAddress, $startDateTime]);
 	}
 }

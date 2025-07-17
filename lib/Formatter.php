@@ -150,6 +150,17 @@ class Formatter{
 	}
 
 	/**
+	 * Format a valid IPv4 address to IPv6. Other strings are unchanged.
+	 */
+	public static function ToIpv6(?string $ipAddress): ?string{
+		if(filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)){
+			return '::ffff:' . $ipAddress;
+		}
+
+		return $ipAddress;
+	}
+
+	/**
 	 * Format a float into a USD currency string. The result is prepended with `$`.
 	 *
 	 * @param ?float $amount The amount to format.
