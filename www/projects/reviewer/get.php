@@ -19,7 +19,7 @@ try{
 
 	switch($output->Name){
 		case 'Alex Cabal':
-			$output->Url = 'https://alexcabal.com';
+			$output->Url = 'https://alexcabal.com/';
 			break;
 
 		case 'Emma Sweeney':
@@ -27,15 +27,15 @@ try{
 			break;
 
 		case 'Weijia Cheng':
-			$output->Url = 'https://weijiarhymeswith.asia';
+			$output->Url = 'https://weijiarhymeswith.asia/';
 			break;
 
 		case 'Robin Whittleton':
-			$output->Url = 'https://www.robinwhittleton.com';
+			$output->Url = 'https://www.robinwhittleton.com/';
 			break;
 
 		case 'Vince Rice':
-			$output->Url = 'https://www.brokenandsaved.com';
+			$output->Url = 'https://www.brokenandsaved.com/';
 			break;
 
 		case 'David Reimer':
