@@ -7,6 +7,11 @@ $downloadUrl = null;
 $downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
 $source = Enums\EbookDownloadSource::tryFrom(HttpInput::Str(GET, 'source') ?? '');
 
+$shortDownloadLimit = 10;
+$shortDownloadTime = NOW->modify('-30 seconds');
+$longDownloadLimit = 100;
+$longDownloadTime = NOW->modify('-1 day');
+
 // Skip the thank you page if any of these are true:
 // * The user is logged in.
 // * Their `download-count` cookie is above some amount.
@@ -40,11 +45,17 @@ try{
 	/** @var string|null $userAgent */
 	$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
 
-	try{
-		$ebook->AddDownload($ipAddress, $userAgent);
-	}
-	catch(Exceptions\InvalidEbookDownloadException){
-		// Pass. Allow the download to continue even if it isn't recorded.
+	if(!isset(Session::$User)){
+		// Check for excessive downloads.
+		$shortDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, $shortDownloadTime);
+		if($shortDownloadCount > $shortDownloadLimit){
+			Template::ExitWithCode(Enums\HttpCode::TooManyRequests);
+		}
+
+		$longDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, $longDownloadTime);
+		if($longDownloadCount > $longDownloadLimit){
+			Template::ExitWithCode(Enums\HttpCode::TooManyRequests);
+		}
 	}
 
 	if($skipThankYouPage){
@@ -54,6 +65,13 @@ try{
 
 		if(!is_file($downloadPath)){
 			throw new Exceptions\InvalidFileException();
+		}
+
+		try{
+			$ebook->AddDownload($ipAddress, $userAgent);
+		}
+		catch(Exceptions\InvalidEbookDownloadException){
+			// Pass. Allow the download to continue even if it isn't recorded.
 		}
 
 		// Everything OK, serve the file using Apache.

@@ -24,6 +24,7 @@ enum HttpCode: int{
 	case Conflict = 409;
 	case Gone = 410;
 	case UnprocessableContent = 422;
+	case TooManyRequests = 429;
 
 	case InternalServerError = 500;
 	case ServiceUnavailable = 503;
