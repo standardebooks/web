@@ -131,11 +131,9 @@ ksort($ebooksWithDescriptions);
 			<ul class="public-domain-day">
 				<? foreach($ebooksWithDescriptions as $ebookGroup){ ?>
 					<li>
-						<div>
-							<a href="<?= $ebookGroup['ebook']->Url ?>">
-								<?= Template::RealisticEbook(ebook: $ebookGroup['ebook']) ?>
-							</a>
-						</div>
+						<a href="<?= $ebookGroup['ebook']->Url ?>">
+							<?= Template::RealisticEbook(ebook: $ebookGroup['ebook']) ?>
+						</a>
 						<div>
 							<h2>
 								<a href="<?= $ebookGroup['ebook']->Url ?>"><?= Formatter::EscapeHtml($ebookGroup['ebook']->Title) ?></a>

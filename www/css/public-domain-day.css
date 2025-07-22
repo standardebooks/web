@@ -7,11 +7,11 @@
 	margin-top: 6rem;
 }
 
-.public-domain-day div + div{
+.public-domain-day a + div{
 	margin-left: 1rem;
 }
 
-.public-domain-day div + div > p:last-child{
+.public-domain-day a + div > p:last-child{
 	text-align: right;
 	font-style: italic;
 }
@@ -59,11 +59,11 @@ figure.realistic-ebook.xxlarge{
 }
 
 @media(max-width: 1000px){
-	.public-domain-day div + div{
+	.public-domain-day a + div{
 		margin-left: 0;
 	}
 
-	.public-domain-day div > a{
+	.public-domain-day li > a{
 		width: 7rem;
 	}
 
@@ -81,7 +81,7 @@ figure.realistic-ebook.xxlarge{
 		text-align: center;
 	}
 
-	.public-domain-day div > a{
+	.public-domain-day li > a{
 		margin: auto;
 		display: block;
 		height: 15rem;
