@@ -30,7 +30,7 @@ catch(Exceptions\CollectionNotFoundException){
 	</p>
 
 	<? if(sizeof($collection->Ebooks) == 0){ ?>
-		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
+		<p class="no-results">No ebooks matched your filters. You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
 		<?= Template::EbookGrid(ebooks: $collection->Ebooks, view: Enums\ViewType::Grid, collection: $collection) ?>
 	<? } ?>

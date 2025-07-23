@@ -103,7 +103,7 @@ catch(Exceptions\EbookNotFoundException){
 					</ul>
 				<? } ?>
 			<? }elseif($ebook->EbookPlaceholder->YearPublished !== null){ ?>
-				<p>This book was published in <?= $ebook->EbookPlaceholder->YearPublished ?>, and will therefore enter the U.S. public domain <?= $ebook->EbookPlaceholder->TimeTillIsPublicDomain != '' ? 'in ' .  $ebook->EbookPlaceholder->TimeTillIsPublicDomain : '' ?> on <b>January 1, <?= $ebook->EbookPlaceholder->YearPublished + 96 ?>.</b></p>
+				<p>This book was published in <?= $ebook->EbookPlaceholder->YearPublished ?>, and will therefore enter the U.S. public domain <?= $ebook->EbookPlaceholder->TimeTillIsPublicDomain != '' ? 'in ' . $ebook->EbookPlaceholder->TimeTillIsPublicDomain : '' ?> on <b>January 1, <?= $ebook->EbookPlaceholder->YearPublished + 96 ?>.</b></p>
 				<p><a href="/about/standard-ebooks-and-the-public-domain">Read more about Standard Ebooks and the U.S. Public Domain.</a></p>
 			<? }else{ ?>
 				<p>This book is not yet in the U.S. public domain. We can’t offer it until it is.</p>

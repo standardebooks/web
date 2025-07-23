@@ -11,7 +11,7 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	$identifier = EBOOKS_IDENTIFIER_PREFIX .  trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
+	$identifier = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
 
 	$ebook = Ebook::GetByIdentifier($identifier);
 

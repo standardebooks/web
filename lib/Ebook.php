@@ -692,7 +692,7 @@ final class Ebook{
 				$ebook->RepoFilesystemPath = preg_replace('/\.git$/ius', '', $ebook->RepoFilesystemPath);
 			}
 			catch(\Exception){
-				// We may get an exception from preg_replace if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, whichis  a common injection attack vector.
+				// We may get an exception from `preg_replace()` if the passed repo wwwFilesystemPath contains invalid UTF-8 characters, which is a common injection attack vector.
 				throw new Exceptions\EbookNotFoundException('Invalid repo filesystem path: ' . $ebook->RepoFilesystemPath);
 			}
 		}
@@ -765,7 +765,7 @@ final class Ebook{
 
 		// Fill in the short history of this repo.
 		try{
-			$historyEntries = explode("\n",  shell_exec('cd ' . escapeshellarg($ebook->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"') ?? '');
+			$historyEntries = explode("\n", shell_exec('cd ' . escapeshellarg($ebook->RepoFilesystemPath) . ' && git log -n5 --pretty=format:"%ct %H %s"') ?? '');
 
 			$gitCommits = [];
 			foreach($historyEntries as $logLine){
@@ -1166,7 +1166,7 @@ final class Ebook{
 		$this->Illustrators = [];
 		$this->LocSubjects = [];
 		$this->Tags = [];
-		$this->TocEntries  = [];
+		$this->TocEntries = [];
 
 		$this->SetIdentifier();
 	}
@@ -2271,7 +2271,7 @@ final class Ebook{
 					from Ebooks e
 					inner join Contributors con using (EbookId)
 					where con.MarcRole = "aut"
-					    and con.UrlName in ' . Db::CreateSetSql($authors)  . '
+					    and con.UrlName in ' . Db::CreateSetSql($authors) . '
 					group by e.EbookId
 					having count(distinct con.UrlName) = ?
 					order by e.EbookCreated desc

@@ -520,7 +520,7 @@ figure.corrected code{
 	width: 6rem;
 }
 
-.manual > article > section > section[id] > section > section > section > section >  aside.number::after{
+.manual > article > section > section[id] > section > section > section > section > aside.number::after{
 	width: 8rem;
 }
 
@@ -532,7 +532,7 @@ figure.corrected code{
 .manual ol ol ul,
 .manual ol ol p,
 .manual ol ol figure,
-.manual > article > section > section  section{
+.manual > article > section > section section{
 	margin-left: 2rem;
 }
 

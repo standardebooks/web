@@ -17,7 +17,7 @@ $ebook = null;
 try{
 	if($urlPath !== null){
 		// Check this first so we can output a 404 immediately if it's not found.
-		$identifier = EBOOKS_IDENTIFIER_PREFIX .  trim(str_replace('.', '', $urlPath), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
+		$identifier = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', $urlPath), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
 
 		$ebook = Ebook::GetByIdentifier($identifier);
 	}

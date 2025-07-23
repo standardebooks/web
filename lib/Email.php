@@ -83,7 +83,7 @@ class Email{
 		}
 		catch(Exception $ex){
 			if(SITE_STATUS != SITE_STATUS_DEV){
-				Log::WriteErrorLogEntry('Failed sending email to ' . $this->To . ' Exception: ' . $ex->errorMessage() . "\n" . '  Subject: ' . $this->Subject . "\nBody:\n" . $this->Body);
+				Log::WriteErrorLogEntry('Failed sending email to ' . $this->To . ' Exception: ' . $ex->errorMessage() . "\n" . ' Subject: ' . $this->Subject . "\nBody:\n" . $this->Body);
 			}
 
 			return false;

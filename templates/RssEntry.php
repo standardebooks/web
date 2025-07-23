@@ -23,6 +23,6 @@ catch(Safe\Exceptions\FilesystemException){
 	<? } ?>
 	<media:thumbnail url="<?= SITE_URL . $entry->Url ?>/downloads/cover-thumbnail.jpg" height="525" width="350"/>
 	<? if($entry->EpubUrl !== null){ ?>
-		<enclosure url="<?= SITE_URL . Formatter::EscapeXml($entry->GetDownloadUrl(Enums\EbookFormatType::Epub, Enums\EbookDownloadSource::Feed))  ?>" length="<?= $filesize ?>" type="application/epub+zip" />  <? /* Only one <enclosure> is allowed */ ?>
+		<enclosure url="<?= SITE_URL . Formatter::EscapeXml($entry->GetDownloadUrl(Enums\EbookFormatType::Epub, Enums\EbookDownloadSource::Feed)) ?>" length="<?= $filesize ?>" type="application/epub+zip" /> <? /* Only one <enclosure> is allowed */ ?>
 	<? } ?>
 </item>

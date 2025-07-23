@@ -3,9 +3,9 @@
 	<article>
 		<h1>Tips for Editors and Proofreaders</h1>
 		<p>Advances in ereading devices and software have made proofreading ebooks a whole lot easier than in the past.</p>
-		<p>Most ereading software allows you to highlight text and add notes to those highlights.  If you’re using a device like a Kindle or a phone or tablet with the Google Play Books app, try holding your finger on some text.  It’ll become highlighted, and you can drag the highlight to include more text if you like.</p>
-		<p>That means the quickest way for you to proofread an ebook is to <a href="/help/how-to-use-our-ebooks">transfer it to your ereader</a> and start reading!  Once you find an error, use the highlight feature to mark it, and keep on reading.  Many errors, like mis-curled quotation marks or obvious spelling errors, don’t need a written note to accompany the highlight.  But you should make a brief written note if the error wouldn’t be clear to a passing reader.</p>
-		<p>Once you’ve finished the ebook, use your ereader’s “view all notes” option to find all of your highlights in one place.  Then you can either <a href="/contribute/report-errors">report them to us</a>, or if you’re technically-minded, correct them directly in the ebook’s <a href="http://github.com/standardebooks">GitHub repository</a>.  Remember to read the <a href="/manual">Standard Ebooks Manual of Style</a> to make sure the error you found is covered.</p>
+		<p>Most ereading software allows you to highlight text and add notes to those highlights. If you’re using a device like a Kindle or a phone or tablet with the Google Play Books app, try holding your finger on some text. It’ll become highlighted, and you can drag the highlight to include more text if you like.</p>
+		<p>That means the quickest way for you to proofread an ebook is to <a href="/help/how-to-use-our-ebooks">transfer it to your ereader</a> and start reading! Once you find an error, use the highlight feature to mark it, and keep on reading. Many errors, like mis-curled quotation marks or obvious spelling errors, don’t need a written note to accompany the highlight. But you should make a brief written note if the error wouldn’t be clear to a passing reader.</p>
+		<p>Once you’ve finished the ebook, use your ereader’s “view all notes” option to find all of your highlights in one place. Then you can either <a href="/contribute/report-errors">report them to us</a>, or if you’re technically-minded, correct them directly in the ebook’s <a href="http://github.com/standardebooks">GitHub repository</a>. Remember to read the <a href="/manual">Standard Ebooks Manual of Style</a> to make sure the error you found is covered.</p>
 		<section id="common-errors">
 			<h2>Common errors to watch out for</h2>
 			<p>Lots of different errors can occur during the long and complex process of digitizing a print book, but here are some of the more common ones:</p>
@@ -18,7 +18,7 @@
 					</figure>
 				</li>
 				<li><h3>Incorrect or archaic use of quotation marks</h3>
-					<p>Older texts frequently use quotation marks for names of books and periodicals, or for the names of pubs, inns, and other places.  Our <a href="/manual/latest/8-typography">typography manual</a> requires that certain standalone media be in italics instead, and that place names <em>not</em> be set in quotes.</p>
+					<p>Older texts frequently use quotation marks for names of books and periodicals, or for the names of pubs, inns, and other places. Our <a href="/manual/latest/8-typography">typography manual</a> requires that certain standalone media be in italics instead, and that place names <em>not</em> be set in quotes.</p>
 					<figure class="text">
 						<p class="wrong">He read “Candide” while having a pint at the “King’s Head.”</p>
 						<p class="corrected">He read <i>Candide</i> while having a pint at the King’s Head.</p>
@@ -26,19 +26,19 @@
 				</li>
 				<li>
 					<h3>Missing italics</h3>
-					<p>Often transcribers just don’t include italics at all in their work.  A very quick visual scan of a HathiTrust or Google Books copy of the book you’re proofing should bring any sections in italics to your attention.  Make sure to confirm them in the transcription, so that we’re not missing italics that should be there.</p>
+					<p>Often transcribers just don’t include italics at all in their work. A very quick visual scan of a HathiTrust or Google Books copy of the book you’re proofing should bring any sections in italics to your attention. Make sure to confirm them in the transcription, so that we’re not missing italics that should be there.</p>
 				</li>
 				<li>
 					<h3>Ending dialog with a double-em-dash</h3>
-					<p>Some authors were in the habit of showing a sudden break in dialog with an extra-wide double-em-dash.  Our <a href="/manual/latest/8-typography">typography manual</a> requires that these be replaced by single em-dashes, so mark them for correction.</p>
+					<p>Some authors were in the habit of showing a sudden break in dialog with an extra-wide double-em-dash. Our <a href="/manual/latest/8-typography">typography manual</a> requires that these be replaced by single em-dashes, so mark them for correction.</p>
 					<figure class="text">
-                                                        <p class="wrong">“Why, I never——” she cried.</p>
-                                                        <p class="corrected">“Why, I never—” she cried.</p>
-                                                </figure>
-					<p>Note that a double-em-dash is appropriate when purposefully obscuring a word or place.  In this case, use the two-em-dash glyph (⸻ or U+2E3A) instead of two consecutive em-dashes:</p>
+							<p class="wrong">“Why, I never——” she cried.</p>
+							<p class="corrected">“Why, I never—” she cried.</p>
+					</figure>
+					<p>Note that a double-em-dash is appropriate when purposefully obscuring a word or place. In this case, use the two-em-dash glyph (⸻ or U+2E3A) instead of two consecutive em-dashes:</p>
 					 <figure class="text">
-                                                <p class="corrected">Sally J⸺ walked through the town of ⸻ in the year 19—.</p>
-                                        </figure>
+						<p class="corrected">Sally J⸺ walked through the town of ⸻ in the year 19—.</p>
+					</figure>
 				</li>
 				<li>
 					<h3>Using &amp;c. instead of etc.</h3>
@@ -48,16 +48,16 @@
 				<li>
 					<h3>Use of “ibid.” in footnotes or endnotes</h3>
 					<p>In work with footnotes or endnotes, “ibid.” means that the source for this note is the same as the previous note on the page.</p>
-					<p>Since Standard Ebooks consolidate all footnotes and endnotes into popup footnotes, ibid. becomes meaningless—there’s no concept of a “page” anymore.  If you encounter ibid., replace it with the complete reference from the previous note so readers using popup footnotes won’t get confused.</p>
+					<p>Since Standard Ebooks consolidate all footnotes and endnotes into popup footnotes, ibid. becomes meaningless—there’s no concept of a “page” anymore. If you encounter ibid., replace it with the complete reference from the previous note so readers using popup footnotes won’t get confused.</p>
 				</li>
 				<li>
 					<h3>Text in all caps</h3>
-					<p>Many transcriptions of older texts were made in a time when rich <abbr class="initialism">HTML</abbr> markup wasn’t yet available.  Those transcriptions sometimes used ALL CAPS to indicate small caps or boldface in the source text.</p>
-					<p>All caps is almost never correct typography.  Mark text in all caps for conversion to small caps or boldface.</p>
+					<p>Many transcriptions of older texts were made in a time when rich <abbr class="initialism">HTML</abbr> markup wasn’t yet available. Those transcriptions sometimes used ALL CAPS to indicate small caps or boldface in the source text.</p>
+					<p>All caps is almost never correct typography. Mark text in all caps for conversion to small caps or boldface.</p>
 				</li>
 				<li>
 					<h3>Section dividers as text instead of as markup</h3>
-					<p>There are lots of ways authors mark section breaks in text.  A common way to do this is with three or more asterisks:</p>
+					<p>There are lots of ways authors mark section breaks in text. A common way to do this is with three or more asterisks:</p>
 					<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Some text in the first section...<span class="p">&lt;/</span><span class="" ass="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>***<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The second section begins...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>

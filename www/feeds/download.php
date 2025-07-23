@@ -64,7 +64,7 @@ try{
 			'application/xml',
 			'text/xml'
 		];
-		$mime = $http->negotiateMimeType($contentType,  'application/atom+xml');
+		$mime = $http->negotiateMimeType($contentType, 'application/atom+xml');
 
 		if($mime == 'application/atom+xml'){
 			if(preg_match('/\/index\.xml$/', $path)){
@@ -81,7 +81,7 @@ try{
 			'application/xml',
 			'text/xml'
 		];
-		$mime = $http->negotiateMimeType($contentType,  'application/rss+xml');
+		$mime = $http->negotiateMimeType($contentType, 'application/rss+xml');
 	}
 	elseif(preg_match('/^\/feeds\/atom/', $path)){
 		$contentType = [
@@ -89,7 +89,7 @@ try{
 			'application/xml',
 			'text/xml'
 		];
-		$mime = $http->negotiateMimeType($contentType,  'application/atom+xml');
+		$mime = $http->negotiateMimeType($contentType, 'application/atom+xml');
 	}
 
 	header('Content-Type: ' . $mime);

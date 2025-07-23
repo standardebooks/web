@@ -18,7 +18,7 @@ $timeString = '';
 if($timeLeft->d < 1 && $timeLeft->h < 20){
 	$timeString = 'Just hours';
 }
-elseif($timeLeft->d >=  1 && $timeLeft->h <= 12){
+elseif($timeLeft->d >= 1 && $timeLeft->h <= 12){
 	$timeString = $timeLeft->d . ' day';
 	if($timeLeft->d > 1){
 		$timeString .= 's';

@@ -9,7 +9,7 @@ const LATEST_CONTINENTAL_US_TZ = new DateTimeZone('America/Juneau');
 const PD_NOW = new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ);
 define('PD_YEAR', intval(PD_NOW->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
-const SITE_TZ = new  DateTimeZone('America/Chicago');
+const SITE_TZ = new DateTimeZone('America/Chicago');
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';

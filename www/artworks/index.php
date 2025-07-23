@@ -115,7 +115,7 @@ try{
 	$canonicalUrl = SITE_URL . '/artworks';
 
 	if($queryString != ''){
-		$canonicalUrl .=  '?' . $queryString;
+		$canonicalUrl .= '?' . $queryString;
 	}
 
 	$pages = ceil($totalArtworkCount / $perPage);
@@ -197,7 +197,7 @@ catch(Exceptions\PageOutOfBoundsException){
 		<?= Template::ImageCopyrightNotice() ?>
 
 		<? if($totalArtworkCount == 0){ ?>
-			<p class="no-results">No artwork matched your filters.  You can try different filters, or <a href="/artworks">browse all artwork</a>.</p>
+			<p class="no-results">No artwork matched your filters. You can try different filters, or <a href="/artworks">browse all artwork</a>.</p>
 		<? }else{ ?>
 			<?= Template::ArtworkList(artworks: $artworks) ?>
 		<? } ?>

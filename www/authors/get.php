@@ -25,7 +25,7 @@ try{
 		}
 	}
 
-	$author =  strip_tags($ebooks[0]->AuthorsHtml);
+	$author = strip_tags($ebooks[0]->AuthorsHtml);
 	$authorUrl = $ebooks[0]->AuthorsUrl;
 }
 catch(Exceptions\AuthorNotFoundException){

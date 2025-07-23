@@ -24,13 +24,13 @@
 				<li>
 					<p>Update the payment method for each donation.</p>
 				</li>
-		    		<li>
-		    			<p>Update the donation amount and opt in or out of covering the fiscal sponsorship administrative fee.</p>
-		    		</li>
-		    		<li>
-		    			<p>Cancel a monthly donation.</p>
-		    		</li>
-		    	</ul>
+				<li>
+					<p>Update the donation amount and opt in or out of covering the fiscal sponsorship administrative fee.</p>
+				</li>
+				<li>
+					<p>Cancel a monthly donation.</p>
+				</li>
+			</ul>
 			<p><b>Note:</b> Monthly donations processed prior to February 5, 2021 and one-time donations will not appear in this dashboard.</p>
 		</section>
 		<section id="cancel-a-monthly-donation">

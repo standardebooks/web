@@ -141,7 +141,7 @@ catch(Exceptions\PageOutOfBoundsException){
 	<?= Template::SearchForm(query: $query, tags: $tags, sort: $sort, view: $view, perPage: $perPage) ?>
 
 	<? if(sizeof($ebooks) == 0){ ?>
-		<p class="no-results">No ebooks matched your filters.  You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
+		<p class="no-results">No ebooks matched your filters. You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
 		<?= Template::EbookGrid(ebooks: $ebooks, view: $view) ?>
 	<? } ?>

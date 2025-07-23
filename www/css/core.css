@@ -2125,7 +2125,7 @@ input[type="file"]:user-invalid{
 
 select[multiple] option:checked{
 	/* We have to use this method to set the bg color because browsers override background-color with !important */
-	background-image: linear-gradient(0deg, var(--button) 0%,  var(--button) 100%);
+	background-image: linear-gradient(0deg, var(--button) 0%, var(--button) 100%);
 }
 
 form[action="/settings"]{
@@ -4271,7 +4271,7 @@ a.patron-selection:any-link:hover{
 		box-shadow: none;
 	}
 
-	figure.realistic-ebook:hover  img,
+	figure.realistic-ebook:hover img,
 	.ebook .downloads-container:hover figure img{ /* cover */
 		filter: brightness(1.15);
 		transform: translateY(-.5rem);

@@ -7,7 +7,7 @@ $contentType = [
 	'text/xml'
 ];
 
-$mime = $http->negotiateMimeType($contentType,  'application/xslt+xml');
+$mime = $http->negotiateMimeType($contentType, 'application/xslt+xml');
 
 header('Content-Type: ' . $mime . '; charset=utf-8');
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")

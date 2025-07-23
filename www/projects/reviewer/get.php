@@ -3,7 +3,7 @@ try{
 	$urlPath = HttpInput::Str(GET, 'url-path');
 
 	if($urlPath !== null){
-		$identifier = EBOOKS_IDENTIFIER_PREFIX .  trim(str_replace('.', '', $urlPath), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
+		$identifier = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', $urlPath), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
 
 		$project = Project::GetByIdentifierAndIsActive($identifier);
 	}

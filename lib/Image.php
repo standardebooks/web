@@ -57,7 +57,7 @@ class Image{
 		$tempFilename = $tempDirectory . '/se-' . $basename . '.jpg';
 
 		try{
-			exec('convert '.  escapeshellarg($this->Path) . ' ' . escapeshellarg($tempFilename), $shellOutput, $resultCode);
+			exec('convert '. escapeshellarg($this->Path) . ' ' . escapeshellarg($tempFilename), $shellOutput, $resultCode);
 
 			if($resultCode !== 0){
 				throw new Exceptions\InvalidImageUploadException('Failed to convert TIFF to JPEG');
@@ -65,7 +65,7 @@ class Image{
 
 			// Sometimes TIFF files can have multiple images, or "pages" in one file. In that case, `convert` outputs multiple files named `<file>-0.jpg`, `<file>-1.jpg`, etc., instead of `<file>.jpg`.
 			// Test for that case here.
-			$pagedFilename = $tempDirectory  . '/se-' . $basename . '-0.jpg';
+			$pagedFilename = $tempDirectory . '/se-' . $basename . '-0.jpg';
 			if(is_file($pagedFilename)){
 				// This TIFF has pages!
 				$handle = \Safe\imagecreatefromjpeg($pagedFilename);

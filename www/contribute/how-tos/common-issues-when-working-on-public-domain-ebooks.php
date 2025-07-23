@@ -36,7 +36,7 @@
 				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>To the eye of History many things, in that sick-room of Louis, are now visible, which to the courtiers there present were invisible.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 			</li>
 			<li>
-			    <p>Often, the first few words of each chapter in a work are set in all- or small-caps. We do not retain that formatting.</p>
+				<p>Often, the first few words of each chapter in a work are set in all- or small-caps. We do not retain that formatting.</p>
 				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I SUPPOSE that in the days before the catastrophe I was a very fair representative of the better type of business man.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				<p>The first two words should be changed to normal sentence case in an editorial commit.</p>
 				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>I suppose that in the days before the catastrophe I was a very fair representative of the better type of business man.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>

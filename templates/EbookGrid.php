@@ -7,7 +7,7 @@
 $view ??= Enums\ViewType::Grid;
 $collection ??= null;
 ?>
-<ol class="ebooks-list<? if($view == Enums\ViewType::List){ ?>  list<? }else{ ?> grid<? } ?>"<? if($collection !== null){ ?> typeof="schema:BookSeries" about="<?= $collection->Url ?>"<? } ?>>
+<ol class="ebooks-list<? if($view == Enums\ViewType::List){ ?> list<? }else{ ?> grid<? } ?>"<? if($collection !== null){ ?> typeof="schema:BookSeries" about="<?= $collection->Url ?>"<? } ?>>
 	<? if($collection !== null){ ?>
 		<meta property="schema:name" content="<?= Formatter::EscapeHtml($collection->Name) ?>"/>
 	<? } ?>
@@ -30,7 +30,7 @@ $collection ??= null;
 				</a>
 			</div>
 			<p><a href="<?= $ebook->Url ?>" property="schema:url"><span property="schema:name"><?= Formatter::EscapeHtml($ebook->Title) ?></span></a></p>
-			<? if($view == Enums\ViewType::Grid){  ?>
+			<? if($view == Enums\ViewType::Grid){ ?>
 				<? foreach($ebook->Authors as $author){ ?>
 					<p class="author" typeof="schema:Person" property="schema:author" resource="<?= $ebook->AuthorsUrl ?>"><? if($author->Name != 'Anonymous'){ ?><a href="<?= Formatter::EscapeHtml(SITE_URL . $ebook->AuthorsUrl) ?>" property="schema:url"><span property="schema:name"><?= Formatter::EscapeHtml($author->Name) ?></span></a><? } ?></p>
 				<? } ?>

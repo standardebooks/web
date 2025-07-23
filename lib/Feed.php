@@ -88,12 +88,12 @@ abstract class Feed{
 					$obj = new stdClass();
 					$obj->Url = '/feeds/' . $type->value . '/' . $collectionType->value . '/' . basename($file, '.xml');
 
-					$obj->Label  = exec('attr -g se-label ' . escapeshellarg($file)) ?: null;
+					$obj->Label = exec('attr -g se-label ' . escapeshellarg($file)) ?: null;
 					if($obj->Label == null){
 						$obj->Label = basename($file, '.xml');
 					}
 
-					$obj->LabelSort  = exec('attr -g se-label-sort ' . escapeshellarg($file)) ?: null;
+					$obj->LabelSort = exec('attr -g se-label-sort ' . escapeshellarg($file)) ?: null;
 					if($obj->LabelSort == null){
 						$obj->LabelSort = basename($file, '.xml');
 					}
