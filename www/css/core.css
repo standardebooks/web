@@ -182,7 +182,7 @@ html{
 	font-family: "Crimson Pro", Georgia, serif;
 	-webkit-hyphens: auto;
 	hyphens: auto;
-	text-wrap: pretty;
+	/* text-wrap: pretty; */ /* Causes a tab crash in Chromium as of 2025-04, see <https://issues.chromium.org/issues/410985016>. */
 	font-size: 22px;
 	line-height: 1.4;
 	background: var(--body-bg);
