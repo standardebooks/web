@@ -7,7 +7,7 @@ $downloadUrl = null;
 $downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
 $source = Enums\EbookDownloadSource::tryFrom(HttpInput::Str(GET, 'source') ?? '');
 
-$shortDownloadLimit = 10;
+$shortDownloadLimit = 35;
 $shortDownloadTime = NOW->modify('-30 seconds');
 $longDownloadLimit = 100;
 $longDownloadTime = NOW->modify('-1 day');
