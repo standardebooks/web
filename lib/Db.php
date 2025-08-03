@@ -249,6 +249,51 @@ class Db{
 	 *
 	 * For example, `select * from Users inner join Posts on Users.UserId = Posts.UserId`.
 	 *
+	 * The result is an array containing arrays for each table selected.
+	 *
+	 * **Important note:** If the two tables are joined via `using (Id)` instead of `on TableA.Id = TableB.Id`, the SQL query would return only one column for the join key (`Id` in this case). Therefore, if both objects require that column, the `FromMultiTableRow()` must explicitly assign the column to the object that's missing it, typically the second table in the join.
+	 *
+	 * @param string $sql The SQL query to execute.
+	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
+	 *
+	 * @return array<array<string, stdClass>>
+	 *
+	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
+	 */
+	public static function RawMultiTableSelect(string $sql, array $params): array{
+		$handle = static::PreparePdoHandle($sql, $params);
+		$result = [];
+		$deadlockRetries = 0;
+		$done = false;
+
+		while(!$done){
+			try{
+				/** @var array<array<string, stdClass>> $result */
+				$result = static::ExecuteMultiTableSelect($handle, 'stdClass');
+				$done = true;
+			}
+			catch(\PDOException $ex){
+				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
+					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
+					$deadlockRetries++;
+					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up. Start at .5 seconds.
+				}
+				else{
+					throw static::CreateDetailedException($ex, $sql, $params);
+				}
+			}
+		}
+
+		static::$QueryCount++;
+
+		return $result;
+	}
+
+	/**
+	 * Execute a select query that returns a join against multiple tables.
+	 *
+	 * For example, `select * from Users inner join Posts on Users.UserId = Posts.UserId`.
+	 *
 	 * The result is an array of rows. Each row is an array of objects, with each object containing its columns and values. For example,
 	 *
 	 * ```php
