@@ -1390,7 +1390,7 @@ final class Ebook{
 			$this->GitHubUrl = null;
 		}
 		else{
-			if(!preg_match('|^https://github.com/standardebooks/\w+|ius', $this->GitHubUrl)){
+			if(!preg_match('|^https://github\.com/standardebooks/\w+|ius', $this->GitHubUrl)){
 				$error->Add(new Exceptions\InvalidEbookGitHubUrlException('Invalid Ebook GitHubUrl: ' . $this->GitHubUrl));
 			}
 

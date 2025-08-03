@@ -235,11 +235,11 @@ final class Project{
 		if($this->VcsUrl == ''){
 			$this->VcsUrl = null;
 		}
-		elseif(preg_match('|^https?://(www\.)?github.com/|ius', $this->VcsUrl)){
+		elseif(preg_match('|^https?://(www\.)?github\.com/|ius', $this->VcsUrl)){
 			$this->VcsUrl = rtrim($this->VcsUrl, '/');
 			// Remove query strings.
 			$this->VcsUrl = preg_replace('/\?[^\?]+$/iu', '', $this->VcsUrl);
-			if(!preg_match('|^https://github.com/[^/]+/[^/]+$|ius', $this->VcsUrl)){
+			if(!preg_match('|^https://github\.com/[^/]+/[^/]+$|ius', $this->VcsUrl)){
 				$error->Add(new Exceptions\InvalidVcsUrlException($this->VcsUrl));
 			}
 		}
@@ -511,7 +511,7 @@ final class Project{
 
 		$this->UpdateVcsUrl();
 
-		$url = preg_replace('|^https://github.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/issues');
+		$url = preg_replace('|^https://github\.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/issues');
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -609,7 +609,7 @@ final class Project{
 
 		$this->UpdateVcsUrl();
 
-		$url = preg_replace('|^https://github.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/commits');
+		$url = preg_replace('|^https://github\.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/commits');
 
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
