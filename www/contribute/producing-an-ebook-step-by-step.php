@@ -633,16 +633,13 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>As you search for an image, keep the following in mind:</p>
 				<ul>
 					<li>
-						<p>Cover images must be in the public domain. Thanks to quirks in copyright law, this is harder to decide for paintings than it is for published writing. In general, Wikipedia is a good starting point for deciding if a work is in the public domain, but very careful research is required to confirm that status.</p>
+						<p>Cover images must be in the public domain. Thanks to quirks in U.S. copyright law, this is harder to decide for paintings than it is for published writing. You must provide proof of the public domain status of your selection to the S.E. in the form of a page scan of the painting from a book published before <?= PD_STRING ?>, and your project manager must approve your selection before you can commit it to your repository. Our <a href="/artworks">Artwork Database</a> contains preapproved cover art options that you can browse by subject.</p>
 					</li>
 					<li>
 						<p>Find the largest possible cover image you can. Since the final image is 1400 × 2100, having to resize a small image will greatly reduce the quality of the final cover.</p>
 					</li>
 					<li>
-						<p>The image you pick should be a “fine art” oil painting so that all Standard Ebooks have a consistent cover style. This is actually easier than you think, because it turns out most public domain artwork is from the era of fine art.</p>
-					</li>
-					<li>
-						<p>You must provide proof of public domain status to the S.E. Editor-in-Chief in the form of a page scan of the painting from a book published before <?= PD_STRING ?>, and the Editor-in-Chief or your assigned project manager must approve your selection before you can commit it to your repository.</p>
+						<p>Your selection must in the style of a “fine art” oil painting, so that all Standard Ebooks have a consistent cover style.</p>
 					</li>
 					<li>
 						<p>The Standard Ebooks Editor-in-Chief has the final say on the cover image you pick, and it may be rejected for, among other things, poor public domain status research, being too low resolution, not fitting in with the “fine art” style, or being otherwise inappropriate for your ebook.</p>
@@ -651,9 +648,12 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<aside class="tip">
 					<p>Make sure to read our detailed guide on <a href="/contribute/how-tos/how-to-choose-and-create-a-cover-image">how to choose and create a cover image</a>, including tips and tricks, gotchas, and resources for finding suitable cover art.</p>
 				</aside>
+				<aside class="tip">
+					<p>You can use the <a href="/artworks">Standard Ebooks Artwork Database</a> to browse preapproved cover art by subject.</p>
+				</aside>
 				<p>What can we use for <i>Jekyll</i>? In 1863 Hans von Marées painted an <a href="https://commons.wikimedia.org/wiki/File:Hans_von_Mar%C3%A9es_-_Double_Portrait_of_Mar%C3%A9es_and_Lenbach_-_WGA14059.jpg">eerie self-portrait with a friend</a>. The sallow, enigmatic look of the man on the left suggests the menacing personality of Hyde hiding just behind the sober Jekyll. It was <a href="https://books.google.com/books?id=etcwAQAAMAAJ&amp;pg=PA336">reproduced in a book published in 1910</a>.</p>
-				<p>The cover file itself, <code class="path">./images/cover.svg</code>, is easy to edit. It automatically links to <code class="path">./images/cover.jpg</code>. All you have to do is open <code class="path">cover.svg</code> with a text editor and edit the title and author. Make sure you have the League Spartan font installed on your system!</p>
-				<p>After we’re done with the cover, we’ll have four files in <code class="path">./images/</code>:</p>
+				<p>You usually won’t have to edit the actual cover SVG file, <code class="path">./images/cover.svg</code>, because it’s automatically generated. All you have to do is resize and crop your cover art to 1400 × 2100 and move it to <code class="path">./images/cover.jpg</code>.</p>
+				<p>After you’re done with the cover, you’ll have four files in <code class="path">./images/</code>:</p>
 				<ul>
 					<li>
 						<p><code class="path">cover.source.jpg</code> is the raw image file we used for the cover. We keep it in case we want to make adjustments later. For <i>Jekyll</i>, this would be the raw portrait downloaded from Wikimedia.</p>
@@ -662,13 +662,13 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p><code class="path">cover.jpg</code> is the scaled cover image that <code class="path">cover.svg</code> links to. This file is exactly 1400 × 2100. For <i>Jekyll</i>, this is a crop of <code class="path">cover.source.jpg</code>, and resized up to our target resolution.</p>
 					</li>
 					<li>
-						<p><code class="path">cover.svg</code> is the completed cover image with the title and author. <code class="bash"><b>se</b> build-images</code> will take <code class="path">cover.svg</code>, embed <code class="path">cover.jpg</code>, convert the text to paths, and place the result in <code class="path">./src/epub/images/</code> for inclusion in the final epub.</p>
+						<p><code class="path">cover.svg</code> is the full cover image including the title and author. This is auto-generated by <code class="bash"><b>se</b> create-draft</code>.</p>
 					</li>
 					<li>
-						<p><code class="path">titlepage.svg</code> is the completed titlepage image that <code class="bash"><b>se</b> create-draft</code> created for you.</p>
+						<p><code class="path">titlepage.svg</code> is the titlepage image auto-generated by <code class="bash"><b>se</b> create-draft</code>.</p>
 					</li>
 				</ul>
-				<p><code class="bash"><b>se</b> build-images</code> takes both <code class="path">./images/cover.svg</code> and <code class="path">./images/titlepage.svg</code>, converts text to paths, and embeds the cover jpg. The output goes to <code class="path">./src/epub/images/</code>.</p>
+				<p><code class="bash"><b>se</b> build-images</code> takes both <code class="path">./images/cover.svg</code> and <code class="path">./images/titlepage.svg</code>, converts text to paths, and embeds the cover artwork. The output is placed in <code class="path">./src/epub/images/</code>, where you’ll commit it to your repo’s history.</p>
 				<p>Once we built the images successfully, perform a commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add cover image"</i></span></code>
 			</li>
 			<li>
