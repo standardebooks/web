@@ -242,7 +242,7 @@ final class Artwork{
 		if(!isset($this->Dimensions)){
 			$this->_Dimensions = '';
 			try{
-				list($imageWidth, $imageHeight) = (getimagesize($this->ImageFsPath) ?? throw new \Exception());
+				list($imageWidth, $imageHeight) = (@getimagesize($this->ImageFsPath) ?? throw new \Exception());
 				if($imageWidth && $imageHeight){
 					$this->_Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
 				}
@@ -521,7 +521,7 @@ final class Artwork{
 
 				// Check for minimum dimensions.
 				try{
-					list($imageWidth, $imageHeight) = (getimagesize($imagePath) ?? throw new \Exception());
+					list($imageWidth, $imageHeight) = (@getimagesize($imagePath) ?? throw new \Exception());
 					if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
 						$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
 					}

@@ -97,7 +97,7 @@ class Image{
 	 */
 	public function Resize(string $destImagePath, int $width, int $height): void{
 		try{
-			$imageDimensions = getimagesize($this->Path);
+			$imageDimensions = @getimagesize($this->Path);
 
 			$imageWidth = $imageDimensions[0] ?? 0;
 			$imageHeight = $imageDimensions[1] ?? 0;
