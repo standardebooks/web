@@ -24,12 +24,13 @@ class DonationDrive{
 	// *******
 
 	protected function GetDonationCount(): int{
+		$startDateUtc = $this->Start->setTimezone(new DateTimeZone('UTC'));
 		return $this->_DonationCount ??= Db::QueryInt('
 								SELECT sum(cnt)
 								from
 								(
 									(
-										# Anonymous patrons, i.e. from AOGF
+										# Anonymous Patrons, i.e. from AOGF.
 										select count(*) cnt from Payments
 										where
 										UserId is null
@@ -42,12 +43,22 @@ class DonationDrive{
 									)
 									union all
 									(
-										# All non-anonymous patrons
-										select count(*) as cnt from Patrons
-										where Created >= ?
+										# All non-anonymous *new* Patrons.
+										select count(*) as cnt
+										from
+										(
+											select Created
+											from Patrons
+											where
+											UserId is not null
+											group by UserId
+											having count(UserId) = 1
+										) x
+										where
+										Created >= ?
 									)
-								) x
-								', [PATRONS_CIRCLE_YEARLY_COST, $this->Start, $this->Start]);
+								) y
+								', [PATRONS_CIRCLE_YEARLY_COST, $startDateUtc, $startDateUtc]);
 	}
 
 	protected function GetTargetDonationCount(): int{
