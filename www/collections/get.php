@@ -36,15 +36,17 @@ catch(Exceptions\CollectionNotFoundException){
 	<? } ?>
 
 	<? if(Session::$User?->Benefits->CanEditCollections){ ?>
-		<h2>Metadata</h2>
-		<table class="admin-table">
-			<tbody>
-				<tr>
-					<td>Collection ID:</td>
-					<td><?= $collection->CollectionId ?></td>
-				</tr>
-			</tbody>
-		</table>
+		<section class="admin">
+			<h2>Metadata</h2>
+			<table class="admin-table">
+				<tbody>
+					<tr>
+						<td>Collection ID:</td>
+						<td><?= $collection->CollectionId ?></td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
 	<? } ?>
 
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> and a <a href="/collections">list of collections</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>

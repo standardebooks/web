@@ -60,18 +60,20 @@ catch(Exceptions\ArtistNotFoundException){
 		<?= Template::ArtworkList(artworks: $artworks) ?>
 
 		<? if($isAdminView){ ?>
-			<h2>Metadata</h2>
-			<p>
-				<a href="<?= $artist->DeleteUrl ?>">Delete artist</a>
-			</p>
-			<table class="admin-table">
-				<tbody>
-					<tr>
-						<td>Artist ID:</td>
-						<td><?= $artist->ArtistId ?></td>
-					</tr>
-				</tbody>
-			</table>
+			<section class="admin">
+				<h2>Metadata</h2>
+				<p>
+					<a href="<?= $artist->DeleteUrl ?>">Delete artist</a>
+				</p>
+				<table class="admin-table">
+					<tbody>
+						<tr>
+							<td>Artist ID:</td>
+							<td><?= $artist->ArtistId ?></td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
 		<? } ?>
 	</section>
 </main>

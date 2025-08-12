@@ -13,6 +13,7 @@
 	--table-row-hover: var(--dark-table-row-hover);
 	--warning: var(--dark-warning);
 	--input-icon-shadow: var(--dark-input-icon-shadow);
+	--admin-background: var(--dark-admin-background);
 }
 
 main.front-page > section > section figure img{

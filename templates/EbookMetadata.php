@@ -5,7 +5,7 @@
 
 $showPlaceholderMetadata ??= false;
 ?>
-<section id="metadata">
+<section id="metadata" class="admin">
 	<h2>Metadata</h2>
 	<table class="admin-table">
 		<tbody>
@@ -18,7 +18,7 @@ $showPlaceholderMetadata ??= false;
 </section>
 
 <? if($showPlaceholderMetadata && $ebook->IsPlaceholder() && $ebook->EbookPlaceholder !== null){ ?>
-	<section id="placeholder-metadata">
+	<section id="placeholder-metadata" class="admin">
 		<h2>Placeholder metadata</h2>
 		<p>
 			<a href="<?= $ebook->EditUrl ?>">Edit placeholder</a>
