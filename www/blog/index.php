@@ -3,11 +3,11 @@
 	<section class="narrow">
 		<h1>Blog</h1>
 		<ul>
-			<!-- <li>
+			<li>
 				<p>
 					<a href="/blog/the-orthodoxy-of-thursday">The Orthodoxy of Thursday</a>
 				</p>
-			</li> -->
+			</li>
 			<li>
 				<p>
 					<a href="/blog/aesops-fabulous-nature">Aesop’s Fabulous Nature</a>
