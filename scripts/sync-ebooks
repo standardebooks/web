@@ -253,8 +253,9 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 		properName="${properName%.git}"
 	fi
 
-	# if for some reason the repository name isn't the same as the identifier (they are identical
-	# 99% of the time), rename the directory to be the identifier name; not sure why this is done, either
+	# if the repository name isn't the same as the identifier (GitHub has a size limitation on
+	# the length of a repo name; works with a lot of translators can exceed it), rename the 
+	# directory to be the identifier name
 	if [ "${repoName}" != "${properName}" ]; then
 		if [ -d "${properName}" ]; then
 			if [ "${verbosity}" -gt 0 ]; then
