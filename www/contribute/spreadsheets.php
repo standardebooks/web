@@ -80,34 +80,34 @@
 				<p><a href="https://docs.google.com/spreadsheets/d/1I4kXf3z2pmHTIVt7V3K57XiFmwof21o4uQOMNPK2oLo/edit">Short fiction by Sabine Baring-Gould</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1nLP-Ij0RTM15X8Xx6o_vV45GVdE2EiylCI2SRT2rN1Q/edit">Short Fiction by E. F. Benson</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1nLP-Ij0RTM15X8Xx6o_vV45GVdE2EiylCI2SRT2rN1Q/edit">Short fiction by E. F. Benson</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1ydCo8uwS4dJfSJoFgqIIAy9AuSfNcq0UhmKQ447-wY0/edit">Short Fiction by Frank Belknap</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1ydCo8uwS4dJfSJoFgqIIAy9AuSfNcq0UhmKQ447-wY0/edit">Short fiction by Frank Belknap</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1jGIMLt2YaDT80312vNUfZBPbYxJBXHSCOYYtE85ILuk/edit">Short Fiction by Nella Larsen</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1jGIMLt2YaDT80312vNUfZBPbYxJBXHSCOYYtE85ILuk/edit">Short fiction by Nella Larsen</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1oYtEyX5ymsm8EN45LORUoh_WOKmiigu3GvMwSMzdizU/edit">Short Fiction by Nelson S. Bond</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1oYtEyX5ymsm8EN45LORUoh_WOKmiigu3GvMwSMzdizU/edit">Short fiction by Nelson S. Bond</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/17s4F5KlwHUODq87DUzEXWA0yAt7s2aeHBV52iDWpAsI/edit">Short Fiction by F. Scott Fitzgerald</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/17s4F5KlwHUODq87DUzEXWA0yAt7s2aeHBV52iDWpAsI/edit">Short fiction by F. Scott Fitzgerald</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1kYI2BOTfi1NaUmzVpLWT0kQ_lh2g8WL24WV4bmdEjmw/edit">Short Fiction by Jonas Lie</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1kYI2BOTfi1NaUmzVpLWT0kQ_lh2g8WL24WV4bmdEjmw/edit">Short fiction by Jonas Lie</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1EA2U0gyDzA14gSH4vUsVYaFpKNik93TvoOOXQ-fklyg/edit">Short Fiction by Katherine Mansfield</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1EA2U0gyDzA14gSH4vUsVYaFpKNik93TvoOOXQ-fklyg/edit">Short fiction by Katherine Mansfield</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1GDro-upVK4qg4jLtgHvHUU8QwfAqDzt0mevrVlG7nSY/edit">Short Fiction by Mary de Morgan</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1GDro-upVK4qg4jLtgHvHUU8QwfAqDzt0mevrVlG7nSY/edit">Short fiction by Mary de Morgan</a></p>
 			</li>
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1ZbxSMsHQOlCohISZxyox3PQDefFnb0V5GeDwxXjZE4M/edit">Poetry by Paul Laurence Dunbar</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1JZwIq2GlV5Ly2xVCuPhVzYkM99mmRLeNrUcQHADBsAU/edit">Short Fiction by Paul Laurence Dunbar</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1JZwIq2GlV5Ly2xVCuPhVzYkM99mmRLeNrUcQHADBsAU/edit">Short fiction by Paul Laurence Dunbar</a></p>
 			</li>
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1J9eXqZuq9P7HjZRsqJ8N-g5B4DM-Fi0PPWUBXW4AGOE/edit">Poetry by Georgia Douglas Johnson</a></p>
@@ -116,19 +116,22 @@
 				<p><a href="https://docs.google.com/document/d/1oKSdWxAypKpSzky1ToQ1j3_3FGD73DxPpD-4c_7v8S4/edit">Philosophical Works by René Descartes</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1KZHCdrtxXyCVNUPoujEH9xi36NH8vDXNMU0ofm4OJNg">Short Fiction by Andre Norton</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1KZHCdrtxXyCVNUPoujEH9xi36NH8vDXNMU0ofm4OJNg">Short fiction by Andre Norton</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/11rKzjg_XqnxNfK3x6tQFLzj0QLPLDEpR5_1AwQglao4">Short Fiction by Manly Wade Wellman</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/11rKzjg_XqnxNfK3x6tQFLzj0QLPLDEpR5_1AwQglao4">Short fiction by Manly Wade Wellman</a></p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/16gEP0sxqUKFtkCz35pEKsE1G3gfBTg0kNKbEiR-dBnI">Short Fiction by Richard Connell</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/16gEP0sxqUKFtkCz35pEKsE1G3gfBTg0kNKbEiR-dBnI">Short fiction by Richard Connell</a></p>
 			</li>
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1KCml33TpVzDRd9Y3UrYdwefI61VNDKeqgRvC3Pug13E">Poetry by Robert Frost</a> (also see <a href="https://groups.google.com/d/msgid/standardebooks/8a231682-9e5a-485a-8e27-4562f3f1485fn%40googlegroups.com">this mailing list discussion</a>)</p>
 			</li>
 			<li>
-				<p><a href="https://docs.google.com/spreadsheets/d/1MWoVEgZjol7UcCKUB1bQVdAAofLn1sAV8Yb9BlmttMs/edit">Poetry and Short Fiction by John Buchan</a></p>
+				<p><a href="https://docs.google.com/spreadsheets/d/1MWoVEgZjol7UcCKUB1bQVdAAofLn1sAV8Yb9BlmttMs/edit">Poetry and short fiction by John Buchan</a></p>
+			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/1FeGDnuZ-d2Vlq8Fw29x5c3no5LvmNIIi3lP-e5Wq5tI/edit">Short fiction by Thomas Hardy</a></p>
 			</li>
 		</ul>
 	</article>
