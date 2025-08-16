@@ -10,10 +10,10 @@ DESCRIPTION
 USAGE
 	${0##*/} [-v,-vv,--verbosity INTEGER] [-u,--update-only] [--token TOKEN] DIRECTORY
 
+	With -b or --bare, clone bare repositories (for a server) instead of working directories.
+	With -u or --update-only, only sync existing repositories, do not download new repositories.
 	With -v or --verbosity 1, display general progress updates.
 	With -vv or --verbosity 2, display general progress updates and verbose git output.
-	With --update-only, only sync existing repositories, do not download new repositories.
-	With -b or --bare, clone bare repositories (for a server) instead of working directories.
 	With --token TOKEN, specify a GitHub access token to use for request. Useful for when you hit the rate limit.
 
 	DIRECTORY should be where the repositories should go.
@@ -72,18 +72,22 @@ bare=""
 # process each of the parameters one at a time, shifting each time to get the next one
 while [ $# -gt 0 ]; do
 	case "$1" in
+		-b|--bare)
+			bare="--mirror"
+			shift 1
+			;;
 		-h|--help)
 			usage ;;
+		-u|--update-only)
+			updateOnly="true"
+			shift 1
+			;;
 		-v)
 			verbosity=1
 			shift 1
 			;;
 		-vv)
 			verbosity=2
-			shift 1
-			;;
-		-u|--update-only)
-			updateOnly="true"
 			shift 1
 			;;
 		--verbosity)
@@ -95,10 +99,6 @@ while [ $# -gt 0 ]; do
 			check_arg '*[!0-9a-zA-Z_]*' "$2" "Token is empty or contains illegal characters."
 			githubToken="$2"
 			shift 2
-			;;
-		-b|--bare)
-			bare="--mirror"
-			shift 1
 			;;
 		*)
 			break ;;
