@@ -8,10 +8,11 @@ DESCRIPTION
 	Syncs books from standardebooks.org GitHub org to specified folder.
 
 USAGE
-	${0##*/} [-v,-vv,--verbosity INTEGER] [-n,--new-only | -u,--update-only] [--token TOKEN] DIRECTORY
+	${0##*/} [-v,-vv,--verbosity INTEGER] [-n,--new-only | -u,--update-only] [-s,--start-only LETTER] [--token TOKEN] DIRECTORY
 
 	With -b or --bare, clone bare repositories (for a server) instead of working directories.
 	With -n or --new-only, only download new repositories, do not update existing ones.
+	With -s or --start-letter, skip repositories starting with letters prior to the one specified
 	With -u or --update-only, only update existing repositories, do not download new ones.
 	With -v or --verbosity 1, display general progress updates.
 	With -vv or --verbosity 2, display general progress updates and verbose git output.
@@ -45,10 +46,16 @@ require(){
 	}
 }
 
-check_arg() {
+check_arg(){
 	case "$2" in
 		''|$1) die "$3" ;;
 	esac
+}
+
+# strpos X Y, return position of substring Y in string X
+str_pos(){
+    x="${1%%"$2"*}"
+    [[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
 }
 # end functions
 
@@ -64,11 +71,14 @@ if [[ $# -eq 0 ]]; then
 	usage
 fi
 
+LETTERS="abcdefghijklmnopoqrstuvwxyz"
 verbosity=0
 newUpdate=""
 githubToken=""
 target=""
 bare=""
+startLetter=""
+startPos=-1
 
 # process each of the parameters one at a time, shifting each time to get the next one
 while [ $# -gt 0 ]; do
@@ -86,6 +96,11 @@ while [ $# -gt 0 ]; do
 		-u|--update-only)
 			newUpdate="update"
 			shift 1
+			;;
+		-s|--start-letter)
+			check_arg '*[!b-z]*' "$2" "StartLetter is not a lowercase letter greater than a."
+			startLetter="$2"
+			shift 2
 			;;
 		-v)
 			verbosity=1
@@ -124,6 +139,10 @@ if ! cd "${target}"; then
 	die "Couldn’t cd into ${target}"
 fi
 
+if [ "${startLetter}" != "" ]; then
+    startPos=$(str_pos "${LETTERS}" "${startLetter}")
+fi
+
 # update any existing repositories
 if [ "${newUpdate}" != "new" ]; then
     if [ "${verbosity}" -gt 0 ]; then
@@ -131,6 +150,16 @@ if [ "${newUpdate}" != "new" ]; then
     fi
     
     for item in ./*/; do
+	    # if starting letter specified, make sure we're past it
+	    if [ $startPos -gt 0 ]; then
+	        repName=$(basename "${item}")
+	        repLetter="${repName:0:1}"
+	        repPos=$(str_pos "${LETTERS}" "${repLetter}")
+	        if [ $repPos -lt $startPos ]; then
+	            continue
+	        fi
+	    fi
+	
         [ -e "${item}" ] || break
     
         if [ "${verbosity}" -gt 0 ]; then
