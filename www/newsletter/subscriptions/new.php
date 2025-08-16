@@ -52,7 +52,7 @@ if($exception){
 					<li>
 						<label>
 							<input type="hidden" name="is-subscribed-to-newsletter" value="false" />
-							<input type="checkbox" value="true" name="is-subscribed-to-newsletter"<? if($subscription->IsSubscribedToNewsletter){ ?> checked="checked"<? } ?> />The occasional Standard Ebooks newsletter
+							<input type="checkbox" value="true" name="is-subscribed-to-newsletter"<? if($subscription->IsSubscribedToNewsletter){ ?> checked="checked"<? } ?> />The monthly Standard Ebooks newsletter
 						</label>
 					</li>
 					<li>
