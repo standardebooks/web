@@ -8,18 +8,20 @@ class EbookDownload{
 	public ?string $IpAddress;
 	public ?string $UserAgent;
 
+	private const BOT_KEYWORDS = [
+		'bot', 'crawl', 'spider', 'slurp', 'chatgpt', 'search',
+		'python', 'java', 'curl', 'wget', 'scrape',
+		'headless', 'phantom', 'selenium', 'puppeteer',
+		'semrushbot', 'dotbot', 'ahrefsbot', 'seokicks', 'dataforseobot', 'proximic'
+	];
+
 	public function IsBot(): bool{
-		if(empty($this->UserAgent) || strlen($this->UserAgent) < 20){
+		if(empty($this->UserAgent) || strlen($this->UserAgent) < 13){
 			return true;
 		}
 
-		$botKeywords = [
-			'bot', 'crawl', 'spider', 'slurp', 'chatgpt', 'search',
-			'python', 'java', 'curl', 'wget', 'scrape'
-		];
-
-		foreach($botKeywords as $keyword){
-			if(strpos($this->UserAgent, $keyword) !== false){
+		foreach(EbookDownload::BOT_KEYWORDS as $keyword){
+			if(stripos($this->UserAgent, $keyword) !== false){
 				return true;
 			}
 		}
