@@ -7,7 +7,7 @@ DESCRIPTION
 
 	This script must be run as root, and is generally run by the Apache rotatelogs subprocess as such.
 
-	Log files are moved to <LOG-DIR>/apache/YYYY-MM/
+	Log files are moved to \`<LOG-DIR>/apache/YYYY-MM/\`.
 
 USAGE
 	rotate-www-logs NEW-LOG-FILENAME

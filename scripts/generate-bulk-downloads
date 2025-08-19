@@ -24,7 +24,7 @@ $groups = ['collections', 'subjects', 'authors', 'months'];
 $ebooksByGroup = ['collections' => [], 'subjects' => [], 'authors' => [], 'months' => []];
 
 /**
- * @see https://www.php.net/manual/en/function.rmdir.php#117354
+ * @see <https://www.php.net/manual/en/function.rmdir.php#117354>
  */
 function rrmdir(string $src): void{
 	$dir = opendir($src);

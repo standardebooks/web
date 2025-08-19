@@ -5,24 +5,29 @@ set -o pipefail
 usage(){
 	cat <<EOF
 DESCRIPTION
-	Syncs books from standardebooks.org GitHub org to specified folder.
+	Syncs books from the standardebooks.org GitHub organization to the specified folder.
 
 USAGE
 	${0##*/} [-v,-vv,--verbosity INTEGER] [-n,--new-only | -u,--update-only] [-s,--start-only LETTER] [--token TOKEN] DIRECTORY
 
 	With -b or --bare, clone bare repositories (for a server) instead of working directories.
-	With -n or --new-only, only download new repositories, do not update existing ones.
-	With -s or --start-letter, skip repositories starting with letters prior to the one specified
-	With -u or --update-only, only update existing repositories, do not download new ones.
+
+	With -n or --new-only, only download new repositories, don't update existing ones.
+
+	With -s or --start-letter, skip repositories starting with letters prior to the one specified.
+
+	With -u or --update-only, only update existing repositories, don't download new ones.
+
 	With -v or --verbosity 1, display general progress updates.
+
 	With -vv or --verbosity 2, display general progress updates and verbose git output.
+
 	With --token TOKEN, specify a GitHub access token to use for request. Useful for when you hit the rate limit.
+
 
 	DIRECTORY should be where the repositories should go.
 
-	NOTE: This script requires GNU versions of grep and sed. If you are on a Mac, you will need to
-	install GNU versions (via Homebrew, MacPorts, etc.) and make sure they are first in your path,
-	or modify the script to use the GNU versions if they're named differently.
+	NOTE: This script requires GNU versions of grep and sed. If you are on a Mac, you'll need to install GNU versions (via Homebrew, MacPorts, etc.) and make sure they're first in your path, or modify the script to use the GNU versions if they're named differently.
 
 EXAMPLE
 	${0##*/} /standardebooks.org/ebooks

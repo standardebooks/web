@@ -7,7 +7,7 @@ import se
 import se.easy_xml
 import se.se_epub
 
-# Require arguments
+# Require arguments.
 parser = argparse.ArgumentParser(description="A script to inject the navigation footer with links in the web version of a Standard Ebook")
 parser.add_argument("ebook_dir", type=str, help="Path to the main directory of the ebook") # No trailing "/" on this path
 parser.add_argument("book_url", type=str, help="The ebook URL") # No trailing "/" on this link
@@ -16,26 +16,26 @@ args = parser.parse_args()
 ebook_dir = args.ebook_dir
 book_url = args.book_url
 
-# Make an instance of the SeEpub class so we can use helper functions to easily get spine
+# Make an instance of the SeEpub class so we can use helper functions to easily get spine.
 se_epub = se.se_epub.SeEpub(ebook_dir)
 
-# Get spine paths
+# Get spine paths.
 spine_paths = se_epub.spine_file_paths
 
-# Make sure spine paths are of the form "text/chapter-1.xhtml", with no leading "/"
+# Make sure spine paths are of the form `text/chapter-1.xhtml`, with no leading `/`.
 rel_spine_paths = ["/".join(str(path).split("/")[str(path).split("/").index("text"):]).lstrip("/") for path in spine_paths]
 
-# Get titles from spine
+# Get titles from spine.
 spine_titles = [se.easy_xml.EasyXmlTree(open(file_path).read()).xpath("//head/title/text()", True) for file_path in spine_paths]
 
-# Make list of dicts containing title and relative path for each file
+# Make list of dicts containing title and relative path for each file.
 chapter_links = [{"title": title, "path": path} for title, path in zip(spine_titles, rel_spine_paths)]
 
-# Create helper function for getting filename without extension
+# Create helper function for getting filename without extension.
 def get_filename_without_extension(dict_with_path):
 	return os.path.splitext(dict_with_path["path"])[0] if dict_with_path else ""
 
-# Create footers
+# Create footers.
 for i, chapter_link in enumerate(chapter_links):
 	previous_dict = chapter_links[i - 1] if i > 0 else None
 	next_dict = chapter_links[i + 1] if i < len(chapter_links) - 1 else None

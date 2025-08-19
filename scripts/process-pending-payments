@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?
-// Note: This script must be run as a user with a $HOME directory, otherwise Firefox won't be able to start with a profile.
+// Note: This script must be run as a user with a `$HOME` directory, otherwise Firefox won't be able to start with a profile.
 
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
