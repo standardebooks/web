@@ -399,7 +399,6 @@ do
 
 		# Move contents of the work dir over.
 		mv "${workDir}"/downloads "${webDir}/"
-		rm "${workDir}/src/epub/onix.xml"
 		mv "${workDir}"/src/epub/* "${webDir}/"
 	fi
 
