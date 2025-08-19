@@ -6,7 +6,7 @@
 		<section id="ebooks">
 			<h2>Our ebooks</h2>
 			<p>Our ebooks are built using semantic <abbr>XHTML</abbr>. All images and other non-textual content have alternative text to describe their contents, and where appropriate longer descriptions in a list of illustrations. All our ebooks are, to the best of our knowledge, compliant with <a href="https://www.w3.org/TR/WCAG22/"><abbr>WCAG</abbr> 2.2</a> level AA and <a href="https://www.w3.org/TR/epub-a11y-11/">EPUB Accessibility 1.1</a>.</p>
-			<p>We use metadata to indicate the accessibility of our ebooks. Each title comes with an <a href="https://www.editeur.org/83/Overview/">ONIX</a> 3 declaration detailing its accessibility, and we also include <a href="https://schema.org">Schema.org</a> accessibility feature declarations in the package document.</p>
+			<p>We use metadata to indicate the accessibility of our ebooks. Each title includes <a href="https://schema.org">Schema.org</a> accessibility feature declarations in the package document, according to the EPUB standard.</p>
 			<p>Ebooks obtained from our website will never use any <abbr title="Digital Rights Management">DRM</abbr> technology so you’re free to amend or process them to better fit your own needs.</p>
 		</section>
 		<section id="website">
