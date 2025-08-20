@@ -133,6 +133,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1FeGDnuZ-d2Vlq8Fw29x5c3no5LvmNIIi3lP-e5Wq5tI/edit">Short fiction by Thomas Hardy</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/15dNXhPXRIAsGWsbPwFwlkly3FHKfEC9DYRB0-_uiooA/edit">Short fiction by H. G. Wells</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
