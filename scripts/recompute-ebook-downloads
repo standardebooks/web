@@ -56,3 +56,8 @@ Db::Query('
 	DELETE from EbookDownloads
 	where Created < utc_timestamp() - interval 60 day
 ');
+
+Db::Query('
+	DELETE from RateLimitedIps
+	where Created < utc_timestamp() - interval 60 day
+');
