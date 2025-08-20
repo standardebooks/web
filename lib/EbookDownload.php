@@ -15,6 +15,48 @@ class EbookDownload{
 		'semrushbot', 'dotbot', 'ahrefsbot', 'seokicks', 'dataforseobot', 'proximic'
 	];
 
+	/** @var array<string, int> $RateLimitedIpHash */
+	protected static array $RateLimitedIpHash;
+
+	/**
+	 * Returns a hash of IP addresses of the form:
+	 *
+	 *     '::ffff:1.2.3.4' => 0,
+	 *     '::ffff:5.6.7.8' => 1,
+	 *     '::ffff:4.3.2.1' => 2,
+	 *
+	 * for efficient lookup.
+	 *
+	 * @return array<string, int>
+	 */
+	private function GetRateLimitedIpHash(): array{
+		if(!isset(EbookDownload::$RateLimitedIpHash)){
+			$rateLimitedIps = [];
+
+			$result = RateLimitedIp::GetAll();
+
+			foreach($result as $row){
+				$rateLimitedIps[] = $row->IpAddress;
+			}
+
+			EbookDownload::$RateLimitedIpHash = array_flip($rateLimitedIps);
+		}
+
+		return EbookDownload::$RateLimitedIpHash;
+	}
+
+	private function IsRateLimitedIp(): bool{
+		if(!isset(EbookDownload::$RateLimitedIpHash)){
+			EbookDownload::GetRateLimitedIpHash();
+		}
+
+		if(isset($this->IpAddress) && isset(EbookDownload::$RateLimitedIpHash[$this->IpAddress])){
+			return true;
+		}
+
+		return false;
+	}
+
 	public function IsBot(): bool{
 		if(empty($this->UserAgent) || strlen($this->UserAgent) < 13){
 			return true;
@@ -24,6 +66,10 @@ class EbookDownload{
 			if(stripos($this->UserAgent, $keyword) !== false){
 				return true;
 			}
+		}
+
+		if($this->IsRateLimitedIp()){
+			return true;
 		}
 
 		return false;

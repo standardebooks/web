@@ -45,15 +45,25 @@ try{
 	/** @var string|null $userAgent */
 	$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
 
-	if(!isset(Session::$User)){
+	if(!isset(Session::$User) && isset($ipAddress)){
+		$limitExceeded = false;
+
 		// Check for excessive downloads.
 		$shortDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, $shortDownloadTime);
 		if($shortDownloadCount > $shortDownloadLimit){
-			Template::ExitWithCode(Enums\HttpCode::TooManyRequests);
+			$limitExceeded = true;
+		}
+		else{
+			$longDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, $longDownloadTime);
+			if($longDownloadCount > $longDownloadLimit){
+				$limitExceeded = true;
+			}
 		}
 
-		$longDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, $longDownloadTime);
-		if($longDownloadCount > $longDownloadLimit){
+		if($limitExceeded){
+			$rateLimitedIp = new RateLimitedIp();
+			$rateLimitedIp->IpAddress = $ipAddress;
+			$rateLimitedIp->Create();
 			Template::ExitWithCode(Enums\HttpCode::TooManyRequests);
 		}
 	}
