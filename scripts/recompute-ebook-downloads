@@ -32,6 +32,15 @@ foreach($downloadDates as $date){
 				$uniqueDownloads[$uniqueKey] = true;
 				$summaries[$ebookId]->UniqueDownloadCount++;
 			}
+
+			switch($ebookDownload->Source){
+				case Enums\EbookDownloadSource::Feed:
+					$summaries[$ebookId]->FeedDownloadCount++;
+					break;
+				case Enums\EbookDownloadSource::DownloadPage:
+					$summaries[$ebookId]->WebDownloadCount++;
+					break;
+			}
 		}
 	}
 

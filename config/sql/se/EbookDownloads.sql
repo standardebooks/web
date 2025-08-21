@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS `EbookDownloads` (
   `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `IpAddress` inet6 NULL,
   `UserAgent` mediumtext NULL,
+  `Source` enum('feed', 'download') NULL,
   INDEX `idxCreated` (`Created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

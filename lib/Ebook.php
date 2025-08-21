@@ -2165,11 +2165,12 @@ final class Ebook{
 	/**
 	 * @throws Exceptions\InvalidEbookDownloadException
 	 */
-	public function AddDownload(?string $ipAddress, ?string $userAgent): void{
+	public function AddDownload(?string $ipAddress, ?string $userAgent, ?Enums\EbookDownloadSource $source): void{
 		$ebookDownload = new EbookDownload();
 		$ebookDownload->EbookId = $this->EbookId;
 		$ebookDownload->IpAddress = $ipAddress;
 		$ebookDownload->UserAgent = $userAgent;
+		$ebookDownload->Source = $source;
 
 		$ebookDownload->Create();
 	}

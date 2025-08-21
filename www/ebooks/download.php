@@ -78,7 +78,7 @@ try{
 		}
 
 		try{
-			$ebook->AddDownload($ipAddress, $userAgent);
+			$ebook->AddDownload($ipAddress, $userAgent, $source);
 		}
 		catch(Exceptions\InvalidEbookDownloadException){
 			// Pass. Allow the download to continue even if it isn't recorded.
