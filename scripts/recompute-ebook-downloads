@@ -10,6 +10,7 @@ $downloadDates = Db::Query('
 foreach($downloadDates as $date){
 	$downloadDate = $date->DownloadDate;
 	$summaries = [];
+	$uniqueDownloads = [];
 
 	$ebookDownloads = EbookDownload::GetAllByDate($downloadDate);
 	foreach($ebookDownloads as $ebookDownload){
@@ -23,6 +24,14 @@ foreach($downloadDates as $date){
 
 		if($ebookDownload->IsBot()){
 			$summaries[$ebookId]->BotDownloadCount++;
+		}
+		else{
+			$uniqueKey = $ebookId . '_' . $ebookDownload->IpAddress;
+
+			if(!isset($uniqueDownloads[$uniqueKey])){
+				$uniqueDownloads[$uniqueKey] = true;
+				$summaries[$ebookId]->UniqueDownloadCount++;
+			}
 		}
 	}
 
