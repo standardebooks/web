@@ -3,7 +3,7 @@
 	<article>
 		<h1>How to Use Our Ebooks</h1>
 		<section id="which-file-to-download">
-			<h2>Which File Should I Download?</h2>
+			<h2>Which file should I download?</h2>
 			<p>We offer four different kinds of ebook file for you to download. Which one you pick depends on which ereading device and ereading software you’re using.</p>
 			<ul>
 				<li>
@@ -21,14 +21,14 @@
 			</ul>
 		</section>
 		<section id="transferring-to-your-ereader">
-			<h2>Transferring Ebooks to Your Ereader</h2>
+			<h2>Transferring ebooks to your ereader</h2>
 			<p>Once you’ve downloaded the file most appropriate for your ereader, you’ll need to transfer that file to your device.</p>
 			<p>Kindle users should also see our <a href="#kindle-faq">Kindle FAQ</a> at the bottom of this page.</p>
 			<ul>
 				<li id="kindle">
-					<h3>Amazon Kindle eInk Devices (Paperwhite, Voyage, Oasis, etc. <em>except</em> DX)</h3>
+					<h3>Amazon Kindle eInk devices (Paperwhite, Voyage, Oasis, etc. <em>except</em> DX)</h3>
 					<p><b>Important:</b> You can’t use “Send to Kindle” to transfer our azw3 file to your Kindle. <a href="#kindle-faq">This is a bug in Amazon’s software.</a></p>
-					<h4 id="kindle-method-1">Method 1—Using a USB Cable</h4>
+					<h4 id="kindle-method-1">Method 1—using a USB cable</h4>
 					<ol>
 						<li>
 							<p>Select an ebook from Standard Ebooks and download its azw3 file to a computer.</p>
@@ -49,7 +49,7 @@
 							<p>Eject the Kindle from your computer using your system’s “Safely remove drive” option. Your ebook should now be visible!</p>
 						</li>
 					</ol>
-					<h4 id="kindle-method-2">Method 2—Download Directly to Kindle</h4>
+					<h4 id="kindle-method-2">Method 2—download directly to Kindle</h4>
 					<p>This method won’t add the ebook to your Kindle library, but your Kindle will remember your reading position.</p>
 					<p>This method also won’t include a cover image. If you want a cover image, use <a href="#kindle-method-1">method 1</a>.</p>
 					<ol>
@@ -71,12 +71,12 @@
 					</ol>
 				</li>
 				<li id="kindle-dx">
-					<h3>Kindle DX Devices</h3>
+					<h3>Kindle DX devices</h3>
 					<p>Kindle DX devices don’t support Amazon’s own azw3 format. Instead, download the compatible epub file and use <a href="https://calibre-ebook.com">Calibre</a> to convert to mobi and transfer to your device.</p>
 				</li>
 				<li id="kindle-fire">
-					<h3>Amazon Kindle Fire Devices</h3>
-					<h4>Method 1—Direct Download</h4>
+					<h3>Amazon Kindle Fire devices</h3>
+					<h4>Method 1—direct download</h4>
 					<p>This method will not add the book to your Kindle library so it will not remember your reading position.</p>
 					<ol>
 						<li>
@@ -86,7 +86,7 @@
 							<p>Tap the 3 dots in the upper-right hand corner, select Downloads, and the book you downloaded.</p>
 						</li>
 					</ol>
-					<h4>Method 2—Download to a Computer</h4>
+					<h4>Method 2—download to a computer</h4>
 					<p>This method will add the book to your Kindle library.</p>
 					<ol>
 						<li>
@@ -98,7 +98,7 @@
 					</ol>
 				</li>
 				<li id="kobo">
-					<h3>Kobo eInk Devices</h3>
+					<h3>Kobo eInk devices</h3>
 					<h4>If you’ve downloaded a kepub file</h4>
 					<p><strong>Important:</strong> <em>Don’t use Calibre to transfer the kepub file!</em> Calibre will apply its own conversion <em>on top of</em> our own conversion, making for strange results.</p>
 					<ol>
@@ -165,7 +165,7 @@
 					</ol>
 				</li>
 				<li id="nook">
-					<h3>Barnes &amp; Noble Nook eInk Devices (Nook Glowlight, Nook Glowlight Plus, Nook Simple Touch, etc.)</h3>
+					<h3>Barnes &amp; Noble Nook eInk devices (Nook Glowlight, Nook Glowlight Plus, Nook Simple Touch, etc.)</h3>
 					<ol>
 						<li>
 							<p>Using a USB cable, connect your Nook to the computer you downloaded the epub file to. Your Nook will appear as a USB drive that you can browse.</p>
@@ -207,7 +207,7 @@
 					</ol>
 				</li>
 				<li id="other">
-					<h3>Other Devices</h3>
+					<h3>Other devices</h3>
 					<p>We need help collecting instructions for transferring files to other devices. If you have a non-Kindle device, <a href="/contribute">get in touch and help write these instructions</a>!</p>
 				</li>
 			</ul>

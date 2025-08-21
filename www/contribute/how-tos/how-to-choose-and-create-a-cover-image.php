@@ -90,11 +90,11 @@
 			</details>
 			<ol>
 				<li id="before-you-begin">
-					<h2>Before You Begin</h2>
+					<h2>Before you begin</h2>
 					<p>Every cover image must be approved by either the Editor in Chief or the manager assigned to your project. Until your chosen image has been approved, <strong>do not</strong> add it to your repository. If you commit early and your artwork is not approved, you may need to rebase your repository to remove all traces of the image.</p>
 				</li>
 				<li id="where-to-find">
-					<h2>Where to Find Public Domain Cover Art</h2>
+					<h2>Where to find public domain cover art</h2>
 					<p>Your cover image must be provably in the public domain in the United States. Standard Ebooks has strict guidelines for proving that your cover art is in the public domain. There are three ways to demonstrate public domain status:</p>
 					<ul>
 						<li><p>Choose art from the <a href="/artworks">Standard Ebooks Artwork Database</a>;</p></li>
@@ -110,17 +110,17 @@
 							<p>Please remember that even art from the database needs to be approved on the list before it is added to your repository.</p>
 						</li>
 						<li id="where-to-find-museums-with-cc0">
-							<h3>Museums with CC0 Copyright Licenses</h3>
+							<h3>Museums with CC0 collections</h3>
 							<p>If there is nothing in the database that fits, you can also find public domain art in online museum collections.</p>
 							<p>You can use a painting from an online museum collection without further proof <strong>only if</strong> the museum that holds the original work of art has released it via the CC0 license. The CC0 deed is a legal document by which the museum waives any and all copyright in the image and the underlying work itself. S.E. <strong>does not</strong> accept other public domain declarations (not even other Creative Commons declarations such as CC-PDM).</p>
 							<p>Below you will find an <a href="#resources-cc0">extensive list of museums with CC0 collections</a>. Please be sure to check the individual license; not every artwork at every listed museum will have the same license. Only works marked as CC0 will be approved.</p>
 						</li>
 						<li id="where-to-find-published-art">
-							<h3>Art Published in a Public Domain Book</h3>
+							<h3>Art published in a public domain book</h3>
 							<p>The final way to clear a painting for use as a cover image is to locate a reproduction of that painting in a book published before <?= PD_STRING ?>. This option gives you the most freedom in finding a suitable image, but it can be difficult; proving an artwork’s public domain status this way can sometimes be the most time-consuming part of the ebook production process.</p>
 							<p>This process involves: (1) identifying a work of art that you think will be a suitable cover, then (2) finding book page scans with a reproduction of that artwork in a book published before <?= PD_STRING ?> at an online book archive like the Internet Archive, Google Books, or HathiTrust. (Note that if your IP address is not in the U.S., some book archives may disable book previews.)</p>
 							<section>
-								<h4>Public Domain Proof Tips</h4>
+								<h4>Public domain proof tips</h4>
 								<ul>
 									<li><p>Many museum online catalogs have a “bibliography” or “references” section for each painting in their collection, which is a list of books in which the painting was either mentioned or reproduced. This is a good shortcut to finding page scans of a book with reproductions, and if you’re lucky, a search for the book title in Google Books will turn up scans.</p></li>
 									<li><p>Remember that paintings often go by many different titles in different languages; your best bet is to search for an artist’s last name instead.</p></li>
@@ -128,7 +128,7 @@
 								</ul>
 							</section>
 							<section>
-								<h4>Public Domain Proof Pitfalls</h4>
+								<h4>Public domain proof pitfalls</h4>
 								<p>There are some things you need to be especially careful of when using this method:</p>
 								<ul>
 									<li><p>In older books it was common to have etchings of paintings. Etchings are not strict reproductions, and so we cannot count them for PD clearance. Etchings can sometimes be identified by: (1) having more clearly defined lines, or shading with more contrast; (2) having shading done with a stipple effect; (3) differences in small amorphous details like the shape of clouds, trees, or fabric compared to the original painting. Etchings mostly fell out of use by around 1900.</p></li>
@@ -138,7 +138,7 @@
 							</section>
 						</li>
 						<li id="where-to-find-faq">
-							<h3>Copyright Clearance FAQs</h3>
+							<h3>Copyright clearance FAQs</h3>
 							<ul>
 								<li>
 									<p>
@@ -181,7 +181,7 @@
 					</ol>
 				</li>
 				<li id="suitable">
-					<h2>Choosing Suitable Art</h2>
+					<h2>Choosing suitable art</h2>
 					<p>When choosing cover art, you also need to make sure it is suitable for Standard Ebooks and for your book in particular. The main considerations are:</p>
 					<ol>
 						<li>
@@ -217,7 +217,7 @@
 					</ol>
 				</li>
 				<li id="approval">
-					<h2>Getting Artwork Approved</h2>
+					<h2>Getting artwork approved</h2>
 					<p>Before you add any cover image to your project, you need to have it approved on the S.E. list by the editor assigned to your project, or by the Editor-in-Chief. Just post in your project thread, and include:</p>
 					<ul>
 						<li><p>A link to your proof of public domain status. This may be a link to the S.E. cover art database, to a museum listing with a CC0 declaration, or to the page images of a print appearance.</p></li>
@@ -247,7 +247,7 @@
 							<p>Our <a href="/artworks">searchable database of public domain art</a>.</p>
 						</li>
 						<li id="resources-cc0">
-							<h3>Museums with CC0 Collections</h3>
+							<h3>Museums with CC0 collections</h3>
 							<p>Only images in our <a href="https://standardebooks.org/manual/latest/10-art-and-images#10.3.3.7.4">list of approved museums</a> can be used without further research. These museums have explicitly released their images under the CC0 license. Not every painting at every listed museum is CC0; you must confirm the presence of a CC0 deed for the specific image you want to use. Museums not in our list may not be used as public domain proof.</p>
 						</li>
 						<li id="resources-images">
