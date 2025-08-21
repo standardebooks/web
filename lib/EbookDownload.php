@@ -7,6 +7,7 @@ class EbookDownload{
 	public DateTimeImmutable $Created;
 	public ?string $IpAddress;
 	public ?string $UserAgent;
+	public ?Enums\EbookDownloadSource $Source;
 
 	private const BOT_KEYWORDS = [
 		'bot', 'crawl', 'spider', 'slurp', 'chatgpt', 'search',
@@ -111,12 +112,13 @@ class EbookDownload{
 		$this->Created = NOW;
 
 		Db::Query('
-			INSERT into EbookDownloads (EbookId, Created, IpAddress, UserAgent)
+			INSERT into EbookDownloads (EbookId, Created, IpAddress, UserAgent, Source)
 			values (?,
 				?,
 				?,
+				?,
 				?)
-		', [$this->EbookId, $this->Created, $this->IpAddress, $this->UserAgent]);
+		', [$this->EbookId, $this->Created, $this->IpAddress, $this->UserAgent, $this->Source]);
 	}
 
 	/**
