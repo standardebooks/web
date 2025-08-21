@@ -12,7 +12,9 @@ class EbookDownload{
 		'bot', 'crawl', 'spider', 'slurp', 'chatgpt', 'search',
 		'python', 'java', 'curl', 'wget', 'scrape',
 		'headless', 'phantom', 'selenium', 'puppeteer',
-		'semrushbot', 'dotbot', 'ahrefsbot', 'seokicks', 'dataforseobot', 'proximic'
+		'semrushbot', 'dotbot', 'ahrefsbot', 'seokicks', 'dataforseobot', 'proximic',
+		'GPTBot', 'ChatGPT-User', 'OAI-SearchBot', 'ClaudeBot', 'claude-web',
+		'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot-Extended'
 	];
 
 	/** @var array<string, int> $RateLimitedIpHash */
