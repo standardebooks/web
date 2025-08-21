@@ -26,6 +26,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			<p class="button-row">
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a one-time donation</a>
 				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Start a monthly donation</a>
+				<a href="/help/donating-via-a-donor-advised-fund" class="button">Donate via a Donor-Advised Fund</a>
 			</p>
 		</section>
 		<section id="patrons-circle">

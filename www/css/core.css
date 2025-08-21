@@ -2311,7 +2311,7 @@ h1 + ul.message,
 	display: grid;
 	margin: 2rem 0;
 	grid-template-columns: 1fr 1fr;
-	grid-gap: 1rem;
+	grid-gap: 2rem;
 	justify-items: center;
 }
 
@@ -2460,10 +2460,15 @@ h1 + ul.message,
 	font-weight: normal;
 }
 
+#donate .button-row a:last-child{
+	grid-column: 1 / span 2;
+}
+
 .donate aside{
-	margin-top: 1rem;
-	padding-top: 1rem;
+	margin-top: 2rem;
+	padding-top: 2rem;
 	font-style: italic;
+	border-top: 1px dashed var(--sub-text);
 }
 
 .donate aside:first-child{
