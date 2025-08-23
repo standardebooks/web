@@ -34,7 +34,7 @@ $isAllSelected = sizeof($tags) == 0 || in_array('all', $tags);
 				<option value="<?= Enums\EbookSortType::AuthorAlpha->value ?>"<? if($sort == Enums\EbookSortType::AuthorAlpha){ ?> selected="selected"<? } ?>>Author name (a &#x2192; z)</option>
 				<option value="<?= Enums\EbookSortType::ReadingEase->value ?>"<? if($sort == Enums\EbookSortType::ReadingEase){ ?> selected="selected"<? } ?>>Reading ease (easy &#x2192; hard)</option>
 				<option value="<?= Enums\EbookSortType::Length->value ?>"<? if($sort == Enums\EbookSortType::Length){ ?> selected="selected"<? } ?>>Length (short &#x2192; long)</option>
-				<option value="<?= Enums\EbookSortType::Popularity->value ?>"<? if($sort == Enums\EbookSortType::Popularity){ ?> selected="selected"<? } ?>>Popularity</option>
+				<option value="<?= Enums\EbookSortType::Popularity->value ?>"<? if($sort == Enums\EbookSortType::Popularity){ ?> selected="selected"<? } ?>>Popularity (most &#x2192; least)</option>
 			</select>
 		</span>
 	</label>
