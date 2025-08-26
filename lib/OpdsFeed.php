@@ -28,7 +28,7 @@ abstract class OpdsFeed extends AtomFeed{
 	// *******
 
 	protected function SaveUpdated(string $entryId, DateTimeImmutable $updated): void{
-		// Only save the updated timestamp for the given entry ID in this file
+		// Only save the updated timestamp for the given entry ID in this file.
 		foreach($this->Entries as $entry){
 			if($entry instanceof OpdsNavigationEntry){
 				if($entry->Id == SITE_URL . $entryId){
@@ -49,9 +49,9 @@ abstract class OpdsFeed extends AtomFeed{
 	}
 
 	public function SaveIfChanged(): bool{
-		// Did we actually update the feed? If so, write to file and update the index
+		// Did we actually update the feed? If so, write to file and update the index.
 		if($this->HasChanged($this->Path)){
-			// Files don't match, save the file and update the parent navigation feed with the last updated timestamp
+			// Files don't match, save the file and update the parent navigation feed with the last updated timestamp.
 
 			$this->Updated = NOW;
 
@@ -59,7 +59,7 @@ abstract class OpdsFeed extends AtomFeed{
 				$this->Parent->SaveUpdated($this->Id, $this->Updated);
 			}
 
-			// Save our own file
+			// Save our own file.
 			$this->Save();
 			return true;
 		}

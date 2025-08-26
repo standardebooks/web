@@ -19,11 +19,11 @@ try{
 			$uuid = Uuid::uuid4();
 			$subscription->User = new User();
 			$subscription->User->Uuid = $uuid->toString();
-			$_SESSION['is-subscription-created'] = 0; // 0 means 'bot'
+			$_SESSION['is-subscription-created'] = 0; // 0 means 'bot'.
 			header('Location: /newsletter/subscriptions/success');
 		}
 		else{
-			// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
+			// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location.
 			http_response_code(Enums\HttpCode::Created->value);
 			header('Location: /newsletter/subscriptions/success');
 		}
@@ -49,7 +49,7 @@ try{
 		header('Location: /newsletter/subscriptions/success');
 	}
 	else{
-		// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location
+		// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location.
 		http_response_code(Enums\HttpCode::Created->value);
 		header('Location: /newsletter/subscriptions/success');
 	}
@@ -57,8 +57,7 @@ try{
 catch(Exceptions\NewsletterSubscriptionExistsException){
 	// Subscription exists.
 	if($requestType == Enums\HttpRequestType::Web){
-		// If we're accessing from the web, update the subscription,
-		// re-sending the confirmation email if the user isn't yet confirmed
+		// If we're accessing from the web, update the subscription, re-sending the confirmation email if the user isn't yet confirmed.
 		$existingSubscription = NewsletterSubscription::Get($subscription->User->Uuid);
 		$subscription->IsConfirmed = $existingSubscription->IsConfirmed;
 		$subscription->Save();
@@ -66,7 +65,7 @@ catch(Exceptions\NewsletterSubscriptionExistsException){
 		http_response_code(Enums\HttpCode::SeeOther->value);
 
 		if(!$subscription->IsConfirmed){
-			// Don't re-send the email after all, to prevent spam
+			// Don't re-send the email after all, to prevent spam.
 			// $subscription->SendConfirmationEmail();
 
 			header('Location: /newsletter/subscriptions/success');
@@ -77,7 +76,7 @@ catch(Exceptions\NewsletterSubscriptionExistsException){
 		}
 	}
 	else{
-		// Access via Enums\HttpRequestType::Rest api; 409 CONFLICT
+		// Access via Enums\HttpRequestType::Rest api; 409 CONFLICT.
 		http_response_code(Enums\HttpCode::Conflict->value);
 	}
 }
@@ -86,12 +85,12 @@ catch(Exceptions\InvalidNewsletterSubscription $ex){
 		$_SESSION['subscription'] = $subscription;
 		$_SESSION['exception'] = $ex;
 
-		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity
+		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity.
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /newsletter/subscriptions/new');
 	}
 	else{
-		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity
+		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	}
 }

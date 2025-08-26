@@ -27,8 +27,7 @@ class ValidationException extends AppException{
 			$this->Exceptions[] = $exception;
 		}
 
-		// Don't set $this->IsFatal directly, so that a non-fatal exception
-		// added later won't overwrite the fatality of a previous exception.
+		// Don't set `$this->IsFatal` directly, so that a non-fatal exception added later won't overwrite the fatality of a previous exception.
 		if($isFatal){
 			$this->IsFatal = true;
 		}

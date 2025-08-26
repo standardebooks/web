@@ -38,12 +38,12 @@ catch(Exceptions\InvalidLoginException | Exceptions\PasswordRequiredException $e
 		$_SESSION['redirect'] = $redirect;
 		$_SESSION['exception'] = $ex;
 
-		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity
+		// Access via form; 303 redirect to the form, which will emit a 422 Unprocessable Entity.
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		header('Location: /sessions/new');
 	}
 	else{
-		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity
+		// Access via Enums\HttpRequestType::Rest api; 422 Unprocessable Entity.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	}
 }

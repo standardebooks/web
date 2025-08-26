@@ -48,7 +48,7 @@ abstract class Feed{
 	protected function CleanXmlString(string $xmlString): string{
 		$tempFilename = tempnam('/tmp/', 'se-');
 		file_put_contents($tempFilename, $xmlString);
-		exec('se clean ' . escapeshellarg($tempFilename) . ' 2>&1', $output); // Capture the result in case there's an error, otherwise it prints to stdout
+		exec('se clean ' . escapeshellarg($tempFilename) . ' 2>&1', $output); // Capture the result in case there's an error, otherwise it prints to `stdout`.
 		$output = file_get_contents($tempFilename);
 		@unlink($tempFilename);
 
@@ -73,7 +73,7 @@ abstract class Feed{
 	 */
 	public static function RebuildFeedsCache(?Enums\FeedType $returnType = null, ?Enums\FeedCollectionType $returnCollectionType = null): ?array{
 		$retval = null;
-		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names
+		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names.
 		if($collator === null){
 			throw new Exceptions\AppException('Couldn\'t create collator object when rebuilding feeds cache.');
 		}

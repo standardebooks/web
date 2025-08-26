@@ -42,10 +42,10 @@ class Museum{
 		// We can't match on TLD because extracting the TLD for double-barrel TLDs, like .gov.uk, requires a whitelist.
 
 		if(preg_match('/\brijksmuseum\.nl$/ius', $parsedUrl['host'])){
-			// Rijksmuseum has several URL variants we want to resolve
-			// https://www.rijksmuseum.nl/en/search/objects?q=hals&p=6&ps=12&st=Objects&ii=2#/SK-A-1246,59
-			// https://www.rijksmuseum.nl/nl/collectie/SK-A-1246
-			// https://www.rijksmuseum.nl/en/rijksstudio/artists/jean-baptiste-vanmour/objects#/SK-A-1998,8
+			// Rijksmuseum has several URL variants we want to resolve.
+			// <https://www.rijksmuseum.nl/en/search/objects?q=hals&p=6&ps=12&st=Objects&ii=2#/SK-A-1246,59>
+			// <https://www.rijksmuseum.nl/nl/collectie/SK-A-1246>
+			// <https://www.rijksmuseum.nl/en/rijksstudio/artists/jean-baptiste-vanmour/objects#/SK-A-1998,8>
 
 			$exampleUrl = 'https://www.rijksmuseum.nl/en/collection/SK-A-1246';
 
@@ -186,7 +186,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bparis\.fr$/ius', $parsedUrl['host'])){
-			// Variant: https://www.parismuseescollections.paris.fr/en/musee-carnavalet/oeuvres/portrait-del-singer-simon-chenard-1758-1832-wearing-the-clothes-of-a-sans
+			// Variant: <https://www.parismuseescollections.paris.fr/en/musee-carnavalet/oeuvres/portrait-del-singer-simon-chenard-1758-1832-wearing-the-clothes-of-a-sans>
 			// May also be missing www.
 
 			$exampleUrl = 'https://www.parismuseescollections.paris.fr/en/node/226154';
@@ -204,7 +204,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bwww\.si\.edu$/ius', $parsedUrl['host'])){
-			// URLs can look like <https://www.si.edu/object/cave-scene:saam_XX98H> in which the text before : is for SEO and can be cut
+			// URLs can look like <https://www.si.edu/object/cave-scene:saam_XX98H> in which the text before `:` is for SEO and can be cut.
 			$exampleUrl = 'https://www.si.edu/object/saam_1983.95.90';
 
 			if(!preg_match('|^/object/[^/]+?(:[^/:]+)?$|ius', $parsedUrl['path'])){
@@ -229,7 +229,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bcollections\.si\.edu$/ius', $parsedUrl['host'])){
-			// These URLs can actually be normalized to a www.si.edu URL by pulling out the object ID
+			// These URLs can actually be normalized to a `www.si.edu` URL by pulling out the object ID.
 			$exampleUrl = 'https://collections.si.edu/search/detail/edanmdm:saam_1981.146.1';
 
 			$path = $parsedUrl['path'];
@@ -244,7 +244,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bnpg\.si\.edu$/ius', $parsedUrl['host'])){
-			// These URLs can actually be normalized to a www.si.edu URL by pulling out the object ID
+			// These URLs can actually be normalized to a `www.si.edu` URL by pulling out the object ID.
 			$exampleUrl = 'https://npg.si.edu/object/npg_NPG.2008.5';
 
 			$path = $parsedUrl['path'];
@@ -284,7 +284,7 @@ class Museum{
 				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
 			}
 
-			// Somtimes the path may have '/search-result/advance' or '/search-result' in it, cut that here
+			// Sometimes the path may have `/search-result/advance` or `/search-result` in it, cut that here.
 			$path = preg_replace('~^/en(/search-result/advance|/search-result)?~ius', '/en', $parsedUrl['path']);
 
 			if(!preg_match('|^/en/catalog/[^/]+$|ius', $path)){
@@ -302,7 +302,7 @@ class Museum{
 				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
 			}
 
-			// Somtimes the path may have 'en' in it, cut that here
+			// Somtimes the path may have `en` in it, cut that here.
 			$path = preg_replace('|^/en/|ius', '/', $parsedUrl['path']);
 
 			if(!preg_match('|^/artwork/image/[^/]+$|ius', $path)){
@@ -376,7 +376,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\baberdeencity\.gov\.uk$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://emuseum.aberdeencity.gov.uk/objects/3215/james-cromar-watt-lld';
 
 			if($parsedUrl['host'] != 'emuseum.aberdeencity.gov.uk'){
@@ -394,7 +394,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bbrightonmuseums\.org\.uk$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://collections.brightonmuseums.org.uk/records/63caa90083d50a00184b8e90';
 
 			if($parsedUrl['host'] != 'collections.brightonmuseums.org.uk'){
@@ -410,7 +410,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bgrpmcollections\.org$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://www.grpmcollections.org/Detail/objects/130684';
 
 			if($parsedUrl['host'] != 'www.grpmcollections.org'){
@@ -426,7 +426,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bthorvaldsensmuseum\.dk$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://kataloget.thorvaldsensmuseum.dk/en/B122';
 
 			if($parsedUrl['host'] != 'kataloget.thorvaldsensmuseum.dk'){
@@ -442,7 +442,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bmuseabrugge\.be$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://collectie.museabrugge.be/en/collection/work/id/2013_GRO0013_I';
 
 			if($parsedUrl['host'] != 'collectie.museabrugge.be'){
@@ -458,7 +458,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bbritishart\.yale\.edu$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://collections.britishart.yale.edu/catalog/tms:1010';
 
 			if($parsedUrl['host'] != 'collections.britishart.yale.edu'){
@@ -474,7 +474,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bkunsthalle-karlsruhe\.de$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://www.kunsthalle-karlsruhe.de/kunstwerke/Ferdinand-Keller/K%C3%BCstenlandschaft-bei-Rio-de-Janeiro/C066F030484D7D09148891B0E70524B8/';
 
 			if($parsedUrl['host'] != 'www.kunsthalle-karlsruhe.de'){
@@ -490,7 +490,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bgetty\.edu$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://www.getty.edu/art/collection/object/103RG0';
 
 			if($parsedUrl['host'] != 'www.getty.edu'){
@@ -506,7 +506,7 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bartgallery\.yale\.edu$/ius', $parsedUrl['host'])){
-			// All we need is the int object ID, the last slug is SEO
+			// All we need is the int object ID, the last slug is SEO.
 			$exampleUrl = 'https://artgallery.yale.edu/collections/objects/44306';
 
 			if($parsedUrl['host'] != 'artgallery.yale.edu'){

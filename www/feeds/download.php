@@ -13,14 +13,14 @@ try{
 		throw new Exceptions\InvalidFileException();
 	}
 
-	// Access to the Atom/RSS new releases feed is open to the public
+	// Access to the Atom/RSS new releases feed is open to the public.
 	$isNewReleasesFeed = false;
 	if(preg_match('/^\/feeds\/(rss|atom)\/new-releases\.xml$/ius', $path)){
 		$isNewReleasesFeed = true;
 	}
 
 	if(!$isNewReleasesFeed){
-		// Certain user agents may bypass login entirely
+		// Certain user agents may bypass login entirely.
 		$isUserAgentAllowed = false;
 		if(isset($_SERVER['HTTP_USER_AGENT'])){
 			$isUserAgentAllowed = Db::QueryBool('

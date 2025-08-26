@@ -37,9 +37,9 @@ class AtomFeed extends Feed{
 	}
 
 	public function SaveIfChanged(): bool{
-		// Did we actually update the feed? If so, write to file and update the index
+		// Did we actually update the feed? If so, write to file and update the index.
 		if($this->HasChanged($this->Path)){
-			// Files don't match, save the file
+			// Files don't match, save the file.
 			$this->Updated = NOW;
 			$this->Save();
 			return true;
@@ -84,7 +84,7 @@ class AtomFeed extends Feed{
 			}
 		}
 		catch(Exception){
-			// Invalid XML
+			// Invalid XML.
 			return true;
 		}
 

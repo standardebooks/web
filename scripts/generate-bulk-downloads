@@ -86,7 +86,7 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 		if($type == 'xhtml' && $ebook->TextSinglePageUrl !== null){
 			$ebookFilePath = $webRoot . '/' . $ebook->TextSinglePageUrl . '.xhtml';
 
-			// Strip the navigation header that was added as part of the deploy process
+			// Strip the navigation header that was added as part of the deploy process.
 			$xhtml = file_get_contents($ebookFilePath);
 			$xhtml = preg_replace('|<body><header><nav>.+?</nav></header>|ius', '<body>', $xhtml);
 

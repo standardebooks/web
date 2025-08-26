@@ -593,7 +593,7 @@ final class Artwork{
 				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
 			}
 
-			// If we're missing the view mode, append it
+			// If we're missing the view mode, append it.
 			if(preg_match('|^/details/[^/]+?/page/[^/]+$|ius', $parsedUrl['path'])){
 				$parsedUrl['path'] = $parsedUrl['path'] . '/mode/1up';
 			}

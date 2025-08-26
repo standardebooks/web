@@ -70,8 +70,7 @@ class PollVote{
 		}
 
 		if(!$error->HasExceptions){
-			// Basic sanity checks done, now check if we've already voted
-			// in this poll
+			// Basic sanity checks done, now check if we've already voted in this poll.
 
 			// Do we already have a vote for this poll, from this user?
 			try{
@@ -79,7 +78,7 @@ class PollVote{
 				$error->Add(new Exceptions\PollVoteExistsException($vote));
 			}
 			catch(Exceptions\PollVoteNotFoundException){
-				// User hasn't voted yet, carry on
+				// User hasn't voted yet, carry on.
 			}
 
 			if(!$this->User->Benefits->CanVote){

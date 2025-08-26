@@ -29,7 +29,7 @@ class ArtworkTag extends Tag{
 
 		if(isset($this->Name)){
 			$this->Name = mb_strtolower(trim($this->Name));
-			// Collapse spaces into one
+			// Collapse spaces into one.
 			$this->Name = preg_replace('/[\s]+/ius', ' ', $this->Name);
 
 			if(strlen($this->Name) == 0){

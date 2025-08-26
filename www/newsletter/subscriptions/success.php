@@ -1,7 +1,5 @@
 <?
-// We use a 'succes' page and don't redirect directly to the vote ID resource, because
-// we don't want to reveal the vote ID to the web browser. It should only be sent via email
-// confirmation link.
+// We use a 'succes' page and don't redirect directly to the vote ID resource, because we don't want to reveal the vote ID to the web browser. It should only be sent via email confirmation link.
 
 use function Safe\session_start;
 use function \Safe\session_unset;
@@ -16,7 +14,6 @@ if(isset($_SESSION['is-subscription-created'])){
 }
 
 if($created){
-	// HTTP 201 Created
 	http_response_code(Enums\HttpCode::Created->value);
 }
 

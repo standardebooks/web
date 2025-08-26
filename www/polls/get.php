@@ -17,7 +17,7 @@ try{
 			PollVote::Get($poll->UrlName, Session::$User->UserId);
 		}
 		catch(Exceptions\AppException){
-			// User has already voted
+			// User has already voted.
 			$canVote = true;
 		}
 	}

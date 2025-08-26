@@ -13,9 +13,7 @@ class OpdsNavigationFeed extends OpdsFeed{
 		parent::__construct($title, $subtitle, $url, $path, $entries, $parent);
 
 		// If the file already exists, try to fill in the existing updated timestamps from the file.
-		// That way, if the file has changed, we only update the changed entry,
-		// and not every single entry. This is only relevant to navigation feeds,
-		// because their *entries* along with their root updated timestamp change if their entries have an update.
+		// That way, if the file has changed, we only update the changed entry, and not every single entry. This is only relevant to navigation feeds, because their *entries* along with their root updated timestamp change if their entries have an update.
 		// For acquisition feeds, only the root updated timestamp changes, so this is not a concern.
 		if(file_exists($this->Path)){
 			try{
@@ -30,7 +28,7 @@ class OpdsNavigationFeed extends OpdsFeed{
 				}
 			}
 			catch(Exception){
-				// XML parsing failure
+				// XML parsing failure.
 			}
 		}
 	}

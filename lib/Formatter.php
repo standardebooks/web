@@ -54,22 +54,22 @@ class Formatter{
 	 * 5. Converts any sequence of one or more spaces to a single dash.
 	 */
 	public static function MakeUrlSafe(string $text): string{
-		// Remove accent characters
+		// Remove accent characters.
 		$text = Formatter::RemoveDiacritics($text);
 
-		// Remove apostrophes
+		// Remove apostrophes.
 		$text = preg_replace('/[\'’]/u', '', $text);
 
-		// Trim and convert to lowercase
+		// Trim and convert to lowercase.
 		$text = mb_strtolower(trim($text));
 
-		// Then convert any non-digit, non-letter character to a space
+		// Then convert any non-digit, non-letter character to a space.
 		$text = preg_replace('/[^0-9a-zA-Z]/ius', ' ', $text);
 
-		// Then convert any instance of one or more space to dash
+		// Then convert any instance of one or more space to dash.
 		$text = preg_replace('/\s+/ius', '-', $text);
 
-		// Finally, trim dashes
+		// Finally, trim dashes.
 		$text = trim($text, '-');
 
 		return $text;

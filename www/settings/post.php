@@ -19,7 +19,7 @@ if($httpMethod == Enums\HttpMethod::Patch){
 
 	if($colorScheme !== null){
 		if($colorScheme == Enums\ColorSchemeType::Auto){
-			// Delete the cookie; auto is the default
+			// Delete the cookie; auto is the default.
 			setcookie('color-scheme', '', ['expires' => 0, 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
 		}
 		else{
@@ -27,7 +27,6 @@ if($httpMethod == Enums\HttpMethod::Patch){
 		}
 	}
 
-	// HTTP 303, See other
 	http_response_code(Enums\HttpCode::SeeOther->value);
 
 	/** @var string $redirect */

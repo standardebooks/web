@@ -1,6 +1,6 @@
 <?
 try{
-	// We may use GET if we're called from an unsubscribe link in an email
+	// We may use GET if we're called from an unsubscribe link in an email.
 	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Get, Enums\HttpMethod::Delete]);
 
 	$requestType = HttpInput::GetRequestType();

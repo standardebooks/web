@@ -2250,7 +2250,7 @@ final class Ebook{
 	 */
 	public static function GetAllByAuthor(string $urlPath): array{
 		if(mb_strpos($urlPath, '_') === false){
-			// Single author
+			// Single author.
 			return Db::Query('
 					SELECT e.*
 					from Ebooks e
@@ -2398,13 +2398,12 @@ final class Ebook{
 			$orderBy = 'e.WwwFilesystemPath is null, e.WordCount'; // Put placeholders at the end.
 		}
 		elseif($sort == Enums\EbookSortType::Popularity){
-			// Searches with a keyword `query` present sort placeholdrs at the end because their
-			// `DownloadsPast30Days` count is zero and their `EbookCreated` date is `NULL`.
+			// Searches with a keyword `query` present sort placeholdrs at the end because their `DownloadsPast30Days` count is zero and their `EbookCreated` date is `NULL`.
 			// Searches without a keyword `query` filter out placeholders in the `WHERE` clause.
 			$orderBy = 'e.DownloadsPast30Days desc, e.EbookCreated desc';
 		}
 
-		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks"
+		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks".
 			$joinTags = 'inner join EbookTags et using (EbookId)
 					inner join Tags t using (TagId)';
 			$whereCondition .= ' and t.UrlName in ' . Db::CreateSetSql($tags) . ' ';
