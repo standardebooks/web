@@ -5,6 +5,8 @@ use Safe\DateTimeImmutable;
 $ebook = null;
 $downloadUrl = null;
 $downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
+
+// The download source is set in feed links and meta refresh links. It is `null` on links from `www/ebooks/get.php`.
 $source = Enums\EbookDownloadSource::tryFrom(HttpInput::Str(GET, 'source') ?? '');
 
 $shortDownloadLimit = 35;
@@ -17,6 +19,12 @@ $longDownloadTime = NOW->modify('-1 day');
 // * Their `download-count` cookie is above some amount.
 // * The link is from a specific source.
 $skipThankYouPage = isset(Session::$User) || $downloadCount > 4 || isset($source);
+
+// `$source` will be `null` for users that skip the download page because they are logged in or because of their
+// `download-count` cookie, but they are downloading from the web so that's how their download should be recorded. 
+if($skipThankYouPage && !isset($source)){
+	$source = Enums\EbookDownloadSource::DownloadPage;
+}
 
 try{
 	$urlPath = HttpInput::Str(GET, 'url-path') ?? null;
