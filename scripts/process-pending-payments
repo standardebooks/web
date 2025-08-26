@@ -37,13 +37,13 @@ $lastYear = (new DateTimeImmutable())->sub(new DateInterval('P1Y'));
 $faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
 $faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
 
-// Test donations
-// `fa000cbf-af6f-4c14-8919-da6cf81a27ea`  Regular donation, patrons, public, recurring.
-// `a010dcaf-d2ab-49da-878c-cb447b12152e`  Regular donation, non-patrons, private, one time.
-// `5a544447-708d-43da-a7b8-7bd8d9804652`  AOGF donation, patrons, public, one time.
-// `e097c777-e2d8-4b21-b99c-e83da8696af8`  AOGF donation, non-patrons, anonymous, one time.
-// `946554ca-ffc0-4259-bcc6-be6c844fbbdc`  Regular donation, patrons, private, recurring.
-// `416608c6-cbf5-4153-8956-cb9051bb849e`  Regular donation, patrons, public, one time, in memory of.
+// Test donations:
+// - `fa000cbf-af6f-4c14-8919-da6cf81a27ea`  Regular donation, patrons, public, recurring.
+// - `a010dcaf-d2ab-49da-878c-cb447b12152e`  Regular donation, non-patrons, private, one time.
+// - `5a544447-708d-43da-a7b8-7bd8d9804652`  AOGF donation, patrons, public, one time.
+// - `e097c777-e2d8-4b21-b99c-e83da8696af8`  AOGF donation, non-patrons, anonymous, one time.
+// - `946554ca-ffc0-4259-bcc6-be6c844fbbdc`  Regular donation, patrons, private, recurring.
+// - `416608c6-cbf5-4153-8956-cb9051bb849e`  Regular donation, patrons, public, one time, in memory of.
 
 Db::Query('start transaction');
 
@@ -139,13 +139,24 @@ try{
 				try{
 					// If the donation is via a foundation (like American Online Giving Foundation) then there will be a "soft credit" `<th>` element.
 					if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){
-						// We're a foundation donation
+						// We're a foundation donation.
 						$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
 						$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
 						$hasSoftCredit = true;
+
+						// If we have a soft credit but no email, try go get the `User` by the soft credit line, so we don't create multiple `User`s for the same foundation.
+						if($payment->User->Email == ''){
+							try{
+								$payment->User = User::GetByName($payment->User->Name);
+								$payment->UserId = $payment->User->UserId;
+							}
+							catch(Exception){
+								// Nobody matches the name, pass.
+							}
+						}
 					}
 					else{
-						// We're a regular donation
+						// We're a regular donation.
 						$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"]]'))->getText());
 						$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"]]'))->getText());
 					}
@@ -159,7 +170,7 @@ try{
 
 					// Sometimes a soft credit is `Anonymous` or `Anonymous Anonymous`.
 					// See donation `7f296e18-6492-48e1-aeca-5063c6a0bbbb`.
-					if($hasSoftCredit && preg_match('/Anonymous(\s*Anonymous)*/ius', $payment->User->Name)){
+					if($hasSoftCredit && preg_match('/Anonymous(\s*Anonymous)*/ius', $payment->User->Name ?? '')){
 						$payment->User = null;
 					}
 
@@ -177,6 +188,11 @@ try{
 				$payment->IsRecurring = sizeof($headerRow->findElements(WebDriverBy::xpath('//td[contains(., "Recurring")]'))) > 0;
 				$payment->Amount = floatval(preg_replace('/[^0-9\.]/', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Total Amount"]]'))->getText())));
 				$payment->Fee = floatval(preg_replace('/[^0-9\.]/', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Fee"]]'))->getText())));
+
+				// Special exception: This donor has set up a monthly recurring donation via their fund. Yes, we should do this in the database somehow, but it's so rare that for now it's easier to just make a messy exception here.
+				if($payment->User?->Name == 'Jennifer Braun and Raymond J. Ryan Charitable Gift Fund'){
+					$payment->IsRecurring = true;
+				}
 
 				$transactionId = (string)($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]]'))->getText());
 				$transactionId = str_replace('View on FS', '', $transactionId);
