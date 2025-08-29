@@ -1456,14 +1456,16 @@ final class Ebook{
 	}
 
 	/**
+	 * @param bool $updateDownloads When updating, whether to update `DownloadsPast30Days` and `DownloadsTotal` with this object's values.
+	 *
 	 * @throws Exceptions\InvalidEbookException
 	 * @throws Exceptions\EbookExistsException
 	 */
-	public function CreateOrUpdate(): void{
+	public function CreateOrUpdate(bool $updateDownloads = false): void{
 		try{
 			$existingEbook = Ebook::GetByIdentifier($this->Identifier);
 			$this->EbookId = $existingEbook->EbookId;
-			$this->Save();
+			$this->Save($updateDownloads);
 		}
 		catch(Exceptions\EbookNotFoundException){
 			$this->Create();
@@ -1886,10 +1888,12 @@ final class Ebook{
 	}
 
 	/**
+	 * @param bool $updateDownloads Whether to update `DownloadsPast30Days` and `DownloadsTotal` with this object's values.
+	 *
 	 * @throws Exceptions\InvalidEbookException If the `Ebook` is invalid.
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the same title and author already exists.
 	 */
-	public function Save(): void{
+	public function Save(bool $updateDownloads = false): void{
 		$this->Validate();
 
 		$this->SetIndexableProperties();
@@ -1906,6 +1910,27 @@ final class Ebook{
 		}
 
 		try{
+			$params = [
+				$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
+				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
+				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
+				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
+				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
+				$this->IndexableAuthors, $this->IndexableCollections
+			];
+
+			if($updateDownloads){
+				$params[] = $this->DownloadsPast30Days;
+				$params[] = $this->DownloadsTotal;
+			}
+			else{
+				// When these params are `null`, `COALESCE` will keep the existing value.
+				$params[] = null;
+				$params[] = null;
+			}
+
+			$params[] = $this->EbookId;
+
 			Db::Query('
 				UPDATE Ebooks
 				set
@@ -1934,18 +1959,11 @@ final class Ebook{
 				IndexableText = ?,
 				IndexableAuthors = ?,
 				IndexableCollections = ?,
-				DownloadsPast30Days = ?,
-				DownloadsTotal = ?
+				DownloadsPast30Days = COALESCE(?, DownloadsPast30Days),
+				DownloadsTotal = COALESCE(?, DownloadsTotal)
 				where
 				EbookId = ?
-			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
-					$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-					$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
-					$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-					$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-					$this->IndexableAuthors, $this->IndexableCollections, $this->DownloadsPast30Days,
-					$this->DownloadsTotal,
-					$this->EbookId]);
+			', $params);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\EbookExistsException($this->Identifier);
