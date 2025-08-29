@@ -222,3 +222,12 @@ main.ebooks nav ol{
 main.ebooks nav ol li{
 	padding: 1rem;
 }
+
+.honeypot{
+	/* Hide from clients who don't support the `@hidden` attribute, like older Kindle browsers. */
+	/* Select using a class for older renderers like Kindle in-browser renderer. */
+	display: none;
+	position: absolute;
+	left: -9999rem;
+	font-size: 0;
+}
