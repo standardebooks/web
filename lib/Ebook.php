@@ -1888,7 +1888,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @param bool $updateDownloads Whether to update `DownloadsPast30Days` and `DownloadsTotal` with this object's values.
+	 * @param bool $updateDownloads Whether to update `DownloadsPast30Days` and `DownloadsTotal` with this object's values. This is useful because an `Ebook` can either be created from the filesystem (which doesn't have download statistics), or the database (which does). Saving an `Ebook` created from the filesystem might then overwrite the database's download statistics with zeros unless we explicitly tell it not to.
 	 *
 	 * @throws Exceptions\InvalidEbookException If the `Ebook` is invalid.
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the same title and author already exists.
