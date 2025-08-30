@@ -1910,27 +1910,6 @@ final class Ebook{
 		}
 
 		try{
-			$params = [
-				$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
-				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
-				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-				$this->IndexableAuthors, $this->IndexableCollections
-			];
-
-			if($updateDownloads){
-				$params[] = $this->DownloadsPast30Days;
-				$params[] = $this->DownloadsTotal;
-			}
-			else{
-				// When these params are `null`, `COALESCE` will keep the existing value.
-				$params[] = null;
-				$params[] = null;
-			}
-
-			$params[] = $this->EbookId;
-
 			Db::Query('
 				UPDATE Ebooks
 				set
@@ -1963,7 +1942,16 @@ final class Ebook{
 				DownloadsTotal = COALESCE(?, DownloadsTotal)
 				where
 				EbookId = ?
-			', $params);
+			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
+				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
+				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
+				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
+				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
+				$this->IndexableAuthors, $this->IndexableCollections,
+				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `COALESCE` will keep the existing value.
+				$updateDownloads ? $this->DownloadsTotal : null,
+				$this->EbookId]);
+
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\EbookExistsException($this->Identifier);
