@@ -136,6 +136,9 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/15dNXhPXRIAsGWsbPwFwlkly3FHKfEC9DYRB0-_uiooA/edit">Short fiction by H. G. Wells</a></p>
 			</li>
+			<li>
+				<p><a href="https://docs.google.com/spreadsheets/d/10LSEBprE2yN1Mj__ImjqmMKQGZx4bJBBMwiQF0aOEFs/edit">Works by Edgar Saltus</a></p>
+			</li>
 		</ul>
 	</article>
 </main>
