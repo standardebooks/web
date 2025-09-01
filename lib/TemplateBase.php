@@ -72,6 +72,9 @@ abstract class TemplateBase{
 				case Enums\HttpCode::NotFound:
 					include(WEB_ROOT . '/404.php');
 					break;
+				case Enums\HttpCode::TooManyRequests:
+					include(WEB_ROOT . '/429.php');
+					break;
 			}
 		}
 
