@@ -51,7 +51,7 @@ use Safe\DateTimeImmutable;
  * @method static string OpdsNavigationFeed(string $id, string $url, ?string $parentUrl, string $title, ?string $subtitle, DateTimeImmutable $updated, array<OpdsNavigationEntry> $entries)
  * @method static string ProjectDetailsTable(Project $project, bool $useFullyQualifiedUrls = false, bool $showTitle = true, bool $showArtworkStatus = true)
  * @method static string ProjectForm(Project $project, $areFieldsRequired = true, $isEditForm = false)
- * @method static string ProjectsTable(array<Project> $projects, bool $includeTitle = true, bool $includeStatus = true, bool $showEditButton = false)
+ * @method static string ProjectsTable(array<Project> $projects, bool $includeTitle = true, bool $includeStatus = true, bool $showEditButton = false, bool $showContactInformation = false)
  * @method static string RealisticEbook(Ebook $ebook)
  * @method static string RssEntry(Ebook $entry)
  * @method static string RssFeed(string $title, string $description, DateTimeImmutable $updated, string $url, array<Ebook> $entries)

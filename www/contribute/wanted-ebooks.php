@@ -10,6 +10,7 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 		<p>If you’re interested in producing an ebook for Standard Ebooks, why not work on one of these books?</p>
 		<p>If something in this list interests you, please <a href="https://groups.google.com/g/standardebooks">contact us at our mailing list</a> for help before you start work.</p>
 		<p>If you want to suggest a different book to produce, please carefully review <a href="/contribute/collections-policy">the kinds of work we do and don’t accept</a>.</p>
+		<p>You can also see <a href="/projects">a list of all of our currently active ebook projects</a>.</p>
 
 		<h2>Add a book to this list</h2>
 		<p><a href="/donate#patrons-circle">Patrons Circle members</a> may submit ebooks for inclusion on this list.</p>

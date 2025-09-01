@@ -6,6 +6,7 @@
 $includeTitle ??= true;
 $includeStatus ??= true;
 $showEditButton ??= false;
+$showContactInformation ??= false;
 ?>
 <table class="data-table">
 	<caption aria-hidden="true">Scroll right →</caption>
@@ -42,19 +43,27 @@ $showEditButton ??= false;
 					</td>
 				<? } ?>
 				<td class="producer">
-					<? if($project->ProducerEmail !== null){ ?>
+					<? if($project->ProducerEmail !== null && $showContactInformation){ ?>
 						<a href="mailto:<?= Formatter::EscapeHtml($project->ProducerEmail) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
-					<? }elseif($project->DiscussionUrl !== null){ ?>
+					<? }elseif($project->DiscussionUrl !== null && $showContactInformation){ ?>
 						<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
 					<? }else{ ?>
 						<?= Formatter::EscapeHtml($project->ProducerName) ?>
 					<? } ?>
 				</td>
 				<td>
-					<a href="<?= $project->Manager->Url ?>/projects"><?= Formatter::EscapeHtml($project->Manager->DisplayName) ?></a>
+					<? if($showContactInformation){ ?>
+						<a href="<?= $project->Manager->Url ?>/projects"><?= Formatter::EscapeHtml($project->Manager->DisplayName) ?></a>
+					<? }else{ ?>
+						<?= Formatter::EscapeHtml($project->Manager->DisplayName) ?>
+					<? } ?>
 				</td>
 				<td>
-					<a href="<?= $project->Reviewer->Url ?>/projects"><?= Formatter::EscapeHtml($project->Reviewer->DisplayName) ?></a>
+					<? if($showContactInformation){ ?>
+						<a href="<?= $project->Reviewer->Url ?>/projects"><?= Formatter::EscapeHtml($project->Reviewer->DisplayName) ?></a>
+					<? }else{ ?>
+						<?= Formatter::EscapeHtml($project->Reviewer->DisplayName) ?>
+					<? } ?>
 				</td>
 				<td>
 					<? if(intval($project->LastActivityTimestamp->format('Y')) == intval(NOW->format('Y'))){ ?>

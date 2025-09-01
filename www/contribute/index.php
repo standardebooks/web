@@ -69,6 +69,9 @@
 					<p><a href="https://b-t-k.github.io/">Standard Ebooks Hints and Tricks</a>, a beginner’s guide by one of our editors.</p>
 				</li>
 				<li>
+					<p><a href="/projects">A list of all of our currently active ebook projects.</a></p>
+				</li>
+				<li>
 					<p><a href="/contribute/a-basic-standard-ebooks-source-folder">Descriptions of the files in a fresh Standard Ebooks source folder.</a></p>
 				</li>
 				<li>

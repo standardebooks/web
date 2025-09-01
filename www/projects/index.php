@@ -1,44 +1,22 @@
 <?
-
 use function Safe\session_start;
 use function Safe\session_unset;
 
-try{
-	if(Session::$User === null){
-		throw new Exceptions\LoginRequiredException();
-	}
+session_start();
 
-	if(
-		!Session::$User->Benefits->CanManageProjects
-		&&
-		!Session::$User->Benefits->CanReviewProjects
-		&&
-		!Session::$User->Benefits->CanEditProjects
-	){
-		throw new Exceptions\InvalidPermissionsException();
-	}
+$isCreated = HttpInput::Bool(SESSION, 'is-project-created') ?? false;
+$isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;
+$createdProject = HttpInput::SessionObject('project', Project::class);
+$showContactInformation = Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects || Session::$User?->Benefits->CanEditProjects;
 
-	session_start();
-
-	$isCreated = HttpInput::Bool(SESSION, 'is-project-created') ?? false;
-	$isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;
-	$createdProject = HttpInput::SessionObject('project', Project::class);
-
-	if($isCreated || $isOnlyProjectCreated){
-		// We got here because a `Project` was successfully submitted.
-		http_response_code(Enums\HttpCode::Created->value);
-		session_unset();
-	}
-
-	$inProgressProjects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed]);
-	$stalledProjects = Project::GetAllByStatus(Enums\ProjectStatusType::Stalled);
+if($isCreated || $isOnlyProjectCreated){
+	// We got here because a `Project` was successfully submitted.
+	http_response_code(Enums\HttpCode::Created->value);
+	session_unset();
 }
-catch(Exceptions\LoginRequiredException){
-	Template::RedirectToLogin();
-}
-catch(Exceptions\InvalidPermissionsException){
-	Template::ExitWithCode(Enums\HttpCode::Forbidden);
-}
+
+$inProgressProjects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed]);
+$stalledProjects = Project::GetAllByStatus(Enums\ProjectStatusType::Stalled);
 ?><?= Template::Header(
 	title: 'Projects',
 	css: ['/css/project.css'],
@@ -47,7 +25,7 @@ catch(Exceptions\InvalidPermissionsException){
 <main>
 	<section>
 		<h1>Projects</h1>
-		<? if(Session::$User->Benefits->CanEditProjects){ ?>
+		<? if(Session::$User?->Benefits->CanEditProjects){ ?>
 			<p>
 				<a href="/projects/new">New project</a>
 			</p>
@@ -67,14 +45,14 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if(sizeof($inProgressProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(projects: $inProgressProjects, includeStatus: false) ?>
+				<?= Template::ProjectsTable(projects: $inProgressProjects, includeStatus: false, showContactInformation: $showContactInformation) ?>
 			<? } ?>
 		</section>
 
 		<? if(sizeof($stalledProjects) > 0){ ?>
 			<section id="stalled">
 				<h2>Stalled projects</h2>
-				<?= Template::ProjectsTable(projects: $stalledProjects, includeStatus: false) ?>
+				<?= Template::ProjectsTable(projects: $stalledProjects, includeStatus: false, showContactInformation: $showContactInformation) ?>
 			</section>
 		<? } ?>
 	</section>
