@@ -8,10 +8,10 @@ $includeStatus ??= true;
 $showEditButton ??= false;
 $showContactInformation ??= false;
 ?>
-<table class="data-table">
+<table class="data-table projects-table">
 	<caption aria-hidden="true">Scroll right →</caption>
 	<thead>
-		<tr class="mid-header">
+		<tr>
 			<? if($includeTitle){ ?>
 				<th scope="col">Title</th>
 			<? } ?>

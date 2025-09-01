@@ -50,7 +50,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if(sizeof($managingProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(projects: $managingProjects) ?>
+				<?= Template::ProjectsTable(projects: $managingProjects, showContactInformation: true) ?>
 			<? } ?>
 		</section>
 
@@ -59,7 +59,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<? if(sizeof($reviewingProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(projects: $reviewingProjects) ?>
+				<?= Template::ProjectsTable(projects: $reviewingProjects, showContactInformation: true) ?>
 			<? } ?>
 		</section>
 	</section>

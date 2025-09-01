@@ -116,7 +116,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<? if(Session::$User?->Benefits->CanEditProjects || Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects){ ?>
 			<? if($ebook->ProjectInProgress !== null){ ?>
-				<section id="projects" class="admin">
+				<section id="projects-in-progress" class="admin">
 					<h2>Project in progress</h2>
 					<? if(Session::$User->Benefits->CanEditProjects){ ?>
 						<p>
@@ -127,7 +127,7 @@ catch(Exceptions\EbookNotFoundException){
 				</section>
 			<? } ?>
 
-			<section id="projects" class="admin">
+			<section id="past-projects" class="admin<? if(sizeof($ebook->PastProjects) > 0){ ?> full-width<? } ?>">
 				<h2>Past projects</h2>
 				<? if(Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null){ ?>
 					<p>
@@ -137,7 +137,7 @@ catch(Exceptions\EbookNotFoundException){
 				<? if(sizeof($ebook->PastProjects) == 0){ ?>
 					<p class="empty-notice">None.</p>
 				<? }else{ ?>
-					<?= Template::ProjectsTable(projects: $ebook->PastProjects, includeTitle: false, showEditButton: Session::$User->Benefits->CanEditProjects) ?>
+					<?= Template::ProjectsTable(projects: $ebook->PastProjects, includeTitle: false, showEditButton: Session::$User->Benefits->CanEditProjects, showContactInformation: true) ?>
 				<? } ?>
 			</section>
 		<? } ?>

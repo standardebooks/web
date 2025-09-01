@@ -843,6 +843,14 @@ h2 + .data-table tr.year-header:first-child th{
 	text-align: center;
 }
 
+.projects-table{
+	margin-top: 2rem;
+}
+
+.projects-table th{
+	font-style: italic;
+}
+
 main nav.pagination li.highlighted a:focus,
 a.button:focus,
 input[type="email"]:focus,
@@ -2698,8 +2706,12 @@ article.step-by-step-guide ol ol{
 	margin-left: 0;
 }
 
-.full-width img{
+figure.full-width img{
 	width: 100%;
+}
+
+section.full-width{
+	max-width: none;
 }
 
 h1.is-collection{
@@ -3538,8 +3550,6 @@ section.admin h2:first-child{
 		display: block;
 		padding-top: 2rem;
 	}
-
-
 }
 
 @media(max-width: 1100px){
