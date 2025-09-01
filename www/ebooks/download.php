@@ -9,11 +9,6 @@ $downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
 // The download source is set in feed links and meta refresh links. It is `null` on links from `www/ebooks/get.php`.
 $source = Enums\EbookDownloadSource::tryFrom(HttpInput::Str(GET, 'source') ?? '');
 
-$shortDownloadLimit = 35;
-$shortDownloadTime = NOW->modify('-30 seconds');
-$longDownloadLimit = 100;
-$longDownloadTime = NOW->modify('-1 day');
-
 // Skip the thank you page if any of these are true:
 // - The user is logged in.
 // - Their `download-count` cookie is above some amount.
@@ -56,13 +51,13 @@ try{
 		$limitExceeded = false;
 
 		// Check for excessive downloads.
-		$shortDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, $shortDownloadTime);
-		if($shortDownloadCount > $shortDownloadLimit){
+		$shortDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, NOW->modify('-30 seconds'));
+		if($shortDownloadCount > SHORT_DOWNLOAD_COUNT){
 			$limitExceeded = true;
 		}
 		else{
-			$longDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, $longDownloadTime);
-			if($longDownloadCount > $longDownloadLimit){
+			$longDownloadCount = EbookDownload::GetCountByIpAddressSince($ipAddress, NOW->modify('-6 hour'));
+			if($longDownloadCount > LONG_DOWNLOAD_COUNT){
 				$limitExceeded = true;
 			}
 		}

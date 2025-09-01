@@ -64,6 +64,9 @@ const CAPTCHA_IMAGE_WIDTH = 230;
 const PATRONS_CIRCLE_MONTHLY_COST = 15;
 const PATRONS_CIRCLE_YEARLY_COST = 150;
 
+const SHORT_DOWNLOAD_COUNT = 35;
+const LONG_DOWNLOAD_COUNT = 100;
+
 // These are defined for convenience, so that getting HTTP input isn't so wordy.
 const GET = Enums\HttpVariableSource::Get;
 const POST = Enums\HttpVariableSource::Post;
