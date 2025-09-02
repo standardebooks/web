@@ -127,7 +127,7 @@ catch(Exceptions\EbookNotFoundException){
 				</section>
 			<? } ?>
 
-			<section id="past-projects" class="admin<? if(sizeof($ebook->PastProjects) > 0){ ?> full-width<? } ?>">
+			<section id="past-projects" class="admin">
 				<h2>Past projects</h2>
 				<? if(Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null){ ?>
 					<p>

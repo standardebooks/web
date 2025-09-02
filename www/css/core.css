@@ -3478,6 +3478,7 @@ section.admin{
 	padding: 2rem;
 	margin-top: 4rem;
 	background: var(--admin-background);
+	box-sizing: border-box;
 }
 
 section.admin h2:first-child{
