@@ -290,78 +290,6 @@ class Db{
 	}
 
 	/**
-	 * Execute a select query that returns a join against multiple tables.
-	 *
-	 * For example, `select * from Users inner join Posts on Users.UserId = Posts.UserId`.
-	 *
-	 * The result is an array of rows. Each row is an array of objects, with each object containing its columns and values. For example,
-	 *
-	 * ```php
-	 * [
-	 *	[
-	 *		'Users' => {
-	 *			'UserId' => 111,
-	 *			'Name' => 'Alice'
-	 *		},
-	 *		'Posts' => {
-	 *			'PostId' => 222,
-	 *			'UserId' => 111,
-	 *			'Title' => 'Lorem Ipsum'
-	 *		}
-	 *	],
-	 *	[
-	 *		'Users' => {
-	 *			'UserId' => 333,
-	 *			'Name' => 'Bob'
-	 *		},
-	 *		'Posts' => {
-	 *			'PostId' => 444,
-	 *			'UserId' => 333,
-	 *			'Title' => 'Dolor sit'
-	 *		}
-	 *	]
-	 *  ]
-	 * ```
-	 *
-	 * **Important note:** If the two tables are joined via `using (Id)` instead of `on TableA.Id = TableB.Id`, the SQL query would return only one column for the join key (`Id` in this case).
-	 *
-	 * @param string $sql The SQL query to execute.
-	 * @param array<mixed> $params An array of parameters to bind to the SQL statement.
-	 *
-	 * @return array<array<string, stdClass>> An array of `$class` if `$class` is not `null`, otherwise an array of rows of the form `["LeftTableName" => $stdClass, "RightTableName" => $stdClass]`.
-	 *
-	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
-	 */
-	public static function MultiTableSelectGeneric(string $sql, array $params): array{
-		$handle = static::PreparePdoHandle($sql, $params);
-		$result = [];
-		$deadlockRetries = 0;
-		$done = false;
-
-		while(!$done){
-			try{
-				/** @var array<array<string, stdClass>> $result */
-				$result = static::ExecuteMultiTableSelect($handle, stdClass::class);
-				$done = true;
-			}
-			catch(\PDOException $ex){
-				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
-					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
-					$deadlockRetries++;
-					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up. Start at .5 seconds.
-				}
-				else{
-					throw static::CreateDetailedException($ex, $sql, $params);
-				}
-			}
-		}
-
-		static::$QueryCount++;
-
-		return $result;
-	}
-
-	/**
 	 * Given a string of SQL, prepare a PDO handle by binding the parameters to the query.
 	 *
 	 * @param string $sql The SQL query to execute.
@@ -372,6 +300,10 @@ class Db{
 	 * @throws Exceptions\DatabaseQueryException If an error occurs during execution of the query.
 	 */
 	protected static function PreparePdoHandle(string $sql, array $params): \PDOStatement{
+		if(!isset(static::$Link)){
+			static::Connect(DATABASE_DEFAULT_DATABASE);
+		}
+
 		try{
 			/** @throws \PDOException */
 			$handle = static::$Link->prepare($sql);

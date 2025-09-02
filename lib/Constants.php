@@ -39,7 +39,6 @@ const EBOOKS_IDENTIFIER_ROOT =		'https://standardebooks.org';
 const EBOOKS_IDENTIFIER_PREFIX =	EBOOKS_IDENTIFIER_ROOT . '/ebooks/';
 
 const DATABASE_DEFAULT_DATABASE = 	'se';
-const DATABASE_DEFAULT_HOST = 		'localhost';
 
 const EBOOKS_PER_PAGE = 12;
 const EBOOKS_MAX_STRING_LENGTH = 250;

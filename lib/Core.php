@@ -67,8 +67,6 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 	});
 }
 
-Db::Connect(DATABASE_DEFAULT_DATABASE, DATABASE_DEFAULT_HOST);
-
 Session::InitializeFromCookie();
 
 if(Session::$User === null){
