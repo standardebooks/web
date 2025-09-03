@@ -2,7 +2,7 @@
 <main>
 	<article>
 		<h1>Research Spreadsheets</h1>
-		<p>From time to time it’s useful to compile spreadsheets of an author’s ouevre. This page lists some of the spreadsheets our volunteers have created.</p>
+		<p>From time to time it’s useful to compile spreadsheets of an author’s oeuvre. This page lists some of the spreadsheets our volunteers have created.</p>
 		<ul>
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/1hqz9yCVfPkw3IrOhkQASaPGy2oaTgNWKH1vmZd50384/edit#gid=0">Poetry by Langston Hughes</a></p>
