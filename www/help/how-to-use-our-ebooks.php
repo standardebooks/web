@@ -120,26 +120,6 @@
 							<p>Download and install <a href="https://calibre-ebook.com">Calibre</a>.</p>
 						</li>
 						<li>
-							<p>Open Calibre, and install the KoboTouchExtended plugin:</p>
-							<ol>
-								<li>
-									<p>Click the “Preferences” button on the toolbar.</p>
-								</li>
-								<li>
-									<p>Under the “Advanced” heading, click the “Plugins” button.</p>
-								</li>
-								<li>
-									<p>Click the “Get new plugins” button.</p>
-								</li>
-								<li>
-									<p>In the “Filter by name” field, enter “KoboTouchExtended” and double-click the result to install it.</p>
-								</li>
-								<li>
-									<p>Restart Calibre.</p>
-								</li>
-							</ol>
-						</li>
-						<li>
 							<p>Add the epub file you downloaded to your Calibre library by clicking the “Add books” button on the toolbar.</p>
 						</li>
 						<li>
