@@ -45,6 +45,8 @@ class Email{
 			$phpMailer->addAddress($this->To, $this->ToName);
 			$phpMailer->Subject = $this->Subject;
 			$phpMailer->CharSet = 'UTF-8';
+			$phpMailer->XMailer = ' '; // Set to white space (*not* empty string) to remove the default sent-by header.
+
 			if($this->TextBody != ''){
 				$phpMailer->isHTML(true);
 				$phpMailer->Body = $this->Body;
