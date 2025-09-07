@@ -170,10 +170,10 @@ class Db{
 				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
 					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
 					$deadlockRetries++;
-					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up. Start at .5 seconds
+					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up. Start at .5 seconds.
 				}
 				elseif(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1062){
-					// Duplicate key, bubble this up without logging it so the business logic can handle it
+					// Duplicate key, bubble this up without logging it so the business logic can handle it.
 					throw new Exceptions\DuplicateDatabaseKeyException(str_replace('SQLSTATE[23000]: Integrity constraint violation: 1062 ', '', $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params)));
 				}
 				else{
