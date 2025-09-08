@@ -455,16 +455,14 @@ final class Project{
 			ProjectId = ?
 		', [$this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
 
-		if($this->Status == Enums\ProjectStatusType::Abandoned){
-			Db::Query('
-				UPDATE
-				EbookPlaceholders
-				set
-				IsInProgress = false
-				where
-				EbookId = ?
-			', [$this->EbookId]);
-		}
+		Db::Query('
+			UPDATE
+			EbookPlaceholders
+			set
+			IsInProgress = ?
+			where
+			EbookId = ?
+		', [$this->Status != Enums\ProjectStatusType::Abandoned, $this->EbookId]);
 	}
 
 	public function Delete(): void{
