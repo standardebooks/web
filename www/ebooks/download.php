@@ -1,7 +1,6 @@
 <?
 use Safe\DateTimeImmutable;
 
-
 $ebook = null;
 $downloadUrl = null;
 $downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
