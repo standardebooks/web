@@ -86,22 +86,11 @@ class Collection{
 	 * @throws Exceptions\AppException
 	 */
 	public static function GetAll(): array{
-		$collections = Db::Query('
-					SELECT *
-					from Collections
-				', [], Collection::class);
-
-		$collator = Collator::create('en_US');
-		if($collator === null){
-			throw new Exceptions\AppException('Couldn\'t create collator object when sorting collections.');
-		}
-
-		usort($collections, function($a, $b) use($collator): int{
-			$result = $collator->compare($a->GetSortedName(), $b->GetSortedName());
-			return $result === false ? 0 : $result;
-		});
-
-		return $collections;
+		return Db::Query('
+				SELECT *
+				from Collections
+				order by regexp_replace(Name, "^(a|the|an|and)\\\\s", "")
+			', [], Collection::class);
 	}
 
 	/**
