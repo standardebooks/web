@@ -139,6 +139,24 @@
 			<li>
 				<p><a href="https://docs.google.com/spreadsheets/d/10LSEBprE2yN1Mj__ImjqmMKQGZx4bJBBMwiQF0aOEFs/edit">Works by Edgar Saltus</a></p>
 			</li>
+			<li>
+				<a href="https://docs.google.com/spreadsheets/d/1zIrqVbb0nFh7wnOFCYQIUBUj0_G3GV79x9VSlhugZEE">Short Fiction by Fyodor Dostoevsky</a>
+			</li>
+			<li>
+				<a href="https://docs.google.com/spreadsheets/d/1SHbLqOdUgoodaBs_Mpv2KH25pr2jP-aiDVSbJSuxEjo">Short Fiction by Charles Beaumont</a>
+			</li>
+			<li>
+				<a href="https://docs.google.com/spreadsheets/d/1SHbLqOdUgoodaBs_Mpv2KH25pr2jP-aiDVSbJSuxEjo/edit?gid=0#gid=0">Short Fiction by Sarah Orne Jewett</a>
+			</li>
+			<li>
+				<a href="https://docs.google.com/spreadsheets/d/1wUReSh_dt9nWJzxDkYRKnVJVR0WZNK8ZA3wMtnjqqWA">Short Fiction by Mary Shelley</a>
+			</li>
+			<li>
+				<a href="https://docs.google.com/spreadsheets/d/1c7WFo60sBBkVCkyCTCWKRefL6SC6nucVkNIRSNXV3oU">Short Fiction by Bram Stoker</a>
+			</li>
+			<li>
+				<a href="https://docs.google.com/spreadsheets/d/1lObhHT6NBsL2mRjHOyFW46QFFqQt6pZYdzpL5TNrtmg">Short Fiction by Rabindranath Tagore</a>
+			</li>
 		</ul>
 	</article>
 </main>
