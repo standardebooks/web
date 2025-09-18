@@ -126,6 +126,7 @@
 			</li>
 			<li>
 				<h2 id="dramatis-personae">Dramatis personae</h2>
+				<p>The dramatis personae lists all of the characters in the play that might need to have an actor to portray them, regardless of whether or not they speak. It is frontmatter, to be included after any prefaces but before the half title page. All Standard Ebooks editions of plays include a dramatis personae; where the published text does include one, it is reproduced, with any missing characters added editorially. Where the published text does not include a dramatis personae, one should be created that lists all characters; typically, they should be in order of appearance, though minor non-speaking roles may discretionally be grouped at the end.</p>
 				<h3 id="dramatis-personae-semantics">Semantics</h3>
 				<p>The <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element has the semantic inflection of <code class="bash"><span class="s">frontmatter</span></code>, <code class="bash"><span class="s">z3998:fiction</span></code>, and <code class="bash"><span class="s">z3998:drama</span></code>; the <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element has the semantic inflection of <code class="bash"><span class="s">z3998:dramatis-personae</span></code>.</p>
 				<h3 id="dramatis-personae-typography">Typography</h3>
