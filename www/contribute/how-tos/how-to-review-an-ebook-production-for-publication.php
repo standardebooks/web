@@ -173,6 +173,9 @@
 					<li>
 						<p>Check that the short description of the book is valid (<abbr>i.e.</abbr> a single complete sentence.)</p>
 					</li>
+					<li>
+						<p>If the book is part of any sets or series, check that all necessary metadata is included. See <a href="/manual/latest/single-page#9.3.3">here</a> for reference.</p>
+					</li>
 				</ul>
 			</li>
 			<li>
