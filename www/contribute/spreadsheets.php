@@ -12,16 +12,19 @@
 					<p>Change the title of the spreadsheet to something relevant to your research, like “Oscar Wilde Omnibuses.”</p>
 				</li>
 				<li>
-					<p>Include an item in the spreadsheet even if you feel that it doesn’t fit the S.E. collections policy. Leave the “Proposed omnibus” field blank.</p>
+					<p>Include an item in the spreadsheet even if you feel that it doesn’t fit the S.E. collections policy. Leave the “S.E. omnibus name” field blank.</p>
 				</li>
 				<li>
-					<p>Include the author’s entire corpus, even if some items aren’t in the U.S. public domain yet. This will help us continue adding to the omnibus over the years as items gradually enter the public domain. If an item isn’t in the public domain yet, it’ll be automatically greyed out.</p>
+					<p>Include the author’s entire corpus, even if some items aren’t in the U.S. public domain yet, or if transcriptions or scans aren’t available. This will help us continue adding to the omnibus over the years as items gradually enter the public domain. If an item isn’t in the public domain yet, it’ll be automatically greyed out.</p>
 				</li>
 				<li>
 					<p>You may add additional columns after “Notes,” but leave the basic columns intact.</p>
 				</li>
 				<li>
 					<p>Once you’ve actually added an item to an omnibus, check the “In omnibus?” field to indicate that it’s been included in a real S.E. omnibus and future producers no longer have to consider it.</p>
+				</li>
+				<li>
+					<p><strong>Remember that you’re creating a spreadsheet for future producers,</strong> not just for yourself. Don’t include notes to yourself, information that would clutter or cloud the overall vision, significantly stray from the template, or overwhelm future readers. Oftentimes, <strong>less is more</strong>.</p>
 				</li>
 			</ul>
 		</section>
