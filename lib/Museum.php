@@ -597,6 +597,21 @@ class Museum{
 
 		// 	return $outputUrl;
 		// }
+		elseif(preg_match('/\brammcollections\.org\.uk\b/ius', $parsedUrl['host'])){
+			$exampleUrl = 'https://rammcollections.org.uk/collections/f9f03932-c020-3de9-b5c8-4d5143b7c415/';
+
+			if($parsedUrl['host'] != 'rammcollections.org.uk'){
+				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+			}
+
+			if(!preg_match('|^/collections/[0-9a-f\-]+/$|ius', $parsedUrl['path'])){
+				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+			}
+
+			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
+
+			return $outputUrl;
+		}
 
 		return $outputUrl;
 	}
