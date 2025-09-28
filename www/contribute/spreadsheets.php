@@ -31,16 +31,13 @@
 		<section id="spreadsheets">
 			<h2>Spreadsheets</h2>
 			<h3>Ebooks that can be worked on immediately</h3>
-			<p>These spreadsheets are for ebooks that can be worked on today.</p>
+			<p>These spreadsheets are for ebooks that can be worked on today. Rows in <strong>yellow</strong> are items that can be added to an omnibus immediately.</p>
 			<ul>
 				<li>
 					<p><a href="https://docs.google.com/spreadsheets/d/1z9A4ILQwN9oiDKe0dxfAYTukx56tINphcl0F0RAOcEU">Hans Christian Andersen — Short Fiction</a></p>
 				</li>
 				<li>
 					<p><a href="https://docs.google.com/spreadsheets/d/1Yg91ENqb2closNl5ygtqkeD4dxrwaq7Z9-KifHIkUIE">Sabine Baring-Gould — Short Fiction</a></p>
-				</li>
-				<li>
-					<p><a href="https://docs.google.com/spreadsheets/d/16sVyI4ZJB5BocOGBscN_zzvSs_1CMGDX0DcPZ0J-vbg">Charles Beaumont — Short Fiction</a></p>
 				</li>
 				<li>
 					<p><a href="https://docs.google.com/spreadsheets/d/1Dv8PH6oHqV_bTs-oA8-2TlEVMlroAjSRa_3SJB3OK5s">John Buchan — Works</a></p>
@@ -90,6 +87,9 @@
 			<p>Rows in <strong>yellow</strong> or <strong>white</strong> are items which may possibly be added to existing omnibuses immediately. Some may be missing information, usually page scan sources to verify their text and publication date; we need help to fill in that missing information so we can complete these omnibuses.</p>
 			<p>Rows in <b>red</b> are items which are not yet in the public domain.</p>
 			<ul>
+				<li>
+					<p><a href="https://docs.google.com/spreadsheets/d/16sVyI4ZJB5BocOGBscN_zzvSs_1CMGDX0DcPZ0J-vbg">Charles Beaumont — Short Fiction</a></p>
+				</li>
 				<li>
 					<p><a href="https://docs.google.com/spreadsheets/d/1YXXkqCOZ7Rc39P_8laeZsE53b999pk4WeAQ2rtboeBI">Voltairine de Cleyre — Works</a></p>
 				</li>
@@ -156,9 +156,6 @@
 				</li>
 				<li>
 					<p><a href="https://docs.google.com/spreadsheets/d/1wTQTQjPDvAFDSWFyT5RY-Vw4Aop2jTs_BMIDbZXRUFs">Poetry by G. K. Chesterton</a></p>
-				</li>
-				<li>
-					<p><a href="https://docs.google.com/spreadsheets/d/1KjbjEY3qz3pluw8cFPaKu-uUkCyb1aGuG6r4Xs_eT_E">Short stories by W. S. Maugham</a></p>
 				</li>
 				<li>
 					<p><a href="https://docs.google.com/spreadsheets/d/1xiWF5My5kCQJXrZ3NNYyUNMEMdZOQuKo-J5LGS_bVJE">Poetry by Taras Shevchenko</a></p>
