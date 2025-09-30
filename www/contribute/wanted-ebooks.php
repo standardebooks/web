@@ -16,6 +16,9 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 		<p><a href="/donate#patrons-circle">Patrons Circle members</a> may submit ebooks for inclusion on this list.</p>
 		<p>Patrons Circle members <a href="/polls">periodically vote on a selection from this list</a> to pick one ebook for immediate production. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> to have a voice in the future of the Standard Ebooks catalog.</p>
 
+		<h2>Omnibuses</h2>
+		<p>In addition to the books on this page, our volunteers have also compiled <a href="/contribute/spreadsheets">various spreadsheets</a> to plan future omnibuses. Creating or contributing to an omnibus is a task for someone who has already produced at least one ebook for S.E., though volunteers of any skill level can help us <a href="/contribute/spreadsheets#help-wanted">complete missing research</a> in these spreadsheets.</p>
+
 		<h2>For your first production</h2>
 		<p>If nothing on the list below interests you, you can pitch us something else you’d like to work on.</p>
 		<p>First productions should be on the shorter side (less than 100,000 words maximum) and without too many complex formatting issues like illustrations, significant endnotes, letters, poems, etc. Most short plain fiction novels fall in this category.</p>
