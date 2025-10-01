@@ -29,11 +29,11 @@ use function Safe\shell_exec;
  * @property string $HeroImageUrl
  * @property string $HeroImageAvifUrl
  * @property string $HeroImage2xUrl
- * @property string $HeroImage2xAvifUrl
+ * @property ?string $HeroImage2xAvifUrl
  * @property string $CoverImageUrl
- * @property string $CoverImageAvifUrl
+ * @property ?string $CoverImageAvifUrl
  * @property string $CoverImage2xUrl
- * @property string $CoverImage2xAvifUrl
+ * @property ?string $CoverImage2xAvifUrl
  * @property string $ReadingEaseDescription
  * @property string $ReadingTime
  * @property string $AuthorsHtml
@@ -117,11 +117,11 @@ final class Ebook{
 	protected string $_HeroImageUrl;
 	protected string $_HeroImageAvifUrl;
 	protected string $_HeroImage2xUrl;
-	protected string $_HeroImage2xAvifUrl;
+	protected ?string $_HeroImage2xAvifUrl;
 	protected string $_CoverImageUrl;
-	protected string $_CoverImageAvifUrl;
+	protected ?string $_CoverImageAvifUrl;
 	protected string $_CoverImage2xUrl;
-	protected string $_CoverImage2xAvifUrl;
+	protected ?string $_CoverImage2xAvifUrl;
 	protected string $_ReadingEaseDescription;
 	protected string $_ReadingTime;
 	protected string $_AuthorsHtml;
@@ -440,13 +440,13 @@ final class Ebook{
 		return $this->_HeroImage2xUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.jpg';
 	}
 
-	protected function GetHeroImage2xAvifUrl(): string{
+	protected function GetHeroImage2xAvifUrl(): ?string{
 		if(!isset($this->_HeroImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero@2x.avif')){
 				$this->_HeroImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.avif';
 			}
 			else{
-				$this->_HeroImage2xAvifUrl = '';
+				$this->_HeroImage2xAvifUrl = null;
 			}
 		}
 
@@ -457,13 +457,13 @@ final class Ebook{
 		return $this->_CoverImageUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.jpg';
 	}
 
-	protected function GetCoverImageAvifUrl(): string{
+	protected function GetCoverImageAvifUrl(): ?string{
 		if(!isset($this->_CoverImageAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.avif')){
 				$this->_CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.avif';
 			}
 			else{
-				$this->_CoverImageAvifUrl = '';
+				$this->_CoverImageAvifUrl = null;
 			}
 		}
 
@@ -474,13 +474,13 @@ final class Ebook{
 		return $this->_CoverImage2xUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.jpg';
 	}
 
-	protected function GetCoverImage2xAvifUrl(): string{
+	protected function GetCoverImage2xAvifUrl(): ?string{
 		if(!isset($this->_CoverImage2xAvifUrl)){
 			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover@2x.avif')){
 				$this->_CoverImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.avif';
 			}
 			else{
-				$this->_CoverImage2xAvifUrl = '';
+				$this->_CoverImage2xAvifUrl = null;
 			}
 		}
 

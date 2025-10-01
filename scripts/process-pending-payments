@@ -247,7 +247,7 @@ try{
 							$patron->User = $payment->User;
 							$patron->User->Payments = [$payment];
 							$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
-							$patron->IsSubscribedToEmails = $patron->User !== null && $patron->User->Email !== null;
+							$patron->IsSubscribedToEmails = isset($patron->User) && $patron->User->Email !== null;
 
 							try{
 								$patron->AlternateName = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution Text"]]'))->getText());

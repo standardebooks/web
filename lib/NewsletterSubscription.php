@@ -126,7 +126,7 @@ class NewsletterSubscription{
 	public function Validate(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
 		$error = new Exceptions\InvalidNewsletterSubscription();
 
-		if($this->User === null || $this->User->Email == '' || !filter_var($this->User->Email, FILTER_VALIDATE_EMAIL)){
+		if(!isset($this->User) || $this->User->Email == '' || !filter_var($this->User->Email, FILTER_VALIDATE_EMAIL)){
 			$error->Add(new Exceptions\InvalidEmailException());
 		}
 

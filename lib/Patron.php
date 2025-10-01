@@ -76,7 +76,7 @@ class Patron{
 	}
 
 	private function SendWelcomeEmail(bool $isReturning): void{
-		if($this->User !== null){
+		if(isset($this->User)){
 			$em = new Email();
 			$em->To = $this->User->Email ?? '';
 			$em->ToName = $this->User->Name ?? '';

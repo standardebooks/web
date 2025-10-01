@@ -236,29 +236,24 @@ catch(Exceptions\EbookNotFoundException){
 								<p>Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file to download</a> and <a href="/help/how-to-use-our-ebooks#transferring-to-your-ereader">how to transfer them to your ereader</a>.</p>
 							</aside>
 						</section>
-						<? if($ebook->TextUrl !== null || $ebook->TextSinglePageUrl !== null){ ?>
-							<section id="read-online">
-								<h3>Read online</h3>
-								<ul>
-									<? if($ebook->TextUrl !== null){ ?>
-										<li>
-											<p>
-												<a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a>
-											</p>
-										</li>
-									<? } ?>
-									<? if($ebook->TextSinglePageUrl !== null){ ?>
-										<li property="schema:encoding" typeof="schema:mediaObject">
-											<meta property="schema:description" content="XHTML"/>
-											<meta property="schema:encodingFormat" content="application/xhtml+xml"/>
-											<p<? if($ebook->TextSinglePageByteCount >= EBOOK_SINGLE_PAGE_SIZE_WARNING){ ?> class="has-size"<? } ?>>
-												<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a><? if($ebook->TextSinglePageByteCount >= EBOOK_SINGLE_PAGE_SIZE_WARNING){ ?><span><?= $ebook->TextSinglePageSizeFormatted ?></span><? } ?>
-											</p>
-										</li>
-									<? } ?>
-								</ul>
-							</section>
-						<? } ?>
+
+						<section id="read-online">
+							<h3>Read online</h3>
+							<ul>
+								<li>
+									<p>
+										<a href="<?= $ebook->TextUrl ?>" class="list">Start from the table of contents</a>
+									</p>
+								</li>
+								<li property="schema:encoding" typeof="schema:mediaObject">
+									<meta property="schema:description" content="XHTML"/>
+									<meta property="schema:encodingFormat" content="application/xhtml+xml"/>
+									<p<? if($ebook->TextSinglePageByteCount >= EBOOK_SINGLE_PAGE_SIZE_WARNING){ ?> class="has-size"<? } ?>>
+										<a property="schema:contentUrl" href="<?= $ebook->TextSinglePageUrl ?>" class="page">Read on one page</a><? if($ebook->TextSinglePageByteCount >= EBOOK_SINGLE_PAGE_SIZE_WARNING){ ?><span><?= $ebook->TextSinglePageSizeFormatted ?></span><? } ?>
+									</p>
+								</li>
+							</ul>
+						</section>
 					</div>
 				</div>
 			</section>

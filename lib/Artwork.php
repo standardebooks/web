@@ -25,7 +25,7 @@ use function Safe\unlink;
  * @property string $Thumb2xFsPath
  * @property string $Dimensions
  * @property Ebook $Ebook
- * @property Museum $Museum
+ * @property ?Museum $Museum
  * @property ?User $Submitter
  * @property ?User $Reviewer
  */

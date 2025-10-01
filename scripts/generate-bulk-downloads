@@ -83,7 +83,7 @@ function CreateZip(string $filePath, array $ebooks, string $type, string $webRoo
 			$zip->addFile($ebookFilePath, basename($ebookFilePath));
 		}
 
-		if($type == 'xhtml' && $ebook->TextSinglePageUrl !== null){
+		if($type == 'xhtml' && $ebook->TextSinglePageUrl){
 			$ebookFilePath = $webRoot . '/' . $ebook->TextSinglePageUrl . '.xhtml';
 
 			// Strip the navigation header that was added as part of the deploy process.
