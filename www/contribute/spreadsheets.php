@@ -5,7 +5,7 @@
 		<p>From time to time it’s useful to compile spreadsheets of an author’s oeuvre. This page lists some of the spreadsheets our volunteers have created.</p>
 		<section id="creating-a-new-spreadsheet">
 			<h2>Creating a new spreadsheet</h2>
-			<p>If you’d like to create a spreadsheet to catalog possible items to include in one or more omnibuses, please start by copying our <a href="https://docs.google.com/spreadsheets/d/1CE2AsQ7E5WS9NORubHuiVAmWHYDrmU3bXWUghmnU4kU">omnibus research template</a> by doing “File” → “Make a copy.”</p>
+			<p>If you’d like to create a spreadsheet to catalog possible items to include in one or more omnibuses, please start by copying our <a href="https://docs.google.com/spreadsheets/d/1CE2AsQ7E5WS9NORubHuiVAmWHYDrmU3bXWUghmnU4kU/copy">omnibus research template</a>.</p>
 			<p>You can see an <a href="https://docs.google.com/spreadsheets/d/1JbH6O1LSqYgSo7ODmbcbNcPbw7oDoAbBBCmJOp1d-kg">example of how this spreadsheet might be filled out</a>.</p>
 			<ul>
 				<li>
