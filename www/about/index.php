@@ -180,6 +180,15 @@ $anonymousPatronCount = Db::QueryInt('
 						</a>
 					</li>
 					<li>
+						<a href="https://beat.no">
+							<picture>
+								<source srcset="/images/masthead/sponsors/beat-technology@2x.webp 2x, /images/masthead/sponsors/beat-technology.webp 1x" type="image/webp"/>
+								<img src="/images/masthead/sponsors/beat-technology@2x.webp" class="no-border" alt="Beat Technology"/>
+							</picture>
+							<p>Beat Technology</p>
+						</a>
+					</li>
+					<li>
 						<a href="https://www.scribophile.com">
 							<img src="/images/masthead/sponsors/scribophile.svg" alt="Scribophile writing community &amp; workshop" />
 							<p>Scribophile</p>

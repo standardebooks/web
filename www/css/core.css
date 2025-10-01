@@ -2388,6 +2388,7 @@ h1 + ul.message,
 .masthead ol.donors.corporate{
 	display: flex;
 	justify-content: center;
+	align-items: flex-end;
 }
 
 .masthead ol.donors.corporate li + li{
