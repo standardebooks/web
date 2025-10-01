@@ -130,7 +130,7 @@
 				</ul>
 			</section>
 			<section id="incomplete">
-				<h3>Incomplete because not fu	lly P.D. yet</h3>
+				<h3>Incomplete because not fully P.D. yet</h3>
 				<p>These spreadsheets are for ebooks that we host that we consider to be <em>currently</em> complete, but whose author still has more work that is not yet in the public domain. Therefore, we’ll have to continue adding to these ebooks in the future as more work enters the public domain.</p>
 				<p>Rows in <strong>yellow</strong> or <strong>white</strong> are items which may possibly be added to existing omnibuses immediately. Some may be missing information, usually page scan sources to verify their text and publication date; we need help to fill in that missing information so we can complete these omnibuses.</p>
 				<p>Rows in <b>red</b> are items which are not yet in the public domain.</p>
@@ -161,6 +161,9 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1MTjQ5N-nNsQ-ELhD1j56_17GahmrWNAY2nURm2JIAJA">George Bernard Shaw — Plays</a></p>
+					</li>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1Wa93qdEgc8yFDFV6IIZAdeY8lEBY7tWHFXDLZA9-bVs">Anthony Trollope — Short Fiction</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1vT3TBeFbp7b_A6h-IrRu8D2lCfUGYFmGr3ErdNNhPts">Oscar Wilde — Poetry</a></p>
