@@ -77,6 +77,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1j4SUE_W64lcknzWOHbkB1uEU3KaXzRPU2fpC6y2cGG0">Sarah Orne Jewett — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1BcKbCc9s08jOdEaRbuRIelPDqwvM3TxTAFl2NcJgrI8">George MacDonald — Works</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/117gv3B3Pxf0RlAmS1tBWd7gUi_Tmb-VLLnDxD35AIiE">Katherine Mansfield — Short Fiction</a></p>
 					</li>
 					<li>
