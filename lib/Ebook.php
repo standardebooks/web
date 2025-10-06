@@ -2491,9 +2491,14 @@ final class Ebook{
 				from Ebooks inner join EbookPlaceholders using (EbookId)
 				where EbookPlaceholders.IsWanted = true and
 					EbookPlaceholders.IsInProgress = false and
-					EbookPlaceholders.Difficulty = ?
+					EbookPlaceholders.Difficulty = ? and
+					(
+						EbookPlaceholders.YearPublished is null
+						or
+						EbookPlaceholders.YearPublished <= ?
+					)
 				order by Ebooks.Created asc
-			', [$difficulty], Ebook::class);
+			', [$difficulty, PD_YEAR], Ebook::class);
 
 	}
 }
