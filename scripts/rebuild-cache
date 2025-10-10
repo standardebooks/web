@@ -7,7 +7,7 @@ DESCRIPTION
 	Rebuild one of the caches stored in APCu for the standardebooks.org FPM pool.
 
 USAGE
-	rebuild-cache {bulk-downloads,feeds}
+	rebuild-cache feeds
 EOF
 	exit 1
 }
@@ -27,10 +27,6 @@ fi
 #     MY_USERNAME ALL=(www-data) NOPASSWD: /usr/bin/env SCRIPT_FILENAME=/tmp/rebuild-cache.php REQUEST_METHOD=GET cgi-fcgi -bind -connect *
 
 type="$1"
-
-if [ "${type}" = "bulk-downloads" ]; then
-	echo "<?php require_once('Core.php'); Library::RebuildBulkDownloadsCache(); ?>" > /tmp/rebuild-cache.php
-fi
 
 if [ "${type}" = "feeds" ]; then
 	echo "<?php require_once('Core.php'); Feed::RebuildFeedsCache(); ?>" > /tmp/rebuild-cache.php
