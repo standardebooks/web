@@ -1,7 +1,7 @@
 <?
 /**
  * @var string $label
- * @var array<stdClass> $collections
+ * @var array<BulkDownloadCollection> $bulkDownloadCollections
  */
 ?>
 <table class="data-table bulk-downloads-table">
@@ -15,21 +15,21 @@
 		</tr>
 	</thead>
 	<tbody>
-		<? foreach($collections as $collection){ ?>
+		<? foreach($bulkDownloadCollections as $bdc){ ?>
 			<tr>
-				<td class="row-header"><a href="<?= $collection->Url ?>"><?= Formatter::EscapeHtml($collection->Label) ?></a></td>
+				<td class="row-header"><a href="<?= $bdc->LabelUrl ?>"><?= Formatter::EscapeHtml($bdc->LabelName) ?></a></td>
 				<td class="number">
-					<?= Formatter::EscapeHtml(number_format($collection->EbookCount)) ?>
+					<?= Formatter::EscapeHtml(number_format($bdc->EbookCount)) ?>
 				</td>
 				<td class="number">
-					<?= Formatter::EscapeHtml($collection->UpdatedString) ?>
+					<?= Formatter::EscapeHtml($bdc->UpdatedString) ?>
 				</td>
-				<? foreach($collection->ZipFiles as $item){ ?>
+				<? foreach($bdc->ZipFiles as $zipFile){ ?>
 					<td class="download">
-						<a href="<?= $item->Url ?>"><?= $item->Type ?></a>
+						<a href="<?= $zipFile->DownloadUrl ?>"><?= $zipFile->Format->Display() ?></a>
 					</td>
 					<td>
-						(<?= Formatter::EscapeHtml($item->Size) ?>)
+						(<?= Formatter::EscapeHtml($zipFile->DownloadFileSizeFormatted) ?>)
 					</td>
 				<? } ?>
 			</tr>
