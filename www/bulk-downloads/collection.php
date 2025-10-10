@@ -1,11 +1,13 @@
 <?
-use function Safe\apcu_fetch;
 use function Safe\preg_replace;
 
 $canDownload = false;
-$class = HttpInput::Str(GET, 'class');
+$class = HttpInput::Str(GET, 'class') ?? '';
 
-if($class === null || ($class != 'authors' && $class != 'collections' && $class != 'subjects' && $class != 'months')){
+try{
+	$labelType = Enums\BulkDownloadLabelType::from($class);
+}
+catch(ValueError){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
@@ -13,19 +15,14 @@ if(Session::$User?->Benefits->CanBulkDownload){
 	$canDownload = true;
 }
 
-$collection = [];
-
-try{
-	/** @var array<string, array<string, stdClass>> $collection */
-	$collection = apcu_fetch('bulk-downloads-' . $class);
+if($labelType == Enums\BulkDownloadLabelType::Month){
+	$bulkDownloadCollections = BulkDownloadCollection::GetAllByMonthLabelType();
 }
-catch(Safe\Exceptions\ApcuException){
-	$result = Library::RebuildBulkDownloadsCache();
-	/** @var array<string, array<string, stdClass>> $collection */
-	$collection = $result[$class];
+else{
+	$bulkDownloadCollections = BulkDownloadCollection::GetAllByLabelType($labelType);
 }
 
-$title = preg_replace('/s$/', '', ucfirst($class));
+$title = preg_replace('/s$/', '', ucfirst($labelType->value));
 
 ?><?= Template::Header(title: 'Downloads by ' . $title, description: 'Download zip files containing all of the Standard Ebooks in a given collection.') ?>
 <main>
@@ -35,11 +32,11 @@ $title = preg_replace('/s$/', '', ucfirst($class));
 			<p><a href="/about#patrons-circle">Patrons circle members</a> get convenient access to zip files containing collections of different categories of ebooks. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature, and download these collections files too.</p>
 		<? } ?>
 		<p>These zip files contain each ebook in every format we offer, and are kept updated with the latest versions of each ebook. Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file format to download</a>.</p>
-		<? if($class == 'months'){ ?>
+		<? if($labelType == Enums\BulkDownloadLabelType::Month){ ?>
 			<table class="data-table">
 				<caption aria-hidden="true">Scroll right →</caption>
 				<tbody>
-					<? foreach($collection as $year => $months){ ?>
+					<? foreach($bulkDownloadCollections as $year => $months){ ?>
 						<? $yearHeader = Formatter::EscapeHtml($year); ?>
 						<tr class="year-header">
 							<th colspan="13" scope="colgroup" id="<?= $yearHeader ?>">
@@ -53,25 +50,25 @@ $title = preg_replace('/s$/', '', ucfirst($class));
 							<th id="<?= $yearHeader ?>-download" colspan="10" scope="col">Ebook format</th>
 						</tr>
 
-						<? foreach($months as $month => $collection){ ?>
+						<? foreach($months as $month => $bdc){ ?>
 							<? $monthHeader = Formatter::EscapeHtml($month); ?>
 							<tr>
 								<th class="row-header" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-type" id="<?= $monthHeader ?>">
 									<?= Formatter::EscapeHtml($month) ?>
 								</th>
 								<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-ebooks">
-									<?= Formatter::EscapeHtml(number_format($collection->EbookCount)) ?>
+									<?= Formatter::EscapeHtml(number_format($bdc->EbookCount)) ?>
 								</td>
 								<td class="number" headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-updated">
-									<?= Formatter::EscapeHtml($collection->UpdatedString) ?>
+									<?= Formatter::EscapeHtml($bdc->UpdatedString) ?>
 								</td>
 
-								<? foreach($collection->ZipFiles as $item){ ?>
+								<? foreach($bdc->ZipFiles as $zipFile){ ?>
 									<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download" class="download">
-										<a href="<?= $item->Url ?>"><?= $item->Type ?></a>
+										<a href="<?= $zipFile->DownloadUrl ?>"><?= $zipFile->Format->Display() ?></a>
 									</td>
 									<td headers="<?= $yearHeader ?> <?= $monthHeader ?> <?= $yearHeader ?>-download">
-										(<?= Formatter::EscapeHtml($item->Size) ?>)
+										(<?= Formatter::EscapeHtml($zipFile->DownloadFileSizeFormatted) ?>)
 									</td>
 								<? } ?>
 							</tr>
@@ -80,10 +77,7 @@ $title = preg_replace('/s$/', '', ucfirst($class));
 				</tbody>
 			</table>
 		<? }else{ ?>
-			<?
-			/** @var array<stdClass> $collection */
-			 ?>
-			<?= Template::BulkDownloadTable(label: $title, collections: $collection); ?>
+			<?= Template::BulkDownloadTable(label: $title, bulkDownloadCollections: $bulkDownloadCollections); ?>
 		<? } ?>
 	</section>
 </main>
