@@ -77,6 +77,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1j4SUE_W64lcknzWOHbkB1uEU3KaXzRPU2fpC6y2cGG0">Sarah Orne Jewett — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/19jiiWZS_S8NaTQcJv_dXb4Qm4ghDJHl14B22Q6xE3H0">Ring Lardner — Jack Keefe Stories</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1BcKbCc9s08jOdEaRbuRIelPDqwvM3TxTAFl2NcJgrI8">George MacDonald — Works</a></p>
 					</li>
 					<li>
