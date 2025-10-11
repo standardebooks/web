@@ -163,6 +163,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1oWhebnZ__zFkDiqQUltfe8ehMRUbMly5N3GZHKXnFXw">Errico Malatesta — Essays</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1VpzkhWv4VP3cPln6wPOXEyCzN11ADpQwsiLTrx7MjOw">John G. Neihardt — A Cycle of the West</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1jk5JDYCw8kWHtTCeVMQizmd_VKvUisxWxoN4x-G-zF8">Edgar Saltus — Works</a></p>
 					</li>
 					<li>
