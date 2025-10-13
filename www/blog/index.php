@@ -5,6 +5,11 @@
 		<ul>
 			<li>
 				<p>
+					<a href="/blog/the-bridges-of-san-luis-rey">The Bridges of San Luis Rey</a>
+				</p>
+			</li>
+			<li>
+				<p>
 					<a href="/blog/the-orthodoxy-of-thursday">The Orthodoxy of Thursday</a>
 				</p>
 			</li>
