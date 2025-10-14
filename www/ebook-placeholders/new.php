@@ -21,6 +21,7 @@ try{
 	$ebook = HttpInput::SessionObject('ebook', Ebook::class);
 	$project = HttpInput::SessionObject('project', Project::class);
 	$deletedEbookTitle = '';
+	$deletedEbookAuthor = '';
 
 	if($isCreated || $isOnlyProjectCreated){
 		// We got here because an `Ebook` was successfully created.
@@ -54,6 +55,7 @@ try{
 	elseif($isDeleted){
 		if($ebook !== null){
 			$deletedEbookTitle = $ebook->Title;
+			$deletedEbookAuthor = $ebook->AuthorsString;
 			$ebook = null;
 		}
 		session_unset();
@@ -89,7 +91,7 @@ catch(Exceptions\InvalidPermissionsException){
 				<p class="message success">Ebook placeholder created: <a href="<?= $createdEbook->Url ?>"><?= Formatter::EscapeHtml($createdEbook->Title) ?></a>!</p>
 			<? } ?>
 		<? }elseif($isDeleted){ ?>
-			<p class="message success">Ebook placeholder deleted: <?= Formatter::EscapeHtml($deletedEbookTitle) ?></p>
+			<p class="message success">Ebook placeholder deleted: <i><?= Formatter::EscapeHtml($deletedEbookTitle) ?></i>, by <?= Formatter::EscapeHtml($deletedEbookAuthor) ?>.</p>
 		<? } ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="/ebook-placeholders" autocomplete="off">
