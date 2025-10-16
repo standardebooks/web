@@ -119,6 +119,15 @@ class NewsletterSubscription{
 		', [$this->UserId]);
 	}
 
+	public static function DeleteAllByEmail(string $email): void{
+		Db::Query('
+			DELETE ns.*
+			from NewsletterSubscriptions ns
+			inner join Users u using(UserId)
+			where u.Email = ?
+		', [$email]);
+	}
+
 
 	/**
 	 * @throws Exceptions\InvalidNewsletterSubscription
