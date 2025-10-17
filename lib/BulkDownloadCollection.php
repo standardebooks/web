@@ -22,7 +22,7 @@ class BulkDownloadCollection{
 	protected ?string $_LabelUrl;
 	protected ?string $_UpdatedString;
 	/** @var array<BulkDownloadZipFile> $_ZipFiles */
-	protected array $_ZipFiles;
+	protected array $_ZipFiles = [];
 
 	/** @var array<Ebook> $Ebooks */
 	public array $Ebooks;
@@ -79,10 +79,6 @@ class BulkDownloadCollection{
 	}
 
 	public function AddZipFile(Enums\BulkDownloadFormatType $format, string $downloadUrl, int $downloadByteCount): void{
-		if(!isset($this->_ZipFiles)){
-			$this->_ZipFiles = [];
-		}
-
 		$zipFile = new BulkDownloadZipFile();
 		$zipFile->LabelType = $this->LabelType;
 		$zipFile->LabelName = $this->LabelName;
