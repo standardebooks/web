@@ -115,16 +115,12 @@ function CreateZip(string $filePath, array $ebooks, Enums\BulkDownloadFormatType
 }
 
 // Iterate over all ebooks and arrange them by publication month.
-foreach(Ebook::GetAll() as $ebook){
-	if($ebook->IsPlaceholder()){
-		continue;
-	}
-
-	if($ebook->EbookCreated === null || $ebook->EbookUpdated === null){
-		continue;
-	}
-
+foreach(Ebook::GetAllByReleaseStatusFilter(Enums\EbookReleaseStatusFilter::Released) as $ebook){
 	// Add to the 'ebooks by month' list.
+	if(!isset($ebook->EbookCreated)){
+		throw new Exceptions\InvalidEbookCreatedDatetimeException();
+	}
+
 	$timestamp = $ebook->EbookCreated->format('Y-m');
 	if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Month->value][$timestamp])){
 		$bdc = new BulkDownloadCollection();
