@@ -5,8 +5,11 @@ require_once('/standardebooks.org/web/lib/Core.php');
 use function Safe\copy;
 use function Safe\exec;
 use function Safe\file_get_contents;
+use function Safe\file_put_contents;
 use function Safe\filemtime;
 use function Safe\filesize;
+use function Safe\fopen;
+use function Safe\getmypid;
 use function Safe\getopt;
 use function Safe\glob;
 use function Safe\mkdir;
@@ -20,12 +23,6 @@ $longopts = ['webroot:'];
 $options = getopt('', $longopts);
 $webRoot = $options['webroot'] ?? WEB_ROOT;
 
-$bulkDownloadCollections = [
-	Enums\BulkDownloadLabelType::Subject->value => [],
-	Enums\BulkDownloadLabelType::Collection->value => [],
-	Enums\BulkDownloadLabelType::Author->value => [],
-	Enums\BulkDownloadLabelType::Month->value => []
-];
 
 /**
  * @see <https://www.php.net/manual/en/function.rmdir.php#117354>
@@ -114,126 +111,169 @@ function CreateZip(string $filePath, array $ebooks, Enums\BulkDownloadFormatType
 	@unlink($tempFilename);
 }
 
-// Iterate over all ebooks and arrange them by publication month.
-foreach(Ebook::GetAllByReleaseStatusFilter(Enums\EbookReleaseStatusFilter::Released) as $ebook){
-	// Add to the 'ebooks by month' list.
-	if(!isset($ebook->EbookCreated)){
-		throw new Exceptions\InvalidEbookCreatedDatetimeException();
-	}
+/**
+ * @return array<string, array<string, BulkDownloadCollection>> $bulkDownloadCollections
+ *
+ * @throws Exceptions\InvalidEbookCreatedDatetimeException
+ */
+function CreateBulkDownloadCollections(): array{
+	$bulkDownloadCollections = [
+		Enums\BulkDownloadLabelType::Subject->value => [],
+		Enums\BulkDownloadLabelType::Collection->value => [],
+		Enums\BulkDownloadLabelType::Author->value => [],
+		Enums\BulkDownloadLabelType::Month->value => []
+	];
 
-	$timestamp = $ebook->EbookCreated->format('Y-m');
-	if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Month->value][$timestamp])){
-		$bdc = new BulkDownloadCollection();
-		$bdc->LabelType = Enums\BulkDownloadLabelType::Month;
-		$bdc->LabelName = $timestamp;
-		$bdc->LabelSort = $timestamp;
-		$bdc->LabelUrlSegment = Formatter::MakeUrlSafe($bdc->LabelName);
+	// Iterate over all ebooks and arrange them by publication month.
+	foreach(Ebook::GetAllByReleaseStatusFilter(Enums\EbookReleaseStatusFilter::Released) as $ebook){
+		// Add to the 'ebooks by month' list.
+		if(!isset($ebook->EbookCreated)){
+			throw new Exceptions\InvalidEbookCreatedDatetimeException();
+		}
 
-		$bulkDownloadCollections[Enums\BulkDownloadLabelType::Month->value][$timestamp] = $bdc;
-	}
-	else{
-		$bdc = $bulkDownloadCollections[Enums\BulkDownloadLabelType::Month->value][$timestamp];
-	}
-	$bdc->AddEbook($ebook);
-
-	// Add to the 'books by subject' list.
-	foreach($ebook->Tags as $tag){
-		if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Subject->value][$tag->Name])){
+		$timestamp = $ebook->EbookCreated->format('Y-m');
+		if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Month->value][$timestamp])){
 			$bdc = new BulkDownloadCollection();
-			$bdc->LabelType = Enums\BulkDownloadLabelType::Subject;
-			$bdc->LabelName = $tag->Name;
-			$bdc->LabelSort = $tag->Name;
+			$bdc->LabelType = Enums\BulkDownloadLabelType::Month;
+			$bdc->LabelName = $timestamp;
+			$bdc->LabelSort = $timestamp;
 			$bdc->LabelUrlSegment = Formatter::MakeUrlSafe($bdc->LabelName);
 
-			$bulkDownloadCollections[Enums\BulkDownloadLabelType::Subject->value][$tag->Name] = $bdc;
+			$bulkDownloadCollections[Enums\BulkDownloadLabelType::Month->value][$timestamp] = $bdc;
 		}
 		else{
-			$bdc = $bulkDownloadCollections[Enums\BulkDownloadLabelType::Subject->value][$tag->Name];
+			$bdc = $bulkDownloadCollections[Enums\BulkDownloadLabelType::Month->value][$timestamp];
+		}
+		$bdc->AddEbook($ebook);
+
+		// Add to the 'books by subject' list.
+		foreach($ebook->Tags as $tag){
+			if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Subject->value][$tag->Name])){
+				$bdc = new BulkDownloadCollection();
+				$bdc->LabelType = Enums\BulkDownloadLabelType::Subject;
+				$bdc->LabelName = $tag->Name;
+				$bdc->LabelSort = $tag->Name;
+				$bdc->LabelUrlSegment = Formatter::MakeUrlSafe($bdc->LabelName);
+
+				$bulkDownloadCollections[Enums\BulkDownloadLabelType::Subject->value][$tag->Name] = $bdc;
+			}
+			else{
+				$bdc = $bulkDownloadCollections[Enums\BulkDownloadLabelType::Subject->value][$tag->Name];
+			}
+			$bdc->AddEbook($ebook);
+		}
+
+		// Add to the 'books by collection' list.
+		foreach($ebook->CollectionMemberships as $cm){
+			$collection = $cm->Collection;
+			if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Collection->value][$collection->Name])){
+				$bdc = new BulkDownloadCollection();
+				$bdc->LabelType = Enums\BulkDownloadLabelType::Collection;
+				$bdc->LabelName = $collection->Name;
+				$bdc->LabelSort = $collection->GetSortedName();
+				$bdc->LabelUrlSegment = Formatter::MakeUrlSafe($bdc->LabelName);
+
+				$bulkDownloadCollections[Enums\BulkDownloadLabelType::Collection->value][$collection->Name] = $bdc;
+			}
+			else{
+				$bdc = $bulkDownloadCollections[Enums\BulkDownloadLabelType::Collection->value][$collection->Name];
+			}
+			$bdc->AddEbook($ebook);
+		}
+
+		// Add to the 'books by author' list.
+		// We have to index by `UrlName` for cases like `Samuel Butler` whose `UrlName` is `samuel-butler-1612-1680`.
+		$authorsUrl = preg_replace('|^/ebooks/|', '', $ebook->AuthorsUrl);
+		if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Author->value][$authorsUrl])){
+			$bdc = new BulkDownloadCollection();
+			$bdc->LabelType = Enums\BulkDownloadLabelType::Author;
+			$bdc->LabelName = strip_tags($ebook->AuthorsHtml);
+			$bdc->LabelSort = $ebook->Authors[0]->SortName ?? '';
+			$bdc->LabelUrlSegment = $authorsUrl;
+
+			$bulkDownloadCollections[Enums\BulkDownloadLabelType::Author->value][$authorsUrl] = $bdc;
+		}
+		else{
+			$bdc = $bulkDownloadCollections[Enums\BulkDownloadLabelType::Author->value][$authorsUrl];
 		}
 		$bdc->AddEbook($ebook);
 	}
 
-	// Add to the 'books by collection' list.
-	foreach($ebook->CollectionMemberships as $cm){
-		$collection = $cm->Collection;
-		if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Collection->value][$collection->Name])){
-			$bdc = new BulkDownloadCollection();
-			$bdc->LabelType = Enums\BulkDownloadLabelType::Collection;
-			$bdc->LabelName = $collection->Name;
-			$bdc->LabelSort = $collection->GetSortedName();
-			$bdc->LabelUrlSegment = Formatter::MakeUrlSafe($bdc->LabelName);
-
-			$bulkDownloadCollections[Enums\BulkDownloadLabelType::Collection->value][$collection->Name] = $bdc;
-		}
-		else{
-			$bdc = $bulkDownloadCollections[Enums\BulkDownloadLabelType::Collection->value][$collection->Name];
-		}
-		$bdc->AddEbook($ebook);
-	}
-
-	// Add to the 'books by author' list.
-	// We have to index by `UrlName` for cases like `Samuel Butler` whose `UrlName` is `samuel-butler-1612-1680`.
-	$authorsUrl = preg_replace('|^/ebooks/|', '', $ebook->AuthorsUrl);
-	if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Author->value][$authorsUrl])){
-		$bdc = new BulkDownloadCollection();
-		$bdc->LabelType = Enums\BulkDownloadLabelType::Author;
-		$bdc->LabelName = strip_tags($ebook->AuthorsHtml);
-		$bdc->LabelSort = $ebook->Authors[0]->SortName ?? '';
-		$bdc->LabelUrlSegment = $authorsUrl;
-
-		$bulkDownloadCollections[Enums\BulkDownloadLabelType::Author->value][$authorsUrl] = $bdc;
-	}
-	else{
-		$bdc = $bulkDownloadCollections[Enums\BulkDownloadLabelType::Author->value][$authorsUrl];
-	}
-	$bdc->AddEbook($ebook);
+	return $bulkDownloadCollections;
 }
 
-foreach(Enums\BulkDownloadLabelType::cases() as $group){
-	// First delete any orphan directories that we don't expect to be here, for example a collection that was later renamed.
-	foreach(glob($webRoot . '/bulk-downloads/' . $group->value . '/*/') as $dir){
-		$expected = false;
+/**
+ * @param array<string, array<string, BulkDownloadCollection>> $bulkDownloadCollections
+ *
+ * @throws Exceptions\InvalidBulkDownloadCollectionException
+ * @throws Exceptions\InvalidBulkDownloadZipFileException
+ */
+function WriteZipFiles(string $webRoot, array $bulkDownloadCollections): void{
+	foreach(Enums\BulkDownloadLabelType::cases() as $group){
+		// First delete any orphan directories that we don't expect to be here, for example a collection that was later renamed.
+		foreach(glob($webRoot . '/bulk-downloads/' . $group->value . '/*/') as $dir){
+			$expected = false;
+			foreach($bulkDownloadCollections[$group->value] as $bdc){
+				if($bdc->LabelUrlSegment == basename($dir)){
+					$expected = true;
+					break;
+				}
+			}
+
+			if(!$expected){
+				print('Removing ' . $dir . "\n");
+				rrmdir($dir);
+			}
+		}
+
+		// Now create the zip files!
 		foreach($bulkDownloadCollections[$group->value] as $bdc){
-			if($bdc->LabelUrlSegment == basename($dir)){
-				$expected = true;
-				break;
-			}
-		}
+			$parentDir = $webRoot . '/bulk-downloads/' . $group->value . '/' . $bdc->LabelUrlSegment;
 
-		if(!$expected){
-			print('Removing ' . $dir . "\n");
-			rrmdir($dir);
-		}
-	}
-
-	// Now create the zip files!
-	foreach($bulkDownloadCollections[$group->value] as $bdc){
-		$parentDir = $webRoot . '/bulk-downloads/' . $group->value . '/' . $bdc->LabelUrlSegment;
-
-		if(!is_dir($parentDir)){
-			mkdir($parentDir, 0775, true);
-		}
-
-		foreach(Enums\BulkDownloadFormatType::cases() as $format){
-			$filePath = $parentDir . '/se-ebooks-' . $bdc->LabelUrlSegment . '-' . $format->value . '.zip';
-
-			// If the file doesn't exist, or if the `content.opf` last updated time is newer than the file modification time.
-			if(!file_exists($filePath) || filemtime($filePath) < $bdc->Updated->getTimestamp()){
-				print('Creating ' . $filePath . "\n");
-				CreateZip($filePath, $bdc->Ebooks, $format, $webRoot);
+			if(!is_dir($parentDir)){
+				mkdir($parentDir, 0775, true);
 			}
 
-			$downloadUrl = '/bulk-downloads/' . $group->value . '/' . $bdc->LabelUrlSegment . '/' . basename($filePath);
-			$downloadByteCount = filesize($filePath);
-			$bdc->AddZipFile($format, $downloadUrl, $downloadByteCount);
-		}
+			foreach(Enums\BulkDownloadFormatType::cases() as $format){
+				$filePath = $parentDir . '/se-ebooks-' . $bdc->LabelUrlSegment . '-' . $format->value . '.zip';
 
-		$bdc->Create();
+				// If the file doesn't exist, or if the `content.opf` last updated time is newer than the file modification time.
+				if(!file_exists($filePath) || filemtime($filePath) < $bdc->Updated->getTimestamp()){
+					print('Creating ' . $filePath . "\n");
+					CreateZip($filePath, $bdc->Ebooks, $format, $webRoot);
+				}
+
+				$downloadUrl = '/bulk-downloads/' . $group->value . '/' . $bdc->LabelUrlSegment . '/' . basename($filePath);
+				$downloadByteCount = filesize($filePath);
+				$bdc->AddZipFile($format, $downloadUrl, $downloadByteCount);
+			}
+
+			$bdc->Create();
+		}
 	}
 }
 
-// Set ownership and permissions.
-// We don't use PHP's built in `chown()`/`chmod()` because `chmod()` can't accept strings.
-// The `chmod +X` command, with a capital `X`, makes only matched directories executable.
-exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/bulk-downloads/*/');
-exec('sudo chmod --preserve-root --recursive a+r,ug+w,a+X ' . escapeshellarg($webRoot) . '/bulk-downloads/*/');
+$lockFile = sys_get_temp_dir() . '/se-generate-bulk-downloads.lock';
+
+if(file_exists($lockFile)){
+	print("[ERROR] Lock file: `" . $lockFile . "` exists. Check the file's PID and timestamp to confirm another instance is running.\n");
+	exit(1);
+}
+
+file_put_contents($lockFile, getmypid() . "\n" . NOW->format('Y-m-d H:i:s') . "\n");
+
+try{
+	$bulkDownloadCollections = CreateBulkDownloadCollections();
+	WriteZipFiles($webRoot, $bulkDownloadCollections);
+
+	// Set ownership and permissions.
+	// We don't use PHP's built in `chown()`/`chmod()` because `chmod()` can't accept strings.
+	// The `chmod +X` command, with a capital `X`, makes only matched directories executable.
+	exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/bulk-downloads/*/');
+	exec('sudo chmod --preserve-root --recursive a+r,ug+w,a+X ' . escapeshellarg($webRoot) . '/bulk-downloads/*/');
+}
+finally{
+	if(file_exists($lockFile)){
+		unlink($lockFile);
+	}
+}
