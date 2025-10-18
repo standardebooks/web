@@ -19,9 +19,10 @@ use function Safe\rmdir;
 use function Safe\tempnam;
 use function Safe\unlink;
 
-$longopts = ['webroot:'];
+$longopts = ['webroot:', 'force'];
 $options = getopt('', $longopts);
 $webRoot = $options['webroot'] ?? WEB_ROOT;
+$force = isset($options['force']);
 
 
 /**
@@ -210,23 +211,6 @@ function CreateBulkDownloadCollections(): array{
  */
 function WriteZipFiles(string $webRoot, array $bulkDownloadCollections): void{
 	foreach(Enums\BulkDownloadLabelType::cases() as $group){
-		// First delete any orphan directories that we don't expect to be here, for example a collection that was later renamed.
-		foreach(glob($webRoot . '/bulk-downloads/' . $group->value . '/*/') as $dir){
-			$expected = false;
-			foreach($bulkDownloadCollections[$group->value] as $bdc){
-				if($bdc->LabelUrlSegment == basename($dir)){
-					$expected = true;
-					break;
-				}
-			}
-
-			if(!$expected){
-				print('Removing ' . $dir . "\n");
-				rrmdir($dir);
-			}
-		}
-
-		// Now create the zip files!
 		foreach($bulkDownloadCollections[$group->value] as $bdc){
 			$parentDir = $webRoot . '/bulk-downloads/' . $group->value . '/' . $bdc->LabelUrlSegment;
 
@@ -253,6 +237,40 @@ function WriteZipFiles(string $webRoot, array $bulkDownloadCollections): void{
 	}
 }
 
+function RemoveAllExistingZipFiles(string $webRoot): void{
+	foreach(Enums\BulkDownloadLabelType::cases() as $group){
+		$dir = $webRoot . '/bulk-downloads/' . $group->value;
+		print('Removing ' . $dir . "\n");
+		if(is_dir($dir)){
+			rrmdir($dir);
+		}
+	}
+}
+
+/**
+ * Delete any orphan directories that we don't expect to be here, for example a collection that was later renamed.
+ *
+ * @param array<string, array<string, BulkDownloadCollection>> $bulkDownloadCollections
+ */
+function RemoveOrphanDirectories(string $webRoot, array $bulkDownloadCollections): void{
+	foreach(Enums\BulkDownloadLabelType::cases() as $group){
+		foreach(glob($webRoot . '/bulk-downloads/' . $group->value . '/*/') as $dir){
+			$expected = false;
+			foreach($bulkDownloadCollections[$group->value] as $bdc){
+				if($bdc->LabelUrlSegment == basename($dir)){
+					$expected = true;
+					break;
+				}
+			}
+
+			if(!$expected){
+				print('Removing ' . $dir . "\n");
+				rrmdir($dir);
+			}
+		}
+	}
+}
+
 $lockFile = sys_get_temp_dir() . '/se-generate-bulk-downloads.lock';
 
 if(file_exists($lockFile)){
@@ -264,6 +282,14 @@ file_put_contents($lockFile, getmypid() . "\n" . NOW->format('Y-m-d H:i:s') . "\
 
 try{
 	$bulkDownloadCollections = CreateBulkDownloadCollections();
+
+	if($force){
+		RemoveAllExistingZipFiles($webRoot);
+	}
+	else{
+		RemoveOrphanDirectories($webRoot, $bulkDownloadCollections);
+	}
+
 	WriteZipFiles($webRoot, $bulkDownloadCollections);
 
 	// Set ownership and permissions.
