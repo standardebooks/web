@@ -163,6 +163,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1jRNKdXtyF6TALbLcYpvotWSeals1uFEVpBgPsUKN8LE">Jonas Lie — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/11pVrurRWs6dT1Vr1lA_2RkbvJQi4RbDI8s-hKMMRrMs">H. P. Lovecraft — Short Fiction</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1oWhebnZ__zFkDiqQUltfe8ehMRUbMly5N3GZHKXnFXw">Errico Malatesta — Essays</a></p>
 					</li>
 					<li>
@@ -207,9 +210,6 @@
 				<h3>Legacy</h3>
 				<p>These spreadsheets haven’t been converted to the new spreadsheet template yet. They’re for ebooks which we have already produced, but may still need more work.</p>
 				<ul>
-					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/11RGuTztG5LzOfpOtchkjcuQhwkHShhE7PZL_bs4ygwg">Works by H. P. Lovecraft</a> (also see <a href="https://docs.google.com/spreadsheets/d/1IldpmxjK06BxPL4CCOEJZpw_bxm4AhYnrTchS03QP3k">this spreadsheet</a>)</p>
-					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1R_fe5tNUhOmY38dnbA7n1DxJQO9KhHDwnzPgjT1ggac">Works by Ambrose Bierce</a></p>
 					</li>
