@@ -154,6 +154,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1YXXkqCOZ7Rc39P_8laeZsE53b999pk4WeAQ2rtboeBI">Voltairine de Cleyre — Works</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1faB89h3lXYNKVA-3Se9s7JVUkOihCOvOYKUCbKlyV4U">T. S. Eliot — Poetry</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1io8FnkAh_bHY1wQlLPWT5sTsTMq6njm-fSyAPXYQatI">Thomas Hardy — Short Fiction</a></p>
 					</li>
 					<li>
