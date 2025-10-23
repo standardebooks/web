@@ -6,7 +6,7 @@ use Safe\DateTimeImmutable;
  * @method static string ArtworkList(array<Artwork> $artworks)
  * @method static string AtomFeed(string $id, string $url, string $title, ?string $subtitle = null, DateTimeImmutable $updated, array<Ebook> $entries)
  * @method static string AtomFeedEntry(Ebook $entry)
- * @method static string BulkDownloadTable(string $label, array<stdClass> $collections)
+ * @method static string BulkDownloadTable(string $label, array<BulkDownloadCollection> $bulkDownloadCollections)
  * @method static string CollectionDescriptor(?CollectionMembership $collectionMembership)
  * @method static string ContributeAlert()
  * @method static string DonationAlert()

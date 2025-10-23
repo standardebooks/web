@@ -2340,6 +2340,29 @@ final class Ebook{
 	}
 
 	/**
+	 * @return array<Ebook>
+	 */
+	public static function GetAllByReleaseStatusFilter(Enums\EbookReleaseStatusFilter $releaseStatusFilter): array{
+		switch($releaseStatusFilter){
+			case Enums\EbookReleaseStatusFilter::Released:
+				return Db::Query('
+						SELECT *
+						from Ebooks
+						where WwwFilesystemPath is not null
+					', [], Ebook::class);
+			case Enums\EbookReleaseStatusFilter::Placeholder:
+				return Db::Query('
+						SELECT *
+						from Ebooks
+						where WwwFilesystemPath is null
+					', [], Ebook::class);
+			case Enums\EbookReleaseStatusFilter::All:
+			default:
+				return Ebook::GetAll();
+		}
+	}
+
+	/**
 	 * Get all `Ebook`s in a set of `EbookId`s.
 	 *
 	 * @param array<int> $ebookIds
