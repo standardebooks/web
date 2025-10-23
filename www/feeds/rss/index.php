@@ -2,7 +2,7 @@
 <main>
 	<section class="narrow">
 		<h1>RSS 2.0 Ebook Feeds</h1>
-		<p>RSS feeds are the predecessors of <a href="/feeds/atom">Atom feeds</a>. They contain less information than Atom feeds, but might be better supported by some news readers.</p>
+		<p>RSS feeds are the predecessors of <a href="/feeds/atom">Atom feeds</a>. They contain less information than Atom feeds, but might be better supported by some feed readers.</p>
 		<?= Template::FeedHowTo() ?>
 		<section id="general-feeds">
 			<h2>General RSS feeds</h2>

@@ -7,7 +7,7 @@
 			<source srcset="/images/rack-picture-for-dr-nones@2x.jpg 2x, /images/rack-picture-for-dr-nones.jpg 1x" type="image/jpg"/>
 			<img src="/images/rack-picture-for-dr-nones@2x.jpg" alt="Postal mail attached to a billboard."/>
 		</picture>
-		<p>We offer several ebook feeds that you can use in your ereading app to browse, search, and download from our catalog. You can also add our feeds to your RSS client to get notified of new ebooks as they’re released, or to browse our catalog from your news reader.</p>
+		<p>We offer several ebook feeds that you can use in your ereading app to browse, search, and download from our catalog. You can also add our feeds to your RSS client to get notified of new ebooks as they’re released, or to browse our catalog from your feed reader.</p>
 		<?= Template::FeedHowTo() ?>
 		<section id="opds-feeds">
 			<h2>OPDS 1.2 feeds</h2>
@@ -31,7 +31,7 @@
 		</section>
 		<section id="rss-feeds">
 			<h2>RSS 2.0 feeds</h2>
-			<p>RSS feeds are the predecessors of <a href="/feeds/atom">Atom feeds</a>. They contain less information than Atom feeds, but might be better supported by some news readers.</p>
+			<p>RSS feeds are the predecessors of <a href="/feeds/atom">Atom feeds</a>. They contain less information than Atom feeds, but might be better supported by some feed readers.</p>
 			<ul class="feed">
 				<li><p><a href="/feeds/rss">Standard Ebooks RSS feeds</a></p></li>
 			</ul>

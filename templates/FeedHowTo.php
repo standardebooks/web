@@ -3,7 +3,7 @@
 	<? if(Session::$User?->Benefits->CanAccessFeeds){ ?>
 		<p>When prompted, enter your email address and leave the password field blank to access a feed.</p>
 	<? }else{ ?>
-		<p>Our New Releases ebook feeds are open to everyone.</p>
+		<p>Our New Releases Atom/RSS ebook feeds are open to everyone.</p>
 		<p>You can get access to our other ebook feeds in one of the following ways:</p>
 		<ul>
 			<li>
