@@ -235,11 +235,6 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<code class="terminal"><span><b>se</b> interactive-replace <i>"([0-9]+)”"</i> <i>"\1″"</i> src/epub/text/<i class="glob">*</i></span></code>
 					</li>
 					<li>
-						<p><a href="/manual/latest/8-typography#8.3.3">Text in all caps</a>. Text in all caps is almost never correct, and should either be converted to lowercase with the <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> element (for spoken emphasis), <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> (for extreme spoken emphasis), or <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> (for unsemantic small caps, like in storefront signs).</p>
-						<p>Use the following command to check for instances of all caps:</p>
-						<code class="terminal"><b>se</b> xpath <i>"//p//text()[re:test(., '[A-Z]{2,}') and not(contains(., 'OK') or contains(., 'SOS')) and not(parent::abbr or parent::var or parent::a or parent::*[contains(@epub:type, 'z3998:roman')])]"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
-					</li>
-					<li>
 						<p>Sometimes <code class="bash"><b>se</b> typogrify</code> doesn’t close quotation marks near em-dashes correctly.</p>
 						<p>Use this regex to find incorrectly closed quotation marks near em-dashes: <code class="regex">—[’”][^<span class="p">&lt;</span>\s]</code></p>
 					</li>
@@ -331,11 +326,6 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<ul>
 					<li>
 						<p>Semantics for italics: <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> should be used for when a passage is emphasized, as in when dialog is shouted or whispered. <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> is used for all other italics, <a href="/manual/latest/4-semantics#4.2">with the appropriate semantic inflection</a>. Older transcriptions usually use just <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> for both, so you must change them manually if necessary.</p>
-						<p>Sometimes, transcriptions from Project Gutenberg may use ALL CAPS instead of italics. To replace these, you can use:</p>
-						<code class="terminal"><span><b>perl</b> -pi -e <i>"use utf8;s|([A-Z’]{2,})|&lt;em&gt;\L\1&lt;/em&gt;|g"</i> src/epub/text/<i class="glob">*</i></span></code>
-						<p>This will unfortunately replace language tags like <code>en-US</code>, so fix those up with this:</p>
-						<code class="terminal"><span><b>perl</b> -pi -e <i>"use utf8;s|en-&lt;em&gt;([a-z]+)&lt;/em&gt;|en-\U\1|g"</i> src/epub/text/<i class="glob">*</i></span></code>
-						<p>These replacements don’t take Title Caps or roman numerals into account, so use <code class="bash"><b>git</b> diff</code> to review the changes and fix errors before committing.</p>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.1">Semantics rules for chapter titles</a>.</p>
@@ -353,6 +343,14 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p>Semantics for poetry, verse, and song: Many Gutenberg productions use the <code class="html"><span class="p">&lt;</span><span class="nt">pre</span><span class="p">&gt;</span></code> element to format poetry, verse, and song. This is, of course, semantically incorrect. <a href="/manual/latest/7-high-level-structural-patterns#7.5">See the Poetry section of the <abbr class="acronym">SEMoS</abbr></a> for templates on how to semantically format poetry, verse, and song.</p>
+					</li>
+				</ul>
+				<p>Additionally, after adding semantics, you should check for any remaining typography issues:</p>
+				<ul>
+					<li>
+						<p><a href="/manual/latest/8-typography#8.3.3">Text in all caps</a>. Text in all caps is almost never correct, and should either be converted to lowercase with the <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> element (for spoken emphasis), <code class="html"><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span></code> (for extreme spoken emphasis), or <code class="html"><span class="p">&lt;</span><span class="nt">b</span><span class="p">&gt;</span></code> (for unsemantic small caps, like in storefront signs).</p>
+						<p>Use the following command to check for instances of all caps:</p>
+						<code class="terminal"><b>se</b> xpath <i>"//p//text()[re:test(., '[A-Z]{2,}') and not(contains(., 'OK') or contains(., 'SOS')) and not(parent::abbr or parent::var or parent::a or parent::*[contains(@epub:type, 'z3998:roman')])]"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></code>
 					</li>
 				</ul>
 				<p>After you’ve added semantics according to the <a href="/manual"><abbr class="acronym">SEMoS</abbr></a>, do another commit.</p><code class="terminal"><span><b>git</b> commit -am <i>"Manually add additional semantics"</i></span></code>
