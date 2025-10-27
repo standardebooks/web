@@ -8,7 +8,6 @@ use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\filemtime;
 use function Safe\filesize;
-use function Safe\fopen;
 use function Safe\getmypid;
 use function Safe\getopt;
 use function Safe\glob;
@@ -31,7 +30,7 @@ $force = isset($options['force']);
 function rrmdir(string $src): void{
 	$dir = opendir($src);
 	while(false !== ($file = readdir($dir))){
-		if (($file != '.') && ($file != '..')){
+		if(($file != '.') && ($file != '..')){
 			$full = $src . '/' . $file;
 			if(is_dir($full)){
 				rrmdir($full);
@@ -239,10 +238,13 @@ function WriteZipFiles(string $webRoot, array $bulkDownloadCollections): void{
 
 function RemoveAllExistingZipFiles(string $webRoot): void{
 	foreach(Enums\BulkDownloadLabelType::cases() as $group){
-		$dir = $webRoot . '/bulk-downloads/' . $group->value;
+		// We may have symlinked the root labels to a separate storage volume, so instead of removing them, remove all their children.
+		$dir = $webRoot . '/bulk-downloads/' . $group->value . '/*/';
 		print('Removing ' . $dir . "\n");
-		if(is_dir($dir)){
-			rrmdir($dir);
+		foreach(glob($dir) as $filename){
+			if(is_dir($filename)){
+				rrmdir($filename);
+			}
 		}
 	}
 }
