@@ -1,7 +1,6 @@
 <?
 use function Safe\preg_replace;
 
-$canDownload = false;
 $class = HttpInput::Str(GET, 'class') ?? '';
 
 try{
@@ -9,10 +8,6 @@ try{
 }
 catch(ValueError){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
-}
-
-if(Session::$User?->Benefits->CanBulkDownload){
-	$canDownload = true;
 }
 
 if($labelType == Enums\BulkDownloadLabelType::Month){
@@ -27,8 +22,8 @@ $title = preg_replace('/s$/', '', ucfirst($labelType->value));
 ?><?= Template::Header(title: 'Downloads by ' . $title, description: 'Download zip files containing all of the Standard Ebooks in a given collection.') ?>
 <main>
 	<section class="bulk-downloads">
-		<h1>Down­loads by <?= $title ?></h1>
-		<? if(!$canDownload){ ?>
+		<h1>Down­loads by <?= Formatter::EscapeHtml($title) ?></h1>
+		<? if(!Session::$User?->Benefits->CanBulkDownload){ ?>
 			<p><a href="/about#patrons-circle">Patrons circle members</a> get convenient access to zip files containing collections of different categories of ebooks. You can <a href="/donate#patrons-circle">join the Patrons Circle</a> with a small donation in support of our continuing mission to create free, beautiful digital literature, and download these collections files too.</p>
 		<? } ?>
 		<p>These zip files contain each ebook in every format we offer, and are kept updated with the latest versions of each ebook. Read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which file format to download</a>.</p>

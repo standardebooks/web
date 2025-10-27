@@ -22,7 +22,7 @@ class BulkDownloadCollection{
 	protected ?string $_LabelUrl;
 	protected ?string $_UpdatedString;
 	/** @var array<BulkDownloadZipFile> $_ZipFiles */
-	protected array $_ZipFiles = [];
+	protected array $_ZipFiles;
 
 	/** @var array<Ebook> $Ebooks */
 	public array $Ebooks;

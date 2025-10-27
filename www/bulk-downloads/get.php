@@ -3,11 +3,6 @@ try{
 	$bulkDownloadCollection = null;
 	$collectionUrlName = HttpInput::Str(GET, 'collection');
 	$authorUrlName = HttpInput::Str(GET, 'author');
-	$canDownload = false;
-
-	if(Session::$User?->Benefits->CanBulkDownload){
-		$canDownload = true;
-	}
 
 	if($collectionUrlName !== null){
 		$bulkDownloadCollection = BulkDownloadCollection::GetByCollectionUrl($collectionUrlName);
@@ -28,8 +23,8 @@ catch(Exceptions\BulkDownloadCollectionNotFoundException){
 ?><?= Template::Header(title: 'Download ', description: 'Download zip files containing all of the Standard Ebooks released in a given month.') ?>
 <main>
 	<section class="bulk-downloads">
-		<h1>Download the <?= $bulkDownloadCollection->LabelName ?> Collection</h1>
-		<? if($canDownload){ ?>
+		<h1>Download the <?= Formatter::EscapeHtml($bulkDownloadCollection->LabelName) ?> Collection</h1>
+		<? if(Session::$User?->Benefits->CanBulkDownload){ ?>
 			<p>Select the ebook format in which you’d like to download this collection.</p>
 			<p>You can also read about <a href="/help/how-to-use-our-ebooks#which-file-to-download">which ebook format to download</a>.</p>
 		<? }else{ ?>
