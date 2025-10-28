@@ -259,3 +259,5 @@ foreach($ebooksByAuthor as $collection => $ebooks){
 exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/feeds/*/*.xml');
 exec('sudo chown --preserve-root --recursive se:committers ' . escapeshellarg($webRoot) . '/feeds/*/*/*.xml');
 exec('sudo chmod --preserve-root --recursive a+r,ug+w,a+X ' . escapeshellarg($webRoot) . '/feeds/*/');
+
+Feed::RebuildFeedsCache();

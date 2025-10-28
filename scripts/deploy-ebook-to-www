@@ -444,7 +444,6 @@ if [ "${feeds}" = "true" ]; then
 		fi
 
 		"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
-		"${scriptsDir}"/rebuild-cache feeds
 
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"
@@ -467,7 +466,6 @@ if [ "${bulkDownloads}" = "true" ]; then
 		if [ "${verbose}" = "true" ]; then
 			echo "${output}"
 		fi
-		"${scriptsDir}"/rebuild-cache bulk-downloads
 
 		if [ "${verbose}" = "true" ]; then
 			printf "Done.\n"
