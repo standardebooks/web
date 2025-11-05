@@ -77,7 +77,7 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1j4SUE_W64lcknzWOHbkB1uEU3KaXzRPU2fpC6y2cGG0">Sarah Orne Jewett — Short Fiction</a></p>
 					</li>
 					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/19jiiWZS_S8NaTQcJv_dXb4Qm4ghDJHl14B22Q6xE3H0">Ring Lardner — Jack Keefe Stories</a></p>
+						<p><a href="https://docs.google.com/spreadsheets/d/1J6ZnT3_1DHHTCWyzfSKkAbIHQqrEz4AoUI7dQdz7668">Ring Lardner — Short Fiction</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1BcKbCc9s08jOdEaRbuRIelPDqwvM3TxTAFl2NcJgrI8">George MacDonald — Works</a></p>
@@ -158,6 +158,9 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1io8FnkAh_bHY1wQlLPWT5sTsTMq6njm-fSyAPXYQatI">Thomas Hardy — Short Fiction</a></p>
+					</li>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/15Di2STjDxJO1xBJmxkqgRKeKBLv7OvBE_76mX4ktRIg">Ring Lardner — Poetry</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1FLNCra1jp0dA-cxP3ubDwI6vYmWpMkrWZLa5dbRbDOs">Nella Larsen — Short Fiction</a></p>
