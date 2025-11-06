@@ -95,6 +95,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1yZ55VxvQlKqpLBGpPCq-DY-5jBCfWuUADppdFr6xX18">Mary Shelley — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1nzlTNzevdhyHr5RgpFPno_BNBuiLDjbmr0M2ughOABk">Robert Louis Stevenson — Poetry</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1GO2cFUgezbthh4VvXCnjA04uYSW7tujAXJUfuj1Mmc0">Bram Stoker — Short Fiction</a></p>
 					</li>
 					<li>
