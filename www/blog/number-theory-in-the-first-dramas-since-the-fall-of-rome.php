@@ -1,19 +1,19 @@
 <?
 $carousel = Ebook::GetAllBySet([877, 144]);
 ?>
-<?= Template::Header(title: 'Numerology in the First Dramas Since the Fall of Rome', css: ['/css/blog.css']) ?>
+<?= Template::Header(title: 'Number Theory in the First Dramas Since the Fall of Rome', css: ['/css/blog.css']) ?>
 <main>
 	<section class="narrow blog">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
-		<h1>Numerology in the First Dramas Since the Fall of Rome</h1>
+		<h1>Number Theory in the First Dramas Since the Fall of Rome</h1>
 		<p class="byline">By Erin Endrei</p>
 		<?= Template::DonationCounter() ?>
 		<?= Template::DonationProgress() ?>
 		<div class="editors-note">
-			<p>This article first appeared in the May 2025 edition of our <a href="/newsletter">email newsletter</a>.</p>
+			<p>This article first appeared in the November 2025 edition of our <a href="/newsletter">email newsletter</a>.</p>
 		</div>
 		<p>Born around 935, Hrotsvit, or <a href="https://standardebooks.org/ebooks/roswitha-of-gandersheim">Roswitha of Gandersheim</a>, was a secular canoness of Gandersheim Abbey in Lower Saxony, Germany. At the suggestion of her abbess, Hrotsvit first wrote eight religious legends, and later, probably before 965, produced the six comedies for which she is today best remembered. These plays form a Christian response to the six comedies of Terence, which were widely read by the literate in Hrotsvit’s day. In her preface to the reader, Hrotsvit describes her dramatic aims as “being to glorify, within the limits of my poor talent, the laudable chastity of Christian virgins in that selfsame form of composition which has been used to describe the shameless acts of licentious women.”</p>
-		<p>Almost a millenium later, in 1923, the playwright and campaigner <a href="https://en.wikipedia.org/wiki/Christabel_Marshall">Christopher St. John</a> translated all six of Hrotsvit’s comedies. His translation contains a fascinating footnote that illustrates one of the difficulties in appreciating these works.</p>
+		<p>Almost a millenium later, in 1923, the playwright and campaigner <a href="https://en.wikipedia.org/wiki/Christabel_Marshall">Christopher St. John</a> translated all six of Hrotsvit’s comedies. Her translation contains a fascinating footnote that illustrates one of the difficulties in appreciating these works.</p>
 		<p>One puzzling choice Hrotsvit made when writing was to incorporate what she calls “threads and scraps from the mantle of philosophy.” This reference to the first prose section of Boethius’ <a href="https://standardebooks.org/ebooks/boethius/the-consolation-of-philosophy/h-r-james"><em>Consolation of Philosophy</em></a> occurs in the other document included as a preface to the comedies, Hrotsvit’s notoriously self-deprecating letter to some “learned patrons” of her work. The relevant philosophical “threads and scraps” are found only in her two last dramas, <em>Paphnutius</em> and <em>Sapientia</em>; this is part of the evidence for the <a href="https://archive.org/details/deutschedichterd00wintuoft/page/522/mode/1up?q=Dubletten">theory of the scholar and editor Paul von Winterfeld</a> that they were written later than the first four. According to <a href="https://www.jstor.org/stable/3289343">Cornelia C. Coulter’s 1929 judgement</a>, “these threads only detract from the dramatic value of the plays.” So why did Hrotsvit include them?</p>
 		<p>St. John provides one explanation in a footnote attached to a passage in Hrotsvit’s final play. A Christian mother named Sapientia, after whom the play is named, arrives in Rome to evangelize its pagan inhabitants with her daughters Faith, Hope, and Charity. The four are summoned before the emperor Hadrian. When he inquires about the girls’ ages, they encourage their mother to confuse him, which she successfully does, by making her reply in the jargon of medieval number theory.</p>
 		<p>Midway through this exchange, St. John <a href="https://standardebooks.org/ebooks/roswitha-of-gandersheim/plays/christopher-st-john/text/endnotes#note-10">explains its inclusion</a>:</p>

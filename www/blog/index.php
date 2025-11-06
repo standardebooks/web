@@ -5,7 +5,7 @@
 		<ul>
 			<li>
 				<p>
-					<a href="/blog/numerology-in-the-first-dramas-since-the-fall-of-rome">Numerology in the First Dramas Since the Fall of Rome</a>
+					<a href="/blog/number-theory-in-the-first-dramas-since-the-fall-of-rome">Number Theory in the First Dramas Since the Fall of Rome</a>
 				</p>
 			</li>
 			<li>
