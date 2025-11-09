@@ -53,6 +53,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1V7derqjA7EH2zvk398vJLX3Wqh6t93DceV8CRrjTo-M">Mary de Morgan — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1WHmJTK3oKKAqIoW5PfTt0ha3OE6e_h1CuhfrY61jbgo">John Donne — Poetry</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1T4mK-ehA9OvMAThIc6nw1xrr6gMiN4aK0oTjbJsiWW4">Fyodor Dostoevsky — Short Fiction</a></p>
 					</li>
 					<li>
