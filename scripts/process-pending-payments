@@ -10,11 +10,13 @@ use Facebook\WebDriver\Firefox\FirefoxOptions;
 use Facebook\WebDriver\WebDriverElement;
 
 use Safe\DateTimeImmutable;
+use function Safe\file_put_contents;
 use function Safe\get_cfg_var;
 use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\putenv;
 use function Safe\set_time_limit;
+use function Safe\unlink;
 
 require_once('/standardebooks.org/web/lib/Core.php');
 
@@ -36,6 +38,7 @@ $lastMonth = (new DateTimeImmutable())->sub(new DateInterval('P45D')); // 45 day
 $lastYear = (new DateTimeImmutable())->sub(new DateInterval('P1Y'));
 $faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
 $faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
+$errorLockFilename = sys_get_temp_dir() . '/process-pending-payments';
 
 // Test donations:
 // - `fa000cbf-af6f-4c14-8919-da6cf81a27ea`  Regular donation, patrons, public, recurring.
@@ -336,17 +339,41 @@ try{
 
 		$log->Write('Donation processed.');
 	}
+
+	try{
+		// Remove any error lock files we may have created earlier.
+		if(file_exists($errorLockFilename)){
+			unlink($errorLockFilename);
+		}
+	}
+	catch(Exception){
+		// Pass.
+	}
 }
 catch(Exception $ex){
 	$exceptionString = vds($ex);
 	$log->Write('Error: Uncaught exception: ' . $exceptionString);
 
-	$em = new Email(true);
-	$em->To = ADMIN_EMAIL_ADDRESS;
-	$em->Subject = 'Donation processing failed';
-	$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
-	$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
-	$em->Send();
+	$sendEmail = true;
+
+	if($ex instanceof Facebook\WebDriver\Exception\NoSuchElementException){
+		// This error occurs from time to time, but resolves itself on the next try.
+		// Set a lock file if this is the first time this happened. If the lock file already exists (i.e., this is the second time in a row this error occurred), then really do send the email.
+		if(!file_exists($errorLockFilename)){
+			$sendEmail = false;
+			file_put_contents($errorLockFilename, NOW->format('Y-m-d H:i:s'));
+		}
+	}
+
+	// Only send an email if this script failed twice in a row.
+	if($sendEmail){
+		$em = new Email(true);
+		$em->To = ADMIN_EMAIL_ADDRESS;
+		$em->Subject = 'Donation processing failed';
+		$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->Send();
+	}
 
 	throw $ex;
 }
