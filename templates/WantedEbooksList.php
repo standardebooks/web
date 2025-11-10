@@ -24,7 +24,7 @@
 					— <a href="<?= $ebook->Url ?>">View placeholder.</a>
 				<? } ?>
 
-				<? if($ebook->EbookPlaceholder?->IsPatron){ ?>
+				<? if($ebook->IsPatronSelection){ ?>
 					<a class="patron-selection" href="/donate#patrons-circle">Patron selection!</a>
 				<? } ?>
 			</p>

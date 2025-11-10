@@ -87,6 +87,7 @@ final class Ebook{
 	public int $DownloadsPast30Days = 0;
 	/** The numer of all-time non-bot downloads. */
 	public int $DownloadsTotal = 0;
+	public bool $IsPatronSelection = false;
 
 	/** @var array<GitCommit> $_GitCommits */
 	protected array $_GitCommits;
@@ -1157,6 +1158,8 @@ final class Ebook{
 		}
 		$this->CollectionMemberships = $collectionMemberships;
 
+		$this->IsPatronSelection = HttpInput::Bool(POST, 'ebook-is-patron-selection') ?? false;
+
 		$ebookPlaceholder = new EbookPlaceholder();
 		$ebookPlaceholder->FillFromHttpPost();
 		$this->EbookPlaceholder = $ebookPlaceholder;
@@ -1833,8 +1836,9 @@ final class Ebook{
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
 				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
 				EbookCreated, EbookUpdated, TextSinglePageByteCount, IndexableText, IndexableAuthors,
-				IndexableCollections, DownloadsPast30Days, DownloadsTotal)
+				IndexableCollections, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
 			values (?,
+				?,
 				?,
 				?,
 				?,
@@ -1868,7 +1872,7 @@ final class Ebook{
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
 				$this->IndexableAuthors, $this->IndexableCollections, $this->DownloadsPast30Days,
-				$this->DownloadsTotal]);
+				$this->DownloadsTotal, $this->IsPatronSelection]);
 
 		try{
 			$this->AddTags();
@@ -1939,7 +1943,8 @@ final class Ebook{
 				IndexableAuthors = ?,
 				IndexableCollections = ?,
 				DownloadsPast30Days = COALESCE(?, DownloadsPast30Days),
-				DownloadsTotal = COALESCE(?, DownloadsTotal)
+				DownloadsTotal = COALESCE(?, DownloadsTotal),
+				IsPatronSelection = ?
 				where
 				EbookId = ?
 			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
@@ -1950,6 +1955,7 @@ final class Ebook{
 				$this->IndexableAuthors, $this->IndexableCollections,
 				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `COALESCE` will keep the existing value.
 				$updateDownloads ? $this->DownloadsTotal : null,
+				$this->IsPatronSelection,
 				$this->EbookId]);
 
 		}

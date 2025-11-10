@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS `EbookPlaceholders` (
   `TranscriptionUrl` varchar(511) NULL,
   `IsWanted` boolean NOT NULL DEFAULT FALSE,
   `IsInProgress` boolean NOT NULL DEFAULT FALSE,
-  `IsPatron` boolean NOT NULL DEFAULT FALSE,
   `Notes` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`EbookId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

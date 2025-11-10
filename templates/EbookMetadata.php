@@ -13,6 +13,10 @@ $showPlaceholderMetadata ??= false;
 				<td>Ebook ID:</td>
 				<td><?= $ebook->EbookId ?></td>
 			</tr>
+			<tr>
+				<td>Is Patron selection:</td>
+				<td><? if($ebook->IsPatronSelection){ ?>☑<? }else{ ?>☐<? } ?></td>
+			</tr>
 		</tbody>
 	</table>
 </section>
@@ -32,10 +36,6 @@ $showPlaceholderMetadata ??= false;
 					<td><? if($ebook->EbookPlaceholder->IsWanted){ ?>☑<? }else{ ?>☐<? } ?></td>
 				</tr>
 				<? if($ebook->EbookPlaceholder->IsWanted){ ?>
-					<tr>
-						<td>Is Patron selection:</td>
-						<td><? if($ebook->EbookPlaceholder->IsPatron){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
 					<? if($ebook->EbookPlaceholder->Difficulty !== null){ ?>
 						<tr>
 							<td>Difficulty:</td>

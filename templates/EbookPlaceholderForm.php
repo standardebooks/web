@@ -225,11 +225,11 @@ $showProjectForm ??= true;
 	<fieldset>
 		<label>
 			<span>A Patron requested this book</span>
-			<input type="hidden" name="ebook-placeholder-is-patron" value="false" />
+			<input type="hidden" name="ebook-is-patron-selection" value="false" />
 			<input
 				type="checkbox"
-				name="ebook-placeholder-is-patron"
-				<? if($ebook->EbookPlaceholder?->IsPatron){ ?>checked="checked"<? } ?>
+				name="ebook-is-patron-selection"
+				<? if($ebook->IsPatronSelection){ ?>checked="checked"<? } ?>
 			/>
 		</label>
 		<label class="icon meter">

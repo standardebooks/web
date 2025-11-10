@@ -14,7 +14,6 @@ class EbookPlaceholder{
 	public bool $IsInProgress = false;
 	public ?Enums\EbookPlaceholderDifficulty $Difficulty = null;
 	public ?string $TranscriptionUrl = null;
-	public bool $IsPatron = false;
 	public ?string $Notes = null;
 
 	protected bool $_IsPublicDomain;
@@ -67,7 +66,6 @@ class EbookPlaceholder{
 		if($this->IsWanted){
 			$this->PropertyFromHttp('Difficulty');
 			$this->PropertyFromHttp('TranscriptionUrl');
-			$this->PropertyFromHttp('IsPatron');
 			$this->PropertyFromHttp('Notes');
 		}
 	}
@@ -105,9 +103,8 @@ class EbookPlaceholder{
 		$this->Validate();
 		Db::Query('
 			INSERT into EbookPlaceholders (EbookId, YearPublished, Difficulty, TranscriptionUrl,
-				IsWanted, IsInProgress, IsPatron, Notes)
+				IsWanted, IsInProgress, Notes)
 			values (?,
-				?,
 				?,
 				?,
 				?,
@@ -115,7 +112,7 @@ class EbookPlaceholder{
 				?,
 				?)
 		', [$this->EbookId, $this->YearPublished, $this->Difficulty, $this->TranscriptionUrl,
-			$this->IsWanted, $this->IsInProgress, $this->IsPatron, $this->Notes]);
+			$this->IsWanted, $this->IsInProgress, $this->Notes]);
 	}
 
 	/**
@@ -132,11 +129,10 @@ class EbookPlaceholder{
 			TranscriptionUrl = ?,
 			IsWanted = ?,
 			IsInProgress = ?,
-			IsPatron = ?,
 			Notes = ?
 			where EbookId = ?
 		', [$this->YearPublished, $this->Difficulty, $this->TranscriptionUrl,
-			$this->IsWanted, $this->IsInProgress, $this->IsPatron, $this->Notes, $this->EbookId]);
+			$this->IsWanted, $this->IsInProgress, $this->Notes, $this->EbookId]);
 	}
 
 	public function Delete(): void{

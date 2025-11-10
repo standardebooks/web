@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   `IndexableCollections` text NULL,
   `DownloadsPast30Days` int(10) unsigned NOT NULL DEFAULT 0,
   `DownloadsTotal` int(10) unsigned NOT NULL DEFAULT 0,
+  `IsPatronSelection` boolean NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`EbookId`),
   UNIQUE KEY `index1` (`Identifier`),
   KEY `index2` (`EbookCreated`),
