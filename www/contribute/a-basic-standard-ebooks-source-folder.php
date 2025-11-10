@@ -55,7 +55,7 @@
 									<p><code class="path">src/epub/text/titlepage.xhtml</code> is the titlepage. <code class="bash"><b>se</b> create-draft</code> generated the title and author. Don’t edit this unless the title and author are incorrect.</p>
 								</li>
 								<li>
-									<p><code class="path">src/epub/text/unlicense.xhtml</code> is the Standard Ebooks public domain dedication. Don’t edit this at all.</p>
+									<p><code class="path">src/epub/text/uncopyright.xhtml</code> is the Standard Ebooks public domain dedication. Don’t edit this at all.</p>
 								</li>
 							</ul>
 						</li>
