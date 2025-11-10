@@ -80,11 +80,11 @@ foreach($ebooks as $ebook){
 			break;
 
 		case 'https://standardebooks.org/ebooks/daphne-du-maurier/short-fiction':
-			$description = '<p><a href="/ebooks/daphne-du-maurier">Daphne du Maurier</a> had a long career of short fiction. This year, four of her short stories enter the U.S. public domain: “The Lover,” “The Supreme Artist,” “Frustration,” and “Indiscretion.” In her time, Du Maurier was often categorized as a romantic novelist, a label that frustrated her to no end. Indeed, her stories have more in common with the works of writers like <a href="/ebooks/wilkie-collins">Wilkie Collins</a>, in that they explore dark and sinister themes, often tinged with a paranormal flavor. Many of her works have since been adapted to film.</p>';
+			$description = '<p><a href="/ebooks/daphne-du-maurier">Daphne du Maurier</a> had a long and illustrious career writing short fiction. This year, four of her short stories enter the U.S. public domain: “The Lover,” “The Supreme Artist,” “Frustration,” and “Indiscretion.” In her time, Du Maurier was often categorized as a romantic novelist, a label that frustrated her to no end, because her stories have more in common with the works of writers like <a href="/ebooks/wilkie-collins">Wilkie Collins</a> in that they explore dark and sinister themes, often tinged with a paranormal flavor. Many of her works have since been adapted to film.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/agatha-christie/giants-bread':
-			$description = '<p><i>Giant’s Bread</i> is the first novel <a href="/ebooks/agatha-christie">Agatha Christie</a> wrote under a pen name, because it differed so much from her usual mystery fare that she wanted it to stand up to public scrutiny under its own merits and not on her reputation. And stand up it did, as reviewers received it with glowing praise.</p><p>The book follows Vernon Deyre, a young English man and brilliant musician, from infancy to adult life before and during the Great War. It explores themes of love, sacrifice, art, and ultimately, redemption.</p>';
+			$description = '<p><i>Giant’s Bread</i> is the first novel <a href="/ebooks/agatha-christie">Agatha Christie</a> wrote under a pen name, because it differed so much from her usual mystery fare that she wanted it to stand up to public scrutiny under its own merits and not on her reputation. And stand up it did, as reviewers received it with glowing praise.</p><p>The book follows Vernon Deyre, a young Englishman and brilliant musician, from infancy to adulthood before and during the Great War. It explores themes of love, sacrifice, art, and ultimately, redemption.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/edna-ferber/cimarron':
@@ -92,7 +92,7 @@ foreach($ebooks as $ebook){
 			break;
 
 		case 'https://standardebooks.org/ebooks/carolyn-keene/the-secret-of-the-old-clock':
-			$description = '<p><i>The Secret of the Old Clock</i> is the first <a href="/collections/nancy-drew-mystery-stories">Nancy Drew</a> novel, and the novel that started a series spanning nearly a century. In it, Nancy is enlisted by Turners, a family struggling to locate a missing will of a wealthy, recently-deceased relative. Though this book was published in 1930, it was rewritten in 1959 by Harriet Adams. This Standard Ebooks edition is the original 1930 text.</p>';
+			$description = '<p><i>The Secret of the Old Clock</i> is the first <a href="/collections/nancy-drew-mystery-stories">Nancy Drew</a> novel—the bestseller that started a series spanning nearly a century. In it, Nancy is enlisted by the Turners, a family struggling to locate the missing will of a wealthy, recently-deceased relative. Though this book was published in 1930, it was rewritten in 1959 by Harriet Adams. This Standard Ebooks edition is the original 1930 text.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/dorothy-l-sayers/strong-poison':
@@ -105,18 +105,18 @@ foreach($ebooks as $ebook){
 
 ksort($ebooksWithDescriptions);
 
-?><?= Template::Header(title: 'Public Domain Day 2025 in Literature - Blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day 2025!', css: ['/css/public-domain-day.css']) ?>
+?><?= Template::Header(title: 'Public Domain Day 2026 in Literature - Blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day 2026!', css: ['/css/public-domain-day.css']) ?>
 <main>
 	<section class="narrow blog has-hero">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
 		<hgroup>
 			<h1>Public Domain Day in Literature</h1>
-			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in 2025</p>
+			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in 2026</p>
 		</hgroup>
-		<picture data-caption="The Reader. Harold Knight, circa 1910">
-			<source srcset="/images/the-reader@2x.avif 2x, /images/the-reader.avif 1x" type="image/avif"/>
-			<source srcset="/images/the-reader@2x.jpg 2x, /images/the-reader.jpg 1x" type="image/jpg"/>
-			<img src="/images/the-reader@2x.jpg" alt="An oil painting of a woman reading a book in front of a bookcase."/>
+		<picture data-caption="Birmingham Reference Library—The Reading Room. Edward Richard Taylor, 1881">
+			<source srcset="/images/birmingham-reference-library@2x.avif 2x, /images/birmingham-reference-library.avif 1x" type="image/avif"/>
+			<source srcset="/images/birmingham-reference-library@2x.jpg 2x, /images/birmingham-reference-library.jpg 1x" type="image/jpg"/>
+			<img src="/images/birmingham-reference-library@2x.jpg" alt="The reading room of a large neoclassical reference library."/>
 		</picture>
 		<p>Happy Public Domain Day!</p>
 		<p>Around the world, people celebrate Public Domain Day on January 1, the day in which copyright expires on some older works and they enter the public domain in many different countries.</p>
@@ -126,7 +126,7 @@ ksort($ebooksWithDescriptions);
 		<p>Ever since then, we’ve been celebrating Public Domain Day by preparing some of the year’s biggest literary hits for you to read on January 1.</p>
 		<hr class="fleuron"/>
 		<p><strong>On January 1, 2026, books published in 1930 enter the U.S. public domain.</strong></p>
-		<p>Books by <a href="/ebooks/william-faulkner">William Faulkner</a>, <a href="/ebooks/ernest-hemingway">Ernest Hemingway</a>, <a href="/ebooks/mahatma-gandhi">Mahatma Gandhi</a>, and <a href="/ebooks/john-steinbeck">John Steinbeck</a> enter the U.S. public domain. Joining these esteemed names is the English translation of <i><a href="/ebooks/erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen">All Quiet on the Western Front</a></i>, the war novel so grisly that it was banned in parts of Europe; <i><a href="/ebooks/dashiell-hammett/red-harvest">Red Harvest</a></i>, the first novel starring the <a href="/collections/continental-op">Continental Op</a>, the hard-boiled noir detective who formed the archetype for every hard-drinking, fedora-wearing private eye to grace page and screen since; and much more.</p>
+		<p>Books by <a href="/ebooks/william-faulkner">William Faulkner</a>, <a href="/ebooks/franz-kafka">Franz Kafka</a>, <a href="/ebooks/agatha-christie">Agatha Christie</a>, and <a href="/ebooks/langston-hughes">Langston Hughes</a> enter the U.S. public domain. In addition, <i><a href="/ebooks/dashiell-hammett/the-maltese-falcon">The Maltese Falcon</a></i>, perhaps the best-known noir book—and film—of all time, and books by <a href="/ebooks/evelyn-waugh">Evelyn Waugh</a>, <a href="/ebooks/dorothy-l-sayers">Dorothy L. Sayers</a>, and more, become free for anyone in the U.S. to read, use, and re-use.</p>
 		<p>Our friends at the Public Domain Review have written about some <a href="https://publicdomainreview.org/blog/2026/01/public-domain-day-2026/">other things that enter the public domain this year, too</a>.</p>
 		<p>These past few months at Standard Ebooks, our volunteers have been working hard to prepare a selection of the books published in 1930 in advance of Public Domain Day. We’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new free ebooks</strong> with you!</p>
 		<? if(sizeof($ebooksWithDescriptions) == 0){ ?>
