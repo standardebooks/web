@@ -91,15 +91,14 @@ class NewsletterSubscription{
 	}
 
 	public function SendConfirmationEmail(): void{
-		$em = new Email(true);
-		$em->PostmarkStream = EMAIL_POSTMARK_STREAM_BROADCAST;
+		$em = new QueuedEmailMessage(true);
 		$em->To = $this->User->Email ?? '';
 		if($this->User->Name !== null && $this->User->Name != ''){
-			$em->ToName = $this->User->Name;
+			$em->To = $this->User->Name . ' <' . $this->To . '>';
 		}
 		$em->Subject = 'Action required: confirm your newsletter subscription';
-		$em->Body = Template::EmailNewsletterConfirmation(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
-		$em->TextBody = Template::EmailNewsletterConfirmationText(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
+		$em->BodyHtml = Template::EmailNewsletterConfirmation(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
+		$em->BodyText = Template::EmailNewsletterConfirmationText(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
 		$em->Send();
 	}
 

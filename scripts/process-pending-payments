@@ -279,14 +279,14 @@ try{
 								// Send a thank-you email.
 
 								$log->Write('Sending thank you email to patron donor donating extra.');
-								$em = new Email();
+								$em = new EmailMessage();
 								$em->To = $payment->User->Email ?? '';
 								$em->ToName = $payment->User->Name ?? '';
 								$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 								$em->FromName = EDITOR_IN_CHIEF_NAME;
 								$em->Subject = 'Thank you for supporting Standard Ebooks!';
-								$em->Body = Template::EmailDonationThankYou();
-								$em->TextBody = Template::EmailDonationThankYouText();
+								$em->BodyHtml = Template::EmailDonationThankYou();
+								$em->BodyText = Template::EmailDonationThankYouText();
 								$em->Send();
 							}
 						}
@@ -296,12 +296,12 @@ try{
 						$patron = new Patron();
 						$patron->User = new User();
 
-						$em = new Email();
+						$em = new EmailMessage();
 						$em->To = ADMIN_EMAIL_ADDRESS;
 						$em->From = ADMIN_EMAIL_ADDRESS;
 						$em->Subject = 'New Patrons Circle member';
-						$em->Body = Template::EmailAdminNewPatron(patron: $patron, payment: $payment);
-						$em->TextBody = Template::EmailAdminNewPatronText(patron: $patron, payment: $payment);;
+						$em->BodyHtml = Template::EmailAdminNewPatron(patron: $patron, payment: $payment);
+						$em->BodyText = Template::EmailAdminNewPatronText(patron: $patron, payment: $payment);;
 						$em->Send();
 					}
 				}
@@ -318,14 +318,14 @@ try{
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
 					if(!$payment->IsRecurring || $previousPaymentCount == 1){
 						$log->Write('Sending thank you email to non-patron donor.');
-						$em = new Email();
+						$em = new EmailMessage();
 						$em->To = $payment->User->Email ?? '';
 						$em->ToName = $payment->User->Name ?? '';
 						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 						$em->FromName = EDITOR_IN_CHIEF_NAME;
 						$em->Subject = 'Thank you for supporting Standard Ebooks!';
-						$em->Body = Template::EmailDonationThankYou();
-						$em->TextBody = Template::EmailDonationThankYouText();
+						$em->BodyHtml = Template::EmailDonationThankYou();
+						$em->BodyText = Template::EmailDonationThankYouText();
 						$em->Send();
 					}
 				}
@@ -367,11 +367,11 @@ catch(Exception $ex){
 
 	// Only send an email if this script failed twice in a row.
 	if($sendEmail){
-		$em = new Email(true);
+		$em = new EmailMessage(true);
 		$em->To = ADMIN_EMAIL_ADDRESS;
 		$em->Subject = 'Donation processing failed';
-		$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
-		$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->BodyHtml = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->BodyText = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
 		$em->Send();
 	}
 

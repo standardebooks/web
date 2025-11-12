@@ -77,23 +77,23 @@ class Patron{
 
 	private function SendWelcomeEmail(bool $isReturning): void{
 		if(isset($this->User)){
-			$em = new Email();
+			$em = new EmailMessage();
 			$em->To = $this->User->Email ?? '';
 			$em->ToName = $this->User->Name ?? '';
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->Subject = 'Thank you for supporting Standard Ebooks!';
-			$em->Body = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
-			$em->TextBody = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
+			$em->BodyHtml = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
+			$em->BodyText = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
 			$em->Send();
 
 			if(!$isReturning){
-				$em = new Email();
+				$em = new EmailMessage();
 				$em->To = ADMIN_EMAIL_ADDRESS;
 				$em->From = ADMIN_EMAIL_ADDRESS;
 				$em->Subject = 'New Patrons Circle member';
-				$em->Body = Template::EmailAdminNewPatron(patron: $this, payment: $this->User->Payments[0]);
-				$em->TextBody = Template::EmailAdminNewPatronText(patron: $this, payment: $this->User->Payments[0]);;
+				$em->BodyHtml = Template::EmailAdminNewPatron(patron: $this, payment: $this->User->Payments[0]);
+				$em->BodyText = Template::EmailAdminNewPatronText(patron: $this, payment: $this->User->Payments[0]);;
 				$em->Send();
 			}
 		}
@@ -120,7 +120,7 @@ class Patron{
 
 		// Email the patron to notify them their term has ended.
 		if($this->LastPayment !== null && $this->User->Email !== null){
-			$em = new Email();
+			$em = new EmailMessage();
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->To = $this->User->Email;
@@ -129,13 +129,13 @@ class Patron{
 
 			if($this->CycleType == Enums\CycleType::Monthly){
 				// Email recurring donors who have lapsed.
-				$em->Body = Template::EmailPatronsCircleRecurringCompleted();
-				$em->TextBody = Template::EmailPatronsCircleRecurringCompletedText();
+				$em->BodyHtml = Template::EmailPatronsCircleRecurringCompleted();
+				$em->BodyText = Template::EmailPatronsCircleRecurringCompletedText();
 			}
 			else{
 				// Email one time donors who have expired after one year.
-				$em->Body = Template::EmailPatronsCircleCompleted(ebooksThisYear: $ebooksThisYear);
-				$em->TextBody = Template::EmailPatronsCircleCompletedText(ebooksThisYear: $ebooksThisYear);
+				$em->BodyHtml = Template::EmailPatronsCircleCompleted(ebooksThisYear: $ebooksThisYear);
+				$em->BodyText = Template::EmailPatronsCircleCompletedText(ebooksThisYear: $ebooksThisYear);
 			}
 
 			$em->Send();
