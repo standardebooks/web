@@ -72,9 +72,9 @@ const POST = Enums\HttpVariableSource::Post;
 const SESSION = Enums\HttpVariableSource::Session;
 const COOKIE = Enums\HttpVariableSource::Cookie;
 
-define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_address'));
-define('ADMIN_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.admin_address'));
-define('EDITOR_IN_CHIEF_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.editor_in_chief_address'));
+define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_email_address'));
+define('ADMIN_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.admin_email_address'));
+define('EDITOR_IN_CHIEF_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.editor_in_chief_email_address'));
 
 const EDITOR_IN_CHIEF_NAME = 'Alex Cabal';
 
