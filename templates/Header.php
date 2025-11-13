@@ -130,7 +130,7 @@ if(!$isXslt){
 					<div class="confetti"></div>
 					<div class="confetti"></div>
 				</div>
-				<a href="/blog/public-domain-day-<?= PD_NOW->format('Y') ?>"><strong>Happy Public Domain Day <?= PD_NOW->format('Y') ?>!</strong> See what’s free to read on January 1.</a>
+				<a href="/blog/public-domain-day-<?= PD_NOW->format('Y') ?>"><strong>Happy Public Domain Day <?= PD_NOW->format('Y') ?>!</strong> See what new books are free to read this January 1.</a>
 				<form action="/settings" method="<?= Enums\HttpMethod::Post->value ?>">
 					<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 					<input type="hidden" name="hide-public-domain-day-banner" value="true" />

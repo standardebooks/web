@@ -3255,7 +3255,6 @@ hr + p{
 	padding: 1rem;
 	background: radial-gradient(circle, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, .2) 100%), #ff8579;
 	margin-bottom: 1.5rem;
-	color: #fff;
 	text-shadow: 1px 1px 0px rgba(0, 0, 0, .75);
 	position: relative;
 	overflow: hidden;
@@ -3266,6 +3265,11 @@ hr + p{
 .public-domain-day-banner a{
 	margin-left: -2.5rem;
 	font-size: larger;
+}
+
+.public-domain-day-banner a:any-link{
+	color: #333;
+	text-shadow: 1px 1px #ffc6c6;
 }
 
 .public-domain-day-banner button.close{
@@ -3291,8 +3295,8 @@ hr + p{
 }
 
 .public-domain-day-banner a:any-link:hover{
-	color: #4c6f98;
-	text-shadow: 1px 1px 0px rgba(255, 255, 255, .5);
+	color: #fff;
+	text-shadow: 1px 1px 0px #333;
 }
 
 body > header:has(.public-domain-day-banner){
