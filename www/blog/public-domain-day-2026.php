@@ -18,6 +18,7 @@ $identifiers = [
 	'https://standardebooks.org/ebooks/edna-ferber/cimarron',
 	'https://standardebooks.org/ebooks/agatha-christie/giants-bread',
 	'https://standardebooks.org/ebooks/carolyn-keene/the-secret-of-the-old-clock',
+	'https://standardebooks.org/ebooks/carolyn-keene/the-hidden-staircase',
 	'https://standardebooks.org/ebooks/dorothy-l-sayers/strong-poison'
 ];
 
@@ -93,6 +94,10 @@ foreach($ebooks as $ebook){
 
 		case 'https://standardebooks.org/ebooks/carolyn-keene/the-secret-of-the-old-clock':
 			$description = '<p><i>The Secret of the Old Clock</i> is the first <a href="/collections/nancy-drew-mystery-stories">Nancy Drew</a> novel—the bestseller that started a series spanning nearly a century. In it, Nancy is enlisted by the Turners, a family struggling to locate the missing will of a wealthy, recently-deceased relative. Though this book was published in 1930, it was rewritten in 1959 by Harriet Adams. This Standard Ebooks edition is the original 1930 text.</p>';
+			break;
+
+		case 'https://standardebooks.org/ebooks/carolyn-keene/the-hidden-staircase':
+			$description = '<p>In <i>The Hidden Staircase</i>, <a href="/collections/nancy-drew-mystery-stories">Nancy Drew</a> is called upon to solve another mystery. This time, two elderly sisters are experiencing hauntings in their mansion, and they need Nancy’s help to figure out what’s going on.</p><p>Like the other Nancy Drew novels of the era, this one was heavily revised in 1959. The Standard Ebooks edition follows the original 1930 text.';
 			break;
 
 		case 'https://standardebooks.org/ebooks/dorothy-l-sayers/strong-poison':
