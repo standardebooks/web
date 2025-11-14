@@ -77,15 +77,23 @@ class Patron{
 
 	private function SendWelcomeEmail(bool $isReturning): void{
 		if(isset($this->User)){
-			$em = new EmailMessage();
-			$em->To = $this->User->Email ?? '';
-			$em->ToName = $this->User->Name ?? '';
-			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
-			$em->FromName = EDITOR_IN_CHIEF_NAME;
-			$em->Subject = 'Thank you for supporting Standard Ebooks!';
-			$em->BodyHtml = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
-			$em->BodyText = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
-			$em->Send();
+			if($this->User->Email !== null){
+				$em = new EmailMessage();
+
+				if(isset($this->User->Name)){
+					$em->To = $this->User->Name . ' <' . $this->User->Email . '>';
+				}
+				else{
+					$em->To = $this->User->Email;
+				}
+
+				$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+				$em->FromName = EDITOR_IN_CHIEF_NAME;
+				$em->Subject = 'Thank you for supporting Standard Ebooks!';
+				$em->BodyHtml = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
+				$em->BodyText = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
+				$em->Send();
+			}
 
 			if(!$isReturning){
 				$em = new EmailMessage();
@@ -121,10 +129,16 @@ class Patron{
 		// Email the patron to notify them their term has ended.
 		if($this->LastPayment !== null && $this->User->Email !== null){
 			$em = new EmailMessage();
+
+			if(isset($this->User->Name)){
+				$em->To = $this->User->Name . ' <' . $this->User->Email . '>';
+			}
+			else{
+				$em->To = $this->User->Email;
+			}
+
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
-			$em->To = $this->User->Email;
-			$em->ToName = $this->User->Name ?? '';
 			$em->Subject = 'Will you continue to help us make free, beautiful digital literature?';
 
 			if($this->CycleType == Enums\CycleType::Monthly){

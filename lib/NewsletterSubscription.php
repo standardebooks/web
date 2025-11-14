@@ -94,7 +94,7 @@ class NewsletterSubscription{
 		$em = new QueuedEmailMessage(true);
 		$em->To = $this->User->Email ?? '';
 		if($this->User->Name !== null && $this->User->Name != ''){
-			$em->To = $this->User->Name . ' <' . $this->To . '>';
+			$em->To = $this->User->Name . ' <' . $this->User->Email . '>';
 		}
 		$em->Subject = 'Action required: confirm your newsletter subscription';
 		$em->BodyHtml = Template::EmailNewsletterConfirmation(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
