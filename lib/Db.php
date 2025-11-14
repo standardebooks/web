@@ -484,7 +484,7 @@ class Db{
 	 *
 	 * @param mixed $column The value of the column, most likely either a string or integer.
 	 * @param array<mixed> $metadata An array of metadata returned from the database driver.
-	 * @param string $class The type of object that this return value will be part of.
+	 * @param class-string $class The type of object that this return value will be part of.
 	 *
 	 * @return mixed The strongly-typed column value.
 	 */
