@@ -223,7 +223,7 @@ catch(Exception $ex){
 	$exceptionString = vds($ex);
 	$log->Write('Error: Uncaught exception: ' . $exceptionString);
 
-	$em = new EmailMessage(true);
+	$em = new QueuedEmailMessage(true);
 	$em->To = ADMIN_EMAIL_ADDRESS;
 	$em->Subject = 'Ingesting FA donations failed';
 	$em->BodyHtml = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));

@@ -279,7 +279,7 @@ try{
 								// Send a thank-you email.
 
 								$log->Write('Sending thank you email to patron donor donating extra.');
-								$em = new EmailMessage();
+								$em = new QueuedEmailMessage();
 								$em->To = $payment->User->Email ?? '';
 								$em->ToName = $payment->User->Name ?? '';
 								$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
@@ -296,7 +296,7 @@ try{
 						$patron = new Patron();
 						$patron->User = new User();
 
-						$em = new EmailMessage();
+						$em = new QueuedEmailMessage();
 						$em->To = ADMIN_EMAIL_ADDRESS;
 						$em->From = ADMIN_EMAIL_ADDRESS;
 						$em->Subject = 'New Patrons Circle member';
@@ -318,7 +318,7 @@ try{
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
 					if(!$payment->IsRecurring || $previousPaymentCount == 1){
 						$log->Write('Sending thank you email to non-patron donor.');
-						$em = new EmailMessage();
+						$em = new QueuedEmailMessage();
 						$em->To = $payment->User->Email ?? '';
 						$em->ToName = $payment->User->Name ?? '';
 						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
@@ -367,7 +367,7 @@ catch(Exception $ex){
 
 	// Only send an email if this script failed twice in a row.
 	if($sendEmail){
-		$em = new EmailMessage(true);
+		$em = new QueuedEmailMessage(true);
 		$em->To = ADMIN_EMAIL_ADDRESS;
 		$em->Subject = 'Donation processing failed';
 		$em->BodyHtml = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));

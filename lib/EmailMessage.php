@@ -1,6 +1,7 @@
 <?
 class EmailMessage{
 	public string $To;
+	public ?string $ToName = null;
 	public string $From;
 	public ?string $FromName = null;
 	public ?string $ReplyTo = null;
@@ -35,6 +36,11 @@ class EmailMessage{
 		$this->To = trim($this->To ?? '');
 		if($this->To == ''){
 			$error->Add(new Exceptions\FieldMissingException('Missing To address.'));
+		}
+
+		$this->ToName = trim($this->ToName ?? '');
+		if($this->ToName == ''){
+			$this->ToName = null;
 		}
 
 		$this->BodyHtml = trim($this->BodyHtml ?? '');

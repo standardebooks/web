@@ -394,7 +394,7 @@ final class Project{
 			// The manager is also the reviewer, just send one email.
 			if($this->ManagerUserId == $this->ReviewerUserId){
 				if($this->Manager->Email !== null && $this->Manager->Name != $this->ProducerName){
-					$em = new EmailMessage();
+					$em = new QueuedEmailMessage();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
 					$em->Subject = 'New ebook project to manage and review';
@@ -406,7 +406,7 @@ final class Project{
 			else{
 				// Notify the manager.
 				if($this->Manager->Email !== null){
-					$em = new EmailMessage();
+					$em = new QueuedEmailMessage();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
 					$em->Subject = 'New ebook project to manage';
@@ -417,7 +417,7 @@ final class Project{
 
 				// Notify the reviewer.
 				if($this->Reviewer->Email !== null){
-					$em = new EmailMessage();
+					$em = new QueuedEmailMessage();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Reviewer->Email;
 					$em->Subject = 'New ebook project to review';
@@ -739,7 +739,7 @@ final class Project{
 		$reminder->Type = $type;
 		$reminder->Create();
 
-		$em = new EmailMessage();
+		$em = new QueuedEmailMessage();
 		$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 		$em->FromName = EDITOR_IN_CHIEF_NAME;
 		$em->To = $this->ProducerEmail;

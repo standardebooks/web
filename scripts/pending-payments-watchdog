@@ -10,7 +10,7 @@ $pendingPayments = Db::Query('
 			');
 
 if(sizeof($pendingPayments) > 0){
-	$em = new EmailMessage();
+	$em = new QueuedEmailMessage();
 	$em->To = ADMIN_EMAIL_ADDRESS;
 	$em->From = ADMIN_EMAIL_ADDRESS;
 	$em->Subject = 'Unprocessed payment in database';

@@ -87,7 +87,13 @@ class AwsSesApi{
 				$startTime = microtime(true);
 				$promises = [];
 				foreach($chunk as $email){
-					$to = $email->To;
+					if($email->ToName !== null){
+						$to = $email->ToName . ' <' . $email->To . '>';
+					}
+					else{
+						$to = $email->To;
+					}
+
 					$html = $email->BodyHtml;
 					$text = $email->BodyText;
 					$from = $email->From;

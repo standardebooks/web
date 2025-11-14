@@ -78,15 +78,9 @@ class Patron{
 	private function SendWelcomeEmail(bool $isReturning): void{
 		if(isset($this->User)){
 			if($this->User->Email !== null){
-				$em = new EmailMessage();
-
-				if(isset($this->User->Name)){
-					$em->To = $this->User->Name . ' <' . $this->User->Email . '>';
-				}
-				else{
-					$em->To = $this->User->Email;
-				}
-
+				$em = new QueuedEmailMessage();
+				$em->To = $this->User->Email;
+				$em->ToName = $this->User->Name;
 				$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 				$em->FromName = EDITOR_IN_CHIEF_NAME;
 				$em->Subject = 'Thank you for supporting Standard Ebooks!';
@@ -96,7 +90,7 @@ class Patron{
 			}
 
 			if(!$isReturning){
-				$em = new EmailMessage();
+				$em = new QueuedEmailMessage();
 				$em->To = ADMIN_EMAIL_ADDRESS;
 				$em->From = ADMIN_EMAIL_ADDRESS;
 				$em->Subject = 'New Patrons Circle member';
@@ -128,15 +122,9 @@ class Patron{
 
 		// Email the patron to notify them their term has ended.
 		if($this->LastPayment !== null && $this->User->Email !== null){
-			$em = new EmailMessage();
-
-			if(isset($this->User->Name)){
-				$em->To = $this->User->Name . ' <' . $this->User->Email . '>';
-			}
-			else{
-				$em->To = $this->User->Email;
-			}
-
+			$em = new QueuedEmailMessage();
+			$em->To = $this->User->Email;
+			$em->ToName = $this->User->Name;
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
 			$em->Subject = 'Will you continue to help us make free, beautiful digital literature?';

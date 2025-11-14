@@ -9,13 +9,6 @@ if(($message->Message->eventType ?? '') != 'Open'){
 	exit();
 }
 
-if(isset($message->Message->mail->tags->IsReminderEmail[0])){
-	$isReminderEmail = (bool)$message->Message->mail->tags->IsReminderEmail[0];
-}
-else{
-	$isReminderEmail = false;
-}
-
 if(isset($message->Message->mail->tags->NewsletterMailingId[0])){
 	$newsletterMailingId = (int)$message->Message->mail->tags->NewsletterMailingId[0];
 }
