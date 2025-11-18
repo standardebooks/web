@@ -27,7 +27,6 @@ class User{
 	public DateTimeImmutable $Updated;
 	public string $Uuid;
 	public ?string $PasswordHash = null;
-
 	protected bool $_IsRegistered;
 	/** @var array<Payment> $_Payments */
 	protected array $_Payments;
@@ -246,14 +245,14 @@ class User{
 	public function Create(?string $password = null, bool $requireEmail = true): void{
 		$this->GenerateUuid();
 
-		$this->Validate($requireEmail);
-
-		$this->Created = NOW;
-
 		$this->PasswordHash = null;
 		if($password !== null){
 			$this->PasswordHash = password_hash($password, PASSWORD_DEFAULT);
 		}
+
+		$this->Validate($requireEmail);
+
+		$this->Created = NOW;
 
 		try{
 			$this->UserId = Db::QueryInt('
@@ -269,6 +268,9 @@ class User{
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\UserExistsException();
 		}
+
+		$this->Benefits->UserId = $this->UserId;
+		$this->Benefits->Create();
 	}
 
 	/**

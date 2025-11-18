@@ -1,10 +1,10 @@
 <?
 /**
  * @var User $user
- * @var Enums\PasswordActionType $passwordAction;
- * @var bool $generateNewUuid
  */
 
+$generateNewUuid ??= false;
+$passwordAction ??= Enums\PasswordActionType::Edit;
 $isEditForm ??= false;
 ?>
 
@@ -26,21 +26,23 @@ $isEditForm ??= false;
 		value="<?= Formatter::EscapeHtml($user->Name) ?>"
 	/>
 </label>
-<fieldset>
-	<label>
-		UUID
-		<input
-			type="text"
-			name="user-uuid"
-			value="<?= Formatter::EscapeHtml($user->Uuid) ?>"
-		/>
-	</label>
-	<label>
-		<input type="hidden" name="generate-new-uuid" value="false" />
-		<input type="checkbox" name="generate-new-uuid" value="true"<? if($generateNewUuid){ ?> checked="checked"<? } ?> />
-		Generate a new UUID
-	</label>
-</fieldset>
+<? if($isEditForm){ ?>
+	<fieldset>
+		<label>
+			UUID
+			<input
+				type="text"
+				name="user-uuid"
+				value="<?= Formatter::EscapeHtml($user->Uuid) ?>"
+			/>
+		</label>
+		<label>
+			<input type="hidden" name="generate-new-uuid" value="false" />
+			<input type="checkbox" name="generate-new-uuid" value="true"<? if($generateNewUuid){ ?> checked="checked"<? } ?> />
+			Generate a new UUID
+		</label>
+	</fieldset>
+<? } ?>
 <fieldset>
 	<ul>
 		<? if($user->PasswordHash === null){ ?>
@@ -164,6 +166,13 @@ $isEditForm ??= false;
 				<input type="hidden" name="benefits-can-review-projects" value="false" />
 				<input type="checkbox" name="benefits-can-review-projects" value="true"<? if($user->Benefits->CanReviewProjects){ ?> checked="checked"<? } ?> />
 				Can review projects
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="hidden" name="benefits-can-create-users" value="false" />
+				<input type="checkbox" name="benefits-can-create-users" value="true"<? if($user->Benefits->CanCreateUsers){ ?> checked="checked"<? } ?> />
+				Can create users
 			</label>
 		</li>
 	</ul>

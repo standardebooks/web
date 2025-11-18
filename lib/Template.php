@@ -56,7 +56,7 @@ use Safe\DateTimeImmutable;
  * @method static string RssEntry(Ebook $entry)
  * @method static string RssFeed(string $title, string $description, DateTimeImmutable $updated, string $url, array<Ebook> $entries)
  * @method static string SearchForm(string $query, array<string> $tags, Enums\EbookSortType $sort, Enums\ViewType $view, int $perPage)
- * @method static string UserForm(User $user, Enums\PasswordActionType $passwordAction, bool $generateNewUuid, bool $isEditForm = false)
+ * @method static string UserForm(User $user, Enums\PasswordActionType $passwordAction, bool $generateNewUuid = false, bool $isEditForm = false)
  * @method static string WantedEbooksList(array<Ebook> $ebooks, bool $showPlaceholderMetadata)
  */
 class Template extends TemplateBase{

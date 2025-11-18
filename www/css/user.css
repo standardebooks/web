@@ -17,6 +17,10 @@ legend{
 	width: 100%;
 }
 
+form div.footer{
+	text-align: right;
+}
+
 .payments{
 	margin-top: 1rem;
 }

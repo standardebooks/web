@@ -4,6 +4,7 @@ use function Safe\session_unset;
 
 session_start();
 
+$isCreated = HttpInput::Bool(SESSION, 'is-user-created') ?? false;
 $isSaved = HttpInput::Bool(SESSION, 'is-user-saved') ?? false;
 
 try{
@@ -17,8 +18,8 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	// We got here because a `User` was successfully saved.
-	if($isSaved){
+	// We got here because a `User` was successfully created or saved.
+	if($isCreated || $isSaved){
 		session_unset();
 	}
 }
@@ -42,6 +43,10 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<? if($isSaved){ ?>
 			<p class="message success">User saved!</p>
+		<? } ?>
+
+		<? if($isCreated){ ?>
+			<p class="message success">User created!</p>
 		<? } ?>
 
 		<p>
