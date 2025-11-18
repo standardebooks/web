@@ -24,6 +24,7 @@ use function Safe\get_cfg_var;
 use function Safe\preg_replace;
 use function Safe\putenv;
 use function Safe\set_time_limit;
+use function Safe\unlink;
 
 require_once('/standardebooks.org/web/lib/Core.php');
 
@@ -49,6 +50,7 @@ $transactionFilePath = '/tmp/last-fa-donation';
 $transactionIds = [];
 $today = NOW->format('n/j/Y');
 $faItemsPerPage = 20; // How many items are on a full page of FA results?
+$errorLockFilename = sys_get_temp_dir() . '/ingest-fa-payments';
 
 // General plan: Read `/tmp/last-fa-donation` to see what the last transaction ID was that we processed.
 // If `/tmp/last-fa-donation` doesn't exist, get all transactions from today and create the file.
@@ -217,18 +219,44 @@ try{
 		}
 	}
 
+	try{
+		// Remove any error lock files we may have created earlier.
+		if(file_exists($errorLockFilename)){
+			unlink($errorLockFilename);
+		}
+	}
+	catch(Exception){
+		// Pass.
+	}
+
 	$log->Write('Done.');
 }
 catch(Exception $ex){
 	$exceptionString = vds($ex);
 	$log->Write('Error: Uncaught exception: ' . $exceptionString);
 
-	$em = new Email(true);
-	$em->To = ADMIN_EMAIL_ADDRESS;
-	$em->Subject = 'Ingesting FA donations failed';
-	$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
-	$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
-	$em->Send();
+	$sendEmail = true;
+
+	if($ex instanceof Facebook\WebDriver\Exception\NoSuchElementException){
+		// This error occurs from time to time, but resolves itself on the next try.
+		// Set a lock file if this is the first time this happened. If the lock file already exists (i.e., this is the second time in a row this error occurred), then really do send the email.
+		if(!file_exists($errorLockFilename)){
+			$sendEmail = false;
+			file_put_contents($errorLockFilename, NOW->format('Y-m-d H:i:s'));
+		}
+	}
+
+	// Only send an email if this script failed twice in a row.
+	if($sendEmail){
+		$em = new Email(true);
+		$em->To = ADMIN_EMAIL_ADDRESS;
+		$em->Subject = 'Ingesting FA donations failed';
+		$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->Send();
+	}
+
+	throw $ex;
 }
 finally{
 	// `$driver` may be unintialized if we `ctrl + c` during Selenium initialization.
