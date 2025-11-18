@@ -39,15 +39,13 @@ if(
 ){
 	// Unsubscribe the email from all newsletters and stop further email.
 	foreach($message->Message->bounce->bouncedRecipients as $bouncedRecipient){
-		$email = $bouncedRecipient->emailAddress;
+		$email = null;
+		$result = mailparse_rfc822_parse_addresses($bouncedRecipient->emailAddress);
+		foreach($result as $address){
+			$email = $address['address'] ?? null;
+		}
 
-		try{
-			$newsletterContact = NewsletterContact::GetByEmail($email);
-			$newsletterContact->Delete(); // Also deletes all related `NewsletterSubscriptions`.
-		}
-		catch(Exceptions\NewsletterContactNotFoundException){
-			// Couldn't find the email, pass.
-		}
+		NewsletterSubscription::DeleteAllByEmail($email);
 
 		// Can we find the user?
 		try{
@@ -68,6 +66,6 @@ if(
 			$emailBounce->Type = Enums\EmailBounceType::Hard;
 		}
 
-		$emailBounce->Create(); // Also stops all email to the `User`.
+		$emailBounce->Create();
 	}
 }

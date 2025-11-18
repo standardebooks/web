@@ -19,18 +19,12 @@ foreach($message->Message->complaint->complainedRecipients as $complainedRecipie
 		$email = $address['address'] ?? null;
 	}
 
-	// Don't act on spam complaints from `@scribophile.com` domains/subdomains.
+	// Don't act on spam complaints from `@standardebooks.org` domains/subdomains.
 	if($email === null || preg_match('/@([a-z]+\.)?' . preg_quote(SITE_DOMAIN, '/') . '$/ius', $email)){
 		continue;
 	}
 
-	try{
-		$newsletterContact = NewsletterContact::GetByEmail($email);
-		$newsletterContact->Delete(); // Also deletes all related `NewsletterSubscriptions`.
-	}
-	catch(Exceptions\NewsletterContactNotFoundException){
-		// Couldn't find the email, pass.
-	}
+	NewsletterSubscription::DeleteAllByEmail($email);
 
 	// Can we find the user?
 	try{

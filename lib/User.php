@@ -48,13 +48,14 @@ class User{
 	protected function GetSortName(): ?string{
 		if(!isset($this->_SortName)){
 			if($this->Name !== null){
+				$lastNameMatches = [];
 				preg_match('/\s(?:de |de la |di |van |von )?[^\s]+$/iu', $this->Name, $lastNameMatches);
 				if(sizeof($lastNameMatches) == 0){
 					$this->_SortName = $this->Name;
 				}
 				else{
 					$lastName = trim($lastNameMatches[0]);
-
+					$firstNameMatches = [];
 					preg_match('/^(.+)' . preg_quote($lastName, '/') . '$/u', $this->Name, $firstNameMatches);
 
 					if(sizeof($firstNameMatches) == 0){

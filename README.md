@@ -6,7 +6,7 @@ PHP 8+ is required.
 
 ```shell
 # Install Apache, PHP, PHP-FPM, and various other dependencies.
-sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip php-mysql apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server attr libapache2-mod-xsendfile libimage-exiftool-perl librsvg2-bin task-spooler attr
+sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip php-mysql apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server attr libapache2-mod-xsendfile libimage-exiftool-perl librsvg2-bin task-spooler attr php-mailparse
 
 # Create the site root and logs root and clone this repo into it.
 sudo mkdir /standardebooks.org/

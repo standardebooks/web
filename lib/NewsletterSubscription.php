@@ -127,7 +127,6 @@ class NewsletterSubscription{
 		', [$email]);
 	}
 
-
 	/**
 	 * @throws Exceptions\InvalidNewsletterSubscription
 	 */

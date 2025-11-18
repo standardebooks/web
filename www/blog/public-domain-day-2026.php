@@ -10,15 +10,15 @@ $identifiers = [
 	'https://standardebooks.org/ebooks/william-faulkner/as-i-lay-dying',
 	'https://standardebooks.org/ebooks/margaret-ayer-barnes/years-of-grace',
 	'https://standardebooks.org/ebooks/e-h-young/miss-mole',
+	'https://standardebooks.org/ebooks/dorothy-l-sayers/strong-poison',
 	'https://standardebooks.org/ebooks/stella-benson/the-faraway-bride',
 	'https://standardebooks.org/ebooks/geoffrey-dennis/the-end-of-the-world',
 	'https://standardebooks.org/ebooks/arthur-ransome/swallows-and-amazons',
 	'https://standardebooks.org/ebooks/t-s-eliot/poetry',
-	'https://standardebooks.org/ebooks/daphne-du-maurier/short-fiction',
 	'https://standardebooks.org/ebooks/edna-ferber/cimarron',
 	'https://standardebooks.org/ebooks/agatha-christie/giants-bread',
 	'https://standardebooks.org/ebooks/carolyn-keene/the-secret-of-the-old-clock',
-	'https://standardebooks.org/ebooks/dorothy-l-sayers/strong-poison'
+	'https://standardebooks.org/ebooks/daphne-du-maurier/short-fiction',
 ];
 
 // Get all `Ebook`s that are not placeholders. We may have some PD Day books in our placeholders list but we don't want to show them here!
