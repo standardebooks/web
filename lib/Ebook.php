@@ -30,6 +30,7 @@ use function Safe\shell_exec;
  * @property string $HeroImageAvifUrl
  * @property string $HeroImage2xUrl
  * @property ?string $HeroImage2xAvifUrl
+ * @property string $CoverImagePath The filesystem path of the cover image, which is not the same as its URL.
  * @property string $CoverImageUrl
  * @property ?string $CoverImageAvifUrl
  * @property string $CoverImage2xUrl
@@ -119,6 +120,7 @@ final class Ebook{
 	protected string $_HeroImageAvifUrl;
 	protected string $_HeroImage2xUrl;
 	protected ?string $_HeroImage2xAvifUrl;
+	protected string $_CoverImagePath;
 	protected string $_CoverImageUrl;
 	protected ?string $_CoverImageAvifUrl;
 	protected string $_CoverImage2xUrl;
@@ -452,6 +454,10 @@ final class Ebook{
 		}
 
 		return $this->_HeroImage2xAvifUrl;
+	}
+
+	protected function GetCoverImagePath(): string{
+		return $this->_CoverImagePath ??= WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.jpg';
 	}
 
 	protected function GetCoverImageUrl(): string{

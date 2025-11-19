@@ -26,6 +26,8 @@
 
 .byline{
 	font-style: italic;
+	font-size: 1.1rem;
+	margin-top: 0;
 }
 
 .byline a{
@@ -34,6 +36,14 @@
 
 .public-domain-day figure{
 	margin-top: -1rem;
+}
+
+.collections{
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+	padding: 1rem 0;
+	margin: 1rem 0;
+	font-style: italic;
 }
 
 .empty{

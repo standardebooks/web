@@ -24,8 +24,7 @@ $identifiers = [
 	'https://standardebooks.org/ebooks/josephine-tey/the-man-in-the-queue',
 ];
 
-// Get all `Ebook`s that are not placeholders. We may have some PD Day books in our placeholders list but we don't want to show them here!
-$ebooks = Db::Query('SELECT e.* from Ebooks e left outer join EbookPlaceholders ep using (EbookId) where Identifier in ' . Db::CreateSetSql($identifiers) . ' and ep.EbookId is null', $identifiers, Ebook::class);
+$ebooks = Db::Query('SELECT e.* from Ebooks e left outer join EbookPlaceholders ep using (EbookId) where Identifier in ' . Db::CreateSetSql($identifiers), $identifiers, Ebook::class);
 
 $ebooksWithDescriptions = [];
 
@@ -141,9 +140,15 @@ ksort($ebooksWithDescriptions);
 								<a href="<?= $ebookGroup['ebook']->Url ?>"><?= Formatter::EscapeHtml($ebookGroup['ebook']->Title) ?></a>
 							</h2>
 							<p class="byline">by <a href="<?= $ebookGroup['ebook']->AuthorsUrl ?>"><?= Formatter::EscapeHtml($ebookGroup['ebook']->Authors[0]->Name) ?></a></p>
-							<p>
-								<?= $ebookGroup['description'] ?>
-							</p>
+							<? if(sizeof($ebookGroup['ebook']->CollectionMemberships) > 0){ ?>
+								<div class="collections">
+									<? foreach($ebookGroup['ebook']->CollectionMemberships as $collectionMembership){ ?>
+										<p>
+											<?= Template::CollectionDescriptor(collectionMembership: $collectionMembership) ?>.
+										</p>
+									<? } ?>
+								</div>
+							<? } ?>								<?= $ebookGroup['description'] ?>
 							<p>
 								<a href="<?= $ebookGroup['ebook']->Url ?>">Download and read for free →</a>
 							</p>

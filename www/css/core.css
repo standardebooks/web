@@ -3137,6 +3137,13 @@ figure.realistic-ebook::before{ /* shadow */
 	transition: transform .5s;
 }
 
+figure.realistic-ebook img.no-cover{
+	object-fit: contain;
+	padding: 2rem;
+	width: calc(242px - 4rem);
+	height: calc(363px - 4rem);
+}
+
 article.ebook section#read-online ul li p.has-size{
 	display: flex;
 }
