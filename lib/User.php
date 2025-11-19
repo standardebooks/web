@@ -27,6 +27,7 @@ class User{
 	public DateTimeImmutable $Updated;
 	public string $Uuid;
 	public ?string $PasswordHash = null;
+	public bool $CanReceiveEmail;
 
 	protected bool $_IsRegistered;
 	/** @var array<Payment> $_Payments */
