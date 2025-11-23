@@ -803,7 +803,7 @@ final class Ebook{
 
 		$ebook->FullTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title[@id="fulltitle"]'));
 
-		$ebook->AlternateTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="dcterms:alternate"][@refines="#title"]'));
+		$ebook->AlternateTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="dcterms:alternative"][@refines="#title"]'));
 
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if(sizeof($date) > 0){
