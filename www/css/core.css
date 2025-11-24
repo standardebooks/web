@@ -845,6 +845,9 @@ h2 + .data-table tr.year-header:first-child th{
 
 .projects-table{
 	margin-top: 2rem;
+	display: block;
+	overflow-x: auto;
+	max-width: 100%;
 }
 
 .projects-table th{
