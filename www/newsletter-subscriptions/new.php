@@ -4,15 +4,12 @@ use function Safe\session_unset;
 
 session_start();
 
-/** @var array<NewsletterSubscription> $newsletterSubscriptions */
-$newsletterSubscriptions = HttpInput::Array(SESSION, 'newsletterSubscriptions') ?? [];
-
 $exception = HttpInput::SessionObject('exception', \Exception::class);
 
-$newsletterIds = [];
-foreach($newsletterSubscriptions as $newsletterSubscription){
-	$newsletterIds[] = $newsletterSubscription->NewsletterId;
-}
+/** @var array<int> $newsletterIds */
+$newsletterIds = HttpInput::Array(SESSION, 'newsletter-ids') ?? [];
+
+$email = HttpInput::Str(SESSION, 'email') ?? '';
 
 if($exception){
 	http_response_code(Enums\HttpCode::UnprocessableContent->value);
@@ -37,12 +34,12 @@ if($exception){
 
 		<?= Template::Error(exception: $exception) ?>
 
-		<form action="/newsletter/subscriptions" method="<?= Enums\HttpMethod::Post->value ?>">
+		<form action="/newsletter-subscriptions" method="<?= Enums\HttpMethod::Post->value ?>">
 			<label class="automation-test"><? /* Test for spam bots filling out all fields */ ?>
 				<input type="text" name="automation-test" value="" maxlength="80" />
 			</label>
 			<label>Your email address
-				<input type="email" name="email" value="<?= Formatter::EscapeHtml($subscription->User->Email ?? '') ?>" maxlength="80" required="required" />
+				<input type="email" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
 			</label>
 			<label class="icon captcha">
 				Type the letters in the <abbr class="acronym">CAPTCHA</abbr> image

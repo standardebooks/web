@@ -2575,7 +2575,7 @@ p + form{
 }
 
 form[action*="/polls/"],
-form[action="/newsletter/subscriptions"]{
+form[action="/newsletter-subscriptions"]{
 	display: grid;
 	grid-gap: 2rem;
 	grid-template-columns: 1fr 1fr;
@@ -2583,18 +2583,18 @@ form[action="/newsletter/subscriptions"]{
 }
 
 form[action*="/polls/"] label:has(input[type="email"]),
-form[action="/newsletter/subscriptions"] label:has(input[type="email"]),
-form[action="/newsletter/subscriptions"] label.captcha{
+form[action="/newsletter-subscriptions"] label:has(input[type="email"]),
+form[action="/newsletter-subscriptions"] label.captcha{
 	grid-column: 1 / span 2;
 }
 
-form[action="/newsletter/subscriptions"] label.captcha div{
+form[action="/newsletter-subscriptions"] label.captcha div{
 	display: grid;
 	grid-gap: 1rem;
 	grid-template-columns: 1fr 1fr;
 }
 
-form[action="/newsletter/subscriptions"] label.captcha div input{
+form[action="/newsletter-subscriptions"] label.captcha div input{
 	align-self: center;
 }
 
@@ -2603,14 +2603,14 @@ form fieldset ul{
 }
 
 form[action*="/polls/"] button,
-form[action="/newsletter/subscriptions"] button{
+form[action="/newsletter-subscriptions"] button{
 	grid-column: 2;
 	justify-self: end;
 	margin-left: 0;
 }
 
 form[action*="/polls/"] fieldset,
-form[action="/newsletter/subscriptions"] fieldset{
+form[action="/newsletter-subscriptions"] fieldset{
 	grid-column: 1 / span 2;
 }
 
@@ -3948,9 +3948,9 @@ section.admin h2:first-child{
 		margin-top: 0;
 	}
 
-	form[action="/newsletter/subscriptions"] label.text,
-	form[action="/newsletter/subscriptions"] label.captcha,
-	form[action="/newsletter/subscriptions"] fieldset{
+	form[action="/newsletter-subscriptions"] label.text,
+	form[action="/newsletter-subscriptions"] label.captcha,
+	form[action="/newsletter-subscriptions"] fieldset{
 		grid-column: 1 / span 2;
 	}
 

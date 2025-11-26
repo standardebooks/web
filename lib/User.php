@@ -239,13 +239,14 @@ class User{
 		$this->Uuid = $uuid->toString();
 	}
 
-
 	/**
 	 * @throws Exceptions\InvalidUserException
 	 * @throws Exceptions\UserExistsException
 	 */
 	public function Create(?string $password = null, bool $requireEmail = true): void{
-		$this->GenerateUuid();
+		if(!isset($this->Uuid)){
+			$this->GenerateUuid();
+		}
 
 		$this->Validate($requireEmail);
 
@@ -301,6 +302,26 @@ class User{
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\UserExistsException();
 		}
+	}
+
+	public function SendNewsletterSubscriptionConfirmationEmail(): void{
+		if($this->Email !== null){
+			$em = new QueuedEmailMessage(true);
+			$em->To = $this->Email;
+			$em->ToName = $this->Name;
+			$em->Subject = 'Action required: confirm your newsletter subscription';
+			$em->BodyHtml = Template::EmailNewsletterConfirmation(user: $this);
+			$em->BodyText = Template::EmailNewsletterConfirmationText(user: $this);
+			$em->Send();
+		}
+	}
+
+	public function ConfirmNewsletterSubscriptions(): void{
+		Db::Query('
+			UPDATE NewsletterSubscriptions
+			set IsConfirmed = true
+			where UserId = ?
+		', [$this->UserId]);
 	}
 
 
