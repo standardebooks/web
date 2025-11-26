@@ -8,7 +8,7 @@ $exception = HttpInput::SessionObject('exception', \Exception::class);
 
 /** @var array<int> $newsletterIds */
 $newsletterIds = HttpInput::Array(SESSION, 'newsletter-ids') ?? [];
-
+$newsletters = Newsletter::GetAllByIsVisible();
 $email = HttpInput::Str(SESSION, 'email') ?? '';
 
 if($exception){
@@ -51,16 +51,13 @@ if($exception){
 			<fieldset>
 				<p>What kind of email would you like to receive?</p>
 				<ul>
-					<li>
-						<label>
-							<input type="checkbox" value="<?= NEWSLETTERS_GENERAL_NEWSLETTER_ID ?>" name="newsletter-ids[]"<? if(in_array(NEWSLETTERS_GENERAL_NEWSLETTER_ID, $newsletterIds)){ ?> checked="checked"<? } ?> />The monthly Standard Ebooks newsletter
-						</label>
-					</li>
-					<li>
-						<label>
-							<input type="checkbox" value="<?= NEWSLETTERS_SUMMARY_NEWSLETTER_ID ?>" name="newsletter-ids[]"<? if(in_array(NEWSLETTERS_SUMMARY_NEWSLETTER_ID, $newsletterIds)){ ?> checked="checked"<? } ?> />A monthly summary of new ebook releases
-						</label>
-					</li>
+					<? foreach($newsletters as $newsletter){ ?>
+						<li>
+							<label>
+								<input type="checkbox" value="<?= $newsletter->NewsletterId ?>" name="newsletter-ids[]"<? if(in_array($newsletter->NewsletterId, $newsletterIds)){ ?> checked="checked"<? } ?> /><?= Formatter::EscapeHtml($newsletter->Name) ?>
+							</label>
+						</li>
+					<? } ?>
 				</ul>
 			</fieldset>
 			<button>Subscribe</button>

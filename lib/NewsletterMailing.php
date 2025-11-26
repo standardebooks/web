@@ -88,8 +88,8 @@ class NewsletterMailing{
 				$em->Subject = $this->Subject;
 				$em->Priority = Enums\Priority::Low;
 				$em->UnsubscribeUrl = SITE_URL . $this->Newsletter->Url . '/subscriptions/' . $recipient->EmailKey . '/delete';
-				$em->BodyHtml = str_replace('SCRIBOPHILE_UNSUBSCRIBE_URL', rawurlencode($em->UnsubscribeUrl), $this->BodyHtml);
-				$em->BodyText = str_replace('SCRIBOPHILE_UNSUBSCRIBE_URL', $em->UnsubscribeUrl, $this->BodyText);
+				$em->BodyHtml = str_replace('SE_UNSUBSCRIBE_URL', rawurlencode($em->UnsubscribeUrl), $this->BodyHtml);
+				$em->BodyText = str_replace('SE_UNSUBSCRIBE_URL', $em->UnsubscribeUrl, $this->BodyText);
 				$em->Metadata['NewsletterMailingId'] = (string)$this->NewsletterMailingId;
 				$emailMessages[] = $em;
 			}
@@ -206,20 +206,20 @@ class NewsletterMailing{
 		// If we received only HTML or only text, convert to one from the other.
 		if($this->BodyHtml != '' && $this->BodyText == ''){
 			if(mb_stripos($this->BodyHtml, '<body') === false){
-				$this->BodyHtml = Template::NewsletterMailingHtml(['bodyHtml' => $this->BodyHtml, 'subject' => $this->Subject]);
+				$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
 			}
 
 			$this->BodyText = Formatter::HtmlToMarkdown($this->BodyHtml);
 		}
 
 		if($this->BodyText != '' && $this->BodyHtml == ''){
-			$this->BodyHtml = Template::NewsletterMailingHtml(['bodyHtml' => Formatter::MarkdownToHtml($this->BodyText), 'subject' => $this->Subject]);
+			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: Formatter::MarkdownToHtml($this->BodyText), subject: $this->Subject);
 		}
 
 		if($addFooter){
-			$footerHtml = Template::EmailMarketingFooterElement(['newsletter' => $this->Newsletter]);
+			$footerHtml = Template::EmailMarketingFooterElement(newsletter: $this->Newsletter);
 
-			$footerText = "\n" . Template::EmailMarketingFooterText(['newsletter' => $this->Newsletter]);
+			$footerText = "\n" . Template::EmailMarketingFooterText(newsletter: $this->Newsletter);
 
 			if(mb_stripos($this->BodyHtml, 'Unsubscribe from this newsletter.') === false){
 				$this->BodyHtml = str_ireplace('</body>', $footerHtml . '</body>', $this->BodyHtml);
@@ -291,8 +291,8 @@ class NewsletterMailing{
 			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML contains .test TLD.'));
 		}
 
-		if(mb_stripos($this->BodyHtml, 'SCRIBOPHILE_UNSUBSCRIBE_URL') === false){
-			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML missing unsubscribe URL variable: SCRIBOPHILE_UNSUBSCRIBE_URL.'));
+		if(mb_stripos($this->BodyHtml, 'SE_UNSUBSCRIBE_URL') === false){
+			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML missing unsubscribe URL variable: SE_UNSUBSCRIBE_URL.'));
 		}
 
 		if($error->HasExceptions){

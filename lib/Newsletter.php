@@ -9,6 +9,8 @@ class Newsletter{
 	public string $Name;
 	public string $UrlName;
 	public ?string $Description;
+	public bool $IsVisible;
+	public int $SortOrder;
 
 	protected string $_Url;
 
@@ -39,6 +41,13 @@ class Newsletter{
 		}
 
 		return Db::Query('select * from Newsletters where NewsletterId = ?', [$newsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+	}
+
+	/**
+	 * @return array<Newsletter>
+	 */
+	public static function GetAllByIsVisible(): array{
+		return Db::Query('SELECT * from Newsletters where IsVisible = true order by SortOrder asc', [], Newsletter::class);
 	}
 
 	protected function GetUrl(): string{
