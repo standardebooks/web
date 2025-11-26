@@ -27,6 +27,7 @@
 		"guzzlehttp/guzzle": "^7.9",
 		"pear/http2": "^2.0.0",
 		"php-webdriver/webdriver": "^1.15.1",
+		"phpgt/cssxpath": "^1.2",
 		"pixel418/markdownify": "^2.3",
 		"ramsey/uuid": "^4.7.6",
 		"thecodingmachine/safe": "^3.0.2"
