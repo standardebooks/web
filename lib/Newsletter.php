@@ -18,7 +18,7 @@ class Newsletter{
 	 * @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found.
 	 */
 	public static function GetByNewsletterMailingId(int $newsletterMailingId): Newsletter{
-		return Db::Query('select n.* from Newsletters n inner join NewsletterMailings using (NewsletterId) where NewsletterMailingId = ?', [$newsletterMailingId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		return Db::Query('SELECT n.* from Newsletters n inner join NewsletterMailings using (NewsletterId) where NewsletterMailingId = ?', [$newsletterMailingId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Newsletter{
 			throw new Exceptions\NewsletterNotFoundException();
 		}
 
-		return Db::Query('select * from Newsletters where UrlName = ?', [$urlName], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		return Db::Query('SELECT * from Newsletters where UrlName = ?', [$urlName], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Newsletter{
 			throw new Exceptions\NewsletterNotFoundException();
 		}
 
-		return Db::Query('select * from Newsletters where NewsletterId = ?', [$newsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		return Db::Query('SELECT * from Newsletters where NewsletterId = ?', [$newsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
 	}
 
 	/**

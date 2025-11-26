@@ -23,6 +23,7 @@ class EmailBounce{
 
 		if($this->UserId !== null){
 			Db::Query('UPDATE Users set CanReceiveEmail = false where UserId = ?', [$this->UserId]);
+			Db::Query('DELETE from NewsletterSubscriptions where UserId = ?', [$this->UserId]);
 		}
 
 		// Delete any queued email for this address.

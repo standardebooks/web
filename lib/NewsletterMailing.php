@@ -42,7 +42,7 @@ class NewsletterMailing{
 	 * @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found.
 	 */
 	protected function GetNewsletter(): Newsletter{
-		return Db::Query('select * from Newsletters where NewsletterId = ?', [$this->NewsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		return Db::Query('SELECT * from Newsletters where NewsletterId = ?', [$this->NewsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
 	}
 
 	/**
@@ -53,7 +53,7 @@ class NewsletterMailing{
 			throw new Exceptions\NewsletterMailingNotFoundException();
 		}
 
-		return Db::Query('select * from NewsletterMailings where NewsletterMailingId = ?', [$newsletterMailingId], NewsletterMailing::class)[0] ?? throw new Exceptions\NewsletterMailingNotFoundException();
+		return Db::Query('SELECT * from NewsletterMailings where NewsletterMailingId = ?', [$newsletterMailingId], NewsletterMailing::class)[0] ?? throw new Exceptions\NewsletterMailingNotFoundException();
 	}
 
 	protected function GetUrl(): string{
@@ -96,10 +96,10 @@ class NewsletterMailing{
 
 			QueuedEmailMessage::CreateBatch($emailMessages);
 
-			Db::Query('update NewsletterMailings set RecipientCount = ?, Status = ?, OpenCount = ifnull(OpenCount, 0) where NewsletterMailingId = ?', [$this->RecipientCount, Enums\QueueStatus::Completed, $this->NewsletterMailingId]);
+			Db::Query('UPDATE NewsletterMailings set RecipientCount = ?, Status = ?, OpenCount = ifnull(OpenCount, 0) where NewsletterMailingId = ?', [$this->RecipientCount, Enums\QueueStatus::Completed, $this->NewsletterMailingId]);
 		}
 		catch(\Exception $ex){
-			Db::Query('update NewsletterMailings set Status = ? where NewsletterMailingId = ?', [Enums\QueueStatus::Failed, $this->NewsletterMailingId]);
+			Db::Query('UPDATE NewsletterMailings set Status = ? where NewsletterMailingId = ?', [Enums\QueueStatus::Failed, $this->NewsletterMailingId]);
 
 			throw $ex;
 		}
@@ -113,7 +113,7 @@ class NewsletterMailing{
 		$this->_Recipients = [];
 
 		// If no recipients are specified, get them from the database.
-		$result = Db::Query('select Email, EmailKey from NewsletterSubscriptions ns inner join NewsletterContacts nc using (NewsletterContactId) where ns.NewsletterId = ? and ns.IsConfirmed = true', [$this->NewsletterId]);
+		$result = Db::Query('SELECT Email, EmailKey from NewsletterSubscriptions ns inner join NewsletterContacts nc using (NewsletterContactId) where ns.NewsletterId = ? and ns.IsConfirmed = true', [$this->NewsletterId]);
 
 		foreach($result as $row){
 			$contacts[] = $row;
@@ -173,7 +173,7 @@ class NewsletterMailing{
 	public function Save(): void{
 		$this->Validate(false);
 
-		Db::Query('update NewsletterMailings set NewsletterId = ?, Subject = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
+		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, Subject = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
 	}
 
 	/**
@@ -189,7 +189,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		$this->NewsletterMailingId = Db::QueryInt('insert into NewsletterMailings (NewsletterId, Subject, BodyHtml, BodyText, Status, FromName, FromEmail, SendOn, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName]);
+		$this->NewsletterMailingId = Db::QueryInt('INSERT into NewsletterMailings (NewsletterId, Subject, BodyHtml, BodyText, Status, FromName, FromEmail, SendOn, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName]);
 	}
 
 	/**

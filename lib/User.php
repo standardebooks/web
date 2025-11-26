@@ -305,7 +305,7 @@ class User{
 	}
 
 	public function SendNewsletterSubscriptionConfirmationEmail(): void{
-		if($this->Email !== null){
+		if($this->Email !== null && $this->CanReceiveEmail){
 			$em = new QueuedEmailMessage(true);
 			$em->To = $this->Email;
 			$em->ToName = $this->Name;
