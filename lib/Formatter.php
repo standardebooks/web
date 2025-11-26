@@ -120,6 +120,44 @@ class Formatter{
 	}
 
 	/**
+	 * Convert a string of HTML to the equivalent Markdown.
+	 */
+	public static function HtmlToMarkdown(string $html): string{
+		$converter = new Markdownify\Converter(Markdownify\Converter::LINK_IN_PARAGRAPH, 0, false); // Have to use 0 instead of bool to satisfy type check.
+
+		// Some newsletter specific conversions first.
+		// Replace footer `<div>` with `<hr>`.
+		$html = preg_replace('|<div class="footer">(.+?)</div>|ius', '<hr/>\1', $html);
+
+		// Replace `<strong>` with `@class` with just `<strong>`.
+		$html = preg_replace('|<strong class="[^"]+">|ius', '<strong>', $html);
+
+		// Replace all `<divs>` with `<p>`.
+		$html = preg_replace('|<div[^>]*?>(.+?)</div>|ius', '<p>\1</p>', $html);
+
+		// Replace `<img>` with its `@alt` text.
+		$html = preg_replace('|<img[^>]*?alt="([^"]+?)"[^>]*?>|ius', '\1', $html);
+
+		// `ltrim()` node contents.
+		$count = 1;
+		while($count){
+			$html = preg_replace('|(<[a-z]+[^>]*?>)\s+(.+?)(</[a-z]+>)|ius', '\1\2\3', $html, -1, $count);
+		}
+		// `rtrim()` node contents.
+		$count = 1;
+		while($count){
+			$html = preg_replace('|(<[a-z]+[^>]*?>)(.+?)\s+(</[a-z]+>)|ius', '\1\2\3', $html, -1, $count);
+		}
+
+		$output = $converter->parseString($html);
+
+		// Replace list style.
+		$output = preg_replace('/^ +\* /ium', '- ', $output);
+
+		return $output;
+	}
+
+	/**
 	 * Given a number of bytes, return a string containing a human-readable filesize.
 	 *
 	 * @see https://stackoverflow.com/a/5501447

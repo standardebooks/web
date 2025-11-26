@@ -173,7 +173,7 @@ class NewsletterMailing{
 	public function Save(): void{
 		$this->Validate(false);
 
-		Db::Query('update NewsletterMailings set NewsletterId = ?, Subject = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOnTimestamp = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOnTimestamp, $this->InternalName, $this->NewsletterMailingId]);
+		Db::Query('update NewsletterMailings set NewsletterId = ?, Subject = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
 	}
 
 	/**
@@ -183,13 +183,13 @@ class NewsletterMailing{
 		$this->Validate($addFooter);
 
 		// Only check this when creating.
-		if($this->SendOnTimestamp < NOW){
+		if($this->SendOn < NOW){
 			$error = new Exceptions\InvalidNewsletterMailingException();
-			$error->Add(new Exceptions\InvalidNewsletterSendOnTimestampException());
+			$error->Add(new Exceptions\InvalidNewsletterSendOnException());
 			throw $error;
 		}
 
-		$this->NewsletterMailingId = Db::QueryInt('insert into NewsletterMailings (NewsletterId, Subject, BodyHtml, BodyText, Status, FromName, FromEmail, SendOnTimestamp, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOnTimestamp, $this->InternalName]);
+		$this->NewsletterMailingId = Db::QueryInt('insert into NewsletterMailings (NewsletterId, Subject, BodyHtml, BodyText, Status, FromName, FromEmail, SendOn, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName]);
 	}
 
 	/**
@@ -338,12 +338,12 @@ class NewsletterMailing{
 		$this->PropertyFromHttp('BodyText');
 		$this->PropertyFromHttp('Status');
 
-		// `SendOnTimestamp` is always interpreted as being sent in the `America/Chicago` timezone.
+		// `SendOn` is always interpreted as being sent in the `America/Chicago` timezone.
 		// Therefore we have to do some gynmastics to store it as UTC in our object.
-		$sendOnTimestamp = HttpInput::Str(POST, 'newsletter-mailing-send-on-timestamp');
-		if($sendOnTimestamp !== null){
+		$sendOn = HttpInput::Str(POST, 'newsletter-mailing-send-on');
+		if($sendOn !== null){
 			/** @throws void */
-			$this->SendOnTimestamp = (new DateTimeImmutable($sendOnTimestamp, new DateTimeZone('America/Chicago')))->setTimezone(new DateTimeZone('UTC'));
+			$this->SendOn = (new DateTimeImmutable($sendOn, new DateTimeZone('America/Chicago')))->setTimezone(new DateTimeZone('UTC'));
 		}
 	}
 }

@@ -21,13 +21,14 @@
 	},
 	"require": {
 		"php": "8.1.2",
-		"thecodingmachine/safe": "^3.0.2",
-		"ramsey/uuid": "^4.7.6",
-		"gregwar/captcha": "^1.2.0",
-		"php-webdriver/webdriver": "^1.15.1",
-		"pear/http2": "^2.0.0",
-		"erusev/parsedown": "^1.7.4",
 		"aws/aws-sdk-php": "^3.322",
-		"guzzlehttp/guzzle": "^7.9"
+		"erusev/parsedown": "^1.7.4",
+		"gregwar/captcha": "^1.2.0",
+		"guzzlehttp/guzzle": "^7.9",
+		"pear/http2": "^2.0.0",
+		"php-webdriver/webdriver": "^1.15.1",
+		"pixel418/markdownify": "^2.3",
+		"ramsey/uuid": "^4.7.6",
+		"thecodingmachine/safe": "^3.0.2"
 	}
 }
