@@ -176,7 +176,7 @@ class NewsletterSubscription{
 	/**
 	 * @return array<NewsletterSubscription>
 	 */
-	public static function GetByAllUserId(?int $userId): array{
+	public static function GetAllByUserId(?int $userId): array{
 		if($userId === null){
 			return [];
 		}

@@ -93,7 +93,7 @@ class User{
 	}
 
 	/**
-	 * @return array</NewsletterSubscription>
+	 * @return array<NewsletterSubscription>
 	 */
 	protected function GetNewsletterSubscriptions(): array{
 		if(!isset($this->_NewsletterSubscriptions)){
