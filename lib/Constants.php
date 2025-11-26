@@ -69,7 +69,7 @@ const LONG_DOWNLOAD_COUNT = 100;
 const AWS_SES_REGION = 'us-east-1';
 const AWS_SES_MAX_EMAILS_PER_SECOND = 10;
 const AWS_MAX_ATTACHMENT_BYTES = 2000000;
-const AWS_CREDENTIALS_PATH = SITE_ROOT . '/config/aws/scribophile.com/credentials';
+const AWS_CREDENTIALS_PATH = SITE_ROOT . '/config/aws/credentials';
 
 // These are defined for convenience, so that getting HTTP input isn't so wordy.
 const GET = Enums\HttpVariableSource::Get;
