@@ -5,7 +5,7 @@ try{
 
 	$requestType = HttpInput::GetRequestType();
 
-	$subscription = NewsletterSubscription::Get(HttpInput::Str(GET, 'uuid'));
+	$subscription = NewsletterSubscription::GetByUserUuid(HttpInput::Str(GET, 'uuid'));
 	$subscription->Delete();
 
 	if($requestType == Enums\HttpRequestType::Rest){

@@ -11,7 +11,7 @@ use function Safe\preg_match;
  * @property-read string $Url
  * @property-read string $EditUrl
  * @property ?Patron $Patron
- * @property ?NewsletterSubscription $NewsletterSubscription
+ * @property array<NewsletterSubscription> $NewsletterSubscriptions
  * @property-read ?Payment $LastPayment
  * @property-read string $DisplayName The `User`'s name, or email, or ID.
  * @property-read ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
@@ -37,7 +37,8 @@ class User{
 	protected string $_Url;
 	protected string $_EditUrl;
 	protected ?Patron $_Patron;
-	protected ?NewsletterSubscription $_NewsletterSubscription;
+	/** @var array<NewsletterSubscription> $_NewsletterSubscriptions */
+	protected array $_NewsletterSubscriptions;
 	protected string $_DisplayName;
 	protected ?string $_SortName = null;
 
@@ -91,17 +92,15 @@ class User{
 		return $this->_DisplayName;
 	}
 
-	protected function GetNewsletterSubscription(): ?NewsletterSubscription{
-		if(!isset($this->_NewsletterSubscription)){
-			try{
-				$this->_NewsletterSubscription = NewsletterSubscription::GetByUserId($this->UserId);
-			}
-			catch(Exceptions\NewsletterSubscriptionNotFoundException){
-				$this->_NewsletterSubscription = null;
-			}
+	/**
+	 * @return array</NewsletterSubscription>
+	 */
+	protected function GetNewsletterSubscriptions(): array{
+		if(!isset($this->_NewsletterSubscriptions)){
+			$this->_NewsletterSubscriptions = NewsletterSubscription::GetAllByUserId($this->UserId);
 		}
 
-		return $this->_NewsletterSubscription;
+		return $this->_NewsletterSubscriptions;
 	}
 
 	protected function GetPatron(): ?Patron{

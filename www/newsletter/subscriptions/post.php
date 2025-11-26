@@ -19,11 +19,11 @@ try{
 			$uuid = Uuid::uuid4();
 			$subscription->User = new User();
 			$subscription->User->Uuid = $uuid->toString();
-			$_SESSION['is-subscription-created'] = 0; // 0 means 'bot'.
+			$_SESSION['is-subscription-created'] = 0; // `0` means 'bot'.
 			header('Location: /newsletter/subscriptions/success');
 		}
 		else{
-			// Access via Enums\HttpRequestType::Rest api; 201 CREATED with location.
+			// Access via REST API; 201 CREATED with location.
 			http_response_code(Enums\HttpCode::Created->value);
 			header('Location: /newsletter/subscriptions/success');
 		}
@@ -58,7 +58,7 @@ catch(Exceptions\NewsletterSubscriptionExistsException){
 	// Subscription exists.
 	if($requestType == Enums\HttpRequestType::Web){
 		// If we're accessing from the web, update the subscription, re-sending the confirmation email if the user isn't yet confirmed.
-		$existingSubscription = NewsletterSubscription::Get($subscription->User->Uuid);
+		$existingSubscription = NewsletterSubscription::GetByUserUuid($subscription->User->Uuid);
 		$subscription->IsConfirmed = $existingSubscription->IsConfirmed;
 		$subscription->Save();
 

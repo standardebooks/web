@@ -4,10 +4,15 @@ use function Safe\session_unset;
 
 session_start();
 
-/** @var NewsletterSubscription $subscription */
-$subscription = $_SESSION['subscription'] ?? new NewsletterSubscription();
-/** @var ?\Exception $exception */
-$exception = $_SESSION['exception'] ?? null;
+/** @var array<NewsletterSubscription> $newsletterSubscriptions */
+$newsletterSubscriptions = HttpInput::Array(SESSION, 'newsletterSubscriptions') ?? [];
+
+$exception = HttpInput::SessionObject('exception', \Exception::class);
+
+$newsletterIds = [];
+foreach($newsletterSubscriptions as $newsletterSubscription){
+	$newsletterIds[] = $newsletterSubscription->NewsletterId;
+}
 
 if($exception){
 	http_response_code(Enums\HttpCode::UnprocessableContent->value);
@@ -51,14 +56,12 @@ if($exception){
 				<ul>
 					<li>
 						<label>
-							<input type="hidden" name="is-subscribed-to-newsletter" value="false" />
-							<input type="checkbox" value="true" name="is-subscribed-to-newsletter"<? if($subscription->IsSubscribedToNewsletter){ ?> checked="checked"<? } ?> />The monthly Standard Ebooks newsletter
+							<input type="checkbox" value="<?= NEWSLETTERS_GENERAL_NEWSLETTER_ID ?>" name="newsletter-ids[]"<? if(in_array(NEWSLETTERS_GENERAL_NEWSLETTER_ID, $newsletterIds)){ ?> checked="checked"<? } ?> />The monthly Standard Ebooks newsletter
 						</label>
 					</li>
 					<li>
 						<label>
-							<input type="hidden" name="is-subscribed-to-summary" value="false" />
-							<input type="checkbox" value="true" name="is-subscribed-to-summary"<? if($subscription->IsSubscribedToSummary){ ?> checked="checked"<? } ?> />A monthly summary of new ebook releases
+							<input type="checkbox" value="<?= NEWSLETTERS_SUMMARY_NEWSLETTER_ID ?>" name="newsletter-ids[]"<? if(in_array(NEWSLETTERS_SUMMARY_NEWSLETTER_ID, $newsletterIds)){ ?> checked="checked"<? } ?> />A monthly summary of new ebook releases
 						</label>
 					</li>
 				</ul>

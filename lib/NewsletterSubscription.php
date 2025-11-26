@@ -3,18 +3,19 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
+ * @property Newsletter $Newsletter
  * @property-read string $Url
  */
 class NewsletterSubscription{
 	use Traits\Accessor;
 
 	public bool $IsConfirmed = false;
-	public bool $IsSubscribedToSummary = false;
-	public bool $IsSubscribedToNewsletter = false;
-	public ?int $UserId = null;
+	public int $UserId;
+	public int $NewsletterId;
 	public DateTimeImmutable $Created;
 
 	protected User $_User;
+	protected Newsletter $_Newsletter;
 	protected string $_Url;
 
 
@@ -59,13 +60,12 @@ class NewsletterSubscription{
 
 		try{
 			Db::Query('
-				INSERT into NewsletterSubscriptions (UserId, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Created)
+				INSERT into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, Created)
 				values (?,
 				        ?,
 				        ?,
-				        ?,
 				        ?)
-			', [$this->User->UserId, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Created]);
+			', [$this->User->UserId, $this->NewsletterId, false, $this->Created]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\NewsletterSubscriptionExistsException();
@@ -84,10 +84,8 @@ class NewsletterSubscription{
 		Db::Query('
 			UPDATE NewsletterSubscriptions
 			set IsConfirmed = ?,
-			    IsSubscribedToNewsletter = ?,
-			    IsSubscribedToSummary = ?
 			where UserId = ?
-		', [$this->IsConfirmed, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->UserId]);
+		', [$this->IsConfirmed, $this->UserId]);
 	}
 
 	public function SendConfirmationEmail(): void{
@@ -107,7 +105,8 @@ class NewsletterSubscription{
 			UPDATE NewsletterSubscriptions
 			set IsConfirmed = true
 			where UserId = ?
-		', [$this->UserId]);
+			and NewsletterId = ?
+		', [$this->UserId, $this->NewsletterId]);
 	}
 
 	public function Delete(): void{
@@ -115,7 +114,8 @@ class NewsletterSubscription{
 			DELETE
 			from NewsletterSubscriptions
 			where UserId = ?
-		', [$this->UserId]);
+			and NewsletterId = ?
+		', [$this->UserId, $this->NewsletterId]);
 	}
 
 	public static function DeleteAllByEmail(string $email): void{
@@ -133,11 +133,11 @@ class NewsletterSubscription{
 	public function Validate(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
 		$error = new Exceptions\InvalidNewsletterSubscription();
 
-		if(!isset($this->User) || $this->User->Email == '' || !filter_var($this->User->Email, FILTER_VALIDATE_EMAIL)){
+		if(!isset($this->User) || $this->User->Email == '' || !Validator::IsValidEmail($this->User->Email)){
 			$error->Add(new Exceptions\InvalidEmailException());
 		}
 
-		if(!$this->IsSubscribedToSummary && !$this->IsSubscribedToNewsletter){
+		if(!isset($this->Newsletter)){
 			$error->Add(new Exceptions\NewsletterRequiredException());
 		}
 
@@ -160,7 +160,7 @@ class NewsletterSubscription{
 	/**
 	 * @throws Exceptions\NewsletterSubscriptionNotFoundException
 	 */
-	public static function Get(?string $uuid): NewsletterSubscription{
+	public static function GetByUserUuid(?string $uuid): NewsletterSubscription{
 		if($uuid === null){
 			throw new Exceptions\NewsletterSubscriptionNotFoundException();
 		}
@@ -174,11 +174,11 @@ class NewsletterSubscription{
 	}
 
 	/**
-	 * @throws Exceptions\NewsletterSubscriptionNotFoundException
+	 * @return array<NewsletterSubscription>
 	 */
-	public static function GetByUserId(?int $userId): NewsletterSubscription{
+	public static function GetByAllUserId(?int $userId): array{
 		if($userId === null){
-			throw new Exceptions\NewsletterSubscriptionNotFoundException();
+			return [];
 		}
 
 		return Db::Query('
@@ -186,6 +186,6 @@ class NewsletterSubscription{
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.UserId = ?
-			', [$userId], NewsletterSubscription::class)[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
+			', [$userId], NewsletterSubscription::class);
 	}
 }
