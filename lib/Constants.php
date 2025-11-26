@@ -90,9 +90,6 @@ const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
 const FA_FEE_PERCENT = 0.87;
 
-const NEWSLETTERS_GENERAL_NEWSLETTER_ID = 1; // In the database.
-const NEWSLETTERS_SUMMARY_NEWSLETTER_ID = 2; // In the database.
-
 /** If we get GitHub push requests featuring these repos, silently ignore instead of returning an error. */
 const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web'];
 
