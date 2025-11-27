@@ -77,7 +77,7 @@ class Patron{
 
 	private function SendWelcomeEmail(bool $isReturning): void{
 		if(isset($this->User)){
-			if($this->User->Email !== null){
+			if($this->User->Email !== null && $this->User->CanReceiveEmail){
 				$em = new QueuedEmailMessage();
 				$em->To = $this->User->Email;
 				$em->ToName = $this->User->Name;
@@ -121,7 +121,7 @@ class Patron{
 			', [$this->UserId]);
 
 		// Email the patron to notify them their term has ended.
-		if($this->LastPayment !== null && $this->User->Email !== null){
+		if($this->LastPayment !== null && $this->User->Email !== null && $this->User->CanReceiveEmail){
 			$em = new QueuedEmailMessage();
 			$em->To = $this->User->Email;
 			$em->ToName = $this->User->Name;
