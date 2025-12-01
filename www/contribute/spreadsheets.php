@@ -107,6 +107,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1NDAkiMPS55KVp3-SFNJ29nKsYEE01YQIcvyVTkb-NU0">Rabindranath Tagore — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1Uq7xdYaNBESijDv3VzfEadKG6bRfEa5Ne5NCXs667yg">Ivan Turgenev — Short Fiction</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1iPw0cfk2l9uZ9D21CiHHc1fSpc2bkjqShvJ--U9Yx5Q">Henry van Dyke Jr. — Poetry</a></p>
 					</li>
 					<li>
