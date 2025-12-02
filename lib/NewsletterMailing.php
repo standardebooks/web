@@ -35,7 +35,7 @@ class NewsletterMailing{
 	protected Newsletter $_Newsletter;
 	protected string $_Url;
 
-	/** @var array<stdClass> $_Recipients */
+	/** @var array<object{'Uuid': string, 'FullName': ?string, 'FirstName': ?string, 'Email': string}> $_Recipients */
 	private array $_Recipients;
 
 	/**
@@ -87,7 +87,7 @@ class NewsletterMailing{
 				$em->ToName = $recipient->FullName;
 				$em->Subject = $this->Subject;
 				$em->Priority = Enums\Priority::Low;
-				$em->UnsubscribeUrl = SITE_URL . $this->Newsletter->Url . '/subscriptions/' . $recipient->EmailKey . '/delete';
+				$em->UnsubscribeUrl = SITE_URL . '/users/' . $recipient->Uuid . '/newsletter-subscriptions/' . $this->NewsletterId . '/delete';
 				$em->BodyHtml = str_replace('SE_UNSUBSCRIBE_URL', rawurlencode($em->UnsubscribeUrl), $this->BodyHtml);
 				$em->BodyText = str_replace('SE_UNSUBSCRIBE_URL', $em->UnsubscribeUrl, $this->BodyText);
 				$em->Metadata['NewsletterMailingId'] = (string)$this->NewsletterMailingId;
@@ -113,7 +113,7 @@ class NewsletterMailing{
 		$this->_Recipients = [];
 
 		// If no recipients are specified, get them from the database.
-		$result = Db::Query('SELECT Email, EmailKey from NewsletterSubscriptions ns inner join NewsletterContacts nc using (NewsletterContactId) where ns.NewsletterId = ? and ns.IsConfirmed = true', [$this->NewsletterId]);
+		$result = Db::Query('SELECT Email, Uuid, Name from NewsletterSubscriptions ns inner join Users u using (UserId) where ns.NewsletterId = ? and ns.IsConfirmed = true', [$this->NewsletterId]);
 
 		foreach($result as $row){
 			$contacts[] = $row;
@@ -121,44 +121,48 @@ class NewsletterMailing{
 
 		// Validate email addresses before sending.
 		foreach($contacts as $contact){
+			/** @var object{'Uuid': string, 'FullName': ?string, 'FirstName': ?string, 'Email': string}&\stdClass $recipient */
 			$recipient = new stdClass();
-			$recipient->EmailKey = $contact->EmailKey;
-			$recipient->FullName = null;
+			$recipient->Uuid = $contact->Uuid;
+			$recipient->FullName = $contact->Name;
 			$recipient->FirstName = null;
 
-			if(preg_match('/(^.+?) <(.+?)>$/ius', $contact->Email, $matches)){
-				if(!Validator::IsValidEmail($matches[2])){
-					throw new Exceptions\InvalidEmailException('Invalid email: ' . $contact->Email);
+			$result = mailparse_rfc822_parse_addresses($contact->Email);
+
+			if(isset($result[0])){
+				if($result[0]['display'] != $result[0]['address']){
+					$recipient->FullName = $result[0]['display'];
 				}
 
-				$recipient->Email = $matches[2];
-				$recipient->FullName = $matches[1];
+				$recipient->Email = $result[0]['address'];
 
-				// Try to figure out the first name.
-				// Strip `the` from the username.
-				$name = preg_replace('/^the /is', '', $recipient->FullName);
+				if(!Validator::IsValidEmail($recipient->Email)){
+					throw new Exceptions\InvalidEmailException('Invalid email: ' . $recipient->Email);
+				}
+			}
+			else{
+				throw new Exceptions\InvalidEmailException('Invalid email: ' . $contact->Email);
+			}
 
+			// Try to figure out the first name.
+			if($recipient->FullName !== null && preg_match('/(^the | fund$| foundation$)/is', $recipient->FullName)){
+				// Blank the full name if it's a foundation or fund.
+				$recipient->FullName = null;
+			}
+			else{
 				// Favor strings of initials first, like `N. C. Wyeth`.
-				preg_match('/^[A-Z\s\.]+\s/us', $name, $matches);
+				$matches = [];
+				preg_match('/^[A-Z\s\.]+\s/us', $recipient->FullName, $matches);
 				if(sizeof($matches) > 0){
 					$recipient->FirstName = trim($matches[0]);
 				}
 				else{
 					// No initials found, try the full first name.
-					$pos = strpos($name, ' ');
-					if($pos === false){
-						$recipient->FirstName = $name;
-					}
-					else{
-						$recipient->FirstName = mb_substr($name, 0, $pos);
+					$pos = strpos($recipient->FullName, ' ');
+					if($pos !== false){
+						$recipient->FirstName = mb_substr($recipient->FullName, 0, $pos);
 					}
 				}
-			}
-			elseif(!Validator::IsValidEmail($contact->Email)){
-				throw new Exceptions\InvalidEmailException('Invalid email: ' . $contact->Email);
-			}
-			else{
-				$recipient->Email = $contact->Email;
 			}
 
 			$this->_Recipients[] = $recipient;
