@@ -50,7 +50,7 @@ foreach($ebooks as $ebook){
 			break;
 
 		case 'https://standardebooks.org/ebooks/evelyn-waugh/vile-bodies':
-			$description = '<p><a href="/ebooks/evelyn-waugh">Evelyn Waugh</a> returns in this, his second novel, to deliver another scathing, comic satire of high society. This time his targets are the “bright young things” of post-World-War-I England. Waugh deftly skewers their raunchy, raucus, Jazz-age lifestyle, as well as the middle class public, who can can’t seem to get enough of their gossip.</p><p>As a testament to the novel’s staying power, David Bowie used <i>Vile Bodies</i> as the primary inspiration for his song “Aladdin Sane.”</p>';
+			$description = '<p><a href="/ebooks/evelyn-waugh">Evelyn Waugh</a> returns in this, his second novel, to deliver another scathing, comic satire of high society. This time his targets are the “bright young things” of post-World-War-I England. Waugh deftly skewers their raunchy, raucus, Jazz-age lifestyle, as well as the middle class public, who can’t seem to get enough of their gossip.</p><p>As a testament to the novel’s staying power, David Bowie used <i>Vile Bodies</i> as the primary inspiration for his song “Aladdin Sane.”</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/william-faulkner/as-i-lay-dying':
@@ -58,15 +58,15 @@ foreach($ebooks as $ebook){
 			break;
 
 		case 'https://standardebooks.org/ebooks/margaret-ayer-barnes/years-of-grace':
-			$description = '<p><i>Years of Grace</i> was the 1931 <a href="/collections/pulitzer-prize-for-fiction-winners">Pulitzer Prize for Fiction</a> winner. In concerns the life of Jane Ward, a rather unsophisticated young girl coming of age in 1890s Chicago. Her family is upper middle class, and Jane finds her traditional, homebody nature being pulled by the various forces of ambition, culture, and progress that swirl around her during the turn of the century. We see her into late middle age, where the world has been ripped apart by war, and with change accelerating faster and faster as another war looms on the horizon.</p>';
+			$description = '<p><i>Years of Grace</i> follows the life of Jane Ward, a rather unsophisticated young girl who comes of age in 1890s Chicago. Her family is upper middle class, and Jane finds her traditional, homebody nature being pulled by the various forces of ambition, culture, and progress that swirl around her during the effervescent decades at the turn of the century. We see her into late middle age, where the world has been ripped apart by war, and with change accelerating faster and faster as another war looms on the horizon.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/e-h-young/miss-mole':
-			$description = '<p>Miss Mole is a middle-age housekeeper who has recently left the employ of a wealthy matron to work for the young family of a minister. The mother has recently passed, leaving the family struggling to manage the household—but luckily for them, Miss Mole is exactly the kind of capable, witty, and assertive leader they need. As they work on tending the household, a shadowy figure from Miss Mole’s past weaves in and out of the narrative. But whatever happened in Miss Mole’s history can’t seem to put a damper on her bright, clever, and funny outlook.</p>';
+			$description = '<p>Miss Mole is a middle-age housekeeper who has recently left the employ of a wealthy matron to work for the young family of a minister. The mother has recently passed, leaving the family struggling to manage the household—but luckily for them, Miss Mole is exactly the kind of capable, witty, and assertive leader they need.</p><p>As they work on ordering the household, a shadowy figure from Miss Mole’s past weaves in and out of the narrative. But whatever happened in Miss Mole’s history can’t seem to put a damper on her bright, clever, and funny outlook.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/stella-benson/the-faraway-bride':
-			$description = '<p><i>The Faraway Bride</i> concerns the Malinin family, shopowners in 1920s Manchuria who are struck by misfortune when their shop is raided by Red Army thugs. Their father recalls that a friend owes him a debt of money—but the friend lives in Seoul, which lies at a grueling three week’s walk across the Korean mountains. The difficulty of the journey doesn’t faze the two Malinin children, who excitedly embark to save the family.</p><p>The novel is based on the story of Tobit from the Apocrypha, but its setting, and the resulting mish-mash of languages and cultures, make for a decidedly unique read.</p>';
+			$description = '<p><i>The Faraway Bride</i> concerns the Malinin family, shopowners in 1920s Manchuria who are struck by misfortune when their store is raided by Red Army thugs. Their father recalls that a friend owes him a debt of money that could save the family’s finances—but the friend lives in Seoul, which lies at a grueling three week’s walk across the Korean mountains. The difficulty of the journey doesn’t faze the two Malinin children, who excitedly embark on a quest to save the family.</p><p>The novel is based on the story of Tobit from the Apocrypha, but its setting, and the resulting mish-mash of languages and cultures, make for a decidedly unique read.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/geoffrey-dennis/the-end-of-the-world':
@@ -74,7 +74,7 @@ foreach($ebooks as $ebook){
 			break;
 
 		case 'https://standardebooks.org/ebooks/arthur-ransome/swallows-and-amazons':
-			$description = '<p><a href="/ebooks/arthur-ransome">Arthur Ransome</a>, a journalist in Manchester, was inspired to write this children’s story of gentle adventure while spending a summer teaching a friend’s children to sail in the Lake District. In it, the children of two families on rural vacations meet in the wilderness; one side sails the dinghy named the <i>Swallow</i>, and the other side the dinghy <i>Amazon</i>. They soon join forces against the dastardly “Captain Flint,” who in reality is just a cranky man trying to quietly write his memoirs in his houseboat. Their adventures are a charming tale that completely eschews the tropes typical of today’s children’s books by staying firmly grounded in reality.</p>';
+			$description = '<p><a href="/ebooks/arthur-ransome">Arthur Ransome</a>, a journalist in Manchester, was inspired to write this children’s story of gentle adventure while spending a summer teaching a friend’s children to sail in the Lake District.</p><p>In it, the children of two families on rural vacations meet in the wilderness; one side sails the dinghy named the <i>Swallow</i>, and the other the dinghy <i>Amazon</i>. They soon join forces against the dastardly “Captain Flint,” who in reality is just a cranky old man trying to quietly write his memoirs in his houseboat. Their adventures are a charming tale that, by staying firmly grounded in reality, completely eschews the tropes typical of today’s children’s books.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/t-s-eliot/poetry':
@@ -91,7 +91,7 @@ foreach($ebooks as $ebook){
 			break;
 
 		case 'https://standardebooks.org/ebooks/edna-ferber/cimarron':
-			$description = '<p><i>Cimarron</i> was the best-selling novel of 1930. Set in the lands of Oklahoma during the land rushes of 1889 and 1893, it follows a young family trying to make a life for themselves in a land beset by scrabbling settlers and outraged natives. The family’s trajectory rises as the charismatic patriarch founds a newspaper and settles local disputes, while the matriarch grows from a faint-hearted Southern belle to a hard-eyed frontierswoman and politician.</p><p>Though later seen as a paean to feminism, <a href="/ebooks/edna-ferber">Ferber</a> originally intended the story to be a satire of American women. Its initial success and popularity led its to being published as an Armed Services Edition and sent to soldiers on the front—the same fortuitous fate that befell <a href="/ebooks/f-scott-fitzgerald/the-great-gatsby">The Great Gatsby</a>—cementing its fame in the minds of a generation.</p>';
+			$description = '<p><i>Cimarron</i> was the best-selling novel of 1930. Set in the lands of Oklahoma during the land rushes of 1889 and 1893, it follows a young family trying to make a life for themselves in a land beset by scrabbling settlers and outraged natives. The family’s trajectory rises as the charismatic patriarch founds a newspaper and settles local disputes, while the matriarch grows from a faint-hearted Southern belle to a hard-eyed frontierswoman and politician.</p><p>Though later seen as a paean to feminism, <a href="/ebooks/edna-ferber">Ferber</a> originally intended the story to be a satire of American women. Its initial success and popularity led its to being published as an Armed Services Edition and sent to soldiers on the front—the same fortuitous fate that graced <a href="/ebooks/f-scott-fitzgerald/the-great-gatsby">The Great Gatsby</a>—cementing its fame in the minds of a generation.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/dorothy-l-sayers/strong-poison':
@@ -111,7 +111,7 @@ foreach($ebooks as $ebook){
 			break;
 
 		case 'https://standardebooks.org/ebooks/carolyn-keene/the-mystery-at-lilac-inn':
-			$description = '<p><a href="/collections/nancy-drew-mystery-stories">Nancy Drew</a>, young detective, is on the case again when her friend’s inheritance of diamonds, worth forty thousand dollars, is stolen during a lunch. Her friend’s guardian is the prime suspect—can Nancy uncover the true criminal before an innocent person is put in prison?</p>
+			$description = '<p><a href="/collections/nancy-drew-mystery-stories">Nancy Drew</a>, young detective, is on the case again when her friend’s inheritance of diamonds, worth forty thousand dollars, is stolen during a lunch. Her friend’s guardian is the prime suspect. Can Nancy uncover the true criminal before an innocent person is locked away?</p>
 				<p>Like many other Nancy Drew novels, this one was rewritten in 1961 by a different author. This Standard Ebooks edition follows the 1930 text, written by Mildred Wirt Benson under the Carolyn Keene pen name.</p>';
 			break;
 	}
