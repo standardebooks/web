@@ -1,13 +1,15 @@
 <?
+$pdYear = 2026;
 
 // Condense getting all `Ebook`s into one DB query, and sort them at the PHP level, instead of doing so many separate queries to get each `Ebook`.
 $identifiers = [
 	'https://standardebooks.org/ebooks/franz-kafka/the-castle/willa-muir_edwin-muir',
 	'https://standardebooks.org/ebooks/dashiell-hammett/the-maltese-falcon',
-	'https://standardebooks.org/ebooks/agatha-christie/the-murder-at-the-vicarage',
-	'https://standardebooks.org/ebooks/langston-hughes/not-without-laughter',
-	'https://standardebooks.org/ebooks/evelyn-waugh/vile-bodies',
 	'https://standardebooks.org/ebooks/william-faulkner/as-i-lay-dying',
+	'https://standardebooks.org/ebooks/langston-hughes/not-without-laughter',
+	'https://standardebooks.org/ebooks/agatha-christie/the-murder-at-the-vicarage',
+	'https://standardebooks.org/ebooks/dorothy-l-sayers/strong-poison',
+	'https://standardebooks.org/ebooks/evelyn-waugh/vile-bodies',
 	'https://standardebooks.org/ebooks/margaret-ayer-barnes/years-of-grace',
 	'https://standardebooks.org/ebooks/e-h-young/miss-mole',
 	'https://standardebooks.org/ebooks/stella-benson/the-faraway-bride',
@@ -17,7 +19,6 @@ $identifiers = [
 	'https://standardebooks.org/ebooks/daphne-du-maurier/short-fiction',
 	'https://standardebooks.org/ebooks/edna-ferber/cimarron',
 	'https://standardebooks.org/ebooks/agatha-christie/giants-bread',
-	'https://standardebooks.org/ebooks/dorothy-l-sayers/strong-poison',
 	'https://standardebooks.org/ebooks/carolyn-keene/the-secret-of-the-old-clock',
 	'https://standardebooks.org/ebooks/carolyn-keene/the-hidden-staircase',
 	'https://standardebooks.org/ebooks/carolyn-keene/the-bungalow-mystery',
@@ -120,13 +121,13 @@ foreach($ebooks as $ebook){
 
 ksort($ebooksWithDescriptions);
 
-?><?= Template::Header(title: 'Public Domain Day 2026 in Literature - Blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day 2026!', css: ['/css/public-domain-day.css']) ?>
+?><?= Template::Header(title: 'Public Domain Day ' . $pdYear . ' in Literature - Blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day ' . $pdYear . '!', css: ['/css/public-domain-day.css']) ?>
 <main>
 	<section class="narrow blog has-hero">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
 		<hgroup>
 			<h1>Public Domain Day in Literature</h1>
-			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in 2026</p>
+			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in <?= $pdYear ?></p>
 		</hgroup>
 		<picture data-caption="Birmingham Reference Library—The Reading Room. Edward Richard Taylor, 1881">
 			<source srcset="/images/birmingham-reference-library@2x.avif 2x, /images/birmingham-reference-library.avif 1x" type="image/avif"/>
@@ -140,13 +141,18 @@ ksort($ebooksWithDescriptions);
 		<p>2019 was the year in which new works were finally scheduled to enter the public domain, ending this long, corporate-dictated cultural winter. And as that year drew closer, it became clear that these corporations <em>wouldn’t</em> try to extend copyright yet again—making it the first year in almost a century in which a significant amount of art and literature once again entered the U.S. public domain, free for anyone in the U.S. to read, use, share, remix, build upon, and enjoy.</p>
 		<p>Ever since then, we’ve been celebrating Public Domain Day by preparing some of the year’s biggest literary hits for you to read on January 1.</p>
 		<hr class="fleuron"/>
-		<p><strong>On January 1, 2026, books published in 1930 enter the U.S. public domain.</strong></p>
+		<p><strong>On January 1, <?= $pdYear ?>, books published in 1930 enter the U.S. public domain.</strong></p>
 		<p>Books by <a href="/ebooks/william-faulkner">William Faulkner</a>, <a href="/ebooks/franz-kafka">Franz Kafka</a>, <a href="/ebooks/agatha-christie">Agatha Christie</a>, and <a href="/ebooks/langston-hughes">Langston Hughes</a> enter the U.S. public domain. In addition, <i><a href="/ebooks/dashiell-hammett/the-maltese-falcon">The Maltese Falcon</a></i>, perhaps the best-known noir book—and film—of all time, and books by <a href="/ebooks/evelyn-waugh">Evelyn Waugh</a>, <a href="/ebooks/dorothy-l-sayers">Dorothy L. Sayers</a>, and more, become free for anyone in the U.S. to read, use, and re-use.</p>
 		<p>Our friends at the Public Domain Review have written about some <a href="https://publicdomainreview.org/blog/2026/01/public-domain-day-2026/">other things that enter the public domain this year, too</a>.</p>
 		<p>These past few months at Standard Ebooks, our volunteers have been working hard to prepare a selection of the books published in 1930 in advance of Public Domain Day. We’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new free ebooks</strong> with you!</p>
 		<? if(sizeof($ebooksWithDescriptions) == 0){ ?>
 			<p class="empty">We’re still preparing these free ebooks for Public Domain Day. Check back on January 1!</p>
 		<? }else{ ?>
+			<? if(PD_NOW < new DateTimeImmutable('January 1, ' . $pdYear . ' 8:00 AM', SITE_TZ)){ ?>
+				<aside class="alert">
+					<p>It’s not Public Doman Day yet — these books will be revealed and available to download for free on January 1, <?= $pdYear ?>.</p>
+				</aside>
+			<? } ?>
 			<ul class="public-domain-day">
 				<? foreach($ebooksWithDescriptions as $ebookGroup){ ?>
 					<li>
