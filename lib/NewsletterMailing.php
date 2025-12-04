@@ -37,7 +37,7 @@ class NewsletterMailing{
 	protected string $_Url;
 
 	/** @var array<NewsletterSubscription> $_Recipients */
-	private array $_Recipients;
+	protected array $_Recipients;
 
 	/**
 	 * @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found.
@@ -88,8 +88,8 @@ class NewsletterMailing{
 				$em->ToName = $newsletterSubscription->User->Name;
 				$em->Subject = $this->Subject;
 				$em->Priority = Enums\Priority::Low;
-				$em->UnsubscribeUrl = $newsletterSubscription->DeleteUrl;
-				$em->BodyHtml = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, rawurlencode($em->UnsubscribeUrl), $this->BodyHtml);
+				$em->UnsubscribeUrl = SITE_URL . $newsletterSubscription->DeleteUrl;
+				$em->BodyHtml = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, htmlentities($em->UnsubscribeUrl, ENT_QUOTES), $this->BodyHtml);
 				$em->BodyText = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, $em->UnsubscribeUrl, $this->BodyText);
 				$em->Metadata['NewsletterMailingId'] = (string)$this->NewsletterMailingId;
 				$emailMessages[] = $em;
@@ -108,8 +108,15 @@ class NewsletterMailing{
 		}
 	}
 
-	protected function GetRecipients(): void{
-		$this->_Recipients = Db::MultiTableSelect('SELECT * from NewsletterSubscriptions inner join Users on NewsletterSubscriptions.UserId = Users.UserId where NewsletterId = ? and IsConfirmed = true', [$this->NewsletterId], NewsletterSubscription::class);
+	/**
+	 * @return array<NewsletterSubscription>
+	 */
+	protected function GetRecipients(): array{
+		if(!isset($this->Recipients)){
+			$this->_Recipients = Db::MultiTableSelect('SELECT * from NewsletterSubscriptions inner join Users on NewsletterSubscriptions.UserId = Users.UserId where NewsletterId = ? and IsConfirmed = true', [$this->NewsletterId], NewsletterSubscription::class);
+		}
+
+		return $this->_Recipients;
 	}
 
 	/**

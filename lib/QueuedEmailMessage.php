@@ -22,7 +22,7 @@ class QueuedEmailMessage extends EmailMessage{
 			$metadata = json_encode($this->Metadata);
 
 			// Warning: `To` and `From` have to be in ticks because they're SQL keywords.
-			Db::Query('insert into QueuedEmailMessages (`To`, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->Created, $this->Provider, $attachments, $metadata]);
+			Db::Query('insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->ToName, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->Created, $this->Provider, $attachments, $metadata]);
 		}
 		catch(Exceptions\InvalidEmailMessageException $ex){
 			Log::WriteErrorLogEntry('Failed validating `QueuedEmailMessage`. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($this));
@@ -46,19 +46,19 @@ class QueuedEmailMessage extends EmailMessage{
 		$chunks = array_chunk($queuedEmailMessages, 100);
 
 		foreach($chunks as $chunk){
-			$sql = 'insert into QueuedEmailMessages (`To`, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values ';
+			$sql = 'insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values ';
 
 			$arguments = [];
 			foreach($chunk as $em){
 				try{
 					$em->Validate();
 
-					$sql .= '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?),';
+					$sql .= '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?),';
 
 					$attachments = sizeof($em->Attachments) > 0 ? serialize($em->Attachments) : null;
 					$metadata = json_encode($em->Metadata);
 
-					$arguments = array_merge($arguments, [$em->To, $em->From, $em->FromName, $em->ReplyTo, $em->Subject, $em->BodyHtml, $em->BodyText, $em->Priority,  $em->UnsubscribeUrl, NOW, \Enums\EmailProviderType::Ses, $attachments, $metadata]);
+					$arguments = array_merge($arguments, [$em->To, $em->ToName, $em->From, $em->FromName, $em->ReplyTo, $em->Subject, $em->BodyHtml, $em->BodyText, $em->Priority,  $em->UnsubscribeUrl, NOW, \Enums\EmailProviderType::Ses, $attachments, $metadata]);
 				}
 				catch(Exceptions\InvalidEmailMessageException $ex){
 					Log::WriteErrorLogEntry('Failed validating email. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($em));

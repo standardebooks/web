@@ -29,6 +29,10 @@ try{
 			http_response_code(Enums\HttpCode::Created->value);
 		}
 
+		if($isDeleted){
+			$newsletterName = HttpInput::Str(SESSION, 'newsletter-name');
+		}
+
 		if($isCreated || $isConfirmed || $isDeleted){
 			session_unset();
 		}
@@ -38,7 +42,7 @@ catch(Exceptions\UserNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?>
-<?= Template::Header(title: 'Your Subscription to the Standard Ebooks Newsletter', highlight: 'newsletter', description: 'Your subscription to the Standard Ebooks newsletter.') ?>
+<?= Template::Header(title: 'Your Newsletter Subscriptions', highlight: 'newsletter', description: 'Your subscription to the Standard Ebooks newsletter.') ?>
 <main>
 	<section class="narrow">
 		<h1>Your Newsletter Subscriptions</h1>
@@ -47,7 +51,7 @@ catch(Exceptions\UserNotFoundException){
 		<? } ?>
 
 		<? if($isDeleted){ ?>
-			<p class="message success">You have been unsubscribed!</p>
+			<p class="message success">You have been unsubscribed<? if(isset($newsletterName)){ ?> from <?= Formatter::EscapeHtml($newsletterName) ?><? } ?>!</p>
 		<? } ?>
 
 		<? if($isCreated){ ?>

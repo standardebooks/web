@@ -13,10 +13,12 @@ try{
 	$requestType = HttpInput::GetRequestType();
 
 	$newsletterSubscription = NewsletterSubscription::GetByUserUuid(HttpInput::Str(GET, 'user-identifier'), HttpInput::Int(GET, 'newsletter-id'));
+	$newsletterName = $newsletterSubscription->Newsletter->Name;
 	$newsletterSubscription->Delete();
 
 	session_start();
 	$_SESSION['is-newsletter-subscriptions-deleted'] = true;
+	$_SESSION['newsletter-name'] = $newsletterName;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('Location: /users/' . $newsletterSubscription->User->Uuid . '/newsletter-subscriptions');
