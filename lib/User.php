@@ -15,6 +15,7 @@ use function Safe\preg_match;
  * @property-read ?Payment $LastPayment
  * @property-read string $DisplayName The `User`'s name, or email, or ID.
  * @property-read ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
+ * @property-read ?string $FirstName The `User`'s first name, or `null` if the `User` has no name or is a foundation or institution.
  */
 final class User{
 	use Traits\Accessor;
@@ -51,7 +52,7 @@ final class User{
 
 	protected function GetFirstName(): ?string{
 		if(!isset($this->_FirstName)){
-			if($this->Name !== null && preg_match('/(^the | fund$| foundation$)/is', $this->Name)){
+			if($this->Name !== null && !preg_match('/(^the | fund$| foundation$)/is', $this->Name)){
 				// Favor strings of initials first, like `N. C. Wyeth`.
 				$matches = [];
 				preg_match('/^[A-Z\s\.]+\s/us', $this->Name, $matches);

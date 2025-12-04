@@ -1,14 +1,14 @@
 <?
 /**
- * GET/DELETE /users/<uuid>/newsletter-subscriptions/<newsletter-id>/delete
+ * GET/POST/DELETE /users/<uuid>/newsletter-subscriptions/<newsletter-id>/delete
  * Delete a `NewsletterSubscription`.
  *
- * May be called via GET from an unsubscribe link in an email.
+ * May be called via GET from an unsubscribe link in an email, or via POST from an email client `list-unsubscribe` invocation.
  */
 use function Safe\session_start;
 
 try{
-	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Get, Enums\HttpMethod::Delete]);
+	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Get, Enums\HttpMethod::Post, Enums\HttpMethod::Delete]);
 
 	$requestType = HttpInput::GetRequestType();
 

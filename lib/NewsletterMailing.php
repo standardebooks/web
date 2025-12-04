@@ -89,7 +89,14 @@ class NewsletterMailing{
 				$em->Subject = $this->Subject;
 				$em->Priority = Enums\Priority::Low;
 				$em->UnsubscribeUrl = SITE_URL . $newsletterSubscription->DeleteUrl;
-				$em->BodyHtml = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, htmlentities($em->UnsubscribeUrl, ENT_QUOTES), $this->BodyHtml);
+				$em->BodyHtml = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, Formatter::EscapeHtml($em->UnsubscribeUrl), $this->BodyHtml);
+				if($newsletterSubscription->User->FirstName !== null){
+					$em->BodyHtml = str_replace(NEWSLETTER_FIRST_NAME_VARIABLE, Formatter::EscapeHtml($newsletterSubscription->User->FirstName), $this->BodyHtml);
+				}
+				else{
+					// No first name, remove the variable and any white space around it.
+					$em->BodyHtml = preg_replace('/\s*' . NEWSLETTER_FIRST_NAME_VARIABLE . '\s*/u', '', $em->BodyHtml);
+				}
 				$em->BodyText = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, $em->UnsubscribeUrl, $this->BodyText);
 				$em->Metadata['NewsletterMailingId'] = (string)$this->NewsletterMailingId;
 				$emailMessages[] = $em;
