@@ -19,6 +19,7 @@ class NewsletterMailing{
 	public int $NewsletterMailingId;
 	public int $NewsletterId;
 	public string $Subject = '';
+	/** The string `SE_UNSUBSCRIBE_URL` is replaced by `self::$UnsubscribeUrl`, and the string `SE_FIRST_NAME` is replaced by the recipient's first name, or removed if there is no first name. */
 	public string $BodyHtml = '';
 	public string $BodyText = '';
 	public Enums\QueueStatus $Status;
@@ -35,26 +36,19 @@ class NewsletterMailing{
 
 	protected Newsletter $_Newsletter;
 	protected string $_Url;
-
 	/** @var array<NewsletterSubscription> $_Recipients */
 	protected array $_Recipients;
+
+
+	// *******
+	// GETTERS
+	// *******
 
 	/**
 	 * @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found.
 	 */
 	protected function GetNewsletter(): Newsletter{
 		return Db::Query('SELECT * from Newsletters where NewsletterId = ?', [$this->NewsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
-	}
-
-	/**
-	 * @throws Exceptions\NewsletterMailingNotFoundException If the `NewsletterMailing` can't be found.
-	 */
-	public static function Get(?int $newsletterMailingId): NewsletterMailing{
-		if($newsletterMailingId === null){
-			throw new Exceptions\NewsletterMailingNotFoundException();
-		}
-
-		return Db::Query('SELECT * from NewsletterMailings where NewsletterMailingId = ?', [$newsletterMailingId], NewsletterMailing::class)[0] ?? throw new Exceptions\NewsletterMailingNotFoundException();
 	}
 
 	protected function GetUrl(): string{
@@ -64,6 +58,22 @@ class NewsletterMailing{
 
 		return $this->_Url;
 	}
+
+	/**
+	 * @return array<NewsletterSubscription>
+	 */
+	protected function GetRecipients(): array{
+		if(!isset($this->Recipients)){
+			$this->_Recipients = Db::MultiTableSelect('SELECT * from NewsletterSubscriptions inner join Users on NewsletterSubscriptions.UserId = Users.UserId where NewsletterId = ? and IsConfirmed = true and CanReceiveEmail = true', [$this->NewsletterId], NewsletterSubscription::class);
+		}
+
+		return $this->_Recipients;
+	}
+
+
+	// *******
+	// METHODS
+	// *******
 
 	/**
 	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
@@ -95,7 +105,7 @@ class NewsletterMailing{
 				}
 				else{
 					// No first name, remove the variable and any white space around it.
-					$em->BodyHtml = preg_replace('/\s*' . NEWSLETTER_FIRST_NAME_VARIABLE . '\s*/u', '', $em->BodyHtml);
+					$em->BodyHtml = preg_replace('/\s*' . preg_quote(NEWSLETTER_FIRST_NAME_VARIABLE, '/') . '\s*/u', '', $em->BodyHtml);
 				}
 				$em->BodyText = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, $em->UnsubscribeUrl, $this->BodyText);
 				$em->Metadata['NewsletterMailingId'] = (string)$this->NewsletterMailingId;
@@ -113,17 +123,6 @@ class NewsletterMailing{
 
 			throw $ex;
 		}
-	}
-
-	/**
-	 * @return array<NewsletterSubscription>
-	 */
-	protected function GetRecipients(): array{
-		if(!isset($this->Recipients)){
-			$this->_Recipients = Db::MultiTableSelect('SELECT * from NewsletterSubscriptions inner join Users on NewsletterSubscriptions.UserId = Users.UserId where NewsletterId = ? and IsConfirmed = true', [$this->NewsletterId], NewsletterSubscription::class);
-		}
-
-		return $this->_Recipients;
 	}
 
 	/**
@@ -285,6 +284,22 @@ class NewsletterMailing{
 
 			$this->BodyHtml = str_replace($css[0], $newStyleElement, $this->BodyHtml);
 		}
+	}
+
+
+	// ***********
+	// ORM METHODS
+	// ***********
+
+	/**
+	 * @throws Exceptions\NewsletterMailingNotFoundException If the `NewsletterMailing` can't be found.
+	 */
+	public static function Get(?int $newsletterMailingId): NewsletterMailing{
+		if($newsletterMailingId === null){
+			throw new Exceptions\NewsletterMailingNotFoundException();
+		}
+
+		return Db::Query('SELECT * from NewsletterMailings where NewsletterMailingId = ?', [$newsletterMailingId], NewsletterMailing::class)[0] ?? throw new Exceptions\NewsletterMailingNotFoundException();
 	}
 
 	public function FillFromHttpPost(): void{
