@@ -10,6 +10,7 @@ use function Safe\simplexml_load_string;
 /**
  * @property Newsletter $Newsletter
  * @property string $Url
+ * @property array<NewsletterSubscription> $Recipients
  */
 class NewsletterMailing{
 	use Traits\Accessor;
@@ -35,7 +36,7 @@ class NewsletterMailing{
 	protected Newsletter $_Newsletter;
 	protected string $_Url;
 
-	/** @var array<object{'Uuid': string, 'FullName': ?string, 'FirstName': ?string, 'Email': string}> $_Recipients */
+	/** @var array<NewsletterSubscription> $_Recipients */
 	private array $_Recipients;
 
 	/**
@@ -74,27 +75,29 @@ class NewsletterMailing{
 			// Validate this again to make double sure the mailing is valid.
 			$this->Validate(false);
 
-			if(!isset($this->_Recipients)){
-				$this->GetRecipients();
-			}
-
 			$emailMessages = [];
-			foreach($this->_Recipients as $recipient){
+			foreach($this->Recipients as $newsletterSubscription){
+				if($newsletterSubscription->User->Email === null){
+					continue;
+				}
+
 				$em = new QueuedEmailMessage();
 				$em->From = $this->FromEmail;
 				$em->FromName = $this->FromName;
-				$em->To = $recipient->Email;
-				$em->ToName = $recipient->FullName;
+				$em->To = $newsletterSubscription->User->Email;
+				$em->ToName = $newsletterSubscription->User->Name;
 				$em->Subject = $this->Subject;
 				$em->Priority = Enums\Priority::Low;
-				$em->UnsubscribeUrl = SITE_URL . '/users/' . $recipient->Uuid . '/newsletter-subscriptions/' . $this->NewsletterId . '/delete';
-				$em->BodyHtml = str_replace('SE_UNSUBSCRIBE_URL', rawurlencode($em->UnsubscribeUrl), $this->BodyHtml);
-				$em->BodyText = str_replace('SE_UNSUBSCRIBE_URL', $em->UnsubscribeUrl, $this->BodyText);
+				$em->UnsubscribeUrl = $newsletterSubscription->DeleteUrl;
+				$em->BodyHtml = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, rawurlencode($em->UnsubscribeUrl), $this->BodyHtml);
+				$em->BodyText = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, $em->UnsubscribeUrl, $this->BodyText);
 				$em->Metadata['NewsletterMailingId'] = (string)$this->NewsletterMailingId;
 				$emailMessages[] = $em;
 			}
 
 			QueuedEmailMessage::CreateBatch($emailMessages);
+
+			$this->RecipientCount = sizeof($this->Recipients);
 
 			Db::Query('UPDATE NewsletterMailings set RecipientCount = ?, Status = ?, OpenCount = ifnull(OpenCount, 0) where NewsletterMailingId = ?', [$this->RecipientCount, Enums\QueueStatus::Completed, $this->NewsletterMailingId]);
 		}
@@ -105,70 +108,8 @@ class NewsletterMailing{
 		}
 	}
 
-	/**
-	 * @throws Exceptions\InvalidEmailException If any of the recipient email addresses is invalid.
-	 */
-	public function GetRecipients(): void{
-		$contacts = [];
-		$this->_Recipients = [];
-
-		// If no recipients are specified, get them from the database.
-		$result = Db::Query('SELECT Email, Uuid, Name from NewsletterSubscriptions ns inner join Users u using (UserId) where ns.NewsletterId = ? and ns.IsConfirmed = true', [$this->NewsletterId]);
-
-		foreach($result as $row){
-			$contacts[] = $row;
-		}
-
-		// Validate email addresses before sending.
-		foreach($contacts as $contact){
-			/** @var object{'Uuid': string, 'FullName': ?string, 'FirstName': ?string, 'Email': string}&\stdClass $recipient */
-			$recipient = new stdClass();
-			$recipient->Uuid = $contact->Uuid;
-			$recipient->FullName = $contact->Name;
-			$recipient->FirstName = null;
-
-			$result = mailparse_rfc822_parse_addresses($contact->Email);
-
-			if(isset($result[0])){
-				if($result[0]['display'] != $result[0]['address']){
-					$recipient->FullName = $result[0]['display'];
-				}
-
-				$recipient->Email = $result[0]['address'];
-
-				if(!Validator::IsValidEmail($recipient->Email)){
-					throw new Exceptions\InvalidEmailException('Invalid email: ' . $recipient->Email);
-				}
-			}
-			else{
-				throw new Exceptions\InvalidEmailException('Invalid email: ' . $contact->Email);
-			}
-
-			// Try to figure out the first name.
-			if($recipient->FullName !== null && preg_match('/(^the | fund$| foundation$)/is', $recipient->FullName)){
-				// Blank the full name if it's a foundation or fund.
-				$recipient->FullName = null;
-			}
-			else{
-				// Favor strings of initials first, like `N. C. Wyeth`.
-				$matches = [];
-				preg_match('/^[A-Z\s\.]+\s/us', $recipient->FullName, $matches);
-				if(sizeof($matches) > 0){
-					$recipient->FirstName = trim($matches[0]);
-				}
-				else{
-					// No initials found, try the full first name.
-					$pos = strpos($recipient->FullName, ' ');
-					if($pos !== false){
-						$recipient->FirstName = mb_substr($recipient->FullName, 0, $pos);
-					}
-				}
-			}
-
-			$this->_Recipients[] = $recipient;
-		}
-
-		$this->RecipientCount = sizeof($this->_Recipients);
+	protected function GetRecipients(): void{
+		$this->_Recipients = Db::MultiTableSelect('SELECT * from NewsletterSubscriptions inner join Users on NewsletterSubscriptions.UserId = Users.UserId where NewsletterId = ? and IsConfirmed = true', [$this->NewsletterId], NewsletterSubscription::class);
 	}
 
 	/**
@@ -295,8 +236,8 @@ class NewsletterMailing{
 			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML contains .test TLD.'));
 		}
 
-		if(mb_stripos($this->BodyHtml, 'SE_UNSUBSCRIBE_URL') === false){
-			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML missing unsubscribe URL variable: SE_UNSUBSCRIBE_URL.'));
+		if(mb_stripos($this->BodyHtml, NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE) === false){
+			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML missing unsubscribe URL variable:  ' . NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE . '.'));
 		}
 
 		if($error->HasExceptions){

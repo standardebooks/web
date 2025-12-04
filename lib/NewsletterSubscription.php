@@ -7,8 +7,9 @@ use Safe\DateTimeImmutable;
  * @property-read string $Url
  * @property-read string $DeleteUrl
  */
-class NewsletterSubscription{
+final class NewsletterSubscription{
 	use Traits\Accessor;
+	use Traits\FromRow;
 
 	public bool $IsConfirmed = false;
 	public int $UserId;
@@ -171,5 +172,20 @@ class NewsletterSubscription{
 				inner join Users u using(UserId)
 				where u.UserId = ?
 			', [$userId], NewsletterSubscription::class);
+	}
+
+	/**
+	 * Creates a `NewsletterSubscription` from a multi table array containing a `NewsletterSubscription` and a `User`.
+	 *
+	 * @param array<string, stdClass> $row
+	 */
+	public static function FromMultiTableRow(array $row): NewsletterSubscription{
+		$object = NewsletterSubscription::FromRow($row['NewsletterSubscriptions']);
+
+		if(isset($row['Users'])){
+			$object->User = User::FromRow($row['Users']);
+		}
+
+		return $object;
 	}
 }

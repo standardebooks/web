@@ -16,8 +16,9 @@ use function Safe\preg_match;
  * @property-read string $DisplayName The `User`'s name, or email, or ID.
  * @property-read ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
  */
-class User{
+final class User{
 	use Traits\Accessor;
+	use Traits\FromRow;
 	use Traits\PropertyFromHttp;
 
 	public int $UserId;
@@ -41,11 +42,38 @@ class User{
 	protected array $_NewsletterSubscriptions;
 	protected string $_DisplayName;
 	protected ?string $_SortName = null;
+	protected ?string $_FirstName = null;
 
 
 	// *******
 	// GETTERS
 	// *******
+
+	protected function GetFirstName(): ?string{
+		if(!isset($this->_FirstName)){
+			if($this->Name !== null && preg_match('/(^the | fund$| foundation$)/is', $this->Name)){
+				// Favor strings of initials first, like `N. C. Wyeth`.
+				$matches = [];
+				preg_match('/^[A-Z\s\.]+\s/us', $this->Name, $matches);
+				if(sizeof($matches) > 0){
+					$this->_FirstName = trim($matches[0]);
+				}
+				else{
+					// No initials found, try the full first name.
+					$pos = strpos($this->Name, ' ');
+					if($pos !== false){
+						$this->_FirstName = mb_substr($this->Name, 0, $pos);
+					}
+				}
+			}
+			else{
+				// Blank the full name if it's a foundation or fund.
+				$this->_FirstName = null;
+			}
+		}
+
+		return $this->_FirstName;
+	}
 
 	protected function GetSortName(): ?string{
 		if(!isset($this->_SortName)){
@@ -172,7 +200,7 @@ class User{
 		return $this->_Benefits;
 	}
 
-	protected function GetIsRegistered(): ?bool{
+	protected function GetIsRegistered(): bool{
 		if(!isset($this->_IsRegistered)){
 			// A user is "registered" if they have an entry in the `Benefits` table.
 			// This function will fill it out for us.

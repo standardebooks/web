@@ -16,6 +16,6 @@ x		<div class="footer">
 				</a>
 			</p>
 			<p>
-				<a href="SE_UNSUBSCRIBE_URL">Unsubscribe</a>
+				<a href="<?= NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE ?>">Unsubscribe</a>
 			</p>
 		</div>

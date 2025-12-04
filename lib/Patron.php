@@ -11,7 +11,6 @@ class Patron{
 	public int $UserId;
 	public bool $IsAnonymous;
 	public ?string $AlternateName = null;
-	public bool $IsSubscribedToEmails;
 	public DateTimeImmutable $Created;
 	public ?DateTimeImmutable $Ended = null;
 	public ?float $BaseCost = null;
@@ -43,7 +42,7 @@ class Patron{
 	public function Create(): void{
 		$this->Created = NOW;
 		Db::Query('
-			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails, BaseCost, CycleType)
+			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, BaseCost, CycleType)
 			values(?,
 			       ?,
 			       ?,
@@ -51,7 +50,7 @@ class Patron{
 			       ?,
 			       ?,
 			       ?)
-		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails, $this->BaseCost, $this->CycleType]);
+		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->BaseCost, $this->CycleType]);
 
 		Db::Query('
 			INSERT into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload)

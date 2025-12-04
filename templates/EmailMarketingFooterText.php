@@ -14,4 +14,4 @@ Chicago, IL 60622
 
 [Standard Ebooks](<?= SITE_URL ?>)
 
-[Unsubscribe](SE_UNSUBSCRIBE_URL)
+[Unsubscribe](<?= NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE ?>)
