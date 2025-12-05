@@ -72,6 +72,18 @@ class Patron{
 			', [$this->UserId]) > 1;
 
 		$this->SendWelcomeEmail($isReturning);
+
+		$newsletterSubscription = new NewsletterSubscription();
+		$newsletterSubscription->NewsletterId = PATRONS_CIRCLE_NEWS_NEWSLETTER_ID;
+		$newsletterSubscription->UserId = $this->UserId;
+		$newsletterSubscription->User = $this->User;
+		$newsletterSubscription->IsConfirmed = true;
+		try{
+			$newsletterSubscription->Create();
+		}
+		catch(Exceptions\AppException){
+			// Pass.
+		}
 	}
 
 	private function SendWelcomeEmail(bool $isReturning): void{
@@ -141,6 +153,13 @@ class Patron{
 
 			$em->Send();
 		}
+
+		// Unsubscribe them from the Patrons News newsletter.
+		Db::Query('
+				DELETE from NewsletterSubscriptions
+				where UserId = ?
+				and NewsletterId = ?
+			', [$this->UserId, PATRONS_CIRCLE_NEWS_NEWSLETTER_ID]);
 	}
 
 

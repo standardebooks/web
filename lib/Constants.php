@@ -73,6 +73,7 @@ const AWS_CREDENTIALS_PATH = SITE_ROOT . '/config/aws/standardebooks.org-ses/cre
 
 const NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE = 'SE_UNSUBSCRIBE_URL';
 const NEWSLETTER_FIRST_NAME_VARIABLE = 'SE_FIRST_NAME';
+const PATRONS_CIRCLE_NEWS_NEWSLETTER_ID = 3;
 
 // These are defined for convenience, so that getting HTTP input isn't so wordy.
 const GET = Enums\HttpVariableSource::Get;
