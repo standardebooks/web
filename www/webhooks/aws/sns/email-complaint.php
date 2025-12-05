@@ -19,7 +19,7 @@ foreach($message->Message->complaint->complainedRecipients as $complainedRecipie
 		$email = $address['address'] ?? null;
 	}
 
-	// Don't act on spam complaints from `@standardebooks.org` domains/subdomains.
+	// Don't act on spam complaints from our own domains/subdomains.
 	if($email === null || preg_match('/@([a-z]+\.)?' . preg_quote(SITE_DOMAIN, '/') . '$/ius', $email)){
 		continue;
 	}

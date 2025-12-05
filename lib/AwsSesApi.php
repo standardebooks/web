@@ -184,7 +184,7 @@ class AwsSesApi{
 								if($email instanceof QueuedEmailMessage){
 									$email->Delete();
 								}
-								Log::WriteMailLogEntry('Sending mail to ' . vds($email->ToAddresses) . '; subject: ' . $email->Subject);
+								Log::WriteMailLogEntry('Sending mail to ' . vds($email->To) . '; subject: ' . $email->Subject);
 							},
 							function($reason) use ($email){
 								$message  = $reason instanceof \Aws\Exception\AwsException

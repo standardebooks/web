@@ -108,7 +108,11 @@ final class NewsletterSubscription{
 		', [$this->UserId, $this->NewsletterId]);
 	}
 
-	public static function DeleteAllByEmail(string $email): void{
+	public static function DeleteAllByEmail(?string $email): void{
+		if($email === null){
+			return;
+		}
+
 		Db::Query('
 			DELETE ns.*
 			from NewsletterSubscriptions ns
