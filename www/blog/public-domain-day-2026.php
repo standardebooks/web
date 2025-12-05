@@ -1,4 +1,6 @@
 <?
+use Safe\DateTimeImmutable;
+
 $pdYear = 2026;
 
 // Condense getting all `Ebook`s into one DB query, and sort them at the PHP level, instead of doing so many separate queries to get each `Ebook`.

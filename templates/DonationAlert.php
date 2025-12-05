@@ -1,5 +1,5 @@
 <?
-$donationDrive = DonationDrive::GetByIsRunning();
+$donationDrive = DonationDrive::GetByIsActive();
 
 // Hide this alert if...
 if(

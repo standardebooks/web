@@ -239,10 +239,10 @@ try{
 				){
 					// This payment is eligible for the Patrons Circle!
 					if($payment->UserId !== null && $payment->User !== null){
-						$patron = Db::Query('SELECT * from Patrons where UserId = ? and Ended is null', [$payment->UserId], Patron::class)[0] ?? null;
+						$isPatron = Db::QueryBool('SELECT exists(select * from Patrons where UserId = ? and Ended is null)', [$payment->UserId]);
 
 						// Are we already a patron?
-						if($patron === null){
+						if(!$isPatron){
 							// Not a patron yet, add them to the Patrons Circle.
 
 							$patron = new Patron();
@@ -303,6 +303,8 @@ try{
 						$em->Body = Template::EmailAdminNewPatron(patron: $patron, payment: $payment);
 						$em->TextBody = Template::EmailAdminNewPatronText(patron: $patron, payment: $payment);;
 						$em->Send();
+
+						DonationDrive::AddCountToIsActive(Enums\DonationTargetType::NewPatrons);
 					}
 				}
 				elseif($payment->User !== null){

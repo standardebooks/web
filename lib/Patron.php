@@ -41,6 +41,14 @@ class Patron{
 	// *******
 
 	public function Create(): void{
+		$isReturning = Db::QueryBool('
+				SELECT exists(
+					select *
+					from Patrons
+					where UserId = ?
+				)
+			', [$this->UserId]);
+
 		$this->Created = NOW;
 		Db::Query('
 			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails, BaseCost, CycleType)
@@ -66,13 +74,11 @@ class Patron{
 
 		// If this is a patron for the first time, send the first-time patron email.
 		// Otherwise, send the returning patron email.
-		$isReturning = Db::QueryInt('
-				SELECT count(*)
-				from Patrons
-				where UserId = ?
-			', [$this->UserId]) > 1;
-
 		$this->SendWelcomeEmail($isReturning);
+
+		if(!$isReturning){
+			DonationDrive::AddCountToIsActive(Enums\DonationTargetType::NewPatrons);
+		}
 	}
 
 	private function SendWelcomeEmail(bool $isReturning): void{

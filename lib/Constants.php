@@ -103,33 +103,6 @@ const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log';
 const EMAIL_LOG_FILE_PATH =		'/var/log/local/standardebooks.org-email.log';
 
 
-// Controls the progress bar donation dialog.
-/** **`TRUE`** to enable automatic donation drives; **`FALSE`** to disable all donation drives. */
-const DONATION_DRIVES_ENABLED = true;
-const DONATION_DRIVE_DATES = [
-				new DonationDrive(
-							'Spring drive',
-							new DateTimeImmutable('Second Monday of May', SITE_TZ),
-							new DateTimeImmutable('Second Monday of May 22:00 +2 weeks', SITE_TZ),
-							40,
-							20
-						),
-				new DonationDrive(
-							'Summer drive',
-							new DateTimeImmutable('Second Monday of August', SITE_TZ),
-							new DateTimeImmutable('Second Monday of August 22:00 +2 weeks', SITE_TZ),
-							40,
-							20
-						),
-				new DonationDrive(
-							'Holiday drive',
-							NOW < new DateTimeImmutable('January 7, 22:00', SITE_TZ) ? new DateTimeImmutable('November 25 -1 year', SITE_TZ) : new DateTimeImmutable('November 25', SITE_TZ),
-							NOW < new DateTimeImmutable('January 7, 22:00', SITE_TZ) ? new DateTimeImmutable('January 7 22:00', SITE_TZ) : new DateTimeImmutable('January 7 22:00 +1 year', SITE_TZ),
-							75,
-							50
-						)
-			];
-
 /** Controls the countdown donation dialog, basically unused right now. */
 const DONATION_DRIVE_COUNTER_ENABLED = false;
 const DONATION_DRIVE_COUNTER_START = new DateTimeImmutable('May 2, 2022 00:00:00', new DateTimeZone('America/New_York'));
