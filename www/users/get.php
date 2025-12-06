@@ -178,6 +178,10 @@ catch(Exceptions\InvalidPermissionsException){
 						<td><? if($user->Benefits->CanReviewOwnArtwork){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 					<tr>
+						<td>Can create users:</td>
+						<td><? if($user->Benefits->CanCreateUsers){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
 						<td>Can edit users:</td>
 						<td><? if($user->Benefits->CanEditUsers){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
