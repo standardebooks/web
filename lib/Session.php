@@ -80,7 +80,7 @@ class Session{
 					$ex->MessageType = Enums\ExceptionMessageType::Html;
 				}
 			}
-			catch(Exceptions\UserNotFoundException){
+			catch(Exceptions\AmbiguousUserException | Exceptions\UserNotFoundException){
 				// Pass.
 			}
 

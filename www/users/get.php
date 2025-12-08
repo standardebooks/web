@@ -8,7 +8,8 @@ $isCreated = HttpInput::Bool(SESSION, 'is-user-created') ?? false;
 $isSaved = HttpInput::Bool(SESSION, 'is-user-saved') ?? false;
 
 try{
-	$user = User::GetByIdentifier(HttpInput::Str(GET, 'user-identifier'));
+	$identifier = HttpInput::Str(GET, 'user-identifier');
+	$user = User::GetByIdentifier($identifier);
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -22,6 +23,9 @@ try{
 	if($isCreated || $isSaved){
 		session_unset();
 	}
+}
+catch(Exceptions\AmbiguousUserException){
+	Template::RedirectToDisambiguation($identifier);
 }
 catch(Exceptions\UserNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

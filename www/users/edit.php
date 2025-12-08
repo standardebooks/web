@@ -4,13 +4,14 @@ use function Safe\session_unset;
 
 try{
 	session_start();
+	$identifier = HttpInput::Str(GET, 'user-identifier');
 	$user = HttpInput::SessionObject('user', User::class);
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 	$generateNewUuid = HttpInput::Bool(SESSION, 'generate-new-uuid') ?? false;
 	$passwordAction = HttpInput::SessionObject('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::None;
 
 	if($user === null){
-		$user = User::GetByIdentifier(HttpInput::Str(GET, 'user-identifier'));
+		$user = User::GetByIdentifier($identifier);
 	}
 
 	if(Session::$User === null){
@@ -26,6 +27,9 @@ try{
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
 	}
+}
+catch(Exceptions\AmbiguousUserException){
+	Template::RedirectToDisambiguation($identifier);
 }
 catch(Exceptions\UserNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

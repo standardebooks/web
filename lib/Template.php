@@ -88,6 +88,26 @@ class Template extends TemplateBase{
 		exit();
 	}
 
+	/**
+	 * Redirect the user to a `User` disambiguation page.
+	 *
+	 * @param ?string $identifier The `User` identifier to use in the URL, typically the `Name`.
+	 *
+	 * @return never
+	 */
+	public static function RedirectToDisambiguation(?string $identifier): void{
+		http_response_code(Enums\HttpCode::Found->value);
+
+		if($identifier === null){
+			header('Location: /users');
+		}
+		else{
+			header('Location: /users/' . rawurlencode($identifier) . '/disambiguation');
+		}
+
+		exit();
+	}
+
 	public static function IsEreaderBrowser(): bool{
 		/** @var string $httpUserAgent */
 		$httpUserAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';

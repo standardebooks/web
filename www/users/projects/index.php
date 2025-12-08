@@ -1,6 +1,7 @@
 <?
 try{
-	$user = User::GetByIdentifier(HttpInput::Str(GET, 'user-identifier'));
+	$identifier = HttpInput::Str(GET, 'user-identifier');
+	$user = User::GetByIdentifier($identifier);
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -18,6 +19,9 @@ try{
 
 	$managingProjects = Project::GetAllByManagerUserId($user->UserId);
 	$reviewingProjects = Project::GetAllByReviewerUserId($user->UserId);
+}
+catch(Exceptions\AmbiguousUserException){
+	Template::RedirectToDisambiguation($identifier);
 }
 catch(Exceptions\UserNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

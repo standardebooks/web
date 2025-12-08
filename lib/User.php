@@ -380,23 +380,36 @@ final class User{
 	 * Get a `User` based on either a `UserId`, `Email`, or `Uuid`, or `Name`.
 	 *
 	 * @throws Exceptions\UserNotFoundException
+	 * @throws Exceptions\AmbiguousUserException If more than one `User` exists for the identifier (typically when the identifier is a `Name`)
 	 */
 	public static function GetByIdentifier(?string $identifier): User{
-		if($identifier === null){
+		$identifierType = Enums\UserIdentifierType::FromString($identifier);
+
+		if($identifierType === null){
 			throw new Exceptions\UserNotFoundException();
 		}
 
-		if(ctype_digit($identifier)){
-			return User::Get(intval($identifier));
-		}
-		elseif(mb_stripos($identifier, '@') !== false){
-			return User::GetByEmail($identifier);
-		}
-		elseif(preg_match('/^[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}$/', $identifier)){
-			return User::GetByUuid($identifier);
-		}
-		else{
-			return User::GetByName($identifier);
+		switch($identifierType){
+			case Enums\UserIdentifierType::UserId:
+				return User::Get(intval($identifier));
+
+			case Enums\UserIdentifierType::Email:
+				return User::GetByEmail($identifier);
+
+			case Enums\UserIdentifierType::Uuid:
+				return User::GetByUuid($identifier);
+
+			default:
+				$users = User::GetAllByName($identifier);
+				if(sizeof($users) == 0){
+					throw new Exceptions\UserNotFoundException();
+				}
+				elseif(sizeof($users) == 1){
+					return $users[0];
+				}
+				else{
+					throw new Exceptions\AmbiguousUserException($users);
+				}
 		}
 	}
 
@@ -428,6 +441,21 @@ final class User{
 					from Users
 					where Name = ?
 				', [$name], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
+	}
+
+	/**
+	 * @return array<User>
+	 */
+	public static function GetAllByName(?string $name): array{
+		if($name === null){
+			return [];
+		}
+
+		return Db::Query('
+					SELECT *
+					from Users
+					where Name = ?
+				', [$name], User::class);
 	}
 
 	/**

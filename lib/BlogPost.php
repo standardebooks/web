@@ -181,7 +181,7 @@ class BlogPost{
 				$this->User = User::GetByIdentifier($userIdentifier);
 				$this->UserId = $this->User->UserId;
 			}
-			catch(Exceptions\UserNotFoundException $ex){
+			catch(Exceptions\AmbiguousUserException | Exceptions\UserNotFoundException $ex){
 				$error->Add($ex);
 			}
 		}

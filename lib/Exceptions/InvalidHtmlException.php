@@ -12,6 +12,6 @@ class InvalidHtmlException extends AppException{
 			$this->message = 'Invalid HTML: ' . $message;
 		}
 
-		parent::__construct();
+		parent::__construct($this->message);
 	}
 }

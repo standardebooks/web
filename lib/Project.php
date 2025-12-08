@@ -290,7 +290,7 @@ final class Project{
 		try{
 			$producer = User::GetByIdentifier($this->ProducerName);
 		}
-		catch(Exceptions\UserNotFoundException){
+		catch(Exceptions\AmbiguousUserException | Exceptions\UserNotFoundException){
 			$producer = null;
 		}
 
