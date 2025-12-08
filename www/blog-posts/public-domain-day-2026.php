@@ -2,6 +2,7 @@
 use Safe\DateTimeImmutable;
 
 $pdYear = 2026;
+$pdPublicationYear = $pdYear - 96;
 
 // Condense getting all `Ebook`s into one DB query, and sort them at the PHP level, instead of doing so many separate queries to get each `Ebook`.
 $identifiers = [
@@ -143,10 +144,10 @@ ksort($ebooksWithDescriptions);
 		<p>2019 was the year in which new works were finally scheduled to enter the public domain, ending this long, corporate-dictated cultural winter. And as that year drew closer, it became clear that these corporations <em>wouldn’t</em> try to extend copyright yet again—making it the first year in almost a century in which a significant amount of art and literature once again entered the U.S. public domain, free for anyone in the U.S. to read, use, share, remix, build upon, and enjoy.</p>
 		<p>Ever since then, we’ve been celebrating Public Domain Day by preparing some of the year’s biggest literary hits for you to read on January 1.</p>
 		<hr class="fleuron"/>
-		<p><strong>On January 1, <?= $pdYear ?>, books published in 1930 enter the U.S. public domain.</strong></p>
+		<p><strong>On January 1, <?= $pdYear ?>, books published in <?= $pdPublicationYear ?> enter the U.S. public domain.</strong></p>
 		<p>Books by <a href="/ebooks/william-faulkner">William Faulkner</a>, <a href="/ebooks/franz-kafka">Franz Kafka</a>, <a href="/ebooks/agatha-christie">Agatha Christie</a>, and <a href="/ebooks/langston-hughes">Langston Hughes</a> enter the U.S. public domain. In addition, <i><a href="/ebooks/dashiell-hammett/the-maltese-falcon">The Maltese Falcon</a></i>, perhaps the best-known noir book—and film—of all time, and books by <a href="/ebooks/evelyn-waugh">Evelyn Waugh</a>, <a href="/ebooks/dorothy-l-sayers">Dorothy L. Sayers</a>, and more, become free for anyone in the U.S. to read, use, and re-use.</p>
 		<p>Our friends at the Public Domain Review have written about some <a href="https://publicdomainreview.org/blog/2026/01/public-domain-day-2026/">other things that enter the public domain this year, too</a>.</p>
-		<p>These past few months at Standard Ebooks, our volunteers have been working hard to prepare a selection of the books published in 1930 in advance of Public Domain Day. We’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new free ebooks</strong> with you!</p>
+		<p>These past few months at Standard Ebooks, our volunteers have been working hard to prepare a selection of the books published in <?= $pdPublicationYear ?> in advance of Public Domain Day. We’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new free ebooks</strong> with you!</p>
 		<? if(sizeof($ebooksWithDescriptions) == 0){ ?>
 			<p class="empty">We’re still preparing these free ebooks for Public Domain Day. Check back on January 1!</p>
 		<? }else{ ?>

@@ -1,4 +1,8 @@
 <?
+use Safe\DateTimeImmutable;
+
+$pdYear = 2025;
+$pdPublicationYear = $pdYear - 96;
 
 // Condense getting all `Ebook`s into one DB query, and sort them at the PHP level, instead of doing so many separate queries to get each `Ebook`.
 $identifiers = [
@@ -99,13 +103,13 @@ foreach($ebooks as $ebook){
 
 ksort($ebooksWithDescriptions);
 
-?><?= Template::Header(title: 'Public Domain Day 2025 in Literature - Blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day 2025!', css: ['/css/public-domain-day.css']) ?>
+?><?= Template::Header(title: 'Public Domain Day ' . $pdYear . ' in Literature - Blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day ' . $pdYear . '!', css: ['/css/public-domain-day.css']) ?>
 <main>
 	<section class="narrow blog has-hero">
 		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
 		<hgroup>
 			<h1>Public Domain Day in Literature</h1>
-			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in 2025</p>
+			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in <?= $pdYear ?></p>
 		</hgroup>
 		<picture data-caption="The Reader. Harold Knight, circa 1910">
 			<source srcset="/images/the-reader@2x.avif 2x, /images/the-reader.avif 1x" type="image/avif"/>
@@ -119,14 +123,19 @@ ksort($ebooksWithDescriptions);
 		<p>2019 was the year in which new works were finally scheduled to enter the public domain, ending this long, corporate-dictated cultural winter. And as that year drew closer, it became clear that these corporations <em>wouldn’t</em> try to extend copyright yet again—making it the first year in almost a century in which a significant amount of art and literature once again entered the U.S. public domain, free for anyone in the U.S. to read, use, share, remix, build upon, and enjoy.</p>
 		<p>Ever since then, we’ve been celebrating Public Domain Day by preparing some of the year’s biggest literary hits for you to read on January 1.</p>
 		<hr class="fleuron"/>
-		<p><strong>On January 1, 2025, books published in 1929 enter the U.S. public domain.</strong></p>
-		<p>And 1929 was a literary doozy!</p>
+		<p><strong>On January 1, <?= $pdYear ?>, books published in <?= $pdPublicationYear ?> enter the U.S. public domain.</strong></p>
+		<p>And <?= $pdPublicationYear ?> was a literary doozy!</p>
 		<p>Books by <a href="/ebooks/william-faulkner">William Faulkner</a>, <a href="/ebooks/ernest-hemingway">Ernest Hemingway</a>, <a href="/ebooks/mahatma-gandhi">Mahatma Gandhi</a>, and <a href="/ebooks/john-steinbeck">John Steinbeck</a> enter the U.S. public domain. Joining these esteemed names is the English translation of <i><a href="/ebooks/erich-maria-remarque/all-quiet-on-the-western-front/a-w-wheen">All Quiet on the Western Front</a></i>, the war novel so grisly that it was banned in parts of Europe; <i><a href="/ebooks/dashiell-hammett/red-harvest">Red Harvest</a></i>, the first novel starring the <a href="/collections/continental-op">Continental Op</a>, the hard-boiled noir detective who formed the archetype for every hard-drinking, fedora-wearing private eye to grace page and screen since; and much more.</p>
 		<p>Our friends at the Public Domain Review have written about some <a href="https://publicdomainreview.org/blog/2025/01/public-domain-day-2025/">other things that enter the public domain this year, too</a>.</p>
-		<p>These past few months at Standard Ebooks, our volunteers have been working hard to prepare a selection of the books published in 1929 in advance of Public Domain Day. We’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new free ebooks</strong> with you!</p>
+		<p>These past few months at Standard Ebooks, our volunteers have been working hard to prepare a selection of the books published in <?= $pdPublicationYear ?> in advance of Public Domain Day. We’re excited to finally be able to share these <strong><?= number_format(sizeof($identifiers)) ?> new free ebooks</strong> with you!</p>
 		<? if(sizeof($ebooksWithDescriptions) == 0){ ?>
 			<p class="empty">We’re still preparing these free ebooks for Public Domain Day. Check back on January 1!</p>
 		<? }else{ ?>
+			<? if(PD_NOW < new DateTimeImmutable('January 1, ' . $pdYear . ' 8:00 AM', SITE_TZ)){ ?>
+				<aside class="alert">
+					<p>It’s not Public Doman Day yet — these books will be revealed and available to download for free on January 1, <?= $pdYear ?>.</p>
+				</aside>
+			<? } ?>
 			<ul class="public-domain-day">
 				<? foreach($ebooksWithDescriptions as $ebookGroup){ ?>
 					<li>
@@ -148,7 +157,8 @@ ksort($ebooksWithDescriptions);
 										</p>
 									<? } ?>
 								</div>
-							<? } ?>								<?= $ebookGroup['description'] ?>
+							<? } ?>
+							<?= $ebookGroup['description'] ?>
 							<p>
 								<a href="<?= $ebookGroup['ebook']->Url ?>">Download and read for free →</a>
 							</p>
