@@ -175,6 +175,13 @@ $isEditForm ??= false;
 				Can create users
 			</label>
 		</li>
+		<li>
+			<label>
+				<input type="hidden" name="benefits-can-edit-blog-posts" value="false" />
+				<input type="checkbox" name="benefits-can-edit-blog-posts" value="true"<? if($user->Benefits->CanEditBlogPosts){ ?> checked="checked"<? } ?> />
+				Can edit blog posts
+			</label>
+		</li>
 	</ul>
 </fieldset>
 

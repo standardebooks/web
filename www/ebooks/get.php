@@ -385,7 +385,7 @@ catch(Exceptions\EbookNotFoundException){
 		<? if(sizeof($carousel) > 0){ ?>
 			<aside id="more-ebooks">
 				<h2>More free<? if($carouselTag !== null){ ?> <?= strtolower($carouselTag->Name) ?><? } ?> ebooks</h2>
-				<?= Template::EbookCarousel(carousel: $carousel, isMultiSize: true) ?>
+				<?= Template::EbookCarousel(ebooks: $carousel, isMultiSize: true) ?>
 			</aside>
 		<? } ?>
 	</article>

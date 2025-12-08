@@ -201,6 +201,10 @@ catch(Exceptions\InvalidPermissionsException){
 						<td>Can review projects:</td>
 						<td><? if($user->Benefits->CanReviewProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
+					<tr>
+						<td>Can edit blog posts:</td>
+						<td><? if($user->Benefits->CanEditBlogPosts){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
 				<? } ?>
 			</tbody>
 		</table>

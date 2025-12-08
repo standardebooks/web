@@ -1,19 +1,19 @@
 <?
 /**
- * @var array<Ebook> $carousel
+ * @var array<Ebook> $ebooks
  */
 
 $isMultiSize ??= false;
 ?>
-<? if(sizeof($carousel) > 0){ ?>
+<? if(sizeof($ebooks) > 0){ ?>
 	<ul class="ebook-carousel<? if($isMultiSize){ ?> multi-size<? } ?>">
-		<? foreach($carousel as $carouselEbook){ ?>
+		<? foreach($ebooks as $ebook){ ?>
 			<li>
-				<a href="<?= $carouselEbook->Url ?>">
+				<a href="<?= $ebook->Url ?>">
 					<picture>
-						<? if($carouselEbook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $carouselEbook->CoverImage2xAvifUrl ?> 2x, <?= $carouselEbook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
-						<source srcset="<?= $carouselEbook->CoverImage2xUrl ?> 2x, <?= $carouselEbook->CoverImageUrl ?> 1x" type="image/jpg"/>
-						<img src="<?= $carouselEbook->CoverImageUrl ?>" alt="<?= Formatter::EscapeHtml(strip_tags($carouselEbook->TitleWithCreditsHtml)) ?>" height="200" width="134" loading="lazy"/>
+						<? if($ebook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
+						<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
+						<img src="<?= $ebook->CoverImageUrl ?>" alt="<?= Formatter::EscapeHtml(strip_tags($ebook->TitleWithCreditsHtml)) ?>" height="200" width="134" loading="lazy"/>
 					</picture>
 				</a>
 			</li>

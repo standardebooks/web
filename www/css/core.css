@@ -696,6 +696,7 @@ h1 + .message{
 	border: 2px solid rgba(0, 0, 0, .25);
 	border-radius: .25rem;
 	padding: 1rem;
+	margin: 1rem auto;
 	color: #fff;
 	text-shadow: 1px 1px 0px rgba(0, 0, 0, .75);
 	box-sizing: border-box;
@@ -864,6 +865,7 @@ input[type="number"]:focus,
 input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="file"]:focus,
+input[type="datetime-local"]:focus,
 label:has(input[type="radio"]):focus-within,
 label:has(input[type="checkbox"]):focus-within,
 select:focus,
@@ -1840,7 +1842,8 @@ input[type="url"],
 input[type="email"],
 input[type="password"],
 input[type="search"],
-input[type="file"]{
+input[type="file"],
+input[type="datetime-local"]{
 	-webkit-appearance: none;
 	appearance: none;
 	box-sizing: border-box;

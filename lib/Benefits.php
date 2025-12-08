@@ -24,6 +24,7 @@ class Benefits{
 	public bool $CanEditProjects = false;
 	public bool $CanBeAutoAssignedToProjects = false;
 	public bool $CanCreateUsers = false;
+	public bool $CanEditBlogPosts = false;
 
 	protected bool $_HasBenefits;
 
@@ -52,6 +53,8 @@ class Benefits{
 			$this->CanBeAutoAssignedToProjects
 			||
 			$this->CanCreateUsers
+			||
+			$this->CanEditBlogPosts
 		){
 			return true;
 		}
@@ -95,18 +98,18 @@ class Benefits{
 
 	public function Create(): void{
 		Db::Query('
-				INSERT into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, CanReviewOwnArtwork, CanEditUsers, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanCreateUsers)
-				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-		', [$this->UserId, $this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->CanReviewOwnArtwork, $this->CanEditUsers, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanCreateUsers]);
+				INSERT into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, CanReviewOwnArtwork, CanEditUsers, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanCreateUsers, CanEditBlogPosts)
+				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [$this->UserId, $this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->CanReviewOwnArtwork, $this->CanEditUsers, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanCreateUsers, $this->CanEditBlogPosts]);
 	}
 
 	public function Save(): void{
 		Db::Query('
 				UPDATE Benefits
-				set CanAccessFeeds = ?, CanVote = ?, CanBulkDownload = ?, CanUploadArtwork = ?, CanReviewArtwork = ?, CanReviewOwnArtwork = ?, CanEditUsers = ?, CanEditEbookPlaceholders = ?, CanCreateUsers = ?
+				set CanAccessFeeds = ?, CanVote = ?, CanBulkDownload = ?, CanUploadArtwork = ?, CanReviewArtwork = ?, CanReviewOwnArtwork = ?, CanEditUsers = ?, CanEditEbookPlaceholders = ?, CanCreateUsers = ?, CanEditBlogPosts = ?
 				where
 				UserId = ?
-		', [$this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->CanReviewOwnArtwork, $this->CanEditUsers, $this->CanEditEbookPlaceholders, $this->CanCreateUsers, $this->UserId]);
+		', [$this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->CanReviewOwnArtwork, $this->CanEditUsers, $this->CanEditEbookPlaceholders, $this->CanCreateUsers, $this->CanEditBlogPosts, $this->UserId]);
 	}
 
 	public function FillFromHttpPost(): void{
@@ -122,5 +125,6 @@ class Benefits{
 		$this->PropertyFromHttp('CanReviewProjects');
 		$this->PropertyFromHttp('CanManageProjects');
 		$this->PropertyFromHttp('CanCreateUsers');
+		$this->PropertyFromHttp('CanEditBlogPosts');
 	}
 }

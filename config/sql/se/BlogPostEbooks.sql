@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS `se`.`BlogPostEbooks` (
+  `BlogPostId` INT UNSIGNED NOT NULL,
+  `EbookId` INT UNSIGNED NOT NULL,
+  `SortOrder` SMALLINT UNSIGNED NOT NULL,
+  INDEX `idxBlogPost` (`BlogPostId` ASC) VISIBLE);

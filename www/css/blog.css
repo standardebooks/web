@@ -3,6 +3,7 @@
 	padding: 2em;
 	font-style: italic;
 	box-sizing: border-box;
+	margin: 2em auto;
 }
 
 .editors-note h2{
@@ -21,15 +22,29 @@ h1 + .editors-note,
 	margin-bottom: 2rem;
 }
 
-.byline + .editors-note,
-.byline + .donation{
-	margin-top: 2rem;
-}
-
 section.blog{
 	display: block;
 }
 
 .byline{
 	font-style: italic;
+}
+
+.blog-post-form{
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.blog-post-form textarea{
+	white-space: pre;
+	min-height: 32ex;
+}
+
+.footer{
+	text-align: right;
+}
+
+.blog .donation{
+	margin: 2rem auto;
 }
