@@ -394,35 +394,35 @@ final class Project{
 			// The manager is also the reviewer, just send one email.
 			if($this->ManagerUserId == $this->ReviewerUserId){
 				if($this->Manager->Email !== null && $this->Manager->Name != $this->ProducerName){
-					$em = new Email();
+					$em = new QueuedEmailMessage();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
 					$em->Subject = 'New ebook project to manage and review';
-					$em->Body = Template::EmailManagerNewProject(project: $this, role: 'manage and review', user: $this->Manager);
-					$em->TextBody = Template::EmailManagerNewProjectText(project: $this, role: 'manage and review', user: $this->Manager);
+					$em->BodyHtml = Template::EmailManagerNewProject(project: $this, role: 'manage and review', user: $this->Manager);
+					$em->BodyText = Template::EmailManagerNewProjectText(project: $this, role: 'manage and review', user: $this->Manager);
 					$em->Send();
 				}
 			}
 			else{
 				// Notify the manager.
 				if($this->Manager->Email !== null){
-					$em = new Email();
+					$em = new QueuedEmailMessage();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
 					$em->Subject = 'New ebook project to manage';
-					$em->Body = Template::EmailManagerNewProject(project: $this, role: 'manage', user: $this->Manager);
-					$em->TextBody = Template::EmailManagerNewProjectText(project: $this, role: 'manage', user: $this->Manager);
+					$em->BodyHtml = Template::EmailManagerNewProject(project: $this, role: 'manage', user: $this->Manager);
+					$em->BodyText = Template::EmailManagerNewProjectText(project: $this, role: 'manage', user: $this->Manager);
 					$em->Send();
 				}
 
 				// Notify the reviewer.
 				if($this->Reviewer->Email !== null){
-					$em = new Email();
+					$em = new QueuedEmailMessage();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Reviewer->Email;
 					$em->Subject = 'New ebook project to review';
-					$em->Body = Template::EmailManagerNewProject(project: $this, role: 'review', user: $this->Reviewer);
-					$em->TextBody = Template::EmailManagerNewProjectText(project: $this, role: 'review', user: $this->Reviewer);
+					$em->BodyHtml = Template::EmailManagerNewProject(project: $this, role: 'review', user: $this->Reviewer);
+					$em->BodyText = Template::EmailManagerNewProjectText(project: $this, role: 'review', user: $this->Reviewer);
 					$em->Send();
 				}
 			}
@@ -739,7 +739,7 @@ final class Project{
 		$reminder->Type = $type;
 		$reminder->Create();
 
-		$em = new Email();
+		$em = new QueuedEmailMessage();
 		$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 		$em->FromName = EDITOR_IN_CHIEF_NAME;
 		$em->To = $this->ProducerEmail;
@@ -747,13 +747,13 @@ final class Project{
 
 		switch($type){
 			case Enums\ProjectReminderType::Stalled:
-				$em->Body = Template::EmailProjectStalled();
-				$em->TextBody = Template::EmailProjectStalledText();
+				$em->BodyHtml = Template::EmailProjectStalled();
+				$em->BodyText = Template::EmailProjectStalledText();
 				break;
 
 			case Enums\ProjectReminderType::Abandoned:
-				$em->Body = Template::EmailProjectAbandoned();
-				$em->TextBody = Template::EmailProjectAbandonedText();
+				$em->BodyHtml = Template::EmailProjectAbandoned();
+				$em->BodyText = Template::EmailProjectAbandonedText();
 				break;
 		}
 

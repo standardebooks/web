@@ -132,15 +132,14 @@ catch(Exceptions\InvalidPermissionsException){
 		</table>
 
 		<h2>Newsletter subscriptions</h2>
-		<? if($user->NewsletterSubscription === null || (!$user->NewsletterSubscription->IsSubscribedToNewsletter && !$user->NewsletterSubscription->IsSubscribedToSummary)){ ?>
+		<? if(sizeof($user->NewsletterSubscriptions) == 0){ ?>
 			<p class="empty-notice">None.</p>
 		<? }else{ ?>
 			<ul>
-				<? if($user->NewsletterSubscription->IsSubscribedToNewsletter){ ?>
-					<li>General newsletter</li>
-				<? } ?>
-				<? if($user->NewsletterSubscription->IsSubscribedToSummary){ ?>
-					<li>Monthly summary newsletter</li>
+				<? foreach($user->NewsletterSubscriptions as $newsletterSubscription){ ?>
+					<li>
+						<p><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?></p>
+					</li>
 				<? } ?>
 			</ul>
 		<? } ?>

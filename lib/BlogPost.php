@@ -97,7 +97,7 @@ class BlogPost{
 		}
 		else{
 			try{
-				Formatter::ValidateHtmlFragment($this->Title, false);
+				Validator::ValidateHtmlFragment($this->Title, false);
 			}
 			catch(Exceptions\InvalidHtmlException $ex){
 				$error->Add(new Exceptions\InvalidBlogPostTitleHtmlException($ex->RawMessage));
@@ -110,7 +110,7 @@ class BlogPost{
 		}
 		else{
 			try{
-				Formatter::ValidateHtmlFragment($this->Subtitle, false);
+				Validator::ValidateHtmlFragment($this->Subtitle, false);
 			}
 			catch(Exceptions\InvalidHtmlException $ex){
 				$error->Add(new Exceptions\InvalidBlogPostSubtitleHtmlException($ex->RawMessage));
@@ -130,7 +130,7 @@ class BlogPost{
 		}
 		else{
 			try{
-				Formatter::ValidateHtmlFragment($this->Body);
+				Validator::ValidateHtmlFragment($this->Body);
 			}
 			catch(Exceptions\InvalidHtmlException $ex){
 				$error->Add(new Exceptions\InvalidBlogPostBodyHtmlException($ex->RawMessage));

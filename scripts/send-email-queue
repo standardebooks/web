@@ -1,0 +1,94 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+use function Safe\flock;
+use function Safe\fopen;
+use function Safe\getopt;
+use function Safe\set_time_limit;
+
+set_time_limit(0); // Disable script timeout.
+
+$options = getopt('h', ['help', 'runs:']);
+$runs = $options['runs'] ?? 1;
+$secondsBetweenRuns = (int)floor(60 / $runs);
+$emailsPerRun = (AWS_SES_MAX_EMAILS_PER_SECOND * $secondsBetweenRuns) - 5;
+
+// `getopts()` returns **`FALSE`** if the argument is present!
+if((isset($options['h']) && $options['h'] === false) || (isset($options['help']) && $options['help'] === false)){
+	print("Send a batch of email from the email queue.\n\n");
+	print("--runs=N\n");
+	print("\tThe number of evenly-spaced runs to perform in one minute. Defaults to 1.\n\n");
+	exit();
+}
+
+for($i = 0; $i < $runs; $i++){
+	$startTime = microtime(true);
+
+	$lockFile = fopen(sys_get_temp_dir() . '/' . SITE_DOMAIN . '-send-email-queue', 'c');
+
+	try{
+		flock($lockFile, LOCK_EX | LOCK_NB);
+	}
+	catch(Exception $ex){
+		// `send-email-queue` is already running, exit.
+		exit(1);
+	}
+
+	/*
+	This ad-hoc message queue uses the `for update skip locked` clauses to create row-level read locks on each message. This prevents it from being read by other processes. See <https://www.crunchydata.com/blog/message-queuing-using-native-postgresql> for the general outline.
+
+	**VERY IMPORTANT**: If we use the default isolation level (`repeateable read`), then *the whole table will lock to inserts!** See:
+
+	- <https://stackoverflow.com/questions/22242081/select-for-update-holding-entire-table-in-mysql-rather-than-row-by-row>
+
+	- <https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html#isolevel_repeatable-read>
+
+	To avoid this and allow inserts while we do long processing, we set the transaction level to `read committed`.
+
+	Based on the blog post at CrunchyData, it would be faster to something like this:
+
+	```sql
+	DELETE x
+	from
+	QueuedEmailMessages x
+	using(
+		select * from QueuedEmailMessages where WorkerPid != ? order by Priority desc, QueuedEmailMessageId asc limit 499 for update skip locked
+	) q
+	where q.QueuedEmailMessageId = x.QueuedEmailMessageId
+	returning x.*;
+	```
+
+	...but MariaDB 10.6 doesn't support `returning` when used with the `using` clause, so instead we have to delete each matching row one by one.
+
+	NOTE: We can't `order by Priority desc, QueuedEmailMessageId asc` because if the query can't use an index, then innoDB locks the whole table instead of locking individual rows. MariaDB can't use indexes on selects with mixed sorting. We force the index to make sure the query planner uses it, because sometimes it might not.
+	*/
+
+	Db::Query('set transaction isolation level read committed');
+	Db::Query('start transaction');
+	$queuedItems = Db::Query('SELECT * from QueuedEmailMessages force index (idxStatus) where Provider = ? order by Priority desc limit ? for update skip locked', [Enums\EmailProviderType::Ses, $emailsPerRun], QueuedEmailMessage::class);
+
+	if(sizeof($queuedItems) > 0){
+		try{
+			AwsSesApi::Send($queuedItems);
+		}
+		catch(\Exception $ex){
+			Db::Query('commit');
+
+			// Unrecognized exception, throw it up to exit the script.
+			throw new Exception('Failed sending batch emails via SES. Exception: ' . $ex->getMessage());
+		}
+	}
+
+	Db::Query('commit');
+
+	flock($lockFile, LOCK_UN);
+
+	// If there are more runs, sleep.
+	if($i + 1 < $runs){
+		$elapsedTime = microtime(true) - $startTime;
+		if($elapsedTime < $secondsBetweenRuns){
+			usleep((int)ceil(($secondsBetweenRuns - $elapsedTime) * 1000000));
+		}
+	}
+}

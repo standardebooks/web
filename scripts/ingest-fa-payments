@@ -248,11 +248,11 @@ catch(Exception $ex){
 
 	// Only send an email if this script failed twice in a row.
 	if($sendEmail){
-		$em = new Email(true);
+		$em = new QueuedEmailMessage(true);
 		$em->To = ADMIN_EMAIL_ADDRESS;
 		$em->Subject = 'Ingesting FA donations failed';
-		$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
-		$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->BodyHtml = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->BodyText = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
 		$em->Send();
 	}
 

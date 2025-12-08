@@ -11,7 +11,6 @@ class Patron{
 	public int $UserId;
 	public bool $IsAnonymous;
 	public ?string $AlternateName = null;
-	public bool $IsSubscribedToEmails;
 	public DateTimeImmutable $Created;
 	public ?DateTimeImmutable $Ended = null;
 	public ?float $BaseCost = null;
@@ -51,15 +50,14 @@ class Patron{
 
 		$this->Created = NOW;
 		Db::Query('
-			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, IsSubscribedToEmails, BaseCost, CycleType)
+			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, BaseCost, CycleType)
 			values(?,
 			       ?,
 			       ?,
 			       ?,
 			       ?,
-			       ?,
 			       ?)
-		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->IsSubscribedToEmails, $this->BaseCost, $this->CycleType]);
+		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->BaseCost, $this->CycleType]);
 
 		Db::Query('
 			INSERT into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload)
@@ -79,27 +77,41 @@ class Patron{
 		if(!$isReturning){
 			DonationDrive::AddCountToIsActive(Enums\DonationTargetType::NewPatrons);
 		}
+
+		$newsletterSubscription = new NewsletterSubscription();
+		$newsletterSubscription->NewsletterId = PATRONS_CIRCLE_NEWS_NEWSLETTER_ID;
+		$newsletterSubscription->UserId = $this->UserId;
+		$newsletterSubscription->User = $this->User;
+		$newsletterSubscription->IsConfirmed = true;
+		try{
+			$newsletterSubscription->Create();
+		}
+		catch(Exceptions\AppException){
+			// Pass.
+		}
 	}
 
 	private function SendWelcomeEmail(bool $isReturning): void{
 		if(isset($this->User)){
-			$em = new Email();
-			$em->To = $this->User->Email ?? '';
-			$em->ToName = $this->User->Name ?? '';
-			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
-			$em->FromName = EDITOR_IN_CHIEF_NAME;
-			$em->Subject = 'Thank you for supporting Standard Ebooks!';
-			$em->Body = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
-			$em->TextBody = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
-			$em->Send();
+			if($this->User->Email !== null && $this->User->CanReceiveEmail){
+				$em = new QueuedEmailMessage();
+				$em->To = $this->User->Email;
+				$em->ToName = $this->User->Name;
+				$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
+				$em->FromName = EDITOR_IN_CHIEF_NAME;
+				$em->Subject = 'Thank you for supporting Standard Ebooks!';
+				$em->BodyHtml = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
+				$em->BodyText = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
+				$em->Send();
+			}
 
 			if(!$isReturning){
-				$em = new Email();
+				$em = new QueuedEmailMessage();
 				$em->To = ADMIN_EMAIL_ADDRESS;
 				$em->From = ADMIN_EMAIL_ADDRESS;
 				$em->Subject = 'New Patrons Circle member';
-				$em->Body = Template::EmailAdminNewPatron(patron: $this, payment: $this->User->Payments[0]);
-				$em->TextBody = Template::EmailAdminNewPatronText(patron: $this, payment: $this->User->Payments[0]);;
+				$em->BodyHtml = Template::EmailAdminNewPatron(patron: $this, payment: $this->User->Payments[0]);
+				$em->BodyText = Template::EmailAdminNewPatronText(patron: $this, payment: $this->User->Payments[0]);;
 				$em->Send();
 			}
 		}
@@ -125,27 +137,34 @@ class Patron{
 			', [$this->UserId]);
 
 		// Email the patron to notify them their term has ended.
-		if($this->LastPayment !== null && $this->User->Email !== null){
-			$em = new Email();
+		if($this->LastPayment !== null && $this->User->Email !== null && $this->User->CanReceiveEmail){
+			$em = new QueuedEmailMessage();
+			$em->To = $this->User->Email;
+			$em->ToName = $this->User->Name;
 			$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 			$em->FromName = EDITOR_IN_CHIEF_NAME;
-			$em->To = $this->User->Email;
-			$em->ToName = $this->User->Name ?? '';
 			$em->Subject = 'Will you continue to help us make free, beautiful digital literature?';
 
 			if($this->CycleType == Enums\CycleType::Monthly){
 				// Email recurring donors who have lapsed.
-				$em->Body = Template::EmailPatronsCircleRecurringCompleted();
-				$em->TextBody = Template::EmailPatronsCircleRecurringCompletedText();
+				$em->BodyHtml = Template::EmailPatronsCircleRecurringCompleted();
+				$em->BodyText = Template::EmailPatronsCircleRecurringCompletedText();
 			}
 			else{
 				// Email one time donors who have expired after one year.
-				$em->Body = Template::EmailPatronsCircleCompleted(ebooksThisYear: $ebooksThisYear);
-				$em->TextBody = Template::EmailPatronsCircleCompletedText(ebooksThisYear: $ebooksThisYear);
+				$em->BodyHtml = Template::EmailPatronsCircleCompleted(ebooksThisYear: $ebooksThisYear);
+				$em->BodyText = Template::EmailPatronsCircleCompletedText(ebooksThisYear: $ebooksThisYear);
 			}
 
 			$em->Send();
 		}
+
+		// Unsubscribe them from the Patrons News newsletter.
+		Db::Query('
+				DELETE from NewsletterSubscriptions
+				where UserId = ?
+				and NewsletterId = ?
+			', [$this->UserId, PATRONS_CIRCLE_NEWS_NEWSLETTER_ID]);
 	}
 
 

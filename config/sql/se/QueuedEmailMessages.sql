@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `QueuedEmailMessages` (
+  `QueuedEmailMessageId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `To` varchar(80) NOT NULL,
+  `ToName` varchar(255) NULL,
+  `From` varchar(80) NOT NULL,
+  `FromName` varchar(255) DEFAULT NULL,
+  `ReplyTo` varchar(80) DEFAULT NULL,
+  `Subject` varchar(255) NOT NULL,
+  `BodyHtml` longtext NOT NULL,
+  `BodyText` longtext DEFAULT NULL,
+  `Priority` enum('low','normal','high') NOT NULL DEFAULT 'normal',
+  `UnsubscribeUrl` text DEFAULT NULL,
+  `Provider` enum('ses') NOT NULL,
+  `Attachments` mediumblob DEFAULT NULL,
+  `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '{}' CHECK (json_valid(`Metadata`)),
+  PRIMARY KEY (`QueuedEmailMessageId`),
+  KEY `idxStatus` (`Priority`,`QueuedEmailMessageId`),
+  KEY `idxTo` (`To`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

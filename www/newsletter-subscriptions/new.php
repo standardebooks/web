@@ -4,10 +4,12 @@ use function Safe\session_unset;
 
 session_start();
 
-/** @var NewsletterSubscription $subscription */
-$subscription = $_SESSION['subscription'] ?? new NewsletterSubscription();
-/** @var ?\Exception $exception */
-$exception = $_SESSION['exception'] ?? null;
+$exception = HttpInput::SessionObject('exception', \Exception::class);
+
+/** @var array<int> $newsletterIds */
+$newsletterIds = HttpInput::Array(SESSION, 'newsletter-ids') ?? [];
+$newsletters = Newsletter::GetAllByIsVisible();
+$email = HttpInput::Str(SESSION, 'email') ?? '';
 
 if($exception){
 	http_response_code(Enums\HttpCode::UnprocessableContent->value);
@@ -32,12 +34,12 @@ if($exception){
 
 		<?= Template::Error(exception: $exception) ?>
 
-		<form action="/newsletter/subscriptions" method="<?= Enums\HttpMethod::Post->value ?>">
+		<form action="/newsletter-subscriptions" method="<?= Enums\HttpMethod::Post->value ?>">
 			<label class="automation-test"><? /* Test for spam bots filling out all fields */ ?>
 				<input type="text" name="automation-test" value="" maxlength="80" />
 			</label>
 			<label>Your email address
-				<input type="email" name="email" value="<?= Formatter::EscapeHtml($subscription->User->Email ?? '') ?>" maxlength="80" required="required" />
+				<input type="email" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
 			</label>
 			<label class="icon captcha">
 				Type the letters in the <abbr class="acronym">CAPTCHA</abbr> image
@@ -49,18 +51,15 @@ if($exception){
 			<fieldset>
 				<p>What kind of email would you like to receive?</p>
 				<ul>
-					<li>
-						<label>
-							<input type="hidden" name="is-subscribed-to-newsletter" value="false" />
-							<input type="checkbox" value="true" name="is-subscribed-to-newsletter"<? if($subscription->IsSubscribedToNewsletter){ ?> checked="checked"<? } ?> />The monthly Standard Ebooks newsletter
-						</label>
-					</li>
-					<li>
-						<label>
-							<input type="hidden" name="is-subscribed-to-summary" value="false" />
-							<input type="checkbox" value="true" name="is-subscribed-to-summary"<? if($subscription->IsSubscribedToSummary){ ?> checked="checked"<? } ?> />A monthly summary of new ebook releases
-						</label>
-					</li>
+					<? foreach($newsletters as $newsletter){ ?>
+						<li>
+							<label>
+								<input type="checkbox" value="<?= $newsletter->NewsletterId ?>" name="newsletter-ids[]"<? if(in_array($newsletter->NewsletterId, $newsletterIds)){ ?> checked="checked"<? } ?> />
+								<span><b><?= Formatter::EscapeHtml($newsletter->Name) ?></b></span>
+								<span><?= $newsletter->Description ?></span>
+							</label>
+						</li>
+					<? } ?>
 				</ul>
 			</fieldset>
 			<button>Subscribe</button>

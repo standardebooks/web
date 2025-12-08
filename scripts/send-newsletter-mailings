@@ -1,0 +1,15 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+Db::Query('set transaction isolation level read committed');
+Db::Query('start transaction');
+Db::Query('set @start = utc_timestamp()');
+$newsletterMailings = Db::Query('SELECT * from NewsletterMailings force index(idxStatus) where Status = ? and SendOn <= @start for update skip locked', [Enums\QueueStatus::Queued], NewsletterMailing::class);
+Db::Query('UPDATE NewsletterMailings set Status = ? where Status = ? and SendOn <= @start', [Enums\QueueStatus::Processing, Enums\QueueStatus::Queued]);
+Db::Query('commit');
+
+foreach($newsletterMailings as $newsletterMailing){
+	print('Sending newsletter mailing #' . $newsletterMailing->NewsletterMailingId . "\n");
+	$newsletterMailing->Send();
+}

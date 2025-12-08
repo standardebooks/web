@@ -11,13 +11,15 @@ use function Safe\preg_match;
  * @property-read string $Url
  * @property-read string $EditUrl
  * @property ?Patron $Patron
- * @property ?NewsletterSubscription $NewsletterSubscription
+ * @property array<NewsletterSubscription> $NewsletterSubscriptions
  * @property-read ?Payment $LastPayment
  * @property-read string $DisplayName The `User`'s name, or email, or ID.
  * @property-read ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
+ * @property-read ?string $FirstName The `User`'s first name, or `null` if the `User` has no name or is a foundation or institution.
  */
-class User{
+final class User{
 	use Traits\Accessor;
+	use Traits\FromRow;
 	use Traits\PropertyFromHttp;
 
 	public int $UserId;
@@ -27,6 +29,8 @@ class User{
 	public DateTimeImmutable $Updated;
 	public string $Uuid;
 	public ?string $PasswordHash = null;
+	public bool $CanReceiveEmail = true;
+
 	protected bool $_IsRegistered;
 	/** @var array<Payment> $_Payments */
 	protected array $_Payments;
@@ -35,25 +39,54 @@ class User{
 	protected string $_Url;
 	protected string $_EditUrl;
 	protected ?Patron $_Patron;
-	protected ?NewsletterSubscription $_NewsletterSubscription;
+	/** @var array<NewsletterSubscription> $_NewsletterSubscriptions */
+	protected array $_NewsletterSubscriptions;
 	protected string $_DisplayName;
 	protected ?string $_SortName = null;
+	protected ?string $_FirstName = null;
 
 
 	// *******
 	// GETTERS
 	// *******
 
+	protected function GetFirstName(): ?string{
+		if(!isset($this->_FirstName)){
+			if($this->Name !== null && !preg_match('/(^the | fund$| foundation$)/is', $this->Name)){
+				// Favor strings of initials first, like `N. C. Wyeth`.
+				$matches = [];
+				preg_match('/^[A-Z\s\.]+\s/us', $this->Name, $matches);
+				if(sizeof($matches) > 0){
+					$this->_FirstName = trim($matches[0]);
+				}
+				else{
+					// No initials found, try the full first name.
+					$pos = strpos($this->Name, ' ');
+					if($pos !== false){
+						$this->_FirstName = mb_substr($this->Name, 0, $pos);
+					}
+				}
+			}
+			else{
+				// Blank the full name if it's a foundation or fund.
+				$this->_FirstName = null;
+			}
+		}
+
+		return $this->_FirstName;
+	}
+
 	protected function GetSortName(): ?string{
 		if(!isset($this->_SortName)){
 			if($this->Name !== null){
+				$lastNameMatches = [];
 				preg_match('/\s(?:de |de la |di |van |von )?[^\s]+$/iu', $this->Name, $lastNameMatches);
 				if(sizeof($lastNameMatches) == 0){
 					$this->_SortName = $this->Name;
 				}
 				else{
 					$lastName = trim($lastNameMatches[0]);
-
+					$firstNameMatches = [];
 					preg_match('/^(.+)' . preg_quote($lastName, '/') . '$/u', $this->Name, $firstNameMatches);
 
 					if(sizeof($firstNameMatches) == 0){
@@ -88,17 +121,15 @@ class User{
 		return $this->_DisplayName;
 	}
 
-	protected function GetNewsletterSubscription(): ?NewsletterSubscription{
-		if(!isset($this->_NewsletterSubscription)){
-			try{
-				$this->_NewsletterSubscription = NewsletterSubscription::GetByUserId($this->UserId);
-			}
-			catch(Exceptions\NewsletterSubscriptionNotFoundException){
-				$this->_NewsletterSubscription = null;
-			}
+	/**
+	 * @return array<NewsletterSubscription>
+	 */
+	protected function GetNewsletterSubscriptions(): array{
+		if(!isset($this->_NewsletterSubscriptions)){
+			$this->_NewsletterSubscriptions = NewsletterSubscription::GetAllByUserId($this->UserId);
 		}
 
-		return $this->_NewsletterSubscription;
+		return $this->_NewsletterSubscriptions;
 	}
 
 	protected function GetPatron(): ?Patron{
@@ -170,7 +201,7 @@ class User{
 		return $this->_Benefits;
 	}
 
-	protected function GetIsRegistered(): ?bool{
+	protected function GetIsRegistered(): bool{
 		if(!isset($this->_IsRegistered)){
 			// A user is "registered" if they have an entry in the `Benefits` table.
 			// This function will fill it out for us.
@@ -237,22 +268,23 @@ class User{
 		$this->Uuid = $uuid->toString();
 	}
 
-
 	/**
 	 * @throws Exceptions\InvalidUserException
 	 * @throws Exceptions\UserExistsException
 	 */
 	public function Create(?string $password = null, bool $requireEmail = true): void{
-		$this->GenerateUuid();
-
-		$this->PasswordHash = null;
-		if($password !== null){
-			$this->PasswordHash = password_hash($password, PASSWORD_DEFAULT);
+		if(!isset($this->Uuid)){
+			$this->GenerateUuid();
 		}
 
 		$this->Validate($requireEmail);
 
 		$this->Created = NOW;
+
+		$this->PasswordHash = null;
+		if($password !== null){
+			$this->PasswordHash = password_hash($password, PASSWORD_DEFAULT);
+		}
 
 		try{
 			$this->UserId = Db::QueryInt('
@@ -302,6 +334,26 @@ class User{
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\UserExistsException();
 		}
+	}
+
+	public function SendNewsletterSubscriptionConfirmationEmail(): void{
+		if($this->Email !== null && $this->CanReceiveEmail){
+			$em = new QueuedEmailMessage(true);
+			$em->To = $this->Email;
+			$em->ToName = $this->Name;
+			$em->Subject = 'Action required: confirm your newsletter subscription';
+			$em->BodyHtml = Template::EmailNewsletterConfirmation(user: $this);
+			$em->BodyText = Template::EmailNewsletterConfirmationText(user: $this);
+			$em->Send();
+		}
+	}
+
+	public function ConfirmNewsletterSubscriptions(): void{
+		Db::Query('
+			UPDATE NewsletterSubscriptions
+			set IsConfirmed = true
+			where UserId = ?
+		', [$this->UserId]);
 	}
 
 

@@ -68,6 +68,15 @@ const PATRONS_CIRCLE_YEARLY_COST = 150;
 const SHORT_DOWNLOAD_COUNT = 35;
 const LONG_DOWNLOAD_COUNT = 100;
 
+const AWS_SES_REGION = 'us-east-2';
+const AWS_SES_MAX_EMAILS_PER_SECOND = 10;
+const AWS_MAX_ATTACHMENT_BYTES = 2000000;
+const AWS_CREDENTIALS_PATH = SITE_ROOT . '/config/aws/standardebooks.org-ses/credentials';
+
+const NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE = 'SE_UNSUBSCRIBE_URL';
+const NEWSLETTER_FIRST_NAME_VARIABLE = 'SE_FIRST_NAME';
+const PATRONS_CIRCLE_NEWS_NEWSLETTER_ID = 3;
+
 // These are defined for convenience, so that getting HTTP input isn't so wordy.
 const GET = Enums\HttpVariableSource::Get;
 const POST = Enums\HttpVariableSource::Post;
@@ -77,12 +86,11 @@ const COOKIE = Enums\HttpVariableSource::Cookie;
 define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_email_address'));
 define('ADMIN_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.admin_email_address'));
 define('EDITOR_IN_CHIEF_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.editor_in_chief_email_address'));
+define('SUPPORT_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.support_email_address'));
+
+const SUPPORT_FROM_NAME = 'Standard Ebooks';
 
 const EDITOR_IN_CHIEF_NAME = 'Alex Cabal';
-
-define('EMAIL_SMTP_USERNAME', get_cfg_var('se.secrets.postmark.username'));
-const EMAIL_SMTP_HOST = 'smtp.postmarkapp.com';
-const EMAIL_POSTMARK_STREAM_BROADCAST = 'the-standard-ebooks-newsletter';
 
 const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 
@@ -93,8 +101,6 @@ const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web'];
 
 /** Must be writable by `www-data` Unix user. */
 const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log';
-/** Must be writable by `www-data` Unix user. */
-const POSTMARK_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-postmark.log';
 /** Must be writable by `www-data` Unix user. */
 const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log';
 /** Must be writable by `www-data` Unix user. */

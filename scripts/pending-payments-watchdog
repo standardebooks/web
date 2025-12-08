@@ -10,11 +10,11 @@ $pendingPayments = Db::Query('
 			');
 
 if(sizeof($pendingPayments) > 0){
-	$em = new Email();
+	$em = new QueuedEmailMessage();
 	$em->To = ADMIN_EMAIL_ADDRESS;
 	$em->From = ADMIN_EMAIL_ADDRESS;
 	$em->Subject = 'Unprocessed payment in database';
-	$em->Body = Template::EmailAdminUnprocessedDonations();
-	$em->TextBody = Template::EmailAdminUnprocessedDonationsText();
+	$em->BodyHtml = Template::EmailAdminUnprocessedDonations();
+	$em->BodyText = Template::EmailAdminUnprocessedDonationsText();
 	$em->Send();
 }

@@ -1,4 +1,6 @@
 <?
+use Safe\DateTimeImmutable;
+
 use function Safe\fopen;
 use function Safe\fwrite;
 use function Safe\fclose;
@@ -35,6 +37,15 @@ class Log{
 			fwrite($fp, NOW->format('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . $text . "\n");
 			fclose($fp);
 		}
+	}
+
+	public static function WriteMailLogEntry(string $text): void{
+		$filename = '/var/log/local/mail-' . SITE_DOMAIN . '.log';
+
+		$fp = fopen($filename, 'a+');
+		/** @throws void */
+		fwrite($fp, "[" . (new DateTimeImmutable())->format('Y-m-d H:i:s') . "]\t" . $text . "\n");
+		fclose($fp);
 	}
 
 	public static function WriteErrorLogEntry(string $text): void{

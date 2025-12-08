@@ -1,0 +1,21 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+// Delete unconfirmed `NewsletterSubscription`s that are more than a week old, and any deleted `NewsletterSubscription`s.
+Db::Query('
+		DELETE
+		from NewsletterSubscriptions
+		where
+			(
+				IsConfirmed = false
+				and
+		    		datediff(utc_timestamp(), Created) >= 7
+		    	)
+		    	or
+		    	(
+		    		IsVisible = false
+		    		and
+		    		datediff(utc_timestamp(), Updated) >= 1
+		    	)
+	');

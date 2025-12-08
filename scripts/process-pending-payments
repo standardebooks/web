@@ -250,7 +250,6 @@ try{
 							$patron->User = $payment->User;
 							$patron->User->Payments = [$payment];
 							$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
-							$patron->IsSubscribedToEmails = isset($patron->User) && $patron->User->Email !== null;
 
 							try{
 								$patron->AlternateName = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution Text"]]'))->getText());
@@ -274,19 +273,19 @@ try{
 						else{
 							// User is already a patron.
 							// We may get a case where an existing Patron makes another donation that 
-							if(!$payment->IsRecurring && !$payment->IsMatchingDonation){
+							if(!$payment->IsRecurring && !$payment->IsMatchingDonation && $payment->User->Email !== null){
 								// User is already a Patron, but they made another non-recurring, non-matching donation.
 								// Send a thank-you email.
 
 								$log->Write('Sending thank you email to patron donor donating extra.');
-								$em = new Email();
-								$em->To = $payment->User->Email ?? '';
-								$em->ToName = $payment->User->Name ?? '';
+								$em = new QueuedEmailMessage();
+								$em->To = $payment->User->Email;
+								$em->ToName = $payment->User->Name;
 								$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 								$em->FromName = EDITOR_IN_CHIEF_NAME;
 								$em->Subject = 'Thank you for supporting Standard Ebooks!';
-								$em->Body = Template::EmailDonationThankYou();
-								$em->TextBody = Template::EmailDonationThankYouText();
+								$em->BodyHtml = Template::EmailDonationThankYou();
+								$em->BodyText = Template::EmailDonationThankYouText();
 								$em->Send();
 							}
 						}
@@ -296,12 +295,12 @@ try{
 						$patron = new Patron();
 						$patron->User = new User();
 
-						$em = new Email();
+						$em = new QueuedEmailMessage();
 						$em->To = ADMIN_EMAIL_ADDRESS;
 						$em->From = ADMIN_EMAIL_ADDRESS;
 						$em->Subject = 'New Patrons Circle member';
-						$em->Body = Template::EmailAdminNewPatron(patron: $patron, payment: $payment);
-						$em->TextBody = Template::EmailAdminNewPatronText(patron: $patron, payment: $payment);;
+						$em->BodyHtml = Template::EmailAdminNewPatron(patron: $patron, payment: $payment);
+						$em->BodyText = Template::EmailAdminNewPatronText(patron: $patron, payment: $payment);;
 						$em->Send();
 
 						DonationDrive::AddCountToIsActive(Enums\DonationTargetType::NewPatrons);
@@ -318,16 +317,16 @@ try{
 									', [$payment->UserId]);
 
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
-					if(!$payment->IsRecurring || $previousPaymentCount == 1){
+					if((!$payment->IsRecurring || $previousPaymentCount == 1) && $payment->User->Email !== null){
 						$log->Write('Sending thank you email to non-patron donor.');
-						$em = new Email();
-						$em->To = $payment->User->Email ?? '';
-						$em->ToName = $payment->User->Name ?? '';
+						$em = new QueuedEmailMessage();
+						$em->To = $payment->User->Email;
+						$em->ToName = $payment->User->Name;
 						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 						$em->FromName = EDITOR_IN_CHIEF_NAME;
 						$em->Subject = 'Thank you for supporting Standard Ebooks!';
-						$em->Body = Template::EmailDonationThankYou();
-						$em->TextBody = Template::EmailDonationThankYouText();
+						$em->BodyHtml = Template::EmailDonationThankYou();
+						$em->BodyText = Template::EmailDonationThankYouText();
 						$em->Send();
 					}
 				}
@@ -369,11 +368,11 @@ catch(Exception $ex){
 
 	// Only send an email if this script failed twice in a row.
 	if($sendEmail){
-		$em = new Email(true);
+		$em = new QueuedEmailMessage(true);
 		$em->To = ADMIN_EMAIL_ADDRESS;
 		$em->Subject = 'Donation processing failed';
-		$em->Body = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
-		$em->TextBody = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->BodyHtml = Template::EmailDonationProcessingFailed(exception: preg_replace('/^/m', "\t", $exceptionString));
+		$em->BodyText = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
 		$em->Send();
 	}
 

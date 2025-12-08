@@ -1462,6 +1462,19 @@ footer ul.social-media a:hover::before{
 	filter: invert(69%) sepia(35%) saturate(459%) hue-rotate(111deg) brightness(92%) contrast(87%);
 }
 
+.newsletter-description p + p{
+	font-style: italic;
+	margin-top: 0;
+}
+
+.newsletter-description form{
+	text-align: right;
+}
+
+.newsletter-description + .newsletter-description{
+	margin-top: 2rem;
+}
+
 /* ebook list */
 h1,
 .masthead h2{
@@ -1888,6 +1901,13 @@ label span{
 label span + span{
 	font-style: italic;
 	font-weight: normal;
+	margin-top: .25rem;
+	line-height: 1.2;
+}
+
+label:has(span + span) input[type="checkbox"]{
+	align-self: start;
+	margin-top: 2px;
 }
 
 label span + span code{
@@ -1917,8 +1937,8 @@ label:has(input[type="checkbox"]):has(> span){
 	grid-template-rows: auto 1fr;
 }
 
-label:has(input[type="radio"]):has(> span) input,
-label:has(input[type="checkbox"]):has(> span) input{
+label:has(> span) input[type="radio"],
+label:has(> span) input[type="checkbox"]{
 	grid-row: 1 / span 2;
 	justify-self: center;
 	align-self: center;
@@ -2581,7 +2601,7 @@ p + form{
 }
 
 form[action*="/polls/"],
-form[action="/newsletter/subscriptions"]{
+form[action="/newsletter-subscriptions"]{
 	display: grid;
 	grid-gap: 2rem;
 	grid-template-columns: 1fr 1fr;
@@ -2589,18 +2609,18 @@ form[action="/newsletter/subscriptions"]{
 }
 
 form[action*="/polls/"] label:has(input[type="email"]),
-form[action="/newsletter/subscriptions"] label:has(input[type="email"]),
-form[action="/newsletter/subscriptions"] label.captcha{
+form[action="/newsletter-subscriptions"] label:has(input[type="email"]),
+form[action="/newsletter-subscriptions"] label.captcha{
 	grid-column: 1 / span 2;
 }
 
-form[action="/newsletter/subscriptions"] label.captcha div{
+form[action="/newsletter-subscriptions"] label.captcha div{
 	display: grid;
 	grid-gap: 1rem;
 	grid-template-columns: 1fr 1fr;
 }
 
-form[action="/newsletter/subscriptions"] label.captcha div input{
+form[action="/newsletter-subscriptions"] label.captcha div input{
 	align-self: center;
 }
 
@@ -2609,14 +2629,14 @@ form fieldset ul{
 }
 
 form[action*="/polls/"] button,
-form[action="/newsletter/subscriptions"] button{
+form[action="/newsletter-subscriptions"] button{
 	grid-column: 2;
 	justify-self: end;
 	margin-left: 0;
 }
 
 form[action*="/polls/"] fieldset,
-form[action="/newsletter/subscriptions"] fieldset{
+form[action="/newsletter-subscriptions"] fieldset{
 	grid-column: 1 / span 2;
 }
 
@@ -2685,7 +2705,7 @@ label:has(input[type="checkbox"]){
 
 label:has(input[type="radio"]) input,
 label:has(input[type="checkbox"]) input{
-	margin-right: .25rem;
+	margin-right: .5rem;
 }
 
 label:has(input[type="radio"]) span,
@@ -3965,9 +3985,9 @@ section.admin h2:first-child{
 		margin-top: 0;
 	}
 
-	form[action="/newsletter/subscriptions"] label.text,
-	form[action="/newsletter/subscriptions"] label.captcha,
-	form[action="/newsletter/subscriptions"] fieldset{
+	form[action="/newsletter-subscriptions"] label.text,
+	form[action="/newsletter-subscriptions"] label.captcha,
+	form[action="/newsletter-subscriptions"] fieldset{
 		grid-column: 1 / span 2;
 	}
 

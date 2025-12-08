@@ -3,19 +3,26 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property User $User
+ * @property Newsletter $Newsletter
  * @property-read string $Url
+ * @property-read string $DeleteUrl
  */
-class NewsletterSubscription{
+final class NewsletterSubscription{
 	use Traits\Accessor;
+	use Traits\FromRow;
 
 	public bool $IsConfirmed = false;
-	public bool $IsSubscribedToSummary = false;
-	public bool $IsSubscribedToNewsletter = false;
-	public ?int $UserId = null;
+	public int $UserId;
+	public int $NewsletterId;
+	/** `NewsletterSubscriptions` that are deleted are kept for some time longer with `IsVisible` set to **`FALSE`**, to prevent spammers from flooding an email address by repeatedly subscribing and unsubscribing. */
+	public bool $IsVisible = true;
 	public DateTimeImmutable $Created;
+	public DateTimeImmutable $Updated;
 
 	protected User $_User;
+	protected Newsletter $_Newsletter;
 	protected string $_Url;
+	protected string $_DeleteUrl;
 
 
 	// *******
@@ -23,9 +30,12 @@ class NewsletterSubscription{
 	// *******
 
 	protected function GetUrl(): string{
-		return $this->_Url ??= '/newsletter/subscriptions/' . $this->User->Uuid;
+		return $this->_Url ??= '/users/' . $this->User->Uuid . '/newsletter-subscriptions/' . $this->NewsletterId;
 	}
 
+	protected function GetDeleteUrl(): string{
+		return $this->_DeleteUrl ??= $this->Url . '/delete';
+	}
 
 	// *******
 	// METHODS
@@ -34,9 +44,16 @@ class NewsletterSubscription{
 	/**
 	 * @throws Exceptions\InvalidNewsletterSubscription
 	 * @throws Exceptions\NewsletterSubscriptionExistsException
+	 * @throws Exceptions\EmailBounceExistsException
 	 */
-	public function Create(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
-		$this->Validate($expectedCaptcha, $receivedCaptcha);
+	public function Create(): void{
+		$this->Validate();
+
+		$hasEmailBounced = Db::QueryBool('SELECT exists (select * from EmailBounces where Email = ? and IsActive = true)', [$this->User->Email]);
+
+		if($hasEmailBounced){
+			throw new Exceptions\EmailBounceExistsException('An email we sent to this email address bounced back or was marked as spam. We can’t send email to this email address anymore.');
+		}
 
 		// Do we need to create a `User`?
 		try{
@@ -54,25 +71,21 @@ class NewsletterSubscription{
 		}
 
 		$this->UserId = $this->User->UserId;
-
 		$this->Created = NOW;
 
 		try{
 			Db::Query('
-				INSERT into NewsletterSubscriptions (UserId, IsConfirmed, IsSubscribedToNewsletter, IsSubscribedToSummary, Created)
+				INSERT into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, Created)
 				values (?,
 				        ?,
 				        ?,
 				        ?,
 				        ?)
-			', [$this->User->UserId, false, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->Created]);
+			', [$this->UserId, $this->NewsletterId, $this->IsConfirmed, $this->IsVisible, $this->Created]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\NewsletterSubscriptionExistsException();
 		}
-
-		// Send the double opt-in confirmation email.
-		$this->SendConfirmationEmail();
 	}
 
 	/**
@@ -83,24 +96,9 @@ class NewsletterSubscription{
 
 		Db::Query('
 			UPDATE NewsletterSubscriptions
-			set IsConfirmed = ?,
-			    IsSubscribedToNewsletter = ?,
-			    IsSubscribedToSummary = ?
+			set IsConfirmed = ?, IsVisible = ?
 			where UserId = ?
-		', [$this->IsConfirmed, $this->IsSubscribedToNewsletter, $this->IsSubscribedToSummary, $this->UserId]);
-	}
-
-	public function SendConfirmationEmail(): void{
-		$em = new Email(true);
-		$em->PostmarkStream = EMAIL_POSTMARK_STREAM_BROADCAST;
-		$em->To = $this->User->Email ?? '';
-		if($this->User->Name !== null && $this->User->Name != ''){
-			$em->ToName = $this->User->Name;
-		}
-		$em->Subject = 'Action required: confirm your newsletter subscription';
-		$em->Body = Template::EmailNewsletterConfirmation(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
-		$em->TextBody = Template::EmailNewsletterConfirmationText(subscription: $this, isSubscribedToSummary: $this->IsSubscribedToSummary, isSubscribedToNewsletter: $this->IsSubscribedToNewsletter);
-		$em->Send();
+		', [$this->IsConfirmed, $this->IsVisible, $this->UserId]);
 	}
 
 	public function Confirm(): void{
@@ -108,45 +106,45 @@ class NewsletterSubscription{
 			UPDATE NewsletterSubscriptions
 			set IsConfirmed = true
 			where UserId = ?
-		', [$this->UserId]);
+			and NewsletterId = ?
+		', [$this->UserId, $this->NewsletterId]);
 	}
 
 	public function Delete(): void{
 		Db::Query('
-			DELETE
-			from NewsletterSubscriptions
+			UPDATE
+			NewsletterSubscriptions
+			set IsVisible = false
 			where UserId = ?
-		', [$this->UserId]);
+			and NewsletterId = ?
+		', [$this->UserId, $this->NewsletterId]);
 	}
 
-	public static function DeleteAllByEmail(string $email): void{
+	public static function DeleteAllByEmail(?string $email): void{
+		if($email === null){
+			return;
+		}
+
 		Db::Query('
-			DELETE ns.*
-			from NewsletterSubscriptions ns
+			UPDATE NewsletterSubscriptions ns
 			inner join Users u using(UserId)
+			set ns.IsVisible = false
 			where u.Email = ?
 		', [$email]);
 	}
 
-
 	/**
 	 * @throws Exceptions\InvalidNewsletterSubscription
 	 */
-	public function Validate(?string $expectedCaptcha = null, ?string $receivedCaptcha = null): void{
+	public function Validate(): void{
 		$error = new Exceptions\InvalidNewsletterSubscription();
 
-		if(!isset($this->User) || $this->User->Email == '' || !filter_var($this->User->Email, FILTER_VALIDATE_EMAIL)){
+		if(!isset($this->User) || ($this->User->Email ?? '') == '' || !Validator::IsValidEmail($this->User->Email)){
 			$error->Add(new Exceptions\InvalidEmailException());
 		}
 
-		if(!$this->IsSubscribedToSummary && !$this->IsSubscribedToNewsletter){
+		if(!isset($this->Newsletter)){
 			$error->Add(new Exceptions\NewsletterRequiredException());
-		}
-
-		if($expectedCaptcha !== null){
-			if($expectedCaptcha === '' || mb_strtolower($expectedCaptcha) !== mb_strtolower($receivedCaptcha ?? '')){
-				$error->Add(new Exceptions\InvalidCaptchaException());
-			}
 		}
 
 		if($error->HasExceptions){
@@ -162,8 +160,8 @@ class NewsletterSubscription{
 	/**
 	 * @throws Exceptions\NewsletterSubscriptionNotFoundException
 	 */
-	public static function Get(?string $uuid): NewsletterSubscription{
-		if($uuid === null){
+	public static function GetByUserUuid(?string $uuid, ?int $newsletterId): NewsletterSubscription{
+		if($uuid === null || $newsletterId === null){
 			throw new Exceptions\NewsletterSubscriptionNotFoundException();
 		}
 
@@ -172,15 +170,16 @@ class NewsletterSubscription{
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.Uuid = ?
-			', [$uuid], NewsletterSubscription::class)[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
+				and ns.NewsletterId = ?
+			', [$uuid, $newsletterId], NewsletterSubscription::class)[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
 	}
 
 	/**
-	 * @throws Exceptions\NewsletterSubscriptionNotFoundException
+	 * @return array<NewsletterSubscription>
 	 */
-	public static function GetByUserId(?int $userId): NewsletterSubscription{
+	public static function GetAllByUserId(?int $userId): array{
 		if($userId === null){
-			throw new Exceptions\NewsletterSubscriptionNotFoundException();
+			return [];
 		}
 
 		return Db::Query('
@@ -188,6 +187,22 @@ class NewsletterSubscription{
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.UserId = ?
-			', [$userId], NewsletterSubscription::class)[0] ?? throw new Exceptions\NewsletterSubscriptionNotFoundException();
+				and ns.IsVisible = true
+			', [$userId], NewsletterSubscription::class);
+	}
+
+	/**
+	 * Creates a `NewsletterSubscription` from a multi table array containing a `NewsletterSubscription` and a `User`.
+	 *
+	 * @param array<string, stdClass> $row
+	 */
+	public static function FromMultiTableRow(array $row): NewsletterSubscription{
+		$object = NewsletterSubscription::FromRow($row['NewsletterSubscriptions']);
+
+		if(isset($row['Users'])){
+			$object->User = User::FromRow($row['Users']);
+		}
+
+		return $object;
 	}
 }
