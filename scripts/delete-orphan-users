@@ -2,19 +2,39 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
-Db::Query('DELETE u.* from Users u
-		left outer join Payments on u.UserId = Payments.UserId
-		left outer join NewsletterSubscriptions on u.UserId = NewsletterSubscriptions.UserId
-		left outer join Benefits on u.UserId = Benefits.UserId
-		left outer join Patrons on u.UserId = Patrons.UserId
-		left outer join PollVotes on u.UserId = PollVotes.UserId
-		left outer join Sessions on u.UserId = Sessions.UserId
-		left outer join Artworks on u.UserId = Artworks.SubmitterUserId
-		where
-		Payments.userid is null
-		and NewsletterSubscriptions.userid is null
-		and Benefits.userid is null
-		and Patrons.userid is null
-		and PollVotes.userid is null
-		and Sessions.userid is null
-		and Artworks.SubmitterUserId is null');
+// Turn off the slow query log for this session.
+Db::Query('set session slow_query_log = 0');
+
+Db::Query('
+	DELETE u.* from Users u
+	left join Artworks a1 on u.UserId = a1.SubmitterUserId
+	left join Artworks a2 on u.UserId = a2.ReviewerUserId
+	left join Benefits b on u.UserId = b.UserId
+	left join BlogPosts bp on u.UserId = bp.UserId
+	left join NewsletterSubscriptions ns on u.UserId = ns.UserId
+	left join Patrons p on u.UserId = p.UserId
+	left join Payments py on u.UserId = py.UserId
+	left join PollVotes pv on u.UserId = pv.UserId
+	left join Projects pr1 on u.UserId = pr1.ManagerUserId
+	left join Projects pr2 on u.UserId = pr2.ReviewerUserId
+	where
+	a1.SubmitterUserId is null
+	and
+	a2.ReviewerUserId is null
+	and
+	b.UserId is null
+	and
+	bp.UserId is null
+	and
+	ns.UserId is null
+	and
+	p.UserId is null
+	and
+	py.UserId is null
+	and
+	pv.UserId is null
+	and
+	pr1.ManagerUserId is null
+	and
+	pr2.ReviewerUserId is null
+');

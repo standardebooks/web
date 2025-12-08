@@ -2,6 +2,9 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+// Turn off the slow query log for this session.
+Db::Query('set session slow_query_log = 0');
+
 // Delete unconfirmed `NewsletterSubscription`s that are more than a week old, and any deleted `NewsletterSubscription`s.
 Db::Query('
 		DELETE

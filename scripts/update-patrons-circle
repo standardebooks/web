@@ -7,6 +7,9 @@
 
 require_once('/standardebooks.org/web/lib/Core.php');
 
+// Turn off the slow query log for this session.
+Db::Query('set session slow_query_log = 0');
+
 $expiredPatrons = Db::Query('
 	SELECT * from Patrons where
 	Ended is null
