@@ -33,6 +33,23 @@ class EmailMessage{
 		}
 	}
 
+
+	// *******
+	// SETTERS
+	// *******
+
+	protected function SetTo(string|EmailAddress $string): void{
+		$this->_To = new EmailAddress($string);
+	}
+
+	protected function SetFrom(string|EmailAddress $string): void{
+		$this->_From = new EmailAddress($string);
+	}
+
+	protected function SetReplyTo(string|EmailAddress $string): void{
+		$this->_ReplyTo = new EmailAddress($string);
+	}
+
 	/**
 	 * @throws Exceptions\InvalidEmailMessageException If the `EmailMessage` is invalid.
 	 */
