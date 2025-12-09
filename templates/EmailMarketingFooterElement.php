@@ -3,7 +3,7 @@
  * @var Newsletter $newsletter
  */
 ?>
-x		<div class="footer">
+		<div class="footer">
 			<p>
 				<a href="<?= SITE_URL ?>/donate">Donate</a> • <a href="<?= SITE_URL ?>/contribute">Get involved</a> • <a href="<?= SITE_URL ?>/feeds">Ebook feeds</a>
 			</p>

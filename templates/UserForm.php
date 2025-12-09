@@ -27,7 +27,7 @@ $isEditForm ??= false;
 </label>
 <? if($isEditForm){ ?>
 	<fieldset>
-		<label>
+		<label class="icon user-id">
 			UUID
 			<input
 				type="text"
@@ -179,6 +179,20 @@ $isEditForm ??= false;
 				<input type="hidden" name="benefits-can-edit-blog-posts" value="false" />
 				<input type="checkbox" name="benefits-can-edit-blog-posts" value="true"<? if($user->Benefits->CanEditBlogPosts){ ?> checked="checked"<? } ?> />
 				Can edit blog posts
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="hidden" name="benefits-can-create-newsletter-mailings" value="false" />
+				<input type="checkbox" name="benefits-can-create-newsletter-mailings" value="true"<? if($user->Benefits->CanCreateNewsletterMailings){ ?> checked="checked"<? } ?> />
+				Can create newsletter mailings
+			</label>
+		</li>
+		<li>
+			<label>
+				<input type="hidden" name="benefits-can-edit-newsletter-mailings" value="false" />
+				<input type="checkbox" name="benefits-can-edit-newsletter-mailings" value="true"<? if($user->Benefits->CanEditNewsletterMailings){ ?> checked="checked"<? } ?> />
+				Can edit newsletter mailings
 			</label>
 		</li>
 	</ul>

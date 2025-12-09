@@ -17,7 +17,7 @@ class HtmlDocument extends HtmlFragment{
 			$errors[] = $ex;
 		}
 
-		if(!preg_match('/^<!DOCTYPE html>\s*<html>/ius', $this->_Value)){
+		if(!preg_match('/^<!DOCTYPE html>\s*<html[\s>]/ius', $this->_Value)){
 			$errors[] = new Exceptions\InvalidHtmlException('HTML must begin with a doctype and root element.');
 		}
 

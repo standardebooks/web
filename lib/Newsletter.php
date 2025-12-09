@@ -46,6 +46,13 @@ class Newsletter{
 	/**
 	 * @return array<Newsletter>
 	 */
+	public static function GetAll(): array{
+		return Db::Query('SELECT * from Newsletters order by SortOrder asc', [], Newsletter::class);
+	}
+
+	/**
+	 * @return array<Newsletter>
+	 */
 	public static function GetAllByIsVisible(): array{
 		return Db::Query('SELECT * from Newsletters where IsVisible = true order by SortOrder asc', [], Newsletter::class);
 	}

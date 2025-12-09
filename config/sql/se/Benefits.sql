@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS `Benefits` (
   `CanEditProjects` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanBeAutoAssignedToProjects` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanEditBlogPosts` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `CanCreateNewsletterMailings` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`UserId`),
   KEY `idxBenefits` (`CanAccessFeeds`,`CanVote`,`CanBulkDownload`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

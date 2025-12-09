@@ -1983,6 +1983,11 @@ label:has(select):hover > span + span::after{
 	transition: none;
 }
 
+label input,
+label select{
+	margin-top: .25rem;
+}
+
 label:has(select) > span + span:last-child,
 label:has(input[type="email"]),
 label:has(input[type="search"]),
@@ -2037,6 +2042,26 @@ label:has(input[type="password"])::before{
 label.captcha::before{
 	content: "\f256";
 	content: "\f256" / "";
+}
+
+label.emails::before{
+	content: "\f34b";
+	content: "\f34b" / "";
+}
+
+label.calendar-check::before{
+	content: "\f274";
+	content: "\f274" / "";
+}
+
+label.pencil-square::before{
+	content: "\f044";
+	content: "\f044" / "";
+}
+
+label.user-id::before{
+	content: "\f2c2";
+	content: "\f2c2" / "";
 }
 
 label.year::before{

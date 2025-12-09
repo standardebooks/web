@@ -43,6 +43,9 @@ catch(Exceptions\InvalidPermissionsException){
 ) ?>
 <main>
 	<section class="narrow">
+		<nav class="breadcrumbs">
+			<a href="/users">Users</a> →
+		</nav>
 		<h1><?= Formatter::EscapeHtml($user->DisplayName) ?></h1>
 
 		<? if($isSaved){ ?>
@@ -207,6 +210,14 @@ catch(Exceptions\InvalidPermissionsException){
 					<tr>
 						<td>Can edit blog posts:</td>
 						<td><? if($user->Benefits->CanEditBlogPosts){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
+						<td>Can create newsletter mailings:</td>
+						<td><? if($user->Benefits->CanCreateNewsletterMailings){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
+						<td>Can edit newsletter mailings:</td>
+						<td><? if($user->Benefits->CanEditNewsletterMailings){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 				<? } ?>
 			</tbody>

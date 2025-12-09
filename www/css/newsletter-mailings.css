@@ -1,0 +1,9 @@
+form{
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.footer{
+	text-align: right;
+}

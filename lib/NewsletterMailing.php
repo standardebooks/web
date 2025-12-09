@@ -10,6 +10,7 @@ use function Safe\simplexml_load_string;
 /**
  * @property Newsletter $Newsletter
  * @property string $Url
+ * @property string $EditUrl
  * @property array<NewsletterSubscription> $Recipients
  * @property-read HtmlDocument $BodyHtml
  * @property-write HtmlDocument|string $BodyHtml
@@ -37,6 +38,7 @@ class NewsletterMailing{
 
 	protected Newsletter $_Newsletter;
 	protected string $_Url;
+	protected string $_EditUrl;
 	/** @var array<NewsletterSubscription> $_Recipients */
 	protected array $_Recipients;
 	protected HtmlDocument $_BodyHtml; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
@@ -56,10 +58,18 @@ class NewsletterMailing{
 
 	protected function GetUrl(): string{
 		if(!isset($this->_Url)){
-			$this->_Url = '/admin/newsletter-mailings/' . $this->NewsletterMailingId;
+			$this->_Url = '/newsletter-mailings/' . $this->NewsletterMailingId;
 		}
 
 		return $this->_Url;
+	}
+
+	protected function GetEditUrl(): string{
+		if(!isset($this->_EditUrl)){
+			$this->_EditUrl = $this->Url . '/edit';
+		}
+
+		return $this->_EditUrl;
 	}
 
 	/**
@@ -80,6 +90,10 @@ class NewsletterMailing{
 
 	protected function SetBodyHtml(string|HtmlDocument $string): void{
 		$this->_BodyHtml = new HtmlDocument($string);
+	}
+
+	protected function SetFromEmail(string|EmailAddress $string): void{
+		$this->_FromEmail = new EmailAddress($string);
 	}
 
 
@@ -152,12 +166,22 @@ class NewsletterMailing{
 	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
 	 */
 	public function Create(bool $addFooter): void{
-		$this->Validate($addFooter);
+		$error = null;
+
+		try{
+			$this->Validate($addFooter);
+		}
+		catch(Exceptions\InvalidNewsletterMailingException $ex){
+			$error = $ex;
+		}
 
 		// Only check this when creating.
 		if($this->SendOn < NOW){
-			$error = new Exceptions\InvalidNewsletterMailingException();
+			$error ??= new Exceptions\InvalidNewsletterMailingException();
 			$error->Add(new Exceptions\InvalidNewsletterSendOnException());
+		}
+
+		if($error !== null){
 			throw $error;
 		}
 
@@ -321,10 +345,16 @@ class NewsletterMailing{
 		return Db::Query('SELECT * from NewsletterMailings where NewsletterMailingId = ?', [$newsletterMailingId], NewsletterMailing::class)[0] ?? throw new Exceptions\NewsletterMailingNotFoundException();
 	}
 
+	/**
+	 * @return array<NewsletterMailing>
+	 */
+	public static function GetAll(): array{
+		return Db::Query('SELECT * from NewsletterMailings order by SendOn desc', [], NewsletterMailing::class);
+	}
+
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('NewsletterId');
 		$this->PropertyFromHttp('FromName');
-		$this->PropertyFromHttp('FromEmail');
 		$this->PropertyFromHttp('Subject');
 		$this->PropertyFromHttp('InternalName');
 		$this->PropertyFromHttp('BodyText');
@@ -332,6 +362,10 @@ class NewsletterMailing{
 
 		if(isset($_POST['newsletter-mailing-body-html'])){
 			$this->BodyHtml = HttpInput::Str(POST, 'newsletter-mailing-body-html') ?? '';
+		}
+
+		if(isset($_POST['newsletter-mailing-from-email'])){
+			$this->FromEmail = HttpInput::Str(POST, 'newsletter-mailing-from-email') ?? '';
 		}
 
 		// `SendOn` is always interpreted as being sent in the `America/Chicago` timezone.
