@@ -1,6 +1,7 @@
 <?
 use Safe\DateTimeImmutable;
 
+use function Safe\preg_match;
 use function Safe\preg_match_all;
 use function Safe\preg_replace;
 
@@ -10,21 +11,21 @@ use function Safe\preg_replace;
  * @property-read string $EditUrl
  * @property array<Ebook> $Ebooks
  * @property-read string $EbookIdentifiers A newline-separated list of `Ebook` identifiers related to this `BlogPost`.
+ * @property-read HtmlFragment $Title
+ * @property-write HtmlFragment|string $Title
+ * @property-read ?HtmlFragment $Subtitle
+ * @property-write HtmlFragment|string|null $Subtitle
+ * @property-read ?HtmlFragment $Body May be `null` if the `BlogPost` is meant to redirect to a file, like the Public Domain Day posts.
+ * @property-write HtmlFragment|string|null $Body
  */
 class BlogPost{
 	use Traits\Accessor;
 	use Traits\PropertyFromHttp;
 
 	public int $BlogPostId;
-	/** May contain HTML. */
-	public string $Title;
-	/** May contain HTML. */
-	public ?string $Subtitle;
 	public ?string $Description;
 	public string $UrlTitle;
 	public int $UserId;
-	/** An HTML fragment. May be `null` if the `BlogPost` is meant to redirect to a file, like the Public Domain Day posts. */
-	public ?string $Body;
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
 	public DateTimeImmutable $Published = NOW;
@@ -35,6 +36,9 @@ class BlogPost{
 	/** @var array<Ebook> */
 	protected array $_Ebooks;
 	protected string $_EbookIdentifiers;
+	protected HtmlFragment $_Title; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected ?HtmlFragment $_Subtitle; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected ?HtmlFragment $_Body; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
 
 	// *******
 	// GETTERS
@@ -75,6 +79,33 @@ class BlogPost{
 
 
 	// *******
+	// SETTERS
+	// *******
+
+	protected function SetTitle(string|HtmlFragment $string): void{
+		$this->_Title = new HtmlFragment($string);
+	}
+
+	protected function SetSubtitle(string|HtmlFragment|null $string): void{
+		if(isset($string)){
+			$this->_Subtitle = new HtmlFragment($string);
+		}
+		else{
+			$this->_Subtitle = $string;
+		}
+	}
+
+	protected function SetBody(string|HtmlFragment|null $string): void{
+		if(isset($string)){
+			$this->_Body = new HtmlFragment($string);
+		}
+		else{
+			$this->_Body = $string;
+		}
+	}
+
+
+	// *******
 	// METHODS
 	// *******
 
@@ -87,7 +118,7 @@ class BlogPost{
 	public function Validate(?string $userIdentifier = null, ?string $ebookIdentifiers = null): void{
 		$error = new Exceptions\InvalidBlogPostException();
 
-		$this->Title = trim($this->Title ?? '');
+		$this->Title ??= '';
 
 		if($this->Title == ''){
 			$error->Add(new Exceptions\BlogPostTitleRequiredException());
@@ -97,20 +128,20 @@ class BlogPost{
 		}
 		else{
 			try{
-				Validator::ValidateHtmlFragment($this->Title, false);
+				$this->Title->Validate();
 			}
 			catch(Exceptions\InvalidHtmlException $ex){
 				$error->Add(new Exceptions\InvalidBlogPostTitleHtmlException($ex->RawMessage));
 			}
 		}
 
-		$this->Subtitle = trim($this->Subtitle ?? '');
+		$this->Subtitle ??= '';
 		if($this->Subtitle == ''){
 			$this->Subtitle = null;
 		}
 		else{
 			try{
-				Validator::ValidateHtmlFragment($this->Subtitle, false);
+				$this->Subtitle->Validate();
 			}
 			catch(Exceptions\InvalidHtmlException $ex){
 				$error->Add(new Exceptions\InvalidBlogPostSubtitleHtmlException($ex->RawMessage));
@@ -120,7 +151,7 @@ class BlogPost{
 		$this->UrlTitle = Formatter::MakeUrlSafe(strip_tags($this->Title));
 
 		$identifiers = explode("\n", $ebookIdentifiers ?? '');
-		$this->Body = trim($this->Body ?? '');
+		$this->Body ??= '';
 		if($this->Body == ''){
 			$this->Body = null;
 
@@ -130,7 +161,12 @@ class BlogPost{
 		}
 		else{
 			try{
-				Validator::ValidateHtmlFragment($this->Body);
+				$this->Body->Validate();
+
+				// Test the case where the fragment doesn't start with an element.
+				if(!preg_match('/^</ius', $this->Body)){
+					$error->Add(new Exceptions\InvalidHtmlException('Body must begin with an HTML element.'));
+				}
 			}
 			catch(Exceptions\InvalidHtmlException $ex){
 				$error->Add(new Exceptions\InvalidBlogPostBodyHtmlException($ex->RawMessage));
@@ -257,11 +293,20 @@ class BlogPost{
 	}
 
 	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('Title');
-		$this->PropertyFromHttp('Subtitle');
 		$this->PropertyFromHttp('Description');
-		$this->PropertyFromHttp('Body');
 		$this->PropertyFromHttp('Published');
+
+		if(isset($_POST['blog-post-title'])){
+			$this->Title = HttpInput::Str(POST, 'blog-post-title') ?? '';
+		}
+
+		if(isset($_POST['blog-post-subtitle'])){
+			$this->Subtitle = HttpInput::Str(POST, 'blog-post-subtitle');
+		}
+
+		if(isset($_POST['blog-post-body'])){
+			$this->Body = HttpInput::Str(POST, 'blog-post-body');
+		}
 	}
 
 

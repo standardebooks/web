@@ -7,7 +7,7 @@ class InvalidBlogPostSubtitleHtmlException extends AppException{
 
 	public function __construct(?string $message = null){
 		if($message !== null){
-			$this->message = 'Blog post sybtitle HTML is invalid: ' . $message;
+			$this->message = 'Blog post subtitle HTML is invalid: ' . $message;
 		}
 
 		parent::__construct();

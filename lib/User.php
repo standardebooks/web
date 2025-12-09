@@ -16,6 +16,8 @@ use function Safe\preg_match;
  * @property-read string $DisplayName The `User`'s name, or email, or ID.
  * @property-read ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
  * @property-read ?string $FirstName The `User`'s first name, or `null` if the `User` has no name or is a foundation or institution.
+ * @property-read ?EmailAddress $Email
+ * @property-write EmailAddress|string|null $Email
  */
 final class User{
 	use Traits\Accessor;
@@ -24,7 +26,6 @@ final class User{
 
 	public int $UserId;
 	public ?string $Name = null;
-	public ?string $Email = null;
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
 	public string $Uuid;
@@ -44,6 +45,7 @@ final class User{
 	protected string $_DisplayName;
 	protected ?string $_SortName = null;
 	protected ?string $_FirstName = null;
+	protected ?EmailAddress $_Email = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
 
 
 	// *******
@@ -213,6 +215,20 @@ final class User{
 
 
 	// *******
+	// SETTERS
+	// *******
+
+	protected function SetEmail(string|EmailAddress|null $string): void{
+		if(isset($string)){
+			$this->_Email = new EmailAddress($string);
+		}
+		else{
+			$this->_Email = null;
+		}
+	}
+
+
+	// *******
 	// METHODS
 	// *******
 
@@ -222,7 +238,9 @@ final class User{
 	public function Validate(bool $requireEmail): void{
 		$error = new Exceptions\InvalidUserException();
 
-		if(trim($this->Email ?? '') == ''){
+		$this->Email ??= '';
+
+		if($this->Email == ''){
 			if($requireEmail){
 				$error->Add(new Exceptions\EmailRequiredException());
 			}
@@ -231,8 +249,11 @@ final class User{
 			}
 		}
 		else{
-			if(filter_var($this->Email, FILTER_VALIDATE_EMAIL) === false){
-				$error->Add(new Exceptions\InvalidEmailException('Email is invalid.'));
+			try{
+				$this->Email->Validate();
+			}
+			catch(Exceptions\InvalidEmailAddressException){
+				$error->Add(new Exceptions\InvalidEmailAddressException('Email is invalid.'));
 			}
 		}
 
@@ -593,8 +614,11 @@ final class User{
 
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('Name');
-		$this->PropertyFromHttp('Email');
 		$this->PropertyFromHttp('Uuid');
+
+		if(isset($_POST['user-email'])){
+			$this->Email = HttpInput::Str(POST, 'user-email');
+		}
 
 		$this->Benefits->FillFromHttpPost();
 	}

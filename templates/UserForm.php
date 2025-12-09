@@ -13,7 +13,6 @@ $isEditForm ??= false;
 	<input
 		type="email"
 		name="user-email"
-		required="required"
 		value="<?= Formatter::EscapeHtml($user->Email) ?>"
 	/>
 </label>

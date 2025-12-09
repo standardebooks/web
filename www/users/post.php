@@ -70,7 +70,7 @@ try{
 				break;
 		}
 
-		$user->Save();
+		$user->Save(false);
 
 		$_SESSION['is-user-saved'] = true;
 

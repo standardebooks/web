@@ -1,21 +1,26 @@
 <?
-use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\simplexml_load_string;
 
-class Validator{
-	public static function IsValidEmail(?string $email): bool{
-		if(filter_var($email, FILTER_VALIDATE_EMAIL) !== false){
-			return true;
-		}
+/**
+ * An `HtmlFragment` can be any stretch of valid HTML text or elements, like `<p>Hello</p>` or `Some <b>bold</b> text`.
+ */
+class HtmlFragment{
+	protected string $_Value;
 
-		return false;
+	public function __construct(string $value = ''){
+		$this->_Value = trim($value);
+	}
+
+	public function __toString(): string{
+		return $this->_Value;
 	}
 
 	/**
 	 * @throws Exceptions\InvalidHtmlException If the HTML fragment is invalid.
 	 */
-	public static function ValidateHtmlFragment(string $string, bool $mustStartWithElement = true): void{
+	public function Validate(): void{
+		$string = $this->_Value;
 		$errorString = '';
 
 		libxml_use_internal_errors(true);
@@ -37,11 +42,6 @@ class Validator{
 			foreach($libXmlErrors as $libXmlError){
 				$errorString .= trim($libXmlError->message) . '; ';
 			}
-		}
-
-		// Test the case where there's no HTML at all.
-		if($mustStartWithElement && !preg_match('/^</ius', $string)){
-			$errorString .= 'String must start with HTML element';
 		}
 
 		$errorString = rtrim($errorString, '; ');

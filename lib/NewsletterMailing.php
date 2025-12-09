@@ -11,6 +11,10 @@ use function Safe\simplexml_load_string;
  * @property Newsletter $Newsletter
  * @property string $Url
  * @property array<NewsletterSubscription> $Recipients
+ * @property-read HtmlDocument $BodyHtml
+ * @property-write HtmlDocument|string $BodyHtml
+ * @property-read EmailAddress $FromEmail
+ * @property-write EmailAddress|string $FromEmail
  */
 class NewsletterMailing{
 	use Traits\Accessor;
@@ -19,12 +23,9 @@ class NewsletterMailing{
 	public int $NewsletterMailingId;
 	public int $NewsletterId;
 	public string $Subject = '';
-	/** The string `SE_UNSUBSCRIBE_URL` is replaced by `self::$UnsubscribeUrl`, and the string `SE_FIRST_NAME` is replaced by the recipient's first name, or removed if there is no first name. */
-	public string $BodyHtml = '';
 	public string $BodyText = '';
 	public Enums\QueueStatus $Status;
 	public ?string $FromName = null;
-	public string $FromEmail = '';
 	public DateTimeImmutable $SendOn;
 	public ?int $RecipientCount = null;
 	/** @var array<string> */
@@ -38,6 +39,8 @@ class NewsletterMailing{
 	protected string $_Url;
 	/** @var array<NewsletterSubscription> $_Recipients */
 	protected array $_Recipients;
+	protected HtmlDocument $_BodyHtml; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected EmailAddress $_FromEmail; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
 
 
 	// *******
@@ -72,12 +75,23 @@ class NewsletterMailing{
 
 
 	// *******
+	// SETTERS
+	// *******
+
+	protected function SetBodyHtml(string|HtmlDocument $string): void{
+		$this->_BodyHtml = new HtmlDocument($string);
+	}
+
+
+	// *******
 	// METHODS
 	// *******
 
 	/**
+	 * On sending, in `$BodyHtml` the string `SE_UNSUBSCRIBE_URL` is replaced by `self::$UnsubscribeUrl`, and the string `SE_FIRST_NAME` is replaced by the recipient's first name, or removed if there is no first name.
+	 *
 	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
-	 * @throws Exceptions\InvalidEmailException If any of the recipient email addresses is invalid.
+	 * @throws Exceptions\InvalidEmailAddressException If any of the recipient email addresses is invalid.
 	 * @throws \Exception If an error occurs during mailing.
 	 */
 	public function Send(): void{
@@ -156,10 +170,10 @@ class NewsletterMailing{
 	public function Validate(bool $addFooter): void{
 		$error = new Exceptions\InvalidNewsletterMailingException();
 
-		$this->BodyHtml = trim(str_replace('\'', '’', $this->BodyHtml));
+		$this->BodyHtml = str_replace('\'', '’', $this->BodyHtml);
 		$this->BodyText = trim(str_replace('\'', '’', $this->BodyText));
 		$this->FromName = $this->FromName !== null ? trim($this->FromName) : null;
-		$this->FromEmail = trim($this->FromEmail);
+		$this->FromEmail ??= '';
 
 		// If we received only HTML or only text, convert to one from the other.
 		if($this->BodyHtml != '' && $this->BodyText == ''){
@@ -193,7 +207,7 @@ class NewsletterMailing{
 		}
 
 		try{
-			Validator::ValidateHtmlFragment($this->BodyHtml);
+			$this->BodyHtml->Validate();
 		}
 		catch(Exceptions\InvalidHtmlException $ex){
 			$error->Add(new Exceptions\InvalidNewsletterMailingBodyHtmlException($ex->getMessage()));
@@ -207,7 +221,7 @@ class NewsletterMailing{
 		}
 		else{
 			// If we do have the subject, replace the HTML `<title>` with it.
-			$this->BodyHtml = preg_replace('/<title>.+?<\/title>/ius', '<title>' . Formatter::EscapeHtml($this->Subject) . '</title>', $this->BodyHtml);
+			$this->BodyHtml = preg_replace('/<title>.+?<\/title>/ius', '<title>' . Formatter::EscapeHtml($this->Subject) . '</title>', (string)$this->BodyHtml);
 		}
 
 		$this->InternalName = trim($this->InternalName ?? '');
@@ -216,11 +230,11 @@ class NewsletterMailing{
 			$this->InternalName = null;
 		}
 
-		if(trim($this->Subject) == ''){
+		$this->Subject = trim($this->Subject);
+
+		if($this->Subject == ''){
 			$error->Add(new Exceptions\FieldMissingException('No email subject specified.'));
 		}
-
-		$this->Subject = trim($this->Subject);
 
 		if($this->BodyText == ''){
 			$error->Add(new Exceptions\FieldMissingException('Newsletter text body is empty.'));
@@ -229,8 +243,13 @@ class NewsletterMailing{
 		if($this->FromEmail == ''){
 			$error->Add(new Exceptions\FieldMissingException('Newsletter from email is empty.'));
 		}
-		elseif(!Validator::IsValidEmail($this->FromEmail)){
-			$error->Add(new Exceptions\FieldInvalidException('Invalid email: ' . $this->FromEmail));
+		else{
+			try{
+				$this->FromEmail->Validate();
+			}
+			catch(Exceptions\InvalidEmailAddressException){
+				$error->Add(new Exceptions\InvalidEmailAddressException('Invalid email: ' . $this->FromEmail));
+			}
 		}
 
 		if(mb_stripos($this->BodyHtml, '\'') !== false){
@@ -308,16 +327,19 @@ class NewsletterMailing{
 		$this->PropertyFromHttp('FromEmail');
 		$this->PropertyFromHttp('Subject');
 		$this->PropertyFromHttp('InternalName');
-		$this->PropertyFromHttp('BodyHtml');
 		$this->PropertyFromHttp('BodyText');
 		$this->PropertyFromHttp('Status');
+
+		if(isset($_POST['newsletter-mailing-body-html'])){
+			$this->BodyHtml = HttpInput::Str(POST, 'newsletter-mailing-body-html') ?? '';
+		}
 
 		// `SendOn` is always interpreted as being sent in the `America/Chicago` timezone.
 		// Therefore we have to do some gynmastics to store it as UTC in our object.
 		$sendOn = HttpInput::Str(POST, 'newsletter-mailing-send-on');
 		if($sendOn !== null){
 			/** @throws void */
-			$this->SendOn = (new DateTimeImmutable($sendOn, new DateTimeZone('America/Chicago')))->setTimezone(new DateTimeZone('UTC'));
+			$this->SendOn = (new DateTimeImmutable($sendOn, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
 		}
 	}
 }

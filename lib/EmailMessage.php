@@ -1,10 +1,17 @@
 <?
+/**
+ * @property-read EmailAddress $To
+ * @property-write EmailAddress|string $To
+ * @property-read EmailAddress $From
+ * @property-write EmailAddress|string $From
+ * @property-read ?EmailAddress $ReplyTo
+ * @property-write EmailAddress|string|null $ReplyTo
+ */
 class EmailMessage{
-	public string $To;
+	use Traits\Accessor;
+
 	public ?string $ToName = null;
-	public string $From;
 	public ?string $FromName = null;
-	public ?string $ReplyTo = null;
 	public string $Subject;
 	public string $BodyHtml;
 	public ?string $BodyText = null;
@@ -13,6 +20,10 @@ class EmailMessage{
 	public array $Attachments = [];
 	/** @var array<string, string> $Metadata */
 	public array $Metadata = [];
+
+	protected EmailAddress $_To; // Should be converted to property hooks when PHP 8.4 is available.
+	protected EmailAddress $_From; // Should be converted to property hooks when PHP 8.4 is available.
+	protected ?EmailAddress $_ReplyTo = null; // Should be converted to property hooks when PHP 8.4 is available.
 
 	public function __construct(bool $isNoReplyEmail = false){
 		if($isNoReplyEmail){
@@ -28,14 +39,37 @@ class EmailMessage{
 	public function Validate(): void{
 		$error = new Exceptions\InvalidEmailMessageException();
 
-		$this->ReplyTo = trim($this->ReplyTo ?? '');
+		$this->ReplyTo ??= '';
 		if($this->ReplyTo == ''){
 			$this->ReplyTo = null;
 		}
 
-		$this->To = trim($this->To ?? '');
+		$this->To ??= '';
 		if($this->To == ''){
 			$error->Add(new Exceptions\FieldMissingException('Missing To address.'));
+		}
+
+		try{
+			$this->To->Validate();
+		}
+		catch(Exceptions\InvalidEmailAddressException){
+			$error->Add(new Exceptions\InvalidEmailAddressException('Invalid To email address: ' . $this->To));
+		}
+
+		try{
+			$this->From->Validate();
+		}
+		catch(Exceptions\InvalidEmailAddressException){
+			$error->Add(new Exceptions\InvalidEmailAddressException('Invalid From email address: ' . $this->From));
+		}
+
+		if(isset($this->ReplyTo)){
+			try{
+				$this->ReplyTo->Validate();
+			}
+			catch(Exceptions\InvalidEmailAddressException){
+				$error->Add(new Exceptions\InvalidEmailAddressException('Invalid email address: ' . $this->ReplyTo));
+			}
 		}
 
 		$this->ToName = trim($this->ToName ?? '');
