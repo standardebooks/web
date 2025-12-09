@@ -48,22 +48,19 @@ catch(Exceptions\InvalidPermissionsException){
 		</nav>
 		<h1><?= Formatter::EscapeHtml($user->DisplayName) ?></h1>
 
+		<ul role="menu">
+			<li><a href="<?= $user->EditUrl ?>">Edit user</a></li>
+			<? if($user->Benefits->CanManageProjects || $user->Benefits->CanReviewProjects){ ?>
+				<li><a href="<?= $user->Url ?>/projects">Projects</a></li>
+			<? } ?>
+		</ul>
+
 		<? if($isSaved){ ?>
 			<p class="message success">User saved!</p>
 		<? } ?>
 
 		<? if($isCreated){ ?>
 			<p class="message success">User created!</p>
-		<? } ?>
-
-		<p>
-			<a href="<?= $user->EditUrl ?>">Edit user</a>
-		</p>
-
-		<? if($user->Benefits->CanManageProjects || $user->Benefits->CanReviewProjects){ ?>
-			<p>
-				<a href="<?= $user->Url ?>/projects">Projects</a>
-			</p>
 		<? } ?>
 
 		<h2>Basics</h2>

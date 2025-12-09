@@ -48,12 +48,8 @@ catch(Exceptions\InvalidPermissionsException){
 		</picture>
 
 		<? if(Session::$User->Benefits->CanCreateNewsletterMailings){ ?>
-			<ul>
-				<li>
-					<p>
-						<a href="/newsletter-mailings/new">Create a newsletter mailing</a>
-					</p>
-				</li>
+			<ul role="menu">
+				<li><a href="/newsletter-mailings/new">Create a newsletter mailing</a></li>
 			</ul>
 		<? } ?>
 

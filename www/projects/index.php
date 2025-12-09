@@ -26,9 +26,9 @@ $stalledProjects = Project::GetAllByStatus(Enums\ProjectStatusType::Stalled);
 	<section>
 		<h1>Projects</h1>
 		<? if(Session::$User?->Benefits->CanEditProjects){ ?>
-			<p>
-				<a href="/projects/new">New project</a>
-			</p>
+			<ul role="menu">
+				<li><a href="/projects/new">Create a project</a></li>
+			</ul>
 		<? } ?>
 		<? if($createdProject !== null){ ?>
 			<? if($isCreated){ ?>

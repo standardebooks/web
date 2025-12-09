@@ -42,7 +42,7 @@ $addFooter ??= true;
 </label>
 <label class="icon pencil-square">
 	<span>Subject</span>
-	<span>Optimal length is less than 45 characters, or 7 words</span>
+	<span>Optimal length is less than 45 characters, or 7 words.</span>
 	<input type="text" name="newsletter-mailing-subject" required="required" value="<?= Formatter::EscapeHtml($newsletterMailing->Subject ?? '') ?>" maxlength="255" />
 </label>
 <? if(!$isEditForm){ ?>

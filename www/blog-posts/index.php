@@ -11,9 +11,9 @@ else{
 	<section class="narrow">
 		<h1>Blog</h1>
 		<? if(Session::$User?->Benefits->CanEditBlogPosts){ ?>
-			<p>
-				<a href="/blog-posts/new">Create a blog post</a>
-			</p>
+			<ul role="menu">
+				<li><a href="/blog-posts/new">Create a blog post</a></li>
+			</ul>
 		<? } ?>
 		<ul>
 			<? foreach($blogPosts as $blogPost){ ?>

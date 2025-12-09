@@ -2346,8 +2346,7 @@ h1 + ul.message,
 	margin: 0;
 }
 
-.has-hero hgroup p,
-.has-hero > h2{
+.has-hero hgroup p{
 	font-family: "Crimson Pro", serif;
 	font-style: italic;
 	font-weight: normal;
@@ -3546,6 +3545,35 @@ section.admin{
 
 section.admin h2:first-child{
 	margin-top: 0;
+}
+
+ul[role="menu"]{
+	border: 1px solid var(--sub-text);
+	display: flex;
+	flex-wrap: wrap;
+	padding: 1rem;
+	list-style: none;
+	box-sizing: border-box;
+	gap: 1rem;
+	margin: 2rem auto 1rem auto;
+	font-style: italic;
+	width: 100%;
+	background: var(--admin-background);
+}
+
+picture + ul[role="menu"],
+h1 + ul[role="menu"],
+hgroup + ul[role="menu"]{
+	margin-top: 0;
+}
+
+ul[role="menu"] li{
+	margin-top: 0;
+}
+
+ul[role="menu"] li + li::before{
+	content: "•";
+	margin-right: 1rem;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */

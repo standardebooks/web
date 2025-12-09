@@ -7,3 +7,8 @@ form{
 .footer{
 	text-align: right;
 }
+
+textarea{
+	white-space: pre;
+	min-height: 32ex;
+}

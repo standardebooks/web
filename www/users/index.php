@@ -28,15 +28,13 @@ catch(Exceptions\InvalidPermissionsException){
 			<source srcset="/images/rohan-road-combat@2x.jpg 2x, /images/rohan-road-combat.jpg 1x" type="image/jpg"/>
 			<img src="/images/rohan-road-combat@2x.jpg" alt="Rioters shooting guns during the French Revolution."/>
 		</picture>
+
 		<? if(Session::$User->Benefits->CanCreateUsers){ ?>
-			<ul>
-				<li>
-					<p>
-						<a href="/users/new">Create a user</a>
-					</p>
-				</li>
+			<ul role="menu">
+				<li><a href="/users/new">Create a user</a></li>
 			</ul>
 		<? } ?>
+
 		<section>
 			<h2>Jump to user</h2>
 			<form action="/users/get" method="<?= Enums\HttpMethod::Get->value ?>" autocomplete="off">

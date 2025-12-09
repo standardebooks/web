@@ -34,12 +34,15 @@ catch(Exceptions\BlogPostNotFoundException){
 		<? }else{ ?>
 			<h1><?= $blogPost->Title ?></h1>
 		<? } ?>
-		<p class="byline">By <?= Formatter::EscapeHtml($blogPost->User->Name) ?></p>
+
 		<? if(Session::$User?->Benefits->CanEditBlogPosts){ ?>
-			<p>
-				<a href="<?= $blogPost->EditUrl ?>">Edit</a>
-			</p>
+			<ul role="menu">
+				<li><a href="<?= $blogPost->EditUrl ?>">Edit blog post</a></li>
+			</ul>
 		<? } ?>
+
+		<p class="byline">By <?= Formatter::EscapeHtml($blogPost->User->Name) ?></p>
+
 		<? if($isCreated){ ?>
 			<p class="message success">Blog post created!</p>
 		<? } ?>
@@ -52,8 +55,10 @@ catch(Exceptions\BlogPostNotFoundException){
 		<?= Template::DonationProgress() ?>
 		<?= $blogPost->Body ?>
 		<? if(sizeof($blogPost->Ebooks) > 0){ ?>
-			<h2 id="ebooks-in-this-newsletter">Free ebooks in this article</h2>
-			<?= Template::EbookCarousel(ebooks: $blogPost->Ebooks) ?>
+			<section id="ebooks-in-this-newsletter">
+				<h2>Free ebooks in this article</h2>
+				<?= Template::EbookCarousel(ebooks: $blogPost->Ebooks) ?>
+			</section>
 		<? } ?>
 	</section>
 </main>
