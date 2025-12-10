@@ -79,6 +79,7 @@ class AwsSesApi{
 			$ses = new SesV2Client($clientConfig);
 			$concurrency = AWS_SES_MAX_EMAILS_PER_SECOND;
 
+			/** @var array<array<EmailMessage|QueuedEmailMessage>> $chunks */
 			$chunks = array_chunk($emails, $concurrency);
 
 			for($i = 0; $i < sizeof($chunks); $i++){
@@ -91,13 +92,12 @@ class AwsSesApi{
 						$to = $email->ToName . ' <' . $email->To . '>';
 					}
 					else{
-						$to = $email->To;
+						$to = (string)$email->To;
 					}
 
-					$html = $email->BodyHtml;
+					$html = (string)$email->BodyHtml;
 					$text = $email->BodyText;
-					$from = $email->From;
-					$replyTo = $email->ReplyTo;
+					$from = (string)$email->From;
 					$subject = $email->Subject;
 
 					$result = mailparse_rfc822_parse_addresses($email->From);
@@ -110,7 +110,7 @@ class AwsSesApi{
 						}
 					}
 					else{
-						$from = $email->From;
+						$from = (string)$email->From;
 					}
 
 					$params = [
@@ -126,8 +126,8 @@ class AwsSesApi{
 						]
 					];
 
-					if($replyTo !== null){
-						$params['ReplyToAddresses'] = [$replyTo];
+					if($email->ReplyTo !== null){
+						$params['ReplyToAddresses'] = [(string)$email->ReplyTo];
 					}
 
 					if($email->UnsubscribeUrl !== null){
