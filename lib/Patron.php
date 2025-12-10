@@ -136,6 +136,13 @@ class Patron{
 				where UserId = ?
 			', [$this->UserId]);
 
+		// Unsubscribe them from the Patrons News newsletter.
+		Db::Query('
+				DELETE from NewsletterSubscriptions
+				where UserId = ?
+				and NewsletterId = ?
+			', [$this->UserId, PATRONS_CIRCLE_NEWS_NEWSLETTER_ID]);
+
 		// Email the patron to notify them their term has ended.
 		if($this->LastPayment !== null && $this->User->Email !== null && $this->User->CanReceiveEmail){
 			$em = new QueuedEmailMessage();
@@ -158,13 +165,6 @@ class Patron{
 
 			$em->Send();
 		}
-
-		// Unsubscribe them from the Patrons News newsletter.
-		Db::Query('
-				DELETE from NewsletterSubscriptions
-				where UserId = ?
-				and NewsletterId = ?
-			', [$this->UserId, PATRONS_CIRCLE_NEWS_NEWSLETTER_ID]);
 	}
 
 

@@ -46,8 +46,13 @@ class EmailMessage{
 		$this->_From = new EmailAddress($string);
 	}
 
-	protected function SetReplyTo(string|EmailAddress $string): void{
-		$this->_ReplyTo = new EmailAddress($string);
+	protected function SetReplyTo(string|EmailAddress|null $string): void{
+		if($string === null){
+			$this->_ReplyTo = null;
+		}
+		else{
+			$this->_ReplyTo = new EmailAddress($string);
+		}
 	}
 
 	/**
