@@ -44,6 +44,9 @@ class NewsletterMailing{
 	protected HtmlDocument $_BodyHtml; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
 	protected EmailAddress $_FromEmail; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
 
+	public function __construct(){
+		$this->_FromEmail = new EmailAddress(NEWSLETTER_DEFAULT_FROM_EMAIL_ADDRESS);
+	}
 
 	// *******
 	// GETTERS
