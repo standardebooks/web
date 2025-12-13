@@ -802,11 +802,16 @@ main.manual *:target{
 	}
 
 	main.manual > article > section,
-	main.manual nav + article h1{
+	main.manual nav + article h1,
+	.manual > article > section[id] > aside.number{
 		margin-top: 0;
 	}
 
 	.manual > article > section[id] > aside.number{
+		margin-top: 2rem;
+	}
+
+	.manual > nav + article > section[id] > aside.number{
 		margin-top: 0;
 	}
 }
