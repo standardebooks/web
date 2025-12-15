@@ -106,6 +106,7 @@ $bodyHtml = $bodyHtml ?? '';
 		}
 
 		.signature{
+			font-style: italic;
 			margin-top: 2em;
 			text-align: right;
 		}
@@ -168,6 +169,111 @@ $bodyHtml = $bodyHtml ?? '';
 			max-width: 100%;
 			border: 1px solid #222;
 			border-radius: 5px;
+		}
+
+		.editors-note{
+			border: 3px double #222222;
+			padding: 2em;
+			font-style: italic;
+		}
+
+		.editors-note h2{
+			margin-top: 0;
+			font-style: normal;
+			text-align: center;
+		}
+
+		.editors-note i,
+		.editors-note em{
+			font-style: normal;
+		}
+
+		.featured-ebooks{
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			text-align: center;
+			margin-left: 1em;
+		}
+
+		.featured-ebooks a{
+			display: block;
+			font-size: 0;
+			border-radius: 5px;
+		}
+
+		.featured-ebooks img{
+			border: 1px solid #222;
+			border-radius: 5px;
+			width: 182px;
+		}
+
+		.featured-ebooks li{
+			display: inline-block;
+			margin-top: 1em;
+		}
+
+		.featured-ebooks li{
+			margin-right: 1em;
+		}
+
+		.byline{
+			text-align: right;
+		}
+
+		.highlight{
+			background: transparent;
+			background-image: linear-gradient(to right, rgba(255, 225, 0, 0.1), rgba(255, 225, 0, 0.7) 4%, rgba(255, 225, 0, 0.3));
+			border-radius: 0.8em 0.3em;
+			box-decoration-break: clone;
+			-webkit-box-decoration-break: clone;
+			margin: 0 -0.4em;
+			padding: 0.1em 0.4em;
+		}
+
+		.footer ul.social-media{
+			padding: 0;
+			margin: 0;
+			line-height: 0;
+			margin-bottom: 1em;
+			margin-top: -1em;
+			margin-left: 1em;
+		}
+
+		.footer ul.social-media li{
+			display: inline-block;
+			margin-right: 1em;
+			margin-top: 1em;
+		}
+
+		.footer ul.social-media li p{
+			margin: 0;
+		}
+
+		.footer ul.social-media a{
+			display: block;
+		}
+
+		.footer ul.social-media a img{
+			height: 2em;
+			width: 2em;
+			margin: 0;
+		}
+
+		.footer ul.social-media a:hover img{
+			/* This filter changes a black background to #62bfa3, which is var(--button-highlight) */
+			filter: invert(69%) sepia(35%) saturate(459%) hue-rotate(111deg) brightness(92%) contrast(87%);
+		}
+
+		blockquote{
+			background: rgba(0, 0, 0, .05);
+			padding: 1em;
+			margin: 1em;
+			border-radius: 5px;
+		}
+
+		blockquote p{
+			margin: 0;
 		}
 
 		@media(max-width: 500px){
