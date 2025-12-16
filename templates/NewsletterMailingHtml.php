@@ -290,6 +290,9 @@ $bodyHtml = $bodyHtml ?? '';
 	</style>
 </head>
 <body>
+	<a href="https://standardebooks.org">
+		<img alt="The Standard Ebooks logo" class="logo" src="https://standardebooks.org/images/logo-full.png"/>
+	</a>
 	<?= $bodyHtml ?>
 </body>
 </html>

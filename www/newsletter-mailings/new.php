@@ -16,6 +16,7 @@ try{
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 	$newsletterMailing = HttpInput::SessionObject('newsletter-mailing', NewsletterMailing::class) ?? new NewsletterMailing();
 	$addFooter = HttpInput::Bool(SESSION, 'add-footer') ?? true;
+	$addEbooks = HttpInput::Bool(SESSION, 'add-ebooks') ?? true;
 
 	if($exception){
 		// We got here because a submission had errors and the user has to try again.
@@ -45,7 +46,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<?= Template::Error(exception: $exception) ?>
 
 		<form method="<?= Enums\HttpMethod::Post->value ?>" action="/newsletter-mailings" autocomplete="off">
-			<?= Template::NewsletterMailingForm(newsletterMailing: $newsletterMailing, addFooter: $addFooter) ?>
+			<?= Template::NewsletterMailingForm(newsletterMailing: $newsletterMailing, addFooter: $addFooter, addEbooks: $addEbooks) ?>
 		</form>
 	</section>
 </main>

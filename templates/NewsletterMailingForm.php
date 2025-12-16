@@ -6,6 +6,7 @@
 $newsletters = Newsletter::GetAll();
 $isEditForm ??= false;
 $addFooter ??= true;
+$addEbooks ??= true;
 ?>
 <label class="select icon emails">
 	<span>Newsletter</span>
@@ -29,7 +30,7 @@ $addFooter ??= true;
 <label class="icon year">
 	<span>Send on</span>
 	<span>Time zone is <?= SITE_TZ->getName() ?>.</span>
-	<? /* `SendOnTimestamp` is stored as UTC in the object, but must be in the `SITE_TZ` time zone for this element. */ ?>
+	<? /* `SendOn` is stored as UTC in the object, but must be in the `SITE_TZ` time zone for this element. */ ?>
 	<input type="datetime-local" name="newsletter-mailing-send-on" required="required" value="<? if(isset($newsletterMailing->SendOn)){ ?><?= $newsletterMailing->SendOn->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?><? } ?>" />
 </label>
 <label class="icon user">
@@ -45,13 +46,18 @@ $addFooter ??= true;
 	<span>Optimal length is less than 45 characters, or 7 words.</span>
 	<input type="text" name="newsletter-mailing-subject" required="required" value="<?= Formatter::EscapeHtml($newsletterMailing->Subject ?? '') ?>" maxlength="255" />
 </label>
-<? if(!$isEditForm){ ?>
-	<label class="checkbox">
-		<input type="hidden" name="add-footer" value="false" />
-		<input type="checkbox" name="add-footer" value="true"<? if($addFooter){ ?> checked="checked"<? } ?>/>
-		<span>Auto-include footer</span>
-	</label>
-<? } ?>
+<label class="checkbox">
+	<input type="hidden" name="add-footer" value="false" />
+	<input type="checkbox" name="add-footer" value="true"<? if($addFooter){ ?> checked="checked"<? } ?>/>
+	<span>Auto-include footer</span>
+	<span>If no <code>&lt;div class="footer"&gt;</code> or <code>&lt;footer&gt;</code>, add one before <code>&lt;/body&gt;</code>.</span>
+</label>
+<label class="checkbox">
+	<input type="hidden" name="add-ebooks" value="false" />
+	<input type="checkbox" name="add-ebooks" value="true"<? if($addEbooks){ ?> checked="checked"<? } ?>/>
+	<span>Auto-include ebook carousel</span>
+	<span>If no <code>&lt;ul class="featured-ebooks"&gt;</code>, generate one before the footer.</span>
+</label>
 <label>
 	<span>Body HTML</span>
 	<? if(!$isEditForm){ ?>

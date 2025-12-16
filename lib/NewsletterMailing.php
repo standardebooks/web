@@ -114,7 +114,7 @@ class NewsletterMailing{
 	public function Send(): void{
 		try{
 			// Validate this again to make double sure the mailing is valid.
-			$this->Validate(false);
+			$this->Validate(false, false);
 
 			$emailMessages = [];
 			foreach($this->Recipients as $newsletterSubscription){
@@ -159,8 +159,8 @@ class NewsletterMailing{
 	/**
 	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
 	 */
-	public function Save(): void{
-		$this->Validate(false);
+	public function Save(bool $addFooter, bool $addEbooks): void{
+		$this->Validate($addEbooks, $addEbooks);
 
 		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, Subject = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
 	}
@@ -168,11 +168,11 @@ class NewsletterMailing{
 	/**
 	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
 	 */
-	public function Create(bool $addFooter): void{
+	public function Create(bool $addFooter, bool $addEbooks): void{
 		$error = null;
 
 		try{
-			$this->Validate($addFooter);
+			$this->Validate($addFooter, $addEbooks);
 		}
 		catch(Exceptions\InvalidNewsletterMailingException $ex){
 			$error = $ex;
@@ -194,7 +194,7 @@ class NewsletterMailing{
 	/**
 	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
 	 */
-	public function Validate(bool $addFooter): void{
+	public function Validate(bool $addFooter, bool $addEbooks): void{
 		$error = new Exceptions\InvalidNewsletterMailingException();
 
 		$this->BodyHtml = str_replace('\'', '’', $this->BodyHtml);
@@ -202,23 +202,30 @@ class NewsletterMailing{
 		$this->FromName = $this->FromName !== null ? trim($this->FromName) : null;
 		$this->FromEmail ??= '';
 
-		// If we received only HTML or only text, convert to one from the other.
-		if($this->BodyHtml != '' && $this->BodyText == ''){
-			if(mb_stripos($this->BodyHtml, '<body') === false){
-				$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
-			}
-
-			$this->BodyText = Formatter::HtmlToMarkdown($this->BodyHtml);
-		}
-
+		// If we received only text, convert to HTML.
 		if($this->BodyText != '' && $this->BodyHtml == ''){
 			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: Formatter::MarkdownToHtml($this->BodyText), subject: $this->Subject);
+		}
+
+		if(!preg_match("/^<!DOCTYPE html>/ius", (string)$this->BodyHtml)){
+			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
+		}
+
+		if(mb_stripos($this->BodyText, '.test') !== false){
+			$error->Add(new Exceptions\FieldInvalidException('Newsletter text contains .test TLD.'));
+		}
+
+		if(mb_stripos($this->BodyHtml, '.test') !== false){
+			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML contains .test TLD.'));
 		}
 
 		if($addFooter){
 			$footerHtml = Template::EmailMarketingFooterElement(newsletter: $this->Newsletter);
 
 			$footerText = "\n" . Template::EmailMarketingFooterText(newsletter: $this->Newsletter);
+
+			// Remove any existing footers.
+			$this->BodyHtml = preg_replace('/(<div class="footer">.+?<\/div>|<footer>.+?<\/footer>)/ius', '', (string)$this->BodyHtml);
 
 			if(mb_stripos($this->BodyHtml, 'Unsubscribe from this newsletter.') === false){
 				$this->BodyHtml = str_ireplace('</body>', $footerHtml . '</body>', $this->BodyHtml);
@@ -229,8 +236,72 @@ class NewsletterMailing{
 			}
 		}
 
+		if($addEbooks){
+			if(!preg_match('/<div class="footer|<footer\b/ius', $this->BodyHtml)){
+				$error->Add(new Exceptions\FieldMissingException('No footer found, but a footer is required to add ebooks.'));
+			}
+			else{
+				$identifiers = [];
+				preg_match_all('/="((?:https:\/\/standardebooks.org)?\/ebooks\/[^\/"]+?\/[^"]+?)"/iu', $this->BodyHtml, $matches);
+
+				foreach($matches[1] as $identifier){
+					// Remove anchors or `/text/...` links
+					$identifier = preg_replace('/(#.+|\/text|\/text\/.*)$/u', '', $identifier);
+
+					// Add the full domain to URL if not present.
+					$identifier = preg_replace('/^\//u', 'https://standardebooks.org/', $identifier);
+
+					$identifiers[] = $identifier;
+				}
+
+				$identifiers = array_unique($identifiers);
+				$ebooks = [];
+
+				foreach($identifiers as $identifier){
+					if($identifier == ''){
+						continue;
+					}
+
+					try{
+						$ebooks[] = Ebook::GetByIdentifier($identifier);
+					}
+					catch(Exceptions\EbookNotFoundException){
+						$error->Add(new Exceptions\EbookNotFoundException('Ebook not found: ' . $identifier));
+					}
+				}
+
+				$carouselHtml = '';
+				if(sizeof($ebooks) > 0){
+					$carouselHtml = '<h2 id="ebooks-in-this-newsletter">Free ebooks in this newsletter</h2>' . "\n" . '<ul class="featured-ebooks">' . "\n";
+					foreach($ebooks as $ebook){
+						$carouselHtml .= '<li>
+									<a href="' . SITE_URL . $ebook->Url . '">
+										<img src="' . SITE_URL . $ebook->CoverImage2xUrl . '" alt="'
+										 . Formatter::EscapeHtml(strip_tags($ebook->TitleWithCreditsHtml)) . '" />
+									</a>
+								</li>';
+					}
+					$carouselHtml .= "\n" . '</ul>';
+				}
+
+				// Remove any existing ebook carousel and add the new one in..
+				$this->BodyHtml = preg_replace('/<h2 id="ebooks-in-this-newsletter">Free ebooks in this newsletter<\/h2>/ius', '', (string)$this->BodyHtml);
+				$this->BodyHtml = preg_replace('/<ul class="featured-ebooks">.+?<\/ul>/ius', '', (string)$this->BodyHtml);
+				$this->BodyHtml = preg_replace('/(<div class="footer">|<footer>)/ius', $carouselHtml . "\n" . '\1', (string)$this->BodyHtml, 1);
+			}
+		}
+
 		if($this->BodyHtml == ''){
 			$error->Add(new Exceptions\FieldMissingException('Newsletter HTML body is empty.'));
+		}
+
+		// If we received only HTML, convert to text.
+		if($this->BodyHtml != '' && $this->BodyText == ''){
+			if(mb_stripos($this->BodyHtml, '<body') === false){
+				$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
+			}
+
+			$this->BodyText = Formatter::HtmlToMarkdown($this->BodyHtml);
 		}
 
 		try{
@@ -242,6 +313,7 @@ class NewsletterMailing{
 
 		if($this->Subject == ''){
 			// Try to infer the subject from the HTML file.
+			$matches = [];
 			preg_match('/<title>(.+?)<\/title>/ius', $this->BodyHtml, $matches);
 
 			$this->Subject = $matches[1] ?? '';
@@ -285,14 +357,6 @@ class NewsletterMailing{
 
 		if(mb_stripos($this->BodyText, '\'') !== false){
 			$error->Add(new Exceptions\FieldInvalidException('Newsletter text contains `\'`.'));
-		}
-
-		if(mb_stripos($this->BodyText, '.test') !== false){
-			$error->Add(new Exceptions\FieldInvalidException('Newsletter text contains .test TLD.'));
-		}
-
-		if(mb_stripos($this->BodyHtml, '.test') !== false){
-			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML contains .test TLD.'));
 		}
 
 		if(mb_stripos($this->BodyHtml, NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE) === false){

@@ -18,10 +18,11 @@ try{
 		}
 
 		$addFooter = HttpInput::Bool(POST, 'add-footer') ?? true;
+		$addEbooks = HttpInput::Bool(POST, 'add-ebooks') ?? true;
 
 		$newsletterMailing->FillFromHttpPost();
 
-		$newsletterMailing->Create($addFooter);
+		$newsletterMailing->Create($addFooter, $addEbooks);
 
 		$_SESSION['newsletter-mailing'] = $newsletterMailing;
 		$_SESSION['is-newsletter-mailing-created'] = true;
@@ -44,8 +45,11 @@ try{
 
 		$exceptionRedirectUrl = $newsletterMailing->EditUrl;
 
+		$addFooter = HttpInput::Bool(POST, 'add-footer') ?? true;
+		$addEbooks = HttpInput::Bool(POST, 'add-ebooks') ?? true;
+
 		$newsletterMailing->FillFromHttpPost();
-		$newsletterMailing->Save();
+		$newsletterMailing->Save($addFooter, $addEbooks);
 
 		$_SESSION['newsletter-mailing'] = $newsletterMailing;
 		$_SESSION['is-newsletter-mailing-saved'] = true;
@@ -64,9 +68,8 @@ catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\InvalidNewsletterMailingException $ex){
-	if($httpMethod == Enums\HttpMethod::Post){
-		$_SESSION['add-footer'] = $addFooter ?? true;
-	}
+	$_SESSION['add-footer'] = $addFooter;
+	$_SESSION['add-ebooks'] = $addEbooks;
 
 	$_SESSION['newsletter-mailing'] = $newsletterMailing;
 	$_SESSION['exception'] = $ex;

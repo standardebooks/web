@@ -49,7 +49,7 @@ use Safe\DateTimeImmutable;
  * @method static string Footer()
  * @method static string Header(?string $title = null, ?string $highlight = null, ?string $description = null, bool $isManual = false, bool $isXslt = false, ?string $feedUrl = null, ?string $feedTitle = null, bool $isErrorPage = false, ?string $downloadUrl = null, ?string $canonicalUrl = null, ?string $coverUrl = null, string $ogType = 'website', array<string> $css = [])
  * @method static string ImageCopyrightNotice()
- * @method static string NewsletterMailingForm(NewsletterMailing $newsletterMailing, bool $addFooter = true, bool $isEditForm = false)
+ * @method static string NewsletterMailingForm(NewsletterMailing $newsletterMailing, bool $addFooter = true, bool $isEditForm = false, bool $addEbooks = true)
  * @method static string NewsletterMailingHtml(string $bodyHtml, string $subject)
  * @method static string OpdsAcquisitionEntry(Ebook $entry)
  * @method static string OpdsAcquisitionFeed(string $id, string $url, string $parentUrl, string $title, ?string $subtitle, DateTimeImmutable $updated, array<Ebook> $entries, bool $isCrawlable = false)

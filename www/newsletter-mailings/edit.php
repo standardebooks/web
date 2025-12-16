@@ -7,6 +7,8 @@ try{
 
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 	$newsletterMailing = HttpInput::SessionObject('newsletter-mailing', NewsletterMailing::class);
+	$addFooter = HttpInput::Bool(SESSION, 'add-footer') ?? true;
+	$addEbooks = HttpInput::Bool(SESSION, 'add-ebooks') ?? true;
 
 	if($newsletterMailing === null){
 		$newsletterMailing = NewsletterMailing::Get(HttpInput::Int(GET, 'newsletter-mailing-id'));
@@ -52,7 +54,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $newsletterMailing->Url ?>" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
-			<?= Template::NewsletterMailingForm(newsletterMailing: $newsletterMailing, isEditForm: true) ?>
+			<?= Template::NewsletterMailingForm(newsletterMailing: $newsletterMailing, isEditForm: true, addFooter: $addFooter, addEbooks: $addEbooks) ?>
 		</form>
 	</section>
 </main>
