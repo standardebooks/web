@@ -2,7 +2,7 @@
 /**
  * @var Newsletter $newsletter
  */
-?>------------------------------------------
+?>* * *
 
 [Donate](<?= SITE_URL ?>/donate) • [Get involved](<?= SITE_URL ?>/contribute) • [Ebook feeds](<?= SITE_URL ?>/feeds)
 
