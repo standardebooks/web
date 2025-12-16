@@ -294,7 +294,6 @@ class BlogPost{
 
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('Description');
-		$this->PropertyFromHttp('Published');
 
 		if(isset($_POST['blog-post-title'])){
 			$this->Title = HttpInput::Str(POST, 'blog-post-title') ?? '';
@@ -306,6 +305,14 @@ class BlogPost{
 
 		if(isset($_POST['blog-post-body'])){
 			$this->Body = HttpInput::Str(POST, 'blog-post-body');
+		}
+
+		// `Published` is always interpreted as being sent in the `America/Chicago` timezone.
+		// Therefore we have to do some gynmastics to store it as UTC in our object.
+		$published = HttpInput::Str(POST, 'blog-post-published');
+		if($published !== null){
+			/** @throws void */
+			$this->Published = (new DateTimeImmutable($published, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
 		}
 	}
 

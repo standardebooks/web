@@ -19,13 +19,15 @@ $isEditForm ??= false;
 </label>
 <label class="icon year">
 	<span>Publish on</span>
-	<span>UTC; may be in the future.</span>
+	<span>Time zone is <?= SITE_TZ->getName() ?>.</span>
+
+	<? /* `Published` is stored as UTC in the object, but must be in the `SITE_TZ` time zone for this element. */ ?>
 	<input
 		type="datetime-local"
 		name="blog-post-published"
+		required="required"
 		step="1" <? /* Required to be able to set down to seconds granularity. */ ?>
-		value="<?= $blogPost->Published->format(Enums\DateTimeFormat::Html->value) ?>"
-	/>
+		value="<? if(isset($blogPost->Published)){ ?><?= $blogPost->Published->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?><? } ?>" />
 </label>
 <label>
 	<span>Title</span>
@@ -59,7 +61,7 @@ $isEditForm ??= false;
 </label>
 <label>
 	<span>Body</span>
-	<span>HTML; can be empty to create a blog post that redirects to a file on the filesystem.</span>
+	<span>An HTML fragment; can be empty to create a blog post that redirects to a file on the filesystem.</span>
 	<textarea
 		name="blog-post-body"><?= Formatter::EscapeHtml($blogPost->Body ?? '') ?></textarea>
 </label>
