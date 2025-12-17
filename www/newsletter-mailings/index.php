@@ -61,10 +61,10 @@ catch(Exceptions\InvalidPermissionsException){
 			<p class="message success">Newsletter mailing created!</p>
 		<? } ?>
 
-		<ol>
+		<ol class="newsletter-mailings">
 			<? foreach($newsletterMailings as $newsletterMailing){ ?>
 				<li>
-					<p><?= Formatter::EscapeHtml($newsletterMailing->Subject) ?></p>
+					<p><?= Formatter::EscapeHtml($newsletterMailing->Subject) ?> (#<?= $newsletterMailing->NewsletterMailingId ?>)</p>
 					<p><?= $newsletterMailing->SendOn->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= Formatter::EscapeHtml(SITE_TZ->getName()) ?> • <i><?= ucfirst($newsletterMailing->Status->value) ?></i></p>
 					<? if(Session::$User->Benefits->CanEditNewsletterMailings){ ?>
 						<p>

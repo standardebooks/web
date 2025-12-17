@@ -1475,6 +1475,14 @@ footer ul.social-media a:hover::before{
 	margin-top: 2rem;
 }
 
+.newsletter-mailings{
+	list-style: disc;
+}
+
+.newsletter-mailings > li > p:first-child{
+	font-weight: bold;
+}
+
 /* ebook list */
 h1,
 .masthead h2{
