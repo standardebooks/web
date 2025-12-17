@@ -433,7 +433,8 @@ class NewsletterMailing{
 
 			foreach($selectors[0] as $selectorMatch){
 				$selector = trim($selectorMatch);
-				$t = new Gt\CssXPath\Translator($selector);
+				// Sometimes emits warnings, quiet them.
+				@$t = new Gt\CssXPath\Translator($selector);
 
 				$elements = $dom->xpath((string)$t);
 
