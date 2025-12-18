@@ -7,6 +7,8 @@ enum HttpCode: int{
 	case Accepted = 202;
 	case NoContent = 204;
 
+	case MultipleChoices = 300;
+
 	/** Permanent redirect. */
 	case MovedPermanently = 301;
 

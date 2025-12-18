@@ -31,6 +31,8 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
+
+http_response_code(Enums\HttpCode::MultipleChoices->value);
 ?><?= Template::Header(
 	title: 'Disambiguation - ' . $users[0]->DisplayName,
 ) ?>
