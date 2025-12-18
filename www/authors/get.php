@@ -25,13 +25,20 @@ try{
 		}
 	}
 
+	$feedUrl = null;
+	$feedTitle = null;
+	if($showLinks){
+		$feedUrl = str_replace('/ebooks/', '/authors/', $authorUrl);
+		$feedTitle = 'Standard Ebooks - Ebooks by ' . $author;
+	}
+
 	$author = strip_tags($ebooks[0]->AuthorsHtml);
 	$authorUrl = $ebooks[0]->AuthorsUrl;
 }
 catch(Exceptions\AuthorNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(title: 'Ebooks by ' . $author, feedUrl: str_replace('/ebooks/', '/authors/', $authorUrl), feedTitle: 'Standard Ebooks - Ebooks by ' . $author, highlight: 'ebooks', description: 'All of the Standard Ebooks ebooks by ' . $author, canonicalUrl: SITE_URL . $authorUrl) ?>
+?><?= Template::Header(title: 'Ebooks by ' . $author, feedUrl: $feedUrl, feedTitle: $feedTitle, highlight: 'ebooks', description: 'All of the Standard Ebooks ebooks by ' . $author, canonicalUrl: SITE_URL . $authorUrl) ?>
 <main class="ebooks">
 	<h1 class="is-collection">Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
 	<? if($showLinks){ ?>
