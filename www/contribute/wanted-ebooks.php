@@ -2,6 +2,8 @@
 $beginnerEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty::Beginner);
 $intermediateEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty::Intermediate);
 $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty::Advanced);
+
+$collections = Collection::GetAllByMissingEntries();
 ?>
 <?= Template::Header(title: 'Wanted Ebooks', highlight: 'contribute', description: 'A list of ebooks the Standard Ebooks editor would like to see produced, including suggestions for first-time producers.') ?>
 <main>
@@ -30,6 +32,18 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 		<h2>Advanced productions</h2>
 		<?= Template::WantedEbooksList(ebooks: $advancedEbooks, showPlaceholderMetadata: Session::$User->Benefits->CanEditEbookPlaceholders ?? false) ?>
 
+		<? if(sizeof($collections) > 0){ ?>
+			<h2>Collections</h2>
+			<p>These collections are partially complete, and contain ebooks that can be worked on immediately.</p>
+			<ul>
+				<? foreach($collections as $collection){ ?>
+					<li>
+						<p><a href="<?= $collection->Url ?>"><?= Formatter::EscapeHtml($collection->Name) ?></a></p>
+					</li>
+				<? } ?>
+			</ul>
+		<? } ?>
+
 		<h2 id="verne">Jules Verne</h2>
 		<p>Verne has a complex publication and translation history. Please review these notes before starting any Verne books.</p>
 		<ul class="wanted-list">
@@ -44,37 +58,16 @@ $advancedEbooks = Ebook::GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDiffic
 		<h2>Uncategorized lists</h2>
 		<ul>
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/James_Tait_Black_Memorial_Prize">Entries in the James Tait Black Memorial Prize list</a></p>
-			</li>
-			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Prix_Goncourt">English translations from the Prix Goncourt list</a></p>
 			</li>
 			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Hawthornden_Prize">Entries in the Hawthornden Prize list</a></p>
-			</li>
-			<li>
 				<p><a href="https://en.wikipedia.org/wiki/Newcastle_Forgotten_Fantasy_Library">Public domain entries in the Newcastle Forgotten Fantasy Library</a></p>
-			</li>
-			<li>
-				<p><a href="https://www.theguardian.com/books/2015/aug/17/the-100-best-novels-written-in-english-the-full-list">Public domain entries in the Guardian’s top 100 novels of all time list</a></p>
-			</li>
-			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Le_Monde's_100_Books_of_the_Century">Public domain entries in Le Mondes’s 100 Books of the Century</a></p>
-			</li>
-			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Pulitzer_Prize_for_Drama">Public domain entries in Pulitzer Prize for Drama</a></p>
-			</li>
-			<li>
-				<p><a href="https://en.wikipedia.org/wiki/Pulitzer_Prize_for_Fiction">Public domain entries in Pulitzer Prize for Fiction</a></p>
 			</li>
 			<li>
 				<p>Public domain entries in the <a href="https://en.wikipedia.org/wiki/Ballantine_Adult_Fantasy_series">Ballantine Adult Fantasy series</a> (Note that not all of these are in the U.S. public domain)</p>
 			</li>
 			<li>
 				<p>Public domain entries in this <a href="https://docs.google.com/spreadsheets/d/1thH8qI_JgKc96Jzyvv6-N3H-oFBon5dwXqqI8DiTS9o/edit?usp=sharing">Spreadsheet of plays that have appeared on lists of the “Best Plays of All Time.”</a></p>
-			</li>
-			<li>
-				<p>Entries in the <a href="https://en.wikipedia.org/wiki/Harvard_Classics#The_Harvard_Classics_Shelf_of_Fiction">Harvard Classics Shelf of Fiction</a></p>
 			</li>
 		</ul>
 	</article>

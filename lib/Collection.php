@@ -192,4 +192,27 @@ class Collection{
 			return $this;
 		}
 	}
+
+	/**
+	 * @return array<Collection>
+	 */
+	public static function GetAllByMissingEntries(): array{
+		return Db::Query('
+				SELECT distinct c.*
+				from Collections c
+				inner join CollectionEbooks ce using (CollectionId)
+				inner join EbookPlaceholders ep using (EbookId)
+				where
+				ep.IsInProgress = false
+				and
+				(
+					ep.IsWanted = true
+					or
+					ep.YearPublished is null
+					or
+					ep.YearPublished <= ?
+				)
+				order by c.Name asc
+			', [PD_YEAR], Collection::class);
+	}
 }
