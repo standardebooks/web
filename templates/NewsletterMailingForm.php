@@ -46,6 +46,10 @@ $addEbooks ??= true;
 	<span>Optimal length is less than 45 characters, or 7 words.</span>
 	<input type="text" name="newsletter-mailing-subject" required="required" value="<?= Formatter::EscapeHtml($newsletterMailing->Subject ?? '') ?>" maxlength="255" />
 </label>
+<label class="icon pencil-square">
+	<span>Preheader</span>
+	<input type="text" name="newsletter-mailing-preheader" value="<?= Formatter::EscapeHtml($newsletterMailing->Preheader ?? '') ?>" maxlength="255" />
+</label>
 <label class="checkbox">
 	<input type="hidden" name="add-footer" value="false" />
 	<input type="checkbox" name="add-footer" value="true"<? if($addFooter){ ?> checked="checked"<? } ?>/>
@@ -61,7 +65,7 @@ $addEbooks ??= true;
 <label>
 	<span>Body HTML</span>
 	<? if(!$isEditForm){ ?>
-		<span>If no <code>&lt;body&gt;</code>, HTML will be auto-wrapped with a complete HTML document.</span>
+		<span>If no <code>&lt;body&gt;</code>, HTML will be auto-wrapped with a complete HTML document, including a logo.</span>
 	<? } ?>
 	<textarea name="newsletter-mailing-body-html"><?= Formatter::EscapeHtml($newsletterMailing->BodyHtml ?? '') ?></textarea>
 </label>

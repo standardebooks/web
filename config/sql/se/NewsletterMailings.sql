@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `NewsletterMailings` (
   `NewsletterId` int(10) unsigned NOT NULL,
   `Status` enum('queued','processing','completed','failed','canceled') NOT NULL DEFAULT 'queued',
   `Subject` varchar(255) NOT NULL,
+  `Preheader` varchar(255) NULL DEFAULT NULL,
   `BodyHtml` text NOT NULL,
   `BodyText` text NOT NULL,
   `FromName` varchar(255) DEFAULT NULL,

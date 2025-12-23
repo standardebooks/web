@@ -45,7 +45,7 @@ $bodyHtml = $bodyHtml ?? '';
 			background-color: #E9E7E0;
 		}
 
-		.preheader {
+		.preheader{
 			display: none !important;
 			visibility: hidden;
 			mso-hide: all;

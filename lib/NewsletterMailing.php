@@ -24,6 +24,7 @@ class NewsletterMailing{
 	public int $NewsletterMailingId;
 	public int $NewsletterId;
 	public string $Subject = '';
+	public ?string $Preheader = null;
 	public string $BodyText = '';
 	public Enums\QueueStatus $Status;
 	public ?string $FromName = null;
@@ -247,6 +248,9 @@ class NewsletterMailing{
 	 * @throws Exceptions\EbookNotFoundException If an ebook identifier in the `BodyHtml` doesn't resolve to a real `Ebook`.
 	 */
 	protected function NormalizeBody(bool $addFooter, bool $addEbooks): void{
+		// Insert or remove preheader.
+		$this->BodyHtml = preg_replace('/<p class="preheader">[^<]+?<\/p>/ius', '', (string)$this->BodyHtml);
+
 		// If we received only text, convert to HTML.
 		if($this->BodyText != '' && $this->BodyHtml == ''){
 			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: Formatter::MarkdownToHtml($this->BodyText), subject: $this->Subject);
@@ -259,6 +263,29 @@ class NewsletterMailing{
 			}
 
 			$this->BodyText = Formatter::HtmlToMarkdown($this->BodyHtml);
+		}
+
+		if($this->Preheader !== null){
+			$this->BodyHtml = preg_replace('/<body([^>]*?)>\s*/ius', '<body\1>' . "\n\t" . '<p class="preheader">' . Formatter::EscapeHtml($this->Preheader) . '</p>' . "\n\t", (string)$this->BodyHtml);
+
+			// Add preheader CSS so that we don't remove it later.
+			$this->BodyHtml = preg_replace('/\s*\.preheader\s*{[^}]+?}\s*/ius', '', (string)$this->BodyHtml);
+			$this->BodyHtml = preg_replace('/body\s*{/ius', "\n\n\t\t" . '.preheader{
+			display: none !important;
+			visibility: hidden;
+			mso-hide: all;
+			font-size: 1px;
+			color: #ffffff;
+			line-height: 1px;
+			height: 0;
+			width: 0;
+			opacity: 0;
+			overflow: hidden;
+			position: absolute;
+			top: -9999px;
+		}
+
+		body{', (string)$this->BodyHtml);
 		}
 
 		if($addFooter){
@@ -294,7 +321,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, Subject = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
+		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, Subject = ?, Preheader = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
 	}
 
 	/**
@@ -330,7 +357,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		$this->NewsletterMailingId = Db::QueryInt('INSERT into NewsletterMailings (NewsletterId, Subject, BodyHtml, BodyText, Status, FromName, FromEmail, SendOn, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->Subject, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName]);
+		$this->NewsletterMailingId = Db::QueryInt('INSERT into NewsletterMailings (NewsletterId, Subject, Preheader, BodyHtml, BodyText, Status, FromName, FromEmail, SendOn, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName]);
 	}
 
 	/**
@@ -389,6 +416,11 @@ class NewsletterMailing{
 
 		if($this->Subject == ''){
 			$error->Add(new Exceptions\FieldMissingException('No email subject specified.'));
+		}
+
+		$this->Preheader = str_replace('\'', '’', trim($this->Preheader ?? ''));
+		if($this->Preheader == ''){
+			$this->Preheader = null;
 		}
 
 		if($this->BodyText == ''){
@@ -483,6 +515,7 @@ class NewsletterMailing{
 		$this->PropertyFromHttp('InternalName');
 		$this->PropertyFromHttp('BodyText');
 		$this->PropertyFromHttp('Status');
+		$this->PropertyFromHttp('Preheader');
 
 		if(isset($_POST['newsletter-mailing-body-html'])){
 			$this->BodyHtml = HttpInput::Str(POST, 'newsletter-mailing-body-html') ?? '';
