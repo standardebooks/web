@@ -45,6 +45,21 @@ $bodyHtml = $bodyHtml ?? '';
 			background-color: #E9E7E0;
 		}
 
+		.preheader {
+			display: none !important;
+			visibility: hidden;
+			mso-hide: all;
+			font-size: 1px;
+			color: #ffffff;
+			line-height: 1px;
+			height: 0;
+			width: 0;
+			opacity: 0;
+			overflow: hidden;
+			position: absolute;
+			top: -9999px;
+		}
+
 		img.logo{
 			display: block;
 			margin: auto;
