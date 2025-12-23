@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS `se`.`BlogPosts` (
   `Updated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`BlogPostId`),
   UNIQUE KEY `index2` (`UrlTitle`),
-  KEY `index3` (`Published` ASC),
+  KEY `index3` (`Published` ASC)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
