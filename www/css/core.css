@@ -1906,16 +1906,16 @@ label span{
 	display: block;
 }
 
-label span + span{
+label span + span:not(:has(> select)){
 	font-style: italic;
 	font-weight: normal;
-	margin-top: .25rem;
+	margin-bottom: .25rem;
 	line-height: 1.2;
 }
 
 label:has(span + span) input[type="checkbox"]{
 	align-self: start;
-	margin-top: 2px;
+	margin-top: 3px;
 }
 
 label span + span code{
@@ -1989,11 +1989,6 @@ label:has(input[type="search"]):hover::before,
 label:has(select):hover > span + span::after{
 	color: var(--input-outline);
 	transition: none;
-}
-
-label input,
-label select{
-	margin-top: .25rem;
 }
 
 label:has(select) > span + span:last-child,
