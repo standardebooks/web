@@ -50,4 +50,30 @@ enum ImageMimeType: string{
 			return $case->value;
 		}, ImageMimeType::cases());
 	}
+
+	/**
+	 * Return a string like `jpeg, tiff, and bmp`.
+	 */
+	public static function ValuesString(): string{
+		$acceptedMimeTypes = '';
+		$mimeTypeValues = self::Values();
+
+		for($i = 0; $i < sizeof($mimeTypeValues); $i++){
+			$acceptedMimeTypes .= str_replace('image/', '', $mimeTypeValues[$i]);
+
+			if($i < sizeof($mimeTypeValues) - 1){
+				if(sizeof($mimeTypeValues) == 2){
+					$acceptedMimeTypes .= ' and ';
+				}
+				elseif(sizeof($mimeTypeValues) - $i - 2 <= 0){
+					$acceptedMimeTypes .= ', and ';
+				}
+				else{
+					$acceptedMimeTypes .= ', ';
+				}
+			}
+		}
+
+		return $acceptedMimeTypes;
+	}
 }
