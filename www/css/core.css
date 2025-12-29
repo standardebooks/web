@@ -51,6 +51,22 @@
 	font-display: swap;
 }
 
+@font-face{
+	font-family: "Fira Mono";
+	src: local("Fira Mono"), url("/fonts/fira-mono.woff2") format("woff2");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face{
+	font-family: "Fira Mono";
+	src: local("Fira Mono"), url("/fonts/fira-mono-bold.woff2") format("woff2");
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
 :root{
 	--light-body-bg: #e9e7e0;
 	--light-body-text: #222;
@@ -3218,6 +3234,10 @@ article.ebook section#read-online ul li p.has-size span::before{
 
 ul.feed p{
 	margin: 0;
+}
+
+code{
+	font-family: "Fira Mono", monospace;
 }
 
 .url{
