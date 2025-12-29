@@ -265,6 +265,10 @@ class NewsletterMailing{
 			$this->BodyText = Formatter::HtmlToMarkdown($this->BodyHtml);
 		}
 
+		if(!preg_match('/^<!doctype html>/ius', $this->BodyHtml)){
+			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
+		}
+
 		if($this->Preheader !== null){
 			$this->BodyHtml = preg_replace('/<body([^>]*?)>\s*/ius', '<body\1>' . "\n\t" . '<p class="preheader">' . Formatter::EscapeHtml($this->Preheader) . '</p>' . "\n\t", (string)$this->BodyHtml);
 

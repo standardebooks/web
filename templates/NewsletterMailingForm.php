@@ -64,7 +64,7 @@ $addEbooks ??= true;
 </label>
 <label>
 	<span>Body HTML</span>
-	<span><? if(!$isEditForm){ ?>If no <code>&lt;body&gt;</code>, HTML will be auto-wrapped with a complete HTML document, including a logo; allowed<? }else{ ?>Allowed<? } ?> variables are <code><?= NEWSLETTER_FIRST_NAME_VARIABLE ?></code> and <code><?= NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE ?></code>.</span>
+	<span><? if(!$isEditForm){ ?>If no <code>&lt;!DOCTYPE html&gt;</code>, HTML will be auto-wrapped with a complete HTML document, including a logo; allowed<? }else{ ?>Allowed<? } ?> variables are <code><?= NEWSLETTER_FIRST_NAME_VARIABLE ?></code> and <code><?= NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE ?></code>.</span>
 	<textarea name="newsletter-mailing-body-html"><?= Formatter::EscapeHtml($newsletterMailing->BodyHtml ?? '') ?></textarea>
 </label>
 <label>
