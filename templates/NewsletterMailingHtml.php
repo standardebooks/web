@@ -1,4 +1,6 @@
 <?
+use function Safe\preg_replace;
+
 /**
  * @var string $subject
  * @var string $bodyHtml
@@ -11,11 +13,11 @@ $bodyHtml = $bodyHtml ?? '';
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title><?= Formatter::EscapeHtml($subject) ?></title>
+	<title><?= Formatter::EscapeHtml(preg_replace('/\s+/u', ' ', strip_tags($subject))) ?></title>
 	<style type="text/css">
 		@font-face{
 			font-family: "League Spartan";
-			src: url("https://standardebooks.org/fonts/league-spartan-bold.woff2") format("woff2");
+			src: url("<?= SITE_URL ?>/fonts/league-spartan-bold.woff2") format("woff2");
 			font-weight: bold;
 			font-style: normal;
 		}
@@ -151,7 +153,7 @@ $bodyHtml = $bodyHtml ?? '';
 			padding: 1em 2em;
 			color: #fff;
 			text-decoration: none;
-			font-family: "League Spartan", sans-serif;
+			font-family: "League Spartan", "Helvetica", "Arial", sans-serif;
 			font-weight: bold;
 			text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 			box-shadow: 2px 2px 0 rgba(0, 0, 0, .5), 1px 1px 0px rgba(255,255,255, .5) inset;
@@ -305,8 +307,8 @@ $bodyHtml = $bodyHtml ?? '';
 	</style>
 </head>
 <body>
-	<a href="https://standardebooks.org">
-		<img alt="The Standard Ebooks logo" class="logo" src="https://standardebooks.org/images/logo-full.png"/>
+	<a href="<?= SITE_URL ?>">
+		<img alt="The Standard Ebooks logo" class="logo" src="<?= SITE_URL ?>/images/logo-full.png"/>
 	</a>
 	<?= $bodyHtml ?>
 </body>
