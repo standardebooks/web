@@ -30,7 +30,8 @@
 		</section>
 		<section id="help-wanted">
 			<h2>Help wanted</h2>
-			<p>We’re looking for volunteers to <a href="#creating-a-new-spreadsheet">create new spreadsheets</a> for these possible collections:</p>
+			<p>We’re looking for volunteers to help convert our <a href="#legacy">legacy spreadsheets</a> to the <a href="#creating-a-new-spreadsheet">new spreadsheet format</a>.</p>
+			<p>We’re also looking for volunteers to <a href="#creating-a-new-spreadsheet">create new spreadsheets</a> for these possible collections:</p>
 			<ul>
 				<li>
 					<p><b><a href="https://en.wikipedia.org/wiki/Craig_Kennedy">Craig Kennedy</a> short stories and novels.</b> Craig Kennedy is a Sherlock-Holmes-type character created by <a href="/ebooks/arthur-b-reeve">Arthur B. Reeve</a>. He appears mostly, or perhaps entirely, in short stories, which were collected in various omnibuses. We need a spreadsheet listing all of the stories or novels he has appeared in, and whether a story appears in more than one collection.</p>
