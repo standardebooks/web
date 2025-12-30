@@ -892,6 +892,11 @@ summary:focus{
 	outline: 1px dashed var(--input-outline);
 }
 
+label:has(select:not([multiple])):focus-within::after{
+	transition: none;
+	color: var(--input-outline);
+}
+
 select:-moz-focusring,
 select::-moz-focus-inner{
 	color: transparent !important;
@@ -1982,11 +1987,15 @@ label:has(select) > span + span:last-child{
 	display: inline-block;
 }
 
-label:has(select) > span:has(select)::after{
+label:has(select){
+	position: relative;
+}
+
+label:has(select:not([multiple]))::after{
 	display: block;
 	font-style: normal;
 	position: absolute;
-	top: calc((2rem + 1.4rem + 2px) / 2 - 10px);
+	bottom: calc((2rem + 1.4rem) / 2 - 12px);
 	right: calc(1rem - 12px / 2);
 	content: "\f107";
 	content: "\f107" / "";
@@ -1994,15 +2003,14 @@ label:has(select) > span:has(select)::after{
 	font-size: 1rem;
 	line-height: 1;
 	color: var(--sub-text);
-	margin-top: -3px; /* Adjust for Crimson Pro line-height */
-	text-shadow: 1px 1px 0 rgba(255, 255, 255, .5);
+	text-shadow: 1px 1px 0 var(--input-icon-shadow);
 	transition: color .5s;
 	z-index: -1;
 }
 
 label:has(input[type="search"]):focus-within::before,
 label:has(input[type="search"]):hover::before,
-label:has(select):hover > span + span::after{
+label:has(select):hover::after{
 	color: var(--input-outline);
 	transition: none;
 }
@@ -2086,6 +2094,16 @@ label.user-id::before{
 label.year::before{
 	content: "\f073";
 	content: "\f073" / "";
+}
+
+label.check::before{
+	content: "\f00c";
+	content: "\f00c" / "";
+}
+
+label.file-image::before{
+	content: "\f1c5";
+	content: "\f1c5" / "";
 }
 
 label.meter::before{

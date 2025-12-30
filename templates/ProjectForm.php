@@ -47,16 +47,14 @@ $pastProducers = User::GetNamesByHasProducedProject();
 	<? if(!$isEditForm){ ?>
 		<span>Leave blank to auto-assign.</span>
 	<? } ?>
-	<span>
-		<select name="project-manager-user-id">
-			<? if(!$isEditForm){ ?>
-				<option value="">&#160;</option>
-			<? } ?>
-			<? foreach($managers as $manager){ ?>
-				<option value="<?= $manager->UserId ?>"<? if(isset($project->ManagerUserId) && $project->ManagerUserId == $manager->UserId){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($manager->Name) ?></option>
-			<? } ?>
-		</select>
-	</span>
+	<select name="project-manager-user-id">
+		<? if(!$isEditForm){ ?>
+			<option value="">&#160;</option>
+		<? } ?>
+		<? foreach($managers as $manager){ ?>
+			<option value="<?= $manager->UserId ?>"<? if(isset($project->ManagerUserId) && $project->ManagerUserId == $manager->UserId){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($manager->Name) ?></option>
+		<? } ?>
+	</select>
 </label>
 
 <label class="icon user">
@@ -64,30 +62,26 @@ $pastProducers = User::GetNamesByHasProducedProject();
 	<? if(!$isEditForm){ ?>
 		<span>Leave blank to auto-assign.</span>
 	<? } ?>
-	<span>
-		<select name="project-reviewer-user-id">
-			<? if(!$isEditForm){ ?>
-				<option value="">&#160;</option>
-			<? } ?>
-			<? foreach($reviewers as $reviewer){ ?>
-				<option value="<?= $reviewer->UserId ?>"<? if(isset($project->ReviewerUserId) && $project->ReviewerUserId == $reviewer->UserId){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($reviewer->Name) ?></option>
-			<? } ?>
-		</select>
-	</span>
+	<select name="project-reviewer-user-id">
+		<? if(!$isEditForm){ ?>
+			<option value="">&#160;</option>
+		<? } ?>
+		<? foreach($reviewers as $reviewer){ ?>
+			<option value="<?= $reviewer->UserId ?>"<? if(isset($project->ReviewerUserId) && $project->ReviewerUserId == $reviewer->UserId){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($reviewer->Name) ?></option>
+		<? } ?>
+	</select>
 </label>
 
 <label class="icon meter">
 	<span>Status</span>
-	<span>
-		<select name="project-status">
-			<option value="<?= Enums\ProjectStatusType::InProgress->value ?>"<? if($project->Status == Enums\ProjectStatusType::InProgress){?> selected="selected"<? } ?>>In progress</option>
-			<option value="<?= Enums\ProjectStatusType::AwaitingReview->value ?>"<? if($project->Status == Enums\ProjectStatusType::AwaitingReview){?> selected="selected"<? } ?>>Awaiting review</option>
-			<option value="<?= Enums\ProjectStatusType::Reviewed->value ?>"<? if($project->Status == Enums\ProjectStatusType::Reviewed){?> selected="selected"<? } ?>>Reviewed</option>
-			<option value="<?= Enums\ProjectStatusType::Stalled->value ?>"<? if($project->Status == Enums\ProjectStatusType::Stalled){?> selected="selected"<? } ?>>Stalled</option>
-			<option value="<?= Enums\ProjectStatusType::Completed->value ?>"<? if($project->Status == Enums\ProjectStatusType::Completed){?> selected="selected"<? } ?>>Completed</option>
-			<option value="<?= Enums\ProjectStatusType::Abandoned->value ?>"<? if($project->Status == Enums\ProjectStatusType::Abandoned){?> selected="selected"<? } ?>>Abandoned</option>
-		</select>
-	</span>
+	<select name="project-status">
+		<option value="<?= Enums\ProjectStatusType::InProgress->value ?>"<? if($project->Status == Enums\ProjectStatusType::InProgress){?> selected="selected"<? } ?>>In progress</option>
+		<option value="<?= Enums\ProjectStatusType::AwaitingReview->value ?>"<? if($project->Status == Enums\ProjectStatusType::AwaitingReview){?> selected="selected"<? } ?>>Awaiting review</option>
+		<option value="<?= Enums\ProjectStatusType::Reviewed->value ?>"<? if($project->Status == Enums\ProjectStatusType::Reviewed){?> selected="selected"<? } ?>>Reviewed</option>
+		<option value="<?= Enums\ProjectStatusType::Stalled->value ?>"<? if($project->Status == Enums\ProjectStatusType::Stalled){?> selected="selected"<? } ?>>Stalled</option>
+		<option value="<?= Enums\ProjectStatusType::Completed->value ?>"<? if($project->Status == Enums\ProjectStatusType::Completed){?> selected="selected"<? } ?>>Completed</option>
+		<option value="<?= Enums\ProjectStatusType::Abandoned->value ?>"<? if($project->Status == Enums\ProjectStatusType::Abandoned){?> selected="selected"<? } ?>>Abandoned</option>
+	</select>
 </label>
 
 <label>

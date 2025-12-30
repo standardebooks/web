@@ -76,7 +76,7 @@ $isEditForm ??= false;
 			value="<?= Formatter::EscapeHtml($artwork->ImplodeTags()) ?>"
 		/>
 	</label>
-	<label>
+	<label class="icon file-image">
 		<span>High-resolution image</span>
 		<span><?= Formatter::EscapeHtml(Enums\ImageMimeType::ValuesString()) ?> are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?>px × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?>px minimum; <?= HttpInput::GetMaxPostSize() / 1024 / 1024 ?>MB maximum.<? if($isEditForm){ ?> Leave this blank to not change the image.<? } ?></span>
 		<input
@@ -172,15 +172,13 @@ $isEditForm ??= false;
 	<fieldset>
 		<legend>Editor options</legend>
 		<? if($artwork->CanStatusBeChangedBy(Session::$User)){ ?>
-			<label>
+			<label class="icon check">
 				<span>Artwork approval status</span>
-				<span>
-					<select name="artwork-status">
-						<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
-						<option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
-						<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
-					</select>
-				</span>
+				<select name="artwork-status">
+					<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+					<option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+					<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
+				</select>
 			</label>
 		<? } ?>
 		<? if($artwork->CanEbookUrlBeChangedBy(Session::$User)){ ?>

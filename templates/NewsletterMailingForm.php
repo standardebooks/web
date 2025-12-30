@@ -8,7 +8,7 @@ $isEditForm ??= false;
 $addFooter ??= true;
 $addEbooks ??= true;
 ?>
-<label class="select icon emails">
+<label class="icon emails">
 	<span>Newsletter</span>
 	<select name="newsletter-mailing-newsletter-id">
 		<? foreach($newsletters as $newsletter){ ?>
@@ -17,7 +17,7 @@ $addEbooks ??= true;
 	</select>
 </label>
 <? if($isEditForm){ ?>
-	<label class="select icon calendar-check">
+	<label class="icon calendar-check">
 		<span>Status</span>
 		<select name="newsletter-mailing-status">
 			<option value="<?= Enums\QueueStatus::Queued->value ?>"<? if($newsletterMailing->Status == Enums\QueueStatus::Queued){ ?> selected="selected"<? } ?>>Queued</option>

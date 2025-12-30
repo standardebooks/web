@@ -198,13 +198,11 @@ catch(Exceptions\InvalidPermissionsException){
 				<? if($artwork->CanStatusBeChangedBy(Session::$User)){ ?>
 					<label>
 						<span>Artwork approval status</span>
-						<span>
-							<select name="artwork-status">
-								<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
-								<option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
-								<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
-							</select>
-						</span>
+						<select name="artwork-status">
+							<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+							<option value="<?= Enums\ArtworkStatusType::Declined->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+							<option value="<?= Enums\ArtworkStatusType::Approved->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Approved){ ?> selected="selected"<? } ?>>Approved</option>
+						</select>
 					</label>
 				<? }else{ ?>
 					<input type="hidden" name="artwork-status" value="<?= Formatter::EscapeHtml($artwork->Status->value ?? '') ?>" />

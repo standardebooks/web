@@ -150,22 +150,20 @@ catch(Exceptions\PageOutOfBoundsException){
 		<form class="browse-artwork" action="/artworks" method="<?= Enums\HttpMethod::Get->value ?>" rel="search">
 			<label>
 				<span>Status</span>
-				<span>
-					<select name="status" size="1">
-						<option value="<?= Enums\ArtworkFilterType::All->value ?>"<? if($artworkFilterType === null || $artworkFilterType == Enums\ArtworkFilterType::All){ ?> selected="selected"<? } ?>>All</option>
-						<? if($isReviewerView){ ?>
-							<option value="<?= Enums\ArtworkFilterType::Unverified->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
-						<? } ?>
-						<? if($isSubmitterView){ ?>
-							<option value="<?= Enums\ArtworkFilterType::UnverifiedSubmitter->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::UnverifiedSubmitter){ ?> selected="selected"<? } ?>>Unverified</option>
-						<? } ?>
-						<? if($isReviewerView){ ?>
-							<option value="<?= Enums\ArtworkFilterType::Declined->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
-						<? } ?>
-						<option value="<?= Enums\ArtworkFilterType::ApprovedNotInUse->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::ApprovedNotInUse){ ?> selected="selected"<? } ?>>Approved, not in use</option>
-						<option value="<?= Enums\ArtworkFilterType::ApprovedInUse->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::ApprovedInUse){ ?> selected="selected"<? } ?>>Approved, in use</option>
-					</select>
-				</span>
+				<select name="status">
+					<option value="<?= Enums\ArtworkFilterType::All->value ?>"<? if($artworkFilterType === null || $artworkFilterType == Enums\ArtworkFilterType::All){ ?> selected="selected"<? } ?>>All</option>
+					<? if($isReviewerView){ ?>
+						<option value="<?= Enums\ArtworkFilterType::Unverified->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
+					<? } ?>
+					<? if($isSubmitterView){ ?>
+						<option value="<?= Enums\ArtworkFilterType::UnverifiedSubmitter->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::UnverifiedSubmitter){ ?> selected="selected"<? } ?>>Unverified</option>
+					<? } ?>
+					<? if($isReviewerView){ ?>
+						<option value="<?= Enums\ArtworkFilterType::Declined->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::Declined){ ?> selected="selected"<? } ?>>Declined</option>
+					<? } ?>
+					<option value="<?= Enums\ArtworkFilterType::ApprovedNotInUse->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::ApprovedNotInUse){ ?> selected="selected"<? } ?>>Approved, not in use</option>
+					<option value="<?= Enums\ArtworkFilterType::ApprovedInUse->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::ApprovedInUse){ ?> selected="selected"<? } ?>>Approved, in use</option>
+				</select>
 			</label>
 			<label>
 				<span>Keywords</span>
@@ -173,23 +171,19 @@ catch(Exceptions\PageOutOfBoundsException){
 			</label>
 			<label class="sort">
 				<span>Sort</span>
-				<span>
-					<select name="sort">
-						<option value="<?= Enums\ArtworkSortType::CreatedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
-						<option value="<?= Enums\ArtworkSortType::ArtistAlpha->value ?>"<? if($sort == Enums\ArtworkSortType::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
-						<option value="<?= Enums\ArtworkSortType::CompletedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
-					</select>
-				</span>
+				<select name="sort">
+					<option value="<?= Enums\ArtworkSortType::CreatedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
+					<option value="<?= Enums\ArtworkSortType::ArtistAlpha->value ?>"<? if($sort == Enums\ArtworkSortType::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
+					<option value="<?= Enums\ArtworkSortType::CompletedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
+				</select>
 			</label>
 			<label>
 				<span>Per page</span>
-				<span>
-					<select name="per-page">
-						<option value="20"<? if($perPage == 20){ ?> selected="selected"<? } ?>>20</option>
-						<option value="40"<? if($perPage == 40){ ?> selected="selected"<? } ?>>40</option>
-						<option value="80"<? if($perPage == 80){ ?> selected="selected"<? } ?>>80</option>
-					</select>
-				</span>
+				<select name="per-page">
+					<option value="20"<? if($perPage == 20){ ?> selected="selected"<? } ?>>20</option>
+					<option value="40"<? if($perPage == 40){ ?> selected="selected"<? } ?>>40</option>
+					<option value="80"<? if($perPage == 80){ ?> selected="selected"<? } ?>>80</option>
+				</select>
 			</label>
 			<button>Filter</button>
 		</form>

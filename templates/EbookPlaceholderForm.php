@@ -107,13 +107,11 @@ $showProjectForm ??= true;
 	</label>
 	<label class="icon indent extra-line">
 		<span>Type</span>
-		<span>
-			<select name="type-collection-name-1">
-				<option value="">&#160;</option>
-				<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0 && $ebook->CollectionMemberships[0]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
-				<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0 && $ebook->CollectionMemberships[0]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
-			</select>
-		</span>
+		<select name="type-collection-name-1">
+			<option value="">&#160;</option>
+			<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0 && $ebook->CollectionMemberships[0]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
+			<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0 && $ebook->CollectionMemberships[0]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
+		</select>
 	</label>
 	<label class="icon ordered-list extra-line">
 		<span>Number in collection</span>
@@ -141,13 +139,11 @@ $showProjectForm ??= true;
 		</label>
 		<label class="icon indent">
 			<span>Type</span>
-			<span>
-				<select name="type-collection-name-2">
-					<option value="">&#160;</option>
-					<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1 && $ebook->CollectionMemberships[1]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
-					<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1 && $ebook->CollectionMemberships[1]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
-				</select>
-			</span>
+			<select name="type-collection-name-2">
+				<option value="">&#160;</option>
+				<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1 && $ebook->CollectionMemberships[1]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
+				<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1 && $ebook->CollectionMemberships[1]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
+			</select>
 		</label>
 		<label class="icon ordered-list">
 			<span>Number in collection</span>
@@ -173,13 +169,11 @@ $showProjectForm ??= true;
 		</label>
 		<label class="icon indent">
 			<span>Type</span>
-			<span>
-				<select name="type-collection-name-3">
-					<option value="">&#160;</option>
-					<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2 && $ebook->CollectionMemberships[2]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
-					<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2 && $ebook->CollectionMemberships[2]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
-				</select>
-			</span>
+			<select name="type-collection-name-3">
+				<option value="">&#160;</option>
+				<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2 && $ebook->CollectionMemberships[2]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
+				<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2 && $ebook->CollectionMemberships[2]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
+			</select>
 		</label>
 		<label class="icon ordered-list">
 			<span>Number in collection</span>
@@ -234,14 +228,12 @@ $showProjectForm ??= true;
 		</label>
 		<label class="icon meter">
 			<span>Difficulty</span>
-			<span>
-				<select name="ebook-placeholder-difficulty">
-					<option value="">&#160;</option>
-					<option value="<?= Enums\EbookPlaceholderDifficulty::Beginner->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Beginner){ ?> selected="selected"<? } ?>>Beginner</option>
-					<option value="<?= Enums\EbookPlaceholderDifficulty::Intermediate->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Intermediate){ ?> selected="selected"<? } ?>>Intermediate</option>
-					<option value="<?= Enums\EbookPlaceholderDifficulty::Advanced->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Advanced){ ?> selected="selected"<? } ?>>Advanced</option>
-				</select>
-			</span>
+			<select name="ebook-placeholder-difficulty">
+				<option value="">&#160;</option>
+				<option value="<?= Enums\EbookPlaceholderDifficulty::Beginner->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Beginner){ ?> selected="selected"<? } ?>>Beginner</option>
+				<option value="<?= Enums\EbookPlaceholderDifficulty::Intermediate->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Intermediate){ ?> selected="selected"<? } ?>>Intermediate</option>
+				<option value="<?= Enums\EbookPlaceholderDifficulty::Advanced->value ?>"<? if($ebook->EbookPlaceholder?->Difficulty == Enums\EbookPlaceholderDifficulty::Advanced){ ?> selected="selected"<? } ?>>Advanced</option>
+			</select>
 		</label>
 		<label>
 			<span>Transcription URL</span>
