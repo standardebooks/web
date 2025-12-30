@@ -16,6 +16,11 @@ $addEbooks ??= true;
 		<? } ?>
 	</select>
 </label>
+<label class="checkbox">
+	<input type="hidden" name="newsletter-mailing-exclude-patrons" value="false" />
+	<input type="checkbox" name="newsletter-mailing-exclude-patrons" value="true"<? if($newsletterMailing->ExcludePatrons){ ?> checked="checked"<? } ?>/>
+	<span>Exclude recipients who are Patrons</span>
+</label>
 <? if($isEditForm){ ?>
 	<label class="icon calendar-check">
 		<span>Status</span>

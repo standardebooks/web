@@ -34,6 +34,7 @@ class NewsletterMailing{
 	public array $Emails = [];
 	public ?string $InternalName = null;
 	public ?int $OpenCount = null;
+	public bool $ExcludePatrons = false;
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
 
@@ -81,7 +82,39 @@ class NewsletterMailing{
 	 */
 	protected function GetRecipients(): array{
 		if(!isset($this->Recipients)){
-			$this->_Recipients = Db::MultiTableSelect('SELECT * from NewsletterSubscriptions inner join Users on NewsletterSubscriptions.UserId = Users.UserId where NewsletterId = ? and IsConfirmed = true and NewsletterSubscriptions.IsVisible = true and CanReceiveEmail = true', [$this->NewsletterId], NewsletterSubscription::class);
+			if($this->ExcludePatrons){
+				$this->_Recipients = Db::MultiTableSelect('
+					SELECT *
+					from NewsletterSubscriptions
+					inner join Users
+					on NewsletterSubscriptions.UserId = Users.UserId
+					left outer join Patrons
+					on Users.UserId = Patrons.UserId
+					where
+						NewsletterId = ?
+						and
+						IsConfirmed = true
+						and
+						NewsletterSubscriptions.IsVisible = true
+						and CanReceiveEmail = true
+						and Patrons.Ended is null
+					', [$this->NewsletterId], NewsletterSubscription::class);
+			}
+			else{
+				$this->_Recipients = Db::MultiTableSelect('
+					SELECT *
+					from NewsletterSubscriptions
+					inner join Users
+					on NewsletterSubscriptions.UserId = Users.UserId
+					where
+						NewsletterId = ?
+						and
+						IsConfirmed = true
+						and
+						NewsletterSubscriptions.IsVisible = true
+						and CanReceiveEmail = true
+					', [$this->NewsletterId], NewsletterSubscription::class);
+			}
 		}
 
 		return $this->_Recipients;
@@ -325,7 +358,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, Subject = ?, Preheader = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
+		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, ExcludePatrons = ?, Subject = ?, Preheader = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
 	}
 
 	/**
@@ -361,7 +394,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		$this->NewsletterMailingId = Db::QueryInt('INSERT into NewsletterMailings (NewsletterId, Subject, Preheader, BodyHtml, BodyText, Status, FromName, FromEmail, SendOn, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName]);
+		$this->NewsletterMailingId = Db::QueryInt('INSERT into NewsletterMailings (NewsletterId, ExcludePatrons, Subject, Preheader, BodyHtml, BodyText, Status, FromName, FromEmail, SendOn, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName]);
 	}
 
 	/**
@@ -520,6 +553,7 @@ class NewsletterMailing{
 		$this->PropertyFromHttp('BodyText');
 		$this->PropertyFromHttp('Status');
 		$this->PropertyFromHttp('Preheader');
+		$this->PropertyFromHttp('ExcludePatrons');
 
 		if(isset($_POST['newsletter-mailing-body-html'])){
 			$this->BodyHtml = HttpInput::Str(POST, 'newsletter-mailing-body-html') ?? '';
