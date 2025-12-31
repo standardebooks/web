@@ -11,7 +11,7 @@ $isAllSelected = sizeof($tags) == 0 || in_array('all', $tags);
 ?>
 <form action="/ebooks" method="<?= Enums\HttpMethod::Get->value ?>" rel="search">
 	<label class="tags">Subjects
-		<select <? if(!Template::IsEreaderBrowser()){ ?> multiple="multiple"<? } ?> name="tags[]" size="1">
+		<select <? if(!Template::IsEreaderBrowser()){ ?> multiple="multiple"<? } ?> name="tags[]">
 			<option value="all">All</option>
 			<? foreach(EbookTag::GetAll() as $tag){ ?>
 				<option value="<?= $tag->UrlName ?>"<? if(!$isAllSelected && in_array($tag->UrlName, $tags)){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml($tag->Name) ?></option>
