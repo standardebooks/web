@@ -28,7 +28,7 @@ $isErrorPage ??= false;
 $ogType ??= 'website';
 
 $colorScheme = Enums\ColorSchemeType::tryFrom(HttpInput::Str(COOKIE, 'color-scheme') ?? Enums\ColorSchemeType::Auto->value);
-$showPublicDomainDayBanner = PD_NOW > new DateTimeImmutable('January 1, 8:00 AM', SITE_TZ) && PD_NOW < new DateTimeImmutable('January 14', LATEST_CONTINENTAL_US_TZ) && !(HttpInput::Bool(COOKIE, 'hide-public-domain-day-banner') ?? false);
+$showPublicDomainDayBanner = PD_NOW > new DateTimeImmutable('January 1, 9:00 AM', SITE_TZ) && PD_NOW < new DateTimeImmutable('January 14', LATEST_CONTINENTAL_US_TZ) && !(HttpInput::Bool(COOKIE, 'hide-public-domain-day-banner') ?? false);
 
 // As of Sep. 2022, all versions of Safari have a bug where if the page is served as XHTML, then `<picture>` elements download all `<source>`s instead of the first supported match.
 // So, we try to detect Safari here, and don't use multiple `<source>` if we find Safari.
