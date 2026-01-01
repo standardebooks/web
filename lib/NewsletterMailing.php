@@ -166,7 +166,7 @@ class NewsletterMailing{
 				$em->UnsubscribeUrl = SITE_URL . $newsletterSubscription->DeleteUrl;
 				$em->BodyHtml = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, Formatter::EscapeHtml($em->UnsubscribeUrl), $this->BodyHtml);
 				if($newsletterSubscription->User->FirstName !== null){
-					$em->BodyHtml = str_replace(NEWSLETTER_FIRST_NAME_VARIABLE, Formatter::EscapeHtml($newsletterSubscription->User->FirstName), $this->BodyHtml);
+					$em->BodyHtml = str_replace(NEWSLETTER_FIRST_NAME_VARIABLE, Formatter::EscapeHtml($newsletterSubscription->User->FirstName), $em->BodyHtml);
 				}
 				else{
 					// No first name, remove the variable and any white space around it.
