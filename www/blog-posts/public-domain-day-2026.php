@@ -45,7 +45,7 @@ foreach($ebooks as $ebook){
 			break;
 
 		case 'https://standardebooks.org/ebooks/agatha-christie/the-murder-at-the-vicarage':
-			$description = '<p>When an unloved local is murdered in the small rural town of St. Mary Mead, the local vicar takes up the case. But he soon finds himself relying on the help of his gossipy neighbor—an old spinster named <a href="/collections/miss-marple">Miss Marple</a>.</p><p>While this novel technically isnt’t Miss Marple’s first appearance—she was featured in a short story some years earlier—it <em>is</em> the first full-length story featuring the homely sleuth who would go on to become one of <a href="/ebooks/agatha-christie">Christie’s</a> most beloved characters.</p>';
+			$description = '<p>When an unloved local is murdered in the small rural town of St. Mary Mead, the local vicar takes up the case. But he soon finds himself relying on the help of his gossipy neighbor—an old spinster named <a href="/collections/miss-marple">Miss Marple</a>.</p><p>While this novel technically isn’t Miss Marple’s first appearance—she was featured in a short story some years earlier—it <em>is</em> the first full-length story featuring the homely sleuth who would go on to become one of <a href="/ebooks/agatha-christie">Christie’s</a> most beloved characters.</p>';
 			break;
 
 		case 'https://standardebooks.org/ebooks/langston-hughes/not-without-laughter':
