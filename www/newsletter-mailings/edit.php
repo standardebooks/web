@@ -7,8 +7,8 @@ try{
 
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 	$newsletterMailing = HttpInput::SessionObject('newsletter-mailing', NewsletterMailing::class);
-	$addFooter = HttpInput::Bool(SESSION, 'add-footer') ?? true;
-	$addEbooks = HttpInput::Bool(SESSION, 'add-ebooks') ?? true;
+	$addFooter = HttpInput::Bool(SESSION, 'add-footer') ?? false;
+	$addEbooks = HttpInput::Bool(SESSION, 'add-ebooks') ?? false;
 
 	if($newsletterMailing === null){
 		$newsletterMailing = NewsletterMailing::Get(HttpInput::Int(GET, 'newsletter-mailing-id'));
