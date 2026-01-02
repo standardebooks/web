@@ -37,6 +37,7 @@ class CurlRequest{
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method->value);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
 		if($method != Enums\HttpMethod::Get && $httpData != ''){
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $httpData);
