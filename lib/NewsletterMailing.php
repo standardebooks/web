@@ -505,7 +505,7 @@ class NewsletterMailing{
 				// Sometimes emits warnings, quiet them.
 				$t = @new Gt\CssXPath\Translator($selector);
 
-				$elements = $dom->xpath((string)$t);
+				$elements = @$dom->xpath((string)$t);
 
 				if($elements === false || $elements === null || sizeof($elements) == 0){
 					$unusedSelectors[] = $selector;
