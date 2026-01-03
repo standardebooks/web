@@ -37,11 +37,11 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<section>
 			<h2>Jump to user</h2>
-			<form action="/users/get" method="<?= Enums\HttpMethod::Get->value ?>" autocomplete="off">
+			<form action="/users/get" method="<?= Enums\HttpMethod::Get->value ?>" autocomplete="off" rel="search" role="search">
 				<label class="icon user">
 					<span>Identifier</span>
 					<span>Can be a user ID, email, UUID, or name.</span>
-					<input type="text" name="user-identifier" />
+					<input type="search" name="user-identifier" />
 				</label>
 				<div class="footer">
 					<button>Go</button>

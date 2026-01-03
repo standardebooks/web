@@ -61,7 +61,7 @@ catch(Exceptions\InvalidPermissionsException){
 <main>
 	<section class="narrow">
 		<? if(isset($project->Ebook)){ ?>
-			<nav class="breadcrumbs">
+			<nav class="breadcrumbs" aria-label="Breadcrumbs">
 				<a href="<?= $project->Ebook->AuthorsUrl ?>"><?= $project->Ebook->AuthorsHtml ?></a> → <a href="<?= $project->Ebook->Url ?>"><?= Formatter::EscapeHtml($project->Ebook->Title) ?></a> →
 			</nav>
 		<? } ?>

@@ -40,7 +40,7 @@ catch(Exceptions\InvalidPermissionsException){
 ) ?>
 <main>
 	<section>
-		<nav class="breadcrumbs">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
 			<? if(Session::$User->Benefits->CanEditUsers){ ?>
 				<a href="<?= $user->Url ?>"><?= Formatter::EscapeHtml($user->DisplayName) ?></a>
 			<? }else{ ?>

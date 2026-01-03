@@ -43,7 +43,7 @@ catch(Exceptions\InvalidPermissionsException){
 ) ?>
 <main>
 	<section class="narrow">
-		<nav class="breadcrumbs">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
 			<a href="/users">Users</a> →
 		</nav>
 		<h1><?= Formatter::EscapeHtml($user->DisplayName) ?></h1>

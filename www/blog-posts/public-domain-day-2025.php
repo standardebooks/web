@@ -106,7 +106,7 @@ ksort($ebooksWithDescriptions);
 ?><?= Template::Header(title: 'Public Domain Day ' . $pdYear . ' in Literature - Blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day ' . $pdYear . '!', css: ['/css/public-domain-day.css']) ?>
 <main>
 	<section class="narrow blog has-hero">
-		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
+		<nav class="breadcrumbs" aria-label="Breadcrumbs"><a href="/blog">Blog</a> →</nav>
 		<hgroup>
 			<h1>Public Domain Day in Literature</h1>
 			<p>Read <?= number_format(sizeof($identifiers)) ?> of the best books entering the public domain in <?= $pdYear ?></p>

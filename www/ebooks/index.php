@@ -146,12 +146,12 @@ catch(Exceptions\PageOutOfBoundsException){
 		<?= Template::EbookGrid(ebooks: $ebooks, view: $view) ?>
 	<? } ?>
 	<? if(sizeof($ebooks) > 0){ ?>
-		<nav class="pagination">
+		<nav class="pagination" aria-label="Pagination">
 			<a<? if($page > 1){ ?> href="<?= $pageUrl ?>?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
 			<? for($i = 1; $i < $pages + 1; $i++){ ?>
-				<li<? if($page == $i){ ?> class="highlighted"<? } ?>>
-					<a href="<?= $pageUrl ?>?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"><?= $i ?></a>
+				<li>
+					<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="<?= $pageUrl ?>?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"<? } ?>><?= $i ?></a>
 				</li>
 			<? } ?>
 			</ol>

@@ -43,7 +43,7 @@ catch(Exceptions\InvalidPermissionsException){
 ) ?>
 <main>
 	<section class="narrow">
-		<nav class="breadcrumbs">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
 			<a href="/blog">Blog</a> → <a href="<?= $originalBlogPost->Url ?>"><?= $originalBlogPost->Title ?></a> →
 		</nav>
 		<h1>Edit</h1>

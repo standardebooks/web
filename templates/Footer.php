@@ -56,7 +56,7 @@
 				<a href="/about/accessibility">Accessibility</a>
 			</li>
 		</ul>
-		<p>Content produced by or for Standard Ebooks L<sup>3</sup>C is dedicated to the <a href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> via the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal Public Domain Dedication</a>.</p>
+		<p>Content produced by or for Standard Ebooks L<sup>3</sup>C is dedicated to the <a href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> via the <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0 1.0 Universal Public Domain Dedication</a>.</p>
 		<p>Content not produced by or for Standard Ebooks L<sup>3</sup>C but displayed on this website may be subject to copyright.</p>
 		<p>
 			<a href="/">Standard Ebooks</a>

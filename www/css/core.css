@@ -871,7 +871,7 @@ h2 + .data-table tr.year-header:first-child th{
 	font-style: italic;
 }
 
-main nav.pagination li.highlighted a:focus,
+main nav.pagination li a[aria-current]:focus,
 a.button:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
@@ -954,7 +954,7 @@ main nav.pagination > a:last-child[href]:hover::after{
 
 article nav ol li a:hover,
 main nav.pagination ol li a:hover,
-main nav.pagination ol li.highlighted a:hover,
+main nav.pagination ol li a[aria-current]:hover,
 a.button:hover,
 main nav.pagination > a:hover,
 form button:hover{
@@ -1824,14 +1824,14 @@ main nav.pagination ol li a{
 	box-sizing: border-box;
 }
 
-article nav ol li.highlighted a,
-main nav.pagination ol li.highlighted a{
+article nav ol li a[aria-current],
+main nav.pagination ol li a[aria-current]{
 	background: var(--button);
 	border: 1px solid rgba(0, 0, 0, .5);
 }
 
-article nav ol li.highlighted a,
-main nav.pagination ol li.highlighted a,
+article nav ol li a[aria-current],
+main nav.pagination ol li a[aria-current],
 article nav ol li a:hover,
 main nav.pagination ol li a:hover{
 	color: #fff;
@@ -2156,7 +2156,7 @@ label.language::before{
 	content: "\f1ab" / "";
 }
 
-nav li.highlighted a,
+nav li a[aria-current],
 nav a[rel],
 a.button,
 button,
@@ -2172,7 +2172,7 @@ select{
 }
 
 a.button:hover,
-nav li.highlighted a:hover,
+nav li a[aria-current]:hover,
 nav a[rel]:hover,
 button:hover{
 	transition: none;
@@ -2290,33 +2290,33 @@ form.single-row button{
 	margin-top: 1rem;
 }
 
-article nav ol li:not(:first-child):not(:last-child):not(.highlighted),
-main nav.pagination ol li:not(:first-child):not(:last-child):not(.highlighted){
+article nav ol li:not(:first-child):not(:last-child):not(:has(a[aria-current])),
+main nav.pagination ol li:not(:first-child):not(:last-child):not(:has(a[aria-current])){
 	display: none;
 }
 
-article nav ol li.highlighted::before,
-main nav.pagination ol li.highlighted::before{
+article nav ol li:has(a[aria-current])::before,
+main nav.pagination ol li:has(a[aria-current])::before{
 	content: "⋯";
 	content: "⋯" / "";
 	padding-right: 1rem;
 }
 
-article nav ol li.highlighted::after,
-main nav.pagination ol li.highlighted::after{
+article nav ol li:has(a[aria-current])::after,
+main nav.pagination ol li:has(a[aria-current])::after{
 	content: "⋯";
 	content: "⋯" / "";
 	padding-left: 1rem;
 }
 
-article nav ol li.highlighted:first-child::before,
-article nav ol li.highlighted:last-child::after,
-article nav ol li.highlighted:nth-child(2)::before,
-article nav ol li.highlighted:nth-last-child(2)::after,
-main nav.pagination ol li.highlighted:first-child::before,
-main nav.pagination ol li.highlighted:last-child::after,
-main nav.pagination ol li.highlighted:nth-child(2)::before,
-main nav.pagination ol li.highlighted:nth-last-child(2)::after{
+article nav ol li:has(a[aria-current]):first-child::before,
+article nav ol li:has(a[aria-current]):last-child::after,
+article nav ol li:has(a[aria-current]):nth-child(2)::before,
+article nav ol li:has(a[aria-current]):nth-last-child(2)::after,
+main nav.pagination ol li:has(a[aria-current]):first-child::before,
+main nav.pagination ol li:has(a[aria-current]):last-child::after,
+main nav.pagination ol li:has(a[aria-current]):nth-child(2)::before,
+main nav.pagination ol li:has(a[aria-current]):nth-last-child(2)::after{
 	display: none;
 }
 
@@ -2657,6 +2657,7 @@ article.ebook h2 + section > h3:first-of-type{
 }
 
 .message + form,
+h2 + form,
 p + form{
 	margin-top: 1rem;
 }
@@ -3922,8 +3923,8 @@ ul[role="menu"] li + li::before{
 		margin-top: 1.4rem;
 	}
 
-	article nav ol li:not(.highlighted),
-	main nav.pagination ol li:not(.highlighted){
+	article nav ol li:not(:has(a[aria-current])),
+	main nav.pagination ol li:not(:has(a[aria-current])){
 		display: none;
 	}
 }
@@ -3972,10 +3973,10 @@ ul[role="menu"] li + li::before{
 		grid-template-columns: 1fr;
 	}
 
-	article nav ol li.highlighted::before,
-	article nav ol li.highlighted::after,
-	main nav.pagination ol li.highlighted::before,
-	main nav.pagination ol li.highlighted::after{
+	article nav ol li:has(a[aria-current])::before,
+	article nav ol li:has(a[aria-current])::after,
+	main nav.pagination ol li:has(a[aria-current])::before,
+	main nav.pagination ol li:has(a[aria-current])::after{
 		display: none;
 	}
 
@@ -4372,7 +4373,7 @@ ul[role="menu"] li + li::before{
 	label:has(input[type="email"])::before,
 	label:has(input[type="search"])::before,
 	textarea:hover,
-	nav li.highlighted a,
+	nav li a[aria-current],
 	nav a[rel],
 	a.button,
 	button,
@@ -4385,7 +4386,7 @@ ul[role="menu"] li + li::before{
 	input[type="search"],
 	select,
 	a.button:hover,
-	nav li.highlighted a:hover,
+	nav li a[aria-current]:hover,
 	nav a[rel]:hover,
 	button:hover,
 	input[type="text"]:focus,

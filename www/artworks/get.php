@@ -68,7 +68,7 @@ catch(Exceptions\InvalidPermissionsException){
 ?><?= Template::Header(title: $artwork->Name, css: ['/css/artwork.css']) ?>
 <main class="artworks">
 	<section class="narrow">
-		<nav class="breadcrumbs">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
 			<a href="/artworks">Artworks</a> →
 			<a href="<?= $artwork->Artist->Url ?>"><?= Formatter::EscapeHtml($artwork->Artist->Name) ?></a> →
 		</nav>

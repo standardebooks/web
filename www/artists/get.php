@@ -42,7 +42,7 @@ catch(Exceptions\ArtistNotFoundException){
 ?><?= Template::Header(title: 'Artwork by ' . $artist->Name, css: ['/css/artwork.css']) ?>
 <main class="artworks">
 	<section class="narrow">
-		<nav class="breadcrumbs">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
 			<a href="/artworks">Artworks</a> →
 		</nav>
 		<h1>Artwork by <?= Formatter::EscapeHtml($artist->Name) ?></h1>

@@ -25,7 +25,7 @@ catch(Exceptions\BlogPostNotFoundException){
 <?= Template::Header(title: strip_tags($blogPost->Title), css: ['/css/blog.css']) ?>
 <main>
 	<section class="narrow blog<? if(isset($blogPost->Subtitle)){ ?> has-hero<? } ?>">
-		<nav class="breadcrumbs"><a href="/blog">Blog</a> →</nav>
+		<nav class="breadcrumbs" aria-label="Breadcrumbs"><a href="/blog">Blog</a> →</nav>
 		<? if(isset($blogPost->Subtitle)){ ?>
 			<hgroup>
 				<h1><?= $blogPost->Title ?></h1>

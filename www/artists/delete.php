@@ -36,7 +36,7 @@ catch(Exceptions\InvalidPermissionsException){
 ?><?= Template::Header(title: 'Delete ' . $artist->Name, css: ['/css/artwork.css']) ?>
 <main>
 	<section class="narrow">
-		<nav class="breadcrumbs">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
 			<a href="/artworks">Artworks</a> → <a href="<?= $artist->Url ?>"><?= $artist->Name ?></a> →
 		</nav>
 		<h1>Delete</h1>

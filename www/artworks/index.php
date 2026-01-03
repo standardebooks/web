@@ -147,7 +147,7 @@ catch(Exceptions\PageOutOfBoundsException){
 		<? }else{ ?>
 			<p>You can help Standard Ebooks by <a href="/artworks/new">submitting new public domain artwork</a> to add to this catalog for use in future ebooks. For free access to the submission form, <a href="/about#editor-in-chief">contact the Editor-in-Chief</a>.</p>
 		<? } ?>
-		<form class="browse-artwork" action="/artworks" method="<?= Enums\HttpMethod::Get->value ?>" rel="search">
+		<form class="browse-artwork" action="/artworks" method="<?= Enums\HttpMethod::Get->value ?>" rel="search" role="search">
 			<label>
 				<span>Status</span>
 				<select name="status">
@@ -172,9 +172,9 @@ catch(Exceptions\PageOutOfBoundsException){
 			<label class="sort">
 				<span>Sort</span>
 				<select name="sort">
-					<option value="<?= Enums\ArtworkSortType::CreatedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new &#x2192; old)</option>
-					<option value="<?= Enums\ArtworkSortType::ArtistAlpha->value ?>"<? if($sort == Enums\ArtworkSortType::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a &#x2192; z)</option>
-					<option value="<?= Enums\ArtworkSortType::CompletedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new &#x2192; old)</option>
+					<option value="<?= Enums\ArtworkSortType::CreatedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new → old)</option>
+					<option value="<?= Enums\ArtworkSortType::ArtistAlpha->value ?>"<? if($sort == Enums\ArtworkSortType::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a → z)</option>
+					<option value="<?= Enums\ArtworkSortType::CompletedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new → old)</option>
 				</select>
 			</label>
 			<label>
@@ -197,11 +197,11 @@ catch(Exceptions\PageOutOfBoundsException){
 		<? } ?>
 
 		<? if($totalArtworkCount > 0){ ?>
-			<nav class="pagination">
+			<nav class="pagination" aria-label="Pagination">
 				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
 				<? for($i = 1; $i < $pages + 1; $i++){ ?>
-					<li<? if($page == $i){ ?> class="highlighted"<? } ?>><a href="/artworks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"><?= $i ?></a></li>
+					<li><a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/artworks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"<? } ?>><?= $i ?></a></li>
 				<? } ?>
 				</ol>
 				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
