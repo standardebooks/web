@@ -196,7 +196,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $artwork->Url ?>" autocomplete="off">
 				<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 				<? if($artwork->CanStatusBeChangedBy(Session::$User)){ ?>
-					<label>
+					<label class="icon check">
 						<span>Artwork approval status</span>
 						<select name="artwork-status">
 							<option value="<?= Enums\ArtworkStatusType::Unverified->value ?>"<? if($artwork->Status == Enums\ArtworkStatusType::Unverified){ ?> selected="selected"<? } ?>>Unverified</option>
