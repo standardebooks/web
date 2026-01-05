@@ -90,15 +90,16 @@ if(!$isXslt){
 	<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 	<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 	<link href="/manifest.json" rel="manifest"/>
-	<? if($feedUrl === null){ ?>
-		<link rel="alternate" type="application/atom+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/atom/new-releases"/>
-		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/opds/new-releases"/>
-		<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="https://standardebooks.org/feeds/rss/new-releases"/>
-	<? }else{ ?>
-		<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/atom<?= Formatter::EscapeHtml($feedUrl) ?>"/>
-		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/opds<?= Formatter::EscapeHtml($feedUrl) ?>"/>
-		<link rel="alternate" type="application/rss+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="/feeds/rss<?= Formatter::EscapeHtml($feedUrl) ?>"/>
+	<? if($feedUrl !== null){ ?>
+		<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="<?= SITE_URL ?>/feeds/atom<?= Formatter::EscapeHtml($feedUrl) ?>"/>
+		<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="<?= SITE_URL ?>/feeds/opds<?= Formatter::EscapeHtml($feedUrl) ?>"/>
+		<link rel="alternate" type="application/rss+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="<?= SITE_URL ?>/feeds/rss<?= Formatter::EscapeHtml($feedUrl) ?>"/>
 	<? } ?>
+	<link rel="alternate" type="application/atom+xml" title="Standard Ebooks - New Releases" href="<?= SITE_URL ?>/feeds/atom/new-releases"/>
+	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - New Releases" href="<?= SITE_URL ?>/feeds/rss/new-releases"/>
+	<link rel="alternate" type="application/atom+xml;profile=opds-catalog;kind=acquisition" title="Standard Ebooks - New Releases" href="<?= SITE_URL ?>/feeds/opds/new-releases"/>
+	<link rel="alternate" type="application/atom+xml" title="Standard Ebooks - Blog" href="<?= SITE_URL ?>/feeds/atom/blog"/>
+	<link rel="alternate" type="application/rss+xml" title="Standard Ebooks - Blog" href="<?= SITE_URL ?>/feeds/rss/blog"/>
 	<link rel="search" href="<?= SITE_URL ?>/opensearch" type="application/opensearchdescription+xml" title="Standard Ebooks"/><? // Firefox will show this as `Search with Standard Ebooks`. Can't include `charset` in the MIME type because Chrome will refuse it. ?>
 	<? if(!$isErrorPage){ ?>
 		<meta content="#394451" name="theme-color"/>

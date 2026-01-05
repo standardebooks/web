@@ -14,6 +14,7 @@ use function Safe\preg_replace;
  * @property-read HtmlFragment $Title
  * @property-write HtmlFragment|string $Title
  * @property-read ?HtmlFragment $Subtitle
+ * @property-read ?string $Excerpt
  * @property-write HtmlFragment|string|null $Subtitle
  * @property-read ?HtmlFragment $Body May be `null` if the `BlogPost` is meant to redirect to a file, like the Public Domain Day posts.
  * @property-write HtmlFragment|string|null $Body
@@ -32,6 +33,7 @@ class BlogPost{
 
 	protected string $_Url;
 	protected string $_EditUrl;
+	protected ?string $_Excerpt = null;
 	protected User $_User;
 	/** @var array<Ebook> */
 	protected array $_Ebooks;
@@ -43,6 +45,19 @@ class BlogPost{
 	// *******
 	// GETTERS
 	// *******
+
+	protected function GetExcerpt(): ?string{
+		if(!isset($this->_Excerpt)){
+			if($this->Body !== null){
+				$this->_Excerpt = substr(strip_tags($this->Body), 0, 200) . '…';
+			}
+			elseif(isset($this->Subtitle)){
+				$this->_Excerpt = strip_tags($this->Subtitle);
+			}
+		}
+
+		return $this->_Excerpt;
+	}
 
 	protected function GetUrl(): string{
 		return $this->_Url ??= '/blog/' . $this->UrlTitle;

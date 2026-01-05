@@ -23,7 +23,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<script src="<?= SITE_URL ?>/scripts/xslt-polyfill.min.js" xmlns="http://www.w3.org/1999/xhtml"></script>
 	<channel>
 		<title><?= Formatter::EscapeXml($title) ?></title>
-		<link><?= SITE_URL ?></link>
+		<link><?= SITE_URL . Formatter::EscapeXml($url) ?></link>
 		<description><?= Formatter::EscapeXml($description) ?></description>
 		<language>en-US</language>
 		<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
@@ -35,7 +35,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 			<url><?= SITE_URL ?>/images/logo-rss.png</url>
 			<title><?= Formatter::EscapeXml($title) ?></title> <? /* must be identical to channel title */ ?>
 			<description>The Standard Ebooks logo</description>
-			<link><?= SITE_URL ?></link>
+			<link><?= SITE_URL . Formatter::EscapeXml($url) ?></link>
 			<height>144</height>
 			<width>144</width>
 		</image>

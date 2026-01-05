@@ -29,7 +29,9 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<id><?= SITE_URL . Formatter::EscapeXml($id) ?></id>
 	<link href="<?= SITE_URL . Formatter::EscapeXml($url) ?>" rel="self" type="application/atom+xml"/>
 	<title><?= Formatter::EscapeXml($title) ?></title>
-	<? if($subtitle !== null){ ?><subtitle><?= Formatter::EscapeXml($subtitle) ?></subtitle><? } ?>
+	<? if($subtitle !== null){ ?>
+		<subtitle><?= Formatter::EscapeXml($subtitle) ?></subtitle>
+	<? } ?>
 	<icon><?= SITE_URL ?>/images/logo.png</icon>
 	<updated><?= $updated->format(Enums\DateTimeFormat::Iso->value) ?></updated>
 	<author>
