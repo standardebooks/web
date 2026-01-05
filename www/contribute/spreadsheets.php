@@ -182,6 +182,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1io8FnkAh_bHY1wQlLPWT5sTsTMq6njm-fSyAPXYQatI">Thomas Hardy — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1PQgYD2E9NnYztivOpadLusNRQNwqwDSJNj7vYs-f0cU">Robert E. Howard — Short Fiction</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/15Di2STjDxJO1xBJmxkqgRKeKBLv7OvBE_76mX4ktRIg">Ring Lardner — Poetry</a></p>
 					</li>
 					<li>
@@ -240,9 +243,6 @@
 				<ul>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1R_fe5tNUhOmY38dnbA7n1DxJQO9KhHDwnzPgjT1ggac">Works by Ambrose Bierce</a></p>
-					</li>
-					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/1IldpmxjK06BxPL4CCOEJZpw_bxm4AhYnrTchS03QP3k">Works by Robert E. Howard</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1IldpmxjK06BxPL4CCOEJZpw_bxm4AhYnrTchS03QP3k">Works by Ernest Hemingway</a></p>
