@@ -289,9 +289,18 @@ final class Project{
 		// Is this `Project` being produced by one of the editors?
 		try{
 			$producer = User::GetByIdentifier($this->ProducerName);
+			// Set the email if we have one.
+			if(!isset($this->ProducerEmail) && isset($producer->Email)){
+				$this->ProducerEmail = $producer->Email;
+			}
 		}
 		catch(Exceptions\AmbiguousUserException | Exceptions\UserNotFoundException){
 			$producer = null;
+		}
+
+		// Check if we already have this producer's email in the system.
+		if(!isset($this->ProducerEmail)){
+			$this->ProducerEmail = Db::Query('SELECT ProducerEmail from Projects where ProducerName = ? and ProducerEmail is not null limit 1', [$this->ProducerName])[0]->ProducerEmail ?? null;
 		}
 
 		if(!isset($this->ManagerUserId)){
