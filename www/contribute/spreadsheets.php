@@ -111,6 +111,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1yZ55VxvQlKqpLBGpPCq-DY-5jBCfWuUADppdFr6xX18">Mary Shelley — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1SmK8WnTVFBrB0IiSRxEHKsM_5pv_711mM1xAE2Rd490">Clark Ashton Smith — Short Fiction</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1nzlTNzevdhyHr5RgpFPno_BNBuiLDjbmr0M2ughOABk">Robert Louis Stevenson — Poetry</a></p>
 					</li>
 					<li>
