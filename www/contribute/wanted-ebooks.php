@@ -35,7 +35,7 @@ $collections = Collection::GetAllByMissingEntries();
 		<? if(sizeof($collections) > 0){ ?>
 			<h2>Collections</h2>
 			<p>These collections are partially complete, and contain ebooks that can be worked on immediately.</p>
-			<ul>
+			<ul class="collections-list">
 				<? foreach($collections as $collection){ ?>
 					<li>
 						<p><a href="<?= $collection->Url ?>"><?= Formatter::EscapeHtml($collection->Name) ?></a></p>
