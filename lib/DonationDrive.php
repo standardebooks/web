@@ -115,6 +115,6 @@ class DonationDrive{
 	}
 
 	public static function GetByIsActive(): ?DonationDrive{
-		return Db::Query('SELECT * from DonationDrives where utc_timestamp() > Start and utc_timestamp() < End', [], DonationDrive::class)[0] ?? null;
+		return Db::Query('SELECT * from DonationDrives where utc_timestamp() > Start and utc_timestamp() < End and Count < Target + StretchTarget', [], DonationDrive::class)[0] ?? null;
 	}
 }
