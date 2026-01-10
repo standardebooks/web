@@ -14,6 +14,8 @@ $expiredPatrons = Db::Query('
 	SELECT * from Patrons where
 	Ended is null
 	and
+	UserId != 12454 # This is the only recurring donor-advised fund donation we have, but it sometimes doesn\'t get picked up by our script, possibly because FA hand-inserts a backdated transaction at a page of donations that we\'ve already passed. If that happens, don\'t cancel their Patron status accidentally.
+	and
 	UserId not in
 	(
 		select distinct p.UserId from Patrons p
