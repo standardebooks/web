@@ -232,6 +232,11 @@ try{
 	$log->Write('Done.');
 }
 catch(Exception $ex){
+	if($ex instanceof Facebook\WebDriver\Exception\Internal\RuntimeException && stripos($ex->getMessage(), 'Address in use') !== false){
+		// Another instance of Selenium is running, no need to log.
+		return;
+	}
+
 	$exceptionString = vds($ex);
 	$log->Write('Error: Uncaught exception: ' . $exceptionString);
 
@@ -255,8 +260,6 @@ catch(Exception $ex){
 		$em->BodyText = Template::EmailDonationProcessingFailedText(exception: preg_replace('/^/m', "\t", $exceptionString));
 		$em->Send();
 	}
-
-	throw $ex;
 }
 finally{
 	// `$driver` may be unintialized if we `ctrl + c` during Selenium initialization.
