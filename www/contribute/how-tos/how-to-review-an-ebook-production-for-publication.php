@@ -179,6 +179,10 @@
 				</ul>
 			</li>
 			<li>
+				<h2>Review cover art</h2>
+				<p>Open <code>./images/cover.jpg</code> in your image editor of choice and examine it to make sure it is cropped correctly (<abbr>i.e.</abbr> there is no whitespace on the margins).</p>
+			</li>
+			<li>
 				<h2>Lint again</h2>
 				<p>Run a final <code class="bash"><b>se</b> lint <u>.</u></code> check, and ensure it is silent. If any warnings and errors are produced, they must be noted and addressed.</p>
 			</li>
