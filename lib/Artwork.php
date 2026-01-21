@@ -544,6 +544,40 @@ final class Artwork{
 	}
 
 	/**
+	 * Updates an artwork from `Unverified` status to `Approved` if the artwork has a valid `MuseumUrl` and the page contents of that URL contain the museum’s `LicenseXPath`.
+	 */
+	public function ApproveByMuseumUrl(): void{
+		if($this->Status !== Enums\ArtworkStatusType::Unverified){
+			return;
+		}
+
+		if(!isset($this->MuseumUrl) || !isset($this->Museum) || !isset($this->Museum->LicenseXPath)){
+			return;
+		}
+
+		$curl = new CurlRequest();
+		try{
+			$response = $curl->Execute(Enums\HttpMethod::Get, $this->MuseumUrl);
+		}
+		catch(Exceptions\CurlException $e){
+			return;
+		}
+
+		if($response->HttpCode != Enums\HttpCode::Ok->value){
+			return;
+		}
+
+		// TODO: When PHP 8.4 is available, use the new `Dom\HTMLDocument` class.
+		$dom = new DOMDocument();
+		@$dom->loadHTML($response->Data);
+		$xpath = new DOMXPath($dom);
+
+		if($xpath->evaluate($this->Museum->LicenseXPath)){
+			$this->Status = Enums\ArtworkStatusType::Approved;
+		}
+	}
+
+	/**
 	 * @throws Exceptions\InvalidUrlException
 	 * @throws Exceptions\InvalidPageScanUrlException
 	 */
