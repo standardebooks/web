@@ -412,12 +412,14 @@ class NewsletterMailing{
 			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
 		}
 
-		if(mb_stripos($this->BodyText, '.test') !== false){
-			$error->Add(new Exceptions\FieldInvalidException('Newsletter text contains .test TLD.'));
-		}
+		if(SITE_STATUS == SITE_STATUS_LIVE){
+			if(mb_stripos($this->BodyText, '.test') !== false){
+				$error->Add(new Exceptions\FieldInvalidException('Newsletter text contains .test TLD.'));
+			}
 
-		if(mb_stripos($this->BodyHtml, '.test') !== false){
-			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML contains .test TLD.'));
+			if(mb_stripos($this->BodyHtml, '.test') !== false){
+				$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML contains .test TLD.'));
+			}
 		}
 
 		if($this->BodyHtml == ''){
@@ -498,7 +500,7 @@ class NewsletterMailing{
 
 		preg_match('/<style[^>]*?>(.+?)<\/style>/ius', $this->BodyHtml, $css);
 		if(sizeof($css) > 1){
-			preg_match_all('/^\s*[^{}]+?(?={)/im', $css[1], $selectors);
+			preg_match_all('/^\s*[^\/{}:]+?(?=[,{])/im', $css[1], $selectors);
 
 			foreach($selectors[0] as $selectorMatch){
 				$selector = trim($selectorMatch);
@@ -514,9 +516,16 @@ class NewsletterMailing{
 
 			$newStyleElement = $css[0];
 
+			// First, remove the actual selectors. This will leave rule blocks without selectors like `{...}`.
 			foreach($unusedSelectors as $selector){
-				$newStyleElement = preg_replace('/\s*' . $selector . '\s*{[^}]*?}/ius', '', $newStyleElement);
+				$newStyleElement = preg_replace('/^\s*' . $selector . '\s*,?({)?$/ium', '\1', $newStyleElement);
 			}
+
+			// If multiple selectors applied to a rule block, we may now have something like `h2,{...}`. Correct that here by removing commas.
+			$newStyleElement = preg_replace('/(\s*[^\/{}:]+?),\s*{/ius', '\1{', $newStyleElement);
+
+			// Finally, remove rule blocks with no selectors.
+			$newStyleElement = preg_replace('/^\s*{[^}]*}/ium', '', $newStyleElement);
 
 			$this->BodyHtml = str_replace($css[0], $newStyleElement, $this->BodyHtml);
 		}
