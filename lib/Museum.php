@@ -9,6 +9,7 @@ class Museum{
 	public int $MuseumId;
 	public string $Name;
 	public string $Domain;
+	public ?string $LicenseXPath = null;
 
 
 	// *******
