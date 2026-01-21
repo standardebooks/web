@@ -38,6 +38,7 @@ class CurlRequest{
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method->value);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Standard Ebooks website');
 
 		if($method != Enums\HttpMethod::Get && $httpData != ''){
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $httpData);
