@@ -105,13 +105,14 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1OYPAAycKaTUZDM9y_m4a4tpfYeTzkmVM2boQxfl68l0">W. S. Maugham — Works</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1utRMMQLHqa6iUBTcJ5SRsPo6yeozIB5y2i3UPSsBGq0">John Newton and William Cowper — Poetry</a>
+						</p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/16gwu7budNrwywSFXqt1t9eicd-D6oJRZw_U58FCXRFk">Saki — Short Fiction</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1yZ55VxvQlKqpLBGpPCq-DY-5jBCfWuUADppdFr6xX18">Mary Shelley — Short Fiction</a></p>
-					</li>
-					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/1SmK8WnTVFBrB0IiSRxEHKsM_5pv_711mM1xAE2Rd490">Clark Ashton Smith — Short Fiction</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1nzlTNzevdhyHr5RgpFPno_BNBuiLDjbmr0M2ughOABk">Robert Louis Stevenson — Poetry</a></p>
@@ -210,6 +211,9 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1MTjQ5N-nNsQ-ELhD1j56_17GahmrWNAY2nURm2JIAJA">George Bernard Shaw — Plays</a></p>
+					</li>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1SmK8WnTVFBrB0IiSRxEHKsM_5pv_711mM1xAE2Rd490">Clark Ashton Smith — Short Fiction</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1Wa93qdEgc8yFDFV6IIZAdeY8lEBY7tWHFXDLZA9-bVs">Anthony Trollope — Short Fiction</a></p>
