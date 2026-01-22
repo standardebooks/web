@@ -145,6 +145,10 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1YRsfuWq2d-UF5nXUKrgd_JTxU70xxGioLZKqKcvKkFY">Nelson S. Bond — Short Fiction</a> (see <a href="https://www.isfdb.org/cgi-bin/ea.cgi?456">this full bibliography</a>)</p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1ltEJH5a3SCoPStReutje1Bn1quJUQ2QJR6mgdhYzm9k">Ellis Parker Butler — Short Fiction</a>
+						</p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1TCcKIfA-GIVbS7WVMfJfKLyj8MZFZ5e3HooH4Mw-EK0">Langston Hughes — Poetry</a> (spreadsheet only contains work up to 1927; we have to update it for his entire corpus)</p>
 					</li>
 					<li>
