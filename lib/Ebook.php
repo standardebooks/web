@@ -858,6 +858,9 @@ final class Ebook{
 			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="collection-type"]') ?: [] as $s){
 				$cm->Collection->Type = Enums\CollectionType::tryFrom((string)$s) ?? Enums\CollectionType::Unknown;
 			}
+			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="se:title-in-collection"]') ?: [] as $s){
+				$cm->TitleInCollection = (string)$s;
+			}
 			$collectionMemberships[] = $cm;
 		}
 		$ebook->CollectionMemberships = $collectionMemberships;
@@ -1154,12 +1157,14 @@ final class Ebook{
 				continue;
 			}
 			$collectionSequenceNumber = HttpInput::Int(POST, 'sequence-number-' . $collectionNameField);
+			$titleInCollection = HttpInput::Str(POST, 'title-in-collection-' . $collectionNameField);
 			$collection = Collection::FromName($collectionName);
 			$collection->Type = Enums\CollectionType::tryFrom(HttpInput::Str(POST, 'type-' . $collectionNameField) ?? '');
 
 			$cm = new CollectionMembership();
 			$cm->Collection = $collection;
 			$cm->SequenceNumber = $collectionSequenceNumber;
+			$cm->TitleInCollection = $titleInCollection;
 			$collectionMemberships[] = $cm;
 		}
 		$this->CollectionMemberships = $collectionMemberships;
@@ -1518,7 +1523,11 @@ final class Ebook{
 		$this->CollectionMemberships = $collectionMemberships;
 	}
 
-	public function GetCollectionPosition(Collection $collection): ?int{
+	public function GetCollectionPosition(?Collection $collection): ?int{
+		if($collection === null){
+			return null;
+		}
+
 		foreach($this->CollectionMemberships as $cm){
 			if($cm->Collection->Name == $collection->Name){
 				return $cm->SequenceNumber;
@@ -1526,6 +1535,25 @@ final class Ebook{
 		}
 
 		return null;
+	}
+
+	public function GetTitleInCollection(?Collection $collection): string{
+		if($collection === null){
+			return $this->Title;
+		}
+
+		foreach($this->CollectionMemberships as $cm){
+			if($cm->Collection->Name == $collection->Name){
+				if($cm->TitleInCollection !== null){
+					return $cm->TitleInCollection;
+				}
+				else{
+					return $this->Title;
+				}
+			}
+		}
+
+		return $this->Title;
 	}
 
 	public function GenerateJsonLd(): string{
@@ -2070,13 +2098,14 @@ final class Ebook{
 
 			try{
 				Db::Query('
-					INSERT into CollectionEbooks (EbookId, CollectionId, SequenceNumber, SortOrder)
+					INSERT into CollectionEbooks (EbookId, CollectionId, SequenceNumber, SortOrder, TitleInCollection)
 					values (?,
+						?,
 						?,
 						?,
 						?)
 				', [$collectionMembership->EbookId, $collectionMembership->CollectionId, $collectionMembership->SequenceNumber,
-						$collectionMembership->SortOrder]);
+						$collectionMembership->SortOrder, $collectionMembership->TitleInCollection]);
 			}
 			catch(Exceptions\DuplicateDatabaseKeyException){
 				// The Ebook is already a member of this Collection.

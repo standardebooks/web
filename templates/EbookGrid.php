@@ -12,12 +12,17 @@ $collection ??= null;
 		<meta property="schema:name" content="<?= Formatter::EscapeHtml($collection->Name) ?>"/>
 	<? } ?>
 	<? foreach($ebooks as $ebook){ ?>
-		<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart"<? if($ebook->GetCollectionPosition($collection) !== null){ ?> value="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?><? }else{ ?> about="<?= $ebook->Url ?>"<? } ?><? if($ebook->EbookPlaceholder?->IsInProgress){ ?> class="ribbon in-progress"<? }elseif($ebook->EbookPlaceholder?->IsWanted){ ?> class="ribbon wanted"<? }elseif($ebook->EbookPlaceholder !== null && !$ebook->EbookPlaceholder->IsPublicDomain){ ?> class="ribbon not-pd"<? } ?>>
-			<? if($collection !== null && $ebook->GetCollectionPosition($collection) !== null){ ?>
-				<meta property="schema:position" content="<?= $ebook->GetCollectionPosition($collection) ?>"/>
+		<?
+		// Cache some values first.
+		$collectionPosition = $ebook->GetCollectionPosition($collection);
+		$title = $ebook->GetTitleInCollection($collection);
+		?>
+		<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart"<? if($collectionPosition !== null){ ?> value="<?= $collectionPosition ?>"<? } ?><? }else{ ?> about="<?= $ebook->Url ?>"<? } ?><? if($ebook->EbookPlaceholder?->IsInProgress){ ?> class="ribbon in-progress"<? }elseif($ebook->EbookPlaceholder?->IsWanted){ ?> class="ribbon wanted"<? }elseif($ebook->EbookPlaceholder !== null && !$ebook->EbookPlaceholder->IsPublicDomain){ ?> class="ribbon not-pd"<? } ?>>
+			<? if($collectionPosition !== null){ ?>
+				<meta property="schema:position" content="<?= $collectionPosition ?>"/>
 			<? } ?>
 			<div class="thumbnail-container" aria-hidden="true"><? /* We need a container in case the thumb is shorter than the description, so that the focus outline doesn't take up the whole grid space */ ?>
-				<a href="<?= $ebook->Url ?>" tabindex="-1" property="schema:url"<? if($collection !== null && $ebook->GetCollectionPosition($collection) !== null){ ?> data-ordinal="<?= $ebook->GetCollectionPosition($collection) ?>"<? } ?>>
+				<a href="<?= $ebook->Url ?>" tabindex="-1" property="schema:url"<? if($collectionPosition !== null){ ?> data-ordinal="<?= $collectionPosition ?>"<? } ?>>
 					<? if($ebook->IsPlaceholder()){ ?>
 						<div class="placeholder-cover"></div><? /* Don't self-close as this changes how Chrome renders */ ?>
 					<? }else{ ?>
@@ -29,7 +34,7 @@ $collection ??= null;
 					<? } ?>
 				</a>
 			</div>
-			<p><a href="<?= $ebook->Url ?>" property="schema:url"><span property="schema:name"><?= Formatter::EscapeHtml($ebook->Title) ?></span></a></p>
+			<p><a href="<?= $ebook->Url ?>" property="schema:url"><span property="schema:name"><?= Formatter::EscapeHtml($title) ?></span></a></p>
 			<? if($view == Enums\ViewType::Grid){ ?>
 				<? foreach($ebook->Authors as $author){ ?>
 					<p class="author" typeof="schema:Person" property="schema:author" resource="<?= $ebook->AuthorsUrl ?>"><? if($author->Name != 'Anonymous'){ ?><a href="<?= Formatter::EscapeHtml(SITE_URL . $ebook->AuthorsUrl) ?>" property="schema:url"><span property="schema:name"><?= Formatter::EscapeHtml($author->Name) ?></span></a><? } ?></p>

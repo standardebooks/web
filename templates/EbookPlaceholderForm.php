@@ -124,6 +124,16 @@ $showProjectForm ??= true;
 			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
 		/>
 	</label>
+	<label class="icon book">
+		<span>Title in collection</span>
+		<span>E.g. this ebook is an omnibus but the collection refers to a specific item.</span>
+		<input
+			type="text"
+			name="title-in-collection-collection-name-1"
+			autocomplete="off"
+			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->TitleInCollection) ?><? } ?>"
+		/>
+	</label>
 </fieldset>
 <details<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?> open="open"<? } ?>>
 	<summary>Additional collections</summary>
@@ -156,6 +166,16 @@ $showProjectForm ??= true;
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[1]->SequenceNumber) ?><? } ?>"
 			/>
 		</label>
+	<label class="icon book">
+		<span>Title in collection</span>
+		<span>E.g. this ebook is an omnibus but the collection refers to a specific item.</span>
+		<input
+			type="text"
+			name="title-in-collection-collection-name-2"
+			autocomplete="off"
+			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[1]->TitleInCollection) ?><? } ?>"
+		/>
+	</label>
 	</fieldset>
 	<fieldset>
 		<label class="icon collection">
@@ -186,6 +206,16 @@ $showProjectForm ??= true;
 				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[2]->SequenceNumber) ?><? } ?>"
 			/>
 		</label>
+	<label class="icon book">
+		<span>Title in collection</span>
+		<span>E.g. this ebook is an omnibus but the collection refers to a specific item.</span>
+		<input
+			type="text"
+			name="title-in-collection-collection-name-3"
+			autocomplete="off"
+			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[2]->TitleInCollection) ?><? } ?>"
+		/>
+	</label>
 	</fieldset>
 </details>
 <? if(!$isEditForm && $showProjectForm){ ?>

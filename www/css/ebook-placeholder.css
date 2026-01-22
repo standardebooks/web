@@ -23,13 +23,15 @@
 	grid-column: 1 / span 2;
 }
 
-.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-1"]),
-.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-2"]),
-.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-3"]){
+.create-update-ebook-placeholder fieldset:has(input[name^="sequence-number-collection-name-"]){
 	display: grid;
 	grid-template-columns: 1fr 200px 200px;
 	gap: 2rem;
 	align-items: end;
+}
+
+.create-update-ebook-placeholder label:has(input[name^="title-in-collection-"]){
+	grid-column: 1 / span 2;
 }
 
 .create-update-ebook-placeholder fieldset label:has(input[type="checkbox"]){
@@ -114,9 +116,7 @@ article.ebook.ebook-placeholder .placeholder-details ul{
 	.create-update-ebook-placeholder details:nth-of-type(2) fieldset,
 	.create-update-ebook-placeholder > fieldset:nth-of-type(1),
 	.create-update-ebook-placeholder details:nth-of-type(1) fieldset,
-	.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-1"]),
-	.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-2"]),
-	.create-update-ebook-placeholder fieldset:has(input[name="sequence-number-collection-name-3"]){
+	.create-update-ebook-placeholder fieldset:has(input[name^="sequence-number-collection-name-"]){
 		grid-template-columns: 1fr;
 	}
 
