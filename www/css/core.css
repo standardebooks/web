@@ -1361,6 +1361,39 @@ body > footer{
 	padding: 2rem 0;
 }
 
+body > footer:has(p.sponsor-header){
+	padding-top: 1rem;
+}
+
+body > footer p.sponsor-header{
+	text-align: center;
+	font-family: "Crimson Pro";
+	font-style: italic;
+	text-transform: none;
+	font-size: .6rem;
+	font-weight: normal;
+	margin-top: 0;
+	margin-bottom: .5rem;
+	letter-spacing: 0;
+}
+
+body > footer p.sponsor-header + ul{
+	list-style: none;
+	margin: auto;
+	margin-bottom: 1rem;
+	padding-bottom: 1rem;
+	border-bottom: 1px dashed;
+	max-width: 50%;
+}
+
+body > footer p.sponsor-header + ul > li > a{
+	display: inline-block;
+}
+
+body > footer p.sponsor-header + ul img{
+	height: 2rem;
+}
+
 footer > p:last-child a{
 	font-size: 0;
 	display: inline-block;
@@ -2476,10 +2509,17 @@ h1 + ul.message,
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
+	flex-wrap: wrap;
+	gap: 2rem;
 }
 
-.masthead ol.donors.corporate li + li{
-	margin-left: 2rem;
+.masthead ol.donors.corporate li{
+	flex: 0 0 calc(50% - 1rem);
+}
+
+.masthead ol.donors.corporate li img{
+	max-height: 4rem;
+	height: 100%;
 }
 
 .masthead ol.donors.corporate p{
@@ -4229,6 +4269,10 @@ ul[role="menu"] li + li::before{
 
 	table.admin-table tr + tr td:first-child{
 		padding-top: 1rem;
+	}
+
+	.masthead ol.donors.corporate li{
+		flex: 0 0 80%;
 	}
 }
 

@@ -171,6 +171,12 @@ $anonymousPatronCount = Db::QueryInt('
 				<h3>Corporate Sponsors</h3>
 				<ol class="donors corporate">
 					<li>
+						<a href="https://elevenreader.io/standard-ebooks">
+							<img src="/images/masthead/sponsors/elevenreader.svg" class="no-border" alt="ElevenReader" />
+							<p>ElevenReader</p>
+						</a>
+					</li>
+					<li>
 						<a href="https://bookshop.org">
 							<picture>
 								<source srcset="/images/masthead/sponsors/bookshop-org@2x.webp 2x, /images/masthead/sponsors/bookshop-org.webp 1x" type="image/webp"/>

@@ -1,4 +1,12 @@
 	<footer>
+		<p class="sponsor-header">Sponsored by</p>
+		<ul>
+			<li>
+				<a href="https://elevenreader.io/standard-ebooks">
+					<img src="/images/masthead/sponsors/elevenreader.svg" alt="ElevenReader: Turn ebooks into audio" />
+				</a>
+			</li>
+		</ul>
 		<ul class="social-media">
 			<li>
 				<p>
