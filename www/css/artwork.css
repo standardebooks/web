@@ -334,22 +334,6 @@ main section.narrow h1 ~ picture{
 	margin-top: 1rem;
 }
 
-@media(max-width: 400px){
-	/* Artist details */
-	form.browse-artwork > fieldset:nth-of-type(1){
-		grid-template-columns: 1fr;
-	}
-
-	form.browse-artwork > fieldset:nth-of-type(2){
-		grid-template-columns: 1fr;
-	}
-
-	form.browse-artwork > fieldset label:has(input[name="artwork-tags"]),
-	form.browse-artwork > fieldset label:has(input[name="artwork-image"]){
-		grid-column: 1;
-	}
-}
-
 @media(max-width: 1020px){
 	main > section > ol.artwork-list{
 		grid-template-columns: repeat(3, 1fr);
