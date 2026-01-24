@@ -53,6 +53,7 @@ final class Artwork{
 	public ?string $Notes = null;
 	public Enums\ImageMimeType $MimeType;
 	public Enums\ArtworkStatusType $Status = Enums\ArtworkStatusType::Unverified;
+	public bool $IsAutoReviewed = false;
 
 	protected string $_UrlName;
 	protected string $_Url;
@@ -574,6 +575,9 @@ final class Artwork{
 
 		if($xpath->evaluate($this->Museum->LicenseXPath)){
 			$this->Status = Enums\ArtworkStatusType::Approved;
+			$this->ReviewerUserId = null;
+			$this->Reviewer = null;
+			$this->IsAutoReviewed = true;
 		}
 	}
 
@@ -732,7 +736,7 @@ final class Artwork{
 
 		$this->ArtworkId = Db::QueryInt('
 			INSERT into
-			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Updated, Status, SubmitterUserId, ReviewerUserId, MuseumUrl,
+			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Updated, Status, SubmitterUserId, ReviewerUserId, IsAutoReviewed, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
 			                      EbookId, MimeType, Exception, Notes)
 			values (?,
@@ -754,10 +758,11 @@ final class Artwork{
 			        ?,
 			        ?,
 			        ?,
+			        ?,
 			        ?)
 			returning ArtworkId
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->Created, $this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes]
 		);
 
@@ -822,6 +827,7 @@ final class Artwork{
 			Status = ?,
 			SubmitterUserId = ?,
 			ReviewerUserId = ?,
+			IsAutoReviewed = ?,
 			MuseumUrl = ?,
 			PublicationYear = ?,
 			PublicationYearPageUrl = ?,
@@ -835,7 +841,7 @@ final class Artwork{
 			where
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);

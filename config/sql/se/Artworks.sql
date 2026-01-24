@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `Artworks` (
   `Status` enum('unverified', 'approved', 'declined', 'in_use') NOT NULL DEFAULT 'unverified',
   `SubmitterUserId` int(10) unsigned NULL,
   `ReviewerUserId` int(10) unsigned NULL,
+  `IsAutoReviewed`, tinyint(1) NOT NULL DEFAULT FALSE,
   `MuseumUrl` varchar(255) NULL,
   `PublicationYear` smallint unsigned NULL,
   `PublicationYearPageUrl` varchar(255) NULL,

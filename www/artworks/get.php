@@ -138,10 +138,16 @@ catch(Exceptions\InvalidPermissionsException){
 					<td>Submitted by:</td>
 					<td><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::EscapeHtml($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Submitter->Email) ?><? } ?></a><? } ?><? if($isAdminView && $artwork->Submitter !== null){ ?> (#<?= $artwork->Submitter->UserId ?>)<? } ?></td>
 				</tr>
-				<? if($artwork->Reviewer !== null){ ?>
+				<? if($artwork->Reviewer !== null || $artwork->IsAutoReviewed){ ?>
 					<tr>
 						<td>Reviewed by:</td>
-						<td><a href="mailto:<?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?><? } ?></a><? if($isAdminView){ ?> (#<?= $artwork->Reviewer->UserId ?>)<? } ?></td>
+						<td>
+							<? if($artwork->Reviewer !== null){ ?>
+								<a href="mailto:<?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?><? } ?></a><? if($isAdminView){ ?> (#<?= $artwork->Reviewer->UserId ?>)<? } ?>
+							<? }else{ ?>
+								Auto-reviewed
+							<? } ?>
+						</td>
 					</tr>
 				<? } ?>
 			<? } ?>
