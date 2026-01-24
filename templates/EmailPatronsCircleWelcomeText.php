@@ -16,7 +16,7 @@ I’m pleased to be able to <? if($isReturning){ ?>welcome you back to<? }else{ 
 
 As a Patron, once per quarter you may suggest a book for inclusion in our Wanted Ebooks list. Before submitting a suggestion, please review our collections policy, at <https://standardebooks.org/contribute/collections-policy>; then you can contact me directly at <?= EDITOR_IN_CHIEF_EMAIL_ADDRESS ?> with your selection.
 
-You also get access to our ebook feeds, at <https://standardebooks.org/feeds>, for use in your ereading app or RSS reader, and bulk downloads, at <https://standardebooks.org/bulk-downloads>, to download collections of ebooks easily. To use the feeds, enter your email address when prompted, and leave the password field empty.
+You also get access to our ebook feeds, at <https://standardebooks.org/feeds>, for use in your ereading app or RSS reader, and bulk downloads, at <https://standardebooks.org/bulk-downloads>, to download collections of ebooks easily. To use these, enter your email address when prompted, and leave the password field empty.
 
 <? if($isReturning){ ?>As always, please<? }else{ ?>Please<? } ?> don’t hesitate to contact me if you have questions or suggestions. Thanks again for your donation, and for supporting the literate arts!
 
