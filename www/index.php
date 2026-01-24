@@ -22,13 +22,13 @@
 					<picture>
 						<source srcset="/images/typography-bad@2x.avif 2x, /images/typography-bad.avif 1x" type="image/avif"/>
 						<source srcset="/images/typography-bad@2x.png 2x, /images/typography-bad.png 1x" type="image/png"/>
-						<img src="/images/typography-bad@2x.png" class="bottom" alt="An example of bad typography." height="150" width="300"/>
+						<img src="/images/typography-bad@2x.png" class="bottom" alt="An example of bad typography." height="150" width="300" loading="lazy"/>
 					</picture>
 					<picture>
 						<source srcset="/images/typography-good@2x.avif 2x, /images/typography-good.avif 1x" type="image/avif"/>
-						<img src="/images/typography-good@2x.png" class="top" alt="An example of Standard Ebooks typography." height="150" width="300"/>
+						<img src="/images/typography-good@2x.png" class="top" alt="An example of Standard Ebooks typography." height="150" width="300" loading="lazy"/>
 					</picture>
-					<img alt="An arrow pointing from bad typography to good typography." class="arrow" src="/images/arrow-down.png"/>
+					<img alt="An arrow pointing from bad typography to good typography." class="arrow" src="/images/arrow-down.png" loading="lazy"/>
 				</figure>
 			</div>
 		</section>
@@ -43,7 +43,7 @@
 					<picture>
 						<source srcset="/images/proofreading@2x.avif 2x, /images/proofreading.avif 1x" type="image/avif"/>
 						<source srcset="/images/proofreading@2x.png 2x, /images/proofreading.png 1x" type="image/png"/>
-						<img src="/images/proofreading@2x.png" alt="A text with proofreader’s marks." height="200" width="400"/>
+						<img src="/images/proofreading@2x.png" alt="A text with proofreader’s marks." height="200" width="400" loading="lazy"/>
 					</picture>
 				</figure>
 			</div>
@@ -58,7 +58,7 @@
 					<picture>
 						<source srcset="/images/metadata@2x.avif 2x, /images/metadata.avif 1x" type="image/avif"/>
 						<source srcset="/images/metadata@2x.png 2x, /images/metadata.png 1x" type="image/png"/>
-						<img src="/images/metadata@2x.png" alt="Ebook metadata displayed in an ereader program." height="200" width="400"/>
+						<img src="/images/metadata@2x.png" alt="Ebook metadata displayed in an ereader program." height="200" width="400" loading="lazy"/>
 					</picture>
 				</figure>
 			</div>
@@ -88,12 +88,12 @@
 					<picture>
 						<source srcset="/images/endnote@2x.avif 2x, /images/endnote.avif 1x" type="image/avif"/>
 						<source srcset="/images/endnote@2x.png 2x, /images/endnote.png 1x" type="image/png"/>
-						<img src="/images/endnote@2x.png" class="bottom" alt="A screenshot of a popup endnote." height="150" width="300"/>
+						<img src="/images/endnote@2x.png" class="bottom" alt="A screenshot of a popup endnote." height="150" width="300" loading="lazy"/>
 					</picture>
 					<picture>
 						<source srcset="/images/toc@2x.avif 2x, /images/toc.avif 1x" type="image/avif"/>
 						<source srcset="/images/toc@2x.png 2x, /images/toc.png 1x" type="image/png"/>
-						<img src="/images/toc@2x.png" class="top" alt="A screenshot of an ebook’s table of contents." height="150" width="300"/>
+						<img src="/images/toc@2x.png" class="top" alt="A screenshot of an ebook’s table of contents." height="150" width="300" loading="lazy"/>
 					</picture>
 				</figure>
 			</div>
@@ -109,7 +109,7 @@
 					<picture>
 						<source srcset="/images/covers@2x.avif 2x, /images/covers.avif 1x" type="image/avif"/>
 						<source srcset="/images/covers@2x.jpg 2x, /images/covers.jpg 1x" type="image/jpg"/>
-						<img src="/images/covers@2x.jpg" alt="An ebookshelf featuring Standard Ebooks covers." height="125" width="400"/>
+						<img src="/images/covers@2x.jpg" alt="An ebookshelf featuring Standard Ebooks covers." height="125" width="400" loading="lazy"/>
 					</picture>
 				</figure>
 			</div>
@@ -125,7 +125,7 @@
 					<picture>
 						<source srcset="/images/code@2x.avif 2x, /images/code.avif 1x" type="image/avif"/>
 						<source srcset="/images/code@2x.png 2x, /images/code.png 1x" type="image/png"/>
-						<img src="/images/code@2x.png" alt="The source code for an ebook." height="200" width="400"/>
+						<img src="/images/code@2x.png" alt="The source code for an ebook." height="200" width="400" loading="lazy"/>
 					</picture>
 				</figure>
 			</div>
@@ -138,9 +138,9 @@
 					<p>And while all of the ebooks we feature and the cover art we draw from are <em>already</em> believed to be in the public domain in the U.S., Standard Ebooks releases all of the work we put in to each ebook into the public domain too. That makes each and every one of our ebook files not just free, but <a href="https://en.wikipedia.org/wiki/Gratis_versus_libre">libre</a> too—because the world deserves more unrestricted culture.</p>
 				</div>
 				<figure class="oss">
-					<img alt="The Git SCM logo." src="/images/git.svg" height="150" width="150"/>
-					<img alt="The no-copyright symbol." src="/images/no-copyright.svg" height="150" width="150"/>
-					<img alt="The anti-DRM symbol." src="/images/no-drm.svg" height="137" width="150"/>
+					<img alt="The Git SCM logo." src="/images/git.svg" height="150" width="150" loading="lazy"/>
+					<img alt="The no-copyright symbol." src="/images/no-copyright.svg" height="150" width="150" loading="lazy"/>
+					<img alt="The anti-DRM symbol." src="/images/no-drm.svg" height="137" width="150" loading="lazy"/>
 				</figure>
 			</div>
 		</section>
