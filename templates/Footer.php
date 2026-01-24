@@ -1,5 +1,7 @@
 	<footer>
-		<p class="sponsor-header">Sponsored by</p>
+		<p class="sponsor-header">
+			<a href="/about#corporate-sponsors">Sponsored by</a>
+		</p>
 		<ul>
 			<li>
 				<a href="https://elevenreader.io/standard-ebooks">
