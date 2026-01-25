@@ -175,6 +175,9 @@
 				<p>Rows in <b>red</b> are items which are not yet in the public domain.</p>
 				<ul>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/12AZ1sNgAx0NmitFkZh0_lLMyNllVbBCHTGwFePh7s6U">Leonid Andreyev — Short Fiction</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1FCKrVCGktEodBWXYRjoiLNuASpCu_HV_DmT0USF5M1E">Isaac Asimov — Short Fiction</a></p>
 					</li>
 					<li>
