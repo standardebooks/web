@@ -3,15 +3,20 @@ $patronsCircle = [];
 $anonymousPatronCount = 0;
 
 // Get the Patrons Circle and try to sort by last name ascending.
+// Remove generational ordinals (`Bob Smith III`) and `Fund` from names for sorting purposes.
 // See <https://mariadb.com/kb/en/pcre/#unicode-character-properties> for Unicode character properties.
 
 $patronsCircle = Db::Query('
-				SELECT if(p.AlternateName is not null, p.AlternateName, u.Name) as SortedName
+				SELECT
+				if(p.AlternateName is not null, p.AlternateName, u.Name) as Name,
+				concat(" ", trim(regexp_replace(if(p.AlternateName is not null, p.AlternateName, u.Name), "[^0-9A-Za-zÀ-ÿ\\\s]|[\\\s][IV]+$|[\\\s]Fund$", ""))) as SortName
 				from Patrons p
 				inner join Users u using(UserId)
-				where p.IsAnonymous = false
-				    and p.Ended is null
-				order by regexp_substr(SortedName, "[\\\p{Lu}][\\\p{L}\-]*$") asc;
+				where
+				p.IsAnonymous = false
+				and
+				p.Ended is null
+				order by regexp_substr(SortName, "[\\\s][\\\p{L}\\\-]+$") asc
 			');
 
 $anonymousPatronCount = Db::QueryInt('
@@ -208,7 +213,7 @@ $anonymousPatronCount = Db::QueryInt('
 				<ol class="donors patrons">
 					<? foreach($patronsCircle as $patron){ ?>
 						<li>
-							<p><?= Formatter::EscapeHtml(str_ireplace(['\'', ' and '], ['’', ' & '], $patron->SortedName)) ?></p>
+							<p><?= Formatter::EscapeHtml(str_ireplace(['\'', ' and '], ['’', ' & '], $patron->Name)) ?></p>
 						</li>
 					<? } ?>
 					<? if($anonymousPatronCount > 0){ ?>
