@@ -35,7 +35,8 @@ footer p:last-child a::before,
 main.front-page > section > section figure.oss img + img,
 main.front-page > section > h2::before,
 main.front-page > section > h2::after,
-footer ul.social-media a::before{
+footer ul.social-media a::before,
+footer .sponsor-header + ul img{
 	filter: invert() grayscale(100%) brightness(120%) drop-shadow(3px 3px 1px rgba(0, 0, 0, .25)); /* grayscale and brightness makes it hit about #eeeeee */
 }
 
