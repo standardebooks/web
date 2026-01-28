@@ -592,6 +592,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Now, run <code class="bash"><b>se</b> lint</code>. If your ebook has any problems, you’ll see some output listing them. We’re expecting some errors, because we haven’t added a cover or completed the colophon or metadata. You can ignore those errors for now, because we’ll fix them in a later step. But, you <em>do</em> want to correct any fixable errors related to your previous work.</p>
 				<code class="terminal"><span><b>se</b> lint <u>.</u></span></code>
 				<p>If there are no errors, <code class="bash"><b>se</b> lint</code> will complete silently—but again, at this stage we’re expecting to see some errors because our ebook isn’t done yet.</p>
+				<p>When correcting the errors, be sure to keep each commit to a single unit of work, and to signify what is being <em>changed</em> in the commit message, not what prompted the change. Lint can identify a wide variety of issues, and they should not all be lumped together in the same commit, nor should the commit message be something like “Fix lint errors.” Instead, “Fix transcription typos identified by lint” or “Correct header semantics identified by lint,” and so forth, would be more appropriate. 
 			</li>
 			<li>
 				<h2 id="proofread">Build and proofread, proofread, proofread!</h2>
