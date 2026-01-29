@@ -105,10 +105,6 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1OYPAAycKaTUZDM9y_m4a4tpfYeTzkmVM2boQxfl68l0">W. S. Maugham — Works</a></p>
 					</li>
 					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/1utRMMQLHqa6iUBTcJ5SRsPo6yeozIB5y2i3UPSsBGq0">John Newton and William Cowper — Poetry</a>
-						</p>
-					</li>
-					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/16gwu7budNrwywSFXqt1t9eicd-D6oJRZw_U58FCXRFk">Saki — Short Fiction</a></p>
 					</li>
 					<li>
@@ -156,6 +152,10 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1CLgFcNdNcwPyWeLCEObqDb7IBMY3zPJuqz607iLsTh4">Frank Belknap Long — Short Fiction</a> (see <a href="https://www.isfdb.org/cgi-bin/ea.cgi?1123">this full bibliography</a>)</p>
+					</li>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1utRMMQLHqa6iUBTcJ5SRsPo6yeozIB5y2i3UPSsBGq0">John — Poetry (some poems are lacking page scans)</a>
+						</p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/18x_GSz-SXdgCSNd6ZwUNtVTLk7nsQZDC7RUgkOxwGhU">Andre Norton — Short Fiction</a> (see <a href="https://www.isfdb.org/cgi-bin/ea.cgi?209">this full bibliography</a>)</p>
