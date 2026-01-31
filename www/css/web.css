@@ -36,14 +36,10 @@ body > header ul{
 	list-style: none;
 	margin: 0;
 	padding: 1em;
-}
-
-body > header li{
-	margin-left: 1.5em;
+	gap: 1.5em;
 }
 
 body > header li:first-child{
-	margin-left: 0;
 	margin-right: auto;
 }
 
@@ -103,6 +99,22 @@ nav[epub|type~="toc"] ol{
 	}
 }
 
+@media(max-width: 450px){
+	body > header > nav > ul{
+		flex-wrap: wrap;
+	}
+
+	body > header > nav > ul > li > a{
+		font-size: .8rem;
+	}
+
+	body > header li:first-child > a{
+		background: no-repeat center / 100% url("/images/logo-small.svg");
+		width: 31px;
+		height: 20px;
+	}
+}
+
 @media(prefers-color-scheme: dark){
 	body,
 	body > header{
@@ -146,7 +158,14 @@ and will just drop this entire query together if it's included. */
 		margin-top: 2em;
 	}
 
-	*[id]{
-		scroll-margin-top: 3em;
+	*:target{
+		scroll-margin-top: 4em;
+	}
+}
+
+@media((max-width: 450px) and (pointer: coarse)){
+	body > header li:first-child > a{
+		width: 31px;
+		height: 20px;
 	}
 }
