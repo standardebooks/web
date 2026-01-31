@@ -1,6 +1,7 @@
 <?
 $ebooks = [];
 $author = '';
+$authorHtml = '';
 $authorUrl = '';
 $showLinks = false;
 
@@ -17,6 +18,27 @@ try{
 		throw new Exceptions\AuthorNotFoundException();
 	}
 
+	$authorUrl = '/ebooks/' . $urlPath;
+
+	// Get the author name, to account for the case where one or more of the ebooks in this set is written by multiple authors.
+	// See <https://standardebooks.org/ebooks/joseph-conrad>.
+
+	// Generate the author(s) name.
+	$authorNames = [];
+	$contributors = [];
+	if(mb_strpos($urlPath, '_') === false){
+		// Single author.
+		$authorNames = [$urlPath];
+	}
+	else{
+		// Multiple authors, e.g., `karl-marx_friedrich-engels`.
+		$authorNames = explode('_', $urlPath);
+	}
+
+	$contributors = Contributor::GetAllByUrlNameAndMarcRole($authorNames, Enums\MarcRole::Author);
+	$author = Contributor::GenerateContributorsString($contributors, false, false);
+	$authorHtml = Contributor::GenerateContributorsString($contributors, true, true);
+
 	// If all of the author's ebooks are placeholders, don't show download/feed links.
 	foreach($ebooks as $ebook){
 		if(!$ebook->IsPlaceholder()){
@@ -28,19 +50,16 @@ try{
 	$feedUrl = null;
 	$feedTitle = null;
 	if($showLinks){
-		$feedUrl = str_replace('/ebooks/', '/authors/', $authorUrl);
+		$feedUrl = '/authors/' . $urlPath;
 		$feedTitle = 'Standard Ebooks - Ebooks by ' . $author;
 	}
-
-	$author = strip_tags($ebooks[0]->AuthorsHtml);
-	$authorUrl = $ebooks[0]->AuthorsUrl;
 }
-catch(Exceptions\AuthorNotFoundException){
+catch(Exceptions\ContributorNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(title: 'Ebooks by ' . $author, feedUrl: $feedUrl, feedTitle: $feedTitle, highlight: 'ebooks', description: 'All of the Standard Ebooks ebooks by ' . $author, canonicalUrl: SITE_URL . $authorUrl) ?>
 <main class="ebooks">
-	<h1 class="is-collection">Ebooks by <?= $ebooks[0]->AuthorsHtml ?></h1>
+	<h1 class="is-collection">Ebooks by <?= $authorHtml ?></h1>
 	<? if($showLinks){ ?>
 		<p class="ebooks-toolbar">
 			<a class="button" href="<?= Formatter::EscapeHtml($authorUrl) ?>/downloads">Download collection</a>

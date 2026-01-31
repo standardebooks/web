@@ -554,7 +554,7 @@ final class Ebook{
 	}
 
 	protected function GetAuthorsHtml(): string{
-		return $this->_AuthorsHtml ??= Ebook::GenerateContributorList($this->Authors, true);
+		return $this->_AuthorsHtml ??= Contributor::GenerateContributorsString($this->Authors, true, true);
 	}
 
 	protected function GetAuthorsUrl(): string{
@@ -562,22 +562,22 @@ final class Ebook{
 	}
 
 	protected function GetAuthorsString(): string{
-		return $this->_AuthorsString ??= strip_tags(Ebook::GenerateContributorList($this->Authors, false));
+		return $this->_AuthorsString ??= Contributor::GenerateContributorsString($this->Authors, false, false);
 	}
 
 	protected function GetContributorsHtml(): string{
 		if(!isset($this->_ContributorsHtml)){
 			$this->_ContributorsHtml = '';
 			if(sizeof($this->Contributors) > 0){
-				$this->_ContributorsHtml .= ' with ' . Ebook::GenerateContributorList($this->Contributors, false) . ';';
+				$this->_ContributorsHtml .= ' with ' . Contributor::GenerateContributorsString($this->Contributors, true, false) . ';';
 			}
 
 			if(sizeof($this->Translators) > 0){
-				$this->_ContributorsHtml .= ' translated by ' . Ebook::GenerateContributorList($this->Translators, false) . ';';
+				$this->_ContributorsHtml .= ' translated by ' . Contributor::GenerateContributorsString($this->Translators, true, false) . ';';
 			}
 
 			if(sizeof($this->Illustrators) > 0){
-				$this->_ContributorsHtml .= ' illustrated by ' . Ebook::GenerateContributorList($this->Illustrators, false) . ';';
+				$this->_ContributorsHtml .= ' illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false) . ';';
 			}
 
 			if(!empty($this->_ContributorsHtml)){
@@ -596,15 +596,15 @@ final class Ebook{
 		if(!isset($this->_TitleWithCreditsHtml)){
 			$titleContributors = '';
 			if(sizeof($this->Contributors) > 0){
-				$titleContributors .= '. With ' . Ebook::GenerateContributorList($this->Contributors, false);
+				$titleContributors .= '. With ' . Contributor::GenerateContributorsString($this->Contributors, true, false);
 			}
 
 			if(sizeof($this->Translators) > 0){
-				$titleContributors .= '. Translated by ' . Ebook::GenerateContributorList($this->Translators, false);
+				$titleContributors .= '. Translated by ' . Contributor::GenerateContributorsString($this->Translators, true, false);
 			}
 
 			if(sizeof($this->Illustrators) > 0){
-				$titleContributors .= '. Illustrated by ' . Ebook::GenerateContributorList($this->Illustrators, false);
+				$titleContributors .= '. Illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false);
 			}
 
 			$this->_TitleWithCreditsHtml = Formatter::EscapeHtml($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors);
@@ -1652,70 +1652,6 @@ final class Ebook{
 		}
 
 		return $object;
-	}
-
-	/**
-	 * @param array<Contributor> $contributors
-	 * @param bool $includeRdfa
-	 */
-	private static function GenerateContributorList(array $contributors, bool $includeRdfa): string{
-		$string = '';
-		$i = 0;
-
-		foreach($contributors as $contributor){
-			$role = 'schema:contributor';
-			switch($contributor->MarcRole){
-				case Enums\MarcRole::Translator:
-					$role = 'schema:translator';
-					break;
-				case Enums\MarcRole::Illustrator:
-					$role = 'schema:illustrator';
-					break;
-			}
-
-			if($contributor->WikipediaUrl){
-				if($includeRdfa){
-					$string .= '<a property="' . $role . '" typeof="schema:Person" href="' . Formatter::EscapeHtml($contributor->WikipediaUrl) .'"><span property="schema:name">' . Formatter::EscapeHtml($contributor->Name) . '</span>';
-
-					if($contributor->NacoafUrl){
-						$string .= '<meta property="schema:sameAs" content="' . Formatter::EscapeHtml($contributor->NacoafUrl) . '"/>';
-					}
-				}
-				else{
-					$string .= '<a href="' . Formatter::EscapeHtml($contributor->WikipediaUrl) .'">' . Formatter::EscapeHtml($contributor->Name);
-				}
-
-				$string .= '</a>';
-			}
-			else{
-				if($includeRdfa){
-					$string .= '<span property="' . $role . '" typeof="schema:Person"><span property="schema:name">' . Formatter::EscapeHtml($contributor->Name) . '</span>';
-
-					if($contributor->NacoafUrl){
-						$string .= '<meta property="schema:sameAs" content="' . Formatter::EscapeHtml($contributor->NacoafUrl) . '"/>';
-					}
-
-					$string .= '</span>';
-				}
-				else{
-					$string .= Formatter::EscapeHtml($contributor->Name);
-				}
-			}
-
-			if($i == sizeof($contributors) - 2 && sizeof($contributors) > 2){
-				$string .= ', and ';
-			}
-			elseif($i == sizeof($contributors) - 2){
-				$string .= ' and ';
-			}
-			elseif($i != sizeof($contributors) - 1){
-				$string .= ', ';
-			}
-
-			$i++;
-		}
-
-		return $string;
 	}
 
 	public function GenerateContributorsRdfa(): string{

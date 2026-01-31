@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class AuthorNotFoundException extends AppException{
+class AuthorNotFoundException extends ContributorNotFoundException{
 }

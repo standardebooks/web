@@ -167,6 +167,77 @@ class Contributor{
 			$this->NacoafUrl, $this->SortOrder]);
 	}
 
+	/**
+	 * Given a list of `Contributor`s, generate a string like `Leo Tolstoy, Ford Madox Ford, and Joseph Conrad`.
+	 *
+	 * @param array<Contributor> $contributors
+	 * @param bool $includeHtml **`TRUE`** to include inline HTML for Wikipedia links, etc.
+	 * @param bool $includeRdfa **`TRUE`** to include RDFa schemas if `$includeHtml` is also **`TRUE`**.
+	 */
+	public static function GenerateContributorsString(array $contributors, bool $includeHtml, bool $includeRdfa): string{
+		$string = '';
+		$i = 0;
+
+		foreach($contributors as $contributor){
+			$role = 'schema:contributor';
+			switch($contributor->MarcRole){
+				case Enums\MarcRole::Translator:
+					$role = 'schema:translator';
+					break;
+				case Enums\MarcRole::Illustrator:
+					$role = 'schema:illustrator';
+					break;
+			}
+
+			if(!$includeHtml){
+				$string .= $contributor->Name;
+			}
+			else{
+				if($contributor->WikipediaUrl){
+					if($includeRdfa){
+						$string .= '<a property="' . $role . '" typeof="schema:Person" href="' . Formatter::EscapeHtml($contributor->WikipediaUrl) .'"><span property="schema:name">' . Formatter::EscapeHtml($contributor->Name) . '</span>';
+
+						if($contributor->NacoafUrl){
+							$string .= '<meta property="schema:sameAs" content="' . Formatter::EscapeHtml($contributor->NacoafUrl) . '"/>';
+						}
+					}
+					else{
+						$string .= '<a href="' . Formatter::EscapeHtml($contributor->WikipediaUrl) .'">' . Formatter::EscapeHtml($contributor->Name);
+					}
+
+					$string .= '</a>';
+				}
+				else{
+					if($includeRdfa){
+						$string .= '<span property="' . $role . '" typeof="schema:Person"><span property="schema:name">' . Formatter::EscapeHtml($contributor->Name) . '</span>';
+
+						if($contributor->NacoafUrl){
+							$string .= '<meta property="schema:sameAs" content="' . Formatter::EscapeHtml($contributor->NacoafUrl) . '"/>';
+						}
+
+						$string .= '</span>';
+					}
+					else{
+						$string .= Formatter::EscapeHtml($contributor->Name);
+					}
+				}
+			}
+
+			if($i == sizeof($contributors) - 2 && sizeof($contributors) > 2){
+				$string .= ', and ';
+			}
+			elseif($i == sizeof($contributors) - 2){
+				$string .= ' and ';
+			}
+			elseif($i != sizeof($contributors) - 1){
+				$string .= ', ';
+			}
+
+			$i++;
+		}
+
+		return $string;
+	}
 
 	// ***********
 	// ORM METHODS
@@ -177,5 +248,17 @@ class Contributor{
 	 */
 	public static function GetDistinctByMarcRole(Enums\MarcRole $marcRole): array{
 		return Db::Query('SELECT * from Contributors where MarcRole = ? group by UrlName', [$marcRole], Contributor::class);
+	}
+
+	/**
+	 * @param array<string> $urlNames
+	 * @param Enums\MarcRole $marcRole
+	 *
+	 * @return array<Contributor>
+	 *
+	 * @throws Exceptions\ContributorNotFoundException If the `Contributor` can't be found.
+	 */
+	public static function GetAllByUrlNameAndMarcRole(array $urlNames, Enums\MarcRole $marcRole): array{
+		return Db::Query('SELECT * from Contributors where UrlName in ' . Db::CreateSetSql($urlNames) . ' and MarcRole = ? group by UrlName order by field(UrlName, ' . str_replace(['(', ')'], '', Db::CreateSetSql($urlNames)) . ')', array_merge($urlNames, [$marcRole], $urlNames), Contributor::class);
 	}
 }
