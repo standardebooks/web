@@ -149,7 +149,21 @@ class Contributor{
 	/**
 	 * @throws Exceptions\InvalidContributorException
 	 */
-	public function Create(): void{
+	public function Create(bool $copyFromExistingName): void{
+		if($copyFromExistingName){
+			try{
+				// This is useful when adding new placeholders for authors who already exist with detailed metadata.
+				$existingContributor = Contributor::GetByUrlName($this->UrlName);
+				$this->SortName = $existingContributor->SortName;
+				$this->WikipediaUrl = $existingContributor->WikipediaUrl;
+				$this->FullName = $existingContributor->FullName;
+				$this->NacoafUrl = $existingContributor->NacoafUrl;
+			}
+			catch(Exceptions\ContributorNotFoundException){
+				// Not found, pass.
+			}
+		}
+
 		$this->Validate();
 		Db::Query('
 			INSERT into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
@@ -255,10 +269,15 @@ class Contributor{
 	 * @param Enums\MarcRole $marcRole
 	 *
 	 * @return array<Contributor>
-	 *
-	 * @throws Exceptions\ContributorNotFoundException If the `Contributor` can't be found.
 	 */
 	public static function GetAllByUrlNameAndMarcRole(array $urlNames, Enums\MarcRole $marcRole): array{
 		return Db::Query('SELECT * from Contributors where UrlName in ' . Db::CreateSetSql($urlNames) . ' and MarcRole = ? group by UrlName order by field(UrlName, ' . str_replace(['(', ')'], '', Db::CreateSetSql($urlNames)) . ')', array_merge($urlNames, [$marcRole], $urlNames), Contributor::class);
+	}
+
+	/**
+	 * @throws Exceptions\ContributorNotFoundException If the `Contributor` can't be found.
+	 */
+	public static function GetByUrlName(string $urlName): Contributor{
+		return Db::Query('SELECT * from Contributors where UrlName = ? limit 1', [$urlName], Contributor::class)[0] ?? throw new Exceptions\ContributorNotFoundException();
 	}
 }

@@ -2102,7 +2102,8 @@ final class Ebook{
 		foreach($allContributors as $sortOrder => $contributor){
 			$contributor->EbookId = $this->EbookId;
 			$contributor->SortOrder = $sortOrder;
-			$contributor->Create();
+			$getExistingContributorDate = $this->IsPlaceholder();
+			$contributor->Create($getExistingContributorDate);
 		}
 	}
 
