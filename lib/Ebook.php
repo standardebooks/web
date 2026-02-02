@@ -776,7 +776,9 @@ final class Ebook{
 
 			$gitCommits = [];
 			foreach($historyEntries as $logLine){
-				$gitCommits[] = GitCommit::FromLogLine($logLine);
+				if($logLine != ''){
+					$gitCommits[] = GitCommit::FromLogLine($logLine);
+				}
 			}
 			$ebook->GitCommits = $gitCommits;
 		}
