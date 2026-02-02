@@ -1,5 +1,7 @@
 <?
 /**
+ * Note that in very rare cases, an `Ebook` may be part of the same collection several times, under alternate titles. For example, <https://standardebooks.org/ebooks/charles-augustin-sainte-beuve/essays/elizabeth-lee> is part of the set `Encyclopædia Britannica’s Gateway to the Great Books` as both `What is a Classic?` and also `Montaigne`. That `Ebook` would have the collection metadata listed twice in its `content.opf` file and it would have two entries in the `CollectionMembership` table.
+ *
  * @property Collection $Collection
  */
 class CollectionMembership{
