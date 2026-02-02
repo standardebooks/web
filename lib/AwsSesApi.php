@@ -1,6 +1,7 @@
 <?
 use Aws\SesV2\SesV2Client;
 use Aws\Credentials\CredentialProvider;
+use function Safe\preg_match;
 
 class AwsSesApi{
 	/**
@@ -38,6 +39,24 @@ class AwsSesApi{
 		catch(\Exception $ex){
 			throw new Exceptions\AppException('Couldn’t delete email suppresion. Exception: ' . $ex->getMessage());
 		}
+	}
+
+	private static function EscapeDisplayName(string $displayName): string{
+		// The characters `"` and `\` must always be escaped with slashes.
+		$displayName = str_replace('\\', '\\\\', $displayName);
+		$displayName = str_replace('"', '\"', $displayName);
+
+		// We must quote the display name if it contains any of this list of characters.
+		try{
+			if(preg_match('/[,;<>@\(\):"\\\]/', $displayName)){
+				$displayName = '"' . $displayName . '"';
+			}
+		}
+		catch(Exception){
+			$displayName = '"' . $displayName . '"';
+		}
+
+		return $displayName;
 	}
 
 	/**
@@ -89,7 +108,7 @@ class AwsSesApi{
 				$promises = [];
 				foreach($chunk as $email){
 					if($email->ToName !== null){
-						$to = $email->ToName . ' <' . $email->To . '>';
+						$to = AwsSesApi::EscapeDisplayName($email->ToName) . ' <' . $email->To . '>';
 					}
 					else{
 						$to = (string)$email->To;
@@ -106,7 +125,7 @@ class AwsSesApi{
 						$from = $result[0]['address'];
 
 						if($email->FromName !== null){
-							$from = $email->FromName . ' <' . $from . '>';
+							$from = AwsSesApi::EscapeDisplayName($email->FromName) . ' <' . $from . '>';
 						}
 					}
 					else{
