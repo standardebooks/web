@@ -116,7 +116,8 @@ foreach(Ebook::GetAll() as $ebook){
 	foreach($ebook->CollectionMemberships as $cm){
 		$collection = $cm->Collection;
 		$urlName = Formatter::MakeUrlSafe($collection->Name);
-		$ebooksByCollection[$urlName][] = $ebook;
+		// Index by `Ebook::$EbookId` in case an ebook appears in a collection multiple times, like <https://standardebooks.org/ebooks/leo-tolstoy/short-fiction/various-translators>.
+		$ebooksByCollection[$urlName][$ebook->EbookId] = $ebook;
 		$collections[$urlName] = ['id' => $urlName, 'name' => $collection->Name, 'sortedname' => $collection->GetSortedName()];
 	}
 

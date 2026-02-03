@@ -1539,7 +1539,10 @@ final class Ebook{
 		return null;
 	}
 
-	public function GetTitleInCollection(?Collection $collection): string{
+	/**
+	 * @param array<string> $usedTitles
+	 */
+	public function GetTitleInCollection(?Collection $collection, array $usedTitles): string{
 		if($collection === null){
 			return $this->Title;
 		}
@@ -1547,11 +1550,27 @@ final class Ebook{
 		foreach($this->CollectionMemberships as $cm){
 			if($cm->Collection->Name == $collection->Name){
 				if($cm->TitleInCollection !== null){
-					return $cm->TitleInCollection;
+					$title =  $cm->TitleInCollection;
 				}
 				else{
-					return $this->Title;
+					$title = $this->Title;
 				}
+
+				$isUsed = false;
+
+				foreach($usedTitles as $usedTitle){
+					if($title == $usedTitle){
+						$isUsed = true;
+						break;
+					}
+				}
+
+				if($isUsed){
+					continue;
+				}
+
+				$this->Title = $title;
+				break;
 			}
 		}
 

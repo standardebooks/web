@@ -90,11 +90,14 @@ class BulkDownloadCollection{
 	}
 
 	public function AddEbook(Ebook $ebook): void{
-		$this->Ebooks[] = $ebook;
-		$this->EbookCount++;
-		if(isset($ebook->EbookUpdated)){
-			if(!isset($this->Updated) || $ebook->EbookUpdated > $this->Updated){
-				$this->Updated = $ebook->EbookUpdated;
+		// Index by `Ebook::$EbookId` to prevent adding the same ebook twice.
+		if(!isset($this->Ebooks[$ebook->EbookId])){
+			$this->Ebooks[$ebook->EbookId] = $ebook;
+			$this->EbookCount++;
+			if(isset($ebook->EbookUpdated)){
+				if(!isset($this->Updated) || $ebook->EbookUpdated > $this->Updated){
+					$this->Updated = $ebook->EbookUpdated;
+				}
 			}
 		}
 	}

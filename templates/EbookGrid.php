@@ -6,6 +6,10 @@
 
 $view ??= Enums\ViewType::Grid;
 $collection ??= null;
+
+/** @var array<int, array<int, array<string>>> */
+$usedCollectionMemberships = [[[]]];
+
 ?>
 <ol class="ebooks-list<? if($view == Enums\ViewType::List){ ?> list<? }else{ ?> grid<? } ?>"<? if($collection !== null){ ?> typeof="schema:BookSeries" about="<?= $collection->Url ?>"<? } ?>>
 	<? if($collection !== null){ ?>
@@ -15,7 +19,11 @@ $collection ??= null;
 		<?
 		// Cache some values first.
 		$collectionPosition = $ebook->GetCollectionPosition($collection);
-		$title = $ebook->GetTitleInCollection($collection);
+		$title = $ebook->GetTitleInCollection($collection, $usedCollectionMemberships[$collection?->CollectionId][$ebook->EbookId] ?? []);
+		if($collection !== null){
+			$usedCollectionMemberships[$collection->CollectionId][$ebook->EbookId] ??= [];
+			$usedCollectionMemberships[$collection->CollectionId][$ebook->EbookId][] = $title;
+		}
 		?>
 		<li typeof="schema:Book"<? if($collection !== null){ ?> resource="<?= $ebook->Url ?>" property="schema:hasPart"<? if($collectionPosition !== null){ ?> value="<?= $collectionPosition ?>"<? } ?><? }else{ ?> about="<?= $ebook->Url ?>"<? } ?><? if($ebook->EbookPlaceholder?->IsInProgress){ ?> class="ribbon in-progress"<? }elseif($ebook->EbookPlaceholder?->IsWanted){ ?> class="ribbon wanted"<? }elseif($ebook->EbookPlaceholder !== null && !$ebook->EbookPlaceholder->IsPublicDomain){ ?> class="ribbon not-pd"<? } ?>>
 			<? if($collectionPosition !== null){ ?>
