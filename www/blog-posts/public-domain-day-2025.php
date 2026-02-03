@@ -153,7 +153,7 @@ ksort($ebooksWithDescriptions);
 								<div class="collections">
 									<? foreach($ebookGroup['ebook']->CollectionMemberships as $collectionMembership){ ?>
 										<p>
-											<?= Template::CollectionDescriptor(collectionMembership: $collectionMembership) ?>.
+											<?= Template::CollectionDescriptor(collectionMembership: $collectionMembership) ?>
 										</p>
 									<? } ?>
 								</div>

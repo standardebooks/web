@@ -14,7 +14,7 @@
 				by <?= Formatter::EscapeHtml($ebook->AuthorsString) ?>. <?= $ebook->ContributorsHtml ?>
 
 				<? foreach($ebook->CollectionMemberships as $index => $collectionMembership){ ?>
-					<? if($index == 0){ ?><?= Template::CollectionDescriptor(collectionMembership: $collectionMembership) ?><? }else{ ?><?= lcfirst(Template::CollectionDescriptor(collectionMembership: $collectionMembership)) ?><? } ?><? if($index < sizeof($ebook->CollectionMemberships) - 1){ ?>, <? } ?><? if($index == sizeof($ebook->CollectionMemberships) - 1){ ?>.<? } ?>
+					<? if($index == 0){ ?><?= Template::CollectionDescriptor(collectionMembership: $collectionMembership, includeEndingPeriod: false) ?><? }else{ ?><?= lcfirst(Template::CollectionDescriptor(collectionMembership: $collectionMembership, includeEndingPeriod: false)) ?><? } ?><? if($index < sizeof($ebook->CollectionMemberships) - 1){ ?>, <? } ?><? if($index == sizeof($ebook->CollectionMemberships) - 1){ ?>.<? } ?>
 				<? } ?>
 
 				<? if(isset($ebook->EbookPlaceholder->Notes)){ ?>
