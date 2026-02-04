@@ -75,10 +75,8 @@ catch(Exceptions\EbookNotFoundException){
 				<p><?= $ebook->ContributorsHtml ?></p>
 			<? } ?>
 			<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
-				<? foreach($ebook->CollectionMemberships as $collectionMembership){ ?>
-					<p>
-						<?= Template::CollectionDescriptor(collectionMembership: $collectionMembership) ?>
-					</p>
+				<? foreach($ebook->GetCollectionsHtml() as $line){ ?>
+					<p><?= $line ?></p>
 				<? } ?>
 			<? } ?>
 		</aside>

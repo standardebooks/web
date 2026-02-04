@@ -13,8 +13,8 @@
 
 				by <?= Formatter::EscapeHtml($ebook->AuthorsString) ?>. <?= $ebook->ContributorsHtml ?>
 
-				<? foreach($ebook->CollectionMemberships as $index => $collectionMembership){ ?>
-					<? if($index == 0){ ?><?= Template::CollectionDescriptor(collectionMembership: $collectionMembership, includeEndingPeriod: false) ?><? }else{ ?><?= lcfirst(Template::CollectionDescriptor(collectionMembership: $collectionMembership, includeEndingPeriod: false)) ?><? } ?><? if($index < sizeof($ebook->CollectionMemberships) - 1){ ?>, <? } ?><? if($index == sizeof($ebook->CollectionMemberships) - 1){ ?>.<? } ?>
+				<? foreach($ebook->GetCollectionsHtml(false, false) as $index => $line){ ?>
+					<? if($index == 0){ ?><?= $line ?><? }else{ ?><?= lcfirst($line) ?><? } ?><? if($index < sizeof($ebook->CollectionMemberships) - 1){ ?>, <? } ?><? if($index == sizeof($ebook->CollectionMemberships) - 1){ ?>.<? } ?>
 				<? } ?>
 
 				<? if(isset($ebook->EbookPlaceholder->Notes)){ ?>

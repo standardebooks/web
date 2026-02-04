@@ -151,10 +151,8 @@ ksort($ebooksWithDescriptions);
 							<p class="byline">by <a href="<?= $ebookGroup['ebook']->AuthorsUrl ?>"><?= Formatter::EscapeHtml($ebookGroup['ebook']->Authors[0]->Name) ?></a></p>
 							<? if(sizeof($ebookGroup['ebook']->CollectionMemberships) > 0){ ?>
 								<div class="collections">
-									<? foreach($ebookGroup['ebook']->CollectionMemberships as $collectionMembership){ ?>
-										<p>
-											<?= Template::CollectionDescriptor(collectionMembership: $collectionMembership) ?>
-										</p>
+									<? foreach($ebookGroup['ebook']->GetCollectionsHtml(false) as $line){ ?>
+										<p><?= $line ?></p>
 									<? } ?>
 								</div>
 							<? } ?>

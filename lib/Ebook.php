@@ -1795,6 +1795,96 @@ final class Ebook{
 	}
 
 	/**
+	 * Get an array of HTML strings, with each item being a string representing this `Ebook`'s position in a `Collection`.
+	 * `Collection`s are collapsed when there is more than one `TitleInCollection`, for example, `Part of the Encyclopædia Britannica’s Gateway to the Great Books set as “The Death of Ivan Ilyitch,” “The Three Hermits,” and “What Men Live By.”`.
+	 * `Ebook`s can't have a position in a collection, and also multiple titles. In this case, the position number is lost when the titles are grouped into one line.
+	 *
+	 * @return array<HtmlFragment>
+	 */
+	public function GetCollectionsHtml(bool $includeRdfa = true, bool $includeEndingPunctuation = true): array{
+		$output = [];
+
+		/** @var array<array{collectionMembership: CollectionMembership, titles: array<string>}> */
+		$collectionGroups = [];
+
+		// First iterate over our `CollectionMembership`s to decide if we have to group memberships with multiple titles.
+		foreach($this->CollectionMemberships as $collectionMembership){
+			if($collectionMembership->TitleInCollection !== null){
+				if(isset($collectionGroups[$collectionMembership->CollectionId])){
+					$collectionGroups[$collectionMembership->CollectionId]['titles'][] = $collectionMembership->TitleInCollection;
+				}
+				else{
+					$collectionGroups[$collectionMembership->CollectionId] = ['collectionMembership' => $collectionMembership, 'titles' => [$collectionMembership->TitleInCollection]];
+				}
+			}
+			else{
+				$collectionGroups[$collectionMembership->CollectionId] = ['collectionMembership' => $collectionMembership, 'titles' => []];
+			}
+		}
+
+		// Now iterate over our collapsed collections.
+		foreach($collectionGroups as $collectionGroup){
+			$line = '';
+			$collectionMembership = $collectionGroup['collectionMembership'];
+			$collection = $collectionMembership->Collection;
+			$titles =  $collectionGroup['titles'];
+
+			if($collectionMembership->SequenceNumber !== null){
+				$line .= '№ ' . number_format($collectionMembership->SequenceNumber) . ' in the ';
+			}
+			else{
+				$line .= 'Part of the ';
+			}
+
+			$line .= '<a href="' . $collection->Url . '"';
+
+			if($includeRdfa){
+				$line .= ' property="schema:isPartOf"';
+			}
+
+			$line .= '>' .  Formatter::EscapeHtml(preg_replace('/^The /ius', '', $collection->Name)) . '</a>';
+
+			if($collection->Type !== null){
+				if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type->value), -strlen(mb_strtolower($collection->Type->value))) !== 0){
+					$line .= ' ' . $collection->Type->value;
+				}
+			}
+			else{
+				$line .= ' collection';
+			}
+
+			if(sizeof($titles) > 0){
+				$line .= ' as ';
+			}
+
+			for($i = 0; $i < sizeof($titles); $i++){
+				$line .= '“' . Formatter::EscapeHtml($titles[$i]);
+
+				if($i == 0 && sizeof($titles) == 2){
+					$line .= '” and ';
+				}
+				elseif($i == sizeof($titles) - 2 && sizeof($titles) > 2){
+					$line .= ',” and ';
+				}
+				elseif($i < sizeof($titles) - 1 && sizeof($titles) > 2){
+					$line .= ',” ';
+				}
+				else{
+					$line .= '”';
+				}
+			}
+
+			if($includeEndingPunctuation){
+				$line = preg_replace('/(\p{L})(”)?$/', '\1.\2', $line);
+			}
+
+			$output[] = new HtmlFragment($line);
+		}
+
+		return $output;
+	}
+
+	/**
 	 * @throws Exceptions\InvalidEbookException
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the given identifier already exists.
 	 */
