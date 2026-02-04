@@ -31,15 +31,6 @@
 		<section id="help-wanted">
 			<h2>Help wanted</h2>
 			<p>We’re looking for volunteers to help convert our <a href="#legacy">legacy spreadsheets</a> to the <a href="#creating-a-new-spreadsheet">new spreadsheet format</a>.</p>
-			<p>We’re also looking for volunteers to <a href="#creating-a-new-spreadsheet">create new spreadsheets</a> for these possible collections:</p>
-			<ul>
-				<li>
-					<p><b><a href="https://en.wikipedia.org/wiki/Craig_Kennedy">Craig Kennedy</a> short stories and novels.</b> Craig Kennedy is a Sherlock-Holmes-type character created by <a href="/ebooks/arthur-b-reeve">Arthur B. Reeve</a>. He appears mostly, or perhaps entirely, in short stories, which were collected in various omnibuses. We need a spreadsheet listing all of the stories or novels he has appeared in, and whether a story appears in more than one collection.</p>
-				</li>
-				<li>
-					<p><b><a href="https://en.wikipedia.org/wiki/The_Continental_Op">Continental Op short stories.</a></b> The Continenal Op is the nameless noir detective made famous by <a href="/ebooks/dashiell-hammett">Dashiell Hammett</a>. He appears in two novels, which we already have; we need a spreadsheet listing all of the short stories he appears in, and links to any transcriptions. The stories were heavily edited over the years so we require the original pre-1930 editions. Library of America’s <i>Crime Stories &amp; Other Writings</i> collects the original print editions and can be considered the canonical listing.</p>
-				</li>
-			</ul>
 		</section>
 		<section id="spreadsheets">
 			<h2>Spreadsheets</h2>
@@ -103,6 +94,9 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1OYPAAycKaTUZDM9y_m4a4tpfYeTzkmVM2boQxfl68l0">W. S. Maugham — Works</a></p>
+					</li>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1mUwFeTCbbfsRelpZuQ2Ywa2gXsFbm9d2hYBqvKg-5EU">Arthur B. Reeve — Craig Kennedy Stories</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/16gwu7budNrwywSFXqt1t9eicd-D6oJRZw_U58FCXRFk">Saki — Short Fiction</a></p>
