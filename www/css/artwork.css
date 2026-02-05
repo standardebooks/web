@@ -179,7 +179,7 @@ label.picture::before{
 	bottom: 2.6rem; /* Fix alignment caused by "circa" checkbox */
 }
 
-.artworks form.browse-artwork label.search{
+.artworks form.browse-artwork label:has(input[type="search"]){
 	grid-column: span 3;
 }
 
@@ -348,16 +348,16 @@ main section.narrow h1 ~ picture{
 	}
 
 	.artworks form.browse-artwork{
-		grid-template-columns: auto 1fr auto;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
 	}
 
-	.artworks form.browse-artwork label.search,
+	.artworks form.browse-artwork label:has(input[type="search"]),
 	.artworks form.browse-artwork label.sort{
-		grid-column: span 2;
+		grid-column: span 3;
 	}
 
-	.artworks form.browse-artwork button{
-		grid-column: span 3;
+	.artworks form.browse-artwork label.year{
+		grid-column: span 2;
 	}
 }
 
@@ -390,7 +390,7 @@ main section.narrow h1 ~ picture{
 	}
 
 	.artworks form.browse-artwork label.sort,
-	.artworks form.browse-artwork label.search,
+	.artworks form.browse-artwork label:has(input[type="search"]),
 	.artworks form.browse-artwork button{
 		grid-column: auto;
 	}
