@@ -4,6 +4,8 @@ $page = HttpInput::Int(GET, 'page') ?? 1;
 $perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
 $query = HttpInput::Str(GET, 'query');
 $queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
+$startYear = HttpInput::Int(GET, 'start-year');
+$endYear = HttpInput::Int(GET, 'end-year');
 $artworkFilterType = Enums\ArtworkFilterType::tryFrom(HttpInput::Str(GET, 'status') ?? '');
 $sort = Enums\ArtworkSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
 $pages = 0;
@@ -89,6 +91,14 @@ try{
 		$queryStringParams['query'] = $query;
 	}
 
+	if($startYear !== null){
+		$queryStringParams['start-year'] = $startYear;
+	}
+
+	if($endYear !== null){
+		$queryStringParams['end-year'] = $endYear;
+	}
+
 	if($artworkFilterType !== null){
 		$queryStringParams['status'] = $artworkFilterType->value;
 	}
@@ -168,6 +178,14 @@ catch(Exceptions\PageOutOfBoundsException){
 			<label>
 				<span>Keywords</span>
 				<input type="search" name="query" value="<?= Formatter::EscapeHtml($query) ?>"/>
+			</label>
+			<label class="icon year">
+				<span>Start year</span>
+				<input type="text" name="start-year" inputmode="numeric" pattern="^[0-9]{1,4}$" value="<?= $startYear ?>"/>
+			</label>
+			<label class="icon year">
+				<span>End year</span>
+				<input type="text" name="end-year" inputmode="numeric" pattern="^[0-9]{1,4}$" value="<?= $endYear ?>"/>
 			</label>
 			<label class="sort">
 				<span>Sort</span>
