@@ -159,6 +159,10 @@ catch(Exceptions\PageOutOfBoundsException){
 		<? } ?>
 		<form class="browse-artwork" action="/artworks" method="<?= Enums\HttpMethod::Get->value ?>" rel="search" role="search">
 			<label>
+				<span>Keywords</span>
+				<input type="search" name="query" value="<?= Formatter::EscapeHtml($query) ?>"/>
+			</label>
+			<label>
 				<span>Status</span>
 				<select name="status">
 					<option value="<?= Enums\ArtworkFilterType::All->value ?>"<? if($artworkFilterType === null || $artworkFilterType == Enums\ArtworkFilterType::All){ ?> selected="selected"<? } ?>>All</option>
@@ -175,24 +179,22 @@ catch(Exceptions\PageOutOfBoundsException){
 					<option value="<?= Enums\ArtworkFilterType::ApprovedInUse->value ?>"<? if($artworkFilterType == Enums\ArtworkFilterType::ApprovedInUse){ ?> selected="selected"<? } ?>>Approved, in use</option>
 				</select>
 			</label>
-			<label>
-				<span>Keywords</span>
-				<input type="search" name="query" value="<?= Formatter::EscapeHtml($query) ?>"/>
-			</label>
-			<label class="icon year">
-				<span>Start year</span>
-				<input type="text" name="start-year" inputmode="numeric" pattern="^[0-9]{1,4}$" value="<?= $startYear ?>"/>
-			</label>
-			<label class="icon year">
-				<span>End year</span>
-				<input type="text" name="end-year" inputmode="numeric" pattern="^[0-9]{1,4}$" value="<?= $endYear ?>"/>
-			</label>
+			<fieldset>
+				<label class="icon year">
+					<span>Start year</span>
+					<input type="text" name="start-year" inputmode="numeric" pattern="^[0-9]{1,4}$" maxlength="4" value="<?= $startYear ?>"/>
+				</label>
+				<label class="icon year">
+					<span>End year</span>
+					<input type="text" name="end-year" inputmode="numeric" pattern="^[0-9]{1,4}$" maxlength="4" value="<?= $endYear ?>"/>
+				</label>
+			</fieldset>
 			<label class="sort">
 				<span>Sort</span>
 				<select name="sort">
 					<option value="<?= Enums\ArtworkSortType::CreatedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CreatedNewest){ ?> selected="selected"<? } ?>>Date added (new → old)</option>
 					<option value="<?= Enums\ArtworkSortType::ArtistAlpha->value ?>"<? if($sort == Enums\ArtworkSortType::ArtistAlpha){ ?> selected="selected"<? } ?>>Artist name (a → z)</option>
-					<option value="<?= Enums\ArtworkSortType::CompletedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date of artwork completion (new → old)</option>
+					<option value="<?= Enums\ArtworkSortType::CompletedNewest->value ?>"<? if($sort == Enums\ArtworkSortType::CompletedNewest){ ?> selected="selected"<? } ?>>Date artwork completed (new → old)</option>
 				</select>
 			</label>
 			<label>
