@@ -1000,48 +1000,58 @@ final class Artwork{
 	/**
 	* @return array{artworks: array<Artwork>, artworksCount: int}
 	*/
-	public static function GetAllByFilter(?string $query = null, ?Enums\ArtworkFilterType $artworkFilterType = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
+	public static function GetAllByFilter(?string $query = null, ?int $startYear = null, ?int $endYear = null, ?Enums\ArtworkFilterType $artworkFilterType = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		if($artworkFilterType === null){
 			$artworkFilterType = Enums\ArtworkFilterType::Approved;
 		}
 
-		$statusCondition = '';
+		$whereCondition = '';
 		$params = [];
 
 		if($artworkFilterType == Enums\ArtworkFilterType::Admin){
-			$statusCondition = 'true';
+			$whereCondition = 'true';
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedSubmitter && $submitterUserId !== null){
-			$statusCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
+			$whereCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 			$params[] = Enums\ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::UnverifiedSubmitter && $submitterUserId !== null){
-			$statusCondition = 'Status = ? and SubmitterUserId = ?';
+			$whereCondition = 'Status = ? and SubmitterUserId = ?';
 			$params[] = Enums\ArtworkStatusType::Unverified->value;
 			$params[] = $submitterUserId;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedInUse){
-			$statusCondition = 'Status = ? and EbookId is not null';
+			$whereCondition = 'Status = ? and EbookId is not null';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedNotInUse){
-			$statusCondition = 'Status = ? and EbookId is null';
+			$whereCondition = 'Status = ? and EbookId is null';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::Declined){
-			$statusCondition = 'Status = ?';
+			$whereCondition = 'Status = ?';
 			$params[] = Enums\ArtworkStatusType::Declined->value;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::Unverified){
-			$statusCondition = 'Status = ?';
+			$whereCondition = 'Status = ?';
 			$params[] = Enums\ArtworkStatusType::Unverified->value;
 		}
 		else{
 			// Default to the `Enums\ArtworkFilterType::Approved` view.
-			$statusCondition = 'Status = ?';
+			$whereCondition = 'Status = ?';
 			$params[] = Enums\ArtworkStatusType::Approved->value;
+		}
+
+		if($startYear !== null){
+			$whereCondition .= ' and CompletedYear >= ?';
+			$params[] = $startYear;
+		}
+
+		if($endYear !== null){
+			$whereCondition .= ' and CompletedYear <= ?';
+			$params[] = $endYear;
 		}
 
 		$orderBy = 'art.Created desc';
@@ -1073,7 +1083,7 @@ final class Artwork{
 			$artworksCount = Db::QueryInt('
 				SELECT count(*)
 				from Artworks art
-				where ' . $statusCondition, $params);
+				where ' . $whereCondition, $params);
 
 			$params[] = $limit;
 			$params[] = $offset;
@@ -1082,7 +1092,7 @@ final class Artwork{
 				SELECT art.*
 				from Artworks art
 				inner join Artists a USING (ArtistId)
-				where ' . $statusCondition . '
+				where ' . $whereCondition . '
 				order by ' . $orderBy . '
 				limit ?
 				offset ?', $params, Artwork::class);
@@ -1117,7 +1127,7 @@ final class Artwork{
 				    left join Ebooks e using (EbookId)
 				    left join Tags t using (TagId)
 				    where
-				        ' . $statusCondition . '
+				        ' . $whereCondition . '
 				            and (art.Name regexp ?
 				            or art.UrlName regexp ?
 				            or a.Name regexp ?
@@ -1139,7 +1149,7 @@ final class Artwork{
 				  left join ArtworkTags at using (ArtworkId)
 				  left join Ebooks e using (EbookId)
 				  left join Tags t using (TagId)
-				where ' . $statusCondition . '
+				where ' . $whereCondition . '
 				  and (art.Name regexp ?
 				  or art.UrlName regexp ?
 				  or a.Name regexp ?
