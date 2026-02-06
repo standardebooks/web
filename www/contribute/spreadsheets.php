@@ -84,6 +84,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1j4SUE_W64lcknzWOHbkB1uEU3KaXzRPU2fpC6y2cGG0">Sarah Orne Jewett — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/10t40vpICrniOivEuK4m89Ov9OrqzTCjkM893crO2stY">Rudyard Kipling — Short Fiction</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1J6ZnT3_1DHHTCWyzfSKkAbIHQqrEz4AoUI7dQdz7668">Ring Lardner — Short Fiction</a></p>
 					</li>
 					<li>
@@ -266,9 +269,6 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1vE0G9zslmxHZP17k529UiwPqSA9Zz8RBETtIHMA5Hqk">Works by Thornton Burgess</a></p>
-					</li>
-					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/1WkpEyYxPD21PbXH9yS5VZW1UcbhBNSnIFKJIS2wgA8A">Short fiction by Rudyard Kipling</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/document/d/1oKSdWxAypKpSzky1ToQ1j3_3FGD73DxPpD-4c_7v8S4">Philosophical Works by René Descartes</a></p>
