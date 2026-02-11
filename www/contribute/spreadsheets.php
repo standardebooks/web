@@ -151,7 +151,7 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1CLgFcNdNcwPyWeLCEObqDb7IBMY3zPJuqz607iLsTh4">Frank Belknap Long — Short Fiction</a> (see <a href="https://www.isfdb.org/cgi-bin/ea.cgi?1123">this full bibliography</a>)</p>
 					</li>
 					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/1utRMMQLHqa6iUBTcJ5SRsPo6yeozIB5y2i3UPSsBGq0">John — Poetry (some poems are lacking page scans)</a>
+						<p><a href="https://docs.google.com/spreadsheets/d/1utRMMQLHqa6iUBTcJ5SRsPo6yeozIB5y2i3UPSsBGq0">John Newton — Poetry</a> (some poems are lacking page scans)
 						</p>
 					</li>
 					<li>
