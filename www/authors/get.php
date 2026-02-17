@@ -37,7 +37,6 @@ try{
 
 	$contributors = Contributor::GetAllByUrlNameAndMarcRole($authorNames, Enums\MarcRole::Author);
 	$author = Contributor::GenerateContributorsString($contributors, false, false);
-	$authorHtml = Contributor::GenerateContributorsString($contributors, true, true);
 
 	// If all of the author's ebooks are placeholders, don't show download/feed links.
 	foreach($ebooks as $ebook){
@@ -59,7 +58,7 @@ catch(Exceptions\ContributorNotFoundException){
 }
 ?><?= Template::Header(title: 'Ebooks by ' . $author, feedUrl: $feedUrl, feedTitle: $feedTitle, highlight: 'ebooks', description: 'All of the Standard Ebooks ebooks by ' . $author, canonicalUrl: SITE_URL . $authorUrl) ?>
 <main class="ebooks">
-	<h1 class="is-collection">Ebooks by <?= $authorHtml ?></h1>
+	<h1 class="is-collection">Ebooks by <?= Formatter::EscapeHtml($author) ?></h1>
 	<? if($showLinks){ ?>
 		<p class="ebooks-toolbar">
 			<a class="button" href="<?= Formatter::EscapeHtml($authorUrl) ?>/downloads">Download collection</a>
