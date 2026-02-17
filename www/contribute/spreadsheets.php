@@ -63,6 +63,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1T4mK-ehA9OvMAThIc6nw1xrr6gMiN4aK0oTjbJsiWW4">Fyodor Dostoevsky — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/u/0/d/1wex_QlZFHoUnv1qiLfeAtrQrfJOi7U3ED97hb5VkQ9I">Arthur Conan Doyle — Short Fiction</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1fjsN_XWap97TwESdl20QtEusFZprhPqOGA9WEot2a8o">Daphne du Maurier — Short Fiction</a></p>
 					</li>
 					<li>
@@ -121,6 +124,9 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1iPw0cfk2l9uZ9D21CiHHc1fSpc2bkjqShvJ--U9Yx5Q">Henry van Dyke Jr. — Poetry</a></p>
+					</li>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1_gmFhZpb5uEAdmTDAwzYVnXsGeGhYa_hXDtOQ9xWV-U">Manly Wade Wellman — Short Fiction</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1rts2wYXQnOhtogSHx4AbAbVQAW2690uzFMDjTgOCJag">Edith Wharton — Short Fiction</a></p>
@@ -272,9 +278,6 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/document/d/1oKSdWxAypKpSzky1ToQ1j3_3FGD73DxPpD-4c_7v8S4">Philosophical Works by René Descartes</a></p>
-					</li>
-					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/11rKzjg_XqnxNfK3x6tQFLzj0QLPLDEpR5_1AwQglao4">Short fiction by Manly Wade Wellman</a></p>
 					</li>
 				</ul>
 			</section>
