@@ -560,7 +560,7 @@ final class Artwork{
 		try{
 			$response = $curl->Execute(Enums\HttpMethod::Get, $this->MuseumUrl);
 		}
-		catch(Exceptions\CurlException $e){
+		catch(Exceptions\CurlException){
 			return;
 		}
 
