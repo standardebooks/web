@@ -93,9 +93,6 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1J6ZnT3_1DHHTCWyzfSKkAbIHQqrEz4AoUI7dQdz7668">Ring Lardner — Short Fiction</a></p>
 					</li>
 					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/1BcKbCc9s08jOdEaRbuRIelPDqwvM3TxTAFl2NcJgrI8">George MacDonald — Works</a></p>
-					</li>
-					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/117gv3B3Pxf0RlAmS1tBWd7gUi_Tmb-VLLnDxD35AIiE">Katherine Mansfield — Short Fiction</a></p>
 					</li>
 					<li>
@@ -242,6 +239,9 @@
 				<ul>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1gtD4hKNIaLkmNjOJble1RnSW4-ZUnxnuciJdV_HnJbc">J. Sheridan Le Fanu — Works</a></p>
+					</li>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1BcKbCc9s08jOdEaRbuRIelPDqwvM3TxTAFl2NcJgrI8">George MacDonald — Works</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1M7A2MsfB7DCfhl8YxtnnelOaXeJKeHIqQEL_xmI67fQ">Taras Shevchenko — Poetry</a></p>
