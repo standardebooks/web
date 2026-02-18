@@ -70,16 +70,18 @@ catch(Exceptions\EbookNotFoundException){
 			<p class="message success">Project saved!</p>
 		<? } ?>
 
-		<aside id="reading-ease">
-			<? if($ebook->ContributorsHtml != ''){ ?>
-				<p><?= $ebook->ContributorsHtml ?></p>
-			<? } ?>
-			<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
-				<? foreach($ebook->GetCollectionsHtml() as $line){ ?>
-					<p><?= $line ?></p>
+		<? if($ebook->ContributorsHtml != '' || sizeof($ebook->CollectionMemberships) > 0){ ?>
+			<aside id="reading-ease">
+				<? if($ebook->ContributorsHtml != ''){ ?>
+					<p><?= $ebook->ContributorsHtml ?></p>
 				<? } ?>
-			<? } ?>
-		</aside>
+				<? if(sizeof($ebook->CollectionMemberships) > 0){ ?>
+					<? foreach($ebook->GetCollectionsHtml() as $line){ ?>
+						<p><?= $line ?></p>
+					<? } ?>
+				<? } ?>
+			</aside>
+		<? } ?>
 
 		<section class="placeholder-details" id="placeholder-details">
 			<? if($ebook->EbookPlaceholder->IsPublicDomain){ ?>

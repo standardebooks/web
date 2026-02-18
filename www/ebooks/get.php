@@ -115,7 +115,6 @@ catch(Exceptions\EbookNotFoundException){
 			</picture>
 		</header>
 
-
 		<aside id="reading-ease">
 			<? if($ebook->WordCount !== null){ ?>
 				<meta property="schema:wordCount" content="<?= Formatter::EscapeHtml((string)$ebook->WordCount) ?>"/>
