@@ -2780,6 +2780,31 @@ fieldset legend{
 	padding: 0; /* Reset browser style */
 }
 
+fieldset.benefits{
+	border: 3px double var(--body-text);
+	padding: 1rem;
+}
+
+fieldset.benefits + fieldset.benefits{
+	margin-top: 2rem;
+}
+
+fieldset.benefits legend{
+	font-family: "Crimson Pro", Georgia, serif;
+	font-size: 1rem;
+	text-transform: none;
+	font-weight: bold;
+	letter-spacing: normal;
+	margin: 0;
+	line-height: 1;
+	width: auto;
+	padding: 0 .25rem;
+}
+
+fieldset.benefits ul{
+	margin: 0;
+}
+
 summary{
 	cursor: pointer;
 }

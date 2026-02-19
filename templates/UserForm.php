@@ -89,113 +89,121 @@ $isEditForm ??= false;
 </fieldset>
 <fieldset>
 	<legend>Benefits</legend>
-	<ul>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-access-feeds" value="false" />
-				<input type="checkbox" name="benefits-can-access-feeds" value="true"<? if($user->Benefits->CanAccessFeeds){ ?> checked="checked"<? } ?> />
-				Can access feeds
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-vote" value="false" />
-				<input type="checkbox" name="benefits-can-vote" value="true"<? if($user->Benefits->CanVote){ ?> checked="checked"<? } ?> />
-				Can vote in polls
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-bulk-download" value="false" />
-				<input type="checkbox" name="benefits-can-bulk-download" value="true"<? if($user->Benefits->CanBulkDownload){ ?> checked="checked"<? } ?> />
-				Can access bulk downloads
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-upload-artwork" value="false" />
-				<input type="checkbox" name="benefits-can-upload-artwork" value="true"<? if($user->Benefits->CanUploadArtwork){ ?> checked="checked"<? } ?> />
-				Can upload artwork
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-review-artwork" value="false" />
-				<input type="checkbox" name="benefits-can-review-artwork" value="true"<? if($user->Benefits->CanReviewArtwork){ ?> checked="checked"<? } ?> />
-				Can review artwork
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-review-own-artwork" value="false" />
-				<input type="checkbox" name="benefits-can-review-own-artwork" value="true"<? if($user->Benefits->CanReviewOwnArtwork){ ?> checked="checked"<? } ?> />
-				Can review own artwork
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-edit-users" value="false" />
-				<input type="checkbox" name="benefits-can-edit-users" value="true"<? if($user->Benefits->CanEditUsers){ ?> checked="checked"<? } ?> />
-				Can edit users
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-edit-ebook-placeholders" value="false" />
-				<input type="checkbox" name="benefits-can-edit-ebook-placeholders" value="true"<? if($user->Benefits->CanEditEbookPlaceholders){ ?> checked="checked"<? } ?> />
-				Can edit ebook placeholders
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-edit-projects" value="false" />
-				<input type="checkbox" name="benefits-can-edit-projects" value="true"<? if($user->Benefits->CanEditProjects){ ?> checked="checked"<? } ?> />
-				Can edit projects
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-manage-projects" value="false" />
-				<input type="checkbox" name="benefits-can-manage-projects" value="true"<? if($user->Benefits->CanManageProjects){ ?> checked="checked"<? } ?> />
-				Can manage projects
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-review-projects" value="false" />
-				<input type="checkbox" name="benefits-can-review-projects" value="true"<? if($user->Benefits->CanReviewProjects){ ?> checked="checked"<? } ?> />
-				Can review projects
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-create-users" value="false" />
-				<input type="checkbox" name="benefits-can-create-users" value="true"<? if($user->Benefits->CanCreateUsers){ ?> checked="checked"<? } ?> />
-				Can create users
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-edit-blog-posts" value="false" />
-				<input type="checkbox" name="benefits-can-edit-blog-posts" value="true"<? if($user->Benefits->CanEditBlogPosts){ ?> checked="checked"<? } ?> />
-				Can edit blog posts
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-create-newsletter-mailings" value="false" />
-				<input type="checkbox" name="benefits-can-create-newsletter-mailings" value="true"<? if($user->Benefits->CanCreateNewsletterMailings){ ?> checked="checked"<? } ?> />
-				Can create newsletter mailings
-			</label>
-		</li>
-		<li>
-			<label>
-				<input type="hidden" name="benefits-can-edit-newsletter-mailings" value="false" />
-				<input type="checkbox" name="benefits-can-edit-newsletter-mailings" value="true"<? if($user->Benefits->CanEditNewsletterMailings){ ?> checked="checked"<? } ?> />
-				Can edit newsletter mailings
-			</label>
-		</li>
-	</ul>
+	<fieldset class="benefits">
+		<legend>Patrons Circle benefits</legend>
+		<ul>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-access-feeds" value="false" />
+					<input type="checkbox" name="benefits-can-access-feeds" value="true"<? if($user->Benefits->CanAccessFeeds){ ?> checked="checked"<? } ?> />
+					Can access feeds
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-vote" value="false" />
+					<input type="checkbox" name="benefits-can-vote" value="true"<? if($user->Benefits->CanVote){ ?> checked="checked"<? } ?> />
+					Can vote in polls
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-bulk-download" value="false" />
+					<input type="checkbox" name="benefits-can-bulk-download" value="true"<? if($user->Benefits->CanBulkDownload){ ?> checked="checked"<? } ?> />
+					Can access bulk downloads
+				</label>
+			</li>
+		</ul>
+	</fieldset>
+	<fieldset class="benefits">
+		<legend>Admin powers</legend>
+		<ul>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-upload-artwork" value="false" />
+					<input type="checkbox" name="benefits-can-upload-artwork" value="true"<? if($user->Benefits->CanUploadArtwork){ ?> checked="checked"<? } ?> />
+					Can upload artwork
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-review-artwork" value="false" />
+					<input type="checkbox" name="benefits-can-review-artwork" value="true"<? if($user->Benefits->CanReviewArtwork){ ?> checked="checked"<? } ?> />
+					Can review artwork
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-review-own-artwork" value="false" />
+					<input type="checkbox" name="benefits-can-review-own-artwork" value="true"<? if($user->Benefits->CanReviewOwnArtwork){ ?> checked="checked"<? } ?> />
+					Can review own artwork
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-edit-users" value="false" />
+					<input type="checkbox" name="benefits-can-edit-users" value="true"<? if($user->Benefits->CanEditUsers){ ?> checked="checked"<? } ?> />
+					Can edit users
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-edit-ebook-placeholders" value="false" />
+					<input type="checkbox" name="benefits-can-edit-ebook-placeholders" value="true"<? if($user->Benefits->CanEditEbookPlaceholders){ ?> checked="checked"<? } ?> />
+					Can edit ebook placeholders
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-edit-projects" value="false" />
+					<input type="checkbox" name="benefits-can-edit-projects" value="true"<? if($user->Benefits->CanEditProjects){ ?> checked="checked"<? } ?> />
+					Can edit projects
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-manage-projects" value="false" />
+					<input type="checkbox" name="benefits-can-manage-projects" value="true"<? if($user->Benefits->CanManageProjects){ ?> checked="checked"<? } ?> />
+					Can manage projects
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-review-projects" value="false" />
+					<input type="checkbox" name="benefits-can-review-projects" value="true"<? if($user->Benefits->CanReviewProjects){ ?> checked="checked"<? } ?> />
+					Can review projects
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-create-users" value="false" />
+					<input type="checkbox" name="benefits-can-create-users" value="true"<? if($user->Benefits->CanCreateUsers){ ?> checked="checked"<? } ?> />
+					Can create users
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-edit-blog-posts" value="false" />
+					<input type="checkbox" name="benefits-can-edit-blog-posts" value="true"<? if($user->Benefits->CanEditBlogPosts){ ?> checked="checked"<? } ?> />
+					Can edit blog posts
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-create-newsletter-mailings" value="false" />
+					<input type="checkbox" name="benefits-can-create-newsletter-mailings" value="true"<? if($user->Benefits->CanCreateNewsletterMailings){ ?> checked="checked"<? } ?> />
+					Can create newsletter mailings
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-edit-newsletter-mailings" value="false" />
+					<input type="checkbox" name="benefits-can-edit-newsletter-mailings" value="true"<? if($user->Benefits->CanEditNewsletterMailings){ ?> checked="checked"<? } ?> />
+					Can edit newsletter mailings
+				</label>
+			</li>
+		</ul>
+	</fieldset>
 </fieldset>
 
 <div class="footer">
