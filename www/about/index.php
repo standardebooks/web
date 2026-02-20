@@ -155,23 +155,6 @@ $anonymousPatronCount = Db::QueryInt('
 					</li>
 				</ol>
 			</section>
-			<section id="social-media">
-				<h3>Social Media</h3>
-				<ol class="editors">
-					<li>
-						<picture>
-							<source srcset="/images/masthead/laura-apostol@2x.avif 2x, /images/masthead/laura-apostol.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/laura-apostol@2x.jpg 2x, /images/masthead/laura-apostol.jpg 1x" type="image/jpg"/>
-							<img src="/images/masthead/laura-apostol.jpg" alt="A portrait of Laura Apostol."/>
-						</picture>
-						<p>
-							<a href="https://www.littleeclecticstudio.com/">Laura Apostol</a>
-							<br/>
-							Eclectic Studio
-						</p>
-					</li>
-				</ol>
-			</section>
 			<section id="corporate-sponsors">
 				<h3>Corporate Sponsors</h3>
 				<ol class="donors corporate">
