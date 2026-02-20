@@ -34,6 +34,7 @@
 				</ol>
 				<li><p><a href="#unusual-formatting">Unusual formatting</a></p></li>
 				<ol>
+					<li><p><a href="#numbered-stanzas">Numbered stanzas</a></p></li>
 					<li><p><a href="#verse-paragraphs">Verse paragraphs</a></p></li>
 					<li><p><a href="#caesuras">Caesuras</a></p></li>
 					<li><p><a href="#dropped-lines">Dropped lines</a></p></li>
@@ -246,6 +247,30 @@ v####This line is at i3.
 			<li>
 				<h2 id="unusual-formatting">Unusual formatting</h2>
 				<p>Poetry is a diverse art form that offers a wide range of distinctive types, each with its own unique visual appeal. In fact, poetry can take on various unconventional formats that add to its artistic charm. Below are some uncommon formatting styles you may come across while producing a poetry production.</p>
+				<h3 id="numbered-stanzas">Numbered stanzas</h3>
+				<p>Hymns, songs, and occasionally epic poems have numbered sections for single or multiple stanzas. To format them correctly, place each stanza or group of stanzas, along with their numbered header, in a <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element. All SE editions should center the header numbers, regardless of whether the stanza numbers are on the left or right side of the page scans. Use Roman numerals for stanza numbering up to 100. For numbers above 100, use Arabic numerals.</p>
+				<figure class="html full">
+<code class="html full"><span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"stanza-5"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">p</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"ordinal z3998:roman"</span><span class="p">&gt;</span>V<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+...
+<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"stanza-256"</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>256<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+	<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></code>
+				</figure>
 				<h3 id="verse-paragraphs">Verse paragraphs</h3>
 				<p>In poetic composition, some authors opt to use stanzas of varying length. While traditional poetry forms such as sonnets and haikus have a set structure, free verse poetry allows poets to experiment with different stanza lengths. To visually differentiate between stanzas, some poets choose to remove the blank space between them and instead indent the first line of each subsequent stanza (excluding the first stanza). This technique serves a similar function to paragraphs in prose.</p>
 				<picture>
