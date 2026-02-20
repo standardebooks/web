@@ -54,9 +54,6 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1NJI4pHCO7Up2MP-GAhB9zf2u3T41MMQkqoweczDvJa8">Richard Connell — Short Fiction</a></p>
 					</li>
 					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/1V7derqjA7EH2zvk398vJLX3Wqh6t93DceV8CRrjTo-M">Mary de Morgan — Short Fiction</a></p>
-					</li>
-					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1WHmJTK3oKKAqIoW5PfTt0ha3OE6e_h1CuhfrY61jbgo">John Donne — Poetry</a></p>
 					</li>
 					<li>
@@ -237,6 +234,9 @@
 				<h3>Complete</h3>
 				<p>These spreadsheets are for ebooks that are complete, and in which the author’s entire corpus is in the public domain. We don’t expect to add any more items to these ebooks.</p>
 				<ul>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1V7derqjA7EH2zvk398vJLX3Wqh6t93DceV8CRrjTo-M">Mary De Morgan — Short Fiction</a></p>
+					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1gtD4hKNIaLkmNjOJble1RnSW4-ZUnxnuciJdV_HnJbc">J. Sheridan Le Fanu — Works</a></p>
 					</li>
