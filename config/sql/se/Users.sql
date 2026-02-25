@@ -11,6 +11,3 @@ CREATE TABLE IF NOT EXISTS `Users` (
   UNIQUE KEY `idxEmail` (`Email`,`Uuid`,`UserId`),
   UNIQUE KEY `idxUniqueEmail` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-ALTER TABLE `se`.`Users`
-ADD INDEX `idxUniqueEmail` (`Email` ASC) VISIBLE;
-;
