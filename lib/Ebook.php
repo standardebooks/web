@@ -18,6 +18,7 @@ use function Safe\shell_exec;
  * @property array<Contributor> $Authors
  * @property array<Contributor> $Illustrators
  * @property array<Contributor> $Translators
+ * @property array<Contributor> $Editors
  * @property array<Contributor> $Contributors
  * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
  * @property string $Url The relative URL of this ebook, like `/ebooks/...`.
@@ -105,7 +106,9 @@ final class Ebook{
 	/** @var array<Contributor> $_Illustrators */
 	protected array $_Illustrators;
 	/** @var array<Contributor> $_Translators */
-	protected array$_Translators;
+	protected array $_Translators;
+	/** @var array<Contributor> $_Editors */
+	protected array $_Editors;
 	/** @var array<Contributor> $_Contributors */
 	protected array $_Contributors;
 	/** @var ?array<string> $_TocEntries */
@@ -290,6 +293,7 @@ final class Ebook{
 		$this->_Authors = $this->_Authors ?? [];
 		$this->_Translators = $this->_Translators ?? [];
 		$this->_Illustrators = $this->_Illustrators ?? [];
+		$this->_Editors = $this->_Editors ?? [];
 		$this->_Contributors = $this->_Contributors ?? [];
 
 		if(!isset($this->EbookId)){
@@ -307,22 +311,22 @@ final class Ebook{
 			switch($contributor->MarcRole){
 				case Enums\MarcRole::Author:
 					$this->_Authors[] = $contributor;
-
 					break;
 
 				case Enums\MarcRole::Translator:
 					$this->_Translators[] = $contributor;
-
 					break;
 
 				case Enums\MarcRole::Illustrator:
 					$this->_Illustrators[] = $contributor;
+					break;
 
+				case Enums\MarcRole::Editor:
+					$this->_Editors[] = $contributor;
 					break;
 
 				case Enums\MarcRole::Contributor:
 					$this->_Contributors[] = $contributor;
-
 					break;
 			}
 		}
@@ -364,6 +368,17 @@ final class Ebook{
 	/**
 	 * @return array<Contributor>
 	 */
+	protected function GetEditors(): array{
+		if(!isset($this->_Editors)){
+			$this->GetAllContributors();
+		}
+
+		return $this->_Editors;
+	}
+
+	/**
+	 * @return array<Contributor>
+	 */
 	protected function GetContributors(): array{
 		if(!isset($this->_Contributors)){
 			$this->GetAllContributors();
@@ -379,18 +394,23 @@ final class Ebook{
 		if(!isset($this->_TocEntries)){
 			$this->_TocEntries = [];
 
-			$result = Db::Query('
-					SELECT *
-					from TocEntries
-					where EbookId = ?
-					order by SortOrder asc
-				', [$this->EbookId]);
+			if(isset($this->EbookId)){
+				$result = Db::Query('
+						SELECT *
+						from TocEntries
+						where EbookId = ?
+						order by SortOrder asc
+					', [$this->EbookId]);
 
-			foreach($result as $row){
-				$this->_TocEntries[] = $row->TocEntry;
+				foreach($result as $row){
+					$this->_TocEntries[] = $row->TocEntry;
+				}
+
+				if(sizeof($this->_TocEntries) == 0){
+					$this->_TocEntries = null;
+				}
 			}
-
-			if(sizeof($this->_TocEntries) == 0){
+			else{
 				$this->_TocEntries = null;
 			}
 		}
@@ -570,6 +590,10 @@ final class Ebook{
 			$this->_ContributorsHtml = '';
 			if(sizeof($this->Contributors) > 0){
 				$this->_ContributorsHtml .= ' with ' . Contributor::GenerateContributorsString($this->Contributors, true, false) . ';';
+			}
+
+			if(sizeof($this->Editors) > 0){
+				$this->_ContributorsHtml .= ' edited by ' . Contributor::GenerateContributorsString($this->Editors, true, false) . ';';
 			}
 
 			if(sizeof($this->Translators) > 0){
@@ -913,6 +937,7 @@ final class Ebook{
 
 		$illustrators = [];
 		$translators = [];
+		$editors = [];
 		$contributors = [];
 		foreach($xml->xpath('/package/metadata/dc:contributor') ?: [] as $contributor){
 			$id = '';
@@ -920,37 +945,63 @@ final class Ebook{
 				$id = $contributor->attributes()->id;
 			}
 
-			foreach($xml->xpath('/package/metadata/meta[ (@property="role" or @property="se:role") and @refines="#' . $id . '"]') ?: [] as $role){
+			foreach($xml->xpath('/package/metadata/meta[@property="role" and @refines="#' . $id . '"]') ?: [] as $role){
+				$marcRole = \Enums\MarcRole::tryFrom((string)$role);
+				if($marcRole === null){
+					continue;
+				}
+
+				$displaySequence = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="display-seq" and @refines="#' . $id . '"]'));
+
+				if($displaySequence !== null){
+					$displaySequence = intval($displaySequence);
+
+					// A display-sequence of 0 indicates that we don't want to process this contributor.
+					if($displaySequence === 0){
+						continue;
+					}
+				}
+
 				$c = new Contributor();
 				$c->Name = (string)$contributor;
 				$c->UrlName = Ebook::MatchContributorUrlNameToIdentifier(Formatter::MakeUrlSafe($c->Name), $ebook->Identifier);
-				$c->SortName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as"][@refines="#' . $id . '"]'));
-				$c->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]'));
-				$c->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'));
-				$c->MarcRole = Enums\MarcRole::tryFrom((string)$role) ?? Enums\MarcRole::Contributor;
-				$c->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'));
+				$c->SortName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as" and @refines="#' . $id . '"]'));
+				$c->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name" and @refines="#' . $id . '"]'));
+				$c->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia" and @refines="#' . $id . '"]'));
+				$c->MarcRole = $marcRole;
+				$c->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf" and @refines="#' . $id . '"]'));
 
-				// A display-sequence of 0 indicates that we don't want to process this contributor.
-				$displaySequence = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="display-seq"][@refines="#' . $id . '"]'));
-				if($displaySequence !== '0'){
-					if($role == 'trl'){
-						$translators[] = $c;
-					}
+				if($marcRole == Enums\MarcRole::Translator){
+					$translators[] = $c;
+				}
 
-					if($role == 'ill'){
+				// Add a contributor only if their `display-seq` is explicitly set to more than `0`.
+				if($displaySequence !== null && $displaySequence > 0){
+					if($marcRole == Enums\MarcRole::Illustrator){
 						$illustrators[] = $c;
 					}
 
-					if($role == 'ctb'){
+					if($marcRole == Enums\MarcRole::Editor){
+						$editors[] = $c;
+					}
+
+					if($marcRole == Enums\MarcRole::Contributor){
 						$contributors[] = $c;
 					}
 				}
 			}
 
-			// If we added an illustrator who is also the translator, remove the illustrator credit so the name doesn't appear twice.
+			// If we added an illustrator who is also the translator OR editor, remove the illustrator credit so the name doesn't appear twice.
 			foreach($illustrators as $key => $illustrator){
 				foreach($translators as $translator){
 					if($translator->Name == $illustrator->Name){
+						unset($illustrators[$key]);
+						break;
+					}
+				}
+
+				foreach($editors as $editor){
+					if(isset($editor->MarcRole) && $editor->MarcRole == Enums\MarcRole::Editor && $editor->Name == $illustrator->Name){
 						unset($illustrators[$key]);
 						break;
 					}
@@ -960,6 +1011,7 @@ final class Ebook{
 		}
 		$ebook->Illustrators = $illustrators;
 		$ebook->Translators = $translators;
+		$ebook->Editors = $editors;
 		$ebook->Contributors = $contributors;
 
 		// Some basic data.
@@ -2209,7 +2261,7 @@ final class Ebook{
 	 * @throws Exceptions\InvalidContributorException
 	 */
 	private function AddContributors(): void{
-		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Contributors);
+		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Editors, $this->Contributors);
 		foreach($allContributors as $sortOrder => $contributor){
 			$contributor->EbookId = $this->EbookId;
 			$contributor->SortOrder = $sortOrder;

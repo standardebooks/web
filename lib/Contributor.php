@@ -201,6 +201,9 @@ class Contributor{
 				case Enums\MarcRole::Illustrator:
 					$role = 'schema:illustrator';
 					break;
+				case Enums\MarcRole::Editor:
+					$role = 'schema:editor';
+					break;
 			}
 
 			if(!$includeHtml){

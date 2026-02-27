@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `Contributors` (
   `UrlName` varchar(255) NOT NULL,
   `SortName` varchar(255) NULL,
   `WikipediaUrl` varchar(255) NULL,
-  `MarcRole` ENUM('aut', 'ctb', 'ill', 'trl') NOT NULL,
+  `MarcRole` ENUM('aut', 'ctb', 'edt', 'ill', 'trl') NOT NULL,
   `FullName` varchar(255) NULL,
   `NacoafUrl` varchar(255) NULL,
   `SortOrder` tinyint(3) unsigned NOT NULL,
