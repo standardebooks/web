@@ -292,7 +292,10 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 			<li>
 				<h2 id="illustrations">Add a list of illustrations</h2>
 				<p>If a work has illustrations besides the cover and title pages, we include a “list of illustrations” at the end of the book, after the endnotes but before the colophon. The <abbr class="initialism">LoI</abbr> file <a href="/manual/latest/7-high-level-structural-patterns#7.9">is also standardized</a>.</p>
-				<p>If an LoI is created, do a corresponding commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add LoI"</i></span></code>
+				<aside class="tip">
+					<p>You can use the <code class="bash"><b>se</b> build-loi</code> tool to automatically add a list of illustrations, but you’ll have to <a href="#manispine">build the manifest and spine</a> first.</p>
+				</aside>
+				<p>If you created an LoI, do a corresponding commit.</p><code class="terminal"><span><b>git</b> add -A</span> <span><b>git</b> commit -m <i>"Add LoI"</i></span></code>
 				<p><i>Jekyll</i> doesn’t have any illustrations, so we skip this step.</p>
 			</li>
 			<li>
