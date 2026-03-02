@@ -296,6 +296,14 @@ class NewsletterMailing{
 			}
 
 			$this->BodyText = Formatter::HtmlToMarkdown($this->BodyHtml);
+
+			// Remove images in these formats:
+			// - [![](https://standardebooks.org/images/covers/anthony-trollope_short-fiction-b218d6d0-cover@2x.jpg)](https://standardebooks.org/ebooks/anthony-trollope/short-fiction)
+			// - ![](https://standardebooks.org/images/logo-full.png)
+			$this->BodyText = preg_replace('/\[\!\[\]\(.+?\)\]\(.+?\)\s*/u', '', $this->BodyText);
+			$this->BodyText = preg_replace('/\!\[\]\(.+?\)\s*/u', '', $this->BodyText);
+			$this->BodyText = preg_replace('/\[\]\(\)\s*/u', '', $this->BodyText);
+
 		}
 
 		if(!preg_match('/^<!doctype html>/ius', $this->BodyHtml)){
