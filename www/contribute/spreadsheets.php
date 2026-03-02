@@ -93,6 +93,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/117gv3B3Pxf0RlAmS1tBWd7gUi_Tmb-VLLnDxD35AIiE">Katherine Mansfield — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1pWz3QoVcrnevVYFZ-vbl96PR_f5YX3kooDWez9oCBGY">Zeami Motokiyo — Plays</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1OYPAAycKaTUZDM9y_m4a4tpfYeTzkmVM2boQxfl68l0">W. S. Maugham — Works</a></p>
 					</li>
 					<li>
