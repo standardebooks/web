@@ -5,8 +5,7 @@
 			<h1>Get Involved</h1>
 			<p>and help create ebooks that are a pleasure to read</p>
 		</hgroup>
-		<?= Template::DonationCounter() ?>
-		<?= Template::DonationProgress() ?>
+		<?= Template::DonationDrive() ?>
 		<picture data-caption="The Printing House of Bernardo Cennini. Tito Lessi, 1907">
 			<source srcset="/images/the-printing-house@2x.avif 2x, /images/the-printing-house.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-printing-house@2x.jpg 2x, /images/the-printing-house.jpg 1x" type="image/jpg"/>

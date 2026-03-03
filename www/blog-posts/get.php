@@ -51,8 +51,7 @@ catch(Exceptions\BlogPostNotFoundException){
 			<p class="message success">Blog post saved!</p>
 		<? } ?>
 
-		<?= Template::DonationCounter() ?>
-		<?= Template::DonationProgress() ?>
+		<?= Template::DonationDrive() ?>
 		<?= $blogPost->Body ?>
 		<? if(sizeof($blogPost->Ebooks) > 0){ ?>
 			<section id="ebooks-in-this-newsletter">

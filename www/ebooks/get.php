@@ -139,8 +139,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<section id="description">
 			<h2>Description</h2>
-			<?= Template::DonationCounter() ?>
-			<?= Template::DonationProgress() ?>
+			<?= Template::DonationDrive() ?>
 
 			<?= Template::DonationAlert() ?>
 

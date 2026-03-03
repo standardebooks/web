@@ -110,9 +110,3 @@ const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log';
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log';
 /** Must be writable by `www-data` Unix user. */
 const EMAIL_LOG_FILE_PATH =		'/var/log/local/standardebooks.org-email.log';
-
-
-/** Controls the countdown donation dialog, basically unused right now. */
-const DONATION_DRIVE_COUNTER_ENABLED = false;
-const DONATION_DRIVE_COUNTER_START = new DateTimeImmutable('May 2, 2022 00:00:00', new DateTimeZone('America/New_York'));
-const DONATION_DRIVE_COUNTER_END = new DateTimeImmutable('May 8, 2022 23:59:00', new DateTimeZone('America/New_York'));

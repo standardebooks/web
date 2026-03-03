@@ -12,8 +12,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			<h1>Donate to Standard Ebooks</h1>
 			<p>and help bring the beauty of literature to the digital age</p>
 		</hgroup>
-		<?= Template::DonationCounter(autoHide: false, showDonateButton: false) ?>
-		<?= Template::DonationProgress(autoHide: false, showDonateButton: false) ?>
+		<?= Template::DonationDrive(autoHide: false, showDonateButton: false) ?>
 		<picture data-caption="The Quiet Hour. Albert Chevallier Tayler, 1925">
 			<source srcset="/images/the-quiet-hour@2x.avif 2x, /images/the-quiet-hour.avif 1x" type="image/avif"/>
 			<source srcset="/images/the-quiet-hour@2x.jpg 2x, /images/the-quiet-hour.jpg 1x" type="image/jpg"/>

@@ -2,6 +2,8 @@
 use Safe\DateTimeImmutable;
 
 /**
+ * A `DonationDrive` is a drive hosted by SE, in which we have a target number of donations and an end date.
+ *
  * @property-read int $StretchCount The count that is within the range of the `StretchTarget`. For example, if `Target` is `100`, `StretchTarget` is `25`, and `Count` is `115`, then `StretchCount` is `15`.
  * @property-read bool $IsStretchEnabled
  * @property-read int $CurrentTarget The current total target count, including stretch, if enabled. For example, if `Target` is `100`, `StretchTarget` is `25`, and `Count` is `80`, then `CurrentTarget` is `100`; if `Target` is `100`, `StretchTarget` is `25`, and `Count` is `115`, then `CurrentTarget` is `125`.

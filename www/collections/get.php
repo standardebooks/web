@@ -19,8 +19,7 @@ catch(Exceptions\CollectionNotFoundException){
 ?><?= Template::Header(title: $pageTitle, feedUrl: $feedUrl, feedTitle: $feedTitle, highlight: 'ebooks', description: $pageDescription) ?>
 <main class="ebooks">
 	<h1 class="is-collection"><?= $pageHeader ?></h1>
-	<?= Template::DonationCounter() ?>
-	<?= Template::DonationProgress() ?>
+	<?= Template::DonationDrive() ?>
 
 	<?= Template::DonationAlert() ?>
 

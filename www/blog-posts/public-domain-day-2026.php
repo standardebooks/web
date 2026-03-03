@@ -185,8 +185,7 @@ ksort($ebooksWithDescriptions);
 				<? } ?>
 			</ul>
 		<? } ?>
-		<?= Template::DonationCounter() ?>
-		<?= Template::DonationProgress() ?>
+		<?= Template::DonationDrive() ?>
 	</section>
 </main>
 <?= Template::Footer() ?>

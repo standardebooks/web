@@ -107,6 +107,12 @@ class Payment{
 				       ?)
 				returning PaymentId
 			', [$this->UserId, $this->Created, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
+
+
+			if(!$this->IsRecurring && !$this->IsMatchingDonation){
+				// Add any one-time payments to any active `DonationCounter`s.
+				DonationCounter::AddCountToIsActive();
+			}
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\PaymentExistsException();

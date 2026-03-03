@@ -133,8 +133,7 @@ catch(Exceptions\PageOutOfBoundsException){
 ?><?= Template::Header(title: $pageTitle, highlight: 'ebooks', description: $pageDescription, canonicalUrl: $canonicalUrl) ?>
 <main class="ebooks">
 	<h1><?= $pageHeader ?></h1>
-	<?= Template::DonationCounter() ?>
-	<?= Template::DonationProgress() ?>
+	<?= Template::DonationDrive() ?>
 
 	<?= Template::DonationAlert() ?>
 
