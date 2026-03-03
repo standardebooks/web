@@ -3,6 +3,7 @@ use Safe\DateTimeImmutable;
 
 use function Safe\json_encode;
 use function Safe\json_decode;
+use function Safe\unserialize;
 
 class QueuedEmailMessage extends EmailMessage{
 	use Traits\FromRow;
