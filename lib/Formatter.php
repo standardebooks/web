@@ -7,6 +7,26 @@ class Formatter{
 	private static NumberFormatter $_NumberFormatter;
 
 	/**
+	 * @param float|int|array<mixed> $items
+	 */
+	public static function Pluralize(float|int|array $items, string $word, ?string $pluralWord = null): string{
+		$count = is_array($items) ? sizeof($items) : $items;
+
+		if($pluralWord === null){
+			if($count != 1){
+				$word .= 's';
+			}
+		}
+		else{
+			if($count != 1){
+				$word = $pluralWord;
+			}
+		}
+
+		return $word;
+	}
+
+	/**
 	 * Remove diacritics from a string, leaving the now-unaccented characters in place.
 	 */
 	public static function RemoveDiacritics(string $text): string{
