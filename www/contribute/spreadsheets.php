@@ -102,6 +102,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1mUwFeTCbbfsRelpZuQ2Ywa2gXsFbm9d2hYBqvKg-5EU">Arthur B. Reeve — Craig Kennedy Stories</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1c5oRpxRzGYCEQTnWVQT6oRPabrB8JU2YbJo49y6C_ZU">Akutagawa Ryūnosuke — Short Fiction</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/16gwu7budNrwywSFXqt1t9eicd-D6oJRZw_U58FCXRFk">Saki — Short Fiction</a></p>
 					</li>
 					<li>
