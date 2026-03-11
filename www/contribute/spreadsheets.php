@@ -90,6 +90,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1J6ZnT3_1DHHTCWyzfSKkAbIHQqrEz4AoUI7dQdz7668">Ring Lardner — Short Fiction</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1bkMGe0OcPXLTqXSInjqH_Bx209m5PDioO8RnnSCnOh0">James Russell Lowell — Poetry</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/117gv3B3Pxf0RlAmS1tBWd7gUi_Tmb-VLLnDxD35AIiE">Katherine Mansfield — Short Fiction</a></p>
 					</li>
 					<li>
