@@ -38,7 +38,7 @@
 				<li><p><a href="#dashes">Check for consistent dashes</a></p></li>
 				<li><p><a href="#titles">Set <code class="html"><span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span></code> elements</a></p></li>
 				<li><p><a href="#manispine">Build the manifest and spine</a></p></li>
-				<li><p><a href="#built-toc">Build the table of contents</a></p></li>
+				<li><p><a href="#build-toc">Build the table of contents</a></p></li>
 				<li><p><a href="#lint">Clean and lint</a></p></li>
 				<li><p><a href="#proofread">Build and proofread, proofread, proofread!</a></p></li>
 				<li><p><a href="#cover">Create the cover image</a></p></li>
