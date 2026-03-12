@@ -26,7 +26,7 @@ spine_paths = se_epub.spine_file_paths
 rel_spine_paths = ["/".join(str(path).split("/")[str(path).split("/").index("text"):]).lstrip("/") for path in spine_paths]
 
 # Get titles from spine.
-spine_titles = [se.easy_xml.EasyXmlTree(open(file_path).read()).xpath("//head/title/text()", True) for file_path in spine_paths]
+spine_titles = [se.easy_xml.EasyXmlTree(open(file_path).read()).xpath("//head/title/text()", str)[0] for file_path in spine_paths]
 
 # Make list of dicts containing title and relative path for each file.
 chapter_links = [{"title": title, "path": path} for title, path in zip(spine_titles, rel_spine_paths)]
