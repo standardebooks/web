@@ -6,11 +6,8 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `Updated` timestamp NOT NULL DEFAULT current_timestamp() on update current_timestamp(),
   `Uuid` char(36) NOT NULL DEFAULT (uuid()),
   `PasswordHash` varchar(255) NULL,
-  `CanReceiveEmail`, boolean NOT NULL DEFAULT TRUE,
+  `CanReceiveEmail` boolean NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `idxEmail` (`Email`,`Uuid`,`UserId`),
   UNIQUE KEY `idxUniqueEmail` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-ALTER TABLE `se`.`Users`
-ADD INDEX `idxUniqueEmail` (`Email` ASC) VISIBLE;
-;
