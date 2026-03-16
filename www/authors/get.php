@@ -38,12 +38,9 @@ try{
 	$contributors = Contributor::GetAllByUrlNameAndMarcRole($authorNames, Enums\MarcRole::Author);
 	$author = Contributor::GenerateContributorsString($contributors, false, false);
 
-	// If all of the author's ebooks are placeholders, don't show download/feed links.
-	foreach($ebooks as $ebook){
-		if(!$ebook->IsPlaceholder()){
-			$showLinks = true;
-			break;
-		}
+	// Don't show feed/download links if the author doesn't have a feed, which may occur when an author is part of a multi-author ebook but has no other single-author ebooks under their name.
+	if(file_exists(WEB_ROOT . '/feeds/atom/authors/' . $urlPath . '.xml')){
+		$showLinks = true;
 	}
 
 	$feedUrl = null;
