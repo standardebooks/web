@@ -96,9 +96,6 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/117gv3B3Pxf0RlAmS1tBWd7gUi_Tmb-VLLnDxD35AIiE">Katherine Mansfield — Short Fiction</a></p>
 					</li>
 					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/1pWz3QoVcrnevVYFZ-vbl96PR_f5YX3kooDWez9oCBGY">Zeami Motokiyo — Plays</a></p>
-					</li>
-					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1OYPAAycKaTUZDM9y_m4a4tpfYeTzkmVM2boQxfl68l0">W. S. Maugham — Works</a></p>
 					</li>
 					<li>
@@ -215,6 +212,9 @@
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1oWhebnZ__zFkDiqQUltfe8ehMRUbMly5N3GZHKXnFXw">Errico Malatesta — Essays</a></p>
+					</li>
+					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1pWz3QoVcrnevVYFZ-vbl96PR_f5YX3kooDWez9oCBGY">Zeami Motokiyo — Plays</a></p>
 					</li>
 					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1VpzkhWv4VP3cPln6wPOXEyCzN11ADpQwsiLTrx7MjOw">John G. Neihardt — A Cycle of the West</a></p>
