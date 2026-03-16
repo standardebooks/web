@@ -164,6 +164,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/18x_GSz-SXdgCSNd6ZwUNtVTLk7nsQZDC7RUgkOxwGhU">Andre Norton — Short Fiction</a> (see <a href="https://www.isfdb.org/cgi-bin/ea.cgi?209">this full bibliography</a>)</p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1kbDlJi7bzkN897o_PrNUaUtGpBaIIsdGKFnz4nuuPN4">Catherine Louisa Pirkis — Short Fiction</a> (missing page scans for some entries)</p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1CooBd8sNu91JVziC_2iZc4HtgLh52W3M8-y2Anv3VVg">Frederik Pohl — Works</a> (see <a href="https://www.isfdb.org/cgi-bin/ea.cgi?820">this full bibliography</a>)</p>
 					</li>
 					<li>
