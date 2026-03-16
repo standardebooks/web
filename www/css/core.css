@@ -2851,6 +2851,11 @@ label:has(input[type="checkbox"]) span{
 	font-weight: normal;
 }
 
+label:has(input[type="radio"]) span + span,
+label:has(input[type="checkbox"]) span + span{
+	margin-top: .25rem;
+}
+
 article.step-by-step-guide ol ol{
 	margin-left: 1.2rem;
 	list-style: decimal;
