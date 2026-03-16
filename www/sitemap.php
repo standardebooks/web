@@ -70,7 +70,7 @@ print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		<loc><?= SITE_URL ?>/contribute/producers</loc>
 	</url>
 	<url>
-		<loc><?= SITE_URL ?>/contribute/producing-an-ebook-ste-by-step</loc>
+		<loc><?= SITE_URL ?>/contribute/producing-an-ebook-step-by-step</loc>
 	</url>
 	<url>
 		<loc><?= SITE_URL ?>/contribute/report-errors-upstream</loc>
@@ -109,7 +109,7 @@ print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		<loc><?= SITE_URL ?>/contribute/how-tos/how-to-review-an-ebook-production-for-publication</loc>
 	</url>
 	<url>
-		<loc><?= SITE_URL ?>/contribute/how-tos/how-to-struture-and-style-large-poetic-productions</loc>
+		<loc><?= SITE_URL ?>/contribute/how-tos/how-to-structure-and-style-large-poetic-productions</loc>
 	</url>
 	<url>
 		<loc><?= SITE_URL ?>/contribute/how-tos/things-to-look-out-for-when-proofreading</loc>
