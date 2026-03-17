@@ -483,7 +483,7 @@ class Db{
 	 * Given a column value and its database driver metadata, return a strongly-typed value.
 	 *
 	 * @param mixed $column The value of the column, most likely either a string or integer.
-	 * @param array<mixed> $metadata An array of metadata returned from the database driver.
+	 * @param array{name: string, table?: string, native_type?: string, len: int, flags: array<int, string>, precision: int<0, max>, pdo_type: int} $metadata An array of metadata returned from the database driver.
 	 * @param class-string $class The type of object that this return value will be part of.
 	 *
 	 * @return mixed The strongly-typed column value.

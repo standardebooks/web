@@ -94,7 +94,7 @@ final class User{
 					if(sizeof($firstNameMatches) == 0){
 						$this->_SortName = $this->Name;
 					}
-					else{
+					elseif(sizeof($firstNameMatches) > 1){
 						$this->_SortName = $lastName . ', ' . trim($firstNameMatches[1]);
 					}
 				}
