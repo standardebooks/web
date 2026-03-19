@@ -1380,6 +1380,13 @@ body > footer p.sponsor-header{
 body > footer p.sponsor-header + ul{
 	list-style: none;
 	margin: auto;
+	line-height: 0;
+}
+
+body > footer p.sponsor-header + ul::after{
+	content: "";
+	display: block;
+	margin: auto;
 	margin-bottom: 1rem;
 	padding-bottom: 1rem;
 	border-bottom: 1px dashed;
@@ -1391,7 +1398,16 @@ body > footer p.sponsor-header + ul > li > a{
 }
 
 body > footer p.sponsor-header + ul img{
-	height: 2rem;
+	height: 2.5rem;
+}
+
+body > footer p.sponsor-header + ul li:only-child img{
+	max-width: 100%;
+}
+
+body > footer p.sponsor-header + ul li:only-child img[src$="elevenreader.svg"]{
+	/* Center the logo text if it's the only sponsor child. */
+	margin-left: -24px;
 }
 
 footer > p:last-child a{
