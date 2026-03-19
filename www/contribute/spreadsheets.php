@@ -99,6 +99,9 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1OYPAAycKaTUZDM9y_m4a4tpfYeTzkmVM2boQxfl68l0">W. S. Maugham — Works</a></p>
 					</li>
 					<li>
+						<p><a href="https://docs.google.com/spreadsheets/d/1XYujYaycEILQEWBGwg24ujhnYpxLpa1gJqQHA9pNrwk">Arthur Morrison — Works</a></p>
+					</li>
+					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1mUwFeTCbbfsRelpZuQ2Ywa2gXsFbm9d2hYBqvKg-5EU">Arthur B. Reeve — Craig Kennedy Stories</a></p>
 					</li>
 					<li>
