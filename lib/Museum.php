@@ -142,13 +142,13 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bthewalters\.org$/ius', $parsedUrl['host'])){
-			$exampleUrl = 'https://art.thewalters.org/detail/4695/boston-street-scene-boston-common/';
+			$exampleUrl = 'https://art.thewalters.org/object/37.1336/';
 
 			if($parsedUrl['host'] != 'art.thewalters.org'){
 				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
 			}
 
-			if(!preg_match('|^/detail/\d+/[^/]+/$|ius', $parsedUrl['path'])){
+			if(!preg_match('|^/object/[^/]+/$|ius', $parsedUrl['path'])){
 				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
 			}
 
