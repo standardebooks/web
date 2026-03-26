@@ -261,7 +261,7 @@ v####This line is at i3.
 ...
 <span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"stanza-256"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
-		<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>256<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+		<span class="p">&lt;</span><span class="nt">p</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"ordinal"</span><span class="p">&gt;</span>256<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 	<span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
 		<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
@@ -270,6 +270,21 @@ v####This line is at i3.
 		<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
 	<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></code>
+				</figure>
+				<figure class="css full">
+<code class="css full"><span class="c">/* Stanza header */</span>
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">header</span><span class="p">{</span>
+	<span class="k">margin</span><span class="p">:</span> <span class="mi">2</span><span class="kt">em</span> <span class="mi">1</span><span class="kt">em</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">header</span>  <span class="nt">p</span><span class="p">{</span>
+	<span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">header</span> <span class="o">+</span> <span class="nt">p</span><span class="p">{</span>
+	<span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c">/* End stanza header */</span></code>
 				</figure>
 				<h3 id="verse-paragraphs">Verse paragraphs</h3>
 				<p>In poetic composition, some authors opt to use stanzas of varying length. While traditional poetry forms such as sonnets and haikus have a set structure, free verse poetry allows poets to experiment with different stanza lengths. To visually differentiate between stanzas, some poets choose to remove the blank space between them and instead indent the first line of each subsequent stanza (excluding the first stanza). This technique serves a similar function to paragraphs in prose.</p>
