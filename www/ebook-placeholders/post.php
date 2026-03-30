@@ -89,9 +89,11 @@ try{
 	if($httpMethod == Enums\HttpMethod::Delete){
 		$ebook = Ebook::GetByIdentifier($identifier);
 
+		$_SESSION['ebook-title'] = $ebook->Title;
+		$_SESSION['ebook-authors'] = $ebook->AuthorsString;
+
 		$ebook->Delete();
 
-		$_SESSION['ebook'] = $ebook;
 		$_SESSION['is-ebook-placeholder-deleted'] = true;
 
 		http_response_code(Enums\HttpCode::SeeOther->value);
