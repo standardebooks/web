@@ -19,6 +19,11 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
+	if(!ctype_digit($identifier)){
+		http_response_code(Enums\HttpCode::Found->value);
+		header('Location: ' . $user->Url);
+	}
+
 	// We got here because a `User` was successfully created or saved.
 	if($isCreated || $isSaved){
 		session_unset();
