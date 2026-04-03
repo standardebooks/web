@@ -242,7 +242,7 @@ catch(Exception $ex){
 
 	$sendEmail = true;
 
-	if($ex instanceof Facebook\WebDriver\Exception\NoSuchElementException){
+	if($ex instanceof Facebook\WebDriver\Exception\NoSuchElementException || $ex instanceof Facebook\WebDriver\Exception\UnknownErrorException){
 		// This error occurs from time to time, but resolves itself on the next try.
 		// Set a lock file if this is the first time this happened. If the lock file already exists (i.e., this is the second time in a row this error occurred), then really do send the email.
 		if(!file_exists($errorLockFilename)){
