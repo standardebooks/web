@@ -19,7 +19,7 @@ class QueuedEmailMessage extends EmailMessage{
 
 			$this->Created = NOW;
 
-			$attachments = sizeof($this->Attachments ?? []) > 0 ? serialize($this->Attachments) : null;
+			$attachments = sizeof($this->Attachments) > 0 ? serialize($this->Attachments) : null;
 			$metadata = json_encode($this->Metadata);
 
 			// Warning: `To` and `From` have to be in ticks because they're SQL keywords.

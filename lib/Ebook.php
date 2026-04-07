@@ -1493,11 +1493,11 @@ final class Ebook{
 			$error->Add(new Exceptions\InvalidEbookTextSinglePageByteCountException('Invalid Ebook TextSinglePageByteCount: ' . $this->TextSinglePageByteCount));
 		}
 
-		if(isset($this->DownloadsPast30Days) && $this->DownloadsPast30Days < 0){
+		if($this->DownloadsPast30Days < 0){
 			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid Ebook DownloadsPast30Days: ' . $this->DownloadsPast30Days));
 		}
 
-		if(isset($this->DownloadsTotal) && $this->DownloadsTotal < 0){
+		if($this->DownloadsTotal < 0){
 			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid Ebook DownloadsTotal: ' . $this->DownloadsTotal));
 		}
 

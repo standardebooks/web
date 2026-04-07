@@ -49,7 +49,7 @@ $addEbooks ??= true;
 <label class="icon pencil-square">
 	<span>Subject</span>
 	<span>Optimal length is less than 45 characters, or 7 words.</span>
-	<input type="text" name="newsletter-mailing-subject" required="required" value="<?= Formatter::EscapeHtml($newsletterMailing->Subject ?? '') ?>" maxlength="255" />
+	<input type="text" name="newsletter-mailing-subject" required="required" value="<?= Formatter::EscapeHtml($newsletterMailing->Subject) ?>" maxlength="255" />
 </label>
 <label class="icon pencil-square">
 	<span>Preheader</span>
@@ -75,7 +75,7 @@ $addEbooks ??= true;
 <label>
 	<span>Body Text</span>
 	<span>Allowed variables are <code><?= NEWSLETTER_FIRST_NAME_VARIABLE ?></code> and <code><?= NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE ?></code>.</span>
-	<textarea name="newsletter-mailing-body-text"><?= Formatter::EscapeHtml($newsletterMailing->BodyText ?? '') ?></textarea>
+	<textarea name="newsletter-mailing-body-text"><?= Formatter::EscapeHtml($newsletterMailing->BodyText) ?></textarea>
 </label>
 <div class="footer">
 	<button>

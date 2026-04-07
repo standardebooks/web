@@ -33,7 +33,7 @@ class Artist{
 
 	protected function GetUrlName(): string{
 		if(!isset($this->_UrlName)){
-			if(!isset($this->Name) || $this->Name == ''){
+			if($this->Name == ''){
 				$this->_UrlName = '';
 			}
 			else{
@@ -121,7 +121,7 @@ class Artist{
 
 		$error = new Exceptions\InvalidArtistException();
 
-		$this->Name = trim($this->Name ?? '');
+		$this->Name = trim($this->Name);
 
 		if($this->Name == ''){
 			$error->Add(new Exceptions\ArtistNameRequiredException());

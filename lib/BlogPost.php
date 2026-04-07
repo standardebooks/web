@@ -225,8 +225,6 @@ class BlogPost{
 			$this->Description = null;
 		}
 
-		$this->Published ??= NOW;
-
 		if($userIdentifier !== null){
 			try{
 				$this->User = User::GetByIdentifier($userIdentifier);

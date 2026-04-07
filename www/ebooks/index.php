@@ -1,6 +1,5 @@
 <?
 use function Safe\preg_match;
-use function Safe\preg_replace;
 
 $page = HttpInput::Int(GET, 'page') ?? 1;
 $pages = 0;
@@ -38,7 +37,7 @@ try{
 		$sort = Enums\EbookSortType::Newest;
 	}
 
-	if(($sort == Enums\EbookSortType::Newest && $query == '') || ($sort == Enums\EbookSortType::Relevance && $query != '')){
+	if(($sort == Enums\EbookSortType::Newest && $query == '') || $sort == Enums\EbookSortType::Relevance){
 		$sort = Enums\EbookSortType::Default;
 	}
 

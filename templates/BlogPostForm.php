@@ -27,7 +27,7 @@ $isEditForm ??= false;
 		name="blog-post-published"
 		required="required"
 		step="1" <? /* Required to be able to set down to seconds granularity. */ ?>
-		value="<? if(isset($blogPost->Published)){ ?><?= $blogPost->Published->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?><? } ?>" />
+		value="<?= $blogPost->Published->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?>" />
 </label>
 <label>
 	<span>Title</span>

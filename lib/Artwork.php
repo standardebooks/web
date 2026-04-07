@@ -109,7 +109,7 @@ final class Artwork{
 
 	protected function GetUrlName(): string{
 		if(!isset($this->_UrlName)){
-			if(!isset($this->Name) || $this->Name == ''){
+			if($this->Name == ''){
 				$this->_UrlName = '';
 			}
 			else{
@@ -341,7 +341,7 @@ final class Artwork{
 			$this->Notes = null;
 		}
 
-		$this->Name = trim($this->Name ?? '');
+		$this->Name = trim($this->Name);
 
 		if($this->Name == ''){
 			$error->Add(new Exceptions\ArtworkNameRequiredException());
@@ -361,10 +361,6 @@ final class Artwork{
 
 		if(isset($this->PublicationYear) && ($this->PublicationYear <= 0 || $this->PublicationYear > $thisYear)){
 			$error->Add(new Exceptions\InvalidPublicationYearException());
-		}
-
-		if(!isset($this->Status)){
-			$error->Add(new Exceptions\InvalidArtworkStatusException());
 		}
 
 		$this->Tags ??= [];

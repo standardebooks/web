@@ -173,7 +173,7 @@ class AwsSesApi{
 						}
 					}
 
-					if(sizeof($email->Attachments ?? []) > 0){
+					if(sizeof($email->Attachments) > 0){
 						$params['Content']['Simple']['Attachments'] = [];
 
 						foreach($email->Attachments as $attachment){
