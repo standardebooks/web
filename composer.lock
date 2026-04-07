@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.373.3",
+            "version": "3.376.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d23edc4cf9cd81cb98b5beb9c1fb3737f535b1e5"
+                "reference": "fe7773b1e069a45aa74e09cdd65219af6039ff6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d23edc4cf9cd81cb98b5beb9c1fb3737f535b1e5",
-                "reference": "d23edc4cf9cd81cb98b5beb9c1fb3737f535b1e5",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fe7773b1e069a45aa74e09cdd65219af6039ff6b",
+                "reference": "fe7773b1e069a45aa74e09cdd65219af6039ff6b",
                 "shasum": ""
             },
             "require": {
@@ -153,9 +153,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.373.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.376.4"
             },
-            "time": "2026-03-16T18:15:27+00:00"
+            "time": "2026-04-06T18:18:41+00:00"
         },
         {
             "name": "brick/math",
@@ -892,29 +892,28 @@
         },
         {
             "name": "pixel418/markdownify",
-            "version": "v2.3.1",
+            "version": "v2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Elephant418/Markdownify.git",
-                "reference": "891be2176858712c6c4581da410e96fc2019e3f0"
+                "reference": "c148ed9eae72eb9ad90a8d19675cc3b98345d351"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Elephant418/Markdownify/zipball/891be2176858712c6c4581da410e96fc2019e3f0",
-                "reference": "891be2176858712c6c4581da410e96fc2019e3f0",
+                "url": "https://api.github.com/repos/Elephant418/Markdownify/zipball/c148ed9eae72eb9ad90a8d19675cc3b98345d351",
+                "reference": "c148ed9eae72eb9ad90a8d19675cc3b98345d351",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8"
+                "phpunit/phpunit": "^11.5"
             },
             "type": "lib",
             "autoload": {
                 "psr-4": {
-                    "Markdownify\\": "src",
-                    "Test\\Markdownify\\": "test"
+                    "Markdownify\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -943,9 +942,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Elephant418/Markdownify/issues",
-                "source": "https://github.com/Elephant418/Markdownify/tree/master"
+                "source": "https://github.com/Elephant418/Markdownify/tree/v2.3.3"
             },
-            "time": "2019-01-22T16:33:43+00:00"
+            "time": "2026-03-23T14:58:28+00:00"
         },
         {
             "name": "psr/http-client",
@@ -1948,11 +1947,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.42",
+            "version": "2.1.46",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1279e1ce86ba768f0780c9d889852b4e02ff40d0",
-                "reference": "1279e1ce86ba768f0780c9d889852b4e02ff40d0",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a193923fc2d6325ef4e741cf3af8c3e8f54dbf25",
+                "reference": "a193923fc2d6325ef4e741cf3af8c3e8f54dbf25",
                 "shasum": ""
             },
             "require": {
@@ -1997,7 +1996,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-17T14:58:32+00:00"
+            "time": "2026-04-01T09:25:14+00:00"
         },
         {
             "name": "thecodingmachine/phpstan-safe-rule",
