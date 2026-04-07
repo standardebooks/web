@@ -67,7 +67,7 @@ class Template extends TemplateBase{
 	 * Redirect the user to the login page.
 	 *
 	 * @param bool $redirectToDestination After login, redirect the user to the page they came from.
-	 * @param ?string $destinationUrl If `$redirectToDestination` is **`TRUE`**, redirect to this URL instead of hte page they came from.
+	 * @param ?string $destinationUrl If `$redirectToDestination` is **`TRUE`**, redirect to this URL instead of the page they came from.
 	 *
 	 * @return never
 	 */

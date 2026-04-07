@@ -323,7 +323,7 @@ class BlogPost{
 		}
 
 		// `Published` is always interpreted as being sent in the `America/Chicago` timezone.
-		// Therefore we have to do some gynmastics to store it as UTC in our object.
+		// Therefore we have to do some gymnastics to store it as UTC in our object.
 		$published = HttpInput::Str(POST, 'blog-post-published');
 		if($published !== null){
 			/** @throws void */

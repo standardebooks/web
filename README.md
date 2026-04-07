@@ -144,7 +144,7 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Creating a search bar for the SE Manual of Style.
 
-- Finding a self-hosted replacement for GitHub, like possibly [Gitea](https://gitea.io/) or [GitLab](https://about.gitlab.com/), and figuring out how to reproducably install and update it on the SE server.
+- Finding a self-hosted replacement for GitHub, like possibly [Gitea](https://gitea.io/) or [GitLab](https://about.gitlab.com/), and figuring out how to reproducibly install and update it on the SE server.
 
 ## PHP code style
 
