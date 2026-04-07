@@ -2,7 +2,7 @@
 <main>
 	<article>
 		<h1>Managing or Canceling Your Recurring Donation</h1>
-		<p>Our payment processor is Fractured Atlas. Unfortunately they don’t provide us a for us way to change or cancel your recurring donation on your behalf, but you can change or cancel it yourself by following these steps:</p>
+		<p>Our payment processor is Fractured Atlas. Unfortunately they don’t provide a way for us to change or cancel your recurring donation on your behalf, but you can change or cancel it yourself by following these steps:</p>
 		<section id="log-in-to-your-fractured-atlas-account">
 			<h2>1. Log in to your Fractured Atlas account</h2>
 			<p>If this is your first time logging into Fractured Atlas, you’ll need to set up a new password associated with your email address. To set up a new password, visit <a href="https://fundraising.fracturedatlas.org">fundraising.fracturedatlas.org</a>, then:</p>
@@ -38,7 +38,7 @@
 			<p>To cancel your monthly donation, visit your monthly donation dashboard and then:</p>
 			<ol>
 				<li>
-					<p>Find the monthly donation you’d liek to cancel, then click the “Manage” button next to it.</p>
+					<p>Find the monthly donation you’d like to cancel, then click the “Manage” button next to it.</p>
 				</li>
 				<li>
 					<p>On the next page, click the “Looking to cancel your donation?” link near the bottom of the page.</p>
