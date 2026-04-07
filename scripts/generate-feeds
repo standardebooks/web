@@ -254,6 +254,10 @@ foreach($ebooksByAuthor as $collection => $ebooks){
 	SaveFeed($collectionAtomFeed, $force, $authors[$collection]['name'], $authors[$collection]['sortedname'], NOW);
 }
 
+// Generate the ONIX feed.
+$onixFeed = new OnixFeed();
+$onixFeed->SaveIfChanged();
+
 // Set ownership and permissions.
 // We don't use PHP's built in chown/chmod chmod can't accept strings.
 // The `chmod +X` command, with a capital X, makes only matched directories executable.

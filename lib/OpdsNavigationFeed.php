@@ -2,10 +2,10 @@
 use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
 
-/**
- * @property array<OpdsNavigationEntry> $Entries
- */
 class OpdsNavigationFeed extends OpdsFeed{
+	/** @var array<OpdsNavigationEntry> */
+	public $Entries = [];
+
 	/**
 	 * @param array<OpdsNavigationEntry> $entries
 	 */

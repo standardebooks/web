@@ -1,9 +1,8 @@
 <?
-/**
- * @property array<Ebook> $Entries
- */
 class OpdsAcquisitionFeed extends OpdsFeed{
 	public bool $IsCrawlable;
+	/** @var array<Ebook> */
+	public $Entries = [];
 
 	/**
 	 * @param array<Ebook> $entries

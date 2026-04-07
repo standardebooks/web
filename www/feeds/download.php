@@ -91,6 +91,14 @@ try{
 		];
 		$mime = $http->negotiateMimeType($contentType, 'application/atom+xml');
 	}
+	elseif(preg_match('/^\/feeds\/onix/', $path)){
+		$contentType = [
+			'application/onix+xml',
+			'application/xml',
+			'text/xml'
+		];
+		$mime = $http->negotiateMimeType($contentType, 'application/onix+xml');
+	}
 
 	header('Content-Type: ' . $mime);
 

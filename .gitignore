@@ -7,6 +7,7 @@ www/feeds/rss/*.xml
 www/feeds/rss/*/*.xml
 www/feeds/atom/*.xml
 www/feeds/atom/*/*.xml
+www/feeds/onix/*.xml
 vendor/
 .vagrant/
 *.log

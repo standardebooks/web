@@ -2,9 +2,6 @@
 use Safe\DateTimeImmutable;
 use function Safe\file_put_contents;
 
-/**
- * @property array<Ebook|OpdsNavigationEntry> $Entries
- */
 abstract class OpdsFeed extends AtomFeed{
 	public ?OpdsNavigationFeed $Parent = null;
 

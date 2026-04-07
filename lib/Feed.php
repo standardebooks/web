@@ -11,7 +11,7 @@ use function Safe\unlink;
 abstract class Feed{
 	public string $Url;
 	public string $Title;
-	/** @var array<Ebook|OpdsNavigationEntry> $Entries */
+	/** @var array<Ebook|OpdsNavigationEntry> */
 	public $Entries = [];
 	public string $Path;
 	public ?string $Stylesheet = null;
@@ -86,14 +86,23 @@ abstract class Feed{
 
 				foreach($files as $file){
 					$obj = new stdClass();
+					$obj->Label = null;
+					$obj->LabelSort = null;
 					$obj->Url = '/feeds/' . $type->value . '/' . $collectionType->value . '/' . basename($file, '.xml');
+					$output = [];
 
-					$obj->Label = exec('attr -g se-label ' . escapeshellarg($file)) ?: null;
+					exec('attr -g se-label ' . escapeshellarg($file) . ' 2>&1', $output, $returnCode);
+					if($returnCode == 0 && sizeof($output ?? []) > 0){
+						$obj->Label = $output[0];
+					}
 					if($obj->Label == null){
 						$obj->Label = basename($file, '.xml');
 					}
 
-					$obj->LabelSort = exec('attr -g se-label-sort ' . escapeshellarg($file)) ?: null;
+					exec('attr -g se-label-sort ' . escapeshellarg($file) . ' 2>&1', $output, $returnCode);
+					if($returnCode == 0 && sizeof($output ?? []) > 0){
+						$obj->LabelSort = $output[0];
+					}
 					if($obj->LabelSort == null){
 						$obj->LabelSort = basename($file, '.xml');
 					}
