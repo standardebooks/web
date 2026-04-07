@@ -263,6 +263,13 @@ catch(Exception $ex){
 }
 finally{
 	// `$driver` may be unintialized if we `ctrl + c` during Selenium initialization.
-	/** @phpstan-ignore nullsafe.neverNull */
-	$driver?->quit();
+	try{
+		/** @phpstan-ignore nullsafe.neverNull */
+		$driver?->quit();
+	}
+	/** @phpstan-ignore-next-line */
+	catch(\Exception){
+		// This can throw strange errors on occasion.
+		// Pass.
+	}
 }
