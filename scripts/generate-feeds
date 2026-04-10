@@ -256,7 +256,13 @@ foreach($ebooksByAuthor as $collection => $ebooks){
 
 // Generate the ONIX feed.
 $onixFeed = new OnixFeed();
-$onixFeed->SaveIfChanged();
+if($force){
+	$onixFeed->Updated = NOW;
+	$onixFeed->Save();
+}
+else{
+	$onixFeed->SaveIfChanged();
+}
 
 // Set ownership and permissions.
 // We don't use PHP's built in chown/chmod chmod can't accept strings.
