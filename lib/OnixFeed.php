@@ -1,6 +1,8 @@
 <?
 use Safe\DateTimeImmutable;
+use function Safe\file_get_contents;
 use function Safe\filemtime;
+use function Safe\preg_match_all;
 use function Safe\preg_replace;
 use function Safe\shell_exec;
 
@@ -31,6 +33,18 @@ class OnixFeed extends Feed{
 		}
 
 		if($latestUpdatedEbook > $modTime){
+			return true;
+		}
+
+		// Did we delete or add an ebook?
+		try{
+			$xml = file_get_contents($path);
+			$ebookCount = preg_match_all('/<Product/us', $xml);
+			if(sizeof($this->Entries) != $ebookCount){
+				return true;
+			}
+		}
+		catch(\Exception){
 			return true;
 		}
 
