@@ -99,6 +99,8 @@ abstract class Feed{
 						$obj->Label = basename($file, '.xml');
 					}
 
+					// `exec()` *appends* to the array, so we must reset it before continuing.
+					$output = [];
 					exec('attr -g se-label-sort ' . escapeshellarg($file) . ' 2>&1', $output, $returnCode);
 					if($returnCode == 0 && sizeof($output ?? []) > 0){
 						$obj->LabelSort = $output[0];
