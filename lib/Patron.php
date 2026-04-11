@@ -210,4 +210,49 @@ class Patron{
 
 		return $result[0] ?? throw new Exceptions\PatronNotFoundException();
 	}
+
+	/**
+	 * @return array<array{date: DateTimeImmutable, monthlyCount: int, yearlyCount: int}>
+	 */
+	public static function GetActivePatronCountsByDay(DateTimeImmutable $from, DateTimeImmutable $to): array{
+		$from = $from->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
+		$to = $to->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
+
+		if($from > $to){
+			[$from, $to] = [$to, $from];
+		}
+
+		// Use `SET statement max_recursive_iterations` to allow for very wide date ranges. Otherwise, MariaDB's default of 1,000 might cause the result set to end prematurely.
+		$result = Db::Query('
+			SET statement max_recursive_iterations = 100000 for
+			with recursive Days as (
+				select cast(? as date) as Day
+				union all
+				select cast(date_add(Day, interval 1 day) as date)
+				from Days
+				where Day < ?
+			)
+			select
+				Days.Day,
+				sum(case when Patrons.CycleType = ? then 1 else 0 end) as MonthlyCount,
+				sum(case when Patrons.CycleType = ? then 1 else 0 end) as YearlyCount
+			from Days
+			left join Patrons on
+				Patrons.Created < date_add(Days.Day, interval 1 day)
+				and (Patrons.Ended is null or Patrons.Ended >= Days.Day)
+			group by Days.Day
+			order by Days.Day
+		', [$from, $to, Enums\CycleType::Monthly, Enums\CycleType::Yearly]);
+
+		$output = [];
+		foreach($result as $row){
+			$output[] = [
+				'date' => $row->Day,
+				'monthlyCount' => intval($row->MonthlyCount ?? 0),
+				'yearlyCount' => intval($row->YearlyCount ?? 0),
+			];
+		}
+
+		return $output;
+	}
 }

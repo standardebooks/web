@@ -2665,4 +2665,48 @@ final class Ebook{
 			', [$difficulty, PD_YEAR], Ebook::class);
 
 	}
+
+	/**
+	 * @return array<string, int> An array with keys like `Y-m` and values of the total number of ebooks released on that month.
+	 */
+	public static function GetReleaseCountByMonth(DateTimeImmutable $from, DateTimeImmutable $to): array{
+		$from = $from->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
+		$to = $to->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
+
+		if($from > $to){
+			[$from, $to] = [$to, $from];
+		}
+
+		$ebookReleasedQueryFrom = $from->modify('first day of this month')->setTime(0, 0);
+		$ebookReleasedQueryTo = $to->add(new DateInterval('P1D'))->setTime(0, 0);
+		$ebookReleasedQueryToMonth = $to->modify('first day of this month')->setTime(0, 0);
+
+		$result = Db::Query('
+			WITH recursive Months as (
+				select cast(? as date) as Month
+				union all
+				select cast(date_add(Month, interval 1 month) as date)
+				from Months
+				where Month < ?
+			)
+			select
+				date_format(Months.Month, "%Y-%m") as Month,
+				count(Ebooks.EbookId) as EbookCount
+			from Months
+			left join Ebooks on
+				Ebooks.EbookCreated >= Months.Month
+				and Ebooks.EbookCreated < date_add(Months.Month, interval 1 month)
+				and Ebooks.EbookCreated >= ?
+				and Ebooks.EbookCreated < ?
+			group by Months.Month
+			order by Months.Month
+		', [$ebookReleasedQueryFrom, $ebookReleasedQueryToMonth, $from, $ebookReleasedQueryTo]);
+
+		$output = [];
+		foreach($result as $row){
+			$output[$row->Month] = $row->EbookCount;
+		}
+
+		return $output;
+	}
 }

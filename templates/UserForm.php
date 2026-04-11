@@ -202,6 +202,13 @@ $isEditForm ??= false;
 					Can edit newsletter mailings
 				</label>
 			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-view-admin-dashboard" value="false" />
+					<input type="checkbox" name="benefits-can-view-admin-dashboard" value="true"<? if($user->Benefits->CanViewAdminDashboard){ ?> checked="checked"<? } ?> />
+					Can view admin dashboard
+				</label>
+			</li>
 		</ul>
 	</fieldset>
 </fieldset>

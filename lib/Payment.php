@@ -118,4 +118,59 @@ class Payment{
 			throw new Exceptions\PaymentExistsException();
 		}
 	}
+
+	/**
+	 * Get net payment totals grouped by month, split into the datasets used by the payments received graph.
+	 *
+	 * @return array{0: array<string, float>, 1: array<string, float>, 2: array<string, float>} Key `0` contains recurring net payments, key `1` contains one-time net payments from users who are or were Patrons, and key `2` contains other one-time net payments. Inner keys are month labels in `Y-m` format, and inner values are the total net payment amount for that month.
+	 */
+	public static function GetNetByMonth(DateTimeImmutable $from, DateTimeImmutable $to): array{
+		if($from > $to){
+			[$from, $to] = [$to, $from];
+		}
+
+		$queryFrom = $from->modify('first day of this month')->setTime(0, 0);
+		$queryTo = $to->add(new DateInterval('P1D'))->setTime(0, 0);
+		$queryToMonth = $to->modify('first day of this month')->setTime(0, 0);
+		$recurringValues = [];
+		$patronValues = [];
+		$otherValues = [];
+
+		// Use `SET statement max_recursive_iterations` to allow for very wide date ranges. Otherwise, MariaDB's default of 1,000 might cause the result set to end prematurely.
+		$result = Db::Query('
+			SET statement max_recursive_iterations = 100000 for
+			with recursive Months as (
+				select cast(? as date) as Month
+				union all
+				select cast(date_add(Month, interval 1 month) as date)
+				from Months
+				where Month < ?
+			)
+			select
+				date_format(Months.Month, "%Y-%m") as Month,
+				sum(case when Payments.IsRecurring = true then Payments.Amount - Payments.Fee else 0 end) as RecurringAmount,
+				sum(case when Payments.IsRecurring = false and PatronUsers.UserId is not null then Payments.Amount - Payments.Fee else 0 end) as PatronAmount,
+				sum(case when Payments.IsRecurring = false and PatronUsers.UserId is null then Payments.Amount - Payments.Fee else 0 end) as OtherAmount
+			from Months
+			left join Payments on
+				Payments.Created >= Months.Month
+				and Payments.Created < date_add(Months.Month, interval 1 month)
+				and Payments.Created >= ?
+				and Payments.Created < ?
+			left join (
+				select distinct UserId
+				from Patrons
+			) PatronUsers on Payments.UserId = PatronUsers.UserId
+			group by Months.Month
+			order by Months.Month
+		', [$queryFrom, $queryToMonth, $from, $queryTo]);
+
+		foreach($result as $row){
+			$recurringValues[$row->Month] = floatval($row->RecurringAmount ?? 0);
+			$patronValues[$row->Month] = floatval($row->PatronAmount ?? 0);
+			$otherValues[$row->Month] = floatval($row->OtherAmount ?? 0);
+		}
+
+		return [$recurringValues, $patronValues, $otherValues];
+	}
 }

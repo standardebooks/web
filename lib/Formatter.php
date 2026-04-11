@@ -26,6 +26,12 @@ class Formatter{
 		return $word;
 	}
 
+	public static function FormatMoney(float|int $value): string{
+		$value = number_format($value, 2, '.', ',');
+		$value = preg_replace('/\.00$/', '', $value);
+		return '$' . $value;
+	}
+
 	/**
 	 * Remove diacritics from a string, leaving the now-unaccented characters in place.
 	 */

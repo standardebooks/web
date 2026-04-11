@@ -688,6 +688,7 @@ form button{
 	font-size: 1rem;
 	hyphens: none;
 	line-height: 1.2;
+	min-height: calc(2rem + 1.4rem - 2px); /* Match height of form fields, minus border size */
 }
 
 form button{
@@ -881,6 +882,7 @@ input[type="number"]:focus,
 input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="file"]:focus,
+input[type="date"]:focus,
 input[type="datetime-local"]:focus,
 label:has(input[type="radio"]):focus-within,
 label:has(input[type="checkbox"]):focus-within,
@@ -1934,6 +1936,7 @@ input[type="email"],
 input[type="password"],
 input[type="search"],
 input[type="file"],
+input[type="date"],
 input[type="datetime-local"]{
 	-webkit-appearance: none;
 	appearance: none;

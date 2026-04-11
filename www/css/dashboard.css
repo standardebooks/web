@@ -1,0 +1,65 @@
+.dashboard{
+	gap: 2rem;
+}
+
+.dashboard form{
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+	gap: 1rem;
+	align-items: end;
+}
+
+.dashboard form button{
+	justify-self: end;
+}
+
+svg [fill="css-axis-label-color"],
+svg [fill="css-axis-color"],
+svg [fill="css-legend-color"],
+svg [fill="css-data-label-color-outside"],
+svg [fill="css-legend-color"]{
+	fill: var(--body-text);
+}
+
+svg [fill="css-data-label-color"]{
+	fill: #fff;
+	text-shadow: 1px 1px #222;
+}
+
+svg [stroke="css-grid-color"]{
+	stroke: var(--sub-text);
+}
+
+svg [stroke="css-stroke-color"]{
+	stroke: transparent;
+}
+
+svg [fill="css-color-1"]{
+	fill: #072955;
+}
+
+svg [fill="css-color-2"]{
+	fill: #59a99b;
+}
+
+svg [fill="css-color-3"]{
+	fill: #f0c572;
+}
+
+svg [fill="css-color-4"]{
+	fill: #e02b33;
+}
+
+svg [fill="css-color-5"]{
+	background: #a459aa;
+}
+
+svg [fill="css-color-6"]{
+	fill: #cecece;
+}
+
+@media(max-width: 800px){
+	.dashboard form{
+		grid-template-columns: 1fr;
+	}
+}

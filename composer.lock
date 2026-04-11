@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f4053571ad99daf7799e4d2b404690a2",
+    "content-hash": "2383b8d89063c5b21c20e89835a6e0e6",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -272,6 +272,46 @@
                 }
             ],
             "time": "2026-02-16T11:41:01+00:00"
+        },
+        {
+            "name": "goat1000/svggraph",
+            "version": "3.20.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/goat1000/SVGGraph.git",
+                "reference": "8c5e750542143dbd11790b3b565ff87b37f76ee2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/goat1000/SVGGraph/zipball/8c5e750542143dbd11790b3b565ff87b37f76ee2",
+                "reference": "8c5e750542143dbd11790b3b565ff87b37f76ee2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "lib-pcre": "*",
+                "php": ">=5.4.0"
+            },
+            "suggest": {
+                "ext-iconv": "For non-ASCII text measurement support"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Goat1000\\SVGGraph\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "description": "Generates SVG graphs",
+            "homepage": "http://www.goat1000.com/svggraph.php",
+            "support": {
+                "issues": "https://github.com/goat1000/SVGGraph/issues",
+                "source": "https://github.com/goat1000/SVGGraph/tree/3.20.3"
+            },
+            "time": "2026-01-06T13:42:48+00:00"
         },
         {
             "name": "gregwar/captcha",
