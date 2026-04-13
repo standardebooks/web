@@ -215,8 +215,9 @@ class Patron{
 	 * @return array<array{date: DateTimeImmutable, monthlyCount: int, yearlyCount: int}>
 	 */
 	public static function GetActivePatronCountsByDay(DateTimeImmutable $from, DateTimeImmutable $to): array{
-		$from = $from->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
-		$to = $to->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
+		$initialTimezone = $to->getTimezone();
+		$from = $from->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0, 0, 0);
+		$to = $to->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0, 0, 0);
 
 		if($from > $to){
 			[$from, $to] = [$to, $from];
@@ -247,7 +248,7 @@ class Patron{
 		$output = [];
 		foreach($result as $row){
 			$output[] = [
-				'date' => $row->Day,
+				'date' => $row->Day->setTimezone($initialTimezone),
 				'monthlyCount' => intval($row->MonthlyCount ?? 0),
 				'yearlyCount' => intval($row->YearlyCount ?? 0),
 			];

@@ -20,8 +20,12 @@ try{
 	$from = new DateTimeImmutable($from->format(Enums\DateTimeFormat::Sql->value), SITE_TZ);
 	$to = new DateTimeImmutable($to->format(Enums\DateTimeFormat::Sql->value), SITE_TZ);
 
-	if($from > $to){
-		[$from, $to] = [$to, $from];
+	// if($from > $to){
+	// 	[$from, $to] = [$to, $from];
+	// }
+
+	if($to > NOW->setTime(0, 0, 0, 0)){
+		$to = NOW->setTime(0, 0, 0, 0)->setTimezone(SITE_TZ);
 	}
 
 	// Calculate Patron count graph.
