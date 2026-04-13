@@ -215,10 +215,6 @@ class Patron{
 	 * @return array<array{date: DateTimeImmutable, monthlyCount: int, yearlyCount: int}>
 	 */
 	public static function GetActivePatronCountsByDay(DateTimeImmutable $from, DateTimeImmutable $to): array{
-		$initialTimezone = $to->getTimezone();
-		$from = $from->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0, 0, 0);
-		$to = $to->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0, 0, 0);
-
 		if($from > $to){
 			[$from, $to] = [$to, $from];
 		}
@@ -227,11 +223,11 @@ class Patron{
 		$result = Db::Query('
 			SET statement max_recursive_iterations = 100000 for
 			with recursive Days as (
-				select cast(? as date) as Day
+				select date(?) as Day
 				union all
 				select cast(date_add(Day, interval 1 day) as date)
 				from Days
-				where Day < ?
+				where Day < date(?)
 			)
 			select
 				Days.Day,
@@ -248,9 +244,9 @@ class Patron{
 		$output = [];
 		foreach($result as $row){
 			$output[] = [
-				'date' => $row->Day->setTimezone($initialTimezone),
-				'monthlyCount' => intval($row->MonthlyCount ?? 0),
-				'yearlyCount' => intval($row->YearlyCount ?? 0),
+				'date' => $row->Day,
+				'monthlyCount' => $row->MonthlyCount,
+				'yearlyCount' => $row->YearlyCount,
 			];
 		}
 

@@ -166,9 +166,9 @@ class Payment{
 		', [$queryFrom, $queryToMonth, $from, $queryTo]);
 
 		foreach($result as $row){
-			$recurringValues[$row->Month] = floatval($row->RecurringAmount ?? 0);
-			$patronValues[$row->Month] = floatval($row->PatronAmount ?? 0);
-			$otherValues[$row->Month] = floatval($row->OtherAmount ?? 0);
+			$recurringValues[$row->Month] = $row->RecurringAmount;
+			$patronValues[$row->Month] = $row->PatronAmount;
+			$otherValues[$row->Month] = $row->OtherAmount;
 		}
 
 		return [$recurringValues, $patronValues, $otherValues];

@@ -6,26 +6,23 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanViewAdminDashboard){
+	if(!Session::$User->Benefits->CanViewReports){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
 	$filterFrom = HttpInput::Date(GET, 'from');
 	$filterTo = HttpInput::Date(GET, 'to');
 	$hasDateFilters = $filterFrom !== null || $filterTo !== null;
-	$from = $filterFrom ?? NOW->sub(new DateInterval('P30D'));
-	$to = $filterTo ?? NOW;
+	$localNow = NOW->setTime(0, 0, 0, 0);
+	$from = $filterFrom ?? $localNow->sub(new DateInterval('P30D'));
+	$to = $filterTo ?? $localNow;
 
-	// Set the time zone to the website time zone, instead of UTC.
-	$from = new DateTimeImmutable($from->format(Enums\DateTimeFormat::Sql->value), SITE_TZ);
-	$to = new DateTimeImmutable($to->format(Enums\DateTimeFormat::Sql->value), SITE_TZ);
+	if($from > $to){
+		[$from, $to] = [$to, $from];
+	}
 
-	// if($from > $to){
-	// 	[$from, $to] = [$to, $from];
-	// }
-
-	if($to > NOW->setTime(0, 0, 0, 0)){
-		$to = NOW->setTime(0, 0, 0, 0)->setTimezone(SITE_TZ);
+	if($to > $localNow){
+		$to = $localNow;
 	}
 
 	// Calculate Patron count graph.
@@ -75,23 +72,23 @@ catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(
-	title: 'Admin Dashboard',
+	title: 'Reports',
 	description: 'View various Standard Ebooks statistics.',
-	css: ['/css/dashboard.css']
+	css: ['/css/reports.css']
 ) ?>
 <main>
-	<section class="narrow dashboard">
-		<h1>Admin Dashboard</h1>
+	<section class="narrow reports">
+		<h1>Reports</h1>
 
-		<form method="<?= Enums\HttpMethod::Get->value ?>" action="/dashboard">
+		<form method="<?= Enums\HttpMethod::Get->value ?>" action="/reports">
 			<label class="icon year">
 				<span>From</span>
-				<span>Time zone is <?= SITE_TZ->getName() ?>.</span>
+				<span>Time zone is UTC.</span>
 				<input type="date" name="from" value="<?= $from->format('Y-m-d') ?>" />
 			</label>
 			<label class="icon year">
 				<span>To</span>
-				<span>Time zone is <?= SITE_TZ->getName() ?>.</span>
+				<span>Time zone is UTC.</span>
 				<input type="date" name="to" value="<?= $to->format('Y-m-d') ?>" />
 			</label>
 			<button>Filter</button>

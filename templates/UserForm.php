@@ -204,9 +204,9 @@ $isEditForm ??= false;
 			</li>
 			<li>
 				<label>
-					<input type="hidden" name="benefits-can-view-admin-dashboard" value="false" />
-					<input type="checkbox" name="benefits-can-view-admin-dashboard" value="true"<? if($user->Benefits->CanViewAdminDashboard){ ?> checked="checked"<? } ?> />
-					Can view admin dashboard
+					<input type="hidden" name="benefits-can-view-reports" value="false" />
+					<input type="checkbox" name="benefits-can-view-reports" value="true"<? if($user->Benefits->CanViewReports){ ?> checked="checked"<? } ?> />
+					Can view reports
 				</label>
 			</li>
 		</ul>

@@ -222,8 +222,8 @@ catch(Exceptions\InvalidPermissionsException){
 						<td><? if($user->Benefits->CanEditNewsletterMailings){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 					<tr>
-						<td>Can view admin dashboard:</td>
-						<td><? if($user->Benefits->CanViewAdminDashboard){ ?>☑<? }else{ ?>☐<? } ?></td>
+						<td>Can view reports:</td>
+						<td><? if($user->Benefits->CanViewReports){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 				<? } ?>
 			</tbody>

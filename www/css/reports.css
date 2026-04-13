@@ -1,15 +1,15 @@
-.dashboard{
+.reports{
 	gap: 2rem;
 }
 
-.dashboard form{
+.reports form{
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
 	gap: 1rem;
 	align-items: end;
 }
 
-.dashboard form button{
+.reports form button{
 	justify-self: end;
 }
 
@@ -59,7 +59,7 @@ svg [fill="css-color-6"]{
 }
 
 @media(max-width: 800px){
-	.dashboard form{
+	.reports form{
 		grid-template-columns: 1fr;
 	}
 }

@@ -27,7 +27,7 @@ class Benefits{
 	public bool $CanEditBlogPosts = false;
 	public bool $CanCreateNewsletterMailings = false;
 	public bool $CanEditNewsletterMailings = false;
-	public bool $CanViewAdminDashboard = false;
+	public bool $CanViewReports = false;
 
 	protected bool $_HasBenefits;
 
@@ -63,7 +63,7 @@ class Benefits{
 			||
 			$this->CanEditNewsletterMailings
 			||
-			$this->CanViewAdminDashboard
+			$this->CanViewReports
 		){
 			return true;
 		}
@@ -107,18 +107,18 @@ class Benefits{
 
 	public function Create(): void{
 		Db::Query('
-				INSERT into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, CanReviewOwnArtwork, CanEditUsers, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanCreateUsers, CanEditBlogPosts, CanCreateNewsletterMailings, CanEditNewsletterMailings, CanViewAdminDashboard)
+				INSERT into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, CanReviewOwnArtwork, CanEditUsers, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanCreateUsers, CanEditBlogPosts, CanCreateNewsletterMailings, CanEditNewsletterMailings, CanViewReports)
 				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-		', [$this->UserId, $this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->CanReviewOwnArtwork, $this->CanEditUsers, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanCreateUsers, $this->CanEditBlogPosts, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewAdminDashboard]);
+		', [$this->UserId, $this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->CanReviewOwnArtwork, $this->CanEditUsers, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanCreateUsers, $this->CanEditBlogPosts, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewReports]);
 	}
 
 	public function Save(): void{
 		Db::Query('
 				UPDATE Benefits
-				set CanAccessFeeds = ?, CanVote = ?, CanBulkDownload = ?, CanUploadArtwork = ?, CanReviewArtwork = ?, CanReviewOwnArtwork = ?, CanEditUsers = ?, CanEditEbookPlaceholders = ?, CanCreateUsers = ?, CanEditBlogPosts = ?, CanCreateNewsletterMailings = ?, CanEditNewsletterMailings = ?, CanViewAdminDashboard = ?
+				set CanAccessFeeds = ?, CanVote = ?, CanBulkDownload = ?, CanUploadArtwork = ?, CanReviewArtwork = ?, CanReviewOwnArtwork = ?, CanEditUsers = ?, CanEditEbookPlaceholders = ?, CanCreateUsers = ?, CanEditBlogPosts = ?, CanCreateNewsletterMailings = ?, CanEditNewsletterMailings = ?, CanViewReports = ?
 				where
 				UserId = ?
-		', [$this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->CanReviewOwnArtwork, $this->CanEditUsers, $this->CanEditEbookPlaceholders, $this->CanCreateUsers, $this->CanEditBlogPosts, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewAdminDashboard, $this->UserId]);
+		', [$this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->CanReviewOwnArtwork, $this->CanEditUsers, $this->CanEditEbookPlaceholders, $this->CanCreateUsers, $this->CanEditBlogPosts, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewReports, $this->UserId]);
 	}
 
 	public function FillFromHttpPost(): void{
@@ -137,6 +137,6 @@ class Benefits{
 		$this->PropertyFromHttp('CanEditBlogPosts');
 		$this->PropertyFromHttp('CanCreateNewsletterMailings');
 		$this->PropertyFromHttp('CanEditNewsletterMailings');
-		$this->PropertyFromHttp('CanViewAdminDashboard');
+		$this->PropertyFromHttp('CanViewReports');
 	}
 }

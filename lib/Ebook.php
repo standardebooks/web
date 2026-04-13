@@ -2670,9 +2670,6 @@ final class Ebook{
 	 * @return array<string, int> An array with keys like `Y-m` and values of the total number of ebooks released on that month.
 	 */
 	public static function GetReleaseCountByMonth(DateTimeImmutable $from, DateTimeImmutable $to): array{
-		$from = $from->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
-		$to = $to->setTimezone(new DateTimeZone('UTC'))->setTime(0, 0);
-
 		if($from > $to){
 			[$from, $to] = [$to, $from];
 		}
