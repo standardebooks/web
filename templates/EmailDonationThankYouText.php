@@ -1,7 +1,13 @@
+<?
+$donationCounter ??= null;
+?>
 Hello,
 
 I wanted to thank you personally for your donation to Standard Ebooks. Your donation will go towards continuing our mission of producing and distributing high-quality ebooks that are free of cost and free of copyright restrictions. Donations like yours help ensure that the world's literature is available in beautiful editions made for the digital age.
 
+<? if(isset($donationCounter)){ ?>Since you made this donation during the <?= Formatter::EscapeMarkdown($donationCounter->Name) ?>, we earned another entry into the giveaway!
+
+<? } ?>
 Please don't hesitate to contact me if you have questions or suggestions. Thanks again for your donation, and for supporting the literate arts!
 
 

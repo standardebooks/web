@@ -71,6 +71,7 @@ if(sizeof($pendingPayments) == 0){
 
 try{
 	$driver = FirefoxDriver::start($capabilities);
+	$donationCounter = DonationCounter::GetByIsActive();
 
 	foreach($pendingPayments as $pendingPayment){
 		$pendingPayment->Processor = Enums\PaymentProcessorType::from($pendingPayment->Processor);
@@ -278,14 +279,15 @@ try{
 								// Send a thank-you email.
 
 								$log->Write('Sending thank you email to patron donor donating extra.');
+
 								$em = new QueuedEmailMessage();
 								$em->To = $payment->User->Email;
 								$em->ToName = $payment->User->Name;
 								$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 								$em->FromName = EDITOR_IN_CHIEF_NAME;
 								$em->Subject = 'Thank you for supporting Standard Ebooks!';
-								$em->BodyHtml = Template::EmailDonationThankYou();
-								$em->BodyText = Template::EmailDonationThankYouText();
+								$em->BodyHtml = Template::EmailDonationThankYou(donationCounter: $donationCounter);
+								$em->BodyText = Template::EmailDonationThankYouText(donationCounter: $donationCounter);
 								$em->Send();
 							}
 						}
@@ -319,14 +321,15 @@ try{
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
 					if((!$payment->IsRecurring || $previousPaymentCount == 1) && $payment->User->Email !== null){
 						$log->Write('Sending thank you email to non-patron donor.');
+
 						$em = new QueuedEmailMessage();
 						$em->To = $payment->User->Email;
 						$em->ToName = $payment->User->Name;
 						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 						$em->FromName = EDITOR_IN_CHIEF_NAME;
 						$em->Subject = 'Thank you for supporting Standard Ebooks!';
-						$em->BodyHtml = Template::EmailDonationThankYou();
-						$em->BodyText = Template::EmailDonationThankYouText();
+						$em->BodyHtml = Template::EmailDonationThankYou(donationCounter: $donationCounter);
+						$em->BodyText = Template::EmailDonationThankYouText(donationCounter: $donationCounter);
 						$em->Send();
 					}
 				}
