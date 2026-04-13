@@ -1,14 +1,23 @@
 <?
+use Goat1000\SVGGraph\BarGraph as SvgBarGraph;
 use Goat1000\SVGGraph\SVGGraph;
+use Goat1000\SVGGraph\Text as SvgText;
+
+use function Safe\preg_match;
+use function Safe\preg_split;
 
 abstract class Graph{
+	protected int $_Height = 480;
+
+	protected int $_Width = 960;
+
 	/** @var array<array<string, float|int>> */
 	public array $Values = [];
 
 	/** @var array<string> */
 	public array $LegendEntries = [];
 
-	/** @var array<string, bool|callable|float|int|string> */
+	/** @var array<string, bool|callable|float|int|string|array<string>> */
 	public array $Settings = [
 		'auto_fit' => true,
 		'back_colour' => 'transparent',
@@ -61,54 +70,191 @@ abstract class Graph{
 
 	protected string $_GraphType = '';
 
+	private DOMDocument $Dom;
+
+	/**
+	 * Render the graph as an SVG.
+	 */
 	public function Render(): string{
-		$settings = $this->Settings;
 		if(sizeof($this->LegendEntries) > 0){
-			$settings['legend_entries'] = $this->LegendEntries;
+			$this->Settings['legend_entries'] = $this->LegendEntries;
 		}
 
-		$graph = new SVGGraph(960, 480, $settings);
+		$graph = new SVGGraph($this->_Width, $this->GetRealHeight(), $this->Settings);
 		$graph->colours($this->_Colors);
 		$graph->values($this->Values);
 
-		return $this->FixLegendStyles($graph->fetch($this->_GraphType, false));
-	}
+		$svg = $graph->fetch($this->_GraphType, false);
+		$this->Dom = new DOMDocument();
+		$this->Dom->loadXML($svg);
 
-	/**
-	 * SVGGraph sets the colors of the legend using `@style` attributes, instead of `@fill` attributes. This function replaces those styles with `@fill`.
-	 */
-	protected function FixLegendStyles(string $svg): string{
-		$dom = new DOMDocument();
-		$dom->loadXML($svg);
-		$svgElement = $dom->documentElement;
+		$this->FixLegendStyles();
+		$this->MoveLegendBelowText();
+		$this->FitViewBoxToText();
+
+		$svgElement = $this->Dom->documentElement;
 
 		if($svgElement === null){
 			return $svg;
 		}
 
-		$xpath = new DOMXPath($dom);
+		// We have to pass `$svgElement` to prevent it from outputting the XML header, which is not desirable in an inline SVG.
+		return $this->Dom->saveXML($svgElement) ?: $svg;
+	}
+
+	/**
+	 * Calculate the actual height of the graph, accounting for rotated horizontal axis labels.
+	 *
+	 * SVGGraph auto-fits axis labels by adding padding within the graph’s fixed height. Very long rotated horizontal axis labels can exceed the available height, causing the plot area to be pushed outside of the viewbox. When labels are rotated, add extra height based on the tallest measured label while preserving the default height for ordinary labels.
+	 */
+	private function GetRealHeight(): int{
+		$angleSetting = $this->Settings['axis_text_angle_h'] ?? 0;
+		$angle = is_numeric($angleSetting) ? (float)$angleSetting : 0;
+
+		if(abs($angle) % 180 == 0){
+			return $this->_Height;
+		}
+
+		$labelHeight = $this->GetTallestHorizontalAxisLabelHeight($angle);
+		$labelHeightBudget = floor($this->_Height / 2);
+		$extraHeight = (int)max(0, ceil($labelHeight) - $labelHeightBudget);
+
+		return $this->_Height + $extraHeight;
+	}
+
+	/**
+	 * Measure the tallest horizontal axis label using SVGGraph's text metrics.
+	 */
+	private function GetTallestHorizontalAxisLabelHeight(float $angle): float{
+		$graph = new SvgBarGraph($this->_Width, $this->_Height, $this->Settings);
+		$fontSetting = $this->Settings['axis_font'] ?? null;
+		$fontSizeSetting = $this->Settings['axis_font_size'] ?? 16;
+		$text = new SvgText($graph, is_string($fontSetting) ? $fontSetting : null);
+		$fontSize = is_numeric($fontSizeSetting) ? (float)$fontSizeSetting : 16;
+		$labelCallback = $this->Settings['axis_text_callback_h'] ?? null;
+		$maxHeight = 0;
+
+		foreach($this->Values as $dataset){
+			$index = 0;
+
+			foreach($dataset as $key => $value){
+				$label = (string)$key;
+
+				if(is_callable($labelCallback)){
+					$label = (string)$labelCallback($index, $key);
+				}
+
+				[, $height] = $text->measure($label, $fontSize, $angle);
+				$maxHeight = max($maxHeight, $height);
+				$index++;
+			}
+		}
+
+		return $maxHeight;
+	}
+
+	/**
+	 * Move the legend below any graph text, so it doesn't overlap rotated axis labels. SVGGraph overlaps it with labels by default.
+	 */
+	protected function MoveLegendBelowText(): void{
+		$svgElement = $this->Dom->documentElement;
+		$legend = $this->GetLegendElement();
+
+		if($svgElement === null || !$svgElement->hasAttribute('viewBox') || $legend === null){
+			return;
+		}
+
+		[$graph, $defaultFont, $defaultFontSize] = $this->GetSvgTextMeasuringContext($svgElement);
+		$xpath = new DOMXPath($this->Dom);
 		$xpath->registerNamespace('svg', 'http://www.w3.org/2000/svg');
-		$legendNodes = $xpath->query('//svg:g[@fill="css-legend-color"]');
+		$labelTextElements = $xpath->query('//svg:text[not(ancestor::svg:g[@fill="css-legend-color"])]');
+		$legendTextElements = $xpath->query('.//svg:text', $legend);
+		$labelMaxY = null;
+		$legendMinY = null;
 
-		if($legendNodes === false || sizeof($legendNodes) == 0){
-			return $svg;
+		if($labelTextElements === false || $legendTextElements === false){
+			return;
 		}
 
-		$legend = $legendNodes->item(0);
-
-		if(!$legend instanceof DOMElement){
-			return $svg;
-		}
-
-		foreach($legend->getElementsByTagName('*') as $element){
-			if(!$element->hasAttribute('style')){
+		foreach($labelTextElements as $textElement){
+			if(!$textElement instanceof DOMElement){
 				continue;
 			}
 
-			$style = $element->getAttribute('style');
+			[, $textY, , $textHeight] = $this->GetTextElementBounds($textElement, $graph, $defaultFont, $defaultFontSize);
+			$labelMaxY = max($labelMaxY ?? $textY + $textHeight, $textY + $textHeight);
+		}
 
-			$declarations = explode(';', $style);
-			$style = [];
+		foreach($legendTextElements as $textElement){
+			if(!$textElement instanceof DOMElement){
+				continue;
+			}
+
+			[, $textY] = $this->GetTextElementBounds($textElement, $graph, $defaultFont, $defaultFontSize);
+			$legendMinY = min($legendMinY ?? $textY, $textY);
+		}
+
+		if($labelMaxY === null || $legendMinY === null){
+			return;
+		}
+
+		$legendTopMargin = 16;
+		$overlap = $labelMaxY + $legendTopMargin - $legendMinY;
+
+		if($overlap <= 0){
+			return;
+		}
+
+		[$legendX, $legendY] = $this->GetElementTranslate($legend);
+		$legend->setAttribute('transform', 'translate(' . $legendX . ' ' . ($legendY + $overlap) . ')');
+	}
+
+	/**
+	 * Expand the SVG viewbox to fit all rendered `<text>` elements, because SVGGraph can output graphs where labels are outside of the SVG viewbox.
+	 */
+	private function FitViewBoxToText(): void{
+		$svgElement = $this->Dom->documentElement;
+
+		if($svgElement === null){
+			return;
+		}
+
+		$viewBox = preg_split('/\\s+/u', trim($svgElement->getAttribute('viewBox')));
+
+		if(sizeof($viewBox) != 4){
+			return;
+		}
+
+		[$minX, $minY, $width, $height] = array_map('floatval', $viewBox);
+		$maxX = $minX + $width;
+		$maxY = $minY + $height;
+		[$graph, $defaultFont, $defaultFontSize] = $this->GetSvgTextMeasuringContext($svgElement);
+
+		foreach($svgElement->getElementsByTagName('text') as $textElement){
+			[$textX, $textY, $textWidth, $textHeight] = $this->GetTextElementBounds($textElement, $graph, $defaultFont, $defaultFontSize);
+
+			$minX = min($minX, floor($textX) - 1);
+			$minY = min($minY, floor($textY) - 1);
+			$maxX = max($maxX, ceil($textX + $textWidth) + 1);
+			$maxY = max($maxY, ceil($textY + $textHeight) + 1);
+		}
+
+		$svgElement->setAttribute('viewBox', implode(' ', [$minX, $minY, $maxX - $minX, $maxY - $minY]));
+	}
+
+	/**
+	 * SVGGraph sets the colors of the legend using `@style` attributes, instead of `@fill` attributes. This function replaces those styles with `@fill`.
+	 */
+	private function FixLegendStyles(): void{
+		$legend = $this->GetLegendElement();
+
+		if($legend === null){
+			return;
+		}
+
+		foreach($legend->getElementsByTagName('*') as $element){
+			$declarations = explode(';', $element->getAttribute('style'));
+			$styles = [];
 			$fill = null;
 
 			foreach($declarations as $declaration){
@@ -126,7 +272,7 @@ abstract class Graph{
 					continue;
 				}
 
-				$style[] = $property . ':' . $value;
+				$styles[] = $property . ': ' . $value;
 			}
 
 			if($fill === null){
@@ -134,16 +280,143 @@ abstract class Graph{
 			}
 
 			$element->setAttribute('fill', $fill);
-			$style = implode(';', $style);
+			$styles = implode('; ', $styles);
 
-			if($style == ''){
+			if($styles == ''){
 				$element->removeAttribute('style');
 			}
 			else{
-				$element->setAttribute('style', $style);
+				$element->setAttribute('style', $styles);
 			}
 		}
+	}
 
-		return $dom->saveXML($svgElement) ?: $svg;
+	/**
+	 * Get the SVGGraph text measuring context.
+	 *
+	 * @return array{0: SvgBarGraph, 1: ?string, 2: float}
+	 */
+	private function GetSvgTextMeasuringContext(DOMElement $svgElement): array{
+		$viewBox = preg_split('/\\s+/u', trim($svgElement->getAttribute('viewBox')));
+		$height = isset($viewBox[3]) ? (int)$viewBox[3] : $this->_Height;
+		$graph = new SvgBarGraph($this->_Width, $height, $this->Settings);
+		$fontSizeSetting = $this->Settings['axis_font_size'] ?? 16;
+		$defaultFontSize = is_numeric($fontSizeSetting) ? (float)$fontSizeSetting : 16;
+		$fontSetting = $this->Settings['axis_font'] ?? null;
+		$defaultFont = is_string($fontSetting) ? $fontSetting : null;
+
+		return [$graph, $defaultFont, $defaultFontSize];
+	}
+
+	/**
+	 * Get the bounds of a rendered SVG `<text>` element.
+	 *
+	 * @return array{0: float, 1: float, 2: float, 3: float}
+	 */
+	private function GetTextElementBounds(DOMElement $textElement, SvgBarGraph $graph, ?string $defaultFont, float $defaultFontSize): array{
+		if(!$textElement->hasAttribute('x') || !$textElement->hasAttribute('y')){
+			return [0, 0, 0, 0];
+		}
+
+		$text = new SvgText($graph, $textElement->getAttribute('font-family') ?: $defaultFont);
+		$fontSize = $this->GetAttributeFloatValue($textElement, 'font-size', $defaultFontSize);
+		$x = $this->GetAttributeFloatValue($textElement, 'x', 0);
+		$y = $this->GetAttributeFloatValue($textElement, 'y', 0);
+		$anchor = $textElement->getAttribute('text-anchor') ?: 'start';
+		[$angle, $rotationX, $rotationY] = $this->GetElementRotate($textElement);
+		[$textX, $textY, $textWidth, $textHeight] = $text->measurePosition($textElement->textContent, $fontSize, 0, $x, $y, $anchor, $angle, $rotationX, $rotationY);
+		[$offsetX, $offsetY] = $this->GetElementTotalTranslate($textElement);
+
+		return [$textX + $offsetX, $textY + $offsetY, $textWidth, $textHeight];
+	}
+
+	/**
+	 * Get the numeric value of the given attribute on the given element.
+	 */
+	private function GetAttributeFloatValue(DOMElement $element, string $attribute, float $default): float{
+		if(!$element->hasAttribute($attribute)){
+			return $default;
+		}
+
+		preg_match('/-?\\d+(?:\\.\\d+)?/u', $element->getAttribute($attribute), $matches);
+
+		return (float)($matches[0] ?? $default);
+	}
+
+	/**
+	 * Get the element representing the graph legend.
+	 */
+	protected function GetLegendElement(): ?DOMElement{
+		$xpath = new DOMXPath($this->Dom);
+		$xpath->registerNamespace('svg', 'http://www.w3.org/2000/svg');
+		$legendNodes = $xpath->query('//svg:g[@fill="css-legend-color"]');
+
+		if($legendNodes === false || sizeof($legendNodes) == 0){
+			return null;
+		}
+
+		$legend = $legendNodes->item(0);
+
+		return $legend instanceof DOMElement ? $legend : null;
+	}
+
+	/**
+	 * Get the cumulative parent translate transform for a `<text>` element.
+	 *
+	 * @return array{0: float, 1: float}
+	 */
+	private function GetElementTotalTranslate(DOMElement $element): array{
+		$offsetX = 0;
+		$offsetY = 0;
+		$parent = $element->parentNode;
+
+		while($parent instanceof DOMElement){
+			[$translateX, $translateY] = $this->GetElementTranslate($parent);
+			$offsetX += $translateX;
+			$offsetY += $translateY;
+			$parent = $parent->parentNode;
+		}
+
+		return [
+			$offsetX,
+			$offsetY
+		];
+	}
+
+	/**
+	 * Get text rotation data from an SVG `@transform` attribute.
+	 *
+	 * @return array{0: float, 1: float, 2: float}
+	 */
+	private function GetElementRotate(DOMElement $element): array{
+		preg_match('/rotate\\((-?\\d+(?:\\.\\d+)?)(?:\\s+(-?\\d+(?:\\.\\d+)?)\\s+(-?\\d+(?:\\.\\d+)?))?\\)/u', $element->getAttribute('transform'), $matches);
+
+		if(!isset($matches[1])){
+			return [0, 0, 0];
+		}
+
+		return [
+			(float)$matches[1],
+			(float)($matches[2] ?? 0),
+			(float)($matches[3] ?? 0)
+		];
+	}
+
+	/**
+	 * Get the translate values from an SVG element's `@transform` attribute.
+	 *
+	 * @return array{0: float, 1: float}
+	 */
+	private function GetElementTranslate(DOMElement $element): array{
+		preg_match('/translate\\((-?\\d+(?:\\.\\d+)?)(?:[\\s,]+(-?\\d+(?:\\.\\d+)?))?\\)/u', $element->getAttribute('transform'), $matches);
+
+		if(!isset($matches[1])){
+			return [0, 0];
+		}
+
+		return [
+			(float)$matches[1],
+			(float)($matches[2] ?? 0)
+		];
 	}
 }

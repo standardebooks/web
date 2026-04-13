@@ -1,6 +1,5 @@
 <?
 use Safe\DateTimeImmutable;
-use function Safe\preg_replace;
 
 try{
 	if(Session::$User === null){
