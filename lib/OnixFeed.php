@@ -4,7 +4,6 @@ use function Safe\file_get_contents;
 use function Safe\filemtime;
 use function Safe\preg_match_all;
 use function Safe\preg_replace;
-use function Safe\shell_exec;
 
 /**
  * At this time, an ONIX feed is a single feed of all ebooks, sorted by most-recently-updated first.
@@ -66,9 +65,35 @@ class OnixFeed extends Feed{
 		return false;
 	}
 
+	/**
+	 * Load an XML document from disk.
+	 *
+	 * @throws Exceptions\InvalidFileException If the XML file is missing or invalid XML.
+	 */
+	protected function LoadXmlDocument(string $path): DOMDocument{
+		$dom = new DOMDocument();
+
+		if(!$dom->load($path)){
+			throw new Exceptions\InvalidFileException('Couldn\'t load XML document: ' . $path);
+		}
+
+		return $dom;
+	}
+
+	/**
+	 * Return the complete ONIX feed XML.
+	 *
+	 * @throws Exceptions\InvalidFileException If any of the files in the processing chain is invalid.
+	 */
 	protected function GetXmlString(): string{
 		if(!isset($this->_XmlString)){
 			$now = NOW->format(Enums\DateTimeFormat::Ical->value);
+			$stylesheet = $this->LoadXmlDocument('/standardebooks.org/tools/se/data/opf2onix.xsl');
+			$xsltProcessor = new XSLTProcessor();
+
+			if(!$xsltProcessor->importStylesheet($stylesheet)){
+				throw new Exceptions\InvalidFileException('Couldn\'t import ONIX XSLT stylesheet.');
+			}
 
 			$feed = <<<TEXT
 			<?xml version="1.0" encoding="utf-8"?>
@@ -84,7 +109,12 @@ class OnixFeed extends Feed{
 			foreach($this->Entries as $ebook){
 				$metadataPath = $ebook->WwwFilesystemPath . '/content.opf';
 				if(is_file($metadataPath)){
-					$output = shell_exec('xsltproc /standardebooks.org/tools/se/data/opf2onix.xsl ' . escapeshellarg($metadataPath)) ?? '';
+					$metadata = $this->LoadXmlDocument($metadataPath);
+					$output = $xsltProcessor->transformToXml($metadata);
+
+					if($output === false || $output === null){
+						throw new Exceptions\InvalidFileException('Couldn\'t transform OPF metadata to ONIX: ' . $metadataPath);
+					}
 
 					$output = preg_replace('/<\?xml version="1\.0" encoding="utf-8"\?>\s*<\/?ONIXMessage[^>]*?>\s*<Header[^>]*?>.+?<\/Header>/ius', '', $output);
 					$output = preg_replace('/<\/ONIXMessage>/ius', '', $output);
