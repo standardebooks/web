@@ -236,7 +236,7 @@ class Patron{
 			from Days
 			left join Patrons on
 				Patrons.Created < date_add(Days.Day, interval 1 day)
-				and (Patrons.Ended is null or Patrons.Ended >= Days.Day)
+				and (Patrons.Ended is null or Patrons.Ended > Days.Day)
 			group by Days.Day
 			order by Days.Day
 		', [$from, $to, Enums\CycleType::Monthly, Enums\CycleType::Yearly]);
