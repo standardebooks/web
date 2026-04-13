@@ -31,5 +31,6 @@ if($httpMethod == Enums\HttpMethod::Patch){
 
 	/** @var string $redirect */
 	$redirect = $_SERVER['HTTP_REFERER'] ?? '/';
+	$redirect = Template::SanitizeRedirectUrl($redirect);
 	header('Location: ' . $redirect);
 }

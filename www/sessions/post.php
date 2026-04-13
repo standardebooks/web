@@ -12,11 +12,7 @@ try{
 	$session = new Session();
 	$email = HttpInput::Str(POST, 'email');
 	$password = HttpInput::Str(POST, 'password');
-	$redirect = HttpInput::Str(POST, 'redirect');
-
-	if($redirect === null){
-		$redirect = '/';
-	}
+	$redirect = Template::SanitizeRedirectUrl(HttpInput::Str(POST, 'redirect'));
 
 	$session->Create($email, $password);
 

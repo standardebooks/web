@@ -1,6 +1,8 @@
 <?
 use Safe\DateTimeImmutable;
 
+use function Safe\preg_match;
+
 /**
  * @method static string ArtworkForm(Artwork $artwork, $isEditForm = false)
  * @method static string ArtworkList(array<Artwork> $artworks)
@@ -64,6 +66,19 @@ use Safe\DateTimeImmutable;
  */
 class Template extends TemplateBase{
 	/**
+	 * Return a safe redirect destination, allowing only site-relative paths.
+	 */
+	public static function SanitizeRedirectUrl(?string $url): string{
+		$url = trim($url ?? '');
+
+		if($url == '' || !preg_match('|^/(?!/)|u', $url) || preg_match('/[\r\n]/u', $url)){
+			return '/';
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Redirect the user to the login page.
 	 *
 	 * @param bool $redirectToDestination After login, redirect the user to the page they came from.
@@ -77,6 +92,8 @@ class Template extends TemplateBase{
 				/** @var string $destinationUrl */
 				$destinationUrl = $_SERVER['SCRIPT_URL'];
 			}
+
+			$destinationUrl = self::SanitizeRedirectUrl($destinationUrl);
 
 			header('Location: /sessions/new?redirect=' . urlencode($destinationUrl));
 		}
