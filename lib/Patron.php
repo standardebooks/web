@@ -212,6 +212,8 @@ class Patron{
 	}
 
 	/**
+	 * Return the number of `Patrons` that were active at the end of each day in the given date range.
+	 *
 	 * @return array<array{date: DateTimeImmutable, monthlyCount: int, yearlyCount: int}>
 	 */
 	public static function GetActivePatronCountsByDay(DateTimeImmutable $from, DateTimeImmutable $to): array{
@@ -235,8 +237,8 @@ class Patron{
 				sum(case when Patrons.CycleType = ? then 1 else 0 end) as YearlyCount
 			from Days
 			left join Patrons on
-				Patrons.Created < date_add(Days.Day, interval 1 day)
-				and (Patrons.Ended is null or Patrons.Ended > Days.Day)
+				date(Patrons.Created) <= Days.Day
+				and (Patrons.Ended is null or date(Patrons.Ended) > Days.Day)
 			group by Days.Day
 			order by Days.Day
 		', [$from, $to, Enums\CycleType::Monthly, Enums\CycleType::Yearly]);
