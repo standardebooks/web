@@ -8,12 +8,22 @@ try{
 
 	$requestType = HttpInput::GetRequestType();
 
+	if(Session::$User === null){
+		throw new Exceptions\LoginRequiredException();
+	}
+
+	if(!Session::$User->Benefits->CanVote){
+		throw new Exceptions\InvalidPermissionsException();
+	}
+
 	$pollVote = new PollVote();
 	$pollVote->Poll = $poll;
+	$pollVote->UserId = Session::$User->UserId;
+	$pollVote->User = Session::$User;
 
 	$pollVote->FillFromHttpPost();
 
-	$pollVote->Create(HttpInput::Str(POST, 'email'));
+	$pollVote->Create();
 
 	if($requestType == Enums\HttpRequestType::Web){
 		$_SESSION['is-vote-created'] = $pollVote->UserId;
@@ -28,6 +38,12 @@ try{
 }
 catch(Exceptions\PollNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
+}
+catch(Exceptions\LoginRequiredException){
+	Template::RedirectToLogin();
+}
+catch(Exceptions\InvalidPermissionsException){
+	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\InvalidPollVoteException $ex){
 	if($requestType == Enums\HttpRequestType::Web){

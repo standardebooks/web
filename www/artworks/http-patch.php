@@ -3,58 +3,52 @@ use function Safe\session_start;
 
 try{
 	session_start();
-	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
+	$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
+	$artwork = $originalArtwork;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	$exceptionRedirectUrl = $artwork->Url;
+	// We may have been called from either the `Artwork`'s page, or from the `Artwork`'s edit form, so check the referrer to see which one it was.
+	/** @var string $exceptionRedirectUrl */
+	$exceptionRedirectUrl = $_SERVER['HTTP_REFERER'] ?? $artwork->EditUrl;
 
-	// We can PATCH the status, the ebook www filesystem path, or both.
-	if(isset($_POST['artwork-status'])){
-		$newStatus = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
-		if($artwork->Status != $newStatus){
-			if(!$artwork->CanStatusBeChangedBy(Session::$User)){
-				throw new Exceptions\InvalidPermissionsException();
-			}
+	$artworkStatus = HttpInput::Str(POST, 'artwork-status');
+	$artworkEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 
-			if($newStatus !== null){
-				$artwork->ReviewerUserId = Session::$User->UserId;
-				$artwork->Status = $newStatus;
-			}
-			else{
-				unset($artwork->Status);
-			}
-		}
+	if(
+		(
+			$artworkStatus !== null
+			&&
+			!$artwork->CanStatusBeChangedBy(Session::$User)
+		)
+		||
+		(
+			$artworkEbookUrl !== null
+			&&
+			!$artwork->CanEbookUrlBeChangedBy(Session::$User)
+		)
+		||
+		!$artwork->CanBeEditedBy(Session::$User)
+	){
+		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	if(isset($_POST['artwork-ebook-url'])){
-		$newEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
-		if(isset($newEbookUrl)){
-			try{
-				$newEbook = Ebook::GetByIdentifier($newEbookUrl);
-			}
-			catch(Exceptions\EbookNotFoundException){
-				throw new Exceptions\InvalidUrlException($newEbookUrl);
-			}
+	try{
+		$artwork->FillFromHttpPost();
 
-			if($artwork->EbookId != $newEbook->EbookId && !$artwork->CanEbookUrlBeChangedBy(Session::$User)){
-				throw new Exceptions\InvalidPermissionsException();
-			}
-
-			$artwork->EbookId = $newEbook->EbookId;
-		}
-		else{
-			if(isset($artwork->EbookId) && !$artwork->CanEbookUrlBeChangedBy(Session::$User)){
-				throw new Exceptions\InvalidPermissionsException();
-			}
-
-			$artwork->EbookId = null;
+		if($artworkStatus !== null && $artwork->Status != $originalArtwork->Status){
+			$artwork->ReviewerUserId = Session::$User->UserId;
 		}
 	}
+	catch(Exceptions\AppException $ex){
+		// Restore the original artwork so the user can correct the error and try again.
+		$artwork = $originalArtwork;
+		throw $ex;
+	}
 
-	$artwork->Save();
+	$artwork->Save(HttpInput::File('artwork-image'));
 
 	$_SESSION['artwork'] = $artwork;
 	$_SESSION['is-artwork-saved'] = true;
@@ -71,7 +65,12 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidImageUploadException | Exceptions\InvalidUrlException $ex){
+catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidImageUploadException | Exceptions\InvalidFileUploadException | Exceptions\InvalidUrlException | Exceptions\InvalidRequestException $ex){
+	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
+	if($ex instanceof Exceptions\InvalidFileUploadException){
+		$ex = new Exceptions\InvalidImageUploadException();
+	}
+
 	// If the `Artwork` reports that no image is uploaded, check to see if the image upload was too large. If so, show the user a clearer error message.
 	if($ex instanceof Exceptions\InvalidArtworkException && $ex->Has(Exceptions\InvalidImageUploadException::class) && HttpInput::IsRequestTooLarge()){
 		$ex->Remove(Exceptions\InvalidImageUploadException::class);

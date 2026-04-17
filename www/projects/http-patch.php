@@ -11,18 +11,33 @@ try{
 	}
 
 	$exceptionRedirectUrl = $project->EditUrl;
+	$projectStatus = Enums\ProjectStatusType::tryFrom(HttpInput::Str(POST, 'project-status') ?? '');
 
+	// Any logged-in `User` who can edit a a `Project` can save any part of the `Project`; additionally, it's also allowed to update `Project::$Status` if the logged-in `User` is the `Project`'s manager or reviewer.
 	if(
-		!Session::$User->Benefits->CanEditProjects
-		&&
-		$project->ManagerUserId != Session::$User->UserId
-		&&
-		$project->ReviewerUserId != Session::$User->UserId
+		!(
+			(
+				$projectStatus !== null
+				&&
+				(
+					$project->ManagerUserId == Session::$User->UserId
+					||
+					$project->ReviewerUserId == Session::$User->UserId
+				)
+			)
+			||
+			Session::$User->Benefits->CanEditProjects
+		)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	$project->PropertyFromHttp('Status');
+	if(!Session::$User->Benefits->CanEditProjects && $projectStatus !== null){
+		$project->Status = $projectStatus;
+	}
+	else{
+		$project->FillFromHttpPost();
+	}
 
 	$project->Save();
 

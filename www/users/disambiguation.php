@@ -18,7 +18,7 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanEditUsers){
+	if(!Session::$User->Benefits->CanCreateUsers && !Session::$User->Benefits->CanEditUsers){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 }

@@ -24,7 +24,7 @@ use function Safe\unlink;
  * @property string $ThumbFsPath
  * @property string $Thumb2xFsPath
  * @property string $Dimensions
- * @property Ebook $Ebook
+ * @property ?Ebook $Ebook
  * @property ?Museum $Museum
  * @property ?User $Submitter
  * @property ?User $Reviewer
@@ -482,22 +482,36 @@ final class Artwork{
 				Ebook::Get($this->EbookId);
 
 				// Ebook found, continue.
+
+				// Is this `Ebook` URL already attached to a different `Artwork`?
+				if(isset($this->ArtworkId)){
+					$exists = Db::QueryBool('SELECT exists (select * from Artworks where EbookId = ? and ArtworkId != ?)', [$this->EbookId, $this->ArtworkId]);
+				}
+				else{
+					$exists = Db::QueryBool('SELECT exists (select * from Artworks where EbookId = ?)', [$this->EbookId]);
+				}
+
+				if($exists){
+					$error->Add(new Exceptions\ArtworkAssignedException());
+				}
 			}
 			catch(Exceptions\EbookNotFoundException){
 				// Ebook not found, error!
-				$error->Add(new Exceptions\EbookNotFoundException('Couldn’t find an ebook with EbookId: ' . $this->EbookId));
+				$error->Add(new Exceptions\EbookNotFoundException('Couldn’t find ebook #' . $this->EbookId));
 			}
 		}
 
-		// Check for existing `Artwork` objects with the same URL but different `ArtworkID`s.
-		try{
-			$existingArtwork = Artwork::GetByUrl($this->Artist->UrlName, $this->UrlName);
-			if(!isset($this->ArtworkId) || $existingArtwork->ArtworkId != $this->ArtworkId){
-				$error->Add(new Exceptions\ArtworkAlreadyExistsException());
+		// Check for existing `Artwork` objects with the same URL but different `ArtworkId`s.
+		if(isset($this->ArtworkId)){
+			try{
+				$artwork = Artwork::GetByUrl($this->Artist->UrlName, $this->UrlName);
+				if($artwork->ArtworkId != $this->ArtworkId){
+					$error->Add(new Exceptions\ArtworkExistsException());
+				}
 			}
-		}
-		catch(Exceptions\ArtworkNotFoundException){
-			// No duplicates found, continue.
+			catch(Exceptions\ArtworkNotFoundException){
+				// Pass.
+			}
 		}
 
 		if($isImageRequired || $imagePath !== null){
@@ -528,6 +542,7 @@ final class Artwork{
 				}
 			}
 		}
+
 
 		if($error->HasExceptions){
 			throw $error;
@@ -1185,8 +1200,12 @@ final class Artwork{
 		$this->PropertyFromHttp('MuseumUrl');
 		$this->PropertyFromHttp('Exception');
 		$this->PropertyFromHttp('Notes');
+		$this->PropertyFromHttp('ArtworkStatus');
 
-		$this->Tags = HttpInput::Str(POST, 'artwork-tags') ?? ''; // Converted from a string to an array via a setter.
+		$tags = HttpInput::Str(POST, 'artwork-tags', true);
+		if($tags !== null){
+			$this->Tags = $tags; // Converted from a string to an array via a setter.
+		}
 
 		$ebookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 		if(isset($ebookUrl)){
@@ -1197,7 +1216,10 @@ final class Artwork{
 			catch(Exceptions\EbookNotFoundException){
 				throw new Exceptions\InvalidUrlException($ebookUrl);
 			}
-
+		}
+		else{
+			$this->Ebook = null;
+			$this->EbookId = null;
 		}
 	}
 }

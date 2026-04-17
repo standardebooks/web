@@ -2809,7 +2809,7 @@ fieldset.benefits + fieldset.benefits{
 }
 
 fieldset.benefits legend{
-	font-family: "Crimson Pro", Georgia, serif;
+	font-family: "Leaue Spartan", Arial, sans-serif;
 	font-size: 1rem;
 	text-transform: none;
 	font-weight: bold;
@@ -3689,7 +3689,7 @@ ul[role="menu"]{
 	padding: 1rem;
 	list-style: none;
 	box-sizing: border-box;
-	gap: 1rem;
+	gap: .5rem;
 	margin: 2rem auto 1rem auto;
 	font-style: italic;
 	width: 100%;
@@ -3708,7 +3708,7 @@ ul[role="menu"] li{
 
 ul[role="menu"] li + li::before{
 	content: "•";
-	margin-right: 1rem;
+	margin-right: .5rem;
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */

@@ -21,7 +21,7 @@ trait PropertyFromHttp{
 	 *
 	 * - If a variable matches a class property both by name and type, then the class property is set to the variable.
 	 *
-	 * - If the class property type is both nullable and not `string` (e.g., the class property is `?int`), then a matching but empty variable will set that class property to `null`; this includes `?string` class properties. (I.e., a matching variable of value `""` will set a `?string` class property to `null`.)
+	 * - If the class property type is nullable, then a matching but empty variable will set that class property to `null`; this includes `?string` class properties. (I.e., a matching variable of value `""` will set a `?string` class property to `null`.)
 	 *
 	 * For example, consider:
 	 *

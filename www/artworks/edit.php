@@ -55,7 +55,7 @@ catch(Exceptions\InvalidPermissionsException){
 		</picture>
 
 		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $artwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
-			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
+			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 			<?= Template::ArtworkForm(artwork: $editedArtwork, isEditForm: true) ?>
 		</form>
 	</section>

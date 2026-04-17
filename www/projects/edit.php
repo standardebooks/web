@@ -52,7 +52,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<?= Template::Error(exception: $exception) ?>
 
 		<form class="project-form" autocomplete="off" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $project->Url ?>">
-			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
+			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 			<?= Template::ProjectForm(project: $project, isEditForm: true) ?>
 			<div class="footer">
 				<button>Save</button>

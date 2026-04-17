@@ -6,6 +6,10 @@ session_start();
 try{
 	$blogPost = BlogPost::GetByUrlTitle(HttpInput::Str(GET, 'blog-post-url-title'));
 
+	if($blogPost->Published > NOW){
+		throw new Exceptions\BlogPostNotFoundException();
+	}
+
 	$isCreated = HttpInput::Bool(SESSION, 'is-blog-post-created') ?? false;
 	$isSaved = HttpInput::Bool(SESSION, 'is-blog-post-saved') ?? false;
 

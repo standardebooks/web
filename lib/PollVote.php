@@ -100,20 +100,7 @@ class PollVote{
 	/**
 	 * @throws Exceptions\InvalidPollVoteException
 	 */
-	public function Create(?string $email = null): void{
-		if($email !== null){
-			try{
-				$this->User = User::GetByEmail($email);
-				$this->UserId = $this->User->UserId;
-			}
-			catch(Exceptions\UserNotFoundException){
-				// Can't validate patron email - do nothing for now, this will be caught later when we validate the vote during creation.
-				// Save the email in the User object in case we want it later, for example prefilling the 'create' form after an error is returned.
-				$this->User = new User();
-				$this->User->Email = $email;
-			}
-		}
-
+	public function Create(): void{
 		$this->Validate();
 		Db::Query('
 			INSERT into PollVotes (UserId, PollItemId)

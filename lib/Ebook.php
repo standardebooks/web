@@ -2096,7 +2096,6 @@ final class Ebook{
 			throw new Exceptions\EbookExistsException($this->Identifier);
 		}
 
-
 		try{
 			$this->RemoveTags();
 			$this->AddTags();

@@ -141,9 +141,30 @@ $isEditForm ??= false;
 			</li>
 			<li>
 				<label>
+					<input type="hidden" name="benefits-can-create-users" value="false" />
+					<input type="checkbox" name="benefits-can-create-users" value="true"<? if($user->Benefits->CanCreateUsers){ ?> checked="checked"<? } ?> />
+					Can create users
+				</label>
+			</li>
+			<li>
+				<label>
 					<input type="hidden" name="benefits-can-edit-users" value="false" />
 					<input type="checkbox" name="benefits-can-edit-users" value="true"<? if($user->Benefits->CanEditUsers){ ?> checked="checked"<? } ?> />
 					Can edit users
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-edit-collections" value="false" />
+					<input type="checkbox" name="benefits-can-edit-collections" value="true"<? if($user->Benefits->CanEditCollections){ ?> checked="checked"<? } ?> />
+					Can edit collections
+				</label>
+			</li>
+			<li>
+				<label>
+					<input type="hidden" name="benefits-can-edit-ebooks" value="false" />
+					<input type="checkbox" name="benefits-can-edit-ebooks" value="true"<? if($user->Benefits->CanEditEbooks){ ?> checked="checked"<? } ?> />
+					Can edit ebooks
 				</label>
 			</li>
 			<li>
@@ -176,9 +197,9 @@ $isEditForm ??= false;
 			</li>
 			<li>
 				<label>
-					<input type="hidden" name="benefits-can-create-users" value="false" />
-					<input type="checkbox" name="benefits-can-create-users" value="true"<? if($user->Benefits->CanCreateUsers){ ?> checked="checked"<? } ?> />
-					Can create users
+					<input type="hidden" name="benefits-can-be-auto-assigned-to-projects" value="false" />
+					<input type="checkbox" name="benefits-can-be-auto-assigned-to-projects" value="true"<? if($user->Benefits->CanBeAutoAssignedToProjects){ ?> checked="checked"<? } ?> />
+					Can edit be auto-assigned to projects
 				</label>
 			</li>
 			<li>

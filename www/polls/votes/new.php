@@ -62,7 +62,6 @@ catch(Exceptions\PollVoteExistsException $ex){
 		<h1>Vote in the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>
 		<?= Template::Error(exception: $exception) ?>
 		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= Formatter::EscapeHtml($poll->Url) ?>/votes">
-			<input type="hidden" name="email" value="<?= Formatter::EscapeHtml($vote->User->Email) ?>" maxlength="80" required="required" />
 			<fieldset>
 				<p>Select one of these options.</p>
 				<ul>

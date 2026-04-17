@@ -5,7 +5,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$vote = PollVote::Get(HttpInput::Str(GET, 'poll-url-name'), HttpInput::Int(GET, 'userid'));
+	$vote = PollVote::Get(HttpInput::Str(GET, 'poll-url-name'), HttpInput::Int(GET, 'user-id'));
 
 	$isCreated = false;
 

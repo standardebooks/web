@@ -15,7 +15,7 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanEditUsers){
+	if(!Session::$User->Benefits->CanCreateUsers && !Session::$User->Benefits->CanEditUsers){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
@@ -194,6 +194,14 @@ catch(Exceptions\InvalidPermissionsException){
 						<td><? if($user->Benefits->CanEditUsers){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 					<tr>
+						<td>Can edit collections:</td>
+						<td><? if($user->Benefits->CanEditCollections){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
+						<td>Can edit ebooks:</td>
+						<td><? if($user->Benefits->CanEditEbooks){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
 						<td>Can edit ebook placeholders:</td>
 						<td><? if($user->Benefits->CanEditEbookPlaceholders){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
@@ -208,6 +216,10 @@ catch(Exceptions\InvalidPermissionsException){
 					<tr>
 						<td>Can review projects:</td>
 						<td><? if($user->Benefits->CanReviewProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
+						<td>Can be auto-assigned to projects:</td>
+						<td><? if($user->Benefits->CanBeAutoAssignedToProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 					<tr>
 						<td>Can edit blog posts:</td>
