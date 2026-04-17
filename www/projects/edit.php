@@ -2,12 +2,12 @@
 use function Safe\session_start;
 use function Safe\session_unset;
 
-session_start();
-
-$project = HttpInput::SessionObject('project', Project::class);
-$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-
 try{
+	session_start();
+
+	$project = HttpInput::SessionObject('project', Project::class);
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+
 	if($project === null){
 		$project = Project::Get(HttpInput::Int(GET, 'project-id'));
 	}

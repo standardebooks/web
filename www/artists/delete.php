@@ -2,9 +2,11 @@
 use function Safe\session_start;
 use function Safe\session_unset;
 
-$artist = null;
-
 try{
+	session_start();
+
+	$artist = Artist::GetByUrlName(HttpInput::Str(GET, 'artist-url-name'));
+
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
@@ -13,11 +15,7 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	session_start();
-
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-
-	$artist = Artist::GetByUrlName(HttpInput::Str(GET, 'artist-url-name'));
 
 	if($exception){
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);

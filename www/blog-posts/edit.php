@@ -3,7 +3,7 @@ use function Safe\session_start;
 use function Safe\session_unset;
 
 try{
-	$originalBlogPost = BlogPost::GetByUrlTitle(HttpInput::Str(GET, 'url-title'));
+	$originalBlogPost = BlogPost::GetByUrlTitle(HttpInput::Str(GET, 'blog-post-url-title'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();

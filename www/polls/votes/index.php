@@ -1,13 +1,10 @@
 <?
-$poll = new Poll();
-
 try{
-	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
+	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'poll-url-name'));
 }
 catch(Exceptions\AppException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-
 ?><?= Template::Header(title: 'Results for the ' . $poll->Name . ' Poll', description: 'The voting results for the ' . $poll->Name . ' poll.') ?>
 <main>
 	<section class="narrow">

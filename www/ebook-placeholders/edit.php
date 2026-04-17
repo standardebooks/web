@@ -2,15 +2,16 @@
 use function Safe\session_start;
 use function Safe\session_unset;
 
-session_start();
-
-/** @var string $identifier Passed from script this is included from. */
-$ebook = HttpInput::SessionObject('ebook', Ebook::class);
-$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-
 try{
+	session_start();
+
+	/** @var string $urlPath Passed from script this is included from. */
+
+	$ebook = HttpInput::SessionObject('ebook', Ebook::class);
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+
 	if($ebook === null){
-		$ebook = Ebook::GetByIdentifier($identifier);
+		$ebook = Ebook::GetByIdentifier($urlPath);
 	}
 
 	if(!$ebook->IsPlaceholder() || $ebook->EbookPlaceholder === null){
@@ -56,7 +57,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<?= Template::Error(exception: $exception) ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $ebook->Url ?>" autocomplete="off">
-			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
+			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 			<?= Template::EbookPlaceholderForm(ebook: $ebook, isEditForm: true) ?>
 			<div class="footer">
 				<button>Save</button>

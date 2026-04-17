@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class BulkDownloadCollectionNotFoundException extends AppException{
+class BulkDownloadCollectionNotFoundException extends NotFoundException{
 }

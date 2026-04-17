@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class NewsletterMailingNotFoundException extends AppException{
+class NewsletterMailingNotFoundException extends NotFoundException{
 }

@@ -6,9 +6,9 @@
 
 use function Safe\session_start;
 
-session_start();
-
 try{
+	session_start();
+
 	// Note: Only allow UUIDs, not *any* identifier, because we don't want to be able to confirm a `User`'s subscription by passing in the email address we already know!
 	$user = User::GetByUuid(HttpInput::Str(GET, 'user-identifier'));
 

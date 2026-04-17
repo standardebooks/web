@@ -1,10 +1,9 @@
 <?
-$identifier = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
-
-$ebook = null;
+/** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
+$urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
 
 try{
-	$ebook = Ebook::GetByIdentifier($identifier);
+	$ebook = Ebook::GetByIdentifier($urlPath);
 }
 catch(Exceptions\EbookNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

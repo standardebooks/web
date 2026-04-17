@@ -2,8 +2,9 @@
 use function Safe\session_start;
 use function Safe\session_unset;
 
-
 try{
+	session_start();
+
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
@@ -11,8 +12,6 @@ try{
 	if(!Session::$User->Benefits->CanEditEbookPlaceholders){
 		throw new Exceptions\InvalidPermissionsException();
 	}
-
-	session_start();
 
 	$isCreated = HttpInput::Bool(SESSION, 'is-ebook-placeholder-created') ?? false;
 	$isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;

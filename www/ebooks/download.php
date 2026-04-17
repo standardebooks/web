@@ -5,7 +5,7 @@ $ebook = null;
 $downloadUrl = null;
 $downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
 
-// The download source is set in feed links and meta refresh links. It is `null` on links from `www/ebooks/get.php`.
+// The download source is set in feed links and meta refresh links. It is `null` on links from `www/ebooks/http-get.php`.
 $source = Enums\EbookDownloadSource::tryFrom(HttpInput::Str(GET, 'source') ?? '');
 
 // Skip the thank you page if any of these are true:
@@ -20,6 +20,7 @@ if($skipThankYouPage && !isset($source)){
 }
 
 try{
+	/** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
 	$urlPath = HttpInput::Str(GET, 'url-path') ?? null;
 	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
 	$ebook = Ebook::GetByIdentifier($identifier);

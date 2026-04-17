@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class SessionNotFoundException extends AppException{
+class SessionNotFoundException extends NotFoundException{
 }

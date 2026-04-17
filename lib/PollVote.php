@@ -4,6 +4,7 @@ use Safe\DateTimeImmutable;
 /**
  * @property User $User
  * @property PollItem $PollItem
+ * @property Poll $Poll
  * @property-read string $Url
  */
 class PollVote{
@@ -15,6 +16,7 @@ class PollVote{
 	public int $PollItemId;
 
 	protected User $_User;
+	protected Poll $_Poll;
 	protected PollItem $_PollItem;
 	protected string $_Url;
 
@@ -62,6 +64,10 @@ class PollVote{
 				 */
 				if(!$this->PollItem->Poll->IsActive()){
 					$error->Add(new Exceptions\PollClosedException());
+				}
+
+				if(!$this->Poll->PollId == $this->PollItem->PollId){
+					$error->Add(new Exceptions\PollNotFoundException());
 				}
 			}
 			catch(Exceptions\PollItemNotFoundException | Exceptions\PollNotFoundException){

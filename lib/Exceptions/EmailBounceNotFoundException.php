@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class EmailBounceNotFoundException extends AppException{
+class EmailBounceNotFoundException extends NotFoundException{
 }

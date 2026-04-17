@@ -2,23 +2,26 @@
 use function Safe\session_start;
 use function Safe\session_unset;
 
-session_start();
-
-$poll = new Poll();
-$vote = HttpInput::SessionObject('vote', PollVote::class) ?? new PollVote();
-$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-
 try{
+	session_start();
+
+	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'poll-url-name'));
+
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
+
+	if(!Session::$User->Benefits->CanVote){
+		throw new Exceptions\InvalidPermissionsException();
+	}
+
+	$vote = HttpInput::SessionObject('vote', PollVote::class) ?? new PollVote();
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 
 	if(!isset($vote->UserId)){
 		$vote->UserId = Session::$User->UserId;
 		$vote->User = Session::$User;
 	}
-
-	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'pollurlname'));
 
 	try{
 		$vote = PollVote::Get($poll->UrlName, Session::$User->UserId);
@@ -35,11 +38,14 @@ try{
 		session_unset();
 	}
 }
+catch(Exceptions\PollNotFoundException){
+	Template::ExitWithCode(Enums\HttpCode::NotFound);
+}
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\PollNotFoundException){
-	Template::ExitWithCode(Enums\HttpCode::NotFound);
+catch(Exceptions\InvalidPermissionsException){
+	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\PollVoteExistsException $ex){
 	$redirect = $poll->Url;

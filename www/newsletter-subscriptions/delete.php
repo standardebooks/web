@@ -8,11 +8,12 @@
 use function Safe\session_start;
 
 try{
+	$newsletterSubscription = NewsletterSubscription::GetByUserUuid(HttpInput::Str(GET, 'user-identifier'), HttpInput::Int(GET, 'newsletter-id'));
+
 	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Get, Enums\HttpMethod::Post, Enums\HttpMethod::Delete]);
 
 	$requestType = HttpInput::GetRequestType();
 
-	$newsletterSubscription = NewsletterSubscription::GetByUserUuid(HttpInput::Str(GET, 'user-identifier'), HttpInput::Int(GET, 'newsletter-id'));
 	$newsletterName = $newsletterSubscription->Newsletter->Name;
 	$newsletterSubscription->Delete();
 

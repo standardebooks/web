@@ -3,21 +3,23 @@ use function Safe\session_start;
 use function Safe\session_unset;
 
 try{
+	session_start();
+
+	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
+
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	session_start();
-
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$artwork = HttpInput::SessionObject('artwork', Artwork::class);
-
-	if($artwork === null){
-		$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
-	}
-
 	if(!$artwork->CanBeEditedBy(Session::$User)){
 		throw new Exceptions\InvalidPermissionsException();
+	}
+
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+	$editedArtwork = HttpInput::SessionObject('artwork', Artwork::class);
+
+	if($editedArtwork === null){
+		$editedArtwork = $artwork;
 	}
 
 	// We got here because an artwork update had errors and the user has to try again.
@@ -54,7 +56,7 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $artwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Put->value ?>" />
-			<?= Template::ArtworkForm(artwork: $artwork, isEditForm: true) ?>
+			<?= Template::ArtworkForm(artwork: $editedArtwork, isEditForm: true) ?>
 		</form>
 	</section>
 </main>

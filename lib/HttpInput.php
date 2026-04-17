@@ -36,21 +36,16 @@ class HttpInput{
 	}
 
 	/**
-	 * Calculate the HTTP method of the request, then include `<METHOD>.php` and exit.
+	 * Calculate the HTTP method of the request, then include `http-<METHOD>.php` and exit.
 	 */
-	public static function DispatchRest(): void{
+	public static function RouteRequest(): void{
 		try{
 			$httpMethod = HttpInput::ValidateRequestMethod(null, true);
 
-			$filename = mb_strtolower($httpMethod->value) . '.php';
+			$filename = 'http-' . mb_strtolower($httpMethod->value) . '.php';
 
 			if(!file_exists($filename)){
 				throw new Exceptions\HttpMethodNotAllowedException();
-			}
-
-			if($httpMethod == Enums\HttpMethod::Post){
-				// If we're a HTTP `POST`, then we got here from a `POST` request initially, so just continue.
-				return;
 			}
 
 			/** @phpstan-ignore-next-line */
@@ -59,10 +54,10 @@ class HttpInput{
 			exit();
 		}
 		catch(Exceptions\HttpMethodNotAllowedException){
-			$filenames = glob('{delete,get,patch,post,put}.php', GLOB_BRACE);
+			$filenames = glob('http-*.php');
 
 			if(sizeof($filenames) > 0){
-				header('Allow: ' . implode(',', array_map(fn($filename): string => mb_strtoupper(preg_replace('/^([a-z]+)[\.\-].+$/i', '\1', $filename)), $filenames)));
+				header('Allow: ' . implode(',', array_map(fn($filename): string => mb_strtoupper(preg_replace('/^http-([a-z]+)\..+$/i', '\1', $filename)), $filenames)));
 			}
 
 			http_response_code(Enums\HttpCode::MethodNotAllowed->value);

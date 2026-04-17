@@ -1,7 +1,7 @@
 <?
 namespace Exceptions;
 
-class NewsletterSubscriptionNotFoundException extends AppException{
+class NewsletterSubscriptionNotFoundException extends NotFoundException{
 	/** @var string $message */
 	protected $message = 'We couldn’t find you in our newsletter subscribers list.';
 }

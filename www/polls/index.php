@@ -16,7 +16,6 @@ $openPolls = Db::Query('
 			         or Start <= utc_timestamp())
 			order by Start desc
 		', [], Poll::class);
-
 ?><?= Template::Header(title: 'Polls', description: 'The various polls active at Standard Ebooks.') ?>
 <main>
 	<section class="narrow has-hero">

@@ -3,21 +3,21 @@
  * GET /ebooks/<ebook-identifier>/projects/new
  * GET /projects/new
  */
-
 use function Safe\session_start;
 use function Safe\session_unset;
 
-session_start();
-
-$urlPath = HttpInput::Str(GET, 'ebook-url-path');
-$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-$project = HttpInput::SessionObject('project', Project::class);
-$ebook = null;
-
 try{
+	session_start();
+
+	$urlPath = HttpInput::Str(GET, 'ebook-url-path');
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+	$project = HttpInput::SessionObject('project', Project::class);
+	$ebook = null;
+
 	if($urlPath !== null){
 		// Check this first so we can output a 404 immediately if it's not found.
-		$identifier = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', $urlPath), '/'); // Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`.
+		/** @var non-falsy-string $identifier Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
+		$identifier = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', $urlPath), '/');
 
 		$ebook = Ebook::GetByIdentifier($identifier);
 	}

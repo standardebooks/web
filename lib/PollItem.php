@@ -10,6 +10,7 @@ class PollItem{
 	public int $PollId;
 	public string $Name;
 	public ?string $Description;
+	public int $SortOrder;
 
 	protected int $_VoteCount;
 	protected Poll $_Poll;

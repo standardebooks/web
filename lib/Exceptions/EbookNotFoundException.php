@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class EbookNotFoundException extends AppException{
+class EbookNotFoundException extends NotFoundException{
 }

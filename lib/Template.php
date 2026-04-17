@@ -2,6 +2,7 @@
 use Safe\DateTimeImmutable;
 
 use function Safe\preg_match;
+use function Safe\preg_replace;
 
 /**
  * @method static string ArtworkForm(Artwork $artwork, $isEditForm = false)
@@ -69,7 +70,7 @@ class Template extends TemplateBase{
 	 * Return a safe redirect destination, allowing only site-relative paths.
 	 */
 	public static function SanitizeRedirectUrl(?string $url): string{
-		$url = trim($url ?? '');
+		$url = preg_replace('|^' . SITE_URL . '|u', '', trim($url ?? ''));
 
 		if($url == '' || !preg_match('|^/(?!/)|u', $url) || preg_match('/[\r\n]/u', $url)){
 			return '/';

@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class CollectionNotFoundException extends AppException{
+class CollectionNotFoundException extends NotFoundException{
 }
