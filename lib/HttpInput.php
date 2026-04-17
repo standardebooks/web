@@ -42,7 +42,18 @@ class HttpInput{
 		try{
 			$httpMethod = HttpInput::ValidateRequestMethod(null, true);
 
+			if($httpMethod == Enums\HttpMethod::Options){
+				self::OutputAllowedHttpMethods();
+				http_response_code(Enums\HttpCode::NoContent->value);
+				exit();
+			}
+
 			$filename = 'http-' . mb_strtolower($httpMethod->value) . '.php';
+
+			// HTTP HEAD is always allowed if GET is allowed.
+			if($httpMethod == Enums\HttpMethod::Head && !file_exists('http-head.php')){
+				$filename = 'http-get.php';
+			}
 
 			if(!file_exists($filename)){
 				throw new Exceptions\HttpMethodNotAllowedException();
@@ -54,14 +65,29 @@ class HttpInput{
 			exit();
 		}
 		catch(Exceptions\HttpMethodNotAllowedException){
-			$filenames = glob('http-*.php');
-
-			if(sizeof($filenames) > 0){
-				header('Allow: ' . implode(',', array_map(fn($filename): string => mb_strtoupper(preg_replace('/^http-([a-z]+)\..+$/i', '\1', $filename)), $filenames)));
-			}
-
 			http_response_code(Enums\HttpCode::MethodNotAllowed->value);
+			self::OutputAllowedHttpMethods();
 			exit();
+		}
+	}
+
+	private static function OutputAllowedHttpMethods(): void{
+		$filenames = glob('http-{connect,delete,get,head,options,patch,post,put,trace}.php', GLOB_BRACE);
+
+		// HTTP HEAD is always allowed if HTTP GET is allowed.
+		if(in_array('http-get.php', $filenames) && !in_array('http-head.php', $filenames)){
+			$filenames[] = 'http-head.php';
+		}
+
+		// HTTP OPTIONS is always allowed.
+		if(!in_array('http-options.php', $filenames)){
+			$filenames[] = 'http-options.php';
+		}
+
+		sort($filenames);
+
+		if(sizeof($filenames) > 0){
+			header('Allow: ' . implode(',', array_map(fn($filename): string => mb_strtoupper(preg_replace('/^http-([a-z]+)\..+$/i', '\1', $filename)), $filenames)));
 		}
 	}
 
