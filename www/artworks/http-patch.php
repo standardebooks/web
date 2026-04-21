@@ -14,41 +14,58 @@ try{
 	/** @var string $exceptionRedirectUrl */
 	$exceptionRedirectUrl = $_SERVER['HTTP_REFERER'] ?? $artwork->EditUrl;
 
-	$artworkStatus = HttpInput::Str(POST, 'artwork-status');
-	$artworkEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
+	$artworkStatus = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
+	$artworkEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url', true);
+
+	$isPatchingArtworkStatus = $artworkStatus !== null && $artwork->CanStatusBeChangedBy(Session::$User) && !$artwork->CanBeEditedBy(Session::$User);
+	$isPatchingArtworkEbookUrl = $artworkEbookUrl !== null && $artwork->CanEbookUrlBeChangedBy(Session::$User) && !$artwork->CanBeEditedBy(Session::$User);
 
 	if(
-		(
-			$artworkStatus !== null
-			&&
-			!$artwork->CanStatusBeChangedBy(Session::$User)
-		)
-		||
-		(
-			$artworkEbookUrl !== null
-			&&
-			!$artwork->CanEbookUrlBeChangedBy(Session::$User)
-		)
-		||
+		!$isPatchingArtworkStatus
+		&&
+		!$isPatchingArtworkEbookUrl
+		&&
 		!$artwork->CanBeEditedBy(Session::$User)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	try{
-		$artwork->FillFromHttpPost();
+	if($isPatchingArtworkStatus){
+		$artwork->Status = $artworkStatus;
+	}
 
-		if($artworkStatus !== null && $artwork->Status != $originalArtwork->Status){
-			$artwork->ReviewerUserId = Session::$User->UserId;
+	if($isPatchingArtworkEbookUrl){
+		if($artworkEbookUrl == ''){
+			$artwork->Ebook = null;
+			$artwork->EbookId = null;
+		}
+		else{
+			try{
+				$ebook = Ebook::GetByIdentifier($artworkEbookUrl);
+				$artwork->EbookId = $ebook->EbookId;
+			}
+			catch(Exceptions\EbookNotFoundException){
+				$error = new Exceptions\InvalidArtworkException();
+				$error->Add(new Exceptions\InvalidUrlException($artworkEbookUrl));
+				throw $error;
+			}
 		}
 	}
-	catch(Exceptions\AppException $ex){
-		// Restore the original artwork so the user can correct the error and try again.
-		$artwork = $originalArtwork;
-		throw $ex;
+
+	if(!$isPatchingArtworkStatus && !$isPatchingArtworkEbookUrl && $artwork->CanBeEditedBy(Session::$User)){
+		$artwork->FillFromHttpPost();
 	}
 
-	$artwork->Save(HttpInput::File('artwork-image'));
+	if($artworkStatus !== null && $artwork->Status != $originalArtwork->Status){
+		$artwork->ReviewerUserId = Session::$User->UserId;
+	}
+
+	if($isPatchingArtworkStatus || $isPatchingArtworkEbookUrl){
+		$artwork->Save();
+	}
+	else{
+		$artwork->Save(HttpInput::File('artwork-image'));
+	}
 
 	$_SESSION['artwork'] = $artwork;
 	$_SESSION['is-artwork-saved'] = true;
@@ -65,7 +82,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidImageUploadException | Exceptions\InvalidFileUploadException | Exceptions\InvalidUrlException | Exceptions\InvalidRequestException $ex){
+catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException | Exceptions\InvalidArtistException | Exceptions\InvalidImageUploadException | Exceptions\InvalidFileUploadException | Exceptions\InvalidUrlException $ex){
 	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
 	if($ex instanceof Exceptions\InvalidFileUploadException){
 		$ex = new Exceptions\InvalidImageUploadException();

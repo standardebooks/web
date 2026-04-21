@@ -86,9 +86,7 @@ class HttpInput{
 
 		sort($filenames);
 
-		if(sizeof($filenames) > 0){
-			header('Allow: ' . implode(',', array_map(fn($filename): string => mb_strtoupper(preg_replace('/^http-([a-z]+)\..+$/i', '\1', $filename)), $filenames)));
-		}
+		header('Allow: ' . implode(',', array_map(fn($filename): string => mb_strtoupper(preg_replace('/^http-([a-z]+)\..+$/i', '\1', $filename)), $filenames)));
 	}
 
 	/**

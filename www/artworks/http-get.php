@@ -211,7 +211,7 @@ catch(Exceptions\InvalidPermissionsException){
 						</select>
 					</label>
 				<? }else{ ?>
-					<input type="hidden" name="artwork-status" value="<?= Formatter::EscapeHtml($artwork->Status->value ?? '') ?>" />
+					<input type="hidden" name="artwork-status" value="<?= Formatter::EscapeHtml($artwork->Status->value) ?>" />
 				<? } ?>
 				<? if($artwork->CanEbookUrlBeChangedBy(Session::$User)){ ?>
 					<label>
