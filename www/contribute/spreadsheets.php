@@ -84,9 +84,6 @@
 						<p><a href="https://docs.google.com/spreadsheets/d/1j4SUE_W64lcknzWOHbkB1uEU3KaXzRPU2fpC6y2cGG0">Sarah Orne Jewett — Short Fiction</a></p>
 					</li>
 					<li>
-						<p><a href="https://docs.google.com/spreadsheets/d/10t40vpICrniOivEuK4m89Ov9OrqzTCjkM893crO2stY">Rudyard Kipling — Short Fiction</a></p>
-					</li>
-					<li>
 						<p><a href="https://docs.google.com/spreadsheets/d/1J6ZnT3_1DHHTCWyzfSKkAbIHQqrEz4AoUI7dQdz7668">Ring Lardner — Short Fiction</a></p>
 					</li>
 					<li>
