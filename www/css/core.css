@@ -3925,6 +3925,10 @@ ul[role="menu"] li + li::before{
 		grid-template-columns: 1fr;
 	}
 
+	#donate .button-row a:last-child{
+		grid-column: 1;
+	}
+
 	.donate a.button{
 		white-space: normal;
 	}
