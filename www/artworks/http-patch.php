@@ -26,19 +26,21 @@ try{
 	$artworkEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 
 	if(
-		(
-			$artworkStatus !== null
-			&&
-			!$artwork->CanStatusBeChangedBy(Session::$User)
+		!(
+			(
+				$artworkStatus !== null
+				&&
+				$artwork->CanStatusBeChangedBy(Session::$User)
+			)
+			||
+			(
+				$artworkEbookUrl !== null
+				&&
+				$artwork->CanEbookUrlBeChangedBy(Session::$User)
+			)
+			||
+			$artwork->CanBeEditedBy(Session::$User)
 		)
-		||
-		(
-			$artworkEbookUrl !== null
-			&&
-			!$artwork->CanEbookUrlBeChangedBy(Session::$User)
-		)
-		||
-		!$artwork->CanBeEditedBy(Session::$User)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
@@ -91,4 +93,3 @@ catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $exceptionRedirectUrl);
 }
-
