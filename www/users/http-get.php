@@ -239,6 +239,10 @@ catch(Exceptions\InvalidPermissionsException){
 						<td><? if($user->Benefits->CanEditBlogPosts){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 					<tr>
+						<td>Can edit spreadsheets:</td>
+						<td><? if($user->Benefits->CanEditSpreadsheets){ ?>☑<? }else{ ?>☐<? } ?></td>
+					</tr>
+					<tr>
 						<td>Can create newsletter mailings:</td>
 						<td><? if($user->Benefits->CanCreateNewsletterMailings){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>

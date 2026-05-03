@@ -211,6 +211,13 @@ $isEditForm ??= false;
 			</li>
 			<li>
 				<label>
+					<input type="hidden" name="benefits-can-edit-spreadsheets" value="false" />
+					<input type="checkbox" name="benefits-can-edit-spreadsheets" value="true"<? if($user->Benefits->CanEditSpreadsheets){ ?> checked="checked"<? } ?> />
+					Can edit spreadsheets
+				</label>
+			</li>
+			<li>
+				<label>
 					<input type="hidden" name="benefits-can-create-newsletter-mailings" value="false" />
 					<input type="checkbox" name="benefits-can-create-newsletter-mailings" value="true"<? if($user->Benefits->CanCreateNewsletterMailings){ ?> checked="checked"<? } ?> />
 					Can create newsletter mailings
