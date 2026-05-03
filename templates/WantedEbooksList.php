@@ -18,7 +18,7 @@
 				<? } ?>
 
 				<? if(isset($ebook->EbookPlaceholder->Notes)){ ?>
-					<?= Formatter::MarkdownToHtml($ebook->EbookPlaceholder->Notes, true) ?>
+					<?= $ebook->EbookPlaceholder->Notes->ToHtml(true) ?>
 				<? } ?>
 				<? if($showPlaceholderMetadata){ ?>
 					— <a href="<?= $ebook->Url ?>">View placeholder.</a>

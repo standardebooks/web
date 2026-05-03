@@ -14,6 +14,8 @@ use function Safe\simplexml_load_string;
  * @property array<NewsletterSubscription> $Recipients
  * @property-read HtmlDocument $BodyHtml
  * @property-write HtmlDocument|string $BodyHtml
+ * @property-read Markdown $BodyText
+ * @property-write Markdown|string $BodyText
  * @property-read EmailAddress $FromEmail
  * @property-write EmailAddress|string $FromEmail
  */
@@ -25,7 +27,6 @@ class NewsletterMailing{
 	public int $NewsletterId;
 	public string $Subject = '';
 	public ?string $Preheader = null;
-	public string $BodyText = '';
 	public Enums\QueueStatus $Status;
 	public ?string $FromName = null;
 	public DateTimeImmutable $SendOn;
@@ -44,9 +45,11 @@ class NewsletterMailing{
 	/** @var array<NewsletterSubscription> $_Recipients */
 	protected array $_Recipients;
 	protected HtmlDocument $_BodyHtml; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected Markdown $_BodyText; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
 	protected EmailAddress $_FromEmail; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
 
 	public function __construct(){
+		$this->_BodyText = new Markdown();
 		$this->_FromEmail = new EmailAddress(NEWSLETTER_DEFAULT_FROM_EMAIL_ADDRESS);
 	}
 
@@ -129,6 +132,10 @@ class NewsletterMailing{
 		$this->_BodyHtml = new HtmlDocument($string);
 	}
 
+	protected function SetBodyText(string|Markdown $string): void{
+		$this->_BodyText = new Markdown($string);
+	}
+
 	protected function SetFromEmail(string|EmailAddress $string): void{
 		$this->_FromEmail = new EmailAddress($string);
 	}
@@ -202,7 +209,7 @@ class NewsletterMailing{
 
 		// Remove any existing footers.
 		$this->BodyText = preg_replace('/\* \* \*.+/ius', '', (string)$this->BodyText);
-		$this->BodyText .= "\n\n" . $footerText;
+		$this->BodyText = $this->BodyText . "\n\n" . $footerText;
 	}
 
 	/**
@@ -271,8 +278,8 @@ class NewsletterMailing{
 			$this->BodyHtml = preg_replace('/<ul class="featured-ebooks">.+?<\/ul>/ius', '', (string)$this->BodyHtml);
 			$this->BodyHtml = preg_replace('/(<div class="footer">|<footer>)/ius', $carouselHtml . "\n" . '\1', (string)$this->BodyHtml, 1);
 
-			$this->BodyText = preg_replace('/\#\# Free ebooks in this newsletter.+\* \* \*/ius', '* * *', $this->BodyText);
-			$this->BodyText = preg_replace('/\* \* \*/ius', $carouselText . '* * *', $this->BodyText);
+			$this->BodyText = preg_replace('/\#\# Free ebooks in this newsletter.+\* \* \*/ius', '* * *', (string)$this->BodyText);
+			$this->BodyText = preg_replace('/\* \* \*/ius', $carouselText . '* * *', (string)$this->BodyText);
 		}
 	}
 
@@ -286,7 +293,7 @@ class NewsletterMailing{
 
 		// If we received only text, convert to HTML.
 		if($this->BodyText != '' && $this->BodyHtml == ''){
-			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: Formatter::MarkdownToHtml($this->BodyText), subject: $this->Subject);
+			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyText->ToHtml(), subject: $this->Subject);
 		}
 
 		// If we received only HTML, convert to text.
@@ -295,14 +302,14 @@ class NewsletterMailing{
 				$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
 			}
 
-			$this->BodyText = Formatter::HtmlToMarkdown($this->BodyHtml);
+			$this->BodyText = $this->BodyHtml->ToMarkdown();
 
 			// Remove images in these formats:
 			// - [![](https://standardebooks.org/images/covers/anthony-trollope_short-fiction-b218d6d0-cover@2x.jpg)](https://standardebooks.org/ebooks/anthony-trollope/short-fiction)
 			// - ![](https://standardebooks.org/images/logo-full.png)
-			$this->BodyText = preg_replace('/\[\!\[\]\(.+?\)\]\(.+?\)\s*/u', '', $this->BodyText);
-			$this->BodyText = preg_replace('/\!\[\]\(.+?\)\s*/u', '', $this->BodyText);
-			$this->BodyText = preg_replace('/\[\]\(\)\s*/u', '', $this->BodyText);
+			$this->BodyText = preg_replace('/\[\!\[\]\(.+?\)\]\(.+?\)\s*/u', '', (string)$this->BodyText);
+			$this->BodyText = preg_replace('/\!\[\]\(.+?\)\s*/u', '', (string)$this->BodyText);
+			$this->BodyText = preg_replace('/\[\]\(\)\s*/u', '', (string)$this->BodyText);
 
 		}
 
@@ -416,7 +423,7 @@ class NewsletterMailing{
 		$this->FromName = $this->FromName !== null ? trim($this->FromName) : null;
 		$this->FromEmail ??= '';
 
-		if(!preg_match("/^<!DOCTYPE html>/ius", (string)$this->BodyHtml)){
+		if(!preg_match("/^<!DOCTYPE html>/ius", $this->BodyHtml)){
 			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
 		}
 
@@ -567,10 +574,13 @@ class NewsletterMailing{
 		$this->PropertyFromHttp('FromName');
 		$this->PropertyFromHttp('Subject');
 		$this->PropertyFromHttp('InternalName');
-		$this->PropertyFromHttp('BodyText');
 		$this->PropertyFromHttp('Status');
 		$this->PropertyFromHttp('Preheader');
 		$this->PropertyFromHttp('ExcludePatrons');
+
+		if(isset($_POST['newsletter-mailing-body-text'])){
+			$this->BodyText = HttpInput::Str(POST, 'newsletter-mailing-body-text') ?? '';
+		}
 
 		if(isset($_POST['newsletter-mailing-body-html'])){
 			$this->BodyHtml = HttpInput::Str(POST, 'newsletter-mailing-body-html') ?? '';

@@ -88,7 +88,7 @@ $spreadsheetSections = [
 						<? foreach($spreadsheets[$category] as $spreadsheet){ ?>
 							<li>
 								<p>
-									<a href="<?= Formatter::EscapeHtml($spreadsheet->ExternalUrl) ?>"><?= Formatter::EscapeHtml($spreadsheet->Title) ?></a><? if($spreadsheet->Notes !== null){ ?> (<?= Formatter::MarkdownToHtml($spreadsheet->Notes, true) ?>)<? } ?><? if(Session::$User?->Benefits->CanEditSpreadsheets){ ?> — <a href="<?= $spreadsheet->EditUrl ?>">Edit</a> • <a href="<?= $spreadsheet->DeleteUrl ?>">Delete</a><? } ?>
+									<a href="<?= Formatter::EscapeHtml($spreadsheet->ExternalUrl) ?>"><?= Formatter::EscapeHtml($spreadsheet->Title) ?></a><? if($spreadsheet->Notes !== null){ ?> (<?= $spreadsheet->Notes->ToHtml(true) ?>)<? } ?><? if(Session::$User?->Benefits->CanEditSpreadsheets){ ?> — <a href="<?= $spreadsheet->EditUrl ?>">Edit</a> • <a href="<?= $spreadsheet->DeleteUrl ?>">Delete</a><? } ?>
 								</p>
 							</li>
 						<? } ?>

@@ -341,7 +341,7 @@ catch(Exceptions\EbookNotFoundException){
 							<? foreach($otherSources as $source){ ?>
 								<li>
 									<p>
-										<? if($source->Type == Enums\EbookSourceType::Other){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe"><?= Formatter::EscapeHtml(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', (string)$source->Url)) /* force type to (string) to satisfy PHPStan */ ?></a><? } ?>
+										<? if($source->Type == Enums\EbookSourceType::Other){ ?><a href="<?= Formatter::EscapeHtml($source->Url) ?>" class="globe"><?= Formatter::EscapeHtml(preg_replace(['|https?://(en\.)?|', '|/.+$|'], '', $source->Url)) ?></a><? } ?>
 									</p>
 								</li>
 							<? } ?>

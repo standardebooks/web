@@ -3,7 +3,6 @@ use function Safe\preg_replace;
 
 class Formatter{
 	private static Transliterator $_Transliterator;
-	private static Parsedown $_MarkdownParser;
 	private static NumberFormatter $_NumberFormatter;
 
 	/**
@@ -127,60 +126,6 @@ class Formatter{
 			['\\', '-', '#', '*', '+', '`', '.', '[', ']', '(', ')', '!', '<', '>', '_', '{', '}', '|'],
 			['\\\\', '\-', '\#', '\*', '\+', '\`', '\.', '\[', '\]', '\(', '\)', '\!', '\<', '\>', '\_', '\{', '\}', '\|'],
 		$text);
-	}
-
-	/**
-	 * Convert a string of Markdown into an HTML fragment.
-	 */
-	public static function MarkdownToHtml(?string $text, bool $inline = false): string{
-		if(!isset(Formatter::$_MarkdownParser)){
-			Formatter::$_MarkdownParser = new Parsedown();
-			Formatter::$_MarkdownParser->setSafeMode(true);
-		}
-
-		if($inline){
-			return Formatter::$_MarkdownParser->line($text);
-		}else{
-			return Formatter::$_MarkdownParser->text($text);
-		}
-	}
-
-	/**
-	 * Convert a string of HTML to the equivalent Markdown.
-	 */
-	public static function HtmlToMarkdown(string $html): string{
-		$converter = new Markdownify\Converter(Markdownify\Converter::LINK_IN_PARAGRAPH, 0, false); // Have to use 0 instead of bool to satisfy type check.
-
-		// Some newsletter specific conversions first.
-		// Replace footer `<div>` with `<hr>`.
-		$html = preg_replace('|<div class="footer">(.+?)</div>|ius', '<hr/>\1', $html);
-
-		// Replace `<strong>` with `@class` with just `<strong>`.
-		$html = preg_replace('|<strong class="[^"]+">|ius', '<strong>', $html);
-
-		// Replace all `<divs>` with `<p>`.
-		$html = preg_replace('|<div[^>]*?>(.+?)</div>|ius', '<p>\1</p>', $html);
-
-		// Replace `<img>` with its `@alt` text.
-		$html = preg_replace('|<img[^>]*?alt="([^"]+?)"[^>]*?>|ius', '\1', $html);
-
-		// `ltrim()` node contents.
-		$count = 1;
-		while($count){
-			$html = preg_replace('|(<[a-z]+[^>]*?>)\s+(.+?)(</[a-z]+>)|ius', '\1\2\3', $html, -1, $count);
-		}
-		// `rtrim()` node contents.
-		$count = 1;
-		while($count){
-			$html = preg_replace('|(<[a-z]+[^>]*?>)(.+?)\s+(</[a-z]+>)|ius', '\1\2\3', $html, -1, $count);
-		}
-
-		$output = $converter->parseString($html);
-
-		// Replace list style.
-		$output = preg_replace('/^ +\* /ium', '- ', $output);
-
-		return $output;
 	}
 
 	/**

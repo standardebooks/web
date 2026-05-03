@@ -3,6 +3,8 @@
 /**
  * @property-read bool $IsPublicDomain
  * @property-read string $TimeTillIsPublicDomain A string describing how much longer it will be before this work is in the U.S. public domain, like `3 months` or `20 years`.
+ * @property-read ?Markdown $Notes
+ * @property-write Markdown|string|null $Notes
  */
 class EbookPlaceholder{
 	use Traits\Accessor;
@@ -14,10 +16,19 @@ class EbookPlaceholder{
 	public bool $IsInProgress = false;
 	public ?Enums\EbookPlaceholderDifficulty $Difficulty = null;
 	public ?string $TranscriptionUrl = null;
-	public ?string $Notes = null;
 
 	protected bool $_IsPublicDomain;
 	protected string $_TimeTillIsPublicDomain;
+	protected ?Markdown $_Notes = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+
+	protected function SetNotes(string|Markdown|null $string): void{
+		if(isset($string)){
+			$this->_Notes = new Markdown($string);
+		}
+		else{
+			$this->_Notes = $string;
+		}
+	}
 
 	protected function GetIsPublicDomain(): bool{
 		if(!isset($this->_IsPublicDomain)){
@@ -66,7 +77,10 @@ class EbookPlaceholder{
 		if($this->IsWanted){
 			$this->PropertyFromHttp('Difficulty');
 			$this->PropertyFromHttp('TranscriptionUrl');
-			$this->PropertyFromHttp('Notes');
+
+			if(isset($_POST['ebook-placeholder-notes'])){
+				$this->Notes = HttpInput::Str(POST, 'ebook-placeholder-notes');
+			}
 		}
 	}
 
@@ -86,7 +100,6 @@ class EbookPlaceholder{
 			$this->TranscriptionUrl = null;
 		}
 
-		$this->Notes = trim($this->Notes ?? '');
 		if($this->Notes == ''){
 			$this->Notes = null;
 		}

@@ -28,6 +28,10 @@ use function Safe\unlink;
  * @property ?Museum $Museum
  * @property ?User $Submitter
  * @property ?User $Reviewer
+ * @property-read ?Markdown $Exception
+ * @property-write Markdown|string|null $Exception
+ * @property-read ?Markdown $Notes
+ * @property-write Markdown|string|null $Notes
  */
 final class Artwork{
 	use Traits\Accessor;
@@ -49,8 +53,6 @@ final class Artwork{
 	public ?string $CopyrightPageUrl = null;
 	public ?string $ArtworkPageUrl = null;
 	public bool $IsPublishedInUs = false;
-	public ?string $Exception = null;
-	public ?string $Notes = null;
 	public Enums\ImageMimeType $MimeType;
 	public Enums\ArtworkStatusType $Status = Enums\ArtworkStatusType::Unverified;
 	public bool $IsAutoReviewed = false;
@@ -69,6 +71,8 @@ final class Artwork{
 	protected ?Museum $_Museum;
 	protected ?User $_Submitter;
 	protected ?User $_Reviewer;
+	protected ?Markdown $_Exception = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected ?Markdown $_Notes = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
 
 
 	// *******
@@ -99,6 +103,24 @@ final class Artwork{
 					return $tag;
 				}, $tags);
 			}
+		}
+	}
+
+	protected function SetException(string|Markdown|null $string): void{
+		if(isset($string)){
+			$this->_Exception = new Markdown($string);
+		}
+		else{
+			$this->_Exception = $string;
+		}
+	}
+
+	protected function SetNotes(string|Markdown|null $string): void{
+		if(isset($string)){
+			$this->_Notes = new Markdown($string);
+		}
+		else{
+			$this->_Notes = $string;
 		}
 	}
 
@@ -329,13 +351,9 @@ final class Artwork{
 			}
 		}
 
-		$this->Exception = trim($this->Exception ?? '');
-
 		if($this->Exception == ''){
 			$this->Exception = null;
 		}
-
-		$this->Notes = trim($this->Notes ?? '');
 
 		if($this->Notes == ''){
 			$this->Notes = null;
@@ -1198,8 +1216,14 @@ final class Artwork{
 		$this->PropertyFromHttp('CopyrightPageUrl');
 		$this->PropertyFromHttp('ArtworkPageUrl');
 		$this->PropertyFromHttp('MuseumUrl');
-		$this->PropertyFromHttp('Exception');
-		$this->PropertyFromHttp('Notes');
+		if(isset($_POST['artwork-exception'])){
+			$this->Exception = HttpInput::Str(POST, 'artwork-exception');
+		}
+
+		if(isset($_POST['artwork-notes'])){
+			$this->Notes = HttpInput::Str(POST, 'artwork-notes');
+		}
+
 		$this->PropertyFromHttp('ArtworkStatus');
 
 		$tags = HttpInput::Str(POST, 'artwork-tags', true);

@@ -43,7 +43,7 @@ $isEditForm ??= false;
 		name="spreadsheet-sort-order"
 		inputmode="numeric"
 		pattern="^[0-9]{1,4}$"
-		value="<?= Formatter::EscapeHtml((string)($spreadsheet->SortOrder ?? '')) ?>"
+		value="<?= $spreadsheet->SortOrder ?? '' ?>"
 	/>
 </label>
 <label>

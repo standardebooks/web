@@ -51,4 +51,42 @@ class HtmlFragment{
 			throw $error;
 		}
 	}
+
+	/**
+	 * Convert this HTML fragment to the equivalent Markdown.
+	 */
+	public function ToMarkdown(): Markdown{
+		$converter = new Markdownify\Converter(Markdownify\Converter::LINK_IN_PARAGRAPH, 0, false); // Have to use `0` instead of a bool to satisfy type check.
+
+		// Some newsletter specific conversions first.
+		// Replace footer `<div>` with `<hr>`.
+		$this->_Value = preg_replace('|<div class="footer">(.+?)</div>|ius', '<hr/>\1', $this->_Value);
+
+		// Replace `<strong>` with `@class` with just `<strong>`.
+		$this->_Value = preg_replace('|<strong class="[^"]+">|ius', '<strong>', $this->_Value);
+
+		// Replace all `<divs>` with `<p>`.
+		$this->_Value = preg_replace('|<div[^>]*?>(.+?)</div>|ius', '<p>\1</p>', $this->_Value);
+
+		// Replace `<img>` with its `@alt` text.
+		$this->_Value = preg_replace('|<img[^>]*?alt="([^"]+?)"[^>]*?>|ius', '\1', $this->_Value);
+
+		// `ltrim()` node contents.
+		$count = 1;
+		while($count){
+			$this->_Value = preg_replace('|(<[a-z]+[^>]*?>)\s+(.+?)(</[a-z]+>)|ius', '\1\2\3', $this->_Value, -1, $count);
+		}
+		// `rtrim()` node contents.
+		$count = 1;
+		while($count){
+			$this->_Value = preg_replace('|(<[a-z]+[^>]*?>)(.+?)\s+(</[a-z]+>)|ius', '\1\2\3', $this->_Value, -1, $count);
+		}
+
+		$output = $converter->parseString($this->_Value);
+
+		// Replace list style.
+		$output = preg_replace('/^ +\* /ium', '- ', $output);
+
+		return new Markdown($output);
+	}
 }

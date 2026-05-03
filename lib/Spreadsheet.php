@@ -5,6 +5,8 @@ use Safe\DateTimeImmutable;
  * @property-read string $Url
  * @property-read string $EditUrl
  * @property-read string $DeleteUrl
+ * @property-read ?Markdown $Notes
+ * @property-write Markdown|string|null $Notes
  */
 class Spreadsheet{
 	use Traits\Accessor;
@@ -14,7 +16,6 @@ class Spreadsheet{
 	public string $Title;
 	public string $ExternalUrl;
 	public Enums\SpreadsheetCategory $Category;
-	public ?string $Notes = null;
 	public int $SortOrder;
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
@@ -22,6 +23,20 @@ class Spreadsheet{
 	protected string $_Url;
 	protected string $_EditUrl;
 	protected string $_DeleteUrl;
+	protected ?Markdown $_Notes = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+
+	// *******
+	// SETTERS
+	// *******
+
+	protected function SetNotes(string|Markdown|null $string): void{
+		if(isset($string)){
+			$this->_Notes = new Markdown($string);
+		}
+		else{
+			$this->_Notes = $string;
+		}
+	}
 
 	// *******
 	// GETTERS
@@ -88,9 +103,12 @@ class Spreadsheet{
 			$error->Add(new Exceptions\SpreadsheetSortOrderRequiredException());
 		}
 
-		$this->Notes = trim($this->Notes ?? '');
-		if($this->Notes == ''){
+		$notes = trim($this->Notes ?? '');
+		if($notes == ''){
 			$this->Notes = null;
+		}
+		else{
+			$this->Notes = $notes;
 		}
 
 		if($error->HasExceptions){
@@ -171,7 +189,10 @@ class Spreadsheet{
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('Title');
 		$this->PropertyFromHttp('ExternalUrl');
-		$this->PropertyFromHttp('Notes');
+		if(isset($_POST['spreadsheet-notes'])){
+			$this->Notes = HttpInput::Str(POST, 'spreadsheet-notes');
+		}
+
 		$this->PropertyFromHttp('SortOrder');
 		$this->PropertyFromHttp('Category');
 	}
