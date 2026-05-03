@@ -1,4 +1,5 @@
 <?
+/** @var ?DonationCounter */
 $donationCounter ??= null;
 ?>
 <!DOCTYPE html>

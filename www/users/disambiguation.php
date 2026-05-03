@@ -7,7 +7,7 @@ try{
 		$user = User::GetByIdentifier($identifier);
 
 		http_response_code(Enums\HttpCode::Found->value);
-		header('Location: ' . $user->Url);
+		header('location: ' . $user->Url);
 		exit();
 	}
 	catch(Exceptions\AmbiguousUserException $ex){
@@ -38,6 +38,9 @@ http_response_code(Enums\HttpCode::MultipleChoices->value);
 ) ?>
 <main>
 	<section class="narrow">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
+			<a href="/users">Users</a> →
+		</nav>
 		<h1><?= Formatter::EscapeHtml($users[0]->DisplayName) ?></h1>
 
 		<p>There are <?= number_format(sizeof($users)) ?> users with that name:</p>

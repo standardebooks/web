@@ -235,6 +235,10 @@ $hasAdminTable ??= false;
 			div.footer img{
 				filter: invert(100%);
 			}
+
+			h1{
+				border-color: #fff;
+			}
 		}
 	</style>
 </head>

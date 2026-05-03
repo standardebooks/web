@@ -1,7 +1,7 @@
 <?
 namespace Enums;
 
-enum FeedType: string{
+enum FeedFormatType: string{
 	case Atom = 'atom';
 	case Opds = 'opds';
 	case Rss = 'rss';

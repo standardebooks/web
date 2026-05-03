@@ -3,6 +3,7 @@
  * GET /ebooks/<ebook-identifier>/projects/new
  * GET /projects/new
  */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
@@ -31,7 +32,7 @@ try{
 	}
 
 	if($exception){
-		// We got here because a `Project` submission had errors and the user has to try again.
+		// We got here because an operation had errors and the user has to try again.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
 	}

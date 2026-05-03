@@ -1,4 +1,8 @@
 <?
+/**
+ * POST		/users
+ */
+
 use function Safe\session_start;
 
 try{
@@ -16,8 +20,6 @@ try{
 
 	$user = new User();
 
-	$exceptionRedirectUrl = '/users/new';
-
 	$user->FillFromHttpPost();
 	$user->Benefits->FillFromHttpPost();
 
@@ -26,7 +28,7 @@ try{
 	$_SESSION['is-user-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $user->Url);
+	header('location: ' . $user->Url);
 
 }
 catch(Exceptions\LoginRequiredException){
@@ -53,5 +55,5 @@ catch(Exceptions\InvalidUserException | Exceptions\UserExistsException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: /users/new');
 }

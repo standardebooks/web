@@ -1113,8 +1113,8 @@ final class Ebook{
 	 *
 	 */
 	protected static function MatchContributorUrlNameToIdentifier(string $urlName, string $identifier): string{
-		if(preg_match('|' . $urlName . '[^\/_]*|ius', $identifier, $matches)){
-			return $matches[0] ?? '';
+		if(preg_match('/' . preg_quote($urlName, '/') . '[^\/_]*/ius', $identifier, $matches)){
+			return $matches[0];
 		}
 		else{
 			return $urlName;
@@ -2075,8 +2075,8 @@ final class Ebook{
 				IndexableText = ?,
 				IndexableAuthors = ?,
 				IndexableCollections = ?,
-				DownloadsPast30Days = COALESCE(?, DownloadsPast30Days),
-				DownloadsTotal = COALESCE(?, DownloadsTotal),
+				DownloadsPast30Days = coalesce(?, DownloadsPast30Days),
+				DownloadsTotal = coalesce(?, DownloadsTotal),
 				IsPatronSelection = ?
 				where
 				EbookId = ?
@@ -2086,7 +2086,7 @@ final class Ebook{
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
 				$this->IndexableAuthors, $this->IndexableCollections,
-				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `COALESCE` will keep the existing value.
+				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `coalesce` will keep the existing value.
 				$updateDownloads ? $this->DownloadsTotal : null,
 				$this->IsPatronSelection,
 				$this->EbookId]);
@@ -2130,6 +2130,9 @@ final class Ebook{
 			$error->Add($ex);
 			throw $error;
 		}
+
+		// Reset the URL in case it changed.
+		unset($this->_Url);
 	}
 
 	private function RemoveTags(): void{

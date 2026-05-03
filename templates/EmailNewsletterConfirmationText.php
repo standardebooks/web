@@ -18,7 +18,7 @@ You subscribed to:
 <? } ?>
 Please follow the link below to confirm your subscription—you won’t receive email from us until you do.
 
-<<?= SITE_URL ?>/users/<?= $user->Uuid ?>/newsletter-subscriptions/confirm>
+<<?= SITE_URL ?>/users/<?= $user->Uuid ?>/newsletter-subscriptions/<?= $user->NewsletterSubscriptions[0]->NewsletterId ?>?_method=<?= Enums\HttpMethod::Patch->value ?>>
 
 If you didn’t subscribe, or you’re not sure why you received this email, you can safely delete it and you won’t receive any more email from us.
 

@@ -1,4 +1,9 @@
 <?
+/**
+ * GET		/newsletters
+ * GET		/newsletter-subscriptions/new
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 

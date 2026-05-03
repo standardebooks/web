@@ -1,10 +1,12 @@
 <?
+/**
+ * POST		/newsletter-mailings
+ */
+
 use function Safe\session_start;
 
 try{
 	session_start();
-	$exceptionRedirectUrl = '/newsletter-mailings/new';
-	$newsletterMailing = new NewsletterMailing();
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -13,6 +15,8 @@ try{
 	if(!Session::$User->Benefits->CanCreateNewsletterMailings){
 		throw new Exceptions\InvalidPermissionsException();
 	}
+
+	$newsletterMailing = new NewsletterMailing();
 
 	$addFooter = HttpInput::Bool(POST, 'add-footer') ?? true;
 	$addEbooks = HttpInput::Bool(POST, 'add-ebooks') ?? true;
@@ -25,7 +29,7 @@ try{
 	$_SESSION['is-newsletter-mailing-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: /newsletter-mailings');
+	header('location: /newsletter-mailings');
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -41,5 +45,5 @@ catch(Exceptions\InvalidNewsletterMailingException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: /newsletter-mailings/new');
 }

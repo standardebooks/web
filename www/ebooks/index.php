@@ -84,7 +84,7 @@ try{
 		if($queryStringWithoutTags != ''){
 			$url .= '?' . $queryStringWithoutTags;
 		}
-		header('Location: ' . $url);
+		header('location: ' . $url);
 		exit();
 	}
 
@@ -126,7 +126,7 @@ catch(Exceptions\PageOutOfBoundsException){
 		$url .= '&' . $queryStringWithoutPage;
 	}
 
-	header('Location: ' . $url);
+	header('location: ' . $url);
 	exit();
 }
 ?><?= Template::Header(title: $pageTitle, highlight: 'ebooks', description: $pageDescription, canonicalUrl: $canonicalUrl) ?>

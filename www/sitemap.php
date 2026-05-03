@@ -7,7 +7,7 @@ $ebooks = Ebook::GetAll();
 $authors = Contributor::GetDistinctByMarcRole(Enums\MarcRole::Author);
 $collections = Collection::GetAll();
 
-header("Content-Type: application/xml");
+header('content-type: application/xml');
 print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 ?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">

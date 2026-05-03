@@ -22,4 +22,4 @@ if($url != ''){
 }
 
 http_response_code(Enums\HttpCode::Found->value);
-header('Location: /manual/' . $currentManual . $url);
+header('location: /manual/' . $currentManual . $url);

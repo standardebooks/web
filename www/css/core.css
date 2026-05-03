@@ -3608,6 +3608,10 @@ table.admin-table td{
 	font-variant-numeric: tabular-nums;
 }
 
+table.admin-table tr.break{
+	border-bottom: 1px dashed var(--body-text);
+}
+
 table.admin-table td:first-child{
 	font-weight: bold;
 	text-align: right;

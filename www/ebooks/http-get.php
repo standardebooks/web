@@ -1,4 +1,8 @@
 <?
+/**
+ * GET		/ebooks/:url-path
+ */
+
 // See <https://developers.google.com/search/docs/data-types/book> for RDFa metadata details.
 
 use Safe\DateTimeImmutable;
@@ -6,24 +10,21 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\shuffle;
 
-$ebook = null;
-$transcriptionSources = [];
-$scanSources = [];
-$otherSources = [];
-$carousel = [];
-$carouselTag = null;
-$targetCarouselSize = 5;
-
 try{
-	/** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
-	$urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
-
-	$ebook = Ebook::GetByIdentifier($urlPath);
+	/** @var Ebook $ebook The `Ebook` for this request, passed in from the router. */
+	$ebook = $resource ?? throw new Exceptions\EbookNotFoundException();
 
 	if($ebook->IsPlaceholder()){
 		require(WEB_ROOT . '/ebook-placeholders/http-get.php');
 		exit();
 	}
+
+	$transcriptionSources = [];
+	$scanSources = [];
+	$otherSources = [];
+	$carousel = [];
+	$carouselTag = null;
+	$targetCarouselSize = 5;
 
 	// Divide our sources into transcriptions and scans.
 	foreach($ebook->Sources as $source){
@@ -55,21 +56,6 @@ try{
 	$carousel = Ebook::GetAllByRelated($ebook, $targetCarouselSize, $carouselTag);
 }
 catch(Exceptions\EbookNotFoundException){
-	// Were we passed the author and a work but not the translator?
-	// For example: <https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam>
-	// Instead of: <https://standardebooks.org/ebooks/omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald>.
-	try{
-		$ebook = Ebook::GetByIdentifierStartingWith($urlPath);
-
-		// Found, redirect.
-		http_response_code(Enums\HttpCode::MovedPermanently->value);
-		header('Location: ' . $ebook->Url);
-		exit();
-	}
-	catch(Exceptions\EbookNotFoundException){
-		// Still not found, continue.
-	}
-
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(title: strip_tags($ebook->TitleWithCreditsHtml) . ' - Free ebook download', ogType: 'book', coverUrl: $ebook->DistCoverUrl, highlight: 'ebooks', description: 'Free epub ebook download of the Standard Ebooks edition of ' . $ebook->Title . ': ' . $ebook->Description, canonicalUrl: SITE_URL . $ebook->Url) ?>

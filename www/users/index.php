@@ -1,4 +1,8 @@
 <?
+/**
+ * GET		/users
+ */
+
 try{
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();

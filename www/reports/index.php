@@ -1,6 +1,4 @@
 <?
-use Safe\DateTimeImmutable;
-
 try{
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();

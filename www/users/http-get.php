@@ -1,13 +1,28 @@
 <?
+/**
+ * GET		/users/:user-identifier
+ * GET		/users/get?user-identifier=:user-identifier
+ */
+
+use function Safe\preg_match;
 use function Safe\session_start;
 use function Safe\session_unset;
 
 try{
 	session_start();
 
-	$identifier = HttpInput::Str(GET, 'user-identifier');
-	$user = User::GetByIdentifier($identifier);
+	/** @var User $user The `User` for this request, passed in from the router. */
+	$user = $resource ?? throw new Exceptions\UserNotFoundException();
 
+	/** @var string $requestUri */
+	$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+	if(preg_match('/^\/users\/get\b/iu', $requestUri)){
+		// If we got here by "jumping" to a `User` from the `User`s index page, redirect to their actual URL instead of the "jump" URL.
+		header('location: ' . $user->Url);
+		exit();
+	}
+
+	$identifier = HttpInput::Str(GET, 'user-identifier');
 	$isCreated = HttpInput::Bool(SESSION, 'is-user-created') ?? false;
 	$isSaved = HttpInput::Bool(SESSION, 'is-user-saved') ?? false;
 
@@ -21,16 +36,14 @@ try{
 
 	if(!ctype_digit($identifier)){
 		http_response_code(Enums\HttpCode::Found->value);
-		header('Location: ' . $user->Url);
+		header('location: ' . $user->Url);
+		exit();
 	}
 
 	// We got here because a `User` was successfully created or saved.
 	if($isCreated || $isSaved){
 		session_unset();
 	}
-}
-catch(Exceptions\AmbiguousUserException){
-	Template::RedirectToDisambiguation($identifier);
 }
 catch(Exceptions\UserNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -147,7 +160,7 @@ catch(Exceptions\InvalidPermissionsException){
 			<ul>
 				<? foreach($user->NewsletterSubscriptions as $newsletterSubscription){ ?>
 					<li>
-						<p><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?></p>
+						<p><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?> — <a href="<?= $newsletterSubscription->DeleteUrl ?>">Unsubscribe</a></p>
 					</li>
 				<? } ?>
 			</ul>
@@ -156,7 +169,7 @@ catch(Exceptions\InvalidPermissionsException){
 		<h2>Registration info</h2>
 		<table class="admin-table">
 			<tbody>
-				<tr>
+				<tr class="break">
 					<td>Is registered:</td>
 					<td><? if($user->IsRegistered){ ?>☑<? }else{ ?>☐<? } ?></td>
 				</tr>
@@ -169,7 +182,7 @@ catch(Exceptions\InvalidPermissionsException){
 						<td>Can vote:</td>
 						<td><? if($user->Benefits->CanVote){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
-					<tr>
+					<tr class="break">
 						<td>Can bulk download:</td>
 						<td><? if($user->Benefits->CanBulkDownload){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>

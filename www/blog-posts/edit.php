@@ -1,8 +1,14 @@
 <?
+/**
+ * GET		/blog-posts/:blog-post-url-title/edit
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
 try{
+	session_start();
+
 	$originalBlogPost = BlogPost::GetByUrlTitle(HttpInput::Str(GET, 'blog-post-url-title'));
 
 	if(Session::$User === null){
@@ -13,15 +19,13 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	session_start();
-
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 	$blogPost = HttpInput::SessionObject('blog-post', BlogPost::class) ?? $originalBlogPost;
 	$userIdentifier = HttpInput::Str(SESSION, 'blog-post-user-identifier');
 	$ebookIdentifiers = HttpInput::Str(SESSION, 'blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;
 
+	// We got here because an operation had errors and the user has to try again.
 	if($exception){
-		// We got here because a `BlogPost` submission had errors and the user has to try again.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
 	}

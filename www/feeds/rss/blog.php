@@ -1,5 +1,5 @@
 <?
-header('Content-Type: application/rss+xml');
+header('content-type: application/rss+xml');
 print('<?xml version="1.0" encoding="utf-8"?>');
 ?>
 <rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0">

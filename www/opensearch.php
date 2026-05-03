@@ -1,5 +1,5 @@
 <?
-header('Content-Type: application/opensearchdescription+xml'); // Can't include `charset` because Chrome doesn't like it.
+header('content-type: application/opensearchdescription+xml'); // Can't include `charset` because Chrome doesn't like it.
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">

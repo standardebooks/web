@@ -1,36 +1,36 @@
 <?
 use function Safe\preg_match;
 
-$feedType = '';
+$feedType = null;
 /** @var string $requestUri */
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 preg_match('/^\/feeds\/(opds|rss|atom)/ius', $requestUri, $matches);
 
 if(isset($matches[1])){
-	$feedType = Enums\FeedType::tryFrom(strtolower($matches[1]));
+	$feedType = Enums\FeedFormatType::tryFrom(strtolower($matches[1]));
 }
 
 $title = 'Standard Ebooks Ebook Feeds';
-if($feedType == Enums\FeedType::Opds){
+if($feedType == Enums\FeedFormatType::Opds){
 	$title = 'The Standard Ebooks OPDS Feed';
 }
 
-if($feedType == Enums\FeedType::Rss){
+if($feedType == Enums\FeedFormatType::Rss){
 	$title = 'Standard Ebooks RSS Feeds';
 }
 
-if($feedType == Enums\FeedType::Atom){
+if($feedType == Enums\FeedFormatType::Atom){
 	$title = 'Standard Ebooks Atom Feeds';
 }
 
 ?><?= Template::Header(title: 'The Standard Ebooks OPDS feed', description: 'Get access to the Standard Ebooks OPDS feed for use in ereading programs in scripting.') ?>
 <main>
 	<section class="narrow has-hero">
-		<? if($feedType == Enums\FeedType::Opds){ ?>
+		<? if($feedType == Enums\FeedFormatType::Opds){ ?>
 			<h1>The Standard Ebooks OPDS Feed</h1>
-		<? }elseif($feedType == Enums\FeedType::Rss){ ?>
+		<? }elseif($feedType == Enums\FeedFormatType::Rss){ ?>
 			<h1>Standard Ebooks RSS Feeds</h1>
-		<? }elseif($feedType == Enums\FeedType::Atom){ ?>
+		<? }elseif($feedType == Enums\FeedFormatType::Atom){ ?>
 			<h1>Standard Ebooks Atom Feeds</h1>
 		<? }else{ ?>
 			<h1>Standard Ebooks Ebook Feeds</h1>

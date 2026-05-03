@@ -215,7 +215,7 @@ while true; do
 		limitReset=$(printf "%s" "${response}" | grep -oP "^X-RateLimit-Reset: \K[0-9]+$")
 		printf "You have reached your daily allowance for unauthenticated GitHub API requests.\n\
 			Either wait until %s or use an OAuth token.\n\
-			You can create a new token at https://github.com/settings/tokens/new and \
+			You can create a new token at <https://github.com/settings/tokens/new> and \
 			pass it to this script with the --token option.\n\
 			The token does not need any permissions.\n" "$(date -d @"${limitReset}")" 1>&2
 		exit

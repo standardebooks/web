@@ -1,8 +1,14 @@
 <?
+/**
+ * GET		/artworks/new
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
 try{
+	session_start();
+
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
@@ -10,8 +16,6 @@ try{
 	if(!Session::$User->Benefits->CanUploadArtwork){
 		throw new Exceptions\InvalidPermissionsException();
 	}
-
-	session_start();
 
 	$isCreated = HttpInput::Bool(SESSION, 'is-artwork-created') ?? false;
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
@@ -24,7 +28,7 @@ try{
 		session_unset();
 	}
 	elseif($exception){
-		// We got here because an `Artwork` submission had errors and the user has to try again.
+		// We got here because an operation had errors and the user has to try again.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
 	}

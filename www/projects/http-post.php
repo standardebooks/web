@@ -1,11 +1,12 @@
 <?
+/**
+ * POST /projects
+ */
 
 use function Safe\session_start;
 
 try{
 	session_start();
-
-	$exceptionRedirectUrl = '/projects/new';
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -65,7 +66,7 @@ try{
 	}
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: /projects');
+	header('location: /projects');
 }
 catch(Exceptions\EbookNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -81,5 +82,5 @@ catch(Exceptions\InvalidProjectException | Exceptions\InvalidEbookException | Ex
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: /projects/new');
 }

@@ -1,12 +1,17 @@
 <?
-use function Safe\session_start;
+/**
+ * PATCH		/blog-posts/:blog-post-url-title
+ */
 
-$blogPost = new BlogPost();
+use function Safe\session_start;
 
 try{
 	session_start();
 
-	$originalBlogPost = BlogPost::GetByUrlTitle(HttpInput::Str(GET, 'blog-post-url-title'));
+	/** @var BlogPost $blogPost The `BlogPost` for this request, passed in from the router. */
+	$blogPost = $resource ?? throw new Exceptions\BlogPostNotFoundException();
+
+	$originalBlogPost = new $blogPost;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -19,16 +24,13 @@ try{
 	$userIdentifier = HttpInput::Str(POST, 'blog-post-user-identifier');
 	$ebookIdentifiers = HttpInput::Str(POST, 'blog-post-ebook-identifiers');
 
-	$exceptionRedirectUrl = $originalBlogPost->EditUrl;
-
 	$blogPost->FillFromHttpPost();
-	$blogPost->BlogPostId = $originalBlogPost->BlogPostId;
 
 	$blogPost->Save($userIdentifier, $ebookIdentifiers);
 
 	$_SESSION['is-blog-post-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $blogPost->Url);
+	header('location: ' . $blogPost->Url);
 }
 catch(Exceptions\BlogPostNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -46,5 +48,5 @@ catch(Exceptions\InvalidBlogPostException | Exceptions\BlogPostExistsException $
 	$_SESSION['blog-post-ebook-identifiers'] = $ebookIdentifiers;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: ' . $originalBlogPost->EditUrl);
 }

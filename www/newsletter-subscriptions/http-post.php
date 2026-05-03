@@ -1,4 +1,8 @@
 <?
+/**
+ * POST		/newsletter-subscriptions
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 use Ramsey\Uuid\Uuid;
@@ -11,11 +15,11 @@ try{
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		$_SESSION['is-bot'] = true;
 		$uuid = Uuid::uuid4();
-		header('Location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
+		header('location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
 		exit();
 	}
 
-	$email = HttpInput::Str(POST, 'email');
+	$email = HttpInput::Str(POST, 'email') ?? '';
 	$newsletterIds = array_unique(HttpInput::Array(POST, 'newsletter-ids') ?? []);
 	$newsletters = [];
 	foreach($newsletterIds as $newsletterId){
@@ -74,7 +78,7 @@ try{
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	$_SESSION['is-newsletter-subscription-created'] = true;
-	header('Location: /users/' . $user->Uuid . '/newsletter-subscriptions');
+	header('location: ' . $newsletterSubscription->User->UuidUrl . '/newsletter-subscriptions');
 }
 catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\InvalidCaptchaException | Exceptions\NewsletterRequiredException $ex){
 	$_SESSION['newsletter-ids'] = $newsletterIds;
@@ -82,5 +86,5 @@ catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsExc
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: /newsletter');
+	header('location: /newsletter');
 }

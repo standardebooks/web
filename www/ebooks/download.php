@@ -1,4 +1,10 @@
 <?
+/**
+ * GET	/ebooks/:url-path/downloads/*
+ *
+ * Download an ebook file, i.e. an epub or azw3 file.
+ */
+
 use Safe\DateTimeImmutable;
 
 $ebook = null;
@@ -89,9 +95,9 @@ try{
 		// Everything OK, serve the file using Apache.
 		// The `xsendfile` Apache module tells Apache to serve the file, including `not-modified` or `etag` headers.
 		// Much more efficient than reading it in PHP and outputting it that way.
-		header('X-Sendfile: ' . $downloadPath);
-		header('Content-Type: ' . $format->GetMimeType());
-		header('Content-Disposition: attachment; filename="' . basename($downloadPath) . '"');
+		header('x-sendfile: ' . $downloadPath);
+		header('content-type: ' . $format->GetMimeType());
+		header('content-disposition: attachment; filename="' . basename($downloadPath) . '"');
 		exit();
 	}
 

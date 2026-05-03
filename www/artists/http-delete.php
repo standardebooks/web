@@ -1,10 +1,15 @@
 <?
+/**
+ * DELETE	/artworks/:artist-url-name
+ */
+
 use function Safe\session_start;
 
 try{
 	session_start();
 
-	$artistToDelete = Artist::GetByUrlName(HttpInput::Str(GET, 'artist-url-name') ?? '');
+	/** @var Artist $artist The `Artist` for this request, passed in from the router. */
+	$artist = $resource ?? throw new Exceptions\ArtistNotFoundException();
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -13,8 +18,6 @@ try{
 	if(!Session::$User->Benefits->CanReviewOwnArtwork){
 		throw new Exceptions\InvalidPermissionsException();
 	}
-
-	$exceptionRedirectUrl = $artistToDelete->DeleteUrl;
 
 	try{
 		$canonicalArtist = Artist::GetByName(HttpInput::Str(POST, 'canonical-artist-name') ?? '');
@@ -26,20 +29,20 @@ try{
 	$addAlternateName = HttpInput::Bool(POST, 'add-alternate-name');
 
 	if($addAlternateName){
-		$canonicalArtist->AddAlternateName($artistToDelete->Name);
+		$canonicalArtist->AddAlternateName($artist->Name);
 	}
 
-	$artistToDelete->ReassignArtworkTo($canonicalArtist);
-	$artistToDelete->Delete();
+	$artist->ReassignArtworkTo($canonicalArtist);
+	$artist->Delete();
 
 	$_SESSION['is-artist-deleted'] = true;
-	$_SESSION['deleted-artist'] = $artistToDelete;
+	$_SESSION['deleted-artist'] = $artist;
 	if($addAlternateName){
 		$_SESSION['is-alternate-name-added'] = true;
 	}
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $canonicalArtist->Url);
+	header('location: ' . $canonicalArtist->Url);
 }
 catch(Exceptions\ArtistNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -54,5 +57,5 @@ catch(Exceptions\CanonicalArtistNotFoundException | Exceptions\ArtistHasArtworkE
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: ' . $artist->DeleteUrl);
 }

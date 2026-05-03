@@ -1,4 +1,8 @@
 <?
+/**
+ * GET		/ebooks/:author-url-path
+ */
+
 $ebooks = [];
 $author = '';
 $authorHtml = '';
@@ -7,13 +11,14 @@ $showLinks = false;
 
 try{
 	/** @var string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
-	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
+	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'author-url-name') ?? ''), '/');
 
 	if($urlPath == ''){
 		throw new Exceptions\AuthorNotFoundException();
 	}
 
-	$ebooks = Ebook::GetAllByAuthor($urlPath);
+	/** @var array<Ebook> $ebooks The list of `Ebook`s for this request, passed in from the router. */
+	$ebooks = $resource ?? throw new Exceptions\AuthorNotFoundException();;
 
 	if(sizeof($ebooks) == 0){
 		throw new Exceptions\AuthorNotFoundException();

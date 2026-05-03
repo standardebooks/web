@@ -1,4 +1,10 @@
 <?
+/**
+ * GET		/users/:user-identifier/projects
+ *
+ * List all `Projects` that involve the given `User`.
+ */
+
 try{
 	$identifier = HttpInput::Str(GET, 'user-identifier');
 	$user = User::GetByIdentifier($identifier);
@@ -20,11 +26,11 @@ try{
 	$managingProjects = Project::GetAllByManagerUserId($user->UserId);
 	$reviewingProjects = Project::GetAllByReviewerUserId($user->UserId);
 }
-catch(Exceptions\AmbiguousUserException){
-	Template::RedirectToDisambiguation($identifier);
-}
 catch(Exceptions\UserNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
+}
+catch(Exceptions\AmbiguousUserException){
+	Template::RedirectToDisambiguation($identifier);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -33,16 +39,16 @@ catch(Exceptions\InvalidPermissionsException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(
-	title: 'Projects',
+	title: 'Projects - ' . $user->DisplayName,
 	canonicalUrl: $user->Url,
 	css: ['/css/project.css'],
-	description: 'Ebook projects currently underway at Standard Ebooks.'
+	description: 'Ebook projects that ' . $user->DisplayName . ' currently has underway at Standard Ebooks.'
 ) ?>
 <main>
 	<section>
 		<nav class="breadcrumbs" aria-label="Breadcrumbs">
 			<? if(Session::$User->Benefits->CanCreateUsers || Session::$User->Benefits->CanEditUsers){ ?>
-				<a href="<?= $user->Url ?>"><?= Formatter::EscapeHtml($user->DisplayName) ?></a>
+				<a href="/users">Users</a> → <a href="<?= $user->Url ?>"><?= Formatter::EscapeHtml($user->DisplayName) ?></a>
 			<? }else{ ?>
 				<?= Formatter::EscapeHtml($user->DisplayName) ?>
 			<? } ?>

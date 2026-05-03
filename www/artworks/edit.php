@@ -1,4 +1,8 @@
 <?
+/**
+ * GET		/artworks/:artist-url-name/:artwork-url-name/edit
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
@@ -22,7 +26,7 @@ try{
 		$editedArtwork = $artwork;
 	}
 
-	// We got here because an artwork update had errors and the user has to try again.
+	// We got here because an operation had errors and the user has to try again.
 	if($exception){
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();

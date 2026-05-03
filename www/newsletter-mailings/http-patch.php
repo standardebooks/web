@@ -1,9 +1,17 @@
 <?
+/**
+ * PATCH	/newsletter-mailings/:newsletter-mailing-id
+ */
+
 use function Safe\session_start;
 
 try{
 	session_start();
-	$newsletterMailing = NewsletterMailing::Get(HttpInput::Int(GET, 'newsletter-mailing-id'));
+
+	/** @var NewsletterMailing $newsletterMailing The `NewsletterMailing` for this request, passed in from the router. */
+	$newsletterMailing = $resource ?? throw new Exceptions\NewsletterMailingNotFoundException();
+
+	$originalNewsletterMailing = $newsletterMailing;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -12,8 +20,6 @@ try{
 	if(!Session::$User->Benefits->CanEditNewsletterMailings){
 		throw new Exceptions\InvalidPermissionsException();
 	}
-
-	$exceptionRedirectUrl = $newsletterMailing->EditUrl;
 
 	$addFooter = HttpInput::Bool(POST, 'add-footer') ?? true;
 	$addEbooks = HttpInput::Bool(POST, 'add-ebooks') ?? true;
@@ -25,7 +31,7 @@ try{
 	$_SESSION['is-newsletter-mailing-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: /newsletter-mailings');
+	header('location: /newsletter-mailings');
 }
 catch(Exceptions\NewsletterMailingNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -44,5 +50,5 @@ catch(Exceptions\InvalidNewsletterMailingException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: ' . $originalNewsletterMailing->EditUrl);
 }

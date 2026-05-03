@@ -143,7 +143,7 @@ catch(Exceptions\PageOutOfBoundsException){
 		$url .= '&' . $queryStringWithoutPage;
 	}
 
-	header('Location: ' . $url);
+	header('location: ' . $url);
 	exit();
 }
 ?><?= Template::Header(title: $pageTitle, css: ['/css/artwork.css'], description: $pageDescription, canonicalUrl: $canonicalUrl) ?>

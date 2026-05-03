@@ -71,14 +71,14 @@ abstract class Feed{
 	 *
 	 * @throws Exceptions\AppException
 	 */
-	public static function RebuildFeedsCache(?Enums\FeedType $returnType = null, ?Enums\FeedCollectionType $returnCollectionType = null): ?array{
+	public static function RebuildFeedsCache(?Enums\FeedFormatType $returnType = null, ?Enums\FeedCollectionType $returnCollectionType = null): ?array{
 		$retval = null;
 		$collator = Collator::create('en_US'); // Used for sorting letters with diacritics like in author names.
 		if($collator === null){
 			throw new Exceptions\AppException('Couldn\'t create collator object when rebuilding feeds cache.');
 		}
 
-		foreach(Enums\FeedType::cases() as $type){
+		foreach(Enums\FeedFormatType::cases() as $type){
 			foreach(Enums\FeedCollectionType::cases() as $collectionType){
 				$files = glob(WEB_ROOT . '/feeds/' . $type->value . '/' . $collectionType->value . '/*.xml');
 
@@ -91,7 +91,7 @@ abstract class Feed{
 					$obj->Url = '/feeds/' . $type->value . '/' . $collectionType->value . '/' . basename($file, '.xml');
 					$output = [];
 
-					exec('attr -g se-label ' . escapeshellarg($file) . ' 2>&1', $output, $returnCode);
+					exec('attr -q -g se-label ' . escapeshellarg($file) . ' 2>&1', $output, $returnCode);
 					if($returnCode == 0 && sizeof($output ?? []) > 0){
 						$obj->Label = $output[0];
 					}
@@ -101,7 +101,7 @@ abstract class Feed{
 
 					// `exec()` *appends* to the array, so we must reset it before continuing.
 					$output = [];
-					exec('attr -g se-label-sort ' . escapeshellarg($file) . ' 2>&1', $output, $returnCode);
+					exec('attr -q -g se-label-sort ' . escapeshellarg($file) . ' 2>&1', $output, $returnCode);
 					if($returnCode == 0 && sizeof($output ?? []) > 0){
 						$obj->LabelSort = $output[0];
 					}

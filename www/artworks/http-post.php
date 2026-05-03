@@ -1,4 +1,8 @@
 <?
+/**
+ * POST		/artworks
+ */
+
 use function Safe\session_start;
 
 try{
@@ -12,7 +16,6 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	$exceptionRedirectUrl = '/artworks/new';
 	$artwork = new Artwork();
 
 	$artwork->FillFromHttpPost();
@@ -38,7 +41,7 @@ try{
 	$_SESSION['is-artwork-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: /artworks/new');
+	header('location: /artworks/new');
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -62,5 +65,5 @@ catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: /artworks/new');
 }

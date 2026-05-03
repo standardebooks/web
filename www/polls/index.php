@@ -1,4 +1,8 @@
 <?
+/**
+ * GET		/polls
+ */
+
 $pastPolls = Db::Query('
 			SELECT *
 			from Polls

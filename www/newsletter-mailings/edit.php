@@ -1,4 +1,8 @@
 <?
+/**
+ * GET		/newsletter-mailings/:newsletter-mailing-id/edit
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 

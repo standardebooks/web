@@ -1,36 +1,41 @@
 <?
+/**
+ * GET		/artworks/:artist-url-name
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
-session_start();
-
-$isReviewerView = Session::$User?->Benefits->CanReviewArtwork ?? false;
-$isAdminView = Session::$User?->Benefits->CanReviewOwnArtwork ?? false;
-$submitterUserId = Session::$User?->Benefits->CanUploadArtwork ? Session::$User->UserId : null;
-$isSubmitterView = !$isReviewerView && $submitterUserId !== null;
-
-$artworkFilterType = Enums\ArtworkFilterType::Approved;
-
-if($isReviewerView){
-	$artworkFilterType = Enums\ArtworkFilterType::Admin;
-}
-
-if($isSubmitterView){
-	$artworkFilterType = Enums\ArtworkFilterType::ApprovedSubmitter;
-}
-
-$isArtistDeleted = HttpInput::Bool(SESSION, 'is-artist-deleted') ?? false;
-$deletedArtist = HttpInput::SessionObject('deleted-artist', Artist::class);
-$isAlternateNameAdded = HttpInput::Bool(SESSION, 'is-alternate-name-added') ?? false;
-
 try{
+	session_start();
+
+	/** @var Artist $artist The `Artist` for this request, passed in from the router. */
+	$artist = $resource ?? throw new Exceptions\ArtistNotFoundException();
+
+	$isReviewerView = Session::$User?->Benefits->CanReviewArtwork ?? false;
+	$isAdminView = Session::$User?->Benefits->CanReviewOwnArtwork ?? false;
+	$submitterUserId = Session::$User?->Benefits->CanUploadArtwork ? Session::$User->UserId : null;
+	$isSubmitterView = !$isReviewerView && $submitterUserId !== null;
+
+	$artworkFilterType = Enums\ArtworkFilterType::Approved;
+
+	if($isReviewerView){
+		$artworkFilterType = Enums\ArtworkFilterType::Admin;
+	}
+
+	if($isSubmitterView){
+		$artworkFilterType = Enums\ArtworkFilterType::ApprovedSubmitter;
+	}
+
+	$isArtistDeleted = HttpInput::Bool(SESSION, 'is-artist-deleted') ?? false;
+	$deletedArtist = HttpInput::SessionObject('deleted-artist', Artist::class);
+	$isAlternateNameAdded = HttpInput::Bool(SESSION, 'is-alternate-name-added') ?? false;
+
 	$artworks = Artwork::GetAllByArtist(HttpInput::Str(GET, 'artist-url-name'), $artworkFilterType, $submitterUserId);
 
 	if(sizeof($artworks) == 0){
 		throw new Exceptions\ArtistNotFoundException();
 	}
-
-	$artist = $artworks[0]->Artist;
 
 	if($isArtistDeleted){
 		session_unset();

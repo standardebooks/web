@@ -28,4 +28,4 @@ http_response_code(Enums\HttpCode::SeeOther->value);
 /** @var string $redirect */
 $redirect = $_SERVER['HTTP_REFERER'] ?? '/';
 $redirect = Template::SanitizeRedirectUrl($redirect);
-header('Location: ' . $redirect);
+header('location: ' . $redirect);

@@ -1,8 +1,14 @@
 <?
+/**
+ * GET		/collections/:collection-url-nmae
+ */
+
 use function Safe\preg_replace;
 
 try{
-	$collection = Collection::GetByUrlName(HttpInput::Str(GET, 'collection'));
+	/** @var Collection $collection The `Collection` for this request, passed in from the router. */
+	$collection = $resource ?? throw new Exceptions\CollectionNotFoundException();
+
 	$collectionName = preg_replace('/^The /ius', '', $collection->Name);
 	$collectionType = $collection->Type->value ?? 'collection';
 
@@ -19,6 +25,7 @@ catch(Exceptions\CollectionNotFoundException){
 ?><?= Template::Header(title: $pageTitle, feedUrl: $feedUrl, feedTitle: $feedTitle, highlight: 'ebooks', description: $pageDescription) ?>
 <main class="ebooks">
 	<h1 class="is-collection"><?= $pageHeader ?></h1>
+
 	<?= Template::DonationDrive() ?>
 
 	<?= Template::DonationAlert() ?>

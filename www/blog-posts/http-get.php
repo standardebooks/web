@@ -1,14 +1,16 @@
 <?
+/**
+ * GET		/blog-posts/:blog-post-url-title
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
-session_start();
 
 try{
-	$blogPost = BlogPost::GetByUrlTitle(HttpInput::Str(GET, 'blog-post-url-title'));
+	session_start();
 
-	if($blogPost->Published > NOW){
-		throw new Exceptions\BlogPostNotFoundException();
-	}
+	/** @var BlogPost $blogPost The `BlogPost` for this request, passed in from the router. */
+	$blogPost = $resource ?? throw new Exceptions\BlogPostNotFoundException();
 
 	$isCreated = HttpInput::Bool(SESSION, 'is-blog-post-created') ?? false;
 	$isSaved = HttpInput::Bool(SESSION, 'is-blog-post-saved') ?? false;

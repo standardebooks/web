@@ -1,15 +1,25 @@
 <?
+/**
+ * GET		/feeds/:feed-format/:collection-type
+ */
+
 use function Safe\apcu_fetch;
 use function Safe\preg_replace;
 
-$collectionType = Enums\FeedCollectionType::tryFrom(HttpInput::Str(GET, 'class') ?? '');
-$type = Enums\FeedType::tryFrom(HttpInput::Str(GET, 'type') ?? '');
+$collectionType = Enums\FeedCollectionType::tryFrom(HttpInput::Str(GET, 'collection-type') ?? '');
+$feedFormat = Enums\FeedFormatType::tryFrom(HttpInput::Str(GET, 'feed-format') ?? '');
 
-if($collectionType === null){
-	Template::ExitWithCode(Enums\HttpCode::NotFound);
-}
-
-if($type === null || ($type != Enums\FeedType::Rss && $type != Enums\FeedType::Atom)){
+if(
+	$collectionType === null
+	||
+	$feedFormat === null
+	||
+	(
+		$feedFormat != Enums\FeedFormatType::Rss
+		&&
+		$feedFormat != Enums\FeedFormatType::Atom
+	)
+){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 
@@ -20,19 +30,19 @@ $ucTitle = ucfirst($lcTitle);
 
 try{
 	/** @var array<stdClass> $feeds */
-	$feeds = apcu_fetch('feeds-index-' . $type->value . '-' . $collectionType->value);
+	$feeds = apcu_fetch('feeds-index-' . $feedFormat->value . '-' . $collectionType->value);
 }
 catch(Safe\Exceptions\ApcuException){
-	$feeds = Feed::RebuildFeedsCache($type, $collectionType);
+	$feeds = Feed::RebuildFeedsCache($feedFormat, $collectionType);
 
 	if($feeds === null){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);
 	}
 }
-?><?= Template::Header(title: $type->GetDisplayName() . ' Ebook Feeds by ' . $ucTitle, description: 'A list of available ' . $type->GetDisplayName() . ' feeds of Standard Ebooks ebooks by ' . $lcTitle . '.') ?>
+?><?= Template::Header(title: $feedFormat->GetDisplayName() . ' Ebook Feeds by ' . $ucTitle, description: 'A list of available ' . $feedFormat->GetDisplayName() . ' feeds of Standard Ebooks ebooks by ' . $lcTitle . '.') ?>
 <main>
 	<article>
-		<h1><?= $type->GetDisplayName() ?> Ebook Feeds by <?= $ucTitle ?></h1>
+		<h1><?= $feedFormat->GetDisplayName() ?> Ebook Feeds by <?= $ucTitle ?></h1>
 		<?= Template::FeedHowTo() ?>
 		<section id="ebooks-by-<?= $lcTitle ?>">
 			<h2>Ebooks by <?= $lcTitle ?></h2>

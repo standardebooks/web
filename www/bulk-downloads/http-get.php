@@ -1,26 +1,17 @@
 <?
+/**
+ * GET		/ebooks/:author-url-name/downloads
+ * GET		/collections/:collection-url-name/downloads
+ */
+
 try{
-	$bulkDownloadCollection = null;
-	$collectionUrlName = HttpInput::Str(GET, 'collection');
-	$authorUrlName = HttpInput::Str(GET, 'author');
-
-	if($collectionUrlName !== null){
-		$bulkDownloadCollection = BulkDownloadCollection::GetByCollectionUrl($collectionUrlName);
-	}
-
-	if($authorUrlName !== null){
-		$bulkDownloadCollection = BulkDownloadCollection::GetByAuthorUrl($authorUrlName);
-	}
-
-	if($bulkDownloadCollection === null){
-		throw new Exceptions\BulkDownloadCollectionNotFoundException();
-	}
+	/** @var BulkDownloadCollection $bulkDownloadCollection The `BulkDownloadCollection` for this request, passed in from the router. */
+	$bulkDownloadCollection = $resource ?? throw new Exceptions\BulkDownloadCollectionNotFoundException();
 }
 catch(Exceptions\BulkDownloadCollectionNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-
-?><?= Template::Header(title: 'Download ', description: 'Download zip files containing all of the Standard Ebooks released in a given month.') ?>
+?><?= Template::Header(title: 'Download the ' . $bulkDownloadCollection->LabelName . ' Collection', description: 'Download zip files containing all of the Standard Ebooks in the ' . $bulkDownloadCollection->LabelName . ' collection.') ?>
 <main>
 	<section class="bulk-downloads">
 		<h1>Download the <?= Formatter::EscapeHtml($bulkDownloadCollection->LabelName) ?> Collection</h1>

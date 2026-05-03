@@ -1,4 +1,8 @@
 <?
+/**
+ * GET /projects
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 

@@ -1,4 +1,10 @@
 <?
+/**
+ * GET	/ebooks/:url-path/collections
+ *
+ * Get an XML representation of the `Collection`s this `Ebook` belongs to. Used for admin purposes, usually for `EbookPlaceholders`.
+ */
+
 /** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
 $urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
 

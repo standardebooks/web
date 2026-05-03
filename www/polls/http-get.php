@@ -1,12 +1,17 @@
 <?
+/**
+ * GET		/polls/:poll-url-name
+ */
+
 try{
-	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'poll-url-name'));
+	/** @var Poll $poll The `Poll` for this request, passed in from the router. */
+	$poll = $resource ?? throw new Exceptions\PollNotFoundException();
 
 	$canVote = true; // Allow non-logged-in users to see the 'vote' button.
 
 	if(!$poll->IsActive() && $poll->End !== null && $poll->End < NOW){
 		// If the poll ended, redirect to the results.
-		header('Location: ' . $poll->Url . '/votes');
+		header('location: ' . $poll->Url . '/votes');
 		exit();
 	}
 

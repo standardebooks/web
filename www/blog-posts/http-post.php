@@ -1,9 +1,12 @@
 <?
+/**
+ * POST		/blog-posts
+ */
+
 use function Safe\session_start;
 
 try{
 	session_start();
-	$exceptionRedirectUrl = '/blog-posts/new';
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -24,7 +27,7 @@ try{
 	$_SESSION['is-blog-post-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $blogPost->Url);
+	header('location: ' . $blogPost->Url);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -39,5 +42,5 @@ catch(Exceptions\InvalidBlogPostException | Exceptions\BlogPostExistsException $
 	$_SESSION['blog-post-ebook-identifiers'] = $ebookIdentifiers;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: /blog-posts/new');
 }

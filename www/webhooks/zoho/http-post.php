@@ -1,15 +1,17 @@
 <?
+/**
+ * POST		/webhooks/zoho
+ *
+ * This script receives `POST` requests when email from a Fractured Atlas donation is received at the SE Zoho email account. It processes the email, and inserts the donation ID into the database for later processing by `~se/web/scripts/process-pending-payments`.
+ */
+
 use function Safe\file_get_contents;
 use function Safe\get_cfg_var;
-use function Safe\preg_match;
 use function Safe\json_decode;
-
-// This webhook receives POSTs when email from a Fractured Atlas donation is received at the SE Zoho email account. This script processes the email, and inserts the donation ID into the database for later processing by `~se/web/scripts/process-pending-payments`.
-$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
+use function Safe\preg_match;
 
 try{
-	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
-
+	$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
 	$log->Write('Received Zoho webhook.');
 
 	$post = file_get_contents('php://input');
@@ -19,7 +21,7 @@ try{
 	$zohoWebhookSecret = get_cfg_var('se.secrets.zoho.webhook_secret');
 
 	/** @var string $zohoHookSignature */
-	$zohoHookSignature = $_SERVER['HTTP_X_HOOK_SIGNATURE'];
+	$zohoHookSignature = $_SERVER['HTTP_X_HOOK_SIGNATURE'] ?? '';
 	if(!hash_equals($zohoHookSignature, base64_encode(hash_hmac('sha256', $post, $zohoWebhookSecret, true)))){
 		throw new Exceptions\InvalidCredentialsException();
 	}

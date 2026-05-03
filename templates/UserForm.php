@@ -199,7 +199,7 @@ $isEditForm ??= false;
 				<label>
 					<input type="hidden" name="benefits-can-be-auto-assigned-to-projects" value="false" />
 					<input type="checkbox" name="benefits-can-be-auto-assigned-to-projects" value="true"<? if($user->Benefits->CanBeAutoAssignedToProjects){ ?> checked="checked"<? } ?> />
-					Can edit be auto-assigned to projects
+					Can be auto-assigned to projects
 				</label>
 			</li>
 			<li>

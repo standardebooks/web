@@ -1,11 +1,15 @@
 <?
+/**
+ * GET		/sessions/new
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
 session_start();
 
 if(Session::$User !== null){
-	header('Location: /');
+	header('location: /');
 	exit();
 }
 
@@ -15,13 +19,16 @@ $redirect = Template::SanitizeRedirectUrl(HttpInput::Str(SESSION, 'redirect') ??
 $exception = $_SESSION['exception'] ?? null;
 $passwordRequired = false;
 
-http_response_code(Enums\HttpCode::Unauthorized->value);
+// We can't output HTTP 401 because according to the spec, that code requires a `www-authenticate` header which doesn't make sense in this context.
+// http_response_code(Enums\HttpCode::Unauthorized->value);
 
 if($exception){
 	if($exception instanceof Exceptions\PasswordRequiredException){
 		// This login requires a password to proceed.
 		// Prompt the user for a password.
-		http_response_code(Enums\HttpCode::Unauthorized->value);
+
+		// We can't output HTTP 401 because according to the spec, that code requires a `www-authenticate` header which doesn't make sense in this context.
+		//http_response_code(Enums\HttpCode::Unauthorized->value);
 		$passwordRequired = true;
 		$exception = null; // Clear the exception so we don't show an error.
 	}
@@ -51,7 +58,7 @@ if($exception){
 				</label>
 			<? }else{ ?>
 				<label>Your email address
-					<input type="email" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
+					<input type="email" name="email" autocomplete="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
 				</label>
 			<? } ?>
 			<button>Log in</button>

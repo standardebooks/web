@@ -1,8 +1,10 @@
 <?
 /**
- * GET /users/<uuid>/newsletter-subscriptions
- * List all `NewsletterSubscriptions` for the given `User`.
+ * GET		/users/:uuid/newsletter-subscriptions
+ *
+ * List all `NewsletterSubscriptions` for the given `User`. This page can only be accessed via a `User`'s UUID as the identifier, to prevent guessing IDs.
  */
+
 use function Safe\session_start;
 use function \Safe\session_unset;
 
@@ -62,7 +64,7 @@ catch(Exceptions\UserNotFoundException){
 		<? } ?>
 
 		<? if(sizeof($user->NewsletterSubscriptions) == 0){ ?>
-			<p class="empty-notice">You’re not subscribed to any newsletters.</p>
+			<p class="empty-notice">You’re not subscribed to any Standard Ebooks newsletters.</p>
 		<? }else{ ?>
 			<ul>
 				<? foreach($user->NewsletterSubscriptions as $newsletterSubscription){ ?>
@@ -71,7 +73,7 @@ catch(Exceptions\UserNotFoundException){
 						<? if($newsletterSubscription->Newsletter->Description !== null){ ?>
 							<p><?= $newsletterSubscription->Newsletter->Description ?></p>
 						<? } ?>
-						<form action="<?= $newsletterSubscription->DeleteUrl ?>" method="<?= Enums\HttpMethod::Post->value ?>"><input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>"/><button>Unsubscribe</button></form>
+						<form action="<?= $newsletterSubscription->Url ?>" method="<?= Enums\HttpMethod::Post->value ?>"><input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>"/><button>Unsubscribe</button></form>
 					</li>
 				<? } ?>
 			</ul>

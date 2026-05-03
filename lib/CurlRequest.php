@@ -32,8 +32,6 @@ class CurlRequest{
 		}
 
 		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method->value);

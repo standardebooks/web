@@ -1,32 +1,33 @@
 <?
-use function Safe\session_start;
+/**
+ * PATCH		/ebooks/:url-path
+ */
 
-/** @var string $urlPath Passed from script this is included from. */
-$ebook = null;
+use function Safe\session_start;
 
 try{
 	session_start();
-	$exceptionRedirectUrl = '/ebook-placeholders/new';
+
+	/** @var Ebook $ebook The `Ebook` for this request, passed in from the router. */
+	$ebook = $resource ?? throw new Exceptions\EbookNotFoundException();
+
+	$originalEbook = $ebook;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanEditEbookPlaceholders){
+	if(
+		!Session::$User->Benefits->CanEditEbookPlaceholders
+		||
+		!$ebook->IsPlaceholder()
+		||
+		$ebook->EbookPlaceholder === null
+	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	$originalEbook = Ebook::GetByIdentifier($urlPath);
-	$exceptionRedirectUrl = $originalEbook->EditUrl;
-
-	$ebook = new Ebook();
-
 	$ebook->FillFromEbookPlaceholderForm();
-	$ebook->EbookId = $originalEbook->EbookId;
-	$ebook->Created = $originalEbook->Created;
-	if(isset($ebook->EbookPlaceholder) && isset($originalEbook->EbookPlaceholder)){
-		$ebook->EbookPlaceholder->IsInProgress = $originalEbook->EbookPlaceholder->IsInProgress;
-	}
 
 	try{
 		$ebook->Save();
@@ -37,7 +38,7 @@ try{
 
 	$_SESSION['is-ebook-placeholder-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $ebook->Url);
+	header('location: ' . $ebook->Url);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -50,5 +51,5 @@ catch(Exceptions\InvalidEbookException | Exceptions\EbookPlaceholderExistsExcept
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: ' . $originalEbook->EditUrl);
 }

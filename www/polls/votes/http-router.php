@@ -1,2 +1,0 @@
-<?
-HttpInput::RouteRequest();

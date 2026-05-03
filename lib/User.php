@@ -6,9 +6,10 @@ use function Safe\preg_match;
 
 /**
  * @property array<Payment> $Payments
- * @property-read bool $IsRegistered A user is "registered" if they have an entry in the `Benefits` table; a password is required to log in.
+ * @property-read bool $IsRegistered A `User` is "registered" if they have an entry in the `Benefits` table; a password is required to log in.
  * @property Benefits $Benefits
  * @property-read string $Url
+ * @property-read string $UuidUrl The `User`'s unique URL, addressed via UUID instead of internal ID.
  * @property-read string $EditUrl
  * @property ?Patron $Patron
  * @property array<NewsletterSubscription> $NewsletterSubscriptions
@@ -38,6 +39,7 @@ final class User{
 	protected ?Payment $_LastPayment;
 	protected Benefits $_Benefits;
 	protected string $_Url;
+	protected string $_UuidUrl;
 	protected string $_EditUrl;
 	protected ?Patron $_Patron;
 	/** @var array<NewsletterSubscription> $_NewsletterSubscriptions */
@@ -149,6 +151,10 @@ final class User{
 
 	protected function GetUrl(): string{
 		return $this->_Url ??= '/users/' . $this->UserId;
+	}
+
+	protected function GetUuidUrl(): string{
+		return $this->_UuidUrl ??= '/users/' . $this->Uuid;
 	}
 
 	protected function GetEditUrl(): string{

@@ -1,37 +1,33 @@
 <?
 /**
+ * POST		/webhooks/github
+ *
  * This script makes various calls to external scripts using `exec()` (and when called via Apache, as the `www-data` user).
  * These scripts are allowed using the `/etc/sudoers.d/www-data` file. Only the specific scripts in that file may be executed by this script.
  */
+
 use function Safe\exec;
 use function Safe\file_get_contents;
-use function Safe\json_decode;
 use function Safe\get_cfg_var;
 use function Safe\glob;
+use function Safe\json_decode;
 use function Safe\shell_exec;
 
-$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
-
 try{
-	$lastPushHashFlag = '';
-
-	HttpInput::ValidateRequestMethod([Enums\HttpMethod::Post]);
-
+	$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
 	$log->Write('Received GitHub webhook.');
 
 	$post = file_get_contents('php://input');
 
 	// Validate the GitHub secret.
 	/** @var string $githubSignature */
-	$githubSignature = $_SERVER['HTTP_X_HUB_SIGNATURE'] ?? '';
-	$splitHash = explode('=', $githubSignature);
-	$hashAlgorithm = $splitHash[0];
-	$hash = $splitHash[1];
+	$githubSignature = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
+	$hash = explode('=', $githubSignature)[1] ?? throw new Exceptions\InvalidCredentialsException();
 
 	/** @var string $gitHubWebhookSecret */
 	$gitHubWebhookSecret = get_cfg_var('se.secrets.github.se_vcs_bot.secret');
 
-	if(!hash_equals($hash, hash_hmac($hashAlgorithm, $post, $gitHubWebhookSecret))){
+	if(!hash_equals($hash, hash_hmac('sha256', $post, $gitHubWebhookSecret))){
 		throw new Exceptions\InvalidCredentialsException();
 	}
 
@@ -42,6 +38,7 @@ try{
 
 	/** @var array<array<string>> $data */
 	$data = json_decode($post, true);
+	$lastPushHashFlag = '';
 
 	// Decide what event we just received.
 	switch($_SERVER['HTTP_X_GITHUB_EVENT']){
@@ -97,6 +94,8 @@ try{
 					throw new Exceptions\NoopException();
 				}
 			}
+
+			$output = [];
 
 			// Get the current HEAD hash and save for later.
 			exec('sudo --set-home --user=se-vcs-bot git -C ' . escapeshellarg($dir) . ' rev-parse HEAD', $output, $returnCode);

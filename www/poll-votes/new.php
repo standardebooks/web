@@ -53,7 +53,7 @@ catch(Exceptions\PollVoteExistsException $ex){
 		$redirect = $ex->Vote->Url;
 	}
 
-	header('Location: ' . $redirect);
+	header('location: ' . $redirect);
 	exit();
 }
 ?><?= Template::Header(title: 'Vote in the ' . $poll->Name . ' Poll', description: 'Vote in the ' . $poll->Name . ' poll') ?>

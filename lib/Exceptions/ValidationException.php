@@ -8,6 +8,10 @@ class ValidationException extends AppException{
 	public bool $IsFatal = false;
 
 	public function __toString(): string{
+		if($this->message != ''){
+			return $this->message;
+		}
+
 		$output = '';
 
 		foreach($this->Exceptions as $exception){

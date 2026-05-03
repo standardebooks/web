@@ -1,10 +1,16 @@
 <?
+/**
+ * PATCH	/users/:user-identifier
+ */
 use function Safe\session_start;
 
 try{
 	session_start();
 
-	$user = User::Get(HttpInput::Int(GET, 'user-id'));
+	/** @var User $user The `User` for this request, passed in from the router. */
+	$user = $resource ?? throw new Exceptions\UserNotFoundException();
+
+	$originalUser = $user;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -14,14 +20,11 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	$exceptionRedirectUrl = $user->Url . '/edit';
-
 	$user->FillFromHttpPost();
 
 	$generateNewUuid = HttpInput::Bool(POST, 'generate-new-uuid') ?? false;
 
 	if($generateNewUuid){
-		$oldUuid = $user->Uuid;
 		$user->GenerateUuid();
 	}
 
@@ -48,7 +51,7 @@ try{
 	$_SESSION['is-user-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $user->Url);
+	header('location: ' . $user->Url);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -61,7 +64,7 @@ catch(Exceptions\UserNotFoundException){
 }
 catch(Exceptions\InvalidUserException | Exceptions\UserExistsException $ex){
 	if($generateNewUuid){
-		$user->Uuid = $oldUuid;
+		$user->Uuid = $originalUser->Uuid;
 		$_SESSION['generate-new-uuid'] = $generateNewUuid;
 	}
 
@@ -75,5 +78,5 @@ catch(Exceptions\InvalidUserException | Exceptions\UserExistsException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: ' . $originalUser->EditUrl);
 }

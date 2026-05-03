@@ -1,0 +1,372 @@
+GET https://standardebooks.test/robots.txt
+HTTP/2 200 
+strict-transport-security: max-age=15768000
+accept-ranges: bytes
+content-length: 281
+vary: Accept-Encoding
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: text/plain; charset=utf-8
+server: Apache
+
+HEAD https://standardebooks.test/robots.txt
+HTTP/2 200 
+strict-transport-security: max-age=15768000
+accept-ranges: bytes
+content-length: 281
+vary: Accept-Encoding
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: text/plain; charset=utf-8
+server: Apache
+
+DELETE https://standardebooks.test/robots.txt
+HTTP/2 405 
+allow: GET,HEAD,OPTIONS
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+OPTIONS https://standardebooks.test/robots.txt
+HTTP/2 204 
+strict-transport-security: max-age=15768000
+allow: GET,HEAD,OPTIONS
+server: Apache
+
+GET https://standardebooks.test/doesnt-exist.txt
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+HEAD https://standardebooks.test/doesnt-exist.txt
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+DELETE https://standardebooks.test/doesnt-exist.txt
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+OPTIONS https://standardebooks.test/doesnt-exist.txt
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+GET https://standardebooks.test/artworks/george-w-joy/the-kelpie
+HTTP/2 200 
+strict-transport-security: max-age=15768000
+vary: Accept-Encoding
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+HEAD https://standardebooks.test/artworks/george-w-joy/the-kelpie
+HTTP/2 200 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+PATCH https://standardebooks.test/artworks/george-w-joy/the-kelpie
+HTTP/2 302 
+strict-transport-security: max-age=15768000
+location: /sessions/new?redirect=%2Fartworks%2Fgeorge-w-joy%2Fthe-kelpie
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+DELETE https://standardebooks.test/artworks/george-w-joy/the-kelpie
+HTTP/2 405 
+allow: GET,HEAD,OPTIONS,PATCH,POST
+accept-patch: application/x-www-form-urlencoded,multipart/form-data
+accept-post: application/x-www-form-urlencoded,multipart/form-data
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+OPTIONS https://standardebooks.test/artworks/george-w-joy/the-kelpie
+HTTP/2 204 
+allow: GET,HEAD,OPTIONS,PATCH,POST
+accept-patch: application/x-www-form-urlencoded,multipart/form-data
+accept-post: application/x-www-form-urlencoded,multipart/form-data
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+server: Apache
+
+GET https://standardebooks.test/artworks/not/not
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+HEAD https://standardebooks.test/artworks/not/not
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+PATCH https://standardebooks.test/artworks/not/not
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+DELETE https://standardebooks.test/artworks/not/not
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+OPTIONS https://standardebooks.test/artworks/not/not
+HTTP/2 404 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+GET https://standardebooks.test/artworks
+HTTP/2 200 
+strict-transport-security: max-age=15768000
+vary: Accept-Encoding
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+HEAD https://standardebooks.test/artworks
+HTTP/2 200 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+POST https://standardebooks.test/artworks
+HTTP/2 302 
+strict-transport-security: max-age=15768000
+location: /sessions/new?redirect=%2Fartworks
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+PATCH https://standardebooks.test/artworks
+HTTP/2 405 
+allow: GET,HEAD,OPTIONS,POST
+accept-post: application/x-www-form-urlencoded,multipart/form-data
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+DELETE https://standardebooks.test/artworks
+HTTP/2 405 
+allow: GET,HEAD,OPTIONS,POST
+accept-post: application/x-www-form-urlencoded,multipart/form-data
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+OPTIONS https://standardebooks.test/artworks
+HTTP/2 204 
+allow: GET,HEAD,OPTIONS,POST
+accept-post: application/x-www-form-urlencoded,multipart/form-data
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+server: Apache
+
+GET https://standardebooks.test/artworks/new
+HTTP/2 302 
+strict-transport-security: max-age=15768000
+location: /sessions/new?redirect=%2Fartworks%2Fnew
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+HEAD https://standardebooks.test/artworks/new
+HTTP/2 302 
+strict-transport-security: max-age=15768000
+location: /sessions/new?redirect=%2Fartworks%2Fnew
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: text/html; charset=UTF-8
+server: Apache
+
+POST https://standardebooks.test/artworks/new
+HTTP/2 405 
+allow: GET,HEAD,OPTIONS
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+OPTIONS https://standardebooks.test/artworks/new
+HTTP/2 204 
+strict-transport-security: max-age=15768000
+allow: GET,HEAD,OPTIONS
+server: Apache
+
+GET https://standardebooks.test/contribute/collections-policy
+HTTP/2 200 
+strict-transport-security: max-age=15768000
+vary: Accept-Encoding
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+HEAD https://standardebooks.test/contribute/collections-policy
+HTTP/2 200 
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-type: application/xhtml+xml; charset=utf-8
+server: Apache
+
+PATCH https://standardebooks.test/contribute/collections-policy
+HTTP/2 405 
+allow: GET,HEAD,OPTIONS
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
+OPTIONS https://standardebooks.test/contribute/collections-policy
+HTTP/2 204 
+strict-transport-security: max-age=15768000
+allow: GET,HEAD,OPTIONS
+server: Apache
+

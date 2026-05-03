@@ -34,7 +34,7 @@ final class NewsletterSubscription{
 	}
 
 	protected function GetDeleteUrl(): string{
-		return $this->_DeleteUrl ??= $this->Url . '/delete';
+		return $this->_DeleteUrl ??= $this->Url . '?_method=' . Enums\HttpMethod::Delete->value;
 	}
 
 	// *******

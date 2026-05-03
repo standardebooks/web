@@ -1,4 +1,8 @@
 <?
+/**
+ * GET		/ebook-placeholders/new
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 

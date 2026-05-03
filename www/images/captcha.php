@@ -5,7 +5,7 @@ use Gregwar\Captcha\CaptchaBuilder;
 
 session_start();
 
-header('Content-type: image/jpeg');
+header('content-type: image/jpeg');
 
 // Generate an image between 5-7 letters inclusive, excluding confusable letters like `O` and `0`.
 $phraseBuilder = new PhraseBuilder(random_int(5, 7), 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789');

@@ -1,34 +1,26 @@
 <?
-use function Safe\session_start;
-use function Safe\session_unset;
+/**
+ * GET		/ebooks/:url-path/delete
+ */
 
 try{
-	session_start();
+	/** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
+	$urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
 
-	/** @var string $urlPath Passed from script this is included from. */
-
-	$ebook = HttpInput::SessionObject('ebook', Ebook::class);
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-
-	if($ebook === null){
-		$ebook = Ebook::GetByIdentifier($urlPath);
-	}
-
-	if(!$ebook->IsPlaceholder() || $ebook->EbookPlaceholder === null){
-		throw new Exceptions\EbookNotFoundException();
-	}
+	$ebook = Ebook::GetByIdentifier($urlPath);
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanEditEbookPlaceholders){
+	if(
+		!Session::$User->Benefits->CanEditEbookPlaceholders
+		||
+		!$ebook->IsPlaceholder()
+		||
+		$ebook->EbookPlaceholder === null
+	){
 		throw new Exceptions\InvalidPermissionsException();
-	}
-
-	if($exception){
-		http_response_code(Enums\HttpCode::UnprocessableContent->value);
-		session_unset();
 	}
 }
 catch(Exceptions\EbookNotFoundException){
@@ -53,8 +45,6 @@ catch(Exceptions\InvalidPermissionsException){
 			<a href="<?= $ebook->Url ?>"><?= Formatter::EscapeHtml($ebook->Title) ?></a> →
 		</nav>
 		<h1>Delete</h1>
-
-		<?= Template::Error(exception: $exception) ?>
 
 		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $ebook->Url ?>">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>" />

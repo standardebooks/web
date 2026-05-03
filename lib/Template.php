@@ -96,10 +96,10 @@ class Template extends TemplateBase{
 
 			$destinationUrl = self::SanitizeRedirectUrl($destinationUrl);
 
-			header('Location: /sessions/new?redirect=' . urlencode($destinationUrl));
+			header('location: /sessions/new?redirect=' . urlencode($destinationUrl));
 		}
 		else{
-			header('Location: /sessions/new');
+			header('location: /sessions/new');
 		}
 
 		exit();
@@ -116,10 +116,10 @@ class Template extends TemplateBase{
 		http_response_code(Enums\HttpCode::Found->value);
 
 		if($identifier === null){
-			header('Location: /users');
+			header('location: /users');
 		}
 		else{
-			header('Location: /users/' . rawurlencode($identifier) . '/disambiguation');
+			header('location: /users/' . rawurlencode($identifier) . '/disambiguation');
 		}
 
 		exit();

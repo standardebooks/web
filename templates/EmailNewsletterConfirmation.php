@@ -17,7 +17,7 @@
 </ul>
 <p>Please click the button below to confirm your subscription—you won’t receive email from us until you do.</p>
 <p class="button-row">
-	<a href="<?= SITE_URL ?>/users/<?= $user->Uuid ?>/newsletter-subscriptions/confirm" class="button">Yes, confirm my subscription</a>
+	<a href="<?= SITE_URL ?>/users/<?= $user->Uuid ?>/newsletter-subscriptions/<?= $user->NewsletterSubscriptions[0]->NewsletterId ?>?_method=<?= Enums\HttpMethod::Patch->value ?>" class="button">Yes, confirm my subscription</a>
 </p>
 <p>If you didn’t subscribe, or you’re not sure why you received this email, you can safely delete it and you won’t receive any more email from us.</p>
 <?= Template::EmailFooter() ?>

@@ -1,21 +1,23 @@
 <?
+/**
+ * GET		/ebooks/:url-path
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
-session_start();
-
-/** @var string $urlPath Passed from script this is included from. */
-$ebook = null;
-
-$isSaved = HttpInput::Bool(SESSION, 'is-ebook-placeholder-saved') ?? false;
-$isProjectSaved = HttpInput::Bool(SESSION, 'is-project-saved') ?? false;
-
 try{
-	$ebook = Ebook::GetByIdentifier($urlPath);
+	session_start();
+
+	/** @var Ebook $ebook The `Ebook` for this request, passed in from the router. */
+	$ebook = $resource ?? throw new Exceptions\EbookNotFoundException();
 
 	if($ebook->EbookPlaceholder === null){
 		throw new Exceptions\EbookNotFoundException();
 	}
+
+	$isSaved = HttpInput::Bool(SESSION, 'is-ebook-placeholder-saved') ?? false;
+	$isProjectSaved = HttpInput::Bool(SESSION, 'is-project-saved') ?? false;
 
 	if($isSaved || $isProjectSaved){
 		session_unset();

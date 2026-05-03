@@ -1,16 +1,22 @@
 <?
+/**
+ * PATCH /projects/:project-id
+ */
+
 use function Safe\session_start;
 
 try{
 	session_start();
 
-	$project = Project::Get(HttpInput::Int(GET, 'project-id'));
+	/** @var Project $project The `Project` for this request, passed in from the router. */
+	$project = $resource ?? throw new Exceptions\ProjectNotFoundException();
+
+	$originalProject = $project;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	$exceptionRedirectUrl = $project->EditUrl;
 	$projectStatus = Enums\ProjectStatusType::tryFrom(HttpInput::Str(POST, 'project-status') ?? '');
 
 	// Any logged-in `User` who can edit a a `Project` can save any part of the `Project`; additionally, it's also allowed to update `Project::$Status` if the logged-in `User` is the `Project`'s manager or reviewer.
@@ -43,7 +49,7 @@ try{
 
 	$_SESSION['is-project-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $project->Ebook->Url);
+	header('location: ' . $project->Ebook->Url);
 }
 catch(Exceptions\ProjectNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -59,5 +65,5 @@ catch(Exceptions\InvalidProjectException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: ' . $originalProject->EditUrl);
 }

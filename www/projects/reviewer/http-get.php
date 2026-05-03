@@ -1,16 +1,7 @@
 <?
 try{
-	$urlPath = HttpInput::Str(GET, 'url-path');
-
-	if($urlPath !== null){
-		/** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
-		$urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', $urlPath), '/');
-
-		$project = Project::GetByIdentifierAndIsActive($urlPath);
-	}
-	else{
-		$project = Project::Get(HttpInput::Int(GET, 'project-id'));
-	}
+	/** @var Project $project The `Project` for this request, passed in from the router. */
+	$project = $resource ?? throw new Exceptions\ProjectNotFoundException();
 
 	$indent = HttpInput::Bool(GET, 'indent') ?? false;
 
@@ -45,7 +36,7 @@ try{
 			break;
 	}
 
-	header('Content-type: text/plain');
+	header('content-type: text/plain');
 }
 catch(Exceptions\ProjectNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

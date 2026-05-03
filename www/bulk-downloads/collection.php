@@ -1,24 +1,25 @@
 <?
+/**
+ * GET		/bulk-downloads/:label-type
+ */
+
 use function Safe\preg_replace;
 
-$class = HttpInput::Str(GET, 'class') ?? '';
-
 try{
-	$labelType = Enums\BulkDownloadLabelType::from($class);
+	$labelType = Enums\BulkDownloadLabelType::from(HttpInput::Str(GET, 'label-type') ?? '');
+
+	if($labelType == Enums\BulkDownloadLabelType::Month){
+		$bulkDownloadCollections = BulkDownloadCollection::GetAllByMonthLabelType();
+	}
+	else{
+		$bulkDownloadCollections = BulkDownloadCollection::GetAllByLabelType($labelType);
+	}
+
+	$title = preg_replace('/s$/', '', ucfirst($labelType->value));
 }
 catch(ValueError){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-
-if($labelType == Enums\BulkDownloadLabelType::Month){
-	$bulkDownloadCollections = BulkDownloadCollection::GetAllByMonthLabelType();
-}
-else{
-	$bulkDownloadCollections = BulkDownloadCollection::GetAllByLabelType($labelType);
-}
-
-$title = preg_replace('/s$/', '', ucfirst($labelType->value));
-
 ?><?= Template::Header(title: 'Downloads by ' . $title, description: 'Download zip files containing all of the Standard Ebooks in a given collection.') ?>
 <main>
 	<section class="bulk-downloads">

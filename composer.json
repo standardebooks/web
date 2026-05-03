@@ -31,6 +31,7 @@
 		"pixel418/markdownify": "^2.3",
 		"ramsey/uuid": "^4.7.6",
 		"thecodingmachine/safe": "^3.0.2",
-		"goat1000/svggraph": "^3.20"
+		"goat1000/svggraph": "^3.20",
+		"aws/aws-php-sns-message-validator": "^1.10"
 	}
 }

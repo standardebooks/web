@@ -1,18 +1,18 @@
 <?
+/**
+ * GET		/users/:user-identifier/edit
+ */
+
+use PhpParser\Node\Stmt\For_;
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
 try{
 	session_start();
-	$identifier = HttpInput::Str(GET, 'user-identifier');
-	$user = HttpInput::SessionObject('user', User::class);
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$generateNewUuid = HttpInput::Bool(SESSION, 'generate-new-uuid') ?? false;
-	$passwordAction = HttpInput::SessionObject('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::None;
 
-	if($user === null){
-		$user = User::GetByIdentifier($identifier);
-	}
+	$identifier = HttpInput::Str(GET, 'user-identifier');
+	$originalUser = User::GetByIdentifier($identifier);
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -22,7 +22,12 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	// We got here because a `User` update had errors and the user has to try again.
+	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+	$user = HttpInput::SessionObject('user', User::class) ?? $originalUser;
+	$generateNewUuid = HttpInput::Bool(SESSION, 'generate-new-uuid') ?? false;
+	$passwordAction = HttpInput::SessionObject('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::None;
+
+	// We got here because an operation had errors and the user has to try again.
 	if($exception){
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
@@ -42,17 +47,20 @@ catch(Exceptions\InvalidPermissionsException){
 }
 ?>
 <?= Template::Header(
-	title: 'Edit user #' . $user->UserId,
-	canonicalUrl: $user->Url . '/edit',
+	title: 'Edit ' . $originalUser->DisplayName,
+	canonicalUrl: $originalUser->Url . '/edit',
 	css: ['/css/user.css']
 ) ?>
 <main>
 	<section class="narrow">
-		<h1>Edit <?= Formatter::EscapeHtml($user->DisplayName) ?></h1>
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
+			<a href="/users">Users</a> → <a href="<?= $originalUser->Url ?>"><?= Formatter::EscapeHtml($originalUser->DisplayName) ?></a> →
+		</nav>
+		<h1>Edit <?= Formatter::EscapeHtml($originalUser->DisplayName) ?></h1>
 
 		<?= Template::Error(exception: $exception) ?>
 
-		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $user->Url ?>" autocomplete="off">
+		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $originalUser->Url ?>" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 			<?= Template::UserForm(user: $user, isEditForm: true, generateNewUuid: $generateNewUuid, passwordAction: $passwordAction) ?>
 		</form>

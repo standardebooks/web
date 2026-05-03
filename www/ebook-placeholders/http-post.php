@@ -1,4 +1,8 @@
 <?
+/**
+ * POST		/ebooks-placeholders
+ */
+
 use function Safe\session_start;
 
 /** @var string $urlPath Passed from script this is included from. */
@@ -6,7 +10,6 @@ $ebook = null;
 
 try{
 	session_start();
-	$exceptionRedirectUrl = '/ebook-placeholders/new';
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -53,7 +56,7 @@ try{
 	$_SESSION['is-ebook-placeholder-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: /ebook-placeholders/new');
+	header('location: /ebook-placeholders/new');
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -66,5 +69,5 @@ catch(Exceptions\InvalidEbookException | Exceptions\EbookPlaceholderExistsExcept
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: /ebook-placeholders/new');
 }

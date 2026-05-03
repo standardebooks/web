@@ -1,8 +1,14 @@
 <?
+/**
+ * GET		/users/new
+ */
+
 use function Safe\session_start;
 use function Safe\session_unset;
 
 try{
+	session_start();
+
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
@@ -11,14 +17,12 @@ try{
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	session_start();
-
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
 	$user = HttpInput::SessionObject('user', User::class) ?? new User();
 	$passwordAction = HttpInput::SessionObject('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::Edit;
 
 	if($exception){
-		// We got here because a `User` submission had errors and the user has to try again.
+		// We got here because an operation had errors and the user has to try again.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
 	}

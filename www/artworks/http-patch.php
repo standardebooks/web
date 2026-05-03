@@ -1,77 +1,68 @@
 <?
+/**
+ * PATCH		/artworks/:artist-url-name/:artwork-url-name
+ */
+
 use function Safe\session_start;
 
 try{
 	session_start();
-	$originalArtwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
-	$artwork = $originalArtwork;
+
+	/** @var Artwork $artwork The `Artwork` for this request, passed in from the router. */
+	$artwork = $resource ?? throw new Exceptions\ArtworkNotFoundException();
+
+	$originalArtwork = $artwork;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
 	// We may have been called from either the `Artwork`'s page, or from the `Artwork`'s edit form, so check the referrer to see which one it was.
-	/** @var string $exceptionRedirectUrl */
-	$exceptionRedirectUrl = $_SERVER['HTTP_REFERER'] ?? $artwork->EditUrl;
+	/** @var string $referrer */
+	$referrer = $_SERVER['HTTP_REFERER'] ?? $artwork->EditUrl;
+	$exceptionRedirectUrl = Template::SanitizeRedirectUrl($referrer);
 
-	$artworkStatus = Enums\ArtworkStatusType::tryFrom(HttpInput::Str(POST, 'artwork-status') ?? '');
-	$artworkEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url', true);
-
-	$isPatchingArtworkStatus = $artworkStatus !== null && $artwork->CanStatusBeChangedBy(Session::$User) && !$artwork->CanBeEditedBy(Session::$User);
-	$isPatchingArtworkEbookUrl = $artworkEbookUrl !== null && $artwork->CanEbookUrlBeChangedBy(Session::$User) && !$artwork->CanBeEditedBy(Session::$User);
+	$artworkStatus = HttpInput::Str(POST, 'artwork-status');
+	$artworkEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
 
 	if(
-		!$isPatchingArtworkStatus
-		&&
-		!$isPatchingArtworkEbookUrl
-		&&
+		(
+			$artworkStatus !== null
+			&&
+			!$artwork->CanStatusBeChangedBy(Session::$User)
+		)
+		||
+		(
+			$artworkEbookUrl !== null
+			&&
+			!$artwork->CanEbookUrlBeChangedBy(Session::$User)
+		)
+		||
 		!$artwork->CanBeEditedBy(Session::$User)
 	){
 		throw new Exceptions\InvalidPermissionsException();
 	}
 
-	if($isPatchingArtworkStatus){
-		$artwork->Status = $artworkStatus;
-	}
-
-	if($isPatchingArtworkEbookUrl){
-		if($artworkEbookUrl == ''){
-			$artwork->Ebook = null;
-			$artwork->EbookId = null;
-		}
-		else{
-			try{
-				$ebook = Ebook::GetByIdentifier($artworkEbookUrl);
-				$artwork->EbookId = $ebook->EbookId;
-			}
-			catch(Exceptions\EbookNotFoundException){
-				$error = new Exceptions\InvalidArtworkException();
-				$error->Add(new Exceptions\InvalidUrlException($artworkEbookUrl));
-				throw $error;
-			}
-		}
-	}
-
-	if(!$isPatchingArtworkStatus && !$isPatchingArtworkEbookUrl && $artwork->CanBeEditedBy(Session::$User)){
+	try{
 		$artwork->FillFromHttpPost();
+
+		if($artworkStatus !== null && $artwork->Status != $originalArtwork->Status){
+			$artwork->ReviewerUserId = Session::$User->UserId;
+		}
+	}
+	catch(Exceptions\InvalidUrlException $ex){
+		// Restore the original artwork so the user can correct the error and try again.
+		$artwork = $originalArtwork;
+		throw $ex;
 	}
 
-	if($artworkStatus !== null && $artwork->Status != $originalArtwork->Status){
-		$artwork->ReviewerUserId = Session::$User->UserId;
-	}
-
-	if($isPatchingArtworkStatus || $isPatchingArtworkEbookUrl){
-		$artwork->Save();
-	}
-	else{
-		$artwork->Save(HttpInput::File('artwork-image'));
-	}
+	$artwork->Save(HttpInput::File('artwork-image'));
 
 	$_SESSION['artwork'] = $artwork;
 	$_SESSION['is-artwork-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $artwork->Url);
+	header('location: ' . $artwork->Url);
 }
 catch(Exceptions\ArtworkNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -98,5 +89,6 @@ catch(Exceptions\InvalidArtworkException | Exceptions\InvalidArtworkTagException
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('Location: ' . $exceptionRedirectUrl);
+	header('location: ' . $exceptionRedirectUrl);
 }
+
