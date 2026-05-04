@@ -1,7 +1,7 @@
 <?
 /**
- * GET /ebooks/<ebook-identifier>/projects/new
- * GET /projects/new
+ * GET		/ebooks/<ebook-identifier>/projects/new
+ * GET		/projects/new
  */
 
 use function Safe\session_start;

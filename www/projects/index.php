@@ -1,6 +1,6 @@
 <?
 /**
- * GET /projects
+ * GET		/projects
  */
 
 use function Safe\session_start;

@@ -1,6 +1,6 @@
 <?
 /**
- * PATCH /projects/:project-id
+ * PATCH	/projects/:project-id
  */
 
 use function Safe\session_start;

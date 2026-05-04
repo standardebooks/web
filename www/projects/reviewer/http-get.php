@@ -1,4 +1,11 @@
 <?
+/**
+ * GET		/ebooks/:url-path/projects/active/reviewer
+ * GET		/projects/:project-id/reviewer
+ *
+ * Get an XML representation of the reviewer for the `Ebook`'s current `Project`, useful for inserting into `content.opf`.
+ */
+
 try{
 	/** @var Project $project The `Project` for this request, passed in from the router. */
 	$project = $resource ?? throw new Exceptions\ProjectNotFoundException();

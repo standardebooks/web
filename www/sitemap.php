@@ -1,6 +1,6 @@
 <?
 /**
- * GET /sitemap
+ * GET		/sitemap
  */
 
 $ebooks = Ebook::GetAll();

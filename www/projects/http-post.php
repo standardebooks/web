@@ -1,6 +1,6 @@
 <?
 /**
- * POST /projects
+ * POST		/projects
  */
 
 use function Safe\session_start;
