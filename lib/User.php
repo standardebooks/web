@@ -333,10 +333,14 @@ final class User{
 	}
 
 	/**
+	 * @param bool $requireEmail **`TRUE`** if this `User` requires an email address to be set before it can be saved.
+	 * @param bool $deleteFromProjectUnassignedManagers **`TRUE`** to delete this `User` from the list of unassigned `Project` managers, for example if we've removed their manager benefits.
+	 * * @param bool $deleteFromProjectUnassignedReviewers **`TRUE`** to delete this `User` from the list of unassigned `Project` reviewers, for example if we've removed their reviewer benefits.
+	 *
 	 * @throws Exceptions\InvalidUserException
 	 * @throws Exceptions\UserExistsException
 	 */
-	public function Save(bool $requireEmail = true): void{
+	public function Save(bool $requireEmail = true, bool $deleteFromProjectUnassignedManagers = false, bool $deleteFromProjectUnassignedReviewers = false): void{
 		$this->Validate($requireEmail);
 
 		$this->Updated = NOW;
@@ -360,6 +364,14 @@ final class User{
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\UserExistsException();
+		}
+
+		if($deleteFromProjectUnassignedManagers){
+			Db::Query('DELETE from ProjectUnassignedUsers where UserId = ? and Role = ?', [$this->UserId, Enums\ProjectRoleType::Manager]);
+		}
+
+		if($deleteFromProjectUnassignedReviewers){
+			Db::Query('DELETE from ProjectUnassignedUsers where UserId = ? and Role = ?', [$this->UserId, Enums\ProjectRoleType::Reviewer]);
 		}
 	}
 

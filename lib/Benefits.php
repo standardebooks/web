@@ -108,7 +108,15 @@ class Benefits{
 		return $this->_HasBenefits;
 	}
 
+	private function Validate(): void{
+		if(!$this->CanManageProjects && !$this->CanReviewProjects){
+			$this->CanBeAutoAssignedToProjects = false;
+		}
+	}
+
 	public function Create(): void{
+		$this->Validate();
+
 		Db::Query('
 				INSERT into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, CanReviewOwnArtwork, CanCreateUsers, CanEditUsers, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanEditProjects, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanEditBlogPosts, CanEditSpreadsheets, CanCreateNewsletterMailings, CanEditNewsletterMailings, CanViewReports)
 				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -116,6 +124,8 @@ class Benefits{
 	}
 
 	public function Save(): void{
+		$this->Validate();
+
 		Db::Query('
 				UPDATE Benefits
 				set CanAccessFeeds = ?, CanVote = ?, CanBulkDownload = ?, CanUploadArtwork = ?, CanReviewArtwork = ?, CanReviewOwnArtwork = ?, CanCreateUsers = ?, CanEditUsers = ?, CanEditCollections = ?, CanEditEbooks = ?, CanEditEbookPlaceholders = ?, CanEditProjects = ?, CanManageProjects = ?, CanReviewProjects = ?, CanBeAutoAssignedToProjects = ?, CanEditBlogPosts = ?, CanEditSpreadsheets = ?, CanCreateNewsletterMailings = ?, CanEditNewsletterMailings = ?, CanViewReports = ?
