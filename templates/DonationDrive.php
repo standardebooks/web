@@ -103,10 +103,10 @@ if($donationDrive instanceof DonationCounter){
 	<? } ?>
 	<? if($donationDrive instanceof DonationCounter){ ?>
 		<header>
-			<p><?= $timeString ?> left to help us win <?= Formatter::FormatCurrency($donationDrive->MatchAmount, true) ?></p>
+			<p><?= $timeString ?> left to help us win a <?= Formatter::FormatCurrency($donationDrive->MatchAmount, true) ?> grant</p>
 		</header>
 		<div class="flipboard">
-			We have <? foreach($digits as $digit){ ?><span><?= $digit ?></span><? } ?>
+			We have <span class="digits"><? foreach($digits as $digit){ ?><span><?= $digit ?></span><? } ?></span>
 			entries
 		</div>
 		<p>Our fiscal sponsor, <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, is running their annual Spring Match campaign, in which they <? if($donationDrive->ExternalUrl !== null){ ?><a href="<?= Formatter::EscapeHtml($donationDrive->ExternalUrl) ?>"><? } ?>award <?= Formatter::FormatCurrency($donationDrive->MatchAmount, true) ?> to twenty different projects<? if($donationDrive->ExternalUrl !== null){ ?></a><? } ?>.</p>

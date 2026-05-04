@@ -2981,7 +2981,7 @@ div.progress{
 	text-transform: uppercase;
 }
 
-.flipboard span{
+.flipboard .digits span{
 	background: #222;
 	border: 1px solid #222;
 	box-shadow: 1px 1px 0px rgba(255,255,255,.5) inset;
@@ -2992,15 +2992,15 @@ div.progress{
 	position: relative;
 	text-shadow: 2px 2px 0px #000;
 	width: 1em;
-	padding: .5em .25em;
+	padding: .5rem .25rem;
 	display: inline-block;
 }
 
-.flipboard span + span{
+.flipboard .digits span + span{
 	margin-left: .1em;
 }
 
-.flipboard span::before{
+.flipboard .digits span::before{
 	position: absolute;
 	content: "";
 	top: calc(50% - 5px);
@@ -3011,7 +3011,7 @@ div.progress{
 	border-right: 2px solid #aaa;
 }
 
-.flipboard span::after{
+.flipboard .digits span::after{
 	position: absolute;
 	content: "";
 	top: 50%;
@@ -3988,6 +3988,17 @@ ul[role="menu"] li + li::before{
 	}
 }
 
+@media(max-width: 790px){
+	.donation .flipboard .digits{
+		display: block;
+		margin: .75rem 0;
+	}
+
+	.donation .flipboard .digits span{
+		margin-bottom: 0;
+	}
+}
+
 @media(max-width: 730px){
 	form[action="/ebooks"]{
 		grid-template-columns: auto auto 1fr 1fr;
@@ -4089,10 +4100,6 @@ ul[role="menu"] li + li::before{
 
 	.donation .flipboard{
 		text-align: center;
-	}
-
-	.donation .flipboard span{
-		margin-bottom: 1rem;
 	}
 
 	.donation p:last-child,
@@ -4339,7 +4346,7 @@ ul[role="menu"] li + li::before{
 	}
 
 	.donation .flipboard{
-		font-size: 1rem;
+		font-size: 1.5rem;
 	}
 }
 
@@ -4445,6 +4452,14 @@ ul[role="menu"] li + li::before{
 		content: "\A"; /* This is a line break */
 		white-space: pre;
 		margin: 0;
+	}
+
+	.donation .flipboard{
+		font-size: 1.25rem;
+	}
+
+	.donation a.button{
+		hyphens: auto;
 	}
 }
 

@@ -1,26 +1,34 @@
 <?
-$donationDrive = DonationDrive::GetByIsActive();
+// Check if there is an active `DonationDrive` or `DonationCounter`.
+$isDonationDriveActive = Db::QueryBool('
+	SELECT exists
+	(
+		select * from DonationCounters where utc_timestamp() > Start and utc_timestamp() < End
+		union
+		select * from DonationDrives where utc_timestamp() > Start and utc_timestamp() < End and Count < Target + StretchTarget
+	)
+');
 
 // Hide this alert if...
 if(
 	Session::$User !== null // If a user is logged in.
 	||
-	$donationDrive !== null // There is a currently-running donation drive.
+	$isDonationDriveActive  // There is a currently-running donation drive.
 	||
 	rand(1, 5) <= 3 // A 3-in-5 chance occurs.
 ){
 	return;
 }
 
-	// The Kindle browsers renders `<aside>` as an undismissable popup. Serve a `<div>` to Kindle instead.
-	// See <https://github.com/standardebooks/web/issues/204>.
-	$element = 'aside';
+// The Kindle browsers renders `<aside>` as an undismissable popup. Serve a `<div>` to Kindle instead.
+// See <https://github.com/standardebooks/web/issues/204>.
+$element = 'aside';
 
-	/** @var string $httpUserAgent */
-	$httpUserAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-	if(stripos($httpUserAgent, 'kindle') !== false){
-		$element = 'div';
-	}
+/** @var string $httpUserAgent */
+$httpUserAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+if(stripos($httpUserAgent, 'kindle') !== false){
+	$element = 'div';
+}
 ?>
 <<?= $element ?> class="donation">
 	<p>We rely on your support to help us keep producing beautiful, free, and unrestricted editions of literature for the digital age.</p>
