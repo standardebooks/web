@@ -9,21 +9,21 @@ namespace Traits;
  * ```php
  * // @property string Bar
  * class Foo{
- *     use Traits\Accessor;
+ * 	use Traits\Accessor;
  *
- *     protected string $_Bar;
+ * 	protected string $_Bar;
  *
- *     protected function GetBar(): string{
- *         if(!isset($this->_Bar)){
- *             $this->_Bar = 'baz';
- *         }
+ * 	protected function GetBar(): string{
+ * 		if(!isset($this->_Bar)){
+ * 			$this->_Bar = 'baz';
+ * 		}
  *
- *         return $this->_Bar;
- *     }
+ * 		return $this->_Bar;
+ * 	}
  *
- *     protected function SetBar(string $value): void{
- *         $this->_Bar = $value;
- *     }
+ * 	protected function SetBar(string $value): void{
+ * 		$this->_Bar = $value;
+ * 	}
  * }
  *
  * $foo = new Foo();

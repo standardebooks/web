@@ -277,7 +277,7 @@ v####This line is at i3.
 	<span class="k">margin</span><span class="p">:</span> <span class="mi">2</span><span class="kt">em</span> <span class="mi">1</span><span class="kt">em</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">header</span>  <span class="nt">p</span><span class="p">{</span>
+<span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">header</span> <span class="nt">p</span><span class="p">{</span>
 	<span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>
 <span class="p">}</span>
 

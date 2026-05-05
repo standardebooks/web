@@ -31,7 +31,7 @@ use function Safe\ob_start;
  * ?>
  * <?= $title ?>
  * <? if($isFeed){ ?>
- *     <?= $url ?>
+ * 	<?= $url ?>
  * <? } ?>
  * ````
  */

@@ -1602,7 +1602,7 @@ final class Ebook{
 		foreach($this->CollectionMemberships as $cm){
 			if($cm->Collection->Name == $collection->Name){
 				if($cm->TitleInCollection !== null){
-					$title =  $cm->TitleInCollection;
+					$title = $cm->TitleInCollection;
 				}
 				else{
 					$title = $this->Title;
@@ -1879,7 +1879,7 @@ final class Ebook{
 			$line = '';
 			$collectionMembership = $collectionGroup['collectionMembership'];
 			$collection = $collectionMembership->Collection;
-			$titles =  $collectionGroup['titles'];
+			$titles = $collectionGroup['titles'];
 
 			if($collectionMembership->SequenceNumber !== null){
 				$line .= '№ ' . number_format($collectionMembership->SequenceNumber) . ' in the ';
@@ -1894,7 +1894,7 @@ final class Ebook{
 				$line .= ' property="schema:isPartOf"';
 			}
 
-			$line .= '>' .  Formatter::EscapeHtml(preg_replace('/^The /ius', '', $collection->Name)) . '</a>';
+			$line .= '>' . Formatter::EscapeHtml(preg_replace('/^The /ius', '', $collection->Name)) . '</a>';
 
 			if($collection->Type !== null){
 				if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type->value), -strlen(mb_strtolower($collection->Type->value))) !== 0){

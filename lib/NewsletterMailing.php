@@ -502,7 +502,7 @@ class NewsletterMailing{
 		}
 
 		if(mb_stripos($this->BodyHtml, NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE) === false){
-			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML missing unsubscribe URL variable:  ' . NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE . '.'));
+			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML missing unsubscribe URL variable: ' . NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE . '.'));
 		}
 
 		if($error->HasExceptions){

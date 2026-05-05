@@ -30,7 +30,7 @@ class DonationDrive{
 	 * Recalculating the count can be done by:
 	 *
 	 * ````php
-	 *  Db::QueryInt('
+	 * Db::QueryInt('
 		SELECT sum(cnt)
 		from
 		(

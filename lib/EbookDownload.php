@@ -24,9 +24,9 @@ class EbookDownload{
 	/**
 	 * Returns a hash of IP addresses of the form:
 	 *
-	 *     '::ffff:1.2.3.4' => 0,
-	 *     '::ffff:5.6.7.8' => 1,
-	 *     '::ffff:4.3.2.1' => 2,
+	 *	'::ffff:1.2.3.4' => 0,
+	 *	'::ffff:5.6.7.8' => 1,
+	 *	'::ffff:4.3.2.1' => 2,
 	 *
 	 * for efficient lookup.
 	 *
