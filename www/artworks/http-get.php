@@ -167,12 +167,12 @@ catch(Exceptions\InvalidPermissionsException){
 
 		<? if($artwork->Exception !== null){ ?>
 			<h3>Public domain status exception reason</h3>
-			<?= $artwork->Exception->ToHtml() ?>
+			<?= $artwork->Exception->ToHtmlFragment() ?>
 		<? } ?>
 
 		<? if($artwork->Notes !== null){ ?>
 			<h2>Special notes</h2>
-			<?= $artwork->Notes->ToHtml() ?>
+			<?= $artwork->Notes->ToHtmlFragment() ?>
 		<? } ?>
 
 		<? if($artwork->CanBeEditedBy(Session::$User)){ ?>

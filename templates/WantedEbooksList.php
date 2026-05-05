@@ -18,7 +18,7 @@
 				<? } ?>
 
 				<? if(isset($ebook->EbookPlaceholder->Notes)){ ?>
-					<?= $ebook->EbookPlaceholder->Notes->ToHtml(true) ?>
+					<?= $ebook->EbookPlaceholder->Notes->ToHtmlFragment(true) ?>
 				<? } ?>
 				<? if($showPlaceholderMetadata){ ?>
 					— <a href="<?= $ebook->Url ?>">View placeholder.</a>

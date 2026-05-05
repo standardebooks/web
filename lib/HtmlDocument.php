@@ -2,11 +2,13 @@
 use function Safe\preg_match;
 
 /**
- * Unlike an `HtmlFragment`, an `HtmlDocument` must begin with a doctype and a root element.
+ * A complete HTML document begining with a doctype and a root element.
+ *
+ * Contrast to an `HtmlFragment`, which doesn't require those two items.
  */
-class HtmlDocument extends HtmlFragment{
+final class HtmlDocument extends HtmlFragment{
 	/**
-	 * @throws Exceptions\InvalidHtmlException If the HTML fragment is invalid.
+	 * @throws Exceptions\InvalidHtmlException If the `HtmlDocument` is invalid.
 	 */
 	public function Validate(): void{
 		$errors = [];

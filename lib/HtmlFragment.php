@@ -3,7 +3,7 @@ use function Safe\preg_replace;
 use function Safe\simplexml_load_string;
 
 /**
- * An `HtmlFragment` can be any stretch of valid HTML text or elements, like `<p>Hello</p>` or `Some <b>bold</b> text`.
+ * Any stretch of valid HTML elements or text, like `<p>Hello</p>` or `Some <b>bold</b> text`.
  */
 class HtmlFragment{
 	protected string $_Value;
@@ -17,7 +17,7 @@ class HtmlFragment{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidHtmlException If the HTML fragment is invalid.
+	 * @throws Exceptions\InvalidHtmlException If the `HtmlFragment` is invalid.
 	 */
 	public function Validate(): void{
 		$string = $this->_Value;
@@ -58,33 +58,40 @@ class HtmlFragment{
 	public function ToMarkdown(): Markdown{
 		$converter = new Markdownify\Converter(Markdownify\Converter::LINK_IN_PARAGRAPH, 0, false); // Have to use `0` instead of a bool to satisfy type check.
 
-		// Some newsletter specific conversions first.
-		// Replace footer `<div>` with `<hr>`.
-		$this->_Value = preg_replace('|<div class="footer">(.+?)</div>|ius', '<hr/>\1', $this->_Value);
+		// TODO: In PHP >= 8.4, use `\Dom\HTMLDocument` to create a DOM and make these adjustments that way instead.
 
-		// Replace `<strong>` with `@class` with just `<strong>`.
-		$this->_Value = preg_replace('|<strong class="[^"]+">|ius', '<strong>', $this->_Value);
+		$html = $this->_Value;
 
-		// Replace all `<divs>` with `<p>`.
-		$this->_Value = preg_replace('|<div[^>]*?>(.+?)</div>|ius', '<p>\1</p>', $this->_Value);
+		// Remove doctypes.
+		$html = preg_replace('|<!doctype[^>]*?>|ius', '', $html);
 
-		// Replace `<img>` with its `@alt` text.
-		$this->_Value = preg_replace('|<img[^>]*?alt="([^"]+?)"[^>]*?>|ius', '\1', $this->_Value);
+		// Replace `<img alt="">` with its `@alt` text.
+		$html = preg_replace('|<img[^>]+?alt="([^"]+?)"[^>]*?>|ius', '\1', $html);
+
+		// Remove any `<img>` without `@alt` text.
+		$html = preg_replace('|<img[^>]*?>|ius', '', $html);
+
+		// Remove any stray closing `</img>`.
+		$html = preg_replace('|</img>|ius', '', $html);
+
+		// Remove `<a>` that have no anchor text; these might have been image links.
+		$html = preg_replace('|<a\b[^>]+?>\s*</a>|ius', '', $html);
 
 		// `ltrim()` node contents.
 		$count = 1;
 		while($count){
-			$this->_Value = preg_replace('|(<[a-z]+[^>]*?>)\s+(.+?)(</[a-z]+>)|ius', '\1\2\3', $this->_Value, -1, $count);
+			$html = preg_replace('|(<[a-z]+[^>]*?>)\s+(.+?)(</[a-z]+>)|ius', '\1\2\3', $html, -1, $count);
 		}
+
 		// `rtrim()` node contents.
 		$count = 1;
 		while($count){
-			$this->_Value = preg_replace('|(<[a-z]+[^>]*?>)(.+?)\s+(</[a-z]+>)|ius', '\1\2\3', $this->_Value, -1, $count);
+			$html = preg_replace('|(<[a-z]+[^>]*?>)(.+?)\s+(</[a-z]+>)|ius', '\1\2\3', $html, -1, $count);
 		}
 
-		$output = $converter->parseString($this->_Value);
+		$output = $converter->parseString($html);
 
-		// Replace list style.
+		// Replace `*` list bullets with `-`.
 		$output = preg_replace('/^ +\* /ium', '- ', $output);
 
 		return new Markdown($output);

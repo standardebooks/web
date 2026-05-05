@@ -293,7 +293,7 @@ class NewsletterMailing{
 
 		// If we received only text, convert to HTML.
 		if($this->BodyText != '' && $this->BodyHtml == ''){
-			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyText->ToHtml(), subject: $this->Subject);
+			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyText->ToHtmlFragment(), subject: $this->Subject);
 		}
 
 		// If we received only HTML, convert to text.
@@ -302,15 +302,10 @@ class NewsletterMailing{
 				$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);
 			}
 
-			$this->BodyText = $this->BodyHtml->ToMarkdown();
+			// Replace footer `<div>`s with `<hr/>`.
+			$bodyHtml = new HtmlDocument(preg_replace('|<div class="footer">(.+?)</div>|ius', '<hr/>\1', (string)$this->BodyHtml));
 
-			// Remove images in these formats:
-			// - [![](https://standardebooks.org/images/covers/anthony-trollope_short-fiction-b218d6d0-cover@2x.jpg)](https://standardebooks.org/ebooks/anthony-trollope/short-fiction)
-			// - ![](https://standardebooks.org/images/logo-full.png)
-			$this->BodyText = preg_replace('/\[\!\[\]\(.+?\)\]\(.+?\)\s*/u', '', (string)$this->BodyText);
-			$this->BodyText = preg_replace('/\!\[\]\(.+?\)\s*/u', '', (string)$this->BodyText);
-			$this->BodyText = preg_replace('/\[\]\(\)\s*/u', '', (string)$this->BodyText);
-
+			$this->BodyText = $bodyHtml->ToMarkdown();
 		}
 
 		if(!preg_match('/^<!doctype html>/ius', $this->BodyHtml)){

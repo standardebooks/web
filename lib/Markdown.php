@@ -3,9 +3,9 @@
 /**
  * A `Markdown` object contains Markdown text that can be rendered as an HTML fragment.
  */
-class Markdown{
+final class Markdown{
 	private static Parsedown $_MarkdownParser;
-	protected string $_Value;
+	private string $_Value;
 
 	/**
 	 * Create a new Markdown value object.
@@ -26,7 +26,7 @@ class Markdown{
 	 *
 	 * @param bool $inline **`FALSE`** to wrap the fragment in a `<p>` root node.
 	 */
-	public function ToHtml(bool $inline = false): HtmlFragment{
+	public function ToHtmlFragment(bool $inline = false): HtmlFragment{
 		$string = '';
 
 		if(!isset(self::$_MarkdownParser)){
