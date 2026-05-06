@@ -70,7 +70,7 @@ abstract class Graph{
 
 	protected string $_GraphType = '';
 
-	private DOMDocument $Dom;
+	protected DOMDocument $Dom;
 
 	/**
 	 * Render the graph as an SVG.
@@ -92,14 +92,12 @@ abstract class Graph{
 		$this->MoveLegendBelowText();
 		$this->FitViewBoxToText();
 
-		$svgElement = $this->Dom->documentElement;
+		return $this->OutputDom();
+	}
 
-		if($svgElement === null){
-			return $svg;
-		}
-
-		// We have to pass `$svgElement` to prevent it from outputting the XML header, which is not desirable in an inline SVG.
-		return $this->Dom->saveXML($svgElement) ?: $svg;
+	protected function OutputDom(): string{
+		// We have to pass the `documentElement` to prevent it from outputting the XML header, which is not desirable in an inline SVG.
+		return $this->Dom->saveXML($this->Dom->documentElement) ?: '';
 	}
 
 	/**
@@ -292,11 +290,55 @@ abstract class Graph{
 	}
 
 	/**
+	 * Render the graph with a temporary settings array and load it as an SVG DOM.
+	 *
+	 * @param array<string, bool|callable|float|int|string|array<string>> $settings
+	 */
+	protected function RenderSvgDomWithSettings(array $settings): DOMDocument{
+		if(sizeof($this->LegendEntries) > 0){
+			$settings['legend_entries'] = $this->LegendEntries;
+		}
+
+		$graph = new SVGGraph($this->_Width, $this->GetRealHeight(), $settings);
+		$graph->colours($this->_Colors);
+		$graph->values($this->Values);
+
+		$dom = new DOMDocument();
+		$dom->loadXML($graph->fetch($this->_GraphType, false));
+
+		return $dom;
+	}
+
+	/**
+	 * Get SVG text elements whose fill attribute starts with the given string.
+	 *
+	 * @return array<DOMElement>
+	 */
+	protected function GetTextElementsByFillPrefix(DOMDocument $dom, string $fillPrefix): array{
+		$xpath = new DOMXPath($dom);
+		$xpath->registerNamespace('svg', 'http://www.w3.org/2000/svg');
+		$textElements = $xpath->query('//svg:text[starts-with(@fill, "' . $fillPrefix . '")]');
+		$matches = [];
+
+		if($textElements === false){
+			return [];
+		}
+
+		foreach($textElements as $textElement){
+			if($textElement instanceof DOMElement){
+				$matches[] = $textElement;
+			}
+		}
+
+		return $matches;
+	}
+
+	/**
 	 * Get the SVGGraph text measuring context.
 	 *
 	 * @return array{0: SvgBarGraph, 1: ?string, 2: float}
 	 */
-	private function GetSvgTextMeasuringContext(DOMElement $svgElement): array{
+	protected function GetSvgTextMeasuringContext(DOMElement $svgElement): array{
 		$viewBox = preg_split('/\\s+/u', trim($svgElement->getAttribute('viewBox')));
 		$height = isset($viewBox[3]) ? (int)$viewBox[3] : $this->_Height;
 		$graph = new SvgBarGraph($this->_Width, $height, $this->Settings);
@@ -313,7 +355,7 @@ abstract class Graph{
 	 *
 	 * @return array{0: float, 1: float, 2: float, 3: float}
 	 */
-	private function GetTextElementBounds(DOMElement $textElement, SvgBarGraph $graph, ?string $defaultFont, float $defaultFontSize): array{
+	protected function GetTextElementBounds(DOMElement $textElement, SvgBarGraph $graph, ?string $defaultFont, float $defaultFontSize): array{
 		if(!$textElement->hasAttribute('x') || !$textElement->hasAttribute('y')){
 			return [0, 0, 0, 0];
 		}
@@ -333,7 +375,7 @@ abstract class Graph{
 	/**
 	 * Get the numeric value of the given attribute on the given element.
 	 */
-	private function GetAttributeFloatValue(DOMElement $element, string $attribute, float $default): float{
+	protected function GetAttributeFloatValue(DOMElement $element, string $attribute, float $default): float{
 		if(!$element->hasAttribute($attribute)){
 			return $default;
 		}
