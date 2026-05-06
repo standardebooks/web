@@ -47,7 +47,7 @@ class HttpInput{
 		// Calculate the request type, i.e., did a browser make this request, or a REST call?
 		/** @var string $httpAccept */
 		$httpAccept = $_SERVER['HTTP_ACCEPT'] ?? '';
-		self::$RequestType = preg_match('/\btext\/html\b/ius', $httpAccept) ? Enums\HttpRequestType::Browser : Enums\HttpRequestType::Rest;
+		self::$RequestType = preg_match('/(^|,|\s)(text\/html|application\/xhtml\+xml|\*\/\*)(;|,|\s|$)/ius', $httpAccept) ? Enums\HttpRequestType::Browser : Enums\HttpRequestType::Rest;
 	}
 
 	/**
@@ -440,4 +440,3 @@ class HttpInput{
 		return null;
 	}
 }
-

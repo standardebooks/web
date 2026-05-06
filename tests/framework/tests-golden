@@ -28,15 +28,14 @@ server: Apache
 
 DELETE https://standardebooks.test/robots.txt
 HTTP/2 405 
-allow: GET,HEAD,OPTIONS
 strict-transport-security: max-age=15768000
+allow: GET,HEAD,OPTIONS
 x-frame-options: sameorigin
 x-content-type-options: nosniff
 x-xss-protection: 1; mode=block
 referrer-policy: origin-when-cross-origin
 content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
-content-length: 0
-content-type: text/html; charset=UTF-8
+content-type: application/xhtml+xml; charset=utf-8
 server: Apache
 
 OPTIONS https://standardebooks.test/robots.txt
@@ -311,15 +310,14 @@ server: Apache
 
 POST https://standardebooks.test/artworks/new
 HTTP/2 405 
-allow: GET,HEAD,OPTIONS
 strict-transport-security: max-age=15768000
+allow: GET,HEAD,OPTIONS
 x-frame-options: sameorigin
 x-content-type-options: nosniff
 x-xss-protection: 1; mode=block
 referrer-policy: origin-when-cross-origin
 content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
-content-length: 0
-content-type: text/html; charset=UTF-8
+content-type: application/xhtml+xml; charset=utf-8
 server: Apache
 
 OPTIONS https://standardebooks.test/artworks/new
@@ -353,15 +351,14 @@ server: Apache
 
 PATCH https://standardebooks.test/contribute/collections-policy
 HTTP/2 405 
-allow: GET,HEAD,OPTIONS
 strict-transport-security: max-age=15768000
+allow: GET,HEAD,OPTIONS
 x-frame-options: sameorigin
 x-content-type-options: nosniff
 x-xss-protection: 1; mode=block
 referrer-policy: origin-when-cross-origin
 content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
-content-length: 0
-content-type: text/html; charset=UTF-8
+content-type: application/xhtml+xml; charset=utf-8
 server: Apache
 
 OPTIONS https://standardebooks.test/contribute/collections-policy
