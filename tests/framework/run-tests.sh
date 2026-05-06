@@ -45,6 +45,7 @@ exec_request "POST https://standardebooks.test/artworks" # 302 to login
 exec_request "PATCH https://standardebooks.test/artworks" # 405 + allow: GET,HEAD,OPTIONS,POST
 exec_request "DELETE https://standardebooks.test/artworks" # 405 + allow: GET,HEAD,OPTIONS,POST
 exec_request "OPTIONS https://standardebooks.test/artworks" # 204 + allow: GET,HEAD,OPTIONS,POST
+exec_request "GET https://standardebooks.test/sessions" # 405 + allow: OPTIONS,POST
 
 # Resource creation form
 exec_request "GET https://standardebooks.test/artworks/new" # 302 to login

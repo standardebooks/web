@@ -283,6 +283,20 @@ referrer-policy: origin-when-cross-origin
 content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
 server: Apache
 
+GET https://standardebooks.test/sessions
+HTTP/2 405 
+allow: OPTIONS,POST
+accept-post: application/x-www-form-urlencoded,multipart/form-data
+strict-transport-security: max-age=15768000
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: origin-when-cross-origin
+content-security-policy: default-src 'self'; style-src 'self' 'unsafe-inline';
+content-length: 0
+content-type: text/html; charset=UTF-8
+server: Apache
+
 GET https://standardebooks.test/artworks/new
 HTTP/2 302 
 strict-transport-security: max-age=15768000
