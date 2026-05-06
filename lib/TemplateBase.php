@@ -55,26 +55,25 @@ abstract class TemplateBase{
 	}
 
 	/**
-	 * Exit the script while outputting the given HTTP code.
+	 * Output the given HTTP code and exit the script. If the request is from a browser, output an error page if it exists for that code.
 	 *
-	 * @param bool $showPage If **`TRUE`**, show a special page given the HTTP code (like a 404 page).
+	 * @param ?Exception $exception If not `null` and no appropriate error page is found, print the `Exception` using the site header and footer.
 	 *
 	 * @return never
 	 */
-	public static function ExitWithCode(Enums\HttpCode $httpCode, bool $showPage = true, Enums\HttpRequestType $requestType = Enums\HttpRequestType::Web): void{
+	public static function ExitWithCode(Enums\HttpCode $httpCode, ?Exception $exception = null): void{
 		http_response_code($httpCode->value);
 
-		if($requestType == Enums\HttpRequestType::Web && $showPage){
-			switch($httpCode){
-				case Enums\HttpCode::Forbidden:
-					include(WEB_ROOT . '/403.php');
-					break;
-				case Enums\HttpCode::NotFound:
-					include(WEB_ROOT . '/404.php');
-					break;
-				case Enums\HttpCode::TooManyRequests:
-					include(WEB_ROOT . '/429.php');
-					break;
+		if(HttpInput::$RequestType == Enums\HttpRequestType::Browser){
+			$filePath = WEB_ROOT . '/' . $httpCode->value . '.php';
+			if(file_exists($filePath)){
+				/** @phpstan-ignore-next-line */
+				include($filePath);
+			}
+			elseif($exception !== null){
+				print(Template::Header(title: $exception->getMessage()));
+				print(Template::Error(exception: $exception));
+				print(Template::Footer());
 			}
 		}
 
