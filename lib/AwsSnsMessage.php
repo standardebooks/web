@@ -19,11 +19,11 @@ class AwsSnsMessage{
 
 	public function ConfirmSubscription(): void{
 		if($this->Type == 'SubscriptionConfirmation' && isset($this->Message->SubscribeUrl)){
-			$curl = new CurlRequest();
+			$curl = new HttpRequest();
 			try{
 				$curl->Execute(Enums\HttpMethod::Get, $this->Message->SubscribeUrl);
 			}
-			catch(Exceptions\CurlException){
+			catch(Exceptions\HttpRequestException){
 				// Pass.
 			}
 		}
@@ -40,14 +40,13 @@ class AwsSnsMessage{
 
 		try{
 			$message = Message::fromJsonString(file_get_contents('php://input'));
-			// `MessageValidator` uses `file_get_contents()` to get the contents of URLs, which is disabled in our server configuration. So we pass a custom function using a `CurlRequest()` to fetch the URL instead.
+			// `MessageValidator` uses `file_get_contents()` to get the contents of URLs, which is disabled in our server configuration. So we pass a custom function using an `HttpRequest` to fetch the URL instead.
 			$validator = new MessageValidator(function($url){
 				try{
-					$c = new CurlRequest();
-					$response = $c->Execute(Enums\HttpMethod::Get, $url);
-					return $response->Data;
+					$response = HttpRequest::Execute(Enums\HttpMethod::Get, $url);
+					return $response->Body;
 				}
-				catch(\Exceptions\CurlException){
+				catch(\Exceptions\HttpRequestException){
 					return '';
 				}
 			});

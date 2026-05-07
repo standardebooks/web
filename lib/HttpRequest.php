@@ -3,10 +3,9 @@ use function Safe\curl_exec;
 use function Safe\curl_getinfo;
 use function Safe\curl_init;
 use function Safe\curl_setopt;
-use function Safe\json_decode;
 use function Safe\json_encode;
 
-class CurlRequest{
+class HttpRequest{
 	/**
 	 * Execute an HTTP request and return the response.
 	 *
@@ -14,9 +13,15 @@ class CurlRequest{
 	 * @param array<string, string> $headers
 	 * @param bool $followRedirects **`TRUE`** to follow any 3xx responses until conclusion.
 	 *
-	 * @throws Exceptions\CurlException If the `curl` request failed.
+	 * @throws Exceptions\HttpRequestException If the `curl` request failed.
 	 */
-	public static function Execute(Enums\HttpMethod $method, string $url, array|string|stdClass $data = [], array $headers = [], $followRedirects = true): CurlStringResponse{
+	public static function Execute(Enums\HttpMethod $method, string $url, array|string|stdClass $data = [], array $headers = [], $followRedirects = true): HttpResponse{
+		$headersLowercase = array_change_key_case($headers, CASE_LOWER);
+
+		if(!is_string($data) && stripos($headersLowercase['content-type'] ?? '', 'application/json') !== false){
+			$data = json_encode($data);
+		}
+
 		if(is_string($data)){
 			$httpData = $data;
 		}
@@ -84,60 +89,19 @@ class CurlRequest{
 			$response = curl_exec($curl);
 
 			if(!is_string($response)){
-				throw new Exceptions\CurlException();
+				throw new Exceptions\HttpRequestException();
 			}
 
 			/** @var int $httpCode */
 			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-			$returnValue = new CurlStringResponse();
-			$returnValue->HttpCode = Enums\HttpCode::tryFrom($httpCode) ?? Enums\HttpCode::Ok;
-			$returnValue->Data = $response;
-			$returnValue->Headers = $headers;
-
 			/** @var string $finalUrl */
 			$finalUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-			$returnValue->FinalUrl = $finalUrl;
 
-			return $returnValue;
+			return new HttpResponse(Enums\HttpCode::tryFrom($httpCode) ?? Enums\HttpCode::Ok, $response, $headers, $finalUrl);
 		}
 		catch(\Safe\Exceptions\CurlException $ex){
-			throw new Exceptions\CurlException($ex->getMessage());
+			throw new Exceptions\HttpRequestException($ex->getMessage());
 		}
-	}
-
-	/**
-	 * @param array<string, mixed>|string|stdClass $data
-	 * @param array<string, string> $headers
-	 *
-	 * @throws Exceptions\CurlException If the `curl` request failed.
-	 */
-	public static function ExecuteJson(Enums\HttpMethod $method, string $url, array|string|stdClass $data = [], array $headers = []): CurlJsonResponse{
-		if(!is_string($data) && stripos($headers['Content-Type'] ?? '', 'json') !== false){
-			$data = json_encode($data);
-		}
-
-		$response = CurlRequest::Execute($method, $url, $data, $headers);
-
-		if($response->Data == ''){
-			$response->Data = '{}';
-		}
-
-		try{
-			/** @var array<stdClass>|stdClass $json */
-			$json = json_decode($response->Data);
-		}
-		catch(Safe\Exceptions\JsonException){
-			$exception = new Exceptions\CurlException('Curl failed to parse JSON response. Response: ' . $response->Data);
-			throw $exception;
-		}
-
-		$returnValue = new CurlJsonResponse();
-		$returnValue->HttpCode = $response->HttpCode;
-		$returnValue->Data = $json;
-		$returnValue->Headers = $response->Headers;
-		$returnValue->FinalUrl = $response->FinalUrl;
-
-		return $returnValue;
 	}
 }

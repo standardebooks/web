@@ -585,11 +585,11 @@ final class Artwork{
 			return;
 		}
 
-		$curl = new CurlRequest();
+		$curl = new HttpRequest();
 		try{
 			$response = $curl->Execute(Enums\HttpMethod::Get, $this->MuseumUrl);
 		}
-		catch(Exceptions\CurlException){
+		catch(Exceptions\HttpRequestException){
 			return;
 		}
 
@@ -599,7 +599,7 @@ final class Artwork{
 
 		// TODO: When PHP 8.4 is available, use the new `Dom\HTMLDocument` class.
 		$dom = new DOMDocument();
-		@$dom->loadHTML($response->Data);
+		@$dom->loadHTML($response->Body);
 		$xpath = new DOMXPath($dom);
 
 		if($xpath->evaluate($this->Museum->LicenseXPath)){

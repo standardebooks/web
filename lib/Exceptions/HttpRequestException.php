@@ -1,7 +1,7 @@
 <?
 namespace Exceptions;
 
-class CurlException extends AppException{
+class HttpRequestException extends AppException{
 	/** @var string $message */
 	protected $message = 'Error making HTTP request.';
 }

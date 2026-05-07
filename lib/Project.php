@@ -201,10 +201,10 @@ final class Project{
 				// This URL links to a message which will perform some HTTP redirects to resolve to the actual thread URL.
 				// Resolve that URL before continuing.
 				try{
-					$response = CurlRequest::Execute(Enums\HttpMethod::Head, $this->DiscussionUrl);
+					$response = HttpRequest::Execute(Enums\HttpMethod::Head, $this->DiscussionUrl);
 					$this->DiscussionUrl = $response->FinalUrl;
 				}
-				catch(Exceptions\CurlException $ex){
+				catch(Exceptions\HttpRequestException $ex){
 					// Pass.
 				}
 			}
@@ -509,14 +509,14 @@ final class Project{
 		$url = preg_replace('|^https://github\.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/issues');
 
 		try{
-			$response = CurlRequest::ExecuteJson(Enums\HttpMethod::Get, $url, $this->GenerateGitHubApiRequestHeaders($apiKey));
+			$response = HttpRequest::Execute(Enums\HttpMethod::Get, $url, $this->GenerateGitHubApiRequestHeaders($apiKey));
 
 			if(!$response->HttpCode->IsSuccess()){
 				throw new Exceptions\AppException('Server responded with HTTP ' . $response->HttpCode->value . '.');
 			}
 
-			if(is_array($response->Data)){
-				foreach($response->Data as $issue){
+			if(is_array($response->Json)){
+				foreach($response->Json as $issue){
 					if(preg_match('/\breview/iu', $issue->title)){
 						$this->Status = Enums\ProjectStatusType::Reviewed;
 						return;
@@ -524,7 +524,7 @@ final class Project{
 				}
 			}
 			else{
-				throw new Exceptions\AppException('Couldn\'t understand response: ' . vds($response->Data));
+				throw new Exceptions\AppException('Couldn\'t understand response: ' . vds($response->Body));
 			}
 		}
 		catch(Exception $ex){
@@ -565,11 +565,11 @@ final class Project{
 		}
 
 		try{
-			$response = CurlRequest::Execute(Enums\HttpMethod::Head, $this->VcsUrl);
+			$response = HttpRequest::Execute(Enums\HttpMethod::Head, $this->VcsUrl);
 			$this->VcsUrl = $response->FinalUrl;
 			$this->IsVcsUrlUpdated = true;
 		}
-		catch(Exceptions\CurlException){
+		catch(Exceptions\HttpRequestException){
 			// Probably a temporary failure, just continue but don't mark the URL as having been updated.
 		}
 	}
@@ -589,7 +589,7 @@ final class Project{
 		$url = preg_replace('|^https://github\.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/commits');
 
 		try{
-			$response = CurlRequest::ExecuteJson(Enums\HttpMethod::Get, $url, $this->GenerateGitHubApiRequestHeaders($apiKey));
+			$response = HttpRequest::Execute(Enums\HttpMethod::Get, $url, $this->GenerateGitHubApiRequestHeaders($apiKey));
 
 			// GitHub API returns `HTTP 409 Conflict` if the repository is empty.
 			if($response->HttpCode == Enums\HttpCode::Conflict){
@@ -601,7 +601,7 @@ final class Project{
 			}
 
 			/** @var array<stdClass> $commits */
-			$commits = $response->Data;
+			$commits = $response->Json;
 
 			if(sizeof($commits) > 0){
 				$this->LastCommitTimestamp = new DateTimeImmutable($commits[0]->commit->committer->date);
@@ -627,14 +627,14 @@ final class Project{
 		}
 
 		try{
-			$response = CurlRequest::Execute(Enums\HttpMethod::Get, $this->DiscussionUrl);
+			$response = HttpRequest::Execute(Enums\HttpMethod::Get, $this->DiscussionUrl);
 
 			if(!$response->HttpCode->IsSuccess()){
 				throw new Exception('Server responded with HTTP ' . $response->HttpCode->value . '.');
 			}
 
 			// Posts that were today are listed as `n minutes ago` or `n hours ago`, without a timestamp. Try to approximate a timestamp if that's the case.
-			$matchCount = preg_match_all('/<span class="[^"]+?">[^<]+\(([\d]+ (?:minutes?|hours?) ago)\s*\)\s*<\/span>/ius', $response->Data, $matches);
+			$matchCount = preg_match_all('/<span class="[^"]+?">[^<]+\(([\d]+ (?:minutes?|hours?) ago)\s*\)\s*<\/span>/ius', $response->Body, $matches);
 
 			if($matchCount > 0){
 				// Unsure of the time zone, so just assume UTC.
@@ -648,7 +648,7 @@ final class Project{
 			}
 			else{
 				// No `n minutes ago` matches, try to match a full timestamp.
-				$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response->Data, $matches);
+				$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response->Body, $matches);
 
 				if($matchCount > 0){
 					// Unsure of the time zone, so just assume UTC.
