@@ -2,6 +2,11 @@
 namespace Enums;
 
 enum HttpCode: int{
+	case Continue = 100;
+	case SwitchingProtocols = 101;
+	case Processing = 102;
+	case EarlyHints = 103;
+
 	case Ok = 200;
 	case Created = 201;
 	case Accepted = 202;
