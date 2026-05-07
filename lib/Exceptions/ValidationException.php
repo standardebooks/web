@@ -22,7 +22,7 @@ class ValidationException extends AppException{
 	}
 
 	public function Add(\Exception $exception, bool $isFatal = false): void{
-		if(is_a($exception, ValidationException::class)){
+		if(is_a($exception, self::class)){
 			foreach($exception->Exceptions as $childException){
 				$this->Add($childException);
 			}
