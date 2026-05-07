@@ -158,10 +158,10 @@ class EmailMessage{
 			}
 		}
 		catch(Exceptions\InvalidEmailMessageException $ex){
-			Log::WriteErrorLogEntry('Failed validating email. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($this));
+			Log::WriteErrorLogEntry('Failed validating email. Exception: ' . $ex . "\n" . 'Email: ' . vds($this));
 		}
 		catch(\Exception $ex){
-			Log::WriteMailLogEntry('Failed sending email to ' . $this->To . ' Exception: ' . $ex->getMessage() . "\n" . ' Subject: ' . $this->Subject . "\nBody:\n" . $this->BodyHtml);
+			Log::WriteMailLogEntry('Failed sending email to ' . $this->To . ' Exception: ' . $ex . "\n" . ' Subject: ' . $this->Subject . "\nBody:\n" . $this->BodyHtml);
 		}
 	}
 }
