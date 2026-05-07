@@ -8,12 +8,15 @@ use function Safe\json_encode;
 
 class CurlRequest{
 	/**
+	 * Execute an HTTP request and return the response.
+	 *
 	 * @param array<string, mixed>|string|stdClass $data
 	 * @param array<string, string> $headers
+	 * @param bool $followRedirects **`TRUE`** to follow any 3xx responses until conclusion.
 	 *
 	 * @throws Exceptions\CurlException If the `curl` request failed.
 	 */
-	public static function Execute(Enums\HttpMethod $method, string $url, array|string|stdClass $data = [], array $headers = []): CurlStringResponse{
+	public static function Execute(Enums\HttpMethod $method, string $url, array|string|stdClass $data = [], array $headers = [], $followRedirects = true): CurlStringResponse{
 		if(is_string($data)){
 			$httpData = $data;
 		}
@@ -35,7 +38,9 @@ class CurlRequest{
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method->value);
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		if($followRedirects){
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		}
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Standard Ebooks website');
 
 		if($method != Enums\HttpMethod::Get && $httpData != ''){
