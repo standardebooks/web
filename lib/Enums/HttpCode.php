@@ -65,4 +65,11 @@ enum HttpCode: int{
 	case LoopDetected = 508;
 	case NotExtended = 510;
 	case NetworkAuthenticationRequired = 511;
+
+	/**
+	 * @return bool **`TRUE`** if the response code is in the 2xx range.
+	 */
+	public function IsSuccess(): bool{
+		return $this->value < self::MultipleChoices->value;
+	}
 }
