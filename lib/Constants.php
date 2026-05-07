@@ -92,6 +92,8 @@ const HTTP_OPTIONS = Enums\HttpMethod::Options;
 const HTTP_PATCH = Enums\HttpMethod::Patch;
 const HTTP_PUT = Enums\HttpMethod::Put;
 
+const HTTP_REQUEST_USER_AGENT = 'Standard Ebooks website';
+
 define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_email_address'));
 define('ADMIN_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.admin_email_address'));
 define('EDITOR_IN_CHIEF_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.editor_in_chief_email_address'));

@@ -540,8 +540,7 @@ final class Project{
 	private function GenerateGitHubApiRequestHeaders(?string $apiKey): array{
 		$headers = [
 					'Accept' => 'application/vnd.github+json',
-					'X-GitHub-Api-Version' => '2022-11-28',
-					'User-Agent' => 'Standard Ebooks' // Required by GitHub.
+					'X-GitHub-Api-Version' => '2022-11-28'
 				];
 
 		if($apiKey !== null){
