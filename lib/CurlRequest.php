@@ -56,7 +56,7 @@ class CurlRequest{
 			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
 			$returnValue = new CurlStringResponse();
-			$returnValue->HttpCode = $httpCode;
+			$returnValue->HttpCode = Enums\HttpCode::tryFrom($httpCode) ?? Enums\HttpCode::Ok;
 			$returnValue->Data = $response;
 
 			return $returnValue;
@@ -92,10 +92,10 @@ class CurlRequest{
 			throw $exception;
 		}
 
-		$jsonResponse = new CurlJsonResponse();
-		$jsonResponse->HttpCode = $response->HttpCode;
-		$jsonResponse->Data = $json;
+		$returnValue = new CurlJsonResponse();
+		$returnValue->HttpCode = $response->HttpCode;
+		$returnValue->Data = $json;
 
-		return $jsonResponse;
+		return $returnValue;
 	}
 }

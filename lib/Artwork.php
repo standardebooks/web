@@ -593,7 +593,7 @@ final class Artwork{
 			return;
 		}
 
-		if($response->HttpCode != Enums\HttpCode::Ok->value){
+		if($response->HttpCode != Enums\HttpCode::Ok){
 			return;
 		}
 

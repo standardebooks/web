@@ -1,5 +1,4 @@
 <?
-class CurlStringResponse{
-	public int $HttpCode;
+class CurlStringResponse extends CurlResponse{
 	public string $Data;
 }
