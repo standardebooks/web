@@ -42,6 +42,36 @@ class CurlRequest{
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $httpData);
 		}
 
+		if($method == Enums\HttpMethod::Head){
+			curl_setopt($curl, CURLOPT_NOBODY, true); // Issue HTTP HEAD.
+		}
+
+		// This function is called by Curl for each header received.
+		// See <https://stackoverflow.com/a/41135574>.
+		$headers = [];
+		curl_setopt($curl, CURLOPT_HEADERFUNCTION, function($curl, $header) use (&$headers){
+			$len = strlen($header);
+			$header = explode(':', $header, 2);
+			if(sizeof($header) < 2){
+				// Ignore invalid headers.
+				return $len;
+			}
+
+			// Don't use `mb_*` functions here.
+			$key = strtolower(trim($header[0]));
+			$value = trim($header[1]);
+
+			// Duplicate headers are allowed, see <https://stackoverflow.com/a/4371395>.
+			if(array_key_exists($key, $headers)){
+				$headers[$key] .= ',' . $value;
+			}
+			else{
+				$headers[$key] = $value;
+			}
+
+			return $len;
+		});
+
 		if(sizeof($headers) > 0){
 			curl_setopt($curl, CURLOPT_HTTPHEADER, $httpHeaders);
 		}
@@ -58,6 +88,7 @@ class CurlRequest{
 			$returnValue = new CurlStringResponse();
 			$returnValue->HttpCode = Enums\HttpCode::tryFrom($httpCode) ?? Enums\HttpCode::Ok;
 			$returnValue->Data = $response;
+			$returnValue->Headers = $headers;
 
 			return $returnValue;
 		}
