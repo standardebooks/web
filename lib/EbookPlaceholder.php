@@ -19,7 +19,7 @@ class EbookPlaceholder{
 
 	protected bool $_IsPublicDomain;
 	protected string $_TimeTillIsPublicDomain;
-	protected ?Markdown $_Notes = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected ?Markdown $_Notes = null; // TODO: Convert to property hook in PHP 8.4.
 
 	protected function SetNotes(string|Markdown|null $string): void{
 		if(isset($string)){

@@ -6,6 +6,10 @@
  * @property-write EmailAddress|string $From
  * @property-read ?EmailAddress $ReplyTo
  * @property-write EmailAddress|string|null $ReplyTo
+ * @property-read HtmlDocument $BodyHtml
+ * @property-write HtmlDocument|string $BodyHtml
+ * @property-read ?Markdown $BodyText
+ * @property-write Markdown|string|null $BodyText
  */
 class EmailMessage{
 	use Traits\Accessor;
@@ -13,17 +17,17 @@ class EmailMessage{
 	public ?string $ToName = null;
 	public ?string $FromName = null;
 	public string $Subject;
-	public string $BodyHtml;
-	public ?string $BodyText = null;
 	public ?string $UnsubscribeUrl = null;
 	/** @var array<array{contents: string, filename: string, mimeType?: string}> $Attachments */
 	public array $Attachments = [];
 	/** @var array<string, string> $Metadata */
 	public array $Metadata = [];
 
-	protected EmailAddress $_To; // Should be converted to property hooks when PHP 8.4 is available.
-	protected EmailAddress $_From; // Should be converted to property hooks when PHP 8.4 is available.
-	protected ?EmailAddress $_ReplyTo = null; // Should be converted to property hooks when PHP 8.4 is available.
+	protected EmailAddress $_To; // TODO: Convert to property hook in PHP 8.4.
+	protected EmailAddress $_From; // TODO: Convert to property hook in PHP 8.4.
+	protected ?EmailAddress $_ReplyTo = null; // TODO: Convert to property hook in PHP 8.4.
+	protected HtmlDocument $_BodyHtml; // TODO: Convert to property hook in PHP 8.4.
+	protected ?Markdown $_BodyText = null; // TODO: Convert to property hook in PHP 8.4.
 
 	public function __construct(bool $isNoReplyEmail = false){
 		if($isNoReplyEmail){
@@ -52,6 +56,19 @@ class EmailMessage{
 		}
 		else{
 			$this->_ReplyTo = new EmailAddress($string);
+		}
+	}
+
+	protected function SetBodyHtml(string|HtmlDocument $string): void{
+		$this->_BodyHtml = new HtmlDocument($string);
+	}
+
+	protected function SetBodyText(string|Markdown|null $string): void{
+		if(isset($string)){
+			$this->_BodyText = new Markdown($string);
+		}
+		else{
+			$this->_BodyText = null;
 		}
 	}
 

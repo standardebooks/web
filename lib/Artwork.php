@@ -71,8 +71,8 @@ final class Artwork{
 	protected ?Museum $_Museum;
 	protected ?User $_Submitter;
 	protected ?User $_Reviewer;
-	protected ?Markdown $_Exception = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
-	protected ?Markdown $_Notes = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected ?Markdown $_Exception = null; // TODO: Convert to property hook in PHP 8.4.
+	protected ?Markdown $_Notes = null; // TODO: Convert to property hook in PHP 8.4.
 
 
 	// *******

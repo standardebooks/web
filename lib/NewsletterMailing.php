@@ -44,9 +44,9 @@ class NewsletterMailing{
 	protected string $_EditUrl;
 	/** @var array<NewsletterSubscription> $_Recipients */
 	protected array $_Recipients;
-	protected HtmlDocument $_BodyHtml; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
-	protected Markdown $_BodyText; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
-	protected EmailAddress $_FromEmail; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected HtmlDocument $_BodyHtml; // TODO: Convert to property hook in PHP 8.4.
+	protected Markdown $_BodyText; // TODO: Convert to property hook in PHP 8.4.
+	protected EmailAddress $_FromEmail; // TODO: Convert to property hook in PHP 8.4.
 
 	public function __construct(){
 		$this->_BodyText = new Markdown();
@@ -177,7 +177,9 @@ class NewsletterMailing{
 				}
 				else{
 					// No first name, remove the variable and any white space around it.
-					$em->BodyHtml = preg_replace('/\s*' . preg_quote(NEWSLETTER_FIRST_NAME_VARIABLE, '/') . '\s*/u', '', $em->BodyHtml);
+					/** @var string $html */
+					$html = preg_replace('/\s*' . preg_quote(NEWSLETTER_FIRST_NAME_VARIABLE, '/') . '\s*/u', '', $em->BodyHtml);
+					$em->BodyHtml = $html;
 				}
 				$em->BodyText = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, $em->UnsubscribeUrl, $this->BodyText);
 				$em->Metadata['NewsletterMailingId'] = (string)$this->NewsletterMailingId;

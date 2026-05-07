@@ -23,7 +23,7 @@ class Spreadsheet{
 	protected string $_Url;
 	protected string $_EditUrl;
 	protected string $_DeleteUrl;
-	protected ?Markdown $_Notes = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected ?Markdown $_Notes = null; // TODO: Convert to property hook in PHP 8.4.
 
 	// *******
 	// SETTERS

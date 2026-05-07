@@ -38,9 +38,9 @@ class BlogPost{
 	/** @var array<Ebook> */
 	protected array $_Ebooks;
 	protected string $_EbookIdentifiers;
-	protected HtmlFragment $_Title; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
-	protected ?HtmlFragment $_Subtitle; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
-	protected ?HtmlFragment $_Body; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected HtmlFragment $_Title; // TODO: Convert to property hook in PHP 8.4.
+	protected ?HtmlFragment $_Subtitle; // TODO: Convert to property hook in PHP 8.4.
+	protected ?HtmlFragment $_Body; // TODO: Convert to property hook in PHP 8.4.
 
 	// *******
 	// GETTERS

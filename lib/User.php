@@ -47,7 +47,7 @@ final class User{
 	protected string $_DisplayName;
 	protected ?string $_SortName = null;
 	protected ?string $_FirstName = null;
-	protected ?EmailAddress $_Email = null; // Should be converted to property hooks when PHP 8.4 is available; also see `FillFromHttpPost()`.
+	protected ?EmailAddress $_Email = null; // TODO: Convert to property hook in PHP 8.4.
 
 
 	// *******
