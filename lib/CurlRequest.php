@@ -90,6 +90,10 @@ class CurlRequest{
 			$returnValue->Data = $response;
 			$returnValue->Headers = $headers;
 
+			/** @var string $finalUrl */
+			$finalUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+			$returnValue->FinalUrl = $finalUrl;
+
 			return $returnValue;
 		}
 		catch(\Safe\Exceptions\CurlException $ex){
@@ -126,6 +130,8 @@ class CurlRequest{
 		$returnValue = new CurlJsonResponse();
 		$returnValue->HttpCode = $response->HttpCode;
 		$returnValue->Data = $json;
+		$returnValue->Headers = $response->Headers;
+		$returnValue->FinalUrl = $response->FinalUrl;
 
 		return $returnValue;
 	}
