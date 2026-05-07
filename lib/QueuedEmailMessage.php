@@ -26,7 +26,8 @@ class QueuedEmailMessage extends EmailMessage{
 			Db::Query('insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->ToName, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->Created, $this->Provider, $attachments, $metadata]);
 		}
 		catch(Exceptions\InvalidEmailMessageException $ex){
-			Log::WriteErrorLogEntry('Failed validating `QueuedEmailMessage`. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($this));
+			$log = new Log();
+			$log->Write('Failed validating `QueuedEmailMessage`. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($this));
 		}
 	}
 
@@ -62,7 +63,8 @@ class QueuedEmailMessage extends EmailMessage{
 					$arguments = array_merge($arguments, [$em->To, $em->ToName, $em->From, $em->FromName, $em->ReplyTo, $em->Subject, $em->BodyHtml, $em->BodyText, $em->Priority,  $em->UnsubscribeUrl, NOW, \Enums\EmailProviderType::Ses, $attachments, $metadata]);
 				}
 				catch(Exceptions\InvalidEmailMessageException $ex){
-					Log::WriteErrorLogEntry('Failed validating email. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($em));
+					$log = new Log();
+					$log->Write('Failed validating email. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($em));
 				}
 			}
 

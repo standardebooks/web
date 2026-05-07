@@ -28,7 +28,8 @@ foreach($projects as $project){
 		$project->FetchLastDiscussionTimestamp();
 	}
 	catch(Exceptions\AppException $ex){
-		Log::WriteErrorLogEntry($ex->getMessage());
+		$log = new Log();
+		$log->Write($ex->getMessage());
 	}
 
 	try{

@@ -216,7 +216,8 @@ class AwsSesApi{
 									$email->Delete();
 								}
 
-								Log::WriteMailLogEntry('Failed sending email to ' . $email->To . '. SES message: ' . $message . " SES code: " . $code . "\nSubject: " . $email->Subject . "\nBody:\n" . $email->BodyHtml);
+								$log = new Log(EMAIL_LOG_FILE_PATH);
+								$log->Write('Failed sending email to ' . $email->To . '. SES message: ' . $message . " SES code: " . $code . "\nSubject: " . $email->Subject . "\nBody:\n" . $email->BodyHtml);
 							}
 						);
 				}

@@ -148,20 +148,23 @@ class EmailMessage{
 			$this->Validate();
 
 			if(SITE_STATUS == SITE_STATUS_DEV){
-				Log::WriteMailLogEntry('Sending mail to ' . $this->To . ' from ' . $this->From);
-				Log::WriteMailLogEntry('Subject: ' . $this->Subject);
-				Log::WriteMailLogEntry($this->BodyHtml);
-				Log::WriteMailLogEntry($this->BodyText ?? '');
+				$log = new Log(EMAIL_LOG_FILE_PATH);
+				$log->Write('Sending mail to ' . $this->To . ' from ' . $this->From);
+				$log->Write('Subject: ' . $this->Subject);
+				$log->Write($this->BodyHtml);
+				$log->Write($this->BodyText ?? '');
 			}
 			else{
 				AwsSesApi::Send([$this]);
 			}
 		}
 		catch(Exceptions\InvalidEmailMessageException $ex){
-			Log::WriteErrorLogEntry('Failed validating email. Exception: ' . $ex . "\n" . 'Email: ' . vds($this));
+			$log = new Log();
+			$log->Write('Failed validating email. Exception: ' . $ex . "\n" . 'Email: ' . vds($this));
 		}
 		catch(\Exception $ex){
-			Log::WriteMailLogEntry('Failed sending email to ' . $this->To . ' Exception: ' . $ex . "\n" . ' Subject: ' . $this->Subject . "\nBody:\n" . $this->BodyHtml);
+			$log = new Log(EMAIL_LOG_FILE_PATH);
+			$log->Write('Failed sending email to ' . $this->To . ' Exception: ' . $ex . "\n" . ' Subject: ' . $this->Subject . "\nBody:\n" . $this->BodyHtml);
 		}
 	}
 }

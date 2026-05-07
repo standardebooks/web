@@ -119,4 +119,4 @@ const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log';
 /** Must be writable by `www-data` Unix user. */
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log';
 /** Must be writable by `www-data` Unix user. */
-const EMAIL_LOG_FILE_PATH =		'/var/log/local/standardebooks.org-email.log';
+const EMAIL_LOG_FILE_PATH =		'/var/log/local/' . SITE_DOMAIN . '-email.log';
