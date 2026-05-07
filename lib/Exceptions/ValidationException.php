@@ -39,10 +39,21 @@ class ValidationException extends AppException{
 		$this->HasExceptions = true;
 	}
 
-	public function Has(string $exception): bool{
-		foreach($this->Exceptions as $childException){
-			if(is_a($childException, $exception)){
-				return true;
+	/**
+	 * @param string|array<string> $exception
+	 *
+	 * @return bool **`TRUE`** if this `ValidationException` contains *any* of the passed `Exception`s.
+	 */
+	public function Has(string|array $exception): bool{
+		if(!is_array($exception)){
+			$exception = [$exception];
+		}
+
+		foreach($exception as $ex){
+			foreach($this->Exceptions as $childException){
+				if(is_a($childException, $ex)){
+					return true;
+				}
 			}
 		}
 
