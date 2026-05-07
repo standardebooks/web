@@ -9,31 +9,43 @@ try{
 	/** @var Collection $collection The `Collection` for this request, passed in from the router. */
 	$collection = $resource ?? throw new Exceptions\CollectionNotFoundException();
 
+	$showLinks = false;
 	$collectionName = preg_replace('/^The /ius', '', $collection->Name);
 	$collectionType = $collection->Type->value ?? 'collection';
 
-	$pageTitle = 'Browse free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
-	$pageDescription = 'A list of free ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
-	$pageHeader = 'Free Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . ucfirst($collectionType);
+	$pageTitle = 'Browse free ebooks in the ' . $collectionName . ' ' . $collectionType;
+	$pageDescription = 'A list of free ebooks in the ' . $collectionName . ' ' . $collectionType;
+	$pageHeader = 'Free Ebooks in the ' . $collectionName . ' ' . ucfirst($collectionType);
 
-	$feedUrl = '/collections/' . $collection->UrlName;
-	$feedTitle = 'Standard Ebooks - Ebooks in the ' . Formatter::EscapeHtml($collectionName) . ' ' . $collectionType;
+	// Don't show feed/download links if the `Collection` doesn't have a feed, which may occur for collections that are all placeholders.
+	if(file_exists(WEB_ROOT . '/feeds/atom/collections/' . $collection->UrlName . '.xml')){
+		$showLinks = true;
+	}
+
+	$feedUrl = null;
+	$feedTitle = null;
+	if($showLinks){
+		$feedUrl = '/collections/' . $collection->UrlName;
+		$feedTitle = 'Standard Ebooks - Ebooks in the ' . $collection->Name . ' ' . $collectionType;
+	}
 }
 catch(Exceptions\CollectionNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(title: $pageTitle, feedUrl: $feedUrl, feedTitle: $feedTitle, highlight: 'ebooks', description: $pageDescription) ?>
 <main class="ebooks">
-	<h1 class="is-collection"><?= $pageHeader ?></h1>
+	<h1 class="is-collection"><?= Formatter::EscapeHtml($pageHeader) ?></h1>
 
 	<?= Template::DonationDrive() ?>
 
 	<?= Template::DonationAlert() ?>
 
-	<p class="ebooks-toolbar">
-		<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection->UrlName) ?>/downloads">Download collection</a>
-		<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection->UrlName) ?>/feeds">Collection feeds</a>
-	</p>
+	<? if($showLinks){ ?>
+		<p class="ebooks-toolbar">
+			<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection->UrlName) ?>/downloads">Download collection</a>
+			<a class="button" href="/collections/<?= Formatter::EscapeHtml($collection->UrlName) ?>/feeds">Collection feeds</a>
+		</p>
+	<? } ?>
 
 	<? if(sizeof($collection->Ebooks) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters. You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
