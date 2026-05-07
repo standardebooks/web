@@ -115,7 +115,7 @@ class AwsSesApi{
 					}
 
 					$html = (string)$email->BodyHtml;
-					$text = $email->BodyText;
+					$text = isset($email->BodyText) ? (string)$email->BodyText : null;
 					$from = (string)$email->From;
 					$subject = $email->Subject;
 
