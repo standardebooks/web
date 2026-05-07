@@ -1,9 +1,4 @@
 <?
-use function Safe\curl_exec;
-use function Safe\curl_getinfo;
-use function Safe\curl_init;
-use function Safe\curl_setopt;
-use function Safe\json_decode;
 use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_match_all;
@@ -205,20 +200,13 @@ final class Project{
 			if(preg_match('|^https://groups\.google\.com/d/msgid/|iu', $this->DiscussionUrl)){
 				// This URL links to a message which will perform some HTTP redirects to resolve to the actual thread URL.
 				// Resolve that URL before continuing.
-				$curl = curl_init();
-
-				curl_setopt($curl, CURLOPT_HEADER, true);
-				curl_setopt($curl, CURLOPT_NOBODY, true);
-				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-
-				curl_setopt($curl, CURLOPT_URL, $this->DiscussionUrl);
-				curl_exec($curl);
-
-				/** @var string $url */
-				$url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-
-				$this->DiscussionUrl = $url;
+				try{
+					$response = CurlRequest::Execute(Enums\HttpMethod::Head, $this->DiscussionUrl);
+					$this->DiscussionUrl = $response->FinalUrl;
+				}
+				catch(Exceptions\CurlException $ex){
+					// Pass.
+				}
 			}
 
 			if(preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl)){
@@ -520,52 +508,44 @@ final class Project{
 
 		$url = preg_replace('|^https://github\.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/issues');
 
-		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $this->GenerateGitHubApiRequestHeaders($apiKey));
-
 		try{
-			$response = curl_exec($curl);
-			/** @var int $httpCode */
-			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			$response = CurlRequest::ExecuteJson(Enums\HttpMethod::Get, $url, $this->GenerateGitHubApiRequestHeaders($apiKey));
 
-			if(!is_string($response)){
-				throw new Exceptions\AppException('Server did not respond with a string: ' . $response);
+			if(!$response->HttpCode->IsSuccess()){
+				throw new Exceptions\AppException('Server responded with HTTP ' . $response->HttpCode->value . '.');
 			}
 
-			if($httpCode != Enums\HttpCode::Ok->value){
-				throw new Exception('Server responded with HTTP ' . $httpCode . '.');
-			}
-
-			/** @var array<stdClass> $issues */
-			$issues = json_decode($response);
-
-			foreach($issues as $issue){
-				if(preg_match('/\breview/iu', $issue->title)){
-					$this->Status = Enums\ProjectStatusType::Reviewed;
-					return;
+			if(is_array($response->Data)){
+				foreach($response->Data as $issue){
+					if(preg_match('/\breview/iu', $issue->title)){
+						$this->Status = Enums\ProjectStatusType::Reviewed;
+						return;
+					}
 				}
+			}
+			else{
+				throw new Exceptions\AppException('Couldn\'t understand response: ' . vds($response->Data));
 			}
 		}
 		catch(Exception $ex){
-			throw new Exceptions\AppException('Error when fetching issues for URL <' . $url . '>: ' . $ex->getMessage(), 0, $ex);
+			throw new Exceptions\AppException(message: 'Error when fetching issues for URL <' . $url . '>: ' . $ex->getMessage(), previous: $ex);
 		}
 	}
 
 	/**
 	 * Generate an array of HTTP headers to use for authenticating to the GitHub API.
 	 *
-	 * @return array<string>
+	 * @return array<string, string>
 	 */
 	private function GenerateGitHubApiRequestHeaders(?string $apiKey): array{
 		$headers = [
-					'Accept: application/vnd.github+json',
-					'X-GitHub-Api-Version: 2022-11-28',
-					'User-Agent: Standard Ebooks' // Required by GitHub.
+					'Accept' => 'application/vnd.github+json',
+					'X-GitHub-Api-Version' => '2022-11-28',
+					'User-Agent' => 'Standard Ebooks' // Required by GitHub.
 				];
 
 		if($apiKey !== null){
-			$headers[] = 'Authorization: Bearer ' . $apiKey;
+			$headers['Authorization'] = 'Bearer ' . $apiKey;
 		}
 
 		return $headers;
@@ -575,31 +555,21 @@ final class Project{
 	 * Check if the `$VcsUrl` has been renamed since we stored it, and if it has, update it.
 	 */
 	private function UpdateVcsUrl(): void{
-		if(!preg_match('|^https://github\.com/|iu', $this->VcsUrl ?? '')){
-			return;
-		}
-
-		if($this->IsVcsUrlUpdated){
+		if(
+			$this->IsVcsUrlUpdated
+			||
+			$this->VcsUrl === null
+			||
+			!preg_match('|^https://github\.com/|iu', $this->VcsUrl)){
 			return;
 		}
 
 		try{
-			$curl = curl_init($this->VcsUrl);
-			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, Enums\HttpMethod::Head->value); // Only perform HTTP HEAD.
-			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_exec($curl);
-
-			/** @var string $finalUrl */
-			$finalUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
-
-			// Were we redirected?
-			if($finalUrl != $this->VcsUrl){
-				$this->VcsUrl = $finalUrl;
-			}
-
+			$response = CurlRequest::Execute(Enums\HttpMethod::Head, $this->VcsUrl);
+			$this->VcsUrl = $response->FinalUrl;
 			$this->IsVcsUrlUpdated = true;
 		}
-		catch(Safe\Exceptions\CurlException){
+		catch(Exceptions\CurlException){
 			// Probably a temporary failure, just continue but don't mark the URL as having been updated.
 		}
 	}
@@ -618,37 +588,27 @@ final class Project{
 
 		$url = preg_replace('|^https://github\.com/|iu', 'https://api.github.com/repos/', $this->VcsUrl . '/commits');
 
-		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_HTTPHEADER, $this->GenerateGitHubApiRequestHeaders($apiKey));
-
 		try{
-			$response = curl_exec($curl);
-			/** @var int $httpCode */
-			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-			if(!is_string($response)){
-				throw new Exceptions\AppException('Server did not respond with a string: ' . $response);
-			}
+			$response = CurlRequest::ExecuteJson(Enums\HttpMethod::Get, $url, $this->GenerateGitHubApiRequestHeaders($apiKey));
 
 			// GitHub API returns `HTTP 409 Conflict` if the repository is empty.
-			if($httpCode == Enums\HttpCode::Conflict->value){
+			if($response->HttpCode == Enums\HttpCode::Conflict){
 				return;
 			}
 
-			if($httpCode != Enums\HttpCode::Ok->value){
-				throw new Exception('Server responded with HTTP ' . $httpCode . '.');
+			if(!$response->HttpCode->IsSuccess()){
+				throw new Exceptions\AppException('Server responded with HTTP ' . $response->HttpCode->value . '.');
 			}
 
 			/** @var array<stdClass> $commits */
-			$commits = json_decode($response);
+			$commits = $response->Data;
 
 			if(sizeof($commits) > 0){
 				$this->LastCommitTimestamp = new DateTimeImmutable($commits[0]->commit->committer->date);
 			}
 		}
 		catch(Exception $ex){
-			throw new Exceptions\AppException('Error when fetching commits for URL <' . $url . '>: ' . $ex->getMessage(), 0, $ex);
+			throw new Exceptions\AppException(message: 'Error when fetching commits for URL <' . $url . '>: ' . $ex->getMessage(), previous: $ex);
 		}
 	}
 
@@ -658,28 +618,23 @@ final class Project{
 	 * @throws Exceptions\AppException If the operation failed.
 	 */
 	public function FetchLastDiscussionTimestamp(): void{
-		if(!preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl ?? '')){
+		if(
+			$this->DiscussionUrl === null
+			||
+			!preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl)
+		){
 			return;
 		}
 
-		$curl = curl_init($this->DiscussionUrl);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
 		try{
-			$response = curl_exec($curl);
-			/** @var int $httpCode */
-			$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			$response = CurlRequest::Execute(Enums\HttpMethod::Get, $this->DiscussionUrl);
 
-			if(!is_string($response)){
-				throw new Exceptions\AppException('Server did not respond with a string: ' . $response);
-			}
-
-			if($httpCode != Enums\HttpCode::Ok->value){
-				throw new Exception('Server responded with HTTP ' . $httpCode . '.');
+			if(!$response->HttpCode->IsSuccess()){
+				throw new Exception('Server responded with HTTP ' . $response->HttpCode->value . '.');
 			}
 
 			// Posts that were today are listed as `n minutes ago` or `n hours ago`, without a timestamp. Try to approximate a timestamp if that's the case.
-			$matchCount = preg_match_all('/<span class="[^"]+?">[^<]+\(([\d]+ (?:minutes?|hours?) ago)\s*\)\s*<\/span>/ius', $response, $matches);
+			$matchCount = preg_match_all('/<span class="[^"]+?">[^<]+\(([\d]+ (?:minutes?|hours?) ago)\s*\)\s*<\/span>/ius', $response->Data, $matches);
 
 			if($matchCount > 0){
 				// Unsure of the time zone, so just assume UTC.
@@ -693,7 +648,7 @@ final class Project{
 			}
 			else{
 				// No `n minutes ago` matches, try to match a full timestamp.
-				$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response, $matches);
+				$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response->Data, $matches);
 
 				if($matchCount > 0){
 					// Unsure of the time zone, so just assume UTC.
@@ -711,7 +666,7 @@ final class Project{
 			}
 		}
 		catch(Exception $ex){
-			throw new Exceptions\AppException('Error when fetching discussion for URL <' . $this->DiscussionUrl . '>: ' . $ex->getMessage(), 0, $ex);
+			throw new Exceptions\AppException(message: 'Error when fetching discussion for URL <' . $this->DiscussionUrl . '>: ' . $ex->getMessage(), previous: $ex);
 		}
 	}
 
