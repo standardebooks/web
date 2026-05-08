@@ -308,6 +308,9 @@ class NewsletterMailing{
 			$bodyHtml = new HtmlDocument(preg_replace('|<div class="footer">(.+?)</div>|ius', '<hr/>\1', (string)$this->BodyHtml));
 
 			$this->BodyText = $bodyHtml->ToMarkdown();
+
+			// Converting to Markdown escapes underscores, which we want to avoid when using variables like UNSUBSCRIBE_URL. Undo that here.
+			$this->BodyText = preg_replace('/([A-Z]+)\\\_/', '\1_', $this->BodyText);
 		}
 
 		if(!preg_match('/^<!doctype html>/ius', $this->BodyHtml)){
