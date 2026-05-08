@@ -28,13 +28,15 @@ class Log{
 	 * Write a message to disk, prepended with a timestamp and semi-random request ID.
 	 */
 	public function Write(string $text): void{
-		$this->WriteToFile(NOW->format('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . $text . "\n");
+		$this->WriteToFile(NOW->format('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . $text);
 	}
 
 	/**
 	 * Write a message to disk.
 	 */
 	private function WriteToFile(string $text): void{
+		$text = trim($text) . "\n";
+
 		if($this->LogFilePath === null){
 			error_log($text);
 		}
@@ -56,7 +58,7 @@ class Log{
 	 * Add a message to the message queue, without writing to disk. To write all queued messages to disk, call `Log::WriteQueue()`.
 	 */
 	public function Queue(string $text): void{
-		$this->_Messages[] = NOW->format('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . $text;
+		$this->_Messages[] = NOW->format('Y-m-d H:i:s') . "\t" . $this->RequestId . "\t" . trim($text);
 	}
 
 	/**
