@@ -748,9 +748,23 @@ final class Artwork{
 	 * @throws Exceptions\InvalidArtworkTagException
 	 * @throws Exceptions\InvalidArtistException
 	 * @throws Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\ArtworkExistsException
 	 */
 	public function Create(?string $imagePath = null): void{
 		$this->Validate($imagePath, true);
+
+		// Do we already have an `Artwork` with the same URL?
+		$doesArtworkExist = Db::QueryBool('SELECT sum(result) = 2
+							from
+							(
+							select exists(select * from Artworks where UrlName = ?) as result
+							union all
+							select exists(select * from Artists where UrlName = ?) as result
+							) x', [$this->UrlName, $this->Artist->UrlName]);
+
+		if($doesArtworkExist){
+			throw new Exceptions\ArtworkExistsException();
+		}
 
 		$this->Created = NOW;
 		$this->Updated = NOW;
