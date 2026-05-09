@@ -22,7 +22,10 @@ $timeLeft = NOW->diff($donationDrive->End);
 $timeString = '';
 $stretchStartingPosition = 0;
 
-if($timeLeft->days < 1 && $timeLeft->h < 20){
+if($timeLeft->days < 1 && $timeLeft->h < 3){
+	$timeString = 'Minutes';
+}
+elseif($timeLeft->days < 1 && $timeLeft->h < 20){
 	$timeString = 'Just hours';
 }
 elseif($timeLeft->days >= 1 && $timeLeft->h <= 12){
@@ -110,8 +113,8 @@ if($donationDrive instanceof DonationCounter){
 			entries
 		</div>
 		<p>Our fiscal sponsor, <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, is running their annual Spring Match campaign, in which they <? if($donationDrive->ExternalUrl !== null){ ?><a href="<?= Formatter::EscapeHtml($donationDrive->ExternalUrl) ?>"><? } ?>award <?= Formatter::FormatCurrency($donationDrive->MatchAmount, true) ?> to twenty different projects<? if($donationDrive->ExternalUrl !== null){ ?></a><? } ?>.</p>
-		<p>The winners of this award are determined by a drawing, and through <?= $deadline ?> <strong>each one-time donation of any amount to Standard Ebooks will give us one entry in the drawing.</strong> The more one-time donations we get, the more chances we have to win <?= Formatter::FormatCurrency($donationDrive->MatchAmount, true) ?>!</p>
-		<p>Will you help us with a one-time donation, in any amount? <strong>This is a great time to <a href="/donate#patrons-circle">join our Patrons Circle</a> with a donation of <?= Formatter::FormatCurrency(PATRONS_CIRCLE_YEARLY_COST, true) ?>.</strong> Not only will your donation support us directly, but it’ll give us one more entry in this big giveaway.</p>
+		<p>The winners of this award are determined by a drawing, and through <?= $deadline ?> <strong>each one-time donation of any amount to Standard Ebooks will earn us one entry in the drawing.</strong> The more one-time donations we get, the more chances we have to win <?= Formatter::FormatCurrency($donationDrive->MatchAmount, true) ?>!</p>
+		<p>Will you help us with a one-time donation, in any amount? <strong>This is a great time to <a href="/donate#patrons-circle">join our Patrons Circle</a> with a donation of <?= Formatter::FormatCurrency(PATRONS_CIRCLE_YEARLY_COST, true) ?>.</strong> Not only will your donation support us directly, but it’ll earn us one more entry in this big giveaway.</p>
 		<p>Will you show your support for free, beautiful digital literature?</p>
 		<? if($showDonateButton){ ?>
 			<p class="donate-button">
