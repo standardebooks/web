@@ -29,7 +29,13 @@ try{
 	}
 	elseif($exception){
 		// We got here because an operation had errors and the user has to try again.
-		http_response_code(Enums\HttpCode::UnprocessableContent->value);
+		if($exception instanceof Exceptions\ValidationException && $exception->Has(Exceptions\InvalidRequestException::class)){
+			http_response_code(Enums\HttpCode::ContentTooLarge->value);
+		}
+		else{
+			http_response_code(Enums\HttpCode::UnprocessableContent->value);
+		}
+
 		session_unset();
 	}
 
