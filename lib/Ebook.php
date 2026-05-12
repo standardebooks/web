@@ -2506,17 +2506,6 @@ final class Ebook{
 	}
 
 	/**
-	 * Get all `Ebook`s in a set of `EbookId`s.
-	 *
-	 * @param array<int> $ebookIds
-	 *
-	 * @return array<Ebook>
-	 */
-	public static function GetAllBySet(array $ebookIds): array{
-		return Db::Query('SELECT * from Ebooks where EbookId in ' . Db::CreateSetSql($ebookIds), $ebookIds, Ebook::class);
-	}
-
-	/**
 	* @param array<string> $tags
 	*
 	* @return array{ebooks: array<Ebook>, ebooksCount: int}

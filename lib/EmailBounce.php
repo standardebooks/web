@@ -9,13 +9,6 @@ class EmailBounce{
 	public bool $IsActive = true;
 	public Enums\EmailProviderType $Source;
 
-	/**
-	 * @throws Exceptions\EmailBounceNotFoundException If the `EmailBounce` can't be found.
-	 */
-	public static function GetActiveByUserId(int $userId): EmailBounce{
-		return Db::Query('SELECT * from EmailBounces where UserId = ? and IsActive = true', [$userId], EmailBounce::class)[0] ?? throw new Exceptions\EmailBounceNotFoundException();
-	}
-
 	public function Create(): void{
 		$this->Created = NOW;
 

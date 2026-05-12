@@ -235,11 +235,16 @@ class BlogPost{
 			}
 		}
 		else{
-			try{
-				User::Get($this->UserId ?? null);
+			if(!isset($this->UserId)){
+				$error->Add(new Exceptions\BlogPostUserRequiredException());
 			}
-			catch(Exceptions\UserNotFoundException $ex){
-				$error->Add($ex);
+			else{
+				try{
+					User::Get($this->UserId);
+				}
+				catch(Exceptions\UserNotFoundException $ex){
+					$error->Add($ex);
+				}
 			}
 		}
 
