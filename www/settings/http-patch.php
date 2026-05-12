@@ -1,9 +1,9 @@
 <?
 use Safe\DateTimeImmutable;
 
-$hideDonationAlert = HttpInput::Bool(POST, 'hide-donation-alert');
-$hidePublicDomainDayBanner = HttpInput::Bool(POST, 'hide-public-domain-day-banner');
-$colorScheme = Enums\ColorSchemeType::tryFrom(HttpInput::Str(POST, 'color-scheme') ?? '');
+$hideDonationAlert = Http::$Request->Body->Get('hide-donation-alert', 'bool');
+$hidePublicDomainDayBanner = Http::$Request->Body->Get('hide-public-domain-day-banner', 'bool');
+$colorScheme = Enums\ColorSchemeType::tryFrom(Http::$Request->Body->Get('color-scheme') ?? '');
 
 if($hideDonationAlert !== null){
 	setcookie('hide-donation-alert', $hideDonationAlert ? 'true' : 'false', ['expires' => intval((new DateTimeImmutable('+1 month'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);

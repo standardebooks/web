@@ -114,7 +114,7 @@ class Session{
 	}
 
 	public static function InitializeFromCookie(): void{
-		$sessionId = HttpInput::Str(COOKIE, 'sessionid');
+		$sessionId = Http::$Request->Cookies->Get('sessionid');
 
 		if($sessionId !== null){
 			$result = Db::Query('

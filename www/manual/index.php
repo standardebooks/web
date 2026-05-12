@@ -6,7 +6,7 @@ use function Safe\preg_replace;
 
 $currentManual = Manual::GetLatestVersion();
 
-$url = HttpInput::Str(GET, 'url') ?? '';
+$url = Http::$Request->QueryString->Get('url') ?? '';
 
 try{
 	$url = preg_replace('|^/|ius', '', $url);

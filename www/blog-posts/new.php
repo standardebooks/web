@@ -17,10 +17,10 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$blogPost = HttpInput::SessionObject('blog-post', BlogPost::class) ?? new BlogPost();
-	$userIdentifier = HttpInput::Str(SESSION, 'blog-post-user-identifier');
-	$ebookIdentifiers = HttpInput::Str(SESSION, 'blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$blogPost = Http::$Request->Session->Get('blog-post', BlogPost::class) ?? new BlogPost();
+	$userIdentifier = Http::$Request->Session->Get('blog-post-user-identifier');
+	$ebookIdentifiers = Http::$Request->Session->Get('blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

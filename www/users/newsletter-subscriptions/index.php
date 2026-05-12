@@ -12,7 +12,7 @@ try{
 	session_start();
 
 	// If a bot filled out this form, we'll get a random UUID; show success.
-	if(HttpInput::Bool(SESSION, 'is-bot') ?? false){
+	if(Http::$Request->Session->Get('is-bot', 'bool') ?? false){
 		$isCreated = true;
 		$isConfirmed = false;
 		$isDeleted = false;
@@ -21,18 +21,18 @@ try{
 		session_unset();
 	}
 	else{
-		$user = User::GetByUuid(HttpInput::Str(GET, 'user-identifier'));
+		$user = User::GetByUuid(Http::$Request->QueryString->Get('user-identifier'));
 
-		$isCreated = HttpInput::Bool(SESSION, 'is-newsletter-subscription-created') ?? false;
-		$isConfirmed = HttpInput::Bool(SESSION, 'are-newsletter-subscriptions-confirmed') ?? false;
-		$isDeleted = HttpInput::Bool(SESSION, 'is-newsletter-subscriptions-deleted') ?? false;
+		$isCreated = Http::$Request->Session->Get('is-newsletter-subscription-created', 'bool') ?? false;
+		$isConfirmed = Http::$Request->Session->Get('are-newsletter-subscriptions-confirmed', 'bool') ?? false;
+		$isDeleted = Http::$Request->Session->Get('is-newsletter-subscriptions-deleted', 'bool') ?? false;
 
 		if($isCreated){
 			http_response_code(Enums\HttpCode::Created->value);
 		}
 
 		if($isDeleted){
-			$newsletterName = HttpInput::Str(SESSION, 'newsletter-name');
+			$newsletterName = Http::$Request->Session->Get('newsletter-name');
 		}
 
 		if($isCreated || $isConfirmed || $isDeleted){

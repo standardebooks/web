@@ -4,7 +4,7 @@
  */
 
 try{
-	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'poll-url-name'));
+	$poll = Poll::GetByUrlName(Http::$Request->QueryString->Get('poll-url-name'));
 }
 catch(Exceptions\PollNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

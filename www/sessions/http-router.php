@@ -5,8 +5,8 @@
 
 if($_SERVER['SCRIPT_NAME'] == '/sessions'){
 	// If we got here, this is not a GET request.
-	HttpInput::RouteRequest(allowedHttpMethods: [Enums\HttpMethod::Post]);
+	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Post]);
 }
 else{
-	HttpInput::RouteRequest();
+	Http::$Request->Route();
 }

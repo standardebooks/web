@@ -8,7 +8,7 @@ use function Safe\session_start;
 try{
 	session_start();
 
-	/** @var Artwork $artwork The `Artwork` for this request, passed in from the router. */
+	/** @var Artwork $artwork The `Artwork` for this request, passed in from the HTTP requestthe router. */
 	$artwork = $resource ?? throw new Exceptions\ArtworkNotFoundException();
 
 	$originalArtwork = $artwork;
@@ -17,13 +17,13 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	// We may have been called from either the `Artwork`'s page, or from the `Artwork`'s edit form, so check the referrer to see which one it was.
+	// We may have been called from the HTTP requesteither the `Artwork`'s page, or from the HTTP requestthe `Artwork`'s edit form, so check the referrer to see which one it was.
 	/** @var string $referrer */
 	$referrer = $_SERVER['HTTP_REFERER'] ?? $artwork->EditUrl;
 	$exceptionRedirectUrl = Template::SanitizeRedirectUrl($referrer);
 
-	$artworkStatus = HttpInput::Str(POST, 'artwork-status');
-	$artworkEbookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
+	$artworkStatus = Http::$Request->Body->Get('artwork-status');
+	$artworkEbookUrl = Http::$Request->Body->Get('artwork-ebook-url');
 
 	if(
 		!(
@@ -58,7 +58,7 @@ try{
 		throw $ex;
 	}
 
-	$artwork->Save(HttpInput::File('artwork-image'));
+	$artwork->Save(Http::$Request->Files->Get('artwork-image'));
 
 	$_SESSION['artwork'] = $artwork;
 	$_SESSION['is-artwork-saved'] = true;
@@ -75,14 +75,14 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException | Exceptions\ArtistInvalidException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\UrlInvalidException $ex){
-	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
-	if($ex instanceof Exceptions\FileUploadInvalidException){
+catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException | Exceptions\ArtistInvalidException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException | Exceptions\UrlInvalidException $ex){
+	// If we were passed a more generic file upload exception from the HTTP request, swap it for a more specific exception to show to the user.
+	if($ex instanceof Exceptions\FileUploadInvalidException || $ex instanceof Exceptions\FileUploadTooLargeException){
 		$ex = new Exceptions\ImageUploadInvalidException();
 	}
 
 	// If the `Artwork` reports that no image is uploaded, check to see if the image upload was too large. If so, show the user a clearer error message.
-	if($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class) && HttpInput::IsRequestTooLarge()){
+	if($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class) && Http::$Request->IsRequestTooLarge){
 		$ex->Remove(Exceptions\ImageUploadInvalidException::class);
 		$ex->Add(new Exceptions\RequestInvalidException('File upload too large.'));
 	}

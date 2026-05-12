@@ -190,7 +190,7 @@ class Spreadsheet{
 		$this->PropertyFromHttp('Title');
 		$this->PropertyFromHttp('ExternalUrl');
 		if(isset($_POST['spreadsheet-notes'])){
-			$this->Notes = HttpInput::Str(POST, 'spreadsheet-notes');
+			$this->Notes = Http::$Request->Body->Get('spreadsheet-notes');
 		}
 
 		$this->PropertyFromHttp('SortOrder');

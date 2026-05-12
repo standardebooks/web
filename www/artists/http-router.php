@@ -5,7 +5,7 @@
  */
 
 try{
-	HttpInput::RouteRequest(resource: Artist::GetByUrlName(HttpInput::Str(GET, 'artist-url-name')));
+	Http::$Request->Route(resource: Artist::GetByUrlName(Http::$Request->QueryString->Get('artist-url-name')));
 }
 catch(Exceptions\NotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

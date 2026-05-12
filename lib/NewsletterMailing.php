@@ -579,20 +579,20 @@ class NewsletterMailing{
 		$this->PropertyFromHttp('ExcludePatrons');
 
 		if(isset($_POST['newsletter-mailing-body-text'])){
-			$this->BodyText = HttpInput::Str(POST, 'newsletter-mailing-body-text') ?? '';
+			$this->BodyText = Http::$Request->Body->Get('newsletter-mailing-body-text') ?? '';
 		}
 
 		if(isset($_POST['newsletter-mailing-body-html'])){
-			$this->BodyHtml = HttpInput::Str(POST, 'newsletter-mailing-body-html') ?? '';
+			$this->BodyHtml = Http::$Request->Body->Get('newsletter-mailing-body-html') ?? '';
 		}
 
 		if(isset($_POST['newsletter-mailing-from-email'])){
-			$this->FromEmail = HttpInput::Str(POST, 'newsletter-mailing-from-email') ?? '';
+			$this->FromEmail = Http::$Request->Body->Get('newsletter-mailing-from-email') ?? '';
 		}
 
 		// `SendOn` is always interpreted as being sent in the `America/Chicago` timezone.
 		// Therefore we have to do some gymnastics to store it as UTC in our object.
-		$sendOn = HttpInput::Str(POST, 'newsletter-mailing-send-on');
+		$sendOn = Http::$Request->Body->Get('newsletter-mailing-send-on');
 		if($sendOn !== null){
 			/** @throws void */
 			$this->SendOn = (new DateTimeImmutable($sendOn, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));

@@ -1,13 +1,13 @@
 <?
 use function Safe\preg_match;
 
-$page = HttpInput::Int(GET, 'page') ?? 1;
+$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 $pages = 0;
-$perPage = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
-$query = HttpInput::Str(GET, 'query') ?? '';
-$tags = HttpInput::Array(GET, 'tags') ?? [];
-$view = Enums\ViewType::tryFrom(HttpInput::Str(GET, 'view') ?? '') ?? Enums\ViewType::Grid;
-$sort = Enums\EbookSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '') ?? Enums\EbookSortType::Default;
+$perPage = Http::$Request->QueryString->Get('per-page', 'int') ?? EBOOKS_PER_PAGE;
+$query = Http::$Request->QueryString->Get('query') ?? '';
+$tags = Http::$Request->QueryString->Get('tags', 'array') ?? [];
+$view = Enums\ViewType::tryFrom(Http::$Request->QueryString->Get('view') ?? '') ?? Enums\ViewType::Grid;
+$sort = Enums\EbookSortType::tryFrom(Http::$Request->QueryString->Get('sort') ?? '') ?? Enums\EbookSortType::Default;
 $queryString = '';
 $queryStringParams = [];
 $queryStringWithoutPage = '';

@@ -5,8 +5,8 @@
  */
 
 try{
-	$authorUrlName = HttpInput::Str(GET, 'author-url-name');
-	$collectionUrlName = HttpInput::Str(GET, 'collection-url-name');
+	$authorUrlName = Http::$Request->QueryString->Get('author-url-name');
+	$collectionUrlName = Http::$Request->QueryString->Get('collection-url-name');
 	$collectionType = null;
 	$target = null;
 
@@ -29,7 +29,7 @@ try{
 		throw new Exceptions\CollectionNotFoundException();
 	}
 
-	HttpInput::RouteRequest(resource: ['filePath' => $filePath, 'collectionType' => $collectionType]);
+	Http::$Request->Route(resource: ['filePath' => $filePath, 'collectionType' => $collectionType]);
 }
 catch(Exceptions\CollectionNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

@@ -76,7 +76,7 @@ trait PropertyFromHttp{
 	 *
 	 * 	`Test::$ChapterNumber` set to `null`, because an empty string sets nullable properties to `null`.
 	 */
-	public function PropertyFromHttp(string $property, \Enums\HttpVariableSource $set = POST, ?string $httpName = null): void{
+	public function PropertyFromHttp(string $property, \Enums\HttpVariableSource $set = \Enums\HttpVariableSource::Body, ?string $httpName = null): void{
 		try{
 			$rp = new \ReflectionProperty($this, $property);
 		}
@@ -91,75 +91,67 @@ trait PropertyFromHttp{
 				$httpName = mb_strtolower(preg_replace('/([^^])([A-Z])/u', '\1-\2', $this::class . $property));
 			}
 
-			$vars = [];
+			$httpVariables = match($set){
+				\Enums\HttpVariableSource::QueryString => \Http::$Request->QueryString,
+				\Enums\HttpVariableSource::Body => \Http::$Request->Body,
+				\Enums\HttpVariableSource::Cookie => \Http::$Request->Cookies,
+				\Enums\HttpVariableSource::Session => \Http::$Request->Session
+			};
 
-			switch($set){
-				case \Enums\HttpVariableSource::Get:
-					$vars = $_GET;
-					break;
-				case \Enums\HttpVariableSource::Post:
-					$vars = $_POST;
-					break;
-				case \Enums\HttpVariableSource::Cookie:
-					$vars = $_COOKIE;
-					break;
-				case \Enums\HttpVariableSource::Session:
-					$vars = $_SESSION;
-					break;
-			}
+			$rawValue = $httpVariables->Get($httpName, 'empty-string');
 
 			// If the variable was not passed to us, don't change the property.
-			if(!isset($vars[$httpName])){
+			if($rawValue === null){
 				return;
 			}
 
 			$type = $propertyType->getName();
 			$isPropertyNullable = $propertyType->allowsNull();
-			$isPropertyEnum = is_a($type, 'BackedEnum', true);
-			$postValue = null;
+			$isPropertyAnEnum = is_a($type, 'BackedEnum', true);
+			$value = null;
 
-			if($isPropertyEnum){
-				$postValue = $type::tryFrom(\HttpInput::Str($set, $httpName) ?? '');
+			if($isPropertyAnEnum){
+				$value = $type::tryFrom($httpVariables->Get($httpName) ?? '');
 			}
 			else{
 				switch($type){
 					case 'int':
-						$postValue = \HttpInput::Int($set, $httpName);
+						$value = $httpVariables->Get($httpName, 'int');
 						break;
 					case 'bool':
-						$postValue = \HttpInput::Bool($set, $httpName);
+						$value = $httpVariables->Get($httpName, 'bool');
 						break;
 					case 'float':
-						$postValue = \HttpInput::Dec($set, $httpName);
+						$value = $httpVariables->Get($httpName, 'float');
 						break;
 					case 'DateTimeImmutable':
 					case 'Safe\DateTimeImmutable':
-						$postValue = \HttpInput::Date($set, $httpName);
+						$value = $httpVariables->Get($httpName, 'DateTimeImmutable');
 						break;
 					case 'array':
-						$postValue = \HttpInput::Array($set, $httpName);
+						$value = $httpVariables->Get($httpName, 'array');
 						break;
 					case 'string':
-						$postValue = \HttpInput::Str($set, $httpName, true);
+						$value = $rawValue;
 						break;
 				}
 			}
 
 			if($type == 'string'){
 				if($isPropertyNullable){
-					if($postValue == ''){
+					if($value == ''){
 						$this->{$property} = null;
 					}
 					else{
-						$this->{$property} = $postValue;
+						$this->{$property} = $value;
 					}
 				}
-				elseif($postValue !== null){
-					$this->{$property} = $postValue;
+				elseif($value !== null){
+					$this->{$property} = $value;
 				}
 			}
-			elseif($isPropertyNullable || $postValue !== null){
-				$this->{$property} = $postValue;
+			elseif($isPropertyNullable || $value !== null){
+				$this->{$property} = $value;
 			}
 		}
 	}

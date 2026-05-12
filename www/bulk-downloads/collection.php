@@ -6,7 +6,7 @@
 use function Safe\preg_replace;
 
 try{
-	$labelType = Enums\BulkDownloadLabelType::from(HttpInput::Str(GET, 'label-type') ?? '');
+	$labelType = Enums\BulkDownloadLabelType::from(Http::$Request->QueryString->Get('label-type') ?? '');
 
 	if($labelType == Enums\BulkDownloadLabelType::Month){
 		$bulkDownloadCollections = BulkDownloadCollection::GetAllByMonthLabelType();

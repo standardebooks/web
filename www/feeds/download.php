@@ -10,7 +10,7 @@ use function Safe\preg_replace;
 // Basic authorization is handled in `Core.php`. By the time we get here, a valid user has a session.
 
 try{
-	$path = '/feeds/' . (HttpInput::Str(GET, 'path') ?? '');
+	$path = '/feeds/' . (Http::$Request->QueryString->Get('path') ?? '');
 
 	// Remove `./` and `../` from the path.
 	$path = preg_replace('/\.\.?\//u', '', $path);

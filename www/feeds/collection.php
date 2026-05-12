@@ -6,8 +6,8 @@
 use function Safe\apcu_fetch;
 use function Safe\preg_replace;
 
-$collectionType = Enums\FeedCollectionType::tryFrom(HttpInput::Str(GET, 'collection-type') ?? '');
-$feedFormat = Enums\FeedFormatType::tryFrom(HttpInput::Str(GET, 'feed-format') ?? '');
+$collectionType = Enums\FeedCollectionType::tryFrom(Http::$Request->QueryString->Get('collection-type') ?? '');
+$feedFormat = Enums\FeedFormatType::tryFrom(Http::$Request->QueryString->Get('feed-format') ?? '');
 
 if(
 	$collectionType === null

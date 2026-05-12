@@ -5,7 +5,7 @@ if($donationDrive === null){
 }
 
 if(
-	($autoHide ?? (HttpInput::Bool(COOKIE, 'hide-donation-alert') ?? false)) // If the user has hidden the box.
+	($autoHide ?? (Http::$Request->Cookies->Get('hide-donation-alert', 'bool') ?? false)) // If the user has hidden the box.
 	||
 	Session::$User !== null // If a user is logged in.
 	||

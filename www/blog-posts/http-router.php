@@ -7,17 +7,17 @@
 
 if($_SERVER['SCRIPT_NAME'] == '/blog-posts'){
 	// If we got here, this is not a GET request.
-	HttpInput::RouteRequest(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
+	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }
 else{
 	try{
-		$blogPost = BlogPost::GetByUrlTitle(HttpInput::Str(GET, 'blog-post-url-title'));
+		$blogPost = BlogPost::GetByUrlTitle(Http::$Request->QueryString->Get('blog-post-url-title'));
 
-		if($blogPost->Published > NOW && (HttpInput::$RequestMethod == Enums\HttpMethod::Get || HttpInput::$RequestMethod == Enums\HttpMethod::Head)){
+		if($blogPost->Published > NOW && (Http::$Request->Method == Enums\HttpMethod::Get || Http::$Request->Method == Enums\HttpMethod::Head)){
 			throw new Exceptions\BlogPostNotFoundException();
 		}
 
-		HttpInput::RouteRequest(resource: $blogPost);
+		Http::$Request->Route(resource: $blogPost);
 	}
 	catch(Exceptions\NotFoundException){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);

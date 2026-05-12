@@ -6,8 +6,8 @@
 
 try{
 	$bulkDownloadCollection = null;
-	$collectionUrlName = HttpInput::Str(GET, 'collection-url-name');
-	$authorUrlName = HttpInput::Str(GET, 'author-url-name');
+	$collectionUrlName = Http::$Request->QueryString->Get('collection-url-name');
+	$authorUrlName = Http::$Request->QueryString->Get('author-url-name');
 
 	if($collectionUrlName !== null){
 		$bulkDownloadCollection = BulkDownloadCollection::GetByCollectionUrl($collectionUrlName);
@@ -21,7 +21,7 @@ try{
 		throw new Exceptions\BulkDownloadCollectionNotFoundException();
 	}
 
-	HttpInput::RouteRequest(resource: $bulkDownloadCollection);
+	Http::$Request->Route(resource: $bulkDownloadCollection);
 }
 catch(Exceptions\NotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

@@ -5,7 +5,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$poll = Poll::GetByUrlName(HttpInput::Str(GET, 'poll-url-name'));
+	$poll = Poll::GetByUrlName(Http::$Request->QueryString->Get('poll-url-name'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -15,8 +15,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$vote = HttpInput::SessionObject('vote', PollVote::class) ?? new PollVote();
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+	$vote = Http::$Request->Session->Get('vote', PollVote::class) ?? new PollVote();
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
 
 	if(!isset($vote->UserId)){
 		$vote->UserId = Session::$User->UserId;

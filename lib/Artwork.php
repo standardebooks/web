@@ -1231,21 +1231,21 @@ final class Artwork{
 		$this->PropertyFromHttp('ArtworkPageUrl');
 		$this->PropertyFromHttp('MuseumUrl');
 		if(isset($_POST['artwork-exception'])){
-			$this->Exception = HttpInput::Str(POST, 'artwork-exception');
+			$this->Exception = Http::$Request->Body->Get('artwork-exception');
 		}
 
 		if(isset($_POST['artwork-notes'])){
-			$this->Notes = HttpInput::Str(POST, 'artwork-notes');
+			$this->Notes = Http::$Request->Body->Get('artwork-notes');
 		}
 
 		$this->PropertyFromHttp('ArtworkStatus');
 
-		$tags = HttpInput::Str(POST, 'artwork-tags', true);
+		$tags = Http::$Request->Body->Get('artwork-tags', 'empty-string');
 		if($tags !== null){
 			$this->Tags = $tags; // Converted from a string to an array via a setter.
 		}
 
-		$ebookUrl = HttpInput::Str(POST, 'artwork-ebook-url');
+		$ebookUrl = Http::$Request->Body->Get('artwork-ebook-url');
 		if(isset($ebookUrl)){
 			try{
 				$ebook = Ebook::GetByIdentifier($ebookUrl);

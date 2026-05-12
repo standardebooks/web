@@ -635,7 +635,7 @@ final class User{
 		$this->PropertyFromHttp('Uuid');
 
 		if(isset($_POST['user-email'])){
-			$this->Email = HttpInput::Str(POST, 'user-email');
+			$this->Email = Http::$Request->Body->Get('user-email');
 		}
 
 		$this->Benefits->FillFromHttpPost();

@@ -10,9 +10,9 @@ try{
 	session_start();
 
 	$session = new Session();
-	$email = HttpInput::Str(POST, 'email');
-	$password = HttpInput::Str(POST, 'password');
-	$redirect = Template::SanitizeRedirectUrl(HttpInput::Str(POST, 'redirect'));
+	$email = Http::$Request->Body->Get('email');
+	$password = Http::$Request->Body->Get('password');
+	$redirect = Template::SanitizeRedirectUrl(Http::$Request->Body->Get('redirect'));
 
 	$session->Create($email, $password);
 

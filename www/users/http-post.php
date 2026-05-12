@@ -16,14 +16,14 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$passwordAction = Enums\PasswordActionType::tryFrom(HttpInput::Str(POST, 'password-action') ?? '') ?? Enums\PasswordActionType::None;
+	$passwordAction = Enums\PasswordActionType::tryFrom(Http::$Request->Body->Get('password-action') ?? '') ?? Enums\PasswordActionType::None;
 
 	$user = new User();
 
 	$user->FillFromHttpPost();
 	$user->Benefits->FillFromHttpPost();
 
-	$user->Create(HttpInput::Str(POST, 'user-password'));
+	$user->Create(Http::$Request->Body->Get('user-password'));
 
 	$_SESSION['is-user-created'] = true;
 

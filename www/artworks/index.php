@@ -1,13 +1,13 @@
 <?
 $artworks = [];
-$page = HttpInput::Int(GET, 'page') ?? 1;
-$perPage = HttpInput::Int(GET, 'per-page') ?? ARTWORK_PER_PAGE;
-$query = HttpInput::Str(GET, 'query');
-$queryEbookUrl = HttpInput::Str(GET, 'query-ebook-url');
-$startYear = HttpInput::Int(GET, 'start-year');
-$endYear = HttpInput::Int(GET, 'end-year');
-$artworkFilterType = Enums\ArtworkFilterType::tryFrom(HttpInput::Str(GET, 'status') ?? '');
-$sort = Enums\ArtworkSortType::tryFrom(HttpInput::Str(GET, 'sort') ?? '');
+$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
+$perPage = Http::$Request->QueryString->Get('per-page', 'int') ?? ARTWORK_PER_PAGE;
+$query = Http::$Request->QueryString->Get('query');
+$queryEbookUrl = Http::$Request->QueryString->Get('query-ebook-url');
+$startYear = Http::$Request->QueryString->Get('start-year', 'int');
+$endYear = Http::$Request->QueryString->Get('end-year', 'int');
+$artworkFilterType = Enums\ArtworkFilterType::tryFrom(Http::$Request->QueryString->Get('status') ?? '');
+$sort = Enums\ArtworkSortType::tryFrom(Http::$Request->QueryString->Get('sort') ?? '');
 $pages = 0;
 $totalArtworkCount = 0;
 $pageDescription = '';

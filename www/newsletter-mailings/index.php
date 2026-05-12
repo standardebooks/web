@@ -13,8 +13,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$isCreated = HttpInput::Bool(SESSION, 'is-newsletter-mailing-created') ?? false;
-	$isSaved = HttpInput::Bool(SESSION, 'is-newsletter-mailing-saved') ?? false;
+	$isCreated = Http::$Request->Session->Get('is-newsletter-mailing-created', 'bool') ?? false;
+	$isSaved = Http::$Request->Session->Get('is-newsletter-mailing-saved', 'bool') ?? false;
 
 	$newsletterMailings = NewsletterMailing::GetAll();
 

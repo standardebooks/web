@@ -10,9 +10,9 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$urlPath = HttpInput::Str(GET, 'ebook-url-path');
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$project = HttpInput::SessionObject('project', Project::class);
+	$urlPath = Http::$Request->QueryString->Get('ebook-url-path');
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$project = Http::$Request->Session->Get('project', Project::class);
 	$ebook = null;
 
 	if($urlPath !== null){

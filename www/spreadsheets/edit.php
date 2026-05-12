@@ -9,7 +9,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$originalSpreadsheet = Spreadsheet::Get(HttpInput::Int(GET, 'spreadsheet-id'));
+	$originalSpreadsheet = Spreadsheet::Get(Http::$Request->QueryString->Get('spreadsheet-id', 'int'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -19,8 +19,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$spreadsheet = HttpInput::SessionObject('spreadsheet', Spreadsheet::class) ?? $originalSpreadsheet;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$spreadsheet = Http::$Request->Session->Get('spreadsheet', Spreadsheet::class) ?? $originalSpreadsheet;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

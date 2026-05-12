@@ -17,10 +17,10 @@ try{
 
 	session_start();
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$newsletterMailing = HttpInput::SessionObject('newsletter-mailing', NewsletterMailing::class) ?? new NewsletterMailing();
-	$addFooter = HttpInput::Bool(SESSION, 'add-footer') ?? true;
-	$addEbooks = HttpInput::Bool(SESSION, 'add-ebooks') ?? true;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$newsletterMailing = Http::$Request->Session->Get('newsletter-mailing', NewsletterMailing::class) ?? new NewsletterMailing();
+	$addFooter = Http::$Request->Session->Get('add-footer', 'bool') ?? true;
+	$addEbooks = Http::$Request->Session->Get('add-ebooks', 'bool') ?? true;
 
 	if($exception){
 		// We got here because a submission had errors and the user has to try again.

@@ -8,8 +8,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$filterFrom = HttpInput::Date(GET, 'from');
-	$filterTo = HttpInput::Date(GET, 'to');
+	$filterFrom = Http::$Request->QueryString->Get('from', 'DateTimeImmutable');
+	$filterTo = Http::$Request->QueryString->Get('to', 'DateTimeImmutable');
 	$hasDateFilters = $filterFrom !== null || $filterTo !== null;
 	$localNow = NOW->setTime(0, 0, 0, 0);
 	$from = $filterFrom ?? $localNow->sub(new DateInterval('P30D'));

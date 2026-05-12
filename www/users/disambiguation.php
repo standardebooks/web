@@ -1,7 +1,7 @@
 <?
 try{
 	$users = [];
-	$identifier = HttpInput::Str(GET, 'user-identifier');
+	$identifier = Http::$Request->QueryString->Get('user-identifier');
 
 	try{
 		$user = User::GetByIdentifier($identifier);

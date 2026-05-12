@@ -6,13 +6,13 @@
 
 if($_SERVER['SCRIPT_NAME'] == '/newsletter-mailings'){
 	// If we got here, this is not a GET request.
-	HttpInput::RouteRequest(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
+	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }
 else{
 	try{
-		$newsletterMailing = NewsletterMailing::Get(HttpInput::Int(GET, 'newsletter-mailing-id'));
+		$newsletterMailing = NewsletterMailing::Get(Http::$Request->QueryString->Get('newsletter-mailing-id', 'int'));
 
-		HttpInput::RouteRequest(resource: $newsletterMailing);
+		Http::$Request->Route(resource: $newsletterMailing);
 	}
 	catch(Exceptions\NewsletterMailingNotFoundException){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);

@@ -11,7 +11,7 @@ $showLinks = false;
 
 try{
 	/** @var string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
-	$urlPath = trim(str_replace('.', '', HttpInput::Str(GET, 'author-url-name') ?? ''), '/');
+	$urlPath = trim(str_replace('.', '', Http::$Request->QueryString->Get('author-url-name') ?? ''), '/');
 
 	if($urlPath == ''){
 		throw new Exceptions\AuthorNotFoundException();

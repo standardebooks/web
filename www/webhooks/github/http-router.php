@@ -3,5 +3,5 @@
  * POST		/webhooks/github
  */
 
-HttpInput::RouteRequest();
+Http::$Request->Route();
 

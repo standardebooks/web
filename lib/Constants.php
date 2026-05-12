@@ -78,20 +78,6 @@ const NEWSLETTER_FIRST_NAME_VARIABLE = 'SE_FIRST_NAME';
 const PATRONS_CIRCLE_NEWS_NEWSLETTER_ID = 3;
 const NEWSLETTER_DEFAULT_FROM_EMAIL_ADDRESS = 'admin@e.standardebooks.org';
 
-// These are defined for convenience, so that getting HTTP input isn't so wordy.
-const GET = Enums\HttpVariableSource::Get;
-const POST = Enums\HttpVariableSource::Post;
-const SESSION = Enums\HttpVariableSource::Session;
-const COOKIE = Enums\HttpVariableSource::Cookie;
-
-const HTTP_DELETE = Enums\HttpMethod::Delete;
-const HTTP_GET = Enums\HttpMethod::Get;
-const HTTP_HEAD = Enums\HttpMethod::Head;
-const HTTP_POST = Enums\HttpMethod::Post;
-const HTTP_OPTIONS = Enums\HttpMethod::Options;
-const HTTP_PATCH = Enums\HttpMethod::Patch;
-const HTTP_PUT = Enums\HttpMethod::Put;
-
 const HTTP_REQUEST_USER_AGENT = 'Standard Ebooks website';
 
 define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_email_address'));

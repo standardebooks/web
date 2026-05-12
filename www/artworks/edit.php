@@ -9,7 +9,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
+	$artwork = Artwork::GetByUrl(Http::$Request->QueryString->Get('artist-url-name'), Http::$Request->QueryString->Get('artwork-url-name'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -19,8 +19,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$editedArtwork = HttpInput::SessionObject('artwork', Artwork::class);
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$editedArtwork = Http::$Request->Session->Get('artwork', Artwork::class);
 
 	if($editedArtwork === null){
 		$editedArtwork = $artwork;

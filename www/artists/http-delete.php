@@ -20,13 +20,13 @@ try{
 	}
 
 	try{
-		$canonicalArtist = Artist::GetByName(HttpInput::Str(POST, 'canonical-artist-name') ?? '');
+		$canonicalArtist = Artist::GetByName(Http::$Request->Body->Get('canonical-artist-name') ?? '');
 	}
 	catch(Exceptions\ArtistNotFoundException $ex){
 		throw new Exceptions\CanonicalArtistNotFoundException();
 	}
 
-	$addAlternateName = HttpInput::Bool(POST, 'add-alternate-name');
+	$addAlternateName = Http::$Request->Body->Get('add-alternate-name', 'bool');
 
 	if($addAlternateName){
 		$canonicalArtist->AddAlternateName($artist->Name);

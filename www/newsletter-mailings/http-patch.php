@@ -21,8 +21,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$addFooter = HttpInput::Bool(POST, 'add-footer') ?? true;
-	$addEbooks = HttpInput::Bool(POST, 'add-ebooks') ?? true;
+	$addFooter = Http::$Request->Body->Get('add-footer', 'bool') ?? true;
+	$addEbooks = Http::$Request->Body->Get('add-ebooks', 'bool') ?? true;
 
 	$newsletterMailing->FillFromHttpPost();
 	$newsletterMailing->Save($addFooter, $addEbooks);

@@ -5,15 +5,15 @@
 
 if($_SERVER['SCRIPT_NAME'] == '/ebooks'){
 	// If we got here, this is not a GET request.
-	HttpInput::RouteRequest(allowedHttpMethods: [Enums\HttpMethod::Get]);
+	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get]);
 }
 else{
 	try{
-		$urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
+		$urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', Http::$Request->QueryString->Get('url-path') ?? ''), '/');
 
 		$ebook = Ebook::GetByIdentifier($urlPath);
 
-		HttpInput::RouteRequest(resource: $ebook);
+		Http::$Request->Route(resource: $ebook);
 	}
 	catch(Exceptions\EbookNotFoundException){
 		// Were we passed the author and a work but not the translator?

@@ -11,7 +11,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$identifier = HttpInput::Str(GET, 'user-identifier');
+	$identifier = Http::$Request->QueryString->Get('user-identifier');
 	$originalUser = User::GetByIdentifier($identifier);
 
 	if(Session::$User === null){
@@ -22,10 +22,10 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$user = HttpInput::SessionObject('user', User::class) ?? $originalUser;
-	$generateNewUuid = HttpInput::Bool(SESSION, 'generate-new-uuid') ?? false;
-	$passwordAction = HttpInput::SessionObject('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::None;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$user = Http::$Request->Session->Get('user', User::class) ?? $originalUser;
+	$generateNewUuid = Http::$Request->Session->Get('generate-new-uuid', 'bool') ?? false;
+	$passwordAction = Http::$Request->Session->Get('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::None;
 
 	// We got here because an operation had errors and the user has to try again.
 	if($exception){

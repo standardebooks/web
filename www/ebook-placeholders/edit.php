@@ -10,7 +10,7 @@ try{
 	session_start();
 
 	/** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
-	$urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', HttpInput::Str(GET, 'url-path') ?? ''), '/');
+	$urlPath = EBOOKS_IDENTIFIER_PREFIX . trim(str_replace('.', '', Http::$Request->QueryString->Get('url-path') ?? ''), '/');
 
 	$ebook = Ebook::GetByIdentifier($urlPath);
 
@@ -28,8 +28,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$editedEbook = HttpInput::SessionObject('ebook', Ebook::class);
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$editedEbook = Http::$Request->Session->Get('ebook', Ebook::class);
 
 	if($editedEbook === null){
 		$editedEbook = $ebook;

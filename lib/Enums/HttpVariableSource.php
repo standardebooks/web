@@ -2,8 +2,8 @@
 namespace Enums;
 
 enum HttpVariableSource{
-	case Get;
-	case Post;
+	case QueryString;
+	case Body;
 	case Session;
 	case Cookie;
 }

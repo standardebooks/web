@@ -22,9 +22,9 @@ try{
 		exit();
 	}
 
-	$identifier = HttpInput::Str(GET, 'user-identifier');
-	$isCreated = HttpInput::Bool(SESSION, 'is-user-created') ?? false;
-	$isSaved = HttpInput::Bool(SESSION, 'is-user-saved') ?? false;
+	$identifier = Http::$Request->QueryString->Get('user-identifier');
+	$isCreated = Http::$Request->Session->Get('is-user-created', 'bool') ?? false;
+	$isSaved = Http::$Request->Session->Get('is-user-saved', 'bool') ?? false;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();

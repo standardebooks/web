@@ -42,5 +42,5 @@ catch(Exceptions\PollVoteInvalidException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('location: /polls/' . (HttpInput::Str(GET, 'poll-url-name') ?? '') . '/votes/new');
+	header('location: /polls/' . (Http::$Request->QueryString->Get('poll-url-name') ?? '') . '/votes/new');
 }

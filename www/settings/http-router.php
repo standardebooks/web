@@ -1,2 +1,2 @@
 <?
-HttpInput::RouteRequest();
+Http::$Request->Route();

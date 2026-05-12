@@ -67,7 +67,7 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 	});
 }
 
-HttpInput::Initialize();
+Http::Initialize();
 Session::InitializeFromCookie();
 
 if(Session::$User === null){

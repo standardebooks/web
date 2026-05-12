@@ -8,9 +8,9 @@ use function Safe\session_unset;
 
 session_start();
 
-$isCreated = HttpInput::Bool(SESSION, 'is-project-created') ?? false;
-$isOnlyProjectCreated = HttpInput::Bool(SESSION, 'is-only-ebook-project-created') ?? false;
-$createdProject = HttpInput::SessionObject('project', Project::class);
+$isCreated = Http::$Request->Session->Get('is-project-created', 'bool') ?? false;
+$isOnlyProjectCreated = Http::$Request->Session->Get('is-only-ebook-project-created', 'bool') ?? false;
+$createdProject = Http::$Request->Session->Get('project', Project::class);
 $showContactInformation = Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects || Session::$User?->Benefits->CanEditProjects;
 
 if($isCreated || $isOnlyProjectCreated){

@@ -7,12 +7,12 @@
 
 if($_SERVER['SCRIPT_NAME'] == '/users'){
 	// If we got here, this is not a GET request.
-	HttpInput::RouteRequest(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
+	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }
 else{
 	try{
-		$identifier = HttpInput::Str(GET, 'user-identifier');
-		HttpInput::RouteRequest(resource: User::GetByIdentifier($identifier));
+		$identifier = Http::$Request->QueryString->Get('user-identifier');
+		Http::$Request->Route(resource: User::GetByIdentifier($identifier));
 	}
 	catch(Exceptions\NotFoundException){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);

@@ -17,9 +17,9 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$isCreated = HttpInput::Bool(SESSION, 'is-artwork-created') ?? false;
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$artwork = HttpInput::SessionObject('artwork', Artwork::class);
+	$isCreated = Http::$Request->Session->Get('is-artwork-created', 'bool') ?? false;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$artwork = Http::$Request->Session->Get('artwork', Artwork::class);
 
 	if($isCreated){
 		// We got here because an `Artwork` was successfully submitted.

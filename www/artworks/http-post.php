@@ -35,7 +35,7 @@ try{
 	// New uploads can be auto-approved, but not edits because the auto-approve could conflict with the edit.
 	$artwork->ApproveByMuseumUrl();
 
-	$artwork->Create(HttpInput::File('artwork-image'));
+	$artwork->Create(Http::$Request->Files->Get('artwork-image'));
 
 	$_SESSION['artwork'] = $artwork;
 	$_SESSION['is-artwork-created'] = true;
@@ -49,14 +49,14 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException | Exceptions\ArtistInvalidException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\UrlInvalidException | Exceptions\ArtworkExistsException $ex){
-	// If we were passed a more generic file upload exception from `HttpInput`, swap it for a more specific exception to show to the user.
-	if($ex instanceof Exceptions\FileUploadInvalidException){
+catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException | Exceptions\ArtistInvalidException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException | Exceptions\UrlInvalidException | Exceptions\ArtworkExistsException $ex){
+	// If we were passed a more generic file upload exception from the HTTP request, swap it for a more specific exception to show to the user.
+	if($ex instanceof Exceptions\FileUploadInvalidException || $ex instanceof Exceptions\FileUploadTooLargeException){
 		$ex = new Exceptions\ImageUploadInvalidException();
 	}
 
 	// If the `Artwork` reports that no image is uploaded, check to see if the image upload was too large. If so, show the user a clearer error message.
-	if($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class) && HttpInput::IsRequestTooLarge()){
+	if($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class) && Http::$Request->IsRequestTooLarge){
 		$ex->Remove(Exceptions\ImageUploadInvalidException::class);
 		$ex->Add(new Exceptions\RequestInvalidException('File upload too large.'));
 	}

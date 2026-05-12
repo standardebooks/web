@@ -11,7 +11,7 @@ $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 if(preg_match('/^\/polls\/[^\/\.]+\/votes$/ius', $requestUri)){
 	// POSTing a `PollVote`.
 	try{
-		HttpInput::RouteRequest(resource: Poll::GetByUrlName(HttpInput::Str(GET, 'poll-url-name')), allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
+		Http::$Request->Route(resource: Poll::GetByUrlName(Http::$Request->QueryString->Get('poll-url-name')), allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 	}
 	catch(Exceptions\NotFoundException){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);
@@ -19,7 +19,7 @@ if(preg_match('/^\/polls\/[^\/\.]+\/votes$/ius', $requestUri)){
 }
 else{
 	try{
-		HttpInput::RouteRequest(resource: PollVote::Get(HttpInput::Str(GET, 'poll-url-name'), HttpInput::Int(GET, 'user-id')));
+		Http::$Request->Route(resource: PollVote::Get(Http::$Request->QueryString->Get('poll-url-name'), Http::$Request->QueryString->Get('user-id', 'int')));
 	}
 	catch(Exceptions\NotFoundException){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);

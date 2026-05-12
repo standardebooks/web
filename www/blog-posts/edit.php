@@ -9,7 +9,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$originalBlogPost = BlogPost::GetByUrlTitle(HttpInput::Str(GET, 'blog-post-url-title'));
+	$originalBlogPost = BlogPost::GetByUrlTitle(Http::$Request->QueryString->Get('blog-post-url-title'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -19,10 +19,10 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$blogPost = HttpInput::SessionObject('blog-post', BlogPost::class) ?? $originalBlogPost;
-	$userIdentifier = HttpInput::Str(SESSION, 'blog-post-user-identifier');
-	$ebookIdentifiers = HttpInput::Str(SESSION, 'blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$blogPost = Http::$Request->Session->Get('blog-post', BlogPost::class) ?? $originalBlogPost;
+	$userIdentifier = Http::$Request->Session->Get('blog-post-user-identifier');
+	$ebookIdentifiers = Http::$Request->Session->Get('blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;
 
 	// We got here because an operation had errors and the user has to try again.
 	if($exception){

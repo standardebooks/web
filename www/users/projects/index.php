@@ -6,7 +6,7 @@
  */
 
 try{
-	$identifier = HttpInput::Str(GET, 'user-identifier');
+	$identifier = Http::$Request->QueryString->Get('user-identifier');
 	$user = User::GetByIdentifier($identifier);
 
 	if(Session::$User === null){

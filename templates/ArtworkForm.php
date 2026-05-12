@@ -78,7 +78,7 @@ $isEditForm ??= false;
 	</label>
 	<label class="icon file-image">
 		<span>High-resolution image</span>
-		<span><?= Formatter::EscapeHtml(Enums\ImageMimeType::ValuesString()) ?> are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?>px × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?>px minimum; <?= HttpInput::GetMaxPostSize() / 1024 / 1024 ?>MB maximum.<? if($isEditForm){ ?> Leave this blank to not change the image.<? } ?></span>
+		<span><?= Formatter::EscapeHtml(Enums\ImageMimeType::ValuesString()) ?> are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?>px × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?>px minimum; <?= Http::$Request->MaxPostSize / 1024 / 1024 ?>MB maximum.<? if($isEditForm){ ?> Leave this blank to not change the image.<? } ?></span>
 		<input
 			type="file"
 			name="artwork-image"

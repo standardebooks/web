@@ -16,8 +16,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$userIdentifier = HttpInput::Str(POST, 'blog-post-user-identifier');
-	$ebookIdentifiers = HttpInput::Str(POST, 'blog-post-ebook-identifiers');
+	$userIdentifier = Http::$Request->Body->Get('blog-post-user-identifier');
+	$ebookIdentifiers = Http::$Request->Body->Get('blog-post-ebook-identifiers');
 
 	$blogPost = new BlogPost();
 	$blogPost->FillFromHttpPost();

@@ -5,7 +5,7 @@
  */
 
 try{
-	$urlPath = HttpInput::Str(GET, 'url-path');
+	$urlPath = Http::$Request->QueryString->Get('url-path');
 
 	if($urlPath !== null){
 		/** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
@@ -14,10 +14,10 @@ try{
 		$project = Project::GetByIdentifierAndIsActive($urlPath);
 	}
 	else{
-		$project = Project::Get(HttpInput::Int(GET, 'project-id'));
+		$project = Project::Get(Http::$Request->QueryString->Get('project-id', 'int'));
 	}
 
-	HttpInput::RouteRequest(resource: $project);
+	Http::$Request->Route(resource: $project);
 }
 catch(Exceptions\NotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

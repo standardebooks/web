@@ -9,10 +9,10 @@ use Safe\DateTimeImmutable;
 
 $ebook = null;
 $downloadUrl = null;
-$downloadCount = HttpInput::Int(COOKIE, 'download-count') ?? 0;
+$downloadCount = Http::$Request->Cookies->Get('download-count', 'int') ?? 0;
 
 // The download source is set in feed links and meta refresh links. It is `null` on links from `www/ebooks/http-get.php`.
-$source = Enums\EbookDownloadSource::tryFrom(HttpInput::Str(GET, 'source') ?? '');
+$source = Enums\EbookDownloadSource::tryFrom(Http::$Request->QueryString->Get('source') ?? '');
 
 // Skip the thank you page if any of these are true:
 // - The user is logged in.
@@ -27,7 +27,7 @@ if($skipThankYouPage && !isset($source)){
 
 try{
 	/** @var non-falsy-string $urlPath Contains the portion of the URL (without query string) that comes after `https://standardebooks.org/ebooks/`. */
-	$urlPath = HttpInput::Str(GET, 'url-path') ?? null;
+	$urlPath = Http::$Request->QueryString->Get('url-path') ?? null;
 	$identifier = EBOOKS_IDENTIFIER_PREFIX . $urlPath;
 	$ebook = Ebook::GetByIdentifier($identifier);
 
@@ -35,7 +35,7 @@ try{
 		throw new Exceptions\FileInvalidException();
 	}
 
-	$filename = HttpInput::Str(GET, 'filename');
+	$filename = Http::$Request->QueryString->Get('filename');
 	if(!isset($filename)){
 		throw new Exceptions\FileInvalidException();
 	}

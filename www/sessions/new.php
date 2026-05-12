@@ -13,8 +13,8 @@ if(Session::$User !== null){
 	exit();
 }
 
-$email = HttpInput::Str(SESSION, 'email');
-$redirect = Template::SanitizeRedirectUrl(HttpInput::Str(SESSION, 'redirect') ?? HttpInput::Str(GET, 'redirect'));
+$email = Http::$Request->Session->Get('email');
+$redirect = Template::SanitizeRedirectUrl(Http::$Request->Session->Get('redirect') ?? Http::$Request->QueryString->Get('redirect'));
 /** @var ?\Exception $exception */
 $exception = $_SESSION['exception'] ?? null;
 $passwordRequired = false;

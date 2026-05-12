@@ -1168,7 +1168,7 @@ final class Ebook{
 	 * Populates `EbookPlaceholder` and other fields from `Template::EbookPlaceholderForm()`.
 	 */
 	public function FillFromEbookPlaceholderForm(): void{
-		$title = HttpInput::Str(POST, 'ebook-title');
+		$title = Http::$Request->Body->Get('ebook-title');
 		if(isset($title)){
 			$this->Title = $title;
 		}
@@ -1176,7 +1176,7 @@ final class Ebook{
 		$authors = [];
 		$authorFields = ['author-name-1', 'author-name-2', 'author-name-3'];
 		foreach($authorFields as $authorField){
-			$authorName = HttpInput::Str(POST, $authorField);
+			$authorName = Http::$Request->Body->Get($authorField);
 			if(!isset($authorName)){
 				continue;
 			}
@@ -1191,7 +1191,7 @@ final class Ebook{
 		$translators = [];
 		$translatorFields = ['translator-name-1', 'translator-name-2'];
 		foreach($translatorFields as $translatorField){
-			$translatorName = HttpInput::Str(POST, $translatorField);
+			$translatorName = Http::$Request->Body->Get($translatorField);
 			if(!isset($translatorName)){
 				continue;
 			}
@@ -1206,14 +1206,14 @@ final class Ebook{
 		$collectionMemberships = [];
 		$collectionNameFields = ['collection-name-1', 'collection-name-2', 'collection-name-3'];
 		foreach($collectionNameFields as $collectionNameField){
-			$collectionName = HttpInput::Str(POST, $collectionNameField);
+			$collectionName = Http::$Request->Body->Get($collectionNameField);
 			if(!isset($collectionName)){
 				continue;
 			}
-			$collectionSequenceNumber = HttpInput::Int(POST, 'sequence-number-' . $collectionNameField);
-			$titleInCollection = HttpInput::Str(POST, 'title-in-collection-' . $collectionNameField);
+			$collectionSequenceNumber = Http::$Request->Body->Get('sequence-number-' . $collectionNameField, 'int');
+			$titleInCollection = Http::$Request->Body->Get('title-in-collection-' . $collectionNameField);
 			$collection = Collection::FromName($collectionName);
-			$collection->Type = Enums\CollectionType::tryFrom(HttpInput::Str(POST, 'type-' . $collectionNameField) ?? '');
+			$collection->Type = Enums\CollectionType::tryFrom(Http::$Request->Body->Get('type-' . $collectionNameField) ?? '');
 
 			$cm = new CollectionMembership();
 			$cm->Collection = $collection;
@@ -1223,7 +1223,7 @@ final class Ebook{
 		}
 		$this->CollectionMemberships = $collectionMemberships;
 
-		$this->IsPatronSelection = HttpInput::Bool(POST, 'ebook-is-patron-selection') ?? false;
+		$this->IsPatronSelection = Http::$Request->Body->Get('ebook-is-patron-selection', 'bool') ?? false;
 
 		$ebookPlaceholder = new EbookPlaceholder();
 		$ebookPlaceholder->FillFromHttpPost();

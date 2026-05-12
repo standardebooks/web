@@ -9,7 +9,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$artist = Artist::GetByUrlName(HttpInput::Str(GET, 'artist-url-name'));
+	$artist = Artist::GetByUrlName(Http::$Request->QueryString->Get('artist-url-name'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -19,7 +19,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
 
 	// We got here because an operation had errors and the user has to try again.
 	if($exception){

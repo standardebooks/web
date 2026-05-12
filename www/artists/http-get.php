@@ -27,11 +27,11 @@ try{
 		$artworkFilterType = Enums\ArtworkFilterType::ApprovedSubmitter;
 	}
 
-	$isArtistDeleted = HttpInput::Bool(SESSION, 'is-artist-deleted') ?? false;
-	$deletedArtist = HttpInput::SessionObject('deleted-artist', Artist::class);
-	$isAlternateNameAdded = HttpInput::Bool(SESSION, 'is-alternate-name-added') ?? false;
+	$isArtistDeleted = Http::$Request->Session->Get('is-artist-deleted', 'bool') ?? false;
+	$deletedArtist = Http::$Request->Session->Get('deleted-artist', Artist::class);
+	$isAlternateNameAdded = Http::$Request->Session->Get('is-alternate-name-added', 'bool') ?? false;
 
-	$artworks = Artwork::GetAllByArtist(HttpInput::Str(GET, 'artist-url-name'), $artworkFilterType, $submitterUserId);
+	$artworks = Artwork::GetAllByArtist(Http::$Request->QueryString->Get('artist-url-name'), $artworkFilterType, $submitterUserId);
 
 	if(sizeof($artworks) == 0){
 		throw new Exceptions\ArtistNotFoundException();

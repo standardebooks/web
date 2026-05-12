@@ -16,8 +16,8 @@ try{
 		throw new Exceptions\EbookNotFoundException();
 	}
 
-	$isSaved = HttpInput::Bool(SESSION, 'is-ebook-placeholder-saved') ?? false;
-	$isProjectSaved = HttpInput::Bool(SESSION, 'is-project-saved') ?? false;
+	$isSaved = Http::$Request->Session->Get('is-ebook-placeholder-saved', 'bool') ?? false;
+	$isProjectSaved = Http::$Request->Session->Get('is-project-saved', 'bool') ?? false;
 
 	if($isSaved || $isProjectSaved){
 		session_unset();

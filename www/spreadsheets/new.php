@@ -17,8 +17,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$spreadsheet = HttpInput::SessionObject('spreadsheet', Spreadsheet::class) ?? new Spreadsheet();
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$spreadsheet = Http::$Request->Session->Get('spreadsheet', Spreadsheet::class) ?? new Spreadsheet();
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

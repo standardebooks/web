@@ -9,7 +9,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$originalProject = Project::Get(HttpInput::Int(GET, 'project-id'));
+	$originalProject = Project::Get(Http::$Request->QueryString->Get('project-id', 'int'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -19,8 +19,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$project = HttpInput::SessionObject('project', Project::class) ?? $originalProject;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$project = Http::$Request->Session->Get('project', Project::class) ?? $originalProject;
 
 	if($exception){
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);

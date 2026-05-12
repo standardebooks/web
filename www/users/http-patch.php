@@ -30,13 +30,13 @@ try{
 
 	$deleteFromProjectUnassignedReviewers = ($canReviewProjects && !$user->Benefits->CanReviewProjects) || ($canBeAutoAssignedToProjects && !$user->Benefits->CanBeAutoAssignedToProjects);
 
-	$generateNewUuid = HttpInput::Bool(POST, 'generate-new-uuid') ?? false;
+	$generateNewUuid = Http::$Request->Body->Get('generate-new-uuid', 'bool') ?? false;
 
 	if($generateNewUuid){
 		$user->GenerateUuid();
 	}
 
-	$passwordAction = Enums\PasswordActionType::tryFrom(HttpInput::Str(POST, 'password-action') ?? '') ?? Enums\PasswordActionType::None;
+	$passwordAction = Enums\PasswordActionType::tryFrom(Http::$Request->Body->Get('password-action') ?? '') ?? Enums\PasswordActionType::None;
 	$oldPasswordHash = $user->PasswordHash;
 
 	switch($passwordAction){
@@ -45,7 +45,7 @@ try{
 			break;
 
 		case Enums\PasswordActionType::Edit:
-			$password = HttpInput::Str(POST, 'user-password');
+			$password = Http::$Request->Body->Get('user-password');
 
 			if($password !== null){
 				$user->PasswordHash = password_hash($password, PASSWORD_DEFAULT);

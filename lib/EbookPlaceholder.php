@@ -79,7 +79,7 @@ class EbookPlaceholder{
 			$this->PropertyFromHttp('TranscriptionUrl');
 
 			if(isset($_POST['ebook-placeholder-notes'])){
-				$this->Notes = HttpInput::Str(POST, 'ebook-placeholder-notes');
+				$this->Notes = Http::$Request->Body->Get('ebook-placeholder-notes');
 			}
 		}
 	}

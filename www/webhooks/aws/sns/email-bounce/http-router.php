@@ -3,5 +3,5 @@
  * POST		/webhooks/aws/sns/email-bounce
  */
 
-HttpInput::RouteRequest();
+Http::$Request->Route();
 

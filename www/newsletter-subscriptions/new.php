@@ -9,12 +9,12 @@ use function Safe\session_unset;
 
 session_start();
 
-$exception = HttpInput::SessionObject('exception', \Exception::class);
+$exception = Http::$Request->Session->Get('exception', \Exception::class);
 
 /** @var array<int> $newsletterIds */
-$newsletterIds = HttpInput::Array(SESSION, 'newsletter-ids') ?? [];
+$newsletterIds = Http::$Request->Session->Get('newsletter-ids', 'array') ?? [];
 $newsletters = Newsletter::GetAllByIsVisible();
-$email = HttpInput::Str(SESSION, 'email') ?? '';
+$email = Http::$Request->Session->Get('email') ?? '';
 
 if($exception){
 	http_response_code(Enums\HttpCode::UnprocessableContent->value);

@@ -8,7 +8,7 @@ use function Safe\session_start;
 try{
 	session_start();
 
-	$spreadsheet = Spreadsheet::Get(HttpInput::Int(GET, 'spreadsheet-id'));
+	$spreadsheet = Spreadsheet::Get(Http::$Request->QueryString->Get('spreadsheet-id', 'int'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();

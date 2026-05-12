@@ -9,13 +9,13 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$newsletterMailing = HttpInput::SessionObject('newsletter-mailing', NewsletterMailing::class);
-	$addFooter = HttpInput::Bool(SESSION, 'add-footer') ?? false;
-	$addEbooks = HttpInput::Bool(SESSION, 'add-ebooks') ?? false;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$newsletterMailing = Http::$Request->Session->Get('newsletter-mailing', NewsletterMailing::class);
+	$addFooter = Http::$Request->Session->Get('add-footer', 'bool') ?? false;
+	$addEbooks = Http::$Request->Session->Get('add-ebooks', 'bool') ?? false;
 
 	if($newsletterMailing === null){
-		$newsletterMailing = NewsletterMailing::Get(HttpInput::Int(GET, 'newsletter-mailing-id'));
+		$newsletterMailing = NewsletterMailing::Get(Http::$Request->QueryString->Get('newsletter-mailing-id', 'int'));
 	}
 
 	if(Session::$User === null){

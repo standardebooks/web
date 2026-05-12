@@ -10,7 +10,7 @@ try{
 	/** @var Project $project The `Project` for this request, passed in from the router. */
 	$project = $resource ?? throw new Exceptions\ProjectNotFoundException();
 
-	$indent = HttpInput::Bool(GET, 'indent') ?? false;
+	$indent = Http::$Request->QueryString->Get('indent', 'bool') ?? false;
 
 	$output = new stdClass();
 	$output->Name = $project->Reviewer->Name;

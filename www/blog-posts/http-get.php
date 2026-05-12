@@ -12,8 +12,8 @@ try{
 	/** @var BlogPost $blogPost The `BlogPost` for this request, passed in from the router. */
 	$blogPost = $resource ?? throw new Exceptions\BlogPostNotFoundException();
 
-	$isCreated = HttpInput::Bool(SESSION, 'is-blog-post-created') ?? false;
-	$isSaved = HttpInput::Bool(SESSION, 'is-blog-post-saved') ?? false;
+	$isCreated = Http::$Request->Session->Get('is-blog-post-created', 'bool') ?? false;
+	$isSaved = Http::$Request->Session->Get('is-blog-post-saved', 'bool') ?? false;
 
 	if($isCreated){
 		// We got here because a `BlogPost` was successfully submitted.

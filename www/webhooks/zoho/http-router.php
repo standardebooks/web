@@ -3,5 +3,5 @@
  * POST		/webhooks/zoho
  */
 
-HttpInput::RouteRequest();
+Http::$Request->Route();
 

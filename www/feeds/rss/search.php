@@ -1,8 +1,8 @@
 <?
 $ebooks = [];
-$query = HttpInput::Str(GET, 'query') ?? '';
-$startPage = HttpInput::Int(GET, 'page') ?? 1;
-$count = HttpInput::Int(GET, 'per-page') ?? EBOOKS_PER_PAGE;
+$query = Http::$Request->QueryString->Get('query') ?? '';
+$startPage = Http::$Request->QueryString->Get('page', 'int') ?? 1;
+$count = Http::$Request->QueryString->Get('per-page', 'int') ?? EBOOKS_PER_PAGE;
 
 if($query !== ''){
 	$ebooks = Ebook::GetAllByFilter($query, [], Enums\EbookSortType::Newest, $startPage, $count, Enums\EbookReleaseStatusFilter::Released)['ebooks'];

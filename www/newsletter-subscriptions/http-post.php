@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 try{
 	session_start();
 
-	if(HttpInput::Str(POST, 'automation-test')){
+	if(Http::$Request->Body->Get('automation-test')){
 		// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		$_SESSION['is-bot'] = true;
@@ -19,8 +19,8 @@ try{
 		exit();
 	}
 
-	$email = HttpInput::Str(POST, 'email') ?? '';
-	$newsletterIds = array_unique(HttpInput::Array(POST, 'newsletter-ids') ?? []);
+	$email = Http::$Request->Body->Get('email') ?? '';
+	$newsletterIds = array_unique(Http::$Request->Body->Get('newsletter-ids', 'array') ?? []);
 	$newsletters = [];
 	foreach($newsletterIds as $newsletterId){
 		if(ctype_digit($newsletterId)){
@@ -37,8 +37,8 @@ try{
 		throw new Exceptions\NewsletterRequiredException();
 	}
 
-	$expectedCaptcha = HttpInput::Str(SESSION, 'captcha') ?? '';
-	$receivedCaptcha = HttpInput::Str(POST, 'captcha') ?? '';
+	$expectedCaptcha = Http::$Request->Session->Get('captcha') ?? '';
+	$receivedCaptcha = Http::$Request->Body->Get('captcha') ?? '';
 
 	if($expectedCaptcha === '' || $receivedCaptcha === '' || mb_strtolower($expectedCaptcha) !== mb_strtolower($receivedCaptcha)){
 		throw new Exceptions\CaptchaInvalidException();

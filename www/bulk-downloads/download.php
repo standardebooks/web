@@ -9,7 +9,7 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 
 try{
-	$path = '/bulk-downloads/' . HttpInput::Str(GET, 'path');
+	$path = '/bulk-downloads/' . Http::$Request->QueryString->Get('path');
 
 	// Remove `./` and `../` from the path.
 	$path = preg_replace('/\.\.?\//u', '', $path);

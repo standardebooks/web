@@ -17,9 +17,9 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
-	$user = HttpInput::SessionObject('user', User::class) ?? new User();
-	$passwordAction = HttpInput::SessionObject('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::Edit;
+	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$user = Http::$Request->Session->Get('user', User::class) ?? new User();
+	$passwordAction = Http::$Request->Session->Get('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::Edit;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

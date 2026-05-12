@@ -7,18 +7,18 @@
 
 if($_SERVER['SCRIPT_NAME'] == '/artworks'){
 	// If we got here, this is not a GET request.
-	HttpInput::RouteRequest(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
+	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }
 else{
 	try{
 		try{
-			$artwork = Artwork::GetByUrl(HttpInput::Str(GET, 'artist-url-name'), HttpInput::Str(GET, 'artwork-url-name'));
+			$artwork = Artwork::GetByUrl(Http::$Request->QueryString->Get('artist-url-name'), Http::$Request->QueryString->Get('artwork-url-name'));
 		}
 		catch(Exceptions\ArtworkNotFoundException $ex){
 			// We didn't find the artwork under this artist, does the artist exist under an alternate name?
 			try{
-				$artist = Artist::GetByAlternateUrlName(HttpInput::Str(GET, 'artist-url-name'));
-				$artwork = Artwork::GetByUrl($artist->UrlName, HttpInput::Str(GET, 'artwork-url-name'));
+				$artist = Artist::GetByAlternateUrlName(Http::$Request->QueryString->Get('artist-url-name'));
+				$artwork = Artwork::GetByUrl($artist->UrlName, Http::$Request->QueryString->Get('artwork-url-name'));
 
 				// Artwork found under an artist alternate name, redirect there and exit.
 				http_response_code(Enums\HttpCode::MovedPermanently->value);
@@ -31,7 +31,7 @@ else{
 			}
 		}
 
-		HttpInput::RouteRequest(resource: $artwork);
+		Http::$Request->Route(resource: $artwork);
 	}
 	catch(Exceptions\NotFoundException){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);
