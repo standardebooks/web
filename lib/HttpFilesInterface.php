@@ -13,6 +13,8 @@ class HttpFilesInterface{
 	/**
 	 * Return the absolute path of the requested file upload, or `null` if there isn't one.
 	 *
+	 * @param string $variable The name of the variable to get.
+	 *
 	 * @throws Exceptions\FileUploadInvalidException If there is a file upload present, but the upload somehow failed.
 	 * @throws Exceptions\FileUploadTooLargeException If there is a file upload present, but it was larger than the size allowed by PHP.
 	 */
