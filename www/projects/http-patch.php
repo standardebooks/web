@@ -19,7 +19,7 @@ try{
 
 	$projectStatus = Enums\ProjectStatusType::tryFrom(HttpInput::Str(POST, 'project-status') ?? '');
 
-	// Any logged-in `User` who can edit a a `Project` can save any part of the `Project`; additionally, it's also allowed to update `Project::$Status` if the logged-in `User` is the `Project`'s manager or reviewer.
+	// Any logged-in `User` who can edit a `Project` can save any part of the `Project`; additionally, it's also allowed to update `Project::$Status` if the logged-in `User` is the `Project`'s manager or reviewer.
 	if(
 		!(
 			(

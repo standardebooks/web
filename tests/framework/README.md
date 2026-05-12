@@ -2,7 +2,7 @@
 
 The framework used by the SE website is based on Apache URL rewriting working in concert with PHP to deliver correct HTTP responses for HTTP methods. HTTP method logic for resources is contained in files named `http-METHOD.php`, e.g. `http-put.php`. These files cannot be accessed directly via web requests; rather, a file `http-router.php` receives the request and routes it to the appropriate file. Non-method files, like `/help/about.php`, can be accessed directly via the web without any special routing.
 
-HTTP methods may be tunneled via a `_method` parameter in `POST` requests to accomodate HTML forms, which can only issue `GET` and `POST`. For example, a `POST` request with `_method=PUT` will result in the framework executing `http-put.php`.
+HTTP methods may be tunneled via a `_method` parameter in `POST` requests to accommodate HTML forms, which can only issue `GET` and `POST`. For example, a `POST` request with `_method=PUT` will result in the framework executing `http-put.php`.
 
 If a file, resource, or endpoint doesn't exist, the framework returns 404 regardless of authentication, authorization, or allowed methods.
 
@@ -50,6 +50,6 @@ Template files are stored in `/templates/`. These files expect specific variable
 
 ## Tests
 
-To test the framework, run `run-tests.sh`. If the tests pass, there is no output. If the tests fail, a file `tests-output` is created and can can compared to `tests-golden`, which contains the expected correct test output.
+To test the framework, run `run-tests.sh`. If the tests pass, there is no output. If the tests fail, a file `tests-output` is created and can be compared to `tests-golden`, which contains the expected correct test output.
 
 Note that some endpoints may return `POST` in the `allow` header, even though `http-post.php` doesn't exist. This is because since HTML forms only allow `GET` and `POST`, we must tunnel all other methods via `POST` with a `_method` field containing the actual desired method (e.g. `_method=DELETE`). Therefore any endpoint that accepts `DELETE`, `PATCH`, or `PUT` must also accept `POST` to enable this tunneling.

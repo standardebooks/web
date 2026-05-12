@@ -2,7 +2,7 @@
 use function Safe\preg_match;
 
 /**
- * A complete HTML document begining with a doctype and a root element.
+ * A complete HTML document beginning with a doctype and a root element.
  *
  * Contrast to an `HtmlFragment`, which doesn't require those two items.
  */

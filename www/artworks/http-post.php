@@ -32,7 +32,7 @@ try{
 		$artwork->ReviewerUserId = Session::$User->UserId;
 	}
 
-	// New uploads can be auto-approved, but not not edits because the auto-approve could conflict with the edit.
+	// New uploads can be auto-approved, but not edits because the auto-approve could conflict with the edit.
 	$artwork->ApproveByMuseumUrl();
 
 	$artwork->Create(HttpInput::File('artwork-image'));

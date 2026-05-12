@@ -2,7 +2,7 @@
 namespace Traits;
 
 /**
- * Normally, the `Db` class fills in an object itself, using reflection to decide on enums. Sometimes, we want to define an explicit `FromRow()` method on a class. This trait provides a default `FromRow()` method that assigns columns to object properties, and attemps to figure out enum types. The object can override this method if necessary.
+ * Normally, the `Db` class fills in an object itself, using reflection to decide on enums. Sometimes, we want to define an explicit `FromRow()` method on a class. This trait provides a default `FromRow()` method that assigns columns to object properties, and attempts to figure out enum types. The object can override this method if necessary.
  */
 trait FromRow{
 	/**
@@ -44,7 +44,7 @@ trait FromRow{
 	}
 
 	/**
-	 * Return an object based on a database row result. This is a fallback object filler for when the parent class hasn't defined their own.
+	 * Return an object based on a database row result. This is a fallback object filler for when the parent class hasn't defined its own.
 	 */
 	public static function FromRow(\stdClass $row): static{
 		return self::FillObject(new static(), $row);
