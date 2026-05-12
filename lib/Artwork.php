@@ -830,6 +830,8 @@ final class Artwork{
 	 */
 	public function Save(?string $imagePath = null): void{
 		unset($this->_UrlName);
+		unset($this->_Url);
+		unset($this->_EditUrl);
 
 		if($imagePath !== null){
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's updated timestamp won't change automatically.

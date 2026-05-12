@@ -144,8 +144,16 @@ class Artist{
 	}
 
 	public function FillFromHttpPost(): void{
+		$name = $this->Name;
+
 		$this->PropertyFromHttp('Name');
 		$this->PropertyFromHttp('DeathYear');
+
+		if($this->Name != $name){
+			unset($this->_UrlName);
+			unset($this->_Url);
+			unset($this->_DeleteUrl);
+		}
 	}
 
 	// ***********
