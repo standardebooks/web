@@ -21,8 +21,10 @@ class OriginatingHttpRequest{
 	public readonly HttpFilesInterface $Files;
 	/** @var array<string, string> $Headers The HTTP headers for this request, with keys converted to lowercase. */
 	public readonly array $Headers;
-	/** The relative URI of this request, including the query string, but excluding the domain, e.g. `/users/1`. */
-	public readonly string $RelativeUri;
+	/** The relative URI of this request, including the query string, but excluding the domain, e.g. `/users/1?foo=bar`. */
+	public readonly string $RelativeUri; // TODO: Use the new native `Uri` class.
+	/** The path component of the relative URI of this request, excluding the query string and the domain, e.g. `/users/1`. */
+	public readonly string $RelativePath; // TODO: Use the new native `Uri` class.
 	/** The MIME type of this request. */
 	public readonly ?string $ContentType;
 	/** The maximum size for an HTTP `POST` request, in bytes. */
@@ -89,6 +91,8 @@ class OriginatingHttpRequest{
 		/** @var string $relativeUri */
 		$relativeUri = $_SERVER['REQUEST_URI'] ?? '';
 		$this->RelativeUri = $relativeUri;
+
+		$this->RelativePath = preg_replace('/\?.+$/iu', '', $relativeUri);
 
 		/** @var string $httpAccept */
 		$httpAccept = $_SERVER['HTTP_ACCEPT'] ?? '';

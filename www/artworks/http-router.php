@@ -5,7 +5,7 @@
  * PATCH	/artworks/:artist-url-name/:artwork-url-name
  */
 
-if($_SERVER['SCRIPT_NAME'] == '/artworks'){
+if(Http::$Request->RelativePath == '/artworks'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }

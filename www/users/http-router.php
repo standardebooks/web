@@ -5,7 +5,7 @@
  * PATCH	/users/:user-identifier
  */
 
-if($_SERVER['SCRIPT_NAME'] == '/users'){
+if(Http::$Request->RelativePath == '/users'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }

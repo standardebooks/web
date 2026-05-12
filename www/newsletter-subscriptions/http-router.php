@@ -8,7 +8,7 @@
 // Allow `_method` parameters in GET requests, since links to this resource are usually included in emails.
 Http::$Request->CalculateRequestMethod(true);
 
-if($_SERVER['SCRIPT_NAME'] == '/newsletter-subscriptions'){
+if(Http::$Request->RelativePath == '/newsletter-subscriptions'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Post]);
 }

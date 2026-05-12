@@ -5,7 +5,7 @@
  * PATCH	/blog-posts/:blog-post-url-title
  */
 
-if($_SERVER['SCRIPT_NAME'] == '/blog-posts'){
+if(Http::$Request->RelativePath == '/blog-posts'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }

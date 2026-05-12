@@ -4,7 +4,7 @@
  * PATCH	/newsletter-mailings/:newsletter-mailing-id
  */
 
-if($_SERVER['SCRIPT_NAME'] == '/newsletter-mailings'){
+if(Http::$Request->RelativePath == '/newsletter-mailings'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }

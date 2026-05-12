@@ -3,7 +3,7 @@
  * GET		/ebooks/:url-path
  */
 
-if($_SERVER['SCRIPT_NAME'] == '/ebooks'){
+if(Http::$Request->RelativePath == '/ebooks'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get]);
 }
