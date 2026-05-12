@@ -11,7 +11,6 @@ session_start();
 
 $exception = Http::$Request->Session->Get('exception', \Exception::class);
 
-/** @var array<int> $newsletterIds */
 $newsletterIds = Http::$Request->Session->Get('newsletter-ids', 'array') ?? [];
 $newsletters = Newsletter::GetAllByIsVisible();
 $email = Http::$Request->Session->Get('email') ?? '';
