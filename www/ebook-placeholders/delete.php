@@ -20,7 +20,7 @@ try{
 		||
 		$ebook->EbookPlaceholder === null
 	){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 }
 catch(Exceptions\EbookNotFoundException){
@@ -29,7 +29,7 @@ catch(Exceptions\EbookNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?>

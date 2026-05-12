@@ -41,7 +41,7 @@ try{
 	$receivedCaptcha = HttpInput::Str(POST, 'captcha') ?? '';
 
 	if($expectedCaptcha === '' || $receivedCaptcha === '' || mb_strtolower($expectedCaptcha) !== mb_strtolower($receivedCaptcha)){
-		throw new Exceptions\InvalidCaptchaException();
+		throw new Exceptions\CaptchaInvalidException();
 	}
 
 	$sendConfirmationEmail = false;
@@ -80,7 +80,7 @@ try{
 	$_SESSION['is-newsletter-subscription-created'] = true;
 	header('location: ' . $newsletterSubscription->User->UuidUrl . '/newsletter-subscriptions');
 }
-catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\InvalidCaptchaException | Exceptions\NewsletterRequiredException $ex){
+catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\CaptchaInvalidException | Exceptions\NewsletterRequiredException $ex){
 	$_SESSION['newsletter-ids'] = $newsletterIds;
 	$_SESSION['email'] = $email;
 	$_SESSION['exception'] = $ex;

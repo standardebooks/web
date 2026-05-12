@@ -160,10 +160,10 @@ final class Project{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidProjectException If the `Project` is invalid.
+	 * @throws Exceptions\ProjectInvalidException If the `Project` is invalid.
 	 */
 	public function Validate(bool $allowUnsetEbookId = false, bool $allowUnsetRoles = false): void{
-		$error = new Exceptions\InvalidProjectException();
+		$error = new Exceptions\ProjectInvalidException();
 
 		if(!$allowUnsetEbookId && !isset($this->EbookId)){
 			$error->Add(new Exceptions\EbookRequiredException());
@@ -215,7 +215,7 @@ final class Project{
 			}
 
 			if(!preg_match('|^https://groups\.google\.com/g/standardebooks/c/[^/\?]+$|iu', $this->DiscussionUrl)){
-				$error->Add(new Exceptions\InvalidDiscussionUrlException($this->DiscussionUrl));
+				$error->Add(new Exceptions\DiscussionUrlInvalidException($this->DiscussionUrl));
 			}
 		}
 
@@ -228,7 +228,7 @@ final class Project{
 			// Remove query strings.
 			$this->VcsUrl = preg_replace('/\?[^\?]+$/iu', '', $this->VcsUrl);
 			if(!preg_match('|^https://github\.com/[^/]+/[^/]+$|ius', $this->VcsUrl)){
-				$error->Add(new Exceptions\InvalidVcsUrlException($this->VcsUrl));
+				$error->Add(new Exceptions\VcsUrlInvalidException($this->VcsUrl));
 			}
 		}
 
@@ -268,7 +268,7 @@ final class Project{
 	/**
 	 * Creates a new `Project`. If `Project::$Manager` or `Project::$Reviewer` are unassigned, they will be automatically assigned.
 	 *
-	 * @throws Exceptions\InvalidProjectException If the `Project` is invalid.
+	 * @throws Exceptions\ProjectInvalidException If the `Project` is invalid.
 	 * @throws Exceptions\EbookIsNotAPlaceholderException If the `Project`'s `Ebook` is not a placeholder.
 	 * @throws Exceptions\ProjectExistsException If the `Project`'s `Ebook` already has an active `Project`.
 	 * @throws Exceptions\UserNotFoundException If a manager or reviewer could not be auto-assigned.
@@ -427,7 +427,7 @@ final class Project{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidProjectException If the `Project` is invalid.
+	 * @throws Exceptions\ProjectInvalidException If the `Project` is invalid.
 	 */
 	public function Save(): void{
 		$this->Validate();

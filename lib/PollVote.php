@@ -35,10 +35,10 @@ class PollVote{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidPollVoteException
+	 * @throws Exceptions\PollVoteInvalidException
 	 */
 	protected function Validate(): void{
-		$error = new Exceptions\InvalidPollVoteException();
+		$error = new Exceptions\PollVoteInvalidException();
 
 		if(!isset($this->UserId)){
 			$error->Add(new Exceptions\UserNotFoundException());
@@ -88,7 +88,7 @@ class PollVote{
 			}
 
 			if(!$this->User->Benefits->CanVote){
-				$error->Add(new Exceptions\InvalidPermissionsException());
+				$error->Add(new Exceptions\PermissionsInvalidException());
 			}
 		}
 
@@ -98,7 +98,7 @@ class PollVote{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidPollVoteException
+	 * @throws Exceptions\PollVoteInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();

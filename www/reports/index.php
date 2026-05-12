@@ -5,7 +5,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanViewReports){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$filterFrom = HttpInput::Date(GET, 'from');
@@ -66,7 +66,7 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(

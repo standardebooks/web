@@ -43,7 +43,7 @@ try{
 		$emailBounce->Create(); // Also stops all email to the `User`.
 	}
 }
-catch(Exceptions\InvalidSnsMessageException $ex){
+catch(Exceptions\SnsMessageInvalidException $ex){
 	http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	throw $ex;
 }

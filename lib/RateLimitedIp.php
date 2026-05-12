@@ -17,10 +17,10 @@ class RateLimitedIp{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidRateLimitedIpException
+	 * @throws Exceptions\RateLimitedIpInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidRateLimitedIpException();
+		$error = new Exceptions\RateLimitedIpInvalidException();
 
 		if(!isset($this->IpAddress)){
 			$error->Add(new Exceptions\RateLimitedIpAddressRequiredException());
@@ -36,7 +36,7 @@ class RateLimitedIp{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidRateLimitedIpException
+	 * @throws Exceptions\RateLimitedIpInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();

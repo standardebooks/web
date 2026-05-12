@@ -14,10 +14,10 @@ class EbookSource{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidSourceException
+	 * @throws Exceptions\SourceInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidSourceException();
+		$error = new Exceptions\SourceInvalidException();
 
 		if(!isset($this->EbookId)){
 			$error->Add(new Exceptions\EbookSourceEbookIdRequiredException());
@@ -44,7 +44,7 @@ class EbookSource{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidSourceException
+	 * @throws Exceptions\SourceInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();

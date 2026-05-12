@@ -31,7 +31,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanCreateUsers && !Session::$User->Benefits->CanEditUsers){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	if(!ctype_digit($identifier)){
@@ -51,7 +51,7 @@ catch(Exceptions\UserNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(

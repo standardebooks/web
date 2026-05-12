@@ -12,7 +12,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanCreateNewsletterMailings){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	session_start();
@@ -31,7 +31,7 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?>

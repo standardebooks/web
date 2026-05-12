@@ -22,10 +22,10 @@ class ArtworkTag extends Tag{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidArtworkTagException
+	 * @throws Exceptions\ArtworkTagInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidArtworkTagException($this->Name);
+		$error = new Exceptions\ArtworkTagInvalidException($this->Name);
 
 		if(isset($this->Name)){
 			$this->Name = mb_strtolower(trim($this->Name));
@@ -33,7 +33,7 @@ class ArtworkTag extends Tag{
 			$this->Name = preg_replace('/[\s]+/ius', ' ', $this->Name);
 
 			if(strlen($this->Name) == 0){
-				$error->Add(new Exceptions\InvalidArtworkTagNameException());
+				$error->Add(new Exceptions\ArtworkTagNameInvalidException());
 			}
 
 			if(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
@@ -41,7 +41,7 @@ class ArtworkTag extends Tag{
 			}
 
 			if(preg_match('/[^\sa-z0-9]/ius', $this->Name)){
-				$error->Add(new Exceptions\InvalidArtworkTagNameException());
+				$error->Add(new Exceptions\ArtworkTagNameInvalidException());
 			}
 
 			$this->UrlName = Formatter::MakeUrlSafe($this->Name);
@@ -51,7 +51,7 @@ class ArtworkTag extends Tag{
 		}
 
 		if($this->Type != Enums\TagType::Artwork){
-			$error->Add(new Exceptions\InvalidArtworkTagTypeException($this->Type));
+			$error->Add(new Exceptions\ArtworkTagTypeInvalidException($this->Type));
 		}
 
 		if($error->HasExceptions){
@@ -60,7 +60,7 @@ class ArtworkTag extends Tag{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArtworkTagException
+	 * @throws Exceptions\ArtworkTagInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -76,7 +76,7 @@ class ArtworkTag extends Tag{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArtworkTagException
+	 * @throws Exceptions\ArtworkTagInvalidException
 	 */
 	public static function GetOrCreate(ArtworkTag $artworkTag): ArtworkTag{
 		$result = Db::Query('

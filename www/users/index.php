@@ -9,13 +9,13 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanCreateUsers && !Session::$User->Benefits->CanEditUsers){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to create `User`s.
 }
 ?>

@@ -18,7 +18,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditNewsletterMailings){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$addFooter = HttpInput::Bool(POST, 'add-footer') ?? true;
@@ -39,10 +39,10 @@ catch(Exceptions\NewsletterMailingNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidNewsletterMailingException $ex){
+catch(Exceptions\NewsletterMailingInvalidException $ex){
 	$_SESSION['add-footer'] = $addFooter;
 	$_SESSION['add-ebooks'] = $addEbooks;
 

@@ -68,13 +68,13 @@ class OnixFeed extends Feed{
 	/**
 	 * Load an XML document from disk.
 	 *
-	 * @throws Exceptions\InvalidFileException If the XML file is missing or invalid XML.
+	 * @throws Exceptions\FileInvalidException If the XML file is missing or invalid XML.
 	 */
 	protected function LoadXmlDocument(string $path): DOMDocument{
 		$dom = new DOMDocument();
 
 		if(!$dom->load($path)){
-			throw new Exceptions\InvalidFileException('Couldn\'t load XML document: ' . $path);
+			throw new Exceptions\FileInvalidException('Couldn\'t load XML document: ' . $path);
 		}
 
 		return $dom;
@@ -83,7 +83,7 @@ class OnixFeed extends Feed{
 	/**
 	 * Return the complete ONIX feed XML.
 	 *
-	 * @throws Exceptions\InvalidFileException If any of the files in the processing chain is invalid.
+	 * @throws Exceptions\FileInvalidException If any of the files in the processing chain is invalid.
 	 */
 	protected function GetXmlString(): string{
 		if(!isset($this->_XmlString)){
@@ -92,7 +92,7 @@ class OnixFeed extends Feed{
 			$xsltProcessor = new XSLTProcessor();
 
 			if(!$xsltProcessor->importStylesheet($stylesheet)){
-				throw new Exceptions\InvalidFileException('Couldn\'t import ONIX XSLT stylesheet.');
+				throw new Exceptions\FileInvalidException('Couldn\'t import ONIX XSLT stylesheet.');
 			}
 
 			$feed = <<<TEXT
@@ -113,7 +113,7 @@ class OnixFeed extends Feed{
 					$output = $xsltProcessor->transformToXml($metadata);
 
 					if($output === false || $output === null){
-						throw new Exceptions\InvalidFileException('Couldn\'t transform OPF metadata to ONIX: ' . $metadataPath);
+						throw new Exceptions\FileInvalidException('Couldn\'t transform OPF metadata to ONIX: ' . $metadataPath);
 					}
 
 					$output = preg_replace('/<\?xml version="1\.0" encoding="utf-8"\?>\s*<\/?ONIXMessage[^>]*?>\s*<Header[^>]*?>.+?<\/Header>/ius', '', $output);

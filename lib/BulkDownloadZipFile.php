@@ -21,10 +21,10 @@ class BulkDownloadZipFile{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidBulkDownloadZipFileException
+	 * @throws Exceptions\BulkDownloadZipFileInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidBulkDownloadZipFileException();
+		$error = new Exceptions\BulkDownloadZipFileInvalidException();
 
 		$this->LabelName = trim($this->LabelName ?? '');
 		if($this->LabelName == ''){
@@ -37,7 +37,7 @@ class BulkDownloadZipFile{
 		}
 
 		if($this->DownloadByteCount <= 0){
-			$error->Add(new Exceptions\InvalidBulkDownloadZipFileDownloadByteCountException('Invalid BulkDownloadZipFile DownloadByteCount: ' . $this->DownloadByteCount));
+			$error->Add(new Exceptions\BulkDownloadZipFileDownloadByteCountInvalidException('Invalid BulkDownloadZipFile DownloadByteCount: ' . $this->DownloadByteCount));
 		}
 
 		if($error->HasExceptions){
@@ -46,7 +46,7 @@ class BulkDownloadZipFile{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidBulkDownloadZipFileException
+	 * @throws Exceptions\BulkDownloadZipFileInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();

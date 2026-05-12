@@ -15,7 +15,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditSpreadsheets){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 }
 catch(Exceptions\SpreadsheetNotFoundException){
@@ -24,7 +24,7 @@ catch(Exceptions\SpreadsheetNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?>

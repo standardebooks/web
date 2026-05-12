@@ -20,7 +20,7 @@ try{
 		&&
 		!Session::$User->Benefits->CanEditProjects
 	){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$managingProjects = Project::GetAllByManagerUserId($user->UserId);
@@ -35,7 +35,7 @@ catch(Exceptions\AmbiguousUserException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(

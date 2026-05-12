@@ -12,7 +12,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanVote){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$vote = HttpInput::SessionObject('vote', PollVote::class) ?? new PollVote();
@@ -44,7 +44,7 @@ catch(Exceptions\PollNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\PollVoteExistsException $ex){

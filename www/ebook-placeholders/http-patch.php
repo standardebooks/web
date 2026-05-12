@@ -24,7 +24,7 @@ try{
 		||
 		$ebook->EbookPlaceholder === null
 	){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$ebook->FillFromEbookPlaceholderForm();
@@ -43,10 +43,10 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidEbookException | Exceptions\EbookPlaceholderExistsException $ex){
+catch(Exceptions\EbookInvalidException | Exceptions\EbookPlaceholderExistsException $ex){
 	$_SESSION['ebook'] = $ebook;
 	$_SESSION['exception'] = $ex;
 

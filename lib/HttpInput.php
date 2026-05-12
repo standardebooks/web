@@ -324,7 +324,7 @@ class HttpInput{
 	/**
 	 * Returns the absolute path of the requested file upload, or `null` if there isn't one.
 	 *
-	 * @throws Exceptions\InvalidFileUploadException If there is a file upload present, but the upload somehow failed.
+	 * @throws Exceptions\FileUploadInvalidException If there is a file upload present, but the upload somehow failed.
 	 */
 	public static function File(string $variable): ?string{
 		$filePath = null;
@@ -335,7 +335,7 @@ class HttpInput{
 
 			if($file['size'] > 0){
 				if(!is_uploaded_file($file['tmp_name']) || $file['error'] > UPLOAD_ERR_OK){
-					throw new Exceptions\InvalidFileUploadException();
+					throw new Exceptions\FileUploadInvalidException();
 				}
 
 				$filePath = $file['tmp_name'];

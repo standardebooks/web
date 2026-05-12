@@ -17,7 +17,7 @@ class HtmlFragment{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidHtmlException If the `HtmlFragment` is invalid.
+	 * @throws Exceptions\HtmlInvalidException If the `HtmlFragment` is invalid.
 	 */
 	public function Validate(): void{
 		$string = $this->_Value;
@@ -47,7 +47,7 @@ class HtmlFragment{
 		$errorString = rtrim($errorString, '; ');
 
 		if($errorString != ''){
-			$error = new Exceptions\InvalidHtmlException($errorString . '.');
+			$error = new Exceptions\HtmlInvalidException($errorString . '.');
 			throw $error;
 		}
 	}

@@ -14,7 +14,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanCreateUsers){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
@@ -30,7 +30,7 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to create `User`s.
 }
 ?>

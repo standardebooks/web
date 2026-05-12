@@ -13,7 +13,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditSpreadsheets){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$spreadsheet = new Spreadsheet();
@@ -29,10 +29,10 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidSpreadsheetException | Exceptions\SpreadsheetExistsException $ex){
+catch(Exceptions\SpreadsheetInvalidException | Exceptions\SpreadsheetExistsException $ex){
 	$_SESSION['spreadsheet'] = $spreadsheet;
 	$_SESSION['exception'] = $ex;
 

@@ -189,7 +189,7 @@ final class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidUrlException
+	 * @throws Exceptions\UrlInvalidException
 	 */
 	public function GetMuseum(): ?Museum{
 		if(!isset($this->_Museum)){
@@ -205,12 +205,12 @@ final class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArtworkException
+	 * @throws Exceptions\ArtworkInvalidException
 	 */
 	protected function GetImageUrl(): string{
 		if(!isset($this->_ImageUrl)){
 			if(!isset($this->ArtworkId) || !isset($this->MimeType)){
-				throw new Exceptions\InvalidArtworkException();
+				throw new Exceptions\ArtworkInvalidException();
 			}
 
 			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->Updated->getTimestamp();
@@ -333,14 +333,14 @@ final class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArtworkException
+	 * @throws Exceptions\ArtworkInvalidException
 	 */
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
 		$thisYear = intval(NOW->format('Y'));
-		$error = new Exceptions\InvalidArtworkException();
+		$error = new Exceptions\ArtworkInvalidException();
 
 		if(!isset($this->Artist)){
-			$error->Add(new Exceptions\InvalidArtistException());
+			$error->Add(new Exceptions\ArtistInvalidException());
 		}
 		else{
 			try{
@@ -370,7 +370,7 @@ final class Artwork{
 		}
 
 		if(isset($this->CompletedYear) && ($this->CompletedYear <= 0 || $this->CompletedYear > $thisYear)){
-			$error->Add(new Exceptions\InvalidCompletedYearException());
+			$error->Add(new Exceptions\CompletedYearInvalidException());
 		}
 
 		if($this->CompletedYear === null && $this->CompletedYearIsCirca){
@@ -378,7 +378,7 @@ final class Artwork{
 		}
 
 		if(isset($this->PublicationYear) && ($this->PublicationYear <= 0 || $this->PublicationYear > $thisYear)){
-			$error->Add(new Exceptions\InvalidPublicationYearException());
+			$error->Add(new Exceptions\PublicationYearInvalidException());
 		}
 
 		$this->Tags ??= [];
@@ -411,7 +411,7 @@ final class Artwork{
 				$this->Museum = Museum::GetByUrl($this->MuseumUrl);
 				$this->MuseumUrl = Museum::NormalizeUrl($this->MuseumUrl);
 			}
-			catch(Exceptions\MuseumNotFoundException | Exceptions\InvalidUrlException $ex){
+			catch(Exceptions\MuseumNotFoundException | Exceptions\UrlInvalidException $ex){
 				$error->Add($ex);
 			}
 		}
@@ -427,13 +427,13 @@ final class Artwork{
 			}
 
 			if(filter_var($this->PublicationYearPageUrl, FILTER_VALIDATE_URL) === false){
-				$error->Add(new Exceptions\InvalidPublicationYearPageUrlException());
+				$error->Add(new Exceptions\PublicationYearPageUrlInvalidException());
 			}
 			else{
 				try{
 					$this->PublicationYearPageUrl = Artwork::NormalizePageScanUrl($this->PublicationYearPageUrl);
 				}
-				catch(Exceptions\InvalidUrlException $ex){
+				catch(Exceptions\UrlInvalidException $ex){
 					$error->Add($ex);
 				}
 			}
@@ -450,13 +450,13 @@ final class Artwork{
 			}
 
 			if(filter_var($this->CopyrightPageUrl, FILTER_VALIDATE_URL) === false){
-				$error->Add(new Exceptions\InvalidCopyrightPageUrlException());
+				$error->Add(new Exceptions\CopyrightPageUrlInvalidException());
 			}
 			else{
 				try{
 					$this->CopyrightPageUrl = Artwork::NormalizePageScanUrl($this->CopyrightPageUrl);
 				}
-				catch(Exceptions\InvalidUrlException $ex){
+				catch(Exceptions\UrlInvalidException $ex){
 					$error->Add($ex);
 				}
 			}
@@ -473,13 +473,13 @@ final class Artwork{
 			}
 
 			if(filter_var($this->ArtworkPageUrl, FILTER_VALIDATE_URL) === false){
-				$error->Add(new Exceptions\InvalidArtworkPageUrlException());
+				$error->Add(new Exceptions\ArtworkPageUrlInvalidException());
 			}
 			else{
 				try{
 					$this->ArtworkPageUrl = Artwork::NormalizePageScanUrl($this->ArtworkPageUrl);
 				}
-				catch(Exceptions\InvalidUrlException $ex){
+				catch(Exceptions\UrlInvalidException $ex){
 					$error->Add($ex);
 				}
 			}
@@ -534,18 +534,18 @@ final class Artwork{
 
 		if($isImageRequired || $imagePath !== null){
 			if($imagePath === null){
-				$error->Add(new Exceptions\InvalidImageUploadException('An image is required.'));
+				$error->Add(new Exceptions\ImageUploadInvalidException('An image is required.'));
 			}
 			else{
 				try{
-					$this->MimeType = Enums\ImageMimeType::FromFile($imagePath) ?? throw new Exceptions\InvalidMimeTypeException();
+					$this->MimeType = Enums\ImageMimeType::FromFile($imagePath) ?? throw new Exceptions\MimeTypeInvalidException();
 				}
-				catch(Exceptions\InvalidMimeTypeException $ex){
+				catch(Exceptions\MimeTypeInvalidException $ex){
 					$error->Add($ex);
 				}
 
 				if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
-					$error->Add(new Exceptions\InvalidImageUploadException('Upload path not writable.'));
+					$error->Add(new Exceptions\ImageUploadInvalidException('Upload path not writable.'));
 				}
 
 				// Check for minimum dimensions.
@@ -556,7 +556,7 @@ final class Artwork{
 					}
 				}
 				catch(\Exception){
-					$error->Add(new Exceptions\InvalidImageUploadException());
+					$error->Add(new Exceptions\ImageUploadInvalidException());
 				}
 			}
 		}
@@ -611,8 +611,8 @@ final class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidUrlException
-	 * @throws Exceptions\InvalidPageScanUrlException
+	 * @throws Exceptions\UrlInvalidException
+	 * @throws Exceptions\PageScanUrlInvalidException
 	 */
 	public static function NormalizePageScanUrl(string $url): string{
 		$outputUrl = $url;
@@ -624,28 +624,28 @@ final class Artwork{
 			$parsedUrl = parse_url($url);
 		}
 		catch(Exception){
-			throw new Exceptions\InvalidUrlException($url);
+			throw new Exceptions\UrlInvalidException($url);
 		}
 
 		if(!is_array($parsedUrl)){
-			throw new Exceptions\InvalidUrlException($url);
+			throw new Exceptions\UrlInvalidException($url);
 		}
 
 		if(stripos($parsedUrl['host'], 'hathitrust.org') !== false){
 			$exampleUrl = 'https://babel.hathitrust.org/cgi/pt?id=hvd.32044034383265&seq=13';
 
 			if($parsedUrl['host'] != 'babel.hathitrust.org'){
-				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+				throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 			}
 
 			if($parsedUrl['path'] != '/cgi/pt'){
-				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+				throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 			}
 
 			parse_str($parsedUrl['query'] ?? '', $vars);
 
 			if(!isset($vars['id']) || !isset($vars['seq']) || is_array($vars['id']) || is_array($vars['seq'])){
-				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+				throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?id=' . $vars['id'] . '&view=1up&seq=' . $vars['seq'];
@@ -657,7 +657,7 @@ final class Artwork{
 			$exampleUrl = 'https://archive.org/details/royalacademypict1902roya/page/n9/mode/1up';
 
 			if($parsedUrl['host'] != 'archive.org'){
-				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+				throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 			}
 
 			// If we're missing the view mode, append it.
@@ -668,7 +668,7 @@ final class Artwork{
 			// Internet Archive URLs may have both a book ID and collection ID, like <https://archive.org/details/TheStrandMagazineAnIllustratedMonthly/TheStrandMagazine1914bVol.XlviiiJul-dec/page/n254/mode/1up>.
 			// The `/page/<number>` portion of the URL may also be missing if we're on page 1 (like the cover).
 			if(!preg_match('|^/details/[^/]+?(/[^/]+?)?(/page/[^/]+)?/mode/1up$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+				throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -686,13 +686,13 @@ final class Artwork{
 				// Old style, convert to new style.
 
 				if($parsedUrl['path'] != '/books'){
-					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+					throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 				}
 
 				parse_str($parsedUrl['query'] ?? '', $vars);
 
 				if(!isset($vars['id']) || !isset($vars['pg']) || is_array($vars['id']) || is_array($vars['pg'])){
-					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+					throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 				}
 
 				$outputUrl = 'https://www.google.com/books/edition/_/' . $vars['id'] . '?gbpv=1&pg=' . $vars['pg'];
@@ -701,7 +701,7 @@ final class Artwork{
 				// New style.
 
 				if(!preg_match('|^/books/edition/[^/]+/[^/]+$|ius', $parsedUrl['path'])){
-					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+					throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 				}
 
 				preg_match('|^/books/edition/[^/]+/([^/]+)$|ius', $parsedUrl['path'], $matches);
@@ -710,13 +710,13 @@ final class Artwork{
 				parse_str($parsedUrl['query'] ?? '', $vars);
 
 				if(!isset($vars['gbpv']) || $vars['gbpv'] !== '1' || !isset($vars['pg']) || is_array($vars['pg'])){
-					throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+					throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 				}
 
 				$outputUrl = 'https://' . $parsedUrl['host'] . '/books/edition/_/' . $id . '?gbpv=' . $vars['gbpv'] . '&pg=' . $vars['pg'];
 			}
 			else{
-				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+				throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 			}
 
 			return $outputUrl;
@@ -726,7 +726,7 @@ final class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
 		try{
@@ -739,15 +739,15 @@ final class Artwork{
 			$image->Resize($this->Thumb2xFsPath, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
 		}
 		catch(\Safe\Exceptions\ExecException | \Safe\Exceptions\FilesystemException){
-			throw new Exceptions\InvalidImageUploadException('Failed to generate thumbnail.');
+			throw new Exceptions\ImageUploadInvalidException('Failed to generate thumbnail.');
 		}
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArtworkException
-	 * @throws Exceptions\InvalidArtworkTagException
-	 * @throws Exceptions\InvalidArtistException
-	 * @throws Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\ArtworkInvalidException
+	 * @throws Exceptions\ArtworkTagInvalidException
+	 * @throws Exceptions\ArtistInvalidException
+	 * @throws Exceptions\ImageUploadInvalidException
 	 * @throws Exceptions\ArtworkExistsException
 	 */
 	public function Create(?string $imagePath = null): void{
@@ -823,10 +823,10 @@ final class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArtworkException
-	 * @throws Exceptions\InvalidArtistException
-	 * @throws Exceptions\InvalidArtworkTagException
-	 * @throws Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\ArtworkInvalidException
+	 * @throws Exceptions\ArtistInvalidException
+	 * @throws Exceptions\ArtworkTagInvalidException
+	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	public function Save(?string $imagePath = null): void{
 		unset($this->_UrlName);
@@ -1211,7 +1211,7 @@ final class Artwork{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidUrlException
+	 * @throws Exceptions\UrlInvalidException
 	 */
 	public function FillFromHttpPost(): void{
 		if(!isset($this->Artist)){
@@ -1252,7 +1252,7 @@ final class Artwork{
 				$this->EbookId = $ebook->EbookId;
 			}
 			catch(Exceptions\EbookNotFoundException){
-				throw new Exceptions\InvalidUrlException($ebookUrl);
+				throw new Exceptions\UrlInvalidException($ebookUrl);
 			}
 		}
 		else{

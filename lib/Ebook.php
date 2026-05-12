@@ -698,12 +698,12 @@ final class Ebook{
 	 *
 	 * @throws Exceptions\EbookNotFoundException
 	 * @throws Exceptions\EbookParsingException
-	 * @throws Exceptions\InvalidEbookWwwFilesystemPathException
-	 * @throws Exceptions\InvalidGitCommitException
+	 * @throws Exceptions\EbookWwwFilesystemPathInvalidException
+	 * @throws Exceptions\GitCommitInvalidException
 	 */
 	public static function FromFilesystem(?string $wwwFilesystemPath = null): Ebook{
 		if($wwwFilesystemPath === null){
-			throw new Exceptions\InvalidEbookWwwFilesystemPathException($wwwFilesystemPath);
+			throw new Exceptions\EbookWwwFilesystemPathInvalidException($wwwFilesystemPath);
 		}
 
 		$ebook = new Ebook();
@@ -1272,10 +1272,10 @@ final class Ebook{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidEbookException
+	 * @throws Exceptions\EbookInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidEbookException();
+		$error = new Exceptions\EbookInvalidException();
 
 		$this->Identifier = trim($this->Identifier ?? '');
 		if($this->Identifier == ''){
@@ -1296,7 +1296,7 @@ final class Ebook{
 			}
 
 			if(!is_readable($this->WwwFilesystemPath)){
-				$error->Add(new Exceptions\InvalidEbookWwwFilesystemPathException($this->WwwFilesystemPath));
+				$error->Add(new Exceptions\EbookWwwFilesystemPathInvalidException($this->WwwFilesystemPath));
 			}
 		}
 
@@ -1310,7 +1310,7 @@ final class Ebook{
 			}
 
 			if(!is_readable($this->RepoFilesystemPath)){
-				$error->Add(new Exceptions\InvalidEbookRepoFilesystemPathException($this->RepoFilesystemPath));
+				$error->Add(new Exceptions\EbookRepoFilesystemPathInvalidException($this->RepoFilesystemPath));
 			}
 		}
 
@@ -1320,7 +1320,7 @@ final class Ebook{
 		}
 		else{
 			if(!preg_match('|/*_EBOK_portrait.jpg$|ius', $this->KindleCoverUrl)){
-				$error->Add(new Exceptions\InvalidEbookKindleCoverUrlException('Invalid Ebook KindleCoverUrl: ' . $this->KindleCoverUrl));
+				$error->Add(new Exceptions\EbookKindleCoverUrlInvalidException('Invalid Ebook KindleCoverUrl: ' . $this->KindleCoverUrl));
 			}
 
 			if(strlen($this->KindleCoverUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
@@ -1334,7 +1334,7 @@ final class Ebook{
 		}
 		else{
 			if(!preg_match('|/*.epub$|ius', $this->EpubUrl)){
-				$error->Add(new Exceptions\InvalidEbookEpubUrlException('Invalid Ebook EpubUrl: ' . $this->EpubUrl));
+				$error->Add(new Exceptions\EbookEpubUrlInvalidException('Invalid Ebook EpubUrl: ' . $this->EpubUrl));
 			}
 
 			if(strlen($this->EpubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
@@ -1348,7 +1348,7 @@ final class Ebook{
 		}
 		else{
 			if(!preg_match('|/*_advanced.epub$|ius', $this->AdvancedEpubUrl)){
-				$error->Add(new Exceptions\InvalidEbookAdvancedEpubUrlException('Invalid Ebook AdvancedEpubUrl: ' . $this->AdvancedEpubUrl));
+				$error->Add(new Exceptions\EbookAdvancedEpubUrlInvalidException('Invalid Ebook AdvancedEpubUrl: ' . $this->AdvancedEpubUrl));
 			}
 
 			if(strlen($this->AdvancedEpubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
@@ -1362,7 +1362,7 @@ final class Ebook{
 		}
 		else{
 			if(!preg_match('|/*.kepub.epub$|ius', $this->KepubUrl)){
-				$error->Add(new Exceptions\InvalidEbookKepubUrlException('Invalid Ebook KepubUrl: ' . $this->KepubUrl));
+				$error->Add(new Exceptions\EbookKepubUrlInvalidException('Invalid Ebook KepubUrl: ' . $this->KepubUrl));
 			}
 
 			if(strlen($this->KepubUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
@@ -1376,7 +1376,7 @@ final class Ebook{
 		}
 		else{
 			if(!preg_match('|/*.azw3$|ius', $this->Azw3Url)){
-				$error->Add(new Exceptions\InvalidEbookAzw3UrlException('Invalid Ebook Azw3Url: ' . $this->Azw3Url));
+				$error->Add(new Exceptions\EbookAzw3UrlInvalidException('Invalid Ebook Azw3Url: ' . $this->Azw3Url));
 			}
 
 			if(strlen($this->Azw3Url) > EBOOKS_MAX_LONG_STRING_LENGTH){
@@ -1390,7 +1390,7 @@ final class Ebook{
 		}
 		else{
 			if(!preg_match('|/*cover.jpg$|ius', $this->DistCoverUrl)){
-				$error->Add(new Exceptions\InvalidEbookDistCoverUrlException('Invalid Ebook DistCoverUrl: ' . $this->DistCoverUrl));
+				$error->Add(new Exceptions\EbookDistCoverUrlInvalidException('Invalid Ebook DistCoverUrl: ' . $this->DistCoverUrl));
 			}
 
 			if(strlen($this->DistCoverUrl) > EBOOKS_MAX_LONG_STRING_LENGTH){
@@ -1445,12 +1445,12 @@ final class Ebook{
 		}
 
 		if(isset($this->WordCount) && $this->WordCount <= 0){
-			$error->Add(new Exceptions\InvalidEbookWordCountException('Invalid Ebook WordCount: ' . $this->WordCount));
+			$error->Add(new Exceptions\EbookWordCountInvalidException('Invalid Ebook WordCount: ' . $this->WordCount));
 		}
 
 		if(isset($this->ReadingEase) && $this->ReadingEase <= 0){
 			// In theory, Flesch reading ease can be negative, but in practice it's positive.
-			$error->Add(new Exceptions\InvalidEbookReadingEaseException('Invalid Ebook ReadingEase: ' . $this->ReadingEase));
+			$error->Add(new Exceptions\EbookReadingEaseInvalidException('Invalid Ebook ReadingEase: ' . $this->ReadingEase));
 		}
 
 		$this->GitHubUrl = trim($this->GitHubUrl ?? '');
@@ -1459,7 +1459,7 @@ final class Ebook{
 		}
 		else{
 			if(!preg_match('|^https://github\.com/standardebooks/\w+|ius', $this->GitHubUrl)){
-				$error->Add(new Exceptions\InvalidEbookGitHubUrlException('Invalid Ebook GitHubUrl: ' . $this->GitHubUrl));
+				$error->Add(new Exceptions\EbookGitHubUrlInvalidException('Invalid Ebook GitHubUrl: ' . $this->GitHubUrl));
 			}
 
 			if(strlen($this->GitHubUrl) > EBOOKS_MAX_STRING_LENGTH){
@@ -1473,7 +1473,7 @@ final class Ebook{
 		}
 		else{
 			if(!preg_match('|^https://.*wiki.*|ius', $this->WikipediaUrl)){
-				$error->Add(new Exceptions\InvalidEbookWikipediaUrlException('Invalid Ebook WikipediaUrl: ' . $this->WikipediaUrl));
+				$error->Add(new Exceptions\EbookWikipediaUrlInvalidException('Invalid Ebook WikipediaUrl: ' . $this->WikipediaUrl));
 			}
 
 			if(strlen($this->WikipediaUrl) > EBOOKS_MAX_STRING_LENGTH){
@@ -1482,23 +1482,23 @@ final class Ebook{
 		}
 
 		if(isset($this->EbookCreated) && $this->EbookCreated > NOW){
-			$error->Add(new Exceptions\InvalidEbookCreatedDatetimeException($this->EbookCreated));
+			$error->Add(new Exceptions\EbookCreatedDatetimeInvalidException($this->EbookCreated));
 		}
 
 		if(isset($this->EbookUpdated) && $this->EbookUpdated > NOW){
-			$error->Add(new Exceptions\InvalidEbookUpdatedDatetimeException($this->EbookUpdated));
+			$error->Add(new Exceptions\EbookUpdatedDatetimeInvalidException($this->EbookUpdated));
 		}
 
 		if(isset($this->TextSinglePageByteCount) && $this->TextSinglePageByteCount <= 0){
-			$error->Add(new Exceptions\InvalidEbookTextSinglePageByteCountException('Invalid Ebook TextSinglePageByteCount: ' . $this->TextSinglePageByteCount));
+			$error->Add(new Exceptions\EbookTextSinglePageByteCountInvalidException('Invalid Ebook TextSinglePageByteCount: ' . $this->TextSinglePageByteCount));
 		}
 
 		if($this->DownloadsPast30Days < 0){
-			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid Ebook DownloadsPast30Days: ' . $this->DownloadsPast30Days));
+			$error->Add(new Exceptions\EbookDownloadCountInvalidException('Invalid Ebook DownloadsPast30Days: ' . $this->DownloadsPast30Days));
 		}
 
 		if($this->DownloadsTotal < 0){
-			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid Ebook DownloadsTotal: ' . $this->DownloadsTotal));
+			$error->Add(new Exceptions\EbookDownloadCountInvalidException('Invalid Ebook DownloadsTotal: ' . $this->DownloadsTotal));
 		}
 
 		if(sizeof($this->Authors) == 0){
@@ -1526,7 +1526,7 @@ final class Ebook{
 	/**
 	 * @param bool $updateDownloads When updating, whether to update `DownloadsPast30Days` and `DownloadsTotal` with this object's values.
 	 *
-	 * @throws Exceptions\InvalidEbookException
+	 * @throws Exceptions\EbookInvalidException
 	 * @throws Exceptions\EbookExistsException
 	 */
 	public function CreateOrUpdate(bool $updateDownloads = false): void{
@@ -1541,7 +1541,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookTagException
+	 * @throws Exceptions\EbookTagInvalidException
 	 */
 	private function CreateTags(): void{
 		$tags = [];
@@ -1552,7 +1552,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidLocSubjectException
+	 * @throws Exceptions\LocSubjectInvalidException
 	 */
 	private function CreateLocSubjects(): void{
 		$subjects = [];
@@ -1563,7 +1563,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidCollectionException
+	 * @throws Exceptions\CollectionInvalidException
 	 */
 	private function CreateCollections(): void{
 		$collectionMemberships = [];
@@ -1937,7 +1937,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookException
+	 * @throws Exceptions\EbookInvalidException
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the given identifier already exists.
 	 */
 	public function Create(): void{
@@ -1959,7 +1959,7 @@ final class Ebook{
 			$this->CreateCollections();
 		}
 		catch(Exceptions\ValidationException $ex){
-			$error = new Exceptions\InvalidEbookException();
+			$error = new Exceptions\EbookInvalidException();
 			$error->Add($ex);
 			throw $error;
 		}
@@ -2018,7 +2018,7 @@ final class Ebook{
 			$this->AddEbookPlaceholder();
 		}
 		catch(Exceptions\ValidationException $ex){
-			$error = new Exceptions\InvalidEbookException();
+			$error = new Exceptions\EbookInvalidException();
 			$error->Add($ex);
 			throw $error;
 		}
@@ -2027,7 +2027,7 @@ final class Ebook{
 	/**
 	 * @param bool $updateDownloads Whether to update `DownloadsPast30Days` and `DownloadsTotal` with this object's values. This is useful because an `Ebook` can either be created from the filesystem (which doesn't have download statistics), or the database (which does). Saving an `Ebook` created from the filesystem might then overwrite the database's download statistics with zeros unless we explicitly tell it not to.
 	 *
-	 * @throws Exceptions\InvalidEbookException If the `Ebook` is invalid.
+	 * @throws Exceptions\EbookInvalidException If the `Ebook` is invalid.
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the same title and author already exists.
 	 */
 	public function Save(bool $updateDownloads = false): void{
@@ -2041,7 +2041,7 @@ final class Ebook{
 			$this->CreateCollections();
 		}
 		catch(Exceptions\ValidationException $ex){
-			$error = new Exceptions\InvalidEbookException();
+			$error = new Exceptions\EbookInvalidException();
 			$error->Add($ex);
 			throw $error;
 		}
@@ -2126,7 +2126,7 @@ final class Ebook{
 			Collection::DeleteUnused();
 		}
 		catch(Exceptions\ValidationException $ex){
-			$error = new Exceptions\InvalidEbookException();
+			$error = new Exceptions\EbookInvalidException();
 			$error->Add($ex);
 			throw $error;
 		}
@@ -2223,7 +2223,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidGitCommitException
+	 * @throws Exceptions\GitCommitInvalidException
 	 */
 	private function AddGitCommits(): void{
 		foreach($this->GitCommits as $commit){
@@ -2241,7 +2241,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidSourceException
+	 * @throws Exceptions\SourceInvalidException
 	 */
 	private function AddSources(): void{
 		foreach($this->Sources as $sortOrder => $source){
@@ -2260,7 +2260,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidContributorException
+	 * @throws Exceptions\ContributorInvalidException
 	 */
 	private function AddContributors(): void{
 		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Editors, $this->Contributors);
@@ -2302,7 +2302,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookPlaceholderException
+	 * @throws Exceptions\EbookPlaceholderInvalidException
 	 */
 	private function AddEbookPlaceholder(): void{
 		if(isset($this->EbookPlaceholder)){
@@ -2312,7 +2312,7 @@ final class Ebook{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookDownloadException
+	 * @throws Exceptions\EbookDownloadInvalidException
 	 */
 	public function AddDownload(?string $ipAddress, ?string $userAgent, ?Enums\EbookDownloadSource $source): void{
 		$ebookDownload = new EbookDownload();

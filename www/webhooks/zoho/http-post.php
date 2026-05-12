@@ -23,7 +23,7 @@ try{
 	/** @var string $zohoHookSignature */
 	$zohoHookSignature = $_SERVER['HTTP_X_HOOK_SIGNATURE'] ?? '';
 	if(!hash_equals($zohoHookSignature, base64_encode(hash_hmac('sha256', $post, $zohoWebhookSecret, true)))){
-		throw new Exceptions\InvalidCredentialsException();
+		throw new Exceptions\CredentialsInvalidException();
 	}
 
 	/** @var stdClass $data */
@@ -55,7 +55,7 @@ try{
 
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
-catch(Exceptions\InvalidCredentialsException){
+catch(Exceptions\CredentialsInvalidException){
 	$log->Write('Couldn\'t validate POST data.');
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }

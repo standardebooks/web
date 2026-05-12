@@ -19,7 +19,7 @@ class Image{
 	/**
 	 * @return \GdImage
 	 *
-	 * @throws Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	private function GetImageHandle(){
 		try{
@@ -37,11 +37,11 @@ class Image{
 					$handle = $this->GetImageHandleFromTiff();
 					break;
 				default:
-					throw new \Exceptions\InvalidImageUploadException();
+					throw new \Exceptions\ImageUploadInvalidException();
 			}
 		}
 		catch(\Safe\Exceptions\ImageException){
-			throw new \Exceptions\InvalidImageUploadException();
+			throw new \Exceptions\ImageUploadInvalidException();
 		}
 
 		return $handle;
@@ -49,7 +49,7 @@ class Image{
 
 	/**
 	 * @return \GdImage
-	 * @throws Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	private function GetImageHandleFromTiff(){
 		$basename = pathinfo($this->Path)['filename'];
@@ -60,7 +60,7 @@ class Image{
 			exec('convert '. escapeshellarg($this->Path) . ' ' . escapeshellarg($tempFilename), $shellOutput, $resultCode);
 
 			if($resultCode !== 0){
-				throw new Exceptions\InvalidImageUploadException('Failed to convert TIFF to JPEG');
+				throw new Exceptions\ImageUploadInvalidException('Failed to convert TIFF to JPEG');
 			}
 
 			// Sometimes TIFF files can have multiple images, or "pages" in one file. In that case, `convert` outputs multiple files named `<file>-0.jpg`, `<file>-1.jpg`, etc., instead of `<file>.jpg`.
@@ -75,7 +75,7 @@ class Image{
 				$handle = \Safe\imagecreatefromjpeg($tempFilename);
 			}
 			else{
-				throw new Exceptions\InvalidImageUploadException('Failed to convert TIFF to JPEG');
+				throw new Exceptions\ImageUploadInvalidException('Failed to convert TIFF to JPEG');
 			}
 		}
 		finally{
@@ -93,7 +93,7 @@ class Image{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidImageUploadException
+	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	public function Resize(string $destImagePath, int $width, int $height): void{
 		try{
@@ -124,7 +124,7 @@ class Image{
 			imagejpeg($thumbImageHandle, $destImagePath);
 		}
 		catch(\Safe\Exceptions\ImageException $ex){
-			throw new Exceptions\InvalidImageUploadException($ex->getMessage());
+			throw new Exceptions\ImageUploadInvalidException($ex->getMessage());
 		}
 	}
 }

@@ -15,7 +15,7 @@ enum EbookFormatType: string{
 	}
 
 	/**
-	 * @throws \Exceptions\InvalidEbookFormatException
+	 * @throws \Exceptions\EbookFormatInvalidException
 	 */
 	public static function FromFilename(string $filename): self{
 		if(str_ends_with($filename, '.azw3')){
@@ -34,6 +34,6 @@ enum EbookFormatType: string{
 			return self::Epub;
 		}
 
-		throw new \Exceptions\InvalidEbookFormatException();
+		throw new \Exceptions\EbookFormatInvalidException();
 	}
 }

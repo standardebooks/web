@@ -22,29 +22,29 @@ class EbookDownloadSummary{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookDownloadSummaryException
+	 * @throws Exceptions\EbookDownloadSummaryInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidEbookDownloadSummaryException();
+		$error = new Exceptions\EbookDownloadSummaryInvalidException();
 
 		if($this->DownloadCount < 0){
-			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid EbookDownloadSummary DownloadCount: ' . $this->DownloadCount));
+			$error->Add(new Exceptions\EbookDownloadCountInvalidException('Invalid EbookDownloadSummary DownloadCount: ' . $this->DownloadCount));
 		}
 
 		if($this->BotDownloadCount < 0){
-			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid EbookDownloadSummary BotDownloadCount: ' . $this->BotDownloadCount));
+			$error->Add(new Exceptions\EbookDownloadCountInvalidException('Invalid EbookDownloadSummary BotDownloadCount: ' . $this->BotDownloadCount));
 		}
 
 		if($this->UniqueDownloadCount < 0 || $this->UniqueDownloadCount > ($this->DownloadCount - $this->BotDownloadCount)){
-			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid EbookDownloadSummary UniqueDownloadCount: ' . $this->UniqueDownloadCount));
+			$error->Add(new Exceptions\EbookDownloadCountInvalidException('Invalid EbookDownloadSummary UniqueDownloadCount: ' . $this->UniqueDownloadCount));
 		}
 
 		if($this->FeedDownloadCount < 0 || $this->FeedDownloadCount > ($this->DownloadCount - $this->BotDownloadCount - $this->WebDownloadCount)){
-			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid EbookDownloadSummary FeedDownloadCount: ' . $this->FeedDownloadCount));
+			$error->Add(new Exceptions\EbookDownloadCountInvalidException('Invalid EbookDownloadSummary FeedDownloadCount: ' . $this->FeedDownloadCount));
 		}
 
 		if($this->WebDownloadCount < 0 || $this->WebDownloadCount > ($this->DownloadCount - $this->BotDownloadCount - $this->FeedDownloadCount)){
-			$error->Add(new Exceptions\InvalidEbookDownloadCountException('Invalid EbookDownloadSummary WebDownloadCount: ' . $this->WebDownloadCount));
+			$error->Add(new Exceptions\EbookDownloadCountInvalidException('Invalid EbookDownloadSummary WebDownloadCount: ' . $this->WebDownloadCount));
 		}
 
 		if($error->HasExceptions){
@@ -53,7 +53,7 @@ class EbookDownloadSummary{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookDownloadSummaryException
+	 * @throws Exceptions\EbookDownloadSummaryInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();

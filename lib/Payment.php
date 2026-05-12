@@ -85,7 +85,7 @@ class Payment{
 					try{
 						$this->User->Create(requireEmail: false);
 					}
-					catch(Exceptions\UserExistsException | Exceptions\InvalidUserException){
+					catch(Exceptions\UserExistsException | Exceptions\UserInvalidException){
 						// `User` already exists, pass.
 					}
 				}

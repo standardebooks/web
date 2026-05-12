@@ -8,19 +8,19 @@ use function Safe\preg_match;
  */
 final class HtmlDocument extends HtmlFragment{
 	/**
-	 * @throws Exceptions\InvalidHtmlException If the `HtmlDocument` is invalid.
+	 * @throws Exceptions\HtmlInvalidException If the `HtmlDocument` is invalid.
 	 */
 	public function Validate(): void{
 		$errors = [];
 		try{
 			parent::Validate();
 		}
-		catch(Exceptions\InvalidHtmlException $ex){
+		catch(Exceptions\HtmlInvalidException $ex){
 			$errors[] = $ex;
 		}
 
 		if(!preg_match('/^<!DOCTYPE html>\s*<html[\s>]/ius', $this->_Value)){
-			$errors[] = new Exceptions\InvalidHtmlException('HTML must begin with a doctype and root element.');
+			$errors[] = new Exceptions\HtmlInvalidException('HTML must begin with a doctype and root element.');
 		}
 
 		if(sizeof($errors) > 0){
@@ -30,7 +30,7 @@ final class HtmlDocument extends HtmlFragment{
 			}
 			$message = rtrim($message, '; ');
 
-			throw new Exceptions\InvalidHtmlException($message);
+			throw new Exceptions\HtmlInvalidException($message);
 		}
 	}
 }

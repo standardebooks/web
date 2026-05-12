@@ -17,7 +17,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditUsers){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$canManageProjects = $user->Benefits->CanManageProjects;
@@ -64,13 +64,13 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\UserNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-catch(Exceptions\InvalidUserException | Exceptions\UserExistsException $ex){
+catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 	if($generateNewUuid){
 		$user->Uuid = $originalUser->Uuid;
 		$_SESSION['generate-new-uuid'] = $generateNewUuid;
@@ -78,7 +78,7 @@ catch(Exceptions\InvalidUserException | Exceptions\UserExistsException $ex){
 
 	$_SESSION['password-action'] = $passwordAction;
 
-	if($ex instanceof Exceptions\InvalidUserException && $ex->Has(Exceptions\BenefitsRequirePasswordException::class) && isset($oldPasswordHash)){
+	if($ex instanceof Exceptions\UserInvalidException && $ex->Has(Exceptions\BenefitsRequirePasswordException::class) && isset($oldPasswordHash)){
 		$user->PasswordHash = $oldPasswordHash;
 	}
 

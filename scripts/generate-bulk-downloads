@@ -114,7 +114,7 @@ function CreateZip(string $filePath, array $ebooks, Enums\BulkDownloadFormatType
 /**
  * @return array<string, array<string, BulkDownloadCollection>> $bulkDownloadCollections
  *
- * @throws Exceptions\InvalidEbookCreatedDatetimeException
+ * @throws Exceptions\EbookCreatedDatetimeInvalidException
  */
 function CreateBulkDownloadCollections(): array{
 	$bulkDownloadCollections = [
@@ -128,7 +128,7 @@ function CreateBulkDownloadCollections(): array{
 	foreach(Ebook::GetAllByReleaseStatusFilter(Enums\EbookReleaseStatusFilter::Released) as $ebook){
 		// Add to the 'ebooks by month' list.
 		if(!isset($ebook->EbookCreated)){
-			throw new Exceptions\InvalidEbookCreatedDatetimeException();
+			throw new Exceptions\EbookCreatedDatetimeInvalidException();
 		}
 
 		$timestamp = $ebook->EbookCreated->format('Y-m');
@@ -205,8 +205,8 @@ function CreateBulkDownloadCollections(): array{
 /**
  * @param array<string, array<string, BulkDownloadCollection>> $bulkDownloadCollections
  *
- * @throws Exceptions\InvalidBulkDownloadCollectionException
- * @throws Exceptions\InvalidBulkDownloadZipFileException
+ * @throws Exceptions\BulkDownloadCollectionInvalidException
+ * @throws Exceptions\BulkDownloadZipFileInvalidException
  */
 function WriteZipFiles(string $webRoot, array $bulkDownloadCollections): void{
 	foreach(Enums\BulkDownloadLabelType::cases() as $group){

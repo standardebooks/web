@@ -115,10 +115,10 @@ class Collection{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidCollectionException
+	 * @throws Exceptions\CollectionInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidCollectionException();
+		$error = new Exceptions\CollectionInvalidException();
 
 		if(isset($this->Name)){
 			$this->Name = trim($this->Name);
@@ -151,7 +151,7 @@ class Collection{
 		}
 
 		if($this->Type !== null && ($this->Type != Enums\CollectionType::Series && $this->Type != Enums\CollectionType::Set)){
-			$error->Add(new Exceptions\InvalidCollectionTypeException($this->Type));
+			$error->Add(new Exceptions\CollectionTypeInvalidException($this->Type));
 		}
 
 		if($error->HasExceptions){
@@ -160,7 +160,7 @@ class Collection{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidCollectionException
+	 * @throws Exceptions\CollectionInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -175,7 +175,7 @@ class Collection{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidCollectionException
+	 * @throws Exceptions\CollectionInvalidException
 	 */
 	public function GetByUrlNameOrCreate(string $urlName): Collection{
 		$result = Db::Query('

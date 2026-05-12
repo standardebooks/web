@@ -16,7 +16,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanReviewOwnArtwork){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	try{
@@ -50,7 +50,7 @@ catch(Exceptions\ArtistNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\CanonicalArtistNotFoundException | Exceptions\ArtistHasArtworkException | Exceptions\ArtistAlternateNameExistsException $ex){

@@ -18,7 +18,7 @@ try{
 	$path = WEB_ROOT . $path;
 
 	if(!is_file($path) || !preg_match('/^' . preg_quote(WEB_ROOT . '/feeds/', '/') . '.+\.xml$/iu', $path)){
-		throw new Exceptions\InvalidFileException();
+		throw new Exceptions\FileInvalidException();
 	}
 
 	// Access to the Atom/RSS new releases feed is open to the public.
@@ -46,7 +46,7 @@ try{
 			}
 
 			if(!Session::$User->Benefits->CanAccessFeeds){
-				throw new Exceptions\InvalidPermissionsException();
+				throw new Exceptions\PermissionsInvalidException();
 			}
 		}
 	}
@@ -108,14 +108,14 @@ try{
 
 	exit();
 }
-catch(Exceptions\InvalidFileException){
+catch(Exceptions\FileInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\LoginRequiredException){
 	header('www-authenticate: Basic realm="Enter your Patrons Circle email address and leave the password empty."');
 	http_response_code(Enums\HttpCode::Unauthorized->value);
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 

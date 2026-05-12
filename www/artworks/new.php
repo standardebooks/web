@@ -14,7 +14,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanUploadArtwork){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$isCreated = HttpInput::Bool(SESSION, 'is-artwork-created') ?? false;
@@ -29,7 +29,7 @@ try{
 	}
 	elseif($exception){
 		// We got here because an operation had errors and the user has to try again.
-		if($exception instanceof Exceptions\ValidationException && $exception->Has(Exceptions\InvalidRequestException::class)){
+		if($exception instanceof Exceptions\ValidationException && $exception->Has(Exceptions\RequestInvalidException::class)){
 			http_response_code(Enums\HttpCode::ContentTooLarge->value);
 		}
 		else{
@@ -51,7 +51,7 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to submit artwork.
 }
 

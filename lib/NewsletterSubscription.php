@@ -65,7 +65,7 @@ final class NewsletterSubscription{
 			try{
 				$this->User->Create();
 			}
-			catch(Exceptions\UserExistsException | Exceptions\InvalidUserException){
+			catch(Exceptions\UserExistsException | Exceptions\UserInvalidException){
 				// `User` exists, pass.
 			}
 		}
@@ -140,13 +140,13 @@ final class NewsletterSubscription{
 		$error = new Exceptions\InvalidNewsletterSubscription();
 
 		if(!isset($this->User->Email)){
-			$error->Add(new Exceptions\InvalidEmailAddressException());
+			$error->Add(new Exceptions\EmailAddressInvalidException());
 		}
 		else{
 			try{
 				$this->User->Email->Validate();
 			}
-			catch(Exceptions\InvalidEmailAddressException $ex){
+			catch(Exceptions\EmailAddressInvalidException $ex){
 				$error->Add($ex);
 			}
 		}

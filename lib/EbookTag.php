@@ -19,10 +19,10 @@ class EbookTag extends Tag{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidEbookTagException
+	 * @throws Exceptions\EbookTagInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidEbookTagException();
+		$error = new Exceptions\EbookTagInvalidException();
 
 		if(isset($this->Name)){
 			$this->Name = trim($this->Name);
@@ -42,7 +42,7 @@ class EbookTag extends Tag{
 		}
 
 		if($this->Type != Enums\TagType::Ebook){
-			$error->Add(new Exceptions\InvalidEbookTagTypeException($this->Type));
+			$error->Add(new Exceptions\EbookTagTypeInvalidException($this->Type));
 		}
 
 		if($error->HasExceptions){
@@ -51,7 +51,7 @@ class EbookTag extends Tag{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookTagException
+	 * @throws Exceptions\EbookTagInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -71,7 +71,7 @@ class EbookTag extends Tag{
 	// ***********
 
 	/**
-	 * @throws Exceptions\InvalidEbookTagException
+	 * @throws Exceptions\EbookTagInvalidException
 	 */
 	public function GetByNameOrCreate(string $name): EbookTag{
 		$result = Db::Query('

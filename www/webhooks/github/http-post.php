@@ -22,13 +22,13 @@ try{
 	// Validate the GitHub secret.
 	/** @var string $githubSignature */
 	$githubSignature = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
-	$hash = explode('=', $githubSignature)[1] ?? throw new Exceptions\InvalidCredentialsException();
+	$hash = explode('=', $githubSignature)[1] ?? throw new Exceptions\CredentialsInvalidException();
 
 	/** @var string $gitHubWebhookSecret */
 	$gitHubWebhookSecret = get_cfg_var('se.secrets.github.se_vcs_bot.secret');
 
 	if(!hash_equals($hash, hash_hmac('sha256', $post, $gitHubWebhookSecret))){
-		throw new Exceptions\InvalidCredentialsException();
+		throw new Exceptions\CredentialsInvalidException();
 	}
 
 	// Sanity check before we continue.
@@ -144,7 +144,7 @@ try{
 
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
-catch(Exceptions\InvalidCredentialsException){
+catch(Exceptions\CredentialsInvalidException){
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\WebhookException $ex){

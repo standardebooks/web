@@ -21,7 +21,7 @@ try{
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $redirect);
 }
-catch(Exceptions\InvalidLoginException | Exceptions\PasswordRequiredException $ex){
+catch(Exceptions\LoginInvalidException | Exceptions\PasswordRequiredException $ex){
 	$_SESSION['email'] = $email;
 	$_SESSION['redirect'] = $redirect;
 	$_SESSION['exception'] = $ex;

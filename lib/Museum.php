@@ -17,9 +17,9 @@ class Museum{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidUrlException
-	 * @throws Exceptions\InvalidMuseumUrlException
-	 * @throws Exceptions\InvalidPageScanUrlException
+	 * @throws Exceptions\UrlInvalidException
+	 * @throws Exceptions\MuseumUrlInvalidException
+	 * @throws Exceptions\PageScanUrlInvalidException
 	 */
 	public static function NormalizeUrl(string $url): string{
 		$outputUrl = $url;
@@ -28,11 +28,11 @@ class Museum{
 			$parsedUrl = parse_url($url);
 		}
 		catch(Exception){
-			throw new Exceptions\InvalidUrlException($url);
+			throw new Exceptions\UrlInvalidException($url);
 		}
 
 		if(!is_array($parsedUrl)){
-			throw new Exceptions\InvalidUrlException($url);
+			throw new Exceptions\UrlInvalidException($url);
 		}
 
 		$parsedUrl['path'] = $parsedUrl['path'] ?? '';
@@ -51,7 +51,7 @@ class Museum{
 			$exampleUrl = 'https://www.rijksmuseum.nl/en/collection/SK-A-1246';
 
 			if($parsedUrl['host'] != 'www.rijksmuseum.nl'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(	(
@@ -84,7 +84,7 @@ class Museum{
 			}
 
 			if(!preg_match('|^https://www.rijksmuseum.nl/en/collection/[^/]+$|ius', $outputUrl)){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			return $outputUrl;
@@ -94,11 +94,11 @@ class Museum{
 
 			$host = preg_replace('|^metmuseum.org|ius', 'www.metmuseum.org', $parsedUrl['host']);
 			if($host != 'www.metmuseum.org'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/art/collection/search/[\d]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $host . $parsedUrl['path'];
@@ -109,17 +109,17 @@ class Museum{
 			$exampleUrl = 'https://collection.nationalmuseum.se/eMP/eMuseumPlus?service=ExternalInterface&module=collection&objectId=18217';
 
 			if($parsedUrl['host'] != 'collection.nationalmuseum.se'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if($parsedUrl['path'] != '/eMP/eMuseumPlus'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			parse_str($parsedUrl['query'] ?? '', $vars);
 
 			if(!isset($vars['objectId']) || is_array($vars['objectId'])){
-				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+				throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?service=ExternalInterface&module=collection&objectId=' . $vars['objectId'];
@@ -130,11 +130,11 @@ class Museum{
 			$exampleUrl = 'https://collections.artsmia.org/art/3729/castle-and-watermill-by-a-river-jacob-van-ruisdael';
 
 			if($parsedUrl['host'] != 'collections.artsmia.org'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/art/\d+/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -145,11 +145,11 @@ class Museum{
 			$exampleUrl = 'https://art.thewalters.org/object/37.1336/';
 
 			if($parsedUrl['host'] != 'art.thewalters.org'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/object/[^/]+/$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -160,11 +160,11 @@ class Museum{
 			$exampleUrl = 'https://www.artic.edu/artworks/133864/the-defense-of-paris';
 
 			if($parsedUrl['host'] != 'www.artic.edu'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/artworks/\d+/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -175,11 +175,11 @@ class Museum{
 			$exampleUrl = 'https://www.clevelandart.org/art/1969.54';
 
 			if($parsedUrl['host'] != 'www.clevelandart.org'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/art/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -193,11 +193,11 @@ class Museum{
 			$exampleUrl = 'https://www.parismuseescollections.paris.fr/en/node/226154';
 
 			if(!preg_match('|^(www\.)?parismuseescollections\.paris\.fr$|ius', $parsedUrl['host'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/en/node/[^/]+$|ius', $parsedUrl['path']) && !preg_match('|^/en/[^/]+/oeuvres/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . preg_replace('|^(www\.)?parismuseescollections\.paris\.fr$|ius', 'www.parismuseescollections.paris.fr', $parsedUrl['host']) . $parsedUrl['path'];
@@ -209,7 +209,7 @@ class Museum{
 			$exampleUrl = 'https://www.si.edu/object/saam_1983.95.90';
 
 			if(!preg_match('|^/object/[^/]+?(:[^/:]+)?$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$path = preg_replace('|^/object/[^/]+:([^/:]+)$|ius', '/object/\1', $parsedUrl['path']);
@@ -222,7 +222,7 @@ class Museum{
 			$exampleUrl = 'https://americanart.si.edu/artwork/study-apotheosis-washington-rotunda-united-states-capitol-building-84517';
 
 			if(!preg_match('|^/artwork/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -235,7 +235,7 @@ class Museum{
 
 			$path = $parsedUrl['path'];
 			if(!preg_match('|/search/detail/[^/]+?:[^/:]+$|ius', $path)){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$path = preg_replace('|/search/detail/[^/]+:([^/:]+)$|ius', '/object/\1', $parsedUrl['path']);
@@ -250,7 +250,7 @@ class Museum{
 
 			$path = $parsedUrl['path'];
 			if(!preg_match('|/object/[^/]+$|ius', $path)){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://www.si.edu' . $path;
@@ -261,17 +261,17 @@ class Museum{
 			$exampleUrl = 'https://dams.birminghammuseums.org.uk/asset-bank/action/viewAsset?id=6726';
 
 			if($parsedUrl['host'] != 'dams.birminghammuseums.org.uk'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if($parsedUrl['path'] != '/asset-bank/action/viewAsset'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			parse_str($parsedUrl['query'] ?? '', $vars);
 
 			if(!isset($vars['id']) || is_array($vars['id'])){
-				throw new Exceptions\InvalidPageScanUrlException($url, $exampleUrl);
+				throw new Exceptions\PageScanUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'] . '?id=' . $vars['id'];
@@ -282,14 +282,14 @@ class Museum{
 			$exampleUrl = 'https://zbiory.mnk.pl/en/catalog/333584';
 
 			if($parsedUrl['host'] != 'zbiory.mnk.pl'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			// Sometimes the path may have `/search-result/advance` or `/search-result` in it, cut that here.
 			$path = preg_replace('~^/en(/search-result/advance|/search-result)?~ius', '/en', $parsedUrl['path']);
 
 			if(!preg_match('|^/en/catalog/[^/]+$|ius', $path)){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $path;
@@ -300,14 +300,14 @@ class Museum{
 			$exampleUrl = 'https://open.smk.dk/artwork/image/KMS1884';
 
 			if($parsedUrl['host'] != 'open.smk.dk'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			// Somtimes the path may have `en` in it, cut that here.
 			$path = preg_replace('|^/en/|ius', '/', $parsedUrl['path']);
 
 			if(!preg_match('|^/artwork/image/[^/]+$|ius', $path)){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $path;
@@ -318,13 +318,13 @@ class Museum{
 			$exampleUrl = 'https://www.kansallisgalleria.fi/en/object/429609';
 
 			if($parsedUrl['host'] != 'www.kansallisgalleria.fi'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$path = preg_replace('|^/fi/|ius', '/en/', $parsedUrl['path']);
 
 			if(!preg_match('|^/en/object/[^/]+$|ius', $path)){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $path;
@@ -335,11 +335,11 @@ class Museum{
 			$exampleUrl = 'https://www.nga.gov/artworks/102195-fallen-tree';
 
 			if($parsedUrl['host'] != 'www.nga.gov'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/artworks/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -350,11 +350,11 @@ class Museum{
 			$exampleUrl = 'https://www.nivaagaard.dk/en/vare/lundstroem-vilhelm/';
 
 			if($parsedUrl['host'] != 'www.nivaagaard.dk'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/en/vare/[^/]+/$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -365,11 +365,11 @@ class Museum{
 			$exampleUrl = 'https://risdmuseum.org/art-design/collection/portrait-christiana-carteaux-bannister-2016381';
 
 			if($parsedUrl['host'] != 'risdmuseum.org'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/art-design/collection/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -381,11 +381,11 @@ class Museum{
 			$exampleUrl = 'https://emuseum.aberdeencity.gov.uk/objects/3215/james-cromar-watt-lld';
 
 			if($parsedUrl['host'] != 'emuseum.aberdeencity.gov.uk'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/objects/[^/]+(/[^/]+)?$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$path = preg_replace('|^/objects/([^/]+)(/[^/]+)?$|ius', '/objects/\1', $parsedUrl['path']);
@@ -399,11 +399,11 @@ class Museum{
 			$exampleUrl = 'https://collections.brightonmuseums.org.uk/records/63caa90083d50a00184b8e90';
 
 			if($parsedUrl['host'] != 'collections.brightonmuseums.org.uk'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/records/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -415,11 +415,11 @@ class Museum{
 			$exampleUrl = 'https://www.grpmcollections.org/Detail/objects/130684';
 
 			if($parsedUrl['host'] != 'www.grpmcollections.org'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/Detail/objects/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -431,11 +431,11 @@ class Museum{
 			$exampleUrl = 'https://kataloget.thorvaldsensmuseum.dk/en/B122';
 
 			if($parsedUrl['host'] != 'kataloget.thorvaldsensmuseum.dk'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/en/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -447,11 +447,11 @@ class Museum{
 			$exampleUrl = 'https://collectie.museabrugge.be/en/collection/work/id/2013_GRO0013_I';
 
 			if($parsedUrl['host'] != 'collectie.museabrugge.be'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/en/collection/work/id/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -463,11 +463,11 @@ class Museum{
 			$exampleUrl = 'https://collections.britishart.yale.edu/catalog/tms:1010';
 
 			if($parsedUrl['host'] != 'collections.britishart.yale.edu'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/catalog/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -479,11 +479,11 @@ class Museum{
 			$exampleUrl = 'https://www.kunsthalle-karlsruhe.de/kunstwerke/Ferdinand-Keller/K%C3%BCstenlandschaft-bei-Rio-de-Janeiro/C066F030484D7D09148891B0E70524B8/';
 
 			if($parsedUrl['host'] != 'www.kunsthalle-karlsruhe.de'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/kunstwerke/[^/]+?/[^/]+?/[^/]+?/$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -495,11 +495,11 @@ class Museum{
 			$exampleUrl = 'https://www.getty.edu/art/collection/object/103RG0';
 
 			if($parsedUrl['host'] != 'www.getty.edu'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/art/collection/object/[^/]+?$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -511,11 +511,11 @@ class Museum{
 			$exampleUrl = 'https://artgallery.yale.edu/collections/objects/44306';
 
 			if($parsedUrl['host'] != 'artgallery.yale.edu'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/collections/objects/[^/]+?$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -526,11 +526,11 @@ class Museum{
 			$exampleUrl = 'https://digitaltmuseum.no/021048495118/fra-saxegardsgaten-maleri';
 
 			if($parsedUrl['host'] != 'digitaltmuseum.no'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/[^/]+?/[^/]+?$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -541,11 +541,11 @@ class Museum{
 		// 	$exampleUrl = 'https://cyfrowe.mnw.art.pl/en/catalog/445066';
 
 		// 	if($parsedUrl['host'] != 'cyfrowe.mnw.art.pl'){
-		// 		throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+		// 		throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 		// 	}
 
 		// 	if(!preg_match('|^/en/catalog/[^/]+?$|ius', $parsedUrl['path'])){
-		// 		throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+		// 		throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 		// 	}
 
 		// 	$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -556,11 +556,11 @@ class Museum{
 			$exampleUrl = 'https://www.lenbachhaus.de/en/digital/collection-online/detail/hymnus-an-michelangelo-30036437';
 
 			if($parsedUrl['host'] != 'www.lenbachhaus.de'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/en/digital/collection-online/detail/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -571,11 +571,11 @@ class Museum{
 			$exampleUrl = 'https://kmska.be/en/masterpiece/restaurant-mille-colonnes-amsterdam';
 
 			if($parsedUrl['host'] != 'kmska.be'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/en/masterpiece/[^/]+$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -587,11 +587,11 @@ class Museum{
 		// 	$exampleUrl = 'https://www.webumenia.sk/en/dielo/SVK:SNG.O_85';
 
 		// 	if($parsedUrl['host'] != 'www.webumenia.sk'){
-		// 		throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+		// 		throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 		// 	}
 
 		// 	if(!preg_match('|^/en/dielo/[^/]+?$|ius', $parsedUrl['path'])){
-		// 		throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+		// 		throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 		// 	}
 
 		// 	$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -602,11 +602,11 @@ class Museum{
 			$exampleUrl = 'https://rammcollections.org.uk/collections/f9f03932-c020-3de9-b5c8-4d5143b7c415/';
 
 			if($parsedUrl['host'] != 'rammcollections.org.uk'){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			if(!preg_match('|^/collections/[0-9a-f\-]+/$|ius', $parsedUrl['path'])){
-				throw new Exceptions\InvalidMuseumUrlException($url, $exampleUrl);
+				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
 			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
@@ -623,7 +623,7 @@ class Museum{
 
 	/**
 	* @throws Exceptions\MuseumNotFoundException
-	* @throws Exceptions\InvalidUrlException
+	* @throws Exceptions\UrlInvalidException
 	*/
 	public static function GetByUrl(?string $url): Museum{
 		if($url === null){
@@ -634,11 +634,11 @@ class Museum{
 			$parsedUrl = parse_url($url);
 		}
 		catch(Exception){
-			throw new Exceptions\InvalidUrlException($url);
+			throw new Exceptions\UrlInvalidException($url);
 		}
 
 		if(!isset($parsedUrl['host'])){
-			throw new Exceptions\InvalidUrlException($url);
+			throw new Exceptions\UrlInvalidException($url);
 		}
 
 		$result = Db::Query('

@@ -32,7 +32,7 @@ class AwsSnsMessage{
 	/**
 	 * Read an SNS message from the current HTTP request, validate its AWS signature and topic, and return the parsed message.
 	 *
-	 * @throws Exceptions\InvalidSnsMessageException If the SNS message is malformed or unsigned.
+	 * @throws Exceptions\SnsMessageInvalidException If the SNS message is malformed or unsigned.
 	 */
 	public static function FromHttp(): AwsSnsMessage{
 		$object = new AwsSnsMessage();
@@ -61,7 +61,7 @@ class AwsSnsMessage{
 				$object->Timestamp = new DateTimeImmutable(self::GetStringValue($data, 'Timestamp'));
 			}
 			catch(\Exception){
-				throw new Exceptions\InvalidSnsMessageException('Invalid timestamp.');
+				throw new Exceptions\SnsMessageInvalidException('Invalid timestamp.');
 			}
 
 			if($object->Type == 'SubscriptionConfirmation'){
@@ -78,7 +78,7 @@ class AwsSnsMessage{
 					$message = json_decode($messageBody);
 
 					if(!($message instanceof stdClass)){
-						throw new Exceptions\InvalidSnsMessageException('No message body.');
+						throw new Exceptions\SnsMessageInvalidException('No message body.');
 					}
 				}
 
@@ -88,7 +88,7 @@ class AwsSnsMessage{
 			return $object;
 		}
 		catch(Aws\Sns\Exception\InvalidSnsMessageException $ex){
-			throw new Exceptions\InvalidSnsMessageException($ex::class . ': ' . $ex->getMessage() . "\nData:\n" . vds($data));
+			throw new Exceptions\SnsMessageInvalidException($ex::class . ': ' . $ex->getMessage() . "\nData:\n" . vds($data));
 		}
 	}
 
@@ -97,11 +97,11 @@ class AwsSnsMessage{
 	 *
 	 * @param array<string, mixed> $data Raw SNS message data.
 	 *
-	 * @throws Exceptions\InvalidSnsMessageException If the field is missing or is not a string.
+	 * @throws Exceptions\SnsMessageInvalidException If the field is missing or is not a string.
 	 */
 	private static function GetStringValue(array $data, string $key): string{
 		if(!isset($data[$key]) || !is_string($data[$key])){
-			throw new Exceptions\InvalidSnsMessageException('Missing SNS field: ' . $key);
+			throw new Exceptions\SnsMessageInvalidException('Missing SNS field: ' . $key);
 		}
 
 		return $data[$key];

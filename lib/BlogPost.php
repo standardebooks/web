@@ -128,10 +128,10 @@ class BlogPost{
 	 * @param ?string $userIdentifier
 	 * @param ?string $ebookIdentifiers A newline-separated list of ebook identifiers to merge with any ebook identifiers found in the body.
 	 *
-	 * @throws Exceptions\InvalidBlogPostException
+	 * @throws Exceptions\BlogPostInvalidException
 	 */
 	public function Validate(?string $userIdentifier = null, ?string $ebookIdentifiers = null): void{
-		$error = new Exceptions\InvalidBlogPostException();
+		$error = new Exceptions\BlogPostInvalidException();
 
 		$this->Title ??= '';
 
@@ -145,8 +145,8 @@ class BlogPost{
 			try{
 				$this->Title->Validate();
 			}
-			catch(Exceptions\InvalidHtmlException $ex){
-				$error->Add(new Exceptions\InvalidBlogPostTitleHtmlException($ex->RawMessage));
+			catch(Exceptions\HtmlInvalidException $ex){
+				$error->Add(new Exceptions\BlogPostTitleHtmlInvalidException($ex->RawMessage));
 			}
 		}
 
@@ -158,8 +158,8 @@ class BlogPost{
 			try{
 				$this->Subtitle->Validate();
 			}
-			catch(Exceptions\InvalidHtmlException $ex){
-				$error->Add(new Exceptions\InvalidBlogPostSubtitleHtmlException($ex->RawMessage));
+			catch(Exceptions\HtmlInvalidException $ex){
+				$error->Add(new Exceptions\BlogPostSubtitleHtmlInvalidException($ex->RawMessage));
 			}
 		}
 
@@ -171,7 +171,7 @@ class BlogPost{
 			$this->Body = null;
 
 			if(!file_exists(WEB_ROOT . '/blog-posts/' . $this->UrlTitle . '.php')){
-				$error->Add(new Exceptions\InvalidBlogPostFileException());
+				$error->Add(new Exceptions\BlogPostFileInvalidException());
 			}
 		}
 		else{
@@ -180,11 +180,11 @@ class BlogPost{
 
 				// Test the case where the fragment doesn't start with an element.
 				if(!preg_match('/^</ius', $this->Body)){
-					$error->Add(new Exceptions\InvalidHtmlException('Body must begin with an HTML element.'));
+					$error->Add(new Exceptions\HtmlInvalidException('Body must begin with an HTML element.'));
 				}
 			}
-			catch(Exceptions\InvalidHtmlException $ex){
-				$error->Add(new Exceptions\InvalidBlogPostBodyHtmlException($ex->RawMessage));
+			catch(Exceptions\HtmlInvalidException $ex){
+				$error->Add(new Exceptions\BlogPostBodyHtmlInvalidException($ex->RawMessage));
 			}
 
 			preg_match_all('/="((?:https:\/\/standardebooks.org)?\/ebooks\/[^\/"]+?\/[^"]+?)"/iu', $this->Body, $matches);
@@ -249,7 +249,7 @@ class BlogPost{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidBlogPostException
+	 * @throws Exceptions\BlogPostInvalidException
 	 * @throws Exceptions\BlogPostExistsException
 	 */
 	public function Create(?string $userIdentifier = null, ?string $ebookIdentifiers = null): void{
@@ -281,7 +281,7 @@ class BlogPost{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidBlogPostException
+	 * @throws Exceptions\BlogPostInvalidException
 	 * @throws Exceptions\BlogPostExistsException
 	 */
 	public function Save(?string $userIdentifier = null, ?string $ebookIdentifiers = null): void{

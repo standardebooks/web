@@ -13,7 +13,7 @@ class GitCommit{
 	// ***********
 
 	/**
-	 * @throws Exceptions\InvalidGitCommitException
+	 * @throws Exceptions\GitCommitInvalidException
 	 */
 	public static function FromLogLine(string $logLine): GitCommit{
 		$instance = new GitCommit();
@@ -23,7 +23,7 @@ class GitCommit{
 			$instance->Created = new DateTimeImmutable('@' . $unixTimestamp);
 		}
 		catch(\Exception){
-			throw new Exceptions\InvalidGitCommitException('Invalid timestamp for Git commit.');
+			throw new Exceptions\GitCommitInvalidException('Invalid timestamp for Git commit.');
 		}
 
 		$instance->Message = $message;
@@ -37,10 +37,10 @@ class GitCommit{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidGitCommitException
+	 * @throws Exceptions\GitCommitInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidGitCommitException();
+		$error = new Exceptions\GitCommitInvalidException();
 
 		if(!isset($this->EbookId)){
 			$error->Add(new Exceptions\GitCommitEbookIdRequiredException());
@@ -48,7 +48,7 @@ class GitCommit{
 
 		if(isset($this->Created)){
 			if($this->Created > NOW){
-				$error->Add(new Exceptions\InvalidGitCommitCreatedDatetimeException($this->Created));
+				$error->Add(new Exceptions\GitCommitCreatedDatetimeInvalidException($this->Created));
 			}
 		}
 		else{
@@ -83,7 +83,7 @@ class GitCommit{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidGitCommitException
+	 * @throws Exceptions\GitCommitInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();

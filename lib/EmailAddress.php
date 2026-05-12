@@ -11,11 +11,11 @@ class EmailAddress{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEmailAddressException If the email address is invalid.
+	 * @throws Exceptions\EmailAddressInvalidException If the email address is invalid.
 	 */
 	public function Validate(): void{
 		if(filter_var($this->_Value, FILTER_VALIDATE_EMAIL) === false){
-			throw new Exceptions\InvalidEmailAddressException();
+			throw new Exceptions\EmailAddressInvalidException();
 		}
 	}
 }

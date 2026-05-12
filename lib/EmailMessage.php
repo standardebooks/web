@@ -73,10 +73,10 @@ class EmailMessage{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEmailMessageException If the `EmailMessage` is invalid.
+	 * @throws Exceptions\EmailMessageInvalidException If the `EmailMessage` is invalid.
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidEmailMessageException();
+		$error = new Exceptions\EmailMessageInvalidException();
 
 		$this->ReplyTo ??= '';
 		if($this->ReplyTo == ''){
@@ -91,23 +91,23 @@ class EmailMessage{
 		try{
 			$this->To->Validate();
 		}
-		catch(Exceptions\InvalidEmailAddressException){
-			$error->Add(new Exceptions\InvalidEmailAddressException('Invalid To email address: ' . $this->To));
+		catch(Exceptions\EmailAddressInvalidException){
+			$error->Add(new Exceptions\EmailAddressInvalidException('Invalid To email address: ' . $this->To));
 		}
 
 		try{
 			$this->From->Validate();
 		}
-		catch(Exceptions\InvalidEmailAddressException){
-			$error->Add(new Exceptions\InvalidEmailAddressException('Invalid From email address: ' . $this->From));
+		catch(Exceptions\EmailAddressInvalidException){
+			$error->Add(new Exceptions\EmailAddressInvalidException('Invalid From email address: ' . $this->From));
 		}
 
 		if(isset($this->ReplyTo)){
 			try{
 				$this->ReplyTo->Validate();
 			}
-			catch(Exceptions\InvalidEmailAddressException){
-				$error->Add(new Exceptions\InvalidEmailAddressException('Invalid email address: ' . $this->ReplyTo));
+			catch(Exceptions\EmailAddressInvalidException){
+				$error->Add(new Exceptions\EmailAddressInvalidException('Invalid email address: ' . $this->ReplyTo));
 			}
 		}
 
@@ -158,7 +158,7 @@ class EmailMessage{
 				AwsSesApi::Send([$this]);
 			}
 		}
-		catch(Exceptions\InvalidEmailMessageException $ex){
+		catch(Exceptions\EmailMessageInvalidException $ex){
 			$log = new Log();
 			$log->Write('Failed validating email. Exception: ' . $ex . "\n" . 'Email: ' . vds($this));
 		}

@@ -91,7 +91,7 @@ foreach($projects as $project){
 					$project->Ebook->EbookPlaceholder->IsInProgress = false;
 					$project->Ebook->EbookPlaceholder->Save();
 				}
-				catch(Exceptions\InvalidEbookPlaceholderException){
+				catch(Exceptions\EbookPlaceholderInvalidException){
 					// Pass.
 				}
 			}

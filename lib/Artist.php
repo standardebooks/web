@@ -114,12 +114,12 @@ class Artist{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidArtistException
+	 * @throws Exceptions\ArtistInvalidException
 	 */
 	public function Validate(): void{
 		$thisYear = intval(NOW->format('Y'));
 
-		$error = new Exceptions\InvalidArtistException();
+		$error = new Exceptions\ArtistInvalidException();
 
 		$this->Name = trim($this->Name);
 
@@ -135,7 +135,7 @@ class Artist{
 		}
 
 		if($this->DeathYear !== null && ($this->DeathYear <= 0 || $this->DeathYear > $thisYear + 50)){
-			$error->Add(new Exceptions\InvalidDeathYearException());
+			$error->Add(new Exceptions\DeathYearInvalidException());
 		}
 
 		if($error->HasExceptions){
@@ -264,7 +264,7 @@ class Artist{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArtistException
+	 * @throws Exceptions\ArtistInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -278,7 +278,7 @@ class Artist{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidArtistException
+	 * @throws Exceptions\ArtistInvalidException
 	 */
 	public static function GetOrCreate(Artist $artist): Artist{
 		$result = Db::Query('

@@ -71,10 +71,10 @@ class Spreadsheet{
 	/**
 	 * Validate this spreadsheet before it is saved to the database.
 	 *
-	 * @throws Exceptions\InvalidSpreadsheetException If the spreadsheet fields are invalid.
+	 * @throws Exceptions\SpreadsheetInvalidException If the spreadsheet fields are invalid.
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidSpreadsheetException();
+		$error = new Exceptions\SpreadsheetInvalidException();
 
 		$this->Title = trim($this->Title ?? '');
 		if($this->Title == ''){
@@ -92,7 +92,7 @@ class Spreadsheet{
 			$error->Add(new Exceptions\StringTooLongException('URL'));
 		}
 		elseif(filter_var($this->ExternalUrl, FILTER_VALIDATE_URL) === false){
-			$error->Add(new Exceptions\InvalidSpreadsheetUrlException($this->ExternalUrl));
+			$error->Add(new Exceptions\SpreadsheetUrlInvalidException($this->ExternalUrl));
 		}
 
 		if(!isset($this->Category)){
@@ -119,7 +119,7 @@ class Spreadsheet{
 	/**
 	 * Create this `Spreadsheet` in the database.
 	 *
-	 * @throws Exceptions\InvalidSpreadsheetException If the `Spreadsheet` is invalid.
+	 * @throws Exceptions\SpreadsheetInvalidException If the `Spreadsheet` is invalid.
 	 * @throws Exceptions\SpreadsheetExistsException If another `Spreadsheet` already uses the same external URL.
 	 */
 	public function Create(): void{
@@ -154,7 +154,7 @@ class Spreadsheet{
 	/**
 	 * Save this `Spreadsheet` to the database.
 	 *
-	 * @throws Exceptions\InvalidSpreadsheetException If the `Spreadsheet` is invalid.
+	 * @throws Exceptions\SpreadsheetInvalidException If the `Spreadsheet` is invalid.
 	 * @throws Exceptions\SpreadsheetExistsException If another `Spreadsheet` already uses the same external URL.
 	 */
 	public function Save(): void{

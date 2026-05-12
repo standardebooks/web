@@ -239,10 +239,10 @@ final class User{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidUserException
+	 * @throws Exceptions\UserInvalidException
 	 */
 	public function Validate(bool $requireEmail): void{
-		$error = new Exceptions\InvalidUserException();
+		$error = new Exceptions\UserInvalidException();
 
 		$this->Email ??= '';
 
@@ -258,8 +258,8 @@ final class User{
 			try{
 				$this->Email->Validate();
 			}
-			catch(Exceptions\InvalidEmailAddressException){
-				$error->Add(new Exceptions\InvalidEmailAddressException('Email is invalid.'));
+			catch(Exceptions\EmailAddressInvalidException){
+				$error->Add(new Exceptions\EmailAddressInvalidException('Email is invalid.'));
 			}
 		}
 
@@ -268,7 +268,7 @@ final class User{
 		}
 		else{
 			if(!preg_match('/^[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}$/', $this->Uuid)){
-				$error->Add(new Exceptions\InvalidUuidException());
+				$error->Add(new Exceptions\UuidInvalidException());
 			}
 		}
 
@@ -296,7 +296,7 @@ final class User{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidUserException
+	 * @throws Exceptions\UserInvalidException
 	 * @throws Exceptions\UserExistsException
 	 */
 	public function Create(?string $password = null, bool $requireEmail = true): void{
@@ -337,7 +337,7 @@ final class User{
 	 * @param bool $deleteFromProjectUnassignedManagers **`TRUE`** to delete this `User` from the list of unassigned `Project` managers, for example if we've removed their manager benefits.
 	 * * @param bool $deleteFromProjectUnassignedReviewers **`TRUE`** to delete this `User` from the list of unassigned `Project` reviewers, for example if we've removed their reviewer benefits.
 	 *
-	 * @throws Exceptions\InvalidUserException
+	 * @throws Exceptions\UserInvalidException
 	 * @throws Exceptions\UserExistsException
 	 */
 	public function Save(bool $requireEmail = true, bool $deleteFromProjectUnassignedManagers = false, bool $deleteFromProjectUnassignedReviewers = false): void{

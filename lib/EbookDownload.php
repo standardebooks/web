@@ -79,10 +79,10 @@ class EbookDownload{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookDownloadException
+	 * @throws Exceptions\EbookDownloadInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidEbookDownloadException();
+		$error = new Exceptions\EbookDownloadInvalidException();
 
 		if(!isset($this->EbookId)){
 			$error->Add(new Exceptions\EbookDownloadEbookIdRequiredException());
@@ -104,7 +104,7 @@ class EbookDownload{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookDownloadException
+	 * @throws Exceptions\EbookDownloadInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();

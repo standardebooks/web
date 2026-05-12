@@ -10,7 +10,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanCreateNewsletterMailings && !Session::$User->Benefits->CanEditNewsletterMailings){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$isCreated = HttpInput::Bool(SESSION, 'is-newsletter-mailing-created') ?? false;
@@ -29,7 +29,7 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?>

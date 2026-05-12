@@ -172,10 +172,10 @@ class BulkDownloadCollection{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidBulkDownloadCollectionException
+	 * @throws Exceptions\BulkDownloadCollectionInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidBulkDownloadCollectionException();
+		$error = new Exceptions\BulkDownloadCollectionInvalidException();
 
 		$this->LabelName = trim($this->LabelName ?? '');
 		if($this->LabelName == ''){
@@ -188,11 +188,11 @@ class BulkDownloadCollection{
 		}
 
 		if($this->EbookCount <= 0){
-			$error->Add(new Exceptions\InvalidBulkDownloadCollectionEbookCountException('Invalid BulkDownloadCollection EbookCount: ' . $this->EbookCount));
+			$error->Add(new Exceptions\BulkDownloadCollectionEbookCountInvalidException('Invalid BulkDownloadCollection EbookCount: ' . $this->EbookCount));
 		}
 
 		if(!isset($this->Updated) || $this->Updated > NOW){
-			$error->Add(new Exceptions\InvalidBulkDownloadCollectionUpdatedDatetimeException($this->Updated));
+			$error->Add(new Exceptions\BulkDownloadCollectionUpdatedDatetimeInvalidException($this->Updated));
 		}
 
 		if($error->HasExceptions){
@@ -201,8 +201,8 @@ class BulkDownloadCollection{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidBulkDownloadCollectionException
-	 * @throws Exceptions\InvalidBulkDownloadZipFileException
+	 * @throws Exceptions\BulkDownloadCollectionInvalidException
+	 * @throws Exceptions\BulkDownloadZipFileInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();

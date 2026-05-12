@@ -22,7 +22,7 @@ try{
 		||
 		$ebook->EbookPlaceholder === null
 	){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$_SESSION['ebook-title'] = $ebook->Title;
@@ -41,6 +41,6 @@ catch(Exceptions\EbookNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }

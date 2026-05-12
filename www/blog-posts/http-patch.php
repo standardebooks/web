@@ -18,7 +18,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditBlogPosts){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$userIdentifier = HttpInput::Str(POST, 'blog-post-user-identifier');
@@ -38,10 +38,10 @@ catch(Exceptions\BlogPostNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidBlogPostException | Exceptions\BlogPostExistsException $ex){
+catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException $ex){
 	$_SESSION['blog-post'] = $blogPost;
 	$_SESSION['exception'] = $ex;
 	$_SESSION['blog-post-user-identifier'] = $userIdentifier;

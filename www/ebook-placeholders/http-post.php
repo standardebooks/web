@@ -16,7 +16,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditEbookPlaceholders){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$ebook = new Ebook();
@@ -61,10 +61,10 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidEbookException | Exceptions\EbookPlaceholderExistsException | Exceptions\InvalidProjectException $ex){
+catch(Exceptions\EbookInvalidException | Exceptions\EbookPlaceholderExistsException | Exceptions\ProjectInvalidException $ex){
 	$_SESSION['ebook'] = $ebook;
 	$_SESSION['exception'] = $ex;
 

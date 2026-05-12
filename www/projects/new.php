@@ -28,7 +28,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditProjects){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	if($exception){
@@ -51,7 +51,7 @@ catch(Exceptions\EbookNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(

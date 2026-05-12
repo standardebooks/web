@@ -14,7 +14,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditEbookPlaceholders){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$isCreated = HttpInput::Bool(SESSION, 'is-ebook-placeholder-created') ?? false;
@@ -71,7 +71,7 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to create an ebook placeholder.
 }
 ?>

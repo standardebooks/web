@@ -13,7 +13,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanCreateUsers){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$passwordAction = Enums\PasswordActionType::tryFrom(HttpInput::Str(POST, 'password-action') ?? '') ?? Enums\PasswordActionType::None;
@@ -34,10 +34,10 @@ try{
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidUserException | Exceptions\UserExistsException $ex){
+catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 	if(isset($generateNewUuid) && $generateNewUuid){
 		if(isset($oldUuid)){
 			$user->Uuid = $oldUuid;
@@ -47,7 +47,7 @@ catch(Exceptions\InvalidUserException | Exceptions\UserExistsException $ex){
 
 	$_SESSION['password-action'] = $passwordAction;
 
-	if($ex instanceof Exceptions\InvalidUserException && $ex->Has(Exceptions\BenefitsRequirePasswordException::class) && isset($oldPasswordHash)){
+	if($ex instanceof Exceptions\UserInvalidException && $ex->Has(Exceptions\BenefitsRequirePasswordException::class) && isset($oldPasswordHash)){
 		$user->PasswordHash = $oldPasswordHash;
 	}
 

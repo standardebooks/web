@@ -17,7 +17,7 @@ try{
 	$path = WEB_ROOT . $path;
 
 	if(!is_file($path) || !preg_match('/^' . preg_quote(WEB_ROOT . '/bulk-downloads/', '/') . '.+\.zip$/iu', $path)){
-		throw new Exceptions\InvalidFileException();
+		throw new Exceptions\FileInvalidException();
 	}
 
 	if(Session::$User === null){
@@ -25,7 +25,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanBulkDownload){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	// Everything OK, serve the file using Apache.
@@ -36,7 +36,7 @@ try{
 	header('content-disposition: attachment; filename="' . basename($path) . '"');
 	exit();
 }
-catch(Exceptions\InvalidFileException){
+catch(Exceptions\FileInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\LoginRequiredException){
@@ -56,7 +56,7 @@ catch(Exceptions\LoginRequiredException){
 		}
 	}
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	// Output an HTTP code and show the explanation on this page.
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }

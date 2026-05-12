@@ -68,10 +68,10 @@ class Contributor{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidContributorException
+	 * @throws Exceptions\ContributorInvalidException
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidContributorException();
+		$error = new Exceptions\ContributorInvalidException();
 
 		if(!isset($this->EbookId)){
 			$error->Add(new Exceptions\ContributorEbookIdRequiredException());
@@ -114,7 +114,7 @@ class Contributor{
 
 		if(isset($this->WikipediaUrl)){
 			if(!preg_match('|^https://.*wiki.*|ius', $this->WikipediaUrl)){
-				$error->Add(new Exceptions\InvalidContributorWikipediaUrlException('Invalid Contributor WikipediaUrl: ' . $this->WikipediaUrl));
+				$error->Add(new Exceptions\ContributorWikipediaUrlInvalidException('Invalid Contributor WikipediaUrl: ' . $this->WikipediaUrl));
 			}
 
 			if(strlen($this->WikipediaUrl) > EBOOKS_MAX_STRING_LENGTH){
@@ -129,7 +129,7 @@ class Contributor{
 
 		if(isset($this->NacoafUrl)){
 			if(!preg_match('|^https?://id\.loc\.gov/.*|ius', $this->NacoafUrl)){
-				$error->Add(new Exceptions\InvalidContributorNacoafUrlException('Invalid Contributor NacoafUrl: ' . $this->NacoafUrl));
+				$error->Add(new Exceptions\ContributorNacoafUrlInvalidException('Invalid Contributor NacoafUrl: ' . $this->NacoafUrl));
 			}
 
 			if(strlen($this->NacoafUrl) > EBOOKS_MAX_STRING_LENGTH){
@@ -147,7 +147,7 @@ class Contributor{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidContributorException
+	 * @throws Exceptions\ContributorInvalidException
 	 */
 	public function Create(bool $copyFromExistingName): void{
 		if($copyFromExistingName){

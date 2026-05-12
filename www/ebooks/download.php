@@ -32,19 +32,19 @@ try{
 	$ebook = Ebook::GetByIdentifier($identifier);
 
 	if($ebook->IsPlaceholder()){
-		throw new Exceptions\InvalidFileException();
+		throw new Exceptions\FileInvalidException();
 	}
 
 	$filename = HttpInput::Str(GET, 'filename');
 	if(!isset($filename)){
-		throw new Exceptions\InvalidFileException();
+		throw new Exceptions\FileInvalidException();
 	}
 
 	try{
 		$format = Enums\EbookFormatType::FromFilename($filename);
 	}
-	catch(Exceptions\InvalidEbookFormatException){
-		throw new Exceptions\InvalidFileException();
+	catch(Exceptions\EbookFormatInvalidException){
+		throw new Exceptions\FileInvalidException();
 	}
 
 	/** @var string|null $ipAddress */
@@ -82,13 +82,13 @@ try{
 		$downloadPath = WEB_ROOT . $downloadUrl;
 
 		if(!is_file($downloadPath)){
-			throw new Exceptions\InvalidFileException();
+			throw new Exceptions\FileInvalidException();
 		}
 
 		try{
 			$ebook->AddDownload($ipAddress, $userAgent, $source);
 		}
-		catch(Exceptions\InvalidEbookDownloadException){
+		catch(Exceptions\EbookDownloadInvalidException){
 			// Pass. Allow the download to continue even if it isn't recorded.
 		}
 
@@ -107,7 +107,7 @@ try{
 	$downloadCount++;
 	setcookie('download-count', (string)$downloadCount, ['expires' => intval((new DateTimeImmutable('+2 week'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => false, 'samesite' => 'Lax']);
 }
-catch(Exceptions\InvalidFileException | Exceptions\EbookNotFoundException){
+catch(Exceptions\FileInvalidException | Exceptions\EbookNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?><?= Template::Header(title: 'Your Download Has Started!', downloadUrl: $downloadUrl) ?>

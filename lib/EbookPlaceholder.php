@@ -85,14 +85,14 @@ class EbookPlaceholder{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookPlaceholderException
+	 * @throws Exceptions\EbookPlaceholderInvalidException
 	 */
 	public function Validate(): void{
 		$thisYear = intval(NOW->format('Y'));
-		$error = new Exceptions\InvalidEbookPlaceholderException();
+		$error = new Exceptions\EbookPlaceholderInvalidException();
 
 		if(isset($this->YearPublished) && ($this->YearPublished <= 0 || $this->YearPublished > $thisYear)){
-			$error->Add(new Exceptions\InvalidEbookPlaceholderYearPublishedException());
+			$error->Add(new Exceptions\EbookPlaceholderYearPublishedInvalidException());
 		}
 
 		$this->TranscriptionUrl = trim($this->TranscriptionUrl ?? '');
@@ -110,7 +110,7 @@ class EbookPlaceholder{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookPlaceholderException
+	 * @throws Exceptions\EbookPlaceholderInvalidException
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -129,7 +129,7 @@ class EbookPlaceholder{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidEbookPlaceholderException
+	 * @throws Exceptions\EbookPlaceholderInvalidException
 	 */
 	public function Save(): void{
 		$this->Validate();

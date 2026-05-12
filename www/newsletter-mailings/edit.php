@@ -23,7 +23,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditNewsletterMailings){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	if($exception){
@@ -38,7 +38,7 @@ catch(Exceptions\NewsletterMailingNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?>

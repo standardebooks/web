@@ -21,7 +21,7 @@ try{
 		||
 		(Session::$User !== null && $artwork->Status != Enums\ArtworkStatusType::Approved && $artwork->SubmitterUserId != Session::$User->UserId && !$isReviewerView)
 	){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$isSaved = HttpInput::Bool(SESSION, 'is-artwork-saved') ?? false;
@@ -48,7 +48,7 @@ try{
 catch(Exceptions\ArtworkNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 

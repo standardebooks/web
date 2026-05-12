@@ -13,7 +13,7 @@ try{
 	}
 
 	if(!Session::$User->Benefits->CanEditProjects){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$project = new Project();
@@ -74,10 +74,10 @@ catch(Exceptions\EbookNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidProjectException | Exceptions\InvalidEbookException | Exceptions\ProjectExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
+catch(Exceptions\ProjectInvalidException | Exceptions\EbookInvalidException | Exceptions\ProjectExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
 	$_SESSION['project'] = $project;
 	$_SESSION['exception'] = $ex;
 

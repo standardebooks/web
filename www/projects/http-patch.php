@@ -35,7 +35,7 @@ try{
 			Session::$User->Benefits->CanEditProjects
 		)
 	){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	if(!Session::$User->Benefits->CanEditProjects && $projectStatus !== null){
@@ -57,10 +57,10 @@ catch(Exceptions\ProjectNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\InvalidProjectException $ex){
+catch(Exceptions\ProjectInvalidException $ex){
 	$_SESSION['project'] = $project;
 	$_SESSION['exception'] = $ex;
 

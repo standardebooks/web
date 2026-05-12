@@ -16,7 +16,7 @@ try{
 	}
 
 	if(!$artwork->CanBeEditedBy(Session::$User)){
-		throw new Exceptions\InvalidPermissionsException();
+		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$exception = HttpInput::SessionObject('exception', Exceptions\AppException::class);
@@ -28,7 +28,7 @@ try{
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.
-		if($exception instanceof Exceptions\ValidationException && $exception->Has(Exceptions\InvalidRequestException::class)){
+		if($exception instanceof Exceptions\ValidationException && $exception->Has(Exceptions\RequestInvalidException::class)){
 			http_response_code(Enums\HttpCode::ContentTooLarge->value);
 		}
 		else{
@@ -44,7 +44,7 @@ catch(Exceptions\ArtworkNotFoundException){
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
 }
-catch(Exceptions\InvalidPermissionsException){
+catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden); // No permissions to edit artwork.
 }
 ?>

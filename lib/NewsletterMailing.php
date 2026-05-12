@@ -148,8 +148,8 @@ class NewsletterMailing{
 	/**
 	 * On sending, in `$BodyHtml` the string `SE_UNSUBSCRIBE_URL` is replaced by `self::$UnsubscribeUrl`, and the string `SE_FIRST_NAME` is replaced by the recipient's first name, or removed if there is no first name.
 	 *
-	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
-	 * @throws Exceptions\InvalidEmailAddressException If any of the recipient email addresses is invalid.
+	 * @throws Exceptions\NewsletterMailingInvalidException If the `NewsletterMailing` is invalid.
+	 * @throws Exceptions\EmailAddressInvalidException If any of the recipient email addresses is invalid.
 	 * @throws \Exception If an error occurs during mailing.
 	 */
 	public function Send(): void{
@@ -350,10 +350,10 @@ class NewsletterMailing{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
+	 * @throws Exceptions\NewsletterMailingInvalidException If the `NewsletterMailing` is invalid.
 	 */
 	public function Save(bool $addFooter, bool $addEbooks): void{
-		$error = new Exceptions\InvalidNewsletterMailingException();
+		$error = new Exceptions\NewsletterMailingInvalidException();
 
 		try{
 			$this->NormalizeBody($addFooter, $addEbooks);
@@ -365,7 +365,7 @@ class NewsletterMailing{
 		try{
 			$this->Validate();
 		}
-		catch(Exceptions\InvalidNewsletterMailingException $ex){
+		catch(Exceptions\NewsletterMailingInvalidException $ex){
 			$error->Add($ex);
 		}
 
@@ -377,10 +377,10 @@ class NewsletterMailing{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
+	 * @throws Exceptions\NewsletterMailingInvalidException If the `NewsletterMailing` is invalid.
 	 */
 	public function Create(bool $addFooter, bool $addEbooks): void{
-		$error = new Exceptions\InvalidNewsletterMailingException();
+		$error = new Exceptions\NewsletterMailingInvalidException();
 
 		try{
 			$this->NormalizeBody($addFooter, $addEbooks);
@@ -392,7 +392,7 @@ class NewsletterMailing{
 		try{
 			$this->Validate();
 		}
-		catch(Exceptions\InvalidNewsletterMailingException $ex){
+		catch(Exceptions\NewsletterMailingInvalidException $ex){
 			$error->Add($ex);
 		}
 
@@ -402,7 +402,7 @@ class NewsletterMailing{
 
 		// Only check this when creating.
 		if($this->SendOn < NOW){
-			$error->Add(new Exceptions\InvalidNewsletterSendOnException());
+			$error->Add(new Exceptions\NewsletterSendOnInvalidException());
 		}
 
 		if($error->HasExceptions){
@@ -413,10 +413,10 @@ class NewsletterMailing{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidNewsletterMailingException If the `NewsletterMailing` is invalid.
+	 * @throws Exceptions\NewsletterMailingInvalidException If the `NewsletterMailing` is invalid.
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidNewsletterMailingException();
+		$error = new Exceptions\NewsletterMailingInvalidException();
 
 		$this->BodyHtml = str_replace('\'', '’', $this->BodyHtml);
 		$this->BodyText = trim(str_replace('\'', '’', $this->BodyText));
@@ -444,8 +444,8 @@ class NewsletterMailing{
 		try{
 			$this->BodyHtml->Validate();
 		}
-		catch(Exceptions\InvalidHtmlException $ex){
-			$error->Add(new Exceptions\InvalidNewsletterMailingBodyHtmlException($ex->getMessage()));
+		catch(Exceptions\HtmlInvalidException $ex){
+			$error->Add(new Exceptions\NewsletterMailingBodyHtmlInvalidException($ex->getMessage()));
 		}
 
 		if($this->Subject == ''){
@@ -488,8 +488,8 @@ class NewsletterMailing{
 			try{
 				$this->FromEmail->Validate();
 			}
-			catch(Exceptions\InvalidEmailAddressException){
-				$error->Add(new Exceptions\InvalidEmailAddressException('Invalid email: ' . $this->FromEmail));
+			catch(Exceptions\EmailAddressInvalidException){
+				$error->Add(new Exceptions\EmailAddressInvalidException('Invalid email: ' . $this->FromEmail));
 			}
 		}
 
