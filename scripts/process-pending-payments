@@ -219,6 +219,11 @@ try{
 					break;
 				}
 
+				// Before we create a Patron, abort of this donor is Fractured Atlas itself, which can happen with matching grant campaigns.
+				if($payment->User?->Name == 'Fractured Atlas'){
+					break;
+				}
+
 				// Does this payment create a new Patron in the Patrons Circle?
 				// If the user is *already* a Patron, then we just create the payment without further processing.
 				if(
