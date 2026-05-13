@@ -175,6 +175,27 @@ class Collection{
 	}
 
 	/**
+	 * Saves this `Collection` to the database.
+	 *
+	 * @throws Exceptions\CollectionInvalidException
+	 */
+	public function Save(): void{
+		$this->Validate();
+
+		Db::Query('
+			UPDATE Collections
+			set
+				Name = ?,
+				UrlName = ?,
+				Type = ?
+			where
+				CollectionId = ?
+		', [$this->Name, $this->UrlName, $this->Type, $this->CollectionId]);
+	}
+
+	/**
+	 * Gets the existing `Collection` matching the given URL name, or creates a new `Collection` if one does not exist.
+	 *
 	 * @throws Exceptions\CollectionInvalidException
 	 */
 	public function GetByUrlNameOrCreate(string $urlName): Collection{

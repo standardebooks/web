@@ -1571,6 +1571,10 @@ final class Ebook{
 			$collection = $collectionMembership->Collection;
 			// The updated collection has the CollectionId set for newly-created Collection objects.
 			$updatedCollection = $collection->GetByUrlNameOrCreate($collection->UrlName);
+			if($collection->Type !== null && $updatedCollection->Type != $collection->Type){
+				$updatedCollection->Type = $collection->Type;
+				$updatedCollection->Save();
+			}
 			$collectionMembership->Collection = $updatedCollection;
 			$collectionMemberships[] = $collectionMembership;
 		}
