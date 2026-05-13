@@ -2640,6 +2640,50 @@ final class Ebook{
 	}
 
 	/**
+	 * @param ?int $page The page number to retrieve, or `null` to retrieve all `EbookPlaceholder`s.
+	 * @param ?int $perPage The number of `EbookPlaceholder` to retrieve per page, or `null` to retrieve all `EbookPlaceholder`s.
+	 *
+	 * @return array{'ebookPlaceholders': array<int, Ebook>, 'count': int}
+	 */
+	public static function GetAllPlaceholders(?int $page = null, ?int $perPage = null): array{
+		if($page === null && $perPage === null){
+			$ebookPlaceholders = Db::Query('
+					SELECT Ebooks.*
+					from Ebooks inner join EbookPlaceholders using (EbookId)
+					order by Ebooks.Created desc
+				', [], Ebook::class);
+
+			$count = sizeof($ebookPlaceholders);
+		}
+		else{
+			if($page === null){
+				$page = 1;
+			}
+
+			if($perPage === null){
+				$perPage = 50;
+			}
+
+			$offset = (($page - 1) * $perPage);
+
+			$ebookPlaceholders = Db::Query('
+					SELECT Ebooks.*
+					from Ebooks inner join EbookPlaceholders using (EbookId)
+					order by Ebooks.Created desc
+					limit ?
+					offset ?
+				', [$perPage, $offset], Ebook::class);
+
+			$count = Db::QueryInt('
+					SELECT count(*)
+					from Ebooks inner join EbookPlaceholders using (EbookId)
+				');
+		}
+
+		return ['ebookPlaceholders' => $ebookPlaceholders, 'count' => $count];
+	}
+
+	/**
 	 * Queries for `Ebook`s on the wanted list for a given `EbookPlaceholderDifficulty`.
 	 *
 	 * @return array<Ebook>

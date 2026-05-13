@@ -103,6 +103,14 @@ article.ebook.ebook-placeholder .placeholder-details ul{
 	list-style: disc;
 }
 
+.ebook-placeholders{
+	list-style: disc;
+}
+
+.ebook-placeholders + .pagination{
+	margin-top: 4rem;
+}
+
 @media(max-width: 750px){
 	.create-update-ebook-placeholder{
 		grid-template-columns: 1fr;

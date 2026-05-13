@@ -182,7 +182,7 @@ figure{
 	margin: 0;
 }
 
-table {
+table{
 	border-collapse: collapse;
 	border-spacing: 0;
 }
@@ -1617,7 +1617,7 @@ ol.ebooks-list.list > li{
 	grid-template-rows: auto auto 1fr;
 }
 
-ol.ebooks-list.list > li + li {
+ol.ebooks-list.list > li + li{
 	margin-top: 2rem;
 }
 
@@ -3563,7 +3563,7 @@ ol.ebooks-list > li.ribbon .placeholder-cover::after{ /* Ribbon bottom wrap-arou
 	left: calc(-.5rem - 2px); /* Subtract 2px from the rules above to account for the placeholder's border. */
 }
 
-ol.ebooks-list > li.ribbon a:has(.placeholder-cover)::after { /* Ribbon shadow */
+ol.ebooks-list > li.ribbon a:has(.placeholder-cover)::after{ /* Ribbon shadow */
 	left: calc(-.5rem + 2px); /* Subtract 2px from the rule above (-.5rem + 4px) to account for the placeholder's border. */
 }
 
@@ -4251,7 +4251,7 @@ ul[role="menu"] li + li::before{
 	}
 
 	main nav.pagination > a::before,
-	main nav.pagination > a::after {
+	main nav.pagination > a::after{
 		font-size: 1rem;
 		margin: 0 !important;
 	}
