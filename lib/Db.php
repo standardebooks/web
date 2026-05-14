@@ -4,7 +4,7 @@ use function Safe\preg_match;
 use function Safe\posix_getpwuid;
 
 class Db{
-	protected static \PDO $Link; // This is `protected` because we may want to subclass this class to connect to another instance of a database, like Sphinx.
+	protected static \PDO $Link; // This is `protected` because we may want to subclass this class to connect to another instance of a database, e.g. a specialized search database.
 	public static int $QueryCount = 0;
 	public static int $LastQueryAffectedRowCount = 0;
 
@@ -94,6 +94,8 @@ class Db{
 	 * @param ?string $user The user to connect to, or `null` to log in as the current Unix user via a local socket.
 	 * @param string $password The password to use, or an empty string if no password is required.
 	 * @param bool $forceUtf8 If **TRUE**, issue `set names utf8mb4 collate utf8mb4_unicode_ci` when starting the connection.
+	 *
+	 * @throws \PDOException If the connection failed.
 	 */
 	public static function Connect(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string $password = '', bool $forceUtf8 = true): void{
 		if(isset(static::$Link)){
@@ -172,7 +174,18 @@ class Db{
 					$deadlockRetries++;
 					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up. Start at .5 seconds.
 				}
-				elseif(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1062){
+				elseif(
+					(
+						isset($ex->errorInfo[1])
+						&&
+						(
+							$ex->errorInfo[1] == 1062 // Duplicate key.
+						)
+					)
+					||
+					// Some search database engines return this error instead of 1062 on a duplicate key insertion.
+					preg_match('/^SQLSTATE\[42000\]: Syntax error or access violation: 1064 duplicate id/', $ex->getMessage())
+				){
 					// Duplicate key, bubble this up without logging it so the business logic can handle it.
 					throw new Exceptions\DuplicateDatabaseKeyException(str_replace('SQLSTATE[23000]: Integrity constraint violation: 1062 ', '', $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params)));
 				}
