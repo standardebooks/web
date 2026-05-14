@@ -47,7 +47,7 @@
 		<h2 id="elision">Elision</h2>
 		<ol>
 			<li>
-				<p>Semicolons were occasionally used for elision in names; these should be replaced with the S.E. standard two-em dash for partial elision, three-em dash for full elision.</p>
+				<p>Ellipsis were occasionally used for elision in names; these should be replaced with the S.E. standard two-em dash for partial elision, three-em dash for full elision.</p>
 				<p>The ellipsis in the Bishop's name is incorrect for an S.E. production.</p>
 				<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>When I turned myself over to a Letter from a Beneficed Clergyman in the Country to the Bishop of C…r, I was becoming languid…<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 				<p>It should be changed to our standard two-em dash in an editorial commit.</p>
