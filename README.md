@@ -5,8 +5,15 @@ PHP 8+ is required.
 ## Installing on Ubuntu 22.04
 
 ```shell
+# Set up the Manticore APT list.
+# As of Ubuntu 26.04, Manticore is still not included as a system package.
+wget https://repo.manticoresearch.com/manticore-repo.noarch.deb
+sudo dpkg -i manticore-repo.noarch.deb
+rm manticore-repo.noarch.deb
+
 # Install Apache, PHP, PHP-FPM, and various other dependencies.
-sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip php-mysql apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server attr libapache2-mod-xsendfile libimage-exiftool-perl librsvg2-bin task-spooler attr php-mailparse
+sudo apt update
+sudo apt install -y git composer php-fpm php-cli php-gd php-xml php-apcu php-mbstring php-intl php-curl php-zip php-mysql apache2 apache2-utils libfcgi0ldbl task-spooler ipv6calc mariadb-server attr libapache2-mod-xsendfile libimage-exiftool-perl librsvg2-bin task-spooler attr php-mailparse manticore
 
 # Create the site root and logs root and clone this repo into it.
 sudo mkdir /standardebooks.org/
@@ -62,6 +69,15 @@ sudo groupadd committers
 sudo groupadd se-secrets
 sudo usermod --append --groups committers,se-secrets se
 sudo usermod --append --groups se-secrets www-data
+
+# Start the Manticore daemon.
+sudo systemctl start manticore
+
+# Make Manticore start on boot.
+sudo systemctl enable manticore
+
+# Load Manticore tables.
+mariadb -P9306 < /standardebooks.org/web/config/manticore/*.sql
 ```
 
 If everything went well you should now be able to open your web browser and visit `https://standardebooks.test`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:

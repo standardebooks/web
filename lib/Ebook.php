@@ -38,11 +38,11 @@ use function Safe\shell_exec;
  * @property ?string $CoverImage2xAvifUrl
  * @property string $ReadingEaseDescription
  * @property string $ReadingTime
- * @property string $AuthorsHtml
+ * @property-read HtmlFragment $AuthorsHtml
  * @property string $AuthorsUrl This is a single URL even if there are multiple authors; for example, `/ebooks/karl-marx_friedrich-engels/`.
  * @property string $AuthorsString
- * @property string $ContributorsHtml
- * @property string $TitleWithCreditsHtml
+ * @property-read HtmlFragment $ContributorsHtml
+ * @property-read HtmlFragment $TitleWithCreditsHtml
  * @property string $TextUrl
  * @property string $TextSinglePageUrl
  * @property string $TextSinglePageSizeFormatted
@@ -130,11 +130,11 @@ final class Ebook{
 	protected ?string $_CoverImage2xAvifUrl;
 	protected string $_ReadingEaseDescription;
 	protected string $_ReadingTime;
-	protected string $_AuthorsHtml;
+	protected HtmlFragment $_AuthorsHtml;
 	protected string $_AuthorsUrl;
 	protected string $_AuthorsString;
-	protected string $_ContributorsHtml;
-	protected string $_TitleWithCreditsHtml;
+	protected HtmlFragment $_ContributorsHtml;
+	protected HtmlFragment $_TitleWithCreditsHtml;
 	protected string $_TextUrl;
 	protected string $_TextSinglePageUrl;
 	protected string $_TextSinglePageSizeFormatted;
@@ -573,8 +573,8 @@ final class Ebook{
 		return $this->_ReadingTime;
 	}
 
-	protected function GetAuthorsHtml(): string{
-		return $this->_AuthorsHtml ??= Contributor::GenerateContributorsString($this->Authors, true, true);
+	protected function GetAuthorsHtml(): HtmlFragment{
+		return $this->_AuthorsHtml ??= new HtmlFragment(Contributor::GenerateContributorsString($this->Authors, true, true));
 	}
 
 	protected function GetAuthorsUrl(): string{
@@ -585,38 +585,40 @@ final class Ebook{
 		return $this->_AuthorsString ??= Contributor::GenerateContributorsString($this->Authors, false, false);
 	}
 
-	protected function GetContributorsHtml(): string{
+	protected function GetContributorsHtml(): HtmlFragment{
 		if(!isset($this->_ContributorsHtml)){
-			$this->_ContributorsHtml = '';
+			$html = '';
 			if(sizeof($this->Contributors) > 0){
-				$this->_ContributorsHtml .= ' with ' . Contributor::GenerateContributorsString($this->Contributors, true, false) . ';';
+				$html .= ' with ' . Contributor::GenerateContributorsString($this->Contributors, true, false) . ';';
 			}
 
 			if(sizeof($this->Editors) > 0){
-				$this->_ContributorsHtml .= ' edited by ' . Contributor::GenerateContributorsString($this->Editors, true, false) . ';';
+				$html .= ' edited by ' . Contributor::GenerateContributorsString($this->Editors, true, false) . ';';
 			}
 
 			if(sizeof($this->Translators) > 0){
-				$this->_ContributorsHtml .= ' translated by ' . Contributor::GenerateContributorsString($this->Translators, true, false) . ';';
+				$html .= ' translated by ' . Contributor::GenerateContributorsString($this->Translators, true, false) . ';';
 			}
 
 			if(sizeof($this->Illustrators) > 0){
-				$this->_ContributorsHtml .= ' illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false) . ';';
+				$html .= ' illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false) . ';';
 			}
 
-			if(!empty($this->_ContributorsHtml)){
-				$this->_ContributorsHtml = ucfirst(rtrim(trim($this->_ContributorsHtml), ';'));
+			if(!empty($html)){
+				$html = ucfirst(rtrim(trim($html), ';'));
 
-				if(substr(strip_tags($this->_ContributorsHtml), -1) != '.'){
-					$this->_ContributorsHtml .= '.';
+				if(substr(strip_tags($html), -1) != '.'){
+					$html .= '.';
 				}
 			}
+
+			$this->_ContributorsHtml = new HtmlFragment($html);
 		}
 
 		return $this->_ContributorsHtml;
 	}
 
-	protected function GetTitleWithCreditsHtml(): string{
+	protected function GetTitleWithCreditsHtml(): HtmlFragment{
 		if(!isset($this->_TitleWithCreditsHtml)){
 			$titleContributors = '';
 			if(sizeof($this->Contributors) > 0){
@@ -631,7 +633,7 @@ final class Ebook{
 				$titleContributors .= '. Illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false);
 			}
 
-			$this->_TitleWithCreditsHtml = Formatter::EscapeHtml($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors);
+			$this->_TitleWithCreditsHtml = new HtmlFragment(Formatter::EscapeHtml($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors));
 		}
 
 		return $this->_TitleWithCreditsHtml;

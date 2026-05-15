@@ -820,6 +820,8 @@ final class Artwork{
 		if($imagePath !== null){
 			$this->WriteImageAndThumbnails($imagePath);
 		}
+
+		$this->UpdateSearchRepresentation();
 	}
 
 	/**
@@ -920,6 +922,8 @@ final class Artwork{
 		if($imagePath !== null){
 			$this->WriteImageAndThumbnails($imagePath);
 		}
+
+		$this->UpdateSearchRepresentation();
 	}
 
 	public function Delete(): void{
@@ -955,6 +959,8 @@ final class Artwork{
 		catch(\Safe\Exceptions\FilesystemException){
 			// Pass.
 		}
+
+		$this->DeleteSearchRepresentation();
 	}
 
 
@@ -1107,24 +1113,20 @@ final class Artwork{
 			$orderBy = 'art.CompletedYear desc';
 		}
 
-		// Remove diacritics and non-alphanumeric characters.
-		if($query !== null && $query != ''){
-			$query = Formatter::RemoveDiacritics($query);
+		$query = trim($query ?? '');
 
-			// Remove apostrophes outright, don't replace with a space.
-			$query = preg_replace('/[\'’]/u', '', $query);
-
-			// Replace all other non-alphanumeric characters with a space.
-			$query = trim(preg_replace('|[^a-zA-Z0-9 ]|ius', ' ', $query));
+		if(mb_strlen($query) > DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH){
+			$query = mb_substr($query, 0, DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH);
 		}
-		else{
-			$query = '';
+
+		if($query == ''){
+			$query = null;
 		}
 
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
 
-		if($query == ''){
+		if($query === null){
 			$artworksCount = Db::QueryInt('
 				SELECT count(*)
 				from Artworks art
@@ -1143,45 +1145,26 @@ final class Artwork{
 				offset ?', $params, Artwork::class);
 		}
 		else{
-			// Split the query on word boundaries followed by spaces. This keeps words with apostrophes intact.
-			$tokenArray = preg_split('/\b\s+/', $query, -1, PREG_SPLIT_NO_EMPTY);
+			$result = SearchDb::QueryMatch('SELECT id from artworks where match(?)', [$query], 0);
 
-			// Join the tokens with `|` to search on any token, but add word boundaries to force the full token to match.
-			$tokenizedQuery = '\b(' . implode('|', $tokenArray) . ')\b';
+			if(sizeof($result) == 0){
+				return ['artworks' => [], 'artworksCount' => 0];
+			}
 
-			$params[] = $tokenizedQuery; // art.Name
-			$params[] = $tokenizedQuery; // art.UrlName
-			$params[] = $tokenizedQuery; // a.Name
-			$params[] = $tokenizedQuery; // a.UrlName
-			$params[] = $tokenizedQuery; // aan.Name
-			$params[] = $tokenizedQuery; // e.Title
-			$params[] = $tokenizedQuery; // e.IndexableAuthors
-			$params[] = $tokenizedQuery; // t.Name
+			$ids = '(';
+
+			foreach($result as $row){
+				$ids .= $row->id . ',';
+			}
+
+			$ids = rtrim($ids, ',') . ')';
+
+			$whereCondition .= ' and art.ArtworkId in ' . $ids;
 
 			$artworksCount = Db::QueryInt('
-				SELECT
-				    count(*)
-				from
-				    (SELECT distinct
-				        ArtworkId
-				    from
-				        Artworks art
-				    inner join Artists a using (ArtistId)
-				    left join ArtistAlternateNames aan using (ArtistId)
-				    left join ArtworkTags at using (ArtworkId)
-				    left join Ebooks e using (EbookId)
-				    left join Tags t using (TagId)
-				    where
-				        ' . $whereCondition . '
-				            and (art.Name regexp ?
-				            or art.UrlName regexp ?
-				            or a.Name regexp ?
-				            or a.UrlName regexp ?
-				            or aan.Name regexp ?
-				            or e.Title regexp ?
-				            or e.IndexableAuthors regexp ?
-				            or t.Name regexp ?)
-				    group by art.ArtworkId) x', $params);
+				SELECT count(*)
+				from Artworks art
+				where ' . $whereCondition, $params);
 
 			$params[] = $limit;
 			$params[] = $offset;
@@ -1189,27 +1172,58 @@ final class Artwork{
 			$artworks = Db::Query('
 				SELECT art.*
 				from Artworks art
-				  inner join Artists a using (ArtistId)
-				  left join ArtistAlternateNames aan using (ArtistId)
-				  left join ArtworkTags at using (ArtworkId)
-				  left join Ebooks e using (EbookId)
-				  left join Tags t using (TagId)
+				inner join Artists a using (ArtistId)
 				where ' . $whereCondition . '
-				  and (art.Name regexp ?
-				  or art.UrlName regexp ?
-				  or a.Name regexp ?
-				  or a.UrlName regexp ?
-				  or aan.Name regexp ?
-				  or e.Title regexp ?
-				  or e.IndexableAuthors regexp ?
-				  or t.Name regexp ?)
-				group by art.ArtworkId
 				order by ' . $orderBy . '
 				limit ?
 				offset ?', $params, Artwork::class);
 		}
 
 		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
+	}
+
+	/**
+	 * Create or update this `Artwork` in the search database.
+	 */
+	public function UpdateSearchRepresentation(): void{
+		$tags = '';
+		foreach($this->Tags as $tag){
+			$tags .= $tag->Name . ' ';
+		}
+
+		$tags = trim($tags);
+		SearchDb::Query('
+			REPLACE into artworks (
+				id,
+				Name,
+				UrlName,
+				ArtistName,
+				ArtistUrlName,
+				ArtistAlternateNames,
+				EbookTitle,
+				EbookAuthors,
+				Tags
+			)
+			values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+				$this->ArtworkId,
+				$this->Name,
+				$this->UrlName,
+				$this->Artist->Name,
+				$this->Artist->UrlName,
+				$this->Artist->AlternateNamesString,
+				$this->Ebook->Title ?? '',
+				$this->Ebook->AuthorsString ?? '',
+				$tags
+			]);
+	}
+
+	/**
+	 * Delete this `Artwork` from the search database.
+	 */
+	private function DeleteSearchRepresentation(): void{
+		SearchDb::Query('
+			DELETE from artworks
+			where id = ?', [$this->ArtworkId]);
 	}
 
 	/**

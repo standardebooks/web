@@ -1,0 +1,1 @@
+create table artworks (id bigint, Name text, UrlName text, ArtistName text, ArtistUrlName text, ArtistAlternateNames text, EbookTitle text, EbookAuthors text, Tags text) morphology = 'lemmatize_en' index_exact_words = '1';

@@ -95,7 +95,7 @@ class Db{
 	 * @param string $password The password to use, or an empty string if no password is required.
 	 * @param bool $forceUtf8 If **TRUE**, issue `set names utf8mb4 collate utf8mb4_unicode_ci` when starting the connection.
 	 *
-	 * @throws \PDOException If the connection failed.
+	 * @throws Exceptions\DatabaseConnectionFailedException If the connection failed.
 	 */
 	public static function Connect(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string $password = '', bool $forceUtf8 = true): void{
 		if(isset(static::$Link)){
@@ -140,7 +140,12 @@ class Db{
 			$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';
 		}
 
-		static::$Link = new \PDO($connectionString, $user, $password, $params);
+		try{
+			static::$Link = new \PDO($connectionString, $user, $password, $params);
+		}
+		catch(\PDOException $ex){
+			throw new Exceptions\DatabaseConnectionFailedException($ex->getMessage());
+		}
 	}
 
 	/**
@@ -320,36 +325,36 @@ class Db{
 		try{
 			/** @throws \PDOException */
 			$handle = static::$Link->prepare($sql);
+
+			$name = 0;
+			foreach($params as $parameter){
+				$name++;
+
+				if($parameter instanceof DateTimeInterface){
+					$handle->bindValue($name, $parameter->format('Y-m-d H:i:s'));
+				}
+				elseif(is_bool($parameter)){
+					// MySQL strict mode requires `0` or `1` instead of `true` or `false`.
+					// We can't use `PDO::PARAM_BOOL`, it just doesn't work.
+
+					$handle->bindValue($name, $parameter ? 1 : 0, PDO::PARAM_INT);
+				}
+				elseif($parameter instanceof BackedEnum){
+					$handle->bindValue($name, $parameter->value);
+				}
+				elseif(is_int($parameter)){
+					$handle->bindValue($name, $parameter, PDO::PARAM_INT);
+				}
+				else{
+					$handle->bindValue($name, $parameter);
+				}
+			}
+
+			return $handle;
 		}
 		catch(\PDOException $ex){
 			throw static::CreateDetailedException($ex, $sql, $params);
 		}
-
-		$name = 0;
-		foreach($params as $parameter){
-			$name++;
-
-			if($parameter instanceof DateTimeInterface){
-				$handle->bindValue($name, $parameter->format('Y-m-d H:i:s'));
-			}
-			elseif(is_bool($parameter)){
-				// MySQL strict mode requires `0` or `1` instead of `true` or `false`.
-				// We can't use `PDO::PARAM_BOOL`, it just doesn't work.
-
-				$handle->bindValue($name, $parameter ? 1 : 0, PDO::PARAM_INT);
-			}
-			elseif($parameter instanceof BackedEnum){
-				$handle->bindValue($name, $parameter->value);
-			}
-			elseif(is_int($parameter)){
-				$handle->bindValue($name, $parameter, PDO::PARAM_INT);
-			}
-			else{
-				$handle->bindValue($name, $parameter);
-			}
-		}
-
-		return $handle;
 	}
 
 	/**

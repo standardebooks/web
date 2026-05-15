@@ -1,0 +1,46 @@
+#!/usr/bin/php
+<?
+require_once('/standardebooks.org/web/lib/Core.php');
+
+function PrintUsage(): void{
+	echo "Truncate and rebuild all Manticore indexes.\n";
+}
+
+for($i = 1; $i < sizeof($argv); $i++){
+	switch($argv[$i]){
+		case '--help':
+		case '-h':
+			PrintUsage();
+			exit();
+		default:
+			print('Unrecognized option: ' . $argv[$i] . "\n");
+			exit();
+	}
+}
+
+print("Rebuilding artworks index ...\n");
+
+SearchDb::Query('TRUNCATE table artworks');
+
+$total = Db::QueryInt('SELECT count(*) from Artworks');
+
+// Note that more time is spent in MariaDB than in Manticore, so larger result sets make the process faster.
+$increment = 10000;
+$i = 0;
+
+while(true){
+	$artworks = Db::Query('SELECT * from Artworks order by ArtworkId asc limit ?, ?', [$i, $increment], Artwork::class);
+
+	if(sizeof($artworks) == 0){
+		break;
+	}
+
+	foreach($artworks as $artwork){
+		$artwork->UpdateSearchRepresentation();
+		unset($artwork);
+	}
+
+	$i += $increment;
+	$percent = $total == 0 ? 100 : min(100, floor(($i / $total) * 100));
+	print("Artwork \t" . min($total, $i) . "/" . $total . "\t" . $percent . "%\n");
+}

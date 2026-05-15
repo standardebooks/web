@@ -141,6 +141,8 @@ ol.artwork-list > li img{
 	height: auto;
 	border: 1px solid var(--border);
 	border-radius: .25rem;
+	min-height: 100px;
+	min-width: 50px;
 }
 
 .artworks img{

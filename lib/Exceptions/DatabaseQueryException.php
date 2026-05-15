@@ -1,5 +1,5 @@
 <?
 namespace Exceptions;
 
-class DatabaseQueryException extends AppException{
+class DatabaseQueryException extends DatabaseException{
 }

@@ -1,7 +1,7 @@
 <?
 namespace Exceptions;
 
-class MultiSelectMethodNotFoundException extends AppException{
+class MultiSelectMethodNotFoundException extends DatabaseException{
 	public function __construct(string $class = ''){
 		if($class != ''){
 			$this->message = 'Multi table select attempted, but class ' . $class . ' doesn\'t have a FromMultiTableRow() method.';

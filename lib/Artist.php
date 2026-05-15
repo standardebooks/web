@@ -6,7 +6,7 @@ use Safe\DateTimeImmutable;
  * @property string $UrlName
  * @property-read string $Url
  * @property-read string $DeleteUrl
- * @property array<string> $AlternateNames
+ * @property array<int, string> $AlternateNames
  * @property-read string $AlternateNamesString
  */
 class Artist{
@@ -245,6 +245,8 @@ class Artist{
 					?,
 					?)
 			', [$this->ArtistId, $name, Formatter::MakeUrlSafe($name)]);
+
+			$this->UpdateSearchRepresentation();
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\ArtistAlternateNameExistsException();
@@ -269,6 +271,8 @@ class Artist{
 			set ArtistId = ?
 			where ArtistId = ?
 		', [$canonicalArtist->ArtistId, $this->ArtistId]);
+
+		$canonicalArtist->UpdateSearchRepresentation();
 	}
 
 	/**
@@ -283,6 +287,16 @@ class Artist{
 			        ?)
 			returning ArtistId
 		', [$this->Name, $this->UrlName, $this->DeathYear]);
+	}
+
+	/**
+	 * Update the search database for this `Artist`.
+	 */
+	public function UpdateSearchRepresentation(): void{
+		$artworks = Db::Query('SELECT * from Artworks where ArtistId = ?', [$this->ArtistId], Artwork::class);
+		foreach($artworks as $artwork){
+			$artwork->UpdateSearchRepresentation();
+		}
 	}
 
 	/**

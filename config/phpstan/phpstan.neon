@@ -24,6 +24,7 @@ parameters:
 		- %rootDir%/../../../scripts/inject-chapter-navigation-footer
 		- %rootDir%/../../../scripts/pending-payments-watchdog
 		- %rootDir%/../../../scripts/process-pending-payments
+		- %rootDir%/../../../scripts/rebuild-search-db-indices
 		- %rootDir%/../../../scripts/recompute-ebook-downloads
 		- %rootDir%/../../../scripts/send-email-queue
 		- %rootDir%/../../../scripts/send-newsletter-mailings
@@ -47,8 +48,6 @@ parameters:
 			- '#^Safe\\#'
 
 		uncheckedExceptionClasses:
-			- 'Exceptions\DatabaseQueryException'
-			- 'Exceptions\MultiSelectMethodNotFoundException'
-			- 'PDOException'
+			- 'Exceptions\DatabaseException'
 			- 'TypeError'
 			- 'ValueError'
