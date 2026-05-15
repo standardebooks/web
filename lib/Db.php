@@ -94,10 +94,11 @@ class Db{
 	 * @param ?string $user The user to connect to, or `null` to log in as the current Unix user via a local socket.
 	 * @param string $password The password to use, or an empty string if no password is required.
 	 * @param bool $forceUtf8 If **TRUE**, issue `set names utf8mb4 collate utf8mb4_unicode_ci` when starting the connection.
+	 * @param bool $emulatePrepares Set `\PDO::ATTR_EMULATE_PREPARES` to this value.
 	 *
 	 * @throws Exceptions\DatabaseConnectionFailedException If the connection failed.
 	 */
-	public static function Connect(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string $password = '', bool $forceUtf8 = true): void{
+	public static function Connect(?string $defaultDatabase = null, string $host = 'localhost', ?string $user = null, string $password = '', bool $forceUtf8 = true, bool $emulatePrepares = false): void{
 		if(isset(static::$Link)){
 			return;
 		}
@@ -134,7 +135,7 @@ class Db{
 		}
 
 		// We can't use persistent connections (connection pooling) because we would have race conditions with `last_insert_id()`.
-		$params = [\PDO::ATTR_EMULATE_PREPARES => false, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
+		$params = [\PDO::ATTR_EMULATE_PREPARES => $emulatePrepares, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
 
 		if($forceUtf8){
 			$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';

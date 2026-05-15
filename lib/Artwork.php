@@ -1056,11 +1056,21 @@ final class Artwork{
 			$artworkFilterType = Enums\ArtworkFilterType::Approved;
 		}
 
+		$query = trim($query ?? '');
+
+		if(mb_strlen($query) > DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH){
+			$query = mb_substr($query, 0, DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH);
+		}
+
+		if($query == ''){
+			$query = null;
+		}
+
 		$whereCondition = '';
 		$params = [];
 
 		if($artworkFilterType == Enums\ArtworkFilterType::Admin){
-			$whereCondition = 'true';
+			$whereCondition = '1=1';
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedSubmitter && $submitterUserId !== null){
 			$whereCondition = '(Status = ? or (Status = ? and SubmitterUserId = ?))';
@@ -1074,11 +1084,23 @@ final class Artwork{
 			$params[] = $submitterUserId;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedInUse){
-			$whereCondition = 'Status = ? and EbookId is not null';
+			if($query === null){
+				$whereCondition = 'Status = ? and EbookId is not null';
+			}
+			else{
+				// Manticore doesn't have nullable columns, use `0` instead.
+				$whereCondition = 'Status = ? and EbookId != 0';
+			}
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::ApprovedNotInUse){
-			$whereCondition = 'Status = ? and EbookId is null';
+			if($query === null){
+				$whereCondition = 'Status = ? and EbookId is null';
+			}
+			else{
+				// Manticore doesn't have nullable columns, use `0` instead.
+				$whereCondition = 'Status = ? and EbookId = 0';
+			}
 			$params[] = Enums\ArtworkStatusType::Approved->value;
 		}
 		elseif($artworkFilterType == Enums\ArtworkFilterType::Declined){
@@ -1101,26 +1123,33 @@ final class Artwork{
 		}
 
 		if($endYear !== null){
-			$whereCondition .= ' and CompletedYear <= ?';
+			if($query === null){
+				$whereCondition .= ' and CompletedYear <= ?';
+			}
+			else{
+				// `null` years are stored as `0` in Manticore, so exclude them explicitly when filtering by an upper bound.
+				$whereCondition .= ' and CompletedYear > 0 and CompletedYear <= ?';
+			}
 			$params[] = $endYear;
 		}
 
-		$orderBy = 'art.Created desc';
-		if($sort == Enums\ArtworkSortType::ArtistAlpha){
-			$orderBy = 'a.Name';
+		if($query === null){
+			$orderBy = 'art.Created desc';
+			if($sort == Enums\ArtworkSortType::ArtistAlpha){
+				$orderBy = 'a.Name asc';
+			}
+			elseif($sort == Enums\ArtworkSortType::CompletedNewest){
+				$orderBy = 'art.CompletedYear desc';
+			}
 		}
-		elseif($sort == Enums\ArtworkSortType::CompletedNewest){
-			$orderBy = 'art.CompletedYear desc';
-		}
-
-		$query = trim($query ?? '');
-
-		if(mb_strlen($query) > DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH){
-			$query = mb_substr($query, 0, DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH);
-		}
-
-		if($query == ''){
-			$query = null;
+		else{
+			$orderBy = 'Created desc';
+			if($sort == Enums\ArtworkSortType::ArtistAlpha){
+				$orderBy = 'ArtistNameSort asc';
+			}
+			elseif($sort == Enums\ArtworkSortType::CompletedNewest){
+				$orderBy = 'CompletedYear desc';
+			}
 		}
 
 		$limit = $perPage;
@@ -1138,45 +1167,57 @@ final class Artwork{
 			$artworks = Db::Query('
 				SELECT art.*
 				from Artworks art
-				inner join Artists a USING (ArtistId)
+				inner join Artists a using(ArtistId)
 				where ' . $whereCondition . '
 				order by ' . $orderBy . '
 				limit ?
 				offset ?', $params, Artwork::class);
 		}
 		else{
-			$result = SearchDb::QueryMatch('SELECT id from artworks where match(?)', [$query], 0);
+			$whereCondition .= ' and match(?)';
+			$params[] = $query;
 
-			if(sizeof($result) == 0){
+			$params[] = $limit;
+			$params[] = $offset;
+
+			$maxMatches = $offset + $limit;
+
+			$result = SearchDb::QueryMatch('SELECT id from artworks where ' . $whereCondition . ' order by ' . $orderBy . ' limit ? offset ? option max_matches=' . $maxMatches, $params, sizeof($params) - 3);
+
+			// Try to get the total matches from built-in metadata instead of running a second resource-intensive query.
+			$artworksCount = SearchDb::GetLastQueryTotalResultCount();
+
+			if($artworksCount === null){
+				// Exact number of total matches not found, calculate it using a separate query.
+				array_pop($params);
+				array_pop($params);
+				$artworksCount = SearchDb::QueryMatch('SELECT count(*) as Count from artworks where ' . $whereCondition, $params, sizeof($params) - 1)[0]->count ?? 0;
+			}
+
+			if($artworksCount == 0){
 				return ['artworks' => [], 'artworksCount' => 0];
 			}
 
-			$ids = '(';
+			if(sizeof($result) == 0){
+				return ['artworks' => [], 'artworksCount' => $artworksCount];
+			}
+
+			$ids = '';
 
 			foreach($result as $row){
 				$ids .= $row->id . ',';
 			}
 
-			$ids = rtrim($ids, ',') . ')';
+			$ids = rtrim($ids, ',');
 
-			$whereCondition .= ' and art.ArtworkId in ' . $ids;
-
-			$artworksCount = Db::QueryInt('
-				SELECT count(*)
-				from Artworks art
-				where ' . $whereCondition, $params);
-
-			$params[] = $limit;
-			$params[] = $offset;
-
+			// `find_in_set()` allows us to order the resultset from MariaDB in the same order that it came from Manticore.
 			$artworks = Db::Query('
 				SELECT art.*
 				from Artworks art
-				inner join Artists a using (ArtistId)
-				where ' . $whereCondition . '
-				order by ' . $orderBy . '
-				limit ?
-				offset ?', $params, Artwork::class);
+				inner join Artists a using(ArtistId)
+				where art.ArtworkId in (' . $ids . ')
+				order by find_in_set(art.ArtworkId, "' . $ids . '")'
+				, [], Artwork::class);
 		}
 
 		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
@@ -1198,22 +1239,34 @@ final class Artwork{
 				Name,
 				UrlName,
 				ArtistName,
+				ArtistNameSort,
 				ArtistUrlName,
 				ArtistAlternateNames,
 				EbookTitle,
 				EbookAuthors,
-				Tags
+				Tags,
+				Status,
+				SubmitterUserId,
+				CompletedYear,
+				EbookId,
+				Created
 			)
-			values (?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
 				$this->ArtworkId,
 				$this->Name,
 				$this->UrlName,
+				$this->Artist->Name,
 				$this->Artist->Name,
 				$this->Artist->UrlName,
 				$this->Artist->AlternateNamesString,
 				$this->Ebook->Title ?? '',
 				$this->Ebook->AuthorsString ?? '',
-				$tags
+				$tags,
+				$this->Status,
+				$this->SubmitterUserId ?? 0,
+				$this->CompletedYear ?? 0,
+				$this->EbookId ?? 0,
+				$this->Created
 			]);
 	}
 

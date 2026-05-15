@@ -16,9 +16,11 @@ class SearchDb extends Db{
 	 * @param ?string $user Unused.
 	 * @param string $password Unused.
 	 * @param bool $forceUtf8 Unused.
+	 * @param bool $emulatePrepares Unused.
 	 */
-	public static function Connect(?string $defaultDatabase = null, string $host = DATABASE_SEARCH_HOST, ?string $user = null, string $password = '', bool $forceUtf8 = false): void{
-		parent::Connect(null, DATABASE_SEARCH_HOST . ':' . DATABASE_SEARCH_PORT, '', '', false);
+	public static function Connect(?string $defaultDatabase = null, string $host = DATABASE_SEARCH_HOST, ?string $user = null, string $password = '', bool $forceUtf8 = false, bool $emulatePrepares = false): void{
+		// We have to set `$emulatePrepares` to **`TRUE`** otherwise `show meta` will fail with a wire protocol error.
+		parent::Connect(null, DATABASE_SEARCH_HOST . ':' . DATABASE_SEARCH_PORT, '', '', false, true);
 	}
 
 	/**
@@ -74,6 +76,13 @@ class SearchDb extends Db{
 		}
 
 		try{
+			for($i = 0; $i < sizeof($params); $i++){
+				if($params[$i] instanceof DateTimeInterface){
+					// Manticore doesn't accept the usual SQL datetime string format, so send a Unix timestamp instead.
+					$params[$i] = $params[$i]->getTimestamp();
+				}
+			}
+
 			$result = parent::Query($sql, $params, $class);
 		}
 		catch(Exceptions\DatabaseQueryException $ex){
@@ -122,5 +131,40 @@ class SearchDb extends Db{
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Try to get the number of *total* results for the last run query using query metadata; for example, a query with a `limit` clause may return 10 results, and have 1,000 *total* results.
+	 *
+	 * @see <https://manual.manticoresearch.com/Node_info_and_management/SHOW_META>
+	 *
+	 * @return ?int The number of total results, or `null` if the number can't be determined.
+	 */
+	public static function GetLastQueryTotalResultCount(): ?int{
+		try{
+			// N.B.: escaped *single* quotes required.
+			$metaResult = static::Query('SHOW meta like \'total%\'');
+			$totalRelation = null;
+			$totalFound = null;
+
+			foreach($metaResult as $row){
+				if($row->Variable_name == 'total_relation'){
+					$totalRelation = (string)$row->Value;
+				}
+				if($row->Variable_name == 'total_found'){
+					$totalFound = (int)$row->Value;
+				}
+			}
+
+			if($totalRelation == 'eq' and $totalFound !== null){
+				// If we returned the exact number of total matches, use that.
+				return $totalFound;
+			}
+
+			return null;
+		}
+		catch(\Exception){
+			return null;
+		}
 	}
 }

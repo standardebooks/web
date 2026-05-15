@@ -70,6 +70,10 @@ sudo groupadd se-secrets
 sudo usermod --append --groups committers,se-secrets se
 sudo usermod --append --groups se-secrets www-data
 
+# Configure Manticore.
+sudo mv /etc/manticoresearch/manticore.conf /etc/manticoresearch/manticore.conf.bak
+sudo ln -s /standardebooks.org/web/config/manticore/manticore.conf /etc/manticoresearch
+
 # Start the Manticore daemon.
 sudo systemctl start manticore
 
