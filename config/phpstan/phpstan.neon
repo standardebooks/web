@@ -16,12 +16,17 @@ parameters:
 		- %rootDir%/../../../lib
 		- %rootDir%/../../../www
 		- %rootDir%/../../../scripts
-		- %rootDir%/../../../scripts/generate-feeds
+		- %rootDir%/../../../scripts/delete-newsletter-subscriptions
+		- %rootDir%/../../../scripts/delete-orphan-users
 		- %rootDir%/../../../scripts/generate-bulk-downloads
+		- %rootDir%/../../../scripts/generate-feeds
 		- %rootDir%/../../../scripts/ingest-fa-payments
 		- %rootDir%/../../../scripts/inject-chapter-navigation-footer
 		- %rootDir%/../../../scripts/pending-payments-watchdog
 		- %rootDir%/../../../scripts/process-pending-payments
+		- %rootDir%/../../../scripts/recompute-ebook-downloads
+		- %rootDir%/../../../scripts/send-email-queue
+		- %rootDir%/../../../scripts/send-newsletter-mailings
 		- %rootDir%/../../../scripts/update-ebook-database
 		- %rootDir%/../../../scripts/update-patrons-circle
 		- %rootDir%/../../../scripts/update-project-statuses
