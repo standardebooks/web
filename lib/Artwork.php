@@ -1239,6 +1239,8 @@ final class Artwork{
 				ArtistNameSort,
 				ArtistUrlName,
 				ArtistAlternateNames,
+				Exception,
+				Notes,
 				EbookTitle,
 				EbookAuthors,
 				Tags,
@@ -1248,7 +1250,7 @@ final class Artwork{
 				EbookId,
 				Created
 			)
-			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
 				$this->ArtworkId,
 				$this->Name,
 				$this->UrlName,
@@ -1256,6 +1258,8 @@ final class Artwork{
 				$this->Artist->Name,
 				$this->Artist->UrlName,
 				$this->Artist->AlternateNamesString,
+				$this->Exception ?? '',
+				$this->Notes ?? '',
 				$this->Ebook->Title ?? '',
 				$this->Ebook->AuthorsString ?? '',
 				$tags,
