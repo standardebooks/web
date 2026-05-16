@@ -2669,17 +2669,14 @@ final class Ebook{
 			$offset = (($page - 1) * $perPage);
 
 			$ebookPlaceholders = Db::Query('
-					SELECT Ebooks.*
+					SELECT SQL_CALC_FOUND_ROWS Ebooks.*
 					from Ebooks inner join EbookPlaceholders using (EbookId)
 					order by Ebooks.Created desc
 					limit ?
 					offset ?
 				', [$perPage, $offset], Ebook::class);
 
-			$count = Db::QueryInt('
-					SELECT count(*)
-					from Ebooks inner join EbookPlaceholders using (EbookId)
-				');
+			$count = Db::QueryInt('SELECT found_rows()');
 		}
 
 		return ['ebookPlaceholders' => $ebookPlaceholders, 'count' => $count];

@@ -1049,7 +1049,7 @@ final class Artwork{
 	}
 
 	/**
-	* @return array{artworks: array<Artwork>, artworksCount: int}
+	* @return array{'artworks': array<Artwork>, 'count': int}
 	*/
 	public static function GetAllByFilter(?string $query = null, ?int $startYear = null, ?int $endYear = null, ?Enums\ArtworkFilterType $artworkFilterType = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		if($artworkFilterType === null){
@@ -1156,22 +1156,19 @@ final class Artwork{
 		$offset = (($page - 1) * $perPage);
 
 		if($query === null){
-			$artworksCount = Db::QueryInt('
-				SELECT count(*)
-				from Artworks art
-				where ' . $whereCondition, $params);
-
 			$params[] = $limit;
 			$params[] = $offset;
 
 			$artworks = Db::Query('
-				SELECT art.*
+				SELECT SQL_CALC_FOUND_ROWS art.*
 				from Artworks art
 				inner join Artists a using(ArtistId)
 				where ' . $whereCondition . '
 				order by ' . $orderBy . '
 				limit ?
 				offset ?', $params, Artwork::class);
+
+			$artworksCount = Db::QueryInt('SELECT found_rows()');
 		}
 		else{
 			$whereCondition .= ' and match(?)';
@@ -1195,11 +1192,11 @@ final class Artwork{
 			}
 
 			if($artworksCount == 0){
-				return ['artworks' => [], 'artworksCount' => 0];
+				return ['artworks' => [], 'count' => 0];
 			}
 
 			if(sizeof($result) == 0){
-				return ['artworks' => [], 'artworksCount' => $artworksCount];
+				return ['artworks' => [], 'count' => $artworksCount];
 			}
 
 			$ids = '';
@@ -1220,7 +1217,7 @@ final class Artwork{
 				, [], Artwork::class);
 		}
 
-		return ['artworks' => $artworks, 'artworksCount' => $artworksCount];
+		return ['artworks' => $artworks, 'count' => $artworksCount];
 	}
 
 	/**

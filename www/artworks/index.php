@@ -75,7 +75,7 @@ try{
 	else{
 		$result = Artwork::GetAllByFilter($query, $startYear, $endYear, $artworkFilterType, $sort, $submitterUserId, $page, $perPage);
 		$artworks = $result['artworks'];
-		$totalArtworkCount = $result['artworksCount'];
+		$totalArtworkCount = $result['count'];
 	}
 
 	$pageTitle = 'Browse Artwork';
