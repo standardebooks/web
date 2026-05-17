@@ -169,7 +169,7 @@ catch(Exceptions\PermissionsInvalidException){
 			<tbody>
 				<tr class="break">
 					<td>Requires password to log in:</td>
-					<td><? if($user->RequiresPassword){ ?>☑<? }else{ ?>☐<? } ?></td>
+					<td><? if($user->Benefits->RequiresPassword){ ?>☑<? }else{ ?>☐<? } ?></td>
 				</tr>
 				<? if($user->RequiresPassword){ ?>
 					<tr>
