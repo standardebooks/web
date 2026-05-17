@@ -6,7 +6,7 @@ use function Safe\preg_match;
 
 /**
  * @property array<Payment> $Payments
- * @property-read bool $IsRegistered A `User` is "registered" if they have an entry in the `Benefits` table; a password is required to log in.
+ * @property-read bool $RequiresPassword A `User` requires a password to log in if they have an entry in the `Benefits` table.
  * @property Benefits $Benefits
  * @property-read string $Url
  * @property-read string $UuidUrl The `User`'s unique URL, addressed via UUID instead of internal ID.
@@ -33,7 +33,7 @@ final class User{
 	public ?string $PasswordHash = null;
 	public bool $CanReceiveEmail = true;
 
-	protected bool $_IsRegistered;
+	protected bool $_RequiresPassword;
 	/** @var array<Payment> $_Payments */
 	protected array $_Payments;
 	protected ?Payment $_LastPayment;
@@ -194,11 +194,11 @@ final class User{
 
 				if(sizeof($result) == 0){
 					$this->_Benefits = new Benefits();
-					$this->_IsRegistered = false;
+					$this->_RequiresPassword = false;
 				}
 				else{
 					$this->_Benefits = $result[0];
-					$this->_IsRegistered = true;
+					$this->_RequiresPassword = true;
 				}
 			}
 			else{
@@ -209,14 +209,14 @@ final class User{
 		return $this->_Benefits;
 	}
 
-	protected function GetIsRegistered(): bool{
-		if(!isset($this->_IsRegistered)){
+	protected function GetRequiresPassword(): bool{
+		if(!isset($this->_RequiresPassword)){
 			// A user is "registered" if they have an entry in the `Benefits` table.
 			// This function will fill it out for us.
 			$this->GetBenefits();
 		}
 
-		return $this->_IsRegistered;
+		return $this->_RequiresPassword;
 	}
 
 
@@ -353,13 +353,13 @@ final class User{
 					UserId = ?
 				', [$this->Email, $this->Name, $this->Uuid, $this->Updated, $this->PasswordHash, $this->UserId]);
 
-			if($this->IsRegistered){
+			if($this->RequiresPassword){
 				$this->Benefits->Save();
 			}
 			elseif($this->Benefits->HasBenefits){
 				$this->Benefits->UserId = $this->UserId;
 				$this->Benefits->Create();
-				$this->_IsRegistered = true;
+				$this->_RequiresPassword = true;
 			}
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){

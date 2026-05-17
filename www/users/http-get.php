@@ -168,10 +168,10 @@ catch(Exceptions\PermissionsInvalidException){
 		<table class="admin-table">
 			<tbody>
 				<tr class="break">
-					<td>Is registered:</td>
-					<td><? if($user->IsRegistered){ ?>☑<? }else{ ?>☐<? } ?></td>
+					<td>Requires password to log in:</td>
+					<td><? if($user->RequiresPassword){ ?>☑<? }else{ ?>☐<? } ?></td>
 				</tr>
-				<? if($user->IsRegistered){ ?>
+				<? if($user->RequiresPassword){ ?>
 					<tr>
 						<td>Can access feeds:</td>
 						<td><? if($user->Benefits->CanAccessFeeds){ ?>☑<? }else{ ?>☐<? } ?></td>
