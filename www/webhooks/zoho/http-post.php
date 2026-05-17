@@ -12,7 +12,7 @@ use function Safe\preg_match;
 
 try{
 	$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
-	$log->Write('Received Zoho webhook.');
+	$log->Queue('Received Zoho webhook.');
 
 	$post = file_get_contents('php://input');
 
@@ -29,7 +29,7 @@ try{
 	$data = json_decode($post);
 
 	if($data->fromAddress == 'support@fracturedatlas.org' && strpos($data->subject, 'NOTICE:') !== false){
-		$log->Write('Processing new donation.');
+		$log->Queue('Processing new donation.');
 
 		// Get the donation ID.
 		preg_match('/Donation ID: ([0-9a-f\-]+)/us', $data->html, $matches);
@@ -43,28 +43,32 @@ try{
 					        ?)
 				', [Enums\PaymentProcessorType::FracturedAtlas, $transactionId]);
 
-			$log->Write('Donation ID: ' . $transactionId);
+			$log->Queue('Donation ID: ' . $transactionId);
 		}
 		else{
 			throw new Exceptions\WebhookException('Couldn\'t find donation ID.');
 		}
 	}
 
-	$log->Write('Event processed.');
+	$log->Queue('Event processed.');
+
+	// Don't write out to the log if everything was successful.
 
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
 catch(Exceptions\CredentialsInvalidException){
-	$log->Write('Couldn\'t validate POST data.');
+	$log->Queue('Couldn\'t validate POST data.');
+	$log->WriteQueue();
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\WebhookException $ex){
 	// Uh oh, something went wrong!
-	// Log detailed error and debugging information locally.
-	$log->Write('Webhook failed! Error: ' . $ex->getMessage());
-	$log->Write('Webhook POST data: ' . $ex->PostData);
+	// Log detailed error and debugging information.
+	$log->Queue('Webhook failed! Error: ' . $ex->getMessage());
+	$log->Queue('Webhook POST data: ' . $ex->PostData);
+	$log->WriteQueue();
 
-	// Print less details to the client.
+	// Print fewer details to the client.
 	print($ex->getMessage());
 
 	http_response_code(Enums\HttpCode::BadRequest->value);

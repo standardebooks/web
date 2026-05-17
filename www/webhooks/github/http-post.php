@@ -15,7 +15,7 @@ use function Safe\shell_exec;
 
 try{
 	$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
-	$log->Write('Received GitHub webhook.');
+	$log->Queue('Received GitHub webhook.');
 
 	$post = file_get_contents('php://input');
 
@@ -44,10 +44,11 @@ try{
 	switch($event){
 		case 'ping':
 			// Silence on success.
-			$log->Write('Event type: ping.');
-			throw new Exceptions\NoopException();
+			$log->Queue('Event type: ping.');
+			break;
+
 		case 'push':
-			$log->Write('Event type: push.');
+			$log->Queue('Event type: push.');
 
 			// Get the ebook ID. PHP doesn't throw exceptions on invalid array indexes, so check that first.
 			if(!array_key_exists('repository', $data) || !array_key_exists('name', $data['repository'])){
@@ -57,8 +58,8 @@ try{
 			$repoName = trim($data['repository']['name'], '/');
 
 			if(in_array($repoName, GITHUB_IGNORED_REPOS)){
-				$log->Write('Repo is in ignore list, no action taken.');
-				throw new Exceptions\NoopException();
+				$log->Queue('Repo is in ignore list, no action taken.');
+				break;
 			}
 
 			// Get the filesystem path for the ebook.
@@ -77,21 +78,21 @@ try{
 				}
 			}
 
-			$log->Write('Processing ebook `' . $repoName . '` located at `' . $dir . '`.');
+			$log->Queue('Processing ebook `' . $repoName . '` located at `' . $dir . '`.');
 
 			// Check the local repo's last commit. If it matches this push, then don't do anything; we're already up to date.
 
 			$lastCommitSha1 = trim(shell_exec('git -C ' . escapeshellarg($dir) . ' rev-parse HEAD 2>&1') ?? '');
 
 			if($lastCommitSha1 == ''){
-				$log->Write('Error getting last local commit. Output: ' . $lastCommitSha1);
+				$log->Queue('Error getting last local commit. Output: ' . $lastCommitSha1);
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
 			}
 			else{
 				if($data['after'] == $lastCommitSha1){
 					// This commit is already in our local repo, so silent success.
-					$log->Write('Local repo already in sync, no action taken.');
-					throw new Exceptions\NoopException();
+					$log->Queue('Local repo already in sync, no action taken.');
+					break;
 				}
 			}
 
@@ -103,7 +104,7 @@ try{
 			$output = $output ?? [];
 
 			if($returnCode != 0){
-				$log->Write('Couldn\'t get last commit of local repo. Output: ' . implode("\n", $output));
+				$log->Queue('Couldn\'t get last commit of local repo. Output: ' . implode("\n", $output));
 			}
 			elseif(sizeof($output) > 0){
 				$lastPushHashFlag = ' --last-push-hash ' . escapeshellarg($output[0]);
@@ -116,11 +117,11 @@ try{
 			$output = $output ?? [];
 
 			if($returnCode != 0){
-				$log->Write('Error pulling from GitHub. Output: ' . implode("\n", $output));
+				$log->Queue('Error pulling from GitHub. Output: ' . implode("\n", $output));
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
 			}
 			else{
-				$log->Write('`git pull` from GitHub complete.');
+				$log->Queue('`git pull` from GitHub complete.');
 			}
 
 			// Our local repo is now updated. Build the ebook!
@@ -130,11 +131,11 @@ try{
 			$output = $output ?? [];
 
 			if($returnCode != 0){
-				$log->Write('Error queueing ebook for deployment to web. Output: ' . implode("\n", $output));
+				$log->Queue('Error queueing ebook for deployment to web. Output: ' . implode("\n", $output));
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
 			}
 			else{
-				$log->Write('Queue for deployment to web complete.');
+				$log->Queue('Queue for deployment to web complete.');
 			}
 
 			break;
@@ -142,25 +143,24 @@ try{
 			throw new Exceptions\WebhookException('Unrecognized GitHub webhook event.', $post);
 	}
 
+	// Don't write to the log if everything was successful.
+
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
 catch(Exceptions\CredentialsInvalidException){
+	$log->Queue('Unable to validate credentials.');
+	$log->WriteQueue();
 	http_response_code(Enums\HttpCode::Forbidden->value);
 }
 catch(Exceptions\WebhookException $ex){
 	// Uh oh, something went wrong!
 	// Log detailed error and debugging information locally.
-	$log->Write('Webhook failed! Error: ' . $ex->getMessage());
-	$log->Write('Webhook POST data: ' . $ex->PostData);
+	$log->Queue('Webhook failed! Error: ' . $ex->getMessage());
+	$log->Queue('Webhook POST data: ' . $ex->PostData);
+	$log->WriteQueue();
 
-	// Print less details to the client.
+	// Print fewer details to the client.
 	print($ex->getMessage());
 
 	http_response_code(Enums\HttpCode::BadRequest->value);
-}
-catch(Exceptions\NoopException){
-	// We arrive here because a special case required us to take no action for the request, but execution also had to be interrupted.
-	// For example, we received a request for a known repo for which we must ignore requests.
-
-	http_response_code(Enums\HttpCode::NoContent->value);
 }
