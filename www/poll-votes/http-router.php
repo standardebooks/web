@@ -6,9 +6,7 @@
 
 use function Safe\preg_match;
 
-/** @var string $requestUri */
-$requestUri = $_SERVER['REQUEST_URI'] ?? '';
-if(preg_match('/^\/polls\/[^\/\.]+\/votes$/ius', $requestUri)){
+if(preg_match('/^\/polls\/[^\/\.]+\/votes$/ius', Http::$Request->RelativePath)){
 	// POSTing a `PollVote`.
 	try{
 		Http::$Request->Route(resource: Poll::GetByUrlName(Http::$Request->QueryString->Get('poll-url-name')), allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);

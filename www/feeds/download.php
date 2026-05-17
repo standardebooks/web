@@ -30,14 +30,15 @@ try{
 	if(!$isNewReleasesFeed){
 		// Certain user agents may bypass login entirely.
 		$isUserAgentAllowed = false;
-		if(isset($_SERVER['HTTP_USER_AGENT'])){
+		$userAgent = Http::$Request->Headers['user-agent'] ?? null;
+		if(isset($userAgent)){
 			$isUserAgentAllowed = Db::QueryBool('
 							SELECT exists(
 								select *
 								from FeedUserAgents
 								where instr(?, UserAgent)
 							)
-						', [$_SERVER['HTTP_USER_AGENT']]);
+						', [$userAgent]);
 		}
 
 		if(!$isUserAgentAllowed){

@@ -91,8 +91,7 @@ class Template extends TemplateBase{
 	public static function RedirectToLogin(bool $redirectToDestination = true, ?string $destinationUrl = null): void{
 		if($redirectToDestination){
 			if($destinationUrl === null){
-				/** @var string $destinationUrl */
-				$destinationUrl = $_SERVER['SCRIPT_URL'];
+				$destinationUrl = Http::$Request->RelativeUri;
 			}
 
 			$destinationUrl = self::SanitizeRedirectUrl($destinationUrl);
@@ -127,8 +126,7 @@ class Template extends TemplateBase{
 	}
 
 	public static function IsEreaderBrowser(): bool{
-		/** @var string $httpUserAgent */
-		$httpUserAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-		return $httpUserAgent != '' && (strpos($httpUserAgent, "Kobo") !== false || strpos($httpUserAgent, "Kindle") !== false);
+		$userAgent = Http::$Request->Headers['user-agent'] ?? '';
+		return $userAgent != '' && (strpos($userAgent, "Kobo") !== false || strpos($userAgent, "Kindle") !== false);
 	}
 }

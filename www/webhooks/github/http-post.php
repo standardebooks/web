@@ -20,8 +20,7 @@ try{
 	$post = file_get_contents('php://input');
 
 	// Validate the GitHub secret.
-	/** @var string $githubSignature */
-	$githubSignature = $_SERVER['HTTP_X_HUB_SIGNATURE_256'] ?? '';
+	$githubSignature = Http::$Request->Headers['x-hub-signature-256'] ?? '';
 	$hash = explode('=', $githubSignature)[1] ?? throw new Exceptions\CredentialsInvalidException();
 
 	/** @var string $gitHubWebhookSecret */
@@ -32,7 +31,8 @@ try{
 	}
 
 	// Sanity check before we continue.
-	if(!array_key_exists('HTTP_X_GITHUB_EVENT', $_SERVER)){
+	$event = Http::$Request->Headers['x-github-event'] ?? null;
+	if($event === null){
 		throw new Exceptions\WebhookException('Couldn\'t understand HTTP request.', $post);
 	}
 
@@ -41,7 +41,7 @@ try{
 	$lastPushHashFlag = '';
 
 	// Decide what event we just received.
-	switch($_SERVER['HTTP_X_GITHUB_EVENT']){
+	switch($event){
 		case 'ping':
 			// Silence on success.
 			$log->Write('Event type: ping.');

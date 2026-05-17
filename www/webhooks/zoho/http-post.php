@@ -20,8 +20,7 @@ try{
 	/** @var string $zohoWebhookSecret */
 	$zohoWebhookSecret = get_cfg_var('se.secrets.zoho.webhook_secret');
 
-	/** @var string $zohoHookSignature */
-	$zohoHookSignature = $_SERVER['HTTP_X_HOOK_SIGNATURE'] ?? '';
+	$zohoHookSignature = Http::$Request->headers['x-hook-signature'] ?? '';
 	if(!hash_equals($zohoHookSignature, base64_encode(hash_hmac('sha256', $post, $zohoWebhookSecret, true)))){
 		throw new Exceptions\CredentialsInvalidException();
 	}

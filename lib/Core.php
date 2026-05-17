@@ -70,27 +70,15 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 Http::Initialize();
 Session::InitializeFromCookie();
 
-if(Session::$User === null){
-	/** @var ?string $httpBasicAuthLogin */
-	$httpBasicAuthLogin = $_SERVER['PHP_AUTH_USER'] ?? null;
-
-	if($httpBasicAuthLogin !== null){
-		// If there's no logged-in `User`, but a username was sent via HTTP basic auth, log them in while we're here.
-
-		$session = new Session();
-		try{
-			/** @var ?string $password */
-			$password = $_SERVER['PHP_AUTH_PW'] ?? null;
-			if($password == ''){
-				$password = null;
-			}
-
-			// Most `Patron`s have a `null` password, meaning they only need to log in using an email and a blank password.
-			// Some users with admin rights need a password to log in.
-			$session->Create($httpBasicAuthLogin, $password);
-		}
-		catch(Exception){
-			// Do nothing.
-		}
+if(Session::$User === null && Http::$Request->Username !== null){
+	// If there's no logged-in `User`, but a username was sent via HTTP basic auth, log them in while we're here.
+	$session = new Session();
+	try{
+		// Most `Patron`s have a `null` password, meaning they only need to log in using an email and a blank password.
+		// Some users with admin rights need a password to log in.
+		$session->Create(Http::$Request->Username, Http::$Request->Password);
+	}
+	catch(Exception){
+		// Do nothing.
 	}
 }

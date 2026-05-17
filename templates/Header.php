@@ -33,15 +33,7 @@ $showPublicDomainDayBanner = PD_NOW > new DateTimeImmutable('January 1, 9:00 AM'
 // As of Sep. 2022, all versions of Safari have a bug where if the page is served as XHTML, then `<picture>` elements download all `<source>`s instead of the first supported match.
 // So, we try to detect Safari here, and don't use multiple `<source>` if we find Safari.
 // See <https://bugs.webkit.org/show_bug.cgi?id=245411>.
-/** @var string $httpUserAgent */
-$httpUserAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-$isSafari = stripos($httpUserAgent, 'safari') !== false;
-
-if(!$isErrorPage){
-	/** @var string $url */
-	$url = $_SERVER['ORIG_PATH_INFO'] ?? $_SERVER['SCRIPT_URI'] ?? '';
-	$pageUrl = SITE_URL . str_replace(SITE_URL, '', ($url));
-}
+$isSafari = stripos(Http::$Request->Headers['user-agent'] ?? '', 'safari') !== false;
 
 if(!$isXslt){
 	if(!$isSafari){
@@ -105,7 +97,7 @@ if(!$isXslt){
 		<meta content="#394451" name="theme-color"/>
 		<meta content="<? if($title !== null){ ?><?= Formatter::EscapeHtml($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
 		<meta content="<?= $ogType ?>" property="og:type"/>
-		<meta content="<?= $pageUrl ?>" property="og:url"/>
+		<meta content="<?= SITE_URL . Http::$Request->RelativePath ?>" property="og:url"/>
 		<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.png') ?>" property="og:image"/>
 		<meta content="summary_large_image" name="twitter:card"/>
 		<meta content="@standardebooks" name="twitter:site"/>

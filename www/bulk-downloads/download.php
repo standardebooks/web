@@ -40,10 +40,9 @@ catch(Exceptions\FileInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\LoginRequiredException){
-	if(isset($_SERVER['HTTP_REFERER'])){
-		/** @var string $httpReferer */
-		$httpReferer = $_SERVER['HTTP_REFERER'];
-		Template::RedirectToLogin(true, $httpReferer);
+	$referrer = Http::$Request->Headers['referer'] ?? null;
+	if(isset($referrer)){
+		Template::RedirectToLogin(true, $referrer);
 	}
 	else{
 		preg_match('|(^/bulk-downloads/[^/]+?)/|ius', $relativePath, $matches);

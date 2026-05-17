@@ -14,9 +14,7 @@ try{
 	/** @var User $user The `User` for this request, passed in from the router. */
 	$user = $resource ?? throw new Exceptions\UserNotFoundException();
 
-	/** @var string $requestUri */
-	$requestUri = $_SERVER['REQUEST_URI'] ?? '';
-	if(preg_match('/^\/users\/get\b/iu', $requestUri)){
+	if(preg_match('/^\/users\/get\b/iu', Http::$Request->RelativePath)){
 		// If we got here by "jumping" to a `User` from the `User`s index page, redirect to their actual URL instead of the "jump" URL.
 		header('location: ' . $user->Url);
 		exit();

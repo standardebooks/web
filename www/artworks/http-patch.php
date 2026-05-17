@@ -18,8 +18,7 @@ try{
 	}
 
 	// We may have been called from the HTTP requesteither the `Artwork`'s page, or from the HTTP requestthe `Artwork`'s edit form, so check the referrer to see which one it was.
-	/** @var string $referrer */
-	$referrer = $_SERVER['HTTP_REFERER'] ?? $artwork->EditUrl;
+	$referrer = Http::$Request->Headers['referer'] ?? $artwork->EditUrl;
 	$exceptionRedirectUrl = Template::SanitizeRedirectUrl($referrer);
 
 	$artworkStatus = Http::$Request->Body->Get('artwork-status');

@@ -2,9 +2,7 @@
 use function Safe\preg_match;
 
 $feedType = null;
-/** @var string $requestUri */
-$requestUri = $_SERVER['REQUEST_URI'] ?? '';
-preg_match('/^\/feeds\/(opds|rss|atom)/ius', $requestUri, $matches);
+preg_match('/^\/feeds\/(opds|rss|atom)/ius', Http::$Request->RelativePath, $matches);
 
 if(isset($matches[1])){
 	$feedType = Enums\FeedFormatType::tryFrom(strtolower($matches[1]));

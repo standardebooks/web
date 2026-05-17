@@ -47,13 +47,10 @@ try{
 		throw new Exceptions\FileInvalidException();
 	}
 
-	/** @var string|null $ipAddress */
-	$ipAddress = $_SERVER['REMOTE_ADDR'] ?? null;
+	$ipAddress = Http::$Request->RemoteAddress;
+	$userAgent = Http::$Request->Headers['user-agent'] ?? null;
 
-	/** @var string|null $userAgent */
-	$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
-
-	if(!isset(Session::$User) && isset($ipAddress)){
+	if(!isset(Session::$User) && $ipAddress !== null){
 		$limitExceeded = false;
 
 		// Check for excessive downloads.

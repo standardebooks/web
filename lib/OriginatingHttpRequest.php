@@ -2,6 +2,7 @@
 use function Safe\file_get_contents;
 use function Safe\glob;
 use function Safe\ini_get;
+use function Safe\mb_convert_encoding;
 use function Safe\preg_match;
 use function Safe\preg_replace;
 
@@ -19,7 +20,7 @@ class OriginatingHttpRequest{
 	/** Unlike other variable interfaces in this class, this reflects the live state of `$_SESSION`. */
 	public readonly HttpSessionInterface $Session;
 	public readonly HttpFilesInterface $Files;
-	/** @var array<string, string> $Headers The HTTP headers for this request, with keys converted to lowercase. */
+	/** @var array<string, string> $Headers The HTTP headers for this request, with keys converted to lowercase and underscores converted to dashes. */
 	public readonly array $Headers;
 	/** The relative URI of this request, including the query string, but excluding the domain, e.g. `/users/1?foo=bar`. */
 	public readonly string $RelativeUri; // TODO: Use the new native `Uri` class.
@@ -27,12 +28,20 @@ class OriginatingHttpRequest{
 	public readonly string $RelativePath; // TODO: Use the new native `Uri` class.
 	/** The MIME type of this request. */
 	public readonly ?string $ContentType;
+	/** The size of this request, in bytes. */
+	public readonly ?int $ContentLength;
+	/** The HTTP Basic authorization username sent with this request. */
+	public readonly ?string $Username;
+	/** The HTTP Basic authorization password sent with this request. */
+	public readonly ?string $Password;
 	/** The maximum size for an HTTP `POST` request, in bytes. */
 	public readonly int $MaxPostSize;
 	/** Is this request larger than the size allowed by PHP? This is based on PHP's maximum size of the *entire request*, which may be different from PHP's maximum allowed size for individual file uploads that are *part* of this request. */
 	public readonly bool $IsRequestTooLarge;
 	/** Does it look like web browser made this request, vs. an API call? */
 	public readonly bool $IsViaBrowser;
+	/** The IP address from which this request was made; this may be `null` if the request came from a proxy, or for various other reasons. */
+	public readonly ?IpAddress $RemoteAddress;
 
 	/** @var array<Enums\HttpMethod> $_AllowedHttpMethods */
 	private array $_AllowedHttpMethods;
@@ -68,7 +77,12 @@ class OriginatingHttpRequest{
 			/** @var string $value */
 			if(str_starts_with($key, 'HTTP_')){
 				$name = strtolower(str_replace('_', '-', substr($key, 5)));
-				$headers[$name] = $value;
+
+				// Attempt to fix broken UTF8 strings, often passed by bots and scripts.
+				// Broken UTF8 can cause exceptions in functions like `preg_replace()`.
+				/** @var string $safeValue */
+				$safeValue = mb_convert_encoding($value, 'utf-8');
+				$headers[$name] = $safeValue;
 			}
 		}
 
@@ -80,29 +94,45 @@ class OriginatingHttpRequest{
 			$headers['content-type'] = $this->ContentType;
 		}
 
-		$this->Headers = $headers;
-
 		$this->CalculateRequestMethod();
 
 		/** @var string $method */
 		$method = $_SERVER['REQUEST_METHOD'] ?? '';
 		$this->RawMethod = Enums\HttpMethod::tryFrom($method) ?? Enums\HttpMethod::Get;
 
+		/** @var string $requestUri */
+		$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+
 		/** @var string $relativeUri */
-		$relativeUri = $_SERVER['REQUEST_URI'] ?? '';
+		$relativeUri = mb_convert_encoding($requestUri, 'utf-8');
 		$this->RelativeUri = $relativeUri;
 
 		$this->RelativePath = preg_replace('/\?.+$/iu', '', $relativeUri);
 
-		/** @var string $httpAccept */
-		$httpAccept = $_SERVER['HTTP_ACCEPT'] ?? '';
-		$this->IsViaBrowser = (bool)preg_match('/\btext\/html\b/ius', $httpAccept);
-
 		// Decide if this request was too large.
 		/** @var ?string $contentLength */
 		$contentLength = $_SERVER['CONTENT_LENGTH'] ?? null;
+		if($contentLength !== null){
+			/** @var string $convertedContentLength */
+			$convertedContentLength = mb_convert_encoding($contentLength, 'utf-8');
+			$headers['content-length'] = $convertedContentLength;
+			if(ctype_digit($contentLength)){
+				$this->ContentLength = intval($contentLength);
+			}
+			else{
+				$this->ContentLength = null;
+			}
+		}
+		else{
+			$this->ContentLength = null;
+		}
 
-		$this->IsRequestTooLarge = $contentLength !== null && is_numeric($contentLength) && (int)$contentLength > $this->MaxPostSize;
+		$this->Headers = $headers;
+
+		$httpAccept = $this->Headers['accept'] ?? '';
+		$this->IsViaBrowser = (bool)preg_match('/\btext\/html\b/ius', $httpAccept);
+
+		$this->IsRequestTooLarge = $this->ContentLength !== null && $this->ContentLength > $this->MaxPostSize;
 
 		if($this->IsRequestTooLarge){
 			if($this->IsViaBrowser && file_exists(WEB_ROOT . '/413.php')){
@@ -148,6 +178,42 @@ class OriginatingHttpRequest{
 		$this->Files = new HttpFilesInterface($files);
 
 		$this->Session = new HttpSessionInterface();
+
+		/** @var ?string $basicAuthLogin */
+		$basicAuthLogin = $_SERVER['PHP_AUTH_USER'] ?? null;
+		if($basicAuthLogin !== null){
+			/** @var string $basicAuthLogin */
+			$basicAuthLogin = mb_convert_encoding($basicAuthLogin, 'utf-8');
+			if($basicAuthLogin == ''){
+				$basicAuthLogin = null;
+			}
+		}
+		$this->Username = $basicAuthLogin;
+
+		/** @var ?string $basicAuthPassword */
+		$basicAuthPassword = $_SERVER['PHP_AUTH_PW'] ?? null;
+		if($basicAuthPassword !== null){
+			/** @var string $basicAuthPassword */
+			$basicAuthPassword = mb_convert_encoding($basicAuthPassword, 'utf-8');
+			if($basicAuthPassword == ''){
+				$basicAuthPassword = null;
+			}
+		}
+		$this->Password = $basicAuthPassword;
+
+		/** @var string $ipAddress */
+		$ipAddress = $_SERVER['REMOTE_ADDR'] ?? '';
+		if($ipAddress == ''){
+			$this->RemoteAddress = null;
+		}
+		else{
+			try{
+				$this->RemoteAddress = new IpAddress($ipAddress);
+			}
+			catch(Exceptions\IpAddressInvalidException){
+				$this->RemoteAddress = null;
+			}
+		}
 	}
 
 	/**

@@ -24,9 +24,8 @@ if(
 // See <https://github.com/standardebooks/web/issues/204>.
 $element = 'aside';
 
-/** @var string $httpUserAgent */
-$httpUserAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
-if(stripos($httpUserAgent, 'kindle') !== false){
+$userAgent = Http::$Request->Headers['user-agent'] ?? '';
+if(stripos($userAgent, 'kindle') !== false){
 	$element = 'div';
 }
 ?>
