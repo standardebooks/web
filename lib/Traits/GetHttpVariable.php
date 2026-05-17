@@ -16,9 +16,9 @@ trait GetHttpVariable{
 	 *
 	 * @param string $variable The name of the variable to get.
 	 * @param array<mixed> $variables The key/value array from which to get the variable.
-	 * @param 'array'|'bool'|'float'|'int'|'string'|'empty-string'|'date'|'DateTimeImmutable'|class-string<T>|array<'array'|'bool'|'float'|'int'|'string'|'empty-string'|'date'|'DateTimeImmutable'|class-string<T>> $type The type of value to return, or a list of acceptable types to check in order. The special type `empty-string` returns an empty string instead of `null` if the variable exists but is empty.
+	 * @param 'array'|'bool'|'float'|'int'|'string'|'empty-string'|'date'|'DateTimeImmutable'|class-string<T>|list<class-string<T>>|list<'array'|'bool'|'float'|'int'|'string'|'empty-string'|'date'|'DateTimeImmutable'> $type The type of value to return, or a list of acceptable types to check in order. The special type `empty-string` returns an empty string instead of `null` if the variable exists but is empty.
 	 *
-	 * @return ($type is 'array' ? array<string>|null : ($type is 'bool' ? bool|null : ($type is 'float' ? float|null : ($type is 'int' ? int|null : ($type is 'string' ? string|null : ($type is 'empty-string' ? string|null : ($type is 'date'|'DateTimeImmutable' ? DateTimeImmutable|null : ($type is class-string<T> ? T|null : mixed))))))))
+	 * @return ($type is 'array' ? array<string>|null : ($type is 'bool' ? bool|null : ($type is 'float' ? float|null : ($type is 'int' ? int|null : ($type is 'string' ? string|null : ($type is 'empty-string' ? string|null : ($type is 'date' ? DateTimeImmutable|null : ($type is 'DateTimeImmutable' ? DateTimeImmutable|null : ($type is class-string<T> ? T|null : ($type is list<class-string<T>> ? T|null : mixed))))))))))
 	 */
 	public function GetHttpVariable(string $variable, array $variables, string|array $type = 'string'): mixed{
 		if(is_array($type)){

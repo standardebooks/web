@@ -1,6 +1,8 @@
 <?
 namespace Traits;
 
+use Safe\DateTimeImmutable;
+
 use function Safe\preg_replace;
 
 trait PropertyFromHttp{
@@ -126,7 +128,7 @@ trait PropertyFromHttp{
 						break;
 					case 'DateTimeImmutable':
 					case 'Safe\DateTimeImmutable':
-						$value = $httpVariables->Get($httpName, 'DateTimeImmutable');
+						$value = $httpVariables->Get($httpName, DateTimeImmutable::class);
 						break;
 					case 'array':
 						$value = $httpVariables->Get($httpName, 'array');
