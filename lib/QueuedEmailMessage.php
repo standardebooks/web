@@ -60,7 +60,7 @@ class QueuedEmailMessage extends EmailMessage{
 					$attachments = sizeof($em->Attachments) > 0 ? serialize($em->Attachments) : null;
 					$metadata = json_encode($em->Metadata);
 
-					$arguments = array_merge($arguments, [$em->To, $em->ToName, $em->From, $em->FromName, $em->ReplyTo, $em->Subject, $em->BodyHtml, $em->BodyText, $em->Priority,  $em->UnsubscribeUrl, NOW, \Enums\EmailProviderType::Ses, $attachments, $metadata]);
+					$arguments = array_merge($arguments, [$em->To, $em->ToName, $em->From, $em->FromName, $em->ReplyTo, $em->Subject, $em->BodyHtml, $em->BodyText, $em->Priority, $em->UnsubscribeUrl, NOW, \Enums\EmailProviderType::Ses, $attachments, $metadata]);
 				}
 				catch(Exceptions\EmailMessageInvalidException $ex){
 					$log = new Log();
