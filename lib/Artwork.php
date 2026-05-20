@@ -7,7 +7,6 @@ use function Safe\getimagesize;
 use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_replace;
-use function Safe\preg_split;
 use function Safe\unlink;
 
 /**

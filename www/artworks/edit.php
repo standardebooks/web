@@ -9,22 +9,18 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$artwork = Artwork::GetByUrl(Http::$Request->QueryString->Get('artist-url-name'), Http::$Request->QueryString->Get('artwork-url-name'));
+	$originalArtwork = Artwork::GetByUrl(Http::$Request->QueryString->Get('artist-url-name'), Http::$Request->QueryString->Get('artwork-url-name'));
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!$artwork->CanBeEditedBy(Session::$User)){
+	if(!$originalArtwork->CanBeEditedBy(Session::$User)){
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
 	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
-	$editedArtwork = Http::$Request->Session->Get('artwork', Artwork::class);
-
-	if($editedArtwork === null){
-		$editedArtwork = $artwork;
-	}
+	$artwork = Http::$Request->Session->Get('artwork', Artwork::class) ?? $originalArtwork;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.
@@ -49,9 +45,9 @@ catch(Exceptions\PermissionsInvalidException){
 }
 ?>
 <?= Template::Header(
-		title: 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name,
+		title: 'Edit ' . $originalArtwork->Name . ', by ' . $originalArtwork->Artist->Name,
 		css: ['/css/artwork.css'],
-		description: 'Edit ' . $artwork->Name . ', by ' . $artwork->Artist->Name . ' in the Standard Ebooks cover art database.'
+		description: 'Edit ' . $originalArtwork->Name . ', by ' . $originalArtwork->Artist->Name . ' in the Standard Ebooks cover art database.'
 ) ?>
 <main>
 	<section class="narrow">
@@ -60,13 +56,13 @@ catch(Exceptions\PermissionsInvalidException){
 		<?= Template::Error(exception: $exception) ?>
 
 		<picture>
-			<source srcset="<?= $artwork->Thumb2xUrl ?> 2x, <?= $artwork->ThumbUrl ?> 1x" type="image/jpg"/>
-			<img src="<?= $artwork->ThumbUrl ?>" alt="" property="schema:image"/>
+			<source srcset="<?= $originalArtwork->Thumb2xUrl ?> 2x, <?= $originalArtwork->ThumbUrl ?> 1x" type="image/jpg"/>
+			<img src="<?= $originalArtwork->ThumbUrl ?>" alt="" property="schema:image"/>
 		</picture>
 
-		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $artwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
+		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $originalArtwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
-			<?= Template::ArtworkForm(artwork: $editedArtwork, isEditForm: true) ?>
+			<?= Template::ArtworkForm(artwork: $artwork, isEditForm: true) ?>
 		</form>
 	</section>
 </main>

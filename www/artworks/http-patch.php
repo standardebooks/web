@@ -8,16 +8,14 @@ use function Safe\session_start;
 try{
 	session_start();
 
-	/** @var Artwork $artwork The `Artwork` for this request, passed in from the HTTP requestthe router. */
+	/** @var Artwork $artwork The `Artwork` for this request, passed in from the router. */
 	$artwork = $resource ?? throw new Exceptions\ArtworkNotFoundException();
-
-	$originalArtwork = $artwork;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	// We may have been called from the HTTP requesteither the `Artwork`'s page, or from the HTTP requestthe `Artwork`'s edit form, so check the referrer to see which one it was.
+	// We may have been called from either the `Artwork`'s page, or from the `Artwork`'s edit form, so check the referrer to see which one it was.
 	$referrer = Http::$Request->Headers['referer'] ?? $artwork->EditUrl;
 	$exceptionRedirectUrl = Template::SanitizeRedirectUrl($referrer);
 
@@ -45,15 +43,17 @@ try{
 	}
 
 	try{
+		$originalArtworkStatus = $artwork->Status;
+
 		$artwork->FillFromHttpPost();
 
-		if($artworkStatus !== null && $artwork->Status != $originalArtwork->Status){
+		if($artworkStatus !== null && $artwork->Status != $originalArtworkStatus){
 			$artwork->ReviewerUserId = Session::$User->UserId;
 		}
 	}
 	catch(Exceptions\UrlInvalidException $ex){
 		// Restore the original artwork so the user can correct the error and try again.
-		$artwork = $originalArtwork;
+		$artwork = Artwork::Get($artwork->ArtworkId);
 		throw $ex;
 	}
 

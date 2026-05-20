@@ -11,7 +11,7 @@ try{
 	/** @var Project $project The `Project` for this request, passed in from the router. */
 	$project = $resource ?? throw new Exceptions\ProjectNotFoundException();
 
-	$originalProject = $project;
+	$originalEditUrl = $project->EditUrl;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -65,5 +65,5 @@ catch(Exceptions\ProjectInvalidException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('location: ' . $originalProject->EditUrl);
+	header('location: ' . $originalEditUrl);
 }

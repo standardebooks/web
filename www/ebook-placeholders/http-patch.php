@@ -11,7 +11,7 @@ try{
 	/** @var Ebook $ebook The `Ebook` for this request, passed in from the router. */
 	$ebook = $resource ?? throw new Exceptions\EbookNotFoundException();
 
-	$originalEbook = $ebook;
+	$originalEditUrl = $ebook->EditUrl;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -51,5 +51,5 @@ catch(Exceptions\EbookInvalidException | Exceptions\EbookPlaceholderExistsExcept
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('location: ' . $originalEbook->EditUrl);
+	header('location: ' . $originalEditUrl);
 }

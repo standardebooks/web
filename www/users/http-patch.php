@@ -10,7 +10,8 @@ try{
 	/** @var User $user The `User` for this request, passed in from the router. */
 	$user = $resource ?? throw new Exceptions\UserNotFoundException();
 
-	$originalUser = $user;
+	$originalEditUrl = $user->EditUrl;
+	$originalUuid = $user->Uuid;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -72,7 +73,7 @@ catch(Exceptions\UserNotFoundException){
 }
 catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 	if($generateNewUuid){
-		$user->Uuid = $originalUser->Uuid;
+		$user->Uuid = $originalUuid;
 		$_SESSION['generate-new-uuid'] = $generateNewUuid;
 	}
 
@@ -86,5 +87,5 @@ catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('location: ' . $originalUser->EditUrl);
+	header('location: ' . $originalEditUrl);
 }

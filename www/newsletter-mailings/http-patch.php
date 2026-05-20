@@ -11,7 +11,7 @@ try{
 	/** @var NewsletterMailing $newsletterMailing The `NewsletterMailing` for this request, passed in from the router. */
 	$newsletterMailing = $resource ?? throw new Exceptions\NewsletterMailingNotFoundException();
 
-	$originalNewsletterMailing = $newsletterMailing;
+	$originalEditUrl = $newsletterMailing->EditUrl;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -50,5 +50,5 @@ catch(Exceptions\NewsletterMailingInvalidException $ex){
 	$_SESSION['exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('location: ' . $originalNewsletterMailing->EditUrl);
+	header('location: ' . $originalEditUrl);
 }

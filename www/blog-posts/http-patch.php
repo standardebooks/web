@@ -1,6 +1,6 @@
 <?
 /**
- * PATCH		/blog-posts/:blog-post-url-title
+ * PATCH	/blog-posts/:blog-post-url-title
  */
 
 use function Safe\session_start;
@@ -11,7 +11,7 @@ try{
 	/** @var BlogPost $blogPost The `BlogPost` for this request, passed in from the router. */
 	$blogPost = $resource ?? throw new Exceptions\BlogPostNotFoundException();
 
-	$originalBlogPost = new $blogPost;
+	$originalEditUrl = $blogPost->EditUrl;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -48,5 +48,5 @@ catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException $
 	$_SESSION['blog-post-ebook-identifiers'] = $ebookIdentifiers;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('location: ' . $originalBlogPost->EditUrl);
+	header('location: ' . $originalEditUrl);
 }
