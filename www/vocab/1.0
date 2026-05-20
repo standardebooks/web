@@ -1,4 +1,5 @@
 se
+	bridgehead
 	collection
 	compass
 	compound
@@ -11,6 +12,7 @@ se
 			default-on-transparent
 		style
 			realistic
+	label
 	letter
 		dateline
 	long-description
