@@ -13,7 +13,7 @@ try{
 	$artist = $resource ?? throw new Exceptions\ArtistNotFoundException();
 
 	$isReviewerView = Session::$User?->Benefits->CanReviewArtwork ?? false;
-	$isAdminView = Session::$User?->Benefits->CanReviewOwnArtwork ?? false;
+	$isAdminView = Session::$User?->Benefits->IsArtworkAdmin ?? false;
 	$submitterUserId = Session::$User?->Benefits->CanUploadArtwork ? Session::$User->UserId : null;
 	$isSubmitterView = !$isReviewerView && $submitterUserId !== null;
 

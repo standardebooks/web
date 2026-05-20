@@ -15,7 +15,7 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanReviewOwnArtwork){
+	if(!Session::$User->Benefits->IsArtworkAdmin){
 		throw new Exceptions\PermissionsInvalidException();
 	}
 

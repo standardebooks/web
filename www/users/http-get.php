@@ -193,8 +193,8 @@ catch(Exceptions\PermissionsInvalidException){
 						<td><? if($user->Benefits->CanReviewArtwork){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 					<tr>
-						<td>Can review own artwork:</td>
-						<td><? if($user->Benefits->CanReviewOwnArtwork){ ?>☑<? }else{ ?>☐<? } ?></td>
+						<td>Is artwork admin:</td>
+						<td><? if($user->Benefits->IsArtworkAdmin){ ?>☑<? }else{ ?>☐<? } ?></td>
 					</tr>
 					<tr>
 						<td>Can create users:</td>

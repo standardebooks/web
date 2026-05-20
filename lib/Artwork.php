@@ -287,7 +287,7 @@ final class Artwork{
 			return false;
 		}
 
-		if($user->Benefits->CanReviewOwnArtwork){
+		if($user->Benefits->IsArtworkAdmin){
 			// Admins can edit all artwork.
 			return true;
 		}
@@ -305,7 +305,7 @@ final class Artwork{
 			return false;
 		}
 
-		if($user->Benefits->CanReviewOwnArtwork){
+		if($user->Benefits->IsArtworkAdmin){
 			// Admins can change the status of all artwork.
 			return true;
 		}
@@ -323,7 +323,7 @@ final class Artwork{
 			return false;
 		}
 
-		if($user->Benefits->CanReviewArtwork || $user->Benefits->CanReviewOwnArtwork){
+		if($user->Benefits->CanReviewArtwork || $user->Benefits->IsArtworkAdmin){
 			// Admins and editors can change the file system path of all artwork.
 			return true;
 		}

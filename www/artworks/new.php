@@ -43,7 +43,7 @@ try{
 		$artwork = new Artwork();
 		$artwork->Artist = new Artist();
 
-		if(Session::$User->Benefits->CanReviewOwnArtwork){
+		if(Session::$User->Benefits->IsArtworkAdmin){
 			$artwork->Status = Enums\ArtworkStatusType::Approved;
 		}
 	}
