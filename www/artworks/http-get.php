@@ -15,11 +15,13 @@ try{
 	$isReviewerView = Session::$User->Benefits->CanReviewArtwork ?? false;
 	$isAdminView = Session::$User->Benefits->CanReviewOwnArtwork ?? false;
 
-	// If the artwork is not approved, and we're not an admin or the submitter when they can edit, don't show it.
+	// If the `Artwork` is not approved, and we're not an admin or the submitter when they can edit, don't show it.
 	if(
-		(Session::$User === null && $artwork->Status != Enums\ArtworkStatusType::Approved)
-		||
-		(Session::$User !== null && $artwork->Status != Enums\ArtworkStatusType::Approved && $artwork->SubmitterUserId != Session::$User->UserId && !$isReviewerView)
+		$artwork->Status != Enums\ArtworkStatusType::Approved
+		&&
+		!$isReviewerView
+		&&
+		!$isAdminView
 	){
 		throw new Exceptions\PermissionsInvalidException();
 	}
