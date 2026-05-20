@@ -14,12 +14,12 @@ $queryStringWithoutPage = '';
 $pageUrl = '/ebooks';
 
 try{
-	if($page <= 0){
-		$page = 1;
+	if($perPage <= 0){
+		$perPage = EBOOKS_PER_PAGE;
 	}
 
-	if($perPage != EBOOKS_PER_PAGE && $perPage != 24 && $perPage != 48){
-		$perPage = EBOOKS_PER_PAGE;
+	if($perPage > EBOOKS_MAX_PER_PAGE){
+		$perPage = EBOOKS_MAX_PER_PAGE;
 	}
 
 	if($sort == Enums\EbookSortType::Default){
@@ -103,23 +103,27 @@ try{
 		$canonicalUrl .= '?' . $queryString;
 	}
 
+	if($page <= 0){
+		throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
+	}
+
 	$result = Ebook::GetAllByFilter($query != '' ? $query : null, $tags, $sort, $page, $perPage, Enums\EbookReleaseStatusFilter::All);
 	$ebooks = $result['ebooks'];
 	$totalEbooks = $result['ebooksCount'];
 	$pageTitle = 'Browse Standard Ebooks';
 	$pageHeader = 'Browse Ebooks';
-	$pages = ceil($totalEbooks / $perPage);
+	$pages = intval(ceil($totalEbooks / $perPage));
 
 	if($page > 1){
 		$pageTitle .= ', page ' . $page;
 	}
 
 	if($pages > 0 && $page > $pages){
-		throw new Exceptions\PageOutOfBoundsException();
+		throw new Exceptions\PageOutOfBoundsException(totalPages: $pages);
 	}
 }
-catch(Exceptions\PageOutOfBoundsException){
-	$url = '/ebooks?page=' . $pages;
+catch(Exceptions\PageOutOfBoundsException $ex){
+	$url = '/ebooks?page=' . $ex->TotalPages;
 	if($queryStringWithoutPage != ''){
 		$url .= '&' . $queryStringWithoutPage;
 	}

@@ -146,10 +146,6 @@ final class Ebook{
 	protected ?Project $_ProjectInProgress;
 	protected ?Artwork $_Artwork;
 
-	private ?string $IndexableText = null;
-	private string $IndexableAuthors;
-	private ?string $IndexableCollections = null;
-
 	// *******
 	// GETTERS
 	// *******
@@ -1778,61 +1774,6 @@ final class Ebook{
 	}
 
 	/**
-	 * Initialize the various indexable properties that are used to search against.
-	 */
-	private function SetIndexableProperties(): void{
-		// Initialize `IndexableText`.
-		$this->IndexableText = $this->FullTitle ?? '';
-
-		$this->IndexableText .= ' ' . $this->AlternateTitle;
-
-		foreach($this->Tags as $tag){
-			$this->IndexableText .= ' ' . $tag->Name;
-		}
-
-		foreach($this->LocSubjects as $subject){
-			$this->IndexableText .= ' ' . $subject->Name;
-		}
-
-		if($this->TocEntries !== null){
-			foreach($this->TocEntries as $item){
-				$this->IndexableText .= ' ' . $item;
-			}
-		}
-
-		$this->IndexableText = str_replace('-', ' ', $this->IndexableText);
-		$this->IndexableText = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableText);
-
-		if($this->IndexableText == ''){
-			$this->IndexableText = null;
-		}
-
-		// Initialize `IndexableAuthors`.
-		$this->IndexableAuthors = '';
-
-		foreach($this->Authors as $author){
-			$this->IndexableAuthors .= ' ' . $author->Name;
-		}
-
-		$this->IndexableAuthors = str_replace('-', ' ', $this->IndexableAuthors);
-		$this->IndexableAuthors = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableAuthors);
-
-		// Initialize `IndexableCollections`.
-		$this->IndexableCollections = '';
-
-		foreach($this->CollectionMemberships as $collectionMembership){
-			$this->IndexableCollections .= ' ' . $collectionMembership->Collection->Name;
-		}
-
-		$this->IndexableCollections = str_replace('-', ' ', $this->IndexableCollections);
-		$this->IndexableCollections = Formatter::RemoveDiacriticsAndNonalphanumerics($this->IndexableCollections);
-
-		if($this->IndexableCollections == ''){
-			$this->IndexableCollections = null;
-		}
-	}
-
-	/**
 	 * If the given list of elements has an element that is not `''`, return that value; otherwise, return `null`.
 	 *
 	 * @param array<SimpleXMLElement>|false|null $elements
@@ -1949,8 +1890,6 @@ final class Ebook{
 	public function Create(): void{
 		$this->Validate();
 
-		$this->SetIndexableProperties();
-
 		try{
 			Ebook::GetByIdentifier($this->Identifier);
 			throw new Exceptions\EbookExistsException($this->Identifier);
@@ -1974,12 +1913,8 @@ final class Ebook{
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
 				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
-				EbookCreated, EbookUpdated, TextSinglePageByteCount, IndexableText, IndexableAuthors,
-				IndexableCollections, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
+				EbookCreated, EbookUpdated, TextSinglePageByteCount, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
 			values (?,
-				?,
-				?,
-				?,
 				?,
 				?,
 				?,
@@ -2009,8 +1944,7 @@ final class Ebook{
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
 				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-				$this->IndexableAuthors, $this->IndexableCollections, $this->DownloadsPast30Days,
+				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->DownloadsPast30Days,
 				$this->DownloadsTotal, $this->IsPatronSelection]);
 
 		try{
@@ -2022,6 +1956,7 @@ final class Ebook{
 			$this->AddContributors();
 			$this->AddTocEntries();
 			$this->AddEbookPlaceholder();
+			$this->UpdateSearchRepresentation();
 		}
 		catch(Exceptions\ValidationException $ex){
 			$error = new Exceptions\EbookInvalidException();
@@ -2038,8 +1973,6 @@ final class Ebook{
 	 */
 	public function Save(bool $updateDownloads = false): void{
 		$this->Validate();
-
-		$this->SetIndexableProperties();
 
 		try{
 			$this->CreateTags();
@@ -2078,9 +2011,6 @@ final class Ebook{
 				EbookCreated = ?,
 				EbookUpdated = ?,
 				TextSinglePageByteCount = ?,
-				IndexableText = ?,
-				IndexableAuthors = ?,
-				IndexableCollections = ?,
 				DownloadsPast30Days = coalesce(?, DownloadsPast30Days),
 				DownloadsTotal = coalesce(?, DownloadsTotal),
 				IsPatronSelection = ?
@@ -2090,8 +2020,7 @@ final class Ebook{
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
 				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->IndexableText,
-				$this->IndexableAuthors, $this->IndexableCollections,
+				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
 				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `coalesce` will keep the existing value.
 				$updateDownloads ? $this->DownloadsTotal : null,
 				$this->IsPatronSelection,
@@ -2126,6 +2055,8 @@ final class Ebook{
 
 			$this->RemoveEbookPlaceholder();
 			$this->AddEbookPlaceholder();
+
+			$this->UpdateSearchRepresentation();
 
 			EbookTag::DeleteUnused();
 			LocSubject::DeleteUnused();
@@ -2318,6 +2249,97 @@ final class Ebook{
 	}
 
 	/**
+	 * Create or update this `Ebook` in the search database.
+	 */
+	public function UpdateSearchRepresentation(): void{
+		// Get current download counts so that we don't accidentally zero out the count in Manticore if we haven't fetched it before.
+		$downloadCounts = Db::Query('
+			SELECT DownloadsPast30Days
+			from Ebooks
+			where EbookId = ?
+		', [$this->EbookId])[0] ?? null;
+
+		$searchAuthors = '';
+		$searchAuthorSortNames = '';
+
+		foreach($this->Authors as $author){
+			// Include author display and full names so users can search by either form of the author's name.
+			$searchAuthors .= $author->Name . ' ';
+
+			if($author->FullName !== null){
+				$searchAuthors .= $author->FullName . ' ';
+			}
+
+			$searchAuthorSortNames .= $author->SortName ?? $author->Name . ' ';
+		}
+
+		$searchCollections = '';
+
+		foreach($this->CollectionMemberships as $collectionMembership){
+			// Include collection names and the ebook's title in that collection so collection searches match either value.
+			$searchCollections .= $collectionMembership->Collection->Name . ' ';
+
+			if($collectionMembership->TitleInCollection !== null){
+				$searchCollections .= $collectionMembership->TitleInCollection . ' ';
+			}
+		}
+
+		$searchTags = '';
+		$searchTagUrlNames = '';
+
+		foreach($this->Tags as $tag){
+			// Include tag names for general tag searches.
+			$searchTags .= $tag->Name . ' ';
+
+			// Include normalized tag URL names for exact tag filtering in the search index.
+			$searchTagUrlNames .= str_replace('-', ' ', $tag->UrlName) . ' ';
+		}
+
+		SearchDb::Query('
+			REPLACE into ebooks (
+				id,
+				Title,
+				FullTitle,
+				AlternateTitle,
+				Authors,
+				AuthorSortName,
+				Collections,
+				Tags,
+				TagUrlNames,
+				IsPlaceholder,
+				ReadingEase,
+				WordCount,
+				DownloadsPast30Days,
+				EbookCreated
+			)
+			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+				$this->EbookId,
+				$this->Title,
+				$this->FullTitle ?? '',
+				$this->AlternateTitle ?? '',
+				trim($searchAuthors),
+				trim($searchAuthorSortNames),
+				trim($searchCollections),
+				trim($searchTags),
+				trim($searchTagUrlNames),
+				$this->IsPlaceholder(),
+				$this->ReadingEase ?? 0,
+				$this->WordCount ?? 0,
+				$downloadCounts->DownloadsPast30Days ?? $this->DownloadsPast30Days,
+				$this->EbookCreated ?? 0
+			]);
+	}
+
+	/**
+	 * Delete this `Ebook` from the search database.
+	 */
+	private function DeleteSearchRepresentation(): void{
+		SearchDb::Query('
+			DELETE from ebooks
+			where id = ?', [$this->EbookId]);
+	}
+
+	/**
 	 * @throws Exceptions\EbookDownloadInvalidException
 	 */
 	public function AddDownload(?string $ipAddress, ?string $userAgent, ?Enums\EbookDownloadSource $source): void{
@@ -2331,6 +2353,8 @@ final class Ebook{
 	}
 
 	public function Delete(): void{
+		$this->DeleteSearchRepresentation();
+
 		$this->RemoveTags();
 		$this->RemoveLocSubjects();
 		$this->RemoveCollectionMemberships();
@@ -2517,12 +2541,30 @@ final class Ebook{
 	* @return array{ebooks: array<Ebook>, ebooksCount: int}
 	*/
 	public static function GetAllByFilter(?string $query = null, array $tags = [], ?Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): array{
+		$query = trim($query ?? '');
+
+		if($page <= 0){
+			$page = 1;
+		}
+
+		if($perPage <= 0){
+			$perPage = EBOOKS_PER_PAGE;
+		}
+
+		if(mb_strlen($query) > DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH){
+			$query = mb_substr($query, 0, DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH);
+		}
+
+		if($query == ''){
+			$query = null;
+		}
+
 		$limit = $perPage;
 		$offset = (($page - 1) * $perPage);
-		$orderByRelevance = false;
 		$joinContributors = '';
 		$joinTags = '';
 		$params = [];
+		$retval = [];
 
 		switch($releaseStatusFilter){
 			case Enums\EbookReleaseStatusFilter::Released:
@@ -2533,10 +2575,11 @@ final class Ebook{
 				break;
 			case Enums\EbookReleaseStatusFilter::All:
 			default:
-				if($query !== null && $query != ''){
+				if($query !== null){
 					// If the query is present, show both released and placeholder ebooks.
-					$whereCondition = 'where true';
-				}else{
+					$whereCondition = 'where 1=1';
+				}
+				else{
 					// If there is no query, hide placeholder ebooks.
 					$whereCondition = 'where e.WwwFilesystemPath is not null';
 				}
@@ -2544,7 +2587,7 @@ final class Ebook{
 		}
 
 		if($sort === null || $sort == Enums\EbookSortType::Default){
-			if($query !== null && $query != ''){
+			if($query !== null){
 				$sort = Enums\EbookSortType::Relevance;
 			}
 			else{
@@ -2553,52 +2596,30 @@ final class Ebook{
 		}
 
 		$orderBy = 'e.EbookCreated desc';
-		if($sort == Enums\EbookSortType::AuthorAlpha){
-			$joinContributors = 'inner join Contributors con using (EbookId)';
-			$whereCondition .= ' and con.MarcRole = "aut"';
-			$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreated desc'; // Put placeholders at the end.
-		}
-		elseif($sort == Enums\EbookSortType::ReadingEase){
-			$orderBy = 'e.ReadingEase desc';
-		}
-		elseif($sort == Enums\EbookSortType::Length){
-			$orderBy = 'e.WwwFilesystemPath is null, e.WordCount'; // Put placeholders at the end.
-		}
-		elseif($sort == Enums\EbookSortType::Popularity){
-			// Searches with a keyword `query` present sort placeholdrs at the end because their `DownloadsPast30Days` count is zero and their `EbookCreated` date is `NULL`.
-			// Searches without a keyword `query` filter out placeholders in the `WHERE` clause.
-			$orderBy = 'e.DownloadsPast30Days desc, e.EbookCreated desc';
-		}
 
-		if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks".
-			$joinTags = 'inner join EbookTags et using (EbookId)
-					inner join Tags t using (TagId)';
-			$whereCondition .= ' and t.UrlName in ' . Db::CreateSetSql($tags) . ' ';
-			$params = $tags;
-		}
-
-		if($query !== null && $query != ''){
-			$query = str_replace('-', ' ', $query);
-
-			// Preserve quotes in the query so the user can enter, e.g., "war and peace" for an exact match.
-			$query = trim(preg_replace('|[^a-zA-Z0-9" ]|ius', '', Formatter::RemoveDiacritics($query)));
-
-			$whereCondition .= ' and match(e.IndexableText, e.Title, e.IndexableAuthors, e.IndexableCollections) against(?) ';
-			$params[] = $query;
-
-			if($sort == Enums\EbookSortType::Relevance){
-				$orderBy = '(
-						match(e.Title) against (?) * ' . EBOOK_SEARCH_WEIGHT_TITLE . ' +
-						match(e.IndexableAuthors) against (?) * ' . EBOOK_SEARCH_WEIGHT_AUTHORS . ' +
-						match(e.IndexableCollections) against (?) * ' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ' +
-						match(e.IndexableText) against (?)
-					) desc, e.EbookCreated desc';
-				// $params are added below based on this boolean.
-				$orderByRelevance = true;
+		if($query === null){
+			if($sort == Enums\EbookSortType::AuthorAlpha){
+				$joinContributors = 'inner join Contributors con using (EbookId)';
+				$whereCondition .= ' and con.MarcRole = "aut"';
+				$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreated desc'; // Put placeholders at the end.
 			}
-		}
+			elseif($sort == Enums\EbookSortType::ReadingEase){
+				$orderBy = 'e.ReadingEase desc';
+			}
+			elseif($sort == Enums\EbookSortType::Length){
+				$orderBy = 'e.WwwFilesystemPath is null, e.WordCount'; // Put placeholders at the end.
+			}
+			elseif($sort == Enums\EbookSortType::Popularity){
+				$orderBy = 'e.DownloadsPast30Days desc, e.EbookCreated desc';
+			}
 
-		try{
+			if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks".
+				$joinTags = 'inner join EbookTags et using (EbookId)
+						inner join Tags t using (TagId)';
+				$whereCondition .= ' and t.UrlName in ' . Db::CreateSetSql($tags) . ' ';
+				$params = $tags;
+			}
+
 			$ebooksCount = Db::QueryInt('
 					SELECT count(distinct e.EbookId)
 					from Ebooks e
@@ -2606,13 +2627,6 @@ final class Ebook{
 					' . $joinTags . '
 					' . $whereCondition . '
 					', $params);
-
-			if($orderByRelevance){
-				$params[] = $query; // match(e.Title) against (?)
-				$params[] = $query; // match(e.IndexableAuthors) against (?)
-				$params[] = $query; // match(e.IndexableCollections) against (?)
-				$params[] = $query; // match(e.IndexableText) against (?)
-			}
 
 			$params[] = $limit;
 			$params[] = $offset;
@@ -2626,19 +2640,108 @@ final class Ebook{
 					order by ' . $orderBy . '
 					limit ?
 					offset ?', $params, Ebook::class);
+
+			$retval = ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount];
 		}
-		catch(Exceptions\DatabaseQueryException $ex){
-			if(stripos($ex->getMessage(), 'General error: 191 Too many words in a FTS phrase or proximity search') !== false){
-				// This exception occurs when the search string is too long for MariaDB to handle.
-				$ebooksCount = 0;
-				$ebooks = [];
+		else{
+			$searchWhereCondition = '1=1';
+			$searchParams = [];
+
+			switch($releaseStatusFilter){
+				case Enums\EbookReleaseStatusFilter::Released:
+					$searchWhereCondition .= ' and IsPlaceholder = 0';
+					break;
+				case Enums\EbookReleaseStatusFilter::Placeholder:
+					$searchWhereCondition .= ' and IsPlaceholder = 1';
+					break;
+				case Enums\EbookReleaseStatusFilter::All:
+				default:
+					// If sorting search results by release metadata, show only released ebooks.
+					if(in_array($sort, [Enums\EbookSortType::Newest, Enums\EbookSortType::ReadingEase, Enums\EbookSortType::Length, Enums\EbookSortType::Popularity], true)){
+						$searchWhereCondition .= ' and IsPlaceholder = 0';
+					}
+					break;
 			}
-			else{
-				throw $ex;
+
+			$searchWhereCondition .= ' and match(?)';
+			$matchParamIndex = sizeof($searchParams);
+
+			if(sizeof($tags) > 0 && !in_array('all', $tags)){
+				$tagQueries = [];
+
+				foreach($tags as $tag){
+					$tag = trim(str_replace('-', ' ', $tag));
+					$tagQueries[] = '"' . SearchDb::EscapeMatch($tag) . '"';
+				}
+
+				$query = '(' . implode(' | ', $tagQueries) . ') ' . $query;
 			}
+
+			$searchParams[] = $query;
+
+			$searchOrderBy = 'EbookCreated desc';
+
+			if($sort == Enums\EbookSortType::Relevance){
+				$searchOrderBy = 'weight() desc, EbookCreated desc';
+			}
+			elseif($sort == Enums\EbookSortType::AuthorAlpha){
+				$searchOrderBy = 'IsPlaceholder asc, AuthorSortName asc, EbookCreated desc';
+			}
+			elseif($sort == Enums\EbookSortType::ReadingEase){
+				$searchOrderBy = 'ReadingEase desc';
+			}
+			elseif($sort == Enums\EbookSortType::Length){
+				$searchOrderBy = 'WordCount asc';
+			}
+			elseif($sort == Enums\EbookSortType::Popularity){
+				// Placeholders sort at the end because their download count and publication timestamp are both `0`.
+				$searchOrderBy = 'DownloadsPast30Days desc, EbookCreated desc';
+			}
+
+			$searchParams[] = $limit;
+			$searchParams[] = $offset;
+
+			$maxMatches = $offset + $limit;
+			$result = SearchDb::QueryMatch('SELECT id from ebooks where ' . $searchWhereCondition . ' order by ' . $searchOrderBy . ' limit ? offset ? option max_matches=' . $maxMatches . ', field_weights=(Title=' . EBOOK_SEARCH_WEIGHT_TITLE . ',FullTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',AlternateTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',Authors=' . EBOOK_SEARCH_WEIGHT_AUTHORS . ',Collections=' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ')', $searchParams, $matchParamIndex);
+
+			// Try to get the total matches from built-in metadata instead of running a second resource-intensive query.
+			$ebooksCount = SearchDb::GetLastQueryTotalResultCount();
+
+			if($ebooksCount === null){
+				// Exact number of total matches not found, calculate it using a separate query.
+				array_pop($searchParams);
+				array_pop($searchParams);
+				$ebooksCount = SearchDb::QueryMatch('SELECT count(*) as Count from ebooks where ' . $searchWhereCondition, $searchParams, $matchParamIndex)[0]->count ?? 0;
+			}
+
+			if($ebooksCount == 0){
+				return ['ebooks' => [], 'ebooksCount' => 0];
+			}
+
+			if(sizeof($result) == 0){
+				return ['ebooks' => [], 'ebooksCount' => $ebooksCount];
+			}
+
+			$ids = '';
+
+			foreach($result as $row){
+				$ids .= $row->id . ',';
+			}
+
+			$ids = rtrim($ids, ',');
+
+			// `find_in_set()` allows us to order the resultset from MariaDB in the same order that it came from Manticore.
+			$ebooks = Db::Query('
+					SELECT e.*
+					from Ebooks e
+					where e.EbookId in (' . $ids . ')
+					order by find_in_set(e.EbookId, "' . $ids . '")'
+				, [], Ebook::class);
+
+			$retval = ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount];
 		}
 
-		return ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount];
+		return $retval;
 	}
 
 	/**

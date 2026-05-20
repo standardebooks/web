@@ -6,12 +6,23 @@ function PrintUsage(): void{
 	echo "Truncate and rebuild all Manticore tables.\n";
 }
 
+$rebuildEbooks = true;
+$rebuildArtworks = true;
+
 for($i = 1; $i < sizeof($argv); $i++){
 	switch($argv[$i]){
 		case '--help':
 		case '-h':
 			PrintUsage();
 			exit();
+		case '--artworks-only':
+			$rebuildEbooks = false;
+			$rebuildArtworks = true;
+			break;
+		case '--ebooks-only':
+			$rebuildEbooks = true;
+			$rebuildArtworks = false;
+			break;
 		default:
 			print('Unrecognized option: ' . $argv[$i] . "\n");
 			exit();
@@ -22,31 +33,62 @@ try{
 	// Confirm that Manticore is running.
 	SearchDb::Connect();
 
-	print("Rebuilding artworks ...\n");
+	if($rebuildEbooks){
+		print("Rebuilding ebooks ...\n");
 
-	SearchDb::Query('TRUNCATE table artworks');
+		SearchDb::Query('TRUNCATE table ebooks');
 
-	$total = Db::QueryInt('SELECT count(*) from Artworks');
+		$total = Db::QueryInt('SELECT count(*) from Ebooks');
 
-	// Note that more time is spent in MariaDB than in Manticore, so larger result sets make the process faster.
-	$increment = 10000;
-	$i = 0;
+		// Note that more time is spent in MariaDB than in Manticore, so larger result sets make the process faster.
+		$increment = 10000;
+		$i = 0;
 
-	while(true){
-		$artworks = Db::Query('SELECT * from Artworks order by ArtworkId asc limit ?, ?', [$i, $increment], Artwork::class);
+		while(true){
+			$ebooks = Db::Query('SELECT * from Ebooks order by EbookId asc limit ?, ?', [$i, $increment], Ebook::class);
 
-		if(sizeof($artworks) == 0){
-			break;
+			if(sizeof($ebooks) == 0){
+				break;
+			}
+
+			foreach($ebooks as $ebook){
+				$ebook->UpdateSearchRepresentation();
+				unset($ebook);
+			}
+
+			$i += $increment;
+			$percent = $total == 0 ? 100 : min(100, floor(($i / $total) * 100));
+			print("Ebooks \t" . min($total, $i) . "/" . $total . "\t" . $percent . "%\n");
 		}
+	}
 
-		foreach($artworks as $artwork){
-			$artwork->UpdateSearchRepresentation();
-			unset($artwork);
+	if($rebuildArtworks){
+		print("Rebuilding artworks ...\n");
+
+		SearchDb::Query('TRUNCATE table artworks');
+
+		$total = Db::QueryInt('SELECT count(*) from Artworks');
+
+		// Note that more time is spent in MariaDB than in Manticore, so larger result sets make the process faster.
+		$increment = 10000;
+		$i = 0;
+
+		while(true){
+			$artworks = Db::Query('SELECT * from Artworks order by ArtworkId asc limit ?, ?', [$i, $increment], Artwork::class);
+
+			if(sizeof($artworks) == 0){
+				break;
+			}
+
+			foreach($artworks as $artwork){
+				$artwork->UpdateSearchRepresentation();
+				unset($artwork);
+			}
+
+			$i += $increment;
+			$percent = $total == 0 ? 100 : min(100, floor(($i / $total) * 100));
+			print("Artwork \t" . min($total, $i) . "/" . $total . "\t" . $percent . "%\n");
 		}
-
-		$i += $increment;
-		$percent = $total == 0 ? 100 : min(100, floor(($i / $total) * 100));
-		print("Artwork \t" . min($total, $i) . "/" . $total . "\t" . $percent . "%\n");
 	}
 }
 catch(Exceptions\DatabaseConnectionFailedException){

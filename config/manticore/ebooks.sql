@@ -1,0 +1,2 @@
+# Manticore can't sort by `text` fields, so we have to create a duplicate `AuthorSortName` field so we can sort by that value.
+create table ebooks (id bigint, Title text, FullTitle text, AlternateTitle text, Authors text, AuthorSortName string, Collections text, Tags text, TagUrlNames text, IsPlaceholder int, ReadingEase float, WordCount int, DownloadsPast30Days int, EbookCreated timestamp) morphology = 'lemmatize_en' index_exact_words = '1';

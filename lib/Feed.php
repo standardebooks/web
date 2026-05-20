@@ -5,6 +5,7 @@ use function Safe\exec;
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\glob;
+use function Safe\preg_match;
 use function Safe\tempnam;
 use function Safe\unlink;
 
@@ -126,5 +127,64 @@ abstract class Feed{
 		}
 
 		return $retval;
+	}
+
+	/**
+	 * Decide what content-type to serve for a feed via HTTP content negotation.
+	 *
+	 * If the feed is viewed from a web browser, we will usually serve `application/xml` as that's typically what's in the browser's `Accept` header.
+	 * If the `Accept` header is `application/rss+xml` or `application/atom+xml` then serve that instead, as those are the "technically correct" content types that may be requested by RSS readers.
+	 *
+	 * @param string $relativePath The relative path to the file we're serving, e.g. `/feeds/opds/all.xml`.
+	 *
+	 * @return string The MIME type to serve.
+	 */
+	public static function NegotiateMimeType(string $relativePath): string{
+		$http = new HTTP2();
+		$mime = 'application/xml';
+
+		if(preg_match('/^\/feeds\/opds/', $relativePath)){
+			$contentType = [
+				'application/atom+xml',
+				'application/xml',
+				'text/xml'
+			];
+			$mime = $http->negotiateMimeType($contentType, 'application/atom+xml');
+
+			if($mime == 'application/atom+xml'){
+				if(preg_match('/\/index\.xml$/', $relativePath)){
+					$mime .= ';profile=opds-catalog;kind=navigation; charset=utf-8';
+				}
+				else{
+					$mime .= ';profile=opds-catalog;kind=acquisition; charset=utf-8';
+				}
+			}
+		}
+		elseif(preg_match('/^\/feeds\/rss/', $relativePath)){
+			$contentType = [
+				'application/rss+xml',
+				'application/xml',
+				'text/xml'
+			];
+			$mime = $http->negotiateMimeType($contentType, 'application/rss+xml');
+		}
+		elseif(preg_match('/^\/feeds\/atom/', $relativePath)){
+			$contentType = [
+				'application/atom+xml',
+				'application/xml',
+				'text/xml'
+			];
+			$mime = $http->negotiateMimeType($contentType, 'application/atom+xml');
+		}
+		elseif(preg_match('/^\/feeds\/onix/', $relativePath)){
+			$contentType = [
+				'application/onix+xml',
+				'application/xml',
+				'text/xml'
+			];
+			$mime = $http->negotiateMimeType($contentType, 'application/onix+xml');
+		}
+
+		return $mime;
 	}
 }

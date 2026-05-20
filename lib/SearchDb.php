@@ -31,19 +31,29 @@ class SearchDb extends Db{
 	public static function EscapeMatch(string $string): string{
 		return strtr($string, [
 			'\\' => '\\\\',
-			'!'  => '\\!',
-			'"'  => '\\"',
-			"'"  => "\\'",
-			'$'  => '\\$',
-			'('  => '\\(',
-			')'  => '\\)',
-			'-'  => '\\-',
-			'/'  => '\\/',
-			'<'  => '\\<',
-			'@'  => '\\@',
-			'^'  => '\\^',
-			'|'  => '\\|',
-			'~'  => '\\~',
+			'!' => '\\!',
+			'"' => '\\"',
+			"'" => "\\'",
+			'$' => '\\$',
+			'(' => '\\(',
+			')' => '\\)',
+			'-' => '\\-',
+			'/' => '\\/',
+			'<' => '\\<',
+			'@' => '\\@',
+			'^' => '\\^',
+			'|' => '\\|',
+			'~' => '\\~',
+			'[' => '\\[',
+			']' => '\\]',
+			'=' => '\\=',
+			'*' => '\\*',
+			'?' => '\\?',
+			'%' => '\\%',
+			'{' => '\\{',
+			'}' => '\\}',
+			'.' => '\\.',
+			':' => '\\:',
 		]);
 	}
 
@@ -117,7 +127,7 @@ class SearchDb extends Db{
 		try{
 			$result = static::Query($sql, $params, $class);
 		}
-		catch(Exceptions\SearchSyntaxInvalidException){
+		catch(Exceptions\DatabaseQueryException){
 			// There was a syntax error in the `match()` function's search language (e.g. there was an opening `"` but no closing `"`); escape all search operators and try again.
 			if(isset($params[$matchParamIndex])){
 				/** @var string $query */
