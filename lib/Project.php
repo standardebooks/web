@@ -9,6 +9,7 @@ use Safe\DateTimeImmutable;
 
 /**
  * @property Ebook $Ebook
+ * @property User $Producer
  * @property User $Manager
  * @property User $Reviewer
  * @property-read string $Url
@@ -26,8 +27,7 @@ final class Project{
 	public int $ProjectId;
 	public int $EbookId;
 	public Enums\ProjectStatusType $Status = Enums\ProjectStatusType::InProgress;
-	public string $ProducerName;
-	public ?string $ProducerEmail = null;
+	public int $ProducerUserId;
 	public ?string $DiscussionUrl = null;
 	public ?string $VcsUrl;
 	public DateTimeImmutable $Created;
@@ -41,6 +41,7 @@ final class Project{
 	public bool $IsStatusAutomaticallyUpdated = true;
 
 	protected Ebook $_Ebook;
+	protected User $_Producer;
 	protected User $_Manager;
 	protected User $_Reviewer;
 	protected string $_Url;
@@ -136,6 +137,13 @@ final class Project{
 	/**
 	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
 	 */
+	protected function GetProducer(): User{
+		return $this->_Producer ??= User::Get($this->ProducerUserId);
+	}
+
+	/**
+	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
+	 */
 	protected function GetManager(): User{
 		return $this->_Manager ??= User::Get($this->ManagerUserId);
 	}
@@ -169,27 +177,26 @@ final class Project{
 			$error->Add(new Exceptions\EbookRequiredException());
 		}
 
-		$this->ProducerEmail = trim($this->ProducerEmail ?? '');
-		if($this->ProducerEmail == ''){
-			$this->ProducerEmail = null;
+		// Validate the producer.
+		if(!isset($this->Producer->Uuid)){
+			$this->Producer->GenerateUuid();
 		}
 
-		// If we have an email address, try to see if we have a matching `User` in the database that we can pull the name from.
-		if($this->ProducerEmail !== null){
-			try{
-				$user = User::GetByEmail($this->ProducerEmail);
-				if($user->Name !== null){
-					$this->ProducerName = $user->Name;
-				}
-			}
-			catch(Exceptions\UserNotFoundException){
-				// Pass.
-			}
+		try{
+			$this->Producer->Validate(requireEmail: false);
+		}
+		catch(Exceptions\UserInvalidException $ex){
+			$error->Add($ex);
 		}
 
-		$this->ProducerName = trim($this->ProducerName ?? '');
-		if($this->ProducerName == ''){
+		if($this->Producer->Name === null){
 			$error->Add(new Exceptions\ProducerNameRequiredException());
+		}
+		elseif($this->Producer->Email === null){
+			$users = User::GetAllByName($this->Producer->Name);
+			if(sizeof($users) > 1){
+				$error->Add(new Exceptions\AmbiguousUserException($users));
+			}
 		}
 
 		$this->DiscussionUrl = trim($this->DiscussionUrl ?? '');
@@ -266,6 +273,47 @@ final class Project{
 	}
 
 	/**
+	 * Populate the `Producer` object based on whether the name/email already exists as a `User`.
+	 *
+	 * @throws Exceptions\AmbiguousUserException If there is more than one `User` with the given name.
+	 */
+	private function GetOrCreateProducer(): void{
+		if($this->Producer->Email !== null){
+			try{
+				$this->Producer = User::GetByEmail($this->Producer->Email);
+			}
+			catch(Exceptions\UserNotFoundException){
+				try{
+					$this->Producer->Create(requireEmail: true);
+				}
+				catch(Exceptions\AppException){
+					// Never thrown, pass.
+				}
+			}
+		}
+		else{
+			$users = User::GetAllByName($this->Producer->Name);
+
+			if(sizeof($users) == 0){
+				try{
+					$this->Producer->Create(requireEmail: false);
+				}
+				catch(Exceptions\AppException){
+					// Never thrown, pass.
+				}
+			}
+			elseif(sizeof($users) == 1){
+				$this->Producer = $users[0];
+			}
+			else{
+				throw new Exceptions\AmbiguousUserException($users);
+			}
+		}
+
+		$this->ProducerUserId = $this->Producer->UserId;
+	}
+
+	/**
 	 * Creates a new `Project`. If `Project::$Manager` or `Project::$Reviewer` are unassigned, they will be automatically assigned.
 	 *
 	 * @throws Exceptions\ProjectInvalidException If the `Project` is invalid.
@@ -274,26 +322,9 @@ final class Project{
 	 * @throws Exceptions\UserNotFoundException If a manager or reviewer could not be auto-assigned.
 	 */
 	public function Create(): void{
-		// Is this `Project` being produced by one of the editors?
-		try{
-			$producer = User::GetByIdentifier($this->ProducerName);
-			// Set the email if we have one.
-			if(!isset($this->ProducerEmail) && isset($producer->Email)){
-				$this->ProducerEmail = $producer->Email;
-			}
-		}
-		catch(Exceptions\AmbiguousUserException | Exceptions\UserNotFoundException){
-			$producer = null;
-		}
-
-		// Check if we already have this producer's email in the system.
-		if(!isset($this->ProducerEmail)){
-			$this->ProducerEmail = Db::Query('SELECT ProducerEmail from Projects where ProducerName = ? and ProducerEmail is not null limit 1', [$this->ProducerName])[0]->ProducerEmail ?? null;
-		}
-
 		if(!isset($this->ManagerUserId)){
 			try{
-				$this->Manager = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Manager, [$producer->UserId ?? 0]);
+				$this->Manager = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Manager, [$this->ProducerUserId]);
 			}
 			catch(Exceptions\UserNotFoundException){
 				throw new Exceptions\UserNotFoundException('Could not auto-assign a suitable manager.');
@@ -304,7 +335,7 @@ final class Project{
 
 		if(!isset($this->ReviewerUserId)){
 			try{
-				$this->Reviewer = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Reviewer, [$this->Manager->UserId, $producer->UserId ?? 0]);
+				$this->Reviewer = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Reviewer, [$this->Manager->UserId, $this->ProducerUserId]);
 			}
 			catch(Exceptions\UserNotFoundException){
 				unset($this->Manager);
@@ -316,6 +347,15 @@ final class Project{
 		}
 
 		$this->Validate(false, true);
+
+		try{
+			$this->GetOrCreateProducer();
+		}
+		catch(Exceptions\AmbiguousUserException $ex){
+			$error = new Exceptions\ProjectInvalidException();
+			$error->Add($ex);
+			throw $error;
+		}
 
 		try{
 			$this->FetchLastDiscussionTimestamp();
@@ -351,8 +391,7 @@ final class Project{
 				(
 					EbookId,
 					Status,
-					ProducerName,
-					ProducerEmail,
+					ProducerUserId,
 					DiscussionUrl,
 					VcsUrl,
 					Created,
@@ -380,17 +419,16 @@ final class Project{
 					?,
 					?,
 					?,
-					?,
 					?
 				)
 				returning ProjectId
-			', [$this->EbookId, $this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
+			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
 
 		// Notify the manager and reviewer.
 		if($this->Status == Enums\ProjectStatusType::InProgress){
 			// The manager is also the reviewer, just send one email.
 			if($this->ManagerUserId == $this->ReviewerUserId){
-				if($this->Manager->Email !== null && $this->Manager->Name != $this->ProducerName){
+				if($this->Manager->Email !== null && $this->ManagerUserId != $this->ProducerUserId){
 					$em = new QueuedEmailMessage();
 					$em->From = ADMIN_EMAIL_ADDRESS;
 					$em->To = $this->Manager->Email;
@@ -432,13 +470,21 @@ final class Project{
 	public function Save(): void{
 		$this->Validate();
 
+		try{
+			$this->GetOrCreateProducer();
+		}
+		catch(Exceptions\AmbiguousUserException $ex){
+			$error = new Exceptions\ProjectInvalidException();
+			$error->Add($ex);
+			throw $error;
+		}
+
 		Db::Query('
 			UPDATE
 			Projects
 			set
 			Status = ?,
-			ProducerName = ?,
-			ProducerEmail = ?,
+			ProducerUserId = ?,
 			DiscussionUrl = ?,
 			VcsUrl = ?,
 			Started = ?,
@@ -450,7 +496,7 @@ final class Project{
 			IsStatusAutomaticallyUpdated = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerName, $this->ProducerEmail, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
+		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
 
 		Db::Query('
 			UPDATE
@@ -478,8 +524,15 @@ final class Project{
 
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('EbookId');
-		$this->PropertyFromHttp('ProducerName');
-		$this->PropertyFromHttp('ProducerEmail');
+		if(!isset($this->Producer)){
+			$this->Producer = new User();
+			$this->Producer->GenerateUuid();
+		}
+		$this->Producer->PropertyFromHttp('Name', Enums\HttpVariableSource::Body, 'project-producer-name');
+		$producerEmail = Http::$Request->Body->Get('project-producer-email', 'empty-string');
+		if($producerEmail !== null){
+			$this->Producer->Email = $producerEmail;
+		}
 		$this->PropertyFromHttp('DiscussionUrl');
 		$this->PropertyFromHttp('Status');
 		$this->PropertyFromHttp('VcsUrl');
@@ -683,18 +736,12 @@ final class Project{
 	 * Send an email reminder to the producer notifying them about their project status, but only if they're not an editor.
 	 */
 	public function SendReminder(Enums\ProjectReminderType $type): void{
-		if($this->ProducerEmail === null || $this->GetReminder($type) !== null){
+		if($this->Producer->Email === null || $this->GetReminder($type) !== null){
 			return;
 		}
 
-		try{
-			$user = User::GetByEmail($this->ProducerEmail);
-			if($user->Benefits->IsEditor){
-				return;
-			}
-		}
-		catch(Exceptions\UserNotFoundException){
-			// Pass.
+		if($this->Producer->Benefits->IsEditor){
+			return;
 		}
 
 		$reminder = new ProjectReminder();
@@ -705,7 +752,7 @@ final class Project{
 		$em = new QueuedEmailMessage();
 		$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 		$em->FromName = EDITOR_IN_CHIEF_NAME;
-		$em->To = $this->ProducerEmail;
+		$em->To = $this->Producer->Email;
 		$em->Subject = 'Your Standard Ebooks ebook';
 
 		switch($type){
@@ -778,6 +825,13 @@ final class Project{
 	 */
 	public static function GetAllByReviewerUserId(int $userId): array{
 		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ReviewerUserId = ? and Status in (?, ?, ?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, ProjectStatusType::Reviewed], Project::class);
+	}
+
+	/**
+	 * @return array<Project>
+	 */
+	public static function GetAllByProducerUserId(int $userId): array{
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ProducerUserId = ? order by Projects.Created desc', [$userId], Project::class);
 	}
 
 	/**

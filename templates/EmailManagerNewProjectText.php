@@ -9,7 +9,7 @@ You’ve been assigned a new ebook project to **<?= $role ?>**:
 
 - Title: [<?= Formatter::EscapeMarkdown($project->Ebook->Title) ?>](<?= Formatter::EscapeMarkdown(SITE_URL . $project->Ebook->Url) ?>)
 
-- Producer: <? if($project->ProducerEmail !== null){ ?>[<?= Formatter::EscapeMarkdown($project->ProducerName) ?>](mailto:<?= Formatter::EscapeMarkdown($project->ProducerEmail) ?>)<? }elseif($project->DiscussionUrl !== null){ ?>[<?= Formatter::EscapeMarkdown($project->ProducerName) ?>](<?= Formatter::EscapeMarkdown($project->DiscussionUrl) ?>)<? }else{ ?><?= Formatter::EscapeMarkdown($project->ProducerName) ?><? } ?>
+- Producer: <? if($project->Producer->Email !== null){ ?>[<?= Formatter::EscapeMarkdown($project->Producer->DisplayName) ?>](mailto:<?= Formatter::EscapeMarkdown($project->Producer->Email) ?>)<? }elseif($project->DiscussionUrl !== null){ ?>[<?= Formatter::EscapeMarkdown($project->Producer->DisplayName) ?>](<?= Formatter::EscapeMarkdown($project->DiscussionUrl) ?>)<? }else{ ?><?= Formatter::EscapeMarkdown($project->Producer->DisplayName) ?><? } ?>
 
 
 - Manager: [<?= Formatter::EscapeMarkdown($project->Manager->DisplayName) ?>](<?= Formatter::EscapeMarkdown(SITE_URL . $project->Manager->Url . '/projects') ?>)

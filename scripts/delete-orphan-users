@@ -15,6 +15,7 @@ Db::Query('
 	left join Patrons p on u.UserId = p.UserId
 	left join Payments py on u.UserId = py.UserId
 	left join PollVotes pv on u.UserId = pv.UserId
+	left join Projects pr0 on u.UserId = pr0.ProducerUserId
 	left join Projects pr1 on u.UserId = pr1.ManagerUserId
 	left join Projects pr2 on u.UserId = pr2.ReviewerUserId
 	where
@@ -33,6 +34,8 @@ Db::Query('
 	py.UserId is null
 	and
 	pv.UserId is null
+	and
+	pr0.ProducerUserId is null
 	and
 	pr1.ManagerUserId is null
 	and

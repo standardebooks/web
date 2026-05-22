@@ -8,15 +8,18 @@ $isEditForm ??= false;
 
 $managers = User::GetAllByCanManageProjects();
 $reviewers = User::GetAllByCanReviewProjects();
-$pastProducers = User::GetNamesByHasProducedProject();
+$pastProducers = User::GetAllByHasProducedProject();
+$project->Producer ??= new User();
 ?>
 <? if(!$isEditForm){ ?>
 	<input type="hidden" name="project-ebook-id" value="<?= $project->EbookId ?? '' ?>" />
 <? } ?>
 
 <datalist id="editors">
-	<? foreach($pastProducers as $row){ ?>
-		<option value="<?= Formatter::EscapeHtml($row->ProducerName) ?>"><?= Formatter::EscapeHtml($row->ProducerName) ?></option>
+	<? foreach($pastProducers as $pastProducer){ ?>
+		<? if($pastProducer->Name !== null){ ?>
+			<option value="<?= Formatter::EscapeHtml($pastProducer->Name) ?>"><?= Formatter::EscapeHtml($pastProducer->Name) ?></option>
+		<? } ?>
 	<? } ?>
 </datalist>
 
@@ -29,7 +32,7 @@ $pastProducers = User::GetNamesByHasProducedProject();
 		<? if($areFieldsRequired){ ?>
 			required="required"
 		<? } ?>
-		value="<?= Formatter::EscapeHtml($project->ProducerName ?? '') ?>"
+		value="<?= Formatter::EscapeHtml($project->Producer->Name ?? '') ?>"
 	/>
 </label>
 
@@ -38,7 +41,7 @@ $pastProducers = User::GetNamesByHasProducedProject();
 	<input
 		type="email"
 		name="project-producer-email"
-		value="<?= Formatter::EscapeHtml($project->ProducerEmail) ?>"
+		value="<?= Formatter::EscapeHtml($project->Producer->Email ?? '') ?>"
 	/>
 </label>
 

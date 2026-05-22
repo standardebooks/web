@@ -2,8 +2,7 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `ProjectId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Status` enum('in_progress','awaiting_review','reviewed','stalled','completed','abandoned') NOT NULL DEFAULT 'in_progress',
   `EbookId` int(11) NOT NULL,
-  `ProducerName` varchar(151) NOT NULL DEFAULT '',
-  `ProducerEmail` varchar(80) DEFAULT NULL,
+  `ProducerUserId` int(10) unsigned NOT NULL,
   `DiscussionUrl` varchar(255) DEFAULT NULL,
   `VcsUrl` varchar(255) DEFAULT NULL,
   `Created` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -16,5 +15,6 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `LastDiscussionTimestamp` DATETIME NULL DEFAULT NULL,
   `IsStatusAutomaticallyUpdated` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`ProjectId`),
-  KEY `index1` (`EbookId`)
+  KEY `index1` (`EbookId`),
+  KEY `indexProducerUserId` (`ProducerUserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

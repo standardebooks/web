@@ -189,8 +189,10 @@ class Spreadsheet{
 	public function FillFromHttpPost(): void{
 		$this->PropertyFromHttp('Title');
 		$this->PropertyFromHttp('ExternalUrl');
-		if(isset($_POST['spreadsheet-notes'])){
-			$this->Notes = Http::$Request->Body->Get('spreadsheet-notes');
+
+		$notes = Http::$Request->Body->Get('spreadsheet-notes', 'empty-string');
+		if($notes !== null){
+			$this->Notes = $notes;
 		}
 
 		$this->PropertyFromHttp('SortOrder');

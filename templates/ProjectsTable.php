@@ -7,6 +7,7 @@ $includeTitle ??= true;
 $includeStatus ??= true;
 $showEditButton ??= false;
 $showContactInformation ??= false;
+$isAdminView ??= false;
 ?>
 <table class="data-table projects-table">
 	<caption aria-hidden="true">Scroll right →</caption>
@@ -43,26 +44,28 @@ $showContactInformation ??= false;
 					</td>
 				<? } ?>
 				<td class="producer">
-					<? if($project->ProducerEmail !== null && $showContactInformation){ ?>
-						<a href="mailto:<?= Formatter::EscapeHtml($project->ProducerEmail) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
+					<? if($isAdminView){ ?>
+						<a href="<?= $project->Producer->Url ?>"><?= Formatter::EscapeHtml($project->Producer->DisplayName) ?></a>
+					<? }elseif($project->Producer->Email !== null && $showContactInformation){ ?>
+						<a href="mailto:<?= Formatter::EscapeHtml($project->Producer->Email) ?>"><?= Formatter::EscapeHtml($project->Producer->DisplayName) ?></a>
 					<? }elseif($project->DiscussionUrl !== null && $showContactInformation){ ?>
-						<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
+						<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->Producer->DisplayName) ?></a>
 					<? }else{ ?>
-						<?= Formatter::EscapeHtml($project->ProducerName) ?>
+						<?= Formatter::EscapeHtml($project->Producer->Name) ?>
 					<? } ?>
 				</td>
 				<td>
 					<? if($showContactInformation){ ?>
 						<a href="<?= $project->Manager->Url ?>/projects"><?= Formatter::EscapeHtml($project->Manager->DisplayName) ?></a>
 					<? }else{ ?>
-						<?= Formatter::EscapeHtml($project->Manager->DisplayName) ?>
+						<?= Formatter::EscapeHtml($project->Manager->Name) ?>
 					<? } ?>
 				</td>
 				<td>
 					<? if($showContactInformation){ ?>
 						<a href="<?= $project->Reviewer->Url ?>/projects"><?= Formatter::EscapeHtml($project->Reviewer->DisplayName) ?></a>
 					<? }else{ ?>
-						<?= Formatter::EscapeHtml($project->Reviewer->DisplayName) ?>
+						<?= Formatter::EscapeHtml($project->Reviewer->Name) ?>
 					<? } ?>
 				</td>
 				<td>

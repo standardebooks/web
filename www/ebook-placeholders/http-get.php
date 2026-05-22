@@ -125,7 +125,7 @@ catch(Exceptions\EbookNotFoundException){
 							<a href="<?= $ebook->ProjectInProgress->EditUrl ?>">Edit project</a>
 						</p>
 					<? } ?>
-					<?= Template::ProjectDetailsTable(project: $ebook->ProjectInProgress, showTitle: false) ?>
+					<?= Template::ProjectDetailsTable(project: $ebook->ProjectInProgress, showTitle: false, isAdminView: Session::$User->Benefits->CanEditProjects) ?>
 				</section>
 			<? } ?>
 
@@ -139,7 +139,7 @@ catch(Exceptions\EbookNotFoundException){
 				<? if(sizeof($ebook->PastProjects) == 0){ ?>
 					<p class="empty-notice">None.</p>
 				<? }else{ ?>
-					<?= Template::ProjectsTable(projects: $ebook->PastProjects, includeTitle: false, showEditButton: Session::$User->Benefits->CanEditProjects, showContactInformation: true) ?>
+					<?= Template::ProjectsTable(projects: $ebook->PastProjects, includeTitle: false, showEditButton: Session::$User->Benefits->CanEditProjects, showContactInformation: true, isAdminView: Session::$User->Benefits->CanEditProjects) ?>
 				<? } ?>
 			</section>
 		<? } ?>

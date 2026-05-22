@@ -55,7 +55,7 @@ catch(Exceptions\PermissionsInvalidException){
 ?><?= Template::Header(
 	title: $user->DisplayName,
 	canonicalUrl: $user->Url,
-	css: ['/css/user.css']
+	css: ['/css/user.css', '/css/project.css']
 ) ?>
 <main>
 	<section class="narrow">
@@ -303,6 +303,13 @@ catch(Exceptions\PermissionsInvalidException){
 					<? } ?>
 				</tbody>
 			</table>
+		<? } ?>
+
+		<h2>Projects</h2>
+		<? if(sizeof($user->ProjectsProducing) == 0){ ?>
+			<p class="empty-notice">None.</p>
+		<? }else{ ?>
+			<?= Template::ProjectsTable(projects: $user->ProjectsProducing, showContactInformation: true, isAdminView: Session::$User->Benefits->CanEditCollections) ?>
 		<? } ?>
 	</section>
 </main>

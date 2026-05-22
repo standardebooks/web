@@ -8,6 +8,7 @@ use Enums\HttpMethod;
 $useFullyQualifiedUrls ??= false;
 $showTitle ??= true;
 $showArtworkStatus ??= true;
+$isAdminView ??= false;
 ?>
 <table class="admin-table">
 	<tbody>
@@ -20,12 +21,14 @@ $showArtworkStatus ??= true;
 		<tr>
 			<td>Producer:</td>
 			<td>
-				<? if($project->ProducerEmail !== null){ ?>
-					<a href="mailto:<?= Formatter::EscapeHtml($project->ProducerEmail) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
+				<? if($isAdminView){ ?>
+					<a href="<?= $project->Producer->Url ?>"><?= Formatter::EscapeHtml($project->Producer->DisplayName) ?></a>
+				<? }elseif($project->Producer->Email !== null){ ?>
+					<a href="mailto:<?= Formatter::EscapeHtml($project->Producer->Email) ?>"><?= Formatter::EscapeHtml($project->Producer->DisplayName) ?></a>
 				<? }elseif($project->DiscussionUrl !== null){ ?>
-					<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->ProducerName) ?></a>
+					<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->Producer->DisplayName) ?></a>
 				<? }else{ ?>
-					<?= Formatter::EscapeHtml($project->ProducerName) ?>
+					<?= Formatter::EscapeHtml($project->Producer->DisplayName) ?>
 				<? } ?>
 			</td>
 		</tr>

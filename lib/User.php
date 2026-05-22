@@ -19,6 +19,7 @@ use function Safe\preg_match;
  * @property-read ?string $FirstName The `User`'s first name, or `null` if the `User` has no name or is a foundation or institution.
  * @property-read ?EmailAddress $Email
  * @property-write EmailAddress|string|null $Email
+ * @property array<Project> $ProjectsProducing
  */
 final class User{
 	use Traits\Accessor;
@@ -48,6 +49,8 @@ final class User{
 	protected ?string $_SortName = null;
 	protected ?string $_FirstName = null;
 	protected ?EmailAddress $_Email = null; // TODO: Convert to property hook in PHP 8.4.
+	/** @var array<Project> $_ProjectsProducing */
+	protected array $_ProjectsProducing;
 
 
 	// *******
@@ -129,11 +132,18 @@ final class User{
 	 * @return array<NewsletterSubscription>
 	 */
 	protected function GetNewsletterSubscriptions(): array{
-		if(!isset($this->_NewsletterSubscriptions)){
-			$this->_NewsletterSubscriptions = NewsletterSubscription::GetAllByUserId($this->UserId);
-		}
+		$this->_NewsletterSubscriptions ??= NewsletterSubscription::GetAllByUserId($this->UserId);
 
 		return $this->_NewsletterSubscriptions;
+	}
+
+	/**
+	 * @return array<Project>
+	 */
+	protected function GetProjectsProducing(): array{
+		$this->_ProjectsProducing ??= Project::GetAllByProducerUserId($this->UserId);
+
+		return $this->_ProjectsProducing;
 	}
 
 	protected function GetPatron(): ?Patron{
@@ -541,15 +551,17 @@ final class User{
 	}
 
 	/**
-	 * @return array<stdClass>
+	 * @return array<User>
 	 */
-	public static function GetNamesByHasProducedProject(): array{
+	public static function GetAllByHasProducedProject(): array{
 		return Db::Query('
 					SELECT
-					distinct (ProducerName)
+					distinct u.*
 					from Projects
-					order by ProducerName asc
-				', []);
+					inner join Users u
+					on Projects.ProducerUserId = u.UserId
+					order by u.Name asc
+				', [], User::class);
 	}
 
 	/**

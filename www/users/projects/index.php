@@ -61,7 +61,7 @@ catch(Exceptions\PermissionsInvalidException){
 			<? if(sizeof($managingProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(projects: $managingProjects, showContactInformation: true) ?>
+				<?= Template::ProjectsTable(projects: $managingProjects, showContactInformation: true, isAdminView: Session::$User->Benefits->CanEditCollections) ?>
 			<? } ?>
 		</section>
 
@@ -70,7 +70,7 @@ catch(Exceptions\PermissionsInvalidException){
 			<? if(sizeof($reviewingProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(projects: $reviewingProjects, showContactInformation: true) ?>
+				<?= Template::ProjectsTable(projects: $reviewingProjects, showContactInformation: true, isAdminView: Session::$User->Benefits->CanEditCollections) ?>
 			<? } ?>
 		</section>
 	</section>

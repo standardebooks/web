@@ -49,14 +49,14 @@ $stalledProjects = Project::GetAllByStatus(Enums\ProjectStatusType::Stalled);
 			<? if(sizeof($inProgressProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
-				<?= Template::ProjectsTable(projects: $inProgressProjects, includeStatus: false, showContactInformation: $showContactInformation) ?>
+				<?= Template::ProjectsTable(projects: $inProgressProjects, includeStatus: false, showContactInformation: $showContactInformation, isAdminView: Session::$User->Benefits->CanEditCollections ?? false) ?>
 			<? } ?>
 		</section>
 
 		<? if(sizeof($stalledProjects) > 0){ ?>
 			<section id="stalled">
 				<h2>Stalled projects</h2>
-				<?= Template::ProjectsTable(projects: $stalledProjects, includeStatus: false, showContactInformation: $showContactInformation) ?>
+				<?= Template::ProjectsTable(projects: $stalledProjects, includeStatus: false, showContactInformation: $showContactInformation, isAdminView: Session::$User->Benefits->CanEditCollections ?? false) ?>
 			</section>
 		<? } ?>
 	</section>
