@@ -67,9 +67,9 @@ catch(Exceptions\ArtistNotFoundException){
 		<? if($isAdminView){ ?>
 			<section class="admin">
 				<h2>Metadata</h2>
-				<p>
-					<a href="<?= $artist->DeleteUrl ?>">Delete artist</a>
-				</p>
+				<ul role="menu">
+					<li><a href="<?= $artist->DeleteUrl ?>">Delete artist</a></li>
+				</ul>
 				<table class="admin-table">
 					<tbody>
 						<tr>

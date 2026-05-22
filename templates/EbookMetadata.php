@@ -24,11 +24,10 @@ $showPlaceholderMetadata ??= false;
 <? if($showPlaceholderMetadata && $ebook->IsPlaceholder() && $ebook->EbookPlaceholder !== null){ ?>
 	<section id="placeholder-metadata" class="admin">
 		<h2>Placeholder metadata</h2>
-		<p>
-			<a href="<?= $ebook->EditUrl ?>">Edit placeholder</a>
-			•
-			<a href="<?= $ebook->DeleteUrl ?>">Delete placeholder</a>
-		</p>
+		<ul role="menu">
+			<li><a href="<?= $ebook->EditUrl ?>">Edit placeholder</a></li>
+			<li><a href="<?= $ebook->DeleteUrl ?>">Delete placeholder</a></li>
+		</ul>
 		<table class="admin-table">
 			<tbody>
 				<tr>
