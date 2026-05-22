@@ -82,6 +82,9 @@ catch(Exceptions\PermissionsInvalidException){
 ) ?>
 <main>
 	<section class="narrow">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
+			<a href="/ebook-placeholders">Ebook Placeholders</a> →
+		</nav>
 		<h1>Create an Ebook Placeholder</h1>
 
 		<?= Template::Error(exception: $exception) ?>

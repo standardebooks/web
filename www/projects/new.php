@@ -65,6 +65,10 @@ catch(Exceptions\PermissionsInvalidException){
 			<nav class="breadcrumbs" aria-label="Breadcrumbs">
 				<a href="<?= $project->Ebook->AuthorsUrl ?>"><?= $project->Ebook->AuthorsHtml ?></a> → <a href="<?= $project->Ebook->Url ?>"><?= Formatter::EscapeHtml($project->Ebook->Title) ?></a> →
 			</nav>
+		<? }else{ ?>
+			<nav class="breadcrumbs" aria-label="Breadcrumbs">
+				<a href="/projects">Projects</a> →
+			</nav>
 		<? } ?>
 		<h1>New Project</h1>
 
