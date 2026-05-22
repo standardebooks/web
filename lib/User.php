@@ -24,7 +24,7 @@ use function Safe\preg_match;
 final class User{
 	use Traits\Accessor;
 	use Traits\FromRow;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $UserId;
 	public ?string $Name = null;
@@ -642,14 +642,14 @@ final class User{
 		return $user;
 	}
 
-	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('Name');
-		$this->PropertyFromHttp('Uuid');
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('Name');
+		$this->PropertyFromRequest('Uuid');
 
 		if(isset($_POST['user-email'])){
 			$this->Email = Http::$Request->Body->Get('user-email');
 		}
 
-		$this->Benefits->FillFromHttpPost();
+		$this->Benefits->FillFromRequestBody();
 	}
 }

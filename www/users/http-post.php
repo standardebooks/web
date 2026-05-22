@@ -20,8 +20,8 @@ try{
 
 	$user = new User();
 
-	$user->FillFromHttpPost();
-	$user->Benefits->FillFromHttpPost();
+	$user->FillFromRequestBody();
+	$user->Benefits->FillFromRequestBody();
 
 	$user->Create(Http::$Request->Body->Get('user-password'));
 

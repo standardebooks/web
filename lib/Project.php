@@ -22,7 +22,7 @@ use Safe\DateTimeImmutable;
 final class Project{
 	use Traits\Accessor;
 	use Traits\FromRow;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $ProjectId;
 	public int $EbookId;
@@ -522,25 +522,25 @@ final class Project{
 		', [$this->ProjectId]);
 	}
 
-	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('EbookId');
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('EbookId');
 		if(!isset($this->Producer)){
 			$this->Producer = new User();
 			$this->Producer->GenerateUuid();
 		}
-		$this->Producer->PropertyFromHttp('Name', Enums\HttpVariableSource::Body, 'project-producer-name');
+		$this->Producer->PropertyFromRequest('Name', Enums\HttpVariableSource::Body, 'project-producer-name');
 		$producerEmail = Http::$Request->Body->Get('project-producer-email', 'empty-string');
 		if($producerEmail !== null){
 			$this->Producer->Email = $producerEmail;
 		}
-		$this->PropertyFromHttp('DiscussionUrl');
-		$this->PropertyFromHttp('Status');
-		$this->PropertyFromHttp('VcsUrl');
-		$this->PropertyFromHttp('Started');
-		$this->PropertyFromHttp('Ended');
-		$this->PropertyFromHttp('ManagerUserId');
-		$this->PropertyFromHttp('ReviewerUserId');
-		$this->PropertyFromHttp('IsStatusAutomaticallyUpdated');
+		$this->PropertyFromRequest('DiscussionUrl');
+		$this->PropertyFromRequest('Status');
+		$this->PropertyFromRequest('VcsUrl');
+		$this->PropertyFromRequest('Started');
+		$this->PropertyFromRequest('Ended');
+		$this->PropertyFromRequest('ManagerUserId');
+		$this->PropertyFromRequest('ReviewerUserId');
+		$this->PropertyFromRequest('IsStatusAutomaticallyUpdated');
 	}
 
 	/**

@@ -45,7 +45,7 @@ try{
 	try{
 		$originalArtworkStatus = $artwork->Status;
 
-		$artwork->FillFromHttpPost();
+		$artwork->FillFromRequestBody();
 
 		if($artworkStatus !== null && $artwork->Status != $originalArtworkStatus){
 			$artwork->ReviewerUserId = Session::$User->UserId;

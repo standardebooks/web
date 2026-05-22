@@ -25,7 +25,7 @@ try{
 	$canReviewProjects = $user->Benefits->CanReviewProjects;
 	$canBeAutoAssignedToProjects = $user->Benefits->CanBeAutoAssignedToProjects;
 
-	$user->FillFromHttpPost();
+	$user->FillFromRequestBody();
 
 	$deleteFromProjectUnassignedManagers = ($canManageProjects && !$user->Benefits->CanManageProjects) || ($canBeAutoAssignedToProjects && !$user->Benefits->CanBeAutoAssignedToProjects);
 

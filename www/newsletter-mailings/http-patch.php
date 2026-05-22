@@ -24,7 +24,7 @@ try{
 	$addFooter = Http::$Request->Body->Get('add-footer', 'bool') ?? true;
 	$addEbooks = Http::$Request->Body->Get('add-ebooks', 'bool') ?? true;
 
-	$newsletterMailing->FillFromHttpPost();
+	$newsletterMailing->FillFromRequestBody();
 	$newsletterMailing->Save($addFooter, $addEbooks);
 
 	$_SESSION['newsletter-mailing'] = $newsletterMailing;

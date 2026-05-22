@@ -18,7 +18,7 @@ try{
 
 	$artwork = new Artwork();
 
-	$artwork->FillFromHttpPost();
+	$artwork->FillFromRequestBody();
 	$artwork->SubmitterUserId = Session::$User->UserId ?? null;
 
 	// Only approved reviewers can set the status to anything but unverified when uploading.

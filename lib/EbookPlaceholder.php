@@ -8,7 +8,7 @@
  */
 class EbookPlaceholder{
 	use Traits\Accessor;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $EbookId;
 	public ?int $YearPublished = null;
@@ -68,15 +68,15 @@ class EbookPlaceholder{
 		return $this->_TimeTillIsPublicDomain;
 	}
 
-	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('YearPublished');
-		$this->PropertyFromHttp('IsWanted');
-		$this->PropertyFromHttp('IsInProgress');
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('YearPublished');
+		$this->PropertyFromRequest('IsWanted');
+		$this->PropertyFromRequest('IsInProgress');
 
 		// These properties apply only to books on the SE wanted list.
 		if($this->IsWanted){
-			$this->PropertyFromHttp('Difficulty');
-			$this->PropertyFromHttp('TranscriptionUrl');
+			$this->PropertyFromRequest('Difficulty');
+			$this->PropertyFromRequest('TranscriptionUrl');
 
 			if(isset($_POST['ebook-placeholder-notes'])){
 				$this->Notes = Http::$Request->Body->Get('ebook-placeholder-notes');

@@ -20,7 +20,7 @@ try{
 	$ebookIdentifiers = Http::$Request->Body->Get('blog-post-ebook-identifiers');
 
 	$blogPost = new BlogPost();
-	$blogPost->FillFromHttpPost();
+	$blogPost->FillFromRequestBody();
 
 	$blogPost->Create($userIdentifier, $ebookIdentifiers);
 

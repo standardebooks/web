@@ -21,7 +21,7 @@ use function Safe\preg_replace;
  */
 class BlogPost{
 	use Traits\Accessor;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $BlogPostId;
 	public ?string $Description;
@@ -310,8 +310,8 @@ class BlogPost{
 		}
 	}
 
-	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('Description');
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('Description');
 
 		if(isset($_POST['blog-post-title'])){
 			$this->Title = Http::$Request->Body->Get('blog-post-title') ?? '';

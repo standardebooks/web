@@ -21,7 +21,7 @@ use function Safe\simplexml_load_string;
  */
 class NewsletterMailing{
 	use Traits\Accessor;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $NewsletterMailingId;
 	public int $NewsletterId;
@@ -569,14 +569,14 @@ class NewsletterMailing{
 		return Db::Query('SELECT * from NewsletterMailings order by SendOn desc', [], NewsletterMailing::class);
 	}
 
-	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('NewsletterId');
-		$this->PropertyFromHttp('FromName');
-		$this->PropertyFromHttp('Subject');
-		$this->PropertyFromHttp('InternalName');
-		$this->PropertyFromHttp('Status');
-		$this->PropertyFromHttp('Preheader');
-		$this->PropertyFromHttp('ExcludePatrons');
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('NewsletterId');
+		$this->PropertyFromRequest('FromName');
+		$this->PropertyFromRequest('Subject');
+		$this->PropertyFromRequest('InternalName');
+		$this->PropertyFromRequest('Status');
+		$this->PropertyFromRequest('Preheader');
+		$this->PropertyFromRequest('ExcludePatrons');
 
 		if(isset($_POST['newsletter-mailing-body-text'])){
 			$this->BodyText = Http::$Request->Body->Get('newsletter-mailing-body-text') ?? '';

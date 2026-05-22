@@ -9,7 +9,7 @@ use Safe\DateTimeImmutable;
  */
 class PollVote{
 	use Traits\Accessor;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $UserId;
 	public DateTimeImmutable $Created;
@@ -131,7 +131,7 @@ class PollVote{
 		return $result[0] ?? throw new Exceptions\PollVoteNotFoundException();
 	}
 
-	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('PollItemId');
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('PollItemId');
 	}
 }

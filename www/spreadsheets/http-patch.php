@@ -19,7 +19,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$spreadsheet->FillFromHttpPost();
+	$spreadsheet->FillFromRequestBody();
 
 	$spreadsheet->Save();
 

@@ -10,7 +10,7 @@ use Safe\DateTimeImmutable;
  */
 class Spreadsheet{
 	use Traits\Accessor;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $SpreadsheetId;
 	public string $Title;
@@ -186,17 +186,17 @@ class Spreadsheet{
 	/**
 	 * Fill this spreadsheet from HTTP POST data.
 	 */
-	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('Title');
-		$this->PropertyFromHttp('ExternalUrl');
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('Title');
+		$this->PropertyFromRequest('ExternalUrl');
 
 		$notes = Http::$Request->Body->Get('spreadsheet-notes', 'empty-string');
 		if($notes !== null){
 			$this->Notes = $notes;
 		}
 
-		$this->PropertyFromHttp('SortOrder');
-		$this->PropertyFromHttp('Category');
+		$this->PropertyFromRequest('SortOrder');
+		$this->PropertyFromRequest('Category');
 	}
 
 

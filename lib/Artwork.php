@@ -34,7 +34,7 @@ use function Safe\unlink;
  */
 final class Artwork{
 	use Traits\Accessor;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $ArtworkId;
 	public string $Name = '';
@@ -1282,23 +1282,23 @@ final class Artwork{
 	/**
 	 * @throws Exceptions\UrlInvalidException
 	 */
-	public function FillFromHttpPost(): void{
+	public function FillFromRequestBody(): void{
 		if(!isset($this->Artist)){
 			$this->Artist = new Artist();
 		}
 
-		$this->Artist->FillFromHttpPost();
+		$this->Artist->FillFromRequestBody();
 
-		$this->PropertyFromHttp('Name');
-		$this->PropertyFromHttp('CompletedYear');
-		$this->PropertyFromHttp('CompletedYearIsCirca');
-		$this->PropertyFromHttp('Status');
-		$this->PropertyFromHttp('IsPublishedInUs');
-		$this->PropertyFromHttp('PublicationYear');
-		$this->PropertyFromHttp('PublicationYearPageUrl');
-		$this->PropertyFromHttp('CopyrightPageUrl');
-		$this->PropertyFromHttp('ArtworkPageUrl');
-		$this->PropertyFromHttp('MuseumUrl');
+		$this->PropertyFromRequest('Name');
+		$this->PropertyFromRequest('CompletedYear');
+		$this->PropertyFromRequest('CompletedYearIsCirca');
+		$this->PropertyFromRequest('Status');
+		$this->PropertyFromRequest('IsPublishedInUs');
+		$this->PropertyFromRequest('PublicationYear');
+		$this->PropertyFromRequest('PublicationYearPageUrl');
+		$this->PropertyFromRequest('CopyrightPageUrl');
+		$this->PropertyFromRequest('ArtworkPageUrl');
+		$this->PropertyFromRequest('MuseumUrl');
 		if(isset($_POST['artwork-exception'])){
 			$this->Exception = Http::$Request->Body->Get('artwork-exception');
 		}
@@ -1307,7 +1307,7 @@ final class Artwork{
 			$this->Notes = Http::$Request->Body->Get('artwork-notes');
 		}
 
-		$this->PropertyFromHttp('ArtworkStatus');
+		$this->PropertyFromRequest('ArtworkStatus');
 
 		$tags = Http::$Request->Body->Get('artwork-tags', 'empty-string');
 		if($tags !== null){

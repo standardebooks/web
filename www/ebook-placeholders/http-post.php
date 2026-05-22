@@ -27,7 +27,7 @@ try{
 	$project = null;
 	if($ebook->EbookPlaceholder?->IsInProgress){
 		$project = new Project();
-		$project->FillFromHttpPost();
+		$project->FillFromRequestBody();
 		$project->Started = NOW;
 		$project->Validate(true, true);
 	}

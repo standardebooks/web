@@ -17,7 +17,7 @@ try{
 	}
 
 	$spreadsheet = new Spreadsheet();
-	$spreadsheet->FillFromHttpPost();
+	$spreadsheet->FillFromRequestBody();
 
 	$spreadsheet->Create();
 

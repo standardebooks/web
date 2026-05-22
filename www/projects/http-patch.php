@@ -42,7 +42,7 @@ try{
 		$project->Status = $projectStatus;
 	}
 	else{
-		$project->FillFromHttpPost();
+		$project->FillFromRequestBody();
 	}
 
 	$project->Save();

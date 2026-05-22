@@ -6,7 +6,7 @@
  */
 class Benefits{
 	use Traits\Accessor;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $UserId;
 	public bool $CanAccessFeeds = false;
@@ -134,26 +134,26 @@ class Benefits{
 		', [$this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->IsArtworkAdmin, $this->CanCreateUsers, $this->CanEditUsers, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanEditProjects, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanEditBlogPosts, $this->CanEditSpreadsheets, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewReports, $this->UserId]);
 	}
 
-	public function FillFromHttpPost(): void{
-		$this->PropertyFromHttp('CanAccessFeeds');
-		$this->PropertyFromHttp('CanVote');
-		$this->PropertyFromHttp('CanBulkDownload');
-		$this->PropertyFromHttp('CanUploadArtwork');
-		$this->PropertyFromHttp('CanReviewArtwork');
-		$this->PropertyFromHttp('IsArtworkAdmin');
-		$this->PropertyFromHttp('CanCreateUsers');
-		$this->PropertyFromHttp('CanEditUsers');
-		$this->PropertyFromHttp('CanEditCollections');
-		$this->PropertyFromHttp('CanEditEbooks');
-		$this->PropertyFromHttp('CanEditEbookPlaceholders');
-		$this->PropertyFromHttp('CanEditProjects');
-		$this->PropertyFromHttp('CanManageProjects');
-		$this->PropertyFromHttp('CanReviewProjects');
-		$this->PropertyFromHttp('CanBeAutoAssignedToProjects');
-		$this->PropertyFromHttp('CanEditBlogPosts');
-		$this->PropertyFromHttp('CanEditSpreadsheets');
-		$this->PropertyFromHttp('CanCreateNewsletterMailings');
-		$this->PropertyFromHttp('CanEditNewsletterMailings');
-		$this->PropertyFromHttp('CanViewReports');
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('CanAccessFeeds');
+		$this->PropertyFromRequest('CanVote');
+		$this->PropertyFromRequest('CanBulkDownload');
+		$this->PropertyFromRequest('CanUploadArtwork');
+		$this->PropertyFromRequest('CanReviewArtwork');
+		$this->PropertyFromRequest('IsArtworkAdmin');
+		$this->PropertyFromRequest('CanCreateUsers');
+		$this->PropertyFromRequest('CanEditUsers');
+		$this->PropertyFromRequest('CanEditCollections');
+		$this->PropertyFromRequest('CanEditEbooks');
+		$this->PropertyFromRequest('CanEditEbookPlaceholders');
+		$this->PropertyFromRequest('CanEditProjects');
+		$this->PropertyFromRequest('CanManageProjects');
+		$this->PropertyFromRequest('CanReviewProjects');
+		$this->PropertyFromRequest('CanBeAutoAssignedToProjects');
+		$this->PropertyFromRequest('CanEditBlogPosts');
+		$this->PropertyFromRequest('CanEditSpreadsheets');
+		$this->PropertyFromRequest('CanCreateNewsletterMailings');
+		$this->PropertyFromRequest('CanEditNewsletterMailings');
+		$this->PropertyFromRequest('CanViewReports');
 	}
 }

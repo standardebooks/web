@@ -18,7 +18,7 @@ try{
 
 	$project = new Project();
 
-	$project->FillFromHttpPost();
+	$project->FillFromRequestBody();
 
 	// Are we creating a new placeholder at the same time?
 	if(!isset($project->EbookId)){

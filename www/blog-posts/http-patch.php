@@ -24,7 +24,7 @@ try{
 	$userIdentifier = Http::$Request->Body->Get('blog-post-user-identifier');
 	$ebookIdentifiers = Http::$Request->Body->Get('blog-post-ebook-identifiers');
 
-	$blogPost->FillFromHttpPost();
+	$blogPost->FillFromRequestBody();
 
 	$blogPost->Save($userIdentifier, $ebookIdentifiers);
 

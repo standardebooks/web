@@ -5,7 +5,7 @@ use Safe\DateTimeImmutable;
 
 use function Safe\preg_replace;
 
-trait PropertyFromHttp{
+trait PropertyFromRequest{
 	/**
 	 * Given the string name of a property, try to fill it from HTTP data (POST by default).
 	 *
@@ -78,7 +78,7 @@ trait PropertyFromHttp{
 	 *
 	 * 	`Test::$ChapterNumber` set to `null`, because an empty string sets nullable properties to `null`.
 	 */
-	public function PropertyFromHttp(string $property, \Enums\HttpVariableSource $set = \Enums\HttpVariableSource::Body, ?string $httpName = null): void{
+	public function PropertyFromRequest(string $property, \Enums\HttpVariableSource $set = \Enums\HttpVariableSource::Body, ?string $httpName = null): void{
 		try{
 			$rp = new \ReflectionProperty($this, $property);
 		}

@@ -1224,7 +1224,7 @@ final class Ebook{
 		$this->IsPatronSelection = Http::$Request->Body->Get('ebook-is-patron-selection', 'bool') ?? false;
 
 		$ebookPlaceholder = new EbookPlaceholder();
-		$ebookPlaceholder->FillFromHttpPost();
+		$ebookPlaceholder->FillFromRequestBody();
 		$this->EbookPlaceholder = $ebookPlaceholder;
 
 		// These properties must be set before calling `Ebook::Create()` to prevent the getters from triggering DB queries or accessing `Ebook::$EbookId` before it is set.

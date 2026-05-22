@@ -11,7 +11,7 @@ use Safe\DateTimeImmutable;
  */
 class Artist{
 	use Traits\Accessor;
-	use Traits\PropertyFromHttp;
+	use Traits\PropertyFromRequest;
 
 	public int $ArtistId;
 	public string $Name = '';
@@ -143,11 +143,11 @@ class Artist{
 		}
 	}
 
-	public function FillFromHttpPost(): void{
+	public function FillFromRequestBody(): void{
 		$name = $this->Name;
 
-		$this->PropertyFromHttp('Name');
-		$this->PropertyFromHttp('DeathYear');
+		$this->PropertyFromRequest('Name');
+		$this->PropertyFromRequest('DeathYear');
 
 		if($this->Name != $name){
 			unset($this->_UrlName);

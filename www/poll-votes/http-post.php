@@ -20,7 +20,7 @@ try{
 	$pollVote->UserId = Session::$User->UserId;
 	$pollVote->User = Session::$User;
 
-	$pollVote->FillFromHttpPost();
+	$pollVote->FillFromRequestBody();
 
 	$pollVote->Create();
 
