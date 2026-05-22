@@ -22,21 +22,36 @@ $projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enum
 $apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
 $oldestStalledTimestamp = new DateTimeImmutable('60 days ago');
 $oldestAbandonedTimestamp = new DateTimeImmutable('60 days ago');
+$continueFetchingLastDiscussionTimestamp = true;
+$continueFetchingLastCommitTimestamp = true;
 
 foreach($projects as $project){
-	try{
-		$project->FetchLastDiscussionTimestamp();
-	}
-	catch(Exceptions\AppException $ex){
-		$log = new Log();
-		$log->Write($ex->getMessage());
+	if($continueFetchingLastDiscussionTimestamp){
+		try{
+			$project->FetchLastDiscussionTimestamp();
+		}
+		catch(Exceptions\AppException $ex){
+			// If we got rate limited, stop requesting more items in this loop.
+			if(stripos($ex->getMessage(), 'http 429') !== false){
+				$continueFetchingLastDiscussionTimestamp = false;
+			}
+
+			$log = new Log();
+			$log->Write($ex->getMessage());
+		}
 	}
 
-	try{
-		$project->FetchLastCommitTimestamp($apiKey);
-	}
-	catch(Exceptions\AppException $ex){
-		// 404, continue.
+	if($continueFetchingLastCommitTimestamp){
+		try{
+			$project->FetchLastCommitTimestamp($apiKey);
+		}
+		catch(Exceptions\AppException $ex){
+			// If we got rate limited, stop requesting more items in this loop.
+			if(stripos($ex->getMessage(), 'http 429') !== false){
+				$continueFetchingLastCommitTimestamp = false;
+			}
+			// 404, continue.
+		}
 	}
 
 	if($project->IsStatusAutomaticallyUpdated){
@@ -103,5 +118,5 @@ foreach($projects as $project){
 
 	$project->Save();
 
-	sleep(5);
+	sleep(10);
 }
