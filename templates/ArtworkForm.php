@@ -185,7 +185,12 @@ $isEditForm ??= false;
 			<label>
 				<span>In use by</span>
 				<span>The full S.E. ebook URL. If not in use, leave this blank.</span>
-				<input type="url" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/..." pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$"<? if(isset($artwork->Ebook)){ ?> value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>"<? } ?>/>
+				<datalist id="ebook-placeholder-urls">
+					<? foreach(Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]) as $project){ ?>
+						<option value="<?= Formatter::EscapeHtml(SITE_URL . $project->Ebook->Url) ?>"><?= Formatter::EscapeHtml(SITE_URL . $project->Ebook->Url) ?></option>
+					<? } ?>
+				</datalist>
+				<input type="url" list="ebook-placeholder-urls" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/..." pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$"<? if(isset($artwork->Ebook)){ ?> value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>"<? } ?>/>
 			</label>
 		<? } ?>
 	</fieldset>
