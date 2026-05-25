@@ -1,6 +1,5 @@
 #!/usr/bin/php
 <?
-
 require_once('/standardebooks.org/web/lib/Core.php');
 
 $pendingPayments = Db::Query('

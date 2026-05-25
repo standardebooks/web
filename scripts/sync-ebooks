@@ -2,53 +2,53 @@
 set -e
 set -o pipefail
 
+source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
+
 usage(){
-	cat <<EOF
-DESCRIPTION
-	Syncs books from the standardebooks.org GitHub organization to the specified folder.
+print_help \
+ "[command]$(basename $BASH_SOURCE)[/] [-v,-vv,--verbosity [parameter]{1 | 2}[/]] [-n,--new-only | -u,--update-only] [-s,--start-letter [parameter]<LETTER>[/]] [--token [parameter]<TOKEN>[/]] [path][parameter]<DIRECTORY>[/]" \
+ "$(cat << EOF
+Syncs books from the [url]standardebooks.org[/] GitHub organization to [path][parameter]<DIRECTORY>[/].
 
-USAGE
-	${0##*/} [-v,-vv,--verbosity INTEGER] [-n,--new-only | -u,--update-only] [-s,--start-only LETTER] [--token TOKEN] DIRECTORY
-
-	With -b or --bare, clone bare repositories (for a server) instead of working directories.
-
-	With -n or --new-only, only download new repositories, don't update existing ones.
-
-	With -s or --start-letter, skip repositories starting with letters prior to the one specified.
-
-	With -u or --update-only, only update existing repositories, don't download new ones.
-
-	With -v or --verbosity 1, display general progress updates.
-
-	With -vv or --verbosity 2, display general progress updates and verbose git output.
-
-	With --token TOKEN, specify a GitHub access token to use for request. Useful for when you hit the rate limit.
-
-
-	DIRECTORY should be where the repositories should go.
-
-	NOTE: This script requires GNU versions of grep and sed. If you are on a Mac, you'll need to install GNU versions (via Homebrew, MacPorts, etc.) and make sure they're first in your path, or modify the script to use the GNU versions if they're named differently.
-
-EXAMPLE
-	${0##*/} /standardebooks.org/ebooks
+GNU versions of [command]grep[/] and [command]sed[/] are required. If you're on a Mac, you'll need to install GNU versions (via Homebrew, MacPorts, etc.) and make sure they're first in your path.
 EOF
-	exit
-}
+)"\
+ "$(cat << EOF
+-b,--bare
 
-# functions used by the script
-die(){
-	printf "\033[0;7;31mError:\033[0m %s\n" "${1}" 1>&2;
-	exit 1;
-}
+	Clone bare repositories instead of working directories; useful when called on a server.
 
-require(){
-	command -v "$1" > /dev/null 2>&1 || {
-		suggestion="";
-		if [ -n "$2" ]; then
-			suggestion=" $2";
-		fi
-		die "$1 is required but not installed.${suggestion}";
-	}
+
+-n,--new-only
+
+	Only download new repositories, don't update existing ones.
+
+
+-s,--start-letter [parameter]<LETTER>[/]
+
+	Skip repositories starting with letters prior to the specified letter.
+
+
+--token [parameter]<TOKEN>[/]
+
+	Specify a GitHub access token to use for request; useful when hitting GitHub's rate limit.
+
+
+-u,--update-only
+
+	Only update existing repositories, don't download new ones.
+
+
+-v,--verbosity [parameter]1[/]
+
+	Display general progress updates.
+
+
+-vv,--verbosity [parameter]2[/]
+
+	Display general progress updates and verbose [command]git[/] output.
+EOF
+)"
 }
 
 check_arg(){
@@ -59,8 +59,8 @@ check_arg(){
 
 # strpos X Y, return position of substring Y in string X
 str_pos(){
-    x="${1%%"$2"*}"
-    [[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
+	x="${1%%"$2"*}"
+	[[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
 }
 # end functions
 
@@ -72,7 +72,7 @@ ctrl_c() {
 
 require "git"
 
-if [[ $# -eq 0 ]]; then
+if [ $# -eq 0 ] || { [ $# -eq 1 ] && { [ "$1" = "--help" ] || [ "$1" = "-h" ]; }; }; then
 	usage
 fi
 
@@ -92,8 +92,6 @@ while [ $# -gt 0 ]; do
 			bare="--mirror"
 			shift 1
 			;;
-		-h|--help)
-			usage ;;
 		-n|--new-only)
 			newUpdate="new"
 			shift 1
@@ -145,46 +143,46 @@ if ! cd "${target}"; then
 fi
 
 if [ "${startLetter}" != "" ]; then
-    startPos=$(str_pos "${LETTERS}" "${startLetter}")
+	startPos=$(str_pos "${LETTERS}" "${startLetter}")
 fi
 
 # update any existing repositories
 if [ "${newUpdate}" != "new" ]; then
-    if [ "${verbosity}" -gt 0 ]; then
-        printf "Updating local repositories ... \n"
-    fi
-    
-    for item in ./*/; do
-	    # if starting letter specified, make sure we're past it
-	    if [ $startPos -gt 0 ]; then
-	        repName=$(basename "${item}")
-	        repLetter="${repName:0:1}"
-	        repPos=$(str_pos "${LETTERS}" "${repLetter}")
-	        if [ $repPos -lt $startPos ]; then
-	            continue
-	        fi
-	    fi
+	if [ "${verbosity}" -gt 0 ]; then
+		printf "Updating local repositories ... \n"
+	fi
+
+	for item in ./*/; do
+		# if starting letter specified, make sure we're past it
+		if [ $startPos -gt 0 ]; then
+			repName=$(basename "${item}")
+			repLetter="${repName:0:1}"
+			repPos=$(str_pos "${LETTERS}" "${repLetter}")
+			if [ $repPos -lt $startPos ]; then
+				continue
+			fi
+		fi
 	
-        [ -e "${item}" ] || break
-    
-        if [ "${verbosity}" -gt 0 ]; then
-            printf "Updating %s ... " "${item}"
-        fi
-    
-        # if it's not a repository directory, skip it
-        git -C "${item}" rev-parse > /dev/null 2>&1 || continue
-    
-        # this works whether the repository is bare or a working directory
-        if [ "${verbosity}" -lt 2 ]; then
-            git -C "${item}" fetch -q
-        else
-            git -C "${item}" fetch -v
-        fi
-    
-        if [ "${verbosity}" -gt 0 ]; then
-            printf "Done.\n"
-        fi
-    done
+		[ -e "${item}" ] || break
+
+		if [ "${verbosity}" -gt 0 ]; then
+			printf "Updating %s ... " "${item}"
+		fi
+
+		# if it's not a repository directory, skip it
+		git -C "${item}" rev-parse > /dev/null 2>&1 || continue
+
+		# this works whether the repository is bare or a working directory
+		if [ "${verbosity}" -lt 2 ]; then
+			git -C "${item}" fetch -q
+		else
+			git -C "${item}" fetch -v
+		fi
+
+		if [ "${verbosity}" -gt 0 ]; then
+			printf "Done.\n"
+		fi
+	done
 fi
 
 if [ "${newUpdate}" = "update" ]; then

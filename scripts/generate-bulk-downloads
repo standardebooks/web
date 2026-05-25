@@ -4,11 +4,9 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\copy;
 use function Safe\exec;
-use function Safe\file_get_contents;
-use function Safe\file_put_contents;
 use function Safe\filemtime;
 use function Safe\filesize;
-use function Safe\getmypid;
+use function Safe\flock;
 use function Safe\getopt;
 use function Safe\glob;
 use function Safe\mkdir;
@@ -273,14 +271,15 @@ function RemoveOrphanDirectories(string $webRoot, array $bulkDownloadCollections
 	}
 }
 
-$lockFile = sys_get_temp_dir() . '/se-generate-bulk-downloads.lock';
+$lockFile = fopen(sys_get_temp_dir() . '/se-generate-bulk-downloads.lock', 'c');
 
-if(file_exists($lockFile)){
-	print("[ERROR] Lock file: `" . $lockFile . "` exists. Check the file's PID and timestamp to confirm another instance is running.\n");
+try{
+	flock($lockFile, LOCK_EX | LOCK_NB);
+}
+catch(Exception){
+	// Script is already running, exit.
 	exit(1);
 }
-
-file_put_contents($lockFile, getmypid() . "\n" . NOW->format('Y-m-d H:i:s') . "\n");
 
 try{
 	$bulkDownloadCollections = CreateBulkDownloadCollections();
@@ -301,7 +300,5 @@ try{
 	exec('sudo chmod --preserve-root --recursive a+r,ug+w,a+X ' . escapeshellarg($webRoot) . '/bulk-downloads/*/');
 }
 finally{
-	if(file_exists($lockFile)){
-		unlink($lockFile);
-	}
+	flock($lockFile, LOCK_UN);
 }

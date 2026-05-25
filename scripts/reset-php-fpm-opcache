@@ -1,24 +1,17 @@
 #!/bin/bash
 
-usage(){
-	echo -n
-	fmt <<EOF
-DESCRIPTION
-	Flush the PHP-FPM opcache and the APCu user cache without reloading or resetting the PHP-FPM service.
+source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
-USAGE
-	reset-php-fpm-opcache POOL_NAME
+usage(){
+print_help \
+ "[command]$(basename $BASH_SOURCE)[/] [parameter]<FPM_POOL_NAME>[/]" \
+ "$(cat << EOF
+Reset the PHP-FPM opcache and the APCu user cache for the given PHP-FPM pool without reloading or resetting the PHP-FPM service.
 EOF
-	exit 1
+)"
 }
 
-if [ $# -eq 1 ]; then
-	if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-		usage
-	fi
-fi
-
-if [ $# -ne 1 ]; then
+if [ $# -eq 0 ] || { [ $# -eq 1 ] && { [ "$1" = "--help" ] || [ "$1" = "-h" ]; }; }; then
 	usage
 fi
 
