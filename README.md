@@ -164,11 +164,7 @@ Before submitting design contributions, please discuss them with the Standard Eb
 
 - Creating a search bar for the SE Manual of Style.
 
-- Finding a self-hosted replacement for GitHub, like possibly [Gitea](https://gitea.io/) or [GitLab](https://about.gitlab.com/), and figuring out how to reproducibly install and update it on the SE server.
-
-- Move spreadsheets in `/contribute/spreadsheets` to the database instead of a static file.
-
-- Move specific ebook rewrites for legacy ebooks into the database instead of Apache.
+- Finding a self-hosted replacement for GitHub, like possibly [Gitea](https://gitea.io/) or [GitLab](https://about.gitlab.com/) or [Forgejo](https://forgejo.org/), and figuring out how to reproducibly install and update it on the SE server.
 
 ## PHP code style
 
