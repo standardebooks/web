@@ -6,7 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename $BASH_SOURCE)[/] [-v,-vv,--verbosity [parameter]{1 | 2}[/]] [-n,--new-only | -u,--update-only] [-s,--start-letter [parameter]<LETTER>[/]] [--token [parameter]<TOKEN>[/]] [path][parameter]<DIRECTORY>[/]" \
+ "[command]$(basename $BASH_SOURCE)[/] [-v,--verbosity [parameter]1[/] | -vv,--verbosity [parameter]2[/]] [-n,--new-only | -u,--update-only] [-s,--start-letter [parameter]<LETTER>[/]] [--token [parameter]<TOKEN>[/]] [path][parameter]<DIRECTORY>[/]" \
  "$(cat << EOF
 Syncs books from the [url]standardebooks.org[/] GitHub organization to [path][parameter]<DIRECTORY>[/].
 
