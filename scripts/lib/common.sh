@@ -208,7 +208,7 @@ ColorizeString(){
 	line="${line//\[email\]/${FG_MAGENTA}}"
 	line="${line//\[\/\]/${RESET_ALL}}"
 
-	printf '%s' "${line}"
+	printf "%s\n" "${line}"
 }
 
 # Wrap one line to the current terminal width, ignoring formatting tags when measuring line length.

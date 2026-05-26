@@ -184,7 +184,7 @@ do
 	fi
 
 	if ! pushd "${repoDir}" > /dev/null; then
-		printf "$(ColorizeString "Couldn't enter [path]${repoDir}[/], skipping.")\n"
+		ColorizeString "Couldn't enter [path]${repoDir}[/], skipping."
 		continue
 	fi
 
