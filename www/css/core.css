@@ -4091,11 +4091,11 @@ ul[role="menu"] li + li::before{
 		padding: .5rem .75rem;
 	}
 
-	table.admin-table .single-line-form{
+	dl .single-line-form{
 		flex-direction: column;
 	}
 
-	table.admin-table .single-line-form button{
+	dl .single-line-form button{
 		align-self: flex-end;
 	}
 }
