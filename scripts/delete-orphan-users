@@ -2,6 +2,29 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+use function Safe\getopt;
+
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]delete-orphan-users[/]',
+	'Delete any users who have no remaining links in the S.E. system.'
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
+
 // Turn off the slow query log for this session.
 Db::Query('set session slow_query_log = 0');
 

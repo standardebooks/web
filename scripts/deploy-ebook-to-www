@@ -4,8 +4,8 @@ set -e
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
-print_help \
- "[command]$(basename $BASH_SOURCE)[/] [-v,--verbose] [-g,--group [parameter]<GROUP>[/]] [-l,--last-push-hash [parameter]<HASH>[/]] [--no-build] [--no-bulk-downloads] [--no-epubcheck] [--no-images] [--no-recompose] [--no-feeds] [--web-root [path][parameter]<WEBROOT>[/]] [--web-url [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_PATH>[/] [[path][parameter]<SE_EBOOK_REPO_PATH>[/] ...]" \
+PrintHelp \
+ "[command]$(basename $BASH_SOURCE)[/] [-v,--verbose] [-g,--group [parameter]<GROUP>[/]] [-l,--last-push-hash [parameter]<HASH>[/]] [--no-build] [--no-bulk-downloads] [--no-epubcheck] [--no-images] [--no-recompose] [--no-feeds] [--web-root [path][parameter]<WEB_ROOT>[/]] [--web-url [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_PATH>[/] [[path][parameter]<SE_EBOOK_REPO_PATH>[/] ...]" \
  "$(cat << EOF
 Deploy Standard Ebook source repositories in [path][parameter]<SE_EBOOK_REPO_PATH>[/] to the website running on the local machine.
 EOF
@@ -49,11 +49,11 @@ EOF
 
 --web-root [path][parameter]<WEB_ROOT>[/]
 
-	Specify a different root folder for the S.E. website on the local machine; defaults to [path]/standardebooks.org/web/www[/].
+	The root folder for the S.E. website on the local machine; defaults to [path]/standardebooks.org/web/www[/].
 
 --web-url [parameter]<WEB_URL>[/]
 
-	Specify a different base URL folder for the S.E. website; defaults to [url]https://standardebooks.org[/].
+	The base URL of the S.E. website; defaults to [url]https://standardebooks.org[/].
 
 EOF
 )"
@@ -82,22 +82,22 @@ while [ $# -gt 0 ]; do
 			shift 1
 			;;
 		-g|--group)
-			[ -n "$2" ] || die "Group can’t be empty."
+			[ -n "$2" ] || ExitWithError "Group can’t be empty."
 			group="$2"
 			shift 2
 			;;
 		--web-root)
-			[ -n "$2" ] || die "Web root can’t be empty."
+			[ -n "$2" ] || ExitWithError "Web root can’t be empty."
 			webRoot="$2"
 			shift 2
 			;;
 		--web-url)
-			[ -n "$2" ] || die "Web URL can’t be empty."
+			[ -n "$2" ] || ExitWithError "Web URL can’t be empty."
 			webUrl="$2"
 			shift 2
 			;;
 		-l|--last-push-hash)
-			[ -n "$2" ] || die "Last commit hash can’t be empty."
+			[ -n "$2" ] || ExitWithError "Last commit hash can’t be empty."
 			lastPushHash="$2"
 			shift 2
 			;;
@@ -130,11 +130,11 @@ while [ $# -gt 0 ]; do
 done
 
 if ! [ "$(getent group "${group}")" ]; then
-	die "Group ${group} does not exist. Either use --group or create the group."
+	ExitWithError "Group [user]${group}[/] doesn't exist. Either use --group or create the group."
 fi
 
 if ! [ -d "${webRoot}" ]; then
-	die "${webRoot} does not exist or is not a directory."
+	ExitWithError "[path]${webRoot}[/] does't exist or isn't a directory."
 fi
 
 # Check for dependencies.
@@ -149,19 +149,19 @@ require "se" "Read: https://standardebooks.org/tools"
 scriptsDir="$(dirname "$(readlink -f "$0")")"
 
 if ! [ -x "${scriptsDir}"/reset-php-fpm-opcache ]; then
-	die "\"${scriptsDir}\"/reset-php-fpm-opcache is not an executable file."
+	ExitWithError "[path]${scriptsDir}/reset-php-fpm-opcache[/] isn't an executable file."
 fi
 
 if ! [ -f "${scriptsDir}"/generate-feeds ]; then
-	die "\"${scriptsDir}\"/generate-feeds\" is not a file or could not be found."
+	ExitWithError "[path]${scriptsDir}/generate-feeds[/] isn't an executable file."
 fi
 
 if ! [ -f "${scriptsDir}"/generate-bulk-downloads ]; then
-	die "\"${scriptsDir}\"/generate-bulk-downloads\" is not a file or could not be found."
+	ExitWithError "[path]${scriptsDir}/generate-bulk-downloads[/] isn't an executable file."
 fi
 
 if ! [ -f "${scriptsDir}/../.venv/bin/activate" ]; then
-	die "\"${scriptsDir}\"/../.venv/bin/activate\" is not a file or could not be found. Make sure you have installed the \`standardebooks\` package into a Python virtual environment."
+	ExitWithError "[path]${scriptsDir}/../.venv/bin/activate[/] isn't an executable file. Make the [command]standardebooks[/] Pip package is installed into a Python virtual environment."
 fi
 
 mkdir -p "${webRoot}"/images/covers/
@@ -180,11 +180,11 @@ do
 	fi
 
 	if [ ! -d "${repoDir}" ]; then
-		die "Invalid repo root: ${repoDir}"
+		ExitWithError "Invalid repo root: [path]${repoDir}[/]."
 	fi
 
 	if ! pushd "${repoDir}" > /dev/null; then
-		printf "$(colorize_usage "Couldn't enter [path]${repoDir}[/], skipping.")\n"
+		printf "$(ColorizeString "Couldn't enter [path]${repoDir}[/], skipping.")\n"
 		continue
 	fi
 
@@ -227,7 +227,7 @@ do
 	webDir=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s/^https:\/\/standardebooks.org\/ebooks\/?//")
 
 	if [ "${webDir}" = "" ]; then
-		die "Empty webdir!"
+		ExitWithError "Empty webdir: [path]${webDir}[/]."
 	fi
 
 	workDir=$(mktemp -d)
@@ -281,7 +281,7 @@ do
 			printf "Done.\n"
 		fi
 
-		popd > /dev/null || die "Couldn't pop directory."
+		popd > /dev/null || ExitWithError "Couldn't pop directory."
 	fi
 
 	if [ "${build}" = "true" ]; then
@@ -297,12 +297,12 @@ do
 		if [ "${epubcheck}" = "true" ]; then
 			if ! se build --output-dir="${workDir}"/downloads/ --check --kindle --kobo "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
-				die "Error building ebook, stopping deployment."
+				ExitWithError "Error building ebook, stopping deployment."
 			fi
 		else
 			if ! se build --output-dir="${workDir}"/downloads/ --kindle --kobo "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
-				die "Error building ebook, stopping deployment."
+				ExitWithError "Error building ebook, stopping deployment."
 			fi
 		fi
 
@@ -422,7 +422,7 @@ do
 		printf "Updating/inserting ebook in database ... "
 	fi
 
-	"${scriptsDir}"/update-ebook-database --ebook-www-filesystem-path "${webDir}"
+	"${scriptsDir}"/update-ebook-database "${webDir}"
 
 	if [ "${verbose}" = "true" ]; then
 		printf "Done.\n"
@@ -437,7 +437,7 @@ do
 	sudo chgrp --preserve-root --recursive "${group}" "${webRoot}/images/covers/"
 	sudo chmod --preserve-root --recursive g+ws "${webRoot}/images/covers/"
 
-	popd > /dev/null || die "Couldn't pop directory."
+	popd > /dev/null || ExitWithError "Couldn't pop directory."
 done
 
 queuedTasks="false"
@@ -473,7 +473,7 @@ if [ "${bulkDownloads}" = "true" ]; then
 			printf "Building bulk downloads ... "
 		fi
 
-		output=$("${scriptsDir}/generate-bulk-downloads" --webroot "${webRoot}")
+		output=$("${scriptsDir}/generate-bulk-downloads" --web-root "${webRoot}")
 		if [ "${verbose}" = "true" ]; then
 			echo "${output}"
 		fi

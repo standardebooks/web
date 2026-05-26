@@ -1,15 +1,35 @@
 #!/usr/bin/php
 <?
-/**
- * Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members who aren't in that list.
- * We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
- */
-
 require_once('/standardebooks.org/web/lib/Core.php');
+
+use function Safe\getopt;
+
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]update-patrons-circle[/]',
+	'Update the Patrons Circle to end Patron status for Patrons whose term has completed without a renewal.'
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
 
 // Turn off the slow query log for this session.
 Db::Query('set session slow_query_log = 0');
 
+// Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members who aren't in that list.
+// We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
 $expiredPatrons = Db::Query('
 	SELECT * from Patrons where
 	Ended is null

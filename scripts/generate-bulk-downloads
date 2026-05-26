@@ -4,9 +4,11 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use function Safe\copy;
 use function Safe\exec;
+use function Safe\file_get_contents;
 use function Safe\filemtime;
 use function Safe\filesize;
 use function Safe\flock;
+use function Safe\fopen;
 use function Safe\getopt;
 use function Safe\glob;
 use function Safe\mkdir;
@@ -16,11 +18,41 @@ use function Safe\rmdir;
 use function Safe\tempnam;
 use function Safe\unlink;
 
-$longopts = ['webroot:', 'force'];
-$options = getopt('', $longopts);
-$webRoot = $options['webroot'] ?? WEB_ROOT;
-$force = isset($options['force']);
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]generate-bulk-downloads[/] [-f,--force] [--web-root [path][parameter]<WEB_ROOT>[/]]',
+	'Generate bulk download zip files for any collections that have changed.',
+	'-f,--force
 
+	Regenerate all bulk download zip files regardless if they\'ve changed or not.
+
+
+--web-root [path][parameter]<WEB_ROOT>[/]
+
+	Specify a different root folder for the S.E. website on the local machine; defaults to [path]' . WEB_ROOT . '[/].'
+	);
+}
+
+$restIndex = 0;
+$options = getopt('hf', ['help', 'force', 'web-root:'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
+
+$webRoot = WEB_ROOT;
+if(isset($options['web-root']) && is_string($options['web-root'])){
+	$webRoot = $options['web-root'];
+}
+
+$force = isset($options['f']) || isset($options['force']);
 
 /**
  * @see <https://www.php.net/manual/en/function.rmdir.php#117354>
@@ -52,7 +84,7 @@ function CreateZip(string $filePath, array $ebooks, Enums\BulkDownloadFormatType
 	$zip = new ZipArchive();
 
 	if($zip->open($tempFilename, ZipArchive::OVERWRITE) !== true){
-		print('Can\'t open file: ' . $tempFilename . "\n");
+		Cli::ExitWithError('Can\'t open file: [path]' . $tempFilename . '[/].');
 	}
 
 	foreach($ebooks as $ebook){

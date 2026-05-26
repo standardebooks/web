@@ -21,12 +21,34 @@ use Facebook\WebDriver\WebDriverElement;
 use function Safe\file_get_contents;
 use function Safe\file_put_contents;
 use function Safe\get_cfg_var;
+use function Safe\getopt;
 use function Safe\preg_replace;
 use function Safe\putenv;
 use function Safe\set_time_limit;
 use function Safe\unlink;
 
 require_once('/standardebooks.org/web/lib/Core.php');
+
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]ingest-fa-payments[/]',
+	'Scan the Fractured Atlas website for any payments not yet in our system, and ingest them as a pending payment to be processed internally.'
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
 
 // Disable script timeout because Selenium is very slow.
 set_time_limit(0);

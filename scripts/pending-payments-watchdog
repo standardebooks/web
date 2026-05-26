@@ -2,6 +2,29 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+use function Safe\getopt;
+
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]pending-payments-watchdog[/]',
+	'Send an email to S.E. administrators if there are any pending payments which seem to have failed processing.'
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
+
 $pendingPayments = Db::Query('
 				SELECT *
 				from PendingPayments

@@ -2,31 +2,47 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
-function PrintUsage(): void{
-	echo "Truncate and rebuild all Manticore tables.\n";
+use function Safe\getopt;
+
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]rebuild-search-db[/] [--artworks-only | --ebooks-only]',
+	'Truncate and rebuild the Manticore search database.',
+	'--artworks-only
+
+	Only truncate and rebuild the artworks database.
+
+
+--ebooks-only
+
+	Only truncate and rebuild the ebooks database.'
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help', 'artworks-only', 'ebooks-only'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) !== 0 || (isset($options['artworks-only']) && isset($options['ebooks-only']))){
+	Usage();
 }
 
 $rebuildEbooks = true;
 $rebuildArtworks = true;
 
-for($i = 1; $i < sizeof($argv); $i++){
-	switch($argv[$i]){
-		case '--help':
-		case '-h':
-			PrintUsage();
-			exit();
-		case '--artworks-only':
-			$rebuildEbooks = false;
-			$rebuildArtworks = true;
-			break;
-		case '--ebooks-only':
-			$rebuildEbooks = true;
-			$rebuildArtworks = false;
-			break;
-		default:
-			print('Unrecognized option: ' . $argv[$i] . "\n");
-			exit();
-	}
+if(isset($options['artworks-only'])){
+	$rebuildEbooks = false;
+	$rebuildArtworks = true;
+}
+elseif(isset($options['ebooks-only'])){
+	$rebuildEbooks = true;
+	$rebuildArtworks = false;
 }
 
 try{
@@ -92,5 +108,5 @@ try{
 	}
 }
 catch(Exceptions\DatabaseConnectionFailedException){
-	print("Couldn't connect to Manticore.\n");
+	Cli::ExitWithError("Couldn't connect to Manticore.");
 }

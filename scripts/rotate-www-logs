@@ -3,7 +3,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
-print_help \
+PrintHelp \
  "[command]$(basename $BASH_SOURCE)[/] [path][parameter]<NEW_LOG_FILENAME>[/]" \
  "$(cat << EOF
 Move Apache access log files into a by-month subdirectory in the format [path]<LOG_ROOT>/apache/<YYYY-MM>[/], then gzip them.
@@ -20,7 +20,7 @@ fi
 # Apache has a habit of starting this script twice, which can stomp on its own files.
 for pid in $(pidof -x rotate-www-logs); do
 	if [ "${pid}" != $$ ]; then
-		# We `echo()` and `exit()` instead of `die()` because Apache prints stderr to the log, but not stdout. We don't need this logged.
+		# We `echo()` and `exit()` instead of `ExitWithError()` because Apache prints stderr to the log, but not stdout. We don't need this logged.
 		echo "rotate-www-logs is already running with PID ${pid}"
 		exit 1
 	fi

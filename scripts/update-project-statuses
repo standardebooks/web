@@ -4,7 +4,29 @@ require_once('/standardebooks.org/web/lib/Core.php');
 
 use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
+use function Safe\getopt;
 use function Safe\sleep;
+
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]update-project-statuses[/]',
+	'Update all active ebook projects with any recent activity, and change the status appropriately.'
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
 
 /**
  * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit.

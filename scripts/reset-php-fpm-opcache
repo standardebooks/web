@@ -3,7 +3,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
-print_help \
+PrintHelp \
  "[command]$(basename $BASH_SOURCE)[/] [parameter]<FPM_POOL_NAME>[/]" \
  "$(cat << EOF
 Reset the PHP-FPM opcache and the APCu user cache for the given PHP-FPM pool without reloading or resetting the PHP-FPM service.

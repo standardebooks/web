@@ -5,7 +5,7 @@ set -o pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
-print_help \
+PrintHelp \
  "[command]$(basename $BASH_SOURCE)[/] [-v,-vv,--verbosity [parameter]{1 | 2}[/]] [-n,--new-only | -u,--update-only] [-s,--start-letter [parameter]<LETTER>[/]] [--token [parameter]<TOKEN>[/]] [path][parameter]<DIRECTORY>[/]" \
  "$(cat << EOF
 Syncs books from the [url]standardebooks.org[/] GitHub organization to [path][parameter]<DIRECTORY>[/].
@@ -53,7 +53,7 @@ EOF
 
 check_arg(){
 	case "$2" in
-		''|$1) die "$3" ;;
+		''|$1) ExitWithError "$3" ;;
 	esac
 }
 
@@ -101,7 +101,7 @@ while [ $# -gt 0 ]; do
 			shift 1
 			;;
 		-s|--start-letter)
-			check_arg '*[!b-z]*' "$2" "StartLetter is not a lowercase letter greater than a."
+			check_arg '*[!b-z]*' "$2" "--start-letter is not a lowercase letter greater than [parameter]a[/]."
 			startLetter="$2"
 			shift 2
 			;;
@@ -135,11 +135,11 @@ fi
 target="$1"
 
 if ! [ -d "${target}" ]; then
-	die "${target} is not a directory."
+	ExitWithError "[path]${target}[/] isn't a directory."
 fi
 
 if ! cd "${target}"; then
-	die "Couldn’t cd into ${target}"
+	ExitWithError "Couldn’t enter [path]${target}[/]."
 fi
 
 if [ "${startLetter}" != "" ]; then
@@ -203,10 +203,10 @@ while true; do
 	# get a "page" worth of repository URL's
 	if [ -n "${githubToken}" ]; then
 		response=$(curl -H "Authorization: token ${githubToken}" -si "${url}") ||
-			die "Curl request failed."
+			ExitWithError "Curl request failed."
 	else
 		response=$(curl -si "${url}") ||
-			die "Curl request failed."
+			ExitWithError "Curl request failed."
 	fi
 
 	if printf "%s" "${response}" | grep -q "^X-RateLimit-Remaining: 0$"; then

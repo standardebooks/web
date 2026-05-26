@@ -7,6 +7,27 @@ use function Safe\fopen;
 use function Safe\getopt;
 use function Safe\set_time_limit;
 
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]send-email-queue[/]',
+	'Send any queued email messages.',
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
+
 set_time_limit(0); // Disable script timeout.
 
 $options = getopt('h', ['help', 'runs:']);

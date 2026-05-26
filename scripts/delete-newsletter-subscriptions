@@ -2,6 +2,29 @@
 <?
 require_once('/standardebooks.org/web/lib/Core.php');
 
+use function Safe\getopt;
+
+function Usage(): void{
+	Cli::PrintHelp(
+	'[command]delete-newsletter-subscriptions[/]',
+	'Delete unconfirmed newsletter subscriptions that are more than a week old, and any confirmed newsletter subscriptions that are marked for deletion.'
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
+
 // Turn off the slow query log for this session.
 Db::Query('set session slow_query_log = 0');
 

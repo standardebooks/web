@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Helper functions printing color and formatting in command line scripts.
+# This functionaliry is duplicated in `lib/Cli.php` for use in PHP scripts.
+
 # Escape sequence and resets.
 ESC_SEQ=$'\x1b['
 RESET_ALL="${ESC_SEQ}0m"
@@ -39,20 +42,20 @@ FS_REG="${ESC_SEQ}22m"
 FS_BOLD="${ESC_SEQ}1m"
 FS_UL="${ESC_SEQ}4m"
 
-# Return whether color output should be disabled.
-no_color(){
-	[[ -n "${NO_COLOR}" || ! -t 1 ]]
+# Return whether color output should be enabled.
+IsColor(){
+	[[ -z "${NO_COLOR}" && -t 1 ]]
 }
 
-# Return whether plain usage output should omit backticks.
-very_plain_usage(){
+# Return whether output without colors should omit backticks.
+IsVeryPlain(){
 	[[ ! -t 1 ]]
 }
 
-# Replace usage formatting tags with plain text markers.
+# Replace formatting tags with backticks.
 # Param 1: The line to colorize.
-# Param 2: Boolean to use "very plain" output.
-plain_usage(){
+# Param 2: Boolean to use "very plain" output, i.e., no backticks.
+RemoveFormatting(){
 	local inFormat
 	local inHeader
 	local line
@@ -119,8 +122,8 @@ plain_usage(){
 	printf '%s' "${output}"
 }
 
-# Return the printable length of text that may contain usage formatting tags.
-get_string_length_without_formatting(){
+# Return the printable length of text that may contain formatting tags.
+GetStringLengthWithoutFormatting(){
 	local char
 	local index
 	local text
@@ -128,8 +131,8 @@ get_string_length_without_formatting(){
 
 	text="$1"
 
-	if no_color; then
-		text="$(plain_usage "${text}" "$(very_plain_usage && printf 'true' || printf 'false')")"
+	if ! IsColor; then
+		text="$(RemoveFormatting "${text}" "$(IsVeryPlain && printf 'true' || printf 'false')")"
 	else
 		text="${text//\[header\]/}"
 		text="${text//\[parameter\]/}"
@@ -157,7 +160,7 @@ get_string_length_without_formatting(){
 }
 
 # Return the current terminal width.
-get_terminal_width(){
+GetTerminalWidth(){
 	local terminalSize
 	local width
 
@@ -177,22 +180,22 @@ get_terminal_width(){
 	fi
 }
 
-# Replace usage formatting tags with terminal colors.
+# Replace formatting tags with terminal colors.
 # Param 1: The line to colorize.
 # Param 2 (optional): boolean to use "very plain" output, i.e., if `true` and color output is disabled, don't replace colors with backticks. Useful when outputting example CLI commands that are meant to be copied and pasted.
-colorize_usage(){
+ColorizeString(){
 	local line
 	local veryPlain
 
 	line="$1"
 	veryPlain="${2:-false}"
 
-	if no_color; then
-		if very_plain_usage; then
+	if ! IsColor; then
+		if IsVeryPlain; then
 			veryPlain="true"
 		fi
 
-		plain_usage "${line}" "${veryPlain}"
+		RemoveFormatting "${line}" "${veryPlain}"
 		return
 	fi
 
@@ -208,21 +211,23 @@ colorize_usage(){
 	printf '%s' "${line}"
 }
 
-# Wrap one usage line to the current terminal width, ignoring formatting tags when measuring line length.
-wrap_usage_line(){
+# Wrap one line to the current terminal width, ignoring formatting tags when measuring line length.
+WrapLine(){
 	local availableWidth
 	local chunk
 	local currentLine
 	local indent
 	local line
 	local remainingLine
+	local veryPlain
 	local width
 
 	line="$1"
 	width="$2"
+	veryPlain="${3:-false}"
 
-	if (($(get_string_length_without_formatting "${line}") <= width)); then
-		colorize_usage "${line}"
+	if (($(GetStringLengthWithoutFormatting "${line}") <= width)); then
+		ColorizeString "${line}" "${veryPlain}"
 		printf "\n"
 		return
 	fi
@@ -234,7 +239,7 @@ wrap_usage_line(){
 		indent=""
 	fi
 
-	availableWidth=$((width - $(get_string_length_without_formatting "${indent}")))
+	availableWidth=$((width - $(GetStringLengthWithoutFormatting "${indent}")))
 
 	if ((availableWidth < 20)); then
 		availableWidth=20
@@ -257,52 +262,58 @@ wrap_usage_line(){
 
 		if [[ -z "${currentLine}" ]]; then
 			currentLine="${chunk}"
-		elif (($(get_string_length_without_formatting "${currentLine}${chunk}") <= availableWidth)); then
+		elif (($(GetStringLengthWithoutFormatting "${currentLine}${chunk}") <= availableWidth)); then
 			currentLine="${currentLine}${chunk}"
 		elif [[ "${chunk}" =~ ^[[:space:]]+$ ]]; then
-			colorize_usage "${indent}${currentLine}"
+			ColorizeString "${indent}${currentLine}" "${veryPlain}"
 			printf "\n"
 			currentLine=""
 		else
-			colorize_usage "${indent}${currentLine}"
+			ColorizeString "${indent}${currentLine}" "${veryPlain}"
 			printf "\n"
 			currentLine="${chunk}"
 		fi
 	done
 
 	if [[ -n "${currentLine}" ]]; then
-		colorize_usage "${indent}${currentLine}"
+		ColorizeString "${indent}${currentLine}" "${veryPlain}"
 	fi
 
 	printf "\n"
 }
 
-# Replace usage formatting tags with terminal colors.
-format_usage(){
+# Replace formatting tags with terminal colors.
+# Param 1: The text to format.
+# Param 2 (optional): Boolean to use "very plain" output, i.e., no backticks.
+FormatHelp(){
 	local line
+	local text
+	local veryPlain
 	local width
 
-	width="$(get_terminal_width)"
+	text="$1"
+	veryPlain="${2:-false}"
+	width="$(GetTerminalWidth)"
 
 	while IFS= read -r line; do
 		if [[ -z "${line}" ]]; then
 			printf "\n"
 		elif [[ -z "${width}" ]]; then
-			colorize_usage "${line}"
+			ColorizeString "${line}" "${veryPlain}"
 			printf "\n"
 		else
-			wrap_usage_line "${line}" "${width}"
+			WrapLine "${line}" "${width}" "${veryPlain}"
 		fi
-	done
+	done <<< "${text}"
 }
 
-# Indent each line in the string with a tab, then format using `format_usage()`.
+# Indent each line in the string with a tab.
 # Param 1: The string.
-format_usage_parameter(){
+Indent(){
 	local line
 
 	while IFS= read -r line || [[ -n "${line}" ]]; do
-		format_usage <<< "	${line}"
+		printf "	%s\n" "${line}"
 	done <<< "$1"
 }
 
@@ -310,56 +321,45 @@ format_usage_parameter(){
 # Param 2: Description.
 # Param 3 (optional): List of options.
 # Param 4 (optional): List of examples.
-print_help(){
+PrintHelp(){
 	echo -n
-	format_usage <<EOF
-[header]USAGE[/]
+	FormatHelp "[header]USAGE[/]
+"
 
-EOF
+	FormatHelp "$(Indent "$1")" "true"
 
-	format_usage_parameter "$1"
-
-	format_usage <<EOF
-
+	FormatHelp "
 [header]DESCRIPTION[/]
+"
 
-EOF
-
-	format_usage_parameter "$2"
-
-	format_usage <<EOF
-EOF
+	FormatHelp "$(Indent "$2")"
 
 	if [[ -n "$3" ]]; then
-		format_usage <<EOF
-
+		FormatHelp "
 [header]OPTIONS[/]
+"
 
-EOF
-
-		format_usage_parameter "$3"
+		FormatHelp "$(Indent "$3")"
 	fi
 
 	if [[ -n "$4" ]]; then
-		format_usage <<EOF
-
+		FormatHelp "
 [header]EXAMPLES[/]
+"
 
-EOF
-
-		format_usage_parameter "$4"
+		FormatHelp "$(Indent "$4")"
 	fi
 
-	exit 1
+	exit
 }
 
 # Param 1: Error message.
 # Param 2 (optional): Error code, defaults to `1`.
-die(){
-	if no_color; then
-		printf "Error: $(plain_usage "${1}" "$(very_plain_usage && printf 'true' || printf 'false')")\n" 1>&2
+ExitWithError(){
+	if ! IsColor; then
+		printf "Error: $(RemoveFormatting "${1}" "$(IsVeryPlain && printf 'true' || printf 'false')")\n" 1>&2
 	else
-		printf "$(colorize_usage "${BG_RED}${FG_BR_WHITE}${FS_BOLD} Error ${RESET_ALL} ${1}")\n" 1>&2
+		printf "$(ColorizeString "${BG_RED}${FG_BR_WHITE}${FS_BOLD} Error ${RESET_ALL} ${1}")\n" 1>&2
 	fi
 
 	code=1
@@ -378,6 +378,6 @@ require(){
 		if [ -n "$2" ]; then
 			suggestion=" $2";
 		fi
-		die "[command]$1[/] isn't installed.${suggestion}";
+		ExitWithError "[command]$1[/] isn't installed.${suggestion}";
 	}
 }
