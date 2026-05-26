@@ -3649,8 +3649,9 @@ table.admin-table td + td{
 
 nav.breadcrumbs{
 	font-style: italic;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	margin: 1rem auto;
+	width: 100%;
+	max-width: 40rem;
 }
 
 nav.breadcrumbs + h1{

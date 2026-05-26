@@ -51,7 +51,12 @@ catch(Exceptions\PermissionsInvalidException){
 ) ?>
 <main>
 	<section class="narrow">
-		<h1>Edit Artwork</h1>
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
+				<a href="/artworks">Artworks</a> →
+				<a href="<?= $originalArtwork->Artist->Url ?>"><?= Formatter::EscapeHtml($originalArtwork->Artist->Name) ?></a> →
+				<a href="<?= $originalArtwork->Url ?>"><?= Formatter::EscapeHtml($originalArtwork->Name) ?></a> →
+			</nav>
+		<h1>Edit</h1>
 
 		<?= Template::Error(exception: $exception) ?>
 
