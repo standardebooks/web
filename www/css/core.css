@@ -3606,7 +3606,7 @@ dl{
 	display: grid;
 	grid-template-columns: max-content minmax(0, 1fr);
 	margin-top: 1rem;
-	gap: 1rem;
+	gap: 1rem .5rem;
 	width: auto;
 	font-variant-numeric: tabular-nums;
 }
@@ -3623,7 +3623,7 @@ dl > dd{
 dl > dt.break,
 dl > dt.break + dd{
 	padding-bottom: 1rem;
-	border-bottom: 1px dashed var(--body-text);
+	border-bottom: 3px double var(--body-text);
 }
 
 table.admin-table td{
