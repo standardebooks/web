@@ -41,6 +41,9 @@ if(sizeof($parameters) != 0){
 /** @var array<Project> $projects */
 $projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
 
+// Randomly sort `Project`s, in case we got rate limited in an earlier invocation, so we have a better chance of updating a different project this time.
+shuffle($projects);
+
 $apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
 $oldestStalledTimestamp = new DateTimeImmutable('60 days ago');
 $oldestAbandonedTimestamp = new DateTimeImmutable('60 days ago');
@@ -57,9 +60,10 @@ foreach($projects as $project){
 			if(stripos($ex->getMessage(), 'http 429') !== false){
 				$continueFetchingLastDiscussionTimestamp = false;
 			}
-
-			$log = new Log();
-			$log->Write($ex->getMessage());
+			else{
+				$log = new Log();
+				$log->Write($ex->getMessage());
+			}
 		}
 	}
 
@@ -140,5 +144,5 @@ foreach($projects as $project){
 
 	$project->Save();
 
-	sleep(10);
+	sleep(random_int(8,17));
 }
