@@ -70,14 +70,10 @@ catch(Exceptions\ArtistNotFoundException){
 				<ul role="menu">
 					<li><a href="<?= $artist->DeleteUrl ?>">Delete artist</a></li>
 				</ul>
-				<table class="admin-table">
-					<tbody>
-						<tr>
-							<td>Artist ID:</td>
-							<td><?= $artist->ArtistId ?></td>
-						</tr>
-					</tbody>
-				</table>
+				<dl>
+					<dt>Artist ID:</dt>
+					<dd><?= $artist->ArtistId ?></dd>
+				</dl>
 			</section>
 		<? } ?>
 	</section>

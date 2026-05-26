@@ -56,14 +56,10 @@ catch(Exceptions\CollectionNotFoundException){
 	<? if(Session::$User?->Benefits->CanEditCollections){ ?>
 		<section class="admin">
 			<h2>Metadata</h2>
-			<table class="admin-table">
-				<tbody>
-					<tr>
-						<td>Collection ID:</td>
-						<td><?= $collection->CollectionId ?></td>
-					</tr>
-				</tbody>
-			</table>
+			<dl>
+				<dt>Collection ID:</dt>
+				<dd><?= $collection->CollectionId ?></dd>
+			</dl>
 		</section>
 	<? } ?>
 

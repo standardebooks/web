@@ -7,18 +7,12 @@ $showPlaceholderMetadata ??= false;
 ?>
 <section id="metadata" class="admin">
 	<h2>Metadata</h2>
-	<table class="admin-table">
-		<tbody>
-			<tr>
-				<td>Ebook ID:</td>
-				<td><?= $ebook->EbookId ?></td>
-			</tr>
-			<tr>
-				<td>Is Patron selection:</td>
-				<td><? if($ebook->IsPatronSelection){ ?>☑<? }else{ ?>☐<? } ?></td>
-			</tr>
-		</tbody>
-	</table>
+	<dl>
+		<dt>Ebook ID:</dt>
+		<dd><?= $ebook->EbookId ?></dd>
+		<dt>Is Patron selection:</dt>
+		<dd><? if($ebook->IsPatronSelection){ ?>☑<? }else{ ?>☐<? } ?></dd>
+	</dl>
 </section>
 
 <? if($showPlaceholderMetadata && $ebook->IsPlaceholder() && $ebook->EbookPlaceholder !== null){ ?>
@@ -28,21 +22,13 @@ $showPlaceholderMetadata ??= false;
 			<li><a href="<?= $ebook->EditUrl ?>">Edit placeholder</a></li>
 			<li><a href="<?= $ebook->DeleteUrl ?>">Delete placeholder</a></li>
 		</ul>
-		<table class="admin-table">
-			<tbody>
-				<tr>
-					<td>Is wanted:</td>
-					<td><? if($ebook->EbookPlaceholder->IsWanted){ ?>☑<? }else{ ?>☐<? } ?></td>
-				</tr>
-				<? if($ebook->EbookPlaceholder->IsWanted){ ?>
-					<? if($ebook->EbookPlaceholder->Difficulty !== null){ ?>
-						<tr>
-							<td>Difficulty:</td>
-							<td><?= ucfirst($ebook->EbookPlaceholder->Difficulty->value) ?></td>
-						</tr>
-					<? } ?>
-				<? } ?>
-			</tbody>
-		</table>
+		<dl>
+			<dt>Is wanted:</dt>
+			<dd><? if($ebook->EbookPlaceholder->IsWanted){ ?>☑<? }else{ ?>☐<? } ?></dd>
+			<? if($ebook->EbookPlaceholder->IsWanted && $ebook->EbookPlaceholder->Difficulty !== null){ ?>
+				<dt>Difficulty:</dt>
+				<dd><?= ucfirst($ebook->EbookPlaceholder->Difficulty->value) ?></dd>
+			<? } ?>
+		</dl>
 	</section>
 <? } ?>

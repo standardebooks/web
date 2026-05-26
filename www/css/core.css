@@ -3602,14 +3602,34 @@ h2 + table.admin-table{
 	margin-top: .5rem;
 }
 
+dl{
+	display: grid;
+	grid-template-columns: max-content minmax(0, 1fr);
+	margin-top: 1rem;
+	gap: 1rem;
+	width: auto;
+	font-variant-numeric: tabular-nums;
+}
+
+dl > dt{
+	text-align: right;
+	font-weight: bold;
+}
+
+dl > dd{
+	margin-left: 0;
+}
+
+dl > dt.break,
+dl > dt.break + dd{
+	padding-bottom: 1rem;
+	border-bottom: 1px dashed var(--body-text);
+}
+
 table.admin-table td{
 	padding: .5rem;
 	vertical-align: top;
 	font-variant-numeric: tabular-nums;
-}
-
-table.admin-table tr.break{
-	border-bottom: 1px dashed var(--body-text);
 }
 
 table.admin-table td:first-child{
@@ -4337,6 +4357,23 @@ ul[role="menu"] li + li::before{
 
 	table.admin-table tr + tr td:first-child{
 		padding-top: 1rem;
+	}
+
+	dl{
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+
+	dl > dt{
+		text-align: initial;
+	}
+
+	dl > dt ~ dt{
+		margin-top: 1rem;
+	}
+
+	dl > dt.break{
+		border: none;
 	}
 
 	.masthead ol.donors.corporate li{

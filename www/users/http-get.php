@@ -80,76 +80,50 @@ catch(Exceptions\PermissionsInvalidException){
 		<? } ?>
 
 		<h2>Basics</h2>
-		<table class="admin-table">
-			<tbody>
-				<tr>
-					<td>User ID:</td>
-					<td><?= $user->UserId ?></td>
-				</tr>
-				<tr>
-					<td>Email:</td>
-					<td><?= Formatter::EscapeHtml($user->Email) ?></td>
-				</tr>
-				<tr>
-					<td>Name:</td>
-					<td><?= Formatter::EscapeHtml($user->Name) ?></td>
-				</tr>
-				<tr>
-					<td>UUID:</td>
-					<td><?= Formatter::EscapeHtml($user->Uuid) ?></td>
-				</tr>
-				<tr>
-					<td>Created:</td>
-					<td><?= $user->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></td>
-				</tr>
-			</tbody>
-		</table>
+		<dl>
+			<dt>User ID:</dt>
+			<dd><?= $user->UserId ?></dd>
+			<dt>Email:</dt>
+			<dd><?= Formatter::EscapeHtml($user->Email) ?></dd>
+			<dt>Name:</dt>
+			<dd><?= Formatter::EscapeHtml($user->Name) ?></dd>
+			<dt>UUID:</dt>
+			<dd><?= Formatter::EscapeHtml($user->Uuid) ?></dd>
+			<dt>Created:</dt>
+			<dd><?= $user->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></dd>
+		</dl>
 
 		<h2>Patron info</h2>
-		<table class="admin-table">
-			<tbody>
-				<tr>
-					<td>Is Patron:</td>
-					<td><? if($user->Patron !== null && $user->Patron->Ended === null){ ?>☑<? }else{ ?>☐<? } ?></td>
-				</tr>
-				<? if($user->Patron !== null && $user->Patron->Ended === null){ ?>
-					<tr>
-						<td>Created:</td>
-						<td><?= $user->Patron->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></td>
-					</tr>
-					<tr>
-						<td>Cycle type:</td>
-						<td>
-							<? if($user->Patron->CycleType !== null){ ?>
-								<?= ucfirst($user->Patron->CycleType->value) ?>
-							<? }else{ ?>
-								<i>Not set</i>
-							<? } ?>
-						</td>
-					</tr>
-					<tr>
-						<td>Base cost:</td>
-						<td>
-							<? if($user->Patron->BaseCost !== null){ ?>
-								<?= Formatter::FormatCurrency($user->Patron->BaseCost) ?>
-							<? }else{ ?>
-								<i>Not set</i>
-							<? } ?>
-						</td>
-					</tr>
-					<tr>
-						<td>Is anonymous:</td>
-						<td><? if($user->Patron->IsAnonymous){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<? if($user->Patron->AlternateName !== null){ ?>
-						<tr>
-							<td>Alternate credit:</td>
-							<td><?= Formatter::EscapeHtml($user->Patron->AlternateName) ?></td>
-						</tr>
+		<dl>
+			<dt>Is Patron:</dt>
+			<dd><? if($user->Patron !== null && $user->Patron->Ended === null){ ?>☑<? }else{ ?>☐<? } ?></dd>
+			<? if($user->Patron !== null && $user->Patron->Ended === null){ ?>
+				<dt>Created:</dt>
+				<dd><?= $user->Patron->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></dd>
+				<dt>Cycle type:</dt>
+				<dd>
+					<? if($user->Patron->CycleType !== null){ ?>
+						<?= ucfirst($user->Patron->CycleType->value) ?>
+					<? }else{ ?>
+						<i>Not set</i>
 					<? } ?>
+				</dd>
+				<dt>Base cost:</dt>
+				<dd>
+					<? if($user->Patron->BaseCost !== null){ ?>
+						<?= Formatter::FormatCurrency($user->Patron->BaseCost) ?>
+					<? }else{ ?>
+						<i>Not set</i>
+					<? } ?>
+				</dd>
+				<dt>Is anonymous:</dt>
+				<dd><? if($user->Patron->IsAnonymous){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<? if($user->Patron->AlternateName !== null){ ?>
+					<dt>Alternate credit:</dt>
+					<dd><?= Formatter::EscapeHtml($user->Patron->AlternateName) ?></dd>
 				<? } ?>
-			</tbody>
-		</table>
+			<? } ?>
+		</dl>
 
 		<h2>Newsletter subscriptions</h2>
 		<? if(sizeof($user->NewsletterSubscriptions) == 0){ ?>
@@ -165,96 +139,52 @@ catch(Exceptions\PermissionsInvalidException){
 		<? } ?>
 
 		<h2>Registration info</h2>
-		<table class="admin-table">
-			<tbody>
-				<tr class="break">
-					<td>Requires password to log in:</td>
-					<td><? if($user->Benefits->RequiresPassword){ ?>☑<? }else{ ?>☐<? } ?></td>
-				</tr>
-				<? if($user->RequiresPassword){ ?>
-					<tr>
-						<td>Can access feeds:</td>
-						<td><? if($user->Benefits->CanAccessFeeds){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can vote:</td>
-						<td><? if($user->Benefits->CanVote){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr class="break">
-						<td>Can bulk download:</td>
-						<td><? if($user->Benefits->CanBulkDownload){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can upload artwork:</td>
-						<td><? if($user->Benefits->CanUploadArtwork){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can review artwork:</td>
-						<td><? if($user->Benefits->CanReviewArtwork){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Is artwork admin:</td>
-						<td><? if($user->Benefits->IsArtworkAdmin){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can create users:</td>
-						<td><? if($user->Benefits->CanCreateUsers){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can edit users:</td>
-						<td><? if($user->Benefits->CanEditUsers){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can edit collections:</td>
-						<td><? if($user->Benefits->CanEditCollections){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can edit ebooks:</td>
-						<td><? if($user->Benefits->CanEditEbooks){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can edit ebook placeholders:</td>
-						<td><? if($user->Benefits->CanEditEbookPlaceholders){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can edit projects:</td>
-						<td><? if($user->Benefits->CanEditProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can manage projects:</td>
-						<td><? if($user->Benefits->CanManageProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can review projects:</td>
-						<td><? if($user->Benefits->CanReviewProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can be auto-assigned to projects:</td>
-						<td><? if($user->Benefits->CanBeAutoAssignedToProjects){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can edit blog posts:</td>
-						<td><? if($user->Benefits->CanEditBlogPosts){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can edit spreadsheets:</td>
-						<td><? if($user->Benefits->CanEditSpreadsheets){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can create newsletter mailings:</td>
-						<td><? if($user->Benefits->CanCreateNewsletterMailings){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can edit newsletter mailings:</td>
-						<td><? if($user->Benefits->CanEditNewsletterMailings){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-					<tr>
-						<td>Can view reports:</td>
-						<td><? if($user->Benefits->CanViewReports){ ?>☑<? }else{ ?>☐<? } ?></td>
-					</tr>
-				<? } ?>
-			</tbody>
-		</table>
+		<dl>
+			<dt class="break">Requires password to log in:</dt>
+			<dd><? if($user->Benefits->RequiresPassword){ ?>☑<? }else{ ?>☐<? } ?></dd>
+			<? if($user->RequiresPassword){ ?>
+				<dt>Can access feeds:</dt>
+				<dd><? if($user->Benefits->CanAccessFeeds){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can vote:</dt>
+				<dd><? if($user->Benefits->CanVote){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt class="break">Can bulk download:</dt>
+				<dd><? if($user->Benefits->CanBulkDownload){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can upload artwork:</dt>
+				<dd><? if($user->Benefits->CanUploadArtwork){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can review artwork:</dt>
+				<dd><? if($user->Benefits->CanReviewArtwork){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Is artwork admin:</dt>
+				<dd><? if($user->Benefits->IsArtworkAdmin){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can create users:</dt>
+				<dd><? if($user->Benefits->CanCreateUsers){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit users:</dt>
+				<dd><? if($user->Benefits->CanEditUsers){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit collections:</dt>
+				<dd><? if($user->Benefits->CanEditCollections){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit ebooks:</dt>
+				<dd><? if($user->Benefits->CanEditEbooks){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit ebook placeholders:</dt>
+				<dd><? if($user->Benefits->CanEditEbookPlaceholders){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit projects:</dt>
+				<dd><? if($user->Benefits->CanEditProjects){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can manage projects:</dt>
+				<dd><? if($user->Benefits->CanManageProjects){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can review projects:</dt>
+				<dd><? if($user->Benefits->CanReviewProjects){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can be auto-assigned to projects:</dt>
+				<dd><? if($user->Benefits->CanBeAutoAssignedToProjects){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit blog posts:</dt>
+				<dd><? if($user->Benefits->CanEditBlogPosts){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit spreadsheets:</dt>
+				<dd><? if($user->Benefits->CanEditSpreadsheets){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can create newsletter mailings:</dt>
+				<dd><? if($user->Benefits->CanCreateNewsletterMailings){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit newsletter mailings:</dt>
+				<dd><? if($user->Benefits->CanEditNewsletterMailings){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can view reports:</dt>
+				<dd><? if($user->Benefits->CanViewReports){ ?>☑<? }else{ ?>☐<? } ?></dd>
+			<? } ?>
+		</dl>
 
 		<h2>Payments</h2>
 		<? if(sizeof($user->Payments) == 0){ ?>

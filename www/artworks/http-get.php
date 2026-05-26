@@ -79,68 +79,52 @@ catch(Exceptions\PermissionsInvalidException){
 		<?= Template::ImageCopyrightNotice() ?>
 
 		<h2>Metadata</h2>
-		<table class="admin-table">
-			<tr>
-				<td>Title:</td>
-				<td><i><?= Formatter::EscapeHtml($artwork->Name) ?></i><? if($isAdminView){ ?> (#<?= $artwork->ArtworkId ?>)<? } ?></td>
-			</tr>
-			<tr>
-				<td>Artist:</td>
-				<td>
-					<a href="<?= $artwork->Artist->Url ?>"><?= Formatter::EscapeHtml($artwork->Artist->Name) ?></a><? if(sizeof($artwork->Artist->AlternateNames ?? []) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?><? if($isAdminView){ ?> (#<?= $artwork->Artist->ArtistId ?>)<? } ?>
-				</td>
-			</tr>
-			<tr>
-				<td>Year completed:</td>
-				<td><? if($artwork->CompletedYear === null){ ?>Unknown<? }else{ ?><? if($artwork->CompletedYearIsCirca){ ?>Circa <? } ?><?= $artwork->CompletedYear ?><? } ?></td>
-			</tr>
-			<tr>
-				<td>Tags:</td>
-				<td>
-					<ul class="tags">
-						<? foreach($artwork->Tags as $tag){ ?>
-							<li>
-								<a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a>
-							</li>
-						<? } ?>
-					</ul>
-				</td>
-			</tr>
-			<tr>
-				<td>Dimensions:</td>
-				<td><?= $artwork->Dimensions ?></td>
-			</tr>
-			<tr>
-				<td>Status:</td>
-				<td>
-					<?= ucfirst($artwork->Status->value) ?>
-					<? if(isset($artwork->Ebook)){ ?>
-						— in use by
-							<i>
-								<a href="<?= $artwork->Ebook->Url ?>"><?= Formatter::EscapeHtml($artwork->Ebook->Title) ?></a>
-							</i><? if($artwork->Ebook->IsPlaceholder()){ ?>(unreleased)<? } ?>
+		<dl>
+			<dt>Title:</dt>
+			<dd><i><?= Formatter::EscapeHtml($artwork->Name) ?></i><? if($isAdminView){ ?> (#<?= $artwork->ArtworkId ?>)<? } ?></dd>
+			<dt>Artist:</dt>
+			<dd>
+				<a href="<?= $artwork->Artist->Url ?>"><?= Formatter::EscapeHtml($artwork->Artist->Name) ?></a><? if(sizeof($artwork->Artist->AlternateNames ?? []) > 0){ ?> (A.K.A. <span class="author" typeof="schema:Person" property="schema:name"><?= implode('</span>, <span class="author" typeof="schema:Person" property="schema:name">', array_map('Formatter::EscapeHtml', $artwork->Artist->AlternateNames)) ?></span>)<? } ?><? if($artwork->Artist->DeathYear !== null){ ?> (<abbr>d.</abbr> <?= $artwork->Artist->DeathYear ?>)<? } ?><? if($isAdminView){ ?> (#<?= $artwork->Artist->ArtistId ?>)<? } ?>
+			</dd>
+			<dt>Year completed:</dt>
+			<dd><? if($artwork->CompletedYear === null){ ?>Unknown<? }else{ ?><? if($artwork->CompletedYearIsCirca){ ?>Circa <? } ?><?= $artwork->CompletedYear ?><? } ?></dd>
+			<dt>Tags:</dt>
+			<dd>
+				<ul class="tags">
+					<? foreach($artwork->Tags as $tag){ ?>
+						<li>
+							<a href="<?= $tag->Url ?>"><?= Formatter::EscapeHtml($tag->Name) ?></a>
+						</li>
 					<? } ?>
-				</td>
-			</tr>
+				</ul>
+			</dd>
+			<dt>Dimensions:</dt>
+			<dd><?= $artwork->Dimensions ?></dd>
+			<dt>Status:</dt>
+			<dd>
+				<?= ucfirst($artwork->Status->value) ?>
+				<? if(isset($artwork->Ebook)){ ?>
+					— in use by
+						<i>
+							<a href="<?= $artwork->Ebook->Url ?>"><?= Formatter::EscapeHtml($artwork->Ebook->Title) ?></a>
+						</i><? if($artwork->Ebook->IsPlaceholder()){ ?>(unreleased)<? } ?>
+				<? } ?>
+			</dd>
 			<? if($isReviewerView){ ?>
-				<tr>
-					<td>Submitted by:</td>
-					<td><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::EscapeHtml($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Submitter->Email) ?><? } ?></a><? } ?><? if($isAdminView && $artwork->Submitter !== null){ ?> (#<?= $artwork->Submitter->UserId ?>)<? } ?></td>
-				</tr>
+				<dt>Submitted by:</dt>
+				<dd><? if($artwork->Submitter === null){ ?>Anonymous<? }else{ ?><a href="mailto:<?= Formatter::EscapeHtml($artwork->Submitter->Email) ?>"><? if($artwork->Submitter->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Submitter->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Submitter->Email) ?><? } ?></a><? } ?><? if($isAdminView && $artwork->Submitter !== null){ ?> (#<?= $artwork->Submitter->UserId ?>)<? } ?></dd>
 				<? if($artwork->Reviewer !== null || $artwork->IsAutoReviewed){ ?>
-					<tr>
-						<td>Reviewed by:</td>
-						<td>
-							<? if($artwork->Reviewer !== null){ ?>
-								<a href="mailto:<?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?><? } ?></a><? if($isAdminView){ ?> (#<?= $artwork->Reviewer->UserId ?>)<? } ?>
-							<? }else{ ?>
-								Auto-reviewed
-							<? } ?>
-						</td>
-					</tr>
+					<dt>Reviewed by:</dt>
+					<dd>
+						<? if($artwork->Reviewer !== null){ ?>
+							<a href="mailto:<?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?>"><? if($artwork->Reviewer->Name !== null){ ?> <?= Formatter::EscapeHtml($artwork->Reviewer->Name) ?><? }else{ ?><?= Formatter::EscapeHtml($artwork->Reviewer->Email) ?><? } ?></a><? if($isAdminView){ ?> (#<?= $artwork->Reviewer->UserId ?>)<? } ?>
+						<? }else{ ?>
+							Auto-reviewed
+						<? } ?>
+					</dd>
 				<? } ?>
 			<? } ?>
-		</table>
+		</dl>
 
 		<h2>U.S. public domain proof</h2>
 		<? if($artwork->MuseumUrl !== null){ ?>
