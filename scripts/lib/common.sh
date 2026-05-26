@@ -44,7 +44,7 @@ FS_UL="${ESC_SEQ}4m"
 
 # Return whether color output should be enabled.
 IsColor(){
-	[[ -z "${NO_COLOR}" && -t 1 ]]
+	[[ -z "${NO_COLOR:-}" && -t 1 ]]
 }
 
 # Return whether output without colors should omit backticks.
@@ -168,7 +168,7 @@ GetTerminalWidth(){
 	width="${terminalSize##* }"
 
 	if [[ -z "${width}" ]] || ((width <= 0)); then
-		width="${COLUMNS}"
+		width="${COLUMNS:-}"
 	fi
 
 	if ([[ -z "${width}" ]] || ((width <= 0))) && [[ -t 1 ]]; then
@@ -226,7 +226,7 @@ WrapLine(){
 	width="$2"
 	veryPlain="${3:-false}"
 
-	if (($(GetStringLengthWithoutFormatting "${line}") <= width)); then
+	if (($(GetStringLengthWithoutFormatting "${line}") <= ${width})); then
 		ColorizeString "${line}" "${veryPlain}"
 		printf "\n"
 		return
@@ -239,7 +239,7 @@ WrapLine(){
 		indent=""
 	fi
 
-	availableWidth=$((width - $(GetStringLengthWithoutFormatting "${indent}")))
+	availableWidth=$((${width} - $(GetStringLengthWithoutFormatting "${indent}")))
 
 	if ((availableWidth < 20)); then
 		availableWidth=20
@@ -334,7 +334,7 @@ PrintHelp(){
 
 	FormatHelp "$(Indent "$2")"
 
-	if [[ -n "$3" ]]; then
+	if [[ -n "${3:-}" ]]; then
 		FormatHelp "
 [header]OPTIONS[/]
 "
@@ -342,7 +342,7 @@ PrintHelp(){
 		FormatHelp "$(Indent "$3")"
 	fi
 
-	if [[ -n "$4" ]]; then
+	if [[ -n "${4:-}" ]]; then
 		FormatHelp "
 [header]EXAMPLES[/]
 "
