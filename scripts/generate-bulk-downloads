@@ -20,16 +20,16 @@ use function Safe\unlink;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]generate-bulk-downloads[/] [-f,--force] [--web-root [path][parameter]<WEB_ROOT>[/]]',
+	'[command]generate-bulk-downloads[/] [-f,--force] [--web-root [path][parameter]<WEB_ROOT_DIRECTORY>[/]]',
 	'Generate bulk download zip files for any collections that have changed.',
 	'-f,--force
 
 	Regenerate all bulk download zip files regardless if they\'ve changed or not.
 
 
---web-root [path][parameter]<WEB_ROOT>[/]
+--web-root [path][parameter]<WEB_ROOT_DIRECTORY>[/]
 
-	Specify a different root folder for the S.E. website on the local machine; defaults to [path]' . WEB_ROOT . '[/].'
+	Specify a different root folder for the S.E. website on the local machine; defaults to [url=file://' . WEB_ROOT . '][path]' . WEB_ROOT . '[/].'
 	);
 }
 
@@ -84,7 +84,7 @@ function CreateZip(string $filePath, array $ebooks, Enums\BulkDownloadFormatType
 	$zip = new ZipArchive();
 
 	if($zip->open($tempFilename, ZipArchive::OVERWRITE) !== true){
-		Cli::ExitWithError('Can\'t open file: [path]' . $tempFilename . '[/].');
+		Cli::ExitWithError('Can\'t open file: [url=file://' . $tempFilename . '][path]' . $tempFilename . '[/].');
 	}
 
 	foreach($ebooks as $ebook){

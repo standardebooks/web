@@ -1,16 +1,15 @@
-#! /usr/bin/env bash
+#!/bin/bash
 set -e
 set -o pipefail
 
+# shellcheck source=./web/scripts/lib/common.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename $BASH_SOURCE)[/] [-v,--verbosity [parameter]1[/] | -vv,--verbosity [parameter]2[/]] [-n,--new-only | -u,--update-only] [-s,--start-letter [parameter]<LETTER>[/]] [--token [parameter]<TOKEN>[/]] [path][parameter]<DIRECTORY>[/]" \
+ "[command]$(basename "${BASH_SOURCE[0]}")[/] [-v,--verbosity [parameter]1[/] | -vv,--verbosity [parameter]2[/]] [-n,--new-only | -u,--update-only] [-s,--start-letter [parameter]<LETTER>[/]] [--token [parameter]<TOKEN>[/]] [path][parameter]<DIRECTORY>[/]" \
  "$(cat << EOF
 Syncs books from the [url]standardebooks.org[/] GitHub organization to [path][parameter]<DIRECTORY>[/].
-
-GNU versions of [command]grep[/] and [command]sed[/] are required. If you're on a Mac, you'll need to install GNU versions (via Homebrew, MacPorts, etc.) and make sure they're first in your path.
 EOF
 )"\
  "$(cat << EOF
@@ -46,34 +45,41 @@ EOF
 
 -vv,--verbosity [parameter]2[/]
 
-	Display general progress updates and verbose [command]git[/] output.
+	Display general progress updates and verbose Git output.
 EOF
 )"
 }
 
 check_arg(){
 	case "$2" in
-		''|$1) ExitWithError "$3" ;;
+		''|"$1") ExitWithError "$3" ;;
 	esac
 }
 
-# strpos X Y, return position of substring Y in string X
+# strpos `X` `Y`, return position of substring `Y` in string `X`.
 str_pos(){
 	x="${1%%"$2"*}"
 	[[ "$x" = "$1" ]] && echo -1 || echo "${#x}"
 }
-# end functions
 
-# Terminate on CTRL-C
+# Terminate on `ctrl + c`.
 trap ctrl_c INT
 ctrl_c() {
 	exit
 }
 
-require "git"
+Require "git"
 
 if [ $# -eq 0 ] || { [ $# -eq 1 ] && { [ "$1" = "--help" ] || [ "$1" = "-h" ]; }; }; then
 	usage
+fi
+
+if ! grep --version 2>/dev/null | head -n 1 | grep -q 'GNU grep'; then
+	ExitWithError "GNU [command]grep[/] is required. On Mac, install the GNU version via Homebrew, MacPorts, etc. and make sure it's first in [parameter]\$PATH[/]."
+fi
+
+if ! sed --version 2>/dev/null | head -n 1 | grep -q 'GNU sed'; then
+	ExitWithError "GNU [command]sed[/] is required. On Mac, install the GNU version via Homebrew, MacPorts, etc. and make sure it's first in [parameter]\$PATH[/]."
 fi
 
 LETTERS="abcdefghijklmnopoqrstuvwxyz"
@@ -135,7 +141,7 @@ fi
 target="$1"
 
 if ! [ -d "${target}" ]; then
-	ExitWithError "[path]${target}[/] isn't a directory."
+	ExitWithError "Not a directory: [path]${target}[/]."
 fi
 
 if ! cd "${target}"; then
@@ -154,11 +160,11 @@ if [ "${newUpdate}" != "new" ]; then
 
 	for item in ./*/; do
 		# if starting letter specified, make sure we're past it
-		if [ $startPos -gt 0 ]; then
+		if [ "${startPos}" -gt 0 ]; then
 			repName=$(basename "${item}")
 			repLetter="${repName:0:1}"
 			repPos=$(str_pos "${LETTERS}" "${repLetter}")
-			if [ $repPos -lt $startPos ]; then
+			if [ "${repPos}" -lt "${startPos}" ]; then
 				continue
 			fi
 		fi
@@ -280,7 +286,7 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 	fi
 
 	# if the repository doesn't have a metadata file, skip to the next repository
-	metadata=$(git -C "${repoName}" show HEAD:src/epub/content.opf > /dev/null 2>&1) || continue
+	git -C "${repoName}" show HEAD:src/epub/content.opf > /dev/null 2>&1 || continue
 
 	# get the last segment of the dc:identifier from the metadata
 	properName="$(git -C "${repoName}" show HEAD:src/epub/content.opf |

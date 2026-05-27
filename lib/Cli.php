@@ -14,6 +14,9 @@ class Cli{
 	protected static string $_ResetAll = "\x1b[0m";
 	protected static string $_ResetBold = "\x1b[21m";
 	protected static string $_ResetUl = "\x1b[24m";
+	protected static string $_FsUrl = "\x1b]8;;";
+	protected static string $_FsUrlSt = "\x07";
+	protected static string $_FsUrlClose = "\x1b]8;;\x07";
 	protected static string $_FgBlack = "\x1b[30m";
 	protected static string $_FgRed = "\x1b[31m";
 	protected static string $_FgGreen = "\x1b[32m";
@@ -111,16 +114,59 @@ class Cli{
 	}
 
 	/**
+	 * Replace URL tags with terminal hyperlinks while preserving other formatting tags.
+	 */
+	protected static function FormatUrlLinks(string $line): string{
+		$inLink = false;
+		$output = '';
+
+		while($line !== ''){
+			if(preg_match('/^\[url=([^\]]+)\](.*)$/us', $line, $matches) === 1 && isset($matches[1], $matches[2])){
+				$output .= self::$_FsUrl . $matches[1] . self::$_FsUrlSt;
+				$line = $matches[2];
+				$inLink = true;
+			}
+			elseif(str_starts_with($line, '[/]') && $inLink){
+				$output .= self::$_FsUrlClose . '[/]';
+				$line = substr($line, 3);
+				$inLink = false;
+			}
+			else{
+				$output .= mb_substr($line, 0, 1);
+				$line = mb_substr($line, 1);
+			}
+		}
+
+		if($inLink){
+			$output .= self::$_FsUrlClose;
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Replace formatting tags with plain text markers.
 	 */
-	protected static function RemoveFormatting(string $line, bool $veryPlain = false): string{
+	protected static function RemoveFormatting(string $line, bool $veryPlain = false, string $linkMode = 'none'): string{
 		$inFormat = false;
 		$inHeader = false;
+		$inLink = false;
 		$output = '';
 
 		while($line !== ''){
 			if(str_starts_with($line, '[/]')){
-				if($inFormat && !$inHeader && !$veryPlain){
+				if($inLink){
+					if($linkMode === 'links'){
+						$output .= self::$_FsUrlClose;
+
+						if(!$veryPlain){
+							$output .= '`';
+						}
+					}
+
+					$inLink = false;
+				}
+				elseif($inFormat && !$inHeader && !$veryPlain){
 					$output .= '`';
 				}
 
@@ -128,40 +174,115 @@ class Cli{
 				$inHeader = false;
 				$line = substr($line, 3);
 			}
+			elseif(str_starts_with($line, '[url=')){
+				if($linkMode === 'links'){
+					if(preg_match('/^\[url=([^\]]+)\](.*)$/us', $line, $matches) === 1 && isset($matches[1], $matches[2])){
+						if(!$veryPlain){
+							$output .= '`';
+						}
+
+						$output .= self::$_FsUrl . $matches[1] . self::$_FsUrlSt;
+						$line = $matches[2];
+						$inLink = true;
+					}
+					else{
+						$output .= mb_substr($line, 0, 1);
+						$line = mb_substr($line, 1);
+					}
+				}
+				elseif($linkMode === 'plain'){
+					if(preg_match('/^\[url=[^\]]+\](.*)$/us', $line, $matches) === 1 && isset($matches[1])){
+						$line = $matches[1];
+						$inLink = true;
+					}
+					else{
+						$output .= mb_substr($line, 0, 1);
+						$line = mb_substr($line, 1);
+					}
+				}
+				else{
+					if(!$inFormat && !$veryPlain){
+						$output .= '`';
+					}
+
+					$inFormat = true;
+					$inHeader = false;
+
+					if(preg_match('/^\[url=[^\]]+\](.*)$/us', $line, $matches) === 1 && isset($matches[1])){
+						$line = $matches[1];
+					}
+					else{
+						$line = mb_substr($line, 1);
+					}
+				}
+			}
 			elseif(str_starts_with($line, '[header]') || str_starts_with($line, '[parameter]') || str_starts_with($line, '[email]') || str_starts_with($line, '[command]') || str_starts_with($line, '[path]') || str_starts_with($line, '[user]') || str_starts_with($line, '[url]')){
-				if(!$inFormat && !str_starts_with($line, '[header]') && !$veryPlain){
-					$output .= '`';
+				if($inLink){
+					if(str_starts_with($line, '[header]')){
+						$line = substr($line, 8);
+					}
+					elseif(str_starts_with($line, '[parameter]')){
+						$line = substr($line, 11);
+					}
+					elseif(str_starts_with($line, '[command]')){
+						$line = substr($line, 9);
+					}
+					elseif(str_starts_with($line, '[path]')){
+						$line = substr($line, 6);
+					}
+					elseif(str_starts_with($line, '[user]')){
+						$line = substr($line, 6);
+					}
+					elseif(str_starts_with($line, '[url]')){
+						$line = substr($line, 5);
+					}
+					elseif(str_starts_with($line, '[email]')){
+						$line = substr($line, 7);
+					}
+				}
+				else{
+					if(!$inFormat && !str_starts_with($line, '[header]') && !$veryPlain){
+						$output .= '`';
+					}
+
+					$inFormat = true;
+					$inHeader = false;
 				}
 
-				$inFormat = true;
-				$inHeader = false;
-
-				if(str_starts_with($line, '[header]')){
+				if(!$inLink && str_starts_with($line, '[header]')){
 					$inHeader = true;
 					$line = substr($line, 8);
 				}
-				elseif(str_starts_with($line, '[parameter]')){
+				elseif(!$inLink && str_starts_with($line, '[parameter]')){
 					$line = substr($line, 11);
 				}
-				elseif(str_starts_with($line, '[command]')){
+				elseif(!$inLink && str_starts_with($line, '[command]')){
 					$line = substr($line, 9);
 				}
-				elseif(str_starts_with($line, '[path]')){
+				elseif(!$inLink && str_starts_with($line, '[path]')){
 					$line = substr($line, 6);
 				}
-				elseif(str_starts_with($line, '[user]')){
+				elseif(!$inLink && str_starts_with($line, '[user]')){
 					$line = substr($line, 6);
 				}
-				elseif(str_starts_with($line, '[url]')){
+				elseif(!$inLink && str_starts_with($line, '[url]')){
 					$line = substr($line, 5);
 				}
-				elseif(str_starts_with($line, '[email]')){
+				elseif(!$inLink && str_starts_with($line, '[email]')){
 					$line = substr($line, 7);
 				}
 			}
 			else{
 				$output .= mb_substr($line, 0, 1);
 				$line = mb_substr($line, 1);
+			}
+		}
+
+		if($inLink && $linkMode === 'links'){
+			$output .= self::$_FsUrlClose;
+
+			if(!$veryPlain){
+				$output .= '`';
 			}
 		}
 
@@ -172,11 +293,11 @@ class Cli{
 	 * Return the printable length of text that may contain formatting tags.
 	 */
 	protected static function GetStringLengthWithoutFormatting(string $text): int{
-		if(!self::IsColor()){
-			$text = self::RemoveFormatting($text, self::IsVeryPlain());
+		if(self::IsColor() || self::IsVeryPlain()){
+			$text = self::RemoveFormatting($text, true);
 		}
 		else{
-			$text = str_replace(['[header]', '[parameter]', '[command]', '[path]', '[url]', '[user]', '[email]', '[/]'], '', $text);
+			$text = self::RemoveFormatting($text, false, 'plain');
 		}
 
 		$width = 0;
@@ -244,10 +365,13 @@ class Cli{
 		if(!self::IsColor()){
 			if(self::IsVeryPlain()){
 				$veryPlain = true;
+				return self::RemoveFormatting($line, $veryPlain);
 			}
 
-			return self::RemoveFormatting($line, $veryPlain);
+			return self::RemoveFormatting($line, $veryPlain, 'links');
 		}
+
+		$line = self::FormatUrlLinks($line);
 
 		return str_replace(
 			['[header]', '[/]', '[parameter]', '[command]', '[path]', '[user]', '[url]', '[email]'],

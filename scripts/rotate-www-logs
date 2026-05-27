@@ -1,10 +1,11 @@
 #!/bin/bash
 
+# shellcheck source=./web/scripts/lib/common.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename $BASH_SOURCE)[/] [path][parameter]<NEW_LOG_FILENAME>[/]" \
+ "[command]$(basename "${BASH_SOURCE[0]}")[/] [path][parameter]<NEW_LOG_FILENAME>[/]" \
  "$(cat << EOF
 Move Apache access log files into a by-month subdirectory in the format [path]<LOG_ROOT>/apache/<YYYY-MM>[/], then gzip them.
 
@@ -32,7 +33,7 @@ shopt -s nullglob
 filenameBase=$(basename "$1" | sed --regexp-extended "s/\.[0-9]+$//")
 directory=$(dirname "$1")
 
-for filename in ${directory}/${filenameBase}.*; do
+for filename in "${directory}/${filenameBase}".*; do
 	# When Apache calls this script, it passes the filename of the new log file it created.
 	# Thus, we check here to make sure we don't process and then delete the brand-new log file!
 	if [ "${filename}" != "$1" ]; then

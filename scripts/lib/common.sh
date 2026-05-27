@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2034
 
 # Helper functions printing color and formatting in command line scripts.
 # This functionaliry is duplicated in `lib/Cli.php` for use in PHP scripts.
@@ -8,6 +9,9 @@ ESC_SEQ=$'\x1b['
 RESET_ALL="${ESC_SEQ}0m"
 RESET_BOLD="${ESC_SEQ}21m"
 RESET_UL="${ESC_SEQ}24m"
+FS_URL=$'\x1b]8;;'
+FS_URL_ST=$'\a'
+FS_URL_CLOSE="${FS_URL}${FS_URL_ST}"
 
 # Foreground colors.
 FG_BLACK="${ESC_SEQ}30m"
@@ -52,65 +56,173 @@ IsVeryPlain(){
 	[[ ! -t 1 ]]
 }
 
+# Replace link tags with terminal hyperlinks.
+# Param 1: The line to format.
+FormatUrlLinks(){
+	local inLink
+	local line
+	local output
+	local url
+
+	line="$1"
+	output=""
+	inLink=false
+
+	while [[ -n "${line}" ]]; do
+		if [[ "${line}" =~ ^\[url=([^]]+)\](.*)$ ]]; then
+			url="${BASH_REMATCH[1]}"
+			output="${output}${FS_URL}${url}${FS_URL_ST}"
+			line="${BASH_REMATCH[2]}"
+			inLink=true
+		elif [[ "${line}" == "[/]"* ]] && ${inLink}; then
+			output="${output}${FS_URL_CLOSE}[/]"
+			line="${line:3}"
+			inLink=false
+		else
+			output="${output}${line:0:1}"
+			line="${line:1}"
+		fi
+	done
+
+	if ${inLink}; then
+		output="${output}${FS_URL_CLOSE}"
+	fi
+
+	printf "%s" "${output}"
+}
+
 # Replace formatting tags with backticks.
 # Param 1: The line to colorize.
 # Param 2: Boolean to use "very plain" output, i.e., no backticks.
+# Param 3: Link handling mode. `links` replaces link tags with terminal hyperlinks; `plain` removes the tags without adding backticks.
 RemoveFormatting(){
 	local inFormat
 	local inHeader
+	local inLink
+	local linkMode
 	local line
 	local output
+	local url
 	local veryPlain
 
 	line="$1"
-	veryPlain="${2:-false}"
+	veryPlain=${2:-false}
+	linkMode="${3:-none}"
 	output=""
-	inFormat="false"
-	inHeader="false"
+	inFormat=false
+	inHeader=false
+	inLink=false
 
 	while [[ -n "${line}" ]]; do
 		case "${line}" in
-			'[/]'*)
-				if [[ "${inFormat}" == "true" && "${inHeader}" == "false" && "${veryPlain}" != "true" ]]; then
+			"[/]"*)
+				if ${inLink}; then
+					if [[ "${linkMode}" == "links" ]]; then
+						output="${output}${FS_URL_CLOSE}"
+
+						if ! ${veryPlain}; then
+							output="${output}\`"
+						fi
+					fi
+
+					inLink=false
+				elif ${inFormat} && ! ${inHeader} && ! ${veryPlain}; then
 					output="${output}\`"
 				fi
 
-				inFormat="false"
-				inHeader="false"
+				inFormat=false
+				inHeader=false
 				line="${line:3}"
 				;;
-			'[header]'*|'[parameter]'*|'[email]'*|'[command]'*|'[path]'*|'[user]'*|'[url]'*)
-				if [[ "${inFormat}" == "false" && "${line}" != '[header]'* && "${veryPlain}" != "true" ]]; then
+			"[url="*"]"*)
+				if [[ "${linkMode}" == "links" ]]; then
+					if [[ "${line}" =~ ^\[url=([^]]+)\](.*)$ ]]; then
+						url="${BASH_REMATCH[1]}"
+
+						if ! ${veryPlain}; then
+							output="${output}\`"
+						fi
+
+						output="${output}${FS_URL}${url}${FS_URL_ST}"
+						line="${BASH_REMATCH[2]}"
+						inLink=true
+					else
+						output="${output}${line:0:1}"
+						line="${line:1}"
+					fi
+				elif [[ "${linkMode}" == "plain" ]]; then
+					line="${line#*\]}"
+					inLink=true
+				else
+					if ! ${inFormat} && ! ${veryPlain}; then
+						output="${output}\`"
+					fi
+
+					inFormat=true
+					inHeader=false
+					line="${line#*\]}"
+				fi
+				;;
+			"[header]"*|"[parameter]"*|"[email]"*|"[command]"*|"[path]"*|"[user]"*|"[url]"*)
+				if ${inLink}; then
+					case "${line}" in
+						"[header]"*)
+							line="${line:8}"
+							;;
+						"[parameter]"*)
+							line="${line:11}"
+							;;
+						"[command]"*)
+							line="${line:9}"
+							;;
+						"[path]"*)
+							line="${line:6}"
+							;;
+						"[user]"*)
+							line="${line:6}"
+							;;
+						"[url]"*)
+							line="${line:5}"
+							;;
+						"[email]"*)
+							line="${line:7}"
+							;;
+					esac
+				elif ! ${inFormat} && [[ "${line}" != "[header]"* ]] && ! ${veryPlain}; then
 					output="${output}\`"
+					inFormat=true
+					inHeader=false
+				else
+					inFormat=true
+					inHeader=false
 				fi
 
-				inFormat="true"
-				inHeader="false"
-
-				case "${line}" in
-					'[header]'*)
-						inHeader="true"
-						line="${line:8}"
-						;;
-					'[parameter]'*)
-						line="${line:11}"
-						;;
-					'[command]'*)
-						line="${line:9}"
-						;;
-					'[path]'*)
-						line="${line:6}"
-						;;
-					'[user]'*)
-						line="${line:6}"
-						;;
-					'[url]'*)
-						line="${line:5}"
-						;;
-					'[email]'*)
-						line="${line:7}"
-						;;
-				esac
+				if ! ${inLink}; then
+					case "${line}" in
+						"[header]"*)
+							inHeader=true
+							line="${line:8}"
+							;;
+						"[parameter]"*)
+							line="${line:11}"
+							;;
+						"[command]"*)
+							line="${line:9}"
+							;;
+						"[path]"*)
+							line="${line:6}"
+							;;
+						"[user]"*)
+							line="${line:6}"
+							;;
+						"[url]"*)
+							line="${line:5}"
+							;;
+						"[email]"*)
+							line="${line:7}"
+							;;
+					esac
+				fi
 				;;
 			*)
 				output="${output}${line:0:1}"
@@ -119,11 +231,20 @@ RemoveFormatting(){
 		esac
 	done
 
-	printf '%s' "${output}"
+	if ${inLink} && [[ "${linkMode}" == "links" ]]; then
+		output="${output}${FS_URL_CLOSE}"
+
+		if ! ${veryPlain}; then
+			output="${output}\`"
+		fi
+	fi
+
+	printf "%s" "${output}"
 }
 
-# Return the printable length of text that may contain formatting tags.
-GetStringLengthWithoutFormatting(){
+# Calculate the printable length of text that may contain formatting tags and set the global variable `STRING_LENGTH_WITHOUT_FORMATTING` to that value.
+# Param 1: The text to measure.
+SetStringLengthWithoutFormatting(){
 	local char
 	local index
 	local text
@@ -131,17 +252,20 @@ GetStringLengthWithoutFormatting(){
 
 	text="$1"
 
-	if ! IsColor; then
-		text="$(RemoveFormatting "${text}" "$(IsVeryPlain && printf 'true' || printf 'false')")"
+	if [[ "${text}" != *"["* && "${text}" != *$'\t'* ]]; then
+		STRING_LENGTH_WITHOUT_FORMATTING="${#text}"
+		return
+	fi
+
+	if IsColor || IsVeryPlain; then
+		text="$(RemoveFormatting "${text}" true)"
 	else
-		text="${text//\[header\]/}"
-		text="${text//\[parameter\]/}"
-		text="${text//\[command\]/}"
-		text="${text//\[path\]/}"
-		text="${text//\[url\]/}"
-		text="${text//\[user\]/}"
-		text="${text//\[email\]/}"
-		text="${text//\[\/\]/}"
+		text="$(RemoveFormatting "${text}" false "plain")"
+	fi
+
+	if [[ "${text}" != *$'\t'* ]]; then
+		STRING_LENGTH_WITHOUT_FORMATTING="${#text}"
+		return
 	fi
 
 	width="0"
@@ -156,7 +280,7 @@ GetStringLengthWithoutFormatting(){
 		fi
 	done
 
-	printf '%s' "${width}"
+	STRING_LENGTH_WITHOUT_FORMATTING="${width}"
 }
 
 # Return the current terminal width.
@@ -176,7 +300,7 @@ GetTerminalWidth(){
 	fi
 
 	if [[ -n "${width}" ]] && ((width > 0)); then
-		printf "${width}"
+		printf "%s" "${width}"
 	fi
 }
 
@@ -188,17 +312,21 @@ ColorizeString(){
 	local veryPlain
 
 	line="$1"
-	veryPlain="${2:-false}"
+	veryPlain=${2:-false}
 
 	if ! IsColor; then
 		if IsVeryPlain; then
-			veryPlain="true"
+			veryPlain=true
+			RemoveFormatting "${line}" "${veryPlain}"
+		else
+			RemoveFormatting "${line}" "${veryPlain}" "links"
 		fi
 
-		RemoveFormatting "${line}" "${veryPlain}"
+		printf "\n"
 		return
 	fi
 
+	line="$(FormatUrlLinks "${line}")"
 	line="${line//\[header\]/${FG_GREEN}${FS_BOLD}}"
 	line="${line//\[parameter\]/${FG_CYAN}}"
 	line="${line//\[command\]/${FG_GREEN}}"
@@ -215,20 +343,35 @@ ColorizeString(){
 WrapLine(){
 	local availableWidth
 	local chunk
+	local chunkWidth
 	local currentLine
+	local currentLineWidth
 	local indent
+	local indentWidth
 	local line
+	local lineWidth
 	local remainingLine
 	local veryPlain
 	local width
 
 	line="$1"
 	width="$2"
-	veryPlain="${3:-false}"
+	veryPlain=${3:-false}
 
-	if (($(GetStringLengthWithoutFormatting "${line}") <= ${width})); then
-		ColorizeString "${line}" "${veryPlain}"
+	if [[ "${line}" =~ ^[[:space:]]*$ ]]; then
 		printf "\n"
+		return
+	fi
+
+	SetStringLengthWithoutFormatting "${line}"
+	lineWidth="${STRING_LENGTH_WITHOUT_FORMATTING}"
+
+	if [[ ! "${lineWidth}" =~ ^[0-9]+$ ]]; then
+		return 130 # ctrl + c interrupt signal
+	fi
+
+	if ((lineWidth <= width)); then
+		ColorizeString "${line}" "${veryPlain}"
 		return
 	fi
 
@@ -239,7 +382,14 @@ WrapLine(){
 		indent=""
 	fi
 
-	availableWidth=$((${width} - $(GetStringLengthWithoutFormatting "${indent}")))
+	SetStringLengthWithoutFormatting "${indent}"
+	indentWidth="${STRING_LENGTH_WITHOUT_FORMATTING}"
+
+	if [[ ! "${indentWidth}" =~ ^[0-9]+$ ]]; then
+		return 130 # ctrl + c interrupt signal
+	fi
+
+	availableWidth=$((width - indentWidth))
 
 	if ((availableWidth < 20)); then
 		availableWidth=20
@@ -260,31 +410,41 @@ WrapLine(){
 			remainingLine=""
 		fi
 
+		SetStringLengthWithoutFormatting "${chunk}"
+		chunkWidth="${STRING_LENGTH_WITHOUT_FORMATTING}"
+
+		if [[ ! "${chunkWidth}" =~ ^[0-9]+$ ]]; then
+			return 130 # ctrl + c interrupt signal
+		fi
+
 		if [[ -z "${currentLine}" ]]; then
 			currentLine="${chunk}"
-		elif (($(GetStringLengthWithoutFormatting "${currentLine}${chunk}") <= availableWidth)); then
-			currentLine="${currentLine}${chunk}"
-		elif [[ "${chunk}" =~ ^[[:space:]]+$ ]]; then
-			ColorizeString "${indent}${currentLine}" "${veryPlain}"
-			printf "\n"
-			currentLine=""
+			currentLineWidth="${chunkWidth}"
 		else
-			ColorizeString "${indent}${currentLine}" "${veryPlain}"
-			printf "\n"
-			currentLine="${chunk}"
+			if (((currentLineWidth + chunkWidth) <= availableWidth)); then
+				currentLine="${currentLine}${chunk}"
+				currentLineWidth=$((currentLineWidth + chunkWidth))
+			elif [[ "${chunk}" =~ ^[[:space:]]+$ ]]; then
+				ColorizeString "${indent}${currentLine}" "${veryPlain}"
+				currentLine=""
+				currentLineWidth=0
+			else
+				ColorizeString "${indent}${currentLine}" "${veryPlain}"
+				currentLine="${chunk}"
+				currentLineWidth="${chunkWidth}"
+			fi
 		fi
 	done
 
 	if [[ -n "${currentLine}" ]]; then
 		ColorizeString "${indent}${currentLine}" "${veryPlain}"
 	fi
-
-	printf "\n"
 }
 
 # Replace formatting tags with terminal colors.
 # Param 1: The text to format.
-# Param 2 (optional): Boolean to use "very plain" output, i.e., no backticks.
+# Param 2: Terminal width.
+# Param 3 (optional): Boolean to use "very plain" output, i.e., no backticks.
 FormatHelp(){
 	local line
 	local text
@@ -292,15 +452,14 @@ FormatHelp(){
 	local width
 
 	text="$1"
-	veryPlain="${2:-false}"
-	width="$(GetTerminalWidth)"
+	width="$2"
+	veryPlain=${3:-false}
 
 	while IFS= read -r line; do
 		if [[ -z "${line}" ]]; then
 			printf "\n"
 		elif [[ -z "${width}" ]]; then
 			ColorizeString "${line}" "${veryPlain}"
-			printf "\n"
 		else
 			WrapLine "${line}" "${width}" "${veryPlain}"
 		fi
@@ -322,32 +481,35 @@ Indent(){
 # Param 3 (optional): List of options.
 # Param 4 (optional): List of examples.
 PrintHelp(){
+	local width
+
+	width="$(GetTerminalWidth)"
+
 	echo -n
 	FormatHelp "[header]USAGE[/]
-"
-
-	FormatHelp "$(Indent "$1")" "true"
+" "" "${width}"
+	FormatHelp "$(Indent "$1")" "${width}" true
 
 	FormatHelp "
 [header]DESCRIPTION[/]
-"
+" "" "${width}"
 
-	FormatHelp "$(Indent "$2")"
+	FormatHelp "$(Indent "$2")" "${width}" ""
 
 	if [[ -n "${3:-}" ]]; then
 		FormatHelp "
 [header]OPTIONS[/]
-"
+" "" "${width}"
 
-		FormatHelp "$(Indent "$3")"
+		FormatHelp "$(Indent "$3")" "${width}" ""
 	fi
 
 	if [[ -n "${4:-}" ]]; then
 		FormatHelp "
 [header]EXAMPLES[/]
-"
+" "" "${width}"
 
-		FormatHelp "$(Indent "$4")"
+		FormatHelp "$(Indent "$4")" "${width}" ""
 	fi
 
 	exit
@@ -357,22 +519,28 @@ PrintHelp(){
 # Param 2 (optional): Error code, defaults to `1`.
 ExitWithError(){
 	if ! IsColor; then
-		printf "Error: $(RemoveFormatting "${1}" "$(IsVeryPlain && printf 'true' || printf 'false')")\n" 1>&2
+		if IsVeryPlain; then
+			printf "Error: %s\n" "$(RemoveFormatting "${1}" true)" 1>&2
+		else
+			printf "Error: %s\n" "$(RemoveFormatting "${1}" false)" 1>&2
+		fi
 	else
-		printf "$(ColorizeString "${BG_RED}${FG_BR_WHITE}${FS_BOLD} Error ${RESET_ALL} ${1}")\n" 1>&2
+		ColorizeString "${BG_RED}${FG_BR_WHITE}${FS_BOLD} Error ${RESET_ALL} ${1}" 1>&2
 	fi
+
+	local code
 
 	code=1
-	if [ -n "$2" ]; then
-		code=$2;
+	if [ -n "${2:-}" ]; then
+		code="$2";
 	fi
 
-	exit ${code}
+	exit "${code}"
 }
 
 # Param 1: Command to require.
 # Param 2 (optional): Suggestion for how to install the required command.
-require(){
+Require(){
 	command -v "$1" > /dev/null 2>&1 || {
 		suggestion="";
 		if [ -n "$2" ]; then

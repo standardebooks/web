@@ -1,13 +1,14 @@
 #!/bin/bash
 set -e
 
+# shellcheck source=./web/scripts/lib/common.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename $BASH_SOURCE)[/] [-v,--verbose] [-g,--group [parameter]<GROUP>[/]] [-l,--last-push-hash [parameter]<HASH>[/]] [--no-build] [--no-bulk-downloads] [--no-epubcheck] [--no-images] [--no-recompose] [--no-feeds] [--web-root [path][parameter]<WEB_ROOT>[/]] [--web-url [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_PATH>[/] [[path][parameter]<SE_EBOOK_REPO_PATH>[/] ...]" \
+ "[command]$(basename "${BASH_SOURCE[0]}")[/] [-v,--verbose] [-g,--group [parameter]<GROUP>[/]] [-l,--last-push-hash [parameter]<HASH>[/]] [--no-build] [--no-bulk-downloads] [--no-epubcheck] [--no-images] [--no-recompose] [--no-feeds] [--web-root [path][parameter]<WEB_ROOT>[/]] [--web-url [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] ...]" \
  "$(cat << EOF
-Deploy Standard Ebook source repositories in [path][parameter]<SE_EBOOK_REPO_PATH>[/] to the website running on the local machine.
+Deploy Standard Ebook source repositories in [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] to the website running on the local machine.
 EOF
 )"\
  "$(cat << EOF
@@ -15,61 +16,70 @@ EOF
 
 	Increase output verbosity.
 
+
 -g,--group [parameter]<GROUP>[/]
 
-	The group who will own the deployed files; defaults to [parameter]se[/].
+	The group who will own the deployed files; defaults to [user]se[/].
+
 
 -l,--last-push-hash [parameter]<HASH>[/]
 
 	Check the repo head against this hash to see if the cover image or ebook source changed, which will determine if cover thumbnails get re-generated or the ebook gets rebuilt.
 
+
 --no-build
 
 	Don't run [command]se build[/] or [command]se recompose-epub[/] to create distributable ebook files or web-readable versions.
+
 
 --no-bulk-downloads
 
 	Don't generate bulk download zip files.
 
+
 --no-epubcheck
 
 	Run [command]se build[/] instead of [command]se build --check[/].
+
 
 --no-images
 
 	Don't create cover thumbnails or hero images for the web.
 
+
 --no-recompose
 
 	Don't run [command]se recompose-epub[/] to generate single-page output.
+
 
 --no-feeds
 
 	Don't generate RSS/Atom/OPDS feeds.
 
+
 --web-root [path][parameter]<WEB_ROOT>[/]
 
 	The root folder for the S.E. website on the local machine; defaults to [path]/standardebooks.org/web/www[/].
 
+
 --web-url [parameter]<WEB_URL>[/]
 
 	The base URL of the S.E. website; defaults to [url]https://standardebooks.org[/].
-
 EOF
 )"
 }
 
-verbose="false"
-images="true"
-build="true"
+verbose=false
+images=true
+build=true
 group="se"
 webRoot="/standardebooks.org/web/www"
 webUrl="https://standardebooks.org"
 lastPushHash=""
-epubcheck="true"
-recompose="true"
-feeds="true"
-bulkDownloads="true"
+epubcheck=true
+recompose=true
+feeds=true
+bulkDownloads=true
 
 if [ $# -eq 0 ] || { [ $# -eq 1 ] && { [ "$1" = "--help" ] || [ "$1" = "-h" ]; }; }; then
 	usage
@@ -78,7 +88,7 @@ fi
 while [ $# -gt 0 ]; do
 	case "$1" in
 		-v|--verbose)
-			verbose="true"
+			verbose=true
 			shift 1
 			;;
 		-g|--group)
@@ -102,27 +112,27 @@ while [ $# -gt 0 ]; do
 			shift 2
 			;;
 		--no-images)
-			images="false"
+			images=false
 			shift 1
 			;;
 		--no-epubcheck)
-			epubcheck="false"
+			epubcheck=false
 			shift 1
 			;;
 		--no-recompose)
-			recompose="false"
+			recompose=false
 			shift 1
 			;;
 		--no-build)
-			build="false"
+			build=false
 			shift 1
 			;;
 		--no-feeds)
-			feeds="false"
+			feeds=false
 			shift 1
 			;;
 		--no-bulk-downloads)
-			bulkDownloads="false"
+			bulkDownloads=false
 			shift 1
 			;;
 		*) break ;;
@@ -138,11 +148,11 @@ if ! [ -d "${webRoot}" ]; then
 fi
 
 # Check for dependencies.
-require "convert" "Try: apt-get install imagemagick"
-require "git" "Try: apt-get install git"
-require "php" "Try: apt-get install php-cli"
-require "rsvg-convert" "Try: apt-get install librsvg2-bin"
-require "se" "Read: https://standardebooks.org/tools"
+Require "convert" "Try: apt-get install imagemagick"
+Require "git" "Try: apt-get install git"
+Require "php" "Try: apt-get install php-cli"
+Require "rsvg-convert" "Try: apt-get install librsvg2-bin"
+Require "se" "Read: https://standardebooks.org/tools"
 
 # `cavif` is compiled via Cargo, see <https://github.com/kornelski/cavif-rs>.
 
@@ -180,7 +190,7 @@ do
 	fi
 
 	if [ ! -d "${repoDir}" ]; then
-		ExitWithError "Invalid repo root: [path]${repoDir}[/]."
+		ExitWithError "Not a directory: [path]${repoDir}[/]."
 	fi
 
 	if ! pushd "${repoDir}" > /dev/null; then
@@ -188,7 +198,7 @@ do
 		continue
 	fi
 
-	if [ "${verbose}" = "true" ]; then
+	if ${verbose}; then
 		printf "Entering %s\n" "${repoDir}"
 	fi
 
@@ -204,22 +214,22 @@ do
 		# Check to see if the cover image changed, to decide if we want to rebuild the cover image thumbnail/hero.
 		diff=$(git diff "${lastPushHash}" HEAD)
 
-		if [ "${images}" = "true" ]; then
+		if ${images}; then
 			# Always build images if they don't exist, or if they've changed
 			if [[ ! -f "${webRoot}/images/covers/${urlSafeIdentifier}-cover.jpg" ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
-				images="true"
+				images=true
 			else
-				images="false"
+				images=false
 			fi
 		fi
 
-		if [ "${build}" = "true" ]; then
+		if ${build}; then
 			# Check to see if the actual ebook changed, to decide if we want to build.
 			# Always build if it doesn't exist.
 			if [[ ! -f "${webDir}/downloads/*.epub" ]] || [[ "${diff}" =~ diff\ --git\ a/src/ ]]; then
-				build="true"
+				build=true
 			else
-				build="false"
+				build=false
 			fi
 		fi
 	fi
@@ -227,15 +237,15 @@ do
 	webDir=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s/^https:\/\/standardebooks.org\/ebooks\/?//")
 
 	if [ "${webDir}" = "" ]; then
-		ExitWithError "Empty webdir: [path]${webDir}[/]."
+		ExitWithError "Invalid S.E. identifier in ebook."
 	fi
 
 	workDir=$(mktemp -d)
 	imgWorkDir=$(mktemp -d)
 	webDir="${webRoot}/ebooks/${webDir}"
 
-	if [ "${images}" = "true" ]; then
-		if [ "${verbose}" = "true" ]; then
+	if ${images}; then
+		if ${verbose}; then
 			printf "Generating cover image for web ... "
 		fi
 
@@ -277,15 +287,15 @@ do
 		# Remove unused images so we can copy the rest over with a glob.
 		rm "${imgWorkDir}/${urlSafeIdentifier}".{png,jpg,svg}
 
-		if [ "${verbose}" = "true" ]; then
+		if ${verbose}; then
 			printf "Done.\n"
 		fi
 
 		popd > /dev/null || ExitWithError "Couldn't pop directory."
 	fi
 
-	if [ "${build}" = "true" ]; then
-		if [ "${verbose}" = "true" ]; then
+	if ${build}; then
+		if ${verbose}; then
 			printf "Building ebook ... "
 		fi
 
@@ -294,23 +304,23 @@ do
 		mkdir -p "${workDir}/downloads"
 
 		# Build the ebook.
-		if [ "${epubcheck}" = "true" ]; then
+		if ${epubcheck}; then
 			if ! se build --output-dir="${workDir}"/downloads/ --check --kindle --kobo "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
-				ExitWithError "Error building ebook, stopping deployment."
+				ExitWithError "Failed building ebook, stopping deployment."
 			fi
 		else
 			if ! se build --output-dir="${workDir}"/downloads/ --kindle --kobo "${workDir}"; then
 				rm --preserve-root --recursive --force "${workDir}"
-				ExitWithError "Error building ebook, stopping deployment."
+				ExitWithError "Failed building ebook, stopping deployment."
 			fi
 		fi
 
 		# Build distributable covers.
-		convert -resize "1400" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover.jpg"
-		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" ""${workDir}"/downloads/cover-thumbnail.jpg"
+		convert -resize "1400" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" "${workDir}/downloads/cover.jpg"
+		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" "${workDir}/downloads/cover-thumbnail.jpg"
 
-		if [ "${verbose}" = "true" ]; then
+		if ${verbose}; then
 			printf "Done.\n"
 		fi
 
@@ -321,8 +331,8 @@ do
 		modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
 		sed --in-place --regexp-extended "s/<meta property=\"dcterms:modified\">.+?<\/meta>/<meta property=\"dcterms:modified\">${modifiedDate}<\/meta>/" "${workDir}/src/epub/content.opf"
 
-		if [ "${recompose}" = "true" ]; then
-			if [ "${verbose}" = "true" ]; then
+		if ${recompose}; then
+			if ${verbose}; then
 				printf "Recomposing ebook ... "
 			fi
 
@@ -342,7 +352,7 @@ do
 			# Add a canonical `<meta>` element.
 			sed --in-place "s|</title>|</title>\n\t\t<link rel=\"canonical\" href=\"https://standardebooks.org${bookUrl}/text/single-page\" />|" "${workDir}"/single-page.xhtml
 
-			if [ "${verbose}" = "true" ]; then
+			if ${verbose}; then
 				printf "Done.\n"
 			fi
 		fi
@@ -350,7 +360,7 @@ do
 		# Make some compatibility adjustments for the individual XHTML files.
 		workTitle=$(grep --only-matching --extended-regexp "<dc:title id=\"title\">(.+?)</dc:title>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/<[^>]+?>//g")
 
-		for filename in $(find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml"); do
+		while IFS= read -r -d '' filename; do
 
 			# Add our web stylesheet to XHTML files.
 			sed --in-place --regexp-extended 's|</title>|</title>\n\t\t<link href="/css/web.css" media="screen" rel="stylesheet" type="text/css"/>|' "${filename}"
@@ -379,12 +389,13 @@ do
 
 			# Remove instances of the `.xhtml` filename extension in the source text.
 			sed --in-place 's/\.xhtml//g' "${filename}"
-		done
+		done < <(find "${workDir}"/src/epub \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0)
 
 		# Remove `-epub-*` CSS properties from CSS files as they're invalid in a web context.
 		sed --in-place --regexp-extended "s|\s*\-epub\-[^;]+?;||g" "${workDir}"/src/epub/css/*.css
 
 		# Add a chapter navigation footer to each page.
+		# shellcheck source=/dev/null
 		source "${scriptsDir}/../.venv/bin/activate"
 		"${scriptsDir}"/inject-chapter-navigation-footer "${workDir}" "${bookUrl}"
 		deactivate
@@ -394,7 +405,7 @@ do
 
 		# Done adding compatibility!
 
-		if [ "${recompose}" = "true" ]; then
+		if ${recompose}; then
 			# Move the single-page file back into the `/src/epub/text/` folder.
 			mv "${workDir}"/single-page.xhtml "${workDir}"/src/epub/text/single-page.xhtml
 		fi
@@ -413,18 +424,18 @@ do
 		mv "${workDir}"/src/epub/* "${webDir}/"
 	fi
 
-	if [ "${images}" = "true" ]; then
+	if ${images}; then
 		# Move the cover images over.
 		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
 	fi
 
-	if [ "${verbose}" = "true" ]; then
+	if ${verbose}; then
 		printf "Updating/inserting ebook in database ... "
 	fi
 
 	"${scriptsDir}"/update-ebook-database "${webDir}"
 
-	if [ "${verbose}" = "true" ]; then
+	if ${verbose}; then
 		printf "Done.\n"
 	fi
 
@@ -440,54 +451,54 @@ do
 	popd > /dev/null || ExitWithError "Couldn't pop directory."
 done
 
-queuedTasks="false"
+queuedTasks=false
 if which tsp > /dev/null; then
 	if tsp | grep --quiet --extended-regexp "^[0-9]+\s+queued"; then
-		queuedTasks="true"
+		queuedTasks=true
 	fi
 fi
 
-if [ "${feeds}" = "true" ]; then
+if ${feeds}; then
 	# Build the various feeds catalog, but only if we don't have more items in the `tsp` build queue.
-	if [ "${queuedTasks}" = "false" ]; then
-		if [ "${verbose}" = "true" ]; then
+	if ! ${queuedTasks}; then
+		if ${verbose}; then
 			printf "Building feeds ... "
 		fi
 
 		"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
 
-		if [ "${verbose}" = "true" ]; then
+		if ${verbose}; then
 			printf "Done.\n"
 		fi
 	else
-		if [ "${verbose}" = "true" ]; then
+		if ${verbose}; then
 			printf "Tasks queued after this one, not building feeds.\n"
 		fi
 	fi
 fi
 
-if [ "${bulkDownloads}" = "true" ]; then
+if ${bulkDownloads}; then
 	# Build the various feeds catalog, but only if we don't have more items in the `tsp` build queue.
-	if [ "${queuedTasks}" = "false" ]; then
-		if [ "${verbose}" = "true" ]; then
+	if ! ${queuedTasks}; then
+		if ${verbose}; then
 			printf "Building bulk downloads ... "
 		fi
 
 		output=$("${scriptsDir}/generate-bulk-downloads" --web-root "${webRoot}")
-		if [ "${verbose}" = "true" ]; then
+		if ${verbose}; then
 			echo "${output}"
 		fi
 
-		if [ "${verbose}" = "true" ]; then
+		if ${verbose}; then
 			printf "Done.\n"
 		fi
 	else
-		if [ "${verbose}" = "true" ]; then
+		if ${verbose}; then
 			printf "Tasks queued after this one, not building bulk downloads.\n"
 		fi
 	fi
 fi
 
-if [ "${verbose}" = "true" ]; then
+if ${verbose}; then
 	printf "Finished processing ebook.\n"
 fi

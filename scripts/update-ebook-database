@@ -6,8 +6,8 @@ use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]update-ebook-database[/] [-v,--verbose] [path][parameter]<SE_EBOOK_WEB_PATH>[/]',
-	'Update the database entry for the ebook at the target ebook web path.',
+	'[command]update-ebook-database[/] [-v,--verbose] [path][parameter]<SE_EBOOK_WEB_DIRECTORY>[/]',
+	'Update the database entry for the ebook at the target ebook web path, e.g. [path]/standardebooks.org/web/www/ebooks/a-a-milne/the-red-house-mystery[/].',
 	'-v,--verbose
 
 	Increase output verbosity.'
