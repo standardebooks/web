@@ -50,16 +50,19 @@ class EbookPlaceholder{
 				$this->_TimeTillIsPublicDomain = '';
 			}
 			else{
-				$years = (int)($this->YearPublished) + 96 - (int)(NOW->format('Y'));
-				if($years > 1){
-					$this->_TimeTillIsPublicDomain = $years . ' years';
+				if($this->YearPublished >= 1978){
+					// Date of author's death + 70 years.
+					$this->_TimeTillIsPublicDomain = '70 years after the author’s death';
 				}
 				else{
-					$months = 13 - (int)(NOW->format('n'));
-					$this->_TimeTillIsPublicDomain = $months . ' month';
-
-					if($months != 1){
-						$this->_TimeTillIsPublicDomain .= 's';
+					// Publication year + 96 years.
+					$years = (int)($this->YearPublished) + 96 - (int)(NOW->format('Y'));
+					if($years > 1){
+						$this->_TimeTillIsPublicDomain = $years . ' years';
+					}
+					else{
+						$months = 13 - (int)(NOW->format('n'));
+						$this->_TimeTillIsPublicDomain = $months . Formatter::Pluralize($months, 'month');
 					}
 				}
 			}
