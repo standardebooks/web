@@ -322,6 +322,15 @@ final class Project{
 	 * @throws Exceptions\UserNotFoundException If a manager or reviewer could not be auto-assigned.
 	 */
 	public function Create(): void{
+		try{
+			$this->GetOrCreateProducer();
+		}
+		catch(Exceptions\AmbiguousUserException $ex){
+			$error = new Exceptions\ProjectInvalidException();
+			$error->Add($ex);
+			throw $error;
+		}
+
 		if(!isset($this->ManagerUserId)){
 			try{
 				$this->Manager = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Manager, [$this->ProducerUserId]);
@@ -347,15 +356,6 @@ final class Project{
 		}
 
 		$this->Validate(false, true);
-
-		try{
-			$this->GetOrCreateProducer();
-		}
-		catch(Exceptions\AmbiguousUserException $ex){
-			$error = new Exceptions\ProjectInvalidException();
-			$error->Add($ex);
-			throw $error;
-		}
 
 		try{
 			$this->FetchLastDiscussionTimestamp();
