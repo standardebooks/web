@@ -168,6 +168,8 @@ final class Project{
 	// *******
 
 	/**
+	 * Validate this `Project`, and also create the producer `User` if they are not yet a registered `User`.
+	 *
 	 * @throws Exceptions\ProjectInvalidException If the `Project` is invalid.
 	 */
 	public function Validate(bool $allowUnsetEbookId = false, bool $allowUnsetRoles = false): void{
@@ -189,13 +191,28 @@ final class Project{
 			$error->Add($ex);
 		}
 
-		if($this->Producer->Name === null){
-			$error->Add(new Exceptions\ProducerNameRequiredException());
+		$createProducer = false;
+		if($this->Producer->Email !== null){
+			try{
+				$this->Producer = User::GetByEmail($this->Producer->Email);
+				$this->ProducerUserId = $this->Producer->UserId;
+			}
+			catch(Exceptions\UserNotFoundException){
+				$createProducer = true;
+			}
 		}
-		elseif($this->Producer->Email === null){
+		else{
 			$users = User::GetAllByName($this->Producer->Name);
-			if(sizeof($users) > 1){
+
+			if(sizeof($users) == 1){
+				$this->Producer = $users[0];
+				$this->ProducerUserId = $this->Producer->UserId;
+			}
+			elseif(sizeof($users) > 1){
 				$error->Add(new Exceptions\AmbiguousUserException($users));
+			}
+			else{
+				$createProducer = true;
 			}
 		}
 
@@ -267,50 +284,22 @@ final class Project{
 			$this->Started = NOW;
 		}
 
+		if($createProducer){
+			try{
+				$this->Producer->Create(null, false);
+				$this->ProducerUserId = $this->Producer->UserId;
+			}
+			catch(Exceptions\UserExistsException){
+				// Pass.
+			}
+			catch(Exceptions\UserInvalidException $ex){
+				$error->Add($ex);
+			}
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
-	}
-
-	/**
-	 * Populate the `Producer` object based on whether the name/email already exists as a `User`.
-	 *
-	 * @throws Exceptions\AmbiguousUserException If there is more than one `User` with the given name.
-	 */
-	private function GetOrCreateProducer(): void{
-		if($this->Producer->Email !== null){
-			try{
-				$this->Producer = User::GetByEmail($this->Producer->Email);
-			}
-			catch(Exceptions\UserNotFoundException){
-				try{
-					$this->Producer->Create(requireEmail: true);
-				}
-				catch(Exceptions\AppException){
-					// Never thrown, pass.
-				}
-			}
-		}
-		else{
-			$users = User::GetAllByName($this->Producer->Name);
-
-			if(sizeof($users) == 0){
-				try{
-					$this->Producer->Create(requireEmail: false);
-				}
-				catch(Exceptions\AppException){
-					// Never thrown, pass.
-				}
-			}
-			elseif(sizeof($users) == 1){
-				$this->Producer = $users[0];
-			}
-			else{
-				throw new Exceptions\AmbiguousUserException($users);
-			}
-		}
-
-		$this->ProducerUserId = $this->Producer->UserId;
 	}
 
 	/**
@@ -322,14 +311,7 @@ final class Project{
 	 * @throws Exceptions\UserNotFoundException If a manager or reviewer could not be auto-assigned.
 	 */
 	public function Create(): void{
-		try{
-			$this->GetOrCreateProducer();
-		}
-		catch(Exceptions\AmbiguousUserException $ex){
-			$error = new Exceptions\ProjectInvalidException();
-			$error->Add($ex);
-			throw $error;
-		}
+		$this->Validate(false, true);
 
 		if(!isset($this->ManagerUserId)){
 			try{
@@ -354,8 +336,6 @@ final class Project{
 
 			$this->ReviewerUserId = $this->Reviewer->UserId;
 		}
-
-		$this->Validate(false, true);
 
 		try{
 			$this->FetchLastDiscussionTimestamp();
@@ -469,15 +449,6 @@ final class Project{
 	 */
 	public function Save(): void{
 		$this->Validate();
-
-		try{
-			$this->GetOrCreateProducer();
-		}
-		catch(Exceptions\AmbiguousUserException $ex){
-			$error = new Exceptions\ProjectInvalidException();
-			$error->Add($ex);
-			throw $error;
-		}
 
 		Db::Query('
 			UPDATE

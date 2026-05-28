@@ -31,6 +31,15 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
+	if($project === null && $ebook !== null){
+		if($ebook->EbookPlaceholder === null){
+			$exception = new Exceptions\EbookIsNotAPlaceholderException();
+		}
+		elseif($ebook->EbookPlaceholder->IsInProgress){
+			$exception = new Exceptions\ProjectExistsException();
+		}
+	}
+
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
@@ -74,18 +83,20 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<?= Template::Error(exception: $exception) ?>
 
-		<form action="/projects" autocomplete="off" method="<?= Enums\HttpMethod::Post->value ?>" class="project-form">
-			<?= Template::ProjectForm(project: $project) ?>
-			<? if(!isset($project->EbookId)){ ?>
-				<fieldset class="create-update-ebook-placeholder placeholder-form">
-					<legend>Placeholder</legend>
-					<?= Template::EbookPlaceholderForm(ebook: $project->Ebook ?? new Ebook(), showProjectForm: false) ?>
-				</fieldset>
-			<? } ?>
-			<div class="footer">
-				<button>Submit</button>
-			</div>
-		</form>
+		<? if(!($exception instanceof Exceptions\EbookIsNotAPlaceholderException || $exception instanceof Exceptions\ProjectExistsException)){ ?>
+			<form action="/projects" autocomplete="off" method="<?= Enums\HttpMethod::Post->value ?>" class="project-form">
+				<?= Template::ProjectForm(project: $project) ?>
+				<? if(!isset($project->EbookId)){ ?>
+					<fieldset class="create-update-ebook-placeholder placeholder-form">
+						<legend>Placeholder</legend>
+						<?= Template::EbookPlaceholderForm(ebook: $project->Ebook ?? new Ebook(), showProjectForm: false) ?>
+					</fieldset>
+				<? } ?>
+				<div class="footer">
+					<button>Submit</button>
+				</div>
+			</form>
+		<? } ?>
 	</section>
 </main>
 <?= Template::Footer() ?>
