@@ -6,7 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename "${BASH_SOURCE[0]}")[/] [-v,--verbose] [-g,--group [parameter]<GROUP>[/]] [-l,--last-push-hash [parameter]<HASH>[/]] [--no-build] [--no-bulk-downloads] [--no-epubcheck] [--no-images] [--no-recompose] [--no-feeds] [--web-root [path][parameter]<WEB_ROOT>[/]] [--web-url [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] ...]" \
+ "[command]$(basename "${BASH_SOURCE[0]}")[/] [-v,--verbose] [-g,--group [parameter]<GROUP>[/]] [-l,--last-push-hash [parameter]<GIT_HASH>[/]] [--no-build] [--no-bulk-downloads] [--no-epubcheck] [--no-images] [--no-recompose] [--no-feeds] [--web-root [path][parameter]<WEB_ROOT>[/]] [--web-url [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] ...]" \
  "$(cat << EOF
 Deploy Standard Ebook source repositories in [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] to the website running on the local machine.
 EOF
@@ -22,9 +22,9 @@ EOF
 	The group who will own the deployed files; defaults to [user]se[/].
 
 
--l,--last-push-hash [parameter]<HASH>[/]
+-l,--last-push-hash [parameter]<GIT_HASH>[/]
 
-	Check the repo head against this hash to see if the cover image or ebook source changed, which will determine if cover thumbnails get re-generated or the ebook gets rebuilt.
+	Check the Git repository head against this hash to see if the cover image or ebook source changed, which will determine if cover thumbnails get re-generated or the ebook gets rebuilt.
 
 
 --no-build
