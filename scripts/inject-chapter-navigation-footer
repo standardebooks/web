@@ -1,4 +1,4 @@
-#!/standardebooks.org/.venv/bin/python
+#!/standardebooks.org/web/.venv/bin/python
 
 import argparse
 import html
