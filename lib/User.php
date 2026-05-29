@@ -314,14 +314,14 @@ final class User{
 			$this->GenerateUuid();
 		}
 
-		$this->Validate($requireEmail);
-
-		$this->Created = NOW;
-
 		$this->PasswordHash = null;
 		if($password !== null){
 			$this->PasswordHash = password_hash($password, PASSWORD_DEFAULT);
 		}
+
+		$this->Validate($requireEmail);
+
+		$this->Created = NOW;
 
 		try{
 			$this->UserId = Db::QueryInt('
