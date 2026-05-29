@@ -228,7 +228,7 @@ final class Project{
 					$response = HttpRequest::Execute(Enums\HttpMethod::Head, $this->DiscussionUrl);
 					$this->DiscussionUrl = $response->FinalUrl;
 				}
-				catch(Exceptions\HttpRequestException $ex){
+				catch(Exceptions\HttpRequestException){
 					// Pass.
 				}
 			}
@@ -664,7 +664,7 @@ final class Project{
 				try{
 					$this->LastDiscussionTimestamp = new DateTimeImmutable(str_replace(' ', ' ', $matches[1][sizeof($matches[1]) - 1]));
 				}
-				catch(\Exception $ex){
+				catch(\Exception){
 					// Failed to parse date, pass.
 					$this->LastDiscussionTimestamp = null;
 				}
@@ -678,7 +678,7 @@ final class Project{
 					try{
 						$this->LastDiscussionTimestamp = new DateTimeImmutable(str_replace(' ', ' ', $matches[1][sizeof($matches[1]) - 1]));
 					}
-					catch(\Exception $ex){
+					catch(\Exception){
 						// Failed to parse date, pass.
 						$this->LastDiscussionTimestamp = null;
 					}

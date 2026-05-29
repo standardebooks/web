@@ -35,7 +35,7 @@ try{
 			$project->Ebook->Create();
 			$project->EbookId = $project->Ebook->EbookId;
 		}
-		catch(Exceptions\EbookExistsException $ex){
+		catch(Exceptions\EbookExistsException){
 			// If the `Ebook` already exists, create the `Project` anyway.
 			$project->Ebook = Ebook::GetByIdentifier($project->Ebook->Identifier);
 			if($project->Ebook->EbookPlaceholder !== null && !$project->Ebook->EbookPlaceholder->IsInProgress){

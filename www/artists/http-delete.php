@@ -22,7 +22,7 @@ try{
 	try{
 		$canonicalArtist = Artist::GetByName(Http::$Request->Body->Get('canonical-artist-name') ?? '');
 	}
-	catch(Exceptions\ArtistNotFoundException $ex){
+	catch(Exceptions\ArtistNotFoundException){
 		throw new Exceptions\CanonicalArtistNotFoundException();
 	}
 
