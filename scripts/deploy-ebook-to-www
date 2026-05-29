@@ -241,7 +241,7 @@ do
 
 	if ${images}; then
 		if ${verbose}; then
-			printf "Generating cover image for web ... "
+			printf "Generating cover image for web ..."
 		fi
 
 		git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
@@ -283,7 +283,7 @@ do
 		rm "${imgWorkDir}/${urlSafeIdentifier}".{png,jpg,svg}
 
 		if ${verbose}; then
-			printf "Done.\n"
+			echo " done."
 		fi
 
 		popd > /dev/null || ExitWithError "Couldn't pop directory."
@@ -291,7 +291,7 @@ do
 
 	if ${build}; then
 		if ${verbose}; then
-			printf "Building ebook ... "
+			printf "Building ebook ..."
 		fi
 
 		git clone --quiet "${repoDir}" "${workDir}"
@@ -316,7 +316,7 @@ do
 		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" "${workDir}/downloads/cover-thumbnail.jpg"
 
 		if ${verbose}; then
-			printf "Done.\n"
+			echo " done."
 		fi
 
 		# Get the book URL.
@@ -328,7 +328,7 @@ do
 
 		if ${recompose}; then
 			if ${verbose}; then
-				printf "Recomposing ebook ... "
+				printf "Recomposing ebook ..."
 			fi
 
 			# Recompose the epub into a single file, but put it outside of the epub source for now so we don't stomp on it with the following sections.
@@ -348,7 +348,7 @@ do
 			sed --in-place "s|</title>|</title>\n\t\t<link rel=\"canonical\" href=\"https://standardebooks.org${bookUrl}/text/single-page\" />|" "${workDir}"/single-page.xhtml
 
 			if ${verbose}; then
-				printf "Done.\n"
+				echo " done."
 			fi
 		fi
 
@@ -425,13 +425,13 @@ do
 	fi
 
 	if ${verbose}; then
-		printf "Updating/inserting ebook in database ... "
+		printf "Updating/inserting ebook in database ..."
 	fi
 
 	"${scriptsDir}"/update-ebook-database "${webDir}"
 
 	if ${verbose}; then
-		printf "Done.\n"
+		echo " done."
 	fi
 
 	# Delete the now-empty work dir (empty except for `.git`).
@@ -457,17 +457,17 @@ if ${feeds}; then
 	# Build the various feeds catalog, but only if we don't have more items in the `tsp` build queue.
 	if ! ${queuedTasks}; then
 		if ${verbose}; then
-			printf "Building feeds ... "
+			printf "Building feeds ..."
 		fi
 
 		"${scriptsDir}/generate-feeds" --web-root "${webRoot}"
 
 		if ${verbose}; then
-			printf "Done.\n"
+			echo " done."
 		fi
 	else
 		if ${verbose}; then
-			printf "Tasks queued after this one, not building feeds.\n"
+			echo "Tasks queued after this one, not building feeds."
 		fi
 	fi
 fi
@@ -476,7 +476,7 @@ if ${bulkDownloads}; then
 	# Build the various feeds catalog, but only if we don't have more items in the `tsp` build queue.
 	if ! ${queuedTasks}; then
 		if ${verbose}; then
-			printf "Building bulk downloads ... "
+			printf "Building bulk downloads ..."
 		fi
 
 		output=$("${scriptsDir}/generate-bulk-downloads" --web-root "${webRoot}")
@@ -485,11 +485,11 @@ if ${bulkDownloads}; then
 		fi
 
 		if ${verbose}; then
-			printf "Done.\n"
+			echo " done."
 		fi
 	else
 		if ${verbose}; then
-			printf "Tasks queued after this one, not building bulk downloads.\n"
+			echo "Tasks queued after this one, not building bulk downloads."
 		fi
 	fi
 fi

@@ -131,7 +131,7 @@ try{
 			$output = $output ?? [];
 
 			if($returnCode != 0){
-				$log->Queue('Error queueing ebook for deployment to web. Output: ' . implode("\n", $output));
+				$log->Queue('Error queuing ebook for deployment to web. Output: ' . implode("\n", $output));
 				throw new Exceptions\WebhookException('Couldn\'t process ebook.', $post);
 			}
 			else{
