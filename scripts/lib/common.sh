@@ -24,6 +24,7 @@ FG_CYAN="${ESC_SEQ}36m"
 FG_WHITE="${ESC_SEQ}37m"
 FG_PURPLE="${ESC_SEQ}38;5;129m"
 FG_HOT_PINK="${ESC_SEQ}38;5;206m"
+FG_GOLD="${ESC_SEQ}38;5;220m"
 FG_DARK_ORANGE="${ESC_SEQ}38;5;208m"
 FG_DARK_GRAY="${ESC_SEQ}90m"
 FG_BR_BLACK="${ESC_SEQ}90m"
@@ -169,7 +170,7 @@ RemoveFormatting(){
 					line="${line#*\]}"
 				fi
 				;;
-			"[header]"*|"[parameter]"*|"[email]"*|"[command]"*|"[path]"*|"[user]"*|"[url]"*|"[flag]"*|"[xhtml]"*|"[xml]"*|"[val]"*|"[attr]"*|"[class]"*|"[text]"*|"[css]"*)
+			"[header]"*|"[parameter]"*|"[email]"*|"[command]"*|"[branch]"*|"[path]"*|"[user]"*|"[url]"*|"[flag]"*|"[xhtml]"*|"[xml]"*|"[val]"*|"[attr]"*|"[class]"*|"[text]"*|"[css]"*)
 				if ${inLink}; then
 					case "${line}" in
 						"[header]"*)
@@ -180,6 +181,9 @@ RemoveFormatting(){
 							;;
 						"[command]"*)
 							line="${line:9}"
+							;;
+						"[branch]"*)
+							line="${line:8}"
 							;;
 						"[path]"*)
 							line="${line:6}"
@@ -238,6 +242,9 @@ RemoveFormatting(){
 							;;
 						"[command]"*)
 							line="${line:9}"
+							;;
+						"[branch]"*)
+							line="${line:8}"
 							;;
 						"[path]"*)
 							line="${line:6}"
@@ -390,6 +397,7 @@ ColorizeString(){
 	line="${line//\[header\]/${FG_GREEN}${FS_BOLD}}"
 	line="${line//\[parameter\]/${FG_CYAN}}"
 	line="${line//\[command\]/${FG_GREEN}}"
+	line="${line//\[branch\]/${FG_GOLD}}"
 	line="${line//\[xhtml\]/${FG_PURPLE}}"
 	line="${line//\[xml\]/${FG_PURPLE}}"
 	line="${line//\[val\]/${FG_BRIGHT_BLUE}}"
