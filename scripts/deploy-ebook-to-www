@@ -6,7 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename "${BASH_SOURCE[0]}")[/] [[flag]-g[/],[flag]--group[/] [parameter]<GROUP>[/]] [[flag]-l[/],[flag]--last-push-hash[/] [parameter]<GIT_HASH>[/]] [[flag]--no-build[/]] [[flag]--no-bulk-downloads[/]] [[flag]--no-epubcheck[/]] [[flag]--no-feeds[/]] [[flag]--no-images[/]] [[flag]--no-recompose[/]] [[flag]-v[/],[flag]--verbose[/]] [[flag]--web-root[/] [path][parameter]<WEB_ROOT>[/]] [[flag]--web-url[/] [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [parameter]...[/]]" \
+ "[command]$(basename "${BASH_SOURCE[0]}")[/] [[flag]-g[/],[flag]--group[/] [parameter]<GROUP>[/]] [[flag]-l[/],[flag]--last-push-hash[/] [parameter]<GIT_HASH>[/]] [[flag]--no-build[/]] [[flag]--no-bulk-downloads[/]] [[flag]--no-epubcheck[/]] [[flag]--no-feeds[/]] [[flag]--no-images[/]] [[flag]--no-recompose[/]] [[flag]-v[/],[flag]--verbose[/]] [[flag]--web-root[/] [path][parameter]<WEB_ROOT>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [parameter]...[/]]" \
  "$(cat << EOF
 Deploy Standard Ebook source repositories in [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] to the website running on the local machine.
 EOF
@@ -66,11 +66,6 @@ EOF
 [flag]--web-root[/] [path][parameter]<WEB_ROOT>[/]
 
 	The root folder for the S.E. website on the local machine; defaults to [path]/standardebooks.org/web/www[/].
-
-
-[flag]--web-url[/] [parameter]<WEB_URL>[/]
-
-	The base URL of the S.E. website; defaults to [url]https://standardebooks.org[/].
 EOF
 )"
 }
@@ -80,7 +75,6 @@ images=true
 build=true
 group="se"
 webRoot="/standardebooks.org/web/www"
-webUrl="https://standardebooks.org"
 lastPushHash=""
 epubcheck=true
 recompose=true
@@ -105,11 +99,6 @@ while [ $# -gt 0 ]; do
 		--web-root)
 			[ -n "$2" ] || ExitWithError "Web root can’t be empty."
 			webRoot="$2"
-			shift 2
-			;;
-		--web-url)
-			[ -n "$2" ] || ExitWithError "Web URL can’t be empty."
-			webUrl="$2"
 			shift 2
 			;;
 		-l|--last-push-hash)
@@ -471,7 +460,7 @@ if ${feeds}; then
 			printf "Building feeds ... "
 		fi
 
-		"${scriptsDir}/generate-feeds" --webroot "${webRoot}" --weburl "${webUrl}"
+		"${scriptsDir}/generate-feeds" --web-root "${webRoot}"
 
 		if ${verbose}; then
 			printf "Done.\n"
