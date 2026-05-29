@@ -22,10 +22,16 @@ FG_BLUE="${ESC_SEQ}34m"
 FG_MAGENTA="${ESC_SEQ}35m"
 FG_CYAN="${ESC_SEQ}36m"
 FG_WHITE="${ESC_SEQ}37m"
+FG_PURPLE="${ESC_SEQ}38;5;129m"
+FG_HOT_PINK="${ESC_SEQ}38;5;206m"
+FG_DARK_ORANGE="${ESC_SEQ}38;5;208m"
+FG_DARK_GRAY="${ESC_SEQ}90m"
 FG_BR_BLACK="${ESC_SEQ}90m"
 FG_BR_RED="${ESC_SEQ}91m"
 FG_BR_GREEN="${ESC_SEQ}92m"
 FG_BR_YELLOW="${ESC_SEQ}93m"
+FG_BRIGHT_BLUE="${ESC_SEQ}94m"
+FG_LIGHT_BLUE="${ESC_SEQ}94m"
 FG_BR_BLUE="${ESC_SEQ}94m"
 FG_BR_MAGENTA="${ESC_SEQ}95m"
 FG_BR_CYAN="${ESC_SEQ}96m"
@@ -163,7 +169,7 @@ RemoveFormatting(){
 					line="${line#*\]}"
 				fi
 				;;
-			"[header]"*|"[parameter]"*|"[email]"*|"[command]"*|"[path]"*|"[user]"*|"[url]"*)
+			"[header]"*|"[parameter]"*|"[email]"*|"[command]"*|"[path]"*|"[user]"*|"[url]"*|"[flag]"*|"[xhtml]"*|"[xml]"*|"[val]"*|"[attr]"*|"[class]"*|"[text]"*|"[css]"*)
 				if ${inLink}; then
 					case "${line}" in
 						"[header]"*)
@@ -186,6 +192,30 @@ RemoveFormatting(){
 							;;
 						"[email]"*)
 							line="${line:7}"
+							;;
+						"[flag]"*)
+							line="${line:6}"
+							;;
+						"[xhtml]"*)
+							line="${line:7}"
+							;;
+						"[xml]"*)
+							line="${line:5}"
+							;;
+						"[val]"*)
+							line="${line:5}"
+							;;
+						"[attr]"*)
+							line="${line:6}"
+							;;
+						"[class]"*)
+							line="${line:7}"
+							;;
+						"[text]"*)
+							line="${line:6}"
+							;;
+						"[css]"*)
+							line="${line:5}"
 							;;
 					esac
 				elif ! ${inFormat} && [[ "${line}" != "[header]"* ]] && ! ${veryPlain}; then
@@ -220,6 +250,30 @@ RemoveFormatting(){
 							;;
 						"[email]"*)
 							line="${line:7}"
+							;;
+						"[flag]"*)
+							line="${line:6}"
+							;;
+						"[xhtml]"*)
+							line="${line:7}"
+							;;
+						"[xml]"*)
+							line="${line:5}"
+							;;
+						"[val]"*)
+							line="${line:5}"
+							;;
+						"[attr]"*)
+							line="${line:6}"
+							;;
+						"[class]"*)
+							line="${line:7}"
+							;;
+						"[text]"*)
+							line="${line:6}"
+							;;
+						"[css]"*)
+							line="${line:5}"
 							;;
 					esac
 				fi
@@ -306,13 +360,16 @@ GetTerminalWidth(){
 
 # Replace formatting tags with terminal colors.
 # Param 1: The line to colorize.
-# Param 2 (optional): boolean to use "very plain" output, i.e., if `true` and color output is disabled, don't replace colors with backticks. Useful when outputting example CLI commands that are meant to be copied and pasted.
+# Param 2 (optional): boolean to print a newline after the string.
+# Param 3 (optional): boolean to use "very plain" output, i.e., if `true` and color output is disabled, don't replace colors with backticks. Useful when outputting example CLI commands that are meant to be copied and pasted.
 ColorizeString(){
 	local line
+	local printNewline
 	local veryPlain
 
 	line="$1"
-	veryPlain=${2:-false}
+	printNewline=${2:-true}
+	veryPlain=${3:-false}
 
 	if ! IsColor; then
 		if IsVeryPlain; then
@@ -322,7 +379,10 @@ ColorizeString(){
 			RemoveFormatting "${line}" "${veryPlain}" "links"
 		fi
 
-		printf "\n"
+		if ${printNewline}; then
+			printf "\n"
+		fi
+
 		return
 	fi
 
@@ -330,13 +390,25 @@ ColorizeString(){
 	line="${line//\[header\]/${FG_GREEN}${FS_BOLD}}"
 	line="${line//\[parameter\]/${FG_CYAN}}"
 	line="${line//\[command\]/${FG_GREEN}}"
-	line="${line//\[path\]/${FG_BLUE}${FS_UL}}"
+	line="${line//\[xhtml\]/${FG_PURPLE}}"
+	line="${line//\[xml\]/${FG_PURPLE}}"
+	line="${line//\[val\]/${FG_BRIGHT_BLUE}}"
+	line="${line//\[attr\]/${FG_HOT_PINK}}"
+	line="${line//\[class\]/${FG_HOT_PINK}}"
+	line="${line//\[path\]/${FG_BRIGHT_BLUE}${FS_UL}}"
 	line="${line//\[user\]/${FG_MAGENTA}}"
-	line="${line//\[url\]/${FG_BLUE}}"
+	line="${line//\[url\]/${FG_BRIGHT_BLUE}}"
+	line="${line//\[text\]/${FG_DARK_ORANGE}}"
+	line="${line//\[css\]/${FG_BRIGHT_BLUE}}"
 	line="${line//\[email\]/${FG_MAGENTA}}"
+	line="${line//\[flag\]/${FG_BRIGHT_BLUE}}"
 	line="${line//\[\/\]/${RESET_ALL}}"
 
-	printf "%s\n" "${line}"
+	printf "%s" "${line}"
+
+	if ${printNewline}; then
+		printf "\n"
+	fi
 }
 
 # Wrap one line to the current terminal width, ignoring formatting tags when measuring line length.
@@ -371,7 +443,7 @@ WrapLine(){
 	fi
 
 	if ((lineWidth <= width)); then
-		ColorizeString "${line}" "${veryPlain}"
+		ColorizeString "${line}" true "${veryPlain}"
 		return
 	fi
 
@@ -425,11 +497,11 @@ WrapLine(){
 				currentLine="${currentLine}${chunk}"
 				currentLineWidth=$((currentLineWidth + chunkWidth))
 			elif [[ "${chunk}" =~ ^[[:space:]]+$ ]]; then
-				ColorizeString "${indent}${currentLine}" "${veryPlain}"
+				ColorizeString "${indent}${currentLine}" true "${veryPlain}"
 				currentLine=""
 				currentLineWidth=0
 			else
-				ColorizeString "${indent}${currentLine}" "${veryPlain}"
+				ColorizeString "${indent}${currentLine}" true "${veryPlain}"
 				currentLine="${chunk}"
 				currentLineWidth="${chunkWidth}"
 			fi
@@ -437,7 +509,7 @@ WrapLine(){
 	done
 
 	if [[ -n "${currentLine}" ]]; then
-		ColorizeString "${indent}${currentLine}" "${veryPlain}"
+		ColorizeString "${indent}${currentLine}" true "${veryPlain}"
 	fi
 }
 
@@ -459,7 +531,7 @@ FormatHelp(){
 		if [[ -z "${line}" ]]; then
 			printf "\n"
 		elif [[ -z "${width}" ]]; then
-			ColorizeString "${line}" "${veryPlain}"
+			ColorizeString "${line}" true "${veryPlain}"
 		else
 			WrapLine "${line}" "${width}" "${veryPlain}"
 		fi
@@ -478,38 +550,57 @@ Indent(){
 
 # Param 1: Example CLI usage.
 # Param 2: Description.
-# Param 3 (optional): List of options.
-# Param 4 (optional): List of examples.
+# Param 3 (optional): List of positional arguments.
+# Param 4 (optional): List of options.
+# Param 5 (optional): List of examples.
 PrintHelp(){
+	local helpOption
+	local options
+	local usage
 	local width
 
 	width="$(GetTerminalWidth)"
+	usage="${1/\[\/\]/[/] [[flag]-h[/],[flag]--help[/]]}"
+	helpOption="[flag]-h[/],[flag]--help[/]
+
+	Show this help message and exit."
+	options="${helpOption}"
+
+	if [[ -n "${4:-}" ]]; then
+		options+=$'\n\n\n'"$4"
+	fi
 
 	echo -n
 	FormatHelp "[header]USAGE[/]
-" "" "${width}"
-	FormatHelp "$(Indent "$1")" "${width}" true
+" "${width}"
+	FormatHelp "$(Indent "${usage}")" "${width}" true
 
 	FormatHelp "
 [header]DESCRIPTION[/]
-" "" "${width}"
+" "${width}"
 
 	FormatHelp "$(Indent "$2")" "${width}" ""
 
 	if [[ -n "${3:-}" ]]; then
 		FormatHelp "
-[header]OPTIONS[/]
-" "" "${width}"
+[header]POSITIONAL ARGUMENTS[/]
+" "${width}"
 
 		FormatHelp "$(Indent "$3")" "${width}" ""
 	fi
 
-	if [[ -n "${4:-}" ]]; then
+	FormatHelp "
+[header]OPTIONS[/]
+" "${width}"
+
+	FormatHelp "$(Indent "${options}")" "${width}" ""
+
+	if [[ -n "${5:-}" ]]; then
 		FormatHelp "
 [header]EXAMPLES[/]
-" "" "${width}"
+" "${width}"
 
-		FormatHelp "$(Indent "$4")" "${width}" ""
+		FormatHelp "$(Indent "$5")" "${width}" ""
 	fi
 
 	exit
@@ -525,7 +616,7 @@ ExitWithError(){
 			printf "Error: %s\n" "$(RemoveFormatting "${1}" false)" 1>&2
 		fi
 	else
-		ColorizeString "${BG_RED}${FG_BR_WHITE}${FS_BOLD} Error ${RESET_ALL} ${1}" 1>&2
+		ColorizeString "${BG_RED}${FG_BR_WHITE}${FS_BOLD} Error ${RESET_ALL} ${1}" true 1>&2
 	fi
 
 	local code

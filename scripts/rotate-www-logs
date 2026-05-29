@@ -1,15 +1,21 @@
 #!/bin/bash
 
-# shellcheck source=./web/scripts/lib/common.sh
+# shellcheck source=scripts/lib/common.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
  "[command]$(basename "${BASH_SOURCE[0]}")[/] [path][parameter]<NEW_LOG_FILENAME>[/]" \
  "$(cat << EOF
-Move Apache access log files into a by-month subdirectory in the format [path]<LOG_ROOT>/apache/<YYYY-MM>[/], then gzip them.
+Move Apache access log files into a by-month subdirectory in the format [path]<LOGS_ROOT>/apache/<YYYY-MM>[/], then gzip them.
 
 Must be run as [user]root[/], and is generally run by the Apache [command]rotatelogs[/] subprocess as such.
+EOF
+)" \
+ "$(cat << EOF
+[path][parameter]<NEW_LOG_FILENAME>[/]
+
+	The filename of the new Apache access log file created by [command]rotatelogs[/].
 EOF
 )"
 }

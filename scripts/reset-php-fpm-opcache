@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shellcheck source=./web/scripts/lib/common.sh
+# shellcheck source=scripts/lib/common.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
@@ -8,6 +8,12 @@ PrintHelp \
  "[command]$(basename "${BASH_SOURCE[0]}")[/] [parameter]<FPM_POOL_NAME>[/]" \
  "$(cat << EOF
 Reset the PHP-FPM opcache and the APCu user cache for the given PHP-FPM pool without reloading or resetting the PHP-FPM service.
+EOF
+)" \
+ "$(cat << EOF
+[parameter]<FPM_POOL_NAME>[/]
+
+	The name of the PHP-FPM pool whose cache should be reset.
 EOF
 )"
 }

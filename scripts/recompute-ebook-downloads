@@ -1,13 +1,13 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]recompute-ebook-downloads[/]',
-	'Recompute all ebook downloads in the database based on recorded download counts.',
+		usage: '[command]recompute-ebook-downloads[/]',
+		description: 'Recompute all ebook downloads in the database based on recorded download counts.',
 	);
 }
 

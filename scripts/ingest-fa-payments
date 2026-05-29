@@ -11,6 +11,8 @@
  * After that, the `/scripts/process-pending-payments` script will pick them up and do accounting/patron logic.
  */
 
+require_once(__DIR__ . '/../lib/Core.php');
+
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
@@ -27,12 +29,10 @@ use function Safe\putenv;
 use function Safe\set_time_limit;
 use function Safe\unlink;
 
-require_once('/standardebooks.org/web/lib/Core.php');
-
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]ingest-fa-payments[/]',
-	'Scan the Fractured Atlas website for any payments not yet in our system, and ingest them as a pending payment to be processed internally.'
+		usage: '[command]ingest-fa-payments[/]',
+		description: 'Scan the Fractured Atlas website for any payments not yet in our system, and ingest them as a pending payment to be processed internally.',
 	);
 }
 

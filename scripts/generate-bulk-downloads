@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\copy;
 use function Safe\exec;
@@ -20,16 +20,18 @@ use function Safe\unlink;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]generate-bulk-downloads[/] [-f,--force] [--web-root [path][parameter]<WEB_ROOT_DIRECTORY>[/]]',
-	'Generate bulk download zip files for any collections that have changed.',
-	'-f,--force
-
-	Regenerate all bulk download zip files regardless if they\'ve changed or not.
-
-
---web-root [path][parameter]<WEB_ROOT_DIRECTORY>[/]
-
-	Specify a different root folder for the S.E. website on the local machine; defaults to [url=file://' . WEB_ROOT . '][path]' . WEB_ROOT . '[/].'
+		usage: '[command]generate-bulk-downloads[/] [[flag]-f[/],[flag]--force[/]] [[flag]--web-root[/] [path][parameter]<WEB_ROOT_DIRECTORY>[/]]',
+		description: 'Generate bulk download zip files for any collections that have changed.',
+		options: [
+			[
+				'name' => '[flag]-f[/],[flag]--force[/]',
+				'description' => 'Regenerate all bulk download zip files regardless if they\'ve changed or not.',
+			],
+			[
+				'name' => '[flag]--web-root[/] [path][parameter]<WEB_ROOT_DIRECTORY>[/]',
+				'description' => 'Specify a different root folder for the S.E. website on the local machine; defaults to [url=file://' . WEB_ROOT . '][path]' . WEB_ROOT . '[/].',
+			],
+		]
 	);
 }
 

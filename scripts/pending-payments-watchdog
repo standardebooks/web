@@ -1,13 +1,13 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]pending-payments-watchdog[/]',
-	'Send an email to S.E. administrators if there are any pending payments which seem to have failed processing.'
+		usage: '[command]pending-payments-watchdog[/]',
+		description: 'Send an email to S.E. administrators if there are any pending payments which seem to have failed processing.',
 	);
 }
 

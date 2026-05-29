@@ -1,13 +1,13 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]send-newsletter-mailings[/]',
-	'Send any queued newsletter mailings.',
+		usage: '[command]send-newsletter-mailings[/]',
+		description: 'Send any queued newsletter mailings.',
 	);
 }
 

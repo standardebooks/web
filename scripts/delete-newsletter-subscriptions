@@ -1,13 +1,13 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]delete-newsletter-subscriptions[/]',
-	'Delete unconfirmed newsletter subscriptions that are more than a week old, and any confirmed newsletter subscriptions that are marked for deletion.'
+		usage: '[command]delete-newsletter-subscriptions[/]',
+		description: 'Delete unconfirmed newsletter subscriptions that are more than a week old, and any confirmed newsletter subscriptions that are marked for deletion.',
 	);
 }
 

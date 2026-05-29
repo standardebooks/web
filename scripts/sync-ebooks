@@ -2,48 +2,54 @@
 set -e
 set -o pipefail
 
-# shellcheck source=./web/scripts/lib/common.sh
+# shellcheck source=scripts/lib/common.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename "${BASH_SOURCE[0]}")[/] [-v,--verbosity [parameter]1[/] | -vv,--verbosity [parameter]2[/]] [-n,--new-only | -u,--update-only] [-s,--start-letter [parameter]<LETTER>[/]] [--token [parameter]<TOKEN>[/]] [path][parameter]<DIRECTORY>[/]" \
+ "[command]$(basename "${BASH_SOURCE[0]}")[/] [[flag]-b[/],[flag]--bare[/]] [[flag]-n[/],[flag]--new-only[/] | [flag]-u[/],[flag]--update-only[/]] [[flag]-s[/],[flag]--start-letter[/] [parameter]<LETTER>[/]] [[flag]--token[/] [parameter]<TOKEN>[/]] [[flag]-v[/],[flag]--verbosity[/] [parameter]1[/] | [flag]-vv[/],[flag]--verbosity[/] [parameter]2[/]] [path][parameter]<REPOS_ROOT_DIRECTORY>[/]" \
  "$(cat << EOF
-Syncs books from the [url]standardebooks.org[/] GitHub organization to [path][parameter]<DIRECTORY>[/].
+Syncs books from the [url]standardebooks.org[/] GitHub organization to [path][parameter]<REPOS_ROOT_DIRECTORY>[/].
 EOF
 )"\
  "$(cat << EOF
--b,--bare
+[path][parameter]<REPOS_ROOT_DIRECTORY>[/]
+
+	The local directory where ebook repositories should be synced.
+EOF
+)"\
+ "$(cat << EOF
+[flag]-b[/],[flag]--bare[/]
 
 	Clone bare repositories instead of working directories; useful when called on a server.
 
 
--n,--new-only
+[flag]-n[/],[flag]--new-only[/]
 
 	Only download new repositories, don't update existing ones.
 
 
--s,--start-letter [parameter]<LETTER>[/]
+[flag]-s[/],[flag]--start-letter[/] [parameter]<LETTER>[/]
 
 	Skip repositories starting with letters prior to the specified letter.
 
 
---token [parameter]<TOKEN>[/]
+[flag]--token[/] [parameter]<TOKEN>[/]
 
 	Specify a GitHub access token to use for request; useful when hitting GitHub's rate limit.
 
 
--u,--update-only
+[flag]-u[/],[flag]--update-only[/]
 
 	Only update existing repositories, don't download new ones.
 
 
--v,--verbosity [parameter]1[/]
+[flag]-v[/],[flag]--verbosity[/] [parameter]1[/]
 
 	Display general progress updates.
 
 
--vv,--verbosity [parameter]2[/]
+[flag]-vv[/],[flag]--verbosity[/] [parameter]2[/]
 
 	Display general progress updates and verbose Git output.
 EOF

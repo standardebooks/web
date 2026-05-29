@@ -1,13 +1,13 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]delete-orphan-users[/]',
-	'Delete any users who have no remaining links in the S.E. system.'
+		usage: '[command]delete-orphan-users[/]',
+		description: 'Delete any users who have no remaining links in the S.E. system.',
 	);
 }
 

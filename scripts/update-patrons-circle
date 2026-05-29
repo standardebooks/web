@@ -1,13 +1,13 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]update-patrons-circle[/]',
-	'Update the Patrons Circle to end Patron status for Patrons whose term has completed without a renewal.'
+		usage: '[command]update-patrons-circle[/]',
+		description: 'Update the Patrons Circle to end Patron status for Patrons whose term has completed without a renewal.',
 	);
 }
 

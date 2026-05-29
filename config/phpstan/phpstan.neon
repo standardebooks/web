@@ -21,7 +21,6 @@ parameters:
 		- %rootDir%/../../../scripts/generate-bulk-downloads
 		- %rootDir%/../../../scripts/generate-feeds
 		- %rootDir%/../../../scripts/ingest-fa-payments
-		- %rootDir%/../../../scripts/inject-chapter-navigation-footer
 		- %rootDir%/../../../scripts/pending-payments-watchdog
 		- %rootDir%/../../../scripts/process-pending-payments
 		- %rootDir%/../../../scripts/rebuild-search-db

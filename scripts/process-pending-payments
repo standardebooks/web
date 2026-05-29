@@ -2,6 +2,8 @@
 <?
 // Note: This script must be run as a user with a `$HOME` directory, otherwise Firefox won't be able to start with a profile.
 
+require_once(__DIR__ . '/../lib/Core.php');
+
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
@@ -19,12 +21,10 @@ use function Safe\putenv;
 use function Safe\set_time_limit;
 use function Safe\unlink;
 
-require_once('/standardebooks.org/web/lib/Core.php');
-
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]process-pending-payments[/]',
-	'Process all pending payments by scanning the Fractured Atlas website.'
+		usage: '[command]process-pending-payments[/]',
+		description: 'Process all pending payments by scanning the Fractured Atlas website.',
 	);
 }
 

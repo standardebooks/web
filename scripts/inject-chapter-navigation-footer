@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/standardebooks.org/.venv/bin/python
 
 import argparse
 import html
@@ -6,11 +6,12 @@ import os
 import se
 import se.easy_xml
 import se.se_epub
+from se.se_help_formatter import SeHelpFormatter
 
 # Require arguments.
-parser = argparse.ArgumentParser(description="A script to inject the navigation footer with links in the web version of a Standard Ebook")
-parser.add_argument("ebook_dir", type=str, help="Path to the main directory of the ebook") # No trailing "/" on this path
-parser.add_argument("book_url", type=str, help="The ebook URL") # No trailing "/" on this link
+parser = argparse.ArgumentParser(description="Inject a navigation footer into XHTML files of a Standard Ebook.", formatter_class=SeHelpFormatter)
+parser.add_argument("ebook_dir", metavar="SE_EBOOK_REPO_DIRECTORY", type=str, help="The path to the main directory of the ebook.")
+parser.add_argument("book_url", metavar="URL", type=str, help="The ebook URL.")
 args = parser.parse_args()
 
 ebook_dir = args.ebook_dir

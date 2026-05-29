@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
@@ -9,8 +9,8 @@ use function Safe\sleep;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]update-project-statuses[/]',
-	'Update all active ebook projects with any recent activity, and change the status appropriately.'
+		usage: '[command]update-project-statuses[/]',
+		description: 'Update all active ebook projects with any recent activity, and change the status appropriately.',
 	);
 }
 

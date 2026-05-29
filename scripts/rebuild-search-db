@@ -1,21 +1,23 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]rebuild-search-db[/] [--artworks-only | --ebooks-only]',
-	'Truncate and rebuild the Manticore search database.',
-	'--artworks-only
-
-	Only truncate and rebuild the artworks database.
-
-
---ebooks-only
-
-	Only truncate and rebuild the ebooks database.'
+		usage: '[command]rebuild-search-db[/] [[flag]--artworks-only[/] | [flag]--ebooks-only[/]]',
+		description: 'Truncate and rebuild the Manticore search database.',
+		options: [
+			[
+				'name' => '[flag]--artworks-only[/]',
+				'description' => 'Only truncate and rebuild the artworks database.',
+			],
+			[
+				'name' => '[flag]--ebooks-only[/]',
+				'description' => 'Only truncate and rebuild the ebooks database.',
+			],
+		]
 	);
 }
 

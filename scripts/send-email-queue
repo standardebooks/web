@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\flock;
 use function Safe\fopen;
@@ -9,13 +9,19 @@ use function Safe\set_time_limit;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]send-email-queue[/]',
-	'Send any queued email messages.',
+		usage: '[command]send-email-queue[/] [[flag]--runs[/] [parameter]<NUMBER>[/]]',
+		description: 'Send any queued email messages.',
+		options: [
+			[
+				'name' => '[flag]--runs[/] [parameter]<NUMBER>[/]',
+				'description' => 'The number of evenly-spaced runs to perform in one minute. Defaults to [parameter]1[/].',
+			],
+		],
 	);
 }
 
 $restIndex = 0;
-$options = getopt('h', ['help'], $restIndex);
+$options = getopt('h', ['help', 'runs:'], $restIndex);
 $restIndex ??= $argc;
 
 if(isset($options['h']) || isset($options['help'])){
@@ -30,18 +36,9 @@ if(sizeof($parameters) != 0){
 
 set_time_limit(0); // Disable script timeout.
 
-$options = getopt('h', ['help', 'runs:']);
 $runs = $options['runs'] ?? 1;
 $secondsBetweenRuns = (int)floor(60 / $runs);
 $emailsPerRun = (AWS_SES_MAX_EMAILS_PER_SECOND * $secondsBetweenRuns) - 5;
-
-// `getopts()` returns **`FALSE`** if the argument is present!
-if((isset($options['h']) && $options['h'] === false) || (isset($options['help']) && $options['help'] === false)){
-	print("Send a batch of email from the email queue.\n\n");
-	print("--runs=N\n");
-	print("\tThe number of evenly-spaced runs to perform in one minute. Defaults to 1.\n\n");
-	exit();
-}
 
 for($i = 0; $i < $runs; $i++){
 	try{

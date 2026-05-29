@@ -1,68 +1,74 @@
 #!/bin/bash
 set -e
 
-# shellcheck source=./web/scripts/lib/common.sh
+# shellcheck source=scripts/lib/common.sh
 source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename "${BASH_SOURCE[0]}")[/] [-v,--verbose] [-g,--group [parameter]<GROUP>[/]] [-l,--last-push-hash [parameter]<GIT_HASH>[/]] [--no-build] [--no-bulk-downloads] [--no-epubcheck] [--no-images] [--no-recompose] [--no-feeds] [--web-root [path][parameter]<WEB_ROOT>[/]] [--web-url [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] ...]" \
+ "[command]$(basename "${BASH_SOURCE[0]}")[/] [[flag]-g[/],[flag]--group[/] [parameter]<GROUP>[/]] [[flag]-l[/],[flag]--last-push-hash[/] [parameter]<GIT_HASH>[/]] [[flag]--no-build[/]] [[flag]--no-bulk-downloads[/]] [[flag]--no-epubcheck[/]] [[flag]--no-feeds[/]] [[flag]--no-images[/]] [[flag]--no-recompose[/]] [[flag]-v[/],[flag]--verbose[/]] [[flag]--web-root[/] [path][parameter]<WEB_ROOT>[/]] [[flag]--web-url[/] [parameter]<WEB_URL>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [parameter]...[/]]" \
  "$(cat << EOF
 Deploy Standard Ebook source repositories in [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] to the website running on the local machine.
 EOF
 )"\
  "$(cat << EOF
--v,--verbose
+[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/]
 
-	Increase output verbosity.
-
-
--g,--group [parameter]<GROUP>[/]
+	One or more Standard Ebook source repository directories to deploy.
+EOF
+)"\
+ "$(cat << EOF
+[flag]-g[/],[flag]--group[/] [parameter]<GROUP>[/]
 
 	The group who will own the deployed files; defaults to [user]se[/].
 
 
--l,--last-push-hash [parameter]<GIT_HASH>[/]
+[flag]-l[/],[flag]--last-push-hash[/] [parameter]<GIT_HASH>[/]
 
 	Check the Git repository head against this hash to see if the cover image or ebook source changed, which will determine if cover thumbnails get re-generated or the ebook gets rebuilt.
 
 
---no-build
+[flag]--no-build[/]
 
-	Don't run [command]se build[/] or [command]se recompose-epub[/] to create distributable ebook files or web-readable versions.
+	Don't run [command]se[/] [parameter]build[/] or [command]se[/] [parameter]recompose-epub[/] to create distributable ebook files or web-readable versions.
 
 
---no-bulk-downloads
+[flag]--no-bulk-downloads[/]
 
 	Don't generate bulk download zip files.
 
 
---no-epubcheck
+[flag]--no-epubcheck[/]
 
-	Run [command]se build[/] instead of [command]se build --check[/].
-
-
---no-images
-
-	Don't create cover thumbnails or hero images for the web.
+	Run [command]se[/] [parameter]build[/] instead of [command]se[/] [parameter]build[/] [flag]--check[/].
 
 
---no-recompose
-
-	Don't run [command]se recompose-epub[/] to generate single-page output.
-
-
---no-feeds
+[flag]--no-feeds[/]
 
 	Don't generate RSS/Atom/OPDS feeds.
 
 
---web-root [path][parameter]<WEB_ROOT>[/]
+[flag]--no-images[/]
+
+	Don't create cover thumbnails or hero images for the web.
+
+
+[flag]--no-recompose[/]
+
+	Don't run [command]se[/] [parameter]recompose-epub[/] to generate single-page output.
+
+
+[flag]-v[/],[flag]--verbose[/]
+
+	Increase output verbosity.
+
+
+[flag]--web-root[/] [path][parameter]<WEB_ROOT>[/]
 
 	The root folder for the S.E. website on the local machine; defaults to [path]/standardebooks.org/web/www[/].
 
 
---web-url [parameter]<WEB_URL>[/]
+[flag]--web-url[/] [parameter]<WEB_URL>[/]
 
 	The base URL of the S.E. website; defaults to [url]https://standardebooks.org[/].
 EOF

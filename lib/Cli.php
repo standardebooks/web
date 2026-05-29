@@ -25,10 +25,14 @@ class Cli{
 	protected static string $_FgMagenta = "\x1b[35m";
 	protected static string $_FgCyan = "\x1b[36m";
 	protected static string $_FgWhite = "\x1b[37m";
+	protected static string $_FgPurple = "\x1b[38;5;129m";
+	protected static string $_FgHotPink = "\x1b[38;5;206m";
+	protected static string $_FgDarkOrange = "\x1b[38;5;208m";
 	protected static string $_FgBrBlack = "\x1b[90m";
 	protected static string $_FgBrRed = "\x1b[91m";
 	protected static string $_FgBrGreen = "\x1b[92m";
 	protected static string $_FgBrYellow = "\x1b[93m";
+	protected static string $_FgBrightBlue = "\x1b[94m";
 	protected static string $_FgBrBlue = "\x1b[94m";
 	protected static string $_FgBrMagenta = "\x1b[95m";
 	protected static string $_FgBrCyan = "\x1b[96m";
@@ -47,17 +51,24 @@ class Cli{
 
 	/**
 	 * Print formatted text, matching the shell helper's `PrintHelp()` behavior.
+	 *
+	 * @param ?array<array{name: string, description: string}> $arguments
+	 * @param ?array<array{name: string, description: string}> $options
 	 */
-	public static function PrintHelp(string $usage, string $description, ?string $options = null, ?string $examples = null): void{
+	public static function PrintHelp(string $usage, string $description, ?array $arguments = null, ?array $options = null, ?string $examples = null): void{
 		self::FormatHelp("[header]USAGE[/]\n\n");
-		self::FormatHelp(self::Indent($usage), true);
+		self::FormatHelp(self::Indent(self::AddHelpOptionToUsage($usage)), true);
 		self::FormatHelp("\n[header]DESCRIPTION[/]\n\n");
 		self::FormatHelp(self::Indent($description));
 
-		if($options !== null && $options !== ''){
-			self::FormatHelp("\n[header]OPTIONS[/]\n\n");
-			self::FormatHelp(self::Indent($options));
+		if($arguments !== null && sizeof($arguments) > 0){
+			self::FormatHelp("\n[header]POSITIONAL ARGUMENTS[/]\n\n");
+			self::FormatHelp(self::Indent(self::FormatHelpEntries($arguments)));
 		}
+
+		$options = self::AddHelpOptionToOptions($options);
+		self::FormatHelp("\n[header]OPTIONS[/]\n\n");
+		self::FormatHelp(self::Indent(self::FormatHelpEntries($options)));
 
 		if($examples !== null && $examples !== ''){
 			self::FormatHelp("\n[header]EXAMPLES[/]\n\n");
@@ -65,6 +76,54 @@ class Cli{
 		}
 
 		exit();
+	}
+
+	/**
+	 * Add the standard help option to the script usage string.
+	 */
+	private static function AddHelpOptionToUsage(string $usage): string{
+		$usageParts = explode('[/]', $usage, 2);
+
+		if(sizeof($usageParts) === 2){
+			return $usageParts[0] . '[/] [[flag]-h[/],[flag]--help[/]]' . $usageParts[1];
+		}
+
+		return $usage . ' [[flag]-h[/],[flag]--help[/]]';
+	}
+
+	/**
+	 * Add the standard help option as the first option in the options list.
+	 *
+	 * @param ?array<array{name: string, description: string}> $options
+	 * @return array<array{name: string, description: string}>
+	 */
+	private static function AddHelpOptionToOptions(?array $options): array{
+		return [
+			[
+				'name' => '[flag]-h[/],[flag]--help[/]',
+				'description' => 'Show this help message and exit.',
+			],
+			...($options ?? []),
+		];
+	}
+
+	/**
+	 * Format a list of help entries into a string suitable for output.
+	 *
+	 * @param array<array{name: string, description: string}> $entries
+	 */
+	protected static function FormatHelpEntries(array $entries): string{
+		$output = '';
+
+		foreach($entries as $entry){
+			if($output != ''){
+				$output .= "\n\n\n";
+			}
+
+			$output .= $entry['name'] . "\n\n\t" . str_replace("\n", "\n\t", $entry['description']);
+		}
+
+		return $output;
 	}
 
 	/**
@@ -79,7 +138,7 @@ class Cli{
 			fwrite(STDERR, 'Error: ' . self::RemoveFormatting($message, self::IsVeryPlain()) . "\n");
 		}
 		else{
-			fwrite(STDERR, self::ColorizeString(self::$_BgRed . self::$_FgBrWhite . self::$_FsBold . ' Error ' . self::$_ResetAll . ' ' . $message) . "\n");
+			fwrite(STDERR, self::ColorizeString(self::$_BgRed . self::$_FgBrWhite . self::$_FsBold . ' Error ' . self::$_ResetAll . ' ' . $message));
 		}
 
 		exit($code);
@@ -216,7 +275,7 @@ class Cli{
 					}
 				}
 			}
-			elseif(str_starts_with($line, '[header]') || str_starts_with($line, '[parameter]') || str_starts_with($line, '[email]') || str_starts_with($line, '[command]') || str_starts_with($line, '[path]') || str_starts_with($line, '[user]') || str_starts_with($line, '[url]')){
+			elseif(str_starts_with($line, '[header]') || str_starts_with($line, '[parameter]') || str_starts_with($line, '[email]') || str_starts_with($line, '[command]') || str_starts_with($line, '[path]') || str_starts_with($line, '[user]') || str_starts_with($line, '[url]') || str_starts_with($line, '[flag]') || str_starts_with($line, '[xhtml]') || str_starts_with($line, '[xml]') || str_starts_with($line, '[val]') || str_starts_with($line, '[attr]') || str_starts_with($line, '[class]') || str_starts_with($line, '[text]') || str_starts_with($line, '[css]')){
 				if($inLink){
 					if(str_starts_with($line, '[header]')){
 						$line = substr($line, 8);
@@ -238,6 +297,30 @@ class Cli{
 					}
 					elseif(str_starts_with($line, '[email]')){
 						$line = substr($line, 7);
+					}
+					elseif(str_starts_with($line, '[flag]')){
+						$line = substr($line, 6);
+					}
+					elseif(str_starts_with($line, '[xhtml]')){
+						$line = substr($line, 7);
+					}
+					elseif(str_starts_with($line, '[xml]')){
+						$line = substr($line, 5);
+					}
+					elseif(str_starts_with($line, '[val]')){
+						$line = substr($line, 5);
+					}
+					elseif(str_starts_with($line, '[attr]')){
+						$line = substr($line, 6);
+					}
+					elseif(str_starts_with($line, '[class]')){
+						$line = substr($line, 7);
+					}
+					elseif(str_starts_with($line, '[text]')){
+						$line = substr($line, 6);
+					}
+					elseif(str_starts_with($line, '[css]')){
+						$line = substr($line, 5);
 					}
 				}
 				else{
@@ -270,6 +353,30 @@ class Cli{
 				}
 				elseif(!$inLink && str_starts_with($line, '[email]')){
 					$line = substr($line, 7);
+				}
+				elseif(!$inLink && str_starts_with($line, '[flag]')){
+					$line = substr($line, 6);
+				}
+				elseif(!$inLink && str_starts_with($line, '[xhtml]')){
+					$line = substr($line, 7);
+				}
+				elseif(!$inLink && str_starts_with($line, '[xml]')){
+					$line = substr($line, 5);
+				}
+				elseif(!$inLink && str_starts_with($line, '[val]')){
+					$line = substr($line, 5);
+				}
+				elseif(!$inLink && str_starts_with($line, '[attr]')){
+					$line = substr($line, 6);
+				}
+				elseif(!$inLink && str_starts_with($line, '[class]')){
+					$line = substr($line, 7);
+				}
+				elseif(!$inLink && str_starts_with($line, '[text]')){
+					$line = substr($line, 6);
+				}
+				elseif(!$inLink && str_starts_with($line, '[css]')){
+					$line = substr($line, 5);
 				}
 			}
 			else{
@@ -361,23 +468,27 @@ class Cli{
 	/**
 	 * Replace formatting tags with terminal colors, or with plain markers when color is disabled.
 	 */
-	protected static function ColorizeString(string $line, bool $veryPlain = false): string{
+	protected static function ColorizeString(string $line, bool $printNewline = true, bool $veryPlain = false): string{
 		if(!self::IsColor()){
 			if(self::IsVeryPlain()){
 				$veryPlain = true;
-				return self::RemoveFormatting($line, $veryPlain);
+				$output = self::RemoveFormatting($line, $veryPlain);
+				return $printNewline ? $output . "\n" : $output;
 			}
 
-			return self::RemoveFormatting($line, $veryPlain, 'links');
+			$output = self::RemoveFormatting($line, $veryPlain, 'links');
+			return $printNewline ? $output . "\n" : $output;
 		}
 
 		$line = self::FormatUrlLinks($line);
 
-		return str_replace(
-			['[header]', '[/]', '[parameter]', '[command]', '[path]', '[user]', '[url]', '[email]'],
-			[self::$_FgGreen . self::$_FsBold, self::$_ResetAll, self::$_FgCyan, self::$_FgGreen, self::$_FgBlue . self::$_FsUl, self::$_FgMagenta, self::$_FgBlue, self::$_FgMagenta],
+		$output = str_replace(
+			['[header]', '[/]', '[parameter]', '[command]', '[xhtml]', '[xml]', '[val]', '[attr]', '[class]', '[path]', '[user]', '[url]', '[text]', '[css]', '[email]', '[flag]'],
+			[self::$_FgGreen . self::$_FsBold, self::$_ResetAll, self::$_FgCyan, self::$_FgGreen, self::$_FgPurple, self::$_FgPurple, self::$_FgBrightBlue, self::$_FgHotPink, self::$_FgHotPink, self::$_FgBrightBlue . self::$_FsUl, self::$_FgMagenta, self::$_FgBrightBlue, self::$_FgDarkOrange, self::$_FgBrightBlue, self::$_FgMagenta, self::$_FgBrightBlue],
 			$line
 		);
+
+		return $printNewline ? $output . "\n" : $output;
 	}
 
 	/**
@@ -385,7 +496,7 @@ class Cli{
 	 */
 	protected static function WrapLine(string $line, int $width, bool $veryPlain = false): void{
 		if(self::GetStringLengthWithoutFormatting($line) <= $width){
-			printf("%s\n", self::ColorizeString($line, $veryPlain));
+			printf('%s', self::ColorizeString($line, true, $veryPlain));
 			return;
 		}
 
@@ -427,17 +538,17 @@ class Cli{
 				$currentLine .= $chunk;
 			}
 			elseif(preg_match('/^\s+$/', $chunk) === 1){
-				printf("%s\n", self::ColorizeString($indent . $currentLine, $veryPlain));
+				printf('%s', self::ColorizeString($indent . $currentLine, true, $veryPlain));
 				$currentLine = '';
 			}
 			else{
-				printf("%s\n", self::ColorizeString($indent . $currentLine, $veryPlain));
+				printf('%s', self::ColorizeString($indent . $currentLine, true, $veryPlain));
 				$currentLine = $chunk;
 			}
 		}
 
 		if($currentLine !== ''){
-			printf('%s', self::ColorizeString($indent . $currentLine, $veryPlain));
+			printf('%s', self::ColorizeString($indent . $currentLine, false, $veryPlain));
 		}
 
 		printf("\n");
@@ -459,7 +570,7 @@ class Cli{
 				printf("\n");
 			}
 			elseif($width === null){
-				printf("%s\n", self::ColorizeString($line, $veryPlain));
+				printf('%s', self::ColorizeString($line, true, $veryPlain));
 			}
 			else{
 				self::WrapLine($line, $width, $veryPlain);

@@ -1,16 +1,25 @@
 #!/usr/bin/php
 <?
-require_once('/standardebooks.org/web/lib/Core.php');
+require_once(__DIR__ . '/../lib/Core.php');
 
 use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-	'[command]update-ebook-database[/] [-v,--verbose] [path][parameter]<SE_EBOOK_WEB_DIRECTORY>[/]',
-	'Update the database entry for the ebook at the target ebook web path, e.g. [path]/standardebooks.org/web/www/ebooks/a-a-milne/the-red-house-mystery[/].',
-	'-v,--verbose
-
-	Increase output verbosity.'
+		usage: '[command]update-ebook-database[/] [[flag]-v[/],[flag]--verbose[/]] [path][parameter]<SE_EBOOK_WEB_DIRECTORY>[/]',
+		description: 'Update the database entry for the ebook at the target ebook web path, e.g. [path]/standardebooks.org/web/www/ebooks/a-a-milne/the-red-house-mystery[/].',
+		arguments: [
+			[
+				'name' => '[path][parameter]<SE_EBOOK_WEB_DIRECTORY>[/]',
+				'description' => 'The path to the ebook web directory to update.',
+			],
+		],
+		options: [
+			[
+				'name' => '[flag]-v[/],[flag]--verbose[/]',
+				'description' => 'Increase output verbosity.',
+			],
+		]
 	);
 }
 
