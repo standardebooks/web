@@ -475,7 +475,7 @@ class Cli{
 	/**
 	 * Replace formatting tags with terminal colors, or with plain markers when color is disabled.
 	 */
-	protected static function ColorizeString(string $line, bool $printNewline = true, bool $veryPlain = false): string{
+	public static function ColorizeString(string $line, bool $printNewline = true, bool $veryPlain = false): string{
 		if(!self::IsColor()){
 			if(self::IsVeryPlain()){
 				$veryPlain = true;
