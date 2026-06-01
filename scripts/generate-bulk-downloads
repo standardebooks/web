@@ -299,14 +299,13 @@ function RemoveOrphanDirectories(string $webRoot, array $bulkDownloadCollections
 	}
 }
 
-$lockFile = fopen(sys_get_temp_dir() . '/se-generate-bulk-downloads.lock', 'c');
-
 try{
+	$lockFilename = sys_get_temp_dir() . '/se-generate-bulk-downloads.lock';
+	$lockFile = @fopen($lockFilename, 'c');
 	flock($lockFile, LOCK_EX | LOCK_NB);
 }
 catch(Exception){
-	// Script is already running, exit.
-	exit(1);
+	Cli::ExitWithError('Couldn\'t aquire lock on [path][url=file://' . $lockFilename . ']' . $lockFilename . '[/]; is this script already running?');
 }
 
 try{

@@ -56,7 +56,7 @@ class Cli{
 	 * @param ?array<array{name: string, description: string}> $arguments
 	 * @param ?array<array{name: string, description: string}> $options
 	 */
-	public static function PrintHelp(string $usage, string $description, ?array $arguments = null, ?array $options = null, ?string $examples = null): void{
+	public static function PrintHelp(string $usage, string $description, ?array $arguments = null, ?array $options = null, ?string $examples = null): never{
 		self::FormatHelp("[header]USAGE[/]\n\n");
 		self::FormatHelp(self::Indent(self::AddHelpOptionToUsage($usage)), true);
 		self::FormatHelp("\n[header]DESCRIPTION[/]\n\n");
@@ -130,7 +130,7 @@ class Cli{
 	/**
 	 * Print a formatted error message to standard error and exit with the given code.
 	 */
-	public static function ExitWithError(string $message, int $code = 1): void{
+	public static function ExitWithError(string $message, int $code = 1): never{
 		if(!defined('STDERR')){
 			exit($code);
 		}
