@@ -85,10 +85,8 @@ class Template extends TemplateBase{
 	 *
 	 * @param bool $redirectToDestination After login, redirect the user to the page they came from.
 	 * @param ?string $destinationUrl If `$redirectToDestination` is **`TRUE`**, redirect to this URL instead of the page they came from.
-	 *
-	 * @return never
 	 */
-	public static function RedirectToLogin(bool $redirectToDestination = true, ?string $destinationUrl = null): void{
+	public static function RedirectToLogin(bool $redirectToDestination = true, ?string $destinationUrl = null): never{
 		if($redirectToDestination){
 			if($destinationUrl === null){
 				$destinationUrl = Http::$Request->RelativeUri;
@@ -109,10 +107,8 @@ class Template extends TemplateBase{
 	 * Redirect the user to a `User` disambiguation page.
 	 *
 	 * @param ?string $identifier The `User` identifier to use in the URL, typically the `Name`.
-	 *
-	 * @return never
 	 */
-	public static function RedirectToDisambiguation(?string $identifier): void{
+	public static function RedirectToDisambiguation(?string $identifier): never{
 		http_response_code(Enums\HttpCode::Found->value);
 
 		if($identifier === null){

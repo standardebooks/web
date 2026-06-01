@@ -58,10 +58,8 @@ abstract class TemplateBase{
 	 * Output the given HTTP code and exit the script. If the request is from a browser, output an error page if it exists for that code.
 	 *
 	 * @param ?Exception $exception If not `null` and no appropriate error page is found, print the `Exception` using the site header and footer.
-	 *
-	 * @return never
 	 */
-	public static function ExitWithCode(Enums\HttpCode $httpCode, ?Exception $exception = null): void{
+	public static function ExitWithCode(Enums\HttpCode $httpCode, ?Exception $exception = null): never{
 		http_response_code($httpCode->value);
 
 		if(Http::$Request->IsViaBrowser){
