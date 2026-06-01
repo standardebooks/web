@@ -43,12 +43,6 @@ if(isset($options['h']) || isset($options['help'])){
 	Usage();
 }
 
-$parameters = array_slice($argv, $restIndex);
-
-if(sizeof($parameters) != 0){
-	Usage();
-}
-
 $webRoot = WEB_ROOT;
 if(isset($options['web-root']) && is_string($options['web-root'])){
 	$webRoot = $options['web-root'];
