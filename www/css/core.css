@@ -3620,8 +3620,8 @@ dl > dd{
 	margin-left: 0;
 }
 
-dl > dt.break,
-dl > dt.break + dd{
+dl > dt.break:has(~dt),
+dl > dt.break:has(~dt) + dd{
 	padding-bottom: 1rem;
 	border-bottom: 3px double var(--body-text);
 }
@@ -4373,7 +4373,7 @@ ul[role="menu"] li + li::before{
 		margin-top: 1rem;
 	}
 
-	dl > dt.break{
+	dl > dt.break:has(~dt){
 		border: none;
 	}
 
