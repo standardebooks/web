@@ -130,7 +130,16 @@ while [ $# -gt 0 ]; do
 			bulkDownloads=false
 			shift 1
 			;;
-		*) break ;;
+		--) # Explicit end of all options.
+			shift 1
+			break
+			;;
+		-?*) # Invalid option.
+			ExitWithError "Invalid option: [flag]$1[/]."
+			;;
+		*) # No more options.
+			break
+			;;
 	esac
 done
 

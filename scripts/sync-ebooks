@@ -97,7 +97,6 @@ bare=""
 startLetter=""
 startPos=-1
 
-# process each of the parameters one at a time, shifting each time to get the next one
 while [ $# -gt 0 ]; do
 	case "$1" in
 		-b|--bare)
@@ -135,8 +134,16 @@ while [ $# -gt 0 ]; do
 			githubToken="$2"
 			shift 2
 			;;
-		*)
-			break ;;
+		--) # Explicit end of all options.
+			shift 1
+			break
+			;;
+		-?*) # Invalid option.
+			ExitWithError "Invalid option: [flag]$1[/]."
+			;;
+		*) # No more options.
+			break
+			;;
 	esac
 done
 
