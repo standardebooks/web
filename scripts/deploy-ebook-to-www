@@ -30,7 +30,7 @@ EOF
 
 [flag]--no-build[/]
 
-	Don't run [command]se[/] [parameter]build[/] or [command]se[/] [parameter]recompose-epub[/] to create distributable ebook files or web-readable versions.
+	Don't run [command]se[/] [subcommand]build[/] or [command]se[/] [subcommand]recompose-epub[/] to create distributable ebook files or web-readable versions.
 
 
 [flag]--no-bulk-downloads[/]
@@ -40,7 +40,7 @@ EOF
 
 [flag]--no-epubcheck[/]
 
-	Run [command]se[/] [parameter]build[/] instead of [command]se[/] [parameter]build[/] [flag]--check[/].
+	Run [command]se[/] [subcommand]build[/] instead of [command]se[/] [subcommand]build[/] [flag]--check[/].
 
 
 [flag]--no-feeds[/]
@@ -55,7 +55,7 @@ EOF
 
 [flag]--no-recompose[/]
 
-	Don't run [command]se[/] [parameter]recompose-epub[/] to generate single-page output.
+	Don't run [command]se[/] [subcommand]recompose-epub[/] to generate single-page output.
 
 
 [flag]-v[/],[flag]--verbose[/]
