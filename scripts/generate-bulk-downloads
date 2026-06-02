@@ -328,4 +328,5 @@ try{
 }
 finally{
 	flock($lockFile, LOCK_UN);
+	unlink($lockFilename);
 }
