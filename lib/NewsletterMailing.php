@@ -307,6 +307,9 @@ class NewsletterMailing{
 			// Replace footer `<div>`s with `<hr/>`.
 			$bodyHtml = new HtmlDocument(preg_replace('|<div class="footer">(.+?)</div>|ius', '<hr/>\1', (string)$this->BodyHtml));
 
+			// Remove the logo.
+			$bodyHtml = str_replace('<img class="logo" src="https://standardebooks.org/images/logo-full.png" alt="The Standard Ebooks logo" />', '', $bodyHtml);
+
 			$this->BodyText = $bodyHtml->ToMarkdown();
 
 			// Converting to Markdown escapes underscores, which we want to avoid when using variables like UNSUBSCRIBE_URL. Undo that here.
