@@ -80,11 +80,11 @@ if [ $# -eq 0 ] || { [ $# -eq 1 ] && { [ "$1" = "--help" ] || [ "$1" = "-h" ]; }
 	usage
 fi
 
-if ! grep --version 2>/dev/null | head -n 1 | grep -q 'GNU grep'; then
+if ! grep --version 2>/dev/null | head --lines 1 | grep --quiet 'GNU grep'; then
 	ExitWithError "GNU [command]grep[/] is required. On Mac, install the GNU version via Homebrew, MacPorts, etc. and make sure it's first in [parameter]\$PATH[/]."
 fi
 
-if ! sed --version 2>/dev/null | head -n 1 | grep -q 'GNU sed'; then
+if ! sed --version 2>/dev/null | head --lines 1 | grep --quiet 'GNU sed'; then
 	ExitWithError "GNU [command]sed[/] is required. On Mac, install the GNU version via Homebrew, MacPorts, etc. and make sure it's first in [parameter]\$PATH[/]."
 fi
 
@@ -193,9 +193,9 @@ if [ "${newUpdate}" != "new" ]; then
 
 		# this works whether the repository is bare or a working directory
 		if [ "${verbosity}" -lt 2 ]; then
-			git -C "${item}" fetch -q
+			git -C "${item}" fetch --quiet
 		else
-			git -C "${item}" fetch -v
+			git -C "${item}" fetch --verbose
 		fi
 
 		if [ "${verbosity}" -gt 0 ]; then
@@ -221,20 +221,20 @@ repoUrls=""
 while true; do
 	# get a "page" worth of repository URL's
 	if [ -n "${githubToken}" ]; then
-		response=$(curl -H "Authorization: token ${githubToken}" -si "${url}") ||
+		response=$(curl --header "Authorization: token ${githubToken}" --silent --include "${url}") ||
 			ExitWithError "Curl request failed."
 	else
-		response=$(curl -si "${url}") ||
+		response=$(curl --silent --include "${url}") ||
 			ExitWithError "Curl request failed."
 	fi
 
-	if printf "%s" "${response}" | grep -q "^X-RateLimit-Remaining: 0$"; then
-		limitReset=$(printf "%s" "${response}" | grep -oP "^X-RateLimit-Reset: \K[0-9]+$")
+	if printf "%s" "${response}" | grep --quiet "^X-RateLimit-Remaining: 0$"; then
+		limitReset=$(printf "%s" "${response}" | grep --only-matching --perl-regexp "^X-RateLimit-Reset: \K[0-9]+$")
 		printf "You have reached your daily allowance for unauthenticated GitHub API requests.\n\
 			Either wait until %s or use an OAuth token.\n\
 			You can create a new token at <https://github.com/settings/tokens/new> and \
 			pass it to this script with the --token option.\n\
-			The token does not need any permissions.\n" "$(date -d @"${limitReset}")" 1>&2
+			The token does not need any permissions.\n" "$(date --date=@"${limitReset}")" 1>&2
 		exit
 	fi
 
@@ -243,7 +243,7 @@ while true; do
 	# add them to the full list in repoUrls
 	repoUrls=$(printf "%s\n%s" "${repoUrls}" "${currentRepoUrls}")
 	# set the variable to get the next "page"
-	url=$(printf "%s" "${response}" | grep -oP "<\Khttps://api.github.com/[^>]*(?=>; rel=\"next\",)") || break
+	url=$(printf "%s" "${response}" | grep --only-matching --perl-regexp "<\Khttps://api.github.com/[^>]*(?=>; rel=\"next\",)") || break
 
 	if [ "${verbosity}" -gt 0 ]; then
 		printf "."
@@ -255,7 +255,7 @@ if [ "${verbosity}" -gt 0 ]; then
 fi
 
 # skip the non-ebook repositories by removing their names from the list
-repoUrls=$(printf "%s" "${repoUrls}" | grep -v -e "/tools.git\$" -e "/web.git\$" -e "/manual.git\$" -e "/standard-blackletter.git\$" -e "/sublime-text-se-plugin.git\$" | awk 'NF')
+repoUrls=$(printf "%s" "${repoUrls}" | grep --invert-match --regexp "/tools.git\$" --regexp "/web.git\$" --regexp "/manual.git\$" --regexp "/standard-blackletter.git\$" --regexp "/sublime-text-se-plugin.git\$" | awk 'NF')
 
 # process the list, reading one repository at a time
 printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
@@ -273,7 +273,7 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 
 	# if the repository name has been truncated due to GitHub's name length limits,
 	# but a local clone with the full name exists, don't attempt to clone it again
-	repoNameLength=$(printf "%s" "${repoName%.git}" | wc -m)
+	repoNameLength=$(printf "%s" "${repoName%.git}" | wc --chars)
 	if [ "${repoNameLength}" -ge 100 ]; then
 		if dirs=( "${repoName%.git}"*/ ) && [[ -d ${dirs[0]} ]]; then
 			continue
@@ -286,9 +286,9 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 
 	# clone the repository, creating either a bare or working directory based on the option
 	if [ "${verbosity}" -lt 2 ]; then
-		git clone -q ${bare} "${repoUrl}"
+		git clone --quiet ${bare} "${repoUrl}"
 	else
-		git clone -v ${bare} "${repoUrl}"
+		git clone --verbose ${bare} "${repoUrl}"
 	fi
 
 	# if a directory with the repository name doesn't exist, the clone did not complete successfully
@@ -303,10 +303,10 @@ printf "%s\n" "${repoUrls}" | while IFS= read -r repoUrl; do
 
 	# get the last segment of the dc:identifier from the metadata
 	properName="$(git -C "${repoName}" show HEAD:src/epub/content.opf |
-		grep -oE "<dc:identifier id=\"uid\">https://standardebooks.org/ebooks/[^<]+</dc:identifier>" |
-		sed -E "s/<[^>]+?>//g" |
-		sed -E "s|https://standardebooks.org/ebooks/||g" |
-		sed -E "s|/|_|g").git"
+		grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">https://standardebooks.org/ebooks/[^<]+</dc:identifier>" |
+		sed --regexp-extended "s/<[^>]+?>//g" |
+		sed --regexp-extended "s|https://standardebooks.org/ebooks/||g" |
+		sed --regexp-extended "s|/|_|g").git"
 	if [ "${bare}" = "" ]; then
 		properName="${properName%.git}"
 	fi

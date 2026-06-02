@@ -1,12 +1,17 @@
 #!/bin/bash
 
 exec_request() {
-	echo "$1" >> tests-output
+	local method
+	local url
 
-	if [[ "$1" == *"HEAD"* ]]; then
-		curl --insecure -sS -D - --head ${1/HEAD/""} -o /dev/null >> tests-output
+	echo "$1" >> tests-output
+	method="${1%% *}"
+	url="${1#* }"
+
+	if [[ "${method}" == "HEAD" ]]; then
+		curl --insecure --silent --show-error --dump-header - --head "${url}" --output /dev/null >> tests-output
 	else
-		curl --insecure -sS -D - -X $1 -o /dev/null >> tests-output
+		curl --insecure --silent --show-error --dump-header - --request "${method}" "${url}" --output /dev/null >> tests-output
 	fi
 }
 

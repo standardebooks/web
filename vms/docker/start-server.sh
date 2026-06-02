@@ -6,14 +6,14 @@ if [ ! -f /standardebooks.org/web/config/ssl/standardebooks.test.crt ]; then
 fi
 
 # Install PHP dependencies
-cd /standardebooks.org/web
+cd /standardebooks.org/web || exit 1
 composer install
 
 # Create symlinks for web server configuration
-ln -s /standardebooks.org/web/config/apache/standardebooks.test.conf /etc/apache2/sites-available/
-ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/cli/conf.d/
-ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/fpm/conf.d/
-ln -s /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
+ln --symbolic /standardebooks.org/web/config/apache/standardebooks.test.conf /etc/apache2/sites-available/
+ln --symbolic /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/cli/conf.d/
+ln --symbolic /standardebooks.org/web/config/php/fpm/standardebooks.test.ini /etc/php/*/fpm/conf.d/
+ln --symbolic /standardebooks.org/web/config/php/fpm/standardebooks.test.conf /etc/php/*/fpm/pool.d/
 
 # Create and populate the SE database.
 service mariadb start
@@ -26,7 +26,7 @@ a2ensite standardebooks.test
 
 # Restart services to load new configuration
 service apache2 restart
-service php8.1-fpm restart
+service "php*-fpm" restart
 
 # Keep the server available by holding open the container
-tail -f /dev/null
+tail --follow /dev/null

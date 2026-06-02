@@ -160,7 +160,7 @@ Require "se" "Read: https://standardebooks.org/tools"
 
 # `cavif` is compiled via Cargo, see <https://github.com/kornelski/cavif-rs>.
 
-scriptsDir="$(dirname "$(readlink -f "$0")")"
+scriptsDir="$(dirname "$(readlink --canonicalize "$0")")"
 
 if ! [ -x "${scriptsDir}"/reset-php-fpm-opcache ]; then
 	ExitWithError "[path]${scriptsDir}/reset-php-fpm-opcache[/] isn't an executable file."
@@ -178,7 +178,7 @@ if ! [ -f "${scriptsDir}/../.venv/bin/activate" ]; then
 	ExitWithError "[path]${scriptsDir}/../.venv/bin/activate[/] isn't an executable file. Make the [command]standardebooks[/] Pip package is installed into a Python virtual environment."
 fi
 
-mkdir -p "${webRoot}"/images/covers/
+mkdir --parents "${webRoot}"/images/covers/
 
 for dir in "$@"
 do
@@ -244,8 +244,8 @@ do
 		ExitWithError "Invalid S.E. identifier in ebook."
 	fi
 
-	workDir=$(mktemp -d)
-	imgWorkDir=$(mktemp -d)
+	workDir=$(mktemp --directory)
+	imgWorkDir=$(mktemp --directory)
 	webDir="${webRoot}/ebooks/${webDir}"
 
 	if ${images}; then
@@ -264,15 +264,15 @@ do
 		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
 		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
 
-		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero.avif"
-		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" --output "${imgWorkDir}/${urlSafeIdentifier}-hero.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" --output "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif"
 
 		# Build the cover image thumbnail.
 		# We use JPG instead of SVG for several reasons:
 		# 1. A JPG is roughly 1/2 the file size of the same SVG, because the SVG must contain the JPG in base64 encoding.
 		# 2. The "scale up" effect on mouse hover is blurry when used on SVGs.
 
-		sed -i "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
+		sed --in-place "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
 
 		# Resize and compress the cover image (formula from Google Page Speed Insights).
 		# We can't use `convert` directly to do svg -> jpg, as sometimes it fails to load the linked `cover.jpg` within `cover.svg`.
@@ -282,8 +282,8 @@ do
 		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
 		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
 
-		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
-		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg" -o "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg" --output "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg" --output "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
 
 		sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}/${urlSafeIdentifier}"*
 		sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
@@ -305,7 +305,7 @@ do
 
 		git clone --quiet "${repoDir}" "${workDir}"
 
-		mkdir -p "${workDir}/downloads"
+		mkdir --parents "${workDir}/downloads"
 
 		# Build the ebook.
 		if ${epubcheck}; then
@@ -332,7 +332,7 @@ do
 		bookUrl=$(grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">.+?</dc:identifier>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/.*?https:\/\/standardebooks.org(.*?)<.*/\1/g")
 
 		# Get the last commit date so that we can update the modified timestamp in deployed `content.opf`. `generate-feeds` uses this timestamp in its output.
-		modifiedDate=$(TZ=UTC git log --date=iso-strict-local -1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
+		modifiedDate=$(TZ=UTC git log --date=iso-strict-local --max-count=1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
 		sed --in-place --regexp-extended "s/<meta property=\"dcterms:modified\">.+?<\/meta>/<meta property=\"dcterms:modified\">${modifiedDate}<\/meta>/" "${workDir}/src/epub/content.opf"
 
 		if ${recompose}; then
@@ -415,13 +415,13 @@ do
 		fi
 
 		# Add viewport meta elements to all output.
-		find "${workDir}" \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs -0 sed --in-place "s|</title>|</title>\n\t\t<meta content=\"width=device-width, initial-scale=1\" name=\"viewport\"/>|"
+		find "${workDir}" \( -type d -name .git -prune \) -o -type f -name "*.xhtml" -print0 | xargs --null sed --in-place "s|</title>|</title>\n\t\t<meta content=\"width=device-width, initial-scale=1\" name=\"viewport\"/>|"
 
 		# Delete the contents of the old webdir.
 		rm --preserve-root --recursive --force "${webDir}"
 
 		# Re-create the webdir.
-		mkdir -p "${webDir}"
+		mkdir --parents "${webDir}"
 
 		# Move contents of the work dir over.
 		mv "${workDir}"/downloads "${webDir}/"
