@@ -328,7 +328,8 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				<p>Here’s a short list of some of the more common semantic issues you’ll encounter:</p>
 				<ul>
 					<li>
-						<p>Semantics for italics: <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> should be used for when a passage is emphasized, as in when dialog is shouted or whispered. <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> is used for all other italics, <a href="/manual/latest/4-semantics#4.2">with the appropriate semantic inflection</a>. Older transcriptions usually use just <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> for both, so you must change them manually if necessary.</p>
+						<p>Semantics for italics: <code class="html"><span class="p">&lt;</span><span class="nt">em</span><span class="p">&gt;</span></code> should be used for when a passage is emphasized, as in when dialog is shouted or whispered. <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> is used for all other italics, <a href="/manual/latest/4-semantics#4.2">with the appropriate semantic inflection</a>. Older transcriptions usually use just <code class="html"><span class="p">&lt;</span><span class="nt">i</span><span class="p">&gt;</span></code> for both, so you must change them manually if necessary. Use the following command to check instances of italics:</p>
+						<code class="terminal"><span><b>grep</b> --recursive --line-number --extended-regexp <i>"&lt;i|&lt;em"</i> <u>src/epub/text/<i class="glob">*</i>.xhtml</u></span></code>
 					</li>
 					<li>
 						<p><a href="/manual/latest/8-typography#8.1">Semantics rules for chapter titles</a>.</p>
