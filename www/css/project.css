@@ -31,10 +31,6 @@ table.data-table .producer{
 	white-space: nowrap;
 }
 
-table.data-table{
-	width: 100%;
-}
-
 table.data-table td.status{
 	text-align: center;
 }

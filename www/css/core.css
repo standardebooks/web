@@ -770,8 +770,26 @@ ul.message.error > li + li{
 	font-style: italic;
 }
 
+.data-table thead th,
+.data-table tbody tr.mid-header th{
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: var(--body-bg);
+}
+
+.data-table thead th::after,
+.data-table tbody tr.mid-header th::after{
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border-bottom: 3px double var(--sub-text);
+}
+
 .data-table thead tr.mid-header:first-child > *{
-	padding-top: 2rem;
+	padding-top: 1rem;
 }
 
 .data-table th:first-child{
@@ -791,6 +809,7 @@ ul.message.error > li + li{
 
 .data-table th{
 	font-weight: normal;
+	padding-bottom: calc(.25rem + 3px); /* Account for the inset 3px bottom border */
 }
 
 .data-table.bulk-downloads-table th.row-header,
@@ -859,17 +878,6 @@ h2 + .data-table tr.year-header:first-child th{
 	text-transform: uppercase;
 	color: var(--header);
 	text-align: center;
-}
-
-.projects-table{
-	margin-top: 2rem;
-	display: block;
-	overflow-x: auto;
-	max-width: 100%;
-}
-
-.projects-table th{
-	font-style: italic;
 }
 
 main nav.pagination li a[aria-current]:focus,
@@ -3792,6 +3800,11 @@ ul[role="menu"] li + li::before{
 		width: 100%;
 	}
 
+	.data-table{
+		overflow-x: visible;
+		width: max-content;
+	}
+
 	.data-table .year-header th{
 		text-align: left;
 	}
@@ -3804,7 +3817,20 @@ ul[role="menu"] li + li::before{
 
 	.data-table caption{
 		display: block;
-		padding-top: 2rem;
+		position: sticky;
+		top: 0;
+		left: 0;
+		z-index: 2;
+		width: 100vw;
+		padding-top: .5rem;
+		padding-right: 4rem;
+		box-sizing: border-box;
+		background: var(--body-bg);
+	}
+
+	.data-table thead th,
+	.data-table tbody tr.mid-header th{
+		top: calc(.5rem + 1.4em);
 	}
 }
 

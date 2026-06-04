@@ -9,10 +9,10 @@ $showEditButton ??= false;
 $showContactInformation ??= false;
 $isAdminView ??= false;
 ?>
-<table class="data-table projects-table">
+<table class="data-table">
 	<caption aria-hidden="true">Scroll right →</caption>
 	<thead>
-		<tr>
+		<tr class="mid-header">
 			<? if($includeTitle){ ?>
 				<th scope="col">Title</th>
 			<? } ?>
