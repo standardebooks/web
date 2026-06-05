@@ -208,6 +208,9 @@ catch(Exceptions\PermissionsInvalidException){
 					<? foreach($user->Payments as $payment){ ?>
 						<tr>
 							<td>
+								<? if($payment->Refunded !== null){ ?>
+									(<i>Refunded.</i>)
+								<? } ?>
 								<time datetime="<?= $payment->Created->format(Enums\DateTimeFormat::Html->value) ?>"><?= $payment->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></time>
 							</td>
 							<td>

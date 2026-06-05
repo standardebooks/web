@@ -17,6 +17,7 @@ class Payment{
 	public float $Fee;
 	public bool $IsRecurring;
 	public bool $IsMatchingDonation = false;
+	public ?DateTimeImmutable $Refunded = null;
 
 	protected ?User $_User = null;
 	protected string $_ProcessorUrl;
@@ -96,8 +97,9 @@ class Payment{
 
 		try{
 			$this->PaymentId = Db::QueryInt('
-				INSERT into Payments (UserId, Created, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation)
+				INSERT into Payments (UserId, Created, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation, Refunded)
 				values(?,
+				       ?,
 				       ?,
 				       ?,
 				       ?,
@@ -106,7 +108,7 @@ class Payment{
 				       ?,
 				       ?)
 				returning PaymentId
-			', [$this->UserId, $this->Created, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation]);
+			', [$this->UserId, $this->Created, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation, $this->Refunded]);
 
 
 			if(!$this->IsRecurring && !$this->IsMatchingDonation){

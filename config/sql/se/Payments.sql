@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `Payments` (
   `Fee` decimal(7,2) unsigned NOT NULL DEFAULT 0.00,
   `IsRecurring` tinyint(1) unsigned NOT NULL,
   `IsMatchingDonation` tinyint(1) unsigned NOT NULL,
+  `IsRefunded` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`PaymentId`),
   KEY `index2` (`UserId`,`Amount`,`Created`,`IsRecurring`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
