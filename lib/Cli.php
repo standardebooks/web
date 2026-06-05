@@ -28,12 +28,17 @@ class Cli{
 	protected static string $_FgPurple = "\x1b[38;5;129m";
 	protected static string $_FgHotPink = "\x1b[38;5;206m";
 	protected static string $_FgGold = "\x1b[38;5;220m";
+	protected static string $_FgDarkSeaGreen1 = "\x1b[38;5;193m";
+	protected static string $_FgDarkGoldenrod = "\x1b[38;5;136m";
+	protected static string $_FgCornflowerBlue = "\x1b[38;5;69m";
 	protected static string $_FgDarkOrange = "\x1b[38;5;208m";
+	protected static string $_FgDarkGray = "\x1b[90m";
 	protected static string $_FgBrBlack = "\x1b[90m";
 	protected static string $_FgBrRed = "\x1b[91m";
 	protected static string $_FgBrGreen = "\x1b[92m";
 	protected static string $_FgBrYellow = "\x1b[93m";
 	protected static string $_FgBrightBlue = "\x1b[94m";
+	protected static string $_FgLightBlue = "\x1b[94m";
 	protected static string $_FgBrBlue = "\x1b[94m";
 	protected static string $_FgBrMagenta = "\x1b[95m";
 	protected static string $_FgBrCyan = "\x1b[96m";
@@ -276,7 +281,7 @@ class Cli{
 					}
 				}
 			}
-			elseif(str_starts_with($line, '[header]') || str_starts_with($line, '[parameter]') || str_starts_with($line, '[email]') || str_starts_with($line, '[command]') || str_starts_with($line, '[branch]') || str_starts_with($line, '[path]') || str_starts_with($line, '[user]') || str_starts_with($line, '[url]') || str_starts_with($line, '[flag]') || str_starts_with($line, '[xhtml]') || str_starts_with($line, '[xml]') || str_starts_with($line, '[val]') || str_starts_with($line, '[attr]') || str_starts_with($line, '[class]') || str_starts_with($line, '[text]') || str_starts_with($line, '[css]')){
+			elseif(str_starts_with($line, '[header]') || str_starts_with($line, '[parameter]') || str_starts_with($line, '[email]') || str_starts_with($line, '[command]') || str_starts_with($line, '[subcommand]') || str_starts_with($line, '[branch]') || str_starts_with($line, '[path]') || str_starts_with($line, '[user]') || str_starts_with($line, '[url]') || str_starts_with($line, '[flag]') || str_starts_with($line, '[xhtml]') || str_starts_with($line, '[xml]') || str_starts_with($line, '[val]') || str_starts_with($line, '[attr]') || str_starts_with($line, '[class]') || str_starts_with($line, '[text]') || str_starts_with($line, '[css]')){
 				if($inLink){
 					if(str_starts_with($line, '[header]')){
 						$line = substr($line, 8);
@@ -286,6 +291,9 @@ class Cli{
 					}
 					elseif(str_starts_with($line, '[command]')){
 						$line = substr($line, 9);
+					}
+					elseif(str_starts_with($line, '[subcommand]')){
+						$line = substr($line, 12);
 					}
 					elseif(str_starts_with($line, '[branch]')){
 						$line = substr($line, 8);
@@ -345,6 +353,9 @@ class Cli{
 				}
 				elseif(!$inLink && str_starts_with($line, '[command]')){
 					$line = substr($line, 9);
+				}
+				elseif(!$inLink && str_starts_with($line, '[subcommand]')){
+					$line = substr($line, 12);
 				}
 				elseif(!$inLink && str_starts_with($line, '[branch]')){
 					$line = substr($line, 8);
@@ -490,8 +501,8 @@ class Cli{
 		$line = self::FormatUrlLinks($line);
 
 		$output = str_replace(
-			['[header]', '[/]', '[parameter]', '[command]', '[branch]', '[xhtml]', '[xml]', '[val]', '[attr]', '[class]', '[path]', '[user]', '[url]', '[text]', '[css]', '[email]', '[flag]'],
-			[self::$_FgGreen . self::$_FsBold, self::$_ResetAll, self::$_FgCyan, self::$_FgGreen, self::$_FgGold, self::$_FgPurple, self::$_FgPurple, self::$_FgBrightBlue, self::$_FgHotPink, self::$_FgHotPink, self::$_FgBrightBlue . self::$_FsUl, self::$_FgMagenta, self::$_FgBrightBlue, self::$_FgDarkOrange, self::$_FgBrightBlue, self::$_FgMagenta, self::$_FgBrightBlue],
+			['[header]', '[/]', '[parameter]', '[command]', '[subcommand]', '[branch]', '[xhtml]', '[xml]', '[val]', '[attr]', '[class]', '[path]', '[user]', '[url]', '[text]', '[css]', '[email]', '[flag]'],
+			[self::$_FgGreen . self::$_FsBold, self::$_ResetAll, self::$_FgCyan, self::$_FgGreen, self::$_FgDarkSeaGreen1, self::$_FgDarkGoldenrod, self::$_FgPurple, self::$_FgPurple, self::$_FgBrightBlue, self::$_FgHotPink, self::$_FgHotPink, self::$_FgCornflowerBlue . self::$_FsUl, self::$_FgMagenta, self::$_FgBrightBlue, self::$_FgDarkOrange, self::$_FgBrightBlue, self::$_FgMagenta, self::$_FgBrightBlue],
 			$line
 		);
 
