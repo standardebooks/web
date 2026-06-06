@@ -79,7 +79,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\ProjectInvalidException | Exceptions\EbookInvalidException | Exceptions\ProjectExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
 	$_SESSION['project'] = $project;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['project/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /projects/new');

@@ -17,7 +17,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('user/create/exception', Exceptions\AppException::class);
 	$user = Http::$Request->Session->Get('user', User::class) ?? new User();
 	$passwordAction = Http::$Request->Session->Get('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::Edit;
 

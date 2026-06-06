@@ -83,7 +83,7 @@ try{
 catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\CaptchaInvalidException | Exceptions\NewsletterRequiredException $ex){
 	$_SESSION['newsletter-ids'] = $newsletterIds;
 	$_SESSION['email'] = $email;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['newsletter-subscription/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /newsletter');

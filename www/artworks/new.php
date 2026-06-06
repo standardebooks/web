@@ -18,7 +18,7 @@ try{
 	}
 
 	$isCreated = Http::$Request->Session->Get('is-artwork-created', 'bool') ?? false;
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('artwork/create/exception', Exceptions\AppException::class);
 	$artwork = Http::$Request->Session->Get('artwork', Artwork::class);
 
 	if($isCreated){

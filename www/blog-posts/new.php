@@ -17,7 +17,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('blog-post/create/exception', Exceptions\AppException::class);
 	$blogPost = Http::$Request->Session->Get('blog-post', BlogPost::class) ?? new BlogPost();
 	$userIdentifier = Http::$Request->Session->Get('blog-post-user-identifier');
 	$ebookIdentifiers = Http::$Request->Session->Get('blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;

@@ -38,7 +38,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\SpreadsheetInvalidException | Exceptions\SpreadsheetExistsException $ex){
 	$_SESSION['spreadsheet'] = $spreadsheet;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['spreadsheet/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $spreadsheet->EditUrl);

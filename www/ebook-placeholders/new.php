@@ -20,7 +20,7 @@ try{
 	$isCreated = Http::$Request->Session->Get('is-ebook-placeholder-created', 'bool') ?? false;
 	$isOnlyProjectCreated = Http::$Request->Session->Get('is-only-ebook-project-created', 'bool') ?? false;
 	$isDeleted = Http::$Request->Session->Get('is-ebook-placeholder-deleted', 'bool') ?? false;
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('ebook-placeholder/create/exception', Exceptions\AppException::class);
 	$ebook = Http::$Request->Session->Get('ebook', Ebook::class);
 	$project = Http::$Request->Session->Get('project', Project::class);
 	$deletedEbookTitle = '';

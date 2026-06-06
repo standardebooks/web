@@ -17,7 +17,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('spreadsheet/create/exception', Exceptions\AppException::class);
 	$spreadsheet = Http::$Request->Session->Get('spreadsheet', Spreadsheet::class) ?? new Spreadsheet();
 
 	if($exception){

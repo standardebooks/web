@@ -37,7 +37,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException $ex){
 	$_SESSION['blog-post'] = $blogPost;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['blog-post/create/exception'] = $ex;
 	$_SESSION['blog-post-user-identifier'] = $userIdentifier;
 	$_SESSION['blog-post-ebook-identifiers'] = $ebookIdentifiers;
 

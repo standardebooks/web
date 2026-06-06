@@ -17,7 +17,7 @@ try{
 
 	session_start();
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('newsletter-mailing/create/exception', Exceptions\AppException::class);
 	$newsletterMailing = Http::$Request->Session->Get('newsletter-mailing', NewsletterMailing::class) ?? new NewsletterMailing();
 	$addFooter = Http::$Request->Session->Get('add-footer', 'bool') ?? true;
 	$addEbooks = Http::$Request->Session->Get('add-ebooks', 'bool') ?? true;

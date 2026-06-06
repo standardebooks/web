@@ -39,7 +39,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\PollVoteInvalidException $ex){
 	$_SESSION['vote'] = $pollVote;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['poll-vote/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /polls/' . (Http::$Request->QueryString->Get('poll-url-name') ?? '') . '/votes/new');

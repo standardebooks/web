@@ -16,7 +16,7 @@ if(Session::$User !== null){
 $email = Http::$Request->Session->Get('email');
 $redirect = Template::SanitizeRedirectUrl(Http::$Request->Session->Get('redirect') ?? Http::$Request->QueryString->Get('redirect'));
 /** @var ?\Exception $exception */
-$exception = $_SESSION['exception'] ?? null;
+$exception = $_SESSION['session/create/exception'] ?? null;
 $passwordRequired = false;
 
 // We can't output HTTP 401 because according to the spec, that code requires a `www-authenticate` header which doesn't make sense in this context.

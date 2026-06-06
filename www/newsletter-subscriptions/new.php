@@ -9,7 +9,7 @@ use function Safe\session_unset;
 
 session_start();
 
-$exception = Http::$Request->Session->Get('exception', \Exception::class);
+$exception = Http::$Request->Session->Get('newsletter-subscription/create/exception', \Exception::class);
 
 $newsletterIds = Http::$Request->Session->Get('newsletter-ids', 'array') ?? [];
 $newsletters = Newsletter::GetAllByIsVisible();

@@ -11,7 +11,7 @@ try{
 	session_start();
 
 	$urlPath = Http::$Request->QueryString->Get('ebook-url-path');
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('project/create/exception', Exceptions\AppException::class);
 	$project = Http::$Request->Session->Get('project', Project::class);
 	$ebook = null;
 

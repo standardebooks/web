@@ -42,7 +42,7 @@ catch(Exceptions\NewsletterMailingInvalidException $ex){
 	$_SESSION['add-ebooks'] = $addEbooks;
 
 	$_SESSION['newsletter-mailing'] = $newsletterMailing;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['newsletter-mailing/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /newsletter-mailings/new');

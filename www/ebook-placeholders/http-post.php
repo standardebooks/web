@@ -66,7 +66,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\EbookInvalidException | Exceptions\EbookPlaceholderExistsException | Exceptions\ProjectInvalidException $ex){
 	$_SESSION['ebook'] = $ebook;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['ebook-placeholder/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /ebook-placeholders/new');

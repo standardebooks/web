@@ -9,7 +9,7 @@ use function Safe\session_unset;
 try{
 	session_start();
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('newsletter-mailing/edit/exception', Exceptions\AppException::class);
 	$newsletterMailing = Http::$Request->Session->Get('newsletter-mailing', NewsletterMailing::class);
 	$addFooter = Http::$Request->Session->Get('add-footer', 'bool') ?? false;
 	$addEbooks = Http::$Request->Session->Get('add-ebooks', 'bool') ?? false;

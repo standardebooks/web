@@ -87,7 +87,7 @@ catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException
 	}
 
 	$_SESSION['artwork'] = $artwork;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['artwork/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $exceptionRedirectUrl);

@@ -19,7 +19,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('spreadsheet/edit/exception', Exceptions\AppException::class);
 	$spreadsheet = Http::$Request->Session->Get('spreadsheet', Spreadsheet::class) ?? $originalSpreadsheet;
 
 	if($exception){

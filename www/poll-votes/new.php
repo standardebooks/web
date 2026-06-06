@@ -16,7 +16,7 @@ try{
 	}
 
 	$vote = Http::$Request->Session->Get('vote', PollVote::class) ?? new PollVote();
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('poll-vote/create/exception', Exceptions\AppException::class);
 
 	if(!isset($vote->UserId)){
 		$vote->UserId = Session::$User->UserId;

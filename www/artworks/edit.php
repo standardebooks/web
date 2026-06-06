@@ -19,7 +19,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('artwork/edit/exception', Exceptions\AppException::class);
 	$artwork = Http::$Request->Session->Get('artwork', Artwork::class) ?? $originalArtwork;
 
 	if($exception){

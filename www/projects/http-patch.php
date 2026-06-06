@@ -62,7 +62,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\ProjectInvalidException $ex){
 	$_SESSION['project'] = $project;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['project/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $originalEditUrl);

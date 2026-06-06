@@ -48,7 +48,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\EbookInvalidException | Exceptions\EbookPlaceholderExistsException $ex){
 	$_SESSION['ebook'] = $ebook;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['ebook-placeholder/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $originalEditUrl);

@@ -19,7 +19,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('artist/delete/exception', Exceptions\AppException::class);
 
 	// We got here because an operation had errors and the user has to try again.
 	if($exception){

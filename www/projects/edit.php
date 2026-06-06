@@ -19,7 +19,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('project/edit/exception', Exceptions\AppException::class);
 	$project = Http::$Request->Session->Get('project', Project::class) ?? $originalProject;
 
 	if($exception){

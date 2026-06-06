@@ -84,7 +84,7 @@ catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 	}
 
 	$_SESSION['user'] = $user;
-	$_SESSION['exception'] = $ex;
+	$_SESSION['user/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $originalEditUrl);

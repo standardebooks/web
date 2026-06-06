@@ -27,7 +27,7 @@ try{
 	}
 
 	$isSaved = Http::$Request->Session->Get('is-artwork-saved', 'bool') ?? false;
-	$exception = Http::$Request->Session->Get('exception', Exceptions\AppException::class);
+	$exception = Http::$Request->Session->Get('artwork/edit/exception', Exceptions\AppException::class);
 
 	// We got here because an artwork was successfully submitted.
 	if($isSaved){
