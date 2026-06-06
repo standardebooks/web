@@ -12,7 +12,7 @@ try{
 	/** @var Artwork $artwork The `Artwork` for this request, passed in from the router. */
 	$artwork = $resource ?? throw new Exceptions\ArtworkNotFoundException();
 
-	$isReviewerView = Session::$User->Benefits->CanReviewArtwork ?? false;
+	$isReviewerView = (Session::$User->Benefits->CanReviewArtwork ?? false) || $artwork->CanBeEditedBy(Session::$User);
 	$isAdminView = Session::$User->Benefits->IsArtworkAdmin ?? false;
 
 	// If the `Artwork` is not approved, and we're not an admin or the submitter when they can edit, don't show it.
