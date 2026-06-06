@@ -134,8 +134,8 @@ $isEditForm ??= false;
 			</li>
 			<li>
 				<label>
-					<input type="hidden" name="benefits-can-review-own-artwork" value="false" />
-					<input type="checkbox" name="benefits-can-review-own-artwork" value="true"<? if($user->Benefits->IsArtworkAdmin){ ?> checked="checked"<? } ?> />
+					<input type="hidden" name="benefits-is-artwork-admin" value="false" />
+					<input type="checkbox" name="benefits-is-artwork-admin" value="true"<? if($user->Benefits->IsArtworkAdmin){ ?> checked="checked"<? } ?> />
 					Is artwork admin
 				</label>
 			</li>
