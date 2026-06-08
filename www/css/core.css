@@ -3719,6 +3719,16 @@ section.admin > h2 + ul[role="menu"]{
 	margin-top: 1rem;
 }
 
+section.admin > table.data-table{
+	display: block;
+	width: 100%;
+	overflow-x: scroll;
+}
+
+section.admin > table.data-table thead th{
+	background: transparent;
+}
+
 ul[role="menu"]{
 	border: 1px solid var(--sub-text);
 	display: flex;
