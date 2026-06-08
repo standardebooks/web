@@ -11,6 +11,7 @@ use function Safe\preg_replace;
  * @method static string AtomFeedEntry(Ebook $entry)
  * @method static string BlogPostForm(BlogPost $blogPost, ?string $userIdentifier, ?string $ebookIdentifiers, $isEditForm = false)
  * @method static string BulkDownloadTable(string $label, array<BulkDownloadCollection> $bulkDownloadCollections)
+ * @method static string CollectionMembershipFieldset(int $index, ?CollectionMembership $collectionMembership)
  * @method static string ContributeAlert()
  * @method static string DonationAlert()
  * @method static string DonationDrive(bool $autoHide = true, bool $showDonateButton = true)

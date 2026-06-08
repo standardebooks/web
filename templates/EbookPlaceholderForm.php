@@ -5,7 +5,15 @@
 
 $isEditForm ??= false;
 $showProjectForm ??= true;
+$collectionMembershipFieldCount = max(3, sizeof($ebook->CollectionMemberships));
 ?>
+
+<datalist id="collection-names">
+	<? foreach(Collection::GetAll() as $collection){ ?>
+		<option value="<?= Formatter::EscapeHtml($collection->Name) ?>"><?= Formatter::EscapeHtml($collection->Name) ?></option>
+	<? } ?>
+</datalist>
+
 <fieldset>
 	<legend>Contributors</legend>
 	<label class="icon user">
@@ -89,134 +97,17 @@ $showProjectForm ??= true;
 		/>
 	</label>
 </fieldset>
-<fieldset>
-	<label class="icon collection">
-		<span>Collection</span>
-		<span>For existing collections, leave the type blank.</span>
-		<datalist id="collection-names">
-			<? foreach(Collection::GetAll() as $collection){ ?>
-				<option value="<?= Formatter::EscapeHtml($collection->Name) ?>"><?= Formatter::EscapeHtml($collection->Name) ?></option>
-			<? } ?>
-		</datalist>
-		<input
-			type="text"
-			name="collection-name-1"
-			list="collection-names"
-			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->Collection->Name) ?><? } ?>"
-		/>
-	</label>
-	<label class="icon indent extra-line">
-		<span>Type</span>
-		<select name="type-collection-name-1">
-			<option value="">&#160;</option>
-			<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0 && $ebook->CollectionMemberships[0]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
-			<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0 && $ebook->CollectionMemberships[0]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
-		</select>
-	</label>
-	<label class="icon ordered-list extra-line">
-		<span>Number in collection</span>
-		<input
-			type="text"
-			name="sequence-number-collection-name-1"
-			inputmode="numeric"
-			pattern="^[0-9]{1,3}$"
-			autocomplete="off"
-			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[0]->SequenceNumber) ?><? } ?>"
-		/>
-	</label>
-	<label class="icon book">
-		<span>Title in collection</span>
-		<span>E.g. this ebook is an omnibus but the collection refers to a specific item.</span>
-		<input
-			type="text"
-			name="title-in-collection-collection-name-1"
-			autocomplete="off"
-			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 0){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[0]->TitleInCollection) ?><? } ?>"
-		/>
-	</label>
-</fieldset>
-<details<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?> open="open"<? } ?>>
+
+<?= Template::CollectionMembershipFieldset(index: 1, collectionMembership: $ebook->CollectionMemberships[0] ?? null) ?>
+
+<details<? if(sizeof($ebook->CollectionMemberships) > 1){ ?> open="open"<? } ?>>
 	<summary>Additional collections</summary>
-	<fieldset>
-		<label class="icon collection">
-			<span>Second Collection</span>
-			<input
-				type="text"
-				name="collection-name-2"
-				list="collection-names"
-				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[1]->Collection->Name) ?><? } ?>"
-			/>
-		</label>
-		<label class="icon indent">
-			<span>Type</span>
-			<select name="type-collection-name-2">
-				<option value="">&#160;</option>
-				<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1 && $ebook->CollectionMemberships[1]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
-				<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1 && $ebook->CollectionMemberships[1]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
-			</select>
-		</label>
-		<label class="icon ordered-list">
-			<span>Number in collection</span>
-			<input
-				type="text"
-				name="sequence-number-collection-name-2"
-				inputmode="numeric"
-				pattern="^[0-9]{1,3}$"
-			autocomplete="off"
-				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[1]->SequenceNumber) ?><? } ?>"
-			/>
-		</label>
-	<label class="icon book">
-		<span>Title in collection</span>
-		<span>E.g. this ebook is an omnibus but the collection refers to a specific item.</span>
-		<input
-			type="text"
-			name="title-in-collection-collection-name-2"
-			autocomplete="off"
-			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 1){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[1]->TitleInCollection) ?><? } ?>"
-		/>
-	</label>
-	</fieldset>
-	<fieldset>
-		<label class="icon collection">
-			<span>Third Collection</span>
-			<input
-				type="text"
-				name="collection-name-3"
-				list="collection-names"
-				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[2]->Collection->Name) ?><? } ?>"
-			/>
-		</label>
-		<label class="icon indent">
-			<span>Type</span>
-			<select name="type-collection-name-3">
-				<option value="">&#160;</option>
-				<option value="<?= Enums\CollectionType::Series->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2 && $ebook->CollectionMemberships[2]->Collection->Type == Enums\CollectionType::Series){ ?> selected="selected"<? } ?>>Series</option>
-				<option value="<?= Enums\CollectionType::Set->value ?>"<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2 && $ebook->CollectionMemberships[2]->Collection->Type == Enums\CollectionType::Set){ ?> selected="selected"<? } ?>>Set</option>
-			</select>
-		</label>
-		<label class="icon ordered-list">
-			<span>Number in collection</span>
-			<input
-				type="text"
-				name="sequence-number-collection-name-3"
-				inputmode="numeric"
-				pattern="^[0-9]{1,3}$"
-			autocomplete="off"
-				value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml((string)$ebook->CollectionMemberships[2]->SequenceNumber) ?><? } ?>"
-			/>
-		</label>
-	<label class="icon book">
-		<span>Title in collection</span>
-		<span>E.g. this ebook is an omnibus but the collection refers to a specific item.</span>
-		<input
-			type="text"
-			name="title-in-collection-collection-name-3"
-			autocomplete="off"
-			value="<? if(isset($ebook->CollectionMemberships) && sizeof($ebook->CollectionMemberships) > 2){ ?><?= Formatter::EscapeHtml($ebook->CollectionMemberships[2]->TitleInCollection) ?><? } ?>"
-		/>
-	</label>
-	</fieldset>
+	<? for($collectionMembershipNumber = 2; $collectionMembershipNumber <= $collectionMembershipFieldCount; $collectionMembershipNumber++){ ?>
+		<?= Template::CollectionMembershipFieldset(index: $collectionMembershipNumber, collectionMembership: $ebook->CollectionMemberships[$collectionMembershipNumber - 1] ?? null) ?>
+	<? } ?>
+	<? if(sizeof($ebook->CollectionMemberships) > 2){ ?>
+		<?= Template::CollectionMembershipFieldset(index: sizeof($ebook->CollectionMemberships) + 1, collectionMembership: null) ?>
+	<? } ?>
 </details>
 <? if(!$isEditForm && $showProjectForm){ ?>
 	<fieldset>

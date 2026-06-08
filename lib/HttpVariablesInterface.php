@@ -8,7 +8,7 @@ class HttpVariablesInterface{
 	/** The raw body of this source, e.g. a query string or a `POST` body. */
 	public readonly string $Body;
 	/** @var array<string, mixed> $Variables The request body parsed into a key/value array, if the request was form data. */
-	private array $Variables;
+	public readonly array $Variables;
 
 	/**
 	 * @param string $body A string representing the body, e.g. a query string, a request body, or a `cookie` HTTP header value.

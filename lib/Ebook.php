@@ -1202,23 +1202,28 @@ final class Ebook{
 		$this->Translators = $translators;
 
 		$collectionMemberships = [];
-		$collectionNameFields = ['collection-name-1', 'collection-name-2', 'collection-name-3'];
-		foreach($collectionNameFields as $collectionNameField){
-			$collectionName = Http::$Request->Body->Get($collectionNameField);
-			if(!isset($collectionName)){
-				continue;
-			}
-			$collectionSequenceNumber = Http::$Request->Body->Get('sequence-number-' . $collectionNameField, 'int');
-			$titleInCollection = Http::$Request->Body->Get('title-in-collection-' . $collectionNameField);
-			$collection = Collection::FromName($collectionName);
-			$collection->Type = Enums\CollectionType::tryFrom(Http::$Request->Body->Get('type-' . $collectionNameField) ?? '');
+		foreach(Http::$Request->Body->Variables as $key => $value){
+			preg_match('/^collection-name-([0-9]+)$/iu', $key, $matches);
+			/** @var string $value */
+			if(isset($matches[1]) && trim($value) != ''){
+				$collectionIndex = intval($matches[1]);
 
-			$cm = new CollectionMembership();
-			$cm->Collection = $collection;
-			$cm->SequenceNumber = $collectionSequenceNumber;
-			$cm->TitleInCollection = $titleInCollection;
-			$collectionMemberships[] = $cm;
+				$collectionName = Http::$Request->Body->Get('collection-name-' . $collectionIndex);
+
+				if($collectionName === null){
+					continue;
+				}
+
+				$cm = new CollectionMembership();
+				$cm->Collection = Collection::FromName($collectionName);
+				$cm->Collection->Type = Enums\CollectionType::tryFrom(Http::$Request->Body->Get('collection-type-' . $collectionIndex) ?? '');
+				$cm->SequenceNumber = Http::$Request->Body->Get('collection-membership-sequence-number-' . $collectionIndex, 'int');
+				$cm->TitleInCollection = Http::$Request->Body->Get('collection-membership-title-in-collection-' . $collectionIndex);
+
+				$collectionMemberships[] = $cm;
+			}
 		}
+
 		$this->CollectionMemberships = $collectionMemberships;
 
 		$this->IsPatronSelection = Http::$Request->Body->Get('ebook-is-patron-selection', 'bool') ?? false;

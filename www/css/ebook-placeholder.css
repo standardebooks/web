@@ -23,14 +23,14 @@
 	grid-column: 1 / span 2;
 }
 
-.create-update-ebook-placeholder fieldset:has(input[name^="sequence-number-collection-name-"]){
+.create-update-ebook-placeholder fieldset:has(input[name^="collection-membership-sequence-number-"]){
 	display: grid;
 	grid-template-columns: 1fr 200px 200px;
 	gap: 2rem;
 	align-items: end;
 }
 
-.create-update-ebook-placeholder label:has(input[name^="title-in-collection-"]){
+.create-update-ebook-placeholder label:has(input[name^="collection-membership-title-in-collection-"]){
 	grid-column: 1 / span 2;
 }
 
@@ -73,6 +73,13 @@
 
 .create-update-ebook-placeholder label{
 	display: block;
+}
+
+.create-update-ebook-placeholder fieldset.collection{
+	border-color: var(--body-text);
+	border-width: 3px;
+	border-style: double;
+	padding: 1rem;
 }
 
 form div.footer{
@@ -124,7 +131,7 @@ article.ebook.ebook-placeholder .placeholder-details ul{
 	.create-update-ebook-placeholder details:nth-of-type(2) fieldset,
 	.create-update-ebook-placeholder > fieldset:nth-of-type(1),
 	.create-update-ebook-placeholder details:nth-of-type(1) fieldset,
-	.create-update-ebook-placeholder fieldset:has(input[name^="sequence-number-collection-name-"]){
+	.create-update-ebook-placeholder fieldset:has(input[name^="collection-membership-sequence-number-"]){
 		grid-template-columns: 1fr;
 	}
 
