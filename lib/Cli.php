@@ -179,14 +179,14 @@ class Cli{
 	}
 
 	/**
-	 * Replace URL tags with terminal hyperlinks while preserving other formatting tags.
+	 * Replace link tags with terminal hyperlinks while preserving other formatting tags.
 	 */
-	protected static function FormatUrlLinks(string $line): string{
+	protected static function FormatLinks(string $line): string{
 		$inLink = false;
 		$output = '';
 
 		while($line !== ''){
-			if(preg_match('/^\[url=([^\]]+)\](.*)$/us', $line, $matches) === 1 && isset($matches[1], $matches[2])){
+			if(preg_match('/^\[link=([^\]]+)\](.*)$/us', $line, $matches) === 1 && isset($matches[1], $matches[2])){
 				$output .= self::$_FsUrl . $matches[1] . self::$_FsUrlSt;
 				$line = $matches[2];
 				$inLink = true;
@@ -223,29 +223,27 @@ class Cli{
 				if($inLink){
 					if($linkMode === 'links'){
 						$output .= self::$_FsUrlClose;
-
-						if(!$veryPlain){
-							$output .= '`';
-						}
 					}
 
 					$inLink = false;
+					$line = substr($line, 3);
 				}
 				elseif($inFormat && !$inHeader && !$veryPlain){
 					$output .= '`';
+
+					$inFormat = false;
+					$inHeader = false;
+					$line = substr($line, 3);
 				}
-
-				$inFormat = false;
-				$inHeader = false;
-				$line = substr($line, 3);
+				else{
+					$inFormat = false;
+					$inHeader = false;
+					$line = substr($line, 3);
+				}
 			}
-			elseif(str_starts_with($line, '[url=')){
+			elseif(str_starts_with($line, '[link=')){
 				if($linkMode === 'links'){
-					if(preg_match('/^\[url=([^\]]+)\](.*)$/us', $line, $matches) === 1 && isset($matches[1], $matches[2])){
-						if(!$veryPlain){
-							$output .= '`';
-						}
-
+					if(preg_match('/^\[link=([^\]]+)\](.*)$/us', $line, $matches) === 1 && isset($matches[1], $matches[2])){
 						$output .= self::$_FsUrl . $matches[1] . self::$_FsUrlSt;
 						$line = $matches[2];
 						$inLink = true;
@@ -256,7 +254,7 @@ class Cli{
 					}
 				}
 				elseif($linkMode === 'plain'){
-					if(preg_match('/^\[url=[^\]]+\](.*)$/us', $line, $matches) === 1 && isset($matches[1])){
+					if(preg_match('/^\[link=[^\]]+\](.*)$/us', $line, $matches) === 1 && isset($matches[1])){
 						$line = $matches[1];
 						$inLink = true;
 					}
@@ -266,15 +264,9 @@ class Cli{
 					}
 				}
 				else{
-					if(!$inFormat && !$veryPlain){
-						$output .= '`';
-					}
-
-					$inFormat = true;
-					$inHeader = false;
-
-					if(preg_match('/^\[url=[^\]]+\](.*)$/us', $line, $matches) === 1 && isset($matches[1])){
+					if(preg_match('/^\[link=[^\]]+\](.*)$/us', $line, $matches) === 1 && isset($matches[1])){
 						$line = $matches[1];
+						$inLink = true;
 					}
 					else{
 						$line = mb_substr($line, 1);
@@ -405,10 +397,6 @@ class Cli{
 
 		if($inLink && $linkMode === 'links'){
 			$output .= self::$_FsUrlClose;
-
-			if(!$veryPlain){
-				$output .= '`';
-			}
 		}
 
 		return $output;
@@ -498,7 +486,7 @@ class Cli{
 			return $printNewline ? $output . "\n" : $output;
 		}
 
-		$line = self::FormatUrlLinks($line);
+		$line = self::FormatLinks($line);
 
 		$output = str_replace(
 			['[header]', '[/]', '[parameter]', '[command]', '[subcommand]', '[branch]', '[xhtml]', '[xml]', '[val]', '[attr]', '[class]', '[path]', '[user]', '[url]', '[text]', '[css]', '[email]', '[flag]'],

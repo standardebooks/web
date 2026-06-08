@@ -29,7 +29,7 @@ function Usage(): void{
 			],
 			[
 				'name' => '[flag]--web-root[/] [path][parameter]<WEB_ROOT_DIRECTORY>[/]',
-				'description' => 'Specify a different root folder for the S.E. website on the local machine; defaults to [url=file://' . WEB_ROOT . '][path]' . WEB_ROOT . '[/].',
+				'description' => 'Specify a different root folder for the S.E. website on the local machine; defaults to [link=file://' . WEB_ROOT . '][path]' . WEB_ROOT . '[/].',
 			],
 		]
 	);
@@ -80,7 +80,7 @@ function CreateZip(string $filePath, array $ebooks, Enums\BulkDownloadFormatType
 	$zip = new ZipArchive();
 
 	if($zip->open($tempFilename, ZipArchive::OVERWRITE) !== true){
-		Cli::ExitWithError('Can\'t open file: [url=file://' . $tempFilename . '][path]' . $tempFilename . '[/].');
+		Cli::ExitWithError('Can\'t open file: [link=file://' . $tempFilename . '][path]' . $tempFilename . '[/].');
 	}
 
 	foreach($ebooks as $ebook){
@@ -305,7 +305,7 @@ try{
 	flock($lockFile, LOCK_EX | LOCK_NB);
 }
 catch(Exception){
-	Cli::ExitWithError('Couldn\'t aquire lock on [path][url=file://' . $lockFilename . ']' . $lockFilename . '[/]; is this script already running?');
+	Cli::ExitWithError('Couldn\'t aquire lock on [path][link=file://' . $lockFilename . ']' . $lockFilename . '[/]; is this script already running?');
 }
 
 try{

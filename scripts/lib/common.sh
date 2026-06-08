@@ -67,7 +67,7 @@ IsVeryPlain(){
 
 # Replace link tags with terminal hyperlinks.
 # Param 1: The line to format.
-FormatUrlLinks(){
+FormatLinks(){
 	local inLink
 	local line
 	local output
@@ -78,7 +78,7 @@ FormatUrlLinks(){
 	inLink=false
 
 	while [[ -n "${line}" ]]; do
-		if [[ "${line}" =~ ^\[url=([^]]+)\](.*)$ ]]; then
+		if [[ "${line}" =~ ^\[link=([^]]+)\](.*)$ ]]; then
 			url="${BASH_REMATCH[1]}"
 			output="${output}${FS_URL}${url}${FS_URL_ST}"
 			line="${BASH_REMATCH[2]}"
@@ -128,29 +128,26 @@ RemoveFormatting(){
 				if ${inLink}; then
 					if [[ "${linkMode}" == "links" ]]; then
 						output="${output}${FS_URL_CLOSE}"
-
-						if ! ${veryPlain}; then
-							output="${output}\`"
-						fi
 					fi
 
 					inLink=false
+					line="${line:3}"
 				elif ${inFormat} && ! ${inHeader} && ! ${veryPlain}; then
 					output="${output}\`"
+
+					inFormat=false
+					inHeader=false
+					line="${line:3}"
+				else
+					inFormat=false
+					inHeader=false
+					line="${line:3}"
 				fi
-
-				inFormat=false
-				inHeader=false
-				line="${line:3}"
 				;;
-			"[url="*"]"*)
+			"[link="*"]"*)
 				if [[ "${linkMode}" == "links" ]]; then
-					if [[ "${line}" =~ ^\[url=([^]]+)\](.*)$ ]]; then
+					if [[ "${line}" =~ ^\[link=([^]]+)\](.*)$ ]]; then
 						url="${BASH_REMATCH[1]}"
-
-						if ! ${veryPlain}; then
-							output="${output}\`"
-						fi
 
 						output="${output}${FS_URL}${url}${FS_URL_ST}"
 						line="${BASH_REMATCH[2]}"
@@ -163,13 +160,8 @@ RemoveFormatting(){
 					line="${line#*\]}"
 					inLink=true
 				else
-					if ! ${inFormat} && ! ${veryPlain}; then
-						output="${output}\`"
-					fi
-
-					inFormat=true
-					inHeader=false
 					line="${line#*\]}"
+					inLink=true
 				fi
 				;;
 			"[header]"*|"[parameter]"*|"[email]"*|"[command]"*|"[subcommand]"*|"[branch]"*|"[path]"*|"[user]"*|"[url]"*|"[flag]"*|"[xhtml]"*|"[xml]"*|"[val]"*|"[attr]"*|"[class]"*|"[text]"*|"[css]"*)
@@ -302,10 +294,6 @@ RemoveFormatting(){
 
 	if ${inLink} && [[ "${linkMode}" == "links" ]]; then
 		output="${output}${FS_URL_CLOSE}"
-
-		if ! ${veryPlain}; then
-			output="${output}\`"
-		fi
 	fi
 
 	printf "%s" "${output}"
@@ -401,7 +389,7 @@ ColorizeString(){
 		return
 	fi
 
-	line="$(FormatUrlLinks "${line}")"
+	line="$(FormatLinks "${line}")"
 	line="${line//\[header\]/${FG_GREEN}${FS_BOLD}}"
 	line="${line//\[parameter\]/${FG_CYAN}}"
 	line="${line//\[command\]/${FG_GREEN}}"

@@ -20,7 +20,7 @@ function Usage(): void{
 			],
 			[
 				'name' => '[flag]--web-root[/] [path][parameter]<WEB_ROOT_DIRECTORY>[/]',
-				'description' => 'Specify a different root folder for the S.E. website on the local machine; defaults to [url=file://' . WEB_ROOT . '][path]' . WEB_ROOT . '[/].',
+				'description' => 'Specify a different root folder for the S.E. website on the local machine; defaults to [link=file://' . WEB_ROOT . '][path]' . WEB_ROOT . '[/].',
 			],
 		]
 	);
