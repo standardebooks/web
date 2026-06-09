@@ -30,6 +30,9 @@ FG_DARK_GOLDENROD="${ESC_SEQ}38;5;136m"
 FG_CORNFLOWER_BLUE="${ESC_SEQ}38;5;69m"
 FG_DARK_ORANGE="${ESC_SEQ}38;5;208m"
 FG_DARK_GRAY="${ESC_SEQ}90m"
+FG_GRAY69="${ESC_SEQ}38;2;176;176;176m"
+FG_BLUE_VIOLET="${ESC_SEQ}38;2;138;43;226m"
+FG_PALE_GREEN3="${ESC_SEQ}38;2;124;205;124m"
 FG_BR_BLACK="${ESC_SEQ}90m"
 FG_BR_RED="${ESC_SEQ}91m"
 FG_BR_GREEN="${ESC_SEQ}92m"
@@ -165,7 +168,7 @@ RemoveFormatting(){
 					inLink=true
 				fi
 				;;
-				"[header]"*|"[parameter]"*|"[email]"*|"[command]"*|"[subcommand]"*|"[branch]"*|"[path]"*|"[user]"*|"[url]"*|"[error]"*|"[warning]"*|"[flag]"*|"[xhtml]"*|"[xml]"*|"[val]"*|"[attr]"*|"[class]"*|"[text]"*|"[css]"*)
+				"[header]"*|"[parameter]"*|"[email]"*|"[command]"*|"[subcommand]"*|"[branch]"*|"[path]"*|"[user]"*|"[url]"*|"[error]"*|"[warning]"*|"[queued]"*|"[running]"*|"[finished]"*|"[dim]"*|"[flag]"*|"[xhtml]"*|"[xml]"*|"[val]"*|"[attr]"*|"[class]"*|"[text]"*|"[css]"*)
 				if ${inLink}; then
 					case "${line}" in
 						"[header]"*)
@@ -197,6 +200,18 @@ RemoveFormatting(){
 							;;
 						"[warning]"*)
 							line="${line:9}"
+							;;
+						"[queued]"*)
+							line="${line:8}"
+							;;
+						"[running]"*)
+							line="${line:9}"
+							;;
+						"[finished]"*)
+							line="${line:10}"
+							;;
+						"[dim]"*)
+							line="${line:5}"
 							;;
 						"[email]"*)
 							line="${line:7}"
@@ -267,6 +282,18 @@ RemoveFormatting(){
 							;;
 						"[warning]"*)
 							line="${line:9}"
+							;;
+						"[queued]"*)
+							line="${line:8}"
+							;;
+						"[running]"*)
+							line="${line:9}"
+							;;
+						"[finished]"*)
+							line="${line:10}"
+							;;
+						"[dim]"*)
+							line="${line:5}"
 							;;
 						"[email]"*)
 							line="${line:7}"
@@ -375,6 +402,123 @@ GetTerminalWidth(){
 }
 
 # Replace formatting tags with terminal colors.
+# Param 1: The line to format.
+ApplyFormattingTags(){
+	local line
+	local output
+
+	line="$1"
+	output=""
+
+	while [[ -n "${line}" ]]; do
+		case "${line}" in
+			"[/]"*)
+				output="${output}${RESET_ALL}"
+				line="${line:3}"
+				;;
+			"[header]"*)
+				output="${output}${FG_GREEN}${FS_BOLD}"
+				line="${line:8}"
+				;;
+			"[parameter]"*)
+				output="${output}${FG_CYAN}"
+				line="${line:11}"
+				;;
+			"[command]"*)
+				output="${output}${FG_GREEN}"
+				line="${line:9}"
+				;;
+			"[subcommand]"*)
+				output="${output}${FG_DARK_SEA_GREEN1}"
+				line="${line:12}"
+				;;
+			"[branch]"*)
+				output="${output}${FG_DARK_GOLDENROD}"
+				line="${line:8}"
+				;;
+			"[xhtml]"*)
+				output="${output}${FG_PURPLE}"
+				line="${line:7}"
+				;;
+			"[xml]"*)
+				output="${output}${FG_PURPLE}"
+				line="${line:5}"
+				;;
+			"[val]"*)
+				output="${output}${FG_BRIGHT_BLUE}"
+				line="${line:5}"
+				;;
+			"[attr]"*)
+				output="${output}${FG_HOT_PINK}"
+				line="${line:6}"
+				;;
+			"[class]"*)
+				output="${output}${FG_HOT_PINK}"
+				line="${line:7}"
+				;;
+			"[path]"*)
+				output="${output}${FG_CORNFLOWER_BLUE}${FS_UL}"
+				line="${line:6}"
+				;;
+			"[user]"*)
+				output="${output}${FG_MAGENTA}"
+				line="${line:6}"
+				;;
+			"[url]"*)
+				output="${output}${FG_BRIGHT_BLUE}"
+				line="${line:5}"
+				;;
+			"[error]"*)
+				output="${output}${FG_RED}"
+				line="${line:7}"
+				;;
+			"[warning]"*)
+				output="${output}${FG_ORANGE1}"
+				line="${line:9}"
+				;;
+			"[queued]"*)
+				output="${output}${FG_GRAY69}"
+				line="${line:8}"
+				;;
+			"[running]"*)
+				output="${output}${FG_BLUE_VIOLET}"
+				line="${line:9}"
+				;;
+			"[finished]"*)
+				output="${output}${FG_PALE_GREEN3}"
+				line="${line:10}"
+				;;
+			"[dim]"*)
+				output="${output}${FG_GRAY69}"
+				line="${line:5}"
+				;;
+			"[text]"*)
+				output="${output}${FG_DARK_ORANGE}"
+				line="${line:6}"
+				;;
+			"[css]"*)
+				output="${output}${FG_BRIGHT_BLUE}"
+				line="${line:5}"
+				;;
+			"[flag]"*)
+				output="${output}${FG_BRIGHT_BLUE}"
+				line="${line:6}"
+				;;
+			"[email]"*)
+				output="${output}${FG_MAGENTA}"
+				line="${line:7}"
+				;;
+			*)
+				output="${output}${line:0:1}"
+				line="${line:1}"
+				;;
+		esac
+	done
+
+	printf "%s" "${output}"
+}
+
+# Replace formatting tags with terminal colors.
 # Param 1: The line to colorize.
 # Param 2 (optional): boolean to print a newline after the string.
 # Param 3 (optional): boolean to use "very plain" output, i.e., if `true` and color output is disabled, don't replace colors with backticks. Useful when outputting example CLI commands that are meant to be copied and pasted.
@@ -403,26 +547,7 @@ ColorizeString(){
 	fi
 
 	line="$(FormatLinks "${line}")"
-	line="${line//\[header\]/${FG_GREEN}${FS_BOLD}}"
-	line="${line//\[parameter\]/${FG_CYAN}}"
-	line="${line//\[command\]/${FG_GREEN}}"
-	line="${line//\[subcommand\]/${FG_DARK_SEA_GREEN1}}"
-	line="${line//\[branch\]/${FG_DARK_GOLDENROD}}"
-	line="${line//\[xhtml\]/${FG_PURPLE}}"
-	line="${line//\[xml\]/${FG_PURPLE}}"
-	line="${line//\[val\]/${FG_BRIGHT_BLUE}}"
-	line="${line//\[attr\]/${FG_HOT_PINK}}"
-	line="${line//\[class\]/${FG_HOT_PINK}}"
-	line="${line//\[path\]/${FG_CORNFLOWER_BLUE}${FS_UL}}"
-	line="${line//\[user\]/${FG_MAGENTA}}"
-	line="${line//\[url\]/${FG_BRIGHT_BLUE}}"
-	line="${line//\[error\]/${FG_RED}}"
-	line="${line//\[warning\]/${FG_ORANGE1}}"
-	line="${line//\[text\]/${FG_DARK_ORANGE}}"
-	line="${line//\[css\]/${FG_BRIGHT_BLUE}}"
-	line="${line//\[email\]/${FG_MAGENTA}}"
-	line="${line//\[flag\]/${FG_BRIGHT_BLUE}}"
-	line="${line//\[\/\]/${RESET_ALL}}"
+	line="$(ApplyFormattingTags "${line}")"
 
 	printf "%s" "${line}"
 
