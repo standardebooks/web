@@ -260,12 +260,21 @@ final class Ebook{
 	 * @return array<CollectionMembership>
 	 */
 	protected function GetCollectionMemberships(): array{
-		return $this->_CollectionMemberships ??= Db::Query('
-							SELECT *
-							from CollectionEbooks
-							where EbookId = ?
-							order by SortOrder asc
-						', [$this->EbookId], CollectionMembership::class);
+		if(!isset($this->_CollectionMemberships)){
+			if(isset($this->EbookId)){
+				$this->_CollectionMemberships = Db::Query('
+									SELECT *
+									from CollectionEbooks
+									where EbookId = ?
+									order by SortOrder asc
+								', [$this->EbookId], CollectionMembership::class);
+			}
+			else{
+				$this->_CollectionMemberships = [];
+			}
+		}
+
+		return $this->_CollectionMemberships;
 	}
 
 	/**
