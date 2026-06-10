@@ -66,29 +66,12 @@ class PollVote{
 					$error->Add(new Exceptions\PollClosedException());
 				}
 
-				if(!$this->Poll->PollId == $this->PollItem->PollId){
+				if($this->Poll->PollId != $this->PollItem->PollId){
 					$error->Add(new Exceptions\PollNotFoundException());
 				}
 			}
 			catch(Exceptions\PollItemNotFoundException | Exceptions\PollNotFoundException){
 				$error->Add(new Exceptions\PollNotFoundException());
-			}
-		}
-
-		if(!$error->HasExceptions){
-			// Basic sanity checks done, now check if we've already voted in this poll.
-
-			// Do we already have a vote for this poll, from this user?
-			try{
-				$vote = PollVote::Get($this->PollItem->Poll->UrlName, $this->UserId);
-				$error->Add(new Exceptions\PollVoteExistsException($vote));
-			}
-			catch(Exceptions\PollVoteNotFoundException){
-				// User hasn't voted yet, carry on.
-			}
-
-			if(!$this->User->Benefits->CanVote){
-				$error->Add(new Exceptions\PermissionsInvalidException());
 			}
 		}
 
@@ -99,14 +82,42 @@ class PollVote{
 
 	/**
 	 * @throws Exceptions\PollVoteInvalidException
+	 * @throws Exceptions\PollVoteExistsException
 	 */
 	public function Create(): void{
 		$this->Validate();
-		Db::Query('
-			INSERT into PollVotes (UserId, PollItemId)
-			values (?,
-			        ?)
-		', [$this->UserId, $this->PollItemId]);
+
+		Db::Query('START transaction');
+
+		try{
+			// Lock a stable `PollItems` row for this `Poll`.
+			Db::Query('
+				SELECT PollItemId
+				from PollItems
+				where PollId = ?
+				for update
+			', [$this->PollItem->PollId]);
+
+			// Do we already have a vote for this poll, from this user?
+			try{
+				$vote = PollVote::Get($this->PollItem->Poll->UrlName, $this->UserId);
+				throw new Exceptions\PollVoteExistsException($vote);
+			}
+			catch(Exceptions\PollVoteNotFoundException){
+				// User hasn't voted yet, carry on.
+			}
+
+			Db::Query('
+				INSERT into PollVotes (UserId, PollItemId)
+				values (?, ?)
+			', [$this->UserId, $this->PollItemId]);
+
+			Db::Query('COMMIT');
+		}
+		catch(\Throwable $ex){
+			Db::Query('ROLLBACK');
+			throw $ex;
+		}
 	}
 
 	/**

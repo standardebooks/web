@@ -159,6 +159,8 @@ catch(Exceptions\PermissionsInvalidException){
 				<dd><? if($user->Benefits->CanCreateUsers){ ?>☑<? }else{ ?>☐<? } ?></dd>
 				<dt>Can edit users:</dt>
 				<dd><? if($user->Benefits->CanEditUsers){ ?>☑<? }else{ ?>☐<? } ?></dd>
+				<dt>Can edit polls:</dt>
+				<dd><? if($user->Benefits->CanEditPolls){ ?>☑<? }else{ ?>☐<? } ?></dd>
 				<dt>Can edit collections:</dt>
 				<dd><? if($user->Benefits->CanEditCollections){ ?>☑<? }else{ ?>☐<? } ?></dd>
 				<dt>Can edit ebooks:</dt>

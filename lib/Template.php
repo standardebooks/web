@@ -56,6 +56,8 @@ use function Safe\preg_replace;
  * @method static string OpdsAcquisitionEntry(Ebook $entry)
  * @method static string OpdsAcquisitionFeed(string $id, string $url, string $parentUrl, string $title, ?string $subtitle, DateTimeImmutable $updated, array<Ebook> $entries, bool $isCrawlable = false)
  * @method static string OpdsNavigationFeed(string $id, string $url, ?string $parentUrl, string $title, ?string $subtitle, DateTimeImmutable $updated, array<OpdsNavigationEntry> $entries)
+ * @method static string PollForm(Poll $poll, bool $isEditForm = false)
+ * @method static string PollItemFieldset(int $index, bool $isRequired, PollItem $pollItem)
  * @method static string ProjectDetailsTable(Project $project, bool $useFullyQualifiedUrls = false, bool $showTitle = true, bool $showArtworkStatus = true, bool $isAdminView = false)
  * @method static string ProjectForm(Project $project, $areFieldsRequired = true, $isEditForm = false)
  * @method static string ProjectsTable(array<Project> $projects, bool $includeTitle = true, bool $includeStatus = true, bool $showEditButton = false, bool $showContactInformation = false, bool $isAdminView = false)

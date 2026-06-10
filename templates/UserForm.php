@@ -155,6 +155,13 @@ $isEditForm ??= false;
 			</li>
 			<li>
 				<label>
+					<input type="hidden" name="benefits-can-edit-polls" value="false" />
+					<input type="checkbox" name="benefits-can-edit-polls" value="true"<? if($user->Benefits->CanEditPolls){ ?> checked="checked"<? } ?> />
+					Can edit polls
+				</label>
+			</li>
+			<li>
+				<label>
 					<input type="hidden" name="benefits-can-edit-collections" value="false" />
 					<input type="checkbox" name="benefits-can-edit-collections" value="true"<? if($user->Benefits->CanEditCollections){ ?> checked="checked"<? } ?> />
 					Can edit collections

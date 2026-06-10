@@ -12,21 +12,23 @@ catch(Exceptions\PollNotFoundException){
 ?><?= Template::Header(title: 'Results for the ' . $poll->Name . ' Poll', description: 'The voting results for the ' . $poll->Name . ' poll.') ?>
 <main>
 	<section class="narrow">
-		<h1>Results for the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
+			<a href="/polls">Polls</a> →
+			<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a> →
+		</nav>
+		<h1>Results</h1>
 		<p class="center-notice">Total votes: <?= number_format($poll->VoteCount) ?></p>
 		<? if($poll->IsActive()){ ?>
-			<? if($poll->End !== null){ ?>
-				<p class="center-notice">This poll closes on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?> UTC.</p>
-			<? } ?>
+			<p class="center-notice">This poll closes on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?> UTC.</p>
 		<? }elseif($poll->End !== null){ ?>
 			<p class="center-notice">This poll closed on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?> UTC.</p>
 		<? } ?>
 		<table class="votes">
 			<tbody>
-			<? foreach($poll->PollItemsByWinner as $pollItem){ ?>
-				<tr>
-					<td><?= $pollItem->Name ?></td>
-					<td>
+				<? foreach($poll->PollItemsByWinner as $pollItem){ ?>
+					<tr>
+						<td><?= $pollItem->Name->ToHtmlFragment(true) ?></td>
+						<td>
 						<div class="meter">
 							<div aria-hidden="true">
 								<p><?= number_format($pollItem->VoteCount) ?></p>

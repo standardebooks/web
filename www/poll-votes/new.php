@@ -59,7 +59,12 @@ catch(Exceptions\PollVoteExistsException $ex){
 ?><?= Template::Header(title: 'Vote in the ' . $poll->Name . ' Poll', description: 'Vote in the ' . $poll->Name . ' poll') ?>
 <main>
 	<section class="narrow">
-		<h1>Vote in the <?= Formatter::EscapeHtml($poll->Name) ?> Poll</h1>
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
+			<a href="/polls">Polls</a> →
+			<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a> →
+			<a href="<?= $poll->Url ?>/votes">Votes</a> →
+		</nav>
+		<h1>Vote</h1>
 		<?= Template::Error(exception: $exception) ?>
 		<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= Formatter::EscapeHtml($poll->Url) ?>/votes">
 			<fieldset>
@@ -68,13 +73,13 @@ catch(Exceptions\PollVoteExistsException $ex){
 					<? foreach($poll->PollItems as $pollItem){ ?>
 						<li>
 							<label class="checkbox">
-								<input type="radio" value="<?= $pollItem->PollItemId ?>" name="poll-vote-poll-item-id" required="required"<? if(isset($vote->PollItemId) && $vote->PollItemId == $pollItem->PollItemId){ ?> checked="checked"<? } ?>/>
-								<span>
-									<b><?= $pollItem->Name ?></b>
-									<? if($pollItem->Description !== null){ ?>
-										<span><?= Formatter::EscapeHtml($pollItem->Description) ?></span>
-									<? } ?>
-								</span>
+									<input type="radio" value="<?= $pollItem->PollItemId ?>" name="poll-vote-poll-item-id" required="required"<? if(isset($vote->PollItemId) && $vote->PollItemId == $pollItem->PollItemId){ ?> checked="checked"<? } ?>/>
+									<span>
+										<b><?= $pollItem->Name->ToHtmlFragment(true) ?></b>
+										<? if($pollItem->Description !== null){ ?>
+											<span><?= $pollItem->Description->ToHtmlFragment(true) ?></span>
+										<? } ?>
+									</span>
 							</label>
 						</li>
 					<? } ?>

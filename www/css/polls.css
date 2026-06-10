@@ -1,0 +1,32 @@
+.poll-items fieldset{
+	display: grid;
+	grid-template-columns: 5rem 1fr;
+	gap: 1rem;
+}
+
+.poll-items fieldset label:has(input[name^="poll-item-description-"]){
+	grid-column: 1 / span 2;
+}
+
+.poll-items fieldset + fieldset{
+	margin-top: 2rem;
+}
+
+form > fieldset:first-of-type{
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: 1fr 1fr;
+}
+
+form > fieldset:first-of-type label:not(:has(input[type="datetime-local"])){
+	grid-column: 1 / span 2;
+}
+
+form label:has(input[name^="poll-item-sort-order-"]){
+	margin-top: 1.45em;
+}
+
+form > div.footer{
+	margin-top: 0;
+	grid-column: 1 / span 2;
+}

@@ -254,11 +254,6 @@ form.create-update-artwork label{
 	display: block;
 }
 
-form div.footer{
-	margin-top: 1rem;
-	text-align: right;
-}
-
 label:has(select[name="artwork-status"]){
 	margin-right: auto;
 }

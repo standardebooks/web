@@ -2729,7 +2729,7 @@ p + form{
 	margin-top: 1rem;
 }
 
-form[action*="/polls/"],
+form[action*="/polls"],
 form[action="/newsletter-subscriptions"]{
 	display: grid;
 	grid-gap: 2rem;
@@ -2764,7 +2764,7 @@ form[action="/newsletter-subscriptions"] button{
 	margin-left: 0;
 }
 
-form[action*="/polls/"] fieldset,
+form[action*="/polls"] fieldset,
 form[action="/newsletter-subscriptions"] fieldset{
 	grid-column: 1 / span 2;
 }
@@ -3372,6 +3372,10 @@ code{
 	font-style: italic;
 }
 
+.center-notice i{
+	font-style: normal;
+}
+
 .votes{
 	margin-top: 2rem;
 }
@@ -3398,6 +3402,18 @@ code{
 	font-family: "Crimson Pro", serif;
 	font-style: italic;
 	font-size: 2rem;
+}
+
+fieldset.closed-group{
+	border-color: var(--body-text);
+	border-width: 3px;
+	border-style: double;
+	padding: 1rem;
+}
+
+form div.footer{
+	margin-top: 1rem;
+	text-align: right;
 }
 
 .thank-you-container{

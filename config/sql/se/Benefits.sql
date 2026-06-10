@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `Benefits` (
   `CanCreateNewsletterMailings` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanEditNewsletterMailings` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `CanViewReports` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `CanEditPolls` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`UserId`),
   KEY `idxBenefits` (`CanAccessFeeds`,`CanVote`,`CanBulkDownload`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

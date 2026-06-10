@@ -17,6 +17,7 @@ class Benefits{
 	public bool $IsArtworkAdmin = false;
 	public bool $CanCreateUsers = false;
 	public bool $CanEditUsers = false;
+	public bool $CanEditPolls = false;
 	public bool $CanEditCollections = false;
 	public bool $CanEditEbooks = false;
 	public bool $CanEditEbookPlaceholders = false;
@@ -41,6 +42,8 @@ class Benefits{
 			$this->IsArtworkAdmin
 			||
 			$this->CanEditUsers
+			||
+			$this->CanEditPolls
 			||
 			$this->CanEditCollections
 			||
@@ -118,9 +121,9 @@ class Benefits{
 		$this->Validate();
 
 		Db::Query('
-				INSERT into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, IsArtworkAdmin, CanCreateUsers, CanEditUsers, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanEditProjects, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanEditBlogPosts, CanEditSpreadsheets, CanCreateNewsletterMailings, CanEditNewsletterMailings, CanViewReports)
-				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-		', [$this->UserId, $this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->IsArtworkAdmin, $this->CanCreateUsers, $this->CanEditUsers, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanEditProjects, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanEditBlogPosts, $this->CanEditSpreadsheets, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewReports]);
+				INSERT into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, IsArtworkAdmin, CanCreateUsers, CanEditUsers, CanEditPolls, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanEditProjects, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanEditBlogPosts, CanEditSpreadsheets, CanCreateNewsletterMailings, CanEditNewsletterMailings, CanViewReports)
+				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		', [$this->UserId, $this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->IsArtworkAdmin, $this->CanCreateUsers, $this->CanEditUsers, $this->CanEditPolls, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanEditProjects, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanEditBlogPosts, $this->CanEditSpreadsheets, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewReports]);
 	}
 
 	public function Save(): void{
@@ -128,10 +131,10 @@ class Benefits{
 
 		Db::Query('
 				UPDATE Benefits
-				set CanAccessFeeds = ?, CanVote = ?, CanBulkDownload = ?, CanUploadArtwork = ?, CanReviewArtwork = ?, IsArtworkAdmin = ?, CanCreateUsers = ?, CanEditUsers = ?, CanEditCollections = ?, CanEditEbooks = ?, CanEditEbookPlaceholders = ?, CanEditProjects = ?, CanManageProjects = ?, CanReviewProjects = ?, CanBeAutoAssignedToProjects = ?, CanEditBlogPosts = ?, CanEditSpreadsheets = ?, CanCreateNewsletterMailings = ?, CanEditNewsletterMailings = ?, CanViewReports = ?
+				set CanAccessFeeds = ?, CanVote = ?, CanBulkDownload = ?, CanUploadArtwork = ?, CanReviewArtwork = ?, IsArtworkAdmin = ?, CanCreateUsers = ?, CanEditUsers = ?, CanEditPolls = ?, CanEditCollections = ?, CanEditEbooks = ?, CanEditEbookPlaceholders = ?, CanEditProjects = ?, CanManageProjects = ?, CanReviewProjects = ?, CanBeAutoAssignedToProjects = ?, CanEditBlogPosts = ?, CanEditSpreadsheets = ?, CanCreateNewsletterMailings = ?, CanEditNewsletterMailings = ?, CanViewReports = ?
 				where
 				UserId = ?
-		', [$this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->IsArtworkAdmin, $this->CanCreateUsers, $this->CanEditUsers, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanEditProjects, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanEditBlogPosts, $this->CanEditSpreadsheets, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewReports, $this->UserId]);
+		', [$this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->IsArtworkAdmin, $this->CanCreateUsers, $this->CanEditUsers, $this->CanEditPolls, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanEditProjects, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanEditBlogPosts, $this->CanEditSpreadsheets, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewReports, $this->UserId]);
 	}
 
 	public function FillFromRequestBody(): void{
@@ -143,6 +146,7 @@ class Benefits{
 		$this->PropertyFromRequest('IsArtworkAdmin');
 		$this->PropertyFromRequest('CanCreateUsers');
 		$this->PropertyFromRequest('CanEditUsers');
+		$this->PropertyFromRequest('CanEditPolls');
 		$this->PropertyFromRequest('CanEditCollections');
 		$this->PropertyFromRequest('CanEditEbooks');
 		$this->PropertyFromRequest('CanEditEbookPlaceholders');

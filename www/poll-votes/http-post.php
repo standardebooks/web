@@ -24,7 +24,7 @@ try{
 
 	$pollVote->Create();
 
-	$_SESSION['is-vote-created'] = $pollVote->UserId;
+	$_SESSION['is-poll-vote-created'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $pollVote->Url);
 }
@@ -36,6 +36,15 @@ catch(Exceptions\LoginRequiredException){
 }
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
+}
+catch(Exceptions\PollVoteExistsException $ex){
+	$redirect = $poll->Url;
+	if($ex->Vote !== null){
+		$redirect = $ex->Vote->Url;
+	}
+
+	http_response_code(Enums\HttpCode::SeeOther->value);
+	header('location: ' . $redirect);
 }
 catch(Exceptions\PollVoteInvalidException $ex){
 	$_SESSION['vote'] = $pollVote;

@@ -75,13 +75,6 @@
 	display: block;
 }
 
-.create-update-ebook-placeholder fieldset.collection{
-	border-color: var(--body-text);
-	border-width: 3px;
-	border-style: double;
-	padding: 1rem;
-}
-
 form div.footer{
 	margin-top: 1rem;
 	text-align: right;

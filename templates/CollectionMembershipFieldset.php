@@ -4,7 +4,7 @@
  * @var ?CollectionMembership $collectionMembership
  */
 ?>
-<fieldset class="collection">
+<fieldset class="closed-group">
 	<label class="icon collection">
 		<span>Collection <?= $index ?></span>
 		<input

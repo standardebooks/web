@@ -9,7 +9,7 @@ try{
 
 	$canVote = true; // Allow non-logged-in users to see the 'vote' button.
 
-	if(!$poll->IsActive() && $poll->End !== null && $poll->End < NOW){
+	if(!$poll->IsActive() && $poll->End < NOW){
 		// If the poll ended, redirect to the results.
 		header('location: ' . $poll->Url . '/votes');
 		exit();
@@ -25,19 +25,29 @@ try{
 			$canVote = true;
 		}
 	}
+
+	$canEditPolls = Session::$User?->Benefits->CanEditPolls ?? false;
 }
 catch(Exceptions\PollNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-?><?= Template::Header(title: $poll->Name, description: $poll->Description) ?>
+?><?= Template::Header(title: $poll->Name, description: $poll->Description ?? '') ?>
 <main>
 	<section class="narrow">
+		<nav class="breadcrumbs" aria-label="Breadcrumbs">
+			<a href="/polls">Polls</a> →
+		</nav>
 		<h1><?= Formatter::EscapeHtml($poll->Name) ?></h1>
-		<p><?= $poll->Description ?></p>
+		<? if($canEditPolls){ ?>
+			<ul role="menu">
+				<li><a href="<?= $poll->EditUrl ?>">Edit poll</a></li>
+			</ul>
+		<? } ?>
+		<? if($poll->Description !== null){ ?>
+			<p><?= $poll->Description->ToHtmlFragment(true) ?></p>
+		<? } ?>
 		<? if($poll->IsActive()){ ?>
-			<? if($poll->End !== null){ ?>
-				<p class="center-notice">This poll closes on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?> UTC.</p>
-			<? } ?>
+			<p class="center-notice">This poll closes on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?> UTC.</p>
 			<? if(!$canVote){ ?>
 				<p class="center-notice">You’ve already voted in this poll.</p>
 			<? } ?>
@@ -48,12 +58,10 @@ catch(Exceptions\PollNotFoundException){
 				<a href="<?= $poll->Url ?>/votes" class="button">View results</a>
 			</p>
 		<? }else{ ?>
-			<? if($poll->Start !== null && $poll->Start > NOW){ ?>
+			<? if($poll->Start > NOW){ ?>
 				<p class="center-notice">This poll opens on <?= $poll->Start->format(Enums\DateTimeFormat::FullDateTime->value) ?> UTC.</p>
 			<? }else{ ?>
-				<? if($poll->End !== null){ ?>
-					<p class="center-notice">This poll closed on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?> UTC.</p>
-				<? } ?>
+				<p class="center-notice">This poll closed on <?= $poll->End->format(Enums\DateTimeFormat::FullDateTime->value) ?> UTC.</p>
 				<p class="button-row narrow"><a href="<?= $poll->Url ?>/votes" class="button">View results</a></p>
 			<? } ?>
 		<? } ?>
