@@ -52,6 +52,11 @@ if($canEditPolls){
 	<section class="narrow has-hero">
 		<? if($canEditPolls){ ?>
 			<h1>Polls</h1>
+			<picture data-caption="County Election. John Sartain after George Caleb Bingham, 1854">
+				<source srcset="/images/county-election@2x.avif 2x, /images/county-election.avif 1x" type="image/avif"/>
+				<source srcset="/images/county-election@2x.jpg 2x, /images/county-election.jpg 1x" type="image/jpg"/>
+				<img src="/images/county-election@2x.jpg" alt="Voters step up to cast votes in a county poll."/>
+			</picture>
 			<ul role="menu">
 				<li><a href="/polls/new">Create a poll</a></li>
 			</ul>
