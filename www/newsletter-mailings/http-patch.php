@@ -28,7 +28,7 @@ try{
 	$newsletterMailing->Save($addFooter, $addEbooks);
 
 	$_SESSION['newsletter-mailing'] = $newsletterMailing;
-	$_SESSION['is-newsletter-mailing-saved'] = true;
+	$_SESSION['newsletter-mailing/edit/is-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /newsletter-mailings');

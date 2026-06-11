@@ -20,8 +20,8 @@ try{
 		exit();
 	}
 
-	$isSaved = Http::$Request->Session->Get('is-poll-saved', 'bool') ?? false;
-	$isCreated = Http::$Request->Session->Get('is-poll-created', 'bool') ?? false;
+	$isSaved = Http::$Request->Session->Get('poll/edit/is-saved', 'bool') ?? false;
+	$isCreated = Http::$Request->Session->Get('poll/create/is-created', 'bool') ?? false;
 
 	if(Session::$User !== null){
 		$canVote = false; // User is logged in, hide the vote button unless they haven't voted yet.

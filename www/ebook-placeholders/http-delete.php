@@ -30,7 +30,7 @@ try{
 
 	$ebook->Delete();
 
-	$_SESSION['is-ebook-placeholder-deleted'] = true;
+	$_SESSION['ebook-placeholder/delete/is-deleted'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /ebook-placeholders/new');

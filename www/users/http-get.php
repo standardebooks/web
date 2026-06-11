@@ -21,8 +21,8 @@ try{
 	}
 
 	$identifier = Http::$Request->QueryString->Get('user-identifier');
-	$isCreated = Http::$Request->Session->Get('is-user-created', 'bool') ?? false;
-	$isSaved = Http::$Request->Session->Get('is-user-saved', 'bool') ?? false;
+	$isCreated = Http::$Request->Session->Get('user/create/is-created', 'bool') ?? false;
+	$isSaved = Http::$Request->Session->Get('user/edit/is-saved', 'bool') ?? false;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();

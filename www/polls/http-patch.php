@@ -23,7 +23,7 @@ try{
 	$poll->FillFromRequestBody();
 	$poll->Save();
 
-	$_SESSION['is-poll-saved'] = true;
+	$_SESSION['poll/edit/is-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $poll->Url);

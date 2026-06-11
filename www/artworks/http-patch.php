@@ -60,7 +60,7 @@ try{
 	$artwork->Save(Http::$Request->Files->Get('artwork-image'));
 
 	$_SESSION['artwork'] = $artwork;
-	$_SESSION['is-artwork-saved'] = true;
+	$_SESSION['artwork/edit/is-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $artwork->Url);

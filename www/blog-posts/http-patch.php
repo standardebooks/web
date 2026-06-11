@@ -28,7 +28,7 @@ try{
 
 	$blogPost->Save($userIdentifier, $ebookIdentifiers);
 
-	$_SESSION['is-blog-post-saved'] = true;
+	$_SESSION['blog-post/edit/is-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $blogPost->Url);
 }

@@ -21,7 +21,7 @@ try{
 
 	$spreadsheet->Delete();
 
-	$_SESSION['is-spreadsheet-deleted'] = true;
+	$_SESSION['spreadsheet/delete/is-deleted'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /contribute/spreadsheets');

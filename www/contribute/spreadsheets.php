@@ -5,9 +5,9 @@ use function Safe\session_unset;
 session_start();
 
 $spreadsheets = Spreadsheet::GetAllGroupedByCategory();
-$isCreated = Http::$Request->Session->Get('is-spreadsheet-created', 'bool') ?? false;
-$isSaved = Http::$Request->Session->Get('is-spreadsheet-saved', 'bool') ?? false;
-$isDeleted = Http::$Request->Session->Get('is-spreadsheet-deleted', 'bool') ?? false;
+$isCreated = Http::$Request->Session->Get('spreadsheet/create/is-created', 'bool') ?? false;
+$isSaved = Http::$Request->Session->Get('spreadsheet/edit/is-saved', 'bool') ?? false;
+$isDeleted = Http::$Request->Session->Get('spreadsheet/delete/is-deleted', 'bool') ?? false;
 
 if($isCreated || $isSaved || $isDeleted){
 	session_unset();

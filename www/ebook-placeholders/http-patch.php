@@ -36,7 +36,7 @@ try{
 		throw new Exceptions\EbookPlaceholderExistsException();
 	}
 
-	$_SESSION['is-ebook-placeholder-saved'] = true;
+	$_SESSION['ebook-placeholder/edit/is-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $ebook->Url);
 }

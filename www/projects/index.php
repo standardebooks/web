@@ -8,8 +8,8 @@ use function Safe\session_unset;
 
 session_start();
 
-$isCreated = Http::$Request->Session->Get('is-project-created', 'bool') ?? false;
-$isOnlyProjectCreated = Http::$Request->Session->Get('is-only-ebook-project-created', 'bool') ?? false;
+$isCreated = Http::$Request->Session->Get('project/create/is-created', 'bool') ?? false;
+$isOnlyProjectCreated = Http::$Request->Session->Get('project/create/is-only-ebook-project-created', 'bool') ?? false;
 $createdProject = Http::$Request->Session->Get('project', Project::class);
 $showContactInformation = Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects || Session::$User?->Benefits->CanEditProjects;
 

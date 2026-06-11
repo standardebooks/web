@@ -47,7 +47,7 @@ try{
 
 	$project->Save();
 
-	$_SESSION['is-project-saved'] = true;
+	$_SESSION['project/edit/is-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $project->Ebook->Url);
 }

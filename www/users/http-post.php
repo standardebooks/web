@@ -25,7 +25,7 @@ try{
 
 	$user->Create(Http::$Request->Body->Get('user-password'));
 
-	$_SESSION['is-user-created'] = true;
+	$_SESSION['user/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $user->Url);

@@ -26,7 +26,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$isSaved = Http::$Request->Session->Get('is-artwork-saved', 'bool') ?? false;
+	$isSaved = Http::$Request->Session->Get('artwork/edit/is-saved', 'bool') ?? false;
 	$exception = Http::$Request->Session->Get('artwork/edit/exception', Exceptions\AppException::class);
 
 	// We got here because an artwork was successfully submitted.

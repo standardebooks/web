@@ -16,7 +16,7 @@ try{
 
 	$newsletterSubscription->User->ConfirmNewsletterSubscriptions();
 
-	$_SESSION['are-newsletter-subscriptions-confirmed'] = true;
+	$_SESSION['newsletter-subscription/edit/are-confirmed'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $newsletterSubscription->User->UuidUrl . '/newsletter-subscriptions');

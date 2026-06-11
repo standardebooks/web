@@ -23,7 +23,7 @@ try{
 
 	$spreadsheet->Save();
 
-	$_SESSION['is-spreadsheet-saved'] = true;
+	$_SESSION['spreadsheet/edit/is-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /contribute/spreadsheets');
 }

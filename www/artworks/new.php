@@ -17,7 +17,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$isCreated = Http::$Request->Session->Get('is-artwork-created', 'bool') ?? false;
+	$isCreated = Http::$Request->Session->Get('artwork/create/is-created', 'bool') ?? false;
 	$exception = Http::$Request->Session->Get('artwork/create/exception', Exceptions\AppException::class);
 	$artwork = Http::$Request->Session->Get('artwork', Artwork::class);
 

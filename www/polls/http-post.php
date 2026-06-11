@@ -20,7 +20,7 @@ try{
 	$poll->FillFromRequestBody();
 	$poll->Create();
 
-	$_SESSION['is-poll-created'] = true;
+	$_SESSION['poll/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $poll->Url);

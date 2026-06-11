@@ -26,7 +26,7 @@ try{
 	$newsletterMailing->Create($addFooter, $addEbooks);
 
 	$_SESSION['newsletter-mailing'] = $newsletterMailing;
-	$_SESSION['is-newsletter-mailing-created'] = true;
+	$_SESSION['newsletter-mailing/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /newsletter-mailings');

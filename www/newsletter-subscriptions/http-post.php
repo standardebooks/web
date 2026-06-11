@@ -13,7 +13,7 @@ try{
 	if(Http::$Request->Body->Get('automation-test')){
 		// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
 		http_response_code(Enums\HttpCode::SeeOther->value);
-		$_SESSION['is-bot'] = true;
+		$_SESSION['newsletter-subscription/create/is-bot'] = true;
 		$uuid = Uuid::uuid4();
 		header('location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
 		exit();
@@ -77,7 +77,7 @@ try{
 	session_unset();
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	$_SESSION['is-newsletter-subscription-created'] = true;
+	$_SESSION['newsletter-subscription/create/is-created'] = true;
 	header('location: ' . $newsletterSubscription->User->UuidUrl . '/newsletter-subscriptions');
 }
 catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\CaptchaInvalidException | Exceptions\NewsletterRequiredException $ex){

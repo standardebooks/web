@@ -57,7 +57,7 @@ try{
 
 	$user->Save(false, $deleteFromProjectUnassignedManagers, $deleteFromProjectUnassignedReviewers);
 
-	$_SESSION['is-user-saved'] = true;
+	$_SESSION['user/edit/is-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $user->Url);

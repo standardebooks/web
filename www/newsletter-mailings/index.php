@@ -13,8 +13,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$isCreated = Http::$Request->Session->Get('is-newsletter-mailing-created', 'bool') ?? false;
-	$isSaved = Http::$Request->Session->Get('is-newsletter-mailing-saved', 'bool') ?? false;
+	$isCreated = Http::$Request->Session->Get('newsletter-mailing/create/is-created', 'bool') ?? false;
+	$isSaved = Http::$Request->Session->Get('newsletter-mailing/edit/is-saved', 'bool') ?? false;
 	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 	$perPage = 5;
 

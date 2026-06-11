@@ -35,10 +35,10 @@ try{
 	$artist->ReassignArtworkTo($canonicalArtist);
 	$artist->Delete();
 
-	$_SESSION['is-artist-deleted'] = true;
+	$_SESSION['artist/delete/is-deleted'] = true;
 	$_SESSION['deleted-artist'] = $artist;
 	if($addAlternateName){
-		$_SESSION['is-alternate-name-added'] = true;
+		$_SESSION['artist/delete/is-alternate-name-added'] = true;
 	}
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

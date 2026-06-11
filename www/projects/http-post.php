@@ -40,7 +40,7 @@ try{
 			$project->Ebook = Ebook::GetByIdentifier($project->Ebook->Identifier);
 			if($project->Ebook->EbookPlaceholder !== null && !$project->Ebook->EbookPlaceholder->IsInProgress){
 				$project->EbookId = $project->Ebook->EbookId;
-				$_SESSION['is-only-ebook-project-created'] = true;
+				$_SESSION['project/create/is-only-ebook-project-created'] = true;
 			}
 			else{
 				// `Ebook` exists and it's not a placeholder, so really fail.
@@ -61,8 +61,8 @@ try{
 	}
 
 	$_SESSION['project'] = $project;
-	if(!isset($_SESSION['is-only-ebook-project-created'])){
-		$_SESSION['is-project-created'] = true;
+	if(!isset($_SESSION['project/create/is-only-ebook-project-created'])){
+		$_SESSION['project/create/is-created'] = true;
 	}
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

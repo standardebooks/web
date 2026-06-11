@@ -17,7 +17,7 @@ try{
 	$newsletterName = $newsletterSubscription->Newsletter->Name;
 	$newsletterSubscription->Delete();
 
-	$_SESSION['is-newsletter-subscriptions-deleted'] = true;
+	$_SESSION['newsletter-subscription/delete/is-deleted'] = true;
 	$_SESSION['newsletter-name'] = $newsletterName;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

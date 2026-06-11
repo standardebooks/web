@@ -27,9 +27,9 @@ try{
 		$artworkFilterType = Enums\ArtworkFilterType::ApprovedSubmitter;
 	}
 
-	$isArtistDeleted = Http::$Request->Session->Get('is-artist-deleted', 'bool') ?? false;
+	$isArtistDeleted = Http::$Request->Session->Get('artist/delete/is-deleted', 'bool') ?? false;
 	$deletedArtist = Http::$Request->Session->Get('deleted-artist', Artist::class);
-	$isAlternateNameAdded = Http::$Request->Session->Get('is-alternate-name-added', 'bool') ?? false;
+	$isAlternateNameAdded = Http::$Request->Session->Get('artist/delete/is-alternate-name-added', 'bool') ?? false;
 
 	$artworks = Artwork::GetAllByArtist(Http::$Request->QueryString->Get('artist-url-name'), $artworkFilterType, $submitterUserId);
 

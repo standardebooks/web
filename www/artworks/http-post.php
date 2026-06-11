@@ -38,7 +38,7 @@ try{
 	$artwork->Create(Http::$Request->Files->Get('artwork-image'));
 
 	$_SESSION['artwork'] = $artwork;
-	$_SESSION['is-artwork-created'] = true;
+	$_SESSION['artwork/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /artworks/new');

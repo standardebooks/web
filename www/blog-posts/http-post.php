@@ -24,7 +24,7 @@ try{
 
 	$blogPost->Create($userIdentifier, $ebookIdentifiers);
 
-	$_SESSION['is-blog-post-created'] = true;
+	$_SESSION['blog-post/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $blogPost->Url);

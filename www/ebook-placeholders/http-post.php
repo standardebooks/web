@@ -53,7 +53,7 @@ try{
 	}
 
 	$_SESSION['ebook'] = $ebook;
-	$_SESSION['is-ebook-placeholder-created'] = true;
+	$_SESSION['ebook-placeholder/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /ebook-placeholders/new');

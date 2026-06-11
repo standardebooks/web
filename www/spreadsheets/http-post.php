@@ -21,7 +21,7 @@ try{
 
 	$spreadsheet->Create();
 
-	$_SESSION['is-spreadsheet-created'] = true;
+	$_SESSION['spreadsheet/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /contribute/spreadsheets');

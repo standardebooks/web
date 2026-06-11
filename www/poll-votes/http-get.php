@@ -12,7 +12,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$isCreated = Http::$Request->Session->Get('is-poll-vote-created', 'bool');
+	$isCreated = Http::$Request->Session->Get('poll-vote/create/is-created', 'bool');
 
 	if($isCreated){
 		http_response_code(Enums\HttpCode::Created->value);

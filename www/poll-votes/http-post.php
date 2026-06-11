@@ -24,7 +24,7 @@ try{
 
 	$pollVote->Create();
 
-	$_SESSION['is-poll-vote-created'] = true;
+	$_SESSION['poll-vote/create/is-created'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $pollVote->Url);
 }
