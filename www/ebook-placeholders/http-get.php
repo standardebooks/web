@@ -91,10 +91,16 @@ catch(Exceptions\EbookNotFoundException){
 					<p>We don’t have this ebook in our catalog yet, but someone is working on it now! We hope to have it available for you to read very soon.</p>
 				<? }else{ ?>
 					<p>We don’t have this ebook in our catalog yet, but it’s <? if($ebook->EbookPlaceholder->IsWanted){ ?>on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a><? }else{ ?>in the U.S. public domain<? } ?>!</p>
+					<h2>Get this ebook made</h2>
 					<ul>
 						<li>
 							<p><a href="/donate#sponsor-an-ebook">Sponsor this ebook</a> and we’ll get working on it immediately, so that you and everyone can read it for free forever. You can also choose to have your name inscribed in the ebook’s colophon.</p>
 						</li>
+						<? if(!$ebook->EbookPlaceholder->IsWanted){ ?>
+							<li>
+								<p><a href="/donate#patrons-circle">Join the Patrons Circle</a> to request that we add this book to our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>. Books on this list have a high priority of getting produced, as our volunteers often select from this list when deciding what to work on next. Our Patrons may add one book to the Wanted Ebooks list per quarter.</p>
+							</li>
+						<? } ?>
 						<li>
 							<? if($ebook->EbookPlaceholder->Difficulty == Enums\EbookPlaceholderDifficulty::Beginner){ ?>
 								<p><a href="/contribute#technical-contributors">Produce this ebook yourself</a> and your work will allow others to read it for free forever. <em>This book is a good choice to start with if you’ve never created an ebook for us before</em>—we’ll help you through the process!</p>
