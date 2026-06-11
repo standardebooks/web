@@ -12,3 +12,7 @@ textarea{
 	white-space: pre;
 	min-height: 32ex;
 }
+
+.newsletter-mailings + .pagination{
+	margin-top: 4rem;
+}

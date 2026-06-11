@@ -566,10 +566,37 @@ class NewsletterMailing{
 	}
 
 	/**
+	 * Get all newsletter mailings, sorted by descending send date.
+	 *
 	 * @return array<NewsletterMailing>
 	 */
 	public static function GetAll(): array{
 		return Db::Query('SELECT * from NewsletterMailings order by SendOn desc', [], NewsletterMailing::class);
+	}
+
+	/**
+	 * Get all newsletter mailings for a specific page, sorted by descending send date.
+	 *
+	 * @return array{'newsletterMailings': array<int, NewsletterMailing>, 'count': int}
+	 */
+	public static function GetAllByPage(int $page = 1, int $perPage = 10): array{
+		if($page <= 0){
+			$page = 1;
+		}
+
+		$offset = (($page - 1) * $perPage);
+
+		$newsletterMailings = Db::Query('
+				SELECT SQL_CALC_FOUND_ROWS *
+				from NewsletterMailings
+				order by SendOn desc
+				limit ?
+				offset ?
+			', [$perPage, $offset], NewsletterMailing::class);
+
+		$count = Db::QueryInt('SELECT found_rows()');
+
+		return ['newsletterMailings' => $newsletterMailings, 'count' => $count];
 	}
 
 	public function FillFromRequestBody(): void{

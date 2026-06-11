@@ -15,8 +15,23 @@ try{
 
 	$isCreated = Http::$Request->Session->Get('is-newsletter-mailing-created', 'bool') ?? false;
 	$isSaved = Http::$Request->Session->Get('is-newsletter-mailing-saved', 'bool') ?? false;
+	$page = Http::$Request->QueryString->Get('page', 'int') ?? null;
+	$perPage = 5;
 
-	$newsletterMailings = NewsletterMailing::GetAll();
+	if($page <= 0){
+		$page = 1;
+	}
+
+	$result = NewsletterMailing::GetAllByPage($page, $perPage);
+
+	$newsletterMailings = $result['newsletterMailings'];
+	$totalNewsletterMailings = $result['count'];
+
+	$pages = (int)ceil($totalNewsletterMailings / $perPage);
+
+	if($pages > 0 && $page > $pages){
+		throw new Exceptions\PageOutOfBoundsException();
+	}
 
 	if($isCreated){
 		http_response_code(Enums\HttpCode::Created->value);
@@ -32,9 +47,14 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
+catch(Exceptions\PageOutOfBoundsException){
+	header('location: /newsletter-mailings?page=' . $pages);
+	exit();
+}
 ?>
 <?= Template::Header(
 		title: 'Newsletter Mailings',
+		css: ['/css/newsletter-mailings.css'],
 		description: 'Manage newsletter mailings in the Standard Ebooks system.'
 ) ?>
 <main>
@@ -74,7 +94,21 @@ catch(Exceptions\PermissionsInvalidException){
 					<? } ?>
 				</li>
 			<? } ?>
-		</ol>
-	</section>
-</main>
+			</ol>
+
+			<? if(sizeof($newsletterMailings) > 0){ ?>
+				<nav class="pagination" aria-label="Pagination">
+					<a<? if($page > 1){ ?> href="/newsletter-mailings?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+					<ol>
+						<? for($i = 1; $i < $pages + 1; $i++){ ?>
+							<li>
+								<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/newsletter-mailings?page=<?= $i ?>"<? } ?>><?= $i ?></a>
+							</li>
+						<? } ?>
+					</ol>
+					<a<? if($page < $pages){ ?> href="/newsletter-mailings?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				</nav>
+			<? } ?>
+		</section>
+	</main>
 <?= Template::Footer() ?>
