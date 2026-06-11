@@ -2,6 +2,7 @@
 use Safe\DateTimeImmutable;
 use function Safe\get_cfg_var;
 use function Safe\define;
+use function Safe\preg_replace;
 
 const NOW = new DateTimeImmutable();
 const LATEST_CONTINENTAL_US_TZ = new DateTimeZone('America/Juneau');
@@ -10,6 +11,7 @@ const PD_NOW = new DateTimeImmutable('now', LATEST_CONTINENTAL_US_TZ);
 define('PD_YEAR', intval(PD_NOW->format('Y')) - 96);
 define('PD_STRING', 'January 1, ' . (PD_YEAR + 1));
 const SITE_TZ = new DateTimeZone('America/Chicago');
+define('SITE_TZ_STRING', preg_replace('/^.+\//u', '', SITE_TZ->getName()) . ' time');
 
 const SITE_STATUS_LIVE = 		'live';
 const SITE_STATUS_DEV =			'dev';

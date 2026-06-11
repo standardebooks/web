@@ -19,12 +19,12 @@ $pollItemCount = max(sizeof($pollItems) + 1, 4);
 	</label>
 	<label class="icon year">
 		<span>Start</span>
-		<span>Time zone is <?= Formatter::EscapeHtml(SITE_TZ->getName()) ?>.</span>
+		<span><?= SITE_TZ_STRING ?>.</span>
 		<input type="datetime-local" name="poll-start" value="<? if(isset($poll->Start)){ ?><?= $poll->Start->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?><? } ?>" />
 	</label>
 	<label class="icon year">
 		<span>End</span>
-		<span>Time zone is <?= Formatter::EscapeHtml(SITE_TZ->getName()) ?>.</span>
+		<span><?= SITE_TZ_STRING ?>.</span>
 		<input type="datetime-local" name="poll-end" value="<? if(isset($poll->End)){ ?><?= $poll->End->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?><? } ?>" />
 	</label>
 </fieldset>

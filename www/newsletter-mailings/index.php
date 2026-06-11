@@ -66,7 +66,7 @@ catch(Exceptions\PermissionsInvalidException){
 				<li>
 					<p><?= Formatter::EscapeHtml($newsletterMailing->Subject) ?> (#<?= $newsletterMailing->NewsletterMailingId ?>)</p>
 					<p><?= ucfirst($newsletterMailing->Status->value) ?><? if($newsletterMailing->Status == Enums\QueueStatus::Completed && $newsletterMailing->RecipientCount !== null){ ?> • <?= number_format($newsletterMailing->RecipientCount) ?> <?= Formatter::Pluralize($newsletterMailing->RecipientCount, 'recipient') ?><? } ?><? if($newsletterMailing->ExcludePatrons){ ?> (Patrons excluded)<? } ?></p>
-					<p><?= $newsletterMailing->SendOn->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= Formatter::EscapeHtml(SITE_TZ->getName()) ?> • <?= Formatter::EscapeHtml($newsletterMailing->Newsletter->Name) ?></p>
+					<p><?= $newsletterMailing->SendOn->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?> • <?= Formatter::EscapeHtml($newsletterMailing->Newsletter->Name) ?></p>
 					<? if(Session::$User->Benefits->CanEditNewsletterMailings){ ?>
 						<p>
 							<a href="<?= $newsletterMailing->EditUrl ?>">Edit</a>

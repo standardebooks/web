@@ -19,7 +19,7 @@ $isEditForm ??= false;
 </label>
 <label class="icon year">
 	<span>Publish on</span>
-	<span>Time zone is <?= SITE_TZ->getName() ?>.</span>
+	<span><?= SITE_TZ_STRING ?>.</span>
 
 	<? /* `Published` is stored as UTC in the object, but must be in the `SITE_TZ` time zone for this element. */ ?>
 	<input
