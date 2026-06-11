@@ -3,6 +3,11 @@
  * GET		/polls/:poll-url-name
  */
 
+use function Safe\session_start;
+use function Safe\session_unset;
+
+session_start();
+
 try{
 	/** @var Poll $poll The `Poll` for this request, passed in from the router. */
 	$poll = $resource ?? throw new Exceptions\PollNotFoundException();
@@ -15,6 +20,9 @@ try{
 		exit();
 	}
 
+	$isSaved = Http::$Request->Session->Get('is-poll-saved', 'bool') ?? false;
+	$isCreated = Http::$Request->Session->Get('is-poll-created', 'bool') ?? false;
+
 	if(Session::$User !== null){
 		$canVote = false; // User is logged in, hide the vote button unless they haven't voted yet.
 		try{
@@ -24,6 +32,14 @@ try{
 		catch(Exceptions\AppException){
 			$canVote = true;
 		}
+	}
+
+	if($isCreated){
+		http_response_code(Enums\HttpCode::Created->value);
+	}
+
+	if($isCreated || $isSaved){
+		session_unset();
 	}
 
 	$canEditPolls = Session::$User?->Benefits->CanEditPolls ?? false;
@@ -43,6 +59,14 @@ catch(Exceptions\PollNotFoundException){
 				<li><a href="<?= $poll->EditUrl ?>">Edit poll</a></li>
 			</ul>
 		<? } ?>
+		<? if($isSaved){ ?>
+			<p class="message success">Poll saved!</p>
+		<? } ?>
+
+		<? if($isCreated){ ?>
+			<p class="message success">Poll created!</p>
+		<? } ?>
+
 		<? if($poll->Description !== null){ ?>
 			<p><?= $poll->Description->ToHtmlFragment(true) ?></p>
 		<? } ?>

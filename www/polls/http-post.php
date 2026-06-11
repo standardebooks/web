@@ -23,7 +23,7 @@ try{
 	$_SESSION['is-poll-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('location: /polls');
+	header('location: ' . $poll->Url);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();

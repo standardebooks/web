@@ -26,7 +26,7 @@ try{
 	$_SESSION['is-poll-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
-	header('location: /polls');
+	header('location: ' . $poll->Url);
 }
 catch(Exceptions\PollNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);

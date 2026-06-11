@@ -3,14 +3,7 @@
  * GET		/polls
  */
 
-use function Safe\session_start;
-use function Safe\session_unset;
-
-session_start();
-
 try{
-	$isCreated = Http::$Request->Session->Get('is-poll-created', 'bool') ?? false;
-	$isSaved = Http::$Request->Session->Get('is-poll-saved', 'bool') ?? false;
 	$canEditPolls = Session::$User?->Benefits->CanEditPolls ?? false;
 	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 	$perPage = 5;
@@ -20,14 +13,6 @@ try{
 
 	$pastPolls = $result['polls'];
 	$pages = $result['totalPages'];
-
-	if($isCreated){
-		http_response_code(Enums\HttpCode::Created->value);
-	}
-
-	if($isCreated || $isSaved){
-		session_unset();
-	}
 
 	$openPolls = Db::Query('
 			SELECT *
@@ -77,14 +62,6 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			</picture>
 			<p>Periodically members of the <a href="/about#patrons-circle">Standard Ebooks Patrons Circle</a> vote on the next ebook from the <a href="/contribute/wanted-ebooks">Wanted Ebook List</a> to enter immediate production.</p>
 			<p>Anyone can <a href="/donate#patrons-circle">join the Patrons Circle</a> by making a small donation in support of our mission of producing beautiful digital literature, for free distribution.</p>
-		<? } ?>
-
-		<? if($isSaved){ ?>
-			<p class="message success">Poll saved!</p>
-		<? } ?>
-
-		<? if($isCreated){ ?>
-			<p class="message success">Poll created!</p>
 		<? } ?>
 
 		<? if(sizeof($futurePolls) > 0 && $page == 1){ ?>
