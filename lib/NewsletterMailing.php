@@ -619,15 +619,15 @@ class NewsletterMailing{
 		$this->PropertyFromRequest('Preheader');
 		$this->PropertyFromRequest('ExcludePatrons');
 
-		if(isset($_POST['newsletter-mailing-body-text'])){
+		if(isset(Http::$Request->Body->Variables['newsletter-mailing-body-text'])){
 			$this->BodyText = Http::$Request->Body->Get('newsletter-mailing-body-text') ?? '';
 		}
 
-		if(isset($_POST['newsletter-mailing-body-html'])){
+		if(isset(Http::$Request->Body->Variables['newsletter-mailing-body-html'])){
 			$this->BodyHtml = Http::$Request->Body->Get('newsletter-mailing-body-html') ?? '';
 		}
 
-		if(isset($_POST['newsletter-mailing-from-email'])){
+		if(isset(Http::$Request->Body->Variables['newsletter-mailing-from-email'])){
 			$this->FromEmail = Http::$Request->Body->Get('newsletter-mailing-from-email') ?? '';
 		}
 

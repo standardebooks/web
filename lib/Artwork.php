@@ -1320,11 +1320,11 @@ final class Artwork{
 		$this->PropertyFromRequest('CopyrightPageUrl');
 		$this->PropertyFromRequest('ArtworkPageUrl');
 		$this->PropertyFromRequest('MuseumUrl');
-		if(isset($_POST['artwork-exception'])){
+		if(isset(Http::$Request->Body->Variables['artwork-exception'])){
 			$this->Exception = Http::$Request->Body->Get('artwork-exception');
 		}
 
-		if(isset($_POST['artwork-notes'])){
+		if(isset(Http::$Request->Body->Variables['artwork-notes'])){
 			$this->Notes = Http::$Request->Body->Get('artwork-notes');
 		}
 

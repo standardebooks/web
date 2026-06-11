@@ -81,7 +81,7 @@ class EbookPlaceholder{
 			$this->PropertyFromRequest('Difficulty');
 			$this->PropertyFromRequest('TranscriptionUrl');
 
-			if(isset($_POST['ebook-placeholder-notes'])){
+			if(isset(Http::$Request->Body->Variables['ebook-placeholder-notes'])){
 				$this->Notes = Http::$Request->Body->Get('ebook-placeholder-notes');
 			}
 		}

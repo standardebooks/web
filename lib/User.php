@@ -646,7 +646,7 @@ final class User{
 		$this->PropertyFromRequest('Name');
 		$this->PropertyFromRequest('Uuid');
 
-		if(isset($_POST['user-email'])){
+		if(isset(Http::$Request->Body->Variables['user-email'])){
 			$this->Email = Http::$Request->Body->Get('user-email');
 		}
 

@@ -313,15 +313,15 @@ class BlogPost{
 	public function FillFromRequestBody(): void{
 		$this->PropertyFromRequest('Description');
 
-		if(isset($_POST['blog-post-title'])){
+		if(isset(Http::$Request->Body->Variables['blog-post-title'])){
 			$this->Title = Http::$Request->Body->Get('blog-post-title') ?? '';
 		}
 
-		if(isset($_POST['blog-post-subtitle'])){
+		if(isset(Http::$Request->Body->Variables['blog-post-subtitle'])){
 			$this->Subtitle = Http::$Request->Body->Get('blog-post-subtitle');
 		}
 
-		if(isset($_POST['blog-post-body'])){
+		if(isset(Http::$Request->Body->Variables['blog-post-body'])){
 			$this->Body = Http::$Request->Body->Get('blog-post-body');
 		}
 
