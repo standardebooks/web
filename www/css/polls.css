@@ -31,6 +31,10 @@ form > div.footer{
 	grid-column: 1 / span 2;
 }
 
+#ended-polls + .pagination{
+	margin-top: 4rem;
+}
+
 @media(max-width: 840px){
 	form > fieldset:first-of-type label{
 		grid-column: 1 / span 2;

@@ -377,4 +377,30 @@ class Poll{
 
 		return $result[0] ?? throw new Exceptions\PollNotFoundException();
 	}
+
+	/**
+	 * Get all past polls for a specific page, sorted by descending start date.
+	 *
+	 * @return array{'polls': array<int, Poll>, 'count': int}
+	 */
+	public static function GetAllPastByPage(int $page = 1, int $perPage = 5): array{
+		if($page <= 0){
+			$page = 1;
+		}
+
+		$offset = (($page - 1) * $perPage);
+
+		$polls = Db::Query('
+				SELECT SQL_CALC_FOUND_ROWS *
+				from Polls
+				where utc_timestamp() >= End
+				order by Start desc
+				limit ?
+				offset ?
+			', [$perPage, $offset], Poll::class);
+
+		$count = Db::QueryInt('SELECT found_rows()');
+
+		return ['polls' => $polls, 'count' => $count];
+	}
 }

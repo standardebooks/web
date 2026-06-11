@@ -8,27 +8,38 @@ use function Safe\session_unset;
 
 session_start();
 
-$isCreated = Http::$Request->Session->Get('is-poll-created', 'bool') ?? false;
-$isSaved = Http::$Request->Session->Get('is-poll-saved', 'bool') ?? false;
-$canEditPolls = Session::$User?->Benefits->CanEditPolls ?? false;
-$futurePolls = [];
+try{
+	$isCreated = Http::$Request->Session->Get('is-poll-created', 'bool') ?? false;
+	$isSaved = Http::$Request->Session->Get('is-poll-saved', 'bool') ?? false;
+	$canEditPolls = Session::$User?->Benefits->CanEditPolls ?? false;
+	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
+	$perPage = 5;
+	$futurePolls = [];
 
-if($isCreated){
-	http_response_code(Enums\HttpCode::Created->value);
-}
+	if($page <= 0){
+		$page = 1;
+	}
 
-if($isCreated || $isSaved){
-	session_unset();
-}
+	$result = Poll::GetAllPastByPage($page, $perPage);
 
-$pastPolls = Db::Query('
-				SELECT *
-				from Polls
-				where utc_timestamp() >= End
-				order by Start desc
-			', [], Poll::class);
+	$pastPolls = $result['polls'];
+	$totalPastPolls = $result['count'];
 
-$openPolls = Db::Query('
+	$pages = (int)ceil($totalPastPolls / $perPage);
+
+	if($pages > 0 && $page > $pages){
+		throw new Exceptions\PageOutOfBoundsException();
+	}
+
+	if($isCreated){
+		http_response_code(Enums\HttpCode::Created->value);
+	}
+
+	if($isCreated || $isSaved){
+		session_unset();
+	}
+
+	$openPolls = Db::Query('
 			SELECT *
 			from Polls
 			where
@@ -38,16 +49,20 @@ $openPolls = Db::Query('
 			order by Start desc
 		', [], Poll::class);
 
-if($canEditPolls){
-	$futurePolls = Db::Query('
-			SELECT *
-			from Polls
-			where
-				utc_timestamp() < Start
-			order by Start desc
-		', [], Poll::class);
+	if($canEditPolls){
+		$futurePolls = Db::Query('
+				SELECT *
+				from Polls
+				where utc_timestamp() < Start
+				order by Start desc
+			', [], Poll::class);
+	}
 }
-?><?= Template::Header(title: 'Polls', description: 'The various polls active at Standard Ebooks.') ?>
+catch(Exceptions\PageOutOfBoundsException){
+	header('location: /polls?page=' . $pages);
+	exit();
+}
+?><?= Template::Header(title: 'Polls', description: 'The various polls active at Standard Ebooks.', css: ['/css/polls.css']) ?>
 <main>
 	<section class="narrow has-hero">
 		<? if($canEditPolls){ ?>
@@ -73,13 +88,16 @@ if($canEditPolls){
 			<p>Periodically members of the <a href="/about#patrons-circle">Standard Ebooks Patrons Circle</a> vote on the next ebook from the <a href="/contribute/wanted-ebooks">Wanted Ebook List</a> to enter immediate production.</p>
 			<p>Anyone can <a href="/donate#patrons-circle">join the Patrons Circle</a> by making a small donation in support of our mission of producing beautiful digital literature, for free distribution.</p>
 		<? } ?>
+
 		<? if($isSaved){ ?>
 			<p class="message success">Poll saved!</p>
 		<? } ?>
+
 		<? if($isCreated){ ?>
 			<p class="message success">Poll created!</p>
 		<? } ?>
-		<? if(sizeof($futurePolls) > 0){ ?>
+
+		<? if(sizeof($futurePolls) > 0 && $page == 1){ ?>
 			<section id="future-polls">
 				<h2>Future polls</h2>
 				<ul>
@@ -93,7 +111,8 @@ if($canEditPolls){
 				</ul>
 			</section>
 		<? } ?>
-		<? if(sizeof($openPolls) > 0){ ?>
+
+		<? if(sizeof($openPolls) > 0 && $page == 1){ ?>
 			<section id="open-polls">
 				<h2>Open polls</h2>
 				<ul>
@@ -107,6 +126,7 @@ if($canEditPolls){
 				</ul>
 			</section>
 		<? } ?>
+
 		<? if(sizeof($pastPolls) > 0){ ?>
 			<section id="ended-polls">
 				<h2>Past polls</h2>
@@ -120,6 +140,17 @@ if($canEditPolls){
 					<? } ?>
 				</ul>
 			</section>
+			<nav class="pagination" aria-label="Pagination">
+				<a<? if($page > 1){ ?> href="/polls?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<ol>
+					<? for($i = 1; $i < $pages + 1; $i++){ ?>
+						<li>
+							<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/polls?page=<?= $i ?>"<? } ?>><?= $i ?></a>
+						</li>
+					<? } ?>
+				</ol>
+				<a<? if($page < $pages){ ?> href="/polls?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			</nav>
 		<? } ?>
 	</section>
 </main>

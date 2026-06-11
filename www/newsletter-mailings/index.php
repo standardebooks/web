@@ -81,34 +81,33 @@ catch(Exceptions\PageOutOfBoundsException){
 			<p class="message success">Newsletter mailing created!</p>
 		<? } ?>
 
-		<ol class="newsletter-mailings">
-			<? foreach($newsletterMailings as $newsletterMailing){ ?>
-				<li>
-					<p><?= Formatter::EscapeHtml($newsletterMailing->Subject) ?> (#<?= $newsletterMailing->NewsletterMailingId ?>)</p>
-					<p><?= ucfirst($newsletterMailing->Status->value) ?><? if($newsletterMailing->Status == Enums\QueueStatus::Completed && $newsletterMailing->RecipientCount !== null){ ?> • <?= number_format($newsletterMailing->RecipientCount) ?> <?= Formatter::Pluralize($newsletterMailing->RecipientCount, 'recipient') ?><? } ?><? if($newsletterMailing->ExcludePatrons){ ?> (Patrons excluded)<? } ?></p>
-					<p><?= $newsletterMailing->SendOn->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?> • <?= Formatter::EscapeHtml($newsletterMailing->Newsletter->Name) ?></p>
-					<? if(Session::$User->Benefits->CanEditNewsletterMailings){ ?>
-						<p>
-							<a href="<?= $newsletterMailing->EditUrl ?>">Edit</a>
-						</p>
-					<? } ?>
-				</li>
-			<? } ?>
-			</ol>
-
-			<? if(sizeof($newsletterMailings) > 0){ ?>
-				<nav class="pagination" aria-label="Pagination">
-					<a<? if($page > 1){ ?> href="/newsletter-mailings?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
-					<ol>
-						<? for($i = 1; $i < $pages + 1; $i++){ ?>
-							<li>
-								<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/newsletter-mailings?page=<?= $i ?>"<? } ?>><?= $i ?></a>
-							</li>
+		<? if(sizeof($newsletterMailings) > 0){ ?>
+			<ol class="newsletter-mailings">
+				<? foreach($newsletterMailings as $newsletterMailing){ ?>
+					<li>
+						<p><?= Formatter::EscapeHtml($newsletterMailing->Subject) ?> (#<?= $newsletterMailing->NewsletterMailingId ?>)</p>
+						<p><?= ucfirst($newsletterMailing->Status->value) ?><? if($newsletterMailing->Status == Enums\QueueStatus::Completed && $newsletterMailing->RecipientCount !== null){ ?> • <?= number_format($newsletterMailing->RecipientCount) ?> <?= Formatter::Pluralize($newsletterMailing->RecipientCount, 'recipient') ?><? } ?><? if($newsletterMailing->ExcludePatrons){ ?> (Patrons excluded)<? } ?></p>
+						<p><?= $newsletterMailing->SendOn->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?> • <?= Formatter::EscapeHtml($newsletterMailing->Newsletter->Name) ?></p>
+						<? if(Session::$User->Benefits->CanEditNewsletterMailings){ ?>
+							<p>
+								<a href="<?= $newsletterMailing->EditUrl ?>">Edit</a>
+							</p>
 						<? } ?>
-					</ol>
-					<a<? if($page < $pages){ ?> href="/newsletter-mailings?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
-				</nav>
-			<? } ?>
-		</section>
-	</main>
+					</li>
+				<? } ?>
+			</ol>
+			<nav class="pagination" aria-label="Pagination">
+				<a<? if($page > 1){ ?> href="/newsletter-mailings?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<ol>
+					<? for($i = 1; $i < $pages + 1; $i++){ ?>
+						<li>
+							<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/newsletter-mailings?page=<?= $i ?>"<? } ?>><?= $i ?></a>
+						</li>
+					<? } ?>
+				</ol>
+				<a<? if($page < $pages){ ?> href="/newsletter-mailings?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			</nav>
+		<? } ?>
+	</section>
+</main>
 <?= Template::Footer() ?>
