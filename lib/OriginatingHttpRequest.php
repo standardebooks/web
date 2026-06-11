@@ -144,16 +144,15 @@ class OriginatingHttpRequest{
 			exit();
 		}
 
+		$requestBody = file_get_contents('php://input');
+		$variables = [];
 		if($this->ContentType !== null && preg_match('/^(application\/x-www-form-urlencoded|multipart\/form-data)(;|$)/', $this->ContentType)){
-			$variables = [];
-			$body = file_get_contents('php://input');
-
 			if($this->RawMethod == Enums\HttpMethod::Post){
 				$variables = $_POST;
 			}
 			else{
 				// TODO: On PHP >= 8.4, use the new `request_parse_body()` function instead.
-				parse_str($body, $parsedVariables);
+				parse_str($requestBody, $parsedVariables);
 
 				// `parse_str()` may return ints as array keys, normalize that here.
 				foreach($parsedVariables as $key => $value){
@@ -164,12 +163,9 @@ class OriginatingHttpRequest{
 					$variables[$key] = $value;
 				}
 			}
+		}
 
-			$this->Body = new HttpVariablesInterface($body, $variables);
-		}
-		else{
-			$this->Body = new HttpVariablesInterface('', []);
-		}
+		$this->Body = new HttpVariablesInterface($requestBody, $variables);
 
 		$this->Cookies = new HttpVariablesInterface($this->Headers['cookie'] ?? '', $_COOKIE);
 

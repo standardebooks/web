@@ -1,38 +1,26 @@
 <?
 /**
- * POST		/webhooks/zoho
+ * POST		/webhooks/zoho/donations
  *
  * This script receives `POST` requests when email from a Fractured Atlas donation is received at the SE Zoho email account. It processes the email, and inserts the donation ID into the database for later processing by `~se/web/scripts/process-pending-payments`.
  */
 
-use function Safe\file_get_contents;
 use function Safe\get_cfg_var;
-use function Safe\json_decode;
 use function Safe\preg_match;
 
 try{
 	$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
-	$log->Queue('Received Zoho webhook.');
+	$log->Queue('Received Zoho donations webhook.');
 
-	$post = file_get_contents('php://input');
+	/** @var string $secret */
+	$secret = get_cfg_var('se.secrets.zoho.mail.webhooks.donations_secret');
+	$webhook = new ZohoWebhook($secret);
 
-	// Validate the Zoho secret.
-	/** @var string $zohoWebhookSecret */
-	$zohoWebhookSecret = get_cfg_var('se.secrets.zoho.webhook_secret');
-
-	$zohoHookSignature = Http::$Request->Headers['x-hook-signature'] ?? '';
-	if(!hash_equals($zohoHookSignature, base64_encode(hash_hmac('sha256', $post, $zohoWebhookSecret, true)))){
-		throw new Exceptions\CredentialsInvalidException();
-	}
-
-	/** @var stdClass $data */
-	$data = json_decode($post);
-
-	if($data->fromAddress == 'support@fracturedatlas.org' && strpos($data->subject, 'NOTICE:') !== false){
+	if($webhook->Data->fromAddress == 'support@fracturedatlas.org' && strpos($webhook->Data->subject, 'NOTICE:') !== false){
 		$log->Queue('Processing new donation.');
 
 		// Get the donation ID.
-		preg_match('/Donation ID: ([0-9a-f\-]+)/us', $data->html, $matches);
+		preg_match('/Donation ID: ([0-9a-f\-]+)/us', $webhook->Data->html, $matches);
 		if(sizeof($matches) == 2){
 			$transactionId = $matches[1];
 
@@ -46,26 +34,24 @@ try{
 			$log->Queue('Donation ID: ' . $transactionId);
 		}
 		else{
-			throw new Exceptions\WebhookException('Couldn\'t find donation ID.');
+			throw new Exceptions\WebhookException('Couldn\'t find donation ID.', Http::$Request->Body->RawBody);
 		}
 	}
 
-	$log->Queue('Event processed.');
-
+	$log->WriteQueue();
 	// Don't write out to the log if everything was successful.
-
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
 catch(Exceptions\CredentialsInvalidException){
-	$log->Queue('Couldn\'t validate POST data.');
+	$log->Queue('Couldn\'t validate request signature.');
 	$log->WriteQueue();
-	http_response_code(Enums\HttpCode::Forbidden->value);
+
+	http_response_code(Enums\HttpCode::Unauthorized->value);
 }
 catch(Exceptions\WebhookException $ex){
-	// Uh oh, something went wrong!
 	// Log detailed error and debugging information.
-	$log->Queue('Webhook failed! Error: ' . $ex->getMessage());
-	$log->Queue('Webhook POST data: ' . $ex->PostData);
+	$log->Queue('Processing failed: ' . $ex->getMessage());
+	$log->Queue('Request body: ' . $ex->PostData);
 	$log->WriteQueue();
 
 	// Print fewer details to the client.

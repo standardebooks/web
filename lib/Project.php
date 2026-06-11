@@ -1,7 +1,6 @@
 <?
 use function Safe\parse_url;
 use function Safe\preg_match;
-use function Safe\preg_match_all;
 use function Safe\preg_replace;
 
 use Enums\ProjectStatusType;
@@ -29,6 +28,7 @@ final class Project{
 	public Enums\ProjectStatusType $Status = Enums\ProjectStatusType::InProgress;
 	public int $ProducerUserId;
 	public ?string $DiscussionUrl = null;
+	public ?string $DiscussionMessageId = null;
 	public ?string $VcsUrl;
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
@@ -217,29 +217,27 @@ final class Project{
 		}
 
 		$this->DiscussionUrl = trim($this->DiscussionUrl ?? '');
+		$this->DiscussionMessageId = null;
+
 		if($this->DiscussionUrl == ''){
 			$this->DiscussionUrl = null;
 		}
 		else{
-			if(preg_match('|^https://groups\.google\.com/d/msgid/|iu', $this->DiscussionUrl)){
-				// This URL links to a message which will perform some HTTP redirects to resolve to the actual thread URL.
-				// Resolve that URL before continuing.
-				try{
-					$response = HttpRequest::Execute(Enums\HttpMethod::Head, $this->DiscussionUrl);
-					$this->DiscussionUrl = $response->FinalUrl;
-				}
-				catch(Exceptions\HttpRequestException){
-					// Pass.
-				}
+			if(preg_match('|^https://groups\.google\.com/|iu', $this->DiscussionUrl)){
+				// Strip any query strings.
+				$this->DiscussionUrl = preg_replace('/\?.+$/iu', '', $this->DiscussionUrl);
+
+				// Strip stray periods from the URL that may have been copied/pasted in.
+				$this->DiscussionUrl = trim($this->DiscussionUrl, '.');
 			}
 
-			if(preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl)){
-				// Get the base thread URL in case we were passed a URL with a specific message or query string.
-				$this->DiscussionUrl = preg_replace('|^(https://groups\.google\.com/g/standardebooks/c/[^/]+).*|iu', '\1', $this->DiscussionUrl);
-			}
+			// If we were passed a URL with a message ID, store that.
+			if(preg_match('|^https://groups\.google\.com/d/msgid/standardebooks/([^/\?]+)$|iu', $this->DiscussionUrl, $matches)){
+				$messageId = trim(urldecode($matches[1]), '<>');
 
-			if(!preg_match('|^https://groups\.google\.com/g/standardebooks/c/[^/\?]+$|iu', $this->DiscussionUrl)){
-				$error->Add(new Exceptions\DiscussionUrlInvalidException($this->DiscussionUrl));
+				if(preg_match('/^[^<>\s@]+?@[^<>\s@]+$/iu', $messageId)){
+					$this->DiscussionMessageId = $messageId;
+				}
 			}
 		}
 
@@ -338,13 +336,6 @@ final class Project{
 		}
 
 		try{
-			$this->FetchLastDiscussionTimestamp();
-		}
-		catch(Exceptions\AppException){
-			// Pass; it's OK if this fails during creation.
-		}
-
-		try{
 			$this->FetchLastCommitTimestamp();
 		}
 		catch(Exceptions\AppException){
@@ -373,6 +364,7 @@ final class Project{
 					Status,
 					ProducerUserId,
 					DiscussionUrl,
+					DiscussionMessageId,
 					VcsUrl,
 					Created,
 					Updated,
@@ -399,10 +391,11 @@ final class Project{
 					?,
 					?,
 					?,
+					?,
 					?
 				)
 				returning ProjectId
-			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
+			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->DiscussionMessageId, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
 
 		// Notify the manager and reviewer.
 		if($this->Status == Enums\ProjectStatusType::InProgress){
@@ -457,6 +450,7 @@ final class Project{
 			Status = ?,
 			ProducerUserId = ?,
 			DiscussionUrl = ?,
+			DiscussionMessageId = ?,
 			VcsUrl = ?,
 			Started = ?,
 			Ended = ?,
@@ -467,7 +461,7 @@ final class Project{
 			IsStatusAutomaticallyUpdated = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
+		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->DiscussionMessageId, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
 
 		Db::Query('
 			UPDATE
@@ -632,64 +626,6 @@ final class Project{
 		}
 		catch(Exception $ex){
 			throw new Exceptions\AppException(message: 'Error when fetching commits for URL <' . $url . '>: ' . $ex->getMessage(), previous: $ex);
-		}
-	}
-
-	/**
-	 * Update this object's `$LastDiscussionTimestamp` with data from its discussion page.
-	 *
-	 * @throws Exceptions\AppException If the operation failed.
-	 */
-	public function FetchLastDiscussionTimestamp(): void{
-		if(
-			$this->DiscussionUrl === null
-			||
-			!preg_match('|^https://groups\.google\.com/g/standardebooks/|iu', $this->DiscussionUrl)
-		){
-			return;
-		}
-
-		try{
-			$response = HttpRequest::Execute(Enums\HttpMethod::Get, $this->DiscussionUrl);
-
-			if(!$response->HttpCode->IsSuccess()){
-				throw new Exception('Server responded with HTTP ' . $response->HttpCode->value . '.');
-			}
-
-			// Posts that were today are listed as `n minutes ago` or `n hours ago`, without a timestamp. Try to approximate a timestamp if that's the case.
-			$matchCount = preg_match_all('/<span class="[^"]+?">[^<]+\(([\d]+ (?:minutes?|hours?) ago)\s*\)\s*<\/span>/ius', $response->Body, $matches);
-
-			if($matchCount > 0){
-				// Unsure of the time zone, so just assume UTC.
-				try{
-					$this->LastDiscussionTimestamp = new DateTimeImmutable(str_replace(' ', ' ', $matches[1][sizeof($matches[1]) - 1]));
-				}
-				catch(\Exception){
-					// Failed to parse date, pass.
-					$this->LastDiscussionTimestamp = null;
-				}
-			}
-			else{
-				// No `n minutes ago` matches, try to match a full timestamp.
-				$matchCount = preg_match_all('/<span class="[^"]+?">([a-z]{3} [\d]{1,2}, [\d]{4}, [\d]{1,2}:[\d]{1,2}:[\d]{1,2} (?:AM|PM))/iu', $response->Body, $matches);
-
-				if($matchCount > 0){
-					// Unsure of the time zone, so just assume UTC.
-					try{
-						$this->LastDiscussionTimestamp = new DateTimeImmutable(str_replace(' ', ' ', $matches[1][sizeof($matches[1]) - 1]));
-					}
-					catch(\Exception){
-						// Failed to parse date, pass.
-						$this->LastDiscussionTimestamp = null;
-					}
-				}
-				else{
-					$this->LastDiscussionTimestamp = null;
-				}
-			}
-		}
-		catch(Exception $ex){
-			throw new Exceptions\AppException(message: 'Error when fetching discussion for URL <' . $this->DiscussionUrl . '>: ' . $ex->getMessage(), previous: $ex);
 		}
 	}
 

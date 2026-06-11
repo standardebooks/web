@@ -1,7 +1,7 @@
 <?
 /**
+ * GET		/webhooks/zoho
  * POST		/webhooks/zoho
  */
 
-Http::$Request->Route();
-
+Template::ExitWithCode(Enums\HttpCode::NotFound);

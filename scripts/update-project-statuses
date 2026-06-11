@@ -4,7 +4,9 @@ require_once(__DIR__ . '/../lib/Core.php');
 
 use Safe\DateTimeImmutable;
 use function Safe\file_get_contents;
+use function Safe\get_cfg_var;
 use function Safe\getopt;
+use function Safe\preg_match;
 use function Safe\sleep;
 
 function Usage(): void{
@@ -29,6 +31,62 @@ if(sizeof($parameters) != 0){
 }
 
 /**
+ * First, check for updated discussion in Google Groups. We can't poll Google Groups discussion pages because 1) they're div soup and it's hard to parse the correct last post date, and 2) Google often blocks our IP for doing automated requests.
+ * Instead, we have a special email address subscribed to the S.E. Google Groups mailing list. It receives all email from the group. Then, we use IMAP to poll that email address daily for unread group messages. We extract the originating message ID from the email headers, and use that to find the project and update its timestamp.
+ * We can't use Zoho webhooks because 1) webhooks don't include email headers, which we need for this, and 2) IMAP is more portable to a different email provider in the future.
+ */
+
+/** @var string $username */
+$username = get_cfg_var('se.secrets.zoho.mail.projects_username');
+/** @var string $password */
+$password = get_cfg_var('se.secrets.zoho.mail.projects_password');
+
+/** @var array<string, Safe\DateTimeImmutable> $updatedProjectMessageIds */
+$updatedProjectMessageIds = [];
+
+try{
+	$mailbox = new PhpImap\Mailbox('{imappro.zoho.com:993/imap/ssl}INBOX', $username, $password);
+	// Expunge deleted mails upon mailbox close.
+	$mailbox->setConnectionArgs(CL_EXPUNGE);
+
+	// See <https://php.net/manual/en/function.imap-search.php>.
+	$emailIds = $mailbox->searchMailbox('ALL');
+
+	foreach($emailIds as $emailId){
+		$email = $mailbox->getMail($emailId);
+
+		if(
+			preg_match('/\bstandardebooks@googlegroups\.com\b/iu', $email->toString ?? '')
+			&&
+			preg_match('/<[^@]+?@[^@]+?>/iu', $email->headers->references ?? '', $matches)
+		){
+			// The `references` header can contain more than one message ID. Use the first one as the canonical one.
+			$messageId = trim($matches[0], '<>');
+			$timestamp = NOW;
+			if($email->date !== null){
+				try{
+					$timestamp = new DateTimeImmutable($email->date);
+				}
+				catch(\Throwable){
+					// Pass.
+				}
+			}
+
+			if(!isset($updatedProjectMessageIds[$messageId]) || $updatedProjectMessageIds[$messageId] < $timestamp){
+				$updatedProjectMessageIds[$messageId] = $timestamp;
+			}
+		}
+
+		$mailbox->markMailAsRead($emailId);
+		$mailbox->moveMail($emailId, 'Trash');
+	}
+}
+catch(\Exception $ex){
+	$log = new Log();
+	$log->Write('Failed connecting to IMAP account: ' . $ex->getMessage());
+}
+
+/**
  * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit.
  *
  * If the last activity was more than 30 days old, mark the `Project` as stalled and send a reminder email.
@@ -47,24 +105,17 @@ shuffle($projects);
 $apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
 $oldestStalledTimestamp = new DateTimeImmutable('60 days ago');
 $oldestAbandonedTimestamp = new DateTimeImmutable('60 days ago');
-$continueFetchingLastDiscussionTimestamp = true;
 $continueFetchingLastCommitTimestamp = true;
 
 foreach($projects as $project){
-	if($continueFetchingLastDiscussionTimestamp){
-		try{
-			$project->FetchLastDiscussionTimestamp();
-		}
-		catch(Exceptions\AppException $ex){
-			// If we got rate limited, stop requesting more items in this loop.
-			if(stripos($ex->getMessage(), 'http 429') !== false){
-				$continueFetchingLastDiscussionTimestamp = false;
-			}
-			else{
-				$log = new Log();
-				$log->Write($ex->getMessage());
-			}
-		}
+	if(
+		$project->DiscussionMessageId !== null
+		&&
+		isset($updatedProjectMessageIds[$project->DiscussionMessageId])
+		&&
+		$project->LastDiscussionTimestamp < $updatedProjectMessageIds[$project->DiscussionMessageId]
+	){
+		$project->LastDiscussionTimestamp = $updatedProjectMessageIds[$project->DiscussionMessageId];
 	}
 
 	if($continueFetchingLastCommitTimestamp){
@@ -144,5 +195,5 @@ foreach($projects as $project){
 
 	$project->Save();
 
-	sleep(random_int(8,17));
+	sleep(random_int(10, 20));
 }

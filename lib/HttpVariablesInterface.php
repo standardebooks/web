@@ -6,7 +6,7 @@ class HttpVariablesInterface{
 	// public readonly DOMDocument $Dom; // TODO: Implement as a property hook that throws an exception on invalid XML/XHTML/HTML.
 
 	/** The raw body of this source, e.g. a query string or a `POST` body. */
-	public readonly string $Body;
+	public readonly string $RawBody;
 	/** @var array<string, mixed> $Variables The request body parsed into a key/value array, if the request was form data. */
 	public readonly array $Variables;
 
@@ -15,12 +15,12 @@ class HttpVariablesInterface{
 	 * @param array<string, mixed> $variables An key/value array representing the parsed request body, e.g. `$_POST`.
 	 */
 	public function __construct(string $body, array $variables){
-		$this->Body = $body;
+		$this->RawBody = $body;
 		$this->Variables = $variables;
 	}
 
 	public function __toString(): string{
-		return $this->Body;
+		return $this->RawBody;
 	}
 
 	/**
