@@ -1,4 +1,6 @@
 <?
+use function Safe\preg_replace;
+
 $artworks = [];
 $page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 $perPage = Http::$Request->QueryString->Get('per-page', 'int') ?? ARTWORK_PER_PAGE;
@@ -18,10 +20,6 @@ $submitterUserId = Session::$User?->Benefits->CanUploadArtwork ? Session::$User-
 $isSubmitterView = !$isReviewerView && $submitterUserId !== null;
 
 try{
-	if($page <= 0){
-		$page = 1;
-	}
-
 	if($perPage != ARTWORK_PER_PAGE && $perPage != 40 && $perPage != 80){
 		$perPage = ARTWORK_PER_PAGE;
 	}
@@ -71,11 +69,13 @@ try{
 		// We're being called from the `review` script, and we're only interested if the artwork exists for this URL.
 		$artworks[] = Db::Query('SELECT a.* from Artworks a inner join Ebooks e using (EbookId) where e.Identifier = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class)[0] ?? throw new Exceptions\ArtworkNotFoundException();
 		$totalArtworkCount = 1;
+		$pages = 1;
 	}
 	else{
 		$result = Artwork::GetAllByFilter($query, $startYear, $endYear, $artworkFilterType, $sort, $submitterUserId, $page, $perPage);
 		$artworks = $result['artworks'];
 		$totalArtworkCount = $result['count'];
+		$pages = $result['totalPages'];
 	}
 
 	$pageTitle = 'Browse Artwork';
@@ -127,18 +127,13 @@ try{
 	if($queryString != ''){
 		$canonicalUrl .= '?' . $queryString;
 	}
-
-	$pages = ceil($totalArtworkCount / $perPage);
-	if($pages > 0 && $page > $pages){
-		throw new Exceptions\PageOutOfBoundsException();
-	}
 }
 catch(Exceptions\ArtworkNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-catch(Exceptions\PageOutOfBoundsException){
+catch(Exceptions\PageOutOfBoundsException $ex){
 	/** @var string $queryStringWithoutPage */
-	$url = '/artworks?page=' . $pages;
+	$url = '/artworks?page=' . $ex->TotalPages;
 	if($queryStringWithoutPage != ''){
 		$url .= '&' . $queryStringWithoutPage;
 	}

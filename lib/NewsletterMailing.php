@@ -577,11 +577,17 @@ class NewsletterMailing{
 	/**
 	 * Get all newsletter mailings for a specific page, sorted by descending send date.
 	 *
-	 * @return array{'newsletterMailings': array<int, NewsletterMailing>, 'count': int}
+	 * @return array{'newsletterMailings': array<int, NewsletterMailing>, 'count': int, 'totalPages': int}
+	 *
+	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
 	public static function GetAllByPage(int $page = 1, int $perPage = 10): array{
 		if($page <= 0){
 			$page = 1;
+		}
+
+		if($perPage <= 0){
+			$perPage = 10;
 		}
 
 		$offset = (($page - 1) * $perPage);
@@ -595,8 +601,13 @@ class NewsletterMailing{
 			', [$perPage, $offset], NewsletterMailing::class);
 
 		$count = Db::QueryInt('SELECT found_rows()');
+		$totalPages = (int)ceil($count / $perPage);
 
-		return ['newsletterMailings' => $newsletterMailings, 'count' => $count];
+		if($totalPages > 0 && $page > $totalPages){
+			throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
+		}
+
+		return ['newsletterMailings' => $newsletterMailings, 'count' => $count, 'totalPages' => $totalPages];
 	}
 
 	public function FillFromRequestBody(): void{

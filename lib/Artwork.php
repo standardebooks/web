@@ -1048,11 +1048,21 @@ final class Artwork{
 	}
 
 	/**
-	* @return array{'artworks': array<Artwork>, 'count': int}
-	*/
+	 * @return array{'artworks': array<Artwork>, 'count': int, 'totalPages': int}
+	 *
+	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
+	 */
 	public static function GetAllByFilter(?string $query = null, ?int $startYear = null, ?int $endYear = null, ?Enums\ArtworkFilterType $artworkFilterType = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): array{
 		if($artworkFilterType === null){
 			$artworkFilterType = Enums\ArtworkFilterType::Approved;
+		}
+
+		if($page <= 0){
+			throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
+		}
+
+		if($perPage <= 0){
+			$perPage = ARTWORK_PER_PAGE;
 		}
 
 		$query = trim($query ?? '');
@@ -1168,6 +1178,11 @@ final class Artwork{
 				offset ?', $params, Artwork::class);
 
 			$artworksCount = Db::QueryInt('SELECT found_rows()');
+			$totalPages = (int)ceil($artworksCount / $perPage);
+
+			if($totalPages > 0 && $page > $totalPages){
+				throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
+			}
 		}
 		else{
 			$whereCondition .= ' and match(?)';
@@ -1190,12 +1205,18 @@ final class Artwork{
 				$artworksCount = SearchDb::QueryMatch('SELECT count(*) as Count from artworks where ' . $whereCondition, $params, sizeof($params) - 1)[0]->count ?? 0;
 			}
 
+			$totalPages = (int)ceil($artworksCount / $perPage);
+
+			if($totalPages > 0 && $page > $totalPages){
+				throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
+			}
+
 			if($artworksCount == 0){
-				return ['artworks' => [], 'count' => 0];
+				return ['artworks' => [], 'count' => 0, 'totalPages' => $totalPages];
 			}
 
 			if(sizeof($result) == 0){
-				return ['artworks' => [], 'count' => $artworksCount];
+				return ['artworks' => [], 'count' => $artworksCount, 'totalPages' => $totalPages];
 			}
 
 			$ids = '';
@@ -1216,7 +1237,7 @@ final class Artwork{
 				, [], Artwork::class);
 		}
 
-		return ['artworks' => $artworks, 'count' => $artworksCount];
+		return ['artworks' => $artworks, 'count' => $artworksCount, 'totalPages' => $totalPages];
 	}
 
 	/**

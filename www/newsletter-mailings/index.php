@@ -15,23 +15,13 @@ try{
 
 	$isCreated = Http::$Request->Session->Get('is-newsletter-mailing-created', 'bool') ?? false;
 	$isSaved = Http::$Request->Session->Get('is-newsletter-mailing-saved', 'bool') ?? false;
-	$page = Http::$Request->QueryString->Get('page', 'int') ?? null;
+	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 	$perPage = 5;
-
-	if($page <= 0){
-		$page = 1;
-	}
 
 	$result = NewsletterMailing::GetAllByPage($page, $perPage);
 
 	$newsletterMailings = $result['newsletterMailings'];
-	$totalNewsletterMailings = $result['count'];
-
-	$pages = (int)ceil($totalNewsletterMailings / $perPage);
-
-	if($pages > 0 && $page > $pages){
-		throw new Exceptions\PageOutOfBoundsException();
-	}
+	$pages = $result['totalPages'];
 
 	if($isCreated){
 		http_response_code(Enums\HttpCode::Created->value);
@@ -47,8 +37,8 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\PageOutOfBoundsException){
-	header('location: /newsletter-mailings?page=' . $pages);
+catch(Exceptions\PageOutOfBoundsException $ex){
+	header('location: /newsletter-mailings?page=' . $ex->TotalPages);
 	exit();
 }
 ?>

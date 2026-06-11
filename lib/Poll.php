@@ -381,11 +381,17 @@ class Poll{
 	/**
 	 * Get all past polls for a specific page, sorted by descending start date.
 	 *
-	 * @return array{'polls': array<int, Poll>, 'count': int}
-	 */
+	 * @return array{'polls': array<int, Poll>, 'count': int, 'totalPages': int}
+	 *
+	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
+	 */	
 	public static function GetAllPastByPage(int $page = 1, int $perPage = 5): array{
 		if($page <= 0){
 			$page = 1;
+		}
+
+		if($perPage <= 0){
+			$perPage = 5;
 		}
 
 		$offset = (($page - 1) * $perPage);
@@ -400,7 +406,12 @@ class Poll{
 			', [$perPage, $offset], Poll::class);
 
 		$count = Db::QueryInt('SELECT found_rows()');
+		$totalPages = (int)ceil($count / $perPage);
 
-		return ['polls' => $polls, 'count' => $count];
+		if($totalPages > 0 && $page > $totalPages){
+			throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
+		}
+
+		return ['polls' => $polls, 'count' => $count, 'totalPages' => $totalPages];
 	}
 }

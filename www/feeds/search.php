@@ -15,10 +15,6 @@ try{
 		throw new Exceptions\NotFoundException();
 	}
 
-	if($page <= 0){
-		throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
-	}
-
 	if($perPage <= 0){
 		$perPage = EBOOKS_PER_PAGE;
 	}
@@ -32,11 +28,7 @@ try{
 
 		$ebooks = $result['ebooks'];
 		$totalEbooks = $result['ebooksCount'];
-		$pages = intval(ceil($totalEbooks / $perPage));
-
-		if($pages > 0 && $page > $pages){
-			throw new Exceptions\PageOutOfBoundsException(totalPages: $pages);
-		}
+		$pages = $result['totalPages'];
 
 		if($pages <= 0){
 			$pages = 1;

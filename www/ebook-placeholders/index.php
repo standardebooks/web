@@ -15,21 +15,10 @@ try{
 	$page = Http::$Request->QueryString->Get('page', 'int') ?? null;
 	$perPage = 50;
 
-	if($page <= 0){
-		$page = 1;
-	}
-
 	$result = Ebook::GetAllPlaceholders($page, $perPage);
 
 	$ebooks = $result['ebookPlaceholders'];
-	$totalEbooks = $result['count'];
-
-	$pages = (int)ceil($totalEbooks / $perPage);
-
-	if($pages > 0 && $page > $pages){
-		throw new Exceptions\PageOutOfBoundsException();
-	}
-
+	$pages = $result['totalPages'];
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -37,8 +26,8 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\PageOutOfBoundsException){
-	header('location: /ebook-placeholders?page=' . $pages);
+catch(Exceptions\PageOutOfBoundsException $ex){
+	header('location: /ebook-placeholders?page=' . $ex->TotalPages);
 	exit();
 }
 ?>

@@ -16,20 +16,10 @@ try{
 	$perPage = 5;
 	$futurePolls = [];
 
-	if($page <= 0){
-		$page = 1;
-	}
-
 	$result = Poll::GetAllPastByPage($page, $perPage);
 
 	$pastPolls = $result['polls'];
-	$totalPastPolls = $result['count'];
-
-	$pages = (int)ceil($totalPastPolls / $perPage);
-
-	if($pages > 0 && $page > $pages){
-		throw new Exceptions\PageOutOfBoundsException();
-	}
+	$pages = $result['totalPages'];
 
 	if($isCreated){
 		http_response_code(Enums\HttpCode::Created->value);
@@ -58,8 +48,8 @@ try{
 			', [], Poll::class);
 	}
 }
-catch(Exceptions\PageOutOfBoundsException){
-	header('location: /polls?page=' . $pages);
+catch(Exceptions\PageOutOfBoundsException $ex){
+	header('location: /polls?page=' . $ex->TotalPages);
 	exit();
 }
 ?><?= Template::Header(title: 'Polls', description: 'The various polls active at Standard Ebooks.', css: ['/css/polls.css']) ?>

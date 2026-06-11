@@ -103,23 +103,15 @@ try{
 		$canonicalUrl .= '?' . $queryString;
 	}
 
-	if($page <= 0){
-		throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
-	}
-
 	$result = Ebook::GetAllByFilter($query != '' ? $query : null, $tags, $sort, $page, $perPage, Enums\EbookReleaseStatusFilter::All);
 	$ebooks = $result['ebooks'];
 	$totalEbooks = $result['ebooksCount'];
 	$pageTitle = 'Browse Standard Ebooks';
 	$pageHeader = 'Browse Ebooks';
-	$pages = intval(ceil($totalEbooks / $perPage));
+	$pages = $result['totalPages'];
 
 	if($page > 1){
 		$pageTitle .= ', page ' . $page;
-	}
-
-	if($pages > 0 && $page > $pages){
-		throw new Exceptions\PageOutOfBoundsException(totalPages: $pages);
 	}
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
