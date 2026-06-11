@@ -30,3 +30,16 @@ form > div.footer{
 	margin-top: 0;
 	grid-column: 1 / span 2;
 }
+
+@media(max-width: 840px){
+	form > fieldset:first-of-type label{
+		grid-column: 1 / span 2;
+	}
+}
+
+
+@media(max-width: 480px){
+	form .closed-group label{
+		grid-column: 1 / span 2;
+	}
+}

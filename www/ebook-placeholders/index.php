@@ -63,7 +63,7 @@ catch(Exceptions\PageOutOfBoundsException){
 					<li>
 						<p>
 							<a href="<?= $ebook->Url ?>"><i><?= Formatter::EscapeHtml($ebook->Title) ?></i></a>
-							by <a href="<?= $ebook->AuthorsUrl ?>"><?= Formatter::EscapeHtml($ebook->AuthorsString) ?></a> • <a href="<?= $ebook->EditUrl ?>">Edit</a>
+							by <a href="<?= $ebook->AuthorsUrl ?>"><?= Formatter::EscapeHtml($ebook->AuthorsString) ?></a> • <a href="<?= $ebook->EditUrl ?>">Edit</a>
 						</p>
 					</li>
 				<? } ?>

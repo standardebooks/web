@@ -19,7 +19,7 @@ else{
 			<? foreach($blogPosts as $blogPost){ ?>
 				<li>
 					<p>
-						<a href="<?= $blogPost->Url ?>"><?= $blogPost->Title ?></a><? if(Session::$User?->Benefits->CanEditBlogPosts){ ?> • <? if($blogPost->Body === null){ ?>Must be edited in the database<? }else{ ?><a href="<?= $blogPost->EditUrl ?>">Edit</a><? } ?><? } ?>
+						<a href="<?= $blogPost->Url ?>"><?= $blogPost->Title ?></a><? if(Session::$User?->Benefits->CanEditBlogPosts){ ?> • <? if($blogPost->Body === null){ ?>Must be edited in the database<? }else{ ?><a href="<?= $blogPost->EditUrl ?>">Edit</a><? } ?><? } ?>
 					</p>
 				</li>
 			<? } ?>

@@ -132,7 +132,7 @@ catch(Exceptions\PermissionsInvalidException){
 			<ul>
 				<? foreach($user->NewsletterSubscriptions as $newsletterSubscription){ ?>
 					<li>
-						<p><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?> — <a href="<?= $newsletterSubscription->DeleteUrl ?>">Unsubscribe</a></p>
+						<p><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?> • <a href="<?= $newsletterSubscription->DeleteUrl ?>">Unsubscribe</a></p>
 					</li>
 				<? } ?>
 			</ul>
