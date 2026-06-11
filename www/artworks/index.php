@@ -1,6 +1,4 @@
 <?
-use function Safe\preg_replace;
-
 $artworks = [];
 $page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 $perPage = Http::$Request->QueryString->Get('per-page', 'int') ?? ARTWORK_PER_PAGE;
@@ -65,26 +63,6 @@ try{
 		$artworkFilterType = Enums\ArtworkFilterType::ApprovedSubmitter;
 	}
 
-	if($queryEbookUrl !== null){
-		// We're being called from the `review` script, and we're only interested if the artwork exists for this URL.
-		$artworks[] = Db::Query('SELECT a.* from Artworks a inner join Ebooks e using (EbookId) where e.Identifier = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class)[0] ?? throw new Exceptions\ArtworkNotFoundException();
-		$totalArtworkCount = 1;
-		$pages = 1;
-	}
-	else{
-		$result = Artwork::GetAllByFilter($query, $startYear, $endYear, $artworkFilterType, $sort, $submitterUserId, $page, $perPage);
-		$artworks = $result['artworks'];
-		$totalArtworkCount = $result['count'];
-		$pages = $result['totalPages'];
-	}
-
-	$pageTitle = 'Browse Artwork';
-	if($page > 1){
-		$pageTitle .= ', page ' . $page;
-	}
-
-	$pageDescription = 'Page ' . $page . ' of artwork';
-
 	$queryStringParams = [];
 
 	if($query !== null && $query != ''){
@@ -121,6 +99,26 @@ try{
 
 	unset($queryStringParams['page']);
 	$queryStringWithoutPage = http_build_query($queryStringParams);
+
+	if($queryEbookUrl !== null){
+		// We're being called from the `review` script, and we're only interested if the artwork exists for this URL.
+		$artworks[] = Db::Query('SELECT a.* from Artworks a inner join Ebooks e using (EbookId) where e.Identifier = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class)[0] ?? throw new Exceptions\ArtworkNotFoundException();
+		$totalArtworkCount = 1;
+		$pages = 1;
+	}
+	else{
+		$result = Artwork::GetAllByFilter($query, $startYear, $endYear, $artworkFilterType, $sort, $submitterUserId, $page, $perPage);
+		$artworks = $result['artworks'];
+		$totalArtworkCount = $result['count'];
+		$pages = $result['totalPages'];
+	}
+
+	$pageTitle = 'Browse Artwork';
+	if($page > 1){
+		$pageTitle .= ', page ' . $page;
+	}
+
+	$pageDescription = 'Page ' . $page . ' of artwork';
 
 	$canonicalUrl = SITE_URL . '/artworks';
 
