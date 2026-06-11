@@ -11,7 +11,7 @@ try{
 		throw new Exceptions\LoginRequiredException();
 	}
 
-	if(!Session::$User->Benefits->CanVote){
+	if(!Session::$User->Benefits->CanVote || !$poll->IsActive()){
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
