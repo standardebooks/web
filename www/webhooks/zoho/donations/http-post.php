@@ -38,7 +38,6 @@ try{
 		}
 	}
 
-	$log->WriteQueue();
 	// Don't write out to the log if everything was successful.
 	http_response_code(Enums\HttpCode::NoContent->value);
 }
