@@ -92,8 +92,16 @@ FormatLinks(){
 			line="${line:3}"
 			inLink=false
 		else
-			output="${output}${line:0:1}"
-			line="${line:1}"
+			if [[ "${line}" == "["* ]]; then
+				output="${output}${line:0:1}"
+				line="${line:1}"
+			elif [[ "${line}" == *"["* ]]; then
+				output="${output}${line%%\[*}"
+				line="[${line#*\[}"
+			else
+				output="${output}${line}"
+				line=""
+			fi
 		fi
 	done
 
@@ -324,11 +332,19 @@ RemoveFormatting(){
 							;;
 					esac
 				fi
-				;;
-			*)
+			;;
+		*)
+			if [[ "${line}" == "["* ]]; then
 				output="${output}${line:0:1}"
 				line="${line:1}"
-				;;
+			elif [[ "${line}" == *"["* ]]; then
+				output="${output}${line%%\[*}"
+				line="[${line#*\[}"
+			else
+				output="${output}${line}"
+				line=""
+			fi
+			;;
 		esac
 	done
 
@@ -507,11 +523,19 @@ ApplyFormattingTags(){
 			"[email]"*)
 				output="${output}${FG_MAGENTA}"
 				line="${line:7}"
-				;;
-			*)
+			;;
+		*)
+			if [[ "${line}" == "["* ]]; then
 				output="${output}${line:0:1}"
 				line="${line:1}"
-				;;
+			elif [[ "${line}" == *"["* ]]; then
+				output="${output}${line%%\[*}"
+				line="[${line#*\[}"
+			else
+				output="${output}${line}"
+				line=""
+			fi
+			;;
 		esac
 	done
 
@@ -523,6 +547,8 @@ ApplyFormattingTags(){
 # Param 2 (optional): boolean to print a newline after the string.
 # Param 3 (optional): boolean to use "very plain" output, i.e., if `true` and color output is disabled, don't replace colors with backticks. Useful when outputting example CLI commands that are meant to be copied and pasted.
 ColorizeString(){
+	local currentLine
+	local isFirstLine
 	local line
 	local printNewline
 	local veryPlain
@@ -530,6 +556,26 @@ ColorizeString(){
 	line="$1"
 	printNewline=${2:-true}
 	veryPlain=${3:-false}
+
+	if [[ "${line}" == *$'\n'* ]]; then
+		isFirstLine=true
+
+		while IFS= read -r currentLine || [[ -n "${currentLine}" ]]; do
+			if ${isFirstLine}; then
+				isFirstLine=false
+			else
+				printf "\n"
+			fi
+
+			ColorizeString "${currentLine}" false "${veryPlain}"
+		done <<< "${line}"
+
+		if ${printNewline}; then
+			printf "\n"
+		fi
+
+		return
+	fi
 
 	if ! IsColor; then
 		if IsVeryPlain; then
