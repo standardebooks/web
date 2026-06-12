@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `EbookId` int(11) NOT NULL,
   `ProducerUserId` int(10) unsigned NOT NULL,
   `DiscussionUrl` varchar(255) DEFAULT NULL,
-  `DiscussionMessageId` varchar(255) DEFAULT NULL,
   `VcsUrl` varchar(255) DEFAULT NULL,
   `Created` timestamp NOT NULL DEFAULT current_timestamp(),
   `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

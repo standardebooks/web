@@ -28,7 +28,6 @@ final class Project{
 	public Enums\ProjectStatusType $Status = Enums\ProjectStatusType::InProgress;
 	public int $ProducerUserId;
 	public ?string $DiscussionUrl = null;
-	public ?string $DiscussionMessageId = null;
 	public ?string $VcsUrl;
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
@@ -217,28 +216,15 @@ final class Project{
 		}
 
 		$this->DiscussionUrl = trim($this->DiscussionUrl ?? '');
-		$this->DiscussionMessageId = null;
-
 		if($this->DiscussionUrl == ''){
 			$this->DiscussionUrl = null;
 		}
-		else{
-			if(preg_match('|^https://groups\.google\.com/|iu', $this->DiscussionUrl)){
-				// Strip any query strings.
-				$this->DiscussionUrl = preg_replace('/\?.+$/iu', '', $this->DiscussionUrl);
+		elseif(preg_match('|^https://groups\.google\.com/|iu', $this->DiscussionUrl)){
+			// Strip any query strings.
+			$this->DiscussionUrl = preg_replace('/\?.+$/iu', '', $this->DiscussionUrl);
 
-				// Strip stray periods from the URL that may have been copied/pasted in.
-				$this->DiscussionUrl = trim($this->DiscussionUrl, '.');
-			}
-
-			// If we were passed a URL with a message ID, store that.
-			if(preg_match('|^https://groups\.google\.com/d/msgid/standardebooks/([^/\?]+)$|iu', $this->DiscussionUrl, $matches)){
-				$messageId = trim(urldecode($matches[1]), '<>');
-
-				if(preg_match('/^[^<>\s@]+?@[^<>\s@]+$/iu', $messageId)){
-					$this->DiscussionMessageId = $messageId;
-				}
-			}
+			// Strip stray periods from the URL that may have been copied/pasted in.
+			$this->DiscussionUrl = trim($this->DiscussionUrl, '.');
 		}
 
 		$this->VcsUrl = trim($this->VcsUrl ?? '');
@@ -364,7 +350,6 @@ final class Project{
 					Status,
 					ProducerUserId,
 					DiscussionUrl,
-					DiscussionMessageId,
 					VcsUrl,
 					Created,
 					Updated,
@@ -391,11 +376,12 @@ final class Project{
 					?,
 					?,
 					?,
-					?,
 					?
 				)
 				returning ProjectId
-			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->DiscussionMessageId, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
+			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
+
+		$this->SaveDiscussionMessageId();
 
 		// Notify the manager and reviewer.
 		if($this->Status == Enums\ProjectStatusType::InProgress){
@@ -450,7 +436,6 @@ final class Project{
 			Status = ?,
 			ProducerUserId = ?,
 			DiscussionUrl = ?,
-			DiscussionMessageId = ?,
 			VcsUrl = ?,
 			Started = ?,
 			Ended = ?,
@@ -461,7 +446,7 @@ final class Project{
 			IsStatusAutomaticallyUpdated = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->DiscussionMessageId, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
+		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
 
 		Db::Query('
 			UPDATE
@@ -471,9 +456,17 @@ final class Project{
 			where
 			EbookId = ?
 		', [$this->Status != Enums\ProjectStatusType::Abandoned, $this->EbookId]);
+
+		$this->SaveDiscussionMessageId();
 	}
 
 	public function Delete(): void{
+		Db::Query('
+			DELETE
+			from ProjectDiscussionMessages
+			where ProjectId = ?
+		', [$this->ProjectId]);
+
 		Db::Query('
 			DELETE
 			from ProjectReminders
@@ -485,6 +478,66 @@ final class Project{
 			from Projects
 			where ProjectId = ?
 		', [$this->ProjectId]);
+	}
+
+	/**
+	 * Extact this `Project`'s root discussion message ID from the `DiscussionUrl` and save it.
+	 */
+	protected function SaveDiscussionMessageId(): void{
+		if($this->DiscussionUrl === null){
+			return;
+		}
+
+		$messageId = null;
+
+		if(preg_match('|^https://groups\.google\.com/d/msgid/standardebooks/([^/\?]+)$|iu', $this->DiscussionUrl, $matches)){
+			$messageId = trim(urldecode($matches[1]), '<>');
+
+			if(preg_match('/^[^<>\s@]+?@[^<>\s@]+$/iu', $messageId)){
+				$this->SaveDiscussionMessages([$messageId]);
+			}
+		}
+	}
+
+	/**
+	 * Save an array of discussion message IDs relating to this `Project`.
+	 *
+	 * @param array<string> $discussionMessageIds
+	 */
+	public function SaveDiscussionMessages(array $discussionMessageIds): void{
+		if(sizeof($discussionMessageIds) == 0){
+			return;
+		}
+
+		$sql = '';
+		$parameters = [];
+		foreach($discussionMessageIds as $discussionMessageId){
+			$sql .= '(?, ?, ?),';
+			$parameters[] = $this->ProjectId;
+			$parameters[] = $discussionMessageId;
+			$parameters[] = NOW;
+		}
+
+		$sql = rtrim($sql, ',');
+
+		Db::Query('
+			INSERT ignore into ProjectDiscussionMessages
+			(
+				ProjectId,
+				MessageId,
+				Created
+			)
+			values ' . $sql
+		, $parameters);
+	}
+
+	/**
+	 * @param array<string> $messageIds
+	 *
+	 * @return bool **`TRUE`** if this `Project` has already recorded any of the message IDs in `$messageIds`.
+	 */
+	public function HasAnyMessage(array $messageIds): bool{
+		return Db::QueryBool('SELECT exists (select * from ProjectDiscussionMessages where ProjectId = ? and MessageId in ' . Db::CreateSetSql($messageIds) . ')', array_merge([$this->ProjectId], $messageIds));
 	}
 
 	public function FillFromRequestBody(): void{
