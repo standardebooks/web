@@ -125,19 +125,26 @@ $continueFetchingLastCommitTimestamp = true;
 foreach($projects as $project){
 	/** @var array<int, string> $projectDiscussionMessageIds */
 	$projectDiscussionMessageIds = [];
+	$knownDiscussionMessageIds = $project->GetDiscussionMessageIds();
+	$hasMatchedEmail = true;
 
-	foreach($emailMessageIds as $key => $emailMessage){
-		if(
-			$project->HasAnyMessage($emailMessage->MessageIds)
-		){
-			$projectDiscussionMessageIds = array_merge($projectDiscussionMessageIds, $emailMessage->MessageIds);
+	// Keep scanning the remaining unmatched emails as long as the previous scan attached at least one new email to a `Project`.
+	while($hasMatchedEmail){
+		$hasMatchedEmail = false;
 
-			if($project->LastDiscussionTimestamp < $emailMessage->Timestamp){
-				$project->LastDiscussionTimestamp = $emailMessage->Timestamp;
+		foreach($emailMessageIds as $key => $emailMessage){
+			if(array_intersect($knownDiscussionMessageIds, $emailMessage->MessageIds) !== []){
+				$knownDiscussionMessageIds = array_values(array_unique(array_merge($knownDiscussionMessageIds, $emailMessage->MessageIds)));
+				$projectDiscussionMessageIds = array_merge($projectDiscussionMessageIds, $emailMessage->MessageIds);
+				$hasMatchedEmail = true;
+
+				if($project->LastDiscussionTimestamp === null || $project->LastDiscussionTimestamp < $emailMessage->Timestamp){
+					$project->LastDiscussionTimestamp = $emailMessage->Timestamp;
+				}
+
+				// We matched this email to a `Project`, remove it from future checks.
+				unset($emailMessageIds[$key]);
 			}
-
-			// We matched this email to a `Project`, remove it from future checks.
-			unset($emailMessageIds[$key]);
 		}
 	}
 

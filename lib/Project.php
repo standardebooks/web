@@ -532,12 +532,22 @@ final class Project{
 	}
 
 	/**
-	 * @param array<string> $messageIds
+	 * Return the discussion message IDs already associated with this `Project`.
 	 *
-	 * @return bool **`TRUE`** if this `Project` has already recorded any of the message IDs in `$messageIds`.
+	 * @return array<string>
 	 */
-	public function HasAnyMessage(array $messageIds): bool{
-		return Db::QueryBool('SELECT exists (select * from ProjectDiscussionMessages where ProjectId = ? and MessageId in ' . Db::CreateSetSql($messageIds) . ')', array_merge([$this->ProjectId], $messageIds));
+	public function GetDiscussionMessageIds(): array{
+		/** @var array<object{MessageId: string}> $rows */
+		$rows = Db::Query('
+			SELECT
+				MessageId
+			from
+				ProjectDiscussionMessages
+			where
+				ProjectId = ?
+		', [$this->ProjectId]);
+
+		return array_map(fn($row) => $row->MessageId, $rows);
 	}
 
 	public function FillFromRequestBody(): void{
