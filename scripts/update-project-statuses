@@ -60,9 +60,6 @@ try{
 	// See <https://php.net/manual/en/function.imap-search.php>.
 	$emailIds = $mailbox->searchMailbox('ALL');
 
-	/** @var array<int, array{timestamp: Safe\DateTimeImmutable, messageIds: array<int, string>}> $threadEmails */
-	$threadEmails = [];
-
 	foreach($emailIds as $emailId){
 		$email = $mailbox->getMail($emailId);
 
