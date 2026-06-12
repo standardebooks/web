@@ -38,7 +38,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	if(!Session::$User->Benefits->CanEditProjects && $projectStatus !== null){
+	if(!Session::$User->Benefits->CanEditProjects){
 		$project->Status = $projectStatus;
 	}
 	else{

@@ -635,7 +635,7 @@ final class User{
 			throw new Exceptions\PasswordRequiredException();
 		}
 
-		if($user->PasswordHash !== null && !password_verify($password ?? '', $user->PasswordHash)){
+		if($user->PasswordHash !== null && !password_verify($password, $user->PasswordHash)){
 			throw new Exceptions\UserNotFoundException();
 		}
 
