@@ -28,7 +28,7 @@
 			type="text"
 			name="collection-membership-sequence-number-<?= $index ?>"
 			inputmode="numeric"
-			pattern="^[0-9]{1,3}$"
+			pattern="\s*[0-9]{1,3}\s*"
 			autocomplete="off"
 			value="<?= Formatter::EscapeHtml((string)$collectionMembership?->SequenceNumber) ?>"
 		/>

@@ -195,7 +195,7 @@ catch(Exceptions\PermissionsInvalidException){
 								<option value="<?= Formatter::EscapeHtml(SITE_URL . $project->Ebook->Url) ?>"><?= Formatter::EscapeHtml(SITE_URL . $project->Ebook->Url) ?></option>
 							<? } ?>
 						</datalist>
-						<input type="url" list="ebook-placeholder-urls" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/..." pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$"<? if(isset($artwork->Ebook)){ ?> value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>"<? } ?>/>
+						<input type="url" list="ebook-placeholder-urls" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/..." pattern="https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+"<? if(isset($artwork->Ebook)){ ?> value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>"<? } ?>/>
 					</label>
 				<? }else{ ?>
 					<input type="hidden" name="artwork-ebook-url"<? if(isset($artwork->Ebook)){ ?> value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>"<? } ?> />

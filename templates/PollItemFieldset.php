@@ -9,7 +9,7 @@
 	<input type="hidden" name="poll-item-id-<?= $index ?>" value="<? if(isset($pollItem->PollItemId)){ ?><?= $pollItem->PollItemId ?><? } ?>" />
 	<label>
 		<span>Sort order</span>
-		<input type="text" inputmode="numeric" pattern="^[0-9]{1,4}$" name="poll-item-sort-order-<?= $index ?>" min="1" max="255" required="required" value="<?= $pollItem->SortOrder ?? $index ?>" />
+		<input type="text" inputmode="numeric" pattern="\s*[0-9]{1,4}\s*" name="poll-item-sort-order-<?= $index ?>" min="1" max="255" required="required" value="<?= $pollItem->SortOrder ?? $index ?>" />
 	</label>
 	<label>
 		<span>Name</span>

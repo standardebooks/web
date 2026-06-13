@@ -175,11 +175,11 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<fieldset>
 				<label class="icon year">
 					<span>Start year</span>
-					<input type="text" name="start-year" inputmode="numeric" pattern="^[0-9]{1,4}$" maxlength="4" value="<?= $startYear ?>"/>
+					<input type="text" name="start-year" inputmode="numeric" pattern="\s*[0-9]{1,4}\s*" maxlength="4" value="<?= $startYear ?>"/>
 				</label>
 				<label class="icon year">
 					<span>End year</span>
-					<input type="text" name="end-year" inputmode="numeric" pattern="^[0-9]{1,4}$" maxlength="4" value="<?= $endYear ?>"/>
+					<input type="text" name="end-year" inputmode="numeric" pattern="\s*[0-9]{1,4}\s*" maxlength="4" value="<?= $endYear ?>"/>
 				</label>
 			</fieldset>
 			<label class="sort">

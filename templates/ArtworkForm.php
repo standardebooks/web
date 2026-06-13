@@ -34,7 +34,7 @@ $isEditForm ??= false;
 			type="text"
 			name="artist-death-year"
 			inputmode="numeric"
-			pattern="^[0-9]{1,4}$"
+			pattern="\s*[0-9]{1,4}\s*"
 			value="<?= Formatter::EscapeHtml((string)$artwork->Artist->DeathYear) ?>"
 		/>
 	</label>
@@ -53,7 +53,7 @@ $isEditForm ??= false;
 				type="text"
 				name="artwork-completed-year"
 				inputmode="numeric"
-				pattern="^[0-9]{1,4}$"
+				pattern="\s*[0-9]{1,4}\s*"
 				value="<?= Formatter::EscapeHtml((string)$artwork->CompletedYear) ?>"
 			/>
 		</label>
@@ -119,7 +119,7 @@ $isEditForm ??= false;
 				type="text"
 				name="artwork-publication-year"
 				inputmode="numeric"
-				pattern="^[0-9]{4}$"
+				pattern="\s*[0-9]{4}\s*"
 				value="<?= Formatter::EscapeHtml((string)$artwork->PublicationYear) ?>"
 			/>
 		</label>
@@ -190,7 +190,7 @@ $isEditForm ??= false;
 						<option value="<?= Formatter::EscapeHtml(SITE_URL . $project->Ebook->Url) ?>"><?= Formatter::EscapeHtml(SITE_URL . $project->Ebook->Url) ?></option>
 					<? } ?>
 				</datalist>
-				<input type="url" list="ebook-placeholder-urls" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/..." pattern="^https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+$"<? if(isset($artwork->Ebook)){ ?> value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>"<? } ?>/>
+				<input type="url" list="ebook-placeholder-urls" name="artwork-ebook-url" placeholder="https://standardebooks.org/ebooks/..." pattern="https:\/\/standardebooks\.org\/ebooks/[^\/]+(\/[^\/]+)+"<? if(isset($artwork->Ebook)){ ?> value="<?= Formatter::EscapeHtml($artwork->Ebook->FullUrl) ?>"<? } ?>/>
 			</label>
 		<? } ?>
 	</fieldset>

@@ -91,7 +91,7 @@ $collectionMembershipFieldCount = max(3, sizeof($ebook->CollectionMemberships));
 			type="text"
 			name="ebook-placeholder-year-published"
 			inputmode="numeric"
-			pattern="^[0-9]{1,4}$"
+			pattern="\s*[0-9]{1,4}\s*"
 			autocomplete="off"
 			value="<?= Formatter::EscapeHtml((string)($ebook->EbookPlaceholder?->YearPublished)) ?>"
 		/>

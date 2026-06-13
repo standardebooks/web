@@ -42,7 +42,7 @@ $isEditForm ??= false;
 		type="text"
 		name="spreadsheet-sort-order"
 		inputmode="numeric"
-		pattern="^[0-9]{1,4}$"
+		pattern="\s*[0-9]{1,4}\s*"
 		value="<?= $spreadsheet->SortOrder ?? '' ?>"
 	/>
 </label>
