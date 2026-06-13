@@ -284,7 +284,7 @@ main > section.narrow.has-hero > picture{
 main .has-hero > picture,
 main > section.narrow.has-hero > picture{
 	position: relative;
-	width: auto;
+	max-width: 900px;
 }
 
 picture[data-caption]:hover::before{
@@ -2401,26 +2401,41 @@ main nav.pagination ol li:has(a[aria-current]):nth-last-child(2)::after{
 	padding-top: 0;
 }
 
-.has-hero picture{
-	max-width: none;
+.has-hero > picture{
+	max-width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
 	text-align: center;
 	margin-bottom: 2rem;
+	max-width: 900px;
+	width: 100%;
+	height: auto;
+	max-width: 900px;
+	aspect-ratio: 900 / 350;
 }
 
-.has-hero picture + p{
+.has-hero > picture + p{
 	margin-top: 0;
 }
 
 h1 + ul.message,
-.has-hero picture + ul.message{
+.has-hero > picture + ul.message{
 	margin-top: 0;
 	margin-bottom: 1rem;
 }
 
-.has-hero img{
+.has-hero > picture img{
+	display: block;
 	border: 1px solid var(--border);
 	border-radius: .25rem;
-	max-width: 100%;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 900 / 350;
+}
+
+img[src="/images/captcha"]{
+	border: 1px solid var(--border);
+	border-radius: .25rem;
 }
 
 .has-hero hgroup h1,
@@ -3647,7 +3662,7 @@ dl > dd{
 dl > dt.break:has(~dt),
 dl > dt.break:has(~dt) + dd{
 	padding-bottom: 1rem;
-	border-bottom: 3px double var(--body-text);
+	border-bottom: 3px double var(--sub-text);
 }
 
 table.admin-table td{
@@ -3757,6 +3772,7 @@ ul[role="menu"]{
 	font-style: italic;
 	width: 100%;
 	background: var(--admin-background);
+	justify-content: center;
 }
 
 picture + ul[role="menu"],
