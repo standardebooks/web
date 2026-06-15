@@ -195,7 +195,8 @@ $hasAdminTable ??= false;
 		}
 
 		<? if($hasAdminTable){ ?>
-			table.admin-table td:first-child{
+			/* `:first-child` doesn't work in Gmail. */
+			table.admin-table td.header-cell{
 				font-weight: bold;
 				text-align: right;
 			}
@@ -203,6 +204,18 @@ $hasAdminTable ??= false;
 			table.admin-table td{
 				padding: .25em;
 				border: none;
+			}
+
+			table.admin-table td.awaiting-review{
+				background-color: #745a93;
+				color: #fff;
+				text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+			}
+
+			table.admin-table + ul{
+				border-top: 1px dashed #222;
+				margin-top: 2em;
+				padding-top: 1em;
 			}
 		<? } ?>
 

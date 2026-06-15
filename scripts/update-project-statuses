@@ -8,6 +8,7 @@ use function Safe\get_cfg_var;
 use function Safe\getopt;
 use function Safe\preg_match;
 use function Safe\preg_match_all;
+use function Safe\preg_replace;
 use function Safe\set_time_limit;
 use function Safe\sleep;
 
@@ -49,7 +50,7 @@ $password = get_cfg_var('se.secrets.zoho.mail.projects_password');
 /** @var array<int, Safe\DateTimeImmutable> $updatedProjectIds */
 $updatedProjectIds = [];
 
-/** @var array<int, object{'Timestamp': \Safe\DateTimeImmutable, 'MessageIds': array<string>}> $emailMessageIds An array containing objects, each of which represents one email, its timestamp, and all the related message IDs in its headers. */
+/** @var array<int, object{'Timestamp': \Safe\DateTimeImmutable, 'MessageIds': array<string>, 'SenderEmail': ?string, 'Body': string}> $emailMessageIds An array containing objects, each of which represents one email, its timestamp, sender, body, and all the related message IDs in its headers. */
 $emailMessageIds = [];
 
 try{
@@ -88,6 +89,9 @@ try{
 				$object = new stdClass();
 				$object->Timestamp = $timestamp;
 				$object->MessageIds = $messageIds;
+				$object->SenderEmail = $email->fromAddress !== null ? strtolower($email->fromAddress) : null;
+				// Store the plain text body without any quoted text.
+				$object->Body = preg_replace('/^>.+$/u', '', trim($email->textPlain));
 				$emailMessageIds[] = $object;
 			}
 		}
@@ -140,6 +144,29 @@ foreach($projects as $project){
 
 				if($project->LastDiscussionTimestamp === null || $project->LastDiscussionTimestamp < $emailMessage->Timestamp){
 					$project->LastDiscussionTimestamp = $emailMessage->Timestamp;
+				}
+
+				if(
+					$project->Reviewer->Email !== null
+					&&
+					$project->Producer->Email !== null
+					&&
+					strtolower($project->Producer->Email) == ($emailMessage->SenderEmail ?? '')
+					&&
+					$project->Status != Enums\ProjectStatusType::AwaitingReview
+					&&
+					$project->Status != Enums\ProjectStatusType::Reviewed
+					&&
+					preg_match('/\b(ready\s+for\s+review|ready\s+to\s+be\s+reviewed|ready\s+for\s+you|this\s+(e?book|project\s+)?is\s+ready[\.\!])\b/iu', $emailMessage->Body)
+				){
+					$project->Status = Enums\ProjectStatusType::AwaitingReview;
+
+					$em = new QueuedEmailMessage();
+					$em->From = ADMIN_EMAIL_ADDRESS;
+					$em->To = $project->Reviewer->Email;
+					$em->Subject = 'Ebook project ready for review';
+					$em->BodyHtml = Template::EmailReviewerProjectReady(project: $project, user: $project->Reviewer);
+					$em->Send();
 				}
 
 				// We matched this email to a `Project`, remove it from future checks.

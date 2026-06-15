@@ -6,7 +6,7 @@
  */
 ?><?= Template::EmailHeader(hasAdminTable: true, hasLetterhead: true) ?>
 <p>You’ve been assigned a new ebook project to <strong><?= $role ?></strong>:</p>
-<?= Template::ProjectDetailsTable(project: $project, useFullyQualifiedUrls: true, showArtworkStatus: false) ?>
+<?= Template::ProjectDetailsTable(project: $project) ?>
 <p>If you’re unable to <?= $role ?> this ebook project, <a href="mailto:<?= EDITOR_IN_CHIEF_EMAIL_ADDRESS ?>">email the Editor-in-Chief</a> and we’ll reassign it.</p>
 <ul>
 	<li>

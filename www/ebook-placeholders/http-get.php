@@ -131,7 +131,94 @@ catch(Exceptions\EbookNotFoundException){
 							<li><a href="<?= $ebook->ProjectInProgress->EditUrl ?>">Edit project</a></li>
 						</ul>
 					<? } ?>
-					<?= Template::ProjectDetailsTable(project: $ebook->ProjectInProgress, showTitle: false, isAdminView: Session::$User->Benefits->CanEditProjects) ?>
+					<dl>
+						<dt>Producer:</dt>
+						<dd>
+							<? if(Session::$User->Benefits->CanEditProjects){ ?>
+								<a href="<?= $ebook->ProjectInProgress->Producer->Url ?>"><?= Formatter::EscapeHtml($ebook->ProjectInProgress->Producer->DisplayName) ?></a>
+							<? }elseif($ebook->ProjectInProgress->Producer->Email !== null){ ?>
+								<a href="mailto:<?= Formatter::EscapeHtml($ebook->ProjectInProgress->Producer->Email) ?>"><?= Formatter::EscapeHtml($ebook->ProjectInProgress->Producer->DisplayName) ?></a>
+							<? }elseif($ebook->ProjectInProgress->DiscussionUrl !== null){ ?>
+								<a href="<?= Formatter::EscapeHtml($ebook->ProjectInProgress->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($ebook->ProjectInProgress->Producer->DisplayName) ?></a>
+							<? }else{ ?>
+								<?= Formatter::EscapeHtml($ebook->ProjectInProgress->Producer->DisplayName) ?>
+							<? } ?>
+						</dd>
+						<dt>Manager:</dt>
+						<dd>
+							<a href="<?= $ebook->ProjectInProgress->Manager->Url ?>/projects"><?= Formatter::EscapeHtml($ebook->ProjectInProgress->Manager->DisplayName) ?></a>
+						</dd>
+						<dt>Reviewer:</dt>
+						<dd>
+							<a href="<?= $ebook->ProjectInProgress->Reviewer->Url ?>/projects"><?= Formatter::EscapeHtml($ebook->ProjectInProgress->Reviewer->DisplayName) ?></a>
+						</dd>
+						<dt>Started on:</dt>
+						<dd>
+							<? if(intval($ebook->ProjectInProgress->Started->format('Y')) == intval(NOW->format('Y'))){ ?>
+								<?= $ebook->ProjectInProgress->Started->format(Enums\DateTimeFormat::ShortDateWithoutYear->value) ?>
+							<? }else{ ?>
+								<?= $ebook->ProjectInProgress->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
+							<? } ?>
+						</dd>
+						<dt>Last activity:</dt>
+						<dd>
+							<? if(intval($ebook->ProjectInProgress->LastActivityTimestamp->format('Y')) == intval(NOW->format('Y'))){ ?>
+								<?= $ebook->ProjectInProgress->LastActivityTimestamp->format(Enums\DateTimeFormat::ShortDateWithoutYear->value) ?>
+							<? }else{ ?>
+								<?= $ebook->ProjectInProgress->LastActivityTimestamp->format(Enums\DateTimeFormat::ShortDate->value) ?>
+							<? } ?>
+						</dd>
+						<? if($ebook->ProjectInProgress->VcsUrl !== null){ ?>
+							<dt>Repository:</dt>
+							<dd>
+								<a href="<?= Formatter::EscapeHtml($ebook->ProjectInProgress->VcsUrl) ?>"><?= Formatter::EscapeHtml($ebook->ProjectInProgress->VcsUrlDomain) ?></a>
+							</dd>
+						<? } ?>
+						<? if($ebook->ProjectInProgress->DiscussionUrl !== null){ ?>
+							<dt>Discussion:</dt>
+							<dd>
+								<a href="<?= Formatter::EscapeHtml($ebook->ProjectInProgress->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($ebook->ProjectInProgress->DiscussionUrlDomain) ?></a>
+							</dd>
+						<? } ?>
+						<dt>Cover art:</dt>
+						<dd>
+							<? if($ebook->ProjectInProgress->Ebook->Artwork !== null){ ?>
+								<i>
+									<a href="<?= $ebook->ProjectInProgress->Ebook->Artwork->Url ?>"><?= Formatter::EscapeHtml($ebook->ProjectInProgress->Ebook->Artwork->Name) ?></a>
+								</i> (<?= ucfirst($ebook->ProjectInProgress->Ebook->Artwork->Status->value) ?>)
+							<? }else{ ?>
+								<i>None.</i>
+							<? } ?>
+						</dd>
+						<dt>Status:</dt>
+						<dd>
+							<? if(
+								Session::$User->Benefits->CanEditProjects
+								||
+								$ebook->ProjectInProgress->ManagerUserId == Session::$User->UserId
+								||
+								$ebook->ProjectInProgress->ReviewerUserId == Session::$User->UserId
+							){ ?>
+
+								<form action="<?= $ebook->ProjectInProgress->Url ?>" method="<?= Enums\HttpMethod::Post->value ?>" class="single-line-form">
+									<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
+									<label class="icon meter">
+										<select name="project-status">
+											<option value="<?= Enums\ProjectStatusType::InProgress->value ?>"<? if($ebook->ProjectInProgress->Status == Enums\ProjectStatusType::InProgress){?> selected="selected"<? } ?>>In progress</option>
+											<option value="<?= Enums\ProjectStatusType::AwaitingReview->value ?>"<? if($ebook->ProjectInProgress->Status == Enums\ProjectStatusType::AwaitingReview){?> selected="selected"<? } ?>>Awaiting review</option>
+											<option value="<?= Enums\ProjectStatusType::Reviewed->value ?>"<? if($ebook->ProjectInProgress->Status == Enums\ProjectStatusType::Reviewed){?> selected="selected"<? } ?>>Reviewed</option>
+											<option value="<?= Enums\ProjectStatusType::Stalled->value ?>"<? if($ebook->ProjectInProgress->Status == Enums\ProjectStatusType::Stalled){?> selected="selected"<? } ?>>Stalled</option>
+											<option value="<?= Enums\ProjectStatusType::Completed->value ?>"<? if($ebook->ProjectInProgress->Status == Enums\ProjectStatusType::Completed){?> selected="selected"<? } ?>>Completed</option>
+											<option value="<?= Enums\ProjectStatusType::Abandoned->value ?>"<? if($ebook->ProjectInProgress->Status == Enums\ProjectStatusType::Abandoned){?> selected="selected"<? } ?>>Abandoned</option>
+										</select>
+									</label>
+									<button>Save changes</button>
+								</form>
+							<? }else{ ?>
+								<?= ucfirst($ebook->ProjectInProgress->Status->GetDisplayName()) ?>
+							<? } ?>
+						</dd>
+					</dl>
 				</section>
 			<? } ?>
 
