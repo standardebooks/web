@@ -67,7 +67,7 @@ catch(Exceptions\PermissionsInvalidException){
 		<ul role="menu">
 			<li><a href="<?= $user->EditUrl ?>">Edit user</a></li>
 			<? if($user->Benefits->CanManageProjects || $user->Benefits->CanReviewProjects){ ?>
-				<li><a href="<?= $user->Url ?>/projects">Projects</a></li>
+				<li><a href="<?= $user->Url ?>/projects">Projects overseeing</a></li>
 			<? } ?>
 		</ul>
 
@@ -82,13 +82,13 @@ catch(Exceptions\PermissionsInvalidException){
 		<h2>Basics</h2>
 		<dl>
 			<dt>User ID:</dt>
-			<dd><?= $user->UserId ?></dd>
+			<dd class="id"><?= $user->UserId ?></dd>
 			<dt>Email:</dt>
 			<dd><?= Formatter::EscapeHtml($user->Email) ?></dd>
 			<dt>Name:</dt>
 			<dd><?= Formatter::EscapeHtml($user->Name) ?></dd>
 			<dt>UUID:</dt>
-			<dd><?= Formatter::EscapeHtml($user->Uuid) ?></dd>
+			<dd class="id"><?= Formatter::EscapeHtml($user->Uuid) ?></dd>
 			<dt>Created:</dt>
 			<dd><?= $user->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></dd>
 		</dl>

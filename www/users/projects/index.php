@@ -39,7 +39,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 ?><?= Template::Header(
-	title: 'Projects - ' . $user->DisplayName,
+	title: 'Projects Overseeing - ' . $user->DisplayName,
 	canonicalUrl: $user->Url,
 	css: ['/css/project.css'],
 	description: 'Ebook projects that ' . $user->DisplayName . ' currently has underway at Standard Ebooks.'
@@ -55,7 +55,7 @@ catch(Exceptions\PermissionsInvalidException){
 			→
 		</nav>
 
-		<h1>Projects</h1>
+		<h1>Projects Overseeing</h1>
 		<section id="managing">
 			<h2>Managing</h2>
 			<? if(sizeof($managingProjects) == 0){ ?>

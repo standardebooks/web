@@ -72,7 +72,7 @@ catch(Exceptions\ArtistNotFoundException){
 				</ul>
 				<dl>
 					<dt>Artist ID:</dt>
-					<dd><?= $artist->ArtistId ?></dd>
+					<dd class="id"><?= $artist->ArtistId ?></dd>
 				</dl>
 			</section>
 		<? } ?>

@@ -3642,6 +3642,9 @@ dl{
 	margin-top: 1rem;
 	gap: 1rem .5rem;
 	width: auto;
+}
+
+dl > dd.id{
 	font-variant-numeric: tabular-nums;
 }
 
@@ -3814,7 +3817,7 @@ ul[role="menu"] li + li::before{
 	}
 }
 
-@media(max-width: 1200px){
+@media(max-width: 1350px){
 	.data-table{
 		overflow-x: scroll;
 		display: block; /* needed to make overflow work */
@@ -3829,7 +3832,6 @@ ul[role="menu"] li + li::before{
 	.data-table .year-header th{
 		text-align: left;
 	}
-
 
 	.data-table thead tr.mid-header:first-child th,
 	.data-table tr.year-header:first-child th{

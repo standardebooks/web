@@ -58,7 +58,7 @@ catch(Exceptions\CollectionNotFoundException){
 			<h2>Metadata</h2>
 			<dl>
 				<dt>Collection ID:</dt>
-				<dd><?= $collection->CollectionId ?></dd>
+				<dd class="id"><?= $collection->CollectionId ?></dd>
 			</dl>
 		</section>
 	<? } ?>

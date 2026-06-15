@@ -9,7 +9,7 @@ $showPlaceholderMetadata ??= false;
 	<h2>Metadata</h2>
 	<dl>
 		<dt>Ebook ID:</dt>
-		<dd><?= $ebook->EbookId ?></dd>
+		<dd class="id"><?= $ebook->EbookId ?></dd>
 		<dt>Is Patron selection:</dt>
 		<dd><? if($ebook->IsPatronSelection){ ?>☑<? }else{ ?>☐<? } ?></dd>
 	</dl>

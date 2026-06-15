@@ -54,6 +54,18 @@ table.data-table td.status.stalled{
 	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 }
 
+table.data-table td.status.abandoned{
+	background: #222 !important; /* `!important` to override row hover background color. */
+	color: #ffffff;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+}
+
+table.data-table td.status.completed{
+	background: #7b9a85 !important; /* `!important` to override row hover background color. */
+	color: #ffffff;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+}
+
 @media(max-width: 750px){
 	.project-form{
 		grid-template-columns: 1fr;

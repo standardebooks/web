@@ -132,6 +132,8 @@ catch(Exceptions\EbookNotFoundException){
 						</ul>
 					<? } ?>
 					<dl>
+						<dt>Project ID:</dt>
+						<dd class="id"><?= $ebook->ProjectInProgress->ProjectId ?></dd>
 						<dt>Producer:</dt>
 						<dd>
 							<? if(Session::$User->Benefits->CanEditProjects){ ?>
