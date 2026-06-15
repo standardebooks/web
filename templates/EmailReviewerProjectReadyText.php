@@ -1,11 +1,12 @@
 <?
 /**
  * @var Project $project
- * @var string $role
  * @var User $user
  */
 ?>
-You’ve been assigned a new ebook project to **<?= $role ?>**:
+<?= Formatter::EscapeMarkdown($project->Producer->DisplayName) ?> has indicated that _[<?= Formatter::EscapeMarkdown($project->Ebook->Title) ?>](<?= Formatter::EscapeMarkdown(SITE_URL . $project->Url) ?>)_, by [<?= Formatter::EscapeMarkdown($project->Ebook->AuthorsString) ?>](<?= Formatter::EscapeMarkdown(SITE_URL . $project->Ebook->AuthorsUrl) ?>) is **ready for your review.**
+
+If you’re unable to review this project, [email the Editor-in-Chief](mailto:<?= Formatter::EscapeMarkdown(EDITOR_IN_CHIEF_EMAIL_ADDRESS) ?>) and we’ll reassign it.
 
 - Title: _<?= Formatter::EscapeMarkdown($project->Ebook->Title) ?>_, by <?= Formatter::EscapeMarkdown($project->Ebook->AuthorsString) ?>
 
@@ -23,8 +24,6 @@ You’ve been assigned a new ebook project to **<?= $role ?>**:
 - Discussion: [<?= Formatter::EscapeHtml($project->DiscussionUrlDomain) ?>](<?= Formatter::EscapeMarkdown($project->DiscussionUrl) ?>)
 
 <? } ?>
-If you’re unable to <?= $role ?> this ebook project, [email the Editor-in-Chief](mailto:<?= Formatter::EscapeMarkdown(EDITOR_IN_CHIEF_EMAIL_ADDRESS) ?>) and we’ll reassign it.
-
 - [See all of the ebook projects you’re currently assigned to.](<?= SITE_URL ?><?= $user->Url ?>/projects)
 
 - [See all ebook projects.](<?= SITE_URL ?>/projects)

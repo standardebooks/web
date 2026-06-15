@@ -149,6 +149,7 @@ foreach($projects as $project){
 					$em->To = $project->Reviewer->Email;
 					$em->Subject = 'Ebook project ready for review';
 					$em->BodyHtml = Template::EmailReviewerProjectReady(project: $project, user: $project->Reviewer);
+					$em->BodyText = Template::EmailReviewerProjectReadyText(project: $project, user: $project->Reviewer);
 					$em->Send();
 				}
 

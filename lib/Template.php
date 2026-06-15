@@ -47,6 +47,7 @@ use function Safe\preg_replace;
  * @method static string EmailProjectStalled()
  * @method static string EmailProjectStalledText()
  * @method static string EmailReviewerProjectReady(Project $project, User $user)
+ * @method static string EmailReviewerProjectReadyText(Project $project, User $user)
  * @method static string Error(?Exception $exception)
  * @method static string FeedHowTo()
  * @method static string Footer()
