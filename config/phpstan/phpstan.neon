@@ -29,7 +29,9 @@ parameters:
 		- %rootDir%/../../../scripts/send-newsletter-mailings
 		- %rootDir%/../../../scripts/update-ebook-database
 		- %rootDir%/../../../scripts/update-patrons-circle
+		- %rootDir%/../../../scripts/update-project-discussions
 		- %rootDir%/../../../scripts/update-project-statuses
+		- %rootDir%/../../../scripts/update-project-vcs-activity
 		- %rootDir%/../../../templates
 
 	dynamicConstantNames:

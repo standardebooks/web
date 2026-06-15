@@ -1,0 +1,70 @@
+#!/usr/bin/php
+<?
+require_once(__DIR__ . '/../lib/Core.php');
+
+use function Safe\file_get_contents;
+use function Safe\getopt;
+use function Safe\set_time_limit;
+use function Safe\sleep;
+
+function Usage(): void{
+	Cli::PrintHelp(
+		usage: '[command]update-project-vcs-activity[/]',
+		description: 'Update all active ebook projects with their latest source control activity.',
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
+
+set_time_limit(0);
+
+/**
+ * Iterate over all active `Project`s and get their latest GitHub commit.
+ */
+
+/** @var array<Project> $projects */
+$projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
+
+// Randomly sort `Project`s, in case we got rate limited in an earlier invocation, so we have a better chance of updating a different project this time.
+shuffle($projects);
+
+$apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
+$continueFetchingLastCommitTimestamp = true;
+
+foreach($projects as $project){
+	if(!$project->IsStatusAutomaticallyUpdated){
+		continue;
+	}
+
+	if(!$continueFetchingLastCommitTimestamp){
+		break;
+	}
+
+	try{
+		$project->FetchLastCommitTimestamp($apiKey);
+	}
+	catch(Exceptions\AppException $ex){
+		// If we got rate limited, stop requesting more items.
+		if(stripos($ex->getMessage(), 'http 429') !== false){
+			$continueFetchingLastCommitTimestamp = false;
+		}
+
+		// If we got here then we likely got a 404, so continue.
+	}
+
+	$project->Save();
+
+	sleep(random_int(10, 20));
+}

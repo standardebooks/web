@@ -3,19 +3,13 @@
 require_once(__DIR__ . '/../lib/Core.php');
 
 use Safe\DateTimeImmutable;
-use function Safe\file_get_contents;
-use function Safe\get_cfg_var;
 use function Safe\getopt;
-use function Safe\preg_match;
-use function Safe\preg_match_all;
-use function Safe\preg_replace;
 use function Safe\set_time_limit;
-use function Safe\sleep;
 
 function Usage(): void{
 	Cli::PrintHelp(
 		usage: '[command]update-project-statuses[/]',
-		description: 'Update all active ebook projects with any recent activity, and change the status appropriately.',
+		description: 'Update active ebook project statuses based on recent activity.',
 	);
 }
 
@@ -36,77 +30,7 @@ if(sizeof($parameters) != 0){
 set_time_limit(0);
 
 /**
- * First, check for updated discussion in Google Groups. We can't poll Google Groups discussion pages because 1) they're div soup and it's hard to parse the correct last post date, and 2) Google often blocks our IP for doing automated requests.
- * Instead, we have a special email address subscribed to the S.E. Google Groups mailing list. It receives all email from the group. Then, we use IMAP to poll that email address daily for unread group messages. We extract the originating message ID from the email headers, and use that to find the project and update its timestamp.
- * We can't use Zoho webhooks because 1) webhooks don't include email headers, which we need for this, and 2) IMAP is more portable to a different email provider in the future.
- * We track *all* message IDs across the entire discussion, because sometimes the root message ID gets lost in the chain. Therefore if any message ID in a given email has been previously recorded, we assume it's part of the chain for this `Project`.
- */
-
-/** @var string $username */
-$username = get_cfg_var('se.secrets.zoho.mail.projects_username');
-/** @var string $password */
-$password = get_cfg_var('se.secrets.zoho.mail.projects_password');
-
-/** @var array<int, Safe\DateTimeImmutable> $updatedProjectIds */
-$updatedProjectIds = [];
-
-/** @var array<int, object{'Timestamp': \Safe\DateTimeImmutable, 'MessageIds': array<string>, 'SenderEmail': ?string, 'Body': string}> $emailMessageIds An array containing objects, each of which represents one email, its timestamp, sender, body, and all the related message IDs in its headers. */
-$emailMessageIds = [];
-
-try{
-	$mailbox = new PhpImap\Mailbox('{imappro.zoho.com:993/imap/ssl}INBOX', $username, $password);
-	// Expunge deleted mails upon mailbox close.
-	$mailbox->setConnectionArgs(CL_EXPUNGE);
-
-	// See <https://php.net/manual/en/function.imap-search.php>.
-	$emailIds = $mailbox->searchMailbox('ALL');
-
-	foreach($emailIds as $emailId){
-		$email = $mailbox->getMail($emailId);
-
-		if(
-			preg_match('/\bstandardebooks@googlegroups\.com\b/iu', $email->toString ?? '')
-			&&
-			$email->messageId !== null
-		){
-			// Extract all message IDs present in various headers we're interested in.
-			$headerString = trim($email->messageId . ' ' . ($email->headers->references ?? '') . ' ' . ($email->headers->in_reply_to ?? ''));
-			preg_match_all('/<([^<>\s@]+?@[^<>\s@]+?)>/iu', $headerString, $matches);
-			$messageIds = array_values(array_unique($matches[1]));
-
-			if(sizeof($messageIds) > 0){
-				// Get the timestamp of this email.
-				$timestamp = NOW;
-				if($email->date !== null){
-					try{
-						$timestamp = new DateTimeImmutable($email->date);
-					}
-					catch(\Throwable){
-						// Pass.
-					}
-				}
-
-				$object = new stdClass();
-				$object->Timestamp = $timestamp;
-				$object->MessageIds = $messageIds;
-				$object->SenderEmail = $email->fromAddress !== null ? strtolower($email->fromAddress) : null;
-				// Store the plain text body without any quoted text.
-				$object->Body = preg_replace('/^>.+$/u', '', trim($email->textPlain));
-				$emailMessageIds[] = $object;
-			}
-		}
-
-		$mailbox->markMailAsRead($emailId);
-		$mailbox->moveMail($emailId, 'Trash');
-	}
-}
-catch(\Exception $ex){
-	$log = new Log();
-	$log->Write('Failed connecting to IMAP account: ' . $ex->getMessage());
-}
-
-/**
- * Iterate over all `Project`s that are in progress or stalled and get their latest GitHub commit.
+ * Iterate over all active `Project`s and update statuses based on the latest known activity.
  *
  * If the last activity was more than 30 days old, mark the `Project` as stalled and send a reminder email.
  *
@@ -118,91 +42,11 @@ catch(\Exception $ex){
 /** @var array<Project> $projects */
 $projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
 
-// Randomly sort `Project`s, in case we got rate limited in an earlier invocation, so we have a better chance of updating a different project this time.
-shuffle($projects);
-
-$apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
 $oldestStalledTimestamp = new DateTimeImmutable('60 days ago');
 $oldestAbandonedTimestamp = new DateTimeImmutable('60 days ago');
-$continueFetchingLastCommitTimestamp = true;
 
 foreach($projects as $project){
-	/** @var array<int, string> $projectDiscussionMessageIds */
-	$projectDiscussionMessageIds = [];
-	$knownDiscussionMessageIds = $project->GetDiscussionMessageIds();
-	$hasMatchedEmail = true;
-
-	// Keep scanning the remaining unmatched emails as long as the previous scan attached at least one new email to a `Project`.
-	while($hasMatchedEmail){
-		$hasMatchedEmail = false;
-
-		foreach($emailMessageIds as $key => $emailMessage){
-			if(array_intersect($knownDiscussionMessageIds, $emailMessage->MessageIds) !== []){
-				$knownDiscussionMessageIds = array_values(array_unique(array_merge($knownDiscussionMessageIds, $emailMessage->MessageIds)));
-				$projectDiscussionMessageIds = array_merge($projectDiscussionMessageIds, $emailMessage->MessageIds);
-				$hasMatchedEmail = true;
-
-				if($project->LastDiscussionTimestamp === null || $project->LastDiscussionTimestamp < $emailMessage->Timestamp){
-					$project->LastDiscussionTimestamp = $emailMessage->Timestamp;
-				}
-
-				if(
-					$project->Reviewer->Email !== null
-					&&
-					$project->Producer->Email !== null
-					&&
-					strtolower($project->Producer->Email) == ($emailMessage->SenderEmail ?? '')
-					&&
-					$project->Status != Enums\ProjectStatusType::AwaitingReview
-					&&
-					$project->Status != Enums\ProjectStatusType::Reviewed
-					&&
-					preg_match('/\b(ready\s+for\s+review|ready\s+to\s+be\s+reviewed|ready\s+for\s+you|this\s+(e?book|project\s+)?is\s+ready[\.\!])\b/iu', $emailMessage->Body)
-				){
-					$project->Status = Enums\ProjectStatusType::AwaitingReview;
-
-					$em = new QueuedEmailMessage();
-					$em->From = ADMIN_EMAIL_ADDRESS;
-					$em->To = $project->Reviewer->Email;
-					$em->Subject = 'Ebook project ready for review';
-					$em->BodyHtml = Template::EmailReviewerProjectReady(project: $project, user: $project->Reviewer);
-					$em->Send();
-				}
-
-				// We matched this email to a `Project`, remove it from future checks.
-				unset($emailMessageIds[$key]);
-			}
-		}
-	}
-
-	$projectDiscussionMessageIds = array_values(array_unique($projectDiscussionMessageIds));
-
-	$project->SaveDiscussionMessages($projectDiscussionMessageIds);
-
-	if($continueFetchingLastCommitTimestamp){
-		try{
-			$project->FetchLastCommitTimestamp($apiKey);
-		}
-		catch(Exceptions\AppException $ex){
-			// If we got rate limited, stop requesting more items in this loop.
-			if(stripos($ex->getMessage(), 'http 429') !== false){
-				$continueFetchingLastCommitTimestamp = false;
-			}
-			// 404, continue.
-		}
-	}
-
 	if($project->IsStatusAutomaticallyUpdated){
-		// Check if this project is in review.
-		if($project->Status == Enums\ProjectStatusType::InProgress){
-			try{
-				$project->FetchReviewStatus();
-			}
-			catch(Exceptions\AppException){
-				// 404, continue.
-			}
-		}
-
 		if(
 			(
 				$project->Status == Enums\ProjectStatusType::InProgress
@@ -255,6 +99,4 @@ foreach($projects as $project){
 	}
 
 	$project->Save();
-
-	sleep(random_int(10, 20));
 }
