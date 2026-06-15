@@ -232,7 +232,7 @@ catch(Exceptions\EbookNotFoundException){
 				<? if(sizeof($ebook->PastProjects) == 0){ ?>
 					<p class="empty-notice">None.</p>
 				<? }else{ ?>
-					<?= Template::ProjectsTable(projects: $ebook->PastProjects, includeTitle: false, showEditButton: Session::$User->Benefits->CanEditProjects, showContactInformation: true, isAdminView: Session::$User->Benefits->CanEditProjects) ?>
+					<?= Template::ProjectsTable(projects: $ebook->PastProjects, includeTitle: false, showEditButton: Session::$User->Benefits->CanEditProjects, showContactInformation: true, isAdminView: Session::$User->Benefits->CanEditProjects, includeStatus: false) ?>
 				<? } ?>
 			</section>
 		<? } ?>

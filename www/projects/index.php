@@ -19,8 +19,7 @@ if($isCreated || $isOnlyProjectCreated){
 	session_unset();
 }
 
-$inProgressProjects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed]);
-$stalledProjects = Project::GetAllByStatus(Enums\ProjectStatusType::Stalled);
+$projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
 ?><?= Template::Header(
 	title: 'Projects',
 	css: ['/css/project.css'],
@@ -49,21 +48,11 @@ $stalledProjects = Project::GetAllByStatus(Enums\ProjectStatusType::Stalled);
 			<? } ?>
 		<? } ?>
 
-		<section id="active">
-			<h2>Active projects</h2>
-			<? if(sizeof($inProgressProjects) == 0){ ?>
-				<p class="empty-notice">None.</p>
-			<? }else{ ?>
-				<?= Template::ProjectsTable(projects: $inProgressProjects, includeStatus: false, showContactInformation: $showContactInformation, isAdminView: Session::$User->Benefits->CanEditCollections ?? false) ?>
-			<? } ?>
-		</section>
-
-		<? if(sizeof($stalledProjects) > 0){ ?>
-			<section id="stalled">
-				<h2>Stalled projects</h2>
-				<?= Template::ProjectsTable(projects: $stalledProjects, includeStatus: false, showContactInformation: $showContactInformation, isAdminView: Session::$User->Benefits->CanEditCollections ?? false) ?>
-			</section>
+		<? if(sizeof($projects) == 0){ ?>
+			<p class="empty-notice">None.</p>
+		<? }else{ ?>
+			<?= Template::ProjectsTable(projects: $projects, showContactInformation: $showContactInformation, isAdminView: Session::$User->Benefits->CanEditCollections ?? false) ?>
 		<? } ?>
-	</section>
-</main>
+		</section>
+	</main>
 <?= Template::Footer() ?>

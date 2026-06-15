@@ -13,6 +13,9 @@ $isAdminView ??= false;
 	<caption aria-hidden="true">Scroll right →</caption>
 	<thead>
 		<tr class="mid-header">
+			<? if($includeStatus){ ?>
+				<th scope="col" class="status">Status</th>
+			<? } ?>
 			<? if($includeTitle){ ?>
 				<th scope="col">Title</th>
 			<? } ?>
@@ -20,9 +23,6 @@ $isAdminView ??= false;
 			<th scope="col">Manager</th>
 			<th scope="col">Reviewer</th>
 			<th scope="col">Last activity</th>
-			<? if($includeStatus){ ?>
-				<th scope="col">Status</th>
-			<? } ?>
 			<th></th>
 			<th></th>
 			<? if($showEditButton){ ?>
@@ -33,6 +33,11 @@ $isAdminView ??= false;
 	<tbody>
 		<? foreach($projects as $project){ ?>
 			<tr>
+				<? if($includeStatus){ ?>
+					<td class="status <?= str_replace('_', '-', $project->Status->value) ?>">
+						<?= ucfirst($project->Status->GetDisplayName()) ?>
+					</td>
+				<? } ?>
 				<? if($includeTitle){ ?>
 					<td class="row-header">
 						<a href="<?= $project->Ebook->Url ?>">
@@ -75,11 +80,6 @@ $isAdminView ??= false;
 						<?= $project->LastActivityTimestamp->format(Enums\DateTimeFormat::ShortDate->value) ?>
 					<? } ?>
 				</td>
-				<? if($includeStatus){ ?>
-					<td class="status<? if($project->Status == Enums\ProjectStatusType::Stalled){ ?> stalled<? } ?><? if($project->Status == Enums\ProjectStatusType::AwaitingReview){ ?> awaiting-review<? } ?><? if($project->Status == Enums\ProjectStatusType::Reviewed){ ?> reviewed<? } ?>">
-						<?= ucfirst($project->Status->GetDisplayName()) ?>
-					</td>
-				<? } ?>
 				<td>
 					<? if($project->VcsUrl !== null){ ?>
 						<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>">Repository</a>

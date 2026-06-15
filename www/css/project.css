@@ -31,23 +31,27 @@ table.data-table .producer{
 	white-space: nowrap;
 }
 
+table.data-table th.status,
 table.data-table td.status{
 	text-align: center;
 }
 
-table.data-table td.status.stalled{
-	background: #861d1d !important; /* Override hover backgound color */
-	color: #ffffff;
-}
-
 table.data-table td.status.awaiting-review{
-	background: #d5b434 !important; /* Override hover backgound color */
+	background-color: #745a93 !important; /* `!important` to override row hover background color. */
 	color: #ffffff;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 }
 
 table.data-table td.status.reviewed{
-	background: #1d863c !important; /* Override hover backgound color */
+	background: #2b7a46 !important; /* `!important` to override row hover background color. */
 	color: #ffffff;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+}
+
+table.data-table td.status.stalled{
+	background: #9a3030 !important; /* `!important` to override row hover background color. */
+	color: #ffffff;
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 }
 
 @media(max-width: 750px){
