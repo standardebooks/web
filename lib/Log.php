@@ -65,7 +65,9 @@ class Log{
 	 * Write all queued messages to disk and clear the queue.
 	 */
 	public function WriteQueue(): void{
-		$this->WriteToFile(implode("\n", $this->_Messages));
-		$this->_Messages = [];
+		if(sizeof($this->_Messages) > 0){
+			$this->WriteToFile(implode("\n", $this->_Messages));
+			$this->_Messages = [];
+		}
 	}
 }
