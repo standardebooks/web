@@ -3115,8 +3115,37 @@ progress{
 	overflow: hidden;
 }
 
+meter::-webkit-meter-inner-element{
+	-webkit-appearance: none;
+	appearance: none;
+	display: block;
+	height: 200%; /* Not sure why this works */
+	width: 100%;
+}
+
 progress::-webkit-progress-bar{
 	background: var(--body-bg);
+}
+
+meter::-webkit-meter-bar{
+	-webkit-appearance: none;
+	appearance: none;
+	background: var(--body-bg);
+	background-image: none;
+	border: none;
+	border-radius: .25rem;
+	height: 100%;
+	width: 100%;
+}
+
+meter::-webkit-meter-optimum-value,
+meter::-webkit-meter-suboptimum-value,
+meter::-webkit-meter-even-less-good-value{
+	-webkit-appearance: none;
+	appearance: none;
+	background: var(--button);
+	background-image: none;
+	box-shadow: 1px 0 1px rgba(0, 0, 0, .25);
 }
 
 progress::-webkit-progress-value{
