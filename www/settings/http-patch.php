@@ -25,5 +25,5 @@ if($colorScheme !== null){
 
 http_response_code(Enums\HttpCode::SeeOther->value);
 
-$redirect = Template::SanitizeRedirectUrl(Http::$Request->Headers['http-referer'] ?? '/');
+$redirect = Template::SanitizeRedirectUrl(Http::$Request->Headers['referer'] ?? '/');
 header('location: ' . $redirect);
