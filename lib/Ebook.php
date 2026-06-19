@@ -69,6 +69,7 @@ final class Ebook{
 	public string $Title;
 	public ?string $FullTitle = null;
 	public ?string $AlternateTitle = null;
+	public ?string $ShortTitle = null;
 	public ?string $Description = null;
 	public ?string $LongDescription = null;
 	public ?string $Language = null;
@@ -838,6 +839,8 @@ final class Ebook{
 
 		$ebook->AlternateTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="dcterms:alternative"][@refines="#title"]'));
 
+		$ebook->ShortTitle = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:title[@id=translate(/package/metadata/meta[@property="title-type" and text()="short"]/@refines, "#", "")]'));
+
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if(sizeof($date) > 0){
 			/** @throws void */
@@ -1438,6 +1441,14 @@ final class Ebook{
 			$error->Add(new Exceptions\StringTooLongException('Ebook AlternateTitle'));
 		}
 
+		$this->ShortTitle = trim($this->ShortTitle ?? '');
+		if($this->ShortTitle == ''){
+			$this->ShortTitle = null;
+		}
+		elseif(strlen($this->ShortTitle) > EBOOKS_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Ebook ShortTitle'));
+		}
+
 		$this->Description = trim($this->Description ?? '');
 		if($this->Description == ''){
 			$this->Description = null;
@@ -1925,10 +1936,11 @@ final class Ebook{
 
 		$this->EbookId = Db::QueryInt('
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
-				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle,
+				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle, ShortTitle,
 				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
 				EbookCreated, EbookUpdated, TextSinglePageByteCount, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
 			values (?,
+				?,
 				?,
 				?,
 				?,
@@ -1956,7 +1968,7 @@ final class Ebook{
 			returning EbookId
 		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
+				$this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->DownloadsPast30Days,
 				$this->DownloadsTotal, $this->IsPatronSelection]);
@@ -2015,6 +2027,7 @@ final class Ebook{
 				Title = ?,
 				FullTitle = ?,
 				AlternateTitle = ?,
+				ShortTitle = ?,
 				Description = ?,
 				LongDescription = ?,
 				Language = ?,
@@ -2032,7 +2045,7 @@ final class Ebook{
 				EbookId = ?
 			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-				$this->FullTitle, $this->AlternateTitle, $this->Description, $this->LongDescription,
+				$this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description, $this->LongDescription,
 				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
 				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
 				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `coalesce` will keep the existing value.
@@ -2330,7 +2343,7 @@ final class Ebook{
 				$this->EbookId,
 				$this->Title,
 				$this->FullTitle ?? '',
-				$this->AlternateTitle ?? '',
+				(($this->AlternateTitle ?? '') . ' ' . ($this->ShortTitle ?? '')),
 				trim($searchAuthors),
 				trim($searchAuthorSortNames),
 				trim($searchCollections),

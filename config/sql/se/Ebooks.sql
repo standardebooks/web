@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   `Title` varchar(255) NOT NULL,
   `FullTitle` varchar(255) NULL,
   `AlternateTitle` varchar(255) NULL,
+  `ShortTitle` varchar(255) NULL,
   `Description` text NULL,
   `LongDescription` text NULL,
   `Language` varchar(10) NULL,
