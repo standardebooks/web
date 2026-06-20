@@ -169,7 +169,8 @@ code.marc{
 	background: #333;
 	border-radius: .25rem;
 	white-space: normal;
-	word-break: break-all;
+	word-break: normal;
+	overflow-wrap: break-word;
 	padding: 0 .25rem;
 	color: #fff;
 	margin: 0 .2rem;
