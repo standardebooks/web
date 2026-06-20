@@ -24,7 +24,7 @@
 					<address>
 						Fractured Atlas<br/>
 						P.O. Box 55<br/>
-						Hartsdale, NY 10530-0055<b/>
+						Hartsdale, NY 10530-0055
 					</address>
 				</li>
 			</ul>
