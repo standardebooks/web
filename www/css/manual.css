@@ -588,6 +588,7 @@ figure.corrected code{
 .manual > article > section[id] > section > aside.number{
 	font-style: normal;
 	margin-top: .15rem;
+	line-height: 1;
 }
 
 .manual section > aside.number{
@@ -597,6 +598,29 @@ figure.corrected code{
 
 .manual > article > section > aside.number{
 	font-size: 1.2rem;
+}
+
+.manual > article > section[id] > aside.number:has(+ h1){
+	font-size: 2rem;
+}
+
+.manual section[id] > aside.number:has(+ h2){
+	font-size: 1.4rem;
+}
+
+.manual section[id] > aside.number:has(+ h3),
+.manual > article > section > section[id] > section > aside.number:has(+ h3),
+.manual > article > section > section[id] > section > section > aside.number:has(+ h3),
+.manual > article > section > section[id] > section > section > section > aside.number:has(+ h3){
+	font-size: 1rem;
+}
+
+.manual section[id] > aside.number:has(+ h4),
+.manual > article > section > section[id] > section > aside.number:has(+ h4),
+.manual > article > section > section[id] > section > section > aside.number:has(+ h4),
+.manual > article > section > section[id] > section > section > section > aside.number:has(+ h4),
+.manual > article > section > section[id] > section > section > section > section > aside.number:has(+ h4){
+	font-size: 1rem;
 }
 
 .manual h2,
@@ -776,15 +800,30 @@ main.manual *:target{
 	animation: highlight 5s;
 }
 
-@media(max-width: 1700px){
+@media(max-width: 2000px){
 	main.manual > article{
 		margin-left: 10rem;
 	}
 }
 
-@media(max-width: 1350px){
+@media(max-width: 1700px){
+	main.manual{
+		--manual-collapsed-number-gutter: 4.75rem;
+		--manual-collapsed-number-width: 5.25rem;
+	}
+
 	main.manual > article{
+		margin-left: var(--manual-collapsed-number-gutter);
+		width: calc(100% - var(--manual-collapsed-number-gutter));
+	}
+
+	main.manual > nav ~ article:first-of-type{
 		margin-left: 0;
+		width: 100%;
+	}
+
+	main.manual > nav ~ article:first-of-type > section:first-child{
+		max-width: none;
 	}
 
 	main.manual > nav{
@@ -814,43 +853,206 @@ main.manual *:target{
 	.manual > nav + article > section[id] > aside.number{
 		margin-top: 0;
 	}
-}
-
-@media(max-width: 1100px){
-	.manual ol ol ul, .manual ol ol p, .manual ol ol figure,
-	.manual > article > section > section section{
-		margin-left: 0;
-	}
 
 	.manual > article > section > section[id] > section > ol > li aside.number,
 	.manual > article > section > section[id] > section > aside.number{
-		margin-left: -10.5rem;
+		margin-left: calc(-1 * (var(--manual-collapsed-number-width) + 2.5rem));
 	}
 
 	.manual > article > section > section[id] > section > section > ol > li aside.number,
 	.manual > article > section > section[id] > section > section > aside.number{
-		margin-left: -10.5rem;
+		margin-left: calc(-1 * (var(--manual-collapsed-number-width) + 4.5rem));
+	}
+
+	.manual > article > section > section[id] > section > section > section > aside.number{
+		margin-left: calc(-1 * (var(--manual-collapsed-number-width) + 6.5rem));
+	}
+
+	.manual > article > section > section[id] > section > section > section > section > aside.number{
+		margin-left: calc(-1 * (var(--manual-collapsed-number-width) + 8.5rem));
 	}
 
 	.manual > article > section > section[id] > ol ol > li aside.number::after,
 	.manual > article > section > section[id] section > ol > li aside.number::after,
 	.manual > article > section > section[id] section > aside.number::after{
-		display: none;
+		margin-left: calc(var(--manual-collapsed-number-width) + .25rem);
 	}
 
-	.manual > article > section > section{
-		padding-left: 2rem;
+	.manual > article > section > section[id] section > ol > li aside.number,
+	.manual > article > section > section[id] section > aside.number{
+		margin-left: calc(-1 * (var(--manual-collapsed-number-width) + 2.5rem));
+	}
+
+	.manual > article > section[id] > aside.number{
+		margin-left: calc(-1 * (var(--manual-collapsed-number-width) + 1rem));
+		width: var(--manual-collapsed-number-width);
+	}
+
+	.manual section[id] > aside.number,
+	.manual section[id] ol > li > aside.number{
+		margin-left: calc(-1 * (var(--manual-collapsed-number-width) + .5rem));
+		width: var(--manual-collapsed-number-width);
 	}
 }
 
-@media(max-width: 1000px){
+@media(max-width: 770px){
 	main.manual > article{
-		margin-left: 2rem;
+		margin-left: 0;
+		width: 100%;
+	}
+
+	.manual ol ol ul,
+	.manual ol ol p,
+	.manual ol ol figure,
+	.manual > article > section > section section{
+		margin-left: 0;
+	}
+
+	.manual a{
+		overflow-wrap: anywhere;
+	}
+
+	.manual code{
+		tab-size: 2;
+	}
+
+	.manual figure.wrong code,
+	.manual figure.corrected code{
+		min-width: 0;
+	}
+
+	.manual table{
+		display: block;
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	.manual h1,
+	.manual section[id] > aside.number,
+	.manual section[id] ol > li > aside.number{
+		overflow-wrap: anywhere;
+	}
+
+	.manual > article > section > section[id] > section > ol > li aside.number,
+	.manual > article > section > section[id] > section > aside.number,
+	.manual > article > section > section[id] > section > section > ol > li aside.number,
+	.manual > article > section > section[id] > section > section > aside.number,
+	.manual > article > section > section[id] > section > section > section > aside.number,
+	.manual > article > section > section[id] > section > section > section > section > aside.number,
+	.manual > article > section > section[id] section > ol > li aside.number,
+	.manual > article > section > section[id] section > aside.number,
+	.manual > article > section[id] > aside.number,
+	.manual section[id] > aside.number,
+	.manual section[id] ol > li > aside.number{
+		display: block;
+		margin: 0;
+		position: static;
+		text-align: left;
+		width: auto;
+	}
+
+	.manual > article > section[id] > aside.number{
+		font-size: 1.2rem;
+	}
+
+	.manual section[id]:has(> aside.number + h2),
+	.manual section[id]:has(> aside.number + h3),
+	.manual section[id]:has(> aside.number + h4){
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		column-gap: .5rem;
+	}
+
+	main.manual > article:not(:first-of-type) > section[id]:has(> aside.number + h1){
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		column-gap: .5rem;
+	}
+
+	main.manual > article:not(:first-of-type) > section[id]:has(> aside.number + h1) > *,
+	.manual section[id]:has(> aside.number + h2) > *,
+	.manual section[id]:has(> aside.number + h3) > *,
+	.manual section[id]:has(> aside.number + h4) > *{
+		min-width: 0;
+	}
+
+	.manual > article > section[id] > section > aside.number{
+		margin-top: 0;
+	}
+
+	main.manual > article:not(:first-of-type) > section[id] > aside.number:has(+ h1){
+		align-self: baseline;
+		grid-column: 1;
+		grid-row: 1;
+		margin-top: 2rem;
+	}
+
+	.manual section[id] > aside.number:has(+ h2){
+		align-self: baseline;
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.manual section[id] > aside.number:has(+ h3),
+	.manual > article > section > section[id] > section > aside.number:has(+ h3),
+	.manual > article > section > section[id] > section > section > aside.number:has(+ h3),
+	.manual > article > section > section[id] > section > section > section > aside.number:has(+ h3){
+		align-self: baseline;
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	.manual section[id] > aside.number:has(+ h4),
+	.manual > article > section > section[id] > section > aside.number:has(+ h4),
+	.manual > article > section > section[id] > section > section > aside.number:has(+ h4),
+	.manual > article > section > section[id] > section > section > section > aside.number:has(+ h4),
+	.manual > article > section > section[id] > section > section > section > section > aside.number:has(+ h4){
+		align-self: baseline;
+		grid-column: 1;
+		grid-row: 1;
+	}
+
+	main.manual > article:not(:first-of-type) > section[id] > aside.number + h1{
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	.manual section[id] > aside.number + h2,
+	.manual section[id] > aside.number + h3,
+	.manual section[id] > aside.number + h4{
+		grid-column: 2;
+		grid-row: 1;
+	}
+
+	main.manual > article:not(:first-of-type) > section[id]:has(> aside.number + h1) > :not(aside.number, h1){
+		grid-column: 1 / -1;
+	}
+
+	.manual section[id]:has(> aside.number + h2) > :not(aside.number, h2),
+	.manual section[id]:has(> aside.number + h3) > :not(aside.number, h3),
+	.manual section[id]:has(> aside.number + h4) > :not(aside.number, h4){
+		grid-column: 1 / -1;
+	}
+
+	.manual section[id] ol > li > aside.number + p{
+		margin-top: 0;
+	}
+
+	.manual > article > section > section[id] > ol ol > li aside.number::after,
+	.manual > article > section > section[id] section > ol > li aside.number::after,
+	.manual > article > section > section[id] section > aside.number::after,
+	.manual > article > section > section[id] > section > ol ol > li aside.number::after,
+	.manual > article > section > section[id] > section > section > ol > li aside.number::after,
+	.manual > article > section > section[id] > section > section > aside.number::after,
+	.manual > article > section > section[id] > section > section > section > aside.number::after,
+	.manual > article > section > section[id] > section > section > section > section > aside.number::after,
+	.manual section[id] > aside.number::after,
+	.manual section[id] ol > li > aside.number::after{
+		content: none;
 	}
 }
 
 @media(max-width: 500px){
-	.manual h1,
 	.manual h2,
 	.manual h3,
 	.manual h4,
@@ -866,9 +1068,5 @@ main.manual *:target{
 	.manual .step-by-step-guide h5,
 	.manual .step-by-step-guide h6{
 		word-break: normal;
-	}
-
-	main.manual > article{
-		margin-left: 1rem;
 	}
 }
