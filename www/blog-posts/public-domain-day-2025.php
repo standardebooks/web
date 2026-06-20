@@ -113,7 +113,7 @@ ksort($ebooksWithDescriptions);
 		</hgroup>
 		<picture data-caption="The Reader. Harold Knight, circa 1910">
 			<source srcset="/images/the-reader@2x.avif 2x, /images/the-reader.avif 1x" type="image/avif"/>
-			<source srcset="/images/the-reader@2x.jpg 2x, /images/the-reader.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/the-reader@2x.jpg 2x, /images/the-reader.jpg 1x" type="image/jpeg"/>
 			<img src="/images/the-reader@2x.jpg" alt="An oil painting of a woman reading a book in front of a bookcase."/>
 		</picture>
 		<p>Happy Public Domain Day!</p>

@@ -30,7 +30,7 @@ $projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enum
 		<h1>Projects</h1>
 		<picture data-caption="The Iron Rolling Mill (Modern Cyclopes). Adolph Menzel, 1875">
 			<source srcset="/images/the-iron-rolling-mill@2x.avif 2x, /images/the-iron-rolling-mill.avif 1x" type="image/avif"/>
-			<source srcset="/images/the-iron-rolling-mill@2x.jpg 2x, /images/the-iron-rolling-mill.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/the-iron-rolling-mill@2x.jpg 2x, /images/the-iron-rolling-mill.jpg 1x" type="image/jpeg"/>
 			<img src="/images/the-iron-rolling-mill@2x.jpg" alt="Voters step up to cast votes in a county poll."/>
 		</picture>
 		<? if(Session::$User?->Benefits->CanEditProjects){ ?>

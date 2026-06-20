@@ -36,7 +36,7 @@ $usedCollectionMemberships = [[[]]];
 					<? }else{ ?>
 						<picture>
 							<? if($ebook->CoverImage2xAvifUrl !== null){ ?><source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/><? } ?>
-							<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpg"/>
+							<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpeg"/>
 							<img src="<?= $ebook->CoverImage2xUrl ?>" alt="" property="schema:image" height="335" width="224"/>
 						</picture>
 					<? } ?>

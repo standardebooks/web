@@ -44,7 +44,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<h1>Polls</h1>
 			<picture data-caption="County Election. John Sartain after George Caleb Bingham, 1854">
 				<source srcset="/images/county-election@2x.avif 2x, /images/county-election.avif 1x" type="image/avif"/>
-				<source srcset="/images/county-election@2x.jpg 2x, /images/county-election.jpg 1x" type="image/jpg"/>
+				<source srcset="/images/county-election@2x.jpg 2x, /images/county-election.jpg 1x" type="image/jpeg"/>
 				<img src="/images/county-election@2x.jpg" alt="Voters step up to cast votes in a county poll."/>
 			</picture>
 			<ul role="menu">
@@ -57,7 +57,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			</hgroup>
 			<picture data-caption="County Election. John Sartain after George Caleb Bingham, 1854">
 				<source srcset="/images/county-election@2x.avif 2x, /images/county-election.avif 1x" type="image/avif"/>
-				<source srcset="/images/county-election@2x.jpg 2x, /images/county-election.jpg 1x" type="image/jpg"/>
+				<source srcset="/images/county-election@2x.jpg 2x, /images/county-election.jpg 1x" type="image/jpeg"/>
 				<img src="/images/county-election@2x.jpg" alt="Voters step up to cast votes in a county poll."/>
 			</picture>
 			<p>Periodically members of the <a href="/about#patrons-circle">Standard Ebooks Patrons Circle</a> vote on the next ebook from the <a href="/contribute/wanted-ebooks">Wanted Ebook List</a> to enter immediate production.</p>

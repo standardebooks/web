@@ -7,7 +7,7 @@
 		</hgroup>
 		<picture data-caption="Blind Orion Searching for the Rising Sun. Nicolas Poussin, 1658">
 			<source srcset="/images/blind-orion@2x.avif 2x, /images/blind-orion.avif 1x" type="image/avif"/>
-			<source srcset="/images/blind-orion@2x.jpg 2x, /images/blind-orion.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/blind-orion@2x.jpg 2x, /images/blind-orion.jpg 1x" type="image/jpeg"/>
 			<img src="/images/blind-orion@2x.jpg" alt="A classical city is aflame as people scramble in the foreground."/>
 		</picture>
 		<p>We couldn’t find a document at the URL you specified. Did you mistype the URL?</p>

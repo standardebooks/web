@@ -7,7 +7,7 @@
 		</hgroup>
 		<picture data-caption="The Triumph of Silenus. Nicolas Poussin, c. 1665">
 			<source srcset="/images/the-triumph-of-silenus@2x.avif 2x, /images/the-triumph-of-silenus.avif 1x" type="image/avif"/>
-			<source srcset="/images/the-triumph-of-silenus@2x.jpg 2x, /images/the-triumph-of-silenus.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/the-triumph-of-silenus@2x.jpg 2x, /images/the-triumph-of-silenus.jpg 1x" type="image/jpeg"/>
 			<img src="/images/the-triumph-of-silenus@2x.jpg" alt="Silenus and his satyrs engage in a gluttonous bacchanal."/>
 		</picture>
 		<p>You’ve downloaded too many ebooks in too short a time. Please wait before trying again.</p>

@@ -72,7 +72,7 @@ $anonymousPatronCount = Db::QueryInt('
 					<li>
 						<picture>
 							<source srcset="/images/masthead/alex-cabal@2x.avif 2x, /images/masthead/alex-cabal.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/alex-cabal@2x.jpg 2x, /images/masthead/alex-cabal.jpg 1x" type="image/jpg"/>
+							<source srcset="/images/masthead/alex-cabal@2x.jpg 2x, /images/masthead/alex-cabal.jpg 1x" type="image/jpeg"/>
 							<img src="/images/masthead/alex-cabal.jpg" alt="A portrait of Alex Cabal."/>
 						</picture>
 						<p>
@@ -89,7 +89,7 @@ $anonymousPatronCount = Db::QueryInt('
 					<li>
 						<picture>
 							<source srcset="/images/masthead/lukas-bystricky@2x.avif 2x, /images/masthead/lukas-bystricky.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/lukas-bystricky@2x.jpg 2x, /images/masthead/lukas-bystricky.jpg 1x" type="image/jpg"/>
+							<source srcset="/images/masthead/lukas-bystricky@2x.jpg 2x, /images/masthead/lukas-bystricky.jpg 1x" type="image/jpeg"/>
 							<img src="/images/masthead/lukas-bystricky.jpg" alt="A portrait of Lukas Bystricky."/>
 						</picture>
 						<p>
@@ -100,7 +100,7 @@ $anonymousPatronCount = Db::QueryInt('
 					<li>
 						<picture>
 							<source srcset="/images/masthead/weijia-cheng@2x.avif 2x, /images/masthead/weijia-cheng.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/weijia-cheng@2x.jpg 2x, /images/masthead/weijia-cheng.jpg 1x" type="image/jpg"/>
+							<source srcset="/images/masthead/weijia-cheng@2x.jpg 2x, /images/masthead/weijia-cheng.jpg 1x" type="image/jpeg"/>
 							<img src="/images/masthead/weijia-cheng.jpg" alt="A portrait of Weijia Cheng."/>
 						</picture>
 						<p>
@@ -111,7 +111,7 @@ $anonymousPatronCount = Db::QueryInt('
 					<li>
 						<picture>
 							<source srcset="/images/masthead/david-reimer@2x.avif 2x, /images/masthead/david-reimer.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/david-reimer@2x.jpg 2x, /images/masthead/david-reimer.jpg 1x" type="image/jpg"/>
+							<source srcset="/images/masthead/david-reimer@2x.jpg 2x, /images/masthead/david-reimer.jpg 1x" type="image/jpeg"/>
 							<img src="/images/masthead/david-reimer.jpg" alt="A portrait of David Reimer."/>
 						</picture>
 						<p>
@@ -122,7 +122,7 @@ $anonymousPatronCount = Db::QueryInt('
 					<li>
 						<picture>
 							<source srcset="/images/masthead/vince-rice@2x.avif 2x, /images/masthead/vince-rice.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/vince-rice@2x.jpg 2x, /images/masthead/vince-rice.jpg 1x" type="image/jpg"/>
+							<source srcset="/images/masthead/vince-rice@2x.jpg 2x, /images/masthead/vince-rice.jpg 1x" type="image/jpeg"/>
 							<img src="/images/masthead/vince-rice.jpg" alt="A portrait of Vince Rice."/>
 						</picture>
 						<p>
@@ -133,7 +133,7 @@ $anonymousPatronCount = Db::QueryInt('
 					<li>
 						<picture>
 							<source srcset="/images/masthead/emma-sweeney@2x.avif 2x, /images/masthead/emma-sweeney.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/emma-sweeney@2x.jpg 2x, /images/masthead/emma-sweeney.jpg 1x" type="image/jpg"/>
+							<source srcset="/images/masthead/emma-sweeney@2x.jpg 2x, /images/masthead/emma-sweeney.jpg 1x" type="image/jpeg"/>
 							<img src="/images/masthead/emma-sweeney.jpg" alt="A portrait of Emma Sweeney."/>
 						</picture>
 						<p>
@@ -144,7 +144,7 @@ $anonymousPatronCount = Db::QueryInt('
 					<li>
 						<picture>
 							<source srcset="/images/masthead/robin-whittleton@2x.avif 2x, /images/masthead/robin-whittleton.avif 1x" type="image/avif"/>
-							<source srcset="/images/masthead/robin-whittleton@2x.jpg 2x, /images/masthead/robin-whittleton.jpg 1x" type="image/jpg"/>
+							<source srcset="/images/masthead/robin-whittleton@2x.jpg 2x, /images/masthead/robin-whittleton.jpg 1x" type="image/jpeg"/>
 							<img src="/images/masthead/robin-whittleton.jpg" alt="A portrait of Robin Whittleton."/>
 						</picture>
 						<p>

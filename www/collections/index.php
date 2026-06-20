@@ -7,7 +7,7 @@ $collections = Collection::GetAll();
 		<h1>Ebook Collections</h1>
 		<picture data-caption="Still Life with Books and a Violin. Jan Davidszoon de Heem, 1625">
 			<source srcset="/images/still-life-with-books@2x.avif 2x, /images/still-life-with-books.avif 1x" type="image/avif"/>
-			<source srcset="/images/still-life-with-books@2x.jpg 2x, /images/still-life-with-books.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/still-life-with-books@2x.jpg 2x, /images/still-life-with-books.jpg 1x" type="image/jpeg"/>
 			<img src="/images/still-life-with-books@2x.jpg" alt="A pile of moldering books lying on a table."/>
 		</picture>
 		<ul>

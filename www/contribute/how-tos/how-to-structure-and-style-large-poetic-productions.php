@@ -290,7 +290,7 @@ v####This line is at i3.
 				<p>In poetic composition, some authors opt to use stanzas of varying length. While traditional poetry forms such as sonnets and haikus have a set structure, free verse poetry allows poets to experiment with different stanza lengths. To visually differentiate between stanzas, some poets choose to remove the blank space between them and instead indent the first line of each subsequent stanza (excluding the first stanza). This technique serves a similar function to paragraphs in prose.</p>
 				<picture>
 					<source srcset="images/verse-paragraphs@2x.avif 2x, images/verse-paragraphs.avif 1x" type="image/avif"/>
-					<source srcset="images/verse-paragraphs@2x.jpg 2x, images/verse-paragraphs.jpg 1x" type="image/jpg"/>
+					<source srcset="images/verse-paragraphs@2x.jpg 2x, images/verse-paragraphs.jpg 1x" type="image/jpeg"/>
 					<img src="images/verse-paragraphs.jpg" alt="Each stanza is indented, similar to paragraphs."/>
 				</picture>
 				<p>With a clever CSS selector, you don’t need to add the <code class="bash"><span class="s">i1</span></code> class to each stanza. To remove spacing between stanzas, delete <code class="css"><span class="o">[</span><span class="nt">epub</span><span class="o">|</span><span class="nt">type</span><span class="o">~=</span><span class="s2">"z3998:poem"</span><span class="o">]</span> <span class="nt">p</span> <span class="o">+</span> <span class="nt">p</span><span class="p">{</span> <span class="k">margin-top</span><span class="p">:</span> <span class="mi">1</span><span class="kt">em</span><span class="p">;</span> <span class="p">}</span></code> that’s provided by the SEMoS.</p>
@@ -321,7 +321,7 @@ v####This line is at i3.
 				<p>In poetry, a caesura is a pause or break in a verse that marks the end of one phrase and the beginning of another. This pause can be expressed by a large space and is used by poets to create a rhythmic effect in their work.</p>
 				<picture>
 					<source srcset="images/caesuras@2x.avif 2x, images/caesuras.avif 1x" type="image/avif"/>
-					<source srcset="images/caesuras@2x.jpg 2x, images/caesuras.jpg 1x" type="image/jpg"/>
+					<source srcset="images/caesuras@2x.jpg 2x, images/caesuras.jpg 1x" type="image/jpeg"/>
 					<img src="images/caesuras.jpg" alt="Each line is split into two phrases separated by a large space."/>
 				</picture>
 				<p>In the files, wrap each phrase in a <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> element inside of the <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> element that represents the complete verse line.</p>
@@ -361,7 +361,7 @@ v####This line is at i3.
 				<p>When dealing with two separate phrases, the parent <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> has a <code class="html">class="dl2"</code> attribute.</p>
 				<picture>
 					<source srcset="images/dropped-lines-1@2x.avif 2x, images/dropped-lines-1.avif 1x" type="image/avif"/>
-					<source srcset="images/dropped-lines-1@2x.jpg 2x, images/dropped-lines-1.jpg 1x" type="image/jpg"/>
+					<source srcset="images/dropped-lines-1@2x.jpg 2x, images/dropped-lines-1.jpg 1x" type="image/jpeg"/>
 					<img src="images/dropped-lines-1.jpg" alt="This is an example of a dropped line with two phrases."/>
 				</picture>
 				<figure class="html full">
@@ -384,7 +384,7 @@ v####This line is at i3.
 				<p>In the rare case that a line is broken into three phrases, the parent <code class="html"><span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span></code> has a <code class="html">class="dl3"</code> attribute.</p>
 				<picture>
 					<source srcset="images/dropped-lines-2@2x.avif 2x, images/dropped-lines-2.avif 1x" type="image/avif"/>
-					<source srcset="images/dropped-lines-2@2x.jpg 2x, images/dropped-lines-2.jpg 1x" type="image/jpg"/>
+					<source srcset="images/dropped-lines-2@2x.jpg 2x, images/dropped-lines-2.jpg 1x" type="image/jpeg"/>
 					<img src="images/dropped-lines-2.jpg" alt="This is an example of a dropped line with three phrases."/>
 				</picture>
 				<figure class="html full">

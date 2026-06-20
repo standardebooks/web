@@ -134,7 +134,7 @@ ksort($ebooksWithDescriptions);
 		</hgroup>
 		<picture data-caption="Birmingham Reference Library—The Reading Room. Edward Richard Taylor, 1881">
 			<source srcset="/images/birmingham-reference-library@2x.avif 2x, /images/birmingham-reference-library.avif 1x" type="image/avif"/>
-			<source srcset="/images/birmingham-reference-library@2x.jpg 2x, /images/birmingham-reference-library.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/birmingham-reference-library@2x.jpg 2x, /images/birmingham-reference-library.jpg 1x" type="image/jpeg"/>
 			<img src="/images/birmingham-reference-library@2x.jpg" alt="The reading room of a large neoclassical reference library."/>
 		</picture>
 		<p>Happy Public Domain Day!</p>

@@ -108,7 +108,7 @@
 				<figure>
 					<picture>
 						<source srcset="/images/covers@2x.avif 2x, /images/covers.avif 1x" type="image/avif"/>
-						<source srcset="/images/covers@2x.jpg 2x, /images/covers.jpg 1x" type="image/jpg"/>
+						<source srcset="/images/covers@2x.jpg 2x, /images/covers.jpg 1x" type="image/jpeg"/>
 						<img src="/images/covers@2x.jpg" alt="An ebookshelf featuring Standard Ebooks covers." height="125" width="400" loading="lazy"/>
 					</picture>
 				</figure>

@@ -7,7 +7,7 @@
 		</hgroup>
 		<picture data-caption="The Guard Room. David Teniers II, 1642">
 			<source srcset="/images/guard-room@2x.avif 2x, /images/guard-room.avif 1x" type="image/avif"/>
-			<source srcset="/images/guard-room@2x.jpg 2x, /images/guard-room.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/guard-room@2x.jpg 2x, /images/guard-room.jpg 1x" type="image/jpeg"/>
 			<img src="/images/guard-room@2x.jpg" alt="Baroque-era guards gather around a table in a room."/>
 		</picture>
 		<p>Your account doesn’t have permission to view this page.</p>

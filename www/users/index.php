@@ -29,7 +29,7 @@ catch(Exceptions\PermissionsInvalidException){
 		<h1>Users</h1>
 		<picture data-caption="Rohan Road Combat, 29 July 1830. Hippolyte Lecomte, 1831">
 			<source srcset="/images/rohan-road-combat@2x.avif 2x, /images/rohan-road-combat.avif 1x" type="image/avif"/>
-			<source srcset="/images/rohan-road-combat@2x.jpg 2x, /images/rohan-road-combat.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/rohan-road-combat@2x.jpg 2x, /images/rohan-road-combat.jpg 1x" type="image/jpeg"/>
 			<img src="/images/rohan-road-combat@2x.jpg" alt="Rioters shooting guns during the French Revolution."/>
 		</picture>
 

@@ -71,7 +71,7 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<a href="<?= $artwork->ImageUrl ?>">
 			<picture>
-				<source srcset="<?= $artwork->Thumb2xUrl ?> 2x, <?= $artwork->ThumbUrl ?> 1x" type="image/jpg"/>
+				<source srcset="<?= $artwork->Thumb2xUrl ?> 2x, <?= $artwork->ThumbUrl ?> 1x" type="image/jpeg"/>
 				<img src="<?= $artwork->ThumbUrl ?>" alt="" property="schema:image"/>
 			</picture>
 		</a>

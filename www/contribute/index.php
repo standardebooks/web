@@ -8,7 +8,7 @@
 		<?= Template::DonationDrive() ?>
 		<picture data-caption="The Printing House of Bernardo Cennini. Tito Lessi, 1907">
 			<source srcset="/images/the-printing-house@2x.avif 2x, /images/the-printing-house.avif 1x" type="image/avif"/>
-			<source srcset="/images/the-printing-house@2x.jpg 2x, /images/the-printing-house.jpg 1x" type="image/jpg"/>
+			<source srcset="/images/the-printing-house@2x.jpg 2x, /images/the-printing-house.jpg 1x" type="image/jpeg"/>
 			<img src="/images/the-printing-house@2x.jpg" alt="An oil painting of four men in a printer’s workshop creating prints."/>
 		</picture>
 		<p>Standard Ebooks is a volunteer-driven project, and there’s room for people of all skill levels to contribute.</p>

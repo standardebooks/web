@@ -61,7 +61,7 @@ catch(Exceptions\PermissionsInvalidException){
 		<?= Template::Error(exception: $exception) ?>
 
 		<picture>
-			<source srcset="<?= $originalArtwork->Thumb2xUrl ?> 2x, <?= $originalArtwork->ThumbUrl ?> 1x" type="image/jpg"/>
+			<source srcset="<?= $originalArtwork->Thumb2xUrl ?> 2x, <?= $originalArtwork->ThumbUrl ?> 1x" type="image/jpeg"/>
 			<img src="<?= $originalArtwork->ThumbUrl ?>" alt="" property="schema:image"/>
 		</picture>
 
