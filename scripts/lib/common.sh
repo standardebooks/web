@@ -473,7 +473,7 @@ ApplyFormattingTags(){
 				line="${line:7}"
 				;;
 			"[path]"*)
-				output="${output}${FG_CORNFLOWER_BLUE}${FS_UL}"
+				output="${output}${FG_BLUE}${FS_BOLD}${FS_UL}"
 				line="${line:6}"
 				;;
 			"[user]"*)
