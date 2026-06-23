@@ -598,7 +598,7 @@ final class Project{
 
 			if(is_array($response->Json)){
 				foreach($response->Json as $issue){
-					if(preg_match('/\breview/iu', $issue->title)){
+					if(preg_match('/\breview|issues/iu', $issue->title)){
 						$this->Status = Enums\ProjectStatusType::Reviewed;
 						return;
 					}

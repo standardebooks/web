@@ -64,6 +64,18 @@ foreach($projects as $project){
 		// If we got here then we likely got a 404, so continue.
 	}
 
+	try{
+		$project->FetchReviewStatus($apiKey);
+	}
+	catch(Exceptions\AppException $ex){
+		// If we got rate limited, stop requesting more items.
+		if(stripos($ex->getMessage(), 'http 429') !== false){
+			$continueFetchingLastCommitTimestamp = false;
+		}
+
+		// If we got here then we likely got a 404, so continue.
+	}
+
 	$project->Save();
 
 	sleep(random_int(10, 20));
