@@ -38,6 +38,7 @@ final class Project{
 	public ?DateTimeImmutable $LastCommitTimestamp = null;
 	public ?DateTimeImmutable $LastDiscussionTimestamp = null;
 	public bool $IsStatusAutomaticallyUpdated = true;
+	public bool $HasReviewerBeenNotified = false;
 
 	protected Ebook $_Ebook;
 	protected User $_Producer;
@@ -359,7 +360,8 @@ final class Project{
 					ReviewerUserId,
 					LastCommitTimestamp,
 					LastDiscussionTimestamp,
-					IsStatusAutomaticallyUpdated
+					IsStatusAutomaticallyUpdated,
+					HasReviewerBeenNotified
 				)
 				values
 				(
@@ -376,10 +378,11 @@ final class Project{
 					?,
 					?,
 					?,
+					?,
 					?
 				)
 				returning ProjectId
-			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated]);
+			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified]);
 
 		$this->SaveDiscussionMessageId();
 
@@ -443,10 +446,11 @@ final class Project{
 			ReviewerUserId = ?,
 			LastCommitTimestamp = ?,
 			LastDiscussionTimestamp = ?,
-			IsStatusAutomaticallyUpdated = ?
+			IsStatusAutomaticallyUpdated = ?,
+			HasReviewerBeenNotified = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->ProjectId]);
+		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->ProjectId]);
 
 		Db::Query('
 			UPDATE

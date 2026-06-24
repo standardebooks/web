@@ -134,6 +134,8 @@ foreach($projects as $project){
 				if(
 					$project->Reviewer->Email !== null
 					&&
+					!$project->HasReviewerBeenNotified
+					&&
 					strtolower($project->Producer->Email ?? '') == ($emailMessage->SenderEmail ?? '')
 					&&
 					$project->Status != Enums\ProjectStatusType::AwaitingReview
@@ -151,6 +153,7 @@ foreach($projects as $project){
 					$em->BodyHtml = Template::EmailReviewerProjectReady(project: $project, user: $project->Reviewer);
 					$em->BodyText = Template::EmailReviewerProjectReadyText(project: $project, user: $project->Reviewer);
 					$em->Send();
+					$project->HasReviewerBeenNotified = true;
 				}
 
 				// We matched this email to a `Project`, remove it from future checks.

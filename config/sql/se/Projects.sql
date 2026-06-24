@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `LastCommitTimestamp` DATETIME NULL DEFAULT NULL,
   `LastDiscussionTimestamp` DATETIME NULL DEFAULT NULL,
   `IsStatusAutomaticallyUpdated` tinyint(1) NOT NULL DEFAULT 1,
+  `HasReviewerBeenNotified` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ProjectId`),
   KEY `index1` (`EbookId`),
   KEY `indexProducerUserId` (`ProducerUserId`)
