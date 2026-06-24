@@ -132,11 +132,7 @@ foreach($projects as $project){
 
 				// Is this `Project` ready for review?
 				if(
-					$project->Reviewer->Email !== null
-					&&
-					!$project->HasReviewerBeenNotified
-					&&
-					strtolower($project->Producer->Email ?? '') == ($emailMessage->SenderEmail ?? '')
+					strtolower($project->Producer->Email ?? '') == strtolower($emailMessage->SenderEmail ?? '')
 					&&
 					$project->Status != Enums\ProjectStatusType::AwaitingReview
 					&&
@@ -145,15 +141,6 @@ foreach($projects as $project){
 					preg_match('/\b(ready\s+for\s+review|ready\s+to\s+be\s+reviewed|ready\s+for\s+you|this\s+(e?book|project\s+)?is\s+ready[\.\!])\b/iu', $emailMessage->Body)
 				){
 					$project->Status = Enums\ProjectStatusType::AwaitingReview;
-
-					$em = new QueuedEmailMessage();
-					$em->From = ADMIN_EMAIL_ADDRESS;
-					$em->To = $project->Reviewer->Email;
-					$em->Subject = 'Ebook project ready for review';
-					$em->BodyHtml = Template::EmailReviewerProjectReady(project: $project, user: $project->Reviewer);
-					$em->BodyText = Template::EmailReviewerProjectReadyText(project: $project, user: $project->Reviewer);
-					$em->Send();
-					$project->HasReviewerBeenNotified = true;
 				}
 
 				// We matched this email to a `Project`, remove it from future checks.

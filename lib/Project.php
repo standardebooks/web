@@ -431,6 +431,7 @@ final class Project{
 	 */
 	public function Save(): void{
 		$this->Validate();
+		$this->SendReviewerReadyNotification();
 
 		Db::Query('
 			UPDATE
@@ -462,6 +463,31 @@ final class Project{
 		', [$this->Status != Enums\ProjectStatusType::Abandoned, $this->EbookId]);
 
 		$this->SaveDiscussionMessageId();
+	}
+
+	/**
+	 * Send a ready-for-review email to this `Project`'s reviewer if it has not already been sent.
+	 */
+	public function SendReviewerReadyNotification(): void{
+		if(
+			$this->Status != Enums\ProjectStatusType::AwaitingReview
+			||
+			$this->HasReviewerBeenNotified
+			||
+			$this->Reviewer->Email === null
+		){
+			return;
+		}
+
+		$em = new QueuedEmailMessage();
+		$em->From = ADMIN_EMAIL_ADDRESS;
+		$em->To = $this->Reviewer->Email;
+		$em->Subject = 'Ebook project ready for review';
+		$em->BodyHtml = Template::EmailReviewerProjectReady(project: $this, user: $this->Reviewer);
+		$em->BodyText = Template::EmailReviewerProjectReadyText(project: $this, user: $this->Reviewer);
+		$em->Send();
+
+		$this->HasReviewerBeenNotified = true;
 	}
 
 	public function Delete(): void{
