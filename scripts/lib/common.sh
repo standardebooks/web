@@ -81,6 +81,11 @@ FormatLinks(){
 	output=""
 	inLink=false
 
+	if [[ "${line}" != *"[link="* ]]; then
+		printf "%s" "${line}"
+		return
+	fi
+
 	while [[ -n "${line}" ]]; do
 		if [[ "${line}" =~ ^\[link=([^]]+)\](.*)$ ]]; then
 			url="${BASH_REMATCH[1]}"
@@ -420,126 +425,43 @@ GetTerminalWidth(){
 # Replace formatting tags with terminal colors.
 # Param 1: The line to format.
 ApplyFormattingTags(){
+	local closeTag
 	local line
-	local output
 
 	line="$1"
-	output=""
 
-	while [[ -n "${line}" ]]; do
-		case "${line}" in
-			"[/]"*)
-				output="${output}${RESET_ALL}"
-				line="${line:3}"
-				;;
-			"[header]"*)
-				output="${output}${FG_GREEN}${FS_BOLD}"
-				line="${line:8}"
-				;;
-			"[parameter]"*)
-				output="${output}${FG_CYAN}"
-				line="${line:11}"
-				;;
-			"[command]"*)
-				output="${output}${FG_GREEN}"
-				line="${line:9}"
-				;;
-			"[subcommand]"*)
-				output="${output}${FG_DARK_SEA_GREEN1}"
-				line="${line:12}"
-				;;
-			"[branch]"*)
-				output="${output}${FG_DARK_GOLDENROD}"
-				line="${line:8}"
-				;;
-			"[xhtml]"*)
-				output="${output}${FG_PURPLE}"
-				line="${line:7}"
-				;;
-			"[xml]"*)
-				output="${output}${FG_PURPLE}"
-				line="${line:5}"
-				;;
-			"[val]"*)
-				output="${output}${FG_BRIGHT_BLUE}"
-				line="${line:5}"
-				;;
-			"[attr]"*)
-				output="${output}${FG_HOT_PINK}"
-				line="${line:6}"
-				;;
-			"[class]"*)
-				output="${output}${FG_HOT_PINK}"
-				line="${line:7}"
-				;;
-			"[path]"*)
-				output="${output}${FG_BLUE}${FS_BOLD}${FS_UL}"
-				line="${line:6}"
-				;;
-			"[user]"*)
-				output="${output}${FG_MAGENTA}"
-				line="${line:6}"
-				;;
-			"[url]"*)
-				output="${output}${FG_BRIGHT_BLUE}"
-				line="${line:5}"
-				;;
-			"[error]"*)
-				output="${output}${FG_RED}"
-				line="${line:7}"
-				;;
-			"[warning]"*)
-				output="${output}${FG_ORANGE1}"
-				line="${line:9}"
-				;;
-			"[queued]"*)
-				output="${output}${FG_GRAY69}"
-				line="${line:8}"
-				;;
-			"[running]"*)
-				output="${output}${FG_BLUE_VIOLET}"
-				line="${line:9}"
-				;;
-			"[finished]"*)
-				output="${output}${FG_PALE_GREEN3}"
-				line="${line:10}"
-				;;
-			"[dim]"*)
-				output="${output}${FG_GRAY69}"
-				line="${line:5}"
-				;;
-			"[text]"*)
-				output="${output}${FG_DARK_ORANGE}"
-				line="${line:6}"
-				;;
-			"[css]"*)
-				output="${output}${FG_BRIGHT_BLUE}"
-				line="${line:5}"
-				;;
-			"[flag]"*)
-				output="${output}${FG_BRIGHT_BLUE}"
-				line="${line:6}"
-				;;
-			"[email]"*)
-				output="${output}${FG_MAGENTA}"
-				line="${line:7}"
-			;;
-		*)
-			if [[ "${line}" == "["* ]]; then
-				output="${output}${line:0:1}"
-				line="${line:1}"
-			elif [[ "${line}" == *"["* ]]; then
-				output="${output}${line%%\[*}"
-				line="[${line#*\[}"
-			else
-				output="${output}${line}"
-				line=""
-			fi
-			;;
-		esac
-	done
+	if [[ "${line}" != *"["* ]]; then
+		printf "%s" "${line}"
+		return
+	fi
 
-	printf "%s" "${output}"
+	closeTag="[/]"
+	line="${line//"[header]"/"${FG_GREEN}${FS_BOLD}"}"
+	line="${line//"[parameter]"/"${FG_CYAN}"}"
+	line="${line//"[command]"/"${FG_GREEN}"}"
+	line="${line//"[subcommand]"/"${FG_DARK_SEA_GREEN1}"}"
+	line="${line//"[branch]"/"${FG_DARK_GOLDENROD}"}"
+	line="${line//"[xhtml]"/"${FG_PURPLE}"}"
+	line="${line//"[xml]"/"${FG_PURPLE}"}"
+	line="${line//"[val]"/"${FG_BRIGHT_BLUE}"}"
+	line="${line//"[attr]"/"${FG_HOT_PINK}"}"
+	line="${line//"[class]"/"${FG_HOT_PINK}"}"
+	line="${line//"[path]"/"${FG_BLUE}${FS_BOLD}${FS_UL}"}"
+	line="${line//"[user]"/"${FG_MAGENTA}"}"
+	line="${line//"[url]"/"${FG_BRIGHT_BLUE}"}"
+	line="${line//"[error]"/"${FG_RED}"}"
+	line="${line//"[warning]"/"${FG_ORANGE1}"}"
+	line="${line//"[queued]"/"${FG_GRAY69}"}"
+	line="${line//"[running]"/"${FG_BLUE_VIOLET}"}"
+	line="${line//"[finished]"/"${FG_PALE_GREEN3}"}"
+	line="${line//"[dim]"/"${FG_GRAY69}"}"
+	line="${line//"[text]"/"${FG_DARK_ORANGE}"}"
+	line="${line//"[css]"/"${FG_BRIGHT_BLUE}"}"
+	line="${line//"[flag]"/"${FG_BRIGHT_BLUE}"}"
+	line="${line//"[email]"/"${FG_MAGENTA}"}"
+	line="${line//"${closeTag}"/"${RESET_ALL}"}"
+
+	printf "%s" "${line}"
 }
 
 # Replace formatting tags with terminal colors.
@@ -592,10 +514,11 @@ ColorizeString(){
 		return
 	fi
 
-	line="$(FormatLinks "${line}")"
-	line="$(ApplyFormattingTags "${line}")"
+	if [[ "${line}" == *"[link="* ]]; then
+		line="$(FormatLinks "${line}")"
+	fi
 
-	printf "%s" "${line}"
+	ApplyFormattingTags "${line}"
 
 	if ${printNewline}; then
 		printf "\n"
