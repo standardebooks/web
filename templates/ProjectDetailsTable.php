@@ -19,7 +19,7 @@
 			<tr>
 				<td class="header-cell">Repository:</td>
 				<td>
-					<a href="<?= SITE_URL ?><?= Formatter::EscapeHtml($project->VcsUrl) ?>"><?= Formatter::EscapeHtml($project->VcsUrlDomain) ?></a>
+					<a href="<?= Formatter::EscapeHtml($project->VcsUrl) ?>"><?= Formatter::EscapeHtml($project->VcsUrlDomain) ?></a>
 				</td>
 			</tr>
 		<? } ?>
@@ -27,7 +27,7 @@
 			<tr>
 				<td class="header-cell">Discussion:</td>
 				<td>
-					<a href="<?= SITE_URL ?><?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->DiscussionUrlDomain) ?></a>
+					<a href="<?= Formatter::EscapeHtml($project->DiscussionUrl) ?>"><?= Formatter::EscapeHtml($project->DiscussionUrlDomain) ?></a>
 				</td>
 			</tr>
 		<? } ?>
