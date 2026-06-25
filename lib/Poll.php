@@ -386,8 +386,8 @@ class Poll{
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */	
 	public static function GetAllPastByPage(int $page = 1, int $perPage = 5): array{
-		if($page <= 0){
-			$page = 1;
+		if($page <= 0 || $page >= 100000){
+			throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
 		}
 
 		if($perPage <= 0){

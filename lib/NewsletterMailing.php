@@ -584,8 +584,8 @@ class NewsletterMailing{
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
 	public static function GetAllByPage(int $page = 1, int $perPage = 10): array{
-		if($page <= 0){
-			$page = 1;
+		if($page <= 0 || $page >= 100000){
+			throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
 		}
 
 		if($perPage <= 0){

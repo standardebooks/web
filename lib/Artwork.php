@@ -1057,7 +1057,7 @@ final class Artwork{
 			$artworkFilterType = Enums\ArtworkFilterType::Approved;
 		}
 
-		if($page <= 0){
+		if($page <= 0 || $page >= 100000){
 			throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
 		}
 

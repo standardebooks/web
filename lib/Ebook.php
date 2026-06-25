@@ -2572,8 +2572,8 @@ final class Ebook{
 	public static function GetAllByFilter(?string $query = null, array $tags = [], ?Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): array{
 		$query = trim($query ?? '');
 
-		if($page <= 0){
-			$page = 1;
+		if($page <= 0 || $page >= 100000){
+			throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
 		}
 
 		if($perPage <= 0){
@@ -2804,8 +2804,12 @@ final class Ebook{
 			$totalPages = $count > 0 ? 1 : 0;
 		}
 		else{
-			if($page === null || $page <= 0){
+			if($page === null){
 				$page = 1;
+			}
+
+			if($page <= 0 || $page >= 100000){
+				throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
 			}
 
 			if($perPage === null || $perPage <= 0){
