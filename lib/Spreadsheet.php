@@ -1,6 +1,8 @@
 <?
 use Safe\DateTimeImmutable;
 
+use function Safe\preg_replace;
+
 /**
  * @property-read string $Url
  * @property-read string $EditUrl
