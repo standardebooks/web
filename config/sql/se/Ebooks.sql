@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   `KepubUrl` varchar(511) NULL,
   `Azw3Url` varchar(511) NULL,
   `DistCoverUrl` varchar(511) NULL,
+  `CoverImageKey` char(40) NULL,
   `Title` varchar(255) NOT NULL,
   `FullTitle` varchar(255) NULL,
   `AlternateTitle` varchar(255) NULL,

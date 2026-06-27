@@ -6,7 +6,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
 
 usage(){
 PrintHelp \
- "[command]$(basename "${BASH_SOURCE[0]}")[/] [[flag]-g[/],[flag]--group[/] [parameter]<GROUP>[/]] [[flag]-l[/],[flag]--last-push-hash[/] [parameter]<GIT_HASH>[/]] [[flag]--no-build[/]] [[flag]--no-bulk-downloads[/]] [[flag]--no-epubcheck[/]] [[flag]--no-feeds[/]] [[flag]--no-images[/]] [[flag]--no-recompose[/]] [[flag]-v[/],[flag]--verbose[/]] [[flag]--web-root[/] [path][parameter]<WEB_ROOT>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [parameter]...[/]]" \
+ "[command]$(basename "${BASH_SOURCE[0]}")[/] [[flag]-g[/],[flag]--group[/] [parameter]<GROUP>[/]] [[flag]--no-build[/]] [[flag]--no-bulk-downloads[/]] [[flag]--no-epubcheck[/]] [[flag]--no-feeds[/]] [[flag]--no-images[/]] [[flag]--no-recompose[/]] [[flag]-v[/],[flag]--verbose[/]] [[flag]--web-root[/] [path][parameter]<WEB_ROOT>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [parameter]...[/]]" \
  "$(cat << EOF
 Deploy Standard Ebook source repositories in [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] to the website running on the local machine.
 EOF
@@ -21,11 +21,6 @@ EOF
 [flag]-g[/],[flag]--group[/] [parameter]<GROUP>[/]
 
 	The group who will own the deployed files; defaults to [user]se[/].
-
-
-[flag]-l[/],[flag]--last-push-hash[/] [parameter]<GIT_HASH>[/]
-
-	Check the Git repository head against this hash to see if the cover image or ebook source changed, which will determine if cover thumbnails get re-generated or the ebook gets rebuilt.
 
 
 [flag]--no-build[/]
@@ -75,7 +70,6 @@ images=true
 build=true
 group="se"
 webRoot="/standardebooks.org/web/www"
-lastPushHash=""
 epubcheck=true
 recompose=true
 feeds=true
@@ -99,11 +93,6 @@ while [ $# -gt 0 ]; do
 		--web-root)
 			[ -n "$2" ] || ExitWithError "Web root can’t be empty."
 			webRoot="$2"
-			shift 2
-			;;
-		-l|--last-push-hash)
-			[ -n "$2" ] || ExitWithError "Last commit hash can’t be empty."
-			lastPushHash="$2"
 			shift 2
 			;;
 		--no-images)
@@ -212,30 +201,22 @@ do
 	fi
 
 	urlSafeIdentifier=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s|https://standardebooks.org/ebooks/||g" | sed --regexp-extended "s|/|_|g")
+	coverJpgBlobId=$(git rev-parse HEAD:images/cover.jpg)
+	coverSvgBlobId=$(git rev-parse HEAD:images/cover.svg)
+	coverKey=$(printf "%s%s" "${coverJpgBlobId}" "${coverSvgBlobId}" | sha1sum | cut --delimiter=" " --fields=1)
+	coverImageDir="${webRoot}/images/covers/${urlSafeIdentifier}/${coverKey}"
+	expectedCoverImageFilenames=("cover.jpg" "cover@2x.jpg" "cover.avif" "cover@2x.avif" "hero.jpg" "hero@2x.jpg" "hero.avif" "hero@2x.avif")
 
-	if [ "${lastPushHash}" != "" ]; then
-		# We were passed the hash of the last push before this one.
-		# Check to see if the cover image changed, to decide if we want to rebuild the cover image thumbnail/hero.
-		diff=$(git diff "${lastPushHash}" HEAD)
-
-		if ${images}; then
-			# Always build images if they don't exist, or if they've changed
-			if [[ ! -f "${webRoot}/images/covers/${urlSafeIdentifier}-cover.jpg" ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.jpg ]] || [[ "${diff}" =~ diff\ --git\ a/images/cover.svg ]]; then
+	if ${images}; then
+		# Always build images if they don't exist, or if they've changed.
+		for expectedCoverImageFilename in "${expectedCoverImageFilenames[@]}"; do
+			if ! [ -f "${coverImageDir}/${expectedCoverImageFilename}" ]; then
 				images=true
-			else
-				images=false
+				break
 			fi
-		fi
 
-		if ${build}; then
-			# Check to see if the actual ebook changed, to decide if we want to build.
-			# Always build if it doesn't exist.
-			if [[ ! -f "${webDir}/downloads/*.epub" ]] || [[ "${diff}" =~ diff\ --git\ a/src/ ]]; then
-				build=true
-			else
-				build=false
-			fi
-		fi
+			images=false
+		done
 	fi
 
 	webDir=$(git show HEAD:src/epub/content.opf | grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">https://standardebooks.org/ebooks/[^<]+<\/dc:identifier>" | sed --regexp-extended "s/<[^>]+?>//g" | sed --regexp-extended "s/^https:\/\/standardebooks.org\/ebooks\/?//")
@@ -244,52 +225,53 @@ do
 		ExitWithError "Invalid S.E. identifier in ebook."
 	fi
 
+	webDir="${webRoot}/ebooks/${webDir}"
+
 	workDir=$(mktemp --directory)
 	imgWorkDir=$(mktemp --directory)
-	webDir="${webRoot}/ebooks/${webDir}"
 
 	if ${images}; then
 		if ${verbose}; then
 			printf "Generating cover image for web ..."
 		fi
 
-		git show HEAD:images/cover.jpg > "${imgWorkDir}/${urlSafeIdentifier}.jpg"
-		git show HEAD:images/cover.svg > "${imgWorkDir}/${urlSafeIdentifier}.svg"
+		git show HEAD:images/cover.jpg > "${imgWorkDir}/cover-source.jpg"
+		git show HEAD:images/cover.svg > "${imgWorkDir}/cover-source.svg"
 
 		# We have to `cd` into the work dir, otherwise `convert` won't pick up the relative path of the jpg background in `cover.svg`.
 		pushd "${imgWorkDir}" > /dev/null || exit
 
 		# Build the hero image for individual ebook pages.
 		# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078.
-		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg"
-		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.jpg" "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg"
+		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/cover-source.jpg" "${imgWorkDir}/hero.jpg"
+		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/cover-source.jpg" "${imgWorkDir}/hero@2x.jpg"
 
-		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero.jpg" --output "${imgWorkDir}/${urlSafeIdentifier}-hero.avif"
-		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.jpg" --output "${imgWorkDir}/${urlSafeIdentifier}-hero@2x.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/hero.jpg" --output "${imgWorkDir}/hero.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/hero@2x.jpg" --output "${imgWorkDir}/hero@2x.avif"
 
 		# Build the cover image thumbnail.
 		# We use JPG instead of SVG for several reasons:
 		# 1. A JPG is roughly 1/2 the file size of the same SVG, because the SVG must contain the JPG in base64 encoding.
 		# 2. The "scale up" effect on mouse hover is blurry when used on SVGs.
 
-		sed --in-place "s/cover\.jpg/${urlSafeIdentifier}\.jpg/g" "${imgWorkDir}/${urlSafeIdentifier}.svg"
+		sed --in-place "s/cover\.jpg/cover-source\.jpg/g" "${imgWorkDir}/cover-source.svg"
 
 		# Resize and compress the cover image (formula from Google Page Speed Insights).
 		# We can't use `convert` directly to do svg -> jpg, as sometimes it fails to load the linked `cover.jpg` within `cover.svg`.
 		# So, we use `rsvg-convert` to write a png, then `convert` to convert and compress to jpg.
-		rsvg-convert --width 242 --keep-aspect-ratio --output "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
-		rsvg-convert --width 484 --keep-aspect-ratio --output "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}.svg"
-		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}.png" "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg"
-		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/${urlSafeIdentifier}@2x.png" "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg"
+		rsvg-convert --width 242 --keep-aspect-ratio --output "${imgWorkDir}/cover.png" "${imgWorkDir}/cover-source.svg"
+		rsvg-convert --width 484 --keep-aspect-ratio --output "${imgWorkDir}/cover@2x.png" "${imgWorkDir}/cover-source.svg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/cover.png" "${imgWorkDir}/cover.jpg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/cover@2x.png" "${imgWorkDir}/cover@2x.jpg"
 
-		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover.jpg" --output "${imgWorkDir}/${urlSafeIdentifier}-cover.avif"
-		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.jpg" --output "${imgWorkDir}/${urlSafeIdentifier}-cover@2x.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/cover.jpg" --output "${imgWorkDir}/cover.avif"
+		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/cover@2x.jpg" --output "${imgWorkDir}/cover@2x.avif"
 
-		sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}/${urlSafeIdentifier}"*
-		sudo chmod --preserve-root --recursive g+w "${imgWorkDir}/${urlSafeIdentifier}"*
+		sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}"
+		sudo chmod --preserve-root --recursive g+w "${imgWorkDir}"
 
 		# Remove unused images so we can copy the rest over with a glob.
-		rm "${imgWorkDir}/${urlSafeIdentifier}".{png,jpg,svg}
+		rm "${imgWorkDir}/cover.png" "${imgWorkDir}/cover@2x.png" "${imgWorkDir}/cover-source.jpg" "${imgWorkDir}/cover-source.svg"
 
 		if ${verbose}; then
 			echo " done."
@@ -430,17 +412,30 @@ do
 
 	if ${images}; then
 		# Move the cover images over.
-		mv "${imgWorkDir}/${urlSafeIdentifier}"*.{jpg,avif} "${webRoot}/images/covers/"
+		mkdir --parents "${coverImageDir}"
+		mv "${imgWorkDir}"/*.{jpg,avif} "${coverImageDir}/"
 	fi
 
 	if ${verbose}; then
-		printf "Updating/inserting ebook in database ..."
+		printf "Updating ebook in database ..."
 	fi
 
-	"${scriptsDir}"/update-ebook-database "${webDir}"
+	updateEbookDatabaseArgs=()
+	if [ -d "${coverImageDir}" ]; then
+		updateEbookDatabaseArgs=(--cover-image-key "${coverKey}")
+	fi
+
+	"${scriptsDir}"/update-ebook-database "${updateEbookDatabaseArgs[@]}" "${webDir}"
 
 	if ${verbose}; then
 		echo " done."
+	fi
+
+	# Delete old cover image directories.
+	if [ -d "${coverImageDir}" ]; then
+		while IFS= read -r -d "" oldCoverImageDir; do
+			rm --preserve-root --recursive --force "${oldCoverImageDir}"
+		done < <(find "${webRoot}/images/covers/${urlSafeIdentifier}" -mindepth 1 -maxdepth 1 -type d ! -name "${coverKey}" -print0)
 	fi
 
 	# Delete the now-empty work dir (empty except for `.git`).

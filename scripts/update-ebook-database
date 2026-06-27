@@ -6,7 +6,7 @@ use function Safe\getopt;
 
 function Usage(): void{
 	Cli::PrintHelp(
-		usage: '[command]update-ebook-database[/] [[flag]-v[/],[flag]--verbose[/]] [path][parameter]<SE_EBOOK_WEB_DIRECTORY>[/]',
+		usage: '[command]update-ebook-database[/] [[flag]--cover-image-key[/] [parameter]<COVER_IMAGE_KEY>[/]] [[flag]--repo-filesystem-path[/] [path][parameter]<REPO_FILESYSTEM_PATH>[/]] [[flag]-v[/],[flag]--verbose[/]] [path][parameter]<SE_EBOOK_WEB_DIRECTORY>[/]',
 		description: 'Update the database entry for the ebook at the target ebook web path, e.g. [path]/standardebooks.org/web/www/ebooks/a-a-milne/the-red-house-mystery[/].',
 		arguments: [
 			[
@@ -19,12 +19,20 @@ function Usage(): void{
 				'name' => '[flag]-v[/],[flag]--verbose[/]',
 				'description' => 'Increase output verbosity.',
 			],
+			[
+				'name' => '[flag]--cover-image-key[/] [parameter]<COVER_IMAGE_KEY>[/]',
+				'description' => 'The cache key for the generated web cover and hero images.',
+			],
+			[
+				'name' => '[flag]--repo-filesystem-path[/] [path][parameter]<REPO_FILESYSTEM_PATH>[/]',
+				'description' => 'The path to the ebook source repository.',
+			],
 		]
 	);
 }
 
 $restIndex = 0;
-$options = getopt('hv', ['help', 'verbose'], $restIndex);
+$options = getopt('hv', ['help', 'verbose', 'cover-image-key:', 'repo-filesystem-path:'], $restIndex);
 $restIndex ??= $argc;
 
 if(isset($options['h']) || isset($options['help'])){
@@ -34,13 +42,28 @@ if(isset($options['h']) || isset($options['help'])){
 $parameters = array_slice($argv, $restIndex);
 $ebookWwwFilesystemPath = $parameters[0] ?? null;
 $verbose = isset($options['v']) || isset($options['verbose']);
+$hasCoverImageKey = isset($options['cover-image-key']);
+$coverImageKey = $hasCoverImageKey && is_string($options['cover-image-key']) ? $options['cover-image-key'] : null;
+$repoFilesystemPath = isset($options['repo-filesystem-path']) && is_string($options['repo-filesystem-path']) ? $options['repo-filesystem-path'] : null;
 
 if(sizeof($parameters) !== 1 || $ebookWwwFilesystemPath === null){
 	Usage();
 }
 
 try{
-	$ebook = Ebook::FromFilesystem($ebookWwwFilesystemPath);
+	$ebook = Ebook::FromFilesystem($ebookWwwFilesystemPath, $repoFilesystemPath);
+
+	if($hasCoverImageKey){
+		$ebook->CoverImageKey = $coverImageKey;
+	}
+	else{
+		try{
+			$ebook->CoverImageKey = Ebook::GetByIdentifier($ebook->Identifier)->CoverImageKey;
+		}
+		catch(Exceptions\EbookNotFoundException){
+			// New ebooks may not have an existing cover image key to preserve.
+		}
+	}
 
 	if($verbose){
 		print("Title: $ebook->Title\n");

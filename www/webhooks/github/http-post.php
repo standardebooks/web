@@ -38,7 +38,6 @@ try{
 
 	/** @var array<array<string>> $data */
 	$data = json_decode($post, true);
-	$lastPushHashFlag = '';
 
 	// Decide what event we just received.
 	switch($event){
@@ -98,18 +97,6 @@ try{
 
 			$output = [];
 
-			// Get the current HEAD hash and save for later.
-			exec('sudo --set-home --user=se-vcs-bot git -C ' . escapeshellarg($dir) . ' rev-parse HEAD', $output, $returnCode);
-
-			$output = $output ?? [];
-
-			if($returnCode != 0){
-				$log->Queue('Couldn\'t get last commit of local repo. Output: ' . implode("\n", $output));
-			}
-			elseif(sizeof($output) > 0){
-				$lastPushHashFlag = ' --last-push-hash ' . escapeshellarg($output[0]);
-			}
-
 			// Now that we have the ebook filesystem path, pull the latest commit from GitHub.
 			$output = [];
 			exec('sudo --set-home --user=se-vcs-bot ' . SITE_ROOT . '/scripts/pull-from-github ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
@@ -126,7 +113,7 @@ try{
 
 			// Our local repo is now updated. Build the ebook!
 			$output = [];
-			exec('sudo --set-home --user=se-vcs-bot tsp ' . SITE_ROOT . '/web/scripts/deploy-ebook-to-www' . $lastPushHashFlag . ' ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
+			exec('sudo --set-home --user=se-vcs-bot tsp ' . SITE_ROOT . '/web/scripts/deploy-ebook-to-www ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 
 			$output = $output ?? [];
 

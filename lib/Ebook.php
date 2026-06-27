@@ -27,14 +27,14 @@ use function Safe\shell_exec;
  * @property-read string $DeleteUrl
  * @property-read bool $HasDownloads
  * @property string $UrlSafeIdentifier
- * @property string $HeroImageUrl
- * @property string $HeroImageAvifUrl
- * @property string $HeroImage2xUrl
+ * @property ?string $HeroImageUrl
+ * @property ?string $HeroImageAvifUrl
+ * @property ?string $HeroImage2xUrl
  * @property ?string $HeroImage2xAvifUrl
- * @property string $CoverImagePath The filesystem path of the cover image, which is not the same as its URL.
- * @property string $CoverImageUrl
+ * @property-read ?string $CoverImageDirectoryUrl
+ * @property ?string $CoverImageUrl
  * @property ?string $CoverImageAvifUrl
- * @property string $CoverImage2xUrl
+ * @property ?string $CoverImage2xUrl
  * @property ?string $CoverImage2xAvifUrl
  * @property string $ReadingEaseDescription
  * @property string $ReadingTime
@@ -66,6 +66,7 @@ final class Ebook{
 	public ?string $KepubUrl = null;
 	public ?string $Azw3Url = null;
 	public ?string $DistCoverUrl = null;
+	public ?string $CoverImageKey = null;
 	public string $Title;
 	public ?string $FullTitle = null;
 	public ?string $AlternateTitle = null;
@@ -120,14 +121,14 @@ final class Ebook{
 	protected string $_DeleteUrl;
 	protected bool $_HasDownloads;
 	protected string $_UrlSafeIdentifier;
-	protected string $_HeroImageUrl;
-	protected string $_HeroImageAvifUrl;
-	protected string $_HeroImage2xUrl;
+	protected ?string $_HeroImageUrl;
+	protected ?string $_HeroImageAvifUrl;
+	protected ?string $_HeroImage2xUrl;
 	protected ?string $_HeroImage2xAvifUrl;
-	protected string $_CoverImagePath;
-	protected string $_CoverImageUrl;
+	protected ?string $_CoverImageDirectoryUrl;
+	protected ?string $_CoverImageUrl;
 	protected ?string $_CoverImageAvifUrl;
-	protected string $_CoverImage2xUrl;
+	protected ?string $_CoverImage2xUrl;
 	protected ?string $_CoverImage2xAvifUrl;
 	protected string $_ReadingEaseDescription;
 	protected string $_ReadingTime;
@@ -448,31 +449,77 @@ final class Ebook{
 		return $this->_UrlSafeIdentifier ??= str_replace(['https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
 	}
 
-	protected function GetHeroImageUrl(): string{
-		return $this->_HeroImageUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero.jpg';
-	}
-
-	protected function GetHeroImageAvifUrl(): string{
-		if(!isset($this->_HeroImageAvifUrl)){
-			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero.avif')){
-				$this->_HeroImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero.avif';
+	/**
+	 * Get the URL directory for the current set of generated cover images.
+	 */
+	protected function GetCoverImageDirectoryUrl(): ?string{
+		if(!isset($this->_CoverImageDirectoryUrl)){
+			if(isset($this->CoverImageKey)){
+				$this->_CoverImageDirectoryUrl = '/images/covers/' . $this->UrlSafeIdentifier . '/' . $this->CoverImageKey;
 			}
 			else{
-				$this->_HeroImageAvifUrl = '';
+				$this->_CoverImageDirectoryUrl = null;
+			}
+		}
+
+		return $this->_CoverImageDirectoryUrl;
+	}
+
+	/**
+	 * Get the URL for the ebook page hero image.
+	 */
+	protected function GetHeroImageUrl(): ?string{
+		if(!isset($this->_HeroImageUrl)){
+			if(isset($this->CoverImageDirectoryUrl)){
+				$this->_HeroImageUrl = $this->CoverImageDirectoryUrl . '/hero.jpg';
+			}
+			else{
+				$this->_HeroImageUrl = null;
+			}
+		}
+
+		return $this->_HeroImageUrl;
+	}
+
+	/**
+	 * Get the AVIF URL for the ebook page hero image.
+	 */
+	protected function GetHeroImageAvifUrl(): ?string{
+		if(!isset($this->_HeroImageAvifUrl)){
+			if(isset($this->CoverImageDirectoryUrl)){
+				$this->_HeroImageAvifUrl = $this->CoverImageDirectoryUrl . '/hero.avif';
+			}
+			else{
+				$this->_HeroImageAvifUrl = null;
 			}
 		}
 
 		return $this->_HeroImageAvifUrl;
 	}
 
-	protected function GetHeroImage2xUrl(): string{
-		return $this->_HeroImage2xUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.jpg';
+	/**
+	 * Get the URL for the high-resolution ebook page hero image.
+	 */
+	protected function GetHeroImage2xUrl(): ?string{
+		if(!isset($this->_HeroImage2xUrl)){
+			if(isset($this->CoverImageDirectoryUrl)){
+				$this->_HeroImage2xUrl = $this->CoverImageDirectoryUrl . '/hero@2x.jpg';
+			}
+			else{
+				$this->_HeroImage2xUrl = null;
+			}
+		}
+
+		return $this->_HeroImage2xUrl;
 	}
 
+	/**
+	 * Get the AVIF URL for the high-resolution ebook page hero image.
+	 */
 	protected function GetHeroImage2xAvifUrl(): ?string{
 		if(!isset($this->_HeroImage2xAvifUrl)){
-			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-hero@2x.avif')){
-				$this->_HeroImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-hero@2x.avif';
+			if(isset($this->CoverImageDirectoryUrl)){
+				$this->_HeroImage2xAvifUrl = $this->CoverImageDirectoryUrl . '/hero@2x.avif';
 			}
 			else{
 				$this->_HeroImage2xAvifUrl = null;
@@ -482,18 +529,29 @@ final class Ebook{
 		return $this->_HeroImage2xAvifUrl;
 	}
 
-	protected function GetCoverImagePath(): string{
-		return $this->_CoverImagePath ??= WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.jpg';
+	/**
+	 * Get the URL for the ebook cover image.
+	 */
+	protected function GetCoverImageUrl(): ?string{
+		if(!isset($this->_CoverImageUrl)){
+			if(isset($this->CoverImageDirectoryUrl)){
+				$this->_CoverImageUrl = $this->CoverImageDirectoryUrl . '/cover.jpg';
+			}
+			else{
+				$this->_CoverImageUrl = null;
+			}
+		}
+
+		return $this->_CoverImageUrl;
 	}
 
-	protected function GetCoverImageUrl(): string{
-		return $this->_CoverImageUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.jpg';
-	}
-
+	/**
+	 * Get the AVIF URL for the ebook cover image.
+	 */
 	protected function GetCoverImageAvifUrl(): ?string{
 		if(!isset($this->_CoverImageAvifUrl)){
-			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover.avif')){
-				$this->_CoverImageAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover.avif';
+			if(isset($this->CoverImageDirectoryUrl)){
+				$this->_CoverImageAvifUrl = $this->CoverImageDirectoryUrl . '/cover.avif';
 			}
 			else{
 				$this->_CoverImageAvifUrl = null;
@@ -503,14 +561,29 @@ final class Ebook{
 		return $this->_CoverImageAvifUrl;
 	}
 
-	protected function GetCoverImage2xUrl(): string{
-		return $this->_CoverImage2xUrl ??= '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.jpg';
+	/**
+	 * Get the URL for the high-resolution ebook cover image.
+	 */
+	protected function GetCoverImage2xUrl(): ?string{
+		if(!isset($this->_CoverImage2xUrl)){
+			if(isset($this->CoverImageDirectoryUrl)){
+				$this->_CoverImage2xUrl = $this->CoverImageDirectoryUrl . '/cover@2x.jpg';
+			}
+			else{
+				$this->_CoverImage2xUrl = null;
+			}
+		}
+
+		return $this->_CoverImage2xUrl;
 	}
 
+	/**
+	 * Get the AVIF URL for the high-resolution ebook cover image.
+	 */
 	protected function GetCoverImage2xAvifUrl(): ?string{
 		if(!isset($this->_CoverImage2xAvifUrl)){
-			if(file_exists(WEB_ROOT . '/images/covers/' . $this->UrlSafeIdentifier . '-cover@2x.avif')){
-				$this->_CoverImage2xAvifUrl = '/images/covers/' . $this->UrlSafeIdentifier . '-' . substr(sha1($this->Updated->format(Enums\DateTimeFormat::UnixTimestamp->value)), 0, 8) . '-cover@2x.avif';
+			if(isset($this->CoverImageDirectoryUrl)){
+				$this->_CoverImage2xAvifUrl = $this->CoverImageDirectoryUrl . '/cover@2x.avif';
 			}
 			else{
 				$this->_CoverImage2xAvifUrl = null;
@@ -701,6 +774,7 @@ final class Ebook{
 	 * Construct an Ebook from a filesystem path.
 	 *
 	 * @param string $wwwFilesystemPath The valid readable filesytem path where the ebook is served on the web.
+	 * @param ?string $repoFilesystemPath The valid readable filesystem path where the ebook source repository is stored.
 	 *
 	 * @return Ebook The populated Ebook object.
 	 *
@@ -709,7 +783,7 @@ final class Ebook{
 	 * @throws Exceptions\EbookWwwFilesystemPathInvalidException
 	 * @throws Exceptions\GitCommitInvalidException
 	 */
-	public static function FromFilesystem(?string $wwwFilesystemPath = null): Ebook{
+	public static function FromFilesystem(?string $wwwFilesystemPath = null, ?string $repoFilesystemPath = null): Ebook{
 		if($wwwFilesystemPath === null){
 			throw new Exceptions\EbookWwwFilesystemPathInvalidException($wwwFilesystemPath);
 		}
@@ -720,6 +794,9 @@ final class Ebook{
 		if(is_dir($wwwFilesystemPath . '/.git')){
 			$wwwFilesystemPath = $wwwFilesystemPath . '/src/epub';
 			$ebook->RepoFilesystemPath = $wwwFilesystemPath;
+		}
+		elseif($repoFilesystemPath !== null){
+			$ebook->RepoFilesystemPath = $repoFilesystemPath;
 		}
 		else{
 			$ebook->RepoFilesystemPath = str_replace(EBOOKS_DIST_PATH, '', $wwwFilesystemPath);
@@ -1413,6 +1490,14 @@ final class Ebook{
 			}
 		}
 
+		$this->CoverImageKey = trim($this->CoverImageKey ?? '');
+		if($this->CoverImageKey == ''){
+			$this->CoverImageKey = null;
+		}
+		elseif(!preg_match('/^[a-f0-9]{40}$/', $this->CoverImageKey)){
+			$error->Add(new Exceptions\EbookCoverImageKeyInvalidException());
+		}
+
 		$this->Title = trim($this->Title ?? '');
 		if($this->Title == ''){
 			$error->Add(new Exceptions\EbookTitleRequiredException());
@@ -1936,10 +2021,11 @@ final class Ebook{
 
 		$this->EbookId = Db::QueryInt('
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
-				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, Title, FullTitle, AlternateTitle, ShortTitle,
-				Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
+				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, CoverImageKey, Title, FullTitle, AlternateTitle,
+				ShortTitle, Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
 				EbookCreated, EbookUpdated, TextSinglePageByteCount, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
 			values (?,
+				?,
 				?,
 				?,
 				?,
@@ -1967,11 +2053,11 @@ final class Ebook{
 				?)
 			returning EbookId
 		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
-				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-				$this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description, $this->LongDescription,
-				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount, $this->DownloadsPast30Days,
-				$this->DownloadsTotal, $this->IsPatronSelection]);
+				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->CoverImageKey,
+				$this->Title, $this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description,
+				$this->LongDescription, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
+				$this->WikipediaUrl, $this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
+				$this->DownloadsPast30Days, $this->DownloadsTotal, $this->IsPatronSelection]);
 
 		try{
 			$this->AddTags();
@@ -2024,6 +2110,7 @@ final class Ebook{
 				KepubUrl = ?,
 				Azw3Url = ?,
 				DistCoverUrl = ?,
+				CoverImageKey = ?,
 				Title = ?,
 				FullTitle = ?,
 				AlternateTitle = ?,
@@ -2044,10 +2131,10 @@ final class Ebook{
 				where
 				EbookId = ?
 			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
-				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->Title,
-				$this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description, $this->LongDescription,
-				$this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl, $this->WikipediaUrl,
-				$this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
+				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->CoverImageKey,
+				$this->Title, $this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description,
+				$this->LongDescription, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
+				$this->WikipediaUrl, $this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
 				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `coalesce` will keep the existing value.
 				$updateDownloads ? $this->DownloadsTotal : null,
 				$this->IsPatronSelection,

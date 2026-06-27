@@ -8,7 +8,7 @@
 		<? if(isset($ebook->CoverImage2xAvifUrl) && isset($ebook->CoverImageAvifUrl)){ ?>
 			<source srcset="<?= $ebook->CoverImage2xAvifUrl ?> 2x, <?= $ebook->CoverImageAvifUrl ?> 1x" type="image/avif"/>
 		<? } ?>
-		<? if(file_exists($ebook->CoverImagePath)){ ?>
+		<? if(isset($ebook->CoverImageUrl) && file_exists(WEB_ROOT . $ebook->CoverImageUrl)){ ?>
 			<source srcset="<?= $ebook->CoverImage2xUrl ?> 2x, <?= $ebook->CoverImageUrl ?> 1x" type="image/jpeg"/>
 			<img src="<?= $ebook->CoverImageUrl ?>" alt="" height="363" width="242"/>
 		<? }else{ ?>

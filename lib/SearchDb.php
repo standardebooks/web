@@ -80,7 +80,7 @@ class SearchDb extends Db{
 			catch(Exceptions\DatabaseConnectionFailedException){
 				// Log the failure but return an empty rowset.
 				$log = new Log();
-				$log->Write('Failed to conenct to search database.');
+				$log->Write('Failed to connect to search database.');
 				return [];
 			}
 		}

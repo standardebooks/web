@@ -97,7 +97,9 @@ catch(Exceptions\EbookNotFoundException){
 				<? if($ebook->HeroImage2xAvifUrl !== null){ ?>
 					<source srcset="<?= $ebook->HeroImage2xAvifUrl ?> 2x, <?= $ebook->HeroImageAvifUrl ?> 1x" type="image/avif"/>
 				<? } ?>
-				<source srcset="<?= $ebook->HeroImage2xUrl ?> 2x, <?= $ebook->HeroImageUrl ?> 1x" type="image/jpeg"/>
+				<? if($ebook->HeroImage2xUrl !== null){ ?>
+					<source srcset="<?= $ebook->HeroImage2xUrl ?> 2x, <?= $ebook->HeroImageUrl ?> 1x" type="image/jpeg"/>
+				<? } ?>
 				<img src="<?= $ebook->HeroImage2xUrl ?>" alt="" height="439" width="1318" />
 			</picture>
 		</header>
