@@ -2,7 +2,7 @@
 set -e
 
 # shellcheck source=scripts/lib/common.sh
-source "$(dirname "${BASH_SOURCE[0]}")/lib/common.sh"
+source "$(dirname -- "$( readlink -f -- "$0"; )")/lib/common.sh"
 
 usage(){
 PrintHelp \
