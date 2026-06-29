@@ -138,7 +138,7 @@ foreach($projects as $project){
 					&&
 					$project->Status != Enums\ProjectStatusType::Reviewed
 					&&
-					preg_match('/\b(ready\s+for\s+review|ready\s+to\s+be\s+reviewed|ready\s+for\s+you|this\s+(e?book|project\s+)?is\s+ready[\.\!])\b/iu', $emailMessage->Body)
+					preg_match('/\b(ready\s+for(\s+a)?\s+review|ready\s+to\s+be\s+reviewed|ready\s+for\s+you|this\s+(e?book|project\s+)?is\s+ready[\.\!])\b/iu', $emailMessage->Body)
 				){
 					$project->Status = Enums\ProjectStatusType::AwaitingReview;
 				}
