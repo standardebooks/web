@@ -39,7 +39,7 @@ try{
 
 		case 'David Reimer':
 			$output->Url = 'https://github.com/dajare';
-			$output->NacoafUrl = 'http://id.loc.gov/authorities/names/n92075987';
+			$output->NacoafUrl = 'https://id.loc.gov/authorities/names/n92075987.html';
 			break;
 	}
 
@@ -52,9 +52,9 @@ catch(Exceptions\ProjectNotFoundException){
 <? if($indent){ ?>		<? } ?><dc:contributor id="producer-2"><?= Formatter::EscapeXml($output->Name) ?></dc:contributor>
 <? if($indent){ ?>		<? } ?><meta property="file-as" refines="#producer-2"><?= Formatter::EscapeXml($output->SortName) ?></meta>
 <? if(isset($output->Url)){ ?>
-<? if($indent){ ?>		<? } ?><meta property="se:url.homepage" refines="#producer-2"><?= Formatter::EscapeXml($output->Url) ?></meta>
+<? if($indent){ ?>		<? } ?><link href="<?= Formatter::EscapeXml($output->Url) ?>" refines="#producer-2" rel="schema:url"/>
 <? } ?>
 <? if(isset($output->NacoafUrl)){ ?>
-<? if($indent){ ?>		<? } ?><meta property="se:url.authority.nacoaf" refines="#producer-2"><?= Formatter::EscapeXml($output->NacoafUrl) ?></meta>
+<? if($indent){ ?>		<? } ?><link href="<?= Formatter::EscapeXml($output->NacoafUrl) ?>" refines="#producer-2" rel="schema:sameAs"/>
 <? } ?>
 <? if($indent){ ?>		<? } ?><meta property="role" refines="#producer-2" scheme="marc:relators">pfr</meta>

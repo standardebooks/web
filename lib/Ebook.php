@@ -20,7 +20,7 @@ use function Safe\shell_exec;
  * @property array<Contributor> $Translators
  * @property array<Contributor> $Editors
  * @property array<Contributor> $Contributors
- * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `se:is-a-collection` metadata element; `null` otherwise.
+ * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `schema:additionalType` metadata element with value `http://schema.org/Collection`; `null` otherwise.
  * @property string $Url The relative URL of this ebook, like `/ebooks/...`.
  * @property string $FullUrl The absolute URL of this ebook, like `https://standardebooks.org/ebooks/...`.
  * @property-read string $EditUrl
@@ -932,7 +932,7 @@ final class Ebook{
 
 		// Get SE tags.
 		$tags = [];
-		foreach($xml->xpath('/package/metadata/meta[@property="se:subject"]') ?: [] as $tag){
+		foreach($xml->xpath('/package/metadata/meta[@property="schema:genre"]') ?: [] as $tag){
 			$ebookTag = new EbookTag();
 			$ebookTag->Name = $tag;
 			$ebookTag->UrlName = Formatter::MakeUrlSafe($ebookTag->Name);
@@ -940,7 +940,7 @@ final class Ebook{
 		}
 		$ebook->Tags = $tags;
 
-		$includeToc = sizeof($xml->xpath('/package/metadata/meta[@property="se:is-a-collection"]') ?: []) > 0;
+		$includeToc = sizeof($xml->xpath('/package/metadata/meta[@property="schema:additionalType" and text()="http://schema.org/Collection"]') ?: []) > 0;
 
 		// Fill the ToC if necessary.
 		if($includeToc){
@@ -965,13 +965,13 @@ final class Ebook{
 			$cm->Collection = Collection::FromName($collection);
 
 			$id = $collection->attributes()->id ?? '';
-			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="group-position"]') ?: [] as $s){
+			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '" and @property="group-position"]') ?: [] as $s){
 				$cm->SequenceNumber = (int)$s;
 			}
-			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="collection-type"]') ?: [] as $s){
+			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '" and @property="collection-type"]') ?: [] as $s){
 				$cm->Collection->Type = Enums\CollectionType::tryFrom((string)$s) ?? Enums\CollectionType::Unknown;
 			}
-			foreach($xml->xpath('/package/metadata/meta[@refines="#' . $id . '"][@property="se:title-in-collection"]') ?: [] as $s){
+			foreach($xml->xpath('/package/metadata/meta[starts-with(@refines, "#' . $id . '-entry-") and @property="schema:name"]') ?: [] as $s){
 				$cm->TitleInCollection = (string)$s;
 			}
 			$collectionMemberships[] = $cm;
@@ -1009,10 +1009,10 @@ final class Ebook{
 			$contributor->Name = (string)$author;
 			$contributor->UrlName = Ebook::MatchContributorUrlNameToIdentifier(Formatter::MakeUrlSafe($contributor->Name), $ebook->Identifier);
 			$contributor->SortName = $fileAs;
-			$contributor->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name"][@refines="#' . $id . '"]'));
-			$contributor->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][@refines="#' . $id . '"]'));
+			$contributor->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="schema:alternateName" and @refines="#' . $id . '"][1]'));
+			$contributor->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://en.wikipedia.org/")]/@href'));
 			$contributor->MarcRole = Enums\MarcRole::Author;
-			$contributor->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf"][@refines="#' . $id . '"]'));
+			$contributor->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://id.loc.gov/authorities/names/")]/@href'));
 
 			$authors[] = $contributor;
 		}
@@ -1053,10 +1053,10 @@ final class Ebook{
 				$c->Name = (string)$contributor;
 				$c->UrlName = Ebook::MatchContributorUrlNameToIdentifier(Formatter::MakeUrlSafe($c->Name), $ebook->Identifier);
 				$c->SortName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as" and @refines="#' . $id . '"]'));
-				$c->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:name.person.full-name" and @refines="#' . $id . '"]'));
-				$c->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia" and @refines="#' . $id . '"]'));
+				$c->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="schema:alternateName" and @refines="#' . $id . '"][1]'));
+				$c->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://en.wikipedia.org/")]/@href'));
 				$c->MarcRole = $marcRole;
-				$c->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.authority.nacoaf" and @refines="#' . $id . '"]'));
+				$c->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://id.loc.gov/authorities/names/")]/@href'));
 
 				if($marcRole == Enums\MarcRole::Translator){
 					$translators[] = $c;
@@ -1107,21 +1107,21 @@ final class Ebook{
 		$ebook->Language = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:language')) ?? '';
 
 		$wordCount = 0;
-		$wordCountElement = $xml->xpath('/package/metadata/meta[@property="se:word-count"]') ?: [];
+		$wordCountElement = $xml->xpath('/package/metadata/meta[@property="schema:wordCount"]') ?: [];
 		if(sizeof($wordCountElement) > 0){
 			$wordCount = (int)$wordCountElement[0];
 		}
 		$ebook->WordCount = $wordCount;
 
 		$readingEase = 0;
-		$readingEaseElement = $xml->xpath('/package/metadata/meta[@property="se:reading-ease.flesch"]') ?: [];
+		$readingEaseElement = $xml->xpath('/package/metadata/meta[@property="schema:educationalLevel"]') ?: [];
 		if(sizeof($readingEaseElement) > 0){
 			$readingEase = (float)$readingEaseElement[0];
 		}
 		$ebook->ReadingEase = $readingEase;
 
 		// First the Wikipedia URLs.
-		$ebook->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.encyclopedia.wikipedia"][not(@refines)]'));
+		$ebook->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and not(@refines) and starts-with(@href, "https://en.wikipedia.org/")]/@href'));
 
 		// Next the page scan source URLs.
 		$sources = [];
@@ -1160,8 +1160,8 @@ final class Ebook{
 		}
 		$ebook->Sources = $sources;
 
-		// Next the GitHub URLs.
-		$ebook->GitHubUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="se:url.vcs.github"][not(@refines)]'));
+		// Next, the GitHub URLs.
+		$ebook->GitHubUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:codeRepository" and starts-with(@href, "https://github.com/")]/@href'));
 
 		return $ebook;
 	}
