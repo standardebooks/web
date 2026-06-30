@@ -381,10 +381,19 @@ do
 		sed --in-place --regexp-extended "s|\s*\-epub\-[^;]+?;||g" "${workDir}"/src/epub/css/*.css
 
 		# Add a chapter navigation footer to each page.
+
+		if ${verbose}; then
+			printf "Injecting chapter navigation footer ..."
+		fi
+
 		# shellcheck source=/dev/null
 		source "${scriptsDir}/../.venv/bin/activate"
 		"${scriptsDir}"/inject-chapter-navigation-footer "${workDir}" "${bookUrl}"
 		deactivate
+
+		if ${verbose}; then
+			echo " done."
+		fi
 
 		# Adjust sponsored links in the colophon.
 		sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/src/epub/text/colophon.xhtml
