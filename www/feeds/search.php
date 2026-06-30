@@ -40,6 +40,18 @@ try{
 			header('content-type: application/atom+xml');
 			break;
 		case Enums\FeedFormatType::Opds:
+			// Use a hard-coded throwaway path to trigger OPDS MIME type negotation.
+			$targetMimeType = Feed::NegotiateMimeType('/feeds/opds');
+
+			if($targetMimeType == 'application/opds+json; charset=utf-8'){
+				$searchFeedUrl = '/feeds/opds/all?query=' . urlencode($query) . '&page=' . $page . '&per-page=' . $perPage;
+				$searchFeed = new OpdsAcquisitionFeed('Search Results', 'Results for “' . $query . '”', $searchFeedUrl, '', $ebooks, null);
+				$searchFeed->Updated = NOW;
+				header('content-type: ' . $targetMimeType);
+				print($searchFeed->ToJsonString());
+				exit();
+			}
+
 			header('content-type: application/atom+xml;profile=opds-catalog');
 			break;
 		case Enums\FeedFormatType::Rss:
@@ -47,7 +59,7 @@ try{
 			break;
 	}
 
-	header('content-type: ' . Feed::NegotiateMimeType('/feeds/ ' . $feedFormatType->value . '/'));
+	header('content-type: ' . Feed::NegotiateMimeType('/feeds/' . $feedFormatType->value . '/'));
 
 	print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<?xml-stylesheet href=\"" . SITE_URL . "/feeds/" . $feedFormatType->value . "/style\" type=\"text/xsl\"?>\n");
 }

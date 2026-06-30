@@ -147,9 +147,16 @@ abstract class Feed{
 			$contentType = [
 				'application/atom+xml',
 				'application/xml',
-				'text/xml'
+				'text/xml',
+				'application/opds+json',
+				'application/json',
+				'application/javascript'
 			];
 			$mime = $http->negotiateMimeType($contentType, 'application/atom+xml');
+
+			if($mime == 'application/json' || $mime == 'application/opds+json' || $mime == 'application/javascript'){
+				return 'application/opds+json; charset=utf-8';
+			}
 
 			if($mime == 'application/atom+xml'){
 				if(preg_match('/\/index\.xml$/', $relativePath)){

@@ -20,5 +20,6 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<Url type="application/rss+xml" template="<?= SITE_URL ?>/feeds/rss/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
 	<Url type="application/atom+xml" template="<?= SITE_URL ?>/feeds/atom/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
 	<Url type="application/atom+xml;profile=opds-catalog;kind=acquisition" template="<?= SITE_URL ?>/feeds/opds/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
+	<Url type="application/opds+json" template="<?= SITE_URL ?>/feeds/opds/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
 	<Query role="example" searchTerms="fiction" startPage="1" count="12"/>
 </OpenSearchDescription>

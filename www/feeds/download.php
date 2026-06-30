@@ -15,9 +15,16 @@ try{
 	// Remove `./` and `../` from the path.
 	$path = preg_replace('/\.\.?\//u', '', $path);
 	$relativePath = $path;
-	$path = WEB_ROOT . $path;
 
-	if(!is_file($path) || !preg_match('/^' . preg_quote(WEB_ROOT . '/feeds/', '/') . '.+\.xml$/iu', $path)){
+	$targetMimeType = Feed::NegotiateMimeType($relativePath);
+
+	if(preg_match('/^\/feeds\/opds/ius', $relativePath)){
+		$relativePath = OpdsFeed::GetPath($relativePath, $targetMimeType);
+	}
+
+	$path = WEB_ROOT . $relativePath;
+
+	if(!is_file($path) || !preg_match('/^' . preg_quote(WEB_ROOT . '/feeds/', '/') . '.+\.(xml|json)$/iu', $path)){
 		throw new Exceptions\FileInvalidException();
 	}
 
@@ -57,7 +64,7 @@ try{
 	// Much more efficient than reading it in PHP and outputting it that way.
 	header('x-sendfile: ' . $path);
 
-	header('content-type: ' . Feed::NegotiateMimeType($relativePath));
+	header('content-type: ' . $targetMimeType);
 
 	exit();
 }

@@ -3402,6 +3402,10 @@ ul.feed p{
 
 code{
 	font-family: "Fira Mono", monospace;
+	background: rgba(0, 0, 0, .1);
+	padding: 0rem .25rem;
+	border-radius: 5px;
+	font-size: .75rem;
 }
 
 .url{

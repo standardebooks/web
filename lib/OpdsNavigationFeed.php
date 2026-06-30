@@ -41,4 +41,20 @@ class OpdsNavigationFeed extends OpdsFeed{
 	protected function GetXmlString(): string{
 		return $this->_XmlString ??= $this->CleanXmlString(Template::OpdsNavigationFeed(id: $this->Id, url: $this->Url, title: $this->Title, parentUrl: $this->Parent->Url ?? '', updated: $this->Updated, subtitle: $this->Subtitle, entries: $this->Entries));
 	}
+
+	/**
+	 * Return the OPDS 2.0 navigation feed object.
+	 *
+	 * @return array<string, mixed>
+	 */
+	protected function GetJsonObject(): array{
+		$output = parent::GetJsonObject();
+		$output['navigation'] = [];
+
+		foreach($this->Entries as $entry){
+			$output['navigation'][] = $this->GenerateOpds2Link(SITE_URL . $entry->Url, [$entry->Rel], 'application/opds+json', $entry->Title);
+		}
+
+		return $output;
+	}
 }

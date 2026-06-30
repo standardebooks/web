@@ -3,6 +3,8 @@ www/ebooks/*/
 www/images/covers/*
 www/feeds/opds/*.xml
 www/feeds/opds/*/*.xml
+www/feeds/opds/*.json
+www/feeds/opds/*/*.json
 www/feeds/rss/*.xml
 www/feeds/rss/*/*.xml
 www/feeds/atom/*.xml

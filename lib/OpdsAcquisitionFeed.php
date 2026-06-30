@@ -20,4 +20,20 @@ class OpdsAcquisitionFeed extends OpdsFeed{
 	protected function GetXmlString(): string{
 		return $this->_XmlString ??= $this->CleanXmlString(Template::OpdsAcquisitionFeed(id: $this->Id, url: $this->Url, title: $this->Title, parentUrl: $this->Parent->Url ?? '', updated: $this->Updated, isCrawlable: $this->IsCrawlable, subtitle: $this->Subtitle, entries: $this->Entries));
 	}
+
+	/**
+	 * Return the OPDS 2.0 acquisition feed object.
+	 *
+	 * @return array<string, mixed>
+	 */
+	protected function GetJsonObject(): array{
+		$output = parent::GetJsonObject();
+		$output['publications'] = [];
+
+		foreach($this->Entries as $entry){
+			$output['publications'][] = $this->GenerateOpds2Publication($entry);
+		}
+
+		return $output;
+	}
 }
