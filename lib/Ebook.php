@@ -2398,6 +2398,8 @@ final class Ebook{
 			}
 		}
 
+		$searchTocEntries = implode(' ', $this->TocEntries ?? []);
+
 		$searchTags = '';
 		$searchTagUrlNames = '';
 
@@ -2418,6 +2420,7 @@ final class Ebook{
 				Authors,
 				AuthorSortName,
 				Collections,
+				TocEntries,
 				Tags,
 				TagUrlNames,
 				IsPlaceholder,
@@ -2426,7 +2429,7 @@ final class Ebook{
 				DownloadsPast30Days,
 				EbookCreated
 			)
-			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
 				$this->EbookId,
 				$this->Title,
 				$this->FullTitle ?? '',
@@ -2434,6 +2437,7 @@ final class Ebook{
 				trim($searchAuthors),
 				trim($searchAuthorSortNames),
 				trim($searchCollections),
+				trim($searchTocEntries),
 				trim($searchTags),
 				trim($searchTagUrlNames),
 				$this->IsPlaceholder(),
@@ -2823,7 +2827,7 @@ final class Ebook{
 			$searchParams[] = $offset;
 
 			$maxMatches = $offset + $limit;
-			$result = SearchDb::QueryMatch('SELECT id from ebooks where ' . $searchWhereCondition . ' order by ' . $searchOrderBy . ' limit ? offset ? option max_matches=' . $maxMatches . ', field_weights=(Title=' . EBOOK_SEARCH_WEIGHT_TITLE . ',FullTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',AlternateTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',Authors=' . EBOOK_SEARCH_WEIGHT_AUTHORS . ',Collections=' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ')', $searchParams, $matchParamIndex);
+			$result = SearchDb::QueryMatch('SELECT id from ebooks where ' . $searchWhereCondition . ' order by ' . $searchOrderBy . ' limit ? offset ? option max_matches=' . $maxMatches . ', field_weights=(Title=' . EBOOK_SEARCH_WEIGHT_TITLE . ',FullTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',AlternateTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',Authors=' . EBOOK_SEARCH_WEIGHT_AUTHORS . ',Collections=' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ',TocEntries=' . EBOOK_SEARCH_WEIGHT_TOC_ENTRIES . ')', $searchParams, $matchParamIndex);
 
 			// Try to get the total matches from built-in metadata instead of running a second resource-intensive query.
 			$ebooksCount = SearchDb::GetLastQueryTotalResultCount();
