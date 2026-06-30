@@ -23,7 +23,7 @@ class QueuedEmailMessage extends EmailMessage{
 			$metadata = json_encode($this->Metadata);
 
 			// Warning: `To` and `From` have to be in ticks because they're SQL keywords.
-			Db::Query('insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->ToName, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->Created, $this->Provider, $attachments, $metadata]);
+			Db::Query('INSERT into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->ToName, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->Created, $this->Provider, $attachments, $metadata]);
 		}
 		catch(Exceptions\EmailMessageInvalidException $ex){
 			$log = new Log();
@@ -44,34 +44,23 @@ class QueuedEmailMessage extends EmailMessage{
 	 * @param array<QueuedEmailMessage> $queuedEmailMessages
 	 */
 	public static function CreateBatch(array $queuedEmailMessages): void{
-		// MariaDB has a hard limit on the number of `?` placeholders in a query, so chunk to 100 inserts at a time.
-		$chunks = array_chunk($queuedEmailMessages, 100);
+		$arguments = [];
+		foreach($queuedEmailMessages as $em){
+			try{
+				$em->Validate();
 
-		foreach($chunks as $chunk){
-			$sql = 'insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values ';
+				$attachments = sizeof($em->Attachments) > 0 ? serialize($em->Attachments) : null;
+				$metadata = json_encode($em->Metadata);
 
-			$arguments = [];
-			foreach($chunk as $em){
-				try{
-					$em->Validate();
-
-					$sql .= '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?),';
-
-					$attachments = sizeof($em->Attachments) > 0 ? serialize($em->Attachments) : null;
-					$metadata = json_encode($em->Metadata);
-
-					$arguments = array_merge($arguments, [$em->To, $em->ToName, $em->From, $em->FromName, $em->ReplyTo, $em->Subject, $em->BodyHtml, $em->BodyText, $em->Priority, $em->UnsubscribeUrl, NOW, \Enums\EmailProviderType::Ses, $attachments, $metadata]);
-				}
-				catch(Exceptions\EmailMessageInvalidException $ex){
-					$log = new Log();
-					$log->Write('Failed validating email. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($em));
-				}
+				$arguments = array_merge($arguments, [$em->To, $em->ToName, $em->From, $em->FromName, $em->ReplyTo, $em->Subject, $em->BodyHtml, $em->BodyText, $em->Priority, $em->UnsubscribeUrl, NOW, \Enums\EmailProviderType::Ses, $attachments, $metadata]);
 			}
-
-			$sql = rtrim($sql, ',');
-
-			Db::Query($sql, $arguments);
+			catch(Exceptions\EmailMessageInvalidException $ex){
+				$log = new Log();
+				$log->Write('Failed validating email. Exception: ' . $ex->getMessage() . "\n" . 'Email: ' . vds($em));
+			}
 		}
+
+		Db::MultiInsert('INSERT into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', $arguments);
 	}
 
 	public static function FromRow(stdClass $row): QueuedEmailMessage{

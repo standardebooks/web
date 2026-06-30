@@ -184,6 +184,11 @@ class NewsletterMailing{
 				$em->BodyText = str_replace(NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE, $em->UnsubscribeUrl, $this->BodyText);
 				$em->Metadata['NewsletterMailingId'] = (string)$this->NewsletterMailingId;
 				$emailMessages[] = $em;
+
+				if(sizeof($emailMessages) > 500){
+					QueuedEmailMessage::CreateBatch($emailMessages);
+					$emailMessages = [];
+				}
 			}
 
 			QueuedEmailMessage::CreateBatch($emailMessages);

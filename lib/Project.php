@@ -539,26 +539,23 @@ final class Project{
 			return;
 		}
 
-		$sql = '';
 		$parameters = [];
+
 		foreach($discussionMessageIds as $discussionMessageId){
-			$sql .= '(?, ?, ?),';
 			$parameters[] = $this->ProjectId;
 			$parameters[] = $discussionMessageId;
 			$parameters[] = NOW;
 		}
 
-		$sql = rtrim($sql, ',');
-
-		Db::Query('
+		Db::MultiInsert('
 			INSERT ignore into ProjectDiscussionMessages
 			(
 				ProjectId,
 				MessageId,
 				Created
 			)
-			values ' . $sql
-		, $parameters);
+			values (?, ?, ?)
+		', $parameters);
 	}
 
 	/**

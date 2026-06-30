@@ -2195,19 +2195,15 @@ final class Ebook{
 	}
 
 	private function AddTags(): void{
+		$parameters = [];
+
 		foreach($this->Tags as $sortOrder => $tag){
-			try{
-				Db::Query('
-					INSERT into EbookTags (EbookId, TagId, SortOrder)
-					values (?,
-						?,
-						?)
-				', [$this->EbookId, $tag->TagId, $sortOrder]);
-			}
-			catch(Exceptions\DuplicateDatabaseKeyException){
-				// The Ebook already has the Tag, which is fine.
-			}
+			$parameters[] = $this->EbookId;
+			$parameters[] = $tag->TagId;
+			$parameters[] = $sortOrder;
 		}
+
+		Db::MultiInsert('INSERT ignore into EbookTags (EbookId, TagId, SortOrder) values (?, ?, ?)', $parameters);
 	}
 
 	private function RemoveLocSubjects(): void{
@@ -2219,19 +2215,15 @@ final class Ebook{
 	}
 
 	private function AddLocSubjects(): void{
+		$parameters = [];
+
 		foreach($this->LocSubjects as $sortOrder => $locSubject){
-			try{
-				Db::Query('
-					INSERT into EbookLocSubjects (EbookId, LocSubjectId, SortOrder)
-					values (?,
-						?,
-						?)
-				', [$this->EbookId, $locSubject->LocSubjectId, $sortOrder]);
-			}
-			catch(Exceptions\DuplicateDatabaseKeyException){
-				// The Ebook already has the LocSubject, which is fine.
-			}
+			$parameters[] = $this->EbookId;
+			$parameters[] = $locSubject->LocSubjectId;
+			$parameters[] = $sortOrder;
 		}
+
+		Db::MultiInsert('INSERT ignore into EbookLocSubjects (EbookId, LocSubjectId, SortOrder) values (?, ?, ?)', $parameters);
 	}
 
 	private function RemoveCollectionMemberships(): void{
@@ -2243,26 +2235,21 @@ final class Ebook{
 	}
 
 	private function AddCollectionMemberships(): void{
+		$parameters = [];
+
 		foreach($this->CollectionMemberships as $sortOrder => $collectionMembership){
 			$collectionMembership->EbookId = $this->EbookId;
 			$collectionMembership->CollectionId = $collectionMembership->Collection->CollectionId;
 			$collectionMembership->SortOrder = $sortOrder;
 
-			try{
-				Db::Query('
-					INSERT into CollectionEbooks (EbookId, CollectionId, SequenceNumber, SortOrder, TitleInCollection)
-					values (?,
-						?,
-						?,
-						?,
-						?)
-				', [$collectionMembership->EbookId, $collectionMembership->CollectionId, $collectionMembership->SequenceNumber,
-						$collectionMembership->SortOrder, $collectionMembership->TitleInCollection]);
-			}
-			catch(Exceptions\DuplicateDatabaseKeyException){
-				// The Ebook is already a member of this Collection.
-			}
+			$parameters[] = $collectionMembership->EbookId;
+			$parameters[] = $collectionMembership->CollectionId;
+			$parameters[] = $collectionMembership->SequenceNumber;
+			$parameters[] = $collectionMembership->SortOrder;
+			$parameters[] = $collectionMembership->TitleInCollection;
 		}
+
+		Db::MultiInsert('INSERT ignore into CollectionEbooks (EbookId, CollectionId, SequenceNumber, SortOrder, TitleInCollection) values (?, ?, ?, ?, ?)', $parameters);
 	}
 
 	private function RemoveGitCommits(): void{
@@ -2333,14 +2320,15 @@ final class Ebook{
 
 	private function AddTocEntries(): void{
 		if($this->TocEntries !== null){
+			$parameters = [];
+
 			foreach($this->TocEntries as $sortOrder => $tocEntry){
-				Db::Query('
-					INSERT into TocEntries (EbookId, TocEntry, SortOrder)
-					values (?,
-						?,
-						?)
-				', [$this->EbookId, $tocEntry, $sortOrder]);
+				$parameters[] = $this->EbookId;
+				$parameters[] = $tocEntry;
+				$parameters[] = $sortOrder;
 			}
+
+			Db::MultiInsert('INSERT into TocEntries (EbookId, TocEntry, SortOrder) values (?, ?, ?)', $parameters);
 		}
 	}
 

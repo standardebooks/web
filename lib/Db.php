@@ -70,6 +70,61 @@ class Db{
 	}
 
 	/**
+	 * Take an `insert` query with exactly one `values (...)` tuple, and expand it to match the passed `$args` array, then batch inserts.
+	 *
+	 * For example, `insert into test (a, b, c) values (?, 1, ?)` with `[1, 2, 3, 4, 5, 6, 7, 8]` would create one query to insert 4 rows.
+	 *
+	 * @param string $query A parameterized `insert` query containing exactly one `values (...)` tuple.
+	 * @param array<mixed> $args A one-dimensional list of values for all inserted rows.
+	 *
+	 * @throws Exceptions\DatabaseQueryException If the query can't be batched or an error occurs during execution.
+	 * @throws Exceptions\DuplicateDatabaseKeyException If a unique key constraint has been violated.
+	 */
+	public static function MultiInsert(string $query, array $args): void{
+		if(sizeof($args) == 0){
+			return;
+		}
+
+		$matches = [];
+		preg_match('/\bvalues\s*(\([^)]*\))/ius', $query, $matches, PREG_OFFSET_CAPTURE);
+
+		if(!isset($matches[1][0], $matches[1][1])){
+			throw new Exceptions\DatabaseQueryException('Multi-insert query must contain a `values (...)` tuple. Query: ' . $query);
+		}
+
+		$rowSql = $matches[1][0];
+		/** @var string $suffix The part of the original SQL query that comes after the `values (...)` tuple, for example in the query `INSERT into X (a, b) values (?, ?) on duplicate key update b = value(b)`. */
+		$suffix = substr($query, $matches[1][1] + strlen($rowSql));
+		$valuePlaceholderCount = substr_count($rowSql, '?');
+
+		if($valuePlaceholderCount == 0){
+			throw new Exceptions\DatabaseQueryException('Multi-insert query must contain at least one placeholder in the `values (...)` tuple. Query: ' . $query);
+		}
+
+		if(preg_match('/^\s*,/u', $suffix)){
+			throw new Exceptions\DatabaseQueryException('Multi-insert query must contain exactly one `values (...)` tuple. Query: ' . $query);
+		}
+
+		if(sizeof($args) % $valuePlaceholderCount != 0){
+			throw new Exceptions\DatabaseQueryException('Multi-insert argument count must be divisible by the number of placeholders in the `values (...)` tuple. Query: ' . $query . '. Parameters: ' . vds($args));
+		}
+
+		$prefix = substr($query, 0, $matches[1][1]);
+		$argumentChunks = array_chunk($args, $valuePlaceholderCount * INSERT_BATCH_SIZE);
+		$affectedRowCount = 0;
+
+		foreach($argumentChunks as $argumentChunk){
+			$rowCount = intdiv(sizeof($argumentChunk), $valuePlaceholderCount);
+			$sql = $prefix . implode(', ', array_fill(0, $rowCount, $rowSql)) . $suffix;
+
+			static::Query($sql, $argumentChunk);
+			$affectedRowCount += static::$LastQueryAffectedRowCount;
+		}
+
+		static::$LastQueryAffectedRowCount = $affectedRowCount;
+	}
+
+	/**
 	 * Returns an SQL query string appropriate for set membership.
 	 *
 	 * This is useful for queries of the form `WHERE var IN (?,?,?)` and the length of the set is dynamic.

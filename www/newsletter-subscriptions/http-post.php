@@ -44,7 +44,6 @@ try{
 		throw new Exceptions\CaptchaInvalidException();
 	}
 
-	$sendConfirmationEmail = false;
 	try{
 		$user = User::GetByEmail($email);
 	}
@@ -55,21 +54,46 @@ try{
 		$user->Email = $email;
 	}
 
+	$hasEmailBounced = Db::QueryBool('SELECT exists (select * from EmailBounces where Email = ? and IsActive = true)', [$email]);
+
+	if($hasEmailBounced){
+		throw new Exceptions\EmailBounceExistsException('An email we sent to this email address bounced back or was marked as spam. We can’t send email to this email address anymore.');
+	}
+
+	try{
+		$user = User::GetByEmail($email);
+	}
+	catch(Exceptions\UserNotFoundException){
+		try{
+			$user->Create();
+		}
+		catch(Exceptions\UserExistsException | Exceptions\UserInvalidException){
+			// `User` exists, pass.
+			$user = User::GetByEmail($email);
+		}
+	}
+
+	$parameters = [];
+
 	foreach($newsletters as $newsletter){
 		$newsletterSubscription = new NewsletterSubscription();
 		$newsletterSubscription->Newsletter = $newsletter;
 		$newsletterSubscription->NewsletterId = $newsletter->NewsletterId;
 		$newsletterSubscription->User = $user;
-		try{
-			$newsletterSubscription->Create();
-			$sendConfirmationEmail = true;
-		}
-		catch(Exceptions\NewsletterSubscriptionExistsException){
-			// Subscription exists, pass.
-		}
+		$newsletterSubscription->UserId = $user->UserId;
+		$newsletterSubscription->Created = NOW;
+		$newsletterSubscription->Validate();
+
+		$parameters[] = $newsletterSubscription->UserId;
+		$parameters[] = $newsletterSubscription->NewsletterId;
+		$parameters[] = $newsletterSubscription->IsConfirmed;
+		$parameters[] = $newsletterSubscription->IsVisible;
+		$parameters[] = $newsletterSubscription->Created;
 	}
 
-	if($sendConfirmationEmail){
+	Db::MultiInsert('INSERT ignore into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, Created) values (?, ?, ?, ?, ?)', $parameters);
+
+	if(Db::$LastQueryAffectedRowCount > 0){
 		// Send the double opt-in confirmation email.
 		$user->SendNewsletterSubscriptionConfirmationEmail();
 	}
@@ -78,7 +102,7 @@ try{
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	$_SESSION['newsletter-subscription/create/is-created'] = true;
-	header('location: ' . $newsletterSubscription->User->UuidUrl . '/newsletter-subscriptions');
+	header('location: ' . $user->UuidUrl . '/newsletter-subscriptions');
 }
 catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\CaptchaInvalidException | Exceptions\NewsletterRequiredException $ex){
 	$_SESSION['newsletter-ids'] = $newsletterIds;

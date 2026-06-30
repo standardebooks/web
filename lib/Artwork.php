@@ -808,13 +808,7 @@ final class Artwork{
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes]
 		);
 
-		foreach($this->Tags as $tag){
-			Db::Query('
-				INSERT into ArtworkTags (ArtworkId, TagId)
-				values (?,
-				        ?)
-			', [$this->ArtworkId, $tag->TagId]);
-		}
+		$this->AddTags();
 
 		if($imagePath !== null){
 			$this->WriteImageAndThumbnails($imagePath);
@@ -909,13 +903,7 @@ final class Artwork{
 		', [$this->ArtworkId]
 		);
 
-		foreach($this->Tags as $tag){
-			Db::Query('
-				INSERT into ArtworkTags (ArtworkId, TagId)
-				values (?,
-				        ?)
-			', [$this->ArtworkId, $tag->TagId]);
-		}
+		$this->AddTags();
 
 		// Handle the uploaded file if the user provided one during the save.
 		if($imagePath !== null){
@@ -923,6 +911,24 @@ final class Artwork{
 		}
 
 		$this->UpdateSearchRepresentation();
+	}
+
+	/**
+	 * Add the related `ArtworkTag`s for this `Artwork`.
+	 */
+	private function AddTags(): void{
+		if(sizeof($this->Tags) == 0){
+			return;
+		}
+
+		$parameters = [];
+
+		foreach($this->Tags as $tag){
+			$parameters[] = $this->ArtworkId;
+			$parameters[] = $tag->TagId;
+		}
+
+		Db::MultiInsert('INSERT into ArtworkTags (ArtworkId, TagId) values (?, ?)', $parameters);
 	}
 
 	public function Delete(): void{

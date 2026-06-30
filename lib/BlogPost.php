@@ -279,10 +279,7 @@ class BlogPost{
 			throw new Exceptions\BlogPostExistsException();
 		}
 
-		$i = 0;
-		foreach($this->Ebooks as $ebook){
-			Db::Query('INSERT into BlogPostEbooks (BlogPostId, EbookId, SortOrder) values (?, ?, ?)', [$this->BlogPostId, $ebook->EbookId, $i++]);
-		}
+		$this->AddEbooks();
 	}
 
 	/**
@@ -304,10 +301,26 @@ class BlogPost{
 
 		Db::Query('DELETE from BlogPostEbooks where BlogPostId = ?', [$this->BlogPostId]);
 
-		$i = 0;
-		foreach($this->Ebooks as $ebook){
-			Db::Query('INSERT into BlogPostEbooks (BlogPostId, EbookId, SortOrder) values (?, ?, ?)', [$this->BlogPostId, $ebook->EbookId, $i++]);
+		$this->AddEbooks();
+	}
+
+	/**
+	 * Add the related `Ebook`s for this `BlogPost`.
+	 */
+	private function AddEbooks(): void{
+		if(sizeof($this->Ebooks) == 0){
+			return;
 		}
+
+		$parameters = [];
+
+		foreach($this->Ebooks as $sortOrder => $ebook){
+			$parameters[] = $this->BlogPostId;
+			$parameters[] = $ebook->EbookId;
+			$parameters[] = $sortOrder;
+		}
+
+		Db::MultiInsert('INSERT into BlogPostEbooks (BlogPostId, EbookId, SortOrder) values (?, ?, ?)', $parameters);
 	}
 
 	public function FillFromRequestBody(): void{
