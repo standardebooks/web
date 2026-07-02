@@ -729,8 +729,8 @@ final class Artwork{
 	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
 		try{
-			exec('exiftool -quiet -overwrite_original -all= ' . escapeshellarg($imagePath));
 			copy($imagePath, $this->ImageFsPath);
+			exec('exiftool -quiet -overwrite_original -all= -tagsfromfile @ -orientation ' . escapeshellarg($this->ImageFsPath));
 
 			// Generate the thumbnails.
 			$image = new Image($imagePath);

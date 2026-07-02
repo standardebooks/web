@@ -3,8 +3,9 @@ use function Safe\exec;
 use function Safe\glob;
 use function Safe\imagecopyresampled;
 use function Safe\imagecreatetruecolor;
+use function Safe\imageflip;
 use function Safe\imagejpeg;
-use function Safe\getimagesize;
+use function Safe\imagerotate;
 use function Safe\unlink;
 
 class Image{
@@ -17,15 +18,15 @@ class Image{
 	}
 
 	/**
-	 * @return \GdImage
+	 * Return a GD image handle for the image file.
 	 *
 	 * @throws Exceptions\ImageUploadInvalidException
 	 */
-	private function GetImageHandle(){
+	private function GetImageHandle(): \GdImage{
 		try{
 			switch($this->MimeType){
 				case Enums\ImageMimeType::JPG:
-					$handle = \Safe\imagecreatefromjpeg($this->Path);
+					$handle = $this->GetAutoOrientedJpegImageHandle();
 					break;
 				case Enums\ImageMimeType::BMP:
 					$handle = \Safe\imagecreatefrombmp($this->Path);
@@ -34,7 +35,7 @@ class Image{
 					$handle = \Safe\imagecreatefrompng($this->Path);
 					break;
 				case Enums\ImageMimeType::TIFF:
-					$handle = $this->GetImageHandleFromTiff();
+					$handle = $this->GetAutoOrientedTiffImageHandle();
 					break;
 				default:
 					throw new \Exceptions\ImageUploadInvalidException();
@@ -48,24 +49,90 @@ class Image{
 	}
 
 	/**
-	 * @return \GdImage
+	 * Return the EXIF orientation value for this image.
+	 */
+	private function GetExifOrientation(): int{
+		$exifData = @exif_read_data($this->Path);
+
+		if(!is_array($exifData)){
+			return 1;
+		}
+
+		$orientation = $exifData['Orientation'] ?? 1;
+
+		if(is_int($orientation)){
+			return $orientation;
+		}
+
+		if(is_string($orientation) && ctype_digit($orientation)){
+			return intval($orientation);
+		}
+
+		return 1;
+	}
+
+	/**
+	 * Return a GD image handle with JPEG EXIF orientation applied to the pixel data.
+	 *
 	 * @throws Exceptions\ImageUploadInvalidException
 	 */
-	private function GetImageHandleFromTiff(){
-		$basename = pathinfo($this->Path)['filename'];
-		$tempDirectory = sys_get_temp_dir();
-		$tempFilename = $tempDirectory . '/se-' . $basename . '.jpg';
+	private function GetAutoOrientedJpegImageHandle(): \GdImage{
+		$handle = \Safe\imagecreatefromjpeg($this->Path);
 
 		try{
-			exec('convert '. escapeshellarg($this->Path) . ' ' . escapeshellarg($tempFilename), $shellOutput, $resultCode);
+			switch($this->GetExifOrientation()){
+				case 2:
+					imageflip($handle, IMG_FLIP_HORIZONTAL);
+					break;
+				case 3:
+					$handle = imagerotate($handle, 180, 0);
+					break;
+				case 4:
+					imageflip($handle, IMG_FLIP_VERTICAL);
+					break;
+				case 5:
+					imageflip($handle, IMG_FLIP_HORIZONTAL);
+					$handle = imagerotate($handle, -90, 0);
+					break;
+				case 6:
+					$handle = imagerotate($handle, -90, 0);
+					break;
+				case 7:
+					imageflip($handle, IMG_FLIP_HORIZONTAL);
+					$handle = imagerotate($handle, 90, 0);
+					break;
+				case 8:
+					$handle = imagerotate($handle, 90, 0);
+					break;
+			}
+		}
+		catch(\Safe\Exceptions\ImageException){
+			throw new Exceptions\ImageUploadInvalidException('Failed to orient JPEG.');
+		}
+
+		return $handle;
+	}
+
+	/**
+	 * Return a GD image handle with TIFF orientation applied to the pixel data.
+	 *
+	 * @throws Exceptions\ImageUploadInvalidException
+	 */
+	private function GetAutoOrientedTiffImageHandle(): \GdImage{
+		$tempFilename = sys_get_temp_dir() . '/' . uniqid('se-image-', true) . '.jpg';
+		$tempFilePathInfo = pathinfo($tempFilename);
+		$tempFileGlob = $tempFilePathInfo['dirname'] . '/' . $tempFilePathInfo['filename'] . '*.jpg';
+
+		try{
+			exec('convert -auto-orient ' . escapeshellarg($this->Path) . ' ' . escapeshellarg($tempFilename), $shellOutput, $resultCode);
 
 			if($resultCode !== 0){
-				throw new Exceptions\ImageUploadInvalidException('Failed to convert TIFF to JPEG');
+				throw new Exceptions\ImageUploadInvalidException('Failed to convert image to JPG.');
 			}
 
 			// Sometimes TIFF files can have multiple images, or "pages" in one file. In that case, `convert` outputs multiple files named `<file>-0.jpg`, `<file>-1.jpg`, etc., instead of `<file>.jpg`.
 			// Test for that case here.
-			$pagedFilename = $tempDirectory . '/se-' . $basename . '-0.jpg';
+			$pagedFilename = $tempFilePathInfo['dirname'] . '/' . $tempFilePathInfo['filename'] . '-0.jpg';
 			if(is_file($pagedFilename)){
 				// This TIFF has pages!
 				$handle = \Safe\imagecreatefromjpeg($pagedFilename);
@@ -75,11 +142,11 @@ class Image{
 				$handle = \Safe\imagecreatefromjpeg($tempFilename);
 			}
 			else{
-				throw new Exceptions\ImageUploadInvalidException('Failed to convert TIFF to JPEG');
+				throw new Exceptions\ImageUploadInvalidException('Failed to convert TIFF to JPEG.');
 			}
 		}
 		finally{
-			foreach(glob($tempDirectory . '/se-' . $basename . '*.jpg') as $filename){
+			foreach(glob($tempFileGlob) as $filename){
 				try{
 					@unlink($filename);
 				}
@@ -93,14 +160,15 @@ class Image{
 	}
 
 	/**
+	 * Resize this image and write it to the destination path.
+	 *
 	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	public function Resize(string $destImagePath, int $width, int $height): void{
 		try{
-			$imageDimensions = @getimagesize($this->Path);
-
-			$imageWidth = $imageDimensions[0] ?? 0;
-			$imageHeight = $imageDimensions[1] ?? 0;
+			$srcImageHandle = $this->GetImageHandle();
+			$imageWidth = imagesx($srcImageHandle);
+			$imageHeight = imagesy($srcImageHandle);
 
 			if($imageHeight > $imageWidth){
 				$destinationHeight = $height;
@@ -108,15 +176,9 @@ class Image{
 			}
 			else{
 				$destinationWidth = $width;
-				if($imageWidth == 0){
-					$destinationHeight = 0;
-				}
-				else{
-					$destinationHeight = intval($destinationWidth * ($imageHeight / $imageWidth));
-				}
+				$destinationHeight = intval($destinationWidth * ($imageHeight / $imageWidth));
 			}
 
-			$srcImageHandle = $this->GetImageHandle();
 			$thumbImageHandle = imagecreatetruecolor($destinationWidth, $destinationHeight);
 
 			imagecopyresampled($thumbImageHandle, $srcImageHandle, 0, 0, 0, 0, $destinationWidth, $destinationHeight, $imageWidth, $imageHeight);
