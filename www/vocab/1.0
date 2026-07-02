@@ -54,19 +54,6 @@ se
 		legal-case
 	novel
 	novella
-	publication-notes
-	reading-ease
-		flesch
 	short-story
 	sic
 	temperature
-	transform
-	url
-		authority
-			nacoaf
-		homepage
-		encyclopedia
-			wikipedia
-		vcs
-			github
-	word-count
