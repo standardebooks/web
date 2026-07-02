@@ -6,7 +6,7 @@
 $newsletters = Newsletter::GetAll();
 $isEditForm ??= false;
 $addFooter ??= true;
-$addEbooks ??= true;
+$addEbooks ??= false;
 ?>
 <label class="icon emails">
 	<span>Newsletter</span>
