@@ -1,6 +1,8 @@
 <?
 use function Safe\parse_url;
+use function Safe\get_cfg_var;
 use function Safe\preg_match;
+use function Safe\preg_match_all;
 use function Safe\preg_replace;
 
 use Enums\ProjectStatusType;
@@ -384,7 +386,7 @@ final class Project{
 				returning ProjectId
 			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified]);
 
-		$this->SaveDiscussionMessageId();
+		$this->SaveDiscussionMessageIdsFromImap($this->GetRootDiscussionMessageId());
 
 		// Notify the manager and reviewer.
 		if($this->Status == Enums\ProjectStatusType::InProgress){
@@ -430,6 +432,9 @@ final class Project{
 	 * @throws Exceptions\ProjectInvalidException If the `Project` is invalid.
 	 */
 	public function Save(): void{
+		/** @var ?string $originalDiscussionUrl */
+		$originalDiscussionUrl = Db::Query('SELECT DiscussionUrl from Projects where ProjectId = ?', [$this->ProjectId])[0]->DiscussionUrl ?? null;
+
 		$this->Validate();
 		$this->SendReviewerReadyNotification();
 
@@ -462,7 +467,16 @@ final class Project{
 			EbookId = ?
 		', [$this->Status != Enums\ProjectStatusType::Abandoned, $this->EbookId]);
 
-		$this->SaveDiscussionMessageId();
+		$discussionMessageId = $this->GetRootDiscussionMessageId();
+
+		if($discussionMessageId !== null){
+			if($originalDiscussionUrl !== $this->DiscussionUrl){
+				$this->SaveDiscussionMessageIdsFromImap($discussionMessageId);
+			}
+			else{
+				$this->SaveDiscussionMessageIds([$discussionMessageId]);
+			}
+		}
 	}
 
 	/**
@@ -511,21 +525,40 @@ final class Project{
 	}
 
 	/**
-	 * Extact this `Project`'s root discussion message ID from the `DiscussionUrl` and save it.
+	 * Extract this `Project`'s root discussion message ID from the `DiscussionUrl`.
 	 */
-	protected function SaveDiscussionMessageId(): void{
+	protected function GetRootDiscussionMessageId(): ?string{
 		if($this->DiscussionUrl === null){
-			return;
+			return null;
 		}
-
-		$messageId = null;
 
 		if(preg_match('|^https://groups\.google\.com/d/msgid/standardebooks/([^/\?]+)$|iu', $this->DiscussionUrl, $matches)){
 			$messageId = trim(urldecode($matches[1]), '<>');
 
 			if(preg_match('/^[^<>\s@]+?@[^<>\s@]+$/iu', $messageId)){
-				$this->SaveDiscussionMessages([$messageId]);
+				return $messageId;
 			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Save discussion message IDs found in the IMAP mailing list archive.
+	 */
+	protected function SaveDiscussionMessageIdsFromImap(?string $discussionMessageId): void{
+		if($discussionMessageId === null){
+			return;
+		}
+
+		try{
+			$this->SaveDiscussionMessageIds(array_values(array_unique(array_merge([$discussionMessageId], $this->FetchDiscussionMessageIdsFromImap($discussionMessageId)))));
+		}
+		catch(\Exception $ex){
+			$this->SaveDiscussionMessageIds([$discussionMessageId]);
+
+			$log = new Log();
+			$log->Write('Failed fetching project discussion message IDs from IMAP for project #' . $this->ProjectId . ': ' . $ex->getMessage());
 		}
 	}
 
@@ -534,7 +567,7 @@ final class Project{
 	 *
 	 * @param array<string> $discussionMessageIds
 	 */
-	public function SaveDiscussionMessages(array $discussionMessageIds): void{
+	public function SaveDiscussionMessageIds(array $discussionMessageIds): void{
 		if(sizeof($discussionMessageIds) == 0){
 			return;
 		}
@@ -575,6 +608,76 @@ final class Project{
 		', [$this->ProjectId]);
 
 		return array_map(fn($row) => $row->MessageId, $rows);
+	}
+
+	/**
+	 * Return discussion message IDs found in the IMAP mailing list archive.
+	 *
+	 * @return array<string>
+	 *
+	 * @throws \Exception If the IMAP account could not be queried.
+	 */
+	public function FetchDiscussionMessageIdsFromImap(?string $discussionMessageId = null): array{
+		$discussionMessageId ??= $this->GetRootDiscussionMessageId();
+
+		if($discussionMessageId === null){
+			return [];
+		}
+
+		/** @var string $username */
+		$username = get_cfg_var('se.secrets.zoho.mail.projects_username');
+		/** @var string $password */
+		$password = get_cfg_var('se.secrets.zoho.mail.projects_password');
+		$mailbox = new PhpImap\Mailbox('{imappro.zoho.com:993/imap/ssl}Standard Ebooks Mailing List', $username, $password);
+		$mailbox->setConnectionArgs(OP_READONLY);
+		$mailbox->setExpungeOnDisconnect(false);
+
+		$knownMessageIds = [$discussionMessageId];
+		/** @var array<int, array<string>> $archivedEmailMessageIds */
+		$archivedEmailMessageIds = [];
+		$date = NOW->sub(new \DateInterval('P30D'))->format('d-M-Y');
+
+		$emailIds = $mailbox->searchMailbox('SINCE ' . $date);
+
+		if(sizeof($emailIds) == 0){
+			return $knownMessageIds;
+		}
+
+		foreach($mailbox->getMailsInfo($emailIds) as $emailInfo){
+			$messageIds = self::ExtractDiscussionMessageIdsFromHeaderString((string)($emailInfo->message_id ?? ''), (string)($emailInfo->references ?? ''), (string)($emailInfo->in_reply_to ?? ''));
+
+			if(sizeof($messageIds) > 0){
+				$archivedEmailMessageIds[] = $messageIds;
+			}
+		}
+
+		$hasMatchedEmail = true;
+
+		while($hasMatchedEmail){
+			$hasMatchedEmail = false;
+
+			foreach($archivedEmailMessageIds as $key => $messageIds){
+				if(array_intersect($knownMessageIds, $messageIds) !== []){
+					$knownMessageIds = array_values(array_unique(array_merge($knownMessageIds, $messageIds)));
+					$hasMatchedEmail = true;
+					unset($archivedEmailMessageIds[$key]);
+				}
+			}
+		}
+
+		return $knownMessageIds;
+	}
+
+	/**
+	 * Extract all discussion message IDs present in header strings.
+	 *
+	 * @return array<string>
+	 */
+	public static function ExtractDiscussionMessageIdsFromHeaderString(string $messageId, string $references, string $inReplyTo): array{
+		$headerString = trim($messageId . ' ' . $references . ' ' . $inReplyTo);
+		preg_match_all('/<?([^<>\s@]+@[^<>\s@]+)>?/iu', $headerString, $matches);
+
+		return array_values(array_unique($matches[1]));
 	}
 
 	public function FillFromRequestBody(): void{

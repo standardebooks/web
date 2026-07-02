@@ -6,19 +6,28 @@ use Safe\DateTimeImmutable;
 use function Safe\get_cfg_var;
 use function Safe\getopt;
 use function Safe\preg_match;
-use function Safe\preg_match_all;
 use function Safe\preg_replace;
 use function Safe\set_time_limit;
 
 function Usage(): void{
 	Cli::PrintHelp(
-		usage: '[command]update-project-discussions[/]',
+		usage: '[command]update-project-discussions[/] [[flag]--rebuild-discussion-messages[/] [[flag]--project-id[/] [parameter]<PROJECT-ID>[/]]]',
 		description: 'Update all active ebook projects with their latest discussion activity.',
+		options: [
+			[
+				'name' => '[flag]--rebuild-discussion-messages[/]',
+				'description' => 'Rebuild project discussion message IDs for all projects using the last 30 days of archived mailing list messages, without processing the inbox.',
+			],
+			[
+				'name' => '[flag]--project-id[/] [parameter]<PROJECT-ID>[/]',
+				'description' => 'Only rebuild discussion message IDs for the given project, instead of all projects.',
+			],
+		],
 	);
 }
 
 $restIndex = 0;
-$options = getopt('h', ['help'], $restIndex);
+$options = getopt('h', ['help', 'rebuild-discussion-messages', 'project-id:'], $restIndex);
 $restIndex ??= $argc;
 
 if(isset($options['h']) || isset($options['help'])){
@@ -27,7 +36,7 @@ if(isset($options['h']) || isset($options['help'])){
 
 $parameters = array_slice($argv, $restIndex);
 
-if(sizeof($parameters) != 0){
+if(sizeof($parameters) != 0 || (isset($options['project-id']) && !isset($options['rebuild-discussion-messages']))){
 	Usage();
 }
 
@@ -47,30 +56,43 @@ set_time_limit(0);
 $username = get_cfg_var('se.secrets.zoho.mail.projects_username');
 /** @var string $password */
 $password = get_cfg_var('se.secrets.zoho.mail.projects_password');
+$rebuildDiscussionMessages = isset($options['rebuild-discussion-messages']);
+
+if($rebuildDiscussionMessages){
+	if(isset($options['project-id'])){
+		$projects = [Project::Get((int)$options['project-id'])];
+	}
+	else{
+		/** @var array<Project> $projects */
+		$projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
+	}
+
+	foreach($projects as $project){
+		$project->SaveDiscussionMessageIds($project->FetchDiscussionMessageIdsFromImap());
+	}
+
+	exit(0);
+}
+
+/**
+ * First, examine the IMAP inbox and create a list of objects for each email in the inbox. The objects represent an email message and its calculated message IDs.
+ */
 
 /** @var array<int, object{'Timestamp': \Safe\DateTimeImmutable, 'MessageIds': array<string>, 'SenderEmail': ?string, 'Body': string}> $emailMessageIds An array containing objects, each of which represents one email, its timestamp, sender, body, and all the related message IDs in its headers. */
 $emailMessageIds = [];
 
 try{
 	$mailbox = new PhpImap\Mailbox('{imappro.zoho.com:993/imap/ssl}INBOX', $username, $password);
-	// Expunge deleted mails upon mailbox close.
-	$mailbox->setConnectionArgs(CL_EXPUNGE);
+	$mailbox->setExpungeOnDisconnect(false);
 
 	// See <https://php.net/manual/en/function.imap-search.php>.
 	$emailIds = $mailbox->searchMailbox('ALL');
 
 	foreach($emailIds as $emailId){
-		$email = $mailbox->getMail($emailId);
+		$email = $mailbox->getMail($emailId, false);
 
-		if(
-			preg_match('/\bstandardebooks@googlegroups\.com\b/iu', $email->toString ?? '')
-			&&
-			$email->messageId !== null
-		){
-			// Extract all message IDs present in various headers we're interested in.
-			$headerString = trim($email->messageId . ' ' . ($email->headers->references ?? '') . ' ' . ($email->headers->in_reply_to ?? ''));
-			preg_match_all('/<([^<>\s@]+?@[^<>\s@]+?)>/iu', $headerString, $matches);
-			$messageIds = array_values(array_unique($matches[1]));
+		if(preg_match('/\bstandardebooks@googlegroups\.com\b/iu', $email->toString ?? '')){
+			$messageIds = Project::ExtractDiscussionMessageIdsFromHeaderString((string)($email->messageId ?? ''), (string)($email->headers->references ?? ''), (string)($email->headers->in_reply_to ?? ''));
 
 			if(sizeof($messageIds) > 0){
 				// Get the timestamp of this email.
@@ -92,16 +114,23 @@ try{
 				$object->Body = preg_replace('/^>.+$/u', '', trim($email->textPlain));
 				$emailMessageIds[] = $object;
 			}
+			$mailbox->markMailAsRead($emailId);
+			$mailbox->moveMail($emailId, 'Standard Ebooks Mailing List');
 		}
-
-		$mailbox->markMailAsRead($emailId);
-		$mailbox->moveMail($emailId, 'Trash');
+		else{
+			$mailbox->markMailAsRead($emailId);
+			$mailbox->moveMail($emailId, 'Archive');
+		}
 	}
 }
 catch(\Exception $ex){
 	$log = new Log();
 	$log->Write('Failed connecting to IMAP account: ' . $ex->getMessage());
 }
+
+/**
+ * Now iterate over `Project`s, and try to match them to the list of email messages we compiled earlier.
+ */
 
 /** @var array<Project> $projects */
 $projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
@@ -151,6 +180,6 @@ foreach($projects as $project){
 
 	$projectDiscussionMessageIds = array_values(array_unique($projectDiscussionMessageIds));
 
-	$project->SaveDiscussionMessages($projectDiscussionMessageIds);
+	$project->SaveDiscussionMessageIds($projectDiscussionMessageIds);
 	$project->Save();
 }
