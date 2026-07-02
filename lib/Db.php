@@ -110,7 +110,7 @@ class Db{
 		}
 
 		$prefix = substr($query, 0, $matches[1][1]);
-		$argumentChunks = array_chunk($args, $valuePlaceholderCount * INSERT_BATCH_SIZE);
+		$argumentChunks = array_chunk($args, $valuePlaceholderCount * DATABASE_INSERT_BATCH_SIZE);
 		$affectedRowCount = 0;
 
 		foreach($argumentChunks as $argumentChunk){

@@ -13,8 +13,6 @@ mb_internal_encoding('UTF-8');
 mb_http_output('UTF-8');
 date_default_timezone_set('UTC');
 
-const INSERT_BATCH_SIZE = 1000;
-
 /**
  * Convenient shorthand alias of `var_dump()`.
  *

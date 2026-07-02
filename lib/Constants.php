@@ -18,7 +18,6 @@ const SITE_STATUS_DEV =			'dev';
 
 define('SITE_STATUS', get_cfg_var('app.site_status')); // Set in the PHP INI configuration for both CLI and FPM. Have to use `define()` and not `const` so we can use a function.
 
-
 if(SITE_STATUS == SITE_STATUS_LIVE){
 	/** No trailing slash. */
 	define('SITE_DOMAIN', 'standardebooks.org');
@@ -41,8 +40,11 @@ const EBOOKS_IDENTIFIER_ROOT =		'https://standardebooks.org';
 const EBOOKS_IDENTIFIER_PREFIX =	EBOOKS_IDENTIFIER_ROOT . '/ebooks/';
 
 const DATABASE_DEFAULT_DATABASE = 	'se';
+/** The maximum amount of rows to insert per batch in `Db::MultiInsert()`. This can't be too large, otherwise inserts with lots of data (like multiple HTML documents) can run into the `max_allowed_packet` limit. */
+const DATABASE_INSERT_BATCH_SIZE = 250;
 
-const DATABASE_SEARCH_HOST = '127.0.0.1'; // This has to be an IP address, can't be `localhost`.
+/** Must be an IP address, not a name like `localhost`. */
+const DATABASE_SEARCH_HOST = '127.0.0.1';
 const DATABASE_SEARCH_PORT = '9306';
 const DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH = 100;
 
@@ -50,6 +52,7 @@ const EBOOKS_PER_PAGE = 12;
 const EBOOKS_MAX_PER_PAGE = 60;
 const EBOOKS_MAX_STRING_LENGTH = 250;
 const EBOOKS_MAX_LONG_STRING_LENGTH = 500;
+/** In bytes. */
 const EBOOK_SINGLE_PAGE_SIZE_WARNING = 3 * 1024 * 1024; // 3145728 bytes.
 
 const EBOOK_SEARCH_WEIGHT_TITLE = 10;
