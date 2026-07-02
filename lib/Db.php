@@ -76,13 +76,18 @@ class Db{
 	 *
 	 * @param string $query A parameterized `insert` query containing exactly one `values (...)` tuple.
 	 * @param array<mixed> $args A one-dimensional list of values for all inserted rows.
+	 * @param int $batchSize The maximum number of rows to insert per batch. If inserted data is very large (for example, large binary blobs in every row), MariaDB may reject the entire query as being too large; tweaking this value can help.
 	 *
 	 * @throws Exceptions\DatabaseQueryException If the query can't be batched or an error occurs during execution.
 	 * @throws Exceptions\DuplicateDatabaseKeyException If a unique key constraint has been violated.
 	 */
-	public static function MultiInsert(string $query, array $args): void{
+	public static function MultiInsert(string $query, array $args, int $batchSize = DATABASE_INSERT_BATCH_SIZE): void{
 		if(sizeof($args) == 0){
 			return;
+		}
+
+		if($batchSize <= 0){
+			$batchSize = 1;
 		}
 
 		$matches = [];
@@ -110,7 +115,7 @@ class Db{
 		}
 
 		$prefix = substr($query, 0, $matches[1][1]);
-		$argumentChunks = array_chunk($args, $valuePlaceholderCount * DATABASE_INSERT_BATCH_SIZE);
+		$argumentChunks = array_chunk($args, $valuePlaceholderCount * $batchSize);
 		$affectedRowCount = 0;
 
 		foreach($argumentChunks as $argumentChunk){
