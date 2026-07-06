@@ -15,8 +15,8 @@ $includeLinks ??= true;
 			<? if($includeLinks){ ?>
 				<address>
 					<p>Standard Ebooks L<sup>3</sup>C</p>
-					<p>2027 W. Division St. Unit 106</p>
-					<p>Chicago, IL 60622</p>
+					<p>1658 N. Milwaukee Ave. Unit 343</p>
+					<p>Chicago, IL 60647</p>
 				</address>
 			<? } ?>
 		</div>

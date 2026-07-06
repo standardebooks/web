@@ -8,9 +8,9 @@
 
 Standard Ebooks L3C
 
-2027 W. Division St. Unit 106
+1658 N. Milwaukee Ave. Unit 343
 
-Chicago, IL 60622
+Chicago, IL 60647
 
 [Standard Ebooks](<?= SITE_URL ?>)
 
