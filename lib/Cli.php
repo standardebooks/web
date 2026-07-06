@@ -28,7 +28,6 @@ class Cli{
 	protected static string $_FgPurple = "\x1b[38;5;129m";
 	protected static string $_FgHotPink = "\x1b[38;5;206m";
 	protected static string $_FgOrange1 = "\x1b[38;5;214m";
-	protected static string $_FgGold = "\x1b[38;5;220m";
 	protected static string $_FgDarkSeaGreen1 = "\x1b[38;5;193m";
 	protected static string $_FgDarkGoldenrod = "\x1b[38;5;136m";
 	protected static string $_FgCornflowerBlue = "\x1b[38;5;69m";
@@ -530,7 +529,7 @@ class Cli{
 
 		$output = str_replace(
 				['[header]', '[/]', '[parameter]', '[command]', '[subcommand]', '[branch]', '[xhtml]', '[xml]', '[val]', '[attr]', '[class]', '[path]', '[user]', '[url]', '[error]', '[warning]', '[queued]', '[running]', '[finished]', '[dim]', '[text]', '[css]', '[email]', '[flag]'],
-				[self::$_FgGreen . self::$_FsBold, self::$_ResetAll, self::$_FgCyan, self::$_FgGreen, self::$_FgDarkSeaGreen1, self::$_FgDarkGoldenrod, self::$_FgPurple, self::$_FgPurple, self::$_FgBrightBlue, self::$_FgHotPink, self::$_FgHotPink, self::$_FgCornflowerBlue . self::$_FsUl, self::$_FgMagenta, self::$_FgBrightBlue, self::$_FgRed, self::$_FgOrange1, self::$_FgGray69, self::$_FgBlueViolet, self::$_FgPaleGreen3, self::$_FgGray69, self::$_FgDarkOrange, self::$_FgBrightBlue, self::$_FgMagenta, self::$_FgBrightBlue],
+					[self::$_FgGreen . self::$_FsBold, self::$_ResetAll, self::$_FgCyan, self::$_FgGreen, self::$_FgDarkSeaGreen1, self::$_FgDarkGoldenrod, self::$_FgPurple, self::$_FgPurple, self::$_FgBrightBlue, self::$_FgHotPink, self::$_FgHotPink, self::$_FgBlue . self::$_FsBold . self::$_FsUl, self::$_FgMagenta, self::$_FgBrightBlue, self::$_FgRed, self::$_FgOrange1, self::$_FgGray69, self::$_FgBlueViolet, self::$_FgPaleGreen3, self::$_FgGray69, self::$_FgDarkOrange, self::$_FgBrightBlue, self::$_FgMagenta, self::$_FgBrightBlue],
 			$line
 		);
 
