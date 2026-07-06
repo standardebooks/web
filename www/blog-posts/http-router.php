@@ -13,7 +13,7 @@ else{
 	try{
 		$blogPost = BlogPost::GetByUrlTitle(Http::$Request->QueryString->Get('blog-post-url-title'));
 
-		if($blogPost->Published > NOW && (Http::$Request->Method == Enums\HttpMethod::Get || Http::$Request->Method == Enums\HttpMethod::Head)){
+		if($blogPost->Published > NOW && (Http::$Request->Method == Enums\HttpMethod::Get || Http::$Request->Method == Enums\HttpMethod::Head) && !Session::$User?->Benefits->CanEditBlogPosts){
 			throw new Exceptions\BlogPostNotFoundException();
 		}
 

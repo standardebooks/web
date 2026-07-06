@@ -727,6 +727,10 @@ h1 + .message{
 	background: #5dc47c;
 }
 
+.message.info{
+	background: #bfa172;
+}
+
 .message *:focus{
 	outline: 1px dashed #fff;
 }

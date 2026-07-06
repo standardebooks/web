@@ -57,6 +57,10 @@ catch(Exceptions\BlogPostNotFoundException){
 			<p class="message success">Blog post saved!</p>
 		<? } ?>
 
+		<? if($blogPost->Published > NOW){ ?>
+			<p class="message info">This blog post is scheduled to be published on <?= date_format($blogPost->Published->setTimezone(SITE_TZ), Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
+		<? } ?>
+
 		<?= Template::DonationDrive() ?>
 		<?= $blogPost->Body ?>
 		<? if(sizeof($blogPost->Ebooks) > 0){ ?>
