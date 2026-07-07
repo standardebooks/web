@@ -302,6 +302,9 @@ class BlogPost{
 		Db::Query('DELETE from BlogPostEbooks where BlogPostId = ?', [$this->BlogPostId]);
 
 		$this->AddEbooks();
+
+		// Reset the URL in case we changed the title.
+		unset($this->_Url);
 	}
 
 	/**
