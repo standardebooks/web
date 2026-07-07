@@ -41,6 +41,7 @@ final class Project{
 	public ?DateTimeImmutable $LastDiscussionTimestamp = null;
 	public bool $IsStatusAutomaticallyUpdated = true;
 	public bool $HasReviewerBeenNotified = false;
+	public bool $AreDiscussionMessagesComplete = false;
 
 	protected Ebook $_Ebook;
 	protected User $_Producer;
@@ -363,7 +364,8 @@ final class Project{
 					LastCommitTimestamp,
 					LastDiscussionTimestamp,
 					IsStatusAutomaticallyUpdated,
-					HasReviewerBeenNotified
+					HasReviewerBeenNotified,
+					AreDiscussionMessagesComplete
 				)
 				values
 				(
@@ -381,12 +383,16 @@ final class Project{
 					?,
 					?,
 					?,
+					?,
 					?
 				)
 				returning ProjectId
-			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified]);
+			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->AreDiscussionMessagesComplete]);
 
-		$this->SaveDiscussionMessageIdsFromImap($this->GetRootDiscussionMessageId());
+		$discussionMessageId = $this->GetRootDiscussionMessageId();
+		if($discussionMessageId !== null){
+			$this->SaveDiscussionMessageIds([$discussionMessageId]);
+		}
 
 		// Notify the manager and reviewer.
 		if($this->Status == Enums\ProjectStatusType::InProgress){
@@ -438,6 +444,10 @@ final class Project{
 		$this->Validate();
 		$this->SendReviewerReadyNotification();
 
+		if($originalDiscussionUrl !== $this->DiscussionUrl){
+			$this->AreDiscussionMessagesComplete = false;
+		}
+
 		Db::Query('
 			UPDATE
 			Projects
@@ -453,10 +463,11 @@ final class Project{
 			LastCommitTimestamp = ?,
 			LastDiscussionTimestamp = ?,
 			IsStatusAutomaticallyUpdated = ?,
-			HasReviewerBeenNotified = ?
+			HasReviewerBeenNotified = ?,
+			AreDiscussionMessagesComplete = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->ProjectId]);
+		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->AreDiscussionMessagesComplete, $this->ProjectId]);
 
 		Db::Query('
 			UPDATE
@@ -468,14 +479,8 @@ final class Project{
 		', [$this->Status != Enums\ProjectStatusType::Abandoned, $this->EbookId]);
 
 		$discussionMessageId = $this->GetRootDiscussionMessageId();
-
 		if($discussionMessageId !== null){
-			if($originalDiscussionUrl !== $this->DiscussionUrl){
-				$this->SaveDiscussionMessageIdsFromImap($discussionMessageId);
-			}
-			else{
-				$this->SaveDiscussionMessageIds([$discussionMessageId]);
-			}
+			$this->SaveDiscussionMessageIds([$discussionMessageId]);
 		}
 	}
 
@@ -541,25 +546,6 @@ final class Project{
 		}
 
 		return null;
-	}
-
-	/**
-	 * Save discussion message IDs found in the IMAP mailing list archive.
-	 */
-	protected function SaveDiscussionMessageIdsFromImap(?string $discussionMessageId): void{
-		if($discussionMessageId === null){
-			return;
-		}
-
-		try{
-			$this->SaveDiscussionMessageIds(array_values(array_unique(array_merge([$discussionMessageId], $this->FetchDiscussionMessageIdsFromImap($discussionMessageId)))));
-		}
-		catch(\Exception $ex){
-			$this->SaveDiscussionMessageIds([$discussionMessageId]);
-
-			$log = new Log();
-			$log->Write('Failed fetching project discussion message IDs from IMAP for project #' . $this->ProjectId . ': ' . $ex->getMessage());
-		}
 	}
 
 	/**
@@ -635,7 +621,7 @@ final class Project{
 		$knownMessageIds = [$discussionMessageId];
 		/** @var array<int, array<string>> $archivedEmailMessageIds */
 		$archivedEmailMessageIds = [];
-		$date = NOW->sub(new \DateInterval('P30D'))->format('d-M-Y');
+		$date = NOW->sub(new \DateInterval('P14D'))->format('d-M-Y');
 
 		$emailIds = $mailbox->searchMailbox('SINCE ' . $date);
 

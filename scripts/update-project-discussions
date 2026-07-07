@@ -135,6 +135,26 @@ catch(\Exception $ex){
 /** @var array<Project> $projects */
 $projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
 
+// First, iterate over all projects which haven't had their message chain initialized, and initialize it.
+foreach($projects as $project){
+	if(
+		$project->IsStatusAutomaticallyUpdated
+		&&
+		!$project->AreDiscussionMessagesComplete
+	){
+		try{
+			$project->SaveDiscussionMessageIds($project->FetchDiscussionMessageIdsFromImap());
+			$project->AreDiscussionMessagesComplete = true;
+			$project->Save();
+		}
+		catch(\Exception $ex){
+			$log = new Log();
+			$log->Write('Failed rebuilding project discussion message IDs from IMAP for project #' . $project->ProjectId . ': ' . $ex->getMessage());
+		}
+	}
+}
+
+// Now iterate over all projects and update the message chain with any emails found in this run.
 foreach($projects as $project){
 	if(!$project->IsStatusAutomaticallyUpdated){
 		continue;
