@@ -238,6 +238,41 @@ $bodyHtml = $bodyHtml ?? '';
 			text-align: right;
 		}
 
+		ul.sponsors{
+			list-style: none;
+			padding: 0;
+		}
+
+		ul.sponsors li{
+			text-align: center;
+			padding: 1em;
+		}
+
+		ul.sponsors li > a{
+			display: inline-block;
+			line-height: 0;
+		}
+
+		ul.sponsors li img{
+			height: 50px;
+		}
+
+		ul.sponsors li p{
+			margin: 0;
+		}
+
+		ul.sponsors li:first-child{
+			padding-top: 0;
+		}
+
+		ul.sponsors li:last-child{
+			padding-bottom: 0;
+		}
+
+		ul.sponsors li + li{
+			border-top: 1px dashed #222;
+		}
+
 		.highlight{
 			background: transparent;
 			background-image: linear-gradient(to right, rgba(255, 225, 0, 0.1), rgba(255, 225, 0, 0.7) 4%, rgba(255, 225, 0, 0.3));
