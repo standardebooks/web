@@ -116,6 +116,11 @@ while [ $# -gt 0 ]; do
 			startLetter="$2"
 			shift 2
 			;;
+		--start-letter=*)
+			startLetter="${1#*=}"
+			check_arg '*[!b-z]*' "${startLetter}" "--start-letter is not a lowercase letter greater than [parameter]a[/]."
+			shift 1
+			;;
 		-v)
 			verbosity=1
 			shift 1
@@ -129,10 +134,20 @@ while [ $# -gt 0 ]; do
 			verbosity="$2"
 			shift 2
 			;;
+		--verbosity=*)
+			verbosity="${1#*=}"
+			check_arg '*[!0-9]*' "${verbosity}" "Verbosity is not a positive integer."
+			shift 1
+			;;
 		--token)
 			check_arg '*[!0-9a-zA-Z_]*' "$2" "Token is empty or contains illegal characters."
 			githubToken="$2"
 			shift 2
+			;;
+		--token=*)
+			githubToken="${1#*=}"
+			check_arg '*[!0-9a-zA-Z_]*' "${githubToken}" "Token is empty or contains illegal characters."
+			shift 1
 			;;
 		--) # Explicit end of all options.
 			shift 1

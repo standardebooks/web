@@ -90,10 +90,20 @@ while [ $# -gt 0 ]; do
 			group="$2"
 			shift 2
 			;;
+		--group=*)
+			group="${1#*=}"
+			[ -n "${group}" ] || ExitWithError "Group can’t be empty."
+			shift 1
+			;;
 		--web-root)
 			[ -n "$2" ] || ExitWithError "Web root can’t be empty."
 			webRoot="$2"
 			shift 2
+			;;
+		--web-root=*)
+			webRoot="${1#*=}"
+			[ -n "${webRoot}" ] || ExitWithError "Web root can’t be empty."
+			shift 1
 			;;
 		--no-images)
 			images=false
