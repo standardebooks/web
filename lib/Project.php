@@ -485,6 +485,20 @@ final class Project{
 	}
 
 	/**
+	 * Unassign any artwork currently assigned to this `Project`'s `Ebook`.
+	 */
+	public function UnassignArtwork(): void{
+		Db::Query('
+			UPDATE
+			Artworks
+			set
+			EbookId = null
+			where
+			EbookId = ?
+		', [$this->EbookId]);
+	}
+
+	/**
 	 * Send a ready-for-review email to this `Project`'s reviewer if it has not already been sent.
 	 */
 	public function SendReviewerReadyNotification(): void{
