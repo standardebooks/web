@@ -13,7 +13,7 @@
 <? foreach($ebook->GetCollectionsHtml(false, false) as $index => $line){ ?>
 <? if($index == 0){ ?> <?= $line ?><? }else{ ?><?= lcfirst($line) ?><? } ?><? if($index < sizeof($ebook->CollectionMemberships) - 1){ ?>, <? } ?><? if($index == sizeof($ebook->CollectionMemberships) - 1){ ?>.<? } ?>
 <? } ?>
-<? if(isset($ebook->EbookPlaceholder->Notes)){ ?><?= $ebook->EbookPlaceholder->Notes->ToHtmlFragment(true) ?><? } ?>
+<? if(isset($ebook->EbookPlaceholder->Notes)){ ?> <?= $ebook->EbookPlaceholder->Notes->ToHtmlFragment(true) ?><? } ?>
 <? if($ebook->IsPatronSelection){ ?><a class="patron-selection" href="/donate#patrons-circle">Patron selection!</a><? } ?>
 <? if($showPlaceholderMetadata){ ?> • <a href="<?= $ebook->Url ?>">Placeholder</a><? } ?>
 			</p>
