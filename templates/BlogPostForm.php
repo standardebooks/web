@@ -1,6 +1,7 @@
 <?
 /**
  * @var BlogPost $blogPost
+ * @var bool $hasHeroImage
  */
 
 $userIdentifier ??= null;
@@ -73,7 +74,7 @@ $isEditForm ??= false;
 		name="blog-post-ebook-identifiers"><?= $ebookIdentifiers ?></textarea>
 </label>
 <label>
-	<input type="checkbox" name="blog-has-hero-image" value="true"<? if(!$isEditForm || $blogPost->ImageCacheKey !== null){ ?> checked="checked"<? } ?> />Show hero image
+	<input type="checkbox" name="blog-has-hero-image" value="true"<? if($hasHeroImage){ ?> checked="checked"<? } ?> />Show hero image
 </label>
 <fieldset class="grouped">
 	<legend>Hero image</legend>

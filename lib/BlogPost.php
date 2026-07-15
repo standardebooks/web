@@ -343,6 +343,10 @@ class BlogPost{
 	 * @throws Exceptions\ImageUploadInvalidException If the hero image cannot be processed.
 	 */
 	public function Create(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null, bool $hasHeroImage = false): void{
+		if($hasHeroImage && $heroImagePath === null && trim($this->HeroImageCaption ?? '') == ''){
+			$hasHeroImage = false;
+		}
+
 		if(!$hasHeroImage){
 			$heroImagePath = null;
 			$this->HeroImageCaption = null;

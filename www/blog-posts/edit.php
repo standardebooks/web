@@ -23,6 +23,7 @@ try{
 	$blogPost = Http::$Request->Session->Get('blog-post', BlogPost::class) ?? $originalBlogPost;
 	$userIdentifier = Http::$Request->Session->Get('blog-post-user-identifier');
 	$ebookIdentifiers = Http::$Request->Session->Get('blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;
+	$hasHeroImage = Http::$Request->Session->Get('blog-post-has-hero-image', 'bool') ?? ($blogPost->ImageCacheKey !== null);
 
 	// We got here because an operation had errors and the user has to try again.
 	if($exception){
@@ -56,7 +57,7 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<form class="blog-post-form" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $originalBlogPost->Url ?>" enctype="multipart/form-data" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
-			<?= Template::BlogPostForm(blogPost: $blogPost, userIdentifier: $userIdentifier, ebookIdentifiers: $ebookIdentifiers, isEditForm: true) ?>
+			<?= Template::BlogPostForm(blogPost: $blogPost, userIdentifier: $userIdentifier, ebookIdentifiers: $ebookIdentifiers, hasHeroImage: $hasHeroImage, isEditForm: true) ?>
 		</form>
 	</section>
 </main>

@@ -43,6 +43,7 @@ catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException |
 	$_SESSION['blog-post/create/exception'] = $ex;
 	$_SESSION['blog-post-user-identifier'] = $userIdentifier;
 	$_SESSION['blog-post-ebook-identifiers'] = $ebookIdentifiers;
+	$_SESSION['blog-post-has-hero-image'] = $hasHeroImage;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /blog-posts/new');
