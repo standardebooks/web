@@ -258,14 +258,14 @@ label:has(select[name="artwork-status"]){
 	margin-right: auto;
 }
 
-main h1 ~ a[href^="/images/cover-uploads"],
-.artworks h1 ~ a[href^="/images/cover-uploads"],
+main h1 ~ a[href^="/images/artworks"],
+.artworks h1 ~ a[href^="/images/artworks"],
 main section.narrow h1 ~ picture{
 	width: auto;
 	line-height: 0;
 }
 
-.artworks p.message + a[href^="/images/cover-uploads"]{
+.artworks p.message + a[href^="/images/artworks"]{
 	margin-top: 2rem;
 }
 

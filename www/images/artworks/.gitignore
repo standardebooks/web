@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# Except this file
+!.gitignore
+
+# This directory contains image uploads that should not be checked into git.

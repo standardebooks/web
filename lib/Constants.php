@@ -34,7 +34,7 @@ const REPOS_PATH =			SITE_ROOT . '/ebooks';
 const TEMPLATES_PATH =			SITE_ROOT . '/web/templates';
 const MANUAL_PATH =			WEB_ROOT . '/manual';
 const EBOOKS_DIST_PATH =		WEB_ROOT . '/ebooks/';
-const COVER_ART_UPLOAD_PATH =		'/images/cover-uploads/';
+const ARTWORK_IMAGES_UPLOAD_PATH =	'/images/artworks';
 const BLOG_POST_IMAGES_UPLOAD_PATH =	'/images/blog-posts';
 
 const EBOOKS_IDENTIFIER_ROOT =		'https://standardebooks.org';

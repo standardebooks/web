@@ -212,7 +212,7 @@ final class Artwork{
 				throw new Exceptions\ArtworkInvalidException();
 			}
 
-			$this->_ImageUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->Updated->getTimestamp();
+			$this->_ImageUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->Updated->getTimestamp();
 		}
 
 		return $this->_ImageUrl;
@@ -227,7 +227,7 @@ final class Artwork{
 				throw new Exceptions\ArtworkNotFoundException();
 			}
 
-			$this->_ThumbUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->Updated->getTimestamp();
+			$this->_ThumbUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->Updated->getTimestamp();
 		}
 
 		return $this->_ThumbUrl;
@@ -242,7 +242,7 @@ final class Artwork{
 				throw new Exceptions\ArtworkNotFoundException();
 			}
 
-			$this->_Thumb2xUrl = COVER_ART_UPLOAD_PATH . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->Updated->getTimestamp();
+			$this->_Thumb2xUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->Updated->getTimestamp();
 		}
 
 		return $this->_Thumb2xUrl;
@@ -543,7 +543,7 @@ final class Artwork{
 					$error->Add($ex);
 				}
 
-				if(!is_writable(WEB_ROOT . COVER_ART_UPLOAD_PATH)){
+				if(!is_writable(WEB_ROOT . ARTWORK_IMAGES_UPLOAD_PATH)){
 					$error->Add(new Exceptions\ImageUploadInvalidException('Upload path not writable.'));
 				}
 
