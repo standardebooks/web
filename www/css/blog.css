@@ -74,3 +74,81 @@ label:has(input[name="blog-has-hero-image"]:not(:checked)) + fieldset{
 .blog .donation{
 	margin: 2rem auto;
 }
+
+.blog-post-list{
+	list-style: none;
+	padding: 0;
+}
+
+.blog-post-list > li{
+	margin-top: 2rem;
+}
+
+.blog-post-card{
+	display: flex;
+	position: relative;
+	box-sizing: border-box;
+	min-height: 200px;
+	padding: 1rem;
+	overflow: hidden;
+	background: #000;
+	border-radius: .25rem;
+}
+
+.blog-post-card,
+.blog-post-card:hover{
+	text-decoration: none;
+}
+
+.blog-post-card picture{
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.blog-post-card img{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.blog-post-card img{
+	object-fit: cover;
+}
+
+.blog-post-card-label{
+	position: relative;
+	align-self: flex-start;
+	box-sizing: border-box;
+	max-width: 100%;
+	padding: 1rem;
+	background: rgba(0, 0, 0, .75);
+	color: #fff;
+	border-radius: .25rem;
+}
+
+.blog-post-card-title,
+.blog-post-card-byline{
+	display: block;
+}
+
+.blog-post-card-title{
+	font-family: "League Spartan", Arial, sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 1.25rem;
+	text-align: left;
+}
+
+.blog-post-card-byline{
+	margin-top: .2rem;
+	font-family: "Crimson Pro", Georgia, serif;
+	font-size: .85rem;
+	font-style: italic;
+}
+
+.blog-post-card.no-hero-image .blog-post-card-label{
+	margin-top: auto;
+	margin-bottom: auto;
+}
