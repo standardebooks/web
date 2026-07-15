@@ -26,8 +26,26 @@ section.blog{
 	display: block;
 }
 
+.blog > picture.hero-image{
+	display: block;
+	width: 100%;
+	max-width: 880px;
+	margin-bottom: 2rem;
+	aspect-ratio: 880 / 250;
+}
+
+.blog > picture.hero-image img{
+	display: block;
+	width: 100%;
+	height: auto;
+	border: 1px solid var(--border);
+	border-radius: .25rem;
+	aspect-ratio: 880 / 250;
+}
+
 .byline{
 	font-style: italic;
+	text-align: center;
 }
 
 .blog-post-form{
@@ -39,6 +57,10 @@ section.blog{
 .blog-post-form textarea{
 	white-space: pre;
 	min-height: 32ex;
+}
+
+label:has(input[name="blog-post-remove-hero-image"]:checked) + .hero-image-upload{
+	display: none;
 }
 
 .footer{

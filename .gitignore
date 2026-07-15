@@ -1,6 +1,7 @@
 ebooks/*
 www/ebooks/*/
 www/images/covers/*
+www/images/blog-posts/*
 www/feeds/opds/*.xml
 www/feeds/opds/*/*.xml
 www/feeds/opds/*.json

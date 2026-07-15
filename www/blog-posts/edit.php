@@ -54,7 +54,7 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<?= Template::Error(exception: $exception) ?>
 
-		<form class="blog-post-form" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $originalBlogPost->Url ?>" autocomplete="off">
+		<form class="blog-post-form" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $originalBlogPost->Url ?>" enctype="multipart/form-data" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
 			<?= Template::BlogPostForm(blogPost: $blogPost, userIdentifier: $userIdentifier, ebookIdentifiers: $ebookIdentifiers, isEditForm: true) ?>
 		</form>

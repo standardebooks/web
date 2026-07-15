@@ -22,7 +22,7 @@ try{
 	$blogPost = new BlogPost();
 	$blogPost->FillFromRequestBody();
 
-	$blogPost->Create($userIdentifier, $ebookIdentifiers);
+	$blogPost->Create($userIdentifier, $ebookIdentifiers, Http::$Request->Files->Get('blog-post-hero-image'));
 
 	$_SESSION['blog-post/create/is-created'] = true;
 
@@ -35,7 +35,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException $ex){
+catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException $ex){
 	$_SESSION['blog-post'] = $blogPost;
 	$_SESSION['blog-post/create/exception'] = $ex;
 	$_SESSION['blog-post-user-identifier'] = $userIdentifier;

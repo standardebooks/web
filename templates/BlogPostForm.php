@@ -72,6 +72,16 @@ $isEditForm ??= false;
 		type="text"
 		name="blog-post-ebook-identifiers"><?= $ebookIdentifiers ?></textarea>
 </label>
+<? if($isEditForm && $blogPost->ImageCacheKey !== null){ ?>
+	<label>
+		<input type="checkbox" name="blog-post-remove-hero-image" value="true" /> Remove hero image
+	</label>
+<? } ?>
+<label class="icon file-image hero-image-upload">
+	<span>Hero image</span>
+	<span>JPG, PNG, or WebP are accepted; <?= Http::$Request->MaxPostSize / 1024 / 1024 ?>MB maximum.<? if($isEditForm && $blogPost->ImageCacheKey !== null){ ?> Leave this blank to not change the image.<? } ?></span>
+	<input type="file" name="blog-post-hero-image" accept="<?= implode(',', [Enums\ImageMimeType::JPG->value, Enums\ImageMimeType::PNG->value, Enums\ImageMimeType::WEBP->value]) ?>" />
+</label>
 <div class="footer">
 	<button>
 		<? if($isEditForm){ ?>

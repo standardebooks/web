@@ -1,9 +1,21 @@
 <?
 use Safe\DateTimeImmutable;
 
+use function Safe\copy;
+use function Safe\exec;
+use function Safe\getimagesize;
+use function Safe\glob;
+use function Safe\imagecopyresampled;
+use function Safe\imagecreatetruecolor;
+use function Safe\imageflip;
+use function Safe\imagejpeg;
+use function Safe\imagerotate;
+use function Safe\mkdir;
 use function Safe\preg_match;
 use function Safe\preg_match_all;
 use function Safe\preg_replace;
+use function Safe\rmdir;
+use function Safe\unlink;
 
 /**
  * @property User $User
@@ -18,6 +30,10 @@ use function Safe\preg_replace;
  * @property-write HtmlFragment|string|null $Subtitle
  * @property-read ?HtmlFragment $Body May be `null` if the `BlogPost` is meant to redirect to a file, like the Public Domain Day posts.
  * @property-write HtmlFragment|string|null $Body
+ * @property-read ?string $HeroImageUrl
+ * @property-read ?string $HeroImage2xUrl
+ * @property-read ?string $HeroImageAvifUrl
+ * @property-read ?string $HeroImageAvif2xUrl
  */
 class BlogPost{
 	use Traits\Accessor;
@@ -30,6 +46,7 @@ class BlogPost{
 	public DateTimeImmutable $Created;
 	public DateTimeImmutable $Updated;
 	public DateTimeImmutable $Published = NOW;
+	public ?string $ImageCacheKey = null;
 
 	protected string $_Url;
 	protected string $_EditUrl;
@@ -41,6 +58,10 @@ class BlogPost{
 	protected HtmlFragment $_Title; // TODO: Convert to property hook in PHP 8.4.
 	protected ?HtmlFragment $_Subtitle; // TODO: Convert to property hook in PHP 8.4.
 	protected ?HtmlFragment $_Body; // TODO: Convert to property hook in PHP 8.4.
+	protected ?string $_HeroImageUrl;
+	protected ?string $_HeroImage2xUrl;
+	protected ?string $_HeroImageAvifUrl;
+	protected ?string $_HeroImageAvif2xUrl;
 
 	// *******
 	// GETTERS
@@ -65,6 +86,34 @@ class BlogPost{
 
 	protected function GetEditUrl(): string{
 		return $this->_EditUrl ??= $this->Url . '/edit';
+	}
+
+	/**
+	 * Return the URL of the 1x JPEG hero image, if one exists.
+	 */
+	protected function GetHeroImageUrl(): ?string{
+		return $this->_HeroImageUrl ??= $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' . $this->BlogPostId . '.jpg?v=' . $this->ImageCacheKey : null;
+	}
+
+	/**
+	 * Return the URL of the 2x JPEG hero image, if one exists.
+	 */
+	protected function GetHeroImage2xUrl(): ?string{
+		return $this->_HeroImage2xUrl ??= $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '@2x.jpg?v=' . $this->ImageCacheKey : null;
+	}
+
+	/**
+	 * Return the URL of the 1x AVIF hero image, if one exists.
+	 */
+	protected function GetHeroImageAvifUrl(): ?string{
+		return $this->_HeroImageAvifUrl ??= $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '.avif?v=' . $this->ImageCacheKey : null;
+	}
+
+	/**
+	 * Return the URL of the 2x AVIF hero image, if one exists.
+	 */
+	protected function GetHeroImageAvif2xUrl(): ?string{
+		return $this->_HeroImageAvif2xUrl ??= $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '@2x.avif?v=' . $this->ImageCacheKey : null;
 	}
 
 	protected function GetEbookIdentifiers(): string{
@@ -127,10 +176,11 @@ class BlogPost{
 	/**
 	 * @param ?string $userIdentifier
 	 * @param ?string $ebookIdentifiers A newline-separated list of ebook identifiers to merge with any ebook identifiers found in the body.
+	 * @param ?string $heroImagePath The path to the uploaded hero image in the system temporary directory.
 	 *
 	 * @throws Exceptions\BlogPostInvalidException
 	 */
-	public function Validate(?string $userIdentifier = null, ?string $ebookIdentifiers = null): void{
+	public function Validate(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null): void{
 		$error = new Exceptions\BlogPostInvalidException();
 
 		$this->Title ??= '';
@@ -248,6 +298,27 @@ class BlogPost{
 			}
 		}
 
+		if($heroImagePath !== null){
+			try{
+				$mimeType = Enums\ImageMimeType::FromFile($heroImagePath);
+				if(!in_array($mimeType, [Enums\ImageMimeType::JPG, Enums\ImageMimeType::PNG, Enums\ImageMimeType::WEBP], true)){
+					$error->Add(new Exceptions\ImageUploadInvalidException('Uploaded hero image must be a JPG, PNG, or WebP file.'));
+				}
+
+				$imageSize = getimagesize($heroImagePath);
+				if($imageSize === null || $imageSize[0] == 0 || $imageSize[1] == 0){
+					$error->Add(new Exceptions\ImageUploadInvalidException());
+				}
+			}
+			catch(\Safe\Exceptions\ImageException){
+				$error->Add(new Exceptions\ImageUploadInvalidException());
+			}
+
+			if(!is_writable(WEB_ROOT . '/images/blog-posts')){
+				$error->Add(new Exceptions\ImageUploadInvalidException('Hero image path not writable.'));
+			}
+		}
+
 		if($error->HasExceptions){
 			throw $error;
 		}
@@ -256,15 +327,20 @@ class BlogPost{
 	/**
 	 * @throws Exceptions\BlogPostInvalidException
 	 * @throws Exceptions\BlogPostExistsException
+	 * @throws Exceptions\ImageUploadInvalidException If the hero image cannot be processed.
 	 */
-	public function Create(?string $userIdentifier = null, ?string $ebookIdentifiers = null): void{
-		$this->Validate($userIdentifier, $ebookIdentifiers);
+	public function Create(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null): void{
+		$this->Validate($userIdentifier, $ebookIdentifiers, $heroImagePath);
 		$this->Created = NOW;
+		if($heroImagePath !== null){
+			$this->ImageCacheKey = $this->GenerateImageCacheKey();
+		}
 
 		try{
 			$this->BlogPostId = Db::QueryInt('
-				INSERT into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, Published, Created)
+				INSERT into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, Published, Created)
 				values (?,
+				        ?,
 				        ?,
 				        ?,
 				        ?,
@@ -273,27 +349,43 @@ class BlogPost{
 				        ?,
 				        ?)
 				returning BlogPostId
-			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->Published, $this->Created]);
+			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->Published, $this->Created]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\BlogPostExistsException();
 		}
 
 		$this->AddEbooks();
+
+		if($heroImagePath !== null){
+			$this->WriteHeroImage($heroImagePath);
+		}
 	}
 
 	/**
 	 * @throws Exceptions\BlogPostInvalidException
 	 * @throws Exceptions\BlogPostExistsException
+	 * @throws Exceptions\ImageUploadInvalidException If the hero image cannot be processed.
 	 */
-	public function Save(?string $userIdentifier = null, ?string $ebookIdentifiers = null): void{
-		$this->Validate($userIdentifier, $ebookIdentifiers);
+	public function Save(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null, bool $removeHeroImage = false): void{
+		$this->Validate($userIdentifier, $ebookIdentifiers, $heroImagePath);
+
+		if($removeHeroImage){
+			$this->ImageCacheKey = null;
+		}
+		elseif($heroImagePath !== null){
+			$this->ImageCacheKey = $this->GenerateImageCacheKey();
+		}
+
+		if($removeHeroImage || $heroImagePath !== null){
+			unset($this->_HeroImageUrl, $this->_HeroImage2xUrl, $this->_HeroImageAvifUrl, $this->_HeroImageAvif2xUrl);
+		}
 
 		try{
 			Db::Query('
 				UPDATE BlogPosts
-				set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, Published = ? where BlogPostId = ?
-			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->Published, $this->BlogPostId]);
+				set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, ImageCacheKey = ?, Published = ? where BlogPostId = ?
+			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->Published, $this->BlogPostId]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\BlogPostExistsException();
@@ -303,8 +395,145 @@ class BlogPost{
 
 		$this->AddEbooks();
 
+		if($removeHeroImage){
+			$this->RemoveHeroImage();
+		}
+		elseif($heroImagePath !== null){
+			$this->WriteHeroImage($heroImagePath);
+		}
+
 		// Reset the URL in case we changed the title.
 		unset($this->_Url);
+	}
+
+	/**
+	 * Generate a random six-character cache key for a hero image.
+	 */
+	private function GenerateImageCacheKey(): string{
+		return substr(hash('sha256', (string)rand()), 0, 6);
+	}
+
+	/**
+	 * Generate the JPEG and AVIF hero images from an uploaded image.
+	 *
+	 * @param string $tempImagePath The path to the uploaded image in the system temporary directory.
+	 *
+	 * @throws Exceptions\ImageUploadInvalidException If the upload is not a supported image or conversion fails.
+	 */
+	private function WriteHeroImage(string $tempImagePath): void{
+		$tempDirectory = sys_get_temp_dir() . '/' . uniqid('se-blog-hero-', true);
+
+		try{
+			mkdir($tempDirectory);
+
+			$mimeType = Enums\ImageMimeType::FromFile($tempImagePath);
+			if(!in_array($mimeType, [Enums\ImageMimeType::JPG, Enums\ImageMimeType::PNG, Enums\ImageMimeType::WEBP], true)){
+				throw new Exceptions\ImageUploadInvalidException('Uploaded hero image must be a JPG, PNG, or WebP file.');
+			}
+
+			$tempBasePath = $tempDirectory . '/' . $this->BlogPostId;
+			$sourceImage = match($mimeType){
+				Enums\ImageMimeType::JPG => \Safe\imagecreatefromjpeg($tempImagePath),
+				Enums\ImageMimeType::PNG => \Safe\imagecreatefrompng($tempImagePath),
+				Enums\ImageMimeType::WEBP => \Safe\imagecreatefromwebp($tempImagePath),
+			};
+
+			$exifData = @exif_read_data($tempImagePath);
+			$orientation = is_array($exifData) ? intval($exifData['Orientation'] ?? 1) : 1;
+
+			// Apply the JPEG's EXIF orientation to its pixel data before cropping it.
+			switch($orientation){
+				case 2:
+					imageflip($sourceImage, IMG_FLIP_HORIZONTAL);
+					break;
+				case 3:
+					$sourceImage = imagerotate($sourceImage, 180, 0);
+					break;
+				case 4:
+					imageflip($sourceImage, IMG_FLIP_VERTICAL);
+					break;
+				case 5:
+					imageflip($sourceImage, IMG_FLIP_HORIZONTAL);
+					$sourceImage = imagerotate($sourceImage, -90, 0);
+					break;
+				case 6:
+					$sourceImage = imagerotate($sourceImage, -90, 0);
+					break;
+				case 7:
+					imageflip($sourceImage, IMG_FLIP_HORIZONTAL);
+					$sourceImage = imagerotate($sourceImage, 90, 0);
+					break;
+				case 8:
+					$sourceImage = imagerotate($sourceImage, 90, 0);
+					break;
+			}
+
+			foreach([[880, 250, '.jpg'], [1760, 500, '@2x.jpg']] as [$width, $height, $suffix]){
+				$sourceWidth = imagesx($sourceImage);
+				$sourceHeight = imagesy($sourceImage);
+				$scale = max($width / $sourceWidth, $height / $sourceHeight);
+				$scaledWidth = intval(ceil($sourceWidth * $scale));
+				$scaledHeight = intval(ceil($sourceHeight * $scale));
+				$destinationImage = imagecreatetruecolor($width, $height);
+
+				imagecopyresampled($destinationImage, $sourceImage, intval(($width - $scaledWidth) / 2), intval(($height - $scaledHeight) / 2), 0, 0, $scaledWidth, $scaledHeight, $sourceWidth, $sourceHeight);
+				imagejpeg($destinationImage, $tempBasePath . $suffix, 80);
+			}
+
+			foreach([['.jpg', '.avif'], ['@2x.jpg', '@2x.avif']] as [$sourceSuffix, $destinationSuffix]){
+				exec(escapeshellarg(SITE_ROOT . '/web/scripts/cavif') . ' --quiet --quality 50 ' . escapeshellarg($tempBasePath . $sourceSuffix) . ' --output ' . escapeshellarg($tempBasePath . $destinationSuffix), $output, $resultCode);
+				if($resultCode !== 0){
+					throw new Exceptions\ImageUploadInvalidException('Failed to process hero image.');
+				}
+			}
+
+			$destinationBasePath = WEB_ROOT . BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId;
+			foreach(['.jpg', '@2x.jpg', '.avif', '@2x.avif'] as $suffix){
+				copy($tempBasePath . $suffix, $destinationBasePath . $suffix);
+			}
+		}
+		catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException){
+			throw new Exceptions\ImageUploadInvalidException('Failed to process hero image.');
+		}
+		finally{
+			try{
+				$tempFiles = glob($tempDirectory . '/*');
+			}
+			catch(\Safe\Exceptions\FilesystemException){
+				$tempFiles = [];
+			}
+
+			foreach($tempFiles as $tempFile){
+				try{
+					unlink($tempFile);
+				}
+				catch(\Safe\Exceptions\FilesystemException){
+					// Pass.
+				}
+			}
+
+			if(is_dir($tempDirectory)){
+				try{
+					@rmdir($tempDirectory);
+				}
+				catch(\Safe\Exceptions\FilesystemException){
+					// Pass.
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Remove all generated hero image files for this blog post.
+	 */
+	private function RemoveHeroImage(): void{
+		$basePath = WEB_ROOT . BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId;
+		foreach(['.jpg', '@2x.jpg', '.avif', '@2x.avif'] as $suffix){
+			if(is_file($basePath . $suffix)){
+				@unlink($basePath . $suffix);
+			}
+		}
 	}
 
 	/**

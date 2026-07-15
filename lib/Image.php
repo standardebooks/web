@@ -34,6 +34,9 @@ class Image{
 				case Enums\ImageMimeType::PNG:
 					$handle = \Safe\imagecreatefrompng($this->Path);
 					break;
+				case Enums\ImageMimeType::WEBP:
+					$handle = \Safe\imagecreatefromwebp($this->Path);
+					break;
 				case Enums\ImageMimeType::TIFF:
 					$handle = $this->GetAutoOrientedTiffImageHandle();
 					break;

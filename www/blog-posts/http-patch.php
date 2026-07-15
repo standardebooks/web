@@ -26,7 +26,7 @@ try{
 
 	$blogPost->FillFromRequestBody();
 
-	$blogPost->Save($userIdentifier, $ebookIdentifiers);
+	$blogPost->Save($userIdentifier, $ebookIdentifiers, Http::$Request->Files->Get('blog-post-hero-image'), Http::$Request->Body->Get('blog-post-remove-hero-image', 'bool') ?? false);
 
 	$_SESSION['blog-post/edit/is-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);
@@ -41,7 +41,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException $ex){
+catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException $ex){
 	$_SESSION['blog-post'] = $blogPost;
 	$_SESSION['blog-post/edit/exception'] = $ex;
 	$_SESSION['blog-post-user-identifier'] = $userIdentifier;

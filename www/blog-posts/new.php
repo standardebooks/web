@@ -49,7 +49,7 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<?= Template::Error(exception: $exception) ?>
 
-		<form class="blog-post-form" method="<?= Enums\HttpMethod::Post->value ?>" action="/blog-posts" autocomplete="off">
+		<form class="blog-post-form" method="<?= Enums\HttpMethod::Post->value ?>" action="/blog-posts" enctype="multipart/form-data" autocomplete="off">
 			<?= Template::BlogPostForm(blogPost: $blogPost, userIdentifier: $userIdentifier, ebookIdentifiers: $ebookIdentifiers) ?>
 		</form>
 	</section>

@@ -47,8 +47,6 @@ catch(Exceptions\BlogPostNotFoundException){
 			</ul>
 		<? } ?>
 
-		<p class="byline">By <?= Formatter::EscapeHtml($blogPost->User->Name) ?></p>
-
 		<? if($isCreated){ ?>
 			<p class="message success">Blog post created!</p>
 		<? } ?>
@@ -56,6 +54,16 @@ catch(Exceptions\BlogPostNotFoundException){
 		<? if($isSaved){ ?>
 			<p class="message success">Blog post saved!</p>
 		<? } ?>
+
+		<? if($blogPost->ImageCacheKey !== null){ ?>
+			<picture class="hero-image">
+				<source srcset="<?= $blogPost->HeroImageAvifUrl ?> 1x, <?= $blogPost->HeroImageAvif2xUrl ?> 2x" type="image/avif" />
+				<source srcset="<?= $blogPost->HeroImageUrl ?> 1x, <?= $blogPost->HeroImage2xUrl ?> 2x" type="image/jpeg" />
+				<img src="<?= $blogPost->HeroImageUrl ?>" alt="" width="880" height="250" />
+			</picture>
+		<? } ?>
+
+		<p class="byline">By <?= Formatter::EscapeHtml($blogPost->User->Name) ?></p>
 
 		<? if($blogPost->Published > NOW){ ?>
 			<p class="message info">This blog post is scheduled to be published on <?= date_format($blogPost->Published->setTimezone(SITE_TZ), Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>

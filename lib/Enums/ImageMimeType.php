@@ -8,6 +8,7 @@ enum ImageMimeType: string{
 	case BMP = 'image/bmp';
 	case PNG = 'image/png';
 	case TIFF = 'image/tiff';
+	case WEBP = 'image/webp';
 
 	public function GetFileExtension(): string{
 		return match($this){
@@ -15,6 +16,7 @@ enum ImageMimeType: string{
 			self::BMP => '.bmp',
 			self::PNG => '.png',
 			self::TIFF => '.tif',
+			self::WEBP => '.webp',
 		};
 	}
 
