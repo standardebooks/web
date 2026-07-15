@@ -440,7 +440,7 @@ ApplyFormattingTags(){
 	line="${line//"[parameter]"/"${FG_CYAN}"}"
 	line="${line//"[command]"/"${FG_GREEN}"}"
 	line="${line//"[subcommand]"/"${FG_DARK_SEA_GREEN1}"}"
-	line="${line//"[branch]"/"${FG_DARK_GOLDENROD}"}"
+	line="${line//"[branch]"/"${FG_YELLOW}"}"
 	line="${line//"[xhtml]"/"${FG_PURPLE}"}"
 	line="${line//"[xml]"/"${FG_PURPLE}"}"
 	line="${line//"[val]"/"${FG_BRIGHT_BLUE}"}"

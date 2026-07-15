@@ -529,7 +529,7 @@ class Cli{
 
 		$output = str_replace(
 				['[header]', '[/]', '[parameter]', '[command]', '[subcommand]', '[branch]', '[xhtml]', '[xml]', '[val]', '[attr]', '[class]', '[path]', '[user]', '[url]', '[error]', '[warning]', '[queued]', '[running]', '[finished]', '[dim]', '[text]', '[css]', '[email]', '[flag]'],
-					[self::$_FgGreen . self::$_FsBold, self::$_ResetAll, self::$_FgCyan, self::$_FgGreen, self::$_FgDarkSeaGreen1, self::$_FgDarkGoldenrod, self::$_FgPurple, self::$_FgPurple, self::$_FgBrightBlue, self::$_FgHotPink, self::$_FgHotPink, self::$_FgBlue . self::$_FsBold . self::$_FsUl, self::$_FgMagenta, self::$_FgBrightBlue, self::$_FgRed, self::$_FgOrange1, self::$_FgGray69, self::$_FgBlueViolet, self::$_FgPaleGreen3, self::$_FgGray69, self::$_FgDarkOrange, self::$_FgBrightBlue, self::$_FgMagenta, self::$_FgBrightBlue],
+					[self::$_FgGreen . self::$_FsBold, self::$_ResetAll, self::$_FgCyan, self::$_FgGreen, self::$_FgDarkSeaGreen1, self::$_FgYellow, self::$_FgPurple, self::$_FgPurple, self::$_FgBrightBlue, self::$_FgHotPink, self::$_FgHotPink, self::$_FgBlue . self::$_FsBold . self::$_FsUl, self::$_FgMagenta, self::$_FgBrightBlue, self::$_FgRed, self::$_FgOrange1, self::$_FgGray69, self::$_FgBlueViolet, self::$_FgPaleGreen3, self::$_FgGray69, self::$_FgDarkOrange, self::$_FgBrightBlue, self::$_FgMagenta, self::$_FgBrightBlue],
 			$line
 		);
 
