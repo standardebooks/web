@@ -56,7 +56,7 @@ catch(Exceptions\BlogPostNotFoundException){
 		<? } ?>
 
 		<? if($blogPost->ImageCacheKey !== null){ ?>
-			<picture class="hero-image">
+			<picture class="hero-image"<? if($blogPost->HeroImageCaption !== null){ ?> data-caption="<?= Formatter::EscapeHtml($blogPost->HeroImageCaption) ?>"<? } ?>>
 				<source srcset="<?= $blogPost->HeroImageAvifUrl ?> 1x, <?= $blogPost->HeroImageAvif2xUrl ?> 2x" type="image/avif" />
 				<source srcset="<?= $blogPost->HeroImageUrl ?> 1x, <?= $blogPost->HeroImage2xUrl ?> 2x" type="image/jpeg" />
 				<img src="<?= $blogPost->HeroImageUrl ?>" alt="" width="880" height="250" />

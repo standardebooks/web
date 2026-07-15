@@ -47,6 +47,7 @@ class BlogPost{
 	public DateTimeImmutable $Updated;
 	public DateTimeImmutable $Published = NOW;
 	public ?string $ImageCacheKey = null;
+	public ?string $HeroImageCaption = null;
 
 	protected string $_Url;
 	protected string $_EditUrl;
@@ -177,10 +178,11 @@ class BlogPost{
 	 * @param ?string $userIdentifier
 	 * @param ?string $ebookIdentifiers A newline-separated list of ebook identifiers to merge with any ebook identifiers found in the body.
 	 * @param ?string $heroImagePath The path to the uploaded hero image in the system temporary directory.
+	 * @param bool $hasHeroImage Whether this blog post should have a hero image.
 	 *
 	 * @throws Exceptions\BlogPostInvalidException
 	 */
-	public function Validate(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null): void{
+	public function Validate(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null, bool $hasHeroImage = false): void{
 		$error = new Exceptions\BlogPostInvalidException();
 
 		$this->Title ??= '';
@@ -275,6 +277,14 @@ class BlogPost{
 			$this->Description = null;
 		}
 
+		$this->HeroImageCaption = trim($this->HeroImageCaption ?? '');
+		if($this->HeroImageCaption == '' || !$hasHeroImage){
+			$this->HeroImageCaption = null;
+		}
+		elseif(strlen($this->HeroImageCaption) > BLOG_POST_MAX_STRING_LENGTH){
+			$error->Add(new Exceptions\StringTooLongException('Hero image caption'));
+		}
+
 		if($userIdentifier !== null){
 			try{
 				$this->User = User::GetByIdentifier($userIdentifier);
@@ -298,7 +308,10 @@ class BlogPost{
 			}
 		}
 
-		if($heroImagePath !== null){
+		if($hasHeroImage && $this->ImageCacheKey === null && $heroImagePath === null){
+			$error->Add(new Exceptions\ImageUploadInvalidException('A hero image is required.'));
+		}
+		elseif($heroImagePath !== null){
 			try{
 				$mimeType = Enums\ImageMimeType::FromFile($heroImagePath);
 				if(!in_array($mimeType, [Enums\ImageMimeType::JPG, Enums\ImageMimeType::PNG, Enums\ImageMimeType::WEBP], true)){
@@ -329,8 +342,13 @@ class BlogPost{
 	 * @throws Exceptions\BlogPostExistsException
 	 * @throws Exceptions\ImageUploadInvalidException If the hero image cannot be processed.
 	 */
-	public function Create(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null): void{
-		$this->Validate($userIdentifier, $ebookIdentifiers, $heroImagePath);
+	public function Create(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null, bool $hasHeroImage = false): void{
+		if(!$hasHeroImage){
+			$heroImagePath = null;
+			$this->HeroImageCaption = null;
+		}
+
+		$this->Validate($userIdentifier, $ebookIdentifiers, $heroImagePath, $hasHeroImage);
 		$this->Created = NOW;
 		if($heroImagePath !== null){
 			$this->ImageCacheKey = $this->GenerateImageCacheKey();
@@ -338,8 +356,9 @@ class BlogPost{
 
 		try{
 			$this->BlogPostId = Db::QueryInt('
-				INSERT into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, Published, Created)
+				INSERT into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, Published, Created)
 				values (?,
+				        ?,
 				        ?,
 				        ?,
 				        ?,
@@ -349,7 +368,7 @@ class BlogPost{
 				        ?,
 				        ?)
 				returning BlogPostId
-			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->Published, $this->Created]);
+			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->Published, $this->Created]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\BlogPostExistsException();
@@ -367,25 +386,30 @@ class BlogPost{
 	 * @throws Exceptions\BlogPostExistsException
 	 * @throws Exceptions\ImageUploadInvalidException If the hero image cannot be processed.
 	 */
-	public function Save(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null, bool $removeHeroImage = false): void{
-		$this->Validate($userIdentifier, $ebookIdentifiers, $heroImagePath);
+	public function Save(?string $userIdentifier = null, ?string $ebookIdentifiers = null, ?string $heroImagePath = null, bool $hasHeroImage = false): void{
+		if(!$hasHeroImage){
+			$heroImagePath = null;
+			$this->HeroImageCaption = null;
+		}
 
-		if($removeHeroImage){
+		$this->Validate($userIdentifier, $ebookIdentifiers, $heroImagePath, $hasHeroImage);
+
+		if(!$hasHeroImage){
 			$this->ImageCacheKey = null;
 		}
 		elseif($heroImagePath !== null){
 			$this->ImageCacheKey = $this->GenerateImageCacheKey();
 		}
 
-		if($removeHeroImage || $heroImagePath !== null){
+		if(!$hasHeroImage || $heroImagePath !== null){
 			unset($this->_HeroImageUrl, $this->_HeroImage2xUrl, $this->_HeroImageAvifUrl, $this->_HeroImageAvif2xUrl);
 		}
 
 		try{
 			Db::Query('
 				UPDATE BlogPosts
-				set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, ImageCacheKey = ?, Published = ? where BlogPostId = ?
-			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->Published, $this->BlogPostId]);
+				set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, ImageCacheKey = ?, HeroImageCaption = ?, Published = ? where BlogPostId = ?
+			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->Published, $this->BlogPostId]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\BlogPostExistsException();
@@ -395,7 +419,7 @@ class BlogPost{
 
 		$this->AddEbooks();
 
-		if($removeHeroImage){
+		if(!$hasHeroImage){
 			$this->RemoveHeroImage();
 		}
 		elseif($heroImagePath !== null){
@@ -557,6 +581,7 @@ class BlogPost{
 
 	public function FillFromRequestBody(): void{
 		$this->PropertyFromRequest('Description');
+		$this->PropertyFromRequest('HeroImageCaption');
 
 		if(isset(Http::$Request->Body->Variables['blog-post-title'])){
 			$this->Title = Http::$Request->Body->Get('blog-post-title') ?? '';

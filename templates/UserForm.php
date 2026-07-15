@@ -89,7 +89,7 @@ $isEditForm ??= false;
 </fieldset>
 <fieldset>
 	<legend>Benefits</legend>
-	<fieldset class="benefits">
+	<fieldset class="grouped">
 		<legend>Patrons Circle benefits</legend>
 		<ul>
 			<li>
@@ -115,7 +115,7 @@ $isEditForm ??= false;
 			</li>
 		</ul>
 	</fieldset>
-	<fieldset class="benefits">
+	<fieldset class="grouped">
 		<legend>Admin powers</legend>
 		<ul>
 			<li>

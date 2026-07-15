@@ -16,13 +16,16 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
+	$blogPost = new BlogPost();
+
 	$userIdentifier = Http::$Request->Body->Get('blog-post-user-identifier');
 	$ebookIdentifiers = Http::$Request->Body->Get('blog-post-ebook-identifiers');
+	$hasHeroImage = Http::$Request->Body->Get('blog-has-hero-image', 'bool') ?? false;
+	$heroImagePath = $hasHeroImage ? Http::$Request->Files->Get('blog-post-hero-image') : null;
 
-	$blogPost = new BlogPost();
 	$blogPost->FillFromRequestBody();
 
-	$blogPost->Create($userIdentifier, $ebookIdentifiers, Http::$Request->Files->Get('blog-post-hero-image'));
+	$blogPost->Create($userIdentifier, $ebookIdentifiers, $heroImagePath, $hasHeroImage);
 
 	$_SESSION['blog-post/create/is-created'] = true;
 

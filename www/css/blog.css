@@ -28,6 +28,7 @@ section.blog{
 
 .blog > picture.hero-image{
 	display: block;
+	position: relative;
 	width: 100%;
 	max-width: 880px;
 	margin-bottom: 2rem;
@@ -46,6 +47,9 @@ section.blog{
 .byline{
 	font-style: italic;
 	text-align: center;
+	border-top: 3px double;
+	border-bottom: 3px double;
+	padding: 1rem 0;
 }
 
 .blog-post-form{
@@ -59,7 +63,7 @@ section.blog{
 	min-height: 32ex;
 }
 
-label:has(input[name="blog-post-remove-hero-image"]:checked) + .hero-image-upload{
+label:has(input[name="blog-has-hero-image"]:not(:checked)) + fieldset{
 	display: none;
 }
 

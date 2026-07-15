@@ -23,10 +23,12 @@ try{
 
 	$userIdentifier = Http::$Request->Body->Get('blog-post-user-identifier');
 	$ebookIdentifiers = Http::$Request->Body->Get('blog-post-ebook-identifiers');
+	$hasHeroImage = Http::$Request->Body->Get('blog-has-hero-image', 'bool') ?? false;
+	$heroImagePath = $hasHeroImage ? Http::$Request->Files->Get('blog-post-hero-image') : null;
 
 	$blogPost->FillFromRequestBody();
 
-	$blogPost->Save($userIdentifier, $ebookIdentifiers, Http::$Request->Files->Get('blog-post-hero-image'), Http::$Request->Body->Get('blog-post-remove-hero-image', 'bool') ?? false);
+	$blogPost->Save($userIdentifier, $ebookIdentifiers, $heroImagePath, $hasHeroImage);
 
 	$_SESSION['blog-post/edit/is-saved'] = true;
 	http_response_code(Enums\HttpCode::SeeOther->value);

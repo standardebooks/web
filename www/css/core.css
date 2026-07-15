@@ -2826,16 +2826,21 @@ fieldset legend{
 	padding: 0; /* Reset browser style */
 }
 
-fieldset.benefits{
+fieldset.grouped{
 	border: 3px double var(--body-text);
 	padding: 1rem;
 }
 
-fieldset.benefits + fieldset.benefits{
+fieldset.grouped > label{
+	display: block;
+}
+
+fieldset.grouped > label + label,
+fieldset.grouped + fieldset.grouped{
 	margin-top: 2rem;
 }
 
-fieldset.benefits legend{
+fieldset.grouped legend{
 	font-family: "League Spartan", Arial, sans-serif;
 	font-size: 1rem;
 	text-transform: none;
@@ -2847,7 +2852,7 @@ fieldset.benefits legend{
 	padding: 0 .25rem;
 }
 
-fieldset.benefits ul{
+fieldset.grouped ul{
 	margin: 0;
 }
 
