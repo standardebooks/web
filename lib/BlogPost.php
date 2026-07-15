@@ -456,6 +456,9 @@ class BlogPost{
 			}
 
 			$tempBasePath = $tempDirectory . '/' . $this->BlogPostId;
+			$originalSuffix = '-original' . $mimeType->GetFileExtension();
+			copy($tempImagePath, $tempBasePath . $originalSuffix);
+
 			$sourceImage = match($mimeType){
 				Enums\ImageMimeType::JPG => \Safe\imagecreatefromjpeg($tempImagePath),
 				Enums\ImageMimeType::PNG => \Safe\imagecreatefrompng($tempImagePath),
@@ -512,7 +515,16 @@ class BlogPost{
 			}
 
 			$destinationBasePath = WEB_ROOT . BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId;
-			foreach(['.jpg', '@2x.jpg', '.avif', '@2x.avif'] as $suffix){
+
+			// Remove any old "original" files in case we uploaded a new one with a different extension.
+			foreach([Enums\ImageMimeType::JPG, Enums\ImageMimeType::PNG, Enums\ImageMimeType::WEBP] as $originalMimeType){
+				$oldOriginalPath = $destinationBasePath . '-original' . $originalMimeType->GetFileExtension();
+				if(is_file($oldOriginalPath)){
+					@unlink($oldOriginalPath);
+				}
+			}
+
+			foreach(['.jpg', '@2x.jpg', '.avif', '@2x.avif', $originalSuffix] as $suffix){
 				copy($tempBasePath . $suffix, $destinationBasePath . $suffix);
 			}
 		}
@@ -553,7 +565,7 @@ class BlogPost{
 	 */
 	private function RemoveHeroImage(): void{
 		$basePath = WEB_ROOT . BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId;
-		foreach(['.jpg', '@2x.jpg', '.avif', '@2x.avif'] as $suffix){
+		foreach(['.jpg', '@2x.jpg', '.avif', '@2x.avif', '-original.jpg', '-original.png', '-original.webp'] as $suffix){
 			if(is_file($basePath . $suffix)){
 				@unlink($basePath . $suffix);
 			}
