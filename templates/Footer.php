@@ -45,6 +45,9 @@
 				<a href="/about">About</a>
 			</li>
 			<li>
+				<a href="/blog">Blog</a>
+			</li>
+			<li>
 				<a href="/contribute">Get Involved</a>
 			</li>
 			<li>
@@ -53,6 +56,9 @@
 			<li>
 				<a href="/settings">Settings</a>
 			</li>
+		</ul>
+
+		<ul class="nav-links">
 			<li>
 				<a href="https://github.com/standardebooks">GitHub</a>
 			</li>

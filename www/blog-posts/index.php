@@ -6,7 +6,7 @@ else{
 	$blogPosts = BlogPost::GetAllByIsPublished();
 }
 ?>
-<?= Template::Header(title: 'Blog', description: 'The Standard Ebooks blog.', css: ['/css/blog.css']) ?>
+<?= Template::Header(title: 'Blog', highlight: 'blog', description: 'The Standard Ebooks blog.', css: ['/css/blog.css']) ?>
 <main>
 	<section class="has-hero">
 		<h1>Blog</h1>

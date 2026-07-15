@@ -4,7 +4,7 @@
  */
 ?>* * *
 
-[Donate](<?= SITE_URL ?>/donate) • [Get involved](<?= SITE_URL ?>/contribute) • [Ebook feeds](<?= SITE_URL ?>/feeds)
+[Donate](<?= SITE_URL ?>/donate) • [Get involved](<?= SITE_URL ?>/contribute) • [Blog](<?= SITE_URL ?>/blog) • [Ebook feeds](<?= SITE_URL ?>/feeds)
 
 Standard Ebooks L3C
 

@@ -38,6 +38,7 @@ catch(Exceptions\PermissionsInvalidException){
 ?>
 <?= Template::Header(
 		title: 'Create a Blog Post',
+		highlight: 'blog',
 		css: ['/css/blog.css'],
 		description: 'Create a blog post to the Standard Ebooks blog.'
 ) ?>

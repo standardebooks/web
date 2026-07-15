@@ -4,7 +4,7 @@ $includeLinks ??= true;
 		<div class="footer<? if(!$includeLinks){ ?> no-links<? } ?>">
 			<? if($includeLinks){ ?>
 				<p>
-					<a href="<?= SITE_URL ?>/donate">Donate</a> &bull; <a href="<?= SITE_URL ?>/contribute">Get involved</a> &bull; <a href="<?= SITE_URL ?>/feeds">Ebook feeds</a>
+					<a href="<?= SITE_URL ?>/donate">Donate</a> • <a href="<?= SITE_URL ?>/contribute">Get involved</a> • <a href="<?= SITE_URL ?>/blog">Blog</a> • <a href="<?= SITE_URL ?>/feeds">Ebook feeds</a>
 				</p>
 			<? } ?>
 			<p>

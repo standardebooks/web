@@ -43,6 +43,7 @@ catch(Exceptions\PermissionsInvalidException){
 ?>
 <?= Template::Header(
 		title: 'Edit - ' . strip_tags($originalBlogPost->Title),
+		highlight: 'blog',
 		css: ['/css/blog.css'],
 		description: 'Edit a blog post on the Standard Ebooks blog.'
 ) ?>

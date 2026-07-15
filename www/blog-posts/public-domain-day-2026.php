@@ -124,7 +124,7 @@ foreach($ebooks as $ebook){
 
 ksort($ebooksWithDescriptions);
 
-?><?= Template::Header(title: 'Public Domain Day ' . $pdYear . ' in Literature - Blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day ' . $pdYear . '!', css: ['/css/public-domain-day.css']) ?>
+?><?= Template::Header(title: 'Public Domain Day ' . $pdYear . ' in Literature - Blog', highlight: 'blog', description: 'Read about the new ebooks Standard Ebooks is releasing for Public Domain Day ' . $pdYear . '!', css: ['/css/public-domain-day.css']) ?>
 <main>
 	<section class="narrow blog has-hero">
 		<nav class="breadcrumbs" aria-label="Breadcrumbs"><a href="/blog">Blog</a> →</nav>

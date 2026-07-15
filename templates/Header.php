@@ -146,6 +146,9 @@ if(!$isXslt){
 					<a<? if($highlight == 'newsletter'){ ?> aria-current="page"<? } ?> href="/newsletter">Newsletter</a>
 				</li>
 				<li>
+					<a<? if($highlight == 'blog'){ ?> aria-current="page"<? } ?> href="/blog">Blog</a>
+				</li>
+				<li>
 					<a<? if($highlight == 'contribute'){ ?> aria-current="page"<? } ?> href="/contribute">Get Involved</a>
 				</li>
 				<li>

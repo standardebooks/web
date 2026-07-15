@@ -28,7 +28,7 @@ catch(Exceptions\BlogPostNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 ?>
-<?= Template::Header(title: strip_tags($blogPost->Title), css: ['/css/blog.css']) ?>
+<?= Template::Header(title: strip_tags($blogPost->Title), highlight: 'blog', css: ['/css/blog.css']) ?>
 <main>
 	<section class="narrow blog<? if(isset($blogPost->Subtitle)){ ?> has-hero<? } ?>">
 		<nav class="breadcrumbs" aria-label="Breadcrumbs"><a href="/blog">Blog</a> →</nav>

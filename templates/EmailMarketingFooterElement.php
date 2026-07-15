@@ -5,7 +5,7 @@
 ?>
 		<div class="footer">
 			<p>
-				<a href="<?= SITE_URL ?>/donate">Donate</a> • <a href="<?= SITE_URL ?>/contribute">Get involved</a> • <a href="<?= SITE_URL ?>/feeds">Ebook feeds</a>
+				<a href="<?= SITE_URL ?>/donate">Donate</a> • <a href="<?= SITE_URL ?>/contribute">Get involved</a>• <a href="https://standardebooks.org/blog">Blog</a> • <a href="<?= SITE_URL ?>/feeds">Ebook feeds</a>
 			</p>
 			<address>Standard Ebooks L<sup>3</sup>C<br/>
 			1658 N. Milwaukee Ave. Unit 343<br/>
