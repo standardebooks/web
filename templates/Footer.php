@@ -53,11 +53,7 @@
 			<li>
 				<a href="/donate">Donate</a>
 			</li>
-			<li>
-				<a href="/settings">Settings</a>
-			</li>
 		</ul>
-
 		<ul class="nav-links">
 			<li>
 				<a href="https://github.com/standardebooks">GitHub</a>
@@ -70,6 +66,9 @@
 			</li>
 			<li>
 				<a href="/about/accessibility">Accessibility</a>
+			</li>
+			<li>
+				<a href="/settings">Settings</a>
 			</li>
 		</ul>
 		<p>Content produced by or for Standard Ebooks L<sup>3</sup>C is dedicated to the <a href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> via the <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0 1.0 Universal Public Domain Dedication</a>.</p>
