@@ -660,4 +660,52 @@ class BlogPost{
 			from BlogPosts
 			order by Created desc', [], BlogPost::class);
 	}
+
+	/**
+	 * Get all blog posts for a specific page, sorted by descending publication or creation date.
+	 *
+	 * @return array{'blogPosts': array<int, BlogPost>, 'count': int, 'totalPages': int}
+	 *
+	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
+	 */
+	public static function GetAllByPage(int $page = 1, int $perPage = 10, bool $includeUnpublished = false): array{
+		if($page <= 0 || $page >= 100000){
+			throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
+		}
+
+		if($perPage <= 0){
+			$perPage = 10;
+		}
+
+		$offset = (($page - 1) * $perPage);
+
+		if($includeUnpublished){
+			$blogPosts = Db::Query('
+					SELECT SQL_CALC_FOUND_ROWS *
+					from BlogPosts
+					order by Created desc
+					limit ?
+					offset ?
+				', [$perPage, $offset], BlogPost::class);
+		}
+		else{
+			$blogPosts = Db::Query('
+					SELECT SQL_CALC_FOUND_ROWS *
+					from BlogPosts
+					where Published < utc_timestamp()
+					order by Published desc
+					limit ?
+					offset ?
+				', [$perPage, $offset], BlogPost::class);
+		}
+
+		$count = Db::QueryInt('SELECT found_rows()');
+		$totalPages = (int)ceil($count / $perPage);
+
+		if($totalPages > 0 && $page > $totalPages){
+			throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
+		}
+
+		return ['blogPosts' => $blogPosts, 'count' => $count, 'totalPages' => $totalPages];
+	}
 }

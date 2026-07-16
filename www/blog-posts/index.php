@@ -1,9 +1,16 @@
 <?
-if(Session::$User?->Benefits->CanEditBlogPosts){
-	$blogPosts = BlogPost::GetAllByCreated();
+try{
+	$canEditBlogPosts = Session::$User?->Benefits->CanEditBlogPosts ?? false;
+	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
+	$perPage = 10;
+
+	$result = BlogPost::GetAllByPage($page, $perPage, $canEditBlogPosts);
+	$blogPosts = $result['blogPosts'];
+	$pages = $result['totalPages'];
 }
-else{
-	$blogPosts = BlogPost::GetAllByIsPublished();
+catch(Exceptions\PageOutOfBoundsException $ex){
+	header('location: /blog?page=' . $ex->TotalPages);
+	exit();
 }
 ?>
 <?= Template::Header(title: 'Blog', highlight: 'blog', description: 'The Standard Ebooks blog.', css: ['/css/blog.css']) ?>
@@ -15,12 +22,12 @@ else{
 			<source srcset="/images/girl-in-a-hammock@2x.jpg 2x, /images/girl-in-a-hammock.jpg 1x" type="image/jpeg"/>
 			<img src="/images/girl-in-a-hammock@2x.jpg" alt="A girl reclines in a hammock and reads a book."/>
 		</picture>
-		<? if(Session::$User?->Benefits->CanEditBlogPosts){ ?>
+		<? if($canEditBlogPosts){ ?>
 			<ul role="menu">
 				<li><a href="/blog-posts/new">Create a blog post</a></li>
 			</ul>
 		<? } ?>
-		<? if(Session::$User?->Benefits->CanEditBlogPosts){ ?>
+		<? if($canEditBlogPosts){ ?>
 			<ul>
 				<? foreach($blogPosts as $blogPost){ ?>
 					<li>
@@ -50,6 +57,19 @@ else{
 					</li>
 				<? } ?>
 			</ul>
+		<? } ?>
+		<? if(sizeof($blogPosts) > 0){ ?>
+			<nav class="pagination" aria-label="Pagination">
+				<a<? if($page > 1){ ?> href="/blog?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<ol>
+					<? for($i = 1; $i < $pages + 1; $i++){ ?>
+						<li>
+							<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/blog?page=<?= $i ?>"<? } ?>><?= $i ?></a>
+						</li>
+					<? } ?>
+				</ol>
+				<a<? if($page < $pages){ ?> href="/blog?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			</nav>
 		<? } ?>
 	</section>
 </main>

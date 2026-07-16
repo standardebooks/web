@@ -80,6 +80,10 @@ label:has(input[name="blog-has-hero-image"]:not(:checked)) + fieldset{
 	padding: 0;
 }
 
+.pagination{
+	margin-top: 4rem;
+}
+
 .blog-post-list > li{
 	margin-top: 2rem;
 }
