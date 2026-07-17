@@ -3801,17 +3801,36 @@ ul[role="menu"]{
 	justify-content: center;
 }
 
+h1:has(+ nav.ebooks-navigation){
+	margin-bottom: 1rem;
+}
+
+nav.ebooks-navigation > ul{
+	display: flex;
+	flex-wrap: wrap;
+	padding-bottom: 1rem;
+	border-bottom: 3px double var(--sub-text);
+	list-style: none;
+	margin: 0 auto 2rem auto;
+	gap: .5rem;
+	font-style: italic;
+	width: 100%;
+	justify-content: center;
+}
+
 picture + ul[role="menu"],
 h1 + ul[role="menu"],
 hgroup + ul[role="menu"]{
 	margin-top: 0;
 }
 
-ul[role="menu"] li{
+ul[role="menu"] li,
+nav.ebooks-navigation > ul li{
 	margin-top: 0;
 }
 
-ul[role="menu"] li + li::before{
+ul[role="menu"] li + li::before,
+nav.ebooks-navigation > ul li + li::before{
 	content: "•";
 	margin-right: .5rem;
 }

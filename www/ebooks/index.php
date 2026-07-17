@@ -126,6 +126,12 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 ?><?= Template::Header(title: $pageTitle, highlight: 'ebooks', description: $pageDescription, canonicalUrl: $canonicalUrl) ?>
 <main class="ebooks">
 	<h1><?= $pageHeader ?></h1>
+	<nav class="ebooks-navigation">
+		<ul>
+			<li><a href="/collections">Browse by collection</a></li>
+			<li><a href="/authors">Browse by author</a></li>
+		</ul>
+	</nav>
 	<?= Template::DonationDrive() ?>
 
 	<?= Template::DonationAlert() ?>
