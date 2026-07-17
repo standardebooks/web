@@ -1443,15 +1443,17 @@ footer > p:last-child a::before{
 }
 
 footer ul.nav-links{
-	font-size: 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 	margin-bottom: 1rem;
+	text-align: center;
 }
 
 footer ul.nav-links li{
-	display: inline-block;
+	display: flex;
 	list-style: none;
 	text-transform: lowercase;
-	font-size: 0;
 }
 
 footer ul.nav-links li a,
@@ -3994,16 +3996,6 @@ ul[role="menu"] li + li::before{
 		display: none;
 	}
 
-	footer ul.nav-links li{
-		display: inline;
-	}
-
-	footer ul.nav-links li:nth-child(4)::after{
-		content: "\A"; /* This is a line break */
-		white-space: pre;
-		margin: 0;
-	}
-
 	article.ebook section#download li span:nth-child(2){
 		display: none;
 	}
@@ -4163,20 +4155,6 @@ ul[role="menu"] li + li::before{
 @media(max-width: 700px){
 	ol.ebooks-list.grid{
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	footer ul.nav-links li:nth-child(2)::after,
-	footer ul.nav-links li:nth-child(5)::after{
-		content: "\A"; /* This is a line break */
-		white-space: pre;
-		margin: 0;
-	}
-
-	footer ul.nav-links li:nth-child(4)::after{
-		content: "\b7";
-		content: "\b7" / "";
-		white-space: normal;
-		margin: 0 10px;
 	}
 
 	.ebooks-toolbar a.button{
@@ -4426,23 +4404,6 @@ ul[role="menu"] li + li::before{
 		margin-top: 2rem;
 	}
 
-	footer ul.nav-links li:nth-child(2)::after,
-	footer ul.nav-links li:nth-child(4)::after,
-	footer ul.nav-links li:nth-child(6)::after{
-		content: "\A"; /* This is a line break */
-		white-space: pre;
-		margin: 0;
-	}
-
-	footer ul.nav-links li:nth-child(1)::after,
-	footer ul.nav-links li:nth-child(3)::after,
-	footer ul.nav-links li:nth-child(5)::after{
-		content: "\b7";
-		content: "\b7" / "";
-		white-space: normal;
-		margin: 0 10px;
-	}
-
 	dl{
 		grid-template-columns: 1fr;
 		gap: 0;
@@ -4571,12 +4532,6 @@ ul[role="menu"] li + li::before{
 
 	.masthead ol.donors.patrons{
 		columns: 1;
-	}
-
-	footer ul.nav-links li:nth-child(7)::after{
-		content: "\A"; /* This is a line break */
-		white-space: pre;
-		margin: 0;
 	}
 
 	.donation .flipboard{
