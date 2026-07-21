@@ -65,7 +65,6 @@ abstract class TemplateBase{
 		if(Http::$Request->IsViaBrowser){
 			$filePath = WEB_ROOT . '/' . $httpCode->value . '.php';
 			if(file_exists($filePath)){
-				/** @phpstan-ignore-next-line */
 				include($filePath);
 			}
 			elseif($exception !== null){

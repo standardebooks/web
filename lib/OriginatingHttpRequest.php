@@ -136,7 +136,6 @@ class OriginatingHttpRequest{
 
 		if($this->IsRequestTooLarge){
 			if($this->IsViaBrowser && file_exists(WEB_ROOT . '/413.php')){
-				/** @phpstan-ignore-next-line */
 				include(WEB_ROOT . '/413.php');
 			}
 
@@ -271,7 +270,6 @@ class OriginatingHttpRequest{
 			unset($resource);
 		}
 
-		/** @phpstan-ignore-next-line */
 		include($filename);
 
 		exit();
