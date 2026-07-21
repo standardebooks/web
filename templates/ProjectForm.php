@@ -29,7 +29,7 @@ $project->Producer ??= new User();
 		type="text"
 		name="project-producer-name"
 		list="editors"
-		<? if($areFieldsRequired){ ?>
+		<? if($areFieldsRequired && (!$isEditForm || $project->Producer->Name !== null)){ ?>
 			required="required"
 		<? } ?>
 		value="<?= Formatter::EscapeHtml($project->Producer->Name ?? '') ?>"
