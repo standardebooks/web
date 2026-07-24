@@ -1,6 +1,7 @@
 <?
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
+use function Safe\apcu_fetch;
 use function Safe\file_get_contents;
 use function Safe\json_decode;
 use function Safe\preg_match;
@@ -19,9 +20,8 @@ class AwsSnsMessage{
 
 	public function ConfirmSubscription(): void{
 		if($this->Type == 'SubscriptionConfirmation' && isset($this->Message->SubscribeUrl)){
-			$curl = new HttpRequest();
 			try{
-				$curl->Execute(Enums\HttpMethod::Get, $this->Message->SubscribeUrl);
+				HttpRequest::Execute(Enums\HttpMethod::Get, $this->Message->SubscribeUrl);
 			}
 			catch(Exceptions\HttpRequestException){
 				// Pass.
@@ -40,17 +40,37 @@ class AwsSnsMessage{
 
 		try{
 			$message = Message::fromJsonString(file_get_contents('php://input'));
+			/** @var array<string, string> $downloadedCertificates */
+			$downloadedCertificates = [];
+
 			// `MessageValidator` uses `file_get_contents()` to get the contents of URLs, which is disabled in our server configuration. So we pass a custom function using an `HttpRequest` to fetch the URL instead.
-			$validator = new MessageValidator(function($url){
+			$validator = new MessageValidator(function(string $url) use (&$downloadedCertificates): string{
+				$cacheKey = 'aws-sns-signing-certificate-' . hash('sha256', $url);
+
 				try{
-					$response = HttpRequest::Execute(Enums\HttpMethod::Get, $url);
-					return $response->Body;
+					/** @var string value */
+					$value = apcu_fetch($cacheKey);
+
+					return $value;
 				}
-				catch(\Exceptions\HttpRequestException){
-					return '';
+				catch(\Exception){
+					try{
+						$response = HttpRequest::Execute(Enums\HttpMethod::Get, $url);
+						$downloadedCertificates[$cacheKey] = $response->Body;
+
+						return $response->Body;
+					}
+					catch(\Exceptions\HttpRequestException){
+						return '';
+					}
 				}
 			});
 			$validator->validate($message);
+
+			// Cache newly downloaded certificates only after they successfully validate an SNS message.
+			foreach($downloadedCertificates as $cacheKey => $certificate){
+				apcu_store($cacheKey, $certificate);
+			}
 
 			/** @var array<string, mixed> $data */
 			$data = $message->toArray();
