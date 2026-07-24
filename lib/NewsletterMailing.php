@@ -210,7 +210,7 @@ class NewsletterMailing{
 		$footerText = "\n" . Template::EmailMarketingFooterText(newsletter: $this->Newsletter);
 
 		// Remove any existing footers.
-		$this->BodyHtml = preg_replace('/(<div class="footer">.+?<\/div>|<footer>.+?<\/footer>)/ius', '', (string)$this->BodyHtml);
+		$this->BodyHtml = preg_replace('/(<div class="footer">.+?<\/div>|<footer>.+?<\/footer>)/ius', '', $this->BodyHtml);
 
 		$this->BodyHtml = str_ireplace('</body>', $footerHtml . '</body>', $this->BodyHtml);
 
@@ -281,9 +281,9 @@ class NewsletterMailing{
 			}
 
 			// Remove any existing ebook carousel and add the new one in.
-			$this->BodyHtml = preg_replace('/<h2 id="ebooks-in-this-newsletter">Free ebooks in this newsletter<\/h2>/ius', '', (string)$this->BodyHtml);
-			$this->BodyHtml = preg_replace('/<ul class="featured-ebooks">.+?<\/ul>/ius', '', (string)$this->BodyHtml);
-			$this->BodyHtml = preg_replace('/(<div class="footer">|<footer>)/ius', $carouselHtml . "\n" . '\1', (string)$this->BodyHtml, 1);
+			$this->BodyHtml = preg_replace('/<h2 id="ebooks-in-this-newsletter">Free ebooks in this newsletter<\/h2>/ius', '', $this->BodyHtml);
+			$this->BodyHtml = preg_replace('/<ul class="featured-ebooks">.+?<\/ul>/ius', '', $this->BodyHtml);
+			$this->BodyHtml = preg_replace('/(<div class="footer">|<footer>)/ius', $carouselHtml . "\n" . '\1', $this->BodyHtml, 1);
 
 			$this->BodyText = preg_replace('/\#\# Free ebooks in this newsletter.+\* \* \*/ius', '* * *', (string)$this->BodyText);
 			$this->BodyText = preg_replace('/\* \* \*/ius', $carouselText . '* * *', (string)$this->BodyText);
@@ -296,7 +296,7 @@ class NewsletterMailing{
 	 */
 	protected function NormalizeBody(bool $addFooter, bool $addEbooks): void{
 		// Insert or remove preheader.
-		$this->BodyHtml = preg_replace('/<p class="preheader">[^<]+?<\/p>/ius', '', (string)$this->BodyHtml);
+		$this->BodyHtml = preg_replace('/<p class="preheader">[^<]+?<\/p>/ius', '', $this->BodyHtml);
 
 		// If we received only text, convert to HTML.
 		if($this->BodyText != '' && $this->BodyHtml == ''){
@@ -328,10 +328,10 @@ class NewsletterMailing{
 		}
 
 		if($this->Preheader !== null){
-			$this->BodyHtml = preg_replace('/<body([^>]*?)>\s*/ius', '<body\1>' . "\n\t" . '<p class="preheader">' . Formatter::EscapeHtml($this->Preheader) . '</p>' . "\n\t", (string)$this->BodyHtml);
+			$this->BodyHtml = preg_replace('/<body([^>]*?)>\s*/ius', '<body\1>' . "\n\t" . '<p class="preheader">' . Formatter::EscapeHtml($this->Preheader) . '</p>' . "\n\t", $this->BodyHtml);
 
 			// Add preheader CSS so that we don't remove it later.
-			$this->BodyHtml = preg_replace('/\s*\.preheader\s*{[^}]+?}\s*/ius', '', (string)$this->BodyHtml);
+			$this->BodyHtml = preg_replace('/\s*\.preheader\s*{[^}]+?}\s*/ius', '', $this->BodyHtml);
 			$this->BodyHtml = preg_replace('/body\s*{/ius', "\n\n\t\t" . '.preheader{
 			display: none !important;
 			visibility: hidden;
@@ -347,7 +347,7 @@ class NewsletterMailing{
 			top: -9999px;
 		}
 
-		body{', (string)$this->BodyHtml);
+		body{', $this->BodyHtml);
 		}
 
 		if($addFooter){
@@ -467,7 +467,7 @@ class NewsletterMailing{
 		}
 		else{
 			// If we do have the subject, replace the HTML `<title>` with it.
-			$this->BodyHtml = preg_replace('/<title>.+?<\/title>/ius', '<title>' . Formatter::EscapeHtml($this->Subject) . '</title>', (string)$this->BodyHtml);
+			$this->BodyHtml = preg_replace('/<title>.+?<\/title>/ius', '<title>' . Formatter::EscapeHtml($this->Subject) . '</title>', $this->BodyHtml);
 		}
 
 		$this->InternalName = trim($this->InternalName ?? '');

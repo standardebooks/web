@@ -8,8 +8,13 @@ use function Safe\simplexml_load_string;
 class HtmlFragment{
 	protected string $_Value;
 
-	public function __construct(string $value = ''){
-		$this->_Value = trim($value);
+	public function __construct(HtmlFragment|string $value = ''){
+		if($value instanceof HtmlFragment){
+			$this->_Value = (string)$value;
+		}
+		else{
+			$this->_Value = trim($value);
+		}
 	}
 
 	public function __toString(): string{
