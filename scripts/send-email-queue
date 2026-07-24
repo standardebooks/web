@@ -85,23 +85,24 @@ for($i = 0; $i < $runs; $i++){
 
 		Db::Query('set transaction isolation level read committed');
 		Db::Query('start transaction');
-		$queuedItems = Db::Query('SELECT * from QueuedEmailMessages force index (idxStatus) where Provider = ? order by Priority desc limit ? for update skip locked', [Enums\EmailProviderType::Ses, $emailsPerRun], QueuedEmailMessage::class);
+		$queuedItems = Db::Query('select * from QueuedEmailMessages force index (idxStatus) where Provider = ? order by Priority desc limit ? for update skip locked', [Enums\EmailProviderType::Ses, $emailsPerRun], QueuedEmailMessage::class);
 
 		if(sizeof($queuedItems) > 0){
-			try{
-				AwsSesApi::Send($queuedItems);
-			}
-			catch(\Exception $ex){
-				Db::Query('commit');
-
-				// Unrecognized exception, throw it up to exit the script.
-				throw new Exception('Failed sending batch emails via SES. Exception: ' . $ex->getMessage());
-			}
+			$queuedItemIds = array_map(fn(QueuedEmailMessage $queuedItem): int => $queuedItem->QueuedEmailMessageId, $queuedItems);
+			Db::Query('delete from QueuedEmailMessages where QueuedEmailMessageId in ' . Db::CreateSetSql($queuedItemIds), $queuedItemIds);
 		}
 
 		Db::Query('commit');
 
-		flock($lockFile, LOCK_UN);
+		if(sizeof($queuedItems) > 0){
+			try{
+				AwsSesApi::Send($queuedItems, deleteQueuedEmails: false);
+			}
+			catch(\Exception $ex){
+				// Unrecognized exception, throw it up to exit the script.
+				throw new Exception('Failed sending batch emails via SES. Exception: ' . $ex->getMessage());
+			}
+		}
 
 		// If there are more runs, sleep.
 		if($i + 1 < $runs){
@@ -115,6 +116,16 @@ for($i = 0; $i < $runs; $i++){
 		// General error 2006 is "SQL server has gone away" which can happen if we restart MariaDB during a loop. Only bubble the exception if it's not this exception.
 		if(!stripos($ex->getMessage(), 'General error: 2006')){
 			throw $ex;
+		}
+	}
+	finally{
+		if(isset($lockFile)){
+			try{
+				flock($lockFile, LOCK_UN);
+			}
+			catch(\Throwable){
+				// Pass.
+			}
 		}
 	}
 }

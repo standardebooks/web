@@ -64,14 +64,15 @@ class AwsSesApi{
 	 *
 	 * @param array<EmailMessage|QueuedEmailMessage> $emails
 	 * @param bool $forceSend If `SITE_STATUS` is `dev`, pass **`TRUE`** to actually send this request to SES; no effect if `SITE_STATUS` is `live`.
+	 * @param bool $deleteQueuedEmails Delete queued emails after SES responds.
 	 *
 	 * @throws Exceptions\EmailSendFailedException If a batch send failed.
 	 */
-	public static function Send(array $emails, bool $forceSend = false): void{
+	public static function Send(array $emails, bool $forceSend = false, bool $deleteQueuedEmails = true): void{
 		try{
 			if(SITE_STATUS == SITE_STATUS_DEV && !$forceSend){
 				foreach($emails as $email){
-					if($email instanceof QueuedEmailMessage){
+					if($deleteQueuedEmails && $email instanceof QueuedEmailMessage){
 						$email->Delete();
 					}
 				}
@@ -98,7 +99,6 @@ class AwsSesApi{
 			$ses = new SesV2Client($clientConfig);
 			$concurrency = AWS_SES_MAX_EMAILS_PER_SECOND;
 
-			/** @var array<array<EmailMessage|QueuedEmailMessage>> $chunks */
 			$chunks = array_chunk($emails, $concurrency);
 
 			for($i = 0; $i < sizeof($chunks); $i++){
@@ -111,12 +111,12 @@ class AwsSesApi{
 						$to = AwsSesApi::EscapeDisplayName($email->ToName) . ' <' . $email->To . '>';
 					}
 					else{
-						$to = (string)$email->To;
+						$to = $email->To;
 					}
 
-					$html = (string)$email->BodyHtml;
-					$text = isset($email->BodyText) ? (string)$email->BodyText : null;
-					$from = (string)$email->From;
+					$html = $email->BodyHtml;
+					$text = $email->BodyText;
+					$from = $email->From;
 					$subject = $email->Subject;
 
 					$result = mailparse_rfc822_parse_addresses($email->From);
@@ -129,7 +129,7 @@ class AwsSesApi{
 						}
 					}
 					else{
-						$from = (string)$email->From;
+						$from = $email->From;
 					}
 
 					$params = [
@@ -146,7 +146,7 @@ class AwsSesApi{
 					];
 
 					if($email->ReplyTo !== null){
-						$params['ReplyToAddresses'] = [(string)$email->ReplyTo];
+						$params['ReplyToAddresses'] = [$email->ReplyTo];
 					}
 
 					if($email->UnsubscribeUrl !== null){
@@ -199,12 +199,12 @@ class AwsSesApi{
 					// Kick off the async requests.
 					$promises[] = $ses->sendEmailAsync($params)
 						->then(
-							function() use ($email){
-								if($email instanceof QueuedEmailMessage){
+							function() use ($email, $deleteQueuedEmails){
+								if($deleteQueuedEmails && $email instanceof QueuedEmailMessage){
 									$email->Delete();
 								}
 							},
-							function($reason) use ($email){
+							function($reason) use ($email, $deleteQueuedEmails){
 								$message  = $reason instanceof \Aws\Exception\AwsException
 									? ($reason->getAwsErrorMessage() ?: $reason->getMessage())
 									: (( $reason instanceof \Throwable) ? $reason->getMessage() : (string)$reason);
@@ -212,12 +212,11 @@ class AwsSesApi{
 									? ($reason->getAwsErrorCode() ?: $reason->getCode())
 									: 'error';
 
-								if($email instanceof QueuedEmailMessage){
+								if($deleteQueuedEmails && $email instanceof QueuedEmailMessage){
 									$email->Delete();
 								}
 
-								$log = new Log(EMAIL_LOG_FILE_PATH);
-								$log->Write('Failed sending email to ' . $email->To . '. SES message: ' . $message . " SES code: " . $code . "\nSubject: " . $email->Subject . "\nBody:\n" . $email->BodyHtml);
+								(new Log(EMAIL_LOG_FILE_PATH))->Write('Failed sending email to ' . $email->To . '. SES message: ' . $message . " SES code: " . $code . "\nSubject: " . $email->Subject . "\nBody:\n" . $email->BodyHtml);
 							}
 						);
 				}
