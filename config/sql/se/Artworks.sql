@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `Artworks` (
   `ArtworkPageUrl` varchar(255) NULL,
   `IsPublishedInUs` tinyint(1) NOT NULL DEFAULT FALSE,
   `EbookId` int(10) unsigned NULL,
-  `MimeType` enum('image/jpeg', 'image/png', 'image/bmp', 'image/tiff') NOT NULL,
+  `MimeType` enum('image/jpeg', 'image/png', 'image/bmp', 'image/tiff', 'image/webp') NOT NULL,
   `Exception` TEXT NULL DEFAULT NULL,
   `Notes` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`ArtworkId`),
