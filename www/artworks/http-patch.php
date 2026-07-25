@@ -81,7 +81,7 @@ catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException
 	}
 
 	// If the `Artwork` reports that no image is uploaded, check to see if the image upload was too large. If so, show the user a clearer error message.
-	if($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class) && Http::$Request->IsRequestTooLarge){
+	if($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class) && Http::$Request->IsTooLarge){
 		$ex->Remove(Exceptions\ImageUploadInvalidException::class);
 		$ex->Add(new Exceptions\RequestInvalidException('File upload too large.'));
 	}

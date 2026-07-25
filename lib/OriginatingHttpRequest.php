@@ -37,7 +37,7 @@ class OriginatingHttpRequest{
 	/** The maximum size for an HTTP `POST` request, in bytes. */
 	public readonly int $MaxPostSize;
 	/** Is this request larger than the size allowed by PHP? This is based on PHP's maximum size of the *entire request*, which may be different from PHP's maximum allowed size for individual file uploads that are *part* of this request. */
-	public readonly bool $IsRequestTooLarge;
+	public readonly bool $IsTooLarge;
 	/** Does it look like web browser made this request, vs. an API call? */
 	public readonly bool $IsViaBrowser;
 	/** The IP address from which this request was made; this may be `null` if the request came from a proxy, or for various other reasons. */
@@ -132,9 +132,9 @@ class OriginatingHttpRequest{
 		$httpAccept = $this->Headers['accept'] ?? '';
 		$this->IsViaBrowser = (bool)preg_match('/\btext\/html\b/ius', $httpAccept);
 
-		$this->IsRequestTooLarge = $this->ContentLength !== null && $this->ContentLength > $this->MaxPostSize;
+		$this->IsTooLarge = $this->ContentLength !== null && $this->ContentLength > $this->MaxPostSize;
 
-		if($this->IsRequestTooLarge){
+		if($this->IsTooLarge){
 			if($this->IsViaBrowser && file_exists(WEB_ROOT . '/413.php')){
 				include(WEB_ROOT . '/413.php');
 			}
