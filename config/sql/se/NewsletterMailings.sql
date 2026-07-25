@@ -17,4 +17,4 @@ CREATE TABLE IF NOT EXISTS `NewsletterMailings` (
   `Updated` timestamp NOT NULL DEFAULT current_timestamp() on update current_timestamp(),
   PRIMARY KEY (`NewsletterMailingId`),
   KEY `idxStatus` (`Status`,`SendOn`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

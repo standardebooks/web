@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS `Polls` (
   `End` datetime NOT NULL,
   PRIMARY KEY (`PollId`),
   UNIQUE KEY `idxUnique` (`UrlName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

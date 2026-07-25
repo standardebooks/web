@@ -3,4 +3,4 @@ CREATE TABLE IF NOT EXISTS `ArtistAlternateNames` (
   `Name` varchar(255) NOT NULL,
   `UrlName` varchar(255) NOT NULL,
   UNIQUE KEY `idxUnique` (`ArtistId`,`Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

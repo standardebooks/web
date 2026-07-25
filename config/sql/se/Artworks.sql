@@ -25,4 +25,4 @@ CREATE TABLE IF NOT EXISTS `Artworks` (
   KEY `index1` (`Status`),
   KEY `index2` (`UrlName`),
   KEY `index3` (`ArtistId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

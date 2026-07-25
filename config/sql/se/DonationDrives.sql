@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS `se`.`DonationDrives` (
   `Created` TIMESTAMP NOT NULL DEFAULT current_timestamp(),
   `Updated` TIMESTAMP NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`DonationDriveId`),
-  INDEX `idxIsRunning` (`Start` ASC, `End` ASC, `TargetType` ASC) VISIBLE);
+  INDEX `idxIsRunning` (`Start` ASC, `End` ASC, `TargetType` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

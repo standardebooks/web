@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `NewsletterSubscriptions` (
   `Updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `idxUnique` (`UserId`,`NewsletterId`),
   KEY `newsletterid` (`NewsletterId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

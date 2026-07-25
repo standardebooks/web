@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `EbookPlaceholders` (
   `IsInProgress` boolean NOT NULL DEFAULT FALSE,
   `Notes` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`EbookId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

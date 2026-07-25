@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS `se`.`Spreadsheets` (
   PRIMARY KEY (`SpreadsheetId`),
   UNIQUE KEY `idxExternalUrl` (`ExternalUrl`),
   KEY `idxCategorySortOrder` (`Category`, `SortOrder`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

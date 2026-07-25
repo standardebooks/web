@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS `Patrons` (
   `Ended` datetime DEFAULT NULL,
   KEY `index2` (`IsAnonymous`,`Ended`),
   KEY `index1` (`UserId`,`Ended`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

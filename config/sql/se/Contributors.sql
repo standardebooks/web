@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS `Contributors` (
   `SortOrder` tinyint(3) unsigned NOT NULL,
   KEY `index1` (`EbookId`),
   KEY `index2` (`UrlName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

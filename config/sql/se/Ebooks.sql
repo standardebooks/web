@@ -33,4 +33,4 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   UNIQUE KEY `index1` (`Identifier`),
   KEY `index2` (`EbookCreated`),
   KEY `idxPopularity` (`DownloadsPast30Days` DESC, `EbookCreated` DESC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

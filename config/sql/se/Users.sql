@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS `Users` (
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `idxEmail` (`Email`,`Uuid`,`UserId`),
   UNIQUE KEY `idxUniqueEmail` (`Email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS `Collections` (
   `ArePlaceholdersComplete` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`CollectionId`),
   UNIQUE KEY `idxUnique` (`UrlName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

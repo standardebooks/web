@@ -153,7 +153,7 @@ class Db{
 	 * @param string $host The database hostname.
 	 * @param ?string $user The user to connect to, or `null` to log in as the current Unix user via a local socket.
 	 * @param string $password The password to use, or an empty string if no password is required.
-	 * @param bool $forceUtf8 If **TRUE**, issue `set names utf8mb4 collate utf8mb4_unicode_ci` when starting the connection.
+	 * @param bool $forceUtf8 If **TRUE**, issue `set names utf8mb4 collate utf8mb4_unicode_520_ci` when starting the connection.
 	 * @param bool $emulatePrepares Set `\PDO::ATTR_EMULATE_PREPARES` to this value.
 	 *
 	 * @throws Exceptions\DatabaseConnectionFailedException If the connection failed.
@@ -198,7 +198,7 @@ class Db{
 		$params = [\PDO::ATTR_EMULATE_PREPARES => $emulatePrepares, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
 
 		if($forceUtf8){
-			$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_ci;';
+			$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_520_ci;';
 		}
 
 		try{

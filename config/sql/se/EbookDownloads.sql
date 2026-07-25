@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS `EbookDownloads` (
   `UserAgent` mediumtext NULL,
   `Source` enum('feed', 'download') NULL,
   INDEX `idxCreated` (`Created`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS `PollItems` (
   `Description` text DEFAULT NULL,
   `SortOrder` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`PollItemId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

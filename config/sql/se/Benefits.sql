@@ -22,4 +22,4 @@ CREATE TABLE IF NOT EXISTS `Benefits` (
   `CanEditPolls` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`UserId`),
   KEY `idxBenefits` (`CanAccessFeeds`,`CanVote`,`CanBulkDownload`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

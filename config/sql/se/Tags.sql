@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `Tags` (
   KEY `index1` (`Name`),
   KEY `index2` (`Type`),
   KEY `index3` (`UrlName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

@@ -4,4 +4,4 @@ CREATE TABLE IF NOT EXISTS `Museums` (
   `Domain` varchar(255) NOT NULL,
   `LicenseXPath` varchar(255) NULL,
   PRIMARY KEY (`MuseumId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

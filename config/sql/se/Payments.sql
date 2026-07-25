@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS `Payments` (
   `IsRefunded` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`PaymentId`),
   KEY `index2` (`UserId`,`Amount`,`Created`,`IsRecurring`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

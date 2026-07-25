@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS `EbookDownloadSummaries` (
   UNIQUE INDEX `idxUnique` (`EbookId`, `Date`),
   INDEX `index1` (Date, EbookId, DownloadCount),
   INDEX `index2` (EbookId, DownloadCount)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

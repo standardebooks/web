@@ -3,4 +3,4 @@ CREATE TABLE IF NOT EXISTS `LocSubjects` (
   `Name` varchar(255) NOT NULL,
   PRIMARY KEY (`LocSubjectId`),
   UNIQUE KEY `idxUnique` (`Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

@@ -4,4 +4,4 @@ CREATE TABLE IF NOT EXISTS `EbookTags` (
   `SortOrder` tinyint(3) unsigned NOT NULL,
   UNIQUE KEY `idxUnique` (`EbookId`,`TagId`),
   KEY `index1` (`TagId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

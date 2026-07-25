@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS `QueuedEmailMessages` (
   `UnsubscribeUrl` text DEFAULT NULL,
   `Provider` enum('ses') NOT NULL,
   `Attachments` mediumblob DEFAULT NULL,
-  `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '{}' CHECK (json_valid(`Metadata`)),
+  `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '{}' CHECK (json_valid(`Metadata`)),
   PRIMARY KEY (`QueuedEmailMessageId`),
   KEY `idxStatus` (`Priority`,`QueuedEmailMessageId`),
   KEY `idxTo` (`To`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

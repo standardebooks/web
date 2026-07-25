@@ -10,4 +10,4 @@ CREATE TABLE `se`.`DonationCounters` (
   `Updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`DonationCounterId`),
   KEY `idxRunning` (`Start`,`End`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `EmailBounces` (
   `Created` timestamp NOT NULL DEFAULT current_timestamp(),
   `Source` enum('ses') NOT NULL,
   KEY `idxUserId` (`UserId`,`IsActive`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

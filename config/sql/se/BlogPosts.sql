@@ -14,4 +14,4 @@ CREATE TABLE IF NOT EXISTS `se`.`BlogPosts` (
   PRIMARY KEY (`BlogPostId`),
   UNIQUE KEY `index2` (`UrlTitle`),
   KEY `index3` (`Published` ASC)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

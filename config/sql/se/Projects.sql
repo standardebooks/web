@@ -19,4 +19,4 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   PRIMARY KEY (`ProjectId`),
   KEY `index1` (`EbookId`),
   KEY `indexProducerUserId` (`ProducerUserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

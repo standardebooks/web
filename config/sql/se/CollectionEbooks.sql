@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS `CollectionEbooks` (
   `SortOrder` tinyint(3) unsigned NOT NULL,
   `TitleInCollection` varchar(255) NULL DEFAULT NULL,
   KEY `index` (`EbookId`,`CollectionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

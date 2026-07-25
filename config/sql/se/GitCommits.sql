@@ -4,4 +4,4 @@ CREATE TABLE IF NOT EXISTS `GitCommits` (
   `Message` text NOT NULL,
   `Hash` char(40) NOT NULL,
   KEY `index1` (`EbookId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
