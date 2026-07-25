@@ -48,7 +48,7 @@ class QueuedEmailMessage extends EmailMessage{
 		$chunks = array_chunk($queuedEmailMessages, 100);
 
 		foreach($chunks as $chunk){
-			$sql = 'insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Timestamp, Provider, Attachments, Metadata) values ';
+			$sql = 'insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values ';
 
 			$arguments = [];
 			foreach($chunk as $em){
