@@ -62,7 +62,7 @@ class EbookPlaceholder{
 					}
 					else{
 						$months = 13 - (int)(NOW->format('n'));
-						$this->_TimeTillIsPublicDomain = $months . Formatter::Pluralize($months, 'month');
+						$this->_TimeTillIsPublicDomain = $months . ' ' . Formatter::Pluralize($months, 'month');
 					}
 				}
 			}
