@@ -22,13 +22,13 @@ $isEditForm ??= false;
 	<span>Publish on</span>
 	<span><?= SITE_TZ_STRING ?>.</span>
 
-	<? /* `Published` is stored as UTC in the object, but must be in the `SITE_TZ` time zone for this element. */ ?>
+	<? /* `PublishedAt` is stored as UTC in the object, but must be in the `SITE_TZ` time zone for this element. */ ?>
 	<input
 		type="datetime-local"
-		name="blog-post-published"
+		name="blog-post-published-at"
 		required="required"
 		step="1" <? /* Required to be able to set down to seconds granularity. */ ?>
-		value="<?= $blogPost->Published->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?>" />
+		value="<?= $blogPost->PublishedAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?>" />
 </label>
 <label>
 	<span>Title</span>

@@ -14,13 +14,13 @@ class DonationDrive{
 	public int $DonationDriveId;
 	public Enums\DonationTargetType $TargetType;
 	public string $Name;
-	public DateTimeImmutable $Start;
-	public DateTimeImmutable $End;
+	public DateTimeImmutable $StartAt;
+	public DateTimeImmutable $EndAt;
 	public int $Target = 0;
 	public ?int $StretchTarget;
 	public int $Count = 0;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 
 	protected int $_StretchCount;
 	protected bool $_IsStretchEnabled;
@@ -41,9 +41,9 @@ class DonationDrive{
 				UserId is null
 				and
 				(
-					#(IsRecurring = true and Amount >= ? and Created >= ?)
+					#(IsRecurring = true and Amount >= ? and CreatedAt >= ?)
 					#or
-					(IsRecurring = false and Amount >= ? and Created >= ?)
+					(IsRecurring = false and Amount >= ? and CreatedAt >= ?)
 				)
 			)
 			union all
@@ -52,7 +52,7 @@ class DonationDrive{
 				select count(*) as cnt
 				from
 				(
-					select Created
+					select CreatedAt
 					from Patrons
 					where
 					UserId is not null
@@ -60,7 +60,7 @@ class DonationDrive{
 					having count(UserId) = 1
 				) x
 				where
-				Created >= ?
+				CreatedAt >= ?
 			)
 		) y
 		', [PATRONS_CIRCLE_YEARLY_COST, $startDateUtc, $startDateUtc]);
@@ -113,10 +113,10 @@ class DonationDrive{
 	// ***********
 
 	public static function AddCountToIsActive(Enums\DonationTargetType $targetType): void{
-		Db::Query('UPDATE DonationDrives set Count = Count + 1 where utc_timestamp() > Start and utc_timestamp() < End and TargetType = ?', [$targetType]);
+		Db::Query('UPDATE DonationDrives set Count = Count + 1 where utc_timestamp() > StartAt and utc_timestamp() < EndAt and TargetType = ?', [$targetType]);
 	}
 
 	public static function GetByIsActive(): ?DonationDrive{
-		return Db::Query('SELECT * from DonationDrives where utc_timestamp() > Start and utc_timestamp() < End and Count < Target + StretchTarget', [], DonationDrive::class)[0] ?? null;
+		return Db::Query('SELECT * from DonationDrives where utc_timestamp() > StartAt and utc_timestamp() < EndAt and Count < Target + StretchTarget', [], DonationDrive::class)[0] ?? null;
 	}
 }

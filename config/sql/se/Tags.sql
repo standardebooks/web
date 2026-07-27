@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `Tags` (
   `UrlName` varchar(255) NOT NULL,
   `Type` enum('artwork', 'ebook') DEFAULT 'artwork',
   PRIMARY KEY (`TagId`),
-  KEY `index1` (`Name`),
-  KEY `index2` (`Type`),
-  KEY `index3` (`UrlName`)
+  KEY `Name` (`Name`),
+  KEY `Type` (`Type`),
+  KEY `UrlName` (`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

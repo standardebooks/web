@@ -43,9 +43,9 @@ class BlogPost{
 	public ?string $Description;
 	public string $UrlTitle;
 	public int $UserId;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
-	public DateTimeImmutable $Published = NOW;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
+	public DateTimeImmutable $PublishedAt = NOW;
 	public ?string $ImageCacheKey = null;
 	public ?string $HeroImageCaption = null;
 
@@ -353,14 +353,14 @@ class BlogPost{
 		}
 
 		$this->Validate($userIdentifier, $ebookIdentifiers, $heroImagePath, $hasHeroImage);
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 		if($heroImagePath !== null){
 			$this->ImageCacheKey = $this->GenerateImageCacheKey();
 		}
 
 		try{
 			$this->BlogPostId = Db::QueryInt('
-				INSERT into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, Published, Created)
+				INSERT into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, PublishedAt, CreatedAt)
 				values (?,
 				        ?,
 				        ?,
@@ -372,7 +372,7 @@ class BlogPost{
 				        ?,
 				        ?)
 				returning BlogPostId
-			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->Published, $this->Created]);
+			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->CreatedAt]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\BlogPostExistsException();
@@ -412,8 +412,8 @@ class BlogPost{
 		try{
 			Db::Query('
 				UPDATE BlogPosts
-				set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, ImageCacheKey = ?, HeroImageCaption = ?, Published = ? where BlogPostId = ?
-			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->Published, $this->BlogPostId]);
+				set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, ImageCacheKey = ?, HeroImageCaption = ?, PublishedAt = ? where BlogPostId = ?
+			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->BlogPostId]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\BlogPostExistsException();
@@ -611,12 +611,12 @@ class BlogPost{
 			$this->Body = Http::$Request->Body->Get('blog-post-body');
 		}
 
-		// `Published` is always interpreted as being sent in the `America/Chicago` timezone.
+		// `PublishedAt` is always interpreted as being sent in the `America/Chicago` timezone.
 		// Therefore we have to do some gymnastics to store it as UTC in our object.
-		$published = Http::$Request->Body->Get('blog-post-published');
+		$published = Http::$Request->Body->Get('blog-post-published-at');
 		if($published !== null){
 			/** @throws void */
-			$this->Published = (new DateTimeImmutable($published, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
+			$this->PublishedAt = (new DateTimeImmutable($published, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
 		}
 	}
 
@@ -647,8 +647,8 @@ class BlogPost{
 		return Db::Query('
 			SELECT *
 			from BlogPosts
-			where Published < utc_timestamp()
-			order by Published desc', [], BlogPost::class);
+			where PublishedAt < utc_timestamp()
+			order by PublishedAt desc', [], BlogPost::class);
 	}
 
 	/**
@@ -658,7 +658,7 @@ class BlogPost{
 		return Db::Query('
 			SELECT *
 			from BlogPosts
-			order by Created desc', [], BlogPost::class);
+			order by CreatedAt desc', [], BlogPost::class);
 	}
 
 	/**
@@ -683,7 +683,7 @@ class BlogPost{
 			$blogPosts = Db::Query('
 					SELECT SQL_CALC_FOUND_ROWS *
 					from BlogPosts
-					order by Created desc
+					order by CreatedAt desc
 					limit ?
 					offset ?
 				', [$perPage, $offset], BlogPost::class);
@@ -692,8 +692,8 @@ class BlogPost{
 			$blogPosts = Db::Query('
 					SELECT SQL_CALC_FOUND_ROWS *
 					from BlogPosts
-					where Published < utc_timestamp()
-					order by Published desc
+					where PublishedAt < utc_timestamp()
+					order by PublishedAt desc
 					limit ?
 					offset ?
 				', [$perPage, $offset], BlogPost::class);

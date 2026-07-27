@@ -156,10 +156,10 @@ catch(Exceptions\EbookNotFoundException){
 						</dd>
 						<dt>Started on:</dt>
 						<dd>
-							<? if(intval($ebook->ProjectInProgress->Started->format('Y')) == intval(NOW->format('Y'))){ ?>
-								<?= $ebook->ProjectInProgress->Started->format(Enums\DateTimeFormat::ShortDateWithoutYear->value) ?>
+							<? if(intval($ebook->ProjectInProgress->StartedAt->format('Y')) == intval(NOW->format('Y'))){ ?>
+								<?= $ebook->ProjectInProgress->StartedAt->format(Enums\DateTimeFormat::ShortDateWithoutYear->value) ?>
 							<? }else{ ?>
-								<?= $ebook->ProjectInProgress->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
+								<?= $ebook->ProjectInProgress->StartedAt->format(Enums\DateTimeFormat::ShortDate->value) ?>
 							<? } ?>
 						</dd>
 						<dt>Last activity:</dt>

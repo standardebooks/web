@@ -1,8 +1,6 @@
 CREATE TABLE IF NOT EXISTS `Ebooks` (
   `EbookId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Identifier` varchar(511) NOT NULL,
-  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `WwwFilesystemPath` varchar(511) NULL,
   `RepoFilesystemPath` varchar(511) NULL,
   `KindleCoverUrl` varchar(511) NULL,
@@ -23,14 +21,16 @@ CREATE TABLE IF NOT EXISTS `Ebooks` (
   `ReadingEase` float NULL,
   `GitHubUrl` varchar(255) NULL,
   `WikipediaUrl` varchar(255) NULL,
-  `EbookCreated` datetime NULL,
-  `EbookUpdated` datetime NULL,
+  `EbookCreatedAt` datetime NULL,
+  `EbookUpdatedAt` datetime NULL,
   `TextSinglePageByteCount` bigint unsigned NULL,
   `DownloadsPast30Days` int(10) unsigned NOT NULL DEFAULT 0,
   `DownloadsTotal` int(10) unsigned NOT NULL DEFAULT 0,
   `IsPatronSelection` boolean NOT NULL DEFAULT FALSE,
+  `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`EbookId`),
-  UNIQUE KEY `index1` (`Identifier`),
-  KEY `index2` (`EbookCreated`),
-  KEY `idxPopularity` (`DownloadsPast30Days` DESC, `EbookCreated` DESC)
+  UNIQUE KEY `Identifier` (`Identifier`),
+  KEY `EbookCreatedAt` (`EbookCreatedAt`),
+  KEY `DownloadsPast30Days_EbookCreatedAt` (`DownloadsPast30Days` DESC, `EbookCreatedAt` DESC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

@@ -15,8 +15,8 @@ class Artist{
 
 	public int $ArtistId;
 	public string $Name = '';
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 	public ?int $DeathYear = null;
 
 	protected string $_UrlName;

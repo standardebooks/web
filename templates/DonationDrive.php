@@ -17,8 +17,8 @@ if(
 $autoHide ??= true;
 $showDonateButton ??= true;
 
-$deadline = $donationDrive->End->setTimezone(SITE_TZ)->format('F j');
-$timeLeft = NOW->diff($donationDrive->End);
+$deadline = $donationDrive->EndAt->setTimezone(SITE_TZ)->format('F j');
+$timeLeft = NOW->diff($donationDrive->EndAt);
 $timeString = '';
 $stretchStartingPosition = 0;
 

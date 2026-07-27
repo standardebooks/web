@@ -32,7 +32,7 @@ Db::Query('set session slow_query_log = 0');
 // We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
 $expiredPatrons = Db::Query('
 	SELECT * from Patrons where
-	Ended is null
+	EndedAt is null
 	and
 	UserId != 12454 # This is the only recurring donor-advised fund donation we have, but it sometimes doesn\'t get picked up by our script, possibly because FA hand-inserts a backdated transaction at a page of donations that we\'ve already passed. If that happens, don\'t cancel their Patron status accidentally.
 	and
@@ -42,17 +42,17 @@ $expiredPatrons = Db::Query('
 		inner join Payments py
 		using (UserId)
 		where
-			p.Ended is null and
+			p.EndedAt is null and
 			(
-				(IsRecurring = true and CycleType = ? and Amount >= p.BaseCost and py.Created > ? - interval 45 day)
+				(IsRecurring = true and CycleType = ? and Amount >= p.BaseCost and py.CreatedAt > ? - interval 45 day)
 				or
-				(IsRecurring = false and CycleType = ? and Amount >= p.BaseCost and py.Created > ? - interval 1 year)
+				(IsRecurring = false and CycleType = ? and Amount >= p.BaseCost and py.CreatedAt > ? - interval 1 year)
 			)
 	)
 ', [Enums\CycleType::Monthly, NOW, Enums\CycleType::Yearly, NOW], Patron::class);
 
 if(sizeof($expiredPatrons) > 0){
-	$ebooksThisYear = Db::QueryInt('SELECT count(*) from Ebooks where EbookCreated >= ? - interval 1 year', [NOW]);
+	$ebooksThisYear = Db::QueryInt('SELECT count(*) from Ebooks where EbookCreatedAt >= ? - interval 1 year', [NOW]);
 
 	foreach($expiredPatrons as $patron){
 		$patron->End($ebooksThisYear);

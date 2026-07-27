@@ -21,8 +21,8 @@ print('<?xml version="1.0" encoding="utf-8"?>');
 			<author>
 				<name><?= Formatter::EscapeXml($blogPost->User->Name) ?></name>
 			</author>
-			<published><?= $blogPost->Published->format(Enums\DateTimeFormat::Iso->value) ?></published>
-			<updated><?= $blogPost->Updated->format(Enums\DateTimeFormat::Iso->value) ?></updated>
+			<published><?= $blogPost->PublishedAt->format(Enums\DateTimeFormat::Iso->value) ?></published>
+			<updated><?= $blogPost->UpdatedAt->format(Enums\DateTimeFormat::Iso->value) ?></updated>
 			<rights>https://creativecommons.org/publicdomain/zero/1.0/</rights>
 			<? if(isset($blogPost->Excerpt)){ ?>
 				<content type="text"><?= $blogPost->Excerpt ?></content>

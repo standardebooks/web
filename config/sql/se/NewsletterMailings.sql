@@ -9,12 +9,12 @@ CREATE TABLE IF NOT EXISTS `NewsletterMailings` (
   `BodyText` text NOT NULL,
   `FromName` varchar(255) DEFAULT NULL,
   `FromEmail` varchar(255) NOT NULL,
-  `SendOn` datetime NOT NULL,
+  `SendAt` datetime NOT NULL,
   `RecipientCount` int(10) unsigned DEFAULT NULL,
   `OpenCount` int(10) unsigned DEFAULT NULL,
   `InternalName` varchar(255) DEFAULT NULL,
-  `Created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Updated` timestamp NOT NULL DEFAULT current_timestamp() on update current_timestamp(),
+  `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`NewsletterMailingId`),
-  KEY `idxStatus` (`Status`,`SendOn`)
+  KEY `Status_SendAt` (`Status`,`SendAt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

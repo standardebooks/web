@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS `QueuedEmailMessages` (
   `QueuedEmailMessageId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `To` varchar(80) NOT NULL,
   `ToName` varchar(255) NULL,
   `From` varchar(80) NOT NULL,
@@ -14,7 +13,8 @@ CREATE TABLE IF NOT EXISTS `QueuedEmailMessages` (
   `Provider` enum('ses') NOT NULL,
   `Attachments` mediumblob DEFAULT NULL,
   `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '{}' CHECK (json_valid(`Metadata`)),
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`QueuedEmailMessageId`),
-  KEY `idxStatus` (`Priority`,`QueuedEmailMessageId`),
-  KEY `idxTo` (`To`)
+  KEY `Priority_QueuedEmailMessageId` (`Priority`,`QueuedEmailMessageId`),
+  KEY `To` (`To`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

@@ -46,7 +46,7 @@ http_response_code(Enums\HttpCode::MultipleChoices->value);
 		<p>There are <?= number_format(sizeof($users)) ?> users with that name:</p>
 		<ul>
 			<? foreach($users as $user){ ?>
-				<li><a href="<?= $user->Url ?>"><?= Formatter::EscapeHtml($user->Name) ?> (#<?= $user->UserId ?>), created <?= $user->Created->format(Enums\DateTimeFormat::ShortDate->value) ?></a></li>
+				<li><a href="<?= $user->Url ?>"><?= Formatter::EscapeHtml($user->Name) ?> (#<?= $user->UserId ?>), created <?= $user->CreatedAt->format(Enums\DateTimeFormat::ShortDate->value) ?></a></li>
 			<? } ?>
 		</ul>
 	</section>

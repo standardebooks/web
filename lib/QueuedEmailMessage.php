@@ -9,7 +9,7 @@ class QueuedEmailMessage extends EmailMessage{
 	use Traits\FromRow;
 
 	public int $QueuedEmailMessageId;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	public Enums\Priority $Priority = Enums\Priority::Normal;
 	public Enums\EmailProviderType $Provider = Enums\EmailProviderType::Ses;
 
@@ -17,13 +17,13 @@ class QueuedEmailMessage extends EmailMessage{
 		try{
 			$this->Validate();
 
-			$this->Created = NOW;
+			$this->CreatedAt = NOW;
 
 			$attachments = sizeof($this->Attachments) > 0 ? serialize($this->Attachments) : null;
 			$metadata = json_encode($this->Metadata);
 
 			// Warning: `To` and `From` have to be in ticks because they're SQL keywords.
-			Db::Query('INSERT into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->ToName, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->Created, $this->Provider, $attachments, $metadata]);
+			Db::Query('INSERT into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, CreatedAt, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->ToName, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->CreatedAt, $this->Provider, $attachments, $metadata]);
 		}
 		catch(Exceptions\EmailMessageInvalidException $ex){
 			$log = new Log();
@@ -48,7 +48,7 @@ class QueuedEmailMessage extends EmailMessage{
 		$chunks = array_chunk($queuedEmailMessages, 100);
 
 		foreach($chunks as $chunk){
-			$sql = 'insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, Created, Provider, Attachments, Metadata) values ';
+			$sql = 'insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, CreatedAt, Provider, Attachments, Metadata) values ';
 
 			$arguments = [];
 			foreach($chunk as $em){

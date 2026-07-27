@@ -14,7 +14,7 @@ try{
 
 	$canVote = true; // Allow non-logged-in users to see the 'vote' button.
 
-	if(!$poll->IsActive() && $poll->End < NOW){
+	if(!$poll->IsActive() && $poll->EndAt < NOW){
 		// If the poll ended, redirect to the results.
 		header('location: ' . $poll->Url . '/votes');
 		exit();
@@ -71,7 +71,7 @@ catch(Exceptions\PollNotFoundException){
 			<p><?= $poll->Description->ToHtmlFragment(true) ?></p>
 		<? } ?>
 		<? if($poll->IsActive()){ ?>
-			<p class="center-notice">This poll closes on <?= $poll->End->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
+			<p class="center-notice">This poll closes on <?= $poll->EndAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
 			<? if(!$canVote){ ?>
 				<p class="center-notice">You’ve already voted in this poll.</p>
 			<? } ?>
@@ -82,10 +82,10 @@ catch(Exceptions\PollNotFoundException){
 				<a href="<?= $poll->Url ?>/votes" class="button">View results</a>
 			</p>
 		<? }else{ ?>
-			<? if($poll->Start > NOW){ ?>
-				<p class="center-notice">This poll opens on <?= $poll->Start->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
+			<? if($poll->StartAt > NOW){ ?>
+				<p class="center-notice">This poll opens on <?= $poll->StartAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
 			<? }else{ ?>
-				<p class="center-notice">This poll closed on <?= $poll->End->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
+				<p class="center-notice">This poll closed on <?= $poll->EndAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
 				<p class="button-row narrow"><a href="<?= $poll->Url ?>/votes" class="button">View results</a></p>
 			<? } ?>
 		<? } ?>

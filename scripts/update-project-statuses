@@ -77,7 +77,7 @@ foreach($projects as $project){
 			&&
 			$project->LastActivityTimestamp < $oldestStalledTimestamp
 			&&
-			$project->GetReminder(Enums\ProjectReminderType::Stalled)?->Created < $oldestAbandonedTimestamp
+			$project->GetReminder(Enums\ProjectReminderType::Stalled)?->CreatedAt < $oldestAbandonedTimestamp
 		){
 			// A stalled `Project` is now abandoned.
 			$project->Status = Enums\ProjectStatusType::Abandoned;

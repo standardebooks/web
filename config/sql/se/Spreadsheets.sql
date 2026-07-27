@@ -5,9 +5,9 @@ CREATE TABLE IF NOT EXISTS `se`.`Spreadsheets` (
   `Category` ENUM('available', 'help_wanted', 'incomplete', 'complete', 'legacy') NOT NULL,
   `Notes` TEXT NULL DEFAULT NULL,
   `SortOrder` SMALLINT UNSIGNED NOT NULL,
-  `Created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`SpreadsheetId`),
-  UNIQUE KEY `idxExternalUrl` (`ExternalUrl`),
-  KEY `idxCategorySortOrder` (`Category`, `SortOrder`)
+  UNIQUE KEY `ExternalUrl` (`ExternalUrl`),
+  KEY `Category_SortOrder` (`Category`, `SortOrder`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

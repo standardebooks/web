@@ -201,12 +201,12 @@ abstract class OpdsFeed extends AtomFeed{
 			],
 		];
 
-		if($ebook->EbookCreated !== null){
-			$output['metadata']['published'] = $ebook->EbookCreated->format(Enums\DateTimeFormat::Iso->value);
+		if($ebook->EbookCreatedAt !== null){
+			$output['metadata']['published'] = $ebook->EbookCreatedAt->format(Enums\DateTimeFormat::Iso->value);
 		}
 
-		if($ebook->EbookUpdated !== null){
-			$output['metadata']['modified'] = $ebook->EbookUpdated->format(Enums\DateTimeFormat::Iso->value);
+		if($ebook->EbookUpdatedAt !== null){
+			$output['metadata']['modified'] = $ebook->EbookUpdatedAt->format(Enums\DateTimeFormat::Iso->value);
 		}
 
 		foreach($ebook->Authors as $author){

@@ -2,4 +2,4 @@ CREATE TABLE IF NOT EXISTS `se`.`BlogPostEbooks` (
   `BlogPostId` INT UNSIGNED NOT NULL,
   `EbookId` INT UNSIGNED NOT NULL,
   `SortOrder` SMALLINT UNSIGNED NOT NULL,
-  INDEX `idxBlogPost` (`BlogPostId` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  INDEX `BlogPostId` (`BlogPostId` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

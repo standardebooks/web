@@ -65,8 +65,8 @@ catch(Exceptions\BlogPostNotFoundException){
 
 		<p class="byline">By <?= Formatter::EscapeHtml($blogPost->User->Name) ?></p>
 
-		<? if($blogPost->Published > NOW){ ?>
-			<p class="message info">This blog post is scheduled to be published on <?= date_format($blogPost->Published->setTimezone(SITE_TZ), Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
+		<? if($blogPost->PublishedAt > NOW){ ?>
+			<p class="message info">This blog post is scheduled to be published on <?= date_format($blogPost->PublishedAt->setTimezone(SITE_TZ), Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
 		<? } ?>
 
 		<?= Template::DonationDrive() ?>

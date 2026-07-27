@@ -31,14 +31,14 @@ final class Project{
 	public int $ProducerUserId;
 	public ?string $DiscussionUrl = null;
 	public ?string $VcsUrl;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
-	public DateTimeImmutable $Started;
-	public ?DateTimeImmutable $Ended = null;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
+	public DateTimeImmutable $StartedAt;
+	public ?DateTimeImmutable $EndedAt = null;
 	public int $ManagerUserId;
 	public int $ReviewerUserId;
-	public ?DateTimeImmutable $LastCommitTimestamp = null;
-	public ?DateTimeImmutable $LastDiscussionTimestamp = null;
+	public ?DateTimeImmutable $LastCommitAt = null;
+	public ?DateTimeImmutable $LastDiscussionAt = null;
 	public bool $IsStatusAutomaticallyUpdated = true;
 	public bool $HasReviewerBeenNotified = false;
 	public bool $AreDiscussionMessagesComplete = false;
@@ -124,9 +124,9 @@ final class Project{
 	protected function GetLastActivityTimestamp(): DateTimeImmutable{
 		if(!isset($this->_LastActivityTimestamp)){
 			$dates = [
-				(int)($this->LastCommitTimestamp?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastCommitTimestamp ?? NOW,
-				(int)($this->LastDiscussionTimestamp?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastDiscussionTimestamp ?? NOW,
-				(int)($this->Started->format(Enums\DateTimeFormat::UnixTimestamp->value)) => $this->Started,
+				(int)($this->LastCommitAt?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastCommitAt ?? NOW,
+				(int)($this->LastDiscussionAt?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastDiscussionAt ?? NOW,
+				(int)($this->StartedAt->format(Enums\DateTimeFormat::UnixTimestamp->value)) => $this->StartedAt,
 			];
 
 			ksort($dates);
@@ -162,7 +162,7 @@ final class Project{
 	 * @return array<ProjectReminder>
 	 */
 	protected function GetReminders(): array{
-		return $this->_Reminders ??= Db::Query('SELECT * from ProjectReminders where ProjectId = ? order by Created asc', [$this->ProjectId], ProjectReminder::class);
+		return $this->_Reminders ??= Db::Query('SELECT * from ProjectReminders where ProjectId = ? order by CreatedAt asc', [$this->ProjectId], ProjectReminder::class);
 	}
 
 
@@ -268,8 +268,8 @@ final class Project{
 			}
 		}
 
-		if(!isset($this->Started)){
-			$this->Started = NOW;
+		if(!isset($this->StartedAt)){
+			$this->StartedAt = NOW;
 		}
 
 		if($createProducer){
@@ -333,8 +333,8 @@ final class Project{
 		}
 
 		// Don't let the started date be later than the first commit date. This can happen if the producer starts to commit before their project is approved on the mailing list.
-		if($this->LastCommitTimestamp !== null && $this->Started > $this->LastCommitTimestamp){
-			$this->Started = $this->LastCommitTimestamp;
+		if($this->LastCommitAt !== null && $this->StartedAt > $this->LastCommitAt){
+			$this->StartedAt = $this->LastCommitAt;
 		}
 
 		// Is this ebook already released?
@@ -355,14 +355,14 @@ final class Project{
 					ProducerUserId,
 					DiscussionUrl,
 					VcsUrl,
-					Created,
-					Updated,
-					Started,
-					Ended,
+					CreatedAt,
+					UpdatedAt,
+					StartedAt,
+					EndedAt,
 					ManagerUserId,
 					ReviewerUserId,
-					LastCommitTimestamp,
-					LastDiscussionTimestamp,
+					LastCommitAt,
+					LastDiscussionAt,
 					IsStatusAutomaticallyUpdated,
 					HasReviewerBeenNotified,
 					AreDiscussionMessagesComplete
@@ -387,7 +387,7 @@ final class Project{
 					?
 				)
 				returning ProjectId
-			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->AreDiscussionMessagesComplete]);
+			', [$this->EbookId, $this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, NOW, NOW, $this->StartedAt, $this->EndedAt, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitAt, $this->LastDiscussionAt, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->AreDiscussionMessagesComplete]);
 
 		$discussionMessageId = $this->GetRootDiscussionMessageId();
 		if($discussionMessageId !== null){
@@ -456,18 +456,18 @@ final class Project{
 			ProducerUserId = ?,
 			DiscussionUrl = ?,
 			VcsUrl = ?,
-			Started = ?,
-			Ended = ?,
+			StartedAt = ?,
+			EndedAt = ?,
 			ManagerUserId = ?,
 			ReviewerUserId = ?,
-			LastCommitTimestamp = ?,
-			LastDiscussionTimestamp = ?,
+			LastCommitAt = ?,
+			LastDiscussionAt = ?,
 			IsStatusAutomaticallyUpdated = ?,
 			HasReviewerBeenNotified = ?,
 			AreDiscussionMessagesComplete = ?
 			where
 			ProjectId = ?
-		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->Started, $this->Ended, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitTimestamp, $this->LastDiscussionTimestamp, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->AreDiscussionMessagesComplete, $this->ProjectId]);
+		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->StartedAt, $this->EndedAt, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitAt, $this->LastDiscussionAt, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->AreDiscussionMessagesComplete, $this->ProjectId]);
 
 		Db::Query('
 			UPDATE
@@ -585,7 +585,7 @@ final class Project{
 			(
 				ProjectId,
 				MessageId,
-				Created
+				CreatedAt
 			)
 			values (?, ?, ?)
 		', $parameters);
@@ -694,8 +694,8 @@ final class Project{
 		$this->PropertyFromRequest('DiscussionUrl');
 		$this->PropertyFromRequest('Status');
 		$this->PropertyFromRequest('VcsUrl');
-		$this->PropertyFromRequest('Started');
-		$this->PropertyFromRequest('Ended');
+		$this->PropertyFromRequest('StartedAt');
+		$this->PropertyFromRequest('EndedAt');
 		$this->PropertyFromRequest('ManagerUserId');
 		$this->PropertyFromRequest('ReviewerUserId');
 		$this->PropertyFromRequest('IsStatusAutomaticallyUpdated');
@@ -785,7 +785,7 @@ final class Project{
 	}
 
 	/**
-	 * Update this object's `$LastCommitTimestamp` with data from its GitHub repo.
+	 * Update this object's `$LastCommitAt` with data from its GitHub repo.
 	 *
 	 * @throws Exceptions\AppException If the operation failed.
 	 */
@@ -814,7 +814,7 @@ final class Project{
 			$commits = $response->Json;
 
 			if(sizeof($commits) > 0){
-				$this->LastCommitTimestamp = new DateTimeImmutable($commits[0]->commit->committer->date);
+				$this->LastCommitAt = new DateTimeImmutable($commits[0]->commit->committer->date);
 			}
 		}
 		catch(Exception $ex){
@@ -931,7 +931,7 @@ final class Project{
 	 * @return array<Project>
 	 */
 	public static function GetAllByProducerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ProducerUserId = ? order by Projects.Created desc', [$userId], Project::class);
+		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ProducerUserId = ? order by Projects.CreatedAt desc', [$userId], Project::class);
 	}
 
 	/**

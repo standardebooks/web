@@ -85,7 +85,7 @@ for($i = 0; $i < $runs; $i++){
 
 		Db::Query('set transaction isolation level read committed');
 		Db::Query('start transaction');
-		$queuedItems = Db::Query('select * from QueuedEmailMessages force index (idxStatus) where Provider = ? order by Priority desc limit ? for update skip locked', [Enums\EmailProviderType::Ses, $emailsPerRun], QueuedEmailMessage::class);
+		$queuedItems = Db::Query('select * from QueuedEmailMessages force index (Priority_QueuedEmailMessageId) where Provider = ? order by Priority desc limit ? for update skip locked', [Enums\EmailProviderType::Ses, $emailsPerRun], QueuedEmailMessage::class);
 
 		if(sizeof($queuedItems) > 0){
 			$queuedItemIds = array_map(fn(QueuedEmailMessage $queuedItem): int => $queuedItem->QueuedEmailMessageId, $queuedItems);

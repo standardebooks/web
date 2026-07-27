@@ -3,16 +3,16 @@ use Safe\DateTimeImmutable;
 
 class EmailBounce{
 	public ?int $UserId;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	public string $Email;
 	public Enums\EmailBounceType $Type;
 	public bool $IsActive = true;
 	public Enums\EmailProviderType $Source;
 
 	public function Create(): void{
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 
-		Db::Query('INSERT into EmailBounces (Email, UserId, Created, Type, IsActive, Source) values (?, ?, ?, ?, ?, ?)', [$this->Email, $this->UserId, $this->Created, $this->Type, $this->IsActive, $this->Source]);
+		Db::Query('INSERT into EmailBounces (Email, UserId, CreatedAt, Type, IsActive, Source) values (?, ?, ?, ?, ?, ?)', [$this->Email, $this->UserId, $this->CreatedAt, $this->Type, $this->IsActive, $this->Source]);
 
 		if($this->UserId !== null){
 			Db::Query('UPDATE Users set CanReceiveEmail = false where UserId = ?', [$this->UserId]);

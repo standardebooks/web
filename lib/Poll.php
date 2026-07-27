@@ -18,9 +18,9 @@ class Poll{
 	public int $PollId;
 	public string $Name;
 	public string $UrlName;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Start;
-	public DateTimeImmutable $End;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $StartAt;
+	public DateTimeImmutable $EndAt;
 
 	protected string $_Url;
 	protected string $_EditUrl;
@@ -101,7 +101,7 @@ class Poll{
 	 * Return whether this poll is currently open for voting.
 	 */
 	public function IsActive(): bool{
-		if($this->Start > NOW || $this->End <= NOW){
+		if($this->StartAt > NOW || $this->EndAt <= NOW){
 			return false;
 		}
 
@@ -131,10 +131,10 @@ class Poll{
 			$this->Description = null;
 		}
 
-		if(!isset($this->Start, $this->End)){
+		if(!isset($this->StartAt, $this->EndAt)){
 			$error->Add(new Exceptions\PollDateRequiredException());
 		}
-		elseif($this->End <= $this->Start){
+		elseif($this->EndAt <= $this->StartAt){
 			$error->Add(new Exceptions\PollDateInvalidException());
 		}
 
@@ -177,14 +177,14 @@ class Poll{
 	 */
 	public function Create(): void{
 		$this->Validate();
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 
 		try{
 			$this->PollId = Db::QueryInt('
-				INSERT into Polls (Created, Name, UrlName, Description, Start, End)
+				INSERT into Polls (CreatedAt, Name, UrlName, Description, StartAt, EndAt)
 				values (?, ?, ?, ?, ?, ?)
 				returning PollId
-			', [$this->Created, $this->Name, $this->UrlName, $this->Description, $this->Start, $this->End]);
+			', [$this->CreatedAt, $this->Name, $this->UrlName, $this->Description, $this->StartAt, $this->EndAt]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\PollExistsException();
@@ -209,11 +209,11 @@ class Poll{
 				Name = ?,
 				UrlName = ?,
 				Description = ?,
-				Start = ?,
-				End = ?
+				StartAt = ?,
+				EndAt = ?
 				where
 				PollId = ?
-			', [$this->Name, $this->UrlName, $this->Description, $this->Start, $this->End, $this->PollId]);
+			', [$this->Name, $this->UrlName, $this->Description, $this->StartAt, $this->EndAt, $this->PollId]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\PollExistsException();
@@ -273,20 +273,20 @@ class Poll{
 			}
 		}
 
-		$start = Http::$Request->Body->Get('poll-start');
+		$start = Http::$Request->Body->Get('poll-start-at');
 		if($start !== null){
 			try{
-				$this->Start = (new DateTimeImmutable($start, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
+				$this->StartAt = (new DateTimeImmutable($start, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
 			}
 			catch(\Exception){
 				// Pass.
 			}
 		}
 
-		$end = Http::$Request->Body->Get('poll-end');
+		$end = Http::$Request->Body->Get('poll-end-at');
 		if($end !== null){
 			try{
-				$this->End = (new DateTimeImmutable($end, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
+				$this->EndAt = (new DateTimeImmutable($end, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
 			}
 			catch(\Exception){
 				// Pass.
@@ -399,8 +399,8 @@ class Poll{
 		$polls = Db::Query('
 				SELECT SQL_CALC_FOUND_ROWS *
 				from Polls
-				where utc_timestamp() >= End
-				order by Start desc
+				where utc_timestamp() >= EndAt
+				order by StartAt desc
 				limit ?
 				offset ?
 			', [$perPage, $offset], Poll::class);

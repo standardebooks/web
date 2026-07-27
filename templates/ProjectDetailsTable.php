@@ -58,10 +58,10 @@
 		<tr>
 			<td class="header-cell">Started on:</td>
 			<td>
-				<? if(intval($project->Started->format('Y')) == intval(NOW->format('Y'))){ ?>
-					<?= $project->Started->format(Enums\DateTimeFormat::ShortDateWithoutYear->value) ?>
+				<? if(intval($project->StartedAt->format('Y')) == intval(NOW->format('Y'))){ ?>
+					<?= $project->StartedAt->format(Enums\DateTimeFormat::ShortDateWithoutYear->value) ?>
 				<? }else{ ?>
-					<?= $project->Started->format(Enums\DateTimeFormat::ShortDate->value) ?>
+					<?= $project->StartedAt->format(Enums\DateTimeFormat::ShortDate->value) ?>
 				<? } ?>
 			</td>
 		</tr>

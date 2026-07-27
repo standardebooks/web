@@ -4,7 +4,7 @@ use Safe\DateTimeImmutable;
 
 class EbookDownload{
 	public int $EbookId;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	public ?string $IpAddress;
 	public ?string $UserAgent;
 	public ?Enums\EbookDownloadSource $Source;
@@ -109,16 +109,16 @@ class EbookDownload{
 	public function Create(): void{
 		$this->Validate();
 
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 
 		Db::Query('
-			INSERT into EbookDownloads (EbookId, Created, IpAddress, UserAgent, Source)
+			INSERT into EbookDownloads (EbookId, CreatedAt, IpAddress, UserAgent, Source)
 			values (?,
 				?,
 				?,
 				?,
 				?)
-		', [$this->EbookId, $this->Created, $this->IpAddress, $this->UserAgent, $this->Source]);
+		', [$this->EbookId, $this->CreatedAt, $this->IpAddress, $this->UserAgent, $this->Source]);
 	}
 
 	/**
@@ -131,8 +131,8 @@ class EbookDownload{
 		return Db::Query('
 				SELECT *
 				from EbookDownloads
-				where Created >= ?
-					and Created < ?
+				where CreatedAt >= ?
+					and CreatedAt < ?
 			', [$startDate, $endDate], EbookDownload::class);
 	}
 
@@ -154,7 +154,7 @@ class EbookDownload{
 				SELECT count(*)
 				from EbookDownloads
 				where IpAddress = ?
-					and Created >= ?
+					and CreatedAt >= ?
 			', [$ipAddress, $startDateTime]);
 	}
 }

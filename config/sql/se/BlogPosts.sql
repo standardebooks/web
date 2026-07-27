@@ -8,10 +8,10 @@ CREATE TABLE IF NOT EXISTS `se`.`BlogPosts` (
   `Body` LONGTEXT NULL,
   `ImageCacheKey` CHAR(6) NULL DEFAULT NULL,
   `HeroImageCaption` VARCHAR(255) NULL DEFAULT NULL,
-  `Published` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-  `Created` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updated` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `PublishedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+  `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`BlogPostId`),
-  UNIQUE KEY `index2` (`UrlTitle`),
-  KEY `index3` (`Published` ASC)
+  UNIQUE KEY `UrlTitle` (`UrlTitle`),
+  KEY `PublishedAt` (`PublishedAt` ASC)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

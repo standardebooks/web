@@ -175,8 +175,8 @@ foreach($projects as $project){
 				$projectDiscussionMessageIds = array_merge($projectDiscussionMessageIds, $emailMessage->MessageIds);
 				$hasMatchedEmail = true;
 
-				if($project->LastDiscussionTimestamp === null || $project->LastDiscussionTimestamp < $emailMessage->Timestamp){
-					$project->LastDiscussionTimestamp = $emailMessage->Timestamp;
+				if($project->LastDiscussionAt === null || $project->LastDiscussionAt < $emailMessage->Timestamp){
+					$project->LastDiscussionAt = $emailMessage->Timestamp;
 				}
 
 				// Is this `Project` ready for review?

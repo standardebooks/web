@@ -28,8 +28,8 @@ final class User{
 
 	public int $UserId;
 	public ?string $Name = null;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 	public string $Uuid;
 	public ?string $PasswordHash = null;
 	public bool $CanReceiveEmail = true;
@@ -179,7 +179,7 @@ final class User{
 							SELECT *
 							from Payments
 							where UserId = ?
-							order by Created desc
+							order by CreatedAt desc
 						', [$this->UserId], Payment::class);
 	}
 
@@ -188,7 +188,7 @@ final class User{
 							SELECT *
 							from Payments
 							where UserId = ?
-							order by Created desc
+							order by CreatedAt desc
 							limit 1
 						', [$this->UserId], Payment::class)[0] ?? null;
 	}
@@ -321,18 +321,18 @@ final class User{
 
 		$this->Validate($requireEmail);
 
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 
 		try{
 			$this->UserId = Db::QueryInt('
-					INSERT into Users (Email, Name, Uuid, Created, PasswordHash)
+					INSERT into Users (Email, Name, Uuid, CreatedAt, PasswordHash)
 					values (?,
 					        ?,
 					        ?,
 					        ?,
 					        ?)
 					returning UserId
-				', [$this->Email, $this->Name, $this->Uuid, $this->Created, $this->PasswordHash]);
+				', [$this->Email, $this->Name, $this->Uuid, $this->CreatedAt, $this->PasswordHash]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\UserExistsException();
@@ -353,15 +353,15 @@ final class User{
 	public function Save(bool $requireEmail = true, bool $deleteFromProjectUnassignedManagers = false, bool $deleteFromProjectUnassignedReviewers = false): void{
 		$this->Validate($requireEmail);
 
-		$this->Updated = NOW;
+		$this->UpdatedAt = NOW;
 
 		try{
 			Db::Query('
 					UPDATE Users
-					set Email = ?, Name = ?, Uuid = ?, Updated = ?, PasswordHash = ?
+					set Email = ?, Name = ?, Uuid = ?, UpdatedAt = ?, PasswordHash = ?
 					where
 					UserId = ?
-				', [$this->Email, $this->Name, $this->Uuid, $this->Updated, $this->PasswordHash, $this->UserId]);
+				', [$this->Email, $this->Name, $this->Uuid, $this->UpdatedAt, $this->PasswordHash, $this->UserId]);
 
 			if($this->RequiresPassword){
 				$this->Benefits->Save();

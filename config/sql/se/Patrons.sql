@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS `Patrons` (
   `AlternateName` varchar(80) DEFAULT NULL,
   `BaseCost` DECIMAL(5,2) UNSIGNED NULL DEFAULT NULL,
   `CycleType` enum('monthly','yearly','unlimited') NULL DEFAULT NULL,
-  `Created` datetime NOT NULL,
-  `Ended` datetime DEFAULT NULL,
-  KEY `index2` (`IsAnonymous`,`Ended`),
-  KEY `index1` (`UserId`,`Ended`)
+  `EndedAt` datetime DEFAULT NULL,
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  KEY `IsAnonymous_EndedAt` (`IsAnonymous`,`EndedAt`),
+  KEY `UserId_EndedAt` (`UserId`,`EndedAt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

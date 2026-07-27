@@ -25,7 +25,7 @@ try{
 			$transactionId = $matches[1];
 
 			Db::Query('
-					INSERT into PendingPayments (Created, Processor, TransactionId)
+					INSERT into PendingPayments (CreatedAt, Processor, TransactionId)
 					values (utc_timestamp(),
 					        ?,
 					        ?)

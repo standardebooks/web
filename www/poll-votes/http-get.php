@@ -37,7 +37,7 @@ catch(Exceptions\PermissionsInvalidException){
 		<? if($isCreated){ ?>
 			<p class="center-notice">Thank you for voting in the <a href="<?= $pollVote->PollItem->Poll->Url ?>"><?= Formatter::EscapeHtml($pollVote->PollItem->Poll->Name) ?> poll</a>.</p>
 		<? }else{ ?>
-			<p class="center-notice">Your vote in the <a href="<?= $pollVote->PollItem->Poll->Url ?>"><?= Formatter::EscapeHtml($pollVote->PollItem->Poll->Name) ?> poll</a> was submitted on <?= $pollVote->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?>.</p>
+			<p class="center-notice">Your vote in the <a href="<?= $pollVote->PollItem->Poll->Url ?>"><?= Formatter::EscapeHtml($pollVote->PollItem->Poll->Name) ?> poll</a> was submitted on <?= $pollVote->CreatedAt->format(Enums\DateTimeFormat::FullDateTime->value) ?>.</p>
 		<? } ?>
 		<p class="center-notice">You voted for <?= $pollVote->PollItem->Name->ToHtmlFragment(true) ?>.</p>
 		<p class="button-row narrow"><a class="button" href="<?= $pollVote->PollItem->Poll->Url ?>/votes"> view results</a></p>

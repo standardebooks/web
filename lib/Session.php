@@ -11,7 +11,7 @@ class Session{
 	public static ?User $User = null;
 
 	public int $UserId;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	public string $SessionId;
 
 	public string $_Url;
@@ -43,26 +43,26 @@ class Session{
 
 			$existingSessions = Db::Query('
 							SELECT SessionId,
-							       Created
+							       CreatedAt
 							from Sessions
 							where UserId = ?
 						', [$this->UserId]);
 
 			if(sizeof($existingSessions) > 0){
 				$this->SessionId = $existingSessions[0]->SessionId;
-				$this->Created = $existingSessions[0]->Created;
+				$this->CreatedAt = $existingSessions[0]->CreatedAt;
 			}
 			else{
 				$uuid = Uuid::uuid4();
 				$this->SessionId = $uuid->toString();
 
-				$this->Created = NOW;
+				$this->CreatedAt = NOW;
 				Db::Query('
-						INSERT into Sessions (UserId, SessionId, Created)
+						INSERT into Sessions (UserId, SessionId, CreatedAt)
 						values (?,
 						        ?,
 						        ?)
-					', [$this->UserId, $this->SessionId, $this->Created]);
+					', [$this->UserId, $this->SessionId, $this->CreatedAt]);
 			}
 
 			self::SetSessionCookie($this->SessionId);
@@ -73,7 +73,7 @@ class Session{
 			try{
 				$user = User::GetByIdentifier($identifier);
 				/** @throws void */
-				if($user->LastPayment !== null && $user->LastPayment->Created > new DateTimeImmutable('7 days ago')){
+				if($user->LastPayment !== null && $user->LastPayment->CreatedAt > new DateTimeImmutable('7 days ago')){
 					$ex = new Exceptions\LoginInvalidException('<p>We couldn’t find you in the Patrons Circle, but you recently ' . ($user->LastPayment->IsRecurring ? 'started a recurring' : 'made a one-time') . ' donation of ' . Formatter::FormatCurrency($user->LastPayment->Amount) . '.</p><p>To join the Patrons Circle, supporters must <a href="/donate#patrons-circle">start a recurring donation</a> of ' . Formatter::FormatCurrency(PATRONS_CIRCLE_MONTHLY_COST, true) . '/month or more, or <a href="/donate#patrons-circle">make a one-time donation</a> of ' . Formatter::FormatCurrency(PATRONS_CIRCLE_YEARLY_COST, true) . ' or more to join for one year.</p><p>Once you join the Patrons Circle, you’ll be able to log in and access member benefits.</p>');
 					$ex->MessageType = Enums\ExceptionMessageType::Html;
 				}

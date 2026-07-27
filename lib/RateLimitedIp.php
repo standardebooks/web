@@ -4,7 +4,7 @@ use Safe\DateTimeImmutable;
 
 class RateLimitedIp{
 	public string $IpAddress;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 
 	/**
 	 * @return array<RateLimitedIp>
@@ -41,14 +41,14 @@ class RateLimitedIp{
 	public function Create(): void{
 		$this->Validate();
 
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 
 		Db::Query('
-			INSERT into RateLimitedIps (IpAddress, Created)
+			INSERT into RateLimitedIps (IpAddress, CreatedAt)
 			values (?,
 				?)
 			on duplicate key update
-				Created = value(Created)
-		', [$this->IpAddress, $this->Created]);
+				CreatedAt = value(CreatedAt)
+		', [$this->IpAddress, $this->CreatedAt]);
 	}
 }

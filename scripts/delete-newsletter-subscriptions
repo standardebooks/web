@@ -36,12 +36,12 @@ Db::Query('
 			(
 				IsConfirmed = false
 				and
-		    		datediff(utc_timestamp(), Created) >= 7
-		    	)
-		    	or
-		    	(
-		    		IsVisible = false
-		    		and
-		    		datediff(utc_timestamp(), Updated) >= 1
-		    	)
+				datediff(utc_timestamp(), CreatedAt) >= 7
+			)
+			or
+			(
+				IsVisible = false
+				and
+				datediff(utc_timestamp(), UpdatedAt) >= 1
+			)
 	');

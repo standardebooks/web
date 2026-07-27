@@ -81,17 +81,17 @@ try{
 		$newsletterSubscription->NewsletterId = $newsletter->NewsletterId;
 		$newsletterSubscription->User = $user;
 		$newsletterSubscription->UserId = $user->UserId;
-		$newsletterSubscription->Created = NOW;
+		$newsletterSubscription->CreatedAt = NOW;
 		$newsletterSubscription->Validate();
 
 		$parameters[] = $newsletterSubscription->UserId;
 		$parameters[] = $newsletterSubscription->NewsletterId;
 		$parameters[] = $newsletterSubscription->IsConfirmed;
 		$parameters[] = $newsletterSubscription->IsVisible;
-		$parameters[] = $newsletterSubscription->Created;
+		$parameters[] = $newsletterSubscription->CreatedAt;
 	}
 
-	Db::MultiInsert('INSERT ignore into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, Created) values (?, ?, ?, ?, ?)', $parameters);
+	Db::MultiInsert('INSERT ignore into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt) values (?, ?, ?, ?, ?)', $parameters);
 
 	if(Db::$LastQueryAffectedRowCount > 0){
 		// Send the double opt-in confirmation email.

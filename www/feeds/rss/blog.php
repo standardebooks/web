@@ -25,7 +25,7 @@ print('<?xml version="1.0" encoding="utf-8"?>');
 				<title><?= Formatter::EscapeXml(strip_tags($blogPost->Title)) ?></title>
 				<guid><?= SITE_URL ?><?= $blogPost->Url ?></guid>
 				<link><?= SITE_URL ?><?= $blogPost->Url ?></link>
-				<pubDate><?= $blogPost->Published->format(Enums\DateTimeFormat::Rss->value) ?></pubDate>
+				<pubDate><?= $blogPost->PublishedAt->format(Enums\DateTimeFormat::Rss->value) ?></pubDate>
 				<? if(isset($blogPost->Excerpt)){ ?>
 					<description><?= $blogPost->Excerpt ?></description>
 				<? } ?>
@@ -33,4 +33,3 @@ print('<?xml version="1.0" encoding="utf-8"?>');
 		<? } ?>
 	</channel>
 </rss>
-

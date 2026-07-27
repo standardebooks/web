@@ -16,8 +16,8 @@ final class NewsletterSubscription{
 	public int $NewsletterId;
 	/** `NewsletterSubscriptions` that are deleted are kept for some time longer with `IsVisible` set to **`FALSE`**, to prevent spammers from flooding an email address by repeatedly subscribing and unsubscribing. */
 	public bool $IsVisible = true;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 
 	protected User $_User;
 	protected Newsletter $_Newsletter;
@@ -71,17 +71,17 @@ final class NewsletterSubscription{
 		}
 
 		$this->UserId = $this->User->UserId;
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 
 		try{
 			Db::Query('
-				INSERT into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, Created)
+				INSERT into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt)
 				values (?,
 				        ?,
 				        ?,
 				        ?,
 				        ?)
-			', [$this->UserId, $this->NewsletterId, $this->IsConfirmed, $this->IsVisible, $this->Created]);
+			', [$this->UserId, $this->NewsletterId, $this->IsConfirmed, $this->IsVisible, $this->CreatedAt]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\NewsletterSubscriptionExistsException();

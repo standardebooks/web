@@ -15,7 +15,7 @@ $patronsCircle = Db::Query('
 				where
 				p.IsAnonymous = false
 				and
-				p.Ended is null
+				p.EndedAt is null
 				order by regexp_substr(SortName, "[\\\s][\\\p{L}\\\-]+$") asc
 			');
 
@@ -28,15 +28,15 @@ $anonymousPatronCount = Db::QueryInt('
 				               and IsMatchingDonation = false
 				               and ( (IsRecurring = true
 				                      and Amount >= 10
-				                      and Created >= utc_timestamp() - interval 30 day)
+				                      and CreatedAt >= utc_timestamp() - interval 30 day)
 				                    or (IsRecurring = false
 				                        and Amount >= 100
-				                        and Created >= utc_timestamp() - interval 1 year) ) )
+				                        and CreatedAt >= utc_timestamp() - interval 1 year) ) )
 				      union all
 				          ( select count(*) as cnt
 				           from Patrons
 				           where IsAnonymous = true
-				               and Ended is null )
+				               and EndedAt is null )
 				      ) x
 				');
 

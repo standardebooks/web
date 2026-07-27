@@ -28,7 +28,7 @@ if(sizeof($parameters) != 0){
 $pendingPayments = Db::Query('
 				SELECT *
 				from PendingPayments
-				where ProcessedOn is not null
+				where ProcessedAt is not null
 			');
 
 if(sizeof($pendingPayments) > 0){

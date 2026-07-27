@@ -26,7 +26,7 @@ if(sizeof($parameters) != 0){
 }
 
 $downloadDates = Db::Query('
-	SELECT distinct date(Created) as DownloadDate
+	SELECT distinct date(CreatedAt) as DownloadDate
 	from EbookDownloads
 ');
 
@@ -77,7 +77,7 @@ Db::Query('
 	left join (
 		select EbookId, sum(DownloadCount) - sum(BotDownloadCount) as DownloadsPast30Days
 		from EbookDownloadSummaries
-		where Date >= date(utc_timestamp()) - interval 30 day
+		where DownloadedOn >= date(utc_timestamp()) - interval 30 day
 		group by EbookId
 	) s on e.EbookId = s.EbookId
 	set e.DownloadsPast30Days = coalesce(s.DownloadsPast30Days, 0)
@@ -95,10 +95,10 @@ Db::Query('
 
 Db::Query('
 	DELETE from EbookDownloads
-	where Created < utc_timestamp() - interval 60 day
+	where CreatedAt < utc_timestamp() - interval 60 day
 ');
 
 Db::Query('
 	DELETE from RateLimitedIps
-	where Created < utc_timestamp() - interval 60 day
+	where CreatedAt < utc_timestamp() - interval 60 day
 ');

@@ -5,8 +5,6 @@ CREATE TABLE IF NOT EXISTS `Artworks` (
   `UrlName` varchar(255) NOT NULL,
   `CompletedYear` smallint unsigned NULL,
   `CompletedYearIsCirca` boolean NOT NULL DEFAULT FALSE,
-  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Status` enum('unverified', 'approved', 'declined', 'in_use') NOT NULL DEFAULT 'unverified',
   `SubmitterUserId` int(10) unsigned NULL,
   `ReviewerUserId` int(10) unsigned NULL,
@@ -21,8 +19,10 @@ CREATE TABLE IF NOT EXISTS `Artworks` (
   `MimeType` enum('image/jpeg', 'image/png', 'image/bmp', 'image/tiff', 'image/webp') NOT NULL,
   `Exception` TEXT NULL DEFAULT NULL,
   `Notes` TEXT NULL DEFAULT NULL,
+  `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`ArtworkId`),
-  KEY `index1` (`Status`),
-  KEY `index2` (`UrlName`),
-  KEY `index3` (`ArtistId`)
+  KEY `Status` (`Status`),
+  KEY `UrlName` (`UrlName`),
+  KEY `ArtistId` (`ArtistId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

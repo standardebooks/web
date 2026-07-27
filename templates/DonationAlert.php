@@ -3,9 +3,9 @@
 $isDonationDriveActive = Db::QueryBool('
 	SELECT exists
 	(
-		select * from DonationCounters where utc_timestamp() > Start and utc_timestamp() < End
+		select * from DonationCounters where utc_timestamp() > StartAt and utc_timestamp() < EndAt
 		union
-		select * from DonationDrives where utc_timestamp() > Start and utc_timestamp() < End and Count < Target + StretchTarget
+		select * from DonationDrives where utc_timestamp() > StartAt and utc_timestamp() < EndAt and Count < Target + StretchTarget
 	)
 ');
 

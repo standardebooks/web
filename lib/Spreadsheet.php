@@ -19,8 +19,8 @@ class Spreadsheet{
 	public string $ExternalUrl;
 	public Enums\SpreadsheetCategory $Category;
 	public int $SortOrder;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 
 	protected string $_Url;
 	protected string $_EditUrl;
@@ -138,11 +138,11 @@ class Spreadsheet{
 		}
 
 		$this->Validate();
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 
 		try{
 			$this->SpreadsheetId = Db::QueryInt('
-				INSERT into Spreadsheets (Title, ExternalUrl, Category, Notes, SortOrder, Created)
+				INSERT into Spreadsheets (Title, ExternalUrl, Category, Notes, SortOrder, CreatedAt)
 				values (?,
 				        ?,
 				        ?,
@@ -150,7 +150,7 @@ class Spreadsheet{
 				        ?,
 				        ?)
 				returning SpreadsheetId
-			', [$this->Title, $this->ExternalUrl, $this->Category, $this->Notes, $this->SortOrder, $this->Created]);
+			', [$this->Title, $this->ExternalUrl, $this->Category, $this->Notes, $this->SortOrder, $this->CreatedAt]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\SpreadsheetExistsException();

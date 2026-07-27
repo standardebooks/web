@@ -79,13 +79,13 @@ final class Ebook{
 	public ?string $GitHubUrl = null;
 	public ?string $WikipediaUrl = null;
 	/** When the ebook was published. */
-	public ?DateTimeImmutable $EbookCreated = null;
+	public ?DateTimeImmutable $EbookCreatedAt = null;
 	/** When the ebook was updated. */
-	public ?DateTimeImmutable $EbookUpdated = null;
+	public ?DateTimeImmutable $EbookUpdatedAt = null;
 	/** When the database row was created. */
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	/** When the database row was updated. */
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $UpdatedAt;
 	public ?int $TextSinglePageByteCount = null;
 	/** The numer of non-bot downloads in the past 30 days. */
 	public int $DownloadsPast30Days = 0;
@@ -173,7 +173,7 @@ final class Ebook{
 							inner join Ebooks
 							on Projects.EbookId = Ebooks.EbookId
 							where Ebooks.EbookId = ?
-							order by Projects.Created desc
+							order by Projects.CreatedAt desc
 						', [$this->EbookId], Project::class);
 	}
 
@@ -228,7 +228,7 @@ final class Ebook{
 							SELECT *
 							from GitCommits
 							where EbookId = ?
-							order by Created desc
+							order by CreatedAt desc
 						', [$this->EbookId], GitCommit::class);
 	}
 
@@ -921,13 +921,13 @@ final class Ebook{
 		$date = $xml->xpath('/package/metadata/dc:date') ?: [];
 		if(sizeof($date) > 0){
 			/** @throws void */
-			$ebook->EbookCreated = new DateTimeImmutable((string)$date[0]);
+			$ebook->EbookCreatedAt = new DateTimeImmutable((string)$date[0]);
 		}
 
 		$modifiedDate = $xml->xpath('/package/metadata/meta[@property="dcterms:modified"]') ?: [];
 		if(sizeof($modifiedDate) > 0){
 			/** @throws void */
-			$ebook->EbookUpdated = new DateTimeImmutable((string)$modifiedDate[0]);
+			$ebook->EbookUpdatedAt = new DateTimeImmutable((string)$modifiedDate[0]);
 		}
 
 		// Get SE tags.
@@ -1589,12 +1589,12 @@ final class Ebook{
 			}
 		}
 
-		if(isset($this->EbookCreated) && $this->EbookCreated > NOW){
-			$error->Add(new Exceptions\EbookCreatedDatetimeInvalidException($this->EbookCreated));
+		if(isset($this->EbookCreatedAt) && $this->EbookCreatedAt > NOW){
+			$error->Add(new Exceptions\EbookCreatedAtDatetimeInvalidException($this->EbookCreatedAt));
 		}
 
-		if(isset($this->EbookUpdated) && $this->EbookUpdated > NOW){
-			$error->Add(new Exceptions\EbookUpdatedDatetimeInvalidException($this->EbookUpdated));
+		if(isset($this->EbookUpdatedAt) && $this->EbookUpdatedAt > NOW){
+			$error->Add(new Exceptions\EbookUpdatedAtDatetimeInvalidException($this->EbookUpdatedAt));
 		}
 
 		if(isset($this->TextSinglePageByteCount) && $this->TextSinglePageByteCount <= 0){
@@ -2023,7 +2023,7 @@ final class Ebook{
 			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, CoverImageKey, Title, FullTitle, AlternateTitle,
 				ShortTitle, Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
-				EbookCreated, EbookUpdated, TextSinglePageByteCount, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
+				EbookCreatedAt, EbookUpdatedAt, TextSinglePageByteCount, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
 			values (?,
 				?,
 				?,
@@ -2056,7 +2056,7 @@ final class Ebook{
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->CoverImageKey,
 				$this->Title, $this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description,
 				$this->LongDescription, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
-				$this->WikipediaUrl, $this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
+				$this->WikipediaUrl, $this->EbookCreatedAt, $this->EbookUpdatedAt, $this->TextSinglePageByteCount,
 				$this->DownloadsPast30Days, $this->DownloadsTotal, $this->IsPatronSelection]);
 
 		try{
@@ -2122,8 +2122,8 @@ final class Ebook{
 				ReadingEase = ?,
 				GitHubUrl = ?,
 				WikipediaUrl = ?,
-				EbookCreated = ?,
-				EbookUpdated = ?,
+				EbookCreatedAt = ?,
+				EbookUpdatedAt = ?,
 				TextSinglePageByteCount = ?,
 				DownloadsPast30Days = coalesce(?, DownloadsPast30Days),
 				DownloadsTotal = coalesce(?, DownloadsTotal),
@@ -2134,7 +2134,7 @@ final class Ebook{
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->CoverImageKey,
 				$this->Title, $this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description,
 				$this->LongDescription, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
-				$this->WikipediaUrl, $this->EbookCreated, $this->EbookUpdated, $this->TextSinglePageByteCount,
+				$this->WikipediaUrl, $this->EbookCreatedAt, $this->EbookUpdatedAt, $this->TextSinglePageByteCount,
 				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `coalesce` will keep the existing value.
 				$updateDownloads ? $this->DownloadsTotal : null,
 				$this->IsPatronSelection,
@@ -2415,7 +2415,7 @@ final class Ebook{
 				ReadingEase,
 				WordCount,
 				DownloadsPast30Days,
-				EbookCreated
+				EbookCreatedAt
 			)
 			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
 				$this->EbookId,
@@ -2432,7 +2432,7 @@ final class Ebook{
 				$this->ReadingEase ?? 0,
 				$this->WordCount ?? 0,
 				$downloadCounts->DownloadsPast30Days ?? $this->DownloadsPast30Days,
-				$this->EbookCreated ?? 0
+				$this->EbookCreatedAt ?? 0
 			]);
 	}
 
@@ -2542,7 +2542,7 @@ final class Ebook{
 					inner join Contributors con using (EbookId)
 					where con.MarcRole = "aut"
 					    and con.UrlName = ?
-					order by e.EbookCreated desc
+					order by e.EbookCreatedAt desc
 				', [$urlPath], Ebook::class);
 		}
 		else{
@@ -2560,7 +2560,7 @@ final class Ebook{
 					    and con.UrlName in ' . Db::CreateSetSql($authors) . '
 					group by e.EbookId
 					having count(distinct con.UrlName) = ?
-					order by e.EbookCreated desc
+					order by e.EbookCreatedAt desc
 				', $params, Ebook::class);
 		}
 	}
@@ -2578,7 +2578,7 @@ final class Ebook{
 				from Ebooks e
 				inner join CollectionEbooks ce using (EbookId)
 				where ce.CollectionId = ?
-				order by ce.SequenceNumber is null, ce.SequenceNumber, isnull(e.EbookCreated), e.EbookCreated asc
+				order by ce.SequenceNumber is null, ce.SequenceNumber, isnull(e.EbookCreatedAt), e.EbookCreatedAt asc
 				', [$collectionId], Ebook::class);
 
 		return $ebooks;
@@ -2703,13 +2703,13 @@ final class Ebook{
 			}
 		}
 
-		$orderBy = 'e.EbookCreated desc';
+		$orderBy = 'e.EbookCreatedAt desc';
 
 		if($query === null){
 			if($sort == Enums\EbookSortType::AuthorAlpha){
 				$joinContributors = 'inner join Contributors con using (EbookId)';
 				$whereCondition .= ' and con.MarcRole = "aut"';
-				$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreated desc'; // Put placeholders at the end.
+				$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreatedAt desc'; // Put placeholders at the end.
 			}
 			elseif($sort == Enums\EbookSortType::ReadingEase){
 				$orderBy = 'e.ReadingEase desc';
@@ -2718,7 +2718,7 @@ final class Ebook{
 				$orderBy = 'e.WwwFilesystemPath is null, e.WordCount'; // Put placeholders at the end.
 			}
 			elseif($sort == Enums\EbookSortType::Popularity){
-				$orderBy = 'e.DownloadsPast30Days desc, e.EbookCreated desc';
+				$orderBy = 'e.DownloadsPast30Days desc, e.EbookCreatedAt desc';
 			}
 
 			if(sizeof($tags) > 0 && !in_array('all', $tags)){ // 0 tags means "all ebooks".
@@ -2792,13 +2792,13 @@ final class Ebook{
 
 			$searchParams[] = $query;
 
-			$searchOrderBy = 'EbookCreated desc';
+			$searchOrderBy = 'EbookCreatedAt desc';
 
 			if($sort == Enums\EbookSortType::Relevance){
-				$searchOrderBy = 'weight() desc, EbookCreated desc';
+				$searchOrderBy = 'weight() desc, EbookCreatedAt desc';
 			}
 			elseif($sort == Enums\EbookSortType::AuthorAlpha){
-				$searchOrderBy = 'IsPlaceholder asc, AuthorSortName asc, EbookCreated desc';
+				$searchOrderBy = 'IsPlaceholder asc, AuthorSortName asc, EbookCreatedAt desc';
 			}
 			elseif($sort == Enums\EbookSortType::ReadingEase){
 				$searchOrderBy = 'ReadingEase desc';
@@ -2808,7 +2808,7 @@ final class Ebook{
 			}
 			elseif($sort == Enums\EbookSortType::Popularity){
 				// Placeholders sort at the end because their download count and publication timestamp are both `0`.
-				$searchOrderBy = 'DownloadsPast30Days desc, EbookCreated desc';
+				$searchOrderBy = 'DownloadsPast30Days desc, EbookCreatedAt desc';
 			}
 
 			$searchParams[] = $limit;
@@ -2876,7 +2876,7 @@ final class Ebook{
 			$ebookPlaceholders = Db::Query('
 					SELECT Ebooks.*
 					from Ebooks inner join EbookPlaceholders using (EbookId)
-					order by Ebooks.Created desc
+					order by Ebooks.CreatedAt desc
 				', [], Ebook::class);
 
 			$count = sizeof($ebookPlaceholders);
@@ -2900,7 +2900,7 @@ final class Ebook{
 			$ebookPlaceholders = Db::Query('
 					SELECT SQL_CALC_FOUND_ROWS Ebooks.*
 					from Ebooks inner join EbookPlaceholders using (EbookId)
-					order by Ebooks.Created desc
+					order by Ebooks.CreatedAt desc
 					limit ?
 					offset ?
 				', [$perPage, $offset], Ebook::class);
@@ -2933,7 +2933,7 @@ final class Ebook{
 						or
 						EbookPlaceholders.YearPublished <= ?
 					)
-				order by Ebooks.Created asc
+				order by Ebooks.CreatedAt asc
 			', [$difficulty, PD_YEAR], Ebook::class);
 
 	}
@@ -2963,10 +2963,10 @@ final class Ebook{
 				count(Ebooks.EbookId) as EbookCount
 			from Months
 			left join Ebooks on
-				Ebooks.EbookCreated >= Months.Month
-				and Ebooks.EbookCreated < date_add(Months.Month, interval 1 month)
-				and Ebooks.EbookCreated >= ?
-				and Ebooks.EbookCreated < ?
+				Ebooks.EbookCreatedAt >= Months.Month
+				and Ebooks.EbookCreatedAt < date_add(Months.Month, interval 1 month)
+				and Ebooks.EbookCreatedAt >= ?
+				and Ebooks.EbookCreatedAt < ?
 			group by Months.Month
 			order by Months.Month
 		', [$ebookReleasedQueryFrom, $ebookReleasedQueryToMonth, $from, $ebookReleasedQueryTo]);

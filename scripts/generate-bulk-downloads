@@ -140,7 +140,7 @@ function CreateZip(string $filePath, array $ebooks, Enums\BulkDownloadFormatType
 /**
  * @return array<string, array<string, BulkDownloadCollection>> $bulkDownloadCollections
  *
- * @throws Exceptions\EbookCreatedDatetimeInvalidException
+ * @throws Exceptions\EbookCreatedAtDatetimeInvalidException
  */
 function CreateBulkDownloadCollections(): array{
 	$bulkDownloadCollections = [
@@ -153,11 +153,11 @@ function CreateBulkDownloadCollections(): array{
 	// Iterate over all ebooks and arrange them by publication month.
 	foreach(Ebook::GetAllByReleaseStatusFilter(Enums\EbookReleaseStatusFilter::Released) as $ebook){
 		// Add to the 'ebooks by month' list.
-		if(!isset($ebook->EbookCreated)){
-			throw new Exceptions\EbookCreatedDatetimeInvalidException();
+		if(!isset($ebook->EbookCreatedAt)){
+			throw new Exceptions\EbookCreatedAtDatetimeInvalidException();
 		}
 
-		$timestamp = $ebook->EbookCreated->format('Y-m');
+		$timestamp = $ebook->EbookCreatedAt->format('Y-m');
 		if(!isset($bulkDownloadCollections[Enums\BulkDownloadLabelType::Month->value][$timestamp])){
 			$bdc = new BulkDownloadCollection();
 			$bdc->LabelType = Enums\BulkDownloadLabelType::Month;
@@ -247,7 +247,7 @@ function WriteZipFiles(string $webRoot, array $bulkDownloadCollections): void{
 				$filePath = $parentDir . '/se-ebooks-' . $bdc->LabelUrlSegment . '-' . $format->value . '.zip';
 
 				// If the file doesn't exist, or if the `content.opf` last updated time is newer than the file modification time.
-				if(!file_exists($filePath) || filemtime($filePath) < $bdc->Updated->getTimestamp()){
+				if(!file_exists($filePath) || filemtime($filePath) < $bdc->UpdatedAt->getTimestamp()){
 					print('Creating ' . $filePath . "\n");
 					CreateZip($filePath, $bdc->Ebooks, $format, $webRoot);
 				}

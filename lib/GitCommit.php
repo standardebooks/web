@@ -3,7 +3,7 @@ use Safe\DateTimeImmutable;
 
 class GitCommit{
 	public int $EbookId;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	public string $Message;
 	public string $Hash;
 
@@ -20,7 +20,7 @@ class GitCommit{
 		list($unixTimestamp, $hash, $message) = explode(' ', $logLine, 3);
 
 		try{
-			$instance->Created = new DateTimeImmutable('@' . $unixTimestamp);
+			$instance->CreatedAt = new DateTimeImmutable('@' . $unixTimestamp);
 		}
 		catch(\Exception){
 			throw new Exceptions\GitCommitInvalidException('Invalid timestamp for Git commit.');
@@ -46,9 +46,9 @@ class GitCommit{
 			$error->Add(new Exceptions\GitCommitEbookIdRequiredException());
 		}
 
-		if(isset($this->Created)){
-			if($this->Created > NOW){
-				$error->Add(new Exceptions\GitCommitCreatedDatetimeInvalidException($this->Created));
+		if(isset($this->CreatedAt)){
+			if($this->CreatedAt > NOW){
+				$error->Add(new Exceptions\GitCommitCreatedDatetimeInvalidException($this->CreatedAt));
 			}
 		}
 		else{
@@ -88,11 +88,11 @@ class GitCommit{
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
-			INSERT into GitCommits (EbookId, Created, Message, Hash)
+			INSERT into GitCommits (EbookId, CreatedAt, Message, Hash)
 			values (?,
 				?,
 				?,
 				?)
-		', [$this->EbookId, $this->Created, $this->Message, $this->Hash]);
+		', [$this->EbookId, $this->CreatedAt, $this->Message, $this->Hash]);
 	}
 }

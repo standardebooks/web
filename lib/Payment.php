@@ -10,14 +10,14 @@ class Payment{
 
 	public int $PaymentId;
 	public ?int $UserId = null;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	public Enums\PaymentProcessorType $Processor;
 	public string $TransactionId;
 	public float $Amount;
 	public float $Fee;
 	public bool $IsRecurring;
 	public bool $IsMatchingDonation = false;
-	public ?DateTimeImmutable $Refunded = null;
+	public ?DateTimeImmutable $RefundedAt = null;
 
 	protected ?User $_User = null;
 	protected string $_ProcessorUrl;
@@ -97,7 +97,7 @@ class Payment{
 
 		try{
 			$this->PaymentId = Db::QueryInt('
-				INSERT into Payments (UserId, Created, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation, Refunded)
+				INSERT into Payments (UserId, CreatedAt, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation, RefundedAt)
 				values(?,
 				       ?,
 				       ?,
@@ -108,7 +108,7 @@ class Payment{
 				       ?,
 				       ?)
 				returning PaymentId
-			', [$this->UserId, $this->Created, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation, $this->Refunded]);
+			', [$this->UserId, $this->CreatedAt, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation, $this->RefundedAt]);
 
 
 			if(!$this->IsRecurring && !$this->IsMatchingDonation){
@@ -155,10 +155,10 @@ class Payment{
 				sum(case when Payments.IsRecurring = false and PatronUsers.UserId is null then Payments.Amount - Payments.Fee else 0 end) as OtherAmount
 			from Months
 			left join Payments on
-				Payments.Created >= Months.Month
-				and Payments.Created < date_add(Months.Month, interval 1 month)
-				and Payments.Created >= ?
-				and Payments.Created < ?
+				Payments.CreatedAt >= Months.Month
+				and Payments.CreatedAt < date_add(Months.Month, interval 1 month)
+				and Payments.CreatedAt >= ?
+				and Payments.CreatedAt < ?
 			left join (
 				select distinct UserId
 				from Patrons

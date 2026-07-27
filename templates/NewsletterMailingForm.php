@@ -35,8 +35,8 @@ $addEbooks ??= false;
 <label class="icon year">
 	<span>Send on</span>
 	<span><?= SITE_TZ_STRING ?>.</span>
-	<? /* `SendOn` is stored as UTC in the object, but must be in the `SITE_TZ` time zone for this element. */ ?>
-	<input type="datetime-local" name="newsletter-mailing-send-on" required="required" value="<? if(isset($newsletterMailing->SendOn)){ ?><?= $newsletterMailing->SendOn->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?><? } ?>" />
+	<? /* `SendAt` is stored as UTC in the object, but must be in the `SITE_TZ` time zone for this element. */ ?>
+	<input type="datetime-local" name="newsletter-mailing-send-at" required="required" value="<? if(isset($newsletterMailing->SendAt)){ ?><?= $newsletterMailing->SendAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?><? } ?>" />
 </label>
 <label class="icon user">
 	<span>From name</span>

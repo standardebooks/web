@@ -29,15 +29,15 @@ class NewsletterMailing{
 	public ?string $Preheader = null;
 	public Enums\QueueStatus $Status;
 	public ?string $FromName = null;
-	public DateTimeImmutable $SendOn;
+	public DateTimeImmutable $SendAt;
 	public ?int $RecipientCount = null;
 	/** @var array<string> */
 	public array $Emails = [];
 	public ?string $InternalName = null;
 	public ?int $OpenCount = null;
 	public bool $ExcludePatrons = false;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 
 	protected Newsletter $_Newsletter;
 	protected string $_Url;
@@ -100,7 +100,7 @@ class NewsletterMailing{
 						and
 						NewsletterSubscriptions.IsVisible = true
 						and CanReceiveEmail = true
-						and Patrons.Ended is null
+						and Patrons.EndedAt is null
 					', [$this->NewsletterId], NewsletterSubscription::class);
 			}
 			else{
@@ -383,7 +383,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, ExcludePatrons = ?, Subject = ?, Preheader = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendOn = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName, $this->NewsletterMailingId]);
+		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, ExcludePatrons = ?, Subject = ?, Preheader = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendAt = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendAt, $this->InternalName, $this->NewsletterMailingId]);
 	}
 
 	/**
@@ -411,7 +411,7 @@ class NewsletterMailing{
 		}
 
 		// Only check this when creating.
-		if($this->SendOn < NOW){
+		if($this->SendAt < NOW){
 			$error->Add(new Exceptions\NewsletterSendOnInvalidException());
 		}
 
@@ -419,7 +419,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		$this->NewsletterMailingId = Db::QueryInt('INSERT into NewsletterMailings (NewsletterId, ExcludePatrons, Subject, Preheader, BodyHtml, BodyText, Status, FromName, FromEmail, SendOn, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendOn, $this->InternalName]);
+		$this->NewsletterMailingId = Db::QueryInt('INSERT into NewsletterMailings (NewsletterId, ExcludePatrons, Subject, Preheader, BodyHtml, BodyText, Status, FromName, FromEmail, SendAt, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendAt, $this->InternalName]);
 	}
 
 	/**
@@ -578,7 +578,7 @@ class NewsletterMailing{
 	 * @return array<NewsletterMailing>
 	 */
 	public static function GetAll(): array{
-		return Db::Query('SELECT * from NewsletterMailings order by SendOn desc', [], NewsletterMailing::class);
+		return Db::Query('SELECT * from NewsletterMailings order by SendAt desc', [], NewsletterMailing::class);
 	}
 
 	/**
@@ -602,7 +602,7 @@ class NewsletterMailing{
 		$newsletterMailings = Db::Query('
 				SELECT SQL_CALC_FOUND_ROWS *
 				from NewsletterMailings
-				order by SendOn desc
+				order by SendAt desc
 				limit ?
 				offset ?
 			', [$perPage, $offset], NewsletterMailing::class);
@@ -638,12 +638,12 @@ class NewsletterMailing{
 			$this->FromEmail = Http::$Request->Body->Get('newsletter-mailing-from-email') ?? '';
 		}
 
-		// `SendOn` is always interpreted as being sent in the `America/Chicago` timezone.
+		// `SendAt` is always interpreted as being sent in the `America/Chicago` timezone.
 		// Therefore we have to do some gymnastics to store it as UTC in our object.
-		$sendOn = Http::$Request->Body->Get('newsletter-mailing-send-on');
-		if($sendOn !== null){
+		$sendAt = Http::$Request->Body->Get('newsletter-mailing-send-at');
+		if($sendAt !== null){
 			/** @throws void */
-			$this->SendOn = (new DateTimeImmutable($sendOn, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
+			$this->SendAt = (new DateTimeImmutable($sendAt, SITE_TZ))->setTimezone(new DateTimeZone('UTC'));
 		}
 	}
 }

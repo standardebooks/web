@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS `Newsletters` (
   `IsVisible` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `SortOrder` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`NewsletterId`),
-  KEY `idxSort` (`IsVisible`, `SortOrder`)
+  KEY `IsVisible_SortOrder` (`IsVisible`, `SortOrder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

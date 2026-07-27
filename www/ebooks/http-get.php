@@ -148,11 +148,11 @@ catch(Exceptions\EbookNotFoundException){
 				<meta property="schema:image" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->DistCoverUrl) ?>"/>
 				<meta property="schema:thumbnailUrl" content="<?= Formatter::EscapeHtml(SITE_URL . $ebook->Url . '/downloads/cover-thumbnail.jpg') ?>"/>
 				<meta property="schema:inLanguage" content="<?= Formatter::EscapeHtml($ebook->Language) ?>"/>
-				<? if($ebook->EbookCreated !== null){ ?>
-					<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->EbookCreated->format('Y-m-d')) ?>"/>
+				<? if($ebook->EbookCreatedAt !== null){ ?>
+					<meta property="schema:datePublished" content="<?= Formatter::EscapeHtml($ebook->EbookCreatedAt->format('Y-m-d')) ?>"/>
 				<? } ?>
-				<? if($ebook->EbookUpdated !== null){ ?>
-					<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->EbookUpdated->format('Y-m-d')) ?>"/>
+				<? if($ebook->EbookUpdatedAt !== null){ ?>
+					<meta property="schema:dateModified" content="<?= Formatter::EscapeHtml($ebook->EbookUpdatedAt->format('Y-m-d')) ?>"/>
 				<? } ?>
 				<div property="schema:potentialAction" typeof="http://schema.org/ReadAction">
 					<meta property="schema:actionStatus" content="http://schema.org/PotentialActionStatus"/>
@@ -249,7 +249,7 @@ catch(Exceptions\EbookNotFoundException){
 			<ol>
 				<? foreach($ebook->GitCommits as $commit){ ?>
 					<li>
-						<time datetime="<?= $commit->Created->format(DateTimeImmutable::RFC3339) ?>"><?= $commit->Created->format(Enums\DateTimeFormat::ShortDate->value) ?></time>
+						<time datetime="<?= $commit->CreatedAt->format(DateTimeImmutable::RFC3339) ?>"><?= $commit->CreatedAt->format(Enums\DateTimeFormat::ShortDate->value) ?></time>
 						<p>
 							<a href="<?= Formatter::EscapeHtml($ebook->GitHubUrl) ?>/commit/<?= Formatter::EscapeHtml($commit->Hash) ?>"><?= Formatter::EscapeHtml($commit->Message) ?></a>
 						</p>

@@ -17,7 +17,7 @@ class BulkDownloadCollection{
 	public string $LabelSort;
 	public ?string $LabelUrlSegment;
 	public int $EbookCount = 0;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $UpdatedAt;
 
 	protected ?string $_LabelUrl;
 	protected ?string $_UpdatedString;
@@ -55,11 +55,11 @@ class BulkDownloadCollection{
 			return $this->_UpdatedString;
 		}
 
-		$this->_UpdatedString = $this->Updated->format('M j');
+		$this->_UpdatedString = $this->UpdatedAt->format('M j');
 		// Add a period to the abbreviated month, but not if it's May (the only 3-letter month).
 		$this->_UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $this->_UpdatedString);
-		if($this->Updated->format('Y') != NOW->format('Y')){
-			$this->_UpdatedString = $this->Updated->format(Enums\DateTimeFormat::ShortDate->value);
+		if($this->UpdatedAt->format('Y') != NOW->format('Y')){
+			$this->_UpdatedString = $this->UpdatedAt->format(Enums\DateTimeFormat::ShortDate->value);
 		}
 
 		return $this->_UpdatedString;
@@ -94,9 +94,9 @@ class BulkDownloadCollection{
 		if(!isset($this->Ebooks[$ebook->EbookId])){
 			$this->Ebooks[$ebook->EbookId] = $ebook;
 			$this->EbookCount++;
-			if(isset($ebook->EbookUpdated)){
-				if(!isset($this->Updated) || $ebook->EbookUpdated > $this->Updated){
-					$this->Updated = $ebook->EbookUpdated;
+			if(isset($ebook->EbookUpdatedAt)){
+				if(!isset($this->UpdatedAt) || $ebook->EbookUpdatedAt > $this->UpdatedAt){
+					$this->UpdatedAt = $ebook->EbookUpdatedAt;
 				}
 			}
 		}
@@ -191,8 +191,8 @@ class BulkDownloadCollection{
 			$error->Add(new Exceptions\BulkDownloadCollectionEbookCountInvalidException('Invalid BulkDownloadCollection EbookCount: ' . $this->EbookCount));
 		}
 
-		if(!isset($this->Updated) || $this->Updated > NOW){
-			$error->Add(new Exceptions\BulkDownloadCollectionUpdatedDatetimeInvalidException($this->Updated));
+		if(!isset($this->UpdatedAt) || $this->UpdatedAt > NOW){
+			$error->Add(new Exceptions\BulkDownloadCollectionUpdatedDatetimeInvalidException($this->UpdatedAt));
 		}
 
 		if($error->HasExceptions){
@@ -208,7 +208,7 @@ class BulkDownloadCollection{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into BulkDownloadCollections (LabelType, LabelName, LabelSort, LabelUrlSegment, EbookCount, Updated)
+			INSERT into BulkDownloadCollections (LabelType, LabelName, LabelSort, LabelUrlSegment, EbookCount, UpdatedAt)
 			values (?,
 				?,
 				?,
@@ -219,8 +219,8 @@ class BulkDownloadCollection{
 				LabelSort = value(LabelSort),
 				LabelUrlSegment = value(LabelUrlSegment),
 				EbookCount = value(EbookCount),
-				Updated = value(Updated)
-		', [$this->LabelType, $this->LabelName, $this->LabelSort, $this->LabelUrlSegment, $this->EbookCount, $this->Updated]);
+				UpdatedAt = value(UpdatedAt)
+		', [$this->LabelType, $this->LabelName, $this->LabelSort, $this->LabelUrlSegment, $this->EbookCount, $this->UpdatedAt]);
 
 		foreach($this->ZipFiles as $zipFile){
 			$zipFile->Create();

@@ -8,6 +8,6 @@ CREATE TABLE IF NOT EXISTS `Contributors` (
   `FullName` varchar(255) NULL,
   `NacoafUrl` varchar(255) NULL,
   `SortOrder` tinyint(3) unsigned NOT NULL,
-  KEY `index1` (`EbookId`),
-  KEY `index2` (`UrlName`)
+  KEY `EbookId` (`EbookId`),
+  KEY `UrlName` (`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

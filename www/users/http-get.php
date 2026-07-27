@@ -90,16 +90,16 @@ catch(Exceptions\PermissionsInvalidException){
 			<dt>UUID:</dt>
 			<dd class="id"><?= Formatter::EscapeHtml($user->Uuid) ?></dd>
 			<dt>Created:</dt>
-			<dd><?= $user->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></dd>
+			<dd><?= $user->CreatedAt->format(Enums\DateTimeFormat::FullDateTime->value) ?></dd>
 		</dl>
 
 		<h2>Patron info</h2>
 		<dl>
 			<dt>Is Patron:</dt>
-			<dd><? if($user->Patron !== null && $user->Patron->Ended === null){ ?>☑<? }else{ ?>☐<? } ?></dd>
-			<? if($user->Patron !== null && $user->Patron->Ended === null){ ?>
+			<dd><? if($user->Patron !== null && $user->Patron->EndedAt === null){ ?>☑<? }else{ ?>☐<? } ?></dd>
+			<? if($user->Patron !== null && $user->Patron->EndedAt === null){ ?>
 				<dt>Created:</dt>
-				<dd><?= $user->Patron->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></dd>
+				<dd><?= $user->Patron->CreatedAt->format(Enums\DateTimeFormat::FullDateTime->value) ?></dd>
 				<dt>Cycle type:</dt>
 				<dd>
 					<? if($user->Patron->CycleType !== null){ ?>
@@ -210,10 +210,10 @@ catch(Exceptions\PermissionsInvalidException){
 					<? foreach($user->Payments as $payment){ ?>
 						<tr>
 							<td>
-								<? if($payment->Refunded !== null){ ?>
+								<? if($payment->RefundedAt !== null){ ?>
 									(<i>Refunded.</i>)
 								<? } ?>
-								<time datetime="<?= $payment->Created->format(Enums\DateTimeFormat::Html->value) ?>"><?= $payment->Created->format(Enums\DateTimeFormat::FullDateTime->value) ?></time>
+								<time datetime="<?= $payment->CreatedAt->format(Enums\DateTimeFormat::Html->value) ?>"><?= $payment->CreatedAt->format(Enums\DateTimeFormat::FullDateTime->value) ?></time>
 							</td>
 							<td>
 								<? if($payment->IsRecurring){ ?>

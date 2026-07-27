@@ -11,8 +11,8 @@ class Patron{
 	public int $UserId;
 	public bool $IsAnonymous;
 	public ?string $AlternateName = null;
-	public DateTimeImmutable $Created;
-	public ?DateTimeImmutable $Ended = null;
+	public DateTimeImmutable $CreatedAt;
+	public ?DateTimeImmutable $EndedAt = null;
 	public ?float $BaseCost = null;
 	public ?Enums\CycleType $CycleType = null;
 
@@ -29,7 +29,7 @@ class Patron{
 						SELECT *
 						from Payments
 						where UserId = ?
-						order by Created desc
+						order by CreatedAt desc
 						limit 1
 					', [$this->UserId], Payment::class)[0] ?? null;
 	}
@@ -48,16 +48,16 @@ class Patron{
 				)
 			', [$this->UserId]);
 
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 		Db::Query('
-			INSERT into Patrons (Created, UserId, IsAnonymous, AlternateName, BaseCost, CycleType)
+			INSERT into Patrons (CreatedAt, UserId, IsAnonymous, AlternateName, BaseCost, CycleType)
 			values(?,
 			       ?,
 			       ?,
 			       ?,
 			       ?,
 			       ?)
-		', [$this->Created, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->BaseCost, $this->CycleType]);
+		', [$this->CreatedAt, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->BaseCost, $this->CycleType]);
 
 		Db::Query('
 			INSERT into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload)
@@ -119,12 +119,12 @@ class Patron{
 
 	public function End(?int $ebooksThisYear): void{
 		if($ebooksThisYear === null){
-			$ebooksThisYear = Db::QueryInt('SELECT count(*) from Ebooks where EbookCreated >= ? - interval 1 year', [NOW]);
+			$ebooksThisYear = Db::QueryInt('SELECT count(*) from Ebooks where EbookCreatedAt >= ? - interval 1 year', [NOW]);
 		}
 
 		Db::Query('
 				UPDATE Patrons
-				set Ended = ?
+				set EndedAt = ?
 				where UserId = ?
 			', [NOW, $this->UserId]);
 
@@ -184,7 +184,7 @@ class Patron{
 			SELECT *
 			from Patrons
 			where UserId = ?
-			order by Created desc
+			order by CreatedAt desc
 			limit 1
 			', [$userId], Patron::class);
 
@@ -204,7 +204,7 @@ class Patron{
 			from Patrons p
 			inner join Users u using(UserId)
 			where u.Email = ?
-			order by p.Created desc
+			order by p.CreatedAt desc
 			limit 1
 		', [$email], Patron::class);
 
@@ -237,8 +237,8 @@ class Patron{
 				sum(case when Patrons.CycleType = ? then 1 else 0 end) as YearlyCount
 			from Days
 			left join Patrons on
-				date(Patrons.Created) <= Days.Day
-				and (Patrons.Ended is null or date(Patrons.Ended) > Days.Day)
+				date(Patrons.CreatedAt) <= Days.Day
+				and (Patrons.EndedAt is null or date(Patrons.EndedAt) > Days.Day)
 			group by Days.Day
 			order by Days.Day
 		', [$from, $to, Enums\CycleType::Monthly, Enums\CycleType::Yearly]);

@@ -48,7 +48,7 @@ if(isset($options['web-root']) && is_string($options['web-root'])){
 $force = isset($options['f']) || isset($options['force']);
 
 function SortByUpdatedDesc(Ebook $a, Ebook $b): int{
-	return $b->EbookUpdated <=> $a->EbookUpdated;
+	return $b->EbookUpdatedAt <=> $a->EbookUpdatedAt;
 }
 
 function SaveFeed(Feed $feed, bool $force, ?string $label = null, ?string $labelSort = null, ?DateTimeImmutable $now = null): void{
@@ -159,7 +159,7 @@ foreach(Ebook::GetAll() as $ebook){
 }
 
 usort($allEbooks, 'SortByUpdatedDesc');
-usort($newestEbooks, function($a, $b){ return $b->EbookCreated <=> $a->EbookCreated; });
+usort($newestEbooks, function($a, $b){ return $b->EbookCreatedAt <=> $a->EbookCreatedAt; });
 $newestEbooks = array_slice($newestEbooks, 0, $ebooksPerNewestEbooksFeed);
 
 // Create OPDS feeds.

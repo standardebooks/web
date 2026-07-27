@@ -3,17 +3,17 @@ use Safe\DateTimeImmutable;
 
 class ProjectReminder{
 	public int $ProjectId;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	public Enums\ProjectReminderType $Type;
 
 	public function Create(): void{
-		$this->Created = NOW;
+		$this->CreatedAt = NOW;
 		Db::Query('
 				INSERT
 				into ProjectReminders
 				(
 					ProjectId,
-					Created,
+					CreatedAt,
 					Type
 				)
 				values(
@@ -21,6 +21,6 @@ class ProjectReminder{
 					?,
 					?
 				)
-			', [$this->ProjectId, $this->Created, $this->Type]);
+			', [$this->ProjectId, $this->CreatedAt, $this->Type]);
 	}
 }

@@ -41,8 +41,8 @@ final class Artwork{
 	public int $ArtistId;
 	public ?int $CompletedYear = null;
 	public bool $CompletedYearIsCirca = false;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 	public ?int $EbookId = null;
 	public ?int $SubmitterUserId = null;
 	public ?int $ReviewerUserId = null;
@@ -212,7 +212,7 @@ final class Artwork{
 				throw new Exceptions\ArtworkInvalidException();
 			}
 
-			$this->_ImageUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->Updated->getTimestamp();
+			$this->_ImageUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->UpdatedAt->getTimestamp();
 		}
 
 		return $this->_ImageUrl;
@@ -227,7 +227,7 @@ final class Artwork{
 				throw new Exceptions\ArtworkNotFoundException();
 			}
 
-			$this->_ThumbUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->Updated->getTimestamp();
+			$this->_ThumbUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->UpdatedAt->getTimestamp();
 		}
 
 		return $this->_ThumbUrl;
@@ -242,7 +242,7 @@ final class Artwork{
 				throw new Exceptions\ArtworkNotFoundException();
 			}
 
-			$this->_Thumb2xUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->Updated->getTimestamp();
+			$this->_Thumb2xUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->UpdatedAt->getTimestamp();
 		}
 
 		return $this->_Thumb2xUrl;
@@ -765,8 +765,8 @@ final class Artwork{
 			throw new Exceptions\ArtworkExistsException();
 		}
 
-		$this->Created = NOW;
-		$this->Updated = NOW;
+		$this->CreatedAt = NOW;
+		$this->UpdatedAt = NOW;
 
 		$tags = [];
 		foreach($this->Tags as $artworkTag){
@@ -778,7 +778,7 @@ final class Artwork{
 
 		$this->ArtworkId = Db::QueryInt('
 			INSERT into
-			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, Created, Updated, Status, SubmitterUserId, ReviewerUserId, IsAutoReviewed, MuseumUrl,
+			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, CreatedAt, UpdatedAt, Status, SubmitterUserId, ReviewerUserId, IsAutoReviewed, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
 			                      EbookId, MimeType, Exception, Notes)
 			values (?,
@@ -804,7 +804,7 @@ final class Artwork{
 			        ?)
 			returning ArtworkId
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Created, $this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->CreatedAt, $this->UpdatedAt, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes]
 		);
 
@@ -830,7 +830,7 @@ final class Artwork{
 
 		if($imagePath !== null){
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's updated timestamp won't change automatically.
-			$this->Updated = NOW;
+			$this->UpdatedAt = NOW;
 			unset($this->_ImageUrl);
 			unset($this->_ThumbUrl);
 			unset($this->_Thumb2xUrl);
@@ -852,7 +852,7 @@ final class Artwork{
 			Db::Query('UPDATE Artists set DeathYear = ? where ArtistId = ?', [$newDeathYear , $this->Artist->ArtistId]);
 		}
 
-		$this->Updated = NOW;
+		$this->UpdatedAt = NOW;
 
 		// Save the artwork.
 		Db::Query('
@@ -863,7 +863,7 @@ final class Artwork{
 			UrlName = ?,
 			CompletedYear = ?,
 			CompletedYearIsCirca = ?,
-			Updated = ?,
+			UpdatedAt = ?,
 			Status = ?,
 			SubmitterUserId = ?,
 			ReviewerUserId = ?,
@@ -881,7 +881,7 @@ final class Artwork{
 			where
 			ArtworkId = ?
 		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->Updated, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+				$this->UpdatedAt, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
 				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes,
 				$this->ArtworkId]
 		);
@@ -1048,7 +1048,7 @@ final class Artwork{
 			  inner join Artists a using (ArtistId)
 			where ' . $statusCondition . '
 			and a.UrlName = ?
-			order by art.Created desc', $params, Artwork::class);
+			order by art.CreatedAt desc', $params, Artwork::class);
 
 		return $artworks;
 	}
@@ -1149,7 +1149,7 @@ final class Artwork{
 		}
 
 		if($query === null){
-			$orderBy = 'art.Created desc';
+			$orderBy = 'art.CreatedAt desc';
 			if($sort == Enums\ArtworkSortType::ArtistAlpha){
 				$orderBy = 'a.Name asc';
 			}
@@ -1158,7 +1158,7 @@ final class Artwork{
 			}
 		}
 		else{
-			$orderBy = 'Created desc';
+			$orderBy = 'CreatedAt desc';
 			if($sort == Enums\ArtworkSortType::ArtistAlpha){
 				$orderBy = 'ArtistNameSort asc';
 			}
@@ -1274,7 +1274,7 @@ final class Artwork{
 				SubmitterUserId,
 				CompletedYear,
 				EbookId,
-				Created
+				CreatedAt
 			)
 			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
 				$this->ArtworkId,
@@ -1293,7 +1293,7 @@ final class Artwork{
 				$this->SubmitterUserId ?? 0,
 				$this->CompletedYear ?? 0,
 				$this->EbookId ?? 0,
-				$this->Created
+				$this->CreatedAt
 			]);
 	}
 

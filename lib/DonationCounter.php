@@ -7,13 +7,13 @@ use Safe\DateTimeImmutable;
 class DonationCounter{
 	public int $DonationCounterId;
 	public string $Name;
-	public DateTimeImmutable $Start;
-	public DateTimeImmutable $End;
+	public DateTimeImmutable $StartAt;
+	public DateTimeImmutable $EndAt;
 	public int $MatchAmount = 0;
 	public int $Count = 0;
 	public ?string $ExternalUrl;
-	public DateTimeImmutable $Created;
-	public DateTimeImmutable $Updated;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 
 
 	// ***********
@@ -21,10 +21,10 @@ class DonationCounter{
 	// ***********
 
 	public static function AddCountToIsActive(): void{
-		Db::Query('UPDATE DonationCounters set Count = Count + 1 where utc_timestamp() > Start and utc_timestamp() < End', []);
+		Db::Query('UPDATE DonationCounters set Count = Count + 1 where utc_timestamp() > StartAt and utc_timestamp() < EndAt', []);
 	}
 
 	public static function GetByIsActive(): ?DonationCounter{
-		return Db::Query('SELECT * from DonationCounters where utc_timestamp() > Start and utc_timestamp() < End', [], DonationCounter::class)[0] ?? null;
+		return Db::Query('SELECT * from DonationCounters where utc_timestamp() > StartAt and utc_timestamp() < EndAt', [], DonationCounter::class)[0] ?? null;
 	}
 }

@@ -75,13 +75,13 @@ Db::Query('start transaction');
 $pendingPayments = Db::Query('
 				SELECT *
 				from PendingPayments
-				where ProcessedOn is null
+				where ProcessedAt is null
 			');
 
 Db::Query('
 		UPDATE PendingPayments
-		set ProcessedOn = utc_timestamp()
-		where ProcessedOn is null
+		set ProcessedAt = utc_timestamp()
+		where ProcessedAt is null
 	');
 
 Db::Query('commit');
@@ -210,7 +210,7 @@ try{
 					$payment->User = null;
 				}
 
-				$payment->Created = DateTimeImmutable::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Created"]]'))->getText()));
+				$payment->CreatedAt = DateTimeImmutable::createFromFormat('n/j/Y', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Created"]]'))->getText()));
 				$payment->IsRecurring = sizeof($headerRow->findElements(WebDriverBy::xpath('//td[contains(., "Recurring")]'))) > 0;
 				$payment->Amount = floatval(preg_replace('/[^0-9\.]/', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Total Amount"]]'))->getText())));
 				$payment->Fee = floatval(preg_replace('/[^0-9\.]/', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Fee"]]'))->getText())));
@@ -254,7 +254,7 @@ try{
 						&&
 						$payment->Amount >= PATRONS_CIRCLE_MONTHLY_COST
 						&&
-						$payment->Created >= $lastMonth
+						$payment->CreatedAt >= $lastMonth
 					)
 					||
 					(
@@ -262,12 +262,12 @@ try{
 						&&
 						$payment->Amount >= PATRONS_CIRCLE_YEARLY_COST
 						&&
-						$payment->Created >= $lastYear
+						$payment->CreatedAt >= $lastYear
 					)
 				){
 					// This payment is eligible for the Patrons Circle!
 					if($payment->UserId !== null && $payment->User !== null){
-						$isPatron = Db::QueryBool('SELECT exists(select * from Patrons where UserId = ? and Ended is null)', [$payment->UserId]);
+						$isPatron = Db::QueryBool('SELECT exists(select * from Patrons where UserId = ? and EndedAt is null)', [$payment->UserId]);
 
 						// Are we already a patron?
 						if(!$isPatron){

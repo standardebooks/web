@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `PendingPayments` (
-  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Processor` enum('fractured_atlas') NOT NULL,
   `TransactionId` varchar(80) NOT NULL,
-  `ProcessedOn` datetime DEFAULT NULL
+  `ProcessedAt` datetime DEFAULT NULL,
+  `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  INDEX `ProcessedAt` (`ProcessedAt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

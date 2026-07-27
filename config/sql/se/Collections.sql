@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS `Collections` (
   `Type` enum('series', 'set') NULL,
   `ArePlaceholdersComplete` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`CollectionId`),
-  UNIQUE KEY `idxUnique` (`UrlName`)
+  UNIQUE KEY `UrlName` (`UrlName`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

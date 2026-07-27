@@ -12,7 +12,7 @@ class PollVote{
 	use Traits\PropertyFromRequest;
 
 	public int $UserId;
-	public DateTimeImmutable $Created;
+	public DateTimeImmutable $CreatedAt;
 	public int $PollItemId;
 
 	protected User $_User;

@@ -78,7 +78,7 @@ try{
 	// If there was a `Project` for this ebook, mark it as completed.
 	if($ebook->ProjectInProgress !== null){
 		$ebook->ProjectInProgress->Status = Enums\ProjectStatusType::Completed;
-		$ebook->ProjectInProgress->Ended = NOW;
+		$ebook->ProjectInProgress->EndedAt = NOW;
 		$ebook->ProjectInProgress->Save();
 	}
 }

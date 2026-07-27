@@ -18,18 +18,18 @@ try{
 			SELECT *
 			from Polls
 			where
-				utc_timestamp() < End
+				utc_timestamp() < EndAt
 				and
-				Start <= utc_timestamp()
-			order by Start desc
+				StartAt <= utc_timestamp()
+			order by StartAt desc
 		', [], Poll::class);
 
 	if($canEditPolls){
 		$futurePolls = Db::Query('
 				SELECT *
 				from Polls
-				where utc_timestamp() < Start
-				order by Start desc
+				where utc_timestamp() < StartAt
+				order by StartAt desc
 			', [], Poll::class);
 	}
 }
