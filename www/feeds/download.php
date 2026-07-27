@@ -40,7 +40,7 @@ try{
 		$userAgent = Http::$Request->Headers['user-agent'] ?? null;
 		if(isset($userAgent)){
 			$isUserAgentAllowed = Db::QueryBool('
-							SELECT exists(
+							select exists(
 								select *
 								from FeedUserAgents
 								where instr(?, UserAgent)

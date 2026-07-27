@@ -56,7 +56,7 @@ class Collection{
 		}
 
 		$result = Db::Query('
-				SELECT *
+				select *
 				from Collections
 				where CollectionId = ?
 			', [$collectionId], Collection::class);
@@ -73,7 +73,7 @@ class Collection{
 		}
 
 		$result = Db::Query('
-				SELECT *
+				select *
 				from Collections
 				where UrlName = ?
 			', [$urlName], Collection::class);
@@ -88,7 +88,7 @@ class Collection{
 	 */
 	public static function GetAll(): array{
 		return Db::Query('
-				SELECT *
+				select *
 				from Collections
 				order by regexp_replace(Name, "^(a|the|an|and)\\\\s", "")
 			', [], Collection::class);
@@ -99,7 +99,7 @@ class Collection{
 	 */
 	public static function DeleteUnused(): void{
 		Db::Query('
-			DELETE c
+			delete c
 			from Collections c
 				left join CollectionEbooks ce using (CollectionId)
 			where ce.CollectionId is null
@@ -166,7 +166,7 @@ class Collection{
 		$this->Validate();
 
 		$this->CollectionId = Db::QueryInt('
-			INSERT into Collections (Name, UrlName, Type)
+			insert into Collections (Name, UrlName, Type)
 			values (?,
 				?,
 				?)
@@ -183,7 +183,7 @@ class Collection{
 		$this->Validate();
 
 		Db::Query('
-			UPDATE Collections
+			update Collections
 			set
 				Name = ?,
 				UrlName = ?,
@@ -200,7 +200,7 @@ class Collection{
 	 */
 	public function GetByUrlNameOrCreate(string $urlName): Collection{
 		$result = Db::Query('
-				SELECT *
+				select *
 				from Collections
 				where UrlName = ?
 			', [$urlName], Collection::class);
@@ -219,7 +219,7 @@ class Collection{
 	 */
 	public static function GetAllByMissingEntries(): array{
 		return Db::Query('
-				SELECT distinct c.*
+				select distinct c.*
 				from Collections c
 				inner join CollectionEbooks ce using (CollectionId)
 				inner join EbookPlaceholders ep using (EbookId)

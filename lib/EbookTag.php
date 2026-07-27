@@ -57,7 +57,7 @@ class EbookTag extends Tag{
 		$this->Validate();
 
 		$this->TagId = Db::QueryInt('
-			INSERT into Tags (Name, UrlName, Type)
+			insert into Tags (Name, UrlName, Type)
 			values (?,
 				?,
 				?)
@@ -75,7 +75,7 @@ class EbookTag extends Tag{
 	 */
 	public function GetByNameOrCreate(string $name): EbookTag{
 		$result = Db::Query('
-				SELECT *
+				select *
 				from Tags
 				where Name = ?
 					and Type = ?
@@ -95,7 +95,7 @@ class EbookTag extends Tag{
 	 */
 	public static function GetAll(): array{
 		$tags = Db::Query('
-				SELECT *
+				select *
 				from Tags t
 				where Type = ?
 				order by Name
@@ -109,7 +109,7 @@ class EbookTag extends Tag{
 	 */
 	public static function DeleteUnused(): void{
 		Db::Query('
-			DELETE t
+			delete t
 			from Tags t 
 				left join EbookTags et using (TagId)
 			where t.Type = ?

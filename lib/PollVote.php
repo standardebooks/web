@@ -92,7 +92,7 @@ class PollVote{
 		try{
 			// Lock a stable `PollItems` row for this `Poll`.
 			Db::Query('
-				SELECT PollItemId
+				select PollItemId
 				from PollItems
 				where PollId = ?
 				for update
@@ -108,7 +108,7 @@ class PollVote{
 			}
 
 			Db::Query('
-				INSERT into PollVotes (UserId, PollItemId)
+				insert into PollVotes (UserId, PollItemId)
 				values (?, ?)
 			', [$this->UserId, $this->PollItemId]);
 
@@ -129,7 +129,7 @@ class PollVote{
 		}
 
 		$result = Db::Query('
-					SELECT pv.*
+					select pv.*
 					from PollVotes pv
 					inner join
 					    (select pi.PollItemId

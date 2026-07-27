@@ -40,7 +40,7 @@ class LocSubject{
 		$this->Validate();
 
 		$this->LocSubjectId = Db::QueryInt('
-			INSERT into LocSubjects (Name)
+			insert into LocSubjects (Name)
 			values (?)
 			returning LocSubjectId
 		', [$this->Name]);
@@ -51,7 +51,7 @@ class LocSubject{
 	 */
 	public function GetByNameOrCreate(string $name): LocSubject{
 		$result = Db::Query('
-				SELECT *
+				select *
 				from LocSubjects
 				where Name = ?
 			', [$name], LocSubject::class);
@@ -70,7 +70,7 @@ class LocSubject{
 	 */
 	public static function DeleteUnused(): void{
 		Db::Query('
-			DELETE ls
+			delete ls
 			from LocSubjects ls
 				left join EbookLocSubjects els using (LocSubjectId)
 			where els.LocSubjectId is null

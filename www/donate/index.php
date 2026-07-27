@@ -1,6 +1,6 @@
 <?
 $newsletterSubscriberCount = floor(Db::QueryInt('
-						SELECT count(*)
+						select count(*)
 						from NewsletterSubscriptions
 						where IsConfirmed = true
 					') / 100) * 100;

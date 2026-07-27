@@ -135,7 +135,7 @@ class BlogPost{
 	 */
 	protected function GetEbooks(): array{
 		if(isset($this->BlogPostId)){
-			return $this->_Ebooks ??= Db::Query('SELECT Ebooks.* from Ebooks inner join BlogPostEbooks using (EbookId) where BlogPostId = ? order by BlogPostEbooks.SortOrder asc', [$this->BlogPostId], Ebook::class);
+			return $this->_Ebooks ??= Db::Query('select Ebooks.* from Ebooks inner join BlogPostEbooks using (EbookId) where BlogPostId = ? order by BlogPostEbooks.SortOrder asc', [$this->BlogPostId], Ebook::class);
 		}
 		else{
 			return $this->_Ebooks ??= [];
@@ -360,7 +360,7 @@ class BlogPost{
 
 		try{
 			$this->BlogPostId = Db::QueryInt('
-				INSERT into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, PublishedAt, CreatedAt)
+				insert into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, PublishedAt, CreatedAt)
 				values (?,
 				        ?,
 				        ?,
@@ -411,7 +411,7 @@ class BlogPost{
 
 		try{
 			Db::Query('
-				UPDATE BlogPosts
+				update BlogPosts
 				set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, ImageCacheKey = ?, HeroImageCaption = ?, PublishedAt = ? where BlogPostId = ?
 			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->BlogPostId]);
 		}
@@ -419,7 +419,7 @@ class BlogPost{
 			throw new Exceptions\BlogPostExistsException();
 		}
 
-		Db::Query('DELETE from BlogPostEbooks where BlogPostId = ?', [$this->BlogPostId]);
+		Db::Query('delete from BlogPostEbooks where BlogPostId = ?', [$this->BlogPostId]);
 
 		$this->AddEbooks();
 
@@ -592,7 +592,7 @@ class BlogPost{
 			$parameters[] = $sortOrder;
 		}
 
-		Db::MultiInsert('INSERT into BlogPostEbooks (BlogPostId, EbookId, SortOrder) values (?, ?, ?)', $parameters);
+		Db::MultiInsert('insert into BlogPostEbooks (BlogPostId, EbookId, SortOrder) values (?, ?, ?)', $parameters);
 	}
 
 	public function FillFromRequestBody(): void{
@@ -634,7 +634,7 @@ class BlogPost{
 		}
 
 		return Db::Query('
-				SELECT *
+				select *
 				from BlogPosts
 				where UrlTitle = ?
 			', [$urlTitle], BlogPost::class)[0] ?? throw new Exceptions\BlogPostNotFoundException();
@@ -645,7 +645,7 @@ class BlogPost{
 	 */
 	public static function GetAllByIsPublished(): array{
 		return Db::Query('
-			SELECT *
+			select *
 			from BlogPosts
 			where PublishedAt < utc_timestamp()
 			order by PublishedAt desc', [], BlogPost::class);
@@ -656,7 +656,7 @@ class BlogPost{
 	 */
 	public static function GetAllByCreated(): array{
 		return Db::Query('
-			SELECT *
+			select *
 			from BlogPosts
 			order by CreatedAt desc', [], BlogPost::class);
 	}
@@ -681,7 +681,7 @@ class BlogPost{
 
 		if($includeUnpublished){
 			$blogPosts = Db::Query('
-					SELECT SQL_CALC_FOUND_ROWS *
+					select sql_calc_found_rows *
 					from BlogPosts
 					order by CreatedAt desc
 					limit ?
@@ -690,7 +690,7 @@ class BlogPost{
 		}
 		else{
 			$blogPosts = Db::Query('
-					SELECT SQL_CALC_FOUND_ROWS *
+					select sql_calc_found_rows *
 					from BlogPosts
 					where PublishedAt < utc_timestamp()
 					order by PublishedAt desc
@@ -699,7 +699,7 @@ class BlogPost{
 				', [$perPage, $offset], BlogPost::class);
 		}
 
-		$count = Db::QueryInt('SELECT found_rows()');
+		$count = Db::QueryInt('select found_rows()');
 		$totalPages = (int)ceil($count / $perPage);
 
 		if($totalPages > 0 && $page > $totalPages){

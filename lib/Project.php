@@ -162,7 +162,7 @@ final class Project{
 	 * @return array<ProjectReminder>
 	 */
 	protected function GetReminders(): array{
-		return $this->_Reminders ??= Db::Query('SELECT * from ProjectReminders where ProjectId = ? order by CreatedAt asc', [$this->ProjectId], ProjectReminder::class);
+		return $this->_Reminders ??= Db::Query('select * from ProjectReminders where ProjectId = ? order by CreatedAt asc', [$this->ProjectId], ProjectReminder::class);
 	}
 
 
@@ -348,7 +348,7 @@ final class Project{
 		}
 
 		$this->ProjectId = Db::QueryInt('
-				INSERT into Projects
+				insert into Projects
 				(
 					EbookId,
 					Status,
@@ -439,7 +439,7 @@ final class Project{
 	 */
 	public function Save(): void{
 		/** @var ?string $originalDiscussionUrl */
-		$originalDiscussionUrl = Db::Query('SELECT DiscussionUrl from Projects where ProjectId = ?', [$this->ProjectId])[0]->DiscussionUrl ?? null;
+		$originalDiscussionUrl = Db::Query('select DiscussionUrl from Projects where ProjectId = ?', [$this->ProjectId])[0]->DiscussionUrl ?? null;
 
 		$this->Validate();
 		$this->SendReviewerReadyNotification();
@@ -449,7 +449,7 @@ final class Project{
 		}
 
 		Db::Query('
-			UPDATE
+			update
 			Projects
 			set
 			Status = ?,
@@ -470,7 +470,7 @@ final class Project{
 		', [$this->Status, $this->ProducerUserId, $this->DiscussionUrl, $this->VcsUrl, $this->StartedAt, $this->EndedAt, $this->ManagerUserId, $this->ReviewerUserId, $this->LastCommitAt, $this->LastDiscussionAt, $this->IsStatusAutomaticallyUpdated, $this->HasReviewerBeenNotified, $this->AreDiscussionMessagesComplete, $this->ProjectId]);
 
 		Db::Query('
-			UPDATE
+			update
 			EbookPlaceholders
 			set
 			IsInProgress = ?
@@ -489,7 +489,7 @@ final class Project{
 	 */
 	public function UnassignArtwork(): void{
 		Db::Query('
-			UPDATE
+			update
 			Artworks
 			set
 			EbookId = null
@@ -525,19 +525,19 @@ final class Project{
 
 	public function Delete(): void{
 		Db::Query('
-			DELETE
+			delete
 			from ProjectDiscussionMessages
 			where ProjectId = ?
 		', [$this->ProjectId]);
 
 		Db::Query('
-			DELETE
+			delete
 			from ProjectReminders
 			where ProjectId = ?
 		', [$this->ProjectId]);
 
 		Db::Query('
-			DELETE
+			delete
 			from Projects
 			where ProjectId = ?
 		', [$this->ProjectId]);
@@ -581,7 +581,7 @@ final class Project{
 		}
 
 		Db::MultiInsert('
-			INSERT ignore into ProjectDiscussionMessages
+			insert ignore into ProjectDiscussionMessages
 			(
 				ProjectId,
 				MessageId,
@@ -599,7 +599,7 @@ final class Project{
 	public function GetDiscussionMessageIds(): array{
 		/** @var array<object{MessageId: string}> $rows */
 		$rows = Db::Query('
-			SELECT
+			select
 				MessageId
 			from
 				ProjectDiscussionMessages
@@ -883,7 +883,7 @@ final class Project{
 			throw new Exceptions\ProjectNotFoundException();
 		}
 
-		return Db::Query('SELECT * from Projects where ProjectId = ?', [$projectId], Project::class)[0] ?? throw new Exceptions\ProjectNotFoundException();
+		return Db::Query('select * from Projects where ProjectId = ?', [$projectId], Project::class)[0] ?? throw new Exceptions\ProjectNotFoundException();
 	}
 
 	/**
@@ -894,14 +894,14 @@ final class Project{
 			throw new Exceptions\ProjectNotFoundException();
 		}
 
-		return Db::Query('SELECT Projects.* from Ebooks inner join Projects using (EbookId) where Ebooks.Identifier = ? and Projects.Status in (?, ?, ?)', [$identifier, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed], Project::class)[0] ?? throw new Exceptions\ProjectNotFoundException();
+		return Db::Query('select Projects.* from Ebooks inner join Projects using (EbookId) where Ebooks.Identifier = ? and Projects.Status in (?, ?, ?)', [$identifier, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed], Project::class)[0] ?? throw new Exceptions\ProjectNotFoundException();
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByStatus(Enums\ProjectStatusType $status): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where Projects.Status = ? order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$status], Project::class);
+		return Db::MultiTableSelect('select * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where Projects.Status = ? order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$status], Project::class);
 	}
 
 	/**
@@ -910,28 +910,28 @@ final class Project{
 	 * @return array<Project>
 	 */
 	public static function GetAllByStatuses(array $statuses): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where Projects.Status in ' . Db::CreateSetSql($statuses) . ' order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', $statuses, Project::class);
+		return Db::MultiTableSelect('select * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where Projects.Status in ' . Db::CreateSetSql($statuses) . ' order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', $statuses, Project::class);
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByManagerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ManagerUserId = ? and Status in (?, ?, ?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, ProjectStatusType::Reviewed], Project::class);
+		return Db::MultiTableSelect('select * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ManagerUserId = ? and Status in (?, ?, ?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, ProjectStatusType::Reviewed], Project::class);
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByReviewerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ReviewerUserId = ? and Status in (?, ?, ?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, ProjectStatusType::Reviewed], Project::class);
+		return Db::MultiTableSelect('select * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ReviewerUserId = ? and Status in (?, ?, ?, ?) order by regexp_replace(Title, \'^(A|An|The)\\\s\', \'\') asc', [$userId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, ProjectStatusType::Reviewed], Project::class);
 	}
 
 	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByProducerUserId(int $userId): array{
-		return Db::MultiTableSelect('SELECT * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ProducerUserId = ? order by Projects.CreatedAt desc', [$userId], Project::class);
+		return Db::MultiTableSelect('select * from Projects inner join Ebooks on Projects.EbookId = Ebooks.EbookId where ProducerUserId = ? order by Projects.CreatedAt desc', [$userId], Project::class);
 	}
 
 	/**

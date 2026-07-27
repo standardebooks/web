@@ -9,7 +9,7 @@ class ProjectReminder{
 	public function Create(): void{
 		$this->CreatedAt = NOW;
 		Db::Query('
-				INSERT
+				insert
 				into ProjectReminders
 				(
 					ProjectId,

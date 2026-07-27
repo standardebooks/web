@@ -15,7 +15,7 @@ try{
 	$pages = $result['totalPages'];
 
 	$openPolls = Db::Query('
-			SELECT *
+			select *
 			from Polls
 			where
 				utc_timestamp() < EndAt
@@ -26,7 +26,7 @@ try{
 
 	if($canEditPolls){
 		$futurePolls = Db::Query('
-				SELECT *
+				select *
 				from Polls
 				where utc_timestamp() < StartAt
 				order by StartAt desc

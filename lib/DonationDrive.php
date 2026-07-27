@@ -113,10 +113,10 @@ class DonationDrive{
 	// ***********
 
 	public static function AddCountToIsActive(Enums\DonationTargetType $targetType): void{
-		Db::Query('UPDATE DonationDrives set Count = Count + 1 where utc_timestamp() > StartAt and utc_timestamp() < EndAt and TargetType = ?', [$targetType]);
+		Db::Query('update DonationDrives set Count = Count + 1 where utc_timestamp() > StartAt and utc_timestamp() < EndAt and TargetType = ?', [$targetType]);
 	}
 
 	public static function GetByIsActive(): ?DonationDrive{
-		return Db::Query('SELECT * from DonationDrives where utc_timestamp() > StartAt and utc_timestamp() < EndAt and Count < Target + StretchTarget', [], DonationDrive::class)[0] ?? null;
+		return Db::Query('select * from DonationDrives where utc_timestamp() > StartAt and utc_timestamp() < EndAt and Count < Target + StretchTarget', [], DonationDrive::class)[0] ?? null;
 	}
 }

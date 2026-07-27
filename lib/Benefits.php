@@ -121,7 +121,7 @@ class Benefits{
 		$this->Validate();
 
 		Db::Query('
-				INSERT into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, IsArtworkAdmin, CanCreateUsers, CanEditUsers, CanEditPolls, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanEditProjects, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanEditBlogPosts, CanEditSpreadsheets, CanCreateNewsletterMailings, CanEditNewsletterMailings, CanViewReports)
+				insert into Benefits (UserId, CanAccessFeeds, CanVote, CanBulkDownload, CanUploadArtwork, CanReviewArtwork, IsArtworkAdmin, CanCreateUsers, CanEditUsers, CanEditPolls, CanEditCollections, CanEditEbooks, CanEditEbookPlaceholders, CanEditProjects, CanManageProjects, CanReviewProjects, CanBeAutoAssignedToProjects, CanEditBlogPosts, CanEditSpreadsheets, CanCreateNewsletterMailings, CanEditNewsletterMailings, CanViewReports)
 				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 		', [$this->UserId, $this->CanAccessFeeds, $this->CanVote, $this->CanBulkDownload, $this->CanUploadArtwork, $this->CanReviewArtwork, $this->IsArtworkAdmin, $this->CanCreateUsers, $this->CanEditUsers, $this->CanEditPolls, $this->CanEditCollections, $this->CanEditEbooks, $this->CanEditEbookPlaceholders, $this->CanEditProjects, $this->CanManageProjects, $this->CanReviewProjects, $this->CanBeAutoAssignedToProjects, $this->CanEditBlogPosts, $this->CanEditSpreadsheets, $this->CanCreateNewsletterMailings, $this->CanEditNewsletterMailings, $this->CanViewReports]);
 	}
@@ -130,7 +130,7 @@ class Benefits{
 		$this->Validate();
 
 		Db::Query('
-				UPDATE Benefits
+				update Benefits
 				set CanAccessFeeds = ?, CanVote = ?, CanBulkDownload = ?, CanUploadArtwork = ?, CanReviewArtwork = ?, IsArtworkAdmin = ?, CanCreateUsers = ?, CanEditUsers = ?, CanEditPolls = ?, CanEditCollections = ?, CanEditEbooks = ?, CanEditEbookPlaceholders = ?, CanEditProjects = ?, CanManageProjects = ?, CanReviewProjects = ?, CanBeAutoAssignedToProjects = ?, CanEditBlogPosts = ?, CanEditSpreadsheets = ?, CanCreateNewsletterMailings = ?, CanEditNewsletterMailings = ?, CanViewReports = ?
 				where
 				UserId = ?

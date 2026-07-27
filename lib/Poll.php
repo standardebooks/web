@@ -46,7 +46,7 @@ class Poll{
 
 	protected function GetVoteCount(): int{
 		return $this->_VoteCount ??= Db::QueryInt('
-							SELECT count(*)
+							select count(*)
 							from PollVotes pv
 							inner join PollItems pi using (PollItemId)
 							where pi.PollId = ?
@@ -58,7 +58,7 @@ class Poll{
 	 */
 	protected function GetPollItems(): array{
 		return $this->_PollItems ??= Db::Query('
-							SELECT *
+							select *
 							from PollItems
 							where PollId = ?
 							order by SortOrder asc
@@ -181,7 +181,7 @@ class Poll{
 
 		try{
 			$this->PollId = Db::QueryInt('
-				INSERT into Polls (CreatedAt, Name, UrlName, Description, StartAt, EndAt)
+				insert into Polls (CreatedAt, Name, UrlName, Description, StartAt, EndAt)
 				values (?, ?, ?, ?, ?, ?)
 				returning PollId
 			', [$this->CreatedAt, $this->Name, $this->UrlName, $this->Description, $this->StartAt, $this->EndAt]);
@@ -204,7 +204,7 @@ class Poll{
 
 		try{
 			Db::Query('
-				UPDATE Polls
+				update Polls
 				set
 				Name = ?,
 				UrlName = ?,
@@ -237,16 +237,16 @@ class Poll{
 		}
 
 		Db::Query('
-			DELETE from PollVotes
+			delete from PollVotes
 			where PollItemId in (
-				SELECT PollItemId
+				select PollItemId
 				from PollItems
 				where PollId = ?' . $pollItemIdSql . '
 			)
 		', $parameters);
 
 		Db::Query('
-			DELETE from PollItems
+			delete from PollItems
 			where PollId = ?' . $pollItemIdSql,
 		$parameters);
 
@@ -353,7 +353,7 @@ class Poll{
 		}
 
 		$result = Db::Query('
-					SELECT *
+					select *
 					from Polls
 					where PollId = ?
 				', [$pollId], Poll::class);
@@ -370,7 +370,7 @@ class Poll{
 		}
 
 		$result = Db::Query('
-					SELECT *
+					select *
 					from Polls
 					where UrlName = ?
 				', [$urlName], Poll::class);
@@ -397,7 +397,7 @@ class Poll{
 		$offset = (($page - 1) * $perPage);
 
 		$polls = Db::Query('
-				SELECT SQL_CALC_FOUND_ROWS *
+				select sql_calc_found_rows *
 				from Polls
 				where utc_timestamp() >= EndAt
 				order by StartAt desc
@@ -405,7 +405,7 @@ class Poll{
 				offset ?
 			', [$perPage, $offset], Poll::class);
 
-		$count = Db::QueryInt('SELECT found_rows()');
+		$count = Db::QueryInt('select found_rows()');
 		$totalPages = (int)ceil($count / $perPage);
 
 		if($totalPages > 0 && $page > $totalPages){

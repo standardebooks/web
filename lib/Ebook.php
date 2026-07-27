@@ -154,7 +154,7 @@ final class Ebook{
 
 	protected function GetArtwork(): ?Artwork{
 		return $this->_Artwork ??= Db::Query('
-							SELECT
+							select
 							*
 							from
 							Artworks
@@ -168,7 +168,7 @@ final class Ebook{
 	 */
 	protected function GetProjects(): array{
 		return $this->_Projects ??= Db::MultiTableSelect('
-							SELECT *
+							select *
 							from Projects
 							inner join Ebooks
 							on Projects.EbookId = Ebooks.EbookId
@@ -184,7 +184,7 @@ final class Ebook{
 			}
 			else{
 				$this->_ProjectInProgress = Db::MultiTableSelect('
-								SELECT *
+								select *
 								from Projects
 								inner join Ebooks
 								on Projects.EbookId = Ebooks.EbookId
@@ -207,7 +207,7 @@ final class Ebook{
 			}
 			else{
 				$this->_PastProjects = Db::MultiTableSelect('
-								SELECT *
+								select *
 								from Projects
 								inner join Ebooks
 								on Projects.EbookId = Ebooks.EbookId
@@ -225,7 +225,7 @@ final class Ebook{
 	 */
 	protected function GetGitCommits(): array{
 		return $this->_GitCommits ??= Db::Query('
-							SELECT *
+							select *
 							from GitCommits
 							where EbookId = ?
 							order by CreatedAt desc
@@ -237,7 +237,7 @@ final class Ebook{
 	 */
 	protected function GetTags(): array{
 		return $this->_Tags ??= Db::Query('
-						SELECT t.*
+						select t.*
 						from Tags t
 						inner join EbookTags et using (TagId)
 						where EbookId = ?
@@ -250,7 +250,7 @@ final class Ebook{
 	 */
 	protected function GetLocSubjects(): array{
 		return $this->_LocSubjects ??= Db::Query('
-							SELECT l.*
+							select l.*
 							from LocSubjects l
 							inner join EbookLocSubjects el using (LocSubjectId)
 							where EbookId = ?
@@ -265,7 +265,7 @@ final class Ebook{
 		if(!isset($this->_CollectionMemberships)){
 			if(isset($this->EbookId)){
 				$this->_CollectionMemberships = Db::Query('
-									SELECT *
+									select *
 									from CollectionEbooks
 									where EbookId = ?
 									order by SortOrder asc
@@ -284,7 +284,7 @@ final class Ebook{
 	 */
 	protected function GetSources(): array{
 		return $this->_Sources ??= Db::Query('
-						SELECT *
+						select *
 						from EbookSources
 						where EbookId = ?
 						order by SortOrder asc
@@ -308,7 +308,7 @@ final class Ebook{
 		}
 
 		$contributors = Db::Query('
-						SELECT *
+						select *
 						from Contributors
 						where EbookId = ?
 						order by MarcRole asc, SortOrder asc
@@ -403,7 +403,7 @@ final class Ebook{
 
 			if(isset($this->EbookId)){
 				$result = Db::Query('
-						SELECT *
+						select *
 						from TocEntries
 						where EbookId = ?
 						order by SortOrder asc
@@ -755,7 +755,7 @@ final class Ebook{
 			}
 			else{
 				$this->_EbookPlaceholder = Db::Query('
-								SELECT *
+								select *
 								from EbookPlaceholders
 								where EbookId = ?
 							', [$this->EbookId], EbookPlaceholder::class)[0] ?? null;
@@ -1174,7 +1174,7 @@ final class Ebook{
 			throw new Exceptions\EbookNotFoundException();
 		}
 
-		return Db::Query('SELECT * from Ebooks where EbookId = ?', [$ebookId], Ebook::class)[0] ?? throw new Exceptions\EbookNotFoundException();
+		return Db::Query('select * from Ebooks where EbookId = ?', [$ebookId], Ebook::class)[0] ?? throw new Exceptions\EbookNotFoundException();
 	}
 
 	/**
@@ -2020,7 +2020,7 @@ final class Ebook{
 		}
 
 		$this->EbookId = Db::QueryInt('
-			INSERT into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
+			insert into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, CoverImageKey, Title, FullTitle, AlternateTitle,
 				ShortTitle, Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
 				EbookCreatedAt, EbookUpdatedAt, TextSinglePageByteCount, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
@@ -2099,7 +2099,7 @@ final class Ebook{
 
 		try{
 			Db::Query('
-				UPDATE Ebooks
+				update Ebooks
 				set
 				Identifier = ?,
 				WwwFilesystemPath = ?,
@@ -2188,7 +2188,7 @@ final class Ebook{
 
 	private function RemoveTags(): void{
 		Db::Query('
-			DELETE from EbookTags
+			delete from EbookTags
 			where EbookId = ?
 		', [$this->EbookId]
 		);
@@ -2203,12 +2203,12 @@ final class Ebook{
 			$parameters[] = $sortOrder;
 		}
 
-		Db::MultiInsert('INSERT ignore into EbookTags (EbookId, TagId, SortOrder) values (?, ?, ?)', $parameters);
+		Db::MultiInsert('insert ignore into EbookTags (EbookId, TagId, SortOrder) values (?, ?, ?)', $parameters);
 	}
 
 	private function RemoveLocSubjects(): void{
 		Db::Query('
-			DELETE from EbookLocSubjects
+			delete from EbookLocSubjects
 			where EbookId = ?
 		', [$this->EbookId]
 		);
@@ -2223,12 +2223,12 @@ final class Ebook{
 			$parameters[] = $sortOrder;
 		}
 
-		Db::MultiInsert('INSERT ignore into EbookLocSubjects (EbookId, LocSubjectId, SortOrder) values (?, ?, ?)', $parameters);
+		Db::MultiInsert('insert ignore into EbookLocSubjects (EbookId, LocSubjectId, SortOrder) values (?, ?, ?)', $parameters);
 	}
 
 	private function RemoveCollectionMemberships(): void{
 		Db::Query('
-			DELETE from CollectionEbooks
+			delete from CollectionEbooks
 			where EbookId = ?
 		', [$this->EbookId]
 		);
@@ -2249,12 +2249,12 @@ final class Ebook{
 			$parameters[] = $collectionMembership->TitleInCollection;
 		}
 
-		Db::MultiInsert('INSERT ignore into CollectionEbooks (EbookId, CollectionId, SequenceNumber, SortOrder, TitleInCollection) values (?, ?, ?, ?, ?)', $parameters);
+		Db::MultiInsert('insert ignore into CollectionEbooks (EbookId, CollectionId, SequenceNumber, SortOrder, TitleInCollection) values (?, ?, ?, ?, ?)', $parameters);
 	}
 
 	private function RemoveGitCommits(): void{
 		Db::Query('
-			DELETE from GitCommits
+			delete from GitCommits
 			where EbookId = ?
 		', [$this->EbookId]
 		);
@@ -2272,7 +2272,7 @@ final class Ebook{
 
 	private function RemoveSources(): void{
 		Db::Query('
-			DELETE from EbookSources
+			delete from EbookSources
 			where EbookId = ?
 		', [$this->EbookId]
 		);
@@ -2291,7 +2291,7 @@ final class Ebook{
 
 	private function RemoveContributors(): void{
 		Db::Query('
-			DELETE from Contributors
+			delete from Contributors
 			where EbookId = ?
 		', [$this->EbookId]
 		);
@@ -2312,7 +2312,7 @@ final class Ebook{
 
 	private function RemoveTocEntries(): void{
 		Db::Query('
-			DELETE from TocEntries
+			delete from TocEntries
 			where EbookId = ?
 		', [$this->EbookId]
 		);
@@ -2328,13 +2328,13 @@ final class Ebook{
 				$parameters[] = $sortOrder;
 			}
 
-			Db::MultiInsert('INSERT into TocEntries (EbookId, TocEntry, SortOrder) values (?, ?, ?)', $parameters);
+			Db::MultiInsert('insert into TocEntries (EbookId, TocEntry, SortOrder) values (?, ?, ?)', $parameters);
 		}
 	}
 
 	private function RemoveEbookPlaceholder(): void{
 		Db::Query('
-			DELETE from EbookPlaceholders
+			delete from EbookPlaceholders
 			where EbookId = ?
 		', [$this->EbookId]
 		);
@@ -2356,7 +2356,7 @@ final class Ebook{
 	public function UpdateSearchRepresentation(): void{
 		// Get current download counts so that we don't accidentally zero out the count in Manticore if we haven't fetched it before.
 		$downloadCounts = Db::Query('
-			SELECT DownloadsPast30Days
+			select DownloadsPast30Days
 			from Ebooks
 			where EbookId = ?
 		', [$this->EbookId])[0] ?? null;
@@ -2400,7 +2400,7 @@ final class Ebook{
 		}
 
 		SearchDb::Query('
-			REPLACE into ebooks (
+			replace into ebooks (
 				id,
 				Title,
 				FullTitle,
@@ -2441,7 +2441,7 @@ final class Ebook{
 	 */
 	private function DeleteSearchRepresentation(): void{
 		SearchDb::Query('
-			DELETE from ebooks
+			delete from ebooks
 			where id = ?', [$this->EbookId]);
 	}
 
@@ -2479,7 +2479,7 @@ final class Ebook{
 		}
 
 		Db::Query('
-			DELETE
+			delete
 			from Ebooks
 			where EbookId = ?
 		', [$this->EbookId]);
@@ -2498,7 +2498,7 @@ final class Ebook{
 		}
 
 		return Db::Query('
-				SELECT *
+				select *
 				from Ebooks
 				where Identifier = ?
 			', [$identifier], Ebook::class)[0] ?? throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
@@ -2513,7 +2513,7 @@ final class Ebook{
 		}
 
 		return Db::Query('
-				SELECT *
+				select *
 				from Ebooks
 				where Identifier like concat(?, "%")
 			', [$identifier], Ebook::class)[0] ?? throw new Exceptions\EbookNotFoundException('Invalid identifier: ' . $identifier);
@@ -2525,7 +2525,7 @@ final class Ebook{
 	public static function GetAll(): array{
 		// Get all ebooks, unsorted.
 		return Db::Query('
-				SELECT *
+				select *
 				from Ebooks
 			', [], Ebook::class);
 	}
@@ -2537,7 +2537,7 @@ final class Ebook{
 		if(mb_strpos($urlPath, '_') === false){
 			// Single author.
 			return Db::Query('
-					SELECT e.*
+					select e.*
 					from Ebooks e
 					inner join Contributors con using (EbookId)
 					where con.MarcRole = "aut"
@@ -2553,7 +2553,7 @@ final class Ebook{
 			$params[] = sizeof($authors); // The number of authors in the URL must match the number of `Contributor` records.
 
 			return Db::Query('
-					SELECT e.*
+					select e.*
 					from Ebooks e
 					inner join Contributors con using (EbookId)
 					where con.MarcRole = "aut"
@@ -2574,7 +2574,7 @@ final class Ebook{
 	 */
 	public static function GetAllByCollection(int $collectionId): array{
 		$ebooks = Db::Query('
-				SELECT e.*
+				select e.*
 				from Ebooks e
 				inner join CollectionEbooks ce using (EbookId)
 				where ce.CollectionId = ?
@@ -2594,7 +2594,7 @@ final class Ebook{
 	public static function GetAllByRelated(Ebook $ebook, int $count, ?EbookTag $relatedTag): array{
 		if($relatedTag !== null){
 			$relatedEbooks = Db::Query('
-						SELECT e.*
+						select e.*
 						from Ebooks e
 						inner join EbookTags et using (EbookId)
 						where et.TagId = ?
@@ -2606,7 +2606,7 @@ final class Ebook{
 		}
 		else{
 			$relatedEbooks = Db::Query('
-						SELECT *
+						select *
 						from Ebooks
 						where EbookId != ?
 						    and WwwFilesystemPath is not null
@@ -2625,13 +2625,13 @@ final class Ebook{
 		switch($releaseStatusFilter){
 			case Enums\EbookReleaseStatusFilter::Released:
 				return Db::Query('
-						SELECT *
+						select *
 						from Ebooks
 						where WwwFilesystemPath is not null
 					', [], Ebook::class);
 			case Enums\EbookReleaseStatusFilter::Placeholder:
 				return Db::Query('
-						SELECT *
+						select *
 						from Ebooks
 						where WwwFilesystemPath is null
 					', [], Ebook::class);
@@ -2729,7 +2729,7 @@ final class Ebook{
 			}
 
 			$ebooksCount = Db::QueryInt('
-					SELECT count(distinct e.EbookId)
+					select count(distinct e.EbookId)
 					from Ebooks e
 					' . $joinContributors . '
 					' . $joinTags . '
@@ -2745,7 +2745,7 @@ final class Ebook{
 			$params[] = $offset;
 
 			$ebooks = Db::Query('
-					SELECT distinct e.*
+					select distinct e.*
 					from Ebooks e
 					' . $joinContributors . '
 					' . $joinTags . '
@@ -2815,7 +2815,7 @@ final class Ebook{
 			$searchParams[] = $offset;
 
 			$maxMatches = $offset + $limit;
-			$result = SearchDb::QueryMatch('SELECT id from ebooks where ' . $searchWhereCondition . ' order by ' . $searchOrderBy . ' limit ? offset ? option max_matches=' . $maxMatches . ', field_weights=(Title=' . EBOOK_SEARCH_WEIGHT_TITLE . ',FullTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',AlternateTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',Authors=' . EBOOK_SEARCH_WEIGHT_AUTHORS . ',Collections=' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ',TocEntries=' . EBOOK_SEARCH_WEIGHT_TOC_ENTRIES . ')', $searchParams, $matchParamIndex);
+			$result = SearchDb::QueryMatch('select id from ebooks where ' . $searchWhereCondition . ' order by ' . $searchOrderBy . ' limit ? offset ? option max_matches=' . $maxMatches . ', field_weights=(Title=' . EBOOK_SEARCH_WEIGHT_TITLE . ',FullTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',AlternateTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',Authors=' . EBOOK_SEARCH_WEIGHT_AUTHORS . ',Collections=' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ',TocEntries=' . EBOOK_SEARCH_WEIGHT_TOC_ENTRIES . ')', $searchParams, $matchParamIndex);
 
 			// Try to get the total matches from built-in metadata instead of running a second resource-intensive query.
 			$ebooksCount = SearchDb::GetLastQueryTotalResultCount();
@@ -2824,7 +2824,7 @@ final class Ebook{
 				// Exact number of total matches not found, calculate it using a separate query.
 				array_pop($searchParams);
 				array_pop($searchParams);
-				$ebooksCount = SearchDb::QueryMatch('SELECT count(*) as Count from ebooks where ' . $searchWhereCondition, $searchParams, $matchParamIndex)[0]->count ?? 0;
+				$ebooksCount = SearchDb::QueryMatch('select count(*) as Count from ebooks where ' . $searchWhereCondition, $searchParams, $matchParamIndex)[0]->count ?? 0;
 			}
 
 			$totalPages = (int)ceil($ebooksCount / $perPage);
@@ -2851,7 +2851,7 @@ final class Ebook{
 
 			// `find_in_set()` allows us to order the resultset from MariaDB in the same order that it came from Manticore.
 			$ebooks = Db::Query('
-					SELECT e.*
+					select e.*
 					from Ebooks e
 					where e.EbookId in (' . $ids . ')
 					order by find_in_set(e.EbookId, "' . $ids . '")'
@@ -2874,7 +2874,7 @@ final class Ebook{
 	public static function GetAllPlaceholders(?int $page = null, ?int $perPage = null): array{
 		if($page === null && $perPage === null){
 			$ebookPlaceholders = Db::Query('
-					SELECT Ebooks.*
+					select Ebooks.*
 					from Ebooks inner join EbookPlaceholders using (EbookId)
 					order by Ebooks.CreatedAt desc
 				', [], Ebook::class);
@@ -2898,14 +2898,14 @@ final class Ebook{
 			$offset = (($page - 1) * $perPage);
 
 			$ebookPlaceholders = Db::Query('
-					SELECT SQL_CALC_FOUND_ROWS Ebooks.*
+					select sql_calc_found_rows Ebooks.*
 					from Ebooks inner join EbookPlaceholders using (EbookId)
 					order by Ebooks.CreatedAt desc
 					limit ?
 					offset ?
 				', [$perPage, $offset], Ebook::class);
 
-			$count = Db::QueryInt('SELECT found_rows()');
+			$count = Db::QueryInt('select found_rows()');
 			$totalPages = (int)ceil($count / $perPage);
 
 			if($totalPages > 0 && $page > $totalPages){
@@ -2923,7 +2923,7 @@ final class Ebook{
 	 */
 	public static function GetByIsWantedAndDifficulty(Enums\EbookPlaceholderDifficulty $difficulty): array{
 		return Db::Query('
-				SELECT Ebooks.*
+				select Ebooks.*
 				from Ebooks inner join EbookPlaceholders using (EbookId)
 				where EbookPlaceholders.IsWanted = true and
 					EbookPlaceholders.IsInProgress = false and
@@ -2951,7 +2951,7 @@ final class Ebook{
 		$ebookReleasedQueryToMonth = $to->modify('first day of this month')->setTime(0, 0);
 
 		$result = Db::Query('
-			WITH recursive Months as (
+			with recursive Months as (
 				select cast(? as date) as Month
 				union all
 				select cast(date_add(Month, interval 1 month) as date)

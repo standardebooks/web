@@ -49,7 +49,7 @@ final class NewsletterSubscription{
 	public function Create(): void{
 		$this->Validate();
 
-		$hasEmailBounced = Db::QueryBool('SELECT exists (select * from EmailBounces where Email = ? and IsActive = true)', [$this->User->Email]);
+		$hasEmailBounced = Db::QueryBool('select exists (select * from EmailBounces where Email = ? and IsActive = true)', [$this->User->Email]);
 
 		if($hasEmailBounced){
 			throw new Exceptions\EmailBounceExistsException('An email we sent to this email address bounced back or was marked as spam. We can’t send email to this email address anymore.');
@@ -75,7 +75,7 @@ final class NewsletterSubscription{
 
 		try{
 			Db::Query('
-				INSERT into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt)
+				insert into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt)
 				values (?,
 				        ?,
 				        ?,
@@ -95,7 +95,7 @@ final class NewsletterSubscription{
 		$this->Validate();
 
 		Db::Query('
-			UPDATE NewsletterSubscriptions
+			update NewsletterSubscriptions
 			set IsConfirmed = ?, IsVisible = ?
 			where UserId = ?
 		', [$this->IsConfirmed, $this->IsVisible, $this->UserId]);
@@ -103,7 +103,7 @@ final class NewsletterSubscription{
 
 	public function Confirm(): void{
 		Db::Query('
-			UPDATE NewsletterSubscriptions
+			update NewsletterSubscriptions
 			set IsConfirmed = true
 			where UserId = ?
 			and NewsletterId = ?
@@ -112,7 +112,7 @@ final class NewsletterSubscription{
 
 	public function Delete(): void{
 		Db::Query('
-			UPDATE
+			update
 			NewsletterSubscriptions
 			set IsVisible = false
 			where UserId = ?
@@ -126,7 +126,7 @@ final class NewsletterSubscription{
 		}
 
 		Db::Query('
-			UPDATE NewsletterSubscriptions ns
+			update NewsletterSubscriptions ns
 			inner join Users u using(UserId)
 			set ns.IsVisible = false
 			where u.Email = ?
@@ -174,7 +174,7 @@ final class NewsletterSubscription{
 		}
 
 		return Db::Query('
-				SELECT ns.*
+				select ns.*
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.Uuid = ?
@@ -191,7 +191,7 @@ final class NewsletterSubscription{
 		}
 
 		return Db::Query('
-				SELECT ns.*
+				select ns.*
 				from NewsletterSubscriptions ns
 				inner join Users u using(UserId)
 				where u.UserId = ?

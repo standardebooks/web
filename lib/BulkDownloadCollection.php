@@ -70,7 +70,7 @@ class BulkDownloadCollection{
 	 */
 	protected function GetZipFiles(): array{
 		return $this->_ZipFiles ??= Db::Query('
-							SELECT *
+							select *
 							from BulkDownloadZipFiles
 							where LabelType = ?
 								and LabelName = ?
@@ -125,7 +125,7 @@ class BulkDownloadCollection{
 		}
 
 		return Db::Query('
-				SELECT *
+				select *
 				from BulkDownloadCollections
 				where LabelType = ?
 					and LabelUrlSegment = ?
@@ -163,7 +163,7 @@ class BulkDownloadCollection{
 	 */
 	public static function GetAllByLabelType(Enums\BulkDownloadLabelType $labelType): array{
 		return Db::Query('
-				SELECT *
+				select *
 				from BulkDownloadCollections
 				where LabelType = ?
 				order by LabelSort
@@ -208,7 +208,7 @@ class BulkDownloadCollection{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into BulkDownloadCollections (LabelType, LabelName, LabelSort, LabelUrlSegment, EbookCount, UpdatedAt)
+			insert into BulkDownloadCollections (LabelType, LabelName, LabelSort, LabelUrlSegment, EbookCount, UpdatedAt)
 			values (?,
 				?,
 				?,

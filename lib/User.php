@@ -176,7 +176,7 @@ final class User{
 	*/
 	protected function GetPayments(): array{
 		return $this->_Payments ??= Db::Query('
-							SELECT *
+							select *
 							from Payments
 							where UserId = ?
 							order by CreatedAt desc
@@ -185,7 +185,7 @@ final class User{
 
 	protected function GetLastPayment(): ?Payment{
 		return $this->_LastPayment ??= Db::Query('
-							SELECT *
+							select *
 							from Payments
 							where UserId = ?
 							order by CreatedAt desc
@@ -197,7 +197,7 @@ final class User{
 		if(!isset($this->_Benefits)){
 			if(isset($this->UserId)){
 				$result = Db::Query('
-							SELECT *
+							select *
 							from Benefits
 							where UserId = ?
 						', [$this->UserId], Benefits::class);
@@ -325,7 +325,7 @@ final class User{
 
 		try{
 			$this->UserId = Db::QueryInt('
-					INSERT into Users (Email, Name, Uuid, CreatedAt, PasswordHash)
+					insert into Users (Email, Name, Uuid, CreatedAt, PasswordHash)
 					values (?,
 					        ?,
 					        ?,
@@ -357,7 +357,7 @@ final class User{
 
 		try{
 			Db::Query('
-					UPDATE Users
+					update Users
 					set Email = ?, Name = ?, Uuid = ?, UpdatedAt = ?, PasswordHash = ?
 					where
 					UserId = ?
@@ -377,11 +377,11 @@ final class User{
 		}
 
 		if($deleteFromProjectUnassignedManagers){
-			Db::Query('DELETE from ProjectUnassignedUsers where UserId = ? and Role = ?', [$this->UserId, Enums\ProjectRoleType::Manager]);
+			Db::Query('delete from ProjectUnassignedUsers where UserId = ? and Role = ?', [$this->UserId, Enums\ProjectRoleType::Manager]);
 		}
 
 		if($deleteFromProjectUnassignedReviewers){
-			Db::Query('DELETE from ProjectUnassignedUsers where UserId = ? and Role = ?', [$this->UserId, Enums\ProjectRoleType::Reviewer]);
+			Db::Query('delete from ProjectUnassignedUsers where UserId = ? and Role = ?', [$this->UserId, Enums\ProjectRoleType::Reviewer]);
 		}
 	}
 
@@ -399,7 +399,7 @@ final class User{
 
 	public function ConfirmNewsletterSubscriptions(): void{
 		Db::Query('
-			UPDATE NewsletterSubscriptions
+			update NewsletterSubscriptions
 			set IsConfirmed = true
 			where UserId = ?
 		', [$this->UserId]);
@@ -419,7 +419,7 @@ final class User{
 		}
 
 		return Db::Query('
-					SELECT *
+					select *
 					from Users
 					where UserId = ?
 				', [$userId], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
@@ -471,7 +471,7 @@ final class User{
 		}
 
 		return Db::Query('
-					SELECT *
+					select *
 					from Users
 					where Email = ?
 				', [$email], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
@@ -486,7 +486,7 @@ final class User{
 		}
 
 		return Db::Query('
-					SELECT *
+					select *
 					from Users
 					where Name = ?
 				', [$name], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
@@ -501,7 +501,7 @@ final class User{
 		}
 
 		return Db::Query('
-					SELECT *
+					select *
 					from Users
 					where Name = ?
 				', [$name], User::class);
@@ -516,7 +516,7 @@ final class User{
 		}
 
 		return Db::Query('
-					SELECT *
+					select *
 					from Users
 					where Uuid = ?
 				', [$uuid], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
@@ -527,7 +527,7 @@ final class User{
 	 */
 	public static function GetAllByCanManageProjects(): array{
 		return Db::Query('
-					SELECT u.*
+					select u.*
 					from Users u
 					inner join Benefits b
 					using (UserId)
@@ -541,7 +541,7 @@ final class User{
 	 */
 	public static function GetAllByCanReviewProjects(): array{
 		return Db::Query('
-					SELECT u.*
+					select u.*
 					from Users u
 					inner join Benefits b
 					using (UserId)
@@ -555,7 +555,7 @@ final class User{
 	 */
 	public static function GetAllByHasProducedProject(): array{
 		return Db::Query('
-					SELECT
+					select
 					distinct u.*
 					from Projects
 					inner join Users u
@@ -578,12 +578,12 @@ final class User{
 		}
 
 		// First, check if there are `User`s available for assignment.
-		$doUnassignedUsersExist = Db::QueryBool('SELECT exists (select * from ProjectUnassignedUsers where Role = ? and UserId not in ' . Db::CreateSetSql($excludedUserIds) . ')', array_merge([$role], $excludedUserIds));
+		$doUnassignedUsersExist = Db::QueryBool('select exists (select * from ProjectUnassignedUsers where Role = ? and UserId not in ' . Db::CreateSetSql($excludedUserIds) . ')', array_merge([$role], $excludedUserIds));
 
 		// No unassigned `User`s left. Refill the list.
 		if(!$doUnassignedUsersExist){
 			Db::Query('
-					INSERT ignore
+					insert ignore
 					into ProjectUnassignedUsers
 					(UserId, Role)
 					select
@@ -599,10 +599,10 @@ final class User{
 		}
 
 		// Now, select a random `User`.
-		$user = Db::Query('SELECT u.* from Users u inner join ProjectUnassignedUsers puu using (UserId) where Role = ? and UserId not in ' . Db::CreateSetSql($excludedUserIds) . ' order by rand()', array_merge([$role], $excludedUserIds), User::class)[0] ?? throw new Exceptions\UserNotFoundException();
+		$user = Db::Query('select u.* from Users u inner join ProjectUnassignedUsers puu using (UserId) where Role = ? and UserId not in ' . Db::CreateSetSql($excludedUserIds) . ' order by rand()', array_merge([$role], $excludedUserIds), User::class)[0] ?? throw new Exceptions\UserNotFoundException();
 
 		// Delete the `User` we just got from the unassigned users list.
-		Db::Query('DELETE from ProjectUnassignedUsers where UserId = ? and Role = ?', [$user->UserId, $role]);
+		Db::Query('delete from ProjectUnassignedUsers where UserId = ? and Role = ?', [$user->UserId, $role]);
 
 		return $user;
 	}
@@ -623,7 +623,7 @@ final class User{
 		}
 
 		$user = Db::Query('
-					SELECT u.*
+					select u.*
 					from Users u
 					inner join Benefits using (UserId)
 					where u.Email = ?

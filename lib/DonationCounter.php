@@ -21,10 +21,10 @@ class DonationCounter{
 	// ***********
 
 	public static function AddCountToIsActive(): void{
-		Db::Query('UPDATE DonationCounters set Count = Count + 1 where utc_timestamp() > StartAt and utc_timestamp() < EndAt', []);
+		Db::Query('update DonationCounters set Count = Count + 1 where utc_timestamp() > StartAt and utc_timestamp() < EndAt', []);
 	}
 
 	public static function GetByIsActive(): ?DonationCounter{
-		return Db::Query('SELECT * from DonationCounters where utc_timestamp() > StartAt and utc_timestamp() < EndAt', [], DonationCounter::class)[0] ?? null;
+		return Db::Query('select * from DonationCounters where utc_timestamp() > StartAt and utc_timestamp() < EndAt', [], DonationCounter::class)[0] ?? null;
 	}
 }

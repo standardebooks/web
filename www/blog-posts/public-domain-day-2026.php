@@ -28,7 +28,7 @@ $identifiers = [
 	'https://standardebooks.org/ebooks/carolyn-keene/the-mystery-at-lilac-inn',
 ];
 
-$ebooks = Db::Query('SELECT e.* from Ebooks e left outer join EbookPlaceholders ep using (EbookId) where Identifier in ' . Db::CreateSetSql($identifiers), $identifiers, Ebook::class);
+$ebooks = Db::Query('select e.* from Ebooks e left outer join EbookPlaceholders ep using (EbookId) where Identifier in ' . Db::CreateSetSql($identifiers), $identifiers, Ebook::class);
 
 $ebooksWithDescriptions = [];
 

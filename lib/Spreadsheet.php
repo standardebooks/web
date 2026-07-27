@@ -131,7 +131,7 @@ class Spreadsheet{
 	public function Create(): void{
 		if(!isset($this->SortOrder) && isset($this->Category)){
 			$this->SortOrder = Db::QueryInt('
-						SELECT coalesce(max(SortOrder) + 1, 0)
+						select coalesce(max(SortOrder) + 1, 0)
 						from Spreadsheets
 						where Category = ?
 					', [$this->Category]);
@@ -142,7 +142,7 @@ class Spreadsheet{
 
 		try{
 			$this->SpreadsheetId = Db::QueryInt('
-				INSERT into Spreadsheets (Title, ExternalUrl, Category, Notes, SortOrder, CreatedAt)
+				insert into Spreadsheets (Title, ExternalUrl, Category, Notes, SortOrder, CreatedAt)
 				values (?,
 				        ?,
 				        ?,
@@ -168,7 +168,7 @@ class Spreadsheet{
 
 		try{
 			Db::Query('
-				UPDATE Spreadsheets
+				update Spreadsheets
 				set Title = ?, ExternalUrl = ?, Category = ?, Notes = ?, SortOrder = ?
 				where SpreadsheetId = ?
 			', [$this->Title, $this->ExternalUrl, $this->Category, $this->Notes, $this->SortOrder, $this->SpreadsheetId]);
@@ -183,7 +183,7 @@ class Spreadsheet{
 	 */
 	public function Delete(): void{
 		Db::Query('
-			DELETE
+			delete
 			from Spreadsheets
 			where SpreadsheetId = ?
 		', [$this->SpreadsheetId]);
@@ -221,7 +221,7 @@ class Spreadsheet{
 		}
 
 		return Db::Query('
-				SELECT *
+				select *
 				from Spreadsheets
 				where SpreadsheetId = ?
 			', [$spreadsheetId], Spreadsheet::class)[0] ?? throw new Exceptions\SpreadsheetNotFoundException();
@@ -240,7 +240,7 @@ class Spreadsheet{
 		}
 
 		$spreadsheets = Db::Query('
-			SELECT *
+			select *
 			from Spreadsheets
 			order by Category asc, SortOrder asc, Title asc
 		', [], Spreadsheet::class);

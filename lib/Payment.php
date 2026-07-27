@@ -75,7 +75,7 @@ class Payment{
 
 					// Update their name in case we have their email (but not name) recorded from a newsletter subscription.
 					Db::Query('
-						UPDATE Users
+						update Users
 						set Name = ?
 						where UserId = ?
 					', [$this->User->Name, $this->User->UserId]);
@@ -97,7 +97,7 @@ class Payment{
 
 		try{
 			$this->PaymentId = Db::QueryInt('
-				INSERT into Payments (UserId, CreatedAt, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation, RefundedAt)
+				insert into Payments (UserId, CreatedAt, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation, RefundedAt)
 				values(?,
 				       ?,
 				       ?,
@@ -140,7 +140,7 @@ class Payment{
 
 		// Use `SET statement max_recursive_iterations` to allow for very wide date ranges. Otherwise, MariaDB's default of 1,000 might cause the result set to end prematurely.
 		$result = Db::Query('
-			SET statement max_recursive_iterations = 100000 for
+			set statement max_recursive_iterations = 100000 for
 			with recursive Months as (
 				select cast(? as date) as Month
 				union all

@@ -66,7 +66,7 @@ class ArtworkTag extends Tag{
 		$this->Validate();
 
 		$this->TagId = Db::QueryInt('
-			INSERT into Tags (Name, UrlName, Type)
+			insert into Tags (Name, UrlName, Type)
 			values (?,
 				?,
 				?)
@@ -80,7 +80,7 @@ class ArtworkTag extends Tag{
 	 */
 	public static function GetOrCreate(ArtworkTag $artworkTag): ArtworkTag{
 		$result = Db::Query('
-				SELECT *
+				select *
 				from Tags
 				where Name = ?
 					and Type = ?

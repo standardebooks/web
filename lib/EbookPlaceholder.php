@@ -118,7 +118,7 @@ class EbookPlaceholder{
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
-			INSERT into EbookPlaceholders (EbookId, YearPublished, Difficulty, TranscriptionUrl,
+			insert into EbookPlaceholders (EbookId, YearPublished, Difficulty, TranscriptionUrl,
 				IsWanted, IsInProgress, Notes)
 			values (?,
 				?,
@@ -137,7 +137,7 @@ class EbookPlaceholder{
 	public function Save(): void{
 		$this->Validate();
 		Db::Query('
-			UPDATE
+			update
 				EbookPlaceholders
 			set
 			YearPublished = ?,
@@ -153,7 +153,7 @@ class EbookPlaceholder{
 
 	public function Delete(): void{
 		Db::Query('
-			DELETE
+			delete
 			from EbookPlaceholders
 			where EbookId = ?
 			',

@@ -26,7 +26,7 @@ class PollItem{
 
 	protected function GetVoteCount(): int{
 		return $this->_VoteCount ??= Db::QueryInt('
-							SELECT count(*)
+							select count(*)
 							from PollVotes pv
 							inner join PollItems pi using (PollItemId)
 							where pi.PollItemId = ?
@@ -95,7 +95,7 @@ class PollItem{
 		}
 
 		$this->PollItemId = Db::QueryInt('
-			INSERT into PollItems (PollId, Name, Description, SortOrder)
+			insert into PollItems (PollId, Name, Description, SortOrder)
 			values (?, ?, ?, ?)
 			returning PollItemId
 		', [$this->PollId, $this->Name, $this->Description, $this->SortOrder]);
@@ -112,7 +112,7 @@ class PollItem{
 		}
 
 		Db::Query('
-			UPDATE PollItems
+			update PollItems
 			set
 			Name = ?,
 			Description = ?,
@@ -137,7 +137,7 @@ class PollItem{
 		}
 
 		$result = Db::Query('
-					SELECT *
+					select *
 					from PollItems
 					where PollItemId = ?
 				', [$pollItemId], PollItem::class);

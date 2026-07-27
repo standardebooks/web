@@ -11,7 +11,7 @@ class RateLimitedIp{
 	 */
 	public static function GetAll(): array{
 		return Db::Query('
-				SELECT *
+				select *
 				from RateLimitedIps
 			', [], RateLimitedIp::class);
 	}
@@ -44,7 +44,7 @@ class RateLimitedIp{
 		$this->CreatedAt = NOW;
 
 		Db::Query('
-			INSERT into RateLimitedIps (IpAddress, CreatedAt)
+			insert into RateLimitedIps (IpAddress, CreatedAt)
 			values (?,
 				?)
 			on duplicate key update

@@ -49,7 +49,7 @@ class EbookSource{
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
-			INSERT into EbookSources (EbookId, Type, Url, SortOrder)
+			insert into EbookSources (EbookId, Type, Url, SortOrder)
 			values (?,
 				?,
 				?,

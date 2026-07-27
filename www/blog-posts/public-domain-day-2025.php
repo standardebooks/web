@@ -28,7 +28,7 @@ $identifiers = [
 	'https://standardebooks.org/ebooks/josephine-tey/the-man-in-the-queue',
 ];
 
-$ebooks = Db::Query('SELECT e.* from Ebooks e left outer join EbookPlaceholders ep using (EbookId) where Identifier in ' . Db::CreateSetSql($identifiers), $identifiers, Ebook::class);
+$ebooks = Db::Query('select e.* from Ebooks e left outer join EbookPlaceholders ep using (EbookId) where Identifier in ' . Db::CreateSetSql($identifiers), $identifiers, Ebook::class);
 
 $ebooksWithDescriptions = [];
 

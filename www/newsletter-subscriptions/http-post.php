@@ -54,7 +54,7 @@ try{
 		$user->Email = $email;
 	}
 
-	$hasEmailBounced = Db::QueryBool('SELECT exists (select * from EmailBounces where Email = ? and IsActive = true)', [$email]);
+	$hasEmailBounced = Db::QueryBool('select exists (select * from EmailBounces where Email = ? and IsActive = true)', [$email]);
 
 	if($hasEmailBounced){
 		throw new Exceptions\EmailBounceExistsException('An email we sent to this email address bounced back or was marked as spam. We can’t send email to this email address anymore.');
@@ -91,7 +91,7 @@ try{
 		$parameters[] = $newsletterSubscription->CreatedAt;
 	}
 
-	Db::MultiInsert('INSERT ignore into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt) values (?, ?, ?, ?, ?)', $parameters);
+	Db::MultiInsert('insert ignore into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt) values (?, ?, ?, ?, ?)', $parameters);
 
 	if(Db::$LastQueryAffectedRowCount > 0){
 		// Send the double opt-in confirmation email.

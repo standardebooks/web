@@ -60,7 +60,7 @@ class Artist{
 			$this->_AlternateNames = [];
 
 			$result = Db::Query('
-					SELECT *
+					select *
 					from ArtistAlternateNames
 					where ArtistId = ?
 				', [$this->ArtistId]);
@@ -169,7 +169,7 @@ class Artist{
 		}
 
 		return Db::Query('
-				SELECT *
+				select *
 				from Artists
 				where ArtistId = ?
 			', [$artistId], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
@@ -180,7 +180,7 @@ class Artist{
 	 */
 	public static function GetAll(): array{
 		return Db::Query('
-			SELECT *
+			select *
 			from Artists
 			order by Name asc', [], Artist::class);
 	}
@@ -194,7 +194,7 @@ class Artist{
 		}
 
 		return Db::Query('
-				SELECT a.*
+				select a.*
 					from Artists a
 					left outer join ArtistAlternateNames aan using (ArtistId)
 					where a.Name = ?
@@ -211,7 +211,7 @@ class Artist{
 		}
 
 		return Db::Query('
-				SELECT *
+				select *
 					from Artists
 					where UrlName = ?
 			', [$urlName], Artist::class)[0] ?? throw new Exceptions\ArtistNotFoundException();
@@ -226,7 +226,7 @@ class Artist{
 		}
 
 		return Db::Query('
-				SELECT a.*
+				select a.*
 					from Artists a
 					left outer join ArtistAlternateNames aan using (ArtistId)
 					where aan.UrlName = ?
@@ -240,7 +240,7 @@ class Artist{
 	public function AddAlternateName(string $name): void{
 		try{
 			Db::Query('
-				INSERT into ArtistAlternateNames (ArtistId, Name, UrlName)
+				insert into ArtistAlternateNames (ArtistId, Name, UrlName)
 				values (?,
 					?,
 					?)
@@ -260,13 +260,13 @@ class Artist{
 	 */
 	public function ReassignArtworkTo(Artist $canonicalArtist): void{
 		Db::Query('
-			UPDATE Artworks
+			update Artworks
 			set ArtistId = ?
 			where ArtistId = ?
 		', [$canonicalArtist->ArtistId, $this->ArtistId]);
 
 		Db::Query('
-			UPDATE
+			update
 			ArtistAlternateNames
 			set ArtistId = ?
 			where ArtistId = ?
@@ -281,7 +281,7 @@ class Artist{
 	public function Create(): void{
 		$this->Validate();
 		$this->ArtistId = Db::QueryInt('
-			INSERT into Artists (Name, UrlName, DeathYear)
+			insert into Artists (Name, UrlName, DeathYear)
 			values (?,
 			        ?,
 			        ?)
@@ -293,7 +293,7 @@ class Artist{
 	 * Update the search database for this `Artist`.
 	 */
 	public function UpdateSearchRepresentation(): void{
-		$artworks = Db::Query('SELECT * from Artworks where ArtistId = ?', [$this->ArtistId], Artwork::class);
+		$artworks = Db::Query('select * from Artworks where ArtistId = ?', [$this->ArtistId], Artwork::class);
 		foreach($artworks as $artwork){
 			$artwork->UpdateSearchRepresentation();
 		}
@@ -304,7 +304,7 @@ class Artist{
 	 */
 	public static function GetOrCreate(Artist $artist): Artist{
 		$result = Db::Query('
-					SELECT a.*
+					select a.*
 					from Artists a
 					left outer join ArtistAlternateNames aan using (ArtistId)
 					where a.UrlName = ?
@@ -326,8 +326,8 @@ class Artist{
 	 */
 	public function Delete(): void{
 		$hasArtwork = Db::QueryBool('
-			SELECT exists (
-				SELECT ArtworkId
+			select exists (
+				select ArtworkId
 				from Artworks
 				where ArtistId = ?
 			)', [$this->ArtistId]);
@@ -337,13 +337,13 @@ class Artist{
 		}
 
 		Db::Query('
-			DELETE
+			delete
 			from Artists
 			where ArtistId = ?
 		', [$this->ArtistId]);
 
 		Db::Query('
-			DELETE
+			delete
 			from ArtistAlternateNames
 			where ArtistId = ?
 		', [$this->ArtistId]);

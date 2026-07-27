@@ -52,7 +52,7 @@ class BulkDownloadZipFile{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into BulkDownloadZipFiles (LabelType, LabelName, Format, DownloadUrl, DownloadByteCount)
+			insert into BulkDownloadZipFiles (LabelType, LabelName, Format, DownloadUrl, DownloadByteCount)
 			values (?,
 				?,
 				?,

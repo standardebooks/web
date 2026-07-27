@@ -59,7 +59,7 @@ class EbookDownloadSummary{
 		$this->Validate();
 
 		Db::Query('
-			INSERT into EbookDownloadSummaries (EbookId, Date, DownloadCount, BotDownloadCount, UniqueDownloadCount, FeedDownloadCount, WebDownloadCount)
+			insert into EbookDownloadSummaries (EbookId, Date, DownloadCount, BotDownloadCount, UniqueDownloadCount, FeedDownloadCount, WebDownloadCount)
 			values (?,
 				?,
 				?,

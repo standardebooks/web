@@ -46,7 +46,7 @@ class Contributor{
 	 */
 	public static function GetAllByMarcRole(Enums\MarcRole $marcRole): array{
 		return Db::Query('
-			SELECT
+			select
 			*
 			from Contributors
 			where MarcRole = ?
@@ -60,7 +60,7 @@ class Contributor{
 	 */
 	public static function GetAllNamesByMarcRole(Enums\MarcRole $marcRole): array{
 		return Db::Query('
-			SELECT
+			select
 			distinct Name
 			from Contributors
 			where MarcRole = ?
@@ -166,7 +166,7 @@ class Contributor{
 
 		$this->Validate();
 		Db::Query('
-			INSERT into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
+			insert into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
 				NacoafUrl, SortOrder)
 			values (?,
 				?,
@@ -264,7 +264,7 @@ class Contributor{
 	 * @return array<Contributor>
 	 */
 	public static function GetDistinctByMarcRole(Enums\MarcRole $marcRole): array{
-		return Db::Query('SELECT * from Contributors where MarcRole = ? group by UrlName', [$marcRole], Contributor::class);
+		return Db::Query('select * from Contributors where MarcRole = ? group by UrlName', [$marcRole], Contributor::class);
 	}
 
 	/**
@@ -274,13 +274,13 @@ class Contributor{
 	 * @return array<Contributor>
 	 */
 	public static function GetAllByUrlNameAndMarcRole(array $urlNames, Enums\MarcRole $marcRole): array{
-		return Db::Query('SELECT * from Contributors where UrlName in ' . Db::CreateSetSql($urlNames) . ' and MarcRole = ? group by UrlName order by field(UrlName, ' . str_replace(['(', ')'], '', Db::CreateSetSql($urlNames)) . ')', array_merge($urlNames, [$marcRole], $urlNames), Contributor::class);
+		return Db::Query('select * from Contributors where UrlName in ' . Db::CreateSetSql($urlNames) . ' and MarcRole = ? group by UrlName order by field(UrlName, ' . str_replace(['(', ')'], '', Db::CreateSetSql($urlNames)) . ')', array_merge($urlNames, [$marcRole], $urlNames), Contributor::class);
 	}
 
 	/**
 	 * @throws Exceptions\ContributorNotFoundException If the `Contributor` can't be found.
 	 */
 	public static function GetByUrlName(string $urlName): Contributor{
-		return Db::Query('SELECT * from Contributors where UrlName = ? limit 1', [$urlName], Contributor::class)[0] ?? throw new Exceptions\ContributorNotFoundException();
+		return Db::Query('select * from Contributors where UrlName = ? limit 1', [$urlName], Contributor::class)[0] ?? throw new Exceptions\ContributorNotFoundException();
 	}
 }

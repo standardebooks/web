@@ -180,7 +180,7 @@ final class Artwork{
 	 */
 	protected function GetTags(): array{
 		return $this->_Tags ??= Db::Query('
-							SELECT t.*
+							select t.*
 							from Tags t
 							inner join ArtworkTags at using (TagId)
 							where ArtworkId = ?
@@ -502,10 +502,10 @@ final class Artwork{
 
 				// Is this `Ebook` URL already attached to a different `Artwork`?
 				if(isset($this->ArtworkId)){
-					$exists = Db::QueryBool('SELECT exists (select * from Artworks where EbookId = ? and ArtworkId != ?)', [$this->EbookId, $this->ArtworkId]);
+					$exists = Db::QueryBool('select exists (select * from Artworks where EbookId = ? and ArtworkId != ?)', [$this->EbookId, $this->ArtworkId]);
 				}
 				else{
-					$exists = Db::QueryBool('SELECT exists (select * from Artworks where EbookId = ?)', [$this->EbookId]);
+					$exists = Db::QueryBool('select exists (select * from Artworks where EbookId = ?)', [$this->EbookId]);
 				}
 
 				if($exists){
@@ -753,7 +753,7 @@ final class Artwork{
 		$this->Validate($imagePath, true);
 
 		// Do we already have an `Artwork` with the same URL?
-		$doesArtworkExist = Db::QueryBool('SELECT sum(result) = 2
+		$doesArtworkExist = Db::QueryBool('select sum(result) = 2
 							from
 							(
 							select exists(select * from Artworks where UrlName = ?) as result
@@ -777,7 +777,7 @@ final class Artwork{
 		$this->Artist = Artist::GetOrCreate($this->Artist);
 
 		$this->ArtworkId = Db::QueryInt('
-			INSERT into
+			insert into
 			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, CreatedAt, UpdatedAt, Status, SubmitterUserId, ReviewerUserId, IsAutoReviewed, MuseumUrl,
 			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
 			                      EbookId, MimeType, Exception, Notes)
@@ -849,14 +849,14 @@ final class Artwork{
 
 		// Save the artist death year in case we changed it.
 		if($newDeathYear != $this->Artist->DeathYear){
-			Db::Query('UPDATE Artists set DeathYear = ? where ArtistId = ?', [$newDeathYear , $this->Artist->ArtistId]);
+			Db::Query('update Artists set DeathYear = ? where ArtistId = ?', [$newDeathYear , $this->Artist->ArtistId]);
 		}
 
 		$this->UpdatedAt = NOW;
 
 		// Save the artwork.
 		Db::Query('
-			UPDATE Artworks
+			update Artworks
 			set
 			ArtistId = ?,
 			Name = ?,
@@ -889,7 +889,7 @@ final class Artwork{
 		// Delete artists who are no longer to attached to an artwork.
 		// Don't delete from the ArtistAlternateNames table to prevent accidentally deleting those manually-added entries.
 		Db::Query('
-			DELETE
+			delete
 			from Artists
 			where ArtistId not in
 				(select distinct ArtistId from Artworks)
@@ -897,7 +897,7 @@ final class Artwork{
 
 		// Update tags for this artwork.
 		Db::Query('
-			DELETE from ArtworkTags
+			delete from ArtworkTags
 			where
 			ArtworkId = ?
 		', [$this->ArtworkId]
@@ -928,18 +928,18 @@ final class Artwork{
 			$parameters[] = $tag->TagId;
 		}
 
-		Db::MultiInsert('INSERT into ArtworkTags (ArtworkId, TagId) values (?, ?)', $parameters);
+		Db::MultiInsert('insert into ArtworkTags (ArtworkId, TagId) values (?, ?)', $parameters);
 	}
 
 	public function Delete(): void{
 		Db::Query('
-			DELETE
+			delete
 			from ArtworkTags
 			where ArtworkId = ?
 		', [$this->ArtworkId]);
 
 		Db::Query('
-			DELETE
+			delete
 			from Artworks
 			where ArtworkId = ?
 		', [$this->ArtworkId]);
@@ -982,7 +982,7 @@ final class Artwork{
 		}
 
 		$result = Db::Query('
-				SELECT *
+				select *
 				from Artworks
 				where ArtworkId = ?
 			', [$artworkId], Artwork::class);
@@ -999,7 +999,7 @@ final class Artwork{
 		}
 
 		$result = Db::Query('
-				SELECT Artworks.*
+				select Artworks.*
 				from Artworks
 				inner join Artists using (ArtistId)
 				where Artists.UrlName = ? and Artworks.UrlName = ?
@@ -1043,7 +1043,7 @@ final class Artwork{
 		$params[] = $artistUrlName; // a.UrlName
 
 		$artworks = Db::Query('
-			SELECT art.*
+			select art.*
 			from Artworks art
 			  inner join Artists a using (ArtistId)
 			where ' . $statusCondition . '
@@ -1175,7 +1175,7 @@ final class Artwork{
 			$params[] = $offset;
 
 			$artworks = Db::Query('
-				SELECT SQL_CALC_FOUND_ROWS art.*
+				select sql_calc_found_rows art.*
 				from Artworks art
 				inner join Artists a using(ArtistId)
 				where ' . $whereCondition . '
@@ -1183,7 +1183,7 @@ final class Artwork{
 				limit ?
 				offset ?', $params, Artwork::class);
 
-			$artworksCount = Db::QueryInt('SELECT found_rows()');
+			$artworksCount = Db::QueryInt('select found_rows()');
 			$totalPages = (int)ceil($artworksCount / $perPage);
 
 			if($totalPages > 0 && $page > $totalPages){
@@ -1199,7 +1199,7 @@ final class Artwork{
 
 			$maxMatches = $offset + $limit;
 
-			$result = SearchDb::QueryMatch('SELECT id from artworks where ' . $whereCondition . ' order by ' . $orderBy . ' limit ? offset ? option max_matches=' . $maxMatches, $params, sizeof($params) - 3);
+			$result = SearchDb::QueryMatch('select id from artworks where ' . $whereCondition . ' order by ' . $orderBy . ' limit ? offset ? option max_matches=' . $maxMatches, $params, sizeof($params) - 3);
 
 			// Try to get the total matches from built-in metadata instead of running a second resource-intensive query.
 			$artworksCount = SearchDb::GetLastQueryTotalResultCount();
@@ -1208,7 +1208,7 @@ final class Artwork{
 				// Exact number of total matches not found, calculate it using a separate query.
 				array_pop($params);
 				array_pop($params);
-				$artworksCount = SearchDb::QueryMatch('SELECT count(*) as Count from artworks where ' . $whereCondition, $params, sizeof($params) - 1)[0]->count ?? 0;
+				$artworksCount = SearchDb::QueryMatch('select count(*) as Count from artworks where ' . $whereCondition, $params, sizeof($params) - 1)[0]->count ?? 0;
 			}
 
 			$totalPages = (int)ceil($artworksCount / $perPage);
@@ -1235,7 +1235,7 @@ final class Artwork{
 
 			// `find_in_set()` allows us to order the resultset from MariaDB in the same order that it came from Manticore.
 			$artworks = Db::Query('
-				SELECT art.*
+				select art.*
 				from Artworks art
 				inner join Artists a using(ArtistId)
 				where art.ArtworkId in (' . $ids . ')
@@ -1257,7 +1257,7 @@ final class Artwork{
 
 		$tags = trim($tags);
 		SearchDb::Query('
-			REPLACE into artworks (
+			replace into artworks (
 				id,
 				Name,
 				UrlName,
@@ -1302,7 +1302,7 @@ final class Artwork{
 	 */
 	private function DeleteSearchRepresentation(): void{
 		SearchDb::Query('
-			DELETE from artworks
+			delete from artworks
 			where id = ?', [$this->ArtworkId]);
 	}
 

@@ -23,7 +23,7 @@ class QueuedEmailMessage extends EmailMessage{
 			$metadata = json_encode($this->Metadata);
 
 			// Warning: `To` and `From` have to be in ticks because they're SQL keywords.
-			Db::Query('INSERT into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, CreatedAt, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->ToName, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->CreatedAt, $this->Provider, $attachments, $metadata]);
+			Db::Query('insert into QueuedEmailMessages (`To`, ToName, `From`, FromName, ReplyTo, Subject, BodyHtml, BodyText, Priority, UnsubscribeUrl, CreatedAt, Provider, Attachments, Metadata) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [$this->To, $this->ToName, $this->From, $this->FromName, $this->ReplyTo, $this->Subject, $this->BodyHtml, $this->BodyText, $this->Priority, $this->UnsubscribeUrl, $this->CreatedAt, $this->Provider, $attachments, $metadata]);
 		}
 		catch(Exceptions\EmailMessageInvalidException $ex){
 			$log = new Log();
@@ -98,6 +98,6 @@ class QueuedEmailMessage extends EmailMessage{
 	}
 
 	public function Delete(): void{
-		Db::Query('DELETE from QueuedEmailMessages where QueuedEmailMessageId = ?', [$this->QueuedEmailMessageId]);
+		Db::Query('delete from QueuedEmailMessages where QueuedEmailMessageId = ?', [$this->QueuedEmailMessageId]);
 	}
 }

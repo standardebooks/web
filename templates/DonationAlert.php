@@ -1,7 +1,7 @@
 <?
 // Check if there is an active `DonationDrive` or `DonationCounter`.
 $isDonationDriveActive = Db::QueryBool('
-	SELECT exists
+	select exists
 	(
 		select * from DonationCounters where utc_timestamp() > StartAt and utc_timestamp() < EndAt
 		union

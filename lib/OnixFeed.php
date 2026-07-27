@@ -14,7 +14,7 @@ class OnixFeed extends Feed{
 
 	public function __construct(){
 		$this->Path = WEB_ROOT . '/feeds/onix/all.xml';
-		$this->Entries = Db::Query('SELECT * from Ebooks where WwwFilesystemPath is not null order by EbookUpdatedAt desc', [], Ebook::class);
+		$this->Entries = Db::Query('select * from Ebooks where WwwFilesystemPath is not null order by EbookUpdatedAt desc', [], Ebook::class);
 	}
 
 	protected function HasChanged(string $path): bool{

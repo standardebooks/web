@@ -61,7 +61,7 @@ class NewsletterMailing{
 	 * @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found.
 	 */
 	protected function GetNewsletter(): Newsletter{
-		return Db::Query('SELECT * from Newsletters where NewsletterId = ?', [$this->NewsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		return Db::Query('select * from Newsletters where NewsletterId = ?', [$this->NewsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
 	}
 
 	protected function GetUrl(): string{
@@ -87,7 +87,7 @@ class NewsletterMailing{
 		if(!isset($this->Recipients)){
 			if($this->ExcludePatrons){
 				$this->_Recipients = Db::MultiTableSelect('
-					SELECT *
+					select *
 					from NewsletterSubscriptions
 					inner join Users
 					on NewsletterSubscriptions.UserId = Users.UserId
@@ -105,7 +105,7 @@ class NewsletterMailing{
 			}
 			else{
 				$this->_Recipients = Db::MultiTableSelect('
-					SELECT *
+					select *
 					from NewsletterSubscriptions
 					inner join Users
 					on NewsletterSubscriptions.UserId = Users.UserId
@@ -195,10 +195,10 @@ class NewsletterMailing{
 
 			$this->RecipientCount = sizeof($this->Recipients);
 
-			Db::Query('UPDATE NewsletterMailings set RecipientCount = ?, Status = ?, OpenCount = ifnull(OpenCount, 0) where NewsletterMailingId = ?', [$this->RecipientCount, Enums\QueueStatus::Completed, $this->NewsletterMailingId]);
+			Db::Query('update NewsletterMailings set RecipientCount = ?, Status = ?, OpenCount = ifnull(OpenCount, 0) where NewsletterMailingId = ?', [$this->RecipientCount, Enums\QueueStatus::Completed, $this->NewsletterMailingId]);
 		}
 		catch(\Exception $ex){
-			Db::Query('UPDATE NewsletterMailings set Status = ? where NewsletterMailingId = ?', [Enums\QueueStatus::Failed, $this->NewsletterMailingId]);
+			Db::Query('update NewsletterMailings set Status = ? where NewsletterMailingId = ?', [Enums\QueueStatus::Failed, $this->NewsletterMailingId]);
 
 			throw $ex;
 		}
@@ -383,7 +383,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		Db::Query('UPDATE NewsletterMailings set NewsletterId = ?, ExcludePatrons = ?, Subject = ?, Preheader = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendAt = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendAt, $this->InternalName, $this->NewsletterMailingId]);
+		Db::Query('update NewsletterMailings set NewsletterId = ?, ExcludePatrons = ?, Subject = ?, Preheader = ?, BodyHtml = ?, BodyText = ?, Status = ?, FromName = ?, FromEmail = ?, SendAt = ?, InternalName = ? where NewsletterMailingId = ?', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, $this->Status, $this->FromName, $this->FromEmail, $this->SendAt, $this->InternalName, $this->NewsletterMailingId]);
 	}
 
 	/**
@@ -419,7 +419,7 @@ class NewsletterMailing{
 			throw $error;
 		}
 
-		$this->NewsletterMailingId = Db::QueryInt('INSERT into NewsletterMailings (NewsletterId, ExcludePatrons, Subject, Preheader, BodyHtml, BodyText, Status, FromName, FromEmail, SendAt, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendAt, $this->InternalName]);
+		$this->NewsletterMailingId = Db::QueryInt('insert into NewsletterMailings (NewsletterId, ExcludePatrons, Subject, Preheader, BodyHtml, BodyText, Status, FromName, FromEmail, SendAt, InternalName) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning NewsletterMailingId', [$this->NewsletterId, $this->ExcludePatrons, $this->Subject, $this->Preheader, $this->BodyHtml, $this->BodyText, Enums\QueueStatus::Queued, $this->FromName, $this->FromEmail, $this->SendAt, $this->InternalName]);
 	}
 
 	/**
@@ -569,7 +569,7 @@ class NewsletterMailing{
 			throw new Exceptions\NewsletterMailingNotFoundException();
 		}
 
-		return Db::Query('SELECT * from NewsletterMailings where NewsletterMailingId = ?', [$newsletterMailingId], NewsletterMailing::class)[0] ?? throw new Exceptions\NewsletterMailingNotFoundException();
+		return Db::Query('select * from NewsletterMailings where NewsletterMailingId = ?', [$newsletterMailingId], NewsletterMailing::class)[0] ?? throw new Exceptions\NewsletterMailingNotFoundException();
 	}
 
 	/**
@@ -578,7 +578,7 @@ class NewsletterMailing{
 	 * @return array<NewsletterMailing>
 	 */
 	public static function GetAll(): array{
-		return Db::Query('SELECT * from NewsletterMailings order by SendAt desc', [], NewsletterMailing::class);
+		return Db::Query('select * from NewsletterMailings order by SendAt desc', [], NewsletterMailing::class);
 	}
 
 	/**
@@ -600,14 +600,14 @@ class NewsletterMailing{
 		$offset = (($page - 1) * $perPage);
 
 		$newsletterMailings = Db::Query('
-				SELECT SQL_CALC_FOUND_ROWS *
+				select sql_calc_found_rows *
 				from NewsletterMailings
 				order by SendAt desc
 				limit ?
 				offset ?
 			', [$perPage, $offset], NewsletterMailing::class);
 
-		$count = Db::QueryInt('SELECT found_rows()');
+		$count = Db::QueryInt('select found_rows()');
 		$totalPages = (int)ceil($count / $perPage);
 
 		if($totalPages > 0 && $page > $totalPages){

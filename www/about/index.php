@@ -7,7 +7,7 @@ $anonymousPatronCount = 0;
 // See <https://mariadb.com/kb/en/pcre/#unicode-character-properties> for Unicode character properties.
 
 $patronsCircle = Db::Query('
-				SELECT
+				select
 				if(p.AlternateName is not null, p.AlternateName, u.Name) as Name,
 				concat(" ", trim(regexp_replace(if(p.AlternateName is not null, p.AlternateName, u.Name), "[^0-9A-Za-zÀ-ÿ\\\s]|[\\\s][IV]+$|[\\\s]Fund$", ""))) as SortName
 				from Patrons p
@@ -20,7 +20,7 @@ $patronsCircle = Db::Query('
 			');
 
 $anonymousPatronCount = Db::QueryInt('
-				SELECT sum(cnt)
+				select sum(cnt)
 				from (
 				          ( select count(*) cnt
 				           from Payments

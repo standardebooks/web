@@ -88,7 +88,7 @@ class GitCommit{
 	public function Create(): void{
 		$this->Validate();
 		Db::Query('
-			INSERT into GitCommits (EbookId, CreatedAt, Message, Hash)
+			insert into GitCommits (EbookId, CreatedAt, Message, Hash)
 			values (?,
 				?,
 				?,

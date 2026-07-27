@@ -642,7 +642,7 @@ class Museum{
 		}
 
 		$result = Db::Query('
-			SELECT *
+			select *
 			from Museums
 			where ? like concat("%", Domain, "%")
 			limit 1;

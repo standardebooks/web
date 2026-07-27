@@ -112,7 +112,7 @@ class EbookDownload{
 		$this->CreatedAt = NOW;
 
 		Db::Query('
-			INSERT into EbookDownloads (EbookId, CreatedAt, IpAddress, UserAgent, Source)
+			insert into EbookDownloads (EbookId, CreatedAt, IpAddress, UserAgent, Source)
 			values (?,
 				?,
 				?,
@@ -129,7 +129,7 @@ class EbookDownload{
 		$endDate = $date->setTime(0, 0, 0)->modify('+1 day');
 
 		return Db::Query('
-				SELECT *
+				select *
 				from EbookDownloads
 				where CreatedAt >= ?
 					and CreatedAt < ?
@@ -151,7 +151,7 @@ class EbookDownload{
 		$ipAddress = Formatter::ToIpv6($ipAddress);
 
 		return Db::QueryInt('
-				SELECT count(*)
+				select count(*)
 				from EbookDownloads
 				where IpAddress = ?
 					and CreatedAt >= ?

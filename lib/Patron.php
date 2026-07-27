@@ -26,7 +26,7 @@ class Patron{
 
 	protected function GetLastPayment(): ?Payment{
 		return $this->_LastPayment ??= Db::Query('
-						SELECT *
+						select *
 						from Payments
 						where UserId = ?
 						order by CreatedAt desc
@@ -41,7 +41,7 @@ class Patron{
 
 	public function Create(): void{
 		$isReturning = Db::QueryBool('
-				SELECT exists(
+				select exists(
 					select *
 					from Patrons
 					where UserId = ?
@@ -50,7 +50,7 @@ class Patron{
 
 		$this->CreatedAt = NOW;
 		Db::Query('
-			INSERT into Patrons (CreatedAt, UserId, IsAnonymous, AlternateName, BaseCost, CycleType)
+			insert into Patrons (CreatedAt, UserId, IsAnonymous, AlternateName, BaseCost, CycleType)
 			values(?,
 			       ?,
 			       ?,
@@ -60,7 +60,7 @@ class Patron{
 		', [$this->CreatedAt, $this->UserId, $this->IsAnonymous, $this->AlternateName, $this->BaseCost, $this->CycleType]);
 
 		Db::Query('
-			INSERT into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload)
+			insert into Benefits (UserId, CanVote, CanAccessFeeds, CanBulkDownload)
 			values (?,
 			        true,
 			        true,
@@ -119,17 +119,17 @@ class Patron{
 
 	public function End(?int $ebooksThisYear): void{
 		if($ebooksThisYear === null){
-			$ebooksThisYear = Db::QueryInt('SELECT count(*) from Ebooks where EbookCreatedAt >= ? - interval 1 year', [NOW]);
+			$ebooksThisYear = Db::QueryInt('select count(*) from Ebooks where EbookCreatedAt >= ? - interval 1 year', [NOW]);
 		}
 
 		Db::Query('
-				UPDATE Patrons
+				update Patrons
 				set EndedAt = ?
 				where UserId = ?
 			', [NOW, $this->UserId]);
 
 		Db::Query('
-				UPDATE Benefits
+				update Benefits
 				set CanAccessFeeds = false,
 				    CanVote = false,
 				    CanBulkDownload = false
@@ -138,7 +138,7 @@ class Patron{
 
 		// Unsubscribe them from the Patrons News newsletter.
 		Db::Query('
-				DELETE from NewsletterSubscriptions
+				delete from NewsletterSubscriptions
 				where UserId = ?
 				and NewsletterId = ?
 			', [$this->UserId, PATRONS_CIRCLE_NEWS_NEWSLETTER_ID]);
@@ -181,7 +181,7 @@ class Patron{
 		}
 
 		$result = Db::Query('
-			SELECT *
+			select *
 			from Patrons
 			where UserId = ?
 			order by CreatedAt desc
@@ -200,7 +200,7 @@ class Patron{
 		}
 
 		$result = Db::Query('
-			SELECT p.*
+			select p.*
 			from Patrons p
 			inner join Users u using(UserId)
 			where u.Email = ?
@@ -223,7 +223,7 @@ class Patron{
 
 		// Use `SET statement max_recursive_iterations` to allow for very wide date ranges. Otherwise, MariaDB's default of 1,000 might cause the result set to end prematurely.
 		$result = Db::Query('
-			SET statement max_recursive_iterations = 100000 for
+			set statement max_recursive_iterations = 100000 for
 			with recursive Days as (
 				select date(?) as Day
 				union all

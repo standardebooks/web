@@ -18,7 +18,7 @@ class Newsletter{
 	 * @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found.
 	 */
 	public static function GetByNewsletterMailingId(int $newsletterMailingId): Newsletter{
-		return Db::Query('SELECT n.* from Newsletters n inner join NewsletterMailings using (NewsletterId) where NewsletterMailingId = ?', [$newsletterMailingId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		return Db::Query('select n.* from Newsletters n inner join NewsletterMailings using (NewsletterId) where NewsletterMailingId = ?', [$newsletterMailingId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Newsletter{
 			throw new Exceptions\NewsletterNotFoundException();
 		}
 
-		return Db::Query('SELECT * from Newsletters where UrlName = ?', [$urlName], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		return Db::Query('select * from Newsletters where UrlName = ?', [$urlName], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
 	}
 
 	/**
@@ -40,21 +40,21 @@ class Newsletter{
 			throw new Exceptions\NewsletterNotFoundException();
 		}
 
-		return Db::Query('SELECT * from Newsletters where NewsletterId = ?', [$newsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		return Db::Query('select * from Newsletters where NewsletterId = ?', [$newsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
 	}
 
 	/**
 	 * @return array<Newsletter>
 	 */
 	public static function GetAll(): array{
-		return Db::Query('SELECT * from Newsletters order by SortOrder asc', [], Newsletter::class);
+		return Db::Query('select * from Newsletters order by SortOrder asc', [], Newsletter::class);
 	}
 
 	/**
 	 * @return array<Newsletter>
 	 */
 	public static function GetAllByIsVisible(): array{
-		return Db::Query('SELECT * from Newsletters where IsVisible = true order by SortOrder asc', [], Newsletter::class);
+		return Db::Query('select * from Newsletters where IsVisible = true order by SortOrder asc', [], Newsletter::class);
 	}
 
 	protected function GetUrl(): string{

@@ -42,7 +42,7 @@ class Session{
 			$this->UserId = Session::$User->UserId;
 
 			$existingSessions = Db::Query('
-							SELECT SessionId,
+							select SessionId,
 							       CreatedAt
 							from Sessions
 							where UserId = ?
@@ -58,7 +58,7 @@ class Session{
 
 				$this->CreatedAt = NOW;
 				Db::Query('
-						INSERT into Sessions (UserId, SessionId, CreatedAt)
+						insert into Sessions (UserId, SessionId, CreatedAt)
 						values (?,
 						        ?,
 						        ?)
@@ -105,7 +105,7 @@ class Session{
 		}
 
 		$result = Db::Query('
-					SELECT *
+					select *
 					from Sessions
 					where SessionId = ?
 				', [$sessionId], Session::class);
@@ -118,7 +118,7 @@ class Session{
 
 		if($sessionId !== null){
 			$result = Db::Query('
-						SELECT u.*
+						select u.*
 						from Users u
 						inner join Sessions s using (UserId)
 						where s.SessionId = ?
