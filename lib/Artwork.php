@@ -536,26 +536,30 @@ final class Artwork{
 				$error->Add(new Exceptions\ImageUploadInvalidException('An image is required.'));
 			}
 			else{
+				$isImageMimeTypeValid = true;
 				try{
 					$this->MimeType = Enums\ImageMimeType::FromFile($imagePath) ?? throw new Exceptions\MimeTypeInvalidException();
 				}
 				catch(Exceptions\MimeTypeInvalidException $ex){
 					$error->Add($ex);
+					$isImageMimeTypeValid = false;
 				}
 
 				if(!is_writable(WEB_ROOT . ARTWORK_IMAGES_UPLOAD_PATH)){
 					$error->Add(new Exceptions\ImageUploadInvalidException('Upload path not writable.'));
 				}
 
-				// Check for minimum dimensions.
-				try{
-					list($imageWidth, $imageHeight) = (@getimagesize($imagePath) ?? throw new \Exception());
-					if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
-						$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
+				if($isImageMimeTypeValid){
+					// Check for minimum dimensions.
+					try{
+						list($imageWidth, $imageHeight) = (@getimagesize($imagePath) ?? throw new \Exception());
+						if(!$imageWidth || !$imageHeight || $imageWidth < ARTWORK_IMAGE_MINIMUM_WIDTH || $imageHeight < ARTWORK_IMAGE_MINIMUM_HEIGHT){
+							$error->Add(new Exceptions\ArtworkImageDimensionsTooSmallException());
+						}
 					}
-				}
-				catch(\Exception){
-					$error->Add(new Exceptions\ImageUploadInvalidException());
+					catch(\Exception){
+						$error->Add(new Exceptions\ImageUploadInvalidException());
+					}
 				}
 			}
 		}
@@ -768,50 +772,79 @@ final class Artwork{
 		$this->CreatedAt = NOW;
 		$this->UpdatedAt = NOW;
 
-		$tags = [];
-		foreach($this->Tags as $artworkTag){
-			$tags[] = ArtworkTag::GetOrCreate($artworkTag);
+		Db::Query('start transaction');
+
+		try{
+			$tags = [];
+			foreach($this->Tags as $artworkTag){
+				$tags[] = ArtworkTag::GetOrCreate($artworkTag);
+			}
+			$this->Tags = $tags;
+
+			$this->Artist = Artist::GetOrCreate($this->Artist);
+
+			$this->ArtworkId = Db::QueryInt('
+				insert into
+				Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, CreatedAt, UpdatedAt, Status, SubmitterUserId, ReviewerUserId, IsAutoReviewed, MuseumUrl,
+				                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
+				                      EbookId, MimeType, Exception, Notes)
+				values (?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?,
+				        ?)
+				returning ArtworkId
+			', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
+					$this->CreatedAt, $this->UpdatedAt, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+					$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes]
+			);
+
+			$this->AddTags();
+
+			if($imagePath !== null){
+				$this->WriteImageAndThumbnails($imagePath);
+			}
+
+			Db::Query('commit');
 		}
-		$this->Tags = $tags;
+		catch(\Throwable $ex){
+			try{
+				Db::Query('rollback');
+			}
+			catch(\Throwable){
+				// Preserve the original exception.
+			}
 
-		$this->Artist = Artist::GetOrCreate($this->Artist);
+			if(isset($this->ArtworkId)){
+				foreach([$this->ImageFsPath, $this->ThumbFsPath, $this->Thumb2xFsPath] as $path){
+					if(is_file($path)){
+						try{
+							@unlink($path);
+						}
+						catch(\Safe\Exceptions\FilesystemException){
+							// Preserve the original exception.
+						}
+					}
+				}
+			}
 
-		$this->ArtworkId = Db::QueryInt('
-			insert into
-			Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, CreatedAt, UpdatedAt, Status, SubmitterUserId, ReviewerUserId, IsAutoReviewed, MuseumUrl,
-			                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
-			                      EbookId, MimeType, Exception, Notes)
-			values (?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?,
-			        ?)
-			returning ArtworkId
-		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->CreatedAt, $this->UpdatedAt, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes]
-		);
-
-		$this->AddTags();
-
-		if($imagePath !== null){
-			$this->WriteImageAndThumbnails($imagePath);
+			throw $ex;
 		}
 
 		$this->UpdateSearchRepresentation();
