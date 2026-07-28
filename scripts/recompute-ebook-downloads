@@ -77,7 +77,7 @@ Db::Query('
 	left join (
 		select EbookId, sum(DownloadCount) - sum(BotDownloadCount) as DownloadsPast30Days
 		from EbookDownloadSummaries
-		where DownloadedOn >= date(utc_timestamp()) - interval 30 day
+		where Date >= date(utc_timestamp()) - interval 30 day
 		group by EbookId
 	) s on e.EbookId = s.EbookId
 	set e.DownloadsPast30Days = coalesce(s.DownloadsPast30Days, 0)
