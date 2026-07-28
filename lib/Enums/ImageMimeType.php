@@ -6,6 +6,7 @@ use function Safe\mime_content_type;
 enum ImageMimeType: string{
 	case JPG = 'image/jpeg';
 	case BMP = 'image/bmp';
+	case GIF = 'image/gif';
 	case PNG = 'image/png';
 	case TIFF = 'image/tiff';
 	case WEBP = 'image/webp';
@@ -14,6 +15,7 @@ enum ImageMimeType: string{
 		return match($this){
 			self::JPG => '.jpg',
 			self::BMP => '.bmp',
+			self::GIF => '.gif',
 			self::PNG => '.png',
 			self::TIFF => '.tif',
 			self::WEBP => '.webp',

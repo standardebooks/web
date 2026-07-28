@@ -512,7 +512,7 @@ class BlogPost{
 			}
 
 			foreach([['.jpg', '.avif'], ['@2x.jpg', '@2x.avif']] as [$sourceSuffix, $destinationSuffix]){
-				exec(escapeshellarg(SITE_ROOT . '/web/scripts/cavif') . ' --quiet --quality 50 ' . escapeshellarg($tempBasePath . $sourceSuffix) . ' --output ' . escapeshellarg($tempBasePath . $destinationSuffix), $output, $resultCode);
+				exec(escapeshellarg(SITE_ROOT . '/web/scripts/cavif') . ' --quiet --quality 50 --speed 6 ' . escapeshellarg($tempBasePath . $sourceSuffix) . ' --output ' . escapeshellarg($tempBasePath . $destinationSuffix), $output, $resultCode);
 				if($resultCode !== 0){
 					throw new Exceptions\ImageUploadInvalidException('Failed to process hero image.');
 				}

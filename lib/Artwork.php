@@ -737,7 +737,7 @@ final class Artwork{
 			$image->Resize($this->ThumbFsPath, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
 			$image->Resize($this->Thumb2xFsPath, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
 		}
-		catch(\Safe\Exceptions\ExecException | \Safe\Exceptions\FilesystemException){
+		catch(\Safe\Exceptions\ExecException | \Safe\Exceptions\FilesystemException | Exceptions\ImageOperationFailedException){
 			throw new Exceptions\ImageUploadInvalidException('Failed to generate thumbnail.');
 		}
 	}
