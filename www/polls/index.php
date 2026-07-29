@@ -11,9 +11,6 @@ try{
 
 	$result = Poll::GetAllPastByPage($page, $perPage);
 
-	$pastPolls = $result['polls'];
-	$pages = $result['totalPages'];
-
 	$openPolls = Db::Query('
 			select *
 			from Polls
@@ -34,7 +31,7 @@ try{
 	}
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	header('location: /polls?page=' . $ex->TotalPages);
+	header('location: /polls?page=' . $ex->RealPageNumber);
 	exit();
 }
 ?><?= Template::Header(title: 'Polls', description: 'The various polls active at Standard Ebooks.', css: ['/css/polls.css']) ?>
@@ -64,7 +61,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<p>Anyone can <a href="/donate#patrons-circle">join the Patrons Circle</a> by making a small donation in support of our mission of producing beautiful digital literature, for free distribution.</p>
 		<? } ?>
 
-		<? if(sizeof($futurePolls) > 0 && $page == 1){ ?>
+		<? if(sizeof($futurePolls) > 0 && $result->Page == 1){ ?>
 			<section id="future-polls">
 				<h2>Future polls</h2>
 				<ul>
@@ -79,7 +76,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			</section>
 		<? } ?>
 
-		<? if(sizeof($openPolls) > 0 && $page == 1){ ?>
+		<? if(sizeof($openPolls) > 0 && $result->Page == 1){ ?>
 			<section id="open-polls">
 				<h2>Open polls</h2>
 				<ul>
@@ -94,11 +91,11 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			</section>
 		<? } ?>
 
-		<? if(sizeof($pastPolls) > 0){ ?>
+		<? if(sizeof($result->Results) > 0){ ?>
 			<section id="ended-polls">
 				<h2>Past polls</h2>
 				<ul>
-					<? foreach($pastPolls as $poll){ ?>
+					<? foreach($result->Results as $poll){ ?>
 						<li>
 							<p>
 								<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a><? if($canEditPolls){ ?> • <a href="<?= $poll->EditUrl ?>">Edit</a><? } ?>
@@ -108,15 +105,15 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 				</ul>
 			</section>
 			<nav class="pagination" aria-label="Pagination">
-				<a<? if($page > 1){ ?> href="/polls?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($result->Page > 1){ ?> href="/polls?page=<?= $result->Page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
-					<? for($i = 1; $i < $pages + 1; $i++){ ?>
+					<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
 						<li>
-							<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/polls?page=<?= $i ?>"<? } ?>><?= $i ?></a>
+							<a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/polls?page=<?= $i ?>"<? } ?>><?= $i ?></a>
 						</li>
 					<? } ?>
 				</ol>
-				<a<? if($page < $pages){ ?> href="/polls?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($result->Page < $result->TotalPages){ ?> href="/polls?page=<?= $result->Page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>

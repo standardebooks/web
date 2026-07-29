@@ -584,16 +584,16 @@ class NewsletterMailing{
 	/**
 	 * Get all newsletter mailings for a specific page, sorted by descending send date.
 	 *
-	 * @return array{'newsletterMailings': array<int, NewsletterMailing>, 'count': int, 'totalPages': int}
+	 * @return ResultsPage<NewsletterMailing>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetAllByPage(int $page = 1, int $perPage = 10): array{
-		if($page <= 0 || $page >= 100000){
-			throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
+	public static function GetAllByPage(int $page = 1, int $perPage = 10): ResultsPage{
+		if($page <= 0){
+			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}
 
-		if($perPage <= 0){
+		if($perPage <= 0 || $perPage > RESULTS_MAX_PER_PAGE){
 			$perPage = 10;
 		}
 
@@ -611,10 +611,10 @@ class NewsletterMailing{
 		$totalPages = (int)ceil($count / $perPage);
 
 		if($totalPages > 0 && $page > $totalPages){
-			throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
+			throw new Exceptions\PageOutOfBoundsException(realPageNumber: $totalPages);
 		}
 
-		return ['newsletterMailings' => $newsletterMailings, 'count' => $count, 'totalPages' => $totalPages];
+		return new ResultsPage($newsletterMailings, $page, $count, $perPage);
 	}
 
 	public function FillFromRequestBody(): void{

@@ -2,7 +2,6 @@
 use function Safe\preg_match;
 
 $page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
-$pages = 0;
 $perPage = Http::$Request->QueryString->Get('per-page', 'int') ?? EBOOKS_PER_PAGE;
 $query = Http::$Request->QueryString->Get('query') ?? '';
 $tags = Http::$Request->QueryString->Get('tags', 'array') ?? [];
@@ -14,7 +13,7 @@ $queryStringWithoutPage = '';
 $pageUrl = '/ebooks';
 
 try{
-	if($perPage <= 0){
+	if($perPage <= 0 || $perPage > RESULTS_MAX_PER_PAGE){
 		$perPage = EBOOKS_PER_PAGE;
 	}
 
@@ -44,8 +43,6 @@ try{
 	if(sizeof($tags) == 1 && mb_strtolower($tags[0]) == 'all'){
 		$tags = [];
 	}
-
-	$pageDescription = 'Page ' . $page . ' of the Standard Ebooks free ebook library';
 
 	if($query != ''){
 		$queryStringParams['query'] = $query;
@@ -104,18 +101,16 @@ try{
 	}
 
 	$result = Ebook::GetAllByFilter($query != '' ? $query : null, $tags, $sort, $page, $perPage, Enums\EbookReleaseStatusFilter::All);
-	$ebooks = $result['ebooks'];
-	$totalEbooks = $result['ebooksCount'];
+	$pageDescription = 'Page ' . $result->Page . ' of the Standard Ebooks free ebook library';
 	$pageTitle = 'Browse Standard Ebooks';
 	$pageHeader = 'Browse Ebooks';
-	$pages = $result['totalPages'];
 
-	if($page > 1){
-		$pageTitle .= ', page ' . $page;
+	if($result->Page > 1){
+		$pageTitle .= ', page ' . $result->Page;
 	}
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	$url = '/ebooks?page=' . $ex->TotalPages;
+	$url = '/ebooks?page=' . $ex->RealPageNumber;
 	if($queryStringWithoutPage != ''){
 		$url .= '&' . $queryStringWithoutPage;
 	}
@@ -138,27 +133,27 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 
 	<?= Template::SearchForm(query: $query, tags: $tags, sort: $sort, view: $view, perPage: $perPage) ?>
 
-	<? if(sizeof($ebooks) == 0){ ?>
+	<? if(sizeof($result->Results) == 0){ ?>
 		<p class="no-results">No ebooks matched your filters. You can try different filters, or <a href="/ebooks">browse all of our ebooks</a>.</p>
 	<? }else{ ?>
-		<?= Template::EbookGrid(ebooks: $ebooks, view: $view) ?>
+		<?= Template::EbookGrid(ebooks: $result->Results, view: $view) ?>
 	<? } ?>
-	<? if(sizeof($ebooks) > 0){ ?>
+	<? if(sizeof($result->Results) > 0){ ?>
 		<nav class="pagination" aria-label="Pagination">
-			<a<? if($page > 1){ ?> href="<?= $pageUrl ?>?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+			<a<? if($result->Page > 1){ ?> href="<?= $pageUrl ?>?page=<?= $result->Page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 			<ol>
-			<? for($i = 1; $i < $pages + 1; $i++){ ?>
+			<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
 				<li>
-					<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="<?= $pageUrl ?>?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"<? } ?>><?= $i ?></a>
+					<a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="<?= $pageUrl ?>?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"<? } ?>><?= $i ?></a>
 				</li>
 			<? } ?>
 			</ol>
-			<a<? if($page < ceil($totalEbooks / $perPage)){ ?> href="<?= $pageUrl ?>?page=<?= $page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+			<a<? if($result->Page < $result->TotalPages){ ?> href="<?= $pageUrl ?>?page=<?= $result->Page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 		</nav>
 	<? } ?>
 
 	<p class="feeds-alert">We also have <a href="/bulk-downloads">bulk ebook downloads</a> and a <a href="/collections">list of collections</a> available, as well as <a href="/feeds">ebook catalog feeds</a> for use directly in your ereader app or RSS reader.</p>
-	<? if(sizeof($ebooks) > 0 && $query == '' && sizeof($tags) == 0 && $page == 1){ ?>
+	<? if(sizeof($result->Results) > 0 && $query == '' && sizeof($tags) == 0 && $result->Page == 1){ ?>
 		<?= Template::ContributeAlert() ?>
 	<? } ?>
 </main>

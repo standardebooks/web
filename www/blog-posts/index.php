@@ -5,11 +5,9 @@ try{
 	$perPage = 10;
 
 	$result = BlogPost::GetAllByPage($page, $perPage, $canEditBlogPosts);
-	$blogPosts = $result['blogPosts'];
-	$pages = $result['totalPages'];
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	header('location: /blog?page=' . $ex->TotalPages);
+	header('location: /blog?page=' . $ex->RealPageNumber);
 	exit();
 }
 ?>
@@ -29,7 +27,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 		<? } ?>
 		<? if($canEditBlogPosts){ ?>
 			<ul>
-				<? foreach($blogPosts as $blogPost){ ?>
+				<? foreach($result->Results as $blogPost){ ?>
 					<li>
 						<p>
 							<a href="<?= $blogPost->Url ?>"><?= $blogPost->Title ?></a> • <? if($blogPost->Body === null){ ?>Must be edited in the database<? }else{ ?><a href="<?= $blogPost->EditUrl ?>">Edit</a><? } ?>
@@ -39,7 +37,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			</ul>
 		<? }else{ ?>
 			<ul class="blog-post-list">
-				<? foreach($blogPosts as $blogPost){ ?>
+				<? foreach($result->Results as $blogPost){ ?>
 					<li>
 						<a class="blog-post-card<? if($blogPost->ImageCacheKey === null){ ?> no-hero-image<? } ?>" href="<?= $blogPost->Url ?>">
 							<? if($blogPost->ImageCacheKey !== null){ ?>
@@ -58,17 +56,17 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 				<? } ?>
 			</ul>
 		<? } ?>
-		<? if(sizeof($blogPosts) > 0){ ?>
+		<? if(sizeof($result->Results) > 0){ ?>
 			<nav class="pagination" aria-label="Pagination">
-				<a<? if($page > 1){ ?> href="/blog?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($result->Page > 1){ ?> href="/blog?page=<?= $result->Page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
-					<? for($i = 1; $i < $pages + 1; $i++){ ?>
+					<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
 						<li>
-							<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/blog?page=<?= $i ?>"<? } ?>><?= $i ?></a>
+							<a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/blog?page=<?= $i ?>"<? } ?>><?= $i ?></a>
 						</li>
 					<? } ?>
 				</ol>
-				<a<? if($page < $pages){ ?> href="/blog?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($result->Page < $result->TotalPages){ ?> href="/blog?page=<?= $result->Page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>

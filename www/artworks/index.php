@@ -1,5 +1,4 @@
 <?
-$artworks = [];
 $page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 $perPage = Http::$Request->QueryString->Get('per-page', 'int') ?? ARTWORK_PER_PAGE;
 $query = Http::$Request->QueryString->Get('query');
@@ -8,8 +7,6 @@ $startYear = Http::$Request->QueryString->Get('start-year', 'int');
 $endYear = Http::$Request->QueryString->Get('end-year', 'int');
 $artworkFilterType = Enums\ArtworkFilterType::tryFrom(Http::$Request->QueryString->Get('status') ?? '');
 $sort = Enums\ArtworkSortType::tryFrom(Http::$Request->QueryString->Get('sort') ?? '');
-$pages = 0;
-$totalArtworkCount = 0;
 $pageDescription = '';
 $pageTitle = '';
 $queryString = '';
@@ -102,23 +99,19 @@ try{
 
 	if($queryEbookUrl !== null){
 		// We're being called from the `review` script, and we're only interested if the artwork exists for this URL.
-		$artworks[] = Db::Query('select a.* from Artworks a inner join Ebooks e using (EbookId) where e.Identifier = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class)[0] ?? throw new Exceptions\ArtworkNotFoundException();
-		$totalArtworkCount = 1;
-		$pages = 1;
+		$artwork = Db::Query('select a.* from Artworks a inner join Ebooks e using (EbookId) where e.Identifier = ? and Status = ? limit 1', [$queryEbookUrl, Enums\ArtworkStatusType::Approved], Artwork::class)[0] ?? throw new Exceptions\ArtworkNotFoundException();
+		$result = new ResultsPage([$artwork], 1, 1, $perPage);
 	}
 	else{
 		$result = Artwork::GetAllByFilter($query, $startYear, $endYear, $artworkFilterType, $sort, $submitterUserId, $page, $perPage);
-		$artworks = $result['artworks'];
-		$totalArtworkCount = $result['count'];
-		$pages = $result['totalPages'];
 	}
 
 	$pageTitle = 'Browse Artwork';
-	if($page > 1){
-		$pageTitle .= ', page ' . $page;
+	if($result->Page > 1){
+		$pageTitle .= ', page ' . $result->Page;
 	}
 
-	$pageDescription = 'Page ' . $page . ' of artwork';
+	$pageDescription = 'Page ' . $result->Page . ' of artwork';
 
 	$canonicalUrl = SITE_URL . '/artworks';
 
@@ -131,7 +124,7 @@ catch(Exceptions\ArtworkNotFoundException){
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
 	/** @var string $queryStringWithoutPage */
-	$url = '/artworks?page=' . $ex->TotalPages;
+	$url = '/artworks?page=' . $ex->RealPageNumber;
 	if($queryStringWithoutPage != ''){
 		$url .= '&' . $queryStringWithoutPage;
 	}
@@ -203,21 +196,21 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 
 		<?= Template::ImageCopyrightNotice() ?>
 
-		<? if($totalArtworkCount == 0){ ?>
+		<? if($result->TotalResults == 0){ ?>
 			<p class="no-results">No artwork matched your filters. You can try different filters, or <a href="/artworks">browse all artwork</a>.</p>
 		<? }else{ ?>
-			<?= Template::ArtworkList(artworks: $artworks) ?>
+			<?= Template::ArtworkList(artworks: $result->Results) ?>
 		<? } ?>
 
-		<? if($totalArtworkCount > 0){ ?>
+		<? if($result->TotalResults > 0){ ?>
 			<nav class="pagination" aria-label="Pagination">
-				<a<? if($page > 1){ ?> href="/artworks?page=<?= $page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($result->Page > 1){ ?> href="/artworks?page=<?= $result->Page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
-				<? for($i = 1; $i < $pages + 1; $i++){ ?>
-					<li><a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/artworks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"<? } ?>><?= $i ?></a></li>
+				<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
+					<li><a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/artworks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"<? } ?>><?= $i ?></a></li>
 				<? } ?>
 				</ol>
-				<a<? if($page < ceil($totalArtworkCount / $perPage)){ ?> href="/artworks?page=<?= $page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($result->Page < $result->TotalPages){ ?> href="/artworks?page=<?= $result->Page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>

@@ -2644,18 +2644,18 @@ final class Ebook{
 	/**
 	 * @param array<string> $tags
 	 *
-	 * @return array{ebooks: array<Ebook>, ebooksCount: int, totalPages: int}
+	 * @return ResultsPage<Ebook>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetAllByFilter(?string $query = null, array $tags = [], ?Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): array{
+	public static function GetAllByFilter(?string $query = null, array $tags = [], ?Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): ResultsPage{
 		$query = trim($query ?? '');
 
-		if($page <= 0 || $page >= 100000){
-			throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
+		if($page <= 0){
+			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}
 
-		if($perPage <= 0){
+		if($perPage <= 0 || $perPage > RESULTS_MAX_PER_PAGE){
 			$perPage = EBOOKS_PER_PAGE;
 		}
 
@@ -2738,7 +2738,7 @@ final class Ebook{
 			$totalPages = (int)ceil($ebooksCount / $perPage);
 
 			if($totalPages > 0 && $page > $totalPages){
-				throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
+				throw new Exceptions\PageOutOfBoundsException(realPageNumber: $totalPages);
 			}
 
 			$params[] = $limit;
@@ -2754,7 +2754,7 @@ final class Ebook{
 					limit ?
 					offset ?', $params, Ebook::class);
 
-			$retval = ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount, 'totalPages' => $totalPages];
+			$retval = new ResultsPage($ebooks, $page, $ebooksCount, $perPage);
 		}
 		else{
 			$searchWhereCondition = '1=1';
@@ -2830,15 +2830,15 @@ final class Ebook{
 			$totalPages = (int)ceil($ebooksCount / $perPage);
 
 			if($totalPages > 0 && $page > $totalPages){
-				throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
+				throw new Exceptions\PageOutOfBoundsException(realPageNumber: $totalPages);
 			}
 
 			if($ebooksCount == 0){
-				return ['ebooks' => [], 'ebooksCount' => 0, 'totalPages' => $totalPages];
+				return new ResultsPage([], $page, 0, $perPage);
 			}
 
 			if(sizeof($result) == 0){
-				return ['ebooks' => [], 'ebooksCount' => $ebooksCount, 'totalPages' => $totalPages];
+				return new ResultsPage([], $page, $ebooksCount, $perPage);
 			}
 
 			$ids = '';
@@ -2857,63 +2857,44 @@ final class Ebook{
 					order by find_in_set(e.EbookId, "' . $ids . '")'
 				, [], Ebook::class);
 
-			$retval = ['ebooks' => $ebooks, 'ebooksCount' => $ebooksCount, 'totalPages' => $totalPages];
+			$retval = new ResultsPage($ebooks, $page, $ebooksCount, $perPage);
 		}
 
 		return $retval;
 	}
 
 	/**
-	 * @param ?int $page The page number to retrieve, or `null` to retrieve all `EbookPlaceholder`s.
-	 * @param ?int $perPage The number of `EbookPlaceholder` to retrieve per page, or `null` to retrieve all `EbookPlaceholder`s.
-	 *
-	 * @return array{'ebookPlaceholders': array<int, Ebook>, 'count': int, 'totalPages': int}
+	 * @return ResultsPage<Ebook>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetAllPlaceholders(?int $page = null, ?int $perPage = null): array{
-		if($page === null && $perPage === null){
-			$ebookPlaceholders = Db::Query('
-					select Ebooks.*
-					from Ebooks inner join EbookPlaceholders using (EbookId)
-					order by Ebooks.CreatedAt desc
-				', [], Ebook::class);
-
-			$count = sizeof($ebookPlaceholders);
-			$totalPages = $count > 0 ? 1 : 0;
-		}
-		else{
-			if($page === null){
-				$page = 1;
-			}
-
-			if($page <= 0 || $page >= 100000){
-				throw new Exceptions\PageOutOfBoundsException(totalPages: 1);
-			}
-
-			if($perPage === null || $perPage <= 0){
-				$perPage = 50;
-			}
-
-			$offset = (($page - 1) * $perPage);
-
-			$ebookPlaceholders = Db::Query('
-					select sql_calc_found_rows Ebooks.*
-					from Ebooks inner join EbookPlaceholders using (EbookId)
-					order by Ebooks.CreatedAt desc
-					limit ?
-					offset ?
-				', [$perPage, $offset], Ebook::class);
-
-			$count = Db::QueryInt('select found_rows()');
-			$totalPages = (int)ceil($count / $perPage);
-
-			if($totalPages > 0 && $page > $totalPages){
-				throw new Exceptions\PageOutOfBoundsException(totalPages: $totalPages);
-			}
+	public static function GetAllPlaceholdersByPage(int $page, int $perPage): ResultsPage{
+		if($page <= 0){
+			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}
 
-		return ['ebookPlaceholders' => $ebookPlaceholders, 'count' => $count, 'totalPages' => $totalPages];
+		if($perPage <= 0 || $perPage > RESULTS_MAX_PER_PAGE){
+			$perPage = 50;
+		}
+
+		$offset = (($page - 1) * $perPage);
+
+		$ebookPlaceholders = Db::Query('
+				select sql_calc_found_rows Ebooks.*
+				from Ebooks inner join EbookPlaceholders using (EbookId)
+				order by Ebooks.CreatedAt desc
+				limit ?
+				offset ?
+			', [$perPage, $offset], Ebook::class);
+
+		$count = Db::QueryInt('select found_rows()');
+		$totalPages = (int)ceil($count / $perPage);
+
+		if($totalPages > 0 && $page > $totalPages){
+			throw new Exceptions\PageOutOfBoundsException(realPageNumber: $totalPages);
+		}
+
+		return new ResultsPage($ebookPlaceholders, $page, $count, $perPage);
 	}
 
 	/**

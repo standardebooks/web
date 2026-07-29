@@ -20,9 +20,6 @@ try{
 
 	$result = NewsletterMailing::GetAllByPage($page, $perPage);
 
-	$newsletterMailings = $result['newsletterMailings'];
-	$pages = $result['totalPages'];
-
 	if($isCreated){
 		http_response_code(Enums\HttpCode::Created->value);
 	}
@@ -38,7 +35,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	header('location: /newsletter-mailings?page=' . $ex->TotalPages);
+	header('location: /newsletter-mailings?page=' . $ex->RealPageNumber);
 	exit();
 }
 ?>
@@ -71,9 +68,9 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<p class="message success">Newsletter mailing created!</p>
 		<? } ?>
 
-		<? if(sizeof($newsletterMailings) > 0){ ?>
+		<? if(sizeof($result->Results) > 0){ ?>
 			<ol class="newsletter-mailings">
-				<? foreach($newsletterMailings as $newsletterMailing){ ?>
+				<? foreach($result->Results as $newsletterMailing){ ?>
 					<li>
 						<p><?= Formatter::EscapeHtml($newsletterMailing->Subject) ?> (#<?= $newsletterMailing->NewsletterMailingId ?>)</p>
 						<p><?= ucfirst($newsletterMailing->Status->value) ?><? if($newsletterMailing->Status == Enums\QueueStatus::Completed && $newsletterMailing->RecipientCount !== null){ ?> • <?= number_format($newsletterMailing->RecipientCount) ?> <?= Formatter::Pluralize($newsletterMailing->RecipientCount, 'recipient') ?><? } ?><? if($newsletterMailing->ExcludePatrons){ ?> (Patrons excluded)<? } ?></p>
@@ -87,15 +84,15 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 				<? } ?>
 			</ol>
 			<nav class="pagination" aria-label="Pagination">
-				<a<? if($page > 1){ ?> href="/newsletter-mailings?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($result->Page > 1){ ?> href="/newsletter-mailings?page=<?= $result->Page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
-					<? for($i = 1; $i < $pages + 1; $i++){ ?>
+					<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
 						<li>
-							<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/newsletter-mailings?page=<?= $i ?>"<? } ?>><?= $i ?></a>
+							<a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/newsletter-mailings?page=<?= $i ?>"<? } ?>><?= $i ?></a>
 						</li>
 					<? } ?>
 				</ol>
-				<a<? if($page < $pages){ ?> href="/newsletter-mailings?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($result->Page < $result->TotalPages){ ?> href="/newsletter-mailings?page=<?= $result->Page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>

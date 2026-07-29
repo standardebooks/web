@@ -645,27 +645,4 @@ class Db{
 		// Throw a custom exception that includes more information on the query and paramaters.
 		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params));
 	}
-
-	/**
-	 * Given a list of arguments to pass to an SQL query whose last two arguments are integers representing the values in a `limit` clause, recalculate the last item to a value close to infinity if that value is zero.
-	 *
-	 * For example, passing array `['bob', 0, 0]` would return `['bob', 0, 999999999]`. This would be useful to pass to a query with a `limit` clause, like:
-	 *
-	 * ```sql
-	 * select * from Users where Username = ? limit ?, ?;
-	 * ```
-	 *
-	 * @param array<mixed> $args A list of SQL query arguments, with two integers representing limits as the last two items.
-	 *
-	 * @return array<mixed>
-	 */
-	public static function ParseLimits(array $args): array{
-		if(sizeof($args) >= 2){
-			if($args[sizeof($args) - 2] == 0 && ($args[sizeof($args) - 1] === 0 || $args[sizeof($args) - 1] === null)){
-				$args[sizeof($args) - 1] = 999999999; // Close enough to infinity.
-			}
-		}
-
-		return $args;
-	}
 }

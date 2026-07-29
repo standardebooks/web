@@ -2,9 +2,6 @@
 use function Safe\preg_replace;
 
 try{
-	$ebooks = [];
-	$totalEbooks = 0;
-	$pages = 0;
 	$query = Http::$Request->QueryString->Get('query') ?? '';
 	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 	$perPage = Http::$Request->QueryString->Get('per-page', 'int') ?? EBOOKS_PER_PAGE;
@@ -15,7 +12,7 @@ try{
 		throw new Exceptions\NotFoundException();
 	}
 
-	if($perPage <= 0){
+	if($perPage <= 0 || $perPage > RESULTS_MAX_PER_PAGE){
 		$perPage = EBOOKS_PER_PAGE;
 	}
 
@@ -23,15 +20,13 @@ try{
 		$perPage = EBOOKS_MAX_PER_PAGE;
 	}
 
+	$result = new ResultsPage([], 1, 0, $perPage);
+
 	if($query != ''){
 		$result = Ebook::GetAllByFilter($query, [], Enums\EbookSortType::Relevance, $page, $perPage, Enums\EbookReleaseStatusFilter::Released);
 
-		$ebooks = $result['ebooks'];
-		$totalEbooks = $result['ebooksCount'];
-		$pages = $result['totalPages'];
-
-		if($pages <= 0){
-			$pages = 1;
+		if($result->TotalPages <= 0){
+			$result->TotalPages = 1;
 		}
 	}
 
@@ -44,8 +39,8 @@ try{
 			$targetMimeType = Feed::NegotiateMimeType('/feeds/opds');
 
 			if($targetMimeType == 'application/opds+json; charset=utf-8'){
-				$searchFeedUrl = '/feeds/opds/all?query=' . urlencode($query) . '&page=' . $page . '&per-page=' . $perPage;
-				$searchFeed = new OpdsAcquisitionFeed('Search Results', 'Results for “' . $query . '”', $searchFeedUrl, '', $ebooks, null);
+				$searchFeedUrl = '/feeds/opds/all?query=' . urlencode($query) . '&page=' . $result->Page . '&per-page=' . $perPage;
+				$searchFeed = new OpdsAcquisitionFeed('Search Results', 'Results for “' . $query . '”', $searchFeedUrl, '', $result->Results, null);
 				$searchFeed->Updated = NOW;
 				header('content-type: ' . $targetMimeType);
 				print($searchFeed->ToJsonString());
@@ -67,27 +62,27 @@ catch(Exceptions\NotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	$url = preg_replace('/([\?&]page=)\-?[0-9]+/iu', '${1}' . $ex->TotalPages, Http::$Request->RelativeUri);
+	$url = preg_replace('/([\?&]page=)\-?[0-9]+/iu', '${1}' . $ex->RealPageNumber, Http::$Request->RelativeUri);
 	header('location: ' . $url);
 	exit();
 }
 ?>
 <? if($feedFormatType == Enums\FeedFormatType::Atom){ ?>
 	<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
-		<id><?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $page ?>&amp;per-page=<?= $perPage ?></id>
-		<link href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $page ?>&amp;per-page=<?= $perPage ?>" rel="self" type="application/atom+xml"/>
+		<id><?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?></id>
+		<link href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="self" type="application/atom+xml"/>
 		<link rel="first" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=1&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
-		<? if($page > 1){ ?>
-			<link rel="previous" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $page - 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
+		<? if($result->Page > 1){ ?>
+			<link rel="previous" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page - 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
 		<? } ?>
-		<? if($page < ceil($totalEbooks / $perPage)){ ?>
-			<link rel="next" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $page + 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
+		<? if($result->Page < $result->TotalPages){ ?>
+			<link rel="next" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page + 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
 		<? } ?>
-		<link rel="last" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $pages ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
+		<link rel="last" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->TotalPages ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
 		<link rel="search" href="<?= SITE_URL ?>/opensearch" type="application/opensearchdescription+xml" title="Standard Ebooks"/>
-		<link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>&amp;page=<?= $page ?>&amp;per-page=<?= $perPage ?>" rel="alternate" type="application/xhtml+xml"/>
-		<opensearch:totalResults><?= $totalEbooks ?></opensearch:totalResults>
-		<opensearch:startIndex><?= (($page - 1) * $perPage) + 1 ?></opensearch:startIndex>
+		<link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="alternate" type="application/xhtml+xml"/>
+		<opensearch:totalResults><?= $result->TotalResults ?></opensearch:totalResults>
+		<opensearch:startIndex><?= (($result->Page - 1) * $perPage) + 1 ?></opensearch:startIndex>
 		<opensearch:itemsPerPage><?= $perPage ?></opensearch:itemsPerPage>
 		<title>Search Results</title>
 		<subtitle>Results for “<?= Formatter::EscapeXml($query) ?>”</subtitle>
@@ -97,27 +92,27 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<name>Standard Ebooks</name>
 			<uri><?= SITE_URL ?></uri>
 		</author>
-		<? foreach($ebooks as $ebook){ ?>
+		<? foreach($result->Results as $ebook){ ?>
 			<?= Template::AtomFeedEntry(entry: $ebook) ?>
 		<? } ?>
 	</feed>
 <? } ?>
 <? if($feedFormatType == Enums\FeedFormatType::Opds){ ?>
 	<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
-		<id><?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $page ?>&amp;per-page=<?= $perPage ?></id>
-		<link href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $page ?>&amp;per-page=<?= $perPage ?>" rel="self" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
+		<id><?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?></id>
+		<link href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="self" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
 		<link rel="first" href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=1&amp;per-page=<?= $perPage ?>" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
-		<? if($page > 1){ ?>
-			<link rel="previous" href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $page - 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
+		<? if($result->Page > 1){ ?>
+			<link rel="previous" href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page - 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
 		<? } ?>
-		<? if($page < ceil($totalEbooks / $perPage)){ ?>
-			<link rel="next" href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $page + 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
+		<? if($result->Page < $result->TotalPages){ ?>
+			<link rel="next" href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page + 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
 		<? } ?>
-		<link rel="last" href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $pages ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
+		<link rel="last" href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->TotalPages ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
 		<link rel="search" href="<?= SITE_URL ?>/opensearch" type="application/opensearchdescription+xml" title="Standard Ebooks"/>
-		<link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>&amp;page=<?= $page ?>&amp;per-page=<?= $perPage ?>" rel="alternate" type="application/xhtml+xml"/>
-		<opensearch:totalResults><?= $totalEbooks ?></opensearch:totalResults>
-		<opensearch:startIndex><?= (($page - 1) * $perPage) + 1 ?></opensearch:startIndex>
+		<link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="alternate" type="application/xhtml+xml"/>
+		<opensearch:totalResults><?= $result->TotalResults ?></opensearch:totalResults>
+		<opensearch:startIndex><?= (($result->Page - 1) * $perPage) + 1 ?></opensearch:startIndex>
 		<opensearch:itemsPerPage><?= $perPage ?></opensearch:itemsPerPage>
 		<link href="<?= SITE_URL ?>/feeds/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
 		<link href="<?= SITE_URL ?>/feeds/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition; charset=utf-8"/>
@@ -129,7 +124,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<name>Standard Ebooks</name>
 			<uri><?= SITE_URL ?></uri>
 		</author>
-		<? foreach($ebooks as $ebook){ ?>
+		<? foreach($result->Results as $ebook){ ?>
 			<?= Template::OpdsAcquisitionEntry(entry: $ebook) ?>
 		<? } ?>
 	</feed>
@@ -144,19 +139,19 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
 			<lastBuildDate><?= NOW->format(Enums\DateTimeFormat::Rss->value) ?></lastBuildDate>
 			<docs>http://blogs.law.harvard.edu/tech/rss</docs>
-			<atom:link href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $page ?>&amp;per-page=<?= $perPage ?>" rel="self" type="application/atom+xml"/>
+			<atom:link href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="self" type="application/atom+xml"/>
 			<atom:link rel="first" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=1&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
-			<? if($page > 1){ ?>
-				<atom:link rel="previous" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $page - 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
+			<? if($result->Page > 1){ ?>
+				<atom:link rel="previous" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page - 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
 			<? } ?>
-			<? if($page < ceil($totalEbooks / $perPage)){ ?>
-				<atom:link rel="next" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $page + 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
+			<? if($result->Page < $result->TotalPages){ ?>
+				<atom:link rel="next" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page + 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
 			<? } ?>
-			<atom:link rel="last" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $pages ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
+			<atom:link rel="last" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->TotalPages ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
 			<atom:link rel="search" href="<?= SITE_URL ?>/opensearch" type="application/opensearchdescription+xml" title="Standard Ebooks"/>
-			<atom:link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>&amp;page=<?= $page ?>&amp;per-page=<?= $perPage ?>" rel="alternate" type="application/xhtml+xml"/>
-			<opensearch:totalResults><?= $totalEbooks ?></opensearch:totalResults>
-			<opensearch:startIndex><?= (($page - 1) * $perPage) + 1 ?></opensearch:startIndex>
+			<atom:link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="alternate" type="application/xhtml+xml"/>
+			<opensearch:totalResults><?= $result->TotalResults ?></opensearch:totalResults>
+			<opensearch:startIndex><?= (($result->Page - 1) * $perPage) + 1 ?></opensearch:startIndex>
 			<opensearch:itemsPerPage><?= $perPage ?></opensearch:itemsPerPage>
 			<image>
 				<url><?= SITE_URL ?>/images/logo-rss.png</url>
@@ -166,7 +161,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 				<height>144</height>
 				<width>144</width>
 			</image>
-			<? foreach($ebooks as $ebook){ ?>
+			<? foreach($result->Results as $ebook){ ?>
 				<?= Template::RssEntry(entry: $ebook) ?>
 			<? } ?>
 		</channel>

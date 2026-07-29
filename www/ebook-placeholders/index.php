@@ -12,13 +12,10 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$page = Http::$Request->QueryString->Get('page', 'int') ?? null;
+	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 	$perPage = 50;
 
-	$result = Ebook::GetAllPlaceholders($page, $perPage);
-
-	$ebooks = $result['ebookPlaceholders'];
-	$pages = $result['totalPages'];
+	$result = Ebook::GetAllPlaceholdersByPage($page, $perPage);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();
@@ -27,7 +24,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	header('location: /ebook-placeholders?page=' . $ex->TotalPages);
+	header('location: /ebook-placeholders?page=' . $ex->RealPageNumber);
 	exit();
 }
 ?>
@@ -44,11 +41,11 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<li><a href="/ebook-placeholders/new">Create an ebook placeholder</a></li>
 		</ul>
 
-		<? if(sizeof($ebooks) == 0){ ?>
+		<? if(sizeof($result->Results) == 0){ ?>
 			<p class="empty-notice">None.</p>
 		<? }else{ ?>
 			<ol class="ebook-placeholders">
-				<? foreach($ebooks as $ebook){ ?>
+				<? foreach($result->Results as $ebook){ ?>
 					<li>
 						<p>
 							<a href="<?= $ebook->Url ?>"><i><?= Formatter::EscapeHtml($ebook->Title) ?></i></a>
@@ -59,17 +56,17 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			</ol>
 		<? } ?>
 
-		<? if(sizeof($ebooks) > 0){ ?>
+		<? if(sizeof($result->Results) > 0){ ?>
 			<nav class="pagination" aria-label="Pagination">
-				<a<? if($page > 1){ ?> href="/ebook-placeholders?page=<?= $page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($result->Page > 1){ ?> href="/ebook-placeholders?page=<?= $result->Page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
-					<? for($i = 1; $i < $pages + 1; $i++){ ?>
+					<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
 						<li>
-							<a <? if($page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/ebook-placeholders?page=<?= $i ?>"<? } ?>><?= $i ?></a>
+							<a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/ebook-placeholders?page=<?= $i ?>"<? } ?>><?= $i ?></a>
 						</li>
 					<? } ?>
 				</ol>
-				<a<? if($page < $pages){ ?> href="/ebook-placeholders?page=<?= $page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($result->Page < $result->TotalPages){ ?> href="/ebook-placeholders?page=<?= $result->Page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>
