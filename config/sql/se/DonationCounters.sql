@@ -1,4 +1,4 @@
-CREATE TABLE `se`.`DonationCounters` (
+CREATE TABLE IF NOT EXISTS `DonationCounters` (
   `DonationCounterId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
   `StartAt` datetime NOT NULL,

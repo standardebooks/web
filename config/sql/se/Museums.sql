@@ -2,6 +2,6 @@ CREATE TABLE IF NOT EXISTS `Museums` (
   `MuseumId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
   `Domain` varchar(255) NOT NULL,
-  `LicenseXPath` varchar(255) NULL,
+  `LicenseXPath` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`MuseumId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

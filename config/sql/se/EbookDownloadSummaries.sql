@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `EbookDownloadSummaries` (
   `UniqueDownloadCount` int(10) unsigned NOT NULL DEFAULT 0,
   `FeedDownloadCount` int(10) unsigned NOT NULL DEFAULT 0,
   `WebDownloadCount` int(10) unsigned NOT NULL DEFAULT 0,
-  UNIQUE INDEX `EbookId_DownloadedOn` (`EbookId`, `Date`),
-  INDEX `DownloadedOn_EbookId_DownloadCount` (`Date`, `EbookId`, `DownloadCount`),
-  INDEX `EbookId_DownloadCount` (`EbookId`, `DownloadCount`)
+  UNIQUE KEY `EbookId_Date` (`EbookId`,`Date`),
+  KEY `Date_EbookId_DownloadCount` (`Date`,`EbookId`,`DownloadCount`),
+  KEY `EbookId_DownloadCount` (`EbookId`,`DownloadCount`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

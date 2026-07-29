@@ -1,5 +1,6 @@
-CREATE TABLE IF NOT EXISTS `se`.`BlogPostEbooks` (
-  `BlogPostId` INT UNSIGNED NOT NULL,
-  `EbookId` INT UNSIGNED NOT NULL,
-  `SortOrder` SMALLINT UNSIGNED NOT NULL,
-  INDEX `BlogPostId` (`BlogPostId` ASC) VISIBLE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+CREATE TABLE IF NOT EXISTS `BlogPostEbooks` (
+  `BlogPostId` int(10) unsigned NOT NULL,
+  `EbookId` int(10) unsigned NOT NULL,
+  `SortOrder` smallint(5) unsigned NOT NULL,
+  KEY `BlogPostId` (`BlogPostId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

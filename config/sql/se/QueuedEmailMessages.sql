@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `QueuedEmailMessages` (
   `QueuedEmailMessageId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `To` varchar(80) NOT NULL,
-  `ToName` varchar(255) NULL,
+  `ToName` varchar(255) DEFAULT NULL,
   `From` varchar(80) NOT NULL,
   `FromName` varchar(255) DEFAULT NULL,
   `ReplyTo` varchar(80) DEFAULT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `QueuedEmailMessages` (
   `UnsubscribeUrl` text DEFAULT NULL,
   `Provider` enum('ses') NOT NULL,
   `Attachments` mediumblob DEFAULT NULL,
-  `Metadata` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '{}' CHECK (json_valid(`Metadata`)),
+  `Metadata` longtext NOT NULL DEFAULT '{}' CHECK (json_valid(`Metadata`)),
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`QueuedEmailMessageId`),
   KEY `Priority_QueuedEmailMessageId` (`Priority`,`QueuedEmailMessageId`),

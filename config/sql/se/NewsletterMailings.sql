@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS `NewsletterMailings` (
   `NewsletterMailingId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `NewsletterId` int(10) unsigned NOT NULL,
-  `ExcludePatrons` tinyint(1) NOT NULL DEFAULT FALSE,
+  `ExcludePatrons` tinyint(1) NOT NULL DEFAULT 0,
   `Status` enum('queued','processing','completed','failed','canceled') NOT NULL DEFAULT 'queued',
   `Subject` varchar(255) NOT NULL,
-  `Preheader` varchar(255) NULL DEFAULT NULL,
+  `Preheader` varchar(255) DEFAULT NULL,
   `BodyHtml` text NOT NULL,
   `BodyText` text NOT NULL,
   `FromName` varchar(255) DEFAULT NULL,

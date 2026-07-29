@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `Artists` (
   `ArtistId` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
   `UrlName` varchar(255) NOT NULL,
-  `DeathYear` smallint unsigned NULL,
+  `DeathYear` smallint(5) unsigned DEFAULT NULL,
   `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`ArtistId`),

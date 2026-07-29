@@ -9,14 +9,13 @@ CREATE TABLE IF NOT EXISTS `Projects` (
   `EndedAt` datetime DEFAULT NULL,
   `ManagerUserId` int(11) NOT NULL,
   `ReviewerUserId` int(11) NOT NULL,
-  `LastCommitAt` DATETIME NULL DEFAULT NULL,
-  `LastDiscussionAt` DATETIME NULL DEFAULT NULL,
+  `LastCommitAt` datetime DEFAULT NULL,
+  `LastDiscussionAt` datetime DEFAULT NULL,
   `IsStatusAutomaticallyUpdated` tinyint(1) NOT NULL DEFAULT 1,
   `HasReviewerBeenNotified` tinyint(1) NOT NULL DEFAULT 0,
   `AreDiscussionMessagesComplete` tinyint(1) NOT NULL DEFAULT 0,
   `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`ProjectId`),
-  KEY `EbookId` (`EbookId`),
   KEY `ProducerUserId` (`ProducerUserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;

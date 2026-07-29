@@ -1,4 +1,4 @@
-CREATE TABLE `ProjectUnassignedUsers` (
+CREATE TABLE IF NOT EXISTS `ProjectUnassignedUsers` (
   `UserId` int(10) unsigned NOT NULL,
   `Role` enum('manager','reviewer') NOT NULL,
   UNIQUE KEY `Role_UserId` (`Role`,`UserId`)
