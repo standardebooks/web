@@ -123,14 +123,7 @@ catch(Exceptions\ArtworkNotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	/** @var string $queryStringWithoutPage */
-	$url = '/artworks?page=' . $ex->RealPageNumber;
-	if($queryStringWithoutPage != ''){
-		$url .= '&' . $queryStringWithoutPage;
-	}
-
-	header('location: ' . $url);
-	exit();
+	Template::RedirectToResultsPage($ex->RealPageNumber);
 }
 ?><?= Template::Header(title: $pageTitle, css: ['/css/artwork.css'], description: $pageDescription, canonicalUrl: $canonicalUrl) ?>
 <main class="artworks">
@@ -204,13 +197,13 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 
 		<? if($result->TotalResults > 0){ ?>
 			<nav class="pagination" aria-label="Pagination">
-				<a<? if($result->Page > 1){ ?> href="/artworks?page=<?= $result->Page - 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
+				<a<? if($result->PreviousPageUrl !== null){ ?> href="<?= Formatter::EscapeHtml($result->PreviousPageUrl) ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
 				<ol>
 				<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
 					<li><a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/artworks?page=<?= $i ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>"<? } ?>><?= $i ?></a></li>
 				<? } ?>
 				</ol>
-				<a<? if($result->Page < $result->TotalPages){ ?> href="/artworks?page=<?= $result->Page + 1 ?><? if($queryStringWithoutPage != ''){ ?>&amp;<?= Formatter::EscapeHtml($queryStringWithoutPage) ?><? } ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
+				<a<? if($result->NextPageUrl !== null){ ?> href="<?= Formatter::EscapeHtml($result->NextPageUrl) ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
 			</nav>
 		<? } ?>
 	</section>

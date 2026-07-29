@@ -62,9 +62,7 @@ catch(Exceptions\NotFoundException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	$url = preg_replace('/([\?&]page=)\-?[0-9]+/iu', '${1}' . $ex->RealPageNumber, Http::$Request->RelativeUri);
-	header('location: ' . $url);
-	exit();
+	Template::RedirectToResultsPage($ex->RealPageNumber);
 }
 ?>
 <? if($feedFormatType == Enums\FeedFormatType::Atom){ ?>

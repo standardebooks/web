@@ -110,13 +110,7 @@ try{
 	}
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	$url = '/ebooks?page=' . $ex->RealPageNumber;
-	if($queryStringWithoutPage != ''){
-		$url .= '&' . $queryStringWithoutPage;
-	}
-
-	header('location: ' . $url);
-	exit();
+	Template::RedirectToResultsPage($ex->RealPageNumber);
 }
 ?><?= Template::Header(title: $pageTitle, highlight: 'ebooks', description: $pageDescription, canonicalUrl: $canonicalUrl) ?>
 <main class="ebooks">

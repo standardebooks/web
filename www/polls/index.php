@@ -31,8 +31,7 @@ try{
 	}
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	header('location: /polls?page=' . $ex->RealPageNumber);
-	exit();
+	Template::RedirectToResultsPage($ex->RealPageNumber);
 }
 ?><?= Template::Header(title: 'Polls', description: 'The various polls active at Standard Ebooks.', css: ['/css/polls.css']) ?>
 <main>
@@ -104,17 +103,8 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 					<? } ?>
 				</ul>
 			</section>
-			<nav class="pagination" aria-label="Pagination">
-				<a<? if($result->Page > 1){ ?> href="/polls?page=<?= $result->Page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
-				<ol>
-					<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
-						<li>
-							<a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/polls?page=<?= $i ?>"<? } ?>><?= $i ?></a>
-						</li>
-					<? } ?>
-				</ol>
-				<a<? if($result->Page < $result->TotalPages){ ?> href="/polls?page=<?= $result->Page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
-			</nav>
+
+			<?= Template::Pagination(result: $result) ?>
 		<? } ?>
 	</section>
 </main>

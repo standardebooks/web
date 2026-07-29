@@ -58,6 +58,7 @@ use function Safe\preg_replace;
  * @method static string OpdsAcquisitionEntry(Ebook $entry)
  * @method static string OpdsAcquisitionFeed(string $id, string $url, string $parentUrl, string $title, ?string $subtitle, DateTimeImmutable $updated, array<Ebook> $entries, bool $isCrawlable = false)
  * @method static string OpdsNavigationFeed(string $id, string $url, ?string $parentUrl, string $title, ?string $subtitle, DateTimeImmutable $updated, array<OpdsNavigationEntry> $entries)
+ * @method static string Pagination(ResultsPage<*> $result)
  * @method static string PollForm(Poll $poll, bool $isEditForm = false)
  * @method static string PollItemFieldset(int $index, bool $isRequired, PollItem $pollItem)
  * @method static string ProjectDetailsTable(Project $project)
@@ -123,6 +124,16 @@ class Template extends TemplateBase{
 			header('location: /users/' . rawurlencode($identifier) . '/disambiguation');
 		}
 
+		exit();
+	}
+
+	/**
+	 * Redirect the current request to the given valid results page while preserving its other query parameters.
+	 */
+	public static function RedirectToResultsPage(int $page): never{
+		$queryParams = Http::$Request->QueryString->Variables;
+		$queryParams['page'] = $page;
+		header('location: ' . Http::$Request->RelativePath . '?' . http_build_query($queryParams));
 		exit();
 	}
 

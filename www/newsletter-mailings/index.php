@@ -35,8 +35,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	header('location: /newsletter-mailings?page=' . $ex->RealPageNumber);
-	exit();
+	Template::RedirectToResultsPage($ex->RealPageNumber);
 }
 ?>
 <?= Template::Header(
@@ -83,17 +82,8 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 					</li>
 				<? } ?>
 			</ol>
-			<nav class="pagination" aria-label="Pagination">
-				<a<? if($result->Page > 1){ ?> href="/newsletter-mailings?page=<?= $result->Page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
-				<ol>
-					<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
-						<li>
-							<a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/newsletter-mailings?page=<?= $i ?>"<? } ?>><?= $i ?></a>
-						</li>
-					<? } ?>
-				</ol>
-				<a<? if($result->Page < $result->TotalPages){ ?> href="/newsletter-mailings?page=<?= $result->Page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
-			</nav>
+
+			<?= Template::Pagination(result: $result) ?>
 		<? } ?>
 	</section>
 </main>

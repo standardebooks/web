@@ -24,8 +24,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
-	header('location: /ebook-placeholders?page=' . $ex->RealPageNumber);
-	exit();
+	Template::RedirectToResultsPage($ex->RealPageNumber);
 }
 ?>
 <?= Template::Header(
@@ -56,19 +55,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			</ol>
 		<? } ?>
 
-		<? if(sizeof($result->Results) > 0){ ?>
-			<nav class="pagination" aria-label="Pagination">
-				<a<? if($result->Page > 1){ ?> href="/ebook-placeholders?page=<?= $result->Page - 1 ?>" rel="prev"<? }else{ ?> aria-disabled="true"<? } ?>>Back</a>
-				<ol>
-					<? for($i = 1; $i < $result->TotalPages + 1; $i++){ ?>
-						<li>
-							<a <? if($result->Page == $i){ ?>aria-current="page" href="#"<? }else{ ?>href="/ebook-placeholders?page=<?= $i ?>"<? } ?>><?= $i ?></a>
-						</li>
-					<? } ?>
-				</ol>
-				<a<? if($result->Page < $result->TotalPages){ ?> href="/ebook-placeholders?page=<?= $result->Page + 1 ?>" rel="next"<? }else{ ?> aria-disabled="true"<? } ?>>Next</a>
-			</nav>
-		<? } ?>
+		<?= Template::Pagination(result: $result) ?>
 	</section>
 </main>
 <?= Template::Footer() ?>
