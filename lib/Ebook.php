@@ -2868,7 +2868,7 @@ final class Ebook{
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetAllPlaceholdersByPage(int $page, int $perPage): ResultsPage{
+	public static function GetPlaceholdersPage(int $page, int $perPage): ResultsPage{
 		if($page <= 0){
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}

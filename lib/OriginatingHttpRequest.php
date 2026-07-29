@@ -5,6 +5,7 @@ use function Safe\ini_get;
 use function Safe\mb_convert_encoding;
 use function Safe\preg_match;
 use function Safe\preg_replace;
+use function Safe\parse_url;
 
 /**
  * The HTTP request that resulted in this script being run.
@@ -14,7 +15,10 @@ class OriginatingHttpRequest{
 	public ?Enums\HttpMethod $Method; // TODO: Put this behind a property hook without a setter, because we would like it to be `readonly` but able to be changed via `OriginatingHttpRequest::CalculateRequestMethod()`.
 	/** The HTTP method actually used by this request, or `GET` if the method is invalid. */
 	public readonly Enums\HttpMethod $RawMethod;
+	/** The query string for the request as seen in `$_GET`, which may have been rewritten by the web server. */
 	public readonly HttpVariablesInterface $QueryString;
+	/** The query string for the request as seen in the request URI, before the web server rewrites it. */
+	public readonly HttpVariablesInterface $UriQueryString;
 	public readonly HttpVariablesInterface $Body;
 	public readonly HttpVariablesInterface $Cookies;
 	/** Unlike other variable interfaces in this class, this reflects the live state of `$_SESSION`. */
@@ -106,6 +110,17 @@ class OriginatingHttpRequest{
 		/** @var string $relativeUri */
 		$relativeUri = mb_convert_encoding($requestUri, 'utf-8');
 		$this->RelativeUri = $relativeUri;
+
+		try{
+			/** @var string $uriQueryString */
+			$uriQueryString = parse_url($this->RelativeUri, PHP_URL_QUERY) ?? '';
+			parse_str($uriQueryString, $uriQueryVariables);
+			/** @var array<string, string> $uriQueryVariables */
+			$this->UriQueryString = new HttpVariablesInterface($uriQueryString, $uriQueryVariables);
+		}
+		catch(\Safe\Exceptions\UrlException){
+			$this->UriQueryString = new HttpVariablesInterface('', []);
+		}
 
 		$this->RelativePath = preg_replace('/\?.+$/iu', '', $relativeUri);
 

@@ -4,7 +4,7 @@ try{
 	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 	$perPage = 10;
 
-	$result = BlogPost::GetAllByPage($page, $perPage, $canEditBlogPosts);
+	$result = BlogPost::GetPage($page, $perPage, $canEditBlogPosts);
 }
 catch(Exceptions\PageOutOfBoundsException $ex){
 	Template::RedirectToResultsPage($ex->RealPageNumber);

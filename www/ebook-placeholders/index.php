@@ -15,7 +15,7 @@ try{
 	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 	$perPage = 50;
 
-	$result = Ebook::GetAllPlaceholdersByPage($page, $perPage);
+	$result = Ebook::GetPlaceholdersPage($page, $perPage);
 }
 catch(Exceptions\LoginRequiredException){
 	Template::RedirectToLogin();

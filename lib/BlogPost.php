@@ -668,7 +668,7 @@ class BlogPost{
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetAllByPage(int $page = 1, int $perPage = 10, bool $includeUnpublished = false): ResultsPage{
+	public static function GetPage(int $page = 1, int $perPage = 10, bool $includeUnpublished = false): ResultsPage{
 		if($page <= 0){
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}

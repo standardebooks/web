@@ -131,7 +131,7 @@ class Template extends TemplateBase{
 	 * Redirect the current request to the given valid results page while preserving its other query parameters.
 	 */
 	public static function RedirectToResultsPage(int $page): never{
-		$queryParams = Http::$Request->QueryString->Variables;
+		$queryParams = Http::$Request->UriQueryString->Variables;
 		$queryParams['page'] = $page;
 		header('location: ' . Http::$Request->RelativePath . '?' . http_build_query($queryParams));
 		exit();

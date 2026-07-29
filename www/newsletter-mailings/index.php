@@ -18,7 +18,7 @@ try{
 	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
 	$perPage = 5;
 
-	$result = NewsletterMailing::GetAllByPage($page, $perPage);
+	$result = NewsletterMailing::GetPage($page, $perPage);
 
 	if($isCreated){
 		http_response_code(Enums\HttpCode::Created->value);

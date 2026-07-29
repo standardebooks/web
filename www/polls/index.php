@@ -9,7 +9,7 @@ try{
 	$perPage = 5;
 	$futurePolls = [];
 
-	$result = Poll::GetAllPastByPage($page, $perPage);
+	$result = Poll::GetPageByPast($page, $perPage);
 
 	$openPolls = Db::Query('
 			select *
