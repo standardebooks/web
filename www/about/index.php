@@ -16,6 +16,8 @@ $patronsCircle = Db::Query('
 				p.IsAnonymous = false
 				and
 				p.EndedAt is null
+				and
+				Name is not null
 				order by regexp_substr(SortName, "[\\\s][\\\p{L}\\\-]+$") asc
 			');
 
