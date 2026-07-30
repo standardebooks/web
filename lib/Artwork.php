@@ -584,13 +584,25 @@ final class Artwork{
 			return;
 		}
 
-		if(!isset($this->MuseumUrl) || !isset($this->Museum) || !isset($this->Museum->LicenseXPath)){
+		if(!isset($this->MuseumUrl)){
+			return;
+		}
+
+		try{
+			$this->MuseumUrl = Museum::NormalizeUrl($this->MuseumUrl);
+			$this->Museum = Museum::GetByUrl($this->MuseumUrl);
+		}
+		catch(Exceptions\MuseumNotFoundException | Exceptions\UrlInvalidException){
+			return;
+		}
+
+		if(!isset($this->Museum->LicenseXPath)){
 			return;
 		}
 
 		$curl = new HttpRequest();
 		try{
-			$response = $curl->Execute(Enums\HttpMethod::Get, $this->MuseumUrl);
+			$response = $curl->Execute(Enums\HttpMethod::Get, $this->MuseumUrl, followRedirects: false);
 		}
 		catch(Exceptions\HttpRequestException){
 			return;

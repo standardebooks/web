@@ -644,9 +644,10 @@ class Museum{
 		$result = Db::Query('
 			select *
 			from Museums
-			where ? like concat("%", Domain, "%")
+			where ? = Domain
+				or ? = concat("www.", Domain)
 			limit 1;
-		', [$parsedUrl['host']], Museum::class);
+		', [$parsedUrl['host'], $parsedUrl['host']], Museum::class);
 
 		return $result[0] ?? throw new Exceptions\MuseumNotFoundException();
 	}
