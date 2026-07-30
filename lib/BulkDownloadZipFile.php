@@ -1,7 +1,4 @@
 <?
-
-use Safe\DateTimeImmutable;
-
 /**
  * @property string $DownloadFileSizeFormatted
  */

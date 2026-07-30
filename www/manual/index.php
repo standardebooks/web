@@ -1,5 +1,4 @@
 <?
-use function Safe\glob;
 use function Safe\preg_replace;
 
 // Redirect to the latest version of the manual.

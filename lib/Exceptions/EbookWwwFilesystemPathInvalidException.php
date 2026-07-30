@@ -1,8 +1,6 @@
 <?
 namespace Exceptions;
 
-use Safe\DateTimeImmutable;
-
 class EbookWwwFilesystemPathInvalidException extends AppException{
 	/** @var string $message */
 	protected $message = 'Invalid WwwFilesystemPath.';

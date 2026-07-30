@@ -6,9 +6,7 @@
 // See <https://developers.google.com/search/docs/data-types/book> for RDFa metadata details.
 
 use Safe\DateTimeImmutable;
-use function Safe\preg_match;
 use function Safe\preg_replace;
-use function Safe\shuffle;
 
 try{
 	/** @var Ebook $ebook The `Ebook` for this request, passed in from the router. */

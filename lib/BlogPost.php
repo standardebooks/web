@@ -652,16 +652,6 @@ class BlogPost{
 	}
 
 	/**
-	 * @return array<BlogPost>
-	 */
-	public static function GetAllByCreated(): array{
-		return Db::Query('
-			select *
-			from BlogPosts
-			order by CreatedAt desc', [], BlogPost::class);
-	}
-
-	/**
 	 * Get all blog posts for a specific page, sorted by descending publication or creation date.
 	 *
 	 * @return PaginatedResultsPage<BlogPost>

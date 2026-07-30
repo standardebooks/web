@@ -1,6 +1,4 @@
 <?
-use function Safe\preg_replace;
-
 try{
 	$query = Http::$Request->QueryString->Get('query') ?? '';
 	$page = Http::$Request->QueryString->Get('page', 'int') ?? 1;
