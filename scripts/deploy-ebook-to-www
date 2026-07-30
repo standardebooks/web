@@ -235,7 +235,13 @@ do
 		ExitWithError "Invalid S.E. identifier in ebook."
 	fi
 
-	webDir="${webRoot}/ebooks/${webDir}"
+	ebooksRoot=$(realpath --canonicalize-missing "${webRoot}/ebooks")
+	webDir=$(realpath --canonicalize-missing "${ebooksRoot}/${webDir}")
+
+	# Confirm that the ebook identifier resolves to a path inside the ebook root.
+	if [[ "${webDir}" != "${ebooksRoot}/"* ]]; then
+		ExitWithError "Invalid S.E. identifier in ebook."
+	fi
 
 	workDir=$(mktemp --directory)
 	imgWorkDir=$(mktemp --directory)
