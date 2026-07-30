@@ -2644,11 +2644,11 @@ final class Ebook{
 	/**
 	 * @param array<string> $tags
 	 *
-	 * @return ResultsPage<Ebook>
+	 * @return PaginatedResultsPage<Ebook>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetAllByFilter(?string $query = null, array $tags = [], ?Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): ResultsPage{
+	public static function GetAllByFilter(?string $query = null, array $tags = [], ?Enums\EbookSortType $sort = null, int $page = 1, int $perPage = EBOOKS_PER_PAGE, Enums\EbookReleaseStatusFilter $releaseStatusFilter = Enums\EbookReleaseStatusFilter::All): PaginatedResultsPage{
 		$query = trim($query ?? '');
 
 		if($page <= 0){
@@ -2754,7 +2754,7 @@ final class Ebook{
 					limit ?
 					offset ?', $params, Ebook::class);
 
-			$retval = new ResultsPage($ebooks, $page, $ebooksCount, $perPage);
+			$retval = new PaginatedResultsPage($ebooks, $page, $ebooksCount, $perPage);
 		}
 		else{
 			$searchWhereCondition = '1=1';
@@ -2834,11 +2834,11 @@ final class Ebook{
 			}
 
 			if($ebooksCount == 0){
-				return new ResultsPage([], $page, 0, $perPage);
+				return new PaginatedResultsPage([], $page, 0, $perPage);
 			}
 
 			if(sizeof($result) == 0){
-				return new ResultsPage([], $page, $ebooksCount, $perPage);
+				return new PaginatedResultsPage([], $page, $ebooksCount, $perPage);
 			}
 
 			$ids = '';
@@ -2857,18 +2857,18 @@ final class Ebook{
 					order by find_in_set(e.EbookId, "' . $ids . '")'
 				, [], Ebook::class);
 
-			$retval = new ResultsPage($ebooks, $page, $ebooksCount, $perPage);
+			$retval = new PaginatedResultsPage($ebooks, $page, $ebooksCount, $perPage);
 		}
 
 		return $retval;
 	}
 
 	/**
-	 * @return ResultsPage<Ebook>
+	 * @return PaginatedResultsPage<Ebook>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetPlaceholdersPage(int $page, int $perPage): ResultsPage{
+	public static function GetPlaceholdersPage(int $page, int $perPage): PaginatedResultsPage{
 		if($page <= 0){
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}
@@ -2894,7 +2894,7 @@ final class Ebook{
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: $totalPages);
 		}
 
-		return new ResultsPage($ebookPlaceholders, $page, $count, $perPage);
+		return new PaginatedResultsPage($ebookPlaceholders, $page, $count, $perPage);
 	}
 
 	/**

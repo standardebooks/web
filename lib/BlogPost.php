@@ -664,11 +664,11 @@ class BlogPost{
 	/**
 	 * Get all blog posts for a specific page, sorted by descending publication or creation date.
 	 *
-	 * @return ResultsPage<BlogPost>
+	 * @return PaginatedResultsPage<BlogPost>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetPage(int $page = 1, int $perPage = 10, bool $includeUnpublished = false): ResultsPage{
+	public static function GetPage(int $page = 1, int $perPage = 10, bool $includeUnpublished = false): PaginatedResultsPage{
 		if($page <= 0){
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}
@@ -706,6 +706,6 @@ class BlogPost{
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: $totalPages);
 		}
 
-		return new ResultsPage($blogPosts, $page, $count, $perPage);
+		return new PaginatedResultsPage($blogPosts, $page, $count, $perPage);
 	}
 }

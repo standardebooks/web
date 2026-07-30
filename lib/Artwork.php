@@ -1087,11 +1087,11 @@ final class Artwork{
 	}
 
 	/**
-	 * @return ResultsPage<Artwork>
+	 * @return PaginatedResultsPage<Artwork>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetAllByFilter(?string $query = null, ?int $startYear = null, ?int $endYear = null, ?Enums\ArtworkFilterType $artworkFilterType = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): ResultsPage{
+	public static function GetAllByFilter(?string $query = null, ?int $startYear = null, ?int $endYear = null, ?Enums\ArtworkFilterType $artworkFilterType = null, ?Enums\ArtworkSortType $sort = null, ?int $submitterUserId = null, int $page = 1, int $perPage = ARTWORK_PER_PAGE): PaginatedResultsPage{
 		if($artworkFilterType === null){
 			$artworkFilterType = Enums\ArtworkFilterType::Approved;
 		}
@@ -1251,11 +1251,11 @@ final class Artwork{
 			}
 
 			if($artworksCount == 0){
-				return new ResultsPage([], $page, 0, $perPage);
+				return new PaginatedResultsPage([], $page, 0, $perPage);
 			}
 
 			if(sizeof($result) == 0){
-				return new ResultsPage([], $page, $artworksCount, $perPage);
+				return new PaginatedResultsPage([], $page, $artworksCount, $perPage);
 			}
 
 			$ids = '';
@@ -1276,7 +1276,7 @@ final class Artwork{
 				, [], Artwork::class);
 		}
 
-		return new ResultsPage($artworks, $page, $artworksCount, $perPage);
+		return new PaginatedResultsPage($artworks, $page, $artworksCount, $perPage);
 	}
 
 	/**

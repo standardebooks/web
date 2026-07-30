@@ -20,7 +20,7 @@ try{
 		$perPage = EBOOKS_MAX_PER_PAGE;
 	}
 
-	$result = new ResultsPage([], 1, 0, $perPage);
+	$result = new PaginatedResultsPage([], 1, 0, $perPage);
 
 	if($query != ''){
 		$result = Ebook::GetAllByFilter($query, [], Enums\EbookSortType::Relevance, $page, $perPage, Enums\EbookReleaseStatusFilter::Released);

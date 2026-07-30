@@ -584,11 +584,11 @@ class NewsletterMailing{
 	/**
 	 * Get all newsletter mailings for a specific page, sorted by descending send date.
 	 *
-	 * @return ResultsPage<NewsletterMailing>
+	 * @return PaginatedResultsPage<NewsletterMailing>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */
-	public static function GetPage(int $page = 1, int $perPage = 10): ResultsPage{
+	public static function GetPage(int $page = 1, int $perPage = 10): PaginatedResultsPage{
 		if($page <= 0){
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}
@@ -614,7 +614,7 @@ class NewsletterMailing{
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: $totalPages);
 		}
 
-		return new ResultsPage($newsletterMailings, $page, $count, $perPage);
+		return new PaginatedResultsPage($newsletterMailings, $page, $count, $perPage);
 	}
 
 	public function FillFromRequestBody(): void{

@@ -381,11 +381,11 @@ class Poll{
 	/**
 	 * Get all past polls for a specific page, sorted by descending start date.
 	 *
-	 * @return ResultsPage<Poll>
+	 * @return PaginatedResultsPage<Poll>
 	 *
 	 * @throws Exceptions\PageOutOfBoundsException If `$page` is outside of the result bounds.
 	 */	
-	public static function GetPageByPast(int $page = 1, int $perPage = 5): ResultsPage{
+	public static function GetPageByPast(int $page = 1, int $perPage = 5): PaginatedResultsPage{
 		if($page <= 0){
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: 1);
 		}
@@ -412,6 +412,6 @@ class Poll{
 			throw new Exceptions\PageOutOfBoundsException(realPageNumber: $totalPages);
 		}
 
-		return new ResultsPage($polls, $page, $count, $perPage);
+		return new PaginatedResultsPage($polls, $page, $count, $perPage);
 	}
 }
