@@ -221,7 +221,7 @@ class Patron{
 			[$from, $to] = [$to, $from];
 		}
 
-		// Use `SET statement max_recursive_iterations` to allow for very wide date ranges. Otherwise, MariaDB's default of 1,000 might cause the result set to end prematurely.
+		// Use `set statement max_recursive_iterations` to allow for very wide date ranges. Otherwise, MariaDB's default of 1,000 might cause the result set to end prematurely.
 		$result = Db::Query('
 			set statement max_recursive_iterations = 100000 for
 			with recursive Days as (

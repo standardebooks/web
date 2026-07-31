@@ -98,7 +98,7 @@ class Db{
 		}
 
 		$rowSql = $matches[1][0];
-		/** @var string $suffix The part of the original SQL query that comes after the `values (...)` tuple, for example in the query `INSERT into X (a, b) values (?, ?) on duplicate key update b = value(b)`. */
+		/** @var string $suffix The part of the original SQL query that comes after the `values (...)` tuple, for example in the query `insert into X (a, b) values (?, ?) on duplicate key update b = value(b)`. */
 		$suffix = substr($query, $matches[1][1] + strlen($rowSql));
 		$valuePlaceholderCount = substr_count($rowSql, '?');
 
@@ -132,7 +132,7 @@ class Db{
 	/**
 	 * Returns an SQL query string appropriate for set membership.
 	 *
-	 * This is useful for queries of the form `WHERE var IN (?,?,?)` and the length of the set is dynamic.
+	 * This is useful for queries of the form `where var in (?,?,?)` and the length of the set is dynamic.
 	 *
 	 * @param array<mixed> $arr
 	 */

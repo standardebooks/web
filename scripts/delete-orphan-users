@@ -29,7 +29,7 @@ if(sizeof($parameters) != 0){
 Db::Query('set session slow_query_log = 0');
 
 Db::Query('
-	DELETE u.* from Users u
+	delete u.* from Users u
 	left join Artworks a1 on u.UserId = a1.SubmitterUserId
 	left join Artworks a2 on u.UserId = a2.ReviewerUserId
 	left join Benefits b on u.UserId = b.UserId

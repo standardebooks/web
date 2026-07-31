@@ -78,7 +78,7 @@ $errorLockFilename = sys_get_temp_dir() . '/ingest-fa-payments';
 // If `/tmp/last-fa-donation` doesn't exist, get all transactions from today and create the file.
 
 function InsertTransaction(string $transactionId): bool{
-	$exists = Db::QueryBool('SELECT exists(
+	$exists = Db::QueryBool('select exists(
 					select *
 					from
 					    ( select 1
@@ -91,7 +91,7 @@ function InsertTransaction(string $transactionId): bool{
 			[$transactionId, $transactionId]);
 
 	if(!$exists){
-		Db::Query('INSERT into PendingPayments
+		Db::Query('insert into PendingPayments
 				(CreatedAt,
 				Processor,
 				TransactionId)

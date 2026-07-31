@@ -31,7 +31,7 @@ class DonationDrive{
 	 *
 	 * ````php
 	 * Db::QueryInt('
-		SELECT sum(cnt)
+		select sum(cnt)
 		from
 		(
 			(

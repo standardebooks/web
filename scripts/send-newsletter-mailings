@@ -28,8 +28,8 @@ if(sizeof($parameters) != 0){
 Db::Query('set transaction isolation level read committed');
 Db::Query('start transaction');
 Db::Query('set @start = utc_timestamp()');
-$newsletterMailings = Db::Query('SELECT * from NewsletterMailings force index(Status_SendAt) where Status = ? and SendAt <= @start for update skip locked', [Enums\QueueStatus::Queued], NewsletterMailing::class);
-Db::Query('UPDATE NewsletterMailings set Status = ? where Status = ? and SendAt <= @start', [Enums\QueueStatus::Processing, Enums\QueueStatus::Queued]);
+$newsletterMailings = Db::Query('select * from NewsletterMailings force index(Status_SendAt) where Status = ? and SendAt <= @start for update skip locked', [Enums\QueueStatus::Queued], NewsletterMailing::class);
+Db::Query('update NewsletterMailings set Status = ? where Status = ? and SendAt <= @start', [Enums\QueueStatus::Processing, Enums\QueueStatus::Queued]);
 Db::Query('commit');
 
 foreach($newsletterMailings as $newsletterMailing){

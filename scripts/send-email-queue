@@ -68,7 +68,7 @@ for($i = 0; $i < $runs; $i++){
 		Based on the blog post at CrunchyData, it would be faster to something like this:
 
 		```sql
-		DELETE x
+		delete x
 		from
 		QueuedEmailMessages x
 		using(

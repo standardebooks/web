@@ -73,13 +73,13 @@ $errorLockFilename = sys_get_temp_dir() . '/process-pending-payments';
 Db::Query('start transaction');
 
 $pendingPayments = Db::Query('
-				SELECT *
+				select *
 				from PendingPayments
 				where ProcessedAt is null
 			');
 
 Db::Query('
-		UPDATE PendingPayments
+		update PendingPayments
 		set ProcessedAt = utc_timestamp()
 		where ProcessedAt is null
 	');
@@ -102,7 +102,7 @@ try{
 				$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 
 				if(Db::QueryBool('
-							SELECT exists(
+							select exists(
 								select *
 								from Payments
 								where TransactionId = ?
@@ -241,7 +241,7 @@ try{
 					break;
 				}
 
-				// Before we create a Patron, abort of this donor is Fractured Atlas itself, which can happen with matching grant campaigns.
+				// Before we create a Patron, abort if this donor is Fractured Atlas itself, which can happen with matching grant campaigns.
 				if($payment->User?->Name == 'Fractured Atlas'){
 					break;
 				}
@@ -267,7 +267,7 @@ try{
 				){
 					// This payment is eligible for the Patrons Circle!
 					if($payment->UserId !== null && $payment->User !== null){
-						$isPatron = Db::QueryBool('SELECT exists(select * from Patrons where UserId = ? and EndedAt is null)', [$payment->UserId]);
+						$isPatron = Db::QueryBool('select exists(select * from Patrons where UserId = ? and EndedAt is null)', [$payment->UserId]);
 
 						// Are we already a patron?
 						if(!$isPatron){
@@ -339,7 +339,7 @@ try{
 					// Payment amount is not eligible for the Patrons Circle; send a thank you email anyway, but only if this is a non-recurring donation, or if it's their very first recurring donation.
 
 					$previousPaymentCount = Db::QueryInt('
-										SELECT count(*)
+										select count(*)
 										from Payments
 										where UserId = ?
 										    and IsRecurring = true
@@ -363,7 +363,7 @@ try{
 		}
 
 		Db::Query('
-				DELETE
+				delete
 				from PendingPayments
 				where TransactionId = ?
 			', [$pendingPayment->TransactionId]);

@@ -54,16 +54,16 @@ try{
 	if($rebuildEbooks){
 		print("Rebuilding ebooks ...\n");
 
-		SearchDb::Query('TRUNCATE table ebooks');
+		SearchDb::Query('truncate table ebooks');
 
-		$total = Db::QueryInt('SELECT count(*) from Ebooks');
+		$total = Db::QueryInt('select count(*) from Ebooks');
 
 		// Note that more time is spent in MariaDB than in Manticore, so larger result sets make the process faster.
 		$increment = 10000;
 		$i = 0;
 
 		while(true){
-			$ebooks = Db::Query('SELECT * from Ebooks order by EbookId asc limit ? offset ?', [$increment, $i], Ebook::class);
+			$ebooks = Db::Query('select * from Ebooks order by EbookId asc limit ? offset ?', [$increment, $i], Ebook::class);
 
 			if(sizeof($ebooks) == 0){
 				break;
@@ -83,16 +83,16 @@ try{
 	if($rebuildArtworks){
 		print("Rebuilding artworks ...\n");
 
-		SearchDb::Query('TRUNCATE table artworks');
+		SearchDb::Query('truncate table artworks');
 
-		$total = Db::QueryInt('SELECT count(*) from Artworks');
+		$total = Db::QueryInt('select count(*) from Artworks');
 
 		// Note that more time is spent in MariaDB than in Manticore, so larger result sets make the process faster.
 		$increment = 10000;
 		$i = 0;
 
 		while(true){
-			$artworks = Db::Query('SELECT * from Artworks order by ArtworkId asc limit ? offset ?', [$increment, $i], Artwork::class);
+			$artworks = Db::Query('select * from Artworks order by ArtworkId asc limit ? offset ?', [$increment, $i], Artwork::class);
 
 			if(sizeof($artworks) == 0){
 				break;

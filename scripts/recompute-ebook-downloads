@@ -26,7 +26,7 @@ if(sizeof($parameters) != 0){
 }
 
 $downloadDates = Db::Query('
-	SELECT distinct date(CreatedAt) as DownloadDate
+	select distinct date(CreatedAt) as DownloadDate
 	from EbookDownloads
 ');
 
@@ -73,7 +73,7 @@ foreach($downloadDates as $date){
 }
 
 Db::Query('
-	UPDATE Ebooks e
+	update Ebooks e
 	left join (
 		select EbookId, sum(DownloadCount) - sum(BotDownloadCount) as DownloadsPast30Days
 		from EbookDownloadSummaries
@@ -84,7 +84,7 @@ Db::Query('
 ');
 
 Db::Query('
-	UPDATE Ebooks e
+	update Ebooks e
 	left join (
 		select EbookId, sum(DownloadCount) - sum(BotDownloadCount) as DownloadsTotal
 		from EbookDownloadSummaries
@@ -94,11 +94,11 @@ Db::Query('
 ');
 
 Db::Query('
-	DELETE from EbookDownloads
+	delete from EbookDownloads
 	where CreatedAt < utc_timestamp() - interval 60 day
 ');
 
 Db::Query('
-	DELETE from RateLimitedIps
+	delete from RateLimitedIps
 	where CreatedAt < utc_timestamp() - interval 60 day
 ');

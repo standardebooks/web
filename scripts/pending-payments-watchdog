@@ -26,7 +26,7 @@ if(sizeof($parameters) != 0){
 }
 
 $pendingPayments = Db::Query('
-				SELECT *
+				select *
 				from PendingPayments
 				where ProcessedAt is not null
 			');

@@ -30,7 +30,7 @@ Db::Query('set session slow_query_log = 0');
 
 // Delete unconfirmed `NewsletterSubscription`s that are more than a week old, and any deleted `NewsletterSubscription`s.
 Db::Query('
-		DELETE
+		delete
 		from NewsletterSubscriptions
 		where
 			(
