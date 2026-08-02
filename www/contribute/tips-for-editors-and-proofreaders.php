@@ -57,12 +57,12 @@
 				</li>
 				<li>
 					<h3>Section dividers as text instead of as markup</h3>
-					<p>There are lots of ways authors mark section breaks in text. A common way to do this is with three or more asterisks:</p>
+					<p>There are lots of ways authors mark section breaks in text. A common way to do this is with three or more asterisks (called an “asterism”):</p>
 					<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Some text in the first section...<span class="p">&lt;/</span><span class="" ass="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>***<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The second section begins...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
 
-<p>In Standard Ebooks, sections must be marked with the <code class="html">&lt;hr/&gt;</code> tag:</p>
+					<p>In Standard Ebooks, asterisms are marked up with the <code class="html">&lt;hr/&gt;</code> element:</p>
 					<figure><code class="html full"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Some text in the first section...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">hr</span><span class="p">/&gt;</span>
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>The second section begins...<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code></figure>
