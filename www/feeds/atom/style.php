@@ -26,7 +26,7 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n")
 			</xsl:otherwise>
 		</xsl:choose>
 		<p><xsl:value-of select="/atom:feed/atom:subtitle"/></p>
-		<p>This page is an Atom 1.0 feed. The URL in your browser’s address bar (<a class="url"><xsl:attribute name="href"><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></xsl:attribute><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></a>) can be used in any Atom client. If you’re prompted to authenticate, enter the email address you used to join the <a href="https://standardebooks.org/donate#patrons-circle">Patrons Circle</a> and a blank password.</p>
+		<p>This page is an Atom 1.0 feed. The URL in your browser’s address bar (<a class="url"><xsl:attribute name="href"><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></xsl:attribute><xsl:value-of select="/atom:feed/atom:link[@rel='self']/@href"/></a>) can be used in any RSS reader. If you’re prompted to authenticate, enter the email address you used to join the <a href="https://standardebooks.org/donate#patrons-circle">Patrons Circle</a> and a blank password.</p>
 		<ol class="ebooks-list list">
 			<xsl:for-each select="/atom:feed/atom:entry">
 			<li>

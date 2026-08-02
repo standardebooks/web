@@ -28,7 +28,7 @@ try{
 		throw new Exceptions\FileInvalidException();
 	}
 
-	// Access to the Atom/RSS new releases feed is open to the public.
+	// Access to the RSS/Atom new releases feed is open to the public.
 	$isNewReleasesFeed = false;
 	if(preg_match('/^\/feeds\/(rss|atom)\/new-releases\.xml$/ius', $relativePath)){
 		$isNewReleasesFeed = true;

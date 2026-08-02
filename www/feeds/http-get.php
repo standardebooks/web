@@ -38,24 +38,24 @@ catch(Exceptions\CollectionNotFoundException){
 		<?= Template::FeedHowTo() ?>
 		<? foreach(Enums\FeedFormatType::cases() as $feedType){ ?>
 			<section id="ebooks-by-<?= $feedType->value ?>">
-				<h2><?= $feedType->GetDisplayName() ?> Feed</h2>
-				<? if($feedType == Enums\FeedFormatType::Opds){ ?>
-					<p>Import this feed into your ereader app to get access to these ebooks directly in your ereader.</p>
+				<? if($feedType != Enums\FeedFormatType::Rss){ ?>
+					<h2><?= $feedType->GetDisplayName() ?> Feed</h2>
+					<? if($feedType == Enums\FeedFormatType::Opds){ ?>
+						<p>Import this feed into your ereader app to get access to these ebooks directly in your ereader.</p>
+						<p>To get an OPDS 2.0 feed, set the <code>Accept</code> HTTP header to <code>application/opds+json</code>.</p>
+					<? } ?>
+					<? if($feedType == Enums\FeedFormatType::Atom){ ?>
+						<p>Get updates in your <a href="https://en.wikipedia.org/wiki/Comparison_of_feed_aggregators">RSS reader</a> whenever a new ebook is released, or parse this feed for easy scripting.</p>
+					<? } ?>
+					<ul class="feed">
+						<li>
+							<p>
+								<a href="/feeds/<?= $feedType->value ?>/<?= $collectionType->value ?>/<?= $target?>"><?= Formatter::EscapeHtml($label) ?></a>
+							</p>
+							<p class="url"><? if(isset(Session::$User->Email)){ ?>https://<?= rawurlencode(Session::$User->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/<?= $feedType->value ?>/<?= $collectionType->value ?>/<?= $target?></p>
+						</li>
+					</ul>
 				<? } ?>
-				<? if($feedType == Enums\FeedFormatType::Atom){ ?>
-					<p>Get updates in your <a href="https://en.wikipedia.org/wiki/Comparison_of_feed_aggregators">RSS client</a> whenever a new ebook is released, or parse this feed for easy scripting.</p>
-				<? } ?>
-				<? if($feedType == Enums\FeedFormatType::Rss){ ?>
-					<p>The predecessor of Atom, compatible with most RSS clients.</p>
-				<? } ?>
-				<ul class="feed">
-					<li>
-						<p>
-							<a href="/feeds/<?= $feedType->value ?>/<?= $collectionType->value ?>/<?= $target?>"><?= Formatter::EscapeHtml($label) ?></a>
-						</p>
-						<p class="url"><? if(isset(Session::$User->Email)){ ?>https://<?= rawurlencode(Session::$User->Email) ?>@<?= SITE_DOMAIN ?><? }else{ ?><?= SITE_URL ?><? } ?>/feeds/<?= $feedType->value ?>/<?= $collectionType->value ?>/<?= $target?></p>
-					</li>
-				</ul>
 			</section>
 		<? } ?>
 	</article>

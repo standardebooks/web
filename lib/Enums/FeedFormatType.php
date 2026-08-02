@@ -2,14 +2,16 @@
 namespace Enums;
 
 enum FeedFormatType: string{
-	case Atom = 'atom';
+	// Maintain this order to display OPDS first in the various feed listings.
 	case Opds = 'opds';
+	case Atom = 'atom';
+	/** Deprecated but kept for backwards compatibility. */
 	case Rss = 'rss';
 
 	public function GetDisplayName(): string{
 		return match($this){
-			self::Atom => 'Atom 1.0',
-			self::Opds => 'OPDS 1.2',
+			self::Atom => 'RSS/Atom',
+			self::Opds => 'OPDS',
 			self::Rss => 'RSS 2.0',
 		};
 	}
