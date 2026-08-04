@@ -685,9 +685,9 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 				</aside>
 				<p><code class="path">content.opf</code> is the file that contains the ebook metadata like author, title, description, and reading order. Most of it will be filling in that basic information, and including links to various resources related to the text. We already completed the manifest and spine in an earlier step.</p>
 				<p><code class="path">content.opf</code> is standardized. See the <a href="/manual/latest/9-metadata">Metadata section of the <abbr class="acronym">SEMoS</abbr></a> for details on how to fill it out.</p>
-				<p>The last details to fill out here will be the short and long descriptions, verifying any Wikipedia links that <code class="bash"><b>se</b> create-draft</code> automatically found, adding cover artist metadata, filling out any missing author or contributor metadata, and adding your own metadata as the ebook producer.</p>
+				<p>The last details to fill out here will be the abstract and description, verifying any Wikipedia links that <code class="bash"><b>se</b> create-draft</code> automatically found, adding cover artist metadata, filling out any missing author or contributor metadata, and adding your own metadata as the ebook producer.</p>
 				<aside class="tip">
-					<p>The long description must be <em>escaped</em> HTML, which can be difficult to write by hand. It’s much easier to write the long description in regular HTML, and then run <code class="bash"><b>se</b> clean</code>, which will escape the long description for you.</p>
+					<p>The description must be <em>escaped</em> HTML, which can be difficult to write by hand. It’s much easier to write the description in regular HTML, and then run <code class="bash"><b>se</b> clean</code>, which will escape the description for you.</p>
 				</aside>
 				<p>Once you’re done, commit:</p>
 				<code class="terminal"><span><b>git</b> commit -am <i>"Complete content.opf"</i></span></code>

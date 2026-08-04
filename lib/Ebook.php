@@ -71,8 +71,8 @@ final class Ebook{
 	public ?string $FullTitle = null;
 	public ?string $AlternateTitle = null;
 	public ?string $ShortTitle = null;
+	public ?string $Abstract = null;
 	public ?string $Description = null;
-	public ?string $LongDescription = null;
 	public ?string $Language = null;
 	public ?int $WordCount = null;
 	public ?float $ReadingEase = null;
@@ -1102,8 +1102,8 @@ final class Ebook{
 		$ebook->Contributors = $contributors;
 
 		// Some basic data.
-		$ebook->Description = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="schema:abstract"]')) ?? '';
-		$ebook->LongDescription = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:description')) ?? '';
+		$ebook->Abstract = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="schema:abstract"]')) ?? '';
+		$ebook->Description = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:description')) ?? '';
 		$ebook->Language = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:language')) ?? '';
 
 		$wordCount = 0;
@@ -1534,14 +1534,14 @@ final class Ebook{
 			$error->Add(new Exceptions\StringTooLongException('Ebook ShortTitle'));
 		}
 
+		$this->Abstract = trim($this->Abstract ?? '');
+		if($this->Abstract == ''){
+			$this->Abstract = null;
+		}
+
 		$this->Description = trim($this->Description ?? '');
 		if($this->Description == ''){
 			$this->Description = null;
-		}
-
-		$this->LongDescription = trim($this->LongDescription ?? '');
-		if($this->LongDescription == ''){
-			$this->LongDescription = null;
 		}
 
 		$this->Language = trim($this->Language ?? '');
@@ -1924,7 +1924,7 @@ final class Ebook{
 		$this->EbookId = Db::QueryInt('
 			insert into Ebooks (Identifier, WwwFilesystemPath, RepoFilesystemPath, KindleCoverUrl, EpubUrl,
 				AdvancedEpubUrl, KepubUrl, Azw3Url, DistCoverUrl, CoverImageKey, Title, FullTitle, AlternateTitle,
-				ShortTitle, Description, LongDescription, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
+				ShortTitle, Abstract, Description, Language, WordCount, ReadingEase, GitHubUrl, WikipediaUrl,
 				EbookCreatedAt, EbookUpdatedAt, TextSinglePageByteCount, DownloadsPast30Days, DownloadsTotal, IsPatronSelection)
 			values (?,
 				?,
@@ -1956,8 +1956,8 @@ final class Ebook{
 			returning EbookId
 		', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->CoverImageKey,
-				$this->Title, $this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description,
-				$this->LongDescription, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
+				$this->Title, $this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Abstract,
+				$this->Description, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
 				$this->WikipediaUrl, $this->EbookCreatedAt, $this->EbookUpdatedAt, $this->TextSinglePageByteCount,
 				$this->DownloadsPast30Days, $this->DownloadsTotal, $this->IsPatronSelection]);
 
@@ -2017,8 +2017,8 @@ final class Ebook{
 				FullTitle = ?,
 				AlternateTitle = ?,
 				ShortTitle = ?,
+				Abstract = ?,
 				Description = ?,
-				LongDescription = ?,
 				Language = ?,
 				WordCount = ?,
 				ReadingEase = ?,
@@ -2034,8 +2034,8 @@ final class Ebook{
 				EbookId = ?
 			', [$this->Identifier, $this->WwwFilesystemPath, $this->RepoFilesystemPath, $this->KindleCoverUrl, $this->EpubUrl,
 				$this->AdvancedEpubUrl, $this->KepubUrl, $this->Azw3Url, $this->DistCoverUrl, $this->CoverImageKey,
-				$this->Title, $this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Description,
-				$this->LongDescription, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
+				$this->Title, $this->FullTitle, $this->AlternateTitle, $this->ShortTitle, $this->Abstract,
+				$this->Description, $this->Language, $this->WordCount, $this->ReadingEase, $this->GitHubUrl,
 				$this->WikipediaUrl, $this->EbookCreatedAt, $this->EbookUpdatedAt, $this->TextSinglePageByteCount,
 				$updateDownloads ? $this->DownloadsPast30Days : null, // When the value is `null`, `coalesce` will keep the existing value.
 				$updateDownloads ? $this->DownloadsTotal : null,

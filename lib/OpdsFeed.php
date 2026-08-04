@@ -187,7 +187,7 @@ abstract class OpdsFeed extends AtomFeed{
 				'author' => [],
 				'language' => $ebook->Language,
 				'publisher' => 'Standard Ebooks',
-				'description' => $ebook->Description,
+				'description' => $ebook->Abstract,
 				'belongsTo' => [
 					'subjects' => [],
 				],

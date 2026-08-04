@@ -15,7 +15,7 @@ catch(Safe\Exceptions\FilesystemException){
 <item>
 	<title><?= Formatter::EscapeXml($entry->Title) ?>, by <?= Formatter::EscapeXml(strip_tags($entry->AuthorsHtml)) ?></title>
 	<link><?= SITE_URL . Formatter::EscapeXml($entry->Url) ?></link>
-	<description><?= Formatter::EscapeXml($entry->Description) ?></description>
+	<description><?= Formatter::EscapeXml($entry->Abstract) ?></description>
 	<pubDate><?= $entry->EbookCreatedAt?->format(Enums\DateTimeFormat::Rss->value) ?></pubDate>
 	<guid><?= Formatter::EscapeXml($entry->FullUrl) ?></guid>
 	<? foreach($entry->Tags as $tag){ ?>

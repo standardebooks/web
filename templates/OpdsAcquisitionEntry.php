@@ -30,8 +30,8 @@ use function Safe\filesize;
 	<dc:language><?= Formatter::EscapeXml($entry->Language) ?></dc:language>
 	<dc:publisher>Standard Ebooks</dc:publisher>
 	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
-	<summary type="text"><?= Formatter::EscapeXml($entry->Description) ?></summary>
-	<content type="html"><?= Formatter::EscapeXml($entry->LongDescription) ?></content>
+	<summary type="text"><?= Formatter::EscapeXml($entry->Abstract) ?></summary>
+	<content type="html"><?= Formatter::EscapeXml($entry->Description) ?></content>
 	<? foreach($entry->LocSubjects as $subject){ ?>
 		<category scheme="http://purl.org/dc/terms/LCSH" term="<?= Formatter::EscapeXml($subject->Name) ?>"/>
 	<? } ?>

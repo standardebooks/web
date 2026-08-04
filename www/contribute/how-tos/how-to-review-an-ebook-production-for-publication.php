@@ -168,10 +168,10 @@
 						<p>If the book has a subtitle, check that it is represented as expected. See <a href="/manual/latest/single-page#9.4.2">here</a> for reference.</p>
 					</li>
 					<li>
-						<p>Confirm that the long description of the book in the metadata was not copy and pasted from Wikipedia or other third-party sources.</p>
+						<p>Confirm that the description of the book in the metadata was not copy and pasted from Wikipedia or other third-party sources.</p>
 					</li>
 					<li>
-						<p>Check that the short description of the book is valid (<abbr>i.e.</abbr> a single complete sentence.)</p>
+						<p>Check that the abstract of the book is valid (<abbr>i.e.</abbr> a single complete sentence.)</p>
 					</li>
 					<li>
 						<p>If the book is part of any sets or series, check that all necessary metadata is included. See <a href="/manual/latest/single-page#9.3.3">here</a> for reference.</p>
