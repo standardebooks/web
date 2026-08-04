@@ -1102,7 +1102,7 @@ final class Ebook{
 		$ebook->Contributors = $contributors;
 
 		// Some basic data.
-		$ebook->Description = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:abstract')) ?? '';
+		$ebook->Description = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="schema:abstract"]')) ?? '';
 		$ebook->LongDescription = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:description')) ?? '';
 		$ebook->Language = Ebook::NullIfEmpty($xml->xpath('/package/metadata/dc:language')) ?? '';
 
