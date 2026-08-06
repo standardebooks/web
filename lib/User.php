@@ -344,13 +344,11 @@ final class User{
 
 	/**
 	 * @param bool $requireEmail **`TRUE`** if this `User` requires an email address to be set before it can be saved.
-	 * @param bool $deleteFromProjectUnassignedManagers **`TRUE`** to delete this `User` from the list of unassigned `Project` managers, for example if we've removed their manager benefits.
-	 * * @param bool $deleteFromProjectUnassignedReviewers **`TRUE`** to delete this `User` from the list of unassigned `Project` reviewers, for example if we've removed their reviewer benefits.
 	 *
 	 * @throws Exceptions\UserInvalidException
 	 * @throws Exceptions\UserExistsException
 	 */
-	public function Save(bool $requireEmail = true, bool $deleteFromProjectUnassignedManagers = false, bool $deleteFromProjectUnassignedReviewers = false): void{
+	public function Save(bool $requireEmail = true): void{
 		$this->Validate($requireEmail);
 
 		$this->UpdatedAt = NOW;
@@ -374,14 +372,6 @@ final class User{
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\UserExistsException();
-		}
-
-		if($deleteFromProjectUnassignedManagers){
-			Db::Query('delete from ProjectUnassignedUsers where UserId = ? and Role = ?', [$this->UserId, Enums\ProjectRoleType::Manager]);
-		}
-
-		if($deleteFromProjectUnassignedReviewers){
-			Db::Query('delete from ProjectUnassignedUsers where UserId = ? and Role = ?', [$this->UserId, Enums\ProjectRoleType::Reviewer]);
 		}
 	}
 
@@ -573,38 +563,55 @@ final class User{
 	 * @throws Exceptions\UserNotFoundException If no `User` is available to be assigned to a `Project`.
 	 */
 	public static function GetByAvailableForProjectAssignment(Enums\ProjectRoleType $role, array $excludedUserIds = []): User{
-		if(sizeof($excludedUserIds) == 0){
-			$excludedUserIds = [0];
+		$eligibleUsersQuery = match($role){
+			Enums\ProjectRoleType::Manager => 'select u.* from Users u inner join Benefits b using (UserId) where b.CanManageProjects = true and b.CanBeAutoAssignedToProjects = true',
+			Enums\ProjectRoleType::Reviewer => 'select u.* from Users u inner join Benefits b using (UserId) where b.CanReviewProjects = true and b.CanBeAutoAssignedToProjects = true'
+		};
+		$eligibleUsers = Db::Query($eligibleUsersQuery, [], User::class);
+
+		if(sizeof($eligibleUsers) == 0){
+			throw new Exceptions\UserNotFoundException();
 		}
 
-		// First, check if there are `User`s available for assignment.
-		$doUnassignedUsersExist = Db::QueryBool('select exists (select * from ProjectUnassignedUsers where Role = ? and UserId not in ' . Db::CreateSetSql($excludedUserIds) . ')', array_merge([$role], $excludedUserIds));
+		$assignmentsQuery = match($role){
+			Enums\ProjectRoleType::Manager => 'select p.ManagerUserId as UserId from Projects p inner join Benefits b on p.ManagerUserId = b.UserId where b.CanManageProjects = true and b.CanBeAutoAssignedToProjects = true order by p.CreatedAt asc, p.ProjectId asc',
+			Enums\ProjectRoleType::Reviewer => 'select p.ReviewerUserId as UserId from Projects p inner join Benefits b on p.ReviewerUserId = b.UserId where b.CanReviewProjects = true and b.CanBeAutoAssignedToProjects = true order by p.CreatedAt asc, p.ProjectId asc'
+		};
+		$assignments = Db::Query($assignmentsQuery);
+		$eligibleUserIds = array_map(fn(User $user): int => $user->UserId, $eligibleUsers);
+		$availableUserIds = $eligibleUserIds;
 
-		// No unassigned `User`s left. Refill the list.
-		if(!$doUnassignedUsersExist){
-			Db::Query('
-					insert ignore
-					into ProjectUnassignedUsers
-					(UserId, Role)
-					select
-						Users.UserId,
-						?
-					from Users
-					inner join Benefits
-					using (UserId)
-					where
-						Benefits.CanManageProjects = true
-						and Benefits.CanBeAutoAssignedToProjects = true
-				', [$role]);
+		// Replay past assignments to infer which users remain available in the current round.
+		foreach($assignments as $assignment){
+			$key = array_search((int)$assignment->UserId, $availableUserIds, true);
+
+			// A repeated assignment marks the beginning of a new round in historical data that predates this selection method.
+			if($key === false){
+				$availableUserIds = $eligibleUserIds;
+				$key = array_search((int)$assignment->UserId, $availableUserIds, true);
+			}
+
+			if($key !== false){
+				unset($availableUserIds[$key]);
+			}
+
+			if(sizeof($availableUserIds) == 0){
+				$availableUserIds = $eligibleUserIds;
+			}
 		}
 
-		// Now, select a random `User`.
-		$user = Db::Query('select u.* from Users u inner join ProjectUnassignedUsers puu using (UserId) where Role = ? and UserId not in ' . Db::CreateSetSql($excludedUserIds) . ' order by rand()', array_merge([$role], $excludedUserIds), User::class)[0] ?? throw new Exceptions\UserNotFoundException();
+		$availableUsers = array_values(array_filter($eligibleUsers, fn(User $user): bool => in_array($user->UserId, $availableUserIds, true) && !in_array($user->UserId, $excludedUserIds, true)));
 
-		// Delete the `User` we just got from the unassigned users list.
-		Db::Query('delete from ProjectUnassignedUsers where UserId = ? and Role = ?', [$user->UserId, $role]);
+		// If exclusions exhaust the current round, begin a new round without the excluded users.
+		if(sizeof($availableUsers) == 0){
+			$availableUsers = array_values(array_filter($eligibleUsers, fn(User $user): bool => !in_array($user->UserId, $excludedUserIds, true)));
+		}
 
-		return $user;
+		if(sizeof($availableUsers) == 0){
+			throw new Exceptions\UserNotFoundException();
+		}
+
+		return $availableUsers[array_rand($availableUsers)];
 	}
 
 	/**

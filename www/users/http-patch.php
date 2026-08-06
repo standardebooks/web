@@ -21,15 +21,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$canManageProjects = $user->Benefits->CanManageProjects;
-	$canReviewProjects = $user->Benefits->CanReviewProjects;
-	$canBeAutoAssignedToProjects = $user->Benefits->CanBeAutoAssignedToProjects;
-
 	$user->FillFromRequestBody();
-
-	$deleteFromProjectUnassignedManagers = ($canManageProjects && !$user->Benefits->CanManageProjects) || ($canBeAutoAssignedToProjects && !$user->Benefits->CanBeAutoAssignedToProjects);
-
-	$deleteFromProjectUnassignedReviewers = ($canReviewProjects && !$user->Benefits->CanReviewProjects) || ($canBeAutoAssignedToProjects && !$user->Benefits->CanBeAutoAssignedToProjects);
 
 	$generateNewUuid = Http::$Request->Body->Get('generate-new-uuid', 'bool') ?? false;
 
@@ -55,7 +47,7 @@ try{
 			break;
 	}
 
-	$user->Save(false, $deleteFromProjectUnassignedManagers, $deleteFromProjectUnassignedReviewers);
+	$user->Save(false);
 
 	$_SESSION['user/edit/is-saved'] = true;
 
