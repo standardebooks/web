@@ -32,7 +32,7 @@ use function Safe\preg_replace;
  * @method static string EmailHeader(?string $preheader = null, bool $hasLetterhead = false, bool $hasAdminTable = false)
  * @method static string EmailManagerNewProject(Project $project, string $role, User $user)
  * @method static string EmailManagerNewProjectText(Project $project, string $role, User $user)
- * @method static string EmailMarketingFooterElement(Newsletter $newsletter)
+ * @method static string EmailMarketingFooterHtml(Newsletter $newsletter)
  * @method static string EmailMarketingFooterText(Newsletter $newsletter)
  * @method static string EmailNewsletterConfirmation(User $user)
  * @method static string EmailNewsletterConfirmationText(User $user)

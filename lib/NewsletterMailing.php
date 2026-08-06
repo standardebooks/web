@@ -205,7 +205,7 @@ class NewsletterMailing{
 	}
 
 	protected function AddFooterToBody(): void{
-		$footerHtml = Template::EmailMarketingFooterElement(newsletter: $this->Newsletter);
+		$footerHtml = Template::EmailMarketingFooterHtml(newsletter: $this->Newsletter);
 
 		$footerText = "\n" . Template::EmailMarketingFooterText(newsletter: $this->Newsletter);
 
