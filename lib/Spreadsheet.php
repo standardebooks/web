@@ -98,7 +98,7 @@ class Spreadsheet{
 		}
 		else{
 			// If this is a Google Sheets spreadsheet, trim to the base URL.
-			$this->ExternalUrl = preg_replace('|^(https://docs\.google\.com/spreadsheets/.+?)/edit/?\?[^/]*$|iu', '\1', $this->ExternalUrl);
+			$this->ExternalUrl = preg_replace('|^(https://docs\.google\.com/spreadsheets/.+?)/edit/?\??[^/]*$|iu', '\1', $this->ExternalUrl);
 		}
 
 		if(!isset($this->Category)){
