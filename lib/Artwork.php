@@ -769,13 +769,12 @@ final class Artwork{
 		$this->Validate($imagePath, true);
 
 		// Do we already have an `Artwork` with the same URL?
-		$doesArtworkExist = Db::QueryBool('select sum(result) = 2
-							from
-							(
-							select exists(select * from Artworks where UrlName = ?) as result
-							union all
-							select exists(select * from Artists where UrlName = ?) as result
-							) x', [$this->UrlName, $this->Artist->UrlName]);
+		$doesArtworkExist = Db::QueryBool('select exists(
+							select *
+							from Artworks
+							inner join Artists using (ArtistId)
+							where Artworks.UrlName = ? and Artists.UrlName = ?
+						)', [$this->UrlName, $this->Artist->UrlName]);
 
 		if($doesArtworkExist){
 			throw new Exceptions\ArtworkExistsException();
