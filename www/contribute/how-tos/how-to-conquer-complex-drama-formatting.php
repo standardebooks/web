@@ -261,7 +261,7 @@
 			<li>
 				<h2 id="dialog">Dialog</h2>
 				<h3 id="dialog-multiple-paragraphs">Multiple paragraphs</h3>
-				<p>When there is more than one paragraph of dialog will you use <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements.</p><figure class="html full">
+				<p>When there is more than one paragraph of dialog you will use <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements.</p><figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span>Bianca<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>
