@@ -11,5 +11,11 @@ User-agent: AhrefsBot
 User-agent: SEOkicks
 User-agent: DataForSeoBot
 User-agent: proximic
+User-agent: chatgpt-user
+User-agent: claude-user
+User-agent: claude-web
+User-agent: MistralAI-User
+User-agent: Perplexity-User
 
 Disallow: /ebooks/*/downloads/*
+Disallow: /ebooks/*/text*
