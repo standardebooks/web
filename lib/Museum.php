@@ -187,20 +187,17 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bparis\.fr$/ius', $parsedUrl['host'])){
-			// Variant: <https://www.parismuseescollections.paris.fr/en/musee-carnavalet/oeuvres/portrait-del-singer-simon-chenard-1758-1832-wearing-the-clothes-of-a-sans>
-			// May also be missing www.
+			$exampleUrl = 'https://www.parismuseescollections.paris.fr/fr/musee-carnavalet/oeuvres/la-bastille-dans-les-premiers-jours-de-sa-demolition';
 
-			$exampleUrl = 'https://www.parismuseescollections.paris.fr/en/node/226154';
-
-			if(!preg_match('|^(www\.)?parismuseescollections\.paris\.fr$|ius', $parsedUrl['host'])){
+			if($parsedUrl['host'] != 'www.parismuseescollections.paris.fr'){
 				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
-			if(!preg_match('|^/en/node/[^/]+$|ius', $parsedUrl['path']) && !preg_match('|^/en/[^/]+/oeuvres/[^/]+$|ius', $parsedUrl['path'])){
+			if(!preg_match('|^/fr/[^/]+/oeuvres/[^/]+$|ius', $parsedUrl['path'])){
 				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
-			$outputUrl = 'https://' . preg_replace('|^(www\.)?parismuseescollections\.paris\.fr$|ius', 'www.parismuseescollections.paris.fr', $parsedUrl['host']) . $parsedUrl['path'];
+			$outputUrl = 'https://' . $parsedUrl['host'] . $parsedUrl['path'];
 
 			return $outputUrl;
 		}
