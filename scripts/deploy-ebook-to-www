@@ -216,16 +216,17 @@ do
 	coverKey=$(printf "%s%s" "${coverJpgBlobId}" "${coverSvgBlobId}" | sha1sum | cut --delimiter=" " --fields=1)
 	coverImageDir="${webRoot}/images/covers/${urlSafeIdentifier}/${coverKey}"
 	expectedCoverImageFilenames=("cover.jpg" "cover@2x.jpg" "cover.avif" "cover@2x.avif" "hero.jpg" "hero@2x.jpg" "hero.avif" "hero@2x.avif")
+	generateImages=${images}
 
-	if ${images}; then
+	if ${generateImages}; then
 		# Always build images if they don't exist, or if they've changed.
 		for expectedCoverImageFilename in "${expectedCoverImageFilenames[@]}"; do
 			if ! [ -f "${coverImageDir}/${expectedCoverImageFilename}" ]; then
-				images=true
+				generateImages=true
 				break
 			fi
 
-			images=false
+			generateImages=false
 		done
 	fi
 
@@ -246,7 +247,7 @@ do
 	workDir=$(mktemp --directory)
 	imgWorkDir=$(mktemp --directory)
 
-	if ${images}; then
+	if ${generateImages}; then
 		if ${verbose}; then
 			printf "Generating cover image for web ..."
 		fi
@@ -435,7 +436,7 @@ do
 		mv "${workDir}"/src/epub/* "${webDir}/"
 	fi
 
-	if ${images}; then
+	if ${generateImages}; then
 		# Move the cover images over.
 		mkdir --parents "${coverImageDir}"
 		mv "${imgWorkDir}"/*.{jpg,avif} "${coverImageDir}/"
