@@ -445,9 +445,9 @@ do
 		printf "Updating ebook in database ..."
 	fi
 
-	updateEbookDatabaseArgs=()
+	updateEbookDatabaseArgs=(--repo-filesystem-path "${repoDir}")
 	if [ -d "${coverImageDir}" ]; then
-		updateEbookDatabaseArgs=(--cover-image-key "${coverKey}")
+		updateEbookDatabaseArgs+=(--cover-image-key "${coverKey}")
 	fi
 
 	"${scriptsDir}"/update-ebook-database "${updateEbookDatabaseArgs[@]}" "${webDir}"
