@@ -17,7 +17,7 @@
 			</li>
 		</ul>
 		<section id="the-short-blurb">
-			<h2>How’s this different from Project Gutenberg or other free ebook sites?</h2>
+			<h2>How’s this different from Project Gutenberg or other free ebook sites?<a class="heading-permalink" href="#the-short-blurb" aria-label="Permalink"></a></h2>
 			<p>While there are plenty of places where you can download free and accurately-transcribed public domain ebooks, we feel the <em>quality</em> of those ebooks can often be greatly improved.</p>
 			<p>For example, <a href="https://gutenberg.org">Project Gutenberg</a>, a major producer of public-domain ebooks, hosts epub and Kindle files that sometimes lack basic typographic necessities like curly quotes; some of those ebooks are automatically generated and can’t take full advantage of modern ereader technology like popup footnotes or popup tables of contents; they sometimes lack niceties like cover images and title pages; and the quality of individual ebook productions varies greatly.</p>
 			<p>Archival sites like the <a href="https://archive.org">Internet Archive</a> (and even Project Gutenberg, to some extent) painstakingly preserve entire texts word-for-word, including original typos and ephemera that are of limited interest to modern readers: everything including centuries-old publishing marks, advertisements for long-vanished publishers, author bios, and so on. Sometimes all you get is a scan of the actual book pages. That’s great for researchers, archivists, and special-interest readers, but not that great for casual, modern readers.</p>

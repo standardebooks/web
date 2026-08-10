@@ -125,7 +125,7 @@ catch(Exceptions\EbookNotFoundException){
 		</aside>
 
 		<section id="description">
-			<h2>Description</h2>
+			<h2>Description<a class="heading-permalink" href="#description" aria-label="Permalink"></a></h2>
 			<?= Template::DonationDrive() ?>
 
 			<?= Template::DonationAlert() ?>
@@ -176,7 +176,7 @@ catch(Exceptions\EbookNotFoundException){
 					<?= Template::RealisticEbook(ebook: $ebook) ?>
 					<div>
 						<section id="download">
-							<h3>Download for ereaders</h3>
+							<h3>Download for ereaders<a class="heading-permalink" href="#download" aria-label="Permalink"></a></h3>
 							<ul>
 								<? /* Leave the @download attribute empty to have the browser use the target filename in the save-as dialog */ ?>
 								<? if($ebook->EpubUrl !== null){ ?>
@@ -222,7 +222,7 @@ catch(Exceptions\EbookNotFoundException){
 						</section>
 
 						<section id="read-online">
-							<h3>Read online</h3>
+							<h3>Read online<a class="heading-permalink" href="#read-online" aria-label="Permalink"></a></h3>
 							<ul>
 								<li>
 									<p>
@@ -244,7 +244,7 @@ catch(Exceptions\EbookNotFoundException){
 		<? } ?>
 
 		<section id="history">
-			<h2>A brief history of this ebook</h2>
+			<h2>A brief history of this ebook<a class="heading-permalink" href="#history" aria-label="Permalink"></a></h2>
 			<ol>
 				<? foreach($ebook->GitCommits as $commit){ ?>
 					<li>
@@ -264,7 +264,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<? if($ebook->GitHubUrl !== null || $ebook->WikipediaUrl !== null){ ?>
 			<section id="details">
-				<h2>More details</h2>
+				<h2>More details<a class="heading-permalink" href="#details" aria-label="Permalink"></a></h2>
 				<ul>
 					<? if($ebook->GitHubUrl !== null){ ?>
 						<li>
@@ -286,10 +286,10 @@ catch(Exceptions\EbookNotFoundException){
 
 		<? if(sizeof($transcriptionSources) > 0 || sizeof($scanSources) > 0 || sizeof($otherSources) > 0){ ?>
 			<section id="sources">
-				<h2>Sources</h2>
+				<h2>Sources<a class="heading-permalink" href="#sources" aria-label="Permalink"></a></h2>
 				<? if(sizeof($transcriptionSources) > 0){ ?>
 					<section id="transcriptions">
-						<h3>Transcriptions</h3>
+						<h3>Transcriptions<a class="heading-permalink" href="#transcriptions" aria-label="Permalink"></a></h3>
 						<ul>
 							<? foreach($transcriptionSources as $source){ ?>
 								<li>
@@ -315,7 +315,7 @@ catch(Exceptions\EbookNotFoundException){
 				<? } ?>
 				<? if(sizeof($scanSources) > 0){ ?>
 					<section id="page-scans">
-						<h3>Page scans</h3>
+						<h3>Page scans<a class="heading-permalink" href="#page-scans" aria-label="Permalink"></a></h3>
 						<ul>
 							<? foreach($scanSources as $source){ ?>
 								<li>
@@ -337,7 +337,7 @@ catch(Exceptions\EbookNotFoundException){
 				<? } ?>
 				<? if(sizeof($otherSources) > 0){ ?>
 					<section id="other-sources">
-						<h3>Other sources</h3>
+						<h3>Other sources<a class="heading-permalink" href="#other-sources" aria-label="Permalink"></a></h3>
 						<ul>
 							<? foreach($otherSources as $source){ ?>
 								<li>
@@ -353,7 +353,7 @@ catch(Exceptions\EbookNotFoundException){
 		<? } ?>
 
 		<section id="improve-this-ebook">
-			<h2>Improve this ebook</h2>
+			<h2>Improve this ebook<a class="heading-permalink" href="#improve-this-ebook" aria-label="Permalink"></a></h2>
 			<p>Anyone can contribute to make a Standard Ebook better for everyone!</p>
 			<p>To report typos, typography errors, or other corrections, see <a href="/contribute/report-errors">how to report errors</a>.</p>
 			<? if($ebook->GitHubUrl !== null){ ?>

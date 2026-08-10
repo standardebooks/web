@@ -125,7 +125,7 @@ catch(Exceptions\EbookNotFoundException){
 		<? if(Session::$User?->Benefits->CanEditProjects || Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects){ ?>
 			<? if($ebook->ProjectInProgress !== null){ ?>
 				<section id="projects-in-progress" class="admin">
-					<h2>Project in progress</h2>
+					<h2>Project in progress<a class="heading-permalink" href="#projects-in-progress" aria-label="Permalink"></a></h2>
 					<? if(Session::$User->Benefits->CanEditProjects){ ?>
 						<ul role="menu">
 							<li><a href="<?= $ebook->ProjectInProgress->EditUrl ?>">Edit project</a></li>
@@ -225,7 +225,7 @@ catch(Exceptions\EbookNotFoundException){
 			<? } ?>
 
 			<section id="past-projects" class="admin">
-				<h2>Past projects</h2>
+				<h2>Past projects<a class="heading-permalink" href="#past-projects" aria-label="Permalink"></a></h2>
 				<? if(Session::$User->Benefits->CanEditProjects && $ebook->ProjectInProgress === null){ ?>
 					<ul role="menu">
 						<li><a href="<?= $ebook->Url ?>/projects/new">New project</a></li>

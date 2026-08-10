@@ -4,7 +4,7 @@
 		<h1>Managing or Canceling Your Recurring Donation</h1>
 		<p>Our payment processor is Fractured Atlas. Unfortunately they don’t provide a way for us to change or cancel your recurring donation on your behalf, but you can change or cancel it yourself by following these steps:</p>
 		<section id="log-in-to-your-fractured-atlas-account">
-			<h2>1. Log in to your Fractured Atlas account</h2>
+			<h2>1. Log in to your Fractured Atlas account<a class="heading-permalink" href="#log-in-to-your-fractured-atlas-account" aria-label="Permalink"></a></h2>
 			<p>If this is your first time logging into Fractured Atlas, you’ll need to set up a new password associated with your email address. To set up a new password, visit <a href="https://fundraising.fracturedatlas.org">fundraising.fracturedatlas.org</a>, then:</p>
 		 	<ol>
 		 		<li>
@@ -17,7 +17,7 @@
 			<p><b>Note:</b> If you’re a member of Fractured Atlas and have used the same email address for your monthly donation and your membership, then you can use the login credentials for your membership to access your monthly donation dashboard.</p>
 		</section>
 		<section id="visit-your-monthly-donation-dashboard">
-			<h2>2. Visit your monthly donation dashboard</h2>
+			<h2>2. Visit your monthly donation dashboard<a class="heading-permalink" href="#visit-your-monthly-donation-dashboard" aria-label="Permalink"></a></h2>
 			<p>To access your monthly donation dashboard, log in to <a href="https://fundraising.fracturedatlas.org">fundraising.fracturedatlas.org</a> and click “My Donations.”</p>
 			<p>At your monthly donation dashboard, you can:</p>
 			<ul>
@@ -34,7 +34,7 @@
 			<p><b>Note:</b> Monthly donations processed prior to February 5, 2021 and one-time donations will not appear in this dashboard.</p>
 		</section>
 		<section id="cancel-a-monthly-donation">
-			<h2>3. Cancel your monthly donation</h2>
+			<h2>3. Cancel your monthly donation<a class="heading-permalink" href="#cancel-a-monthly-donation" aria-label="Permalink"></a></h2>
 			<p>To cancel your monthly donation, visit your monthly donation dashboard and then:</p>
 			<ol>
 				<li>

@@ -6,7 +6,7 @@
 $showPlaceholderMetadata ??= false;
 ?>
 <section id="metadata" class="admin">
-	<h2>Metadata</h2>
+	<h2>Metadata<a class="heading-permalink" href="#metadata" aria-label="Permalink"></a></h2>
 	<dl>
 		<dt>Ebook ID:</dt>
 		<dd class="id"><?= $ebook->EbookId ?></dd>
@@ -17,7 +17,7 @@ $showPlaceholderMetadata ??= false;
 
 <? if($showPlaceholderMetadata && $ebook->IsPlaceholder() && $ebook->EbookPlaceholder !== null){ ?>
 	<section id="placeholder-metadata" class="admin">
-		<h2>Placeholder metadata</h2>
+		<h2>Placeholder metadata<a class="heading-permalink" href="#placeholder-metadata" aria-label="Permalink"></a></h2>
 		<ul role="menu">
 			<li><a href="<?= $ebook->EditUrl ?>">Edit placeholder</a></li>
 			<li><a href="<?= $ebook->DeleteUrl ?>">Delete placeholder</a></li>

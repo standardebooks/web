@@ -73,7 +73,7 @@ catch(Exceptions\BlogPostNotFoundException){
 		<?= $blogPost->Body ?>
 		<? if(sizeof($blogPost->Ebooks) > 0){ ?>
 			<section id="ebooks-in-this-newsletter">
-				<h2>Free ebooks in this article</h2>
+				<h2>Free ebooks in this article<a class="heading-permalink" href="#ebooks-in-this-newsletter" aria-label="Permalink"></a></h2>
 				<?= Template::EbookCarousel(ebooks: $blogPost->Ebooks) ?>
 			</section>
 		<? } ?>

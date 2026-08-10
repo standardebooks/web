@@ -3,7 +3,7 @@
 	<article>
 		<h1>How to Use Our Ebooks</h1>
 		<section id="which-file-to-download">
-			<h2>Which file should I download?</h2>
+			<h2>Which file should I download?<a class="heading-permalink" href="#which-file-to-download" aria-label="Permalink"></a></h2>
 			<p>We offer four different kinds of ebook file for you to download. Which one you pick depends on which ereading device and ereading software you’re using.</p>
 			<ul>
 				<li>
@@ -21,7 +21,7 @@
 			</ul>
 		</section>
 		<section id="transferring-to-your-ereader">
-			<h2>Transferring ebooks to your ereader</h2>
+			<h2>Transferring ebooks to your ereader<a class="heading-permalink" href="#transferring-to-your-ereader" aria-label="Permalink"></a></h2>
 			<p>Once you’ve downloaded the file most appropriate for your ereader, you’ll need to transfer that file to your device.</p>
 			<p>Kindle users should also see our <a href="#kindle-faq">Kindle FAQ</a> at the bottom of this page.</p>
 			<ul>
@@ -193,7 +193,7 @@
 			</ul>
 		</section>
 		<section id="kobo-faq">
-			<h2>Kobo FAQ</h2>
+			<h2>Kobo FAQ<a class="heading-permalink" href="#kobo-faq" aria-label="Permalink"></a></h2>
 			<ul>
 				<li>
 					<p><b>Why do you offer a separate kepub file, when Kobos can open S.E.’s compatible epub files?</b></p>
@@ -204,7 +204,7 @@
 			</ul>
 		</section>
 		<section id="kindle-faq">
-			<h2>Kindle FAQ</h2>
+			<h2>Kindle FAQ<a class="heading-permalink" href="#kindle-faq" aria-label="Permalink"></a></h2>
 			<ul>
 				<li>
 					<p><b>Why don’t you provide mobi files <em>instead of</em> azw3 files?</b></p>

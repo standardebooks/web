@@ -646,6 +646,35 @@ h1,h2,h3,h4,h5,h6{
 	text-align: left;
 }
 
+:is(h1, h2, h3, h4, h5, h6):has(> a.heading-permalink){
+	position: relative;
+}
+
+a.heading-permalink{
+	position: absolute;
+	top: 50%;
+	right: 100%;
+	width: 1em;
+	font-family: "Fork Awesome";
+	font-size: 1rem;
+	font-weight: normal;
+	text-align: center;
+	text-decoration: none;
+	opacity: 0;
+	padding: .25rem;
+	transform: translateY(-50%);
+}
+
+a.heading-permalink::before{
+	content: "\f0c1";
+	content: "\f0c1" / "";
+}
+
+:is(h1, h2, h3, h4, h5, h6):hover > a.heading-permalink,
+a.heading-permalink:focus{
+	opacity: 1;
+}
+
 h1 + p{
 	margin-top: 0;
 }

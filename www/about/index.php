@@ -50,7 +50,7 @@ $anonymousPatronCount = Db::QueryInt('
 		<p>Standard Ebooks is a volunteer-driven effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks are already believed to be in the U.S. public domain, and Standard Ebooks dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain. All the ebooks we produce are distributed free of cost and free of U.S. copyright restrictions.</p>
 		<p>Standard Ebooks is organized as a “<a href="https://en.wikipedia.org/wiki/Low-profit_limited_liability_company">low-profit L.L.C.</a>,” or “L<sup>3</sup>C,” a kind of legal entity that blends the charitable focus of a traditional not-for-profit with the ease of organization and maintenance of a regular L.L.C. Our only source of income is <a href="/donate">donations from readers like you</a>.</p>
 		<section id="more-information">
-			<h2>More information</h2>
+			<h2>More information<a class="heading-permalink" href="#more-information" aria-label="Permalink"></a></h2>
 			<ul>
 				<li>
 					<p><a href="/about/our-goals">Standard Ebooks’ goals</a></p>
@@ -67,9 +67,9 @@ $anonymousPatronCount = Db::QueryInt('
 			</ul>
 		</section>
 		<section id="masthead" class="masthead">
-			<h2>Masthead</h2>
+			<h2>Masthead<a class="heading-permalink" href="#masthead" aria-label="Permalink"></a></h2>
 			<section id="editor-in-chief">
-				<h3>Editor-in-Chief</h3>
+				<h3>Editor-in-Chief<a class="heading-permalink" href="#editor-in-chief" aria-label="Permalink"></a></h3>
 				<ol class="editors">
 					<li>
 						<picture>
@@ -85,7 +85,7 @@ $anonymousPatronCount = Db::QueryInt('
 				</ol>
 			</section>
 			<section id="editors">
-				<h3>Editors</h3>
+				<h3>Editors<a class="heading-permalink" href="#editors" aria-label="Permalink"></a></h3>
 				<p><i>“Editor” is the honorary title bestowed on volunteers who, in their history of contributing to Standard Ebooks, have demonstrated exceptional capability in producing ebooks, as well as in managing and reviewing ebooks produced by other volunteers. They continue to volunteer as first-line consultants for new ebook projects.</i></p>
 				<ol class="editors">
 					<li>
@@ -157,7 +157,7 @@ $anonymousPatronCount = Db::QueryInt('
 				</ol>
 			</section>
 			<section id="corporate-sponsors">
-				<h3>Corporate Sponsors</h3>
+				<h3>Corporate Sponsors<a class="heading-permalink" href="#corporate-sponsors" aria-label="Permalink"></a></h3>
 				<ol class="donors corporate">
 					<li>
 						<a href="https://elevenreader.io/standard-ebooks">
@@ -183,7 +183,7 @@ $anonymousPatronCount = Db::QueryInt('
 				</ol>
 			</section>
 			<section id="patrons-circle">
-				<h3>Patrons Circle</h3>
+				<h3>Patrons Circle<a class="heading-permalink" href="#patrons-circle" aria-label="Permalink"></a></h3>
 				<p><a href="/donate#patrons-circle">Join the Patrons Circle</a> to support beautiful, free, and unrestricted digital literature, and to have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 				<ol class="donors patrons">
 					<? foreach($patronsCircle as $patron){ ?>

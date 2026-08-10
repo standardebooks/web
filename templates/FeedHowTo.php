@@ -1,5 +1,5 @@
 <section id="accessing-the-feeds">
-	<h2>How to access the feeds</h2>
+	<h2>How to access the feeds<a class="heading-permalink" href="#accessing-the-feeds" aria-label="Permalink"></a></h2>
 	<? if(Session::$User?->Benefits->CanAccessFeeds){ ?>
 		<p>When prompted, enter your email address and leave the password field blank to access a feed.</p>
 	<? }else{ ?>

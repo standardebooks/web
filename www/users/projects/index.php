@@ -57,7 +57,7 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<h1>Projects Overseeing</h1>
 		<section id="managing">
-			<h2>Managing</h2>
+			<h2>Managing<a class="heading-permalink" href="#managing" aria-label="Permalink"></a></h2>
 			<? if(sizeof($managingProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>
@@ -66,7 +66,7 @@ catch(Exceptions\PermissionsInvalidException){
 		</section>
 
 		<section id="reviewing">
-			<h2>Reviewing</h2>
+			<h2>Reviewing<a class="heading-permalink" href="#reviewing" aria-label="Permalink"></a></h2>
 			<? if(sizeof($reviewingProjects) == 0){ ?>
 				<p class="empty-notice">None.</p>
 			<? }else{ ?>

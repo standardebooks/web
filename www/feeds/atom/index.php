@@ -6,7 +6,7 @@
 		<p>Note that some RSS readers may show ebooks ordered by when they were last updated, even though the feeds are ordered by ebooks were first released. You should be able to change this sort order in your RSS reader.</p>
 		<?= Template::FeedHowTo() ?>
 		<section id="general-feeds">
-			<h2>General RSS/Atom feeds</h2>
+			<h2>General RSS/Atom feeds<a class="heading-permalink" href="#general-feeds" aria-label="Permalink"></a></h2>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/atom/new-releases">New releases</a> (Public)</p>
@@ -22,7 +22,7 @@
 			</ul>
 		</section>
 		<section id="feeds-by-topic">
-			<h2>RSS/Atom feeds by topic</h2>
+			<h2>RSS/Atom feeds by topic<a class="heading-permalink" href="#feeds-by-topic" aria-label="Permalink"></a></h2>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/atom/authors">Feeds by author</a></p>

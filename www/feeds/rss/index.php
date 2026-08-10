@@ -5,7 +5,7 @@
 		<p>RSS feeds are the predecessors of <a href="/feeds/atom">Atom feeds</a>. They contain less information than Atom feeds, but might be better supported by some feed readers.</p>
 		<?= Template::FeedHowTo() ?>
 		<section id="general-feeds">
-			<h2>General RSS feeds</h2>
+			<h2>General RSS feeds<a class="heading-permalink" href="#general-feeds" aria-label="Permalink"></a></h2>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/rss/new-releases">New releases</a> (Public)</p>
@@ -20,7 +20,7 @@
 			</ul>
 		</section>
 		<section id="ebooks-by-collection">
-			<h2>RSS feeds by topic</h2>
+			<h2>RSS feeds by topic<a class="heading-permalink" href="#ebooks-by-collection" aria-label="Permalink"></a></h2>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/rss/authors">Feeds by author</a></p>

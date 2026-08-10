@@ -67,7 +67,7 @@ $spreadsheetSections = [
 		<p>From time to time it’s useful to compile spreadsheets of an author’s oeuvre. This page lists some of the spreadsheets our volunteers have created.</p>
 
 		<section id="help-wanted">
-			<h2>Help wanted</h2>
+			<h2>Help wanted<a class="heading-permalink" href="#help-wanted" aria-label="Permalink"></a></h2>
 			<p>We’re looking for volunteers to:</p>
 			<ul>
 				<li>
@@ -79,10 +79,10 @@ $spreadsheetSections = [
 			</ul>
 		</section>
 		<section id="spreadsheets">
-			<h2>Spreadsheets</h2>
+			<h2>Spreadsheets<a class="heading-permalink" href="#spreadsheets" aria-label="Permalink"></a></h2>
 			<? foreach($spreadsheetSections as $category => $spreadsheetSection){ ?>
 				<section id="<?= $spreadsheetSection['id'] ?>">
-					<h3><?= $spreadsheetSection['title'] ?></h3>
+					<h3><?= $spreadsheetSection['title'] ?><a class="heading-permalink" href="#<?= $spreadsheetSection['id'] ?>" aria-label="Permalink"></a></h3>
 					<?= $spreadsheetSection['description'] ?>
 					<ul>
 						<? foreach($spreadsheets[$category] as $spreadsheet){ ?>
@@ -97,7 +97,7 @@ $spreadsheetSections = [
 			<? } ?>
 		</section>
 		<section id="creating-a-new-spreadsheet">
-			<h2>Creating a new spreadsheet</h2>
+			<h2>Creating a new spreadsheet<a class="heading-permalink" href="#creating-a-new-spreadsheet" aria-label="Permalink"></a></h2>
 			<p>If you’d like to create a spreadsheet to catalog possible items to include in one or more omnibuses, please start by copying our <a href="https://docs.google.com/spreadsheets/d/1CE2AsQ7E5WS9NORubHuiVAmWHYDrmU3bXWUghmnU4kU/copy">omnibus research template</a>.</p>
 			<p>You can see an <a href="https://docs.google.com/spreadsheets/d/1JbH6O1LSqYgSo7ODmbcbNcPbw7oDoAbBBCmJOp1d-kg">example of how this spreadsheet might be filled out</a>.</p>
 			<ul>

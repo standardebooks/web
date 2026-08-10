@@ -14,7 +14,7 @@
 		<p>Standard Ebooks is a volunteer-driven project, and there’s room for people of all skill levels to contribute.</p>
 		<p>At the most basic level, anyone can <a href="https://groups.google.com/g/standardebooks">contribute feedback via our mailing list</a>. Day-to-day readers can <a href="/contribute/report-errors">tell us about errors they spot in our ebooks</a>. People with an eye for typography and a talent for editing can proofread whole ebooks. Technically inclined readers can produce ebooks themselves, or <a href="https://github.com/standardebooks">contribute via GitHub</a>. You can also <a href="/donate">make a financial contribution</a> to help fund continued ebook development.</p>
 		<section id="everyone">
-			<h2>Everyone</h2>
+			<h2>Everyone<a class="heading-permalink" href="#everyone" aria-label="Permalink"></a></h2>
 			<ul>
 				<li>
 					<p><a href="https://groups.google.com/g/standardebooks">Join the Standard Ebooks mailing list.</a></p>
@@ -30,7 +30,7 @@
 			</ul>
 		</section>
 		<section id="editors-and-readers">
-			<h2>For readers</h2>
+			<h2>For readers<a class="heading-permalink" href="#editors-and-readers" aria-label="Permalink"></a></h2>
 			<ul>
 				<li>
 					<p><a href="/contribute/report-errors">Report a typo, formatting error, or typography error in any Standard Ebook.</a></p>
@@ -44,7 +44,7 @@
 			</ul>
 		</section>
 		<section id="technical-contributors">
-			<h2>For people wanting to produce a new ebook, and other technical contributors</h2>
+			<h2>For people wanting to produce a new ebook, and other technical contributors<a class="heading-permalink" href="#technical-contributors" aria-label="Permalink"></a></h2>
 			<ul>
 				<li>
 					<p><a href="/contribute/producers">The process of producing an ebook for Standard Ebooks.</a></p>

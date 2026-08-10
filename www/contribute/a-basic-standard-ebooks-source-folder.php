@@ -1,7 +1,7 @@
 <?= Template::Header(title: 'A Basic Standard Ebooks Source Folder', isManual: true, highlight: 'contribute', description: 'All Standard Ebooks source folders have the same basic structure, described here.') ?>
 <main>
 	<article id="a-basic-standard-ebooks-source-folder">
-		<h1>A Basic Standard Ebooks Source Folder</h1>
+		<h1>A Basic Standard Ebooks Source Folder<a class="heading-permalink" href="#a-basic-standard-ebooks-source-folder" aria-label="Permalink"></a></h1>
 		<section>
 			<p>All Standard Ebooks source folders have the same basic structure. It looks a little like this:</p>
 			<figure>

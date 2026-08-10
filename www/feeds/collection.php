@@ -45,7 +45,7 @@ catch(Safe\Exceptions\ApcuException){
 		<h1><?= $feedFormat->GetDisplayName() ?> Ebook Feeds by <?= $ucTitle ?></h1>
 		<?= Template::FeedHowTo() ?>
 		<section id="ebooks-by-<?= $lcTitle ?>">
-			<h2>Ebooks by <?= $lcTitle ?></h2>
+			<h2>Ebooks by <?= $lcTitle ?><a class="heading-permalink" href="#ebooks-by-<?= $lcTitle ?>" aria-label="Permalink"></a></h2>
 			<ul class="feed">
 				<? foreach($feeds as $feed){ ?>
 					<li>

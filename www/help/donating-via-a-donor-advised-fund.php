@@ -10,7 +10,7 @@
 		<p>All donations must be made out to Fractured Atlas, with a note included saying that the donation is being made for the purposes of Standard Ebooks. Fractured Atlas will receive and process your donation, and then make it available to us. This process can take several weeks.</p>
 		<p>We love to reach out to thank our supporters! Please make sure to include an email address with your donation if you’d like us to get in touch with you.</p>
 		<section id="mailing-checks">
-			<h2>Mailing checks</h2>
+			<h2>Mailing checks<a class="heading-permalink" href="#mailing-checks" aria-label="Permalink"></a></h2>
 			<p>To mail a check from a Donor-Advised Fund:</p>
 			<ul>
 				<li>

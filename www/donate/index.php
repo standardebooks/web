@@ -29,7 +29,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			</p>
 		</section>
 		<section id="patrons-circle">
-			<h2>Join the Patrons Circle</h2>
+			<h2>Join the Patrons Circle<a class="heading-permalink" href="#patrons-circle" aria-label="Permalink"></a></h2>
 			<p>Members of the Patrons Circle are steadfast supporters of free, unrestricted, and beautifully presented digital literature. Besides helping support the creation of free, gorgeous ebooks, they also have a direct voice in shaping the future of the Standard Ebooks catalog.</p>
 			<p>Membership in the Patrons Circle is limited to individuals only. Organizations, please see <a href="#corporate-sponsors">corporate sponsorship</a> instead.</p>
 			<div class="join-patrons-circle-callout">
@@ -72,7 +72,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			</ul>
 		</section>
 		<section id="sponsor-an-ebook">
-			<h2>Sponsor a new ebook</h2>
+			<h2>Sponsor a new ebook<a class="heading-permalink" href="#sponsor-an-ebook" aria-label="Permalink"></a></h2>
 			<p>Is there a book you want to see made into a beautiful digital edition? You can give the gift of literature to readers everywhere by sponsoring an addition to the Standard Ebooks catalog.</p>
 			<p>Make a one-time donation based on your selection’s word count, and we’ll carefully hand-produce it into an ebook edition that meets our exacting standards. It will then become a permanent addition to our online catalog for people to read, share, and reuse free of cost or U.S. copyright restrictions. Your name will appear in the ebook’s colophon and metadata, sealing your legacy as a sponsor of the literate arts.</p>
 			<p>These are the general rules:</p>
@@ -94,7 +94,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			</p>
 		</section>
 		<section id="corporate-sponsors">
-			<h2>Corporate sponsorships</h2>
+			<h2>Corporate sponsorships<a class="heading-permalink" href="#corporate-sponsors" aria-label="Permalink"></a></h2>
 			<p>Sponsorships at the corporate level are a great way to show your organization’s commitment to supporting the literate arts.</p>
 			<ul>
 				<li>

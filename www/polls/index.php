@@ -62,7 +62,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 
 		<? if(sizeof($futurePolls) > 0 && $result->Page == 1){ ?>
 			<section id="future-polls">
-				<h2>Future polls</h2>
+				<h2>Future polls<a class="heading-permalink" href="#future-polls" aria-label="Permalink"></a></h2>
 				<ul>
 					<? foreach($futurePolls as $poll){ ?>
 						<li>
@@ -77,7 +77,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 
 		<? if(sizeof($openPolls) > 0 && $result->Page == 1){ ?>
 			<section id="open-polls">
-				<h2>Open polls</h2>
+				<h2>Open polls<a class="heading-permalink" href="#open-polls" aria-label="Permalink"></a></h2>
 				<ul>
 					<? foreach($openPolls as $poll){ ?>
 						<li>
@@ -92,7 +92,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 
 		<? if(sizeof($result->Results) > 0){ ?>
 			<section id="ended-polls">
-				<h2>Past polls</h2>
+				<h2>Past polls<a class="heading-permalink" href="#ended-polls" aria-label="Permalink"></a></h2>
 				<ul>
 					<? foreach($result->Results as $poll){ ?>
 						<li>

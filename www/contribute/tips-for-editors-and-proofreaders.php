@@ -7,7 +7,7 @@
 		<p>That means the quickest way for you to proofread an ebook is to <a href="/help/how-to-use-our-ebooks">transfer it to your ereader</a> and start reading! Once you find an error, use the highlight feature to mark it, and keep on reading. Many errors, like mis-curled quotation marks or obvious spelling errors, don’t need a written note to accompany the highlight. But you should make a brief written note if the error wouldn’t be clear to a passing reader.</p>
 		<p>Once you’ve finished the ebook, use your ereader’s “view all notes” option to find all of your highlights in one place. Then you can either <a href="/contribute/report-errors">report them to us</a>, or if you’re technically-minded, correct them directly in the ebook’s <a href="http://github.com/standardebooks">GitHub repository</a>. Remember to read the <a href="/manual">Standard Ebooks Manual of Style</a> to make sure the error you found is covered.</p>
 		<section id="common-errors">
-			<h2>Common errors to watch out for</h2>
+			<h2>Common errors to watch out for<a class="heading-permalink" href="#common-errors" aria-label="Permalink"></a></h2>
 			<p>Lots of different errors can occur during the long and complex process of digitizing a print book, but here are some of the more common ones:</p>
 			<ul>
 				<li><h3>Mis-curled quotation marks</h3>
