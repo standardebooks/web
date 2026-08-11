@@ -651,23 +651,28 @@ h1,h2,h3,h4,h5,h6{
 }
 
 a.heading-permalink{
+	align-items: center;
+	box-sizing: border-box;
+	display: flex;
+	font-size: inherit;
+	height: 1lh;
+	justify-content: center;
 	position: absolute;
-	top: 50%;
+	top: 0;
 	right: 100%;
-	width: 1em;
+	width: 1.5rem;
 	font-family: "Fork Awesome";
-	font-size: 1rem;
 	font-weight: normal;
 	text-align: center;
 	text-decoration: none;
 	opacity: 0;
-	padding: .25rem;
-	transform: translateY(-50%);
+	padding: 0 .25rem;
 }
 
 a.heading-permalink::before{
 	content: "\f0c1";
 	content: "\f0c1" / "";
+	font-size: 1rem;
 }
 
 :is(h1, h2, h3, h4, h5, h6):hover > a.heading-permalink,
@@ -3862,6 +3867,75 @@ ul[role="menu"] li + li::before,
 nav.ebooks-navigation > ul li + li::before{
 	content: "•";
 	margin-right: .5rem;
+}
+
+.columns-layout > section{
+	align-self: center;
+	max-width: 40rem;
+	width: 100%;
+}
+
+.columns-layout > nav{
+	align-self: center;
+	max-width: 40rem;
+	width: 100%;
+	text-transform: uppercase;
+}
+
+.columns-layout > nav > ul{
+	background: var(--admin-background);
+	border: 1px solid var(--sub-text);
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	font-style: normal;
+	justify-content: center;
+	list-style: none;
+	padding: .5rem;
+	width: 100%;
+}
+
+.columns-layout > nav > ul a,
+.columns-layout > nav > ul > li:not(:has(a)){
+	padding: .5rem 1rem;
+	display: block;
+}
+
+
+.columns-layout > nav > ul > li:not(:has(a)){
+	opacity: .25;
+}
+
+.columns-layout > nav > ul > li{
+	margin-top: 0;
+}
+
+.columns-layout > section > ul{
+	column-count: 3;
+	column-gap: 3rem;
+	list-style: none;
+}
+
+.columns-layout > section > ul > li{
+	break-inside: avoid;
+	text-align: left;
+}
+
+.columns-layout > section > h2{
+	padding-bottom: 1rem;
+	border-bottom: 3px double;
+}
+
+@media(max-width: 700px){
+	.columns-layout > section > ul{
+		column-count: 2;
+	}
+}
+
+@media(max-width: 450px){
+	.columns-layout > section > ul{
+		column-count: 1;
+	}
 }
 
 @media (hover: none) and (pointer: coarse){ /* target ipads and smartphones without a mouse */

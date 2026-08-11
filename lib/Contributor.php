@@ -52,7 +52,8 @@ class Contributor{
 			where MarcRole = ?
 			and SortName is not null
 			group by SortName
-			order by SortName asc', [$marcRole], Contributor::class);
+			# Replace spaces in `SortName` because MariaDB sorts names like `Thomas a Kempis` before everything else, instead of sorting it like `ak`.
+			order by replace(SortName, " " , "") asc', [$marcRole], Contributor::class);
 	}
 
 	/**
