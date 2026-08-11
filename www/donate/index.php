@@ -41,35 +41,37 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 				</p>
 				<p><strong>Important:</strong> We need to know your email address to be able to log you in to the Patrons Circle. Make sure to select either “List my name publicly” or “Don’t list publicly, but reveal to project” during checkout to be able to log in to the Patrons Circle.</p>
 			</div>
-			<h3>Benefits of the Patrons Circle</h3>
-			<ul>
-				<li>
-					<p>Your name <a href="/about#patrons-circle">listed on our masthead</a>. (You can also remain anonymous if you prefer.)</p>
-				</li>
-				<li>
-					<p>Access to our various <a href="/feeds">ebook feeds</a>:</p>
-					<ul>
-						<li>
-							<p>Browse and download from the entire Standard Ebooks catalog directly in your ereading app using our <a href="/feeds/opds">OPDS feed</a>.</p>
-						</li>
-						<li>
-							<p>Get notified of new ebooks in your news client with our <a href="/feeds/atom">Atom</a> or <a href="/feeds/rss">RSS</a> feeds.</p>
-						</li>
-						<li>
-							<p>Parse and process the feeds to use our ebooks in your personal software projects.</p>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<p>Access to <a href="/bulk-downloads">bulk ebook downloads</a> to easily download whole collections of ebooks at once.</p>
-				</li>
-				<li>
-					<p>The ability to submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, once per quarter. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and are subject to approval.)</p>
-				</li>
-				<li>
-					<p>The right to periodically vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production. The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
-				</li>
-			</ul>
+			<section id="patrons-benefits">
+				<h3>Benefits of the Patrons Circle<a class="heading-permalink" href="#patrons-benefits" aria-label="Permalink"></a></h3>
+				<ul>
+					<li>
+						<p>Your name <a href="/about#patrons-circle">listed on our masthead</a>. (You can also remain anonymous if you prefer.)</p>
+					</li>
+					<li>
+						<p>Access to our various <a href="/feeds">ebook feeds</a>:</p>
+						<ul>
+							<li>
+								<p>Browse and download from the entire Standard Ebooks catalog directly in your ereading app using our <a href="/feeds/opds">OPDS feed</a>.</p>
+							</li>
+							<li>
+								<p>Get notified of new ebooks in your news client with our <a href="/feeds/atom">Atom</a> or <a href="/feeds/rss">RSS</a> feeds.</p>
+							</li>
+							<li>
+								<p>Parse and process the feeds to use our ebooks in your personal software projects.</p>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<p>Access to <a href="/bulk-downloads">bulk ebook downloads</a> to easily download whole collections of ebooks at once.</p>
+					</li>
+					<li>
+						<p>The ability to submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, once per quarter. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and are subject to approval.)</p>
+					</li>
+					<li>
+						<p>The right to periodically vote on a selection from our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a> to choose an ebook for immediate production. The resulting ebook will be a permanent addition to our <a href="/ebooks">online catalog of free digital literature</a>.</p>
+					</li>
+				</ul>
+			</section>
 		</section>
 		<section id="sponsor-an-ebook">
 			<h2>Sponsor a new ebook<a class="heading-permalink" href="#sponsor-an-ebook" aria-label="Permalink"></a></h2>
