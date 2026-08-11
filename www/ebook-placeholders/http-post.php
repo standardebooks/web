@@ -52,7 +52,7 @@ try{
 		$project->Create();
 	}
 
-	$_SESSION['ebook'] = $ebook;
+	$_SESSION['ebook-placeholder/create/ebook'] = $ebook;
 	$_SESSION['ebook-placeholder/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
@@ -65,7 +65,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\EbookInvalidException | Exceptions\EbookPlaceholderExistsException | Exceptions\ProjectInvalidException $ex){
-	$_SESSION['ebook'] = $ebook;
+	$_SESSION['ebook-placeholder/create/ebook'] = $ebook;
 	$_SESSION['ebook-placeholder/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

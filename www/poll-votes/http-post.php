@@ -47,7 +47,7 @@ catch(Exceptions\PollVoteExistsException $ex){
 	header('location: ' . $redirect);
 }
 catch(Exceptions\PollVoteInvalidException $ex){
-	$_SESSION['vote'] = $pollVote;
+	$_SESSION['poll-vote/create/vote'] = $pollVote;
 	$_SESSION['poll-vote/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

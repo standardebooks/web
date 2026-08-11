@@ -27,7 +27,7 @@ try{
 	$newsletterMailing->FillFromRequestBody();
 	$newsletterMailing->Save($addFooter, $addEbooks);
 
-	$_SESSION['newsletter-mailing'] = $newsletterMailing;
+	$_SESSION['newsletter-mailing/edit/newsletter-mailing'] = $newsletterMailing;
 	$_SESSION['newsletter-mailing/edit/is-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
@@ -43,10 +43,10 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\NewsletterMailingInvalidException $ex){
-	$_SESSION['add-footer'] = $addFooter;
-	$_SESSION['add-ebooks'] = $addEbooks;
+	$_SESSION['newsletter-mailing/edit/add-footer'] = $addFooter;
+	$_SESSION['newsletter-mailing/edit/add-ebooks'] = $addEbooks;
 
-	$_SESSION['newsletter-mailing'] = $newsletterMailing;
+	$_SESSION['newsletter-mailing/edit/newsletter-mailing'] = $newsletterMailing;
 	$_SESSION['newsletter-mailing/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

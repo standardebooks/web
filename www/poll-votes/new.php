@@ -15,7 +15,7 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$vote = Http::$Request->Session->Get('vote', PollVote::class) ?? new PollVote();
+	$vote = Http::$Request->Session->Get('poll-vote/create/vote', PollVote::class) ?? new PollVote();
 	$exception = Http::$Request->Session->Get('poll-vote/create/exception', Exceptions\AppException::class);
 
 	if(!isset($vote->UserId)){

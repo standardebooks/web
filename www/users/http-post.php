@@ -42,16 +42,16 @@ catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 		if(isset($oldUuid)){
 			$user->Uuid = $oldUuid;
 		}
-		$_SESSION['generate-new-uuid'] = $generateNewUuid;
+		$_SESSION['user/create/generate-new-uuid'] = $generateNewUuid;
 	}
 
-	$_SESSION['password-action'] = $passwordAction;
+	$_SESSION['user/create/password-action'] = $passwordAction;
 
 	if($ex instanceof Exceptions\UserInvalidException && $ex->Has(Exceptions\BenefitsRequirePasswordException::class) && isset($oldPasswordHash)){
 		$user->PasswordHash = $oldPasswordHash;
 	}
 
-	$_SESSION['user'] = $user;
+	$_SESSION['user/create/user'] = $user;
 	$_SESSION['user/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

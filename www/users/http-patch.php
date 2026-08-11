@@ -66,16 +66,16 @@ catch(Exceptions\UserNotFoundException){
 catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 	if($generateNewUuid){
 		$user->Uuid = $originalUuid;
-		$_SESSION['generate-new-uuid'] = $generateNewUuid;
+		$_SESSION['user/edit/generate-new-uuid'] = $generateNewUuid;
 	}
 
-	$_SESSION['password-action'] = $passwordAction;
+	$_SESSION['user/edit/password-action'] = $passwordAction;
 
 	if($ex instanceof Exceptions\UserInvalidException && $ex->Has(Exceptions\BenefitsRequirePasswordException::class) && isset($oldPasswordHash)){
 		$user->PasswordHash = $oldPasswordHash;
 	}
 
-	$_SESSION['user'] = $user;
+	$_SESSION['user/edit/user'] = $user;
 	$_SESSION['user/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

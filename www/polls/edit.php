@@ -20,7 +20,7 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('poll/edit/exception', Exceptions\AppException::class);
-	$poll = Http::$Request->Session->Get('poll', Poll::class) ?? $originalPoll;
+	$poll = Http::$Request->Session->Get('poll/edit/poll', Poll::class) ?? $originalPoll;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

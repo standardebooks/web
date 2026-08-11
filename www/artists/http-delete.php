@@ -36,7 +36,7 @@ try{
 	$artist->Delete();
 
 	$_SESSION['artist/delete/is-deleted'] = true;
-	$_SESSION['deleted-artist'] = $artist;
+	$_SESSION['artist/delete/artist'] = $artist;
 	if($addAlternateName){
 		$_SESSION['artist/delete/is-alternate-name-added'] = true;
 	}

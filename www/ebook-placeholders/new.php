@@ -21,8 +21,8 @@ try{
 	$isOnlyProjectCreated = Http::$Request->Session->Get('project/create/is-only-ebook-project-created', 'bool') ?? false;
 	$isDeleted = Http::$Request->Session->Get('ebook-placeholder/delete/is-deleted', 'bool') ?? false;
 	$exception = Http::$Request->Session->Get('ebook-placeholder/create/exception', Exceptions\AppException::class);
-	$ebook = Http::$Request->Session->Get('ebook', Ebook::class);
-	$project = Http::$Request->Session->Get('project', Project::class);
+	$ebook = Http::$Request->Session->Get('ebook-placeholder/create/ebook', Ebook::class);
+	$project = Http::$Request->Session->Get('project/create/project', Project::class);
 	$deletedEbookTitle = '';
 	$deletedEbookAuthor = '';
 
@@ -56,8 +56,8 @@ try{
 		session_unset();
 	}
 	elseif($isDeleted){
-		$deletedEbookTitle = Http::$Request->Session->Get('ebook-title');
-		$deletedEbookAuthor = Http::$Request->Session->Get('ebook-authors');
+		$deletedEbookTitle = Http::$Request->Session->Get('ebook-placeholder/delete/ebook-title');
+		$deletedEbookAuthor = Http::$Request->Session->Get('ebook-placeholder/delete/ebook-authors');
 		$ebook = null;
 
 		session_unset();

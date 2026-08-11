@@ -20,7 +20,7 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('project/edit/exception', Exceptions\AppException::class);
-	$project = Http::$Request->Session->Get('project', Project::class) ?? $originalProject;
+	$project = Http::$Request->Session->Get('project/edit/project', Project::class) ?? $originalProject;
 
 	if($exception){
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);

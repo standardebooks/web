@@ -44,11 +44,11 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException $ex){
-	$_SESSION['blog-post'] = $blogPost;
+	$_SESSION['blog-post/edit/blog-post'] = $blogPost;
 	$_SESSION['blog-post/edit/exception'] = $ex;
-	$_SESSION['blog-post-user-identifier'] = $userIdentifier;
-	$_SESSION['blog-post-ebook-identifiers'] = $ebookIdentifiers;
-	$_SESSION['blog-post-has-hero-image'] = $hasHeroImage;
+	$_SESSION['blog-post/edit/user-identifier'] = $userIdentifier;
+	$_SESSION['blog-post/edit/ebook-identifiers'] = $ebookIdentifiers;
+	$_SESSION['blog-post/edit/has-hero-image'] = $hasHeroImage;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $originalEditUrl);

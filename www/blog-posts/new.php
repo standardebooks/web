@@ -18,10 +18,10 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('blog-post/create/exception', Exceptions\AppException::class);
-	$blogPost = Http::$Request->Session->Get('blog-post', BlogPost::class) ?? new BlogPost();
-	$userIdentifier = Http::$Request->Session->Get('blog-post-user-identifier');
-	$ebookIdentifiers = Http::$Request->Session->Get('blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;
-	$hasHeroImage = Http::$Request->Session->Get('blog-post-has-hero-image', 'bool') ?? true;
+	$blogPost = Http::$Request->Session->Get('blog-post/create/blog-post', BlogPost::class) ?? new BlogPost();
+	$userIdentifier = Http::$Request->Session->Get('blog-post/create/user-identifier');
+	$ebookIdentifiers = Http::$Request->Session->Get('blog-post/create/ebook-identifiers') ?? $blogPost->EbookIdentifiers;
+	$hasHeroImage = Http::$Request->Session->Get('blog-post/create/has-hero-image', 'bool') ?? true;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

@@ -20,7 +20,7 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('spreadsheet/edit/exception', Exceptions\AppException::class);
-	$spreadsheet = Http::$Request->Session->Get('spreadsheet', Spreadsheet::class) ?? $originalSpreadsheet;
+	$spreadsheet = Http::$Request->Session->Get('spreadsheet/edit/spreadsheet', Spreadsheet::class) ?? $originalSpreadsheet;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

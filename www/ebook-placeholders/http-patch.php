@@ -47,7 +47,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\EbookInvalidException | Exceptions\EbookPlaceholderExistsException $ex){
-	$_SESSION['ebook'] = $ebook;
+	$_SESSION['ebook-placeholder/edit/ebook'] = $ebook;
 	$_SESSION['ebook-placeholder/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

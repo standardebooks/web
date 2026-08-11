@@ -18,7 +18,7 @@ try{
 	$newsletterSubscription->Delete();
 
 	$_SESSION['newsletter-subscription/delete/is-deleted'] = true;
-	$_SESSION['newsletter-name'] = $newsletterName;
+	$_SESSION['newsletter-subscription/delete/newsletter-name'] = $newsletterName;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: ' . $newsletterSubscription->User->UuidUrl . '/newsletter-subscriptions');

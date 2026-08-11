@@ -18,8 +18,8 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('user/create/exception', Exceptions\AppException::class);
-	$user = Http::$Request->Session->Get('user', User::class) ?? new User();
-	$passwordAction = Http::$Request->Session->Get('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::Edit;
+	$user = Http::$Request->Session->Get('user/create/user', User::class) ?? new User();
+	$passwordAction = Http::$Request->Session->Get('user/create/password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::Edit;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

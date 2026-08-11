@@ -18,7 +18,7 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('spreadsheet/create/exception', Exceptions\AppException::class);
-	$spreadsheet = Http::$Request->Session->Get('spreadsheet', Spreadsheet::class) ?? new Spreadsheet();
+	$spreadsheet = Http::$Request->Session->Get('spreadsheet/create/spreadsheet', Spreadsheet::class) ?? new Spreadsheet();
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

@@ -28,7 +28,7 @@ try{
 	}
 
 	$isArtistDeleted = Http::$Request->Session->Get('artist/delete/is-deleted', 'bool') ?? false;
-	$deletedArtist = Http::$Request->Session->Get('deleted-artist', Artist::class);
+	$deletedArtist = Http::$Request->Session->Get('artist/delete/artist', Artist::class);
 	$isAlternateNameAdded = Http::$Request->Session->Get('artist/delete/is-alternate-name-added', 'bool') ?? false;
 
 	$artworks = Artwork::GetAllByArtist(Http::$Request->QueryString->Get('artist-url-name'), $artworkFilterType, $submitterUserId);

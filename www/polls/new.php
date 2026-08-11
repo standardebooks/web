@@ -18,7 +18,7 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('poll/create/exception', Exceptions\AppException::class);
-	$poll = Http::$Request->Session->Get('poll', Poll::class) ?? new Poll();
+	$poll = Http::$Request->Session->Get('poll/create/poll', Poll::class) ?? new Poll();
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

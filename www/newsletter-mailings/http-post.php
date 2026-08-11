@@ -25,7 +25,7 @@ try{
 
 	$newsletterMailing->Create($addFooter, $addEbooks);
 
-	$_SESSION['newsletter-mailing'] = $newsletterMailing;
+	$_SESSION['newsletter-mailing/create/newsletter-mailing'] = $newsletterMailing;
 	$_SESSION['newsletter-mailing/create/is-created'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
@@ -38,10 +38,10 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\NewsletterMailingInvalidException $ex){
-	$_SESSION['add-footer'] = $addFooter;
-	$_SESSION['add-ebooks'] = $addEbooks;
+	$_SESSION['newsletter-mailing/create/add-footer'] = $addFooter;
+	$_SESSION['newsletter-mailing/create/add-ebooks'] = $addEbooks;
 
-	$_SESSION['newsletter-mailing'] = $newsletterMailing;
+	$_SESSION['newsletter-mailing/create/newsletter-mailing'] = $newsletterMailing;
 	$_SESSION['newsletter-mailing/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

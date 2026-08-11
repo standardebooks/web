@@ -67,7 +67,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\ProjectInvalidException $ex){
-	$_SESSION['project'] = $project;
+	$_SESSION['project/edit/project'] = $project;
 	$_SESSION['project/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

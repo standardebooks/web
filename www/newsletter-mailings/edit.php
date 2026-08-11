@@ -10,9 +10,9 @@ try{
 	session_start();
 
 	$exception = Http::$Request->Session->Get('newsletter-mailing/edit/exception', Exceptions\AppException::class);
-	$newsletterMailing = Http::$Request->Session->Get('newsletter-mailing', NewsletterMailing::class);
-	$addFooter = Http::$Request->Session->Get('add-footer', 'bool') ?? false;
-	$addEbooks = Http::$Request->Session->Get('add-ebooks', 'bool') ?? false;
+	$newsletterMailing = Http::$Request->Session->Get('newsletter-mailing/edit/newsletter-mailing', NewsletterMailing::class);
+	$addFooter = Http::$Request->Session->Get('newsletter-mailing/edit/add-footer', 'bool') ?? false;
+	$addEbooks = Http::$Request->Session->Get('newsletter-mailing/edit/add-ebooks', 'bool') ?? false;
 
 	if($newsletterMailing === null){
 		$newsletterMailing = NewsletterMailing::Get(Http::$Request->QueryString->Get('newsletter-mailing-id', 'int'));

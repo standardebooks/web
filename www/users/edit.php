@@ -21,9 +21,9 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('user/edit/exception', Exceptions\AppException::class);
-	$user = Http::$Request->Session->Get('user', User::class) ?? $originalUser;
-	$generateNewUuid = Http::$Request->Session->Get('generate-new-uuid', 'bool') ?? false;
-	$passwordAction = Http::$Request->Session->Get('password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::None;
+	$user = Http::$Request->Session->Get('user/edit/user', User::class) ?? $originalUser;
+	$generateNewUuid = Http::$Request->Session->Get('user/edit/generate-new-uuid', 'bool') ?? false;
+	$passwordAction = Http::$Request->Session->Get('user/edit/password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::None;
 
 	// We got here because an operation had errors and the user has to try again.
 	if($exception){

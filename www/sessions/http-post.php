@@ -22,8 +22,8 @@ try{
 	header('location: ' . $redirect);
 }
 catch(Exceptions\LoginInvalidException | Exceptions\PasswordRequiredException $ex){
-	$_SESSION['email'] = $email;
-	$_SESSION['redirect'] = $redirect;
+	$_SESSION['session/create/email'] = $email;
+	$_SESSION['session/create/redirect'] = $redirect;
 	$_SESSION['session/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

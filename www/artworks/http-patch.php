@@ -59,7 +59,7 @@ try{
 
 	$artwork->Save(Http::$Request->Files->Get('artwork-image'));
 
-	$_SESSION['artwork'] = $artwork;
+	$_SESSION['artwork/edit/artwork'] = $artwork;
 	$_SESSION['artwork/edit/is-saved'] = true;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
@@ -86,7 +86,7 @@ catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException
 		$ex->Add(new Exceptions\RequestInvalidException('File upload too large.'));
 	}
 
-	$_SESSION['artwork'] = $artwork;
+	$_SESSION['artwork/edit/artwork'] = $artwork;
 	$_SESSION['artwork/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

@@ -18,9 +18,9 @@ try{
 	session_start();
 
 	$exception = Http::$Request->Session->Get('newsletter-mailing/create/exception', Exceptions\AppException::class);
-	$newsletterMailing = Http::$Request->Session->Get('newsletter-mailing', NewsletterMailing::class) ?? new NewsletterMailing();
-	$addFooter = Http::$Request->Session->Get('add-footer', 'bool') ?? true;
-	$addEbooks = Http::$Request->Session->Get('add-ebooks', 'bool') ?? true;
+	$newsletterMailing = Http::$Request->Session->Get('newsletter-mailing/create/newsletter-mailing', NewsletterMailing::class) ?? new NewsletterMailing();
+	$addFooter = Http::$Request->Session->Get('newsletter-mailing/create/add-footer', 'bool') ?? true;
+	$addEbooks = Http::$Request->Session->Get('newsletter-mailing/create/add-ebooks', 'bool') ?? true;
 
 	if($exception){
 		// We got here because a submission had errors and the user has to try again.

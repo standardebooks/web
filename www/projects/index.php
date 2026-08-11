@@ -10,7 +10,7 @@ session_start();
 
 $isCreated = Http::$Request->Session->Get('project/create/is-created', 'bool') ?? false;
 $isOnlyProjectCreated = Http::$Request->Session->Get('project/create/is-only-ebook-project-created', 'bool') ?? false;
-$createdProject = Http::$Request->Session->Get('project', Project::class);
+$createdProject = Http::$Request->Session->Get('project/create/project', Project::class);
 $showContactInformation = Session::$User?->Benefits->CanManageProjects || Session::$User?->Benefits->CanReviewProjects || Session::$User?->Benefits->CanEditProjects;
 
 if($isCreated || $isOnlyProjectCreated){

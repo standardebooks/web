@@ -20,10 +20,10 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('blog-post/edit/exception', Exceptions\AppException::class);
-	$blogPost = Http::$Request->Session->Get('blog-post', BlogPost::class) ?? $originalBlogPost;
-	$userIdentifier = Http::$Request->Session->Get('blog-post-user-identifier');
-	$ebookIdentifiers = Http::$Request->Session->Get('blog-post-ebook-identifiers') ?? $blogPost->EbookIdentifiers;
-	$hasHeroImage = Http::$Request->Session->Get('blog-post-has-hero-image', 'bool') ?? ($blogPost->ImageCacheKey !== null);
+	$blogPost = Http::$Request->Session->Get('blog-post/edit/blog-post', BlogPost::class) ?? $originalBlogPost;
+	$userIdentifier = Http::$Request->Session->Get('blog-post/edit/user-identifier');
+	$ebookIdentifiers = Http::$Request->Session->Get('blog-post/edit/ebook-identifiers') ?? $blogPost->EbookIdentifiers;
+	$hasHeroImage = Http::$Request->Session->Get('blog-post/edit/has-hero-image', 'bool') ?? ($blogPost->ImageCacheKey !== null);
 
 	// We got here because an operation had errors and the user has to try again.
 	if($exception){

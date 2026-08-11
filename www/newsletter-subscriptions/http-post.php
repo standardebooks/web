@@ -37,7 +37,7 @@ try{
 		throw new Exceptions\NewsletterRequiredException();
 	}
 
-	$expectedCaptcha = Http::$Request->Session->Get('captcha') ?? '';
+	$expectedCaptcha = Http::$Request->Session->Get('newsletter-subscription/create/captcha') ?? '';
 	$receivedCaptcha = Http::$Request->Body->Get('captcha') ?? '';
 
 	if($expectedCaptcha === '' || $receivedCaptcha === '' || mb_strtolower($expectedCaptcha) !== mb_strtolower($receivedCaptcha)){
@@ -105,8 +105,8 @@ try{
 	header('location: ' . $user->UuidUrl . '/newsletter-subscriptions');
 }
 catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\CaptchaInvalidException | Exceptions\NewsletterRequiredException $ex){
-	$_SESSION['newsletter-ids'] = $newsletterIds;
-	$_SESSION['email'] = $email;
+	$_SESSION['newsletter-subscription/create/newsletter-ids'] = $newsletterIds;
+	$_SESSION['newsletter-subscription/create/email'] = $email;
 	$_SESSION['newsletter-subscription/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

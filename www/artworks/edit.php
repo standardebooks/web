@@ -20,7 +20,7 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('artwork/edit/exception', Exceptions\AppException::class);
-	$artwork = Http::$Request->Session->Get('artwork', Artwork::class) ?? $originalArtwork;
+	$artwork = Http::$Request->Session->Get('artwork/edit/artwork', Artwork::class) ?? $originalArtwork;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.

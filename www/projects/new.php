@@ -12,7 +12,7 @@ try{
 
 	$urlPath = Http::$Request->QueryString->Get('ebook-url-path');
 	$exception = Http::$Request->Session->Get('project/create/exception', Exceptions\AppException::class);
-	$project = Http::$Request->Session->Get('project', Project::class);
+	$project = Http::$Request->Session->Get('project/create/project', Project::class);
 	$ebook = null;
 
 	if($urlPath !== null){

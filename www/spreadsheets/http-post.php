@@ -33,7 +33,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\SpreadsheetInvalidException | Exceptions\SpreadsheetExistsException $ex){
-	$_SESSION['spreadsheet'] = $spreadsheet;
+	$_SESSION['spreadsheet/create/spreadsheet'] = $spreadsheet;
 	$_SESSION['spreadsheet/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

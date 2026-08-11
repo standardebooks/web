@@ -25,8 +25,8 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$_SESSION['ebook-title'] = $ebook->Title;
-	$_SESSION['ebook-authors'] = $ebook->AuthorsString;
+	$_SESSION['ebook-placeholder/delete/ebook-title'] = $ebook->Title;
+	$_SESSION['ebook-placeholder/delete/ebook-authors'] = $ebook->AuthorsString;
 
 	$ebook->Delete();
 

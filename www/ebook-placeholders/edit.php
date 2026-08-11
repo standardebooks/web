@@ -29,7 +29,7 @@ try{
 	}
 
 	$exception = Http::$Request->Session->Get('ebook-placeholder/edit/exception', Exceptions\AppException::class);
-	$editedEbook = Http::$Request->Session->Get('ebook', Ebook::class);
+	$editedEbook = Http::$Request->Session->Get('ebook-placeholder/edit/ebook', Ebook::class);
 
 	if($editedEbook === null){
 		$editedEbook = $ebook;

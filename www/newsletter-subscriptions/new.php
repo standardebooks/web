@@ -11,9 +11,9 @@ session_start();
 
 $exception = Http::$Request->Session->Get('newsletter-subscription/create/exception', \Exception::class);
 
-$newsletterIds = Http::$Request->Session->Get('newsletter-ids', 'array') ?? [];
+$newsletterIds = Http::$Request->Session->Get('newsletter-subscription/create/newsletter-ids', 'array') ?? [];
 $newsletters = Newsletter::GetAllByIsVisible();
-$email = Http::$Request->Session->Get('email') ?? '';
+$email = Http::$Request->Session->Get('newsletter-subscription/create/email') ?? '';
 
 if($exception){
 	http_response_code(Enums\HttpCode::UnprocessableContent->value);

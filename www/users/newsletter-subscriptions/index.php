@@ -32,7 +32,7 @@ try{
 		}
 
 		if($isDeleted){
-			$newsletterName = Http::$Request->Session->Get('newsletter-name');
+			$newsletterName = Http::$Request->Session->Get('newsletter-subscription/delete/newsletter-name');
 		}
 
 		if($isCreated || $isConfirmed || $isDeleted){

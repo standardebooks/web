@@ -39,11 +39,11 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException $ex){
-	$_SESSION['blog-post'] = $blogPost;
+	$_SESSION['blog-post/create/blog-post'] = $blogPost;
 	$_SESSION['blog-post/create/exception'] = $ex;
-	$_SESSION['blog-post-user-identifier'] = $userIdentifier;
-	$_SESSION['blog-post-ebook-identifiers'] = $ebookIdentifiers;
-	$_SESSION['blog-post-has-hero-image'] = $hasHeroImage;
+	$_SESSION['blog-post/create/user-identifier'] = $userIdentifier;
+	$_SESSION['blog-post/create/ebook-identifiers'] = $ebookIdentifiers;
+	$_SESSION['blog-post/create/has-hero-image'] = $hasHeroImage;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);
 	header('location: /blog-posts/new');

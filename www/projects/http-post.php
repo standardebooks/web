@@ -60,7 +60,7 @@ try{
 		$project->Ebook->EbookPlaceholder->Save();
 	}
 
-	$_SESSION['project'] = $project;
+	$_SESSION['project/create/project'] = $project;
 	if(!isset($_SESSION['project/create/is-only-ebook-project-created'])){
 		$_SESSION['project/create/is-created'] = true;
 	}
@@ -78,7 +78,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\ProjectInvalidException | Exceptions\EbookInvalidException | Exceptions\ProjectExistsException | Exceptions\EbookIsNotAPlaceholderException $ex){
-	$_SESSION['project'] = $project;
+	$_SESSION['project/create/project'] = $project;
 	$_SESSION['project/create/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

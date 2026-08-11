@@ -38,7 +38,7 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\PollInvalidException | Exceptions\PollExistsException $ex){
-	$_SESSION['poll'] = $poll;
+	$_SESSION['poll/edit/poll'] = $poll;
 	$_SESSION['poll/edit/exception'] = $ex;
 
 	http_response_code(Enums\HttpCode::SeeOther->value);

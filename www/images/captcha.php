@@ -13,6 +13,6 @@ $phraseBuilder = new PhraseBuilder(random_int(5, 7), 'abcdefghjkmnpqrstuvwxyzABC
 $builder = new CaptchaBuilder(null, $phraseBuilder);
 $builder->build(CAPTCHA_IMAGE_WIDTH, CAPTCHA_IMAGE_HEIGHT);
 
-$_SESSION['captcha'] = $builder->getPhrase();
+$_SESSION['newsletter-subscription/create/captcha'] = $builder->getPhrase();
 
 $builder->output();
