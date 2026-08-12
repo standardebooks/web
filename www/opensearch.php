@@ -17,7 +17,6 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<Url type="text/html" template="<?= SITE_URL ?>/ebooks?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/><? // For compatibility; most OpenSearch parsers don't understand `application/xhtml+xml`. ?>
 
 	<Url type="application/xhtml+xml" template="<?= SITE_URL ?>/ebooks?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
-	<Url type="application/rss+xml" template="<?= SITE_URL ?>/feeds/rss/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
 	<Url type="application/atom+xml" template="<?= SITE_URL ?>/feeds/atom/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
 	<Url type="application/atom+xml;profile=opds-catalog;kind=acquisition" template="<?= SITE_URL ?>/feeds/opds/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>
 	<Url type="application/opds+json" template="<?= SITE_URL ?>/feeds/opds/all?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/>

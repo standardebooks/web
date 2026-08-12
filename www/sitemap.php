@@ -143,9 +143,6 @@ print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		<loc><?= SITE_URL ?>/feeds/opds</loc>
 	</url>
 	<url>
-		<loc><?= SITE_URL ?>/feeds/rss</loc>
-	</url>
-	<url>
 		<loc><?= SITE_URL ?>/help/how-to-use-our-ebooks</loc>
 	</url>
 	<url>

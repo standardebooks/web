@@ -133,7 +133,7 @@ abstract class Feed{
 	 * Decide what content-type to serve for a feed via HTTP content negotation.
 	 *
 	 * If the feed is viewed from a web browser, we will usually serve `application/xml` as that's typically what's in the browser's `Accept` header.
-	 * If the `Accept` header is `application/rss+xml` or `application/atom+xml` then serve that instead, as those are the "technically correct" content types that may be requested by RSS readers.
+	 * If the `Accept` header is `application/atom+xml` then serve that instead, as that is the "technically correct" content type that may be requested by RSS readers.
 	 *
 	 * @param string $relativePath The relative path to the file we're serving, e.g. `/feeds/opds/all.xml`.
 	 *
@@ -167,17 +167,10 @@ abstract class Feed{
 				}
 			}
 		}
-		elseif(preg_match('/^\/feeds\/rss/', $relativePath)){
-			$contentType = [
-				'application/rss+xml',
-				'application/xml',
-				'text/xml'
-			];
-			$mime = $http->negotiateMimeType($contentType, 'application/rss+xml');
-		}
 		elseif(preg_match('/^\/feeds\/atom/', $relativePath)){
 			$contentType = [
 				'application/atom+xml',
+				'application/rss+xml',
 				'application/xml',
 				'text/xml'
 			];

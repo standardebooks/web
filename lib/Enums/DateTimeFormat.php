@@ -17,9 +17,6 @@ enum DateTimeFormat: string{
 	/** Like `2022-01-05T23:42:12`. */
 	case Html = 'Y-m-d\TH:i:s';
 
-	/** Like `Sat, 5 Jan 2022 23:42:12 +0000`. */
-	case Rss = 'r';
-
 	/** Like `1641426132`. */
 	case UnixTimestamp = 'U';
 

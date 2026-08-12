@@ -23,7 +23,7 @@
 			<p>To get an OPDS 2.0 feed, set the <code>Accept</code> HTTP header to <code>application/opds+json</code>.</p>
 		</section>
 		<section id="atom-feeds">
-			<h2>Rss/Atom feeds<a class="heading-permalink" href="#atom-feeds" aria-label="Permalink"></a></h2>
+			<h2>RSS/Atom feeds<a class="heading-permalink" href="#atom-feeds" aria-label="Permalink"></a></h2>
 			<p>These feeds can be read by any modern <a href="https://en.wikipedia.org/wiki/Comparison_of_feed_aggregators">RSS reader</a>.</p>
 			<p>Note that some RSS readers may show ebooks ordered by when they were last updated, even though the feeds are ordered by ebooks were first released. You should be able to change this sort order in your RSS reader.</p>
 			<ul class="feed">

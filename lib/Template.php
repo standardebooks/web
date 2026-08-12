@@ -65,8 +65,6 @@ use function Safe\preg_replace;
  * @method static string ProjectForm(Project $project, $areFieldsRequired = true, $isEditForm = false)
  * @method static string ProjectsTable(array<Project> $projects, bool $includeTitle = true, bool $includeStatus = true, bool $showEditButton = false, bool $showContactInformation = false, bool $isAdminView = false)
  * @method static string RealisticEbook(Ebook $ebook)
- * @method static string RssEntry(Ebook $entry)
- * @method static string RssFeed(string $title, string $description, DateTimeImmutable $updated, string $url, array<Ebook> $entries)
  * @method static string SearchForm(string $query, array<string> $tags, Enums\EbookSortType $sort, Enums\ViewType $view, int $perPage)
  * @method static string SpreadsheetForm(Spreadsheet $spreadsheet, $isEditForm = false)
  * @method static string UserForm(User $user, Enums\PasswordActionType $passwordAction, bool $generateNewUuid = false, bool $isEditForm = false)

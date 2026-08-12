@@ -54,7 +54,7 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 								<p>Browse and download from the entire Standard Ebooks catalog directly in your ereading app using our <a href="/feeds/opds">OPDS feed</a>.</p>
 							</li>
 							<li>
-								<p>Get notified of new ebooks in your news client with our <a href="/feeds/atom">Atom</a> or <a href="/feeds/rss">RSS</a> feeds.</p>
+								<p>Get notified of new ebooks in your news client with our <a href="/feeds/atom">RSS/Atom feed</a>.</p>
 							</li>
 							<li>
 								<p>Parse and process the feeds to use our ebooks in your personal software projects.</p>

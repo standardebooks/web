@@ -14,11 +14,7 @@ if(
 	||
 	$feedFormat === null
 	||
-	(
-		$feedFormat != Enums\FeedFormatType::Rss
-		&&
-		$feedFormat != Enums\FeedFormatType::Atom
-	)
+	$feedFormat != Enums\FeedFormatType::Atom
 ){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }

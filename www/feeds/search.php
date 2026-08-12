@@ -47,9 +47,6 @@ try{
 
 			header('content-type: application/atom+xml;profile=opds-catalog');
 			break;
-		case Enums\FeedFormatType::Rss:
-			header('content-type: application/rss+xml');
-			break;
 	}
 
 	header('content-type: ' . Feed::NegotiateMimeType('/feeds/' . $feedFormatType->value . '/'));
@@ -124,42 +121,4 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 			<?= Template::OpdsAcquisitionEntry(entry: $ebook) ?>
 		<? } ?>
 	</feed>
-<? } ?>
-<? if($feedFormatType == Enums\FeedFormatType::Rss){ ?>
-	<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
-		<channel>
-			<title>Search Results</title>
-			<link><?= SITE_URL ?></link>
-			<description>Results for “<?= Formatter::EscapeXml($query) ?>”</description>
-			<language>en-US</language>
-			<copyright>https://creativecommons.org/publicdomain/zero/1.0/</copyright>
-			<lastBuildDate><?= NOW->format(Enums\DateTimeFormat::Rss->value) ?></lastBuildDate>
-			<docs>http://blogs.law.harvard.edu/tech/rss</docs>
-			<atom:link href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="self" type="application/atom+xml"/>
-			<atom:link rel="first" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=1&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
-			<? if($result->Page > 1){ ?>
-				<atom:link rel="previous" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page - 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
-			<? } ?>
-			<? if($result->Page < $result->TotalPages){ ?>
-				<atom:link rel="next" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page + 1 ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
-			<? } ?>
-			<atom:link rel="last" href="<?= SITE_URL ?>/feeds/atom/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->TotalPages ?>&amp;per-page=<?= $perPage ?>" type="application/atom+xml"/>
-			<atom:link rel="search" href="<?= SITE_URL ?>/opensearch" type="application/opensearchdescription+xml" title="Standard Ebooks"/>
-			<atom:link href="<?= SITE_URL ?>/ebooks/ebooks?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="alternate" type="application/xhtml+xml"/>
-			<opensearch:totalResults><?= $result->TotalResults ?></opensearch:totalResults>
-			<opensearch:startIndex><?= (($result->Page - 1) * $perPage) + 1 ?></opensearch:startIndex>
-			<opensearch:itemsPerPage><?= $perPage ?></opensearch:itemsPerPage>
-			<image>
-				<url><?= SITE_URL ?>/images/logo-rss.png</url>
-				<title>Search Results</title> <? /* must be identical to channel title */ ?>
-				<description>The Standard Ebooks logo</description>
-				<link><?= SITE_URL ?></link>
-				<height>144</height>
-				<width>144</width>
-			</image>
-			<? foreach($result->Results as $ebook){ ?>
-				<?= Template::RssEntry(entry: $ebook) ?>
-			<? } ?>
-		</channel>
-	</rss>
 <? } ?>
