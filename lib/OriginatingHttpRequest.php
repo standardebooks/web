@@ -267,7 +267,7 @@ class OriginatingHttpRequest{
 			exit();
 		}
 
-		$filename = 'http-' . mb_strtolower($this->Method->value) . '.php';
+		$filename = 'http-' . strtolower($this->Method->value) . '.php';
 
 		// `HEAD` is always allowed if `GET` is allowed.
 		if($this->Method == Enums\HttpMethod::Head && !file_exists('http-head.php')){

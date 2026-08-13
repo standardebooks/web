@@ -79,7 +79,7 @@ class Formatter{
 		$text = preg_replace('/[\'’]/u', '', $text);
 
 		// Trim and convert to lowercase.
-		$text = mb_strtolower(trim($text));
+		$text = mb_strtolower(trim($text), 'utf-8');
 
 		// Then convert any non-digit, non-letter character to a space.
 		$text = preg_replace('/[^0-9a-zA-Z]/ius', ' ', $text);

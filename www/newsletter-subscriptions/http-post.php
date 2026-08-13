@@ -40,7 +40,7 @@ try{
 	$expectedCaptcha = Http::$Request->Session->Get('newsletter-subscription/create/captcha') ?? '';
 	$receivedCaptcha = Http::$Request->Body->Get('captcha') ?? '';
 
-	if($expectedCaptcha === '' || $receivedCaptcha === '' || mb_strtolower($expectedCaptcha) !== mb_strtolower($receivedCaptcha)){
+	if($expectedCaptcha === '' || $receivedCaptcha === '' || mb_strtolower($expectedCaptcha, 'utf-8') !== mb_strtolower($receivedCaptcha, 'utf-8')){
 		throw new Exceptions\CaptchaInvalidException();
 	}
 

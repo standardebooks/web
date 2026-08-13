@@ -200,8 +200,8 @@ class Cli{
 				$inLink = false;
 			}
 			else{
-				$output .= mb_substr($line, 0, 1);
-				$line = mb_substr($line, 1);
+				$output .= mb_substr($line, 0, 1, 'utf-8');
+				$line = mb_substr($line, 1, null, 'utf-8');
 			}
 		}
 
@@ -252,8 +252,8 @@ class Cli{
 						$inLink = true;
 					}
 					else{
-						$output .= mb_substr($line, 0, 1);
-						$line = mb_substr($line, 1);
+						$output .= mb_substr($line, 0, 1, 'utf-8');
+						$line = mb_substr($line, 1, null, 'utf-8');
 					}
 				}
 				elseif($linkMode === 'plain'){
@@ -262,8 +262,8 @@ class Cli{
 						$inLink = true;
 					}
 					else{
-						$output .= mb_substr($line, 0, 1);
-						$line = mb_substr($line, 1);
+						$output .= mb_substr($line, 0, 1, 'utf-8');
+						$line = mb_substr($line, 1, null, 'utf-8');
 					}
 				}
 				else{
@@ -272,7 +272,7 @@ class Cli{
 						$inLink = true;
 					}
 					else{
-						$line = mb_substr($line, 1);
+						$line = mb_substr($line, 1, null, 'utf-8');
 					}
 				}
 			}
@@ -429,8 +429,8 @@ class Cli{
 				}
 			}
 			else{
-				$output .= mb_substr($line, 0, 1);
-				$line = mb_substr($line, 1);
+				$output .= mb_substr($line, 0, 1, 'utf-8');
+				$line = mb_substr($line, 1, null, 'utf-8');
 			}
 		}
 
@@ -454,8 +454,8 @@ class Cli{
 
 		$width = 0;
 
-		for($index = 0; $index < mb_strlen($text); $index++){
-			$char = mb_substr($text, $index, 1);
+		for($index = 0; $index < mb_strlen($text, 'utf-8'); $index++){
+			$char = mb_substr($text, $index, 1, 'utf-8');
 
 			if($char === "\t"){
 				$width += 8 - ($width % 8);

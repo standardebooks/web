@@ -20,7 +20,7 @@ class LocSubject{
 				$error->Add(new Exceptions\LocSubjectNameRequiredException());
 			}
 
-			if(strlen($this->Name) > EBOOKS_MAX_STRING_LENGTH){
+			if(mb_strlen($this->Name, 'utf-8') > EBOOKS_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('LoC subject: '. $this->Name));
 			}
 		}

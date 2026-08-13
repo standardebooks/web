@@ -28,15 +28,15 @@ class ArtworkTag extends Tag{
 		$error = new Exceptions\ArtworkTagInvalidException($this->Name);
 
 		if(isset($this->Name)){
-			$this->Name = mb_strtolower(trim($this->Name));
+			$this->Name = mb_strtolower(trim($this->Name), 'utf-8');
 			// Collapse spaces into one.
 			$this->Name = preg_replace('/[\s]+/ius', ' ', $this->Name);
 
-			if(strlen($this->Name) == 0){
+			if(mb_strlen($this->Name, 'utf-8') == 0){
 				$error->Add(new Exceptions\ArtworkTagNameInvalidException());
 			}
 
-			if(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
+			if(mb_strlen($this->Name, 'utf-8') > ARTWORK_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Artwork tag: '. $this->Name));
 			}
 

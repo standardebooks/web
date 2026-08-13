@@ -258,5 +258,5 @@ $hasAdminTable ??= false;
 <body>
 	<div class="body<? if($hasLetterhead){ ?> letterhead<? } ?>">
 		<? if($preheader){ ?>
-			<p class="preheader"><?= Formatter::EscapeHtml($preheader) ?><? for($i = 0; $i < 150 - strlen($preheader); $i++){ ?>&zwnj;&nbsp;<? } ?></p>
+			<p class="preheader"><?= Formatter::EscapeHtml($preheader) ?><? for($i = 0; $i < 150 - mb_strlen($preheader, 'utf-8'); $i++){ ?>&zwnj;&nbsp;<? } ?></p>
 		<? } ?>

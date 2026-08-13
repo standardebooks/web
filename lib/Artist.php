@@ -126,7 +126,7 @@ class Artist{
 		if($this->Name == ''){
 			$error->Add(new Exceptions\ArtistNameRequiredException());
 		}
-		elseif(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
+		elseif(mb_strlen($this->Name, 'utf-8') > ARTWORK_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Artist Name'));
 		}
 

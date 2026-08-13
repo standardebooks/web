@@ -68,9 +68,9 @@ final class User{
 				}
 				else{
 					// No initials found, try the full first name.
-					$pos = strpos($this->Name, ' ');
+					$pos = mb_strpos($this->Name, ' ', 0, 'utf-8');
 					if($pos !== false){
-						$this->_FirstName = mb_substr($this->Name, 0, $pos);
+						$this->_FirstName = mb_substr($this->Name, 0, $pos, 'utf-8');
 					}
 				}
 			}

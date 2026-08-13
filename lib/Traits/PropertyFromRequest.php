@@ -90,7 +90,7 @@ trait PropertyFromRequest{
 		$propertyType = $rp->getType();
 		if($propertyType !== null){
 			if($httpName === null){
-				$httpName = mb_strtolower(preg_replace('/([^^])([A-Z])/u', '\1-\2', $this::class . $property));
+				$httpName = mb_strtolower(preg_replace('/([^^])([A-Z])/u', '\1-\2', $this::class . $property), 'utf-8');
 			}
 
 			$httpVariables = match($set){

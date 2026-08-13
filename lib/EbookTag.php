@@ -31,7 +31,7 @@ class EbookTag extends Tag{
 				$error->Add(new Exceptions\EbookTagNameRequiredException());
 			}
 
-			if(strlen($this->Name) > EBOOKS_MAX_STRING_LENGTH){
+			if(mb_strlen($this->Name, 'utf-8') > EBOOKS_MAX_STRING_LENGTH){
 				$error->Add(new Exceptions\StringTooLongException('Ebook tag: '. $this->Name));
 			}
 

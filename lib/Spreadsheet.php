@@ -82,7 +82,7 @@ class Spreadsheet{
 		if($this->Title == ''){
 			$error->Add(new Exceptions\SpreadsheetTitleRequiredException());
 		}
-		elseif(strlen($this->Title) > 255){
+		elseif(mb_strlen($this->Title, 'utf-8') > 255){
 			$error->Add(new Exceptions\StringTooLongException('title'));
 		}
 

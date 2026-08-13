@@ -75,7 +75,7 @@ class PollItem{
 		if($this->Name == ''){
 			$error->Add(new Exceptions\PollItemNameRequiredException());
 		}
-		elseif(strlen($this->Name) > 255){
+		elseif(mb_strlen($this->Name, 'utf-8') > 255){
 			$error->Add(new Exceptions\StringTooLongException('Poll option name'));
 		}
 

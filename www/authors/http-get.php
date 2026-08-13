@@ -32,7 +32,7 @@ try{
 	// Generate the author(s) name.
 	$authorNames = [];
 	$contributors = [];
-	if(mb_strpos($urlPath, '_') === false){
+	if(mb_strpos($urlPath, '_', 0, 'utf-8') === false){
 		// Single author.
 		$authorNames = [$urlPath];
 	}

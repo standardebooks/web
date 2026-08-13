@@ -40,7 +40,7 @@ try{
 		$sort = Enums\EbookSortType::Default;
 	}
 
-	if(sizeof($tags) == 1 && mb_strtolower($tags[0]) == 'all'){
+	if(sizeof($tags) == 1 && mb_strtolower($tags[0], 'utf-8') == 'all'){
 		$tags = [];
 	}
 

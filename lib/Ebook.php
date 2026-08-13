@@ -684,9 +684,9 @@ final class Ebook{
 			}
 
 			if(!empty($html)){
-				$html = ucfirst(rtrim(trim($html), ';'));
+				$html = mb_strtoupper(mb_substr(rtrim(trim($html), ';'), 0, 1, 'utf-8'), 'utf-8') . mb_substr(rtrim(trim($html), ';'), 1, null, 'utf-8');
 
-				if(substr(strip_tags($html), -1) != '.'){
+				if(mb_substr(strip_tags($html), -1, null, 'utf-8') != '.'){
 					$html .= '.';
 				}
 			}
@@ -1506,7 +1506,7 @@ final class Ebook{
 		// Sometimes placeholders may have `'` in the title.
 		$this->Title = str_replace('\'', '’', $this->Title);
 
-		if(strlen($this->Title) > EBOOKS_MAX_STRING_LENGTH){
+		if(mb_strlen($this->Title, 'utf-8') > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook Title'));
 		}
 
@@ -1514,7 +1514,7 @@ final class Ebook{
 		if($this->FullTitle == ''){
 			$this->FullTitle = null;
 		}
-		elseif(strlen($this->FullTitle) > EBOOKS_MAX_STRING_LENGTH){
+		elseif(mb_strlen($this->FullTitle, 'utf-8') > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook FullTitle'));
 		}
 
@@ -1522,7 +1522,7 @@ final class Ebook{
 		if($this->AlternateTitle == ''){
 			$this->AlternateTitle = null;
 		}
-		elseif(strlen($this->AlternateTitle) > EBOOKS_MAX_STRING_LENGTH){
+		elseif(mb_strlen($this->AlternateTitle, 'utf-8') > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook AlternateTitle'));
 		}
 
@@ -1530,7 +1530,7 @@ final class Ebook{
 		if($this->ShortTitle == ''){
 			$this->ShortTitle = null;
 		}
-		elseif(strlen($this->ShortTitle) > EBOOKS_MAX_STRING_LENGTH){
+		elseif(mb_strlen($this->ShortTitle, 'utf-8') > EBOOKS_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Ebook ShortTitle'));
 		}
 
@@ -1856,7 +1856,7 @@ final class Ebook{
 			$line .= '>' . Formatter::EscapeHtml(preg_replace('/^The /ius', '', $collection->Name)) . '</a>';
 
 			if($collection->Type !== null){
-				if(substr_compare(mb_strtolower($collection->Name), mb_strtolower($collection->Type->value), -strlen(mb_strtolower($collection->Type->value))) !== 0){
+				if(mb_substr(mb_strtolower($collection->Name, 'utf-8'), -mb_strlen(mb_strtolower($collection->Type->value, 'utf-8'), 'utf-8'), null, 'utf-8') != mb_strtolower($collection->Type->value, 'utf-8')){
 					$line .= ' ' . $collection->Type->value;
 				}
 			}
@@ -2436,7 +2436,7 @@ final class Ebook{
 	 * @return array<Ebook>
 	 */
 	public static function GetAllByAuthor(string $urlPath): array{
-		if(mb_strpos($urlPath, '_') === false){
+		if(mb_strpos($urlPath, '_', 0, 'utf-8') === false){
 			// Single author.
 			return Db::Query('
 					select e.*
@@ -2561,8 +2561,8 @@ final class Ebook{
 			$perPage = EBOOKS_PER_PAGE;
 		}
 
-		if(mb_strlen($query) > DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH){
-			$query = mb_substr($query, 0, DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH);
+		if(mb_strlen($query, 'utf-8') > DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH){
+			$query = mb_substr($query, 0, DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH, 'utf-8');
 		}
 
 		if($query == ''){

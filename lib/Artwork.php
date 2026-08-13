@@ -364,7 +364,7 @@ final class Artwork{
 			$error->Add(new Exceptions\ArtworkNameRequiredException());
 		}
 
-		if(strlen($this->Name) > ARTWORK_MAX_STRING_LENGTH){
+		if(mb_strlen($this->Name, 'utf-8') > ARTWORK_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Artwork Name'));
 		}
 
@@ -1117,8 +1117,8 @@ final class Artwork{
 
 		$query = trim($query ?? '');
 
-		if(mb_strlen($query) > DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH){
-			$query = mb_substr($query, 0, DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH);
+		if(mb_strlen($query, 'utf-8') > DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH){
+			$query = mb_substr($query, 0, DATABASE_SEARCH_MAXIMUM_QUERY_LENGTH, 'utf-8');
 		}
 
 		if($query == ''){

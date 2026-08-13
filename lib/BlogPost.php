@@ -71,7 +71,7 @@ class BlogPost{
 	protected function GetExcerpt(): ?string{
 		if(!isset($this->_Excerpt)){
 			if($this->Body !== null){
-				$this->_Excerpt = substr(strip_tags($this->Body), 0, 200) . '…';
+				$this->_Excerpt = mb_substr(strip_tags($this->Body), 0, 200, 'utf-8') . '…';
 			}
 			elseif(isset($this->Subtitle)){
 				$this->_Excerpt = strip_tags($this->Subtitle);
@@ -190,7 +190,7 @@ class BlogPost{
 		if($this->Title == ''){
 			$error->Add(new Exceptions\BlogPostTitleRequiredException());
 		}
-		elseif(strlen($this->Title) > BLOG_POST_MAX_STRING_LENGTH){
+		elseif(mb_strlen($this->Title, 'utf-8') > BLOG_POST_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Title'));
 		}
 		else{
@@ -281,7 +281,7 @@ class BlogPost{
 		if($this->HeroImageCaption == '' || !$hasHeroImage){
 			$this->HeroImageCaption = null;
 		}
-		elseif(strlen($this->HeroImageCaption) > BLOG_POST_MAX_STRING_LENGTH){
+		elseif(mb_strlen($this->HeroImageCaption, 'utf-8') > BLOG_POST_MAX_STRING_LENGTH){
 			$error->Add(new Exceptions\StringTooLongException('Hero image caption'));
 		}
 

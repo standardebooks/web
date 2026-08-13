@@ -120,7 +120,7 @@ class Poll{
 		if($this->Name == ''){
 			$error->Add(new Exceptions\PollNameRequiredException());
 		}
-		elseif(strlen($this->Name) > 255){
+		elseif(mb_strlen($this->Name, 'utf-8') > 255){
 			$error->Add(new Exceptions\StringTooLongException('Poll name'));
 		}
 

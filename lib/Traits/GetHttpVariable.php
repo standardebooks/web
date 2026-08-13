@@ -86,7 +86,7 @@ trait GetHttpVariable{
 					return $str;
 				case 'int':
 					// Can't use `ctype_digit()` because we may want negative integers.
-					if(is_numeric($var) && mb_strpos((string)$var, '.') === false){
+					if(is_numeric($var) && strpos((string)$var, '.') === false){
 						return intval($var);
 					}
 					break;
