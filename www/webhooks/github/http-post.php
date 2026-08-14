@@ -14,7 +14,7 @@ use function Safe\json_decode;
 use function Safe\shell_exec;
 
 try{
-	$log = new Log(GITHUB_WEBHOOK_LOG_FILE_PATH);
+	$log = new Log();
 	$log->Queue('Received GitHub webhook.');
 
 	$post = file_get_contents('php://input');

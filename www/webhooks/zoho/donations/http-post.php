@@ -9,7 +9,7 @@ use function Safe\get_cfg_var;
 use function Safe\preg_match;
 
 try{
-	$log = new Log(ZOHO_WEBHOOK_LOG_FILE_PATH);
+	$log = new Log();
 	$log->Queue('Received Zoho donations webhook.');
 
 	/** @var string $secret */

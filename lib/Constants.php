@@ -113,10 +113,6 @@ const FA_FEE_PERCENT = 0.87;
 const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web'];
 
 /** Must be writable by `www-data` Unix user. */
-const GITHUB_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-github.log';
-/** Must be writable by `www-data` Unix user. */
-const ZOHO_WEBHOOK_LOG_FILE_PATH =	'/var/log/local/webhooks-zoho.log';
-/** Must be writable by `www-data` Unix user. */
 const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log';
 /** Must be writable by `www-data` Unix user. */
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log';
