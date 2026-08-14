@@ -150,11 +150,12 @@ class OriginatingHttpRequest{
 		$this->IsTooLarge = $this->ContentLength !== null && $this->ContentLength > $this->MaxPostSize;
 
 		if($this->IsTooLarge){
+			http_response_code(Enums\HttpCode::ContentTooLarge->value);
+
 			if($this->IsViaBrowser && file_exists(WEB_ROOT . '/413.php')){
 				include(WEB_ROOT . '/413.php');
 			}
 
-			http_response_code(Enums\HttpCode::ContentTooLarge->value);
 			exit();
 		}
 
