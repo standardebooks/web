@@ -11,9 +11,8 @@
 		<?= Template::FeedHowTo() ?>
 		<section id="opds-feeds">
 			<h2>OPDS feeds<a class="heading-permalink" href="#opds-feeds" aria-label="Permalink"></a></h2>
-			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a>, or “catalogs,” can be added to ereading apps on phones and tablets to search, browse, and download from our ebook catalog, directly in your ereader. Most modern ereading apps support OPDS catalogs.</p>
-			<p>They’re also perfect for scripting, or for libraries or other organizations who wish to download, process, and keep up to date with our catalog of ebooks.</p>
-			<p>To connect your ereading app to our catalog, enter the URL below when prompted by your app:</p>
+			<p><a href="https://en.wikipedia.org/wiki/Open_Publication_Distribution_System">OPDS feeds</a> can be added to ereading apps on phones and tablets to search, browse, and download from our ebook catalog, directly in your ereader. Many ereading apps support OPDS feeds.</p>
+			<p>See our article on <a href="/help/how-to-add-an-opds-feed-to-your-ereader">how to add an OPDS feed to your ereader</a>.</p>
 			<ul class="feed">
 				<li>
 					<p><a href="/feeds/opds">The Standard Ebooks OPDS feed</a></p>

@@ -646,7 +646,7 @@ h1,h2,h3,h4,h5,h6{
 	text-align: left;
 }
 
-:is(h1, h2, h3, h4, h5, h6):has(> a.heading-permalink){
+:is(h1, h2, h3, h4, h5, h6, summary):has(> a.heading-permalink){
 	position: relative;
 }
 
@@ -675,7 +675,7 @@ a.heading-permalink::before{
 	font-size: 1rem;
 }
 
-:is(h1, h2, h3, h4, h5, h6):hover > a.heading-permalink,
+:is(h1, h2, h3, h4, h5, h6, summary):hover > a.heading-permalink,
 a.heading-permalink:focus{
 	opacity: 1;
 }

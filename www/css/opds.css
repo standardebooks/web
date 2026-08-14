@@ -1,0 +1,11 @@
+details{
+	margin: 1rem 0;
+}
+
+details summary{
+	font-weight: bold;
+}
+
+details ol{
+	margin-left: 2rem;
+}

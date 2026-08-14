@@ -13,6 +13,11 @@
 					<a href="/help/managing-your-recurring-donation">Managing or canceling your recurring donation</a>
 				</p>
 			</li>
+			<li>
+				<p>
+					<a href="/help/how-to-add-an-opds-feed-to-your-ereader">How to add an OPDS feed to your ereader</a>
+				</p>
+			</li>
 		</ul>
 	</section>
 </main>
