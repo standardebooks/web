@@ -809,7 +809,7 @@ main.manual *:target{
 
 @media(max-width: 1700px){
 	main.manual{
-		--manual-collapsed-number-gutter: 4.75rem;
+		--manual-collapsed-number-gutter: 6.25rem;
 		--manual-collapsed-number-width: 5.25rem;
 	}
 
@@ -818,12 +818,12 @@ main.manual *:target{
 		width: calc(100% - var(--manual-collapsed-number-gutter));
 	}
 
-	main.manual > nav ~ article:first-of-type{
+	main.manual > nav ~ article:first-of-type:not(:only-of-type){
 		margin-left: 0;
 		width: 100%;
 	}
 
-	main.manual > nav ~ article:first-of-type > section:first-child{
+	main.manual > nav ~ article:first-of-type:not(:only-of-type) > section:first-child{
 		max-width: none;
 	}
 
