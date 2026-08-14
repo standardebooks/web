@@ -16,6 +16,7 @@ parameters:
 		- %rootDir%/../../../lib
 		- %rootDir%/../../../www
 		- %rootDir%/../../../scripts
+		- %rootDir%/../../../scripts/delete-banned-ip-addresses
 		- %rootDir%/../../../scripts/delete-newsletter-subscriptions
 		- %rootDir%/../../../scripts/delete-orphan-users
 		- %rootDir%/../../../scripts/generate-bulk-downloads

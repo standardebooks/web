@@ -43,8 +43,10 @@ final class NewsletterSubscription{
 
 	/**
 	 * @throws Exceptions\InvalidNewsletterSubscription
-	 * @throws Exceptions\NewsletterSubscriptionExistsException
 	 * @throws Exceptions\EmailBounceExistsException
+	 * @throws Exceptions\NewsletterSubscriptionExistsException If the subscription already exists or is created by a concurrent request.
+	 * @throws Exceptions\UserInvalidException If a new `User` cannot be created from the subscription email address.
+	 * @throws Exceptions\UserNotFoundException If a concurrently-created `User` cannot be retrieved.
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -65,23 +67,30 @@ final class NewsletterSubscription{
 			try{
 				$this->User->Create();
 			}
-			catch(Exceptions\UserExistsException | Exceptions\UserInvalidException){
-				// `User` exists, pass.
+			catch(Exceptions\UserExistsException){
+				// A concurrent request created the `User`, so retrieve it.
+				$this->User = User::GetByEmail($this->User->Email);
 			}
 		}
 
 		$this->UserId = $this->User->UserId;
 		$this->CreatedAt = NOW;
 
+		// Existing subscriptions don't count against the rate limit because they can't trigger another confirmation email.
+		$subscriptionExists = Db::QueryBool('select exists (select * from NewsletterSubscriptions where UserId = ? and NewsletterId = ?)', [$this->UserId, $this->NewsletterId]);
+		if($subscriptionExists){
+			throw new Exceptions\NewsletterSubscriptionExistsException();
+		}
+
 		try{
 			Db::Query('
-				insert into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt)
+					insert into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt)
 				values (?,
 				        ?,
 				        ?,
 				        ?,
 				        ?)
-			', [$this->UserId, $this->NewsletterId, $this->IsConfirmed, $this->IsVisible, $this->CreatedAt]);
+				', [$this->UserId, $this->NewsletterId, $this->IsConfirmed, $this->IsVisible, $this->CreatedAt]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\NewsletterSubscriptionExistsException();

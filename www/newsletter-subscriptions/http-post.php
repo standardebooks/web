@@ -10,11 +10,12 @@ use Ramsey\Uuid\Uuid;
 try{
 	session_start();
 
+	$uuid = Uuid::uuid4();
+
 	if(Http::$Request->Body->Get('automation-test')){
 		// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
 		http_response_code(Enums\HttpCode::SeeOther->value);
 		$_SESSION['newsletter-subscription/create/is-bot'] = true;
-		$uuid = Uuid::uuid4();
 		header('location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
 		exit();
 	}
@@ -25,7 +26,10 @@ try{
 	foreach($newsletterIds as $newsletterId){
 		if(ctype_digit($newsletterId)){
 			try{
-				$newsletters[] = Newsletter::Get((int)$newsletterId);
+				$newsletter = Newsletter::Get((int)$newsletterId);
+				if($newsletter->IsVisible){
+					$newsletters[] = $newsletter;
+				}
 			}
 			catch(Exceptions\NewsletterNotFoundException){
 				// Pass.
@@ -44,56 +48,46 @@ try{
 		throw new Exceptions\CaptchaInvalidException();
 	}
 
-	try{
-		$user = User::GetByEmail($email);
-	}
-	catch(Exceptions\UserNotFoundException){
-		$user = new User();
-		$uuid = Uuid::uuid4();
-		$user->Uuid = $uuid->toString();
-		$user->Email = $email;
+	if(Http::$Request->RemoteAddress === null || Http::$Request->RemoteAddress->IsBanned() !== null){
+		http_response_code(Enums\HttpCode::SeeOther->value);
+		$_SESSION['newsletter-subscription/create/is-created'] = true;
+		header('location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
+		exit();
 	}
 
-	$hasEmailBounced = Db::QueryBool('select exists (select * from EmailBounces where Email = ? and IsActive = true)', [$email]);
-
-	if($hasEmailBounced){
-		throw new Exceptions\EmailBounceExistsException('An email we sent to this email address bounced back or was marked as spam. We can’t send email to this email address anymore.');
-	}
-
-	try{
-		$user = User::GetByEmail($email);
-	}
-	catch(Exceptions\UserNotFoundException){
-		try{
-			$user->Create();
-		}
-		catch(Exceptions\UserExistsException | Exceptions\UserInvalidException){
-			// `User` exists, pass.
-			$user = User::GetByEmail($email);
-		}
-	}
-
-	$parameters = [];
+	$user = new User();
+	$user->Uuid = $uuid->toString();
+	$user->Email = $email;
+	$isAnyNewsletterSubscriptionCreated = false;
 
 	foreach($newsletters as $newsletter){
 		$newsletterSubscription = new NewsletterSubscription();
 		$newsletterSubscription->Newsletter = $newsletter;
 		$newsletterSubscription->NewsletterId = $newsletter->NewsletterId;
 		$newsletterSubscription->User = $user;
-		$newsletterSubscription->UserId = $user->UserId;
-		$newsletterSubscription->CreatedAt = NOW;
-		$newsletterSubscription->Validate();
 
-		$parameters[] = $newsletterSubscription->UserId;
-		$parameters[] = $newsletterSubscription->NewsletterId;
-		$parameters[] = $newsletterSubscription->IsConfirmed;
-		$parameters[] = $newsletterSubscription->IsVisible;
-		$parameters[] = $newsletterSubscription->CreatedAt;
+		try{
+			// The unique email and IP address keys prevent duplicate concurrent attempts and enforce the rate limit.
+			Db::Query('insert into NewsletterSignupAttempts (NewsletterId, Email, IpAddress, CreatedAt) values (?, ?, ?, ?)', [$newsletter->NewsletterId, $user->Email, Http::$Request->RemoteAddress->Binary, NOW]);
+		}
+		catch(Exceptions\DuplicateDatabaseKeyException){
+			throw new Exceptions\SpamSuspectedException();
+		}
+
+		try{
+			$newsletterSubscription->Create();
+			// We may have fetched a different user into the `NewsletterSubscription` while creating, so update it here just in case.
+			$user = $newsletterSubscription->User;
+
+			$isAnyNewsletterSubscriptionCreated = true;
+		}
+		catch(Exceptions\NewsletterSubscriptionExistsException){
+			$user = $newsletterSubscription->User;
+			continue;
+		}
 	}
 
-	Db::MultiInsert('insert ignore into NewsletterSubscriptions (UserId, NewsletterId, IsConfirmed, IsVisible, CreatedAt) values (?, ?, ?, ?, ?)', $parameters);
-
-	if(Db::$LastQueryAffectedRowCount > 0){
+	if($isAnyNewsletterSubscriptionCreated){
 		// Send the double opt-in confirmation email.
 		$user->SendNewsletterSubscriptionConfirmationEmail();
 	}

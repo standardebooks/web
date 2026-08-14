@@ -40,6 +40,8 @@ const BLOG_POST_IMAGES_UPLOAD_PATH =	'/images/blog-posts';
 const EBOOKS_IDENTIFIER_ROOT =		'https://standardebooks.org';
 const EBOOKS_IDENTIFIER_PREFIX =	EBOOKS_IDENTIFIER_ROOT . '/ebooks/';
 
+define('IPREGISTRY_API_KEY', get_cfg_var('se.secrets.ipregistry_co.api_key'));
+
 const DATABASE_DEFAULT_DATABASE = 	'se';
 /** The maximum amount of rows to insert per batch in `Db::MultiInsert()`. This can't be too large, otherwise inserts with lots of data (like multiple HTML documents) can run into the `max_allowed_packet` limit. */
 const DATABASE_INSERT_BATCH_SIZE = 250;
