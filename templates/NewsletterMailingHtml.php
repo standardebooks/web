@@ -94,8 +94,12 @@ $bodyHtml = $bodyHtml ?? '';
 
 		h2{
 			font-size: 1.5em;
-			margin-top: 2em;
+			margin-top: 4em;
 			margin-bottom: 0;
+		}
+
+		h1 + h2{
+			margin-top: 2rem;
 		}
 
 		a,
