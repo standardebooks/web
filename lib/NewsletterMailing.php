@@ -1,5 +1,12 @@
 <?
 use Safe\DateTimeImmutable;
+use Sabberworm\CSS\CSSList\AtRuleBlockList;
+use Sabberworm\CSS\CSSList\CSSBlockList;
+use Sabberworm\CSS\OutputFormat;
+use Sabberworm\CSS\Parser;
+use Sabberworm\CSS\Parsing\SourceException;
+use Sabberworm\CSS\RuleSet\DeclarationBlock;
+use Sabberworm\CSS\Settings;
 
 use function Safe\preg_match;
 use function Safe\preg_match_all;
@@ -515,44 +522,79 @@ class NewsletterMailing{
 			$error->Add(new Exceptions\FieldInvalidException('Newsletter HTML missing unsubscribe URL variable: ' . NEWSLETTER_UNSUBSCRIBE_URL_VARIABLE . '.'));
 		}
 
-		if($error->HasExceptions){
-			throw $error;
-		}
-
-		// Remove unused CSS.
+		// Remove unused CSS and pretty-print the remainder.
 		$dom = simplexml_load_string($this->BodyHtml);
-		$unusedSelectors = [];
+		$styleElements = $dom->xpath('//style') ?? [];
+		$styleSearchOffset = 0;
 
-		preg_match('/<style[^>]*?>(.+?)<\/style>/ius', $this->BodyHtml, $css);
-		if(sizeof($css) > 1){
-			preg_match_all('/^\s*[^\/{}:]+?(?=[,{])/im', $css[1], $selectors);
+		foreach($styleElements as $styleElement){
+			$css = (string)$styleElement;
+			$cssOutputFormat = OutputFormat::createPretty()
+				->indentWithTabs()
+				->setSpaceBeforeOpeningBrace('')
+				->setSpaceAfterSelectorSeparator("\n");
 
-			foreach($selectors[0] as $selectorMatch){
-				$selector = trim($selectorMatch);
-				// Sometimes emits warnings, quiet them.
-				$t = @new Gt\CssXPath\Translator($selector);
+			try{
+				$cssDocument = (new Parser($css, Settings::create()->beStrict()))->parse();
+			}
+			catch(SourceException $ex){
+				$error->Add(new Exceptions\NewsletterMailingCssInvalidException($ex->getMessage()));
+				continue;
+			}
 
-				$elements = @$dom->xpath((string)$t);
+			// Walk every CSS list so that selectors in nested blocks are also checked.
+			/** @var array<CSSBlockList> $cssLists */
+			$cssLists = [$cssDocument];
+			/** @var array<array{CSSBlockList, AtRuleBlockList}> $mediaQueries */
+			$mediaQueries = [];
+			while(sizeof($cssLists) > 0){
+				$cssList = array_pop($cssLists);
 
-				if($elements === false || $elements === null || sizeof($elements) == 0){
-					$unusedSelectors[] = $selector;
+				foreach($cssList->getContents() as $cssListItem){
+					if($cssListItem instanceof DeclarationBlock){
+						foreach($cssListItem->getSelectors() as $selector){
+							$selectorString = $selector->render($cssOutputFormat);
+							// The translator sometimes emits warnings, so quiet them.
+							$translator = @new Gt\CssXPath\Translator($selectorString);
+							$elements = @$dom->xpath((string)$translator);
+
+							if($elements === false || $elements === null || sizeof($elements) == 0){
+								$cssListItem->removeSelector($selector);
+							}
+						}
+
+						if(sizeof($cssListItem->getSelectors()) == 0){
+							$cssList->remove($cssListItem);
+						}
+					}
+					elseif($cssListItem instanceof CSSBlockList){
+						$cssLists[] = $cssListItem;
+
+						if($cssListItem instanceof AtRuleBlockList && $cssListItem->atRuleName() == 'media'){
+							$mediaQueries[] = [$cssList, $cssListItem];
+						}
+					}
 				}
 			}
 
-			$newStyleElement = $css[0];
-
-			// First, remove the actual selectors. This will leave rule blocks without selectors like `{...}`.
-			foreach($unusedSelectors as $selector){
-				$newStyleElement = preg_replace('/^\s*' . $selector . '\s*,?({)?$/ium', '\1', $newStyleElement);
+			// Remove empty media queries from the inside out.
+			foreach(array_reverse($mediaQueries) as [$parentCssList, $mediaQuery]){
+				if(sizeof($mediaQuery->getContents()) == 0){
+					$parentCssList->remove($mediaQuery);
+				}
 			}
 
-			// If multiple selectors applied to a rule block, we may now have something like `h2,{...}`. Correct that here by removing commas.
-			$newStyleElement = preg_replace('/(\s*[^\/{}:]+?),\s*{/ius', '\1{', $newStyleElement);
+			// Do a string replace instead of updating the DOM element to avoid having to re-serialize the entire DOM, which could result in undesirable formatting.
+			$formattedCss = $cssDocument->render($cssOutputFormat->nextLevel()->nextLevel());
+			$cssOffset = strpos($this->BodyHtml, $css, $styleSearchOffset);
+			if($cssOffset !== false){
+				$this->BodyHtml = substr_replace((string)$this->BodyHtml, $formattedCss, $cssOffset, strlen($css));
+				$styleSearchOffset = $cssOffset + strlen($formattedCss);
+			}
+		}
 
-			// Finally, remove rule blocks with no selectors.
-			$newStyleElement = preg_replace('/^\s*{[^}]*}/ium', '', $newStyleElement);
-
-			$this->BodyHtml = str_replace($css[0], $newStyleElement, $this->BodyHtml);
+		if($error->HasExceptions){
+			throw $error;
 		}
 	}
 
