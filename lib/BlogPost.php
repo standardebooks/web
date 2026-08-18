@@ -358,30 +358,50 @@ class BlogPost{
 			$this->ImageCacheKey = $this->GenerateImageCacheKey();
 		}
 
+		Db::Query('start transaction');
+
 		try{
-			$this->BlogPostId = Db::QueryInt('
-				insert into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, PublishedAt, CreatedAt)
-				values (?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?)
-				returning BlogPostId
-			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->CreatedAt]);
-		}
-		catch(Exceptions\DuplicateDatabaseKeyException){
-			throw new Exceptions\BlogPostExistsException();
-		}
+			try{
+				$this->BlogPostId = Db::QueryInt('
+					insert into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, PublishedAt, CreatedAt)
+					values (?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?)
+					returning BlogPostId
+				', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->CreatedAt]);
+			}
+			catch(Exceptions\DuplicateDatabaseKeyException){
+				throw new Exceptions\BlogPostExistsException();
+			}
 
-		$this->AddEbooks();
+			$this->AddEbooks();
 
-		if($heroImagePath !== null){
-			$this->WriteHeroImage($heroImagePath);
+			if($heroImagePath !== null){
+				$this->WriteHeroImage($heroImagePath);
+			}
+
+			Db::Query('commit');
+		}
+		catch(\Throwable $ex){
+			try{
+				Db::Query('rollback');
+			}
+			catch(\Throwable){
+				// Preserve the original exception.
+			}
+
+			if(isset($this->BlogPostId)){
+				$this->RemoveHeroImage();
+			}
+
+			throw $ex;
 		}
 	}
 
@@ -409,25 +429,41 @@ class BlogPost{
 			unset($this->_HeroImageUrl, $this->_HeroImage2xUrl, $this->_HeroImageAvifUrl, $this->_HeroImageAvif2xUrl);
 		}
 
+		Db::Query('start transaction');
+
 		try{
-			Db::Query('
-				update BlogPosts
-				set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, ImageCacheKey = ?, HeroImageCaption = ?, PublishedAt = ? where BlogPostId = ?
-			', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->BlogPostId]);
-		}
-		catch(Exceptions\DuplicateDatabaseKeyException){
-			throw new Exceptions\BlogPostExistsException();
-		}
+			try{
+				Db::Query('
+					update BlogPosts
+					set UserId = ?, Title = ?, Subtitle = ?, Description = ?, UrlTitle = ?, Body = ?, ImageCacheKey = ?, HeroImageCaption = ?, PublishedAt = ? where BlogPostId = ?
+				', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->BlogPostId]);
+			}
+			catch(Exceptions\DuplicateDatabaseKeyException){
+				throw new Exceptions\BlogPostExistsException();
+			}
 
-		Db::Query('delete from BlogPostEbooks where BlogPostId = ?', [$this->BlogPostId]);
+			Db::Query('delete from BlogPostEbooks where BlogPostId = ?', [$this->BlogPostId]);
 
-		$this->AddEbooks();
+			$this->AddEbooks();
 
-		if(!$hasHeroImage){
-			$this->RemoveHeroImage();
+			if(!$hasHeroImage){
+				$this->RemoveHeroImage();
+			}
+			elseif($heroImagePath !== null){
+				$this->WriteHeroImage($heroImagePath);
+			}
+
+			Db::Query('commit');
 		}
-		elseif($heroImagePath !== null){
-			$this->WriteHeroImage($heroImagePath);
+		catch(\Throwable $ex){
+			try{
+				Db::Query('rollback');
+			}
+			catch(\Throwable){
+				// Preserve the original exception.
+			}
+
+			throw $ex;
 		}
 
 		// Reset the URL in case we changed the title.
@@ -450,6 +486,8 @@ class BlogPost{
 	 */
 	private function WriteHeroImage(string $tempImagePath): void{
 		$tempDirectory = sys_get_temp_dir() . '/' . uniqid('se-blog-hero-', true);
+		$filesWereInstalled = false;
+		$destinationPaths = [];
 
 		try{
 			mkdir($tempDirectory);
@@ -519,6 +557,15 @@ class BlogPost{
 			}
 
 			$destinationBasePath = WEB_ROOT . BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId;
+			$allSuffixes = ['.jpg', '@2x.jpg', '.avif', '@2x.avif', '-original.jpg', '-original.png', '-original.webp'];
+			foreach($allSuffixes as $key => $suffix){
+				$destinationPaths[$key] = $destinationBasePath . $suffix;
+				if(is_file($destinationPaths[$key])){
+					copy($destinationPaths[$key], $tempDirectory . '/backup-' . $key);
+				}
+			}
+
+			$filesWereInstalled = true;
 
 			// Remove any old "original" files in case we uploaded a new one with a different extension.
 			foreach([Enums\ImageMimeType::JPG, Enums\ImageMimeType::PNG, Enums\ImageMimeType::WEBP] as $originalMimeType){
@@ -532,7 +579,24 @@ class BlogPost{
 				copy($tempBasePath . $suffix, $destinationBasePath . $suffix);
 			}
 		}
-		catch(\Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException){
+		catch(\Safe\Exceptions\ExecException | \Safe\Exceptions\FilesystemException | \Safe\Exceptions\ImageException){
+			if($filesWereInstalled){
+				foreach($destinationPaths as $key => $destinationPath){
+					try{
+						$backupPath = $tempDirectory . '/backup-' . $key;
+						if(is_file($backupPath)){
+							copy($backupPath, $destinationPath);
+						}
+						elseif(is_file($destinationPath)){
+							@unlink($destinationPath);
+						}
+					}
+					catch(\Safe\Exceptions\FilesystemException){
+						// Preserve the original exception.
+					}
+				}
+			}
+
 			throw new Exceptions\ImageUploadInvalidException('Failed to process hero image.');
 		}
 		finally{
@@ -545,7 +609,7 @@ class BlogPost{
 
 			foreach($tempFiles as $tempFile){
 				try{
-					unlink($tempFile);
+					@unlink($tempFile);
 				}
 				catch(\Safe\Exceptions\FilesystemException){
 					// Pass.

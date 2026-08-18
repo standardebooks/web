@@ -4,9 +4,12 @@ use Safe\DateTimeImmutable;
 use function Safe\copy;
 use function Safe\exec;
 use function Safe\getimagesize;
+use function Safe\glob;
+use function Safe\mkdir;
 use function Safe\parse_url;
 use function Safe\preg_match;
 use function Safe\preg_replace;
+use function Safe\rmdir;
 use function Safe\unlink;
 
 /**
@@ -744,17 +747,83 @@ final class Artwork{
 	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
+		$tempDirectory = sys_get_temp_dir() . '/' . uniqid('se-artwork-', true);
+		$destinationPaths = [$this->ImageFsPath, $this->ThumbFsPath, $this->Thumb2xFsPath];
+		$filesWereInstalled = false;
+
 		try{
-			copy($imagePath, $this->ImageFsPath);
-			exec('exiftool -quiet -overwrite_original -all= -tagsfromfile @ -orientation ' . escapeshellarg($this->ImageFsPath));
+			mkdir($tempDirectory);
+			$tempPaths = [
+				$tempDirectory . '/image' . $this->MimeType->GetFileExtension(),
+				$tempDirectory . '/thumbnail.jpg',
+				$tempDirectory . '/thumbnail@2x.jpg',
+			];
+
+			copy($imagePath, $tempPaths[0]);
+			exec('exiftool -quiet -overwrite_original -all= -tagsfromfile @ -orientation ' . escapeshellarg($tempPaths[0]));
 
 			// Generate the thumbnails.
 			$image = new Image($imagePath);
-			$image->Resize($this->ThumbFsPath, ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
-			$image->Resize($this->Thumb2xFsPath, ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
+			$image->Resize($tempPaths[1], ARTWORK_THUMBNAIL_WIDTH, ARTWORK_THUMBNAIL_HEIGHT);
+			$image->Resize($tempPaths[2], ARTWORK_THUMBNAIL_WIDTH * 2, ARTWORK_THUMBNAIL_HEIGHT * 2);
+
+			// Preserve the existing files so that a failed save can restore them.
+			foreach($destinationPaths as $key => $destinationPath){
+				if(is_file($destinationPath)){
+					copy($destinationPath, $tempDirectory . '/backup-' . $key);
+				}
+			}
+
+			$filesWereInstalled = true;
+			foreach($tempPaths as $key => $tempPath){
+				copy($tempPath, $destinationPaths[$key]);
+			}
 		}
 		catch(\Safe\Exceptions\ExecException | \Safe\Exceptions\FilesystemException | Exceptions\ImageOperationFailedException){
+			if($filesWereInstalled){
+				foreach($destinationPaths as $key => $destinationPath){
+					try{
+						$backupPath = $tempDirectory . '/backup-' . $key;
+						if(is_file($backupPath)){
+							copy($backupPath, $destinationPath);
+						}
+						elseif(is_file($destinationPath)){
+							@unlink($destinationPath);
+						}
+					}
+					catch(\Safe\Exceptions\FilesystemException){
+						// Preserve the original exception.
+					}
+				}
+			}
+
 			throw new Exceptions\ImageUploadInvalidException('Failed to generate thumbnail.');
+		}
+		finally{
+			try{
+				$tempFiles = glob($tempDirectory . '/*');
+			}
+			catch(\Safe\Exceptions\FilesystemException){
+				$tempFiles = [];
+			}
+
+			foreach($tempFiles as $tempFile){
+				try{
+					@unlink($tempFile);
+				}
+				catch(\Safe\Exceptions\FilesystemException){
+					// Pass.
+				}
+			}
+
+			if(is_dir($tempDirectory)){
+				try{
+					@rmdir($tempDirectory);
+				}
+				catch(\Safe\Exceptions\FilesystemException){
+					// Pass.
+				}
+			}
 		}
 	}
 
@@ -882,76 +951,92 @@ final class Artwork{
 
 		$this->Validate($imagePath, false);
 
-		$tags = [];
-		foreach($this->Tags as $artworkTag){
-			$tags[] = ArtworkTag::GetOrCreate($artworkTag);
+		Db::Query('start transaction');
+
+		try{
+			$tags = [];
+			foreach($this->Tags as $artworkTag){
+				$tags[] = ArtworkTag::GetOrCreate($artworkTag);
+			}
+			$this->Tags = $tags;
+
+			$newDeathYear = $this->Artist->DeathYear;
+			$this->Artist = Artist::GetOrCreate($this->Artist);
+
+			// Save the artist death year in case we changed it.
+			if($newDeathYear != $this->Artist->DeathYear){
+				Db::Query('update Artists set DeathYear = ? where ArtistId = ?', [$newDeathYear , $this->Artist->ArtistId]);
+			}
+
+			$this->UpdatedAt = NOW;
+
+			// Save the artwork.
+			Db::Query('
+				update Artworks
+				set
+				ArtistId = ?,
+				Name = ?,
+				UrlName = ?,
+				CompletedYear = ?,
+				CompletedYearIsCirca = ?,
+				UpdatedAt = ?,
+				Status = ?,
+				SubmitterUserId = ?,
+				ReviewerUserId = ?,
+				IsAutoReviewed = ?,
+				MuseumUrl = ?,
+				PublicationYear = ?,
+				PublicationYearPageUrl = ?,
+				CopyrightPageUrl = ?,
+				ArtworkPageUrl = ?,
+				IsPublishedInUs = ?,
+				EbookId = ?,
+				MimeType = ?,
+				Exception = ?,
+				Notes = ?
+				where
+				ArtworkId = ?
+			', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
+					$this->UpdatedAt, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+					$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes,
+					$this->ArtworkId]
+			);
+
+			// Delete artists who are no longer to attached to an artwork.
+			// Don't delete from the ArtistAlternateNames table to prevent accidentally deleting those manually-added entries.
+			Db::Query('
+				delete
+				from Artists
+				where ArtistId not in
+					(select distinct ArtistId from Artworks)
+			');
+
+			// Update tags for this artwork.
+			Db::Query('
+				delete from ArtworkTags
+				where
+				ArtworkId = ?
+			', [$this->ArtworkId]
+			);
+
+			$this->AddTags();
+
+			// Handle the uploaded file if the user provided one during the save.
+			if($imagePath !== null){
+				$this->WriteImageAndThumbnails($imagePath);
+			}
+
+			Db::Query('commit');
 		}
-		$this->Tags = $tags;
+		catch(\Throwable $ex){
+			try{
+				Db::Query('rollback');
+			}
+			catch(\Throwable){
+				// Preserve the original exception.
+			}
 
-		$newDeathYear = $this->Artist->DeathYear;
-		$this->Artist = Artist::GetOrCreate($this->Artist);
-
-		// Save the artist death year in case we changed it.
-		if($newDeathYear != $this->Artist->DeathYear){
-			Db::Query('update Artists set DeathYear = ? where ArtistId = ?', [$newDeathYear , $this->Artist->ArtistId]);
-		}
-
-		$this->UpdatedAt = NOW;
-
-		// Save the artwork.
-		Db::Query('
-			update Artworks
-			set
-			ArtistId = ?,
-			Name = ?,
-			UrlName = ?,
-			CompletedYear = ?,
-			CompletedYearIsCirca = ?,
-			UpdatedAt = ?,
-			Status = ?,
-			SubmitterUserId = ?,
-			ReviewerUserId = ?,
-			IsAutoReviewed = ?,
-			MuseumUrl = ?,
-			PublicationYear = ?,
-			PublicationYearPageUrl = ?,
-			CopyrightPageUrl = ?,
-			ArtworkPageUrl = ?,
-			IsPublishedInUs = ?,
-			EbookId = ?,
-			MimeType = ?,
-			Exception = ?,
-			Notes = ?
-			where
-			ArtworkId = ?
-		', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-				$this->UpdatedAt, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-				$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes,
-				$this->ArtworkId]
-		);
-
-		// Delete artists who are no longer to attached to an artwork.
-		// Don't delete from the ArtistAlternateNames table to prevent accidentally deleting those manually-added entries.
-		Db::Query('
-			delete
-			from Artists
-			where ArtistId not in
-				(select distinct ArtistId from Artworks)
-		');
-
-		// Update tags for this artwork.
-		Db::Query('
-			delete from ArtworkTags
-			where
-			ArtworkId = ?
-		', [$this->ArtworkId]
-		);
-
-		$this->AddTags();
-
-		// Handle the uploaded file if the user provided one during the save.
-		if($imagePath !== null){
-			$this->WriteImageAndThumbnails($imagePath);
+			throw $ex;
 		}
 
 		$this->UpdateSearchRepresentation();
