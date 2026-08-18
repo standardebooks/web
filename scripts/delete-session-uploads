@@ -1,0 +1,31 @@
+#!/usr/bin/php
+<?
+require_once(__DIR__ . '/../lib/Core.php');
+
+use function Safe\getopt;
+
+/**
+ * Print usage information for this command and exit.
+ */
+function Usage(): void{
+	Cli::PrintHelp(
+		usage: '[command]delete-session-uploads[/]',
+		description: 'Delete temporary image files that are more than one hour old.',
+	);
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
+
+ImageTempDirectory::DeleteFilesOlderThan(new DateInterval('PT1H'));

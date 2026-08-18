@@ -19,16 +19,30 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
+	unset($_SESSION['blog-post/edit/image-token-secret']);
+
 	$exception = Http::$Request->Session->Get('blog-post/edit/exception', Exceptions\AppException::class);
 	$blogPost = Http::$Request->Session->Get('blog-post/edit/blog-post', BlogPost::class) ?? $originalBlogPost;
 	$userIdentifier = Http::$Request->Session->Get('blog-post/edit/user-identifier');
 	$ebookIdentifiers = Http::$Request->Session->Get('blog-post/edit/ebook-identifiers') ?? $blogPost->EbookIdentifiers;
 	$hasHeroImage = Http::$Request->Session->Get('blog-post/edit/has-hero-image', 'bool') ?? ($blogPost->ImageCacheKey !== null);
+	$stagedImagePath = Http::$Request->Session->Get('blog-post/edit/image-path');
+	$stagedImageToken = null;
 
 	// We got here because an operation had errors and the user has to try again.
 	if($exception){
 		http_response_code(Enums\HttpCode::UnprocessableContent->value);
 		session_unset();
+		if($stagedImagePath !== null && is_file($stagedImagePath)){
+			$imageTokenSecret = bin2hex(random_bytes(32));
+			try{
+				$stagedImageToken = ImageTempDirectory::CreateToken($stagedImagePath, $imageTokenSecret);
+				$_SESSION['blog-post/edit/image-token-secret'] = $imageTokenSecret;
+			}
+			catch(Exceptions\TempDirectoryException){
+				// The staged image is not available for reuse.
+			}
+		}
 	}
 }
 catch(Exceptions\BlogPostNotFoundException){
@@ -58,7 +72,7 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<form class="blog-post-form" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $originalBlogPost->Url ?>" enctype="multipart/form-data" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
-			<?= Template::BlogPostForm(blogPost: $blogPost, userIdentifier: $userIdentifier, ebookIdentifiers: $ebookIdentifiers, hasHeroImage: $hasHeroImage, isEditForm: true) ?>
+			<?= Template::BlogPostForm(blogPost: $blogPost, userIdentifier: $userIdentifier, ebookIdentifiers: $ebookIdentifiers, hasHeroImage: $hasHeroImage, isEditForm: true, stagedImageToken: $stagedImageToken) ?>
 		</form>
 	</section>
 </main>

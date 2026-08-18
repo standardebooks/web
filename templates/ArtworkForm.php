@@ -4,7 +4,11 @@
  */
 
 $isEditForm ??= false;
+$stagedImageToken ??= null;
 ?>
+<? if($stagedImageToken !== null){ ?>
+	<input type="hidden" name="artwork-image-token" value="<?= Formatter::EscapeHtml($stagedImageToken) ?>" />
+<? } ?>
 <fieldset>
 	<legend>Artist details</legend>
 	<label class="icon user">
@@ -76,16 +80,23 @@ $isEditForm ??= false;
 			value="<?= Formatter::EscapeHtml($artwork->ImplodeTags()) ?>"
 		/>
 	</label>
-	<label class="icon file-image">
-		<span>High-resolution image</span>
-		<span><?= Formatter::EscapeHtml(Enums\ImageMimeType::ValuesString()) ?> are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?>px × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?>px minimum; <?= Http::$Request->MaxPostSize / 1024 / 1024 ?>MB maximum.<? if($isEditForm){ ?> Leave this blank to not change the image.<? } ?></span>
-		<input
-			type="file"
-			name="artwork-image"
-			<? if(!$isEditForm){ ?>required="required"<? } ?>
-			accept="<?= implode(',', Enums\ImageMimeType::Values()) ?>"
-		/>
-	</label>
+	<? if($stagedImageToken !== null){ ?>
+		<details>
+			<summary>Upload a different image</summary>
+	<? } ?>
+		<label class="icon file-image">
+			<span>High-resolution image</span>
+			<span><?= Formatter::EscapeHtml(Enums\ImageMimeType::ValuesString()) ?> are accepted; <?= number_format(ARTWORK_IMAGE_MINIMUM_WIDTH) ?>px × <?= number_format(ARTWORK_IMAGE_MINIMUM_HEIGHT) ?>px minimum; <?= Http::$Request->MaxPostSize / 1024 / 1024 ?>MB maximum.<? if($isEditForm && $stagedImageToken === null){ ?> Leave this blank to not change the image.<? } ?></span>
+			<input
+				type="file"
+				name="artwork-image"
+				<? if(!$isEditForm && $stagedImageToken === null){ ?>required="required"<? } ?>
+				accept="<?= implode(',', Enums\ImageMimeType::Values()) ?>"
+			/>
+		</label>
+	<? if($stagedImageToken !== null){ ?>
+		</details>
+	<? } ?>
 </fieldset>
 <fieldset id="pd-proof">
 	<legend>Proof of U.S. public domain status</legend>

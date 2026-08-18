@@ -7,7 +7,11 @@
 $userIdentifier ??= null;
 $ebookIdentifiers ??= null;
 $isEditForm ??= false;
+$stagedImageToken ??= null;
 ?>
+<? if($stagedImageToken !== null){ ?>
+	<input type="hidden" name="blog-post-hero-image-token" value="<?= Formatter::EscapeHtml($stagedImageToken) ?>" />
+<? } ?>
 <label class="icon user">
 	<span>Author identifier</span>
 	<span>A user ID, email, UUID, or name.</span>
@@ -78,11 +82,18 @@ $isEditForm ??= false;
 </label>
 <fieldset class="grouped">
 	<legend>Hero image</legend>
-	<label class="icon file-image">
-		<span>Image file</span>
-		<span>JPG, PNG, or WebP are accepted; <?= Http::$Request->MaxPostSize / 1024 / 1024 ?>MB maximum.<? if($isEditForm && $blogPost->ImageCacheKey !== null){ ?> Leave this blank to not change the image.<? } ?></span>
-		<input type="file" name="blog-post-hero-image" accept="<?= implode(',', [Enums\ImageMimeType::JPG->value, Enums\ImageMimeType::PNG->value, Enums\ImageMimeType::WEBP->value]) ?>" />
-	</label>
+	<? if($stagedImageToken !== null){ ?>
+		<details>
+			<summary>Upload a different image</summary>
+	<? } ?>
+		<label class="icon file-image">
+			<span>Image file</span>
+			<span>JPG, PNG, or WebP are accepted; <?= Http::$Request->MaxPostSize / 1024 / 1024 ?>MB maximum.<? if($isEditForm && $blogPost->ImageCacheKey !== null && $stagedImageToken === null){ ?> Leave this blank to not change the image.<? } ?></span>
+			<input type="file" name="blog-post-hero-image" accept="<?= implode(',', [Enums\ImageMimeType::JPG->value, Enums\ImageMimeType::PNG->value, Enums\ImageMimeType::WEBP->value]) ?>" />
+		</label>
+	<? if($stagedImageToken !== null){ ?>
+		</details>
+	<? } ?>
 	<label>
 		<span>Caption</span>
 		<input type="text" name="blog-post-hero-image-caption" maxlength="255" value="<?= Formatter::EscapeHtml($blogPost->HeroImageCaption ?? '') ?>" />

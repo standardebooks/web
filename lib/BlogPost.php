@@ -485,7 +485,13 @@ class BlogPost{
 	 * @throws Exceptions\ImageUploadInvalidException If the upload is not a supported image or conversion fails.
 	 */
 	private function WriteHeroImage(string $tempImagePath): void{
-		$tempDirectory = sys_get_temp_dir() . '/' . uniqid('se-blog-hero-', true);
+		try{
+			$tempDirectory = ImageTempDirectory::GetPath() . '/' . uniqid('blog-hero-', true);
+		}
+		catch(Exceptions\TempDirectoryException){
+			throw new Exceptions\ImageUploadInvalidException('Failed to process hero image.');
+		}
+
 		$filesWereInstalled = false;
 		$destinationPaths = [];
 

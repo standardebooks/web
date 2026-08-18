@@ -5,6 +5,8 @@
 
 use function Safe\session_start;
 
+$stagedImagePath = null;
+
 try{
 	session_start();
 
@@ -21,6 +23,7 @@ try{
 
 	$artworkStatus = Http::$Request->Body->Get('artwork-status');
 	$artworkEbookUrl = Http::$Request->Body->Get('artwork-ebook-url');
+	$isEditFormSubmission = isset(Http::$Request->Body->Variables['artwork-name']);
 
 	if(
 		!(
@@ -42,6 +45,21 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
+	if($isEditFormSubmission){
+		$stagedImageToken = Http::$Request->Body->Get('artwork-image-token');
+		$imageTokenSecret = Http::$Request->Session->Get('artwork/edit/image-token-secret');
+		$stagedImagePath = ImageTempDirectory::GetStagedImagePath($stagedImageToken, $imageTokenSecret);
+		$uploadedImagePath = Http::$Request->Files->Get('artwork-image');
+
+		unset($_SESSION['artwork/edit/image-token-secret']);
+
+		$stagedImagePath = ImageTempDirectory::ReplaceImage($stagedImagePath, $uploadedImagePath);
+
+		if($stagedImagePath !== null){
+			$_SESSION['artwork/edit/image-path'] = $stagedImagePath;
+		}
+	}
+
 	try{
 		$originalArtworkStatus = $artwork->Status;
 
@@ -57,7 +75,12 @@ try{
 		throw $ex;
 	}
 
-	$artwork->Save(Http::$Request->Files->Get('artwork-image'));
+	$artwork->Save($stagedImagePath);
+	if($isEditFormSubmission){
+		ImageTempDirectory::RemoveImage($stagedImagePath);
+
+		unset($_SESSION['artwork/edit/image-path']);
+	}
 
 	$_SESSION['artwork/edit/artwork'] = $artwork;
 	$_SESSION['artwork/edit/is-saved'] = true;
@@ -75,6 +98,12 @@ catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
 catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException | Exceptions\ArtistInvalidException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException | Exceptions\UrlInvalidException $ex){
+	if($stagedImagePath !== null && ($ex instanceof Exceptions\ImageUploadInvalidException || ($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class)))){
+		ImageTempDirectory::RemoveImage($stagedImagePath);
+
+		unset($_SESSION['artwork/edit/image-path']);
+	}
+
 	// If we were passed a more generic file upload exception from the HTTP request, swap it for a more specific exception to show to the user.
 	if($ex instanceof Exceptions\FileUploadInvalidException || $ex instanceof Exceptions\FileUploadTooLargeException){
 		$ex = new Exceptions\ImageUploadInvalidException();

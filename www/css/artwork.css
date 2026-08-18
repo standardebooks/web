@@ -218,8 +218,17 @@ form.create-update-artwork > fieldset:nth-of-type(2){
 }
 
 form.create-update-artwork > fieldset label:has(input[name="artwork-tags"]),
-form.create-update-artwork > fieldset label:has(input[name="artwork-image"]){
+form.create-update-artwork > fieldset label:has(input[name="artwork-image"]),
+form.create-update-artwork > fieldset > details{
 	grid-column: 1 / span 2;
+}
+
+form.create-update-artwork > fieldset > details summary{
+	font-weight: bold;
+}
+
+form.create-update-artwork > fieldset > details summary + label > span:first-child{
+	display: none;
 }
 
 form.create-update-artwork fieldset fieldset:has(input[name="artwork-publication-year"]){

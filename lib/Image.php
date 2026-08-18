@@ -173,7 +173,13 @@ class Image{
 	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	private function GetAutoOrientedTiffImageHandle(): \GdImage{
-		$tempFilename = sys_get_temp_dir() . '/' . uniqid('se-image-', true) . '.jpg';
+		try{
+			$tempFilename = ImageTempDirectory::GetPath() . '/' . uniqid('se-image-', true) . '.jpg';
+		}
+		catch(Exceptions\TempDirectoryException){
+			throw new Exceptions\ImageUploadInvalidException('Failed to create temporary image.');
+		}
+
 		$tempFilePathInfo = pathinfo($tempFilename);
 		$tempFileGlob = $tempFilePathInfo['dirname'] . '/' . $tempFilePathInfo['filename'] . '*.jpg';
 

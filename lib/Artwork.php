@@ -747,7 +747,13 @@ final class Artwork{
 	 * @throws Exceptions\ImageUploadInvalidException
 	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
-		$tempDirectory = sys_get_temp_dir() . '/' . uniqid('se-artwork-', true);
+		try{
+			$tempDirectory = ImageTempDirectory::GetPath() . '/' . uniqid('artwork-', true);
+		}
+		catch(Exceptions\TempDirectoryException){
+			throw new Exceptions\ImageUploadInvalidException('Failed to generate thumbnail.');
+		}
+
 		$destinationPaths = [$this->ImageFsPath, $this->ThumbFsPath, $this->Thumb2xFsPath];
 		$filesWereInstalled = false;
 

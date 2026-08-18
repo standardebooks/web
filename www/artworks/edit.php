@@ -19,8 +19,12 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
+	unset($_SESSION['artwork/edit/image-token-secret']);
+
 	$exception = Http::$Request->Session->Get('artwork/edit/exception', Exceptions\AppException::class);
 	$artwork = Http::$Request->Session->Get('artwork/edit/artwork', Artwork::class) ?? $originalArtwork;
+	$stagedImagePath = Http::$Request->Session->Get('artwork/edit/image-path');
+	$stagedImageToken = null;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.
@@ -32,6 +36,16 @@ try{
 		}
 
 		session_unset();
+		if($stagedImagePath !== null && is_file($stagedImagePath)){
+			$imageTokenSecret = bin2hex(random_bytes(32));
+			try{
+				$stagedImageToken = ImageTempDirectory::CreateToken($stagedImagePath, $imageTokenSecret);
+				$_SESSION['artwork/edit/image-token-secret'] = $imageTokenSecret;
+			}
+			catch(Exceptions\TempDirectoryException){
+				// The staged image is not available for reuse.
+			}
+		}
 	}
 }
 catch(Exceptions\ArtworkNotFoundException){
@@ -67,7 +81,7 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="<?= $originalArtwork->Url ?>" enctype="multipart/form-data" autocomplete="off">
 			<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Patch->value ?>" />
-			<?= Template::ArtworkForm(artwork: $artwork, isEditForm: true) ?>
+			<?= Template::ArtworkForm(artwork: $artwork, isEditForm: true, stagedImageToken: $stagedImageToken) ?>
 		</form>
 	</section>
 </main>

@@ -5,11 +5,11 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 
 /**
- * @method static string ArtworkForm(Artwork $artwork, $isEditForm = false)
+ * @method static string ArtworkForm(Artwork $artwork, $isEditForm = false, $stagedImageToken = null)
  * @method static string ArtworkList(array<Artwork> $artworks)
  * @method static string AtomFeed(string $id, string $url, string $title, ?string $subtitle = null, DateTimeImmutable $updated, array<Ebook> $entries)
  * @method static string AtomFeedEntry(Ebook $entry)
- * @method static string BlogPostForm(BlogPost $blogPost, ?string $userIdentifier, ?string $ebookIdentifiers, bool $hasHeroImage, $isEditForm = false)
+ * @method static string BlogPostForm(BlogPost $blogPost, ?string $userIdentifier, ?string $ebookIdentifiers, bool $hasHeroImage, $isEditForm = false, $stagedImageToken = null)
  * @method static string BulkDownloadTable(string $label, array<BulkDownloadCollection> $bulkDownloadCollections)
  * @method static string CollectionMembershipFieldset(int $index, ?CollectionMembership $collectionMembership)
  * @method static string ContributeAlert()

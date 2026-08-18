@@ -17,9 +17,13 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
+	unset($_SESSION['artwork/create/image-token-secret']);
+
 	$isCreated = Http::$Request->Session->Get('artwork/create/is-created', 'bool') ?? false;
 	$exception = Http::$Request->Session->Get('artwork/create/exception', Exceptions\AppException::class);
 	$artwork = Http::$Request->Session->Get('artwork/create/artwork', Artwork::class);
+	$stagedImagePath = Http::$Request->Session->Get('artwork/create/image-path');
+	$stagedImageToken = null;
 
 	if($isCreated){
 		// We got here because an `Artwork` was successfully submitted.
@@ -37,6 +41,16 @@ try{
 		}
 
 		session_unset();
+		if($stagedImagePath !== null && is_file($stagedImagePath)){
+			$imageTokenSecret = bin2hex(random_bytes(32));
+			try{
+				$stagedImageToken = ImageTempDirectory::CreateToken($stagedImagePath, $imageTokenSecret);
+				$_SESSION['artwork/create/image-token-secret'] = $imageTokenSecret;
+			}
+			catch(Exceptions\TempDirectoryException){
+				// The staged image is not available for reuse.
+			}
+		}
 	}
 
 	if($artwork === null){
@@ -75,7 +89,7 @@ catch(Exceptions\PermissionsInvalidException){
 		<? } ?>
 
 		<form class="create-update-artwork" method="<?= Enums\HttpMethod::Post->value ?>" action="/artworks" enctype="multipart/form-data" autocomplete="off">
-			<?= Template::ArtworkForm(artwork: $artwork) ?>
+			<?= Template::ArtworkForm(artwork: $artwork, stagedImageToken: $stagedImageToken) ?>
 		</form>
 	</section>
 </main>
