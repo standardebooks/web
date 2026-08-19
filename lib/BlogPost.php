@@ -486,7 +486,7 @@ class BlogPost{
 	 */
 	private function WriteHeroImage(string $tempImagePath): void{
 		try{
-			$tempDirectory = ImageTempDirectory::GetPath() . '/' . uniqid('blog-hero-', true);
+			$tempDirectory = UploadTempDirectory::GetPath() . '/' . uniqid('blog-hero-', true);
 		}
 		catch(Exceptions\TempDirectoryException){
 			throw new Exceptions\ImageUploadInvalidException('Failed to process hero image.');

@@ -748,7 +748,7 @@ final class Artwork{
 	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
 		try{
-			$tempDirectory = ImageTempDirectory::GetPath() . '/' . uniqid('artwork-', true);
+			$tempDirectory = UploadTempDirectory::GetPath() . '/' . uniqid('artwork-', true);
 		}
 		catch(Exceptions\TempDirectoryException){
 			throw new Exceptions\ImageUploadInvalidException('Failed to generate thumbnail.');

@@ -174,7 +174,7 @@ class Image{
 	 */
 	private function GetAutoOrientedTiffImageHandle(): \GdImage{
 		try{
-			$tempFilename = ImageTempDirectory::GetPath() . '/' . uniqid('se-image-', true) . '.jpg';
+			$tempFilename = UploadTempDirectory::GetPath() . '/' . uniqid('se-image-', true) . '.jpg';
 		}
 		catch(Exceptions\TempDirectoryException){
 			throw new Exceptions\ImageUploadInvalidException('Failed to create temporary image.');

@@ -25,16 +25,26 @@ try{
 	$hasHeroImage = Http::$Request->Body->Get('blog-has-hero-image', 'bool') ?? false;
 	$stagedImageToken = Http::$Request->Body->Get('blog-post-hero-image-token');
 	$imageTokenSecret = Http::$Request->Session->Get('blog-post/create/image-token-secret');
-	$stagedImagePath = ImageTempDirectory::GetStagedImagePath($stagedImageToken, $imageTokenSecret);
+	try{
+		$stagedImagePath = UploadTempDirectory::GetStagedUploadPath($stagedImageToken, $imageTokenSecret);
+	}
+	catch(Exceptions\FileUploadInvalidException){
+		throw new Exceptions\ImageUploadInvalidException('Please re-upload the image.');
+	}
 	$uploadedImagePath = $hasHeroImage ? Http::$Request->Files->Get('blog-post-hero-image') : null;
 
 	unset($_SESSION['blog-post/create/image-token-secret']);
 
 	if($uploadedImagePath !== null){
-		$stagedImagePath = ImageTempDirectory::ReplaceImage($stagedImagePath, $uploadedImagePath);
+		try{
+			$stagedImagePath = UploadTempDirectory::ReplaceUpload($stagedImagePath, $uploadedImagePath);
+		}
+		catch(Exceptions\FileUploadInvalidException){
+			throw new Exceptions\ImageUploadInvalidException('Failed to save uploaded image.');
+		}
 	}
 	elseif(!$hasHeroImage && $stagedImagePath !== null){
-		ImageTempDirectory::RemoveImage($stagedImagePath);
+		UploadTempDirectory::RemoveUpload($stagedImagePath);
 		$stagedImagePath = null;
 	}
 
@@ -46,7 +56,7 @@ try{
 
 	$blogPost->Create($userIdentifier, $ebookIdentifiers, $stagedImagePath, $hasHeroImage);
 
-	ImageTempDirectory::RemoveImage($stagedImagePath);
+	UploadTempDirectory::RemoveUpload($stagedImagePath);
 
 	unset($_SESSION['blog-post/create/image-path']);
 
@@ -63,7 +73,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\BlogPostInvalidException | Exceptions\BlogPostExistsException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException $ex){
 	if($stagedImagePath !== null && ($ex instanceof Exceptions\ImageUploadInvalidException || ($ex instanceof Exceptions\BlogPostInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class)))){
-		ImageTempDirectory::RemoveImage($stagedImagePath);
+		UploadTempDirectory::RemoveUpload($stagedImagePath);
 
 		unset($_SESSION['blog-post/create/image-path']);
 	}

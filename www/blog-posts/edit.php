@@ -36,7 +36,7 @@ try{
 		if($stagedImagePath !== null && is_file($stagedImagePath)){
 			$imageTokenSecret = bin2hex(random_bytes(32));
 			try{
-				$stagedImageToken = ImageTempDirectory::CreateToken($stagedImagePath, $imageTokenSecret);
+				$stagedImageToken = UploadTempDirectory::CreateToken($stagedImagePath, $imageTokenSecret);
 				$_SESSION['blog-post/edit/image-token-secret'] = $imageTokenSecret;
 			}
 			catch(Exceptions\TempDirectoryException){

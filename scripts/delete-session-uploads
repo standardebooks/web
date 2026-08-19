@@ -28,4 +28,4 @@ if(sizeof($parameters) != 0){
 	Usage();
 }
 
-ImageTempDirectory::DeleteFilesOlderThan(new DateInterval('PT1H'));
+UploadTempDirectory::DeleteFilesOlderThan(new DateInterval('PT1H'));

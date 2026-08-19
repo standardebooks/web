@@ -22,12 +22,22 @@ try{
 
 	$stagedImageToken = Http::$Request->Body->Get('artwork-image-token');
 	$imageTokenSecret = Http::$Request->Session->Get('artwork/create/image-token-secret');
-	$stagedImagePath = ImageTempDirectory::GetStagedImagePath($stagedImageToken, $imageTokenSecret);
+	try{
+		$stagedImagePath = UploadTempDirectory::GetStagedUploadPath($stagedImageToken, $imageTokenSecret);
+	}
+	catch(Exceptions\FileUploadInvalidException){
+		throw new Exceptions\ImageUploadInvalidException('Please re-upload the image.');
+	}
 	$uploadedImagePath = Http::$Request->Files->Get('artwork-image');
 
 	unset($_SESSION['artwork/create/image-token-secret']);
 
-	$stagedImagePath = ImageTempDirectory::ReplaceImage($stagedImagePath, $uploadedImagePath);
+	try{
+		$stagedImagePath = UploadTempDirectory::ReplaceUpload($stagedImagePath, $uploadedImagePath);
+	}
+	catch(Exceptions\FileUploadInvalidException){
+		throw new Exceptions\ImageUploadInvalidException('Failed to save uploaded image.');
+	}
 
 	if($stagedImagePath !== null){
 		$_SESSION['artwork/create/image-path'] = $stagedImagePath;
@@ -52,7 +62,7 @@ try{
 
 	$artwork->Create($stagedImagePath);
 
-	ImageTempDirectory::RemoveImage($stagedImagePath);
+	UploadTempDirectory::RemoveUpload($stagedImagePath);
 
 	unset($_SESSION['artwork/create/image-path']);
 
@@ -70,7 +80,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException | Exceptions\ArtistInvalidException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException | Exceptions\UrlInvalidException | Exceptions\ArtworkExistsException $ex){
 	if($ex instanceof Exceptions\ImageUploadInvalidException || ($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class))){
-		ImageTempDirectory::RemoveImage($stagedImagePath);
+		UploadTempDirectory::RemoveUpload($stagedImagePath);
 
 		unset($_SESSION['artwork/create/image-path']);
 	}

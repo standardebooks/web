@@ -48,12 +48,22 @@ try{
 	if($isEditFormSubmission){
 		$stagedImageToken = Http::$Request->Body->Get('artwork-image-token');
 		$imageTokenSecret = Http::$Request->Session->Get('artwork/edit/image-token-secret');
-		$stagedImagePath = ImageTempDirectory::GetStagedImagePath($stagedImageToken, $imageTokenSecret);
+		try{
+			$stagedImagePath = UploadTempDirectory::GetStagedUploadPath($stagedImageToken, $imageTokenSecret);
+		}
+		catch(Exceptions\FileUploadInvalidException){
+			throw new Exceptions\ImageUploadInvalidException('Please re-upload the image.');
+		}
 		$uploadedImagePath = Http::$Request->Files->Get('artwork-image');
 
 		unset($_SESSION['artwork/edit/image-token-secret']);
 
-		$stagedImagePath = ImageTempDirectory::ReplaceImage($stagedImagePath, $uploadedImagePath);
+		try{
+			$stagedImagePath = UploadTempDirectory::ReplaceUpload($stagedImagePath, $uploadedImagePath);
+		}
+		catch(Exceptions\FileUploadInvalidException){
+			throw new Exceptions\ImageUploadInvalidException('Failed to save uploaded image.');
+		}
 
 		if($stagedImagePath !== null){
 			$_SESSION['artwork/edit/image-path'] = $stagedImagePath;
@@ -77,7 +87,7 @@ try{
 
 	$artwork->Save($stagedImagePath);
 	if($isEditFormSubmission){
-		ImageTempDirectory::RemoveImage($stagedImagePath);
+		UploadTempDirectory::RemoveUpload($stagedImagePath);
 
 		unset($_SESSION['artwork/edit/image-path']);
 	}
@@ -99,7 +109,7 @@ catch(Exceptions\PermissionsInvalidException){
 }
 catch(Exceptions\ArtworkInvalidException | Exceptions\ArtworkTagInvalidException | Exceptions\ArtistInvalidException | Exceptions\ImageUploadInvalidException | Exceptions\FileUploadInvalidException | Exceptions\FileUploadTooLargeException | Exceptions\UrlInvalidException $ex){
 	if($stagedImagePath !== null && ($ex instanceof Exceptions\ImageUploadInvalidException || ($ex instanceof Exceptions\ArtworkInvalidException && $ex->Has(Exceptions\ImageUploadInvalidException::class)))){
-		ImageTempDirectory::RemoveImage($stagedImagePath);
+		UploadTempDirectory::RemoveUpload($stagedImagePath);
 
 		unset($_SESSION['artwork/edit/image-path']);
 	}
