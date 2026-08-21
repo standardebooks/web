@@ -7,6 +7,7 @@ use Safe\DateTimeImmutable;
  */
 class Patron{
 	use Traits\Accessor;
+	use Traits\PropertyFromRequest;
 
 	public int $UserId;
 	public bool $IsAnonymous;
@@ -39,7 +40,15 @@ class Patron{
 	// METHODS
 	// *******
 
-	public function Create(): void{
+	/**
+	 * Fill this Patron with values from the HTTP request body.
+	 */
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('IsAnonymous');
+		$this->PropertyFromRequest('AlternateName');
+	}
+
+	public function Create(bool $sendWelcomeEmail = true): void{
 		$isReturning = Db::QueryBool('
 				select exists(
 					select *
@@ -48,7 +57,8 @@ class Patron{
 				)
 			', [$this->UserId]);
 
-		$this->CreatedAt = NOW;
+		$this->CreatedAt ??= NOW;
+
 		Db::Query('
 			insert into Patrons (CreatedAt, UserId, IsAnonymous, AlternateName, BaseCost, CycleType)
 			values(?,
@@ -70,9 +80,10 @@ class Patron{
 			       CanBulkDownload = true
 		', [$this->UserId]);
 
-		// If this is a patron for the first time, send the first-time patron email.
-		// Otherwise, send the returning patron email.
-		$this->SendWelcomeEmail($isReturning);
+		// If requested, send either the first-time or returning Patron email.
+		if($sendWelcomeEmail){
+			$this->SendWelcomeEmail($isReturning);
+		}
 
 		if(!$isReturning){
 			DonationDrive::AddCountToIsActive(Enums\DonationTargetType::NewPatrons);

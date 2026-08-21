@@ -1,0 +1,44 @@
+form{
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+fieldset:first-of-type{
+	display: grid;
+	gap: 2rem;
+	grid-template-columns: 1fr 1fr;
+}
+
+fieldset + fieldset{
+	display: flex;
+	gap: 2rem;
+	flex-direction: column;
+}
+
+label:has(input[name="payment-transaction-id"]),
+label:has(input[type="checkbox"]){
+	grid-column: 1 / span 2;
+}
+
+label:has(span + span) + label:not(:has(span + span)){
+	margin-top: calc(1.25rem + 1px);
+}
+
+@media(max-width: 800px){
+	label:has(input[name="payment-created-at"]),
+	label:has(select[name="payment-processor"]),
+	label:has(input[name="payment-transaction-id"]){
+		grid-column: 1 / span 2;
+	}
+}
+
+@media(max-width: 500px){
+	fieldset:first-of-type{
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	label{
+		grid-column: 1 !important;
+	}
+}

@@ -2126,6 +2126,10 @@ label:has(input[type="password"]){
 	max-width: 100%;
 }
 
+label:has(select){
+	display: block; /* To position down arrow. */
+}
+
 label:has(input[type="email"])::before,
 label:has(input[type="search"])::before,
 label.icon::before,
@@ -2141,7 +2145,6 @@ label:has(input[type="password"])::before{
 	color: var(--sub-text);
 	margin-top: -3px; /* Adjust for Crimson Pro line-height */
 	text-shadow: 1px 1px 0 var(--input-icon-shadow);
-	width: 1rem;
 	transition: color .5s;
 	cursor: text;
 }
@@ -2189,6 +2192,21 @@ label.pencil-square::before{
 label.user-id::before{
 	content: "\f2c2";
 	content: "\f2c2" / "";
+}
+
+label.id::before{
+	content: "\f2bc";
+	content: "\f2bc" / "";
+}
+
+label.dollar::before{
+	content: "\f155";
+	content: "\f155" / "";
+}
+
+label.money::before{
+	content: "\f0d6";
+	content: "\f0d6" / "";
 }
 
 label.year::before{
@@ -2254,6 +2272,10 @@ label.indent::before{
 label.language::before{
 	content: "\f1ab";
 	content: "\f1ab" / "";
+}
+
+input.money{
+	text-align: right;
 }
 
 nav li a[aria-current],

@@ -7,6 +7,7 @@ use Safe\DateTimeImmutable;
  */
 class Payment{
 	use Traits\Accessor;
+	use Traits\PropertyFromRequest;
 
 	public int $PaymentId;
 	public ?int $UserId = null;
@@ -59,6 +60,19 @@ class Payment{
 	// *******
 
 	/**
+	 * Fill this Payment with values from the HTTP request body.
+	 */
+	public function FillFromRequestBody(): void{
+		$this->PropertyFromRequest('CreatedAt');
+		$this->PropertyFromRequest('Processor');
+		$this->PropertyFromRequest('TransactionId');
+		$this->PropertyFromRequest('Amount');
+		$this->PropertyFromRequest('Fee');
+		$this->PropertyFromRequest('IsRecurring');
+		$this->PropertyFromRequest('IsMatchingDonation');
+	}
+
+	/**
 	 * @throws Exceptions\PaymentExistsException
 	 */
 	public function Create(): void{
@@ -96,6 +110,8 @@ class Payment{
 		}
 
 		try{
+			$this->CreatedAt ??= NOW;
+
 			$this->PaymentId = Db::QueryInt('
 				insert into Payments (UserId, CreatedAt, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation, RefundedAt)
 				values(?,

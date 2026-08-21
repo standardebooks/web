@@ -23,6 +23,7 @@ try{
 	$identifier = Http::$Request->QueryString->Get('user-identifier');
 	$isCreated = Http::$Request->Session->Get('user/create/is-created', 'bool') ?? false;
 	$isSaved = Http::$Request->Session->Get('user/edit/is-saved', 'bool') ?? false;
+	$isPatronCreated = Http::$Request->Session->Get('patron/create/is-created', 'bool') ?? false;
 
 	if(Session::$User === null){
 		throw new Exceptions\LoginRequiredException();
@@ -39,7 +40,7 @@ try{
 	}
 
 	// We got here because a `User` was successfully created or saved.
-	if($isCreated || $isSaved){
+	if($isCreated || $isSaved || $isPatronCreated){
 		session_unset();
 	}
 }
@@ -66,6 +67,9 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<ul role="menu">
 			<li><a href="<?= $user->EditUrl ?>">Edit user</a></li>
+			<? if($user->Patron === null || $user->Patron->EndedAt !== null){ ?>
+				<li><a href="<?= $user->Url ?>/patrons/new">Make Patron</a></li>
+			<? } ?>
 			<? if($user->Benefits->CanManageProjects || $user->Benefits->CanReviewProjects){ ?>
 				<li><a href="<?= $user->Url ?>/projects">Projects overseeing</a></li>
 			<? } ?>
@@ -77,6 +81,10 @@ catch(Exceptions\PermissionsInvalidException){
 
 		<? if($isCreated){ ?>
 			<p class="message success">User created!</p>
+		<? } ?>
+
+		<? if($isPatronCreated){ ?>
+			<p class="message success">Patron created!</p>
 		<? } ?>
 
 		<h2>Basics</h2>
