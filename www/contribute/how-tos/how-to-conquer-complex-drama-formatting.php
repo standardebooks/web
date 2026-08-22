@@ -60,22 +60,20 @@
 				</ol>
 			</ol>
 		</details>
-		<ol>
-			<li>
-				<h2 id="splitting-files">Splitting files</h2>
+				<section id="splitting-files">
+					<h2>1. Splitting files<a class="heading-permalink" href="#splitting-files" aria-label="Permalink"></a></h2>
 				<p>Complete dramatic works are divided into acts, scenes, and sometimes short plays. The <code class="bash"><b>se</b> split-file</code> tool automatically uses prose book file structuring, semantics, and naming conventions. These five easy steps will help you avoid some manual work.</p>
-				<ol>
-					<li>
-						<h3 id="splitting-files-check-your-titles">Check your titles</h3>
+						<section id="splitting-files-check-your-titles">
+							<h3>1. Check your titles<a class="heading-permalink" href="#splitting-files-check-your-titles" aria-label="Permalink"></a></h3>
 						<p>Instead of dealing with chapters, you need to check that your titles for acts, scenes, or short plays are marked with <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code> elements. Headers are usually incorrect or missing in play transcriptions.</p>
-					</li>
-					<li>
-						<h3 id="splitting-files-add-markers">Add markers</h3>
+						</section>
+						<section id="splitting-files-add-markers">
+							<h3>2. Add markers<a class="heading-permalink" href="#splitting-files-add-markers" aria-label="Permalink"></a></h3>
 						<p>Like novels, we add markers before the <code class="html"><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span></code> elements in the source file before splitting.</p>
 						<code class="terminal"><span><b>perl</b> -pi -e <!--Single quote to prevent ! from becoming history expansion--><i>'s|&lt;h2|&lt;!--se:split--&gt;&lt;h2|g'</i> <u>src/epub/text/body.xhtml</u></span></code>
-					</li>
-					<li>
-						<h3 id="splitting-files-make-a-template-file">Make a template file</h3>
+						</section>
+						<section id="splitting-files-make-a-template-file">
+							<h3>3. Make a template file<a class="heading-permalink" href="#splitting-files-make-a-template-file" aria-label="Permalink"></a></h3>
 						<p>The <code class="bash"><b>se</b> split-file</code> tool defaults to a chapter template. To add the correct file semantics, we need to create the template file <code class="path">/src/epub/text/drama-template.xhtml</code>. If you wish to split the work into acts, you can copy and paste the following code to your new file:</p>
 						<figure class="html full">
 <code class="html full"><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
@@ -108,32 +106,38 @@
 	<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span></code>
 						</figure>
-					</li>
-					<li>
-						<h3 id="splitting-files-use-commands-and-positional-arguments">Use commands and positional arguments</h3>
+						</section>
+						<section id="splitting-files-use-commands-and-positional-arguments">
+							<h3>4. Use commands and positional arguments<a class="heading-permalink" href="#splitting-files-use-commands-and-positional-arguments" aria-label="Permalink"></a></h3>
 						<p>Now it’s time for <code class="bash"><b>se</b> split-file</code> to do some heavy lifting. With the help of positional arguments, we can simultaneously change the file names and which file template to use when we split the source file. You can see what arguments are available by running <code class="bash"><b>se</b> split-file -h</code>.</p>
 						<p>If you are splitting the text into acts, you can use:</p>
 						<code class="terminal"><span><b>se</b> split-file -f act-%n.xhtml -t src/epub/text/drama-template.xhtml src/epub/text/body.xhtml</span> <span><b>mv</b> act<i class="glob">*</i> src/epub/text/</span></code>
 						<p>If you are splitting the text into scenes, you can adjust commands to be:</p>
 						<code class="terminal"><span><b>se</b> split-file -f scene-%n.xhtml -t src/epub/text/drama-template.xhtml src/epub/text/body.xhtml</span> <span><b>mv</b> scene<i class="glob">*</i> src/epub/text/</span></code>
-					</li>
-					<li>
-						<h3 id="splitting-files-remove-unwanted-files">Remove unwanted files</h3>
+						</section>
+						<section id="splitting-files-remove-unwanted-files">
+							<h3>5. Remove unwanted files<a class="heading-permalink" href="#splitting-files-remove-unwanted-files" aria-label="Permalink"></a></h3>
 						<p>Once we’re happy that the source file has been split correctly, we can remove <code class="path">body.xhtml</code> and <code class="path">drama-template.xhtml</code>.</p>
 						<code class="terminal"><span><b>rm</b> src/epub/text/body.xhtml src/epub/text/drama-template.xhtml</span></code>
-					</li>
-				</ol>
-			</li>
-			<li>
-				<h2 id="dramatis-personae">Dramatis personae</h2>
+						</section>
+				</section>
+				<section id="dramatis-personae">
+					<h2>2. Dramatis personae<a class="heading-permalink" href="#dramatis-personae" aria-label="Permalink"></a></h2>
 				<p>The dramatis personae lists all of the characters in the play that might need to have an actor to portray them, regardless of whether or not they speak. It is frontmatter, to be included after any prefaces but before the half title page. All Standard Ebooks editions of plays include a dramatis personae; where the published text does include one, it is reproduced, with any missing characters added editorially. Where the published text does not include a dramatis personae, one should be created that lists all characters; typically, they should be in order of appearance, though minor non-speaking roles may discretionally be grouped at the end.</p>
-				<h3 id="dramatis-personae-semantics">Semantics</h3>
+				<section id="dramatis-personae-semantics">
+					<h3>Semantics<a class="heading-permalink" href="#dramatis-personae-semantics" aria-label="Permalink"></a></h3>
 				<p>The <code class="html"><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span></code> element has the semantic inflection of <code class="bash"><span class="s">frontmatter</span></code>, <code class="bash"><span class="s">z3998:fiction</span></code>, and <code class="bash"><span class="s">z3998:drama</span></code>; the <code class="html"><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span></code> element has the semantic inflection of <code class="bash"><span class="s">z3998:dramatis-personae</span></code>.</p>
-				<h3 id="dramatis-personae-typography">Typography</h3>
+				</section>
+				<section id="dramatis-personae-typography">
+					<h3>Typography<a class="heading-permalink" href="#dramatis-personae-typography" aria-label="Permalink"></a></h3>
 				<p>Most plays have periods after each character description. Make sure to remove the ending periods of each list item, except for abbreviations. The letter case of various speakers can vary widely for stylistic purposes. Convert the speakers’ names and descriptions into sentence cases. Remove any bold, caps, or small-caps styling for personas.</p>
-				<h3 id="dramatis-personae-descriptions">Descriptions</h3>
+				</section>
+				<section id="dramatis-personae-descriptions">
+					<h3>Descriptions<a class="heading-permalink" href="#dramatis-personae-descriptions" aria-label="Permalink"></a></h3>
 				<p>Any descriptions are placed in <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements after the list of speakers and end with periods.</p>
-				<h3 id="dramatis-personae-example">Example</h3>
+				</section>
+				<section id="dramatis-personae-example">
+					<h3>Example<a class="heading-permalink" href="#dramatis-personae-example" aria-label="Permalink"></a></h3>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"frontmatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">section</span> <span class="na">id</span><span class="o">=</span><span class="s">"dramatis-personae"</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:dramatis-personae"</span><span class="p">&gt;</span>
@@ -155,11 +159,13 @@
 	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
 				</figure>
-			</li>
-			<li>
-				<h2 id="bodymatter-file-semantics">Bodymatter file semantics</h2>
+				</section>
+				</section>
+				<section id="bodymatter-file-semantics">
+					<h2>3. Bodymatter file semantics<a class="heading-permalink" href="#bodymatter-file-semantics" aria-label="Permalink"></a></h2>
 				<p>Plays can come in all shapes and sizes, and no two plays look alike. Figuring out where to place play semantics can be very confusing! Here are some basic play structures to show where play semantics go.</p>
-				<h3 id="bodymatter-file-semantics-play-without-acts">Play without acts</h3>
+				<section id="bodymatter-file-semantics-play-without-acts">
+					<h3>Play without acts<a class="heading-permalink" href="#bodymatter-file-semantics-play-without-acts" aria-label="Permalink"></a></h3>
 				<p>Some plays are not divided into acts. These plays are placed in a single file named after the play. <code class="bash"><span class="s">z3998:drama</span></code> and <code class="bash"><span class="s">z3998:scene</span></code> are located in the top-level section.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction"</span><span class="p">&gt;</span>
@@ -178,7 +184,9 @@
 	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="bodymatter-file-semantics-acts-without-scenes">Acts without scenes</h3>
+				</section>
+				<section id="bodymatter-file-semantics-acts-without-scenes">
+					<h3>Acts without scenes<a class="heading-permalink" href="#bodymatter-file-semantics-acts-without-scenes" aria-label="Permalink"></a></h3>
 				<p>Some plays are divided in to acts without scene sections. The body element contains the <code class="bash"><span class="s">z3998:drama</span></code> semantic; the top-level section element contains both <code class="bash"><span class="s">chapter</span></code> and <code class="bash"><span class="s">z3998:scene</span></code> semantics.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
@@ -187,7 +195,9 @@
 	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="bodymatter-file-semantics-acts-with-scenes">Acts with scenes</h3>
+				</section>
+				<section id="bodymatter-file-semantics-acts-with-scenes">
+					<h3>Acts with scenes<a class="heading-permalink" href="#bodymatter-file-semantics-acts-with-scenes" aria-label="Permalink"></a></h3>
 				<p>If a multi-act play has scene sections, the top-level section only has the <code class="bash"><span class="s">chapter</span></code> semantic, and the scene section elements are tagged with <code class="bash"><span class="s">z3998:scene</span></code>.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction z3998:drama"</span><span class="p">&gt;</span>
@@ -202,7 +212,9 @@
 	<span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="bodymatter-file-semantics-play-in-a-collection">Play in a collection</h3>
+				</section>
+				<section id="bodymatter-file-semantics-play-in-a-collection">
+					<h3>Play in a collection<a class="heading-permalink" href="#bodymatter-file-semantics-play-in-a-collection" aria-label="Permalink"></a></h3>
 				<p>The rarest case encountered is a collection of short plays. Each play is in its own file, with article elements tagged with <code class="bash"><span class="s">z3998:drama</span></code>.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">body</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"bodymatter z3998:fiction"</span><span class="p">&gt;</span>
@@ -211,9 +223,10 @@
 	<span class="p">&lt;/</span><span class="nt">article</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span></code>
 				</figure>
-			</li>
-			<li>
-				<h2 id="introductory-scene-descriptions">Introductory scene descriptions</h2>
+				</section>
+				</section>
+				<section id="introductory-scene-descriptions">
+					<h2>4. Introductory scene descriptions<a class="heading-permalink" href="#introductory-scene-descriptions" aria-label="Permalink"></a></h2>
 				<p>Speakers mentioned in scene descriptions are wrapped in <code class="html"><span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span></code> elements.</p>
 				<figure class="wrong html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>
@@ -229,12 +242,15 @@
 <span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>London. The <span class="p">&lt;</span><span class="nt">b</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span>Queen’s<span class="p">&lt;/</span><span class="nt">b</span><span class="p">&gt;</span> apartments.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></code>
 				</figure>
-			</li>
-			<li>
-				<h2 id="personas">Personas</h2>
-				<h3 id="personas-typography">Typography</h3>
+				</section>
+				<section id="personas">
+					<h2>5. Personas<a class="heading-permalink" href="#personas" aria-label="Permalink"></a></h2>
+				<section id="personas-typography">
+					<h3>Typography<a class="heading-permalink" href="#personas-typography" aria-label="Permalink"></a></h3>
 				<p>Names, titles, or other speakers are in title case and without ending periods.</p>
-				<h3 id="personas-more-than-one">More than one</h3>
+				</section>
+				<section id="personas-more-than-one">
+					<h3>More than one<a class="heading-permalink" href="#personas-more-than-one" aria-label="Permalink"></a></h3>
 				<p>Sometimes multiple speakers talk at the same time. The containing <code class="html"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span></code> element has the <code class="bash"><span class="s">together</span></code> class. The speakers are all placed in a <code class="html"><span class="p">&lt;</span><span class="nt">td</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span></code> element with <code class="html"><span class="p">&lt;</span><span class="nt">br</span><span class="p">/&gt;</span></code> elements in between the names.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span> <span class="na">class</span><span class="o">=</span><span class="s">"together"</span><span class="p">&gt;</span>
@@ -243,7 +259,9 @@
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Alcibiades banished!<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="personas-abbreviations">Abbreviations</h3>
+				</section>
+				<section id="personas-abbreviations">
+					<h3>Abbreviations<a class="heading-permalink" href="#personas-abbreviations" aria-label="Permalink"></a></h3>
 				<p>Expand all abbreviated personas, whether its the speakers’ names or ordinals.</p>
 				<figure class="wrong html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
@@ -257,10 +275,12 @@
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>...<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-			</li>
-			<li>
-				<h2 id="dialog">Dialog</h2>
-				<h3 id="dialog-multiple-paragraphs">Multiple paragraphs</h3>
+				</section>
+				</section>
+				<section id="dialog">
+					<h2>6. Dialog<a class="heading-permalink" href="#dialog" aria-label="Permalink"></a></h2>
+				<section id="dialog-multiple-paragraphs">
+					<h3>Multiple paragraphs<a class="heading-permalink" href="#dialog-multiple-paragraphs" aria-label="Permalink"></a></h3>
 				<p>When there is more than one paragraph of dialog you will use <code class="html"><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span></code> elements.</p><figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
 	<span class="p">&lt;</span><span class="nt">td</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:persona"</span><span class="p">&gt;</span>Bianca<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
@@ -270,7 +290,9 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="dialog-prose-and-verse">Prose and verse</h3>
+				</section>
+				<section id="dialog-prose-and-verse">
+					<h3>Prose and verse<a class="heading-permalink" href="#dialog-prose-and-verse" aria-label="Permalink"></a></h3>
 				<p>In certain complex plays, you may encounter a mix of prose and verse in a character’s speech. Verse is surrounded by <code class="html"><span class="p">&lt;</span><span class="nt">div</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:verse"</span><span class="p">&gt;</span></code>.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
@@ -285,13 +307,17 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="dialog-stichomythia">Stichomythia</h3>
+				</section>
+				<section id="dialog-stichomythia">
+					<h3>Stichomythia<a class="heading-permalink" href="#dialog-stichomythia" aria-label="Permalink"></a></h3>
 				<p><i>Stichomythia</i> is a technique used in drama where two speakers engage in a rapid or intense exchange of alternating dialog. Here is an example found in William Shakespeare’s <i><a href="https://standardebooks.org/ebooks/william-shakespeare/a-midsummer-nights-dream">A Midsummer Night’s Dream</a></i>.</p>
 				<figure class="full-width">
 					<img src="images/drama-formatting-1.png" alt="Five sections of dialog use stichomythia. The second section of dialog continues where the first section has left off. This pattern continues and creates a staircase effect."/>
 				</figure>
 				<p>This highlights moments of conflict, urgency, or intense emotion and conveys dynamic interactions between characters. Unfortunately, there is no great way to format this technique with clear, predictable structuring. The text displayed has no additional indents or margins.</p>
-				<h3 id="dialog-ancient-greek-choral-sections">Ancient Greek choral sections</h3>
+				</section>
+				<section id="dialog-ancient-greek-choral-sections">
+					<h3>Ancient Greek choral sections<a class="heading-permalink" href="#dialog-ancient-greek-choral-sections" aria-label="Permalink"></a></h3>
 				<p>Ancient Greek drama can contain choral sections where each stanza is labeled as strophe, antistrophe, or epode. The sections are numbered if a chorus sings/chants a pattern of strophic, antistrophic, and epodic units. The labels are formatted with italics, parentheses around the label, and right-alignment.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
@@ -345,10 +371,12 @@
 	<span class="k">font-style</span><span class="p">:</span> <span class="kc">normal</span><span class="p">;</span>
 <span class="p">}</span></code>
 				</figure>
-			</li>
-			<li>
-				<h2 id="stage-directions">Stage directions</h2>
-				<h3 id="stage-directions-right-aligned-and-brackets">Right-aligned and brackets</h3>
+				</section>
+				</section>
+				<section id="stage-directions">
+					<h2>7. Stage directions<a class="heading-permalink" href="#stage-directions" aria-label="Permalink"></a></h2>
+				<section id="stage-directions-right-aligned-and-brackets">
+					<h3>Right-aligned and brackets<a class="heading-permalink" href="#stage-directions-right-aligned-and-brackets" aria-label="Permalink"></a></h3>
 				<p>Some stage direction have only an opening bracket and are right-aligned, like exit or exeunt stage directions. These are formatted like other inline stage directions and placed at the end of the preceding dialog. Compare how the following page scan source is structured in HTML.</p>
 				<figure class="full-width">
 					<img src="images/drama-formatting-2.png" alt="The stage direction “Goes.” is right-aligned and is preceded by a left bracket."/>
@@ -371,7 +399,9 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="stage-directions-interrupting-dialog">Interrupting dialog</h3>
+				</section>
+				<section id="stage-directions-interrupting-dialog">
+					<h3>Interrupting dialog<a class="heading-permalink" href="#stage-directions-interrupting-dialog" aria-label="Permalink"></a></h3>
 				<p>Occasionally, there is a stage direction row in the middle of the dialog. For the second half of the dialog, the first child of the row is an empty <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> element. Do not use the <code class="bash"><span class="s">together</span></code> class for this, as the interrupting stage direction usually doesn’t pertain to the speaker.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
@@ -389,7 +419,9 @@
 	<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>Aside, aside; here is more matter for a hot brain: every lane’s end, every shop, church, session, hanging, yields a careful man work.<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="stage-directions-attached-to-personas">Attached to personas</h3>
+				</section>
+				<section id="stage-directions-attached-to-personas">
+					<h3>Attached to personas<a class="heading-permalink" href="#stage-directions-attached-to-personas" aria-label="Permalink"></a></h3>
 				<p>Some stage directions are attached to the persona. These directions are placed in <code class="html"><span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span></code> elements with the dialog. For <i>prose dialog</i>, the stage direction is on the same line as the dialog. For <i>verse dialog</i>, the stage direction is in a separate paragraph before the dialog. The stage direction is not part of the meter; the meter sets specific line lengths and emphasis.</p>
 				<figure class="full-width">
 					<img src="images/drama-formatting-3.png" alt="The stage direction “entering” is attached to the persona “Festus”."/>
@@ -413,7 +445,9 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="stage-directions-song">“Song.”</h3>
+				</section>
+				<section id="stage-directions-song">
+					<h3>“Song.”<a class="heading-permalink" href="#stage-directions-song" aria-label="Permalink"></a></h3>
 				<p>Some songs are given a title or just labeled as “Song.” Treat these as stage direction rows.</p>
 				<figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
@@ -447,7 +481,9 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="stage-directions-parentheses">Parentheses</h3>
+				</section>
+				<section id="stage-directions-parentheses">
+					<h3>Parentheses<a class="heading-permalink" href="#stage-directions-parentheses" aria-label="Permalink"></a></h3>
 				<p>If there are parentheses inside of stage direction, leave them as is.</p>
 <figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
@@ -457,7 +493,9 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="stage-directions-multiple-paragraphs">Multiple paragraphs</h3>
+				</section>
+				<section id="stage-directions-multiple-paragraphs">
+					<h3>Multiple paragraphs<a class="heading-permalink" href="#stage-directions-multiple-paragraphs" aria-label="Permalink"></a></h3>
 				<p>When a stage direction spans multiple paragraphs, each paragraph should be marked with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span></code>.</p>
 <figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
@@ -475,7 +513,9 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-				<h3 id="stage-directions-a-stage-direction-for-a-stage-direction">A stage direction for a stage direction</h3>
+				</section>
+				<section id="stage-directions-a-stage-direction-for-a-stage-direction">
+					<h3>A stage direction for a stage direction<a class="heading-permalink" href="#stage-directions-a-stage-direction-for-a-stage-direction" aria-label="Permalink"></a></h3>
 				<p>If there is a stage direction for a stage direction, they should not be combined. Instead, each direction should be marked individually with <code class="html"><span class="p">&lt;</span><span class="nt">i</span> <span class="na">epub:type</span><span class="o">=</span><span class="s">"z3998:stage-direction"</span><span class="p">&gt;</span></code>.</p>
 <figure class="html full">
 <code class="html full"><span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
@@ -486,8 +526,8 @@
 	<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span></code>
 				</figure>
-			</li>
-		</ol>
+				</section>
+				</section>
 	</article>
 </main>
 <?= Template::Footer() ?>

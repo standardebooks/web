@@ -169,7 +169,7 @@ catch(Exceptions\EbookNotFoundException){
 					</div>
 				</div>
 				<?= $ebook->GenerateContributorsRdfa() ?>
-				<h2>Read free</h2>
+				<h2>Read free<a class="heading-permalink" href="#read-free" aria-label="Permalink"></a></h2>
 				<p class="us-pd-warning">This ebook is thought to be free of copyright restrictions in the United States. It may still be under copyright in other countries. If you’re not located in the United States, you must check your local laws to verify that this ebook is free of copyright restrictions in the country you’re located in before accessing, downloading, or using it.</p>
 
 				<div class="downloads-container">
@@ -368,7 +368,7 @@ catch(Exceptions\EbookNotFoundException){
 
 		<? if(sizeof($carousel) > 0){ ?>
 			<aside id="more-ebooks">
-				<h2>More free<? if($carouselTag !== null){ ?> <?= mb_strtolower($carouselTag->Name, 'utf-8') ?><? } ?> ebooks</h2>
+				<h2>More free<? if($carouselTag !== null){ ?> <?= mb_strtolower($carouselTag->Name, 'utf-8') ?><? } ?> ebooks<a class="heading-permalink" href="#more-ebooks" aria-label="Permalink"></a></h2>
 				<?= Template::EbookCarousel(ebooks: $carousel, isMultiSize: true) ?>
 			</aside>
 		<? } ?>

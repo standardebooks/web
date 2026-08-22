@@ -88,13 +88,12 @@
 					</li>
 				</ol>
 			</details>
-			<ol>
-				<li id="before-you-begin">
-					<h2>Before you begin</h2>
+					<section id="before-you-begin">
+						<h2>1. Before you begin<a class="heading-permalink" href="#before-you-begin" aria-label="Permalink"></a></h2>
 					<p>Every cover image must be approved by either the Editor in Chief or the manager assigned to your project. Until your chosen image has been approved, <strong>do not</strong> add it to your repository. If you commit early and your artwork is not approved, you may need to rebase your repository to remove all traces of the image.</p>
-				</li>
-				<li id="where-to-find">
-					<h2>Where to find public domain cover art</h2>
+					</section>
+					<section id="where-to-find">
+						<h2>2. Where to find public domain cover art<a class="heading-permalink" href="#where-to-find" aria-label="Permalink"></a></h2>
 					<p>Your cover image must be provably in the public domain in the United States. Standard Ebooks has strict guidelines for proving that your cover art is in the public domain. There are three ways to demonstrate public domain status:</p>
 					<ul>
 						<li><p>Choose art from the <a href="/artworks">Standard Ebooks Artwork Database</a>;</p></li>
@@ -102,33 +101,32 @@
 						<li><p>Find art printed in a public domain book.</p></li>
 					</ul>
 					<p>Because U.S. copyright law is complicated, one of these three methods is <i>required</i> in order to demonstrate that the painting you selected is in fact in the U.S. public domain, with no exceptions. Just because a painting is very old, or Wikipedia says it’s PD, or it’s PD in a country besides the U.S., doesn’t necessarily mean it actually is PD in the U.S.</p>
-					<ol>
-						<li id="where-to-find-se-database">
-							<h3>The Standard Ebooks Cover Database</h3>
+							<section id="where-to-find-se-database">
+							<h3>1. The Standard Ebooks Cover Database<a class="heading-permalink" href="#where-to-find-se-database" aria-label="Permalink"></a></h3>
 							<p>Standard Ebooks maintains a <a href="/artworks">database of US-public-domain art</a>. The art included in this database has been reviewed by at least two S.E. volunteers and includes links to the image and the proof of copyright.</p>
 							<p>Choosing pre-approved art from the database is as simple as searching by artist, title, or keyword.</p>
 							<p>Please remember that even art from the database needs to be approved on the list before it is added to your repository.</p>
-						</li>
-						<li id="where-to-find-museums-with-cc0">
-							<h3>Museums with CC0 collections</h3>
+							</section>
+							<section id="where-to-find-museums-with-cc0">
+							<h3>2. Museums with CC0 collections<a class="heading-permalink" href="#where-to-find-museums-with-cc0" aria-label="Permalink"></a></h3>
 							<p>If there is nothing in the database that fits, you can also find public domain art in online museum collections.</p>
 							<p>You can use a painting from an online museum collection without further proof <strong>only if</strong> the museum that holds the original work of art has released it via the CC0 license. The CC0 deed is a legal document by which the museum waives any and all copyright in the image and the underlying work itself. S.E. <strong>does not</strong> accept other public domain declarations (not even other Creative Commons declarations such as CC-PDM).</p>
 							<p>Below you will find an <a href="#resources-cc0">extensive list of museums with CC0 collections</a>. Please be sure to check the individual license; not every artwork at every listed museum will have the same license. Only works marked as CC0 will be approved.</p>
-						</li>
-						<li id="where-to-find-published-art">
-							<h3>Art published in a public domain book</h3>
+							</section>
+							<section id="where-to-find-published-art">
+							<h3>3. Art published in a public domain book<a class="heading-permalink" href="#where-to-find-published-art" aria-label="Permalink"></a></h3>
 							<p>The final way to clear a painting for use as a cover image is to locate a reproduction of that painting in a book published before <?= PD_STRING ?>. This option gives you the most freedom in finding a suitable image, but it can be difficult; proving an artwork’s public domain status this way can sometimes be the most time-consuming part of the ebook production process.</p>
 							<p>This process involves: (1) identifying a work of art that you think will be a suitable cover, then (2) finding book page scans with a reproduction of that artwork in a book published before <?= PD_STRING ?> at an online book archive like the Internet Archive, Google Books, or HathiTrust. (Note that if your IP address is not in the U.S., some book archives may disable book previews.)</p>
-							<section>
-								<h4>Public domain proof tips</h4>
+							<section id="public-domain-proof-tips">
+								<h4>Public domain proof tips<a class="heading-permalink" href="#public-domain-proof-tips" aria-label="Permalink"></a></h4>
 								<ul>
 									<li><p>Many museum online catalogs have a “bibliography” or “references” section for each painting in their collection, which is a list of books in which the painting was either mentioned or reproduced. This is a good shortcut to finding page scans of a book with reproductions, and if you’re lucky, a search for the book title in Google Books will turn up scans.</p></li>
 									<li><p>Remember that paintings often go by many different titles in different languages; your best bet is to search for an artist’s last name instead.</p></li>
 									<li><p>Artists often had various spellings of their names, especially ones in non-Latin alphabets (like <a href="/artworks/ilya-repin">Ilya Repin</a>). Make sure to try several spelling variants to ensure you find them in art books.</p></li>
 								</ul>
 							</section>
-							<section>
-								<h4>Public domain proof pitfalls</h4>
+							<section id="public-domain-proof-pitfalls">
+								<h4>Public domain proof pitfalls<a class="heading-permalink" href="#public-domain-proof-pitfalls" aria-label="Permalink"></a></h4>
 								<p>There are some things you need to be especially careful of when using this method:</p>
 								<ul>
 									<li><p>In older books it was common to have etchings of paintings. Etchings are not strict reproductions, and so we cannot count them for PD clearance. Etchings can sometimes be identified by: (1) having more clearly defined lines, or shading with more contrast; (2) having shading done with a stipple effect; (3) differences in small amorphous details like the shape of clouds, trees, or fabric compared to the original painting. Etchings mostly fell out of use by around 1900.</p></li>
@@ -136,9 +134,9 @@
 									<li><p>Do not rely on the date given in the catalog entry at HathiTrust or the Internet Archive; these can be wrong. Please verify the page scan of the copyright page to ensure the book was published before <?= PD_STRING ?>.</p></li>
 								</ul>
 							</section>
-						</li>
-						<li id="where-to-find-faq">
-							<h3>Copyright clearance FAQs</h3>
+							</section>
+							<section id="where-to-find-faq">
+							<h3>4. Copyright clearance FAQs<a class="heading-permalink" href="#where-to-find-faq" aria-label="Permalink"></a></h3>
 							<ul>
 								<li>
 									<p>
@@ -177,11 +175,10 @@
 									<p>No. You must find a reproduction of your selected painting in a book published before <?= PD_STRING ?>.</p>
 								</li>
 							</ul>
-						</li>
-					</ol>
-				</li>
-				<li id="suitable">
-					<h2>Choosing suitable art</h2>
+							</section>
+					</section>
+					<section id="suitable">
+						<h2>3. Choosing suitable art<a class="heading-permalink" href="#suitable" aria-label="Permalink"></a></h2>
 					<p>When choosing cover art, you also need to make sure it is suitable for Standard Ebooks and for your book in particular. The main considerations are:</p>
 					<ol>
 						<li>
@@ -215,9 +212,9 @@
 							<p><b>Compromise.</b> Every producer wants to find the perfect match for their project, but remember, you also need to find a cover that is high enough resolution and, most importantly, public domain. So, be ready to compromise.</p>
 						</li>
 					</ol>
-				</li>
-				<li id="approval">
-					<h2>Getting artwork approved</h2>
+					</section>
+					<section id="approval">
+						<h2>4. Getting artwork approved<a class="heading-permalink" href="#approval" aria-label="Permalink"></a></h2>
 					<p>Before you add any cover image to your project, you need to have it approved on the S.E. list by the editor assigned to your project, or by the Editor-in-Chief. Just post in your project thread, and include:</p>
 					<ul>
 						<li><p>A link to your proof of public domain status. This may be a link to the S.E. cover art database, to a museum listing with a CC0 declaration, or to the page images of a print appearance.</p></li>
@@ -238,20 +235,19 @@
 							<p>Export the cover image as a PNG file to post on the mailing list.</p>
 						</li>
 					</ul>
-				</li>
-				<li id="resources">
-					<h2>Resources</h2>
-					<ol>
-						<li id="resources-se-database">
-							<h3>The Standard Ebooks Art Database</h3>
+					</section>
+					<section id="resources">
+						<h2>5. Resources<a class="heading-permalink" href="#resources" aria-label="Permalink"></a></h2>
+							<section id="resources-se-database">
+							<h3>1. The Standard Ebooks Art Database<a class="heading-permalink" href="#resources-se-database" aria-label="Permalink"></a></h3>
 							<p>Our <a href="/artworks">searchable database of public domain art</a>.</p>
-						</li>
-						<li id="resources-cc0">
-							<h3>Museums with CC0 collections</h3>
+							</section>
+							<section id="resources-cc0">
+							<h3>2. Museums with CC0 collections<a class="heading-permalink" href="#resources-cc0" aria-label="Permalink"></a></h3>
 							<p>Only images in our <a href="https://standardebooks.org/manual/latest/10-art-and-images#10.3.3.7.4">list of approved museums</a> can be used without further research. These museums have explicitly released their images under the CC0 license. Not every painting at every listed museum is CC0; you must confirm the presence of a CC0 deed for the specific image you want to use. Museums not in our list may not be used as public domain proof.</p>
-						</li>
-						<li id="resources-images">
-							<h3>Sources for high definition image downloads</h3>
+							</section>
+							<section id="resources-images">
+							<h3>3. Sources for high definition image downloads<a class="heading-permalink" href="#resources-images" aria-label="Permalink"></a></h3>
 							<p>Remember that for art from these sources you will also need to find separate copyright proof. Online museum collections are also a great place to find high definition images.</p>
 							<ul>
 								<li>
@@ -267,9 +263,9 @@
 									<a href="https://artvee.com/">Artvee</a>
 								</li>
 							</ul>
-						</li>
-						<li id="resources-pages">
-							<h3>Sources for page proofs</h3>
+							</section>
+							<section id="resources-pages">
+							<h3>4. Sources for page proofs<a class="heading-permalink" href="#resources-pages" aria-label="Permalink"></a></h3>
 							<ul>
 								<li>
 									<p>
@@ -294,14 +290,12 @@
 									<p>Our own <a href="/contribute/uncategorized-art-resources">list of uncategorized art books</a> that have not yet been processed for the art database may be helpful to browse through for inspiration and easy US-PD clearance.</p>
 								</li>
 							</ul>
-						</li>
-					</ol>
-				</li>
-				<li id="i-still-have-questions">
-					<h2>I still have questions!</h2>
+							</section>
+					</section>
+					<section id="i-still-have-questions">
+						<h2>6. I still have questions!<a class="heading-permalink" href="#i-still-have-questions" aria-label="Permalink"></a></h2>
 					<p>If you’re unsure about anything, or have a question that isn’t answered here, please ask on our <a href="https://groups.google.com/g/standardebooks">mailing list.</a> The experienced producers there can answer any question you might have.</p>
-				</li>
-			</ol>
+					</section>
 		</article>
 
 

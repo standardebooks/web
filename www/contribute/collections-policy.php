@@ -7,8 +7,9 @@
 		</hgroup>
 		<p>Standard Ebooks only works on books that have entered the U.S. public domain due to copyright expiration. Generally this means a book must have been published before <?= PD_STRING ?>, though there are exceptions for works from later periods that didn’t follow copyright formalities. For more information on determining the copyright status of a work in the U.S., see <a href="https://www.gutenberg.org/help/copyright.html">Project Gutenberg’s Copyright How-To</a>.</p>
 		<p>Note that a book that is in the U.S. public domain may not be in the public domain of other countries, and vice versa.</p>
-		<h2>Types of ebooks we do accept</h2>
-		<ul>
+		<section id="types-of-ebooks-we-do-accept">
+			<h2>Types of ebooks we do accept<a class="heading-permalink" href="#types-of-ebooks-we-do-accept" aria-label="Permalink"></a></h2>
+			<ul>
 			<li>
 				<p>Most long fiction, including plays.</p>
 			</li>
@@ -18,9 +19,11 @@
 			<li>
 				<p>Some “timeless” non-fiction, including philosophy, travelogue, classics from antiquity, and notable autobiography. In general, this means books about <em>ideas and experiences</em>, not <em>facts</em>.</p>
 			</li>
-		</ul>
-		<h2>Types of ebooks we don’t accept</h2>
-		<ul>
+			</ul>
+		</section>
+		<section id="types-of-ebooks-we-dont-accept">
+			<h2>Types of ebooks we don’t accept<a class="heading-permalink" href="#types-of-ebooks-we-dont-accept" aria-label="Permalink"></a></h2>
+			<ul>
 			<li>
 				<p>Ebooks that are not clearly in the U.S. public domain. If it’s not hosted on <a href="https://www.gutenberg.org">Project Gutenberg</a>, we’ll probably decline it.</p>
 			</li>
@@ -77,13 +80,16 @@
 				<p>Translations into English which are severely abridged, Bowdlerized, wildly archaic or near-unreadable to modern readers, or which scholars agree are poor translations.</p>
 				<p>For example, the only public domain translations of <i>Twenty Thousand Leagues Under the Seas</i> are ones widely considered to be slapdash—thus we wouldn’t accept any of them, even if that means not hosting the ebook at all.</p>
 			</li>
-		</ul>
-		<h2>Some caveats</h2>
-		<ul>
+			</ul>
+		</section>
+		<section id="some-caveats">
+			<h2>Some caveats<a class="heading-permalink" href="#some-caveats" aria-label="Permalink"></a></h2>
+			<ul>
 			<li>
 				<p>We remove decorative illustrations, i.e., illustrations which are not essential to the book’s plot or fundamental integrity. This mostly only applies to works of fiction. For this reason we will not accept requests to add illustrations to existing ebooks.</p>
 			</li>
-		</ul>
+			</ul>
+		</section>
 	</article>
 </main>
 <?= Template::Footer() ?>

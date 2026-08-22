@@ -3,17 +3,16 @@
 	<article class="step-by-step-guide">
 		<h1>How to Create SVGs from Maps with Several Colors</h1>
 		<p>It’s not unusual to find a map which has an additional line or lines in color showing the route of a journey. We want to preserve this color in the final SVG of the map we include with the book. We will use as an example a map reproduced in <i>Through the Brazilian Wilderness</i> by Theodore Roosevelt</p>
-		<ol>
-			<li>
-				<h2>Find the best quality source scan</h2>
+				<section id="find-the-best-quality-source-scan">
+					<h2>1. Find the best quality source scan<a class="heading-permalink" href="#find-the-best-quality-source-scan" aria-label="Permalink"></a></h2>
 				<p>You always want to start with the very best scan of the image you can locate. Here’s the top portion of the scan from <i>Through the Brazilian Wilderness</i>:</p>
 				<figure class="full-width">
 					<img src="images/map-example-0.jpg" alt="Part of the source map of Brazil showing both black and red linework."/>
 				</figure>
 				<p>As you can see, there is a red line showing the journey, and an accompanying legend.</p>
-			</li>
-			<li>
-				<h2>Process with a suitable bitmap editor</h2>
+				</section>
+				<section id="process-with-a-suitable-bitmap-editor">
+					<h2>2. Process with a suitable bitmap editor<a class="heading-permalink" href="#process-with-a-suitable-bitmap-editor" aria-label="Permalink"></a></h2>
 				<p>What we need to do before trying to trace the map is to separate out the red lines showing the route from the black lines of the underlying map. We need to end up with two images, one with the red and one with the black.</p>
 				<p>To do this, I duplicate the source image and then replace the colors I don’t want in each one with the background color. To demonstrate, I’ll use the open-source <a href="https://www.gimp.org/">GIMP graphics program</a>, but any graphics program which can replace one color with another would be suitable.</p>
 				<p>Open the source file in your editor and immediately duplicate the image layer. If you can rename the layers, call one of them “red-layer” and the other “black-layer”.</p>
@@ -34,18 +33,18 @@
 					<img src="images/map-example-4.jpg" alt="Showing a map corner copied from the black layer onto the red layer to ensure the dimensions after tracing are the same."/>
 				</figure>
 				<p>When that’s done to your satisfaction, export each layer separately as a PNG image, with a suitable name such as “red-layer.png” and “black-layer.png”.</p>
-			</li>
-			<li>
-			<h2>Vectorize the images</h2>
+				</section>
+				<section id="vectorize-the-images">
+					<h2>3. Vectorize the images<a class="heading-permalink" href="#vectorize-the-images" aria-label="Permalink"></a></h2>
 			<p>You can use the open-source application <a href="https://inkscape.org/">Inkscape</a> to trace the bitmaps you’ve created and turn them into vectors, and export them as an SVG.</p>
 			<p>Use File → Import in Inkscape to open both the red and black PNG images, which will appear as separate layers. Rename the layers appropriately.</p>
 			<p>Then use the Path → Trace Bitmap tool on each layer separately, as in the screenshot below. These will appear as additional layers. Name these appropriately and then delete the bitmap layers.</p>
 				<figure class="full-width">
 					<img src="images/map-example-5.jpg" alt="Shows the tracing tool being used on the red layer in Inkscape."/>
 				</figure>
-			</li>
-			<li>
-				<h2>Color one layer and export as a single SVG</h2>
+				</section>
+				<section id="color-one-layer-and-export-as-a-single-svg">
+					<h2>4. Color one layer and export as a single SVG<a class="heading-permalink" href="#color-one-layer-and-export-as-a-single-svg" aria-label="Permalink"></a></h2>
 				<p>Now select the “red-vector” layer and apply color to all of the components. If necessary, you can then edit out the anchor points you placed at the corners of the red layer.</p>
 				<figure class="full-width">
 					<img src="images/map-example-6.jpg" alt="Applying color to the red layer in Inkscape."/>
@@ -54,15 +53,14 @@
 				<figure class="full-width">
 					<img src="images/map-example-7.jpg" alt="Shows the export of a combined SVG file in Inkscape."/>
 				</figure>
-			</li>
+				</section>
 			<li>
 			<p>That’s it, you’re done!</p>
 			</li>
-			<li>
-				<h2>Note</h2>
+				<section id="note">
+					<h2>5. Note<a class="heading-permalink" href="#note" aria-label="Permalink"></a></h2>
 				<p>Inkscape does have a “multi-color” trace function, which in theory ought to eliminate the above steps we needed to carry out in GIMP but in practice I haven’t been able to get this to work in any satisfactory manner.</p>
-			</li>
-		</ol>
+				</section>
 	</article>
 </main>
 <?= Template::Footer() ?>
