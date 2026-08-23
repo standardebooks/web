@@ -32,7 +32,7 @@ try{
 	$patron->CreatedAt = $payment->CreatedAt;
 	$patron->BaseCost = match($patron->CycleType){
 		Enums\CycleType::Monthly => PATRONS_CIRCLE_MONTHLY_COST,
-		enums\CycleType::Yearly => PATRONS_CIRCLE_YEARLY_COST,
+		Enums\CycleType::Yearly => PATRONS_CIRCLE_YEARLY_COST,
 	};
 
 	Db::Query('start transaction');
