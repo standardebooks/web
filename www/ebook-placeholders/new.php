@@ -21,36 +21,40 @@ try{
 	$isOnlyProjectCreated = Http::$Request->Session->Get('project/create/is-only-ebook-project-created', 'bool') ?? false;
 	$isDeleted = Http::$Request->Session->Get('ebook-placeholder/delete/is-deleted', 'bool') ?? false;
 	$exception = Http::$Request->Session->Get('ebook-placeholder/create/exception', Exceptions\AppException::class);
-	$ebook = Http::$Request->Session->Get('ebook-placeholder/create/ebook', Ebook::class);
+	$ebook = Http::$Request->Session->Get('ebook-placeholder/create/ebook', Ebook::class) ?? new Ebook();
 	$project = Http::$Request->Session->Get('project/create/project', Project::class);
 	$deletedEbookTitle = '';
 	$deletedEbookAuthor = '';
 
+	if(!isset($ebook->EbookPlaceholder)){
+		$ebook->EbookPlaceholder = new EbookPlaceholder();
+		// We may pre-set this from a query string for convenience.
+		$ebook->EbookPlaceholder->IsWanted = Http::$Request->QueryString->Get('ebook-placeholder-is-wanted', 'bool') ?? false;
+	}
+
 	if($isCreated || $isOnlyProjectCreated){
 		// We got here because an `Ebook` was successfully created.
 		http_response_code(Enums\HttpCode::Created->value);
-		if($ebook !== null){
-			$createdEbook = clone $ebook;
+		$createdEbook = clone $ebook;
 
-			if(sizeof($ebook->CollectionMemberships) > 0){
-				// If the `EbookPlaceholder` we just added is part of a collection, prefill the form with the same data to make it easier to submit series.
-				unset($ebook->EbookId);
-				unset($ebook->Title);
-				unset($ebook->ProjectInProgress);
-				if($ebook->EbookPlaceholder !== null){
-					$ebook->EbookPlaceholder->YearPublished = null;
-					$ebook->EbookPlaceholder->IsWanted = false;
-					$ebook->EbookPlaceholder->IsInProgress = false;
-				}
-				foreach($ebook->CollectionMemberships as $collectionMembership){
-					if($collectionMembership->SequenceNumber !== null){
-						$collectionMembership->SequenceNumber++;
-					}
+		if(sizeof($ebook->CollectionMemberships) > 0){
+			// If the `EbookPlaceholder` we just added is part of a collection, prefill the form with the same data to make it easier to submit series.
+			unset($ebook->EbookId);
+			unset($ebook->Title);
+			unset($ebook->ProjectInProgress);
+
+			$ebook->EbookPlaceholder->YearPublished = null;
+			$ebook->EbookPlaceholder->IsWanted = false;
+			$ebook->EbookPlaceholder->IsInProgress = false;
+
+			foreach($ebook->CollectionMemberships as $collectionMembership){
+				if($collectionMembership->SequenceNumber !== null){
+					$collectionMembership->SequenceNumber++;
 				}
 			}
-			else{
-				$ebook = null;
-			}
+		}
+		else{
+			$ebook = new Ebook();
 		}
 
 		session_unset();
@@ -58,7 +62,7 @@ try{
 	elseif($isDeleted){
 		$deletedEbookTitle = Http::$Request->Session->Get('ebook-placeholder/delete/ebook-title');
 		$deletedEbookAuthor = Http::$Request->Session->Get('ebook-placeholder/delete/ebook-authors');
-		$ebook = null;
+		$ebook = new Ebook();
 
 		session_unset();
 	}
@@ -104,7 +108,7 @@ catch(Exceptions\PermissionsInvalidException){
 		<? } ?>
 
 		<form class="create-update-ebook-placeholder" method="<?= Enums\HttpMethod::Post->value ?>" action="/ebook-placeholders" autocomplete="off">
-			<?= Template::EbookPlaceholderForm(ebook: $ebook ?? new Ebook()) ?>
+			<?= Template::EbookPlaceholderForm(ebook: $ebook) ?>
 			<div class="footer">
 				<button>Submit</button>
 			</div>

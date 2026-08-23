@@ -35,7 +35,7 @@
 	</label>
 	<label class="icon book">
 		<span>Title in collection</span>
-		<span>E.g. this ebook is an omnibus but the collection refers to a specific item.</span>
+		<span>I.e., this ebook is an omnibus, and this collection refers to this title within the omnibus.</span>
 		<input
 			type="text"
 			name="collection-membership-title-in-collection-<?= $index ?>"

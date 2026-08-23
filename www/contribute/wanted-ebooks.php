@@ -9,6 +9,11 @@ $collections = Collection::GetAllByMissingEntries();
 <main>
 	<article>
 		<h1>Wanted Ebooks</h1>
+		<? if(Session::$User?->Benefits->CanEditEbookPlaceholders){ ?>
+			<ul role="menu">
+				<li><a href="/ebook-placeholders/new?ebook-placeholder-is-wanted=true">Submit a new ebook placeholder</a></li>
+			</ul>
+		<? } ?>
 		<p>If you’re interested in producing an ebook for Standard Ebooks, why not work on one of these books?</p>
 		<p>If something in this list interests you, please <a href="https://groups.google.com/g/standardebooks">contact us at our mailing list</a> for help before you start work.</p>
 		<p>If you want to suggest a different book to produce, please carefully review <a href="/contribute/collections-policy">the kinds of work we do and don’t accept</a>.</p>
