@@ -27,10 +27,13 @@ try{
 	$patron = new Patron();
 	$patron->FillFromRequestBody();
 	$patron->UserId = $user->UserId;
-	$patron->BaseCost = $payment->Amount;
 	$patron->CycleType = $payment->IsRecurring ? Enums\CycleType::Monthly : Enums\CycleType::Yearly;
 	$patron->User = $user;
 	$patron->CreatedAt = $payment->CreatedAt;
+	$patron->BaseCost = match($patron->CycleType){
+		Enums\CycleType::Monthly => PATRONS_CIRCLE_MONTHLY_COST,
+		enums\CycleType::Yearly => PATRONS_CIRCLE_YEARLY_COST,
+	};
 
 	Db::Query('start transaction');
 	try{
