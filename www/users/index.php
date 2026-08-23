@@ -27,10 +27,10 @@ catch(Exceptions\PermissionsInvalidException){
 <main>
 	<section class="narrow has-hero">
 		<h1>Users</h1>
-		<picture data-caption="Rohan Road Combat, 29 July 1830. Hippolyte Lecomte, 1831">
-			<source srcset="/images/rohan-road-combat@2x.avif 2x, /images/rohan-road-combat.avif 1x" type="image/avif"/>
-			<source srcset="/images/rohan-road-combat@2x.jpg 2x, /images/rohan-road-combat.jpg 1x" type="image/jpeg"/>
-			<img src="/images/rohan-road-combat@2x.jpg" alt="Rioters shooting guns during the French Revolution."/>
+		<picture data-caption="Friday at the French Artists’ Salon. Jules Alexandre Grün, 1911">
+			<source srcset="/images/friday-at-the-french-artists-salon@2x.avif 2x, /images/friday-at-the-french-artists-salon.avif 1x" type="image/avif"/>
+			<source srcset="/images/friday-at-the-french-artists-salon@2x.jpg 2x, /images/friday-at-the-french-artists-salon.jpg 1x" type="image/jpeg"/>
+			<img src="/images/friday-at-the-french-artists-salon@2x.jpg" alt="A gathering of well-dressed artists in a grand hall."/>
 		</picture>
 
 		<? if(Session::$User->Benefits->CanCreateUsers){ ?>
