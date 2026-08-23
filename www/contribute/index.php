@@ -82,6 +82,9 @@
 				<li>
 					<p><a href="/contribute/spreadsheets">A list of various research spreadsheets our volunteers created and use.</a></p>
 				</li>
+				<li>
+					<p><a href="/contribute/notes-for-long-term-projects">Notes for long-term projects.</a></p>
+				</li>
 			</ul>
 		</section>
 	</article>
