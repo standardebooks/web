@@ -132,20 +132,25 @@ catch(\Exception $ex){
  * Now iterate over `Project`s, and try to match them to the list of email messages we compiled earlier.
  */
 
-/** @var array<Project> $projects */
-$projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
+$projectIds = Project::GetIdsByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
 
 // First, iterate over all projects which haven't had their message chain initialized, and initialize it.
-foreach($projects as $project){
+foreach($projectIds as $projectId){
+	// Fetch the `Project` immediately before processing it so that we use its latest state.
+	$project = Project::Get($projectId);
+
 	if(
 		$project->IsStatusAutomaticallyUpdated
+		&&
+		$project->Status != Enums\ProjectStatusType::Completed
+		&&
+		$project->Status != Enums\ProjectStatusType::Abandoned
 		&&
 		!$project->AreDiscussionMessagesComplete
 	){
 		try{
 			$project->SaveDiscussionMessageIds($project->FetchDiscussionMessageIdsFromImap());
-			$project->AreDiscussionMessagesComplete = true;
-			$project->Save();
+			Db::Query('update Projects set AreDiscussionMessagesComplete = true where ProjectId = ?', [$project->ProjectId]);
 		}
 		catch(\Exception $ex){
 			$log = new Log();
@@ -155,8 +160,17 @@ foreach($projects as $project){
 }
 
 // Now iterate over all projects and update the message chain with any emails found in this run.
-foreach($projects as $project){
-	if(!$project->IsStatusAutomaticallyUpdated){
+foreach($projectIds as $projectId){
+	// Fetch the `Project` again because the initialization pass may have changed it.
+	$project = Project::Get($projectId);
+
+	if(
+		!$project->IsStatusAutomaticallyUpdated
+		||
+		$project->Status == Enums\ProjectStatusType::Completed
+		||
+		$project->Status == Enums\ProjectStatusType::Abandoned
+	){
 		continue;
 	}
 
@@ -164,6 +178,7 @@ foreach($projects as $project){
 	$projectDiscussionMessageIds = [];
 	$knownDiscussionMessageIds = $project->GetDiscussionMessageIds();
 	$hasMatchedEmail = true;
+	$isAwaitingReview = false;
 
 	// Keep scanning the remaining unmatched emails as long as the previous scan attached at least one new email to a `Project`.
 	while($hasMatchedEmail){
@@ -190,6 +205,7 @@ foreach($projects as $project){
 					preg_match('/\b(ready\s+for(\s+a)?\s+review|ready\s+for\s+(your)?\s+inspection|ready\s+to\s+be\s+inspected|ready\s+to\s+be\s+reviewed|ready\s+for\s+you|this\s+(e?book|project\s+)?is\s+ready[\.\!])\b/iu', $emailMessage->Body)
 				){
 					$project->Status = Enums\ProjectStatusType::AwaitingReview;
+					$isAwaitingReview = true;
 				}
 
 				// We matched this email to a `Project`, remove it from future checks.
@@ -201,5 +217,13 @@ foreach($projects as $project){
 	$projectDiscussionMessageIds = array_values(array_unique($projectDiscussionMessageIds));
 
 	$project->SaveDiscussionMessageIds($projectDiscussionMessageIds);
-	$project->Save();
+
+	Db::Query('update Projects set LastDiscussionAt = ? where ProjectId = ?', [$project->LastDiscussionAt, $project->ProjectId]);
+
+	if($isAwaitingReview){
+		// Notify the reviewer if this update moved the `Project` to `awaiting_review`.
+		$project->SendReviewerReadyNotification();
+
+		Db::Query('update Projects set Status = ?, HasReviewerBeenNotified = true where ProjectId = ?', [Enums\ProjectStatusType::AwaitingReview, $project->ProjectId]);
+	}
 }

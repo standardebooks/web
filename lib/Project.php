@@ -914,6 +914,17 @@ final class Project{
 	}
 
 	/**
+	 * Get the IDs of all `Project`s with one of the given statuses.
+	 *
+	 * @param array<Enums\ProjectStatusType> $statuses
+	 *
+	 * @return array<int>
+	 */
+	public static function GetIdsByStatuses(array $statuses): array{
+		return array_map(fn(stdClass $row): int => (int)$row->ProjectId, Db::Query('select ProjectId from Projects where Status in ' . Db::CreateSetSql($statuses), $statuses));
+	}
+
+	/**
 	 * @return array<Project>
 	 */
 	public static function GetAllByManagerUserId(int $userId): array{

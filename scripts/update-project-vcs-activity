@@ -34,17 +34,25 @@ set_time_limit(0);
  * Iterate over all active `Project`s and get their latest GitHub commit.
  */
 
-/** @var array<Project> $projects */
-$projects = Project::GetAllByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
+$projectIds = Project::GetIdsByStatuses([Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed, Enums\ProjectStatusType::Stalled]);
 
 // Randomly sort `Project`s, in case we got rate limited in an earlier invocation, so we have a better chance of updating a different project this time.
-shuffle($projects);
+shuffle($projectIds);
 
 $apiKey = trim(file_get_contents('/standardebooks.org/config/secrets/se-vcs-bot@api.github.com'));
 $continueFetchingLastCommitTimestamp = true;
 
-foreach($projects as $project){
-	if(!$project->IsStatusAutomaticallyUpdated){
+foreach($projectIds as $projectId){
+	// Fetch the `Project` immediately before processing it so that we use its latest state.
+	$project = Project::Get($projectId);
+
+	if(
+		!$project->IsStatusAutomaticallyUpdated
+		||
+		$project->Status == Enums\ProjectStatusType::Completed
+		||
+		$project->Status == Enums\ProjectStatusType::Abandoned
+	){
 		continue;
 	}
 
@@ -76,7 +84,11 @@ foreach($projects as $project){
 		// If we got here then we likely got a 404, so continue.
 	}
 
-	$project->Save();
+	Db::Query('update Projects set VcsUrl = ?, LastCommitAt = ? where ProjectId = ?', [$project->VcsUrl, $project->LastCommitAt, $project->ProjectId]);
+
+	if($project->Status == Enums\ProjectStatusType::Reviewed){
+		Db::Query('update Projects set Status = ? where ProjectId = ?', [Enums\ProjectStatusType::Reviewed, $project->ProjectId]);
+	}
 
 	sleep(random_int(10, 20));
 }
