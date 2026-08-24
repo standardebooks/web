@@ -121,13 +121,13 @@ final class UploadTempDirectory{
 				@unlink($uploadPath);
 			}
 		}
-		catch(\Throwable){
+		catch(\Exception){
 			// Pass.
 		}
 	}
 
 	/**
-	 * Replace an old uploda with a new upload in the cache.
+	 * Replace an old upload with a new upload in the cache.
 	 *
 	 * @return ?string The path of the new upload in the cache, or `null` if `$newUploadPath` is `null`.
 	 *
@@ -162,7 +162,7 @@ final class UploadTempDirectory{
 	 * @throws Exceptions\TempDirectoryException If the temporary directory couldn't be created.
 	 */
 	public static function GetPath(): string{
-		$tempDirectory = sys_get_temp_dir() . '/se';
+		$tempDirectory = sys_get_temp_dir() . (PHP_SAPI == 'cli' ? '/se-cli' : '/se-fpm');
 
 		if(!is_dir($tempDirectory)){
 			try{
