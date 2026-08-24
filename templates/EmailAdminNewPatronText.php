@@ -4,7 +4,7 @@
  * @var Payment $payment
  */
 ?>
-Name: <? if($patron->User->Name === null){ ?>Anonymous <? }else{ ?><?= Formatter::EscapeHtml($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?> (<?= $patron->UserId ?>)
+Name: <? if($patron->User->Name === null){ ?>Anonymous<? }else{ ?><?= Formatter::EscapeHtml($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?><? if(isset($patron->UserId)){ ?> (<?= $patron->UserId ?>)<? } ?>
 
 Donation type: <? if($payment->IsRecurring){ ?>Recurring<? }else{ ?>One-time<? } ?>
 

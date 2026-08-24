@@ -22,7 +22,7 @@
 		<tbody>
 			<tr>
 				<td>Name:</td>
-				<td><? if($patron->User->Name === null){ ?>Anonymous <? }else{ ?><?= Formatter::EscapeHtml($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?> (#<?= $patron->UserId ?>)</td>
+				<td><? if($patron->User->Name === null){ ?>Anonymous<? }else{ ?><?= Formatter::EscapeHtml($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?><? if(isset($patron->UserId)){ ?> (#<?= $patron->UserId ?>)<? } ?></td>
 			</tr>
 			<tr>
 				<td>Donation type:</td>
