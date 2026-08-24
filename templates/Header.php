@@ -76,11 +76,10 @@ if(!$isXslt){
 	<? if($canonicalUrl !== null){ ?>
 		<link rel="canonical" href="<?= Formatter::EscapeHtml($canonicalUrl) ?>" />
 	<? } ?>
-	<link href="/apple-touch-icon-120x120.png" rel="apple-touch-icon" sizes="120x120"/>
-	<link href="/apple-touch-icon-152x152.png" rel="apple-touch-icon" sizes="152x152"/>
-	<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
-	<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
-	<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+	<link href="/images/favicons/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+	<link href="/images/favicons/favicon-64x64.png" rel="icon" sizes="64x64" type="image/png"/>
+	<link href="/images/favicons/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+	<link href="/images/favicons/favicon-16x16.svg" rel="icon" sizes="16x16" type="image/svg+xml"/>
 	<link href="/manifest.json" rel="manifest"/>
 	<? if($feedUrl !== null){ ?>
 		<link rel="alternate" type="application/atom+xml" title="<?= Formatter::EscapeHtml($feedTitle) ?>" href="<?= SITE_URL ?>/feeds/atom<?= Formatter::EscapeHtml($feedUrl) ?>"/>

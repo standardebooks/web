@@ -10,9 +10,9 @@ print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 	<SyndicationRight>open</SyndicationRight>
 	<OutputEncoding>UTF-8</OutputEncoding>
 	<InputEncoding>UTF-8</InputEncoding>
-	<Image width="16" height="16" type="image/x-icon"><?= SITE_URL ?>/favicon-16x16.ico</Image>
-	<Image width="48" height="48" type="image/x-icon"><?= SITE_URL ?>/favicon.ico</Image>
-	<Image width="64" height="64" type="image/png"><?= SITE_URL ?>/favicon-64x64.png</Image>
+	<Image width="16" height="16" type="image/svg+xml"><?= SITE_URL ?>/images/favicons/favicon-16x16.svg</Image>
+	<Image width="32" height="32" type="image/png"><?= SITE_URL ?>/images/favicons/favicon-32x32.png</Image>
+	<Image width="64" height="64" type="image/png"><?= SITE_URL ?>/images/favicons/favicon-64x64.png</Image>
 	<Url type="application/opensearchdescription+xml" rel="self" template="<?= SITE_URL ?>/opensearch" />
 	<Url type="text/html" template="<?= SITE_URL ?>/ebooks?query={searchTerms}&amp;per-page={count}&amp;page={startPage}"/><? // For compatibility; most OpenSearch parsers don't understand `application/xhtml+xml`. ?>
 
