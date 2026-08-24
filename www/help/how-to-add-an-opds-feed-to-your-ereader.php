@@ -156,6 +156,30 @@ if(Session::$User?->Benefits->CanAccessFeeds){
 			</ol>
 		</details>
 
+		<details id="koodo">
+			<summary>Koodo<a class="heading-permalink" href="#koodo" aria-label="Permalink"></a></summary>
+			<ol>
+				<li>
+					<p>Select <b>+ Add</b> at the upper right.</p>
+				</li>
+				<li>
+					<p>Select <b>OPDS</b>.</p>
+				</li>
+				<li>
+					<p>Select <b>Add OPDS Catalog</b>.</p>
+				</li>
+				<li>
+					<p>In the <b>OPDS Catalog URL</b> field, enter <kbd><?= $opdsUrl ?></kbd>.</p>
+				</li>
+				<li>
+					<p>In the <b>Username</b> field, enter <kbd><?= $login ?></kbd>.</p>
+				</li>
+				<li>
+					<p>Select <b>Confirm</b>.</p>
+				</li>
+			</ol>
+		</details>
+
 		<details id="koreader">
 			<summary>KOReader<a class="heading-permalink" href="#koreader" aria-label="Permalink"></a></summary>
 			<ol>
@@ -275,6 +299,36 @@ if(Session::$User?->Benefits->CanAccessFeeds){
 				</li>
 				<li>
 					<p>Select <b>Save source</b>.</p>
+				</li>
+			</ol>
+		</details>
+
+		<details id="pocketbook">
+			<summary>PocketBook<a class="heading-permalink" href="#pocketbook" aria-label="Permalink"></a></summary>
+			<ol>
+				<li>
+					<p>Select the main menu button at the upper left.</p>
+				</li>
+				<li>
+					<p>Under <b>E-books</b>, select <b>Network Library</b>.</p>
+				</li>
+				<li>
+					<p>Select the <b>Folder-plus</b> icon at the upper right.</p>
+				</li>
+				<li>
+					<p>Enter <?= $opdsUrl ?> in the <b>URL</b> field and an optional title in the <b>Title</b> field.</p>
+				</li>
+				<li>
+					<p>Select <b>OK</b>.</p>
+				</li>
+				<li>
+					<p>Select the newly-added feed.</p>
+				</li>
+				<li>
+					<p>Enter <?= $login ?> in the <b>Login</b> field and any value in the <b>Password</b> field.</p>
+				</li>
+				<li>
+					<p>Select <b>Sign in</b>.</p>
 				</li>
 			</ol>
 		</details>
