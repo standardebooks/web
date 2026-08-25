@@ -98,6 +98,12 @@ try{
 	$_SESSION['newsletter-subscription/create/is-created'] = true;
 	header('location: ' . $user->UuidUrl . '/newsletter-subscriptions');
 }
+catch(Exceptions\SpamSuspectedException){
+	// Pretend the subscription was created.
+	http_response_code(Enums\HttpCode::SeeOther->value);
+	$_SESSION['newsletter-subscription/create/is-bot'] = true;
+	header('location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
+}
 catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\CaptchaInvalidException | Exceptions\NewsletterRequiredException $ex){
 	$_SESSION['newsletter-subscription/create/newsletter-ids'] = $newsletterIds;
 	$_SESSION['newsletter-subscription/create/email'] = $email;
