@@ -60,31 +60,46 @@ try{
 	$user->Email = $email;
 	$isAnyNewsletterSubscriptionCreated = false;
 
-	foreach($newsletters as $newsletter){
-		$newsletterSubscription = new NewsletterSubscription();
-		$newsletterSubscription->Newsletter = $newsletter;
-		$newsletterSubscription->NewsletterId = $newsletter->NewsletterId;
-		$newsletterSubscription->User = $user;
+	Db::Query('start transaction');
+	try{
+		foreach($newsletters as $newsletter){
+			$newsletterSubscription = new NewsletterSubscription();
+			$newsletterSubscription->Newsletter = $newsletter;
+			$newsletterSubscription->NewsletterId = $newsletter->NewsletterId;
+			$newsletterSubscription->User = $user;
 
+			try{
+				// The unique email and IP address keys prevent duplicate concurrent attempts and enforce the rate limit.
+				Db::Query('insert into NewsletterSignupAttempts (NewsletterId, Email, IpAddress, CreatedAt) values (?, ?, ?, ?)', [$newsletter->NewsletterId, $user->Email, Http::$Request->RemoteAddress->Binary, NOW]);
+			}
+			catch(Exceptions\DuplicateDatabaseKeyException){
+				throw new Exceptions\SpamSuspectedException();
+			}
+
+			try{
+				$newsletterSubscription->Create();
+				// We may have fetched a different user into the `NewsletterSubscription` while creating, so update it here just in case.
+				$user = $newsletterSubscription->User;
+
+				$isAnyNewsletterSubscriptionCreated = true;
+			}
+			catch(Exceptions\NewsletterSubscriptionExistsException){
+				$user = $newsletterSubscription->User;
+				continue;
+			}
+		}
+
+		Db::Query('commit');
+	}
+	catch(\Throwable $ex){
 		try{
-			// The unique email and IP address keys prevent duplicate concurrent attempts and enforce the rate limit.
-			Db::Query('insert into NewsletterSignupAttempts (NewsletterId, Email, IpAddress, CreatedAt) values (?, ?, ?, ?)', [$newsletter->NewsletterId, $user->Email, Http::$Request->RemoteAddress->Binary, NOW]);
+			Db::Query('rollback');
 		}
-		catch(Exceptions\DuplicateDatabaseKeyException){
-			throw new Exceptions\SpamSuspectedException();
+		catch(\Throwable){
+			// Preserve the original exception.
 		}
 
-		try{
-			$newsletterSubscription->Create();
-			// We may have fetched a different user into the `NewsletterSubscription` while creating, so update it here just in case.
-			$user = $newsletterSubscription->User;
-
-			$isAnyNewsletterSubscriptionCreated = true;
-		}
-		catch(Exceptions\NewsletterSubscriptionExistsException){
-			$user = $newsletterSubscription->User;
-			continue;
-		}
+		throw $ex;
 	}
 
 	if($isAnyNewsletterSubscriptionCreated){
