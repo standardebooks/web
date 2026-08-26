@@ -19,7 +19,7 @@ $usedCollectionMemberships = [[[]]];
 		<?
 		// Cache some values first.
 		$collectionPosition = $ebook->GetCollectionPosition($collection);
-		$title = $ebook->GetTitleInCollection($collection, $usedCollectionMemberships[$collection?->CollectionId][$ebook->EbookId] ?? []);
+		$title = $ebook->GetTitleInCollection($collection, isset($collection) ? $usedCollectionMemberships[$collection->CollectionId][$ebook->EbookId] ?? [] : []);
 		if($collection !== null){
 			$usedCollectionMemberships[$collection->CollectionId][$ebook->EbookId] ??= [];
 			$usedCollectionMemberships[$collection->CollectionId][$ebook->EbookId][] = $title;
