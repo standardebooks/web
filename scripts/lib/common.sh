@@ -71,18 +71,26 @@ IsVeryPlain(){
 
 # Replace link tags with terminal hyperlinks.
 # Param 1: The line to format.
+# Param 2: Boolean to set the result in `FORMATTED_LINKS` instead of printing it.
 FormatLinks(){
 	local inLink
 	local line
 	local output
+	local setVariable
 	local url
 
 	line="$1"
+	setVariable=${2:-false}
 	output=""
 	inLink=false
 
 	if [[ "${line}" != *"[link="* ]]; then
-		printf "%s" "${line}"
+		if ${setVariable}; then
+			FORMATTED_LINKS="${line}"
+		else
+			printf "%s" "${line}"
+		fi
+
 		return
 	fi
 
@@ -114,7 +122,11 @@ FormatLinks(){
 		output="${output}${FS_URL_CLOSE}"
 	fi
 
-	printf "%s" "${output}"
+	if ${setVariable}; then
+		FORMATTED_LINKS="${output}"
+	else
+		printf "%s" "${output}"
+	fi
 }
 
 # Replace formatting tags with backticks.
@@ -436,30 +448,60 @@ ApplyFormattingTags(){
 	fi
 
 	closeTag="[/]"
-	line="${line//"[header]"/"${FG_GREEN}${FS_BOLD}"}"
-	line="${line//"[parameter]"/"${FG_CYAN}"}"
-	line="${line//"[command]"/"${FG_GREEN}"}"
-	line="${line//"[subcommand]"/"${FG_DARK_SEA_GREEN1}"}"
-	line="${line//"[branch]"/"${FG_YELLOW}"}"
-	line="${line//"[xhtml]"/"${FG_PURPLE}"}"
-	line="${line//"[xml]"/"${FG_PURPLE}"}"
-	line="${line//"[val]"/"${FG_BRIGHT_BLUE}"}"
-	line="${line//"[attr]"/"${FG_HOT_PINK}"}"
-	line="${line//"[class]"/"${FG_HOT_PINK}"}"
-	line="${line//"[path]"/"${FG_BLUE}${FS_BOLD}${FS_UL}"}"
-	line="${line//"[user]"/"${FG_MAGENTA}"}"
-	line="${line//"[url]"/"${FG_BRIGHT_BLUE}"}"
-	line="${line//"[error]"/"${FG_RED}"}"
-	line="${line//"[warning]"/"${FG_ORANGE1}"}"
-	line="${line//"[queued]"/"${FG_GRAY69}"}"
-	line="${line//"[running]"/"${FG_BLUE_VIOLET}"}"
-	line="${line//"[finished]"/"${FG_PALE_GREEN3}"}"
-	line="${line//"[dim]"/"${FG_GRAY69}"}"
-	line="${line//"[text]"/"${FG_DARK_ORANGE}"}"
-	line="${line//"[css]"/"${FG_BRIGHT_BLUE}"}"
-	line="${line//"[flag]"/"${FG_BRIGHT_BLUE}"}"
-	line="${line//"[email]"/"${FG_MAGENTA}"}"
-	line="${line//"${closeTag}"/"${RESET_ALL}"}"
+
+	if ((${#line} >= 1000)); then
+		printf "%s" "${line}" | sed \
+			--expression="s|\[header\]|${FG_GREEN}${FS_BOLD}|g" \
+			--expression="s|\[parameter\]|${FG_CYAN}|g" \
+			--expression="s|\[command\]|${FG_GREEN}|g" \
+			--expression="s|\[subcommand\]|${FG_DARK_SEA_GREEN1}|g" \
+			--expression="s|\[branch\]|${FG_YELLOW}|g" \
+			--expression="s|\[xhtml\]|${FG_PURPLE}|g" \
+			--expression="s|\[xml\]|${FG_PURPLE}|g" \
+			--expression="s|\[val\]|${FG_BRIGHT_BLUE}|g" \
+			--expression="s|\[attr\]|${FG_HOT_PINK}|g" \
+			--expression="s|\[class\]|${FG_HOT_PINK}|g" \
+			--expression="s|\[path\]|${FG_BLUE}${FS_BOLD}${FS_UL}|g" \
+			--expression="s|\[user\]|${FG_MAGENTA}|g" \
+			--expression="s|\[url\]|${FG_BRIGHT_BLUE}|g" \
+			--expression="s|\[error\]|${FG_RED}|g" \
+			--expression="s|\[warning\]|${FG_ORANGE1}|g" \
+			--expression="s|\[queued\]|${FG_GRAY69}|g" \
+			--expression="s|\[running\]|${FG_BLUE_VIOLET}|g" \
+			--expression="s|\[finished\]|${FG_PALE_GREEN3}|g" \
+			--expression="s|\[dim\]|${FG_GRAY69}|g" \
+			--expression="s|\[text\]|${FG_DARK_ORANGE}|g" \
+			--expression="s|\[css\]|${FG_BRIGHT_BLUE}|g" \
+			--expression="s|\[flag\]|${FG_BRIGHT_BLUE}|g" \
+			--expression="s|\[email\]|${FG_MAGENTA}|g" \
+			--expression="s|\[/\]|${RESET_ALL}|g"
+		return
+	fi
+
+	[[ "${line}" == *"[header]"* ]] && line="${line//"[header]"/"${FG_GREEN}${FS_BOLD}"}"
+	[[ "${line}" == *"[parameter]"* ]] && line="${line//"[parameter]"/"${FG_CYAN}"}"
+	[[ "${line}" == *"[command]"* ]] && line="${line//"[command]"/"${FG_GREEN}"}"
+	[[ "${line}" == *"[subcommand]"* ]] && line="${line//"[subcommand]"/"${FG_DARK_SEA_GREEN1}"}"
+	[[ "${line}" == *"[branch]"* ]] && line="${line//"[branch]"/"${FG_YELLOW}"}"
+	[[ "${line}" == *"[xhtml]"* ]] && line="${line//"[xhtml]"/"${FG_PURPLE}"}"
+	[[ "${line}" == *"[xml]"* ]] && line="${line//"[xml]"/"${FG_PURPLE}"}"
+	[[ "${line}" == *"[val]"* ]] && line="${line//"[val]"/"${FG_BRIGHT_BLUE}"}"
+	[[ "${line}" == *"[attr]"* ]] && line="${line//"[attr]"/"${FG_HOT_PINK}"}"
+	[[ "${line}" == *"[class]"* ]] && line="${line//"[class]"/"${FG_HOT_PINK}"}"
+	[[ "${line}" == *"[path]"* ]] && line="${line//"[path]"/"${FG_BLUE}${FS_BOLD}${FS_UL}"}"
+	[[ "${line}" == *"[user]"* ]] && line="${line//"[user]"/"${FG_MAGENTA}"}"
+	[[ "${line}" == *"[url]"* ]] && line="${line//"[url]"/"${FG_BRIGHT_BLUE}"}"
+	[[ "${line}" == *"[error]"* ]] && line="${line//"[error]"/"${FG_RED}"}"
+	[[ "${line}" == *"[warning]"* ]] && line="${line//"[warning]"/"${FG_ORANGE1}"}"
+	[[ "${line}" == *"[queued]"* ]] && line="${line//"[queued]"/"${FG_GRAY69}"}"
+	[[ "${line}" == *"[running]"* ]] && line="${line//"[running]"/"${FG_BLUE_VIOLET}"}"
+	[[ "${line}" == *"[finished]"* ]] && line="${line//"[finished]"/"${FG_PALE_GREEN3}"}"
+	[[ "${line}" == *"[dim]"* ]] && line="${line//"[dim]"/"${FG_GRAY69}"}"
+	[[ "${line}" == *"[text]"* ]] && line="${line//"[text]"/"${FG_DARK_ORANGE}"}"
+	[[ "${line}" == *"[css]"* ]] && line="${line//"[css]"/"${FG_BRIGHT_BLUE}"}"
+	[[ "${line}" == *"[flag]"* ]] && line="${line//"[flag]"/"${FG_BRIGHT_BLUE}"}"
+	[[ "${line}" == *"[email]"* ]] && line="${line//"[email]"/"${FG_MAGENTA}"}"
+	[[ "${line}" == *"${closeTag}"* ]] && line="${line//"${closeTag}"/"${RESET_ALL}"}"
 
 	printf "%s" "${line}"
 }
@@ -472,6 +514,7 @@ ColorizeString(){
 	local currentLine
 	local isFirstLine
 	local line
+	local output
 	local printNewline
 	local veryPlain
 
@@ -480,6 +523,35 @@ ColorizeString(){
 	veryPlain=${3:-false}
 
 	if [[ "${line}" == *$'\n'* ]]; then
+		if IsColor; then
+			isFirstLine=true
+			output=""
+
+			# Format links one line at a time so that malformed links retain the existing line-boundary behavior.
+			while IFS= read -r currentLine || [[ -n "${currentLine}" ]]; do
+				if ${isFirstLine}; then
+					isFirstLine=false
+				else
+					output="${output}"$'\n'
+				fi
+
+				if [[ "${currentLine}" == *"[link="* ]]; then
+					FormatLinks "${currentLine}" true
+					output="${output}${FORMATTED_LINKS}"
+				else
+					output="${output}${currentLine}"
+				fi
+			done <<< "${line}"
+
+			ApplyFormattingTags "${output}"
+
+			if ${printNewline}; then
+				printf "\n"
+			fi
+
+			return
+		fi
+
 		isFirstLine=true
 
 		while IFS= read -r currentLine || [[ -n "${currentLine}" ]]; do
@@ -515,7 +587,8 @@ ColorizeString(){
 	fi
 
 	if [[ "${line}" == *"[link="* ]]; then
-		line="$(FormatLinks "${line}")"
+		FormatLinks "${line}" true
+		line="${FORMATTED_LINKS}"
 	fi
 
 	ApplyFormattingTags "${line}"
