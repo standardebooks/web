@@ -1,4 +1,6 @@
 <?
+use function Safe\preg_match;
+
 $authors = Contributor::GetAllByMarcRole(Enums\MarcRole::Author);
 $authorsByLetter = [];
 
@@ -32,7 +34,7 @@ foreach($authors as $author){
 				<ul>
 					<? foreach($letterAuthors as $author){ ?>
 						<li>
-							<p><a href="<?= $author->Url ?>"><?= Formatter::EscapeHtml($author->Name) ?></a></p>
+							<p><a href="<?= $author->Url ?>"><?= Formatter::EscapeHtml($author->DisplayName) ?></a></p>
 						</li>
 					<? } ?>
 				</ul>

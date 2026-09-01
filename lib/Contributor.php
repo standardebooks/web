@@ -3,6 +3,7 @@ use function Safe\preg_match;
 
 /**
  * @property-read ?string $Url The URL of this `Contributor` if their MARC role is `Enums\MarcRole::Author`, or `null` otherwise.
+ * @property-read ?string $DisplayName The display name of the contributor, which is either their `$Name`, or, if their URL slug has a death date, a string like `$Name (year-year)`.
  */
 class Contributor{
 	use Traits\Accessor;
@@ -18,6 +19,7 @@ class Contributor{
 	public int $SortOrder;
 
 	protected ?string $_Url;
+	protected ?string $_DisplayName;
 
 
 	// *******
@@ -37,6 +39,18 @@ class Contributor{
 		return $this->_Url;
 	}
 
+	protected function GetDisplayName(): ?string{
+		if(!isset($this->_DisplayName)){
+			$this->_DisplayName = $this->Name;
+			// Append a lifespan when it is encoded in the URL name to distinguish authors with identical names.
+			if(preg_match('|-(\d{4})-(\d{4})$|u', $this->UrlName, $matches)){
+				$this->_DisplayName .= ' (' . $matches[1] . '–' . $matches[2] . ')';
+			}
+		}
+
+		return $this->_DisplayName;
+	}
+
 	// *******
 	// METHODS
 	// *******
@@ -51,7 +65,7 @@ class Contributor{
 			from Contributors
 			where MarcRole = ?
 			and SortName is not null
-			group by SortName
+			group by UrlName
 			# Replace spaces in `SortName` because MariaDB sorts names like `Thomas a Kempis` before everything else, instead of sorting it like `ak`.
 			order by replace(SortName, " " , "") asc', [$marcRole], Contributor::class);
 	}
