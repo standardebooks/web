@@ -127,7 +127,7 @@ class SearchDb extends Db{
 		try{
 			$result = static::Query($sql, $params, $class);
 		}
-		catch(Exceptions\DatabaseQueryException){
+		catch(Exceptions\SearchSyntaxInvalidException){
 			// There was a syntax error in the `match()` function's search language (e.g. there was an opening `"` but no closing `"`); escape all search operators and try again.
 			if(isset($params[$matchParamIndex])){
 				/** @var string $query */

@@ -1334,6 +1334,15 @@ final class Artwork{
 
 			$maxMatches = $offset + $limit;
 
+			if($maxMatches > DATABASE_SEARCH_MAXIMUM_MATCHES){
+				// Determine the real last page without sending an unsupported `max_matches` value to Manticore.
+				array_pop($params);
+				array_pop($params);
+				$artworksCount = SearchDb::QueryMatch('select count(*) as Count from artworks where ' . $whereCondition, $params, sizeof($params) - 1)[0]->count ?? 0;
+				$totalPages = (int)ceil($artworksCount / $perPage);
+				throw new Exceptions\PageOutOfBoundsException(realPageNumber: max(1, $totalPages));
+			}
+
 			$result = SearchDb::QueryMatch('select id from artworks where ' . $whereCondition . ' order by ' . $orderBy . ' limit ? offset ? option max_matches=' . $maxMatches, $params, sizeof($params) - 3);
 
 			// Try to get the total matches from built-in metadata instead of running a second resource-intensive query.

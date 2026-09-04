@@ -2717,6 +2717,16 @@ final class Ebook{
 			$searchParams[] = $offset;
 
 			$maxMatches = $offset + $limit;
+
+			if($maxMatches > DATABASE_SEARCH_MAXIMUM_MATCHES){
+				// Determine the real last page without sending an unsupported `max_matches` value to Manticore.
+				array_pop($searchParams);
+				array_pop($searchParams);
+				$ebooksCount = SearchDb::QueryMatch('select count(*) as Count from ebooks where ' . $searchWhereCondition, $searchParams, $matchParamIndex)[0]->count ?? 0;
+				$totalPages = (int)ceil($ebooksCount / $perPage);
+				throw new Exceptions\PageOutOfBoundsException(realPageNumber: max(1, $totalPages));
+			}
+
 			$result = SearchDb::QueryMatch('select id from ebooks where ' . $searchWhereCondition . ' order by ' . $searchOrderBy . ' limit ? offset ? option max_matches=' . $maxMatches . ', field_weights=(Title=' . EBOOK_SEARCH_WEIGHT_TITLE . ',FullTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',AlternateTitle=' . EBOOK_SEARCH_WEIGHT_TITLE . ',Authors=' . EBOOK_SEARCH_WEIGHT_AUTHORS . ',Collections=' . EBOOK_SEARCH_WEIGHT_COLLECTIONS . ',TocEntries=' . EBOOK_SEARCH_WEIGHT_TOC_ENTRIES . ')', $searchParams, $matchParamIndex);
 
 			// Try to get the total matches from built-in metadata instead of running a second resource-intensive query.
