@@ -84,7 +84,7 @@ catch(Exceptions\PollNotFoundException){
 		<? }else{ ?>
 			<? if($poll->StartAt > NOW){ ?>
 				<p class="center-notice">This poll opens on <?= $poll->StartAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::FullDateTime->value) ?> <?= SITE_TZ_STRING ?>.</p>
-				<? if(Session::$User->Benefits->CanEditPolls){ ?>
+				<? if(Session::$User?->Benefits->CanEditPolls){ ?>
 					<p class="button-row narrow">
 						<a href="<?= $poll->Url ?>/votes/new" class="button">View options</a>
 					</p>
