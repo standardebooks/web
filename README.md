@@ -61,7 +61,9 @@ sudo systemctl restart mariadb.service
 # Create and populate the SE database.
 mariadb < /standardebooks.org/web/config/sql/se.sql
 mariadb < /standardebooks.org/web/config/sql/users.sql
-mariadb se < /standardebooks.org/web/config/sql/se/*.sql
+for file in /standardebooks.org/web/config/sql/se/*.sql; do
+    mariadb se < "$file"
+done
 
 # Create users and groups.
 sudo useradd se
@@ -81,7 +83,9 @@ sudo systemctl start manticore
 sudo systemctl enable manticore
 
 # Load Manticore tables.
-mariadb -P9306 < /standardebooks.org/web/config/manticore/*.sql
+for file in /standardebooks.org/web/config/manticore/*.sql; do
+    mariadb -P9306 < "$file"
+done
 ```
 
 If everything went well you should now be able to open your web browser and visit `https://standardebooks.test`. However, you won’t see any ebooks if you visit `https://standardebooks.test/ebooks`. To install some ebooks, first you have to clone their source from GitHub, then deploy them to your local website using the `./scripts/deploy-ebook-to-www` script:
