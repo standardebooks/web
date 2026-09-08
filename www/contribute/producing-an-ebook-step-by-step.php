@@ -515,7 +515,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 						<p>Don’t change spelling from en-US to en-GB or vice-versa, even to align with a book’s “language.” Having mixed spelling in a book was common and not something we standardize. <a href="https://en.wikipedia.org/wiki/American_and_British_English_spelling_differences">This article</a> provides a good overview of the differences between British and U.S. English.</p>
 					</li>
 					<li>
-						<p>If, after having run <code class="bash"><b>se</b> modernize-spelling</code>, you find a hyphenated compound word that appears in Merriam-Webster's basic online search results without a hyphen, then you can make an Editorial change to update it. Please also let us know so that we can update <code class="bash"><b>se</b> modernize-spelling</code>.</p>
+						<p>If, after having run <code class="bash"><b>se</b> modernize-spelling</code>, you find a hyphenated compound word that appears closed in Merriam-Webster's basic online search results, i.e. without a hyphen or space, then you can make an Editorial change to update it. Please also let us know so that we can update <code class="bash"><b>se</b> modernize-spelling</code>.</p>
 					</li>
 					<li>
 						<p>If you find an archaic word that you think should be modernized, a good way to check is with a <a href="https://books.google.com/ngrams/">Google Ngram search</a>. Remember to select either American English or British English!</p>
