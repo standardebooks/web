@@ -38,6 +38,7 @@ echo -e "127.0.0.1\tstandardebooks.test" | sudo tee -a /etc/hosts
 # Create a self-signed SSL certificate for use with the local web site installation.
 mkdir -p /standardebooks.org/web/config/ssl/standardebooks.test
 openssl req -x509 -nodes -days 99999 -newkey rsa:4096 -subj "/CN=standardebooks.test" -keyout /standardebooks.org/web/config/ssl/standardebooks.test/privkey.pem -sha256 -out /standardebooks.org/web/config/ssl/standardebooks.test/fullchain.pem
+sudo mkdir -p /etc/letsencrypt/live
 sudo ln -s /standardebooks.org/web/config/ssl/standardebooks.test /etc/letsencrypt/live
 
 # Enable the necessary Apache modules.
