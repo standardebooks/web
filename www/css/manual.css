@@ -310,9 +310,12 @@ code.full .utf{
 	margin: 0;
 }
 
-.step-by-step-guide > section > section:has(> h3:first-child),
 .step-by-step-guide li > section:has(> :is(h3, h4, h5, h6):first-child){
 	display: contents;
+}
+
+.step-by-step-guide > section > section:has(> h3:first-child){
+	margin-top: 0;
 }
 
 .step-by-step-guide > ol li::marker{
