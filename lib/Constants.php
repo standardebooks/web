@@ -111,7 +111,7 @@ const AVERAGE_READING_WORDS_PER_MINUTE = 275;
 const FA_FEE_PERCENT = 0.87;
 
 /** If we get GitHub push requests featuring these repos, silently ignore instead of returning an error. */
-const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web'];
+const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web', 'sublime-text-se-plugin'];
 
 /** Must be writable by `www-data` Unix user. */
 const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log';
