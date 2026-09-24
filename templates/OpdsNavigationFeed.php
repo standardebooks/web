@@ -17,6 +17,7 @@ $subtitle ??= null;
 print("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 ?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/terms/">
+	<script xmlns="http://www.w3.org/1999/xhtml" src="https://standardebooks.org/scripts/xslt-polyfill.min.js"/>
 	<id><?= SITE_URL . Formatter::EscapeXml($id) ?></id>
 	<link href="<?= SITE_URL . Formatter::EscapeXml($url) ?>" rel="self" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
 	<link href="<?= SITE_URL ?>/feeds/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>

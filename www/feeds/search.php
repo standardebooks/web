@@ -94,6 +94,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 <? } ?>
 <? if($feedFormatType == Enums\FeedFormatType::Opds){ ?>
 	<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
+		<script xmlns="http://www.w3.org/1999/xhtml" src="https://standardebooks.org/scripts/xslt-polyfill.min.js"/>
 		<id><?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?></id>
 		<link href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=<?= $result->Page ?>&amp;per-page=<?= $perPage ?>" rel="self" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
 		<link rel="first" href="<?= SITE_URL ?>/feeds/opds/all?query=<?= urlencode($query) ?>&amp;page=1&amp;per-page=<?= $perPage ?>" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
