@@ -19,6 +19,7 @@ try{
 	$targetMimeType = Feed::NegotiateMimeType($relativePath);
 
 	if(preg_match('/^\/feeds\/opds/ius', $relativePath)){
+		header('vary: Accept', false);
 		$relativePath = OpdsFeed::GetPath($relativePath, $targetMimeType);
 	}
 

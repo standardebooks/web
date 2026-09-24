@@ -33,6 +33,8 @@ try{
 			header('content-type: application/atom+xml');
 			break;
 		case Enums\FeedFormatType::Opds:
+			header('vary: Accept', false);
+
 			// Use a hard-coded throwaway path to trigger OPDS MIME type negotation.
 			$targetMimeType = Feed::NegotiateMimeType('/feeds/opds');
 
