@@ -6,7 +6,7 @@
  * DELETE	/spreadsheets/:spreadsheet-id
  */
 
-if(Http::$Request->RelativePath == '/spreadsheets'){
+if(Http::$Request->RelativeUri->getPath() == '/spreadsheets'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }

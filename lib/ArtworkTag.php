@@ -3,19 +3,13 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 
 class ArtworkTag extends Tag{
+	public protected(set) string $Url{
+		get => $this->Url ??= '/artworks?query=' . Formatter::MakeUrlSafe($this->Name);
+	}
+
 	public function __construct(){
 		$this->Type = Enums\TagType::Artwork;
 	}
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/artworks?query=' . Formatter::MakeUrlSafe($this->Name);
-	}
-
 
 	// *******
 	// METHODS

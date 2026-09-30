@@ -6,7 +6,7 @@
  * PATCH	/ebooks/:url-path
  */
 
-if(Http::$Request->RelativePath == '/ebook-placeholders'){
+if(Http::$Request->RelativeUri->getPath() == '/ebook-placeholders'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }

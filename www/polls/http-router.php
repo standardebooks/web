@@ -5,7 +5,7 @@
  * PATCH	/polls/:poll-url-name
  */
 
-if(Http::$Request->RelativePath == '/polls'){
+if(Http::$Request->RelativeUri->getPath() == '/polls'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }

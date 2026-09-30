@@ -16,7 +16,7 @@ abstract class Feed{
 	public $Entries = [];
 	public string $Path;
 	public ?string $Stylesheet = null;
-	protected string $_XmlString;
+	protected final string $_XmlString;
 	public DateTimeImmutable $Updated;
 
 	/**

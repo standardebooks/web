@@ -4,8 +4,6 @@ use function Safe\preg_match;
 use function Safe\preg_replace;
 
 class Museum{
-	use Traits\Accessor;
-
 	public int $MuseumId;
 	public string $Name;
 	public string $Domain;

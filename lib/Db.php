@@ -198,7 +198,7 @@ class Db{
 		$params = [\PDO::ATTR_EMULATE_PREPARES => $emulatePrepares, \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_PERSISTENT => false];
 
 		if($forceUtf8){
-			$params[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_520_ci;';
+			$params[\Pdo\Mysql::ATTR_INIT_COMMAND] = 'set names utf8mb4 collate utf8mb4_unicode_520_ci;';
 		}
 
 		try{

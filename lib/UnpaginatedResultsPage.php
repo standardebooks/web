@@ -33,7 +33,7 @@ class UnpaginatedResultsPage extends ResultsPage{
 				ksort($queryParams);
 				$queryParams['page'] = $nextPage;
 
-				$this->_NextPageUrl = Http::$Request->RelativePath . '?' . http_build_query($queryParams);
+				$this->_NextPageUrl = Http::$Request->RelativeUri->getPath() . '?' . http_build_query($queryParams);
 			}
 			else{
 				$this->_NextPageUrl = null;

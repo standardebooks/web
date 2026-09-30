@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/bin/find /tmp/ -mtime +14 -type f -name "ts-out.*" -delete

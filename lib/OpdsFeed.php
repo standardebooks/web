@@ -7,7 +7,7 @@ use function Safe\preg_replace;
 
 abstract class OpdsFeed extends AtomFeed{
 	public ?OpdsNavigationFeed $Parent = null;
-	protected string $_JsonString;
+	protected final string $_JsonString;
 
 	/**
 	 * @param string $title

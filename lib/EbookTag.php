@@ -1,18 +1,12 @@
 <?
 class EbookTag extends Tag{
+	public protected(set) string $Url{
+		get => $this->Url ??= '/subjects/' . $this->UrlName;
+	}
+
 	public function __construct(){
 		$this->Type = Enums\TagType::Ebook;
 	}
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/subjects/' . $this->UrlName;
-	}
-
 
 	// *******
 	// METHODS

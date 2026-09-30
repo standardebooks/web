@@ -18,25 +18,9 @@ use function Safe\rmdir;
 use function Safe\unlink;
 
 /**
- * @property User $User
- * @property-read string $Url
- * @property-read string $EditUrl
- * @property array<Ebook> $Ebooks
- * @property-read string $EbookIdentifiers A newline-separated list of `Ebook` identifiers related to this `BlogPost`.
- * @property-read HtmlFragment $Title
- * @property-write HtmlFragment|string $Title
- * @property-read ?HtmlFragment $Subtitle
- * @property-read ?string $Excerpt
- * @property-write HtmlFragment|string|null $Subtitle
- * @property-read ?HtmlFragment $Body May be `null` if the `BlogPost` is meant to redirect to a file, like the Public Domain Day posts.
- * @property-write HtmlFragment|string|null $Body
- * @property-read ?string $HeroImageUrl
- * @property-read ?string $HeroImage2xUrl
- * @property-read ?string $HeroImageAvifUrl
- * @property-read ?string $HeroImageAvif2xUrl
+ * A blog post and its related content.
  */
 class BlogPost{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $BlogPostId;
@@ -49,124 +33,103 @@ class BlogPost{
 	public ?string $ImageCacheKey = null;
 	public ?string $HeroImageCaption = null;
 
-	protected string $_Url;
-	protected string $_EditUrl;
-	protected ?string $_Excerpt = null;
-	protected User $_User;
-	/** @var array<Ebook> */
-	protected array $_Ebooks;
-	protected string $_EbookIdentifiers;
-	protected HtmlFragment $_Title; // TODO: Convert to property hook in PHP 8.4.
-	protected ?HtmlFragment $_Subtitle; // TODO: Convert to property hook in PHP 8.4.
-	protected ?HtmlFragment $_Body; // TODO: Convert to property hook in PHP 8.4.
-	protected ?string $_HeroImageUrl;
-	protected ?string $_HeroImage2xUrl;
-	protected ?string $_HeroImageAvifUrl;
-	protected ?string $_HeroImageAvif2xUrl;
+	public User $User{
+		/** @throws Exceptions\UserNotFoundException If the author does not exist. */
+		get => $this->User ??= User::Get($this->UserId);
+	}
 
-	// *******
-	// GETTERS
-	// *******
+	public private(set) ?string $Excerpt = null{
+		get{
+			if(!isset($this->Excerpt)){
+				if($this->Body !== null){
+					$this->Excerpt = mb_substr(strip_tags($this->Body), 0, 200, 'utf-8') . '…';
+				}
+				elseif(isset($this->Subtitle)){
+					$this->Excerpt = strip_tags($this->Subtitle);
+				}
+			}
 
-	protected function GetExcerpt(): ?string{
-		if(!isset($this->_Excerpt)){
-			if($this->Body !== null){
-				$this->_Excerpt = mb_substr(strip_tags($this->Body), 0, 200, 'utf-8') . '…';
-			}
-			elseif(isset($this->Subtitle)){
-				$this->_Excerpt = strip_tags($this->Subtitle);
-			}
+			return $this->Excerpt;
 		}
-
-		return $this->_Excerpt;
 	}
 
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/blog/' . $this->UrlTitle;
+	public string $Url{
+		get => '/blog/' . $this->UrlTitle;
 	}
 
-	protected function GetEditUrl(): string{
-		return $this->_EditUrl ??= $this->Url . '/edit';
+	public string $EditUrl{
+		get => $this->Url . '/edit';
 	}
 
 	/**
 	 * Return the URL of the 1x JPEG hero image, if one exists.
 	 */
-	protected function GetHeroImageUrl(): ?string{
-		return $this->_HeroImageUrl ??= $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' . $this->BlogPostId . '.jpg?v=' . $this->ImageCacheKey : null;
+	public ?string $HeroImageUrl{
+		get => $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' . $this->BlogPostId . '.jpg?v=' . $this->ImageCacheKey : null;
 	}
 
 	/**
 	 * Return the URL of the 2x JPEG hero image, if one exists.
 	 */
-	protected function GetHeroImage2xUrl(): ?string{
-		return $this->_HeroImage2xUrl ??= $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '@2x.jpg?v=' . $this->ImageCacheKey : null;
+	public ?string $HeroImage2xUrl{
+		get => $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '@2x.jpg?v=' . $this->ImageCacheKey : null;
 	}
 
 	/**
 	 * Return the URL of the 1x AVIF hero image, if one exists.
 	 */
-	protected function GetHeroImageAvifUrl(): ?string{
-		return $this->_HeroImageAvifUrl ??= $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '.avif?v=' . $this->ImageCacheKey : null;
+	public ?string $HeroImageAvifUrl{
+		get => $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '.avif?v=' . $this->ImageCacheKey : null;
 	}
 
 	/**
 	 * Return the URL of the 2x AVIF hero image, if one exists.
 	 */
-	protected function GetHeroImageAvif2xUrl(): ?string{
-		return $this->_HeroImageAvif2xUrl ??= $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '@2x.avif?v=' . $this->ImageCacheKey : null;
+	public ?string $HeroImageAvif2xUrl{
+		get => $this->ImageCacheKey !== null ? BLOG_POST_IMAGES_UPLOAD_PATH . '/' .$this->BlogPostId . '@2x.avif?v=' . $this->ImageCacheKey : null;
 	}
 
-	protected function GetEbookIdentifiers(): string{
-		if(!isset($this->_EbookIdentifiers)){
-			$this->_EbookIdentifiers = '';
-			foreach($this->Ebooks as $ebook){
-				$this->_EbookIdentifiers .= $ebook->Identifier . "\n";
+	/** A newline-separated list of related ebook identifiers. */
+	public private(set) string $EbookIdentifiers{
+		get{
+			if(!isset($this->EbookIdentifiers)){
+				$this->EbookIdentifiers = '';
+				foreach($this->Ebooks as $ebook){
+					$this->EbookIdentifiers .= $ebook->Identifier . "\n";
+				}
+
+				$this->EbookIdentifiers = trim($this->EbookIdentifiers);
 			}
 
-			$this->_EbookIdentifiers = trim($this->_EbookIdentifiers);
-		}
-
-		return $this->_EbookIdentifiers;
-	}
-
-	/**
-	 * @return array<Ebook>
-	 */
-	protected function GetEbooks(): array{
-		if(isset($this->BlogPostId)){
-			return $this->_Ebooks ??= Db::Query('select Ebooks.* from Ebooks inner join BlogPostEbooks using (EbookId) where BlogPostId = ? order by BlogPostEbooks.SortOrder asc', [$this->BlogPostId], Ebook::class);
-		}
-		else{
-			return $this->_Ebooks ??= [];
+			return $this->EbookIdentifiers;
 		}
 	}
 
+	/** @var array<Ebook> */
+	public array $Ebooks{
+		get{
+			if(isset($this->BlogPostId)){
+				$this->Ebooks ??= Db::Query('select Ebooks.* from Ebooks inner join BlogPostEbooks using (EbookId) where BlogPostId = ? order by BlogPostEbooks.SortOrder asc', [$this->BlogPostId], Ebook::class);
+			}
+			else{
+				$this->Ebooks ??= [];
+			}
 
-	// *******
-	// SETTERS
-	// *******
-
-	protected function SetTitle(string|HtmlFragment $string): void{
-		$this->_Title = new HtmlFragment($string);
-	}
-
-	protected function SetSubtitle(string|HtmlFragment|null $string): void{
-		if(isset($string)){
-			$this->_Subtitle = new HtmlFragment($string);
-		}
-		else{
-			$this->_Subtitle = $string;
+			return $this->Ebooks;
 		}
 	}
 
-	protected function SetBody(string|HtmlFragment|null $string): void{
-		if(isset($string)){
-			$this->_Body = new HtmlFragment($string);
-		}
-		else{
-			$this->_Body = $string;
-		}
+	public HtmlFragment $Title{
+		set(string|HtmlFragment $value) => new HtmlFragment($value);
+	}
+
+	public ?HtmlFragment $Subtitle{
+		set(string|HtmlFragment|null $value) => $value !== null ? new HtmlFragment($value) : null;
+	}
+
+	/** May be `null` if the post redirects to a file, like the Public Domain Day posts. */
+	public ?HtmlFragment $Body{
+		set(string|HtmlFragment|null $value) => $value !== null ? new HtmlFragment($value) : null;
 	}
 
 
@@ -258,19 +221,21 @@ class BlogPost{
 
 		$identifiers = array_unique($identifiers);
 
-		$this->_Ebooks = [];
+		$ebooks = [];
 		foreach($identifiers as $identifier){
 			if($identifier == ''){
 				continue;
 			}
 
 			try{
-				$this->_Ebooks[] = Ebook::GetByIdentifier($identifier);
+				$ebooks[] = Ebook::GetByIdentifier($identifier);
 			}
 			catch(Exceptions\EbookNotFoundException){
 				$error->Add(new Exceptions\EbookNotFoundException('Ebook not found: ' . $identifier));
 			}
 		}
+
+		$this->Ebooks = $ebooks;
 
 		$this->Description = trim($this->Description ?? '');
 		if($this->Description == ''){
@@ -425,10 +390,6 @@ class BlogPost{
 			$this->ImageCacheKey = $this->GenerateImageCacheKey();
 		}
 
-		if(!$hasHeroImage || $heroImagePath !== null){
-			unset($this->_HeroImageUrl, $this->_HeroImage2xUrl, $this->_HeroImageAvifUrl, $this->_HeroImageAvif2xUrl);
-		}
-
 		Db::Query('start transaction');
 
 		try{
@@ -465,9 +426,6 @@ class BlogPost{
 
 			throw $ex;
 		}
-
-		// Reset the URL in case we changed the title.
-		unset($this->_Url);
 	}
 
 	/**

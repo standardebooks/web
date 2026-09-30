@@ -37,7 +37,7 @@ abstract class ResultsPage{
 				ksort($queryParams);
 				$queryParams['page'] = $previousPage;
 
-				$this->_PreviousPageUrl = Http::$Request->RelativePath . '?' . http_build_query($queryParams);
+				$this->_PreviousPageUrl = Http::$Request->RelativeUri->getPath() . '?' . http_build_query($queryParams);
 			}
 		}
 

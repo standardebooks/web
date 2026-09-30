@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# shellcheck source=scripts/lib/common.sh
+# shellcheck source=./web/scripts/lib/common.sh
 source "$(dirname -- "$( readlink -f -- "$0"; )")/lib/common.sh"
 
 usage(){
@@ -284,8 +284,7 @@ do
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/cover.jpg" --output "${imgWorkDir}/cover.avif"
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/cover@2x.jpg" --output "${imgWorkDir}/cover@2x.avif"
 
-		sudo chgrp --preserve-root --recursive "${group}" "${imgWorkDir}"
-		sudo chmod --preserve-root --recursive g+w "${imgWorkDir}"
+		sudo /usr/local/libexec/standardebooks/fix-permissions temp-images "${imgWorkDir}"
 
 		# Remove unused images so we can copy the rest over with a glob.
 		rm "${imgWorkDir}/cover.png" "${imgWorkDir}/cover@2x.png" "${imgWorkDir}/cover-source.jpg" "${imgWorkDir}/cover-source.svg"
@@ -320,8 +319,10 @@ do
 		fi
 
 		# Build distributable covers.
-		convert -resize "1400" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" "${workDir}/downloads/cover.jpg"
-		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/src/epub/images/cover.svg" "${workDir}/downloads/cover-thumbnail.jpg"
+		rsvg-convert --width 1400 --keep-aspect-ratio --output "${workDir}/downloads/cover.png" "${workDir}/src/epub/images/cover.svg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/downloads/cover.png" "${workDir}/downloads/cover.jpg"
+		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/downloads/cover.png" "${workDir}/downloads/cover-thumbnail.jpg"
+		rm "${workDir}/downloads/cover.png"
 
 		if ${verbose}; then
 			echo " done."
@@ -467,11 +468,9 @@ do
 	# Delete the now-empty work dir (empty except for `.git`).
 	rm --preserve-root --recursive --force "${workDir}" "${imgWorkDir}"
 
-	sudo chgrp --preserve-root --recursive "${group}" "${webDir}"
-	sudo chmod --preserve-root --recursive g+ws "${webDir}"
+	sudo /usr/local/libexec/standardebooks/fix-permissions web-ebook "${webDir}"
 
-	sudo chgrp --preserve-root --recursive "${group}" "${webRoot}/images/covers/"
-	sudo chmod --preserve-root --recursive g+ws "${webRoot}/images/covers/"
+	sudo /usr/local/libexec/standardebooks/fix-permissions web-covers "${webRoot}/images/covers/"
 
 	popd > /dev/null || ExitWithError "Couldn't pop directory."
 done

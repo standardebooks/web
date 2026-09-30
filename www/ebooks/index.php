@@ -72,7 +72,7 @@ try{
 	ksort($queryStringParams);
 
 	// If all we did was select one tag, redirect the user to `/subjects/<TAG>` instead of `/ebooks?tag[0]=<TAG>`.
-	if(sizeof($tags) == 1 && $query == '' && preg_match('|^/ebooks|iu', Http::$Request->RelativePath)){
+	if(sizeof($tags) == 1 && $query == '' && preg_match('|^/ebooks|iu', Http::$Request->RelativeUri->getPath())){
 		unset($queryStringParams['tags']);
 		$queryStringWithoutTags = http_build_query($queryStringParams);
 		$url = '/subjects/' . $tags[0];

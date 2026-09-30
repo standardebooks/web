@@ -44,7 +44,7 @@ class PaginatedResultsPage extends ResultsPage{
 				ksort($queryParams);
 				$queryParams['page'] = $nextPage;
 
-				$this->_NextPageUrl = Http::$Request->RelativePath . '?' . http_build_query($queryParams);
+				$this->_NextPageUrl = Http::$Request->RelativeUri->getPath() . '?' . http_build_query($queryParams);
 			}
 		}
 
@@ -65,7 +65,7 @@ class PaginatedResultsPage extends ResultsPage{
 			$pageUrls = [];
 			for($i = 0; $i < $this->TotalPages; $i++){
 				$queryParams['page'] = $i + 1;
-				$pageUrls[] = Http::$Request->RelativePath . '?' . http_build_query($queryParams);
+				$pageUrls[] = Http::$Request->RelativeUri->getPath() . '?' . http_build_query($queryParams);
 			}
 
 			$this->_PageUrls = $pageUrls;

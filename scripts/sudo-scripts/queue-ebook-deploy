@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ $# -eq 3 && "$1" == "--no-images" && "$2" == "--no-epubcheck" ]]; then
+	repo="$(realpath -- "$3")"
+	options=(--no-images --no-epubcheck)
+elif [[ $# -eq 1 ]]; then
+	repo="$(realpath -- "$1")"
+	options=()
+else
+	exit 2
+fi
+
+[[ "${repo##*/}" == *.git ]] || exit 2
+[[ "${repo%/*}" == "$(realpath -- /standardebooks.org/ebooks)" || "${repo%/*}" == "$(realpath -- /mnt/ebooks/ebooks)" ]] || exit 2
+
+exec /usr/bin/tsp /standardebooks.org/web/scripts/deploy-ebook-to-www "${options[@]}" "${repo}"

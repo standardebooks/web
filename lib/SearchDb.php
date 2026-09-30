@@ -106,6 +106,7 @@ class SearchDb extends Db{
 				. '|proximity threshold too low \('
 				. '|NEAR distance too low \('
 				. '|no field \'[^\']*\' found in schema'
+				. '|invalid field name \'[^\']*\': invalid character'
 				. '|unexpected character \'.\' in zone block operator'
 				. ')/s', $ex->getMessage())){
 				throw new Exceptions\SearchSyntaxInvalidException();

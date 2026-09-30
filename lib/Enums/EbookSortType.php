@@ -8,5 +8,6 @@ enum EbookSortType: string{
 	case Length = 'length';
 	case Relevance = 'relevance';
 	case Popularity = 'popularity';
-	case Default = 'default'; // Interpreted as `Relevance` if a query is present, `Newest` if not.
+	/** Interpreted as `Relevance` if a query is present, `Newest` if not. */
+	case Default = 'default';
 }

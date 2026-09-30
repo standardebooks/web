@@ -90,10 +90,10 @@ foreach($ebooks as $ebook){
 		case 'https://standardebooks.org/ebooks/mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai':
 			$description = '<p>Mahatma Gandhi, father of the nation to post-colonial India, writes the story of his early life through 1921. He covers his childhood and his parents, his travels and his experiences with prejudice, how his interest in political activity and nonviolence developed throughout the years, and more. Despite this detailed treatment of his life, Gandhi asserts in the introduction that his purpose was not to write a “real autobiography,” but rather to “tell the story of my experiments with truth, and as my life consist of nothing but experiments.”</p>';
 			break;
-		case 'https://standardebooks.org/ebooks/thomas-wolfe/look-homeward-angel';
+		case 'https://standardebooks.org/ebooks/thomas-wolfe/look-homeward-angel':
 			$description = '<p><i>Look Homeward, Angel</i> is Thomas Wolfe’s first novel, and the one on which his considerable fame as a master of the American autobiographical novel rests. The book covers the youth of Eugene Grant, a young man living in North Carolina, and widely considered to be a direct stand-in for Wolfe himself. It was a commercial and critical success, securing Wolfe’s reputation as one of the most important writers in the Southern Renaissance.</p>';
 			break;
-		case 'https://standardebooks.org/ebooks/agatha-christie/the-seven-dials-mystery';
+		case 'https://standardebooks.org/ebooks/agatha-christie/the-seven-dials-mystery':
 			$description = '<p><i>The Seven Dials Mystery</i> is the second book to feature <a href="/collections/superintendent-battle">Superintendent Battle</a> and the grand country estate of <a href="/ebooks/agatha-christie/the-secret-of-chimneys">Chimneys</a>. Chimneys is again the setting for a houseparty for a group of guests. One of them has a habit of oversleeping, and as a joke the other guests place eight alarm clocks near his bed to make sure he wakes up on time. Naturally, the next morning he’s discovered murdered in his bed—and Bundle, the bright daughter of the lord of Chimneys, takes up the case.</p>';
 			break;
 	}

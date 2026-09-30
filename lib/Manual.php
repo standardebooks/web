@@ -15,7 +15,7 @@ class Manual{
 
 	public static function GetRequestedVersion(): ?string{
 		try{
-			if(preg_match_all('|/manual/([0-9]+\.[0-9]+\.[0-9]+)|ius', Http::$Request->RelativePath, $matches)){
+			if(preg_match_all('|/manual/([0-9]+\.[0-9]+\.[0-9]+)|ius', Http::$Request->RelativeUri->getPath(), $matches)){
 				return($matches[1][0]);
 			}
 			else{

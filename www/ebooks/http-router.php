@@ -3,7 +3,7 @@
  * GET		/ebooks/:url-path
  */
 
-if(Http::$Request->RelativePath == '/ebooks'){
+if(Http::$Request->RelativeUri->getPath() == '/ebooks'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get]);
 }

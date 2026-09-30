@@ -113,7 +113,7 @@ try{
 
 			// Our local repo is now updated. Build the ebook!
 			$output = [];
-			exec('sudo --set-home --user=se-vcs-bot tsp ' . SITE_ROOT . '/web/scripts/deploy-ebook-to-www ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
+			exec('sudo --set-home --user=se-vcs-bot /usr/local/libexec/standardebooks/queue-ebook-deploy ' . escapeshellarg($dir) . ' 2>&1', $output, $returnCode);
 
 			$output = $output ?? [];
 

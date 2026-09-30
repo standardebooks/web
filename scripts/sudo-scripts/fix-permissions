@@ -1,0 +1,71 @@
+#!/bin/bash
+set -euo pipefail
+
+operation="${1:-}"
+
+case "${operation}" in
+	repo-owner|repo-init|fetch-head|temp-images|web-ebook|web-covers|feeds|bulk-downloads)
+		if [[ $# -ne 2 ]]; then
+			exit 2
+		fi
+		path="$(realpath -- "$2")"
+		;;
+	*)
+		exit 2
+		;;
+esac
+
+case "${operation}" in
+	repo-owner|repo-init|fetch-head)
+		if [[ "${operation}" == "fetch-head" ]]; then
+			[[ "${path}" == */FETCH_HEAD ]] || exit 2
+			repo="${path%/FETCH_HEAD}"
+		else
+			repo="${path}"
+		fi
+		[[ "${repo##*/}" == *.git ]] || exit 2
+		[[ "${repo%/*}" == "$(realpath -- /standardebooks.org/ebooks)" || "${repo%/*}" == "$(realpath -- /mnt/ebooks/ebooks)" ]] || exit 2
+		if [[ "${operation}" == "fetch-head" ]]; then
+			/bin/chmod g+w "${path}"
+		else
+			/bin/chown --preserve-root --recursive se:committers "${repo}"
+			if [[ "${operation}" == "repo-init" ]]; then
+				/bin/chmod --preserve-root --recursive g+rw "${repo}"
+				/usr/bin/find "${repo}" -type d -exec /bin/chmod g+s {} +
+			fi
+		fi
+		;;
+	temp-images)
+		[[ "${path}" == /tmp/tmp.* && "${path%/*}" == /tmp && -d "${path}" ]] || exit 2
+		/bin/chgrp --preserve-root --recursive se "${path}"
+		/bin/chmod --preserve-root --recursive g+w "${path}"
+		;;
+	web-ebook)
+		[[ "${path}" == "$(realpath -- /standardebooks.org/web/www/ebooks)"/* && -d "${path}" ]] || exit 2
+		/bin/chgrp --preserve-root --recursive se "${path}"
+		/bin/chmod --preserve-root --recursive g+ws "${path}"
+		;;
+	web-covers)
+		[[ "${path}" == "$(realpath -- /standardebooks.org/web/www/images/covers)" ]] || exit 2
+		/bin/chgrp --preserve-root --recursive se "${path}"
+		/bin/chmod --preserve-root --recursive g+ws "${path}"
+		;;
+	feeds)
+		[[ "${path}" == "$(realpath -- /standardebooks.org/web/www)" ]] || exit 2
+		root=/standardebooks.org/web/www/feeds
+		/usr/bin/find "${root}" -mindepth 2 -maxdepth 3 -type f -name "*.xml" -exec /bin/chown --preserve-root se:committers {} +
+		for directory in "${root}"/*/; do
+			[[ -d "${directory}" ]] || continue
+			/bin/chmod --preserve-root --recursive a+r,ug+w,a+X "${directory}"
+		done
+		;;
+	bulk-downloads)
+		[[ "${path}" == "$(realpath -- /standardebooks.org/web/www)" ]] || exit 2
+		root=/standardebooks.org/web/www/bulk-downloads
+		for directory in "${root}"/*/; do
+			[[ -d "${directory}" ]] || continue
+			/bin/chown --preserve-root --recursive se:committers "${directory}"
+			/bin/chmod --preserve-root --recursive a+r,ug+w,a+X "${directory}"
+		done
+		;;
+esac

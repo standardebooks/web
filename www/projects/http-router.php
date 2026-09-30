@@ -4,7 +4,7 @@
  * PATCH	/projects/:project-id
  */
 
-if(Http::$Request->RelativePath == '/projects'){
+if(Http::$Request->RelativeUri->getPath() == '/projects'){
 	// If we got here, this is not a GET request.
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Get, Enums\HttpMethod::Post]);
 }

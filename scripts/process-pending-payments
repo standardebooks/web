@@ -96,7 +96,8 @@ if(sizeof($pendingPayments) == 0){
 }
 
 try{
-	$driver = FirefoxDriver::start($capabilities);
+	// TODO: In PHP 8.5, this throw a deprecation warning from `php-webdriver/webdriver` 1.16.0. Once this library is upgraded and fixed, we can remove `@`.
+	$driver = @FirefoxDriver::start($capabilities);
 	$donationCounter = DonationCounter::GetByIsActive();
 
 	foreach($pendingPayments as $pendingPayment){
@@ -415,5 +416,5 @@ catch(Exception $ex){
 finally{
 	// `$driver` may be unintialized if we ctrl + c during Selenium initialization.
 	/** @phpstan-ignore nullsafe.neverNull */
-	$driver?->quit();
+	@$driver?->quit();
 }

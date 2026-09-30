@@ -93,7 +93,7 @@ if(!$isXslt){
 		<meta content="#394451" name="theme-color"/>
 		<meta content="<? if($title !== null){ ?><?= Formatter::EscapeHtml($title) ?><? }else{ ?>Standard Ebooks<? } ?>" property="og:title"/>
 		<meta content="<?= $ogType ?>" property="og:type"/>
-		<meta content="<?= SITE_URL . Http::$Request->RelativePath ?>" property="og:url"/>
+		<meta content="<?= SITE_URL . Http::$Request->RelativeUri->getPath() ?>" property="og:url"/>
 		<meta content="<?= SITE_URL . ($coverUrl ?? '/images/logo.png') ?>" property="og:image"/>
 		<meta content="summary_large_image" name="twitter:card"/>
 		<meta content="@standardebooks" name="twitter:site"/>

@@ -93,7 +93,7 @@ class Template extends TemplateBase{
 	public static function RedirectToLogin(bool $redirectToDestination = true, ?string $destinationUrl = null): never{
 		if($redirectToDestination){
 			if($destinationUrl === null){
-				$destinationUrl = Http::$Request->RelativeUri;
+				$destinationUrl = Http::$Request->RelativeUri->toString();
 			}
 
 			$destinationUrl = self::SanitizeRedirectUrl($destinationUrl);
@@ -131,7 +131,7 @@ class Template extends TemplateBase{
 	public static function RedirectToResultsPage(int $page): never{
 		$queryParams = Http::$Request->UriQueryString->Variables;
 		$queryParams['page'] = $page;
-		header('location: ' . Http::$Request->RelativePath . '?' . http_build_query($queryParams));
+		header('location: ' . Http::$Request->RelativeUri->getPath() . '?' . http_build_query($queryParams));
 		exit();
 	}
 
