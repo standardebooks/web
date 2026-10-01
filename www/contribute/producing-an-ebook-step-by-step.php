@@ -102,6 +102,7 @@
 				<section id="contact-the-mailing-list-to-pitch-your-production">
 					<h2>4. Contact the mailing list to pitch your production<a class="heading-permalink" href="#contact-the-mailing-list-to-pitch-your-production" aria-label="Permalink"></a></h2>
 				<p>If you’re looking to submit your ebook to Standard Ebooks, contact the <a href="https://groups.google.com/g/standardebooks">mailing list</a> to pitch the ebook you’ve selected, <em>before you begin production</em>. Include links to the transcription and scans you found. If you are producing this ebook for yourself, not for release at Standard Ebooks, you can skip this step.</p>
+				<p>After the Editor-in-Chief approves your project, post a link to your GitHub repository so that your project can be added to our project tracker. At that point, your project will be assigned a manager (who will answer your questions during the production process) and a reviewer (who will review your work before the publication process).</p>
 				</section>
 				<section id="create-a-standard-ebooks-epub-skeleton">
 					<h2>5. Create a Standard Ebooks epub skeleton<a class="heading-permalink" href="#create-a-standard-ebooks-epub-skeleton" aria-label="Permalink"></a></h2>
