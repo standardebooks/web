@@ -2,17 +2,7 @@
 use Safe\DateTimeImmutable;
 use function Safe\preg_match;
 
-/**
- * @property-read string $Url
- * @property-read string $EditUrl
- * @property-read ?Markdown $Description
- * @property-write Markdown|string|null $Description
- * @property array<PollItem> $PollItems
- * @property array<PollItem> $PollItemsByWinner
- * @property-read int $VoteCount
- */
 class Poll{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $PollId;
@@ -22,76 +12,75 @@ class Poll{
 	public DateTimeImmutable $StartAt;
 	public DateTimeImmutable $EndAt;
 
-	protected string $_Url;
-	protected string $_EditUrl;
-	/** @var array<PollItem> $_PollItems */
-	protected array $_PollItems;
-	/** @var array<PollItem> $_PollItemsByWinner */
-	protected array $_PollItemsByWinner;
-	protected int $_VoteCount;
-	protected ?Markdown $_Description;
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/polls/' . $this->UrlName;
+	public string $Url{
+		get{
+			return '/polls/' . $this->UrlName;
+		}
 	}
 
-	protected function GetEditUrl(): string{
-		return $this->_EditUrl ??= $this->Url . '/edit';
+	public string $EditUrl{
+		get{
+			return $this->Url . '/edit';
+		}
 	}
 
-	protected function GetVoteCount(): int{
-		return $this->_VoteCount ??= Db::QueryInt('
+	public private(set) int $VoteCount{
+		get{
+			return $this->VoteCount ??= Db::QueryInt('
 							select count(*)
 							from PollVotes pv
 							inner join PollItems pi using (PollItemId)
 							where pi.PollId = ?
 						', [$this->PollId]);
+		}
 	}
 
-	/**
-	 * @return array<PollItem>
-	 */
-	protected function GetPollItems(): array{
-		return $this->_PollItems ??= Db::Query('
-							select *
-							from PollItems
-							where PollId = ?
-							order by SortOrder asc
-						', [$this->PollId], PollItem::class);
-	}
-
-	/**
-	 * @return array<PollItem>
-	 */
-	protected function GetPollItemsByWinner(): array{
-		if(!isset($this->_PollItemsByWinner)){
-			$this->_PollItemsByWinner = $this->PollItems;
-			usort($this->_PollItemsByWinner, function(PollItem $a, PollItem $b): int{
-				$voteComparison = $b->VoteCount <=> $a->VoteCount;
-				if($voteComparison != 0){
-					return $voteComparison;
+	/** @var array<PollItem> $PollItems */
+	public private(set) array $PollItems{
+		get{
+			if(!isset($this->PollItems)){
+				if(isset($this->PollId)){
+					$this->PollItems = Db::Query('
+								select *
+								from PollItems
+								where PollId = ?
+								order by SortOrder asc
+							', [$this->PollId], PollItem::class);
 				}
+				else{
+					$this->PollItems = [];
+				}
+			}
 
-				return $a->SortOrder <=> $b->SortOrder;
-			});
-		}
-
-		return $this->_PollItemsByWinner;
-	}
-
-	protected function SetDescription(string|Markdown|null $string): void{
-		if($string === null){
-			$this->_Description = null;
-		}
-		else{
-			$this->_Description = new Markdown($string);
+			return $this->PollItems;
 		}
 	}
+
+	/** @var array<PollItem> $PollItemsByWinner */
+	public private(set) array $PollItemsByWinner{
+		get{
+			if(!isset($this->PollItemsByWinner)){
+				$this->PollItemsByWinner = $this->PollItems;
+				usort($this->PollItemsByWinner, function(PollItem $a, PollItem $b): int{
+					$voteComparison = $b->VoteCount <=> $a->VoteCount;
+					if($voteComparison != 0){
+						return $voteComparison;
+					}
+
+					return $a->SortOrder <=> $b->SortOrder;
+				});
+			}
+
+			return $this->PollItemsByWinner;
+		}
+	}
+
+	public ?Markdown $Description{
+		set(string|Markdown|null $value){
+			$this->Description = $value === null ? null : new Markdown($value);
+		}
+	}
+
 
 	// *******
 	// METHODS
@@ -138,7 +127,6 @@ class Poll{
 			$error->Add(new Exceptions\PollDateInvalidException());
 		}
 
-		$this->PollItems ??= [];
 		$pollItems = [];
 
 		foreach($this->PollItems as $pollItem){
@@ -252,9 +240,6 @@ class Poll{
 
 
 		$this->AddPollItems();
-
-		unset($this->_Url);
-		unset($this->_EditUrl);
 	}
 
 	/**
@@ -266,10 +251,10 @@ class Poll{
 		$description = Http::$Request->Body->Get('poll-description', 'empty-string');
 		if($description !== null){
 			if($description == ''){
-				$this->_Description = null;
+				$this->Description = null;
 			}
 			else{
-				$this->_Description = new Markdown($description);
+				$this->Description = new Markdown($description);
 			}
 		}
 

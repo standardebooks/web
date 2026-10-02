@@ -12,31 +12,7 @@ use function Safe\preg_replace;
 use function Safe\rmdir;
 use function Safe\unlink;
 
-/**
- * @property string $UrlName
- * @property-read string $Url
- * @property-read string $EditUrl
- * @property-read array<ArtworkTag> $Tags
- * @property-write array<ArtworkTag>|string $Tags
- * @property Artist $Artist
- * @property string $ImageUrl
- * @property string $ThumbUrl
- * @property string $Thumb2xUrl
- * @property string $ImageFsPath
- * @property string $ThumbFsPath
- * @property string $Thumb2xFsPath
- * @property string $Dimensions
- * @property ?Ebook $Ebook
- * @property ?Museum $Museum
- * @property ?User $Submitter
- * @property ?User $Reviewer
- * @property-read ?Markdown $Exception
- * @property-write Markdown|string|null $Exception
- * @property-read ?Markdown $Notes
- * @property-write Markdown|string|null $Notes
- */
 final class Artwork{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $ArtworkId;
@@ -59,225 +35,242 @@ final class Artwork{
 	public Enums\ArtworkStatusType $Status = Enums\ArtworkStatusType::Unverified;
 	public bool $IsAutoReviewed = false;
 
-	protected string $_UrlName;
-	protected string $_Url;
-	protected string $_EditUrl;
-	/** @var array<ArtworkTag> $_Tags */
-	protected array $_Tags;
-	protected Artist $_Artist;
-	protected string $_ImageUrl;
-	protected string $_ThumbUrl;
-	protected string $_Thumb2xUrl;
-	protected string $_Dimensions ;
-	protected ?Ebook $_Ebook = null;
-	protected ?Museum $_Museum;
-	protected ?User $_Submitter;
-	protected ?User $_Reviewer;
-	protected ?Markdown $_Exception = null; // TODO: Convert to property hook in PHP 8.4.
-	protected ?Markdown $_Notes = null; // TODO: Convert to property hook in PHP 8.4.
-
-
-	// *******
-	// SETTERS
-	// *******
-
-	/**
-	 * @param string|null|array<ArtworkTag> $tags
-	 */
-	protected function SetTags(null|string|array $tags): void{
-		if(is_array($tags)){
-			$this->_Tags = $tags;
-		}
-		else{
-			$tags = trim($tags ?? '');
-
-			if($tags === ''){
-				$this->_Tags = [];
+	public string $UrlName{
+		get{
+			if(!isset($this->UrlName)){
+				if($this->Name == ''){
+					$this->UrlName = '';
+				}
+				else{
+					$this->UrlName = Formatter::MakeUrlSafe($this->Name);
+				}
 			}
-			else{
-				$tags = array_map('trim', explode(',', $tags));
-				$tags = array_values(array_filter($tags));
-				$tags = array_unique($tags);
 
-				$this->_Tags = array_map(function ($str): ArtworkTag{
-					$tag = new ArtworkTag();
-					$tag->Name = $str;
-					return $tag;
-				}, $tags);
-			}
+			return $this->UrlName;
 		}
 	}
 
-	protected function SetException(string|Markdown|null $string): void{
-		if(isset($string)){
-			$this->_Exception = new Markdown($string);
-		}
-		else{
-			$this->_Exception = $string;
-		}
-	}
-
-	protected function SetNotes(string|Markdown|null $string): void{
-		if(isset($string)){
-			$this->_Notes = new Markdown($string);
-		}
-		else{
-			$this->_Notes = $string;
-		}
-	}
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrlName(): string{
-		if(!isset($this->_UrlName)){
-			if($this->Name == ''){
-				$this->_UrlName = '';
+	public Artist $Artist{
+		/**
+		 * @throws Exceptions\ArtistNotFoundException If the `Artist` can't be found.
+		 */
+		get{
+			if(!isset($this->Artist) && isset($this->ArtistId)){
+				$this->Artist = Artist::Get($this->ArtistId);
 			}
-			else{
-				$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
+			elseif(!isset($this->ArtistId) && !isset($this->Artist)){
+				$this->Artist = new Artist();
 			}
+
+			return $this->Artist;
 		}
-
-		return $this->_UrlName;
 	}
 
-	protected function GetSubmitter(): ?User{
-		if(!isset($this->_Submitter)){
-			try{
-				$this->_Submitter = User::Get($this->SubmitterUserId);
-			}
-			catch(Exceptions\UserNotFoundException){
-				$this->Submitter = null;
-			}
+	public string $Url{
+		/**
+		 * @throws Exceptions\ArtistNotFoundException If the `Artist` can't be found.
+		 */
+		get{
+			return '/artworks/' . $this->Artist->UrlName . '/' . $this->UrlName;
 		}
-
-		return $this->_Submitter;
 	}
 
-	protected function GetReviewer(): ?User{
-		if(!isset($this->_Reviewer)){
-			try{
-				$this->_Reviewer = User::Get($this->ReviewerUserId);
-			}
-			catch(Exceptions\UserNotFoundException){
-				$this->_Reviewer = null;
-			}
+	public string $EditUrl{
+		/**
+		 * @throws Exceptions\ArtistNotFoundException If the `Artist` can't be found.
+		 */
+		get{
+			return $this->Url . '/edit';
 		}
-
-		return $this->_Reviewer;
 	}
 
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/artworks/' . $this->Artist->UrlName . '/' . $this->UrlName;
-	}
-
-	protected function GetEditUrl(): string{
-		return $this->_EditUrl ??= $this->Url . '/edit';
-	}
-
-	/**
-	 * @return array<ArtworkTag>
-	 */
-	protected function GetTags(): array{
-		return $this->_Tags ??= Db::Query('
+	/** @var array<ArtworkTag> $Tags */
+	public array $Tags{
+		get{
+			if(!isset($this->Tags)){
+				if(isset($this->ArtworkId)){
+					$this->Tags = Db::Query('
 							select t.*
 							from Tags t
 							inner join ArtworkTags at using (TagId)
 							where ArtworkId = ?
 						', [$this->ArtworkId], ArtworkTag::class);
-	}
-
-	/**
-	 * @throws Exceptions\UrlInvalidException
-	 */
-	public function GetMuseum(): ?Museum{
-		if(!isset($this->_Museum)){
-			try{
-				$this->_Museum = Museum::GetByUrl($this->MuseumUrl);
-			}
-			catch(Exceptions\MuseumNotFoundException){
-				$this->_Museum = null;
-			}
-		}
-
-		return $this->_Museum;
-	}
-
-	/**
-	 * @throws Exceptions\ArtworkInvalidException
-	 */
-	protected function GetImageUrl(): string{
-		if(!isset($this->_ImageUrl)){
-			if(!isset($this->ArtworkId) || !isset($this->MimeType)){
-				throw new Exceptions\ArtworkInvalidException();
-			}
-
-			$this->_ImageUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->UpdatedAt->getTimestamp();
-		}
-
-		return $this->_ImageUrl;
-	}
-
-	/**
-	 * @throws Exceptions\ArtworkNotFoundException
-	 */
-	protected function GetThumbUrl(): string{
-		if(!isset($this->_ThumbUrl)){
-			if(!isset($this->ArtworkId)){
-				throw new Exceptions\ArtworkNotFoundException();
-			}
-
-			$this->_ThumbUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->UpdatedAt->getTimestamp();
-		}
-
-		return $this->_ThumbUrl;
-	}
-
-	/**
-	 * @throws Exceptions\ArtworkNotFoundException
-	 */
-	protected function GetThumb2xUrl(): string{
-		if(!isset($this->_Thumb2xUrl)){
-			if(!isset($this->ArtworkId)){
-				throw new Exceptions\ArtworkNotFoundException();
-			}
-
-			$this->_Thumb2xUrl = ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->UpdatedAt->getTimestamp();
-		}
-
-		return $this->_Thumb2xUrl;
-	}
-
-	protected function GetImageFsPath(): string{
-		return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->ImageUrl);
-	}
-
-	protected function GetThumbFsPath(): string{
-		return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->ThumbUrl);
-	}
-
-	protected function GetThumb2xFsPath(): string{
-		return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->Thumb2xUrl);
-	}
-
-	protected function GetDimensions(): string{
-		if(!isset($this->Dimensions)){
-			$this->_Dimensions = '';
-			try{
-				list($imageWidth, $imageHeight) = (@getimagesize($this->ImageFsPath) ?? throw new \Exception());
-				if($imageWidth && $imageHeight){
-					$this->_Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
+				}
+				else{
+					$this->Tags = [];
 				}
 			}
-			catch(Exception){
-				// Image doesn't exist, return a blank string.
-			}
+
+			return $this->Tags;
 		}
 
-		return $this->_Dimensions;
+		/** @param null|string|array<ArtworkTag> $value */
+		set(null|string|array $value){
+			if(is_array($value)){
+				$this->Tags = $value;
+			}
+			else{
+				$value = trim($value ?? '');
+
+				if($value === ''){
+					$this->Tags = [];
+				}
+				else{
+					$tags = array_map('trim', explode(',', $value));
+					$tags = array_values(array_filter($tags));
+					$tags = array_unique($tags);
+
+					$this->Tags = array_map(function (string $name): ArtworkTag{
+						$tag = new ArtworkTag();
+						$tag->Name = $name;
+						return $tag;
+					}, $tags);
+				}
+			}
+		}
+	}
+
+	public ?Ebook $Ebook = null{
+		/**
+		 * @throws Exceptions\EbookNotFoundException If the `Ebook` can't be found.
+		 */
+		get{
+			if(!isset($this->Ebook) && $this->EbookId !== null){
+				$this->Ebook = Ebook::Get($this->EbookId);
+			}
+
+			return $this->Ebook;
+		}
+	}
+
+	public ?Museum $Museum = null{
+		get{
+			if(!isset($this->Museum)){
+				try{
+					$this->Museum = Museum::GetByUrl($this->MuseumUrl);
+				}
+				catch(Exceptions\MuseumNotFoundException | Exceptions\UrlInvalidException){
+					$this->Museum = null;
+				}
+			}
+
+			return $this->Museum;
+		}
+	}
+
+	public ?User $Submitter = null{
+		get{
+			if(!isset($this->Submitter)){
+				try{
+					$this->Submitter = User::Get($this->SubmitterUserId);
+				}
+				catch(Exceptions\UserNotFoundException){
+					$this->Submitter = null;
+				}
+			}
+
+			return $this->Submitter;
+		}
+	}
+
+	public ?User $Reviewer = null{
+		get{
+			if(!isset($this->Reviewer)){
+				try{
+					$this->Reviewer = User::Get($this->ReviewerUserId);
+				}
+				catch(Exceptions\UserNotFoundException){
+					$this->Reviewer = null;
+				}
+			}
+
+			return $this->Reviewer;
+		}
+	}
+
+	public string $ImageUrl{
+		/** @throws Exceptions\ArtworkNotFoundException If the `Artwork` can't be resolved. */
+		get{
+			if(!isset($this->ArtworkId) || !isset($this->MimeType)){
+				throw new Exceptions\ArtworkNotFoundException();
+			}
+
+			return ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . $this->MimeType->GetFileExtension() . '?ts=' . $this->UpdatedAt->getTimestamp();
+		}
+	}
+
+	public string $ThumbUrl{
+		/** @throws Exceptions\ArtworkNotFoundException If the artwork has no ID. */
+		get{
+			if(!isset($this->ArtworkId)){
+				throw new Exceptions\ArtworkNotFoundException();
+			}
+
+			return ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb.jpg' . '?ts=' . $this->UpdatedAt->getTimestamp();
+		}
+	}
+
+	public string $Thumb2xUrl{
+		/** @throws Exceptions\ArtworkNotFoundException If the `Artwork` can't be found. */
+		get{
+			if(!isset($this->ArtworkId)){
+				throw new Exceptions\ArtworkNotFoundException();
+			}
+
+			return ARTWORK_IMAGES_UPLOAD_PATH . '/' . $this->ArtworkId . '-thumb@2x.jpg' . '?ts=' . $this->UpdatedAt->getTimestamp();
+		}
+	}
+
+	public string $ImageFsPath{
+		/** @throws Exceptions\ArtworkNotFoundException If the `Artwork` can't be found. */
+		get{
+			return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->ImageUrl);
+		}
+	}
+
+	public string $ThumbFsPath{
+		/** @throws Exceptions\ArtworkNotFoundException If the `Artwork` can't be found. */
+		get{
+			return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->ThumbUrl);
+		}
+	}
+
+	public string $Thumb2xFsPath{
+		/** @throws Exceptions\ArtworkNotFoundException If the `Artwork` can't be found. */
+		get{
+			return WEB_ROOT . preg_replace('/\?[^\?]*$/ius', '', $this->Thumb2xUrl);
+		}
+	}
+
+	public private(set) string $Dimensions{
+		get{
+			if(!isset($this->Dimensions)){
+				$this->Dimensions = '';
+				try{
+					list($imageWidth, $imageHeight) = (@getimagesize($this->ImageFsPath) ?? throw new \Exception());
+					if($imageWidth && $imageHeight){
+						$this->Dimensions = number_format($imageWidth) . ' × ' . number_format($imageHeight);
+					}
+				}
+				catch(Exception){
+					// Image doesn't exist, return a blank string.
+				}
+			}
+
+			return $this->Dimensions;
+		}
+	}
+
+	public ?Markdown $Exception = null{
+		set(string|Markdown|null $value){
+			$this->Exception = $value === null ? null : new Markdown($value);
+		}
+	}
+
+	public ?Markdown $Notes = null{
+		set(string|Markdown|null $value){
+			$this->Notes = $value === null ? null : new Markdown($value);
+		}
 	}
 
 
@@ -336,21 +329,17 @@ final class Artwork{
 
 	/**
 	 * @throws Exceptions\ArtworkInvalidException
+	 * @throws Exceptions\ArtistNotFoundException If the `Artist` can't be found.
 	 */
 	protected function Validate(?string $imagePath = null, bool $isImageRequired = true): void{
 		$thisYear = intval(NOW->format('Y'));
 		$error = new Exceptions\ArtworkInvalidException();
 
-		if(!isset($this->Artist)){
-			$error->Add(new Exceptions\ArtistInvalidException());
+		try{
+			$this->Artist->Validate();
 		}
-		else{
-			try{
-				$this->Artist->Validate();
-			}
-			catch(Exceptions\ValidationException $ex){
-				$error->Add($ex);
-			}
+		catch(Exceptions\ValidationException $ex){
+			$error->Add($ex);
 		}
 
 		if($this->Exception == ''){
@@ -382,8 +371,6 @@ final class Artwork{
 		if(isset($this->PublicationYear) && ($this->PublicationYear <= 0 || $this->PublicationYear > $thisYear)){
 			$error->Add(new Exceptions\PublicationYearInvalidException());
 		}
-
-		$this->Tags ??= [];
 
 		if(sizeof($this->Tags) == 0){
 			$error->Add(new Exceptions\TagsRequiredException());
@@ -574,7 +561,7 @@ final class Artwork{
 	}
 
 	public function ImplodeTags(): string{
-		$tags = $this->Tags ?? [];
+		$tags = $this->Tags;
 		$tags = array_column($tags, 'Name');
 		return trim(implode(', ', $tags));
 	}
@@ -745,6 +732,7 @@ final class Artwork{
 
 	/**
 	 * @throws Exceptions\ImageUploadInvalidException
+	 * @throws Exceptions\ArtworkNotFoundException If the `Artwork` can't be found.
 	 */
 	private function WriteImageAndThumbnails(string $imagePath): void{
 		try{
@@ -839,6 +827,7 @@ final class Artwork{
 	 * @throws Exceptions\ArtistInvalidException
 	 * @throws Exceptions\ImageUploadInvalidException
 	 * @throws Exceptions\ArtworkExistsException
+	 * @throws Exceptions\ArtistNotFoundException
 	 */
 	public function Create(?string $imagePath = null): void{
 		$this->Validate($imagePath, true);
@@ -918,6 +907,7 @@ final class Artwork{
 			}
 
 			if(isset($this->ArtworkId)){
+				/** @throws void We're sure the `Artwork` is set so these getters never `throw`. */
 				foreach([$this->ImageFsPath, $this->ThumbFsPath, $this->Thumb2xFsPath] as $path){
 					if(is_file($path)){
 						try{
@@ -941,18 +931,14 @@ final class Artwork{
 	 * @throws Exceptions\ArtistInvalidException
 	 * @throws Exceptions\ArtworkTagInvalidException
 	 * @throws Exceptions\ImageUploadInvalidException
+	 * @throws Exceptions\ArtistNotFoundException
 	 */
 	public function Save(?string $imagePath = null): void{
-		unset($this->_UrlName);
-		unset($this->_Url);
-		unset($this->_EditUrl);
+		$this->UrlName = $this->Name == '' ? '' : Formatter::MakeUrlSafe($this->Name);
 
 		if($imagePath !== null){
 			// Manually set the updated timestamp, because if we only update the image and nothing else, the row's updated timestamp won't change automatically.
 			$this->UpdatedAt = NOW;
-			unset($this->_ImageUrl);
-			unset($this->_ThumbUrl);
-			unset($this->_Thumb2xUrl);
 		}
 
 		$this->Validate($imagePath, false);
@@ -1082,21 +1068,21 @@ final class Artwork{
 		try{
 			@unlink($this->ImageFsPath);
 		}
-		catch(\Safe\Exceptions\FilesystemException){
+		catch(\Safe\Exceptions\FilesystemException | Exceptions\ArtworkNotFoundException){
 			// Pass.
 		}
 
 		try{
 			@unlink($this->ThumbFsPath);
 		}
-		catch(\Safe\Exceptions\FilesystemException){
+		catch(\Safe\Exceptions\FilesystemException | Exceptions\ArtworkNotFoundException){
 			// Pass.
 		}
 
 		try{
 			@unlink($this->Thumb2xFsPath);
 		}
-		catch(\Safe\Exceptions\FilesystemException){
+		catch(\Safe\Exceptions\FilesystemException | Exceptions\ArtworkNotFoundException){
 			// Pass.
 		}
 
@@ -1392,6 +1378,8 @@ final class Artwork{
 
 	/**
 	 * Create or update this `Artwork` in the search database.
+	 *
+	 * @throws Exceptions\ArtistNotFoundException If the `Artist` can't be found.
 	 */
 	public function UpdateSearchRepresentation(): void{
 		$tags = '';
@@ -1400,45 +1388,50 @@ final class Artwork{
 		}
 
 		$tags = trim($tags);
-		SearchDb::Query('
-			replace into artworks (
-				id,
-				Name,
-				UrlName,
-				ArtistName,
-				ArtistNameSort,
-				ArtistUrlName,
-				ArtistAlternateNames,
-				Exception,
-				Notes,
-				EbookTitle,
-				EbookAuthors,
-				Tags,
-				Status,
-				SubmitterUserId,
-				CompletedYear,
-				EbookId,
-				CreatedAt
-			)
-			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-				$this->ArtworkId,
-				$this->Name,
-				$this->UrlName,
-				$this->Artist->Name,
-				$this->Artist->Name,
-				$this->Artist->UrlName,
-				$this->Artist->AlternateNamesString,
-				$this->Exception ?? '',
-				$this->Notes ?? '',
-				$this->Ebook->Title ?? '',
-				$this->Ebook->AuthorsString ?? '',
-				$tags,
-				$this->Status,
-				$this->SubmitterUserId ?? 0,
-				$this->CompletedYear ?? 0,
-				$this->EbookId ?? 0,
-				$this->CreatedAt
-			]);
+		try{
+			SearchDb::Query('
+				replace into artworks (
+					id,
+					Name,
+					UrlName,
+					ArtistName,
+					ArtistNameSort,
+					ArtistUrlName,
+					ArtistAlternateNames,
+					Exception,
+					Notes,
+					EbookTitle,
+					EbookAuthors,
+					Tags,
+					Status,
+					SubmitterUserId,
+					CompletedYear,
+					EbookId,
+					CreatedAt
+				)
+				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+					$this->ArtworkId,
+					$this->Name,
+					$this->UrlName,
+					$this->Artist->Name,
+					$this->Artist->Name,
+					$this->Artist->UrlName,
+					$this->Artist->AlternateNamesString,
+					$this->Exception ?? '',
+					$this->Notes ?? '',
+					$this->Ebook->Title ?? '',
+					$this->Ebook->AuthorsString ?? '',
+					$tags,
+					$this->Status,
+					$this->SubmitterUserId ?? 0,
+					$this->CompletedYear ?? 0,
+					$this->EbookId ?? 0,
+					$this->CreatedAt
+				]);
+		}
+		catch(Exceptions\EbookNotFoundException){
+			// Something wrong with our data, pass.
+		}
 	}
 
 	/**
@@ -1452,12 +1445,9 @@ final class Artwork{
 
 	/**
 	 * @throws Exceptions\UrlInvalidException
+	 * @throws Exceptions\ArtistNotFoundException If the `Artist` can't be found.
 	 */
 	public function FillFromRequestBody(): void{
-		if(!isset($this->Artist)){
-			$this->Artist = new Artist();
-		}
-
 		$this->Artist->FillFromRequestBody();
 
 		$this->PropertyFromRequest('Name');
@@ -1470,6 +1460,7 @@ final class Artwork{
 		$this->PropertyFromRequest('CopyrightPageUrl');
 		$this->PropertyFromRequest('ArtworkPageUrl');
 		$this->PropertyFromRequest('MuseumUrl');
+
 		if(isset(Http::$Request->Body->Variables['artwork-exception'])){
 			$this->Exception = Http::$Request->Body->Get('artwork-exception');
 		}

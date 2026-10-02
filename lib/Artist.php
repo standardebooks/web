@@ -1,16 +1,7 @@
 <?
 use Safe\DateTimeImmutable;
 
-/**
- * @property ?int $DeathYear
- * @property string $UrlName
- * @property-read string $Url
- * @property-read string $DeleteUrl
- * @property array<int, string> $AlternateNames
- * @property-read string $AlternateNamesString
- */
 class Artist{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $ArtistId;
@@ -19,93 +10,89 @@ class Artist{
 	public DateTimeImmutable $UpdatedAt;
 	public ?int $DeathYear = null;
 
-	protected string $_UrlName;
-	protected string $_Url;
-	protected string $_DeleteUrl;
-	/** @var array<string> $_AlternateNames */
-	protected array $_AlternateNames;
-	protected string $_AlternateNamesString;
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrlName(): string{
-		if(!isset($this->_UrlName)){
-			if($this->Name == ''){
-				$this->_UrlName = '';
+	public string $UrlName{
+		get{
+			if(!isset($this->UrlName)){
+				if($this->Name == ''){
+					$this->UrlName = '';
+				}
+				else{
+					$this->UrlName = Formatter::MakeUrlSafe($this->Name);
+				}
 			}
-			else{
-				$this->_UrlName = Formatter::MakeUrlSafe($this->Name);
-			}
+
+			return $this->UrlName;
 		}
-
-		return $this->_UrlName;
 	}
 
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/artworks/' . $this->UrlName;
-	}
-
-	protected function GetDeleteUrl(): string{
-		return $this->_DeleteUrl ??= '/artworks/' . $this->UrlName . '/delete';
-	}
-
-	/**
-	 * @return array<string>
-	 */
-	protected function GetAlternateNames(): array{
-		if(!isset($this->_AlternateNames)){
-			$this->_AlternateNames = [];
-
-			$result = Db::Query('
-					select *
-					from ArtistAlternateNames
-					where ArtistId = ?
-				', [$this->ArtistId]);
-
-			foreach($result as $row){
-				$this->_AlternateNames[] = $row->Name;
-			}
+	public string $Url{
+		get{
+			return '/artworks/' . $this->UrlName;
 		}
-
-		return $this->_AlternateNames;
 	}
 
-	protected function GetAlternateNamesString(): string{
-		if(!isset($this->_AlternateNamesString)){
-			$this->_AlternateNamesString = '';
+	public string $DeleteUrl{
+		get{
+			return '/artworks/' . $this->UrlName . '/delete';
+		}
+	}
+
+	/** @var array<string> $AlternateNames */
+	public private(set) array $AlternateNames{
+		get{
+			if(!isset($this->AlternateNames)){
+				$this->AlternateNames = [];
+
+				if(isset($this->ArtistId)){
+					$result = Db::Query('
+						select *
+						from ArtistAlternateNames
+						where ArtistId = ?
+					', [$this->ArtistId]);
+
+					foreach($result as $row){
+						$this->AlternateNames[] = $row->Name;
+					}
+				}
+			}
+
+			return $this->AlternateNames;
+		}
+	}
+
+	public string $AlternateNamesString{
+		get{
+			$alternateNamesString = '';
 
 			$alternateNames = array_slice($this->AlternateNames, 0, -2);
 			$lastTwoAlternateNames = array_slice($this->AlternateNames, -2);
 
 			foreach($alternateNames as $alternateName){
-				$this->_AlternateNamesString .= $alternateName . ', ';
+				$alternateNamesString .= $alternateName . ', ';
 			}
 
-			$this->_AlternateNamesString = rtrim($this->_AlternateNamesString, ', ');
+			$alternateNamesString = rtrim($alternateNamesString, ', ');
 
 			if(sizeof($lastTwoAlternateNames) == 1){
 				if(sizeof($alternateNames) > 0){
-					$this->_AlternateNamesString .= ', and ';
+					$alternateNamesString .= ', and ';
 				}
 
-				$this->_AlternateNamesString .= $lastTwoAlternateNames[0];
+				$alternateNamesString .= $lastTwoAlternateNames[0];
 			}
 
 			if(sizeof($lastTwoAlternateNames) == 2){
 				if(sizeof($alternateNames) > 0){
-					$this->_AlternateNamesString .= ', ';
-					$this->_AlternateNamesString .= $lastTwoAlternateNames[0] . ', and ' . $lastTwoAlternateNames[1];
+					$alternateNamesString .= ', ';
+					$alternateNamesString .= $lastTwoAlternateNames[0] . ', and ' . $lastTwoAlternateNames[1];
 				}
 				else{
-					$this->_AlternateNamesString .= $lastTwoAlternateNames[0] . ' and ' . $lastTwoAlternateNames[1];
+					$alternateNamesString .= $lastTwoAlternateNames[0] . ' and ' . $lastTwoAlternateNames[1];
 				}
 			}
-		}
 
-		return $this->_AlternateNamesString;
+			return $alternateNamesString;
+		}
 	}
 
 
@@ -150,9 +137,7 @@ class Artist{
 		$this->PropertyFromRequest('DeathYear');
 
 		if($this->Name != $name){
-			unset($this->_UrlName);
-			unset($this->_Url);
-			unset($this->_DeleteUrl);
+			$this->UrlName = $this->Name == '' ? '' : Formatter::MakeUrlSafe($this->Name);
 		}
 	}
 
@@ -236,6 +221,7 @@ class Artist{
 
 	/**
 	 * @throws Exceptions\ArtistAlternateNameExistsException
+	 * @throws Exceptions\ArtistNotFoundException If an `Artwork`'s `Artist` can't be found while updating search data.
 	 */
 	public function AddAlternateName(string $name): void{
 		try{
@@ -257,6 +243,8 @@ class Artist{
 	 * Reassigns all the artworks currently assigned to this artist to the given canoncial artist.
 	 *
 	 * @param Artist $canonicalArtist
+	 *
+	 * @throws Exceptions\ArtistNotFoundException If an `Artwork`'s `Artist` can't be found while updating search data.
 	 */
 	public function ReassignArtworkTo(Artist $canonicalArtist): void{
 		Db::Query('
@@ -291,6 +279,8 @@ class Artist{
 
 	/**
 	 * Update the search database for this `Artist`.
+	 *
+	 * @throws Exceptions\ArtistNotFoundException If an `Artwork`'s `Artist` can't be found.
 	 */
 	public function UpdateSearchRepresentation(): void{
 		$artworks = Db::Query('select * from Artworks where ArtistId = ?', [$this->ArtistId], Artwork::class);

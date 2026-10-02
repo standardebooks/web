@@ -4,8 +4,7 @@
  */
 
 $isEditForm ??= false;
-$pollItems = $poll->PollItems ?? [];
-$pollItemCount = max(sizeof($pollItems) + 1, 4);
+$pollItemCount = max(sizeof($poll->PollItems) + 1, 4);
 ?>
 <fieldset>
 	<label>
@@ -32,7 +31,7 @@ $pollItemCount = max(sizeof($pollItems) + 1, 4);
 	<legend>Poll options</legend>
 	<? for($i = 0; $i < $pollItemCount; $i++){ ?>
 		<?
-			$pollItem = $pollItems[$i] ?? new PollItem();
+			$pollItem = $poll->PollItems[$i] ?? new PollItem();
 			$pollItemIndex = $i + 1;
 		?>
 		<?= Template::PollItemFieldset(index: $pollItemIndex, isRequired: !$isEditForm && $i < 2, pollItem: $pollItem) ?>
