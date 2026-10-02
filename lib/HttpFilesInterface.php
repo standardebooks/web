@@ -25,14 +25,13 @@ class HttpFilesInterface{
 			/** @var array{'error': int, 'size': int, 'tmp_name': string} $file */
 			$file = $this->Variables[$variable];
 
-			if($file['size'] > 0){
-				$error = $file['error'];
+			$error = $file['error'];
+			if($error == UPLOAD_ERR_INI_SIZE || $error == UPLOAD_ERR_FORM_SIZE){
+				throw new Exceptions\FileUploadTooLargeException();
+			}
+			elseif($error != UPLOAD_ERR_NO_FILE){
 				$filePath = $file['tmp_name'];
-
-				if($error == UPLOAD_ERR_INI_SIZE || $error == UPLOAD_ERR_FORM_SIZE){
-					throw new Exceptions\FileUploadTooLargeException();
-				}
-				elseif(!is_uploaded_file($filePath) || $error > UPLOAD_ERR_OK){
+				if($error != UPLOAD_ERR_OK || $file['size'] == 0 || !is_uploaded_file($filePath)){
 					throw new Exceptions\FileUploadInvalidException();
 				}
 			}
