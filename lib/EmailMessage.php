@@ -1,19 +1,5 @@
 <?
-/**
- * @property-read EmailAddress $To
- * @property-write EmailAddress|string $To
- * @property-read EmailAddress $From
- * @property-write EmailAddress|string $From
- * @property-read ?EmailAddress $ReplyTo
- * @property-write EmailAddress|string|null $ReplyTo
- * @property-read HtmlDocument $BodyHtml
- * @property-write HtmlDocument|string $BodyHtml
- * @property-read ?Markdown $BodyText
- * @property-write Markdown|string|null $BodyText
- */
 class EmailMessage{
-	use Traits\Accessor;
-
 	public ?string $ToName = null;
 	public ?string $FromName = null;
 	public string $Subject;
@@ -23,52 +9,41 @@ class EmailMessage{
 	/** @var array<string, string> $Metadata */
 	public array $Metadata = [];
 
-	protected EmailAddress $_To; // TODO: Convert to property hook in PHP 8.4.
-	protected EmailAddress $_From; // TODO: Convert to property hook in PHP 8.4.
-	protected ?EmailAddress $_ReplyTo = null; // TODO: Convert to property hook in PHP 8.4.
-	protected HtmlDocument $_BodyHtml; // TODO: Convert to property hook in PHP 8.4.
-	protected ?Markdown $_BodyText = null; // TODO: Convert to property hook in PHP 8.4.
+	public EmailAddress $To{
+		set(string|EmailAddress $value){
+			$this->To = new EmailAddress($value);
+		}
+	}
+
+	public EmailAddress $From{
+		set(string|EmailAddress $value){
+			$this->From = new EmailAddress($value);
+		}
+	}
+
+	public ?EmailAddress $ReplyTo = null{
+		set(string|EmailAddress|null $value){
+			$this->ReplyTo = $value === null ? null : new EmailAddress($value);
+		}
+	}
+
+	public HtmlDocument $BodyHtml{
+		set(string|HtmlDocument $value){
+			$this->BodyHtml = new HtmlDocument($value);
+		}
+	}
+
+	public ?Markdown $BodyText = null{
+		set(string|Markdown|null $value){
+			$this->BodyText = $value === null ? null : new Markdown($value);
+		}
+	}
 
 	public function __construct(bool $isNoReplyEmail = false){
 		if($isNoReplyEmail){
 			$this->From = SUPPORT_EMAIL_ADDRESS;
 			$this->FromName = SUPPORT_FROM_NAME;
 			$this->ReplyTo = SUPPORT_EMAIL_ADDRESS;
-		}
-	}
-
-
-	// *******
-	// SETTERS
-	// *******
-
-	protected function SetTo(string|EmailAddress $string): void{
-		$this->_To = new EmailAddress($string);
-	}
-
-	protected function SetFrom(string|EmailAddress $string): void{
-		$this->_From = new EmailAddress($string);
-	}
-
-	protected function SetReplyTo(string|EmailAddress|null $string): void{
-		if($string === null){
-			$this->_ReplyTo = null;
-		}
-		else{
-			$this->_ReplyTo = new EmailAddress($string);
-		}
-	}
-
-	protected function SetBodyHtml(string|HtmlDocument $string): void{
-		$this->_BodyHtml = new HtmlDocument($string);
-	}
-
-	protected function SetBodyText(string|Markdown|null $string): void{
-		if(isset($string)){
-			$this->_BodyText = new Markdown($string);
-		}
-		else{
-			$this->_BodyText = null;
 		}
 	}
 

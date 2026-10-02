@@ -4,25 +4,7 @@ use Safe\DateTimeImmutable;
 
 use function Safe\preg_match;
 
-/**
- * @property array<Payment> $Payments
- * @property-read bool $RequiresPassword A `User` requires a password to log in if they have an entry in the `Benefits` table.
- * @property Benefits $Benefits
- * @property-read string $Url
- * @property-read string $UuidUrl The `User`'s unique URL, addressed via UUID instead of internal ID.
- * @property-read string $EditUrl
- * @property ?Patron $Patron
- * @property array<NewsletterSubscription> $NewsletterSubscriptions
- * @property-read ?Payment $LastPayment
- * @property-read string $DisplayName The `User`'s name, or email, or ID.
- * @property-read ?string $SortName The `User`'s name in an (attempted) sort order, or `null` if the `User` has no name.
- * @property-read ?string $FirstName The `User`'s first name, or `null` if the `User` has no name or is a foundation or institution.
- * @property-read ?EmailAddress $Email
- * @property-write EmailAddress|string|null $Email
- * @property array<Project> $ProjectsProducing
- */
 final class User{
-	use Traits\Accessor;
 	use Traits\FromRow;
 	use Traits\PropertyFromRequest;
 
@@ -34,212 +16,193 @@ final class User{
 	public ?string $PasswordHash = null;
 	public bool $CanReceiveEmail = true;
 
-	protected bool $_RequiresPassword;
-	/** @var array<Payment> $_Payments */
-	protected array $_Payments;
-	protected ?Payment $_LastPayment;
-	protected Benefits $_Benefits;
-	protected string $_Url;
-	protected string $_UuidUrl;
-	protected string $_EditUrl;
-	protected ?Patron $_Patron;
-	/** @var array<NewsletterSubscription> $_NewsletterSubscriptions */
-	protected array $_NewsletterSubscriptions;
-	protected string $_DisplayName;
-	protected ?string $_SortName = null;
-	protected ?string $_FirstName = null;
-	protected ?EmailAddress $_Email = null; // TODO: Convert to property hook in PHP 8.4.
-	/** @var array<Project> $_ProjectsProducing */
-	protected array $_ProjectsProducing;
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetFirstName(): ?string{
-		if(!isset($this->_FirstName)){
-			if($this->Name !== null && !preg_match('/(^the | fund$| foundation$)/is', $this->Name)){
-				// Favor strings of initials first, like `N. C. Wyeth`.
-				$matches = [];
-				preg_match('/^[A-Z\s\.]+\s/us', $this->Name, $matches);
-				if(sizeof($matches) > 0){
-					$this->_FirstName = trim($matches[0]);
-				}
-				else{
-					// No initials found, try the full first name.
-					$pos = mb_strpos($this->Name, ' ', 0, 'utf-8');
-					if($pos !== false){
-						$this->_FirstName = mb_substr($this->Name, 0, $pos, 'utf-8');
-					}
-				}
-			}
-			else{
-				// Blank the full name if it's a foundation or fund.
-				$this->_FirstName = null;
-			}
-		}
-
-		return $this->_FirstName;
-	}
-
-	protected function GetSortName(): ?string{
-		if(!isset($this->_SortName)){
-			if($this->Name !== null){
-				$lastNameMatches = [];
-				preg_match('/\s(?:de |de la |di |van |von )?[^\s]+$/iu', $this->Name, $lastNameMatches);
-				if(sizeof($lastNameMatches) == 0){
-					$this->_SortName = $this->Name;
-				}
-				else{
-					$lastName = trim($lastNameMatches[0]);
-					$firstNameMatches = [];
-					preg_match('/^(.+)' . preg_quote($lastName, '/') . '$/u', $this->Name, $firstNameMatches);
-
-					if(sizeof($firstNameMatches) == 0){
-						$this->_SortName = $this->Name;
+	public private(set) ?string $FirstName = null{
+		get{
+			if(!isset($this->FirstName)){
+				if($this->Name !== null && !preg_match('/(^the | fund$| foundation$)/is', $this->Name)){
+					// Favor strings of initials first, like `N. C. Wyeth`.
+					$matches = [];
+					preg_match('/^[A-Z\s\.]+\s/us', $this->Name, $matches);
+					if(sizeof($matches) > 0){
+						$this->FirstName = trim($matches[0]);
 					}
 					else{
-						$this->_SortName = $lastName . ', ' . trim($firstNameMatches[1]);
+						// No initials found, try the full first name.
+						$pos = mb_strpos($this->Name, ' ', 0, 'utf-8');
+						if($pos !== false){
+							$this->FirstName = mb_substr($this->Name, 0, $pos, 'utf-8');
+						}
 					}
 				}
+				else{
+					// Blank the full name if it's a foundation or fund.
+					$this->FirstName = null;
+				}
 			}
-			else{
-				$this->_SortName = null;
-			}
+
+			return $this->FirstName;
 		}
-
-		return $this->_SortName;
 	}
 
-	protected function GetDisplayName(): string{
-		if(!isset($this->_DisplayName)){
-			if($this->Name !== null){
-				$this->_DisplayName = $this->Name;
+	public private(set) ?string $SortName = null{
+		get{
+			if(!isset($this->SortName)){
+				if($this->Name !== null){
+					$lastNameMatches = [];
+					preg_match('/\s(?:de |de la |di |van |von )?[^\s]+$/iu', $this->Name, $lastNameMatches);
+					if(sizeof($lastNameMatches) == 0){
+						$this->SortName = $this->Name;
+					}
+					else{
+						$lastName = trim($lastNameMatches[0]);
+						$firstNameMatches = [];
+						preg_match('/^(.+)' . preg_quote($lastName, '/') . '$/u', $this->Name, $firstNameMatches);
+
+						if(sizeof($firstNameMatches) == 0){
+							$this->SortName = $this->Name;
+						}
+						else{
+							$this->SortName = $lastName . ', ' . trim($firstNameMatches[1]);
+						}
+					}
+				}
+				else{
+					$this->SortName = null;
+				}
 			}
-			elseif($this->Email !== null){
-				$this->_DisplayName = $this->Email;
-			}
-			else{
-				$this->_DisplayName = 'User #' . $this->UserId;
-			}
+
+			return $this->SortName;
 		}
-
-		return $this->_DisplayName;
 	}
 
-	/**
-	 * @return array<NewsletterSubscription>
-	 */
-	protected function GetNewsletterSubscriptions(): array{
-		$this->_NewsletterSubscriptions ??= NewsletterSubscription::GetAllByUserId($this->UserId);
-
-		return $this->_NewsletterSubscriptions;
-	}
-
-	/**
-	 * @return array<Project>
-	 */
-	protected function GetProjectsProducing(): array{
-		$this->_ProjectsProducing ??= Project::GetAllByProducerUserId($this->UserId);
-
-		return $this->_ProjectsProducing;
-	}
-
-	protected function GetPatron(): ?Patron{
-		if(!isset($this->_Patron)){
-			try{
-				$this->_Patron = Patron::Get($this->UserId);
+	public private(set) string $DisplayName{
+		get{
+			if(!isset($this->DisplayName)){
+				if($this->Name !== null){
+					$this->DisplayName = $this->Name;
+				}
+				elseif($this->Email !== null){
+					$this->DisplayName = $this->Email;
+				}
+				else{
+					$this->DisplayName = 'User #' . $this->UserId;
+				}
 			}
-			catch(Exceptions\PatronNotFoundException){
-				$this->_Patron = null;
-			}
+
+			return $this->DisplayName;
 		}
-
-		return $this->_Patron;
 	}
 
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/users/' . $this->UserId;
+	/** @var array<NewsletterSubscription> $NewsletterSubscriptions */
+	public array $NewsletterSubscriptions{
+		get{
+			return $this->NewsletterSubscriptions ??= NewsletterSubscription::GetAllByUserId($this->UserId);
+		}
 	}
 
-	protected function GetUuidUrl(): string{
-		return $this->_UuidUrl ??= '/users/' . $this->Uuid;
+	/** @var array<Project> $ProjectsProducing */
+	public private(set) array $ProjectsProducing{
+		get{
+			return $this->ProjectsProducing ??= Project::GetAllByProducerUserId($this->UserId);
+		}
 	}
 
-	protected function GetEditUrl(): string{
-		return $this->_EditUrl ??= $this->Url . '/edit';
+	public private(set) ?Patron $Patron{
+		get{
+			if(!isset($this->Patron)){
+				try{
+					$this->Patron = Patron::Get($this->UserId);
+				}
+				catch(Exceptions\PatronNotFoundException){
+					$this->Patron = null;
+				}
+			}
+
+			return $this->Patron;
+		}
 	}
 
-	/**
-	* @return array<Payment>
-	*/
-	protected function GetPayments(): array{
-		return $this->_Payments ??= Db::Query('
+	public string $Url{
+		get{
+			return '/users/' . $this->UserId;
+		}
+	}
+
+	public string $UuidUrl{
+		get{
+			return '/users/' . $this->Uuid;
+		}
+	}
+
+	public string $EditUrl{
+		get{
+			return $this->Url . '/edit';
+		}
+	}
+
+	/** @var array<Payment> $Payments */
+	public array $Payments{
+		get{
+			return $this->Payments ??= Db::Query('
 							select *
 							from Payments
 							where UserId = ?
 							order by CreatedAt desc
 						', [$this->UserId], Payment::class);
+		}
 	}
 
-	protected function GetLastPayment(): ?Payment{
-		return $this->_LastPayment ??= Db::Query('
+	public private(set) ?Payment $LastPayment{
+		get{
+			return $this->LastPayment ??= Db::Query('
 							select *
 							from Payments
 							where UserId = ?
 							order by CreatedAt desc
 							limit 1
 						', [$this->UserId], Payment::class)[0] ?? null;
+		}
 	}
 
-	protected function GetBenefits(): Benefits{
-		if(!isset($this->_Benefits)){
-			if(isset($this->UserId)){
-				$result = Db::Query('
-							select *
-							from Benefits
-							where UserId = ?
-						', [$this->UserId], Benefits::class);
+	public private(set) Benefits $Benefits{
+		get{
+			if(!isset($this->Benefits)){
+				if(isset($this->UserId)){
+					$result = Db::Query('
+								select *
+								from Benefits
+								where UserId = ?
+							', [$this->UserId], Benefits::class);
 
-				if(sizeof($result) == 0){
-					$this->_Benefits = new Benefits();
-					$this->_RequiresPassword = false;
+					if(sizeof($result) == 0){
+						$this->Benefits = new Benefits();
+						$this->RequiresPassword = false;
+					}
+					else{
+						$this->Benefits = $result[0];
+						$this->RequiresPassword = true;
+					}
 				}
 				else{
-					$this->_Benefits = $result[0];
-					$this->_RequiresPassword = true;
+					$this->Benefits = new Benefits();
+					$this->RequiresPassword = false;
 				}
 			}
-			else{
-				$this->_Benefits = new Benefits();
-			}
-		}
 
-		return $this->_Benefits;
+			return $this->Benefits;
+		}
 	}
 
-	protected function GetRequiresPassword(): bool{
-		if(!isset($this->_RequiresPassword)){
+	public private(set) bool $RequiresPassword{
+		get{
 			// A user is "registered" if they have an entry in the `Benefits` table.
-			// This function will fill it out for us.
-			$this->GetBenefits();
+			return $this->RequiresPassword ??= isset($this->Benefits->UserId);
 		}
-
-		return $this->_RequiresPassword;
 	}
 
-
-	// *******
-	// SETTERS
-	// *******
-
-	protected function SetEmail(string|EmailAddress|null $string): void{
-		if(isset($string)){
-			$this->_Email = new EmailAddress($string);
-		}
-		else{
-			$this->_Email = null;
+	public ?EmailAddress $Email = null{
+		set(string|EmailAddress|null $value){
+			$this->Email = $value === null ? null : new EmailAddress($value);
 		}
 	}
 
@@ -367,7 +330,7 @@ final class User{
 			elseif($this->Benefits->HasBenefits){
 				$this->Benefits->UserId = $this->UserId;
 				$this->Benefits->Create();
-				$this->_RequiresPassword = true;
+				$this->RequiresPassword = true;
 			}
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){

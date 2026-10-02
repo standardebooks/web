@@ -2,27 +2,17 @@
 use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
-/**
- * @property-read string $Url
- */
 class Session{
-	use Traits\Accessor;
-
 	public static ?User $User = null;
 
 	public int $UserId;
 	public DateTimeImmutable $CreatedAt;
 	public string $SessionId;
 
-	public string $_Url;
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/sessions/' . $this->SessionId;
+	public string $Url{
+		get{
+			return '/sessions/' . $this->SessionId;
+		}
 	}
 
 

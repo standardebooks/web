@@ -1,13 +1,6 @@
 <?
 
-/**
- * @property-read bool $IsPublicDomain
- * @property-read string $TimeTillIsPublicDomain A string describing how much longer it will be before this work is in the U.S. public domain, like `3 months` or `20 years`.
- * @property-read ?Markdown $Notes
- * @property-write Markdown|string|null $Notes
- */
 class EbookPlaceholder{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $EbookId;
@@ -17,58 +10,55 @@ class EbookPlaceholder{
 	public ?Enums\EbookPlaceholderDifficulty $Difficulty = null;
 	public ?string $TranscriptionUrl = null;
 
-	protected bool $_IsPublicDomain;
-	protected string $_TimeTillIsPublicDomain;
-	protected ?Markdown $_Notes = null; // TODO: Convert to property hook in PHP 8.4.
-
-	protected function SetNotes(string|Markdown|null $string): void{
-		if(isset($string)){
-			$this->_Notes = new Markdown($string);
-		}
-		else{
-			$this->_Notes = $string;
-		}
-	}
-
-	protected function GetIsPublicDomain(): bool{
-		if(!isset($this->_IsPublicDomain)){
-			if($this->IsWanted){
-				// If this book is on our wanted list, we can assume it's already PD. Otherwise works like pulp sci fi, etc., that did not renew would be shown as "not PD yet".
-				$this->_IsPublicDomain = true;
-			}
-			else{
-				$this->_IsPublicDomain = $this->YearPublished === null ? true : $this->YearPublished <= PD_YEAR;
-			}
-		}
-
-		return $this->_IsPublicDomain;
-	}
-
-	protected function GetTimeTillIsPublicDomain(): string{
-		if(!isset($this->_TimeTillIsPublicDomain)){
-			if($this->IsPublicDomain || $this->YearPublished === null){
-				$this->_TimeTillIsPublicDomain = '';
-			}
-			else{
-				if($this->YearPublished >= 1978){
-					// Date of author's death + 70 years.
-					$this->_TimeTillIsPublicDomain = '70 years after the author’s death';
+	public private(set) bool $IsPublicDomain{
+		get{
+			if(!isset($this->IsPublicDomain)){
+				if($this->IsWanted){
+					// If this book is on our wanted list, we can assume it's already PD. Otherwise works like pulp sci fi, etc., that did not renew would be shown as "not PD yet".
+					$this->IsPublicDomain = true;
 				}
 				else{
-					// Publication year + 96 years.
-					$years = (int)($this->YearPublished) + 96 - (int)(NOW->format('Y'));
-					if($years > 1){
-						$this->_TimeTillIsPublicDomain = $years . ' years';
+					$this->IsPublicDomain = $this->YearPublished === null ? true : $this->YearPublished <= PD_YEAR;
+				}
+			}
+
+			return $this->IsPublicDomain;
+		}
+	}
+
+	public private(set) string $TimeTillIsPublicDomain{
+		get{
+			if(!isset($this->TimeTillIsPublicDomain)){
+				if($this->IsPublicDomain || $this->YearPublished === null){
+					$this->TimeTillIsPublicDomain = '';
+				}
+				else{
+					if($this->YearPublished >= 1978){
+						// Date of author's death + 70 years.
+						$this->TimeTillIsPublicDomain = '70 years after the author’s death';
 					}
 					else{
-						$months = 13 - (int)(NOW->format('n'));
-						$this->_TimeTillIsPublicDomain = $months . ' ' . Formatter::Pluralize($months, 'month');
+						// Publication year + 96 years.
+						$years = (int)($this->YearPublished) + 96 - (int)(NOW->format('Y'));
+						if($years > 1){
+							$this->TimeTillIsPublicDomain = $years . ' years';
+						}
+						else{
+							$months = 13 - (int)(NOW->format('n'));
+							$this->TimeTillIsPublicDomain = $months . ' ' . Formatter::Pluralize($months, 'month');
+						}
 					}
 				}
 			}
-		}
 
-		return $this->_TimeTillIsPublicDomain;
+			return $this->TimeTillIsPublicDomain;
+		}
+	}
+
+	public ?Markdown $Notes = null{
+		set(string|Markdown|null $value){
+			$this->Notes = $value === null ? null : new Markdown($value);
+		}
 	}
 
 	public function FillFromRequestBody(): void{

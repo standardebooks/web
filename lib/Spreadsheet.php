@@ -3,15 +3,7 @@ use Safe\DateTimeImmutable;
 
 use function Safe\preg_replace;
 
-/**
- * @property-read string $Url
- * @property-read string $EditUrl
- * @property-read string $DeleteUrl
- * @property-read ?Markdown $Notes
- * @property-write Markdown|string|null $Notes
- */
 class Spreadsheet{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $SpreadsheetId;
@@ -22,47 +14,28 @@ class Spreadsheet{
 	public DateTimeImmutable $CreatedAt;
 	public DateTimeImmutable $UpdatedAt;
 
-	protected string $_Url;
-	protected string $_EditUrl;
-	protected string $_DeleteUrl;
-	protected ?Markdown $_Notes = null; // TODO: Convert to property hook in PHP 8.4.
-
-	// *******
-	// SETTERS
-	// *******
-
-	protected function SetNotes(string|Markdown|null $string): void{
-		if(isset($string)){
-			$this->_Notes = new Markdown($string);
-		}
-		else{
-			$this->_Notes = $string;
+	public string $Url{
+		get{
+			return '/spreadsheets/' . $this->SpreadsheetId;
 		}
 	}
 
-	// *******
-	// GETTERS
-	// *******
-
-	/**
-	 * Return the local URL that represents this spreadsheet resource.
-	 */
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/spreadsheets/' . $this->SpreadsheetId;
+	public string $EditUrl{
+		get{
+			return $this->Url . '/edit';
+		}
 	}
 
-	/**
-	 * Return the URL for the form to edit this spreadsheet.
-	 */
-	protected function GetEditUrl(): string{
-		return $this->_EditUrl ??= $this->Url . '/edit';
+	public string $DeleteUrl{
+		get{
+			return $this->Url . '/delete';
+		}
 	}
 
-	/**
-	 * Return the URL for the form to delete this spreadsheet.
-	 */
-	protected function GetDeleteUrl(): string{
-		return $this->_DeleteUrl ??= $this->Url . '/delete';
+	public ?Markdown $Notes = null{
+		set(string|Markdown|null $value){
+			$this->Notes = $value === null ? null : new Markdown($value);
+		}
 	}
 
 

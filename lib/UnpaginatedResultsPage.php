@@ -10,6 +10,21 @@
 class UnpaginatedResultsPage extends ResultsPage{
 	public bool $HasNextPage;
 
+	public ?string $NextPageUrl{
+		get{
+			if(!$this->HasNextPage){
+				return null;
+			}
+
+			$nextPage = $this->Page + 1;
+			$queryParams = Http::$Request->UriQueryString->Variables;
+			ksort($queryParams);
+			$queryParams['page'] = $nextPage;
+
+			return Http::$Request->RelativeUri->getPath() . '?' . http_build_query($queryParams);
+		}
+	}
+
 	/**
 	 * Create a paginated result object.
 	 *
@@ -20,26 +35,5 @@ class UnpaginatedResultsPage extends ResultsPage{
 		$this->HasNextPage = $hasNextPage;
 
 		parent::__construct($page);
-	}
-
-	/**
-	 * Get the URL of the next page of results, or `null` if there are none.
-	 */
-	protected function GetNextPageUrl(): ?string{
-		if(!isset($this->_NextPageUrl)){
-			if($this->HasNextPage){
-				$nextPage = $this->Page + 1;
-				$queryParams = Http::$Request->UriQueryString->Variables;
-				ksort($queryParams);
-				$queryParams['page'] = $nextPage;
-
-				$this->_NextPageUrl = Http::$Request->RelativeUri->getPath() . '?' . http_build_query($queryParams);
-			}
-			else{
-				$this->_NextPageUrl = null;
-			}
-		}
-
-		return $this->_NextPageUrl;
 	}
 }
