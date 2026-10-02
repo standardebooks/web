@@ -71,7 +71,7 @@ catch(Exceptions\PermissionsInvalidException){
 					<span>Processor</span>
 					<select name="payment-processor" required="required">
 						<? foreach(Enums\PaymentProcessorType::cases() as $processor){ ?>
-							<option value="<?= $processor->value ?>"<? if($payment->Processor == $processor){ ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml(ucwords(str_replace('_', ' ', $processor->value))) ?></option>
+							<option value="<?= $processor->value ?>"<? if($payment->Processor == $processor){ // @phpstan-ignore equal.alwaysTrue ?> selected="selected"<? } ?>><?= Formatter::EscapeHtml(ucwords(str_replace('_', ' ', $processor->value))) ?></option>
 						<? } ?>
 					</select>
 				</label>

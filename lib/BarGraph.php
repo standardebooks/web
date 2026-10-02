@@ -85,10 +85,15 @@ class BarGraph extends Graph{
 			}
 
 			// Copy text positioning attributes from one SVG text element to another.
-			$rotatedLabel->setAttribute('x', $normalLabel->getAttribute('x'));
-			$rotatedLabel->setAttribute('y', $normalLabel->getAttribute('y'));
-			$rotatedLabel->setAttribute('text-anchor', $normalLabel->getAttribute('text-anchor'));
-			$rotatedLabel->removeAttribute('transform');
+			try{
+				$rotatedLabel->setAttribute('x', $normalLabel->getAttribute('x'));
+				$rotatedLabel->setAttribute('y', $normalLabel->getAttribute('y'));
+				$rotatedLabel->setAttribute('text-anchor', $normalLabel->getAttribute('text-anchor'));
+				$rotatedLabel->removeAttribute('transform');
+			}
+			catch(DOMException){
+				// Pass.
+			}
 		}
 
 		return $this->OutputDom();

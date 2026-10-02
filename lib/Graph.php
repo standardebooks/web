@@ -97,7 +97,12 @@ abstract class Graph{
 
 	protected function OutputDom(): string{
 		// We have to pass the `documentElement` to prevent it from outputting the XML header, which is not desirable in an inline SVG.
-		return $this->Dom->saveXML($this->Dom->documentElement) ?: '';
+		try{
+			return $this->Dom->saveXML($this->Dom->documentElement) ?: '';
+		}
+		catch(DOMException){
+			return '';
+		}
 	}
 
 	/**
@@ -204,7 +209,12 @@ abstract class Graph{
 		}
 
 		[$legendX, $legendY] = $this->GetElementTranslate($legend);
-		$legend->setAttribute('transform', 'translate(' . $legendX . ' ' . ($legendY + $overlap) . ')');
+		try{
+			$legend->setAttribute('transform', 'translate(' . $legendX . ' ' . ($legendY + $overlap) . ')');
+		}
+		catch(DOMException){
+			// Pass.
+		}
 	}
 
 	/**
@@ -237,7 +247,12 @@ abstract class Graph{
 			$maxY = max($maxY, ceil($textY + $textHeight) + 1);
 		}
 
-		$svgElement->setAttribute('viewBox', implode(' ', [$minX, $minY, $maxX - $minX, $maxY - $minY]));
+		try{
+			$svgElement->setAttribute('viewBox', implode(' ', [$minX, $minY, $maxX - $minX, $maxY - $minY]));
+		}
+		catch(DOMException){
+			// Pass.
+		}
 	}
 
 	/**
@@ -277,14 +292,19 @@ abstract class Graph{
 				continue;
 			}
 
-			$element->setAttribute('fill', $fill);
-			$styles = implode('; ', $styles);
+			try{
+				$element->setAttribute('fill', $fill);
+				$styles = implode('; ', $styles);
 
-			if($styles == ''){
-				$element->removeAttribute('style');
+				if($styles == ''){
+					$element->removeAttribute('style');
+				}
+				else{
+					$element->setAttribute('style', $styles);
+				}
 			}
-			else{
-				$element->setAttribute('style', $styles);
+			catch(DOMException){
+				// Pass.
 			}
 		}
 	}
