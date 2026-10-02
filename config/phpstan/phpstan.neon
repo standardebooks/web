@@ -19,6 +19,7 @@ parameters:
 		- %rootDir%/../../../scripts/delete-banned-ip-addresses
 		- %rootDir%/../../../scripts/delete-newsletter-subscriptions
 		- %rootDir%/../../../scripts/delete-orphan-users
+		- %rootDir%/../../../scripts/delete-session-uploads
 		- %rootDir%/../../../scripts/generate-bulk-downloads
 		- %rootDir%/../../../scripts/generate-feeds
 		- %rootDir%/../../../scripts/ingest-fa-payments
