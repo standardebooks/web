@@ -570,7 +570,7 @@ final class Artwork{
 	 * Updates an artwork from `Unverified` status to `Approved` if the artwork has a valid `MuseumUrl` and the page contents of that URL contain the museum’s `LicenseXPath`.
 	 */
 	public function ApproveByMuseumUrl(): void{
-		if($this->Status !== Enums\ArtworkStatusType::Unverified){
+		if($this->Status != Enums\ArtworkStatusType::Unverified){
 			return;
 		}
 
@@ -602,10 +602,9 @@ final class Artwork{
 			return;
 		}
 
-		// TODO: When PHP 8.4 is available, use the new `Dom\HTMLDocument` class.
-		$dom = new DOMDocument();
-		@$dom->loadHTML($response->Body);
-		$xpath = new DOMXPath($dom);
+		// Keep HTML elements outside the default namespace so license XPath expressions match them.
+		$dom = @Dom\HTMLDocument::createFromString($response->Body, Dom\HTML_NO_DEFAULT_NS);
+		$xpath = new Dom\XPath($dom);
 
 		if($xpath->evaluate($this->Museum->LicenseXPath)){
 			$this->Status = Enums\ArtworkStatusType::Approved;
