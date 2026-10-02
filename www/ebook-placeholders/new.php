@@ -26,10 +26,12 @@ try{
 	$deletedEbookTitle = '';
 	$deletedEbookAuthor = '';
 
-	if(!isset($ebook->EbookPlaceholder)){
-		$ebook->EbookPlaceholder = new EbookPlaceholder();
+	$ebookPlaceholder = $ebook->EbookPlaceholder;
+	if($ebookPlaceholder === null){
+		$ebookPlaceholder = new EbookPlaceholder();
+		$ebook->EbookPlaceholder = $ebookPlaceholder;
 		// We may pre-set this from a query string for convenience.
-		$ebook->EbookPlaceholder->IsWanted = Http::$Request->QueryString->Get('ebook-placeholder-is-wanted', 'bool') ?? false;
+		$ebookPlaceholder->IsWanted = Http::$Request->QueryString->Get('ebook-placeholder-is-wanted', 'bool') ?? false;
 	}
 
 	if($isCreated || $isOnlyProjectCreated){
@@ -41,11 +43,11 @@ try{
 			// If the `EbookPlaceholder` we just added is part of a collection, prefill the form with the same data to make it easier to submit series.
 			unset($ebook->EbookId);
 			unset($ebook->Title);
-			unset($ebook->ProjectInProgress);
+			$ebook->ProjectInProgress = null;
 
-			$ebook->EbookPlaceholder->YearPublished = null;
-			$ebook->EbookPlaceholder->IsWanted = false;
-			$ebook->EbookPlaceholder->IsInProgress = false;
+			$ebookPlaceholder->YearPublished = null;
+			$ebookPlaceholder->IsWanted = false;
+			$ebookPlaceholder->IsInProgress = false;
 
 			foreach($ebook->CollectionMemberships as $collectionMembership){
 				if($collectionMembership->SequenceNumber !== null){

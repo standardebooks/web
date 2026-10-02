@@ -1,20 +1,15 @@
 <?
-/**
- * @property string $DownloadFileSizeFormatted
- */
 class BulkDownloadZipFile{
-	use Traits\Accessor;
-
 	public Enums\BulkDownloadLabelType $LabelType;
 	public string $LabelName;
 	public Enums\BulkDownloadFormatType $Format;
 	public string $DownloadUrl;
 	public int $DownloadByteCount;
 
-	protected string $_DownloadFileSizeFormatted;
-
-	protected function GetDownloadFileSizeFormatted(): string{
-		return $this->_DownloadFileSizeFormatted ??= Formatter::ToFileSize($this->DownloadByteCount);
+	public private(set) string $DownloadFileSizeFormatted{
+		get{
+			return $this->DownloadFileSizeFormatted ??= Formatter::ToFileSize($this->DownloadByteCount);
+		}
 	}
 
 	/**

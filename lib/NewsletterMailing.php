@@ -14,20 +14,7 @@ use function Safe\preg_replace;
 use function Safe\simplexml_load_string;
 
 
-/**
- * @property Newsletter $Newsletter
- * @property string $Url
- * @property string $EditUrl
- * @property array<NewsletterSubscription> $Recipients
- * @property-read HtmlDocument $BodyHtml
- * @property-write HtmlDocument|string $BodyHtml
- * @property-read Markdown $BodyText
- * @property-write Markdown|string $BodyText
- * @property-read EmailAddress $FromEmail
- * @property-write EmailAddress|string $FromEmail
- */
 class NewsletterMailing{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $NewsletterMailingId;
@@ -46,105 +33,89 @@ class NewsletterMailing{
 	public DateTimeImmutable $CreatedAt;
 	public DateTimeImmutable $UpdatedAt;
 
-	protected Newsletter $_Newsletter;
-	protected string $_Url;
-	protected string $_EditUrl;
-	/** @var array<NewsletterSubscription> $_Recipients */
-	protected array $_Recipients;
-	protected HtmlDocument $_BodyHtml; // TODO: Convert to property hook in PHP 8.4.
-	protected Markdown $_BodyText; // TODO: Convert to property hook in PHP 8.4.
-	protected EmailAddress $_FromEmail; // TODO: Convert to property hook in PHP 8.4.
+	public Newsletter $Newsletter{
+		/** @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found. */
+		get{
+			return Db::Query('select * from Newsletters where NewsletterId = ?', [$this->NewsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
+		}
+	}
+
+	public string $Url{
+		get{
+			return '/newsletter-mailings/' . $this->NewsletterMailingId;
+		}
+	}
+
+	public string $EditUrl{
+		get{
+			return $this->Url . '/edit';
+		}
+	}
+
+	/** @var array<NewsletterSubscription> $Recipients */
+	public array $Recipients{
+		get{
+			if(!isset($this->Recipients)){
+				if($this->ExcludePatrons){
+					$this->Recipients = Db::MultiTableSelect('
+						select *
+						from NewsletterSubscriptions
+						inner join Users
+						on NewsletterSubscriptions.UserId = Users.UserId
+						left outer join Patrons
+						on Users.UserId = Patrons.UserId
+						where
+							NewsletterId = ?
+							and
+							IsConfirmed = true
+							and
+							NewsletterSubscriptions.IsVisible = true
+							and CanReceiveEmail = true
+							and Patrons.EndedAt is null
+					', [$this->NewsletterId], NewsletterSubscription::class);
+				}
+				else{
+					$this->Recipients = Db::MultiTableSelect('
+						select *
+						from NewsletterSubscriptions
+						inner join Users
+						on NewsletterSubscriptions.UserId = Users.UserId
+						where
+							NewsletterId = ?
+							and
+							IsConfirmed = true
+							and
+							NewsletterSubscriptions.IsVisible = true
+							and CanReceiveEmail = true
+					', [$this->NewsletterId], NewsletterSubscription::class);
+				}
+			}
+
+			return $this->Recipients;
+		}
+	}
+
+	public HtmlDocument $BodyHtml{
+		set(string|HtmlDocument $value){
+			$this->BodyHtml = new HtmlDocument($value);
+		}
+	}
+
+	public Markdown $BodyText{
+		set(string|Markdown $value){
+			$this->BodyText = new Markdown($value);
+		}
+	}
+
+	public EmailAddress $FromEmail{
+		set(string|EmailAddress $value){
+			$this->FromEmail = new EmailAddress($value);
+		}
+	}
 
 	public function __construct(){
-		$this->_BodyText = new Markdown();
-		$this->_FromEmail = new EmailAddress(NEWSLETTER_DEFAULT_FROM_EMAIL_ADDRESS);
-	}
-
-	// *******
-	// GETTERS
-	// *******
-
-	/**
-	 * @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found.
-	 */
-	protected function GetNewsletter(): Newsletter{
-		return Db::Query('select * from Newsletters where NewsletterId = ?', [$this->NewsletterId], Newsletter::class)[0] ?? throw new Exceptions\NewsletterNotFoundException();
-	}
-
-	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/newsletter-mailings/' . $this->NewsletterMailingId;
-		}
-
-		return $this->_Url;
-	}
-
-	protected function GetEditUrl(): string{
-		if(!isset($this->_EditUrl)){
-			$this->_EditUrl = $this->Url . '/edit';
-		}
-
-		return $this->_EditUrl;
-	}
-
-	/**
-	 * @return array<NewsletterSubscription>
-	 */
-	protected function GetRecipients(): array{
-		if(!isset($this->Recipients)){
-			if($this->ExcludePatrons){
-				$this->_Recipients = Db::MultiTableSelect('
-					select *
-					from NewsletterSubscriptions
-					inner join Users
-					on NewsletterSubscriptions.UserId = Users.UserId
-					left outer join Patrons
-					on Users.UserId = Patrons.UserId
-					where
-						NewsletterId = ?
-						and
-						IsConfirmed = true
-						and
-						NewsletterSubscriptions.IsVisible = true
-						and CanReceiveEmail = true
-						and Patrons.EndedAt is null
-					', [$this->NewsletterId], NewsletterSubscription::class);
-			}
-			else{
-				$this->_Recipients = Db::MultiTableSelect('
-					select *
-					from NewsletterSubscriptions
-					inner join Users
-					on NewsletterSubscriptions.UserId = Users.UserId
-					where
-						NewsletterId = ?
-						and
-						IsConfirmed = true
-						and
-						NewsletterSubscriptions.IsVisible = true
-						and CanReceiveEmail = true
-					', [$this->NewsletterId], NewsletterSubscription::class);
-			}
-		}
-
-		return $this->_Recipients;
-	}
-
-
-	// *******
-	// SETTERS
-	// *******
-
-	protected function SetBodyHtml(string|HtmlDocument $string): void{
-		$this->_BodyHtml = new HtmlDocument($string);
-	}
-
-	protected function SetBodyText(string|Markdown $string): void{
-		$this->_BodyText = new Markdown($string);
-	}
-
-	protected function SetFromEmail(string|EmailAddress $string): void{
-		$this->_FromEmail = new EmailAddress($string);
+		$this->BodyText = new Markdown();
+		$this->FromEmail = new EmailAddress(NEWSLETTER_DEFAULT_FROM_EMAIL_ADDRESS);
 	}
 
 
@@ -211,6 +182,11 @@ class NewsletterMailing{
 		}
 	}
 
+	/**
+	 * Replace the mailing footer in the HTML and text bodies.
+	 *
+	 * @throws Exceptions\NewsletterNotFoundException If the newsletter no longer exists.
+	 */
 	protected function AddFooterToBody(): void{
 		$footerHtml = Template::EmailMarketingFooterHtml(newsletter: $this->Newsletter);
 
@@ -300,6 +276,7 @@ class NewsletterMailing{
 	/**
 	 * @throws Exceptions\FieldMissingException If a footer can't be found in `BodyHtml`.
 	 * @throws Exceptions\EbookNotFoundException If an ebook identifier in the `BodyHtml` doesn't resolve to a real `Ebook`.
+	 * @throws Exceptions\NewsletterNotFoundException If the newsletter no longer exists.
 	 */
 	protected function NormalizeBody(bool $addFooter, bool $addEbooks): void{
 		// Insert or remove preheader.
@@ -438,7 +415,6 @@ class NewsletterMailing{
 		$this->BodyHtml = str_replace('\'', '’', $this->BodyHtml);
 		$this->BodyText = trim(str_replace('\'', '’', $this->BodyText));
 		$this->FromName = $this->FromName !== null ? trim($this->FromName) : null;
-		$this->FromEmail ??= '';
 
 		if(!preg_match("/^<!DOCTYPE html>/ius", $this->BodyHtml)){
 			$this->BodyHtml = Template::NewsletterMailingHtml(bodyHtml: $this->BodyHtml, subject: $this->Subject);

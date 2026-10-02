@@ -1,32 +1,36 @@
 <?
 use Safe\DateTimeImmutable;
 
-/**
- * @property User $User
- * @property PollItem $PollItem
- * @property Poll $Poll
- * @property-read string $Url
- */
 class PollVote{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $UserId;
 	public DateTimeImmutable $CreatedAt;
 	public int $PollItemId;
+	public Poll $Poll;
 
-	protected User $_User;
-	protected Poll $_Poll;
-	protected PollItem $_PollItem;
-	protected string $_Url;
+	public User $User{
+		/** @throws Exceptions\UserNotFoundException If the `User` can't be found. */
+		get{
+			return $this->User ??= User::Get($this->UserId);
+		}
+	}
 
+	public PollItem $PollItem{
+		/** @throws Exceptions\PollItemNotFoundException If the `PollItem` can't be found. */
+		get{
+			return $this->PollItem ??= PollItem::Get($this->PollItemId);
+		}
+	}
 
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrl(): string{
-		return $this->_Url ??= $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
+	public string $Url{
+		/**
+		 * @throws Exceptions\PollItemNotFoundException If the `PollItem` can't be found.
+		 * @throws Exceptions\PollNotFoundException If the `Poll` can't be found.
+		 */
+		get{
+			return $this->PollItem->Poll->Url . '/votes/' . $this->UserId;
+		}
 	}
 
 

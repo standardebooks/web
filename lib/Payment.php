@@ -1,12 +1,7 @@
 <?
 use Safe\DateTimeImmutable;
 
-/**
- * @property ?User $User
- * @property string $ProcessorUrl
- */
 class Payment{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $PaymentId;
@@ -20,38 +15,32 @@ class Payment{
 	public bool $IsMatchingDonation = false;
 	public ?DateTimeImmutable $RefundedAt = null;
 
-	protected ?User $_User = null;
-	protected string $_ProcessorUrl;
+	public ?User $User = null{
+		/** @throws Exceptions\UserNotFoundException If the user no longer exists. */
+		get{
+			if(!isset($this->User) && $this->UserId !== null){
+				$this->User = User::Get($this->UserId);
+			}
 
-
-	// *******
-	// GETTERS
-	// *******
-
-	/**
-	 * @throws Exceptions\UserNotFoundException
-	 */
-	protected function GetUser(): ?User{
-		if(!isset($this->_User) && $this->UserId !== null){
-			$this->_User = User::Get($this->UserId);
+			return $this->User;
 		}
-
-		return $this->_User;
 	}
 
-	protected function GetProcessorUrl(): string{
-		if(!isset($this->_ProcessorUrl)){
-			switch($this->Processor){
-				case Enums\PaymentProcessorType::FracturedAtlas:
-					// This is not a permalink per se, because the FA permalink shows us the donor-facing receipt, without useful information like attribution, etc. However if we search by donation ID, we *do* get that information.
-					$this->_ProcessorUrl = 'https://fundraising.fracturedatlas.org/admin/general_support/donations?query=' . $this->TransactionId;
-					break;
-				default:
-					$this->_ProcessorUrl = '';
+	public string $ProcessorUrl{
+		get{
+			if(!isset($this->ProcessorUrl)){
+				switch($this->Processor){
+					case Enums\PaymentProcessorType::FracturedAtlas:
+						// This is not a permalink per se, because the FA permalink shows us the donor-facing receipt, without useful information like attribution, etc. However if we search by donation ID, we *do* get that information.
+						$this->ProcessorUrl = 'https://fundraising.fracturedatlas.org/admin/general_support/donations?query=' . $this->TransactionId;
+						break;
+					default:
+						$this->ProcessorUrl = '';
+				}
 			}
-		}
 
-		return $this->_ProcessorUrl;
+			return $this->ProcessorUrl;
+		}
 	}
 
 
@@ -74,6 +63,7 @@ class Payment{
 
 	/**
 	 * @throws Exceptions\PaymentExistsException
+	 * @throws Exceptions\UserNotFoundException If the payment user no longer exists.
 	 */
 	public function Create(): void{
 		if($this->UserId === null){

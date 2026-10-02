@@ -4,79 +4,77 @@ use Safe\DateTimeImmutable;
 
 use function Safe\preg_replace;
 
-/**
- * @property string $LabelUrl
- * @property string $UpdatedString
- * @property array<BulkDownloadZipFile> $ZipFiles
- */
 class BulkDownloadCollection{
-	use Traits\Accessor;
-
 	public Enums\BulkDownloadLabelType $LabelType;
 	public string $LabelName;
 	public string $LabelSort;
 	public ?string $LabelUrlSegment;
 	public int $EbookCount = 0;
 	public DateTimeImmutable $UpdatedAt;
+	private bool $_AreZipFilesInitialized = false;
 
-	protected ?string $_LabelUrl;
-	protected ?string $_UpdatedString;
-	/** @var array<BulkDownloadZipFile> $_ZipFiles */
-	protected array $_ZipFiles;
+	public private(set) string $LabelUrl{
+		get{
+			if(!isset($this->LabelUrl)){
+				switch($this->LabelType){
+					case Enums\BulkDownloadLabelType::Subject:
+						$this->LabelUrl = '/subjects/' . $this->LabelUrlSegment;
+						break;
+					case Enums\BulkDownloadLabelType::Collection:
+						$this->LabelUrl = '/collections/' . $this->LabelUrlSegment;
+						break;
+					case Enums\BulkDownloadLabelType::Author:
+						$this->LabelUrl = '/ebooks/' . $this->LabelUrlSegment;
+						break;
+					case Enums\BulkDownloadLabelType::Month:
+						$this->LabelUrl = '/months/' . $this->LabelUrlSegment;
+						break;
+				}
+			}
 
-	/** @var array<Ebook> $Ebooks */
-	public array $Ebooks;
-
-	protected function GetLabelUrl(): string{
-		if(isset($this->_LabelUrl)){
-			return $this->_LabelUrl;
+			return $this->LabelUrl;
 		}
-
-		switch($this->LabelType){
-			case Enums\BulkDownloadLabelType::Subject:
-				$this->_LabelUrl = '/subjects/' . $this->LabelUrlSegment;
-				break;
-			case Enums\BulkDownloadLabelType::Collection:
-				$this->_LabelUrl = '/collections/' . $this->LabelUrlSegment;
-				break;
-			case Enums\BulkDownloadLabelType::Author:
-				$this->_LabelUrl = '/ebooks/' . $this->LabelUrlSegment;
-				break;
-			case Enums\BulkDownloadLabelType::Month:
-				$this->_LabelUrl = '/months/' . $this->LabelUrlSegment;
-				break;
-		}
-
-		return $this->_LabelUrl;
 	}
 
-	protected function GetUpdatedString(): string{
-		if(isset($this->_UpdatedString)){
-			return $this->_UpdatedString;
-		}
+	public private(set) string $UpdatedString{
+		get{
+			if(!isset($this->UpdatedString)){
+				$this->UpdatedString = $this->UpdatedAt->format('M j');
+				// Add a period to the abbreviated month, but not if it's May (the only 3-letter month).
+				$this->UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $this->UpdatedString);
+				if($this->UpdatedAt->format('Y') != NOW->format('Y')){
+					$this->UpdatedString = $this->UpdatedAt->format(Enums\DateTimeFormat::ShortDate->value);
+				}
+			}
 
-		$this->_UpdatedString = $this->UpdatedAt->format('M j');
-		// Add a period to the abbreviated month, but not if it's May (the only 3-letter month).
-		$this->_UpdatedString = preg_replace('/^(.+?)(?<!May) /', '\1. ', $this->_UpdatedString);
-		if($this->UpdatedAt->format('Y') != NOW->format('Y')){
-			$this->_UpdatedString = $this->UpdatedAt->format(Enums\DateTimeFormat::ShortDate->value);
+			return $this->UpdatedString;
 		}
-
-		return $this->_UpdatedString;
 	}
 
-	/**
-	 * @return array<BulkDownloadZipFile>
-	 */
-	protected function GetZipFiles(): array{
-		return $this->_ZipFiles ??= Db::Query('
+	/** @var array<BulkDownloadZipFile> $ZipFiles */
+	public private(set) array $ZipFiles{
+		get{
+			if(!isset($this->ZipFiles)){
+				$this->ZipFiles = Db::Query('
 							select *
 							from BulkDownloadZipFiles
 							where LabelType = ?
 								and LabelName = ?
 							order by Format
-					', [$this->LabelType, $this->LabelName], BulkDownloadZipFile::class);
+				', [$this->LabelType, $this->LabelName], BulkDownloadZipFile::class);
+			}
+			$this->_AreZipFilesInitialized = true;
+			return $this->ZipFiles;
+		}
+
+		set(array $value){
+			$this->ZipFiles = $value;
+			$this->_AreZipFilesInitialized = true;
+		}
 	}
+
+	/** @var array<Ebook> $Ebooks */
+	public array $Ebooks;
 
 	public function AddZipFile(Enums\BulkDownloadFormatType $format, string $downloadUrl, int $downloadByteCount): void{
 		$zipFile = new BulkDownloadZipFile();
@@ -86,7 +84,13 @@ class BulkDownloadCollection{
 		$zipFile->DownloadUrl = $downloadUrl;
 		$zipFile->DownloadByteCount = $downloadByteCount;
 
-		$this->_ZipFiles[] = $zipFile;
+		if(!$this->_AreZipFilesInitialized){
+			$this->ZipFiles = [];
+		}
+
+		$zipFiles = $this->ZipFiles;
+		$zipFiles[] = $zipFile;
+		$this->ZipFiles = $zipFiles;
 	}
 
 	public function AddEbook(Ebook $ebook): void{

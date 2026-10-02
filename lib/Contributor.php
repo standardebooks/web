@@ -1,13 +1,7 @@
 <?
 use function Safe\preg_match;
 
-/**
- * @property-read ?string $Url The URL of this `Contributor` if their MARC role is `Enums\MarcRole::Author`, or `null` otherwise.
- * @property-read ?string $DisplayName The display name of the contributor, which is either their `$Name`, or, if their URL slug has a death date, a string like `$Name (year-year)`.
- */
 class Contributor{
-	use Traits\Accessor;
-
 	public int $EbookId;
 	public string $Name;
 	public string $UrlName;
@@ -18,37 +12,28 @@ class Contributor{
 	public ?string $NacoafUrl = null;
 	public int $SortOrder;
 
-	protected ?string $_Url;
-	protected ?string $_DisplayName;
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrl(): ?string{
-		if(!isset($this->_Url)){
+	/** The contributor's URL when their MARC role is author. */
+	public ?string $Url{
+		get{
 			if($this->MarcRole == Enums\MarcRole::Author){
-				$this->_Url = '/ebooks/' . $this->UrlName;
+				return '/ebooks/' . $this->UrlName;
 			}
-			else{
-				$this->_Url = null;
-			}
-		}
 
-		return $this->_Url;
+			return null;
+		}
 	}
 
-	protected function GetDisplayName(): ?string{
-		if(!isset($this->_DisplayName)){
-			$this->_DisplayName = $this->Name;
+	/** The contributor's name, with a lifespan when the URL name includes one. */
+	public ?string $DisplayName{
+		get{
+			$displayName = $this->Name;
 			// Append a lifespan when it is encoded in the URL name to distinguish authors with identical names.
 			if(preg_match('|-(\d{4})-(\d{4})$|u', $this->UrlName, $matches)){
-				$this->_DisplayName .= ' (' . $matches[1] . '–' . $matches[2] . ')';
+				$displayName .= ' (' . $matches[1] . '–' . $matches[2] . ')';
 			}
-		}
 
-		return $this->_DisplayName;
+			return $displayName;
+		}
 	}
 
 	// *******

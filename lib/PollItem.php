@@ -1,54 +1,36 @@
 <?
-/**
- * @property-read Markdown $Name
- * @property-write Markdown|string $Name
- * @property-read ?Markdown $Description
- * @property-write Markdown|string|null $Description
- * @property-read int $VoteCount
- * @property Poll $Poll
- */
 class PollItem{
-	use Traits\Accessor;
-
 	public int $PollItemId;
 	public int $PollId;
 	public int $SortOrder;
 
-	protected Markdown $_Name;
-	protected ?Markdown $_Description;
-	protected int $_VoteCount;
-	protected Poll $_Poll;
+	public Markdown $Name{
+		set(string|Markdown $value){
+			$this->Name = new Markdown($value);
+		}
+	}
 
+	public ?Markdown $Description{
+		set(string|Markdown|null $value){
+			$this->Description = $value === null ? null : new Markdown($value);
+		}
+	}
 
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetVoteCount(): int{
-		return $this->_VoteCount ??= Db::QueryInt('
+	public private(set) int $VoteCount{
+		get{
+			return $this->VoteCount ??= Db::QueryInt('
 							select count(*)
 							from PollVotes pv
 							inner join PollItems pi using (PollItemId)
 							where pi.PollItemId = ?
-							', [$this->PollItemId]);
-	}
-
-	/**
-	 * Set the poll item name as Markdown.
-	 */
-	protected function SetName(string|Markdown $string): void{
-		$this->_Name = new Markdown($string);
-	}
-
-	/**
-	 * Set the poll item description as Markdown.
-	 */
-	protected function SetDescription(string|Markdown|null $string): void{
-		if($string === null){
-			$this->_Description = null;
+						', [$this->PollItemId]);
 		}
-		else{
-			$this->_Description = new Markdown($string);
+	}
+
+	public Poll $Poll{
+		/** @throws Exceptions\PollNotFoundException If the poll no longer exists. */
+		get{
+			return $this->Poll ??= Poll::Get($this->PollId);
 		}
 	}
 

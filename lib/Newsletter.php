@@ -1,10 +1,5 @@
 <?
-/**
- * @property string $Url
- */
 class Newsletter{
-	use Traits\Accessor;
-
 	public int $NewsletterId;
 	public string $Name;
 	public string $UrlName;
@@ -12,7 +7,11 @@ class Newsletter{
 	public bool $IsVisible;
 	public int $SortOrder;
 
-	protected string $_Url;
+	public string $Url{
+		get{
+			return '/newsletters/' . $this->UrlName;
+		}
+	}
 
 	/**
 	 * @throws Exceptions\NewsletterNotFoundException If the `Newsletter` can't be found.
@@ -57,11 +56,4 @@ class Newsletter{
 		return Db::Query('select * from Newsletters where IsVisible = true order by SortOrder asc', [], Newsletter::class);
 	}
 
-	protected function GetUrl(): string{
-		if(!isset($this->_Url)){
-			$this->_Url = '/newsletters/' . $this->UrlName;
-		}
-
-		return $this->_Url;
-	}
 }

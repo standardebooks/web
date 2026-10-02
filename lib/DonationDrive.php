@@ -3,14 +3,8 @@ use Safe\DateTimeImmutable;
 
 /**
  * A `DonationDrive` is a drive hosted by SE, in which we have a target number of donations and an end date.
- *
- * @property-read int $StretchCount The count that is within the range of the `StretchTarget`. For example, if `Target` is `100`, `StretchTarget` is `25`, and `Count` is `115`, then `StretchCount` is `15`.
- * @property-read bool $IsStretchEnabled
- * @property-read int $CurrentTarget The current total target count, including stretch, if enabled. For example, if `Target` is `100`, `StretchTarget` is `25`, and `Count` is `80`, then `CurrentTarget` is `100`; if `Target` is `100`, `StretchTarget` is `25`, and `Count` is `115`, then `CurrentTarget` is `125`.
  */
 class DonationDrive{
-	use Traits\Accessor;
-
 	public int $DonationDriveId;
 	public Enums\DonationTargetType $TargetType;
 	public string $Name;
@@ -22,9 +16,49 @@ class DonationDrive{
 	public DateTimeImmutable $CreatedAt;
 	public DateTimeImmutable $UpdatedAt;
 
-	protected int $_StretchCount;
-	protected bool $_IsStretchEnabled;
-	protected int $_CurrentTarget;
+	/** The base target plus the stretch target after the base target is met. */
+	public private(set) int $CurrentTarget{
+		get{
+			if(!isset($this->CurrentTarget)){
+				$this->CurrentTarget = $this->Target;
+
+				if($this->Count >= $this->Target){
+					$this->CurrentTarget += $this->StretchTarget;
+				}
+			}
+
+			return $this->CurrentTarget;
+		}
+	}
+
+	/** The number of donations counted toward the stretch target. */
+	public private(set) int $StretchCount{
+		get{
+			if(!isset($this->StretchCount)){
+				$this->StretchCount = $this->Count - $this->Target;
+				if($this->StretchCount < 0){
+					$this->StretchCount = 0;
+				}
+			}
+
+			return $this->StretchCount;
+		}
+	}
+
+	/** Whether the stretch target is active. */
+	public private(set) bool $IsStretchEnabled{
+		get{
+			if(!isset($this->IsStretchEnabled)){
+				$this->IsStretchEnabled = false;
+
+				if(isset($this->StretchTarget) && $this->StretchTarget > 0 && $this->Count >= $this->Target){
+					$this->IsStretchEnabled = true;
+				}
+			}
+
+			return $this->IsStretchEnabled;
+		}
+	}
 
 	/**
 	 * Recalculating the count can be done by:
@@ -66,46 +100,6 @@ class DonationDrive{
 		', [PATRONS_CIRCLE_YEARLY_COST, $startDateUtc, $startDateUtc]);
 		````
 	 */
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetCurrentTarget(): int{
-		if(!isset($this->_CurrentTarget)){
-			$this->_CurrentTarget = $this->Target;
-
-			if($this->Count >= $this->Target){
-				$this->_CurrentTarget = $this->_CurrentTarget + $this->StretchTarget;
-			}
-		}
-
-		return $this->_CurrentTarget;
-	}
-
-	protected function GetStretchCount(): int{
-		if(!isset($this->_StretchCount)){
-			$this->_StretchCount = $this->Count - $this->Target;
-			if($this->_StretchCount < 0){
-				$this->_StretchCount = 0;
-			}
-		}
-
-		return $this->_StretchCount;
-	}
-
-	protected function GetIsStretchEnabled(): bool{
-		if(!isset($this->_IsStretchEnabled)){
-			$this->_IsStretchEnabled = false;
-
-			if(isset($this->StretchTarget) && $this->StretchTarget > 0 && $this->Count >= $this->Target){
-				$this->_IsStretchEnabled = true;
-			}
-		}
-
-		return $this->_IsStretchEnabled;
-	}
 
 
 	// ***********

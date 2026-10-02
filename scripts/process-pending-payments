@@ -168,46 +168,48 @@ try{
 				$payment->Processor = $pendingPayment->Processor;
 				$hasSoftCredit = false;
 				try{
-					// If the donation is via a foundation (like American Online Giving Foundation) then there will be a "soft credit" `<th>` element.
-					if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){
-						// We're a foundation donation.
-						$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
-						$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
-						$hasSoftCredit = true;
+					if($payment->User !== null){
+						// If the donation is via a foundation (like American Online Giving Foundation) then there will be a "soft credit" `<th>` element.
+						if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){
+							// We're a foundation donation.
+							$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
+							$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
+							$hasSoftCredit = true;
 
-						// If we have a soft credit but no email, try go get the `User` by the soft credit line, so we don't create multiple `User`s for the same foundation.
-						if($payment->User->Email == ''){
-							try{
-								$payment->User = User::GetByName($payment->User->Name);
-								$payment->UserId = $payment->User->UserId;
-							}
-							catch(Exception){
-								// Nobody matches the name, pass.
+							// If we have a soft credit but no email, try go get the `User` by the soft credit line, so we don't create multiple `User`s for the same foundation.
+							if($payment->User->Email == ''){
+								try{
+									$payment->User = User::GetByName($payment->User->Name);
+									$payment->UserId = $payment->User->UserId;
+								}
+								catch(Exception){
+									// Nobody matches the name, pass.
+								}
 							}
 						}
-					}
-					else{
-						// We're a regular donation.
-						$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"]]'))->getText());
-						$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"]]'))->getText());
-					}
+						else{
+							// We're a regular donation.
+							$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"]]'))->getText());
+							$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"]]'))->getText());
+						}
 
-					// These donations are typically (always?) employer matches.
-					// FA does not provide a way to connect the original donation with the employer match.
-					// See donation `bbf87b83-d341-426f-b6c9-9091e3222e57`.
-					if($payment->User->Name == 'American Online Giving Foundation'){
-						$payment->IsMatchingDonation = true;
-					}
+						// These donations are typically (always?) employer matches.
+						// FA does not provide a way to connect the original donation with the employer match.
+						// See donation `bbf87b83-d341-426f-b6c9-9091e3222e57`.
+						if($payment->User->Name == 'American Online Giving Foundation'){
+							$payment->IsMatchingDonation = true;
+						}
 
-					// Sometimes a soft credit is `Anonymous` or `Anonymous Anonymous`.
-					// See donation `7f296e18-6492-48e1-aeca-5063c6a0bbbb`.
-					if($hasSoftCredit && preg_match('/Anonymous(\s*Anonymous)*/ius', $payment->User->Name ?? '')){
-						$payment->User = null;
-					}
+						// Sometimes a soft credit is `Anonymous` or `Anonymous Anonymous`.
+						// See donation `7f296e18-6492-48e1-aeca-5063c6a0bbbb`.
+						if($hasSoftCredit && preg_match('/Anonymous(\s*Anonymous)*/ius', $payment->User->Name ?? '')){
+							$payment->User = null;
+						}
 
-					// We can get here via an AOGF donation that is anonymous.
-					if(!$hasSoftCredit && ($payment->User?->Email == 'Not provided' || $payment->User?->Email == '')){
-						$payment->User = null;
+						// We can get here via an AOGF donation that is anonymous.
+						if(!$hasSoftCredit && ($payment->User->Email == 'Not provided' || $payment->User->Email == '')){
+							$payment->User = null;
+						}
 					}
 				}
 				catch(Exception){
@@ -305,7 +307,7 @@ try{
 						}
 						else{
 							// User is already a patron.
-							// We may get a case where an existing Patron makes another donation that 
+							// We may get a case where an existing Patron makes another donation that
 							if(!$payment->IsRecurring && !$payment->IsMatchingDonation && $payment->User->Email !== null){
 								// User is already a Patron, but they made another non-recurring, non-matching donation.
 								// Send a thank-you email.

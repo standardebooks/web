@@ -1,12 +1,7 @@
 <?
 use Safe\DateTimeImmutable;
 
-/**
- * @property User $User
- * @property-read ?Payment $LastPayment
- */
 class Patron{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $UserId;
@@ -17,22 +12,23 @@ class Patron{
 	public ?float $BaseCost = null;
 	public ?Enums\CycleType $CycleType = null;
 
-	protected ?Payment $_LastPayment = null;
-	protected User $_User;
+	public User $User{
+		/** @throws Exceptions\UserNotFoundException If the user no longer exists. */
+		get{
+			return $this->User ??= User::Get($this->UserId);
+		}
+	}
 
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetLastPayment(): ?Payment{
-		return $this->_LastPayment ??= Db::Query('
+	public private(set) ?Payment $LastPayment = null{
+		get{
+			return $this->LastPayment ??= Db::Query('
 						select *
 						from Payments
 						where UserId = ?
 						order by CreatedAt desc
 						limit 1
 					', [$this->UserId], Payment::class)[0] ?? null;
+		}
 	}
 
 
@@ -48,6 +44,11 @@ class Patron{
 		$this->PropertyFromRequest('AlternateName');
 	}
 
+	/**
+	 * Create this patron and grant their benefits.
+	 *
+	 * @throws Exceptions\UserNotFoundException If the patron user no longer exists.
+	 */
 	public function Create(bool $sendWelcomeEmail = true): void{
 		$isReturning = Db::QueryBool('
 				select exists(
@@ -102,6 +103,11 @@ class Patron{
 		}
 	}
 
+	/**
+	 * Send the welcome email for this patron.
+	 *
+	 * @throws Exceptions\UserNotFoundException If the patron user no longer exists.
+	 */
 	private function SendWelcomeEmail(bool $isReturning): void{
 		if(isset($this->User)){
 			if($this->User->Email !== null && $this->User->CanReceiveEmail){
@@ -128,6 +134,11 @@ class Patron{
 		}
 	}
 
+	/**
+	 * End this patron's membership and send the completion email.
+	 *
+	 * @throws Exceptions\UserNotFoundException If the patron user no longer exists.
+	 */
 	public function End(?int $ebooksThisYear): void{
 		if($ebooksThisYear === null){
 			$ebooksThisYear = Db::QueryInt('select count(*) from Ebooks where EbookCreatedAt >= ? - interval 1 year', [NOW]);

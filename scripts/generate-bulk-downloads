@@ -145,6 +145,7 @@ function CreateZip(string $filePath, array $ebooks, Enums\BulkDownloadFormatType
  * @return array<string, array<string, BulkDownloadCollection>> $bulkDownloadCollections
  *
  * @throws Exceptions\EbookCreatedAtDatetimeInvalidException
+ * @throws Exceptions\CollectionNotFoundException If a collection no longer exists.
  */
 function CreateBulkDownloadCollections(): array{
 	$bulkDownloadCollections = [

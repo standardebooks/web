@@ -1,14 +1,7 @@
 <?
 use Safe\DateTimeImmutable;
 
-/**
- * @property User $User
- * @property Newsletter $Newsletter
- * @property-read string $Url
- * @property-read string $DeleteUrl
- */
 final class NewsletterSubscription{
-	use Traits\Accessor;
 	use Traits\FromRow;
 
 	public bool $IsConfirmed = false;
@@ -19,22 +12,32 @@ final class NewsletterSubscription{
 	public DateTimeImmutable $CreatedAt;
 	public DateTimeImmutable $UpdatedAt;
 
-	protected User $_User;
-	protected Newsletter $_Newsletter;
-	protected string $_Url;
-	protected string $_DeleteUrl;
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/users/' . $this->User->Uuid . '/newsletter-subscriptions/' . $this->NewsletterId;
+	public User $User{
+		/** @throws Exceptions\UserNotFoundException If the user no longer exists. */
+		get{
+			return $this->User ??= User::Get($this->UserId);
+		}
 	}
 
-	protected function GetDeleteUrl(): string{
-		return $this->_DeleteUrl ??= $this->Url . '?_method=' . Enums\HttpMethod::Delete->value;
+	public Newsletter $Newsletter{
+		/** @throws Exceptions\NewsletterNotFoundException If the newsletter no longer exists. */
+		get{
+			return $this->Newsletter ??= Newsletter::Get($this->NewsletterId);
+		}
+	}
+
+	public string $Url{
+		/** @throws Exceptions\UserNotFoundException If the user no longer exists. */
+		get{
+			return '/users/' . $this->User->Uuid . '/newsletter-subscriptions/' . $this->NewsletterId;
+		}
+	}
+
+	public string $DeleteUrl{
+		/** @throws Exceptions\UserNotFoundException If the user no longer exists. */
+		get{
+			return $this->Url . '?_method=' . Enums\HttpMethod::Delete->value;
+		}
 	}
 
 	// *******
@@ -47,6 +50,7 @@ final class NewsletterSubscription{
 	 * @throws Exceptions\NewsletterSubscriptionExistsException If the subscription already exists or is created by a concurrent request.
 	 * @throws Exceptions\UserInvalidException If a new `User` cannot be created from the subscription email address.
 	 * @throws Exceptions\UserNotFoundException If a concurrently-created `User` cannot be retrieved.
+	 * @throws Exceptions\NewsletterNotFoundException If the newsletter no longer exists.
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -99,6 +103,8 @@ final class NewsletterSubscription{
 
 	/**
 	 * @throws Exceptions\InvalidNewsletterSubscription
+	 * @throws Exceptions\NewsletterNotFoundException If the newsletter no longer exists.
+	 * @throws Exceptions\UserNotFoundException If the subscriber no longer exists.
 	 */
 	public function Save(): void{
 		$this->Validate();
@@ -144,6 +150,8 @@ final class NewsletterSubscription{
 
 	/**
 	 * @throws Exceptions\InvalidNewsletterSubscription
+	 * @throws Exceptions\UserNotFoundException If the subscriber no longer exists.
+	 * @throws Exceptions\NewsletterNotFoundException If the newsletter no longer exists.
 	 */
 	public function Validate(): void{
 		$error = new Exceptions\InvalidNewsletterSubscription();

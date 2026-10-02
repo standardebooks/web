@@ -1,11 +1,5 @@
 <?
-/**
- * @property-read bool $HasBenefits Are any of the benefits in this object **`TRUE`**?
- * @property-read bool $RequiresPassword Do any of the benefits in this object require the `User` to have a password set?
- * @property-read bool $IsEditor Can this `User` manage or review projects?
- */
 class Benefits{
-	use Traits\Accessor;
 	use Traits\PropertyFromRequest;
 
 	public int $UserId;
@@ -31,84 +25,91 @@ class Benefits{
 	public bool $CanEditNewsletterMailings = false;
 	public bool $CanViewReports = false;
 
-	protected bool $_HasBenefits;
+	/** Whether this set of benefits requires a password. */
+	public bool $RequiresPassword{
+		get{
+			if(
+				$this->CanUploadArtwork
+				||
+				$this->CanReviewArtwork
+				||
+				$this->IsArtworkAdmin
+				||
+				$this->CanEditUsers
+				||
+				$this->CanEditPolls
+				||
+				$this->CanEditCollections
+				||
+				$this->CanEditEbooks
+				||
+				$this->CanEditEbookPlaceholders
+				||
+				$this->CanManageProjects
+				||
+				$this->CanReviewProjects
+				||
+				$this->CanEditProjects
+				||
+				$this->CanBeAutoAssignedToProjects
+				||
+				$this->CanCreateUsers
+				||
+				$this->CanEditBlogPosts
+				||
+				$this->CanEditSpreadsheets
+				||
+				$this->CanCreateNewsletterMailings
+				||
+				$this->CanEditNewsletterMailings
+				||
+				$this->CanViewReports
+			){
+				return true;
+			}
 
-	protected function GetRequiresPassword(): bool{
-		if(
-			$this->CanUploadArtwork
-			||
-			$this->CanReviewArtwork
-			||
-			$this->IsArtworkAdmin
-			||
-			$this->CanEditUsers
-			||
-			$this->CanEditPolls
-			||
-			$this->CanEditCollections
-			||
-			$this->CanEditEbooks
-			||
-			$this->CanEditEbookPlaceholders
-			||
-			$this->CanManageProjects
-			||
-			$this->CanReviewProjects
-			||
-			$this->CanEditProjects
-			||
-			$this->CanBeAutoAssignedToProjects
-			||
-			$this->CanCreateUsers
-			||
-			$this->CanEditBlogPosts
-			||
-			$this->CanEditSpreadsheets
-			||
-			$this->CanCreateNewsletterMailings
-			||
-			$this->CanEditNewsletterMailings
-			||
-			$this->CanViewReports
-		){
-			return true;
+			return false;
 		}
-
-		return false;
 	}
 
-	protected function GetIsEditor(): bool{
-		if(
-			$this->CanManageProjects
-			||
-			$this->CanReviewProjects
-		){
-			return true;
-		}
+	/** Whether this user can manage or review projects. */
+	public bool $IsEditor{
+		get{
+			if(
+				$this->CanManageProjects
+				||
+				$this->CanReviewProjects
+			){
+				return true;
+			}
 
-		return false;
+			return false;
+		}
 	}
 
-	protected function GetHasBenefits(): bool{
-		if(!isset($this->_HasBenefits)){
-			$this->_HasBenefits = false;
+	/** Whether any benefit is enabled. */
+	public private(set) bool $HasBenefits{
+		get{
+			if(!isset($this->HasBenefits)){
+				$this->HasBenefits = false;
 
-			/** @phpstan-ignore-next-line */
-			foreach($this as $property => $value){
-				$rp = new ReflectionProperty(self::class, $property);
-				$type = $rp->getType();
+				/** @phpstan-ignore-next-line */
+				foreach($this as $property => $value){
+					$rp = new ReflectionProperty(self::class, $property);
+					$type = $rp->getType();
 
-				if($type !== null && ($type instanceof \ReflectionNamedType)){
-					$typeName = $type->getName();
-					if($typeName == 'bool' && $value == true){
-						$this->_HasBenefits = true;
-						break;
+					if($type !== null && ($type instanceof \ReflectionNamedType)){
+						$typeName = $type->getName();
+						if($typeName == 'bool' && $value == true){
+							$this->HasBenefits = true;
+							break;
+						}
 					}
 				}
 			}
-		}
 
-		return $this->_HasBenefits;
+			return $this->HasBenefits;
+		}
 	}
 
 	private function Validate(): void{

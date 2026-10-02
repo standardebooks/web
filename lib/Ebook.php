@@ -3,57 +3,12 @@ use Safe\DateTimeImmutable;
 
 use function Safe\file_get_contents;
 use function Safe\filesize;
-use function Safe\json_encode;
 use function Safe\glob;
 use function Safe\preg_match;
 use function Safe\preg_replace;
 use function Safe\shell_exec;
 
-/**
- * @property array<GitCommit> $GitCommits
- * @property array<EbookTag> $Tags
- * @property array<LocSubject> $LocSubjects
- * @property array<CollectionMembership> $CollectionMemberships
- * @property array<EbookSource> $Sources
- * @property array<Contributor> $Authors
- * @property array<Contributor> $Illustrators
- * @property array<Contributor> $Translators
- * @property array<Contributor> $Editors
- * @property array<Contributor> $Contributors
- * @property ?array<string> $TocEntries A list of non-Roman ToC entries *only if* the work has the `schema:additionalType` metadata element with value `http://schema.org/Collection`; `null` otherwise.
- * @property string $Url The relative URL of this ebook, like `/ebooks/...`.
- * @property string $FullUrl The absolute URL of this ebook, like `https://standardebooks.org/ebooks/...`.
- * @property-read string $EditUrl
- * @property-read string $DeleteUrl
- * @property-read bool $HasDownloads
- * @property string $UrlSafeIdentifier
- * @property ?string $HeroImageUrl
- * @property ?string $HeroImageAvifUrl
- * @property ?string $HeroImage2xUrl
- * @property ?string $HeroImage2xAvifUrl
- * @property-read ?string $CoverImageDirectoryUrl
- * @property ?string $CoverImageUrl
- * @property ?string $CoverImageAvifUrl
- * @property ?string $CoverImage2xUrl
- * @property ?string $CoverImage2xAvifUrl
- * @property string $ReadingEaseDescription
- * @property string $ReadingTime
- * @property-read HtmlFragment $AuthorsHtml
- * @property string $AuthorsUrl This is a single URL even if there are multiple authors; for example, `/ebooks/karl-marx_friedrich-engels/`.
- * @property string $AuthorsString
- * @property-read HtmlFragment $ContributorsHtml
- * @property-read HtmlFragment $TitleWithCreditsHtml
- * @property string $TextUrl
- * @property string $TextSinglePageUrl
- * @property string $TextSinglePageSizeFormatted
- * @property ?EbookPlaceholder $EbookPlaceholder
- * @property-read array<Project> $Projects
- * @property-read array<Project> $PastProjects
- * @property-read ?Project $ProjectInProgress
- * @property-read ?Artwork $Artwork
- */
 final class Ebook{
-	use Traits\Accessor;
 	use Traits\FromRow;
 
 	public int $EbookId;
@@ -92,203 +47,149 @@ final class Ebook{
 	/** The numer of all-time non-bot downloads. */
 	public int $DownloadsTotal = 0;
 	public bool $IsPatronSelection = false;
+	private bool $_AreContributorsLoading = false;
 
-	/** @var array<GitCommit> $_GitCommits */
-	protected array $_GitCommits;
-	/** @var array<EbookTag> $_Tags */
-	protected array $_Tags;
-	/** @var array<LocSubject> $_LocSubjects */
-	protected array $_LocSubjects;
-	/** @var array<CollectionMembership> $_CollectionMemberships */
-	protected array $_CollectionMemberships;
-	/** @var array<EbookSource> $_Sources */
-	protected array $_Sources;
-	/** @var array<Contributor> $_Authors */
-	protected array $_Authors;
-	/** @var array<Contributor> $_Illustrators */
-	protected array $_Illustrators;
-	/** @var array<Contributor> $_Translators */
-	protected array $_Translators;
-	/** @var array<Contributor> $_Editors */
-	protected array $_Editors;
-	/** @var array<Contributor> $_Contributors */
-	protected array $_Contributors;
-	/** @var ?array<string> $_TocEntries */
-	protected ?array $_TocEntries = null;
-	protected string $_Url;
-	protected string $_FullUrl;
-	protected string $_EditUrl;
-	protected string $_DeleteUrl;
-	protected bool $_HasDownloads;
-	protected string $_UrlSafeIdentifier;
-	protected ?string $_HeroImageUrl;
-	protected ?string $_HeroImageAvifUrl;
-	protected ?string $_HeroImage2xUrl;
-	protected ?string $_HeroImage2xAvifUrl;
-	protected ?string $_CoverImageDirectoryUrl;
-	protected ?string $_CoverImageUrl;
-	protected ?string $_CoverImageAvifUrl;
-	protected ?string $_CoverImage2xUrl;
-	protected ?string $_CoverImage2xAvifUrl;
-	protected string $_ReadingEaseDescription;
-	protected string $_ReadingTime;
-	protected HtmlFragment $_AuthorsHtml;
-	protected string $_AuthorsUrl;
-	protected string $_AuthorsString;
-	protected HtmlFragment $_ContributorsHtml;
-	protected HtmlFragment $_TitleWithCreditsHtml;
-	protected string $_TextUrl;
-	protected string $_TextSinglePageUrl;
-	protected string $_TextSinglePageSizeFormatted;
-	protected ?EbookPlaceholder $_EbookPlaceholder = null;
-	/** @var array<Project> $_Projects */
-	protected array $_Projects;
-	/** @var array<Project> $_PastProjects */
-	protected array $_PastProjects;
-	protected ?Project $_ProjectInProgress;
-	protected ?Artwork $_Artwork;
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetArtwork(): ?Artwork{
-		return $this->_Artwork ??= Db::Query('
-							select
-							*
-							from
-							Artworks
-							where
-							EbookId = ?
-						', [$this->EbookId], Artwork::class)[0] ?? null;
+	public private(set) ?Artwork $Artwork{
+		get{
+			return $this->Artwork ??= Db::Query('
+								select
+								*
+								from
+								Artworks
+								where
+								EbookId = ?
+							', [$this->EbookId], Artwork::class)[0] ?? null;
+		}
 	}
 
-	/**
-	 * @return array<Project>
-	 */
-	protected function GetProjects(): array{
-		return $this->_Projects ??= Db::MultiTableSelect('
-							select *
-							from Projects
-							inner join Ebooks
-							on Projects.EbookId = Ebooks.EbookId
-							where Ebooks.EbookId = ?
-							order by Projects.CreatedAt desc
-						', [$this->EbookId], Project::class);
-	}
-
-	protected function GetProjectInProgress(): ?Project{
-		if(!isset($this->_ProjectInProgress)){
-			if(!isset($this->EbookId)){
-				$this->_ProjectInProgress = null;
-			}
-			else{
-				$this->_ProjectInProgress = Db::MultiTableSelect('
+	/** @var array<Project> $Projects */
+	public private(set) array $Projects{
+		get{
+			return $this->Projects ??= Db::MultiTableSelect('
 								select *
 								from Projects
 								inner join Ebooks
 								on Projects.EbookId = Ebooks.EbookId
 								where Ebooks.EbookId = ?
-								and Status in (?, ?, ?, ?)
-							', [$this->EbookId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed], Project::class)[0] ?? null;
-			}
+								order by Projects.CreatedAt desc
+							', [$this->EbookId], Project::class);
 		}
-
-		return $this->_ProjectInProgress;
 	}
 
-	/**
-	 * @return array<Project>
-	 */
-	protected function GetPastProjects(): array{
-		if(!isset($this->_PastProjects)){
-			if(!isset($this->EbookId)){
-				$this->_PastProjects = [];
+	public ?Project $ProjectInProgress{
+		get{
+			if(!isset($this->ProjectInProgress)){
+				if(!isset($this->EbookId)){
+					$this->ProjectInProgress = null;
+				}
+				else{
+					$this->ProjectInProgress = Db::MultiTableSelect('
+									select *
+									from Projects
+									inner join Ebooks
+									on Projects.EbookId = Ebooks.EbookId
+									where Ebooks.EbookId = ?
+									and Status in (?, ?, ?, ?)
+								', [$this->EbookId, Enums\ProjectStatusType::InProgress, Enums\ProjectStatusType::Stalled, Enums\ProjectStatusType::AwaitingReview, Enums\ProjectStatusType::Reviewed], Project::class)[0] ?? null;
+				}
 			}
-			else{
-				$this->_PastProjects = Db::MultiTableSelect('
+
+			return $this->ProjectInProgress;
+		}
+	}
+
+	/** @var array<Project> $PastProjects */
+	public private(set) array $PastProjects{
+		get{
+			if(!isset($this->PastProjects)){
+				if(!isset($this->EbookId)){
+					$this->PastProjects = [];
+				}
+				else{
+					$this->PastProjects = Db::MultiTableSelect('
+									select *
+									from Projects
+									inner join Ebooks
+									on Projects.EbookId = Ebooks.EbookId
+									where Ebooks.EbookId = ?
+									and Status in (?, ?)
+								', [$this->EbookId, Enums\ProjectStatusType::Completed, Enums\ProjectStatusType::Abandoned], Project::class);
+				}
+			}
+
+			return $this->PastProjects;
+		}
+	}
+
+	/** @var array<GitCommit> $GitCommits */
+	public array $GitCommits{
+		get{
+			return $this->GitCommits ??= Db::Query('
 								select *
-								from Projects
-								inner join Ebooks
-								on Projects.EbookId = Ebooks.EbookId
-								where Ebooks.EbookId = ?
-								and Status in (?, ?)
-							', [$this->EbookId, Enums\ProjectStatusType::Completed, Enums\ProjectStatusType::Abandoned], Project::class);
-			}
+								from GitCommits
+								where EbookId = ?
+								order by CreatedAt desc
+							', [$this->EbookId], GitCommit::class);
 		}
-
-		return $this->_PastProjects;
 	}
 
-	/**
-	 * @return array<GitCommit>
-	 */
-	protected function GetGitCommits(): array{
-		return $this->_GitCommits ??= Db::Query('
-							select *
-							from GitCommits
-							where EbookId = ?
-							order by CreatedAt desc
-						', [$this->EbookId], GitCommit::class);
-	}
-
-	/**
-	 * @return array<EbookTag>
-	 */
-	protected function GetTags(): array{
-		return $this->_Tags ??= Db::Query('
-						select t.*
-						from Tags t
-						inner join EbookTags et using (TagId)
-						where EbookId = ?
-						order by SortOrder asc
-					', [$this->EbookId], EbookTag::class);
-	}
-
-	/**
-	 * @return array<LocSubject>
-	 */
-	protected function GetLocSubjects(): array{
-		return $this->_LocSubjects ??= Db::Query('
-							select l.*
-							from LocSubjects l
-							inner join EbookLocSubjects el using (LocSubjectId)
+	/** @var array<EbookTag> $Tags */
+	public array $Tags{
+		get{
+			return $this->Tags ??= Db::Query('
+							select t.*
+							from Tags t
+							inner join EbookTags et using (TagId)
 							where EbookId = ?
 							order by SortOrder asc
-					', [$this->EbookId], LocSubject::class);
-	}
-
-	/**
-	 * @return array<CollectionMembership>
-	 */
-	protected function GetCollectionMemberships(): array{
-		if(!isset($this->_CollectionMemberships)){
-			if(isset($this->EbookId)){
-				$this->_CollectionMemberships = Db::Query('
-									select *
-									from CollectionEbooks
-									where EbookId = ?
-									order by SortOrder asc
-								', [$this->EbookId], CollectionMembership::class);
-			}
-			else{
-				$this->_CollectionMemberships = [];
-			}
+						', [$this->EbookId], EbookTag::class);
 		}
-
-		return $this->_CollectionMemberships;
 	}
 
-	/**
-	 * @return array<EbookSource>
-	 */
-	protected function GetSources(): array{
-		return $this->_Sources ??= Db::Query('
-						select *
-						from EbookSources
-						where EbookId = ?
-						order by SortOrder asc
-					', [$this->EbookId], EbookSource::class);
+	/** @var array<LocSubject> $LocSubjects */
+	public array $LocSubjects{
+		get{
+			return $this->LocSubjects ??= Db::Query('
+								select l.*
+								from LocSubjects l
+								inner join EbookLocSubjects el using (LocSubjectId)
+								where EbookId = ?
+								order by SortOrder asc
+						', [$this->EbookId], LocSubject::class);
+		}
+	}
+
+	/** @var array<CollectionMembership> $CollectionMemberships */
+	public array $CollectionMemberships{
+		get{
+			if(!isset($this->CollectionMemberships)){
+				if(isset($this->EbookId)){
+					$this->CollectionMemberships = Db::Query('
+										select *
+										from CollectionEbooks
+										where EbookId = ?
+										order by SortOrder asc
+									', [$this->EbookId], CollectionMembership::class);
+				}
+				else{
+					$this->CollectionMemberships = [];
+				}
+			}
+
+			return $this->CollectionMemberships;
+		}
+	}
+
+	/** @var array<EbookSource> $Sources */
+	public array $Sources{
+		get{
+			return $this->Sources ??= Db::Query('
+							select *
+							from EbookSources
+							where EbookId = ?
+							order by SortOrder asc
+						', [$this->EbookId], EbookSource::class);
+		}
 	}
 
 	/**
@@ -297,472 +198,558 @@ final class Ebook{
 	 * We do this in a single database query to prevent 4+ queries for each ebook.
 	 */
 	protected function GetAllContributors(): void{
-		$this->_Authors = $this->_Authors ?? [];
-		$this->_Translators = $this->_Translators ?? [];
-		$this->_Illustrators = $this->_Illustrators ?? [];
-		$this->_Editors = $this->_Editors ?? [];
-		$this->_Contributors = $this->_Contributors ?? [];
+		// Since we inspect specific contributor properties like `$this->Authors`, which also call this function, setting this guard prevents a recursive loop.
+		$this->_AreContributorsLoading = true;
 
-		if(!isset($this->EbookId)){
-			return;
-		}
+		$authors = $this->Authors;
+		$translators = $this->Translators;
+		$illustrators = $this->Illustrators;
+		$editors = $this->Editors;
+		$otherContributors = $this->Contributors;
 
-		$contributors = Db::Query('
+		if(isset($this->EbookId)){
+			$contributors = Db::Query('
 						select *
 						from Contributors
 						where EbookId = ?
 						order by MarcRole asc, SortOrder asc
-					', [$this->EbookId], Contributor::class);
+				', [$this->EbookId], Contributor::class);
 
-		foreach($contributors as $contributor){
-			switch($contributor->MarcRole){
-				case Enums\MarcRole::Author:
-					$this->_Authors[] = $contributor;
-					break;
+			foreach($contributors as $contributor){
+				switch($contributor->MarcRole){
+					case Enums\MarcRole::Author:
+						$authors[] = $contributor;
+						break;
 
-				case Enums\MarcRole::Translator:
-					$this->_Translators[] = $contributor;
-					break;
+					case Enums\MarcRole::Translator:
+						$translators[] = $contributor;
+						break;
 
-				case Enums\MarcRole::Illustrator:
-					$this->_Illustrators[] = $contributor;
-					break;
+					case Enums\MarcRole::Illustrator:
+						$illustrators[] = $contributor;
+						break;
 
-				case Enums\MarcRole::Editor:
-					$this->_Editors[] = $contributor;
-					break;
+					case Enums\MarcRole::Editor:
+						$editors[] = $contributor;
+						break;
 
-				case Enums\MarcRole::Contributor:
-					$this->_Contributors[] = $contributor;
-					break;
-			}
-		}
-	}
-
-	/**
-	 * @return array<Contributor>
-	 */
-	protected function GetAuthors(): array{
-		if(!isset($this->_Authors)){
-			$this->GetAllContributors();
-		}
-
-		return $this->_Authors;
-	}
-
-	/**
-	 * @return array<Contributor>
-	 */
-	protected function GetIllustrators(): array{
-		if(!isset($this->_Illustrators)){
-			$this->GetAllContributors();
-		}
-
-		return $this->_Illustrators;
-	}
-
-	/**
-	 * @return array<Contributor>
-	 */
-	protected function GetTranslators(): array{
-		if(!isset($this->_Translators)){
-			$this->GetAllContributors();
-		}
-
-		return $this->_Translators;
-	}
-
-	/**
-	 * @return array<Contributor>
-	 */
-	protected function GetEditors(): array{
-		if(!isset($this->_Editors)){
-			$this->GetAllContributors();
-		}
-
-		return $this->_Editors;
-	}
-
-	/**
-	 * @return array<Contributor>
-	 */
-	protected function GetContributors(): array{
-		if(!isset($this->_Contributors)){
-			$this->GetAllContributors();
-		}
-
-		return $this->_Contributors;
-	}
-
-	/**
-	 * @return ?array<string>
-	 */
-	protected function GetTocEntries(): ?array{
-		if(!isset($this->_TocEntries)){
-			$this->_TocEntries = [];
-
-			if(isset($this->EbookId)){
-				$result = Db::Query('
-						select *
-						from TocEntries
-						where EbookId = ?
-						order by SortOrder asc
-					', [$this->EbookId]);
-
-				foreach($result as $row){
-					$this->_TocEntries[] = $row->TocEntry;
-				}
-
-				if(sizeof($this->_TocEntries) == 0){
-					$this->_TocEntries = null;
+					case Enums\MarcRole::Contributor:
+						$otherContributors[] = $contributor;
+						break;
 				}
 			}
-			else{
-				$this->_TocEntries = null;
-			}
 		}
 
-		return $this->_TocEntries;
+		$this->Authors = $authors;
+		$this->Translators = $translators;
+		$this->Illustrators = $illustrators;
+		$this->Editors = $editors;
+		$this->Contributors = $otherContributors;
+		$this->_AreContributorsLoading = false;
 	}
 
-	protected function GetUrl(): string{
-		return $this->_Url ??= str_replace(EBOOKS_IDENTIFIER_ROOT, '', $this->Identifier);
+	/** @var array<Contributor> $Authors */
+	public array $Authors{
+		get{
+			if(!isset($this->Authors)){
+				if($this->_AreContributorsLoading){
+					$this->Authors = [];
+				}
+				else{
+					$this->GetAllContributors();
+				}
+			}
+
+			return $this->Authors;
+		}
 	}
 
-	protected function GetFullUrl(): string{
-		return $this->_FullUrl ??= $this->Identifier;
+	/** @var array<Contributor> $Illustrators */
+	public array $Illustrators{
+		get{
+			if(!isset($this->Illustrators)){
+				if($this->_AreContributorsLoading){
+					$this->Illustrators = [];
+				}
+				else{
+					$this->GetAllContributors();
+				}
+			}
+
+			return $this->Illustrators;
+		}
 	}
 
-	protected function GetEditUrl(): string{
-		return $this->_EditUrl ??= $this->Url . '/edit';
+	/** @var array<Contributor> $Translators */
+	public array $Translators{
+		get{
+			if(!isset($this->Translators)){
+				if($this->_AreContributorsLoading){
+					$this->Translators = [];
+				}
+				else{
+					$this->GetAllContributors();
+				}
+			}
+
+			return $this->Translators;
+		}
 	}
 
-	protected function GetDeleteUrl(): string{
-		return $this->_DeleteUrl ??= $this->Url . '/delete';
+	/** @var array<Contributor> $Editors */
+	public array $Editors{
+		get{
+			if(!isset($this->Editors)){
+				if($this->_AreContributorsLoading){
+					$this->Editors = [];
+				}
+				else{
+					$this->GetAllContributors();
+				}
+			}
+
+			return $this->Editors;
+		}
 	}
 
-	protected function GetHasDownloads(): bool{
-		return $this->_HasDownloads ??= $this->EpubUrl || $this->AdvancedEpubUrl || $this->KepubUrl || $this->Azw3Url;
+	/** @var array<Contributor> $Contributors */
+	public array $Contributors{
+		get{
+			if(!isset($this->Contributors)){
+				if($this->_AreContributorsLoading){
+					$this->Contributors = [];
+				}
+				else{
+					$this->GetAllContributors();
+				}
+			}
+
+			return $this->Contributors;
+		}
 	}
 
-	protected function GetUrlSafeIdentifier(): string{
-		return $this->_UrlSafeIdentifier ??= str_replace(['https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
+	/** @var ?array<string> $TocEntries Non-Roman table of contents entries for a collection ebook, or `null` otherwise. */
+	public ?array $TocEntries = null{
+		get{
+			if(!isset($this->TocEntries)){
+				$tocEntries = [];
+
+				if(isset($this->EbookId)){
+					$result = Db::Query('
+							select *
+							from TocEntries
+							where EbookId = ?
+							order by SortOrder asc
+						', [$this->EbookId]);
+
+					foreach($result as $row){
+						$tocEntries[] = $row->TocEntry;
+					}
+
+					$this->TocEntries = sizeof($tocEntries) > 0 ? $tocEntries : null;
+				}
+				else{
+					$this->TocEntries = null;
+				}
+			}
+
+			return $this->TocEntries;
+		}
+	}
+
+	/** The relative URL of this ebook. */
+	public string $Url{
+		get{
+			return str_replace(EBOOKS_IDENTIFIER_ROOT, '', $this->Identifier);
+		}
+	}
+
+	/** The absolute URL of this ebook. */
+	public private(set) string $FullUrl{
+		get{
+			return $this->FullUrl ??= $this->Identifier;
+		}
+	}
+
+	public private(set) string $EditUrl{
+		get{
+			return $this->EditUrl ??= $this->Url . '/edit';
+		}
+	}
+
+	public private(set) string $DeleteUrl{
+		get{
+			return $this->DeleteUrl ??= $this->Url . '/delete';
+		}
+	}
+
+	public private(set) bool $HasDownloads{
+		get{
+			return $this->HasDownloads ??= $this->EpubUrl || $this->AdvancedEpubUrl || $this->KepubUrl || $this->Azw3Url;
+		}
+	}
+
+	public private(set) string $UrlSafeIdentifier{
+		get{
+			return $this->UrlSafeIdentifier ??= str_replace(['https://standardebooks.org/ebooks/', '/'], ['', '_'], $this->Identifier);
+		}
 	}
 
 	/**
 	 * Get the URL directory for the current set of generated cover images.
 	 */
-	protected function GetCoverImageDirectoryUrl(): ?string{
-		if(!isset($this->_CoverImageDirectoryUrl)){
-			if(isset($this->CoverImageKey)){
-				$this->_CoverImageDirectoryUrl = '/images/covers/' . $this->UrlSafeIdentifier . '/' . $this->CoverImageKey;
+	public private(set) ?string $CoverImageDirectoryUrl{
+		get{
+			if(!isset($this->CoverImageDirectoryUrl)){
+				if(isset($this->CoverImageKey)){
+					$this->CoverImageDirectoryUrl = '/images/covers/' . $this->UrlSafeIdentifier . '/' . $this->CoverImageKey;
+				}
+				else{
+					$this->CoverImageDirectoryUrl = null;
+				}
 			}
-			else{
-				$this->_CoverImageDirectoryUrl = null;
-			}
-		}
 
-		return $this->_CoverImageDirectoryUrl;
+			return $this->CoverImageDirectoryUrl;
+		}
 	}
 
 	/**
 	 * Get the URL for the ebook page hero image.
 	 */
-	protected function GetHeroImageUrl(): ?string{
-		if(!isset($this->_HeroImageUrl)){
-			if(isset($this->CoverImageDirectoryUrl)){
-				$this->_HeroImageUrl = $this->CoverImageDirectoryUrl . '/hero.jpg';
+	public private(set) ?string $HeroImageUrl{
+		get{
+			if(!isset($this->HeroImageUrl)){
+				if(isset($this->CoverImageDirectoryUrl)){
+					$this->HeroImageUrl = $this->CoverImageDirectoryUrl . '/hero.jpg';
+				}
+				else{
+					$this->HeroImageUrl = null;
+				}
 			}
-			else{
-				$this->_HeroImageUrl = null;
-			}
-		}
 
-		return $this->_HeroImageUrl;
+			return $this->HeroImageUrl;
+		}
 	}
 
 	/**
 	 * Get the AVIF URL for the ebook page hero image.
 	 */
-	protected function GetHeroImageAvifUrl(): ?string{
-		if(!isset($this->_HeroImageAvifUrl)){
-			if(isset($this->CoverImageDirectoryUrl)){
-				$this->_HeroImageAvifUrl = $this->CoverImageDirectoryUrl . '/hero.avif';
+	public private(set) ?string $HeroImageAvifUrl{
+		get{
+			if(!isset($this->HeroImageAvifUrl)){
+				if(isset($this->CoverImageDirectoryUrl)){
+					$this->HeroImageAvifUrl = $this->CoverImageDirectoryUrl . '/hero.avif';
+				}
+				else{
+					$this->HeroImageAvifUrl = null;
+				}
 			}
-			else{
-				$this->_HeroImageAvifUrl = null;
-			}
-		}
 
-		return $this->_HeroImageAvifUrl;
+			return $this->HeroImageAvifUrl;
+		}
 	}
 
 	/**
 	 * Get the URL for the high-resolution ebook page hero image.
 	 */
-	protected function GetHeroImage2xUrl(): ?string{
-		if(!isset($this->_HeroImage2xUrl)){
-			if(isset($this->CoverImageDirectoryUrl)){
-				$this->_HeroImage2xUrl = $this->CoverImageDirectoryUrl . '/hero@2x.jpg';
+	public private(set) ?string $HeroImage2xUrl{
+		get{
+			if(!isset($this->HeroImage2xUrl)){
+				if(isset($this->CoverImageDirectoryUrl)){
+					$this->HeroImage2xUrl = $this->CoverImageDirectoryUrl . '/hero@2x.jpg';
+				}
+				else{
+					$this->HeroImage2xUrl = null;
+				}
 			}
-			else{
-				$this->_HeroImage2xUrl = null;
-			}
-		}
 
-		return $this->_HeroImage2xUrl;
+			return $this->HeroImage2xUrl;
+		}
 	}
 
 	/**
 	 * Get the AVIF URL for the high-resolution ebook page hero image.
 	 */
-	protected function GetHeroImage2xAvifUrl(): ?string{
-		if(!isset($this->_HeroImage2xAvifUrl)){
-			if(isset($this->CoverImageDirectoryUrl)){
-				$this->_HeroImage2xAvifUrl = $this->CoverImageDirectoryUrl . '/hero@2x.avif';
+	public private(set) ?string $HeroImage2xAvifUrl{
+		get{
+			if(!isset($this->HeroImage2xAvifUrl)){
+				if(isset($this->CoverImageDirectoryUrl)){
+					$this->HeroImage2xAvifUrl = $this->CoverImageDirectoryUrl . '/hero@2x.avif';
+				}
+				else{
+					$this->HeroImage2xAvifUrl = null;
+				}
 			}
-			else{
-				$this->_HeroImage2xAvifUrl = null;
-			}
-		}
 
-		return $this->_HeroImage2xAvifUrl;
+			return $this->HeroImage2xAvifUrl;
+		}
 	}
 
 	/**
 	 * Get the URL for the ebook cover image.
 	 */
-	protected function GetCoverImageUrl(): ?string{
-		if(!isset($this->_CoverImageUrl)){
-			if(isset($this->CoverImageDirectoryUrl)){
-				$this->_CoverImageUrl = $this->CoverImageDirectoryUrl . '/cover.jpg';
+	public private(set) ?string $CoverImageUrl{
+		get{
+			if(!isset($this->CoverImageUrl)){
+				if(isset($this->CoverImageDirectoryUrl)){
+					$this->CoverImageUrl = $this->CoverImageDirectoryUrl . '/cover.jpg';
+				}
+				else{
+					$this->CoverImageUrl = null;
+				}
 			}
-			else{
-				$this->_CoverImageUrl = null;
-			}
-		}
 
-		return $this->_CoverImageUrl;
+			return $this->CoverImageUrl;
+		}
 	}
 
 	/**
 	 * Get the AVIF URL for the ebook cover image.
 	 */
-	protected function GetCoverImageAvifUrl(): ?string{
-		if(!isset($this->_CoverImageAvifUrl)){
-			if(isset($this->CoverImageDirectoryUrl)){
-				$this->_CoverImageAvifUrl = $this->CoverImageDirectoryUrl . '/cover.avif';
+	public private(set) ?string $CoverImageAvifUrl{
+		get{
+			if(!isset($this->CoverImageAvifUrl)){
+				if(isset($this->CoverImageDirectoryUrl)){
+					$this->CoverImageAvifUrl = $this->CoverImageDirectoryUrl . '/cover.avif';
+				}
+				else{
+					$this->CoverImageAvifUrl = null;
+				}
 			}
-			else{
-				$this->_CoverImageAvifUrl = null;
-			}
-		}
 
-		return $this->_CoverImageAvifUrl;
+			return $this->CoverImageAvifUrl;
+		}
 	}
 
 	/**
 	 * Get the URL for the high-resolution ebook cover image.
 	 */
-	protected function GetCoverImage2xUrl(): ?string{
-		if(!isset($this->_CoverImage2xUrl)){
-			if(isset($this->CoverImageDirectoryUrl)){
-				$this->_CoverImage2xUrl = $this->CoverImageDirectoryUrl . '/cover@2x.jpg';
+	public private(set) ?string $CoverImage2xUrl{
+		get{
+			if(!isset($this->CoverImage2xUrl)){
+				if(isset($this->CoverImageDirectoryUrl)){
+					$this->CoverImage2xUrl = $this->CoverImageDirectoryUrl . '/cover@2x.jpg';
+				}
+				else{
+					$this->CoverImage2xUrl = null;
+				}
 			}
-			else{
-				$this->_CoverImage2xUrl = null;
-			}
-		}
 
-		return $this->_CoverImage2xUrl;
+			return $this->CoverImage2xUrl;
+		}
 	}
 
 	/**
 	 * Get the AVIF URL for the high-resolution ebook cover image.
 	 */
-	protected function GetCoverImage2xAvifUrl(): ?string{
-		if(!isset($this->_CoverImage2xAvifUrl)){
-			if(isset($this->CoverImageDirectoryUrl)){
-				$this->_CoverImage2xAvifUrl = $this->CoverImageDirectoryUrl . '/cover@2x.avif';
-			}
-			else{
-				$this->_CoverImage2xAvifUrl = null;
-			}
-		}
-
-		return $this->_CoverImage2xAvifUrl;
-	}
-
-	protected function GetReadingEaseDescription(): string{
-		if(!isset($this->_ReadingEaseDescription)){
-			if($this->ReadingEase > 89){
-				$this->_ReadingEaseDescription = 'very easy';
-			}
-			elseif($this->ReadingEase >= 79 && $this->ReadingEase <= 89){
-				$this->_ReadingEaseDescription = 'easy';
-			}
-			elseif($this->ReadingEase > 69 && $this->ReadingEase <= 79){
-				$this->_ReadingEaseDescription = 'fairly easy';
-			}
-			elseif($this->ReadingEase > 59 && $this->ReadingEase <= 69){
-				$this->_ReadingEaseDescription = 'average difficulty';
-			}
-			elseif($this->ReadingEase > 49 && $this->ReadingEase <= 59){
-				$this->_ReadingEaseDescription = 'fairly difficult';
-			}
-			elseif($this->ReadingEase > 39 && $this->ReadingEase <= 49){
-				$this->_ReadingEaseDescription = 'difficult';
-			}
-			else{
-				$this->_ReadingEaseDescription = 'very difficult';
-			}
-		}
-
-		return $this->_ReadingEaseDescription;
-	}
-
-	protected function GetReadingTime(): string{
-		if(!isset($this->_ReadingTime)){
-			$readingTime = ceil(($this->WordCount ?? 0) / AVERAGE_READING_WORDS_PER_MINUTE);
-			$this->_ReadingTime = (string)$readingTime;
-
-			if($readingTime < 60){
-				$this->_ReadingTime .= ' minute';
-				if($readingTime != 1){
-					$this->_ReadingTime .= 's';
+	public private(set) ?string $CoverImage2xAvifUrl{
+		get{
+			if(!isset($this->CoverImage2xAvifUrl)){
+				if(isset($this->CoverImageDirectoryUrl)){
+					$this->CoverImage2xAvifUrl = $this->CoverImageDirectoryUrl . '/cover@2x.avif';
+				}
+				else{
+					$this->CoverImage2xAvifUrl = null;
 				}
 			}
-			else{
-				$readingTimeHours = floor($readingTime / 60);
-				$readingTimeMinutes = ceil($readingTime % 60);
-				$this->_ReadingTime = $readingTimeHours . ' hour';
-				if($readingTimeHours != 1){
-					$this->_ReadingTime .= 's';
-				}
 
-				if($readingTimeMinutes != 0){
-					$this->_ReadingTime .= ' ' . $readingTimeMinutes . ' minute';
-					if($readingTimeMinutes != 1){
-						$this->_ReadingTime .= 's';
+			return $this->CoverImage2xAvifUrl;
+		}
+	}
+
+	public private(set) string $ReadingEaseDescription{
+		get{
+			if(!isset($this->ReadingEaseDescription)){
+				if($this->ReadingEase > 89){
+					$this->ReadingEaseDescription = 'very easy';
+				}
+				elseif($this->ReadingEase >= 79 && $this->ReadingEase <= 89){
+					$this->ReadingEaseDescription = 'easy';
+				}
+				elseif($this->ReadingEase > 69 && $this->ReadingEase <= 79){
+					$this->ReadingEaseDescription = 'fairly easy';
+				}
+				elseif($this->ReadingEase > 59 && $this->ReadingEase <= 69){
+					$this->ReadingEaseDescription = 'average difficulty';
+				}
+				elseif($this->ReadingEase > 49 && $this->ReadingEase <= 59){
+					$this->ReadingEaseDescription = 'fairly difficult';
+				}
+				elseif($this->ReadingEase > 39 && $this->ReadingEase <= 49){
+					$this->ReadingEaseDescription = 'difficult';
+				}
+				else{
+					$this->ReadingEaseDescription = 'very difficult';
+				}
+			}
+
+			return $this->ReadingEaseDescription;
+		}
+	}
+
+	public private(set) string $ReadingTime{
+		get{
+			if(!isset($this->ReadingTime)){
+				$readingTime = ceil(($this->WordCount ?? 0) / AVERAGE_READING_WORDS_PER_MINUTE);
+				$this->ReadingTime = (string)$readingTime;
+
+				if($readingTime < 60){
+					$this->ReadingTime .= ' minute';
+					if($readingTime != 1){
+						$this->ReadingTime .= 's';
+					}
+				}
+				else{
+					$readingTimeHours = floor($readingTime / 60);
+					$readingTimeMinutes = ceil($readingTime % 60);
+					$this->ReadingTime = $readingTimeHours . ' hour';
+					if($readingTimeHours != 1){
+						$this->ReadingTime .= 's';
+					}
+
+					if($readingTimeMinutes != 0){
+						$this->ReadingTime .= ' ' . $readingTimeMinutes . ' minute';
+						if($readingTimeMinutes != 1){
+							$this->ReadingTime .= 's';
+						}
 					}
 				}
 			}
+
+			return $this->ReadingTime;
 		}
-
-		return $this->_ReadingTime;
 	}
 
-	protected function GetAuthorsHtml(): HtmlFragment{
-		return $this->_AuthorsHtml ??= new HtmlFragment(Contributor::GenerateContributorsString($this->Authors, true, true));
+	public private(set) HtmlFragment $AuthorsHtml{
+		get{
+			return $this->AuthorsHtml ??= new HtmlFragment(Contributor::GenerateContributorsString($this->Authors, true, true));
+		}
 	}
 
-	protected function GetAuthorsUrl(): string{
-		return $this->_AuthorsUrl ??= preg_replace('|https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
+	/** A single author URL, even when this ebook has multiple authors. */
+	public private(set) string $AuthorsUrl{
+		get{
+			return $this->AuthorsUrl ??= preg_replace('|https://standardebooks.org/ebooks/([^/]+)/.*|ius', '/ebooks/\1', $this->Identifier);
+		}
 	}
 
-	protected function GetAuthorsString(): string{
-		return $this->_AuthorsString ??= Contributor::GenerateContributorsString($this->Authors, false, false);
+	public private(set) string $AuthorsString{
+		get{
+			return $this->AuthorsString ??= Contributor::GenerateContributorsString($this->Authors, false, false);
+		}
 	}
 
-	protected function GetContributorsHtml(): HtmlFragment{
-		if(!isset($this->_ContributorsHtml)){
-			$html = '';
-			if(sizeof($this->Contributors) > 0){
-				$html .= ' with ' . Contributor::GenerateContributorsString($this->Contributors, true, false) . ';';
+	public private(set) HtmlFragment $ContributorsHtml{
+		get{
+			if(!isset($this->ContributorsHtml)){
+				$html = '';
+				if(sizeof($this->Contributors) > 0){
+					$html .= ' with ' . Contributor::GenerateContributorsString($this->Contributors, true, false) . ';';
+				}
+
+				if(sizeof($this->Editors) > 0){
+					$html .= ' edited by ' . Contributor::GenerateContributorsString($this->Editors, true, false) . ';';
+				}
+
+				if(sizeof($this->Translators) > 0){
+					$html .= ' translated by ' . Contributor::GenerateContributorsString($this->Translators, true, false) . ';';
+				}
+
+				if(sizeof($this->Illustrators) > 0){
+					$html .= ' illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false) . ';';
+				}
+
+				if(!empty($html)){
+					$html = mb_strtoupper(mb_substr(rtrim(trim($html), ';'), 0, 1, 'utf-8'), 'utf-8') . mb_substr(rtrim(trim($html), ';'), 1, null, 'utf-8');
+
+					if(mb_substr(strip_tags($html), -1, null, 'utf-8') != '.'){
+						$html .= '.';
+					}
+				}
+
+				$this->ContributorsHtml = new HtmlFragment($html);
 			}
 
-			if(sizeof($this->Editors) > 0){
-				$html .= ' edited by ' . Contributor::GenerateContributorsString($this->Editors, true, false) . ';';
+			return $this->ContributorsHtml;
+		}
+	}
+
+	public private(set) HtmlFragment $TitleWithCreditsHtml{
+		get{
+			if(!isset($this->TitleWithCreditsHtml)){
+				$titleContributors = '';
+				if(sizeof($this->Contributors) > 0){
+					$titleContributors .= '. With ' . Contributor::GenerateContributorsString($this->Contributors, true, false);
+				}
+
+				if(sizeof($this->Translators) > 0){
+					$titleContributors .= '. Translated by ' . Contributor::GenerateContributorsString($this->Translators, true, false);
+				}
+
+				if(sizeof($this->Illustrators) > 0){
+					$titleContributors .= '. Illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false);
+				}
+
+				$this->TitleWithCreditsHtml = new HtmlFragment(Formatter::EscapeHtml($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors));
 			}
 
-			if(sizeof($this->Translators) > 0){
-				$html .= ' translated by ' . Contributor::GenerateContributorsString($this->Translators, true, false) . ';';
-			}
+			return $this->TitleWithCreditsHtml;
+		}
+	}
 
-			if(sizeof($this->Illustrators) > 0){
-				$html .= ' illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false) . ';';
-			}
+	public private(set) string $TextUrl{
+		get{
+			return $this->TextUrl ??= $this->Url . '/text';
+		}
+	}
 
-			if(!empty($html)){
-				$html = mb_strtoupper(mb_substr(rtrim(trim($html), ';'), 0, 1, 'utf-8'), 'utf-8') . mb_substr(rtrim(trim($html), ';'), 1, null, 'utf-8');
+	public private(set) string $TextSinglePageUrl{
+		get{
+			return $this->TextSinglePageUrl ??= $this->Url . '/text/single-page';
+		}
+	}
 
-				if(mb_substr(strip_tags($html), -1, null, 'utf-8') != '.'){
-					$html .= '.';
+	public string $TextSinglePageSizeFormatted{
+		get{
+			if(!isset($this->TextSinglePageSizeFormatted)){
+				$bytes = $this->TextSinglePageByteCount;
+				$sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+
+				$index = 0;
+				while($bytes >= 1024 && $index < count($sizes) - 1){
+					$bytes /= 1024;
+					$index++;
+				}
+
+				if($index == 0){
+					// No decimal point for smaller than a KB.
+					$this->TextSinglePageSizeFormatted = sprintf("%d %s", $bytes, $sizes[$index]);
+				}else{
+					$this->TextSinglePageSizeFormatted = sprintf("%.1f %s", $bytes, $sizes[$index]);
 				}
 			}
 
-			$this->_ContributorsHtml = new HtmlFragment($html);
+			return $this->TextSinglePageSizeFormatted;
 		}
-
-		return $this->_ContributorsHtml;
 	}
 
-	protected function GetTitleWithCreditsHtml(): HtmlFragment{
-		if(!isset($this->_TitleWithCreditsHtml)){
-			$titleContributors = '';
-			if(sizeof($this->Contributors) > 0){
-				$titleContributors .= '. With ' . Contributor::GenerateContributorsString($this->Contributors, true, false);
+	public ?EbookPlaceholder $EbookPlaceholder = null{
+		get{
+			if(!isset($this->EbookPlaceholder)){
+				if(!isset($this->EbookId)){
+					$this->EbookPlaceholder = null;
+				}
+				else{
+					$this->EbookPlaceholder = Db::Query('
+									select *
+									from EbookPlaceholders
+									where EbookId = ?
+								', [$this->EbookId], EbookPlaceholder::class)[0] ?? null;
+				}
 			}
 
-			if(sizeof($this->Translators) > 0){
-				$titleContributors .= '. Translated by ' . Contributor::GenerateContributorsString($this->Translators, true, false);
-			}
-
-			if(sizeof($this->Illustrators) > 0){
-				$titleContributors .= '. Illustrated by ' . Contributor::GenerateContributorsString($this->Illustrators, true, false);
-			}
-
-			$this->_TitleWithCreditsHtml = new HtmlFragment(Formatter::EscapeHtml($this->Title) . ', by ' . str_replace('&amp;', '&', $this->AuthorsHtml . $titleContributors));
+			return $this->EbookPlaceholder;
 		}
-
-		return $this->_TitleWithCreditsHtml;
-	}
-
-	protected function GetTextUrl(): string{
-		return $this->_TextUrl ??= $this->Url . '/text';
-	}
-
-	protected function GetTextSinglePageUrl(): string{
-		return $this->_TextSinglePageUrl ??= $this->Url . '/text/single-page';
-	}
-
-	protected function GetTextSinglePageSizeFormatted(): string{
-		if(!isset($this->_TextSinglePageSizeFormatted)){
-			$bytes = $this->TextSinglePageByteCount;
-			$sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
-
-			$index = 0;
-			while($bytes >= 1024 && $index < count($sizes) - 1){
-				$bytes /= 1024;
-				$index++;
-			}
-
-			if($index == 0){
-				// No decimal point for smaller than a KB.
-				$this->_TextSinglePageSizeFormatted = sprintf("%d %s", $bytes, $sizes[$index]);
-			}else{
-				$this->_TextSinglePageSizeFormatted = sprintf("%.1f %s", $bytes, $sizes[$index]);
-			}
-		}
-
-		return $this->_TextSinglePageSizeFormatted;
-	}
-
-	protected function GetEbookPlaceholder(): ?EbookPlaceholder{
-		if(!isset($this->_EbookPlaceholder)){
-			if(!isset($this->EbookId)){
-				$this->_EbookPlaceholder = null;
-			}
-			else{
-				$this->_EbookPlaceholder = Db::Query('
-								select *
-								from EbookPlaceholders
-								where EbookId = ?
-							', [$this->EbookId], EbookPlaceholder::class)[0] ?? null;
-			}
-		}
-
-		return $this->_EbookPlaceholder;
 	}
 
 
@@ -782,6 +769,7 @@ final class Ebook{
 	 * @throws Exceptions\EbookParsingException
 	 * @throws Exceptions\EbookWwwFilesystemPathInvalidException
 	 * @throws Exceptions\GitCommitInvalidException
+	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
 	 */
 	public static function FromFilesystem(?string $wwwFilesystemPath = null, ?string $repoFilesystemPath = null): Ebook{
 		if($wwwFilesystemPath === null){
@@ -1253,6 +1241,7 @@ final class Ebook{
 
 	/**
 	 * Populates `EbookPlaceholder` and other fields from `Template::EbookPlaceholderForm()`.
+	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
 	 */
 	public function FillFromEbookPlaceholderForm(): void{
 		$title = Http::$Request->Body->Get('ebook-title');
@@ -1636,6 +1625,7 @@ final class Ebook{
 	 *
 	 * @throws Exceptions\EbookInvalidException
 	 * @throws Exceptions\EbookExistsException
+	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
 	 */
 	public function CreateOrUpdate(bool $updateDownloads = false): void{
 		try{
@@ -1672,6 +1662,7 @@ final class Ebook{
 
 	/**
 	 * @throws Exceptions\CollectionInvalidException
+	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
 	 */
 	private function CreateCollections(): void{
 		$collectionMemberships = [];
@@ -1689,6 +1680,11 @@ final class Ebook{
 		$this->CollectionMemberships = $collectionMemberships;
 	}
 
+	/**
+	 * Get this ebook's position within a collection.
+	 *
+	 * @throws Exceptions\CollectionNotFoundException If the collection no longer exists.
+	 */
 	public function GetCollectionPosition(?Collection $collection): ?int{
 		if($collection === null){
 			return null;
@@ -1705,6 +1701,7 @@ final class Ebook{
 
 	/**
 	 * @param array<string> $usedTitles
+	 * @throws Exceptions\CollectionNotFoundException If the collection no longer exists.
 	 */
 	public function GetTitleInCollection(?Collection $collection, array $usedTitles): string{
 		if($collection === null){
@@ -1811,6 +1808,7 @@ final class Ebook{
 	 * `Ebook`s can't have a position in a collection, and also multiple titles. In this case, the position number is lost when the titles are grouped into one line.
 	 *
 	 * @return array<HtmlFragment>
+	 * @throws Exceptions\CollectionNotFoundException If a collection no longer exists.
 	 */
 	public function GetCollectionsHtml(bool $includeRdfa = true, bool $includeEndingPunctuation = true): array{
 		$output = [];
@@ -1898,6 +1896,7 @@ final class Ebook{
 	/**
 	 * @throws Exceptions\EbookInvalidException
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the given identifier already exists.
+	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -1984,6 +1983,7 @@ final class Ebook{
 	 *
 	 * @throws Exceptions\EbookInvalidException If the `Ebook` is invalid.
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the same title and author already exists.
+	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
 	 */
 	public function Save(bool $updateDownloads = false): void{
 		$this->Validate();
@@ -2084,8 +2084,6 @@ final class Ebook{
 			throw $error;
 		}
 
-		// Reset the URL in case it changed.
-		unset($this->_Url);
 	}
 
 	private function RemoveTags(): void{
@@ -2136,6 +2134,11 @@ final class Ebook{
 		);
 	}
 
+	/**
+	 * Add this ebook's collection memberships to the database.
+	 *
+	 * @throws Exceptions\CollectionNotFoundException If a collection no longer exists.
+	 */
 	private function AddCollectionMemberships(): void{
 		$parameters = [];
 
@@ -2254,6 +2257,7 @@ final class Ebook{
 
 	/**
 	 * Create or update this `Ebook` in the search database.
+	 * @throws Exceptions\CollectionNotFoundException If a collection no longer exists.
 	 */
 	public function UpdateSearchRepresentation(): void{
 		// Get current download counts so that we don't accidentally zero out the count in Manticore if we haven't fetched it before.

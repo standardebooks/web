@@ -8,20 +8,7 @@ use function Safe\preg_replace;
 use Enums\ProjectStatusType;
 use Safe\DateTimeImmutable;
 
-/**
- * @property Ebook $Ebook
- * @property User $Producer
- * @property User $Manager
- * @property User $Reviewer
- * @property-read string $Url
- * @property-read string $EditUrl
- * @property DateTimeImmutable $LastActivityTimestamp The timestamp of the latest activity, whether it's a commit, a discussion post, or simply the started timestamp.
- * @property array<ProjectReminder> $Reminders
- * @property-read ?string $VcsUrlDomain
- * @property-read ?string $DiscussionUrlDomain
- */
 final class Project{
-	use Traits\Accessor;
 	use Traits\FromRow;
 	use Traits\PropertyFromRequest;
 
@@ -43,126 +30,127 @@ final class Project{
 	public bool $HasReviewerBeenNotified = false;
 	public bool $AreDiscussionMessagesComplete = false;
 
-	protected Ebook $_Ebook;
-	protected User $_Producer;
-	protected User $_Manager;
-	protected User $_Reviewer;
-	protected string $_Url;
-	protected string $_EditUrl;
-	protected DateTimeImmutable $_LastActivityTimestamp;
-	/** @var array<ProjectReminder> $_Reminders */
-	protected array $_Reminders;
-	protected ?string $_VcsUrlDomain;
-	protected ?string $_DiscussionUrlDomain;
-
 	/** Have we already checked that the `$VcsUrl` is current? */
 	private bool $IsVcsUrlUpdated = false;
 
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetVcsUrlDomain(): ?string{
-		if(!isset($this->_VcsUrlDomain)){
-			if($this->VcsUrl === null){
-				$this->_VcsUrlDomain = null;
-			}
-			else{
-				try{
-					$domain = parse_url($this->VcsUrl, PHP_URL_HOST);
-
-					if(is_string($domain)){
-						$this->_VcsUrlDomain = strtolower($domain);
-					}
-					else{
-						$this->_VcsUrlDomain = null;
-					}
-				}
-				catch(\Exception){
-					$this->_VcsUrlDomain = null;
-				}
-			}
+	public Ebook $Ebook{
+		/** @throws Exceptions\EbookNotFoundException If the ebook no longer exists. */
+		get{
+			return $this->Ebook ??= Ebook::Get($this->EbookId);
 		}
-
-		return $this->_VcsUrlDomain;
 	}
 
-	protected function GetDiscussionUrlDomain(): ?string{
-		if(!isset($this->_DiscussionUrlDomain)){
-			if($this->DiscussionUrl === null){
-				$this->_DiscussionUrlDomain = null;
-			}
-			else{
-				try{
-					$domain = parse_url($this->DiscussionUrl, PHP_URL_HOST);
+	public private(set) ?string $VcsUrlDomain{
+		get{
+			if(!isset($this->VcsUrlDomain)){
+				if($this->VcsUrl === null){
+					$this->VcsUrlDomain = null;
+				}
+				else{
+					try{
+						$domain = parse_url($this->VcsUrl, PHP_URL_HOST);
 
-					if(is_string($domain)){
-						$this->_DiscussionUrlDomain = strtolower($domain);
+						if(is_string($domain)){
+							$this->VcsUrlDomain = strtolower($domain);
+						}
+						else{
+							$this->VcsUrlDomain = null;
+						}
 					}
-					else{
-						$this->_DiscussionUrlDomain = null;
+					catch(\Exception){
+						$this->VcsUrlDomain = null;
 					}
 				}
-				catch(\Exception){
-					$this->_DiscussionUrlDomain = null;
+			}
+
+			return $this->VcsUrlDomain;
+		}
+	}
+
+	public private(set) ?string $DiscussionUrlDomain{
+		get{
+			if(!isset($this->DiscussionUrlDomain)){
+				if($this->DiscussionUrl === null){
+					$this->DiscussionUrlDomain = null;
+				}
+				else{
+					try{
+						$domain = parse_url($this->DiscussionUrl, PHP_URL_HOST);
+
+						if(is_string($domain)){
+							$this->DiscussionUrlDomain = strtolower($domain);
+						}
+						else{
+							$this->DiscussionUrlDomain = null;
+						}
+					}
+					catch(\Exception){
+						$this->DiscussionUrlDomain = null;
+					}
 				}
 			}
+
+			return $this->DiscussionUrlDomain;
 		}
-
-		return $this->_DiscussionUrlDomain;
 	}
 
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/projects/' . $this->ProjectId;
-	}
-
-	protected function GetEditUrl(): string{
-		return $this->_EditUrl ??= $this->Url . '/edit';
-	}
-
-	protected function GetLastActivityTimestamp(): DateTimeImmutable{
-		if(!isset($this->_LastActivityTimestamp)){
-			$dates = [
-				(int)($this->LastCommitAt?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastCommitAt ?? NOW,
-				(int)($this->LastDiscussionAt?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastDiscussionAt ?? NOW,
-				(int)($this->StartedAt->format(Enums\DateTimeFormat::UnixTimestamp->value)) => $this->StartedAt,
-			];
-
-			ksort($dates);
-
-			$this->_LastActivityTimestamp = end($dates);
+	public string $Url{
+		get{
+			return '/projects/' . $this->ProjectId;
 		}
-
-		return $this->_LastActivityTimestamp;
 	}
 
-	/**
-	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
-	 */
-	protected function GetProducer(): User{
-		return $this->_Producer ??= User::Get($this->ProducerUserId);
+	public string $EditUrl{
+		get{
+			return $this->Url . '/edit';
+		}
 	}
 
-	/**
-	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
-	 */
-	protected function GetManager(): User{
-		return $this->_Manager ??= User::Get($this->ManagerUserId);
+	/** The timestamp of the latest commit, discussion post, or start date. */
+	public DateTimeImmutable $LastActivityTimestamp{
+		get{
+			if(!isset($this->LastActivityTimestamp)){
+				$dates = [
+					(int)($this->LastCommitAt?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastCommitAt ?? NOW,
+					(int)($this->LastDiscussionAt?->format(Enums\DateTimeFormat::UnixTimestamp->value) ?? 0) => $this->LastDiscussionAt ?? NOW,
+					(int)($this->StartedAt->format(Enums\DateTimeFormat::UnixTimestamp->value)) => $this->StartedAt,
+				];
+
+				ksort($dates);
+
+				$this->LastActivityTimestamp = end($dates);
+			}
+
+			return $this->LastActivityTimestamp;
+		}
 	}
 
-	/**
-	 * @throws Exceptions\UserNotFoundException If the `User` can't be found.
-	 */
-	protected function GetReviewer(): User{
-		return $this->_Reviewer ??= User::Get($this->ReviewerUserId);
+	public User $Producer{
+		/** @throws Exceptions\UserNotFoundException If the producer no longer exists. */
+		get{
+			return $this->Producer ??= isset($this->ProducerUserId) ? User::Get($this->ProducerUserId) : new User();
+		}
 	}
 
-	/**
-	 * @return array<ProjectReminder>
-	 */
-	protected function GetReminders(): array{
-		return $this->_Reminders ??= Db::Query('select * from ProjectReminders where ProjectId = ? order by CreatedAt asc', [$this->ProjectId], ProjectReminder::class);
+	public User $Manager{
+		/** @throws Exceptions\UserNotFoundException If the manager no longer exists. */
+		get{
+			return $this->Manager ??= User::Get($this->ManagerUserId);
+		}
+	}
+
+	public User $Reviewer{
+		/** @throws Exceptions\UserNotFoundException If the reviewer no longer exists. */
+		get{
+			return $this->Reviewer ??= User::Get($this->ReviewerUserId);
+		}
+	}
+
+	/** @var array<ProjectReminder> $Reminders */
+	public array $Reminders{
+		get{
+			return $this->Reminders ??= Db::Query('select * from ProjectReminders where ProjectId = ? order by CreatedAt asc', [$this->ProjectId], ProjectReminder::class);
+		}
 	}
 
 
@@ -174,6 +162,7 @@ final class Project{
 	 * Validate this `Project`, and also create the producer `User` if they are not yet a registered `User`.
 	 *
 	 * @throws Exceptions\ProjectInvalidException If the `Project` is invalid.
+	 * @throws Exceptions\UserNotFoundException If an assigned user no longer exists.
 	 */
 	public function Validate(bool $allowUnsetEbookId = false, bool $allowUnsetRoles = false): void{
 		$error = new Exceptions\ProjectInvalidException();
@@ -249,7 +238,7 @@ final class Project{
 		}
 		elseif(isset($this->ManagerUserId)){
 			try{
-				$this->_Manager = User::Get($this->ManagerUserId);
+				$this->Manager = User::Get($this->ManagerUserId);
 			}
 			catch(Exceptions\UserNotFoundException){
 				$error->Add(new Exceptions\UserNotFoundException('Manager user not found.'));
@@ -261,7 +250,7 @@ final class Project{
 		}
 		elseif(isset($this->ReviewerUserId)){
 			try{
-				$this->_Reviewer = User::Get($this->ReviewerUserId);
+				$this->Reviewer = User::Get($this->ReviewerUserId);
 			}
 			catch(Exceptions\UserNotFoundException){
 				$error->Add(new Exceptions\UserNotFoundException('Reviewer user not found.'));
@@ -297,32 +286,36 @@ final class Project{
 	 * @throws Exceptions\EbookIsNotAPlaceholderException If the `Project`'s `Ebook` is not a placeholder.
 	 * @throws Exceptions\ProjectExistsException If the `Project`'s `Ebook` already has an active `Project`.
 	 * @throws Exceptions\UserNotFoundException If a manager or reviewer could not be auto-assigned.
+	 * @throws Exceptions\EbookNotFoundException If the project ebook no longer exists.
 	 */
 	public function Create(): void{
 		$this->Validate(false, true);
 
+		$manager = null;
 		if(!isset($this->ManagerUserId)){
 			try{
-				$this->Manager = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Manager, [$this->ProducerUserId]);
+				$manager = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Manager, [$this->ProducerUserId]);
 			}
 			catch(Exceptions\UserNotFoundException){
 				throw new Exceptions\UserNotFoundException('Could not auto-assign a suitable manager.');
 			}
 
-			$this->ManagerUserId = $this->Manager->UserId;
+			$this->ManagerUserId = $manager->UserId;
 		}
 
 		if(!isset($this->ReviewerUserId)){
 			try{
-				$this->Reviewer = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Reviewer, [$this->Manager->UserId, $this->ProducerUserId]);
+				$this->Reviewer = User::GetByAvailableForProjectAssignment(Enums\ProjectRoleType::Reviewer, [$this->ManagerUserId, $this->ProducerUserId]);
 			}
 			catch(Exceptions\UserNotFoundException){
-				unset($this->Manager);
 				unset($this->ManagerUserId);
 				throw new Exceptions\UserNotFoundException('Could not auto-assign a suitable reviewer.');
 			}
 
 			$this->ReviewerUserId = $this->Reviewer->UserId;
+		}
+		if($manager !== null){
+			$this->Manager = $manager;
 		}
 
 		try{
@@ -436,6 +429,7 @@ final class Project{
 
 	/**
 	 * @throws Exceptions\ProjectInvalidException If the `Project` is invalid.
+	 * @throws Exceptions\UserNotFoundException If an assigned user no longer exists.
 	 */
 	public function Save(): void{
 		/** @var ?string $originalDiscussionUrl */
@@ -500,6 +494,7 @@ final class Project{
 
 	/**
 	 * Send a ready-for-review email to this `Project`'s reviewer if it has not already been sent.
+	 * @throws Exceptions\UserNotFoundException If the reviewer no longer exists.
 	 */
 	public function SendReviewerReadyNotification(): void{
 		if(
@@ -680,10 +675,14 @@ final class Project{
 		return array_values(array_unique($matches[1]));
 	}
 
+	/**
+	 * Fill this project with values from the current request body.
+	 *
+	 * @throws Exceptions\UserNotFoundException If an assigned user no longer exists.
+	 */
 	public function FillFromRequestBody(): void{
 		$this->PropertyFromRequest('EbookId');
-		if(!isset($this->Producer)){
-			$this->Producer = new User();
+		if(!isset($this->Producer->Uuid)){
 			$this->Producer->GenerateUuid();
 		}
 		$this->Producer->PropertyFromRequest('Name', Enums\HttpVariableSource::Body, 'project-producer-name');
@@ -834,6 +833,7 @@ final class Project{
 
 	/**
 	 * Send an email reminder to the producer notifying them about their project status, but only if they're not an editor.
+	 * @throws Exceptions\UserNotFoundException If an assigned user no longer exists.
 	 */
 	public function SendReminder(Enums\ProjectReminderType $type): void{
 		if($this->Producer->Email === null || $this->GetReminder($type) !== null){

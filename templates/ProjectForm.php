@@ -9,7 +9,6 @@ $isEditForm ??= false;
 $managers = User::GetAllByCanManageProjects();
 $reviewers = User::GetAllByCanReviewProjects();
 $pastProducers = User::GetAllByHasProducedProject();
-$project->Producer ??= new User();
 ?>
 <? if(!$isEditForm){ ?>
 	<input type="hidden" name="project-ebook-id" value="<?= $project->EbookId ?? '' ?>" />

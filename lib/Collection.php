@@ -1,13 +1,7 @@
 <?
 use function Safe\preg_replace;
 
-/**
- * @property-read string $Url
- * @property array<Ebook> $Ebooks
- */
 class Collection{
-	use Traits\Accessor;
-
 	public int $CollectionId;
 	public string $Name;
 	public string $UrlName;
@@ -15,24 +9,17 @@ class Collection{
 	/** Has a producer verified that every possible item in this `Collection` been added to our database? */
 	public bool $ArePlaceholdersComplete;
 
-	protected string $_Url;
-	/** @var array<Ebook> $_Ebooks */
-	protected array $_Ebooks;
-
-
-	// *******
-	// GETTERS
-	// *******
-
-	protected function GetUrl(): string{
-		return $this->_Url ??= '/collections/' . $this->UrlName;
+	public string $Url{
+		get{
+			return '/collections/' . $this->UrlName;
+		}
 	}
 
-	/**
-	 * @return array<Ebook>
-	 */
-	protected function GetEbooks(): array{
-		return $this->_Ebooks ??= Ebook::GetAllByCollection($this->CollectionId);
+	/** @var array<Ebook> $Ebooks */
+	public private(set) array $Ebooks{
+		get{
+			return $this->Ebooks ??= Ebook::GetAllByCollection($this->CollectionId);
+		}
 	}
 
 
