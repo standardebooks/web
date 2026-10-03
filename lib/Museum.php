@@ -310,9 +310,9 @@ class Museum{
 			return $outputUrl;
 		}
 		elseif(preg_match('/\bkansallisgalleria\.fi$/ius', $parsedUrl['host'])){
-			$exampleUrl = 'https://www.kansallisgalleria.fi/en/object/429609';
+			$exampleUrl = 'https://kokoelma.kansallisgalleria.fi/en/object/429609';
 
-			if($parsedUrl['host'] != 'www.kansallisgalleria.fi'){
+			if($parsedUrl['host'] != 'kokoelma.kansallisgalleria.fi'){
 				throw new Exceptions\MuseumUrlInvalidException($url, $exampleUrl);
 			}
 
