@@ -31,9 +31,10 @@ else{
 			}
 		}
 
-		Http::$Request->Route(resource: $artwork);
 	}
 	catch(Exceptions\NotFoundException){
 		Template::ExitWithCode(Enums\HttpCode::NotFound);
 	}
+
+	Http::$Request->Route(resource: $artwork);
 }

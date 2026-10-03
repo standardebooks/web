@@ -132,11 +132,16 @@ final class Artwork{
 
 	public ?Ebook $Ebook = null{
 		/**
-		 * @throws Exceptions\EbookNotFoundException If the `Ebook` can't be found.
+		 * Return the linked `Ebook`, or `null` if there isn't one.
 		 */
 		get{
 			if(!isset($this->Ebook) && $this->EbookId !== null){
-				$this->Ebook = Ebook::Get($this->EbookId);
+				try{
+					$this->Ebook = Ebook::Get($this->EbookId);
+				}
+				catch(Exceptions\EbookNotFoundException){
+					return null;
+				}
 			}
 
 			return $this->Ebook;
@@ -1387,50 +1392,49 @@ final class Artwork{
 		}
 
 		$tags = trim($tags);
-		try{
-			SearchDb::Query('
+		if($this->EbookId !== null && $this->Ebook === null){
+			return;
+		}
+
+		SearchDb::Query('
 				replace into artworks (
-					id,
-					Name,
-					UrlName,
-					ArtistName,
-					ArtistNameSort,
-					ArtistUrlName,
-					ArtistAlternateNames,
-					Exception,
-					Notes,
-					EbookTitle,
-					EbookAuthors,
-					Tags,
-					Status,
-					SubmitterUserId,
-					CompletedYear,
-					EbookId,
-					CreatedAt
-				)
-				values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-					$this->ArtworkId,
-					$this->Name,
-					$this->UrlName,
-					$this->Artist->Name,
-					$this->Artist->Name,
-					$this->Artist->UrlName,
-					$this->Artist->AlternateNamesString,
-					$this->Exception ?? '',
-					$this->Notes ?? '',
-					$this->Ebook->Title ?? '',
-					$this->Ebook->AuthorsString ?? '',
-					$tags,
-					$this->Status,
-					$this->SubmitterUserId ?? 0,
-					$this->CompletedYear ?? 0,
-					$this->EbookId ?? 0,
-					$this->CreatedAt
-				]);
-		}
-		catch(Exceptions\EbookNotFoundException){
-			// Something wrong with our data, pass.
-		}
+				id,
+				Name,
+				UrlName,
+				ArtistName,
+				ArtistNameSort,
+				ArtistUrlName,
+				ArtistAlternateNames,
+				Exception,
+				Notes,
+				EbookTitle,
+				EbookAuthors,
+				Tags,
+				Status,
+				SubmitterUserId,
+				CompletedYear,
+				EbookId,
+				CreatedAt
+			)
+			values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+				$this->ArtworkId,
+				$this->Name,
+				$this->UrlName,
+				$this->Artist->Name,
+				$this->Artist->Name,
+				$this->Artist->UrlName,
+				$this->Artist->AlternateNamesString,
+				$this->Exception ?? '',
+				$this->Notes ?? '',
+				$this->Ebook->Title ?? '',
+				$this->Ebook->AuthorsString ?? '',
+				$tags,
+				$this->Status,
+				$this->SubmitterUserId ?? 0,
+				$this->CompletedYear ?? 0,
+				$this->EbookId ?? 0,
+				$this->CreatedAt
+		]);
 	}
 
 	/**
