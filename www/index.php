@@ -131,7 +131,7 @@
 			</div>
 		</section>
 		<section>
-			<h3>Free, open-source, &amp; public domain</h3>
+			<h3>Free, open source, &amp; public domain</h3>
 			<div>
 				<div>
 					<p>We use the popular Git source control system to track each and every change made to our ebooks. Anyone can easily see a history of changes, or contribute their own changes with the click of a mouse.</p>

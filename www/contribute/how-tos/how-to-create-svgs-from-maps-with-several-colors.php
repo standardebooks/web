@@ -14,7 +14,7 @@
 				<section id="process-with-a-suitable-bitmap-editor">
 					<h2>2. Process with a suitable bitmap editor<a class="heading-permalink" href="#process-with-a-suitable-bitmap-editor" aria-label="Permalink"></a></h2>
 				<p>What we need to do before trying to trace the map is to separate out the red lines showing the route from the black lines of the underlying map. We need to end up with two images, one with the red and one with the black.</p>
-				<p>To do this, I duplicate the source image and then replace the colors I don’t want in each one with the background color. To demonstrate, I’ll use the open-source <a href="https://www.gimp.org/">GIMP graphics program</a>, but any graphics program which can replace one color with another would be suitable.</p>
+				<p>To do this, I duplicate the source image and then replace the colors I don’t want in each one with the background color. To demonstrate, I’ll use the open source <a href="https://www.gimp.org/">GIMP graphics program</a>, but any graphics program which can replace one color with another would be suitable.</p>
 				<p>Open the source file in your editor and immediately duplicate the image layer. If you can rename the layers, call one of them “red-layer” and the other “black-layer”.</p>
 				<figure class="full-width">
 					<img src="images/map-example-1.jpg" alt="The image open in GIMP, showing the duplicated layers."/>
@@ -36,7 +36,7 @@
 				</section>
 				<section id="vectorize-the-images">
 					<h2>3. Vectorize the images<a class="heading-permalink" href="#vectorize-the-images" aria-label="Permalink"></a></h2>
-			<p>You can use the open-source application <a href="https://inkscape.org/">Inkscape</a> to trace the bitmaps you’ve created and turn them into vectors, and export them as an SVG.</p>
+			<p>You can use the open source application <a href="https://inkscape.org/">Inkscape</a> to trace the bitmaps you’ve created and turn them into vectors, and export them as an SVG.</p>
 			<p>Use File → Import in Inkscape to open both the red and black PNG images, which will appear as separate layers. Rename the layers appropriately.</p>
 			<p>Then use the Path → Trace Bitmap tool on each layer separately, as in the screenshot below. These will appear as additional layers. Name these appropriately and then delete the bitmap layers.</p>
 				<figure class="full-width">
