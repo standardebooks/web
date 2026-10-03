@@ -156,7 +156,7 @@ final class NewsletterSubscription{
 	public function Validate(): void{
 		$error = new Exceptions\InvalidNewsletterSubscription();
 
-		if(!isset($this->User->Email)){
+		if(!isset($this->UserId, $this->User->Email)){
 			$error->Add(new Exceptions\EmailAddressInvalidException());
 		}
 		else{

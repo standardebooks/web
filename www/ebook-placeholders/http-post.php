@@ -29,6 +29,7 @@ try{
 		$project = new Project();
 		$project->FillFromRequestBody();
 		$project->StartedAt = NOW;
+		$ebook->ProjectInProgress = $project;
 		$project->Validate(true, true);
 	}
 

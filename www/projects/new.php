@@ -70,7 +70,7 @@ catch(Exceptions\PermissionsInvalidException){
 ) ?>
 <main>
 	<section class="narrow">
-		<? if(isset($project->EbookId, $project->Ebook)){ ?>
+		<? if($project->IsPropertyInitialized('Ebook') && isset($project->Ebook->EbookId)){ ?>
 			<nav class="breadcrumbs" aria-label="Breadcrumbs">
 				<a href="<?= $project->Ebook->AuthorsUrl ?>"><?= $project->Ebook->AuthorsHtml ?></a> → <a href="<?= $project->Ebook->Url ?>"><?= Formatter::EscapeHtml($project->Ebook->Title) ?></a> →
 			</nav>
@@ -89,7 +89,7 @@ catch(Exceptions\PermissionsInvalidException){
 				<? if(!isset($project->EbookId)){ ?>
 					<fieldset class="create-update-ebook-placeholder placeholder-form">
 						<legend>Placeholder</legend>
-						<?= Template::EbookPlaceholderForm(ebook: isset($project->EbookId, $project->Ebook) ? $project->Ebook : new Ebook(), showProjectForm: false) ?>
+						<?= Template::EbookPlaceholderForm(ebook: $project->IsPropertyInitialized('Ebook') ? $project->Ebook : new Ebook(), showProjectForm: false) ?>
 					</fieldset>
 				<? } ?>
 				<div class="footer">

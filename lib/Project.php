@@ -10,6 +10,7 @@ use Safe\DateTimeImmutable;
 
 final class Project{
 	use Traits\FromRow;
+	use Traits\IsPropertyInitialized;
 	use Traits\PropertyFromRequest;
 
 	public int $ProjectId;
