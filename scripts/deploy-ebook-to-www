@@ -260,8 +260,8 @@ do
 
 		# Build the hero image for individual ebook pages.
 		# Resize and crop the image to 2156 width, 720 height, and starting at the coords 0,1078.
-		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/cover-source.jpg" "${imgWorkDir}/hero.jpg"
-		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/cover-source.jpg" "${imgWorkDir}/hero@2x.jpg"
+		convert -resize "1318" -crop "1318x439+0+659" -sampling-factor 4:2:0 -strip -quality 80 -colorspace sRGB "${imgWorkDir}/cover-source.jpg" "${imgWorkDir}/hero.jpg"
+		convert -resize "2636" -crop "2636x860+0+1318" -sampling-factor 4:2:0 -strip -quality 80 -colorspace sRGB "${imgWorkDir}/cover-source.jpg" "${imgWorkDir}/hero@2x.jpg"
 
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/hero.jpg" --output "${imgWorkDir}/hero.avif"
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/hero@2x.jpg" --output "${imgWorkDir}/hero@2x.avif"
@@ -278,8 +278,8 @@ do
 		# So, we use `rsvg-convert` to write a png, then `convert` to convert and compress to jpg.
 		rsvg-convert --width 242 --keep-aspect-ratio --output "${imgWorkDir}/cover.png" "${imgWorkDir}/cover-source.svg"
 		rsvg-convert --width 484 --keep-aspect-ratio --output "${imgWorkDir}/cover@2x.png" "${imgWorkDir}/cover-source.svg"
-		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/cover.png" "${imgWorkDir}/cover.jpg"
-		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${imgWorkDir}/cover@2x.png" "${imgWorkDir}/cover@2x.jpg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace sRGB "${imgWorkDir}/cover.png" "${imgWorkDir}/cover.jpg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace sRGB "${imgWorkDir}/cover@2x.png" "${imgWorkDir}/cover@2x.jpg"
 
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/cover.jpg" --output "${imgWorkDir}/cover.avif"
 		"${scriptsDir}"/cavif --quiet --quality 50 "${imgWorkDir}/cover@2x.jpg" --output "${imgWorkDir}/cover@2x.avif"
@@ -320,8 +320,8 @@ do
 
 		# Build distributable covers.
 		rsvg-convert --width 1400 --keep-aspect-ratio --output "${workDir}/downloads/cover.png" "${workDir}/src/epub/images/cover.svg"
-		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/downloads/cover.png" "${workDir}/downloads/cover.jpg"
-		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace RGB "${workDir}/downloads/cover.png" "${workDir}/downloads/cover-thumbnail.jpg"
+		convert -sampling-factor 4:2:0 -strip -quality 80 -colorspace sRGB "${workDir}/downloads/cover.png" "${workDir}/downloads/cover.jpg"
+		convert -resize "350" -sampling-factor 4:2:0 -strip -quality 80 -colorspace sRGB "${workDir}/downloads/cover.png" "${workDir}/downloads/cover-thumbnail.jpg"
 		rm "${workDir}/downloads/cover.png"
 
 		if ${verbose}; then
