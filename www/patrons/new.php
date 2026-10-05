@@ -65,7 +65,7 @@ catch(Exceptions\PermissionsInvalidException){
 				<label class="icon year">
 					<span>Created</span>
 					<span>UTC time.</span>
-					<input type="datetime-local" name="payment-created-at" required="required" value="<?= $payment->CreatedAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?>" />
+					<input type="datetime-local" name="payment-created-at" required="required" value="<?= $payment->CreatedAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::HtmlMinute->value) ?>" />
 				</label>
 				<label class="icon money">
 					<span>Processor</span>

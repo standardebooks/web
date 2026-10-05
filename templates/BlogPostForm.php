@@ -31,8 +31,7 @@ $stagedImageToken ??= null;
 		type="datetime-local"
 		name="blog-post-published-at"
 		required="required"
-		step="1" <? /* Required to be able to set down to seconds granularity. */ ?>
-		value="<?= $blogPost->PublishedAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::Html->value) ?>" />
+		value="<?= $blogPost->PublishedAt->setTimezone(SITE_TZ)->format(Enums\DateTimeFormat::HtmlMinute->value) ?>" />
 </label>
 <label>
 	<span>Title</span>
