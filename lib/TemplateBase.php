@@ -40,11 +40,8 @@ abstract class TemplateBase{
 	 * @param array<string, mixed> $arguments
 	 */
 	public static function __callStatic(string $function, array $arguments): string{
-		// Expand the passed variables to make them available to the included template.
-		// We use these funny names so that we can use `name` and `value` as template variables if we want to.
-		foreach($arguments as $innerName => $innerValue){
-			$$innerName = $innerValue;
-		}
+		// Expand the passed variables without overwriting template argument names.
+		extract($arguments, EXTR_SKIP);
 
 		ob_start();
 		include(TEMPLATES_PATH . '/' . $function . '.php');

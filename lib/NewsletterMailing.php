@@ -531,7 +531,7 @@ class NewsletterMailing{
 						foreach($cssListItem->getSelectors() as $selector){
 							$selectorString = $selector->render($cssOutputFormat);
 							// The translator sometimes emits warnings, so quiet them.
-							$translator = @new Gt\CssXPath\Translator($selectorString);
+							$translator = @new GT\CssXPath\Translator($selectorString);
 							$elements = @$dom->xpath((string)$translator);
 
 							if($elements === false || $elements === null || sizeof($elements) == 0){
