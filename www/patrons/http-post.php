@@ -27,18 +27,32 @@ try{
 	$patron = new Patron();
 	$patron->FillFromRequestBody();
 	$patron->UserId = $user->UserId;
-	$patron->CycleType = $payment->IsRecurring ? Enums\CycleType::Monthly : Enums\CycleType::Yearly;
 	$patron->User = $user;
-	$patron->CreatedAt = $payment->CreatedAt;
-	$patron->BaseCost = match($patron->CycleType){
-		Enums\CycleType::Monthly => PATRONS_CIRCLE_MONTHLY_COST,
-		Enums\CycleType::Yearly => PATRONS_CIRCLE_YEARLY_COST,
-	};
 
 	Db::Query('start transaction');
 	try{
-		$payment->Create();
+		$existingPayment = Db::Query('
+			select *
+			from Payments
+			where TransactionId = ?
+			for update
+		', [$payment->TransactionId], Payment::class)[0] ?? null;
 
+		if($existingPayment !== null){
+			// Assign the existing payment to this user instead of recording the transaction twice.
+			Db::Query('update Payments set UserId = ? where PaymentId = ?', [$user->UserId, $existingPayment->PaymentId]);
+			$payment = $existingPayment;
+		}
+		else{
+			$payment->Create();
+		}
+
+		$patron->CycleType = $payment->IsRecurring ? Enums\CycleType::Monthly : Enums\CycleType::Yearly;
+		$patron->CreatedAt = $payment->CreatedAt;
+		$patron->BaseCost = match($patron->CycleType){
+			Enums\CycleType::Monthly => PATRONS_CIRCLE_MONTHLY_COST,
+			Enums\CycleType::Yearly => PATRONS_CIRCLE_YEARLY_COST,
+		};
 		$patron->Create(sendWelcomeEmail: false);
 		Db::Query('commit');
 	}

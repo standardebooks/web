@@ -10,5 +10,6 @@ CREATE TABLE IF NOT EXISTS `Payments` (
   `RefundedAt` datetime DEFAULT NULL,
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`PaymentId`),
+  UNIQUE KEY `TransactionId` (`TransactionId`),
   KEY `UserId_Amount_CreatedAt_IsRecurring` (`UserId`,`Amount`,`CreatedAt`,`IsRecurring`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
