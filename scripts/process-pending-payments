@@ -59,7 +59,7 @@ $capabilities = DesiredCapabilities::firefox();
 $capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
 
 $driver = null;
-$log = new Log(DONATIONS_LOG_FILE_PATH);
+$log = new Log();
 $lastMonth = (new DateTimeImmutable())->sub(new DateInterval('P45D')); // 45 days, a 15 day grace period before Patrons Circle members are dropped off.
 $lastYear = (new DateTimeImmutable())->sub(new DateInterval('P1Y'));
 $faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
@@ -104,7 +104,7 @@ try{
 		$pendingPayment->Processor = Enums\PaymentProcessorType::from($pendingPayment->Processor);
 		switch($pendingPayment->Processor){
 			case Enums\PaymentProcessorType::FracturedAtlas:
-				$log->Write('Processing donation ' . $pendingPayment->TransactionId . ' ...');
+				$log->Queue('Processing donation ' . $pendingPayment->TransactionId . ' ...');
 
 				if(Db::QueryBool('
 							select exists(
@@ -113,7 +113,7 @@ try{
 								where TransactionId = ?
 							)
 						', [$pendingPayment->TransactionId])){
-					$log->Write('Donation already exists in database.');
+					$log->Queue('Donation already exists in database.');
 					break;
 				}
 
@@ -123,7 +123,7 @@ try{
 				// Wait until the `<body>` element is visible, then check the current URL.
 				$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('/html/body')));
 				if(stripos($driver->getCurrentURL(), 'auth.fracturedatlas.org')){
-					$log->Write('Logging in to Fractured Atlas ...');
+					$log->Queue('Logging in to Fractured Atlas ...');
 
 					// We were redirected to the login page, so try to log in.
 					/** @var WebDriverElement $emailField */
@@ -150,7 +150,8 @@ try{
 					$toggleButton = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
 				}
 				catch(Exception){
-					$log->Write('Error: Couldn\'t find donation.');
+					$log->Queue('Error: Couldn\'t find donation.');
+					$log->WriteQueue();
 					break;
 				}
 				$toggleButton->click();
@@ -244,7 +245,7 @@ try{
 				}
 				catch(Exceptions\PaymentExistsException){
 					// Payment already exists, just continue.
-					$log->Write('Donation already in database.');
+					$log->Queue('Donation already in database.');
 					break;
 				}
 
@@ -302,7 +303,7 @@ try{
 								$patron->CycleType = Enums\CycleType::Yearly;
 							}
 
-							$log->Write('Adding donor as patron ...');
+							$log->Queue('Adding donor as patron ...');
 							$patron->Create();
 						}
 						else{
@@ -312,7 +313,7 @@ try{
 								// User is already a Patron, but they made another non-recurring, non-matching donation.
 								// Send a thank-you email.
 
-								$log->Write('Sending thank you email to patron donor donating extra.');
+								$log->Queue('Sending thank you email to patron donor donating extra.');
 
 								$em = new QueuedEmailMessage();
 								$em->To = $payment->User->Email;
@@ -354,7 +355,7 @@ try{
 
 					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
 					if((!$payment->IsRecurring || $previousPaymentCount == 1) && $payment->User->Email !== null){
-						$log->Write('Sending thank you email to non-patron donor.');
+						$log->Queue('Sending thank you email to non-patron donor.');
 
 						$em = new QueuedEmailMessage();
 						$em->To = $payment->User->Email;
@@ -375,7 +376,7 @@ try{
 				where TransactionId = ?
 			', [$pendingPayment->TransactionId]);
 
-		$log->Write('Donation processed.');
+		$log->Queue('Donation processed.');
 	}
 
 	try{
@@ -390,7 +391,8 @@ try{
 }
 catch(Exception $ex){
 	$exceptionString = vds($ex);
-	$log->Write('Error: Uncaught exception: ' . $exceptionString);
+	$log->Queue('Error: Uncaught exception: ' . $exceptionString);
+	$log->WriteQueue();
 
 	$sendEmail = true;
 

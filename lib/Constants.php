@@ -114,8 +114,6 @@ const FA_FEE_PERCENT = 0.87;
 const GITHUB_IGNORED_REPOS =		['tools', 'manual', 'web', 'sublime-text-se-plugin'];
 
 /** Must be writable by `www-data` Unix user. */
-const DONATIONS_LOG_FILE_PATH =		'/var/log/local/donations.log';
-/** Must be writable by `www-data` Unix user. */
 const ARTWORK_UPLOADS_LOG_FILE_PATH =	'/var/log/local/artwork-uploads.log';
 /** Must be writable by `www-data` Unix user. */
 const EMAIL_LOG_FILE_PATH =		'/var/log/local/' . SITE_DOMAIN . '-email.log';

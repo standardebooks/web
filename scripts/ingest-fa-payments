@@ -67,7 +67,7 @@ $capabilities = DesiredCapabilities::firefox();
 $capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
 
 $driver = null;
-$log = new Log(DONATIONS_LOG_FILE_PATH);
+$log = new Log();
 $faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
 $faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
 $lastSeenTransactionId = null;
@@ -111,7 +111,7 @@ function InsertTransaction(string $transactionId): bool{
 }
 
 try{
-	$log->Write('Ingesting FA donations...');
+	$log->Queue('Ingesting FA donations...');
 	// TODO: In PHP 8.5, this throw a deprecation warning from `php-webdriver/webdriver` 1.16.0. Once this library is upgraded and fixed, we can remove `@`.
 	$driver = @FirefoxDriver::start($capabilities);
 
@@ -123,10 +123,10 @@ try{
 	}
 
 	if($lastSeenTransactionId === null){
-		$log->Write('No last transaction ID, checking everything from ' . NOW->format('Y-m-d'));
+		$log->Queue('No last transaction ID, checking everything from ' . NOW->format('Y-m-d'));
 	}
 	else{
-		$log->Write('Checking from last transaction ID ' . $lastSeenTransactionId);
+		$log->Queue('Checking from last transaction ID ' . $lastSeenTransactionId);
 	}
 
 	$page = 1;
@@ -138,7 +138,7 @@ try{
 			throw new Exception('Error: went past page 5 of Fractured Atlas results.');
 		}
 
-		$log->Write('Getting page ' . $page . ' of transactions');
+		$log->Queue('Getting page ' . $page . ' of transactions');
 
 		$driver->get('https://fundraising.fracturedatlas.org/admin/general_support/donations?page=' . $page);
 
@@ -147,7 +147,7 @@ try{
 		$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('/html/body')));
 		if(stripos($driver->getCurrentURL(), 'auth.fracturedatlas.org')){
 			// We were redirected to the login page, so try to log in.
-			$log->Write('Logging in to Fractured Atlas ...');
+			$log->Queue('Logging in to Fractured Atlas ...');
 
 			/** @var WebDriverElement $emailField */
 			$emailField = $driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//input[@inputmode="email"]')));
@@ -172,7 +172,7 @@ try{
 			$driver->wait(20, 250)->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::xpath('//button[contains(@class, "button-toggle")]')));
 		}
 		catch(Exception $ex){
-			$log->Write('Error: Couldn\'t load donation list.');
+			$log->Queue('Error: Couldn\'t load donation list.');
 			throw $ex;
 		}
 
@@ -200,7 +200,7 @@ try{
 				}
 
 				if(InsertTransaction($transactionId)){
-					$log->Write('Inserting transaction ' . $transactionId);
+					$log->Queue('Inserting transaction ' . $transactionId);
 				}
 			}
 		}
@@ -229,7 +229,7 @@ try{
 				}
 
 				if(InsertTransaction($transactionId)){
-					$log->Write('Inserting transaction ' . $transactionId);
+					$log->Queue('Inserting transaction ' . $transactionId);
 				}
 			}
 		}
@@ -256,7 +256,7 @@ try{
 		// Pass.
 	}
 
-	$log->Write('Done.');
+	$log->Queue('Done.');
 }
 catch(Exception $ex){
 	if($ex instanceof Facebook\WebDriver\Exception\Internal\RuntimeException && stripos($ex->getMessage(), 'Address in use') !== false){
@@ -265,7 +265,8 @@ catch(Exception $ex){
 	}
 
 	$exceptionString = vds($ex);
-	$log->Write('Error: Uncaught exception: ' . $exceptionString);
+	$log->Queue('Error: Uncaught exception: ' . $exceptionString);
+	$log->WriteQueue();
 
 	$sendEmail = true;
 
