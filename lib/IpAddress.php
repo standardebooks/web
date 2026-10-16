@@ -5,54 +5,36 @@ use function Safe\inet_pton;
 
 class IpAddress{
 	/** Is this `IpAddress` and IPv6 address? */
-	public bool $IsIpv6;
-	/** The binary representation of this `IpAddress`. */
-	public string $Binary;
-	public string $GeolocationUrl;
+	public readonly bool $IsIpv6;
+	public readonly string $GeolocationUrl;
 
 	private string $_Address;
 
 	/**
 	 * @throws Exceptions\IpAddressInvalidException If the passed IP address is not valid.
 	 */
-	public function __construct(string $ipAddress, bool $isIpAddressBinary = false){
-		if($isIpAddressBinary){
-			try{
-				$this->_Address = inet_ntop($ipAddress);
-			}
-			catch(\Exception){
-				throw new Exceptions\IpAddressInvalidException();
-			}
+	public function __construct(string $ipAddress){
+		// General plan: User can connect either over IPv4 or IPv6. IPv4 addresses are also often represented in IPv6 notation.
+		// We prefer IPv4 notation when possible, so first convert that to IPv4 if we got an IPv6 address.
 
-			$this->Binary = $ipAddress;
+		$this->_Address = $ipAddress;
+
+		// Known prefix.
+		$ipv4MappedPrefixBinary = hex2bin('00000000000000000000ffff');
+
+		// Parse the address.
+		try{
+			// Throws a warning on top of returning **`FALSE`** on error, so silence that.
+			@$ipBinary = inet_pton($this->_Address);
 		}
-		else{
-			// General plan: User can connect either over IPv4 or IPv6. IPv4 addresses are also often represented in IPv6 notation.
-			// We prefer IPv4 notation when possible, so first convert that to IPv4 if we got an IPv6 address.
-			// Then store the binary representation in a `varbinary` field in the database.
-			// To retrieve from the database, use `inet6_nota()`, which works with both types of address.
+		catch(\Exception){
+			throw new Exceptions\IpAddressInvalidException();
+		}
 
-			$this->_Address = $ipAddress;
-
-			// Known prefix.
-			$ipv4MappedPrefixBinary = hex2bin('00000000000000000000ffff');
-
-			// Parse the address.
-			try{
-				// Throws a warning on top of returning **`FALSE`** on error, so silence that.
-				@$ipBinary = inet_pton($this->_Address);
-			}
-			catch(\Exception){
-				throw new Exceptions\IpAddressInvalidException();
-			}
-
-			// Check prefix.
-			if(substr($ipBinary, 0, strlen($ipv4MappedPrefixBinary)) == $ipv4MappedPrefixBinary){
-				// Strip prefix.
-				$ipBinary = substr($ipBinary, strlen($ipv4MappedPrefixBinary));
-			}
-
-			$this->Binary = $ipBinary;
+		// Check prefix.
+		if(substr($ipBinary, 0, strlen($ipv4MappedPrefixBinary)) == $ipv4MappedPrefixBinary){
+			// Strip prefix.
+			$this->_Address = inet_ntop(substr($ipBinary, strlen($ipv4MappedPrefixBinary)));
 		}
 
 		$this->IsIpv6 = filter_var($this->_Address, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false;
@@ -68,7 +50,7 @@ class IpAddress{
 	 * @throws Exceptions\IpAddressInvalidException If the IP address is invalid.
 	 */
 	public static function FromRow(stdClass $row): IpAddress{
-		return new IpAddress($row->IpAddress, true);
+		return new IpAddress($row->IpAddress);
 	}
 
 	/**
@@ -120,7 +102,7 @@ class IpAddress{
 	 * Ban this IP address.
 	 */
 	public function Ban(string $reason): void{
-		Db::Query('insert into BannedIpAddresses (IpAddress, Reason) values (?, ?) on duplicate key update Reason = values(Reason), CreatedAt = utc_timestamp()', [$this->Binary, $reason]);
+		Db::Query('insert into BannedIpAddresses (IpAddress, Reason) values (?, ?) on duplicate key update Reason = values(Reason), CreatedAt = utc_timestamp()', [$this->_Address, $reason]);
 	}
 
 	/**
@@ -129,7 +111,7 @@ class IpAddress{
 	 * @return ?string The reason why this IP address is banned, or `NULL` if it's not banned.
 	 */
 	public function IsBanned(): ?string{
-		$bannedIpAddress = Db::Query('select Reason from BannedIpAddresses where IpAddress = ?', [$this->Binary]);
+		$bannedIpAddress = Db::Query('select Reason from BannedIpAddresses where IpAddress = ?', [$this->_Address]);
 
 		if(sizeof($bannedIpAddress) > 0){
 			return $bannedIpAddress[0]->Reason;

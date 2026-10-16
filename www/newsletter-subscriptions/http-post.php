@@ -70,7 +70,7 @@ try{
 
 			try{
 				// The unique email and IP address keys prevent duplicate concurrent attempts and enforce the rate limit.
-				Db::Query('insert into NewsletterSignupAttempts (NewsletterId, Email, IpAddress, CreatedAt) values (?, ?, ?, ?)', [$newsletter->NewsletterId, $user->Email, Http::$Request->RemoteAddress->Binary, NOW]);
+				Db::Query('insert into NewsletterSignupAttempts (NewsletterId, Email, IpAddress, CreatedAt) values (?, ?, ?, ?)', [$newsletter->NewsletterId, $user->Email, (string)Http::$Request->RemoteAddress, NOW]);
 			}
 			catch(Exceptions\DuplicateDatabaseKeyException){
 				throw new Exceptions\SpamSuspectedException();

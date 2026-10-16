@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `NewsletterSignupAttempts` (
   `NewsletterSignupAttemptId` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `NewsletterId` int(10) unsigned NOT NULL,
   `Email` varchar(80) NOT NULL,
-  `IpAddress` varbinary(16) NOT NULL,
+  `IpAddress` inet6 NOT NULL,
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`NewsletterSignupAttemptId`),
   UNIQUE KEY `Email_NewsletterId` (`Email`,`NewsletterId`),

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `BannedIpAddresses` (
-  `IpAddress` varbinary(16) NOT NULL,
+  `IpAddress` inet6 NOT NULL,
   `Reason` text NOT NULL,
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`IpAddress`)
