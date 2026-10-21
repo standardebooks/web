@@ -50,7 +50,7 @@ try{
 
 	if(Http::$Request->RemoteAddress === null || Http::$Request->RemoteAddress->IsBanned() !== null){
 		http_response_code(Enums\HttpCode::SeeOther->value);
-		$_SESSION['newsletter-subscription/create/is-created'] = true;
+		$_SESSION['newsletter-subscription/create/is-bot'] = true;
 		header('location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
 		exit();
 	}

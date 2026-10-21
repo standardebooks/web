@@ -11,11 +11,14 @@ use function \Safe\session_unset;
 try{
 	session_start();
 
+	$isSpamSignup = false;
+
 	// If a bot filled out this form, we'll get a random UUID; show success.
 	if(Http::$Request->Session->Get('newsletter-subscription/create/is-bot', 'bool') ?? false){
 		$isCreated = true;
 		$isConfirmed = false;
 		$isDeleted = false;
+		$isSpamSignup = true;
 		$user = new User();
 		$user->NewsletterSubscriptions = [];
 		session_unset();
@@ -63,20 +66,22 @@ catch(Exceptions\UserNotFoundException){
 			</div>
 		<? } ?>
 
-		<? if(sizeof($user->NewsletterSubscriptions) == 0){ ?>
-			<p class="empty-notice">You’re not subscribed to any Standard Ebooks newsletters.</p>
-		<? }else{ ?>
-			<ul>
-				<? foreach($user->NewsletterSubscriptions as $newsletterSubscription){ ?>
-					<li class="newsletter-description">
-						<p><b><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?></b><? if(!$newsletterSubscription->IsConfirmed){ ?> • <i>Confirmation pending</i><? } ?></p>
-						<? if($newsletterSubscription->Newsletter->Description !== null){ ?>
-							<p><?= $newsletterSubscription->Newsletter->Description ?></p>
-						<? } ?>
-						<form action="<?= $newsletterSubscription->Url ?>" method="<?= Enums\HttpMethod::Post->value ?>"><input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>"/><button>Unsubscribe</button></form>
-					</li>
-				<? } ?>
-			</ul>
+		<? if(!$isSpamSignup){ ?>
+			<? if(sizeof($user->NewsletterSubscriptions) == 0){ ?>
+				<p class="empty-notice">You’re not subscribed to any Standard Ebooks newsletters.</p>
+			<? }else{ ?>
+				<ul>
+					<? foreach($user->NewsletterSubscriptions as $newsletterSubscription){ ?>
+						<li class="newsletter-description">
+							<p><b><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?></b><? if(!$newsletterSubscription->IsConfirmed){ ?> • <i>Confirmation pending</i><? } ?></p>
+							<? if($newsletterSubscription->Newsletter->Description !== null){ ?>
+								<p><?= $newsletterSubscription->Newsletter->Description ?></p>
+							<? } ?>
+							<form action="<?= $newsletterSubscription->Url ?>" method="<?= Enums\HttpMethod::Post->value ?>"><input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>"/><button>Unsubscribe</button></form>
+						</li>
+					<? } ?>
+				</ul>
+			<? } ?>
 		<? } ?>
 	</section>
 </main>
