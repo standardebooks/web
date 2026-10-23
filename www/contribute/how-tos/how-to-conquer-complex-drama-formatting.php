@@ -6,7 +6,7 @@
 		<aside class="alert">
 			<p class="warning">Before you read</p>
 			<p>
-				<strong>Make sure to read the <a href="https://standardebooks.org/manual/latest">Standard Ebooks Manual of Style</a> on drama structural patterns, semantics, and CSS before consulting this guide.</strong>
+				<strong>Make sure to read the <a href="/manual/latest">Standard Ebooks Manual of Style</a> on drama structural patterns, semantics, and CSS before consulting this guide.</strong>
 			</p>
 		</aside>
 		<details id="toc">
@@ -310,7 +310,7 @@
 				</section>
 				<section id="dialog-stichomythia">
 					<h3>Stichomythia<a class="heading-permalink" href="#dialog-stichomythia" aria-label="Permalink"></a></h3>
-				<p><i>Stichomythia</i> is a technique used in drama where two speakers engage in a rapid or intense exchange of alternating dialog. Here is an example found in William Shakespeare’s <i><a href="https://standardebooks.org/ebooks/william-shakespeare/a-midsummer-nights-dream">A Midsummer Night’s Dream</a></i>.</p>
+				<p><i>Stichomythia</i> is a technique used in drama where two speakers engage in a rapid or intense exchange of alternating dialog. Here is an example found in William Shakespeare’s <i><a href="/ebooks/william-shakespeare/a-midsummer-nights-dream">A Midsummer Night’s Dream</a></i>.</p>
 				<figure class="full-width">
 					<img src="images/drama-formatting-1.png" alt="Five sections of dialog use stichomythia. The second section of dialog continues where the first section has left off. This pattern continues and creates a staircase effect."/>
 				</figure>

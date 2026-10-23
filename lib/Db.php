@@ -7,6 +7,7 @@ class Db{
 	protected static \PDO $Link; // This is `protected` because we may want to subclass this class to connect to another instance of a database, e.g. a specialized search database.
 	public static int $QueryCount = 0;
 	public static int $LastQueryAffectedRowCount = 0;
+	protected static bool $_CanRetryTransaction = true;
 
 	/**
 	 * Returns a single integer value for the first column database query result.
@@ -210,6 +211,62 @@ class Db{
 	}
 
 	/**
+	 * Execute a callback in a transaction; if a deadlock occurs, retrying the entire callback `$attempts` times.
+	 *
+	 * Nested calls participate in the existing transaction and leave retries to its owner.
+	 *
+	 * This function is necessary because if a deadlock occurs within a transaction, the transaction is rolled back and we must try the entire transaction again.
+	 *
+	 * @template T
+	 *
+	 * @param callable(): T $callback
+	 * @param int $attempts The maximum number of attempts, with a minimum of one.
+	 * @return T
+	 *
+	 * @throws \Throwable If the callback fails or the transaction can't committed within the allowed attempts.
+	 */
+	public static function Transaction(callable $callback, int $attempts = 3): mixed{
+		if(isset(static::$Link) && static::$Link->inTransaction()){
+			return $callback();
+		}
+
+		$attempts = max(1, $attempts);
+		$attempt = 0;
+
+		while(true){
+			$attempt++;
+			static::SetTransactionRetriesEnabled(true);
+			static::Query('start transaction');
+
+			try{
+				$result = $callback();
+				static::Query('commit');
+				return $result;
+			}
+			catch(\Throwable $ex){
+				// InnoDB already rolls back deadlock victims, but other failures still need a rollback.
+				if(static::$Link->inTransaction()){
+					static::Query('rollback');
+				}
+
+				if(!$ex instanceof Exceptions\DatabaseDeadlockException || $attempt >= $attempts || !static::$_CanRetryTransaction){
+					throw $ex;
+				}
+
+				// Stagger retries so that competing transactions are less likely to deadlock again.
+				usleep(50000 * $attempt + random_int(0, 50000));
+			}
+		}
+	}
+
+	/**
+	 * Enable or disable retries for the current transaction, including any enclosing callback.
+	 */
+	public static function SetTransactionRetriesEnabled(bool $enabled): void{
+		static::$_CanRetryTransaction = $enabled;
+	}
+
+	/**
 	 * Execute a generic query in the database.
 	 *
 	 * @template T
@@ -228,6 +285,7 @@ class Db{
 		$result = [];
 		$deadlockRetries = 0;
 		$done = false;
+		$isInTransaction = static::$Link->inTransaction();
 
 		while(!$done){
 			try{
@@ -235,7 +293,8 @@ class Db{
 				$done = true;
 			}
 			catch(\PDOException $ex){
-				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
+				// A deadlock rolls back the entire transaction, so only retry standalone statements.
+				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3 && !$isInTransaction){
 					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
 					$deadlockRetries++;
 					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up. Start at .5 seconds.
@@ -299,6 +358,7 @@ class Db{
 		$result = [];
 		$deadlockRetries = 0;
 		$done = false;
+		$isInTransaction = static::$Link->inTransaction();
 
 		while(!$done){
 			try{
@@ -307,7 +367,7 @@ class Db{
 				$done = true;
 			}
 			catch(\PDOException $ex){
-				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
+				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3 && !$isInTransaction){
 					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
 					$deadlockRetries++;
 					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up. Start at .5 seconds.
@@ -344,6 +404,7 @@ class Db{
 		$result = [];
 		$deadlockRetries = 0;
 		$done = false;
+		$isInTransaction = static::$Link->inTransaction();
 
 		while(!$done){
 			try{
@@ -352,7 +413,7 @@ class Db{
 				$done = true;
 			}
 			catch(\PDOException $ex){
-				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3){
+				if(isset($ex->errorInfo[1]) && $ex->errorInfo[1] == 1213 && $deadlockRetries < 3 && !$isInTransaction){
 					// InnoDB deadlock, this is normal and happens occasionally. All we have to do is retry the query.
 					$deadlockRetries++;
 					usleep(500000 * $deadlockRetries); // Give the deadlock some time to clear up. Start at .5 seconds.
@@ -643,6 +704,11 @@ class Db{
 	 */
 	protected static function CreateDetailedException(\PDOException $ex, string $sql, array $params): Exceptions\DatabaseQueryException{
 		// Throw a custom exception that includes more information on the query and paramaters.
-		return new Exceptions\DatabaseQueryException('Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params));
+		$message = 'Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params);
+		if(($ex->errorInfo[1] ?? null) === 1213){
+			return new Exceptions\DatabaseDeadlockException($message);
+		}
+
+		return new Exceptions\DatabaseQueryException($message);
 	}
 }

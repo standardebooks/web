@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `PendingPayments` (
-  `Processor` enum('fractured_atlas') NOT NULL,
+  `Processor` enum('fractured_atlas','stripe') NOT NULL,
   `TransactionId` varchar(80) NOT NULL,
   `ProcessedAt` datetime DEFAULT NULL,
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),

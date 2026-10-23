@@ -29,6 +29,9 @@ try{
 	$patron->UserId = $user->UserId;
 	$patron->User = $user;
 
+	$payment->Validate();
+	$patron->Validate();
+
 	Db::Query('start transaction');
 	try{
 		$existingPayment = Db::Query('
@@ -39,20 +42,54 @@ try{
 		', [$payment->TransactionId], Payment::class)[0] ?? null;
 
 		if($existingPayment !== null){
-			// Assign the existing payment to this user instead of recording the transaction twice.
-			Db::Query('update Payments set UserId = ? where PaymentId = ?', [$user->UserId, $existingPayment->PaymentId]);
-			$payment = $existingPayment;
+			if($existingPayment->Processor !== $payment->Processor){
+				throw new Exceptions\PaymentExistsException();
+			}
+
+			$payment->PaymentId = $existingPayment->PaymentId;
+			$payment->SubscriptionId = $existingPayment->SubscriptionId;
+			$payment->RefundedAt = $existingPayment->RefundedAt;
+
+			if($payment->IsRecurring && $payment->Processor === Enums\PaymentProcessorType::FracturedAtlas){
+				// Reuse this user's active Fractured Atlas subscription, or create one from the submitted payment.
+				$subscription = Db::Query('
+					select * from Subscriptions
+					where UserId = ? and Processor = ? and CycleType = ? and EndedAt is null
+					order by CreatedAt desc, SubscriptionId desc
+					limit 1
+				', [$user->UserId, $payment->Processor, Enums\CycleType::Monthly], Subscription::class)[0] ?? null;
+
+				if($subscription === null){
+					$subscription = new Subscription();
+					$subscription->UserId = $user->UserId;
+					$subscription->CreatedAt = $payment->CreatedAt;
+					$subscription->Processor = $payment->Processor;
+					$subscription->Amount = $payment->Amount;
+					$subscription->CycleType = Enums\CycleType::Monthly;
+					$subscription->Create();
+				}
+
+				$payment->SubscriptionId = $subscription->SubscriptionId;
+				$payment->Subscription = $subscription;
+			}
+			elseif(!$payment->IsRecurring){
+				$payment->SubscriptionId = null;
+			}
+
+			// Update the anonymous payment with the form data instead of recording the donation twice.
+			Db::Query('
+				update Payments set UserId = ?, SubscriptionId = ?, CreatedAt = ?, Amount = ?, Fee = ?, IsRecurring = ?, IsMatchingDonation = ?
+				where PaymentId = ?
+			', [$payment->UserId, $payment->SubscriptionId, $payment->CreatedAt, $payment->Amount, $payment->Fee, $payment->IsRecurring, $payment->IsMatchingDonation, $payment->PaymentId]);
 		}
 		else{
 			$payment->Create();
 		}
 
-		$patron->CycleType = $payment->IsRecurring ? Enums\CycleType::Monthly : Enums\CycleType::Yearly;
+		$patron->SubscriptionId = $payment->IsRecurring ? $payment->SubscriptionId : null;
+		$patron->QualifyingPaymentId = $payment->IsRecurring ? null : $payment->PaymentId;
 		$patron->CreatedAt = $payment->CreatedAt;
-		$patron->BaseCost = match($patron->CycleType){
-			Enums\CycleType::Monthly => PATRONS_CIRCLE_MONTHLY_COST,
-			Enums\CycleType::Yearly => PATRONS_CIRCLE_YEARLY_COST,
-		};
+		$patron->Validate(payment: $payment);
 		$patron->Create(sendWelcomeEmail: false);
 		Db::Query('commit');
 	}
@@ -76,7 +113,7 @@ catch(Exceptions\LoginRequiredException){
 catch(Exceptions\PermissionsInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::Forbidden);
 }
-catch(Exceptions\PaymentExistsException $ex){
+catch(Exceptions\PaymentExistsException | Exceptions\ValidationException $ex){
 	$_SESSION['patron/create/payment'] = $payment;
 	$_SESSION['patron/create/patron'] = $patron;
 	$_SESSION['patron/create/exception'] = $ex;

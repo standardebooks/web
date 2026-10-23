@@ -245,6 +245,7 @@ $hasAdminTable ??= false;
 				}
 			<? } ?>
 
+			footer img,
 			div.footer img{
 				filter: invert(100%);
 			}

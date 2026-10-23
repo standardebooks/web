@@ -4,6 +4,11 @@ set -e
 # shellcheck source=./web/scripts/lib/common.sh
 source "$(dirname -- "$( readlink -f -- "$0"; )")/lib/common.sh"
 
+# Escape replacement syntax and encode newlines so text cannot introduce sed commands.
+EscapeSedReplacement(){
+	printf "%s" "${1}" | sed --null-data 's/[\\&|]/\\&/g; s/\n/\\n/g'
+}
+
 usage(){
 PrintHelp \
  "[command]$(basename "${BASH_SOURCE[0]}")[/] [[flag]-g[/],[flag]--group[/] [parameter]<GROUP>[/]] [[flag]--no-build[/]] [[flag]--no-bulk-downloads[/]] [[flag]--no-epubcheck[/]] [[flag]--no-feeds[/]] [[flag]--no-images[/]] [[flag]--no-recompose[/]] [[flag]-v[/],[flag]--verbose[/]] [[flag]--web-root[/] [path][parameter]<WEB_ROOT>[/]] [path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [[path][parameter]<SE_EBOOK_REPO_DIRECTORY>[/] [parameter]...[/]]" \
@@ -330,6 +335,7 @@ do
 
 		# Get the book URL.
 		bookUrl=$(grep --only-matching --extended-regexp "<dc:identifier id=\"uid\">.+?</dc:identifier>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/.*?https:\/\/standardebooks.org(.*?)<.*/\1/g")
+		bookUrlSedReplacement="$(EscapeSedReplacement "${bookUrl}")"
 
 		# Get the last commit date so that we can update the modified timestamp in deployed `content.opf`. `generate-feeds` uses this timestamp in its output.
 		modifiedDate=$(TZ=UTC git log --date=iso-strict-local --max-count=1 --pretty=tformat:"%cd" --abbrev-commit | sed "s/+00:00/Z/")
@@ -348,13 +354,13 @@ do
 			sed --in-place --regexp-extended "s|<body([^>]*)>|<body><main\1>|; s|</body>|</main></body>|" "${workDir}"/single-page.xhtml
 
 			# Add a navbar with a link back to the homepage.
-			sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li></ul></nav></header>|" "${workDir}"/single-page.xhtml
+			sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrlSedReplacement}\">Back to ebook</a></li></ul></nav></header>|" "${workDir}"/single-page.xhtml
 
 			# Adjust sponsored links in the colophon.
 			sed --in-place 's|<p><a href="http|<p><a rel="nofollow" href="http|g' "${workDir}"/single-page.xhtml
 
 			# Add a canonical `<meta>` element.
-			sed --in-place "s|</title>|</title>\n\t\t<link rel=\"canonical\" href=\"https://standardebooks.org${bookUrl}/text/single-page\" />|" "${workDir}"/single-page.xhtml
+			sed --in-place "s|</title>|</title>\n\t\t<link rel=\"canonical\" href=\"https://standardebooks.org${bookUrlSedReplacement}/text/single-page\" />|" "${workDir}"/single-page.xhtml
 
 			if ${verbose}; then
 				echo " done."
@@ -363,6 +369,7 @@ do
 
 		# Make some compatibility adjustments for the individual XHTML files.
 		workTitle=$(grep --only-matching --extended-regexp "<dc:title id=\"title\">(.+?)</dc:title>" "${workDir}"/src/epub/content.opf | sed --regexp-extended "s/<[^>]+?>//g")
+		workTitleSedReplacement="$(EscapeSedReplacement "${workTitle}")"
 
 		while IFS= read -r -d '' filename; do
 
@@ -373,23 +380,24 @@ do
 			sed --in-place --regexp-extended 's/xml:lang="([^"]+?)"/xml:lang="\1" lang="\1"/g' "${filename}"
 
 			# Add the work title to `<title>` elements in the source text.
-			sed --in-place --regexp-extended "s|<title>|<title>${workTitle} - |g" "${filename}"
+			sed --in-place --regexp-extended "s|<title>|<title>${workTitleSedReplacement} - |g" "${filename}"
 
 			# Wrap book contents in a `<main>` element.
 			sed --in-place --regexp-extended "s|<body([^>]*)>|<body><main\1>|; s|</body>|</main></body>|" "${filename}"
 
 			# Add the header nav to each page.
-			sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><a href=\"/honeypot\" hidden=\"hidden\">Following this link will ban your IP for 24 hours</a><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrl}\">Back to ebook</a></li><li><a href=\"${bookUrl}/text\">Table of contents</a></li></ul></nav></header>|" "${filename}"
+			sed --in-place --regexp-extended "s|<body([^>]*)>|<body\1><header><a href=\"/honeypot\" hidden=\"hidden\">Following this link will ban your IP for 24 hours</a><nav><ul><li><a href=\"/\">Standard Ebooks</a></li><li><a href=\"${bookUrlSedReplacement}\">Back to ebook</a></li><li><a href=\"${bookUrlSedReplacement}/text\">Table of contents</a></li></ul></nav></header>|" "${filename}"
 
 			# Add a canonical `<meta>` element.
-			fileUrl=$(echo "${filename}" | sed --regexp-extended "s|^.+/src/epub(/text/.+\.xhtml$)|https://standardebooks.org${bookUrl}\1|")
+			fileUrl=$(echo "${filename}" | sed --regexp-extended "s|^.+/src/epub(/text/.+\.xhtml$)|https://standardebooks.org${bookUrlSedReplacement}\1|")
 
 			# Special case for `toc.xhtml`.
 			if [[ "${fileUrl}" =~ /toc\.xhtml$ ]]; then
 				fileUrl="https://standardebooks.org${bookUrl}/text"
 			fi
 
-			sed --in-place "s|</title>|</title>\n\t\t<link rel=\"canonical\" href=\"${fileUrl}\" />|" "${filename}"
+			fileUrlSedReplacement="$(EscapeSedReplacement "${fileUrl}")"
+			sed --in-place "s|</title>|</title>\n\t\t<link rel=\"canonical\" href=\"${fileUrlSedReplacement}\" />|" "${filename}"
 
 			# Remove instances of the `.xhtml` filename extension in the source text.
 			sed --in-place 's/\.xhtml//g' "${filename}"

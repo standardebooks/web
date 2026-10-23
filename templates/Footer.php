@@ -70,6 +70,21 @@
 			<li>
 				<a href="/settings">Settings</a>
 			</li>
+			<? if(Session::$User !== null){ ?>
+				<li>
+					<a href="<?= Session::$User->Url ?>">Your account</a>
+				</li>
+			<? } ?>
+			<li>
+				<? if(Session::$User === null){ ?>
+					<a href="/sessions/new">Log in</a>
+				<? }else{ ?>
+					<form method="<?= Enums\HttpMethod::Post->value ?>" action="<?= Session::$Url ?>">
+						<input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>" />
+						<button type="submit">Log out</button>
+					</form>
+				<? } ?>
+			</li>
 		</ul>
 		<p>Content produced by or for Standard Ebooks L<sup>3</sup>C is dedicated to the <a href="https://en.wikipedia.org/wiki/Public_domain">public domain</a> via the <a href="https://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0 1.0 Universal Public Domain Dedication</a>.</p>
 		<p>Content not produced by or for Standard Ebooks L<sup>3</sup>C but displayed on this website may be subject to copyright.</p>

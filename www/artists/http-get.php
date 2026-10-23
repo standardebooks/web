@@ -57,7 +57,7 @@ catch(Exceptions\ArtistNotFoundException){
 			</p>
 		<? } ?>
 		<? if($isArtistDeleted && $deletedArtist !== null){ ?>
-			<p class="message success"><?= $deletedArtist->Name ?> has been deleted<? if($isAlternateNameAdded){ ?> and their name has been added as an alternate name of <?= Formatter::EscapeHtml($artist->Name) ?><? } ?>.</p>
+			<p class="message success"><?= Formatter::EscapeHtml($deletedArtist->Name) ?> has been deleted<? if($isAlternateNameAdded){ ?> and their name has been added as an alternate name of <?= Formatter::EscapeHtml($artist->Name) ?><? } ?>.</p>
 		<? } ?>
 
 		<?= Template::ImageCopyrightNotice() ?>

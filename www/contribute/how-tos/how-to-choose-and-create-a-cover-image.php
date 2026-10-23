@@ -6,7 +6,7 @@
 			<aside class="alert">
 				<p class="warning">Before you read</p>
 				<p>
-					<strong>Make sure to read the <a href="https://standardebooks.org/manual/latest">Standard Ebooks Manual of Style</a> before consulting this guide, and DO NOT add any artwork to your project until it has been approved or you may need to rebase your project.</strong>
+					<strong>Make sure to read the <a href="/manual/latest">Standard Ebooks Manual of Style</a> before consulting this guide, and DO NOT add any artwork to your project until it has been approved or you may need to rebase your project.</strong>
 				</p>
 			</aside>
 			<details id="toc">
@@ -244,7 +244,7 @@
 							</section>
 							<section id="resources-cc0">
 							<h3>2. Museums with CC0 collections<a class="heading-permalink" href="#resources-cc0" aria-label="Permalink"></a></h3>
-							<p>Only images in our <a href="https://standardebooks.org/manual/latest/10-art-and-images#10.3.3.7.4">list of approved museums</a> can be used without further research. These museums have explicitly released their images under the CC0 license. Not every painting at every listed museum is CC0; you must confirm the presence of a CC0 deed for the specific image you want to use. Museums not in our list may not be used as public domain proof.</p>
+							<p>Only images in our <a href="/manual/latest/10-art-and-images#10.3.3.7.4">list of approved museums</a> can be used without further research. These museums have explicitly released their images under the CC0 license. Not every painting at every listed museum is CC0; you must confirm the presence of a CC0 deed for the specific image you want to use. Museums not in our list may not be used as public domain proof.</p>
 							</section>
 							<section id="resources-images">
 							<h3>3. Sources for high definition image downloads<a class="heading-permalink" href="#resources-images" aria-label="Permalink"></a></h3>

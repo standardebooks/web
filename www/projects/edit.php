@@ -45,7 +45,7 @@ catch(Exceptions\PermissionsInvalidException){
 <main>
 	<section class="narrow">
 		<nav class="breadcrumbs" aria-label="Breadcrumbs">
-			<a href="<?= $originalProject->Ebook->AuthorsUrl ?>"><?= $originalProject->Ebook->AuthorsString ?></a> →
+			<a href="<?= $originalProject->Ebook->AuthorsUrl ?>"><?= Formatter::EscapeHtml($originalProject->Ebook->AuthorsString) ?></a> →
 			<a href="<?= $originalProject->Ebook->Url ?>"><?= Formatter::EscapeHtml($originalProject->Ebook->Title) ?></a> →
 		</nav>
 

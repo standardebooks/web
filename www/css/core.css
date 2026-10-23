@@ -713,7 +713,6 @@ form button{
 	color: #fff;
 	text-decoration: none;
 	font-family: "League Spartan", Arial, sans-serif;
-	text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
 	box-shadow: 2px 2px 0 rgba(0, 0, 0, .5), 1px 1px 0px rgba(255,255,255, .5) inset;
 	position: relative;
 	text-transform: lowercase;
@@ -723,6 +722,8 @@ form button{
 	hyphens: none;
 	line-height: 1.2;
 	min-height: calc(2rem + 1.4rem - 2px); /* Match height of form fields, minus border size */
+	text-shadow: 1px 1px 0 rgba(0, 0, 0, .75);
+
 }
 
 form button{
@@ -959,6 +960,7 @@ form button:active{
 	box-shadow: none;
 }
 
+button.next::after,
 a.button.next::after,
 main nav.pagination > a:last-child::after{
 	font-family: "Fork Awesome";
@@ -970,6 +972,7 @@ main nav.pagination > a:last-child::after{
 	margin-left: .5rem;
 }
 
+button.next:hover::after,
 a[href].button.next:hover::after,
 main nav.pagination > a:last-child[href]:hover::after{
 	left: .25rem;
@@ -993,6 +996,7 @@ main nav.pagination > a:first-child[href]:hover::before{
 	transition: all 200ms ease;
 }
 
+button.next:hover::after,
 a.button.next:hover::after,
 main nav.pagination > a:last-child[href]:hover::after{
 	left: .25rem;
@@ -1328,10 +1332,6 @@ time{
 	background-image: url("/images/google.svg");
 }
 
-.distributed-proofreaders::before{
-	background-image: url("/images/distributed-proofreaders.svg");
-}
-
 .list::before{
 	background-image: url("/images/list.svg");
 }
@@ -1453,7 +1453,7 @@ body > footer p.sponsor-header + ul li:only-child img{
 	max-width: 100%;
 }
 
-body > footer p.sponsor-header + ul li:only-child img[src$="elevenreader.svg"]{
+body > footer p.sponsor-header + ul li:only-child a:has(img[src$="elevenreader.svg"]){
 	/* Center the logo text if it's the only sponsor child. */
 	margin-left: -24px;
 }
@@ -1494,6 +1494,23 @@ footer ul.nav-links li a,
 footer ul.nav-links li::after{
 	font-size: .9rem;
 	white-space: nowrap;
+}
+
+footer ul.nav-links li form button{
+	all: unset;
+	color: inherit;
+	cursor: pointer;
+	font-size: .9rem;
+	text-decoration: underline;
+	white-space: nowrap;
+}
+
+footer ul.nav-links li form button:hover{
+	color: var(--link-highlight);
+}
+
+footer ul.nav-links li form button:focus{
+	outline: 1px dashed var(--input-outline);
 }
 
 footer ul.nav-links li:not(:last-child)::after{
@@ -1949,11 +1966,6 @@ p.no-results{
 	text-align: center;
 }
 
-.s-pd-warning{
-	font-style: italic;
-	margin-top: 1rem;
-}
-
 /* remove some styles from Chromium / Webkit */
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button{
@@ -2001,6 +2013,10 @@ input[type="datetime-local"]{
 	color: var(--body-text);
 	line-height: 1.4;
 	box-shadow: 1px 1px 0 rgba(255, 255, 255, .5) inset;
+}
+
+input[readonly]{
+	color: var(--sub-text);
 }
 
 label:has(input[type="email"]) input,
@@ -2135,6 +2151,7 @@ label:has(input[type="search"])::before,
 label.icon::before,
 label:has(input[type="url"])::before,
 label:has(input[type="password"])::before{
+	font-weight: normal;
 	display: block;
 	position: absolute;
 	bottom: 1.2rem;
@@ -2164,11 +2181,6 @@ label:has(input[type="email"])::before{
 	content: "\f0e0" / "";
 }
 
-label:has(input[type="password"])::before{
-	content: "\f084";
-	content: "\f084" / "";
-}
-
 label.captcha::before{
 	content: "\f256";
 	content: "\f256" / "";
@@ -2189,14 +2201,9 @@ label.pencil-square::before{
 	content: "\f044" / "";
 }
 
-label.user-id::before{
-	content: "\f2c2";
-	content: "\f2c2" / "";
-}
-
 label.id::before{
-	content: "\f2bc";
-	content: "\f2bc" / "";
+	content: "\f577";
+	content: "\f577" / "";
 }
 
 label.dollar::before{
@@ -2204,9 +2211,9 @@ label.dollar::before{
 	content: "\f155" / "";
 }
 
-label.money::before{
-	content: "\f0d6";
-	content: "\f0d6" / "";
+label.bank::before{
+	content: "\f19c";
+	content: "\f19c" / "";
 }
 
 label.year::before{
@@ -2242,11 +2249,6 @@ label.book::before{
 label.ordered-list::before{
 	content: "\f0cb";
 	content: "\f0cb" / "";
-}
-
-label.hourglass::before{
-	content: "\f254";
-	content: "\f254" / "";
 }
 
 label.tags:not(:has(select))::before{
@@ -2552,6 +2554,10 @@ img[src="/images/captcha"]{
 	margin-bottom: 0;
 }
 
+.button-row .divider{
+	font-style: italic;
+}
+
 .masthead h2 + section > h3{
 	margin-top: 0;
 }
@@ -2691,15 +2697,68 @@ img[src="/images/captcha"]{
 	font-weight: normal;
 }
 
-#donate .button-row a:last-child{
-	grid-column: 1 / span 2;
+#donate .button-row.center{
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-rows: 1fr auto 1fr;
 }
 
-.donate aside{
+#donate .button-row.center.counter-active{
+	grid-template-rows: none;
+}
+
+#donate .button-row > .button{
+	grid-column: 1 / -1;
+	align-self: stretch;
+	align-content: center;
+}
+
+#donate .button-row > .button[href="/donations/new"]{
+	font-size: 1.25rem;
+}
+
+#donate .button-row.counter-active > .button{
+	grid-column: auto;
+	width: 100%;
+}
+
+#donate .button-row .divider{
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	width: 100%;
+}
+
+#donate .button-row .divider::before,
+#donate .button-row .divider::after{
+	content: '';
+	flex: 1;
+	border-top: 1px dashed;
+}
+
+#donate .button-row .alternatives{
+	display: contents;
+}
+
+#donate .button-row .alternatives .button{
+	width: 100%;
+	min-width: 0;
+	white-space: normal;
+	align-content: center;
+}
+
+#donate .button-row.counter-active .alternatives .button:only-child{
+	grid-column: 1 / -1;
+	justify-self: center;
+	width: auto;
+}
+
+.donate aside:not(.alert){
 	margin-top: 2rem;
 	padding-top: 2rem;
 	font-style: italic;
 	border-top: 1px dashed var(--sub-text);
+	margin-bottom: 0;
 }
 
 .donate aside:first-child{
@@ -2791,15 +2850,6 @@ article.ebook h2 + section > h3:first-of-type{
 	margin-top: 1rem;
 }
 
-.acroynm{
-	font-variant: all-small-caps;
-}
-
-.anti-spam{
-	position: absolute;
-	left: -5000px;
-}
-
 .message + form,
 h2 + form,
 p + form{
@@ -2850,6 +2900,7 @@ fieldset{
 	padding: 0;
 	margin: 0;
 	border: none;
+	min-width: 0; /* Allow shrinking of fieldsets on narrow screens. */
 }
 
 label.controls-following-fieldset + fieldset{
@@ -2882,6 +2933,18 @@ fieldset legend{
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	padding: 0; /* Reset browser style */
+}
+
+fieldset legend.question{
+	width: 100%;
+	font-family: inherit;
+	font-size: 1rem;
+	font-weight: bold;
+	line-height: inherit;
+	letter-spacing: normal;
+	text-transform: none;
+	margin: 0;
+	border-bottom: 1px dashed var(--input-border);
 }
 
 fieldset.grouped{
@@ -3544,6 +3607,7 @@ form div.footer{
 	border: 3px double;
 	padding: 2rem;
 	margin-top: 3rem;
+	text-align: center;
 }
 
 .join-patrons-circle-callout h3{
@@ -3744,6 +3808,8 @@ dl{
 	width: auto;
 }
 
+td.currency,
+th.currency,
 dl > dd.id{
 	font-variant-numeric: tabular-nums;
 }
@@ -3778,13 +3844,6 @@ nav.breadcrumbs{
 nav.breadcrumbs + h1{
 	margin-top: 0;
 	padding-top: 0;
-}
-
-.extra-line > span:first-child::before{
-	content: 'Spacer';
-	visibility: hidden;
-	display: block;
-	font-weight: normal;
 }
 
 .patron-selection{
@@ -3946,6 +4005,16 @@ nav.ebooks-navigation > ul li + li::before{
 .columns-layout > section > h2{
 	padding-bottom: 1rem;
 	border-bottom: 3px double;
+}
+
+.highlighted{
+	/* See <https://stackoverflow.com/a/64127605>. */
+	background: transparent;
+	background-image: linear-gradient(to right, rgba(255, 225, 0, 0.1), rgba(255, 225, 0, 0.7) 4%, rgba(255, 225, 0, 0.3));
+	border-radius: 0.8em 0.3em;
+	box-decoration-break: clone;
+	-webkit-box-decoration-break: clone;
+	padding: 0.1em 0.4em;
 }
 
 @media(max-width: 700px){
@@ -4184,8 +4253,9 @@ nav.ebooks-navigation > ul li + li::before{
 		grid-template-columns: 1fr;
 	}
 
-	#donate .button-row a:last-child{
-		grid-column: 1;
+	#donate .button-row.center{
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr auto 1fr 1fr;
 	}
 
 	.donate a.button{
@@ -4446,6 +4516,12 @@ nav.ebooks-navigation > ul li + li::before{
 	}
 }
 
+@media(width < 500px){
+	div.footer button{
+		white-space: normal;
+	}
+}
+
 @media(max-width: 500px){
 	main > article > form{
 		margin-bottom: .5rem;
@@ -4699,8 +4775,10 @@ nav.ebooks-navigation > ul li + li::before{
 	header nav li a,
 	header nav li a:hover,
 	header nav li a[aria-current]:hover,
+	button.next::after,
 	a.button.next::after,
 	main nav.pagination > a:last-child::after,
+	button.next:hover::after,
 	a[href].button.next:hover::after,
 	main nav.pagination > a:last-child[href]:hover::after,
 	main nav.pagination > a:first-child:before,

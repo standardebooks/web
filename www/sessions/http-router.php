@@ -1,6 +1,7 @@
 <?
 /**
  * POST		/sessions
+ * DELETE	/sessions/:session-id
  */
 
 if(Http::$Request->RelativeUri->getPath() == '/sessions'){
@@ -8,5 +9,5 @@ if(Http::$Request->RelativeUri->getPath() == '/sessions'){
 	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Post]);
 }
 else{
-	Http::$Request->Route();
+	Http::$Request->Route(allowedHttpMethods: [Enums\HttpMethod::Delete]);
 }

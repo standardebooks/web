@@ -264,7 +264,7 @@ final class Project{
 
 		if($createProducer){
 			try{
-				$this->Producer->Create(null, false);
+				$this->Producer->Create(false);
 				$this->ProducerUserId = $this->Producer->UserId;
 			}
 			catch(Exceptions\UserExistsException){

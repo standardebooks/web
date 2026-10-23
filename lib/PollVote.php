@@ -91,7 +91,7 @@ class PollVote{
 	public function Create(): void{
 		$this->Validate();
 
-		Db::Query('START transaction');
+		Db::Query('start transaction');
 
 		try{
 			// Lock a stable `PollItems` row for this `Poll`.

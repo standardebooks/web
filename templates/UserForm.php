@@ -4,7 +4,6 @@
  */
 
 $generateNewUuid ??= false;
-$passwordAction ??= Enums\PasswordActionType::Edit;
 $isEditForm ??= false;
 ?>
 
@@ -27,7 +26,7 @@ $isEditForm ??= false;
 </label>
 <? if($isEditForm){ ?>
 	<fieldset>
-		<label class="icon user-id">
+		<label class="icon id">
 			UUID
 			<input
 				type="text"
@@ -42,51 +41,6 @@ $isEditForm ??= false;
 		</label>
 	</fieldset>
 <? } ?>
-<fieldset>
-	<ul>
-		<? if($user->PasswordHash === null){ ?>
-			<li>
-				<fieldset>
-					<label>
-						<input type="checkbox" name="password-action" value="<?= Enums\PasswordActionType::Edit->value ?>"<? if($passwordAction == Enums\PasswordActionType::Edit){ ?> checked="checked"<? } ?> />Set a password
-					</label>
-					<label>
-						Password
-						<input
-							type="password"
-							name="user-password"
-						/>
-					</label>
-				</fieldset>
-			</li>
-		<? }else{ ?>
-			<li>
-				<label>
-					<input type="radio" name="password-action" value="<?= Enums\PasswordActionType::None->value ?>"<? if($passwordAction == Enums\PasswordActionType::None){ ?> checked="checked"<? } ?> />Don’t change password
-				</label>
-			</li>
-			<li>
-				<label>
-					<input type="radio" name="password-action" value="<?= Enums\PasswordActionType::Delete->value ?>"<? if($passwordAction == Enums\PasswordActionType::Delete){ ?> checked="checked"<? } ?> />Remove password
-				</label>
-			</li>
-			<li>
-				<fieldset>
-					<label>
-						<input type="radio" name="password-action" value="<?= Enums\PasswordActionType::Edit->value ?>"<? if($passwordAction == Enums\PasswordActionType::Edit){ ?> checked="checked"<? } ?> />Change password
-					</label>
-					<label>
-						Password
-						<input
-							type="password"
-							name="user-password"
-						/>
-					</label>
-				</fieldset>
-			</li>
-		<? } ?>
-	</ul>
-</fieldset>
 <fieldset>
 	<legend>Benefits</legend>
 	<fieldset class="grouped">

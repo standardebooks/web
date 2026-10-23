@@ -2,6 +2,7 @@
 /**
  * @var bool $isAnonymous
  * @var bool $isReturning
+ * @var bool $hasRecurringSubscription
  */
 ?><!DOCTYPE html>
 <html lang="en">
@@ -16,8 +17,11 @@
 	<? }else{ ?>
 		<p>I’m pleased to be able to <? if($isReturning){ ?>welcome you back to<? }else{ ?>include you in<? } ?> our Patrons Circle, with your name listed on our masthead for the duration of your donation. If you’d like to use a different name than the one you entered on our donation form, just let me know.</p>
 	<? } ?>
-	<p>As a Patron, once per quarter you may suggest a book for inclusion in our Wanted Ebooks list. Before submitting a suggestion, please review our <a href="https://standardebooks.org/contribute/collections-policy">collections policy</a>; then you can contact me directly at <a href="mailto:<?= EDITOR_IN_CHIEF_EMAIL_ADDRESS ?>"><?= EDITOR_IN_CHIEF_EMAIL_ADDRESS ?></a> with your selection.</p>
-	<p>You also get access to our <a href="https://standardebooks.org/feeds">ebook feeds</a> for use in your ereading app or RSS reader, and <a href="https://standardebooks.org/bulk-downloads">bulk downloads</a> to download collections of ebooks easily. To use these, enter your email address when prompted, and leave the password field empty.</p>
+	<p>As a Patron, once per quarter you may suggest a book for inclusion in our Wanted Ebooks list. Before submitting a suggestion, please review our <a href="<?= SITE_URL ?>/contribute/collections-policy">collections policy</a>; then you can contact me directly at <a href="mailto:<?= EDITOR_IN_CHIEF_EMAIL_ADDRESS ?>"><?= EDITOR_IN_CHIEF_EMAIL_ADDRESS ?></a> with your selection.</p>
+	<p>You also get access to our <a href="<?= SITE_URL ?>/feeds">ebook feeds</a> for use in your ereading app or RSS reader, and <a href="<?= SITE_URL ?>/bulk-downloads">bulk downloads</a> to download collections of ebooks easily. To use these, enter your email address when prompted, and leave the password field empty.</p>
+	<? if($hasRecurringSubscription){ ?>
+		<p>To manage your recurring donation, <a href="<?= SITE_URL ?>/sessions/new">log in using the link at the bottom of the site.</a></p>
+	<? } ?>
 	<p><? if($isReturning){ ?>As always, please<? }else{ ?>Please<? } ?> don’t hesitate to contact me if you have questions or suggestions. Thanks again for your donation, and for supporting the literate arts!</p>
 	<footer style="margin-top: 2em;">
 		<p>Alex Cabal</p>

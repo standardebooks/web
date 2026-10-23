@@ -4,12 +4,14 @@
  * @var Payment $payment
  */
 ?>
-Name: <? if($patron->User->Name === null){ ?>Anonymous<? }else{ ?><?= Formatter::EscapeHtml($patron->User->Name) ?><? if($patron->IsAnonymous){ ?> (Anonymous)<? } ?><? } ?><? if(isset($patron->UserId)){ ?> (<?= $patron->UserId ?>)<? } ?>
+Name: <? if($patron->User->Name === null){ ?>Anonymous<? }else{ ?><? if(isset($patron->UserId)){ ?>[<?= $patron->User->Name ?>](<?= SITE_URL ?><?= $patron->User->Url ?>) (#<?= $patron->UserId ?>)<? }else{ ?><?= $patron->User->Name ?><? } ?><? } ?>
 
 Donation type: <? if($payment->IsRecurring){ ?>Recurring<? }else{ ?>One-time<? } ?>
 
-Donation amount: <?= Formatter::EscapeHtml(number_format($payment->Amount, 2)) ?>
+Donation amount: <?= Formatter::EscapeHtml(Formatter::FormatCurrency($payment->Amount)) ?>
 
-Donation fee: <?= Formatter::EscapeHtml(number_format($payment->Fee, 2)) ?>
+Donation fee: <?= $payment->Fee === null ? 'Pending' : Formatter::EscapeHtml(Formatter::FormatCurrency($payment->Fee)) ?>
 
-Transaction ID: <?= Formatter::EscapeHtml($payment->TransactionId) ?>
+Processor: <?= $payment->Processor->GetDisplayName() ?>
+
+Transaction ID: [<?= Formatter::EscapeHtml($payment->TransactionId) ?>](<?= $payment->ProcessorUrl ?>)

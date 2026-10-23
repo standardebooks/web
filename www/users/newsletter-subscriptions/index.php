@@ -72,12 +72,8 @@ catch(Exceptions\UserNotFoundException){
 			<? }else{ ?>
 				<ul>
 					<? foreach($user->NewsletterSubscriptions as $newsletterSubscription){ ?>
-						<li class="newsletter-description">
-							<p><b><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?></b><? if(!$newsletterSubscription->IsConfirmed){ ?> • <i>Confirmation pending</i><? } ?></p>
-							<? if($newsletterSubscription->Newsletter->Description !== null){ ?>
-								<p><?= $newsletterSubscription->Newsletter->Description ?></p>
-							<? } ?>
-							<form action="<?= $newsletterSubscription->Url ?>" method="<?= Enums\HttpMethod::Post->value ?>"><input type="hidden" name="_method" value="<?= Enums\HttpMethod::Delete->value ?>"/><button>Unsubscribe</button></form>
+						<li>
+							<p><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?><? if(!$newsletterSubscription->IsConfirmed){ ?> • <i>Confirmation pending</i><? } ?> • <a href="<?= $newsletterSubscription->DeleteUrl ?>">Unsubscribe</a></p>
 						</li>
 					<? } ?>
 				</ul>

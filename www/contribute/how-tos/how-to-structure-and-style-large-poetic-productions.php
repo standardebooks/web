@@ -6,7 +6,7 @@
 		<aside class="alert">
 			<p class="warning">Before you read</p>
 			<p>
-				<strong>Before consulting this guide, make sure to read the <a href="https://standardebooks.org/manual/latest">Standard Ebooks Manual of Style</a> on the structural patterns, semantics, and CSS of poetry, verse, and songs.</strong>
+				<strong>Before consulting this guide, make sure to read the <a href="/manual/latest">Standard Ebooks Manual of Style</a> on the structural patterns, semantics, and CSS of poetry, verse, and songs.</strong>
 			</p>
 		</aside>
 		<details id="toc">
@@ -146,7 +146,7 @@ v####This line is at i3.
 				</aside>
 				<section id="modernize-prose-frontmatter-and-backmatter">
 					<h3>Modernize prose frontmatter and backmatter<a class="heading-permalink" href="#modernize-prose-frontmatter-and-backmatter" aria-label="Permalink"></a></h3>
-				<p>Prose elements, such as poem titles, dedications, prefaces, and endnotes should have spelling, hyphenation, spacing in select words modernized as normal. See the step “<a href="https://standardebooks.org/contribute/producing-an-ebook-step-by-step#modernize">Modernizing Spelling and Hyphenation</a>” in the Step by Step guide.</p>
+				<p>Prose elements, such as poem titles, dedications, prefaces, and endnotes should have spelling, hyphenation, spacing in select words modernized as normal. See the step “<a href="/contribute/producing-an-ebook-step-by-step#modernize">Modernizing Spelling and Hyphenation</a>” in the Step by Step guide.</p>
 				<p>You can target specific files with the <code class="bash"><b>se</b> modernize-spelling</code> tool.</p>
 				<code class="terminal">
 					<span><b>se</b> modernize-spelling src/epub/text/preface.xhtml</span>

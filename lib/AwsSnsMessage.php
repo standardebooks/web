@@ -39,7 +39,17 @@ class AwsSnsMessage{
 		$data = [];
 
 		try{
-			$message = Message::fromJsonString(file_get_contents('php://input'));
+			try{
+				/**
+				 * @throws \InvalidArgumentException If required SNS fields are missing.
+				 * @throws \RuntimeException If the body is not a JSON array or object.
+				 */
+				$message = Message::fromJsonString(file_get_contents('php://input'));
+			}
+			catch(\InvalidArgumentException | \RuntimeException $ex){
+				throw new Exceptions\SnsMessageInvalidException($ex::class . ': ' . $ex->getMessage());
+			}
+
 			/** @var array<string, string> $downloadedCertificates */
 			$downloadedCertificates = [];
 

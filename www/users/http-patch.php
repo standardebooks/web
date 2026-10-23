@@ -29,24 +29,6 @@ try{
 		$user->GenerateUuid();
 	}
 
-	$passwordAction = Enums\PasswordActionType::tryFrom(Http::$Request->Body->Get('password-action') ?? '') ?? Enums\PasswordActionType::None;
-	$oldPasswordHash = $user->PasswordHash;
-
-	switch($passwordAction){
-		case Enums\PasswordActionType::Delete:
-			$user->PasswordHash = null;
-			break;
-
-		case Enums\PasswordActionType::Edit:
-			$password = Http::$Request->Body->Get('user-password');
-
-			if($password !== null){
-				$user->PasswordHash = password_hash($password, PASSWORD_DEFAULT);
-			}
-
-			break;
-	}
-
 	$user->Save(false);
 
 	$_SESSION['user/edit/is-saved'] = true;
@@ -67,12 +49,6 @@ catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 	if($generateNewUuid){
 		$user->Uuid = $originalUuid;
 		$_SESSION['user/edit/generate-new-uuid'] = $generateNewUuid;
-	}
-
-	$_SESSION['user/edit/password-action'] = $passwordAction;
-
-	if($ex instanceof Exceptions\UserInvalidException && $ex->Has(Exceptions\BenefitsRequirePasswordException::class) && isset($oldPasswordHash)){
-		$user->PasswordHash = $oldPasswordHash;
 	}
 
 	$_SESSION['user/edit/user'] = $user;

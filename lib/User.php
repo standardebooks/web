@@ -13,7 +13,6 @@ final class User{
 	public DateTimeImmutable $CreatedAt;
 	public DateTimeImmutable $UpdatedAt;
 	public string $Uuid;
-	public ?string $PasswordHash = null;
 	public bool $CanReceiveEmail = true;
 
 	public private(set) ?string $FirstName = null{
@@ -93,6 +92,39 @@ final class User{
 		}
 	}
 
+	public private(set) ?string $NamePossessive{
+		get{
+			if(!isset($this->NamePossessive)){
+				if($this->Name === null){
+					$this->NamePossessive = null;
+				}
+				else{
+					$namePossessive = $this->Name . "’s";
+
+					if(mb_strlen($namePossessive, 'utf-8') >= 3){
+						if(mb_strtolower(mb_substr($namePossessive, mb_strlen($namePossessive, 'utf-8') - 3, 3, 'utf-8'), 'utf-8') == "s’s"){
+							$namePossessive = $this->Name . "’";
+						}
+					}
+
+					$this->NamePossessive = $namePossessive;
+				}
+			}
+
+			return $this->NamePossessive;
+		}
+	}
+
+	public private(set) bool $HasFracturedAtlasPayments{
+		get{
+			if(!isset($this->HasFracturedAtlasPayments)){
+				$this->HasFracturedAtlasPayments = Db::QueryBool('select exists(select * from Payments where UserId = ? and Processor = ?)', [$this->UserId, Enums\PaymentProcessorType::FracturedAtlas]);
+			}
+
+			return $this->HasFracturedAtlasPayments;
+		}
+	}
+
 	/** @var array<NewsletterSubscription> $NewsletterSubscriptions */
 	public array $NewsletterSubscriptions{
 		get{
@@ -168,35 +200,18 @@ final class User{
 		get{
 			if(!isset($this->Benefits)){
 				if(isset($this->UserId)){
-					$result = Db::Query('
+					$this->Benefits = Db::Query('
 								select *
 								from Benefits
 								where UserId = ?
-							', [$this->UserId], Benefits::class);
-
-					if(sizeof($result) == 0){
-						$this->Benefits = new Benefits();
-						$this->RequiresPassword = false;
-					}
-					else{
-						$this->Benefits = $result[0];
-						$this->RequiresPassword = true;
-					}
+							', [$this->UserId], Benefits::class)[0] ?? new Benefits();
 				}
 				else{
 					$this->Benefits = new Benefits();
-					$this->RequiresPassword = false;
 				}
 			}
 
 			return $this->Benefits;
-		}
-	}
-
-	public private(set) bool $RequiresPassword{
-		get{
-			// A user is "registered" if they have an entry in the `Benefits` table.
-			return $this->RequiresPassword ??= isset($this->Benefits->UserId);
 		}
 	}
 
@@ -249,22 +264,13 @@ final class User{
 			$this->Name = null;
 		}
 
-		if(trim($this->PasswordHash ?? '') == ''){
-			$this->PasswordHash = null;
-		}
-
-		// Some benefits require this `User` to have a password set.
-		if($this->Benefits->RequiresPassword && $this->PasswordHash === null){
-			$error->Add(new Exceptions\BenefitsRequirePasswordException());
-		}
-
 		if($error->HasExceptions){
 			throw $error;
 		}
 	}
 
 	public function GenerateUuid(): void{
-		$uuid = Uuid::uuid4();
+		$uuid = Uuid::uuid7();
 		$this->Uuid = $uuid->toString();
 	}
 
@@ -272,14 +278,9 @@ final class User{
 	 * @throws Exceptions\UserInvalidException
 	 * @throws Exceptions\UserExistsException
 	 */
-	public function Create(?string $password = null, bool $requireEmail = true): void{
+	public function Create(bool $requireEmail = true): void{
 		if(!isset($this->Uuid)){
 			$this->GenerateUuid();
-		}
-
-		$this->PasswordHash = null;
-		if($password !== null){
-			$this->PasswordHash = password_hash($password, PASSWORD_DEFAULT);
 		}
 
 		$this->Validate($requireEmail);
@@ -288,14 +289,13 @@ final class User{
 
 		try{
 			$this->UserId = Db::QueryInt('
-					insert into Users (Email, Name, Uuid, CreatedAt, PasswordHash)
+					insert into Users (Email, Name, Uuid, CreatedAt)
 					values (?,
-					        ?,
 					        ?,
 					        ?,
 					        ?)
 					returning UserId
-				', [$this->Email, $this->Name, $this->Uuid, $this->CreatedAt, $this->PasswordHash]);
+				', [$this->Email, $this->Name, $this->Uuid, $this->CreatedAt]);
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
 			throw new Exceptions\UserExistsException();
@@ -319,18 +319,17 @@ final class User{
 		try{
 			Db::Query('
 					update Users
-					set Email = ?, Name = ?, Uuid = ?, UpdatedAt = ?, PasswordHash = ?
+					set Email = ?, Name = ?, Uuid = ?, UpdatedAt = ?
 					where
 					UserId = ?
-				', [$this->Email, $this->Name, $this->Uuid, $this->UpdatedAt, $this->PasswordHash, $this->UserId]);
+				', [$this->Email, $this->Name, $this->Uuid, $this->UpdatedAt, $this->UserId]);
 
-			if($this->RequiresPassword){
+			if(isset($this->Benefits->UserId)){
 				$this->Benefits->Save();
 			}
-			elseif($this->Benefits->HasBenefits){
+			elseif($this->Benefits->HasAnyBenefits){
 				$this->Benefits->UserId = $this->UserId;
 				$this->Benefits->Create();
-				$this->RequiresPassword = true;
 			}
 		}
 		catch(Exceptions\DuplicateDatabaseKeyException){
@@ -585,9 +584,8 @@ final class User{
 	 * @param ?string $identifier Either an email or a UUID (i.e., an api key).
 	 *
 	 * @throws Exceptions\UserNotFoundException
-	 * @throws Exceptions\PasswordRequiredException
 	 */
-	public static function GetIfRegistered(?string $identifier, ?string $password = null): User{
+	public static function GetIfRegistered(?string $identifier): User{
 		if($identifier === null){
 			throw new Exceptions\UserNotFoundException();
 		}
@@ -599,15 +597,6 @@ final class User{
 					where u.Email = ?
 					    or u.Uuid = ?
 				', [$identifier, $identifier], User::class)[0] ?? throw new Exceptions\UserNotFoundException();
-
-		if($user->PasswordHash !== null && $password === null){
-			// Indicate that a password is required before we log in.
-			throw new Exceptions\PasswordRequiredException();
-		}
-
-		if($user->PasswordHash !== null && !password_verify($password, $user->PasswordHash)){
-			throw new Exceptions\UserNotFoundException();
-		}
 
 		return $user;
 	}

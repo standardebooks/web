@@ -1,0 +1,103 @@
+form.donation-form{
+	display: grid;
+	grid-gap: 2rem;
+}
+
+form.donation-form .donor-details{
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 2rem;
+}
+
+@media(max-width: 600px){
+	form.donation-form .donor-details{
+		grid-template-columns: 1fr;
+	}
+}
+
+form.donation-form fieldset{
+	min-width: 0;
+}
+
+form.donation-form label:has(input[type="radio"]){
+	display: flex;
+	font-weight: normal;
+	margin: 1rem 0;
+}
+
+form.donation-form label:has(input[type="radio"]:disabled){
+	color: var(--sub-text);
+	cursor: text;
+}
+
+form.donation-form label:has(input[type="radio"]:disabled) input{
+	cursor: text;
+}
+
+form.donation-form fieldset p{
+	border: none;
+}
+
+form.donation-form .amount-choice,
+form.donation-form .yearly-savings,
+form.donation-form .membership-once,
+form.donation-form .membership-recurring,
+form.donation-form .membership-listing{
+	display: none;
+}
+
+form.donation-form .custom-amount,
+form.donation-form .membership-listing{
+	padding-left: 1.25rem;
+	margin-top: 1rem;
+}
+
+form.donation-form .custom-amount.icon::before{
+	left: 2.25rem;
+}
+
+form.donation-form .membership-recurring:has(> input[type="hidden"][name="membership"][value="join"]) > .membership-listing{
+	padding-left: 0;
+}
+
+form.donation-form label:has(input[type="radio"]):has(+ .custom-amount){
+	margin-bottom: 0;
+}
+
+form.donation-form .custom-amount:not(:has(input[type="checkbox"])){
+	font-style: italic;
+	font-weight: normal;
+	margin-top: 0;
+}
+
+form.donation-form .membership-once p,
+form.donation-form .membership-recurring p{
+	font-style: italic;
+}
+
+form.donation-form:has(input[name="frequency"][value="once"]:checked) .membership-once,
+form.donation-form:has(input[name="frequency"][value="month"]:checked) .membership-recurring,
+form.donation-form:has(input[name="frequency"][value="year"]:checked) .membership-recurring,
+form.donation-form:has(input[name="frequency"][value="once"]:checked) .amount-choice[data-frequency="once"],
+form.donation-form:has(input[name="frequency"][value="month"]:checked):has(input[name="membership"][value="donate"]:checked) .amount-choice[data-frequency="month"][data-membership="donate"],
+form.donation-form:has(input[name="frequency"][value="month"]:checked):has(input[name="membership"][value="join"]:is(:checked, [type="hidden"])) .amount-choice[data-frequency="month"][data-membership="join"],
+form.donation-form:has(input[name="frequency"][value="year"]:checked):has(input[name="membership"][value="donate"]:checked) .amount-choice[data-frequency="year"][data-membership="donate"],
+form.donation-form:has(input[name="frequency"][value="year"]:checked):has(input[name="membership"][value="join"]:is(:checked, [type="hidden"])) .amount-choice[data-frequency="year"][data-membership="join"],
+form.donation-form .membership-recurring:has(> input[type="hidden"][name="membership"][value="join"]) > .membership-listing,
+form.donation-form .membership-recurring:has(> label > input[name="membership"][value="join"]:checked) > .membership-listing{
+	display: block;
+}
+
+form.donation-form:has(input[name="membership"][value="join"]:is(:checked, [type="hidden"])) .yearly-savings{
+	display: inline;
+	line-height: inherit;
+}
+
+form.donation-form button{
+	margin: auto;
+	white-space: normal;
+}
+
+.donate aside{
+	margin: 0 0 2rem 0;
+}

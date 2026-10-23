@@ -12,7 +12,7 @@ $stagedImageToken ??= null;
 <? if($stagedImageToken !== null){ ?>
 	<input type="hidden" name="blog-post-hero-image-token" value="<?= Formatter::EscapeHtml($stagedImageToken) ?>" />
 <? } ?>
-<label class="icon user">
+<label class="icon id">
 	<span>Author identifier</span>
 	<span>A user ID, email, UUID, or name.</span>
 	<input

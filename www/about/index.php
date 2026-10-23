@@ -21,26 +21,50 @@ $patronsCircle = Db::Query('
 				order by regexp_substr(SortName, "[\\\s][\\\p{L}\\\-]+$") asc
 			');
 
+// Fully anonymous FA gifts qualify at the price effective on their donation date.
 $anonymousPatronCount = Db::QueryInt('
 				select sum(cnt)
-				from (
-				          ( select count(*) cnt
-				           from Payments
-				           where UserId is null
-				               and IsMatchingDonation = false
-				               and ( (IsRecurring = true
-				                      and Amount >= 10
-				                      and CreatedAt >= utc_timestamp() - interval 30 day)
-				                    or (IsRecurring = false
-				                        and Amount >= 100
-				                        and CreatedAt >= utc_timestamp() - interval 1 year) ) )
-				      union all
-				          ( select count(*) as cnt
-				           from Patrons
-				           where IsAnonymous = true
-				               and EndedAt is null )
-				      ) x
-				');
+				from
+				(
+					(
+						select count(*) as cnt
+						from Payments payment
+						inner join PatronPrices price
+						on
+						price.EffectiveAt = (
+							select max(history.EffectiveAt)
+							from PatronPrices history
+							where history.EffectiveAt <= payment.CreatedAt
+						)
+						where payment.Processor = ?
+						and
+						payment.UserId is null
+						and
+						payment.IsMatchingDonation = false
+						and
+						(
+							(
+								payment.IsRecurring = true
+								and payment.Amount >= price.MonthlyAmount
+								and payment.CreatedAt >= utc_timestamp() - interval 30 day
+							)
+							or
+							(
+								payment.IsRecurring = false
+								and payment.Amount >= price.YearlyAmount
+								and payment.CreatedAt >= utc_timestamp() - interval 1 year
+							)
+						)
+					)
+					union all
+					(
+						select count(*) as cnt
+						from Patrons
+						where IsAnonymous = true
+						and EndedAt is null
+					)
+				) x
+				', [Enums\PaymentProcessorType::FracturedAtlas]);
 
 ?><?= Template::Header(title: 'About Standard Ebooks', highlight: 'about', description: 'Standard Ebooks is a volunteer-driven effort to produce a collection of high quality, carefully formatted, accessible, open source, and free public domain ebooks that meet or exceed the quality of commercially produced ebooks. The text and cover art in our ebooks is already believed to be in the public domain, and Standard Ebook dedicates its own work to the public domain, thus releasing the entirety of each ebook file into the public domain.') ?>
 <main>

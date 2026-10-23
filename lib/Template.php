@@ -21,6 +21,10 @@ use function Safe\preg_replace;
  * @method static string EbookPlaceholderForm(Ebook $ebook, bool $isEditForm = false, bool $showProjectForm = true)
  * @method static string EmailAdminNewPatron(Patron $patron, Payment $payment)
  * @method static string EmailAdminNewPatronText(Patron $patron, Payment $payment)
+ * @method static string EmailAdminNewOneTimeDonation(Payment $payment)
+ * @method static string EmailAdminNewOneTimeDonationText(Payment $payment)
+ * @method static string EmailAdminNewRecurringDonation(Payment $payment, Enums\CycleType $cycleType)
+ * @method static string EmailAdminNewRecurringDonationText(Payment $payment, Enums\CycleType $cycleType)
  * @method static string EmailAdminUnprocessedDonations()
  * @method static string EmailAdminUnprocessedDonationsText()
  * @method static string EmailDonationProcessingFailed(string $exception)
@@ -40,14 +44,18 @@ use function Safe\preg_replace;
  * @method static string EmailPatronsCircleCompletedText(int $ebooksThisYear)
  * @method static string EmailPatronsCircleRecurringCompleted()
  * @method static string EmailPatronsCircleRecurringCompletedText()
- * @method static string EmailPatronsCircleWelcome(bool $isAnonymous, bool $isReturning)
- * @method static string EmailPatronsCircleWelcomeText(bool $isAnonymous, bool $isReturning)
+ * @method static string EmailPatronsCircleWelcome(bool $isAnonymous, bool $isReturning, bool $hasRecurringSubscription)
+ * @method static string EmailPatronsCircleWelcomeText(bool $isAnonymous, bool $isReturning, bool $hasRecurringSubscription)
  * @method static string EmailProjectAbandoned()
  * @method static string EmailProjectAbandonedText()
  * @method static string EmailProjectStalled()
  * @method static string EmailProjectStalledText()
  * @method static string EmailReviewerProjectReady(Project $project, User $user)
  * @method static string EmailReviewerProjectReadyText(Project $project, User $user)
+ * @method static string EmailSessionLoginCode(string $url)
+ * @method static string EmailSessionLoginCodeText(string $url)
+ * @method static string EmailYearlyRenewal(Subscription $subscription, int $ebookCount)
+ * @method static string EmailYearlyRenewalText(Subscription $subscription, int $ebookCount)
  * @method static string Error(?Exception $exception)
  * @method static string FeedHowTo()
  * @method static string Footer()
@@ -67,7 +75,7 @@ use function Safe\preg_replace;
  * @method static string RealisticEbook(Ebook $ebook)
  * @method static string SearchForm(string $query, array<string> $tags, Enums\EbookSortType $sort, Enums\ViewType $view, int $perPage)
  * @method static string SpreadsheetForm(Spreadsheet $spreadsheet, $isEditForm = false)
- * @method static string UserForm(User $user, Enums\PasswordActionType $passwordAction, bool $generateNewUuid = false, bool $isEditForm = false)
+ * @method static string UserForm(User $user, bool $generateNewUuid = false, bool $isEditForm = false)
  * @method static string WantedEbooksList(array<Ebook> $ebooks, bool $showPlaceholderMetadata)
  */
 class Template extends TemplateBase{
@@ -75,9 +83,15 @@ class Template extends TemplateBase{
 	 * Return a safe redirect destination, allowing only site-relative paths.
 	 */
 	public static function SanitizeRedirectUrl(?string $url): string{
-		$url = preg_replace('|^' . SITE_URL . '|u', '', trim($url ?? ''));
+		// Reject invalid UTF-8 before running Unicode regular expressions.
+		if(!mb_check_encoding($url ?? '', 'UTF-8')){
+			return '/';
+		}
 
-		if($url == '' || !preg_match('|^/(?!/)|u', $url) || preg_match('/[\r\n]/u', $url)){
+		$url = preg_replace('|^' . preg_quote(SITE_URL, '|') . '|u', '', trim($url ?? ''));
+
+		// Reject separators and control characters that browsers can normalize into an external destination.
+		if($url == '' || !preg_match('|^/(?!/)|u', $url) || str_starts_with($url, '/\\') || preg_match('/[\x00-\x1f\x7f]/u', $url)){
 			return '/';
 		}
 

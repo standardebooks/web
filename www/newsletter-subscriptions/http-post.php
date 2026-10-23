@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 try{
 	session_start();
 
-	$uuid = Uuid::uuid4();
+	$uuid = Uuid::uuid7();
 
 	if(Http::$Request->Body->Get('automation-test')){
 		// A bot filled out this form field, which should always be empty. Pretend like we succeeded.
@@ -119,7 +119,7 @@ catch(Exceptions\SpamSuspectedException){
 	$_SESSION['newsletter-subscription/create/is-bot'] = true;
 	header('location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
 }
-catch(Exceptions\InvalidNewsletterSubscription | Exceptions\EmailBounceExistsException | Exceptions\CaptchaInvalidException | Exceptions\NewsletterRequiredException $ex){
+catch(Exceptions\NewsletterSubscriptionInvalidException | Exceptions\EmailBounceExistsException | Exceptions\CaptchaInvalidException | Exceptions\NewsletterRequiredException $ex){
 	$_SESSION['newsletter-subscription/create/newsletter-ids'] = $newsletterIds;
 	$_SESSION['newsletter-subscription/create/email'] = $email;
 	$_SESSION['newsletter-subscription/create/exception'] = $ex;

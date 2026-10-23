@@ -40,8 +40,7 @@ try{
 
 		// Before we overwrite the original artwork with our new one, restore the old status, because if the new status is `approved` then it will hide the status form entirely, which will be confusing.
 		$oldStatus = $artwork->Status;
-		/** @var Artwork $artwork */
-		$artwork = $_SESSION['artwork/edit/artwork'] ?? $artwork;
+		$artwork = Http::$Request->Session->Get('artwork/edit/artwork', Artwork::class) ?? $artwork;
 		$artwork->Status = $oldStatus;
 
 		session_unset();

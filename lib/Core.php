@@ -69,16 +69,3 @@ if(SITE_STATUS == SITE_STATUS_LIVE){
 
 Http::Initialize();
 Session::InitializeFromCookie();
-
-if(Session::$User === null && Http::$Request->Username !== null){
-	// If there's no logged-in `User`, but a username was sent via HTTP basic auth, log them in while we're here.
-	$session = new Session();
-	try{
-		// Most `Patron`s have a `null` password, meaning they only need to log in using an email and a blank password.
-		// Some users with admin rights need a password to log in.
-		$session->Create(Http::$Request->Username, Http::$Request->Password);
-	}
-	catch(Exception){
-		// Do nothing.
-	}
-}

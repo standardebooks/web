@@ -52,7 +52,7 @@ if($exception){
 				</div>
 			</label>
 			<fieldset>
-				<p>What kind of email would you like to receive?</p>
+				<legend class="question">What kind of email would you like to receive?</legend>
 				<ul>
 					<? foreach($newsletters as $newsletter){ ?>
 						<li>

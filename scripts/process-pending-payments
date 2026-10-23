@@ -60,8 +60,6 @@ $capabilities->setCapability(FirefoxOptions::CAPABILITY, $firefoxOptions);
 
 $driver = null;
 $log = new Log();
-$lastMonth = (new DateTimeImmutable())->sub(new DateInterval('P45D')); // 45 days, a 15 day grace period before Patrons Circle members are dropped off.
-$lastYear = (new DateTimeImmutable())->sub(new DateInterval('P1Y'));
 $faUsername = get_cfg_var('se.secrets.fractured_atlas.username');
 $faPassword = get_cfg_var('se.secrets.fractured_atlas.password');
 $errorLockFilename = sys_get_temp_dir() . '/process-pending-payments';
@@ -98,7 +96,6 @@ if(sizeof($pendingPayments) == 0){
 try{
 	// TODO: In PHP 8.5, this throw a deprecation warning from `php-webdriver/webdriver` 1.16.0. Once this library is upgraded and fixed, we can remove `@`.
 	$driver = @FirefoxDriver::start($capabilities);
-	$donationCounter = DonationCounter::GetByIsActive();
 
 	foreach($pendingPayments as $pendingPayment){
 		$pendingPayment->Processor = Enums\PaymentProcessorType::from($pendingPayment->Processor);
@@ -176,17 +173,6 @@ try{
 							$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
 							$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
 							$hasSoftCredit = true;
-
-							// If we have a soft credit but no email, try go get the `User` by the soft credit line, so we don't create multiple `User`s for the same foundation.
-							if($payment->User->Email == ''){
-								try{
-									$payment->User = User::GetByName($payment->User->Name);
-									$payment->UserId = $payment->User->UserId;
-								}
-								catch(Exception){
-									// Nobody matches the name, pass.
-								}
-							}
 						}
 						else{
 							// We're a regular donation.
@@ -204,17 +190,30 @@ try{
 						// Sometimes a soft credit is `Anonymous` or `Anonymous Anonymous`.
 						// See donation `7f296e18-6492-48e1-aeca-5063c6a0bbbb`.
 						if($hasSoftCredit && preg_match('/Anonymous(\s*Anonymous)*/ius', $payment->User->Name ?? '')){
+							$payment->UserId = null;
 							$payment->User = null;
+						}
+						elseif($hasSoftCredit && $payment->User->Email == ''){
+							// Resolve named soft credits only after anonymous attribution has been discarded.
+							try{
+								$payment->User = User::GetByName($payment->User->Name);
+								$payment->UserId = $payment->User->UserId;
+							}
+							catch(Exception){
+								// Nobody matches the name, so leave the soft credit unidentified.
+							}
 						}
 
 						// We can get here via an AOGF donation that is anonymous.
 						if(!$hasSoftCredit && ($payment->User->Email == 'Not provided' || $payment->User->Email == '')){
+							$payment->UserId = null;
 							$payment->User = null;
 						}
 					}
 				}
 				catch(Exception){
 					// Anonymous donations don't have these elements present and will throw an exception.
+					$payment->UserId = null;
 					$payment->User = null;
 				}
 
@@ -236,6 +235,7 @@ try{
 				// We might also get a case where the donation is on behalf of a company match, but there's not really a way to distinguish that. Do a rough check.
 				// See donation `00b60a22-eafa-44cb-9850-54bef9763e8d`.
 				if($payment->User !== null && !$hasSoftCredit && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name ?? '')){
+					$payment->UserId = null;
 					$payment->User = null;
 				}
 
@@ -254,120 +254,19 @@ try{
 					break;
 				}
 
-				// Does this payment create a new Patron in the Patrons Circle?
-				// If the user is *already* a Patron, then we just create the payment without further processing.
-				if(
-					(
-						$payment->IsRecurring
-						&&
-						$payment->Amount >= PATRONS_CIRCLE_MONTHLY_COST
-						&&
-						$payment->CreatedAt >= $lastMonth
-					)
-					||
-					(
-						!$payment->IsRecurring
-						&&
-						$payment->Amount >= PATRONS_CIRCLE_YEARLY_COST
-						&&
-						$payment->CreatedAt >= $lastYear
-					)
-				){
-					// This payment is eligible for the Patrons Circle!
-					if($payment->UserId !== null && $payment->User !== null){
-						$isPatron = Db::QueryBool('select exists(select * from Patrons where UserId = ? and EndedAt is null)', [$payment->UserId]);
-
-						// Are we already a patron?
-						if(!$isPatron){
-							// Not a patron yet, add them to the Patrons Circle.
-
-							$patron = new Patron();
-							$patron->UserId = $payment->UserId;
-							$patron->User = $payment->User;
-							$patron->User->Payments = [$payment];
-							$patron->IsAnonymous = (trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution"]]'))->getText()) == 'Private');
-
-							try{
-								$patron->AlternateName = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution Text"]]'))->getText());
-							}
-							catch(Exception){
-								// Pass.
-							}
-
-							if($payment->IsRecurring){
-								$patron->BaseCost = PATRONS_CIRCLE_MONTHLY_COST;
-								$patron->CycleType = Enums\CycleType::Monthly;
-							}
-							else{
-								$patron->BaseCost = PATRONS_CIRCLE_YEARLY_COST;
-								$patron->CycleType = Enums\CycleType::Yearly;
-							}
-
-							$log->Queue('Adding donor as patron ...');
-							$patron->Create();
-						}
-						else{
-							// User is already a patron.
-							// We may get a case where an existing Patron makes another donation that
-							if(!$payment->IsRecurring && !$payment->IsMatchingDonation && $payment->User->Email !== null){
-								// User is already a Patron, but they made another non-recurring, non-matching donation.
-								// Send a thank-you email.
-
-								$log->Queue('Sending thank you email to patron donor donating extra.');
-
-								$em = new QueuedEmailMessage();
-								$em->To = $payment->User->Email;
-								$em->ToName = $payment->User->Name;
-								$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
-								$em->FromName = EDITOR_IN_CHIEF_NAME;
-								$em->Subject = 'Thank you for supporting Standard Ebooks!';
-								$em->BodyHtml = Template::EmailDonationThankYou(donationCounter: $donationCounter);
-								$em->BodyText = Template::EmailDonationThankYouText(donationCounter: $donationCounter);
-								$em->Send();
-							}
-						}
-					}
-					elseif(!$payment->IsRecurring && !$payment->IsMatchingDonation){
-						// Fully-anonymous, non-recurring donation eligible for the Patrons Circle. We can't create a `Patron` or thank them, but we do notify the admins.
-						$patron = new Patron();
-						$patron->User = new User();
-
-						$em = new QueuedEmailMessage();
-						$em->To = ADMIN_EMAIL_ADDRESS;
-						$em->From = ADMIN_EMAIL_ADDRESS;
-						$em->Subject = 'New Patrons Circle member';
-						$em->BodyHtml = Template::EmailAdminNewPatron(patron: $patron, payment: $payment);
-						$em->BodyText = Template::EmailAdminNewPatronText(patron: $patron, payment: $payment);;
-						$em->Send();
-
-						DonationDrive::AddCountToIsActive(Enums\DonationTargetType::NewPatrons);
-					}
+				$isAnonymous = true;
+				$attribution = $detailsRow->findElements(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution"]]'));
+				if(sizeof($attribution) > 0){
+					$isAnonymous = trim($attribution[0]->getText()) == 'Private';
 				}
-				elseif($payment->User !== null){
-					// Payment amount is not eligible for the Patrons Circle; send a thank you email anyway, but only if this is a non-recurring donation, or if it's their very first recurring donation.
 
-					$previousPaymentCount = Db::QueryInt('
-										select count(*)
-										from Payments
-										where UserId = ?
-										    and IsRecurring = true
-									', [$payment->UserId]);
-
-					// We just added a payment to the system, so if this is their very first recurring payment, we expect the count to be exactly 1.
-					if((!$payment->IsRecurring || $previousPaymentCount == 1) && $payment->User->Email !== null){
-						$log->Queue('Sending thank you email to non-patron donor.');
-
-						$em = new QueuedEmailMessage();
-						$em->To = $payment->User->Email;
-						$em->ToName = $payment->User->Name;
-						$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
-						$em->FromName = EDITOR_IN_CHIEF_NAME;
-						$em->Subject = 'Thank you for supporting Standard Ebooks!';
-						$em->BodyHtml = Template::EmailDonationThankYou(donationCounter: $donationCounter);
-						$em->BodyText = Template::EmailDonationThankYouText(donationCounter: $donationCounter);
-						$em->Send();
-					}
+				$alternateName = null;
+				$attributionText = $detailsRow->findElements(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Attribution Text"]]'));
+				if(sizeof($attributionText) > 0){
+					$alternateName = $attributionText[0]->getText();
 				}
+
+				$payment->ProcessPatronsCircleBenefits($payment->IsRecurring ? Enums\CycleType::Monthly : Enums\CycleType::Yearly, $isAnonymous, $alternateName);
 		}
 
 		Db::Query('

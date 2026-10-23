@@ -1,6 +1,6 @@
 <?= Template::Header(title: 'Donating via a Donor-Advised Fund', highlight: 'donate', description: 'A guide to donating to Standard Ebooks via a Donor-Advised Fund.') ?>
 <main>
-	<article>
+	<article class="donate">
 		<h1>Donating via a Donor-Advised Fund</h1>
 		<p>
 			<i>(You can read more about donating via a Donor-Advised Fund at <a href="https://fracturedatlas.zendesk.com/hc/en-us/articles/115001326294-Donor-Advised-Donations">this Fractured Atlas help desk article</a>.)</i>
@@ -29,6 +29,9 @@
 				</li>
 			</ul>
 		</section>
+		<aside>
+			<p>Standard Ebooks is a sponsored project of <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a non-profit arts service organization. Contributions for the charitable purposes of Standard Ebooks must be made payable to “Fractured Atlas” only and are tax-deductible to the extent permitted by law.</p>
+		</aside>
 	</article>
 </main>
 <?= Template::Footer() ?>

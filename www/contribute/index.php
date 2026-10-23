@@ -74,7 +74,7 @@
 					<p><a href="/contribute/a-basic-standard-ebooks-source-folder">Descriptions of the files in a fresh Standard Ebooks source folder.</a></p>
 				</li>
 				<li>
-					<p><a href="https://standardebooks.org/tools">The Standard Ebooks toolset.</a></p>
+					<p><a href="/tools">The Standard Ebooks toolset.</a></p>
 				</li>
 				<li>
 					<p><a href="https://github.com/standardebooks">All Standard Ebooks ebook source files.</a></p>

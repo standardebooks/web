@@ -40,7 +40,7 @@ catch(Exceptions\PermissionsInvalidException){
 <main>
 	<section class="narrow">
 		<nav class="breadcrumbs" aria-label="Breadcrumbs">
-			<a href="/artworks">Artworks</a> → <a href="<?= $artist->Url ?>"><?= $artist->Name ?></a> →
+			<a href="/artworks">Artworks</a> → <a href="<?= $artist->Url ?>"><?= Formatter::EscapeHtml($artist->Name) ?></a> →
 		</nav>
 		<h1>Delete</h1>
 

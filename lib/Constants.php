@@ -42,6 +42,9 @@ const EBOOKS_IDENTIFIER_PREFIX =	EBOOKS_IDENTIFIER_ROOT . '/ebooks/';
 
 define('IPREGISTRY_API_KEY', get_cfg_var('se.secrets.ipregistry_co.api_key'));
 
+define('TSI_API_KEY', get_cfg_var('se.secrets.tsi.api_key'));
+define('TSI_ACCOUNT_NAME', get_cfg_var('se.secrets.tsi.account_name'));
+
 const DATABASE_DEFAULT_DATABASE = 	'se';
 /** The maximum amount of rows to insert per batch in `Db::MultiInsert()`. This can't be too large, otherwise inserts with lots of data (like multiple HTML documents) can run into the `max_allowed_packet` limit. */
 const DATABASE_INSERT_BATCH_SIZE = 250;
@@ -77,8 +80,30 @@ const BLOG_POST_MAX_STRING_LENGTH = 250;
 const CAPTCHA_IMAGE_HEIGHT = 72;
 const CAPTCHA_IMAGE_WIDTH = 230;
 
+const DONATION_DEFAULT_AMOUNT = 25;
+const DONATION_MINIMUM_AMOUNT = 5;
+
 const PATRONS_CIRCLE_MONTHLY_COST = 15;
 const PATRONS_CIRCLE_YEARLY_COST = 150;
+const STRIPE_ONE_TIME_DONATION_AMOUNTS = [25, 50, 75, 100];
+const STRIPE_DONATION_AMOUNTS = [
+	'month' => ['join' => [15, 30, 45], 'donate' => [5, 10]],
+	'year' => ['join' => [150, 200, 250], 'donate' => [75, 100, 125]],
+];
+const STRIPE_API_VERSION = '2026-09-30.endive';
+define('STRIPE_API_KEY', get_cfg_var('se.secrets.stripe.api_key'));
+define('STRIPE_CHECKOUT_SESSION_COMPLETED_SIGNING_SECRET', get_cfg_var('se.secrets.stripe.checkout_session_completed_signing_secret'));
+define('STRIPE_INVOICE_PAYMENT_SUCCEEDED_SIGNING_SECRET', get_cfg_var('se.secrets.stripe.invoice_payment_succeeded_signing_secret'));
+define('STRIPE_CUSTOMER_SUBSCRIPTION_DELETED_SIGNING_SECRET', get_cfg_var('se.secrets.stripe.customer_subscription_deleted_signing_secret'));
+define('STRIPE_CHARGE_UPDATED_SIGNING_SECRET', get_cfg_var('se.secrets.stripe.charge_updated_signing_secret'));
+if(SITE_STATUS == SITE_STATUS_LIVE){
+	define('STRIPE_DONATION_PRODUCT_ID', 'prod_VUi1AKFfAZERED');
+	define('STRIPE_PATRONS_CIRCLE_PRODUCT_ID', 'prod_VUi1D8oTogsghI');
+}
+else{
+	define('STRIPE_DONATION_PRODUCT_ID', 'prod_VPYhC07Gpm4kth');
+	define('STRIPE_PATRONS_CIRCLE_PRODUCT_ID', 'prod_VPYhE1mp4wbqFa');
+}
 
 const SHORT_DOWNLOAD_COUNT = 35;
 const LONG_DOWNLOAD_COUNT = 100;
@@ -97,11 +122,12 @@ const NEWSLETTER_DEFAULT_FROM_EMAIL_ADDRESS = 'admin@e.standardebooks.org';
 
 const HTTP_REQUEST_USER_AGENT = 'Standard Ebooks website';
 
-define('NO_REPLY_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.no_reply_email_address'));
 define('ADMIN_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.admin_email_address'));
+define('ACCOUNTING_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.accounting_email_address'));
 define('EDITOR_IN_CHIEF_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.editor_in_chief_email_address'));
 define('SUPPORT_EMAIL_ADDRESS', get_cfg_var('se.secrets.email.support_email_address'));
 
+const ACCOUNTING_FROM_NAME = 'SE Donation Bot';
 const SUPPORT_FROM_NAME = 'Standard Ebooks';
 
 const EDITOR_IN_CHIEF_NAME = 'Alex Cabal';

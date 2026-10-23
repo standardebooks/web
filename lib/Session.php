@@ -1,5 +1,4 @@
 <?
-use Ramsey\Uuid\Uuid;
 use Safe\DateTimeImmutable;
 
 class Session{
@@ -8,12 +7,7 @@ class Session{
 	public int $UserId;
 	public DateTimeImmutable $CreatedAt;
 	public string $SessionId;
-
-	public string $Url{
-		get{
-			return '/sessions/' . $this->SessionId;
-		}
-	}
+	public static string $Url;
 
 
 	// *******
@@ -21,64 +15,40 @@ class Session{
 	// *******
 
 	/**
-	 * @param ?string $identifier Either the email, or the UUID, of the user attempting to log in.
-	 *
-	 * @throws Exceptions\LoginInvalidException
-	 * @throws Exceptions\PasswordRequiredException
+	 * Create a new login session for a user who has verified an email code.
 	 */
-	public function Create(?string $identifier = null, ?string $password = null): void{
-		try{
-			Session::$User = User::GetIfRegistered($identifier, $password);
-			$this->UserId = Session::$User->UserId;
-
-			$existingSessions = Db::Query('
-							select SessionId,
-							       CreatedAt
-							from Sessions
-							where UserId = ?
-						', [$this->UserId]);
-
-			if(sizeof($existingSessions) > 0){
-				$this->SessionId = $existingSessions[0]->SessionId;
-				$this->CreatedAt = $existingSessions[0]->CreatedAt;
-			}
-			else{
-				$uuid = Uuid::uuid4();
-				$this->SessionId = $uuid->toString();
-
-				$this->CreatedAt = NOW;
-				Db::Query('
-						insert into Sessions (UserId, SessionId, CreatedAt)
-						values (?,
-						        ?,
-						        ?)
-					', [$this->UserId, $this->SessionId, $this->CreatedAt]);
-			}
-
-			self::SetSessionCookie($this->SessionId);
-		}
-		catch(Exceptions\UserNotFoundException){
-			// We couldn't find a *registered * `User`. But, often people make a small donation assuming it automatically adds them to the Patrons Circle. So, check if they made a donation less than 7 days ago, and if so, notify them about the requirements to join the Patrons Circle.
-			$ex = new Exceptions\LoginInvalidException();
+	public function Create(User $user): void{
+		$this->UserId = $user->UserId;
+		$this->CreatedAt = NOW;
+		while(true){
 			try{
-				$user = User::GetByIdentifier($identifier);
-				/** @throws void */
-				if($user->LastPayment !== null && $user->LastPayment->CreatedAt > new DateTimeImmutable('7 days ago')){
-					$ex = new Exceptions\LoginInvalidException('<p>We couldn’t find you in the Patrons Circle, but you recently ' . ($user->LastPayment->IsRecurring ? 'started a recurring' : 'made a one-time') . ' donation of ' . Formatter::FormatCurrency($user->LastPayment->Amount) . '.</p><p>To join the Patrons Circle, supporters must <a href="/donate#patrons-circle">start a recurring donation</a> of ' . Formatter::FormatCurrency(PATRONS_CIRCLE_MONTHLY_COST, true) . '/month or more, or <a href="/donate#patrons-circle">make a one-time donation</a> of ' . Formatter::FormatCurrency(PATRONS_CIRCLE_YEARLY_COST, true) . ' or more to join for one year.</p><p>Once you join the Patrons Circle, you’ll be able to log in and access member benefits.</p>');
-					$ex->MessageType = Enums\ExceptionMessageType::Html;
-				}
+				$this->SessionId = Db::Query('insert into Sessions (UserId, SessionId, CreatedAt) values (?, uuid_v7(), ?) returning SessionId', [$this->UserId, $this->CreatedAt])[0]->SessionId;
+				break;
 			}
-			catch(Exceptions\AmbiguousUserException | Exceptions\UserNotFoundException){
-				// Pass.
+			catch(Exceptions\DuplicateDatabaseKeyException){
+				// A generated UUID collided, so ask the database to generate another one.
 			}
-
-			throw $ex;
 		}
+		self::SetSessionCookie($this->SessionId);
+		self::$User = $user;
+		self::$Url = '/sessions/' . $this->SessionId;
 	}
 
-	public static function SetSessionCookie(string $sessionId): void{
+	/**
+	 * Delete a login session, if its ID is present, and clear the session cookie.
+	 */
+	public static function Delete(?string $sessionId): void{
+		if($sessionId !== null){
+			Db::Query('delete from Sessions where SessionId = ?', [$sessionId]);
+		}
+
+		setcookie('sessionid', '', ['expires' => 1, 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
+		self::$User = null;
+	}
+
+	private static function SetSessionCookie(string $sessionId): void{
 		/** @throws void */
-		setcookie('sessionid', $sessionId, ['expires' => intval((new DateTimeImmutable('+1 week'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']); // Expires in two weeks.
+		setcookie('sessionid', $sessionId, ['expires' => intval((new DateTimeImmutable('+3 month'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']); // Expires in two weeks.
 	}
 
 
@@ -103,6 +73,35 @@ class Session{
 		return $result[0] ?? throw new Exceptions\SessionNotFoundException();
 	}
 
+	/**
+	 * Consume a `SessionLoginCodee` and initialize a `Session` for its `User`.
+	 *
+	 * @throws Exceptions\SessionLoginCodeNotFoundException If the code has expired or has already been used.
+	 * @throws Exceptions\UserNotFoundException If the code's user cannot be found.
+	 */
+	public static function InitializeFromCode(SessionLoginCode $code): void{
+		Db::Query('start transaction');
+		Db::Query('update SessionLoginCodes set EnteredAt = ? where Code = ? and UserId = ? and EnteredAt is null and ExpiresAt > ?', [NOW, $code->Code, $code->UserId, NOW]);
+
+		if(Db::$LastQueryAffectedRowCount == 1){
+			try{
+				$session = new Session();
+				$session->Create($code->User);
+				Db::Query('commit');
+			}
+			catch(Throwable $ex){
+				Db::Query('rollback');
+				throw $ex;
+			}
+
+			$code->EnteredAt = NOW;
+		}
+		else{
+			Db::Query('rollback');
+			throw new Exceptions\SessionLoginCodeNotFoundException();
+		}
+	}
+
 	public static function InitializeFromCookie(): void{
 		$sessionId = Http::$Request->Cookies->Get('sessionid');
 
@@ -116,7 +115,8 @@ class Session{
 
 			if(sizeof($result) > 0){
 				self::SetSessionCookie($sessionId);
-				Session::$User = $result[0];
+				self::$User = $result[0];
+				self::$Url = '/sessions/' . $sessionId;
 			}
 		}
 	}

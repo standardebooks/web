@@ -19,7 +19,6 @@ try{
 
 	$exception = Http::$Request->Session->Get('user/create/exception', Exceptions\AppException::class);
 	$user = Http::$Request->Session->Get('user/create/user', User::class) ?? new User();
-	$passwordAction = Http::$Request->Session->Get('user/create/password-action', Enums\PasswordActionType::class) ?? Enums\PasswordActionType::Edit;
 
 	if($exception){
 		// We got here because an operation had errors and the user has to try again.
@@ -49,7 +48,7 @@ catch(Exceptions\PermissionsInvalidException){
 		<?= Template::Error(exception: $exception) ?>
 
 		<form method="<?= Enums\HttpMethod::Post->value ?>" action="/users" autocomplete="off">
-			<?= Template::UserForm(user: $user, passwordAction: $passwordAction) ?>
+			<?= Template::UserForm(user: $user) ?>
 		</form>
 	</section>
 </main>

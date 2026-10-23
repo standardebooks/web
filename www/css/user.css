@@ -1,12 +1,3 @@
-label:has(input[name="password-action"]:not(:checked)) + label{
-	display: none;
-}
-
-label:has(input[name="password-action"]) + label{
-	margin-left: 1.5rem;
-	margin-top: .5rem;
-}
-
 form{
 	display: flex;
 	flex-direction: column;
@@ -21,78 +12,259 @@ form div.footer{
 	text-align: right;
 }
 
-.payments{
+dl > dd.id{
+	overflow-wrap: anywhere;
+}
+
+:is(.payments, .subscriptions){
 	margin-top: 1rem;
 }
 
-.payments thead th{
-	font-weight: bold;
+.recurring-donations time{
+	display: inline;
+	width: auto;
+	margin-right: 0;
+	color: var(--body-text);
+}
+
+main > section.narrow > table.local-payments{
+	width: max-content;
+	max-width: 100%;
+	align-self: center;
+}
+
+:is(.payments, .subscriptions) thead th{
+	font-weight: normal;
+	font-style: italic;
+	text-align: center;
+}
+
+:is(.payments, .subscriptions) tbody td:first-child{
+	font-weight: normal;
 }
 
 .payments tbody td:first-child{
 	width: 100%;
-	font-weight: normal;
 }
 
-.payments time{
+.local-payments tbody td:first-child{
+	width: auto;
+}
+
+:is(.payments, .subscriptions) time{
 	color: var(--body-text);
 }
 
-.payments td + td{
+:is(.payments, .subscriptions) td + td{
 	text-align: right;
 	width: auto;
 }
 
-.payments td:nth-child(2){
+:is(.payments, .subscriptions) td:nth-child(2),
+:is(.payments, .subscriptions) td:nth-child(3){
 	text-align: center;
 }
 
-.payments td:last-child{
+:is(.payments, .subscriptions) td:last-child{
 	text-align: left;
 	white-space: nowrap;
 }
 
-.payments tbody time{
+.local-payments td:nth-child(2){
+	text-align: right;
+}
+
+.local-payments td:last-child{
+	text-align: center;
+}
+
+p:has(+ .benefits-list){
+	font-style: italic;
+}
+
+.benefits-list{
+	column-count: 3;
+	column-gap: 3rem;
+}
+
+.benefits-list li{
+	break-inside: avoid;
+	text-align: left;
+}
+
+:is(.payments, .subscriptions) tbody time{
 	width: auto;
 	margin: auto;
 }
 
+@media(max-width: 700px){
+	.benefits-list{
+		column-count: 2;
+	}
+}
+
+@media(max-width: 450px){
+	.benefits-list{
+		column-count: 1;
+	}
+}
+
 @media(max-width: 1000px){
-	.payments thead{
+	:is(.payments, .subscriptions),
+	:is(.payments, .subscriptions) tbody,
+	:is(.payments, .subscriptions) tr{
+		display: block;
+	}
+
+	:is(.payments, .subscriptions) thead{
 		display: none;
 	}
 
-	.payments tbody td{
+	:is(.payments, .subscriptions) tbody tr:not([class]):hover > *{
+		background: unset;
+	}
+
+	:is(.payments, .subscriptions) tbody td{
 		display: block;
 		text-align: left;
 		padding: 0;
 	}
 
-	.payments tbody td:first-child{
+	:is(.payments, .subscriptions) tbody td::before{
+		display: inline;
+		font-weight: bold;
+		font-style: normal;
+	}
+
+	:is(.payments, .subscriptions) tbody td + td:not(:empty){
+		margin-top: 1rem;
+	}
+
+	.subscriptions tbody td:last-child:not(:has(a)){
+		display: none;
+	}
+
+	:is(.payments, .subscriptions) tbody td:first-child{
 		padding-top: 2rem;
 	}
 
-	.payments tbody td:nth-child(2){
+	:is(.payments, .subscriptions) tbody tr:first-child td:first-child{
+		padding-top: 0;
+	}
+
+	:is(.payments, .subscriptions) tbody td + td{
+		border-top: none;
+	}
+
+	:is(.payments, .subscriptions) tbody tr + tr td:first-child{
+		padding-top: 1rem;
+		border-top-color: #000;
+	}
+
+	:is(.payments, .subscriptions) tbody tr:not(:last-child){
+		padding-bottom: 1rem;
+	}
+
+	:is(.payments, .subscriptions) tbody td:nth-child(2),
+	:is(.payments, .subscriptions) tbody td:nth-child(3){
 		text-align: left;
 	}
 
+	.payments tbody td:first-child::before{
+		content: 'Created: ';
+	}
+
+	.local-payments tbody td:first-child::before{
+		content: 'Date: ';
+	}
+
 	.payments tbody td:nth-child(2)::before{
-		content: 'Recurring? ';
-		font-weight: bold;
+		content: 'Processor: ';
+	}
+
+	.local-payments tbody td:nth-child(2)::before{
+		content: 'Amount: ';
+	}
+
+	.local-payments tbody td:nth-child(3)::before{
+		content: 'Recurring: ';
+	}
+
+	.local-payments tbody td:nth-child(2),
+	.local-payments tbody td:last-child{
+		text-align: left;
 	}
 
 	.payments tbody td:nth-child(3)::before{
-		content: 'Gross: ';
-		font-weight: bold;
+		content: 'Recurring: ';
 	}
 
 	.payments tbody td:nth-child(4)::before{
-		content: 'Fee: ';
-		font-weight: bold;
+		content: 'Gross: ';
 	}
 
 	.payments tbody td:nth-child(5)::before{
+		content: 'Fee: ';
+	}
+
+	.payments tbody td:nth-child(6)::before{
 		content: 'Net: ';
-		font-weight: bold;
+	}
+
+	.payments tbody td:nth-child(7),
+	.subscriptions tbody td:nth-child(7){
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.payments tbody td:nth-child(7)::before{
+		content: 'Transaction ID: ';
+	}
+
+	.subscriptions tbody td:first-child::before{
+		content: 'Created: ';
+	}
+
+	.subscriptions tbody td:nth-child(2):not(:empty)::before{
+		content: 'Ended: ';
+	}
+
+	.subscriptions tbody td:nth-child(3)::before{
+		content: 'Amount: ';
+	}
+
+	.subscriptions tbody td:nth-child(4)::before{
+		content: 'Cycle: ';
+	}
+
+	.subscriptions tbody td:nth-child(5)::before{
+		content: 'Processor: ';
+	}
+
+	.subscriptions tbody td:nth-child(6)::before{
+		content: 'Subscription ID: ';
+	}
+
+	.subscriptions tbody td:nth-child(7):not(:empty)::before{
+		content: 'Processor subscription ID: ';
+	}
+
+	.subscriptions tbody td:last-child:has(a)::before{
+		content: 'Actions: ';
+	}
+
+	.subscriptions tbody td:last-child p{
+		display: inline;
+	}
+
+	.subscriptions tbody td:last-child{
+		white-space: normal;
+		overflow-wrap: anywhere;
+	}
+}
+
+@media(max-width: 500px){
+	:is(.payments, .subscriptions) tbody td::before{
+		display: block;
 	}
 }

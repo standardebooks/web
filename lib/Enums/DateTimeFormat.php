@@ -28,4 +28,7 @@ enum DateTimeFormat: string{
 
 	/** Like Jan 5 */
 	case ShortDateWithoutYear = 'M j';
+
+	/** Like Monday, January 5 */
+	case DateWithDayOfWeek = 'l, F j';
 }

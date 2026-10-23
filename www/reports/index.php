@@ -57,9 +57,9 @@ try{
 	$paymentsReceivedGraph = new StackedBarGraph();
 	$paymentsReceivedGraph->Values = $paymentsReceivedValues;
 	$paymentsReceivedGraph->LegendEntries = ['Recurring', 'Patron one-time', 'Other'];
-	$paymentsReceivedGraph->Settings['axis_text_callback_y'] = fn(float|int $value): string => Formatter::FormatMoney($value);
-	$paymentsReceivedGraph->Settings['bar_total_callback'] = fn(string $key, float|int $value): string => Formatter::FormatMoney($value);
-	$paymentsReceivedGraph->Settings['data_label_callback'] = fn(int $dataset, string $key, float|int $value): string => Formatter::FormatMoney($value);
+	$paymentsReceivedGraph->Settings['axis_text_callback_y'] = fn(float|int $value): string => Formatter::FormatCurrency($value);
+	$paymentsReceivedGraph->Settings['bar_total_callback'] = fn(string $key, float|int $value): string => Formatter::FormatCurrency($value);
+	$paymentsReceivedGraph->Settings['data_label_callback'] = fn(int $dataset, string $key, float|int $value): string => Formatter::FormatCurrency($value);
 	$paymentsReceivedGraph->Settings['show_data_labels'] = false;
 	$paymentsReceivedGraphSvg = $paymentsReceivedGraph->Render();
 }

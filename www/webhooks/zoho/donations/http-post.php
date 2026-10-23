@@ -19,9 +19,9 @@ try{
 	if($webhook->Data->fromAddress == 'support@fracturedatlas.org' && strpos($webhook->Data->subject, 'NOTICE:') !== false){
 		$log->Queue('Processing new donation.');
 
-		// Get the donation ID.
-		preg_match('/Donation ID: ([0-9a-f\-]+)/us', $webhook->Data->html, $matches);
-		if(sizeof($matches) == 2){
+		// Validate the complete donation ID before queuing it for processing.
+		preg_match('/Donation ID: ([^\s<]+)/u', $webhook->Data->html, $matches);
+		if(sizeof($matches) == 2 && preg_match('/\A[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\z/', $matches[1])){
 			$transactionId = $matches[1];
 
 			Db::Query('

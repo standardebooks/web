@@ -11,7 +11,7 @@ $collections = Collection::GetAllByMissingEntries();
 		<h1>Wanted Ebooks</h1>
 		<? if(Session::$User?->Benefits->CanEditEbookPlaceholders){ ?>
 			<ul role="menu">
-				<li><a href="/ebook-placeholders/new?ebook-placeholder-is-wanted=true">Submit a new ebook placeholder</a></li>
+				<li><a href="/ebook-placeholders/new?ebook-placeholder-is-wanted">Submit a new ebook placeholder</a></li>
 			</ul>
 		<? } ?>
 		<p>If you’re interested in producing an ebook for Standard Ebooks, why not work on one of these books?</p>

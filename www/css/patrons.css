@@ -5,9 +5,14 @@ form{
 }
 
 fieldset:first-of-type{
-	display: grid;
+	display: flex;
+	flex-wrap: wrap;
 	gap: 2rem;
-	grid-template-columns: 1fr 1fr;
+	min-width: 0;
+}
+
+fieldset:first-of-type > label{
+	width: calc((100% - 2rem) / 2);
 }
 
 fieldset + fieldset{
@@ -16,29 +21,33 @@ fieldset + fieldset{
 	flex-direction: column;
 }
 
-label:has(input[name="payment-transaction-id"]),
-label:has(input[type="checkbox"]){
-	grid-column: 1 / span 2;
+fieldset:first-of-type > label:has(input[name="payment-transaction-id"]),
+fieldset:first-of-type > label:has(input[type="checkbox"]){
+	width: 100%;
 }
 
 label:has(span + span) + label:not(:has(span + span)){
 	margin-top: calc(1.25rem + 1px);
 }
 
+label:has(input.money){
+	max-width: 7rem;
+}
+
 @media(max-width: 800px){
-	label:has(input[name="payment-created-at"]),
-	label:has(select[name="payment-processor"]),
-	label:has(input[name="payment-transaction-id"]){
-		grid-column: 1 / span 2;
+	fieldset:first-of-type > label:has(input[name="payment-created-at"]),
+	fieldset:first-of-type > label:has(select[name="payment-processor"]){
+		width: 100%;
 	}
 }
 
 @media(max-width: 500px){
 	fieldset:first-of-type{
-		grid-template-columns: minmax(0, 1fr);
+		flex-direction: column;
 	}
 
-	label{
-		grid-column: 1 !important;
+	fieldset:first-of-type > label{
+		width: 100%;
+		max-width: none;
 	}
 }

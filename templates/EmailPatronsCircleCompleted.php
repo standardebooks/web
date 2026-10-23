@@ -13,7 +13,7 @@
 </p>
 <p>I hope to see you back!</p>
 <footer>
-	<p><img width="125" height="57" src="https://standardebooks.org/images/alex-cabal-signature.png" alt="" /></p>
+	<p><img width="125" height="57" src="<?= SITE_URL ?>/images/alex-cabal-signature.png" alt="" /></p>
 	<p>Alex Cabal</p>
 	<p>S.E. Editor-in-Chief</p>
 </footer>

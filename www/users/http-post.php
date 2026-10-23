@@ -16,14 +16,12 @@ try{
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
-	$passwordAction = Enums\PasswordActionType::tryFrom(Http::$Request->Body->Get('password-action') ?? '') ?? Enums\PasswordActionType::None;
-
 	$user = new User();
 
 	$user->FillFromRequestBody();
 	$user->Benefits->FillFromRequestBody();
 
-	$user->Create(Http::$Request->Body->Get('user-password'));
+	$user->Create();
 
 	$_SESSION['user/create/is-created'] = true;
 
@@ -43,12 +41,6 @@ catch(Exceptions\UserInvalidException | Exceptions\UserExistsException $ex){
 			$user->Uuid = $oldUuid;
 		}
 		$_SESSION['user/create/generate-new-uuid'] = $generateNewUuid;
-	}
-
-	$_SESSION['user/create/password-action'] = $passwordAction;
-
-	if($ex instanceof Exceptions\UserInvalidException && $ex->Has(Exceptions\BenefitsRequirePasswordException::class) && isset($oldPasswordHash)){
-		$user->PasswordHash = $oldPasswordHash;
 	}
 
 	$_SESSION['user/create/user'] = $user;

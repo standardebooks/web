@@ -2875,4 +2875,8 @@ final class Ebook{
 
 		return $output;
 	}
+
+	public static function GetEbookCreatedAfterCount(DateTimeImmutable $timestamp): int{
+		return Db::QueryInt('select count(*) from Ebooks where EbookCreatedAt >= ?', [$timestamp]);
+	}
 }

@@ -45,7 +45,7 @@ final class NewsletterSubscription{
 	// *******
 
 	/**
-	 * @throws Exceptions\InvalidNewsletterSubscription
+	 * @throws Exceptions\NewsletterSubscriptionInvalidException
 	 * @throws Exceptions\EmailBounceExistsException
 	 * @throws Exceptions\NewsletterSubscriptionExistsException If the subscription already exists or is created by a concurrent request.
 	 * @throws Exceptions\UserInvalidException If a new `User` cannot be created from the subscription email address.
@@ -102,7 +102,7 @@ final class NewsletterSubscription{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidNewsletterSubscription
+	 * @throws Exceptions\NewsletterSubscriptionInvalidException
 	 * @throws Exceptions\NewsletterNotFoundException If the newsletter no longer exists.
 	 * @throws Exceptions\UserNotFoundException If the subscriber no longer exists.
 	 */
@@ -149,12 +149,12 @@ final class NewsletterSubscription{
 	}
 
 	/**
-	 * @throws Exceptions\InvalidNewsletterSubscription
+	 * @throws Exceptions\NewsletterSubscriptionInvalidException
 	 * @throws Exceptions\UserNotFoundException If the subscriber no longer exists.
 	 * @throws Exceptions\NewsletterNotFoundException If the newsletter no longer exists.
 	 */
 	public function Validate(): void{
-		$error = new Exceptions\InvalidNewsletterSubscription();
+		$error = new Exceptions\NewsletterSubscriptionInvalidException();
 
 		if(!isset($this->User->Email)){
 			$error->Add(new Exceptions\EmailAddressInvalidException());

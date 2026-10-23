@@ -2,6 +2,7 @@
 <?
 require_once(__DIR__ . '/../lib/Core.php');
 
+use Safe\DateTimeImmutable;
 use function Safe\getopt;
 
 function Usage(): void{
@@ -32,33 +33,67 @@ if(sizeof($parameters) != 0){
 // Turn off the slow query log for this session.
 Db::Query('set session slow_query_log = 0');
 
-// Get a list of payments that are within 1 year / 45 days of today, and deactivate Patrons Circle members who aren't in that list.
-// We give a 15 day grace period to Patrons Circle members because sometimes FA can be delayed in charging.
-$expiredPatrons = Db::Query('
-	select * from Patrons where
-	EndedAt is null
-	and
-	UserId != 12454 # This is the only recurring donor-advised fund donation we have, but it sometimes doesn\'t get picked up by our script, possibly because FA hand-inserts a backdated transaction at a page of donations that we\'ve already passed. If that happens, don\'t cancel their Patron status accidentally.
-	and
-	UserId not in
-	(
-		select distinct p.UserId from Patrons p
-		inner join Payments py
-		using (UserId)
-		where
-			p.EndedAt is null and
-			(
-				(IsRecurring = true and CycleType = ? and Amount >= p.BaseCost and py.CreatedAt > ? - interval 45 day)
-				or
-				(IsRecurring = false and CycleType = ? and Amount >= p.BaseCost and py.CreatedAt > ? - interval 1 year)
-			)
+// First, email yearly Patrons who signed up via Stripe and whose renewals are due 2 weeks from now.
+$upcomingRenewalSubscriptions = Db::Query('select * from Subscriptions where Processor = ? and CycleType = ? and NextPaymentAt is not null and date(NextPaymentAt) = date(utc_timestamp() + interval 2 week) and EndedAt is null', [Enums\PaymentProcessorType::Stripe, Enums\CycleType::Yearly], Subscription::class);
+
+$ebooksThisYear = null;
+
+foreach($upcomingRenewalSubscriptions as $subscription){
+	$ebooksThisYear ??= Ebook::GetEbookCreatedAfterCount(new DateTimeImmutable('-1 year'));
+	$subscription->SendYearlyRenewalEmail($ebooksThisYear);
+}
+
+// End Fractured Atlas subscriptions whose most recent successful payment is more than 45 days old.
+Db::Query('
+	update Subscriptions s
+	left join (
+		select SubscriptionId, max(CreatedAt) as LastPaidAt
+		from Payments
+		where RefundedAt is null
+		group by SubscriptionId
+	) latest on latest.SubscriptionId = s.SubscriptionId
+	set s.EndedAt = coalesce(latest.LastPaidAt + interval 45 day, utc_timestamp())
+	where s.Processor = ?
+	and s.EndedAt is null
+	and (
+		latest.LastPaidAt is null
+		or latest.LastPaidAt <= utc_timestamp() - interval 45 day
 	)
-', [Enums\CycleType::Monthly, NOW, Enums\CycleType::Yearly, NOW], Patron::class);
+', [Enums\PaymentProcessorType::FracturedAtlas]);
+
+// Find grants whose linked funding has expired, then check for a paid replacement before removing benefits.
+// Fractured Atlas sometimes omits user 12454's backdated donor-advised fund payments, so preserve this user's membership despite missing payments.
+$expiredPatrons = Db::Query('
+	select patron.* from Patrons patron
+	left join Subscriptions s on s.SubscriptionId = patron.SubscriptionId
+	left join Payments gift on gift.PaymentId = patron.QualifyingPaymentId
+	where patron.EndedAt is null and patron.UserId != ?
+	and (
+		(patron.QualifyingPaymentId is not null and (gift.PaymentId is null or gift.RefundedAt is not null or gift.CreatedAt <= utc_timestamp() - interval 1 year))
+		or (patron.SubscriptionId is not null and (
+			s.SubscriptionId is null or not exists (
+				select * from Payments renewal
+				where renewal.SubscriptionId = s.SubscriptionId and renewal.RefundedAt is null
+				and (
+					(s.Processor = ? and renewal.CreatedAt > utc_timestamp() - interval 45 day)
+					or (s.Processor = ? and (
+						(s.CycleType = ? and utc_timestamp() < renewal.CreatedAt + interval 1 month + interval 15 day)
+						or (s.CycleType = ? and utc_timestamp() < renewal.CreatedAt + interval 1 year + interval 15 day)
+					))
+				)
+			)
+		))
+	)
+', [12454, Enums\PaymentProcessorType::FracturedAtlas, Enums\PaymentProcessorType::Stripe, Enums\CycleType::Monthly, Enums\CycleType::Yearly], Patron::class);
 
 if(sizeof($expiredPatrons) > 0){
-	$ebooksThisYear = Db::QueryInt('select count(*) from Ebooks where EbookCreatedAt >= ? - interval 1 year', [NOW]);
+	$ebooksThisYear ??= Ebook::GetEbookCreatedAfterCount(new DateTimeImmutable('-1 year'));
+
+	Db::QueryInt('select count(*) from Ebooks where EbookCreatedAt >= utc_timestamp() - interval 1 year');
 
 	foreach($expiredPatrons as $patron){
-		$patron->End($ebooksThisYear);
+		if(!$patron->ReconcileFunding()){
+			$patron->End($ebooksThisYear);
+		}
 	}
 }

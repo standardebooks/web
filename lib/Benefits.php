@@ -25,53 +25,6 @@ class Benefits{
 	public bool $CanEditNewsletterMailings = false;
 	public bool $CanViewReports = false;
 
-	/** Whether this set of benefits requires a password. */
-	public bool $RequiresPassword{
-		get{
-			if(
-				$this->CanUploadArtwork
-				||
-				$this->CanReviewArtwork
-				||
-				$this->IsArtworkAdmin
-				||
-				$this->CanEditUsers
-				||
-				$this->CanEditPolls
-				||
-				$this->CanEditCollections
-				||
-				$this->CanEditEbooks
-				||
-				$this->CanEditEbookPlaceholders
-				||
-				$this->CanManageProjects
-				||
-				$this->CanReviewProjects
-				||
-				$this->CanEditProjects
-				||
-				$this->CanBeAutoAssignedToProjects
-				||
-				$this->CanCreateUsers
-				||
-				$this->CanEditBlogPosts
-				||
-				$this->CanEditSpreadsheets
-				||
-				$this->CanCreateNewsletterMailings
-				||
-				$this->CanEditNewsletterMailings
-				||
-				$this->CanViewReports
-			){
-				return true;
-			}
-
-			return false;
-		}
-	}
-
 	/** Whether this user can manage or review projects. */
 	public bool $IsEditor{
 		get{
@@ -87,11 +40,13 @@ class Benefits{
 		}
 	}
 
-	/** Whether any benefit is enabled. */
-	public private(set) bool $HasBenefits{
+	/**
+	 * Whether any benefit is enabled.
+	*/
+	public private(set) bool $HasAnyBenefits{
 		get{
-			if(!isset($this->HasBenefits)){
-				$this->HasBenefits = false;
+			if(!isset($this->HasAnyBenefits)){
+				$this->HasAnyBenefits = false;
 
 				/** @phpstan-ignore-next-line */
 				foreach($this as $property => $value){
@@ -101,15 +56,39 @@ class Benefits{
 					if($type !== null && ($type instanceof \ReflectionNamedType)){
 						$typeName = $type->getName();
 						if($typeName == 'bool' && $value == true){
-							$this->HasBenefits = true;
+							$this->HasAnyBenefits = true;
 							break;
 						}
 					}
 				}
 			}
 
-			return $this->HasBenefits;
+			return $this->HasAnyBenefits;
 		}
+	}
+
+	/**
+	 * Return whether any non-Patron benefit is enabled.
+	 */
+	public function HasNonPatronBenefits(): bool{
+		return $this->CanUploadArtwork
+			|| $this->CanReviewArtwork
+			|| $this->IsArtworkAdmin
+			|| $this->CanCreateUsers
+			|| $this->CanEditUsers
+			|| $this->CanEditPolls
+			|| $this->CanEditCollections
+			|| $this->CanEditEbooks
+			|| $this->CanEditEbookPlaceholders
+			|| $this->CanEditProjects
+			|| $this->CanManageProjects
+			|| $this->CanReviewProjects
+			|| $this->CanBeAutoAssignedToProjects
+			|| $this->CanEditBlogPosts
+			|| $this->CanEditSpreadsheets
+			|| $this->CanCreateNewsletterMailings
+			|| $this->CanEditNewsletterMailings
+			|| $this->CanViewReports;
 	}
 
 	private function Validate(): void{

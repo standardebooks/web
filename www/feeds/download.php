@@ -6,8 +6,7 @@
 use function Safe\preg_match;
 use function Safe\preg_replace;
 
-// This page is blocked by HTTP Basic auth.
-// Basic authorization is handled in `Core.php`. By the time we get here, a valid user has a session.
+// Restricted feeds accept a logged-in user or an email address or API key sent with HTTP Basic auth.
 
 try{
 	$path = '/feeds/' . (Http::$Request->QueryString->Get('path') ?? '');
@@ -50,11 +49,16 @@ try{
 		}
 
 		if(!$isUserAgentAllowed){
-			if(Session::$User === null){
-				throw new Exceptions\LoginRequiredException();
+			$canAccessFeeds = Session::$User?->Benefits->CanAccessFeeds ?? false;
+			if(!$canAccessFeeds && Http::$Request->Username !== null){
+				$canAccessFeeds = Db::QueryBool('select exists(select * from Users u inner join Benefits b using (UserId) where (u.Email = ? or u.Uuid = ?) and b.CanAccessFeeds = true)', [Http::$Request->Username, Http::$Request->Username]);
 			}
 
-			if(!Session::$User->Benefits->CanAccessFeeds){
+			if(!$canAccessFeeds){
+				if(Session::$User === null || Http::$Request->Username !== null){
+					throw new Exceptions\LoginRequiredException();
+				}
+
 				throw new Exceptions\PermissionsInvalidException();
 			}
 		}

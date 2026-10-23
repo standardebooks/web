@@ -4,7 +4,8 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 						from NewsletterSubscriptions
 						where IsConfirmed = true
 					') / 100) * 100;
-
+$donationCounter = DonationCounter::GetByIsActive();
+$donateUrl = $donationCounter === null ? '/donations/new' : 'https://fundraising.fracturedatlas.org/standard-ebooks/general_support';
 ?><?= Template::Header(title: 'Donate', highlight: 'donate', description: 'Donate to Standard Ebooks.') ?>
 <main>
 	<section class="donate narrow has-hero">
@@ -20,12 +21,20 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 		</picture>
 		<section id="donate">
 			<p>We work hard to create beautifully-formatted ebooks that are free of cost and free of U.S. copyright restrictions. It takes a team of highly-skilled specialists working together for weeks and even months to ensure that an ebook meets our exacting aesthetic and technical standards, before it’s offered to readers for free.</p>
-			<p>The cost of producing even the most basic ebook is estimated to approach almost a thousand dollars; and that doesn’t include infrastructure costs like developing and maintaining our <a href="/tools">free and open source ebook production toolset</a>, editing our <a href="/manual">free Manual of Style</a>, project management, hosting, or bandwidth. <em>This means your financial contribution is critically important for us to continue bringing beautifully-presented literature to readers in the digital age.</em></p>
-			<p><a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a 501(c)(3) public charity, is our fiscal sponsor. Your donation will be processed through their website, and their name will appear on your financial statements and receipts. Donations are tax-deductible to the extent permitted by law.</p>
-			<p class="button-row">
-				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a one-time donation</a>
-				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Start a monthly donation</a>
-				<a href="/help/donating-via-a-donor-advised-fund" class="button">Donate via a Donor-Advised Fund</a>
+			<p>The cost of producing even the most basic ebook is estimated to approach almost a thousand dollars; and that doesn’t include infrastructure costs like developing and maintaining our <a href="/tools">free and open source ebook production toolset</a>, editing our <a href="/manual">free Manual of Style</a>, project management, hosting, or bandwidth. <em>Your contribution is critically important for us to continue bringing beautifully-presented literature to readers in the digital age.</em></p>
+			<h2>Make a donation</h2>
+			<p class="button-row center<? if($donationCounter !== null){ ?> counter-active<? } ?>">
+				<? if($donationCounter !== null){ ?>
+					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Start a recurring donation</a>
+					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a one-time donation</a>
+				<? }else{ ?>
+					<a href="<?= $donateUrl ?>" class="button">Donate now!</a>
+				<? } ?>
+				<span class="divider">or</span>
+				<span class="alternatives">
+					<a href="/help/donating-via-a-donor-advised-fund" class="button">Donate via a <br/>donor-advised fund</a>
+					<? if($donationCounter === null){ ?><a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Make a <br/>tax-deductible donation</a><? } ?>
+				</span>
 			</p>
 		</section>
 		<section id="patrons-circle">
@@ -34,12 +43,15 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			<p>Membership in the Patrons Circle is limited to individuals only. Organizations, please see <a href="#corporate-sponsors">corporate sponsorship</a> instead.</p>
 			<div class="join-patrons-circle-callout">
 				<h3>Join now</h3>
-				<p><i>Join the Patrons Circle by starting a recurring donation of <?= Formatter::FormatCurrency(PATRONS_CIRCLE_MONTHLY_COST, true) ?>/month or more, or join for one year with a one-time donation of <?= Formatter::FormatCurrency(PATRONS_CIRCLE_YEARLY_COST, true) ?> or more.</i></p>
-				<p class="button-row">
-					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Donate <?= Formatter::FormatCurrency(PATRONS_CIRCLE_MONTHLY_COST, true) ?>/month or more</a>
-					<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Donate <?= Formatter::FormatCurrency(PATRONS_CIRCLE_YEARLY_COST, true) ?> or more</a>
+				<? if($donationCounter !== null){ ?>
+					<p><i>Join the Patrons Circle for one year with a one-time donation of <?= Formatter::FormatCurrency(PATRONS_CIRCLE_YEARLY_COST, true) ?> or more.</i></p>
+				<? }else{ ?>
+					<p><i>Join the Patrons Circle by starting a recurring donation of <?= Formatter::FormatCurrency(PATRONS_CIRCLE_MONTHLY_COST, true) ?>/month or <?= Formatter::FormatCurrency(PATRONS_CIRCLE_YEARLY_COST, true) ?>/year or more.</i></p>
+				<? } ?>
+
+				<p class="button-row center">
+					<a href="<?= $donateUrl ?>?join-patrons-circle" class="button">Join the Patrons Circle</a>
 				</p>
-				<p><strong>Important:</strong> We need to know your email address to be able to log you in to the Patrons Circle. Make sure to select either “List my name publicly” or “Don’t list publicly, but reveal to project” during checkout to be able to log in to the Patrons Circle.</p>
 			</div>
 			<section id="patrons-benefits">
 				<h3>Benefits of the Patrons Circle<a class="heading-permalink" href="#patrons-benefits" aria-label="Permalink"></a></h3>
@@ -89,11 +101,8 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 					<p>Standard Ebooks is the sole decisionmaker regarding all aspects of ebook editing and production. Trust us to create an artifact of beauty.</p>
 				</li>
 			</ul>
-			<p><b>Sponsoring a new ebook of your choice calls for a donation of $900 + $0.02 per word over the first 100,000</b>, plus Fractured Atlas’ processing fee. Ebooks that are especially complex or that require significant advanced formatting may call for an additional donation. Your selection’s word count will be calculated using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes.</p>
-			<p><em>Before making your donation</em>, <a href="/about#editor-in-chief">contact the S.E. Editor-in-Chief</a> to confirm that your selection will be accepted, and so that we can calculate your selection’s word count.</p>
-			<p class="button-row center">
-				<a href="https://fundraising.fracturedatlas.org/standard-ebooks/general_support" class="button">Make a donation to sponsor a new ebook</a>
-			</p>
+			<p><b>Sponsoring a new ebook of your choice calls for a donation of $900 + $0.02 per word over the first 100,000.</b> Ebooks that are especially complex or that require significant advanced formatting may call for an additional donation. Your selection’s word count will be calculated using the <a href="/tools">S.E. toolset</a>, and includes front and back matter like forewords and endnotes.</p>
+			<p><a href="/about#editor-in-chief">Contact the S.E. Editor-in-Chief</a> to start a sponsored ebook project.</p>
 		</section>
 		<section id="corporate-sponsors">
 			<h2>Corporate sponsorships<a class="heading-permalink" href="#corporate-sponsors" aria-label="Permalink"></a></h2>
@@ -114,9 +123,6 @@ $newsletterSubscriberCount = floor(Db::QueryInt('
 			</ul>
 			<p>To inquire about sponsorship options, contact the <a href="/about#editor-in-chief">Standard Ebooks Editor-in-Chief</a>.</p>
 		</section>
-		<aside>
-			<p>Standard Ebooks is a sponsored project of <a href="https://www.fracturedatlas.org/">Fractured Atlas</a>, a non-profit arts service organization. Contributions for the charitable purposes of Standard Ebooks must be made payable to “Fractured Atlas” only and are tax-deductible to the extent permitted by law.</p>
-		</aside>
 	</section>
 </main>
 <?= Template::Footer() ?>
