@@ -159,7 +159,23 @@ class OriginatingHttpRequest{
 		if($this->ContentType !== null && preg_match('/^(application\/x-www-form-urlencoded|multipart\/form-data)(;|$)/', $this->ContentType)){
 			if($this->RawMethod != Enums\HttpMethod::Post){
 				try{
-					[$_POST, $_FILES] = request_parse_body();
+					try{
+						/**
+						 * Convert body parsing warnings into exceptions handled as bad requests.
+						 *
+						 * `request_parse_body()` can emit warnings in some cases, for example when there are too many input variables.
+						 *
+						 * @throws RequestParseBodyException If parsing the request body emits a warning.
+						 */
+						set_error_handler(function(int $code, string $message): never{
+							throw new RequestParseBodyException($message, $code);
+						}, E_WARNING);
+
+						[$_POST, $_FILES] = request_parse_body();
+					}
+					finally{
+						restore_error_handler();
+					}
 				}
 				catch(RequestParseBodyException){
 					http_response_code(Enums\HttpCode::BadRequest->value);
