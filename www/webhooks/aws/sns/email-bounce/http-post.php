@@ -3,12 +3,18 @@
  * Receives AWS SNS requests for email bounces, out-of-office replies, and addresses that are on the AWS global suppresions list.
  */
 
+use function Safe\get_cfg_var;
 use function Safe\preg_match;
 
 try{
 	$message = AwsSnsMessage::FromHttp();
 
-	if(($message->Message->eventType ?? '') != 'Bounce'){
+	/** @var string $expectedTopicArn */
+	$expectedTopicArn = get_cfg_var('se.secrets.aws.ses.bounce_topic_arn');
+
+	$message->Validate($expectedTopicArn);
+
+	if($message->Type != 'Notification' || ($message->Message->eventType ?? '') != 'Bounce'){
 		exit();
 	}
 
@@ -78,7 +84,7 @@ try{
 		}
 	}
 }
-catch(Exceptions\SnsMessageInvalidException $ex){
+catch(Exceptions\AwsSnsMessageInvalidException $ex){
 	http_response_code(Enums\HttpCode::UnprocessableContent->value);
 	throw $ex;
 }

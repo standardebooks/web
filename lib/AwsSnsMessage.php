@@ -11,6 +11,7 @@ use Safe\DateTimeImmutable;
 class AwsSnsMessage{
 	public string $Type;
 	public string $MessageId;
+	public string $TopicArn;
 	public DateTimeImmutable $Timestamp;
 	public stdClass $Message;
 
@@ -18,21 +19,34 @@ class AwsSnsMessage{
 		$this->Message = new stdClass();
 	}
 
-	public function ConfirmSubscription(): void{
+	/**
+	 * Validate the expected topic and confirm an authorized subscription request.
+	 *
+	 * @throws Exceptions\AwsSnsMessageInvalidException If the expected topic is empty or does not match the signed message's topic.
+	 */
+	public function Validate(string $topicArn): void{
+		if($topicArn === '' || $this->TopicArn !== $topicArn){
+			throw new Exceptions\AwsSnsMessageInvalidException('Unexpected SNS topic.');
+		}
+
+		// Confirm subscriptions only after authorizing the signed topic.
 		if($this->Type == 'SubscriptionConfirmation' && isset($this->Message->SubscribeUrl)){
 			try{
 				HttpRequest::Execute(Enums\HttpMethod::Get, $this->Message->SubscribeUrl);
+				http_response_code(Enums\HttpCode::NoContent->value);
 			}
 			catch(Exceptions\HttpRequestException){
-				// Pass.
+				http_response_code(Enums\HttpCode::UnprocessableContent->value);
 			}
+
+			exit();
 		}
 	}
 
 	/**
-	 * Read an SNS message from the current HTTP request, validate its AWS signature and topic, and return the parsed message.
+	 * Read an SNS message from the current HTTP request, validate its AWS signature, and return the parsed message.
 	 *
-	 * @throws Exceptions\SnsMessageInvalidException If the SNS message is malformed or unsigned.
+	 * @throws Exceptions\AwsSnsMessageInvalidException If the SNS message is malformed or unsigned.
 	 */
 	public static function FromHttp(): AwsSnsMessage{
 		$object = new AwsSnsMessage();
@@ -47,7 +61,7 @@ class AwsSnsMessage{
 				$message = Message::fromJsonString(file_get_contents('php://input'));
 			}
 			catch(\InvalidArgumentException | \RuntimeException $ex){
-				throw new Exceptions\SnsMessageInvalidException($ex::class . ': ' . $ex->getMessage());
+				throw new Exceptions\AwsSnsMessageInvalidException($ex::class . ': ' . $ex->getMessage());
 			}
 
 			/** @var array<string, string> $downloadedCertificates */
@@ -87,16 +101,16 @@ class AwsSnsMessage{
 
 			$object->Type = self::GetStringValue($data, 'Type');
 			$object->MessageId = self::GetStringValue($data, 'MessageId');
+			$object->TopicArn = self::GetStringValue($data, 'TopicArn');
 			try{
 				$object->Timestamp = new DateTimeImmutable(self::GetStringValue($data, 'Timestamp'));
 			}
 			catch(\Exception){
-				throw new Exceptions\SnsMessageInvalidException('Invalid timestamp.');
+				throw new Exceptions\AwsSnsMessageInvalidException('Invalid timestamp.');
 			}
 
 			if($object->Type == 'SubscriptionConfirmation'){
 				$object->Message->SubscribeUrl = self::GetStringValue($data, 'SubscribeURL');
-				$object->ConfirmSubscription();
 			}
 			elseif($object->Type == 'Notification'){
 				$messageBody = self::GetStringValue($data, 'Message');
@@ -108,7 +122,7 @@ class AwsSnsMessage{
 					$message = json_decode($messageBody);
 
 					if(!($message instanceof stdClass)){
-						throw new Exceptions\SnsMessageInvalidException('No message body.');
+						throw new Exceptions\AwsSnsMessageInvalidException('No message body.');
 					}
 				}
 
@@ -118,7 +132,7 @@ class AwsSnsMessage{
 			return $object;
 		}
 		catch(Aws\Sns\Exception\InvalidSnsMessageException $ex){
-			throw new Exceptions\SnsMessageInvalidException($ex::class . ': ' . $ex->getMessage() . "\nData:\n" . vds($data));
+			throw new Exceptions\AwsSnsMessageInvalidException($ex::class . ': ' . $ex->getMessage() . "\nData:\n" . vds($data));
 		}
 	}
 
@@ -127,11 +141,11 @@ class AwsSnsMessage{
 	 *
 	 * @param array<string, mixed> $data Raw SNS message data.
 	 *
-	 * @throws Exceptions\SnsMessageInvalidException If the field is missing or is not a string.
+	 * @throws Exceptions\AwsSnsMessageInvalidException If the field is missing or is not a string.
 	 */
 	private static function GetStringValue(array $data, string $key): string{
 		if(!isset($data[$key]) || !is_string($data[$key])){
-			throw new Exceptions\SnsMessageInvalidException('Missing SNS field: ' . $key);
+			throw new Exceptions\AwsSnsMessageInvalidException('Missing SNS field: ' . $key);
 		}
 
 		return $data[$key];
