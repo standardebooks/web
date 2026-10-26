@@ -196,6 +196,7 @@ label.picture::before{
 .artworks form.browse-artwork fieldset{
 	display: flex;
 	gap: 1rem;
+	flex-wrap: wrap;
 }
 
 form.create-update-artwork > fieldset{
@@ -394,10 +395,6 @@ main section.narrow h1 ~ picture{
 
 	.artworks form.browse-artwork select:not([name="sort"]){
 		min-width: auto;
-	}
-
-	.artworks form.browse-artwork fieldset{
-		flex-wrap: wrap;
 	}
 }
 
