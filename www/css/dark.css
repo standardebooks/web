@@ -106,6 +106,10 @@ label.email::before{
 	text-shadow: none;
 }
 
+.highlighted{
+	background-image: linear-gradient(to right, rgba(255, 160, 210, 0.25), rgba(255, 160, 210, 0.8) 4%, rgba(255, 160, 210, 0.45));
+}
+
 hr.fleuron::before{
 	filter: invert(100%);
 }

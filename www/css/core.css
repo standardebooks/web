@@ -2753,7 +2753,7 @@ img[src="/images/captcha"]{
 	width: auto;
 }
 
-.donate aside:not(.alert){
+.donate aside:not(.alert):not(.donation){
 	margin-top: 2rem;
 	padding-top: 2rem;
 	font-style: italic;

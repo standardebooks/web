@@ -19,6 +19,11 @@ form.donation-form fieldset{
 	min-width: 0;
 }
 
+form.donation-form input[type="email"],
+form.donation-form input[name="name"]{
+	width: 50%;
+}
+
 form.donation-form label:has(input[type="radio"]){
 	display: flex;
 	font-weight: normal;
