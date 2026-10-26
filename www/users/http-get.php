@@ -117,7 +117,7 @@ catch(Exceptions\PermissionsInvalidException){
 				<ul class="recurring-donations">
 					<? foreach($subscriptions as $subscription){ ?>
 						<li>
-							<p><?= Formatter::FormatCurrency($subscription->Amount) ?>/<?= $subscription->CycleType === Enums\CycleType::Monthly ? 'month' : 'year' ?> • Last donation on <time datetime="<?= $subscription->LastPayment->CreatedAt->format(Enums\DateTimeFormat::Html->value) ?>"><?= $subscription->LastPayment->CreatedAt->format(Enums\DateTimeFormat::ShortDate->value) ?></time> — <a href="<?= $subscription->EditUrl ?>">Update billing info</a> • <a href="<?= $subscription->DeleteUrl ?>">Cancel</a></p>
+							<p><?= Formatter::FormatCurrency($subscription->Amount) ?>/<?= $subscription->CycleType === Enums\CycleType::Monthly ? 'month' : 'year' ?> • <? if($subscription->NextPaymentAt !== null){ ?>Next donation on <time datetime="<?= $subscription->NextPaymentAt->format(Enums\DateTimeFormat::Html->value) ?>"><?= date_format($subscription->NextPaymentAt, Enums\DateTimeFormat::ShortDateWithoutYear->value) ?></time><? }else{ ?>Last donation on <time datetime="<?= $subscription->LastPayment->CreatedAt->format(Enums\DateTimeFormat::Html->value) ?>"><?= $subscription->LastPayment->CreatedAt->format(Enums\DateTimeFormat::ShortDate->value) ?></time><? } ?> — <a href="<?= $subscription->EditUrl ?>">Update billing info</a> • <a href="<?= $subscription->DeleteUrl ?>">Cancel</a></p>
 						</li>
 					<? } ?>
 				</ul>
