@@ -37,7 +37,11 @@ try{
 	$newsletterMailings = Db::Transaction(function(): array{
 		Db::Query('set @start = utc_timestamp()');
 		$newsletterMailings = Db::Query('select * from NewsletterMailings force index(Status_SendAt) where Status = ? and SendAt <= @start for update skip locked', [Enums\QueueStatus::Queued], NewsletterMailing::class);
-		Db::Query('update NewsletterMailings set Status = ? where Status = ? and SendAt <= @start', [Enums\QueueStatus::Processing, Enums\QueueStatus::Queued]);
+
+		if(sizeof($newsletterMailings) > 0){
+			$newsletterMailingIds = array_map(fn(NewsletterMailing $newsletterMailing): int => $newsletterMailing->NewsletterMailingId, $newsletterMailings);
+			Db::Query('update NewsletterMailings set Status = ? where NewsletterMailingId in ' . Db::CreateSetSql($newsletterMailingIds), [Enums\QueueStatus::Processing, ...$newsletterMailingIds]);
+		}
 
 		return $newsletterMailings;
 	});
