@@ -88,19 +88,26 @@ for($i = 0; $i < $runs; $i++){
 		NOTE: We can't `order by Priority desc, QueuedEmailMessageId asc` because if the query can't use an index, then innoDB locks the whole table instead of locking individual rows. MariaDB can't use indexes on selects with mixed sorting. We force the index to make sure the query planner uses it, because sometimes it might not.
 		*/
 
-		// Keep the isolation level in effect when a deadlock causes the transaction to retry.
-		Db::Query('set session transaction isolation level read committed');
-		/** @return array<QueuedEmailMessage> The messages removed from the queue for sending. */
-		$queuedItems = Db::Transaction(function() use ($emailsPerRun): array{
-			$queuedItems = Db::Query('select * from QueuedEmailMessages force index (Priority_QueuedEmailMessageId) where Provider = ? order by Priority desc limit ? for update skip locked', [Enums\EmailProviderType::Ses, $emailsPerRun], QueuedEmailMessage::class);
+		$originalIsolationLevel = Db::Query('select @@session.transaction_isolation as IsolationLevel')[0]->IsolationLevel;
+		try{
+			// Keep the isolation level in effect when a deadlock causes the transaction to retry.
+			Db::Query('set session transaction isolation level read committed');
+			/** @return array<QueuedEmailMessage> The messages removed from the queue for sending. */
+			$queuedItems = Db::Transaction(function() use ($emailsPerRun): array{
+				$queuedItems = Db::Query('select * from QueuedEmailMessages force index (Priority_QueuedEmailMessageId) where Provider = ? order by Priority desc limit ? for update skip locked', [Enums\EmailProviderType::Ses, $emailsPerRun], QueuedEmailMessage::class);
 
-			if(sizeof($queuedItems) > 0){
-				$queuedItemIds = array_map(fn(QueuedEmailMessage $queuedItem): int => $queuedItem->QueuedEmailMessageId, $queuedItems);
-				Db::Query('delete from QueuedEmailMessages where QueuedEmailMessageId in ' . Db::CreateSetSql($queuedItemIds), $queuedItemIds);
-			}
+				if(sizeof($queuedItems) > 0){
+					$queuedItemIds = array_map(fn(QueuedEmailMessage $queuedItem): int => $queuedItem->QueuedEmailMessageId, $queuedItems);
+					Db::Query('delete from QueuedEmailMessages where QueuedEmailMessageId in ' . Db::CreateSetSql($queuedItemIds), $queuedItemIds);
+				}
 
-			return $queuedItems;
-		});
+				return $queuedItems;
+			});
+		}
+		finally{
+			// Restore the session default even if the transaction fails.
+			Db::Query('set session transaction_isolation = ?', [$originalIsolationLevel]);
+		}
 
 		if(sizeof($queuedItems) > 0){
 			try{

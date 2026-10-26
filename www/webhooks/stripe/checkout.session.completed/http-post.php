@@ -95,19 +95,20 @@ try{
 
 	$payment = Payment::FromStripeWebhook($paymentIntent, $checkoutSession, $customer);
 
-	Db::Query('start transaction');
-
 	try{
-		$payment->Create();
-		$payment->ProcessPatronsCircleBenefits(Enums\CycleType::Yearly, ($checkoutSession->metadata['is_anonymous'] ?? null) !== 'false', null, $isPatronsCircleProduct);
-		Db::Query('commit');
+		Db::Transaction(function() use ($payment, $checkoutSession, $isPatronsCircleProduct): void{
+			// Clone the payment and its user so each attempt starts without rolled-back state.
+			$payment = clone $payment;
+			if($payment->User !== null){
+				$payment->User = clone $payment->User;
+			}
+
+			$payment->Create();
+			$payment->ProcessPatronsCircleBenefits(Enums\CycleType::Yearly, ($checkoutSession->metadata['is_anonymous'] ?? null) !== 'false', null, $isPatronsCircleProduct);
+		});
 	}
 	catch(Exceptions\PaymentExistsException){
-		Db::Query('rollback');
-	}
-	catch(Throwable $ex){
-		Db::Query('rollback');
-		throw $ex;
+		// The transaction was rolled back because this payment was already recorded.
 	}
 
 	http_response_code(Enums\HttpCode::NoContent->value);

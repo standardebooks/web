@@ -57,26 +57,29 @@ try{
 		$payment = Payment::FromStripeWebhook($paymentIntent, $stripeSubscription, $customer);
 		$payment->CreatedAt = new DateTimeImmutable('@' . $invoicePayment->status_transitions->paid_at);
 
-		Db::Query('start transaction');
 		try{
-			$payment->Create();
-			if($payment->UserId === null){
-				throw new Exceptions\WebhookException('Stripe recurring payment has no user.');
-			}
-			$subscription->UserId = $payment->UserId;
-			$subscription->Create();
-			$payment->SubscriptionId = $subscription->SubscriptionId;
-			Db::Query('update Payments set SubscriptionId = ? where PaymentId = ?', [$payment->SubscriptionId, $payment->PaymentId]);
-			$isPatronsCircleProduct = $stripeSubscription->items->data[0]->price->product === STRIPE_PATRONS_CIRCLE_PRODUCT_ID;
-			$payment->ProcessPatronsCircleBenefits($subscription->CycleType, ($stripeSubscription->metadata['is_anonymous'] ?? null) !== 'false', null, $isPatronsCircleProduct);
-			Db::Query('commit');
+			Db::Transaction(function() use ($payment, $subscription, $stripeSubscription): void{
+				// Clone the payment, user, and subscription before each attempt can change them.
+				$payment = clone $payment;
+				if($payment->User !== null){
+					$payment->User = clone $payment->User;
+				}
+				$subscription = clone $subscription;
+
+				$payment->Create();
+				if($payment->UserId === null){
+					throw new Exceptions\WebhookException('Stripe recurring payment has no user.');
+				}
+				$subscription->UserId = $payment->UserId;
+				$subscription->Create();
+				$payment->SubscriptionId = $subscription->SubscriptionId;
+				Db::Query('update Payments set SubscriptionId = ? where PaymentId = ?', [$payment->SubscriptionId, $payment->PaymentId]);
+				$isPatronsCircleProduct = $stripeSubscription->items->data[0]->price->product === STRIPE_PATRONS_CIRCLE_PRODUCT_ID;
+				$payment->ProcessPatronsCircleBenefits($subscription->CycleType, ($stripeSubscription->metadata['is_anonymous'] ?? null) !== 'false', null, $isPatronsCircleProduct);
+			});
 		}
 		catch(Exceptions\PaymentExistsException){
-			Db::Query('rollback');
-		}
-		catch(Throwable $ex){
-			Db::Query('rollback');
-			throw $ex;
+			// The transaction was rolled back because this payment was already recorded.
 		}
 	}
 

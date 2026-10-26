@@ -851,65 +851,62 @@ final class Artwork{
 		$this->CreatedAt = NOW;
 		$this->UpdatedAt = NOW;
 
-		Db::Query('start transaction');
-
+		$submittedArtist = clone $this->Artist;
 		try{
-			$tags = [];
-			foreach($this->Tags as $artworkTag){
-				$tags[] = ArtworkTag::GetOrCreate($artworkTag);
-			}
-			$this->Tags = $tags;
+			Db::Transaction(function() use ($imagePath, $submittedArtist): void{
+				// Restore the submitted artist after any rolled-back attempt.
+				$this->Artist = clone $submittedArtist;
 
-			$this->Artist = Artist::GetOrCreate($this->Artist);
+				$tags = [];
+				foreach($this->Tags as $artworkTag){
+					$tags[] = ArtworkTag::GetOrCreate($artworkTag);
+				}
+				$this->Tags = $tags;
 
-			$this->ArtworkId = Db::QueryInt('
-				insert into
-				Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, CreatedAt, UpdatedAt, Status, SubmitterUserId, ReviewerUserId, IsAutoReviewed, MuseumUrl,
-				                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
-				                      EbookId, MimeType, Exception, Notes)
-				values (?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?,
-				        ?)
-				returning ArtworkId
-			', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
-					$this->CreatedAt, $this->UpdatedAt, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
-					$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes]
-			);
+				$this->Artist = Artist::GetOrCreate($this->Artist);
 
-			$this->AddTags();
+				$this->ArtworkId = Db::QueryInt('
+					insert into
+					Artworks (ArtistId, Name, UrlName, CompletedYear, CompletedYearIsCirca, CreatedAt, UpdatedAt, Status, SubmitterUserId, ReviewerUserId, IsAutoReviewed, MuseumUrl,
+					                      PublicationYear, PublicationYearPageUrl, CopyrightPageUrl, ArtworkPageUrl, IsPublishedInUs,
+					                      EbookId, MimeType, Exception, Notes)
+					values (?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?,
+					        ?)
+					returning ArtworkId
+				', [$this->Artist->ArtistId, $this->Name, $this->UrlName, $this->CompletedYear, $this->CompletedYearIsCirca,
+						$this->CreatedAt, $this->UpdatedAt, $this->Status, $this->SubmitterUserId, $this->ReviewerUserId, $this->IsAutoReviewed, $this->MuseumUrl, $this->PublicationYear, $this->PublicationYearPageUrl,
+						$this->CopyrightPageUrl, $this->ArtworkPageUrl, $this->IsPublishedInUs, $this->EbookId, $this->MimeType, $this->Exception, $this->Notes]
+				);
 
-			if($imagePath !== null){
-				$this->WriteImageAndThumbnails($imagePath);
-			}
+				$this->AddTags();
 
-			Db::Query('commit');
+				if($imagePath !== null){
+					// Installed image files cannot be rolled back with the database transaction.
+					Db::SetTransactionRetriesEnabled(false);
+					$this->WriteImageAndThumbnails($imagePath);
+				}
+			});
 		}
 		catch(\Throwable $ex){
-			try{
-				Db::Query('rollback');
-			}
-			catch(\Throwable){
-				// Preserve the original exception.
-			}
-
 			if(isset($this->ArtworkId)){
 				/** @throws void We're sure the `Artwork` is set so these getters never `throw`. */
 				foreach([$this->ImageFsPath, $this->ThumbFsPath, $this->Thumb2xFsPath] as $path){

@@ -37,7 +37,8 @@ final class SessionLoginCode{
 			throw new Exceptions\SessionLoginCodeRequestLimitException();
 		}
 
-		if($this->User->Email === null){
+		$emailAddress = $this->User->Email;
+		if($emailAddress === null){
 			throw new Exceptions\EmailRequiredException();
 		}
 
@@ -50,46 +51,40 @@ final class SessionLoginCode{
 		}
 
 		try{
-			Db::Query('start transaction');
+			Db::Transaction(function() use ($ipAddress, $redirect, $emailAddress): void{
+				// Lock the account row so simultaneous requests cannot exceed the email limit.
+				Db::Query('select UserId from Users where UserId = ? for update', [$this->UserId]);
+				$recentCount = Db::QueryInt('select count(*) from SessionLoginCodes where UserId = ? and CreatedAt > ?', [$this->UserId, NOW->modify('-24 hours')]);
+				$recentlySent = Db::QueryBool('select exists(select * from SessionLoginCodes where UserId = ? and CreatedAt > ?)', [$this->UserId, NOW->modify('-15 minutes')]);
+				$recentIpCount = Db::QueryInt('select count(*) from SessionLoginCodes where IpAddress = ? and CreatedAt > ?', [$ipAddress, NOW->modify('-24 hours')]);
+				$recentlySentFromIp = Db::QueryBool('select exists(select * from SessionLoginCodes where IpAddress = ? and CreatedAt > ?)', [$ipAddress, NOW->modify('-15 minutes')]);
 
-			// Lock the account row so simultaneous requests cannot exceed the email limit.
-			Db::Query('select UserId from Users where UserId = ? for update', [$this->UserId]);
-			$recentCount = Db::QueryInt('select count(*) from SessionLoginCodes where UserId = ? and CreatedAt > ?', [$this->UserId, NOW->modify('-24 hours')]);
-			$recentlySent = Db::QueryBool('select exists(select * from SessionLoginCodes where UserId = ? and CreatedAt > ?)', [$this->UserId, NOW->modify('-15 minutes')]);
-			$recentIpCount = Db::QueryInt('select count(*) from SessionLoginCodes where IpAddress = ? and CreatedAt > ?', [$ipAddress, NOW->modify('-24 hours')]);
-			$recentlySentFromIp = Db::QueryBool('select exists(select * from SessionLoginCodes where IpAddress = ? and CreatedAt > ?)', [$ipAddress, NOW->modify('-15 minutes')]);
-
-			if($recentCount >= 3 || $recentlySent || $recentIpCount >= 3 || $recentlySentFromIp){
-				throw new Exceptions\SessionLoginCodeRequestLimitException();
-			}
-
-			// Old rows are no longer needed for login or the rolling email and IP limits.
-			Db::Query('delete from SessionLoginCodes where CreatedAt < ?', [NOW->modify('-24 hours')]);
-
-			while(true){
-				try{
-					$this->Code = Db::Query('insert into SessionLoginCodes (Code, UserId, ExpiresAt, IpAddress) values (uuid_v7(), ?, ?, ?) returning Code', [$this->UserId, NOW->modify('+10 minutes'), $ipAddress])[0]->Code;
-					break;
+				if($recentCount >= 3 || $recentlySent || $recentIpCount >= 3 || $recentlySentFromIp){
+					throw new Exceptions\SessionLoginCodeRequestLimitException();
 				}
-				catch(Exceptions\DuplicateDatabaseKeyException){
-					// A generated UUID collided, so ask the database to generate another one.
+
+				// Old rows are no longer needed for login or the rolling email and IP limits.
+				Db::Query('delete from SessionLoginCodes where CreatedAt < ?', [NOW->modify('-24 hours')]);
+
+				while(true){
+					try{
+						$this->Code = Db::Query('insert into SessionLoginCodes (Code, UserId, ExpiresAt, IpAddress) values (uuid_v7(), ?, ?, ?) returning Code', [$this->UserId, NOW->modify('+10 minutes'), $ipAddress])[0]->Code;
+						break;
+					}
+					catch(Exceptions\DuplicateDatabaseKeyException){
+						// A generated UUID collided, so ask the database to generate another one.
+					}
 				}
-			}
 
-			$email = new QueuedEmailMessage(true);
-			$email->To = $this->User->Email;
-			$email->ToName = $this->User->Name;
-			$email->Subject = 'Log in to Standard Ebooks';
-			$url = $this->GetUrl($redirect);
-			$email->BodyHtml = Template::EmailSessionLoginCode(url: $url);
-			$email->BodyText = Template::EmailSessionLoginCodeText(url: $url);
-			$email->Create();
-
-			Db::Query('commit');
-		}
-		catch(Throwable $ex){
-			Db::Query('rollback');
-			throw $ex;
+				$email = new QueuedEmailMessage(true);
+				$email->To = $emailAddress;
+				$email->ToName = $this->User->Name;
+				$email->Subject = 'Log in to Standard Ebooks';
+				$url = $this->GetUrl($redirect);
+				$email->BodyHtml = Template::EmailSessionLoginCode(url: $url);
+				$email->BodyText = Template::EmailSessionLoginCodeText(url: $url);
+				$email->Create();
+			});
 		}
 		finally{
 			Db::Query('select release_lock(?)', [$lockName]);

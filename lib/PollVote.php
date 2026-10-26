@@ -91,9 +91,7 @@ class PollVote{
 	public function Create(): void{
 		$this->Validate();
 
-		Db::Query('start transaction');
-
-		try{
+		Db::Transaction(function(): void{
 			// Lock a stable `PollItems` row for this `Poll`.
 			Db::Query('
 				select PollItemId
@@ -115,13 +113,7 @@ class PollVote{
 				insert into PollVotes (UserId, PollItemId)
 				values (?, ?)
 			', [$this->UserId, $this->PollItemId]);
-
-			Db::Query('COMMIT');
-		}
-		catch(\Throwable $ex){
-			Db::Query('ROLLBACK');
-			throw $ex;
-		}
+		});
 	}
 
 	/**

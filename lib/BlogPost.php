@@ -323,45 +323,38 @@ class BlogPost{
 			$this->ImageCacheKey = $this->GenerateImageCacheKey();
 		}
 
-		Db::Query('start transaction');
-
 		try{
-			try{
-				$this->BlogPostId = Db::QueryInt('
-					insert into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, PublishedAt, CreatedAt)
-					values (?,
-					        ?,
-					        ?,
-					        ?,
-					        ?,
-					        ?,
-					        ?,
-					        ?,
-					        ?,
-					        ?)
-					returning BlogPostId
-				', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->CreatedAt]);
-			}
-			catch(Exceptions\DuplicateDatabaseKeyException){
-				throw new Exceptions\BlogPostExistsException();
-			}
+			Db::Transaction(function() use ($heroImagePath): void{
+				try{
+					$this->BlogPostId = Db::QueryInt('
+						insert into BlogPosts (UserId, Title, Subtitle, Description, UrlTitle, Body, ImageCacheKey, HeroImageCaption, PublishedAt, CreatedAt)
+						values (?,
+						        ?,
+						        ?,
+						        ?,
+						        ?,
+						        ?,
+						        ?,
+						        ?,
+						        ?,
+						        ?)
+						returning BlogPostId
+					', [$this->UserId, $this->Title, $this->Subtitle, $this->Description, $this->UrlTitle, $this->Body, $this->ImageCacheKey, $this->HeroImageCaption, $this->PublishedAt, $this->CreatedAt]);
+				}
+				catch(Exceptions\DuplicateDatabaseKeyException){
+					throw new Exceptions\BlogPostExistsException();
+				}
 
-			$this->AddEbooks();
+				$this->AddEbooks();
 
-			if($heroImagePath !== null){
-				$this->WriteHeroImage($heroImagePath);
-			}
-
-			Db::Query('commit');
+				if($heroImagePath !== null){
+					// Installed image files cannot be rolled back with the database transaction.
+					Db::SetTransactionRetriesEnabled(false);
+					$this->WriteHeroImage($heroImagePath);
+				}
+			});
 		}
 		catch(\Throwable $ex){
-			try{
-				Db::Query('rollback');
-			}
-			catch(\Throwable){
-				// Preserve the original exception.
-			}
-
 			if(isset($this->BlogPostId)){
 				$this->RemoveHeroImage();
 			}
@@ -390,9 +383,7 @@ class BlogPost{
 			$this->ImageCacheKey = $this->GenerateImageCacheKey();
 		}
 
-		Db::Query('start transaction');
-
-		try{
+		Db::Transaction(function() use ($heroImagePath, $hasHeroImage): void{
 			try{
 				Db::Query('
 					update BlogPosts
@@ -408,24 +399,16 @@ class BlogPost{
 			$this->AddEbooks();
 
 			if(!$hasHeroImage){
+				// Removed image files cannot be restored by retrying the transaction.
+				Db::SetTransactionRetriesEnabled(false);
 				$this->RemoveHeroImage();
 			}
 			elseif($heroImagePath !== null){
+				// Installed image files cannot be rolled back with the database transaction.
+				Db::SetTransactionRetriesEnabled(false);
 				$this->WriteHeroImage($heroImagePath);
 			}
-
-			Db::Query('commit');
-		}
-		catch(\Throwable $ex){
-			try{
-				Db::Query('rollback');
-			}
-			catch(\Throwable){
-				// Preserve the original exception.
-			}
-
-			throw $ex;
-		}
+		});
 	}
 
 	/**

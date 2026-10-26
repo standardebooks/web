@@ -29,12 +29,23 @@ if(sizeof($parameters) != 0){
 	Usage();
 }
 
-Db::Query('set transaction isolation level read committed');
-Db::Query('start transaction');
-Db::Query('set @start = utc_timestamp()');
-$newsletterMailings = Db::Query('select * from NewsletterMailings force index(Status_SendAt) where Status = ? and SendAt <= @start for update skip locked', [Enums\QueueStatus::Queued], NewsletterMailing::class);
-Db::Query('update NewsletterMailings set Status = ? where Status = ? and SendAt <= @start', [Enums\QueueStatus::Processing, Enums\QueueStatus::Queued]);
-Db::Query('commit');
+$originalIsolationLevel = Db::Query('select @@session.transaction_isolation as IsolationLevel')[0]->IsolationLevel;
+try{
+	// Keep the isolation level in effect when a deadlock causes the transaction to retry.
+	Db::Query('set session transaction isolation level read committed');
+	/** @return array<NewsletterMailing> The mailings claimed for sending. */
+	$newsletterMailings = Db::Transaction(function(): array{
+		Db::Query('set @start = utc_timestamp()');
+		$newsletterMailings = Db::Query('select * from NewsletterMailings force index(Status_SendAt) where Status = ? and SendAt <= @start for update skip locked', [Enums\QueueStatus::Queued], NewsletterMailing::class);
+		Db::Query('update NewsletterMailings set Status = ? where Status = ? and SendAt <= @start', [Enums\QueueStatus::Processing, Enums\QueueStatus::Queued]);
+
+		return $newsletterMailings;
+	});
+}
+finally{
+	// Restore the session default even if the transaction fails.
+	Db::Query('set session transaction_isolation = ?', [$originalIsolationLevel]);
+}
 
 foreach($newsletterMailings as $newsletterMailing){
 	print('Sending newsletter mailing #' . $newsletterMailing->NewsletterMailingId . "\n");

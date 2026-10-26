@@ -72,21 +72,22 @@ $errorLockFilename = sys_get_temp_dir() . '/process-pending-payments';
 // - `946554ca-ffc0-4259-bcc6-be6c844fbbdc`  Regular donation, patrons, private, recurring.
 // - `416608c6-cbf5-4153-8956-cb9051bb849e`  Regular donation, patrons, public, one time, in memory of.
 
-Db::Query('start transaction');
+/** @return array<stdClass> The pending payments claimed for processing. */
+$pendingPayments = Db::Transaction(function(): array{
+	$pendingPayments = Db::Query('
+					select *
+					from PendingPayments
+					where ProcessedAt is null
+				');
 
-$pendingPayments = Db::Query('
-				select *
-				from PendingPayments
-				where ProcessedAt is null
-			');
+	Db::Query('
+			update PendingPayments
+			set ProcessedAt = utc_timestamp()
+			where ProcessedAt is null
+		');
 
-Db::Query('
-		update PendingPayments
-		set ProcessedAt = utc_timestamp()
-		where ProcessedAt is null
-	');
-
-Db::Query('commit');
+	return $pendingPayments;
+});
 
 if(sizeof($pendingPayments) == 0){
 	// Don't start the very slow Selenium driver if we have nothing to process.

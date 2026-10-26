@@ -80,26 +80,20 @@ class Session{
 	 * @throws Exceptions\UserNotFoundException If the code's user cannot be found.
 	 */
 	public static function InitializeFromCode(SessionLoginCode $code): void{
-		Db::Query('start transaction');
-		Db::Query('update SessionLoginCodes set EnteredAt = ? where Code = ? and UserId = ? and EnteredAt is null and ExpiresAt > ?', [NOW, $code->Code, $code->UserId, NOW]);
+		Db::Transaction(function() use ($code): void{
+			Db::Query('update SessionLoginCodes set EnteredAt = ? where Code = ? and UserId = ? and EnteredAt is null and ExpiresAt > ?', [NOW, $code->Code, $code->UserId, NOW]);
 
-		if(Db::$LastQueryAffectedRowCount == 1){
-			try{
-				$session = new Session();
-				$session->Create($code->User);
-				Db::Query('commit');
-			}
-			catch(Throwable $ex){
-				Db::Query('rollback');
-				throw $ex;
+			if(Db::$LastQueryAffectedRowCount != 1){
+				throw new Exceptions\SessionLoginCodeNotFoundException();
 			}
 
-			$code->EnteredAt = NOW;
-		}
-		else{
-			Db::Query('rollback');
-			throw new Exceptions\SessionLoginCodeNotFoundException();
-		}
+			// Session creation sets a cookie and global state that cannot be rolled back.
+			Db::SetTransactionRetriesEnabled(false);
+			$session = new Session();
+			$session->Create($code->User);
+		});
+
+		$code->EnteredAt = NOW;
 	}
 
 	public static function InitializeFromCookie(): void{

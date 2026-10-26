@@ -245,8 +245,14 @@ class Db{
 			}
 			catch(\Throwable $ex){
 				// InnoDB already rolls back deadlock victims, but other failures still need a rollback.
-				if(static::$Link->inTransaction()){
-					static::Query('rollback');
+				try{
+					if(static::$Link->inTransaction()){
+						static::Query('rollback');
+					}
+				}
+				catch(\Throwable){
+					// Preserve the original exception and stop retrying if cleanup fails.
+					throw $ex;
 				}
 
 				if(!$ex instanceof Exceptions\DatabaseDeadlockException || $attempt >= $attempts || !static::$_CanRetryTransaction){

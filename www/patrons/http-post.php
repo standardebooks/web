@@ -32,8 +32,14 @@ try{
 	$payment->Validate();
 	$patron->Validate();
 
-	Db::Query('start transaction');
-	try{
+	Db::Transaction(function() use ($payment, $patron, $user): void{
+		// Clone the submitted objects so each attempt starts without rolled-back state.
+		$payment = clone $payment;
+		$patron = clone $patron;
+		$user = clone $user;
+		$payment->User = $user;
+		$patron->User = $user;
+
 		$existingPayment = Db::Query('
 			select *
 			from Payments
@@ -86,18 +92,16 @@ try{
 			$payment->Create();
 		}
 
-		$patron->SubscriptionId = $payment->IsRecurring ? $payment->SubscriptionId : null;
-		$patron->QualifyingPaymentId = $payment->IsRecurring ? null : $payment->PaymentId;
+		$patron->SubscriptionId = null;
+		$patron->QualifyingPaymentId = $payment->PaymentId;
+		if($payment->IsRecurring){
+			$patron->SubscriptionId = $payment->SubscriptionId;
+			$patron->QualifyingPaymentId = null;
+		}
 		$patron->CreatedAt = $payment->CreatedAt;
 		$patron->Validate(payment: $payment);
 		$patron->Create(sendWelcomeEmail: false);
-		Db::Query('commit');
-	}
-	catch(\Throwable $ex){
-		Db::Query('rollback');
-
-		throw $ex;
-	}
+	});
 
 	$_SESSION['patron/create/is-created'] = true;
 

@@ -60,8 +60,12 @@ try{
 	$user->Email = $email;
 	$isAnyNewsletterSubscriptionCreated = false;
 
-	Db::Query('start transaction');
-	try{
+	$submittedUser = clone $user;
+	Db::Transaction(function() use ($newsletters, $submittedUser, &$user, &$isAnyNewsletterSubscriptionCreated): void{
+		// Reset state that may refer to rows created by a rolled-back attempt.
+		$user = clone $submittedUser;
+		$isAnyNewsletterSubscriptionCreated = false;
+
 		foreach($newsletters as $newsletter){
 			$newsletterSubscription = new NewsletterSubscription();
 			$newsletterSubscription->Newsletter = $newsletter;
@@ -88,19 +92,7 @@ try{
 				continue;
 			}
 		}
-
-		Db::Query('commit');
-	}
-	catch(\Throwable $ex){
-		try{
-			Db::Query('rollback');
-		}
-		catch(\Throwable){
-			// Preserve the original exception.
-		}
-
-		throw $ex;
-	}
+	});
 
 	if($isAnyNewsletterSubscriptionCreated){
 		// Send the double opt-in confirmation email.
