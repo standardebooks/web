@@ -46,6 +46,10 @@ try{
 	$artwork->FillFromRequestBody();
 	$artwork->SubmitterUserId = Session::$User->UserId ?? null;
 
+	if($artwork->EbookId !== null && !$artwork->CanEbookUrlBeChangedBy(Session::$User)){
+		throw new Exceptions\PermissionsInvalidException();
+	}
+
 	// Only approved reviewers can set the status to anything but unverified when uploading.
 	// The submitter cannot review their own submissions unless they have special permission.
 	if($artwork->Status !== Enums\ArtworkStatusType::Unverified && !$artwork->CanStatusBeChangedBy(Session::$User)){

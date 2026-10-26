@@ -22,26 +22,43 @@ try{
 	$exceptionRedirectUrl = Template::SanitizeRedirectUrl($referrer);
 
 	$artworkStatus = Http::$Request->Body->Get('artwork-status');
-	$artworkEbookUrl = Http::$Request->Body->Get('artwork-ebook-url');
+	$artworkEbookUrl = Http::$Request->Body->Get('artwork-ebook-url', 'empty-string');
 	$isEditFormSubmission = isset(Http::$Request->Body->Variables['artwork-name']);
+	$canEditArtwork = $artwork->CanBeEditedBy(Session::$User);
+	$canChangeStatus = $artwork->CanStatusBeChangedBy(Session::$User);
+	$canChangeEbookUrl = $artwork->CanEbookUrlBeChangedBy(Session::$User);
 
 	if(
 		!(
 			(
 				$artworkStatus !== null
 				&&
-				$artwork->CanStatusBeChangedBy(Session::$User)
+				$canChangeStatus
 			)
 			||
 			(
 				$artworkEbookUrl !== null
 				&&
-				$artwork->CanEbookUrlBeChangedBy(Session::$User)
+				$canChangeEbookUrl
 			)
 			||
-			$artwork->CanBeEditedBy(Session::$User)
+			$canEditArtwork
 		)
 	){
+		throw new Exceptions\PermissionsInvalidException();
+	}
+
+	// Status and ebook-link permissions do not permit other edits.
+	if(!$canEditArtwork){
+		foreach(array_keys(Http::$Request->Body->Variables) as $field){
+			if((str_starts_with($field, 'artwork-') || str_starts_with($field, 'artist-')) && !in_array($field, ['artwork-status', 'artwork-ebook-url'], true)){
+				throw new Exceptions\PermissionsInvalidException();
+			}
+		}
+	}
+
+	// The inline ebook-link form includes the unchanged status even when the user cannot review this artwork.
+	if($artworkStatus !== null && $artworkStatus !== $artwork->Status->value && !$canChangeStatus){
 		throw new Exceptions\PermissionsInvalidException();
 	}
 
@@ -72,8 +89,13 @@ try{
 
 	try{
 		$originalArtworkStatus = $artwork->Status;
+		$originalEbookId = $artwork->EbookId;
 
 		$artwork->FillFromRequestBody();
+
+		if($artwork->EbookId !== $originalEbookId && !$canChangeEbookUrl){
+			throw new Exceptions\PermissionsInvalidException();
+		}
 
 		if($artworkStatus !== null && $artwork->Status != $originalArtworkStatus){
 			$artwork->ReviewerUserId = Session::$User->UserId;
@@ -85,7 +107,36 @@ try{
 		throw $ex;
 	}
 
-	$artwork->Save($stagedImagePath);
+	$submittedArtist = clone $artwork->Artist;
+	Db::Transaction(function() use ($artwork, $stagedImagePath, $submittedArtist): void{
+		// Use the original object in case of a deadlock retry.
+		$artwork->Artist = clone $submittedArtist;
+
+		// Resolve the same canonical artist used by the save, including alternate names, without creating one.
+		$artist = Db::Query('
+			select a.*
+			from Artists a
+			left outer join ArtistAlternateNames aan using (ArtistId)
+			where a.UrlName = ? or aan.UrlName = ?
+			limit 1
+			for update
+		', [$artwork->Artist->UrlName, $artwork->Artist->UrlName], Artist::class)[0] ?? null;
+
+		// A blank year for a different existing artist preserves that artist's known year.
+		$preserveDeathYear = $artist !== null && $artist->ArtistId !== $artwork->ArtistId && $artwork->Artist->DeathYear === null;
+		if($artist !== null && !$preserveDeathYear && $artwork->Artist->DeathYear != $artist->DeathYear){
+			// Shared artist changes require permission to edit every other affected artwork.
+			$otherArtworks = Db::Query('select * from Artworks where ArtistId = ? and ArtworkId != ? for update', [$artist->ArtistId, $artwork->ArtworkId], Artwork::class);
+			foreach($otherArtworks as $otherArtwork){
+				if(!$otherArtwork->CanBeEditedBy(Session::$User)){
+					throw new Exceptions\PermissionsInvalidException();
+				}
+			}
+		}
+
+		$artwork->Save($stagedImagePath);
+	});
+
 	if($isEditFormSubmission){
 		UploadTempDirectory::RemoveUpload($stagedImagePath);
 

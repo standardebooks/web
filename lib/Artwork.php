@@ -931,6 +931,8 @@ final class Artwork{
 	}
 
 	/**
+	 * Save this artwork and its shared artist metadata.
+	 *
 	 * @throws Exceptions\ArtworkInvalidException
 	 * @throws Exceptions\ArtistInvalidException
 	 * @throws Exceptions\ArtworkTagInvalidException
@@ -947,9 +949,11 @@ final class Artwork{
 
 		$this->Validate($imagePath, false);
 
-		Db::Query('start transaction');
+		$submittedArtist = clone $this->Artist;
+		Db::Transaction(function() use ($imagePath, $submittedArtist): void{
+			// Restore the submitted artist if an earlier attempt replaced it with a canonical database object.
+			$this->Artist = clone $submittedArtist;
 
-		try{
 			$tags = [];
 			foreach($this->Tags as $artworkTag){
 				$tags[] = ArtworkTag::GetOrCreate($artworkTag);
@@ -957,7 +961,13 @@ final class Artwork{
 			$this->Tags = $tags;
 
 			$newDeathYear = $this->Artist->DeathYear;
+			$originalArtistId = $this->ArtistId;
 			$this->Artist = Artist::GetOrCreate($this->Artist);
+
+			// Selecting a different existing artist with a blank year preserves that artist's known year.
+			if($this->Artist->ArtistId !== $originalArtistId && $newDeathYear === null){
+				$newDeathYear = $this->Artist->DeathYear;
+			}
 
 			// Save the artist death year in case we changed it.
 			if($newDeathYear != $this->Artist->DeathYear){
@@ -1019,22 +1029,15 @@ final class Artwork{
 
 			// Handle the uploaded file if the user provided one during the save.
 			if($imagePath !== null){
+				// Installed image files cannot be rolled back with the database transaction.
+				Db::SetTransactionRetriesEnabled(false);
 				$this->WriteImageAndThumbnails($imagePath);
 			}
 
-			Db::Query('commit');
-		}
-		catch(\Throwable $ex){
-			try{
-				Db::Query('rollback');
-			}
-			catch(\Throwable){
-				// Preserve the original exception.
-			}
+		});
 
-			throw $ex;
-		}
-
+		// The search index cannot be rolled back if an enclosing transaction fails.
+		Db::SetTransactionRetriesEnabled(false);
 		$this->UpdateSearchRepresentation();
 	}
 
@@ -1489,7 +1492,7 @@ final class Artwork{
 				throw new Exceptions\UrlInvalidException($ebookUrl);
 			}
 		}
-		else{
+		elseif(isset(Http::$Request->Body->Variables['artwork-ebook-url'])){
 			$this->Ebook = null;
 			$this->EbookId = null;
 		}
