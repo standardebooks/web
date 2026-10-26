@@ -15,7 +15,7 @@
 <? } ?>
 <? if(isset($ebook->EbookPlaceholder->Notes)){ ?> <?= $ebook->EbookPlaceholder->Notes->ToHtmlFragment(true) ?><? } ?>
 <? if($ebook->IsPatronSelection){ ?><a class="patron-selection" href="/donate#patrons-circle">Patron selection!</a><? } ?>
-<? if($showPlaceholderMetadata){ ?> • <a href="<?= $ebook->Url ?>">Placeholder</a><? } ?>
+<? if($showPlaceholderMetadata){ ?> — <a href="<?= $ebook->Url ?>">Placeholder</a><? } ?>
 			</p>
 		</li>
 	<? } ?>

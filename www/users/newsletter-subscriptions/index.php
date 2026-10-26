@@ -73,7 +73,7 @@ catch(Exceptions\UserNotFoundException){
 				<ul>
 					<? foreach($user->NewsletterSubscriptions as $newsletterSubscription){ ?>
 						<li>
-							<p><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?><? if(!$newsletterSubscription->IsConfirmed){ ?> • <i>Confirmation pending</i><? } ?> • <a href="<?= $newsletterSubscription->DeleteUrl ?>">Unsubscribe</a></p>
+							<p><?= Formatter::EscapeHtml($newsletterSubscription->Newsletter->Name) ?><? if(!$newsletterSubscription->IsConfirmed){ ?> — <i>Confirmation pending</i> • <? }else{ ?> — <? } ?><a href="<?= $newsletterSubscription->DeleteUrl ?>">Unsubscribe</a></p>
 						</li>
 					<? } ?>
 				</ul>

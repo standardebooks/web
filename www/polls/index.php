@@ -67,7 +67,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 					<? foreach($futurePolls as $poll){ ?>
 						<li>
 							<p>
-								<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a> • <a href="<?= $poll->EditUrl ?>">Edit</a>
+								<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a> — <a href="<?= $poll->EditUrl ?>">Edit</a>
 							</p>
 						</li>
 					<? } ?>
@@ -82,7 +82,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 					<? foreach($openPolls as $poll){ ?>
 						<li>
 							<p>
-								<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a><? if($canEditPolls){ ?> • <a href="<?= $poll->EditUrl ?>">Edit</a><? } ?>
+								<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a><? if($canEditPolls){ ?> — <a href="<?= $poll->EditUrl ?>">Edit</a><? } ?>
 							</p>
 						</li>
 					<? } ?>
@@ -97,7 +97,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 					<? foreach($result->Results as $poll){ ?>
 						<li>
 							<p>
-								<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a><? if($canEditPolls){ ?> • <a href="<?= $poll->EditUrl ?>">Edit</a><? } ?>
+								<a href="<?= $poll->Url ?>"><?= Formatter::EscapeHtml($poll->Name) ?></a><? if($canEditPolls){ ?> — <a href="<?= $poll->EditUrl ?>">Edit</a><? } ?>
 							</p>
 						</li>
 					<? } ?>
