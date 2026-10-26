@@ -1,4 +1,5 @@
 <?
+$ebookCount = floor(Db::QueryInt('select count(*) from Ebooks where EbookCreatedAt is not null') / 10) * 10;
 $newsletterSubscriberCount = floor(Db::QueryInt('
 						select count(*)
 						from NewsletterSubscriptions
@@ -63,7 +64,7 @@ $donateUrl = $donationCounter === null ? '/donations/new' : 'https://fundraising
 						<p>Access to our various <a href="/feeds">ebook feeds</a>:</p>
 						<ul>
 							<li>
-								<p>Browse and download from the entire Standard Ebooks catalog directly in your ereading app using our <a href="/feeds/opds">OPDS feed</a>.</p>
+								<p>Browse and download from the entire Standard Ebooks catalog of over <?= number_format($ebookCount) ?> ebooks directly in your ereading app using our <a href="/feeds/opds">OPDS feed</a>.</p>
 							</li>
 							<li>
 								<p>Get notified of new ebooks in your news client with our <a href="/feeds/atom">RSS/Atom feed</a>.</p>
@@ -74,7 +75,7 @@ $donateUrl = $donationCounter === null ? '/donations/new' : 'https://fundraising
 						</ul>
 					</li>
 					<li>
-						<p>Access to <a href="/bulk-downloads">bulk ebook downloads</a> to easily download whole collections of ebooks at once.</p>
+						<p>Access to <a href="/bulk-downloads">bulk ebook downloads</a> to easily download whole collections of ebooks in our catalog of over <?= number_format($ebookCount) ?> ebooks.</p>
 					</li>
 					<li>
 						<p>The ability to submit a book for inclusion on our <a href="/contribute/wanted-ebooks">Wanted Ebooks list</a>, once per quarter. (Submissions must conform to our <a href="/contribute/collections-policy">collections policy</a> and are subject to approval.)</p>

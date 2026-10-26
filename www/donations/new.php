@@ -3,6 +3,8 @@ use function Safe\session_start;
 
 session_start();
 
+$ebookCount = floor(Db::QueryInt('select count(*) from Ebooks where EbookCreatedAt is not null') / 10) * 10;
+
 $exception = Http::$Request->Session->Get('donation/create/exception', Exceptions\AppException::class);
 $form = Http::$Request->Session->Get('donation/create/form', HttpVariablesInterface::class) ?? new HttpVariablesInterface('', []);
 
@@ -85,22 +87,22 @@ $hasActiveSubscription = Session::$User !== null && Db::QueryBool('select exists
 				</label>
 			</fieldset>
 			<? if(!$joinPatronsCircle){ ?>
-			<fieldset class="membership-once">
-				<legend class="question">Would you like to join the Patrons Circle?</legend>
-				<p>Access <a href="/bulk-downloads" target="_blank">bulk downloads</a>, <a href="/feeds" target="_blank">connect your ereader directly to our library</a>, <a href="/polls" target="_blank">vote on future ebooks</a>, and <a href="/donate#patrons-circle" target="_blank">more</a> by joining the Patrons Circle. To join, start a monthly donation of $<?= number_format(STRIPE_DONATION_AMOUNTS['month']['join'][0]) ?>/month or more or a yearly donation of $<?= number_format(STRIPE_DONATION_AMOUNTS['year']['join'][0]) ?>/year or more.</p>
-				<label>
-					<input type="radio" name="one-time-membership" value="join" disabled="disabled"/>
-					<span>Yes, join the Patrons Circle!</span>
-				</label>
-				<label>
-					<input type="radio" name="one-time-membership" value="donate" checked="checked"/>
-					<span>No, just make a donation</span>
-				</label>
-			</fieldset>
+				<fieldset class="membership-once">
+					<legend class="question">Would you like to join the Patrons Circle?</legend>
+					<p>Access <a href="/bulk-downloads" target="_blank">bulk downloads</a>, <a href="/feeds" target="_blank">connect your ereader directly to our library</a>, <a href="/polls" target="_blank">vote on future ebooks</a>, and <a href="/donate#patrons-circle" target="_blank">more</a> by joining the Patrons Circle. To join, start a monthly donation of $<?= number_format(STRIPE_DONATION_AMOUNTS['month']['join'][0]) ?>/month or more or a yearly donation of $<?= number_format(STRIPE_DONATION_AMOUNTS['year']['join'][0]) ?>/year or more.</p>
+					<label>
+						<input type="radio" name="one-time-membership" value="join" disabled="disabled"/>
+						<span>Yes, join the Patrons Circle!</span>
+					</label>
+					<label>
+						<input type="radio" name="one-time-membership" value="donate" checked="checked"/>
+						<span>No, just make a donation</span>
+					</label>
+				</fieldset>
 			<? } ?>
 			<fieldset class="membership-recurring">
 				<legend class="question"><? if($joinPatronsCircle){ ?>Patrons Circle options<? }else{ ?>Would you like to join the Patrons Circle?<? } ?></legend>
-				<p>Access <a href="/bulk-downloads" target="_blank">bulk downloads</a>, <a href="/feeds" target="_blank">connect your ereader directly to our library</a>, <a href="/polls" target="_blank">vote on future ebooks</a>, and <a href="/donate#patrons-circle" target="_blank">more</a> by joining the Patrons Circle. To join, start a monthly donation of $<?= number_format(STRIPE_DONATION_AMOUNTS['month']['join'][0]) ?>/month or more or a yearly donation of $<?= number_format(STRIPE_DONATION_AMOUNTS['year']['join'][0]) ?>/year or more.</p>
+				<p>Connect your ereader to our <a href="/feeds" target="_blank">library of over <?= number_format($ebookCount) ?> ebooks</a>, access <a href="/bulk-downloads" target="_blank">bulk downloads</a> of our entire library, <a href="/polls" target="_blank">vote on future ebooks</a>, and <a href="/about#patrons-circle" target="_blank">get listed as a patron of the literate arts</a> by joining the Patrons Circle. To join, start a monthly donation of $<?= number_format(STRIPE_DONATION_AMOUNTS['month']['join'][0]) ?>/month or more or a yearly donation of $<?= number_format(STRIPE_DONATION_AMOUNTS['year']['join'][0]) ?>/year or more.</p>
 				<? if($joinPatronsCircle){ ?>
 					<input type="hidden" name="membership" value="join"/>
 				<? }else{ ?>
@@ -133,7 +135,7 @@ $hasActiveSubscription = Session::$User !== null && Db::QueryBool('select exists
 							</label>
 						<? } ?>
 						<label>
-							<input type="radio" name="amount-once-choice" value="custom"<? if($oneTimeAmountChoice === 'custom'){ ?> checked="checked"<? } ?>/>
+							<input type="radio" name="amount-once-choice" value="custom"<? if($oneTimeAmountChoice === 'cushttps://standardebooks.org/about#patrons-circletom'){ ?> checked="checked"<? } ?>/>
 							<span>Custom amount—<i>choose at checkout</i></span>
 						</label>
 					</fieldset>
