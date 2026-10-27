@@ -211,7 +211,7 @@ class Patron{
 		try{
 			$newsletterSubscription->Create();
 		}
-		catch(Exceptions\AppException){
+		catch(Exceptions\NewsletterSubscriptionInvalidException | Exceptions\EmailBounceExistsException | Exceptions\NewsletterSubscriptionExistsException | Exceptions\UserInvalidException | Exceptions\UserNotFoundException | Exceptions\NewsletterNotFoundException){
 			// Pass.
 		}
 	}
