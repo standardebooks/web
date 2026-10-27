@@ -1,0 +1,36 @@
+#!/usr/bin/php
+<?
+require_once(__DIR__ . '/../lib/Core.php');
+
+use function Safe\getopt;
+
+/**
+ * Print usage information for this command and exit.
+ */
+function Usage(): void{
+	Cli::PrintHelp(
+		usage: '[command]delete-session-login-codes[/]',
+		description: 'Delete session login codes that are more than 24 hours old.',
+	);
+}
+
+if(!isset($argc, $argv)){
+	Cli::ExitWithError('Command-line arguments are unavailable.');
+}
+
+$restIndex = 0;
+$options = getopt('h', ['help'], $restIndex);
+$restIndex ??= $argc;
+
+if(isset($options['h']) || isset($options['help'])){
+	Usage();
+}
+
+$parameters = array_slice($argv, $restIndex);
+
+if(sizeof($parameters) != 0){
+	Usage();
+}
+
+// Keep codes for 24 hours so they remain available for the rolling email and IP limits.
+Db::Query('delete from SessionLoginCodes where CreatedAt < ?', [NOW->modify('-24 hours')]);

@@ -63,9 +63,6 @@ final class SessionLoginCode{
 					throw new Exceptions\SessionLoginCodeRequestLimitException();
 				}
 
-				// Old rows are no longer needed for login or the rolling email and IP limits.
-				Db::Query('delete from SessionLoginCodes where CreatedAt < ?', [NOW->modify('-24 hours')]);
-
 				while(true){
 					try{
 						$this->Code = Db::Query('insert into SessionLoginCodes (Code, UserId, ExpiresAt, IpAddress) values (uuid_v7(), ?, ?, ?) returning Code', [$this->UserId, NOW->modify('+10 minutes'), $ipAddress])[0]->Code;
