@@ -79,6 +79,14 @@ epubcheck=true
 recompose=true
 feeds=true
 bulkDownloads=true
+workDir=""
+imgWorkDir=""
+
+# Clean up temporary directories on exit, including command failures and interruptions.
+trap 'rm --preserve-root --recursive --force -- "${workDir}" "${imgWorkDir}"' EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 if [ $# -eq 0 ] || { [ $# -eq 1 ] && { [ "$1" = "--help" ] || [ "$1" = "-h" ]; }; }; then
 	usage
@@ -302,6 +310,23 @@ do
 	fi
 
 	if ${build}; then
+		# Calculate the size of the repo.
+		repoSize=$(du --summarize --block-size=1 -- "${repoDir}") || ExitWithError "Couldn't determine ebook repository size."
+		read -r repoSize _ <<< "${repoSize}"
+		if [ "$(git rev-parse --is-bare-repository)" = "true" ]; then
+			checkoutSize=$(git ls-tree --long -r HEAD) || ExitWithError "Couldn't determine ebook checkout size."
+			checkoutSize=$(awk '{size += $4} END {printf "%.0f", size}' <<< "${checkoutSize}")
+			repoSize=$((repoSize + checkoutSize))
+		fi
+
+		# Confirm we have enough space in the temporary directory, reserving at least 10% of its total capacity.
+		diskSpace=$(df --block-size=1 --output=size,avail -- "${workDir}") || ExitWithError "Couldn't determine available temporary disk space."
+		read -r totalSpace availableSpace <<< "${diskSpace##*$'\n'}"
+		reservedSpace=$(((totalSpace + 9) / 10))
+		if (( availableSpace < repoSize + reservedSpace )); then
+			ExitWithError "Insufficient space to clone [path]${repoDir}[/] into [path]${workDir}[/]: ${availableSpace} bytes available, ${repoSize} bytes estimated for the clone, and ${reservedSpace} bytes required to keep 10% free." 1
+		fi
+
 		if ${verbose}; then
 			printf "Building ebook ..."
 		fi
@@ -313,12 +338,10 @@ do
 		# Build the ebook.
 		if ${epubcheck}; then
 			if ! se build --output-dir="${workDir}"/downloads/ --check --kindle --kobo "${workDir}"; then
-				rm --preserve-root --recursive --force "${workDir}"
 				ExitWithError "Failed building ebook, stopping deployment."
 			fi
 		else
 			if ! se build --output-dir="${workDir}"/downloads/ --kindle --kobo "${workDir}"; then
-				rm --preserve-root --recursive --force "${workDir}"
 				ExitWithError "Failed building ebook, stopping deployment."
 			fi
 		fi
@@ -475,6 +498,8 @@ do
 
 	# Delete the now-empty work dir (empty except for `.git`).
 	rm --preserve-root --recursive --force "${workDir}" "${imgWorkDir}"
+	workDir=""
+	imgWorkDir=""
 
 	sudo /usr/local/libexec/standardebooks/fix-permissions web-ebook "${webDir}"
 
