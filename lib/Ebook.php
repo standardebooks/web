@@ -215,7 +215,12 @@ final class Ebook{
 						order by MarcRole asc, SortOrder asc
 				', [$this->EbookId], Contributor::class);
 
+			$this->AllContributors = $contributors;
 			foreach($contributors as $contributor){
+				if(!$contributor->IsDisplayed){
+					continue;
+				}
+
 				switch($contributor->MarcRole){
 					case Enums\MarcRole::Author:
 						$authors[] = $contributor;
@@ -246,6 +251,18 @@ final class Ebook{
 		$this->Editors = $editors;
 		$this->Contributors = $otherContributors;
 		$this->_AreContributorsLoading = false;
+	}
+
+	/** @var array<Contributor> $AllContributors All stored contributors, including those omitted from the credits. */
+	public array $AllContributors{
+		get{
+			if(!isset($this->AllContributors)){
+				$authors = $this->Authors;
+				$this->AllContributors ??= array_merge($authors, $this->Illustrators, $this->Translators, $this->Editors, $this->Contributors);
+			}
+
+			return $this->AllContributors;
+		}
 	}
 
 	/** @var array<Contributor> $Authors */
@@ -1010,6 +1027,7 @@ final class Ebook{
 
 		$ebook->Authors = $authors;
 
+		$allContributors = $authors;
 		$illustrators = [];
 		$translators = [];
 		$editors = [];
@@ -1022,7 +1040,8 @@ final class Ebook{
 
 			foreach($xml->xpath('/package/metadata/meta[@property="role" and @refines="#' . $id . '"]') ?: [] as $role){
 				$marcRole = \Enums\MarcRole::tryFrom((string)$role);
-				if($marcRole === null){
+				// Exclude production roles from the stored contributors.
+				if($marcRole === null || in_array($marcRole, [Enums\MarcRole::MarkupEditor, Enums\MarcRole::Proofreader, Enums\MarcRole::Transcriber, Enums\MarcRole::BookProducer, Enums\MarcRole::Sponsor, Enums\MarcRole::TypeDesigner])){
 					continue;
 				}
 
@@ -1030,11 +1049,6 @@ final class Ebook{
 
 				if($displaySequence !== null){
 					$displaySequence = intval($displaySequence);
-
-					// A display-sequence of 0 indicates that we don't want to process this contributor.
-					if($displaySequence === 0){
-						continue;
-					}
 				}
 
 				$c = new Contributor();
@@ -1046,21 +1060,32 @@ final class Ebook{
 				$c->MarcRole = $marcRole;
 				$c->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://id.loc.gov/authorities/names/")]/@href'));
 
+				// Store every eligible contributor, independently of whether they appear in the credits.
+				$c->IsDisplayed = false;
+				$allContributors[] = $c;
+				if($displaySequence === 0){
+					continue;
+				}
+
 				if($marcRole == Enums\MarcRole::Translator){
+					$c->IsDisplayed = true;
 					$translators[] = $c;
 				}
 
 				// Add a contributor only if their `display-seq` is explicitly set to more than `0`.
 				if($displaySequence !== null && $displaySequence > 0){
 					if($marcRole == Enums\MarcRole::Illustrator){
+						$c->IsDisplayed = true;
 						$illustrators[] = $c;
 					}
 
 					if($marcRole == Enums\MarcRole::Editor){
+						$c->IsDisplayed = true;
 						$editors[] = $c;
 					}
 
 					if($marcRole == Enums\MarcRole::Contributor){
+						$c->IsDisplayed = true;
 						$contributors[] = $c;
 					}
 				}
@@ -1070,6 +1095,7 @@ final class Ebook{
 			foreach($illustrators as $key => $illustrator){
 				foreach($translators as $translator){
 					if($translator->Name == $illustrator->Name){
+						$illustrator->IsDisplayed = false;
 						unset($illustrators[$key]);
 						break;
 					}
@@ -1077,6 +1103,7 @@ final class Ebook{
 
 				foreach($editors as $editor){
 					if(isset($editor->MarcRole) && $editor->MarcRole == Enums\MarcRole::Editor && $editor->Name == $illustrator->Name){
+						$illustrator->IsDisplayed = false;
 						unset($illustrators[$key]);
 						break;
 					}
@@ -1088,6 +1115,8 @@ final class Ebook{
 		$ebook->Translators = $translators;
 		$ebook->Editors = $editors;
 		$ebook->Contributors = $contributors;
+
+		$ebook->AllContributors = $allContributors;
 
 		// Some basic data.
 		$ebook->Abstract = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="schema:abstract"]')) ?? '';
@@ -2206,8 +2235,7 @@ final class Ebook{
 	 * @throws Exceptions\ContributorInvalidException
 	 */
 	private function AddContributors(): void{
-		$allContributors = array_merge($this->Authors, $this->Illustrators, $this->Translators, $this->Editors, $this->Contributors);
-		foreach($allContributors as $sortOrder => $contributor){
+		foreach($this->AllContributors as $sortOrder => $contributor){
 			$contributor->EbookId = $this->EbookId;
 			$contributor->SortOrder = $sortOrder;
 			$getExistingContributorDate = $this->IsPlaceholder();

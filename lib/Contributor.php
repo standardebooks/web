@@ -11,6 +11,9 @@ class Contributor{
 	public ?string $FullName = null;
 	public ?string $NacoafUrl = null;
 	public int $SortOrder;
+	public bool $IsDisplayed = true;
+	public ?int $DeathYear = null;
+	public bool $IsDeathYearCirca = false;
 
 	/** The contributor's URL when their MARC role is author. */
 	public ?string $Url{
@@ -167,8 +170,11 @@ class Contributor{
 		$this->Validate();
 		Db::Query('
 			insert into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
-				NacoafUrl, SortOrder)
+				NacoafUrl, SortOrder, IsDisplayed, DeathYear, IsDeathYearCirca)
 			values (?,
+				?,
+				?,
+				?,
 				?,
 				?,
 				?,
@@ -178,7 +184,7 @@ class Contributor{
 				?,
 				?)
 		', [$this->EbookId, $this->Name, $this->UrlName, $this->SortName, $this->WikipediaUrl, $this->MarcRole, $this->FullName,
-			$this->NacoafUrl, $this->SortOrder]);
+			$this->NacoafUrl, $this->SortOrder, $this->IsDisplayed, $this->DeathYear, $this->IsDeathYearCirca]);
 	}
 
 	/**
