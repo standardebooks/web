@@ -11,7 +11,6 @@
 			<img src="/images/the-triumph-of-silenus@2x.jpg" alt="Silenus and his satyrs engage in a gluttonous bacchanal."/>
 		</picture>
 		<p>You’ve downloaded too many ebooks in too short a time. Please wait before trying again.</p>
-		<p><strong>If you’re scripting ebook downloads and you’re a <a href="/donate#patrons-circle">Patrons Circle</a> member,</strong> pass your email address via HTTP Basic authentication when making your request to bypass the rate limit.</p>
 	</section>
 </main>
 <?= Template::Footer() ?>
