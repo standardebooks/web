@@ -168,7 +168,7 @@ final class Payment{
 		$payment->Fee = $charge->balance_transaction instanceof \Stripe\BalanceTransaction ? $charge->balance_transaction->fee / 100 : null;
 
 		$email = null;
-		// Use the name submitted through our form, stored on the session or subscription.
+		// Prefer the masthead name stored on the session or subscription.
 		/** @var ?string $name */
 		$name = $checkoutSession->metadata['name'] ?? null;
 
@@ -180,6 +180,18 @@ final class Payment{
 			$payment->IsRecurring = true;
 		}
 
+		// Fall back to Stripe's name when no masthead name was supplied.
+		if(trim($name ?? '') === ''){
+			$name = $customer?->name;
+			if($checkoutSession instanceof \Stripe\Checkout\Session){
+				$name = $checkoutSession->customer_details->name ?? null;
+			}
+		}
+		$name = trim($name ?? '');
+		if($name === ''){
+			$name = null;
+		}
+
 		if(($email === null || $email == '') && $customer?->email !== null){
 			$email = trim($customer->email);
 		}
@@ -188,18 +200,7 @@ final class Payment{
 			$user = new User();
 			$user->Email = $email;
 
-			if($name !== null && $name != ''){
-				$user->Name = $name;
-			}
-
-			if($user->Name === null){
-				try{
-					$user->Name = User::GetByEmail($user->Email)->Name;
-				}
-				catch(Exceptions\UserNotFoundException){
-					// Pass.
-				}
-			}
+			$user->Name = $name;
 
 			$payment->User = $user;
 		}

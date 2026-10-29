@@ -3,18 +3,6 @@ form.donation-form{
 	grid-gap: 2rem;
 }
 
-form.donation-form .donor-details{
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: 2rem;
-}
-
-@media(max-width: 600px){
-	form.donation-form .donor-details{
-		grid-template-columns: 1fr;
-	}
-}
-
 form.donation-form fieldset{
 	min-width: 0;
 }
@@ -47,14 +35,20 @@ form.donation-form .amount-choice,
 form.donation-form .yearly-savings,
 form.donation-form .membership-once,
 form.donation-form .membership-recurring,
+form.donation-form .masthead-name,
 form.donation-form .membership-listing{
 	display: none;
 }
 
 form.donation-form .custom-amount,
+form.donation-form .masthead-name,
 form.donation-form .membership-listing{
 	padding-left: 1.25rem;
 	margin-top: 1rem;
+}
+
+form.donation-form .membership-listing:has(input[name="list-name"]:checked) .masthead-name{
+	display: block;
 }
 
 form.donation-form .custom-amount.icon::before{

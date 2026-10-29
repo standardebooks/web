@@ -28,13 +28,16 @@ try{
 	$isPatron = $frequency != 'once' && $membership == 'join';
 	$isAnonymous = !$isPatron || $membership != 'join' || Http::$Request->Body->Get('list-name') != 'yes';
 	$email = trim(Session::$User !== null ? (string)Session::$User->Email : (Http::$Request->Body->Get('email') ?? ''));
-	$name = preg_replace('/^[\s\p{Z}]+|[\s\p{Z}]+$/u', '', Session::$User !== null ? (Session::$User->Name ?? '') : (Http::$Request->Body->Get('name') ?? ''));
+	// Only use the name field when the donor has selected a public masthead listing.
+	$name = '';
+	if(!$isAnonymous){
+		$name = preg_replace('/^[\s\p{Z}]+|[\s\p{Z}]+$/u', '', Http::$Request->Body->Get('name') ?? '');
+	}
 	$productId = STRIPE_DONATION_PRODUCT_ID;
 	if($isPatron){
 		$productId = STRIPE_PATRONS_CIRCLE_PRODUCT_ID;
 	}
 
-	// Validate fixed amounts here; Stripe collects and validates custom amounts at checkout.
 	if(
 		!in_array($frequency, ['once', 'month', 'year'], true)
 		||
@@ -54,11 +57,13 @@ try{
 		||
 		filter_var($email, FILTER_VALIDATE_EMAIL) === false
 		||
-		$name === ''
-		||
 		mb_strlen($name, 'UTF-8') > 80
 	){
 		throw new Exceptions\DonationInvalidException();
+	}
+
+	if(!$isAnonymous && $name === ''){
+		throw new Exceptions\DonationInvalidException('Please enter your name to be listed on the masthead.');
 	}
 
 	if($frequency != 'once' && Db::QueryBool('
@@ -79,8 +84,11 @@ try{
 	$metadata = [
 		'frequency' => $frequency,
 		'is_anonymous' => $isAnonymous ? 'true' : 'false',
-		'name' => $name,
 	];
+
+	if($name !== ''){
+		$metadata['name'] = $name;
+	}
 
 	$parameters = [
 		'mode' => $frequency == 'once' ? 'payment' : 'subscription',

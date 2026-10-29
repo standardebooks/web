@@ -35,9 +35,17 @@ try{
 		$stripe->customers->update($customer->id, ['name' => $name]);
 	}
 
+	// Prefer the masthead name, then the billing name collected by Checkout.
+	if($name === ''){
+		$name = trim($checkoutSession->customer_details->name ?? '');
+	}
+	if($name === ''){
+		$name = null;
+	}
+
 	if($checkoutSession->mode === 'subscription'){
 		// Checkout can complete before its first invoice webhook, so record the subscription here.
-		if(!$checkoutSession->subscription instanceof \Stripe\Subscription || !$customer instanceof \Stripe\Customer || $customer->email === null || !is_string($checkoutSession->metadata['name'] ?? null)){
+		if(!$checkoutSession->subscription instanceof \Stripe\Subscription || !$customer instanceof \Stripe\Customer || $customer->email === null){
 			throw new Exceptions\WebhookException('Incomplete Stripe subscription data.');
 		}
 
@@ -60,7 +68,7 @@ try{
 		}
 
 		// Update the local name at signup even if the initial invoice webhook arrived first.
-		if($name !== '' && $user->Name !== $name){
+		if($name !== null && $user->Name !== $name){
 			Db::Query('update Users set Name = ? where UserId = ?', [$name, $user->UserId]);
 			$user->Name = $name;
 		}

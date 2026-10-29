@@ -20,7 +20,7 @@ $email = $form->Get('email') ?? '';
 $name = $form->Get('name') ?? '';
 if(Session::$User !== null){
 	$email = (string)Session::$User->Email;
-	$name = Session::$User->Name ?? '';
+	$name = $form->Get('name') ?? Session::$User->Name ?? '';
 }
 
 $selectedFrequency = $form->Get('frequency') ?? 'month';
@@ -63,10 +63,6 @@ $hasActiveSubscription = Session::$User !== null && Db::QueryBool('select exists
 				<label>
 					<span>Your email address</span>
 					<input type="email" name="email" maxlength="80" autocomplete="email" required="required" value="<?= Formatter::EscapeHtml($email) ?>"<? if(Session::$User !== null){ ?> readonly="readonly"<? } ?>/>
-				</label>
-				<label class="icon user">
-					<span>Your name</span>
-					<input type="text" name="name" maxlength="80" autocomplete="name" required="required" value="<?= Formatter::EscapeHtml($name) ?>"<? if(Session::$User !== null){ ?> readonly="readonly"<? } ?>/>
 				</label>
 			</div>
 			<fieldset aria-labelledby="donation-form-heading">
@@ -116,6 +112,12 @@ $hasActiveSubscription = Session::$User !== null && Db::QueryBool('select exists
 						<input type="checkbox" name="list-name" value="yes"<? if($form->Get('list-name') === 'yes'){ ?> checked="checked"<? } ?> />
 						<span>List my name publicly on the <a href="/about#patrons-circle" target="_blank">masthead</a></span>
 					</label>
+					<fieldset class="masthead-name">
+						<label class="icon user">
+							<span>Your name</span>
+							<input type="text" name="name" maxlength="80" autocomplete="name" value="<?= Formatter::EscapeHtml($name) ?>"/>
+						</label>
+					</fieldset>
 				</fieldset>
 				<? if(!$joinPatronsCircle){ ?>
 					<label>
