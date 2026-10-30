@@ -3,6 +3,8 @@
  * POST		/newsletter-subscriptions
  */
 
+use function Safe\get_cfg_var;
+use function Safe\json_decode;
 use function Safe\session_start;
 use function Safe\session_unset;
 use Ramsey\Uuid\Uuid;
@@ -41,10 +43,9 @@ try{
 		throw new Exceptions\NewsletterRequiredException();
 	}
 
-	$expectedCaptcha = Http::$Request->Session->Get('newsletter-subscription/create/captcha') ?? '';
-	$receivedCaptcha = Http::$Request->Body->Get('captcha') ?? '';
+	$receivedCaptcha = Http::$Request->Body->Get('h-captcha-response') ?? '';
 
-	if($expectedCaptcha === '' || $receivedCaptcha === '' || mb_strtolower($expectedCaptcha, 'utf-8') !== mb_strtolower($receivedCaptcha, 'utf-8')){
+	if($receivedCaptcha === ''){
 		throw new Exceptions\CaptchaInvalidException();
 	}
 
@@ -53,6 +54,24 @@ try{
 		$_SESSION['newsletter-subscription/create/is-bot'] = true;
 		header('location: /users/' . $uuid->toString() . '/newsletter-subscriptions');
 		exit();
+	}
+
+	// Verify the token with hCaptcha before creating subscriptions or sending email.
+	try{
+		$response = HttpRequest::Execute(Enums\HttpMethod::Post, 'https://api.hcaptcha.com/siteverify', [
+			'secret' => get_cfg_var('se.secrets.hcaptcha.secret_key'),
+			'sitekey' => get_cfg_var('se.secrets.hcaptcha.site_key'),
+			'response' => $receivedCaptcha,
+			'remoteip' => (string)Http::$Request->RemoteAddress
+		], followRedirects: false);
+		$verification = json_decode($response->Body);
+	}
+	catch(Exceptions\HttpRequestException | Safe\Exceptions\JsonException){
+		throw new Exceptions\CaptchaInvalidException();
+	}
+
+	if($response->HttpCode !== Enums\HttpCode::Ok || !$verification instanceof \stdClass || ($verification->success ?? null) !== true){
+		throw new Exceptions\CaptchaInvalidException();
 	}
 
 	$user = new User();

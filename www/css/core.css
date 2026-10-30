@@ -2181,11 +2181,6 @@ label:has(input[type="email"])::before{
 	content: "\f0e0" / "";
 }
 
-label.captcha::before{
-	content: "\f256";
-	content: "\f256" / "";
-}
-
 label.emails::before{
 	content: "\f34b";
 	content: "\f34b" / "";
@@ -2495,11 +2490,6 @@ h1 + ul.message,
 	width: 100%;
 	height: auto;
 	aspect-ratio: 900 / 350;
-}
-
-img[src="/images/captcha"]{
-	border: 1px solid var(--border);
-	border-radius: .25rem;
 }
 
 .has-hero hgroup h1,
@@ -2866,18 +2856,20 @@ form[action="/newsletter-subscriptions"]{
 
 form[action*="/polls/"] label:has(input[type="email"]),
 form[action="/newsletter-subscriptions"] label:has(input[type="email"]),
-form[action="/newsletter-subscriptions"] label.captcha{
+form[action="/newsletter-subscriptions"] .h-captcha{
 	grid-column: 1 / span 2;
 }
 
-form[action="/newsletter-subscriptions"] label.captcha div{
-	display: grid;
-	grid-gap: 1rem;
-	grid-template-columns: 1fr 1fr;
+form[action="/newsletter-subscriptions"] label:has(input[type="email"]){
+	width: 50%;
 }
 
-form[action="/newsletter-subscriptions"] label.captcha div input{
-	align-self: center;
+form[action="/newsletter-subscriptions"] .h-captcha{
+	justify-self: center;
+}
+
+form[action="/newsletter-subscriptions"] .h-captcha iframe{
+	display: block;
 }
 
 form fieldset ul{
@@ -4502,7 +4494,6 @@ nav.ebooks-navigation > ul li + li::before{
 	}
 
 	form[action="/newsletter-subscriptions"] label.text,
-	form[action="/newsletter-subscriptions"] label.captcha,
 	form[action="/newsletter-subscriptions"] fieldset{
 		grid-column: 1 / span 2;
 	}

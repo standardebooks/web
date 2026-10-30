@@ -4,6 +4,7 @@
  * GET		/newsletter-subscriptions/new
  */
 
+use function Safe\get_cfg_var;
 use function Safe\session_start;
 use function Safe\session_unset;
 
@@ -14,6 +15,9 @@ $exception = Http::$Request->Session->Get('newsletter-subscription/create/except
 $newsletterIds = Http::$Request->Session->Get('newsletter-subscription/create/newsletter-ids', 'array') ?? [];
 $newsletters = Newsletter::GetAllByIsVisible();
 $email = Http::$Request->Session->Get('newsletter-subscription/create/email') ?? '';
+
+/** @var string $hCaptchaSiteKey */
+$hCaptchaSiteKey = get_cfg_var('se.secrets.hcaptcha.site_key');
 
 if($exception){
 	http_response_code(Enums\HttpCode::UnprocessableContent->value);
@@ -38,18 +42,11 @@ if($exception){
 		<?= Template::Error(exception: $exception) ?>
 
 		<form action="/newsletter-subscriptions" method="<?= Enums\HttpMethod::Post->value ?>">
-			<label class="automation-test"><? /* Test for spam bots filling out all fields */ ?>
+			<label class="automation-test"><? /* Test for spam bots filling out all fields. */ ?>
 				<input type="text" name="automation-test" value="" maxlength="80" />
 			</label>
 			<label>Your email address
 				<input type="email" name="email" value="<?= Formatter::EscapeHtml($email) ?>" maxlength="80" required="required" />
-			</label>
-			<label class="icon captcha">
-				Type the letters in the <abbr class="acronym">CAPTCHA</abbr> image
-				<div>
-					<input type="text" name="captcha" required="required" autocomplete="off" />
-					<img src="/images/captcha" alt="A visual CAPTCHA." height="<?= CAPTCHA_IMAGE_HEIGHT ?>" width="<?= CAPTCHA_IMAGE_WIDTH ?>" />
-				</div>
 			</label>
 			<fieldset>
 				<legend class="question">What kind of email would you like to receive?</legend>
@@ -65,6 +62,8 @@ if($exception){
 					<? } ?>
 				</ul>
 			</fieldset>
+			<div class="h-captcha" data-sitekey="<?= Formatter::EscapeHtml($hCaptchaSiteKey) ?>"></div>
+			<script src="https://js.hcaptcha.com/1/api.js" async="async" defer="defer"></script>
 			<button>Subscribe</button>
 		</form>
 	</section>
