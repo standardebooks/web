@@ -110,7 +110,7 @@ $hasActiveSubscription = Session::$User !== null && Db::QueryBool('select exists
 				<fieldset class="membership-listing">
 					<label>
 						<input type="checkbox" name="list-name" value="yes"<? if($form->Get('list-name') === 'yes'){ ?> checked="checked"<? } ?> />
-						<span>List my name publicly on the <a href="/about#patrons-circle" target="_blank">masthead</a></span>
+						<span>List my name publicly as a patron of the literate arts on the <a href="/about#patrons-circle" target="_blank">masthead</a></span>
 					</label>
 					<fieldset class="masthead-name">
 						<label class="icon user">
