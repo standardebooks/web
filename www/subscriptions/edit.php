@@ -8,7 +8,7 @@ try{
 	$user = User::GetByIdentifier($identifier);
 	$subscription = Subscription::Get(Http::$Request->QueryString->Get('subscription-id', 'int'));
 
-	if($subscription->UserId != $user->UserId || $subscription->EndedAt !== null || $subscription->ProcessorSubscriptionId === null){
+	if($subscription->UserId != $user->UserId || $subscription->EndedAt !== null || ($subscription->Processor === Enums\PaymentProcessorType::Stripe && $subscription->ProcessorSubscriptionId === null)){
 		throw new Exceptions\SubscriptionNotFoundException();
 	}
 
