@@ -16,11 +16,12 @@ $source = Enums\EbookDownloadSource::tryFrom(Http::$Request->QueryString->Get('s
 
 // Skip the thank you page if any of these are true:
 // - The user is logged in.
+// - The user recently donated.
 // - Their `download-count` cookie is above some amount.
 // - The link is from a specific source.
-$skipThankYouPage = isset(Session::$User) || $downloadCount > 4 || isset($source);
+$skipThankYouPage = isset(Session::$User) || (Http::$Request->Cookies->Get('hide-donation-messages', 'bool') ?? false) || $downloadCount > 4 || isset($source);
 
-// `$source` will be `null` for users that skip the download page because they are logged in or because of their `download-count` cookie, but they are downloading from the web so that's how their download should be recorded.
+// `$source` will be `null` for users that skip the download page because they are logged in, recently donated, or have a high `download-count` cookie, but they are downloading from the web so that's how their download should be recorded.
 if($skipThankYouPage && !isset($source)){
 	$source = Enums\EbookDownloadSource::DownloadPage;
 }

@@ -2,6 +2,12 @@
 /**
  * GET		/donations/thanks
  */
+
+use Safe\DateTimeImmutable;
+
+// Hide general donation messages for one month after a donation or subscription checkout.
+setcookie('hide-donation-messages', 'true', ['expires' => intval((new DateTimeImmutable('+1 month'))->format(Enums\DateTimeFormat::UnixTimestamp->value)), 'path' => '/', 'domain' => SITE_DOMAIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
+
 $isPatronsCircleMembership = Http::$Request->QueryString->Get('is-patrons-circle-membership', 'bool') ?? false;
 ?>
 <?= Template::Header(title: 'Thank You', description: 'Thank you for supporting Standard Ebooks!', css: ['/css/donations.css']) ?>

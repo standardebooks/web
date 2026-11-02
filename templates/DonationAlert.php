@@ -13,6 +13,8 @@ $isDonationDriveActive = Db::QueryBool('
 if(
 	Session::$User !== null // If a user is logged in.
 	||
+	(Http::$Request->Cookies->Get('hide-donation-messages', 'bool') ?? false) // If the user recently donated.
+	||
 	$isDonationDriveActive  // There is a currently-running donation drive.
 	||
 	rand(1, 5) <= 3 // A 3-in-5 chance occurs.
