@@ -1,15 +1,13 @@
 <?
+use function Safe\preg_replace;
+
 $patronsCircle = [];
 $anonymousPatronCount = 0;
 
-// Get the Patrons Circle and try to sort by last name ascending.
-// Remove generational ordinals (`Bob Smith III`) and `Fund` from names for sorting purposes.
-// See <https://mariadb.com/kb/en/pcre/#unicode-character-properties> for Unicode character properties.
-
+// Get the Patrons Circle.
 $patronsCircle = Db::Query('
 				select
-				if(p.AlternateName is not null, p.AlternateName, u.Name) as Name,
-				concat(" ", trim(regexp_replace(if(p.AlternateName is not null, p.AlternateName, u.Name), "[^0-9A-Za-zÀ-ÿ\\\s]|[\\\s][IV]+$|[\\\s]Fund$", ""))) as SortName
+				if(p.AlternateName is not null, p.AlternateName, u.Name) as Name
 				from Patrons p
 				inner join Users u using(UserId)
 				where
@@ -18,8 +16,20 @@ $patronsCircle = Db::Query('
 				p.EndedAt is null
 				and
 				Name is not null
-				order by regexp_substr(SortName, "[\\\s][\\\p{L}\\\-]+$") asc
 			');
+
+// Transliterate names before removing punctuation, generational ordinals (`Bob Smith III`), and `Fund` for sorting.
+foreach($patronsCircle as $patron){
+	$sortName = trim(preg_replace('/[^0-9a-z\s]|\s[iv]+$|\bfamily|\bfund$/u', '', Formatter::RemoveDiacritics((string)$patron->Name)));
+	$patron->SortName = preg_replace('/^.*\s/u', '', $sortName);
+}
+
+/**
+ * Sort patrons by their transliterated last names in Latin alphabetical order.
+ */
+usort($patronsCircle, function(stdClass $a, stdClass $b): int{
+	return strcmp((string)$a->SortName, (string)$b->SortName);
+});
 
 // Fully anonymous FA gifts qualify at the price effective on their donation date.
 $anonymousPatronCount = Db::QueryInt('
