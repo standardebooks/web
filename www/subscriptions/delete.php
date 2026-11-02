@@ -23,7 +23,7 @@ try{
 	$isAdmin = Session::$User->UserId != $user->UserId && Session::$User->Benefits->CanEditUsers;
 
 	if($subscription->Processor == Enums\PaymentProcessorType::FracturedAtlas){
-		header('location: /help/managing-your-recurring-donation');
+		header('location: /help/managing-your-recurring-fractured-atlas-donation');
 		exit();
 	}
 }

@@ -1,8 +1,8 @@
-<?= Template::Header(title: 'Managing Your Recurring Donation', highlight: 'contribute', isManual: false, description: 'Help with managing your recurring donation to Standard Ebooks.') ?>
+<?= Template::Header(title: 'Managing or Cancelling Your Recurring Fractured Atlas Donation', highlight: 'contribute', isManual: false, description: 'Help with managing your recurring donation to Standard Ebooks made via Fractured Atlas.') ?>
 <main>
 	<article>
-		<h1>Managing or Canceling Your Recurring Donation</h1>
-		<p>Our payment processor is Fractured Atlas. Unfortunately they don’t provide a way for us to change or cancel your recurring donation on your behalf, but you can change or cancel it yourself by following these steps:</p>
+		<h1>Managing or Cancelling Your Recurring Fractured Atlas Donation</h1>
+		<p>You can manage your recurring donation by <a href="/sessions/new">logging in to your Standard Ebooks account</a>. If you started a recurring donation using Fractured Atlas, then you can change or cancel it yourself by following these steps:</p>
 		<section id="log-in-to-your-fractured-atlas-account">
 			<h2>1. Log in to your Fractured Atlas account<a class="heading-permalink" href="#log-in-to-your-fractured-atlas-account" aria-label="Permalink"></a></h2>
 			<p>If this is your first time logging into Fractured Atlas, you’ll need to set up a new password associated with your email address. To set up a new password, visit <a href="https://fundraising.fracturedatlas.org">fundraising.fracturedatlas.org</a>, then:</p>

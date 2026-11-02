@@ -10,12 +10,12 @@
 			</li>
 			<li>
 				<p>
-					<a href="/help/managing-your-recurring-donation">Managing or canceling your recurring donation</a>
+					<a href="/help/how-to-add-an-opds-feed-to-your-ereader">How to add an OPDS feed to your ereader</a>
 				</p>
 			</li>
 			<li>
 				<p>
-					<a href="/help/how-to-add-an-opds-feed-to-your-ereader">How to add an OPDS feed to your ereader</a>
+					<a href="/sessions/new">Log in to manage or cancel your recurring donation</a>
 				</p>
 			</li>
 		</ul>

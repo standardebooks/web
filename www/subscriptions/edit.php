@@ -22,7 +22,7 @@ try{
 
 	switch($subscription->Processor){
 		case Enums\PaymentProcessorType::FracturedAtlas:
-			header('location: /help/managing-your-recurring-donation');
+			header('location: /help/managing-your-recurring-fractured-atlas-donation');
 			break;
 
 		case Enums\PaymentProcessorType::Stripe:

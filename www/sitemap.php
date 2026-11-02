@@ -146,7 +146,7 @@ print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 		<loc><?= SITE_URL ?>/help/how-to-use-our-ebooks</loc>
 	</url>
 	<url>
-		<loc><?= SITE_URL ?>/managing-your-recurring-donation</loc>
+		<loc><?= SITE_URL ?>/managing-your-recurring-fractured-atlas-donation</loc>
 	</url>
 	<url>
 		<loc><?= SITE_URL ?>/newsletter</loc>
