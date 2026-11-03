@@ -499,73 +499,80 @@ class NewsletterMailing{
 		}
 
 		// Remove unused CSS and pretty-print the remainder.
-		$dom = simplexml_load_string($this->BodyHtml);
-		$styleElements = $dom->xpath('//style') ?? [];
-		$styleSearchOffset = 0;
+		try{
+			$dom = simplexml_load_string($this->BodyHtml);
+			$styleElements = $dom->xpath('//style') ?? [];
+			$styleSearchOffset = 0;
 
-		foreach($styleElements as $styleElement){
-			$css = (string)$styleElement;
-			$cssOutputFormat = OutputFormat::createPretty()
-				->indentWithTabs()
-				->setSpaceBeforeOpeningBrace('')
-				->setSpaceAfterSelectorSeparator("\n");
+			foreach($styleElements as $styleElement){
+				$css = (string)$styleElement;
+				$cssOutputFormat = OutputFormat::createPretty()
+					->indentWithTabs()
+					->setSpaceBeforeOpeningBrace('')
+					->setSpaceAfterSelectorSeparator("\n");
 
-			try{
-				$cssDocument = (new Parser($css, Settings::create()->beStrict()))->parse();
-			}
-			catch(SourceException $ex){
-				$error->Add(new Exceptions\NewsletterMailingCssInvalidException($ex->getMessage()));
-				continue;
-			}
+				try{
+					$cssDocument = (new Parser($css, Settings::create()->beStrict()))->parse();
+				}
+				catch(SourceException $ex){
+					$error->Add(new Exceptions\NewsletterMailingCssInvalidException($ex->getMessage()));
+					continue;
+				}
 
-			// Walk every CSS list so that selectors in nested blocks are also checked.
-			/** @var array<CSSBlockList> $cssLists */
-			$cssLists = [$cssDocument];
-			/** @var array<array{CSSBlockList, AtRuleBlockList}> $mediaQueries */
-			$mediaQueries = [];
-			while(sizeof($cssLists) > 0){
-				$cssList = array_pop($cssLists);
+				// Walk every CSS list so that selectors in nested blocks are also checked.
+				/** @var array<CSSBlockList> $cssLists */
+				$cssLists = [$cssDocument];
+				/** @var array<array{CSSBlockList, AtRuleBlockList}> $mediaQueries */
+				$mediaQueries = [];
+				while(sizeof($cssLists) > 0){
+					$cssList = array_pop($cssLists);
 
-				foreach($cssList->getContents() as $cssListItem){
-					if($cssListItem instanceof DeclarationBlock){
-						foreach($cssListItem->getSelectors() as $selector){
-							$selectorString = $selector->render($cssOutputFormat);
-							// The translator sometimes emits warnings, so quiet them.
-							$translator = @new GT\CssXPath\Translator($selectorString);
-							$elements = @$dom->xpath((string)$translator);
+					foreach($cssList->getContents() as $cssListItem){
+						if($cssListItem instanceof DeclarationBlock){
+							foreach($cssListItem->getSelectors() as $selector){
+								$selectorString = $selector->render($cssOutputFormat);
+								// The translator sometimes emits warnings, so quiet them.
+								$translator = @new GT\CssXPath\Translator($selectorString);
+								$elements = @$dom->xpath((string)$translator);
 
-							if($elements === false || $elements === null || sizeof($elements) == 0){
-								$cssListItem->removeSelector($selector);
+								if($elements === false || $elements === null || sizeof($elements) == 0){
+									$cssListItem->removeSelector($selector);
+								}
+							}
+
+							if(sizeof($cssListItem->getSelectors()) == 0){
+								$cssList->remove($cssListItem);
 							}
 						}
+						elseif($cssListItem instanceof CSSBlockList){
+							$cssLists[] = $cssListItem;
 
-						if(sizeof($cssListItem->getSelectors()) == 0){
-							$cssList->remove($cssListItem);
-						}
-					}
-					elseif($cssListItem instanceof CSSBlockList){
-						$cssLists[] = $cssListItem;
-
-						if($cssListItem instanceof AtRuleBlockList && $cssListItem->atRuleName() == 'media'){
-							$mediaQueries[] = [$cssList, $cssListItem];
+							if($cssListItem instanceof AtRuleBlockList && $cssListItem->atRuleName() == 'media'){
+								$mediaQueries[] = [$cssList, $cssListItem];
+							}
 						}
 					}
 				}
-			}
 
-			// Remove empty media queries from the inside out.
-			foreach(array_reverse($mediaQueries) as [$parentCssList, $mediaQuery]){
-				if(sizeof($mediaQuery->getContents()) == 0){
-					$parentCssList->remove($mediaQuery);
+				// Remove empty media queries from the inside out.
+				foreach(array_reverse($mediaQueries) as [$parentCssList, $mediaQuery]){
+					if(sizeof($mediaQuery->getContents()) == 0){
+						$parentCssList->remove($mediaQuery);
+					}
+				}
+
+				// Do a string replace instead of updating the DOM element to avoid having to re-serialize the entire DOM, which could result in undesirable formatting.
+				$formattedCss = $cssDocument->render($cssOutputFormat->nextLevel()->nextLevel());
+				$cssOffset = strpos($this->BodyHtml, $css, $styleSearchOffset);
+				if($cssOffset !== false){
+					$this->BodyHtml = substr_replace((string)$this->BodyHtml, $formattedCss, $cssOffset, strlen($css));
+					$styleSearchOffset = $cssOffset + strlen($formattedCss);
 				}
 			}
-
-			// Do a string replace instead of updating the DOM element to avoid having to re-serialize the entire DOM, which could result in undesirable formatting.
-			$formattedCss = $cssDocument->render($cssOutputFormat->nextLevel()->nextLevel());
-			$cssOffset = strpos($this->BodyHtml, $css, $styleSearchOffset);
-			if($cssOffset !== false){
-				$this->BodyHtml = substr_replace((string)$this->BodyHtml, $formattedCss, $cssOffset, strlen($css));
-				$styleSearchOffset = $cssOffset + strlen($formattedCss);
+		}
+		catch(\Safe\Exceptions\SimplexmlException $ex){
+			if(!$error->Has(Exceptions\NewsletterMailingBodyHtmlInvalidException::class)){
+				$error->Add(new Exceptions\NewsletterMailingBodyHtmlInvalidException($ex->getMessage()));
 			}
 		}
 
