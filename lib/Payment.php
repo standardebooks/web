@@ -256,6 +256,11 @@ final class Payment{
 
 		if($this->Processor == Enums\PaymentProcessorType::FracturedAtlas){
 			$this->IsRecordedExternally = true;
+
+			// EXCEPTION: Fractured Atlas does not label user 14537's recurring donations as recurring.
+			if($this->UserId === 14537){
+				$this->IsRecurring = true;
+			}
 		}
 
 		try{
@@ -280,6 +285,17 @@ final class Payment{
 		}
 
 		if($this->Processor == Enums\PaymentProcessorType::FracturedAtlas && $this->IsRecurring && $this->UserId !== null){
+			// EXCEPTION: Keep user #14537's payments on their latest active Fractured Atlas subscription regardless of amount or payment gaps.
+			$subscription = null;
+			if($this->UserId === 14537){
+				$subscription = Db::Query('
+					select * from Subscriptions
+					where UserId = ? and Processor = ? and EndedAt is null
+					order by CreatedAt desc, SubscriptionId desc
+					limit 1
+				', [$this->UserId, $this->Processor], Subscription::class)[0] ?? null;
+			}
+
 			// A changed amount or a gap longer than 45 days from this `User`'s last `Payment` starts a new inferred stream.
 			$previousPayment = Db::MultiTableSelect('
 				select * from Payments
@@ -291,8 +307,12 @@ final class Payment{
 				limit 1
 			', [$this->UserId, $this->Processor, $this->PaymentId, $this->CreatedAt, $this->CreatedAt], Payment::class)[0] ?? null;
 
-			// If we have a previous `Payment` whose amount matches this `Payment`'s amount, set the `Subscription` of this `Payment` to the same as the previous `Payment`.
-			if($previousPayment !== null && $previousPayment->Amount === $this->Amount && $previousPayment->SubscriptionId !== null){
+			// Prefer the explicit subscription override before inferring a subscription from payment history.
+			if($subscription !== null){
+				$this->SubscriptionId = $subscription->SubscriptionId;
+				$this->Subscription = $subscription;
+			}
+			elseif($previousPayment !== null && $previousPayment->Amount === $this->Amount && $previousPayment->SubscriptionId !== null){
 				$this->SubscriptionId = $previousPayment->SubscriptionId;
 				/** @throws void */
 				$this->Subscription = $previousPayment->Subscription;

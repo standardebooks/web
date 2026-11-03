@@ -62,12 +62,12 @@ Db::Query('
 ', [Enums\PaymentProcessorType::FracturedAtlas]);
 
 // Find grants whose linked funding has expired, then check for a paid replacement before removing benefits.
-// Fractured Atlas sometimes omits user 12454's backdated donor-advised fund payments, so preserve this user's membership despite missing payments.
+// Preserve memberships for users 12454 and 14537 because Fractured Atlas does not reliably report their recurring donations.
 $expiredPatrons = Db::Query('
 	select patron.* from Patrons patron
 	left join Subscriptions s on s.SubscriptionId = patron.SubscriptionId
 	left join Payments gift on gift.PaymentId = patron.QualifyingPaymentId
-	where patron.EndedAt is null and patron.UserId != ?
+	where patron.EndedAt is null and patron.UserId not in (?, ?)
 	and (
 		(patron.QualifyingPaymentId is not null and (gift.PaymentId is null or gift.RefundedAt is not null or gift.CreatedAt <= utc_timestamp() - interval 1 year))
 		or (patron.SubscriptionId is not null and (
@@ -84,7 +84,7 @@ $expiredPatrons = Db::Query('
 			)
 		))
 	)
-', [12454, Enums\PaymentProcessorType::FracturedAtlas, Enums\PaymentProcessorType::Stripe, Enums\CycleType::Monthly, Enums\CycleType::Yearly], Patron::class);
+', [12454, 14537, Enums\PaymentProcessorType::FracturedAtlas, Enums\PaymentProcessorType::Stripe, Enums\CycleType::Monthly, Enums\CycleType::Yearly], Patron::class);
 
 if(sizeof($expiredPatrons) > 0){
 	$ebooksThisYear ??= Ebook::GetEbookCreatedAfterCount(new DateTimeImmutable('-1 year'));
