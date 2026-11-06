@@ -100,3 +100,10 @@ form.donation-form button{
 .donate aside{
 	margin: 0 0 2rem 0;
 }
+
+@media(max-width: 700px){
+	form.donation-form input[type="email"],
+	form.donation-form input[name="name"]{
+		width: 100%;
+	}
+}
