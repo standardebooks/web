@@ -537,7 +537,7 @@ final class Payment{
 			$em->Send();
 		}
 
-		if(!$this->IsRecurring && !$this->IsMatchingDonation){
+		if(!$this->IsRecurring && !$this->IsMatchingDonation && (!$isEligible || $isPatron)){
 			$em = new QueuedEmailMessage();
 			$em->To = ACCOUNTING_EMAIL_ADDRESS;
 			$em->From = ADMIN_EMAIL_ADDRESS;
