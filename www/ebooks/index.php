@@ -113,7 +113,7 @@ catch(Exceptions\PageOutOfBoundsException $ex){
 	Template::RedirectToResultsPage($ex->RealPageNumber);
 }
 ?><?= Template::Header(title: $pageTitle, highlight: 'ebooks', description: $pageDescription, canonicalUrl: $canonicalUrl) ?>
-<main class="ebooks">
+<main class="ebooks" typeof="schema:SearchResultsPage" about="<?= Formatter::EscapeHtml($canonicalUrl) ?>">
 	<h1><?= $pageHeader ?></h1>
 	<nav class="ebooks-navigation">
 		<ul>
