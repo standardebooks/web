@@ -365,37 +365,43 @@ class Patron{
 	}
 
 	/**
-	 * Return the number of `Patrons` that were active at the end of each day in the given date range.
+	 * Return the number of `Patrons` active at each month-end in the given date range, using the end date for the final partial month.
 	 *
 	 * @return array<array{date: DateTimeImmutable, monthlyCount: int, yearlyCount: int}>
 	 */
-	public static function GetActivePatronCountsByDay(DateTimeImmutable $from, DateTimeImmutable $to): array{
+	public static function GetActivePatronCountsByMonth(DateTimeImmutable $from, DateTimeImmutable $to): array{
 		if($from > $to){
 			[$from, $to] = [$to, $from];
 		}
 
+		$queryFrom = $from->modify('first day of this month')->setTime(0, 0);
+		$queryToMonth = $to->modify('first day of this month')->setTime(0, 0);
+
 		// Use `set statement max_recursive_iterations` to allow for very wide date ranges. Otherwise, MariaDB's default of 1,000 might cause the result set to end prematurely.
 		$result = Db::Query('
 			set statement max_recursive_iterations = 100000 for
-			with recursive Days as (
-				select date(?) as Day
+			with recursive Months as (
+				select date(?) as Month
 				union all
-				select cast(date_add(Day, interval 1 day) as date)
-				from Days
-				where Day < date(?)
+				select cast(date_add(Month, interval 1 month) as date)
+				from Months
+				where Month < date(?)
+			), Snapshots as (
+				select least(last_day(Month), date(?)) as Day
+				from Months
 			)
 			select
-				Days.Day,
+				Snapshots.Day,
 				sum(case when Subscriptions.CycleType = ? then 1 else 0 end) as MonthlyCount,
 				sum(case when (Patrons.SubscriptionId is null and Patrons.QualifyingPaymentId is not null) or Subscriptions.CycleType = ? then 1 else 0 end) as YearlyCount
-			from Days
+			from Snapshots
 			left join Patrons on
-				date(Patrons.CreatedAt) <= Days.Day
-				and (Patrons.EndedAt is null or date(Patrons.EndedAt) > Days.Day)
+				date(Patrons.CreatedAt) <= Snapshots.Day
+				and (Patrons.EndedAt is null or date(Patrons.EndedAt) > Snapshots.Day)
 			left join Subscriptions on Subscriptions.SubscriptionId = Patrons.SubscriptionId
-			group by Days.Day
-			order by Days.Day
-		', [$from, $to, Enums\CycleType::Monthly, Enums\CycleType::Yearly]);
+			group by Snapshots.Day
+			order by Snapshots.Day
+		', [$queryFrom, $queryToMonth, $to, Enums\CycleType::Monthly, Enums\CycleType::Yearly]);
 
 		$output = [];
 		foreach($result as $row){

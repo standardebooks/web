@@ -24,13 +24,17 @@ try{
 	}
 
 	// Calculate Patron count graph.
-	$patronCounts = Patron::GetActivePatronCountsByDay($from, $to);
+	$patronCountsFrom = $from;
+	if(!$hasDateFilters){
+		$patronCountsFrom = $localNow->sub(new DateInterval('P1Y'))->modify('first day of this month');
+	}
+	$patronCounts = Patron::GetActivePatronCountsByMonth($patronCountsFrom, $to);
 
 	$patronCountMonthlyValues = [];
 	$patronCountYearlyValues = [];
 
 	foreach($patronCounts as $index => $row){
-		$key = $row['date']->format('Y-m-d');
+		$key = $row['date']->format('Y-m');
 		$patronCountMonthlyValues[$key] = $row['monthlyCount'];
 		$patronCountYearlyValues[$key] = $row['yearlyCount'];
 	}
@@ -93,7 +97,7 @@ catch(Exceptions\PermissionsInvalidException){
 		</form>
 
 		<section>
-			<h2>Patrons by day</h2>
+			<h2>Patrons by month</h2>
 			<?= $patronCountGraphSvg ?>
 		</section>
 
