@@ -12,7 +12,7 @@ try{
 	$filterTo = Http::$Request->QueryString->Get('to', 'date');
 	$hasDateFilters = $filterFrom !== null || $filterTo !== null;
 	$localNow = NOW->setTime(0, 0, 0, 0);
-	$from = $filterFrom ?? $localNow->sub(new DateInterval('P30D'));
+	$from = $filterFrom ?? $localNow->sub(new DateInterval('P1Y'))->modify('first day of this month');
 	$to = $filterTo ?? $localNow;
 
 	if($from > $to){
