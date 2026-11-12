@@ -64,7 +64,7 @@ $collections = Collection::GetAllByMissingEntries();
 					<p>The first acceptable translation of <i><a href="/ebooks/jules-verne/twenty-thousand-leagues-under-the-seas/walter-james-miller">20,000 Leagues Under the Seas</a></i> was published in 1966 by Walter James Miller. All known earlier translations are widely considered to be bad, therefore we won’t host them and must wait until the Miller translation enters the public domain.</p>
 				</li>
 				<li>
-					<p>Master of the World has two PD translations, one from 1911 and one from 1914. The 1911 version is bad, and the 1914 by Cranstoun Metcalfe version is preferred; but as of 2023, there are no transcriptions or page scans of the 1914 version.</p>
+					<p>Master of the World has two PD translations, one from 1911 and one from 1914. The 1911 version is bad, and the 1914 by Cranstoun Metcalfe version is preferred. <a href="https://archive.org/details/masterofworldtal00vern">These page scans are of the 1914 Metcalfe translation</a>. The scans don't list a translator or date but <a href="https://www.julesverne.ca/vernebooks/jules-verne_master-of-the-world.html">see this page</a> for confirmation that these page scans are the correct edition. As of 2026 there are no transcriptions of the 1914 version.</p>
 				</li>
 			</ul>
 		</section>
