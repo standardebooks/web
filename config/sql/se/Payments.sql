@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `Payments` (
   `Amount` decimal(8,2) unsigned NOT NULL,
   `Fee` decimal(8,2) unsigned DEFAULT NULL,
   `IsRecurring` tinyint(1) unsigned NOT NULL,
+  `IsDonorAdvisedFund` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `IsMatchingDonation` tinyint(1) unsigned NOT NULL,
   `IsRecordedExternally` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `RefundedAt` datetime DEFAULT NULL,

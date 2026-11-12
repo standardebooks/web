@@ -14,6 +14,13 @@ final class Subscription{
 	public float $Amount;
 	public Enums\CycleType $CycleType;
 
+	/** Whether any payment in this subscription came through a donor advised fund. */
+	public bool $IsDonorAdvisedFund{
+		get{
+			return Db::QueryBool('select exists(select * from Payments where SubscriptionId = ? and IsDonorAdvisedFund = true)', [$this->SubscriptionId]);
+		}
+	}
+
 	public User $User{
 		/** @throws Exceptions\UserNotFoundException If the `User` can't be found. */
 		get{

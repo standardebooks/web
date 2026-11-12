@@ -103,7 +103,7 @@ class Patron{
 				))
 			)
 			and (
-				(s.Processor = ? and p.CreatedAt > ? - interval 45 day)
+				(s.Processor = ? and p.CreatedAt > ? - interval (case when p.IsDonorAdvisedFund = true then 75 else 45 end) day)
 				or (s.Processor = ? and (
 					(s.CycleType = ? and ? < p.CreatedAt + interval 1 month + interval 15 day)
 					or (s.CycleType = ? and ? < p.CreatedAt + interval 1 year + interval 15 day)

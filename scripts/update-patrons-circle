@@ -43,31 +43,30 @@ foreach($upcomingRenewalSubscriptions as $subscription){
 	$subscription->SendYearlyRenewalEmail($ebooksThisYear);
 }
 
-// End Fractured Atlas subscriptions whose most recent successful payment is more than 45 days old.
+// Allow 75 days for monthly fund subscriptions, and 45 days for other Fractured Atlas subscriptions.
 Db::Query('
 	update Subscriptions s
 	left join (
-		select SubscriptionId, max(CreatedAt) as LastPaidAt
+		select SubscriptionId, max(CreatedAt) as LastPaidAt, max(IsDonorAdvisedFund) as IsDonorAdvisedFund
 		from Payments
 		where RefundedAt is null
 		group by SubscriptionId
 	) latest on latest.SubscriptionId = s.SubscriptionId
-	set s.EndedAt = coalesce(latest.LastPaidAt + interval 45 day, utc_timestamp())
+	set s.EndedAt = coalesce(latest.LastPaidAt + interval (case when latest.IsDonorAdvisedFund = true then 75 else 45 end) day, utc_timestamp())
 	where s.Processor = ?
 	and s.EndedAt is null
 	and (
 		latest.LastPaidAt is null
-		or latest.LastPaidAt <= utc_timestamp() - interval 45 day
+		or latest.LastPaidAt <= utc_timestamp() - interval (case when latest.IsDonorAdvisedFund = true then 75 else 45 end) day
 	)
 ', [Enums\PaymentProcessorType::FracturedAtlas]);
 
 // Find grants whose linked funding has expired, then check for a paid replacement before removing benefits.
-// Preserve memberships for users 12454 and 14537 because Fractured Atlas does not reliably report their recurring donations.
 $expiredPatrons = Db::Query('
 	select patron.* from Patrons patron
 	left join Subscriptions s on s.SubscriptionId = patron.SubscriptionId
 	left join Payments gift on gift.PaymentId = patron.QualifyingPaymentId
-	where patron.EndedAt is null and patron.UserId not in (?, ?)
+	where patron.EndedAt is null
 	and (
 		(patron.QualifyingPaymentId is not null and (gift.PaymentId is null or gift.RefundedAt is not null or gift.CreatedAt <= utc_timestamp() - interval 1 year))
 		or (patron.SubscriptionId is not null and (
@@ -75,7 +74,7 @@ $expiredPatrons = Db::Query('
 				select * from Payments renewal
 				where renewal.SubscriptionId = s.SubscriptionId and renewal.RefundedAt is null
 				and (
-					(s.Processor = ? and renewal.CreatedAt > utc_timestamp() - interval 45 day)
+					(s.Processor = ? and renewal.CreatedAt > utc_timestamp() - interval (case when renewal.IsDonorAdvisedFund = true then 75 else 45 end) day)
 					or (s.Processor = ? and (
 						(s.CycleType = ? and utc_timestamp() < renewal.CreatedAt + interval 1 month + interval 15 day)
 						or (s.CycleType = ? and utc_timestamp() < renewal.CreatedAt + interval 1 year + interval 15 day)
@@ -84,7 +83,7 @@ $expiredPatrons = Db::Query('
 			)
 		))
 	)
-', [12454, 14537, Enums\PaymentProcessorType::FracturedAtlas, Enums\PaymentProcessorType::Stripe, Enums\CycleType::Monthly, Enums\CycleType::Yearly], Patron::class);
+', [Enums\PaymentProcessorType::FracturedAtlas, Enums\PaymentProcessorType::Stripe, Enums\CycleType::Monthly, Enums\CycleType::Yearly], Patron::class);
 
 if(sizeof($expiredPatrons) > 0){
 	$ebooksThisYear ??= Ebook::GetEbookCreatedAfterCount(new DateTimeImmutable('-1 year'));

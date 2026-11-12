@@ -165,15 +165,31 @@ try{
 				$payment = new Payment();
 				$payment->User = new User();
 				$payment->Processor = $pendingPayment->Processor;
-				$hasSoftCredit = false;
+				$hasSoftCredit = sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0;
+				$payment->IsDonorAdvisedFund = $hasSoftCredit;
+
+				// Inspect original and soft-credit names before attribution replaces the original donor.
+				foreach($detailsRow->findElements(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"]]')) as $donorNameElement){
+					$donorName = trim($donorNameElement->getText());
+					if(preg_match('/\b(Fund|Foundation|Charitable)\b/iu', $donorName)){
+						$payment->IsDonorAdvisedFund = true;
+					}
+					// AOGF can remit a donor's own gift when soft-credit attribution is present.
+					if($donorName === 'Fractured Atlas' || (!$hasSoftCredit && $donorName === 'American Online Giving Foundation')){
+						$payment->IsMatchingDonation = true;
+					}
+				}
+				if($payment->IsMatchingDonation){
+					$payment->IsDonorAdvisedFund = false;
+				}
+
 				try{
 					if($payment->User !== null){
 						// If the donation is via a foundation (like American Online Giving Foundation) then there will be a "soft credit" `<th>` element.
-						if(sizeof($detailsRow->findElements(WebDriverBy::xpath('//th[normalize-space(.) = "Soft Credit Donor Info"]'))) > 0){
+						if($hasSoftCredit){
 							// We're a foundation donation.
 							$payment->User->Name = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Name"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
 							$payment->User->Email = trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Email"] and (ancestor::tbody[1])[(./preceding-sibling::thead[1])//th[normalize-space(.) = "Soft Credit Donor Info"]]]'))->getText());
-							$hasSoftCredit = true;
 						}
 						else{
 							// We're a regular donation.
@@ -186,6 +202,7 @@ try{
 						// See donation `bbf87b83-d341-426f-b6c9-9091e3222e57`.
 						if($payment->User->Name == 'American Online Giving Foundation'){
 							$payment->IsMatchingDonation = true;
+							$payment->IsDonorAdvisedFund = false;
 						}
 
 						// Sometimes a soft credit is `Anonymous` or `Anonymous Anonymous`.
@@ -194,21 +211,31 @@ try{
 							$payment->UserId = null;
 							$payment->User = null;
 						}
-						elseif($hasSoftCredit && $payment->User->Email == ''){
+						elseif($hasSoftCredit && in_array((string)$payment->User->Email, ['', 'Not provided'], true)){
 							// Resolve named soft credits only after anonymous attribution has been discarded.
-							try{
-								$payment->User = User::GetByName($payment->User->Name);
+							$users = User::GetAllByName($payment->User->Name);
+							if(sizeof($users) === 1){
+								$payment->User = $users[0];
 								$payment->UserId = $payment->User->UserId;
 							}
-							catch(Exception){
-								// Nobody matches the name, so leave the soft credit unidentified.
+							else{
+								// Ambiguous or unknown names cannot identify a fund donor.
+								$payment->User = null;
 							}
 						}
 
 						// We can get here via an AOGF donation that is anonymous.
 						if(!$hasSoftCredit && ($payment->User->Email == 'Not provided' || $payment->User->Email == '')){
+							$users = [];
+							if($payment->IsDonorAdvisedFund){
+								$users = User::GetAllByName($payment->User->Name);
+							}
 							$payment->UserId = null;
 							$payment->User = null;
+							if(sizeof($users) === 1){
+								$payment->User = $users[0];
+								$payment->UserId = $payment->User->UserId;
+							}
 						}
 					}
 				}
@@ -223,11 +250,6 @@ try{
 				$payment->Amount = floatval(preg_replace('/[^0-9\.]/', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Total Amount"]]'))->getText())));
 				$payment->Fee = floatval(preg_replace('/[^0-9\.]/', '', trim($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "Fee"]]'))->getText())));
 
-				// Special exception: This donor has set up a monthly recurring donation via their fund. Yes, we should do this in the database somehow, but it's so rare that for now it's easier to just make a messy exception here.
-				if($payment->User?->Name == 'Jennifer Braun and Raymond J. Ryan Charitable Gift Fund'){
-					$payment->IsRecurring = true;
-				}
-
 				$transactionId = (string)($detailsRow->findElement(WebDriverBy::xpath('//td[preceding-sibling::th[normalize-space(.) = "ID"]]'))->getText());
 				$transactionId = str_replace('View on FS', '', $transactionId);
 				$transactionId = str_replace('View on Finance', '', $transactionId);
@@ -235,7 +257,7 @@ try{
 
 				// We might also get a case where the donation is on behalf of a company match, but there's not really a way to distinguish that. Do a rough check.
 				// See donation `00b60a22-eafa-44cb-9850-54bef9763e8d`.
-				if($payment->User !== null && !$hasSoftCredit && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name ?? '')){
+				if($payment->User !== null && !$hasSoftCredit && !$payment->IsDonorAdvisedFund && preg_match('/\b(L\.?L\.?C\.?|Foundation|President|Fund|Charitable)\b/ius', $payment->User->Name ?? '')){
 					$payment->UserId = null;
 					$payment->User = null;
 				}

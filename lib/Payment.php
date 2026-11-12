@@ -19,6 +19,8 @@ final class Payment{
 	public ?float $Fee = null;
 	/** Mostly for reconciling Fractured Atlas transactions since we don't get a unifying subscription ID for them. */
 	public bool $IsRecurring;
+	/** Whether Fractured Atlas metadata suggests this payment came through a donor advised fund. */
+	public bool $IsDonorAdvisedFund = false;
 	public bool $IsMatchingDonation = false;
 	public bool $IsRecordedExternally = false;
 	public ?DateTimeImmutable $RefundedAt = null;
@@ -209,11 +211,84 @@ final class Payment{
 	}
 
 	/**
+	 * If this is a donor-advised fund `Payment`, then decide if this `Payment` is actually a recurring DAF subscription. If so, find an existing `Subscription` to link this to, or create a new one.
+	 *
+	 * @throws Exceptions\SubscriptionNotFoundException If a linked subscription no longer exists.
+	 */
+	public function InferRecurringFundSubscription(): void{
+		if($this->Processor !== Enums\PaymentProcessorType::FracturedAtlas || !$this->IsDonorAdvisedFund || $this->UserId === null || $this->IsMatchingDonation || $this->RefundedAt !== null || !isset($this->PaymentId)){
+			return;
+		}
+
+		$userId = $this->UserId;
+		Db::Transaction(function() use ($userId): void{
+			// Serialize inference for a donor so simultaneous imports cannot create duplicate streams.
+			Db::Query('select UserId from Users where UserId = ? for update', [$userId]);
+			$subscription = Db::Query('
+				select s.* from Subscriptions s
+				where s.UserId = ? and s.Processor = ? and s.Amount = ? and s.CycleType = ?
+				and exists (select * from Payments p where p.SubscriptionId = s.SubscriptionId and p.IsDonorAdvisedFund = true)
+				order by s.CreatedAt desc, s.SubscriptionId desc limit 1
+			', [$userId, $this->Processor, $this->Amount, Enums\CycleType::Monthly], Subscription::class)[0] ?? null;
+
+			if($subscription === null){
+				// Check the immediately adjacent successful donations on both sides to accommodate out-of-order imports.
+				// Apply fund, amount, and timing requirements after selecting neighbors, so unrelated gifts cannot be skipped.
+				$otherPayment = Db::Query('
+					select * from (
+						(select * from Payments where UserId = ? and Processor = ?
+							and IsMatchingDonation = false and RefundedAt is null
+							and (CreatedAt, PaymentId) < (?, ?)
+							order by CreatedAt desc, PaymentId desc limit 1)
+						union all
+						(select * from Payments where UserId = ? and Processor = ?
+							and IsMatchingDonation = false and RefundedAt is null
+							and (CreatedAt, PaymentId) > (?, ?)
+							order by CreatedAt, PaymentId limit 1)
+					) adjacent
+					where IsDonorAdvisedFund = true and Amount = ?
+					and ((CreatedAt between ? - interval 75 day and ? - interval 15 day)
+						or (CreatedAt between ? + interval 15 day and ? + interval 75 day))
+					order by CreatedAt, PaymentId limit 1
+				', [$userId, $this->Processor, $this->CreatedAt, $this->PaymentId, $userId, $this->Processor, $this->CreatedAt, $this->PaymentId, $this->Amount, $this->CreatedAt, $this->CreatedAt, $this->CreatedAt, $this->CreatedAt], Payment::class)[0] ?? null;
+
+				if($otherPayment === null){
+					return;
+				}
+
+				$subscription = $otherPayment->Subscription;
+				if($subscription === null){
+					$subscription = new Subscription();
+					$subscription->UserId = $userId;
+					$subscription->Processor = $this->Processor;
+					$subscription->Amount = $this->Amount;
+					$subscription->CycleType = Enums\CycleType::Monthly;
+					$subscription->CreatedAt = min($this->CreatedAt, $otherPayment->CreatedAt);
+					$subscription->Create();
+				}
+
+				Db::Query('update Payments set SubscriptionId = ?, IsRecurring = true where PaymentId = ?', [$subscription->SubscriptionId, $otherPayment->PaymentId]);
+			}
+
+			$this->SubscriptionId = $subscription->SubscriptionId;
+			$this->Subscription = $subscription;
+			$this->IsRecurring = true;
+			Db::Query('update Payments set SubscriptionId = ?, IsRecurring = true where PaymentId = ?', [$this->SubscriptionId, $this->PaymentId]);
+
+			// Re-open the `Subscription` if necessary.
+			Db::Query('update Subscriptions set EndedAt = null where SubscriptionId = ? and EndedAt is not null and exists (select * from Payments where SubscriptionId = ? and RefundedAt is null and CreatedAt > ? - interval 75 day)', [$this->SubscriptionId, $this->SubscriptionId, NOW]);
+
+			$this->HasReopenedSubscription = Db::$LastQueryAffectedRowCount > 0;
+		});
+	}
+
+	/**
 	 * Create this `Payment` and its `User`, if necessary.
 	 *
 	 * @throws Exceptions\PaymentExistsException If a `Payment` with this transaction ID already exists.
 	 * @throws Exceptions\PaymentInvalidException If the payment fields are invalid.
 	 * @throws Exceptions\UserNotFoundException If this `Payment`'s `UserId` is set but the `User` can't be found.
+	 * @throws Exceptions\SubscriptionNotFoundException If a linked fund subscription no longer exists.
 	 */
 	public function Create(): void{
 		$this->CreatedAt ??= NOW;
@@ -256,93 +331,91 @@ final class Payment{
 
 		if($this->Processor == Enums\PaymentProcessorType::FracturedAtlas){
 			$this->IsRecordedExternally = true;
+		}
 
-			// EXCEPTION: Fractured Atlas does not label user 14537's recurring donations as recurring.
-			if($this->UserId === 14537){
-				$this->IsRecurring = true;
+		$subscriptionId = $this->SubscriptionId;
+		$isRecurring = $this->IsRecurring;
+		Db::Transaction(function() use ($subscriptionId, $isRecurring): void{
+			// Reset state if a deadlock requires a re-try.
+			$this->SubscriptionId = $subscriptionId;
+			$this->Subscription = null;
+			$this->IsRecurring = $isRecurring;
+			$this->HasReopenedSubscription = false;
+
+			if($this->UserId !== null){
+				// Lock the row during this transaction.
+				Db::Query('select UserId from Users where UserId = ? for update', [$this->UserId]);
 			}
-		}
 
-		try{
-			$this->PaymentId = Db::QueryInt('
-				insert into Payments (UserId, SubscriptionId, CreatedAt, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation, RefundedAt, IsRecordedExternally)
-				values(?,
-				       ?,
-				       ?,
-				       ?,
-				       ?,
-				       ?,
-				       ?,
-				       ?,
-				       ?,
-				       ?,
-				       ?)
-				returning PaymentId
-			', [$this->UserId, $this->SubscriptionId, $this->CreatedAt, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation, $this->RefundedAt, $this->IsRecordedExternally]);
-		}
-		catch(Exceptions\DuplicateDatabaseKeyException){
-			throw new Exceptions\PaymentExistsException();
-		}
+			try{
+				$this->PaymentId = Db::QueryInt('
+					insert into Payments (UserId, SubscriptionId, CreatedAt, Processor, TransactionId, Amount, Fee, IsRecurring, IsMatchingDonation, RefundedAt, IsRecordedExternally, IsDonorAdvisedFund)
+					values(?,
+					       ?,
+					       ?,
+					       ?,
+					       ?,
+					       ?,
+					       ?,
+					       ?,
+					       ?,
+					       ?,
+					       ?,
+					       ?)
+					returning PaymentId
+				', [$this->UserId, $this->SubscriptionId, $this->CreatedAt, $this->Processor, $this->TransactionId, $this->Amount, $this->Fee, $this->IsRecurring, $this->IsMatchingDonation, $this->RefundedAt, $this->IsRecordedExternally, $this->IsDonorAdvisedFund]);
+			}
+			catch(Exceptions\DuplicateDatabaseKeyException){
+				throw new Exceptions\PaymentExistsException();
+			}
 
-		if($this->Processor == Enums\PaymentProcessorType::FracturedAtlas && $this->IsRecurring && $this->UserId !== null){
-			// EXCEPTION: Keep user #14537's payments on their latest active Fractured Atlas subscription regardless of amount or payment gaps.
-			$subscription = null;
-			if($this->UserId === 14537){
-				$subscription = Db::Query('
-					select * from Subscriptions
-					where UserId = ? and Processor = ? and EndedAt is null
-					order by CreatedAt desc, SubscriptionId desc
+			$this->InferRecurringFundSubscription();
+
+			if($this->Processor == Enums\PaymentProcessorType::FracturedAtlas && $this->IsRecurring && $this->UserId !== null && $this->SubscriptionId === null){
+				// A changed amount or a gap longer than 45 days from this `User`'s last `Payment` starts a new inferred stream.
+				$previousPayment = Db::MultiTableSelect('
+					select * from Payments
+					left join Subscriptions
+					on Payments.SubscriptionId = Subscriptions.SubscriptionId
+					where Payments.UserId = ? and Payments.Processor = ? and Payments.IsRecurring = true
+					and Payments.IsDonorAdvisedFund = ?
+					and Payments.PaymentId != ? and Payments.CreatedAt <= ? and Payments.CreatedAt > ? - interval 45 day
+					order by Payments.CreatedAt desc, Payments.PaymentId desc
 					limit 1
-				', [$this->UserId, $this->Processor], Subscription::class)[0] ?? null;
-			}
+				', [$this->UserId, $this->Processor, $this->IsDonorAdvisedFund, $this->PaymentId, $this->CreatedAt, $this->CreatedAt], Payment::class)[0] ?? null;
 
-			// A changed amount or a gap longer than 45 days from this `User`'s last `Payment` starts a new inferred stream.
-			$previousPayment = Db::MultiTableSelect('
-				select * from Payments
-				left join Subscriptions
-				on Payments.SubscriptionId = Subscriptions.SubscriptionId
-				where Payments.UserId = ? and Payments.Processor = ? and Payments.IsRecurring = true
-				and Payments.PaymentId != ? and Payments.CreatedAt <= ? and Payments.CreatedAt > ? - interval 45 day
-				order by Payments.CreatedAt desc, Payments.PaymentId desc
-				limit 1
-			', [$this->UserId, $this->Processor, $this->PaymentId, $this->CreatedAt, $this->CreatedAt], Payment::class)[0] ?? null;
+				if($previousPayment !== null && $previousPayment->Amount === $this->Amount && $previousPayment->SubscriptionId !== null){
+					$this->SubscriptionId = $previousPayment->SubscriptionId;
+					/** @throws void */
+					$this->Subscription = $previousPayment->Subscription;
 
-			// Prefer the explicit subscription override before inferring a subscription from payment history.
-			if($subscription !== null){
-				$this->SubscriptionId = $subscription->SubscriptionId;
-				$this->Subscription = $subscription;
-			}
-			elseif($previousPayment !== null && $previousPayment->Amount === $this->Amount && $previousPayment->SubscriptionId !== null){
-				$this->SubscriptionId = $previousPayment->SubscriptionId;
-				/** @throws void */
-				$this->Subscription = $previousPayment->Subscription;
-
-				// If the old `Subscription` had been marked as ended, return it to active status.
-				if($this->CreatedAt > NOW->sub(new DateInterval('P45D'))){
-					Db::Query('update Subscriptions set EndedAt = null where SubscriptionId = ? and EndedAt is not null', [$this->SubscriptionId]);
-					$this->HasReopenedSubscription = Db::$LastQueryAffectedRowCount > 0;
+					// If the old `Subscription` had been marked as ended, return it to active status.
+					if($this->CreatedAt > NOW->sub(new DateInterval('P45D'))){
+						Db::Query('update Subscriptions set EndedAt = null where SubscriptionId = ? and EndedAt is not null', [$this->SubscriptionId]);
+						$this->HasReopenedSubscription = Db::$LastQueryAffectedRowCount > 0;
+					}
 				}
-			}
-			else{
-				// No previous match, start a new `Subscription`.
-				$subscription = new Subscription();
-				$subscription->UserId = $this->UserId;
-				$subscription->CreatedAt = $this->CreatedAt;
-				$subscription->Processor = $this->Processor;
-				$subscription->Amount = $this->Amount;
-				$subscription->CycleType = Enums\CycleType::Monthly;
-				$subscription->Create();
-				$this->SubscriptionId = $subscription->SubscriptionId;
-				$this->Subscription = $subscription;
+				else{
+					// No previous match, start a new `Subscription`.
+					$subscription = new Subscription();
+					$subscription->UserId = $this->UserId;
+					$subscription->CreatedAt = $this->CreatedAt;
+					$subscription->Processor = $this->Processor;
+					$subscription->Amount = $this->Amount;
+					$subscription->CycleType = Enums\CycleType::Monthly;
+					$subscription->Create();
+					$this->SubscriptionId = $subscription->SubscriptionId;
+					$this->Subscription = $subscription;
 
-				// A changed amount replaces the previous inferred stream, without discarding its payment history.
-				if($previousPayment?->SubscriptionId !== null){
-					Db::Query('update Subscriptions set EndedAt = ? where SubscriptionId = ? and EndedAt is null and not exists (select * from Payments where SubscriptionId = ? and CreatedAt > ?)', [$this->CreatedAt, $previousPayment->SubscriptionId, $previousPayment->SubscriptionId, $this->CreatedAt]);
+					// A changed amount replaces the previous inferred stream, without discarding its payment history.
+					if($previousPayment?->SubscriptionId !== null){
+						Db::Query('update Subscriptions set EndedAt = ? where SubscriptionId = ? and EndedAt is null and not exists (select * from Payments where SubscriptionId = ? and CreatedAt > ?)', [$this->CreatedAt, $previousPayment->SubscriptionId, $previousPayment->SubscriptionId, $this->CreatedAt]);
+					}
 				}
-			}
 
-			Db::Query('update Payments set SubscriptionId = ? where PaymentId = ?', [$this->SubscriptionId, $this->PaymentId]);
-		}
+				Db::Query('update Payments set SubscriptionId = ? where PaymentId = ?', [$this->SubscriptionId, $this->PaymentId]);
+			}
+		});
 
 		if(!$this->IsRecurring && !$this->IsMatchingDonation){
 			// Add any one-time payments to any active `DonationCounter`s.
@@ -412,6 +485,8 @@ final class Payment{
 	/**
 	 * Apply Patrons Circle benefits for an eligible payment, and send a thank-you message for a donation.
 	 *
+	 * @throws Exceptions\PaymentNotFoundException If a recurring subscription has no successful payment.
+	 * @throws Exceptions\SubscriptionNotFoundException If a linked subscription no longer exists.
 	 * @throws Exceptions\PatronInvalidException If an eligible payment would create an invalid patron.
 	 * @throws Exceptions\UserNotFoundException If the `User` no longer exists.
 	 */
@@ -419,6 +494,14 @@ final class Payment{
 		$alternateName = trim($alternateName ?? '');
 		$alternateName = $alternateName === '' ? null : $alternateName;
 		$isEligible = false;
+		$graceInterval = new DateInterval('P45D');
+		$lastPaidAt = $this->CreatedAt;
+		if($this->Processor === Enums\PaymentProcessorType::FracturedAtlas && $this->IsRecurring && $this->Subscription !== null){
+			if($this->Subscription->IsDonorAdvisedFund){
+				$graceInterval = new DateInterval('P75D');
+			}
+			$lastPaidAt = $this->Subscription->LastPayment->CreatedAt;
+		}
 
 		switch($this->Processor){
 			case Enums\PaymentProcessorType::Stripe:
@@ -440,18 +523,22 @@ final class Payment{
 							)
 						)
 						&&
-						$this->CreatedAt >= NOW->sub(new DateInterval($this->IsRecurring ? 'P45D' : 'P1Y'))
+						(
+							($this->IsRecurring && $lastPaidAt > NOW->sub($graceInterval))
+							||
+							(!$this->IsRecurring && $this->CreatedAt >= NOW->sub(new DateInterval('P1Y')))
+						)
 						;
 				break;
 		}
 
 		if($isEligible && $this->IsRecurring){
-			// Only the first payment can establish eligibility for an inferred or Stripe stream.
-			$isEligible = $this->SubscriptionId !== null && Db::QueryInt('select count(*) from Payments where SubscriptionId = ?', [$this->SubscriptionId]) === 1;
+			// Recurring DAF payments require at least 2 payments to be inferred, so we check that here.
+			$isEligible = $this->SubscriptionId !== null && ($this->Subscription?->IsDonorAdvisedFund === true || Db::QueryInt('select count(*) from Payments where SubscriptionId = ?', [$this->SubscriptionId]) === 1);
 		}
 
-		if($this->HasReopenedSubscription && $this->SubscriptionId !== null){
-			// This `Payment` can restore Patrons Circle membership it's delayed.
+		if($this->HasReopenedSubscription && $this->Subscription?->IsDonorAdvisedFund !== true && $this->SubscriptionId !== null){
+			// A late payment can restore membership previously funded by this subscription.
 			$isEligible = Db::QueryBool('select exists(select * from Patrons where SubscriptionId = ? and EndedAt is not null)', [$this->SubscriptionId]);
 		}
 
@@ -547,8 +634,8 @@ final class Payment{
 			$em->BodyText = Template::EmailAdminNewOneTimeDonationText(payment: $this);
 			$em->Send();
 		}
-		elseif($this->IsRecurring && !$this->IsMatchingDonation && !$isEligible && $this->SubscriptionId !== null && Db::QueryInt('select count(*) from Payments where SubscriptionId = ?', [$this->SubscriptionId]) === 1){
-			// Notify accounting only for the first payment of a recurring donation that does not qualify for membership.
+		elseif($this->IsRecurring && !$this->IsMatchingDonation && !$isEligible && $this->SubscriptionId !== null && Db::QueryBool('select count(*) = (case when ? then 2 else 1 end) and max(PaymentId) = ? from Payments where SubscriptionId = ?', [$this->IsDonorAdvisedFund, $this->PaymentId, $this->SubscriptionId])){
+			// Notify accounting on the second imported DAF payment establishing a `Subscription`, or the first payment of another recurring `Subscription`.
 			$em = new QueuedEmailMessage();
 			$em->To = ACCOUNTING_EMAIL_ADDRESS;
 			$em->From = ADMIN_EMAIL_ADDRESS;
