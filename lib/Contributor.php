@@ -1,7 +1,9 @@
 <?
 use function Safe\preg_match;
 
+/** A contributor's shared metadata and, when loaded for an ebook, their credit details. */
 class Contributor{
+	public int $ContributorId;
 	public int $EbookId;
 	public string $Name;
 	public string $UrlName;
@@ -9,6 +11,7 @@ class Contributor{
 	public ?string $WikipediaUrl = null;
 	public Enums\MarcRole $MarcRole;
 	public ?string $FullName = null;
+	public ?string $MetadataXmlFragment = null;
 	public ?string $NacoafUrl = null;
 	public int $SortOrder;
 	public bool $IsDisplayed = true;
@@ -44,6 +47,8 @@ class Contributor{
 	// *******
 
 	/**
+	 * Get contributors credited with the given role, sorted by name.
+	 *
 	 * @return array<Contributor>
 	 */
 	public static function GetAllByMarcRole(Enums\MarcRole $marcRole): array{
@@ -51,6 +56,7 @@ class Contributor{
 			select
 			*
 			from Contributors
+			inner join EbookContributors using (ContributorId)
 			where MarcRole = ?
 			and SortName is not null
 			group by UrlName
@@ -59,6 +65,8 @@ class Contributor{
 	}
 
 	/**
+	 * Get distinct names credited with the given role.
+	 *
 	 * @return array<stdClass>
 	 */
 	public static function GetAllNamesByMarcRole(Enums\MarcRole $marcRole): array{
@@ -66,12 +74,15 @@ class Contributor{
 			select
 			distinct Name
 			from Contributors
+			inner join EbookContributors using (ContributorId)
 			where MarcRole = ?
 			order by Name asc', [$marcRole]);
 	}
 
 	/**
-	 * @throws Exceptions\ContributorInvalidException
+	 * Normalize and validate the contributor's metadata and ebook credit.
+	 *
+	 * @throws Exceptions\ContributorInvalidException If the contributor's metadata or credit is invalid.
 	 */
 	public function Validate(): void{
 		$error = new Exceptions\ContributorInvalidException();
@@ -150,7 +161,9 @@ class Contributor{
 	}
 
 	/**
-	 * @throws Exceptions\ContributorInvalidException
+	 * Create or update the contributor's shared metadata and add their ebook credit.
+	 *
+	 * @throws Exceptions\ContributorInvalidException If the contributor's metadata or credit is invalid.
 	 */
 	public function Create(bool $copyFromExistingName): void{
 		if($copyFromExistingName){
@@ -160,7 +173,10 @@ class Contributor{
 				$this->SortName = $existingContributor->SortName;
 				$this->WikipediaUrl = $existingContributor->WikipediaUrl;
 				$this->FullName = $existingContributor->FullName;
+				$this->MetadataXmlFragment = $existingContributor->MetadataXmlFragment;
 				$this->NacoafUrl = $existingContributor->NacoafUrl;
+				$this->DeathYear = $existingContributor->DeathYear;
+				$this->IsDeathYearCirca = $existingContributor->IsDeathYearCirca;
 			}
 			catch(Exceptions\ContributorNotFoundException){
 				// Not found, pass.
@@ -168,23 +184,32 @@ class Contributor{
 		}
 
 		$this->Validate();
-		Db::Query('
-			insert into Contributors (EbookId, Name, UrlName, SortName, WikipediaUrl, MarcRole, FullName,
-				NacoafUrl, SortOrder, IsDisplayed, DeathYear, IsDeathYearCirca)
-			values (?,
-				?,
-				?,
-				?,
-				?,
-				?,
-				?,
-				?,
-				?,
-				?,
-				?,
-				?)
-		', [$this->EbookId, $this->Name, $this->UrlName, $this->SortName, $this->WikipediaUrl, $this->MarcRole, $this->FullName,
-			$this->NacoafUrl, $this->SortOrder, $this->IsDisplayed, $this->DeathYear, $this->IsDeathYearCirca]);
+		Db::Transaction(function(): void{
+			// Match the strongest available identity without merging distinct people who share a name.
+			$condition = 'NacoafUrl is null and WikipediaUrl is null and Name = ?';
+			$identity = $this->Name;
+			if($this->NacoafUrl !== null){
+				$condition = 'NacoafUrl = ?';
+				$identity = $this->NacoafUrl;
+			}
+			elseif($this->WikipediaUrl !== null){
+				$condition = 'NacoafUrl is null and WikipediaUrl = ?';
+				$identity = $this->WikipediaUrl;
+			}
+
+			$contributorId = Db::QueryInt('select ContributorId from Contributors where ' . $condition . ' order by ContributorId limit 1 for update', [$identity]);
+			$parameters = [$this->Name, $this->UrlName, $this->SortName, $this->WikipediaUrl, $this->FullName, $this->MetadataXmlFragment, $this->NacoafUrl];
+			if($contributorId == 0){
+				$contributorId = Db::QueryInt('insert into Contributors (Name, UrlName, SortName, WikipediaUrl, FullName, MetadataXmlFragment, NacoafUrl) values (?, ?, ?, ?, ?, ?, ?) returning ContributorId', $parameters);
+			}
+			else{
+				$parameters[] = $contributorId;
+				Db::Query('update Contributors set Name = ?, UrlName = ?, SortName = ?, WikipediaUrl = ?, FullName = ?, MetadataXmlFragment = ?, NacoafUrl = ? where ContributorId = ?', $parameters);
+			}
+
+			$this->ContributorId = $contributorId;
+			Db::Query('insert into EbookContributors (EbookId, ContributorId, MarcRole, SortOrder, IsDisplayed) values (?, ?, ?, ?, ?)', [$this->EbookId, $this->ContributorId, $this->MarcRole, $this->SortOrder, $this->IsDisplayed]);
+		});
 	}
 
 	/**
@@ -267,20 +292,53 @@ class Contributor{
 	// ***********
 
 	/**
-	 * @return array<Contributor>
+	 * Find a contributor by internal ID, NACOAF URL, Wikipedia URL, or name, in that order.
+	 *
+	 * @throws Exceptions\ContributorNotFoundException If no contributor matches the identifier.
+	 * @throws Exceptions\AmbiguousContributorException If multiple contributors match the identifier.
 	 */
-	public static function GetDistinctByMarcRole(Enums\MarcRole $marcRole): array{
-		return Db::Query('select * from Contributors where MarcRole = ? group by UrlName', [$marcRole], Contributor::class);
+	public static function GetByIdentifier(?string $identifier): Contributor{
+		if($identifier === null || $identifier === ''){
+			throw new Exceptions\ContributorNotFoundException();
+		}
+
+		$columns = ['NacoafUrl', 'WikipediaUrl', 'Name'];
+		if(ctype_digit($identifier)){
+			array_unshift($columns, 'ContributorId');
+		}
+
+		foreach($columns as $column){
+			$contributors = Db::Query('select * from Contributors where ' . $column . ' = ? order by ContributorId', [$identifier], Contributor::class);
+			if(sizeof($contributors) > 1){
+				throw new Exceptions\AmbiguousContributorException($contributors);
+			}
+			if(sizeof($contributors) === 1){
+				return $contributors[0];
+			}
+		}
+
+		throw new Exceptions\ContributorNotFoundException();
 	}
 
 	/**
+	 * Get distinct contributors credited with the given role.
+	 *
+	 * @return array<Contributor>
+	 */
+	public static function GetDistinctByMarcRole(Enums\MarcRole $marcRole): array{
+		return Db::Query('select * from Contributors inner join EbookContributors using (ContributorId) where MarcRole = ? group by UrlName', [$marcRole], Contributor::class);
+	}
+
+	/**
+	 * Get contributors matching the URL names and credited with the given role.
+	 *
 	 * @param array<string> $urlNames
 	 * @param Enums\MarcRole $marcRole
 	 *
 	 * @return array<Contributor>
 	 */
 	public static function GetAllByUrlNameAndMarcRole(array $urlNames, Enums\MarcRole $marcRole): array{
-		return Db::Query('select * from Contributors where UrlName in ' . Db::CreateSetSql($urlNames) . ' and MarcRole = ? group by UrlName order by field(UrlName, ' . str_replace(['(', ')'], '', Db::CreateSetSql($urlNames)) . ')', array_merge($urlNames, [$marcRole], $urlNames), Contributor::class);
+		return Db::Query('select * from Contributors inner join EbookContributors using (ContributorId) where UrlName in ' . Db::CreateSetSql($urlNames) . ' and MarcRole = ? group by UrlName order by field(UrlName, ' . str_replace(['(', ')'], '', Db::CreateSetSql($urlNames)) . ')', array_merge($urlNames, [$marcRole], $urlNames), Contributor::class);
 	}
 
 	/**

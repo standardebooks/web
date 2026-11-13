@@ -210,7 +210,8 @@ final class Ebook{
 		if(isset($this->EbookId)){
 			$contributors = Db::Query('
 						select *
-						from Contributors
+						from EbookContributors
+						inner join Contributors using (ContributorId)
 						where EbookId = ?
 						order by MarcRole asc, SortOrder asc
 				', [$this->EbookId], Contributor::class);
@@ -1015,6 +1016,7 @@ final class Ebook{
 			$contributor->UrlName = Ebook::MatchContributorUrlNameToIdentifier(Formatter::MakeUrlSafe($contributor->Name), $ebook->Identifier);
 			$contributor->SortName = $fileAs;
 			$contributor->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="schema:alternateName" and @refines="#' . $id . '"][1]'));
+			$contributor->MetadataXmlFragment = Ebook::GetContributorMetadataXmlFragment($author);
 			$contributor->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://en.wikipedia.org/")]/@href'));
 			$contributor->MarcRole = Enums\MarcRole::Author;
 			$contributor->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://id.loc.gov/authorities/names/")]/@href'));
@@ -1056,6 +1058,7 @@ final class Ebook{
 				$c->UrlName = Ebook::MatchContributorUrlNameToIdentifier(Formatter::MakeUrlSafe($c->Name), $ebook->Identifier);
 				$c->SortName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="file-as" and @refines="#' . $id . '"]'));
 				$c->FullName = Ebook::NullIfEmpty($xml->xpath('/package/metadata/meta[@property="schema:alternateName" and @refines="#' . $id . '"][1]'));
+				$c->MetadataXmlFragment = Ebook::GetContributorMetadataXmlFragment($contributor);
 				$c->WikipediaUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://en.wikipedia.org/")]/@href'));
 				$c->MarcRole = $marcRole;
 				$c->NacoafUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:sameAs" and @refines="#' . $id . '" and starts-with(@href, "https://id.loc.gov/authorities/names/")]/@href'));
@@ -1181,6 +1184,66 @@ final class Ebook{
 		$ebook->GitHubUrl = Ebook::NullIfEmpty($xml->xpath('/package/metadata/link[@rel="schema:codeRepository" and starts-with(@href, "https://github.com/")]/@href'));
 
 		return $ebook;
+	}
+
+	/**
+	 * Extract a contributor's OPF metadata block, excluding MARC roles and display sequences.
+	 *
+	 * @throws Exceptions\EbookParsingException If the contributor's XML cannot be read or serialized.
+	 */
+	private static function GetContributorMetadataXmlFragment(SimpleXMLElement $contributor): string{
+		$node = dom_import_simplexml($contributor);
+		if(!$node instanceof DOMElement){
+			throw new Exceptions\EbookParsingException('Could not read contributor XML.');
+		}
+		$document = $node->ownerDocument;
+		if($document === null){
+			throw new Exceptions\EbookParsingException('Could not read contributor XML document.');
+		}
+
+		// Stay within the contributor's physical block so repeated IDs cannot select another person's metadata.
+		$elements = [$node];
+		for($refinement = $node->nextSibling; $refinement !== null; $refinement = $refinement->nextSibling){
+			if(!$refinement instanceof DOMElement){
+				continue;
+			}
+			if($refinement->namespaceURI === 'http://purl.org/dc/elements/1.1/' && in_array($refinement->localName, ['creator', 'contributor'])){
+				break;
+			}
+			if(!in_array($refinement->localName, ['meta', 'link']) || $refinement->getAttribute('refines') !== '#' . $node->getAttribute('id')){
+				continue;
+			}
+			if($refinement->localName === 'meta' && $refinement->getAttribute('property') === 'role' && $refinement->getAttribute('scheme') === 'marc:relators'){
+				continue;
+			}
+			if($refinement->localName === 'meta' && $refinement->getAttribute('property') === 'display-seq'){
+				continue;
+			}
+			$elements[] = $refinement;
+		}
+
+		$fragment = '';
+		foreach($elements as $element){
+			try{
+				// Normalize credit-specific attributes on a copy so the OPF remains available for role lookups.
+				$element = clone $element;
+				if($element->hasAttribute('id')){
+					$element->setAttribute('id', 'contributor');
+				}
+				if($element->hasAttribute('refines')){
+					$element->setAttribute('refines', '#contributor');
+				}
+				$xml = $document->saveXML($element);
+			}
+			catch(DOMException $ex){
+				throw new Exceptions\EbookParsingException($ex->getMessage());
+			}
+			if($xml === false){
+				throw new Exceptions\EbookParsingException('Could not serialize contributor XML.');
+			}
+			$fragment .= $xml . "\n";
+		}
+		return $fragment;
 	}
 
 	/**
@@ -1767,6 +1830,9 @@ final class Ebook{
 		return $this->Title;
 	}
 
+	/**
+	 * Generate RDFa metadata for this ebook's translators.
+	 */
 	public function GenerateContributorsRdfa(): string{
 		$string = '';
 		$i = 0;
@@ -1783,7 +1849,7 @@ final class Ebook{
 			}
 
 			if($contributor->WikipediaUrl){
-				$string .= '<div property="' . $role . '" typeof="schema:Person" resource="/contributors/' . Formatter::MakeUrlSafe($contributor->Name) .'">' . "\n";
+				$string .= '<div property="' . $role . '" typeof="schema:Person" resource="/contributors/' . rawurlencode($contributor->UrlName) . '">' . "\n";
 			}
 			else{
 				$string .= '<div property="' . $role . '" typeof="schema:Person">' . "\n";
@@ -2223,16 +2289,21 @@ final class Ebook{
 		}
 	}
 
+	/**
+	 * Remove this ebook's credits while preserving shared contributors.
+	 */
 	private function RemoveContributors(): void{
 		Db::Query('
-			delete from Contributors
+			delete from EbookContributors
 			where EbookId = ?
 		', [$this->EbookId]
 		);
 	}
 
 	/**
-	 * @throws Exceptions\ContributorInvalidException
+	 * Save this ebook's contributors and associate their credits with it.
+	 *
+	 * @throws Exceptions\ContributorInvalidException If a contributor's metadata or credit is invalid.
 	 */
 	private function AddContributors(): void{
 		foreach($this->AllContributors as $sortOrder => $contributor){
@@ -2473,8 +2544,9 @@ final class Ebook{
 			return Db::Query('
 					select e.*
 					from Ebooks e
-					inner join Contributors con using (EbookId)
-					where con.MarcRole = "aut"
+					inner join EbookContributors ec using (EbookId)
+					inner join Contributors con using (ContributorId)
+					where ec.MarcRole = "aut"
 					    and con.UrlName = ?
 					order by e.EbookCreatedAt desc
 				', [$urlPath], Ebook::class);
@@ -2489,8 +2561,9 @@ final class Ebook{
 			return Db::Query('
 					select e.*
 					from Ebooks e
-					inner join Contributors con using (EbookId)
-					where con.MarcRole = "aut"
+					inner join EbookContributors ec using (EbookId)
+					inner join Contributors con using (ContributorId)
+					where ec.MarcRole = "aut"
 					    and con.UrlName in ' . Db::CreateSetSql($authors) . '
 					group by e.EbookId
 					having count(distinct con.UrlName) = ?
@@ -2641,8 +2714,9 @@ final class Ebook{
 
 		if($query === null){
 			if($sort == Enums\EbookSortType::AuthorAlpha){
-				$joinContributors = 'inner join Contributors con using (EbookId)';
-				$whereCondition .= ' and con.MarcRole = "aut"';
+				$joinContributors = 'inner join EbookContributors ec using (EbookId)
+					inner join Contributors con using (ContributorId)';
+				$whereCondition .= ' and ec.MarcRole = "aut"';
 				$orderBy = 'e.WwwFilesystemPath is null, con.SortName, e.EbookCreatedAt desc'; // Put placeholders at the end.
 			}
 			elseif($sort == Enums\EbookSortType::ReadingEase){
