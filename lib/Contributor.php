@@ -15,8 +15,10 @@ class Contributor{
 	public ?string $NacoafUrl = null;
 	public int $SortOrder;
 	public bool $IsDisplayed = true;
+	/** Negative numbers for B.C.; `null` to indicate unknown. */
 	public ?int $DeathYear = null;
 	public bool $IsDeathYearCirca = false;
+	public bool $IsDeathYearResearched = false;
 
 	/** The contributor's URL when their MARC role is author. */
 	public ?string $Url{
