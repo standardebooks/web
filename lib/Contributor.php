@@ -1,9 +1,13 @@
 <?
+use Safe\DateTimeImmutable;
+
 use function Safe\preg_match;
 
 /** A contributor's shared metadata and, when loaded for an ebook, their credit details. */
 class Contributor{
 	public int $ContributorId;
+	public DateTimeImmutable $CreatedAt;
+	public DateTimeImmutable $UpdatedAt;
 	public int $EbookId;
 	public string $Name;
 	public string $UrlName;
