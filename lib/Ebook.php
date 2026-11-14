@@ -1043,7 +1043,7 @@ final class Ebook{
 			foreach($xml->xpath('/package/metadata/meta[@property="role" and @refines="#' . $id . '"]') ?: [] as $role){
 				$marcRole = \Enums\MarcRole::tryFrom((string)$role);
 				// Exclude production roles from the stored contributors.
-				if($marcRole === null || in_array($marcRole, [Enums\MarcRole::MarkupEditor, Enums\MarcRole::Proofreader, Enums\MarcRole::Transcriber, Enums\MarcRole::BookProducer, Enums\MarcRole::Sponsor, Enums\MarcRole::TypeDesigner])){
+				if($marcRole === null || in_array($marcRole, [Enums\MarcRole::MarkupEditor, Enums\MarcRole::MusicCopyist, Enums\MarcRole::Proofreader, Enums\MarcRole::Transcriber, Enums\MarcRole::BookProducer, Enums\MarcRole::BlurbWriter, Enums\MarcRole::CoverDesigner, Enums\MarcRole::Typographer, Enums\MarcRole::WriterOfAddedText, Enums\MarcRole::Sponsor, Enums\MarcRole::TypeDesigner])){
 					continue;
 				}
 
