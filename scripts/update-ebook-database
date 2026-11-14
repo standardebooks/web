@@ -85,6 +85,14 @@ try{
 		$ebook->ProjectInProgress->EndedAt = NOW;
 		$ebook->ProjectInProgress->Save();
 	}
+
+	// Delete contributors who are no longer attached to any ebook.
+	Db::Query('
+		delete c
+		from Contributors c
+			left join EbookContributors ec using (ContributorId)
+		where ec.ContributorId is null
+	');
 }
 catch(Exceptions\AppException $ex){
 	Cli::ExitWithError("An exception occurred when updating the ebook database:\n\t" . get_class($ex) . ": " . $ex->getMessage());
