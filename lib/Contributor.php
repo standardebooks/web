@@ -164,6 +164,7 @@ class Contributor{
 	 * Create or update the contributor's shared metadata and add their ebook credit.
 	 *
 	 * @throws Exceptions\ContributorInvalidException If the contributor's metadata or credit is invalid.
+	 * @throws Exceptions\ContributorExistsException If another contributor already has the same NACOAF URL.
 	 */
 	public function Create(bool $copyFromExistingName): void{
 		if($copyFromExistingName){
@@ -199,12 +200,17 @@ class Contributor{
 
 			$contributorId = Db::QueryInt('select ContributorId from Contributors where ' . $condition . ' order by ContributorId limit 1 for update', [$identity]);
 			$parameters = [$this->Name, $this->UrlName, $this->SortName, $this->WikipediaUrl, $this->FullName, $this->MetadataXmlFragment, $this->NacoafUrl];
-			if($contributorId == 0){
-				$contributorId = Db::QueryInt('insert into Contributors (Name, UrlName, SortName, WikipediaUrl, FullName, MetadataXmlFragment, NacoafUrl) values (?, ?, ?, ?, ?, ?, ?) returning ContributorId', $parameters);
+			try{
+				if($contributorId == 0){
+					$contributorId = Db::QueryInt('insert into Contributors (Name, UrlName, SortName, WikipediaUrl, FullName, MetadataXmlFragment, NacoafUrl) values (?, ?, ?, ?, ?, ?, ?) returning ContributorId', $parameters);
+				}
+				else{
+					$parameters[] = $contributorId;
+					Db::Query('update Contributors set Name = ?, UrlName = ?, SortName = ?, WikipediaUrl = ?, FullName = ?, MetadataXmlFragment = ?, NacoafUrl = ? where ContributorId = ?', $parameters);
+				}
 			}
-			else{
-				$parameters[] = $contributorId;
-				Db::Query('update Contributors set Name = ?, UrlName = ?, SortName = ?, WikipediaUrl = ?, FullName = ?, MetadataXmlFragment = ?, NacoafUrl = ? where ContributorId = ?', $parameters);
+			catch(Exceptions\DuplicateDatabaseKeyException $ex){
+				throw new Exceptions\ContributorExistsException('A contributor already exists with NACOAF URL: ' . $this->NacoafUrl, 0, $ex);
 			}
 
 			$this->ContributorId = $contributorId;

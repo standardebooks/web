@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `Contributors` (
   `DeathYear` smallint(4) NULL,
   `IsDeathYearCirca` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`ContributorId`),
-  KEY `NacoafUrl` (`NacoafUrl`),
+  UNIQUE KEY `NacoafUrl` (`NacoafUrl`),
   KEY `WikipediaUrl` (`WikipediaUrl`),
   KEY `Name` (`Name`),
   KEY `UrlName` (`UrlName`)

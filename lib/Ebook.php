@@ -1718,6 +1718,7 @@ final class Ebook{
 	 * @throws Exceptions\EbookInvalidException
 	 * @throws Exceptions\EbookExistsException
 	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
+	 * @throws Exceptions\ContributorExistsException If another contributor already has the same NACOAF URL.
 	 */
 	public function CreateOrUpdate(bool $updateDownloads = false): void{
 		try{
@@ -1992,6 +1993,7 @@ final class Ebook{
 	 * @throws Exceptions\EbookInvalidException
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the given identifier already exists.
 	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
+	 * @throws Exceptions\ContributorExistsException If another contributor already has the same NACOAF URL.
 	 */
 	public function Create(): void{
 		$this->Validate();
@@ -2079,6 +2081,7 @@ final class Ebook{
 	 * @throws Exceptions\EbookInvalidException If the `Ebook` is invalid.
 	 * @throws Exceptions\EbookExistsException If an `Ebook` with the same title and author already exists.
 	 * @throws Exceptions\CollectionNotFoundException If a referenced collection no longer exists.
+	 * @throws Exceptions\ContributorExistsException If another contributor already has the same NACOAF URL.
 	 */
 	public function Save(bool $updateDownloads = false): void{
 		$this->Validate();
@@ -2304,6 +2307,7 @@ final class Ebook{
 	 * Save this ebook's contributors and associate their credits with it.
 	 *
 	 * @throws Exceptions\ContributorInvalidException If a contributor's metadata or credit is invalid.
+	 * @throws Exceptions\ContributorExistsException If another contributor already has the same NACOAF URL.
 	 */
 	private function AddContributors(): void{
 		foreach($this->AllContributors as $sortOrder => $contributor){
