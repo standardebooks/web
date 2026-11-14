@@ -17,6 +17,7 @@ class Contributor{
 	public ?string $FullName = null;
 	public ?string $MetadataXmlFragment = null;
 	public ?string $NacoafUrl = null;
+	public bool $IsPdContributor = false;
 	public int $SortOrder;
 	public bool $IsDisplayed = true;
 	/** Negative numbers for B.C.; `null` to indicate unknown. */
@@ -208,7 +209,7 @@ class Contributor{
 			$parameters = [$this->Name, $this->UrlName, $this->SortName, $this->WikipediaUrl, $this->FullName, $this->MetadataXmlFragment, $this->NacoafUrl];
 			try{
 				if($contributorId == 0){
-					$contributorId = Db::QueryInt('insert into Contributors (Name, UrlName, SortName, WikipediaUrl, FullName, MetadataXmlFragment, NacoafUrl) values (?, ?, ?, ?, ?, ?, ?) returning ContributorId', $parameters);
+					$contributorId = Db::QueryInt('insert into Contributors (Name, UrlName, SortName, WikipediaUrl, FullName, MetadataXmlFragment, NacoafUrl, IsPdContributor) values (?, ?, ?, ?, ?, ?, ?, ?) returning ContributorId', array_merge($parameters, [$this->IsPdContributor]));
 				}
 				else{
 					$parameters[] = $contributorId;

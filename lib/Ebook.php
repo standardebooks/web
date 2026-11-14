@@ -1119,6 +1119,19 @@ final class Ebook{
 		$ebook->Editors = $editors;
 		$ebook->Contributors = $contributors;
 
+		// Match proofreading credits by name across the ebook, including separate contributor IDs.
+		$proofreaderNames = [];
+		foreach($xml->xpath('/package/metadata/dc:creator | /package/metadata/dc:contributor') ?: [] as $credit){
+			$id = (string)($credit->attributes()->id ?? '');
+			if(sizeof($xml->xpath('/package/metadata/meta[@property="role" and @scheme="marc:relators" and @refines="#' . $id . '" and text()="pfr"]') ?: []) > 0){
+				$proofreaderNames[] = (string)$credit;
+			}
+		}
+		
+		foreach($allContributors as $contributor){
+			$contributor->IsPdContributor = in_array($contributor->Name, $proofreaderNames, true);
+		}
+
 		$ebook->AllContributors = $allContributors;
 
 		// Some basic data.

@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `Contributors` (
   `FullName` varchar(255) DEFAULT NULL,
   `MetadataXmlFragment` text DEFAULT NULL,
   `NacoafUrl` varchar(255) DEFAULT NULL,
+  `IsPdContributor` tinyint(1) NOT NULL DEFAULT 0,
   `DeathYear` smallint(4) NULL,
   `IsDeathYearCirca` tinyint(1) NOT NULL DEFAULT 0,
   `IsDeathYearResearched` tinyint(1) NOT NULL DEFAULT 0,
