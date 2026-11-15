@@ -93,6 +93,7 @@ define('STRIPE_CHECKOUT_SESSION_COMPLETED_SIGNING_SECRET', get_cfg_var('se.secre
 define('STRIPE_INVOICE_PAYMENT_SUCCEEDED_SIGNING_SECRET', get_cfg_var('se.secrets.stripe.invoice_payment_succeeded_signing_secret'));
 define('STRIPE_CUSTOMER_SUBSCRIPTION_DELETED_SIGNING_SECRET', get_cfg_var('se.secrets.stripe.customer_subscription_deleted_signing_secret'));
 define('STRIPE_CHARGE_UPDATED_SIGNING_SECRET', get_cfg_var('se.secrets.stripe.charge_updated_signing_secret'));
+define('STRIPE_CHARGE_REFUNDED_SIGNING_SECRET', get_cfg_var('se.secrets.stripe.charge_refunded_signing_secret'));
 if(SITE_STATUS == SITE_STATUS_LIVE){
 	define('STRIPE_DONATION_PRODUCT_ID', 'prod_VUi1AKFfAZERED');
 	define('STRIPE_PATRONS_CIRCLE_PRODUCT_ID', 'prod_VUi1D8oTogsghI');
