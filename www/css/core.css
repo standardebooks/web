@@ -1113,6 +1113,10 @@ article.ebook > header > hgroup{
 	border-radius: .25rem;
 }
 
+article.ebook > header > hgroup a:focus{
+	outline-color: #fff;
+}
+
 article.ebook > header > hgroup > *{
 	color: #fff;
 }
