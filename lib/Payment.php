@@ -287,6 +287,7 @@ final class Payment{
 	 *
 	 * @throws Exceptions\PaymentExistsException If a `Payment` with this transaction ID already exists.
 	 * @throws Exceptions\PaymentInvalidException If the payment fields are invalid.
+	 * @throws Exceptions\UserInvalidException If a new user's fields are invalid.
 	 * @throws Exceptions\UserNotFoundException If this `Payment`'s `UserId` is set but the `User` can't be found.
 	 * @throws Exceptions\SubscriptionNotFoundException If a linked fund subscription no longer exists.
 	 */
@@ -320,8 +321,9 @@ final class Payment{
 					try{
 						$this->User->Create(requireEmail: false);
 					}
-					catch(Exceptions\UserExistsException | Exceptions\UserInvalidException){
-						// `User` already exists, pass.
+					catch(Exceptions\UserExistsException){
+						// Another request may have created this user after the initial lookup.
+						$this->User = User::GetByEmail($this->User->Email);
 					}
 				}
 
