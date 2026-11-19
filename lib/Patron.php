@@ -232,8 +232,8 @@ class Patron{
 				$em->From = EDITOR_IN_CHIEF_EMAIL_ADDRESS;
 				$em->FromName = EDITOR_IN_CHIEF_NAME;
 				$em->Subject = 'Thank you for supporting Standard Ebooks!';
-				$em->BodyHtml = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning, hasRecurringSubscription: $hasRecurringSubscription);
-				$em->BodyText = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning, hasRecurringSubscription: $hasRecurringSubscription);
+				$em->BodyHtml = Template::EmailPatronsCircleWelcome(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
+				$em->BodyText = Template::EmailPatronsCircleWelcomeText(isAnonymous: $this->IsAnonymous, isReturning: $isReturning);
 				$em->Send();
 			}
 

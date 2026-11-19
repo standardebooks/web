@@ -1575,7 +1575,10 @@ footer ul.social-media a::before{
 	height: 100%;
 	width: 100%;
 	background-size: cover;
-	filter: brightness(0) saturate(100%) invert(18%) sepia(33%) saturate(355%) hue-rotate(172deg) brightness(93%) contrast(89%); /* Change color of SVG to #303944 */
+}
+
+footer ul.social-media a::before{
+	filter: brightness(0) saturate(100%) invert(18%) sepia(33%) saturate(355%) hue-rotate(172deg) brightness(93%) contrast(89%); /* Change the SVG color to #303944. */
 }
 
 footer ul.social-media a[href^="https://x.com"]::before{
@@ -4011,6 +4014,21 @@ nav.ebooks-navigation > ul li + li::before{
 	box-decoration-break: clone;
 	-webkit-box-decoration-break: clone;
 	padding: 0.1em 0.4em;
+}
+
+main p.please-wait{
+	margin: 5rem 3rem 0 3rem;
+	align-self: center;
+	text-align: center;
+	font-style: italic;
+}
+
+main p.please-wait + svg{
+	height: 4rem;
+	width: 4rem;
+	margin-bottom: 3rem;
+	color: #2f3842;
+	fill: var(--body-bg);
 }
 
 @media(max-width: 700px){

@@ -93,7 +93,7 @@ try{
 	$parameters = [
 		'mode' => $frequency == 'once' ? 'payment' : 'subscription',
 		'customer_email' => $email,
-		'success_url' => SITE_URL . '/donations/thanks' . ($isPatron ? '?is-patrons-circle-membership' : ''),
+		'success_url' => SITE_URL . '/donations/thanks?checkout-session-id={CHECKOUT_SESSION_ID}',
 		'cancel_url' => SITE_URL . '/donations/new',
 		'billing_address_collection' => 'required',
 		'metadata' => $metadata,

@@ -40,6 +40,11 @@ footer .sponsor-header + ul img{
 	filter: invert() grayscale(100%) brightness(120%) drop-shadow(3px 3px 1px rgba(0, 0, 0, .25)); /* grayscale and brightness makes it hit about #eeeeee */
 }
 
+main p.please-wait + svg{
+	color: #fff;
+	filter: drop-shadow(3px 3px 1px rgba(0, 0, 0, .25));
+}
+
 .masthead img[src*="portrait.svg"],
 .masthead img.contact{
 	filter: invert();

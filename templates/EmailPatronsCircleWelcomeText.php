@@ -2,7 +2,6 @@
 /**
  * @var bool $isAnonymous
  * @var bool $isReturning
- * @var bool $hasRecurringSubscription
  */
 ?>
 Hello,
@@ -19,10 +18,6 @@ As a Patron, once per quarter you may suggest a book for inclusion in our Wanted
 
 You also get access to our ebook feeds, at <<?= SITE_URL ?>/feeds>, for use in your ereading app or RSS reader, and bulk downloads, at <<?= SITE_URL ?>/bulk-downloads>, to download collections of ebooks easily. To use these, enter your email address when prompted, and leave the password field empty.
 
-<? if($hasRecurringSubscription){ ?>
-To manage your recurring donation, log in using the link at the bottom of the site: <<?= SITE_URL ?>/sessions/new>.
-
-<? } ?>
 <? if($isReturning){ ?>As always, please<? }else{ ?>Please<? } ?> don’t hesitate to contact me if you have questions or suggestions. Thanks again for your donation, and for supporting the literate arts!
 
 
