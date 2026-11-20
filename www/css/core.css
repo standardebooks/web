@@ -675,7 +675,7 @@ a.heading-permalink::before{
 	font-size: 1rem;
 }
 
-:is(h1, h2, h3, h4, h5, h6, summary):hover > a.heading-permalink,
+:is(h1, h2, h3, h4, h5, h6, summary):hover a.heading-permalink,
 a.heading-permalink:focus{
 	opacity: 1;
 }
@@ -1233,6 +1233,22 @@ article.ebook #more-ebooks h2{
 	color: var(--body-text);
 	margin: 0;
 	margin-top: 2rem;
+}
+
+/* Anchor the permalink to the first line of centered text. */
+article.ebook #more-ebooks h2::before{
+	anchor-name: --more-ebooks-heading;
+	content: '';
+	display: inline-block;
+	height: 1lh;
+	vertical-align: top;
+	width: 0;
+}
+
+article.ebook #more-ebooks h2 > a.heading-permalink{
+	position-anchor: --more-ebooks-heading;
+	right: anchor(left);
+	top: anchor(top);
 }
 
 ul.ebook-carousel{
