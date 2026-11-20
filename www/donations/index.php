@@ -34,6 +34,7 @@ $donateUrl = $donationCounter === null ? '/donations/new' : 'https://fundraising
 				<span class="divider">or</span>
 				<span class="alternatives">
 					<a href="/help/donating-via-a-donor-advised-fund" class="button">Donate via a <br/>donor-advised fund</a>
+					<a href="/help/donating-with-a-company-match" class="button">Donate with a<br/> company match</a>
 					<? if($donationCounter === null){ ?><a href="https://fundraising.fracturedatlas.org/standard-ebooks/monthly_support" class="button">Make a <br/>tax-deductible donation</a><? } ?>
 				</span>
 			</p>
