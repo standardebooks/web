@@ -267,26 +267,25 @@ catch(Exceptions\PermissionsInvalidException){
 				<table class="data-table subscriptions">
 					<thead>
 						<tr>
+							<th>ID</th>
 							<th>Created</th>
 							<th>Ended</th>
 							<th>Amount</th>
 							<th>Cycle</th>
 							<th>Processor</th>
-							<th>Subscription ID</th>
-							<th>Processor subscription ID</th>
+							<th>Processor ID</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						<? foreach($subscriptions as $subscription){ ?>
 							<tr>
+								<td><?= $subscription->SubscriptionId ?></td>
 								<td><time datetime="<?= $subscription->CreatedAt->format(Enums\DateTimeFormat::Html->value) ?>"><?= $subscription->CreatedAt->format(Enums\DateTimeFormat::ShortDate->value) ?></time></td>
 								<td><? if($subscription->EndedAt !== null){ ?><time datetime="<?= $subscription->EndedAt->format(Enums\DateTimeFormat::Html->value) ?>"><?= $subscription->EndedAt->format(Enums\DateTimeFormat::ShortDate->value) ?></time><? } ?></td>
 								<td class="currency"><?= Formatter::FormatCurrency($subscription->Amount) ?></td>
 								<td><?= ucfirst($subscription->CycleType->value) ?></td>
 								<td><?= $subscription->Processor == Enums\PaymentProcessorType::Stripe ? 'Stripe' : 'Fractured Atlas' ?></td>
-
-								<td><?= $subscription->SubscriptionId ?></td>
 								<td><? if($subscription->Processor == Enums\PaymentProcessorType::Stripe && $subscription->ProcessorSubscriptionId !== null){ ?><a href="https://dashboard.stripe.com/<?= SITE_STATUS == SITE_STATUS_DEV ? 'test/' : '' ?>subscriptions/<?= Formatter::EscapeHtml($subscription->ProcessorSubscriptionId) ?>"><?= Formatter::EscapeHtml($subscription->ProcessorSubscriptionId) ?></a><? } ?></td>
 								<td>
 									<? if($subscription->Processor == Enums\PaymentProcessorType::Stripe && $subscription->EndedAt === null && $subscription->ProcessorSubscriptionId !== null){ ?>

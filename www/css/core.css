@@ -4117,6 +4117,11 @@ main p.please-wait + svg{
 		width: max-content;
 	}
 
+	/* Preserve intrinsic table sizing within centered, width-limited sections. */
+	:where(main > section.narrow) > .data-table{
+		display: table;
+	}
+
 	.data-table .year-header th{
 		text-align: left;
 	}

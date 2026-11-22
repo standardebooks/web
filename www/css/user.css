@@ -109,7 +109,7 @@ p:has(+ .benefits-list){
 	}
 }
 
-@media(max-width: 1000px){
+@media(max-width: 1250px){
 	:is(.payments, .subscriptions),
 	:is(.payments, .subscriptions) tbody,
 	:is(.payments, .subscriptions) tr{
@@ -222,31 +222,31 @@ p:has(+ .benefits-list){
 	}
 
 	.subscriptions tbody td:first-child::before{
+		content: 'ID: ';
+	}
+
+	.subscriptions tbody td:nth-child(2)::before{
 		content: 'Created: ';
 	}
 
-	.subscriptions tbody td:nth-child(2):not(:empty)::before{
+	.subscriptions tbody td:nth-child(3):not(:empty)::before{
 		content: 'Ended: ';
 	}
 
-	.subscriptions tbody td:nth-child(3)::before{
+	.subscriptions tbody td:nth-child(4)::before{
 		content: 'Amount: ';
 	}
 
-	.subscriptions tbody td:nth-child(4)::before{
+	.subscriptions tbody td:nth-child(5)::before{
 		content: 'Cycle: ';
 	}
 
-	.subscriptions tbody td:nth-child(5)::before{
+	.subscriptions tbody td:nth-child(6)::before{
 		content: 'Processor: ';
 	}
 
-	.subscriptions tbody td:nth-child(6)::before{
-		content: 'Subscription ID: ';
-	}
-
 	.subscriptions tbody td:nth-child(7):not(:empty)::before{
-		content: 'Processor subscription ID: ';
+		content: 'Processor ID: ';
 	}
 
 	.subscriptions tbody td:last-child:has(a)::before{
