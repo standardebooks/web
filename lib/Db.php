@@ -211,11 +211,11 @@ class Db{
 	}
 
 	/**
-	 * Execute a callback in a transaction; if a deadlock occurs, retrying the entire callback `$attempts` times.
+	 * Execute a callback in a transaction; if a deadlock, snapshot conflict, or lock wait timeout occurs, retry the entire callback up to `$attempts` times.
 	 *
 	 * Nested calls participate in the existing transaction and leave retries to its owner.
 	 *
-	 * This function is necessary because if a deadlock occurs within a transaction, the transaction is rolled back and we must try the entire transaction again.
+	 * Deadlocks, snapshot conflicts, and lock wait timeouts are handled by rolling back and retrying the entire transaction.
 	 *
 	 * @template T
 	 *
@@ -259,7 +259,7 @@ class Db{
 					throw $ex;
 				}
 
-				// Stagger retries so that competing transactions are less likely to deadlock again.
+				// Stagger retries so that competing transactions are less likely to conflict again.
 				usleep(50000 * $attempt + random_int(0, 50000));
 			}
 		}
@@ -711,7 +711,8 @@ class Db{
 	protected static function CreateDetailedException(\PDOException $ex, string $sql, array $params): Exceptions\DatabaseQueryException{
 		// Throw a custom exception that includes more information on the query and paramaters.
 		$message = 'Error when executing query: ' . $ex->getMessage() . '. Query: ' . $sql . '. Parameters: ' . vds($params);
-		if(($ex->errorInfo[1] ?? null) === 1213){
+		// Snapshot conflicts and lock wait timeouts use the same whole-transaction retry as deadlocks.
+		if(in_array($ex->errorInfo[1] ?? null, [1020, 1205, 1213], true)){
 			return new Exceptions\DatabaseDeadlockException($message);
 		}
 
