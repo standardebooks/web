@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `Contributors` (
   `DeathYear` smallint(4) NULL,
   `IsDeathYearCirca` tinyint(1) NOT NULL DEFAULT 0,
   `IsDeathYearResearched` tinyint(1) NOT NULL DEFAULT 0,
+  `DeathYearReferenceUrl` varchar(255) DEFAULT NULL,
   `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`ContributorId`),

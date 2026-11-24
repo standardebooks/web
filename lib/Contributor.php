@@ -22,6 +22,7 @@ class Contributor{
 	public bool $IsDisplayed = true;
 	/** Negative numbers for B.C.; `null` to indicate unknown. */
 	public ?int $DeathYear = null;
+	public ?string $DeathYearReferenceUrl = null;
 	public bool $IsDeathYearCirca = false;
 	public bool $IsDeathYearResearched = false;
 
