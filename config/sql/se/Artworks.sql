@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `Artworks` (
   `UpdatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `CreatedAt` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`ArtworkId`),
+  UNIQUE KEY `EbookId` (`EbookId`),
   KEY `Status` (`Status`),
   KEY `UrlName` (`UrlName`),
   KEY `ArtistId` (`ArtistId`)
