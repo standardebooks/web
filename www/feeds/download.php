@@ -6,8 +6,6 @@
 use function Safe\preg_match;
 use function Safe\preg_replace;
 
-// Restricted feeds accept a logged-in user or an email address or API key sent with HTTP Basic auth.
-
 try{
 	$path = '/feeds/' . (Http::$Request->QueryString->Get('path') ?? '');
 
@@ -49,18 +47,7 @@ try{
 		}
 
 		if(!$isUserAgentAllowed){
-			$canAccessFeeds = Session::$User?->Benefits->CanAccessFeeds ?? false;
-			if(!$canAccessFeeds && Http::$Request->Username !== null){
-				$canAccessFeeds = Db::QueryBool('select exists(select * from Users u inner join Benefits b using (UserId) where (u.Email = ? or u.Uuid = ?) and b.CanAccessFeeds = true)', [Http::$Request->Username, Http::$Request->Username]);
-			}
-
-			if(!$canAccessFeeds){
-				if(Session::$User === null || Http::$Request->Username !== null){
-					throw new Exceptions\LoginRequiredException();
-				}
-
-				throw new Exceptions\PermissionsInvalidException();
-			}
+			Feed::RequireAccess();
 		}
 	}
 
@@ -76,13 +63,3 @@ try{
 catch(Exceptions\FileInvalidException){
 	Template::ExitWithCode(Enums\HttpCode::NotFound);
 }
-catch(Exceptions\LoginRequiredException){
-	header('www-authenticate: Basic realm="Enter your Patrons Circle email address and leave the password empty."');
-	http_response_code(Enums\HttpCode::Unauthorized->value);
-}
-catch(Exceptions\PermissionsInvalidException){
-	http_response_code(Enums\HttpCode::Forbidden->value);
-}
-
-// Print the login info page.
-include(WEB_ROOT . '/feeds/401.php');

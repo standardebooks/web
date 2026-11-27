@@ -10,6 +10,8 @@ try{
 		throw new Exceptions\NotFoundException();
 	}
 
+	Feed::RequireAccess();
+
 	if($perPage <= 0 || $perPage > RESULTS_MAX_PER_PAGE){
 		$perPage = EBOOKS_PER_PAGE;
 	}

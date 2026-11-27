@@ -46,6 +46,31 @@ abstract class Feed{
 
 	abstract public function SaveIfChanged(): bool;
 
+	/**
+	 * Require feed access through a logged-in account or an email address or API key sent with HTTP Basic authentication.
+	 */
+	public static function RequireAccess(): void{
+		$canAccessFeeds = Session::$User?->Benefits->CanAccessFeeds ?? false;
+		if(!$canAccessFeeds && Http::$Request->Username !== null){
+			$canAccessFeeds = Db::QueryBool('select exists(select * from Users u inner join Benefits b using (UserId) where (u.Email = ? or u.Uuid = ?) and b.CanAccessFeeds = true)', [Http::$Request->Username, Http::$Request->Username]);
+		}
+
+		if($canAccessFeeds){
+			return;
+		}
+
+		if(Session::$User === null || Http::$Request->Username !== null){
+			header('www-authenticate: Basic realm="Enter your Patrons Circle email address and leave the password empty."');
+			http_response_code(Enums\HttpCode::Unauthorized->value);
+		}
+		else{
+			http_response_code(Enums\HttpCode::Forbidden->value);
+		}
+
+		include(WEB_ROOT . '/feeds/401.php');
+		exit();
+	}
+
 	protected function CleanXmlString(string $xmlString): string{
 		$tempFilename = tempnam('/tmp/', 'se-');
 		file_put_contents($tempFilename, $xmlString);
