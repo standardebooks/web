@@ -316,7 +316,7 @@ proceed to seal up my confession, I bring the life of that unhappy Henry Jekyll 
 					</li>
 					<li>
 						<p>Using the <a href="http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-semantic-inflection">epub3 semantic inflection language</a> to add deeper meaning to elements.</p>
-						<p>Currently we use a mix of <a href="http://www.idpf.org/epub/vocab/structure/">epub3 structural semantics</a>, <a href="http://www.daisy.org/z3998/2012/vocab/structure/">z3998 structural semantics</a> for when the epub3 vocabulary isn’t enough, and our own <a href="/vocab/1.0">S.E. semantics</a> for when z3998 isn’t enough.</p>
+						<p>Currently we use a mix of <a href="http://www.idpf.org/epub/vocab/structure/">epub3 structural semantics</a>, <a href="https://daisy.org/activities/standards/daisy/z39-98-2012/z39-98-2012-structural-semantics-vocabulary/">z3998 structural semantics</a> for when the epub3 vocabulary isn’t enough, and our own <a href="/vocab/1.0">S.E. semantics</a> for when z3998 isn’t enough.</p>
 					</li>
 				</ol>
 				<p>Use <code class="bash"><b>se</b> semanticate</code> to do some common cases for you:</p><code class="terminal"><span><b>se</b> semanticate <u>.</u></span></code>
